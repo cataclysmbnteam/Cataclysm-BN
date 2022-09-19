@@ -481,7 +481,7 @@ void monster::plan()
                         if( rating < dist ) {
                             target = &mon;
                             dist = rating;
-                            max_dist = dist / 12;
+                            max_dist = dist / 16;
                             valid_targets = 1;
                         }
                         if( rating <= 5 ) {

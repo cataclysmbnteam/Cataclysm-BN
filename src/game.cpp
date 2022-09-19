@@ -4836,9 +4836,9 @@ bool game::update_zombie_pos( const monster &critter, const tripoint &pos )
     return critter_tracker->update_pos( critter, pos );
 }
 
-void game::remove_zombie( const monster &critter )
+void game::remove_zombie( const monster &critter, bool skip_cache )
 {
-    critter_tracker->remove( critter );
+    critter_tracker->remove( critter, skip_cache );
 }
 
 void game::clear_zombies()
@@ -11076,7 +11076,7 @@ void game::update_stair_monsters()
     }
 }
 
-void game::despawn_monster( monster &critter )
+void game::despawn_monster( monster &critter, bool skip_cache )
 {
     if( !critter.is_hallucination() ) {
         // hallucinations aren't stored, they come and go as they like,
@@ -11084,7 +11084,7 @@ void game::despawn_monster( monster &critter )
     }
 
     critter.on_unload();
-    remove_zombie( critter );
+    remove_zombie( critter, skip_cache );
     // simulate it being dead so further processing of it (e.g. in monmove) will yield
     critter.set_hp( 0 );
 }
@@ -11107,7 +11107,7 @@ void game::shift_monsters( const tripoint &shift )
         }
         // Either a vertical shift or the critter is now outside of the reality bubble,
         // anyway: it must be saved and removed.
-        despawn_monster( critter );
+        despawn_monster( critter, true );
     }
     // The order in which zombies are shifted may cause zombies to briefly exist on
     // the same square. This messes up the mon_at cache, so we need to rebuild it.

@@ -347,7 +347,7 @@ class game
         size_t num_creatures() const;
         /** Redirects to the creature_tracker update_pos() function. */
         bool update_zombie_pos( const monster &critter, const tripoint &pos );
-        void remove_zombie( const monster &critter );
+        void remove_zombie( const monster &critter, bool skip_cache = false );
         /** Redirects to the creature_tracker clear() function. */
         void clear_zombies();
         /** Spawns a hallucination at a determined position. */
@@ -877,7 +877,7 @@ class game
          * it from the creature tracker. Keep in mind that any monster index may
          * point to a different monster after calling this (or to no monster at all).
          */
-        void despawn_monster( monster &critter );
+        void despawn_monster( monster &critter, bool skip_cache = false );
 
         /**
          * Marks the game as won. Doesn't end the game.

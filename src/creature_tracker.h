@@ -31,10 +31,19 @@ class Creature_tracker
         };
     private:
 
+        static constexpr int submaps_in_grid = 9;
+        static constexpr int submap_size = 16;
+
+        static_assert( submaps_in_grid * submap_size >= MAPSIZE_X &&submaps_in_grid * submap_size >=
+                       MAPSIZE_Y,
+                       "The creature tracker's map must be at least as big as the main map" );
+
         void add_to_faction_map( shared_ptr_fast<monster> critter );
 
-        std::unordered_map<mfaction_id, std::array<std::set<weak_ptr_fast<monster>, weak_ptr_comparator>, MAPSIZE *MAPSIZE>>
-                monster_faction_map_;
+        using Faction_submap = std::set<weak_ptr_fast<monster>, weak_ptr_comparator>;
+        using Faction_map = std::array<Faction_submap, submaps_in_grid *submaps_in_grid>;
+
+        std::unordered_map<mfaction_id, Faction_map> monster_faction_map_;
 
         /**
          * Creatures that get removed via @ref remove are stored here until the end of the turn.
@@ -56,14 +65,14 @@ class Creature_tracker
          * Returns a list of all monsters of a faction that are on submaps that could be within radius of the center.
          * This isn't accurate but it's fast, good for culling.
          */
-        std::vector<std::set<weak_ptr_fast<monster>, weak_ptr_comparator>*>
+        std::vector<Faction_submap *>
         find_in_area( mfaction_id faction, const tripoint &center, const int radius );
 
         /**
         * Returns a list of all monsters of a faction that are on submaps at a specific range around the center.
         * This allows for searches to spread outwards.
         */
-        std::vector<std::set<weak_ptr_fast<monster>, Creature_tracker::weak_ptr_comparator>*>
+        std::vector<Faction_submap *>
         find_at_range( mfaction_id faction, const tripoint &center, const int range );
 
         /**
@@ -87,7 +96,7 @@ class Creature_tracker
          *  was successful. */
         bool update_pos( const monster &critter, const tripoint &new_pos );
         /** Removes the given monster from the Creature tracker, adjusting other entries as needed. */
-        void remove( const monster &critter );
+        void remove( const monster &critter, bool skip_cache = false );
         void clear();
         void rebuild_cache();
         /** Swaps the positions of two monsters */
@@ -113,6 +122,7 @@ class Creature_tracker
         std::unordered_map<tripoint, shared_ptr_fast<monster>> monsters_by_location;
         /** Remove the monsters entry in @ref monsters_by_location */
         void remove_from_location_map( const monster &critter );
+        size_t submap_offset( const point &pos );
 };
 
 #endif // CATA_SRC_CREATURE_TRACKER_H

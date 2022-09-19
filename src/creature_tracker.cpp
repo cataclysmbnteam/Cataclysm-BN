@@ -13,7 +13,6 @@
 #include "point.h"
 #include "string_formatter.h"
 #include "type_id.h"
-#include "map.h"
 
 #define dbg(x) DebugLogFL((x),DC::Game)
 
@@ -39,35 +38,35 @@ static inline mfaction_id effective_faction( const monster &critter )
     return critter.friendly == 0 ? critter.faction : playerfaction;
 }
 
-static inline size_t submap_offset( const point &pos )
+inline size_t Creature_tracker::submap_offset( const point &pos )
 {
-    return pos.x / SEEX + MAPSIZE * ( pos.y / SEEY );
+    return pos.x / submap_size + submaps_in_grid * ( pos.y / submap_size );
 }
 
-
-std::vector<std::set<weak_ptr_fast<monster>, Creature_tracker::weak_ptr_comparator>*>
+std::vector<Creature_tracker::Faction_submap *>
 Creature_tracker::find_in_area( mfaction_id faction, const tripoint &center, const int radius )
 {
-    std::vector<std::set<weak_ptr_fast<monster>, Creature_tracker::weak_ptr_comparator>*> result;
+    std::vector<Faction_submap *> result;
 
-    int range = ( ( radius - 1 ) / SEEX ) + 1;
+    int range = ( ( radius - 1 ) / submap_size ) + 1;
 
-    std::array<std::set<weak_ptr_fast<monster>, Creature_tracker::weak_ptr_comparator>, MAPSIZE *MAPSIZE>
-    &fmap = monster_faction_map_[faction];
+    Faction_map &fmap = monster_faction_map_[faction];
 
     size_t sm = submap_offset( center.xy() );
 
     for( int dx = -range; dx <= range; dx++ ) {
-        if( center.x + dx * SEEX < 0 || center.x + dx * SEEX >= MAPSIZE_X ) {
+        if( center.x + dx * submap_size < 0 ||
+            center.x + dx * submap_size >= submaps_in_grid * submap_size ) {
             continue;
         }
 
         for( int dy = -range; dy <= range; dy++ ) {
-            if( center.y + dy * SEEY < 0 || center.y + dy * SEEY >= MAPSIZE_Y ) {
+            if( center.y + dy * submap_size < 0 ||
+                center.y + dy * submap_size >= submaps_in_grid * submap_size ) {
                 continue;
             }
 
-            size_t submap = sm + dx + dy * MAPSIZE;
+            size_t submap = sm + dx + dy * submaps_in_grid;
 
             if( !fmap[submap].empty() ) {
                 result.push_back( &( fmap[ submap ] ) );
@@ -77,23 +76,23 @@ Creature_tracker::find_in_area( mfaction_id faction, const tripoint &center, con
     return result;
 }
 
-std::vector<std::set<weak_ptr_fast<monster>, Creature_tracker::weak_ptr_comparator>*>
+std::vector<Creature_tracker::Faction_submap *>
 Creature_tracker::find_at_range( mfaction_id faction, const tripoint &center, const int range )
 {
-    std::vector<std::set<weak_ptr_fast<monster>, Creature_tracker::weak_ptr_comparator>*> result;
+    std::vector<Faction_submap *> result;
 
-    std::array<std::set<weak_ptr_fast<monster>, Creature_tracker::weak_ptr_comparator>, MAPSIZE *MAPSIZE>
-    &fmap = monster_faction_map_[faction];
+    Faction_map &fmap = monster_faction_map_[faction];
 
     size_t sm = submap_offset( center.xy() );
     for( int dx = -range; dx <= range; dx++ ) {
 
-        if( center.x + dx * SEEX < 0 || center.x + dx * SEEY >= MAPSIZE_X ) {
+        if( center.x + dx * submap_size < 0 ||
+            center.x + dx * submap_size >= submaps_in_grid * submap_size ) {
             continue;
         }
 
-        if( center.y + range * SEEY < MAPSIZE_Y ) {
-            size_t submap = sm + dx + range * MAPSIZE;
+        if( center.y + range * submap_size < MAPSIZE_Y ) {
+            size_t submap = sm + dx + range * submaps_in_grid;
             if( !fmap[submap].empty() ) {
                 result.push_back( &( fmap[submap] ) );
             }
@@ -103,9 +102,8 @@ Creature_tracker::find_at_range( mfaction_id faction, const tripoint &center, co
             return result;
         }
 
-        if( center.y - range * SEEY >= 0 ) {
-            size_t submap = sm + dx - range * MAPSIZE;
-
+        if( center.y - range * submap_size >= 0 ) {
+            size_t submap = sm + dx - range * submaps_in_grid;
             if( !fmap[submap].empty() ) {
                 result.push_back( &( fmap[submap] ) );
             }
@@ -114,20 +112,20 @@ Creature_tracker::find_at_range( mfaction_id faction, const tripoint &center, co
 
     for( int dy = -range + 1; dy <= range - 1; dy++ ) {
 
-        if( center.y + dy * SEEY < 0 || center.y + dy * SEEY >= MAPSIZE_Y ) {
+        if( center.y + dy * submap_size < 0 ||
+            center.y + dy * submap_size >=  submaps_in_grid * submap_size ) {
             continue;
         }
 
-        if( center.x + range * SEEX < MAPSIZE_X ) {
-            size_t submap = sm + range + dy * MAPSIZE;
+        if( center.x + range * submap_size <  submaps_in_grid * submap_size ) {
+            size_t submap = sm + range + dy * submaps_in_grid;
             if( !fmap[submap].empty() ) {
                 result.push_back( &( fmap[submap] ) );
             }
         }
 
-        if( center.x - range * SEEX >= 0 ) {
-            size_t submap = sm - range + dy * MAPSIZE;
-
+        if( center.x - range * submap_size >= 0 ) {
+            size_t submap = sm - range + dy * submaps_in_grid;
             if( !fmap[submap].empty() ) {
                 result.push_back( &( fmap[submap] ) );
             }
@@ -202,10 +200,6 @@ void Creature_tracker::add_to_faction_map( shared_ptr_fast<monster> critter_ptr 
 
     tripoint pos = critter.pos();
 
-    if( !get_map().inbounds( pos ) ) {
-        return;
-    }
-
     monster_faction_map_[ effective_faction( critter ) ][submap_offset( pos.xy() )].insert(
         critter_ptr );
 }
@@ -249,13 +243,8 @@ bool Creature_tracker::update_pos( const monster &critter, const tripoint &new_p
         int old_offset = submap_offset( old_pos.xy() );
         int new_offset = submap_offset( new_pos.xy() );
         if( old_offset != new_offset ) {
-            if( get_map().inbounds( old_pos ) ) {
-                monster_faction_map_[ effective_faction( critter ) ][old_offset].erase( *iter );
-            }
-
-            if( get_map().inbounds( new_pos ) ) {
-                monster_faction_map_[ effective_faction( critter ) ][new_offset].insert( *iter );
-            }
+            monster_faction_map_[ effective_faction( critter ) ][old_offset].erase( *iter );
+            monster_faction_map_[ effective_faction( critter ) ][new_offset].insert( *iter );
         }
         return true;
     } else {
@@ -289,7 +278,7 @@ void Creature_tracker::remove_from_location_map( const monster &critter )
     }
 }
 
-void Creature_tracker::remove( const monster &critter )
+void Creature_tracker::remove( const monster &critter, bool skip_cache )
 {
     const auto iter = std::find_if( monsters_list.begin(), monsters_list.end(),
     [&]( const shared_ptr_fast<monster> &ptr ) {
@@ -300,18 +289,22 @@ void Creature_tracker::remove( const monster &critter )
         return;
     }
 
+    if( skip_cache ) {
+        monsters_list.erase( iter );
+        return;
+    }
+
     const tripoint pos = critter.pos();
-    if( get_map().inbounds( pos ) ) {
-        for( auto &pair : monster_faction_map_ ) {
-            const auto fac_iter = pair.second[submap_offset( pos.xy() )].find( *iter );
-            if( fac_iter != pair.second[submap_offset( pos.xy() )].end() ) {
-                // Need to do this manually because the shared pointer containing critter is kept valid
-                // within removed_ and so the weak pointer in monster_faction_map_ is also valid.
-                pair.second[submap_offset( pos.xy() )].erase( fac_iter );
-                break;
-            }
+    for( auto &pair : monster_faction_map_ ) {
+        const auto fac_iter = pair.second[submap_offset( pos.xy() )].find( *iter );
+        if( fac_iter != pair.second[submap_offset( pos.xy() )].end() ) {
+            // Need to do this manually because the shared pointer containing critter is kept valid
+            // within removed_ and so the weak pointer in monster_faction_map_ is also valid.
+            pair.second[submap_offset( pos.xy() )].erase( fac_iter );
+            break;
         }
     }
+
     remove_from_location_map( critter );
     removed_.push_back( *iter );
     monsters_list.erase( iter );
@@ -373,8 +366,7 @@ void Creature_tracker::swap_positions( monster &first, monster &second )
 
     size_t first_offset = submap_offset( first.pos().xy() );
     size_t second_offset = submap_offset( second.pos().xy() );
-    if( first_offset != second_offset && get_map().inbounds( first.pos() ) &&
-        get_map().inbounds( second.pos() ) ) {
+    if( first_offset != second_offset ) {
         if( first_ptr ) {
             monster_faction_map_[effective_faction( first )][second_offset].erase( first_ptr );
             monster_faction_map_[effective_faction( first )][first_offset].insert( first_ptr );
