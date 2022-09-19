@@ -6462,7 +6462,7 @@
     "city_distance": [ 5, -1 ],
     "occurrences": [ 95, 100 ],
     "//": "Inflated chance, effective rate ~ 30%",
-    "flags": [ "CLASSIC", "FARM", "UNIQUE", "ELECTRIC_GRID" ]
+    "flags": [ "CLASSIC", "FARM", "UNIQUE" ]
   },
   {
     "id": "airliner_crashed",
