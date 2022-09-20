@@ -629,23 +629,10 @@ template<typename T>
 struct supports_proportional<T, cata::void_t<decltype( std::declval<T &>() *= std::declval<float>() )>> :
 std::true_type {};
 
-template<typename T, typename = cata::void_t<>>
-struct supports_relative : std::false_type { };
-
-template<typename T>
-struct supports_relative < T, cata::void_t < decltype( std::declval<T &>() += std::declval<T &>() )
->> : std::true_type {};
-
 // Explicitly specialize these templates for a couple types
 // So the compiler does not attempt to use a template that it should not
 template<>
 struct supports_proportional<bool> : std::false_type {};
-
-template<>
-struct supports_relative<bool> : std::false_type {};
-
-template<>
-struct supports_relative<std::string> : std::false_type {};
 
 // This checks that all units:: types will support relative and proportional
 static_assert( supports_relative<units::energy>::value, "units should support relative" );

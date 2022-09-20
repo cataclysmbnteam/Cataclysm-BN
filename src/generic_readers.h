@@ -4,8 +4,34 @@
 
 #include <map>
 #include <vector>
+#include "cata_void.h"
 #include "json.h"
 #include "units.h"
+
+/*
+ * Template vodoo:
+ * The compiler will construct the appropriate one of these based on if the
+ * type can support the operations being done.
+ * So, it defaults to the false_type, but if it can use the *= operator
+ * against a float, it then supports proportional, and the handle_proportional
+ * template that isn't just a dummy is constructed.
+ * Similarly, if it can use a += operator against it's own type, the non-dummy
+ * handle_relative template is constructed.
+ */
+template<typename T, typename = cata::void_t<>>
+struct supports_relative : std::false_type { };
+
+template<typename T>
+struct supports_relative < T, cata::void_t < decltype( std::declval<T &>() += std::declval<T &>() )
+>> : std::true_type {};
+
+// Explicitly specialize these templates for a couple types
+// So the compiler does not attempt to use a template that it should not
+template<>
+struct supports_relative<bool> : std::false_type {};
+
+template<>
+struct supports_relative<std::string> : std::false_type {};
 
 namespace reader_detail
 {
