@@ -68,7 +68,7 @@
     "type": "martial_art",
     "id": "style_barbaran",
     "name": { "str": "Barbaran Montante" },
-    "description": "The Barbaran Montante originated in 16th century Spain and focuses on overcoming thick armor with heavy weaponry and sweeping blows, transferring kinetic energy through armor and into vulnerable organs and bones. This style concentrates on the modern use of two handed swords but could be adapted to other types of two handed weaponry.",
+    "description": "The Barbaran Montante originated in 16th century Spain and focuses on overcoming thick armor with heavy weaponry and sweeping blows, transferring kinetic energy through armor and into vulnerable organs and bones.  This style concentrates on the modern use of two handed swords but could be adapted to other types of two handed weaponry.",
     "initiate": [
       "You heft your weapon, stretch your shoulders, and slide into the Represa.",
       "%s rolls their shoulders and prepares to duel."
