@@ -158,7 +158,7 @@ endif ()
 
 if ("${CMAKE_SYSTEM_NAME}" MATCHES "(Windows|MSYS)")
     if (NOT DATA_PREFIX)
-        set(DATA_PREFIX ${CMAKE_INSTALL_PREFIX})
+        set(DATA_PREFIX ${CMAKE_INSTALL_PREFIX}/data)
     endif ()
     if (NOT BIN_PREFIX)
         set(BIN_PREFIX ${CMAKE_INSTALL_PREFIX})
