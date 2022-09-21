@@ -806,7 +806,7 @@ static void smash()
             }
         }
 
-        if( !here.has_floor_or_support( u.pos() ) ) {
+        if( !here.has_floor_or_support( u.pos() ) && !here.has_flag_ter( "GOES_DOWN", u.pos() ) ) {
             cata::optional<tripoint> to_safety;
             while( true ) {
                 to_safety = choose_direction( _( "Floor below destroyed!  Move where?" ) );
