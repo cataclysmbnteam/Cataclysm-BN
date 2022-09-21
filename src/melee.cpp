@@ -1558,12 +1558,8 @@ item &Character::best_shield()
                 }
             } else {
                 // leg guards
-                if( shield.covers( bp_leg_l ) || shield.covers( bp_leg_r ) ) {
-                    if( shield.covers( bp_leg_l ) && !is_limb_disabled( bodypart_id( "leg_l" ) ) ) {
-                        best = &shield;
-                    } else if( shield.covers( bp_leg_r ) && !is_limb_disabled( bodypart_id( "leg_r" ) ) ) {
-                        best = &shield;
-                    }
+                if( ( shield.covers( bp_leg_l ) || shield.covers( bp_leg_r ) ) && get_working_leg_count() >= 1 ) {
+                    best = &shield;
                 }
                 // in case a mod adds an unusual worn blocking item, like a magic bracelet/crown, it's handled here
                 else {
