@@ -80,12 +80,12 @@
       {
         "id": "buff_barbaran_static",
         "name": "Barbaran Represa",
-        "description": "Sliding footwork enhances the crushing continuity of your attacks.\n\nArmor penetration increased by 75% of Strength.",
+        "description": "Sliding footwork enhances the crushing continuity of your attacks.\n\nArmor penetration increased by 100% of Strength.",
         "melee_allowed": true,
         "flat_bonuses": [
-          { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
-          { "stat": "arpen", "type": "cut", "scaling-stat": "str", "scale": 0.75 },
-          { "stat": "arpen", "type": "stab", "scaling-stat": "str", "scale": 0.75 }
+          { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 1.0 },
+          { "stat": "arpen", "type": "cut", "scaling-stat": "str", "scale": 1.0 },
+          { "stat": "arpen", "type": "stab", "scaling-stat": "str", "scale": 1.0 }
         ]
       }
     ],
