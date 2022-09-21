@@ -1549,7 +1549,17 @@ item &Character::best_shield()
     item *best = best_value > 0 ? &weapon : &null_item_reference();
     for( item &shield : worn ) {
         if( shield.has_flag( "BLOCK_WHILE_WORN" ) && blocking_ability( shield ) >= best_value ) {
-            best = &shield;
+            if( ( shield.covers( bp_arm_l ) || shield.covers( bp_arm_r ) ) && get_working_arm_count() >= 1 ) {
+                best = &shield;
+            } else if( ( shield.covers( bp_leg_l ) || shield.covers( bp_leg_r ) ) &&
+                       get_working_leg_count() >= 1 ) {
+                best = &shield;
+            }
+            // in case a mod adds a weird worn blocking item, it's handled here
+            else if( !shield.covers( bp_arm_l ) && !shield.covers( bp_arm_r ) && !shield.covers( bp_leg_r ) &&
+                     !shield.covers( bp_leg_r ) ) {
+                best = &shield;
+            }
         }
     }
 
