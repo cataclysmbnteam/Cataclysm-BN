@@ -1595,7 +1595,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     item &shield = best_shield();
     block_bonus = blocking_ability( shield );
     bool conductive_shield = shield.conductive();
-    bool unarmed = weapon.has_flag( "UNARMED_WEAPON" );
+    bool unarmed = weapon.has_flag( "UNARMED_WEAPON" ) || weapon.is_null();
     bool force_unarmed = martial_arts_data->is_force_unarmed();
 
     int melee_skill = get_skill_level( skill_melee );
@@ -1657,6 +1657,12 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
             if( get_part_hp_cur( bodypart_id( "arm_r" ) ) > get_part_hp_cur( bodypart_id( "arm_l" ) ) ) {
                 bp_hit = bodypart_id( "arm_r" );
             }
+        }
+        
+        // if the limb in best condition usable to block is broken, this character can't block anymore
+        if (get_part_hp_cur(bp_hit) <= 0) {
+            blocks_left = 0;
+            return false;
         }
 
         thing_blocked_with = body_part_name( bp_hit->token );
