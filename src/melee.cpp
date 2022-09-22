@@ -1658,9 +1658,9 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
                 bp_hit = bodypart_id( "arm_r" );
             }
         }
-        
+
         // if the limb in best condition usable to block is broken, this character can't block anymore
-        if (get_part_hp_cur(bp_hit) <= 0) {
+        if( get_part_hp_cur( bp_hit ) <= 0 ) {
             blocks_left = 0;
             return false;
         }
