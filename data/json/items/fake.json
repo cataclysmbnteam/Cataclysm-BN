@@ -189,7 +189,7 @@
     "sub": "hotplate",
     "max_charges": 2500,
     "charges_per_use": 5,
-    "flags": [ "USES_GRID_POWER", "HEATS_FOOD_USING_CHARGES", "HEATS_FOOD" ]
+    "flags": [ "USES_GRID_POWER", "HEATS_FOOD_USING_CHARGES", "HEATS_FOOD_USING_FIRE", "HEATS_FOOD" ]
   },
   {
     "id": "fake_gridwelder",
