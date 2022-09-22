@@ -1470,10 +1470,10 @@ void iexamine::locked_object( player &p, const tripoint &examp )
 
     map &here = get_map();
     if( prying_items.empty() ) {
+        add_msg( m_info, _( "The %s is locked.  You could use something to pry it with…" ),
+                 here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
         if( here.has_furn( examp ) ? here.furn( examp ).obj().has_flag( "LOCKED" ) : here.ter(
                 examp ).obj().has_flag( "LOCKED" ) ) {
-            add_msg( m_info, _( "The %s is locked.  You could use something to pry it with…" ),
-                     here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
             iexamine::locked_object_pickable( p, examp );
         }
         return;
