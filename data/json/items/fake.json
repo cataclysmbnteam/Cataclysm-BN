@@ -188,7 +188,7 @@
     "name": { "str": "oven" },
     "sub": "hotplate",
     "max_charges": 2500,
-    "charges_per_use": 25,
+    "charges_per_use": 5,
     "flags": [ "USES_GRID_POWER", "HEATS_FOOD_USING_CHARGES", "HEATS_FOOD" ]
   },
   {
