@@ -1799,7 +1799,7 @@ class map
         // Builds a transparency cache and returns true if the cache was invalidated.
         // Used to determine if seen cache should be rebuilt.
         bool build_transparency_cache( int zlev );
-        bool build_vision_transparency_cache( );
+        bool build_vision_transparency_cache( Character &player );
         // fills lm with sunlight. pzlev is current player's zlevel
         void build_sunlight_cache( int pzlev );
     public:
@@ -1815,6 +1815,12 @@ class map
         void generate_lightmap( int zlev );
         void build_seen_cache( const tripoint &origin, int target_z );
         void apply_character_light( Character &p );
+
+        //Adds/removes player specific transparencies
+        void apply_vision_transparency_cache( const tripoint &center, int target_z,
+                                              float ( &vision_restore_cache )[9], bool ( &blocked_restore_cache )[8] );
+        void restore_vision_transparency_cache( const tripoint &center, int target_z,
+                                                float ( &vision_restore_cache )[9], bool ( &blocked_restore_cache )[8] );
 
         int my_MAPSIZE;
         bool zlevels;

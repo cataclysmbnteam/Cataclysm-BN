@@ -164,13 +164,13 @@ bool map::build_transparency_cache( const int zlev )
     return true;
 }
 
-bool map::build_vision_transparency_cache( )
+bool map::build_vision_transparency_cache( Character &player )
 {
-    const tripoint &p = g->u.pos();
+    const tripoint &p = player.pos();
 
     bool dirty = false;
 
-    if( g->u.movement_mode_is( CMM_CROUCH ) ) {
+    if( player.movement_mode_is( CMM_CROUCH ) ) {
 
         const auto check_vehicle_coverage = []( const vehicle * veh, const point & p ) -> bool {
             return veh->obstacle_at_position( p ) == -1 && ( veh->part_with_feature( p,  "AISLE", true ) != -1 || veh->part_with_feature( p,  "PROTRUSION", true ) != -1 );
@@ -1306,18 +1306,17 @@ castLightAll<float, float, shrapnel_calc, shrapnel_check,
 
 
 //Alters the vision caches to the player specific version, the restore caches will be filled so it can be undone with restore_vision_transparency_cache
-static void apply_vision_transparency_cache( const tripoint &center,
-        float ( &transparency_cache )[MAPSIZE_X][MAPSIZE_Y],
-        vision_adjustment( &vision_transparency_cache )[8],
-        diagonal_blocks( &blocked_cache )[MAPSIZE_X][MAPSIZE_Y],
+void map::apply_vision_transparency_cache( const tripoint &center, int target_z,
         float ( &vision_restore_cache )[9], bool ( &blocked_restore_cache )[8] )
 {
-    const map &here = get_map();
+    auto &map_cache = get_cache( target_z );
+    float ( &transparency_cache )[MAPSIZE_X][MAPSIZE_Y] = map_cache.transparency_cache;
+    diagonal_blocks( &blocked_cache )[MAPSIZE_X][MAPSIZE_Y] = map_cache.vehicle_obscured_cache;
 
     int i = 0;
     for( const point &adjacent : eight_adjacent_offsets ) {
         const tripoint p = center + adjacent;
-        if( !here.inbounds( p ) ) {
+        if( !inbounds( p ) ) {
             continue;
         }
         vision_restore_cache[i] = transparency_cache[p.x][p.y];
@@ -1346,17 +1345,17 @@ static void apply_vision_transparency_cache( const tripoint &center,
     vision_restore_cache[8] = transparency_cache[center.x][center.y];
 }
 
-static void restore_vision_transparency_cache( const tripoint &center,
-        float ( &transparency_cache )[MAPSIZE_X][MAPSIZE_Y],
-        diagonal_blocks( &blocked_cache )[MAPSIZE_X][MAPSIZE_Y],
+void map::restore_vision_transparency_cache( const tripoint &center, int target_z,
         float ( &vision_restore_cache )[9], bool ( &blocked_restore_cache )[8] )
 {
-    const map &here = get_map();
+    auto &map_cache = get_cache( target_z );
+    float ( &transparency_cache )[MAPSIZE_X][MAPSIZE_Y] = map_cache.transparency_cache;
+    diagonal_blocks( &blocked_cache )[MAPSIZE_X][MAPSIZE_Y] = map_cache.vehicle_obscured_cache;
 
     int i = 0;
     for( const point &adjacent : eight_adjacent_offsets ) {
         const tripoint p = center + adjacent;
-        if( !here.inbounds( p ) ) {
+        if( !inbounds( p ) ) {
             continue;
         }
         transparency_cache[p.x][p.y] = vision_restore_cache[i];
@@ -1403,8 +1402,8 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
     bool blocked_restore_cache[8] = {false};
 
     if( origin.z == target_z ) {
-        apply_vision_transparency_cache( g->u.pos(), transparency_cache, vision_transparency_cache,
-                                         blocked_cache, vision_restore_cache, blocked_restore_cache );
+        apply_vision_transparency_cache( g->u.pos(), target_z, vision_restore_cache,
+                                         blocked_restore_cache );
     }
 
     if( !fov_3d ) {
@@ -1446,8 +1445,8 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
     }
 
     if( origin.z == target_z ) {
-        restore_vision_transparency_cache( g->u.pos(), transparency_cache, blocked_cache,
-                                           vision_restore_cache, blocked_restore_cache );
+        restore_vision_transparency_cache( g->u.pos(), target_z, vision_restore_cache,
+                                           blocked_restore_cache );
     }
 
     const optional_vpart_position vp = veh_at( origin );
