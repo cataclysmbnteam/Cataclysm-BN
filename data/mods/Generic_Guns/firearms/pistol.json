@@ -62,5 +62,14 @@
     "ammo": "ammo_pistol",
     "description": "A crudely constructed fully automatic submachinegun, accepting standard submachine gun magazines.  The heavy bolt makes accurate fire difficult, and its questionable construction makes for poor reliability and longevity.  Similar designs of desperation from the Second World War served their nations well enough, so this should be good for zombies… right?  Accepts standard pistol ammunition.",
     "magazines": [ [ "ammo_pistol", [ "pistol_smg_mag", "pistol_smg_mag_hc" ] ] ]
+  },
+  {
+    "id": "submachine_turret_fake",
+    "copy-from": "pistol_smg",
+    "type": "GUN",
+    "name": "submachine gun",
+    "description": "You shouldn't see this! ",
+    "clip_size": 300,
+    "magazines": [  ]
   }
 ]
