@@ -653,8 +653,8 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
         type->src.end(), []( const std::pair<mtype_id, mod_id> &source ) {
             return string_format( "'%s'", source.second->name() );
         }, enumeration_conjunction::arrow );
-        vStart += fold_and_print( w, point( column, ++vStart ), getmaxx( w ) - 2, c_cyan,
-                                  string_format( _( "Origin: %s" ), mod_src ) ) - 1;
+        vStart += fold_and_print( w, point( column, vStart + 1 ), getmaxx( w ) - 2, c_cyan,
+                                  string_format( _( "Origin: %s" ), mod_src ) );
     }
 
     if( sees( g->u ) ) {
