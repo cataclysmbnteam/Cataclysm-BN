@@ -1389,7 +1389,7 @@ void load_effect_type( const JsonObject &jo )
         }
     };
     if( has_morale_effect ) {
-        for( const std::string &cur_mod : mod_types ) {
+        for( const auto &cur_mod : mod_types ) {
             auto reduced_tuple = std::make_tuple( cur_mod, true, "MORALE", "amount" );
             auto reduced = new_etype.mod_data.find( reduced_tuple );
             auto non_reduced_tuple = std::make_tuple( cur_mod, false, "MORALE", "amount" );
