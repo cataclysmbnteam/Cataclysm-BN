@@ -482,6 +482,8 @@ class known_magic
         int select_spell( const Character &guy );
         // get all known spells
         std::vector<spell *> get_spells();
+        // get known spells of a class
+        std::vector<spell> spells_known_of_class( const Character &guy, const trait_id &spell_class );
         // how much mana is available to use to cast spells
         int available_mana() const;
         // max mana vailable

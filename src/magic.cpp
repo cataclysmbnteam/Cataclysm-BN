@@ -1517,6 +1517,23 @@ int known_magic::get_spellname_max_width()
     return width;
 }
 
+std::vector<spell> known_magic::spells_known_of_class( const Character &guy, const trait_id &spell_class )
+{
+    std::vector<spell> ret;
+
+    if( !guy.has_trait( spell_class ) ) {
+        return ret;
+    }
+
+    for( const spell *sp : get_spells() ) {
+        if( sp->is_spell_class(spell_class) ) {
+            ret.push_back( *sp );
+        }
+    }
+
+    return ret;
+}
+
 class spellcasting_callback : public uilist_callback
 {
     private:
