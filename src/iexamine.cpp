@@ -1460,11 +1460,6 @@ void iexamine::gunsafe_el( player &p, const tripoint &examp )
 
 safe_reference<item> find_best_prying_tool( player &p )
 {
-    /*auto prying_items = p.crafting_inventory().items_with( []( const item & it ) -> bool {
-        item temporary_item( it.type );
-        return temporary_item.has_quality( quality_id( "PRY" ), 1 );
-    } );*/
-
     std::vector<item *> prying_items = p.items_with( [&p]( const item & it ) {
         // Don't search for worn items such as hairpins
         if( p.get_item_position( &it ) >= -1 ) {
@@ -1489,7 +1484,6 @@ safe_reference<item> find_best_prying_tool( player &p )
 
 safe_reference<item> find_best_lock_picking_tool( player &p )
 {
-
     std::vector<item *> picklocks = p.items_with( [&p]( const item & it ) {
         // Don't search for worn items such as hairpins
         if( p.get_item_position( &it ) >= -1 ) {
@@ -1562,13 +1556,13 @@ void iexamine::locked_object( player &p, const tripoint &examp )
         if( lock_picking_tool ) {
             apply_lock_picking_tool( p, lock_picking_tool.get(), examp );
         } else {
-            add_msg( m_info, _( "The %s is locked.  If only you had something to pry or pick it with…" ),
+            add_msg( m_info, _( "The %s is locked.  If only you had something to pry it or pick its lock…" ),
                      here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
         }
         return;
     }
 
-    add_msg( m_info, _( "The %s is locked.  If only you had something to pry it with…" ),
+    add_msg( m_info, _( "The %s is locked.  If only you had something to pry it…" ),
              here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
 }
 
@@ -1585,7 +1579,7 @@ void iexamine::locked_object_pickable( player &p, const tripoint &examp )
         return;
     }
 
-    add_msg( m_info, _( "The %s is locked.  If only you had something to pick its lock with…" ),
+    add_msg( m_info, _( "The %s is locked.  If only you had something to pick its lock…" ),
              here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
 }
 
