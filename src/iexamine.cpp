@@ -1460,11 +1460,19 @@ void iexamine::gunsafe_el( player &p, const tripoint &examp )
 
 safe_reference<item> find_best_prying_tool( player &p )
 {
-    auto prying_items = p.crafting_inventory().items_with( []( const item & it ) -> bool {
+    /*auto prying_items = p.crafting_inventory().items_with( []( const item & it ) -> bool {
         item temporary_item( it.type );
         return temporary_item.has_quality( quality_id( "PRY" ), 1 );
-    } );
+    } );*/
 
+    std::vector<item *> prying_items = p.items_with( [&p]( const item & it ) {
+        // Don't search for worn items such as hairpins
+        if( p.get_item_position( &it ) >= -1 ) {
+            item temporary_item( it.type );
+            return temporary_item.has_quality( quality_id( "PRY" ), 1 );
+        }
+        return false;
+    } );
 
     // Sort by their quality level.
     std::sort( prying_items.begin(), prying_items.end(), []( const item * a, const item * b ) -> bool {
@@ -1473,11 +1481,10 @@ safe_reference<item> find_best_prying_tool( player &p )
 
     // if crowbar() ever eats charges or otherwise alters the passed item, rewrite this to reflect
     // changes to the original item.
-    if (prying_items.empty()) {
+    if( prying_items.empty() ) {
         return safe_reference<item>();
     }
-    item best_prying_tool(prying_items[0]->type);
-    return best_prying_tool.get_safe_reference();
+    return ( *prying_items[0] ).get_safe_reference();
 }
 
 safe_reference<item> find_best_lock_picking_tool( player &p )
@@ -1500,12 +1507,11 @@ safe_reference<item> find_best_lock_picking_tool( player &p )
         return actor_a->pick_quality > actor_b->pick_quality;
     } );
 
-    if (picklocks.empty()) {
+    if( picklocks.empty() ) {
         return safe_reference<item>();
     }
 
-    item best_picklock( picklocks[0]->type );
-    return best_picklock.get_safe_reference();
+    return ( *picklocks[0] ).get_safe_reference();
 }
 
 void apply_prying_tool( player &p, item *it, const tripoint &examp )
@@ -1517,7 +1523,6 @@ void apply_prying_tool( player &p, item *it, const tripoint &examp )
 
     // if crowbar() ever eats charges or otherwise alters the passed item, rewrite this to reflect
     // changes to the original item.
-    item temporary_item( it->type );
     iuse::crowbar( &p, it, false, examp );
 }
 
@@ -1573,15 +1578,16 @@ void iexamine::locked_object( player &p, const tripoint &examp )
 */
 void iexamine::locked_object_pickable( player &p, const tripoint &examp )
 {
+    map &here = get_map();
+
     safe_reference<item> lock_picking_tool = find_best_lock_picking_tool( p );
     if( lock_picking_tool ) {
         apply_lock_picking_tool( p, lock_picking_tool.get(), examp );
         return;
     }
 
-    map &here = get_map();
-        add_msg( m_info, _( "The %s is locked.  If only you had something to pick its lock with…" ),
-                 here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
+    add_msg( m_info, _( "The %s is locked.  If only you had something to pick its lock with…" ),
+             here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
 }
 
 void iexamine::bulletin_board( player &p, const tripoint &examp )
