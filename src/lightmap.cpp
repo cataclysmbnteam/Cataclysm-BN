@@ -1596,14 +1596,14 @@ float fastexp( float x )
     return u.f / v.f;
 }
 
-float light_calc( const float &numerator, const float &transparency,
-                  const int &distance )
+static float light_calc( const float &numerator, const float &transparency,
+                         const int &distance )
 {
     // Light needs inverse square falloff in addition to attenuation.
     return numerator  / ( fastexp( transparency * distance ) * distance );
 }
 
-bool light_check( const float &transparency, const float &intensity )
+static bool light_check( const float &transparency, const float &intensity )
 {
     return transparency > LIGHT_TRANSPARENCY_SOLID && intensity > LIGHT_AMBIENT_LOW;
 }
