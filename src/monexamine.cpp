@@ -147,7 +147,7 @@ bool monexamine::pet_menu( monster &z )
     }
     if( !z.has_effect( effect_leashed ) && !z.has_flag( MF_RIDEABLE_MECH ) ) {
         Character &player_character = g->u;
-        std::vector<item *> rope_inv = player_character.items_with( [&player_character]( const item & it ) {
+        std::vector<item *> rope_inv = player_character.items_with( []( const item & it ) {
             return it.has_flag( "TIE_UP" );
         } );
         if( !rope_inv.empty() ) {
@@ -784,8 +784,8 @@ void monexamine::add_leash( monster &z )
     if( z.has_effect( effect_leashed ) ) {
         return;
     }
-    Character &player_character = get_player_character();
-    std::vector<item *> rope_inv = player_character.items_with( [&player_character]( const item & it ) {
+    Character &player = get_player_character();
+    std::vector<item *> rope_inv = player.items_with( []( const item & it ) {
         return it.has_flag( "TIE_UP" );
     } );
 
@@ -808,7 +808,7 @@ void monexamine::add_leash( monster &z )
     }
     item *rope_item = rope_inv[index - 1];
     z.tied_item = cata::make_value<item>( *rope_item );
-    player_character.i_rem( rope_item );
+    player.i_rem( rope_item );
     z.add_effect( effect_leashed, 1_turns );
     z.get_effect( effect_leashed ).set_permanent();
     add_msg( _( "You add a leash to your %s." ), z.get_name() );
