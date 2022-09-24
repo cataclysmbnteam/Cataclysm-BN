@@ -1473,10 +1473,10 @@ safe_reference<item> find_best_prying_tool( player &p )
 
     // if crowbar() ever eats charges or otherwise alters the passed item, rewrite this to reflect
     // changes to the original item.
-    if( prying_items.empty() ) {
+    if (prying_items.empty()) {
         return safe_reference<item>();
     }
-    item best_prying_tool( prying_items[0]->type );
+    item best_prying_tool(prying_items[0]->type);
     return best_prying_tool.get_safe_reference();
 }
 
@@ -1500,7 +1500,7 @@ safe_reference<item> find_best_lock_picking_tool( player &p )
         return actor_a->pick_quality > actor_b->pick_quality;
     } );
 
-    if( picklocks.empty() ) {
+    if (picklocks.empty()) {
         return safe_reference<item>();
     }
 
@@ -1546,7 +1546,7 @@ void iexamine::locked_object( player &p, const tripoint &examp )
     map &here = get_map();
 
     safe_reference<item> prying_tool = find_best_prying_tool( p );
-    if( true ) {
+    if( prying_tool ) {
         apply_prying_tool( p, prying_tool.get(), examp );
         return;
     }
@@ -1555,7 +1555,7 @@ void iexamine::locked_object( player &p, const tripoint &examp )
     if( here.has_furn( examp ) ? here.furn( examp ).obj().has_flag( "LOCKED" ) : here.ter(
             examp ).obj().has_flag( "LOCKED" ) ) {
         safe_reference<item> lock_picking_tool = find_best_lock_picking_tool( p );
-        if( !!lock_picking_tool ) {
+        if( lock_picking_tool ) {
             apply_lock_picking_tool( p, lock_picking_tool.get(), examp );
         } else {
             add_msg( m_info, _( "The %s is locked.  If only you had something to pry or pick it with…" ),
@@ -1576,14 +1576,12 @@ void iexamine::locked_object_pickable( player &p, const tripoint &examp )
     safe_reference<item> lock_picking_tool = find_best_lock_picking_tool( p );
     if( lock_picking_tool ) {
         apply_lock_picking_tool( p, lock_picking_tool.get(), examp );
+        return;
     }
 
     map &here = get_map();
-    if( lock_picking_tool ) {
         add_msg( m_info, _( "The %s is locked.  If only you had something to pick its lock with…" ),
                  here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
-        return;
-    }
 }
 
 void iexamine::bulletin_board( player &p, const tripoint &examp )
