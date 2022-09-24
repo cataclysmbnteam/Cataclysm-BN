@@ -97,7 +97,7 @@
     "locations": [ "forest" ],
     "city_distance": [ 12, -1 ],
     "occurrences": [ 30, 100 ],
-    "flags": [ "CLASSIC", "FARM", "UNIQUE" ]
+    "flags": [ "CLASSIC", "FARM", "UNIQUE", "ELECTRIC_GRID" ]
   },
   {
     "type": "overmap_special",
@@ -383,7 +383,7 @@
     "city_distance": [ 5, 40 ],
     "city_sizes": [ 1, -1 ],
     "occurrences": [ 0, 3 ],
-    "flags": [ "CLASSIC", "FARM" ]
+    "flags": [ "CLASSIC", "FARM", "ELECTRIC_GRID" ]
   },
   {
     "type": "overmap_special",
@@ -406,7 +406,7 @@
     "city_distance": [ 5, 40 ],
     "city_sizes": [ 1, -1 ],
     "occurrences": [ 0, 3 ],
-    "flags": [ "CLASSIC", "FARM" ]
+    "flags": [ "CLASSIC", "FARM", "ELECTRIC_GRID" ]
   },
   {
     "type": "overmap_special",
@@ -430,7 +430,7 @@
     "city_distance": [ 5, 40 ],
     "city_sizes": [ 1, -1 ],
     "occurrences": [ 0, 3 ],
-    "flags": [ "CLASSIC", "FARM" ]
+    "flags": [ "CLASSIC", "FARM", "ELECTRIC_GRID" ]
   },
   {
     "type": "overmap_special",
@@ -465,7 +465,7 @@
     "city_distance": [ 5, 40 ],
     "city_sizes": [ 1, -1 ],
     "occurrences": [ 0, 3 ],
-    "flags": [ "CLASSIC", "FARM" ]
+    "flags": [ "CLASSIC", "FARM", "ELECTRIC_GRID" ]
   },
   {
     "type": "overmap_special",
@@ -488,7 +488,7 @@
     "city_distance": [ 5, 40 ],
     "city_sizes": [ 1, -1 ],
     "occurrences": [ 0, 3 ],
-    "flags": [ "CLASSIC", "FARM" ]
+    "flags": [ "CLASSIC", "FARM", "ELECTRIC_GRID" ]
   },
   {
     "type": "overmap_special",
@@ -511,7 +511,7 @@
     "city_distance": [ 5, 40 ],
     "city_sizes": [ 1, -1 ],
     "occurrences": [ 0, 3 ],
-    "flags": [ "CLASSIC", "FARM" ]
+    "flags": [ "CLASSIC", "FARM", "ELECTRIC_GRID" ]
   },
   {
     "type": "overmap_special",
@@ -543,7 +543,7 @@
     "city_distance": [ 5, 40 ],
     "city_sizes": [ 1, -1 ],
     "occurrences": [ 0, 3 ],
-    "flags": [ "CLASSIC", "FARM" ]
+    "flags": [ "CLASSIC", "FARM", "ELECTRIC_GRID" ]
   },
   {
     "type": "overmap_special",
@@ -571,7 +571,7 @@
     "city_distance": [ 5, 40 ],
     "city_sizes": [ 1, -1 ],
     "occurrences": [ 0, 3 ],
-    "flags": [ "CLASSIC", "FARM" ]
+    "flags": [ "CLASSIC", "FARM", "ELECTRIC_GRID" ]
   },
   {
     "type": "overmap_special",
@@ -602,7 +602,7 @@
     "city_distance": [ 5, 40 ],
     "city_sizes": [ 1, -1 ],
     "occurrences": [ 10, 100 ],
-    "flags": [ "UNIQUE", "FARM" ]
+    "flags": [ "UNIQUE", "FARM", "ELECTRIC_GRID" ]
   },
   {
     "type": "overmap_special",
@@ -3549,7 +3549,7 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 5, 40 ],
     "occurrences": [ 0, 5 ],
-    "flags": [ "CLASSIC", "FARM" ]
+    "flags": [ "CLASSIC", "FARM", "ELECTRIC_GRID" ]
   },
   {
     "type": "overmap_special",
@@ -3566,7 +3566,7 @@
     "locations": [ "field" ],
     "city_distance": [ 5, 60 ],
     "occurrences": [ 0, 3 ],
-    "flags": [ "CLASSIC", "FARM" ]
+    "flags": [ "CLASSIC", "FARM", "ELECTRIC_GRID" ]
   },
   {
     "type": "overmap_special",
@@ -3882,7 +3882,7 @@
     "locations": [ "forest" ],
     "city_distance": [ 5, 40 ],
     "occurrences": [ 0, 5 ],
-    "flags": [ "CLASSIC", "FARM" ]
+    "flags": [ "CLASSIC", "FARM", "ELECTRIC_GRID" ]
   },
   {
     "type": "overmap_special",
