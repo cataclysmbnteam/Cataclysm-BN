@@ -886,51 +886,6 @@ void monexamine::stop_leading( monster &z )
     add_msg( _( "You release the %s's leash." ), z.get_name() );
 }
 
-// OLD TIE OR UNTIE CODE BELOW
-/*
-void monexamine::tie_or_untie( monster &z )
-{
-
-
-  if( z.has_effect( effect_tied ) ) {
-       z.remove_effect( effect_tied );
-       if( z.tied_item ) {
-           g->u.i_add( *z.tied_item );
-           z.tied_item.reset();
-       }
-   } else {
-       Character& player_character = g->u;
-       std::vector<item*> rope_inv = player_character.items_with([&player_character](const item& it) {
-           return it.has_flag("TIE_UP");
-           });
-       if( rope_inv.empty() ) {
-           return;
-       }
-       int i = 0;
-       uilist selection_menu;
-       selection_menu.text = string_format( _( "Select an item to tie your %s with." ), z.get_name() );
-       selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Cancel" ) );
-       for( auto iter : rope_inv ) {
-           selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Use %s" ), iter->tname() );
-       }
-       selection_menu.selected = 1;
-       selection_menu.query();
-       auto index = selection_menu.ret;
-       if( index == 0 || index == UILIST_CANCEL || index < 0 ||
-           index > static_cast<int>( rope_inv.size() ) ) {
-           return;
-       }
-       item *rope_item = rope_inv[index - 1];
-       int item_pos = g->u.get_item_position( rope_item );
-       if( item_pos != INT_MIN ) {
-           z.tied_item = cata::make_value<item>( *rope_item );
-           g->u.i_rem( item_pos );
-           z.add_effect( effect_tied, 1_turns, num_bp );
-       }
-   }
-}
-*/
-
 void monexamine::milk_source( monster &source_mon )
 {
     itype_id milked_item = source_mon.type->starting_ammo.begin()->first;
