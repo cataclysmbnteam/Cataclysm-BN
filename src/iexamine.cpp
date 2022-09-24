@@ -1557,8 +1557,7 @@ void iexamine::locked_object( player &p, const tripoint &examp )
     }
 
     // if the furniture/terrain is also lockpickable
-    if( here.has_furn( examp ) ? here.furn( examp ).obj().has_flag( "LOCKED" ) : here.ter(
-            examp ).obj().has_flag( "LOCKED" ) ) {
+    if( here.has_furn( examp ) && here.has_flag_ter_or_furn( "LOCKED", examp ) ) {
         safe_reference<item> lock_picking_tool = find_best_lock_picking_tool( p );
         if( lock_picking_tool ) {
             apply_lock_picking_tool( p, lock_picking_tool.get(), examp );
