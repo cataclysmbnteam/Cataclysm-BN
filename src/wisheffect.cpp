@@ -37,7 +37,7 @@ struct entry_data {
     cata::optional<const effect *> eff;
 };
 
-template<class T, typename F = std::pair<std::string, void ( T::* )(
+template<class T, typename F = std::pair<const std::string, void ( T::* )(
              const input_context &,
              const input_event &,
              int,

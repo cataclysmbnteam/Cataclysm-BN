@@ -1384,8 +1384,8 @@ void load_effect_type( const JsonObject &jo )
     }
 
     // TODO: Implement handling of reduced morale, remove this
-    static const std::vector<const char *> mod_types = {{
-            "base_mods", "scaling_mods"
+    static const std::vector<std::string> mod_types = {{
+            {"base_mods"}, {"scaling_mods"}
         }
     };
     if( has_morale_effect ) {
