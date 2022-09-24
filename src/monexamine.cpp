@@ -864,15 +864,6 @@ void monexamine::start_leading( monster &z )
     z.add_effect( effect_led_by_leash, 1_turns );
     z.get_effect( effect_led_by_leash ).set_permanent();
 
-    if( z.has_effect( effect_led_by_leash ) ) {
-        add_msg( _( "1!" ), z.get_name() );
-    }
-    if( z.has_effect( effect_led_by_leash, num_bp ) ) {
-        add_msg( _( "2!" ), z.get_name() );
-    }
-    if( z.get_effect( effect_led_by_leash, num_bp ).is_permanent() ) {
-        add_msg( _( "3!" ), z.get_name() );
-    }
     add_msg( _( "You take hold of the %s's leash to make it follow you." ), z.get_name() );
 }
 
