@@ -19,6 +19,7 @@
 #include "creature.h"
 #include "cursesdef.h"
 #include "damage.h"
+#include "effect.h"
 #include "enums.h"
 #include "optional.h"
 #include "pldata.h"
