@@ -1639,7 +1639,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
 
         handle_melee_wear( shield, wear_modifier );
     } else {
-        //Choose which body part to block with, assume left side first
+        // Choose which body part to block with, assume left side first
         if( martial_arts_data->can_leg_block( *this ) && martial_arts_data->can_arm_block( *this ) ) {
             bp_hit = one_in( 2 ) ? bodypart_id( "leg_l" ) : bodypart_id( "arm_l" );
         } else if( martial_arts_data->can_leg_block( *this ) ) {
@@ -1659,7 +1659,8 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
             }
         }
 
-        // if the limb in best condition usable to block is broken, this character can't block anymore
+        // At this point, we know we won't try blocking with items, only with limbs.
+        // But there are no limbs left, so we can disable further attempts at blocking.
         if( get_part_hp_cur( bp_hit ) <= 0 ) {
             blocks_left = 0;
             return false;
