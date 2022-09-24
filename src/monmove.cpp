@@ -451,7 +451,7 @@ void monster::plan()
     if( friendly == 0 ) {
 
         //This is unused when smart_planning is on
-        FastDistanceApproximation max_dist = dist / 12;
+        FastDistanceApproximation max_dist = dist / Creature_tracker::submap_size;
 
         for( const auto &fac : factions ) {
             auto faction_att = faction.obj().attitude( fac.first );
@@ -481,7 +481,7 @@ void monster::plan()
                         if( rating < dist ) {
                             target = &mon;
                             dist = rating;
-                            max_dist = dist / 16;
+                            max_dist = dist / Creature_tracker::submap_size;
                             valid_targets = 1;
                         }
                         if( rating <= 5 ) {

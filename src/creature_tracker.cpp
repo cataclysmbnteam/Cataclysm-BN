@@ -20,6 +20,10 @@ Creature_tracker::Creature_tracker() = default;
 
 Creature_tracker::~Creature_tracker() = default;
 
+
+constexpr int Creature_tracker::submaps_in_grid;
+constexpr int Creature_tracker::submap_size;
+
 shared_ptr_fast<monster> Creature_tracker::find( const tripoint &pos ) const
 {
     const auto iter = monsters_by_location.find( pos );

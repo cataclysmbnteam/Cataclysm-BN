@@ -29,7 +29,6 @@ class Creature_tracker
                     return lhs.lock().get() < rhs.lock().get();
                 }
         };
-    private:
 
         static constexpr int submaps_in_grid = 9;
         static constexpr int submap_size = 16;
@@ -37,6 +36,7 @@ class Creature_tracker
         static_assert( submaps_in_grid * submap_size >= MAPSIZE_X &&submaps_in_grid * submap_size >=
                        MAPSIZE_Y,
                        "The creature tracker's map must be at least as big as the main map" );
+    private:
 
         void add_to_faction_map( shared_ptr_fast<monster> critter );
 
