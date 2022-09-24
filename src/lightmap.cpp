@@ -1127,6 +1127,7 @@ void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
             if( check_blocked( current ) ) {
                 end_block( distance, extra );
                 started_block = false;
+                started_row = false;
                 continue;
             }
 
