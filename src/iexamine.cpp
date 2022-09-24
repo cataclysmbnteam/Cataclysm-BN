@@ -1458,7 +1458,7 @@ void iexamine::gunsafe_el( player &p, const tripoint &examp )
     }
 }
 
-safe_reference<item> find_best_prying_tool( player &p )
+static safe_reference<item> find_best_prying_tool( player &p )
 {
     std::vector<item *> prying_items = p.items_with( [&p]( const item & it ) {
         // Don't search for worn items such as hairpins
@@ -1482,7 +1482,7 @@ safe_reference<item> find_best_prying_tool( player &p )
     return ( *prying_items[0] ).get_safe_reference();
 }
 
-safe_reference<item> find_best_lock_picking_tool( player &p )
+static safe_reference<item> find_best_lock_picking_tool( player &p )
 {
     std::vector<item *> picklocks = p.items_with( [&p]( const item & it ) {
         // Don't search for worn items such as hairpins
@@ -1508,7 +1508,7 @@ safe_reference<item> find_best_lock_picking_tool( player &p )
     return ( *picklocks[0] ).get_safe_reference();
 }
 
-void apply_prying_tool( player &p, item *it, const tripoint &examp )
+static void apply_prying_tool( player &p, item *it, const tripoint &examp )
 {
     map &here = get_map();
     //~ %1$s: terrain/furniture name, %2$s: prying tool name
@@ -1520,7 +1520,7 @@ void apply_prying_tool( player &p, item *it, const tripoint &examp )
     iuse::crowbar( &p, it, false, examp );
 }
 
-void apply_lock_picking_tool( player &p, item *it, const tripoint &examp )
+static void apply_lock_picking_tool( player &p, item *it, const tripoint &examp )
 {
     map &here = get_map();
 
