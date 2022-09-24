@@ -139,11 +139,11 @@ bool monexamine::pet_menu( monster &z )
         amenu.addentry( play_with_pet, true, 'y', _( "Play with %s" ), pet_name );
     }
     if( z.has_effect( effect_tied ) ) {
-        amenu.addentry( untie, true, 't', _( "Untie" ) );
+        amenu.addentry( untie, true, 'u', _( "Untie" ) );
     }
     if( z.has_effect( effect_leashed ) && !z.has_effect( effect_tied ) ) {
         amenu.addentry( tie, true, 't', _( "Tie" ) );
-        amenu.addentry( unleash, true, 't', _( "Remove leash from %s" ), pet_name );
+        amenu.addentry( unleash, true, 'T', _( "Remove leash from %s" ), pet_name );
     }
     if( !z.has_effect( effect_leashed ) && !z.has_flag( MF_RIDEABLE_MECH ) ) {
         Character &player_character = g->u;
@@ -151,9 +151,9 @@ bool monexamine::pet_menu( monster &z )
             return it.has_flag( "TIE_UP" );
         } );
         if( !rope_inv.empty() ) {
-            amenu.addentry( leash, true, 't', _( "Attach leash to %s" ), pet_name );
+            amenu.addentry( leash, true, 'l', _( "Attach leash to %s" ), pet_name );
         } else {
-            amenu.addentry( leash, false, 't', _( "You need any type of rope to tie %s in place" ),
+            amenu.addentry( leash, false, 'l', _( "You need any type of rope to tie %s in place" ),
                             pet_name );
         }
     }
