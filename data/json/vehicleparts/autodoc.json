@@ -1,0 +1,70 @@
+[
+  {
+    "type": "vehicle_part",
+    "id": "autodoc",
+    "name": { "str": "autodoc" },
+    "symbol": "&",
+    "looks_like": "f_autodoc",
+    "color": "light_cyan",
+    "broken_symbol": "#",
+    "broken_color": "light_cyan",
+    "damage_modifier": 100,
+    "durability": 100,
+    "description": "A surgical apparatus used for installation and removal of bionics.  It's only as skilled as its operator.",
+    "item": "autodoc",
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 6 ], [ "electronics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 4 ], [ "electronics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 6 ], [ "electronics", 8 ] ],
+        "time": "60 m",
+        "using": [ [ "soldering_standard", 8 ], [ "welding_standard", 5 ] ]
+      }
+    },
+    "flags": [ "OBSTACLE", "AUTODOC" ],
+    "breaks_into": [
+      { "item": "processor", "prob": 25 },
+      { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
+      { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+      { "item": "small_lcd_screen", "prob": 25 },
+      { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
+      { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
+      { "item": "power_supply", "prob": 25 },
+      { "item": "amplifier", "prob": 25 },
+      { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
+      { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
+    ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "autodoc_couch",
+    "name": { "str": "autodoc operation couch" },
+    "symbol": "H",
+    "looks_like": "bed",
+    "color": "red",
+    "broken_symbol": "*",
+    "broken_color": "red",
+    "damage_modifier": 60,
+    "durability": 100,
+    "description": "A plush red sofa made less comfortable by the medical machinery directly above it.  It has a single leather strap on the right armrest.",
+    "size": 200,
+    "item": "autodoc_couch",
+    "comfort": 3,
+    "floor_bedding_warmth": 500,
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "BED", "BOARDABLE", "CARGO", "AUTODOC_COUCH" ],
+    "breaks_into": [
+      { "item": "2x4", "count": [ 2, 5 ] },
+      { "item": "nail", "charges": [ 3, 8 ] },
+      { "item": "splinter", "count": [ 1, 2 ] },
+      { "item": "rag", "count": [ 20, 30 ] }
+    ],
+    "damage_reduction": { "all": 5 }
+  }
+]
