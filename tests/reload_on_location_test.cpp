@@ -13,6 +13,7 @@
 #include "item_location.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "state_helpers.h"
 #include "type_id.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
@@ -20,8 +21,9 @@
 
 TEST_CASE( "reload_on_vehicle_cargo", "[magazine] [visitable] [item] [item_location]" )
 {
+    clear_all_state();
     const tripoint vehicle_center = tripoint( 65, 65, 0 );
-    clear_map_and_put_player_underground();
+    put_player_underground();
 
     map &here = get_map();
     const vproto_id car_id( "car" );

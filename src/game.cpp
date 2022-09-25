@@ -57,6 +57,7 @@
 #include "construction.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
+#include "crafting.h"
 #include "creature_tracker.h"
 #include "cursesport.h"
 #include "damage.h"
@@ -524,7 +525,12 @@ void game::reload_tileset()
 #if defined(TILES)
     try {
         tilecontext->reinit();
-        tilecontext->load_tileset( get_option<std::string>( "TILES" ), false, true );
+        std::vector<mod_id> dummy;
+        tilecontext->load_tileset(
+            get_option<std::string>( "TILES" ),
+            world_generator->active_world ? world_generator->active_world->active_mod_order : dummy,
+            false, true
+        );
         tilecontext->do_tile_loading_report();
     } catch( const std::exception &err ) {
         popup( _( "Loading the tileset failed: %s" ), err.what() );
@@ -7004,20 +7010,26 @@ std::vector<map_item_stack> game::find_nearby_items( int iRadius )
         return ret;
     }
 
-    for( auto &points_p_it : closest_points_first( u.pos(), iRadius ) ) {
-        if( points_p_it.y >= u.posy() - iRadius && points_p_it.y <= u.posy() + iRadius &&
-            u.sees( points_p_it ) &&
-            m.sees_some_items( points_p_it, u ) ) {
+    int range = fov_3d ? fov_3d_z_range : 0;
+    int center_z = u.pos().z;
 
-            for( auto &elem : m.i_at( points_p_it ) ) {
-                const std::string name = elem.tname();
-                const tripoint relative_pos = points_p_it - u.pos();
+    for( int i = 0; i <= range * 2; i++ ) {
+        int z = i % 2 ? center_z - i / 2 : center_z + i / 2;
+        for( auto &points_p_it : closest_points_first( {u.pos().xy(), z}, iRadius ) ) {
+            if( points_p_it.y >= u.posy() - iRadius && points_p_it.y <= u.posy() + iRadius &&
+                u.sees( points_p_it ) &&
+                m.sees_some_items( points_p_it, u ) ) {
 
-                if( std::find( item_order.begin(), item_order.end(), name ) == item_order.end() ) {
-                    item_order.push_back( name );
-                    temp_items[name] = map_item_stack( &elem, relative_pos );
-                } else {
-                    temp_items[name].add_at_pos( &elem, relative_pos );
+                for( auto &elem : m.i_at( points_p_it ) ) {
+                    const std::string name = elem.tname();
+                    const tripoint relative_pos = points_p_it - u.pos();
+
+                    if( std::find( item_order.begin(), item_order.end(), name ) == item_order.end() ) {
+                        item_order.push_back( name );
+                        temp_items[name] = map_item_stack( &elem, relative_pos );
+                    } else {
+                        temp_items[name].add_at_pos( &elem, relative_pos );
+                    }
                 }
             }
         }
@@ -8432,7 +8444,7 @@ void game::butcher()
             if( ( salvage_tool_index != INT_MIN ) && salvage_iuse->valid_to_cut_up( *it ) ) {
                 salvageables.push_back( it );
             }
-            if( u.can_disassemble( *it, crafting_inv ).success() ) {
+            if( crafting::can_disassemble( u, *it, crafting_inv ).success() ) {
                 disassembles.push_back( it );
             } else if( !first_item_without_tools ) {
                 first_item_without_tools = &*it;
@@ -8455,7 +8467,7 @@ void game::butcher()
         if( first_item_without_tools ) {
             add_msg( m_info, _( "You don't have the necessary tools to disassemble any items here." ) );
             // Just for the "You need x to disassemble y" messages
-            const auto ret = u.can_disassemble( *first_item_without_tools, crafting_inv );
+            const auto ret = crafting::can_disassemble( u, *first_item_without_tools, crafting_inv );
             if( !ret.success() ) {
                 add_msg( m_info, "%s", ret.c_str() );
             }
@@ -8585,10 +8597,10 @@ void game::butcher()
                     }
                     break;
                 case MULTIDISASSEMBLE_ONE:
-                    u.disassemble_all( true );
+                    crafting::disassemble_all( u, false );
                     break;
                 case MULTIDISASSEMBLE_ALL:
-                    u.disassemble_all( false );
+                    crafting::disassemble_all( u, true );
                     break;
                 default:
                     debugmsg( "Invalid butchery type: %d", indexer_index );
@@ -8603,7 +8615,7 @@ void game::butcher()
         case BUTCHER_DISASSEMBLE: {
             // Pick index of first item in the disassembly stack
             item *const target = &*disassembly_stacks[indexer_index].first;
-            u.disassemble( item_location( map_cursor( u.pos() ), target ), true );
+            crafting::disassemble( u, item_location( map_cursor( u.pos() ), target ) );
         }
         break;
         case BUTCHER_SALVAGE: {

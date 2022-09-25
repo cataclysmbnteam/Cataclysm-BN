@@ -104,16 +104,14 @@
   },
   {
     "id": "reach_bow",
+    "copy-from": "bow_base",
     "type": "GUN",
-    "symbol": "(",
     "color": "yellow",
     "name": { "str": "reach bow" },
     "description": "A test item that is both a ranged weapon and a reach weapon",
     "price": 16000,
     "material": "steel",
     "flags": [ "REACH_ATTACK" ],
-    "skill": "archery",
-    "ammo": "arrow",
     "weight": "340 g",
     "volume": "1500 ml",
     "bashing": 6,
@@ -121,7 +119,6 @@
     "range": 5,
     "dispersion": 210,
     "durability": 6,
-    "clip_size": 1,
     "reload": 60,
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ] ]
   },
@@ -190,8 +187,9 @@
     "type": "TOOL",
     "name": { "str": "oven" },
     "sub": "hotplate",
-    "max_charges": 1000,
-    "flags": [ "USES_GRID_POWER" ]
+    "max_charges": 2500,
+    "charges_per_use": 5,
+    "flags": [ "USES_GRID_POWER", "HEATS_FOOD_USING_CHARGES", "HEATS_FOOD_USING_FIRE", "HEATS_FOOD" ]
   },
   {
     "id": "fake_gridwelder",

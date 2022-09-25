@@ -3,6 +3,7 @@
 #include <string>
 
 #include "calendar.h"
+#include "state_helpers.h"
 
 // SUN TESTS
 
@@ -34,6 +35,7 @@
 // This test covers is_night, is_dawn, is_day, is_dusk, and their behavior in relation to time of day.
 TEST_CASE( "daily solar cycle", "[sun][night][dawn][day][dusk]" )
 {
+    clear_all_state();
     // Use sunrise/sunset on the first day (spring equinox)
     static const time_point midnight = calendar::turn_zero;
     static const time_point noon = calendar::turn_zero + 12_hours;
@@ -126,6 +128,7 @@ TEST_CASE( "daily solar cycle", "[sun][night][dawn][day][dusk]" )
 // The calendar `sunlight` function returns light level for both sun and moon.
 TEST_CASE( "sunlight and moonlight", "[sun][sunlight][moonlight][.]" )
 {
+    clear_all_state();
     // Use sunrise/sunset on the first day (spring equinox)
     static const time_point midnight = calendar::turn_zero;
     static const time_point today_sunrise = sunrise( midnight );
@@ -197,6 +200,7 @@ TEST_CASE( "sunlight and moonlight", "[sun][sunlight][moonlight][.]" )
 // current_daylight_level returns seasonally-adjusted maximum daylight level
 TEST_CASE( "current daylight level", "[sun][daylight][equinox][solstice]" )
 {
+    clear_all_state();
     static const time_duration one_season = calendar::season_length();
     static const time_point spring = calendar::turn_zero;
     static const time_point summer = spring + one_season;

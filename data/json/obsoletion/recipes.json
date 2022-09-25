@@ -3037,5 +3037,115 @@
     "type": "recipe",
     "result": "mutant_offal_cooked",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "acidchitin_armor_horse",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chitin_armor_horse",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chainmail_armor_horse",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "kevlar_armor_horse",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "leather_armor_horse",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "leatherbone_armor_horse",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rubber_armor_horse",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "acidchitin_harness_dog",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chitin_harness_dog",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chainmail_harness_dog",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "leather_harness_dog",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "leatherbone_harness_dog",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "kevlar_harness",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rubber_harness_dog",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rubber_harness_dog_from_scratch",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "leather_harness_dog_from_scratch",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "leather_armor_horse_from_scratch",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "leatherbone_harness_dog_from_scratch",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "leatherbone_harness_dog_from_leatherharness",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "leatherbone_armor_horse_from_leatherarmor",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "leatherbone_armor_horse_from_scratch",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rubber_armor_horse_from_scratch",
+    "obsolete": true
   }
 ]

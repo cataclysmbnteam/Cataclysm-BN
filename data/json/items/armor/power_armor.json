@@ -507,26 +507,16 @@
   {
     "id": "power_armor_scabbard",
     "type": "ARMOR",
+    "copy-from": "scabbard",
     "name": { "str": "power armor scabbard" },
     "description": "A set of clamps and fittings to accommodate a variety of swords and similar weaponry.  Designed to interface with a military exoskeleton.  Activate to sheathe/draw a sword.",
     "weight": "1550 g",
-    "volume": "1750 ml",
     "price": 60000,
     "price_postapoc": 600,
-    "bashing": 4,
     "material": [ "rubber", "steel" ],
-    "symbol": "[",
-    "color": "brown",
-    "covers": [ "leg_either" ],
     "coverage": 3,
-    "material_thickness": 1,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath sword",
-      "holster_msg": "You sheath your %s",
-      "max_volume": "2 L",
-      "flags": [ "SHEATH_SWORD" ]
-    },
+    "rigid": true,
+    "encumbrance": 0,
     "flags": [ "POWERARMOR_MOD", "COMPACT", "WATERPROOF", "STURDY", "WAIST" ]
   },
   {

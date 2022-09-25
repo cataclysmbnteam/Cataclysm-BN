@@ -11,6 +11,7 @@
 
 #include "catch/catch.hpp"
 #include "map_helpers.h"
+#include "state_helpers.h"
 
 enum class canned_status {
     without_can,
@@ -50,7 +51,7 @@ static int rounded_int( double val )
 
 TEST_CASE( "distribute_food" )
 {
-    clear_map();
+    clear_all_state();
     constexpr tripoint origin( 60, 60, 0 );
     constexpr tripoint thirty_steps_rd = tripoint( 30, 30, 0 );
     g->u.setpos( origin );

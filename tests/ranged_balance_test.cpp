@@ -25,6 +25,7 @@
 #include "player.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "state_helpers.h"
 #include "test_statistics.h"
 #include "translations.h"
 #include "type_id.h"
@@ -222,7 +223,7 @@ static constexpr tripoint shooter_pos( 60, 60, 0 );
 
 TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance] [slow]" )
 {
-    clear_map();
+    clear_all_state();
     standard_npc shooter( "Shooter", shooter_pos, {}, 0, 8, 8, 8, 7 );
     equip_shooter( shooter, { "bastsandals", "armguard_chitin", "armor_chitin", "beekeeping_gloves", "fencing_mask" } );
     assert_encumbrance( shooter, 10 );
@@ -261,7 +262,7 @@ TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance] [slow]" )
 
 TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
 {
-    clear_map();
+    clear_all_state();
     standard_npc shooter( "Shooter", shooter_pos, {}, 5, 10, 10, 10, 10 );
     equip_shooter( shooter, { "cloak_wool", "footrags_wool", "gloves_wraps_fur", "glasses_safety", "balclava" } );
     assert_encumbrance( shooter, 5 );
@@ -300,7 +301,7 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
 
 TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
 {
-    clear_map();
+    clear_all_state();
     standard_npc shooter( "Shooter", shooter_pos, {}, 10, 20, 20, 20, 20 );
     equip_shooter( shooter, { } );
     assert_encumbrance( shooter, 0 );
@@ -396,6 +397,7 @@ static void range_test( const Threshold &test_threshold, bool write_data = false
 // I don't see any assertions we can make about these thresholds offhand.
 TEST_CASE( "synthetic_range_test", "[.]" )
 {
+    clear_all_state();
     SECTION( "quickdraw thresholds" ) {
         range_test( Threshold( accuracy_grazing, 0.1 ) );
     }

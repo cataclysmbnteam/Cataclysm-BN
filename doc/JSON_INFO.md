@@ -998,12 +998,22 @@ Mods can modify this via `add:traits` and `remove:traits`.
 
 ### Recipes
 
+Recipes represent both craft and uncraft (disassembly) recipes.
+
 ```C++
-"result": "javelin",         // ID of resulting item
+"type": "recipe",            // Recipe type. Possible values: 'recipe' (craft recipe) and 'uncraft' (uncraft recipe).
+"reversible": false,         // Generate an uncraft recipe that is a reverse of this craft recipe.
+"result": "javelin",         // ID of resulting item. By default, also used as the ID of the recipe.
+"id_suffix": "",             // Optional (default: empty string). Some suffix to make the ID of the recipe unique. The ID of the recipe is "<result><id_suffix>".
 "category": "CC_WEAPON",     // Category of crafting recipe. CC_NONCRAFT used for disassembly recipes
-"id_suffix": "",             // Optional (default: empty string). Some suffix to make the ident of the recipe unique. The ident of the recipe is "<id-of-result><id_suffix>".
-"override": false,           // Optional (default: false). If false and the ident of the recipe is already used by another recipe, loading of recipes fails. If true and a recipe with the ident is already defined, the existing recipe is replaced by the new recipe.
+"subcategory": "",           // Subcategory of crafting recipe. 
+"override": false,           // Optional (default: false). If false and the ID of the recipe is already used by another recipe, loading of recipes fails. If true and a recipe with the ID is already defined, the existing recipe is replaced by the new recipe.
+"obsolete": false,           // Optional (default: false). Marks this recipe as obsolete. Use this instead of outright deleting it to preserve save compatibility.
 "delete_flags": [ "CANNIBALISM" ], // Optional (default: empty list). Flags specified here will be removed from the resultant item upon crafting. This will override flag inheritance, but *will not* delete flags that are part of the item type itself.
+"contained": false,          // Optional (default: false). Spawn produced item in a container.
+"container": "can_medium",   // Optional. Override container to spawn item in (by default uses item's default container)
+"charges": 1,                // Optional (default: null). Override default charges for count-by-charges items (ammo, comestibles, etc.)
+"result_mult": 1,            // Optional (default: 1). Produce multiple items (or stacks for count-by-charges items) from single craft
 "skill_used": "fabrication", // Skill trained and used for success checks
 "skills_required": [["survival", 1], ["throw", 2]], // Skills required to unlock recipe
 "book_learn": [              // (optional) Array of books that this recipe can be learned from. Each entry contains the id of the book and the skill level at which it can be learned.
@@ -1011,9 +1021,8 @@ Mods can modify this via `add:traits` and `remove:traits`.
     [ "textbook_gaswarfare", 8, "" ] // If the name is empty, the recipe is hidden, it will not be shown in the description of the book.
 ],
 "difficulty": 3,             // Difficulty of success check
-"time": "5 m",               // Preferred time to perform recipe, can specify in minutes, hours etc.
-"time": 5000,                // Legacy time to perform recipe (where 1000 ~= 10 turns ~= 10 seconds game time).
-"reversible": false,         // Can be disassembled.
+"time": "5 m",               // Time to perform the recipe specified as time string (can use minutes, hours, etc.)
+"time": 5000,                // Legacy time format, in moves. Won't be supported in the future. Here, 1000 ~= 10 turns ~= 10 seconds of game time
 "autolearn": true,           // Automatically learned upon gaining required skills
 "autolearn" : [              // Automatically learned upon gaining listed skills
     [ "survival", 2 ],
@@ -1024,6 +1033,7 @@ Mods can modify this via `add:traits` and `remove:traits`.
     [ "survival", 1 ],
     [ "fabrication", 2 ]
 ],
+"never_learn": false,        // Optional (default: false). Prevents this recipe from being learned by the player. For debug or NPC purposes.
 "batch_time_factors": [25, 15], // Optional factors for batch crafting time reduction. First number specifies maximum crafting time reduction as percentage, and the second number the minimal batch size to reach that number. In this example given batch size of 20 the last 6 crafts will take only 3750 time units.
 "flags": [                   // A set of strings describing boolean features of the recipe
   "BLIND_EASY",
@@ -1031,6 +1041,9 @@ Mods can modify this via `add:traits` and `remove:traits`.
 ],
 "construction_blueprint": "camp", // an optional string containing an update_mapgen_id.  Used by faction camps to upgrade their buildings. If non-empty, the function must exist.
 "on_display": false,         // this is a hidden construction item, used by faction camps to calculate construction times but not available to the player
+"using": [                   // Optional, string or array. Additional external requirements to use.
+  "butter_resealable_containers"
+],
 "qualities": [               // Generic qualities of tools needed to craft
   {"id":"CUT","level":1,"amount":1}
 ],

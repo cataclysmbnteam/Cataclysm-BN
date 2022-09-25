@@ -25,6 +25,7 @@
 #include "pimpl.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "state_helpers.h"
 #include "text_snippets.h"
 #include "type_id.h"
 #include "veh_type.h"
@@ -85,6 +86,7 @@ static std::string get_list_of_npcs( const std::string &title )
 
 TEST_CASE( "on_load-sane-values", "[.]" )
 {
+    clear_all_state();
     SECTION( "Awake for 10 minutes, gaining hunger/thirst/fatigue" ) {
         npc test_npc = create_model();
         const int five_min_ticks = 2;
@@ -138,6 +140,7 @@ TEST_CASE( "on_load-sane-values", "[.]" )
 
 TEST_CASE( "on_load-similar-to-per-turn", "[.]" )
 {
+    clear_all_state();
     SECTION( "Awake for 10 minutes, gaining hunger/thirst/fatigue" ) {
         npc on_load_npc = create_model();
         npc iterated_npc = create_model();
@@ -179,6 +182,7 @@ TEST_CASE( "on_load-similar-to-per-turn", "[.]" )
 
 TEST_CASE( "snippet-tag-test" )
 {
+    clear_all_state();
     // Actually used tags
     static const std::set<std::string> npc_talk_tags = {
         {
@@ -309,6 +313,7 @@ static void check_npc_movement( const tripoint &origin )
 
 TEST_CASE( "npc-movement" )
 {
+    clear_all_state();
     const ter_id t_reinforced_glass( "t_reinforced_glass" );
     const ter_id t_floor( "t_floor" );
     const furn_id f_rubble( "f_rubble" );
@@ -317,8 +322,6 @@ TEST_CASE( "npc-movement" )
     const vpart_id vpart_seat( "seat" );
 
     g->place_player( tripoint( 60, 60, 0 ) );
-
-    clear_map();
 
     Character &player_character = get_player_character();
     map &here = get_map();
@@ -435,6 +438,7 @@ TEST_CASE( "npc-movement" )
 
 TEST_CASE( "npc_can_target_player" )
 {
+    clear_all_state();
     // Set to daytime for visibiliity
     calendar::turn = calendar::turn_zero + 12_hours;
 
@@ -460,8 +464,8 @@ TEST_CASE( "npc_can_target_player" )
 
 TEST_CASE( "npc_move_through_vehicle_holes" )
 {
+    clear_all_state();
     g->place_player( tripoint( 65, 55, 0 ) );
-    clear_map();
     tripoint origin( 60, 60, 0 );
 
     get_map().add_vehicle( vproto_id( "apc" ), origin, -45_degrees, 0, 0 );

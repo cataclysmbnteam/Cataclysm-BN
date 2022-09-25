@@ -1,0 +1,190 @@
+[
+  {
+    "abstract": "medium_quadruped_armor",
+    "type": "PET_ARMOR",
+    "name": { "str": "medium quadruped armor" },
+    "symbol": "[",
+    "min_pet_vol": "300 L",
+    "max_pet_vol": "1000 L",
+    "pet_bodytype": "quadruped",
+    "flags": [ "IS_PET_ARMOR" ]
+  },
+  {
+    "type": "PET_ARMOR",
+    "id": "kevlar_armor_medium_quadruped",
+    "copy-from": "medium_quadruped_armor",
+    "color": "yellow",
+    "name": { "str": "Kevlar-lined medium quadruped peto" },
+    "description": "A heavy mattress-like armor of cloth, leather and thick linings of Kevlar, originally used as protection in bullfighting.  You could put this on a friendly medium quadruped.",
+    "price": 50000,
+    "price_postapoc": 5000,
+    "material": [ "cotton", "leather", "kevlar" ],
+    "weight": "30 kg",
+    "volume": "150 L",
+    "material_thickness": 12,
+    "environmental_protection": 3
+  },
+  {
+    "type": "PET_ARMOR",
+    "id": "acidchitin_armor_medium_quadruped",
+    "copy-from": "medium_quadruped_armor",
+    "color": "green",
+    "name": { "str": "biosilicified chitin medium quadruped armor" },
+    "description": "A makeshift assembly of criniere, peytral and croupiere made from biosilicified chitin fitted to a thin mesh.  You could put this on a friendly medium quadruped.",
+    "price": 120000,
+    "price_postapoc": 8000,
+    "material": [ "acidchitin", "steel" ],
+    "weight": "35 kg",
+    "volume": "150 L",
+    "material_thickness": 4,
+    "environmental_protection": 7
+  },
+  {
+    "type": "PET_ARMOR",
+    "id": "chitin_armor_medium_quadruped",
+    "copy-from": "medium_quadruped_armor",
+    "color": "green",
+    "name": { "str": "chitin medium quadruped armor" },
+    "description": "A makeshift assembly of criniere, peytral and croupiere made from chitin fitted to a thin mesh.  You could put this on a friendly medium quadruped.",
+    "price": 100000,
+    "price_postapoc": 6000,
+    "material": [ "chitin", "steel" ],
+    "weight": "35 kg",
+    "volume": "150 L",
+    "material_thickness": 3,
+    "environmental_protection": 4
+  },
+  {
+    "type": "PET_ARMOR",
+    "id": "chainmail_armor_medium_quadruped",
+    "copy-from": "medium_quadruped_armor",
+    "color": "green",
+    "name": { "str": "chainmail medium quadruped armor" },
+    "description": "A heavy covering of chainmail, suitably made for medium quadrupeds as protection.  You could put this on a friendly medium quadruped.",
+    "price": 40000,
+    "price_postapoc": 10000,
+    "material": [ "steel", "leather" ],
+    "weight": "40 kg",
+    "volume": "150 L",
+    "material_thickness": 6
+  },
+  {
+    "type": "PET_ARMOR",
+    "id": "leather_armor_medium_quadruped",
+    "copy-from": "medium_quadruped_armor",
+    "color": "green",
+    "name": {
+      "str": "boiled leather medium quadruped barding with caprison",
+      "str_pl": "boiled leather medium quadruped bardings with caprison"
+    },
+    "description": "A full barding for medium quadrupeds consisting of boiled leather and cloth undercovering.  This caparison is depicting a battle between a monstrous dragon and regal griffin.  You could put this on a friendly medium quadruped.",
+    "price": 30000,
+    "price_postapoc": 3000,
+    "material": [ "cotton", "leather" ],
+    "weight": "15 kg",
+    "volume": "150 L",
+    "material_thickness": 6,
+    "snippet_category": [
+      {
+        "id": "battle",
+        "text": "A full barding for medium quadrupeds consisting of boiled leather and cloth undercovering.  This caparison is depicting a battle between a monstrous dragon and regal griffin.  You could put this on a friendly medium quadruped."
+      },
+      {
+        "id": "ancientdragon",
+        "text": "A full barding for medium quadrupeds consisting of boiled leather and cloth undercovering.  This caparison is depicting a red dragon breathing fire on cities.  You could put this on a friendly medium quadruped."
+      },
+      {
+        "id": "criticalbear",
+        "text": "A full barding for medium quadrupeds consisting of boiled leather and cloth undercovering.  This caparison is depicting a bear on its hind legs and forelegs outstretched in a menacing manner.  You could put this on a friendly medium quadruped."
+      },
+      {
+        "id": "orange",
+        "text": "A full barding for medium quadrupeds consisting of boiled leather and cloth undercovering.  This caparison is depicting an assortment of fruits and vegetables with a very large orange featured in the foreground.  You could put this on a friendly medium quadruped."
+      },
+      {
+        "id": "vulture",
+        "text": "A full barding for medium quadrupeds consisting of boiled leather and cloth undercovering.  This caparison is depicting a massive vulture perched on a mountain.  You could put this on a friendly medium quadruped."
+      },
+      {
+        "id": "direboar",
+        "text": "A full barding for medium quadrupeds consisting of boiled leather and cloth undercovering.  This caparison is depicting the mythical Erymanthian boar in various artistic forms.  You could put this on a friendly medium quadruped."
+      },
+      {
+        "id": "rycon",
+        "text": "A full barding for medium quadrupeds consisting of boiled leather and cloth undercovering.  This caparison seems to be sponsored by Rycon Construction, with a tag line of \"From down under to your home, we play all the roles from start to finish!\".  You could put this on a friendly medium quadruped."
+      },
+      {
+        "id": "coregentech",
+        "text": "A full barding for medium quadrupeds consisting of boiled leather and cloth undercovering.  This caparison seems to be sponsored by Core Generator Tech, with a tag line of \"Providing power solutions from culinary to graphic design, we have the magic touch for your problems!\".  You could put this on a friendly medium quadruped."
+      }
+    ]
+  },
+  {
+    "type": "PET_ARMOR",
+    "id": "leatherbone_armor_medium_quadruped",
+    "copy-from": "medium_quadruped_armor",
+    "color": "green",
+    "name": {
+      "str": "boiled leather medium quadruped barding with bones",
+      "str_pl": "boiled leather medium quadruped bardings with bones"
+    },
+    "description": "Decorative bones affixed to leather medium quadruped barding to invoke fear in bandits and raiders and traders all!  You could put this on a friendly medium quadruped.",
+    "price": 45000,
+    "price_postapoc": 3000,
+    "material": [ "bone", "leather" ],
+    "weight": "17 kg",
+    "volume": "150 L",
+    "material_thickness": 6
+  },
+  {
+    "type": "PET_ARMOR",
+    "id": "rubber_armor_medium_quadruped",
+    "copy-from": "medium_quadruped_armor",
+    "color": "green",
+    "name": { "str": "medium quadruped rain sheet" },
+    "description": "A thin plastic covering adapted for medium quadrupeds to protect from acid rain and other caustic sources.  You could put this on a friendly medium quadruped.",
+    "price": 15000,
+    "price_postapoc": 1500,
+    "material": [ "neoprene", "plastic" ],
+    "weight": "14 kg",
+    "volume": "150 L",
+    "material_thickness": 3
+  },
+  {
+    "type": "PET_ARMOR",
+    "id": "superalloy_armor_medium_quadruped",
+    "copy-from": "medium_quadruped_armor",
+    "color": "light_cyan",
+    "name": { "str": "superalloy medium quadruped armor" },
+    "description": "A thin mesh interwoven with superalloy plates and pouches for military working medium quadrupeds that covers from the dewlap to the croup, down to the elbows.  You could put this on a friendly medium quadruped.",
+    "price": 250000,
+    "price_postapoc": 10000,
+    "material": [ "superalloy" ],
+    "weight": "20 kg",
+    "volume": "150 L",
+    "material_thickness": 5,
+    "environmental_protection": 3,
+    "storage": "50 L"
+  },
+  {
+    "id": "saddlebag",
+    "type": "ARMOR",
+    "name": { "str": "pair of saddle bags", "str_pl": "pairs of saddle bags" },
+    "description": "A pair of covered pouches laid across the back of a medium quadruped behind the saddle.",
+    "weight": "1 kg",
+    "volume": "7500 ml",
+    "price": 15000,
+    "price_postapoc": 1500,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "dump_pouch",
+    "color": "green",
+    "covers": [ "hands" ],
+    "coverage": 50,
+    "encumbrance": 30,
+    "storage": "30 L",
+    "warmth": 10,
+    "material_thickness": 2,
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+  }
+]

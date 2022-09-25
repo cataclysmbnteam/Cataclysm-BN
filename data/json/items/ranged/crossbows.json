@@ -483,7 +483,7 @@
     "description": "A custom-made crossbow with a clever mechanism that loads and fires bolts in a single motion, it has a wooden magazine that holds 10 bolts.  Bolts fired from this weapon have a good chance of remaining intact for re-use.",
     "price": 324000,
     "material": [ "steel", "wood" ],
-    "flags": [ "FIRE_TWOHAND", "PRIMITIVE_RANGED_WEAPON", "TRADER_AVOID", "CROSSBOW" ],
+    "flags": [ "FIRE_TWOHAND", "PRIMITIVE_RANGED_WEAPON", "TRADER_AVOID", "CROSSBOW", "RELOAD_ONE" ],
     "skill": "smg",
     "ammo": "bolt",
     "weight": "3628 g",

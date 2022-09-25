@@ -23,6 +23,7 @@
 #include "clzones.h"
 #include "color.h"
 #include "construction.h"
+#include "crafting.h"
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
@@ -2144,7 +2145,7 @@ bool game::handle_action()
                 } else if( u.is_mounted() ) {
                     add_msg( m_info, _( "You can't disassemble items while you're riding." ) );
                 } else {
-                    u.disassemble();
+                    crafting::disassemble( u );
                 }
                 break;
 

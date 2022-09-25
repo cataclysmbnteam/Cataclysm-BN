@@ -64,6 +64,9 @@ extern int fov_3d_z_range;
 /** Using isometric tileset. */
 extern bool tile_iso;
 
+/** Static z level effect. */
+extern bool static_z_effect;
+
 /**
  * Whether to show the pixel minimap. Always false for ncurses build,
  * but can be toggled during game in sdl build.

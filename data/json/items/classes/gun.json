@@ -5,9 +5,11 @@
     "reload_noise_volume": 10,
     "name": { "str": "base gun" },
     "symbol": "(",
+    "durability": 8,
+    "to_hit": -1,
     "color": "light_gray",
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "handling": 30
+    "handling": 15
   },
   {
     "abstract": "flamethrower_base",
@@ -15,6 +17,8 @@
     "type": "GUN",
     "reload_noise": "slosh.",
     "name": { "str": "base flamethrower" },
+    "looks_like": "m79",
+    "bashing": 10,
     "skill": "launcher",
     "ammo": "flammable",
     "ammo_effects": [ "FLARE" ],
@@ -28,6 +32,9 @@
     "copy-from": "gun_base",
     "type": "GUN",
     "name": { "str": "base launcher" },
+    "looks_like": "m79",
+    "bashing": 12,
+    "to_hit": -3,
     "skill": "launcher",
     "modes": [ [ "DEFAULT", "single", 1, "NPC_AVOID" ] ],
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "sights", 1 ], [ "sling", 1 ] ],
@@ -39,8 +46,10 @@
     "copy-from": "gun_base",
     "type": "GUN",
     "name": { "str": "base pistol" },
+    "looks_like": "glock_17",
     "skill": "pistol",
-    "handling": 15,
+    "bashing": 8,
+    "dispersion": 480,
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -62,6 +71,8 @@
     "type": "GUN",
     "name": { "str": "backup pistol" },
     "//": "diminuitive backup pistols that lack underbarrel rails, sight dovetails and decent places to affix stocks.",
+    "to_hit": -3,
+    "bashing": 1,
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -81,6 +92,9 @@
     "copy-from": "pistol_base",
     "type": "GUN",
     "name": { "str": "revolver" },
+    "looks_like": "sw_619",
+    "to_hit": -2,
+    "clip_size": 6,
     "proportional": { "reload": 0.7 },
     "extend": { "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ] },
     "//": "Revolvers exclude the muzzle location preventing installation of suppressors",
@@ -102,6 +116,8 @@
     "copy-from": "pistol_base",
     "type": "GUN",
     "name": { "str": "cap & ball revolver" },
+    "looks_like": "sw_619",
+    "clip_size": 6,
     "reload": 150,
     "extend": { "flags": [ "RELOAD_ONE", "NO_UNLOAD" ] },
     "//": "Slower reloads, no unloading.  Base, unskilled person should take 1.5 seconds per chamber.  No underbarrel mods, that's where the ram goes.",
@@ -121,7 +137,10 @@
     "copy-from": "gun_base",
     "type": "GUN",
     "name": { "str": "base rifle" },
+    "looks_like": "ar15",
+    "bashing": 12,
     "skill": "rifle",
+    "handling": 20,
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -173,12 +192,40 @@
     "name": { "str": "fully automatic rifle" }
   },
   {
+    "abstract": "rifle_home_made",
+    "copy-from": "rifle_base",
+    "type": "GUN",
+    "name": { "str": "home-made rifle" },
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
+    "dispersion": 550,
+    "durability": 6,
+    "blackpowder_tolerance": 60,
+    "loudness": 25,
+    "clip_size": 1,
+    "reload": 200,
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "muzzle", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
+    "flags": [ "RELOAD_EJECT" ]
+  },
+  {
     "abstract": "shotgun_base",
     "copy-from": "gun_base",
     "type": "GUN",
     "name": { "str": "base shotgun" },
     "skill": "shotgun",
+    "bashing": 12,
+    "looks_like": "remington_870",
     "ammo": "shot",
+    "handling": 30,
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -230,6 +277,23 @@
     "copy-from": "gun_base",
     "type": "GUN",
     "name": { "str": "base SMG" },
-    "skill": "smg"
+    "bashing": 10,
+    "ascii_picture": "hk_mp5a2",
+    "skill": "smg",
+    "handling": 30,
+    "valid_mod_locations": [
+      [ "accessories", 3 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ]
   }
 ]

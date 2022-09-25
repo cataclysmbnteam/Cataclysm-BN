@@ -37,14 +37,12 @@
 #include "vpart_position.h"
 #include "player_helpers.h"
 #include "map_helpers.h"
+#include "state_helpers.h"
 
-static void clear_game_and_set_ramp( const int transit_x, bool use_ramp, bool up )
+static void set_ramp( const int transit_x, bool use_ramp, bool up )
 {
     // Set to turn 0 to prevent solars from producing power
     calendar::turn = calendar::turn_zero;
-    clear_map();
-    clear_vehicles();
-
     Character &player_character = get_player_character();
     // Move player somewhere safe
     REQUIRE_FALSE( player_character.in_vehicle );
@@ -98,7 +96,7 @@ static void ramp_transition_angled( const vproto_id &veh_id, const units::angle 
                                     const int transition_x, bool use_ramp, bool up )
 {
     map &here = get_map();
-    clear_game_and_set_ramp( transition_x, use_ramp, up );
+    set_ramp( transition_x, use_ramp, up );
 
     const tripoint map_starting_point( transition_x + 4, 60, 0 );
     REQUIRE( here.ter( map_starting_point ) == ter_id( "t_pavement" ) );
@@ -228,18 +226,21 @@ static std::vector<std::string> ramp_vehs_to_test = {{
 // I'd like to do this in a single loop, but that doesn't work for some reason
 TEST_CASE( "vehicle_ramp_test_59", "[vehicle][ramp]" )
 {
+    clear_all_state();
     for( const std::string &veh : ramp_vehs_to_test ) {
         test_ramp( veh, 59 );
     }
 }
 TEST_CASE( "vehicle_ramp_test_60", "[vehicle][ramp]" )
 {
+    clear_all_state();
     for( const std::string &veh : ramp_vehs_to_test ) {
         test_ramp( veh, 60 );
     }
 }
 TEST_CASE( "vehicle_ramp_test_61", "[vehicle][ramp]" )
 {
+    clear_all_state();
     for( const std::string &veh : ramp_vehs_to_test ) {
         test_ramp( veh, 61 );
     }
