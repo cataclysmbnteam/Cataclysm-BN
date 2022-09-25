@@ -3054,7 +3054,7 @@ bool mattack::nurse_operate( monster *z )
 
         z->friendly = 0;
         z->anger = 100;
-        std::list<tripoint> couch_pos = g->m.find_furnitures_with_flag_in_radius( z->pos(), 10,
+        std::list<tripoint> couch_pos = g->m.find_furnitures_or_vparts_with_flag_in_radius( z->pos(), 10,
                                         flag_AUTODOC_COUCH );
 
         if( couch_pos.empty() ) {

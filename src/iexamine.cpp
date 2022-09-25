@@ -4605,7 +4605,7 @@ static player &player_on_couch( player &p, const tripoint &autodoc_loc, player &
 {
     map &here = get_map();
     for( const auto &couch_loc : here.points_in_radius( autodoc_loc, 1 ) ) {
-        if( here.has_flag_furn( flag_AUTODOC_COUCH, couch_loc ) ) {
+        if( here.has_flag_furn_or_vpart( flag_AUTODOC_COUCH, couch_loc ) ) {
             adjacent_couch = true;
             couch_pos = couch_loc;
             if( p.pos() == couch_loc ) {
@@ -4626,7 +4626,7 @@ static Character &operator_present( Character &p, const tripoint &autodoc_loc,
 {
     map &here = get_map();
     for( const auto &loc : here.points_in_radius( autodoc_loc, 1 ) ) {
-        if( !here.has_flag_furn( flag_AUTODOC_COUCH, loc ) ) {
+        if( !here.has_flag_furn_or_vpart( flag_AUTODOC_COUCH, loc ) ) {
             if( p.pos() == loc ) {
                 return p;
             }

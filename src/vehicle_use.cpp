@@ -1913,11 +1913,12 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     const bool has_harness = harness_part >= 0;
     const bool has_bike_rack = bike_rack_part >= 0;
     const bool has_planter = avail_part_with_feature( interact_part, "PLANTER", true ) >= 0;
+    const bool has_autodoc = avail_part_with_feature( interact_part, "AUTODOC", true) >= 0;
 
     enum {
         EXAMINE, TRACK, HANDBRAKE, CONTROL, CONTROL_ELECTRONICS, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET,
         RELOAD_TURRET, USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_AUTOCLAVE, USE_WASHMACHINE,
-        USE_DISHWASHER, USE_MONSTER_CAPTURE, USE_BIKE_RACK, USE_HARNESS, RELOAD_PLANTER, USE_TOWEL, PEEK_CURTAIN,
+        USE_DISHWASHER, USE_MONSTER_CAPTURE, USE_BIKE_RACK, USE_HARNESS, RELOAD_PLANTER, USE_TOWEL, PEEK_CURTAIN, USE_AUTODOC
     };
     uilist selectmenu;
 
@@ -1994,6 +1995,9 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     }
     if( has_planter ) {
         selectmenu.addentry( RELOAD_PLANTER, true, 's', _( "Reload seed drill with seeds" ) );
+    }
+    if (has_autodoc) {
+        selectmenu.addentry(USE_AUTODOC, true, 'A', _("Use the autodoc"));
     }
 
     int choice;
@@ -2161,6 +2165,10 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         }
         case RELOAD_PLANTER: {
             reload_seeds( pos );
+            return;
+        }
+        case USE_AUTODOC: {
+            iexamine::autodoc(g->u, pos);
             return;
         }
     }
