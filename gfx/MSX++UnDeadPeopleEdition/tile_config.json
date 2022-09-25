@@ -22261,6 +22261,7 @@
         { "id": "f_autoclave", "fg": 11583, "rotates": false },
         { "id": "f_autoclave_full", "fg": 11584, "rotates": false },
         { "id": "f_autodoc", "fg": [ 11587, 11588, 11586, 11585 ], "rotates": true },
+		{ "id": "vp_autodoc", "fg": 11587, "bg": 17674, "rotates": false },
         { "id": "f_autodoc_couch", "fg": [ 11591, 11592, 11590, 11589 ], "rotates": true },
         { "id": "f_centrifuge", "fg": 11593, "rotates": false },
         { "id": "f_CTscan", "fg": 11594, "rotates": false },
