@@ -23,7 +23,7 @@
         "^^^^#########        T#^",
         "^^^^#D,$,,,,+         #^",
         "^^^^#,,,,h,,###++#++# #^",
-        "^^^^#C@@,II,+d#zz#LL#<#^",
+        "^^^^#¤@@,II,+d#zz#LL#<#^",
         "^^^^###################^",
         "^^^^^^^^^^^^^^^^^^^^^^^^",
         "^^^^^^^^^^^^^^^^^^^^^^^^",
@@ -46,7 +46,7 @@
         "@": "t_carpet_red",
         "$": "t_carpet_red",
         "D": "t_carpet_red",
-        "C": "t_carpet_red"
+        "¤": "t_carpet_red"
       },
       "furniture": { "!": "f_counter", "$": "f_bigmirror" }
     }
@@ -128,7 +128,7 @@
         "....#d           +  y!#.",
         "....od    T bRRRR#    o.",
         "....#D @@ #+######+## #.",
-        "....##C@@C# d#v    R#>o.",
+        "....##¤@@¤# d#v    R#>o.",
         ".....#::::#Dd#Ph z!R#y#.",
         "..........#####rr#o####.",
         "..............#oo#.^....",
@@ -149,8 +149,8 @@
         ",": "t_floor_noroof",
         "₸": "t_floor_noroof"
       },
-      "furniture": { "!": "f_table", "₸": "f_deckchair", "C": "f_table" },
-      "items": { "!": { "item": "table_foyer", "chance": 50 }, "C": { "item": "nightstand", "chance": 30 } }
+      "furniture": { "!": "f_table", "₸": "f_deckchair" },
+      "items": { "!": { "item": "table_foyer", "chance": 50 } }
     }
   },
   {
