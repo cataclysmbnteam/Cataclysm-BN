@@ -6790,6 +6790,9 @@ void map::shift( const point &sp )
     constexpr half_open_rectangle<point> boundaries_2d( point_zero, point( MAPSIZE_Y, MAPSIZE_X ) );
     const point shift_offset_pt( -sp.x * SEEX, -sp.y * SEEY );
 
+    //TODO: This only needs to cover the relevant 2 new edges of the map depending on sp
+    std::array<std::array<bool, MAPSIZE>, MAPSIZE> generated = {{{false}}};
+
     // Clear vehicle list and rebuild after shift
     clear_vehicle_cache( );
     // Shift the map sx submaps to the right and sy submaps down.
@@ -6811,7 +6814,8 @@ void map::shift( const point &sp )
                                        tripoint( gridx + sp.x, gridy + sp.y, gridz ) );
                             update_vehicle_list( get_submap_at_grid( {gridx, gridy, gridz} ), gridz );
                         } else {
-                            loadn( tripoint( gridx, gridy, gridz ), true );
+                            generated[gridx][gridy] |=
+                                loadn( tripoint( gridx, gridy, gridz ), true );
                         }
                     }
                 } else { // sy < 0; work through it backwards
@@ -6824,7 +6828,8 @@ void map::shift( const point &sp )
                                        tripoint( gridx + sp.x, gridy + sp.y, gridz ) );
                             update_vehicle_list( get_submap_at_grid( { gridx, gridy, gridz } ), gridz );
                         } else {
-                            loadn( tripoint( gridx, gridy, gridz ), true );
+                            generated[gridx][gridy] |=
+                                loadn( tripoint( gridx, gridy, gridz ), true );
                         }
                     }
                 }
@@ -6841,7 +6846,8 @@ void map::shift( const point &sp )
                                        tripoint( gridx + sp.x, gridy + sp.y, gridz ) );
                             update_vehicle_list( get_submap_at_grid( { gridx, gridy, gridz } ), gridz );
                         } else {
-                            loadn( tripoint( gridx, gridy, gridz ), true );
+                            generated[gridx][gridy] |=
+                                loadn( tripoint( gridx, gridy, gridz ), true );
                         }
                     }
                 } else { // sy < 0; work through it backwards
@@ -6854,8 +6860,21 @@ void map::shift( const point &sp )
                                        tripoint( gridx + sp.x, gridy + sp.y, gridz ) );
                             update_vehicle_list( get_submap_at_grid( { gridx, gridy, gridz } ), gridz );
                         } else {
-                            loadn( tripoint( gridx, gridy, gridz ), true );
+                            generated[gridx][gridy] |=
+                                loadn( tripoint( gridx, gridy, gridz ), true );
                         }
+                    }
+                }
+            }
+        }
+    }
+    if( zlevels ) {
+        //Go through the generated maps and fill in the roofs
+        for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
+            for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
+                if( generated[gridx][gridy] ) {
+                    for( int gridz = zmin; gridz <= zmax; gridz++ ) {
+                        add_roofs( {gridx, gridy, gridz} );
                     }
                 }
             }
@@ -6953,7 +6972,7 @@ static void generate_uniform( const tripoint &p, const ter_id &terrain_type )
     }
 }
 
-void map::loadn( const tripoint &grid, const bool update_vehicles )
+bool map::loadn( const tripoint &grid, const bool update_vehicles )
 {
     // Cache empty overmap types
     static const oter_id rock( "empty_rock" );
@@ -6964,6 +6983,8 @@ void map::loadn( const tripoint &grid, const bool update_vehicles )
 
     const int old_abs_z = abs_sub.z; // Ugly, but necessary at the moment
     abs_sub.z = grid.z;
+
+    bool generated = false;
 
     submap *tmpsub = MAPBUFFER.lookup_submap( grid_abs_sub );
     if( tmpsub == nullptr ) {
@@ -6993,8 +7014,9 @@ void map::loadn( const tripoint &grid, const bool update_vehicles )
         tmpsub = MAPBUFFER.lookup_submap( grid_abs_sub );
         if( tmpsub == nullptr ) {
             debugmsg( "failed to generate a submap at %s", grid_abs_sub.to_string() );
-            return;
+            return false;
         }
+        generated = true;
     }
 
     // New submap changes the content of the map and all caches must be recalculated
@@ -7048,6 +7070,7 @@ void map::loadn( const tripoint &grid, const bool update_vehicles )
     actualize( grid );
 
     abs_sub.z = old_abs_z;
+    return generated;
 }
 
 template <typename Container>
