@@ -160,6 +160,13 @@ class map_memory
         const memorized_terrain_tile &get_tile( const tripoint &pos ) const;
 
         /**
+         * For autodrive use only.
+         * Checks whether tile at given pos was memorized.
+         * @param pos tile position, in global ms coords.
+         */
+        bool has_memory_for_autodrive( const tripoint &pos );
+
+        /**
          * Memorizes given symbol, overwriting old value.
          * @param pos tile position, in global ms coords.
         */

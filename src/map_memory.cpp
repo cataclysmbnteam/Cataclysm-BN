@@ -78,6 +78,23 @@ const memorized_terrain_tile &map_memory::get_tile( const tripoint &pos ) const
     return sm.tile( p.loc );
 }
 
+bool map_memory::has_memory_for_autodrive( const tripoint &pos )
+{
+    // HACK: Map memory is not supposed to be used by ingame mechanics.
+    //       It's just a graphical overlay, it memorizes tileset tiles and text symbols.
+    //       Problem is, many cars' headlights won't cover every ground tile in front of them at night,
+    //       and these dark tiles would be considered as possible obstacles.
+    //       To work around it, we check for whether map memory has any data associated with the tile
+    //       and then assume it's up to date, which works in 99% cases.
+    //       Oh, and we can't use get_tile() and get_symbol() because both are supposed to be used for
+    //       map drawing and complain whenever we try to access stuff beyond game window
+    //       or without drawing at least one frame.
+    coord_pair p( pos );
+    shared_ptr_fast<mm_submap> sm = fetch_submap( p.sm );
+    return sm->tile( p.loc ) != mm_submap::default_tile ||
+           sm->symbol( p.loc ) != mm_submap::default_symbol;
+}
+
 void map_memory::memorize_tile( const tripoint &pos, const std::string &ter,
                                 const int subtile, const int rotation )
 {
