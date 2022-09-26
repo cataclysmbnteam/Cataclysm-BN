@@ -24,4 +24,6 @@ void arm_character( player &shooter, const std::string &gun_type,
                     const std::vector<std::string> &mods = {},
                     const std::string &ammo_type = "" );
 
+std::vector<const itype*> find_weapons();
+
 #endif // CATA_TESTS_PLAYER_HELPERS_H

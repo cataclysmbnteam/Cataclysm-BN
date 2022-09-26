@@ -11,24 +11,17 @@
 #include "monattack.h"
 #include "monster.h"
 #include "npc.h"
+#include "game.h"
+#include "player_helpers.h"
 #include "player.h"
 #include "point.h"
 #include "string_formatter.h"
-#include "type_id.h"
+#include "map_helpers.h"
+#include "catch/catch.hpp"
+
+
 
 static constexpr tripoint dude_pos( HALF_MAPSIZE_X, HALF_MAPSIZE_Y, 0 );
-
-static std::vector<const itype *> find_weapons()
-{
-    std::vector<const itype *> result;
-    for( const itype *it : item_controller->all() ) {
-        if( it->melee[DT_BASH] + it->melee[DT_CUT] + it->melee[DT_STAB] >= 10 ) {
-            result.push_back( it );
-        }
-    }
-
-    return result;
-}
 
 static void print_stats( const player &p, const std::vector<const itype *> &weapons,
                          const monster &m )
@@ -68,13 +61,13 @@ TEST_CASE( "Average character using melee weapons against a hulk", "[.][melee][s
     }
 }
 
-TEST_CASE( "Strong character using melee weapons against a kevlar zombie", "[.][melee][slow]" )
+TEST_CASE("Strong character using melee weapons against a kevlar zombie", "[.][melee][slow]")
 {
-    monster zed( mtype_id( "mon_zombie_kevlar_1" ) );
+    monster zed(mtype_id("mon_zombie_kevlar_1"));
     auto weapons = find_weapons();
 
-    SECTION( "12/10/8/8, 3 in all skills" ) {
-        standard_npc dude( "TestCharacter", dude_pos, {}, 3, 12, 10, 8, 8 );
-        print_stats( dude, weapons, zed );
+    SECTION("12/10/8/8, 3 in all skills") {
+        standard_npc dude("TestCharacter", dude_pos, {}, 3, 12, 10, 8, 8);
+        print_stats(dude, weapons, zed);
     }
 }
