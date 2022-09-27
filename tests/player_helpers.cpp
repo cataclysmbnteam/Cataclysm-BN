@@ -217,12 +217,12 @@ void arm_character( player &shooter, const std::string &gun_type,
     shooter.wield( gun );
 }
 
-std::vector<const itype*> find_weapons()
+std::vector<const itype *> find_weapons()
 {
-    std::vector<const itype*> result;
-    for (const itype* it : item_controller->all()) {
-        if (it->melee[DT_BASH] + it->melee[DT_CUT] + it->melee[DT_STAB] >= 10) {
-            result.push_back(it);
+    std::vector<const itype *> result;
+    for( const itype *it : item_controller->all() ) {
+        if( it->melee[DT_BASH] + it->melee[DT_CUT] + it->melee[DT_STAB] >= 10 ) {
+            result.push_back( it );
         }
     }
 
