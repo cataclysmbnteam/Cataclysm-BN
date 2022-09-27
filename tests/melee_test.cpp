@@ -83,7 +83,7 @@ static void check_near( float prob, const float expected, const float tolerance 
     }
 }
 
-static const int num_iters = 10;
+static const int num_iters = 10000;
 
 static constexpr tripoint dude_pos( HALF_MAPSIZE_X, HALF_MAPSIZE_Y, 0 );
 
@@ -258,7 +258,7 @@ TEST_CASE( "Hulk smashing a character", "[.], [melee], [monattack]" )
 TEST_CASE( "Strong character, 5 in all skills, using melee weapons against a kevlar hulk",
            "[.][melee][slow]" )
 {
-    // CHANGE THIS VALUES AS YOU NEED
+    // CHANGE THOSE VALUES AS YOU NEED
     const std::vector<int> stats_level = { 12, 15, 18 }; // Will be tested by pair, eg 12-5, 15-7...
     const std::vector<int> skills_level = { 5, 7, 9 };
     // Cloths of character
@@ -266,14 +266,17 @@ TEST_CASE( "Strong character, 5 in all skills, using melee weapons against a kev
     // attacks iterations between complete reset, for player/monster, don't get it too high or the player/monster will die. Default 3
     const int attacks_numbers = 3;
     // If testing a specific weapon, set one_weapon to true and replace the string below. Otherwise set it to false.
-    // If you want to test an unarmed MA, your best bet is to set an unarmed weapon here. They are not marked as compatible weapons in JSON, but still work
+    // If you want to test unarmed MA, your best bet is to set an unarmed weapon here. They are not marked as compatible weapons in JSON, but still work
     const bool one_weapon = false;
-    itype_id tested_weapon_id( "to_replace" );
-    // If you want the result damage for every weapons, of every MA
+    itype_id tested_weapon_id( "specific_weapon_id" );
+    // If you want the average damage for every weapons, of every MA. Otherwise only the best of each MA is printed
     const bool verbose = false;
-    // Tests are for now very long, so set this to true to remove the less interesting weapons from MA who have a lot of them. Very, very WIP
+    // Tests are for now very long for MA with 15+ weapons, so set this to true to remove the less interesting weapons from MA who have a lot of them
+    // Default 15. For now the sorting system is not that great and some MA have many, many weapons.
+    // You can be suprised by which weapon perform the best, but keeping the number at 15 should cover almost all best weapons, and worst case scenario you'll get a close second instead
     const bool reduce_weapons = true;
-    // What monster(s) should be spawned?
+    const int weapons_count_limit = 15;
+    // What monster(s) should be spawned? One at a time.
     const std::vector<mtype_id> monster_ids = {
         mtype_id( "mon_zombie_kevlar_2" ),
         mtype_id( "mon_zombie_hulk" )
@@ -317,7 +320,8 @@ TEST_CASE( "Strong character, 5 in all skills, using melee weapons against a kev
 
 
             // Test performances with those weapons, with all martial arts
-            cata_print_stdout( "\n\nStarting tests for -> STATS: " + std::to_string(
+            cata_print_stdout( "\nStarting tests for ->" );
+            cata_print_stdout( "\n\nSTATS: " + std::to_string(
                                    stats_level[j] ) + " SKILLS: " + std::to_string( skills_level[j] ) + " M: " + monster_ids[i].str() +
                                "\n" );
 
@@ -347,7 +351,8 @@ TEST_CASE( "Strong character, 5 in all skills, using melee weapons against a kev
                     }
                 }
 
-                // Reduce number of weapons to 4 by MA, to greatly speed up tests. Keep the ones with the best DPS
+                // Reduce number of weapons to "weapons_count_limit" by MA, to speed up tests. Keep the ones with the best DPS
+                // And favor damage type in this order -> Bash, Pierce, Cut
                 if( reduce_weapons ) {
                     monster dummy_m( monster_ids[i] );
                     std::sort( compatible_weapons.begin(), compatible_weapons.end(), [&]( const auto & l,
@@ -357,33 +362,32 @@ TEST_CASE( "Strong character, 5 in all skills, using melee weapons against a kev
                         double interesting_coefficient_l = wp_l.damage_melee( damage_type::DT_BASH ) * 2.0;
                         interesting_coefficient_l += wp_l.damage_melee( damage_type::DT_CUT ) * 1.0;
                         interesting_coefficient_l += wp_l.damage_melee( damage_type::DT_STAB ) * 1.5;
-                        //interesting_coefficient_l /= wp_l.attack_cost();
                         item wp_r( r );
                         double interesting_coefficient_r = wp_r.damage_melee( damage_type::DT_BASH ) * 2.0;
                         interesting_coefficient_r += wp_r.damage_melee( damage_type::DT_CUT ) * 1.0;
                         interesting_coefficient_r += wp_r.damage_melee( damage_type::DT_STAB ) * 1.5;
-                        //interesting_coefficient_r /= wp_r.attack_cost();
+                        // effective_dps takes a lot of things into account, but not armor percing
                         return interesting_coefficient_l * wp_l.effective_dps( p,
                                 dummy_m ) > interesting_coefficient_r * wp_r.effective_dps( p, dummy_m );
                     } );
-                    while( compatible_weapons.size() > 11 ) {
+                    while( compatible_weapons.size() > weapons_count_limit ) {
                         compatible_weapons.pop_back();
                     }
                 }
 
                 // Go through weapons
                 for( const itype *w : compatible_weapons ) {
-                    item player_wp( w ); // Player weapon
+                    item player_wp( w );
                     int total_damage = 0;
 
                     for( size_t k = 0; k < iterations; k++ ) {
                         // Reset map
                         clear_map();
-                        // Reset player
+                        // Reset player, set MA
                         clear_character( p );
                         g->place_player( player_pos );
                         p.martial_arts_data->set_style( ma, true );
-                        // Set stats
+                        // Set p stats
                         p.str_cur = stats_level[j];
                         p.str_max = stats_level[j];
                         p.dex_cur = stats_level[j];
@@ -392,7 +396,7 @@ TEST_CASE( "Strong character, 5 in all skills, using melee weapons against a kev
                         p.per_max = stats_level[j];
                         p.int_cur = stats_level[j];
                         p.int_max = stats_level[j];
-                        // Set all skills to 5 and MA
+                        // Set all p skills to 5
                         for( const Skill &e : Skill::skills ) {
                             p.set_skill_level( e.ident(), skills_level[j] );
                         }
@@ -412,16 +416,15 @@ TEST_CASE( "Strong character, 5 in all skills, using melee weapons against a kev
                             }
                         }
 
-
-                        // Wield weapon
+                        // Wield p weapon
                         p.wield( player_wp );
 
-                        // equip armor
+                        // Equip p armor
                         for( const std::string &e : clothing ) {
                             p.wear_item( item( e ) );
                         }
 
-                        // Place new monster (clear_map delete all monsters)
+                        // Place new monster - clear_map() delete all monsters -
                         monster &z = spawn_test_monster( monster_ids[i].str(), p.pos() + point( 0, 1 ) );
 
                         // Place terrain around player and monster, to avoid knockback issues
@@ -444,7 +447,7 @@ TEST_CASE( "Strong character, 5 in all skills, using melee weapons against a kev
 
 
                         // Wait once for debuff (eg Barbaran montante)
-                        // TODO does it work?
+                        // TODO Verify if it work?
                         p.process_turn();
 
                         // For each fight (a few hits for each iteration, no reset between them)
@@ -458,7 +461,6 @@ TEST_CASE( "Strong character, 5 in all skills, using melee weapons against a kev
                             z.process_turn();
 
                             // Since counter attacks seems to trigger a much lower rate than in game (meaning close to never), we trigger them manually
-
                             if( ( k % 3 == 0 || one_in( 5 ) ) && special_counter->id.str() != "tec_none" ) {
                                 p.melee_attack( z, true, special_counter );
                             }
@@ -490,11 +492,10 @@ TEST_CASE( "Strong character, 5 in all skills, using melee weapons against a kev
                         cata_printf( "%-30s : %-30s : %.1f\n", ma->name.translated( 1 ), player_wp.display_name(),
                                      corrected_average_damage );
                     }
-
                 }
-
             }
 
+            // Sort the MA results from worst to best using the struct_ma operator function
             std::sort( results_ma.begin(), results_ma.end() );
             // Finally, print the MA results
             for( const struct_ma rma : results_ma ) {

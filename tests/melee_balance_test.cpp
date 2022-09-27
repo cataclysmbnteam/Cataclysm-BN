@@ -11,13 +11,10 @@
 #include "monattack.h"
 #include "monster.h"
 #include "npc.h"
-#include "game.h"
 #include "player_helpers.h"
 #include "player.h"
 #include "point.h"
 #include "string_formatter.h"
-#include "map_helpers.h"
-#include "catch/catch.hpp"
 
 
 
@@ -61,13 +58,13 @@ TEST_CASE( "Average character using melee weapons against a hulk", "[.][melee][s
     }
 }
 
-TEST_CASE("Strong character using melee weapons against a kevlar zombie", "[.][melee][slow]")
+TEST_CASE( "Strong character using melee weapons against a kevlar zombie", "[.][melee][slow]" )
 {
-    monster zed(mtype_id("mon_zombie_kevlar_1"));
+    monster zed( mtype_id( "mon_zombie_kevlar_1" ) );
     auto weapons = find_weapons();
 
-    SECTION("12/10/8/8, 3 in all skills") {
-        standard_npc dude("TestCharacter", dude_pos, {}, 3, 12, 10, 8, 8);
-        print_stats(dude, weapons, zed);
+    SECTION( "12/10/8/8, 3 in all skills" ) {
+        standard_npc dude( "TestCharacter", dude_pos, {}, 3, 12, 10, 8, 8 );
+        print_stats( dude, weapons, zed );
     }
 }
