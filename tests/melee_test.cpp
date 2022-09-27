@@ -255,7 +255,7 @@ TEST_CASE( "Hulk smashing a character", "[.], [melee], [monattack]" )
 
 // BALANCE MARTIAL ARTS
 
-TEST_CASE( "Strong character, 5 in all skills, using melee weapons against a kevlar hulk",
+TEST_CASE( "Balance Martial art system",
            "[.][melee][slow]" )
 {
     // CHANGE THOSE VALUES AS YOU NEED
@@ -309,7 +309,7 @@ TEST_CASE( "Strong character, 5 in all skills, using melee weapons against a kev
     avatar &p = g->u;
 
     // For each monster(s)
-    for( size_t i = 0; i < monster_ids.size(); i++ ) {
+    for each( mtype_id monster_id in monster_ids ) {
         // For stats/skills couple
         for( size_t j = 0; j < stats_level.size(); j++ ) {
             // Set up tested MA
@@ -318,11 +318,10 @@ TEST_CASE( "Strong character, 5 in all skills, using melee weapons against a kev
                 results_ma.push_back( { ma, 0.0,  "" } );
             }
 
-
             // Test performances with those weapons, with all martial arts
             cata_print_stdout( "\nStarting tests for ->" );
             cata_print_stdout( "\n\nSTATS: " + std::to_string(
-                                   stats_level[j] ) + " SKILLS: " + std::to_string( skills_level[j] ) + " M: " + monster_ids[i].str() +
+                                   stats_level[j] ) + " SKILLS: " + std::to_string( skills_level[j] ) + " M: " + monster_id.str() +
                                "\n" );
 
             // For each MA to test
@@ -331,7 +330,7 @@ TEST_CASE( "Strong character, 5 in all skills, using melee weapons against a kev
 
                 matec_id special_counter( "tec_none" );
                 std::vector<const itype *> compatible_weapons;
-                std::string best_weapon = "";
+                std::string best_weapon;
 
                 // Find compatible weapons with this MA
                 for( const itype *it : find_weapons() ) {
@@ -353,7 +352,7 @@ TEST_CASE( "Strong character, 5 in all skills, using melee weapons against a kev
                 // Reduce number of weapons to "weapons_count_limit" by MA, to speed up tests. Keep the ones with the best DPS
                 // And favor damage type in this order -> Bash, Pierce, Cut
                 if( reduce_weapons ) {
-                    monster dummy_m( monster_ids[i] );
+                    monster dummy_m( monster_id );
                     std::sort( compatible_weapons.begin(), compatible_weapons.end(), [&]( const auto & l,
                     const auto & r ) {
 
@@ -404,12 +403,12 @@ TEST_CASE( "Strong character, 5 in all skills, using melee weapons against a kev
                         // In a normal game, you would reach this by stacking armor
                         for( const auto &mat_id : ma->techniques ) {
                             const ma_technique &tec = mat_id.obj();
-                            if( tec.block_counter == true ) {
+                            if( tec.block_counter ) {
                                 special_counter = tec.id;
                                 p.set_skill_level( skill_id( "dodge" ), 0 );
                                 break;
                             }
-                            if( tec.dodge_counter == true ) {
+                            if( tec.dodge_counter ) {
                                 special_counter = tec.id;
                                 break;
                             }
@@ -424,7 +423,7 @@ TEST_CASE( "Strong character, 5 in all skills, using melee weapons against a kev
                         }
 
                         // Place new monster - clear_map() delete all monsters -
-                        monster &z = spawn_test_monster( monster_ids[i].str(), p.pos() + point( 0, 1 ) );
+                        monster &z = spawn_test_monster( monster_id.str(), p.pos() + point( 0, 1 ) );
 
                         // Place terrain around player and monster, to avoid knockback issues
                         // Nothing get through a resin wall
@@ -434,15 +433,15 @@ TEST_CASE( "Strong character, 5 in all skills, using melee weapons against a kev
                         g->m.ter_set( p.pos() + point( 0, 2 ), resin_wall );
                         g->m.ter_set( p.pos() + point( 1, 2 ), resin_wall );
                         // XmX monster level
-                        g->m.ter_set( p.pos() + point( -1, 1 ), resin_wall );
-                        g->m.ter_set( p.pos() + point( 1, 1 ), resin_wall );
+                        g->m.ter_set( p.pos() + point_south_west, resin_wall );
+                        g->m.ter_set( p.pos() + point_south_east, resin_wall );
                         // XPX player level
-                        g->m.ter_set( p.pos() + point( -1, 0 ), resin_wall );
-                        g->m.ter_set( p.pos() + point( 1, 0 ), resin_wall );
+                        g->m.ter_set( p.pos() + point_west, resin_wall );
+                        g->m.ter_set( p.pos() + point_east, resin_wall );
                         // XXX bottom walls
-                        g->m.ter_set( p.pos() + point( -1, -1 ), resin_wall );
-                        g->m.ter_set( p.pos() + point( 0, -1 ), resin_wall );
-                        g->m.ter_set( p.pos() + point( 1, -1 ), resin_wall );
+                        g->m.ter_set( p.pos() + point_north_west, resin_wall );
+                        g->m.ter_set( p.pos() + point_north, resin_wall );
+                        g->m.ter_set( p.pos() + point_north_east, resin_wall );
 
 
                         // Wait once for debuff (eg Barbaran montante)
@@ -475,11 +474,11 @@ TEST_CASE( "Strong character, 5 in all skills, using melee weapons against a kev
                     double corrected_average_damage = average_damage / attack_cost_factor;
 
                     // Store result in result_ma
-                    for( size_t e = 0; e < results_ma.size(); e++ ) {
-                        if( results_ma[e].ma_type_id == ma ) {
-                            if( corrected_average_damage > results_ma[e].best_weapon_dmg ) {
-                                results_ma[e].best_weapon_dmg = corrected_average_damage;
-                                results_ma[e].best_weapon = player_wp.display_name();
+                    for each( struct_ma r in results_ma ) {
+                        if( r.ma_type_id == ma ) {
+                            if( corrected_average_damage > r.best_weapon_dmg ) {
+                                r.best_weapon_dmg = corrected_average_damage;
+                                r.best_weapon = player_wp.display_name();
                             }
                             break;
                         }
@@ -503,4 +502,7 @@ TEST_CASE( "Strong character, 5 in all skills, using melee weapons against a kev
             }
         }
     }
+
+
+
 }
