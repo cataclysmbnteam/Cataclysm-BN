@@ -309,7 +309,7 @@ TEST_CASE( "Balance Martial art system",
     avatar &p = g->u;
 
     // For each monster(s)
-    for each( mtype_id monster_id in monster_ids ) {
+    for( const mtype_id monster_id : monster_ids ) {
         // For stats/skills couple
         for( size_t j = 0; j < stats_level.size(); j++ ) {
             // Set up tested MA
@@ -474,11 +474,12 @@ TEST_CASE( "Balance Martial art system",
                     double corrected_average_damage = average_damage / attack_cost_factor;
 
                     // Store result in result_ma
-                    for each( struct_ma r in results_ma ) {
+                    for( struct_ma &r : results_ma ) {
                         if( r.ma_type_id == ma ) {
                             if( corrected_average_damage > r.best_weapon_dmg ) {
                                 r.best_weapon_dmg = corrected_average_damage;
                                 r.best_weapon = player_wp.display_name();
+                                // PB HERE
                             }
                             break;
                         }
@@ -504,5 +505,5 @@ TEST_CASE( "Balance Martial art system",
     }
 
 
-
+    CHECK( false );
 }
