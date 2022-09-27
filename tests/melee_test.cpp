@@ -330,7 +330,6 @@ TEST_CASE( "Strong character, 5 in all skills, using melee weapons against a kev
                 p.martial_arts_data->set_style( ma, true );
 
                 matec_id special_counter( "tec_none" );
-                double best_weapon_dmg = 0;
                 std::vector<const itype *> compatible_weapons;
                 std::string best_weapon = "";
 
