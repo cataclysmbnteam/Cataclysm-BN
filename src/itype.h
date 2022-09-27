@@ -890,6 +890,8 @@ struct itype {
         itype();
         virtual ~itype();
 
+        int_id<itype> id_int = int_id<itype>(); /** unique integer identifier for this type */
+
         int damage_min() const {
             return count_by_charges() ? 0 : damage_min_;
         }

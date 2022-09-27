@@ -40,6 +40,7 @@ class effect_type
         effect_type() = default;
 
         efftype_id id;
+        int_id<effect_type> id_int;
 
         /** Returns if an effect is good or bad for message display. */
         effect_rating get_rating() const;
@@ -329,7 +330,10 @@ class effect
 };
 
 void load_effect_type( const JsonObject &jo );
+void finalize_effect_types();
 void reset_effect_types();
+
+const std::map<efftype_id, effect_type> &get_all_effect_types();
 
 std::vector<efftype_id> find_all_effect_types();
 

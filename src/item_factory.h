@@ -237,6 +237,8 @@ class Item_factory
 
         std::list<itype_id> subtype_replacement( const itype_id & ) const;
 
+        std::vector<const itype *> all_cached;
+
     private:
         /** Set at finalization and prevents alterations to the static item templates */
         bool frozen = false;

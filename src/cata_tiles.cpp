@@ -1,3 +1,4 @@
+#pragma optimize("", off)
 #if defined(TILES)
 #include "cata_tiles.h"
 
@@ -18,6 +19,7 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "cata_tiles_cache.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_id.h"
@@ -117,13 +119,18 @@ static const std::array<std::string, 13> TILE_CATEGORY_IDS = {{
     }
 };
 
-namespace
+const std::array<std::string, 13> &get_category_ids()
 {
+    return TILE_CATEGORY_IDS;
+}
 
 std::string get_ascii_tile_id( const uint32_t sym, const int FG, const int BG )
 {
     return std::string( { 'A', 'S', 'C', 'I', 'I', '_', static_cast<char>( sym ), static_cast<char>( FG ), static_cast<char>( BG ) } );
 }
+
+namespace
+{
 
 pixel_minimap_mode pixel_minimap_mode_from_string( const std::string &mode )
 {
@@ -359,6 +366,12 @@ void cata_tiles::load_tileset(
     set_draw_scale( 16 );
 
     minimap->set_type( tile_iso ? pixel_minimap_type::iso : pixel_minimap_type::ortho );
+
+    // TODO: less hacky check
+    if( !mod_list.empty() ) {
+        tile_cache = std::make_unique<cata_tiles_cache>();
+        tile_cache->build_cache();
+    }
 }
 
 void cata_tiles::reinit()

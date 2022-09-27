@@ -99,6 +99,13 @@ bool string_id<itype>::is_valid() const
     return item_controller->has_template( *this );
 }
 
+/** @relates int_id */
+template<>
+int_id<itype> string_id<itype>::id() const
+{
+    return obj().id_int;
+}
+
 static item_category_id calc_category( const itype &obj );
 static void hflesh_to_flesh( itype &item_template );
 
@@ -664,6 +671,12 @@ void Item_factory::finalize()
         if( it != m_templates.end() ) {
             it->second.recipes.push_back( p.first );
         }
+    }
+
+    all_cached = all();
+    for( size_t i = 0; i < all_cached.size(); i++ ) {
+        itype *ptr = const_cast<itype *>( all_cached[i] );
+        ptr->id_int = int_id<itype>( static_cast<int>( i ) );
     }
 }
 
@@ -2777,6 +2790,8 @@ void Item_factory::clear()
     migrated_ammo.clear();
     migrated_magazines.clear();
     migrations.clear();
+
+    all_cached.clear();
 
     frozen = false;
 }

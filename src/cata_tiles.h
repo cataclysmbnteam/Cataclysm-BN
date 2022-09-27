@@ -78,6 +78,8 @@ class tile_lookup_res
         }
 };
 
+std::string get_ascii_tile_id( const uint32_t sym, const int FG, const int BG );
+
 class texture
 {
     private:
@@ -336,10 +338,14 @@ class idle_animation_manager
  */
 using color_block_overlay_container = std::pair<SDL_BlendMode, std::multimap<point, SDL_Color>>;
 
+const std::array<std::string, 13> &get_category_ids();
+
 struct tile_render_info;
 
 class cata_tiles
 {
+        friend struct cata_tiles_cache;
+
     public:
         cata_tiles( const SDL_Renderer_Ptr &render, const GeometryRenderer_Ptr &geometry );
         ~cata_tiles();
@@ -602,6 +608,8 @@ class cata_tiles
         const GeometryRenderer_Ptr &geometry;
         /** Currently loaded tileset. */
         std::unique_ptr<tileset> tileset_ptr;
+        /** Tile cache. */
+        std::unique_ptr<cata_tiles_cache> tile_cache;
         /** List of mods with which @ref tileset_ptr was loaded. */
         std::vector<mod_id> tileset_mod_list_stamp;
 

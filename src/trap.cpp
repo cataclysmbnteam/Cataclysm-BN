@@ -384,3 +384,8 @@ void trap::finalize()
     tr_snake = trapfind( "tr_snake" );
     tr_glass_pit = trapfind( "tr_glass_pit" );
 }
+
+const std::vector<trap> &trap::get_all()
+{
+    return trap_factory.get_all();
+}

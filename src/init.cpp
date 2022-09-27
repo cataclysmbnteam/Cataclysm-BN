@@ -20,6 +20,7 @@
 #include "behavior.h"
 #include "bionics.h"
 #include "bodypart.h"
+#include "cata_tiles_ui_element.h"
 #include "cata_utility.h"
 #include "clothing_mod.h"
 #include "clzones.h"
@@ -447,6 +448,7 @@ void DynamicDataLoader::initialize()
     add( "event_statistic", &event_statistic::load_statistic );
     add( "score", &score::load_score );
     add( "achievement", &achievement::load_achievement );
+    add( "ui_element", &tiles_ui_element::load_ui_element );
 #if defined(TILES)
     add( "mod_tileset", &load_mod_tileset );
 #else
@@ -605,6 +607,7 @@ void DynamicDataLoader::unload_data()
     spell_type::reset_all();
     start_locations::reset();
     ter_furn_transform::reset_all();
+    tiles_ui_element::reset();
     to_cbc_migration::reset();
     trap::reset();
     unload_talk_topics();
@@ -696,9 +699,11 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Harvest lists" ), &harvest_list::finalize_all },
             { _( "Anatomies" ), &anatomy::finalize_all },
             { _( "Mutations" ), &mutation_branch::finalize },
+            { _( "Effect types" ), &finalize_effect_types },
             { _( "Achievements" ), &achievement::finalize },
             { _( "Localization" ), &l10n_data::load_mod_catalogues },
 #if defined(TILES)
+            { _( "UI Elements" ), &tiles_ui_element::finalize },
             { _( "Tileset" ), &load_tileset },
 #endif
         }

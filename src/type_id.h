@@ -176,6 +176,7 @@ using trap_str_id = string_id<trap>;
 
 struct mutation_branch;
 using trait_id = string_id<mutation_branch>;
+using trait_int_id = int_id<mutation_branch>;
 
 struct quality;
 using quality_id = string_id<quality>;

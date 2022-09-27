@@ -148,6 +148,8 @@ class vpart_info
             return id;
         }
 
+        int_id<vpart_info> id_int;
+
         /** base item for this part */
         itype_id item;
 

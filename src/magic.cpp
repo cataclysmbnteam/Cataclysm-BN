@@ -144,6 +144,35 @@ bool string_id<spell_type>::is_valid() const
     return spell_factory.is_valid( *this );
 }
 
+
+/** @relates int_id */
+template<>
+const spell_type &int_id<spell_type>::obj() const
+{
+    return spell_factory.obj( *this );
+}
+
+/** @relates int_id */
+template<>
+bool int_id<spell_type>::is_valid() const
+{
+    return spell_factory.is_valid( *this );
+}
+
+/** @relates string_id */
+template<>
+int_id<spell_type> string_id<spell_type>::id() const
+{
+    return spell_factory.convert( *this, int_id<spell_type>() );
+}
+
+/** @relates int_id */
+template<>
+int_id<spell_type>::int_id( const string_id<spell_type> &id ) : _id( id.id() )
+{
+
+}
+
 void spell_type::load_spell( const JsonObject &jo, const std::string &src )
 {
     spell_factory.load( jo, src );

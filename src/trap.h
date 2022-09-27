@@ -248,6 +248,7 @@ struct trap {
         static void check_consistency();
         /*@}*/
         static size_t count();
+        static const std::vector<trap> &trap::get_all();
 };
 
 const trap_function &trap_function_from_string( const std::string &function_name );

@@ -228,6 +228,34 @@ bool string_id<bionic_data>::is_valid() const
     return bionic_factory.is_valid( *this );
 }
 
+/** @relates int_id */
+template<>
+const bionic_data &int_id<bionic_data>::obj() const
+{
+    return bionic_factory.obj( *this );
+}
+
+/** @relates int_id */
+template<>
+bool int_id<bionic_data>::is_valid() const
+{
+    return bionic_factory.is_valid( *this );
+}
+
+/** @relates string_id */
+template<>
+int_id<bionic_data> string_id<bionic_data>::id() const
+{
+    return bionic_factory.convert( *this, int_id<bionic_data>() );
+}
+
+/** @relates int_id */
+template<>
+int_id<bionic_data>::int_id( const string_id<bionic_data> &id ) : _id( id.id() )
+{
+
+}
+
 std::vector<bodypart_id> get_occupied_bodyparts( const bionic_id &bid )
 {
     std::vector<bodypart_id> parts;
@@ -277,6 +305,11 @@ void bionic_data::reset()
 {
     bionic_factory.reset();
     faulty_bionics.clear();
+}
+
+const std::vector<bionic_data> &bionic_data::get_all()
+{
+    return bionic_factory.get_all();
 }
 
 void bionic_data::load( const JsonObject &jsobj, const std::string src )

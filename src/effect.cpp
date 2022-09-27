@@ -42,6 +42,7 @@ static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
 namespace
 {
 std::map<efftype_id, effect_type> effect_types;
+std::vector<efftype_id> effect_types_by_id;
 } // namespace
 
 /** @relates string_id */
@@ -62,6 +63,39 @@ template<>
 bool string_id<effect_type>::is_valid() const
 {
     return effect_types.count( *this ) > 0;
+}
+
+const std::map<efftype_id, effect_type> &get_all_effect_types()
+{
+    return effect_types;
+}
+
+/** @relates int_id */
+template<>
+const effect_type &int_id<effect_type>::obj() const
+{
+    return effect_types_by_id[_id].obj();
+}
+
+/** @relates int_id */
+template<>
+bool int_id<effect_type>::is_valid() const
+{
+    return _id >= 0 && static_cast<int>( effect_types_by_id.size() ) < _id;
+}
+
+/** @relates string_id */
+template<>
+int_id<effect_type> string_id<effect_type>::id() const
+{
+    return obj().id_int;
+}
+
+/** @relates int_id */
+template<>
+int_id<effect_type>::int_id( const string_id<effect_type> &id ) : _id( id.id() )
+{
+
 }
 
 std::vector<efftype_id> find_all_effect_types()
@@ -1412,8 +1446,18 @@ bool effect::has_flag( const std::string &flag ) const
     return eff_type->flags.count( flag ) > 0;
 }
 
+void finalize_effect_types()
+{
+    effect_types_by_id.reserve( effect_types.size() );
+    for( auto &e : effect_types ) {
+        e.second.id_int = int_id<effect_type>( static_cast<int>( effect_types_by_id.size() ) );
+        effect_types_by_id.push_back( e.first );
+    }
+}
+
 void reset_effect_types()
 {
+    effect_types_by_id.clear();
     effect_types.clear();
 }
 

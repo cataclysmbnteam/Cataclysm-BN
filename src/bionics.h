@@ -139,6 +139,7 @@ struct bionic_data {
     static void check_consistency();
     static void finalize_all();
     static void reset();
+    static const std::vector<bionic_data>& get_all();
 
     bool was_loaded = false;
     void load( const JsonObject &obj, std::string );

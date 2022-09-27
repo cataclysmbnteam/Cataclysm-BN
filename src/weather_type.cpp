@@ -107,6 +107,34 @@ bool string_id<weather_type>::is_valid() const
     return weather_type_factory.is_valid( *this );
 }
 
+/** @relates int_id */
+template<>
+const weather_type &int_id<weather_type>::obj() const
+{
+    return weather_type_factory.obj( *this );
+}
+
+/** @relates int_id */
+template<>
+bool int_id<weather_type>::is_valid() const
+{
+    return weather_type_factory.is_valid( *this );
+}
+
+/** @relates string_id */
+template<>
+int_id<weather_type> string_id<weather_type>::id() const
+{
+    return weather_type_factory.convert( *this, int_id<weather_type>() );
+}
+
+/** @relates int_id */
+template<>
+int_id<weather_type>::int_id( const string_id<weather_type> &id ) : _id( id.id() )
+{
+
+}
+
 void weather_type::check() const
 {
     for( const weather_type_id &required : requirements.required_weathers ) {

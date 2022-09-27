@@ -1,0 +1,206 @@
+[
+    {
+        "type": "ui_element",
+        "id": "unknown"
+    },
+    {
+        "type": "ui_element",
+        "id": "cursor"
+    },
+    {
+        "type": "ui_element",
+        "id": "highlight"
+    },
+    {
+        "type": "ui_element",
+        "id": "highlight_item"
+    },
+    {
+        "type": "ui_element",
+        "id": "lighting_hidden"
+    },
+    {
+        "type": "ui_element",
+        "id": "lighting_lowlight_light"
+    },
+    {
+        "type": "ui_element",
+        "id": "lighting_boomered_light"
+    },
+    {
+        "type": "ui_element",
+        "id": "lighting_boomered_dark"
+    },
+    {
+        "type": "ui_element",
+        "id": "lighting_lowlight_dark"
+    },
+    {
+        "type": "ui_element",
+        "id": "graffiti"
+    },
+    {
+        "type": "ui_element",
+        "id": "infrared_creature"
+    },
+    {
+        "type": "ui_element",
+        "id": "overlay_hostile"
+    },
+    {
+        "type": "ui_element",
+        "id": "overlay_neutral"
+    },
+    {
+        "type": "ui_element",
+        "id": "overlay_friendly"
+    },
+    {
+        "type": "ui_element",
+        "id": "overlay_other"
+    },
+    {
+        "type": "ui_element",
+        "id": "overlay_hostile_sees_player"
+    },
+    {
+        "type": "ui_element",
+        "id": "overlay_neutral_sees_player"
+    },
+    {
+        "type": "ui_element",
+        "id": "overlay_friendly_sees_player"
+    },
+    {
+        "type": "ui_element",
+        "id": "overlay_other_sees_player"
+    },
+    {
+        "type": "ui_element",
+        "id": "zombie_revival_indicator"
+    },
+    {
+        "type": "ui_element",
+        "id": "npc_male"
+    },
+    {
+        "type": "ui_element",
+        "id": "npc_female"
+    },
+    {
+        "type": "ui_element",
+        "id": "player_male"
+    },
+    {
+        "type": "ui_element",
+        "id": "player_female"
+    },
+    {
+        "type": "ui_element",
+        "id": "overlay_walk"
+    },
+    {
+        "type": "ui_element",
+        "id": "overlay_run"
+    },
+    {
+        "type": "ui_element",
+        "id": "overlay_crouch"
+    },
+    {
+        "type": "ui_element",
+        "id": "shot_cone_weak"
+    },
+    {
+        "type": "ui_element",
+        "id": "shot_cone_medium"
+    },
+    {
+        "type": "ui_element",
+        "id": "shot_cone_strong"
+    },
+    {
+        "type": "ui_element",
+        "id": "animation_hit"
+    },
+    {
+        "type": "ui_element",
+        "id": "animation_line"
+    },
+    {
+        "type": "ui_element",
+        "id": "footstep"
+    },
+    {
+        "type": "ui_element",
+        "id": "footstep_above"
+    },
+    {
+        "type": "ui_element",
+        "id": "footstep_below"
+    },
+    {
+        "type": "ui_element",
+        "id": "explosion"
+    },
+    {
+        "type": "ui_element",
+        "id": "mission_cursor"
+    },
+    {
+        "type": "ui_element",
+        "id": "mission_arrow_up"
+    },
+    {
+        "type": "ui_element",
+        "id": "mission_arrow_n"
+    },
+    {
+        "type": "ui_element",
+        "id": "mission_arrow_nw"
+    },
+    {
+        "type": "ui_element",
+        "id": "mission_arrow_ne"
+    },
+    {
+        "type": "ui_element",
+        "id": "mission_arrow_s"
+    },
+    {
+        "type": "ui_element",
+        "id": "mission_arrow_sw"
+    },
+    {
+        "type": "ui_element",
+        "id": "mission_arrow_se"
+    },
+    {
+        "type": "ui_element",
+        "id": "mission_arrow_w"
+    },
+    {
+        "type": "ui_element",
+        "id": "mission_arrow_e"
+    },
+    {
+        "type": "ui_element",
+        "id": "unknown_terrain"
+    },
+    {
+        "type": "ui_element",
+        "id": "overmap_remembered_vehicle"
+    },
+    {
+        "type": "ui_element",
+        "id": "overmap_path"
+    },
+    {
+        "type": "ui_element",
+        "id": "overmap_path_above"
+    },
+    {
+        "type": "ui_element",
+        "id": "overmap_path_below"
+    }
+]

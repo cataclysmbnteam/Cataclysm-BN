@@ -76,6 +76,35 @@ bool string_id<mutation_branch>::is_valid() const
     return trait_factory.is_valid( *this );
 }
 
+
+/** @relates int_id */
+template<>
+const mutation_branch &int_id<mutation_branch>::obj() const
+{
+    return trait_factory.obj( *this );
+}
+
+/** @relates int_id */
+template<>
+bool int_id<mutation_branch>::is_valid() const
+{
+    return trait_factory.is_valid( *this );
+}
+
+/** @relates string_id */
+template<>
+int_id<mutation_branch> string_id<mutation_branch>::id() const
+{
+    return trait_factory.convert( *this, int_id<mutation_branch>() );
+}
+
+/** @relates int_id */
+template<>
+int_id<mutation_branch>::int_id( const string_id<mutation_branch> &id ) : _id( id.id() )
+{
+
+}
+
 template<>
 bool string_id<Trait_group>::is_valid() const
 {

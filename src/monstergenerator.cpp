@@ -215,6 +215,38 @@ bool string_id<species_type>::is_valid() const
     return MonsterGenerator::generator().mon_species->is_valid( *this );
 }
 
+/** @relates int_id */
+template<>
+inline bool int_id<mtype>::is_valid() const
+{
+    return MonsterGenerator::generator().mon_templates->is_valid( *this );
+}
+
+/** @relates int_id */
+template<>
+const mtype &int_id<mtype>::obj() const
+{
+    return MonsterGenerator::generator().mon_templates->obj( *this );
+}
+
+/** @relates int_id */
+template<>
+const string_id<mtype> &int_id<mtype>::id() const
+{
+    return MonsterGenerator::generator().mon_templates->convert( *this );
+}
+
+/** @relates int_id */
+template<>
+int_id<mtype> string_id<mtype>::id() const
+{
+    return MonsterGenerator::generator().mon_templates->convert( *this, int_id<mtype>() );
+}
+
+/** @relates int_id */
+template<>
+int_id<mtype>::int_id( const string_id<mtype> &id ) : _id( id.id() ) {}
+
 MonsterGenerator::MonsterGenerator()
     : mon_templates( "monster type" )
     , mon_species( "species" )

@@ -132,6 +132,7 @@ static const std::vector<std::pair<std::string, int>> rail_terrain_mod = {{
 };
 
 static std::map<vpart_id, vpart_info> vpart_info_all;
+static std::vector<vpart_id> vpart_info_all_by_id;
 
 static std::map<vpart_id, vpart_info> abstract_parts;
 
@@ -155,6 +156,34 @@ const vpart_info &string_id<vpart_info>::obj() const
         return null_part;
     }
     return found->second;
+}
+
+/** @relates int_id */
+template<>
+const vpart_info &int_id<vpart_info>::obj() const
+{
+    return vpart_info_all_by_id[_id].obj();
+}
+
+/** @relates int_id */
+template<>
+bool int_id<vpart_info>::is_valid() const
+{
+    return _id >= 0 && static_cast<int>( vpart_info_all_by_id.size() ) < _id;
+}
+
+/** @relates string_id */
+template<>
+int_id<vpart_info> string_id<vpart_info>::id() const
+{
+    return obj().id_int;
+}
+
+/** @relates int_id */
+template<>
+int_id<vpart_info>::int_id( const string_id<vpart_info> &id ) : _id( id.id() )
+{
+
 }
 
 static void parse_vp_reqs( const JsonObject &obj, const std::string &id, const std::string &key,
@@ -518,6 +547,12 @@ void vpart_info::finalize()
             e.second.list_order = 5;
         }
     }
+
+    vpart_info_all_by_id.reserve( vpart_info_all.size() );
+    for( auto &e : vpart_info_all ) {
+        e.second.id_int = int_id<vpart_info>( static_cast<int>( vpart_info_all_by_id.size() ) );
+        vpart_info_all_by_id.push_back( e.first );
+    }
 }
 
 void vpart_info::check()
@@ -689,6 +724,7 @@ void vpart_info::reset()
     deferred.clear();
     vpart_info_all.clear();
     abstract_parts.clear();
+    vpart_info_all_by_id.clear();
 }
 
 const std::map<vpart_id, vpart_info> &vpart_info::all()
