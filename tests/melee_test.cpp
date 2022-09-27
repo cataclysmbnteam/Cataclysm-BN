@@ -308,7 +308,7 @@ TEST_CASE( "Strong character, 5 in all skills, using melee weapons against a kev
     // Get player
     avatar &p = g->u;
 
-    // For each monster
+    // For each monster(s)
     for( size_t i = 0; i < monster_ids.size(); i++ ) {
         // For stats/skills couple
         for( size_t j = 0; j < stats_level.size(); j++ ) {
