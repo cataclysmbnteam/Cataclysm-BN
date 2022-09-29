@@ -24,7 +24,6 @@
 #include "hash_utils.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "map_memory.h"
 #include "mapdata.h"
 #include "messages.h"
 #include "optional.h"
@@ -663,7 +662,7 @@ bool vehicle::autodrive_controller::check_drivable( tripoint pt ) const
         if( !driver.sees( pt ) ) {
             if( !driver.is_avatar() ) {
                 return false;
-            } else if( driver.as_avatar()->get_memorized_tile( pt_abs.raw() ) == mm_submap::default_tile ) {
+            } else if( !driver.as_avatar()->has_memorized_tile_for_autodrive( pt_abs.raw() ) ) {
                 // apparently open air doesn't get memorized, so pretend it is or else
                 // we can't fly helicopters due to the many unseen tiles behind the driver
                 if( !( data.air_ok && here.ter( pt ) == t_open_air ) ) {

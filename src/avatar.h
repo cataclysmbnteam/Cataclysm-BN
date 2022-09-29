@@ -96,6 +96,8 @@ class avatar : public player
         /** Returns last stored map tile in given location in curses mode */
         int get_memorized_symbol( const tripoint &p ) const;
         void clear_memorized_tile( const tripoint &pos );
+        /** Returns last stored map tile in given location in tiles mode */
+        bool has_memorized_tile_for_autodrive( const tripoint &p ) const;
 
         /** Provides the window and detailed morale data */
         void disp_morale();
