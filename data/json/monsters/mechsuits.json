@@ -120,6 +120,7 @@
     "armor_bash": 22,
     "armor_cut": 30,
     "armor_bullet": 65,
+    "armor_fire": 33,
     "vision_night": 50,
     "mech_str_bonus": 30,
     "mech_battery": "huge_atomic_battery_cell",

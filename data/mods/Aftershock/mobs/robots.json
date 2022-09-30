@@ -148,7 +148,7 @@
     "armor_bash": 12,
     "armor_cut": 8,
     "armor_bullet": 6,
-    "armor_fire": 3,
+    "armor_fire": 12,
     "path_settings": { "max_dist": 5 },
     "revert_to_itype": "bot_tripod",
     "starting_ammo": { "napalm": 10000 },
@@ -335,6 +335,8 @@
     "melee_dice": 4,
     "melee_dice_sides": 5,
     "melee_cut": 1,
+    "//": "Monsters made out of steel and related materials get an additional resistance to being in flames in map::monster_in_field, but this fits thematically and makes it harder to melt with flamethrowers or lasers.",
+    "armor_fire": 20,
     "starting_ammo": { "water": 1000 },
     "special_attacks": [
       {
@@ -677,6 +679,7 @@
     "name": "military flame robot",
     "description": "A military robot still operating due to its internal power core.  This one is armed with an electric prod and an integrated flamethrower.",
     "diff": 20,
+    "armor_fire": 12,
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
     "starting_ammo": { "napalm": 1000 },
     "extend": { "flags": [ "DROPS_AMMO" ] },
@@ -757,6 +760,7 @@
     "diff": 20,
     "color": "magenta",
     "luminance": 20,
+    "armor_fire": 15,
     "special_attacks": [
       {
         "type": "gun",
