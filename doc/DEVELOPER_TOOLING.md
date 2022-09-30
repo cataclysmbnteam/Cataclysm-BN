@@ -1,4 +1,26 @@
-## Pre-commit hook
+## Code style (astyle)
+
+Automatic formatting of the source code is performed by [Artistic Style](http://astyle.sourceforge.net/), or `astyle` for short.
+
+There are multiple ways to invoke it on the codebase, depending on your system or personal preferences.
+
+### Invoking astyle directly
+
+If you only have `astyle` installed, use:
+
+```BASH
+astyle --options=.astylerc --recursive src/*.cpp,*.h tests/*.cpp,*.h tools/*.cpp,*.h
+```
+
+### Invoking astyle through make
+
+If you have both `make` and `astyle` installed, use:
+
+```BASH
+make astyle
+```
+
+### Invoking astyle via pre-commit hook
 
 If you have all the relevant tools installed, you can have git automatically
 check the style of code and json by adding these commands to your git
@@ -11,49 +33,49 @@ git diff --cached --name-only -z HEAD | grep -z 'data/.*\.json' | \
 make astyle-check || exit 1
 ```
 
-More details below on how to make these work and other ways to invoke these tools.
+### Astyle extensions for Visual Studio
 
-## Code style (astyle)
+There are astyle extensions in the Visual Studio Marketplace, but none of them have been confirmed (yet) to correctly work for our purposes on VS2019 or VS2022.
 
-Automatic formatting of source code is performed by [Artistic Style](http://astyle.sourceforge.net/).
+#### Visual Studio 2022
 
-If you have both `make` and `astyle` installed then this can be done with:
+Head over to https://github.com/olanti-p/BN_Astyle and follow instructions in the [README.md](https://github.com/olanti-p/BN_Astyle/blob/master/README.md). You may compile and install the extension from source, or take advantage of the pre-built version in [releases section](https://github.com/olanti-p/BN_Astyle/releases).
 
-```BASH
-make astyle
-```
+#### Visual Studio 2019
 
-If you have only `astyle` then use:
+Extensions's source code lives over at https://github.com/lukamicoder/astyle-extension.
+To install and compile it:
+1. Add the `Visual Studio extension development` workload through Visual Studio installer to your VS2019
+2. Download and extract the source code, or clone the repository (a simple `git clone --depth 1 https://github.com/lukamicoder/astyle-extension.git` should do).
+3. From the root folder, open `astyle-extension/AStyleExtension2017.sln`
+4. Select `Release` build configuration (most likely VS will select `Debug` configuration by default)
+5. Build the solution
+6. If the build succeeded, you'll see the compiled extension in `AStyleExtension\bin\Release`. Double click it to install.
+7. Configure the extension according to [Configuration instructions (Visual Studio 2019 or older)](#configuration-instructions-visual-studio-2019-or-older) section.
 
-```BASH
-astyle --options=.astylerc --recursive src/*.cpp,*.h tests/*.cpp,*.h`
-```
+#### Visual Studio 2017 or earlier
 
-On Windows, there is an [AStyle extension for Visual Studio](https://github.com/lukamicoder/astyle-extension).
+You may follow the steps for VS2019 to compile from source, but there are pre-built versions [available](https://marketplace.visualstudio.com/items?itemName=Lukamicoder.AStyleExtension2017) on Visual Studio Marketplace, you should be able to install the extension through VS's extension manager and then configure it the same way.
 
-It does not support Visual Studio 2022 yet, but there is [an alternative](https://github.com/olanti-p/BN_Astyle) available.
+#### Configuration instructions (Visual Studio 2019 or older):
 
-#### Instruction (Visual Studio 2019 or older):
+1. Go to `Tools` - `Options` - `AStyle Formatter` - `General`.
 
-1. Install aforementioned extension to Visual Studio IDE.
+2. Import `https://github.com/CleverRaven/Cataclysm-DDA/blob/master/msvc-full-features/AStyleExtension-Cataclysm-DDA.cfg` on `Export/Import` tab using `Import` button:
 
-2. Go to `Tools` - `Options` - `AStyle Formatter` - `General`.
+![image](img/VS_Astyle_Step_1.png)
 
-3. Import `https://github.com/CleverRaven/Cataclysm-DDA/blob/master/msvc-full-features/AStyleExtension-Cataclysm-DDA.cfg` on `Export/Import` tab using `Import` button:
+3. After import is successful you can see imported rules on `C/C++` tab:
 
-![image](https://user-images.githubusercontent.com/16213433/54817923-1d85c200-4ca9-11e9-95ac-e1f84394429b.png)
+![image](img/VS_Astyle_Step_2.png)
 
-4. After import is successful you can see imported rules on `C/C++` tab:
+4. Close `Options` menu, open file to be astyled and use `Format Document (Astyle)` or `Format Selection (Astyle)` commands from `Edit` - `Advanced` menu.
 
-![image](https://user-images.githubusercontent.com/16213433/54817974-427a3500-4ca9-11e9-8179-84b19cc25c0f.png)
-
-5. Close `Options` menu, open file to be astyled and use `Format Document (Astyle)` or `Format Selection (Astyle)` commands from `Edit` - `Advanced` menu.
-
-![image](https://user-images.githubusercontent.com/16213433/54818041-68073e80-4ca9-11e9-8e1f-a1996fd4ee75.png)
+![image](img/VS_Astyle_Step_3.png)
 
 *Note:* You can also configure keybindings for aforementioned commands in `Tools` - `Options` - `Environment` - `Keybindings` menu:
 
-![image](https://user-images.githubusercontent.com/16213433/54818153-aac91680-4ca9-11e9-80e6-51e243b2b33b.png)
+![image](img/VS_Astyle_Step_4.png)
 
 ## JSON style
 
