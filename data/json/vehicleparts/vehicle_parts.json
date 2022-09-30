@@ -2539,7 +2539,6 @@
     "item": "omnicamera",
     "//": "Cameras without a DVR can run on under 10W",
     "epower": -10,
-    "location": "on_roof",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
