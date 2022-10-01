@@ -216,14 +216,9 @@ bool monexamine::pet_menu( monster &z )
         }
     }
     if( !mon_item_id.is_empty() && !z.has_flag( MF_RIDEABLE_MECH ) ) {
-        if( z.has_effect( effect_has_bag ) ) {
-            amenu.addentry( mount, false, 'D', _( "Remove bag from %s before deactivating it" ), pet_name );
-        } else if( z.has_effect( effect_monster_armor ) ) {
-            amenu.addentry( mount, false, 'D', _( "Remove armor from %s before deactivating it" ), pet_name );
-        } else if( z.has_effect( effect_tied ) ) {
-            amenu.addentry( mount, false, 'D', _( "Untie the %s before deactivating it" ), pet_name );
-        } else if( z.has_effect( effect_saddled ) ) {
-            amenu.addentry( mount, false, 'D', _( "Remove tack from %s before deactivating it" ), pet_name );
+        if( z.has_effect( effect_has_bag ) || z.has_effect( effect_monster_armor ) ||
+            z.has_effect( effect_tied ) || z.has_effect( effect_saddled ) ) {
+            amenu.addentry( disable_pet, true, 'D', _( "Remove items and deactivate the %s" ), pet_name );
         } else {
             amenu.addentry( disable_pet, true, 'D', _( "Deactivate the %s" ), pet_name );
         }
@@ -804,7 +799,18 @@ void monexamine::tie_or_untie( monster &z )
 
 void monexamine::deactivate_pet( monster &z )
 {
-    g->u.moves -= 100;
+    if( z.has_effect( effect_has_bag ) ) {
+        remove_bag_from( z );
+    }
+    if( z.has_effect( effect_monster_armor ) ) {
+        remove_armor( z );
+    }
+    if( z.has_effect( effect_tied ) ) {
+        tie_or_untie( z );
+    }
+    if( z.has_effect( effect_saddled ) ) {
+        attach_or_remove_saddle( z );
+    }
     g->m.add_item_or_charges( z.pos(), z.to_item() );
     if( !z.has_flag( MF_INTERIOR_AMMO ) ) {
         for( auto &ammodef : z.ammo ) {
@@ -813,6 +819,7 @@ void monexamine::deactivate_pet( monster &z )
             }
         }
     }
+    g->u.moves -= 100;
     g->remove_zombie( z );
 }
 
