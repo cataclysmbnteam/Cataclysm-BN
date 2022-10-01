@@ -135,6 +135,7 @@
     "armor_bash": 8,
     "armor_cut": 10,
     "armor_bullet": 8,
+    "armor_fire": 10,
     "vision_day": 50,
     "revert_to_itype": "bot_haulerbot",
     "death_function": [ "BROKEN" ],
