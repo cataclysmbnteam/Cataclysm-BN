@@ -16,7 +16,7 @@
 #include "debug.h"
 #include "dispersion.h"
 #include "enums.h"
-#include "explosion.h"
+#include "explosion_queue.h"
 #include "game.h"
 #include "item.h"
 #include "line.h"
@@ -25,7 +25,6 @@
 #include "monster.h"
 #include "optional.h"
 #include "options.h"
-#include "point.h"
 #include "projectile.h"
 #include "rng.h"
 #include "sounds.h"
@@ -505,7 +504,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
                                      sfx::get_heard_volume( z.pos() ), sfx::get_heard_angle( z.pos() ) );
         }
     }
-
+    explosion_handler::get_explosion_queue().execute();
     return attack;
 }
 

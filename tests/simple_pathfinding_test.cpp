@@ -7,6 +7,7 @@
 #include "line.h"
 #include "optional.h"
 #include "point.h"
+#include "state_helpers.h"
 
 template<typename Point>
 static void test_greedy_line_path()
@@ -30,6 +31,7 @@ static void test_greedy_line_path()
 
 TEST_CASE( "greedy_simple_line_path", "[pathfinding]" )
 {
+    clear_all_state();
     test_greedy_line_path<point>();
     test_greedy_line_path<point_abs_omt>();
 }
@@ -73,12 +75,14 @@ static void test_greedy_u_bend()
 
 TEST_CASE( "greedy_u_bend", "[pathfinding]" )
 {
+    clear_all_state();
     test_greedy_u_bend<point_om_omt>();
 }
 
 
 TEST_CASE( "find_overmap_path_u_bend", "[pathfinding]" )
 {
+    clear_all_state();
     using Point = tripoint_abs_omt;
     const Point start( 0, 0, 0 );
     const Point finish( 2, 0, 0 );
@@ -108,6 +112,7 @@ TEST_CASE( "find_overmap_path_u_bend", "[pathfinding]" )
 
 TEST_CASE( "find_overmap_path_bridge", "[pathfinding]" )
 {
+    clear_all_state();
     using Point = tripoint_abs_omt;
     const Point start( 0, 0, 0 );
     const Point finish( 2, 0, 0 );

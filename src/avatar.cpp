@@ -167,6 +167,11 @@ void avatar::clear_memorized_tile( const tripoint &pos )
     player_map_memory->clear_memorized_tile( pos );
 }
 
+bool avatar::has_memorized_tile_for_autodrive( const tripoint &p ) const
+{
+    return player_map_memory->has_memory_for_autodrive( p );
+}
+
 std::vector<mission *> avatar::get_active_missions() const
 {
     return active_missions;

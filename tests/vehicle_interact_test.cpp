@@ -14,14 +14,13 @@
 #include "player_helpers.h"
 #include "point.h"
 #include "requirements.h"
+#include "state_helpers.h"
 #include "type_id.h"
 #include "veh_type.h"
 #include "vehicle.h"
 
 static void test_repair( const std::vector<item> &tools, bool expect_craftable )
 {
-    clear_avatar();
-    clear_map();
 
     const tripoint test_origin( 60, 60, 0 );
     g->u.setpos( test_origin );
@@ -62,6 +61,7 @@ static void test_repair( const std::vector<item> &tools, bool expect_craftable )
 
 TEST_CASE( "repair_vehicle_part" )
 {
+    clear_all_state();
     const time_point bday = calendar::start_of_cataclysm;
     SECTION( "welder" ) {
         std::vector<item> tools;

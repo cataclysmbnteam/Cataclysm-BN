@@ -10,6 +10,7 @@
 #include "map_helpers.h"
 #include "player.h"
 #include "player_helpers.h"
+#include "state_helpers.h"
 #include "string_formatter.h"
 #include "item.h"
 #include "point.h"
@@ -81,14 +82,12 @@ static void do_test( const bool generating_cases )
 
 TEST_CASE( "Wield time test", "[wield]" )
 {
-    clear_avatar();
-    clear_map();
+    clear_all_state();
     do_test( false );
 }
 
 TEST_CASE( "Wield time make cases", "[.]" )
 {
-    clear_avatar();
-    clear_map();
+    clear_all_state();
     do_test( true );
 }

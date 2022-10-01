@@ -1088,7 +1088,7 @@
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
     "difficulty": 1,
-    "charges": 14,
+    "charges": 7,
     "time": "20 m",
     "batch_time_factors": [ 50, 3 ],
     "autolearn": true,

@@ -14,6 +14,7 @@
 #include "recipe_dictionary.h"
 #include "requirements.h"
 #include "stomach.h"
+#include "state_helpers.h"
 #include "string_id.h"
 #include "string_formatter.h"
 #include "test_statistics.h"
@@ -105,6 +106,7 @@ static item food_or_food_container( const item &it )
 
 TEST_CASE( "recipe_permutations", "[recipe]" )
 {
+    clear_all_state();
     // Are these tests failing? Here's how to fix that:
     // If the average is over the upper bound, you need to increase the calories for the item
     // that is causing the test to fail (or decrease the total calories of the ingredients)
@@ -153,6 +155,7 @@ TEST_CASE( "recipe_permutations", "[recipe]" )
 
 TEST_CASE( "cooked_veggies_get_correct_calorie_prediction", "[recipe]" )
 {
+    clear_all_state();
     // This test verifies that predicted calorie ranges properly take into
     // account the "RAW"/"COOKED" flags.
     const item veggy_wild_cooked( "veggy_wild_cooked" );

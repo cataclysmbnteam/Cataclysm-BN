@@ -29,20 +29,15 @@ struct memorized_terrain_tile {
 /** Represent a submap-sized chunk of tile memory. */
 struct mm_submap {
     public:
+        friend class map_memory;
         static const memorized_terrain_tile default_tile;
         static const int default_symbol;
 
         mm_submap();
-        explicit mm_submap( bool make_valid );
 
         /** Whether this mm_submap is empty. Empty submaps are skipped during saving. */
         bool is_empty() const {
             return tiles.empty() && symbols.empty();
-        }
-
-        // Whether this mm_submap is invalid, i.e. returned from an uninitialized region.
-        bool is_valid() const {
-            return valid;
         }
 
         inline const memorized_terrain_tile &tile( const point &p ) const {
@@ -138,7 +133,7 @@ class map_memory
         bool save( const tripoint &pos );
 
         /**
-         * Prepares map memory for rendering and/or memorization of given region.
+         * Prepares map memory for optimized rendering and/or memorization of given region.
          * @param p1 top-left corner of the region, in global ms coords
          * @param p2 bottom-right corner of the region, in global ms coords
          * Both coords are inclusive and should be on the same Z level.
@@ -156,7 +151,14 @@ class map_memory
          * Returns memorized tile.
          * @param pos tile position, in global ms coords.
          */
-        const memorized_terrain_tile &get_tile( const tripoint &pos ) const;
+        const memorized_terrain_tile &get_tile( const tripoint &pos );
+
+        /**
+         * For autodrive use only.
+         * Checks whether tile at given pos was memorized.
+         * @param pos tile position, in global ms coords.
+         */
+        bool has_memory_for_autodrive( const tripoint &pos );
 
         /**
          * Memorizes given symbol, overwriting old value.
@@ -168,7 +170,7 @@ class map_memory
          * Returns memorized symbol.
          * @param pos tile position, in global ms coords.
          */
-        int get_symbol( const tripoint &pos ) const;
+        int get_symbol( const tripoint &pos );
 
         /**
          * Clears memorized tile and symbol.
@@ -183,7 +185,7 @@ class map_memory
         tripoint cache_pos;
         point cache_size;
 
-        /** Find, load or allocate a submap. @returns the submap. */
+        /** Find, load or allocate a submap. May be slow. @returns the submap. */
         shared_ptr_fast<mm_submap> fetch_submap( const tripoint &sm_pos );
         /** Find submap amongst the loaded submaps. @returns nullptr if failed. */
         shared_ptr_fast<mm_submap> find_submap( const tripoint &sm_pos );
@@ -192,11 +194,12 @@ class map_memory
         /** Allocate empty submap. @returns the submap. */
         shared_ptr_fast<mm_submap> allocate_submap( const tripoint &sm_pos );
 
-        /** Get submap from within the cache */
-        //@{
-        const mm_submap &get_submap( const tripoint &sm_pos ) const;
+        /**
+         * Find, load or allocate a submap.
+         * Uses cache made by @ref prepare_region to speed up the lookup.
+         * @returns the submap.
+         */
         mm_submap &get_submap( const tripoint &sm_pos );
-        //@}
 
         void clear_cache();
 };

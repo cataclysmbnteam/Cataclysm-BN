@@ -85,6 +85,7 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "50 m",
+    "book_learn": [ [ "textbook_tailor", 2 ], [ "manual_tailor", 2 ] ],
     "autolearn": true,
     "using": [ [ "sewing_standard", 20 ] ],
     "components": [ [ [ "rag", 20 ] ] ]
@@ -304,9 +305,10 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
-    "difficulty": 2,
+    "difficulty": 3,
     "time": "1 h 20 m",
-    "autolearn": true,
+    "autolearn": [ [ "tailor", 4 ] ],
+    "book_learn": [ [ "textbook_tailor", 2 ], [ "manual_tailor", 2 ], [ "tailor_portfolio", 2 ] ],
     "using": [ [ "sewing_standard", 30 ] ],
     "components": [ [ [ "rag", 40 ] ] ]
   },

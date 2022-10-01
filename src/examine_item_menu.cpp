@@ -6,6 +6,7 @@
 #include "auto_pickup.h"
 #include "avatar_action.h"
 #include "avatar.h"
+#include "crafting.h"
 #include "game_inventory.h"
 #include "input.h"
 #include "item.h"
@@ -182,7 +183,7 @@ bool run(
     } );
 
     add_entry( "DISASSEMBLE", rate_action_disassemble( you, itm ), [&]() {
-        you.disassemble( loc, false );
+        crafting::disassemble( you, loc );
         return true;
     } );
 
@@ -419,7 +420,7 @@ hint_rating rate_action_mend( const avatar &/*you*/, const item &it )
 
 hint_rating rate_action_disassemble( avatar &you, const item &it )
 {
-    if( you.can_disassemble( it, you.crafting_inventory() ).success() ) {
+    if( crafting::can_disassemble( you, it, you.crafting_inventory() ).success() ) {
         return hint_rating::good; // possible
     } else if( recipe_dictionary::get_uncraft( it.typeId() ) ) {
         return hint_rating::iffy; // potentially possible but we currently lack requirements

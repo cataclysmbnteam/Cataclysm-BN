@@ -1,6 +1,6 @@
 [
   {
-    "result": "acidchitin_harness_dog",
+    "result": "acidchitin_armor_small_quadruped",
     "type": "recipe",
     "copy-from": "armor_acidchitin",
     "category": "CC_ANIMALS",
@@ -11,7 +11,7 @@
     "components": [ [ [ "acidchitin_piece", 12 ] ] ]
   },
   {
-    "result": "chitin_harness_dog",
+    "result": "chitin_armor_small_quadruped",
     "type": "recipe",
     "copy-from": "armor_chitin",
     "category": "CC_ANIMALS",
@@ -23,7 +23,7 @@
     "components": [ [ [ "chitin_piece", 12 ] ] ]
   },
   {
-    "result": "chainmail_harness_dog",
+    "result": "chainmail_armor_small_quadruped",
     "type": "recipe",
     "copy-from": "chainmail_vest",
     "category": "CC_ANIMALS",
@@ -33,7 +33,19 @@
     "components": [ [ [ "link_sheet", 5 ] ], [ [ "chain_link", 131 ] ], [ [ "wire", 1 ] ], [ [ "fur", 6 ], [ "leather", 6 ] ] ]
   },
   {
-    "result": "leather_harness_dog",
+    "result": "kevlar_armor_small_quadruped",
+    "type": "recipe",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_CANINE ARMOR",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "time": "70 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 63 ] ],
+    "components": [ [ [ "kevlar_plate", 18 ] ], [ [ "rag", 14 ] ], [ [ "leather", 8 ] ] ]
+  },
+  {
+    "result": "leather_armor_small_quadruped",
     "type": "recipe",
     "copy-from": "vest_leather",
     "category": "CC_ANIMALS",
@@ -45,7 +57,7 @@
     "components": [ [ [ "vest_leather", 1 ] ] ]
   },
   {
-    "result": "leather_harness_dog",
+    "result": "leather_armor_small_quadruped",
     "type": "recipe",
     "id_suffix": "from_scratch",
     "category": "CC_ANIMALS",
@@ -59,16 +71,16 @@
     "components": [ [ [ "leather", 6 ] ] ]
   },
   {
-    "result": "leatherbone_harness_dog",
+    "result": "leatherbone_armor_small_quadruped",
     "type": "recipe",
-    "copy-from": "leather_harness_dog",
+    "copy-from": "leather_armor_small_quadruped",
     "difficulty": 2,
     "time": "30 m",
     "using": [ [ "sewing_standard", 15 ] ],
     "components": [ [ [ "bone", 13 ], [ "bone_human", 13 ], [ "bone_tainted", 25 ] ], [ [ "vest_leather", 1 ] ] ]
   },
   {
-    "result": "leatherbone_harness_dog",
+    "result": "leatherbone_armor_small_quadruped",
     "type": "recipe",
     "id_suffix": "from_leatherharness",
     "category": "CC_ANIMALS",
@@ -78,10 +90,10 @@
     "time": "15 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 5 ] ],
-    "components": [ [ [ "bone", 13 ], [ "bone_human", 13 ], [ "bone_tainted", 25 ] ], [ [ "leather_harness_dog", 1 ] ] ]
+    "components": [ [ [ "bone", 13 ], [ "bone_human", 13 ], [ "bone_tainted", 25 ] ], [ [ "leather_armor_small_quadruped", 1 ] ] ]
   },
   {
-    "result": "leatherbone_harness_dog",
+    "result": "leatherbone_armor_small_quadruped",
     "type": "recipe",
     "id_suffix": "from_scratch",
     "category": "CC_ANIMALS",
@@ -95,7 +107,7 @@
     "components": [ [ [ "bone", 13 ], [ "bone_human", 13 ], [ "bone_tainted", 25 ] ], [ [ "leather", 6 ] ] ]
   },
   {
-    "result": "rubber_harness_dog",
+    "result": "rubber_armor_small_quadruped",
     "type": "recipe",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_CANINE ARMOR",
@@ -108,7 +120,7 @@
     "components": [ [ [ "duct_tape", 25 ] ], [ [ "coat_rain", 1 ] ] ]
   },
   {
-    "result": "rubber_harness_dog",
+    "result": "rubber_armor_small_quadruped",
     "type": "recipe",
     "id_suffix": "from_scratch",
     "category": "CC_ANIMALS",

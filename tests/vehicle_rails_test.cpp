@@ -8,6 +8,7 @@
 #include "map.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "state_helpers.h"
 #include "string_formatter.h"
 #include "stringmaker.h"
 #include "type_id.h"
@@ -372,6 +373,7 @@ static void run_test_case_at_rotation( const test_case &t, int i_rot )
 
 static void run_test_case( const test_case &t )
 {
+    clear_all_state();
     CAPTURE( t.veh_id );
     for( int i_rot = 0; i_rot < 4; i_rot++ ) {
         run_test_case_at_rotation( t, i_rot );
@@ -794,6 +796,7 @@ static map_helpers::canvas rails_straight_start_outside()
 
 TEST_CASE( "vehicle_rail_movement_derailed", "[vehicle][railroad]" )
 {
+    clear_all_state();
     SECTION( "no_rails" ) {
         // On normal ground rail vehicle behaves like normal vehicle
         run_test_case( test_case{
@@ -833,6 +836,7 @@ TEST_CASE( "vehicle_rail_movement_derailed", "[vehicle][railroad]" )
 
 TEST_CASE( "vehicle_rail_movement_basic", "[vehicle][railroad]" )
 {
+    clear_all_state();
     SECTION( "straight_rails" ) {
         // Rail vehicle must follow straight rails regardless of desired turn dir
         run_test_case( test_case{
@@ -926,6 +930,7 @@ TEST_CASE( "vehicle_rail_movement_basic", "[vehicle][railroad]" )
 
 TEST_CASE( "vehicle_rail_movement_fork", "[vehicle][railroad]" )
 {
+    clear_all_state();
     SECTION( "rails_tee_straight" ) {
         // Rail vehicle must follow straight rails by default,
         // but can switch tracks depending on desired turn dir
@@ -977,6 +982,7 @@ TEST_CASE( "vehicle_rail_movement_fork", "[vehicle][railroad]" )
 
 TEST_CASE( "vehicle_rail_movement_shifting", "[vehicle][railroad]" )
 {
+    clear_all_state();
     SECTION( "rails_straight_shifting" ) {
         // Rail vehicle must shift by 1 tile left or right
         // if the rails shift left or right
@@ -1026,6 +1032,7 @@ TEST_CASE( "vehicle_rail_movement_shifting", "[vehicle][railroad]" )
 
 TEST_CASE( "vehicle_rail_movement_ramp", "[vehicle][railroad][ramp]" )
 {
+    clear_all_state();
     SECTION( "straight_ramp" ) {
         // Rail vehicle must go up the ramp while following rails
         run_test_case( test_case{

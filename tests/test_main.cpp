@@ -244,7 +244,6 @@ struct CataListener : Catch::TestEventListenerBase {
         TestEventListenerBase::sectionStarting( sectionInfo );
         // Initialize the cata RNG with the Catch seed for reproducible tests
         rng_set_engine_seed( m_config->rngSeed() );
-        disable_mapgen = true;
     }
 
     bool assertionEnded( Catch::AssertionStats const &assertionStats ) override {

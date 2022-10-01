@@ -9597,6 +9597,10 @@ int iuse::craft( player *p, item *it, bool, const tripoint &pos )
 
 int iuse::disassemble( player *p, item *it, bool, const tripoint & )
 {
+    if( !p->is_avatar() ) {
+        debugmsg( "disassemble iuse is not implemented for NPCs." );
+        return 0;
+    }
     if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
@@ -9605,7 +9609,7 @@ int iuse::disassemble( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    p->disassemble( item_location( *p, it ), false );
+    crafting::disassemble( *p->as_avatar(), item_location( *p, it ) );
 
     return 0;
 }

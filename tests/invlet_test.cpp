@@ -22,6 +22,7 @@
 #include "player.h"
 #include "player_activity.h"
 #include "point.h"
+#include "state_helpers.h"
 #include "type_id.h"
 #include "visitable.h"
 
@@ -749,9 +750,9 @@ static void merge_invlet_test( player &dummy, inventory_location from )
 
 TEST_CASE( "Inventory letter test", "[invlet]" )
 {
+    clear_all_state();
     player &dummy = get_avatar();
     const tripoint spot( 60, 60, 0 );
-    clear_map();
     dummy.setpos( spot );
     get_map().ter_set( spot, ter_id( "t_dirt" ) );
     get_map().furn_set( spot, furn_id( "f_null" ) );
@@ -789,6 +790,7 @@ static void verify_invlet_consistency( const invlet_favorites &fav )
 
 TEST_CASE( "invlet_favourites_can_erase", "[invlet]" )
 {
+    clear_all_state();
     invlet_favorites fav;
     fav.set( 'a', itype_id( "a" ) );
     verify_invlet_consistency( fav );
@@ -800,6 +802,7 @@ TEST_CASE( "invlet_favourites_can_erase", "[invlet]" )
 
 TEST_CASE( "invlet_favourites_removes_clashing_on_insertion", "[invlet]" )
 {
+    clear_all_state();
     invlet_favorites fav;
     fav.set( 'a', itype_id( "a" ) );
     verify_invlet_consistency( fav );
@@ -813,6 +816,7 @@ TEST_CASE( "invlet_favourites_removes_clashing_on_insertion", "[invlet]" )
 
 TEST_CASE( "invlet_favourites_retains_order_on_insertion", "[invlet]" )
 {
+    clear_all_state();
     invlet_favorites fav;
     fav.set( 'a', itype_id( "a" ) );
     fav.set( 'b', itype_id( "a" ) );

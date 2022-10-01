@@ -13,6 +13,7 @@
 #include "player.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "state_helpers.h"
 #include "string_id.h"
 #include "type_id.h"
 
@@ -34,7 +35,7 @@ static monster *find_adjacent_monster( const tripoint &pos )
 
 TEST_CASE( "manhack", "[iuse_actor][manhack]" )
 {
-    clear_avatar();
+    clear_all_state();
     player &dummy = g->u;
 
     g->clear_zombies();

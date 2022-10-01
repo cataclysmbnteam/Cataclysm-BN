@@ -1361,7 +1361,7 @@ bool monster::bash_at( const tripoint &p )
     }
 
     bool flat_ground = g->m.has_flag( "ROAD", p ) || g->m.has_flag( "FLAT", p );
-    if( flat_ground ) {
+    if( flat_ground && !g->m.is_bashable_furn( p ) ) {
         bool can_bash_ter = g->m.is_bashable_ter( p );
         bool try_bash_ter = one_in( 50 );
         if( !( can_bash_ter && try_bash_ter ) ) {

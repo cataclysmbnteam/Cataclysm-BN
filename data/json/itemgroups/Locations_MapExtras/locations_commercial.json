@@ -1198,9 +1198,9 @@
       [ "can_tuna", 15 ],
       [ "can_chicken", 15 ],
       [ "petpack", 10 ],
-      [ "kevlar_harness", 5 ],
-      [ "leather_harness_dog", 5 ],
-      [ "rubber_harness_dog", 5 ]
+      [ "kevlar_armor_small_quadruped", 5 ],
+      [ "leather_armor_small_quadruped", 5 ],
+      [ "rubber_armor_small_quadruped", 5 ]
     ]
   },
   {
