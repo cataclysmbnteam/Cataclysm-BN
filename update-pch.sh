@@ -16,4 +16,6 @@ else
  echo pch up to date
 fi
 
+echo '#include "../src/colony.h"' >> $pch
+
 rm $tpch $tpchr
