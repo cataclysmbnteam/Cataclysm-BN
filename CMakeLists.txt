@@ -21,6 +21,7 @@ option(LIBBACKTRACE "Print backtrace with libbacktrace."    "OFF")
 option(USE_HOME_DIR "Use user's home directory for save files."   "ON")
 set(LANGUAGES "" CACHE STRING "Compile localization files for specified languages. List of language ids separated by semicolon. Set to 'all' or leave empty to compile all, set to 'none' to compile none.")
 option(DYNAMIC_LINKING "Use dynamic linking. Or use static to remove MinGW dependency instead."   "ON")
+option(USE_UNITY_BUILD "Use unity build. New in Cmake 3.16" "OFF")
 option(JSON_FORMAT  "Build JSON formatter" "OFF")
 option(CATA_CCACHE  "Try to find and build with ccache" "ON")
 option(CATA_CLANG_TIDY_PLUGIN "Build Cata's custom clang-tidy plugin" "OFF")
@@ -258,7 +259,7 @@ IF(TILES)
     FIND_PACKAGE(SDL2)
     IF(NOT SDL2_FOUND)
       MESSAGE(FATAL_ERROR
-          "This project requires SDL2 to be installed to be compiled in graphical mode. Please install the SDL2 development libraries, or try compiling 
+          "This project requires SDL2 to be installed to be compiled in graphical mode. Please install the SDL2 development libraries, or try compiling
            without the -DTILES=1 for a text only compilation.\nSee INSTALL file for details and more info\n"
       )
     ENDIF(NOT SDL2_FOUND)
@@ -368,4 +369,7 @@ if(CCACHE_FOUND AND CATA_CCACHE)
     set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK ccache)
 endif()
 
+if(USE_UNITY_BUILD)
+    set_property(GLOBAL PROPERTY UNITY_BUILD ON)
+endif()
 # vim:noet
