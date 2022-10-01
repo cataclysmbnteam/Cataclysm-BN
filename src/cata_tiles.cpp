@@ -206,6 +206,19 @@ void idle_animation_manager::prepare_for_redraw()
     frame = value.count() / 17;
 }
 
+struct tile_render_info {
+    tripoint pos{};
+    // accumulator for 3d tallness of sprites rendered here so far;
+    int height_3d = 0;
+    lit_level ll;
+    bool invisible[5];
+    tile_render_info( const tripoint &pos, const int height_3d, const lit_level ll,
+                      const bool( &invisible )[5] )
+        : pos( pos ), height_3d( height_3d ), ll( ll ) {
+        std::copy( invisible, invisible + 5, this->invisible );
+    }
+};
+
 cata_tiles::cata_tiles( const SDL_Renderer_Ptr &renderer, const GeometryRenderer_Ptr &geometry ) :
     renderer( renderer ),
     geometry( geometry ),
@@ -1085,19 +1098,6 @@ void tileset_loader::load_tile_spritelists( const JsonObject &entry,
     }
 }
 
-struct tile_render_info {
-    tripoint pos{};
-    // accumulator for 3d tallness of sprites rendered here so far;
-    int height_3d = 0;
-    lit_level ll;
-    bool invisible[5];
-    tile_render_info( const tripoint &pos, const int height_3d, const lit_level ll,
-                      const bool( &invisible )[5] )
-        : pos( pos ), height_3d( height_3d ), ll( ll ) {
-        std::copy( invisible, invisible + 5, this->invisible );
-    }
-};
-
 static int divide_round_down( int a, int b )
 {
     if( b < 0 ) {
@@ -1219,7 +1219,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         }
     }
 
-    std::vector<tile_render_info> draw_points;
+    std::vector<tile_render_info> &draw_points = *draw_points_cache;
+    draw_points.clear();
     int min_z = OVERMAP_HEIGHT;
 
     for( int row = min_row; row < max_row; row ++ ) {

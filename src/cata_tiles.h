@@ -336,6 +336,8 @@ class idle_animation_manager
  */
 using color_block_overlay_container = std::pair<SDL_BlendMode, std::multimap<point, SDL_Color>>;
 
+struct tile_render_info;
+
 class cata_tiles
 {
     public:
@@ -677,6 +679,7 @@ class cata_tiles
         std::map<tripoint, bool> draw_below_override;
         // int represents spawn count
         std::map<tripoint, std::tuple<mtype_id, int, bool, Creature::Attitude>> monster_override;
+        pimpl<std::vector<tile_render_info>> draw_points_cache;
 
     private:
         /**
