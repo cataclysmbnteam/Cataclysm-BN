@@ -266,7 +266,8 @@
       { "monster": "mon_zombie_tough", "freq": 10, "cost_multiplier": 5 },
       { "monster": "mon_zombie_rot", "freq": 6, "cost_multiplier": 5 },
       { "monster": "mon_zombie_crawler", "freq": 4, "cost_multiplier": 5 },
-      { "monster": "mon_zombie_static", "freq": 200, "cost_multiplier": 5 }
+      { "monster": "mon_zombie_static", "freq": 200, "cost_multiplier": 5 },
+      { "monster": "mon_haulerbot", "freq": 1, "cost_multiplier": 1 }
     ]
   },
   {
