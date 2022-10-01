@@ -38,6 +38,7 @@
 #include "item_factory.h"
 #include "itype.h"
 #include "json.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_memory.h"
 #include "mapbuffer.h"
@@ -2458,30 +2459,35 @@ bool cata_tiles::apply_vision_effects( const tripoint &pos,
     if( !would_apply_vision_effects( visibility ) ) {
         return false;
     }
-    std::string light_name;
+    const std::string *light_name = nullptr;
     switch( visibility ) {
-        case VIS_HIDDEN:
-            light_name = "lighting_hidden";
+        case VIS_HIDDEN: {
+            light_name = &STATIC( std::string( "lighting_hidden" ) );
             break;
-        case VIS_LIT:
-            light_name = "lighting_lowlight_light";
+        }
+        case VIS_LIT: {
+            light_name = &STATIC( std::string( "lighting_lowlight_light" ) );
             break;
-        case VIS_BOOMER:
-            light_name = "lighting_boomered_light";
+        }
+        case VIS_BOOMER: {
+            light_name = &STATIC( std::string( "lighting_boomered_light" ) );
             break;
-        case VIS_BOOMER_DARK:
-            light_name = "lighting_boomered_dark";
+        }
+        case VIS_BOOMER_DARK: {
+            light_name = &STATIC( std::string( "lighting_boomered_dark" ) );
             break;
-        case VIS_DARK:
-            light_name = "lighting_lowlight_dark";
+        }
+        case VIS_DARK: {
+            light_name = &STATIC( std::string( "lighting_lowlight_dark" ) );
             break;
+        }
         case VIS_CLEAR:
             // should never happen
             break;
     }
 
     // lighting is never rotated, though, could possibly add in random rotation?
-    draw_from_id_string( light_name, C_LIGHTING, empty_string, pos, 0, 0, lit_level::LIT, false, 0 );
+    draw_from_id_string( *light_name, C_LIGHTING, empty_string, pos, 0, 0, lit_level::LIT, false, 0 );
 
     return true;
 }
