@@ -2316,15 +2316,15 @@ bool map::has_flag_furn( const std::string &flag, const tripoint &p ) const
     return furn( p ).obj().has_flag( flag );
 }
 
-bool map::has_flag_vpart(const std::string& flag, const tripoint& p) const
+bool map::has_flag_vpart( const std::string &flag, const tripoint &p ) const
 {
-    const optional_vpart_position vp = veh_at(p);
-    return static_cast<bool>(vp.part_with_feature(flag, true));
+    const optional_vpart_position vp = veh_at( p );
+    return static_cast<bool>( vp.part_with_feature( flag, true ) );
 }
 
-bool map::has_flag_furn_or_vpart(const std::string& flag, const tripoint& p) const
+bool map::has_flag_furn_or_vpart( const std::string &flag, const tripoint &p ) const
 {
-    return has_flag_furn(flag, p) || has_flag_vpart(flag, p);
+    return has_flag_furn( flag, p ) || has_flag_vpart( flag, p );
 }
 
 bool map::has_flag_ter_or_furn( const std::string &flag, const tripoint &p ) const
@@ -8664,22 +8664,22 @@ std::list<tripoint> map::find_furnitures_with_flag_in_radius( const tripoint &ce
     return furn_locs;
 }
 
-std::list<tripoint> map::find_furnitures_or_vparts_with_flag_in_radius(const tripoint& center,
-    size_t radius, const std::string& flag, size_t radiusz)
+std::list<tripoint> map::find_furnitures_or_vparts_with_flag_in_radius( const tripoint &center,
+        size_t radius, const std::string &flag, size_t radiusz )
 {
     std::list<tripoint> locs;
-    for (const auto& loc : points_in_radius(center, radius, radiusz)) {
-        if (has_flag_furn(flag, loc)) {
-            locs.push_back(loc);
+    for( const auto &loc : points_in_radius( center, radius, radiusz ) ) {
+        if( has_flag_furn( flag, loc ) ) {
+            locs.push_back( loc );
         }
     }
     //Workaround for ramp bridges
-    for (const auto& loc : points_in_radius(center, radius, radiusz + 1)) {
-        if (has_flag_vpart(flag, loc)) {
-            locs.push_back(loc);
+    for( const auto &loc : points_in_radius( center, radius, radiusz + 1 ) ) {
+        if( has_flag_vpart( flag, loc ) ) {
+            locs.push_back( loc );
         }
     }
-    
+
     return locs;
 }
 
