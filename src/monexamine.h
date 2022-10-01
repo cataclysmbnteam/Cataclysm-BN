@@ -28,6 +28,7 @@ void tie_or_untie( monster &z );
 void shear_animal( monster &z );
 void mount_pet( monster &z );
 void attach_or_remove_saddle( monster &z );
+void deactivate_pet( monster &z );
 /*
 *Manages the milking and milking cool down of monsters.
 *Milked item uses starting_ammo, where ammo type is the milked item
