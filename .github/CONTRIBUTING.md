@@ -56,8 +56,9 @@ The translation of Cataclysm: BN is done using Transifex.
 Look at the [translation project](https://www.transifex.com/bn-team/cataclysm-bright-nights/) for an up-to-date list of supported languages.
 
 See [TRANSLATING](../doc/TRANSLATING.md) for more information:
-| [For translators](../doc/TRANSLATING.md#translators) | [For developers](../doc/TRANSLATING.md#developers) | [For maintainers](../doc/TRANSLATING.md#maintainers) |
-| :--------------------------------------------------: | :------------------------------------------------: | :--------------------------------------------------: |
+- [For translators](../doc/TRANSLATING.md#translators)
+- [For developers](../doc/TRANSLATING.md#developers)
+- [For maintainers](../doc/TRANSLATING.md#maintainers)
 
 ## Doxygen Comments
 
