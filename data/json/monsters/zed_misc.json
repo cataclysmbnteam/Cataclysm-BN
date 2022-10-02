@@ -458,9 +458,7 @@
     "vision_day": 50,
     "vision_night": 4,
     "harvest": "zombie",
-    "special_attacks": [
-      [ "LONGSWIPE", 20 ]
-    ],
+    "special_attacks": [ [ "SMASH", 20 ] ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "death_function": [ "NORMAL" ],
     "fungalize_into": "mon_zombie_fungus",
