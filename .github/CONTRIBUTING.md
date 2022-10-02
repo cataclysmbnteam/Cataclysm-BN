@@ -1,9 +1,29 @@
 # Contribute
 
-|         [Guidelines](#guidelines)         |                                            [Code Style](#code-style)                                             |                 [Translations](#translations)                 |      [Doxygen Comments](#doxygen-comments)      |
-| :---------------------------------------: | :--------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------: | :---------------------------------------------: |
-| **[Example Workflow](#example-workflow)** |                                  **[Pull Request Notes](#pull-request-notes)**                                   |            **[Tooling support](#tooling-support)**            | **[Advanced Techniques](#advanced-techniques)** |
-|       **[Unit tests](#unit-tests)**       | **[In-game testing, test environment and the debug menu](#in-game-testing-test-environment-and-the-debug-menu)** | **[Frequently Asked Questions](#frequently-asked-questions)** |
+- [Contribute](#contribute)
+  - [Guidelines](#guidelines)
+  - [Code Style](#code-style)
+  - [Translations](#translations)
+  - [Doxygen Comments](#doxygen-comments)
+    - [Guidelines for adding documentation](#guidelines-for-adding-documentation)
+    - [Building the documentation for viewing it locally](#building-the-documentation-for-viewing-it-locally)
+  - [Example Workflow](#example-workflow)
+      - [Setup your environment](#setup-your-environment)
+      - [Update your `upload` branch](#update-your-upload-branch)
+      - [Make your changes](#make-your-changes)
+  - [Pull Request Notes](#pull-request-notes)
+    - [All PRs should have a `"Summary"` line](#all-prs-should-have-a-summary-line)
+    - [Closing issues using keywords](#closing-issues-using-keywords)
+      - [keyword](#keyword)
+      - [issue](#issue)
+      - [closing multiple issues at once](#closing-multiple-issues-at-once)
+  - [Tooling support](#tooling-support)
+  - [Advanced Techniques](#advanced-techniques)
+      - [Using remote tracking branches](#using-remote-tracking-branches)
+  - [Unit tests](#unit-tests)
+  - [In-game testing, test environment and the debug menu](#in-game-testing-test-environment-and-the-debug-menu)
+  - [Frequently Asked Questions](#frequently-asked-questions)
+      - [Why does `git pull --ff-only` result in an error?](#why-does-git-pull---ff-only-result-in-an-error)
 
 **Opening new issue?** Please read [ISSUES.md](../ISSUES.md) first.
 
@@ -36,8 +56,8 @@ The translation of Cataclysm: BN is done using Transifex.
 Look at the [translation project](https://www.transifex.com/bn-team/cataclysm-bright-nights/) for an up-to-date list of supported languages.
 
 See [TRANSLATING](../doc/TRANSLATING.md) for more information:
-|[For translators](../doc/TRANSLATING.md#translators)|[For developers](../doc/TRANSLATING.md#developers)|[For maintainers](../doc/TRANSLATING.md#maintainers)|
-|:---:|:---:|:---:|
+| [For translators](../doc/TRANSLATING.md#translators) | [For developers](../doc/TRANSLATING.md#developers) | [For maintainers](../doc/TRANSLATING.md#maintainers) |
+| :--------------------------------------------------: | :------------------------------------------------: | :--------------------------------------------------: |
 
 ## Doxygen Comments
 
@@ -205,8 +225,8 @@ for example: `- fixed #12345`
 
 `{keyword}` must be one of the following:
 
-| close | closes | closed | fix | fixes | fixed | resolve | resolves | resolved |
-| :---: | :----: | :----: | :-: | :---: | :---: | :-----: | :------: | :------: |
+| close | closes | closed |  fix  | fixes | fixed | resolve | resolves | resolved |
+| :---: | :----: | :----: | :---: | :---: | :---: | :-----: | :------: | :------: |
 
 #### issue
 
