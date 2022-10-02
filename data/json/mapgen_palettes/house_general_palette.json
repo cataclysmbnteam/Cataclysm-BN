@@ -65,6 +65,7 @@
       "8": "f_counter",
       "9": "f_shower",
       "@": "f_bed",
+      "₸": "f_deckchair",
       "Ø": "f_pinball_machine",
       "Æ": "f_arcade_machine",
       "ʭ": "f_ladder",
@@ -82,6 +83,7 @@
       "^": "t_gutter_downspout",
       "|": "t_wall_w",
       "#": "t_brick_wall",
+      "¶": "t_door_glass_c",
       ":": "t_wall_glass",
       "-": "t_sidewalk",
       "o": [
@@ -252,5 +254,18 @@
       "Q": "t_linoleum_gray",
       "w": "t_linoleum_gray"
     }
+  },
+  {
+    "type": "palette",
+    "id": "standard_domestic_landscaping_palette",
+    "//": "Intended to be used in conjunction with standard_domestic_palette. Load the domestic palette first, then this one to use open symbols for landscaping.",
+    "terrain": {
+      "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
+      "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
+      "!": "t_region_groundcover_urban",
+      "_": "t_pavement",
+      "`": "t_concrete"
+    },
+    "furniture": { "!": "f_region_flower" }
   }
 ]
