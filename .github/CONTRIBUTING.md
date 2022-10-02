@@ -1,11 +1,20 @@
 # Contribute
 
+|         [Guidelines](#guidelines)         |                                            [Code Style](#code-style)                                             |                 [Translations](#translations)                 |      [Doxygen Comments](#doxygen-comments)      |
+| :---------------------------------------: | :--------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------: | :---------------------------------------------: |
+| **[Example Workflow](#example-workflow)** |                                  **[Pull Request Notes](#pull-request-notes)**                                   |            **[Tooling support](#tooling-support)**            | **[Advanced Techniques](#advanced-techniques)** |
+|       **[Unit tests](#unit-tests)**       | **[In-game testing, test environment and the debug menu](#in-game-testing-test-environment-and-the-debug-menu)** | **[Frequently Asked Questions](#frequently-asked-questions)** |
+
 **Opening new issue?** Please read [ISSUES.md](../ISSUES.md) first.
 
-Contributing to Cataclysm: Bright Nights is easy — simply fork the repository here on GitHub, make your changes, and then send us a pull request.
+Contributing to Cataclysm: Bright Nights is easy:
 
-Cataclysm: Bright Nights is released under the Creative Commons Attribution ShareAlike 3.0 license. The code and content of the game is free to use, modify, and redistribute for any purpose whatsoever. See http://creativecommons.org/licenses/by-sa/3.0/ for details.
-This means any contribution you make to the project will also be covered by the same license, and this license is irrevocable.
+-   fork the repository here on GitHub
+-   make your changes
+-   then send us a pull request.
+
+> Cataclysm: Bright Nights is released under the Creative Commons Attribution ShareAlike 3.0 license. The code and content of the game is free to use, modify, and redistribute for any purpose whatsoever. See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+> This means any contribution you make to the project will also be covered by the same license, and this license is irrevocable.
 
 ## Guidelines
 
@@ -27,10 +36,8 @@ The translation of Cataclysm: BN is done using Transifex.
 Look at the [translation project](https://www.transifex.com/bn-team/cataclysm-bright-nights/) for an up-to-date list of supported languages.
 
 See [TRANSLATING](../doc/TRANSLATING.md) for more information:
-
--   [For translators](../doc/TRANSLATING.md#translators)
--   [For developers](../doc/TRANSLATING.md#developers)
--   [For maintainers](../doc/TRANSLATING.md#maintainers)
+|[For translators](../doc/TRANSLATING.md#translators)|[For developers](../doc/TRANSLATING.md#developers)|[For maintainers](../doc/TRANSLATING.md#maintainers)|
+|:---:|:---:|:---:|
 
 ## Doxygen Comments
 
@@ -67,10 +74,15 @@ Use the following template for commenting member variables:
 int foo;
 ```
 
-Helpful pages:
-http://www.stack.nl/~dimitri/doxygen/manual/commands.html
-http://www.stack.nl/~dimitri/doxygen/manual/markdown.html#markdown_std
-http://www.stack.nl/~dimitri/doxygen/manual/faq.html
+<!-- Helpful pages:
+(they are 403 forbidden)
+
+| [commands][doxygen-commands] | [markdown standard][doxygen-markdown] | [faqs][doxygen-faq] |
+| :--------------------------: | :-----------------------------------: | :-----------------: |
+
+[doxygen-commands]: http://www.stack.nl/~dimitri/doxygen/manual/commands.html
+[doxygen-markdown]: http://www.stack.nl/~dimitri/doxygen/manual/markdown.html#markdown_std
+[doxygen-faq]: http://www.stack.nl/~dimitri/doxygen/manual/faq.html -->
 
 ### Guidelines for adding documentation
 
@@ -95,36 +107,45 @@ _(This only needs to be done once.)_
 
 2.  Clone your fork locally.
 
-        $ git clone https://github.com/YOUR_USERNAME/Cataclysm-BN.git
-        # Clones your fork of the repository into the current directory in terminal
+    ```sh
+      $ git clone https://github.com/YOUR_USERNAME/Cataclysm-BN.git
+      # Clones your fork of the repository into the current directory in terminal
+    ```
 
 3.  Set commit message template.
 
-        $ git config --local commit.template .gitmessage
+    ```sh
+     $ git config --local commit.template .gitmessage
+    ```
 
 4.  Add this repository as a remote.
 
-        $ cd Cataclysm-BN
-        # Changes the active directory in the prompt to the newly cloned "Cataclysm-BN" directory
-        $ git remote add -f upstream https://github.com/cataclysmbnteam/Cataclysm-BN.git
-        # Assigns the original repository to a remote called "upstream"
+    ```sh
+    $ cd Cataclysm-BN
+    # Changes the active directory in the prompt to the newly cloned "Cataclysm-BN" directory
+    $ git remote add -f upstream https://github.com/cataclysmbnteam/Cataclysm-BN.git
+    # Assigns the original repository to a remote called "upstream"
+    ```
 
 For further details about commit message guidelines please visit:
 
--   [codeinthehole.com](https://codeinthehole.com/tips/a-useful-template-for-commit-messages/)
--   [chris.beams.io](https://chris.beams.io/posts/git-commit/)
--   [help.github.com](https://help.github.com/articles/closing-issues-using-keywords/)
+| [codeinthehole.com](https://codeinthehole.com/tips/a-useful-template-for-commit-messages/) | [chris.beams.io](https://chris.beams.io/posts/git-commit/) | [help.github.com](https://help.github.com/articles/closing-issues-using-keywords/) |
+| :----------------------------------------------------------------------------------------: | :--------------------------------------------------------: | :--------------------------------------------------------------------------------: |
 
 #### Update your `upload` branch
 
 1.  Make sure you have your `upload` branch checked out.
 
-        $ git checkout upload
+    ```sh
+    $ git checkout upload
+    ```
 
 2.  Pull the changes from the `upstream/upload` branch.
 
-        $ git pull --ff-only upstream upload
-        # gets changes from "upload" branch on the "upstream" remote
+    ```sh
+    $ git pull --ff-only upstream upload
+    # gets changes from "upload" branch on the "upstream" remote
+    ```
 
 -   Note: If this gives you an error, it means you have committed directly to your local `upload` branch. [Click here for instructions on how to fix this issue](#why-does-git-pull---ff-only-result-in-an-error).
 
@@ -133,66 +154,77 @@ For further details about commit message guidelines please visit:
 0.  Update your `upload` branch, if you haven't already.
 
 1.  For each new feature or bug fix, create a new branch.
-
-        $ git branch new_feature
-        # Creates a new branch called "new_feature"
-        $ git checkout new_feature
-        # Makes "new_feature" the active branch
-
+    ```sh
+    $ git branch new_feature
+    # Creates a new branch called "new_feature"
+    $ git checkout new_feature
+    # Makes "new_feature" the active branch
+    ```
 2.  Once you've committed some changes locally, you need to push them to your fork here on GitHub.
-
-        $ git push origin new_feature
-        # origin was automatically set to point to your fork when you cloned it
-
+    ```sh
+    $ git push origin new_feature
+    # origin was automatically set to point to your fork when you cloned it
+    ```
 3.  Once you're finished working on your branch, and have committed and pushed all your changes, submit a pull request from your `new_feature` branch to this repository's `upload` branch.
 
 -   Note: any new commits to the `new_feature` branch on GitHub will automatically be included in the pull request, so make sure to only commit related changes to the same branch.
 
 ## Pull Request Notes
 
-If you file a PR but you're still working on it, please add a [WIP] before the title text. This will tell the reviewers that you still intend to add more to the PR and we don't need to review it yet. When it's ready to be reviewed by a merger just edit the title text to remove the [WIP].
+If you file a PR but you're still working on it, please add a `[WIP]` before the title text. This will tell the reviewers that you still intend to add more to the PR and we don't need to review it yet. When it's ready to be reviewed by a merger just edit the title text to remove the `[WIP]`.
 
-If you are also looking for suggestions then mark it with [CR] — "comments requested". You can use both [WIP] and [CR] to indicated that you need opinion/code review/suggestions to continue working (e.g. "[WIP] [CR] Super awesome big feature"). Feel free to remove [CR] when you feel you got enough information to proceed.
+If you are also looking for suggestions then mark it with `[CR]` — "comments requested". You can use both `[WIP]` and `[CR]` to indicated that you need opinion/code review/suggestions to continue working (e.g. "`[WIP]` `[CR]` Super awesome big feature"). Feel free to remove `[CR]` when you feel you got enough information to proceed.
 
 This can help speed up our review process by allowing us to only review the things that are ready for it, and will prevent anything that isn't completely ready from being merged in.
 
 It is not required to solve or reference an open issue to file a PR, however, if you do so, you need to explain the problem your PR is solving in full detail.
 
-### All PRs should have a "Summary" line
+### All PRs should have a `"Summary"` line
 
-Summary is a one-line description of your change that will be extracted and added to the project changelog at https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/data/changelog.txt
+Summary is a one-line description of your change that will be extracted and added to the project changelog at <https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/data/changelog.txt>
 
 The format is: `SUMMARY: Category "description"`
 
 The categories to choose from are: Features, Content, Interface, Mods, Balance, Bugfixes, Performance, Infrastructure, Build, I18N.
 
 Example: `SUMMARY: Content "Adds new mutation category 'Mouse'"`
-Or, if you want it treated as a minor tweak that doesn't appear in the changelog:
-`SUMMARY: None`
 
-See the Changelog Guidelines at https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/doc/CHANGELOG_GUIDELINES.md for explanations of the categories.
+See the [Changelog Guidelines](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/doc/CHANGELOG_GUIDELINES.md) for explanations of the categories.
 
 ### Closing issues using keywords
 
-One more thing: when marking your PR as closing, fixing, or resolving issues, please include "XXXX #???" somewhere in the description, where XXX is on this list:
+One more thing: when marking your PR as closing, fixing, or resolving issues, please include this somewhere in the description:
 
--   close
--   closes
--   closed
--   fix
--   fixes
--   fixed
--   resolve
--   resolves
--   resolved
+```
+- {keyword} #{issue}
+```
 
-The "???" is the issue number. This automatically closes the issue when the PR is pulled in, and allows merges to work slightly faster. To close multiple issues format it as "XXXX #???, XXXX#???".
+for example: `- fixed #12345`
 
-See https://help.github.com/articles/closing-issues-using-keywords/ for more.
+#### keyword
+
+`{keyword}` must be one of the following:
+
+| close | closes | closed | fix | fixes | fixed | resolve | resolves | resolved |
+| :---: | :----: | :----: | :-: | :---: | :---: | :-----: | :------: | :------: |
+
+#### issue
+
+and `{issue}` is the number of the issue you're closing after PR gets merged.
+
+This would automatically close the issue when the PR is pulled in, and allows merges to work slightly faster.
+
+#### closing multiple issues at once
+
+```
+- {keyword} #{issue}, {keyword} #{issue}
+```
+
+See <https://help.github.com/articles/closing-issues-using-keywords/> for more.
 
 ## Tooling support
 
-Various tools are available to help you keep your contributions conforming to the appropriate style. See [the relevant docs](../doc/DEVELOPER_TOOLING.md) for more details.
+Various tools are available to help you keep your contributions conforming to the appropriate style. See [DEVELOPER_TOOLING](../doc/DEVELOPER_TOOLING.md) for more details.
 
 ## Advanced Techniques
 
@@ -202,40 +234,50 @@ These guidelines aren't essential, but they can make keeping things in order muc
 
 Remote tracking branches allow you to easily stay in touch with this repository's `upload` branch, as they automatically know which remote branch to get changes from.
 
+    ```sh
     $ git branch -vv
     * upload      xxxx [origin/upload] ....
       new_feature xxxx ....
+    ```
 
 Here you can see we have two branches; `upload` which is tracking `origin/upload`, and `new_feature` which isn't tracking any branch. In practice, what this means is that git won't know where to get changes from.
 
+    ```sh
     $ git checkout new_feature
     Switched to branch 'new_feature'
     $ git pull
     There is no tracking information for the current branch.
     Please specify which branch you want to merge with.
+    ```
 
 In order to easily pull changes from `upstream/upload` into the `new_feature` branch, we can tell git which branch it should track. (You can even do this for your local upload branch.)
 
+    ```sh
     $ git branch -u upstream/upload new_feature
     Branch new_feature set up to track remote branch upload from upstream.
     $ git pull
     Updating xxxx..xxxx
     ....
+    ```
 
 You can also set the tracking information at the same time as creating the branch.
 
+    ```sh
     $ git branch new_feature_2 --track upstream/upload
     Branch new_feature_2 set up to track remote branch upload from upstream.
+    ```
 
 -   Note: Although this makes it easier to pull from `upstream/upload`, it doesn't change anything with regards to pushing. `git push` fails because you don't have permission to push to `upstream/upload`.
 
-         $ git push
-         error: The requested URL returned error: 403 while accessing https://github.com/cataclysmbnteam/Cataclysm-BN.git
-         fatal: HTTP request failed
-         $ git push origin
-         ....
-         To https://github.com/YOUR_USERNAME/Cataclysm-BN.git
-         xxxx..xxxx  new_feature -> new_feature
+    ```sh
+    $ git push
+    error: The requested URL returned error: 403 while accessing https://github.com/cataclysmbnteam/Cataclysm-BN.git
+    fatal: HTTP request failed
+    $ git push origin
+    ....
+    To https://github.com/YOUR_USERNAME/Cataclysm-BN.git
+    xxxx..xxxx  new_feature -> new_feature
+    ```
 
 ## Unit tests
 
@@ -245,6 +287,7 @@ An ordinary invocation of `make` will build the test executable at tests/cata_te
 With no arguments it will run the entire test suite.
 With `--help` it will print a number of invocation options you can use to adjust its operation.
 
+    ```sh
     $ make
     ... compilation details ...
     $ tests/cata_test
@@ -253,6 +296,7 @@ With `--help` it will print a number of invocation options you can use to adjust
     All tests passed (1324684 assertions in 94 test cases)
     Ended test at Fri Nov  9 04:37:45 2018
     The test took 41.772 seconds
+    ```
 
 I recommend habitually invoking make like `make YOUR BUILD OPTIONS && make check`.
 
@@ -283,6 +327,7 @@ With these commands, you should be able to recreate the proper conditions to tes
 
 If `git pull --ff-only` shows an error, it means that you've committed directly to your local `upload` branch. To fix this, we create a new branch with these commits, find the point at which we diverged from `upstream/upload`, and then reset `upload` to that point.
 
+    ```sh
     $ git pull --ff-only upstream upload
     From https://github.com/cataclysmbnteam/Cataclysm-BN
      * branch            upload     -> FETCH_HEAD
@@ -292,11 +337,14 @@ If `git pull --ff-only` shows an error, it means that you've committed directly 
     cc31d0... # the last commit before we committed directly to upload
     $ git reset --hard cc31d0....
     HEAD is now at cc31d0... ...
+    ```
 
 Now that `upload` has been cleaned up, we can easily pull from `upstream/upload`, and then continue working on `new_branch`.
 
+    ```sh
     $ git pull --ff-only upstream upload
     # gets changes from the "upstream" remote for the matching branch, in this case "upload"
     $ git checkout new_branch
+    ```
 
 For more frequently asked questions, see the [developer FAQ](../doc/DEVELOPER_FAQ.md).
