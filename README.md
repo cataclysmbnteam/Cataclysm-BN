@@ -2,15 +2,11 @@
 
 Cataclysm: Bright Nights is a roguelike with sci-fi elements set in a post-apocalyptic world. It is a fork of Cataclysm: Dark Days Ahead; [see the differences from its ancestor on the wiki](https://github.com/cataclysmbnteam/Cataclysm-BN/wiki/Changes-so-far).
 
-
 While some have described it as a "zombie game", there is far more to Cataclysm than that. Struggle to survive in a harsh, persistent, procedurally generated world. Scavenge the remnants of a dead civilization for food, equipment, or, if you are lucky, a vehicle with a full tank of gas to get you the hell out of there.
-
 
 Fight to defeat or escape from a wide variety of powerful monstrosities, from zombies to giant insects to killer robots and things far stranger and deadlier, and against the others like yourself, who want what you have.
 
-
 Find a way to stop the Cataclysm ... or become one of its strongest monsters.
-
 
 ## Downloads
 
@@ -18,15 +14,15 @@ Find a way to stop the Cataclysm ... or become one of its strongest monsters.
 
 **Source** - The source can be downloaded as a [.zip archive](https://github.com/cataclysmbnteam/Cataclysm-BN/archive/master.zip), or cloned from our [GitHub repo](https://github.com/cataclysmbnteam/Cataclysm-BN/).
 
-
 ## Compile
 
 Please read [COMPILING.md](doc/COMPILING/COMPILING.md) - it covers general information and more specific recipes for Linux, OS X, Windows and BSD. See [COMPILER_SUPPORT.md](doc/COMPILING/COMPILER_SUPPORT.md) for details on which compilers we support. And you can always dig for more information in [doc/](https://github.com/cataclysmbnteam/Cataclysm-BN/tree/upload/doc).
 
 We also have the following build guides:
-* Building on Windows with `MSYS2` at [COMPILING-MSYS.md](doc/COMPILING/COMPILING-MSYS.md)
-* Building on Windows with `vcpkg` at [COMPILING-VS-VCPKG.md](doc/COMPILING/COMPILING-VS-VCPKG.md)
-* Building with `cmake` at [COMPILING-CMAKE.md](doc/COMPILING/COMPILING-CMAKE.md)  (*unofficial guide*)
+
+-   Building on Windows with `MSYS2` at [COMPILING-MSYS.md](doc/COMPILING/COMPILING-MSYS.md)
+-   Building on Windows with `vcpkg` at [COMPILING-VS-VCPKG.md](doc/COMPILING/COMPILING-VS-VCPKG.md)
+-   Building with `cmake` at [COMPILING-CMAKE.md](doc/COMPILING/COMPILING-CMAKE.md) (_unofficial guide_)
 
 ## Contribute
 
@@ -45,9 +41,6 @@ https://discord.gg/XW7XhXuZ89
 
 Unofficial DDA modding community discord has a BN channel:
 https://discord.gg/B5q4XCa
-
-
-
 
 ## Frequently Asked Questions
 
