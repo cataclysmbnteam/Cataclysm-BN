@@ -1,5 +1,5 @@
 # Main project build script
-cmake_minimum_required(VERSION 3.1.4)
+cmake_minimum_required(VERSION 3.16)
 
 PROJECT(CataclysmBN)
 
@@ -21,8 +21,8 @@ option(LIBBACKTRACE "Print backtrace with libbacktrace."    "OFF")
 option(USE_HOME_DIR "Use user's home directory for save files."   "ON")
 set(LANGUAGES "" CACHE STRING "Compile localization files for specified languages. List of language ids separated by semicolon. Set to 'all' or leave empty to compile all, set to 'none' to compile none.")
 option(DYNAMIC_LINKING "Use dynamic linking. Or use static to remove MinGW dependency instead."   "ON")
-option(USE_UNITY_BUILD "Use unity build. New in Cmake 3.16" "OFF")
-option(USE_PCH_HEADER "Use precompiled PCH header. New in Cmake 3.16" "OFF")
+option(USE_UNITY_BUILD "Use unity build." "OFF")
+option(USE_PCH_HEADER "Use precompiled PCH header." "OFF")
 option(JSON_FORMAT  "Build JSON formatter" "OFF")
 option(CATA_CCACHE  "Try to find and build with ccache" "ON")
 option(CATA_CLANG_TIDY_PLUGIN "Build Cata's custom clang-tidy plugin" "OFF")

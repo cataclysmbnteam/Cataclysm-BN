@@ -1,5 +1,5 @@
 # Cataclysm BN client
-cmake_minimum_required(VERSION 3.1.4)
+cmake_minimum_required(VERSION 3.16)
 
 SET(MAIN_CPP ${CMAKE_SOURCE_DIR}/src/main.cpp)
 SET(MESSAGES_CPP ${CMAKE_SOURCE_DIR}/src/messages.cpp)
