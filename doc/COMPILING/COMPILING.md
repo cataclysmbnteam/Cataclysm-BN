@@ -115,7 +115,7 @@ If you want to compile files for specific languages, you should add `LANGUAGES="
 
     make LANGUAGES="zh_CN zh_TW"
 
-You can get the language ID from the filenames of `*.po` in `lang/po` directory or use `LANGUAGES="all"` to compile all available localizations. 
+You can get the language ID from the filenames of `*.po` in `lang/po` directory or use `LANGUAGES="all"` to compile all available localizations.
 
 # Debian
 
@@ -153,6 +153,13 @@ Dependencies:
 Install:
 
     sudo apt-get install libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libfreetype6-dev build-essential
+
+check correct version of SDL2 is installed by running:
+```sh
+> sdl2-config --version
+2.0.22
+```
+using old version of SDL(1.2) could result in [IME not working.](https://github.com/cataclysmbnteam/Cataclysm-BN/issues/1497)
 
 ### Building
 
