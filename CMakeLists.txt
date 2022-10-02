@@ -22,6 +22,7 @@ option(USE_HOME_DIR "Use user's home directory for save files."   "ON")
 set(LANGUAGES "" CACHE STRING "Compile localization files for specified languages. List of language ids separated by semicolon. Set to 'all' or leave empty to compile all, set to 'none' to compile none.")
 option(DYNAMIC_LINKING "Use dynamic linking. Or use static to remove MinGW dependency instead."   "ON")
 option(USE_UNITY_BUILD "Use unity build. New in Cmake 3.16" "OFF")
+option(USE_PCH_HEADER "Use precompiled PCH header. New in Cmake 3.16" "OFF")
 option(JSON_FORMAT  "Build JSON formatter" "OFF")
 option(CATA_CCACHE  "Try to find and build with ccache" "ON")
 option(CATA_CLANG_TIDY_PLUGIN "Build Cata's custom clang-tidy plugin" "OFF")
@@ -194,14 +195,17 @@ ELSE (CMAKE_BUILD_TYPE STREQUAL Debug)
       ADD_DEFINITIONS(-DDATA_DIR_PREFIX)
     ENDIF (PREFIX AND NOT WIN32)
 ENDIF (CMAKE_BUILD_TYPE STREQUAL Debug)
-
     MESSAGE(STATUS "GIT_BINARY                    : ${GIT_EXECUTABLE}")
     MESSAGE(STATUS "DYNAMIC_LINKING               : ${DYNAMIC_LINKING}")
+
     MESSAGE(STATUS "TILES                         : ${TILES}")
     MESSAGE(STATUS "CURSES                        : ${CURSES}")
     MESSAGE(STATUS "SOUND                         : ${SOUND}")
     MESSAGE(STATUS "BACKTRACE                     : ${BACKTRACE}")
     MESSAGE(STATUS "USE_HOME_DIR                  : ${USE_HOME_DIR}\n")
+
+    MESSAGE(STATUS "UNITY_BUILD                   : ${USE_UNITY_BUILD}")
+    MESSAGE(STATUS "PCH_HEADER                    : ${USE_PCH_HEADER}")
 
     MESSAGE(STATUS "LANGUAGES                     : ${LANGUAGES}\n")
 
@@ -215,7 +219,7 @@ IF(MSVC)
     endif()
 ELSE()
     SET(CATA_WARNINGS
-      "-Werror -Wall -Wextra \
+        "-Werror -Wall -Wextra \
        -Wformat-signedness \
        -Wlogical-op \
        -Wmissing-declarations \
@@ -227,7 +231,8 @@ ELSE()
        -Wsuggest-override \
        -Wunused-macros \
        -Wzero-as-null-pointer-constant \
-       -Wno-unknown-warning-option")
+       -Wno-unknown-warning-option \
+       -Wno-range-loop-analysis")
     IF (NOT ${CMAKE_SYSTEM_NAME} MATCHES Windows)
         SET(CATA_WARNINGS "${CATA_WARNINGS} -Wredundant-decls")
     ENDIF()

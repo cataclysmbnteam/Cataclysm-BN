@@ -40,6 +40,10 @@ IF(TILES)
     )
     target_include_directories(cataclysm-tiles-common INTERFACE ${CMAKE_SOURCE_DIR}/src)
 
+    IF(USE_PCH_HEADER)
+        target_precompile_headers(cataclysm-tiles-common PRIVATE ${CMAKE_SOURCE_DIR}/pch/main-pch.hpp)
+    ENDIF()
+
     IF(WIN32)
         ADD_DEFINITIONS(-DUSE_WINMAIN)
         ADD_EXECUTABLE(cataclysm-tiles WIN32
@@ -136,6 +140,10 @@ IF(CURSES)
         ${CATACLYSM_BN_HEADERS}
     )
     target_include_directories(cataclysm-common INTERFACE ${CMAKE_SOURCE_DIR}/src)
+
+    IF(USE_PCH_HEADER)
+        target_precompile_headers(cataclysm-common PRIVATE ${CMAKE_SOURCE_DIR}/pch/main-pch.hpp)
+    ENDIF()
 
     IF(WIN32)
         ADD_EXECUTABLE(cataclysm
