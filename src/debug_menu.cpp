@@ -570,8 +570,8 @@ void character_edit_menu( Character &c )
 
     std::vector<uilist_entry> menu_entries = static_entries;
     if( !spell_type::get_all().empty() ) {
-        menu_entries.emplace_back( edit_character::learn_spells, true, 'S', _( "Learn all [S]pells" ) );
-        menu_entries.emplace_back( edit_character::level_spells, true, 'L', _( "[L]evel a spell" ) );
+        menu_entries.emplace_back( edit_character::learn_spells, true, 'L', _( "[L]earn all Spells" ) );
+        menu_entries.emplace_back( edit_character::level_spells, true, 'v', _( "Le[v]el a spell" ) );
     }
     if( p.is_npc() ) {
         menu_entries.emplace_back( edit_character::mission_add, true, 'm',  _( "Add [m]ission" ) );

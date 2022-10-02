@@ -222,9 +222,19 @@ void uilist::filterlist()
 
     int f = 0;
     int num_entries = entries.size();
+    // check if string begin by " and finish by ". If that's the case, we only return a result if it matches it exactly
+    bool exactMatchOnly = filter.front() == '\"' && filter.back() == '\"';
+    if( exactMatchOnly ) {
+        filter.erase( std::remove( filter.begin(), filter.end(), '\"' ), filter.end() );
+    }
+
     for( int i = 0; i < num_entries; i++ ) {
         if( filtering ) {
-            if( ignore_case ) {
+            if( exactMatchOnly ) {
+                if( !( entries[i].txt == filter ) ) {
+                    continue;
+                }
+            } else if( ignore_case ) {
                 if( !lcmatch( entries[i].txt, filter ) ) {
                     continue;
                 }
