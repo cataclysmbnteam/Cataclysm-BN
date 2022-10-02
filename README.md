@@ -33,14 +33,13 @@ Please see [CONTRIBUTING.md](.github/CONTRIBUTING.md) for details.
 
 ## Community
 
-GitHub repo:
-https://github.com/cataclysmbnteam/Cataclysm-BN
+| [Repository][repo] | [Discussions][discussion] | [Official Discord][discord] | [BN Channel@Modding Community][modding] |
+| :----------------: | :-----------------------: | :-------------------------: | :--------------------------: |
 
-Bright Nights own discord server:
-https://discord.gg/XW7XhXuZ89
-
-Unofficial DDA modding community discord has a BN channel:
-https://discord.gg/B5q4XCa
+[repo]: https://github.com/cataclysmbnteam/Cataclysm-BN
+[discussion]: https://github.com/cataclysmbnteam/Cataclysm-BN/discussions
+[discord]: https://discord.gg/XW7XhXuZ89
+[modding]: https://discord.gg/B5q4XCa "Unofficial DDA modding community discord has a BN channel"
 
 ## Frequently Asked Questions
 
