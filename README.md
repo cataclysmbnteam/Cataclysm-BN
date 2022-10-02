@@ -1,18 +1,25 @@
 # Cataclysm: Bright Nights
 
-Cataclysm: Bright Nights is a roguelike with sci-fi elements set in a post-apocalyptic world. It is a fork of Cataclysm: Dark Days Ahead; [see the differences from its ancestor on the wiki](https://github.com/cataclysmbnteam/Cataclysm-BN/wiki/Changes-so-far).
+<a align="center" href="https://www.reddit.com/r/cataclysmbn/comments/xmtrxq/cbn_changelog_september_24_2022_draw_lower_z/">
+  <img src="doc/img/readme-title.jpg" title="screenshot taken by Firestorm_01">
+</a>
 
-While some have described it as a "zombie game", there is far more to Cataclysm than that. Struggle to survive in a harsh, persistent, procedurally generated world. Scavenge the remnants of a dead civilization for food, equipment, or, if you are lucky, a vehicle with a full tank of gas to get you the hell out of there.
+**Cataclysm: Bright Nights** is a roguelike with sci-fi elements set in a post-apocalyptic world. It is a fork of Cataclysm: Dark Days Ahead; [see the differences from its ancestor on the wiki](https://github.com/cataclysmbnteam/Cataclysm-BN/wiki/Changes-so-far).
 
-Fight to defeat or escape from a wide variety of powerful monstrosities, from zombies to giant insects to killer robots and things far stranger and deadlier, and against the others like yourself, who want what you have.
-
-Find a way to stop the Cataclysm ... or become one of its strongest monsters.
+> While some have described it as a "zombie game", there is far more to Cataclysm than that. Struggle to survive in a harsh, persistent, procedurally generated world. Scavenge the remnants of a dead civilization for food, equipment, or, if you are lucky, a vehicle with a full tank of gas to get you the hell out of there.
+>
+> Fight to defeat or escape from a wide variety of powerful monstrosities, from zombies to giant insects to killer robots and things far stranger and deadlier, and against the others like yourself, who want what you have.
+>
+> Find a way to stop the Cataclysm ... or become one of its strongest monsters.
 
 ## Downloads
 
-**Releases** - (https://github.com/cataclysmbnteam/Cataclysm-BN/releases)
+| [Latest Executable Releases][releases] | [Source File][zip-acrhive] | [Clone][clone] |
+| :------------------------------------: | :------------------------: | :------------: |
 
-**Source** - The source can be downloaded as a [.zip archive](https://github.com/cataclysmbnteam/Cataclysm-BN/archive/master.zip), or cloned from our [GitHub repo](https://github.com/cataclysmbnteam/Cataclysm-BN/).
+[releases]: https://github.com/cataclysmbnteam/Cataclysm-BN/releases
+[zip-acrhive]: https://github.com/cataclysmbnteam/Cataclysm-BN/archive/master.zip "The source can be downloaded as a .zip archive"
+[clone]: https://github.com/cataclysmbnteam/Cataclysm-BN/ "clone from our GitHub repo"
 
 ## Compile
 
@@ -34,7 +41,7 @@ Please see [CONTRIBUTING.md](.github/CONTRIBUTING.md) for details.
 ## Community
 
 | [Repository][repo] | [Discussions][discussion] | [Official Discord][discord] | [BN Channel@Modding Community][modding] |
-| :----------------: | :-----------------------: | :-------------------------: | :--------------------------: |
+| :----------------: | :-----------------------: | :-------------------------: | :-------------------------------------: |
 
 [repo]: https://github.com/cataclysmbnteam/Cataclysm-BN
 [discussion]: https://github.com/cataclysmbnteam/Cataclysm-BN/discussions
