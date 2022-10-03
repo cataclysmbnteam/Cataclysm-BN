@@ -46,7 +46,7 @@ git clone https://github.com/cataclysmbnteam/Cataclysm-BN.git
 cd Cataclysm-BN
 ```
 
-2. Open the provided solution (`msvc-full-features\Cataclysm-vcpkg-static.sln`) in `Visual Studio`, select configuration (`Release` is advised, unless you know you have a good reason to use `Debug`) and platform (`x64` or `x86`) and build it. All necessary dependencies will be built and cached for future use by vcpkg automatically.
+2. Open the provided solution (`msvc-full-features\Cataclysm-vcpkg-static.sln`) in `Visual Studio`, select configuration (`Release` is advised if you just want to compile, `Debug` is if you're planning on editing code) and platform (`x64` or `x86`) and build it. All necessary dependencies will be built and cached for future use by vcpkg automatically.
 
 3. Open the `Build > Configuration Manager` menu and adjust `Active solution configuration` and `Active solution platform` to match your intended target.
 
@@ -68,9 +68,19 @@ This will configure Visual Studio to compile the release version, with support f
 
 If you discover that after pressing the debug button in Visual Studio, Cataclysm just exits after launch with return code 1, that is because of the wrong working directory.
 
-When debugging, it is not strictly necessary to use a `Debug` build.
-`Release` builds run significantly faster, can still be run in the debugger, and most of the time will have most of the information you need.
-If optimizations of `Release` build interfere with debugging, you can disable them on a file-by-file basis by adding
+### Debug vs Release builds
+`Debug` builds run significantly slower than `Release` builds, but provide additional safety checks.
+
+If you just want to build the executable and play the game, `Release` is advised.
+
+If you plan on editing the code, `Debug` is advised.
+
+If you have enough experience with C++ to know:
+- under-the-hood differences between `Debug` and `Release`
+- how `Release` optimizations may affect the debugger
+- how to avoid undefined behavior in code
+
+Then you might want to use `Release` build all the time to speed up dev process, and disable optimizations on a file-by-file basis by adding
 ```c++
 #pragma optimize("", off)
 ```
