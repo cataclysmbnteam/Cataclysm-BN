@@ -16,9 +16,12 @@ Find a way to stop the Cataclysm ... or become one of its strongest monsters.
 
 ## Downloads
 
-**Releases** - (https://github.com/cataclysmbnteam/Cataclysm-BN/releases)
+| [Latest Executable Releases][releases] | [Source Code][source-zip-archive] | [Clone From Repo][clone] |
+| :------------------------------------: | :-------------------------------: | :----------------------: |
 
-**Source** - The source can be downloaded as a [.zip archive](https://github.com/cataclysmbnteam/Cataclysm-BN/archive/master.zip), or cloned from our [GitHub repo](https://github.com/cataclysmbnteam/Cataclysm-BN/).
+[releases]: https://github.com/cataclysmbnteam/Cataclysm-BN/releases
+[source-zip-archive]: https://github.com/cataclysmbnteam/Cataclysm-BN/archive/master.zip "The source can be downloaded as a .zip archive"
+[clone]: https://github.com/cataclysmbnteam/Cataclysm-BN/ "clone from our GitHub repo"
 
 ## Compile
 
