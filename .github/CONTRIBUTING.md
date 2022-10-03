@@ -56,9 +56,10 @@ The translation of Cataclysm: BN is done using Transifex.
 Look at the [translation project](https://www.transifex.com/bn-team/cataclysm-bright-nights/) for an up-to-date list of supported languages.
 
 See [TRANSLATING](../doc/TRANSLATING.md) for more information:
-- [For translators](../doc/TRANSLATING.md#translators)
-- [For developers](../doc/TRANSLATING.md#developers)
-- [For maintainers](../doc/TRANSLATING.md#maintainers)
+
+-   [For translators](../doc/TRANSLATING.md#translators)
+-   [For developers](../doc/TRANSLATING.md#developers)
+-   [For maintainers](../doc/TRANSLATING.md#maintainers)
 
 ## Doxygen Comments
 
@@ -140,9 +141,9 @@ _(This only needs to be done once.)_
 
 For further details about commit message guidelines please visit:
 
-- [codeinthehole.com](https://codeinthehole.com/tips/a-useful-template-for-commit-messages/)
-- [chris.beams.io](https://chris.beams.io/posts/git-commit/) 
-- [help.github.com](https://help.github.com/articles/closing-issues-using-keywords/) |
+-   [codeinthehole.com](https://codeinthehole.com/tips/a-useful-template-for-commit-messages/)
+-   [chris.beams.io](https://chris.beams.io/posts/git-commit/)
+-   [help.github.com](https://help.github.com/articles/closing-issues-using-keywords/) |
 
 #### Update your `upload` branch
 
@@ -217,8 +218,9 @@ for example: `- fixed #12345`
 
 `{keyword}` must be one of the following:
 
-| close | closes | closed |  fix  | fixes | fixed | resolve | resolves | resolved |
-| :---: | :----: | :----: | :---: | :---: | :---: | :-----: | :------: | :------: |
+-   `close`, `closes`, `closed`
+-   `fix`, `fixes`, `fixed`
+-   `resolve`, `resolves`, `resolved`
 
 #### issue
 
@@ -246,50 +248,50 @@ These guidelines aren't essential, but they can make keeping things in order muc
 
 Remote tracking branches allow you to easily stay in touch with this repository's `upload` branch, as they automatically know which remote branch to get changes from.
 
-    ```sh
-    $ git branch -vv
-    * upload      xxxx [origin/upload] ....
-      new_feature xxxx ....
-    ```
+```sh
+$ git branch -vv
+* upload      xxxx [origin/upload] ....
+  new_feature xxxx ....
+```
 
 Here you can see we have two branches; `upload` which is tracking `origin/upload`, and `new_feature` which isn't tracking any branch. In practice, what this means is that git won't know where to get changes from.
 
-    ```sh
-    $ git checkout new_feature
-    Switched to branch 'new_feature'
-    $ git pull
-    There is no tracking information for the current branch.
-    Please specify which branch you want to merge with.
-    ```
+```sh
+$ git checkout new_feature
+Switched to branch 'new_feature'
+$ git pull
+There is no tracking information for the current branch.
+Please specify which branch you want to merge with.
+```
 
 In order to easily pull changes from `upstream/upload` into the `new_feature` branch, we can tell git which branch it should track. (You can even do this for your local upload branch.)
 
-    ```sh
-    $ git branch -u upstream/upload new_feature
-    Branch new_feature set up to track remote branch upload from upstream.
-    $ git pull
-    Updating xxxx..xxxx
-    ....
-    ```
+```sh
+$ git branch -u upstream/upload new_feature
+Branch new_feature set up to track remote branch upload from upstream.
+$ git pull
+Updating xxxx..xxxx
+....
+```
 
 You can also set the tracking information at the same time as creating the branch.
 
-    ```sh
-    $ git branch new_feature_2 --track upstream/upload
-    Branch new_feature_2 set up to track remote branch upload from upstream.
-    ```
+```sh
+$ git branch new_feature_2 --track upstream/upload
+Branch new_feature_2 set up to track remote branch upload from upstream.
+```
 
 -   Note: Although this makes it easier to pull from `upstream/upload`, it doesn't change anything with regards to pushing. `git push` fails because you don't have permission to push to `upstream/upload`.
 
-    ```sh
-    $ git push
-    error: The requested URL returned error: 403 while accessing https://github.com/cataclysmbnteam/Cataclysm-BN.git
-    fatal: HTTP request failed
-    $ git push origin
-    ....
-    To https://github.com/YOUR_USERNAME/Cataclysm-BN.git
-    xxxx..xxxx  new_feature -> new_feature
-    ```
+```sh
+$ git push
+error: The requested URL returned error: 403 while accessing https://github.com/cataclysmbnteam/Cataclysm-BN.git
+fatal: HTTP request failed
+$ git push origin
+....
+To https://github.com/YOUR_USERNAME/Cataclysm-BN.git
+xxxx..xxxx  new_feature -> new_feature
+```
 
 ## Unit tests
 
@@ -299,16 +301,16 @@ An ordinary invocation of `make` will build the test executable at tests/cata_te
 With no arguments it will run the entire test suite.
 With `--help` it will print a number of invocation options you can use to adjust its operation.
 
-    ```sh
-    $ make
-    ... compilation details ...
-    $ tests/cata_test
-    Starting the actual test at Fri Nov  9 04:37:03 2018
-    ===============================================================================
-    All tests passed (1324684 assertions in 94 test cases)
-    Ended test at Fri Nov  9 04:37:45 2018
-    The test took 41.772 seconds
-    ```
+```sh
+$ make
+... compilation details ...
+$ tests/cata_test
+Starting the actual test at Fri Nov  9 04:37:03 2018
+===============================================================================
+All tests passed (1324684 assertions in 94 test cases)
+Ended test at Fri Nov  9 04:37:45 2018
+The test took 41.772 seconds
+```
 
 I recommend habitually invoking make like `make YOUR BUILD OPTIONS && make check`.
 
@@ -339,24 +341,24 @@ With these commands, you should be able to recreate the proper conditions to tes
 
 If `git pull --ff-only` shows an error, it means that you've committed directly to your local `upload` branch. To fix this, we create a new branch with these commits, find the point at which we diverged from `upstream/upload`, and then reset `upload` to that point.
 
-    ```sh
-    $ git pull --ff-only upstream upload
-    From https://github.com/cataclysmbnteam/Cataclysm-BN
-     * branch            upload     -> FETCH_HEAD
-    fatal: Not possible to fast-forward, aborting.
-    $ git branch new_branch upload          # mark the current commit with a tmp branch
-    $ git merge-base upload upstream/upload
-    cc31d0... # the last commit before we committed directly to upload
-    $ git reset --hard cc31d0....
-    HEAD is now at cc31d0... ...
-    ```
+```sh
+$ git pull --ff-only upstream upload
+From https://github.com/cataclysmbnteam/Cataclysm-BN
+ * branch            upload     -> FETCH_HEAD
+fatal: Not possible to fast-forward, aborting.
+$ git branch new_branch upload          # mark the current commit with a tmp branch
+$ git merge-base upload upstream/upload
+cc31d0... # the last commit before we committed directly to upload
+$ git reset --hard cc31d0....
+HEAD is now at cc31d0... ...
+```
 
 Now that `upload` has been cleaned up, we can easily pull from `upstream/upload`, and then continue working on `new_branch`.
 
-    ```sh
-    $ git pull --ff-only upstream upload
-    # gets changes from the "upstream" remote for the matching branch, in this case "upload"
-    $ git checkout new_branch
-    ```
+```sh
+$ git pull --ff-only upstream upload
+# gets changes from the "upstream" remote for the matching branch, in this case "upload"
+$ git checkout new_branch
+```
 
 For more frequently asked questions, see the [developer FAQ](../doc/DEVELOPER_FAQ.md).
