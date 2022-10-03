@@ -29,9 +29,9 @@
 
 Contributing to Cataclysm: Bright Nights is easy:
 
--   fork the repository here on GitHub
--   make your changes
--   then send us a pull request.
+1.  Fork the repository here on GitHub.
+2.  Make your changes.
+3.  Send us a pull request.
 
 > Cataclysm: Bright Nights is released under the Creative Commons Attribution ShareAlike 3.0 license. The code and content of the game is free to use, modify, and redistribute for any purpose whatsoever. See http://creativecommons.org/licenses/by-sa/3.0/ for details.
 > This means any contribution you make to the project will also be covered by the same license, and this license is irrevocable.
@@ -95,16 +95,6 @@ Use the following template for commenting member variables:
 int foo;
 ```
 
-<!-- Helpful pages:
-(they are 403 forbidden)
-
-| [commands][doxygen-commands] | [markdown standard][doxygen-markdown] | [faqs][doxygen-faq] |
-| :--------------------------: | :-----------------------------------: | :-----------------: |
-
-[doxygen-commands]: http://www.stack.nl/~dimitri/doxygen/manual/commands.html
-[doxygen-markdown]: http://www.stack.nl/~dimitri/doxygen/manual/markdown.html#markdown_std
-[doxygen-faq]: http://www.stack.nl/~dimitri/doxygen/manual/faq.html -->
-
 ### Guidelines for adding documentation
 
 -   Doxygen comments should describe behavior towards the outside, not implementation, but since many classes in Cataclysm are intertwined, it's often necessary to describe implementation.
@@ -150,8 +140,9 @@ _(This only needs to be done once.)_
 
 For further details about commit message guidelines please visit:
 
-| [codeinthehole.com](https://codeinthehole.com/tips/a-useful-template-for-commit-messages/) | [chris.beams.io](https://chris.beams.io/posts/git-commit/) | [help.github.com](https://help.github.com/articles/closing-issues-using-keywords/) |
-| :----------------------------------------------------------------------------------------: | :--------------------------------------------------------: | :--------------------------------------------------------------------------------: |
+- [codeinthehole.com](https://codeinthehole.com/tips/a-useful-template-for-commit-messages/)
+- [chris.beams.io](https://chris.beams.io/posts/git-commit/) 
+- [help.github.com](https://help.github.com/articles/closing-issues-using-keywords/) |
 
 #### Update your `upload` branch
 
