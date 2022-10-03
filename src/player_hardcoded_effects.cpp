@@ -586,28 +586,85 @@ void player::hardcoded_effects( effect &it )
             mod_per_bonus( -( dur > 400_minutes ? 10.0 : dur / 40_minutes ) );
         }
     } else if( id == effect_attention ) {
-        if( to_turns<int>( dur ) != 0 && one_in( 100000 / to_turns<int>( dur ) ) &&
-            one_in( 100000 / to_turns<int>( dur ) ) && one_in( 250 ) ) {
-            tripoint dest( 0, 0, posz() );
-            int tries = 0;
-            do {
-                dest.x = posx() + rng( -4, 4 );
-                dest.y = posy() + rng( -4, 4 );
-                tries++;
-            } while( g->critter_at( dest ) && tries < 10 );
-            if( tries < 10 ) {
-                if( g->m.impassable( dest ) ) {
-                    g->m.make_rubble( dest, f_rubble_rock, true );
+        if( dur > 10_hours ) {
+            if( one_in( 7200 - ( dur - 360_minutes ) / 4_turns ) ) {
+                add_msg_if_player( m_bad,
+                                   _( "You feel something reaching out to you, straining your mind to its limit!" ) );
+                if( has_artifact_with( AEP_PSYSHIELD ) || ( worn_with_flag( "PSYSHIELD_PARTIAL" ) &&
+                        one_in( 10 ) ) ) {
+                    // Transfers half of remaining duration of nether attention, tinfoil only sometimes helps
+                    it.mult_duration( .5 );
+                    add_effect( effect_psychosis_temporary, dur );
+                } else {
+                    // Transfers all remaining duration of nether attention to psychotic break
+                    add_effect( effect_psychosis_temporary, dur );
                 }
-                MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(
-                                                       GROUP_NETHER );
-                g->place_critter_at( spawn_details.name, dest );
-                if( g->u.sees( dest ) ) {
-                    g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted_far,
-                                                        _( "A monster appears nearby!" ) );
-                    add_msg_if_player( m_warning, _( "A portal opens nearby, and a monster crawls through!" ) );
+                it.set_duration( 0_turns );
+            }
+            if( one_in( 7200 - ( ( dur - 600_minutes ) / 30_seconds ) ) && one_in( 20 ) ) {
+                if( !is_npc() ) {
+                    add_msg( m_bad, _( "You pass out." ) );
                 }
-                it.mult_duration( .25 );
+                fall_asleep( 2_hours );
+                if( one_in( 6 ) ) {
+                    // Set ourselves up for removal
+                    it.set_duration( 0_turns );
+                }
+            }
+        }
+        if( dur > 6_hours ) {
+            if( one_in( 5000 ) ) {
+                if( has_artifact_with( AEP_PSYSHIELD ) || ( worn_with_flag( "PSYSHIELD_PARTIAL" ) &&
+                        one_in( 4 ) ) ) {
+                    add_msg_if_player( m_bad, _( "You feel something probing your mind, but it is rebuffed!" ) );
+                } else {
+                    add_msg_if_player( m_bad, _( "A terrifying image in the back out your mind paralyzes you." ) );
+                    add_effect( effect_fearparalyze, 5_turns );
+                    moves -= 4 * get_speed();
+                }
+                // Reduce duration a bit but don't remove completely
+                it.mult_duration( .75 );
+            }
+            if( one_turn_in( 1200_minutes - dur ) ) {
+                if( has_artifact_with( AEP_PSYSHIELD ) || ( worn_with_flag( "PSYSHIELD_PARTIAL" ) &&
+                        one_in( 4 ) ) ) {
+                    add_msg_if_player( m_bad, _( "You feel a buzzing in the back of your mind, but it passes." ) );
+                } else {
+                    add_msg_if_player( m_bad, _( "You feel something scream in the back of your mind!" ) );
+                    add_effect( effect_dazed, rng( 1_minutes, 2_minutes ) );
+                }
+                // Reduce duration a bit but don't remove completely
+                it.mult_duration( .75 );
+            }
+        }
+        if( dur > 4_hours ) {
+            if( one_turn_in( 1200_minutes - dur ) ) {
+                add_msg_if_player( m_bad, _( "Your vision is filled with bright lights…" ) );
+                add_effect( effect_blind, rng( 1_minutes, 2_minutes ) );
+                // Reduce duration a bit but don't remove completely
+                it.mult_duration( .9 );
+            }
+            if( one_in( 5000 ) && !has_effect( effect_nausea ) ) {
+                add_msg_if_player( m_bad, _( "A wave of nausea passes over you." ) );
+                add_effect( effect_nausea, 5_minutes );
+            }
+        }
+        if( one_in( 5000 ) && !has_effect( effect_hallu ) ) {
+            add_msg_if_player( m_bad, _( "Shifting shapes dance on the edge of your vision." ) );
+            add_effect( effect_hallu, 4_hours );
+            // Reduce duration a bit but don't remove completely
+            it.mult_duration( .9 );
+        }
+        if( one_turn_in( 40_minutes ) ) {
+            if( has_artifact_with( AEP_PSYSHIELD ) || ( worn_with_flag( "PSYSHIELD_PARTIAL" ) &&
+                    one_in( 4 ) ) ) {
+                add_msg_if_player( m_bad, _( "You feel weird for a moment, but it passes." ) );
+            } else {
+                // Less morale drop and faster decay than Psychosis negative messages, but more frequent
+                const translation snip = SNIPPET.random_from_category( "nether_attention_watching" ).value_or(
+                                             translation() );
+                add_msg_if_player( m_warning, "%s", snip );
+                add_morale( MORALE_FEELING_BAD, -10, -50, 60_minutes, 20_minutes, true );
             }
         }
     } else if( id == effect_teleglow ) {
@@ -646,20 +703,10 @@ void player::hardcoded_effects( effect &it )
                     it.set_duration( 0_turns );
                 }
             }
-            if( one_in( 7200 - ( ( dur - 600_minutes ) / 30_seconds ) ) && one_in( 20 ) ) {
-                if( !is_npc() ) {
-                    add_msg( m_bad, _( "You pass out." ) );
-                }
-                fall_asleep( 2_hours );
-                if( one_in( 6 ) ) {
-                    // Set ourselves up for removal
-                    it.set_duration( 0_turns );
-                }
-            }
         }
         if( dur > 6_hours ) {
             // 12 teleports
-            if( one_in( 24000 - ( dur - 360_minutes ) / 4_turns ) ) {
+            if( one_in( 14400 - ( dur - 360_minutes ) / 4_turns ) ) {
                 tripoint dest( 0, 0, posz() );
                 int &x = dest.x;
                 int &y = dest.y;
@@ -684,19 +731,15 @@ void player::hardcoded_effects( effect &it )
                                                             _( "A monster appears nearby!" ) );
                         add_msg( m_warning, _( "A portal opens nearby, and a monster crawls through!" ) );
                     }
-                    if( one_in( 2 ) ) {
-                        // Set ourselves up for removal
-                        it.set_duration( 0_turns );
-                    }
+                    // Reduce duration a bit but don't remove completely
+                    it.mult_duration( .75 );
                 }
             }
             if( one_in( 21000 - ( dur - 360_minutes ) / 4_turns ) ) {
                 add_msg_if_player( m_bad, _( "You shudder suddenly." ) );
                 mutate();
-                if( one_in( 4 ) ) {
-                    // Set ourselves up for removal
-                    it.set_duration( 0_turns );
-                }
+                // Reduce duration a bit but don't remove completely
+                it.mult_duration( .75 );
             }
         }
         if( dur > 4_hours ) {
@@ -704,38 +747,33 @@ void player::hardcoded_effects( effect &it )
             if( one_turn_in( 1000_minutes - dur ) && !has_effect( effect_valium ) ) {
                 add_effect( effect_shakes, rng( 4_minutes, 8_minutes ) );
             }
-            if( one_turn_in( 1200_minutes - dur ) ) {
-                add_msg_if_player( m_bad, _( "Your vision is filled with bright lights…" ) );
-                add_effect( effect_blind, rng( 1_minutes, 2_minutes ) );
-                if( one_in( 8 ) ) {
-                    // Set ourselves up for removal
-                    it.set_duration( 0_turns );
-                }
-            }
-            if( one_in( 5000 ) && !has_effect( effect_hallu ) ) {
-                add_effect( effect_hallu, 6_hours );
-                if( one_in( 5 ) ) {
-                    // Set ourselves up for removal
-                    it.set_duration( 0_turns );
-                }
+            if( one_in( 5000 ) ) {
+                // Like with the glow anomaly trap, but lower max and bypasses radsuits
+                add_msg_if_player( m_bad, _( "A blue flash of radiation permeates your vision briefly!" ) );
+                irradiate( rng( 10, 20 ), true );
+                // Reduce duration a bit but don't remove completely
+                it.mult_duration( .9 );
             }
         }
         if( one_in( 4000 ) ) {
             add_msg_if_player( m_bad, _( "You're suddenly covered in ectoplasm." ) );
             add_effect( effect_boomered, 10_minutes );
-            if( one_in( 4 ) ) {
-                // Set ourselves up for removal
-                it.set_duration( 0_turns );
-            }
+            // Reduce duration a bit but don't remove completely
+            it.mult_duration( .9 );
         }
-        if( one_in( 10000 ) ) {
-            if( !has_trait( trait_M_IMMUNE ) ) {
-                add_effect( effect_fungus, 1_turns, num_bp );
+        if( one_in( 5000 ) ) {
+            add_msg_if_player( m_bad, _( "A strange sound reverberates around the edges of reality." ) );
+            // Comparable to the humming anomaly trap, with a narrower range
+            int volume = rng( 25, 150 );
+            std::string sfx;
+            if( volume <= 50 ) {
+                sfx = _( "hrmmm" );
+            } else if( volume <= 100 ) {
+                sfx = _( "HRMMM" );
             } else {
-                add_msg_if_player( m_info, _( "We have many colonists awaiting passage." ) );
+                sfx = _( "VRMMMMMM" );
             }
-            // Set ourselves up for removal
-            it.set_duration( 0_turns );
+            sounds::sound( pos(), volume, sounds::sound_t::activity, sfx, false, "humming", "machinery" );
         }
     } else if( id == effect_asthma ) {
         if( has_effect( effect_adrenaline ) || has_effect( effect_datura ) ) {
