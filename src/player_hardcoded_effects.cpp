@@ -19,6 +19,7 @@
 #include "mapdata.h"
 #include "martialarts.h"
 #include "messages.h"
+#include "morale_types.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "mutation_data.h"
@@ -30,6 +31,7 @@
 #include "stomach.h"
 #include "string_formatter.h"
 #include "teleport.h"
+#include "text_snippets.h"
 #include "translations.h"
 #include "weather.h"
 #include "vitamin.h"
@@ -53,10 +55,12 @@ static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_brainworms( "brainworms" );
 static const efftype_id effect_cold( "cold" );
 static const efftype_id effect_datura( "datura" );
+static const efftype_id effect_dazed( "dazed" );
 static const efftype_id effect_dermatik( "dermatik" );
 static const efftype_id effect_disabled( "disabled" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_evil( "evil" );
+static const efftype_id effect_fearparalyze( "fearparalyze" );
 static const efftype_id effect_formication( "formication" );
 static const efftype_id effect_frostbite( "frostbite" );
 static const efftype_id effect_fungus( "fungus" );
@@ -73,6 +77,7 @@ static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_paincysts( "paincysts" );
 static const efftype_id effect_panacea( "panacea" );
+static const efftype_id effect_psychosis_temporary( "psychosis_temporary" );
 static const efftype_id effect_rat( "rat" );
 static const efftype_id effect_recover( "recover" );
 static const efftype_id effect_shakes( "shakes" );

@@ -1181,7 +1181,24 @@
   },
   {
     "type": "effect_type",
-    "id": "attention"
+    "id": "attention",
+    "name": [ "Being Watched" ],
+    "desc": [ "You can't shake the vague feeling that something out there is watching you.  Something big…" ],
+    "remove_message": "You no longer feel like you're being watched.",
+    "rating": "bad",
+    "max_duration": "12 h"
+  },
+  {
+    "type": "effect_type",
+    "id": "psychosis_temporary",
+    "name": [ "Touched Mind" ],
+    "desc": [
+      "Intrusive and otherworldly imagery erode your sense of what is real.  Thorazine might help, or you can ride it out and hope for the best."
+    ],
+    "remove_message": "The stress wearing on your mind fades.",
+    "rating": "bad",
+    "max_duration": "12 h",
+    "flags": [ "EFFECT_SCHIZO" ]
   },
   {
     "type": "effect_type",
@@ -1301,7 +1318,12 @@
   },
   {
     "type": "effect_type",
-    "id": "teleglow"
+    "id": "teleglow",
+    "name": [ "Dimensional Instability" ],
+    "desc": [ "The fabric of reality currently feels thinner around you." ],
+    "remove_message": "Reality around returns to normal, for now.",
+    "rating": "bad",
+    "max_duration": "12 h"
   },
   {
     "type": "effect_type",

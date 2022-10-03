@@ -972,7 +972,7 @@ void npc::finish_read( item_location loc )
 
         if( ( skill_level == reading->level || !skill_level.can_train() ) ||
             ( ( has_trait( trait_SCHIZOPHRENIC ) ||
-                has_artifact_with( AEP_SCHIZO ) ) && one_in( 25 ) ) ) {
+                has_artifact_with( AEP_SCHIZO ) || has_effect_with_flag( "EFFECT_SCHIZO" ) ) && one_in( 25 ) ) ) {
             if( display_messages ) {
                 add_msg( m_info, _( "%s can no longer learn from %s." ), disp_name(), book.type_name() );
             }
