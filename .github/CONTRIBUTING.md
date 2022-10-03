@@ -119,25 +119,25 @@ _(This only needs to be done once.)_
 
 2.  Clone your fork locally.
 
-    ```sh
-      $ git clone https://github.com/YOUR_USERNAME/Cataclysm-BN.git
-      # Clones your fork of the repository into the current directory in terminal
-    ```
+```sh
+$ git clone https://github.com/YOUR_USERNAME/Cataclysm-BN.git
+# Clones your fork of the repository into the current directory in terminal
+```
 
 3.  Set commit message template.
 
-    ```sh
-     $ git config --local commit.template .gitmessage
-    ```
+```sh
+ $ git config --local commit.template .gitmessage
+```
 
 4.  Add this repository as a remote.
 
-    ```sh
-    $ cd Cataclysm-BN
-    # Changes the active directory in the prompt to the newly cloned "Cataclysm-BN" directory
-    $ git remote add -f upstream https://github.com/cataclysmbnteam/Cataclysm-BN.git
-    # Assigns the original repository to a remote called "upstream"
-    ```
+```sh
+$ cd Cataclysm-BN
+# Changes the active directory in the prompt to the newly cloned "Cataclysm-BN" directory
+$ git remote add -f upstream https://github.com/cataclysmbnteam/Cataclysm-BN.git
+# Assigns the original repository to a remote called "upstream"
+```
 
 For further details about commit message guidelines please visit:
 
@@ -149,16 +149,16 @@ For further details about commit message guidelines please visit:
 
 1.  Make sure you have your `upload` branch checked out.
 
-    ```sh
-    $ git checkout upload
-    ```
+```sh
+$ git checkout upload
+```
 
 2.  Pull the changes from the `upstream/upload` branch.
 
-    ```sh
-    $ git pull --ff-only upstream upload
-    # gets changes from "upload" branch on the "upstream" remote
-    ```
+```sh
+$ git pull --ff-only upstream upload
+# gets changes from "upload" branch on the "upstream" remote
+```
 
 -   Note: If this gives you an error, it means you have committed directly to your local `upload` branch. [Click here for instructions on how to fix this issue](#why-does-git-pull---ff-only-result-in-an-error).
 
@@ -167,17 +167,21 @@ For further details about commit message guidelines please visit:
 0.  Update your `upload` branch, if you haven't already.
 
 1.  For each new feature or bug fix, create a new branch.
-    ```sh
-    $ git branch new_feature
-    # Creates a new branch called "new_feature"
-    $ git checkout new_feature
-    # Makes "new_feature" the active branch
-    ```
+
+```sh
+$ git branch new_feature
+# Creates a new branch called "new_feature"
+$ git checkout new_feature
+# Makes "new_feature" the active branch
+```
+
 2.  Once you've committed some changes locally, you need to push them to your fork here on GitHub.
-    ```sh
-    $ git push origin new_feature
-    # origin was automatically set to point to your fork when you cloned it
-    ```
+
+```sh
+$ git push origin new_feature
+# origin was automatically set to point to your fork when you cloned it
+```
+
 3.  Once you're finished working on your branch, and have committed and pushed all your changes, submit a pull request from your `new_feature` branch to this repository's `upload` branch.
 
 -   Note: any new commits to the `new_feature` branch on GitHub will automatically be included in the pull request, so make sure to only commit related changes to the same branch.
