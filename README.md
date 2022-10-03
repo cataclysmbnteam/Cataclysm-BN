@@ -12,7 +12,8 @@ Fight to defeat or escape from a wide variety of powerful monstrosities, from zo
 
 Find a way to stop the Cataclysm ... or become one of its strongest monsters.
 
-> It is a fork of Cataclysm: Dark Days Ahead; [see the differences from its ancestor on the wiki](https://github.com/cataclysmbnteam/Cataclysm-BN/wiki/Changes-so-far).
+> Cataclysm: Bright Nights is a fork of Cataclysm: Dark Days Ahead.
+> [see the differences from its ancestor on the wiki](https://github.com/cataclysmbnteam/Cataclysm-BN/wiki/Changes-so-far).
 
 ## Downloads
 
@@ -35,8 +36,8 @@ We also have the following build guides:
 
 ## Contribute
 
-Cataclysm: Bright Nights developed under Creative Commons Attribution ShareAlike 3.0 license. The code and content of the game is free to use, modify, and redistribute for any purpose whatsoever. See http://creativecommons.org/licenses/by-sa/3.0/ for details.
-Some code distributed with the project is not part of the project and is released under different software licenses, the files covered by different software licenses have their own license notices.
+> Cataclysm: Bright Nights developed under Creative Commons Attribution ShareAlike 3.0 license. The code and content of the game is free to use, modify, and redistribute for any purpose whatsoever. See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+> Some code distributed with the project is not part of the project and is released under different software licenses, the files covered by different software licenses have their own license notices.
 
 Please see [CONTRIBUTING.md](.github/CONTRIBUTING.md) for details.
 
@@ -66,8 +67,9 @@ Press the `?` key, followed by the `1` key to see the full list of key commands.
 
 #### I've found a bug. What should I do?
 
-Please submit an issue on [our GitHub page](https://github.com/cataclysmbnteam/Cataclysm-BN/issues) using [bug report template](https://github.com/cataclysmbnteam/Cataclysm-BN/issues/new?template=bug_report.md).
+Please submit an issue on [our GitHub page](https://github.com/cataclysmbnteam/Cataclysm-BN/issues)
 
 #### I would like to make a suggestion. What should I do?
 
-Please submit an issue on [our GitHub page](https://github.com/cataclysmbnteam/Cataclysm-BN/issues/) using [feature request template](https://github.com/cataclysmbnteam/Cataclysm-BN/issues/new?template=feature_request.md).
+-   For simple ideas: please visit [our Discussions page](https://github.com/cataclysmbnteam/Cataclysm-BN/discussions/categories/ideas). It could be a new feature, a port request, a mod idea, or anything else.
+-   Please submit an issue on [our GitHub page](https://github.com/cataclysmbnteam/Cataclysm-BN/issues/) using [feature request template](https://github.com/cataclysmbnteam/Cataclysm-BN/issues/new?template=feature_request.md).
