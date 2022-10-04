@@ -153,7 +153,7 @@ For further details about commit message guidelines please visit:
 
 -   [codeinthehole.com](https://codeinthehole.com/tips/a-useful-template-for-commit-messages/)
 -   [chris.beams.io](https://chris.beams.io/posts/git-commit/)
--   [help.github.com](https://help.github.com/articles/closing-issues-using-keywords/) |
+-   [help.github.com](https://help.github.com/articles/closing-issues-using-keywords/)
 
 #### Update your `upload` branch
 
