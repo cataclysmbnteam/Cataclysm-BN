@@ -1,7 +1,7 @@
 # Cataclysm: Bright Nights
 
-<a align="center" href="https://www.reddit.com/r/cataclysmbn/comments/xmtrxq/cbn_changelog_september_24_2022_draw_lower_z/">
-  <img src="doc/img/readme-title.jpg" title="screenshot taken by joveeater">
+<a align="center">
+<img src="doc/img/readme-title.png" title="screenshots of (clockwise from upper-right: Chaosvolt (x2), ExecutorBill, scarf005">
 </a>
 
 Cataclysm: Bright Nights is a roguelike with sci-fi elements set in a post-apocalyptic world.
