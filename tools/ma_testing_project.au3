@@ -434,7 +434,6 @@ Func getMonsterGroupeIterationDamageAndKillThem($monsterIndex)
 	quickSave()
 
 	$fileOpener = FileOpen($SAVE_FILE_PATH, 0)
-	$noMonsterMsg = "This will corrupt the results, the monster must not die!"; If you see this, you probably didn't set the monster hp to 99999
 	$groupeIterationDamage = 0
 	; Remove first line of save file to get only the JSON part, then decode it. PS: go see Json_Test.au3 file to see how json functions are used
 	$fileContentJson = Json_Decode(StringTrimLeft(FileRead($fileOpener), StringLen($FIRST_LINE_SAVE_FILE)))
