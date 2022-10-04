@@ -67,7 +67,7 @@ Press the `?` key, followed by the `1` key to see the full list of key commands.
 
 #### I've found a bug. What should I do?
 
-Please submit an issue on [our GitHub page](https://github.com/cataclysmbnteam/Cataclysm-BN/issues)
+Please submit an issue on [our GitHub page](https://github.com/cataclysmbnteam/Cataclysm-BN/issues) using [bug report template](https://github.com/cataclysmbnteam/Cataclysm-BN/issues/new?template=bug_report.yml).
 
 #### I would like to make a suggestion. What should I do?
 
