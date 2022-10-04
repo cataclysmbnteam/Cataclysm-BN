@@ -611,11 +611,12 @@ void vehicle::use_controls( const tripoint &pos )
 
     bool remote = g->remoteveh() == this;
     bool has_electronic_controls = false;
+    Character &character = get_player_character();
 
     if( remote ) {
         options.emplace_back( _( "Stop controlling" ), keybind( "RELEASE_CONTROLS" ) );
         actions.push_back( [&] {
-            g->u.controlling_vehicle = false;
+            character.controlling_vehicle = false;
             g->setremoteveh( nullptr );
             add_msg( _( "You stop controlling the vehicle." ) );
             refresh();
@@ -624,11 +625,18 @@ void vehicle::use_controls( const tripoint &pos )
         has_electronic_controls = has_part( "CTRL_ELECTRONIC" ) || has_part( "REMOTE_CONTROLS" );
 
     } else if( veh_pointer_or_null( g->m.veh_at( pos ) ) == this ) {
-        if( g->u.controlling_vehicle ) {
+        if( character.controlling_vehicle ) {
             options.emplace_back( _( "Let go of controls" ), keybind( "RELEASE_CONTROLS" ) );
             actions.push_back( [&] {
-                g->u.controlling_vehicle = false;
-                add_msg( _( "You let go of the controls." ) );
+                if( is_flying_in_air() )
+                {
+                    character.add_msg_if_player( m_bad,
+                                                 _( "It would be unsafe to let go of control while flying." ) );
+                } else
+                {
+                    character.controlling_vehicle = false;
+                    add_msg( _( "You let go of the controls." ) );
+                }
                 refresh();
             } );
         }
@@ -650,7 +658,11 @@ void vehicle::use_controls( const tripoint &pos )
         if( g->u.controlling_vehicle || ( remote && engine_on ) ) {
             options.emplace_back( _( "Stop driving" ), keybind( "TOGGLE_ENGINE" ) );
             actions.push_back( [&] {
-                if( engine_on && has_engine_type_not( fuel_type_muscle, true ) )
+                if( is_flying_in_air() )
+                {
+                    character.add_msg_if_player( m_bad,
+                                                 _( "It would be unsafe to let go of control while flying." ) );
+                } else if( engine_on && has_engine_type_not( fuel_type_muscle, true ) )
                 {
                     add_msg( _( "You turn the engine off and let go of the controls." ) );
                     sounds::sound( pos, 2, sounds::sound_t::movement,
