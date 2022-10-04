@@ -27,9 +27,8 @@ jobs:
       - name: Generate environmental variables
         id: generate_env_vars
         run: |
-          if 
-            echo "::set-output name=tag_name::cbn-${{ inputs.version }}"
-            echo "::set-output name=release_name::Cataclysm-BN ${{ inputs.version }}"
+          echo "::set-output name=tag_name::cbn-${{ inputs.version }}"
+          echo "::set-output name=release_name::Cataclysm-BN ${{ inputs.version }}"
       - name: Check if there is existing git tag
         id: tag_check
         uses: mukunku/tag-exists-action@v1.0.0
