@@ -67,9 +67,9 @@ Press the `?` key, followed by the `1` key to see the full list of key commands.
 
 #### I've found a bug. What should I do?
 
-Please submit an issue on [our GitHub page](https://github.com/cataclysmbnteam/Cataclysm-BN/issues) using [bug report template](https://github.com/cataclysmbnteam/Cataclysm-BN/issues/new?template=bug_report.yml).
+Please submit an issue on [our GitHub page](https://github.com/cataclysmbnteam/Cataclysm-BN/issues) using [bug report form](https://github.com/cataclysmbnteam/Cataclysm-BN/issues/new?template=bug_report.yml).
 
 #### I would like to make a suggestion. What should I do?
 
 -   For simple ideas: please visit [our Discussions page](https://github.com/cataclysmbnteam/Cataclysm-BN/discussions/categories/ideas). It could be a new feature, a port request, a mod idea, or anything else.
--   Please submit an issue on [our GitHub page](https://github.com/cataclysmbnteam/Cataclysm-BN/issues/) using [feature request template](https://github.com/cataclysmbnteam/Cataclysm-BN/issues/new?template=feature_request.md).
+-   Please submit an issue on [our GitHub page](https://github.com/cataclysmbnteam/Cataclysm-BN/issues/) using [feature request form](https://github.com/cataclysmbnteam/Cataclysm-BN/issues/new?template=feature_request.yml).
