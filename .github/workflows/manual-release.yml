@@ -1,5 +1,7 @@
 name: "Manual release"
 concurrency: release
+
+on:
   workflow_dispatch:
     inputs:
       version:
