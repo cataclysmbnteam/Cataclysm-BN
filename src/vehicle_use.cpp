@@ -655,7 +655,7 @@ void vehicle::use_controls( const tripoint &pos )
     }
 
     if( has_part( "ENGINE" ) ) {
-        if( g->u.controlling_vehicle || ( remote && engine_on ) ) {
+        if( character.controlling_vehicle || ( remote && engine_on ) ) {
             options.emplace_back( _( "Stop driving" ), keybind( "TOGGLE_ENGINE" ) );
             actions.push_back( [&] {
                 if( is_flying_in_air() )
@@ -695,7 +695,7 @@ void vehicle::use_controls( const tripoint &pos )
                 }
                 vehicle_noise = 0;
                 engine_on = false;
-                g->u.controlling_vehicle = false;
+                character.controlling_vehicle = false;
                 g->setremoteveh( nullptr );
                 sfx::do_vehicle_engine_sfx();
                 refresh();
@@ -801,7 +801,7 @@ void vehicle::use_controls( const tripoint &pos )
     if( menu.ret >= 0 ) {
         // allow player to turn off engine without triggering another warning
         if( menu.ret != 0 && menu.ret != 1 && menu.ret != 2 && menu.ret != 3 ) {
-            if( !handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+            if( !handle_potential_theft( dynamic_cast<player &>( character ) ) ) {
                 return;
             }
         }
