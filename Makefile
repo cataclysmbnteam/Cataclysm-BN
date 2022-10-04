@@ -857,7 +857,9 @@ all: version $(CHECKS) $(TARGET) $(L10N) $(TESTS) validate-pr
 	@
 
 $(TARGET): $(OBJS)
-	+$(LD) $(W32FLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
+	@echo "Linking $@..."
+	@+$(LD) $(W32FLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
+
 ifeq ($(RELEASE), 1)
   ifndef DEBUG_SYMBOLS
     ifneq ($(BACKTRACE),1)
@@ -884,10 +886,12 @@ version:
 $(shell mkdir -p $(ODIR))
 
 $(ODIR)/%.o: $(SRC_DIR)/%.cpp $(PCH_P)
-	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(PCHFLAGS) -c $< -o $@
+	@echo $(@F)
+	@$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(PCHFLAGS) -c $< -o $@
 
 $(ODIR)/%.o: $(SRC_DIR)/%.rc
-	$(RC) $(RFLAGS) $< -o $@
+	@echo $(@F)
+	@$(RC) $(RFLAGS) $< -o $@
 
 src/version.h: version
 
