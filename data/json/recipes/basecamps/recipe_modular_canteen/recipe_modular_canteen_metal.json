@@ -13,29 +13,28 @@
     "blueprint_provides": [ { "id": "fbmk_center" } ],
     "blueprint_excludes": [ { "id": "fbmk_center" } ],
     "blueprint_needs": {
-      "time": "2 d 6 h 45 m",
+      "time": "1 d 22 h 35 m",
       "skills": [ [ "fabrication", 7 ] ],
       "inline": {
-        "tools": [  ],
+        "tools": [ [ [ "fake_gridwelder", 120 ], [ "oxy_torch", 24 ], [ "toolset", 180 ], [ "welder", 120 ], [ "welder_crude", 180 ] ] ],
         "qualities": [
-          [ { "id": "DIG" } ],
+          [ { "id": "DIG", "level": 2 } ],
           [ { "id": "DRILL" } ],
+          [ { "id": "GLARE", "level": 2 } ],
           [ { "id": "HAMMER", "level": 2 } ],
           [ { "id": "SAW_M" } ],
-          [ { "id": "SAW_W", "level": 2 } ],
           [ { "id": "WRENCH", "level": 2 } ]
         ],
         "components": [
-          [ [ "2x4", 111 ] ],
+          [ [ "2x4", 45 ], [ "log", 6 ] ],
           [ [ "frame", 18 ], [ "pipe", 108 ], [ "xlframe", 30 ] ],
           [ [ "glass_sheet", 3 ] ],
           [ [ "hinge", 3 ] ],
-          [ [ "nail", 818 ] ],
-          [ [ "scrap", 480 ], [ "sheet_metal_small", 240 ] ],
+          [ [ "nail", 186 ] ],
+          [ [ "scrap", 420 ], [ "sheet_metal_small", 210 ] ],
           [ [ "scrap", 48 ], [ "steel_chunk", 16 ] ],
           [ [ "sheet_metal", 8 ], [ "steel_plate", 2 ] ],
-          [ [ "spike", 8 ] ],
-          [ [ "wood_panel", 22 ], [ "wood_sheet", 11 ] ]
+          [ [ "spike", 8 ] ]
         ]
       }
     }
@@ -54,29 +53,28 @@
     "blueprint_provides": [ { "id": "fbmk_center2" } ],
     "blueprint_excludes": [ { "id": "fbmk_center2" } ],
     "blueprint_needs": {
-      "time": "3 d 4 h 45 m",
+      "time": "2 d 17 h 25 m",
       "skills": [ [ "fabrication", 7 ] ],
       "inline": {
-        "tools": [  ],
+        "tools": [ [ [ "fake_gridwelder", 180 ], [ "oxy_torch", 36 ], [ "toolset", 270 ], [ "welder", 180 ], [ "welder_crude", 270 ] ] ],
         "qualities": [
-          [ { "id": "DIG" } ],
+          [ { "id": "DIG", "level": 2 } ],
           [ { "id": "DRILL" } ],
+          [ { "id": "GLARE", "level": 2 } ],
           [ { "id": "HAMMER", "level": 2 } ],
           [ { "id": "SAW_M" } ],
-          [ { "id": "SAW_W", "level": 2 } ],
           [ { "id": "WRENCH", "level": 2 } ]
         ],
         "components": [
-          [ [ "2x4", 111 ] ],
+          [ [ "2x4", 15 ], [ "log", 2 ] ],
           [ [ "frame", 27 ], [ "pipe", 162 ], [ "xlframe", 45 ] ],
           [ [ "glass_sheet", 1 ] ],
           [ [ "hinge", 6 ] ],
-          [ [ "nail", 1102 ] ],
-          [ [ "scrap", 720 ], [ "sheet_metal_small", 360 ] ],
+          [ [ "nail", 174 ] ],
+          [ [ "scrap", 630 ], [ "sheet_metal_small", 315 ] ],
           [ [ "scrap", 96 ], [ "steel_chunk", 32 ] ],
           [ [ "sheet_metal", 16 ], [ "steel_plate", 4 ] ],
-          [ [ "spike", 16 ] ],
-          [ [ "wood_panel", 32 ], [ "wood_sheet", 16 ] ]
+          [ [ "spike", 16 ] ]
         ]
       }
     }
@@ -95,13 +93,14 @@
     "blueprint_provides": [ { "id": "fbmk_smoking_area" } ],
     "blueprint_excludes": [ { "id": "fbmk_smoking_area" } ],
     "blueprint_needs": {
-      "time": "1 d 22 h 25 m",
+      "time": "2 d 10 h 25 m",
       "skills": [ [ "fabrication", 4 ] ],
       "inline": {
-        "tools": [  ],
+        "tools": [ [ [ "fake_gridwelder", 120 ], [ "oxy_torch", 24 ], [ "toolset", 180 ], [ "welder", 120 ], [ "welder_crude", 180 ] ] ],
         "qualities": [
-          [ { "id": "DIG" } ],
+          [ { "id": "DIG", "level": 2 } ],
           [ { "id": "DRILL" } ],
+          [ { "id": "GLARE", "level": 2 } ],
           [ { "id": "HAMMER", "level": 2 } ],
           [ { "id": "SAW_M" } ],
           [ { "id": "SAW_W", "level": 2 } ],
@@ -110,8 +109,8 @@
         "components": [
           [ [ "2x4", 180 ] ],
           [ [ "frame", 18 ], [ "pipe", 108 ], [ "xlframe", 30 ] ],
-          [ [ "nail", 736 ] ],
-          [ [ "scrap", 480 ], [ "sheet_metal_small", 240 ] ],
+          [ [ "nail", 544 ] ],
+          [ [ "scrap", 420 ], [ "sheet_metal_small", 210 ] ],
           [ [ "wood_panel", 22 ] ]
         ]
       }
@@ -131,25 +130,24 @@
     "blueprint_provides": [ { "id": "fbmk_pantry_room" } ],
     "blueprint_excludes": [ { "id": "fbmk_pantry_room" } ],
     "blueprint_needs": {
-      "time": "4 d 17 h 30 m",
+      "time": "4 d 1 h 40 m",
       "skills": [ [ "fabrication", 4 ] ],
       "inline": {
-        "tools": [  ],
+        "tools": [ [ [ "fake_gridwelder", 300 ], [ "oxy_torch", 60 ], [ "toolset", 450 ], [ "welder", 300 ], [ "welder_crude", 450 ] ] ],
         "qualities": [
-          [ { "id": "DIG" } ],
+          [ { "id": "DIG", "level": 2 } ],
           [ { "id": "DRILL" } ],
+          [ { "id": "GLARE", "level": 2 } ],
           [ { "id": "HAMMER", "level": 2 } ],
           [ { "id": "SAW_M" } ],
-          [ { "id": "SAW_W", "level": 2 } ],
           [ { "id": "WRENCH", "level": 2 } ]
         ],
         "components": [
-          [ [ "2x4", 180 ] ],
+          [ [ "2x4", 30 ], [ "log", 4 ] ],
           [ [ "frame", 45 ], [ "pipe", 270 ], [ "xlframe", 75 ] ],
           [ [ "glass_sheet", 2 ] ],
-          [ [ "nail", 1780 ] ],
-          [ [ "scrap", 1200 ], [ "sheet_metal_small", 600 ] ],
-          [ [ "wood_panel", 50 ], [ "wood_sheet", 25 ] ]
+          [ [ "nail", 300 ] ],
+          [ [ "scrap", 1050 ], [ "sheet_metal_small", 525 ] ]
         ]
       }
     }
@@ -168,29 +166,28 @@
     "blueprint_provides": [ { "id": "fbmk_canteen_dining_west" } ],
     "blueprint_excludes": [ { "id": "fbmk_canteen_dining_west" } ],
     "blueprint_needs": {
-      "time": "2 d 6 h 36 m",
-      "skills": [ [ "fabrication", 7 ], [ "survival", 0 ] ],
+      "time": "1 d 22 h 20 m",
+      "skills": [ [ "fabrication", 7 ] ],
       "inline": {
-        "tools": [ [ [ "machete", -1 ], [ "makeshift_machete", -1 ], [ "scythe", -1 ], [ "sickle", -1 ], [ "survivor_machete", -1 ] ] ],
+        "tools": [ [ [ "fake_gridwelder", 120 ], [ "oxy_torch", 24 ], [ "toolset", 180 ], [ "welder", 120 ], [ "welder_crude", 180 ] ] ],
         "qualities": [
-          [ { "id": "DIG" } ],
+          [ { "id": "DIG", "level": 2 } ],
           [ { "id": "DRILL" } ],
+          [ { "id": "GLARE", "level": 2 } ],
           [ { "id": "HAMMER", "level": 2 } ],
           [ { "id": "SAW_M" } ],
-          [ { "id": "SAW_W", "level": 2 } ],
           [ { "id": "WRENCH", "level": 2 } ]
         ],
         "components": [
-          [ [ "2x4", 108 ] ],
+          [ [ "2x4", 42 ] ],
           [ [ "frame", 18 ], [ "pipe", 108 ], [ "xlframe", 30 ] ],
           [ [ "glass_sheet", 2 ] ],
           [ [ "hinge", 3 ] ],
-          [ [ "nail", 818 ] ],
-          [ [ "scrap", 480 ], [ "sheet_metal_small", 240 ] ],
+          [ [ "nail", 186 ] ],
+          [ [ "scrap", 420 ], [ "sheet_metal_small", 210 ] ],
           [ [ "scrap", 48 ], [ "steel_chunk", 16 ] ],
           [ [ "sheet_metal", 8 ], [ "steel_plate", 2 ] ],
-          [ [ "spike", 8 ] ],
-          [ [ "wood_panel", 22 ], [ "wood_sheet", 11 ] ]
+          [ [ "spike", 8 ] ]
         ]
       }
     }
@@ -209,25 +206,24 @@
     "blueprint_provides": [ { "id": "fbmk_canteen_dining_east" } ],
     "blueprint_excludes": [ { "id": "fbmk_canteen_dining_east" } ],
     "blueprint_needs": {
-      "time": "2 d 20 h 45 m",
+      "time": "2 d 3 h 35 m",
       "skills": [ [ "fabrication", 4 ] ],
       "inline": {
-        "tools": [  ],
+        "tools": [ [ [ "fake_gridwelder", 140 ], [ "oxy_torch", 28 ], [ "toolset", 210 ], [ "welder", 140 ], [ "welder_crude", 210 ] ] ],
         "qualities": [
-          [ { "id": "DIG" } ],
+          [ { "id": "DIG", "level": 2 } ],
           [ { "id": "DRILL" } ],
+          [ { "id": "GLARE", "level": 2 } ],
           [ { "id": "HAMMER", "level": 2 } ],
           [ { "id": "SAW_M" } ],
-          [ { "id": "SAW_W", "level": 2 } ],
           [ { "id": "WRENCH", "level": 2 } ]
         ],
         "components": [
-          [ [ "2x4", 159 ] ],
+          [ [ "2x4", 57 ] ],
           [ [ "frame", 21 ], [ "pipe", 126 ], [ "xlframe", 35 ] ],
           [ [ "glass_sheet", 3 ] ],
-          [ [ "nail", 1136 ] ],
-          [ [ "scrap", 560 ], [ "sheet_metal_small", 280 ] ],
-          [ [ "wood_panel", 34 ], [ "wood_sheet", 17 ] ]
+          [ [ "nail", 232 ] ],
+          [ [ "scrap", 490 ], [ "sheet_metal_small", 245 ] ]
         ]
       }
     }
@@ -246,29 +242,28 @@
     "blueprint_provides": [ { "id": "fbmk_canteen_dining_center" } ],
     "blueprint_excludes": [ { "id": "fbmk_canteen_dining_center" } ],
     "blueprint_needs": {
-      "time": "2 d 13 h 15 m",
+      "time": "21 h 15 m",
       "skills": [ [ "fabrication", 7 ] ],
       "inline": {
-        "tools": [  ],
+        "tools": [ [ [ "fake_gridwelder", 40 ], [ "oxy_torch", 8 ], [ "toolset", 60 ], [ "welder", 40 ], [ "welder_crude", 60 ] ] ],
         "qualities": [
-          [ { "id": "DIG" } ],
+          [ { "id": "DIG", "level": 2 } ],
           [ { "id": "DRILL" } ],
+          [ { "id": "GLARE", "level": 2 } ],
           [ { "id": "HAMMER", "level": 2 } ],
           [ { "id": "SAW_M" } ],
-          [ { "id": "SAW_W", "level": 2 } ],
           [ { "id": "WRENCH", "level": 2 } ]
         ],
         "components": [
-          [ [ "2x4", 159 ] ],
+          [ [ "2x4", 15 ], [ "log", 2 ] ],
           [ [ "frame", 6 ], [ "pipe", 36 ], [ "xlframe", 10 ] ],
           [ [ "glass_sheet", 1 ] ],
           [ [ "hinge", 3 ] ],
-          [ [ "nail", 1086 ] ],
-          [ [ "scrap", 160 ], [ "sheet_metal_small", 80 ] ],
+          [ [ "nail", 62 ] ],
+          [ [ "scrap", 140 ], [ "sheet_metal_small", 70 ] ],
           [ [ "scrap", 48 ], [ "steel_chunk", 16 ] ],
           [ [ "sheet_metal", 8 ], [ "steel_plate", 2 ] ],
-          [ [ "spike", 8 ] ],
-          [ [ "wood_panel", 48 ], [ "wood_sheet", 24 ] ]
+          [ [ "spike", 8 ] ]
         ]
       }
     }

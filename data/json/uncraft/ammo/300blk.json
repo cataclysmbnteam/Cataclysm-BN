@@ -13,7 +13,7 @@
       [ [ "gunpowder", 4 ] ],
       [ [ "copper", 2 ] ]
     ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "charges": 1
   },
   {
     "result": "300blk_ss",
@@ -29,6 +29,6 @@
       [ [ "gunpowder", 6 ] ],
       [ [ "copper", 2 ] ]
     ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "charges": 1
   }
 ]

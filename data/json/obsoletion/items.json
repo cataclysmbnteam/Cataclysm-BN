@@ -375,7 +375,6 @@
     "material": "steel",
     "range": -2,
     "dispersion": 300,
-    "durability": 8,
     "clip_size": 100,
     "valid_mod_locations": [ [ "sling", 1 ], [ "stock", 1 ], [ "rail mount", 1 ] ],
     "relative": { "reload": 4 }
@@ -414,7 +413,6 @@
     "weight": "907 g",
     "volume": "5 L",
     "price": 20000,
-    "to_hit": -1,
     "bashing": 8,
     "material": [ "steel", "plastic" ],
     "range": 4,
@@ -1677,7 +1675,6 @@
     "range": -6,
     "ranged_damage": { "damage_type": "bullet", "amount": -16 },
     "dispersion": 380,
-    "durability": 8,
     "blackpowder_tolerance": 32,
     "loudness": 30,
     "clip_size": 5,
@@ -3190,7 +3187,7 @@
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [ [ [ "lead", 2 ] ], [ [ "22_casing_new", 1 ] ], [ [ "gunpowder_pistol", 1 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "charges": 1
   },
   {
     "type": "AMMO",

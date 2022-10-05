@@ -44,6 +44,8 @@ Use the `Home` key to return to the top.
       - [`traits`](#-traits-)
     + [Recipes](#recipes)
     + [Constructions](#constructions)
+    + [Construction groups](#construction-groups)
+    + [Construction sequences](#construction-sequences)
     + [Scent Types](#scent_types)
     + [Scores and Achievements](#scores-and-achievements)
       - [`event_transformation`](#event_transformation)
@@ -998,12 +1000,22 @@ Mods can modify this via `add:traits` and `remove:traits`.
 
 ### Recipes
 
+Recipes represent both craft and uncraft (disassembly) recipes.
+
 ```C++
-"result": "javelin",         // ID of resulting item
+"type": "recipe",            // Recipe type. Possible values: 'recipe' (craft recipe) and 'uncraft' (uncraft recipe).
+"reversible": false,         // Generate an uncraft recipe that is a reverse of this craft recipe.
+"result": "javelin",         // ID of resulting item. By default, also used as the ID of the recipe.
+"id_suffix": "",             // Optional (default: empty string). Some suffix to make the ID of the recipe unique. The ID of the recipe is "<result><id_suffix>".
 "category": "CC_WEAPON",     // Category of crafting recipe. CC_NONCRAFT used for disassembly recipes
-"id_suffix": "",             // Optional (default: empty string). Some suffix to make the ident of the recipe unique. The ident of the recipe is "<id-of-result><id_suffix>".
-"override": false,           // Optional (default: false). If false and the ident of the recipe is already used by another recipe, loading of recipes fails. If true and a recipe with the ident is already defined, the existing recipe is replaced by the new recipe.
+"subcategory": "",           // Subcategory of crafting recipe. 
+"override": false,           // Optional (default: false). If false and the ID of the recipe is already used by another recipe, loading of recipes fails. If true and a recipe with the ID is already defined, the existing recipe is replaced by the new recipe.
+"obsolete": false,           // Optional (default: false). Marks this recipe as obsolete. Use this instead of outright deleting it to preserve save compatibility.
 "delete_flags": [ "CANNIBALISM" ], // Optional (default: empty list). Flags specified here will be removed from the resultant item upon crafting. This will override flag inheritance, but *will not* delete flags that are part of the item type itself.
+"contained": false,          // Optional (default: false). Spawn produced item in a container.
+"container": "can_medium",   // Optional. Override container to spawn item in (by default uses item's default container)
+"charges": 1,                // Optional (default: null). Override default charges for count-by-charges items (ammo, comestibles, etc.)
+"result_mult": 1,            // Optional (default: 1). Produce multiple items (or stacks for count-by-charges items) from single craft
 "skill_used": "fabrication", // Skill trained and used for success checks
 "skills_required": [["survival", 1], ["throw", 2]], // Skills required to unlock recipe
 "book_learn": [              // (optional) Array of books that this recipe can be learned from. Each entry contains the id of the book and the skill level at which it can be learned.
@@ -1011,9 +1023,8 @@ Mods can modify this via `add:traits` and `remove:traits`.
     [ "textbook_gaswarfare", 8, "" ] // If the name is empty, the recipe is hidden, it will not be shown in the description of the book.
 ],
 "difficulty": 3,             // Difficulty of success check
-"time": "5 m",               // Preferred time to perform recipe, can specify in minutes, hours etc.
-"time": 5000,                // Legacy time to perform recipe (where 1000 ~= 10 turns ~= 10 seconds game time).
-"reversible": false,         // Can be disassembled.
+"time": "5 m",               // Time to perform the recipe specified as time string (can use minutes, hours, etc.)
+"time": 5000,                // Legacy time format, in moves. Won't be supported in the future. Here, 1000 ~= 10 turns ~= 10 seconds of game time
 "autolearn": true,           // Automatically learned upon gaining required skills
 "autolearn" : [              // Automatically learned upon gaining listed skills
     [ "survival", 2 ],
@@ -1024,6 +1035,7 @@ Mods can modify this via `add:traits` and `remove:traits`.
     [ "survival", 1 ],
     [ "fabrication", 2 ]
 ],
+"never_learn": false,        // Optional (default: false). Prevents this recipe from being learned by the player. For debug or NPC purposes.
 "batch_time_factors": [25, 15], // Optional factors for batch crafting time reduction. First number specifies maximum crafting time reduction as percentage, and the second number the minimal batch size to reach that number. In this example given batch size of 20 the last 6 crafts will take only 3750 time units.
 "flags": [                   // A set of strings describing boolean features of the recipe
   "BLIND_EASY",
@@ -1031,6 +1043,9 @@ Mods can modify this via `add:traits` and `remove:traits`.
 ],
 "construction_blueprint": "camp", // an optional string containing an update_mapgen_id.  Used by faction camps to upgrade their buildings. If non-empty, the function must exist.
 "on_display": false,         // this is a hidden construction item, used by faction camps to calculate construction times but not available to the player
+"using": [                   // Optional, string or array. Additional external requirements to use.
+  "butter_resealable_containers"
+],
 "qualities": [               // Generic qualities of tools needed to craft
   {"id":"CUT","level":1,"amount":1}
 ],
@@ -1093,13 +1108,55 @@ request](https://github.com/CleverRaven/Cataclysm-DDA/pull/36657) and the
 
 ### Constructions
 ```C++
-"description": "Spike Pit",                                         // Description string displayed in the construction menu
+"id": "constr_pit_spiked",                                          // Identifier of the construction
+"group": "spike_pit",                                               // Construction group, used to provide description and group related constructions in UI (e.g. different stages of some construction).
 "category": "DIG",                                                  // Construction category
 "required_skills": [ [ "survival", 1 ] ],                           // Skill levels required to undertake construction
-"time": "30 m",                                                         // Time required to complete construction. Integers will be read as minutes or a time string can be used.
+"time": "30 m",                                                     // Time required to complete construction. Integers will be read as minutes or a time string can be used.
 "components": [ [ [ "spear_wood", 4 ], [ "pointy_stick", 4 ] ] ],   // Items used in construction
-"pre_terrain": "t_pit",                                             // Required terrain to build on
-"post_terrain": "t_pit_spiked"                                      // Terrain type after construction is complete
+"using": [ [ "welding_standard", 5 ] ],                             // (Optional) External requirements to use
+"pre_note": "I am a dwarf and I'm digging a hole!",                 // (Optional) Annotation
+"pre_flags": [ "DIGGABLE", "FLAT" ],                                // (Optional) Flags the terrain must have to be built on
+"pre_terrain": "t_pit",                                             // (Optional) Required terrain to build on
+"pre_furniture": "f_sandbag_half",                                  // (Optional) Required furniture to build on
+"pre_special": "check_down_OK",                                     // (Optional) Hardcoded tile validity checks, refer to construction.cpp 
+"post_terrain": "t_pit_spiked",                                     // (Optional) Terrain type after construction is complete
+"post_furniture": "f_sandbag_wall",                                 // (Optional) Furniture type after construction is complete
+"post_special": "done_dig_stair",                                   // (Optional) Hardcoded completion function, refer to construction.cpp
+"post_flags": [ "keep_items" ],                                     // (Optional) Additional hardcoded effects, refer to construction.cpp. The only one available as of September 2022 is `keep_items`
+"byproducts": [ { "item": "pebble", "charges": [ 3, 6 ] } ],        // (Optional) construction byproducts
+"vehicle_start": false,                                             // (Optional, default false) Whether it will create a vehicle (for hardcode purposes)
+"on_display": false,                                                // (Optional, default true) Whether it will show in player's UI
+"dark_craftable": true,                                             // (Optional, default false) Whether it can be constructed in dark
+
+```
+
+### Construction groups
+```C++
+"id": "build_wooden_door",            // Group identifier
+"name": "Build Wooden Door",          // Description string displayed in the construction menu
+```
+
+### Construction sequences
+Constuction sequences are needed for automatic calculation of basecamp blueprint requirements.
+Each construction sequence describes steps needed to construct specified terrain
+or furniture on an empty dirt tile.
+At any moment, only 1 construction sequence may be defined for any terrain or furniture.
+For convenience, each non-blacklisted construction recipe that starts from an empty dirt tile
+automatically generates a one-element-long construction sequence, but only as long as
+there are no other such construction recipes that would produce the same sequence
+and there isn't an explicitly defined sequence with same results.
+
+```C++
+"id": "f_workbench",                // Sequence identifier
+"blacklisted": false,               // (Optional) Whether this sequence is blacklisted
+"post_furniture": "f_workbench",    // (Optional) Identifier of resulting furniture
+"post_terrain": "t_rootcellar",     // (Optional) Identifier of resulting terrain
+"elems": [                          // Array of construction identifiers.
+  "constr_pit",                     //   First construction must start from an empty dirt tile,
+  "constr_rootcellar"               //   and last construction must result in either post_furniture
+]                                   //   or post_terrain, whichever one has been specified.
+                                    //   Leave it empty to exclude the terrain/furniture from blueprint autocalc.
 ```
 
 ### Scent_types

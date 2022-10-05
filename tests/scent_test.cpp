@@ -4,6 +4,8 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "game.h"
+#include "state_helpers.h"
+
 void old_scent_map_update( const tripoint &center, map &m,
                            std::array<std::array<int, MAPSIZE_Y>, MAPSIZE_X> &grscent );
 
@@ -123,8 +125,7 @@ void old_scent_map_update( const tripoint &center, map &m,
 
 TEST_CASE( "scent_matches_old", "[.]" )
 {
-    clear_map();
-
+    clear_all_state();
     tripoint origin( 60, 60, 0 );
 
     g->place_player( origin );

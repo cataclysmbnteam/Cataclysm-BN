@@ -66,6 +66,7 @@
 #include "martialarts.h"
 #include "material.h"
 #include "messages.h"
+#include "mod_manager.h"
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
@@ -1231,11 +1232,14 @@ static int get_base_env_resist( const item &it )
 {
     const islot_armor *t = it.find_armor_data();
     if( t == nullptr ) {
-        return 0;
+        if( it.is_pet_armor() ) {
+            return it.type->pet_armor->env_resist * it.get_relative_health();
+        } else {
+            return 0;
+        }
     }
 
     return t->env_resist * it.get_relative_health();
-
 }
 
 bool item::is_owned_by( const Character &c, bool available_to_take ) const
@@ -1465,6 +1469,15 @@ double item::average_dps( const player &guy ) const
 void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                        bool debug /* debug */ ) const
 {
+    if( debug_mode && parts->test( iteminfo_parts::BASE_MOD_SRC ) ) {
+        info.emplace_back( "BASE", string_format( _( "<stat>Origin: %s</stat>" ),
+                           enumerate_as_string( type->src.begin(),
+        type->src.end(), []( const std::pair<itype_id, mod_id> &source ) {
+            return string_format( "'%s'", source.second->name() );
+        }, enumeration_conjunction::arrow ) ) );
+        insert_separation_line( info );
+    }
+
     const std::string space = "  ";
     if( parts->test( iteminfo_parts::BASE_MATERIAL ) ) {
         const std::vector<const material_type *> mat_types = made_of_types();
@@ -3527,6 +3540,13 @@ void item::contents_info( std::vector<iteminfo> &info, const iteminfo_query *par
                                               &converted_volume_scale ), 2 );
                 info.emplace_back( "DESCRIPTION", contents_item->display_name() );
                 iteminfo::flags f = iteminfo::no_newline;
+                if( debug_mode ) {
+                    info.emplace_back( "DESCRIPTION", string_format( _( "<stat>Origin: %s</stat>" ),
+                                       enumerate_as_string( contents_item->type->src.begin(),
+                    contents_item->type->src.end(), []( const std::pair<itype_id, mod_id> &content_source ) {
+                        return string_format( "'%s'", content_source.second->name() );
+                    }, enumeration_conjunction::arrow ) ) );
+                }
                 if( converted_volume_scale != 0 ) {
                     f |= iteminfo::is_decimal;
                 }
@@ -3535,6 +3555,13 @@ void item::contents_info( std::vector<iteminfo> &info, const iteminfo_query *par
                                    converted_volume );
             } else {
                 info.emplace_back( "DESCRIPTION", contents_item->display_name() );
+                if( debug_mode ) {
+                    info.emplace_back( "DESCRIPTION", string_format( _( "<stat>Origin: %s</stat>" ),
+                                       enumerate_as_string( contents_item->type->src.begin(),
+                    contents_item->type->src.end(), []( const std::pair<itype_id, mod_id> &content_source ) {
+                        return string_format( "'%s'", content_source.second->name() );
+                    }, enumeration_conjunction::arrow ) ) );
+                }
                 info.emplace_back( "DESCRIPTION", description.translated() );
             }
         }

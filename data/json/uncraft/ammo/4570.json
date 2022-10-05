@@ -11,7 +11,7 @@
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder", 15 ] ]
     ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "charges": 1
   },
   {
     "result": "4570_pen",
@@ -25,7 +25,7 @@
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder", 17 ] ]
     ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "charges": 1
   },
   {
     "result": "4570_low",
@@ -33,7 +33,7 @@
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 2 } ],
     "components": [ [ [ "lead", 8 ] ], [ [ "4570_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "gunpowder", 12 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "charges": 1
   },
   {
     "id": "reloaded_4570_bp",

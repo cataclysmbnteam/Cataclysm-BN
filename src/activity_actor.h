@@ -8,11 +8,48 @@
 
 #include "activity_type.h"
 #include "clone_ptr.h"
+#include "optional.h"
 
 class Character;
 class JsonIn;
 class JsonOut;
 class player_activity;
+
+struct act_progress_message {
+    /**
+     * Whether activity actor implements the method.
+     * TODO: remove once migration to actors is complete.
+     */
+    bool implemented = true;
+
+    cata::optional<std::string> msg_extra_info;
+    cata::optional<std::string> msg_full;
+
+    /**
+     * The text will completely overwrite default message.
+     */
+    static act_progress_message make_full( std::string &&text ) {
+        act_progress_message ret;
+        ret.msg_full = std::move( text );
+        return ret;
+    }
+
+    /**
+     * The text will be appended to default message.
+     */
+    static act_progress_message make_extra_info( std::string &&text ) {
+        act_progress_message ret;
+        ret.msg_extra_info = std::move( text );
+        return ret;
+    }
+
+    /**
+     * There will be no message shown.
+     */
+    static act_progress_message make_empty() {
+        return act_progress_message{};
+    }
+};
 
 class activity_actor
 {
@@ -97,6 +134,14 @@ class activity_actor
          * added to the `activity_actor_deserializers` hashmap in activity_actor.cpp
          */
         virtual void serialize( JsonOut &jsout ) const = 0;
+
+        virtual act_progress_message get_progress_message(
+            const player_activity &, const Character & ) const {
+            // TODO: make it create default message once migration to actors is complete.
+            act_progress_message msg;
+            msg.implemented = false;
+            return msg;
+        }
 };
 
 namespace activity_actors

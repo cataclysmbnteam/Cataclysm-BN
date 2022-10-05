@@ -13,7 +13,7 @@
     "blueprint_provides": [ { "id": "fbmw_northeast" } ],
     "blueprint_excludes": [ { "id": "fbmw_northeast" } ],
     "blueprint_needs": {
-      "time": "1 d 22 h 30 m",
+      "time": "2 d 3 h",
       "skills": [ [ "fabrication", 3 ] ],
       "inline": {
         "tools": [  ],
@@ -36,18 +36,18 @@
     "blueprint_provides": [ { "id": "fbmw_north" } ],
     "blueprint_excludes": [ { "id": "fbmw_north" } ],
     "blueprint_needs": {
-      "time": "1 d 5 h 40 m",
+      "time": "1 d 8 h 40 m",
       "skills": [ [ "fabrication", 3 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 203 ] ],
-          [ [ "nail", 394 ] ],
-          [ [ "wood_panel", 23 ] ],
-          [ [ "hinge", 2 ] ],
           [ [ "glass_sheet", 1 ] ],
-          [ [ "log", 24 ] ]
+          [ [ "hinge", 2 ] ],
+          [ [ "log", 24 ] ],
+          [ [ "nail", 394 ] ],
+          [ [ "wood_panel", 23 ] ]
         ]
       }
     }
@@ -66,11 +66,11 @@
     "blueprint_provides": [ { "id": "fbmw_east" }, { "id": "blacksmith_recipes_3" } ],
     "blueprint_excludes": [ { "id": "fbmw_east" } ],
     "blueprint_needs": {
-      "time": "1 d 21 h 55 m",
+      "time": "1 d 23 h 55 m",
       "skills": [ [ "fabrication", 3 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "SAW_W", "level": 2 } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 329 ] ],
           [ [ "glass_sheet", 1 ] ],
@@ -98,7 +98,7 @@
     "blueprint_provides": [ { "id": "fbmw_center" } ],
     "blueprint_excludes": [ { "id": "fbmw_center" } ],
     "blueprint_needs": {
-      "time": "1 d 3 h 5 m",
+      "time": "1 d 5 h 5 m",
       "skills": [ [ "fabrication", 3 ], [ "tailor", 3 ] ],
       "inline": {
         "tools": [  ],
@@ -130,10 +130,10 @@
     "blueprint_resources": [ "tongs", "chisel", "hammer", "swage" ],
     "components": [ [ [ "tongs", 1 ] ], [ [ "chisel", 1 ] ], [ [ "hammer", 1 ] ], [ [ "swage", 1 ] ] ],
     "blueprint_needs": {
-      "time": "1 d 4 h 10 m",
+      "time": "1 d 5 h 40 m",
       "skills": [ [ "fabrication", 4 ] ],
       "inline": {
-        "tools": [ [ [ "oxy_torch", 20 ], [ "toolset", 150 ], [ "welder", 100 ], [ "welder_crude", 150 ] ] ],
+        "tools": [ [ [ "fake_gridwelder", 100 ], [ "oxy_torch", 20 ], [ "toolset", 150 ], [ "welder", 100 ], [ "welder_crude", 150 ] ] ],
         "qualities": [
           [ { "id": "DIG", "level": 2 } ],
           [ { "id": "GLARE", "level": 2 } ],
@@ -169,18 +169,18 @@
     "blueprint_provides": [ { "id": "fbmw_northwest" }, { "id": "blacksmith_recipes_5" } ],
     "blueprint_excludes": [ { "id": "fbmw_northwest" } ],
     "blueprint_needs": {
-      "time": "1 d 21 h 28 m",
-      "skills": [ [ "fabrication", 3 ], [ "survival", 0 ] ],
+      "time": "2 d 2 h 40 m",
+      "skills": [ [ "fabrication", 3 ] ],
       "inline": {
-        "tools": [ [ [ "machete", -1 ], [ "makeshift_machete", -1 ], [ "scythe", -1 ], [ "sickle", -1 ], [ "survivor_machete", -1 ] ] ],
+        "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 298 ] ],
-          [ [ "nail", 526 ] ],
-          [ [ "wood_panel", 31 ] ],
-          [ [ "hinge", 2 ] ],
           [ [ "glass_sheet", 2 ] ],
-          [ [ "log", 44 ] ]
+          [ [ "hinge", 2 ] ],
+          [ [ "log", 44 ] ],
+          [ [ "nail", 526 ] ],
+          [ [ "wood_panel", 31 ] ]
         ]
       }
     }
@@ -201,7 +201,7 @@
     "blueprint_resources": [ "wrench", "pliers", "fake_drop_hammer" ],
     "components": [ [ [ "wrench", 1 ] ], [ [ "pliers", 1 ] ] ],
     "blueprint_needs": {
-      "time": "2 d 18 h",
+      "time": "2 d 23 h",
       "skills": [ [ "fabrication", 3 ] ],
       "inline": {
         "tools": [  ],

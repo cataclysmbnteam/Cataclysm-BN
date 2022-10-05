@@ -411,7 +411,7 @@ static void draw_stats_info( const catacurses::window &w_info,
         print_colored_text( w_info, point( 1, 4 ), col_temp, c_light_gray,
                             string_format( _( "Read times: <color_white>%d%%</color>" ), you.read_speed( false ) ) );
         print_colored_text( w_info, point( 1, 5 ), col_temp, c_light_gray,
-                            string_format( _( "Crafting bonus: <color_white>%d%%</color>" ), you.get_int() ) );
+                            string_format( _( "Crafting bonus: <color_white>+%d%%</color>" ), you.get_int() ) );
     } else if( line == 3 ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,

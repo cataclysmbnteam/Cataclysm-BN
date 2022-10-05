@@ -151,7 +151,7 @@ class blueprint_options : public zone_options, public mark_option
     private:
         // furn/ter id as string.
         std::string mark;
-        std::string con;
+        construction_group_str_id group = construction_group_str_id::NULL_ID();
         construction_id index;
 
         enum query_con_result {
@@ -166,9 +166,6 @@ class blueprint_options : public zone_options, public mark_option
         std::string get_mark() const override {
             return mark;
         }
-        std::string get_con() const {
-            return con;
-        }
         construction_id get_index() const {
             return index;
         }
@@ -178,8 +175,8 @@ class blueprint_options : public zone_options, public mark_option
         }
 
         construction_id get_final_construction(
-            const std::vector<construction> &list_constructions,
-            const construction_id &idx,
+            const std::vector<construction_id> &list_constructions,
+            const construction_id &id,
             std::set<construction_id> &skip_index );
 
         bool query_at_creation() override;

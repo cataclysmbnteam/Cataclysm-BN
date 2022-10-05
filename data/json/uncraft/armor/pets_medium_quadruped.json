@@ -1,72 +1,72 @@
 [
   {
-    "result": "acidchitin_harness_dog",
+    "result": "acidchitin_armor_medium_quadruped",
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "10 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "acidchitin_piece", 6 ] ] ]
+    "components": [ [ [ "acidchitin_piece", 42 ] ] ]
   },
   {
-    "result": "chitin_harness_dog",
+    "result": "chitin_armor_medium_quadruped",
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "10 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "chitin_piece", 6 ] ] ]
+    "components": [ [ [ "chitin_piece", 42 ] ] ]
   },
   {
-    "result": "chainmail_harness_dog",
+    "result": "chainmail_armor_medium_quadruped",
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 3,
     "time": "100 s",
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
-    "components": [ [ [ "link_sheet", 3 ] ], [ [ "leather", 3 ] ], [ [ "chain_link", 70 ] ] ]
+    "components": [ [ [ "link_sheet", 18 ] ], [ [ "leather", 3 ] ], [ [ "chain_link", 458 ] ] ]
   },
   {
-    "result": "leather_harness_dog",
+    "result": "leather_armor_medium_quadruped",
     "type": "uncraft",
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "10 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "leather", 4 ] ] ]
+    "components": [ [ [ "leather", 10 ] ] ]
   },
   {
-    "result": "leatherbone_harness_dog",
+    "result": "leatherbone_armor_medium_quadruped",
     "type": "uncraft",
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "leather", 4 ] ], [ [ "bone", 7 ] ] ]
+    "components": [ [ [ "leather", 52 ] ], [ [ "bone", 19 ] ] ]
   },
   {
-    "result": "kevlar_harness",
+    "result": "kevlar_armor_medium_quadruped",
     "type": "uncraft",
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "10 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "kevlar_plate", 6 ] ] ]
+    "components": [ [ [ "kevlar_plate", 28 ] ] ]
   },
   {
-    "result": "rubber_harness_dog",
+    "result": "rubber_armor_medium_quadruped",
     "type": "uncraft",
     "time": "10 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "rag", 5 ] ], [ [ "plastic_chunk", 5 ] ] ]
+    "components": [ [ [ "rag", 30 ] ], [ [ "plastic_chunk", 20 ] ] ]
   },
   {
-    "result": "superalloy_harness_dog",
+    "result": "superalloy_armor_medium_quadruped",
     "type": "uncraft",
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "10 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "alloy_sheet", 6 ] ] ]
+    "components": [ [ [ "alloy_sheet", 10 ] ] ]
   }
 ]

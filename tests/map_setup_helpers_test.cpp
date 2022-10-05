@@ -2,6 +2,7 @@
 
 #include "catacharset.h"
 #include "map_setup_helpers.h"
+#include "state_helpers.h"
 #include "string_formatter.h"
 
 static void cata_assert( bool expr )
@@ -209,6 +210,7 @@ void canvas_adapter::check_matches_expected( const canvas &expected, bool requir
 
 TEST_CASE( "map_test_setup_canvas_rotation", "[utility]" )
 {
+    clear_all_state();
     SECTION( "even_sides_with_2_levels" ) {
         map_helpers::canvas canvas = map_helpers::canvas::make_multilevel( {
             {

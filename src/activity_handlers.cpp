@@ -29,6 +29,7 @@
 #include "colony.h"
 #include "color.h"
 #include "construction.h"
+#include "construction_partial.h"
 #include "coordinate_conversions.h"
 #include "craft_command.h"
 #include "crafting.h"
@@ -120,7 +121,6 @@ static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 static const activity_id ACT_CRACKING( "ACT_CRACKING" );
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
-static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
 static const activity_id ACT_DISMEMBER( "ACT_DISMEMBER" );
 static const activity_id ACT_DISSECT( "ACT_DISSECT" );
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
@@ -390,7 +390,6 @@ activity_handlers::finish_functions = {
     { ACT_SOCIALIZE, socialize_finish },
     { ACT_TRY_SLEEP, try_sleep_finish },
     { ACT_OPERATION, operation_finish },
-    { ACT_DISASSEMBLE, disassemble_finish },
     { ACT_VIBE, vibe_finish },
     { ACT_ATM, atm_finish },
     { ACT_EAT_MENU, eat_menu_finish },
@@ -3811,7 +3810,7 @@ void activity_handlers::build_do_turn( player_activity *act, player *p )
 
     // Base moves for construction with no speed modifier or assistants
     // Must ensure >= 1 so we don't divide by 0;
-    const double base_total_moves = std::max( 1, built.time );
+    const double base_total_moves = std::max( 1, to_moves<int>( built.time ) );
     // Current expected total moves, includes construction speed modifiers and assistants
     const double cur_total_moves = std::max( 1, built.adjusted_time() );
     // Delta progress in moves adjusted for current crafting speed
@@ -3828,7 +3827,7 @@ void activity_handlers::build_do_turn( player_activity *act, player *p )
     // If construction_progress has reached 100% or more
     if( pc->counter >= 10000000 ) {
         // Activity is canceled in complete_construction()
-        complete_construction( p );
+        complete_construction( *p );
     }
 }
 
@@ -3990,11 +3989,6 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
             p->cancel_activity();
         }
     }
-}
-
-void activity_handlers::disassemble_finish( player_activity *, player *p )
-{
-    p->complete_disassemble();
 }
 
 void activity_handlers::vibe_finish( player_activity *act, player *p )

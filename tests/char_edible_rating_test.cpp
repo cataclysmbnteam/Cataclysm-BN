@@ -9,6 +9,7 @@
 #include "item.h"
 #include "itype.h"
 #include "ret_val.h"
+#include "state_helpers.h"
 #include "type_id.h"
 #include "value_ptr.h"
 
@@ -50,6 +51,7 @@ static avatar prepare_avatar()
 
 TEST_CASE( "cannot eat non-comestible", "[can_eat][will_eat][edible_rating][nonfood]" )
 {
+    clear_all_state();
     avatar dummy = prepare_avatar();
     GIVEN( "something not edible" ) {
         item rag( "rag" );
@@ -62,6 +64,7 @@ TEST_CASE( "cannot eat non-comestible", "[can_eat][will_eat][edible_rating][nonf
 
 TEST_CASE( "who can eat while underwater", "[can_eat][edible_rating][underwater]" )
 {
+    clear_all_state();
     avatar dummy = prepare_avatar();
     item sushi( "sushi_fishroll" );
     item water( "water_clean" );
@@ -102,6 +105,7 @@ TEST_CASE( "who can eat while underwater", "[can_eat][edible_rating][underwater]
 
 TEST_CASE( "who can eat inedible animal food", "[can_eat][edible_rating][inedible][animal]" )
 {
+    clear_all_state();
     avatar dummy = prepare_avatar();
 
     // Note: There are similar conditions for INEDIBLE food with FELINE or LUPINE flags, but
@@ -154,6 +158,7 @@ TEST_CASE( "who can eat inedible animal food", "[can_eat][edible_rating][inedibl
 
 TEST_CASE( "what herbivores can eat", "[can_eat][edible_rating][herbivore]" )
 {
+    clear_all_state();
     avatar dummy = prepare_avatar();
 
     GIVEN( "character is an herbivore" ) {
@@ -180,6 +185,7 @@ TEST_CASE( "what herbivores can eat", "[can_eat][edible_rating][herbivore]" )
 
 TEST_CASE( "what carnivores can eat", "[can_eat][edible_rating][carnivore]" )
 {
+    clear_all_state();
     avatar dummy = prepare_avatar();
 
     GIVEN( "character is a carnivore" ) {
@@ -229,6 +235,7 @@ TEST_CASE( "what carnivores can eat", "[can_eat][edible_rating][carnivore]" )
 
 TEST_CASE( "what you can eat with a mycus dependency", "[can_eat][edible_rating][mycus]" )
 {
+    clear_all_state();
     avatar dummy = prepare_avatar();
 
     GIVEN( "character is mycus-dependent" ) {
@@ -254,6 +261,7 @@ TEST_CASE( "what you can eat with a mycus dependency", "[can_eat][edible_rating]
 
 TEST_CASE( "what you can drink with a proboscis", "[can_eat][edible_rating][proboscis]" )
 {
+    clear_all_state();
     avatar dummy = prepare_avatar();
 
     GIVEN( "character has a proboscis" ) {
@@ -305,6 +313,7 @@ TEST_CASE( "what you can drink with a proboscis", "[can_eat][edible_rating][prob
 
 TEST_CASE( "can eat with nausea", "[will_eat][edible_rating][nausea]" )
 {
+    clear_all_state();
     avatar dummy = prepare_avatar();
     item toastem( "toastem" );
     const efftype_id effect_nausea( "nausea" );
@@ -323,6 +332,7 @@ TEST_CASE( "can eat with nausea", "[will_eat][edible_rating][nausea]" )
 
 TEST_CASE( "can eat with allergies", "[will_eat][edible_rating][allergy]" )
 {
+    clear_all_state();
     avatar dummy = prepare_avatar();
     item fruit( "apple" );
     REQUIRE( fruit.has_flag( "ALLERGEN_FRUIT" ) );
@@ -340,6 +350,7 @@ TEST_CASE( "can eat with allergies", "[will_eat][edible_rating][allergy]" )
 
 TEST_CASE( "who will eat rotten food", "[will_eat][edible_rating][rotten]" )
 {
+    clear_all_state();
     avatar dummy = prepare_avatar();
 
     GIVEN( "food just barely rotten" ) {
@@ -390,6 +401,7 @@ TEST_CASE( "who will eat rotten food", "[will_eat][edible_rating][rotten]" )
 
 TEST_CASE( "who will eat human flesh", "[will_eat][edible_rating][cannibal]" )
 {
+    clear_all_state();
     avatar dummy = prepare_avatar();
 
     GIVEN( "some human flesh" ) {

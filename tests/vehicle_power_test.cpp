@@ -15,6 +15,7 @@
 #include "map_helpers.h"
 #include "optional.h"
 #include "point.h"
+#include "state_helpers.h"
 #include "type_id.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
@@ -22,23 +23,11 @@
 
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_plut_cell( "plut_cell" );
-static const efftype_id effect_blind( "blind" );
-
-static void reset_player()
-{
-    avatar &player_character = get_avatar();
-    // Move player somewhere safe
-    REQUIRE( !player_character.in_vehicle );
-    player_character.setpos( tripoint_zero );
-    // Blind the player to avoid needless drawing-related overhead
-    player_character.add_effect( effect_blind, 365_days, num_bp );
-}
 
 TEST_CASE( "vehicle power with reactor and solar panels", "[vehicle][power]" )
 {
-    reset_player();
+    clear_all_state();
     build_test_map( ter_id( "t_pavement" ) );
-    clear_vehicles();
     map &here = get_map();
 
     SECTION( "vehicle with reactor" ) {
@@ -130,9 +119,8 @@ TEST_CASE( "vehicle power with reactor and solar panels", "[vehicle][power]" )
 
 TEST_CASE( "maximum reverse velocity", "[vehicle][power][reverse]" )
 {
-    reset_player();
+    clear_all_state();
     build_test_map( ter_id( "t_pavement" ) );
-    clear_vehicles();
     map &here = get_map();
 
     GIVEN( "a scooter with combustion engine and charged battery" ) {
@@ -188,9 +176,8 @@ TEST_CASE( "maximum reverse velocity", "[vehicle][power][reverse]" )
 
 TEST_CASE( "Vehicle charging station", "[vehicle][power]" )
 {
-    reset_player();
+    clear_all_state();
     build_test_map( ter_id( "t_pavement" ) );
-    clear_vehicles();
 
     GIVEN( "Vehicle with a charged battery and an active recharging station on a box" ) {
         const tripoint vehicle_origin = tripoint( 10, 10, 0 );

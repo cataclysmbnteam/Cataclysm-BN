@@ -1,0 +1,12 @@
+[
+  {
+    "type": "construction_group",
+    "id": "build_hydroponics",
+    "name": "Build Hydroponics"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_hydroponics_heater",
+    "name": "Build Hydroponics Heater"
+  }
+]

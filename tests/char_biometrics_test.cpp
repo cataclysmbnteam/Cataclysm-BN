@@ -7,6 +7,7 @@
 #include "options.h"
 #include "player.h"
 #include "player_helpers.h"
+#include "state_helpers.h"
 #include "type_id.h"
 
 // Clear player traits and give them a single trait by name
@@ -40,6 +41,7 @@ static int height_with_base_and_size( player &dummy, int base_height, std::strin
 
 TEST_CASE( "character height and body size mutations", "[biometrics][height][mutation]" )
 {
+    clear_all_state();
     // If character is 175cm starting height, they are 15cm shorter than the upper threshold for
     // MEDIUM size (which is 190cm). If they mutate to LARGE size, their height will be at the same
     // relationship to the upper threshold, 240cm - 15cm = 225cm.
@@ -112,6 +114,7 @@ TEST_CASE( "character height and body size mutations", "[biometrics][height][mut
 
 TEST_CASE( "mutations may affect character metabolic rate", "[biometrics][metabolism]" )
 {
+    clear_all_state();
     avatar dummy;
 
     // Metabolic base rate uses PLAYER_HUNGER_RATE from game_balance.json, described as "base hunger

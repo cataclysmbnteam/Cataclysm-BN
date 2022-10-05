@@ -1,10 +1,10 @@
 [
   {
     "id": "paintballgun",
+    "copy-from": "gun_base",
     "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 6,
-    "symbol": "(",
     "color": "light_gray",
     "name": { "str": "Paintball gun" },
     "description": "A fairly harmless gun that shoots small paintballs.",
@@ -17,7 +17,6 @@
     "weight": "1600 g",
     "volume": "1250 ml",
     "bashing": 5,
-    "to_hit": -1,
     "range": 8,
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 150,

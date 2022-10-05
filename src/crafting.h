@@ -5,14 +5,19 @@
 #include <list>
 #include <set>
 #include <vector>
+
 #include "point.h"
+#include "ret_val.h"
 #include "type_id.h"
 
+class avatar;
 class Character;
 class inventory;
 class item;
+class item_location;
 class player;
 class recipe;
+struct iuse_location;
 struct tool_comp;
 
 enum class cost_adjustment : int;
@@ -97,6 +102,29 @@ comp_selection<tool_comp>
 select_tool_component( const std::vector<tool_comp> &tools, int batch, const inventory &map_inv,
                        const Character *player_with_inv,
                        bool can_cancel = false );
+
+/** Check if character can disassemble an item using the given crafting inventory. */
+ret_val<bool> can_disassemble( const Character &who, const item &obj, const inventory &inv );
+
+/**
+ * Prompt for an item to disassemble, then start activity.
+ */
+bool disassemble( avatar &you );
+
+/**
+ * Prompt to disassemble given item, then start activity.
+ */
+bool disassemble( avatar &you, item_location target );
+
+/**
+ * Start an activity to disassemble all items in avatar's square.
+ */
+bool disassemble_all( avatar &you, bool recursively );
+
+/**
+ * Complete disassembly of target item.
+ */
+void complete_disassemble( Character &who, iuse_location target, const tripoint &pos );
 
 } // namespace crafting
 

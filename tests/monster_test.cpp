@@ -23,6 +23,7 @@
 #include "item.h"
 #include "line.h"
 #include "point.h"
+#include "state_helpers.h"
 
 using move_statistics = statistics<int>;
 
@@ -295,7 +296,8 @@ static void monster_check()
 // Write out a map of slope at which monster is moving to time required to reach their destination.
 TEST_CASE( "write_slope_to_speed_map_trig", "[.]" )
 {
-    clear_map_and_put_player_underground();
+    clear_all_state();
+    put_player_underground();
     override_option opt( "CIRCLEDIST", "true" );
     trigdist = true;
     test_moves_to_squares( "mon_zombie_dog", true );
@@ -304,7 +306,8 @@ TEST_CASE( "write_slope_to_speed_map_trig", "[.]" )
 
 TEST_CASE( "write_slope_to_speed_map_square", "[.]" )
 {
-    clear_map_and_put_player_underground();
+    clear_all_state();
+    put_player_underground();
     override_option opt( "CIRCLEDIST", "false" );
     trigdist = false;
     test_moves_to_squares( "mon_zombie_dog", true );
@@ -315,7 +318,8 @@ TEST_CASE( "write_slope_to_speed_map_square", "[.]" )
 // It's not necessarally the one true speed for monsters, we just want notice if it changes.
 TEST_CASE( "monster_speed_square", "[speed]" )
 {
-    clear_map_and_put_player_underground();
+    clear_all_state();
+    put_player_underground();
     override_option opt( "CIRCLEDIST", "false" );
     trigdist = false;
     monster_check();
@@ -323,7 +327,8 @@ TEST_CASE( "monster_speed_square", "[speed]" )
 
 TEST_CASE( "monster_speed_trig", "[speed]" )
 {
-    clear_map_and_put_player_underground();
+    clear_all_state();
+    put_player_underground();
     override_option opt( "CIRCLEDIST", "true" );
     trigdist = true;
     monster_check();
@@ -331,7 +336,8 @@ TEST_CASE( "monster_speed_trig", "[speed]" )
 
 TEST_CASE( "monster_move_through_vehicle_holes" )
 {
-    clear_map_and_put_player_underground();
+    clear_all_state();
+    put_player_underground();
     tripoint origin( 60, 60, 0 );
 
     get_map().add_vehicle( vproto_id( "apc" ), origin, -45_degrees, 0, 0 );

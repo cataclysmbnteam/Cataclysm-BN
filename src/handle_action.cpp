@@ -23,6 +23,7 @@
 #include "clzones.h"
 #include "color.h"
 #include "construction.h"
+#include "crafting.h"
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
@@ -805,7 +806,7 @@ static void smash()
             }
         }
 
-        if( !here.has_floor_or_support( u.pos() ) ) {
+        if( !here.has_floor_or_support( u.pos() ) && !here.has_flag_ter( "GOES_DOWN", u.pos() ) ) {
             cata::optional<tripoint> to_safety;
             while( true ) {
                 to_safety = choose_direction( _( "Floor below destroyed!  Move where?" ) );
@@ -2144,7 +2145,7 @@ bool game::handle_action()
                 } else if( u.is_mounted() ) {
                     add_msg( m_info, _( "You can't disassemble items while you're riding." ) );
                 } else {
-                    u.disassemble();
+                    crafting::disassemble( u );
                 }
                 break;
 

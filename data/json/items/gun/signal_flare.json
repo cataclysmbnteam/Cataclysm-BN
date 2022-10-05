@@ -1,9 +1,8 @@
 [
   {
     "id": "flaregun",
-    "looks_like": "glock_17",
+    "copy-from": "pistol_base",
     "type": "GUN",
-    "reload_noise_volume": 10,
     "name": { "str": "flaregun" },
     "description": "A plastic single shot pistol that can be loaded with signal flares.",
     "weight": "213 g",
@@ -12,10 +11,8 @@
     "price": 5000,
     "price_postapoc": 500,
     "material": [ "plastic", "steel" ],
-    "symbol": "(",
     "color": "light_red",
     "ammo": "signal_flare",
-    "skill": "pistol",
     "dispersion": 600,
     "durability": 7,
     "loudness": 40,
@@ -28,6 +25,7 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS", "RELOAD_EJECT", "PYROMANIAC_WEAPON" ]
+    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS", "RELOAD_EJECT", "PYROMANIAC_WEAPON" ],
+    "faults": [  ]
   }
 ]

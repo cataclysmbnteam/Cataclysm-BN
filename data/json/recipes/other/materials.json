@@ -315,6 +315,7 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "difficulty": 3,
+    "autolearn": [ [ "fabrication", 6 ] ],
     "time": "18 m",
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "textbook_chemistry", 3 ], [ "adv_chemistry", 3 ], [ "textbook_mechanics", 5 ] ],
     "using": [ [ "filament", 50 ] ],

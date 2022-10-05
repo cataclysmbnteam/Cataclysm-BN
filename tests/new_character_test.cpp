@@ -23,6 +23,7 @@
 #include "profession.h"
 #include "ret_val.h"
 #include "scenario.h"
+#include "state_helpers.h"
 #include "string_id.h"
 #include "type_id.h"
 
@@ -101,6 +102,7 @@ struct less<failure> {
 
 TEST_CASE( "starting_items", "[slow]" )
 {
+    clear_all_state();
     // Every starting trait that interferes with food/clothing
     const std::vector<trait_id> mutations = {
         trait_id( "ANTIFRUIT" ),

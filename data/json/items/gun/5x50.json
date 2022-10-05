@@ -1,9 +1,8 @@
 [
   {
     "id": "needlegun",
-    "looks_like": "hk_mp5",
+    "copy-from": "smg_base",
     "type": "GUN",
-    "reload_noise_volume": 10,
     "name": { "str": "RM216 SPIW" },
     "description": "This light carbine fires 5x50mm armor-piercing flechette cartridges.  Classified as a special purpose individual weapon, this advanced firearm was developed by Rivtech for the US military shortly before the end of the world.  Designed to be fired in bursts, it excels in close combat.",
     "weight": "1302 g",
@@ -16,7 +15,6 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "5x50",
-    "skill": "smg",
     "range": 10,
     "ranged_damage": { "damage_type": "bullet", "amount": 10 },
     "dispersion": 220,
@@ -38,13 +36,13 @@
     ],
     "magazine_well": "250 ml",
     "magazines": [ [ "5x50", [ "5x50_100_mag", "5x50_50_mag" ] ] ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
+    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "faults": [  ]
   },
   {
     "id": "needlepistol",
-    "looks_like": "glock_17",
+    "copy-from": "pistol_base",
     "type": "GUN",
-    "reload_noise_volume": 10,
     "name": { "str": "RM232 IDW" },
     "description": "This lightweight machine pistol fires 5x50mm armor-piercing flechette cartridges.  Classified as an individual defense weapon, this advanced firearm was developed by Rivtech for the US military shortly before the end of the world.  Designed to be fired in bursts, it excels in close combat.",
     "weight": "682 g",
@@ -52,12 +50,10 @@
     "price": 1200000,
     "price_postapoc": 8000,
     "to_hit": -2,
-    "bashing": 8,
     "material": [ "superalloy", "ceramic" ],
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "5x50",
-    "skill": "pistol",
     "dispersion": 280,
     "durability": 9,
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "BURST", "2 rd.", 2 ], [ "AUTO", "auto", 4 ] ],
@@ -74,6 +70,7 @@
     ],
     "magazine_well": "250 ml",
     "magazines": [ [ "5x50", [ "5x50_50_mag", "5x50_100_mag" ] ] ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
+    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "faults": [  ]
   }
 ]

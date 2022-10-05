@@ -7,12 +7,13 @@
 #include "map_helpers.h"
 #include "monster.h"
 #include "point.h"
+#include "state_helpers.h"
 #include "type_id.h"
 
 TEST_CASE( "creature_in_field", "[monster],[field]" )
 {
+    clear_all_state();
     static const tripoint target_location{ 5, 5, 0 };
-    clear_map();
     map &here = get_map();
     GIVEN( "An acid field" ) {
         here.add_field( target_location, field_type_id( "fd_acid" ) );
