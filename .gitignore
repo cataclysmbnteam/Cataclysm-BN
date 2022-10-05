@@ -59,7 +59,7 @@ logg.txt
 .vscode/
 Debug*/
 Release*/
-.cache/clangd
+.cache/
 
 # Distribution script results
 /msvc-full-features/distribution
