@@ -223,14 +223,14 @@ void uilist::filterlist()
     int f = 0;
     int num_entries = entries.size();
     // check if string begin by " and finish by ". If that's the case, we only return a result if it matches it exactly
-    bool exactMatchOnly = !filter.empty() && filter.front() == '\"' && filter.back() == '\"';
-    if( exactMatchOnly ) {
+    bool exact_match_only = !filter.empty() && filter.front() == '\"' && filter.back() == '\"';
+    if( exact_match_only ) {
         filter.erase( std::remove( filter.begin(), filter.end(), '\"' ), filter.end() );
     }
 
     for( int i = 0; i < num_entries; i++ ) {
         if( filtering ) {
-            if( exactMatchOnly ) {
+            if( exact_match_only ) {
                 if( !( entries[i].txt == filter ) ) {
                     continue;
                 }
