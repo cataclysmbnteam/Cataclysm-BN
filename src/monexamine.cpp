@@ -239,7 +239,7 @@ bool monexamine::pet_menu( monster &z )
     }
     if( !mon_item_id.is_empty() && !z.has_flag( MF_RIDEABLE_MECH ) ) {
         if( z.has_effect( effect_has_bag ) || z.has_effect( effect_monster_armor ) ||
-            z.has_effect( effect_tied ) || z.has_effect( effect_saddled ) ) {
+            z.has_effect( effect_leashed ) || z.has_effect( effect_saddled ) ) {
             amenu.addentry( disable_pet, true, 'D', _( "Remove items and deactivate the %s" ), pet_name );
         } else {
             amenu.addentry( disable_pet, true, 'D', _( "Deactivate the %s" ), pet_name );
@@ -902,7 +902,10 @@ void monexamine::deactivate_pet( monster &z )
         remove_armor( z );
     }
     if( z.has_effect( effect_tied ) ) {
-        tie_or_untie( z );
+        untie_pet( z );
+    }
+    if( z.has_effect( effect_leashed ) ) {
+        remove_leash( z );
     }
     if( z.has_effect( effect_saddled ) ) {
         attach_or_remove_saddle( z );
