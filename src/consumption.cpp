@@ -698,8 +698,7 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
         return ret_val<edible_rating>::make_failure( edible_rating::inedible_mutation,
                 _( "Ugh, you can't drink that!" ) );
     }
-
-    if( has_trait( trait_CARNIVORE ) && nutrition_for( food ) > 0 &&
+    if( has_trait( trait_CARNIVORE ) && ( compute_effective_nutrients( food ).kcal ) > 0 &&
         food.has_any_flag( carnivore_blacklist ) && !food.has_flag( flag_CARNIVORE_OK ) ) {
         return ret_val<edible_rating>::make_failure( edible_rating::inedible_mutation,
                 _( "Eww.  Inedible plant stuff!" ) );
