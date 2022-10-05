@@ -28,7 +28,7 @@
     "color": "brown",
     "symbol": "$",
     "material": [ "gold" ],
-    "volume": "2ml"
+    "volume": "2 ml"
   },
   {
     "type": "GENERIC",
