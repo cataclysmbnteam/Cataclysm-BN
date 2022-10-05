@@ -38,6 +38,7 @@
 #include "units.h"
 #include "value_ptr.h"
 
+
 static const quality_id qual_shear( "SHEAR" );
 
 static const efftype_id effect_sheared( "sheared" );
@@ -53,6 +54,8 @@ static const efftype_id effect_paid( "paid" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_saddled( "monster_saddled" );
+static const efftype_id effect_leashed( "leashed" );
+static const efftype_id effect_led_by_leash( "led_by_leash" );
 static const efftype_id effect_tied( "tied" );
 
 static const itype_id itype_cash_card( "cash_card" );
@@ -66,6 +69,8 @@ bool monexamine::pet_menu( monster &z )
     enum choices {
         swap_pos = 0,
         push_zlave,
+        lead,
+        stop_lead,
         rename,
         attach_bag,
         remove_bag,
@@ -74,6 +79,8 @@ bool monexamine::pet_menu( monster &z )
         mon_armor_add,
         mon_harness_remove,
         mon_armor_remove,
+        leash,
+        unleash,
         play_with_pet,
         pheromone,
         milk,
@@ -82,7 +89,8 @@ bool monexamine::pet_menu( monster &z )
         attach_saddle,
         remove_saddle,
         mount,
-        rope,
+        tie,
+        untie,
         remove_bat,
         insert_bat,
         check_bat,
@@ -100,6 +108,13 @@ bool monexamine::pet_menu( monster &z )
 
     amenu.addentry( swap_pos, true, 's', _( "Swap positions" ) );
     amenu.addentry( push_zlave, true, 'p', _( "Push %s" ), pet_name );
+    if( z.has_effect( effect_leashed ) ) {
+        if( z.has_effect( effect_led_by_leash ) ) {
+            amenu.addentry( stop_lead, true, 'p', _( "Stop leading %s" ), pet_name );
+        } else {
+            amenu.addentry( lead, true, 'p', _( "Lead %s by the leash" ), pet_name );
+        }
+    }
     amenu.addentry( rename, true, 'e', _( "Rename" ) );
     amenu.addentry( attack, true, 'A', _( "Attack" ) );
     if( z.has_effect( effect_has_bag ) ) {
@@ -124,15 +139,21 @@ bool monexamine::pet_menu( monster &z )
         amenu.addentry( play_with_pet, true, 'y', _( "Play with %s" ), pet_name );
     }
     if( z.has_effect( effect_tied ) ) {
-        amenu.addentry( rope, true, 't', _( "Untie" ) );
-    } else if( !z.has_flag( MF_RIDEABLE_MECH ) ) {
-        std::vector<item *> rope_inv = g->u.items_with( []( const item & itm ) {
-            return itm.has_flag( "TIE_UP" );
+        amenu.addentry( untie, true, 'u', _( "Untie" ) );
+    }
+    if( z.has_effect( effect_leashed ) && !z.has_effect( effect_tied ) ) {
+        amenu.addentry( tie, true, 't', _( "Tie" ) );
+        amenu.addentry( unleash, true, 'T', _( "Remove leash from %s" ), pet_name );
+    }
+    if( !z.has_effect( effect_leashed ) && !z.has_flag( MF_RIDEABLE_MECH ) ) {
+        Character &player_character = g->u;
+        std::vector<item *> rope_inv = player_character.items_with( []( const item & it ) {
+            return it.has_flag( "TIE_UP" );
         } );
         if( !rope_inv.empty() ) {
-            amenu.addentry( rope, true, 't', _( "Tie" ) );
+            amenu.addentry( leash, true, 'l', _( "Attach leash to %s" ), pet_name );
         } else {
-            amenu.addentry( rope, false, 't', _( "You need any type of rope to tie %s in place" ),
+            amenu.addentry( leash, false, 'l', _( "You need any type of rope to tie %s in place" ),
                             pet_name );
         }
     }
@@ -173,6 +194,7 @@ bool monexamine::pet_menu( monster &z )
     if( z.has_flag( MF_PAY_BOT ) ) {
         amenu.addentry( pay, true, 'f', _( "Manage your friendship with %s" ), pet_name );
     }
+
     if( !z.has_flag( MF_RIDEABLE_MECH ) ) {
         if( z.has_flag( MF_PET_MOUNTABLE ) && g->u.can_mount( z ) ) {
             amenu.addentry( mount, true, 'r', _( "Mount %s" ), pet_name );
@@ -223,6 +245,12 @@ bool monexamine::pet_menu( monster &z )
         case push_zlave:
             push( z );
             break;
+        case lead:
+            start_leading( z );
+            break;
+        case stop_lead:
+            stop_leading( z );
+            break;
         case rename:
             rename_pet( z );
             break;
@@ -255,8 +283,11 @@ bool monexamine::pet_menu( monster &z )
                 kill_zslave( z );
             }
             break;
-        case rope:
-            tie_or_untie( z );
+        case leash:
+            add_leash( z );
+            break;
+        case unleash:
+            remove_leash( z );
             break;
         case attach_saddle:
         case remove_saddle:
@@ -264,6 +295,12 @@ bool monexamine::pet_menu( monster &z )
             break;
         case mount:
             mount_pet( z );
+            break;
+        case tie:
+            tie_pet( z );
+            break;
+        case untie:
+            untie_pet( z );
             break;
         case milk:
             milk_source( z );
@@ -302,7 +339,7 @@ void monexamine::shear_animal( monster &z )
     g->u.activity.coords.push_back( g->m.getabs( z.pos() ) );
     // pin the sheep in place if it isn't already
     if( !z.has_effect( effect_tied ) ) {
-        z.add_effect( effect_tied, 1_turns, num_bp );
+        z.add_effect( effect_tied, 1_turns );
         g->u.activity.str_values.push_back( "temp_tie" );
     }
     g->u.activity.targets.push_back( item_location( g->u, g->u.best_quality_item( qual_shear ) ) );
@@ -742,43 +779,102 @@ void monexamine::kill_zslave( monster &z )
     }
 }
 
-void monexamine::tie_or_untie( monster &z )
+void monexamine::add_leash( monster &z )
+{
+    if( z.has_effect( effect_leashed ) ) {
+        return;
+    }
+    Character &player = get_player_character();
+    std::vector<item *> rope_inv = player.items_with( []( const item & it ) {
+        return it.has_flag( "TIE_UP" );
+    } );
+
+    if( rope_inv.empty() ) {
+        return;
+    }
+    int i = 0;
+    uilist selection_menu;
+    selection_menu.text = string_format( _( "Select an item to leash your %s with." ), z.get_name() );
+    selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Cancel" ) );
+    for( const item *iter : rope_inv ) {
+        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Use %s" ), iter->tname() );
+    }
+    selection_menu.selected = 1;
+    selection_menu.query();
+    int index = selection_menu.ret;
+    if( index == 0 || index == UILIST_CANCEL || index < 0 ||
+        index > static_cast<int>( rope_inv.size() ) ) {
+        return;
+    }
+    item *rope_item = rope_inv[index - 1];
+    z.tied_item = cata::make_value<item>( *rope_item );
+    player.i_rem( rope_item );
+    z.add_effect( effect_leashed, 1_turns );
+    z.get_effect( effect_leashed ).set_permanent();
+    add_msg( _( "You add a leash to your %s." ), z.get_name() );
+}
+
+void monexamine::remove_leash( monster &z )
+{
+    if( !z.has_effect( effect_leashed ) ) {
+        return;
+    }
+    z.remove_effect( effect_led_by_leash );
+    z.remove_effect( effect_leashed );
+
+    if( z.tied_item ) {
+        get_player_character().i_add( *z.tied_item );
+        z.tied_item.reset();
+    }
+    add_msg( _( "You remove the leash from your %s." ), z.get_name() );
+}
+
+void monexamine::tie_pet( monster &z )
 {
     if( z.has_effect( effect_tied ) ) {
-        z.remove_effect( effect_tied );
-        if( z.tied_item ) {
-            g->u.i_add( *z.tied_item );
-            z.tied_item.reset();
-        }
-    } else {
-        std::vector<item *> rope_inv = g->u.items_with( []( const item & itm ) {
-            return itm.has_flag( "TIE_UP" );
-        } );
-        if( rope_inv.empty() ) {
-            return;
-        }
-        int i = 0;
-        uilist selection_menu;
-        selection_menu.text = string_format( _( "Select an item to tie your %s with." ), z.get_name() );
-        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Cancel" ) );
-        for( auto iter : rope_inv ) {
-            selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Use %s" ), iter->tname() );
-        }
-        selection_menu.selected = 1;
-        selection_menu.query();
-        auto index = selection_menu.ret;
-        if( index == 0 || index == UILIST_CANCEL || index < 0 ||
-            index > static_cast<int>( rope_inv.size() ) ) {
-            return;
-        }
-        item *rope_item = rope_inv[index - 1];
-        int item_pos = g->u.get_item_position( rope_item );
-        if( item_pos != INT_MIN ) {
-            z.tied_item = cata::make_value<item>( *rope_item );
-            g->u.i_rem( item_pos );
-            z.add_effect( effect_tied, 1_turns, num_bp );
-        }
+        return;
     }
+    z.add_effect( effect_tied, 1_turns );
+    z.get_effect( effect_tied ).set_permanent();
+    add_msg( _( "You tie your %s." ), z.get_name() );
+}
+
+void monexamine::untie_pet( monster &z )
+{
+    if( !z.has_effect( effect_tied ) ) {
+        return;
+    }
+    z.remove_effect( effect_tied );
+    if( !z.has_effect( effect_leashed ) ) {
+        // migration code dealing with animals tied before leashing was introduced
+        z.add_effect( effect_leashed, 1_turns );
+        z.get_effect( effect_leashed ).set_permanent();
+    }
+    add_msg( _( "You untie your %s." ), z.get_name() );
+}
+
+void monexamine::start_leading( monster &z )
+{
+    if( z.has_effect( effect_led_by_leash ) ) {
+        return;
+    }
+    if( z.has_effect( effect_tied ) ) {
+        monexamine::untie_pet( z );
+    }
+    z.add_effect( effect_led_by_leash, 1_turns );
+    z.get_effect( effect_led_by_leash ).set_permanent();
+
+    add_msg( _( "You take hold of the %s's leash to make it follow you." ), z.get_name() );
+}
+
+void monexamine::stop_leading( monster &z )
+{
+    if( !z.has_effect( effect_led_by_leash ) ) {
+        return;
+    }
+    z.remove_effect( effect_led_by_leash );
+    // The pet may or may not stop following so don't print that here
+    add_msg( _( "You release the %s's leash." ), z.get_name() );
 }
 
 void monexamine::milk_source( monster &source_mon )
