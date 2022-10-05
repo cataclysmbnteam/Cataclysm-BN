@@ -13,6 +13,7 @@
 #include "character.h"
 #include "color.h"
 #include "construction.h"
+#include "construction_partial.h"
 #include "crafting.h"
 #include "item.h"
 #include "itype.h"

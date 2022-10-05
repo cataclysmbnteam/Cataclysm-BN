@@ -135,6 +135,7 @@ automatically_convertible = {
     "BOOK",
     "COMESTIBLE",
     "construction_category",
+    "construction_group",
     "CONTAINER",
     "dream",
     "ENGINE",

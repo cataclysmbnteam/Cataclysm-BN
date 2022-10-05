@@ -13,12 +13,12 @@
     "blueprint_provides": [ { "id": "fbmc_shelter_1_bedroom1" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_1_bedroom1" } ],
     "blueprint_needs": {
-      "time": "6 h 50 m",
+      "time": "7 h 30 m",
       "skills": [ [ "fabrication", 2 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 54 ] ], [ [ "nail", 196 ] ], [ [ "wood_panel", 9 ] ], [ [ "hinge", 2 ] ] ]
+        "components": [ [ [ "2x4", 54 ] ], [ [ "hinge", 2 ] ], [ [ "nail", 196 ] ], [ [ "wood_panel", 9 ] ] ]
       }
     }
   },
@@ -36,12 +36,12 @@
     "blueprint_provides": [ { "id": "fbmc_shelter_1_bedroom2" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_1_bedroom2" } ],
     "blueprint_needs": {
-      "time": "6 h 50 m",
+      "time": "7 h 30 m",
       "skills": [ [ "fabrication", 2 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 54 ] ], [ [ "nail", 196 ] ], [ [ "wood_panel", 9 ] ], [ [ "hinge", 2 ] ] ]
+        "components": [ [ [ "2x4", 54 ] ], [ [ "hinge", 2 ] ], [ [ "nail", 196 ] ], [ [ "wood_panel", 9 ] ] ]
       }
     }
   },
@@ -59,12 +59,12 @@
     "blueprint_provides": [ { "id": "fbmc_shelter_1_bedroom3" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_1_bedroom3" } ],
     "blueprint_needs": {
-      "time": "9 h 30 m",
+      "time": "11 h 30 m",
       "skills": [ [ "fabrication", 3 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 62 ] ], [ [ "nail", 36 ] ], [ [ "wood_panel", 1 ] ], [ [ "hinge", 2 ] ], [ [ "log", 16 ] ] ]
+        "components": [ [ [ "2x4", 62 ] ], [ [ "hinge", 2 ] ], [ [ "log", 16 ] ], [ [ "nail", 36 ] ], [ [ "wood_panel", 1 ] ] ]
       }
     }
   },
@@ -82,12 +82,12 @@
     "blueprint_provides": [ { "id": "fbmc_shelter_1_bedroom5" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_1_bedroom5" } ],
     "blueprint_needs": {
-      "time": "11 h 30 m",
-      "skills": [ [ "fabrication", 3 ] ],
+      "time": "10 h 40 m",
+      "skills": [ [ "fabrication", 2 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 80 ] ], [ [ "nail", 316 ] ], [ [ "wood_panel", 15 ] ], [ [ "hinge", 2 ] ] ]
+        "components": [ [ [ "2x4", 74 ] ], [ [ "hinge", 2 ] ], [ [ "nail", 276 ] ], [ [ "wood_panel", 13 ] ] ]
       }
     }
   },
@@ -105,12 +105,12 @@
     "blueprint_provides": [ { "id": "fbmc_shelter_1_bedroom6" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_1_bedroom6" } ],
     "blueprint_needs": {
-      "time": "11 h",
+      "time": "12 h",
       "skills": [ [ "fabrication", 2 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 88 ] ], [ [ "nail", 312 ] ], [ [ "wood_panel", 14 ] ], [ [ "hinge", 4 ] ] ]
+        "components": [ [ [ "2x4", 88 ] ], [ [ "hinge", 4 ] ], [ [ "nail", 312 ] ], [ [ "wood_panel", 14 ] ] ]
       }
     }
   }
