@@ -45,8 +45,6 @@ static const trait_id trait_TAIL_CATTLE( "TAIL_CATTLE" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 
 static const std::string flag_DIGGABLE( "DIGGABLE" );
-static const std::string flag_FLAMMABLE( "FLAMMABLE" );
-static const std::string flag_FLAT( "FLAT" );
 static const std::string flag_FLOWER( "FLOWER" );
 static const std::string flag_FUNGUS( "FUNGUS" );
 static const std::string flag_ORGANIC( "ORGANIC" );
@@ -54,7 +52,6 @@ static const std::string flag_PLANT( "PLANT" );
 static const std::string flag_SHRUB( "SHRUB" );
 static const std::string flag_THIN_OBSTACLE( "THIN_OBSTACLE" );
 static const std::string flag_TREE( "TREE" );
-static const std::string flag_WALL( "WALL" );
 static const std::string flag_YOUNG( "YOUNG" );
 
 fungal_effects::fungal_effects( game &g, map &mp )
