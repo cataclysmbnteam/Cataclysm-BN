@@ -5106,7 +5106,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
     const auto get_random_point = [&]() -> tripoint {
         if( auto pos = random_point( m.points_in_radius( p, 2 ), valid_location ) )
         {
-            return tripoint( -pos->xy() + p.xy() * 2, p.z );
+            return  p * 2 - ( *pos );
         } else
         {
             return p;
