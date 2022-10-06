@@ -8669,14 +8669,23 @@ std::list<tripoint> map::find_furnitures_or_vparts_with_flag_in_radius( const tr
 {
     std::list<tripoint> locs;
     for( const auto &loc : points_in_radius( center, radius, radiusz ) ) {
-        if( has_flag_furn( flag, loc ) ) {
-            locs.push_back( loc );
+        //Workaround for ramp bridges
+        int dz = 0;
+        if( has_flag( TFLAG_RAMP_UP, loc ) ) {
+            dz = 1;
+        } else if( has_flag( TFLAG_RAMP_DOWN, loc ) ) {
+            dz = -1;
         }
-    }
-    //Workaround for ramp bridges
-    for( const auto &loc : points_in_radius( center, radius, radiusz + 1 ) ) {
-        if( has_flag_vpart( flag, loc ) ) {
-            locs.push_back( loc );
+
+        if( dz == 0 ) {
+            if( has_flag_furn_or_vpart( flag, loc ) ) {
+                locs.push_back( loc );
+            }
+        } else {
+            const tripoint newloc( loc.x, loc.y, loc.z + dz );
+            if( has_flag_furn_or_vpart( flag, newloc ) ) {
+                locs.push_back( newloc );
+            }
         }
     }
 
