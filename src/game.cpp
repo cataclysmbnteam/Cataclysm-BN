@@ -5226,9 +5226,9 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
     return true;
 }
 
-void game::open_gate( const tripoint &p )
+void game::toggle_gate( const tripoint &p )
 {
-    gates::open_gate( p, u );
+    gates::toggle_gate( p, u );
 }
 
 void game::moving_vehicle_dismount( const tripoint &dest_loc )
