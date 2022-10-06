@@ -570,18 +570,19 @@ std::string diary::get_head_text()
             minutes_text = string_format( vgettext( "%d minute",
                                                     "%d minutes", minutes ), minutes );
             //~ %1$s is xx days, %2$s is xx hours, %3$s is xx minutes
-            time_diff_text = std::string( 50 - leftside_length,
-                                          ' ' ) + string_format( _( "%1$s%2$s%3$s since last entry" ),
-                                                  days_text, hours_text, minutes_text );
+            const std::string final_entry = string_format( _( "%1$s%2$s%3$s since last entry" ),
+                                            days_text, hours_text, minutes_text );
+            time_diff_text = std::string( 49 - leftside_length,
+                                          ' ' ) + "| " + final_entry;
         }
         //~ Head text of a diary page
         //~ %1$d is the current page number, %2$d is the number of pages in total
         //~ %3$s is the time point when the current page was created
         //~ %4$s is time relative to the previous page
-        return string_format( _( "Entry: %1$d/%2$d, %3$s, %4$s" ),
-                              opened_page + 1, pages.size(),
-                              to_string( get_page_ptr()->turn ),
-                              time_diff_text );
+        return " " + string_format( _( "Entry: %1$d/%2$d, %3$s %4$s" ),
+                                    opened_page + 1, pages.size(),
+                                    to_string( get_page_ptr()->turn ),
+                                    time_diff_text );
     }
     return "";
 }
@@ -660,8 +661,8 @@ void diary::export_to_txt( bool lastexport )
             myfile << remove_color_tags( str ) + "\n";
         }
         std::vector<std::string> folded_text = foldstring( page.m_text, 50 );
-        for( int i = 0; i < static_cast<int>( folded_text.size() ); i++ ) {
-            myfile << folded_text[i] + "\n";
+        for( const auto folded_text_char : folded_text ) {
+            myfile << folded_text_char + "\n";
         }
         myfile << "\n\n\n";
     }
