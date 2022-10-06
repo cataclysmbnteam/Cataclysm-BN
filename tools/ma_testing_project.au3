@@ -107,7 +107,8 @@ Const $QUICKSAVE_TIMER = 1500; How long a quicksave last on your computer, in mi
 
 ; Tests options (you can change most of them)
 Const $BUILD_STRUCTURES = 1; If set to 1, will build the resin walls and roof at the start. Can be set to 0 after to speed up the start (a bit)
-Const $FIGHT_CYCLES_METHOD = 0; 0 = wait then hit, 1 = hit only. Could improved in the future
+; 0 = wait then hit, 1 = hit only. You could easily add more by modifying the fightCycle() function.
+Const $FIGHT_CYCLES_METHODS = [ 0, 1 ]; Do not that the DPS doesn't take into account the wait turn, which is why MA should always be compared to others tested in the same conditions
 Const $MONSTER_NAMES = [ "Kevlar hulk", "zombie hulk" ]; The names of the monsters to test the martial art(s) against. Case sensitive
 Const $MONSTER_IDS = [ "mon_zombie_kevlar_2", "mon_zombie_hulk" ]; Must match monster name (same as player stats/skills)
 Const $PLAYER_STATS = [ 12, 18 ]; Player Stats
@@ -520,10 +521,12 @@ EndFunc
 
 Func getWeightValue($weight, $weaponId)
 	; Also work as a typo detector, you're welcome
-	If StringInStr($weight," g") Then
+	If StringInStr($weight," g") OR  StringInStr($weight,"g") Then
 		$weight = StringReplace($weight," g","")
-	ElseIf StringInStr($weight," kg") Then
+		$weight = StringReplace($weight,"g","")
+	ElseIf StringInStr($weight," kg") OR  StringInStr($weight,"kg") Then
 		$weight = StringReplace($weight," kg","")
+		$weight = StringReplace($weight,"kg","")
 		$weight = $weight * 1000
 	; If it's just a number, assume "g" like the game does
 	ElseIf $weight <> "" And stringregexp($weight, "(-?\d+\.?\d+)" , 1)[0] = $weight Then
@@ -535,10 +538,12 @@ Func getWeightValue($weight, $weaponId)
 EndFunc
 
 Func getVolumeValue($volume, $weaponId)
-	If StringInStr($volume," mL") Then
+	If StringInStr($volume," mL") OR StringInStr($volume,"mL") Then
 		$volume = StringReplace($volume," mL","")
-	ElseIf StringInStr($volume," L") Then
+		$volume = StringReplace($volume,"mL","")
+	ElseIf StringInStr($volume," L") OR StringInStr($volume,"L") Then
 		$volume = StringReplace($volume," L","")
+		$volume = StringReplace($volume,"L","")
 		$volume = $volume * 1000
 	; If it's just a number, assume "mL" like the game does
 	ElseIf $volume <> "" And stringregexp($volume, "(-?\d+\.?\d+)" , 1)[0] = $volume Then
@@ -1145,87 +1150,91 @@ EndIf
 
 Local $testResultsFileOpener = FileOpen($TESTS_RESULT_PATH , $FO_APPEND); Contains a reference to the result file, to write the results in it
 FileWriteLine($testResultsFileOpener,  @CRLF&@CRLF & "# NEW TESTS STARTING AT - " & _NowDate() & " " & _NowTime()&@CRLF)
-FileWriteLine($testResultsFileOpener, "Fight cycle method: "&$FIRST_CYCLE_EXPLANATIONS[$FIGHT_CYCLES_METHOD]&", Iterations: "&$ITERATIONS&", Fight cycles: "&$FIGHT_CYCLES)
 
-; 1st Loop monsters
-For $d = 0 to UBound($MONSTER_NAMES)-1 Step 1
-	; 2nd Stats/Skills
-	For $e = 0 to UBound($PLAYER_STATS)-1 Step 1
-		FileWriteLine($testResultsFileOpener, "## STATS: "&$PLAYER_STATS[$e]& ", SKILLS: "&$PLAYER_SKILLS[$e]& ", M: "&$MONSTER_NAMES[$d])
-		FileWriteLine($testResultsFileOpener, "| Martial Art Name                | Weapon                          | Avg dmg |")
-		FileWriteLine($testResultsFileOpener, "|---------------------------------|---------------------------------|---------|")
+; 1st Fight cycles methods
+For $c = 0 to UBound($FIGHT_CYCLES_METHODS)-1 Step 1
+	FileWriteLine($testResultsFileOpener, "Fight cycle method: "&$FIRST_CYCLE_EXPLANATIONS[$FIGHT_CYCLES_METHODS[$c]]&", Iterations: "&$ITERATIONS&", Fight cycles: "&$FIGHT_CYCLES)
+	; 2 Loop monsters
+	For $d = 0 to UBound($MONSTER_NAMES)-1 Step 1
+		; 3 Stats/Skills
+		For $e = 0 to UBound($PLAYER_STATS)-1 Step 1
+			FileWriteLine($testResultsFileOpener, "## STATS: "&$PLAYER_STATS[$e]& ", SKILLS: "&$PLAYER_SKILLS[$e]& ", M: "&$MONSTER_NAMES[$d])
+			FileWriteLine($testResultsFileOpener, "| Martial Art Name                | Weapon                          | Avg dmg |")
+			FileWriteLine($testResultsFileOpener, "|---------------------------------|---------------------------------|---------|")
 
-		setStats($PLAYER_STATS[$e])
+			setStats($PLAYER_STATS[$e])
 
-		Dim $TESTS_RESULT[0]; each row = martial art name, weapon name, average damage
-		; 3nd Martial Arts
-		For $f = 0 To UBound($MA_IDS)-1 Step 1
-			; SELECT MA
-			selectMartialArt($MA_IDS[$f])
+			Dim $TESTS_RESULT[0]; each row = martial art name, weapon name, average damage
+			; 4 Martial Arts
+			For $f = 0 To UBound($MA_IDS)-1 Step 1
+				; SELECT MA
+				selectMartialArt($MA_IDS[$f])
 
-			; 4st Weapons
-			; Get martial art data index (at this index is the martial art id, name, and compatible weapons with id, name and attack cost)
-			$maDataIndex = getMaDataIndex($MA_IDS[$f])
-			For $g = 0 to UBound($MA_DATA_MAIN[$maDataIndex][2])-1 Step 1
-				; If we want to only test some weapons and this weapon isn't one of them, skip it
-				If UBound($WEAPONS_ID_RESTRICTION) > 0 And _ArraySearch($WEAPONS_ID_RESTRICTION, ($MA_DATA_MAIN[$maDataIndex][2])[$g][0], 0, 0, 0, 2, 1, 0) = -1 Then
-					ContinueLoop
-				EndIf
-				; 5th Iterations
-				$totalDamage = 0
-				For $i = 0 To $ITERATIONS-1 Step 1
-					; Every X iterations we want to fully reset the player. The more fight cycles for each iteration, the more often we want to fully reset the player.
-					; This is also where we'll save and calculate damages done to monster
-					If Mod($i, Round(36/$FIGHT_CYCLES)) == 0 Then
-						; If it's not the first monster spawn, get total damage
-						If $i <> 0 Then
-							; Get damage done to monster from the save
-							$totalDamage += getMonsterGroupeIterationDamageAndKillThem($d)
-						EndIf
-						resetPlayerFull(($MA_DATA_MAIN[$maDataIndex][2])[$g][1], ($MA_DATA_MAIN[$maDataIndex][2])[$g][0], $PLAYER_SKILLS[$e])
-						; Spawn the monster
-						spawnMonster($MONSTER_NAMES[$d])
-					Else
-						resetPlayer()
+				; 5 Weapons
+				; Get martial art data index (at this index is the martial art id, name, and compatible weapons with id, name and attack cost)
+				$maDataIndex = getMaDataIndex($MA_IDS[$f])
+				For $g = 0 to UBound($MA_DATA_MAIN[$maDataIndex][2])-1 Step 1
+					; If we want to only test some weapons and this weapon isn't one of them, skip it
+					If UBound($WEAPONS_ID_RESTRICTION) > 0 And _ArraySearch($WEAPONS_ID_RESTRICTION, ($MA_DATA_MAIN[$maDataIndex][2])[$g][0], 0, 0, 0, 2, 1, 0) = -1 Then
+						ContinueLoop
 					EndIf
+					; 6 Iterations
+					$totalDamage = 0
+					For $i = 0 To $ITERATIONS-1 Step 1
+						; Every X iterations we want to fully reset the player. The more fight cycles for each iteration, the more often we want to fully reset the player.
+						; This is also where we'll save and calculate damages done to monster
+						If Mod($i, Round(36/$FIGHT_CYCLES)) == 0 Then
+							; If it's not the first monster spawn, get total damage
+							If $i <> 0 Then
+								; Get damage done to monster from the save
+								$totalDamage += getMonsterGroupeIterationDamageAndKillThem($d)
+							EndIf
+							resetPlayerFull(($MA_DATA_MAIN[$maDataIndex][2])[$g][1], ($MA_DATA_MAIN[$maDataIndex][2])[$g][0], $PLAYER_SKILLS[$e])
+							; Spawn the monster
+							spawnMonster($MONSTER_NAMES[$d])
+						Else
+							resetPlayer()
+						EndIf
 
-					; Hit him a few times
-					; 6th Fight cycles (may be only hitting the monster, or wait then hit etc.)
-					For $j = 0 To $FIGHT_CYCLES-1 Step 1
-						fightCycle($FIGHT_CYCLES_METHOD)
+						; Hit him a few times
+						; 7 Fight cycles (may be only hitting the monster, or wait then hit etc.)
+						For $j = 0 To $FIGHT_CYCLES-1 Step 1
+							fightCycle($FIGHT_CYCLES_METHODS[$c])
+						Next
+					Next
+					; Get damage done to monster from the save
+					$totalDamage += getMonsterGroupeIterationDamageAndKillThem($d)
+
+					; Compute average damage
+					$avgDmg = $totalDamage/($ITERATIONS * $FIGHT_CYCLES)
+					$correctedAvgDmg = $avgDmg * 100 / ($MA_DATA_MAIN[$maDataIndex][2])[$g][2]; Correct average damage with attack cost of weapon
+
+					ReDim $TESTS_RESULT[UBound($TESTS_RESULT)+1][3]; each row = martial art name, weapon name, average damage
+					$TESTS_RESULT[UBound($TESTS_RESULT)-1][0] = $MA_DATA_MAIN[$maDataIndex][1]
+					$TESTS_RESULT[UBound($TESTS_RESULT)-1][1] = ($MA_DATA_MAIN[$maDataIndex][2])[$g][1]
+					$TESTS_RESULT[UBound($TESTS_RESULT)-1][2] = $correctedAvgDmg
+
+					;Uncomment to test performances improvement FileWriteLine($testResultsFileOpener, "# WEAPON FINISHED AT " & _NowDate() & " " & _NowTime())
+				Next
+			Next
+
+			; Sort results by DPS
+			_ArraySort($TESTS_RESULT, 1, 0, 0, 2)
+			; Display results
+
+			For $i=0 to UBound($TESTS_RESULT)-1 Step 1
+				; Add horizontal alignment
+				For $j = 0 to 1 Step 1
+					For $k = 0 to 30-StringLen($TESTS_RESULT[$i][$j]) Step 1
+						$TESTS_RESULT[$i][$j]&= " "
 					Next
 				Next
-				; Get damage done to monster from the save
-				$totalDamage += getMonsterGroupeIterationDamageAndKillThem($d)
-
-				; Compute average damage
-				$avgDmg = $totalDamage/($ITERATIONS * $FIGHT_CYCLES)
-				$correctedAvgDmg = $avgDmg * 100 / ($MA_DATA_MAIN[$maDataIndex][2])[$g][2]; Correct average damage with attack cost of weapon
-
-				ReDim $TESTS_RESULT[UBound($TESTS_RESULT)+1][3]; each row = martial art name, weapon name, average damage
-				$TESTS_RESULT[UBound($TESTS_RESULT)-1][0] = $MA_DATA_MAIN[$maDataIndex][1]
-				$TESTS_RESULT[UBound($TESTS_RESULT)-1][1] = ($MA_DATA_MAIN[$maDataIndex][2])[$g][1]
-				$TESTS_RESULT[UBound($TESTS_RESULT)-1][2] = $correctedAvgDmg
-
-				;Uncomment to test performances improvement FileWriteLine($testResultsFileOpener, "# WEAPON FINISHED AT " & _NowDate() & " " & _NowTime())
+				FileWriteLine($testResultsFileOpener, "| "&$TESTS_RESULT[$i][0]&" | "&$TESTS_RESULT[$i][1]&" | "&Round($TESTS_RESULT[$i][2], 2)&" |")
 			Next
+			FileWriteLine($testResultsFileOpener, "|                                 |                                 |       |")
 		Next
-
-		; Sort results by DPS
-		_ArraySort($TESTS_RESULT, 1, 0, 0, 2)
-		; Display results
-
-		For $i=0 to UBound($TESTS_RESULT)-1 Step 1
-			; Add horizontal alignment
-			For $j = 0 to 1 Step 1
-				For $k = 0 to 30-StringLen($TESTS_RESULT[$i][$j]) Step 1
-					$TESTS_RESULT[$i][$j]&= " "
-				Next
-			Next
-			FileWriteLine($testResultsFileOpener, "| "&$TESTS_RESULT[$i][0]&" | "&$TESTS_RESULT[$i][1]&" | "&Round($TESTS_RESULT[$i][2], 2)&" |")
-		Next
-		FileWriteLine($testResultsFileOpener, "|                                 |                                 |       |")
 	Next
+
 Next
 
 FileClose($testResultsFileOpener)
