@@ -5100,27 +5100,27 @@ void game::exam_vehicle( vehicle &veh, const point &c )
 
 bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int bash_dmg )
 {
-    // TODO: Z
-    const int &x = p.x;
-    const int &y = p.y;
-    const std::string &door_name = door_type.obj().name();
-    // sed when player/monsters are knocked back and when moving items out of the way
-    point kb( x, y );
     const auto valid_location = [&]( const tripoint & p ) {
         return g->is_empty( p );
     };
-    if( const cata::optional<tripoint> pos = random_point( m.points_in_radius( p, 2 ),
-            valid_location ) ) {
-        kb.x = -pos->x + x + x;
-        kb.y = -pos->y + y + y;
-    }
-    const tripoint kbp( kb, p.z );
+    const auto get_random_point = [&]() -> tripoint {
+        if( auto pos = random_point( m.points_in_radius( p, 2 ), valid_location ) )
+        {
+            return tripoint( -pos->xy() + p.xy() * 2, p.z );
+        } else
+        {
+            return p;
+        }
+    };
 
-    // can't pushback any creatures anywhere, that means the door can't close.
+    const std::string &door_name = door_type.obj().name();
+    const tripoint kbp = get_random_point();
+
+    // can't pushback any creatures/items anywhere, that means the door can't close.
     const bool cannot_push = kbp == p;
+    const bool can_see = u.sees( p );
 
-    const bool can_see = u.sees( tripoint( x, y, p.z ) );
-    player *npc_or_player = critter_at<player>( tripoint( x, y, p.z ), false );
+    player *npc_or_player = critter_at<player>( p, false );
     if( npc_or_player != nullptr ) {
         if( bash_dmg <= 0 ) {
             return false;
@@ -5185,11 +5185,11 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
             return false;
         }
     }
-    if( bash_dmg < 0 && !m.i_at( point( x, y ) ).empty() ) {
+    if( bash_dmg < 0 && !m.i_at( p ).empty() ) {
         return false;
     }
     if( bash_dmg == 0 ) {
-        for( auto &elem : m.i_at( point( x, y ) ) ) {
+        for( auto &elem : m.i_at( p ) ) {
             if( elem.made_of( LIQUID ) ) {
                 // Liquids are OK, will be destroyed later
                 continue;
@@ -5202,9 +5202,9 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
         }
     }
 
-    m.ter_set( point( x, y ), door_type );
-    if( m.has_flag( "NOITEM", point( x, y ) ) ) {
-        map_stack items = m.i_at( point( x, y ) );
+    m.ter_set( p, door_type );
+    if( m.has_flag( "NOITEM", p ) ) {
+        map_stack items = m.i_at( p );
         for( map_stack::iterator it = items.begin(); it != items.end(); ) {
             if( it->made_of( LIQUID ) ) {
                 it = items.erase( it );
@@ -5219,7 +5219,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
                 it = items.erase( it );
                 continue;
             }
-            if (cannot_push) {
+            if( cannot_push ) {
                 return false;
             }
             m.add_item_or_charges( kbp, *it );
