@@ -588,7 +588,7 @@ std::string diary::get_head_text()
 
 void diary::death_entry()
 {
-    bool lasttime = query_yn( _( "Open diary for the last time?" ) );
+    bool lasttime = query_yn( _( "Open your diary for the last time?" ) );
     if( lasttime ) {
         show_diary_ui( this );
     }
