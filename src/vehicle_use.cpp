@@ -677,9 +677,9 @@ void vehicle::use_controls( const tripoint &pos )
                 for( size_t e = 0; e < engines.size(); ++e )
                 {
                     if( is_engine_on( e ) ) {
-                        const vpart_info &engine_info = parts[ engines[ e ] ].info();
-                        const std::string &engine_id = engine_info.get_id().str();
-                        const int noise = engine_info.engine_noise_factor();
+                        const vpart_info &einfo = part_info( e );
+                        const std::string &engine_id = einfo.get_id().str();
+                        const int noise = einfo.engine_noise_factor();
 
                         if( sfx::has_variant_sound( "engine_stop", engine_id ) ) {
                             sfx::play_variant_sound( "engine_stop", engine_id, noise );
@@ -938,16 +938,20 @@ bool vehicle::start_engine( const int e )
     const vpart_info &einfo = part_info( engines[e] );
     vehicle_part &eng = parts[ engines[ e ] ];
 
-    bool out_of_fuel = false;
-    if( einfo.fuel_type != fuel_type_none && engine_fuel_left( e ) <= 0 ) {
-        for( const itype_id &fuel_id : einfo.engine_fuel_opts() ) {
+    const bool out_of_fuel = [&] {
+        if( einfo.fuel_type == fuel_type_none || engine_fuel_left( e ) > 0 )
+        {
+            return false;
+        }
+        for( const itype_id &fuel_id : einfo.engine_fuel_opts() )
+        {
             if( fuel_left( fuel_id ) > 0 ) {
                 eng.fuel_set( fuel_id );
-                break;
+                return false;
             }
         }
-        out_of_fuel = true;
-    }
+        return true;
+    }();
 
     if( out_of_fuel ) {
         if( einfo.fuel_type == fuel_type_muscle ) {
@@ -1051,9 +1055,9 @@ void vehicle::stop_engines()
     add_msg( _( "You turn the engine off." ) );
     for( size_t e = 0; e < engines.size(); ++e ) {
         if( is_engine_on( e ) ) {
-            const vpart_info &engine_info = parts[ engines[ e ] ].info();
-            const std::string &engine_id = engine_info.get_id().str();
-            const int noise = engine_info.engine_noise_factor();
+            const vpart_info &einfo = part_info( e );
+            const std::string &engine_id = einfo.get_id().str();
+            const int noise = einfo.engine_noise_factor();
 
             if( sfx::has_variant_sound( "engine_stop", engine_id ) ) {
                 sfx::play_variant_sound( "engine_stop", engine_id, noise );
