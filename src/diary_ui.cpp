@@ -196,7 +196,7 @@ void diary::show_diary_ui( diary *c_diary )
         draw_diary_border( &w_border );
 
 
-        center_print( w_desc, 0, c_light_gray, string_format( _( "%s´s Diary" ), c_diary->owner ) );
+        center_print( w_desc, 0, c_light_gray, string_format( _( "%s's Diary" ), c_diary->owner ) );
         center_print( w_info, 0, c_light_gray, string_format( _( "Info" ) ) );
 
         std::string desc = string_format( _( "%s, %s, %s, %s" ),
