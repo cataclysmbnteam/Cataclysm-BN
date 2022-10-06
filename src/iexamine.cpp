@@ -199,6 +199,7 @@ static const quality_id qual_DIG( "DIG" );
 static const mtype_id mon_broken_cyborg( "mon_broken_cyborg" );
 static const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
 static const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
+static const mtype_id mon_mi_go_myrmidon( "mon_mi_go_myrmidon" );
 static const mtype_id mon_prototype_cyborg( "mon_prototype_cyborg" );
 static const mtype_id mon_spider_cellar_giant_s( "mon_spider_cellar_giant_s" );
 static const mtype_id mon_spider_web_s( "mon_spider_web_s" );
@@ -6154,7 +6155,9 @@ void iexamine::migo_nerve_cluster( player &p, const tripoint &examp )
         }
         sounds::sound( examp, 120, sounds::sound_t::combat,
                        _( "a loud alien shriek reverberating through the structure!" ), true,
-                       "misc", "stones_grinding" );
+                       "shout", "scream_tortured" );
+        g->place_critter_around( mon_mi_go_myrmidon, examp, 1 );
+        add_msg( m_bad, _( "Something stirs and clambers out of the ruined mass of flesh and nerves!" ) );
         here.furn_set( examp, furn_id( "f_alien_scar" ) );
     }
 }
