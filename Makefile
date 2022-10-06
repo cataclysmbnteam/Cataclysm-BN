@@ -87,11 +87,13 @@
 # Style all json files using the current rules (don't PR this, it's too many changes at once).
 #  make style-all-json
 # Disable astyle of source files.
-# make ASTYLE=0
+#  make ASTYLE=0
 # Disable format check of whitelisted json files.
-# make LINTJSON=0
+#  make LINTJSON=0
 # Disable building and running tests.
-# make RUNTESTS=0
+#  make RUNTESTS=0
+# Make compiling object file and linking show simple command (default 0)
+#  make VERBOSE=0
 
 # comment these to toggle them as one sees fit.
 # DEBUG is best turned on if you plan to debug in gdb -- please do!
@@ -128,6 +130,10 @@ OTHERS += -fsigned-char
 
 ifndef VERSION
   VERSION = unstable
+endif
+
+ifndef VERBOSE
+  VERBOSE = 0
 endif
 
 TARGET_NAME = cataclysm
@@ -857,7 +863,13 @@ all: version $(CHECKS) $(TARGET) $(L10N) $(TESTS) validate-pr
 	@
 
 $(TARGET): $(OBJS)
+ifeq ($(VERBOSE),1)
 	+$(LD) $(W32FLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
+else
+	@echo "Linking $@..."
+	@+$(LD) $(W32FLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
+endif
+
 ifeq ($(RELEASE), 1)
   ifndef DEBUG_SYMBOLS
     ifneq ($(BACKTRACE),1)
@@ -884,10 +896,20 @@ version:
 $(shell mkdir -p $(ODIR))
 
 $(ODIR)/%.o: $(SRC_DIR)/%.cpp $(PCH_P)
+ifeq ($(VERBOSE), 1)
 	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(PCHFLAGS) -c $< -o $@
+else
+	@echo $(@F)
+	@$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(PCHFLAGS) -c $< -o $@
+endif
 
 $(ODIR)/%.o: $(SRC_DIR)/%.rc
+ifeq ($(VERBOSE), 1)
 	$(RC) $(RFLAGS) $< -o $@
+else
+	@echo $(@F)
+	@$(RC) $(RFLAGS) $< -o $@
+endif
 
 src/version.h: version
 

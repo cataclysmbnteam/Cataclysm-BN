@@ -13,7 +13,7 @@
       [ [ "gunpowder", 12 ] ],
       [ [ "copper", 4 ] ]
     ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "charges": 1
   },
   {
     "result": "3006_incendiary",
@@ -30,7 +30,7 @@
       [ [ "gunpowder", 12 ] ],
       [ [ "copper", 4 ] ]
     ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "charges": 1
   },
   {
     "result": "3006fmj",
@@ -46,6 +46,6 @@
       [ [ "gunpowder", 12 ] ],
       [ [ "copper", 4 ] ]
     ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "charges": 1
   }
 ]

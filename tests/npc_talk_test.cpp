@@ -28,6 +28,7 @@
 #include "player.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "state_helpers.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "type_id.h"
@@ -94,7 +95,6 @@ static void change_om_type( const std::string &new_type )
 
 static npc &prep_test( dialogue &d )
 {
-    clear_avatar();
     clear_vehicles();
     avatar &player_character = get_avatar();
     REQUIRE_FALSE( player_character.in_vehicle );
@@ -114,6 +114,7 @@ static npc &prep_test( dialogue &d )
 
 TEST_CASE( "npc_talk_start", "[npc_talk]" )
 {
+    clear_all_state();
     dialogue d;
     prep_test( d );
 
@@ -124,6 +125,7 @@ TEST_CASE( "npc_talk_start", "[npc_talk]" )
 
 TEST_CASE( "npc_talk_describe_mission", "[npc_talk]" )
 {
+    clear_all_state();
     dialogue d;
     prep_test( d );
 
@@ -134,6 +136,7 @@ TEST_CASE( "npc_talk_describe_mission", "[npc_talk]" )
 
 TEST_CASE( "npc_talk_stats", "[npc_talk]" )
 {
+    clear_all_state();
     dialogue d;
     prep_test( d );
 
@@ -168,6 +171,7 @@ TEST_CASE( "npc_talk_stats", "[npc_talk]" )
 
 TEST_CASE( "npc_talk_skills", "[npc_talk]" )
 {
+    clear_all_state();
     dialogue d;
     prep_test( d );
 
@@ -193,6 +197,7 @@ TEST_CASE( "npc_talk_skills", "[npc_talk]" )
 
 TEST_CASE( "npc_talk_wearing_and_trait", "[npc_talk]" )
 {
+    clear_all_state();
     dialogue d;
     npc &talker_npc = prep_test( d );
 
@@ -239,6 +244,7 @@ TEST_CASE( "npc_talk_wearing_and_trait", "[npc_talk]" )
 
 TEST_CASE( "npc_talk_effect", "[npc_talk]" )
 {
+    clear_all_state();
     dialogue d;
     npc &talker_npc = prep_test( d );
     avatar &player_character = get_avatar();
@@ -260,6 +266,7 @@ TEST_CASE( "npc_talk_effect", "[npc_talk]" )
 
 TEST_CASE( "npc_talk_service", "[npc_talk]" )
 {
+    clear_all_state();
     dialogue d;
     npc &talker_npc = prep_test( d );
     avatar &player_character = get_avatar();
@@ -282,6 +289,7 @@ TEST_CASE( "npc_talk_service", "[npc_talk]" )
 
 TEST_CASE( "npc_talk_location", "[npc_talk]" )
 {
+    clear_all_state();
     dialogue d;
     prep_test( d );
 
@@ -302,6 +310,7 @@ TEST_CASE( "npc_talk_location", "[npc_talk]" )
 
 TEST_CASE( "npc_talk_role", "[npc_talk]" )
 {
+    clear_all_state();
     dialogue d;
     npc &talker_npc = prep_test( d );
 
@@ -317,6 +326,7 @@ TEST_CASE( "npc_talk_role", "[npc_talk]" )
 
 TEST_CASE( "npc_talk_class", "[npc_talk]" )
 {
+    clear_all_state();
     dialogue d;
     npc &talker_npc = prep_test( d );
 
@@ -332,6 +342,7 @@ TEST_CASE( "npc_talk_class", "[npc_talk]" )
 
 TEST_CASE( "npc_talk_allies", "[npc_talk]" )
 {
+    clear_all_state();
     dialogue d;
     npc &talker_npc = prep_test( d );
 
@@ -347,6 +358,7 @@ TEST_CASE( "npc_talk_allies", "[npc_talk]" )
 
 TEST_CASE( "npc_talk_rules", "[npc_talk]" )
 {
+    clear_all_state();
     dialogue d;
     npc &talker_npc = prep_test( d );
 
@@ -366,6 +378,7 @@ TEST_CASE( "npc_talk_rules", "[npc_talk]" )
 
 TEST_CASE( "npc_talk_needs", "[npc_talk]" )
 {
+    clear_all_state();
     dialogue d;
     npc &talker_npc = prep_test( d );
 
@@ -384,6 +397,7 @@ TEST_CASE( "npc_talk_needs", "[npc_talk]" )
 
 TEST_CASE( "npc_talk_mission_goal", "[npc_talk]" )
 {
+    clear_all_state();
     dialogue d;
     npc &talker_npc = prep_test( d );
 
@@ -408,6 +422,7 @@ TEST_CASE( "npc_talk_mission_goal", "[npc_talk]" )
 
 TEST_CASE( "npc_talk_season", "[npc_talk]" )
 {
+    clear_all_state();
     dialogue d;
     prep_test( d );
 
@@ -448,6 +463,7 @@ TEST_CASE( "npc_talk_season", "[npc_talk]" )
 
 TEST_CASE( "npc_talk_time", "[npc_talk]" )
 {
+    clear_all_state();
     dialogue d;
     prep_test( d );
 
@@ -466,6 +482,7 @@ TEST_CASE( "npc_talk_time", "[npc_talk]" )
 
 TEST_CASE( "npc_talk_switch", "[npc_talk]" )
 {
+    clear_all_state();
     dialogue d;
     prep_test( d );
     avatar &player_character = get_avatar();
@@ -496,6 +513,7 @@ TEST_CASE( "npc_talk_switch", "[npc_talk]" )
 
 TEST_CASE( "npc_talk_or", "[npc_talk]" )
 {
+    clear_all_state();
     dialogue d;
     npc &talker_npc = prep_test( d );
     avatar &player_character = get_avatar();
@@ -513,6 +531,7 @@ TEST_CASE( "npc_talk_or", "[npc_talk]" )
 
 TEST_CASE( "npc_talk_and", "[npc_talk]" )
 {
+    clear_all_state();
     dialogue d;
     npc &talker_npc = prep_test( d );
     avatar &player_character = get_avatar();
@@ -530,6 +549,7 @@ TEST_CASE( "npc_talk_and", "[npc_talk]" )
 
 TEST_CASE( "npc_talk_nested", "[npc_talk]" )
 {
+    clear_all_state();
     dialogue d;
     npc &talker_npc = prep_test( d );
     avatar &player_character = get_avatar();
@@ -548,6 +568,7 @@ TEST_CASE( "npc_talk_nested", "[npc_talk]" )
 
 TEST_CASE( "npc_talk_conditionals", "[npc_talk]" )
 {
+    clear_all_state();
     dialogue d;
     avatar &player_character = get_avatar();
     prep_test( d );
@@ -600,6 +621,7 @@ static void give_item( Character &p, const std::string &id, int count )
 
 TEST_CASE( "npc_talk_effects_advanced", "[npc_talk]" )
 {
+    clear_all_state();
     dialogue d;
     npc &talker_npc = prep_test( d );
     avatar &player_character = get_avatar();
@@ -811,6 +833,7 @@ TEST_CASE( "npc_talk_effects_advanced", "[npc_talk]" )
 
 TEST_CASE( "npc_talk_combat_commands", "[npc_talk]" )
 {
+    clear_all_state();
     dialogue d;
     prep_test( d );
 
@@ -830,6 +853,7 @@ TEST_CASE( "npc_talk_combat_commands", "[npc_talk]" )
 
 TEST_CASE( "npc_talk_vars", "[npc_talk]" )
 {
+    clear_all_state();
     dialogue d;
     prep_test( d );
 
@@ -858,6 +882,7 @@ TEST_CASE( "npc_talk_vars", "[npc_talk]" )
 
 TEST_CASE( "npc_talk_adjust_vars", "[npc_talk]" )
 {
+    clear_all_state();
     dialogue d;
     prep_test( d );
 
@@ -922,6 +947,7 @@ TEST_CASE( "npc_talk_adjust_vars", "[npc_talk]" )
 
 TEST_CASE( "npc_talk_bionics", "[npc_talk]" )
 {
+    clear_all_state();
     dialogue d;
     npc &talker_npc = prep_test( d );
     avatar &player_character = get_avatar();
@@ -941,8 +967,7 @@ TEST_CASE( "npc_talk_bionics", "[npc_talk]" )
 
 TEST_CASE( "npc_talk_effects", "[npc_talk]" )
 {
-    clear_avatar();
-
+    clear_all_state();
     dialogue d;
     npc &talker_npc = prep_test( d );
     avatar &player_character = get_avatar();
@@ -1028,6 +1053,7 @@ TEST_CASE( "npc_talk_effects", "[npc_talk]" )
 
 TEST_CASE( "npc_talk_effect_change_first_topic", "[npc_talk]" )
 {
+    clear_all_state();
     dialogue d;
     npc &talker_npc = prep_test( d );
 

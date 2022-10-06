@@ -352,6 +352,28 @@ void recipe::finalize()
             autolearn_requirements[ skill_used ] = difficulty;
         }
     }
+
+    {
+        auto it = flags.find( "UNCRAFT_SINGLE_CHARGE" );
+        if( it != flags.end() ) {
+            flags.erase( it );
+            charges = 1;
+            if( json_report_strict || !result_->count_by_charges() ) {
+                debugmsg( "recipe %s uses obsolete flag UNCRAFT_SINGLE_CHARGE, replace with \"charges\": 1",
+                          ident() );
+            }
+        }
+    }
+    {
+        auto it = flags.find( "UNCRAFT_BY_QUANTITY" );
+        if( it != flags.end() ) {
+            flags.erase( it );
+            if( json_report_strict ) {
+                debugmsg( "recipe %s uses obsolete flag UNCRAFT_BY_QUANTITY",
+                          ident() );
+            }
+        }
+    }
 }
 
 void recipe::add_requirements( const std::vector<std::pair<requirement_id, int>> &reqs )
@@ -377,6 +399,14 @@ std::string recipe::get_consistency_error() const
 
     if( charges && !item::count_by_charges( result_ ) ) {
         return "specifies charges but result is not counted by charges";
+    }
+
+    if( charges && result_mult != 1 ) {
+        return "specifies both charges and result_mult";
+    }
+
+    if( result_mult != 1 && reversible ) {
+        return "is reversible, so can't use result_mult";
     }
 
     const auto is_invalid_bp = []( const std::pair<itype_id, int> &elem ) {
@@ -728,7 +758,8 @@ void recipe::check_blueprint_requirements()
     build_reqs total_reqs;
     const std::pair<std::map<ter_id, int>, std::map<furn_id, int>> &changed_ids
             = get_changed_ids_from_update( blueprint );
-    get_build_reqs_for_furn_ter_ids( changed_ids, total_reqs );
+    get_build_reqs_for_furn_ter_ids( ident(), changed_ids, total_reqs );
+
     requirement_data req_data_blueprint = std::accumulate(
             reqs_blueprint.begin(), reqs_blueprint.end(), requirement_data(),
     []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
@@ -745,8 +776,7 @@ void recipe::check_blueprint_requirements()
     if( time_blueprint != total_reqs.time || skills_blueprint != total_reqs.skills
         || !req_data_blueprint.has_same_requirements_as( req_data_calc ) ) {
         std::string calc_req_str = dump_requirements( req_data_calc, total_reqs.time, total_reqs.skills );
-        std::string got_req_str = dump_requirements( req_data_blueprint, total_reqs.time,
-                                  total_reqs.skills );
+        std::string got_req_str = dump_requirements( req_data_blueprint, time_blueprint, skills_blueprint );
 
         std::stringstream ss;
         for( auto &id_count : changed_ids.first ) {
@@ -808,4 +838,15 @@ int recipe::makes_amount() const
     }
     // return either charges * mult or 1
     return makes ? makes * result_mult : 1 ;
+}
+
+int recipe::disassembly_batch_size() const
+{
+    if( !result_->count_by_charges() ) {
+        return 1;
+    } else if( charges.has_value() ) {
+        return *charges;
+    } else {
+        return result_->charges_default();
+    }
 }

@@ -411,7 +411,7 @@
     "name": { "str_sp": "moose" },
     "description": "The Eastern moose, the largest living species of deer.  The bulls are quite ill-tempered, especially in the rutting season.",
     "default_faction": "herbivore",
-    "bodytype": "horse",
+    "bodytype": "quadruped",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
     "volume": "386000 ml",

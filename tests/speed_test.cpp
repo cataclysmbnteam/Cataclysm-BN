@@ -5,6 +5,7 @@
 #include "player_helpers.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "state_helpers.h"
 
 static void advance_turn( Character &guy )
 {
@@ -14,7 +15,6 @@ static void advance_turn( Character &guy )
 
 static player &prepare_player()
 {
-    clear_map();
     player &guy = *get_player_character().as_player();
     clear_character( *guy.as_player(), true );
     guy.set_moves( 0 );
@@ -32,6 +32,7 @@ static player &prepare_player()
 
 TEST_CASE( "Character regains moves each turn", "[speed]" )
 {
+    clear_all_state();
     player &guy = prepare_player();
 
     advance_turn( guy );
@@ -59,6 +60,7 @@ static void pain_penalty_test( player &guy, int pain, int speed_exp )
 
 TEST_CASE( "Character is slowed down by pain", "[speed][pain]" )
 {
+    clear_all_state();
     player &guy = prepare_player();
 
     WHEN( "10 pain" ) {
@@ -99,6 +101,7 @@ static void carry_weight_test( Character &guy, int load_kg, int speed_exp )
 
 TEST_CASE( "Character is slowed down while overburdened", "[speed]" )
 {
+    clear_all_state();
     player &guy = prepare_player();
 
     item backpack( "test_backpack" );

@@ -10,6 +10,7 @@
 
 #include "color.h"
 #include "sdl_wrappers.h"
+#include "cached_options.h"
 
 using color_pixel_function_pointer = SDL_Color( * )( const SDL_Color &color );
 using color_pixel_function_map = std::unordered_map<std::string, color_pixel_function_pointer>;
@@ -143,6 +144,14 @@ inline SDL_Color color_pixel_sepia( const SDL_Color &color )
         std::min( static_cast<int>( std::round( std::pow( pv, gammav ) * 150 ) ), 100 );
 
     return mix_colors( sepia_dark, sepia_light, finalv );
+}
+
+inline SDL_Color color_pixel_z_overlay( const SDL_Color &color )
+{
+    if( static_z_effect ) {
+        return mix_colors( color, {128, 255, 255, color.a}, color.a / 8 );
+    }
+    return { 128, 255, 255, color.a };
 }
 
 SDL_Color curses_color_to_SDL( const nc_color &color );

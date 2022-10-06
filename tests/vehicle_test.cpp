@@ -11,12 +11,13 @@
 #include "map_helpers.h"
 #include "optional.h"
 #include "point.h"
+#include "state_helpers.h"
 #include "type_id.h"
 #include "vehicle.h"
 
 TEST_CASE( "detaching_vehicle_unboards_passengers" )
 {
-    clear_map();
+    clear_all_state();
     const tripoint test_origin( 60, 60, 0 );
     const tripoint vehicle_origin = test_origin;
     avatar &player_character = get_avatar();
@@ -30,6 +31,7 @@ TEST_CASE( "detaching_vehicle_unboards_passengers" )
 
 TEST_CASE( "destroy_grabbed_vehicle_section" )
 {
+    clear_all_state();
     GIVEN( "A vehicle grabbed by the player" ) {
         map &here = get_map();
         const tripoint test_origin( 60, 60, 0 );
@@ -55,7 +57,7 @@ TEST_CASE( "destroy_grabbed_vehicle_section" )
 
 TEST_CASE( "add_item_to_broken_vehicle_part" )
 {
-    clear_map();
+    clear_all_state();
     const tripoint test_origin( 60, 60, 0 );
     const tripoint vehicle_origin = test_origin;
     vehicle *veh_ptr = get_map().add_vehicle( vproto_id( "bicycle" ), vehicle_origin, 0_degrees, 0, 0 );
@@ -79,7 +81,6 @@ TEST_CASE( "add_item_to_broken_vehicle_part" )
 
 static void check_wreckage( int zlevel )
 {
-    clear_map();
     const tripoint test_origin( 60, 60, zlevel );
     const tripoint vehicle_origin = test_origin;
 
@@ -96,6 +97,7 @@ static void check_wreckage( int zlevel )
 
 TEST_CASE( "overlapping_vehicles_make_wreck" )
 {
+    clear_all_state();
     check_wreckage( 0 );
     check_wreckage( OVERMAP_HEIGHT );
     check_wreckage( -OVERMAP_DEPTH );
@@ -112,7 +114,7 @@ static void test_coord_translate( units::angle dir, const point &pivot, const po
 
 TEST_CASE( "check_vehicle_rotation_against_old", "[.]" )
 {
-    clear_map();
+    clear_all_state();
     const tripoint test_origin( 60, 60, 0 );
     const tripoint vehicle_origin = test_origin;
     vehicle *veh_ptr = get_map().add_vehicle( vproto_id( "bicycle" ), vehicle_origin, 0_degrees, 0, 0 );
@@ -138,7 +140,7 @@ TEST_CASE( "check_vehicle_rotation_against_old", "[.]" )
 
 TEST_CASE( "vehicle_rotation_reverse" )
 {
-    clear_map();
+    clear_all_state();
     const tripoint test_origin( 60, 60, 0 );
     const tripoint vehicle_origin = test_origin;
     vehicle *veh_ptr = get_map().add_vehicle( vproto_id( "bicycle" ), vehicle_origin, 0_degrees, 0, 0 );

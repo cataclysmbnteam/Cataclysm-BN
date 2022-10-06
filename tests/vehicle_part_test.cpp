@@ -4,10 +4,12 @@
 
 #include "damage.h"
 #include "type_id.h"
+#include "state_helpers.h"
 #include "veh_type.h"
 
 TEST_CASE( "verify_copy_from_gets_damage_reduction", "[vehicle]" )
 {
+    clear_all_state();
     // Picking halfboard_horizontal as a vpart which is likely to remain
     // defined via copy-from, and which should have non-zero damage reduction.
     const vpart_info &vp = vpart_id( "halfboard_horizontal" ).obj();

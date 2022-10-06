@@ -1,9 +1,8 @@
 [
   {
     "id": "fn57",
-    "looks_like": "glock_17",
+    "copy-from": "smg_base",
     "type": "GUN",
-    "reload_noise_volume": 10,
     "name": { "str": "FN Five-Seven" },
     "description": "Designed to work with FN's proprietary 5.7x28mm round, the Five-Seven is a lightweight pistol with a very high capacity, best used against armored opponents.",
     "weight": "600 g",
@@ -14,13 +13,9 @@
     "ascii_picture": "FN_five_seven",
     "bashing": 6,
     "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "light_gray",
     "ammo": "57",
-    "skill": "pistol",
     "ranged_damage": { "damage_type": "bullet", "amount": -2 },
     "dispersion": 440,
-    "durability": 8,
     "min_cycle_recoil": 81,
     "valid_mod_locations": [
       [ "accessories", 2 ],
@@ -35,14 +30,12 @@
       [ "underbarrel", 1 ]
     ],
     "magazine_well": "250 ml",
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazines": [ [ "57", [ "fn57mag" ] ] ]
   },
   {
     "id": "fn_p90",
-    "looks_like": "hk_mp5",
+    "copy-from": "smg_base",
     "type": "GUN",
-    "reload_noise_volume": 10,
     "name": { "str": "FN P90" },
     "description": "The first in a new genre of guns, termed \"personal defense weapons.\"  FN designed the P90 to use their proprietary 5.7x28mm ammunition.  It is made for firing bursts manageably.",
     "weight": "2640 g",
@@ -50,14 +43,10 @@
     "price": 350000,
     "price_postapoc": 3500,
     "to_hit": -2,
-    "bashing": 10,
     "material": [ "steel", "plastic" ],
-    "symbol": "(",
     "color": "light_gray",
     "ammo": "57",
-    "skill": "smg",
     "dispersion": 260,
-    "durability": 8,
     "min_cycle_recoil": 81,
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 5 ] ],
     "valid_mod_locations": [
@@ -74,7 +63,6 @@
       [ "underbarrel", 1 ]
     ],
     "magazine_well": "500 ml",
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazines": [ [ "57", [ "fnp90mag" ] ] ]
   }
 ]

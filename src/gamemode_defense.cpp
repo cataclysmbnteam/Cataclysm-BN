@@ -216,7 +216,8 @@ void defense_game::init_mtypes()
 
 void defense_game::init_constructions()
 {
-    standardize_construction_times( 1 ); // Everything takes 1 minute
+    // Everything takes 1 minute
+    constructions::override_build_times( 1_minutes );
 }
 
 void defense_game::init_map()

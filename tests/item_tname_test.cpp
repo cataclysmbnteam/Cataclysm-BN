@@ -9,6 +9,7 @@
 #include "item.h"
 #include "itype.h"
 #include "options_helpers.h"
+#include "state_helpers.h"
 #include "type_id.h"
 #include "value_ptr.h"
 
@@ -43,6 +44,7 @@ static const skill_id skill_survival( "survival" );
 
 TEST_CASE( "food with hidden effects", "[item][tname][hidden]" )
 {
+    clear_all_state();
     g->u.clear_mutations();
 
     GIVEN( "food with hidden poison" ) {
@@ -97,6 +99,7 @@ TEST_CASE( "food with hidden effects", "[item][tname][hidden]" )
 
 TEST_CASE( "wet item", "[item][tname][wet]" )
 {
+    clear_all_state();
     item rag( "rag" );
     rag.set_flag( flag_WET );
     REQUIRE( rag.has_flag( flag_WET ) );
@@ -106,6 +109,7 @@ TEST_CASE( "wet item", "[item][tname][wet]" )
 
 TEST_CASE( "filthy item", "[item][tname][filthy]" )
 {
+    clear_all_state();
     override_option opt( "FILTHY_MORALE", "true" );
     item rag( "rag" );
     rag.set_flag( flag_FILTHY );
@@ -116,6 +120,7 @@ TEST_CASE( "filthy item", "[item][tname][filthy]" )
 
 TEST_CASE( "diamond item", "[item][tname][diamond]" )
 {
+    clear_all_state();
     item katana( "katana" );
     katana.set_flag( flag_DIAMOND );
     REQUIRE( katana.has_flag( flag_DIAMOND ) );
@@ -125,6 +130,7 @@ TEST_CASE( "diamond item", "[item][tname][diamond]" )
 
 TEST_CASE( "truncated item name", "[item][tname][truncate]" )
 {
+    clear_all_state();
     SECTION( "plain item name can be truncated" ) {
         item katana( "katana" );
 
@@ -137,6 +143,7 @@ TEST_CASE( "truncated item name", "[item][tname][truncate]" )
 
 TEST_CASE( "engine displacement volume", "[item][tname][engine]" )
 {
+    clear_all_state();
     item vtwin = item( "v2_combustion" );
     item v12diesel = item( "v12_diesel" );
     item turbine = item( "small_turbine_engine" );
@@ -152,6 +159,7 @@ TEST_CASE( "engine displacement volume", "[item][tname][engine]" )
 
 TEST_CASE( "wheel diameter", "[item][tname][wheel]" )
 {
+    clear_all_state();
     item wheel17 = item( "wheel" );
     item wheel24 = item( "wheel_wide" );
     item wheel32 = item( "wheel_armor" );
@@ -167,6 +175,7 @@ TEST_CASE( "wheel diameter", "[item][tname][wheel]" )
 
 TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
 {
+    clear_all_state();
     GIVEN( "some clothing" ) {
         item shirt( "longshirt" );
         REQUIRE( shirt.is_armor() );
@@ -247,6 +256,7 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
 
 TEST_CASE( "weapon fouling", "[item][tname][fouling][dirt]" )
 {
+    clear_all_state();
     GIVEN( "a gun with potential fouling" ) {
         item gun( "hk_mp5" );
 

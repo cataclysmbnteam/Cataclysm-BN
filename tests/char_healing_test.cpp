@@ -10,6 +10,7 @@
 #include "int_id.h"
 #include "options.h"
 #include "player.h"
+#include "state_helpers.h"
 #include "type_id.h"
 
 // Tests for Character healing, including:
@@ -61,6 +62,7 @@ static float healing_rate_at_health( Character &dummy, const int healthy_value,
 // Default as of this writing is is 0.0001, or 8.64 HP per day.
 TEST_CASE( "baseline healing rate with no healing traits", "[heal][baseline]" )
 {
+    clear_all_state();
     avatar dummy;
 
     // What is considered normal baseline healing rate comes from game_balance.json.
@@ -90,6 +92,7 @@ TEST_CASE( "baseline healing rate with no healing traits", "[heal][baseline]" )
 // on whether the character is asleep or awake.
 TEST_CASE( "traits and mutations affecting healing rate", "[heal][trait][mutation]" )
 {
+    clear_all_state();
     avatar dummy;
 
     // TODO: Include `healing_rate_medicine` for trait-related healing effects, since many of these
@@ -219,6 +222,7 @@ TEST_CASE( "traits and mutations affecting healing rate", "[heal][trait][mutatio
 // influences healing rate significantly.
 TEST_CASE( "health effects on healing rate", "[heal][health]" )
 {
+    clear_all_state();
     avatar dummy;
 
     // Normal healing rate from game_balance.json
@@ -306,6 +310,7 @@ static float together_rate( const std::string bp_name, const float rest_quality 
 //
 TEST_CASE( "healing_rate_medicine with bandages and/or disinfectant", "[heal][bandage][disinfect]" )
 {
+    clear_all_state();
     // There are no healing effects from medicine if no medicine has been applied.
     SECTION( "no bandages or disinfectant" ) {
         SECTION( "awake" ) {

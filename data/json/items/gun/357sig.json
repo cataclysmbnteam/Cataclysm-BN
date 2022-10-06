@@ -2,7 +2,6 @@
   {
     "id": "p226_357sig",
     "copy-from": "pistol_base",
-    "looks_like": "glock_17",
     "type": "GUN",
     "name": { "str": "SIG P226" },
     "description": "A SIG Sauer P226 chambered for .357 SIG.  The P226 is a DA/SA, short-recoil operated semi-automatic pistol.",
@@ -10,13 +9,9 @@
     "volume": "549 ml",
     "price": 50000,
     "price_postapoc": 2250,
-    "to_hit": -1,
-    "bashing": 8,
     "material": [ "steel", "aluminum", "plastic" ],
-    "symbol": "(",
     "color": "dark_gray",
     "ammo": "357sig",
-    "dispersion": 480,
     "durability": 7,
     "magazine_well": "250 ml",
     "magazines": [ [ "357sig", [ "p226mag_12rd_357sig" ] ] ]
@@ -37,7 +32,6 @@
   {
     "id": "p320_357sig",
     "copy-from": "pistol_base",
-    "looks_like": "glock_17",
     "type": "GUN",
     "name": { "str": "SIG P320 Compact" },
     "description": "The P320 Compact is a semi-automatic, short recoil operated pistol.  This one is chambered for .357 SIG.",
@@ -47,11 +41,9 @@
     "price_postapoc": 2250,
     "to_hit": -2,
     "ascii_picture": "sig_p320",
-    "bashing": 8,
     "material": [ "plastic", "steel" ],
     "color": "dark_gray",
     "ammo": "357sig",
-    "dispersion": 480,
     "durability": 6,
     "magazine_well": "250 ml",
     "magazines": [ [ "357sig", [ "p320mag_13rd_357sig" ] ] ]

@@ -13,6 +13,7 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "character.h"
+#include "crafting.h"
 #include "debug.h"
 #include "enums.h"
 #include "event.h"
@@ -37,6 +38,7 @@
 #include "player_activity.h"
 #include "point.h"
 #include "ranged.h"
+#include "recipe_dictionary.h"
 #include "rng.h"
 #include "sounds.h"
 #include "timed_event.h"
@@ -562,6 +564,124 @@ std::unique_ptr<activity_actor> dig_channel_activity_actor::deserialize( JsonIn 
     data.read( "byproducts_item_group", actor.byproducts_item_group );
 
     return actor.clone();
+}
+
+bool disassemble_activity_actor::try_start_single( player_activity &act, Character &who )
+{
+    if( targets.empty() ) {
+        return false;
+    }
+    const iuse_location &target = targets.front();
+    if( !target.loc ) {
+        debugmsg( "Lost target of ACT_DISASSEMBLE" );
+        targets.clear();
+        return false;
+    }
+    const item &itm = *target.loc;
+    const recipe &dis = recipe_dictionary::get_uncraft( itm.typeId() );
+
+    // Have to check here again in case we ran out of tools
+    const ret_val<bool> can_do = crafting::can_disassemble( who, itm, who.crafting_inventory() );
+    if( !can_do.success() ) {
+        who.add_msg_if_player( m_info, "%s", can_do.c_str() );
+        return false;
+    }
+
+    int moves_needed = dis.time * target.count;
+
+    act.moves_total = moves_needed;
+    act.moves_left = moves_needed;
+    return true;
+}
+
+int disassemble_activity_actor::calc_num_targets() const
+{
+    return static_cast<int>( targets.size() );
+}
+
+void disassemble_activity_actor::start( player_activity &act, Character &who )
+{
+    if( !who.is_avatar() ) {
+        debugmsg( "ACT_DISASSEMBLE is not implemented for NPCs" );
+        act.set_to_null();
+    } else if( !try_start_single( act, who ) ) {
+        act.set_to_null();
+    }
+    initial_num_targets = calc_num_targets();
+}
+
+void disassemble_activity_actor::finish( player_activity &act, Character &who )
+{
+    const iuse_location &target = targets.front();
+    if( !target.loc ) {
+        debugmsg( "Lost target of ACT_DISASSEMBLY" );
+    } else {
+        crafting::complete_disassemble( who, target, get_map().getlocal( pos.raw() ) );
+    }
+    targets.erase( targets.begin() );
+
+    if( try_start_single( act, who ) ) {
+        return;
+    }
+
+    // Make a copy to avoid use-after-free
+    bool recurse = this->recursive;
+
+    act.set_to_null();
+
+    if( recurse ) {
+        crafting::disassemble_all( *who.as_avatar(), recurse );
+    }
+}
+
+void disassemble_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "targets", targets );
+    jsout.member( "pos", pos );
+    jsout.member( "recursive", recursive );
+    jsout.member( "initial_num_targets", initial_num_targets );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> disassemble_activity_actor::deserialize( JsonIn &jsin )
+{
+    disassemble_activity_actor actor;
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "targets", actor.targets );
+    data.read( "pos", actor.pos );
+    data.read( "recursive", actor.recursive );
+    data.read( "initial_num_targets", actor.initial_num_targets );
+
+    return actor.clone();
+}
+
+act_progress_message disassemble_activity_actor::get_progress_message(
+    const player_activity &act, const Character & ) const
+{
+    std::string msg;
+
+    const int percentage = ( ( act.moves_total - act.moves_left ) * 100 ) / act.moves_total;
+
+    msg = string_format( "%d%%", percentage );
+
+    if( initial_num_targets != 1 ) {
+        constexpr int width = 20; // An arbitrary value
+        std::string item_name_trimmed = trim_by_length( targets.front().loc->display_name(), width );
+
+        msg += string_format(
+                   _( "\n%d out of %d, working on %-20s" ),
+                   initial_num_targets - calc_num_targets() + 1,
+                   initial_num_targets,
+                   item_name_trimmed
+               );
+    }
+
+    return act_progress_message::make_extra_info( std::move( msg ) );
 }
 
 drop_activity_actor::drop_activity_actor( Character &ch, const drop_locations &items,

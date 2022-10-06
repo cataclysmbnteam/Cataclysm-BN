@@ -142,7 +142,6 @@ TEST_CASE( "item rigidity", "[item][iteminfo][rigidity]" )
 TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
 {
     // new DPS calculations depend on the avatar's stats, so make sure they're consistent
-    clear_avatar();
     REQUIRE( g->u.get_str() == 8 );
     REQUIRE( g->u.get_dex() == 8 );
     iteminfo_query q = q_vec( { iteminfo_parts::BASE_DAMAGE, iteminfo_parts::BASE_TOHIT,

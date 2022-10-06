@@ -1557,7 +1557,7 @@
         { "id": "katana_fake", "fg": 675, "rotates": false, "multitile": false },
         { "id": [ "katana", "katana_fake", "katana_inferior" ], "fg": 860, "rotates": false },
         { "id": "keg", "fg": 947, "rotates": false, "multitile": false },
-        { "id": "kevlar_harness", "fg": 537, "rotates": false, "multitile": false },
+        { "id": "kevlar_armor_small_quadruped", "fg": 537, "rotates": false, "multitile": false },
         { "id": "kevlar_plate", "fg": 717, "rotates": false, "multitile": false },
         { "id": "kiln_done", "fg": 778, "rotates": false, "multitile": false },
         { "id": "kiln_full", "fg": 776, "rotates": false, "multitile": false },

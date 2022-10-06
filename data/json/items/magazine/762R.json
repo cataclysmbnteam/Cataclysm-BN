@@ -7,7 +7,7 @@
     "//": "Provisional.",
     "description": "A tiny piece of grooved metal designed to allow a shooter to quickly load a bolt-action rifle.",
     "weight": "40 g",
-    "volume": "50ml",
+    "volume": "50 ml",
     "price": 1000,
     "price_postapoc": 50,
     "material": "steel",

@@ -14,6 +14,7 @@
 #include "bionics.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "crafting.h"
 #include "character.h"
 #include "character_functions.h"
 #include "character_martial_arts.h"
@@ -476,7 +477,7 @@ class disassemble_inventory_preset : public pickup_inventory_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
-            const auto ret = p.can_disassemble( *loc, inv );
+            const ret_val<bool> ret = crafting::can_disassemble( p, *loc, inv );
             if( !ret.success() ) {
                 return ret.str();
             }

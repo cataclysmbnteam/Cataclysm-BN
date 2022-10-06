@@ -14,7 +14,7 @@
       [ [ "gunpowder", 3 ] ],
       [ [ "combatnail", 1 ] ]
     ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "charges": 1
   },
   {
     "result": "5x50heavy",
@@ -31,6 +31,6 @@
       [ [ "gunpowder", 4 ] ],
       [ [ "scrap", 1 ] ]
     ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "charges": 1
   }
 ]

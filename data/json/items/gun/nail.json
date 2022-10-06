@@ -1,9 +1,8 @@
 [
   {
     "id": "nailgun",
-    "looks_like": "glock_17",
+    "copy-from": "pistol_base",
     "type": "GUN",
-    "reload_noise_volume": 10,
     "name": { "str": "nail gun" },
     "description": "A tool used to drive nails into wood or other material.  It could also be used as an ad-hoc weapon.",
     "weight": "3904 g",
@@ -13,12 +12,9 @@
     "to_hit": -2,
     "bashing": 6,
     "material": [ "plastic", "steel" ],
-    "symbol": "(",
     "color": "yellow",
     "ammo": "nail",
-    "skill": "pistol",
     "dispersion": 800,
-    "durability": 8,
     "loudness": 5,
     "clip_size": 20,
     "reload": 50,

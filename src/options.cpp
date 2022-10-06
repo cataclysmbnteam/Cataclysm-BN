@@ -1909,10 +1909,15 @@ void options_manager::add_options_graphics()
     add_empty_line();
 
     add( "MEMORY_MAP_MODE", "graphics", translate_marker( "Memory map drawing mode" ),
-    translate_marker( "Specified the mode in which the memory map is drawn.  Requires restart." ), {
+    translate_marker( "Specified the mode in which the memory map is drawn." ), {
         { "color_pixel_darken", translate_marker( "Darkened" ) },
         { "color_pixel_sepia", translate_marker( "Sepia" ) }
     }, "color_pixel_sepia", COPT_CURSES_HIDE
+       );
+
+    add( "STATICZEFFECT", "graphics", translate_marker( "Static z level effect" ),
+         translate_marker( "If true, lower z levels will look the same no matter how far down they are.  Increases rendering performance." ),
+         false, COPT_CURSES_HIDE
        );
 
     add_empty_line();
@@ -2077,6 +2082,11 @@ void options_manager::add_options_debug()
 
     add( "REPORT_UNUSED_JSON_FIELDS", "debug", translate_marker( "Report unused JSON fields" ),
          translate_marker( "If false, unused JSON fields are silently ignored.  Enabling this will make it easier to spot mistakes or typos during modding." ),
+         false
+       );
+
+    add( "FORCE_TILESET_RELOAD", "debug", translate_marker( "Force tileset reload" ),
+         translate_marker( "If false, the game will keep tileset in memory after first load to speed up subsequent loadings of game data.  Enable this if you're working on a tileset for the game or a mod." ),
          false
        );
 
@@ -2610,13 +2620,21 @@ void options_manager::add_options_android()
 
 #if defined(TILES)
 // Helper method to isolate #ifdeffed tiles code.
-static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_changed, bool ingame )
+static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_changed, bool ingame,
+                           bool force_tile_change )
 {
     if( used_tiles_changed ) {
         //try and keep SDL calls limited to source files that deal specifically with them
         try {
             tilecontext->reinit();
-            tilecontext->load_tileset( get_option<std::string>( "TILES" ) );
+            std::vector<mod_id> dummy;
+
+            tilecontext->load_tileset(
+                get_option<std::string>( "TILES" ),
+                ingame ? world_generator->active_world->active_mod_order : dummy,
+                false,
+                force_tile_change
+            );
             //game_ui::init_ui is called when zoom is changed
             g->reset_zoom();
             g->mark_main_ui_adaptor_resize();
@@ -2631,7 +2649,7 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
     }
 }
 #else
-static void refresh_tiles( bool, bool, bool )
+static void refresh_tiles( bool, bool, bool, bool )
 {
 }
 #endif // TILES
@@ -3125,6 +3143,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
     bool used_tiles_changed = false;
     bool pixel_minimap_changed = false;
     bool terminal_size_changed = false;
+    bool force_tile_change = false;
 
     for( auto &iter : OPTIONS_OLD ) {
         if( iter.second != OPTIONS[iter.first] ) {
@@ -3140,9 +3159,12 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
                 || iter.first == "PIXEL_MINIMAP_SCALE_TO_FIT" ) {
                 pixel_minimap_changed = true;
 
-            } else if( iter.first == "TILES" || iter.first == "USE_TILES" ) {
+            } else if( iter.first == "TILES" || iter.first == "USE_TILES" || iter.first == "STATICZEFFECT" ||
+                       iter.first == "MEMORY_MAP_MODE" ) {
                 used_tiles_changed = true;
-
+                if( iter.first == "STATICZEFFECT" || iter.first == "MEMORY_MAP_MODE" ) {
+                    force_tile_change = true;
+                }
             } else if( iter.first == "USE_LANG" ) {
                 lang_changed = true;
 
@@ -3206,7 +3228,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
     ( void ) terminal_size_changed;
 #endif
 
-    refresh_tiles( used_tiles_changed, pixel_minimap_changed, ingame );
+    refresh_tiles( used_tiles_changed, pixel_minimap_changed, ingame, force_tile_change );
 
     return "";
 }
@@ -3298,6 +3320,7 @@ void options_manager::cache_to_globals()
     message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );
     fov_3d = ::get_option<bool>( "FOV_3D" );
     fov_3d_z_range = ::get_option<int>( "FOV_3D_Z_RANGE" );
+    static_z_effect = ::get_option<bool>( "STATICZEFFECT" );
     PICKUP_RANGE = ::get_option<int>( "PICKUP_RANGE" );
 #if defined(SDL_SOUND)
     sounds::sound_enabled = ::get_option<bool>( "SOUND_ENABLED" );

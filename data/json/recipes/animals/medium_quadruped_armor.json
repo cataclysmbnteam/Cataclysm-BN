@@ -1,6 +1,6 @@
 [
   {
-    "result": "acidchitin_armor_horse",
+    "result": "acidchitin_armor_medium_quadruped",
     "type": "recipe",
     "copy-from": "armor_acidchitin",
     "category": "CC_ANIMALS",
@@ -11,7 +11,7 @@
     "components": [ [ [ "acidchitin_piece", 84 ] ] ]
   },
   {
-    "result": "chitin_armor_horse",
+    "result": "chitin_armor_medium_quadruped",
     "type": "recipe",
     "copy-from": "armor_chitin",
     "category": "CC_ANIMALS",
@@ -23,7 +23,7 @@
     "components": [ [ [ "chitin_piece", 84 ] ] ]
   },
   {
-    "result": "chainmail_armor_horse",
+    "result": "chainmail_armor_medium_quadruped",
     "type": "recipe",
     "copy-from": "chainmail_vest",
     "category": "CC_ANIMALS",
@@ -33,7 +33,7 @@
     "components": [ [ [ "link_sheet", 35 ] ], [ [ "chain_link", 917 ] ], [ [ "wire", 7 ] ], [ [ "fur", 42 ], [ "leather", 42 ] ] ]
   },
   {
-    "result": "kevlar_armor_horse",
+    "result": "kevlar_armor_medium_quadruped",
     "type": "recipe",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_EQUINE ARMOR",
@@ -45,7 +45,7 @@
     "components": [ [ [ "kevlar_plate", 56 ] ], [ [ "rag", 42 ] ], [ [ "leather", 24 ] ] ]
   },
   {
-    "result": "leather_armor_horse",
+    "result": "leather_armor_medium_quadruped",
     "type": "recipe",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_EQUINE ARMOR",
@@ -57,7 +57,7 @@
     "components": [ [ [ "armor_blarmor", 3 ] ], [ [ "rag", 18 ] ] ]
   },
   {
-    "result": "leather_armor_horse",
+    "result": "leather_armor_medium_quadruped",
     "type": "recipe",
     "copy-from": "armor_blarmor",
     "id_suffix": "from_scratch",
@@ -82,16 +82,16 @@
     ]
   },
   {
-    "result": "leatherbone_armor_horse",
+    "result": "leatherbone_armor_medium_quadruped",
     "type": "recipe",
-    "copy-from": "leather_armor_horse",
+    "copy-from": "leather_armor_medium_quadruped",
     "difficulty": 4,
     "time": "210 m",
     "using": [ [ "sewing_standard", 75 ] ],
     "components": [ [ [ "bone", 39 ], [ "bone_human", 39 ], [ "bone_tainted", 75 ] ], [ [ "armor_blarmor", 3 ] ] ]
   },
   {
-    "result": "leatherbone_armor_horse",
+    "result": "leatherbone_armor_medium_quadruped",
     "type": "recipe",
     "id_suffix": "from_leatherarmor",
     "category": "CC_ANIMALS",
@@ -102,10 +102,10 @@
     "autolearn": true,
     "byproducts": [ [ "rag", 6 ] ],
     "using": [ [ "sewing_standard", 35 ] ],
-    "components": [ [ [ "bone", 39 ], [ "bone_human", 39 ], [ "bone_tainted", 75 ] ], [ [ "leather_armor_horse", 1 ] ] ]
+    "components": [ [ [ "bone", 39 ], [ "bone_human", 39 ], [ "bone_tainted", 75 ] ], [ [ "leather_armor_medium_quadruped", 1 ] ] ]
   },
   {
-    "result": "leatherbone_armor_horse",
+    "result": "leatherbone_armor_medium_quadruped",
     "type": "recipe",
     "id_suffix": "from_scratch",
     "category": "CC_ANIMALS",
@@ -134,7 +134,7 @@
     ]
   },
   {
-    "result": "rubber_armor_horse",
+    "result": "rubber_armor_medium_quadruped",
     "type": "recipe",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_EQUINE ARMOR",
@@ -147,7 +147,7 @@
     "components": [ [ [ "duct_tape", 175 ] ], [ [ "coat_rain", 7 ] ] ]
   },
   {
-    "result": "rubber_armor_horse",
+    "result": "rubber_armor_medium_quadruped",
     "type": "recipe",
     "id_suffix": "from_scratch",
     "category": "CC_ANIMALS",

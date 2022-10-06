@@ -16,6 +16,7 @@
 #include "player.h"
 #include "player_activity.h"
 #include "player_helpers.h"
+#include "state_helpers.h"
 #include "type_id.h"
 #include "value_ptr.h"
 
@@ -24,10 +25,9 @@ static const itype_id itype_glockmag( "glockmag" );
 
 TEST_CASE( "reload_gun_with_integral_magazine", "[reload],[gun]" )
 {
+    clear_all_state();
     const time_point bday = calendar::start_of_cataclysm;
     avatar &dummy = get_avatar();
-
-    clear_avatar();
     // Make sure the player doesn't drop anything :P
     dummy.wear_item( item( "backpack", bday ) );
 
@@ -47,10 +47,9 @@ TEST_CASE( "reload_gun_with_integral_magazine", "[reload],[gun]" )
 
 TEST_CASE( "reload_gun_with_integral_magazine_using_speedloader", "[reload],[gun]" )
 {
+    clear_all_state();
     const time_point bday = calendar::start_of_cataclysm;
     avatar &dummy = get_avatar();
-
-    clear_avatar();
     // Make sure the player doesn't drop anything :P
     dummy.wear_item( item( "backpack", bday ) );
 
@@ -83,10 +82,9 @@ TEST_CASE( "reload_gun_with_integral_magazine_using_speedloader", "[reload],[gun
 
 TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
 {
+    clear_all_state();
     const time_point bday = calendar::start_of_cataclysm;
     avatar &dummy = get_avatar();
-
-    clear_avatar();
     // Make sure the player doesn't drop anything :P
     dummy.wear_item( item( "backpack", bday ) );
 
@@ -145,10 +143,9 @@ static void reload_a_revolver( player &dummy, item &gun, item &ammo )
 
 TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
 {
+    clear_all_state();
     const time_point bday = calendar::start_of_cataclysm;
     avatar &dummy = get_avatar();
-
-    clear_avatar();
     // Make sure the player doesn't drop anything :P
     dummy.wear_item( item( "backpack", bday ) );
 

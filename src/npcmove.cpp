@@ -1112,6 +1112,7 @@ void npc::execute_action( npc_action action )
             if( is_hallucination() ) {
                 pretend_fire( this, mode.qty, *mode );
             } else {
+                add_msg( m_debug, "%s recoil on firing: %s", name, recoil );
                 fire_gun( tar, mode.qty, *mode );
                 // "discard" the fake bio weapon after shooting it
                 if( cbm_weapon_index >= 0 ) {
@@ -1318,6 +1319,7 @@ npc_action npc::method_of_fleeing()
 
 npc_action npc::method_of_attack()
 {
+    Character &player_character = get_player_character();
     Creature *critter = current_target();
     if( critter == nullptr ) {
         // This function shouldn't be called...
@@ -1445,7 +1447,10 @@ npc_action npc::method_of_attack()
     // TODO: Needs a check for transparent but non-passable tiles on the way
     if( !modes.empty() && sees( *critter ) && aim_per_move( weapon, recoil ) > 0 &&
         confident_shoot_range( weapon, get_most_accurate_sight( weapon ) ) >= dist ) {
-        add_msg( m_debug, "%s is aiming" );
+        add_msg( m_debug, "%s is aiming", disp_name() );
+        if( critter->is_player() && player_character.sees( *this ) ) {
+            add_msg( m_bad, _( "%s takes aim at you!" ), disp_name() );
+        }
         return npc_aim;
     }
     add_msg( m_debug, "%s can't figure out what to do", disp_name() );

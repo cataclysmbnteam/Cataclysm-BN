@@ -14,6 +14,7 @@
 #include "map_helpers.h"
 #include "point.h"
 #include "projectile.h"
+#include "state_helpers.h"
 #include "type_id.h"
 
 static tripoint projectile_end_point( const std::vector<tripoint> &range, const item &gun,
@@ -37,8 +38,7 @@ static tripoint projectile_end_point( const std::vector<tripoint> &range, const 
 
 TEST_CASE( "projectiles_through_obstacles", "[projectile]" )
 {
-    clear_map();
-
+    clear_all_state();
     // Move the player out of the way of the test area
     get_avatar().setpos( { 2, 2, 0 } );
 
