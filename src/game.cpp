@@ -5219,6 +5219,9 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
                 it = items.erase( it );
                 continue;
             }
+            if (cannot_push) {
+                return false;
+            }
             m.add_item_or_charges( kbp, *it );
             it = items.erase( it );
         }
