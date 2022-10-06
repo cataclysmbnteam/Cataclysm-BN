@@ -38,6 +38,7 @@
 #include "item_factory.h"
 #include "itype.h"
 #include "json.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_memory.h"
 #include "mapbuffer.h"
@@ -205,6 +206,19 @@ void idle_animation_manager::prepare_for_redraw()
     // Aiming roughly at the standard 60 frames per second
     frame = value.count() / 17;
 }
+
+struct tile_render_info {
+    tripoint pos{};
+    // accumulator for 3d tallness of sprites rendered here so far;
+    int height_3d = 0;
+    lit_level ll;
+    bool invisible[5];
+    tile_render_info( const tripoint &pos, const int height_3d, const lit_level ll,
+                      const bool( &invisible )[5] )
+        : pos( pos ), height_3d( height_3d ), ll( ll ) {
+        std::copy( invisible, invisible + 5, this->invisible );
+    }
+};
 
 cata_tiles::cata_tiles( const SDL_Renderer_Ptr &renderer, const GeometryRenderer_Ptr &geometry ) :
     renderer( renderer ),
@@ -1085,19 +1099,6 @@ void tileset_loader::load_tile_spritelists( const JsonObject &entry,
     }
 }
 
-struct tile_render_info {
-    tripoint pos{};
-    // accumulator for 3d tallness of sprites rendered here so far;
-    int height_3d = 0;
-    lit_level ll;
-    bool invisible[5];
-    tile_render_info( const tripoint &pos, const int height_3d, const lit_level ll,
-                      const bool( &invisible )[5] )
-        : pos( pos ), height_3d( height_3d ), ll( ll ) {
-        std::copy( invisible, invisible + 5, this->invisible );
-    }
-};
-
 static int divide_round_down( int a, int b )
 {
     if( b < 0 ) {
@@ -1219,7 +1220,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         }
     }
 
-    std::vector<tile_render_info> draw_points;
+    std::vector<tile_render_info> &draw_points = *draw_points_cache;
+    draw_points.clear();
     int min_z = OVERMAP_HEIGHT;
 
     for( int row = min_row; row < max_row; row ++ ) {
@@ -2457,30 +2459,35 @@ bool cata_tiles::apply_vision_effects( const tripoint &pos,
     if( !would_apply_vision_effects( visibility ) ) {
         return false;
     }
-    std::string light_name;
+    const std::string *light_name = nullptr;
     switch( visibility ) {
-        case VIS_HIDDEN:
-            light_name = "lighting_hidden";
+        case VIS_HIDDEN: {
+            light_name = &STATIC( std::string( "lighting_hidden" ) );
             break;
-        case VIS_LIT:
-            light_name = "lighting_lowlight_light";
+        }
+        case VIS_LIT: {
+            light_name = &STATIC( std::string( "lighting_lowlight_light" ) );
             break;
-        case VIS_BOOMER:
-            light_name = "lighting_boomered_light";
+        }
+        case VIS_BOOMER: {
+            light_name = &STATIC( std::string( "lighting_boomered_light" ) );
             break;
-        case VIS_BOOMER_DARK:
-            light_name = "lighting_boomered_dark";
+        }
+        case VIS_BOOMER_DARK: {
+            light_name = &STATIC( std::string( "lighting_boomered_dark" ) );
             break;
-        case VIS_DARK:
-            light_name = "lighting_lowlight_dark";
+        }
+        case VIS_DARK: {
+            light_name = &STATIC( std::string( "lighting_lowlight_dark" ) );
             break;
+        }
         case VIS_CLEAR:
             // should never happen
             break;
     }
 
     // lighting is never rotated, though, could possibly add in random rotation?
-    draw_from_id_string( light_name, C_LIGHTING, empty_string, pos, 0, 0, lit_level::LIT, false, 0 );
+    draw_from_id_string( *light_name, C_LIGHTING, empty_string, pos, 0, 0, lit_level::LIT, false, 0 );
 
     return true;
 }

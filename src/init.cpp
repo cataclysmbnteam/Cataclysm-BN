@@ -25,6 +25,8 @@
 #include "clzones.h"
 #include "construction.h"
 #include "construction_category.h"
+#include "construction_group.h"
+#include "construction_sequence.h"
 #include "crafting_gui.h"
 #include "creature.h"
 #include "cursesdef.h"
@@ -384,7 +386,9 @@ void DynamicDataLoader::initialize()
     add( "obsolete_terrain", &overmap::load_obsolete_terrains );
     add( "overmap_terrain", &overmap_terrains::load );
     add( "construction_category", &construction_categories::load );
-    add( "construction", &load_construction );
+    add( "construction_group", &construction_groups::load );
+    add( "construction_sequence", &construction_sequences::load );
+    add( "construction", &constructions::load );
     add( "mapgen", &load_mapgen );
     add( "overmap_land_use_code", &overmap_land_use_codes::load );
     add( "overmap_connection", &overmap_connections::load );
@@ -538,6 +542,9 @@ void DynamicDataLoader::unload_data()
     clear_techniques_and_martial_arts();
     clothing_mods::reset();
     construction_categories::reset();
+    construction_groups::reset();
+    construction_sequences::reset();
+    constructions::reset();
     Creature::reset_hit_range();
     disease_type::reset();
     dreams::clear();
@@ -577,7 +584,6 @@ void DynamicDataLoader::unload_data()
     recipe_dictionary::reset();
     recipe_group::reset();
     requirement_data::reset();
-    reset_constructions();
     reset_effect_types();
     reset_furn_ter();
     reset_mapgens();
@@ -679,7 +685,8 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Monster groups" ), &MonsterGroupManager::FinalizeMonsterGroups },
             { _( "Monster factions" ), &monfactions::finalize },
             { _( "Factions" ), &npc_factions::finalize },
-            { _( "Constructions" ), &finalize_constructions },
+            { _( "Constructions" ), &constructions::finalize },
+            { _( "Construction sequences" ), &construction_sequences::finalize },
             { _( "Crafting recipes" ), &recipe_dictionary::finalize },
             { _( "Recipe groups" ), &recipe_group::check },
             { _( "Martial arts" ), &finialize_martial_arts },
@@ -749,7 +756,8 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             },
             { _( "Monster groups" ), &MonsterGroupManager::check_group_definitions },
             { _( "Furniture and terrain" ), &check_furniture_and_terrain },
-            { _( "Constructions" ), &check_constructions },
+            { _( "Constructions" ), &constructions::check_consistency },
+            { _( "Construction sequences" ), &constructions::check_consistency },
             { _( "Professions" ), &profession::check_definitions },
             { _( "Scenarios" ), &scenario::check_definitions },
             { _( "Martial arts" ), &check_martialarts },
