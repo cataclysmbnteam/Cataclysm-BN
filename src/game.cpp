@@ -5115,10 +5115,10 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
         kb.y = -pos->y + y + y;
     }
     const tripoint kbp( kb, p.z );
-    if( kbp == p ) {
-        // can't pushback any creatures anywhere, that means the door can't close.
-        return false;
-    }
+
+    // can't pushback any creatures anywhere, that means the door can't close.
+    const bool cannot_push = kbp == p;
+
     const bool can_see = u.sees( tripoint( x, y, p.z ) );
     player *npc_or_player = critter_at<player>( tripoint( x, y, p.z ), false );
     if( npc_or_player != nullptr ) {
@@ -5135,6 +5135,9 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
         }
         // TODO: make the npc angry?
         npc_or_player->hitall( bash_dmg, 0, nullptr );
+        if( cannot_push ) {
+            return false;
+        }
         knockback( kbp, p, std::max( 1, bash_dmg / 10 ), -1, 1 );
         // TODO: perhaps damage/destroy the gate
         // if the npc was really big?
@@ -5161,6 +5164,9 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
         }
         if( !critter.is_dead() ) {
             // Still alive? Move the critter away so the door can close
+            if( cannot_push ) {
+                return false;
+            }
             knockback( kbp, p, std::max( 1, bash_dmg / 10 ), -1, 1 );
             if( critter_at( p ) ) {
                 return false;
