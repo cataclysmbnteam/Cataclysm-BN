@@ -562,16 +562,17 @@ std::string diary::get_head_text()
             std::string hours_text;
             std::string minutes_text;
             if( days > 0 ) {
-                days_text = string_format( vgettext( "%d day, ", "%d days, ", days ) );
+                days_text = string_format( vgettext( "%d day, ", "%d days, ", days ), days );
             }
             if( hours > 0 ) {
-                hours_text = string_format( vgettext( "%d hour, ", "%d hours, ", hours ) );
+                hours_text = string_format( vgettext( "%d hour, ", "%d hours, ", hours ), hours );
             }
-            minutes_text = string_format( vgettext( "%d minute", "%d minutes", minutes ) );
+            minutes_text = string_format( vgettext( "%d minute",
+                                                    "%d minutes", minutes ), minutes );
             //~ %1$s is xx days, %2$s is xx hours, %3$s is xx minutes
-            time_diff_text = string_format( _( std::string( 50 - leftside_length,
-                                               ' ' ) + "%1$s%2$s%3$s since last entry" ),
-                                            days_text, hours_text, minutes_text );
+            time_diff_text = std::string( 50 - leftside_length,
+                                          ' ' ) + string_format( _( "%1$s%2$s%3$s since last entry" ),
+                                                  days_text, hours_text, minutes_text );
         }
         //~ Head text of a diary page
         //~ %1$d is the current page number, %2$d is the number of pages in total
