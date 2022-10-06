@@ -371,7 +371,6 @@ void vehicle::control_electronics()
 void vehicle::control_engines()
 {
     int e_toggle = 0;
-    bool dirty = false;
     //count active engines
     const int fuel_count = std::accumulate( engines.begin(), engines.end(), int{0},
     [&]( int acc, int e ) {
@@ -396,6 +395,7 @@ void vehicle::control_engines()
     };
 
     //show menu until user finishes
+    bool dirty = false;
     do {
         e_toggle = select_engine();
         if( e_toggle < 0 || e_toggle >= fuel_count ) {
@@ -409,7 +409,7 @@ void vehicle::control_engines()
         return;
     }
 
-    bool engines_were_on = engine_on;
+    const bool engines_were_on = engine_on;
     for( int e : engines ) {
         engine_on |= is_part_on( e );
     }
@@ -436,19 +436,33 @@ int vehicle::select_engine()
 {
     uilist tmenu;
     tmenu.text = _( "Toggle which?" );
+
+    const auto is_engine_active = [this]( int e, const itype_id & fuel_id ) -> bool {
+        return parts[ e ].enabled && parts[ e ].fuel_current() == fuel_id;
+    };
+    const auto is_engine_available = [this]( size_t x, const itype_id & fuel_id ) -> bool {
+        const int e = engines[x];
+        return parts[ e ].is_available() &&
+        ( is_perpetual_type( x ) || fuel_id == fuel_type_muscle ||
+          fuel_left( fuel_id ) );
+    };
+
     int i = 0;
-    for( size_t x = 0; x < engines.size(); x++ ) {
+    const auto entry_alt_fuels = [&]( size_t x ) {
         int e = engines[ x ];
         for( const itype_id &fuel_id : part_info( e ).engine_fuel_opts() ) {
-            bool is_active = parts[ e ].enabled && parts[ e ].fuel_current() == fuel_id;
-            bool is_available = parts[ e ].is_available() &&
-                                ( is_perpetual_type( x ) || fuel_id == fuel_type_muscle ||
-                                  fuel_left( fuel_id ) );
+            const bool is_active = is_engine_active( e, fuel_id );
+            const bool is_available = is_engine_available( x, fuel_id );
             tmenu.addentry( i++, is_available, -1, "[%s] %s %s",
                             is_active ? "x" : " ", parts[ e ].name(),
                             item::nname( fuel_id ) );
         }
+    };
+
+    for( size_t x = 0; x < engines.size(); x++ ) {
+        entry_alt_fuels( x );
     }
+
     tmenu.query();
     return tmenu.ret;
 }
