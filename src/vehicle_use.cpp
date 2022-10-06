@@ -1,3 +1,4 @@
+#include "character.h"
 #include "vehicle.h" // IWYU pragma: associated
 
 #include <algorithm>
@@ -956,10 +957,12 @@ bool vehicle::start_engine( const int e )
     if( out_of_fuel ) {
         if( einfo.fuel_type == fuel_type_muscle ) {
             // Muscle engines cannot start with broken limbs
-            if( einfo.has_flag( "MUSCLE_ARMS" ) && ( g->u.get_working_arm_count() < 2 ) ) {
+            if( einfo.has_flag( "MUSCLE_ARMS" ) &&
+                ( get_player_character().get_working_arm_count() < 2 ) ) {
                 add_msg( _( "You cannot use %s with a broken arm." ), eng.name() );
                 return false;
-            } else if( einfo.has_flag( "MUSCLE_LEGS" ) && ( g->u.get_working_leg_count() < 2 ) ) {
+            } else if( einfo.has_flag( "MUSCLE_LEGS" ) &&
+                       ( get_player_character().get_working_leg_count() < 2 ) ) {
                 add_msg( _( "You cannot use %s with a broken leg." ), eng.name() );
                 return false;
             }
@@ -970,15 +973,15 @@ bool vehicle::start_engine( const int e )
         }
     }
 
-    const double dmg = parts[engines[e]].damage_percent();
+    const double dmg = eng.damage_percent();
     const int engine_power = std::abs( part_epower_w( engines[e] ) );
     const double cold_factor = engine_cold_factor( e );
     const int start_moves = engine_start_time( e );
+    const int noise = einfo.engine_noise_factor();
 
     const tripoint pos = global_part_pos3( engines[e] );
     if( einfo.engine_backfire_threshold() ) {
-        if( ( 1 - dmg ) < einfo.engine_backfire_threshold() &&
-            one_in( einfo.engine_backfire_freq() ) ) {
+        if( ( 1 - dmg ) < einfo.engine_backfire_threshold() && one_in( einfo.engine_backfire_freq() ) ) {
             backfire( e );
         } else {
             sounds::sound( pos, start_moves / 10, sounds::sound_t::movement,
@@ -998,7 +1001,7 @@ bool vehicle::start_engine( const int e )
     // Engine with starter motors can fail on both battery and starter motor
     if( eng.faults_potential().count( fault_starter ) ) {
         if( eng.faults().count( fault_starter ) ) {
-            sounds::sound( pos, eng.info().engine_noise_factor(), sounds::sound_t::alarm,
+            sounds::sound( pos, noise, sounds::sound_t::alarm,
                            string_format( _( "the %s clicking once" ), eng.name() ), true, "vehicle",
                            "engine_single_click_fail" );
             return false;
@@ -1008,7 +1011,7 @@ bool vehicle::start_engine( const int e )
                                    ( 1.0 + dmg / 2 + cold_factor / 5 ) * 10,
                                    1_turns * start_moves / 100 );
         if( discharge_battery( start_draw_bat, true ) != 0 ) {
-            sounds::sound( pos, eng.info().engine_noise_factor(), sounds::sound_t::alarm,
+            sounds::sound( pos, noise, sounds::sound_t::alarm,
                            string_format( _( "the %s rapidly clicking" ), eng.name() ), true, "vehicle",
                            "engine_multi_click_fail" );
             return false;
@@ -1017,7 +1020,7 @@ bool vehicle::start_engine( const int e )
 
     // Engines always fail to start with faulty fuel pumps
     if( eng.faults().count( fault_pump ) || eng.faults().count( fault_diesel ) ) {
-        sounds::sound( pos, eng.info().engine_noise_factor(), sounds::sound_t::movement,
+        sounds::sound( pos, noise, sounds::sound_t::movement,
                        string_format( _( "the %s quickly stuttering out." ), eng.name() ), true, "vehicle",
                        "engine_stutter_fail" );
         return false;
@@ -1025,25 +1028,24 @@ bool vehicle::start_engine( const int e )
 
     // Damaged non-electric engines have a chance of failing to start
     if( !is_engine_type( e, fuel_type_battery ) && x_in_y( dmg * 100, 120 ) ) {
-        sounds::sound( pos, eng.info().engine_noise_factor(), sounds::sound_t::movement,
+        sounds::sound( pos, noise, sounds::sound_t::movement,
                        string_format( _( "the %s clanking and grinding" ), eng.name() ), true, "vehicle",
                        "engine_clanking_fail" );
         return false;
     }
-    sounds::sound( pos, eng.info().engine_noise_factor(), sounds::sound_t::movement,
+    sounds::sound( pos, noise, sounds::sound_t::movement,
                    string_format( _( "the %s starting" ), eng.name() ) );
 
-    if( sfx::has_variant_sound( "engine_start", eng.info().get_id().str() ) ) {
-        sfx::play_variant_sound( "engine_start", eng.info().get_id().str(),
-                                 eng.info().engine_noise_factor() );
+    if( sfx::has_variant_sound( "engine_start", einfo.get_id().str() ) ) {
+        sfx::play_variant_sound( "engine_start", einfo.get_id().str(), noise );
     } else if( is_engine_type( e, fuel_type_muscle ) ) {
-        sfx::play_variant_sound( "engine_start", "muscle", eng.info().engine_noise_factor() );
+        sfx::play_variant_sound( "engine_start", "muscle", noise );
     } else if( is_engine_type( e, fuel_type_wind ) ) {
-        sfx::play_variant_sound( "engine_start", "wind", eng.info().engine_noise_factor() );
+        sfx::play_variant_sound( "engine_start", "wind", noise );
     } else if( is_engine_type( e, fuel_type_battery ) ) {
-        sfx::play_variant_sound( "engine_start", "electric", eng.info().engine_noise_factor() );
+        sfx::play_variant_sound( "engine_start", "electric", noise );
     } else {
-        sfx::play_variant_sound( "engine_start", "combustion", eng.info().engine_noise_factor() );
+        sfx::play_variant_sound( "engine_start", "combustion", noise );
     }
     return true;
 }
