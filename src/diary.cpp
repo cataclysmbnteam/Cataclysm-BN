@@ -14,6 +14,7 @@
 #include "fstream_utils.h"
 #include "game.h"
 #include "json.h"
+#include "magic.h"
 #include "mission.h"
 #include "mtype.h"
 #include "mutation.h"
@@ -84,16 +85,16 @@ void diary::spell_changes()
         return;
     }
     if( prevpage == nullptr ) {
-        /*if( !currpage->known_spells.empty() ) {
+        if( !currpage->known_spells.empty() ) {
             add_to_change_list( _( "Known spells:" ) );
             for( const std::pair<const string_id<spell_type>, int> &elem : currpage->known_spells ) {
                 const spell s = u->magic->get_spell( elem.first );
                 add_to_change_list( string_format( _( "%s: %d" ), s.name(), elem.second ), s.description() );
             }
             add_to_change_list( " " );
-        }*/
+        }
     } else {
-        /*if( !currpage->known_spells.empty() ) {
+        if( !currpage->known_spells.empty() ) {
             bool flag = true;
             for( const std::pair<const string_id<spell_type>, int> &elem : currpage->known_spells ) {
                 if( prevpage->known_spells.find( elem.first ) != prevpage->known_spells.end() ) {
@@ -119,8 +120,7 @@ void diary::spell_changes()
             if( !flag ) {
                 add_to_change_list( " " );
             }
-        }*/
-
+        }
     }
 }
 
@@ -603,12 +603,12 @@ void diary::new_page()
     page->intelligence = u->get_int_base();
     page->perception = u->get_per_base();
     page->traits = u->get_mutations( false );
-    /*const auto spells = u->magic->get_spells();
+    const auto spells = u->magic->get_spells();
     for( const spell *spell : spells ) {
         const spell_id &id = spell->id();
         const int lvl = spell->get_level();
         page->known_spells[id] = lvl;
-    }*/
+    }
     page->bionics = u->get_bionics();
     for( Skill &elem : Skill::skills ) {
 
@@ -652,7 +652,6 @@ void diary::export_to_txt( bool lastexport )
 
 bool diary::store()
 {
-    // TODO was get_save_id(), will probably bug with special chars
     std::string name = base64_encode( get_avatar().get_name() + "_diary" );
     std::string path = g->get_world_base_save_path() + "/" + name + ".json";
     const bool iswriten = write_to_file( path, [&]( std::ostream & fout ) {
@@ -702,7 +701,6 @@ void diary::serialize( JsonOut &jsout )
 
 void diary::load()
 {
-    // TODO was get_avatar().get_save_id(), will probably bug with special chars
     std::string name = base64_encode( get_avatar().get_name() + "_diary" );
     std::string path = g->get_world_base_save_path() + "/" + name + ".json";
     if( file_exist( path ) ) {
