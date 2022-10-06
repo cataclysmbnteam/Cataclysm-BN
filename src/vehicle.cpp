@@ -4163,7 +4163,7 @@ bool vehicle::can_float() const
 
 double vehicle::total_rotor_area() const
 {
-    return std::accumulate( rotors.begin(), rotors.end(), double{0},
+    return std::accumulate( rotors.begin(), rotors.end(), double{0.0},
     [&]( double acc, int rotor ) {
         const double radius{ parts[ rotor ].info().rotor_diameter() / 2.0 };
         return acc + M_PI * std::pow( radius, 2 );
@@ -4174,15 +4174,15 @@ double vehicle::total_rotor_area() const
 // returns as newton
 double vehicle::lift_thrust_of_rotorcraft( const bool fuelled, const bool safe ) const
 {
-    constexpr double coeffiicient {0.8642};
-    constexpr double exponentiation {-0.3107};
+    constexpr double coefficient = 0.8642;
+    constexpr double exponentiation = -0.3107;
 
-    const double rotor_area {total_rotor_area()};
+    const double rotor_area = total_rotor_area();
     // take off 15 % due to the imaginary tail rotor power?
-    const int engine_power {total_power_w( fuelled, safe )};
+    const int engine_power = total_power_w( fuelled, safe );
 
-    const double power_load {engine_power / rotor_area};
-    const double lift_thrust = coeffiicient * engine_power * std::pow( power_load, exponentiation );
+    const double power_load = engine_power / rotor_area;
+    const double lift_thrust = coefficient * engine_power * std::pow( power_load, exponentiation );
     add_msg( m_debug, "lift thrust(N) of %s: %f, rotor area (m^2): %f, engine power (w): %i",
              name, lift_thrust, rotor_area, engine_power );
     return lift_thrust;
