@@ -612,9 +612,9 @@ void vehicle::use_controls( const tripoint &pos )
     bool remote = g->remoteveh() == this;
     bool has_electronic_controls = false;
     Character &character = get_player_character();
-    const auto confirm_stop_driving = [this]() {
-        return not is_flying_in_air() || query_yn(
-                   _( "Really let go of controls while flying? This will result in a crash." ) );
+    const auto confirm_stop_driving = [this] {
+        return !is_flying_in_air() || query_yn(
+            _( "Really let go of controls while flying? This will result in a crash." ) );
     };
 
     if( remote ) {
@@ -661,7 +661,7 @@ void vehicle::use_controls( const tripoint &pos )
         if( character.controlling_vehicle || ( remote && engine_on ) ) {
             options.emplace_back( _( "Stop driving" ), keybind( "TOGGLE_ENGINE" ) );
             actions.push_back( [&] {
-                if( not confirm_stop_driving() )
+                if( !confirm_stop_driving() )
                 {
                     return;
                 } else if( engine_on && has_engine_type_not( fuel_type_muscle, true ) )
