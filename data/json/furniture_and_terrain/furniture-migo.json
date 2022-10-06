@@ -201,7 +201,7 @@
     "type": "furniture",
     "id": "f_alien_nerve",
     "name": "nerve cluster",
-    "description": "A short pillar of molded resin and alien flesh, connected to the ceiling by thick bundles of nerves.  It must control some part of this alien structure, tearing the right piece out might short something.",
+    "description": "A bundle of molded resin encasing alien flesh, connected to the ceiling by thick bundles of nerves.  It must control some part of this alien structure, tearing the right piece out might short something.  Then again, the way it breathes and twitches suggests it might be risky to mess with…",
     "symbol": "i",
     "color": "magenta",
     "looks_like": "t_machinery_light",
