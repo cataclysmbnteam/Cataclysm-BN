@@ -325,7 +325,7 @@ std::string action_ident( action_id act )
         case ACTION_MAIN_MENU:
             return "main_menu";
         case ACTION_DIARY:
-            return "Open diary";
+            return "diary";
         case ACTION_KEYBINDINGS:
             return "HELP_KEYBINDINGS";
         case ACTION_OPTIONS:
@@ -885,6 +885,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_FACTIONS );
             REGISTER_ACTION( ACTION_MORALE );
             REGISTER_ACTION( ACTION_MESSAGES );
+            REGISTER_ACTION( ACTION_DIARY );
         } else if( category == _( "Misc" ) ) {
             REGISTER_ACTION( ACTION_WAIT );
             REGISTER_ACTION( ACTION_SLEEP );

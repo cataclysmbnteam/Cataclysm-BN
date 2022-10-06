@@ -181,7 +181,7 @@ void diary::mission_changes()
         add_missions( _( "New missions:" ), &currpage->mission_active, &prevpage->mission_active );
         add_missions( _( "New completed missions:" ), &currpage->mission_completed,
                       &prevpage->mission_completed );
-        add_missions( _( "New failed:" ), &currpage->mission_faild, &prevpage->mission_failed );
+        add_missions( _( "New failed:" ), &currpage->mission_failed, &prevpage->mission_failed );
 
     }
 }
