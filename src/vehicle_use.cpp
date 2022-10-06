@@ -373,10 +373,10 @@ void vehicle::control_engines()
     int e_toggle = 0;
     bool dirty = false;
     //count active engines
-    int fuel_count = 0;
-    for( int e : engines ) {
-        fuel_count += part_info( e ).engine_fuel_opts().size();
-    }
+    const int fuel_count = std::accumulate( engines.begin(), engines.end(), int{0},
+    [&]( int acc, int e ) {
+        return acc + part_info( e ).engine_fuel_opts().size();
+    } );
 
     const auto adjust_engine = [this]( int e_toggle ) {
         int i = 0;
