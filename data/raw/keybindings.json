@@ -3197,5 +3197,26 @@
     "category": "INVENTORY_ITEM",
     "name": "Autopickup (remove)",
     "bindings": [ { "input_method": "keyboard", "key": "-" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "DELETE PAGE",
+    "name": "Delete page",
+    "category": "DIARY",
+    "bindings": [ { "input_method": "keyboard", "key": "d" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "EXPORT_DIARY",
+    "name": "Export diary to .txt",
+    "category": "DIARY",
+    "bindings": [ { "input_method": "keyboard", "key": "e" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "NEW_PAGE",
+    "name": "Add new page",
+    "category": "DIARY",
+    "bindings": [ { "input_method": "keyboard", "key": "n" } ]
   }
 ]

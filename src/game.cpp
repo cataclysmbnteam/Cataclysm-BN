@@ -2326,6 +2326,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "toggle_auto_foraging" );
     ctxt.register_action( "toggle_auto_pickup" );
     ctxt.register_action( "toggle_thief_mode" );
+    ctxt.register_action( "diary" );
     ctxt.register_action( "action_menu" );
     ctxt.register_action( "main_menu" );
     ctxt.register_action( "item_action_menu" );
@@ -2505,6 +2506,7 @@ void game::death_screen()
 {
     gamemode->game_over();
     Messages::display_messages();
+    u.get_avatar_diary()->death_entry();
     show_scores_ui( *achievements_tracker_ptr, stats(), get_kill_tracker() );
     disp_NPC_epilogues();
     follower_ids.clear();
@@ -2644,6 +2646,7 @@ bool game::load( const save_t &name )
     }
 
     u.load_map_memory();
+    u.get_avatar_diary()->load();
 
     get_weather().nextweather = calendar::turn;
 
@@ -2846,8 +2849,8 @@ bool game::save_player_data()
         save_shortcuts( fout );
     }, _( "quick shortcuts" ) );
 #endif
-
-    return saved_data && saved_map_memory && saved_log
+    const bool saved_diary = u.get_avatar_diary()->store();
+    return saved_data && saved_map_memory && saved_log && saved_diary
 #if defined(__ANDROID__)
            && saved_shortcuts
 #endif

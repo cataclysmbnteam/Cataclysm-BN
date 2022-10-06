@@ -2292,6 +2292,10 @@ bool game::handle_action()
                 show_scores_ui( *achievements_tracker_ptr, stats(), get_kill_tracker() );
                 break;
 
+            case ACTION_DIARY:
+                diary::show_diary_ui( u.get_avatar_diary() );
+                break;
+
             case ACTION_FACTIONS:
                 faction_manager_ptr->display();
                 break;
