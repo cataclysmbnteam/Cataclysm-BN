@@ -39,7 +39,7 @@
     "description": "Milk some almonds?  Not quite, but blend them with water, yes!  A dairy-free alternative strong in calcium!  Rival to soy milk.",
     "price": 40,
     "price_postapoc": 50,
-    "material": "fruit",
+    "material": "nut",
     "primary_material": "water",
     "volume": "250 ml",
     "phase": "liquid",
