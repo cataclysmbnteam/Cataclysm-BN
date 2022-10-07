@@ -47,7 +47,7 @@
   {
     "type": "COMESTIBLE",
     "id": "candy3",
-    "name": { "str": "chewy candy", "str_pl": "chewy candies" },
+    "name": { "str_sp": "chewy candy" },
     "description": "A handful of colorful fruit-flavored chewy candy.  They're warm to the touch and you can feel a slow beat coming from them.  How odd…",
     "symbol": "%",
     "container": "null",
@@ -83,7 +83,7 @@
   {
     "type": "COMESTIBLE",
     "id": "gum",
-    "name": "chewing gum",
+    "name": { "str_sp": "chewing gum" },
     "comestible_type": "FOOD",
     "description": "Bright pink chewing gum.  Sugary, sweet, and bad for your teeth.  It's oddly warm to the touch…",
     "symbol": "*",
@@ -95,7 +95,7 @@
   {
     "type": "COMESTIBLE",
     "id": "caff_gum",
-    "name": "caffeinated chewing gum",
+    "name": { "str_sp": "caffeinated chewing gum" },
     "comestible_type": "FOOD",
     "description": "Chewing gum with added caffeine.  Sugary and bad for your teeth, but it's a nice pick-me-up.  It's oddly warm to the touch…",
     "symbol": "*",
