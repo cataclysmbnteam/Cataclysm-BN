@@ -70,15 +70,15 @@ Global $ARMOR_STACK_LEFT = 0; Will store the number of armor stack left
 ; Armor piece names. Enter the EXACT same text, as it's written in the debug spawn list. You need a bit of storage for special weapons eg monomolecular blade. And you need some armors to avoid bleeding effects and such messing with results
 ; Also avoid too much piece of armors and/or long names, this is one of the slowest part of this script
 Const $ARMOR_NAMES = [ "ANBC suit (poor fit)", "survivor mask (poor fit)", "backpack" ]; Edit: for now DO NOT TOUCH, this will mess up the tests
-Const $ARMOR_STACK_NUMBER = 20; The number of armor stacks you want to spawn. The sum of the armor times this number must not go above 1000L (one tile space). If any doubt do not touch, and for now do not touch
+Const $ARMOR_STACK_NUMBER = 30; The number of armor stacks you want to spawn. The sum of the armor times this number must not go above 1000L (one tile space). If any doubt do not touch, and for now do not touch
 Global $COMPLETE_GAME_WINDOW_NAME = ""; Once we get this, we can try to refocus the window on the game
 Global $CURRENT_TURN = 0; Store the last time where we got the damages done to a monster
 Global $FIRST_LINE_SAVE_FILE = ""; The first line in the save file. Is filled in the init function
 Global $FIRST_CYCLE_EXPLANATIONS = ["Wait then hit", "Hit only"]; Will just display the fight cycle method used in the tests in the result file
-Const $FIGHT_CYCLES = 3; Number of fight cycles. Impact the precison of the result, the time, and the impact on pain, stamina etc. on tests
+Const $FIGHT_CYCLES = 3; Number of fight cycles. Impact the precison of the result, the time, and the impact on pain, stamina etc. on tests. Must divide 36. DEFAULT 3.
 Const $GAME_WINDOW_NAME = "Cataclysm: Bright Nights -"; This text must be in the game window title (up left). This is how we get the $COMPLETE_GAME_WINDOW_NAME value. Should not be touched
 Global $hDLL = DllOpen("user32.dll"); Load ddl for _isPressed function
-Const $ITERATIONS = 80; Number of fight cycle repeat. Impact the precision of the result, and the time. To get a precise enough result, try to keep $FIGHT_CYCLES * $ITERATIONS >= 240. If any doubt do not touch
+Const $ITERATIONS = 80; Number of fight cycle repeat. Impact the precision of the result, and the time. To get a precise enough result, try to keep $FIGHT_CYCLES * $ITERATIONS >= 240. If any doubt do not touch DEFAULT 80
 ; LOADED FILES CONTENT
 Global $LOADED_MARTIAL_ARTS[0]; Store the martial art files content, as JSON
 Global $LOADED_WEAPONS[0]; Store the weapon files content, as JSON
@@ -108,7 +108,7 @@ Const $QUICKSAVE_TIMER = 1500; How long a quicksave last on your computer, in mi
 ; Tests options (you can change most of them)
 Const $BUILD_STRUCTURES = 1; If set to 1, will build the resin walls and roof at the start. Can be set to 0 after to speed up the start (a bit)
 ; 0 = wait then hit, 1 = hit only. You could easily add more by modifying the fightCycle() function.
-Const $FIGHT_CYCLES_METHODS = [ 0, 1 ]; Do not that the DPS doesn't take into account the wait turn, which is why MA should always be compared to others tested in the same conditions
+Const $FIGHT_CYCLES_METHODS = [ 0, 1 ]; Do not that the DPS doesn't take into account the "pause" cost for 0, which is why MA should always be compared to others tested in the same conditions
 Const $MONSTER_NAMES = [ "Kevlar hulk", "zombie hulk" ]; The names of the monsters to test the martial art(s) against. Case sensitive
 Const $MONSTER_IDS = [ "mon_zombie_kevlar_2", "mon_zombie_hulk" ]; Must match monster name (same as player stats/skills)
 Const $PLAYER_STATS = [ 12, 18 ]; Player Stats
@@ -117,7 +117,7 @@ Const $GAME_FILES_PATH = "C:\Games\CDDA_MODDING_BN\cdda\"; "PATH_TO_GAME\cdda\"
 Const $MA_F = $GAME_FILES_PATH&"data\json\"; Path to json, Should not be touched
 ; Martial arts files or folders. Keep this order: from left to right, vanilla files, mod files in alphabetical order (folder order is prioritized, then file names)
 Const $MA_FILES = [ $MA_F&"martialarts.json", $MA_F&"martialarts_fictional.json"]
-Const $MA_IDS = [ "style_barbaran" ]; the martial arts to test!
+Const $MA_IDS = [ "style_medievalpole" ]; the martial arts to test!
 Const $MONSTER_FILES = [ $MA_F&"monsters\"]
 Const $ITEM_F = $GAME_FILES_PATH&"data\json\items\"; Items folder. Should not be touched
 Const $SAVE_FILE_PATH = $GAME_FILES_PATH&"save\TestMA\#VEVTVA==.sav"; "save\WORLD_NAME\#BASE64_ENCODED_CHARACTER_NAME.sav" The path to your character save file
@@ -1207,7 +1207,9 @@ For $c = 0 to UBound($FIGHT_CYCLES_METHODS)-1 Step 1
 
 					; Compute average damage
 					$avgDmg = $totalDamage/($ITERATIONS * $FIGHT_CYCLES)
+					; TODO add wait then hit extra move cost calculation?
 					$correctedAvgDmg = $avgDmg * 100 / ($MA_DATA_MAIN[$maDataIndex][2])[$g][2]; Correct average damage with attack cost of weapon
+
 
 					ReDim $TESTS_RESULT[UBound($TESTS_RESULT)+1][3]; each row = martial art name, weapon name, average damage
 					$TESTS_RESULT[UBound($TESTS_RESULT)-1][0] = $MA_DATA_MAIN[$maDataIndex][1]
