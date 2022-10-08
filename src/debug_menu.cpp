@@ -96,6 +96,7 @@
 #include "uistate.h"
 #include "units.h"
 #include "units_utility.h"
+#include "url_utility.h"
 #include "vehicle.h"
 #include "veh_type.h"
 #include "vitamin.h"
@@ -164,6 +165,7 @@ enum debug_menu_index {
     DEBUG_QUIT_NOSAVE,
     DEBUG_TEST_WEATHER,
     DEBUG_SAVE_SCREENSHOT,
+    DEBUG_BUG_REPORT,
     DEBUG_GAME_REPORT,
     DEBUG_DISPLAY_SCENTS_LOCAL,
     DEBUG_DISPLAY_SCENTS_TYPE_LOCAL,
@@ -198,6 +200,7 @@ static int info_uilist( bool display_all_entries = true )
     // always displayed
     std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( DEBUG_SAVE_SCREENSHOT, true, 'H', _( "Take screenshot" ) ) },
+        { uilist_entry( DEBUG_BUG_REPORT, true, 'U', _( "Open a bug report on github" ) ) },
         { uilist_entry( DEBUG_GAME_REPORT, true, 'r', _( "Generate game report" ) ) },
     };
 
@@ -1969,9 +1972,24 @@ void debug()
             g->queue_screenshot = true;
             break;
 
+        case DEBUG_BUG_REPORT: {
+            const char *const bug_report_url =
+                "https://github.com/cataclysmbnteam/Cataclysm-BN/issues/new"
+                "?labels=bug"
+                "&template=bug_report.yml"
+                "&versions-and-configuration=";
+
+            const std::string report = game_info::game_report();
+            const std::string url = bug_report_url + encode_url( report );
+
+            open_url( url );
+            DebugLog( DL::Info, DC::Main ) << " GAME REPORT:\n" << report;
+            popup( _( "Opened a link to Bug Report on github." ) );
+            break;
+        }
         case DEBUG_GAME_REPORT: {
             // generate a game report, useful for bug reporting.
-            std::string report = game_info::game_report();
+            const std::string report = game_info::game_report();
             // write to log
             DebugLog( DL::Info, DC::Main ) << " GAME REPORT:\n" << report;
             std::string popup_msg = _( "Report written to debug.log" );
