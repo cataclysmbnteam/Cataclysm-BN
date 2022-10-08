@@ -314,6 +314,20 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                 continue;
             }
 
+            int part = -1;
+            const vehicle *veh = veh_at_internal( p, part );
+            if( cur_veh &&
+                !cur_veh->allowed_move( cur_veh->tripoint_to_mount( cur ), cur_veh->tripoint_to_mount( p ) ) ) {
+                //Trying to squeeze through a vehicle hole, skip this movement but don't close the tile as other paths may lead to it
+                continue;
+            }
+
+            if( veh && veh != cur_veh &&
+                !veh->allowed_move( veh->tripoint_to_mount( cur ), veh->tripoint_to_mount( p ) ) ) {
+                //Same as above but moving into rather than out of a vehicle
+                continue;
+            }
+
             // Penalize for diagonals or the path will look "unnatural"
             int newg = layer.gscore[parent_index] + ( ( cur.x != p.x && cur.y != p.y ) ? 1 : 0 );
 
@@ -328,11 +342,9 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                     continue;
                 }
 
-                int part = -1;
                 const maptile &tile = maptile_at_internal( p );
                 const auto &terrain = tile.get_ter_t();
                 const auto &furniture = tile.get_furn_t();
-                const vehicle *veh = veh_at_internal( p, part );
 
                 const int cost = move_cost_internal( furniture, terrain, veh, part );
                 // Don't calculate bash rating unless we intend to actually use it
@@ -342,18 +354,6 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                 if( cost == 0 && rating <= 0 && ( !doors || !terrain.open || !furniture.open ) && veh == nullptr &&
                     climb_cost <= 0 ) {
                     layer.state[index] = ASL_CLOSED; // Close it so that next time we won't try to calculate costs
-                    continue;
-                }
-
-                if( cur_veh &&
-                    !cur_veh->allowed_move( cur_veh->tripoint_to_mount( cur ), cur_veh->tripoint_to_mount( p ) ) ) {
-                    //Trying to squeeze through a vehicle hole, skip this movement but don't close the tile as other paths may lead to it
-                    continue;
-                }
-
-                if( veh && veh != cur_veh &&
-                    !veh->allowed_move( veh->tripoint_to_mount( cur ), veh->tripoint_to_mount( p ) ) ) {
-                    //Same as above but moving into rather than out of a vehicle
                     continue;
                 }
 
