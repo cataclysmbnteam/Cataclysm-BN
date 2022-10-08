@@ -260,11 +260,9 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
                        static_cast<double>( targ.y() - curs.y() ) / ( targ.x() - curs.x() ) : 4;
 
         if( curs.x() == targ.x() || std::fabs( slope ) > 3.5 ) {  // Vertical slope
-            if( targ.y() > curs.y() ) {
-                mvwputch( w_minimap, point( 3 + start_x, 6 + start_y ), c_red, '*' );
-            } else {
-                mvwputch( w_minimap, point( 3 + start_x, 0 + start_y ), c_red, '*' );
-            }
+            const int arrowy = targ.y() > curs.y() ? 6 : 0;
+
+            mvwputch( w_minimap, point( 3 + start_x, arrowy + start_y ), c_red, '*' );
         } else {
             int arrowx = -1;
             int arrowy = -1;
@@ -275,7 +273,6 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
             } else {
                 arrowx = ( targ.x() > curs.x() ? 6 : 0 );
                 arrowy = static_cast<int>( 3 + 3 * ( targ.x() > curs.x() ? slope : ( 0 - slope ) ) );
-                // change below using clamp
                 arrowy = clamp( arrowy, 0, 6 );
             }
             char glyph = '*';
