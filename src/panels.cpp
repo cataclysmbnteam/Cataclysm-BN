@@ -43,6 +43,7 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "path_info.h"
+#include "panels_utility.h"
 #include "player.h"
 #include "pldata.h"
 #include "point.h"
@@ -84,14 +85,6 @@ window_panel::window_panel( std::function<void( avatar &, const catacurses::wind
 // panels prettify and helper functions
 // ====================================
 
-static std::string trunc_ellipse( const std::string &input, unsigned int trunc )
-{
-    if( utf8_width( input ) > static_cast<int>( trunc ) ) {
-        return utf8_truncate( input, trunc - 1 ) + "…";
-    }
-    return input;
-}
-
 static void draw_rectangle( const catacurses::window &w, nc_color, point top_left,
                             point bottom_right )
 {
@@ -112,24 +105,6 @@ static void draw_rectangle( const catacurses::window &w, nc_color, point top_lef
     }
 }
 
-static auto color_compare_base( int base, int value ) -> nc_color
-{
-    if( base < value ) {
-        return c_green;
-    } else if( value < base ) {
-        return c_red;
-    } else {
-        return c_white;
-    }
-}
-
-static auto value_trimmed( int value, int maximum = 100 ) -> std::string {
-    if( value > maximum ) {
-        return "++";
-    } else {
-        return std::to_string( value );
-    }
-}
 
 static std::pair<nc_color, std::string> str_string( const avatar &p )
 {
@@ -153,23 +128,6 @@ static std::pair<nc_color, std::string> per_string( const avatar &p )
 {
     const nc_color clr = color_compare_base( p.get_per_base(), p.get_per() );
     return std::make_pair( clr, _( "Per " ) + value_trimmed( p.get_per() ) );
-}
-
-static auto focus_color( int focus ) -> nc_color
-{
-    if( focus < 25 ) {
-        return c_red;
-    } else if( focus < 50 ) {
-        return c_light_red;
-    } else if( focus < 75 ) {
-        return c_yellow;
-    } else if( focus < 100 ) {
-        return c_light_gray;
-    } else if( focus < 125 ) {
-        return c_white;
-    } else {
-        return c_green;
-    }
 }
 
 int window_panel::get_height() const
