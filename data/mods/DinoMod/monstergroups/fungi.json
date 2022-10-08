@@ -2,6 +2,7 @@
   {
     "type": "monstergroup",
     "name": "GROUP_FUNGI_DINO",
+    "default": "mon_null",
     "monsters": [
       { "monster": "mon_zilophosaurus_fungus", "starts": "3 days" },
       { "monster": "mon_zeratosaurus_fungus", "starts": "3 days" },
@@ -50,11 +51,13 @@
   {
     "type": "monstergroup",
     "name": "GROUP_FUNGI_TOWER",
+    "default": "mon_null",
     "monsters": [ { "group": "GROUP_FUNGI_DINO", "weight": 200 } ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_FUNGI_FLOWERS",
+    "default": "mon_null",
     "monsters": [ { "group": "GROUP_FUNGI_DINO", "weight": 200 } ]
   }
 ]
