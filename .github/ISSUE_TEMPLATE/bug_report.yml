@@ -7,20 +7,30 @@ body:
   - type: markdown
     attributes:
       value: |
-        # Thanks for taking the time to fill out this bug report!
+        ## Thanks for reaching out!
 
-        ## Please submit this bug report directly from the game
+        Please submit this bug report directly from the game
 
         - `Main menu (ESC)` > `Debug Menu` > `Info` > `Submit a bug report on github`
         - it fills out necessary information automatically for you
 
         please check [README](../../README.md#ive-found-a-bug-what-should-i-do) for more information.
 
+  # - type: checkboxes
+  #   id: checks
+  #   attributes:
+  #     label: Please make sure that there are no similar issues
+  #     options:
+  #       - label: I have searched the issue tracker and confirmed that this is not a duplicate.
+  #         required: true
+
   - type: textarea
     id: describe-bug
     attributes:
       label: Describe the bug
-      description: A clear and concise description of what the bug is.
+      description: >
+        A clear and concise description of what the bug is,
+        and how do you expect it to be (with the reason).
     validations:
       required: true
 
@@ -33,16 +43,6 @@ body:
         1. Make a player with a gun, magazine, and some ammo.
         2. Try to aim at a wall.
         3. There's no way to increase aim level.
-    validations:
-      required: true
-
-  - type: textarea
-    id: expected-behavior
-    attributes:
-      label: Expected behavior
-      description: |
-        A clear and concise description of what you expected to happen.
-        Ideally also describe *why* you expect it to happen.
     validations:
       required: true
 
@@ -60,11 +60,8 @@ body:
     attributes:
       label: Versions and configuration
       description: |
-        It is discouraged to write this manually:
-        - [let the game generate it for you.](../../README.md#ive-found-a-bug-what-should-i-do)
-
-        If you decided to write it manually:
-        - `Main menu (ESC)` > `Debug Menu` > `Info` > `Generate game report` to generate this report.
+        - It is discouraged to write this manually, [let the game generate it for you](../../README.md#ive-found-a-bug-what-should-i-do)
+        - If you decided to write it manually: `Main menu (ESC)` > `Debug Menu` > `Info` > `Generate game report` to generate this report.
         - Please update your OS version with a more precise version.
       placeholder: |
         - OS: [e.g. iOS 8 or Windows 10 or Ubuntu 18.04]
