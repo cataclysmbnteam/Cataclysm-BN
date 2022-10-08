@@ -2,16 +2,19 @@
   {
     "type": "monstergroup",
     "name": "GROUP_SUBWAY",
+    "default": "mon_null",
     "monsters": [ { "group": "GROUP_SEWER_DINO", "weight": 200 } ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_SUBWAY_CITY",
+    "default": "mon_null",
     "monsters": [ { "group": "GROUP_SEWER_ZINO", "weight": 200 } ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_SUBWAY_LAB",
+    "default": "mon_null",
     "monsters": [
       { "group": "GROUP_BIO_DINO_HERB", "weight": 100 },
       { "group": "GROUP_BIO_DINO_PRED", "weight": 100 },
@@ -22,6 +25,7 @@
   {
     "type": "monstergroup",
     "name": "GROUP_SAFE",
+    "default": "mon_null",
     "is_safe": true,
     "monsters": [
       { "monster": "mon_gallimimus", "weight": 50, "pack_size": [ 4, 8 ] },
@@ -34,6 +38,7 @@
   {
     "type": "monstergroup",
     "name": "DUMP_ANIMALS",
+    "default": "mon_null",
     "monsters": [
       { "monster": "mon_compsognathus", "weight": 100 },
       { "monster": "mon_anzu", "weight": 50 },
@@ -44,6 +49,7 @@
   {
     "type": "monstergroup",
     "name": "GROUP_PEST",
+    "default": "mon_null",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_compsognathus", "weight": 50 },
@@ -54,12 +60,14 @@
   {
     "type": "monstergroup",
     "name": "GROUP_SEWER",
+    "default": "mon_null",
     "is_animal": true,
     "monsters": [ { "group": "GROUP_SEWER_DINO", "weight": 200 } ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_SEWER_DINO",
+    "default": "mon_null",
     "monsters": [
       {
         "monster": "mon_coelophysis",
@@ -142,6 +150,7 @@
   {
     "type": "monstergroup",
     "name": "GROUP_SEWER_ZINO",
+    "default": "mon_null",
     "monsters": [
       { "monster": "mon_zilophosaurus", "weight": 2, "cost_multiplier": 10, "pack_size": [ 1, 2 ], "starts": 72 },
       { "monster": "mon_zilophosaurus", "weight": 2, "cost_multiplier": 10, "pack_size": [ 1, 2 ], "starts": 168 },
