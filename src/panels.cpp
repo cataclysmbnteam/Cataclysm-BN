@@ -179,7 +179,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
                 int symbolIndex = note_text.find( ':' );
                 int colorIndex = note_text.find( ';' );
 
-                bool symbolFirst = symbolIndex < colorIndex;
+                const bool symbolFirst = symbolIndex < colorIndex;
 
                 if( colorIndex > -1 && symbolIndex > -1 ) {
                     if( symbolFirst ) {
@@ -213,49 +213,14 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
                 }
 
                 if( colorIndex > -1 ) {
-
                     int colorStart = 0;
-
                     if( symbolIndex > -1 && symbolFirst ) {
                         colorStart = symbolIndex + 1;
                     }
 
                     std::string sym = note_text.substr( colorStart, colorIndex - colorStart );
 
-                    if( sym.length() == 2 ) {
-                        if( sym == "br" ) {
-                            ter_color = c_brown;
-                        } else if( sym == "lg" ) {
-                            ter_color = c_light_gray;
-                        } else if( sym == "dg" ) {
-                            ter_color = c_dark_gray;
-                        }
-                    } else {
-                        char colorID = sym.c_str()[0];
-                        if( colorID == 'r' ) {
-                            ter_color = c_light_red;
-                        } else if( colorID == 'R' ) {
-                            ter_color = c_red;
-                        } else if( colorID == 'g' ) {
-                            ter_color = c_light_green;
-                        } else if( colorID == 'G' ) {
-                            ter_color = c_green;
-                        } else if( colorID == 'b' ) {
-                            ter_color = c_light_blue;
-                        } else if( colorID == 'B' ) {
-                            ter_color = c_blue;
-                        } else if( colorID == 'W' ) {
-                            ter_color = c_white;
-                        } else if( colorID == 'C' ) {
-                            ter_color = c_cyan;
-                        } else if( colorID == 'c' ) {
-                            ter_color = c_light_cyan;
-                        } else if( colorID == 'P' ) {
-                            ter_color = c_pink;
-                        } else if( colorID == 'm' ) {
-                            ter_color = c_magenta;
-                        }
-                    }
+                    ter_color = get_note_color( sym );
                 }
             } else if( !seen ) {
                 ter_sym = " ";
@@ -303,24 +268,15 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
         } else {
             int arrowx = -1;
             int arrowy = -1;
-            if( std::fabs( slope ) >= 1. ) {  // y diff is bigger!
+            if( std::fabs( slope ) >= 1.0 ) {  // y diff is bigger!
                 arrowy = ( targ.y() > curs.y() ? 6 : 0 );
                 arrowx = static_cast<int>( 3 + 3 * ( targ.y() > curs.y() ? slope : ( 0 - slope ) ) );
-                if( arrowx < 0 ) {
-                    arrowx = 0;
-                }
-                if( arrowx > 6 ) {
-                    arrowx = 6;
-                }
+                arrowx = clamp( arrowx, 0, 6 );
             } else {
                 arrowx = ( targ.x() > curs.x() ? 6 : 0 );
                 arrowy = static_cast<int>( 3 + 3 * ( targ.x() > curs.x() ? slope : ( 0 - slope ) ) );
-                if( arrowy < 0 ) {
-                    arrowy = 0;
-                }
-                if( arrowy > 6 ) {
-                    arrowy = 6;
-                }
+                // change below using clamp
+                arrowy = clamp( arrowy, 0, 6 );
             }
             char glyph = '*';
             if( targ.z() > you.posz() ) {

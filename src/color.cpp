@@ -676,11 +676,11 @@ std::string colorize( const translation &text, const nc_color &color )
     return colorize( text.translated(), color );
 }
 
-std::string get_note_string_from_color( const nc_color &color )
+auto get_note_string_from_color( const nc_color &color ) -> std::string
 {
-    for( auto i : color_by_string_map ) {
-        if( i.second.color == color ) {
-            return i.first;
+    for( const auto& pair : color_by_string_map ) {
+        if( pair.second.color == color ) {
+            return pair.first;
         }
     }
     // The default note string.
@@ -697,12 +697,13 @@ nc_color get_note_color( const std::string &note_id )
     return c_yellow;
 }
 
-std::list<std::pair<std::string, std::string>> get_note_color_names()
+auto get_note_color_names() -> std::list<std::pair<std::string, std::string>>
 {
-    std::list<std::pair<std::string, std::string>> color_list;
+    auto color_list = std::list<std::pair<std::string, std::string>> {};
     for( const auto &color_pair : color_by_string_map ) {
         color_list.emplace_back( color_pair.first, color_pair.second.name );
     }
+
     return color_list;
 }
 

@@ -1,5 +1,6 @@
-
+#include <unordered_map>
 #include "catacharset.h"
+#include "color.h"
 #include "panels_utility.h"
 
 std::string trunc_ellipse( const std::string &input, unsigned int trunc )
@@ -46,5 +47,17 @@ auto focus_color( int focus ) -> nc_color
         return c_white;
     } else {
         return c_green;
+    }
+}
+
+template <typename K, typename V>
+auto get_or( const std::unordered_map<K, V> &map, const K &key,
+                   const V &default_value ) -> const V &
+{
+    auto it = map.find( key );
+    if( it == map.end() ) {
+        return default_value;
+    } else {
+        return it->second;
     }
 }
