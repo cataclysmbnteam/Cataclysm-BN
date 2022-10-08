@@ -2,29 +2,21 @@
   {
     "type": "monstergroup",
     "name": "GROUP_DINOSAUR_ZOMBIE",
+    "default": "mon_zarasaurolophus",
     "monsters": [
-      { "monster": "mon_zilophosaurus", "weight": 10, "cost_multiplier": 20, "starts": "3 days", "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zeratosaurus", "weight": 10, "cost_multiplier": 60, "starts": "3 days" },
-      { "monster": "mon_zpinosaurus", "weight": 10, "cost_multiplier": 90, "starts": "6 days" },
-      { "monster": "mon_zorvosaurus", "weight": 10, "cost_multiplier": 90, "starts": "6 days" },
-      { "monster": "mon_zallosaurus", "weight": 80, "cost_multiplier": 60, "starts": "6 days" },
-      { "monster": "mon_zacrocanthosaurus", "weight": 80, "cost_multiplier": 60, "starts": "6 days" },
-      { "monster": "mon_ziats", "weight": 80, "cost_multiplier": 60, "starts": "6 days" },
-      { "monster": "mon_zryptosaurus", "weight": 40, "cost_multiplier": 70, "starts": "3 days" },
-      { "monster": "mon_zappalachiosaurus", "weight": 40, "cost_multiplier": 70, "starts": "3 days" },
-      { "monster": "mon_zorgosaurus", "weight": 40, "cost_multiplier": 70, "starts": "3 days" },
-      { "monster": "mon_zalbertosaurus", "weight": 40, "cost_multiplier": 70, "starts": "3 days" },
-      { "monster": "mon_zianzhousaurus", "weight": 4, "cost_multiplier": 70, "starts": "3 days" },
-      { "monster": "mon_zanuqsaurus", "weight": 4, "cost_multiplier": 70, "starts": "3 days" },
-      { "monster": "mon_zaspletosaurus", "weight": 4, "cost_multiplier": 70, "starts": "3 days" },
-      { "monster": "mon_zyrannosaurus", "weight": 80, "cost_multiplier": 80, "starts": "6 days" },
-      { "monster": "mon_zallimimus", "weight": 200, "starts": "3 days", "pack_size": [ 1, 2 ] },
-      { "monster": "mon_ztruthiomimus", "weight": 200, "starts": "3 days", "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zornithomimus", "weight": 200, "starts": "3 days", "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zothronychus", "weight": 30, "cost_multiplier": 30, "starts": "3 days" },
-      { "monster": "mon_zanzu", "weight": 30, "cost_multiplier": 30, "starts": "3 days" },
-      { "monster": "mon_zeinonychus", "weight": 30, "cost_multiplier": 30, "starts": "3 days", "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zutahraptor", "weight": 50, "cost_multiplier": 60, "starts": "6 days" },
+      { "monster": "mon_zilophosaurus", "freq": 10, "cost_multiplier": 20, "starts": 72, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zeratosaurus", "freq": 10, "cost_multiplier": 60, "starts": 72 },
+      { "monster": "mon_zpinosaurus", "freq": 10, "cost_multiplier": 90, "starts": 144 },
+      { "monster": "mon_zallosaurus", "freq": 80, "cost_multiplier": 60, "starts": 144 },
+      { "monster": "mon_zacrocanthosaurus", "freq": 80, "cost_multiplier": 60, "starts": 144 },
+      { "monster": "mon_ziats", "freq": 80, "cost_multiplier": 60, "starts": 144 },
+      { "monster": "mon_zalbertosaurus", "freq": 40, "cost_multiplier": 70, "starts": 72 },
+      { "monster": "mon_zianzhousaurus", "freq": 4, "cost_multiplier": 70, "starts": 72, "pack_size": [ 4, 8 ] },
+      { "monster": "mon_zyrannosaurus", "freq": 80, "cost_multiplier": 80, "starts": 144 },
+      { "monster": "mon_zallimimus", "freq": 200, "cost_multiplier": 10, "starts": 72, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zothronychus", "freq": 30, "cost_multiplier": 30, "starts": 72, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zeinonychus", "freq": 30, "cost_multiplier": 30, "starts": 72, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zutahraptor", "freq": 50, "cost_multiplier": 60, "starts": 144 },
       { "monster": "mon_zamargasaurus", "freq": 5, "cost_multiplier": 72, "starts": 72, "pack_size": [ 4, 12 ] },
       { "monster": "mon_zapatosaurus", "freq": 50, "cost_multiplier": 50, "starts": 72, "pack_size": [ 1, 2 ] },
       { "monster": "mon_zrontosaurus", "freq": 50, "cost_multiplier": 40, "starts": 72, "pack_size": [ 1, 2 ] },
@@ -49,33 +41,6 @@
       { "monster": "mon_zorosaurus", "freq": 10, "cost_multiplier": 50, "starts": 72, "pack_size": [ 1, 2 ] },
       { "monster": "mon_zriceratops", "freq": 30, "cost_multiplier": 60, "starts": 72, "pack_size": [ 1, 2 ] },
       { "monster": "mon_zteranodon", "freq": 50, "cost_multiplier": 10, "starts": 72, "pack_size": [ 1, 2 ] }
-    ]
-  },
-  {
-    "type": "monstergroup",
-    "name": "GROUP_DINOSAUR_ZOMBIE_SCORCHED",
-    "monsters": [
-      { "monster": "mon_zilophosaurus_scorched", "weight": 10, "cost_multiplier": 20, "starts": "3 days" },
-      { "monster": "mon_zeratosaurus_scorched", "weight": 10, "cost_multiplier": 60, "starts": "3 days" },
-      { "monster": "mon_zpinosaurus_scorched", "weight": 10, "cost_multiplier": 90, "starts": "6 days" },
-      { "monster": "mon_zorvosaurus_scorched", "weight": 10, "cost_multiplier": 90, "starts": "6 days" },
-      { "monster": "mon_zallosaurus_scorched", "weight": 80, "cost_multiplier": 60, "starts": "6 days" },
-      { "monster": "mon_zacrocanthosaurus_scorched", "weight": 80, "cost_multiplier": 60, "starts": "6 days" },
-      { "monster": "mon_ziats_scorched", "weight": 80, "cost_multiplier": 60, "starts": "6 days" },
-      { "monster": "mon_zryptosaurus_scorched", "weight": 40, "cost_multiplier": 70, "starts": "3 days" },
-      { "monster": "mon_zappalachiosaurus_scorched", "weight": 40, "cost_multiplier": 70, "starts": "3 days" },
-      { "monster": "mon_zorgosaurus_scorched", "weight": 40, "cost_multiplier": 70, "starts": "3 days" },
-      { "monster": "mon_zalbertosaurus_scorched", "weight": 40, "cost_multiplier": 70, "starts": "3 days" },
-      { "monster": "mon_zanuqsaurus_scorched", "weight": 4, "cost_multiplier": 70, "starts": "3 days" },
-      { "monster": "mon_zaspletosaurus_scorched", "weight": 4, "cost_multiplier": 70, "starts": "3 days" },
-      { "monster": "mon_zyrannosaurus_scorched", "weight": 80, "cost_multiplier": 80, "starts": "6 days" },
-      { "monster": "mon_zallimimus_scorched", "weight": 200, "starts": "3 days", "pack_size": [ 1, 2 ] },
-      { "monster": "mon_ztruthiomimus_scorched", "weight": 200, "starts": "3 days", "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zornithomimus_scorched", "weight": 200, "starts": "3 days", "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zothronychus_scorched", "weight": 30, "cost_multiplier": 30, "starts": "3 days" },
-      { "monster": "mon_zanzu_scorched", "weight": 30, "cost_multiplier": 30, "starts": "3 days" },
-      { "monster": "mon_zeinonychus_scorched", "weight": 30, "cost_multiplier": 30, "starts": "3 days" },
-      { "monster": "mon_zutahraptor_scorched", "weight": 50, "cost_multiplier": 60, "starts": "6 days" }
     ]
   },
   {
@@ -489,19 +454,21 @@
   {
     "type": "monstergroup",
     "name": "GROUP_zallosaurus_BRUTE",
+    "default": "mon_zallosaurus_hulk",
     "monsters": [
-      { "monster": "mon_zallosaurus_hulk", "weight": 400 },
-      { "monster": "mon_zallosaurus_truck", "weight": 300 },
-      { "monster": "mon_zallosaurus_nightstalker", "weight": 300 }
+      { "monster": "mon_zallosaurus_hulk", "freq": 400 },
+      { "monster": "mon_zallosaurus_truck", "freq": 300 },
+      { "monster": "mon_zallosaurus_nightstalker", "freq": 300 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_zyrannosaurus_BRUTE",
+    "default": "mon_zyrannosaurus_hulk",
     "monsters": [
-      { "monster": "mon_zyrannosaurus_hulk", "weight": 400 },
-      { "monster": "mon_zyrannosaurus_truck", "weight": 300 },
-      { "monster": "mon_zyrannosaurus_nightstalker", "weight": 300 }
+      { "monster": "mon_zyrannosaurus_hulk", "freq": 400 },
+      { "monster": "mon_zyrannosaurus_truck", "freq": 300 },
+      { "monster": "mon_zyrannosaurus_nightstalker", "freq": 300 }
     ]
   },
   {
@@ -516,16 +483,17 @@
   {
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE",
+    "default": "mon_zilophosaurus",
     "//": "Only dinos that can fit through a standard door frame should be here",
     "monsters": [
-      { "monster": "mon_zilophosaurus", "starts": "3 days" },
-      { "monster": "mon_zeratosaurus", "starts": "3 days" },
-      { "monster": "mon_zallimimus", "starts": "3 days" },
-      { "monster": "mon_ztruthiomimus", "starts": "3 days" },
-      { "monster": "mon_zornithomimus", "starts": "3 days" },
-      { "monster": "mon_zanzu", "starts": "3 days" },
-      { "monster": "mon_zeinonychus", "starts": "3 days" },
-      { "monster": "mon_zutahraptor", "starts": "6 days" },
+      { "monster": "mon_zilophosaurus", "freq": "3 days" },
+      { "monster": "mon_zeratosaurus", "freq": "3 days" },
+      { "monster": "mon_zallimimus", "freq": "3 days" },
+      { "monster": "mon_ztruthiomimus", "freq": "3 days" },
+      { "monster": "mon_zornithomimus", "freq": "3 days" },
+      { "monster": "mon_zanzu", "freq": "3 days" },
+      { "monster": "mon_zeinonychus", "freq": "3 days" },
+      { "monster": "mon_zutahraptor", "freq": "6 days" },
       { "monster": "mon_zyoplosaurus", "freq": 1, "cost_multiplier": 40, "starts": 72 },
       { "monster": "mon_zankylosaurus", "freq": 1, "cost_multiplier": 40, "starts": 72 },
       { "monster": "mon_zodosaurus", "freq": 1, "cost_multiplier": 40, "starts": 72 },
@@ -534,12 +502,13 @@
   },
   {
     "name": "GROUP_ROOF_ZOMBIE",
+    "default": "mon_zteranodon",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_zteranodon", "weight": 20, "starts": "3 days", "pack_size": [ 4, 6 ] },
-      { "monster": "mon_zteranodon", "weight": 20, "starts": "6 days", "pack_size": [ 4, 6 ] },
-      { "monster": "mon_zuetzalcoatlus", "weight": 20, "starts": "3 days", "pack_size": [ 2, 4 ] },
-      { "monster": "mon_zuetzalcoatlus", "weight": 20, "starts": "6 days", "pack_size": [ 2, 4 ] }
+      { "monster": "mon_zteranodon", "freq": 20, "starts": "3 days", "pack_size": [ 4, 6 ] },
+      { "monster": "mon_zteranodon", "freq": 20, "starts": "6 days", "pack_size": [ 4, 6 ] },
+      { "monster": "mon_zuetzalcoatlus", "freq": 20, "starts": "3 days", "pack_size": [ 2, 4 ] },
+      { "monster": "mon_zuetzalcoatlus", "freq": 20, "starts": "6 days", "pack_size": [ 2, 4 ] }
     ]
   }
 ]
