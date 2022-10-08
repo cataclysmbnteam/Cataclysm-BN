@@ -200,7 +200,7 @@ static int info_uilist( bool display_all_entries = true )
     // always displayed
     std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( DEBUG_SAVE_SCREENSHOT, true, 'H', _( "Take screenshot" ) ) },
-        { uilist_entry( DEBUG_BUG_REPORT, true, 'U', _( "Open a bug report on github" ) ) },
+        { uilist_entry( DEBUG_BUG_REPORT, true, 'U', _( "Submit a bug report on github" ) ) },
         { uilist_entry( DEBUG_GAME_REPORT, true, 'r', _( "Generate game report" ) ) },
     };
 
