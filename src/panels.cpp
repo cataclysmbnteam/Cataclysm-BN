@@ -112,67 +112,50 @@ static void draw_rectangle( const catacurses::window &w, nc_color, point top_lef
     }
 }
 
+static auto color_compare_base( int base, int value ) -> nc_color
+{
+    if( base < value ) {
+        return c_green;
+    } else if( value < base ) {
+        return c_red;
+    } else {
+        return c_white;
+    }
+}
+
+static auto value_trimmed( int value, int maximum = 100 ) -> std::string {
+    if( value > maximum ) {
+        return "++";
+    } else {
+        return std::to_string( value );
+    }
+}
+
 static std::pair<nc_color, std::string> str_string( const avatar &p )
 {
-    nc_color clr;
-
-    if( p.get_str() == p.get_str_base() ) {
-        clr = c_white;
-    } else if( p.get_str() > p.get_str_base() ) {
-        clr = c_green;
-    } else if( p.get_str() < p.get_str_base() ) {
-        clr = c_red;
-    }
-    return std::make_pair( clr, _( "Str " ) + ( p.get_str() < 100 ? std::to_string(
-                               p.get_str() ) : "++" ) );
+    const nc_color clr = color_compare_base( p.get_str_base(), p.get_str() );
+    return std::make_pair( clr, _( "Str " ) + value_trimmed( p.get_str() ) );
 }
 
 static std::pair<nc_color, std::string> dex_string( const avatar &p )
 {
-    nc_color clr;
-
-    if( p.get_dex() == p.get_dex_base() ) {
-        clr = c_white;
-    } else if( p.get_dex() > p.get_dex_base() ) {
-        clr = c_green;
-    } else if( p.get_dex() < p.get_dex_base() ) {
-        clr = c_red;
-    }
-    return std::make_pair( clr, _( "Dex " ) + ( p.get_dex() < 100 ? std::to_string(
-                               p.get_dex() ) : "++" ) );
+    const nc_color clr = color_compare_base( p.get_dex_base(), p.get_dex() );
+    return std::make_pair( clr, _( "Dex " ) + value_trimmed( p.get_dex() ) );
 }
 
 static std::pair<nc_color, std::string> int_string( const avatar &p )
 {
-    nc_color clr;
-
-    if( p.get_int() == p.get_int_base() ) {
-        clr = c_white;
-    } else if( p.get_int() > p.get_int_base() ) {
-        clr = c_green;
-    } else if( p.get_int() < p.get_int_base() ) {
-        clr = c_red;
-    }
-    return std::make_pair( clr, _( "Int " ) + ( p.get_int() < 100 ? std::to_string(
-                               p.get_int() ) : "++" ) );
+    const nc_color clr = color_compare_base( p.get_int_base(), p.get_int() );
+    return std::make_pair( clr, _( "Int " ) + value_trimmed( p.get_int() ) );
 }
 
 static std::pair<nc_color, std::string> per_string( const avatar &p )
 {
-    nc_color clr;
-
-    if( p.get_per() == p.get_per_base() ) {
-        clr = c_white;
-    } else if( p.get_per() > p.get_per_base() ) {
-        clr = c_green;
-    } else if( p.get_per() < p.get_per_base() ) {
-        clr = c_red;
-    }
-    return std::make_pair( clr, _( "Per " ) + ( p.get_per() < 100 ? std::to_string(
-                               p.get_per() ) : "++" ) );
+    const nc_color clr = color_compare_base( p.get_per_base(), p.get_per() );
+    return std::make_pair( clr, _( "Per " ) + value_trimmed( p.get_per() ) );
 }
 
-static nc_color focus_color( int focus )
+static auto focus_color( int focus ) -> nc_color
 {
     if( focus < 25 ) {
         return c_red;
@@ -1142,6 +1125,7 @@ static std::string carry_volume_string( const avatar &u )
     return string_format( "%.2f/%.2f", volume_carried, volume_capacity );
 }
 
+
 static auto get_weight_color( const avatar &u ) -> nc_color
 {
     if( u.weight_carried() > u.weight_capacity() ) {
@@ -1169,13 +1153,11 @@ static void draw_weightvolume_classic( const avatar &u, const catacurses::window
     werase( w );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point_zero, c_light_gray, _( "Weight:" ) );
-    std::string weight_string = carry_weight_string( u );
-    mvwprintz( w, point( 8, 0 ), get_weight_color( u ), weight_string );
+    mvwprintz( w, point( 8, 0 ), get_weight_color( u ), carry_weight_string( u ) );
 
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 23, 0 ), c_light_gray, _( "Volume:" ) );
-    std::string volume_string = carry_volume_string( u );
-    mvwprintz( w, point( 30, 0 ), get_volume_color(u), volume_string );
+    mvwprintz( w, point( 30, 0 ), get_volume_color( u ), carry_volume_string( u ) );
 
     wnoutrefresh( w );
 }
@@ -1186,13 +1168,11 @@ static void draw_weightvolume_compact( const avatar &u, const catacurses::window
     werase( w );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point_zero, c_light_gray, _( "Weight:" ) );
-    std::string weight_string = carry_weight_string( u );
-    mvwprintz( w, point( 8, 0 ), get_weight_color(u), weight_string );
+    mvwprintz( w, point( 8, 0 ), get_weight_color( u ), carry_weight_string( u ) );
 
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 0, 1 ), c_light_gray, _( "Volume:" ) );
-    std::string volume_string = carry_volume_string( u );
-    mvwprintz( w, point( 8, 1 ), get_volume_color(u), volume_string );
+    mvwprintz( w, point( 8, 1 ), get_volume_color( u ), carry_volume_string( u ) );
 
     wnoutrefresh( w );
 }
@@ -1202,13 +1182,11 @@ static void draw_weightvolume_narrow( const avatar &u, const catacurses::window 
     werase( w );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Wgt  :" ) );
-    std::string weight_string = carry_weight_string( u );
-    mvwprintz( w, point( 8, 0 ), get_weight_color(u), weight_string );
+    mvwprintz( w, point( 8, 0 ), get_weight_color( u ), carry_weight_string( u ) );
 
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Vol  :" ) );
-    std::string volume_string = carry_volume_string( u );
-    mvwprintz( w, point( 8, 1 ), get_volume_color(u), volume_string );
+    mvwprintz( w, point( 8, 1 ), get_volume_color( u ), carry_volume_string( u ) );
 
     wnoutrefresh( w );
 }
