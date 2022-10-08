@@ -15,3 +15,6 @@ indent_style = tab
 
 [*.{json,yml,yaml,md,markdown}]
 indent_size = 2
+
+[{.clang-tidy,.clang-format}]
+indent_size = 2
