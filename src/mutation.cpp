@@ -81,7 +81,7 @@ namespace io
 {
 
 template<>
-std::string enum_to_string<mutagen_technique>( mutagen_technique data )
+auto enum_to_string<mutagen_technique>( mutagen_technique data ) -> std::string
 {
     switch( data ) {
         // *INDENT-OFF*
@@ -100,12 +100,12 @@ std::string enum_to_string<mutagen_technique>( mutagen_technique data )
 
 } // namespace io
 
-bool Character::has_trait( const trait_id &b ) const
+auto Character::has_trait( const trait_id &b ) const -> bool
 {
     return my_mutations.count( b ) || enchantment_cache->get_mutations().count( b );
 }
 
-bool Character::has_trait_flag( const std::string &b ) const
+auto Character::has_trait_flag( const std::string &b ) const -> bool
 {
     // UGLY, SLOW, should be cached as my_mutation_flags or something
     for( const trait_id &mut : get_mutations() ) {
@@ -118,7 +118,7 @@ bool Character::has_trait_flag( const std::string &b ) const
     return false;
 }
 
-bool Character::has_base_trait( const trait_id &b ) const
+auto Character::has_base_trait( const trait_id &b ) const -> bool
 {
     // Look only at base traits
     return my_traits.find( b ) != my_traits.end();
@@ -192,7 +192,7 @@ void Character::switch_mutations( const trait_id &switched, const trait_id &targ
     mutation_effect( target );
 }
 
-int Character::get_mod( const trait_id &mut, const std::string &arg ) const
+auto Character::get_mod( const trait_id &mut, const std::string &arg ) const -> int
 {
     auto &mod_data = mut->mods;
     int ret = 0;
@@ -217,7 +217,7 @@ void Character::apply_mods( const trait_id &mut, bool add_remove )
     }
 }
 
-bool mutation_branch::conflicts_with_item( const item &it ) const
+auto mutation_branch::conflicts_with_item( const item &it ) const -> bool
 {
     if( allow_soft_gear && it.is_soft() ) {
         return false;
@@ -232,7 +232,7 @@ bool mutation_branch::conflicts_with_item( const item &it ) const
     return false;
 }
 
-const resistances &mutation_branch::damage_resistance( body_part bp ) const
+auto mutation_branch::damage_resistance( body_part bp ) const -> const resistances &
 {
     const auto iter = armor.find( bp );
     if( iter == armor.end() ) {
@@ -364,13 +364,13 @@ void Character::mutation_loss_effect( const trait_id &mut )
     on_mutation_loss( mut );
 }
 
-bool Character::has_active_mutation( const trait_id &b ) const
+auto Character::has_active_mutation( const trait_id &b ) const -> bool
 {
     const auto iter = my_mutations.find( b );
     return iter != my_mutations.end() && iter->second.powered;
 }
 
-bool Character::is_category_allowed( const std::vector<std::string> &category ) const
+auto Character::is_category_allowed( const std::vector<std::string> &category ) const -> bool
 {
     bool allowed = false;
     bool restricted = false;
@@ -393,7 +393,7 @@ bool Character::is_category_allowed( const std::vector<std::string> &category ) 
 
 }
 
-bool Character::is_category_allowed( const std::string &category ) const
+auto Character::is_category_allowed( const std::string &category ) const -> bool
 {
     bool allowed = false;
     bool restricted = false;
@@ -411,7 +411,7 @@ bool Character::is_category_allowed( const std::string &category ) const
     return allowed;
 }
 
-bool Character::is_weak_to_water() const
+auto Character::is_weak_to_water() const -> bool
 {
     for( const trait_id &mut : get_mutations() ) {
         if( mut.obj().weakness_to_water > 0 ) {
@@ -421,7 +421,7 @@ bool Character::is_weak_to_water() const
     return false;
 }
 
-bool Character::can_use_heal_item( const item &med ) const
+auto Character::can_use_heal_item( const item &med ) const -> bool
 {
     const itype_id heal_id = med.typeId();
 
@@ -453,7 +453,7 @@ bool Character::can_use_heal_item( const item &med ) const
     return can_use;
 }
 
-bool Character::can_install_cbm_on_bp( const std::vector<bodypart_id> &bps ) const
+auto Character::can_install_cbm_on_bp( const std::vector<bodypart_id> &bps ) const -> bool
 {
     bool can_install = true;
     for( const trait_id &mut : get_mutations() ) {
@@ -626,7 +626,7 @@ void Character::deactivate_mutation( const trait_id &mut )
     }
 }
 
-trait_id Character::trait_by_invlet( const int ch ) const
+auto Character::trait_by_invlet( const int ch ) const -> trait_id
 {
     for( const std::pair<const trait_id, trait_data> &mut : my_mutations ) {
         if( mut.second.key == ch ) {
@@ -636,7 +636,7 @@ trait_id Character::trait_by_invlet( const int ch ) const
     return trait_id::NULL_ID();
 }
 
-bool Character::mutation_ok( const trait_id &mutation, bool force_good, bool force_bad ) const
+auto Character::mutation_ok( const trait_id &mutation, bool force_good, bool force_bad ) const -> bool
 {
     if( !is_category_allowed( mutation->category ) ) {
         return false;
@@ -671,7 +671,7 @@ bool Character::mutation_ok( const trait_id &mutation, bool force_good, bool for
     return true;
 }
 
-static int sum_of_mutation_costs( const Character &c )
+static auto sum_of_mutation_costs( const Character &c ) -> int
 {
     const auto mutations = c.get_mutations();
     return std::accumulate( mutations.begin(), mutations.end(), 0, []( int i, const trait_id & tr ) {
@@ -680,14 +680,14 @@ static int sum_of_mutation_costs( const Character &c )
 }
 
 // Stat sum + good trait sum - bad trait sum
-static int genetic_score( const Character &c )
+static auto genetic_score( const Character &c ) -> int
 {
     // Assumes 4*8+6 stats
     // TODO: Get actual starting stats
     return 38 + sum_of_mutation_costs( c );
 }
 
-static float score_difference_to_chance( float diff )
+static auto score_difference_to_chance( float diff ) -> float
 {
     const float M_SQRT_PI_2 = std::sqrt( 2 * M_PI );
     constexpr float mean = 0.0f;
@@ -696,7 +696,7 @@ static float score_difference_to_chance( float diff )
 }
 
 template<class T, class V = typename T::value_type>
-static T normalized_map( const T &ctn )
+static auto normalized_map( const T &ctn ) -> T
 {
     T ret;
     float sum = std::accumulate( std::begin( ctn ), std::end( ctn ), 0.0f,
@@ -716,8 +716,8 @@ static T normalized_map( const T &ctn )
 // For removals it's:
 // 5-4*cat_lvl/max(hi_lvl, 20)
 // /2 if highest lvl
-static std::map<std::string, float> calc_category_weights( const std::map<std::string, int> &mcl,
-        bool addition )
+static auto calc_category_weights( const std::map<std::string, int> &mcl,
+        bool addition ) -> std::map<std::string, float>
 {
     std::map<std::string, float> category_weights;
     auto max_lvl_iter = std::max_element( mcl.begin(), mcl.end(),
@@ -749,7 +749,7 @@ struct potential_mutation {
     int weight;
 };
 
-std::map<trait_id, float> Character::mutation_chances() const
+auto Character::mutation_chances() const -> std::map<trait_id, float>
 {
     bool force_bad = false;
     const bool force_good = false;
@@ -1078,7 +1078,7 @@ void Character::mutate_category( const std::string &cat )
     mutate_towards( valid, 2 );
 }
 
-static std::vector<trait_id> get_all_mutation_prereqs( const trait_id &id )
+static auto get_all_mutation_prereqs( const trait_id &id ) -> std::vector<trait_id>
 {
     std::vector<trait_id> ret;
     for( const trait_id &it : id->prereqs ) {
@@ -1094,7 +1094,7 @@ static std::vector<trait_id> get_all_mutation_prereqs( const trait_id &id )
     return ret;
 }
 
-bool Character::mutate_towards( std::vector<trait_id> muts, int num_tries )
+auto Character::mutate_towards( std::vector<trait_id> muts, int num_tries ) -> bool
 {
     while( !muts.empty() && num_tries > 0 ) {
         int i = rng( 0, muts.size() - 1 );
@@ -1110,7 +1110,7 @@ bool Character::mutate_towards( std::vector<trait_id> muts, int num_tries )
     return false;
 }
 
-bool Character::mutate_towards( const trait_id &mut )
+auto Character::mutate_towards( const trait_id &mut ) -> bool
 {
     if( has_child_flag( mut ) ) {
         remove_child_flag( mut );
@@ -1482,7 +1482,7 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
     drench_mut_calc();
 }
 
-bool Character::has_child_flag( const trait_id &flag ) const
+auto Character::has_child_flag( const trait_id &flag ) const -> bool
 {
     for( const trait_id &elem : flag->replacements ) {
         const trait_id &tmp = elem;
@@ -1507,7 +1507,7 @@ void Character::remove_child_flag( const trait_id &flag )
     }
 }
 
-static mutagen_rejection try_reject_mutagen( Character &guy, const item &it, bool strong )
+static auto try_reject_mutagen( Character &guy, const item &it, bool strong ) -> mutagen_rejection
 {
     if( guy.has_trait( trait_MUTAGEN_AVOID ) ) {
         guy.add_msg_if_player( m_warning,
@@ -1587,8 +1587,8 @@ static mutagen_rejection try_reject_mutagen( Character &guy, const item &it, boo
     return mutagen_rejection::accepted;
 }
 
-mutagen_attempt mutagen_common_checks( Character &guy, const item &it, bool strong,
-                                       const mutagen_technique technique )
+auto mutagen_common_checks( Character &guy, const item &it, bool strong,
+                                       const mutagen_technique technique ) -> mutagen_attempt
 {
     g->events().send<event_type::administers_mutagen>( guy.getID(), technique );
     mutagen_rejection status = try_reject_mutagen( guy, it, strong );
@@ -1668,38 +1668,38 @@ void test_crossing_threshold( Character &guy, const mutation_category_trait &m_c
     }
 }
 
-bool are_conflicting_traits( const trait_id &trait_a, const trait_id &trait_b )
+auto are_conflicting_traits( const trait_id &trait_a, const trait_id &trait_b ) -> bool
 {
     return ( are_opposite_traits( trait_a, trait_b ) || b_is_lower_trait_of_a( trait_a, trait_b )
              || b_is_higher_trait_of_a( trait_a, trait_b ) || are_same_type_traits( trait_a, trait_b ) );
 }
 
-bool are_opposite_traits( const trait_id &trait_a, const trait_id &trait_b )
+auto are_opposite_traits( const trait_id &trait_a, const trait_id &trait_b ) -> bool
 {
     return contains_trait( trait_a->cancels, trait_b );
 }
 
-bool b_is_lower_trait_of_a( const trait_id &trait_a, const trait_id &trait_b )
+auto b_is_lower_trait_of_a( const trait_id &trait_a, const trait_id &trait_b ) -> bool
 {
     return contains_trait( trait_a->prereqs, trait_b );
 }
 
-bool b_is_higher_trait_of_a( const trait_id &trait_a, const trait_id &trait_b )
+auto b_is_higher_trait_of_a( const trait_id &trait_a, const trait_id &trait_b ) -> bool
 {
     return contains_trait( trait_a->replacements, trait_b );
 }
 
-bool are_same_type_traits( const trait_id &trait_a, const trait_id &trait_b )
+auto are_same_type_traits( const trait_id &trait_a, const trait_id &trait_b ) -> bool
 {
     return contains_trait( get_mutations_in_types( trait_a->types ), trait_b );
 }
 
-bool contains_trait( std::vector<string_id<mutation_branch>> traits, const trait_id &trait )
+auto contains_trait( std::vector<string_id<mutation_branch>> traits, const trait_id &trait ) -> bool
 {
     return std::find( traits.begin(), traits.end(), trait ) != traits.end();
 }
 
-bool can_use_mutation( const trait_id &mut, const Character &character )
+auto can_use_mutation( const trait_id &mut, const Character &character ) -> bool
 {
     const mutation_branch &mdata = mut.obj();
     // You can take yourself halfway to Near Death levels of hunger/thirst.
@@ -1709,7 +1709,7 @@ bool can_use_mutation( const trait_id &mut, const Character &character )
               ( mdata.fatigue && character.get_fatigue() >= fatigue_levels::exhausted ) );
 }
 
-bool can_use_mutation_warn( const trait_id &mut, const Character &character )
+auto can_use_mutation_warn( const trait_id &mut, const Character &character ) -> bool
 {
     const bool result = can_use_mutation( mut, character );
     if( !result ) {
@@ -1750,7 +1750,7 @@ void Character::mutation_spend_resources( const trait_id &mut )
     }
 }
 
-std::string Character::visible_mutations( const int visibility_cap ) const
+auto Character::visible_mutations( const int visibility_cap ) const -> std::string
 {
     const std::vector<trait_id> &my_muts = get_mutations();
     const std::string trait_str = enumerate_as_string( my_muts.begin(), my_muts.end(),

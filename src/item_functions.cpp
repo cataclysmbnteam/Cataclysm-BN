@@ -7,7 +7,7 @@ static flag_str_id flag_NO_UNLOAD( "NO_UNLOAD" );
 namespace item_funcs
 {
 
-bool can_be_unloaded( const item &itm )
+auto can_be_unloaded( const item &itm ) -> bool
 {
     if( ( itm.is_container() || itm.is_bandolier() ) && !itm.contents.empty() &&
         itm.can_unload_liquid() ) {

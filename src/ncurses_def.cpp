@@ -31,7 +31,7 @@ static void curses_check_result( const int result, const int expected, const cha
     }
 }
 
-catacurses::window catacurses::newwin( const int nlines, const int ncols, const point &begin )
+auto catacurses::newwin( const int nlines, const int ncols, const point &begin ) -> catacurses::window
 {
     // TODO: check for errors
     const auto w = ::newwin( nlines, ncols, begin.y, begin.x );
@@ -55,32 +55,32 @@ void catacurses::werase( const window &win )
     return curses_check_result( ::werase( win.get<::WINDOW>() ), OK, "werase" );
 }
 
-int catacurses::getmaxx( const window &win )
+auto catacurses::getmaxx( const window &win ) -> int
 {
     return ::getmaxx( win.get<::WINDOW>() );
 }
 
-int catacurses::getmaxy( const window &win )
+auto catacurses::getmaxy( const window &win ) -> int
 {
     return ::getmaxy( win.get<::WINDOW>() );
 }
 
-int catacurses::getbegx( const window &win )
+auto catacurses::getbegx( const window &win ) -> int
 {
     return ::getbegx( win.get<::WINDOW>() );
 }
 
-int catacurses::getbegy( const window &win )
+auto catacurses::getbegy( const window &win ) -> int
 {
     return ::getbegy( win.get<::WINDOW>() );
 }
 
-int catacurses::getcurx( const window &win )
+auto catacurses::getcurx( const window &win ) -> int
 {
     return ::getcurx( win.get<::WINDOW>() );
 }
 
-int catacurses::getcury( const window &win )
+auto catacurses::getcury( const window &win ) -> int
 {
     return ::getcury( win.get<::WINDOW>() );
 }
@@ -248,7 +248,7 @@ void catacurses::init_interface()
     init_colors();
 }
 
-input_event input_manager::get_input_event()
+auto input_manager::get_input_event() -> input_event
 {
     int key = ERR;
     input_event rval;
@@ -353,32 +353,32 @@ void input_manager::set_timeout( const int delay )
     input_timeout = delay;
 }
 
-nc_color nc_color::from_color_pair_index( const int index )
+auto nc_color::from_color_pair_index( const int index ) -> nc_color
 {
     return nc_color( COLOR_PAIR( index ) );
 }
 
-int nc_color::to_color_pair_index() const
+auto nc_color::to_color_pair_index() const -> int
 {
     return PAIR_NUMBER( attribute_value );
 }
 
-nc_color nc_color::bold() const
+auto nc_color::bold() const -> nc_color
 {
     return nc_color( attribute_value | A_BOLD );
 }
 
-bool nc_color::is_bold() const
+auto nc_color::is_bold() const -> bool
 {
     return attribute_value & A_BOLD;
 }
 
-nc_color nc_color::blink() const
+auto nc_color::blink() const -> nc_color
 {
     return nc_color( attribute_value | A_BLINK );
 }
 
-bool nc_color::is_blink() const
+auto nc_color::is_blink() const -> bool
 {
     return attribute_value & A_BLINK;
 }

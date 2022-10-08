@@ -9,54 +9,54 @@
  * Create directory if it does not exist.
  * @return true if directory exists or was successfully created.
  */
-bool assure_dir_exist( const std::string &path );
+auto assure_dir_exist( const std::string &path ) -> bool;
 /**
  * Check if directory exists.
  * @return false if directory does not exist or if unable to check.
  */
-bool dir_exist( const std::string &path );
+auto dir_exist( const std::string &path ) -> bool;
 /**
  * Check if file exists.
  * @return false if file does not exist or if unable to check.
  */
-bool file_exist( const std::string &path );
+auto file_exist( const std::string &path ) -> bool;
 /**
  * Remove a file. Does not remove directories.
  * @return true on success.
  */
-bool remove_file( const std::string &path );
+auto remove_file( const std::string &path ) -> bool;
 /**
  * Remove an empty directory.
  * @return true on success, false on failure (e.g. directory is not empty).
  */
-bool remove_directory( const std::string &path );
+auto remove_directory( const std::string &path ) -> bool;
 /**
  * Rename a file, overwriting the target. Does not overwrite directories.
  * @return true on success, false on failure.
  */
-bool rename_file( const std::string &old_path, const std::string &new_path );
+auto rename_file( const std::string &old_path, const std::string &new_path ) -> bool;
 /**
  * Check if can write to the given directory (write permission, disk space).
  * @return false if cannot write or if unable to check.
  */
-bool can_write_to_dir( const std::string &dir_path );
+auto can_write_to_dir( const std::string &dir_path ) -> bool;
 /**
  * Copy file, overwriting the target. Does not overwrite directories.
  * @return true on success, false on failure.
  */
-bool copy_file( const std::string &source_path, const std::string &dest_path );
+auto copy_file( const std::string &source_path, const std::string &dest_path ) -> bool;
 /** Get process id string. Used for temporary file paths. */
-std::string get_pid_string();
+auto get_pid_string() -> std::string;
 
 /**
  * Read entire file to string.
  * @return empty string on failure.
  */
-std::string read_entire_file( const std::string &path );
+auto read_entire_file( const std::string &path ) -> std::string;
 
 namespace cata_files
 {
-const char *eol();
+auto eol() -> const char *;
 } // namespace cata_files
 
 //--------------------------------------------------------------------------------------------------
@@ -72,9 +72,9 @@ const char *eol();
  * @param match_extension If true, match pattern at the end of file names. Otherwise, match anywhere
  *                        in the file name.
  */
-std::vector<std::string> get_files_from_path( const std::string &pattern,
+auto get_files_from_path( const std::string &pattern,
         const std::string &root_path = "", bool recursive_search = false,
-        bool match_extension = false );
+        bool match_extension = false ) -> std::vector<std::string>;
 
 //--------------------------------------------------------------------------------------------------
 /**
@@ -83,11 +83,11 @@ std::vector<std::string> get_files_from_path( const std::string &pattern,
  * @param patterns A vector or patterns to match.
  * @see get_files_from_path
  */
-std::vector<std::string> get_directories_with( const std::vector<std::string> &patterns,
-        const std::string &root_path = "", bool recursive_search = false );
+auto get_directories_with( const std::vector<std::string> &patterns,
+        const std::string &root_path = "", bool recursive_search = false ) -> std::vector<std::string>;
 
-std::vector<std::string> get_directories_with( const std::string &pattern,
-        const std::string &root_path = "", bool recursive_search = false );
+auto get_directories_with( const std::string &pattern,
+        const std::string &root_path = "", bool recursive_search = false ) -> std::vector<std::string>;
 
 /**
  *  Replace invalid characters in a string with a default character; can be used to ensure that a file name is compliant with most file systems.
@@ -95,6 +95,6 @@ std::vector<std::string> get_directories_with( const std::string &pattern,
  *  @return A string with all invalid characters replaced with the replacement character, if any change was made.
  *  @note  The default replacement character is space (0x20) and the invalid characters are "\\/:?\"<>|".
  */
-std::string ensure_valid_file_name( const std::string &file_name );
+auto ensure_valid_file_name( const std::string &file_name ) -> std::string;
 
 #endif // CATA_SRC_FILESYSTEM_H

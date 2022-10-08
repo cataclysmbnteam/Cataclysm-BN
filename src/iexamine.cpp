@@ -415,8 +415,8 @@ class atm_menu
         atm_menu()                           = delete;
         atm_menu( atm_menu const & )            = delete;
         atm_menu( atm_menu && )                 = delete;
-        atm_menu &operator=( atm_menu const & ) = delete;
-        atm_menu &operator=( atm_menu && )      = delete;
+        auto operator=( atm_menu const & ) -> atm_menu & = delete;
+        auto operator=( atm_menu && ) -> atm_menu &      = delete;
 
         explicit atm_menu( player &p ) : u( p ) {
             reset( false );
@@ -453,7 +453,7 @@ class atm_menu
             amenu.addentry( i, false, -1, title );
         }
 
-        options choose_option() {
+        auto choose_option() -> options {
             if( u.activity.id() == ACT_ATM ) {
                 return static_cast<options>( u.activity.index );
             }
@@ -520,7 +520,7 @@ class atm_menu
         }
 
         //! Prompt for an integral value clamped to [0, max].
-        static int prompt_for_amount( const char *const msg, const int max ) {
+        static auto prompt_for_amount( const char *const msg, const int max ) -> int {
             const std::string formatted = string_format( msg, max );
             const int amount = string_input_popup()
                                .title( formatted )
@@ -533,7 +533,7 @@ class atm_menu
         }
 
         //!Get a new cash card. $10.00 fine.
-        bool do_purchase_card() {
+        auto do_purchase_card() -> bool {
             const char *prompt =
                 _( "This will automatically deduct $10.00 from your bank account.  Continue?" );
 
@@ -552,7 +552,7 @@ class atm_menu
         }
 
         //!Deposit money from cash card into bank account.
-        bool do_deposit_money() {
+        auto do_deposit_money() -> bool {
             int money = u.charges_of( itype_cash_card );
 
             if( !money ) {
@@ -578,7 +578,7 @@ class atm_menu
         }
 
         //!Move money from bank account onto cash card.
-        bool do_withdraw_money() {
+        auto do_withdraw_money() -> bool {
             //We may want to use visit_items here but that's fairly heavy.
             //For now, just check weapon if we didn't find it in the inventory.
             int pos = u.inv.position_by_type( itype_cash_card );
@@ -612,7 +612,7 @@ class atm_menu
         }
 
         //!Move the money from all the cash cards in inventory to a single card.
-        bool do_transfer_all_money() {
+        auto do_transfer_all_money() -> bool {
             item *dst;
             if( u.activity.id() == ACT_ATM ) {
                 u.activity.set_to_null(); // stop for now, if required, it will be created again.
@@ -968,7 +968,7 @@ void iexamine::controls_gate( player &p, const tripoint &examp )
     g->open_gate( examp );
 }
 
-static bool try_start_hacking( player &p, const tripoint &examp )
+static auto try_start_hacking( player &p, const tripoint &examp ) -> bool
 {
     if( p.has_trait( trait_ILLITERATE ) ) {
         add_msg( _( "You cannot read!" ) );
@@ -1242,7 +1242,7 @@ void iexamine::deployed_furniture( player &p, const tripoint &pos )
     here.furn_set( pos, f_null );
 }
 
-static std::pair<itype_id, const deploy_tent_actor *> find_tent_itype( const furn_str_id &id )
+static auto find_tent_itype( const furn_str_id &id ) -> std::pair<itype_id, const deploy_tent_actor *>
 {
     const itype_id &iid = id->deployed_item;
     if( iid.is_valid() ) {
@@ -1460,7 +1460,7 @@ void iexamine::gunsafe_el( player &p, const tripoint &examp )
     }
 }
 
-static safe_reference<item> find_best_prying_tool( player &p )
+static auto find_best_prying_tool( player &p ) -> safe_reference<item>
 {
     std::vector<item *> prying_items = p.items_with( [&p]( const item & it ) {
         // Don't search for worn items such as hairpins
@@ -1484,7 +1484,7 @@ static safe_reference<item> find_best_prying_tool( player &p )
     return ( *prying_items[0] ).get_safe_reference();
 }
 
-static safe_reference<item> find_best_lock_picking_tool( player &p )
+static auto find_best_lock_picking_tool( player &p ) -> safe_reference<item>
 {
     std::vector<item *> picklocks = p.items_with( [&p]( const item & it ) {
         // Don't search for worn items such as hairpins
@@ -1820,7 +1820,7 @@ void iexamine::fswitch( player &p, const tripoint &examp )
 /**
  * If it's winter: show msg and return true. Otherwise return false
  */
-static bool dead_plant( bool flower, player &p, const tripoint &examp )
+static auto dead_plant( bool flower, player &p, const tripoint &examp ) -> bool
 {
     if( season_of_year( calendar::turn ) == WINTER ) {
         if( flower ) {
@@ -1839,7 +1839,7 @@ static bool dead_plant( bool flower, player &p, const tripoint &examp )
 /**
  * Helper method to see if player has traits, hunger and mouthwear for drinking nectar.
  */
-static bool can_drink_nectar( const player &p, const item &nectar )
+static auto can_drink_nectar( const player &p, const item &nectar ) -> bool
 {
     return ( p.has_active_mutation( trait_PROBOSCIS )  ||
              p.has_active_mutation( trait_BEAK_HUM ) ) &&
@@ -1851,7 +1851,7 @@ static bool can_drink_nectar( const player &p, const item &nectar )
 /**
  * Consume Nectar. -15 hunger.
  */
-static bool drink_nectar( player &p )
+static auto drink_nectar( player &p ) -> bool
 {
     item nectar( "nectar", calendar::turn, 1 );
     if( can_drink_nectar( p, nectar ) ) {
@@ -2008,8 +2008,8 @@ void iexamine::flower_dahlia( player &p, const tripoint &examp )
     // But those were useless, don't re-add until they get useful
 }
 
-static bool harvest_common( player &p, const tripoint &examp, bool furn, bool nectar,
-                            bool auto_forage = false )
+static auto harvest_common( player &p, const tripoint &examp, bool furn, bool nectar,
+                            bool auto_forage = false ) -> bool
 {
     map &here = get_map();
     const auto hid = here.get_harvest( examp );
@@ -2208,7 +2208,7 @@ void iexamine::fungus( player &p, const tripoint &examp )
 /**
  *  Make lists of unique seed types and names for the menu(no multiple hemp seeds etc)
  */
-std::vector<seed_tuple> iexamine::get_seed_entries( const std::vector<item *> &seed_inv )
+auto iexamine::get_seed_entries( const std::vector<item *> &seed_inv ) -> std::vector<seed_tuple>
 {
     std::map<itype_id, int> seed_map;
     for( auto &seed : seed_inv ) {
@@ -2234,7 +2234,7 @@ std::vector<seed_tuple> iexamine::get_seed_entries( const std::vector<item *> &s
 /**
  *  Choose seed for planting
  */
-int iexamine::query_seed( const std::vector<seed_tuple> &seed_entries )
+auto iexamine::query_seed( const std::vector<seed_tuple> &seed_entries ) -> int
 {
     uilist smenu;
 
@@ -2321,8 +2321,8 @@ void iexamine::dirtmound( player &p, const tripoint &examp )
  * @param byproducts If true, byproducts (like straw, withered plants, see
  * @ref islot_seed::byproducts) are included.
  */
-std::list<item> iexamine::get_harvest_items( const itype &type, const int plant_count,
-        const int seed_count, const bool byproducts )
+auto iexamine::get_harvest_items( const itype &type, const int plant_count,
+        const int seed_count, const bool byproducts ) -> std::list<item>
 {
     std::list<item> result;
     if( !type.seed ) {
@@ -2431,8 +2431,8 @@ void iexamine::harvest_plant( player &p, const tripoint &examp, bool from_activi
     }
 }
 
-ret_val<bool> iexamine::can_fertilize( player &p, const tripoint &tile,
-                                       const itype_id &fertilizer )
+auto iexamine::can_fertilize( player &p, const tripoint &tile,
+                                       const itype_id &fertilizer ) -> ret_val<bool>
 {
     map &here = get_map();
     if( !here.has_flag_furn( "PLANT", tile ) ) {
@@ -2493,7 +2493,7 @@ void iexamine::fertilize_plant( player &p, const tripoint &tile, const itype_id 
              planted.front().tname() );
 }
 
-itype_id iexamine::choose_fertilizer( player &p, const std::string &pname, bool ask_player )
+auto iexamine::choose_fertilizer( player &p, const std::string &pname, bool ask_player ) -> itype_id
 {
     std::vector<const item *> f_inv = p.all_items_with_flag( flag_FERTILIZER );
     if( f_inv.empty() ) {
@@ -3187,7 +3187,7 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
     }
 }
 
-static units::volume get_keg_capacity( const tripoint &pos )
+static auto get_keg_capacity( const tripoint &pos ) -> units::volume
 {
     const furn_t &furn = get_map().furn( pos ).obj();
     return furn.keg_capacity;
@@ -3196,7 +3196,7 @@ static units::volume get_keg_capacity( const tripoint &pos )
 /**
  * Check whether there is a keg on the map that can be filled via @ref pour_into_keg.
  */
-bool iexamine::has_keg( const tripoint &pos )
+auto iexamine::has_keg( const tripoint &pos ) -> bool
 {
     return get_keg_capacity( pos ) > 0_ml;
 }
@@ -3392,7 +3392,7 @@ void iexamine::keg( player &p, const tripoint &examp )
  * will be removed from the liquid item.
  * @return Whether any charges have been transferred at all.
  */
-bool iexamine::pour_into_keg( const tripoint &pos, item &liquid )
+auto iexamine::pour_into_keg( const tripoint &pos, item &liquid ) -> bool
 {
     const units::volume keg_cap = get_keg_capacity( pos );
     if( keg_cap <= 0_ml ) {
@@ -3479,7 +3479,7 @@ void iexamine::tree_hickory( player &p, const tripoint &examp )
     p.moves -= to_moves<int>( 20_seconds ) / ( p.get_skill_level( skill_survival ) + 1 ) + 100;
 }
 
-static item_location maple_tree_sap_container()
+static auto maple_tree_sap_container() -> item_location
 {
     const item maple_sap = item( itype_maple_sap, calendar::start_of_cataclysm );
     return g->inv_map_splice( [&]( const item & it ) {
@@ -3858,7 +3858,7 @@ void iexamine::clean_water_source( player &, const tripoint &examp )
     liquid_handler::handle_liquid( water, nullptr, 0, &examp );
 }
 
-const itype *furn_t::crafting_pseudo_item_type() const
+auto furn_t::crafting_pseudo_item_type() const -> const itype *
 {
     if( crafting_pseudo_item.is_empty() ) {
         return nullptr;
@@ -3866,7 +3866,7 @@ const itype *furn_t::crafting_pseudo_item_type() const
     return &*crafting_pseudo_item;
 }
 
-const itype *furn_t::crafting_ammo_item_type() const
+auto furn_t::crafting_ammo_item_type() const -> const itype *
 {
     const itype *pseudo = crafting_pseudo_item_type();
     if( pseudo->tool && !pseudo->tool->ammo_id.empty() ) {
@@ -3876,7 +3876,7 @@ const itype *furn_t::crafting_ammo_item_type() const
     return nullptr;
 }
 
-static int count_charges_in_list( const itype *type, const map_stack &items )
+static auto count_charges_in_list( const itype *type, const map_stack &items ) -> int
 {
     for( const auto &candidate : items ) {
         if( candidate.type == type ) {
@@ -4145,7 +4145,7 @@ void iexamine::sign( player &p, const tripoint &examp )
     }
 }
 
-static int getNearPumpCount( const tripoint &p )
+static auto getNearPumpCount( const tripoint &p ) -> int
 {
     int result = 0;
     map &here = get_map();
@@ -4158,7 +4158,7 @@ static int getNearPumpCount( const tripoint &p )
     return result;
 }
 
-cata::optional<tripoint> iexamine::getNearFilledGasTank( const tripoint &center, int &gas_units )
+auto iexamine::getNearFilledGasTank( const tripoint &center, int &gas_units ) -> cata::optional<tripoint>
 {
     map &here = get_map();
     cata::optional<tripoint> tank_loc;
@@ -4191,7 +4191,7 @@ cata::optional<tripoint> iexamine::getNearFilledGasTank( const tripoint &center,
     return tank_loc;
 }
 
-static int getGasDiscountCardQuality( const item &it )
+static auto getGasDiscountCardQuality( const item &it ) -> int
 {
     const auto &tags = it.type->get_flags();
 
@@ -4205,7 +4205,7 @@ static int getGasDiscountCardQuality( const item &it )
     return 0;
 }
 
-static int findBestGasDiscount( player &p )
+static auto findBestGasDiscount( player &p ) -> int
 {
     int discount = 0;
 
@@ -4224,7 +4224,7 @@ static int findBestGasDiscount( player &p )
     return discount;
 }
 
-static std::string str_to_illiterate_str( std::string s )
+static auto str_to_illiterate_str( std::string s ) -> std::string
 {
     if( !g->u.has_trait( trait_ILLITERATE ) ) {
         return s;
@@ -4243,7 +4243,7 @@ static std::string str_to_illiterate_str( std::string s )
     }
 }
 
-static std::string getGasDiscountName( int discount )
+static auto getGasDiscountName( int discount ) -> std::string
 {
     if( discount == 3 ) {
         return str_to_illiterate_str( _( "Platinum member" ) );
@@ -4256,7 +4256,7 @@ static std::string getGasDiscountName( int discount )
     }
 }
 
-static int getGasPricePerLiter( int discount )
+static auto getGasPricePerLiter( int discount ) -> int
 {
     // Those prices are in cents
     static const int prices[4] = { 1400, 1320, 1200, 1000 };
@@ -4267,7 +4267,7 @@ static int getGasPricePerLiter( int discount )
     }
 }
 
-cata::optional<tripoint> iexamine::getGasPumpByNumber( const tripoint &p, int number )
+auto iexamine::getGasPumpByNumber( const tripoint &p, int number ) -> cata::optional<tripoint>
 {
     map &here = get_map();
     int k = 0;
@@ -4280,7 +4280,7 @@ cata::optional<tripoint> iexamine::getGasPumpByNumber( const tripoint &p, int nu
     return cata::nullopt;
 }
 
-bool iexamine::toPumpFuel( const tripoint &src, const tripoint &dst, int units )
+auto iexamine::toPumpFuel( const tripoint &src, const tripoint &dst, int units ) -> bool
 {
     map &here = get_map();
     auto items = here.i_at( src );
@@ -4310,7 +4310,7 @@ bool iexamine::toPumpFuel( const tripoint &src, const tripoint &dst, int units )
     return false;
 }
 
-static int fromPumpFuel( const tripoint &dst, const tripoint &src )
+static auto fromPumpFuel( const tripoint &dst, const tripoint &src ) -> int
 {
     map &here = get_map();
     auto items = here.i_at( src );
@@ -4651,8 +4651,8 @@ void iexamine::ledge( player &p, const tripoint &examp )
     }
 }
 
-static player &player_on_couch( player &p, const tripoint &autodoc_loc, player &null_patient,
-                                bool &adjacent_couch, tripoint &couch_pos )
+static auto player_on_couch( player &p, const tripoint &autodoc_loc, player &null_patient,
+                                bool &adjacent_couch, tripoint &couch_pos ) -> player &
 {
     map &here = get_map();
     for( const auto &couch_loc : here.points_in_radius( autodoc_loc, 1 ) ) {
@@ -4672,8 +4672,8 @@ static player &player_on_couch( player &p, const tripoint &autodoc_loc, player &
     return null_patient;
 }
 
-static Character &operator_present( Character &p, const tripoint &autodoc_loc,
-                                    Character &null_patient )
+static auto operator_present( Character &p, const tripoint &autodoc_loc,
+                                    Character &null_patient ) -> Character &
 {
     map &here = get_map();
     for( const auto &loc : here.points_in_radius( autodoc_loc, 1 ) ) {
@@ -4691,7 +4691,7 @@ static Character &operator_present( Character &p, const tripoint &autodoc_loc,
     return null_patient;
 }
 
-static item &cyborg_on_couch( const tripoint &couch_pos, item &null_cyborg )
+static auto cyborg_on_couch( const tripoint &couch_pos, item &null_cyborg ) -> item &
 {
     for( item &it : get_map().i_at( couch_pos ) ) {
         if( it.typeId() == itype_bot_broken_cyborg || it.typeId() == itype_bot_prototype_cyborg ) {
@@ -4706,7 +4706,7 @@ static item &cyborg_on_couch( const tripoint &couch_pos, item &null_cyborg )
     return null_cyborg;
 }
 
-static player &best_installer( player &p, player &null_player, int difficulty )
+static auto best_installer( player &p, player &null_player, int difficulty ) -> player &
 {
     float player_skill = p.bionics_adjusted_skill( skill_firstaid,
                          skill_computer,
@@ -5173,14 +5173,14 @@ const units::volume MAX_FOOD_VOLUME = units::from_liter( 20 );
 const units::volume MAX_FOOD_VOLUME_PORTABLE = units::from_liter( 15 );
 } // namespace sm_rack
 
-static int get_charcoal_charges( units::volume food )
+static auto get_charcoal_charges( units::volume food ) -> int
 {
     const int charcoal = to_liter( food ) * sm_rack::CHARCOAL_PER_LITER;
 
     return  std::max( charcoal, sm_rack::MIN_CHARCOAL );
 }
 
-static bool is_non_rotten_crafting_component( const item &it )
+static auto is_non_rotten_crafting_component( const item &it ) -> bool
 {
     return is_crafting_component( it ) && !it.rotten();
 }

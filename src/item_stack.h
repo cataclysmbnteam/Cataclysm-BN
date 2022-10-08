@@ -30,36 +30,36 @@ class item_stack
         item_stack( cata::colony<item> *items ) : items( items ) { }
         virtual ~item_stack() = default;
 
-        size_t size() const;
-        bool empty() const;
+        auto size() const -> size_t;
+        auto empty() const -> bool;
         virtual void insert( const item &newitem ) = 0;
-        virtual iterator erase( const_iterator it ) = 0;
+        virtual auto erase( const_iterator it ) -> iterator = 0;
         virtual void clear();
         // Will cause a debugmsg if there is not exactly one item at the location
-        item &only_item();
+        auto only_item() -> item &;
 
         // While iterators to colonies are stable, indexes are not.
         // These functions should only be used for serialization/deserialization
-        iterator get_iterator_from_pointer( item *it );
-        iterator get_iterator_from_index( size_t idx );
-        size_t get_index_from_iterator( const const_iterator &it );
+        auto get_iterator_from_pointer( item *it ) -> iterator;
+        auto get_iterator_from_index( size_t idx ) -> iterator;
+        auto get_index_from_iterator( const const_iterator &it ) -> size_t;
 
-        iterator begin();
-        iterator end();
-        const_iterator begin() const;
-        const_iterator end() const;
-        reverse_iterator rbegin();
-        reverse_iterator rend();
-        const_reverse_iterator rbegin() const;
-        const_reverse_iterator rend() const;
+        auto begin() -> iterator;
+        auto end() -> iterator;
+        auto begin() const -> const_iterator;
+        auto end() const -> const_iterator;
+        auto rbegin() -> reverse_iterator;
+        auto rend() -> reverse_iterator;
+        auto rbegin() const -> const_reverse_iterator;
+        auto rend() const -> const_reverse_iterator;
 
         /** Maximum number of items allowed here */
-        virtual int count_limit() const = 0;
+        virtual auto count_limit() const -> int = 0;
         /** Maximum volume allowed here */
-        virtual units::volume max_volume() const = 0;
+        virtual auto max_volume() const -> units::volume = 0;
         /** Total volume of the items here */
-        units::volume stored_volume() const;
-        units::volume free_volume() const;
+        auto stored_volume() const -> units::volume;
+        auto free_volume() const -> units::volume;
         /**
          * Returns how many of the specified item (or how many charges if it's counted by charges)
          * could be added without violating either the volume or itemcount limits.
@@ -67,10 +67,10 @@ class item_stack
          * @returns Value of zero or greater for all items. For items counted by charges, it is always at
          * most it.charges.
          */
-        int amount_can_fit( const item &it ) const;
+        auto amount_can_fit( const item &it ) const -> int;
         /** Return the item (or nullptr) that stacks with the argument */
-        item *stacks_with( const item &it );
-        const item *stacks_with( const item &it ) const;
+        auto stacks_with( const item &it ) -> item *;
+        auto stacks_with( const item &it ) const -> const item *;
 };
 
 #endif // CATA_SRC_ITEM_STACK_H

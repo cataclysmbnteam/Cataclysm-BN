@@ -11,13 +11,13 @@ generic_factory<disease_type> disease_factory( "disease_type" );
 } // namespace
 
 template<>
-const disease_type &string_id<disease_type>::obj() const
+auto string_id<disease_type>::obj() const -> const disease_type &
 {
     return disease_factory.obj( *this );
 }
 
 template<>
-bool string_id<disease_type>::is_valid() const
+auto string_id<disease_type>::is_valid() const -> bool
 {
     return disease_factory.is_valid( *this );
 }
@@ -51,7 +51,7 @@ void disease_type::load( const JsonObject &jo, const std::string & )
 
 }
 
-const std::vector<disease_type> &disease_type::get_all()
+auto disease_type::get_all() -> const std::vector<disease_type> &
 {
     return disease_factory.get_all();
 }

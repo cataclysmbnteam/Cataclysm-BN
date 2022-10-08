@@ -15,7 +15,7 @@
 #include "enums.h"
 #include "point_float.h"
 
-double iso_tangent( double distance, units::angle vertex )
+auto iso_tangent( double distance, units::angle vertex ) -> double
 {
     // we can use the cosine formula (a² = b² + c² - 2bc⋅cosθ) to calculate the tangent
     return std::sqrt( 2 * std::pow( distance, 2 ) * ( 1 - cos( vertex ) ) );
@@ -255,7 +255,7 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
 
 //Trying to pull points out of a tripoint vector is messy and
 //probably slow, so leaving two full functions for now
-std::vector<point> line_to( const point &p1, const point &p2, int t )
+auto line_to( const point &p1, const point &p2, int t ) -> std::vector<point>
 {
     std::vector<point> line;
     // Preallocate the number of cells we need instead of allocating them piecewise.
@@ -272,7 +272,7 @@ std::vector<point> line_to( const point &p1, const point &p2, int t )
     return line;
 }
 
-std::vector <tripoint> line_to( const tripoint &loc1, const tripoint &loc2, int t, int t2 )
+auto line_to( const tripoint &loc1, const tripoint &loc2, int t, int t2 ) -> std::vector <tripoint>
 {
     std::vector<tripoint> line;
     // Preallocate the number of cells we need instead of allocating them piecewise.
@@ -289,7 +289,7 @@ std::vector <tripoint> line_to( const tripoint &loc1, const tripoint &loc2, int 
     return line;
 }
 
-float rl_dist_exact( const tripoint &loc1, const tripoint &loc2 )
+auto rl_dist_exact( const tripoint &loc1, const tripoint &loc2 ) -> float
 {
     if( trigdist ) {
         return trig_dist( loc1, loc2 );
@@ -297,13 +297,13 @@ float rl_dist_exact( const tripoint &loc1, const tripoint &loc2 )
     return square_dist( loc1, loc2 );
 }
 
-int manhattan_dist( const point &loc1, const point &loc2 )
+auto manhattan_dist( const point &loc1, const point &loc2 ) -> int
 {
     const point d = ( loc1 - loc2 ).abs();
     return d.x + d.y;
 }
 
-int octile_dist( const point &loc1, const point &loc2, int multiplier )
+auto octile_dist( const point &loc1, const point &loc2, int multiplier ) -> int
 {
     const point d = ( loc1 - loc2 ).abs();
     const int mind = std::min( d.x, d.y );
@@ -311,20 +311,20 @@ int octile_dist( const point &loc1, const point &loc2, int multiplier )
     return ( d.x + d.y - 2 * mind ) * multiplier + mind * multiplier * 99 / 70;
 }
 
-float octile_dist_exact( const point &loc1, const point &loc2 )
+auto octile_dist_exact( const point &loc1, const point &loc2 ) -> float
 {
     const point d = ( loc1 - loc2 ).abs();
     const int mind = std::min( d.x, d.y );
     return d.x + d.y - 2 * mind + mind * M_SQRT2;
 }
 
-units::angle atan2( const point &p )
+auto atan2( const point &p ) -> units::angle
 {
     return units::atan2( p.y, p.x );
 }
 
 // This more general version of this function gives correct values for larger values.
-unsigned make_xyz( const tripoint &p )
+auto make_xyz( const tripoint &p ) -> unsigned
 {
     static constexpr double sixteenth_arc = M_PI / 8;
     int vertical_position = ( ( p.z > 0 ) ? 2u : ( p.z < 0 ) ? 1u : 0u ) * 9u;
@@ -368,7 +368,7 @@ unsigned make_xyz( const tripoint &p )
 }
 
 // returns the normalized dx, dy, dz for the current line vector.
-static std::tuple<double, double, double> slope_of( const std::vector<tripoint> &line )
+static auto slope_of( const std::vector<tripoint> &line ) -> std::tuple<double, double, double>
 {
     assert( !line.empty() && line.front() != line.back() );
     const double len = trig_dist( line.front(), line.back() );
@@ -379,7 +379,7 @@ static std::tuple<double, double, double> slope_of( const std::vector<tripoint> 
     return std::make_tuple( normDx, normDy, normDz );
 }
 
-float get_normalized_angle( const point &start, const point &end )
+auto get_normalized_angle( const point &start, const point &end ) -> float
 {
     // Taking the abs value of the difference puts the values in the first quadrant.
     const float absx = std::abs( std::max( start.x, end.x ) - std::min( start.x, end.x ) );
@@ -392,8 +392,8 @@ float get_normalized_angle( const point &start, const point &end )
     return min / max;
 }
 
-tripoint move_along_line( const tripoint &loc, const std::vector<tripoint> &line,
-                          const int distance )
+auto move_along_line( const tripoint &loc, const std::vector<tripoint> &line,
+                          const int distance ) -> tripoint
 {
     // May want to optimize this, but it's called fairly infrequently as part of specific attack
     // routines, erring on the side of readability.
@@ -405,32 +405,32 @@ tripoint move_along_line( const tripoint &loc, const std::vector<tripoint> &line
     return res;
 }
 
-std::vector<tripoint> continue_line( const std::vector<tripoint> &line, const int distance )
+auto continue_line( const std::vector<tripoint> &line, const int distance ) -> std::vector<tripoint>
 {
     return line_to( line.back(), move_along_line( line.back(), line, distance ) );
 }
 
-direction direction_from( const point &p ) noexcept
+auto direction_from( const point &p ) noexcept -> direction
 {
     return static_cast<direction>( make_xyz( tripoint( p, 0 ) ) );
 }
 
-direction direction_from( const tripoint &p ) noexcept
+auto direction_from( const tripoint &p ) noexcept -> direction
 {
     return static_cast<direction>( make_xyz( p ) );
 }
 
-direction direction_from( const point &p1, const point &p2 ) noexcept
+auto direction_from( const point &p1, const point &p2 ) noexcept -> direction
 {
     return direction_from( p2 - p1 );
 }
 
-direction direction_from( const tripoint &p, const tripoint &q )
+auto direction_from( const tripoint &p, const tripoint &q ) -> direction
 {
     return direction_from( q - p );
 }
 
-point direction_XY( const direction dir )
+auto direction_XY( const direction dir ) -> point
 {
     switch( dir % 9 ) {
         case direction::NORTHWEST:
@@ -476,7 +476,7 @@ point direction_XY( const direction dir )
 
 namespace
 {
-std::string direction_name_impl( const direction dir, const bool short_name )
+auto direction_name_impl( const direction dir, const bool short_name ) -> std::string
 {
     enum : int { size = 3 * 3 * 3 };
     static const auto names = [] {
@@ -525,17 +525,17 @@ std::string direction_name_impl( const direction dir, const bool short_name )
 }
 } //namespace
 
-std::string direction_name( const direction dir )
+auto direction_name( const direction dir ) -> std::string
 {
     return direction_name_impl( dir, false );
 }
 
-std::string direction_name_short( const direction dir )
+auto direction_name_short( const direction dir ) -> std::string
 {
     return direction_name_impl( dir, true );
 }
 
-std::string direction_suffix( const tripoint &p, const tripoint &q )
+auto direction_suffix( const tripoint &p, const tripoint &q ) -> std::string
 {
     int dist = square_dist( p, q );
     if( dist <= 0 ) {
@@ -549,7 +549,7 @@ std::string direction_suffix( const tripoint &p, const tripoint &q )
 // Sub-sub-cardinals are direction && abs(x) > abs(y) or vice versa.
 // Result is adjacent cardinal and sub-cardinals, plus the nearest other cardinal.
 // e.g. if the direction is NNE, also include E.
-std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &to )
+auto squares_closer_to( const tripoint &from, const tripoint &to ) -> std::vector<tripoint>
 {
     std::vector<tripoint> adjacent_closer_squares;
     const tripoint d( -from + to );
@@ -585,7 +585,7 @@ std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &t
 
 // Returns a vector of the adjacent square in the direction of the target,
 // and the two squares flanking it.
-std::vector<point> squares_in_direction( const point &p1, const point &p2 )
+auto squares_in_direction( const point &p1, const point &p2 ) -> std::vector<point>
 {
     int junk = 0;
     point center_square = line_to( p1, p2, junk )[0];
@@ -607,17 +607,17 @@ std::vector<point> squares_in_direction( const point &p1, const point &p2 )
     return adjacent_squares;
 }
 
-float rl_vec2d::magnitude() const
+auto rl_vec2d::magnitude() const -> float
 {
     return std::sqrt( x * x + y * y );
 }
 
-float rl_vec3d::magnitude() const
+auto rl_vec3d::magnitude() const -> float
 {
     return std::sqrt( x * x + y * y + z * z );
 }
 
-rl_vec2d rl_vec2d::normalized() const
+auto rl_vec2d::normalized() const -> rl_vec2d
 {
     rl_vec2d ret;
     if( is_null() ) { // shouldn't happen?
@@ -630,7 +630,7 @@ rl_vec2d rl_vec2d::normalized() const
     return ret;
 }
 
-rl_vec3d rl_vec3d::normalized() const
+auto rl_vec3d::normalized() const -> rl_vec3d
 {
     rl_vec3d ret;
     if( is_null() ) { // shouldn't happen?
@@ -644,7 +644,7 @@ rl_vec3d rl_vec3d::normalized() const
     return ret;
 }
 
-rl_vec2d rl_vec2d::rotated( float angle ) const
+auto rl_vec2d::rotated( float angle ) const -> rl_vec2d
 {
     return rl_vec2d(
                x * std::cos( angle ) - y * std::sin( angle ),
@@ -652,7 +652,7 @@ rl_vec2d rl_vec2d::rotated( float angle ) const
            );
 }
 
-rl_vec3d rl_vec3d::rotated( float angle ) const
+auto rl_vec3d::rotated( float angle ) const -> rl_vec3d
 {
     return rl_vec3d(
                x * std::cos( angle ) - y * std::sin( angle ),
@@ -661,29 +661,29 @@ rl_vec3d rl_vec3d::rotated( float angle ) const
            );
 }
 
-float rl_vec2d::dot_product( const rl_vec2d &v ) const
+auto rl_vec2d::dot_product( const rl_vec2d &v ) const -> float
 {
     return x * v.x + y * v.y;
 }
 
-float rl_vec3d::dot_product( const rl_vec3d &v ) const
+auto rl_vec3d::dot_product( const rl_vec3d &v ) const -> float
 {
     return x * v.x + y * v.y + z * v.z;
 }
 
-rl_vec3d rl_vec3d::cross_product( const rl_vec3d &v ) const
+auto rl_vec3d::cross_product( const rl_vec3d &v ) const -> rl_vec3d
 {
     return rl_vec3d( y * v.z - v.y * z,
                      z * v.x - v.z * x,
                      x * v.y - v.x * y );
 }
 
-bool rl_vec2d::is_null() const
+auto rl_vec2d::is_null() const -> bool
 {
     return !( x || y );
 }
 
-point rl_vec2d::as_point() const
+auto rl_vec2d::as_point() const -> point
 {
     return point(
                std::round( x ),
@@ -691,12 +691,12 @@ point rl_vec2d::as_point() const
            );
 }
 
-bool rl_vec3d::is_null() const
+auto rl_vec3d::is_null() const -> bool
 {
     return !( x || y || z );
 }
 
-tripoint rl_vec3d::as_point() const
+auto rl_vec3d::as_point() const -> tripoint
 {
     return tripoint(
                std::round( x ),
@@ -706,7 +706,7 @@ tripoint rl_vec3d::as_point() const
 }
 
 // scale.
-rl_vec2d rl_vec2d::operator*( const float rhs ) const
+auto rl_vec2d::operator*( const float rhs ) const -> rl_vec2d
 {
     rl_vec2d ret;
     ret.x = x * rhs;
@@ -715,7 +715,7 @@ rl_vec2d rl_vec2d::operator*( const float rhs ) const
 }
 
 // subtract
-rl_vec2d rl_vec2d::operator-( const rl_vec2d &rhs ) const
+auto rl_vec2d::operator-( const rl_vec2d &rhs ) const -> rl_vec2d
 {
     rl_vec2d ret;
     ret.x = x - rhs.x;
@@ -724,7 +724,7 @@ rl_vec2d rl_vec2d::operator-( const rl_vec2d &rhs ) const
 }
 
 // unary negation
-rl_vec2d rl_vec2d::operator-() const
+auto rl_vec2d::operator-() const -> rl_vec2d
 {
     rl_vec2d ret;
     ret.x = -x;
@@ -732,7 +732,7 @@ rl_vec2d rl_vec2d::operator-() const
     return ret;
 }
 
-rl_vec2d rl_vec2d::operator+( const rl_vec2d &rhs ) const
+auto rl_vec2d::operator+( const rl_vec2d &rhs ) const -> rl_vec2d
 {
     rl_vec2d ret;
     ret.x = x + rhs.x;
@@ -740,7 +740,7 @@ rl_vec2d rl_vec2d::operator+( const rl_vec2d &rhs ) const
     return ret;
 }
 
-rl_vec2d rl_vec2d::operator/( const float rhs ) const
+auto rl_vec2d::operator/( const float rhs ) const -> rl_vec2d
 {
     rl_vec2d ret;
     ret.x = x / rhs;
@@ -778,7 +778,7 @@ void calc_ray_end( units::angle angle, const int range, const tripoint &p, tripo
     }
 }
 
-units::angle coord_to_angle( const tripoint &a, const tripoint &b )
+auto coord_to_angle( const tripoint &a, const tripoint &b ) -> units::angle
 {
     units::angle rad = units::atan2( b.y - a.y, b.x - a.x );
     if( rad < 0_degrees ) {

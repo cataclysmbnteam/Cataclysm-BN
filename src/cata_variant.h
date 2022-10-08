@@ -75,7 +75,7 @@ struct convert;
 // given value type.  e.g. type_for<mtype_id>() == cata_variant_type::mtype_id.
 
 template<typename T, size_t... I>
-constexpr cata_variant_type type_for_impl( std::index_sequence<I...> )
+constexpr auto type_for_impl( std::index_sequence<I...> ) -> cata_variant_type
 {
     constexpr size_t num_types = static_cast<size_t>( cata_variant_type::num_types );
     constexpr std::array<bool, num_types> matches = {{
@@ -92,7 +92,7 @@ constexpr cata_variant_type type_for_impl( std::index_sequence<I...> )
 }
 
 template<typename T>
-constexpr cata_variant_type type_for()
+constexpr auto type_for() -> cata_variant_type
 {
     constexpr size_t num_types = static_cast<size_t>( cata_variant_type::num_types );
     using SimpleT = std::remove_cv_t<std::remove_reference_t<T>>;
@@ -106,10 +106,10 @@ struct convert_string {
     using type = T;
     static_assert( std::is_same<T, std::string>::value,
                    "Intended for use only with string typedefs" );
-    static std::string to_string( const T &v ) {
+    static auto to_string( const T &v ) -> std::string {
         return v;
     }
-    static T from_string( const std::string &v ) {
+    static auto from_string( const std::string &v ) -> T {
         return v;
     }
 };
@@ -119,10 +119,10 @@ struct convert_string {
 template<typename T>
 struct convert_string_id {
     using type = T;
-    static std::string to_string( const T &v ) {
+    static auto to_string( const T &v ) -> std::string {
         return v.str();
     }
-    static T from_string( const std::string &v ) {
+    static auto from_string( const std::string &v ) -> T {
         return T( v );
     }
 };
@@ -132,10 +132,10 @@ struct convert_string_id {
 template<typename T>
 struct convert_int_id {
     using type = T;
-    static std::string to_string( const T &v ) {
+    static auto to_string( const T &v ) -> std::string {
         return v.id().str();
     }
-    static T from_string( const std::string &v ) {
+    static auto from_string( const std::string &v ) -> T {
         return T( v );
     }
 };
@@ -145,10 +145,10 @@ struct convert_int_id {
 template<typename T>
 struct convert_enum {
     using type = T;
-    static std::string to_string( const T &v ) {
+    static auto to_string( const T &v ) -> std::string {
         return io::enum_to_string( v );
     }
-    static T from_string( const std::string &v ) {
+    static auto from_string( const std::string &v ) -> T {
         return io::string_to_enum<T>( v );
     }
 };
@@ -175,10 +175,10 @@ struct convert<cata_variant_type::body_part> : convert_enum<body_part> {};
 template<>
 struct convert<cata_variant_type::bool_> {
     using type = bool;
-    static std::string to_string( const bool v ) {
+    static auto to_string( const bool v ) -> std::string {
         return std::to_string( static_cast<int>( v ) );
     }
-    static bool from_string( const std::string &v ) {
+    static auto from_string( const std::string &v ) -> bool {
         return std::stoi( v );
     }
 };
@@ -186,10 +186,10 @@ struct convert<cata_variant_type::bool_> {
 template<>
 struct convert<cata_variant_type::character_id> {
     using type = character_id;
-    static std::string to_string( const character_id &v ) {
+    static auto to_string( const character_id &v ) -> std::string {
         return std::to_string( v.get_value() );
     }
-    static character_id from_string( const std::string &v ) {
+    static auto from_string( const std::string &v ) -> character_id {
         return character_id( std::stoi( v ) );
     }
 };
@@ -206,10 +206,10 @@ struct convert<cata_variant_type::hp_part> : convert_enum<hp_part> {};
 template<>
 struct convert<cata_variant_type::int_> {
     using type = int;
-    static std::string to_string( const int v ) {
+    static auto to_string( const int v ) -> std::string {
         return std::to_string( v );
     }
-    static int from_string( const std::string &v ) {
+    static auto from_string( const std::string &v ) -> int {
         return std::stoi( v );
     }
 };
@@ -279,13 +279,13 @@ class cata_variant
         // In cases where the value type alone is unambiguous, the above
         // simpler constructor call can be used.
         template<cata_variant_type Type, typename Value>
-        static cata_variant make( Value &&value ) {
+        static auto make( Value &&value ) -> cata_variant {
             return cata_variant(
                 Type, cata_variant_detail::convert<Type>::to_string(
                     std::forward<Value>( value ) ) );
         }
 
-        cata_variant_type type() const {
+        auto type() const -> cata_variant_type {
             return type_;
         }
 
@@ -301,15 +301,15 @@ class cata_variant
         }
 
         template<typename T>
-        T get() const {
+        auto get() const -> T {
             return get<cata_variant_detail::type_for<T>()>();
         }
 
-        const std::string &get_string() const {
+        auto get_string() const -> const std::string & {
             return value_;
         }
 
-        std::pair<cata_variant_type, std::string> as_pair() const {
+        auto as_pair() const -> std::pair<cata_variant_type, std::string> {
             return std::make_pair( type_, value_ );
         }
 
@@ -342,14 +342,14 @@ namespace std
 
 template<>
 struct hash<cata_variant_type> {
-    size_t operator()( const cata_variant_type v ) const noexcept {
+    auto operator()( const cata_variant_type v ) const noexcept -> size_t {
         return static_cast<size_t>( v );
     }
 };
 
 template<>
 struct hash<cata_variant> {
-    size_t operator()( const cata_variant &v ) const noexcept {
+    auto operator()( const cata_variant &v ) const noexcept -> size_t {
         return cata::tuple_hash()( v.as_pair() );
     }
 };

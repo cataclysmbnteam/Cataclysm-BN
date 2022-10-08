@@ -68,13 +68,13 @@ aim_activity_actor::aim_activity_actor()
     initial_view_offset = get_avatar().view_offset;
 }
 
-aim_activity_actor aim_activity_actor::use_wielded()
+auto aim_activity_actor::use_wielded() -> aim_activity_actor
 {
     return aim_activity_actor();
 }
 
-aim_activity_actor aim_activity_actor::use_bionic( const item &fake_gun,
-        const units::energy &cost_per_shot )
+auto aim_activity_actor::use_bionic( const item &fake_gun,
+        const units::energy &cost_per_shot ) -> aim_activity_actor
 {
     aim_activity_actor act = aim_activity_actor();
     act.bp_cost_per_shot = cost_per_shot;
@@ -82,7 +82,7 @@ aim_activity_actor aim_activity_actor::use_bionic( const item &fake_gun,
     return act;
 }
 
-aim_activity_actor aim_activity_actor::use_mutation( const item &fake_gun )
+auto aim_activity_actor::use_mutation( const item &fake_gun ) -> aim_activity_actor
 {
     aim_activity_actor act = aim_activity_actor();
     act.fake_weapon = fake_gun;
@@ -208,7 +208,7 @@ void aim_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonIn &jsin )
+auto aim_activity_actor::deserialize( JsonIn &jsin ) -> std::unique_ptr<activity_actor>
 {
     aim_activity_actor actor = aim_activity_actor();
 
@@ -228,7 +228,7 @@ std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonIn &jsin )
     return actor.clone();
 }
 
-item *aim_activity_actor::get_weapon()
+auto aim_activity_actor::get_weapon() -> item *
 {
     if( fake_weapon.has_value() ) {
         // TODO: check if the player lost relevant bionic/mutation
@@ -252,7 +252,7 @@ void aim_activity_actor::restore_view()
     }
 }
 
-bool aim_activity_actor::load_RAS_weapon()
+auto aim_activity_actor::load_RAS_weapon() -> bool
 {
     // TODO: use activity for fetching ammo and loading weapon
     player &you = get_avatar();
@@ -392,7 +392,7 @@ void autodrive_activity_actor::serialize( JsonOut &jsout ) const
     jsout.write_null();
 }
 
-std::unique_ptr<activity_actor> autodrive_activity_actor::deserialize( JsonIn & )
+auto autodrive_activity_actor::deserialize( JsonIn & ) -> std::unique_ptr<activity_actor>
 {
     return autodrive_activity_actor().clone();
 }
@@ -483,7 +483,7 @@ void dig_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> dig_activity_actor::deserialize( JsonIn &jsin )
+auto dig_activity_actor::deserialize( JsonIn &jsin ) -> std::unique_ptr<activity_actor>
 {
     dig_activity_actor actor( 0, tripoint_zero,
                               {}, tripoint_zero, 0, {} );
@@ -549,7 +549,7 @@ void dig_channel_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> dig_channel_activity_actor::deserialize( JsonIn &jsin )
+auto dig_channel_activity_actor::deserialize( JsonIn &jsin ) -> std::unique_ptr<activity_actor>
 {
     dig_channel_activity_actor actor( 0, tripoint_zero,
                                       {}, tripoint_zero, 0, {} );
@@ -566,7 +566,7 @@ std::unique_ptr<activity_actor> dig_channel_activity_actor::deserialize( JsonIn 
     return actor.clone();
 }
 
-bool disassemble_activity_actor::try_start_single( player_activity &act, Character &who )
+auto disassemble_activity_actor::try_start_single( player_activity &act, Character &who ) -> bool
 {
     if( targets.empty() ) {
         return false;
@@ -594,7 +594,7 @@ bool disassemble_activity_actor::try_start_single( player_activity &act, Charact
     return true;
 }
 
-int disassemble_activity_actor::calc_num_targets() const
+auto disassemble_activity_actor::calc_num_targets() const -> int
 {
     return static_cast<int>( targets.size() );
 }
@@ -646,7 +646,7 @@ void disassemble_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> disassemble_activity_actor::deserialize( JsonIn &jsin )
+auto disassemble_activity_actor::deserialize( JsonIn &jsin ) -> std::unique_ptr<activity_actor>
 {
     disassemble_activity_actor actor;
 
@@ -660,8 +660,8 @@ std::unique_ptr<activity_actor> disassemble_activity_actor::deserialize( JsonIn 
     return actor.clone();
 }
 
-act_progress_message disassemble_activity_actor::get_progress_message(
-    const player_activity &act, const Character & ) const
+auto disassemble_activity_actor::get_progress_message(
+    const player_activity &act, const Character & ) const -> act_progress_message
 {
     std::string msg;
 
@@ -709,7 +709,7 @@ void drop_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> drop_activity_actor::deserialize( JsonIn &jsin )
+auto drop_activity_actor::deserialize( JsonIn &jsin ) -> std::unique_ptr<activity_actor>
 {
     drop_activity_actor actor;
 
@@ -742,7 +742,7 @@ enum hack_type {
     HACK_NULL
 };
 
-static int hack_level( const Character &who )
+static auto hack_level( const Character &who ) -> int
 {
     ///\EFFECT_COMPUTER increases success chance of hacking card readers
     // odds go up with int>8, down with int<8
@@ -751,7 +751,7 @@ static int hack_level( const Character &who )
     return who.get_skill_level( skill_computer ) + who.int_cur / 2 - 8;
 }
 
-static hack_result hack_attempt( Character &who, const bool using_bionic )
+static auto hack_attempt( Character &who, const bool using_bionic ) -> hack_result
 {
     // TODO: Remove this once player -> Character migration is complete
     {
@@ -789,7 +789,7 @@ static hack_result hack_attempt( Character &who, const bool using_bionic )
     }
 }
 
-static hack_type get_hack_type( tripoint examp )
+static auto get_hack_type( tripoint examp ) -> hack_type
 {
     hack_type type = HACK_NULL;
     const map &here = get_map();
@@ -875,7 +875,7 @@ void hacking_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> hacking_activity_actor::deserialize( JsonIn &jsin )
+auto hacking_activity_actor::deserialize( JsonIn &jsin ) -> std::unique_ptr<activity_actor>
 {
     hacking_activity_actor actor;
     if( jsin.test_null() ) {
@@ -959,7 +959,7 @@ void move_items_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> move_items_activity_actor::deserialize( JsonIn &jsin )
+auto move_items_activity_actor::deserialize( JsonIn &jsin ) -> std::unique_ptr<activity_actor>
 {
     move_items_activity_actor actor( {}, {}, false, tripoint_zero );
 
@@ -1040,7 +1040,7 @@ void pickup_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> pickup_activity_actor::deserialize( JsonIn &jsin )
+auto pickup_activity_actor::deserialize( JsonIn &jsin ) -> std::unique_ptr<activity_actor>
 {
     pickup_activity_actor actor( {}, cata::nullopt );
 
@@ -1075,7 +1075,7 @@ void migration_cancel_activity_actor::serialize( JsonOut &jsout ) const
     jsout.write_null();
 }
 
-std::unique_ptr<activity_actor> migration_cancel_activity_actor::deserialize( JsonIn & )
+auto migration_cancel_activity_actor::deserialize( JsonIn & ) -> std::unique_ptr<activity_actor>
 {
     return migration_cancel_activity_actor().clone();
 }
@@ -1102,7 +1102,7 @@ void open_gate_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> open_gate_activity_actor::deserialize( JsonIn &jsin )
+auto open_gate_activity_actor::deserialize( JsonIn &jsin ) -> std::unique_ptr<activity_actor>
 {
     open_gate_activity_actor actor( 0, tripoint_zero );
 
@@ -1143,7 +1143,7 @@ void stash_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> stash_activity_actor::deserialize( JsonIn &jsin )
+auto stash_activity_actor::deserialize( JsonIn &jsin ) -> std::unique_ptr<activity_actor>
 {
     stash_activity_actor actor;
 
@@ -1217,7 +1217,7 @@ void throw_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> throw_activity_actor::deserialize( JsonIn &jsin )
+auto throw_activity_actor::deserialize( JsonIn &jsin ) -> std::unique_ptr<activity_actor>
 {
     throw_activity_actor actor;
 
@@ -1239,7 +1239,7 @@ void wash_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> wash_activity_actor::deserialize( JsonIn &jsin )
+auto wash_activity_actor::deserialize( JsonIn &jsin ) -> std::unique_ptr<activity_actor>
 {
     wash_activity_actor actor;
 

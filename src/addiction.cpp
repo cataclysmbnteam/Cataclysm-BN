@@ -24,7 +24,7 @@ namespace io
 {
 
 template<>
-std::string enum_to_string<add_type>( add_type data )
+auto enum_to_string<add_type>( add_type data ) -> std::string
 {
     switch( data ) {
         // *INDENT-OFF*
@@ -250,7 +250,7 @@ void addict_effect( Character &u, addiction &add )
  * Returns the name of an addiction. It should be able to finish the sentence
  * "Became addicted to ______".
  */
-std::string addiction_type_name( add_type const cur )
+auto addiction_type_name( add_type const cur ) -> std::string
 {
     static const std::map<add_type, std::string> type_map = {{
             { add_type::CIG, translate_marker( "nicotine" ) },
@@ -277,7 +277,7 @@ std::string addiction_type_name( add_type const cur )
     return "bugs in addiction.cpp";
 }
 
-std::string addiction_name( const addiction &cur )
+auto addiction_name( const addiction &cur ) -> std::string
 {
     static const std::map<add_type, std::string> type_map = {{
             { add_type::CIG, translate_marker( "Nicotine Withdrawal" ) },
@@ -304,7 +304,7 @@ std::string addiction_name( const addiction &cur )
     return "Erroneous addiction";
 }
 
-morale_type addiction_craving( add_type const cur )
+auto addiction_craving( add_type const cur ) -> morale_type
 {
     static const std::map<add_type, morale_type> type_map = {{
             { add_type::CIG, MORALE_CRAVING_NICOTINE },
@@ -330,7 +330,7 @@ morale_type addiction_craving( add_type const cur )
     return MORALE_NULL;
 }
 
-add_type addiction_type( const std::string &name )
+auto addiction_type( const std::string &name ) -> add_type
 {
     static const std::map<std::string, add_type> type_map = {{
             { "nicotine", add_type::CIG },
@@ -358,7 +358,7 @@ add_type addiction_type( const std::string &name )
     return add_type::NONE;
 }
 
-std::string addiction_text( const addiction &cur )
+auto addiction_text( const addiction &cur ) -> std::string
 {
     static const std::map<add_type, std::string> addiction_msg = {{
             { add_type::CIG, translate_marker( "Intelligence - 1;   Occasional cravings" ) },

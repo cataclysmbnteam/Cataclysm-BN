@@ -187,16 +187,16 @@ struct node_address {
     int16_t x;
     int16_t y;
     orientation facing_dir;
-    bool operator== ( const node_address &other ) const {
+    auto operator== ( const node_address &other ) const -> bool {
         return x == other.x && y == other.y && facing_dir == other.facing_dir;
     }
-    point get_point() const {
+    auto get_point() const -> point {
         return {x, y};
     }
 };
 
 struct node_address_hasher {
-    std::size_t operator()( const node_address &addr ) const {
+    auto operator()( const node_address &addr ) const -> std::size_t {
         std::uint64_t val = addr.x;
         val = ( val << 16 ) + addr.y;
         val = ( val << 16 ) + static_cast<int>( addr.facing_dir );
@@ -211,7 +211,7 @@ struct node_address_hasher {
 struct scored_address {
     struct node_address addr;
     int16_t score;
-    bool operator> ( const scored_address &other ) const {
+    auto operator> ( const scored_address &other ) const -> bool {
         return score > other.score;
     }
 };
@@ -238,11 +238,11 @@ struct coord_transformation {
     quad_rotation rotation;
     point post_offset;
 
-    point transform( const point &p ) const;
-    tripoint transform( const point &p, int z ) const;
-    orientation transform( orientation dir ) const;
-    node_address transform( const point &p, orientation dir ) const;
-    coord_transformation inverse() const;
+    auto transform( const point &p ) const -> point;
+    auto transform( const point &p, int z ) const -> tripoint;
+    auto transform( orientation dir ) const -> orientation;
+    auto transform( const point &p, orientation dir ) const -> node_address;
+    auto inverse() const -> coord_transformation;
 };
 
 /**
@@ -297,19 +297,19 @@ struct auto_navigation_data {
         current_omt = { 0, 0, -100 };
         path.clear();
     }
-    vehicle_profile &profile( orientation dir ) {
+    auto profile( orientation dir ) -> vehicle_profile & {
         return profiles.at( static_cast<int>( dir ) );
     }
-    const vehicle_profile &profile( orientation dir ) const {
+    auto profile( orientation dir ) const -> const vehicle_profile & {
         return profiles.at( static_cast<int>( dir ) );
     }
-    bool &valid_position( orientation dir, point p ) {
+    auto valid_position( orientation dir, point p ) -> bool & {
         return valid_positions[static_cast<int>( dir )][p.x][p.y];
     }
-    bool valid_position( orientation dir, point p ) const {
+    auto valid_position( orientation dir, point p ) const -> bool {
         return valid_positions[static_cast<int>( dir )][p.x][p.y];
     }
-    bool valid_position( const node_address &addr ) const {
+    auto valid_position( const node_address &addr ) const -> bool {
         return valid_position( addr.facing_dir, point( addr.x, addr.y ) );
     }
 };
@@ -325,15 +325,15 @@ class vehicle::autodrive_controller
 {
     public:
         explicit autodrive_controller( const vehicle &driven_veh, const Character &driver );
-        const Character &get_driver() {
+        auto get_driver() -> const Character & {
             return driver;
         }
-        const auto_navigation_data &get_data() {
+        auto get_data() -> const auto_navigation_data & {
             return data;
         }
         void check_safe_speed();
-        cata::optional<navigation_step> compute_next_step();
-        collision_check_result check_collision_zone( orientation turn_dir );
+        auto compute_next_step() -> cata::optional<navigation_step>;
+        auto check_collision_zone( orientation turn_dir ) -> collision_check_result;
         void reduce_speed();
 
     private:
@@ -342,21 +342,21 @@ class vehicle::autodrive_controller
         auto_navigation_data data;
 
         void compute_coordinates();
-        bool check_drivable( tripoint pt ) const;
+        auto check_drivable( tripoint pt ) const -> bool;
         void compute_obstacles();
-        vehicle_profile compute_profile( orientation facing ) const;
+        auto compute_profile( orientation facing ) const -> vehicle_profile;
         void compute_valid_positions();
         void compute_goal_zone();
         void precompute_data();
-        scored_address compute_node_score( const node_address &addr, const navigation_node &node ) const;
+        auto compute_node_score( const node_address &addr, const navigation_node &node ) const -> scored_address;
         void compute_next_nodes( const node_address &addr, const navigation_node &node,
                                  int target_speed_tps,
                                  std::vector<std::pair<node_address, navigation_node>> &next_nodes ) const;
-        cata::optional<std::vector<navigation_step>> compute_path( int speed_tps ) const;
+        auto compute_path( int speed_tps ) const -> cata::optional<std::vector<navigation_step>>;
 };
 
 
-static const std::array<orientation, NUM_ORIENTATIONS> &all_orientations()
+static auto all_orientations() -> const std::array<orientation, NUM_ORIENTATIONS> &
 {
     static const auto orientations_array = [] {
         std::array<orientation, NUM_ORIENTATIONS> ret;
@@ -372,7 +372,7 @@ static const std::array<orientation, NUM_ORIENTATIONS> &all_orientations()
 /*
  * Normalize an orientation value to the range [0, NUM_ORIENTATIONS-1] using modular arithmetic.
  */
-static orientation normalize_orientation( int steering_turns )
+static auto normalize_orientation( int steering_turns ) -> orientation
 {
     steering_turns %= NUM_ORIENTATIONS;
     // beware that x % N < 0 when x < 0
@@ -382,65 +382,65 @@ static orientation normalize_orientation( int steering_turns )
     return static_cast<orientation>( steering_turns );
 }
 
-static orientation to_orientation( units::angle angle )
+static auto to_orientation( units::angle angle ) -> orientation
 {
     return normalize_orientation( std::lround( units::to_degrees(
                                       angle ) / TURNING_INCREMENT ) );
 }
 
-static std::string to_string( orientation dir )
+static auto to_string( orientation dir ) -> std::string
 {
     return std::to_string( static_cast<int>( dir ) );
 }
 
-static orientation operator- ( const orientation &dir )
+static auto operator- ( const orientation &dir ) -> orientation
 {
     return static_cast<orientation>( ( NUM_ORIENTATIONS - static_cast<int>
                                        ( dir ) ) % NUM_ORIENTATIONS );
 }
 
-static orientation operator+ ( const orientation &dir1, const orientation &dir2 )
+static auto operator+ ( const orientation &dir1, const orientation &dir2 ) -> orientation
 {
     return static_cast<orientation>( ( static_cast<int>( dir1 ) + static_cast<int>
                                        ( dir2 ) ) % NUM_ORIENTATIONS );
 }
 
-static orientation operator- ( const orientation &dir1, const orientation &dir2 )
+static auto operator- ( const orientation &dir1, const orientation &dir2 ) -> orientation
 {
     return dir1 + -dir2;
 }
 
-static orientation operator+ ( const orientation &dir, int steering_turns )
+static auto operator+ ( const orientation &dir, int steering_turns ) -> orientation
 {
     return dir + normalize_orientation( steering_turns );
 }
 
-static quad_rotation operator- ( const quad_rotation &rot )
+static auto operator- ( const quad_rotation &rot ) -> quad_rotation
 {
     return static_cast<quad_rotation>( ( 4 - static_cast<int>( rot ) ) % 4 );
 }
 
-static quad_rotation operator+ ( const quad_rotation &rot1, const quad_rotation &rot2 )
+static auto operator+ ( const quad_rotation &rot1, const quad_rotation &rot2 ) -> quad_rotation
 {
     return static_cast<quad_rotation>( ( static_cast<int>( rot1 ) + static_cast<int>( rot2 ) ) % 4 );
 }
 
-static quad_rotation operator- ( const quad_rotation &rot1, const quad_rotation &rot2 )
+static auto operator- ( const quad_rotation &rot1, const quad_rotation &rot2 ) -> quad_rotation
 {
     return rot1 + -rot2;
 }
 
-static orientation operator+ ( const orientation &dir, const quad_rotation &rot )
+static auto operator+ ( const orientation &dir, const quad_rotation &rot ) -> orientation
 {
     return dir + static_cast<orientation>( static_cast<int>( rot ) *  NUM_ORIENTATIONS / 4 );
 }
 
-static orientation &operator+= ( orientation &dir, const quad_rotation &rot )
+static auto operator+= ( orientation &dir, const quad_rotation &rot ) -> orientation &
 {
     return dir = dir + rot;
 }
 
-static units::angle to_angle( const orientation &dir )
+static auto to_angle( const orientation &dir ) -> units::angle
 {
     return units::from_degrees( static_cast<int>( dir ) * TURNING_INCREMENT );
 }
@@ -449,7 +449,7 @@ static units::angle to_angle( const orientation &dir )
  * Returns the difference between two orientation values, normalized to the range
  * [-NUM_ORIENTATIONS/2, NUM_ORIENTATIONS/2) via modular arithmetic.
  */
-static int orientation_diff( const orientation &dir1, const orientation &dir2 )
+static auto orientation_diff( const orientation &dir1, const orientation &dir2 ) -> int
 {
     return static_cast<int>( dir1 - dir2 + quad_rotation::d180 ) - NUM_ORIENTATIONS / 2;
 }
@@ -457,7 +457,7 @@ static int orientation_diff( const orientation &dir1, const orientation &dir2 )
 /*
  * Returns the angle of the given point, which must lie on either axis
  */
-static quad_rotation to_quad_rotation( const point &pt )
+static auto to_quad_rotation( const point &pt ) -> quad_rotation
 {
     if( pt.x > 0 ) {
         return quad_rotation::d0;
@@ -470,7 +470,7 @@ static quad_rotation to_quad_rotation( const point &pt )
     }
 }
 
-static node_address make_node_address( point pos, orientation dir )
+static auto make_node_address( point pos, orientation dir ) -> node_address
 {
     return { static_cast<int16_t>( pos.x ), static_cast<int16_t>( pos.y ), dir };
 }
@@ -480,7 +480,7 @@ static node_address make_node_address( point pos, orientation dir )
  * arithmetic and table lookups since it's used in the inner loop of A*.
  */
 // NOLINTNEXTLINE(cata-xy)
-static orientation approx_orientation( int dx, int dy )
+static auto approx_orientation( int dx, int dy ) -> orientation
 {
     orientation ret = orientation::d0;
     if( dy < 0 ) {
@@ -511,7 +511,7 @@ static orientation approx_orientation( int dx, int dy )
     return ret;
 }
 
-static point rotate( point p, quad_rotation rotation )
+static auto rotate( point p, quad_rotation rotation ) -> point
 {
     switch( rotation ) {
         case quad_rotation::d0:
@@ -526,32 +526,32 @@ static point rotate( point p, quad_rotation rotation )
     return p;
 }
 
-point coord_transformation::transform( const point &p ) const
+auto coord_transformation::transform( const point &p ) const -> point
 {
     return rotate( p - pre_offset, rotation ) + post_offset;
 }
 
-tripoint coord_transformation::transform( const point &p, int z ) const
+auto coord_transformation::transform( const point &p, int z ) const -> tripoint
 {
     return tripoint( transform( p ), z );
 }
 
-orientation coord_transformation::transform( orientation dir ) const
+auto coord_transformation::transform( orientation dir ) const -> orientation
 {
     return dir + rotation;
 }
 
-node_address coord_transformation::transform( const point &p, orientation dir ) const
+auto coord_transformation::transform( const point &p, orientation dir ) const -> node_address
 {
     return make_node_address( transform( p ), transform( dir ) );
 }
 
-coord_transformation coord_transformation::inverse() const
+auto coord_transformation::inverse() const -> coord_transformation
 {
     return { post_offset, -rotation, pre_offset };
 }
 
-static int signum( int val )
+static auto signum( int val ) -> int
 {
     return ( 0 < val ) - ( val < 0 );
 }
@@ -573,7 +573,7 @@ void vehicle::autodrive_controller::compute_coordinates()
     data.view_to_map.pre_offset += data.nav_to_view.post_offset;
 }
 
-vehicle_profile vehicle::autodrive_controller::compute_profile( orientation facing ) const
+auto vehicle::autodrive_controller::compute_profile( orientation facing ) const -> vehicle_profile
 {
     vehicle_profile ret;
 
@@ -638,7 +638,7 @@ vehicle_profile vehicle::autodrive_controller::compute_profile( orientation faci
 // Return true if the map tile at the given position (in map coordinates)
 // can be driven on (not an obstacle).
 // The logic should match what is in vehicle::part_collision().
-bool vehicle::autodrive_controller::check_drivable( tripoint pt ) const
+auto vehicle::autodrive_controller::check_drivable( tripoint pt ) const -> bool
 {
     const map &here = get_map();
 
@@ -833,7 +833,7 @@ void vehicle::autodrive_controller::precompute_data()
     }
 }
 
-static navigation_node make_start_node( const node_address &start, const vehicle &driven_veh )
+static auto make_start_node( const node_address &start, const vehicle &driven_veh ) -> navigation_node
 {
     navigation_node ret;
     ret.prev = start;
@@ -845,8 +845,8 @@ static navigation_node make_start_node( const node_address &start, const vehicle
     return ret;
 }
 
-scored_address vehicle::autodrive_controller::compute_node_score( const node_address &addr,
-        const navigation_node &node ) const
+auto vehicle::autodrive_controller::compute_node_score( const node_address &addr,
+        const navigation_node &node ) const -> scored_address
 {
     // TODO: tweak this
     constexpr int cost_mult = 1;
@@ -942,8 +942,8 @@ const
     }
 }
 
-cata::optional<std::vector<navigation_step>> vehicle::autodrive_controller::compute_path(
-            int speed_tps ) const
+auto vehicle::autodrive_controller::compute_path(
+            int speed_tps ) const -> cata::optional<std::vector<navigation_step>>
 {
     if( speed_tps == 0 || speed_tps < -1 ) {
         return cata::nullopt;
@@ -1025,7 +1025,7 @@ void vehicle::autodrive_controller::check_safe_speed()
     }
 }
 
-collision_check_result vehicle::autodrive_controller::check_collision_zone( orientation turn_dir )
+auto vehicle::autodrive_controller::check_collision_zone( orientation turn_dir ) -> collision_check_result
 {
     const tripoint veh_pos = driven_veh.global_pos3();
 
@@ -1090,7 +1090,7 @@ void vehicle::autodrive_controller::reduce_speed()
     data.max_speed_tps = MIN_SPEED_TPS;
 }
 
-cata::optional<navigation_step> vehicle::autodrive_controller::compute_next_step()
+auto vehicle::autodrive_controller::compute_next_step() -> cata::optional<navigation_step>
 {
     precompute_data();
     const tripoint_abs_ms veh_pos = driven_veh.global_square_location();
@@ -1121,7 +1121,7 @@ cata::optional<navigation_step> vehicle::autodrive_controller::compute_next_step
 }
 
 
-std::vector<std::tuple<point, int, std::string>> vehicle::get_debug_overlay_data() const
+auto vehicle::get_debug_overlay_data() const -> std::vector<std::tuple<point, int, std::string>>
 {
     static const std::vector<std::string> debug_what = { "valid_position", "omt" };
     std::vector<std::tuple<point, int, std::string>> ret;
@@ -1204,7 +1204,7 @@ std::vector<std::tuple<point, int, std::string>> vehicle::get_debug_overlay_data
     return ret;
 }
 
-autodrive_result vehicle::do_autodrive( Character &driver )
+auto vehicle::do_autodrive( Character &driver ) -> autodrive_result
 {
     if( !is_autodriving ) {
         return autodrive_result::abort;

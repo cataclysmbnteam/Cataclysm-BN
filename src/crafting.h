@@ -49,14 +49,14 @@ void remove_ammo( item &dis_item, Character &who );
  */
 void remove_ammo( std::list<item> &dis_items, Character &who );
 
-bench_location find_best_bench( const player &p, const item &craft );
+auto find_best_bench( const player &p, const item &craft ) -> bench_location;
 
-float workbench_crafting_speed_multiplier( const item &craft, const bench_location &bench );
-float morale_crafting_speed_multiplier( const Character &who, const recipe &rec );
-float lighting_crafting_speed_multiplier( const Character &who, const recipe &rec );
-float crafting_speed_multiplier( const Character &who, const recipe &rec, bool in_progress );
-float crafting_speed_multiplier( const Character &who, const item &craft,
-                                 const bench_location &bench );
+auto workbench_crafting_speed_multiplier( const item &craft, const bench_location &bench ) -> float;
+auto morale_crafting_speed_multiplier( const Character &who, const recipe &rec ) -> float;
+auto lighting_crafting_speed_multiplier( const Character &who, const recipe &rec ) -> float;
+auto crafting_speed_multiplier( const Character &who, const recipe &rec, bool in_progress ) -> float;
+auto crafting_speed_multiplier( const Character &who, const item &craft,
+                                 const bench_location &bench ) -> float;
 void complete_craft( player &p, item &craft, const bench_location &bench );
 
 namespace crafting
@@ -69,17 +69,17 @@ namespace crafting
  * @param crafting_inv Current available items that may contain readable books
  * @param r Recipe to search for in the available books
  */
-std::set<itype_id> get_books_for_recipe( const Character &c, const inventory &crafting_inv,
-        const recipe *r );
+auto get_books_for_recipe( const Character &c, const inventory &crafting_inv,
+        const recipe *r ) -> std::set<itype_id>;
 
 /**
  * Returns the set of book types that provide the given recipe.
  */
-std::set<itype_id> get_books_for_recipe( const recipe *r );
+auto get_books_for_recipe( const recipe *r ) -> std::set<itype_id>;
 
-int charges_for_complete( int full_charges );
-int charges_for_starting( int full_charges );
-int charges_for_continuing( int full_charges );
+auto charges_for_complete( int full_charges ) -> int;
+auto charges_for_starting( int full_charges ) -> int;
+auto charges_for_continuing( int full_charges ) -> int;
 
 /**
  * Returns selected tool component that matches one of the expected ones.
@@ -91,35 +91,35 @@ int charges_for_continuing( int full_charges );
  * @param can_cancel can the selection be aborted with no result
  * @param adjustment affects required charges, see @ref cost_adjustment
  */
-comp_selection<tool_comp>
+auto
 select_tool_component( const std::vector<tool_comp> &tools, int batch, const inventory &map_inv,
                        const Character *player_with_inv,
                        bool can_cancel,
                        const std::string &hotkeys,
-                       cost_adjustment adjustment );
+                       cost_adjustment adjustment ) -> comp_selection<tool_comp>;
 
-comp_selection<tool_comp>
+auto
 select_tool_component( const std::vector<tool_comp> &tools, int batch, const inventory &map_inv,
                        const Character *player_with_inv,
-                       bool can_cancel = false );
+                       bool can_cancel = false ) -> comp_selection<tool_comp>;
 
 /** Check if character can disassemble an item using the given crafting inventory. */
-ret_val<bool> can_disassemble( const Character &who, const item &obj, const inventory &inv );
+auto can_disassemble( const Character &who, const item &obj, const inventory &inv ) -> ret_val<bool>;
 
 /**
  * Prompt for an item to disassemble, then start activity.
  */
-bool disassemble( avatar &you );
+auto disassemble( avatar &you ) -> bool;
 
 /**
  * Prompt to disassemble given item, then start activity.
  */
-bool disassemble( avatar &you, item_location target );
+auto disassemble( avatar &you, item_location target ) -> bool;
 
 /**
  * Start an activity to disassemble all items in avatar's square.
  */
-bool disassemble_all( avatar &you, bool recursively );
+auto disassemble_all( avatar &you, bool recursively ) -> bool;
 
 /**
  * Complete disassembly of target item.

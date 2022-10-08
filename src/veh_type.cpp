@@ -139,14 +139,14 @@ static DynamicDataLoader::deferred_json deferred;
 
 /** @relates string_id */
 template<>
-bool string_id<vpart_info>::is_valid() const
+auto string_id<vpart_info>::is_valid() const -> bool
 {
     return vpart_info_all.count( *this );
 }
 
 /** @relates string_id */
 template<>
-const vpart_info &string_id<vpart_info>::obj() const
+auto string_id<vpart_info>::obj() const -> const vpart_info &
 {
     const auto found = vpart_info_all.find( *this );
     if( found == vpart_info_all.end() ) {
@@ -691,12 +691,12 @@ void vpart_info::reset()
     abstract_parts.clear();
 }
 
-const std::map<vpart_id, vpart_info> &vpart_info::all()
+auto vpart_info::all() -> const std::map<vpart_id, vpart_info> &
 {
     return vpart_info_all;
 }
 
-std::string vpart_info::name() const
+auto vpart_info::name() const -> std::string
 {
     if( name_.empty() ) {
         return item::nname( item );
@@ -705,8 +705,8 @@ std::string vpart_info::name() const
     }
 }
 
-int vpart_info::format_description( std::string &msg, const nc_color &format_color,
-                                    int width ) const
+auto vpart_info::format_description( std::string &msg, const nc_color &format_color,
+                                    int width ) const -> int
 {
     int lines = 1;
     msg += _( "<color_white>Description</color>\n" );
@@ -774,7 +774,7 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
     return lines;
 }
 
-requirement_data vpart_info::install_requirements() const
+auto vpart_info::install_requirements() const -> requirement_data
 {
     return std::accumulate( install_reqs.begin(), install_reqs.end(), requirement_data(),
     []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
@@ -782,7 +782,7 @@ requirement_data vpart_info::install_requirements() const
     } );
 }
 
-requirement_data vpart_info::removal_requirements() const
+auto vpart_info::removal_requirements() const -> requirement_data
 {
     return std::accumulate( removal_reqs.begin(), removal_reqs.end(), requirement_data(),
     []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
@@ -790,7 +790,7 @@ requirement_data vpart_info::removal_requirements() const
     } );
 }
 
-requirement_data vpart_info::repair_requirements() const
+auto vpart_info::repair_requirements() const -> requirement_data
 {
     return std::accumulate( repair_reqs.begin(), repair_reqs.end(), requirement_data(),
     []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
@@ -798,12 +798,12 @@ requirement_data vpart_info::repair_requirements() const
     } );
 }
 
-bool vpart_info::is_repairable() const
+auto vpart_info::is_repairable() const -> bool
 {
     return !repair_requirements().is_empty();
 }
 
-static int scale_time( const std::map<skill_id, int> &sk, int mv, const player &p )
+static auto scale_time( const std::map<skill_id, int> &sk, int mv, const player &p ) -> int
 {
     if( sk.empty() ) {
         return mv;
@@ -820,17 +820,17 @@ static int scale_time( const std::map<skill_id, int> &sk, int mv, const player &
            * ( 10 - p.get_crafting_helpers( 3 ).size() ) / 10;
 }
 
-int vpart_info::install_time( const player &p ) const
+auto vpart_info::install_time( const player &p ) const -> int
 {
     return scale_time( install_skills, install_moves, p );
 }
 
-int vpart_info::removal_time( const player &p ) const
+auto vpart_info::removal_time( const player &p ) const -> int
 {
     return scale_time( removal_skills, removal_moves, p );
 }
 
-int vpart_info::repair_time( const player &p ) const
+auto vpart_info::repair_time( const player &p ) const -> int
 {
     return scale_time( repair_skills, repair_moves, p );
 }
@@ -839,42 +839,42 @@ int vpart_info::repair_time( const player &p ) const
  * @name Engine specific functions
  *
  */
-float vpart_info::engine_backfire_threshold() const
+auto vpart_info::engine_backfire_threshold() const -> float
 {
     return has_flag( VPFLAG_ENGINE ) ? engine_info->backfire_threshold : false;
 }
 
-int vpart_info::engine_backfire_freq() const
+auto vpart_info::engine_backfire_freq() const -> int
 {
     return has_flag( VPFLAG_ENGINE ) ? engine_info->backfire_freq : false;
 }
 
-int vpart_info::engine_muscle_power_factor() const
+auto vpart_info::engine_muscle_power_factor() const -> int
 {
     return has_flag( VPFLAG_ENGINE ) ? engine_info->muscle_power_factor : false;
 }
 
-float vpart_info::engine_damaged_power_factor() const
+auto vpart_info::engine_damaged_power_factor() const -> float
 {
     return has_flag( VPFLAG_ENGINE ) ? engine_info->damaged_power_factor : false;
 }
 
-int vpart_info::engine_noise_factor() const
+auto vpart_info::engine_noise_factor() const -> int
 {
     return has_flag( VPFLAG_ENGINE ) ? engine_info->noise_factor : false;
 }
 
-int vpart_info::engine_m2c() const
+auto vpart_info::engine_m2c() const -> int
 {
     return has_flag( VPFLAG_ENGINE ) ? engine_info->m2c : 0;
 }
 
-std::vector<std::string> vpart_info::engine_excludes() const
+auto vpart_info::engine_excludes() const -> std::vector<std::string>
 {
     return has_flag( VPFLAG_ENGINE ) ? engine_info->exclusions : std::vector<std::string>();
 }
 
-std::vector<itype_id> vpart_info::engine_fuel_opts() const
+auto vpart_info::engine_fuel_opts() const -> std::vector<itype_id>
 {
     return has_flag( VPFLAG_ENGINE ) ? engine_info->fuel_opts : std::vector<itype_id>();
 }
@@ -883,41 +883,41 @@ std::vector<itype_id> vpart_info::engine_fuel_opts() const
  * @name Wheel specific functions
  *
  */
-float vpart_info::wheel_rolling_resistance() const
+auto vpart_info::wheel_rolling_resistance() const -> float
 {
     // caster wheels return 29, so if a part rolls worse than a caster wheel...
     return has_flag( VPFLAG_WHEEL ) ? wheel_info->rolling_resistance : 50;
 }
 
-int vpart_info::wheel_area() const
+auto vpart_info::wheel_area() const -> int
 {
     return has_flag( VPFLAG_WHEEL ) ? wheel_info->contact_area : 0;
 }
 
-std::vector<std::pair<std::string, int>> vpart_info::wheel_terrain_mod() const
+auto vpart_info::wheel_terrain_mod() const -> std::vector<std::pair<std::string, int>>
 {
     const std::vector<std::pair<std::string, int>> null_map;
     return has_flag( VPFLAG_WHEEL ) ? wheel_info->terrain_mod : null_map;
 }
 
-float vpart_info::wheel_or_rating() const
+auto vpart_info::wheel_or_rating() const -> float
 {
     return has_flag( VPFLAG_WHEEL ) ? wheel_info->or_rating : 0.0f;
 }
 
-int vpart_info::rotor_diameter() const
+auto vpart_info::rotor_diameter() const -> int
 {
     return has_flag( VPFLAG_ROTOR ) ? rotor_info->rotor_diameter : 0;
 }
 
-const cata::optional<vpslot_workbench> &vpart_info::get_workbench_info() const
+auto vpart_info::get_workbench_info() const -> const cata::optional<vpslot_workbench> &
 {
     return workbench_info;
 }
 
 /** @relates string_id */
 template<>
-const vehicle_prototype &string_id<vehicle_prototype>::obj() const
+auto string_id<vehicle_prototype>::obj() const -> const vehicle_prototype &
 {
     const auto iter = vtypes.find( *this );
     if( iter == vtypes.end() ) {
@@ -935,7 +935,7 @@ const vehicle_prototype &string_id<vehicle_prototype>::obj() const
 
 /** @relates string_id */
 template<>
-bool string_id<vehicle_prototype>::is_valid() const
+auto string_id<vehicle_prototype>::is_valid() const -> bool
 {
     return vtypes.count( *this ) > 0;
 }
@@ -954,7 +954,7 @@ vehicle_prototype::vehicle_prototype( const std::string &name,
 vehicle_prototype::vehicle_prototype( vehicle_prototype && ) = default;
 vehicle_prototype::~vehicle_prototype() = default;
 
-vehicle_prototype &vehicle_prototype::operator=( vehicle_prototype && ) = default;
+auto vehicle_prototype::operator=( vehicle_prototype && ) -> vehicle_prototype & = default;
 
 /**
  *Caches a vehicle definition from a JsonObject to be loaded after itypes is initialized.
@@ -1154,7 +1154,7 @@ void vehicle_prototype::finalize()
     }
 }
 
-std::vector<vproto_id> vehicle_prototype::get_all()
+auto vehicle_prototype::get_all() -> std::vector<vproto_id>
 {
     std::vector<vproto_id> result;
     result.reserve( vtypes.size() );

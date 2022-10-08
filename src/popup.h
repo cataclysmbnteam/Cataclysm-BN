@@ -83,19 +83,19 @@ class query_popup
          * specified with `option()`, even if `query_once` or `query` are not
          * called afterwards.
          **/
-        query_popup &context( const std::string &cat );
+        auto context( const std::string &cat ) -> query_popup &;
         /**
          * Specify the query message.
          */
         template <typename ...Args>
-        query_popup &message( const std::string &fmt, Args &&... args ) {
+        auto message( const std::string &fmt, Args &&... args ) -> query_popup & {
             assert_format( fmt, std::forward<Args>( args )... );
             invalidate_ui();
             text = string_format( fmt, std::forward<Args>( args )... );
             return *this;
         }
         template <typename ...Args>
-        query_popup &message( const char *const fmt, Args &&... args ) {
+        auto message( const char *const fmt, Args &&... args ) -> query_popup & {
             assert_format( fmt, std::forward<Args>( args )... );
             invalidate_ui();
             text = string_format( fmt, std::forward<Args>( args )... );
@@ -105,28 +105,28 @@ class query_popup
          * Like query_popup::message, but with waiting symbol prepended to the text.
          **/
         template <typename ...Args>
-        query_popup &wait_message( const nc_color &bar_color, const std::string &fmt, Args &&... args ) {
+        auto wait_message( const nc_color &bar_color, const std::string &fmt, Args &&... args ) -> query_popup & {
             assert_format( fmt, std::forward<Args>( args )... );
             invalidate_ui();
             text = wait_text( string_format( fmt, std::forward<Args>( args )... ), bar_color );
             return *this;
         }
         template <typename ...Args>
-        query_popup &wait_message( const nc_color &bar_color, const char *const fmt, Args &&... args ) {
+        auto wait_message( const nc_color &bar_color, const char *const fmt, Args &&... args ) -> query_popup & {
             assert_format( fmt, std::forward<Args>( args )... );
             invalidate_ui();
             text = wait_text( string_format( fmt, std::forward<Args>( args )... ), bar_color );
             return *this;
         }
         template <typename ...Args>
-        query_popup &wait_message( const std::string &fmt, Args &&... args ) {
+        auto wait_message( const std::string &fmt, Args &&... args ) -> query_popup & {
             assert_format( fmt, std::forward<Args>( args )... );
             invalidate_ui();
             text = wait_text( string_format( fmt, std::forward<Args>( args )... ) );
             return *this;
         }
         template <typename ...Args>
-        query_popup &wait_message( const char *const fmt, Args &&... args ) {
+        auto wait_message( const char *const fmt, Args &&... args ) -> query_popup & {
             assert_format( fmt, std::forward<Args>( args )... );
             invalidate_ui();
             text = wait_text( string_format( fmt, std::forward<Args>( args )... ) );
@@ -137,7 +137,7 @@ class query_popup
          * supplied context, either locally or globally. The same applies to
          * other `option` methods.
          **/
-        query_popup &option( const std::string &opt );
+        auto option( const std::string &opt ) -> query_popup &;
         /**
          * Specify an action as an option, and a filter of allowed input events
          * for this action. This is for compatibility with the "FORCE_CAPITAL_YN"
@@ -145,35 +145,35 @@ class query_popup
          * Note that even if the input event is filtered, it will still select
          * the respective dialog option, without closing the dialog.
          */
-        query_popup &option( const std::string &opt,
-                             const std::function<bool( const input_event & )> &filter );
+        auto option( const std::string &opt,
+                             const std::function<bool( const input_event & )> &filter ) -> query_popup &;
         /**
          * Specify whether non-option actions can be returned. Mouse movement
          * is always ignored regardless of this setting.
          **/
-        query_popup &allow_anykey( bool allow );
+        auto allow_anykey( bool allow ) -> query_popup &;
         /**
          * Specify whether an implicit cancel option is allowed. This call does
          * not list the cancel option in the UI. Use `option( "QUIT" )` instead
          * to explicitly list cancel in the UI.
          **/
-        query_popup &allow_cancel( bool allow );
+        auto allow_cancel( bool allow ) -> query_popup &;
         /**
          * Whether to show the popup on the top of the screen
          **/
-        query_popup &on_top( bool top );
+        auto on_top( bool top ) -> query_popup &;
         /**
          * Whether to show the popup in `FULL_SCREEN_HEIGHT` and `FULL_SCREEN_WIDTH`.
          **/
-        query_popup &full_screen( bool full );
+        auto full_screen( bool full ) -> query_popup &;
         /**
          * Specify starting cursor position.
          **/
-        query_popup &cursor( size_t pos );
+        auto cursor( size_t pos ) -> query_popup &;
         /**
          * Specify the default message color.
          **/
-        query_popup &default_color( const nc_color &d_color );
+        auto default_color( const nc_color &d_color ) -> query_popup &;
 
         /**
          * Draw the UI. An input context should be provided using `context()`
@@ -186,18 +186,18 @@ class query_popup
          * have `allow_cancel` or `allow_anykey` set to true. Otherwise
          * { false, "ERROR", {} } is returned. The same applies to `query`.
          **/
-        result query_once();
+        auto query_once() -> result;
         /**
          * Query until a valid action or an error happens and return the result.
          */
-        result query();
+        auto query() -> result;
 
     protected:
         /**
          * Create or get a ui_adaptor on the UI stack to handle redrawing and
          * resizing of the popup.
          */
-        std::shared_ptr<ui_adaptor> create_or_get_adaptor( bool disable_below = false );
+        auto create_or_get_adaptor( bool disable_below = false ) -> std::shared_ptr<ui_adaptor>;
 
     private:
         struct query_option {
@@ -232,10 +232,10 @@ class query_popup
         mutable std::vector<std::string> folded_msg;
         mutable std::vector<button> buttons;
 
-        static std::vector<std::vector<std::string>> fold_query(
+        static auto fold_query(
                     const std::string &category,
                     const std::vector<query_option> &options,
-                    int max_width, int horz_padding );
+                    int max_width, int horz_padding ) -> std::vector<std::vector<std::string>>;
         void invalidate_ui() const;
         void init() const;
 
@@ -247,8 +247,8 @@ class query_popup
                            "use `message( \"%s\", text )` instead." );
         }
 
-        static std::string wait_text( const std::string &text, const nc_color &bar_color );
-        static std::string wait_text( const std::string &text );
+        static auto wait_text( const std::string &text, const nc_color &bar_color ) -> std::string;
+        static auto wait_text( const std::string &text ) -> std::string;
 };
 
 /**

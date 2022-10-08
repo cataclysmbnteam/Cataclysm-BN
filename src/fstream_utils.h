@@ -33,23 +33,23 @@ struct cata_ofstream {
         cata_ofstream( const cata_ofstream & ) = delete;
         cata_ofstream( cata_ofstream &&x );
         ~cata_ofstream();
-        cata_ofstream &operator=( const cata_ofstream & ) = delete;
-        cata_ofstream &operator=( cata_ofstream && );
+        auto operator=( const cata_ofstream & ) -> cata_ofstream & = delete;
+        auto operator=( cata_ofstream && ) -> cata_ofstream &;
 
-        inline cata_ofstream &mode( cata_ios_mode m ) {
+        inline auto mode( cata_ios_mode m ) -> cata_ofstream & {
             _mode = m;
             return *this;
         }
 
-        cata_ofstream &open( const std::string &path );
-        bool is_open();
-        bool fail();
-        bool bad();
+        auto open( const std::string &path ) -> cata_ofstream &;
+        auto is_open() -> bool;
+        auto fail() -> bool;
+        auto bad() -> bool;
         void flush();
         void close();
 
-        std::ostream &operator*();
-        std::ostream *operator->();
+        auto operator*() -> std::ostream &;
+        auto operator->() -> std::ostream *;
 
     private:
         cata_ios_mode _mode = cata_ios_mode::none;
@@ -71,21 +71,21 @@ struct cata_ifstream {
         cata_ifstream( const cata_ifstream & ) = delete;
         cata_ifstream( cata_ifstream &&x );
         ~cata_ifstream();
-        cata_ifstream &operator=( const cata_ifstream & ) = delete;
-        cata_ifstream &operator=( cata_ifstream && );
+        auto operator=( const cata_ifstream & ) -> cata_ifstream & = delete;
+        auto operator=( cata_ifstream && ) -> cata_ifstream &;
 
-        inline cata_ifstream &mode( cata_ios_mode m ) {
+        inline auto mode( cata_ios_mode m ) -> cata_ifstream & {
             _mode = m;
             return *this;
         }
-        cata_ifstream &open( const std::string &path );
-        bool is_open();
-        bool fail();
-        bool bad();
+        auto open( const std::string &path ) -> cata_ifstream &;
+        auto is_open() -> bool;
+        auto fail() -> bool;
+        auto bad() -> bool;
         void close();
 
-        std::istream &operator*();
-        std::istream *operator->();
+        auto operator*() -> std::istream &;
+        auto operator->() -> std::istream *;
 
     private:
         cata_ios_mode _mode = cata_ios_mode::none;
@@ -110,8 +110,8 @@ struct cata_ifstream {
  * The other function catches all exceptions and returns false.
  */
 ///@{
-bool write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer,
-                    const char *fail_message );
+auto write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer,
+                    const char *fail_message ) -> bool;
 void write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer );
 ///@}
 
@@ -137,15 +137,15 @@ class JsonDeserializer;
  * @return `true` is the file was read without any errors, `false` upon any error.
  */
 /**@{*/
-bool read_from_file( const std::string &path, const std::function<void( std::istream & )> &reader );
-bool read_from_file_json( const std::string &path, const std::function<void( JsonIn & )> &reader );
-bool read_from_file( const std::string &path, JsonDeserializer &reader );
+auto read_from_file( const std::string &path, const std::function<void( std::istream & )> &reader ) -> bool;
+auto read_from_file_json( const std::string &path, const std::function<void( JsonIn & )> &reader ) -> bool;
+auto read_from_file( const std::string &path, JsonDeserializer &reader ) -> bool;
 
-bool read_from_file_optional( const std::string &path,
-                              const std::function<void( std::istream & )> &reader );
-bool read_from_file_optional_json( const std::string &path,
-                                   const std::function<void( JsonIn & )> &reader );
-bool read_from_file_optional( const std::string &path, JsonDeserializer &reader );
+auto read_from_file_optional( const std::string &path,
+                              const std::function<void( std::istream & )> &reader ) -> bool;
+auto read_from_file_optional_json( const std::string &path,
+                                   const std::function<void( JsonIn & )> &reader ) -> bool;
+auto read_from_file_optional( const std::string &path, JsonDeserializer &reader ) -> bool;
 /**@}*/
 /**
  * Wrapper around std::ofstream that handles error checking and throws on errors.
@@ -175,7 +175,7 @@ class ofstream_wrapper
         ofstream_wrapper( const std::string &path, cata_ios_mode mode );
         ~ofstream_wrapper();
 
-        std::ostream &stream() {
+        auto stream() -> std::ostream & {
             return *file_stream;
         }
         operator std::ostream &() {
@@ -185,7 +185,7 @@ class ofstream_wrapper
         void close();
 };
 
-std::istream &safe_getline( std::istream &ins, std::string &str );
+auto safe_getline( std::istream &ins, std::string &str ) -> std::istream &;
 
 /**
  * @group JSON (de)serialization wrappers.
@@ -202,12 +202,12 @@ std::istream &safe_getline( std::istream &ins, std::string &str );
  * JSON or unexpected/invalid content.
  */
 /**@{*/
-std::string serialize_wrapper( const std::function<void( JsonOut & )> &callback );
+auto serialize_wrapper( const std::function<void( JsonOut & )> &callback ) -> std::string;
 void deserialize_wrapper( const std::function<void( JsonIn & )> &callback,
                           const std::string &data );
 
 template<typename T>
-inline std::string serialize( const T &obj )
+inline auto serialize( const T &obj ) -> std::string
 {
     return serialize_wrapper( [&obj]( JsonOut & jsout ) {
         obj.serialize( jsout );

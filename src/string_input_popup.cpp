@@ -278,17 +278,17 @@ void string_input_popup::query( const bool loop, const bool draw_only )
     query_string( loop, draw_only );
 }
 
-int string_input_popup::query_int( const bool loop, const bool draw_only )
+auto string_input_popup::query_int( const bool loop, const bool draw_only ) -> int
 {
     return std::atoi( query_string( loop, draw_only ).c_str() );
 }
 
-int64_t string_input_popup::query_int64_t( const bool loop, const bool draw_only )
+auto string_input_popup::query_int64_t( const bool loop, const bool draw_only ) -> int64_t
 {
     return std::atoll( query_string( loop, draw_only ).c_str() );
 }
 
-const std::string &string_input_popup::query_string( const bool loop, const bool draw_only )
+auto string_input_popup::query_string( const bool loop, const bool draw_only ) -> const std::string &
 {
     if( !custom_window && !w ) {
         create_window();
@@ -482,8 +482,8 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
     return _text;
 }
 
-string_input_popup &string_input_popup::window( const catacurses::window &w, const point &start,
-        int endx )
+auto string_input_popup::window( const catacurses::window &w, const point &start,
+        int endx ) -> string_input_popup &
 {
     if( !custom_window && this->w ) {
         // default window already created
@@ -497,7 +497,7 @@ string_input_popup &string_input_popup::window( const catacurses::window &w, con
     return *this;
 }
 
-string_input_popup &string_input_popup::context( input_context &ctxt )
+auto string_input_popup::context( input_context &ctxt ) -> string_input_popup &
 {
     ctxt_ptr.reset();
     this->ctxt = &ctxt;
@@ -535,7 +535,7 @@ void string_input_popup::edit( int &value )
     }
 }
 
-string_input_popup &string_input_popup::text( const std::string &value )
+auto string_input_popup::text( const std::string &value ) -> string_input_popup &
 {
     _text = value;
     const auto u8size = utf8_wrapper( _text ).size();

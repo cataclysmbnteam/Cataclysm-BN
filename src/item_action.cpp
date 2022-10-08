@@ -44,7 +44,7 @@ struct tripoint;
 
 static item_action nullaction;
 
-static char key_bound_to( const input_context &ctxt, const item_action_id &act )
+static auto key_bound_to( const input_context &ctxt, const item_action_id &act ) -> char
 {
     auto keys = ctxt.keys_bound_to( act );
     return keys.empty() ? '\0' : keys[0];
@@ -58,8 +58,8 @@ class actmenu_cb : public uilist_callback
         actmenu_cb( const action_map &acm ) : am( acm ) { }
         ~actmenu_cb() override = default;
 
-        bool key( const input_context &ctxt, const input_event &event, int /*idx*/,
-                  uilist * /*menu*/ ) override {
+        auto key( const input_context &ctxt, const input_event &event, int /*idx*/,
+                  uilist * /*menu*/ ) -> bool override {
             const std::string &action = ctxt.input_to_action( event );
             // Don't write a message if unknown command was sent
             // Only when an inexistent tool was selected
@@ -77,7 +77,7 @@ item_action_generator::item_action_generator() = default;
 item_action_generator::~item_action_generator() = default;
 
 // Get use methods of this item and its contents
-bool item::item_has_uses_recursive() const
+auto item::item_has_uses_recursive() const -> bool
 {
     if( !type->use_methods.empty() ) {
         return true;
@@ -86,7 +86,7 @@ bool item::item_has_uses_recursive() const
     return contents.item_has_uses_recursive();
 }
 
-bool item_contents::item_has_uses_recursive() const
+auto item_contents::item_has_uses_recursive() const -> bool
 {
     for( const item &it : items ) {
         if( it.item_has_uses_recursive() ) {
@@ -96,13 +96,13 @@ bool item_contents::item_has_uses_recursive() const
     return false;
 }
 
-item_action_map item_action_generator::map_actions_to_items( player &p ) const
+auto item_action_generator::map_actions_to_items( player &p ) const -> item_action_map
 {
     return map_actions_to_items( p, std::vector<item *>() );
 }
 
-item_action_map item_action_generator::map_actions_to_items( player &p,
-        const std::vector<item *> &pseudos ) const
+auto item_action_generator::map_actions_to_items( player &p,
+        const std::vector<item *> &pseudos ) const -> item_action_map
 {
     std::set< item_action_id > unmapped_actions;
     for( auto &ia_ptr : item_actions ) { // Get ids of wanted actions
@@ -174,7 +174,7 @@ item_action_map item_action_generator::map_actions_to_items( player &p,
     return candidates;
 }
 
-std::string item_action_generator::get_action_name( const item_action_id &id ) const
+auto item_action_generator::get_action_name( const item_action_id &id ) const -> std::string
 {
     const auto &act = get_action( id );
     if( !act.name.empty() ) {
@@ -184,12 +184,12 @@ std::string item_action_generator::get_action_name( const item_action_id &id ) c
     return id;
 }
 
-bool item_action_generator::action_exists( const item_action_id &id ) const
+auto item_action_generator::action_exists( const item_action_id &id ) const -> bool
 {
     return item_actions.find( id ) != item_actions.end();
 }
 
-const item_action &item_action_generator::get_action( const item_action_id &id ) const
+auto item_action_generator::get_action( const item_action_id &id ) const -> const item_action &
 {
     const auto &iter = item_actions.find( id );
     if( iter != item_actions.end() ) {
@@ -338,7 +338,7 @@ void game::item_action_menu()
     u.inv.unsort();
 }
 
-std::string use_function::get_type() const
+auto use_function::get_type() const -> std::string
 {
     if( actor ) {
         return actor->type;
@@ -347,22 +347,22 @@ std::string use_function::get_type() const
     }
 }
 
-ret_val<bool> iuse_actor::can_use( const Character &, const item &, bool, const tripoint & ) const
+auto iuse_actor::can_use( const Character &, const item &, bool, const tripoint & ) const -> ret_val<bool>
 {
     return ret_val<bool>::make_success();
 }
 
-bool iuse_actor::is_valid() const
+auto iuse_actor::is_valid() const -> bool
 {
     return item_action_generator::generator().action_exists( type );
 }
 
-std::string iuse_actor::get_name() const
+auto iuse_actor::get_name() const -> std::string
 {
     return item_action_generator::generator().get_action_name( type );
 }
 
-std::string use_function::get_name() const
+auto use_function::get_name() const -> std::string
 {
     if( actor ) {
         return actor->get_name();

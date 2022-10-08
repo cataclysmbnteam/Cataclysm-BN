@@ -64,14 +64,14 @@ generic_factory<npc_class> npc_class_factory( "npc_class" );
 
 /** @relates string_id */
 template<>
-const npc_class &string_id<npc_class>::obj() const
+auto string_id<npc_class>::obj() const -> const npc_class &
 {
     return npc_class_factory.obj( *this );
 }
 
 /** @relates string_id */
 template<>
-bool string_id<npc_class>::is_valid() const
+auto string_id<npc_class>::is_valid() const -> bool
 {
     return npc_class_factory.is_valid( *this );
 }
@@ -164,7 +164,7 @@ void npc_class::check_consistency()
     }
 }
 
-static distribution load_distribution( const JsonObject &jo )
+static auto load_distribution( const JsonObject &jo ) -> distribution
 {
     if( jo.has_float( "constant" ) ) {
         return distribution::constant( jo.get_float( "constant" ) );
@@ -212,7 +212,7 @@ static distribution load_distribution( const JsonObject &jo )
     return distribution();
 }
 
-static distribution load_distribution( const JsonObject &jo, const std::string &name )
+static auto load_distribution( const JsonObject &jo, const std::string &name ) -> distribution
 {
     if( !jo.has_member( name ) ) {
         return distribution();
@@ -312,7 +312,7 @@ void npc_class::load( const JsonObject &jo, const std::string & )
     }
 }
 
-const npc_class_id &npc_class::from_legacy_int( int i )
+auto npc_class::from_legacy_int( int i ) -> const npc_class_id &
 {
     if( i < 0 || static_cast<size_t>( i ) >= legacy_ids.size() ) {
         debugmsg( "Invalid legacy class id: %d", i );
@@ -322,12 +322,12 @@ const npc_class_id &npc_class::from_legacy_int( int i )
     return legacy_ids[ i ];
 }
 
-const std::vector<npc_class> &npc_class::get_all()
+auto npc_class::get_all() -> const std::vector<npc_class> &
 {
     return npc_class_factory.get_all();
 }
 
-const npc_class_id &npc_class::random_common()
+auto npc_class::random_common() -> const npc_class_id &
 {
     std::list<const npc_class_id *> common_classes;
     for( const auto &pr : npc_class_factory.get_all() ) {
@@ -343,42 +343,42 @@ const npc_class_id &npc_class::random_common()
     return *random_entry( common_classes );
 }
 
-std::string npc_class::get_name() const
+auto npc_class::get_name() const -> std::string
 {
     return name.translated();
 }
 
-std::string npc_class::get_job_description() const
+auto npc_class::get_job_description() const -> std::string
 {
     return job_description.translated();
 }
 
-const item_group_id &npc_class::get_shopkeeper_items() const
+auto npc_class::get_shopkeeper_items() const -> const item_group_id &
 {
     return shopkeeper_item_group;
 }
 
-int npc_class::roll_strength() const
+auto npc_class::roll_strength() const -> int
 {
     return dice( 4, 3 ) + bonus_str.roll();
 }
 
-int npc_class::roll_dexterity() const
+auto npc_class::roll_dexterity() const -> int
 {
     return dice( 4, 3 ) + bonus_dex.roll();
 }
 
-int npc_class::roll_intelligence() const
+auto npc_class::roll_intelligence() const -> int
 {
     return dice( 4, 3 ) + bonus_int.roll();
 }
 
-int npc_class::roll_perception() const
+auto npc_class::roll_perception() const -> int
 {
     return dice( 4, 3 ) + bonus_per.roll();
 }
 
-int npc_class::roll_skill( const skill_id &sid ) const
+auto npc_class::roll_skill( const skill_id &sid ) const -> int
 {
     const auto &iter = skills.find( sid );
     if( iter == skills.end() ) {
@@ -405,19 +405,19 @@ distribution::distribution( std::function<float()> gen )
     generator_function = gen;
 }
 
-float distribution::roll() const
+auto distribution::roll() const -> float
 {
     return generator_function();
 }
 
-distribution distribution::constant( float val )
+auto distribution::constant( float val ) -> distribution
 {
     return distribution( [val]() {
         return val;
     } );
 }
 
-distribution distribution::one_in( float in )
+auto distribution::one_in( float in ) -> distribution
 {
     if( in <= 1.0f ) {
         debugmsg( "Invalid one_in: %.2f", in );
@@ -429,14 +429,14 @@ distribution distribution::one_in( float in )
     } );
 }
 
-distribution distribution::rng_roll( int from, int to )
+auto distribution::rng_roll( int from, int to ) -> distribution
 {
     return distribution( [from, to]() -> float {
         return rng( from, to );
     } );
 }
 
-distribution distribution::dice_roll( int sides, int size )
+auto distribution::dice_roll( int sides, int size ) -> distribution
 {
     if( sides < 1 || size < 1 ) {
         debugmsg( "Invalid dice: %d sides, %d sizes", sides, size );
@@ -448,7 +448,7 @@ distribution distribution::dice_roll( int sides, int size )
     } );
 }
 
-distribution distribution::operator+( const distribution &other ) const
+auto distribution::operator+( const distribution &other ) const -> distribution
 {
     auto my_fun = generator_function;
     auto other_fun = other.generator_function;
@@ -457,7 +457,7 @@ distribution distribution::operator+( const distribution &other ) const
     } );
 }
 
-distribution distribution::operator*( const distribution &other ) const
+auto distribution::operator*( const distribution &other ) const -> distribution
 {
     auto my_fun = generator_function;
     auto other_fun = other.generator_function;
@@ -466,4 +466,4 @@ distribution distribution::operator*( const distribution &other ) const
     } );
 }
 
-distribution &distribution::operator=( const distribution &other ) = default;
+auto distribution::operator=( const distribution &other ) -> distribution & = default;

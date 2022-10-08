@@ -45,7 +45,7 @@ void lightson_game::reset_level()
     position = point_zero;
 }
 
-bool lightson_game::get_value_at( const point &pt )
+auto lightson_game::get_value_at( const point &pt ) -> bool
 {
     return level[pt.y * level_size.x + pt.x];
 }
@@ -96,7 +96,7 @@ void lightson_game::generate_change_coords( int changes )
     }
 }
 
-bool lightson_game::check_win()
+auto lightson_game::check_win() -> bool
 {
     return std::all_of( level.begin(), level.end(), []( bool i ) {
         return i;
@@ -127,7 +127,7 @@ void lightson_game::toggle_lights_at( const point &pt )
     }
 }
 
-int lightson_game::start_game()
+auto lightson_game::start_game() -> int
 {
     const int w_height = 15;
 

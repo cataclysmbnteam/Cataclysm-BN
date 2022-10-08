@@ -18,11 +18,11 @@ struct rotatable_symbol {
     uint32_t symbol;
     std::array<uint32_t, 3> rotated_symbol;
 
-    bool operator<( const uint32_t &rhs ) const {
+    auto operator<( const uint32_t &rhs ) const -> bool {
         return symbol < rhs;
     }
 
-    bool operator<( const rotatable_symbol &rhs ) const {
+    auto operator<( const rotatable_symbol &rhs ) const -> bool {
         return symbol < rhs.symbol;
     }
 };
@@ -86,7 +86,7 @@ void reset()
     symbols.clear();
 }
 
-uint32_t get( const uint32_t &symbol, int n )
+auto get( const uint32_t &symbol, int n ) -> uint32_t
 {
     n = std::abs( n ) % 4;
 

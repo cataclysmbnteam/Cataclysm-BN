@@ -10,16 +10,16 @@
 enum action_id : int;
 struct special_game;
 
-std::string special_game_name( special_game_id id );
-std::unique_ptr<special_game> get_special_game( special_game_id id );
+auto special_game_name( special_game_id id ) -> std::string;
+auto get_special_game( special_game_id id ) -> std::unique_ptr<special_game>;
 
 struct special_game {
     virtual ~special_game() = default;
-    virtual special_game_id id() {
+    virtual auto id() -> special_game_id {
         return SGAME_NULL;
     }
     // Run when the game begins
-    virtual bool init() {
+    virtual auto init() -> bool {
         return true;
     }
     // Run every turn--before any player actions

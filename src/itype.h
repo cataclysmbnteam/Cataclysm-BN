@@ -55,17 +55,17 @@ class gun_modifier_data
          */
         gun_modifier_data( const std::string &n, const int q, const std::set<std::string> &f ) : name_( n ),
             qty_( q ), flags_( f ) { }
-        std::string name() const {
+        auto name() const -> std::string {
             return name_;
         }
         /// @returns The translated name of the gun mode.
-        std::string tname() const {
+        auto tname() const -> std::string {
             return _( name_ );
         }
-        int qty() const {
+        auto qty() const -> int {
             return qty_;
         }
-        const std::set<std::string> &flags() const {
+        auto flags() const -> const std::set<std::string> & {
             return flags_;
         }
 };
@@ -80,16 +80,16 @@ class gunmod_location
         gunmod_location( const std::string &id ) : _id( id ) { }
 
         /// Returns the translated name.
-        std::string name() const;
+        auto name() const -> std::string;
         /// Returns the location id.
-        std::string str() const {
+        auto str() const -> std::string {
             return _id;
         }
 
-        bool operator==( const gunmod_location &rhs ) const {
+        auto operator==( const gunmod_location &rhs ) const -> bool {
             return _id == rhs._id;
         }
-        bool operator<( const gunmod_location &rhs ) const {
+        auto operator<( const gunmod_location &rhs ) const -> bool {
             return _id < rhs._id;
         }
 };
@@ -179,11 +179,11 @@ struct islot_comestible {
         /** 1 nutr ~= 8.7kcal (1 nutr/5min = 288 nutr/day at 2500kcal/day) */
         static constexpr float kcal_per_nutr = 2500.0f / ( 12 * 24 );
 
-        bool has_calories() const {
+        auto has_calories() const -> bool {
             return default_nutrition.kcal > 0;
         }
 
-        int get_default_nutr() const {
+        auto get_default_nutr() const -> int {
             return default_nutrition.kcal / kcal_per_nutr;
         }
 
@@ -373,10 +373,10 @@ struct islot_book {
          * Hidden means it does not show up in the description of the book.
          */
         bool hidden;
-        bool operator<( const recipe_with_description_t &rhs ) const {
+        auto operator<( const recipe_with_description_t &rhs ) const -> bool {
             return recipe < rhs.recipe;
         }
-        bool is_hidden() const {
+        auto is_hidden() const -> bool {
             return hidden;
         }
     };
@@ -554,9 +554,9 @@ class gun_type_type
         /// for translation with the context "gun_type_type".
         gun_type_type( const std::string &name ) : name_( name ) {}
         /// Translated name.
-        std::string name() const;
+        auto name() const -> std::string;
 
-        friend bool operator==( const gun_type_type &l, const gun_type_type &r ) {
+        friend auto operator==( const gun_type_type &l, const gun_type_type &r ) -> bool {
             return l.name_ == r.name_;
         }
 
@@ -569,7 +569,7 @@ namespace std
 
 template<>
 struct hash<gun_type_type> {
-    size_t operator()( const gun_type_type &t ) const {
+    auto operator()( const gun_type_type &t ) const -> size_t {
         return hash<std::string>()( t.name_ );
     }
 };
@@ -890,10 +890,10 @@ struct itype {
         itype();
         virtual ~itype();
 
-        int damage_min() const {
+        auto damage_min() const -> int {
             return count_by_charges() ? 0 : damage_min_;
         }
-        int damage_max() const {
+        auto damage_max() const -> int {
             return count_by_charges() ? 0 : damage_max_;
         }
 
@@ -1043,7 +1043,7 @@ struct itype {
 
         FlagsSetType item_tags;
 
-        std::string get_item_type_string() const {
+        auto get_item_type_string() const -> std::string {
             if( tool ) {
                 return "TOOL";
             } else if( comestible ) {
@@ -1066,18 +1066,18 @@ struct itype {
 
         // Returns the name of the item type in the correct language and with respect to its grammatical number,
         // based on quantity (example: item type “anvil”, nname(4) would return “anvils” (as in “4 anvils”).
-        std::string nname( unsigned int quantity ) const;
+        auto nname( unsigned int quantity ) const -> std::string;
 
         // Allow direct access to the type id for the few cases that need it.
-        const itype_id &get_id() const {
+        auto get_id() const -> const itype_id & {
             return id;
         }
 
-        bool count_by_charges() const {
+        auto count_by_charges() const -> bool {
             return stackable_ || ammo || comestible;
         }
 
-        int charges_default() const {
+        auto charges_default() const -> int {
             if( tool ) {
                 return tool->def_charges;
             } else if( comestible ) {
@@ -1088,7 +1088,7 @@ struct itype {
             return count_by_charges() ? 1 : 0;
         }
 
-        int charges_to_use() const {
+        auto charges_to_use() const -> int {
             if( tool ) {
                 return static_cast<int>( tool->charges_per_use );
             }
@@ -1096,39 +1096,39 @@ struct itype {
         }
 
         // for tools that sub another tool, but use a different ratio of charges
-        int charge_factor() const {
+        auto charge_factor() const -> int {
             return tool ? tool->charge_factor : 1;
         }
 
-        int maximum_charges() const {
+        auto maximum_charges() const -> int {
             if( tool ) {
                 return tool->max_charges;
             }
             return 1;
         }
-        bool can_have_charges() const;
+        auto can_have_charges() const -> bool;
 
         /**
          * Number of (charges of) this type of item that fit into the given volume.
          * May return 0 if not even one charge fits into the volume.
          */
-        int charges_per_volume( const units::volume &vol ) const;
+        auto charges_per_volume( const units::volume &vol ) const -> int;
 
-        bool has_use() const;
+        auto has_use() const -> bool;
 
         // TODO: Remove the string version
-        bool has_flag( const std::string &flag ) const;
-        bool has_flag( const flag_str_id &flag ) const;
+        auto has_flag( const std::string &flag ) const -> bool;
+        auto has_flag( const flag_str_id &flag ) const -> bool;
 
         // returns read-only set of all item tags/flags
-        const FlagsSetType &get_flags() const;
+        auto get_flags() const -> const FlagsSetType &;
 
-        bool can_use( const std::string &iuse_name ) const;
-        const use_function *get_use( const std::string &iuse_name ) const;
+        auto can_use( const std::string &iuse_name ) const -> bool;
+        auto get_use( const std::string &iuse_name ) const -> const use_function *;
 
         // Here "invoke" means "actively use". "Tick" means "active item working"
-        int invoke( player &p, item &it, const tripoint &pos ) const; // Picks first method or returns 0
-        int invoke( player &p, item &it, const tripoint &pos, const std::string &iuse_name ) const;
+        auto invoke( player &p, item &it, const tripoint &pos ) const -> int; // Picks first method or returns 0
+        auto invoke( player &p, item &it, const tripoint &pos, const std::string &iuse_name ) const -> int;
         void tick( player &p, item &it, const tripoint &pos ) const;
 };
 

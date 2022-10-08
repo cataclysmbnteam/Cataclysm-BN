@@ -23,19 +23,19 @@ class mod_tileset
             full_path_( new_full_path ),
             num_in_file_( new_num_in_file ) { }
 
-        const std::string &get_base_path() const {
+        auto get_base_path() const -> const std::string & {
             return base_path_;
         }
 
-        const std::string &get_full_path() const {
+        auto get_full_path() const -> const std::string & {
             return full_path_;
         }
 
-        int num_in_file() const {
+        auto num_in_file() const -> int {
             return num_in_file_;
         }
 
-        bool is_compatible( const std::string &tileset_id ) const;
+        auto is_compatible( const std::string &tileset_id ) const -> bool;
         void add_compatible_tileset( const std::string &tileset_id );
 
     private:

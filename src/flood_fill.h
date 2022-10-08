@@ -23,8 +23,8 @@ namespace ff
 * not the point should be filled.
 */
 template<typename Point, typename UnaryPredicate>
-std::vector<Point> point_flood_fill_4_connected( const Point &starting_point,
-        std::unordered_set<Point> &visited, UnaryPredicate predicate )
+auto point_flood_fill_4_connected( const Point &starting_point,
+        std::unordered_set<Point> &visited, UnaryPredicate predicate ) -> std::vector<Point>
 {
     std::vector<Point> filled_points;
     std::queue<Point> to_check;

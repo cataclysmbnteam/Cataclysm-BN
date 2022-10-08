@@ -802,7 +802,7 @@ void groundcover_extra::finalize()   // FIXME: return bool for failure
     boosted_percent_str.clear();
 }
 
-ter_furn_id groundcover_extra::pick( bool boosted ) const
+auto groundcover_extra::pick( bool boosted ) const -> ter_furn_id
 {
     if( boosted ) {
         return boosted_weightlist.lower_bound( rng( 0, 1000000 ) )->second;
@@ -840,7 +840,7 @@ void forest_biome_terrain_dependent_furniture::finalize()
     }
 }
 
-ter_furn_id forest_biome::pick() const
+auto forest_biome::pick() const -> ter_furn_id
 {
     // Iterate through the biome components (which have already been put into sequence), roll for the
     // one_in chance that component contributes a feature, and if so pick that feature and return it.
@@ -972,7 +972,7 @@ void region_terrain_and_furniture_settings::finalize()
     }
 }
 
-ter_id region_terrain_and_furniture_settings::resolve( const ter_id &tid ) const
+auto region_terrain_and_furniture_settings::resolve( const ter_id &tid ) const -> ter_id
 {
     ter_id result = tid;
     auto region_list = terrain.find( result );
@@ -983,7 +983,7 @@ ter_id region_terrain_and_furniture_settings::resolve( const ter_id &tid ) const
     return result;
 }
 
-furn_id region_terrain_and_furniture_settings::resolve( const furn_id &fid ) const
+auto region_terrain_and_furniture_settings::resolve( const furn_id &fid ) const -> furn_id
 {
     furn_id result = fid;
     auto region_list = furniture.find( result );
@@ -1012,17 +1012,17 @@ void regional_settings::finalize()
     }
 }
 
-overmap_special_id city_settings::pick_house() const
+auto city_settings::pick_house() const -> overmap_special_id
 {
     return houses.pick()->id;
 }
 
-overmap_special_id city_settings::pick_shop() const
+auto city_settings::pick_shop() const -> overmap_special_id
 {
     return shops.pick()->id;
 }
 
-overmap_special_id city_settings::pick_park() const
+auto city_settings::pick_park() const -> overmap_special_id
 {
     return parks.pick()->id;
 }
@@ -1044,7 +1044,7 @@ void building_bin::add( const overmap_special_id &building, int weight )
     unfinalized_buildings[ building ] = weight;
 }
 
-overmap_special_id building_bin::pick() const
+auto building_bin::pick() const -> overmap_special_id
 {
     if( !finalized ) {
         debugmsg( "Tried to pick a special out of a non-finalized bin" );

@@ -40,14 +40,14 @@ struct affected_type {
     public:
         affected_type( affected_stat s );
         affected_type( affected_stat s, damage_type t );
-        bool operator<( const affected_type & ) const;
-        bool operator==( const affected_type & ) const;
+        auto operator<( const affected_type & ) const -> bool;
+        auto operator==( const affected_type & ) const -> bool;
 
-        affected_stat get_stat() const {
+        auto get_stat() const -> affected_stat {
             return stat;
         }
 
-        damage_type get_damage_type() const {
+        auto get_damage_type() const -> damage_type {
             return type;
         }
 
@@ -61,7 +61,7 @@ struct effect_scaling {
     scaling_stat stat;
     float scale;
 
-    float get( const Character &u ) const;
+    auto get( const Character &u ) const -> float;
 
     effect_scaling( const JsonObject &obj );
 };
@@ -72,13 +72,13 @@ class bonus_container
         bonus_container();
         void load( const JsonObject &jo );
 
-        float get_flat( const Character &u, affected_stat stat, damage_type dt ) const;
-        float get_flat( const Character &u, affected_stat stat ) const;
+        auto get_flat( const Character &u, affected_stat stat, damage_type dt ) const -> float;
+        auto get_flat( const Character &u, affected_stat stat ) const -> float;
 
-        float get_mult( const Character &u, affected_stat stat, damage_type dt ) const;
-        float get_mult( const Character &u, affected_stat stat ) const;
+        auto get_mult( const Character &u, affected_stat stat, damage_type dt ) const -> float;
+        auto get_mult( const Character &u, affected_stat stat ) const -> float;
 
-        std::string get_description() const;
+        auto get_description() const -> std::string;
 
     private:
         void load( const JsonArray &jarr, bool mult );

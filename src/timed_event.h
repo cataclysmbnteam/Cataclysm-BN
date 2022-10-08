@@ -58,10 +58,10 @@ class timed_event_manager
          */
         void add( timed_event_type type, const time_point &when, int faction_id, const tripoint &where );
         /// @returns Whether at least one element of the given type is queued.
-        bool queued( timed_event_type type ) const;
+        auto queued( timed_event_type type ) const -> bool;
         /// @returns One of the queued events of the given type, or `nullptr`
         /// if no event of that type is queued.
-        timed_event *get( timed_event_type type );
+        auto get( timed_event_type type ) -> timed_event *;
         /// Process all queued events, potentially altering the game state and
         /// modifying the event queue.
         void process();

@@ -46,12 +46,12 @@ class sokoban_game
         std::map<int, bool> mAlreadyWon;
 
         void parse_level( std::istream &fin );
-        bool check_win();
-        int get_wall_connection( const point & );
+        auto check_win() -> bool;
+        auto get_wall_connection( const point & ) -> int;
         void draw_level( const catacurses::window &w_sokoban );
         void print_score( const catacurses::window &w_sokoban, int iScore, int iMoves );
     public:
-        int start_game();
+        auto start_game() -> int;
         sokoban_game();
 };
 

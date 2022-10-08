@@ -182,7 +182,7 @@ struct prepared_item_consumption {
     item_consumption_t type;
     const item &it;
 
-    bool consume( Character &c ) {
+    auto consume( Character &c ) -> bool {
         // Ugly
         player &p = dynamic_cast<player &>( c );
         switch( type ) {
@@ -208,8 +208,8 @@ struct prepared_item_consumption {
 };
 
 // Should return item_location instead, but it's really hard to get it from inventory
-static cata::optional<prepared_item_consumption> find_food_heater( Character &c,
-        const inventory &inv, bool has_fire )
+static auto find_food_heater( Character &c,
+        const inventory &inv, bool has_fire ) -> cata::optional<prepared_item_consumption>
 {
     if( has_fire ) {
         std::vector<const item *> fire_heaters = inv.items_with( []( const item & it ) {
@@ -239,8 +239,8 @@ static cata::optional<prepared_item_consumption> find_food_heater( Character &c,
     return cata::nullopt;
 }
 
-static int compute_default_effective_kcal( const item &comest, const Character &you,
-        const cata::flat_set<std::string> &extra_flags = {} )
+static auto compute_default_effective_kcal( const item &comest, const Character &you,
+        const cata::flat_set<std::string> &extra_flags = {} ) -> int
 {
     if( !comest.get_comestible() ) {
         return 0;
@@ -282,8 +282,8 @@ static int compute_default_effective_kcal( const item &comest, const Character &
 
 // Compute default effective vitamins for an item, taking into account player
 // traits, but not components of the item.
-static std::map<vitamin_id, int> compute_default_effective_vitamins(
-    const item &it, const Character &you )
+static auto compute_default_effective_vitamins(
+    const item &it, const Character &you ) -> std::map<vitamin_id, int>
 {
     if( !it.get_comestible() ) {
         return {};
@@ -314,8 +314,8 @@ static std::map<vitamin_id, int> compute_default_effective_vitamins(
 
 // Calculate the effective nutrients for a given item, taking
 // into account character traits but not item components.
-static nutrients compute_default_effective_nutrients( const item &comest,
-        const Character &you, const cata::flat_set<std::string> &extra_flags = {} )
+static auto compute_default_effective_nutrients( const item &comest,
+        const Character &you, const cata::flat_set<std::string> &extra_flags = {} ) -> nutrients
 {
     return { compute_default_effective_kcal( comest, you, extra_flags ),
              compute_default_effective_vitamins( comest, you ) };
@@ -325,7 +325,7 @@ static nutrients compute_default_effective_nutrients( const item &comest,
 // the given item, taking into account the item components and the character's
 // traits.
 // This is used by item display, making actual nutrition available to character.
-nutrients Character::compute_effective_nutrients( const item &comest ) const
+auto Character::compute_effective_nutrients( const item &comest ) const -> nutrients
 {
     if( !comest.is_comestible() ) {
         return {};
@@ -351,9 +351,9 @@ nutrients Character::compute_effective_nutrients( const item &comest ) const
 
 // Calculate range of nutrients obtainable for a given item when crafted via
 // the given recipe
-std::pair<nutrients, nutrients> Character::compute_nutrient_range(
+auto Character::compute_nutrient_range(
     const item &comest, const recipe_id &recipe_i,
-    const cata::flat_set<std::string> &extra_flags ) const
+    const cata::flat_set<std::string> &extra_flags ) const -> std::pair<nutrients, nutrients>
 {
     if( !comest.is_comestible() ) {
         return {};
@@ -415,8 +415,8 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
 
 // Calculate the range of nturients possible for a given item across all
 // possible recipes
-std::pair<nutrients, nutrients> Character::compute_nutrient_range(
-    const itype_id &comest_id, const cata::flat_set<std::string> &extra_flags ) const
+auto Character::compute_nutrient_range(
+    const itype_id &comest_id, const cata::flat_set<std::string> &extra_flags ) const -> std::pair<nutrients, nutrients>
 {
     const itype *comest = &*comest_id;
     if( !comest->comestible ) {
@@ -457,12 +457,12 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
     return { min_nutr, max_nutr };
 }
 
-int Character::nutrition_for( const item &comest ) const
+auto Character::nutrition_for( const item &comest ) const -> int
 {
     return compute_effective_nutrients( comest ).kcal / islot_comestible::kcal_per_nutr;
 }
 
-std::pair<int, int> Character::fun_for( const item &comest ) const
+auto Character::fun_for( const item &comest ) const -> std::pair<int, int>
 {
     if( !comest.is_comestible() ) {
         return std::pair<int, int>( 0, 0 );
@@ -523,7 +523,7 @@ std::pair<int, int> Character::fun_for( const item &comest ) const
     return { static_cast< int >( fun ), static_cast< int >( fun_max ) };
 }
 
-time_duration Character::vitamin_rate( const vitamin_id &vit ) const
+auto Character::vitamin_rate( const vitamin_id &vit ) const -> time_duration
 {
     time_duration res = vit.obj().rate();
 
@@ -538,7 +538,7 @@ time_duration Character::vitamin_rate( const vitamin_id &vit ) const
     return res;
 }
 
-int Character::vitamin_mod( const vitamin_id &vit, int qty, bool capped )
+auto Character::vitamin_mod( const vitamin_id &vit, int qty, bool capped ) -> int
 {
     if( !vit.is_valid() ) {
         debugmsg( "Vitamin with id %s does not exist, and cannot be modified", vit.str() );
@@ -570,7 +570,7 @@ void Character::vitamins_mod( const std::map<vitamin_id, int> &vitamins, bool ca
     }
 }
 
-int Character::vitamin_get( const vitamin_id &vit ) const
+auto Character::vitamin_get( const vitamin_id &vit ) const -> int
 {
     if( get_option<bool>( "NO_VITAMINS" ) && vit->type() == vitamin_type::VITAMIN ) {
         return 0;
@@ -580,7 +580,7 @@ int Character::vitamin_get( const vitamin_id &vit ) const
     return v != vitamin_levels.end() ? v->second : 0;
 }
 
-bool Character::vitamin_set( const vitamin_id &vit, int qty )
+auto Character::vitamin_set( const vitamin_id &vit, int qty ) -> bool
 {
     auto v = vitamin_levels.find( vit );
     if( v == vitamin_levels.end() ) {
@@ -591,7 +591,7 @@ bool Character::vitamin_set( const vitamin_id &vit, int qty )
     return true;
 }
 
-float Character::metabolic_rate_base() const
+auto Character::metabolic_rate_base() const -> float
 {
     static const std::string hunger_rate_string( "PLAYER_HUNGER_RATE" );
     static const std::string metabolism_modifier( "metabolism_modifier" );
@@ -604,12 +604,12 @@ float Character::metabolic_rate_base() const
     return std::max( 0.0f, with_mut + ench_bonus );
 }
 
-float Character::metabolic_rate() const
+auto Character::metabolic_rate() const -> float
 {
     return metabolic_rate_base();
 }
 
-morale_type Character::allergy_type( const item &food ) const
+auto Character::allergy_type( const item &food ) const -> morale_type
 {
     using allergy_tuple = std::tuple<trait_id, std::string, morale_type>;
     static const std::array<allergy_tuple, 8> allergy_tuples = {{
@@ -632,7 +632,7 @@ morale_type Character::allergy_type( const item &food ) const
     return MORALE_NULL;
 }
 
-ret_val<edible_rating> Character::can_eat( const item &food ) const
+auto Character::can_eat( const item &food ) const -> ret_val<edible_rating>
 {
 
     const auto &comest = food.get_comestible();
@@ -722,7 +722,7 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
     return ret_val<edible_rating>::make_success();
 }
 
-ret_val<edible_rating> Character::will_eat( const item &food, bool interactive ) const
+auto Character::will_eat( const item &food, bool interactive ) const -> ret_val<edible_rating>
 {
     const auto ret = can_eat( food );
     if( !ret.success() ) {
@@ -818,7 +818,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
     return ret_val<edible_rating>::make_success();
 }
 
-bool player::eat( item &food, bool force )
+auto player::eat( item &food, bool force ) -> bool
 {
     if( !food.is_food() ) {
         return false;
@@ -1154,7 +1154,7 @@ void Character::modify_morale( item &food, int nutr )
     }
 }
 
-bool Character::consume_effects( item &food )
+auto Character::consume_effects( item &food ) -> bool
 {
     if( !food.is_comestible() ) {
         debugmsg( "called Character::consume_effects with non-comestible" );
@@ -1250,7 +1250,7 @@ bool Character::consume_effects( item &food )
     return true;
 }
 
-bool Character::can_feed_reactor_with( const item &it ) const
+auto Character::can_feed_reactor_with( const item &it ) const -> bool
 {
     static const std::set<ammotype> acceptable = {{
             ammotype( "reactor_slurry" ),
@@ -1271,7 +1271,7 @@ bool Character::can_feed_reactor_with( const item &it ) const
     } );
 }
 
-bool Character::feed_reactor_with( item &it )
+auto Character::feed_reactor_with( item &it ) -> bool
 {
     if( !can_feed_reactor_with( it ) ) {
         return false;
@@ -1297,7 +1297,7 @@ bool Character::feed_reactor_with( item &it )
     return true;
 }
 
-bool Character::can_feed_furnace_with( const item &it ) const
+auto Character::can_feed_furnace_with( const item &it ) const -> bool
 {
     if( !it.flammable() || it.has_flag( flag_RADIOACTIVE ) || can_eat( it ).success() ) {
         return false;
@@ -1315,7 +1315,7 @@ bool Character::can_feed_furnace_with( const item &it ) const
     return !it.has_flag( flag_CORPSE );
 }
 
-bool Character::feed_furnace_with( item &it )
+auto Character::feed_furnace_with( item &it ) -> bool
 {
     if( !can_feed_furnace_with( it ) ) {
         return false;
@@ -1373,7 +1373,7 @@ bool Character::feed_furnace_with( item &it )
     return true;
 }
 
-bool Character::fuel_bionic_with( item &it )
+auto Character::fuel_bionic_with( item &it ) -> bool
 {
     if( !can_fuel_bionic_with( it ) ) {
         return false;
@@ -1405,7 +1405,7 @@ bool Character::fuel_bionic_with( item &it )
     return true;
 }
 
-rechargeable_cbm Character::get_cbm_rechargeable_with( const item &it ) const
+auto Character::get_cbm_rechargeable_with( const item &it ) const -> rechargeable_cbm
 {
     if( can_feed_reactor_with( it ) ) {
         return rechargeable_cbm::reactor;
@@ -1422,7 +1422,7 @@ rechargeable_cbm Character::get_cbm_rechargeable_with( const item &it ) const
     return rechargeable_cbm::none;
 }
 
-int Character::get_acquirable_energy( const item &it, rechargeable_cbm cbm ) const
+auto Character::get_acquirable_energy( const item &it, rechargeable_cbm cbm ) const -> int
 {
     switch( cbm ) {
         case rechargeable_cbm::none:
@@ -1468,27 +1468,27 @@ int Character::get_acquirable_energy( const item &it, rechargeable_cbm cbm ) con
     return 0;
 }
 
-int Character::get_acquirable_energy( const item &it ) const
+auto Character::get_acquirable_energy( const item &it ) const -> int
 {
     return get_acquirable_energy( it, get_cbm_rechargeable_with( it ) );
 }
 
-bool Character::can_estimate_rot() const
+auto Character::can_estimate_rot() const -> bool
 {
     return get_skill_level( skill_cooking ) >= 3 || get_skill_level( skill_survival ) >= 4;
 }
 
-bool Character::can_consume_as_is( const item &it ) const
+auto Character::can_consume_as_is( const item &it ) const -> bool
 {
     return it.is_comestible() || can_consume_for_bionic( it );
 }
 
-bool Character::can_consume_for_bionic( const item &it ) const
+auto Character::can_consume_for_bionic( const item &it ) const -> bool
 {
     return get_cbm_rechargeable_with( it ) != rechargeable_cbm::none;
 }
 
-bool Character::can_consume( const item &it ) const
+auto Character::can_consume( const item &it ) const -> bool
 {
     if( can_consume_as_is( it ) ) {
         return true;
@@ -1498,7 +1498,7 @@ bool Character::can_consume( const item &it ) const
            can_consume_as_is( it.contents.front() );
 }
 
-item &Character::get_consumable_from( item &it ) const
+auto Character::get_consumable_from( item &it ) const -> item &
 {
     if( !it.is_container_empty() && can_consume_as_is( it.contents.front() ) ) {
         return it.contents.front();

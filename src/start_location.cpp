@@ -41,41 +41,41 @@ generic_factory<start_location> all_start_locations( "start locations" );
 
 /** @relates string_id */
 template<>
-const start_location &string_id<start_location>::obj() const
+auto string_id<start_location>::obj() const -> const start_location &
 {
     return all_start_locations.obj( *this );
 }
 
 /** @relates string_id */
 template<>
-bool string_id<start_location>::is_valid() const
+auto string_id<start_location>::is_valid() const -> bool
 {
     return all_start_locations.is_valid( *this );
 }
 
 /** @relates string_id */
 template<>
-int_id<start_location> string_id<start_location>::id() const
+auto string_id<start_location>::id() const -> int_id<start_location>
 {
     return all_start_locations.convert( *this, int_id<start_location>( INVALID_CID ) );
 }
 
-std::string start_location::name() const
+auto start_location::name() const -> std::string
 {
     return _name.translated();
 }
 
-int start_location::targets_count() const
+auto start_location::targets_count() const -> int
 {
     return _omt_types.size();
 }
 
-std::pair<std::string, ot_match_type> start_location::random_target() const
+auto start_location::random_target() const -> std::pair<std::string, ot_match_type>
 {
     return random_entry( _omt_types );
 }
 
-const std::set<std::string> &start_location::flags() const
+auto start_location::flags() const -> const std::set<std::string> &
 {
     return _flags;
 }
@@ -205,7 +205,7 @@ void start_location::prepare_map( tinymap &m ) const
     }
 }
 
-tripoint_abs_omt start_location::find_player_initial_location() const
+auto start_location::find_player_initial_location() const -> tripoint_abs_omt
 {
     // Spiral out from the world origin scanning for a compatible starting location,
     // creating overmaps as necessary.
@@ -247,9 +247,9 @@ void start_location::prepare_map( const tripoint_abs_omt &omtstart ) const
  * Maybe TODO: Allow "picking up" items or parts of bashable furniture
  *             and using them to help with bash attempts.
  */
-static int rate_location( map &m, const tripoint &p, const bool must_be_inside,
+static auto rate_location( map &m, const tripoint &p, const bool must_be_inside,
                           const int bash_str, const int attempt,
-                          int ( &checked )[MAPSIZE_X][MAPSIZE_Y] )
+                          int ( &checked )[MAPSIZE_X][MAPSIZE_Y] ) -> int
 {
     if( ( must_be_inside && m.is_outside( p ) ) ||
         m.impassable( p ) ||
@@ -477,7 +477,7 @@ void start_locations::reset()
     all_start_locations.reset();
 }
 
-const std::vector<start_location> &start_locations::get_all()
+auto start_locations::get_all() -> const std::vector<start_location> &
 {
     return all_start_locations.get_all();
 }

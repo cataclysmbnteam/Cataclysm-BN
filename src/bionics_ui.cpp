@@ -43,7 +43,7 @@ enum bionic_menu_mode {
     REASSIGNING
 };
 
-std::string sort_mode_str( bionic_ui_sort_mode mode )
+auto sort_mode_str( bionic_ui_sort_mode mode ) -> std::string
 {
     switch( mode ) {
         case bionic_ui_sort_mode::nsort:
@@ -59,19 +59,19 @@ std::string sort_mode_str( bionic_ui_sort_mode mode )
     return "error";
 }
 
-bool is_power_cbm( const bionic_data &data )
+auto is_power_cbm( const bionic_data &data ) -> bool
 {
     return !data.fuel_opts.empty() || data.is_remote_fueled;
 }
 
-units::energy bionic_sort_power( const bionic_data &lbd )
+auto bionic_sort_power( const bionic_data &lbd ) -> units::energy
 {
     return is_power_cbm( lbd ) ? units::energy( -1_kJ * lbd.fuel_efficiency ) :
            lbd.power_activate + lbd.power_over_time;
 }
 
 struct bionic_sort_less {
-    bool operator()( const bionic *lhs, const bionic *rhs ) const {
+    auto operator()( const bionic *lhs, const bionic *rhs ) const -> bool {
         const bionic_data &lbd = lhs->info();
         const bionic_data &rbd = rhs->info();
 
@@ -99,8 +99,8 @@ struct bionic_sort_less {
 
 using sorted_bionics = cata::flat_set<bionic *, bionic_sort_less>;
 
-sorted_bionics filtered_bionics( bionic_collection &all_bionics,
-                                 bionic_tab_mode mode )
+auto filtered_bionics( bionic_collection &all_bionics,
+                                 bionic_tab_mode mode ) -> sorted_bionics
 {
     sorted_bionics filtered_entries;
     for( auto &elem : all_bionics ) {
@@ -111,7 +111,7 @@ sorted_bionics filtered_bionics( bionic_collection &all_bionics,
     return filtered_entries;
 }
 
-bionic_ui_sort_mode pick_sort_mode()
+auto pick_sort_mode() -> bionic_ui_sort_mode
 {
     uilist tmenu;
     tmenu.text = _( "Sort bionics by:" );
@@ -140,7 +140,7 @@ bionic_ui_sort_mode pick_sort_mode()
 namespace io
 {
 template<>
-std::string enum_to_string<bionic_ui_sort_mode>( bionic_ui_sort_mode mode )
+auto enum_to_string<bionic_ui_sort_mode>( bionic_ui_sort_mode mode ) -> std::string
 {
     switch( mode ) {
         case bionic_ui_sort_mode::nsort:
@@ -158,7 +158,7 @@ std::string enum_to_string<bionic_ui_sort_mode>( bionic_ui_sort_mode mode )
 }
 } // namespace io
 
-bionic *player::bionic_by_invlet( const int ch )
+auto player::bionic_by_invlet( const int ch ) -> bionic *
 {
     // space is a special case for unassigned
     if( ch == ' ' ) {
@@ -173,7 +173,7 @@ bionic *player::bionic_by_invlet( const int ch )
     return nullptr;
 }
 
-char get_free_invlet( player &p )
+auto get_free_invlet( player &p ) -> char
 {
     for( auto &inv_char : bionic_chars ) {
         if( p.bionic_by_invlet( inv_char ) == nullptr ) {
@@ -282,7 +282,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
 }
 
 //builds the power usage string of a given bionic
-static std::string build_bionic_poweronly_string( const bionic &bio )
+static auto build_bionic_poweronly_string( const bionic &bio ) -> std::string
 {
     const bionic_data &bio_data = bio.id.obj();
     std::vector<std::string> properties;
@@ -321,7 +321,7 @@ static std::string build_bionic_poweronly_string( const bionic &bio )
 }
 
 //generates the string that show how much power a bionic uses
-static std::string build_bionic_powerdesc_string( const bionic &bio )
+static auto build_bionic_powerdesc_string( const bionic &bio ) -> std::string
 {
     std::string power_desc;
     const std::string power_string = build_bionic_poweronly_string( bio );
@@ -481,7 +481,7 @@ static void draw_connectors( const catacurses::window &win, const point &start,
 }
 
 //get a text color depending on the power/powering state of the bionic
-static nc_color get_bionic_text_color( const bionic &bio, const bool isHighlightedBionic )
+static auto get_bionic_text_color( const bionic &bio, const bool isHighlightedBionic ) -> nc_color
 {
     nc_color type = c_white;
     bool is_power_source = bio.id->has_flag( STATIC( flag_str_id( "BIONIC_POWER_SOURCE" ) ) );

@@ -28,7 +28,7 @@ projectile::projectile( const projectile &other )
     *this = other;
 }
 
-projectile &projectile::operator=( const projectile &other )
+auto projectile::operator=( const projectile &other ) -> projectile &
 {
     impact = other.impact;
     speed = other.speed;
@@ -40,7 +40,7 @@ projectile &projectile::operator=( const projectile &other )
     return *this;
 }
 
-const item &projectile::get_drop() const
+auto projectile::get_drop() const -> const item &
 {
     if( drop != nullptr ) {
         return *drop;
@@ -73,7 +73,7 @@ void projectile::unset_drop()
     drop.reset( nullptr );
 }
 
-const explosion_data &projectile::get_custom_explosion() const
+auto projectile::get_custom_explosion() const -> const explosion_data &
 {
     if( custom_explosion != nullptr ) {
         return *custom_explosion;
@@ -146,12 +146,12 @@ void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects
     apply_ammo_effects( p, effect_ids );
 }
 
-static int aoe_of( const ammo_effect_str_id &ae_id )
+static auto aoe_of( const ammo_effect_str_id &ae_id ) -> int
 {
     return std::max( ae_id->aoe_size, ae_id->aoe_explosion_data.safe_range() - 1 );
 }
 
-static int aoe_of( const std::string &s )
+static auto aoe_of( const std::string &s ) -> int
 {
     ammo_effect_str_id ae_id( s );
     if( ae_id.is_valid() ) {
@@ -161,7 +161,7 @@ static int aoe_of( const std::string &s )
     }
 }
 
-int max_aoe_size( const std::set<ammo_effect_str_id> &tags )
+auto max_aoe_size( const std::set<ammo_effect_str_id> &tags ) -> int
 {
     int ret = 0;
     for( const ammo_effect_str_id &ae_id : tags ) {
@@ -170,7 +170,7 @@ int max_aoe_size( const std::set<ammo_effect_str_id> &tags )
     return ret;
 }
 
-int max_aoe_size( const std::set<std::string> &tags )
+auto max_aoe_size( const std::set<std::string> &tags ) -> int
 {
     int aoe_size = 0;
     for( const std::string &s : tags ) {

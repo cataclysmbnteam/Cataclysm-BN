@@ -36,7 +36,7 @@ distribution_grid::distribution_grid( const std::vector<tripoint_abs_sm> &global
     }
 }
 
-bool distribution_grid::empty() const
+auto distribution_grid::empty() const -> bool
 {
     return contents.empty();
 }
@@ -69,7 +69,7 @@ void distribution_grid::update( time_point to )
 // TODO: Shouldn't be here
 #include "vehicle.h"
 static itype_id itype_battery( "battery" );
-int distribution_grid::mod_resource( int amt, bool recurse )
+auto distribution_grid::mod_resource( int amt, bool recurse ) -> int
 {
     std::vector<vehicle *> connected_vehicles;
     for( const auto &c : contents ) {
@@ -118,7 +118,7 @@ int distribution_grid::mod_resource( int amt, bool recurse )
     return amt;
 }
 
-int distribution_grid::get_resource( bool recurse ) const
+auto distribution_grid::get_resource( bool recurse ) const -> int
 {
     if( !recurse ) {
         if( cached_amount_here ) {
@@ -179,8 +179,8 @@ distribution_grid_tracker::distribution_grid_tracker( mapbuffer &buffer )
 {
 }
 
-distribution_grid &distribution_grid_tracker::make_distribution_grid_at(
-    const tripoint_abs_sm &sm_pos )
+auto distribution_grid_tracker::make_distribution_grid_at(
+    const tripoint_abs_sm &sm_pos ) -> distribution_grid &
 {
     if( !get_option<bool>( "ELECTRIC_GRID" ) ) {
         return empty_grid;
@@ -260,7 +260,7 @@ void distribution_grid_tracker::on_options_changed()
     on_saved();
 }
 
-distribution_grid &distribution_grid_tracker::grid_at( const tripoint_abs_ms &p )
+auto distribution_grid_tracker::grid_at( const tripoint_abs_ms &p ) -> distribution_grid &
 {
     tripoint_abs_sm sm_pos = project_to<coords::sm>( p );
     auto iter = parent_distribution_grids.find( sm_pos );
@@ -272,13 +272,13 @@ distribution_grid &distribution_grid_tracker::grid_at( const tripoint_abs_ms &p 
     return make_distribution_grid_at( sm_pos );
 }
 
-const distribution_grid &distribution_grid_tracker::grid_at( const tripoint_abs_ms &p ) const
+auto distribution_grid_tracker::grid_at( const tripoint_abs_ms &p ) const -> const distribution_grid &
 {
     return const_cast<const distribution_grid &>(
                const_cast<distribution_grid_tracker *>( this )->grid_at( p ) );
 }
 
-std::uintptr_t distribution_grid_tracker::debug_grid_id( const tripoint_abs_omt &omp ) const
+auto distribution_grid_tracker::debug_grid_id( const tripoint_abs_omt &omp ) const -> std::uintptr_t
 {
     tripoint_abs_sm sm_pos = project_to<coords::sm>( omp );
     auto iter = parent_distribution_grids.find( sm_pos );
@@ -330,7 +330,7 @@ void grid_furn_transform_queue::apply( mapbuffer &mb, distribution_grid_tracker 
     }
 }
 
-std::string grid_furn_transform_queue::to_string() const
+auto grid_furn_transform_queue::to_string() const -> std::string
 {
     std::string ret;
     size_t i = 0;

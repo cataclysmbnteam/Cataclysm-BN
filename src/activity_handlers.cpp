@@ -414,7 +414,7 @@ activity_handlers::finish_functions = {
     { ACT_STUDY_SPELL, study_spell_finish }
 };
 
-bool activity_handlers::resume_for_multi_activities( player &p )
+auto activity_handlers::resume_for_multi_activities( player &p ) -> bool
 {
     if( !p.backlog.empty() ) {
         player_activity &back_act = p.backlog.front();
@@ -461,7 +461,7 @@ void activity_handlers::burrow_finish( player_activity *act, player *p )
     here.destroy( pos, true );
 }
 
-static bool check_butcher_cbm( const int roll )
+static auto check_butcher_cbm( const int roll ) -> bool
 {
     // Failure rates for dissection rolls
     // 90% at roll 0, 72% at roll 1, 60% at roll 2, 51% @ 3, 45% @ 4, 40% @ 5, ... , 25% @ 10
@@ -529,7 +529,7 @@ enum class butcherable_rating : int {
     info_tools
 };
 
-butchery_setup consider_butchery( const item &corpse_item, player &u, butcher_type action )
+auto consider_butchery( const item &corpse_item, player &u, butcher_type action ) -> butchery_setup
 {
     map &here = get_map();
     butchery_setup setup;
@@ -740,7 +740,7 @@ static void set_up_butchery_activity( player_activity &act, player &u, const but
     act.index = false;
 }
 
-static int size_factor_in_time_to_cut( m_size size )
+static auto size_factor_in_time_to_cut( m_size size ) -> int
 {
     switch( size ) {
         // Time (roughly) in turns to cut up the corpse
@@ -761,7 +761,7 @@ static int size_factor_in_time_to_cut( m_size size )
     return 0;
 }
 
-int butcher_time_to_cut( const inventory &inv, const item &corpse_item, const butcher_type action )
+auto butcher_time_to_cut( const inventory &inv, const item &corpse_item, const butcher_type action ) -> int
 {
     const mtype &corpse = *corpse_item.get_mtype();
     const int initial_factor = inv.max_quality( action == DISSECT ? qual_CUT_FINE : qual_BUTCHER );
@@ -808,7 +808,7 @@ int butcher_time_to_cut( const inventory &inv, const item &corpse_item, const bu
 }
 
 // this function modifies the input weight by its damage level, depending on the bodypart
-static int corpse_damage_effect( int weight, const std::string &entry_type, int damage_level )
+static auto corpse_damage_effect( int weight, const std::string &entry_type, int damage_level ) -> int
 {
     const float slight_damage = 0.9;
     const float damage = 0.75;
@@ -2204,7 +2204,7 @@ void activity_handlers::start_fire_do_turn( player_activity *act, player *p )
     }
 }
 
-static bool magic_train( player_activity *act, player *p )
+static auto magic_train( player_activity *act, player *p ) -> bool
 {
     if( !p ) {
         return false;
@@ -2595,7 +2595,7 @@ enum repeat_type : int {
     REPEAT_CANCEL,      // Stop repeating
 };
 
-static repeat_type repeat_menu( const std::string &title, repeat_type last_selection )
+static auto repeat_menu( const std::string &title, repeat_type last_selection ) -> repeat_type
 {
     uilist rmenu;
     rmenu.text = title;
@@ -2637,7 +2637,7 @@ enum class hack_type_t : int {
     furniture = 1
 };
 
-cata::optional<hack_type_t> get_hack_type( const player_activity &activity )
+auto get_hack_type( const player_activity &activity ) -> cata::optional<hack_type_t>
 {
     // Uses real tool
     if( activity.values.size() < 2 ) {
@@ -2651,12 +2651,12 @@ cata::optional<hack_type_t> get_hack_type( const player_activity &activity )
     return static_cast<hack_type_t>( activity.values[2] );
 }
 
-tripoint get_position( const player_activity &activity )
+auto get_position( const player_activity &activity ) -> tripoint
 {
     return activity.coords.at( 0 );
 }
 
-item get_fake_tool( hack_type_t hack_type, const player_activity &activity )
+auto get_fake_tool( hack_type_t hack_type, const player_activity &activity ) -> item
 {
     const tripoint position = get_position( activity );
     const map &m = get_map();
@@ -4368,8 +4368,8 @@ void activity_handlers::haircut_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint &abspos,
-        const std::unordered_set<tripoint> &tiles )
+auto get_sorted_tiles_by_distance( const tripoint &abspos,
+        const std::unordered_set<tripoint> &tiles ) -> std::vector<tripoint>
 {
     const auto cmp = [abspos]( tripoint a, tripoint b ) {
         const int da = rl_dist( abspos, a );

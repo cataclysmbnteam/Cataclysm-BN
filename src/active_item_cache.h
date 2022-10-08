@@ -28,7 +28,7 @@ namespace std
 {
 template <>
 struct hash<special_item_type> {
-    std::size_t operator()( const special_item_type &k ) const noexcept {
+    auto operator()( const special_item_type &k ) const noexcept -> std::size_t {
         return static_cast<size_t>( k );
     }
 };
@@ -57,13 +57,13 @@ class active_item_cache
         /**
          * Returns true if the cache is empty
          */
-        bool empty() const;
+        auto empty() const -> bool;
 
         /**
          * Returns a vector of all cached active item references.
          * Broken references are removed from the cache.
          */
-        std::vector<item_reference> get();
+        auto get() -> std::vector<item_reference>;
 
         /**
          * Returns the first size() / processing_speed() elements of each list, rounded up.
@@ -73,12 +73,12 @@ class active_item_cache
          * the cache.
          * Relies on the fact that item::processing_speed() is a constant.
          */
-        std::vector<item_reference> get_for_processing();
+        auto get_for_processing() -> std::vector<item_reference>;
 
         /**
          * Returns the currently tracked list of special active items.
          */
-        std::vector<item_reference> get_special( special_item_type type );
+        auto get_special( special_item_type type ) -> std::vector<item_reference>;
         /** Subtract delta from every item_reference's location */
         void subtract_locations( const point &delta );
         void rotate_locations( int turns, const point &dim );

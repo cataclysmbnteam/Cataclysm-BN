@@ -33,17 +33,17 @@ class character_martial_arts
         // checks that style selected is one that is known, otherwise resets it
         void selected_style_check();
         /** Creates the UI and handles player input for picking martial arts styles */
-        bool pick_style( const avatar &you );
+        auto pick_style( const avatar &you ) -> bool;
 
-        bool knows_selected_style() const;
-        bool selected_strictly_melee() const;
-        bool selected_allow_melee() const;
-        bool selected_has_weapon( const itype_id &weap ) const;
-        bool selected_force_unarmed() const;
-        bool selected_is_none() const;
+        auto knows_selected_style() const -> bool;
+        auto selected_strictly_melee() const -> bool;
+        auto selected_allow_melee() const -> bool;
+        auto selected_has_weapon( const itype_id &weap ) const -> bool;
+        auto selected_force_unarmed() const -> bool;
+        auto selected_is_none() const -> bool;
 
         /** Returns true if the player has access to the entered martial art */
-        bool has_martialart( const matype_id &ma_id ) const;
+        auto has_martialart( const matype_id &ma_id ) const -> bool;
         /** Adds the entered martial art to the player's list */
         void add_martialart( const matype_id &ma_id );
         void learn_current_style_CQB( bool is_avatar );
@@ -76,29 +76,29 @@ class character_martial_arts
         void ma_onkill_effects( Character &owner );
 
         /** Returns true if the player has the leg block technique available */
-        bool can_leg_block( const Character &owner ) const;
+        auto can_leg_block( const Character &owner ) const -> bool;
         /** Returns true if the player has the arm block technique available */
-        bool can_arm_block( const Character &owner ) const;
+        auto can_arm_block( const Character &owner ) const -> bool;
         /** Returns true if either can_leg_block() or can_arm_block() returns true */
-        bool can_limb_block( const Character &owner ) const;
+        auto can_limb_block( const Character &owner ) const -> bool;
         /** Returns true if the current style forces unarmed attack techniques */
-        bool is_force_unarmed() const;
+        auto is_force_unarmed() const -> bool;
 
-        std::vector<matec_id> get_all_techniques( const item &weap ) const;
-        std::vector<matype_id> get_unknown_styles( const character_martial_arts &from ) const;
+        auto get_all_techniques( const item &weap ) const -> std::vector<matec_id>;
+        auto get_unknown_styles( const character_martial_arts &from ) const -> std::vector<matype_id>;
         /** Returns true if the player has technique-based miss recovery */
-        bool has_miss_recovery_tec( const item &weap ) const;
+        auto has_miss_recovery_tec( const item &weap ) const -> bool;
         /** Returns the technique used for miss recovery */
-        ma_technique get_miss_recovery_tec( const item &weap ) const;
+        auto get_miss_recovery_tec( const item &weap ) const -> ma_technique;
         /** Returns true if the player has a grab breaking technique available */
-        bool has_grab_break_tec() const;
+        auto has_grab_break_tec() const -> bool;
         /** Returns true if the player has a weapon or martial arts skill available with the entered technique */
-        bool has_technique( const Character &guy, const matec_id &id, const item &weap ) const;
+        auto has_technique( const Character &guy, const matec_id &id, const item &weap ) const -> bool;
         /** Returns the grab breaking technique if available */
-        ma_technique get_grab_break_tec( const item &weap ) const;
+        auto get_grab_break_tec( const item &weap ) const -> ma_technique;
 
-        std::string enumerate_known_styles( const itype_id &weap ) const;
-        std::string selected_style_name( const Character &owner ) const;
+        auto enumerate_known_styles( const itype_id &weap ) const -> std::string;
+        auto selected_style_name( const Character &owner ) const -> std::string;
 };
 
 #endif // CATA_SRC_CHARACTER_MARTIAL_ARTS_H

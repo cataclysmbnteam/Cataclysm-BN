@@ -49,7 +49,7 @@ static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
 class npc_template;
 
-tripoint rotate_point( const tripoint &p, int rotations )
+auto rotate_point( const tripoint &p, int rotations ) -> tripoint
 {
     if( p.x < 0 || p.x >= SEEX * 2 ||
         p.y < 0 || p.y >= SEEY * 2 ) {
@@ -154,7 +154,7 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
     return iter == pointers.end() ? nullptr : iter->second;
 }
 
-ter_id grass_or_dirt()
+auto grass_or_dirt() -> ter_id
 {
     if( one_in( 4 ) ) {
         return t_grass;
@@ -162,7 +162,7 @@ ter_id grass_or_dirt()
     return t_dirt;
 }
 
-ter_id clay_or_sand()
+auto clay_or_sand() -> ter_id
 {
     if( one_in( 16 ) ) {
         return t_sand;
@@ -440,7 +440,7 @@ void mapgen_hive( mapgendata &dat )
     }
 }
 
-int terrain_type_to_nesw_array( oter_id terrain_type, bool array[4] )
+auto terrain_type_to_nesw_array( oter_id terrain_type, bool array[4] ) -> int
 {
     // count and mark which directions the road goes
     const auto &oter( *terrain_type );
@@ -489,7 +489,7 @@ static void coord_rotate_cw( int &x, int &y, int rot )
     }
 }
 
-static bool compare_neswx( bool *a1, std::initializer_list<int> a2 )
+static auto compare_neswx( bool *a1, std::initializer_list<int> a2 ) -> bool
 {
     return std::equal( std::begin( a2 ), std::end( a2 ), a1,
     []( int a, bool b ) {

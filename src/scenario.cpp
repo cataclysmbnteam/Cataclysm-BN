@@ -22,14 +22,14 @@ const string_id<scenario> generic_scenario_id( "evacuee" );
 
 /** @relates string_id */
 template<>
-const scenario &string_id<scenario>::obj() const
+auto string_id<scenario>::obj() const -> const scenario &
 {
     return all_scenarios.obj( *this );
 }
 
 /** @relates string_id */
 template<>
-bool string_id<scenario>::is_valid() const
+auto string_id<scenario>::is_valid() const -> bool
 {
     return all_scenarios.is_valid( *this );
 }
@@ -96,7 +96,7 @@ void scenario::load( const JsonObject &jo, const std::string & )
     }
 }
 
-const scenario *scenario::generic()
+auto scenario::generic() -> const scenario *
 {
     return &generic_scenario_id.obj();
 }
@@ -104,7 +104,7 @@ const scenario *scenario::generic()
 // Strategy: a third of the time, return the generic scenario.  Otherwise, return a scenario,
 // weighting 0 cost scenario more likely--the weight of a scenario with cost n is 2/(|n|+2),
 // e.g., cost 1 is 2/3rds as likely, cost -2 is 1/2 as likely.
-const scenario *scenario::weighted_random()
+auto scenario::weighted_random() -> const scenario *
 {
     if( one_in( 3 ) ) {
         return generic();
@@ -121,7 +121,7 @@ const scenario *scenario::weighted_random()
     }
 }
 
-const std::vector<scenario> &scenario::get_all()
+auto scenario::get_all() -> const std::vector<scenario> &
 {
     return all_scenarios.get_all();
 }
@@ -197,12 +197,12 @@ void scenario::check_definition() const
     }
 }
 
-const string_id<scenario> &scenario::ident() const
+auto scenario::ident() const -> const string_id<scenario> &
 {
     return id;
 }
 
-std::string scenario::gender_appropriate_name( bool male ) const
+auto scenario::gender_appropriate_name( bool male ) const -> std::string
 {
     if( male ) {
         return _name_male.translated();
@@ -211,7 +211,7 @@ std::string scenario::gender_appropriate_name( bool male ) const
     }
 }
 
-std::string scenario::description( bool male ) const
+auto scenario::description( bool male ) const -> std::string
 {
     if( male ) {
         return _description_male.translated();
@@ -220,21 +220,21 @@ std::string scenario::description( bool male ) const
     }
 }
 
-signed int scenario::point_cost() const
+auto scenario::point_cost() const -> signed int
 {
     return _point_cost;
 }
 
-start_location_id scenario::start_location() const
+auto scenario::start_location() const -> start_location_id
 {
     return _allowed_locs.front();
 }
-start_location_id scenario::random_start_location() const
+auto scenario::random_start_location() const -> start_location_id
 {
     return random_entry( _allowed_locs );
 }
 
-bool scenario::scen_is_blacklisted() const
+auto scenario::scen_is_blacklisted() const -> bool
 {
     return sc_blacklist.scenarios.count( id ) != 0;
 }
@@ -298,7 +298,7 @@ void reset_scenarios_blacklist()
     sc_blacklist = scen_blacklist();
 }
 
-std::vector<profession_id> scenario::permitted_professions() const
+auto scenario::permitted_professions() const -> std::vector<profession_id>
 {
     if( !cached_permitted_professions.empty() ) {
         return cached_permitted_professions;
@@ -337,7 +337,7 @@ std::vector<profession_id> scenario::permitted_professions() const
     return res;
 }
 
-bool scenario::scenario_traits_conflict_with_profession_traits( const profession &p ) const
+auto scenario::scenario_traits_conflict_with_profession_traits( const profession &p ) const -> bool
 {
     for( auto &pt : p.get_forbidden_traits() ) {
         if( is_locked_trait( pt ) ) {
@@ -364,7 +364,7 @@ bool scenario::scenario_traits_conflict_with_profession_traits( const profession
     return false;
 }
 
-const profession_id &scenario::weighted_random_profession() const
+auto scenario::weighted_random_profession() const -> const profession_id &
 {
     // Strategy: 1/3 of the time, return the generic profession (if it's permitted).
     // Otherwise, the weight of each permitted profession is 2 / ( |point cost| + 2 )
@@ -382,7 +382,7 @@ const profession_id &scenario::weighted_random_profession() const
     return profession::generic(); // Suppress warnings
 }
 
-std::string scenario::prof_count_str() const
+auto scenario::prof_count_str() const -> std::string
 {
     if( professions.empty() ) {
         return _( "All" );
@@ -390,18 +390,18 @@ std::string scenario::prof_count_str() const
     return blacklist ? _( "Almost all" ) : _( "Limited" );
 }
 
-std::string scenario::start_name() const
+auto scenario::start_name() const -> std::string
 {
     return _start_name.translated();
 }
 
 
-int scenario::start_location_count() const
+auto scenario::start_location_count() const -> int
 {
     return _allowed_locs.size();
 }
 
-int scenario::start_location_targets_count() const
+auto scenario::start_location_targets_count() const -> int
 {
     int cnt = 0;
     for( const auto &sloc : _allowed_locs ) {
@@ -410,56 +410,56 @@ int scenario::start_location_targets_count() const
     return cnt;
 }
 
-vproto_id scenario::vehicle() const
+auto scenario::vehicle() const -> vproto_id
 {
     return _starting_vehicle;
 }
 
-bool scenario::traitquery( const trait_id &trait ) const
+auto scenario::traitquery( const trait_id &trait ) const -> bool
 {
     return _allowed_traits.count( trait ) != 0 || is_locked_trait( trait ) ||
            ( !is_forbidden_trait( trait ) && trait->startingtrait );
 }
 
-std::set<trait_id> scenario::get_locked_traits() const
+auto scenario::get_locked_traits() const -> std::set<trait_id>
 {
     return _forced_traits;
 }
 
-bool scenario::is_locked_trait( const trait_id &trait ) const
+auto scenario::is_locked_trait( const trait_id &trait ) const -> bool
 {
     return _forced_traits.count( trait ) != 0;
 }
 
-bool scenario::is_forbidden_trait( const trait_id &trait ) const
+auto scenario::is_forbidden_trait( const trait_id &trait ) const -> bool
 {
     return _forbidden_traits.count( trait ) != 0;
 }
 
-bool scenario::has_flag( const std::string &flag ) const
+auto scenario::has_flag( const std::string &flag ) const -> bool
 {
     return flags.count( flag ) != 0;
 }
 
-bool scenario::allowed_start( const start_location_id &loc ) const
+auto scenario::allowed_start( const start_location_id &loc ) const -> bool
 {
     auto &vec = _allowed_locs;
     return std::find( vec.begin(), vec.end(), loc ) != vec.end();
 }
 
-bool scenario::can_pick( const scenario &current_scenario, const int points ) const
+auto scenario::can_pick( const scenario &current_scenario, const int points ) const -> bool
 {
     return point_cost() - current_scenario.point_cost() <= points;
 }
-bool scenario::has_map_extra() const
+auto scenario::has_map_extra() const -> bool
 {
     return _map_extra != "mx_null";
 }
-const std::string &scenario::get_map_extra() const
+auto scenario::get_map_extra() const -> const std::string &
 {
     return _map_extra;
 }
-const std::vector<mission_type_id> &scenario::missions() const
+auto scenario::missions() const -> const std::vector<mission_type_id> &
 {
     return _missions;
 }

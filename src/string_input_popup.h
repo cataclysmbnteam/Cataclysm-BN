@@ -102,7 +102,7 @@ class string_input_popup // NOLINT(cata-xy)
          * The title: short string before the actual input field.
          * It's optional, default is an empty string.
          */
-        string_input_popup &title( const std::string &value ) {
+        auto title( const std::string &value ) -> string_input_popup & {
             _title = value;
             return *this;
         }
@@ -112,8 +112,8 @@ class string_input_popup // NOLINT(cata-xy)
          * It's optional default is an empty string.
          */
         /**@{*/
-        string_input_popup &text( const std::string &value );
-        const std::string &text() const {
+        auto text( const std::string &value ) -> string_input_popup &;
+        auto text() const -> const std::string & {
             return _text;
         }
         /**@}*/
@@ -121,7 +121,7 @@ class string_input_popup // NOLINT(cata-xy)
          * Additional help text, shown below the input box.
          * It's optional, default is an empty text.
          */
-        string_input_popup &description( const std::string &value ) {
+        auto description( const std::string &value ) -> string_input_popup & {
             _description = value;
             return *this;
         }
@@ -133,14 +133,14 @@ class string_input_popup // NOLINT(cata-xy)
          * If the input is not canceled, the new input is
          * added to the history.
          */
-        string_input_popup &identifier( const std::string &value ) {
+        auto identifier( const std::string &value ) -> string_input_popup & {
             _identifier = value;
             return *this;
         }
         /**
          * Width (in console cells) of the input field itself.
          */
-        string_input_popup &width( int value ) {
+        auto width( int value ) -> string_input_popup & {
             _width = value;
             return *this;
         }
@@ -148,14 +148,14 @@ class string_input_popup // NOLINT(cata-xy)
          * Maximal amount of Unicode characters that can be
          * given by the user. The default is something like 1000.
          */
-        string_input_popup &max_length( int value ) {
+        auto max_length( int value ) -> string_input_popup & {
             _max_length = value;
             return *this;
         }
         /**
          * If true, any non-digit input cancels the input. Default is false.
          */
-        string_input_popup &only_digits( bool value ) {
+        auto only_digits( bool value ) -> string_input_popup & {
             _only_digits = value;
             return *this;
         }
@@ -164,7 +164,7 @@ class string_input_popup // NOLINT(cata-xy)
          * If true, create UiList window with query history, otherwise use arrow keys at string input to move through history.
          * Default is true.
          */
-        string_input_popup &hist_use_uilist( bool value ) {
+        auto hist_use_uilist( bool value ) -> string_input_popup & {
             _hist_use_uilist = value;
             return *this;
         }
@@ -174,7 +174,7 @@ class string_input_popup // NOLINT(cata-xy)
          * Otherwise the action is always handled as an input event to the popup.
          * The caller can use @ref handled to check whether the last input is handled.
          */
-        string_input_popup &ignore_custom_actions( const bool value ) {
+        auto ignore_custom_actions( const bool value ) -> string_input_popup & {
             _ignore_custom_actions = value;
             return *this;
         }
@@ -188,21 +188,21 @@ class string_input_popup // NOLINT(cata-xy)
          * This method only has effect before the default window is initialized.
          * After that calls to this method are just ignored.
          */
-        string_input_popup &window( const catacurses::window &w, const point &start, int endx );
+        auto window( const catacurses::window &w, const point &start, int endx ) -> string_input_popup &;
         /**
          * Set / get the input context that is used to gather user input.
          * The class will create its own context if none is set here.
          */
         /**@{*/
-        string_input_popup &context( input_context &ctxt );
-        input_context &context() const {
+        auto context( input_context &ctxt ) -> string_input_popup &;
+        auto context() const -> input_context & {
             return *ctxt;
         }
         /**
          * Set / get the foreground color of the title.
          * Optional, default value is c_light_red.
          */
-        string_input_popup &title_color( const nc_color &color ) {
+        auto title_color( const nc_color &color ) -> string_input_popup & {
             _title_color = color;
             return *this;
         }
@@ -210,7 +210,7 @@ class string_input_popup // NOLINT(cata-xy)
          * Set / get the foreground color of the description.
          * Optional, default value is c_green.
          */
-        string_input_popup &desc_color( const nc_color &color ) {
+        auto desc_color( const nc_color &color ) -> string_input_popup & {
             _desc_color = color;
             return *this;
         }
@@ -218,7 +218,7 @@ class string_input_popup // NOLINT(cata-xy)
          * Set / get the foreground color of the input string.
          * Optional, default value is c_magenta.
          */
-        string_input_popup &string_color( const nc_color &color ) {
+        auto string_color( const nc_color &color ) -> string_input_popup & {
             _string_color = color;
             return *this;
         }
@@ -226,7 +226,7 @@ class string_input_popup // NOLINT(cata-xy)
          * Set / get the foreground color of the caret.
          * Optional, default value is h_light_gray.
          */
-        string_input_popup &cursor_color( const nc_color &color ) {
+        auto cursor_color( const nc_color &color ) -> string_input_popup & {
             _cursor_color = color;
             return *this;
         }
@@ -234,7 +234,7 @@ class string_input_popup // NOLINT(cata-xy)
          * Set / get the foreground color of the dashed line.
          * Optional, default value is c_light_gray.
          */
-        string_input_popup &underscore_color( const nc_color &color ) {
+        auto underscore_color( const nc_color &color ) -> string_input_popup & {
             _underscore_color = color;
             return *this;
         }
@@ -245,29 +245,29 @@ class string_input_popup // NOLINT(cata-xy)
          */
         /**@{*/
         void query( bool loop = true, bool draw_only = false );
-        int query_int( bool loop = true, bool draw_only = false );
-        int64_t query_int64_t( bool loop = true, bool draw_only = false );
-        const std::string &query_string( bool loop = true, bool draw_only = false );
+        auto query_int( bool loop = true, bool draw_only = false ) -> int;
+        auto query_int64_t( bool loop = true, bool draw_only = false ) -> int64_t;
+        auto query_string( bool loop = true, bool draw_only = false ) -> const std::string &;
         /**@}*/
         /**
          * Whether the input box was canceled via the ESCAPE key (or similar)
          * If the input was finished via the ENTER key (or similar), this will
          * return `false`.
          */
-        bool canceled() const {
+        auto canceled() const -> bool {
             return _canceled;
         }
         /**
          * Returns true if query was finished via the ENTER key.
          */
-        bool confirmed() const {
+        auto confirmed() const -> bool {
             return _confirmed;
         }
         /**
          * Returns false if the last input was unhandled. Useful to avoid handling
          * input already handled by the popup itself.
          */
-        bool handled() const {
+        auto handled() const -> bool {
             return _handled;
         }
         /**

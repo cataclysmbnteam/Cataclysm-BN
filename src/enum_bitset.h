@@ -19,76 +19,76 @@ class enum_bitset
     public:
         enum_bitset() = default;
         enum_bitset( const enum_bitset & ) = default;
-        enum_bitset &operator=( const enum_bitset & ) = default;
+        auto operator=( const enum_bitset & ) -> enum_bitset & = default;
 
-        bool operator==( const enum_bitset &rhs ) const noexcept {
+        auto operator==( const enum_bitset &rhs ) const noexcept -> bool {
             return bits == rhs.bits;
         }
 
-        bool operator!=( const enum_bitset &rhs ) const noexcept {
+        auto operator!=( const enum_bitset &rhs ) const noexcept -> bool {
             return !( *this == rhs );
         }
 
-        enum_bitset &operator&=( const enum_bitset &rhs ) noexcept {
+        auto operator&=( const enum_bitset &rhs ) noexcept -> enum_bitset & {
             bits &= rhs.bits;
             return *this;
         }
 
-        enum_bitset &operator|=( const enum_bitset &rhs ) noexcept {
+        auto operator|=( const enum_bitset &rhs ) noexcept -> enum_bitset & {
             bits |= rhs.bits;
             return *this;
         }
 
-        bool operator[]( E e ) const {
+        auto operator[]( E e ) const -> bool {
             return bits[ get_pos( e ) ];
         }
 
-        enum_bitset &operator[]( E e ) {
+        auto operator[]( E e ) -> enum_bitset & {
             return bits[ get_pos( e ) ];
         }
 
-        enum_bitset &set( E e, bool val = true ) {
+        auto set( E e, bool val = true ) -> enum_bitset & {
             bits.set( get_pos( e ), val );
             return *this;
         }
 
-        enum_bitset &set_all() {
+        auto set_all() -> enum_bitset & {
             bits.set();
             return *this;
         }
 
-        enum_bitset &clear( E e ) {
+        auto clear( E e ) -> enum_bitset & {
             bits.reset( get_pos( e ) );
             return *this;
         }
 
-        enum_bitset &clear_all() {
+        auto clear_all() -> enum_bitset & {
             bits.reset();
             return *this;
         }
 
-        bool test( E e ) const {
+        auto test( E e ) const -> bool {
             return bits.test( get_pos( e ) );
         }
 
-        bool test_all() const {
+        auto test_all() const -> bool {
             return bits.all();
         }
 
-        bool test_any() const {
+        auto test_any() const -> bool {
             return bits.any();
         }
 
-        size_t count() const {
+        auto count() const -> size_t {
             return bits.count();
         }
 
-        static constexpr size_t size() noexcept {
+        static constexpr auto size() noexcept -> size_t {
             return get_pos( enum_traits<E>::last );
         }
 
     private:
-        static constexpr size_t get_pos( E e ) noexcept {
+        static constexpr auto get_pos( E e ) noexcept -> size_t {
             return static_cast<size_t>( static_cast<typename std::underlying_type<E>::type>( e ) );
         }
 

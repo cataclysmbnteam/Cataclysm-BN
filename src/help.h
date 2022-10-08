@@ -21,8 +21,8 @@ class help
     private:
         void deserialize( JsonIn &jsin );
         void draw_menu( const catacurses::window &win );
-        std::string get_note_colors();
-        std::string get_dir_grid();
+        auto get_note_colors() -> std::string;
+        auto get_dir_grid() -> std::string;
 
         std::map<int, std::pair<std::string, std::vector<std::string> > > help_texts;
         std::vector< std::vector<std::string> > hotkeys;
@@ -30,8 +30,8 @@ class help
         input_context ctxt;
 };
 
-help &get_help();
+auto get_help() -> help &;
 
-std::string get_hint();
+auto get_hint() -> std::string;
 
 #endif // CATA_SRC_HELP_H

@@ -2093,7 +2093,7 @@ namespace charge_removal_blacklist
 {
 static std::set<itype_id> removal_list;
 
-const std::set<itype_id> &get()
+auto get() -> const std::set<itype_id> &
 {
     return removal_list;
 }
@@ -2127,7 +2127,7 @@ void reset()
     the_list.clear();
 }
 
-static bool migration_required( const item &i )
+static auto migration_required( const item &i ) -> bool
 {
     if( !i.count_by_charges() ) {
         return false;
@@ -3193,7 +3193,7 @@ struct mm_elem {
     memorized_terrain_tile tile;
     int symbol;
 
-    bool operator==( const mm_elem &rhs ) const {
+    auto operator==( const mm_elem &rhs ) const -> bool {
         return symbol == rhs.symbol && tile == rhs.tile;
     }
 };

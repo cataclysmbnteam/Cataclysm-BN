@@ -20,9 +20,9 @@ class JsonObject;
 class dependency_tree;
 class mod_manager;
 
-const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories();
-const std::vector<std::pair<std::string, std::string> > &get_mod_list_tabs();
-const std::map<std::string, std::string> &get_mod_list_cat_tab();
+auto get_mod_list_categories() -> const std::vector<std::pair<std::string, std::string> > &;
+auto get_mod_list_tabs() -> const std::vector<std::pair<std::string, std::string> > &;
+auto get_mod_list_cat_tab() -> const std::map<std::string, std::string> &;
 
 struct translatable_mod_info {
     private:
@@ -36,8 +36,8 @@ struct translatable_mod_info {
     public:
         translatable_mod_info();
         translatable_mod_info( std::string name, std::string description, std::string path );
-        std::string name();
-        std::string description();
+        auto name() -> std::string;
+        auto description() -> std::string;
 };
 
 struct MOD_INFORMATION {
@@ -45,8 +45,8 @@ struct MOD_INFORMATION {
         mutable translatable_mod_info translatable_info;
 
     public:
-        std::string name() const;
-        std::string description() const;
+        auto name() const -> std::string;
+        auto description() const -> std::string;
 
         inline void set_translatable_info( translatable_mod_info &&tmi ) {
             translatable_info = std::move( tmi );
@@ -94,7 +94,7 @@ using t_mod_list = std::vector<mod_id>;
  * Load all modinfo.json files (recursively) from the given root.
  * @param path The root folder from which the modinfo files are searched.
  */
-std::vector<MOD_INFORMATION> load_mods_from( const std::string &path );
+auto load_mods_from( const std::string &path ) -> std::vector<MOD_INFORMATION>;
 
 /**
  * Load all mod information from a json file.
@@ -106,19 +106,19 @@ void load_mod_info( const std::string &info_file_path, std::vector<MOD_INFORMATI
  * Load mod info from a json object.
  * @throws JsonError on all kind of errors.
  */
-cata::optional<MOD_INFORMATION> load_modfile( const JsonObject &jo, const std::string &path );
+auto load_modfile( const JsonObject &jo, const std::string &path ) -> cata::optional<MOD_INFORMATION>;
 
 /**
  * Save mod list to file.
  * @returns true on success.
  */
-bool save_mod_list( const t_mod_list &list, const std::string &path );
+auto save_mod_list( const t_mod_list &list, const std::string &path ) -> bool;
 
 /**
  * Load mod list from file.
  * @returns cata::nullopt on error.
  */
-cata::optional<t_mod_list> load_mod_list( const std::string &path );
+auto load_mod_list( const std::string &path ) -> cata::optional<t_mod_list>;
 } // namespace mod_management
 
 class mod_manager
@@ -134,13 +134,13 @@ class mod_manager
          */
         void refresh_mod_list();
 
-        std::vector<mod_id> all_mods() const;
+        auto all_mods() const -> std::vector<mod_id>;
 
         /**
          * Returns the dependency tree for the loaded mods.
          * @returns @ref dependency_tree
          */
-        dependency_tree &get_tree();
+        auto get_tree() -> dependency_tree &;
         /**
          * Clear @ref mod_map and delete @ref dependency_tree.
          */
@@ -156,9 +156,9 @@ class mod_manager
          * world.
          */
         void load_mods_list( WORLDPTR world ) const;
-        const t_mod_list &get_default_mods() const;
-        bool set_default_mods( const t_mod_list &mods );
-        std::vector<mod_id> get_all_sorted() const;
+        auto get_default_mods() const -> const t_mod_list &;
+        auto set_default_mods( const t_mod_list &mods ) -> bool;
+        auto get_all_sorted() const -> std::vector<mod_id>;
 
     private:
         // Make this accessible for now
@@ -169,7 +169,7 @@ class mod_manager
          * @returns path of a file in the world folder that contains
          * the list of mods that should be loaded for this world.
          */
-        static std::string get_mods_list_file( WORLDPTR world );
+        static auto get_mods_list_file( WORLDPTR world ) -> std::string;
 
         /**
          * Add mods from given list to the pool.
@@ -197,16 +197,16 @@ class mod_ui
     public:
         mod_ui( mod_manager &mman );
 
-        std::string get_information( const MOD_INFORMATION *mod );
+        auto get_information( const MOD_INFORMATION *mod ) -> std::string;
         mod_manager &active_manager;
         dependency_tree &mm_tree;
 
-        ret_val<bool> try_add( const mod_id &mod_to_add, std::vector<mod_id> &active_list );
+        auto try_add( const mod_id &mod_to_add, std::vector<mod_id> &active_list ) -> ret_val<bool>;
         void try_rem( size_t selection, std::vector<mod_id> &active_list );
         void try_shift( char direction, size_t &selection, std::vector<mod_id> &active_list );
 
-        bool can_shift_up( size_t selection, const std::vector<mod_id> &active_list );
-        bool can_shift_down( size_t selection, const std::vector<mod_id> &active_list );
+        auto can_shift_up( size_t selection, const std::vector<mod_id> &active_list ) -> bool;
+        auto can_shift_down( size_t selection, const std::vector<mod_id> &active_list ) -> bool;
 };
 
 #endif // CATA_SRC_MOD_MANAGER_H

@@ -14,8 +14,8 @@
  * Get a function that returns true if the value matches the query.
  */
 template<typename T>
-std::function<bool( const T & )> filter_from_string( std::string filter,
-        std::function<std::function<bool( const T & )>( const std::string & )> basic_filter )
+auto filter_from_string( std::string filter,
+        std::function<std::function<bool( const T & )>( const std::string & )> basic_filter ) -> std::function<bool( const T & )>
 {
     if( filter.empty() ) {
         // Variable without name prevents unused parameter warning
@@ -89,11 +89,11 @@ class item;
 /**
  * Get a function that returns true if the item matches the query.
  */
-std::function<bool( const item & )> item_filter_from_string( const std::string &filter );
+auto item_filter_from_string( const std::string &filter ) -> std::function<bool( const item & )>;
 
 /**
  * Get a function that returns true if the value matches the basic query (no commas or minuses).
  */
-std::function<bool( const item & )> basic_item_filter( std::string filter );
+auto basic_item_filter( std::string filter ) -> std::function<bool( const item & )>;
 
 #endif // CATA_SRC_ITEM_SEARCH_H

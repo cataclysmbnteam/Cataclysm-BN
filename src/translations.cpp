@@ -15,7 +15,7 @@
 // used to invalidate translation cache
 static int current_language_version = INVALID_LANGUAGE_VERSION + 1;
 
-int detail::get_current_language_version()
+auto detail::get_current_language_version() -> int
 {
     return current_language_version;
 }
@@ -28,28 +28,28 @@ void invalidate_translations()
     } while( current_language_version == INVALID_LANGUAGE_VERSION );
 }
 
-const char *detail::_translate_internal( const char *msg )
+auto detail::_translate_internal( const char *msg ) -> const char *
 {
     return l10n_data::get_library().get( msg );
 }
 
-const char *vgettext( const char *msgid, const char *msgid_plural, size_t n )
+auto vgettext( const char *msgid, const char *msgid_plural, size_t n ) -> const char *
 {
     return l10n_data::get_library().get_pl( msgid, msgid_plural, n );
 }
 
-const char *pgettext( const char *context, const char *msgid )
+auto pgettext( const char *context, const char *msgid ) -> const char *
 {
     return l10n_data::get_library().get_ctx( context, msgid );
 }
 
-const char *vpgettext( const char *const context, const char *const msgid,
-                       const char *const msgid_plural, const size_t n )
+auto vpgettext( const char *const context, const char *const msgid,
+                       const char *const msgid_plural, const size_t n ) -> const char *
 {
     return l10n_data::get_library().get_ctx_pl( context, msgid, msgid_plural, n );
 }
 
-std::string gettext_gendered( const GenderMap &genders, const std::string &msg )
+auto gettext_gendered( const GenderMap &genders, const std::string &msg ) -> std::string
 {
     const std::vector<std::string> &language_genders = get_language().genders;
 
@@ -97,28 +97,28 @@ translation::translation( const std::string &ctxt, const std::string &raw,
 
 translation::translation( const std::string &str, const no_translation_tag ) : raw( str ) {}
 
-translation translation::to_translation( const std::string &raw )
+auto translation::to_translation( const std::string &raw ) -> translation
 {
     return { raw };
 }
 
-translation translation::to_translation( const std::string &ctxt, const std::string &raw )
+auto translation::to_translation( const std::string &ctxt, const std::string &raw ) -> translation
 {
     return { ctxt, raw };
 }
 
-translation translation::pl_translation( const std::string &raw, const std::string &raw_pl )
+auto translation::pl_translation( const std::string &raw, const std::string &raw_pl ) -> translation
 {
     return { raw, raw_pl, plural_tag() };
 }
 
-translation translation::pl_translation( const std::string &ctxt, const std::string &raw,
-        const std::string &raw_pl )
+auto translation::pl_translation( const std::string &ctxt, const std::string &raw,
+        const std::string &raw_pl ) -> translation
 {
     return { ctxt, raw, raw_pl, plural_tag() };
 }
 
-translation translation::no_translation( const std::string &str )
+auto translation::no_translation( const std::string &str ) -> translation
 {
     return { str, no_translation_tag() };
 }
@@ -306,7 +306,7 @@ void translation::deserialize( JsonIn &jsin )
 #endif
 }
 
-std::string translation::translated( const int num ) const
+auto translation::translated( const int num ) const -> std::string
 {
     if( !needs_translation || raw.empty() ) {
         return raw;
@@ -339,39 +339,39 @@ std::string translation::translated( const int num ) const
     return *cached_translation;
 }
 
-bool translation::empty() const
+auto translation::empty() const -> bool
 {
     return raw.empty();
 }
 
-bool translation::translated_lt( const translation &that ) const
+auto translation::translated_lt( const translation &that ) const -> bool
 {
     return localized_compare( translated(), that.translated() );
 }
 
-bool translation::translated_eq( const translation &that ) const
+auto translation::translated_eq( const translation &that ) const -> bool
 {
     return translated() == that.translated();
 }
 
-bool translation::translated_ne( const translation &that ) const
+auto translation::translated_ne( const translation &that ) const -> bool
 {
     return !translated_eq( that );
 }
 
-bool translation::operator==( const translation &that ) const
+auto translation::operator==( const translation &that ) const -> bool
 {
     return value_ptr_equals( ctxt, that.ctxt ) && raw == that.raw &&
            value_ptr_equals( raw_pl, that.raw_pl ) &&
            needs_translation == that.needs_translation;
 }
 
-bool translation::operator!=( const translation &that ) const
+auto translation::operator!=( const translation &that ) const -> bool
 {
     return !operator==( that );
 }
 
-std::pair<bool, int> translation::legacy_hash() const
+auto translation::legacy_hash() const -> std::pair<bool, int>
 {
     if( needs_translation && !ctxt && !raw_pl ) {
         return {true, djb2_hash( reinterpret_cast<const unsigned char *>( raw.c_str() ) )};
@@ -381,48 +381,48 @@ std::pair<bool, int> translation::legacy_hash() const
     return {false, 0};
 }
 
-translation to_translation( const std::string &raw )
+auto to_translation( const std::string &raw ) -> translation
 {
     return translation::to_translation( raw );
 }
 
-translation to_translation( const std::string &ctxt, const std::string &raw )
+auto to_translation( const std::string &ctxt, const std::string &raw ) -> translation
 {
     return translation::to_translation( ctxt, raw );
 }
 
-translation pl_translation( const std::string &raw, const std::string &raw_pl )
+auto pl_translation( const std::string &raw, const std::string &raw_pl ) -> translation
 {
     return translation::pl_translation( raw, raw_pl );
 }
 
-translation pl_translation( const std::string &ctxt, const std::string &raw,
-                            const std::string &raw_pl )
+auto pl_translation( const std::string &ctxt, const std::string &raw,
+                            const std::string &raw_pl ) -> translation
 {
     return translation::pl_translation( ctxt, raw, raw_pl );
 }
 
-translation no_translation( const std::string &str )
+auto no_translation( const std::string &str ) -> translation
 {
     return translation::no_translation( str );
 }
 
-std::ostream &operator<<( std::ostream &out, const translation &t )
+auto operator<<( std::ostream &out, const translation &t ) -> std::ostream &
 {
     return out << t.translated();
 }
 
-std::string operator+( const translation &lhs, const std::string &rhs )
+auto operator+( const translation &lhs, const std::string &rhs ) -> std::string
 {
     return lhs.translated() + rhs;
 }
 
-std::string operator+( const std::string &lhs, const translation &rhs )
+auto operator+( const std::string &lhs, const translation &rhs ) -> std::string
 {
     return lhs + rhs.translated();
 }
 
-std::string operator+( const translation &lhs, const translation &rhs )
+auto operator+( const translation &lhs, const translation &rhs ) -> std::string
 {
     return lhs.translated() + rhs.translated();
 }

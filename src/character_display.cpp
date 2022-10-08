@@ -48,18 +48,18 @@ static const std::string title_TRAITS = translate_marker( "TRAITS" );
 static const std::string header_spaces( 26, ' ' );
 
 // Rescale temperature value to one that the player sees
-static int temperature_print_rescaling( int temp )
+static auto temperature_print_rescaling( int temp ) -> int
 {
     return ( temp / 100.0 ) * 2 - 100;
 }
 
-static body_part other_part( body_part bp )
+static auto other_part( body_part bp ) -> body_part
 {
     return static_cast<body_part>( bp_aiOther[bp] );
 }
 
-static bool should_combine_bps( const Character &ch, body_part l, body_part r,
-                                const item *selected_clothing )
+static auto should_combine_bps( const Character &ch, body_part l, body_part r,
+                                const item *selected_clothing ) -> bool
 {
     const char_encumbrance_data enc_data = ch.get_encumbrance();
     return l != r && // are different parts
@@ -71,8 +71,8 @@ static bool should_combine_bps( const Character &ch, body_part l, body_part r,
            ( !selected_clothing || ( selected_clothing->covers( l ) == selected_clothing->covers( r ) ) );
 }
 
-static std::vector<std::pair<body_part, bool>> list_and_combine_bps( const Character &ch,
-        const item *selected_clothing )
+static auto list_and_combine_bps( const Character &ch,
+        const item *selected_clothing ) -> std::vector<std::pair<body_part, bool>>
 {
     // bool represents whether the part has been combined with its other half
     std::vector<std::pair<body_part, bool>> bps;
@@ -159,45 +159,45 @@ void character_display::print_encumbrance( const catacurses::window &win, const 
     }
 }
 
-static std::string swim_cost_text( int moves )
+static auto swim_cost_text( int moves ) -> std::string
 {
     return string_format( _( "Swimming movement point cost: <color_white>%+d</color>\n" ), moves );
 }
 
-static std::string run_cost_text( int moves )
+static auto run_cost_text( int moves ) -> std::string
 {
     return string_format( _( "Movement point cost: <color_white>%+d</color>\n" ), moves );
 }
 
-static std::string reload_cost_text( int moves )
+static auto reload_cost_text( int moves ) -> std::string
 {
     return string_format( _( "Reloading movement point cost: <color_white>%+d</color>\n" ), moves );
 }
 
-static std::string melee_cost_text( int moves )
+static auto melee_cost_text( int moves ) -> std::string
 {
     return string_format(
                _( "Melee and thrown attack movement point cost: <color_white>%+d</color>\n" ), moves );
 }
-static std::string melee_stamina_cost_text( int cost )
+static auto melee_stamina_cost_text( int cost ) -> std::string
 {
     return string_format( _( "Melee stamina cost: <color_white>%+d</color>\n" ), cost );
 }
-static std::string mouth_stamina_cost_text( int cost )
+static auto mouth_stamina_cost_text( int cost ) -> std::string
 {
     return string_format( _( "Stamina Regeneration: <color_white>%+d</color>\n" ), cost );
 }
-static std::string ranged_cost_text( double disp )
+static auto ranged_cost_text( double disp ) -> std::string
 {
     return string_format( _( "Dispersion when using ranged attacks: <color_white>%+.1f</color>\n" ),
                           disp );
 }
-static std::string dodge_skill_text( double mod )
+static auto dodge_skill_text( double mod ) -> std::string
 {
     return string_format( _( "Dodge skill: <color_white>%+.1f</color>\n" ), mod );
 }
 
-static int get_encumbrance( const Character &p, body_part bp, bool combine )
+static auto get_encumbrance( const Character &p, body_part bp, bool combine ) -> int
 {
     // Body parts that can't combine with anything shouldn't print double values on combine
     // This shouldn't happen, but handle this, just in case
@@ -205,7 +205,7 @@ static int get_encumbrance( const Character &p, body_part bp, bool combine )
     return p.encumb( bp ) * ( ( combine && combines_with_other ) ? 2 : 1 );
 }
 
-static std::string get_encumbrance_description( const Character &p, body_part bp, bool combine )
+static auto get_encumbrance_description( const Character &p, body_part bp, bool combine ) -> std::string
 {
     std::string s;
 
@@ -271,7 +271,7 @@ static std::string get_encumbrance_description( const Character &p, body_part bp
     return s;
 }
 
-static bool is_cqb_skill( const skill_id &id )
+static auto is_cqb_skill( const skill_id &id ) -> bool
 {
     // TODO: this skill list here is used in other places as well. Useless redundancy and
     // dependency. Maybe change it into a flag of the skill that indicates it's a skill used
@@ -297,7 +297,7 @@ enum class player_display_tab {
 };
 } // namespace
 
-static player_display_tab next_tab( const player_display_tab tab )
+static auto next_tab( const player_display_tab tab ) -> player_display_tab
 {
     if( static_cast<int>( tab ) + 1 < static_cast<int>( player_display_tab::num_tabs ) ) {
         return static_cast<player_display_tab>( static_cast<int>( tab ) + 1 );
@@ -306,7 +306,7 @@ static player_display_tab next_tab( const player_display_tab tab )
     }
 }
 
-static player_display_tab prev_tab( const player_display_tab tab )
+static auto prev_tab( const player_display_tab tab ) -> player_display_tab
 {
     if( static_cast<int>( tab ) > 0 ) {
         return static_cast<player_display_tab>( static_cast<int>( tab ) - 1 );
@@ -922,7 +922,7 @@ static void draw_tip( const catacurses::window &w_tip, const Character &you,
     wnoutrefresh( w_tip );
 }
 
-static bool handle_player_display_action( Character &you, unsigned int &line,
+static auto handle_player_display_action( Character &you, unsigned int &line,
         player_display_tab &curtab, input_context &ctxt,
         const ui_adaptor &ui_tip, const ui_adaptor &ui_info,
         const ui_adaptor &ui_stats, const ui_adaptor &ui_encumb,
@@ -931,7 +931,7 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
         const std::vector<trait_id> &traitslist,
         const std::vector<bionic> &bionicslist,
         const std::vector<std::pair<std::string, std::string>> &effect_name_and_text,
-        const std::vector<HeaderSkill> &skillslist )
+        const std::vector<HeaderSkill> &skillslist ) -> bool
 {
     const auto invalidate_tab = [&]( const player_display_tab tab ) {
         switch( tab ) {

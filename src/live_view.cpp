@@ -72,7 +72,7 @@ void live_view::show( const tripoint &p )
     ui->mark_resize();
 }
 
-bool live_view::is_enabled()
+auto live_view::is_enabled() -> bool
 {
     return ui != nullptr;
 }

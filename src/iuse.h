@@ -24,220 +24,220 @@ struct tripoint;
 namespace iuse
 {
 // FOOD AND DRUGS (ADMINISTRATION)
-int sewage( player *, item *, bool, const tripoint & );
-int honeycomb( player *, item *, bool, const tripoint & );
-int alcohol_weak( player *, item *, bool, const tripoint & );
-int alcohol_medium( player *, item *, bool, const tripoint & );
-int alcohol_strong( player *, item *, bool, const tripoint & );
-int xanax( player *, item *, bool, const tripoint & );
-int smoking( player *, item *, bool, const tripoint & );
-int ecig( player *, item *, bool, const tripoint & );
-int antibiotic( player *, item *, bool, const tripoint & );
-int eyedrops( player *, item *, bool, const tripoint & );
-int fungicide( player *, item *, bool, const tripoint & );
-int antifungal( player *, item *, bool, const tripoint & );
-int antiparasitic( player *, item *, bool, const tripoint & );
-int anticonvulsant( player *, item *, bool, const tripoint & );
-int weed_cake( player *, item *, bool, const tripoint & );
-int meth( player *, item *, bool, const tripoint & );
-int vaccine( player *, item *, bool, const tripoint & );
-int poison( player *, item *, bool, const tripoint & );
-int meditate( player *, item *, bool, const tripoint & );
-int thorazine( player *, item *, bool, const tripoint & );
-int prozac( player *, item *, bool, const tripoint & );
-int sleep( player *, item *, bool, const tripoint & );
-int datura( player *, item *, bool, const tripoint & );
-int flumed( player *, item *, bool, const tripoint & );
-int flusleep( player *, item *, bool, const tripoint & );
-int inhaler( player *, item *, bool, const tripoint & );
-int blech( player *, item *, bool, const tripoint & );
-int blech_because_unclean( player *, item *, bool, const tripoint & );
-int plantblech( player *, item *, bool, const tripoint & );
-int chew( player *, item *, bool, const tripoint & );
-int purifier( player *, item *, bool, const tripoint & );
-int purify_iv( player *, item *, bool, const tripoint & );
-int purify_smart( player *, item *, bool, const tripoint & );
-int marloss( player *, item *, bool, const tripoint & );
-int marloss_seed( player *, item *, bool, const tripoint & );
-int marloss_gel( player *, item *, bool, const tripoint & );
-int mycus( player *, item *, bool, const tripoint & );
-int dogfood( player *, item *, bool, const tripoint & );
-int catfood( player *, item *, bool, const tripoint & );
-int feedcattle( player *, item *, bool, const tripoint & );
-int feedbird( player *, item *, bool, const tripoint & );
-int antiasthmatic( player *, item *, bool, const tripoint & );
+auto sewage( player *, item *, bool, const tripoint & ) -> int;
+auto honeycomb( player *, item *, bool, const tripoint & ) -> int;
+auto alcohol_weak( player *, item *, bool, const tripoint & ) -> int;
+auto alcohol_medium( player *, item *, bool, const tripoint & ) -> int;
+auto alcohol_strong( player *, item *, bool, const tripoint & ) -> int;
+auto xanax( player *, item *, bool, const tripoint & ) -> int;
+auto smoking( player *, item *, bool, const tripoint & ) -> int;
+auto ecig( player *, item *, bool, const tripoint & ) -> int;
+auto antibiotic( player *, item *, bool, const tripoint & ) -> int;
+auto eyedrops( player *, item *, bool, const tripoint & ) -> int;
+auto fungicide( player *, item *, bool, const tripoint & ) -> int;
+auto antifungal( player *, item *, bool, const tripoint & ) -> int;
+auto antiparasitic( player *, item *, bool, const tripoint & ) -> int;
+auto anticonvulsant( player *, item *, bool, const tripoint & ) -> int;
+auto weed_cake( player *, item *, bool, const tripoint & ) -> int;
+auto meth( player *, item *, bool, const tripoint & ) -> int;
+auto vaccine( player *, item *, bool, const tripoint & ) -> int;
+auto poison( player *, item *, bool, const tripoint & ) -> int;
+auto meditate( player *, item *, bool, const tripoint & ) -> int;
+auto thorazine( player *, item *, bool, const tripoint & ) -> int;
+auto prozac( player *, item *, bool, const tripoint & ) -> int;
+auto sleep( player *, item *, bool, const tripoint & ) -> int;
+auto datura( player *, item *, bool, const tripoint & ) -> int;
+auto flumed( player *, item *, bool, const tripoint & ) -> int;
+auto flusleep( player *, item *, bool, const tripoint & ) -> int;
+auto inhaler( player *, item *, bool, const tripoint & ) -> int;
+auto blech( player *, item *, bool, const tripoint & ) -> int;
+auto blech_because_unclean( player *, item *, bool, const tripoint & ) -> int;
+auto plantblech( player *, item *, bool, const tripoint & ) -> int;
+auto chew( player *, item *, bool, const tripoint & ) -> int;
+auto purifier( player *, item *, bool, const tripoint & ) -> int;
+auto purify_iv( player *, item *, bool, const tripoint & ) -> int;
+auto purify_smart( player *, item *, bool, const tripoint & ) -> int;
+auto marloss( player *, item *, bool, const tripoint & ) -> int;
+auto marloss_seed( player *, item *, bool, const tripoint & ) -> int;
+auto marloss_gel( player *, item *, bool, const tripoint & ) -> int;
+auto mycus( player *, item *, bool, const tripoint & ) -> int;
+auto dogfood( player *, item *, bool, const tripoint & ) -> int;
+auto catfood( player *, item *, bool, const tripoint & ) -> int;
+auto feedcattle( player *, item *, bool, const tripoint & ) -> int;
+auto feedbird( player *, item *, bool, const tripoint & ) -> int;
+auto antiasthmatic( player *, item *, bool, const tripoint & ) -> int;
 // TOOLS
-int extinguisher( player *, item *, bool, const tripoint & );
-int hammer( player *, item *, bool, const tripoint & );
-int water_purifier( player *, item *, bool, const tripoint & );
-int directional_antenna( player *, item *, bool, const tripoint & );
-int radio_off( player *, item *, bool, const tripoint & );
-int radio_on( player *, item *, bool, const tripoint & );
-int noise_emitter_off( player *, item *, bool, const tripoint & );
-int noise_emitter_on( player *, item *, bool, const tripoint & );
-int note_bionics( player *, item *, bool, const tripoint & );
-int ma_manual( player *, item *, bool, const tripoint & );
-int crowbar( player *, item *, bool, const tripoint & );
-int makemound( player *, item *, bool, const tripoint & );
-int dig( player *, item *, bool, const tripoint & );
-int dig_channel( player *, item *, bool, const tripoint & );
-int fill_pit( player *, item *, bool, const tripoint & );
-int clear_rubble( player *, item *, bool, const tripoint & );
-int siphon( player *, item *, bool, const tripoint & );
-int chainsaw_off( player *, item *, bool, const tripoint & );
-int chainsaw_on( player *, item *, bool, const tripoint & );
-int elec_chainsaw_off( player *, item *, bool, const tripoint & );
-int elec_chainsaw_on( player *, item *, bool, const tripoint & );
-int cs_lajatang_off( player *, item *, bool, const tripoint & );
-int cs_lajatang_on( player *, item *, bool, const tripoint & );
-int ecs_lajatang_off( player *, item *, bool, const tripoint & );
-int ecs_lajatang_on( player *, item *, bool, const tripoint & );
-int carver_off( player *, item *, bool, const tripoint & );
-int carver_on( player *, item *, bool, const tripoint & );
-int trimmer_off( player *, item *, bool, const tripoint & );
-int trimmer_on( player *, item *, bool, const tripoint & );
-int circsaw_on( player *, item *, bool, const tripoint & );
-int combatsaw_off( player *, item *, bool, const tripoint & );
-int combatsaw_on( player *, item *, bool, const tripoint & );
-int e_combatsaw_off( player *, item *, bool, const tripoint & );
-int e_combatsaw_on( player *, item *, bool, const tripoint & );
-int jackhammer( player *, item *, bool, const tripoint & );
-int pickaxe( player *, item *, bool, const tripoint & );
-int burrow( player *, item *, bool, const tripoint & );
-int geiger( player *, item *, bool, const tripoint & );
-int teleport( player *, item *, bool, const tripoint & );
-int can_goo( player *, item *, bool, const tripoint & );
-int throwable_extinguisher_act( player *, item *, bool, const tripoint & );
-int directional_hologram( player *, item *, bool, const tripoint & );
-int capture_monster_veh( player *, item *, bool, const tripoint & );
-int capture_monster_act( player *, item *, bool, const tripoint & );
-int granade( player *, item *, bool, const tripoint & );
-int granade_act( player *, item *, bool, const tripoint & );
-int c4( player *, item *, bool, const tripoint & );
-int arrow_flammable( player *, item *, bool, const tripoint & );
-int acidbomb_act( player *, item *, bool, const tripoint & );
-int grenade_inc_act( player *, item *, bool, const tripoint & );
-int molotov_lit( player *, item *, bool, const tripoint & );
-int firecracker_pack( player *, item *, bool, const tripoint & );
-int firecracker_pack_act( player *, item *, bool, const tripoint & );
-int firecracker( player *, item *, bool, const tripoint & );
-int firecracker_act( player *, item *, bool, const tripoint & );
-int mininuke( player *, item *, bool, const tripoint & );
-int pheromone( player *, item *, bool, const tripoint & );
-int portal( player *, item *, bool, const tripoint & );
-int tazer( player *, item *, bool, const tripoint & );
-int tazer2( player *, item *, bool, const tripoint & );
-int shocktonfa_off( player *, item *, bool, const tripoint & );
-int shocktonfa_on( player *, item *, bool, const tripoint & );
-int mp3( player *, item *, bool, const tripoint & );
-int mp3_on( player *, item *, bool, const tripoint & );
-int rpgdie( player *, item *, bool, const tripoint & );
-int dive_tank( player *, item *, bool, const tripoint & );
-int gasmask( player *, item *, bool, const tripoint & );
-int portable_game( player *, item *, bool, const tripoint & );
-int fitness_check( player *p, item *it, bool, const tripoint & );
-int vibe( player *, item *, bool, const tripoint & );
-int hand_crank( player *, item *, bool, const tripoint & );
-int vortex( player *, item *, bool, const tripoint & );
-int dog_whistle( player *, item *, bool, const tripoint & );
-int call_of_tindalos( player *, item *, bool, const tripoint & );
-int blood_draw( player *, item *, bool, const tripoint & );
-int mind_splicer( player *, item *, bool, const tripoint & );
+auto extinguisher( player *, item *, bool, const tripoint & ) -> int;
+auto hammer( player *, item *, bool, const tripoint & ) -> int;
+auto water_purifier( player *, item *, bool, const tripoint & ) -> int;
+auto directional_antenna( player *, item *, bool, const tripoint & ) -> int;
+auto radio_off( player *, item *, bool, const tripoint & ) -> int;
+auto radio_on( player *, item *, bool, const tripoint & ) -> int;
+auto noise_emitter_off( player *, item *, bool, const tripoint & ) -> int;
+auto noise_emitter_on( player *, item *, bool, const tripoint & ) -> int;
+auto note_bionics( player *, item *, bool, const tripoint & ) -> int;
+auto ma_manual( player *, item *, bool, const tripoint & ) -> int;
+auto crowbar( player *, item *, bool, const tripoint & ) -> int;
+auto makemound( player *, item *, bool, const tripoint & ) -> int;
+auto dig( player *, item *, bool, const tripoint & ) -> int;
+auto dig_channel( player *, item *, bool, const tripoint & ) -> int;
+auto fill_pit( player *, item *, bool, const tripoint & ) -> int;
+auto clear_rubble( player *, item *, bool, const tripoint & ) -> int;
+auto siphon( player *, item *, bool, const tripoint & ) -> int;
+auto chainsaw_off( player *, item *, bool, const tripoint & ) -> int;
+auto chainsaw_on( player *, item *, bool, const tripoint & ) -> int;
+auto elec_chainsaw_off( player *, item *, bool, const tripoint & ) -> int;
+auto elec_chainsaw_on( player *, item *, bool, const tripoint & ) -> int;
+auto cs_lajatang_off( player *, item *, bool, const tripoint & ) -> int;
+auto cs_lajatang_on( player *, item *, bool, const tripoint & ) -> int;
+auto ecs_lajatang_off( player *, item *, bool, const tripoint & ) -> int;
+auto ecs_lajatang_on( player *, item *, bool, const tripoint & ) -> int;
+auto carver_off( player *, item *, bool, const tripoint & ) -> int;
+auto carver_on( player *, item *, bool, const tripoint & ) -> int;
+auto trimmer_off( player *, item *, bool, const tripoint & ) -> int;
+auto trimmer_on( player *, item *, bool, const tripoint & ) -> int;
+auto circsaw_on( player *, item *, bool, const tripoint & ) -> int;
+auto combatsaw_off( player *, item *, bool, const tripoint & ) -> int;
+auto combatsaw_on( player *, item *, bool, const tripoint & ) -> int;
+auto e_combatsaw_off( player *, item *, bool, const tripoint & ) -> int;
+auto e_combatsaw_on( player *, item *, bool, const tripoint & ) -> int;
+auto jackhammer( player *, item *, bool, const tripoint & ) -> int;
+auto pickaxe( player *, item *, bool, const tripoint & ) -> int;
+auto burrow( player *, item *, bool, const tripoint & ) -> int;
+auto geiger( player *, item *, bool, const tripoint & ) -> int;
+auto teleport( player *, item *, bool, const tripoint & ) -> int;
+auto can_goo( player *, item *, bool, const tripoint & ) -> int;
+auto throwable_extinguisher_act( player *, item *, bool, const tripoint & ) -> int;
+auto directional_hologram( player *, item *, bool, const tripoint & ) -> int;
+auto capture_monster_veh( player *, item *, bool, const tripoint & ) -> int;
+auto capture_monster_act( player *, item *, bool, const tripoint & ) -> int;
+auto granade( player *, item *, bool, const tripoint & ) -> int;
+auto granade_act( player *, item *, bool, const tripoint & ) -> int;
+auto c4( player *, item *, bool, const tripoint & ) -> int;
+auto arrow_flammable( player *, item *, bool, const tripoint & ) -> int;
+auto acidbomb_act( player *, item *, bool, const tripoint & ) -> int;
+auto grenade_inc_act( player *, item *, bool, const tripoint & ) -> int;
+auto molotov_lit( player *, item *, bool, const tripoint & ) -> int;
+auto firecracker_pack( player *, item *, bool, const tripoint & ) -> int;
+auto firecracker_pack_act( player *, item *, bool, const tripoint & ) -> int;
+auto firecracker( player *, item *, bool, const tripoint & ) -> int;
+auto firecracker_act( player *, item *, bool, const tripoint & ) -> int;
+auto mininuke( player *, item *, bool, const tripoint & ) -> int;
+auto pheromone( player *, item *, bool, const tripoint & ) -> int;
+auto portal( player *, item *, bool, const tripoint & ) -> int;
+auto tazer( player *, item *, bool, const tripoint & ) -> int;
+auto tazer2( player *, item *, bool, const tripoint & ) -> int;
+auto shocktonfa_off( player *, item *, bool, const tripoint & ) -> int;
+auto shocktonfa_on( player *, item *, bool, const tripoint & ) -> int;
+auto mp3( player *, item *, bool, const tripoint & ) -> int;
+auto mp3_on( player *, item *, bool, const tripoint & ) -> int;
+auto rpgdie( player *, item *, bool, const tripoint & ) -> int;
+auto dive_tank( player *, item *, bool, const tripoint & ) -> int;
+auto gasmask( player *, item *, bool, const tripoint & ) -> int;
+auto portable_game( player *, item *, bool, const tripoint & ) -> int;
+auto fitness_check( player *p, item *it, bool, const tripoint & ) -> int;
+auto vibe( player *, item *, bool, const tripoint & ) -> int;
+auto hand_crank( player *, item *, bool, const tripoint & ) -> int;
+auto vortex( player *, item *, bool, const tripoint & ) -> int;
+auto dog_whistle( player *, item *, bool, const tripoint & ) -> int;
+auto call_of_tindalos( player *, item *, bool, const tripoint & ) -> int;
+auto blood_draw( player *, item *, bool, const tripoint & ) -> int;
+auto mind_splicer( player *, item *, bool, const tripoint & ) -> int;
 void cut_log_into_planks( player & );
-int lumber( player *, item *, bool, const tripoint & );
-int chop_tree( player *, item *, bool, const tripoint & );
-int chop_logs( player *, item *, bool, const tripoint & );
-int oxytorch( player *, item *, bool, const tripoint & );
-int hacksaw( player *, item *, bool, const tripoint & );
-int boltcutters( player *, item *, bool, const tripoint & );
-int mop( player *, item *, bool, const tripoint & );
-int spray_can( player *, item *, bool, const tripoint & );
-int towel( player *, item *, bool, const tripoint & );
-int unfold_generic( player *, item *, bool, const tripoint & );
-int adrenaline_injector( player *, item *, bool, const tripoint & );
-int jet_injector( player *, item *, bool, const tripoint & );
-int stimpack( player *, item *, bool, const tripoint & );
-int contacts( player *, item *, bool, const tripoint & );
-int talking_doll( player *, item *, bool, const tripoint & );
-int bell( player *, item *, bool, const tripoint & );
-int seed( player *, item *, bool, const tripoint & );
-int oxygen_bottle( player *, item *, bool, const tripoint & );
-int radio_mod( player *, item *, bool, const tripoint & );
-int remove_all_mods( player *, item *, bool, const tripoint & );
-int fishing_rod( player *, item *, bool, const tripoint & );
-int fish_trap( player *, item *, bool, const tripoint & );
-int gun_repair( player *, item *, bool, const tripoint & );
-int gunmod_attach( player *, item *, bool, const tripoint & );
-int toolmod_attach( player *, item *, bool, const tripoint & );
-int rm13armor_off( player *, item *, bool, const tripoint & );
-int rm13armor_on( player *, item *, bool, const tripoint & );
-int unpack_item( player *, item *, bool, const tripoint & );
-int pack_cbm( player *p, item *it, bool, const tripoint & );
-int pack_item( player *, item *, bool, const tripoint & );
-int radglove( player *, item *, bool, const tripoint & );
-int robotcontrol( player *, item *, bool, const tripoint & );
+auto lumber( player *, item *, bool, const tripoint & ) -> int;
+auto chop_tree( player *, item *, bool, const tripoint & ) -> int;
+auto chop_logs( player *, item *, bool, const tripoint & ) -> int;
+auto oxytorch( player *, item *, bool, const tripoint & ) -> int;
+auto hacksaw( player *, item *, bool, const tripoint & ) -> int;
+auto boltcutters( player *, item *, bool, const tripoint & ) -> int;
+auto mop( player *, item *, bool, const tripoint & ) -> int;
+auto spray_can( player *, item *, bool, const tripoint & ) -> int;
+auto towel( player *, item *, bool, const tripoint & ) -> int;
+auto unfold_generic( player *, item *, bool, const tripoint & ) -> int;
+auto adrenaline_injector( player *, item *, bool, const tripoint & ) -> int;
+auto jet_injector( player *, item *, bool, const tripoint & ) -> int;
+auto stimpack( player *, item *, bool, const tripoint & ) -> int;
+auto contacts( player *, item *, bool, const tripoint & ) -> int;
+auto talking_doll( player *, item *, bool, const tripoint & ) -> int;
+auto bell( player *, item *, bool, const tripoint & ) -> int;
+auto seed( player *, item *, bool, const tripoint & ) -> int;
+auto oxygen_bottle( player *, item *, bool, const tripoint & ) -> int;
+auto radio_mod( player *, item *, bool, const tripoint & ) -> int;
+auto remove_all_mods( player *, item *, bool, const tripoint & ) -> int;
+auto fishing_rod( player *, item *, bool, const tripoint & ) -> int;
+auto fish_trap( player *, item *, bool, const tripoint & ) -> int;
+auto gun_repair( player *, item *, bool, const tripoint & ) -> int;
+auto gunmod_attach( player *, item *, bool, const tripoint & ) -> int;
+auto toolmod_attach( player *, item *, bool, const tripoint & ) -> int;
+auto rm13armor_off( player *, item *, bool, const tripoint & ) -> int;
+auto rm13armor_on( player *, item *, bool, const tripoint & ) -> int;
+auto unpack_item( player *, item *, bool, const tripoint & ) -> int;
+auto pack_cbm( player *p, item *it, bool, const tripoint & ) -> int;
+auto pack_item( player *, item *, bool, const tripoint & ) -> int;
+auto radglove( player *, item *, bool, const tripoint & ) -> int;
+auto robotcontrol( player *, item *, bool, const tripoint & ) -> int;
 // Helper for validating a potential taget of robot control
-bool robotcontrol_can_target( player *, const monster & );
-int einktabletpc( player *, item *, bool, const tripoint & );
-int camera( player *, item *, bool, const tripoint & );
-int ehandcuffs( player *, item *, bool, const tripoint & );
-int foodperson( player *, item *, bool, const tripoint & );
-int tow_attach( player *, item *, bool, const tripoint & );
-int cable_attach( player *, item *, bool, const tripoint & );
-int shavekit( player *, item *, bool, const tripoint & );
-int hairkit( player *, item *, bool, const tripoint & );
-int weather_tool( player *, item *, bool, const tripoint & );
-int ladder( player *, item *, bool, const tripoint & );
-int wash_soft_items( player *, item *, bool, const tripoint & );
-int wash_hard_items( player *, item *, bool, const tripoint & );
-int wash_all_items( player *, item *, bool, const tripoint & );
-int solarpack( player *, item *, bool, const tripoint & );
-int solarpack_off( player *, item *, bool, const tripoint & );
-int weak_antibiotic( player *, item *, bool, const tripoint & );
-int strong_antibiotic( player *, item *, bool, const tripoint & );
-int melatonin_tablet( player *, item *, bool, const tripoint & );
-int coin_flip( player *, item *, bool, const tripoint & );
-int play_game( player *, item *, bool, const tripoint & );
-int magic_8_ball( player *, item *, bool, const tripoint & );
-int toggle_heats_food( player *, item *, bool, const tripoint & );
-int report_grid_charge( player *, item *, bool, const tripoint & );
-int report_grid_connections( player *, item *, bool, const tripoint & );
+auto robotcontrol_can_target( player *, const monster & ) -> bool;
+auto einktabletpc( player *, item *, bool, const tripoint & ) -> int;
+auto camera( player *, item *, bool, const tripoint & ) -> int;
+auto ehandcuffs( player *, item *, bool, const tripoint & ) -> int;
+auto foodperson( player *, item *, bool, const tripoint & ) -> int;
+auto tow_attach( player *, item *, bool, const tripoint & ) -> int;
+auto cable_attach( player *, item *, bool, const tripoint & ) -> int;
+auto shavekit( player *, item *, bool, const tripoint & ) -> int;
+auto hairkit( player *, item *, bool, const tripoint & ) -> int;
+auto weather_tool( player *, item *, bool, const tripoint & ) -> int;
+auto ladder( player *, item *, bool, const tripoint & ) -> int;
+auto wash_soft_items( player *, item *, bool, const tripoint & ) -> int;
+auto wash_hard_items( player *, item *, bool, const tripoint & ) -> int;
+auto wash_all_items( player *, item *, bool, const tripoint & ) -> int;
+auto solarpack( player *, item *, bool, const tripoint & ) -> int;
+auto solarpack_off( player *, item *, bool, const tripoint & ) -> int;
+auto weak_antibiotic( player *, item *, bool, const tripoint & ) -> int;
+auto strong_antibiotic( player *, item *, bool, const tripoint & ) -> int;
+auto melatonin_tablet( player *, item *, bool, const tripoint & ) -> int;
+auto coin_flip( player *, item *, bool, const tripoint & ) -> int;
+auto play_game( player *, item *, bool, const tripoint & ) -> int;
+auto magic_8_ball( player *, item *, bool, const tripoint & ) -> int;
+auto toggle_heats_food( player *, item *, bool, const tripoint & ) -> int;
+auto report_grid_charge( player *, item *, bool, const tripoint & ) -> int;
+auto report_grid_connections( player *, item *, bool, const tripoint & ) -> int;
 
 // MACGUFFINS
 
-int radiocar( player *, item *, bool, const tripoint & );
-int radiocaron( player *, item *, bool, const tripoint & );
-int radiocontrol( player *, item *, bool, const tripoint & );
+auto radiocar( player *, item *, bool, const tripoint & ) -> int;
+auto radiocaron( player *, item *, bool, const tripoint & ) -> int;
+auto radiocontrol( player *, item *, bool, const tripoint & ) -> int;
 
-int autoclave( player *, item *, bool, const tripoint & );
+auto autoclave( player *, item *, bool, const tripoint & ) -> int;
 
-int multicooker( player *, item *, bool, const tripoint & );
+auto multicooker( player *, item *, bool, const tripoint & ) -> int;
 
-int remoteveh( player *, item *, bool, const tripoint & );
+auto remoteveh( player *, item *, bool, const tripoint & ) -> int;
 
-int craft( player *, item *, bool, const tripoint & );
+auto craft( player *, item *, bool, const tripoint & ) -> int;
 
-int disassemble( player *, item *, bool, const tripoint & );
+auto disassemble( player *, item *, bool, const tripoint & ) -> int;
 
 // ARTIFACTS
 /* This function is used when an artifact is activated.
    It examines the item's artifact-specific properties.
    See artifact.h for a list.                        */
-int artifact( player *, item *, bool, const tripoint & );
+auto artifact( player *, item *, bool, const tripoint & ) -> int;
 
 // Helper for listening to music, might deserve a better home, but not sure where.
 void play_music( player &p, const tripoint &source, int volume, int max_morale );
-int towel_common( player *, item *, bool );
+auto towel_common( player *, item *, bool ) -> int;
 
 // Helper for handling pesky wannabe-artists
-int handle_ground_graffiti( player &p, item *it, const std::string &prefix,
-                            const tripoint &where );
+auto handle_ground_graffiti( player &p, item *it, const std::string &prefix,
+                            const tripoint &where ) -> int;
 
 // Helper for wood chopping
-int chop_moves( Character &ch, item &tool );
+auto chop_moves( Character &ch, item &tool ) -> int;
 
 // LEGACY
-int cauterize_hotplate( player *, item *, bool, const tripoint & );
+auto cauterize_hotplate( player *, item *, bool, const tripoint & ) -> int;
 
 } // namespace iuse
 
@@ -249,7 +249,7 @@ struct washing_requirements {
     int cleanser;
     int time;
 };
-washing_requirements washing_requirements_for_volume( const units::volume & );
+auto washing_requirements_for_volume( const units::volume & ) -> washing_requirements;
 
 using use_function_pointer = int ( * )( player *, item *, bool, const tripoint & );
 
@@ -270,8 +270,8 @@ class iuse_actor
 
         virtual ~iuse_actor() = default;
         virtual void load( const JsonObject &jo ) = 0;
-        virtual int use( player &, item &, bool, const tripoint & ) const = 0;
-        virtual ret_val<bool> can_use( const Character &, const item &, bool, const tripoint & ) const;
+        virtual auto use( player &, item &, bool, const tripoint & ) const -> int = 0;
+        virtual auto can_use( const Character &, const item &, bool, const tripoint & ) const -> ret_val<bool>;
         virtual void info( const item &, std::vector<iteminfo> & ) const {}
         /**
          * Returns a deep copy of this object. Example implementation:
@@ -284,15 +284,15 @@ class iuse_actor
          * \endcode
          * The returned value should behave like the original item and must have the same type.
          */
-        virtual std::unique_ptr<iuse_actor> clone() const = 0;
+        virtual auto clone() const -> std::unique_ptr<iuse_actor> = 0;
         /**
          * Returns whether the actor is valid (exists in the generator).
          */
-        virtual bool is_valid() const;
+        virtual auto is_valid() const -> bool;
         /**
          * Returns the translated name of the action. It is used for the item action menu.
          */
-        virtual std::string get_name() const;
+        virtual auto get_name() const -> std::string;
         /**
          * Finalizes the actor. Must be called after all items are loaded.
          */
@@ -308,14 +308,14 @@ struct use_function {
         use_function( const std::string &type, use_function_pointer f );
         use_function( std::unique_ptr<iuse_actor> f ) : actor( std::move( f ) ) {}
 
-        int call( player &, item &, bool, const tripoint & ) const;
-        ret_val<bool> can_call( const Character &, const item &, bool t, const tripoint &pos ) const;
+        auto call( player &, item &, bool, const tripoint & ) const -> int;
+        auto can_call( const Character &, const item &, bool t, const tripoint &pos ) const -> ret_val<bool>;
 
-        iuse_actor *get_actor_ptr() {
+        auto get_actor_ptr() -> iuse_actor * {
             return actor.get();
         }
 
-        const iuse_actor *get_actor_ptr() const {
+        auto get_actor_ptr() const -> const iuse_actor * {
             return actor.get();
         }
 
@@ -324,9 +324,9 @@ struct use_function {
         }
 
         /** @return See @ref iuse_actor::type */
-        std::string get_type() const;
+        auto get_type() const -> std::string;
         /** @return See @ref iuse_actor::get_name */
-        std::string get_name() const;
+        auto get_name() const -> std::string;
         /** @return Used by @ref item::info to get description of the actor */
         void dump_info( const item &, std::vector<iteminfo> & ) const;
 };

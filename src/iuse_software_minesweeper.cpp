@@ -116,7 +116,7 @@ void minesweeper_game::new_level()
     }
 }
 
-bool minesweeper_game::check_win()
+auto minesweeper_game::check_win() -> bool
 {
     for( int y = 0; y < level.y; y++ ) {
         for( int x = 0; x < level.x; x++ ) {
@@ -130,7 +130,7 @@ bool minesweeper_game::check_win()
     return true;
 }
 
-int minesweeper_game::start_game()
+auto minesweeper_game::start_game() -> int
 {
     catacurses::window w_minesweeper_border;
     catacurses::window w_minesweeper;

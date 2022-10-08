@@ -25,7 +25,7 @@
 #include <ext/stdio_filebuf.h>
 #endif
 
-static double pow10( unsigned int n )
+static auto pow10( unsigned int n ) -> double
 {
     double ret = 1;
     double tmp = 10;
@@ -39,7 +39,7 @@ static double pow10( unsigned int n )
     return ret;
 }
 
-double round_up( double val, unsigned int dp )
+auto round_up( double val, unsigned int dp ) -> double
 {
     // Some implementations of std::pow does not return the accurate result even
     // for small powers of 10, so we use a specialized routine to calculate them.
@@ -47,7 +47,7 @@ double round_up( double val, unsigned int dp )
     return std::ceil( denominator * val ) / denominator;
 }
 
-int modulo( int v, int m )
+auto modulo( int v, int m ) -> int
 {
     // C++11: negative v and positive m result in negative v%m (or 0),
     // but this is supposed to be mathematical modulo: 0 <= v%m < m,
@@ -56,7 +56,7 @@ int modulo( int v, int m )
     return r >= 0 ? r : r + ( m * ( 1 - r / m ) );
 }
 
-bool isBetween( int test, int down, int up )
+auto isBetween( int test, int down, int up ) -> bool
 {
     return test > down && test < up;
 }
@@ -65,12 +65,12 @@ bool isBetween( int test, int down, int up )
 // This stuff could be moved elsewhere, but there
 // doesn't seem to be a good place to put it right now.
 
-double logarithmic( double t )
+auto logarithmic( double t ) -> double
 {
     return 1 / ( 1 + std::exp( -t ) );
 }
 
-double logarithmic_range( int min, int max, int pos )
+auto logarithmic_range( int min, int max, int pos ) -> double
 {
     const double LOGI_CUTOFF = 4;
     const double LOGI_MIN = logarithmic( -LOGI_CUTOFF );
@@ -103,12 +103,12 @@ double logarithmic_range( int min, int max, int pos )
     return ( raw_logistic - LOGI_MIN ) / LOGI_RANGE;
 }
 
-double normal_cdf( double x, double mean, double stddev )
+auto normal_cdf( double x, double mean, double stddev ) -> double
 {
     return 0.5 * ( 1.0 + std::erf( ( x - mean ) / ( stddev * M_SQRT2 ) ) );
 }
 
-int bound_mod_to_vals( int val, int mod, int max, int min )
+auto bound_mod_to_vals( int val, int mod, int max, int min ) -> int
 {
     if( val + mod > max && max != 0 ) {
         mod = std::max( max - val, 0 );
@@ -119,12 +119,12 @@ int bound_mod_to_vals( int val, int mod, int max, int min )
     return mod;
 }
 
-double clamp_to_width( double value, int width, int &scale )
+auto clamp_to_width( double value, int width, int &scale ) -> double
 {
     return clamp_to_width( value, width, scale, nullptr );
 }
 
-double clamp_to_width( double value, int width, int &scale, bool *out_truncated )
+auto clamp_to_width( double value, int width, int &scale, bool *out_truncated ) -> double
 {
     if( out_truncated != nullptr ) {
         *out_truncated = false;
@@ -153,7 +153,7 @@ double clamp_to_width( double value, int width, int &scale, bool *out_truncated 
     return value;
 }
 
-float multi_lerp( const std::vector<std::pair<float, float>> &points, float x )
+auto multi_lerp( const std::vector<std::pair<float, float>> &points, float x ) -> float
 {
     size_t i = 0;
     while( i < points.size() && points[i].first <= x ) {
@@ -174,7 +174,7 @@ float multi_lerp( const std::vector<std::pair<float, float>> &points, float x )
     return ( t * points[i].second ) + ( ( 1 - t ) * points[i - 1].second );
 }
 
-static std::ios_base::openmode cata_ios_mode_to_std( std::ios_base::openmode dir, cata_ios_mode m )
+static auto cata_ios_mode_to_std( std::ios_base::openmode dir, cata_ios_mode m ) -> std::ios_base::openmode
 {
     std::ios_base::openmode ret = dir;
     if( static_cast<int>( m ) & static_cast<int>( cata_ios_mode::binary ) ) {
@@ -264,14 +264,14 @@ void cata_ofstream::close()
 
 #else // defined (_WIN32) && !defined (_MSC_VER)
 
-cata_ofstream &cata_ofstream::operator=( cata_ofstream &&x )
+auto cata_ofstream::operator=( cata_ofstream &&x ) -> cata_ofstream &
 {
     _stream = std::move( x._stream );
     _mode = x._mode;
     return *this;
 }
 
-cata_ofstream &cata_ofstream::open( const std::string &path )
+auto cata_ofstream::open( const std::string &path ) -> cata_ofstream &
 {
     std::ios_base::openmode mode = cata_ios_mode_to_std( std::ios_base::out, _mode );
 
@@ -283,7 +283,7 @@ cata_ofstream &cata_ofstream::open( const std::string &path )
     return *this;
 }
 
-bool cata_ofstream::is_open()
+auto cata_ofstream::is_open() -> bool
 {
     return _stream && _stream->is_open();
 }
@@ -310,12 +310,12 @@ cata_ofstream::~cata_ofstream()
     close();
 }
 
-bool cata_ofstream::fail()
+auto cata_ofstream::fail() -> bool
 {
     return !_stream || _stream->fail();
 }
 
-bool cata_ofstream::bad()
+auto cata_ofstream::bad() -> bool
 {
     return !_stream || _stream->bad();
 }
@@ -325,12 +325,12 @@ void cata_ofstream::flush()
     _stream->flush();
 }
 
-std::ostream &cata_ofstream::operator*()
+auto cata_ofstream::operator*() -> std::ostream &
 {
     return *_stream;
 }
 
-std::ostream *cata_ofstream::operator->()
+auto cata_ofstream::operator->() -> std::ostream *
 {
     return &*_stream;
 }
@@ -384,14 +384,14 @@ void cata_ifstream::close()
 
 #else // defined (_WIN32) && !defined (_MSC_VER)
 
-cata_ifstream &cata_ifstream::operator=( cata_ifstream &&x )
+auto cata_ifstream::operator=( cata_ifstream &&x ) -> cata_ifstream &
 {
     _stream = std::move( x._stream );
     _mode = x._mode;
     return *this;
 }
 
-cata_ifstream &cata_ifstream::open( const std::string &path )
+auto cata_ifstream::open( const std::string &path ) -> cata_ifstream &
 {
     std::ios_base::openmode mode = cata_ios_mode_to_std( std::ios_base::in, _mode );
 
@@ -403,7 +403,7 @@ cata_ifstream &cata_ifstream::open( const std::string &path )
     return *this;
 }
 
-bool cata_ifstream::is_open()
+auto cata_ifstream::is_open() -> bool
 {
     return _stream && _stream->is_open();
 }
@@ -430,22 +430,22 @@ cata_ifstream::~cata_ifstream()
     close();
 }
 
-bool cata_ifstream::fail()
+auto cata_ifstream::fail() -> bool
 {
     return !_stream || _stream->fail();
 }
 
-bool cata_ifstream::bad()
+auto cata_ifstream::bad() -> bool
 {
     return !_stream || _stream->bad();
 }
 
-std::istream &cata_ifstream::operator*()
+auto cata_ifstream::operator*() -> std::istream &
 {
     return *_stream;
 }
 
-std::istream *cata_ifstream::operator->()
+auto cata_ifstream::operator->() -> std::istream *
 {
     return &*_stream;
 }
@@ -458,8 +458,8 @@ void write_to_file( const std::string &path, const std::function<void( std::ostr
     fout.close();
 }
 
-bool write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer,
-                    const char *const fail_message )
+auto write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer,
+                    const char *const fail_message ) -> bool
 {
     try {
         write_to_file( path, writer );
@@ -489,7 +489,7 @@ ofstream_wrapper::~ofstream_wrapper()
     }
 }
 
-std::istream &safe_getline( std::istream &ins, std::string &str )
+auto safe_getline( std::istream &ins, std::string &str ) -> std::istream &
 {
     str.clear();
     std::istream::sentry se( ins, true );
@@ -516,7 +516,7 @@ std::istream &safe_getline( std::istream &ins, std::string &str )
     }
 }
 
-bool read_from_file( const std::string &path, const std::function<void( std::istream & )> &reader )
+auto read_from_file( const std::string &path, const std::function<void( std::istream & )> &reader ) -> bool
 {
     try {
         cata_ifstream fin = std::move( cata_ifstream().mode( cata_ios_mode::binary ).open( path ) );
@@ -535,7 +535,7 @@ bool read_from_file( const std::string &path, const std::function<void( std::ist
     }
 }
 
-bool read_from_file_json( const std::string &path, const std::function<void( JsonIn & )> &reader )
+auto read_from_file_json( const std::string &path, const std::function<void( JsonIn & )> &reader ) -> bool
 {
     return read_from_file( path, [&]( std::istream & fin ) {
         JsonIn jsin( fin, path );
@@ -543,15 +543,15 @@ bool read_from_file_json( const std::string &path, const std::function<void( Jso
     } );
 }
 
-bool read_from_file( const std::string &path, JsonDeserializer &reader )
+auto read_from_file( const std::string &path, JsonDeserializer &reader ) -> bool
 {
     return read_from_file_json( path, [&reader]( JsonIn & jsin ) {
         reader.deserialize( jsin );
     } );
 }
 
-bool read_from_file_optional( const std::string &path,
-                              const std::function<void( std::istream & )> &reader )
+auto read_from_file_optional( const std::string &path,
+                              const std::function<void( std::istream & )> &reader ) -> bool
 {
     // Note: slight race condition here, but we'll ignore it. Worst case: the file
     // exists and got removed before reading it -> reading fails with a message
@@ -559,8 +559,8 @@ bool read_from_file_optional( const std::string &path,
     return file_exist( path ) && read_from_file( path, reader );
 }
 
-bool read_from_file_optional_json( const std::string &path,
-                                   const std::function<void( JsonIn & )> &reader )
+auto read_from_file_optional_json( const std::string &path,
+                                   const std::function<void( JsonIn & )> &reader ) -> bool
 {
     return read_from_file_optional( path, [&]( std::istream & fin ) {
         JsonIn jsin( fin, path );
@@ -568,7 +568,7 @@ bool read_from_file_optional_json( const std::string &path,
     } );
 }
 
-bool read_from_file_optional( const std::string &path, JsonDeserializer &reader )
+auto read_from_file_optional( const std::string &path, JsonDeserializer &reader ) -> bool
 {
     return read_from_file_optional_json( path, [&reader]( JsonIn & jsin ) {
         reader.deserialize( jsin );
@@ -617,7 +617,7 @@ void ofstream_wrapper::close()
     }
 }
 
-std::string obscure_message( const std::string &str, std::function<char()> f )
+auto obscure_message( const std::string &str, std::function<char()> f ) -> std::string
 {
     //~ translators: place some random 1-width characters here in your language if possible, or leave it as is
     std::string gibberish_narrow = _( "abcdefghijklmnopqrstuvwxyz" );
@@ -656,7 +656,7 @@ std::string obscure_message( const std::string &str, std::function<char()> f )
     return result;
 }
 
-std::string serialize_wrapper( const std::function<void( JsonOut & )> &callback )
+auto serialize_wrapper( const std::function<void( JsonOut & )> &callback ) -> std::string
 {
     std::ostringstream buffer;
     JsonOut jsout( buffer );

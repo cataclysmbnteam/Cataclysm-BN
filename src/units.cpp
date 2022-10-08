@@ -56,7 +56,7 @@ void angle::deserialize( JsonIn &jsin )
     *this = read_from_json_string( jsin, units::angle_units );
 }
 
-std::string display( const units::energy v )
+auto display( const units::energy v ) -> std::string
 {
     const int kj = units::to_kilojoule( v );
     const int j = units::to_joule( v );

@@ -17,11 +17,11 @@ struct memorized_terrain_tile {
     int subtile;
     int rotation;
 
-    inline bool operator==( const memorized_terrain_tile &rhs ) const {
+    inline auto operator==( const memorized_terrain_tile &rhs ) const -> bool {
         return ( rotation == rhs.rotation ) && ( subtile == rhs.subtile ) && ( tile == rhs.tile );
     }
 
-    inline bool operator!=( const memorized_terrain_tile &rhs ) const {
+    inline auto operator!=( const memorized_terrain_tile &rhs ) const -> bool {
         return !( *this == rhs );
     }
 };
@@ -36,11 +36,11 @@ struct mm_submap {
         mm_submap();
 
         /** Whether this mm_submap is empty. Empty submaps are skipped during saving. */
-        bool is_empty() const {
+        auto is_empty() const -> bool {
             return tiles.empty() && symbols.empty();
         }
 
-        inline const memorized_terrain_tile &tile( const point &p ) const {
+        inline auto tile( const point &p ) const -> const memorized_terrain_tile & {
             if( tiles.empty() ) {
                 return default_tile;
             } else {
@@ -57,7 +57,7 @@ struct mm_submap {
             tiles[p.y * SEEX + p.x] = value;
         }
 
-        inline int symbol( const point &p ) const {
+        inline auto symbol( const point &p ) const -> int {
             if( symbols.empty() ) {
                 return default_symbol;
             } else {
@@ -93,7 +93,7 @@ struct mm_region {
 
     mm_region();
 
-    bool is_empty() const;
+    auto is_empty() const -> bool;
 
     void serialize( JsonOut &jsout ) const;
     void deserialize( JsonIn &jsin );
@@ -130,7 +130,7 @@ class map_memory
         void load_legacy( JsonIn &jsin );
 
         /** Save memorized submaps to disk, drop ones far from given global map square pos. */
-        bool save( const tripoint &pos );
+        auto save( const tripoint &pos ) -> bool;
 
         /**
          * Prepares map memory for optimized rendering and/or memorization of given region.
@@ -139,7 +139,7 @@ class map_memory
          * Both coords are inclusive and should be on the same Z level.
          * @return whether the region was re-cached
          */
-        bool prepare_region( const tripoint &p1, const tripoint &p2 );
+        auto prepare_region( const tripoint &p1, const tripoint &p2 ) -> bool;
 
         /**
          * Memorizes given tile, overwriting old value.
@@ -151,14 +151,14 @@ class map_memory
          * Returns memorized tile.
          * @param pos tile position, in global ms coords.
          */
-        const memorized_terrain_tile &get_tile( const tripoint &pos );
+        auto get_tile( const tripoint &pos ) -> const memorized_terrain_tile &;
 
         /**
          * For autodrive use only.
          * Checks whether tile at given pos was memorized.
          * @param pos tile position, in global ms coords.
          */
-        bool has_memory_for_autodrive( const tripoint &pos );
+        auto has_memory_for_autodrive( const tripoint &pos ) -> bool;
 
         /**
          * Memorizes given symbol, overwriting old value.
@@ -170,7 +170,7 @@ class map_memory
          * Returns memorized symbol.
          * @param pos tile position, in global ms coords.
          */
-        int get_symbol( const tripoint &pos );
+        auto get_symbol( const tripoint &pos ) -> int;
 
         /**
          * Clears memorized tile and symbol.
@@ -186,20 +186,20 @@ class map_memory
         point cache_size;
 
         /** Find, load or allocate a submap. May be slow. @returns the submap. */
-        shared_ptr_fast<mm_submap> fetch_submap( const tripoint &sm_pos );
+        auto fetch_submap( const tripoint &sm_pos ) -> shared_ptr_fast<mm_submap>;
         /** Find submap amongst the loaded submaps. @returns nullptr if failed. */
-        shared_ptr_fast<mm_submap> find_submap( const tripoint &sm_pos );
+        auto find_submap( const tripoint &sm_pos ) -> shared_ptr_fast<mm_submap>;
         /** Load submap from disk. @returns nullptr if failed. */
-        shared_ptr_fast<mm_submap> load_submap( const tripoint &sm_pos );
+        auto load_submap( const tripoint &sm_pos ) -> shared_ptr_fast<mm_submap>;
         /** Allocate empty submap. @returns the submap. */
-        shared_ptr_fast<mm_submap> allocate_submap( const tripoint &sm_pos );
+        auto allocate_submap( const tripoint &sm_pos ) -> shared_ptr_fast<mm_submap>;
 
         /**
          * Find, load or allocate a submap.
          * Uses cache made by @ref prepare_region to speed up the lookup.
          * @returns the submap.
          */
-        mm_submap &get_submap( const tripoint &sm_pos );
+        auto get_submap( const tripoint &sm_pos ) -> mm_submap &;
 
         void clear_cache();
 };

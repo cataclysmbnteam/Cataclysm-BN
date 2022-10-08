@@ -27,7 +27,7 @@ const bodypart_str_id body_part_foot_l( "foot_l" );
 const bodypart_str_id body_part_leg_r( "leg_r" );
 const bodypart_str_id body_part_foot_r( "foot_r" );
 
-side opposite_side( side s )
+auto opposite_side( side s ) -> side
 {
     switch( s ) {
         case side::BOTH:
@@ -48,7 +48,7 @@ namespace io
 {
 
 template<>
-std::string enum_to_string<side>( side data )
+auto enum_to_string<side>( side data ) -> std::string
 {
     switch( data ) {
         // *INDENT-OFF*
@@ -64,7 +64,7 @@ std::string enum_to_string<side>( side data )
 }
 
 template<>
-std::string enum_to_string<hp_part>( hp_part data )
+auto enum_to_string<hp_part>( hp_part data ) -> std::string
 {
     switch( data ) {
         // *INDENT-OFF*
@@ -91,7 +91,7 @@ generic_factory<body_part_type> body_part_factory( "body part" );
 
 } // namespace
 
-static body_part legacy_id_to_enum( const std::string &legacy_id )
+static auto legacy_id_to_enum( const std::string &legacy_id ) -> body_part
 {
     static const std::unordered_map<std::string, body_part> body_parts = {
         { "TORSO", bp_torso },
@@ -133,42 +133,42 @@ static body_part legacy_id_to_enum( const std::string &legacy_id )
 
 /**@relates string_id*/
 template<>
-bool string_id<body_part_type>::is_valid() const
+auto string_id<body_part_type>::is_valid() const -> bool
 {
     return body_part_factory.is_valid( *this );
 }
 
 /** @relates int_id */
 template<>
-bool int_id<body_part_type>::is_valid() const
+auto int_id<body_part_type>::is_valid() const -> bool
 {
     return body_part_factory.is_valid( *this );
 }
 
 /**@relates string_id*/
 template<>
-const body_part_type &string_id<body_part_type>::obj() const
+auto string_id<body_part_type>::obj() const -> const body_part_type &
 {
     return body_part_factory.obj( *this );
 }
 
 /** @relates int_id */
 template<>
-const body_part_type &int_id<body_part_type>::obj() const
+auto int_id<body_part_type>::obj() const -> const body_part_type &
 {
     return body_part_factory.obj( *this );
 }
 
 /** @relates int_id */
 template<>
-const bodypart_str_id &int_id<body_part_type>::id() const
+auto int_id<body_part_type>::id() const -> const bodypart_str_id &
 {
     return body_part_factory.convert( *this );
 }
 
 /**@relates string_id*/
 template<>
-bodypart_id string_id<body_part_type>::id() const
+auto string_id<body_part_type>::id() const -> bodypart_id
 {
     return body_part_factory.convert( *this, bodypart_id( 0 ) );
 }
@@ -177,12 +177,12 @@ bodypart_id string_id<body_part_type>::id() const
 template<>
 int_id<body_part_type>::int_id( const string_id<body_part_type> &id ) : _id( id.id() ) {}
 
-body_part get_body_part_token( const std::string &id )
+auto get_body_part_token( const std::string &id ) -> body_part
 {
     return legacy_id_to_enum( id );
 }
 
-const bodypart_str_id &convert_bp( body_part bp )
+auto convert_bp( body_part bp ) -> const bodypart_str_id &
 {
     static const std::vector<bodypart_str_id> body_parts = {
         bodypart_str_id( "torso" ),
@@ -207,7 +207,7 @@ const bodypart_str_id &convert_bp( body_part bp )
     return body_parts[static_cast<size_t>( bp )];
 }
 
-static const body_part_type &get_bp( body_part bp )
+static auto get_bp( body_part bp ) -> const body_part_type &
 {
     return convert_bp( bp ).obj();
 }
@@ -314,70 +314,70 @@ void body_part_type::check() const
     }
 }
 
-std::string body_part_name( body_part bp, int number )
+auto body_part_name( body_part bp, int number ) -> std::string
 {
     return body_part_name( convert_bp( bp ), number );
 }
 
-std::string body_part_name( const bodypart_id &bp, int number )
+auto body_part_name( const bodypart_id &bp, int number ) -> std::string
 {
     // See comments in `body_part_type::load` about why these two strings are
     // not a single translation object with plural enabled.
     return number > 1 ? bp->name_multiple.translated() : bp->name.translated();
 }
 
-std::string body_part_name_accusative( body_part bp, int number )
+auto body_part_name_accusative( body_part bp, int number ) -> std::string
 {
     return body_part_name_accusative( convert_bp( bp ), number );
 }
 
-std::string body_part_name_accusative( const bodypart_id &bp, int number )
+auto body_part_name_accusative( const bodypart_id &bp, int number ) -> std::string
 {
     // See comments in `body_part_type::load` about why these two strings are
     // not a single translation object with plural enabled.
     return number > 1 ? bp->accusative_multiple.translated() : bp->accusative.translated();
 }
 
-std::string body_part_name_as_heading( body_part bp, int number )
+auto body_part_name_as_heading( body_part bp, int number ) -> std::string
 {
     return body_part_name_as_heading( convert_bp( bp ), number );
 }
 
-std::string body_part_name_as_heading( const bodypart_id &bp, int number )
+auto body_part_name_as_heading( const bodypart_id &bp, int number ) -> std::string
 {
     // See comments in `body_part_type::load` about why these two strings are
     // not a single translation object with plural enabled.
     return number > 1 ? bp->name_as_heading_multiple.translated() : bp->name_as_heading.translated();
 }
 
-std::string body_part_hp_bar_ui_text( const bodypart_id &bp )
+auto body_part_hp_bar_ui_text( const bodypart_id &bp ) -> std::string
 {
     return _( bp->hp_bar_ui_text );
 }
 
-std::string encumb_text( body_part bp )
+auto encumb_text( body_part bp ) -> std::string
 {
     const std::string &txt = get_bp( bp ).encumb_text;
     return !txt.empty() ? _( txt ) : txt;
 }
 
-body_part random_body_part( bool main_parts_only )
+auto random_body_part( bool main_parts_only ) -> body_part
 {
     const auto &part = human_anatomy->random_body_part();
     return main_parts_only ? part->main_part->token : part->token;
 }
 
-body_part mutate_to_main_part( body_part bp )
+auto mutate_to_main_part( body_part bp ) -> body_part
 {
     return get_bp( bp ).main_part->token;
 }
 
-body_part opposite_body_part( body_part bp )
+auto opposite_body_part( body_part bp ) -> body_part
 {
     return get_bp( bp ).opposite_part->token;
 }
 
-bodypart_id bodypart::get_id() const
+auto bodypart::get_id() const -> bodypart_id
 {
     return id;
 }
@@ -387,32 +387,32 @@ void bodypart::set_hp_to_max()
     hp_cur = hp_max;
 }
 
-bool bodypart::is_at_max_hp() const
+auto bodypart::is_at_max_hp() const -> bool
 {
     return hp_cur == hp_max;
 }
 
-int bodypart::get_hp_cur() const
+auto bodypart::get_hp_cur() const -> int
 {
     return hp_cur;
 }
 
-int bodypart::get_hp_max() const
+auto bodypart::get_hp_max() const -> int
 {
     return hp_max;
 }
 
-int bodypart::get_healed_total() const
+auto bodypart::get_healed_total() const -> int
 {
     return healed_total;
 }
 
-int bodypart::get_damage_bandaged() const
+auto bodypart::get_damage_bandaged() const -> int
 {
     return damage_bandaged;
 }
 
-int bodypart::get_damage_disinfected() const
+auto bodypart::get_damage_disinfected() const -> int
 {
     return damage_disinfected;
 }

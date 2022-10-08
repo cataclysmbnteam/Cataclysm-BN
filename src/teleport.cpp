@@ -21,8 +21,8 @@
 static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_teleglow( "teleglow" );
 
-bool teleport::teleport( Creature &critter, int min_distance, int max_distance, bool safe,
-                         bool add_teleglow )
+auto teleport::teleport( Creature &critter, int min_distance, int max_distance, bool safe,
+                         bool add_teleglow ) -> bool
 {
     if( min_distance > max_distance ) {
         debugmsg( "ERROR: Function teleport::teleport called with invalid arguments." );

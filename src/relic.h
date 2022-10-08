@@ -28,11 +28,11 @@ class relic
         // activating an artifact overrides all spell casting costs
         int moves;
     public:
-        bool operator==( const relic &rhs ) const;
+        auto operator==( const relic &rhs ) const -> bool;
 
-        std::string name() const;
+        auto name() const -> std::string;
         // returns number of charges that should be consumed
-        int activate( Creature &caster, const tripoint &target ) const;
+        auto activate( Creature &caster, const tripoint &target ) const -> int;
 
         void load( const JsonObject &jo );
 
@@ -42,7 +42,7 @@ class relic
         void add_passive_effect( const enchantment &ench );
         void add_active_effect( const fake_spell &sp );
 
-        std::vector<enchantment> get_enchantments() const;
+        auto get_enchantments() const -> std::vector<enchantment>;
 
         void check() const;
 };

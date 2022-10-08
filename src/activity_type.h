@@ -16,7 +16,7 @@ using activity_id = string_id<activity_type>;
 
 /** @relates string_id */
 template<>
-const activity_type &string_id<activity_type>::obj() const;
+auto string_id<activity_type>::obj() const -> const activity_type &;
 
 enum class based_on_type : int {
     TIME = 0,
@@ -39,43 +39,43 @@ class activity_type
         bool auto_needs = false;
 
     public:
-        const activity_id &id() const {
+        auto id() const -> const activity_id & {
             return id_;
         }
-        bool rooted() const {
+        auto rooted() const -> bool {
             return rooted_;
         }
-        bool suspendable() const {
+        auto suspendable() const -> bool {
             return suspendable_;
         }
-        std::string stop_phrase() const;
-        const translation &verb() const {
+        auto stop_phrase() const -> std::string;
+        auto verb() const -> const translation & {
             return verb_;
         }
-        based_on_type based_on() const {
+        auto based_on() const -> based_on_type {
             return based_on_;
         }
-        bool no_resume() const {
+        auto no_resume() const -> bool {
             return no_resume_;
         }
-        bool multi_activity() const {
+        auto multi_activity() const -> bool {
             return multi_activity_;
         }
         /**
          * If true, player will refuel one adjacent fire if there is firewood spot adjacent.
          */
-        bool will_refuel_fires() const {
+        auto will_refuel_fires() const -> bool {
             return refuel_fires;
         }
         /**
          * If true, player will automatically consume from relevant auto-eat/drink zones during activity
          */
-        bool valid_auto_needs() const {
+        auto valid_auto_needs() const -> bool {
             return auto_needs;
         }
         void call_do_turn( player_activity *, player * ) const;
         /** Returns whether it had a finish function or not */
-        bool call_finish( player_activity *, player * ) const;
+        auto call_finish( player_activity *, player * ) const -> bool;
 
         /** JSON stuff */
         static void load( const JsonObject &jo );

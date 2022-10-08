@@ -74,8 +74,8 @@ struct pickup_count {
     bool all_children_picked = false;
 };
 
-static bool select_autopickup_items( const std::vector<std::list<item_stack::iterator>> &here,
-                                     std::vector<pickup_count> &getitem )
+static auto select_autopickup_items( const std::vector<std::list<item_stack::iterator>> &here,
+                                     std::vector<pickup_count> &getitem ) -> bool
 {
     bool found_something = false;
 
@@ -137,8 +137,8 @@ enum pickup_answer : int {
     NUM_ANSWERS
 };
 
-static pickup_answer handle_problematic_pickup( const item &it, bool &offered_swap,
-        bool has_children, const std::string &explain )
+static auto handle_problematic_pickup( const item &it, bool &offered_swap,
+        bool has_children, const std::string &explain ) -> pickup_answer
 {
     if( offered_swap ) {
         return CANCEL;
@@ -183,7 +183,7 @@ static pickup_answer handle_problematic_pickup( const item &it, bool &offered_sw
     return static_cast<pickup_answer>( choice );
 }
 
-bool pickup::query_thief()
+auto pickup::query_thief() -> bool
 {
     player &u = g->u;
     const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
@@ -226,9 +226,9 @@ bool pickup::query_thief()
 }
 
 // Returns false if pickup caused a prompt and the player selected to cancel pickup
-static bool pick_one_up( pickup::pick_drop_selection &selection, bool &got_water,
+static auto pick_one_up( pickup::pick_drop_selection &selection, bool &got_water,
                          bool &offered_swap,
-                         pickup_map &map_pickup, bool autopickup )
+                         pickup_map &map_pickup, bool autopickup ) -> bool
 {
     player &u = get_avatar();
     int moves_taken = 100;
@@ -401,7 +401,7 @@ static bool pick_one_up( pickup::pick_drop_selection &selection, bool &got_water
 namespace pickup
 {
 
-bool do_pickup( std::vector<pick_drop_selection> &targets, bool autopickup )
+auto do_pickup( std::vector<pick_drop_selection> &targets, bool autopickup ) -> bool
 {
     bool got_water = false;
     Character &u = get_avatar();
@@ -445,8 +445,8 @@ bool do_pickup( std::vector<pick_drop_selection> &targets, bool autopickup )
     return !problem;
 }
 
-static std::vector<cata::optional<size_t>> calculate_parents(
-        const std::vector<std::list<item_stack::iterator>> &stacked_here )
+static auto calculate_parents(
+        const std::vector<std::list<item_stack::iterator>> &stacked_here ) -> std::vector<cata::optional<size_t>>
 {
     std::vector<cata::optional<size_t>> parents( stacked_here.size() );
     if( !stacked_here.empty() ) {
@@ -477,8 +477,8 @@ struct unstacked_items {
     std::list<item_stack::iterator> unstacked_children;
 };
 
-std::vector<stacked_items> stack_for_pickup_ui( const
-        std::vector<item_stack::iterator> &unstacked )
+auto stack_for_pickup_ui( const
+        std::vector<item_stack::iterator> &unstacked ) -> std::vector<stacked_items>
 {
     const std::pair<time_point, int> no_parent = std::make_pair(
                 calendar::before_time_starts, 0 );
@@ -551,7 +551,7 @@ std::vector<stacked_items> stack_for_pickup_ui( const
     return restacked_with_parents;
 }
 
-std::vector<std::list<item_stack::iterator>> flatten( const std::vector<stacked_items> &stacked )
+auto flatten( const std::vector<stacked_items> &stacked ) -> std::vector<std::list<item_stack::iterator>>
 {
     std::vector<std::list<item_stack::iterator>> flat;
     for( const stacked_items &s : stacked ) {
@@ -1235,7 +1235,7 @@ void show_pickup_message( const pickup_map &mapPickup )
     }
 }
 
-bool pickup::handle_spillable_contents( Character &c, item &it, map &m )
+auto pickup::handle_spillable_contents( Character &c, item &it, map &m ) -> bool
 {
     if( it.is_bucket_nonempty() ) {
         const item &it_cont = it.contents.front();
@@ -1264,7 +1264,7 @@ bool pickup::handle_spillable_contents( Character &c, item &it, map &m )
     return false;
 }
 
-int pickup::cost_to_move_item( const Character &who, const item &it )
+auto pickup::cost_to_move_item( const Character &who, const item &it ) -> int
 {
     // Do not involve inventory capacity, it's not like you put it in backpack
     int ret = 50;
@@ -1302,8 +1302,8 @@ void pick_drop_selection::deserialize( JsonIn &jin )
     jo.read( "children", children );
 }
 
-std::vector<pick_drop_selection> optimize_pickup( const std::vector<item_location> &targets,
-        const std::vector<int> &quantities )
+auto optimize_pickup( const std::vector<item_location> &targets,
+        const std::vector<int> &quantities ) -> std::vector<pick_drop_selection>
 {
     // This is essentially legacy code handling, so checks are good design
     if( targets.size() != quantities.size() ) {

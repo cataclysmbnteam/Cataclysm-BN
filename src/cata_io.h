@@ -135,10 +135,10 @@ struct has_archive_tag : std::false_type {
     static void write( JsonOut &stream, const T &value ) {
         stream.write( value );
     }
-    static bool read( const JsonObject &obj, const std::string &key, T &value ) {
+    static auto read( const JsonObject &obj, const std::string &key, T &value ) -> bool {
         return obj.read( key, value );
     }
-    static bool read( JsonArray &arr, T &value ) {
+    static auto read( JsonArray &arr, T &value ) -> bool {
         return arr.read_next( value );
     }
 };
@@ -156,7 +156,7 @@ struct has_archive_tag<T, typename enable_if_type<typename T::archive_type_tag>:
         typename T::archive_type_tag::OutputArchive archive( stream );
         const_cast<T &>( value ).io( archive );
     }
-    static bool read( const JsonObject &obj, const std::string &key, T &value ) {
+    static auto read( const JsonObject &obj, const std::string &key, T &value ) -> bool {
         if( !obj.has_member( key ) ) {
             return false;
         }
@@ -164,7 +164,7 @@ struct has_archive_tag<T, typename enable_if_type<typename T::archive_type_tag>:
         value.io( archive );
         return true;
     }
-    static bool read( JsonArray &arr, T &value ) {
+    static auto read( JsonArray &arr, T &value ) -> bool {
         if( !arr.has_more() ) {
             return false;
         }
@@ -208,7 +208,7 @@ class JsonObjectInputArchive : public JsonObject
          * If the archive does not have the requested member, the value is not changed at all.
          */
         template<typename T>
-        bool io( const std::string &name, T &value ) {
+        auto io( const std::string &name, T &value ) -> bool {
             return io::detail::has_archive_tag<T>::read( *this, name, value );
         }
         /**
@@ -216,7 +216,7 @@ class JsonObjectInputArchive : public JsonObject
          * The function still returns false if the default value had been used.
          */
         template<typename T>
-        bool io( const std::string &name, T &value, const T &default_value ) {
+        auto io( const std::string &name, T &value, const T &default_value ) -> bool {
             if( io( name, value ) ) {
                 return true;
             }
@@ -228,7 +228,7 @@ class JsonObjectInputArchive : public JsonObject
          * Roughly equivalent to \code io<T>( name, value, T() ); \endcode
          */
         template<typename T>
-        bool io( const std::string &name, T &value, default_tag ) {
+        auto io( const std::string &name, T &value, default_tag ) -> bool {
             static const T default_value = T();
             return io( name, value, default_value );
         }
@@ -237,7 +237,7 @@ class JsonObjectInputArchive : public JsonObject
          * value, this may be used for containers (e.g. std::map).
          */
         template<typename T>
-        bool io( const std::string &name, T &value, empty_default_tag ) {
+        auto io( const std::string &name, T &value, empty_default_tag ) -> bool {
             if( io( name, value ) ) {
                 return true;
             }
@@ -276,9 +276,9 @@ class JsonObjectInputArchive : public JsonObject
          * JsonOutputArchive, so it can be used when the archive type is a template parameter.
          */
         template<typename T>
-        bool io( const std::string &name, T *&pointer,
+        auto io( const std::string &name, T *&pointer,
                  const std::function<void( const std::string & )> &load,
-                 const std::function<std::string( const T & )> &save, bool required = false ) {
+                 const std::function<std::string( const T & )> &save, bool required = false ) -> bool {
             // Only used by the matching function in the output archive classes.
             ( void ) save;
             std::string ident;
@@ -293,9 +293,9 @@ class JsonObjectInputArchive : public JsonObject
             return true;
         }
         template<typename T>
-        bool io( const std::string &name, T *&pointer,
+        auto io( const std::string &name, T *&pointer,
                  const std::function<void( const std::string & )> &load,
-                 const std::function<std::string( const T & )> &save, required_tag ) {
+                 const std::function<std::string( const T & )> &save, required_tag ) -> bool {
             return io<T>( name, pointer, load, save, true );
         }
         /*@}*/
@@ -323,7 +323,7 @@ class JsonArrayInputArchive : public JsonArray
         JsonArrayInputArchive( const JsonObject &, const std::string &key );
 
         template<typename T>
-        bool io( T &value ) {
+        auto io( T &value ) -> bool {
             return io::detail::has_archive_tag<T>::read( *this, value );
         }
 };
@@ -375,25 +375,25 @@ class JsonObjectOutputArchive
          */
         /*@{*/
         template<typename T>
-        bool io( const std::string &name, const T &value ) {
+        auto io( const std::string &name, const T &value ) -> bool {
             stream.member( name );
             io::detail::has_archive_tag<T>::write( stream, value );
             return false;
         }
         template<typename T>
-        bool io( const std::string &name, const T &value, const T &default_value ) {
+        auto io( const std::string &name, const T &value, const T &default_value ) -> bool {
             if( value == default_value ) {
                 return false;
             }
             return io( name, value );
         }
         template<typename T>
-        bool io( const std::string &name, const T &value, default_tag ) {
+        auto io( const std::string &name, const T &value, default_tag ) -> bool {
             static const T default_value = T();
             return io<T>( name, value, default_value );
         }
         template<typename T>
-        bool io( const std::string &name, const T &value, empty_default_tag ) {
+        auto io( const std::string &name, const T &value, empty_default_tag ) -> bool {
             if( !value.empty() ) {
                 io<T>( name, value );
             }
@@ -410,9 +410,9 @@ class JsonObjectOutputArchive
          * @ref JsonObjectInputArchive, so it can be used when the archive type is a template parameter.
          */
         template<typename T>
-        bool io( const std::string &name, const T *pointer,
+        auto io( const std::string &name, const T *pointer,
                  const std::function<void( const std::string & )> &,
-                 const std::function<std::string( const T & )> &save, bool required = false ) {
+                 const std::function<std::string( const T & )> &save, bool required = false ) -> bool {
             if( pointer == nullptr ) {
                 if( required ) {
                     throw JsonError( "a required member is null: " + name );
@@ -422,9 +422,9 @@ class JsonObjectOutputArchive
             return io( name, save( *pointer ) );
         }
         template<typename T>
-        bool io( const std::string &name, const T *pointer,
+        auto io( const std::string &name, const T *pointer,
                  const std::function<void( const std::string & )> &load,
-                 const std::function<std::string( const T & )> &save, required_tag ) {
+                 const std::function<std::string( const T & )> &save, required_tag ) -> bool {
             return io<T>( name, pointer, load, save, true );
         }
         /*@}*/
@@ -433,7 +433,7 @@ class JsonObjectOutputArchive
          * and always return false.
          */
         template<typename T>
-        bool read( const std::string &, T & ) {
+        auto read( const std::string &, T & ) -> bool {
             return false;
         }
 };
@@ -460,7 +460,7 @@ class JsonArrayOutputArchive
         }
 
         template<typename T>
-        bool io( const T &value ) {
+        auto io( const T &value ) -> bool {
             io::detail::has_archive_tag<T>::write( stream, value );
             return false;
         }

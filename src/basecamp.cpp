@@ -54,7 +54,7 @@ const std::map<point, base_camps::direction_data> base_camps::all_directions = {
     { point_north_west, { "[NW]", base_camps::TAB_NW, to_translation( "base camp: northwest", "[NW]" ), to_translation( "base camp: northwest", " [NW] " ) } },
 };
 
-point base_camps::direction_from_id( const std::string &id )
+auto base_camps::direction_from_id( const std::string &id ) -> point
 {
     for( const auto &dir : all_directions ) {
         if( dir.second.id == id ) {
@@ -64,17 +64,17 @@ point base_camps::direction_from_id( const std::string &id )
     return base_dir;
 }
 
-std::string base_camps::faction_encode_short( const std::string &type )
+auto base_camps::faction_encode_short( const std::string &type ) -> std::string
 {
     return prefix + type + "_";
 }
 
-std::string base_camps::faction_encode_abs( const expansion_data &e, int number )
+auto base_camps::faction_encode_abs( const expansion_data &e, int number ) -> std::string
 {
     return faction_encode_short( e.type ) + std::to_string( number );
 }
 
-std::string base_camps::faction_decode( const std::string &full_type )
+auto base_camps::faction_decode( const std::string &full_type ) -> std::string
 {
     if( full_type.size() < ( prefix_len + 2 ) ) {
         return "camp";
@@ -84,7 +84,7 @@ std::string base_camps::faction_decode( const std::string &full_type )
     return full_type.substr( prefix_len, last_bar - prefix_len );
 }
 
-time_duration base_camps::to_workdays( const time_duration &work_time )
+auto base_camps::to_workdays( const time_duration &work_time ) -> time_duration
 {
     if( work_time < 11_hours ) {
         return work_time;
@@ -96,7 +96,7 @@ time_duration base_camps::to_workdays( const time_duration &work_time )
 
 static std::map<std::string, int> max_upgrade_cache;
 
-int base_camps::max_upgrade_by_type( const std::string &type )
+auto base_camps::max_upgrade_by_type( const std::string &type ) -> int
 {
     if( max_upgrade_cache.find( type ) == max_upgrade_cache.end() ) {
         int max = -1;
@@ -123,7 +123,7 @@ basecamp::basecamp( const std::string &name_, const tripoint &bb_pos_,
 {
 }
 
-std::string basecamp::board_name() const
+auto basecamp::board_name() const -> std::string
 {
     //~ Name of a basecamp
     return string_format( _( "%s Board" ), name );
@@ -138,8 +138,8 @@ void basecamp::set_by_radio( bool access_by_radio )
 // find the last underbar, strip off the prefix of faction_base_ (which is 13 chars),
 // and the pull out the $TYPE and $CURLEVEL
 // This is legacy support for existing camps; future camps don't use cur_level at all
-expansion_data basecamp::parse_expansion( const std::string &terrain,
-        const tripoint_abs_omt &new_pos )
+auto basecamp::parse_expansion( const std::string &terrain,
+        const tripoint_abs_omt &new_pos ) -> expansion_data
 {
     expansion_data e;
     int last_bar = terrain.find_last_of( '_' );
@@ -205,7 +205,7 @@ void basecamp::define_camp( const tripoint_abs_omt &p, const std::string &camp_t
 }
 
 /// Returns the description for the recipe of the next building @ref bldg
-std::string basecamp::om_upgrade_description( const std::string &bldg, bool trunc ) const
+auto basecamp::om_upgrade_description( const std::string &bldg, bool trunc ) const -> std::string
 {
     const recipe &making = recipe_id( bldg ).obj();
 
@@ -233,7 +233,7 @@ std::string basecamp::om_upgrade_description( const std::string &bldg, bool trun
 
 // upgrade levels
 // legacy next upgrade
-std::string basecamp::next_upgrade( const point &dir, const int offset ) const
+auto basecamp::next_upgrade( const point &dir, const int offset ) const -> std::string
 {
     const auto &e = expansions.find( dir );
     if( e == expansions.end() ) {
@@ -256,7 +256,7 @@ std::string basecamp::next_upgrade( const point &dir, const int offset ) const
     return "null";
 }
 
-bool basecamp::has_provides( const std::string &req, const expansion_data &e_data, int level ) const
+auto basecamp::has_provides( const std::string &req, const expansion_data &e_data, int level ) const -> bool
 {
     for( const auto &provide : e_data.provides ) {
         if( provide.first == req && provide.second > level ) {
@@ -266,8 +266,8 @@ bool basecamp::has_provides( const std::string &req, const expansion_data &e_dat
     return false;
 }
 
-bool basecamp::has_provides( const std::string &req, const cata::optional<point> &dir,
-                             int level ) const
+auto basecamp::has_provides( const std::string &req, const cata::optional<point> &dir,
+                             int level ) const -> bool
 {
     if( !dir ) {
         for( const auto &e : expansions ) {
@@ -284,19 +284,19 @@ bool basecamp::has_provides( const std::string &req, const cata::optional<point>
     return false;
 }
 
-bool basecamp::can_expand()
+auto basecamp::can_expand() -> bool
 {
     return has_provides( "bed", base_camps::base_dir, directions.size() * 2 );
 }
 
-bool basecamp::has_water()
+auto basecamp::has_water() -> bool
 {
     return has_provides( "water_well" ) || has_provides( "fbmh_well_north" ) ||
            has_provides( "faction_base_camp_12" ) || has_provides( "faction_base_kitchen_6" ) ||
            has_provides( "faction_base_blacksmith_11" );
 }
 
-std::vector<basecamp_upgrade> basecamp::available_upgrades( const point &dir )
+auto basecamp::available_upgrades( const point &dir ) -> std::vector<basecamp_upgrade>
 {
     std::vector<basecamp_upgrade> ret_data;
     auto e = expansions.find( dir );
@@ -358,7 +358,7 @@ std::vector<basecamp_upgrade> basecamp::available_upgrades( const point &dir )
 }
 
 // recipes and craft support functions
-std::map<recipe_id, translation> basecamp::recipe_deck( const point &dir ) const
+auto basecamp::recipe_deck( const point &dir ) const -> std::map<recipe_id, translation>
 {
     std::map<recipe_id, translation> recipes;
     const auto &e = expansions.find( dir );
@@ -372,13 +372,13 @@ std::map<recipe_id, translation> basecamp::recipe_deck( const point &dir ) const
     return recipes;
 }
 
-std::map<recipe_id, translation> basecamp::recipe_deck( const std::string &bldg ) const
+auto basecamp::recipe_deck( const std::string &bldg ) const -> std::map<recipe_id, translation>
 {
     const std::map<recipe_id, translation> recipes = recipe_group::get_recipes_by_bldg( bldg );
     return recipes;
 }
 
-item_group_id basecamp::get_gatherlist() const
+auto basecamp::get_gatherlist() const -> item_group_id
 {
     const auto &e = expansions.find( base_camps::base_dir );
     if( e != expansions.end() ) {
@@ -535,14 +535,14 @@ void basecamp::validate_assignees()
     assigned_npcs.erase( last, assigned_npcs.end() );
 }
 
-std::vector<npc_ptr> basecamp::get_npcs_assigned()
+auto basecamp::get_npcs_assigned() -> std::vector<npc_ptr>
 {
     validate_assignees();
     return assigned_npcs;
 }
 
 // get the subset of companions working on a specific task
-comp_list basecamp::get_mission_workers( const std::string &mission_id, bool contains )
+auto basecamp::get_mission_workers( const std::string &mission_id, bool contains ) -> comp_list
 {
     comp_list available;
     for( const auto &elem : camp_workers ) {
@@ -581,7 +581,7 @@ void basecamp::set_name( const std::string &new_name )
  * we could put this logic in map::use_charges() the way the vehicle code does, but I think
  * that's sloppy
  */
-std::list<item> basecamp::use_charges( const itype_id &fake_id, int &quantity )
+auto basecamp::use_charges( const itype_id &fake_id, int &quantity ) -> std::list<item>
 {
     std::list<item> ret;
     if( quantity <= 0 ) {
@@ -675,7 +675,7 @@ void basecamp::form_crafting_inventory()
 }
 
 // display names
-std::string basecamp::expansion_tab( const point &dir ) const
+auto basecamp::expansion_tab( const point &dir ) const -> std::string
 {
     if( dir == base_camps::base_dir ) {
         return _( "Base Missions" );
@@ -710,7 +710,7 @@ basecamp_action_components::basecamp_action_components(
 {
 }
 
-bool basecamp_action_components::choose_components()
+auto basecamp_action_components::choose_components() -> bool
 {
     const auto filter = is_crafting_component;
     const requirement_data *req =

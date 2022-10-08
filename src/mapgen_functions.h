@@ -24,14 +24,14 @@ class JsonObject;
  * Calculates the coordinates of a rotated point.
  * Should match the `mapgen_*` rotation.
  */
-tripoint rotate_point( const tripoint &p, int rotations );
+auto rotate_point( const tripoint &p, int rotations ) -> tripoint;
 
-int terrain_type_to_nesw_array( oter_id terrain_type, bool array[4] );
+auto terrain_type_to_nesw_array( oter_id terrain_type, bool array[4] ) -> int;
 
 using building_gen_pointer = void ( * )( mapgendata & );
 building_gen_pointer get_mapgen_cfunction( const std::string &ident );
-ter_id grass_or_dirt();
-ter_id clay_or_sand();
+auto grass_or_dirt() -> ter_id;
+auto clay_or_sand() -> ter_id;
 
 // helper functions for mapgen.cpp, so that we can avoid having a massive switch statement (sorta)
 void mapgen_null( mapgendata &dat );
@@ -82,21 +82,21 @@ void mremove_trap( map *m, const point & );
 void mtrap_set( map *m, const point &, trap_id type );
 void madd_field( map *m, const point &, field_type_id type, int intensity );
 
-mapgen_update_func add_mapgen_update_func( const JsonObject &jo, bool &defer );
-bool run_mapgen_update_func( const std::string &update_mapgen_id, const tripoint_abs_omt &omt_pos,
-                             mission *miss = nullptr, bool cancel_on_collision = true );
-bool run_mapgen_update_func( const std::string &update_mapgen_id, mapgendata &dat,
-                             bool cancel_on_collision = true );
-bool run_mapgen_func( const std::string &mapgen_id, mapgendata &dat );
-std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_update(
-            const std::string &update_mapgen_id );
+auto add_mapgen_update_func( const JsonObject &jo, bool &defer ) -> mapgen_update_func;
+auto run_mapgen_update_func( const std::string &update_mapgen_id, const tripoint_abs_omt &omt_pos,
+                             mission *miss = nullptr, bool cancel_on_collision = true ) -> bool;
+auto run_mapgen_update_func( const std::string &update_mapgen_id, mapgendata &dat,
+                             bool cancel_on_collision = true ) -> bool;
+auto run_mapgen_func( const std::string &mapgen_id, mapgendata &dat ) -> bool;
+auto get_changed_ids_from_update(
+            const std::string &update_mapgen_id ) -> std::pair<std::map<ter_id, int>, std::map<furn_id, int>>;
 
 void resolve_regional_terrain_and_furniture( const mapgendata &dat );
 
 namespace mapgen
 {
 
-bool has_update_id( const mapgen_id &id );
+auto has_update_id( const mapgen_id &id ) -> bool;
 
 } // namespace mapgen
 

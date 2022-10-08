@@ -20,7 +20,7 @@
 #include "units_angle.h"
 
 template<typename T>
-constexpr T sign( T x )
+constexpr auto sign( T x ) -> T
 {
     return x > 0 ? 1 : ( x < 0 ? -1 : 0 );
 }
@@ -29,9 +29,9 @@ class shape_impl
 {
     public:
         virtual ~shape_impl() = default;
-        virtual double signed_distance( const rl_vec3d &p ) const = 0;
+        virtual auto signed_distance( const rl_vec3d &p ) const -> double = 0;
 
-        virtual inclusive_cuboid<rl_vec3d> bounding_box() const = 0;
+        virtual auto bounding_box() const -> inclusive_cuboid<rl_vec3d> = 0;
 };
 
 /**
@@ -53,7 +53,7 @@ class cone : public shape_impl
             , cos_angle( cos( half_angle ) )
         {}
 
-        double signed_distance( const rl_vec3d &p ) const override {
+        auto signed_distance( const rl_vec3d &p ) const -> double override {
             // Based on https://www.iquilezles.org/www/articles/distfunctions/distfunctions.htm
             rl_vec2d q( h * sin_angle / cos_angle, -h );
             rl_vec2d w( std::sqrt( p.x * p.x + p.z * p.z ), p.y );
@@ -65,7 +65,7 @@ class cone : public shape_impl
             return std::sqrt( d ) * sign( s );
         }
 
-        inclusive_cuboid<rl_vec3d> bounding_box() const override {
+        auto bounding_box() const -> inclusive_cuboid<rl_vec3d> override {
             return inclusive_cuboid<rl_vec3d>( rl_vec3d( -sin_angle * h, -h, 0 ),
                                                rl_vec3d( sin_angle * h, 0, 0 ) );
         }
@@ -83,7 +83,7 @@ class cylinder : public shape_impl
             , radius( radius )
         {}
 
-        double signed_distance( const rl_vec3d &p ) const override {
+        auto signed_distance( const rl_vec3d &p ) const -> double override {
             // https://www.iquilezles.org/www/articles/distfunctions/distfunctions.htm
             // Plus adjustments (and fix!)
             double dx = std::sqrt( p.x * p.x + p.z * p.z ) - radius;
@@ -94,7 +94,7 @@ class cylinder : public shape_impl
             return std::min( std::max( dx, dy ), 0.0 ) + std::sqrt( lx * lx + ly * ly );
         }
 
-        inclusive_cuboid<rl_vec3d> bounding_box() const override {
+        auto bounding_box() const -> inclusive_cuboid<rl_vec3d> override {
             return inclusive_cuboid<rl_vec3d>( rl_vec3d( radius, -2 * half_length, 0 ),
                                                rl_vec3d( radius, 0, 0 ) );
         }
@@ -105,11 +105,11 @@ class empty_shape : public shape_impl
     public:
         empty_shape() = default;
 
-        double signed_distance( const rl_vec3d & ) const override {
+        auto signed_distance( const rl_vec3d & ) const -> double override {
             return 0.0;
         }
 
-        inclusive_cuboid<rl_vec3d> bounding_box() const override {
+        auto bounding_box() const -> inclusive_cuboid<rl_vec3d> override {
             return inclusive_cuboid<rl_vec3d>( rl_vec3d(), rl_vec3d() );
         }
 };
@@ -125,11 +125,11 @@ class offset_shape : public shape_impl
             : shape( shape ), offset( offset )
         {}
 
-        double signed_distance( const rl_vec3d &p ) const override {
+        auto signed_distance( const rl_vec3d &p ) const -> double override {
             return shape->signed_distance( p - offset );
         }
 
-        inclusive_cuboid<rl_vec3d> bounding_box() const override {
+        auto bounding_box() const -> inclusive_cuboid<rl_vec3d> override {
             const inclusive_cuboid<rl_vec3d> &bb = shape->bounding_box();
             return inclusive_cuboid<rl_vec3d>( bb.p_min + offset, bb.p_max + offset );
         }
@@ -157,11 +157,11 @@ class rotate_z_shape : public shape_impl
             , mat_inv( matrices::rotation_z_axis( angle_z ) )
         {}
 
-        double signed_distance( const rl_vec3d &p ) const override {
+        auto signed_distance( const rl_vec3d &p ) const -> double override {
             return shape->signed_distance( mat * p );
         }
 
-        inclusive_cuboid<rl_vec3d> bounding_box() const override {
+        auto bounding_box() const -> inclusive_cuboid<rl_vec3d> override {
             const inclusive_cuboid<rl_vec3d> &bb = shape->bounding_box();
             const std::set<rl_vec3d> pts = {
                 rl_vec3d( bb.p_max.x, bb.p_min.y, bb.p_min.z ),
@@ -196,7 +196,7 @@ class shape_min : public shape_impl
             : elements( {l, r} )
         {}
 
-        double signed_distance( const rl_vec3d &p ) const override {
+        auto signed_distance( const rl_vec3d &p ) const -> double override {
             double min = HUGE_VAL;
             for( const auto &e : elements ) {
                 min = std::min( min, e->signed_distance( p ) );
@@ -204,7 +204,7 @@ class shape_min : public shape_impl
             return min;
         }
 
-        inclusive_cuboid<rl_vec3d> bounding_box() const override {
+        auto bounding_box() const -> inclusive_cuboid<rl_vec3d> override {
             rl_vec3d min;
             rl_vec3d max;
             std::set<rl_vec3d> pts;
@@ -236,7 +236,7 @@ class shape_exclude_circle : public shape_impl
             , excluded_radius_squared( excluded_radius * excluded_radius )
         {}
 
-        double signed_distance( const rl_vec3d &p ) const override {
+        auto signed_distance( const rl_vec3d &p ) const -> double override {
             if( p.dot_product( p ) <= excluded_radius_squared ) {
                 return 1.0;
             }
@@ -244,7 +244,7 @@ class shape_exclude_circle : public shape_impl
             return base->signed_distance( p );
         }
 
-        inclusive_cuboid<rl_vec3d> bounding_box() const override {
+        auto bounding_box() const -> inclusive_cuboid<rl_vec3d> override {
             return base->bounding_box();
         }
 };
@@ -252,12 +252,12 @@ class shape_exclude_circle : public shape_impl
 class shape_factory_impl
 {
     public:
-        virtual std::shared_ptr<shape> create( const rl_vec3d &start, const rl_vec3d &end ) const = 0;
-        virtual const std::string &get_type() const = 0;
+        virtual auto create( const rl_vec3d &start, const rl_vec3d &end ) const -> std::shared_ptr<shape> = 0;
+        virtual auto get_type() const -> const std::string & = 0;
         virtual ~shape_factory_impl() = default;
 
-        virtual double get_range() const = 0;
-        virtual std::string get_description() const = 0;
+        virtual auto get_range() const -> double = 0;
+        virtual auto get_description() const -> std::string = 0;
 
         virtual void serialize( JsonOut & ) const {};
         virtual void deserialize( JsonIn & ) {};
@@ -277,7 +277,7 @@ class cone_factory : public shape_factory_impl
             , length( length )
         {}
 
-        std::shared_ptr<shape> create( const rl_vec3d &start, const rl_vec3d &end ) const override {
+        auto create( const rl_vec3d &start, const rl_vec3d &end ) const -> std::shared_ptr<shape> override {
             std::shared_ptr<cone> c = std::make_shared<cone>( half_angle, length );
             // Very thin cones may lack points close to origin after discretization, so let's hack it
             std::shared_ptr<cylinder> cyl = std::make_shared<cylinder>( length - 1.0, 0.5 );
@@ -296,7 +296,7 @@ class cone_factory : public shape_factory_impl
             return std::make_shared<shape>( o, start.as_point() );
         }
 
-        const std::string &get_type() const override {
+        auto get_type() const -> const std::string & override {
             return STATIC( "cone" );
         }
 
@@ -311,11 +311,11 @@ class cone_factory : public shape_factory_impl
             jo.read( "length", length );
         }
 
-        double get_range() const override {
+        auto get_range() const -> double override {
             return length;
         }
 
-        std::string get_description() const override {
+        auto get_description() const -> std::string override {
             return string_format( _( "Cone of length <info>%d</info>, apex angle <info>%d</info>" ),
                                   static_cast<int>( length ),
                                   static_cast<int>( std::round( units::to_degrees( half_angle * 2 ) ) ) );

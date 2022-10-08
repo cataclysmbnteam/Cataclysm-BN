@@ -22,7 +22,7 @@ void item_drop_token::deserialize( JsonIn &jsin )
     jo.read( "parent_number", parent_number );
 }
 
-item_drop_token drop_token_provider::make_next( time_point turn )
+auto drop_token_provider::make_next( time_point turn ) -> item_drop_token
 {
     if( turn != last_turn ) {
         last_turn = turn;
@@ -60,14 +60,14 @@ void drop_token_provider::deserialize( JsonIn &jsin )
 namespace drop_token
 {
 
-drop_token_provider &get_provider()
+auto get_provider() -> drop_token_provider &
 {
     return *g->token_provider_ptr;
 }
 
 } // namespace drop_token
 
-std::ostream &operator<<( std::ostream &os, const item_drop_token &dt )
+auto operator<<( std::ostream &os, const item_drop_token &dt ) -> std::ostream &
 {
     os << "{turn:" << to_turn<int>( dt.turn )
        << ", drop:" << dt.drop_number

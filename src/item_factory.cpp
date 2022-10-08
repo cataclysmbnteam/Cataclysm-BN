@@ -85,7 +85,7 @@ std::unique_ptr<Item_factory> item_controller = std::make_unique<Item_factory>()
 
 /** @relates string_id */
 template<>
-const itype &string_id<itype>::obj() const
+auto string_id<itype>::obj() const -> const itype &
 {
     const itype *result = item_controller->find_template( *this );
     static const itype dummy{};
@@ -94,15 +94,15 @@ const itype &string_id<itype>::obj() const
 
 /** @relates string_id */
 template<>
-bool string_id<itype>::is_valid() const
+auto string_id<itype>::is_valid() const -> bool
 {
     return item_controller->has_template( *this );
 }
 
-static item_category_id calc_category( const itype &obj );
+static auto calc_category( const itype &obj ) -> item_category_id;
 static void hflesh_to_flesh( itype &item_template );
 
-bool item_is_blacklisted( const itype_id &id )
+auto item_is_blacklisted( const itype_id &id ) -> bool
 {
     return item_blacklist.count( id );
 }
@@ -120,8 +120,8 @@ static void assign( const JsonObject &jo, const std::string &name,
     }
 }
 
-static bool assign_coverage_from_json( const JsonObject &jo, const std::string &key,
-                                       body_part_set &parts, bool &sided )
+static auto assign_coverage_from_json( const JsonObject &jo, const std::string &key,
+                                       body_part_set &parts, bool &sided ) -> bool
 {
     auto parse = [&parts, &sided]( const std::string & val_in ) {
         const std::string &val = json_report_strict
@@ -783,10 +783,10 @@ class iuse_function_wrapper : public iuse_actor
             : iuse_actor( type ), cpp_function( f ) { }
 
         ~iuse_function_wrapper() override = default;
-        int use( player &p, item &it, bool a, const tripoint &pos ) const override {
+        auto use( player &p, item &it, bool a, const tripoint &pos ) const -> int override {
             return ( *cpp_function )( &p, &it, a, pos );
         }
-        std::unique_ptr<iuse_actor> clone() const override {
+        auto clone() const -> std::unique_ptr<iuse_actor> override {
             return std::make_unique<iuse_function_wrapper>( *this );
         }
 
@@ -805,7 +805,7 @@ class iuse_function_wrapper_with_info : public iuse_function_wrapper
         void info( const item &, std::vector<iteminfo> &info ) const override {
             info.emplace_back( "DESCRIPTION", _( info_string ) );
         }
-        std::unique_ptr<iuse_actor> clone() const override {
+        auto clone() const -> std::unique_ptr<iuse_actor> override {
             return std::make_unique<iuse_function_wrapper_with_info>( *this );
         }
 };
@@ -1090,7 +1090,7 @@ void Item_factory::init()
               0 );
 }
 
-bool Item_factory::check_ammo_type( std::string &msg, const ammotype &ammo ) const
+auto Item_factory::check_ammo_type( std::string &msg, const ammotype &ammo ) const -> bool
 {
     if( ammo.is_null() ) {
         return false;
@@ -1519,7 +1519,7 @@ void Item_factory::check_definitions() const
 }
 
 //Returns the template with the given identification tag
-const itype *Item_factory::find_template( const itype_id &id ) const
+auto Item_factory::find_template( const itype_id &id ) const -> const itype *
 {
     assert( frozen );
 
@@ -1556,7 +1556,7 @@ const itype *Item_factory::find_template( const itype_id &id ) const
     return def;
 }
 
-Item_spawn_data *Item_factory::get_group( const item_group_id &item_group_id )
+auto Item_factory::get_group( const item_group_id &item_group_id ) -> Item_spawn_data *
 {
     GroupMap::iterator group_iter = m_template_groups.find( item_group_id );
     if( group_iter != m_template_groups.end() ) {
@@ -1608,7 +1608,7 @@ void load_optional_enum_array( std::vector<E> &vec, const JsonObject &jo,
     }
 }
 
-bool Item_factory::load_definition( const JsonObject &jo, const std::string &src, itype &def )
+auto Item_factory::load_definition( const JsonObject &jo, const std::string &src, itype &def ) -> bool
 {
     assert( !frozen );
 
@@ -2672,7 +2672,7 @@ void Item_factory::load_migration( const JsonObject &jo )
     }
 }
 
-itype_id Item_factory::migrate_id( const itype_id &id )
+auto Item_factory::migrate_id( const itype_id &id ) -> itype_id
 {
     auto iter = migrations.find( id );
     return iter != migrations.end() ? iter->second.replace : id;
@@ -2781,7 +2781,7 @@ void Item_factory::clear()
     frozen = false;
 }
 
-static std::string to_string( Item_group::Type t )
+static auto to_string( Item_group::Type t ) -> std::string
 {
     switch( t ) {
         case Item_group::Type::G_COLLECTION:
@@ -2793,9 +2793,9 @@ static std::string to_string( Item_group::Type t )
     return "BUGGED";
 }
 
-static Item_group *make_group_or_throw( const item_group_id &group_id,
+static auto make_group_or_throw( const item_group_id &group_id,
                                         std::unique_ptr<Item_spawn_data> &isd,
-                                        Item_group::Type t, int ammo_chance, int magazine_chance )
+                                        Item_group::Type t, int ammo_chance, int magazine_chance ) -> Item_group *
 {
     Item_group *ig = dynamic_cast<Item_group *>( isd.get() );
     if( ig == nullptr ) {
@@ -2808,7 +2808,7 @@ static Item_group *make_group_or_throw( const item_group_id &group_id,
 }
 
 template<typename T>
-bool load_min_max( std::pair<T, T> &pa, const JsonObject &obj, const std::string &name )
+auto load_min_max( std::pair<T, T> &pa, const JsonObject &obj, const std::string &name ) -> bool
 {
     bool result = false;
     if( obj.has_array( name ) ) {
@@ -2826,8 +2826,8 @@ bool load_min_max( std::pair<T, T> &pa, const JsonObject &obj, const std::string
     return result;
 }
 
-bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, const JsonObject &obj,
-                                 const std::string &name, const Item_group &parent )
+auto Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, const JsonObject &obj,
+                                 const std::string &name, const Item_group &parent ) -> bool
 {
     const std::string iname( name + "-item" );
     const std::string gname( name + "-group" );
@@ -2887,8 +2887,8 @@ bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, const Js
     return true;
 }
 
-bool Item_factory::load_string( std::vector<std::string> &vec, const JsonObject &obj,
-                                const std::string &name )
+auto Item_factory::load_string( std::vector<std::string> &vec, const JsonObject &obj,
+                                const std::string &name ) -> bool
 {
     bool result = false;
     std::string temp;
@@ -3088,7 +3088,7 @@ void Item_factory::emplace_usage( std::map<std::string, use_function> &container
     }
 }
 
-std::pair<std::string, use_function> Item_factory::usage_from_object( const JsonObject &obj )
+auto Item_factory::usage_from_object( const JsonObject &obj ) -> std::pair<std::string, use_function>
 {
     auto type = obj.get_string( "type" );
 
@@ -3110,7 +3110,7 @@ std::pair<std::string, use_function> Item_factory::usage_from_object( const Json
     return std::make_pair( type, method );
 }
 
-use_function Item_factory::usage_from_string( const std::string &type ) const
+auto Item_factory::usage_from_string( const std::string &type ) const -> use_function
 {
     auto func = iuse_function_list.find( type );
     if( func != iuse_function_list.end() ) {
@@ -3125,7 +3125,7 @@ use_function Item_factory::usage_from_string( const std::string &type ) const
 namespace io
 {
 template<>
-std::string enum_to_string<phase_id>( phase_id data )
+auto enum_to_string<phase_id>( phase_id data ) -> std::string
 {
     switch( data ) {
         // *INDENT-OFF*
@@ -3143,7 +3143,7 @@ std::string enum_to_string<phase_id>( phase_id data )
 }
 } // namespace io
 
-item_category_id calc_category( const itype &obj )
+auto calc_category( const itype &obj ) -> item_category_id
 {
     if( obj.artifact ) {
         return item_category_id( "artifacts" );
@@ -3184,7 +3184,7 @@ item_category_id calc_category( const itype &obj )
     return weap ? item_category_id( "weapons" ) : item_category_id( "other" );
 }
 
-std::vector<item_group_id> Item_factory::get_all_group_names()
+auto Item_factory::get_all_group_names() -> std::vector<item_group_id>
 {
     std::vector<item_group_id> rval;
     for( GroupMap::value_type &group_pair : m_template_groups ) {
@@ -3193,8 +3193,8 @@ std::vector<item_group_id> Item_factory::get_all_group_names()
     return rval;
 }
 
-bool Item_factory::add_item_to_group( const item_group_id &group_id, const itype_id &item_id,
-                                      int chance )
+auto Item_factory::add_item_to_group( const item_group_id &group_id, const itype_id &item_id,
+                                      int chance ) -> bool
 {
     if( m_template_groups.find( group_id ) == m_template_groups.end() ) {
         return false;
@@ -3250,12 +3250,12 @@ void item_group::debug_spawn()
     }
 }
 
-bool Item_factory::has_template( const itype_id &id ) const
+auto Item_factory::has_template( const itype_id &id ) const -> bool
 {
     return m_templates.count( id ) || m_runtimes.count( id );
 }
 
-std::vector<const itype *> Item_factory::all() const
+auto Item_factory::all() const -> std::vector<const itype *>
 {
     assert( frozen );
 
@@ -3272,7 +3272,7 @@ std::vector<const itype *> Item_factory::all() const
     return res;
 }
 
-std::vector<const itype *> Item_factory::get_runtime_types() const
+auto Item_factory::get_runtime_types() const -> std::vector<const itype *>
 {
     std::vector<const itype *> res;
     res.reserve( m_runtimes.size() );
@@ -3284,7 +3284,7 @@ std::vector<const itype *> Item_factory::get_runtime_types() const
 }
 
 /** Find all templates matching the UnaryPredicate function */
-std::vector<const itype *> Item_factory::find( const std::function<bool( const itype & )> &func )
+auto Item_factory::find( const std::function<bool( const itype & )> &func ) -> std::vector<const itype *>
 {
     assert( frozen );
 
@@ -3306,7 +3306,7 @@ std::vector<const itype *> Item_factory::find( const std::function<bool( const i
     return res;
 }
 
-itype_id Item_factory::create_artifact_id() const
+auto Item_factory::create_artifact_id() const -> itype_id
 {
     itype_id id;
     int i = m_runtimes.size();
@@ -3317,7 +3317,7 @@ itype_id Item_factory::create_artifact_id() const
     return id;
 }
 
-std::list<itype_id> Item_factory::subtype_replacement( const itype_id &base ) const
+auto Item_factory::subtype_replacement( const itype_id &base ) const -> std::list<itype_id>
 {
     std::list<itype_id> ret;
     ret.push_back( base );

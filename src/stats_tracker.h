@@ -43,7 +43,7 @@ class event_multiset
 
         void set_type( event_type );
 
-        const counts_type &counts() const {
+        auto counts() const -> const counts_type & {
             return counts_;
         }
 
@@ -61,12 +61,12 @@ class event_multiset
         // some values that must be matched in the events of that type.  You can
         // provide just a subset of the relevant keys from the event_type in
         // your criteria.
-        int count() const;
-        int count( const cata::event::data_type &criteria ) const;
-        int total( const std::string &field ) const;
-        int total( const std::string &field, const cata::event::data_type &criteria ) const;
-        int minimum( const std::string &field ) const;
-        int maximum( const std::string &field ) const;
+        auto count() const -> int;
+        auto count( const cata::event::data_type &criteria ) const -> int;
+        auto total( const std::string &field ) const -> int;
+        auto total( const std::string &field, const cata::event::data_type &criteria ) const -> int;
+        auto minimum( const std::string &field ) const -> int;
+        auto maximum( const std::string &field ) const -> int;
 
         void add( const cata::event & );
         void add( const counts_type::value_type & );
@@ -83,7 +83,7 @@ class base_watcher
     public:
         base_watcher() = default;
         base_watcher( const base_watcher & ) = delete;
-        base_watcher &operator=( const base_watcher & ) = delete;
+        auto operator=( const base_watcher & ) -> base_watcher & = delete;
     protected:
         virtual ~base_watcher();
     private:
@@ -116,7 +116,7 @@ class watcher_set
             watchers_.insert( watcher );
         }
 
-        bool erase( base_watcher *watcher ) {
+        auto erase( base_watcher *watcher ) -> bool {
             return watchers_.erase( watcher );
         }
 
@@ -151,10 +151,10 @@ class stats_tracker : public event_subscriber
     public:
         ~stats_tracker() override;
 
-        event_multiset &get_events( event_type );
-        event_multiset get_events( const string_id<event_transformation> & );
+        auto get_events( event_type ) -> event_multiset &;
+        auto get_events( const string_id<event_transformation> & ) -> event_multiset;
 
-        cata_variant value_of( const string_id<event_statistic> & );
+        auto value_of( const string_id<event_statistic> & ) -> cata_variant;
 
         void add_watcher( event_type, event_multiset_watcher * );
         void add_watcher( const string_id<event_transformation> &, event_multiset_watcher * );
@@ -170,7 +170,7 @@ class stats_tracker : public event_subscriber
                                  const cata_variant &new_value );
 
         // Return all scores which are valid now and existed at game start
-        std::vector<const score *> valid_scores() const;
+        auto valid_scores() const -> std::vector<const score *>;
 
         void clear();
         void notify( const cata::event & ) override;

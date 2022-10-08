@@ -17,13 +17,13 @@ namespace character_effects
 {
 
 /** Returns the effect of pain on stats */
-stat_mod get_pain_penalty( const Character &ch );
+auto get_pain_penalty( const Character &ch ) -> stat_mod;
 
 /** Returns the penalty to speed from starvation */
-int get_kcal_speed_penalty( float kcal_percent );
+auto get_kcal_speed_penalty( float kcal_percent ) -> int;
 
 /** Returns the penalty to speed from thirst */
-int get_thirst_speed_penalty( int thirst );
+auto get_thirst_speed_penalty( int thirst ) -> int;
 
 } // namespace character_effects
 

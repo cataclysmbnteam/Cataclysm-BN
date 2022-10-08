@@ -39,13 +39,13 @@ static bool do_mkdir( const std::string &path )
     return CreateDirectoryW( utf8_to_wstr( path ).c_str(), nullptr ) != 0;
 }
 #else
-static bool do_mkdir( const std::string &path )
+static auto do_mkdir( const std::string &path ) -> bool
 {
     return mkdir( path.c_str(), 0777 ) == 0;
 }
 #endif
 
-bool assure_dir_exist( const std::string &path )
+auto assure_dir_exist( const std::string &path ) -> bool
 {
     if( dir_exist( path ) ) {
         return true;
@@ -53,7 +53,7 @@ bool assure_dir_exist( const std::string &path )
     return do_mkdir( path );
 }
 
-bool dir_exist( const std::string &path )
+auto dir_exist( const std::string &path ) -> bool
 {
     DIR *dir = opendir( path.c_str() );
     if( dir != nullptr ) {
@@ -72,7 +72,7 @@ bool file_exist( const std::string &path )
              !( dwAttrib & FILE_ATTRIBUTE_DIRECTORY ) );
 }
 #else
-bool file_exist( const std::string &path )
+auto file_exist( const std::string &path ) -> bool
 {
     struct stat buffer;
     bool success = stat( path.c_str(), &buffer ) == 0;
@@ -86,7 +86,7 @@ bool remove_file( const std::string &path )
     return DeleteFileW( utf8_to_wstr( path ).c_str() ) != 0;
 }
 #else
-bool remove_file( const std::string &path )
+auto remove_file( const std::string &path ) -> bool
 {
     return unlink( path.c_str() ) == 0;
 }
@@ -102,13 +102,13 @@ bool rename_file( const std::string &old_path, const std::string &new_path )
            ) != 0;
 }
 #else
-bool rename_file( const std::string &old_path, const std::string &new_path )
+auto rename_file( const std::string &old_path, const std::string &new_path ) -> bool
 {
     return rename( old_path.c_str(), new_path.c_str() ) == 0;
 }
 #endif
 
-bool remove_directory( const std::string &path )
+auto remove_directory( const std::string &path ) -> bool
 {
 #if defined(_WIN32)
     return RemoveDirectoryW( utf8_to_wstr( path ).c_str() ) != 0;
@@ -117,7 +117,7 @@ bool remove_directory( const std::string &path )
 #endif
 }
 
-const char *cata_files::eol()
+auto cata_files::eol() -> const char *
 {
 #if defined(_WIN32)
     // NOLINTNEXTLINE(cata-text-style): carriage return is necessary here
@@ -128,7 +128,7 @@ const char *cata_files::eol()
     return local_eol;
 }
 
-std::string read_entire_file( const std::string &path )
+auto read_entire_file( const std::string &path ) -> std::string
 {
     cata_ifstream infile;
     infile.mode( cata_ios_mode::binary ).open( path );
@@ -148,7 +148,7 @@ namespace
 
 // TODO: move elsewhere.
 template <typename T, size_t N>
-inline size_t sizeof_array( T const( & )[N] ) noexcept
+inline auto sizeof_array( T const( & )[N] ) noexcept -> size_t
 {
     return N;
 }
@@ -180,7 +180,7 @@ void for_each_dir_entry( const std::string &path, Function function )
 
 //--------------------------------------------------------------------------------------------------
 #if !defined(_WIN32)
-std::string resolve_path( const std::string &full_path )
+auto resolve_path( const std::string &full_path ) -> std::string
 {
     const auto result_str = realpath( full_path.c_str(), nullptr );
     if( !result_str ) {
@@ -196,7 +196,7 @@ std::string resolve_path( const std::string &full_path )
 #endif
 
 //--------------------------------------------------------------------------------------------------
-bool is_directory_stat( const std::string &full_path )
+auto is_directory_stat( const std::string &full_path ) -> bool
 {
     if( full_path.empty() ) {
         return false;
@@ -239,7 +239,7 @@ bool is_directory( const dirent &/*entry*/, const std::string &full_path )
     return is_directory_stat( full_path );
 }
 #else
-bool is_directory( const dirent &entry, const std::string &full_path )
+auto is_directory( const dirent &entry, const std::string &full_path ) -> bool
 {
     if( entry.d_type == DT_DIR ) {
         return true;
@@ -262,7 +262,7 @@ bool is_directory( const dirent &entry, const std::string &full_path )
 //--------------------------------------------------------------------------------------------------
 // Returns true if the name of entry matches "." or "..".
 //--------------------------------------------------------------------------------------------------
-bool is_special_dir( const dirent &entry )
+auto is_special_dir( const dirent &entry ) -> bool
 {
     return !strncmp( entry.d_name, ".",  sizeof( entry.d_name ) - 1 ) ||
            !strncmp( entry.d_name, "..", sizeof( entry.d_name ) - 1 );
@@ -272,7 +272,7 @@ bool is_special_dir( const dirent &entry )
 // If at_end is true, returns whether entry's name ends in match.
 // Otherwise, returns whether entry's name contains match.
 //--------------------------------------------------------------------------------------------------
-bool name_contains( const dirent &entry, const std::string &match, const bool at_end )
+auto name_contains( const dirent &entry, const std::string &match, const bool at_end ) -> bool
 {
     const size_t len_fname = strlen( entry.d_name );
     const size_t len_match = match.length();
@@ -297,9 +297,9 @@ bool name_contains( const dirent &entry, const std::string &match, const bool at
 // Files ending in ~ are excluded.
 //--------------------------------------------------------------------------------------------------
 template <typename Predicate>
-std::vector<std::string> find_file_if_bfs( const std::string &root_path,
+auto find_file_if_bfs( const std::string &root_path,
         const bool recursive_search,
-        Predicate predicate )
+        Predicate predicate ) -> std::vector<std::string>
 {
     std::deque<std::string>  directories;
     if( root_path.empty() ) {
@@ -359,8 +359,8 @@ std::vector<std::string> find_file_if_bfs( const std::string &root_path,
 } //anonymous namespace
 
 //--------------------------------------------------------------------------------------------------
-std::vector<std::string> get_files_from_path( const std::string &pattern,
-        const std::string &root_path, const bool recursive_search, const bool match_extension )
+auto get_files_from_path( const std::string &pattern,
+        const std::string &root_path, const bool recursive_search, const bool match_extension ) -> std::vector<std::string>
 {
     return find_file_if_bfs( root_path, recursive_search, [&]( const dirent & entry, bool ) {
         return name_contains( entry, pattern, match_extension );
@@ -374,8 +374,8 @@ std::vector<std::string> get_files_from_path( const std::string &pattern,
  *  @param recursive_search Be recurse or not.
  *  @return vector or directories without pattern filename at end.
  */
-std::vector<std::string> get_directories_with( const std::string &pattern,
-        const std::string &root_path, const bool recursive_search )
+auto get_directories_with( const std::string &pattern,
+        const std::string &root_path, const bool recursive_search ) -> std::vector<std::string>
 {
     if( pattern.empty() ) {
         return std::vector<std::string>();
@@ -402,8 +402,8 @@ std::vector<std::string> get_directories_with( const std::string &pattern,
  *  @param recursive_search Be recurse or not.
  *  @return vector or directories without pattern filename at end.
  */
-std::vector<std::string> get_directories_with( const std::vector<std::string> &patterns,
-        const std::string &root_path, const bool recursive_search )
+auto get_directories_with( const std::vector<std::string> &patterns,
+        const std::string &root_path, const bool recursive_search ) -> std::vector<std::string>
 {
     if( patterns.empty() ) {
         return std::vector<std::string>();
@@ -429,7 +429,7 @@ std::vector<std::string> get_directories_with( const std::vector<std::string> &p
     return files;
 }
 
-bool copy_file( const std::string &source_path, const std::string &dest_path )
+auto copy_file( const std::string &source_path, const std::string &dest_path ) -> bool
 {
     cata_ifstream source_stream = std::move( cata_ifstream().mode( cata_ios_mode::binary ).open(
                                       source_path ) );
@@ -442,7 +442,7 @@ bool copy_file( const std::string &source_path, const std::string &dest_path )
     return res && !source_stream.fail();
 }
 
-std::string ensure_valid_file_name( const std::string &file_name )
+auto ensure_valid_file_name( const std::string &file_name ) -> std::string
 {
     const char replacement_char = ' ';
     const std::string invalid_chars = "\\/:?\"<>|";
@@ -463,7 +463,7 @@ std::string ensure_valid_file_name( const std::string &file_name )
 // This string is 'CataclysmBrightNights' encoded as base64
 const char *CBN = "Q2F0YWNseXNtQnJpZ2h0TmlnaHRz";
 
-bool can_write_to_dir( const std::string &dir_path )
+auto can_write_to_dir( const std::string &dir_path ) -> bool
 {
     std::string dummy_file;
     if( string_ends_with( dir_path, "/" ) ) {
@@ -490,7 +490,7 @@ bool can_write_to_dir( const std::string &dir_path )
     return remove_file( dummy_file );
 }
 
-std::string get_pid_string()
+auto get_pid_string() -> std::string
 {
 #if defined _WIN32
     return std::to_string( GetCurrentProcessId() );

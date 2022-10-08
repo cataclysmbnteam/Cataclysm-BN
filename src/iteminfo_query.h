@@ -257,7 +257,7 @@ class iteminfo_query : public iteminfo_query_base
         iteminfo_query( const std::string &bits );
         iteminfo_query( const std::vector<iteminfo_parts> &setBits );
 
-        bool test( const iteminfo_parts &value ) const;
+        auto test( const iteminfo_parts &value ) const -> bool;
 
         static const iteminfo_query all;
         static const iteminfo_query notext;

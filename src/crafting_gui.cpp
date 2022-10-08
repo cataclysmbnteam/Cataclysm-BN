@@ -56,7 +56,7 @@ std::vector<std::string> craft_cat_list;
 std::map<std::string, std::vector<std::string> > craft_subcat_list;
 std::map<std::string, std::string> normalized_names;
 
-static bool query_is_yes( const std::string &query );
+static auto query_is_yes( const std::string &query ) -> bool;
 static void draw_hidden_amount( const catacurses::window &w, int amount, int num_recipe );
 static void draw_can_craft_indicator( const catacurses::window &w, const recipe &rec );
 static void draw_recipe_tabs( const catacurses::window &w, const std::string &tab,
@@ -65,12 +65,12 @@ static void draw_recipe_subtabs( const catacurses::window &w, const std::string 
                                  const std::string &subtab,
                                  const recipe_subset &available_recipes, TAB_MODE mode = NORMAL );
 
-std::string peek_related_recipe( const recipe *current, const recipe_subset &available );
-int related_menu_fill( uilist &rmenu,
+auto peek_related_recipe( const recipe *current, const recipe_subset &available ) -> std::string;
+auto related_menu_fill( uilist &rmenu,
                        const std::vector<std::pair<itype_id, std::string>> &related_recipes,
-                       const recipe_subset &available );
+                       const recipe_subset &available ) -> int;
 
-static std::string get_cat_unprefixed( const std::string &prefixed_name )
+static auto get_cat_unprefixed( const std::string &prefixed_name ) -> std::string
 {
     return prefixed_name.substr( 3, prefixed_name.size() - 3 );
 }
@@ -102,7 +102,7 @@ void load_recipe_category( const JsonObject &jsobj )
     }
 }
 
-static std::string get_subcat_unprefixed( const std::string &cat, const std::string &prefixed_name )
+static auto get_subcat_unprefixed( const std::string &cat, const std::string &prefixed_name ) -> std::string
 {
     std::string prefix = "CSC_" + get_cat_unprefixed( cat ) + "_";
 
@@ -131,8 +131,8 @@ void reset_recipe_categories()
     craft_subcat_list.clear();
 }
 
-static int print_items( const recipe &r, const catacurses::window &w, point pos,
-                        nc_color col, int batch )
+static auto print_items( const recipe &r, const catacurses::window &w, point pos,
+                        nc_color col, int batch ) -> int
 {
     if( !r.has_byproducts() ) {
         return 0;
@@ -158,7 +158,7 @@ static int print_items( const recipe &r, const catacurses::window &w, point pos,
     return pos.y - oldy;
 }
 
-const recipe *select_crafting_recipe( int &batch_size )
+auto select_crafting_recipe( int &batch_size ) -> const recipe *
 {
     struct {
         const recipe *last_recipe = nullptr;
@@ -264,13 +264,13 @@ const recipe *select_crafting_recipe( int &batch_size )
         bool apparently_craftable;
         bool known;
 
-        nc_color selected_color() const {
+        auto selected_color() const -> nc_color {
             return can_craft
                    ? ( can_craft_non_rotten ? h_white : h_brown )
                    : ( could_craft_if_knew ? h_yellow : h_dark_gray );
         }
 
-        nc_color color() const {
+        auto color() const -> nc_color {
             return can_craft
                    ? ( can_craft_non_rotten ? c_white : c_brown )
                    : ( could_craft_if_knew ? c_yellow : c_dark_gray );
@@ -946,7 +946,7 @@ const recipe *select_crafting_recipe( int &batch_size )
     return chosen;
 }
 
-std::string peek_related_recipe( const recipe *current, const recipe_subset &available )
+auto peek_related_recipe( const recipe *current, const recipe_subset &available ) -> std::string
 {
     const avatar &u = get_avatar();
 
@@ -1003,9 +1003,9 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
     return "";
 }
 
-int related_menu_fill( uilist &rmenu,
+auto related_menu_fill( uilist &rmenu,
                        const std::vector<std::pair<itype_id, std::string>> &related_recipes,
-                       const recipe_subset &available )
+                       const recipe_subset &available ) -> int
 {
     const std::vector<uilist_entry> &entries = rmenu.entries;
     int np_last = entries.empty() ? -1 : entries.back().retval;
@@ -1061,7 +1061,7 @@ int related_menu_fill( uilist &rmenu,
     return np_last;
 }
 
-static bool query_is_yes( const std::string &query )
+static auto query_is_yes( const std::string &query ) -> bool
 {
     const std::string subquery = query.substr( 2 );
 
@@ -1176,7 +1176,7 @@ static void draw_recipe_subtabs( const catacurses::window &w, const std::string 
 }
 
 template<typename T>
-bool lcmatch_any( const std::vector< std::vector<T> > &list_of_list, const std::string &filter )
+auto lcmatch_any( const std::vector< std::vector<T> > &list_of_list, const std::string &filter ) -> bool
 {
     for( auto &list : list_of_list ) {
         for( auto &comp : list ) {

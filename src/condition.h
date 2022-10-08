@@ -45,8 +45,8 @@ const std::unordered_set<std::string> complex_conds = { {
 };
 } // namespace dialogue_data
 
-std::string get_talk_varname( const JsonObject &jo, const std::string &member,
-                              bool check_value = true );
+auto get_talk_varname( const JsonObject &jo, const std::string &member,
+                              bool check_value = true ) -> std::string;
 
 // the truly awful declaration for the conditional_t loading helper_function
 template<class T>
@@ -134,7 +134,7 @@ struct conditional_t {
         void set_u_know_recipe( const JsonObject &jo, const std::string &member );
         void set_mission_has_generic_rewards();
 
-        bool operator()( const T &d ) const {
+        auto operator()( const T &d ) const -> bool {
             if( !condition ) {
                 return false;
             }

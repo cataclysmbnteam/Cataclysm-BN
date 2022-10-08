@@ -39,28 +39,28 @@ generic_factory<trap> trap_factory( "trap" );
 
 /** @relates string_id */
 template<>
-inline bool int_id<trap>::is_valid() const
+inline auto int_id<trap>::is_valid() const -> bool
 {
     return trap_factory.is_valid( *this );
 }
 
 /** @relates int_id */
 template<>
-const trap &int_id<trap>::obj() const
+auto int_id<trap>::obj() const -> const trap &
 {
     return trap_factory.obj( *this );
 }
 
 /** @relates int_id */
 template<>
-const string_id<trap> &int_id<trap>::id() const
+auto int_id<trap>::id() const -> const string_id<trap> &
 {
     return trap_factory.convert( *this );
 }
 
 /** @relates string_id */
 template<>
-int_id<trap> string_id<trap>::id() const
+auto string_id<trap>::id() const -> int_id<trap>
 {
     return trap_factory.convert( *this, tr_null );
 }
@@ -73,26 +73,26 @@ int_id<trap>::int_id( const string_id<trap> &id ) : _id( id.id() )
 
 /** @relates string_id */
 template<>
-const trap &string_id<trap>::obj() const
+auto string_id<trap>::obj() const -> const trap &
 {
     return trap_factory.obj( *this );
 }
 
 /** @relates int_id */
 template<>
-bool string_id<trap>::is_valid() const
+auto string_id<trap>::is_valid() const -> bool
 {
     return trap_factory.is_valid( *this );
 }
 
 static std::vector<const trap *> funnel_traps;
 
-const std::vector<const trap *> &trap::get_funnels()
+auto trap::get_funnels() -> const std::vector<const trap *> &
 {
     return funnel_traps;
 }
 
-size_t trap::count()
+auto trap::count() -> size_t
 {
     return trap_factory.size();
 }
@@ -174,12 +174,12 @@ void trap::load( const JsonObject &jo, const std::string & )
     }
 }
 
-std::string trap::name() const
+auto trap::name() const -> std::string
 {
     return _( name_ );
 }
 
-std::string trap::map_regen_target() const
+auto trap::map_regen_target() const -> std::string
 {
     return map_regen;
 }
@@ -190,7 +190,7 @@ void trap::reset()
     trap_factory.reset();
 }
 
-bool trap::detect_trap( const tripoint &pos, const Character &p ) const
+auto trap::detect_trap( const tripoint &pos, const Character &p ) const -> bool
 {
     // Some decisions are based around:
     // * Starting, and thus average perception, is 8.
@@ -220,7 +220,7 @@ bool trap::detect_trap( const tripoint &pos, const Character &p ) const
 }
 
 // Whether or not, in the current state, the player can see the trap.
-bool trap::can_see( const tripoint &pos, const Character &p ) const
+auto trap::can_see( const tripoint &pos, const Character &p ) const -> bool
 {
     if( is_null() ) {
         // There is no trap at all, so logically one can not see it.
@@ -242,17 +242,17 @@ void trap::trigger( const tripoint &pos, Creature *creature, item *item ) const
     }
 }
 
-bool trap::is_null() const
+auto trap::is_null() const -> bool
 {
     return loadid == tr_null;
 }
 
-bool trap::triggered_by_item( const item &itm ) const
+auto trap::triggered_by_item( const item &itm ) const -> bool
 {
     return !is_null() && itm.weight() >= trigger_weight;
 }
 
-bool trap::is_funnel() const
+auto trap::is_funnel() const -> bool
 {
     return !is_null() && funnel_radius_mm > 0;
 }

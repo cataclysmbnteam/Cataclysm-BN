@@ -35,7 +35,7 @@
 
 #define dbg(x) DebugLog((x), DC::Main)
 
-std::string to_valid_language( const std::string &lang );
+auto to_valid_language( const std::string &lang ) -> std::string;
 void update_global_locale();
 
 static std::string sys_c_locale;
@@ -54,7 +54,7 @@ static language_info fallback_language = { "en", R"(English)", "en_US.UTF-8", { 
 
 std::vector<language_info> lang_options = { fallback_language };
 
-static language_info const *get_lang_info( const std::string &lang )
+static auto get_lang_info( const std::string &lang ) -> language_info const *
 {
     for( const language_info &li : lang_options ) {
         if( li.id == lang ) {
@@ -64,7 +64,7 @@ static language_info const *get_lang_info( const std::string &lang )
     return &fallback_language;
 }
 
-const std::vector<language_info> &list_available_languages()
+auto list_available_languages() -> const std::vector<language_info> &
 {
     return lang_options;
 }
@@ -115,7 +115,7 @@ static std::string getSystemUILang()
 }
 #endif // MACOSX
 
-std::string to_valid_language( const std::string &lang )
+auto to_valid_language( const std::string &lang ) -> std::string
 {
     if( lang.empty() ) {
         return lang;
@@ -156,7 +156,7 @@ static std::string getSystemUILang()
 }
 #elif !defined(MACOSX)
 // Linux / Android
-static std::string getSystemUILang()
+static auto getSystemUILang() -> std::string
 {
     std::string ret;
 
@@ -206,7 +206,7 @@ void set_language()
     reload_names();
 }
 
-static std::vector<language_info> load_languages( const std::string &filepath )
+static auto load_languages( const std::string &filepath ) -> std::vector<language_info>
 {
     std::vector<language_info> ret;
     try {
@@ -249,7 +249,7 @@ static std::vector<language_info> load_languages( const std::string &filepath )
     return ret;
 }
 
-bool init_language_system()
+auto init_language_system() -> bool
 {
     // OS X does not populate locale env vars correctly
     // (they usually default to "C") so don't bother
@@ -326,7 +326,7 @@ void prompt_select_lang_on_startup()
     set_language();
 }
 
-const language_info &get_language()
+auto get_language() -> const language_info &
 {
     if( current_language ) {
         return *current_language;
@@ -378,7 +378,7 @@ void update_global_locale()
     dbg( DL::Info ) << "C++ locale set to '" << std::locale().name() << "'";
 }
 
-std::vector<std::string> get_lang_path_substring( const std::string &lang_id )
+auto get_lang_path_substring( const std::string &lang_id ) -> std::vector<std::string>
 {
     std::vector<std::string> ret;
 
@@ -396,7 +396,7 @@ std::vector<std::string> get_lang_path_substring( const std::string &lang_id )
     return ret;
 }
 
-bool translations_exists_for_lang( const std::string &lang_id )
+auto translations_exists_for_lang( const std::string &lang_id ) -> bool
 {
 
     std::vector<std::string> opts = get_lang_path_substring( lang_id );
@@ -409,7 +409,7 @@ bool translations_exists_for_lang( const std::string &lang_id )
     return false;
 }
 
-bool localized_comparator::operator()( const std::string &l, const std::string &r ) const
+auto localized_comparator::operator()( const std::string &l, const std::string &r ) const -> bool
 {
     // We need different implementations on each platform.  MacOS seems to not
     // support localized comparison of strings via the standard library at all,
@@ -435,7 +435,7 @@ bool localized_comparator::operator()( const std::string &l, const std::string &
 #endif
 }
 
-bool localized_comparator::operator()( const std::wstring &l, const std::wstring &r ) const
+auto localized_comparator::operator()( const std::wstring &l, const std::wstring &r ) const -> bool
 {
 #if defined(MACOSX)
     return ( *this )( wstr_to_utf8( l ), wstr_to_utf8( r ) );
@@ -454,7 +454,7 @@ using cata_libintl::trans_catalogue;
 namespace l10n_data
 {
 static trans_library trans_lib_singleton;
-const trans_library &get_library()
+auto get_library() -> const trans_library &
 {
     return trans_lib_singleton;
 }
@@ -499,7 +499,7 @@ static void add_base_catalogue( std::vector<trans_catalogue> &list, const std::s
                      );
 }
 
-static bool add_mod_catalogues( std::vector<trans_catalogue> &list, const std::string &lang_id )
+static auto add_mod_catalogues( std::vector<trans_catalogue> &list, const std::string &lang_id ) -> bool
 {
     if( !world_generator || !world_generator->active_world ) {
         return false;

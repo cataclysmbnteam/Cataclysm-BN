@@ -53,7 +53,7 @@ enum body_part : int {
 };
 
 template <typename T>
-inline bool operator<( body_part a, T b )
+inline auto operator<( body_part a, T b ) -> bool
 {
     return static_cast<int>( a ) < static_cast<int>( b );
 }
@@ -144,7 +144,7 @@ struct body_part_type {
         // Verifies that body parts make sense
         static void check_consistency();
 
-        int bionic_slots() const {
+        auto bionic_slots() const -> int {
             return bionic_slots_;
         }
     private:
@@ -168,16 +168,16 @@ class bodypart
         bodypart(): id( bodypart_str_id( "num_bp" ) ), hp_cur( 0 ), hp_max( 0 ) {}
         bodypart( bodypart_str_id id ): id( id ), hp_cur( id->base_hp ), hp_max( id->base_hp )  {}
 
-        bodypart_id get_id() const;
+        auto get_id() const -> bodypart_id;
 
         void set_hp_to_max();
-        bool is_at_max_hp() const;
+        auto is_at_max_hp() const -> bool;
 
-        int get_hp_cur() const;
-        int get_hp_max() const;
-        int get_healed_total() const;
-        int get_damage_bandaged() const;
-        int get_damage_disinfected() const;
+        auto get_hp_cur() const -> int;
+        auto get_hp_max() const -> int;
+        auto get_healed_total() const -> int;
+        auto get_damage_bandaged() const -> int;
+        auto get_damage_disinfected() const -> int;
 
         void set_hp_cur( int set );
         void set_hp_max( int set );
@@ -210,31 +210,31 @@ class body_part_set
             }
         }
 
-        body_part_set &operator|=( const body_part_set &rhs ) {
+        auto operator|=( const body_part_set &rhs ) -> body_part_set & {
             parts |= rhs.parts;
             return *this;
         }
-        body_part_set &operator&=( const body_part_set &rhs ) {
+        auto operator&=( const body_part_set &rhs ) -> body_part_set & {
             parts &= rhs.parts;
             return *this;
         }
 
-        body_part_set operator|( const body_part_set &rhs ) const {
+        auto operator|( const body_part_set &rhs ) const -> body_part_set {
             return body_part_set( parts | rhs.parts );
         }
-        body_part_set operator&( const body_part_set &rhs ) const {
+        auto operator&( const body_part_set &rhs ) const -> body_part_set {
             return body_part_set( parts & rhs.parts );
         }
 
-        body_part_set operator~() const {
+        auto operator~() const -> body_part_set {
             return body_part_set( ~parts );
         }
 
-        static body_part_set all() {
+        static auto all() -> body_part_set {
             return ~body_part_set();
         }
 
-        bool test( const body_part &bp ) const {
+        auto test( const body_part &bp ) const -> bool {
             return parts.test( bp );
         }
         void set( const body_part &bp ) {
@@ -243,13 +243,13 @@ class body_part_set
         void reset( const body_part &bp ) {
             parts.reset( bp );
         }
-        bool any() const {
+        auto any() const -> bool {
             return parts.any();
         }
-        bool none() const {
+        auto none() const -> bool {
             return parts.none();
         }
-        size_t count() const {
+        auto count() const -> size_t {
             return parts.count();
         }
 
@@ -264,43 +264,43 @@ class body_part_set
 };
 
 /** Returns the new id for old token */
-const bodypart_str_id &convert_bp( body_part bp );
+auto convert_bp( body_part bp ) -> const bodypart_str_id &;
 
 /** Returns the opposite side. */
-side opposite_side( side s );
+auto opposite_side( side s ) -> side;
 
 // identify the index of a body part's "other half", or itself if not
 const std::array<size_t, 12> bp_aiOther = {{0, 1, 2, 3, 5, 4, 7, 6, 9, 8, 11, 10}};
 
 /** Returns the matching name of the body_part token. */
-std::string body_part_name( body_part bp, int number = 1 );
-std::string body_part_name( const bodypart_id &bp, int number = 1 );
+auto body_part_name( body_part bp, int number = 1 ) -> std::string;
+auto body_part_name( const bodypart_id &bp, int number = 1 ) -> std::string;
 
 /** Returns the matching accusative name of the body_part token, i.e. "Shrapnel hits your X".
  *  These are identical to body_part_name above in English, but not in some other languages. */
-std::string body_part_name_accusative( body_part bp, int number = 1 );
-std::string body_part_name_accusative( const bodypart_id &bp, int number = 1 );
+auto body_part_name_accusative( body_part bp, int number = 1 ) -> std::string;
+auto body_part_name_accusative( const bodypart_id &bp, int number = 1 ) -> std::string;
 
 /** Returns the name of the body parts in a context where the name is used as
  * a heading or title e.g. "Left Arm". */
-std::string body_part_name_as_heading( body_part bp, int number );
-std::string body_part_name_as_heading( const bodypart_id &bp, int number );
+auto body_part_name_as_heading( body_part bp, int number ) -> std::string;
+auto body_part_name_as_heading( const bodypart_id &bp, int number ) -> std::string;
 
 /** Returns the body part text to be displayed in the HP bar */
-std::string body_part_hp_bar_ui_text( const bodypart_id &bp );
+auto body_part_hp_bar_ui_text( const bodypart_id &bp ) -> std::string;
 
 /** Returns the matching encumbrance text for a given body_part token. */
-std::string encumb_text( body_part bp );
+auto encumb_text( body_part bp ) -> std::string;
 
 /** Returns a random body_part token. main_parts_only will limit it to arms, legs, torso, and head. */
-body_part random_body_part( bool main_parts_only = false );
+auto random_body_part( bool main_parts_only = false ) -> body_part;
 
 /** Returns the matching main body_part that corresponds to the input; i.e. returns bp_arm_l from bp_hand_l. */
-body_part mutate_to_main_part( body_part bp );
+auto mutate_to_main_part( body_part bp ) -> body_part;
 /** Returns the opposite body part (limb on the other side) */
-body_part opposite_body_part( body_part bp );
+auto opposite_body_part( body_part bp ) -> body_part;
 
 /** Returns the matching body_part token from the corresponding body_part string. */
-body_part get_body_part_token( const std::string &id );
+auto get_body_part_token( const std::string &id ) -> body_part;
 
 #endif // CATA_SRC_BODYPART_H

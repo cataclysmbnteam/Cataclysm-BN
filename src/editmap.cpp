@@ -63,7 +63,7 @@ static constexpr half_open_cuboid<tripoint> editmap_boundaries(
 
 static const ter_id undefined_ter_id( -1 );
 
-static std::vector<std::string> fld_string( const std::string &str, int width )
+static auto fld_string( const std::string &str, int width ) -> std::vector<std::string>
 {
     std::vector<std::string> lines;
     if( width < 1 ) {
@@ -249,7 +249,7 @@ void editmap_hilight::draw( editmap &em, bool update )
 /*
  * map position to screen position
  */
-tripoint editmap::pos2screen( const tripoint &p )
+auto editmap::pos2screen( const tripoint &p ) -> tripoint
 {
     return p + tmax / 2 - target.xy();
 }
@@ -257,7 +257,7 @@ tripoint editmap::pos2screen( const tripoint &p )
 /*
  * get_direction with extended moving via HJKL keys
  */
-bool editmap::eget_direction( tripoint &p, const std::string &action ) const
+auto editmap::eget_direction( tripoint &p, const std::string &action ) const -> bool
 {
     p = tripoint_zero;
     if( action == "CENTER" ) {
@@ -290,13 +290,13 @@ class editmap::game_draw_callback_t_container
 {
     public:
         game_draw_callback_t_container( editmap *em ) : em( em ) {}
-        shared_ptr_fast<game::draw_callback_t> create_or_get();
+        auto create_or_get() -> shared_ptr_fast<game::draw_callback_t>;
     private:
         editmap *em;
         weak_ptr_fast<game::draw_callback_t> cbw;
 };
 
-shared_ptr_fast<game::draw_callback_t> editmap::game_draw_callback_t_container::create_or_get()
+auto editmap::game_draw_callback_t_container::create_or_get() -> shared_ptr_fast<game::draw_callback_t>
 {
     shared_ptr_fast<game::draw_callback_t> cb = cbw.lock();
     if( !cb ) {
@@ -309,7 +309,7 @@ shared_ptr_fast<game::draw_callback_t> editmap::game_draw_callback_t_container::
     return cb;
 }
 
-editmap::game_draw_callback_t_container &editmap::draw_cb_container()
+auto editmap::draw_cb_container() -> editmap::game_draw_callback_t_container &
 {
     if( !draw_cb_container_ ) {
         draw_cb_container_ = std::make_unique<game_draw_callback_t_container>( this );
@@ -317,7 +317,7 @@ editmap::game_draw_callback_t_container &editmap::draw_cb_container()
     return *draw_cb_container_;
 }
 
-shared_ptr_fast<ui_adaptor> editmap::create_or_get_ui_adaptor()
+auto editmap::create_or_get_ui_adaptor() -> shared_ptr_fast<ui_adaptor>
 {
     shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
     if( !current_ui ) {
@@ -336,7 +336,7 @@ shared_ptr_fast<ui_adaptor> editmap::create_or_get_ui_adaptor()
     return current_ui;
 }
 
-cata::optional<tripoint> editmap::edit()
+auto editmap::edit() -> cata::optional<tripoint>
 {
     restore_on_out_of_scope<tripoint> view_offset_prev( g->u.view_offset );
     target = g->u.pos() + g->u.view_offset;
@@ -837,7 +837,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     wnoutrefresh( w_info );
 }
 
-static ter_id get_alt_ter( bool isvert, ter_id sel_ter )
+static auto get_alt_ter( bool isvert, ter_id sel_ter ) -> ter_id
 {
     std::map<std::string, std::string> alts;
     alts["_v"] = "_h";
@@ -863,94 +863,94 @@ static ter_id get_alt_ter( bool isvert, ter_id sel_ter )
 }
 
 template<typename T_t>
-static std::string info_title();
+static auto info_title() -> std::string;
 
 template<>
-std::string info_title<ter_t>()
+auto info_title<ter_t>() -> std::string
 {
     return pgettext( "map editor state", "Terrain" );
 }
 
 template<>
-std::string info_title<furn_t>()
+auto info_title<furn_t>() -> std::string
 {
     return pgettext( "map editor state", "Furniture" );
 }
 
 template<>
-std::string info_title<trap>()
+auto info_title<trap>() -> std::string
 {
     return pgettext( "map editor: traps editing", "Traps" );
 }
 
 template<typename T_id>
-static T_id feature( const tripoint &p );
+static auto feature( const tripoint &p ) -> T_id;
 
 template<>
-ter_id feature<ter_id>( const tripoint &p )
+auto feature<ter_id>( const tripoint &p ) -> ter_id
 {
     return get_map().ter( p );
 }
 
 template<>
-furn_id feature<furn_id>( const tripoint &p )
+auto feature<furn_id>( const tripoint &p ) -> furn_id
 {
     return get_map().furn( p );
 }
 
 template<>
-trap_id feature<trap_id>( const tripoint &p )
+auto feature<trap_id>( const tripoint &p ) -> trap_id
 {
     return get_map().tr_at( p ).loadid;
 }
 
 template<typename T_t>
-static int symbol( const T_t &t );
+static auto symbol( const T_t &t ) -> int;
 
 template<>
-int symbol( const ter_t &t )
+auto symbol( const ter_t &t ) -> int
 {
     return t.symbol();
 }
 
 template<>
-int symbol( const furn_t &t )
+auto symbol( const furn_t &t ) -> int
 {
     return t.symbol();
 }
 
 template<>
-int symbol( const trap &t )
+auto symbol( const trap &t ) -> int
 {
     return t.sym;
 }
 
 template<typename T_t>
-static nc_color color( const T_t &t );
+static auto color( const T_t &t ) -> nc_color;
 
 template<>
-nc_color color( const ter_t &t )
+auto color( const ter_t &t ) -> nc_color
 {
     return t.color();
 }
 
 template<>
-nc_color color( const furn_t &t )
+auto color( const furn_t &t ) -> nc_color
 {
     return t.color();
 }
 
 template<>
-nc_color color( const trap &t )
+auto color( const trap &t ) -> nc_color
 {
     return t.color;
 }
 
 template<typename T_t>
-static std::string describe( const T_t &t );
+static auto describe( const T_t &t ) -> std::string;
 
 template<>
-std::string describe( const ter_t &type )
+auto describe( const ter_t &type ) -> std::string
 {
     return string_format( _( "Move cost: %d\nIndoors: %s\nRoof: %s" ), type.movecost,
                           type.has_flag( TFLAG_INDOORS ) ? _( "Yes" ) : _( "No" ),
@@ -958,7 +958,7 @@ std::string describe( const ter_t &type )
 }
 
 template<>
-std::string describe( const furn_t &type )
+auto describe( const furn_t &type ) -> std::string
 {
     return string_format( _( "Move cost: %d\nIndoors: %s\nRoof: %s" ), type.movecost,
                           type.has_flag( TFLAG_INDOORS ) ? _( "Yes" ) : _( "No" ),
@@ -966,7 +966,7 @@ std::string describe( const furn_t &type )
 }
 
 template<>
-std::string describe( const trap &type )
+auto describe( const trap &type ) -> std::string
 {
     return string_format( _( "Visible: %d\nAvoidance: %d\nDifficulty: %d\nBenign: %s" ),
                           type.get_visibility(), type.get_avoidance(), type.get_difficulty(),
@@ -1589,7 +1589,7 @@ void editmap::recalc_target( shapetype shape )
  * If the result is not >= min and < 'max', constrain the result and adjust 'shift',
  * so it can adjust subsequent points of a set consistently.
  */
-static int limited_shift( int var, int &shift, int min, int max )
+static auto limited_shift( int var, int &shift, int min, int max ) -> int
 {
     if( var + shift < min ) {
         shift = min - var;
@@ -1604,7 +1604,7 @@ static int limited_shift( int var, int &shift, int min, int max )
  * 0: no, 1: yes, -1 (or none): as per bool 'editmap.moveall'.
  * if input or ch are not valid movement keys, do nothing and return false
  */
-bool editmap::move_target( const std::string &action, int moveorigin )
+auto editmap::move_target( const std::string &action, int moveorigin ) -> bool
 {
     tripoint mp;
     bool move_origin = moveorigin == 1 ? true :
@@ -1624,7 +1624,7 @@ bool editmap::move_target( const std::string &action, int moveorigin )
 /*
  * Interactively select, resize, and move the list of target coordinates
  */
-int editmap::select_shape( shapetype shape, int mode )
+auto editmap::select_shape( shapetype shape, int mode ) -> int
 {
     tripoint orig = target;
     tripoint origor = origin;
@@ -1945,7 +1945,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
     cleartmpmap( tmpmap );
 }
 
-vehicle *editmap::mapgen_veh_query( const tripoint_abs_omt &omt_tgt )
+auto editmap::mapgen_veh_query( const tripoint_abs_omt &omt_tgt ) -> vehicle *
 {
     tinymap target_bay;
     target_bay.load( project_to<coords::sm>( omt_tgt ), false );
@@ -1979,7 +1979,7 @@ vehicle *editmap::mapgen_veh_query( const tripoint_abs_omt &omt_tgt )
     return nullptr;
 }
 
-bool editmap::mapgen_veh_destroy( const tripoint_abs_omt &omt_tgt, vehicle *car_target )
+auto editmap::mapgen_veh_destroy( const tripoint_abs_omt &omt_tgt, vehicle *car_target ) -> bool
 {
     map &here = get_map();
     tinymap target_bay;

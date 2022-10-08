@@ -12,7 +12,7 @@
 
 #endif
 
-const char *getVersionString()
+auto getVersionString() -> const char *
 {
     return VERSION;
 }

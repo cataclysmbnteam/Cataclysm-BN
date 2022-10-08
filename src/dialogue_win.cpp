@@ -81,8 +81,8 @@ struct page {
     std::vector<page_entry> entries;
 };
 
-static std::vector<page> split_to_pages( const std::vector<talk_data> &responses, int page_w,
-        int page_h )
+static auto split_to_pages( const std::vector<talk_data> &responses, int page_w,
+        int page_h ) -> std::vector<page>
 {
     page this_page;
     std::vector<page> ret;

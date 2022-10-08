@@ -48,9 +48,9 @@ struct editmap_hilight {
 class editmap
 {
     public:
-        tripoint pos2screen( const tripoint &p );
-        bool eget_direction( tripoint &p, const std::string &action ) const;
-        cata::optional<tripoint> edit();
+        auto pos2screen( const tripoint &p ) -> tripoint;
+        auto eget_direction( tripoint &p, const std::string &action ) const -> bool;
+        auto edit() -> cata::optional<tripoint>;
         void uber_draw_ter( const catacurses::window &w, map *m );
         void update_view_with_help( const std::string &txt, const std::string &title );
 
@@ -64,17 +64,17 @@ class editmap
         void edit_mapgen();
         void cleartmpmap( tinymap &tmpmap );
         void mapgen_preview( const real_coords &tc, uilist &gmenu );
-        vehicle *mapgen_veh_query( const tripoint_abs_omt &omt_tgt );
-        bool mapgen_veh_destroy( const tripoint_abs_omt &omt_tgt, vehicle *car_target );
+        auto mapgen_veh_query( const tripoint_abs_omt &omt_tgt ) -> vehicle *;
+        auto mapgen_veh_destroy( const tripoint_abs_omt &omt_tgt, vehicle *car_target ) -> bool;
         void mapgen_retarget();
-        int select_shape( shapetype shape, int mode = -1 );
+        auto select_shape( shapetype shape, int mode = -1 ) -> int;
 
         void update_fmenu_entry( uilist &fmenu, field &field, const field_type_id &idx );
         void setup_fmenu( uilist &fmenu );
         catacurses::window w_info;
 
         void recalc_target( shapetype shape );
-        bool move_target( const std::string &action, int moveorigin = -1 );
+        auto move_target( const std::string &action, int moveorigin = -1 ) -> bool;
 
         int sel_field;
         int sel_field_intensity;
@@ -96,7 +96,7 @@ class editmap
         ~editmap();
 
     private:
-        shared_ptr_fast<ui_adaptor> create_or_get_ui_adaptor();
+        auto create_or_get_ui_adaptor() -> shared_ptr_fast<ui_adaptor>;
 
         weak_ptr_fast<ui_adaptor> ui;
 
@@ -117,7 +117,7 @@ class editmap
         // work around the limitation that you can't forward declare an inner class
         class game_draw_callback_t_container;
         std::unique_ptr<game_draw_callback_t_container> draw_cb_container_;
-        game_draw_callback_t_container &draw_cb_container();
+        auto draw_cb_container() -> game_draw_callback_t_container &;
 };
 
 #endif // CATA_SRC_EDITMAP_H

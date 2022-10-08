@@ -69,7 +69,7 @@ struct mut_transform {
     /** subtracted from @ref Creature::moves when transformation is successful */
     int moves = 0;
     mut_transform();
-    bool load( const JsonObject &jsobj, const std::string &member );
+    auto load( const JsonObject &jsobj, const std::string &member ) -> bool;
 };
 
 struct mutation_branch {
@@ -237,14 +237,14 @@ struct mutation_branch {
     private:
         std::string raw_spawn_item_message;
     public:
-        std::string spawn_item_message() const;
+        auto spawn_item_message() const -> std::string;
 
         /** The fake gun, if any, spawned and fired by the ranged mutation */
         itype_id ranged_mutation;
     private:
         std::string raw_ranged_mutation_message;
     public:
-        std::string ranged_mutation_message() const;
+        auto ranged_mutation_message() const -> std::string;
 
         /** Attacks granted by this mutation */
         std::vector<mut_attack> attacks_granted;
@@ -280,31 +280,31 @@ struct mutation_branch {
         translation raw_name;
         translation raw_desc;
     public:
-        std::string name() const;
-        std::string desc() const;
+        auto name() const -> std::string;
+        auto desc() const -> std::string;
 
         /**
          * Returns the color to display the mutation name with.
          */
-        nc_color get_display_color() const;
+        auto get_display_color() const -> nc_color;
         /**
          * Returns true if a character with this mutation shouldn't be able to wear given item.
          */
-        bool conflicts_with_item( const item &it ) const;
+        auto conflicts_with_item( const item &it ) const -> bool;
         /**
          * Returns damage resistance on a given body part granted by this mutation.
          */
-        const resistances &damage_resistance( body_part bp ) const;
+        auto damage_resistance( body_part bp ) const -> const resistances &;
         /**
          * Shortcut for getting the name of a (translated) mutation, same as
          * @code get( mutation_id ).name @endcode
          */
-        static std::string get_name( const trait_id &mutation_id );
+        static auto get_name( const trait_id &mutation_id ) -> std::string;
         /**
          * All known mutations. Key is the mutation id, value is the mutation_branch that you would
          * also get by calling @ref get.
          */
-        static const std::vector<mutation_branch> &get_all();
+        static auto get_all() -> const std::vector<mutation_branch> &;
         // For init.cpp: reset (clear) the mutation data
         static void reset_all();
         // For init.cpp: load mutation data from json
@@ -321,7 +321,7 @@ struct mutation_branch {
         /**
          * Check if the trait with the given ID is blacklisted.
          */
-        static bool trait_is_blacklisted( const trait_id &tid );
+        static auto trait_is_blacklisted( const trait_id &tid ) -> bool;
 
         /** called after all JSON has been read and performs any necessary cleanup tasks */
         static void finalize();
@@ -391,12 +391,12 @@ struct mutation_branch {
          * Get the trait group object specified by the given ID, or null if no
          * such group exists.
          */
-        static shared_ptr_fast<Trait_group> get_group( const trait_group::Trait_group_tag &gid );
+        static auto get_group( const trait_group::Trait_group_tag &gid ) -> shared_ptr_fast<Trait_group>;
 
         /**
          * Return the idents of all trait groups that are known.
          */
-        static std::vector<trait_group::Trait_group_tag> get_all_group_names();
+        static auto get_all_group_names() -> std::vector<trait_group::Trait_group_tag>;
 };
 
 struct mutation_category_trait {
@@ -415,16 +415,16 @@ struct mutation_category_trait {
         std::string raw_memorial_message;
 
     public:
-        std::string name() const;
-        std::string mutagen_message() const;
-        std::string iv_message() const;
-        std::string iv_sound_message() const;
-        std::string iv_sound_id() const;
-        std::string iv_sound_variant() const;
-        std::string iv_sleep_message() const;
-        std::string junkie_message() const;
-        std::string memorial_message_male() const;
-        std::string memorial_message_female() const;
+        auto name() const -> std::string;
+        auto mutagen_message() const -> std::string;
+        auto iv_message() const -> std::string;
+        auto iv_sound_message() const -> std::string;
+        auto iv_sound_id() const -> std::string;
+        auto iv_sound_variant() const -> std::string;
+        auto iv_sleep_message() const -> std::string;
+        auto junkie_message() const -> std::string;
+        auto memorial_message_male() const -> std::string;
+        auto memorial_message_female() const -> std::string;
 
         // Mutation category i.e "BIRD", "CHIMERA"
         std::string id;
@@ -456,8 +456,8 @@ struct mutation_category_trait {
         bool iv_sleep = false;
         int iv_sleep_dur = 0;
 
-        static const std::map<std::string, mutation_category_trait> &get_all();
-        static const mutation_category_trait &get_category( const std::string &category_id );
+        static auto get_all() -> const std::map<std::string, mutation_category_trait> &;
+        static auto get_category( const std::string &category_id ) -> const mutation_category_trait &;
         static void reset();
         static void check_consistency();
 
@@ -466,25 +466,25 @@ struct mutation_category_trait {
 
 void load_mutation_type( const JsonObject &jsobj );
 void reset_mutation_types();
-bool mutation_category_is_valid( const std::string &cat );
-bool mutation_type_exists( const std::string &id );
-std::vector<trait_id> get_mutations_in_types( const std::set<std::string> &ids );
-std::vector<trait_id> get_mutations_in_type( const std::string &id );
-bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept;
-bool trait_display_nocolor_sort( const trait_id &a, const trait_id &b ) noexcept;
+auto mutation_category_is_valid( const std::string &cat ) -> bool;
+auto mutation_type_exists( const std::string &id ) -> bool;
+auto get_mutations_in_types( const std::set<std::string> &ids ) -> std::vector<trait_id>;
+auto get_mutations_in_type( const std::string &id ) -> std::vector<trait_id>;
+auto trait_display_sort( const trait_id &a, const trait_id &b ) noexcept -> bool;
+auto trait_display_nocolor_sort( const trait_id &a, const trait_id &b ) noexcept -> bool;
 
-bool are_conflicting_traits( const trait_id &trait_a, const trait_id &trait_b );
-bool b_is_lower_trait_of_a( const trait_id &trait_a, const trait_id &trait_b );
-bool b_is_higher_trait_of_a( const trait_id &trait_a, const trait_id &trait_b );
-bool are_opposite_traits( const trait_id &trait_a, const trait_id &trait_b );
-bool are_same_type_traits( const trait_id &trait_a, const trait_id &trait_b );
-bool contains_trait( std::vector<string_id<mutation_branch>> traits, const trait_id &trait );
+auto are_conflicting_traits( const trait_id &trait_a, const trait_id &trait_b ) -> bool;
+auto b_is_lower_trait_of_a( const trait_id &trait_a, const trait_id &trait_b ) -> bool;
+auto b_is_higher_trait_of_a( const trait_id &trait_a, const trait_id &trait_b ) -> bool;
+auto are_opposite_traits( const trait_id &trait_a, const trait_id &trait_b ) -> bool;
+auto are_same_type_traits( const trait_id &trait_a, const trait_id &trait_b ) -> bool;
+auto contains_trait( std::vector<string_id<mutation_branch>> traits, const trait_id &trait ) -> bool;
 
 /** Check to see if the specified character has enough resources to use that mutation. */
-bool can_use_mutation( const trait_id &mut, const Character &character );
+auto can_use_mutation( const trait_id &mut, const Character &character ) -> bool;
 
 /** Calls can_use_mutation and if it fails, print a standard message. */
-bool can_use_mutation_warn( const trait_id &mut, const Character &character );
+auto can_use_mutation_warn( const trait_id &mut, const Character &character ) -> bool;
 
 enum class mutagen_technique : int {
     consumed_mutagen,
@@ -512,8 +512,8 @@ struct mutagen_attempt {
     int charges_used;
 };
 
-mutagen_attempt mutagen_common_checks( Character &guy, const item &it, bool strong,
-                                       mutagen_technique technique );
+auto mutagen_common_checks( Character &guy, const item &it, bool strong,
+                                       mutagen_technique technique ) -> mutagen_attempt;
 
 void test_crossing_threshold( Character &guy, const mutation_category_trait &m_category );
 

@@ -31,7 +31,7 @@ enum astar_state {
 };
 
 // Turns two indexed to a 2D array into an index to equivalent 1D array
-constexpr int flat_index( const tripoint &p )
+constexpr auto flat_index( const tripoint &p ) -> int
 {
     return ( p.x * MAPSIZE_Y ) + p.y;
 }
@@ -66,7 +66,7 @@ struct pathfinder {
     open;
     std::array< std::unique_ptr< path_data_layer >, OVERMAP_LAYERS > path_data;
 
-    path_data_layer &get_layer( const int z ) {
+    auto get_layer( const int z ) -> path_data_layer & {
         std::unique_ptr< path_data_layer > &ptr = path_data[z + OVERMAP_DEPTH];
         if( ptr != nullptr ) {
             return *ptr;
@@ -77,11 +77,11 @@ struct pathfinder {
         return *ptr;
     }
 
-    bool empty() const {
+    auto empty() const -> bool {
         return open.empty();
     }
 
-    tripoint get_next() {
+    auto get_next() -> tripoint {
         const auto pt = open.top();
         open.pop();
         return pt.second;
@@ -118,7 +118,7 @@ struct pathfinder {
 // Modifies `t` to be a tile with `flag` in the overmap tile that `t` was originally on
 // return false if it could not find a suitable point
 template<ter_bitflags flag>
-bool vertical_move_destination( const map &m, tripoint &t )
+auto vertical_move_destination( const map &m, tripoint &t ) -> bool
 {
     if( !m.has_zlevels() ) {
         return false;
@@ -161,7 +161,7 @@ bool vertical_move_destination( const map &m, tripoint &t )
 }
 
 template<class Set1, class Set2>
-bool is_disjoint( const Set1 &set1, const Set2 &set2 )
+auto is_disjoint( const Set1 &set1, const Set2 &set2 ) -> bool
 {
     if( set1.empty() || set2.empty() ) {
         return true;
@@ -191,9 +191,9 @@ bool is_disjoint( const Set1 &set1, const Set2 &set2 )
     return true;
 }
 
-std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
+auto map::route( const tripoint &f, const tripoint &t,
                                   const pathfinding_settings &settings,
-                                  const std::set<tripoint> &pre_closed ) const
+                                  const std::set<tripoint> &pre_closed ) const -> std::vector<tripoint>
 {
     /* TODO: If the origin or destination is out of bound, figure out the closest
      * in-bounds point and go to that, then to the real origin/destination.

@@ -26,8 +26,8 @@ static const itype_id itype_cookbook_human( "cookbook_human" );
 namespace character_funcs
 {
 
-time_duration estimate_effect_dur( int skill_lvl, const efftype_id &target_effect,
-                                   const time_duration &error_magnitude, int threshold, const Creature &target )
+auto estimate_effect_dur( int skill_lvl, const efftype_id &target_effect,
+                                   const time_duration &error_magnitude, int threshold, const Creature &target ) -> time_duration
 {
     const time_duration zero_duration = 0_turns;
 
@@ -57,7 +57,7 @@ void siphon( Character &ch, vehicle &veh, const itype_id &desired_liquid )
     }
 }
 
-bool is_fun_to_read( const Character &ch, const item &book )
+auto is_fun_to_read( const Character &ch, const item &book ) -> bool
 {
     // If you don't have a problem with eating humans, To Serve Man becomes rewarding
     if( ( ch.has_trait( trait_CANNIBAL ) || ch.has_trait( trait_PSYCHOPATH ) ||
@@ -71,7 +71,7 @@ bool is_fun_to_read( const Character &ch, const item &book )
     }
 }
 
-int get_book_fun_for( const Character &ch, const item &book )
+auto get_book_fun_for( const Character &ch, const item &book ) -> int
 {
     int fun_bonus = book.type->book->fun;
     if( !book.is_book() ) {
@@ -100,12 +100,12 @@ int get_book_fun_for( const Character &ch, const item &book )
     return fun_bonus;
 }
 
-float fine_detail_vision_mod( const Character &who )
+auto fine_detail_vision_mod( const Character &who ) -> float
 {
     return fine_detail_vision_mod( who, who.pos() );
 }
 
-float fine_detail_vision_mod( const Character &who, const tripoint &p )
+auto fine_detail_vision_mod( const Character &who, const tripoint &p ) -> float
 {
     // PER_SLIME_OK implies you can get enough eyes around the bile
     // that you can generally see.  There still will be the haze, but
@@ -126,12 +126,12 @@ float fine_detail_vision_mod( const Character &who, const tripoint &p )
     return std::min( own_light, ambient_light );
 }
 
-bool can_see_fine_details( const Character &who )
+auto can_see_fine_details( const Character &who ) -> bool
 {
     return can_see_fine_details( who, who.pos() );
 }
 
-bool can_see_fine_details( const Character &who, const tripoint &p )
+auto can_see_fine_details( const Character &who, const tripoint &p ) -> bool
 {
     return fine_detail_vision_mod( who, p ) <= FINE_VISION_THRESHOLD;
 }
@@ -141,7 +141,7 @@ bool can_see_fine_details( const Character &who, const tripoint &p )
 namespace character_effects
 {
 
-stat_mod get_pain_penalty( const Character &ch )
+auto get_pain_penalty( const Character &ch ) -> stat_mod
 {
     stat_mod ret;
     int pain = ch.get_perceived_pain();
@@ -174,7 +174,7 @@ stat_mod get_pain_penalty( const Character &ch )
     return ret;
 }
 
-int get_kcal_speed_penalty( float kcal_percent )
+auto get_kcal_speed_penalty( float kcal_percent ) -> int
 {
     static const std::vector<std::pair<float, float>> starv_thresholds = { {
             std::make_pair( 0.0f, -90.0f ),
@@ -190,7 +190,7 @@ int get_kcal_speed_penalty( float kcal_percent )
     }
 }
 
-int get_thirst_speed_penalty( int thirst )
+auto get_thirst_speed_penalty( int thirst ) -> int
 {
     // We die at 1200 thirst
     // Start by dropping speed really fast, but then level it off a bit

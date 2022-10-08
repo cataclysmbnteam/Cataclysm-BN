@@ -43,7 +43,7 @@ void map_item_stack::add_at_pos( const item *const it, const tripoint &pos )
     totalcount += amount;
 }
 
-bool map_item_stack::map_item_stack_sort( const map_item_stack &lhs, const map_item_stack &rhs )
+auto map_item_stack::map_item_stack_sort( const map_item_stack &lhs, const map_item_stack &rhs ) -> bool
 {
     if( lhs.example->get_category() == rhs.example->get_category() ) {
         return square_dist( tripoint_zero, lhs.vIG[0].pos ) <
@@ -53,8 +53,8 @@ bool map_item_stack::map_item_stack_sort( const map_item_stack &lhs, const map_i
     return lhs.example->get_category() < rhs.example->get_category();
 }
 
-std::vector<map_item_stack> filter_item_stacks( const std::vector<map_item_stack> &stack,
-        const std::string &filter )
+auto filter_item_stacks( const std::vector<map_item_stack> &stack,
+        const std::string &filter ) -> std::vector<map_item_stack>
 {
     std::vector<map_item_stack> ret;
 
@@ -71,7 +71,7 @@ std::vector<map_item_stack> filter_item_stacks( const std::vector<map_item_stack
 }
 
 //returns the first non priority items.
-int list_filter_high_priority( std::vector<map_item_stack> &stack, const std::string &priorities )
+auto list_filter_high_priority( std::vector<map_item_stack> &stack, const std::string &priorities ) -> int
 {
     // TODO:optimize if necessary
     std::vector<map_item_stack> tempstack;
@@ -92,8 +92,8 @@ int list_filter_high_priority( std::vector<map_item_stack> &stack, const std::st
     return id;
 }
 
-int list_filter_low_priority( std::vector<map_item_stack> &stack, const int start,
-                              const std::string &priorities )
+auto list_filter_low_priority( std::vector<map_item_stack> &stack, const int start,
+                              const std::string &priorities ) -> int
 {
     // TODO:optimize if necessary
     std::vector<map_item_stack> tempstack;

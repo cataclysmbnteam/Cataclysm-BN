@@ -85,7 +85,7 @@ void relic::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-int relic::activate( Creature &caster, const tripoint &target ) const
+auto relic::activate( Creature &caster, const tripoint &target ) const -> int
 {
     caster.moves -= moves;
     for( const fake_spell &sp : active_effects ) {
@@ -94,7 +94,7 @@ int relic::activate( Creature &caster, const tripoint &target ) const
     return charges_per_activation;
 }
 
-bool relic::operator==( const relic &rhs ) const
+auto relic::operator==( const relic &rhs ) const -> bool
 {
     return charges_per_activation == rhs.charges_per_activation &&
            moves == rhs.moves &&
@@ -103,12 +103,12 @@ bool relic::operator==( const relic &rhs ) const
            passive_effects == rhs.passive_effects;
 }
 
-std::string relic::name() const
+auto relic::name() const -> std::string
 {
     return item_name_override.translated();
 }
 
-std::vector<enchantment> relic::get_enchantments() const
+auto relic::get_enchantments() const -> std::vector<enchantment>
 {
     return passive_effects;
 }

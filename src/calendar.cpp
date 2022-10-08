@@ -59,12 +59,12 @@ static constexpr int sunset_equinox = ( sunset_summer + sunset_winter ) / 2;
 // How long, does sunrise/sunset last?
 static const time_duration twilight_duration = 1_hours;
 
-double default_daylight_level()
+auto default_daylight_level() -> double
 {
     return 100.0;
 }
 
-moon_phase get_moon_phase( const time_point &p )
+auto get_moon_phase( const time_point &p ) -> moon_phase
 {
     // Seasons last 14 days, not 91 like in real life
     static constexpr time_duration synodic_month = ( 14 / 3.0f ) * 1_days;
@@ -83,7 +83,7 @@ moon_phase get_moon_phase( const time_point &p )
 
 // TODO: Refactor sunrise / sunset
 // The only difference between them is the start_hours array
-time_point sunrise( const time_point &p )
+auto sunrise( const time_point &p ) -> time_point
 {
     static_assert( static_cast<int>( SPRING ) == 0,
                    "Expected spring to be the first season.  If not, code below will use wrong index into array" );
@@ -103,7 +103,7 @@ time_point sunrise( const time_point &p )
     return midnight + time_duration::from_minutes( static_cast<int>( time * 60 ) );
 }
 
-time_point sunset( const time_point &p )
+auto sunset( const time_point &p ) -> time_point
 {
     static_assert( static_cast<int>( SPRING ) == 0,
                    "Expected spring to be the first season.  If not, code below will use wrong index into array" );
@@ -123,18 +123,18 @@ time_point sunset( const time_point &p )
     return midnight + time_duration::from_minutes( static_cast<int>( time * 60 ) );
 }
 
-time_point night_time( const time_point &p )
+auto night_time( const time_point &p ) -> time_point
 {
     return sunset( p ) + twilight_duration;
 }
 
-time_point daylight_time( const time_point &p )
+auto daylight_time( const time_point &p ) -> time_point
 {
     // TODO: Actual daylight should start 18 degrees before sunrise
     return sunrise( p ) + 15_minutes;
 }
 
-bool is_night( const time_point &p )
+auto is_night( const time_point &p ) -> bool
 {
     const time_duration now = time_past_midnight( p );
     const time_duration sunrise = time_past_midnight( ::sunrise( p ) );
@@ -143,7 +143,7 @@ bool is_night( const time_point &p )
     return now >= sunset + twilight_duration || now <= sunrise;
 }
 
-bool is_day( const time_point &p )
+auto is_day( const time_point &p ) -> bool
 {
     const time_duration now = time_past_midnight( p );
     const time_duration sunrise = time_past_midnight( ::sunrise( p ) );
@@ -152,7 +152,7 @@ bool is_day( const time_point &p )
     return now >= sunrise + twilight_duration && now <= sunset;
 }
 
-bool is_dusk( const time_point &p )
+auto is_dusk( const time_point &p ) -> bool
 {
     const time_duration now = time_past_midnight( p );
     const time_duration sunset = time_past_midnight( ::sunset( p ) );
@@ -160,7 +160,7 @@ bool is_dusk( const time_point &p )
     return now >= sunset && now <= sunset + twilight_duration;
 }
 
-bool is_dawn( const time_point &p )
+auto is_dawn( const time_point &p ) -> bool
 {
     const time_duration now = time_past_midnight( p );
     const time_duration sunrise = time_past_midnight( ::sunrise( p ) );
@@ -168,7 +168,7 @@ bool is_dawn( const time_point &p )
     return now >= sunrise && now <= sunrise + twilight_duration;
 }
 
-double current_daylight_level( const time_point &p )
+auto current_daylight_level( const time_point &p ) -> double
 {
     const double percent = static_cast<double>( day_of_season<int>( p ) ) / to_days<int>
                            ( calendar::season_length() );
@@ -196,7 +196,7 @@ double current_daylight_level( const time_point &p )
     return modifier * default_daylight_level();
 }
 
-float sunlight( const time_point &p, const bool vision )
+auto sunlight( const time_point &p, const bool vision ) -> float
 {
     const time_duration now = time_past_midnight( p );
     const time_duration sunrise = time_past_midnight( ::sunrise( p ) );
@@ -225,8 +225,8 @@ float sunlight( const time_point &p, const bool vision )
     }
 }
 
-static std::string to_string_clipped( const int num, const clipped_unit type,
-                                      const clipped_align align )
+static auto to_string_clipped( const int num, const clipped_unit type,
+                                      const clipped_align align ) -> std::string
 {
     switch( align ) {
         default:
@@ -281,7 +281,7 @@ static std::string to_string_clipped( const int num, const clipped_unit type,
     }
 }
 
-std::pair<int, clipped_unit> clipped_time( const time_duration &d )
+auto clipped_time( const time_duration &d ) -> std::pair<int, clipped_unit>
 {
     if( d >= calendar::INDEFINITELY_LONG_DURATION ) {
         return { 0, clipped_unit::forever };
@@ -317,14 +317,14 @@ std::pair<int, clipped_unit> clipped_time( const time_duration &d )
     }
 }
 
-std::string to_string_clipped( const time_duration &d,
-                               const clipped_align align )
+auto to_string_clipped( const time_duration &d,
+                               const clipped_align align ) -> std::string
 {
     const std::pair<int, clipped_unit> time = clipped_time( d );
     return to_string_clipped( time.first, time.second, align );
 }
 
-std::string to_string( const time_duration &d )
+auto to_string( const time_duration &d ) -> std::string
 {
     if( d >= calendar::INDEFINITELY_LONG_DURATION ) {
         return _( "forever" );
@@ -358,7 +358,7 @@ std::string to_string( const time_duration &d )
     return to_string_clipped( d );
 }
 
-std::string to_string_approx( const time_duration &dur, const bool verbose )
+auto to_string_approx( const time_duration &dur, const bool verbose ) -> std::string
 {
     time_duration d = dur;
     const auto make_result = [verbose]( const time_duration & d, const char *verbose_str,
@@ -397,7 +397,7 @@ std::string to_string_approx( const time_duration &dur, const bool verbose )
     return make_result( d, _( "about %s" ), "%s" );
 }
 
-std::string to_string_time_of_day( const time_point &p )
+auto to_string_time_of_day( const time_point &p ) -> std::string
 {
     const int hour = hour_of_day<int>( p );
     const int minute = minute_of_hour<int>( p );
@@ -424,7 +424,7 @@ std::string to_string_time_of_day( const time_point &p )
     }
 }
 
-weekdays day_of_week( const time_point &p )
+auto day_of_week( const time_point &p ) -> weekdays
 {
     /* Design rationale:
      * <kevingranade> here's a question
@@ -453,17 +453,17 @@ weekdays day_of_week( const time_point &p )
     return static_cast<weekdays>( result % 7 );
 }
 
-bool calendar::eternal_season()
+auto calendar::eternal_season() -> bool
 {
     return config.eternal_season();
 }
 
-time_duration calendar::year_length()
+auto calendar::year_length() -> time_duration
 {
     return season_length() * 4;
 }
 
-time_duration calendar::season_length()
+auto calendar::season_length() -> time_duration
 {
     return time_duration::from_days( std::max( cur_season_length, 1 ) );
 }
@@ -482,17 +482,17 @@ void calendar::set_season_length( const int dur )
 
 static constexpr int default_season_length = 14;
 
-float calendar::season_ratio()
+auto calendar::season_ratio() -> float
 {
     return to_days<float>( season_length() ) / default_season_length;
 }
 
-bool calendar::once_every( const time_duration &event_frequency )
+auto calendar::once_every( const time_duration &event_frequency ) -> bool
 {
     return ( calendar::turn - calendar::turn_zero ) % event_frequency == 0_turns;
 }
 
-std::string calendar::name_season( season_type s )
+auto calendar::name_season( season_type s ) -> std::string
 {
     static const std::array<std::string, 5> season_names_untranslated = {{
             //~First letter is supposed to be uppercase
@@ -513,12 +513,12 @@ std::string calendar::name_season( season_type s )
     return _( season_names_untranslated[ 4 ] );
 }
 
-time_duration rng( time_duration lo, time_duration hi )
+auto rng( time_duration lo, time_duration hi ) -> time_duration
 {
     return time_duration( rng( lo.turns_, hi.turns_ ) );
 }
 
-bool x_in_y( const time_duration &a, const time_duration &b )
+auto x_in_y( const time_duration &a, const time_duration &b ) -> bool
 {
     return ::x_in_y( to_turns<int>( a ), to_turns<int>( b ) );
 }
@@ -544,7 +544,7 @@ const std::vector<std::pair<std::string, time_duration>> time_duration::units = 
     }
 };
 
-season_type season_of_year( const time_point &p )
+auto season_of_year( const time_point &p ) -> season_type
 {
     // TODO: Explain why is it cached, make the cache explicit, or get rid of caching
     static time_point prev_turn = calendar::before_time_starts;
@@ -565,7 +565,7 @@ season_type season_of_year( const time_point &p )
     return prev_season;
 }
 
-std::string to_string( const time_point &p )
+auto to_string( const time_point &p ) -> std::string
 {
     const int year = to_turns<int>( p - calendar::turn_zero ) / to_turns<int>
                      ( calendar::year_length() ) + 1;

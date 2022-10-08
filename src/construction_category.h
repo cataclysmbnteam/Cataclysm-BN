@@ -17,10 +17,10 @@ struct construction_category {
         construction_category_id id;
         bool was_loaded = false;
 
-        std::string name() const {
+        auto name() const -> std::string {
             return _name.translated();
         }
-        static size_t count();
+        static auto count() -> size_t;
 
     private:
         translation _name;
@@ -32,7 +32,7 @@ namespace construction_categories
 void load( const JsonObject &jo, const std::string &src );
 void reset();
 
-const std::vector<construction_category> &get_all();
+auto get_all() -> const std::vector<construction_category> &;
 
 } // namespace construction_categories
 

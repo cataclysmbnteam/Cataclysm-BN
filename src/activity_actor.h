@@ -28,7 +28,7 @@ struct act_progress_message {
     /**
      * The text will completely overwrite default message.
      */
-    static act_progress_message make_full( std::string &&text ) {
+    static auto make_full( std::string &&text ) -> act_progress_message {
         act_progress_message ret;
         ret.msg_full = std::move( text );
         return ret;
@@ -37,7 +37,7 @@ struct act_progress_message {
     /**
      * The text will be appended to default message.
      */
-    static act_progress_message make_extra_info( std::string &&text ) {
+    static auto make_extra_info( std::string &&text ) -> act_progress_message {
         act_progress_message ret;
         ret.msg_extra_info = std::move( text );
         return ret;
@@ -46,7 +46,7 @@ struct act_progress_message {
     /**
      * There will be no message shown.
      */
-    static act_progress_message make_empty() {
+    static auto make_empty() -> act_progress_message {
         return act_progress_message{};
     }
 };
@@ -62,8 +62,8 @@ class activity_actor
          * false.
          * @pre @p other is the same type of actor as `this`
          */
-        virtual bool can_resume_with_internal( const activity_actor &,
-                                               const Character & ) const {
+        virtual auto can_resume_with_internal( const activity_actor &,
+                                               const Character & ) const -> bool {
             return false;
         }
 
@@ -73,7 +73,7 @@ class activity_actor
         /**
          * Should return the activity id of the corresponding activity
          */
-        virtual activity_id get_type() const = 0;
+        virtual auto get_type() const -> activity_id = 0;
 
         /**
          * Called once at the start of the activity.
@@ -107,7 +107,7 @@ class activity_actor
          * Checks that @p other has the same type as `this` so that
          * `can_resume_with_internal` can safely `static_cast` @p other.
          */
-        bool can_resume_with( const activity_actor &other, const Character &who ) const {
+        auto can_resume_with( const activity_actor &other, const Character &who ) const -> bool {
             if( other.get_type() == get_type() ) {
                 return can_resume_with_internal( other, who );
             }
@@ -126,7 +126,7 @@ class activity_actor
          * \endcode
          * The returned value should behave like the original item and must have the same type.
          */
-        virtual std::unique_ptr<activity_actor> clone() const = 0;
+        virtual auto clone() const -> std::unique_ptr<activity_actor> = 0;
 
         /**
          * Must write any custom members of the derived class to json
@@ -135,8 +135,8 @@ class activity_actor
          */
         virtual void serialize( JsonOut &jsout ) const = 0;
 
-        virtual act_progress_message get_progress_message(
-            const player_activity &, const Character & ) const {
+        virtual auto get_progress_message(
+            const player_activity &, const Character & ) const -> act_progress_message {
             // TODO: make it create default message once migration to actors is complete.
             act_progress_message msg;
             msg.implemented = false;

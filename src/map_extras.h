@@ -42,13 +42,13 @@ class map_extra
         uint32_t symbol = UTF8_getch( "X" );
         nc_color color = c_red;
 
-        std::string get_symbol() const {
+        auto get_symbol() const -> std::string {
             return utf32_to_utf8( symbol );
         }
-        std::string name() const {
+        auto name() const -> std::string {
             return _name.translated();
         }
-        std::string description() const {
+        auto description() const -> std::string {
             return _description.translated();
         }
 
@@ -66,8 +66,8 @@ namespace MapExtras
 using FunctionMap = std::unordered_map<std::string, map_extra_pointer>;
 
 map_extra_pointer get_function( const std::string &name );
-FunctionMap all_functions();
-std::vector<std::string> get_all_function_names();
+auto all_functions() -> FunctionMap;
+auto get_all_function_names() -> std::vector<std::string>;
 
 void apply_function( const string_id<map_extra> &id, map &m, const tripoint &abs_sub );
 void apply_function( const std::string &id, map &m, const tripoint &abs_sub );
@@ -79,7 +79,7 @@ void reset();
 void debug_spawn_test();
 
 /// This function provides access to all loaded map extras.
-const generic_factory<map_extra> &mapExtraFactory();
+auto mapExtraFactory() -> const generic_factory<map_extra> &;
 
 } // namespace MapExtras
 

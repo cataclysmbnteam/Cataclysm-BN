@@ -27,7 +27,7 @@
 #include "options.h"
 #endif
 
-catacurses::window new_centered_win( int nlines, int ncols )
+auto new_centered_win( int nlines, int ncols ) -> catacurses::window
 {
     int height = std::min( nlines, TERMY );
     int width = std::min( ncols, TERMX );
@@ -40,13 +40,13 @@ catacurses::window new_centered_win( int nlines, int ncols )
 * @{
 */
 
-uilist::size_scalar &uilist::size_scalar::operator=( auto_assign )
+auto uilist::size_scalar::operator=( auto_assign ) -> uilist::size_scalar &
 {
     fun = nullptr;
     return *this;
 }
 
-uilist::size_scalar &uilist::size_scalar::operator=( const int val )
+auto uilist::size_scalar::operator=( const int val ) -> uilist::size_scalar &
 {
     fun = [val]() -> int {
         return val;
@@ -54,19 +54,19 @@ uilist::size_scalar &uilist::size_scalar::operator=( const int val )
     return *this;
 }
 
-uilist::size_scalar &uilist::size_scalar::operator=( const std::function<int()> &fun )
+auto uilist::size_scalar::operator=( const std::function<int()> &fun ) -> uilist::size_scalar &
 {
     this->fun = fun;
     return *this;
 }
 
-uilist::pos_scalar &uilist::pos_scalar::operator=( auto_assign )
+auto uilist::pos_scalar::operator=( auto_assign ) -> uilist::pos_scalar &
 {
     fun = nullptr;
     return *this;
 }
 
-uilist::pos_scalar &uilist::pos_scalar::operator=( const int val )
+auto uilist::pos_scalar::operator=( const int val ) -> uilist::pos_scalar &
 {
     fun = [val]( int ) -> int {
         return val;
@@ -74,7 +74,7 @@ uilist::pos_scalar &uilist::pos_scalar::operator=( const int val )
     return *this;
 }
 
-uilist::pos_scalar &uilist::pos_scalar::operator=( const std::function<int( int )> &fun )
+auto uilist::pos_scalar::operator=( const std::function<int( int )> &fun ) -> uilist::pos_scalar &
 {
     this->fun = fun;
     return *this;
@@ -309,7 +309,7 @@ void uilist::inputfilter()
     filter_popup.reset();
 }
 
-bool uilist::set_selected( int sel )
+auto uilist::set_selected( int sel ) -> bool
 {
     if( sel < 0 || sel >= static_cast<int>( entries.size() ) ) {
         // Shortcut
@@ -333,8 +333,8 @@ bool uilist::set_selected( int sel )
  * or no more than the minimum number of lines possible, assuming that
  * foldstring( width ).size() decreases monotonously with width.
  **/
-static int find_minimum_fold_width( const std::string &str, int max_lines,
-                                    int min_width, int max_width )
+static auto find_minimum_fold_width( const std::string &str, int max_lines,
+                                    int min_width, int max_width ) -> int
 {
     if( str.empty() ) {
         return std::max( min_width, 1 );
@@ -729,7 +729,7 @@ void uilist::show()
     }
 }
 
-int uilist::scroll_amount_from_action( const std::string &action )
+auto uilist::scroll_amount_from_action( const std::string &action ) -> int
 {
     if( action == "UP" ) {
         return -1;
@@ -751,7 +751,7 @@ int uilist::scroll_amount_from_action( const std::string &action )
 /**
  * check for valid scrolling keypress and handle. return false if invalid keypress
  */
-bool uilist::scrollby( const int scrollby )
+auto uilist::scrollby( const int scrollby ) -> bool
 {
     if( scrollby == 0 ) {
         return false;
@@ -805,7 +805,7 @@ bool uilist::scrollby( const int scrollby )
     return true;
 }
 
-shared_ptr_fast<ui_adaptor> uilist::create_or_get_ui_adaptor()
+auto uilist::create_or_get_ui_adaptor() -> shared_ptr_fast<ui_adaptor>
 {
     shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
     if( !current_ui ) {

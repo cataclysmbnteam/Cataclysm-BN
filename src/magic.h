@@ -113,9 +113,9 @@ struct fake_spell {
         max_level( max_level ), self( hit_self ) {}
 
     // gets the spell with an additional override for minimum level (default 0)
-    spell get_spell( int min_level_override = 0 ) const;
+    auto get_spell( int min_level_override = 0 ) const -> spell;
 
-    bool operator==( const fake_spell &rhs )const;
+    auto operator==( const fake_spell &rhs )const -> bool;
 
     void load( const JsonObject &jo );
     void serialize( JsonOut &json ) const;
@@ -276,10 +276,10 @@ class spell_type
         /**
          * All spells in the game.
          */
-        static const std::vector<spell_type> &get_all();
+        static auto get_all() -> const std::vector<spell_type> &;
         static void check_consistency();
         static void reset_all();
-        bool is_valid() const;
+        auto is_valid() const -> bool;
 };
 
 class spell
@@ -292,17 +292,17 @@ class spell
         // once you accumulate enough exp you level the spell
         int experience = 0;
         // returns damage type for the spell
-        damage_type dmg_type() const;
+        auto dmg_type() const -> damage_type;
 
         // alternative cast message
         translation alt_message;
 
         // minimum damage including levels
-        int min_leveled_damage() const;
+        auto min_leveled_damage() const -> int;
         // minimum aoe including levels
-        int min_leveled_aoe() const;
+        auto min_leveled_aoe() const -> int;
         // minimum duration including levels (moves)
-        int min_leveled_duration() const;
+        auto min_leveled_duration() const -> int;
 
     public:
         spell() = default;
@@ -312,108 +312,108 @@ class spell
         void set_message( const translation &msg );
 
         // how much exp you need for the spell to gain a level
-        int exp_to_next_level() const;
+        auto exp_to_next_level() const -> int;
         // progress to the next level, expressed as a percent
-        std::string exp_progress() const;
+        auto exp_progress() const -> std::string;
         // how much xp you have total
-        int xp() const;
+        auto xp() const -> int;
         // gain some exp
         void gain_exp( int nxp );
         void set_exp( int nxp );
         // how much xp you get if you successfully cast the spell
-        int casting_exp( const Character &guy ) const;
+        auto casting_exp( const Character &guy ) const -> int;
         // modifier for gaining exp
-        float exp_modifier( const Character &guy ) const;
+        auto exp_modifier( const Character &guy ) const -> float;
         // level up!
         void gain_level();
         // gains a number of levels, or until max. 0 or less just returns early.
         void gain_levels( int gains );
         void set_level( int nlevel );
         // is the spell at max level?
-        bool is_max_level() const;
+        auto is_max_level() const -> bool;
         // what is the max level of the spell
-        int get_max_level() const;
+        auto get_max_level() const -> int;
 
         // what is the intensity of the field the spell generates ( 0 if no field )
-        int field_intensity() const;
+        auto field_intensity() const -> int;
         // how much damage does the spell do
-        int damage() const;
-        dealt_damage_instance get_dealt_damage_instance() const;
-        damage_instance get_damage_instance() const;
+        auto damage() const -> int;
+        auto get_dealt_damage_instance() const -> dealt_damage_instance;
+        auto get_damage_instance() const -> damage_instance;
         // how big is the spell's radius
-        int aoe() const;
+        auto aoe() const -> int;
         // distance spell can be cast
-        int range() const;
+        auto range() const -> int;
         // how much energy does the spell cost
-        int energy_cost( const Character &guy ) const;
+        auto energy_cost( const Character &guy ) const -> int;
         // how long does this spell's effect last
-        int duration() const;
-        time_duration duration_turns() const;
+        auto duration() const -> int;
+        auto duration_turns() const -> time_duration;
         // how often does the spell fail
         // based on difficulty, level of spell, spellcraft skill, intelligence
-        float spell_fail( const Character &guy ) const;
-        std::string colorized_fail_percent( const Character &guy ) const;
+        auto spell_fail( const Character &guy ) const -> float;
+        auto colorized_fail_percent( const Character &guy ) const -> std::string;
         // how long does it take to cast the spell
-        int casting_time( const Character &guy ) const;
+        auto casting_time( const Character &guy ) const -> int;
 
         // can the Character cast this spell?
-        bool can_cast( const Character &guy ) const;
+        auto can_cast( const Character &guy ) const -> bool;
         // can the Character learn this spell?
-        bool can_learn( const Character &guy ) const;
+        auto can_learn( const Character &guy ) const -> bool;
         // is this spell valid
-        bool is_valid() const;
+        auto is_valid() const -> bool;
         // is the bodypart affected by the effect
-        bool bp_is_affected( body_part bp ) const;
+        auto bp_is_affected( body_part bp ) const -> bool;
         // check if the spell has a particular flag
-        bool has_flag( const spell_flag &flag ) const;
+        auto has_flag( const spell_flag &flag ) const -> bool;
         // check if the spell's class is the same as input
-        bool is_spell_class( const trait_id &mid ) const;
+        auto is_spell_class( const trait_id &mid ) const -> bool;
 
-        bool in_aoe( const tripoint &source, const tripoint &target ) const;
+        auto in_aoe( const tripoint &source, const tripoint &target ) const -> bool;
 
         // get spell id (from type)
-        spell_id id() const;
+        auto id() const -> spell_id;
         // get spell class (from type)
-        trait_id spell_class() const;
+        auto spell_class() const -> trait_id;
         // get skill id
-        skill_id skill() const;
+        auto skill() const -> skill_id;
         // get spell effect string (from type)
-        std::string effect() const;
+        auto effect() const -> std::string;
         // get spell effect_str data
-        std::string effect_data() const;
+        auto effect_data() const -> std::string;
         // get spell summon vehicle id
-        vproto_id summon_vehicle_id() const;
+        auto summon_vehicle_id() const -> vproto_id;
         // name of spell (translated)
-        std::string name() const;
+        auto name() const -> std::string;
         // description of spell (translated)
-        std::string description() const;
+        auto description() const -> std::string;
         // spell message when cast (translated)
-        std::string message() const;
+        auto message() const -> std::string;
         // energy source as a string (translated)
-        std::string energy_string() const;
+        auto energy_string() const -> std::string;
         // energy cost returned as a string
-        std::string energy_cost_string( const Character &guy ) const;
+        auto energy_cost_string( const Character &guy ) const -> std::string;
         // current energy the Character has available as a string
-        std::string energy_cur_string( const Character &guy ) const;
+        auto energy_cur_string( const Character &guy ) const -> std::string;
         // prints out a list of valid targets separated by commas
-        std::string enumerate_targets() const;
+        auto enumerate_targets() const -> std::string;
         // returns the name string of all list of all targeted monster id
         //if targeted_monster_ids is empty, it returns an empty string
-        std::string list_targeted_monster_names() const;
+        auto list_targeted_monster_names() const -> std::string;
 
-        std::string damage_string() const;
-        std::string aoe_string() const;
-        std::string duration_string() const;
+        auto damage_string() const -> std::string;
+        auto aoe_string() const -> std::string;
+        auto duration_string() const -> std::string;
 
         // energy source enum
-        energy_type energy_source() const;
+        auto energy_source() const -> energy_type;
         // the color that's representative of the damage type
-        nc_color damage_type_color() const;
-        std::string damage_type_string() const;
+        auto damage_type_color() const -> nc_color;
+        auto damage_type_string() const -> std::string;
         // your level in this spell
-        int get_level() const;
+        auto get_level() const -> int;
         // difficulty of the level
-        int get_difficulty() const;
+        auto get_difficulty() const -> int;
 
         // tries to create a field at the location specified
         void create_field( const tripoint &at ) const;
@@ -422,7 +422,7 @@ class spell
         void make_sound( const tripoint &target ) const;
         void make_sound( const tripoint &target, int loudness ) const;
         // heals the critter at the location, returns amount healed (Character heals each body part)
-        int heal( const tripoint &target ) const;
+        auto heal( const tripoint &target ) const -> int;
 
         // casts the spell effect. returns true if successful
         void cast_spell_effect( Creature &source, const tripoint &target ) const;
@@ -430,17 +430,17 @@ class spell
         void cast_all_effects( Creature &source, const tripoint &target ) const;
 
         // checks if a target point is in spell range
-        bool is_target_in_range( const Creature &caster, const tripoint &p ) const;
+        auto is_target_in_range( const Creature &caster, const tripoint &p ) const -> bool;
 
         // is the target valid for this spell?
-        bool is_valid_target( const Creature &caster, const tripoint &p ) const;
-        bool is_valid_target( valid_target t ) const;
-        bool is_valid_effect_target( valid_target t ) const;
-        bool target_by_monster_id( const tripoint &p ) const;
+        auto is_valid_target( const Creature &caster, const tripoint &p ) const -> bool;
+        auto is_valid_target( valid_target t ) const -> bool;
+        auto is_valid_effect_target( valid_target t ) const -> bool;
+        auto target_by_monster_id( const tripoint &p ) const -> bool;
 
         // picks a random valid tripoint from @area
-        cata::optional<tripoint> random_valid_target( const Creature &caster,
-                const tripoint &caster_pos ) const;
+        auto random_valid_target( const Creature &caster,
+                const tripoint &caster_pos ) const -> cata::optional<tripoint>;
 };
 
 class known_magic
@@ -466,34 +466,34 @@ class known_magic
         void forget_spell( const std::string &sp );
         void forget_spell( const spell_id &sp );
         // time in moves for the Character to memorize the spell
-        int time_to_learn_spell( const Character &guy, const spell_id &sp ) const;
-        int time_to_learn_spell( const Character &guy, const std::string &str ) const;
-        bool can_learn_spell( const Character &guy, const spell_id &sp ) const;
-        bool knows_spell( const std::string &sp ) const;
-        bool knows_spell( const spell_id &sp ) const;
+        auto time_to_learn_spell( const Character &guy, const spell_id &sp ) const -> int;
+        auto time_to_learn_spell( const Character &guy, const std::string &str ) const -> int;
+        auto can_learn_spell( const Character &guy, const spell_id &sp ) const -> bool;
+        auto knows_spell( const std::string &sp ) const -> bool;
+        auto knows_spell( const spell_id &sp ) const -> bool;
         // does the Character know a spell?
-        bool knows_spell() const;
+        auto knows_spell() const -> bool;
         // spells known by Character
-        std::vector<spell_id> spells() const;
+        auto spells() const -> std::vector<spell_id>;
         // gets the spell associated with the spell_id to be edited
-        spell &get_spell( const spell_id &sp );
+        auto get_spell( const spell_id &sp ) -> spell &;
         // opens up a ui that the Character can choose a spell from
         // returns the index of the spell in the vector of spells
-        int select_spell( const Character &guy );
+        auto select_spell( const Character &guy ) -> int;
         // get all known spells
-        std::vector<spell *> get_spells();
+        auto get_spells() -> std::vector<spell *>;
         // how much mana is available to use to cast spells
-        int available_mana() const;
+        auto available_mana() const -> int;
         // max mana vailable
-        int max_mana( const Character &guy ) const;
+        auto max_mana( const Character &guy ) const -> int;
         void mod_mana( const Character &guy, int add_mana );
         void set_mana( int new_mana );
         /** Mana regeneration rate (units per turn). */
-        double mana_regen_rate( const Character &guy ) const;
+        auto mana_regen_rate( const Character &guy ) const -> double;
         void update_mana( const Character &guy, double turns );
         // does the Character have enough energy to cast this spell?
         // not specific to mana
-        bool has_enough_energy( const Character &guy, spell &sp ) const;
+        auto has_enough_energy( const Character &guy, spell &sp ) const -> bool;
 
         void on_mutation_gain( const trait_id &mid, Character &guy );
         void on_mutation_loss( const trait_id &mid );
@@ -502,13 +502,13 @@ class known_magic
         void deserialize( JsonIn &jsin );
 
         // returns false if invlet is already used
-        bool set_invlet( const spell_id &sp, int invlet, const std::set<int> &used_invlets );
+        auto set_invlet( const spell_id &sp, int invlet, const std::set<int> &used_invlets ) -> bool;
         void rem_invlet( const spell_id &sp );
     private:
         // gets length of longest spell name
-        int get_spellname_max_width();
+        auto get_spellname_max_width() -> int;
         // gets invlet if assigned, or -1 if not
-        int get_invlet( const spell_id &sp, std::set<int> &used_invlets );
+        auto get_invlet( const spell_id &sp, std::set<int> &used_invlets ) -> int;
 };
 
 namespace spell_effect
@@ -528,14 +528,14 @@ void line_attack( const spell &sp, Creature &caster,
 void area_pull( const spell &sp, Creature &caster, const tripoint &center );
 void area_push( const spell &sp, Creature &caster, const tripoint &center );
 
-std::set<tripoint> spell_effect_blast( const spell &, const tripoint &, const tripoint &target,
-                                       int aoe_radius, bool ignore_walls );
-std::set<tripoint> spell_effect_cone( const spell &sp, const tripoint &source,
+auto spell_effect_blast( const spell &, const tripoint &, const tripoint &target,
+                                       int aoe_radius, bool ignore_walls ) -> std::set<tripoint>;
+auto spell_effect_cone( const spell &sp, const tripoint &source,
                                       const tripoint &target,
-                                      int aoe_radius, bool ignore_walls );
-std::set<tripoint> spell_effect_line( const spell &, const tripoint &source,
+                                      int aoe_radius, bool ignore_walls ) -> std::set<tripoint>;
+auto spell_effect_line( const spell &, const tripoint &source,
                                       const tripoint &target,
-                                      int aoe_radius, bool ignore_walls );
+                                      int aoe_radius, bool ignore_walls ) -> std::set<tripoint>;
 
 void spawn_ethereal_item( const spell &sp, Creature &, const tripoint & );
 void recover_energy( const spell &sp, Creature &, const tripoint &target );
@@ -594,7 +594,7 @@ struct area_expander {
         area_node_comparator( std::vector<area_expander::node> &area ) : area( area ) {
         }
 
-        bool operator()( int a, int b ) const {
+        auto operator()( int a, int b ) const -> bool {
             return area[a].cost < area[b].cost;
         }
 
@@ -605,13 +605,13 @@ struct area_expander {
 
     area_expander();
     // Check whether we have already visited this node.
-    int contains( const tripoint &pt ) const;
+    auto contains( const tripoint &pt ) const -> int;
 
     // Adds node to a search tree. Returns true if new node is allocated.
-    bool enqueue( const tripoint &from, const tripoint &to, float cost );
+    auto enqueue( const tripoint &from, const tripoint &to, float cost ) -> bool;
 
     // Run wave propagation
-    int run( const tripoint &center );
+    auto run( const tripoint &center ) -> int;
 
     // Sort nodes by its cost.
     void sort_ascending();

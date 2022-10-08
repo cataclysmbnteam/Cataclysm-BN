@@ -39,7 +39,7 @@ void nutrients::max_in_place( const nutrients &r )
     }
 }
 
-int nutrients::get_vitamin( const vitamin_id &vit ) const
+auto nutrients::get_vitamin( const vitamin_id &vit ) const -> int
 {
     auto it = vitamins.find( vit );
     if( it == vitamins.end() ) {
@@ -48,7 +48,7 @@ int nutrients::get_vitamin( const vitamin_id &vit ) const
     return it->second;
 }
 
-bool nutrients::operator==( const nutrients &r ) const
+auto nutrients::operator==( const nutrients &r ) const -> bool
 {
     if( kcal != r.kcal ) {
         return false;
@@ -64,7 +64,7 @@ bool nutrients::operator==( const nutrients &r ) const
     return true;
 }
 
-nutrients &nutrients::operator+=( const nutrients &r )
+auto nutrients::operator+=( const nutrients &r ) -> nutrients &
 {
     kcal += r.kcal;
     for( const std::pair<const vitamin_id, int> &vit : r.vitamins ) {
@@ -73,7 +73,7 @@ nutrients &nutrients::operator+=( const nutrients &r )
     return *this;
 }
 
-nutrients &nutrients::operator-=( const nutrients &r )
+auto nutrients::operator-=( const nutrients &r ) -> nutrients &
 {
     kcal -= r.kcal;
     for( const std::pair<const vitamin_id, int> &vit : r.vitamins ) {
@@ -82,7 +82,7 @@ nutrients &nutrients::operator-=( const nutrients &r )
     return *this;
 }
 
-nutrients &nutrients::operator*=( int r )
+auto nutrients::operator*=( int r ) -> nutrients &
 {
     kcal *= r;
     for( std::pair<const vitamin_id, int> &vit : vitamins ) {
@@ -91,7 +91,7 @@ nutrients &nutrients::operator*=( int r )
     return *this;
 }
 
-nutrients &nutrients::operator/=( int r )
+auto nutrients::operator/=( int r ) -> nutrients &
 {
     kcal = divide_round_up( kcal, r );
     for( std::pair<const vitamin_id, int> &vit : vitamins ) {
@@ -129,7 +129,7 @@ void stomach_contents::ingest( const food_summary &ingested )
     ate();
 }
 
-food_summary stomach_contents::digest( const needs_rates &metabolic_rates, int five_mins )
+auto stomach_contents::digest( const needs_rates &metabolic_rates, int five_mins ) -> food_summary
 {
     food_summary digested{};
     stomach_digest_rates rates = get_digest_rates( metabolic_rates );
@@ -155,7 +155,7 @@ void stomach_contents::empty()
     nutr = nutrients{};
 }
 
-stomach_digest_rates stomach_contents::get_digest_rates( const needs_rates &metabolic_rates )
+auto stomach_contents::get_digest_rates( const needs_rates &metabolic_rates ) -> stomach_digest_rates
 {
     stomach_digest_rates rates;
     rates.min_vitamin = 1;
@@ -176,7 +176,7 @@ void stomach_contents::mod_calories( int cal )
     nutr.kcal += cal;
 }
 
-int stomach_contents::get_calories() const
+auto stomach_contents::get_calories() const -> int
 {
     return nutr.kcal;
 }
@@ -186,7 +186,7 @@ void stomach_contents::ate()
     last_ate = calendar::turn;
 }
 
-time_duration stomach_contents::time_since_ate() const
+auto stomach_contents::time_since_ate() const -> time_duration
 {
     return calendar::turn - last_ate;
 }

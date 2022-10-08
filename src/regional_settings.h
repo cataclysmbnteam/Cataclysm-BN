@@ -28,7 +28,7 @@ class building_bin
     public:
         building_bin() = default;
         void add( const overmap_special_id &building, int weight );
-        overmap_special_id pick() const;
+        auto pick() const -> overmap_special_id;
         std::vector<std::string> all;
         void clear();
         void finalize();
@@ -48,9 +48,9 @@ struct city_settings {
     building_bin shops;
     building_bin parks;
 
-    overmap_special_id pick_house() const;
-    overmap_special_id pick_shop() const;
-    overmap_special_id pick_park() const;
+    auto pick_house() const -> overmap_special_id;
+    auto pick_shop() const -> overmap_special_id;
+    auto pick_park() const -> overmap_special_id;
 
     void finalize();
 };
@@ -79,7 +79,7 @@ struct groundcover_extra {
     int boosted_mpercent_coverage = 0;
     int boosted_other_mpercent    = 1;
 
-    ter_furn_id pick( bool boosted = false ) const;
+    auto pick( bool boosted = false ) const -> ter_furn_id;
     void finalize();
     groundcover_extra() = default;
 };
@@ -121,7 +121,7 @@ struct forest_biome {
     bool clear_groundcover = false;
     bool clear_terrain_furniture = false;
 
-    ter_furn_id pick() const;
+    auto pick() const -> ter_furn_id;
     void finalize();
     forest_biome() = default;
 };
@@ -208,8 +208,8 @@ struct region_terrain_and_furniture_settings {
     std::map<furn_id, weighted_int_list<furn_id>> furniture;
 
     void finalize();
-    ter_id resolve( const ter_id & ) const;
-    furn_id resolve( const furn_id & ) const;
+    auto resolve( const ter_id & ) const -> ter_id;
+    auto resolve( const furn_id & ) const -> furn_id;
     region_terrain_and_furniture_settings() = default;
 };
 

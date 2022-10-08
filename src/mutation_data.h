@@ -21,7 +21,7 @@ void load( const JsonObject &jo );
 void clear();
 
 /** Returns a random dream description that matches given category and strength. */
-std::string get_random_for_category( const std::string &cat, int strength );
+auto get_random_for_category( const std::string &cat, int strength ) -> std::string;
 
 } // namespace dreams
 

@@ -53,7 +53,7 @@ static constexpr point lightmap_boundary_max( LIGHTMAP_CACHE_X, LIGHTMAP_CACHE_Y
 const half_open_rectangle<point> lightmap_boundaries(
     lightmap_boundary_min, lightmap_boundary_max );
 
-std::string four_quadrants::to_string() const
+auto four_quadrants::to_string() const -> std::string
 {
     return string_format( "(%.2f,%.2f,%.2f,%.2f)",
                           ( *this )[quadrant::NE], ( *this )[quadrant::SE],
@@ -78,7 +78,7 @@ void map::add_light_from_items( const tripoint &p, item_stack::iterator begin,
 }
 
 // TODO: Consider making this just clear the cache and dynamically fill it in as is_transparent() is called
-bool map::build_transparency_cache( const int zlev )
+auto map::build_transparency_cache( const int zlev ) -> bool
 {
     auto &map_cache = get_cache( zlev );
     auto &transparency_cache = map_cache.transparency_cache;
@@ -164,7 +164,7 @@ bool map::build_transparency_cache( const int zlev )
     return true;
 }
 
-bool map::build_vision_transparency_cache( const int zlev )
+auto map::build_vision_transparency_cache( const int zlev ) -> bool
 {
     auto &map_cache = get_cache( zlev );
     auto &transparency_cache = map_cache.transparency_cache;
@@ -589,7 +589,7 @@ void map::add_light_source( const tripoint &p, float luminance )
 
 // Tile light/transparency: 3D
 
-lit_level map::light_at( const tripoint &p ) const
+auto map::light_at( const tripoint &p ) const -> lit_level
 {
     if( !inbounds( p ) ) {
         return lit_level::DARK;    // Out of bounds
@@ -614,7 +614,7 @@ lit_level map::light_at( const tripoint &p ) const
     return lit_level::DARK;
 }
 
-float map::ambient_light_at( const tripoint &p ) const
+auto map::ambient_light_at( const tripoint &p ) const -> float
 {
     if( !inbounds( p ) ) {
         return 0.0f;
@@ -623,20 +623,20 @@ float map::ambient_light_at( const tripoint &p ) const
     return get_cache_ref( p.z ).lm[p.x][p.y].max();
 }
 
-bool map::is_transparent( const tripoint &p ) const
+auto map::is_transparent( const tripoint &p ) const -> bool
 {
     return light_transparency( p ) > LIGHT_TRANSPARENCY_SOLID;
 }
 
-float map::light_transparency( const tripoint &p ) const
+auto map::light_transparency( const tripoint &p ) const -> float
 {
     return get_cache_ref( p.z ).transparency_cache[p.x][p.y];
 }
 
 // End of tile light/transparency
 
-map::apparent_light_info map::apparent_light_helper( const level_cache &map_cache,
-        const tripoint &p )
+auto map::apparent_light_helper( const level_cache &map_cache,
+        const tripoint &p ) -> map::apparent_light_info
 {
     const float vis = std::max( map_cache.seen_cache[p.x][p.y], map_cache.camera_cache[p.x][p.y] );
     const bool obstructed = vis <= LIGHT_TRANSPARENCY_SOLID + 0.1;
@@ -697,7 +697,7 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
     return { obstructed, apparent_light };
 }
 
-lit_level map::apparent_light_at( const tripoint &p, const visibility_variables &cache ) const
+auto map::apparent_light_at( const tripoint &p, const visibility_variables &cache ) const -> lit_level
 {
     const int dist = rl_dist( g->u.pos(), p );
 
@@ -745,7 +745,7 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
     }
 }
 
-bool map::pl_sees( const tripoint &t, const int max_range ) const
+auto map::pl_sees( const tripoint &t, const int max_range ) const -> bool
 {
     if( !inbounds( t ) ) {
         return false;
@@ -763,7 +763,7 @@ bool map::pl_sees( const tripoint &t, const int max_range ) const
              map_cache.sm[t.x][t.y] > 0.0 );
 }
 
-bool map::pl_line_of_sight( const tripoint &t, const int max_range ) const
+auto map::pl_line_of_sight( const tripoint &t, const int max_range ) const -> bool
 {
     if( !inbounds( t ) ) {
         return false;
@@ -783,7 +783,7 @@ bool map::pl_line_of_sight( const tripoint &t, const int max_range ) const
 // For a direction vector defined by x, y, return the quadrant that's the
 // source of that direction.  Assumes x != 0 && y != 0
 // NOLINTNEXTLINE(cata-xy)
-static constexpr quadrant quadrant_from_x_y( int x, int y )
+static constexpr auto quadrant_from_x_y( int x, int y ) -> quadrant
 {
     return ( x > 0 ) ?
            ( ( y > 0 ) ? quadrant::NW : quadrant::SW ) :
@@ -1399,7 +1399,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
 
 //Schraudolph's algorithm with John's constants
 static inline
-float fastexp( float x )
+auto fastexp( float x ) -> float
 {
     union {
         float f;
@@ -1415,14 +1415,14 @@ float fastexp( float x )
     return u.f / v.f;
 }
 
-static float light_calc( const float &numerator, const float &transparency,
-                         const int &distance )
+static auto light_calc( const float &numerator, const float &transparency,
+                         const int &distance ) -> float
 {
     // Light needs inverse square falloff in addition to attenuation.
     return numerator  / ( fastexp( transparency * distance ) * distance );
 }
 
-static bool light_check( const float &transparency, const float &intensity )
+static auto light_check( const float &transparency, const float &intensity ) -> bool
 {
     return transparency > LIGHT_TRANSPARENCY_SOLID && intensity > LIGHT_AMBIENT_LOW;
 }

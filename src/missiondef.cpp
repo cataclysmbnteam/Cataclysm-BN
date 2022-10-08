@@ -143,7 +143,7 @@ tripoint_function_map = {{
 namespace io
 {
 template<>
-std::string enum_to_string<mission_origin>( mission_origin data )
+auto enum_to_string<mission_origin>( mission_origin data ) -> std::string
 {
     switch( data ) {
         // *INDENT-OFF*
@@ -162,7 +162,7 @@ std::string enum_to_string<mission_origin>( mission_origin data )
 }
 
 template<>
-std::string enum_to_string<mission_goal>( mission_goal data )
+auto enum_to_string<mission_goal>( mission_goal data ) -> std::string
 {
     switch( data ) {
         // *INDENT-OFF*
@@ -197,14 +197,14 @@ static DynamicDataLoader::deferred_json deferred;
 
 /** @relates string_id */
 template<>
-const mission_type &string_id<mission_type>::obj() const
+auto string_id<mission_type>::obj() const -> const mission_type &
 {
     return mission_type_factory.obj( *this );
 }
 
 /** @relates string_id */
 template<>
-bool string_id<mission_type>::is_valid() const
+auto string_id<mission_type>::is_valid() const -> bool
 {
     return mission_type_factory.is_valid( *this );
 }
@@ -330,7 +330,7 @@ void mission_type::load( const JsonObject &jo, const std::string &src )
     }
 }
 
-bool mission_type::test_goal_condition( const mission_goal_condition_context &d ) const
+auto mission_type::test_goal_condition( const mission_goal_condition_context &d ) const -> bool
 {
     if( goal_condition ) {
         return goal_condition( d );
@@ -352,7 +352,7 @@ void mission_type::check_consistency()
     }
 }
 
-mission_type_id mission_type::from_legacy( int old_id )
+auto mission_type::from_legacy( int old_id ) -> mission_type_id
 {
     static const std::vector<mission_type_id> old_id_vec = {{
             mission_type_id( "MISSION_NULL" ),
@@ -446,7 +446,7 @@ mission_type_id mission_type::from_legacy( int old_id )
     return mission_type_id( "MISSION_NULL" );
 }
 
-const mission_type *mission_type::get( const mission_type_id &id )
+auto mission_type::get( const mission_type_id &id ) -> const mission_type *
 {
     if( id.is_null() ) {
         return nullptr;
@@ -455,13 +455,13 @@ const mission_type *mission_type::get( const mission_type_id &id )
     return &id.obj();
 }
 
-const std::vector<mission_type> &mission_type::get_all()
+auto mission_type::get_all() -> const std::vector<mission_type> &
 {
     return mission_type_factory.get_all();
 }
 
-mission_type_id mission_type::get_random_id( const mission_origin origin,
-        const tripoint_abs_omt &p )
+auto mission_type::get_random_id( const mission_origin origin,
+        const tripoint_abs_omt &p ) -> mission_type_id
 {
     std::vector<mission_type_id> valid;
     for( auto &t : get_all() ) {

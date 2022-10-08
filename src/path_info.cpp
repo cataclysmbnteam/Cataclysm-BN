@@ -22,8 +22,8 @@
  * @param fallback The path of the fallback filename.
  * It is used if no translated file can be found.
  */
-static std::string find_translated_file( const std::string &path, const std::string &extension,
-        const std::string &fallback );
+static auto find_translated_file( const std::string &path, const std::string &extension,
+        const std::string &fallback ) -> std::string;
 
 static std::string motd_value;
 static std::string gfxdir_value;
@@ -116,8 +116,8 @@ void PATH_INFO::set_standard_filenames()
     autopickup_value = config_dir_value + "auto_pickup.json";
 }
 
-std::string find_translated_file( const std::string &base_path, const std::string &extension,
-                                  const std::string &fallback )
+auto find_translated_file( const std::string &base_path, const std::string &extension,
+                                  const std::string &fallback ) -> std::string
 {
     std::vector<std::string> opts = get_lang_path_substring( get_language().id );
 
@@ -131,203 +131,203 @@ std::string find_translated_file( const std::string &base_path, const std::strin
     return fallback;
 }
 
-std::string PATH_INFO::autopickup()
+auto PATH_INFO::autopickup() -> std::string
 {
     return autopickup_value;
 }
-std::string PATH_INFO::base_colors()
+auto PATH_INFO::base_colors() -> std::string
 {
     return config_dir_value + "base_colors.json";
 }
-std::string PATH_INFO::base_path()
+auto PATH_INFO::base_path() -> std::string
 {
     return base_path_value;
 }
-std::string PATH_INFO::colors()
+auto PATH_INFO::colors() -> std::string
 {
     return datadir_value + "raw/" + "colors.json";
 }
-std::string PATH_INFO::color_templates()
+auto PATH_INFO::color_templates() -> std::string
 {
     return datadir_value + "raw/" + "color_templates/";
 }
-std::string PATH_INFO::config_dir()
+auto PATH_INFO::config_dir() -> std::string
 {
     return config_dir_value;
 }
-std::string PATH_INFO::custom_colors()
+auto PATH_INFO::custom_colors() -> std::string
 {
     return config_dir_value + "custom_colors.json";
 }
-std::string PATH_INFO::datadir()
+auto PATH_INFO::datadir() -> std::string
 {
     return datadir_value;
 }
-std::string PATH_INFO::debug()
+auto PATH_INFO::debug() -> std::string
 {
     return config_dir_value + "debug.log";
 }
-std::string PATH_INFO::defaultsounddir()
+auto PATH_INFO::defaultsounddir() -> std::string
 {
     return datadir_value + "sound";
 }
-std::string PATH_INFO::defaulttilejson()
+auto PATH_INFO::defaulttilejson() -> std::string
 {
     return "tile_config.json";
 }
-std::string PATH_INFO::defaulttilepng()
+auto PATH_INFO::defaulttilepng() -> std::string
 {
     return "tinytile.png";
 }
-std::string PATH_INFO::fontconfig()
+auto PATH_INFO::fontconfig() -> std::string
 {
     return datadir_value + "raw/" + "fonts.json";
 }
-std::string PATH_INFO::user_fontconfig()
+auto PATH_INFO::user_fontconfig() -> std::string
 {
     return config_dir_value + "fonts.json";
 }
-std::string PATH_INFO::fontdir()
+auto PATH_INFO::fontdir() -> std::string
 {
     return datadir_value + "font/";
 }
-std::string PATH_INFO::user_fontdir()
+auto PATH_INFO::user_fontdir() -> std::string
 {
     return user_dir_value + "font/";
 }
-std::string PATH_INFO::language_defs_file()
+auto PATH_INFO::language_defs_file() -> std::string
 {
     return datadir_value + "raw/" + "languages.json";
 }
-std::string PATH_INFO::graveyarddir()
+auto PATH_INFO::graveyarddir() -> std::string
 {
     return user_dir_value + "graveyard/";
 }
-std::string PATH_INFO::help()
+auto PATH_INFO::help() -> std::string
 {
     return datadir_value + "help/" + "texts.json";
 }
-std::string PATH_INFO::keybindings()
+auto PATH_INFO::keybindings() -> std::string
 {
     return datadir_value + "raw/" + "keybindings.json";
 }
-std::string PATH_INFO::keybindings_vehicle()
+auto PATH_INFO::keybindings_vehicle() -> std::string
 {
     return datadir_value + "raw/" + "keybindings/vehicle.json";
 }
-std::string PATH_INFO::keybindings_edit_creature()
+auto PATH_INFO::keybindings_edit_creature() -> std::string
 {
     return datadir_value + "raw/" + "keybindings/edit_creature_effects.json";
 }
-std::string PATH_INFO::lastworld()
+auto PATH_INFO::lastworld() -> std::string
 {
     return config_dir_value + "lastworld.json";
 }
-std::string PATH_INFO::memorialdir()
+auto PATH_INFO::memorialdir() -> std::string
 {
     return memorialdir_value;
 }
-std::string PATH_INFO::jsondir()
+auto PATH_INFO::jsondir() -> std::string
 {
     return datadir_value + "core/";
 }
-std::string PATH_INFO::moddir()
+auto PATH_INFO::moddir() -> std::string
 {
     return datadir_value + "mods/";
 }
-std::string PATH_INFO::options()
+auto PATH_INFO::options() -> std::string
 {
     return options_value;
 }
-std::string PATH_INFO::panel_options()
+auto PATH_INFO::panel_options() -> std::string
 {
     return config_dir_value + "panel_options.json";
 }
-std::string PATH_INFO::safemode()
+auto PATH_INFO::safemode() -> std::string
 {
     return config_dir_value + "safemode.json";
 }
-std::string PATH_INFO::savedir()
+auto PATH_INFO::savedir() -> std::string
 {
     return savedir_value;
 }
-std::string PATH_INFO::sokoban()
+auto PATH_INFO::sokoban() -> std::string
 {
     return datadir_value + "raw/" + "sokoban.txt";
 }
-std::string PATH_INFO::templatedir()
+auto PATH_INFO::templatedir() -> std::string
 {
     return user_dir_value + "templates/";
 }
-std::string PATH_INFO::user_dir()
+auto PATH_INFO::user_dir() -> std::string
 {
     return user_dir_value;
 }
-std::string PATH_INFO::user_gfx()
+auto PATH_INFO::user_gfx() -> std::string
 {
     return user_dir_value + "gfx/";
 }
-std::string PATH_INFO::user_keybindings()
+auto PATH_INFO::user_keybindings() -> std::string
 {
     return config_dir_value + "keybindings.json";
 }
-std::string PATH_INFO::user_moddir()
+auto PATH_INFO::user_moddir() -> std::string
 {
     return user_dir_value + "mods/";
 }
-std::string PATH_INFO::user_sound()
+auto PATH_INFO::user_sound() -> std::string
 {
     return user_dir_value + "sound/";
 }
-std::string PATH_INFO::worldoptions()
+auto PATH_INFO::worldoptions() -> std::string
 {
     return "worldoptions.json";
 }
-std::string PATH_INFO::crash()
+auto PATH_INFO::crash() -> std::string
 {
     return config_dir_value + "crash.log";
 }
-std::string PATH_INFO::tileset_conf()
+auto PATH_INFO::tileset_conf() -> std::string
 {
     return "tileset.txt";
 }
-std::string PATH_INFO::mods_replacements()
+auto PATH_INFO::mods_replacements() -> std::string
 {
     return datadir_value + "mods/" + "replacements.json";
 }
-std::string PATH_INFO::mods_dev_default()
+auto PATH_INFO::mods_dev_default() -> std::string
 {
     return datadir_value + "mods/" + "default.json";
 }
-std::string PATH_INFO::mods_user_default()
+auto PATH_INFO::mods_user_default() -> std::string
 {
     return config_dir_value + "default_mods.json";
 }
-std::string PATH_INFO::soundpack_conf()
+auto PATH_INFO::soundpack_conf() -> std::string
 {
     return "soundpack.txt";
 }
-std::string PATH_INFO::gfxdir()
+auto PATH_INFO::gfxdir() -> std::string
 {
     return gfxdir_value;
 }
-std::string PATH_INFO::data_sound()
+auto PATH_INFO::data_sound() -> std::string
 {
     return datadir_value + "sound";
 }
 
-std::string PATH_INFO::credits()
+auto PATH_INFO::credits() -> std::string
 {
     return find_translated_file( datadir_value + "credits/", ".credits",
                                  datadir_value + "credits/" + "en.credits" );
 }
 
-std::string PATH_INFO::motd()
+auto PATH_INFO::motd() -> std::string
 {
     return find_translated_file( datadir_value + "motd/", ".motd", motd_value );
 }
 
-std::string PATH_INFO::title( const holiday )
+auto PATH_INFO::title( const holiday ) -> std::string
 {
     std::string theme_basepath = datadir_value + "title/";
     std::string theme_extension = ".title";
@@ -335,7 +335,7 @@ std::string PATH_INFO::title( const holiday )
     return find_translated_file( theme_basepath, theme_extension, theme_fallback );
 }
 
-std::string PATH_INFO::names()
+auto PATH_INFO::names() -> std::string
 {
     return find_translated_file( datadir_value + "names/", ".json",
                                  datadir_value + "names/" + "en.json" );

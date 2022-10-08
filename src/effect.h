@@ -42,52 +42,52 @@ class effect_type
         efftype_id id;
 
         /** Returns if an effect is good or bad for message display. */
-        effect_rating get_rating() const;
+        auto get_rating() const -> effect_rating;
 
         /** Returns true if there is a listed name in the JSON entry for each intensity from
          *  1 to max_intensity. */
-        bool use_name_ints() const;
+        auto use_name_ints() const -> bool;
         /** Returns true if there is a listed description in the JSON entry for each intensity
          *  from 1 to max_intensity with the matching reduced value. */
-        bool use_desc_ints( bool reduced ) const;
+        auto use_desc_ints( bool reduced ) const -> bool;
 
         /** Returns the appropriate game_message_type when a new effect is obtained. This is equal to
          *  an effect's "rating" value. */
-        game_message_type gain_game_message_type() const;
+        auto gain_game_message_type() const -> game_message_type;
         /** Returns the appropriate game_message_type when an effect is lost. This is opposite to
          *  an effect's "rating" value. */
-        game_message_type lose_game_message_type() const;
+        auto lose_game_message_type() const -> game_message_type;
 
         /** Returns the message displayed when a new effect is obtained. */
-        std::string get_apply_message() const;
+        auto get_apply_message() const -> std::string;
         /** Returns the memorial log added when a new effect is obtained. */
-        std::string get_apply_memorial_log() const;
+        auto get_apply_memorial_log() const -> std::string;
         /** Returns the message displayed when an effect is removed. */
-        std::string get_remove_message() const;
+        auto get_remove_message() const -> std::string;
         /** Returns the memorial log added when an effect is removed. */
-        std::string get_remove_memorial_log() const;
+        auto get_remove_memorial_log() const -> std::string;
         /** Returns the effect's description displayed when character conducts blood analysis. */
-        std::string get_blood_analysis_description() const;
+        auto get_blood_analysis_description() const -> std::string;
 
         /** Returns true if an effect will only target main body parts (i.e., those with HP). */
-        bool get_main_parts() const;
+        auto get_main_parts() const -> bool;
         /** Returns the maximum duration of an effect. */
-        time_duration get_max_duration() const;
+        auto get_max_duration() const -> time_duration;
         /** Returns the number of turns it takes for the intensity to fall by 1 or 0 if intensity isn't based on duration. */
-        time_duration get_int_dur_factor() const;
+        auto get_int_dur_factor() const -> time_duration;
 
         /** Returns the id of morale type this effect produces. */
-        morale_type get_morale_type() const;
+        auto get_morale_type() const -> morale_type;
 
-        bool is_show_in_info() const;
+        auto is_show_in_info() const -> bool;
 
         /** Returns true if an effect is permanent, i.e. it's duration does not decrease over time. */
-        bool is_permanent() const;
+        auto is_permanent() const -> bool;
 
         /** Loading helper functions */
-        bool load_mod_data( const JsonObject &jo, const std::string &member );
-        bool load_miss_msgs( const JsonObject &jo, const std::string &member );
-        bool load_decay_msgs( const JsonObject &jo, const std::string &member );
+        auto load_mod_data( const JsonObject &jo, const std::string &member ) -> bool;
+        auto load_miss_msgs( const JsonObject &jo, const std::string &member ) -> bool;
+        auto load_decay_msgs( const JsonObject &jo, const std::string &member ) -> bool;
 
         /** Registers the effect in the global map */
         static void register_ma_buff_effect( const effect_type &eff );
@@ -171,10 +171,10 @@ class effect
             removed( false ) {
         }
         effect( const effect & ) = default;
-        effect &operator=( const effect & ) = default;
+        auto operator=( const effect & ) -> effect & = default;
 
         /** Returns true if the effect is the result of `effect()`, ie. an effect that doesn't exist. */
-        bool is_null() const;
+        auto is_null() const -> bool;
         operator bool() const {
             return !is_null() && !is_removed();
         }
@@ -183,26 +183,26 @@ class effect
         static effect null_effect;
 
         /** Returns the name displayed in the player status window. */
-        std::string disp_name() const;
+        auto disp_name() const -> std::string;
         /** Returns the description displayed in the player status window. */
-        std::string disp_desc( bool reduced = false ) const;
+        auto disp_desc( bool reduced = false ) const -> std::string;
         /** Returns the short description as set in json. */
-        std::string disp_short_desc( bool reduced = false ) const;
+        auto disp_short_desc( bool reduced = false ) const -> std::string;
         /** Returns true if a description will be formatted as "Your" + body_part + description. */
-        bool use_part_descs() const;
+        auto use_part_descs() const -> bool;
 
         /** Returns the effect's matching effect_type. */
-        const effect_type *get_effect_type() const;
+        auto get_effect_type() const -> const effect_type *;
 
         /** Decays effect durations, returning true if duration <= 0.
          *  This is called in the middle of a loop through all effects, which is
          *  why we aren't allowed to remove the effects here. */
-        bool decay( const time_point &time, bool player );
+        auto decay( const time_point &time, bool player ) -> bool;
 
         /** Returns the remaining duration of an effect. */
-        time_duration get_duration() const;
+        auto get_duration() const -> time_duration;
         /** Returns the maximum duration of an effect. */
-        time_duration get_max_duration() const;
+        auto get_max_duration() const -> time_duration;
         /** Sets the duration, capping at max_duration if it exists. */
         void set_duration( const time_duration &dur, bool alert = false );
         /** Mods the duration, capping at max_duration if it exists. */
@@ -211,18 +211,18 @@ class effect
         void mult_duration( double dur, bool alert = false );
 
         /** Returns the turn the effect was applied. */
-        time_point get_start_time() const;
+        auto get_start_time() const -> time_point;
 
         /** Returns the targeted body_part of the effect. This is NULL_ID for untargeted effects. */
-        const bodypart_str_id &get_bp() const;
+        auto get_bp() const -> const bodypart_str_id &;
 
         /** Returns true if an effect is permanent, i.e. it's duration does not decrease over time. */
-        bool is_permanent() const;
+        auto is_permanent() const -> bool;
 
         /** Returns the intensity of an effect. */
-        int get_intensity() const;
+        auto get_intensity() const -> int;
         /** Returns the maximum intensity of an effect. */
-        int get_max_intensity() const;
+        auto get_max_intensity() const -> int;
 
         /**
          * Sets intensity of effect capped by range [1..max_intensity]
@@ -230,7 +230,7 @@ class effect
          * @param alert whether decay messages should be displayed
          * @return new intensity of the effect after val subjected to above cap
          */
-        int set_intensity( int val, bool alert = false );
+        auto set_intensity( int val, bool alert = false ) -> int;
 
         /**
          * Modify intensity of effect capped by range [1..max_intensity]
@@ -238,12 +238,12 @@ class effect
          * @param alert whether decay messages should be displayed
          * @return new intensity of the effect after modification and capping
          */
-        int mod_intensity( int mod, bool alert = false );
+        auto mod_intensity( int mod, bool alert = false ) -> int;
 
         /**
          * Returns if the effect is disabled and set up for removal.
          */
-        bool is_removed() const {
+        auto is_removed() const -> bool {
             return removed;
         }
         void set_removed() {
@@ -251,58 +251,58 @@ class effect
         }
 
         /** Returns the string id of the resist trait to be used in has_trait("id"). */
-        const std::vector<trait_id> &get_resist_traits() const;
+        auto get_resist_traits() const -> const std::vector<trait_id> &;
         /** Returns the string id of the resist effect to be used in has_effect("id"). */
-        const std::vector<efftype_id> &get_resist_effects() const;
+        auto get_resist_effects() const -> const std::vector<efftype_id> &;
         /** Returns the string ids of the effects removed by this effect to be used in remove_effect("id"). */
-        const std::vector<efftype_id> &get_removes_effects() const;
+        auto get_removes_effects() const -> const std::vector<efftype_id> &;
         /** Returns the string ids of the effects blocked by this effect to be used in add_effect("id"). */
-        std::vector<efftype_id> get_blocks_effects() const;
+        auto get_blocks_effects() const -> std::vector<efftype_id>;
 
         /** Returns the matching modifier type from an effect, used for getting actual effect effects. */
-        int get_mod( std::string arg, bool reduced = false ) const;
+        auto get_mod( std::string arg, bool reduced = false ) const -> int;
         /** Returns the average return of get_mod for a modifier type. Used in effect description displays. */
-        int get_avg_mod( std::string arg, bool reduced = false ) const;
+        auto get_avg_mod( std::string arg, bool reduced = false ) const -> int;
         /** Returns the amount of a modifier type applied when a new effect is first added. */
-        int get_amount( std::string arg, bool reduced = false ) const;
+        auto get_amount( std::string arg, bool reduced = false ) const -> int;
         /** Returns the minimum value of a modifier type that get_mod() and get_amount() will push the player to. */
-        int get_min_val( std::string arg, bool reduced = false ) const;
+        auto get_min_val( std::string arg, bool reduced = false ) const -> int;
         /** Returns the maximum value of a modifier type that get_mod() and get_amount() will push the player to. */
-        int get_max_val( std::string arg, bool reduced = false ) const;
+        auto get_max_val( std::string arg, bool reduced = false ) const -> int;
         /** Returns true if the given modifier type's trigger chance is affected by size mutations. */
-        bool get_sizing( const std::string &arg ) const;
+        auto get_sizing( const std::string &arg ) const -> bool;
         /** Returns the approximate percentage chance of a modifier type activating on any given tick, used for descriptions. */
-        double get_percentage( std::string arg, int val, bool reduced = false ) const;
+        auto get_percentage( std::string arg, int val, bool reduced = false ) const -> double;
         /** Checks to see if a given modifier type can activate, and performs any rolls required to do so. mod is a direct
          *  multiplier on the overall chance of a modifier type activating. */
-        bool activated( const time_point &when, std::string arg, int val,
-                        bool reduced = false, double mod = 1 ) const;
+        auto activated( const time_point &when, std::string arg, int val,
+                        bool reduced = false, double mod = 1 ) const -> bool;
 
         /** Check if the effect has the specified flag */
-        bool has_flag( const std::string &flag ) const;
+        auto has_flag( const std::string &flag ) const -> bool;
 
         /** Returns the modifier caused by addictions. Currently only handles painkiller addictions. */
-        double get_addict_mod( const std::string &arg, int addict_level ) const;
+        auto get_addict_mod( const std::string &arg, int addict_level ) const -> double;
         /** Returns true if the coughs caused by an effect can harm the player directly. */
-        bool get_harmful_cough() const;
+        auto get_harmful_cough() const -> bool;
         /** Returns the percentage value by further applications of existing effects' duration is multiplied by. */
-        int get_dur_add_perc() const;
+        auto get_dur_add_perc() const -> int;
         /** Returns the number of turns it takes for the intensity to fall by 1 or 0 if intensity isn't based on duration. */
-        time_duration get_int_dur_factor() const;
+        auto get_int_dur_factor() const -> time_duration;
         /** Returns the amount an already existing effect intensity is modified by further applications of the same effect. */
-        int get_int_add_val() const;
+        auto get_int_add_val() const -> int;
 
         /** Returns a vector of the miss message messages and chances for use in add_miss_reason() while the effect is in effect. */
-        std::vector<std::pair<std::string, int>> get_miss_msgs() const;
+        auto get_miss_msgs() const -> std::vector<std::pair<std::string, int>>;
 
         /** Returns the value used for display on the speed modifier window in the player status menu. */
-        std::string get_speed_name() const;
+        auto get_speed_name() const -> std::string;
 
         /** Returns if the effect is supposed to be handled in Creature::movement */
-        bool impairs_movement() const;
+        auto impairs_movement() const -> bool;
 
         /** Returns the effect's matching effect_type id. */
-        const efftype_id &get_id() const {
+        auto get_id() const -> const efftype_id & {
             return eff_type->id;
         }
 
@@ -331,10 +331,10 @@ class effect
 void load_effect_type( const JsonObject &jo );
 void reset_effect_types();
 
-std::vector<efftype_id> find_all_effect_types();
+auto find_all_effect_types() -> std::vector<efftype_id>;
 
-std::string texitify_base_healing_power( int power );
-std::string texitify_healing_power( int power );
+auto texitify_base_healing_power( int power ) -> std::string;
+auto texitify_healing_power( int power ) -> std::string;
 
 // Inheritance here allows forward declaration of the map in class Creature.
 class effects_map : public

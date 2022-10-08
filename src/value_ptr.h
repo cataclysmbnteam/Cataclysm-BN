@@ -23,7 +23,7 @@ class value_ptr : public std::unique_ptr<T>
         value_ptr( T *value ) : std::unique_ptr<T>( value ) {}
         value_ptr( const value_ptr<T> &other ) :
             std::unique_ptr<T>( other ? new T( *other ) : nullptr ) {}
-        value_ptr &operator=( value_ptr<T> other ) {
+        auto operator=( value_ptr<T> other ) -> value_ptr & {
             std::unique_ptr<T>::operator=( std::move( other ) );
             return *this;
         }
@@ -48,13 +48,13 @@ class value_ptr : public std::unique_ptr<T>
 };
 
 template <class T, class... Args>
-value_ptr<T> make_value( Args &&...args )
+auto make_value( Args &&...args ) -> value_ptr<T>
 {
     return value_ptr<T>( new T( std::forward<Args>( args )... ) );
 }
 
 template <class T>
-bool value_ptr_equals( const value_ptr<T> &lhs, const value_ptr<T> &rhs )
+auto value_ptr_equals( const value_ptr<T> &lhs, const value_ptr<T> &rhs ) -> bool
 {
     return ( !lhs && !rhs ) || ( lhs && rhs && *lhs == *rhs );
 }

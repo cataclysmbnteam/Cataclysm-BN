@@ -204,8 +204,8 @@ class generic_typed_reader
          * when called on a simple data member, the other `operator()` will be used.
          */
         template<typename C, typename std::enable_if<reader_detail::handler<C>::is_container, int>::type = 0>
-        bool operator()( const JsonObject &jo, const std::string &member_name,
-                         C &container, bool was_loaded ) const {
+        auto operator()( const JsonObject &jo, const std::string &member_name,
+                         C &container, bool was_loaded ) const -> bool {
             const Derived &derived = static_cast<const Derived &>( *this );
             // If you get an error about "incomplete type 'struct reader_detail::handler...",
             // you have to implement a specialization of your container type, so above for
@@ -242,7 +242,7 @@ class generic_typed_reader
                    int >::type = 0,
                    std::enable_if_t < !supports_relative<C>::value > * = nullptr
                    >
-        bool do_relative( const JsonObject &jo, const std::string &name, C & ) const {
+        auto do_relative( const JsonObject &jo, const std::string &name, C & ) const -> bool {
             if( jo.has_object( "relative" ) ) {
                 JsonObject relative = jo.get_object( "relative" );
                 relative.allow_omitted_members();
@@ -257,7 +257,7 @@ class generic_typed_reader
         // Type supports relative
         template < typename C, typename std::enable_if < !reader_detail::handler<C>::is_container,
                    int >::type = 0, std::enable_if_t<supports_relative<C>::value> * = nullptr >
-        bool do_relative( const JsonObject &jo, const std::string &name, C &member ) const {
+        auto do_relative( const JsonObject &jo, const std::string &name, C &member ) const -> bool {
             if( jo.has_object( "relative" ) ) {
                 JsonObject relative = jo.get_object( "relative" );
                 relative.allow_omitted_members();
@@ -274,7 +274,7 @@ class generic_typed_reader
         }
 
         template<typename C>
-        bool read_normal( const JsonObject &jo, const std::string &name, C &member ) const {
+        auto read_normal( const JsonObject &jo, const std::string &name, C &member ) const -> bool {
             if( jo.has_member( name ) ) {
                 const Derived &derived = static_cast<const Derived &>( *this );
                 member = derived.get_next( *jo.get_raw( name ) );
@@ -290,8 +290,8 @@ class generic_typed_reader
         // the caller, which will take action on their own.
         template < typename C, typename std::enable_if < !reader_detail::handler<C>::is_container,
                    int >::type = 0 >
-        bool operator()( const JsonObject &jo, const std::string &member_name,
-                         C &member, bool /*was_loaded*/ ) const {
+        auto operator()( const JsonObject &jo, const std::string &member_name,
+                         C &member, bool /*was_loaded*/ ) const -> bool {
             return read_normal( jo, member_name, member ) ||
                    handle_proportional( jo, member_name, member ) ||
                    do_relative( jo, member_name, member );
@@ -314,7 +314,7 @@ template<typename FlagType = std::string>
 class auto_flags_reader : public generic_typed_reader<auto_flags_reader<FlagType>>
 {
     public:
-        FlagType get_next( JsonIn &jin ) const {
+        auto get_next( JsonIn &jin ) const -> FlagType {
             return FlagType( jin.get_string() );
         }
 };
@@ -331,15 +331,15 @@ class unit_reader : generic_typed_reader<T>
             : type_units( type_units )
         {}
     public:
-        bool operator()( const JsonObject &jo, const std::string &member_name,
-                         T &member, bool /* was_loaded */ ) const {
+        auto operator()( const JsonObject &jo, const std::string &member_name,
+                         T &member, bool /* was_loaded */ ) const -> bool {
             if( !jo.has_member( member_name ) ) {
                 return false;
             }
             member = read_from_json_string<T>( *jo.get_raw( member_name ), type_units );
             return true;
         }
-        units::volume get_next( JsonIn &jin ) const {
+        auto get_next( JsonIn &jin ) const -> units::volume {
             return read_from_json_string<units::volume>( jin, type_units );
         }
 };
@@ -397,7 +397,7 @@ class typed_flag_reader : public generic_typed_reader<typed_flag_reader<T>>
             , flag_type( flag_type ) {
         }
 
-        T get_next( JsonIn &jin ) const {
+        auto get_next( JsonIn &jin ) const -> T {
             const std::string flag = jin.get_string();
             const auto iter = flag_map.find( flag );
 
@@ -411,7 +411,7 @@ class typed_flag_reader : public generic_typed_reader<typed_flag_reader<T>>
 };
 
 template<typename T>
-typed_flag_reader<T> make_flag_reader( const std::map<std::string, T> &m, const std::string &e )
+auto make_flag_reader( const std::map<std::string, T> &m, const std::string &e ) -> typed_flag_reader<T>
 {
     return typed_flag_reader<T> { m, e };
 }
@@ -429,7 +429,7 @@ class enum_flags_reader : public generic_typed_reader<enum_flags_reader<E>>
         enum_flags_reader( const std::string &flag_type ) : flag_type( flag_type ) {
         }
 
-        E get_next( JsonIn &jin ) const {
+        auto get_next( JsonIn &jin ) const -> E {
             const auto position = jin.tell();
             const std::string flag = jin.get_string();
             try {
@@ -449,7 +449,7 @@ template<typename T>
 class string_id_reader : public generic_typed_reader<string_id_reader<T>>
 {
     public:
-        string_id<T> get_next( JsonIn &jin ) const {
+        auto get_next( JsonIn &jin ) const -> string_id<T> {
             return string_id<T>( jin.get_string() );
         }
 };
@@ -458,8 +458,8 @@ class string_id_reader : public generic_typed_reader<string_id_reader<T>>
  * Reads a volume value from legacy format: JSON contains a integer which represents multiples
  * of `units::legacy_volume_factor` (250 ml).
  */
-inline bool legacy_volume_reader( const JsonObject &jo, const std::string &member_name,
-                                  units::volume &value, bool )
+inline auto legacy_volume_reader( const JsonObject &jo, const std::string &member_name,
+                                  units::volume &value, bool ) -> bool
 {
     int legacy_value;
     if( !jo.read( member_name, legacy_value ) ) {

@@ -30,12 +30,12 @@ class options_manager
                 }
         };
     private:
-        static std::vector<id_and_option> build_tilesets_list();
-        static std::vector<id_and_option> build_soundpacks_list();
-        static std::vector<id_and_option> load_tilesets_from(
-            const std::string &path );
-        static std::vector<id_and_option> load_soundpack_from(
-            const std::string &path );
+        static auto build_tilesets_list() -> std::vector<id_and_option>;
+        static auto build_soundpacks_list() -> std::vector<id_and_option>;
+        static auto load_tilesets_from(
+            const std::string &path ) -> std::vector<id_and_option>;
+        static auto load_soundpack_from(
+            const std::string &path ) -> std::vector<id_and_option>;
 
         void enable_json( const std::string &var );
         void add_retry( const std::string &var, const std::string &val );
@@ -44,7 +44,7 @@ class options_manager
 
         std::map<std::string, std::pair<std::string, std::map<std::string, std::string> > > mMigrateOption;
 
-        friend options_manager &get_options();
+        friend auto get_options() -> options_manager &;
         options_manager();
 
         void addOptionToPage( const std::string &name, const std::string &page );
@@ -76,28 +76,28 @@ class options_manager
                  * Option should be hidden in current build.
                  * @return true if option should be hidden, false if not.
                  */
-                bool is_hidden() const;
+                auto is_hidden() const -> bool;
 
-                std::string getName() const;
-                std::string getPage() const;
+                auto getName() const -> std::string;
+                auto getPage() const -> std::string;
                 /// The translated displayed option name.
-                std::string getMenuText() const;
+                auto getMenuText() const -> std::string;
                 /// The translated displayed option tool tip.
-                std::string getTooltip() const;
-                std::string getType() const;
+                auto getTooltip() const -> std::string;
+                auto getType() const -> std::string;
 
-                std::string getValue( bool classis_locale = false ) const;
+                auto getValue( bool classis_locale = false ) const -> std::string;
                 /// The translated currently selected option value.
-                std::string getValueName() const;
-                std::string getDefaultText( bool bTranslated = true ) const;
+                auto getValueName() const -> std::string;
+                auto getDefaultText( bool bTranslated = true ) const -> std::string;
 
-                int getItemPos( const std::string &sSearch ) const;
-                std::vector<id_and_option> getItems() const;
+                auto getItemPos( const std::string &sSearch ) const -> int;
+                auto getItems() const -> std::vector<id_and_option>;
 
-                int getIntPos( int iSearch ) const;
-                cata::optional< std::tuple<int, std::string> > findInt( int iSearch ) const;
+                auto getIntPos( int iSearch ) const -> int;
+                auto findInt( int iSearch ) const -> cata::optional< std::tuple<int, std::string> >;
 
-                int getMaxLength() const;
+                auto getMaxLength() const -> int;
 
                 //set to next item
                 void setNext();
@@ -109,14 +109,14 @@ class options_manager
                 void setValue( int iSetIn );
 
                 template<typename T>
-                T value_as() const;
+                auto value_as() const -> T;
 
-                bool operator==( const cOpt &rhs ) const;
-                bool operator!=( const cOpt &rhs ) const {
+                auto operator==( const cOpt &rhs ) const -> bool;
+                auto operator!=( const cOpt &rhs ) const -> bool {
                     return !operator==( rhs );
                 }
 
-                static std::vector<std::string> getPrerequisiteSupportedTypes() {
+                static auto getPrerequisiteSupportedTypes() -> std::vector<std::string> {
                     return { "bool", "string", "string_select", "string_input" };
                 }
 
@@ -124,9 +124,9 @@ class options_manager
                 void setPrerequisite( const std::string &sOption, const std::string &sAllowedValue = "true" ) {
                     setPrerequisites( sOption, { sAllowedValue } );
                 }
-                std::string getPrerequisite() const;
-                bool hasPrerequisite() const;
-                bool checkPrerequisite() const;
+                auto getPrerequisite() const -> std::string;
+                auto hasPrerequisite() const -> bool;
+                auto checkPrerequisite() const -> bool;
 
                 enum COPT_VALUE_TYPE {
                     CVT_UNKNOWN = 0,
@@ -193,9 +193,9 @@ class options_manager
         void add_options_world_default();
         void add_options_android();
         void load();
-        bool save();
-        std::string show( bool ingame = false, bool world_options_only = false,
-                          const std::function<bool()> &on_quit = nullptr );
+        auto save() -> bool;
+        auto show( bool ingame = false, bool world_options_only = false,
+                          const std::function<bool()> &on_quit = nullptr ) -> std::string;
 
         void add_value( const std::string &lvar, const std::string &lval,
                         const translation &lvalname );
@@ -203,21 +203,21 @@ class options_manager
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
 
-        std::string migrateOptionName( const std::string &name ) const;
-        std::string migrateOptionValue( const std::string &name, const std::string &val ) const;
+        auto migrateOptionName( const std::string &name ) const -> std::string;
+        auto migrateOptionValue( const std::string &name, const std::string &val ) const -> std::string;
 
         /**
          * Returns a copy of the options in the "world default" page. The options have their
          * current value, which acts as the default for new worlds.
          */
-        options_container get_world_defaults() const;
+        auto get_world_defaults() const -> options_container;
 
         void set_world_options( options_container *options );
 
         /** Check if an option exists? */
-        bool has_option( const std::string &name ) const;
+        auto has_option( const std::string &name ) const -> bool;
 
-        cOpt &get_option( const std::string &name );
+        auto get_option( const std::string &name ) -> cOpt &;
 
         //add hidden external option with value
         void add_external( const std::string &sNameIn, const std::string &sPageIn, const std::string &sType,
@@ -303,7 +303,7 @@ class options_manager
                 PageItem( ItemType type, const std::string &data, const std::string &group )
                     : type( type ), data( data ), group( group ) { }
 
-                std::string fmt_tooltip( const Group &group, const options_container &cont ) const;
+                auto fmt_tooltip( const Group &group, const options_container &cont ) const -> std::string;
         };
 
         /**
@@ -346,10 +346,10 @@ class options_manager
         void add_empty_line( const std::string &sPageIn );
 
         /** Find group by id. */
-        const Group &find_group( const std::string &id ) const;
+        auto find_group( const std::string &id ) const -> const Group &;
 };
 
-bool use_narrow_sidebar(); // short-circuits to on if terminal is too small
+auto use_narrow_sidebar() -> bool; // short-circuits to on if terminal is too small
 
 /** A mapping(string:string) that stores all tileset values.
  * Firsts string is tileset NAME from config.
@@ -362,10 +362,10 @@ extern std::map<std::string, std::string> TILESETS;
  */
 extern std::map<std::string, std::string> SOUNDPACKS;
 
-options_manager &get_options();
+auto get_options() -> options_manager &;
 
 template<typename T>
-inline T get_option( const std::string &name )
+inline auto get_option( const std::string &name ) -> T
 {
     return get_options().get_option( name ).value_as<T>();
 }

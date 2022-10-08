@@ -8,7 +8,7 @@ namespace item_funcs
 {
 
 /** Returns whether given item (or one of its gunmods) can be unloaded. */
-bool can_be_unloaded( const item &itm );
+auto can_be_unloaded( const item &itm ) -> bool;
 
 } // namespace item_funcs
 

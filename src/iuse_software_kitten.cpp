@@ -14,7 +14,7 @@ static constexpr int EMPTY = -1;
 static constexpr int ROBOT = 0;
 static constexpr int KITTEN = 1;
 
-std::string robot_finds_kitten::getmessage( int idx ) const
+auto robot_finds_kitten::getmessage( int idx ) const -> std::string
 {
     std::string rfimessages[MAXMESSAGES] = {
         _( "\"I pity the fool who mistakes me for kitten!\", sez Mr. T." ),

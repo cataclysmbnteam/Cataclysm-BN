@@ -17,8 +17,8 @@ namespace CellularAutomata
 * @param p
 * @returns The number of neighbors that are alive, a value between 0 and 8.
 */
-inline int neighbor_count( const std::vector<std::vector<int>> &cells, const point &size,
-                           const point &p )
+inline auto neighbor_count( const std::vector<std::vector<int>> &cells, const point &size,
+                           const point &p ) -> int
 {
     int neighbors = 0;
     for( int ni = -1; ni <= 1; ni++ ) {
@@ -54,8 +54,8 @@ inline int neighbor_count( const std::vector<std::vector<int>> &cells, const poi
 * @param stasis_limit Alive cells with > statis_limit neighbors stay alive
 * @returns The width x height grid of cells. Each cell is a 0 if dead or a 1 if alive.
 */
-inline std::vector<std::vector<int>> generate_cellular_automaton( const point &size,
-                                  const int alive, const int iterations, const int birth_limit, const int stasis_limit )
+inline auto generate_cellular_automaton( const point &size,
+                                  const int alive, const int iterations, const int birth_limit, const int stasis_limit ) -> std::vector<std::vector<int>>
 {
     std::vector<std::vector<int>> current( size.x, std::vector<int>( size.y, 0 ) );
     std::vector<std::vector<int>> next( size.x, std::vector<int>( size.y, 0 ) );

@@ -22,9 +22,9 @@ struct tripoint;
 // Remove that forward declaration after repair_activity_actor.
 class vehicle;
 
-std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint &abspos,
-        const std::unordered_set<tripoint> &tiles );
-std::vector<tripoint> route_adjacent( const player &p, const tripoint &dest );
+auto get_sorted_tiles_by_distance( const tripoint &abspos,
+        const std::unordered_set<tripoint> &tiles ) -> std::vector<tripoint>;
+auto route_adjacent( const player &p, const tripoint &dest ) -> std::vector<tripoint>;
 
 enum requirement_check_result : int {
     SKIP_LOCATION = 0,
@@ -84,16 +84,16 @@ struct activity_reason_info {
         con_idx( con_idx_ )
     { }
 
-    static activity_reason_info ok( const do_activity_reason &reason_ ) {
+    static auto ok( const do_activity_reason &reason_ ) -> activity_reason_info {
         return activity_reason_info( reason_, true );
     }
 
-    static activity_reason_info build( const do_activity_reason &reason_, bool can_do_,
-                                       const construction_id &con_idx_ ) {
+    static auto build( const do_activity_reason &reason_, bool can_do_,
+                                       const construction_id &con_idx_ ) -> activity_reason_info {
         return activity_reason_info( reason_, can_do_, con_idx_ );
     }
 
-    static activity_reason_info fail( const do_activity_reason &reason_ ) {
+    static auto fail( const do_activity_reason &reason_ ) -> activity_reason_info {
         return activity_reason_info( reason_, false );
     }
 };
@@ -113,17 +113,17 @@ struct butchery_setup {
     butcher_type type;
 };
 
-butchery_setup consider_butchery( const item &corpse_item, player &u, butcher_type action );
-int butcher_time_to_cut( const inventory &inv, const item &corpse_item, butcher_type action );
+auto consider_butchery( const item &corpse_item, player &u, butcher_type action ) -> butchery_setup;
+auto butcher_time_to_cut( const inventory &inv, const item &corpse_item, butcher_type action ) -> int;
 
 // activity_item_handling.cpp
 void activity_on_turn_drop();
 void activity_on_turn_move_loot( player_activity &act, player &p );
 //return true if there is an activity that can be done potentially, return false if no work can be found.
-bool generic_multi_activity_handler( player_activity &act, player &p, bool check_only = false );
+auto generic_multi_activity_handler( player_activity &act, player &p, bool check_only = false ) -> bool;
 void activity_on_turn_fetch( player_activity &, player *p );
 void activity_on_turn_wear( player_activity &act, player &p );
-bool find_auto_consume( player &p, bool food );
+auto find_auto_consume( player &p, bool food ) -> bool;
 void try_fuel_fire( player_activity &act, player &p, bool starting_fire = false );
 
 enum class item_drop_reason {
@@ -142,7 +142,7 @@ void drop_on_map( Character &c, item_drop_reason reason, const std::list<item> &
 namespace activity_handlers
 {
 
-bool resume_for_multi_activities( player &p );
+auto resume_for_multi_activities( player &p ) -> bool;
 /** activity_do_turn functions: */
 void burrow_do_turn( player_activity *act, player *p );
 void craft_do_turn( player_activity *act, player *p );

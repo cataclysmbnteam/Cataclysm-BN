@@ -24,48 +24,48 @@ namespace units
 // Streaming operators for debugging and tests
 // (for UI output other functions should be used which render in the user's
 // chosen units)
-inline std::ostream &operator<<( std::ostream &o, mass_in_milligram_tag )
+inline auto operator<<( std::ostream &o, mass_in_milligram_tag ) -> std::ostream &
 {
     return o << "mg";
 }
 
-inline std::ostream &operator<<( std::ostream &o, volume_in_milliliter_tag )
+inline auto operator<<( std::ostream &o, volume_in_milliliter_tag ) -> std::ostream &
 {
     return o << "ml";
 }
 
-inline std::ostream &operator<<( std::ostream &o, energy_in_joule_tag )
+inline auto operator<<( std::ostream &o, energy_in_joule_tag ) -> std::ostream &
 {
     return o << "J";
 }
 
-inline std::ostream &operator<<( std::ostream &o, money_in_cent_tag )
+inline auto operator<<( std::ostream &o, money_in_cent_tag ) -> std::ostream &
 {
     return o << "cent";
 }
 
-inline std::ostream &operator<<( std::ostream &o, angle_in_radians_tag )
+inline auto operator<<( std::ostream &o, angle_in_radians_tag ) -> std::ostream &
 {
     return o << "rad";
 }
 
-inline std::ostream &operator<<( std::ostream &o, temperature_in_millidegree_celsius_tag )
+inline auto operator<<( std::ostream &o, temperature_in_millidegree_celsius_tag ) -> std::ostream &
 {
     return o << "mC";
 }
 
-inline std::ostream &operator<<( std::ostream &o, probability_in_one_in_million_tag )
+inline auto operator<<( std::ostream &o, probability_in_one_in_million_tag ) -> std::ostream &
 {
     return o << "pm";
 }
 
 template<typename value_type, typename tag_type>
-inline std::ostream &operator<<( std::ostream &o, const quantity<value_type, tag_type> &v )
+inline auto operator<<( std::ostream &o, const quantity<value_type, tag_type> &v ) -> std::ostream &
 {
     return o << v.value() << tag_type{};
 }
 
-std::string display( units::energy v );
+auto display( units::energy v ) -> std::string;
 
 } // namespace units
 

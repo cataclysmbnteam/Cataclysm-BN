@@ -25,9 +25,9 @@ class string_formatter;
 [[noreturn]]
 void throw_error( const string_formatter &, const std::string & );
 // wrapper to access string_formatter::temp_buffer before the definition of string_formatter
-const char *string_formatter_set_temp_buffer( const string_formatter &, const std::string & );
+auto string_formatter_set_temp_buffer( const string_formatter &, const std::string & ) -> const char *;
 // Handle currently active exception from string_formatter and return it as string
-std::string handle_string_format_error();
+auto handle_string_format_error() -> std::string;
 
 /**
  * @defgroup string_formatter_convert Convert functions for @ref string_formatter
@@ -90,67 +90,67 @@ using is_string_id = typename std::conditional <
                      std::false_type >::type;
 
 template<typename RT, typename T>
-inline typename std::enable_if < is_integer<RT>::value &&is_integer<T>::value,
-       RT >::type convert( RT *, const string_formatter &, T &&value, int )
+inline auto convert( RT *, const string_formatter &, T &&value, int ) -> typename std::enable_if < is_integer<RT>::value &&is_integer<T>::value,
+       RT >::type
 {
     return value;
 }
 template<typename RT, typename T>
-inline typename std::enable_if < is_integer<RT>::value
+inline auto convert( RT *, const string_formatter &, T &&value, int ) -> typename std::enable_if < is_integer<RT>::value
 &&std::is_enum<typename std::decay<T>::type>::value,
-RT >::type convert( RT *, const string_formatter &, T &&value, int )
+RT >::type
 {
     return static_cast<RT>( value );
 }
 template<typename RT, typename T>
-inline typename std::enable_if < std::is_floating_point<RT>::value &&is_numeric<T>::value
-&&!is_integer<T>::value, RT >::type convert( RT *, const string_formatter &, T &&value, int )
+inline auto convert( RT *, const string_formatter &, T &&value, int ) -> typename std::enable_if < std::is_floating_point<RT>::value &&is_numeric<T>::value
+&&!is_integer<T>::value, RT >::type
 {
     return value;
 }
 template<typename RT, typename T>
-inline typename std::enable_if < std::is_same<RT, void *>::value
-&&std::is_pointer<typename std::decay<T>::type>::value, void * >::type convert( RT *,
-        const string_formatter &, T &&value, int )
+inline auto convert( RT *,
+        const string_formatter &, T &&value, int ) -> typename std::enable_if < std::is_same<RT, void *>::value
+&&std::is_pointer<typename std::decay<T>::type>::value, void * >::type
 {
     return const_cast<typename std::remove_const<typename std::remove_pointer<typename std::decay<T>::type>::type>::type *>
            ( value );
 }
 template<typename RT, typename T>
-inline typename std::enable_if < std::is_same<RT, const char *>::value &&is_string<T>::value,
-       const char * >::type convert( RT *, const string_formatter &, T &&value, int )
+inline auto convert( RT *, const string_formatter &, T &&value, int ) -> typename std::enable_if < std::is_same<RT, const char *>::value &&is_string<T>::value,
+       const char * >::type
 {
     return value.c_str();
 }
 template<typename RT, typename T>
-inline typename std::enable_if < std::is_same<RT, const char *>::value &&is_cstring<T>::value,
-       const char * >::type convert( RT *, const string_formatter &, T &&value, int )
+inline auto convert( RT *, const string_formatter &, T &&value, int ) -> typename std::enable_if < std::is_same<RT, const char *>::value &&is_cstring<T>::value,
+       const char * >::type
 {
     return value;
 }
 template<typename RT, typename T>
-inline typename std::enable_if < std::is_same<RT, const char *>::value &&is_translation<T>::value,
-       const char * >::type convert( RT *, const string_formatter &sf, T &&value, int )
+inline auto convert( RT *, const string_formatter &sf, T &&value, int ) -> typename std::enable_if < std::is_same<RT, const char *>::value &&is_translation<T>::value,
+       const char * >::type
 {
     return string_formatter_set_temp_buffer( sf, value.translated() );
 }
 template<typename RT, typename T>
-inline typename std::enable_if < std::is_same<RT, const char *>::value &&is_string_id<T>::value,
-       const char * >::type convert( RT *, const string_formatter &sf, T &&value, int )
+inline auto convert( RT *, const string_formatter &sf, T &&value, int ) -> typename std::enable_if < std::is_same<RT, const char *>::value &&is_string_id<T>::value,
+       const char * >::type
 {
     return string_formatter_set_temp_buffer( sf, value.str() );
 }
 template<typename RT, typename T>
-inline typename std::enable_if < std::is_same<RT, const char *>::value &&is_numeric<T>::value
-&&!is_char<T>::value, const char * >::type convert( RT *, const string_formatter &sf, T &&value,
-        int )
+inline auto convert( RT *, const string_formatter &sf, T &&value,
+        int ) -> typename std::enable_if < std::is_same<RT, const char *>::value &&is_numeric<T>::value
+&&!is_char<T>::value, const char * >::type
 {
     return string_formatter_set_temp_buffer( sf, std::to_string( value ) );
 }
 template<typename RT, typename T>
-inline typename std::enable_if < std::is_same<RT, const char *>::value &&is_numeric<T>::value
-&&is_char<T>::value, const char * >::type convert( RT *, const string_formatter &sf, T &&value,
-        int )
+inline auto convert( RT *, const string_formatter &sf, T &&value,
+        int ) -> typename std::enable_if < std::is_same<RT, const char *>::value &&is_numeric<T>::value
+&&is_char<T>::value, const char * >::type
 {
     return string_formatter_set_temp_buffer( sf, std::string( 1, value ) );
 }
@@ -160,7 +160,7 @@ inline typename std::enable_if < std::is_same<RT, const char *>::value &&is_nume
 // `convert` function will match, while this one will give a static_assert error.
 template<typename RT, typename T>
 // NOLINTNEXTLINE(cert-dcl50-cpp)
-inline RT convert( RT *, const string_formatter &sf, T &&, ... )
+inline auto convert( RT *, const string_formatter &sf, T &&, ... ) -> RT
 {
     static_assert( std::is_pointer<typename std::decay<T>::type>::value ||
                    is_numeric<T>::value ||
@@ -209,35 +209,35 @@ class string_formatter
         /// Return the next character from @ref format and increment @ref current_index_in_format.
         /// Returns a null-character when the end of the @ref format has been reached (and does not
         /// change @ref current_index_in_format).
-        char consume_next_input();
+        auto consume_next_input() -> char;
         /// Returns (like @ref consume_next_input) the next character from @ref format, but
         /// does *not* change @ref current_index_in_format.
-        char get_current_input() const;
+        auto get_current_input() const -> char;
         /// If the next character to read from @ref format is the given character, consume it
         /// (like @ref consume_next_input) and return `true`. Otherwise don't do anything at all
         /// and return `false`.
-        bool consume_next_input_if( char c );
+        auto consume_next_input_if( char c ) -> bool;
         /// Return whether @ref get_current_input has a decimal digit ('0'...'9').
-        bool has_digit() const;
+        auto has_digit() const -> bool;
         /// Consume decimal digits, interpret them as integer and return it.
         /// A starting '0' is allowed. Leaves @ref format at the first non-digit
         /// character (or the end). Returns 0 if the first character is not a digit.
-        int parse_integer();
+        auto parse_integer() -> int;
         /// Read and consume format flag characters and append them to @ref current_format.
         /// Leaves @ref format at the first character that is not a flag (or the end).
         void read_flags();
         /// Read and forward to @ref current_format any width specifier from @ref format.
         /// Returns nothing if the width is not specified or if it is specified as fixed number,
         /// otherwise returns the index of the printf-argument to be used for the width.
-        cata::optional<int> read_width();
+        auto read_width() -> cata::optional<int>;
         /// See @ref read_width. This does the same, but for the precision specifier.
-        cata::optional<int> read_precision();
+        auto read_precision() -> cata::optional<int>;
         /// Read and return the index of the printf-argument that is to be formatted. Returns
         /// nothing if @ref format does not refer to a specific index (caller should use
         /// @ref current_argument_index).
-        cata::optional<int> read_argument_index();
+        auto read_argument_index() -> cata::optional<int>;
         // Helper for common logic in @ref read_width and @ref read_precision.
-        cata::optional<int> read_number_or_argument_index();
+        auto read_number_or_argument_index() -> cata::optional<int>;
         /// Throws an exception containing the given message and the @ref format.
         [[noreturn]]
         void throw_error( const std::string &msg ) const;
@@ -248,8 +248,8 @@ class string_formatter
         /// Stores the given text in @ref temp_buffer and returns `c_str()` of it. This is used
         /// for printing non-strings through "%s". It *only* works because this prints each format
         /// specifier separately, so the content of @ref temp_buffer is only used once.
-        friend const char *string_formatter_set_temp_buffer( const string_formatter &sf,
-                const std::string &text ) {
+        friend auto string_formatter_set_temp_buffer( const string_formatter &sf,
+                const std::string &text ) -> const char * {
             sf.temp_buffer = text;
             return sf.temp_buffer.c_str();
         }
@@ -262,13 +262,13 @@ class string_formatter
          */
         /**@{*/
         template<typename RT, unsigned int current_index>
-        RT get_nth_arg_as( const unsigned int requested ) const {
+        auto get_nth_arg_as( const unsigned int requested ) const -> RT {
             throw_error( "Requested argument " + std::to_string( requested ) +
                          " but input has only " + std::to_string( current_index )
                        );
         }
         template<typename RT, unsigned int current_index, typename T, typename ...Args>
-        RT get_nth_arg_as( const unsigned int requested, T &&head, Args &&... args ) const {
+        auto get_nth_arg_as( const unsigned int requested, T &&head, Args &&... args ) const -> RT {
             if( requested > current_index ) {
                 return get_nth_arg_as < RT, current_index + 1 > ( requested, std::forward<Args>( args )... );
             } else {
@@ -384,7 +384,7 @@ class string_formatter
                 read_conversion( arg, std::forward<Args>( args )... );
             }
         }
-        std::string get_output() const {
+        auto get_output() const -> std::string {
             return output;
         }
 };
@@ -415,7 +415,7 @@ class string_formatter
  */
 /**@{*/
 template<typename ...Args>
-inline std::string string_format( std::string format, Args &&...args )
+inline auto string_format( std::string format, Args &&...args ) -> std::string
 {
     try {
         cata::string_formatter formatter( std::move( format ) );
@@ -426,13 +426,13 @@ inline std::string string_format( std::string format, Args &&...args )
     }
 }
 template<typename ...Args>
-inline std::string string_format( const char *const format, Args &&...args )
+inline auto string_format( const char *const format, Args &&...args ) -> std::string
 {
     return string_format( std::string( format ), std::forward<Args>( args )... );
 }
 template<typename T, typename ...Args>
-inline typename std::enable_if<cata::is_translation<T>::value, std::string>::type
-string_format( T &&format, Args &&...args )
+inline auto
+string_format( T &&format, Args &&...args ) -> typename std::enable_if<cata::is_translation<T>::value, std::string>::type
 {
     return string_format( format.translated(), std::forward<Args>( args )... );
 }

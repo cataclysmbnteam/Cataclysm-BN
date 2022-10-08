@@ -56,7 +56,7 @@ void reset()
     sequences_for_furn.clear();
 }
 
-static bool is_valid_first_step( const construction &c )
+static auto is_valid_first_step( const construction &c ) -> bool
 {
     static const ter_str_id t_dirt( "t_dirt" );
 
@@ -68,12 +68,12 @@ static bool is_valid_first_step( const construction &c )
     } );
 }
 
-static bool has_valid_result( const construction &c )
+static auto has_valid_result( const construction &c ) -> bool
 {
     return !c.post_furniture.is_empty() || !c.post_terrain.is_empty();
 }
 
-static bool has_valid_category( const construction &c )
+static auto has_valid_category( const construction &c ) -> bool
 {
     static const construction_category_id construction_category_REPAIR( "REPAIR" );
     return c.category != construction_category_REPAIR;
@@ -251,13 +251,13 @@ void check_consistency()
     }
 }
 
-const construction_sequence *lookup_sequence( const ter_str_id &id )
+auto lookup_sequence( const ter_str_id &id ) -> const construction_sequence *
 {
     auto it = sequences_for_ter.find( id );
     return it == sequences_for_ter.end() ? nullptr : &*it->second;
 }
 
-const construction_sequence *lookup_sequence( const furn_str_id &id )
+auto lookup_sequence( const furn_str_id &id ) -> const construction_sequence *
 {
     auto it = sequences_for_furn.find( id );
     return it == sequences_for_furn.end() ? nullptr : &*it->second;

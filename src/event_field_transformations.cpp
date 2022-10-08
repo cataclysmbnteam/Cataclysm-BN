@@ -8,7 +8,7 @@
 #include "string_id.h"
 #include "type_id.h"
 
-static std::vector<cata_variant> flags_of_terrain( const cata_variant &v )
+static auto flags_of_terrain( const cata_variant &v ) -> std::vector<cata_variant>
 {
     const std::set<std::string> &flags = v.get<ter_id>()->get_flags();
     std::vector<cata_variant> result;
@@ -19,14 +19,14 @@ static std::vector<cata_variant> flags_of_terrain( const cata_variant &v )
     return result;
 }
 
-static std::vector<cata_variant> is_mounted( const cata_variant &v )
+static auto is_mounted( const cata_variant &v ) -> std::vector<cata_variant>
 {
     const mtype_id mount = v.get<mtype_id>();
     std::vector<cata_variant> result = { cata_variant( !mount.is_empty() ) };
     return result;
 }
 
-static std::vector<cata_variant> is_swimming_terrain( const cata_variant &v )
+static auto is_swimming_terrain( const cata_variant &v ) -> std::vector<cata_variant>
 {
     const ter_id ter = v.get<ter_id>();
     const bool swimming = ter->has_flag( ter_bitflags::TFLAG_DEEP_WATER ) &&
@@ -35,7 +35,7 @@ static std::vector<cata_variant> is_swimming_terrain( const cata_variant &v )
     return result;
 }
 
-static std::vector<cata_variant> species_of_monster( const cata_variant &v )
+static auto species_of_monster( const cata_variant &v ) -> std::vector<cata_variant>
 {
     const std::set<species_id> &species = v.get<mtype_id>()->species;
     std::vector<cata_variant> result;

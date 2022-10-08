@@ -6,10 +6,10 @@ class monster;
 
 namespace monexamine
 {
-bool pet_menu( monster &z );
-bool mech_hack( monster &z );
-bool pay_bot( monster &z );
-bool mfriend_menu( monster &z );
+auto pet_menu( monster &z ) -> bool;
+auto mech_hack( monster &z ) -> bool;
+auto pay_bot( monster &z ) -> bool;
+auto mfriend_menu( monster &z ) -> bool;
 void remove_battery( monster &z );
 void insert_battery( monster &z );
 void swap( monster &z );
@@ -18,8 +18,8 @@ void rename_pet( monster &z );
 void attach_bag_to( monster &z );
 void remove_bag_from( monster &z );
 void dump_items( monster &z );
-bool give_items_to( monster &z );
-bool add_armor( monster &z );
+auto give_items_to( monster &z ) -> bool;
+auto add_armor( monster &z ) -> bool;
 void remove_armor( monster &z );
 void remove_harness( monster &z );
 void play_with( monster &z );

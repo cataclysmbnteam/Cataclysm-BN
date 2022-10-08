@@ -50,23 +50,23 @@ static const std::string flag_WATERPROOF( "WATERPROOF" );
 
 namespace
 {
-std::string clothing_layer( const item &worn_item );
-std::vector<std::string> clothing_properties(
-    const item &worn_item, int width, const Character & );
-std::vector<std::string> clothing_protection( const item &worn_item, int width );
-std::vector<std::string> clothing_flags_description( const item &worn_item );
+auto clothing_layer( const item &worn_item ) -> std::string;
+auto clothing_properties(
+    const item &worn_item, int width, const Character & ) -> std::vector<std::string>;
+auto clothing_protection( const item &worn_item, int width ) -> std::vector<std::string>;
+auto clothing_flags_description( const item &worn_item ) -> std::vector<std::string>;
 
 struct item_penalties {
     std::vector<body_part> body_parts_with_stacking_penalty;
     std::vector<body_part> body_parts_with_out_of_order_penalty;
     std::set<std::string> bad_items_within;
 
-    int badness() const {
+    auto badness() const -> int {
         return !body_parts_with_stacking_penalty.empty() +
                !body_parts_with_out_of_order_penalty.empty();
     }
 
-    nc_color color_for_stacking_badness() const {
+    auto color_for_stacking_badness() const -> nc_color {
         switch( badness() ) {
             case 0:
                 return c_light_gray;
@@ -81,8 +81,8 @@ struct item_penalties {
 };
 
 // Figure out encumbrance penalties this clothing is involved in
-item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
-                                   const Character &c, int tabindex )
+auto get_item_penalties( std::list<item>::const_iterator worn_item_it,
+                                   const Character &c, int tabindex ) -> item_penalties
 {
     layer_level layer = worn_item_it->get_layer();
 
@@ -141,7 +141,7 @@ item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
              std::move( lists_of_bad_items_within[0] ) };
 }
 
-std::string body_part_names( const std::vector<body_part> &parts )
+auto body_part_names( const std::vector<body_part> &parts ) -> std::string
 {
     if( parts.empty() ) {
         debugmsg( "Asked for names of empty list" );
@@ -271,7 +271,7 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
     }
 }
 
-std::string clothing_layer( const item &worn_item )
+auto clothing_layer( const item &worn_item ) -> std::string
 {
     std::string layer;
 
@@ -292,8 +292,8 @@ std::string clothing_layer( const item &worn_item )
     return layer;
 }
 
-std::vector<std::string> clothing_properties(
-    const item &worn_item, const int width, const Character &c )
+auto clothing_properties(
+    const item &worn_item, const int width, const Character &c ) -> std::vector<std::string>
 {
     std::vector<std::string> props;
     props.reserve( 5 );
@@ -312,7 +312,7 @@ std::vector<std::string> clothing_properties(
     return props;
 }
 
-std::vector<std::string> clothing_protection( const item &worn_item, const int width )
+auto clothing_protection( const item &worn_item, const int width ) -> std::vector<std::string>
 {
     std::vector<std::string> prot;
     prot.reserve( 6 );
@@ -334,7 +334,7 @@ std::vector<std::string> clothing_protection( const item &worn_item, const int w
     return prot;
 }
 
-std::vector<std::string> clothing_flags_description( const item &worn_item )
+auto clothing_flags_description( const item &worn_item ) -> std::vector<std::string>
 {
     std::vector<std::string> description_stack;
 
@@ -389,7 +389,7 @@ struct layering_item_info {
     std::string name;
 
     // Operator overload required to leverage vector equality operator.
-    bool operator ==( const layering_item_info &o ) const {
+    auto operator ==( const layering_item_info &o ) const -> bool {
         // This is used to merge e.g. both arms into one entry when their items
         // are equivalent.  For that purpose we don't care about the exact
         // penalities because they will list different body parts; we just
@@ -401,7 +401,7 @@ struct layering_item_info {
     }
 };
 
-static std::vector<layering_item_info> items_cover_bp( const Character &c, int bp )
+static auto items_cover_bp( const Character &c, int bp ) -> std::vector<layering_item_info>
 {
     std::vector<layering_item_info> s;
     for( auto elem_it = c.worn.begin(); elem_it != c.worn.end(); ++elem_it ) {

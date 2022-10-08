@@ -68,9 +68,9 @@ class submap : maptile_soa<SEEX, SEEY>
         submap( submap && );
         ~submap();
 
-        submap &operator=( submap && );
+        auto operator=( submap && ) -> submap &;
 
-        trap_id get_trap( const point &p ) const {
+        auto get_trap( const point &p ) const -> trap_id {
             return trp[p.x][p.y];
         }
 
@@ -83,7 +83,7 @@ class submap : maptile_soa<SEEX, SEEY>
             std::uninitialized_fill_n( &trp[0][0], elements, trap );
         }
 
-        furn_id get_furn( const point &p ) const {
+        auto get_furn( const point &p ) const -> furn_id {
             return frn[p.x][p.y];
         }
 
@@ -96,7 +96,7 @@ class submap : maptile_soa<SEEX, SEEY>
             std::uninitialized_fill_n( &frn[0][0], elements, furn );
         }
 
-        ter_id get_ter( const point &p ) const {
+        auto get_ter( const point &p ) const -> ter_id {
             return ter[p.x][p.y];
         }
 
@@ -109,7 +109,7 @@ class submap : maptile_soa<SEEX, SEEY>
             std::uninitialized_fill_n( &ter[0][0], elements, terr );
         }
 
-        int get_radiation( const point &p ) const {
+        auto get_radiation( const point &p ) const -> int {
             return rad[p.x][p.y];
         }
 
@@ -118,7 +118,7 @@ class submap : maptile_soa<SEEX, SEEY>
             rad[p.x][p.y] = radiation;
         }
 
-        uint8_t get_lum( const point &p ) const {
+        auto get_lum( const point &p ) const -> uint8_t {
             return lum[p.x][p.y];
         }
 
@@ -158,20 +158,20 @@ class submap : maptile_soa<SEEX, SEEY>
         }
 
         // TODO: Replace this as it essentially makes itm public
-        cata::colony<item> &get_items( const point &p ) {
+        auto get_items( const point &p ) -> cata::colony<item> & {
             return itm[p.x][p.y];
         }
 
-        const cata::colony<item> &get_items( const point &p ) const {
+        auto get_items( const point &p ) const -> const cata::colony<item> & {
             return itm[p.x][p.y];
         }
 
         // TODO: Replace this as it essentially makes fld public
-        field &get_field( const point &p ) {
+        auto get_field( const point &p ) -> field & {
             return fld[p.x][p.y];
         }
 
-        const field &get_field( const point &p ) const {
+        auto get_field( const point &p ) const -> const field & {
             return fld[p.x][p.y];
         }
 
@@ -191,7 +191,7 @@ class submap : maptile_soa<SEEX, SEEY>
             cosmetics.push_back( ins );
         }
 
-        int get_temperature() const {
+        auto get_temperature() const -> int {
             return temperature;
         }
 
@@ -199,29 +199,29 @@ class submap : maptile_soa<SEEX, SEEY>
             temperature = new_temperature;
         }
 
-        bool has_graffiti( const point &p ) const;
-        const std::string &get_graffiti( const point &p ) const;
+        auto has_graffiti( const point &p ) const -> bool;
+        auto get_graffiti( const point &p ) const -> const std::string &;
         void set_graffiti( const point &p, const std::string &new_graffiti );
         void delete_graffiti( const point &p );
 
         // Signage is a pretend union between furniture on a square and stored
         // writing on the square. When both are present, we have signage.
         // Its effect is meant to be cosmetic and atmospheric only.
-        bool has_signage( const point &p ) const;
+        auto has_signage( const point &p ) const -> bool;
         // Dependent on furniture + cosmetics.
-        std::string get_signage( const point &p ) const;
+        auto get_signage( const point &p ) const -> std::string;
         // Can be used anytime (prevents code from needing to place sign first.)
         void set_signage( const point &p, const std::string &s );
         // Can be used anytime (prevents code from needing to place sign first.)
         void delete_signage( const point &p );
 
-        bool has_computer( const point &p ) const;
-        const computer *get_computer( const point &p ) const;
-        computer *get_computer( const point &p );
+        auto has_computer( const point &p ) const -> bool;
+        auto get_computer( const point &p ) const -> const computer *;
+        auto get_computer( const point &p ) -> computer *;
         void set_computer( const point &p, const computer &c );
         void delete_computer( const point &p );
 
-        bool contains_vehicle( vehicle * );
+        auto contains_vehicle( vehicle * ) -> bool;
 
         void rotate( int turns );
 
@@ -271,71 +271,71 @@ struct maptile {
         submap *const sm;
         point pos_;
 
-        inline const point &pos() const {
+        inline auto pos() const -> const point & {
             return pos_;
         }
 
         maptile( submap *sub, const point &p ) :
             sm( sub ), pos_( p ) { }
     public:
-        trap_id get_trap() const {
+        auto get_trap() const -> trap_id {
             return sm->get_trap( pos() );
         }
 
-        furn_id get_furn() const {
+        auto get_furn() const -> furn_id {
             return sm->get_furn( pos() );
         }
 
-        ter_id get_ter() const {
+        auto get_ter() const -> ter_id {
             return sm->get_ter( pos() );
         }
 
-        const trap &get_trap_t() const {
+        auto get_trap_t() const -> const trap & {
             return sm->get_trap( pos() ).obj();
         }
 
-        const furn_t &get_furn_t() const {
+        auto get_furn_t() const -> const furn_t & {
             return sm->get_furn( pos() ).obj();
         }
-        const ter_t &get_ter_t() const {
+        auto get_ter_t() const -> const ter_t & {
             return sm->get_ter( pos() ).obj();
         }
 
-        const field &get_field() const {
+        auto get_field() const -> const field & {
             return sm->get_field( pos() );
         }
 
-        field_entry *find_field( const field_type_id &field_to_find ) {
+        auto find_field( const field_type_id &field_to_find ) -> field_entry * {
             return sm->get_field( pos() ).find_field( field_to_find );
         }
 
-        int get_radiation() const {
+        auto get_radiation() const -> int {
             return sm->get_radiation( pos() );
         }
 
-        bool has_graffiti() const {
+        auto has_graffiti() const -> bool {
             return sm->has_graffiti( pos() );
         }
 
-        const std::string &get_graffiti() const {
+        auto get_graffiti() const -> const std::string & {
             return sm->get_graffiti( pos() );
         }
 
-        bool has_signage() const {
+        auto has_signage() const -> bool {
             return sm->has_signage( pos() );
         }
 
-        std::string get_signage() const {
+        auto get_signage() const -> std::string {
             return sm->get_signage( pos() );
         }
 
         // For map::draw_maptile
-        size_t get_item_count() const {
+        auto get_item_count() const -> size_t {
             return sm->get_items( pos() ).size();
         }
 
         // Assumes there is at least one item
-        const item &get_uppermost_item() const {
+        auto get_uppermost_item() const -> const item & {
             return *std::prev( sm->get_items( pos() ).cend() );
         }
 };

@@ -82,59 +82,59 @@ class Creature
         static const std::map<std::string, m_size> size_map;
 
         // Like disp_name, but without any "the"
-        virtual std::string get_name() const = 0;
-        virtual std::string disp_name( bool possessive = false,
-                                       bool capitalize_first = false ) const = 0; // displayname for Creature
-        virtual std::string skin_name() const = 0; // name of outer layer, e.g. "armor plates"
+        virtual auto get_name() const -> std::string = 0;
+        virtual auto disp_name( bool possessive = false,
+                                       bool capitalize_first = false ) const -> std::string = 0; // displayname for Creature
+        virtual auto skin_name() const -> std::string = 0; // name of outer layer, e.g. "armor plates"
 
-        virtual std::vector<std::string> get_grammatical_genders() const;
+        virtual auto get_grammatical_genders() const -> std::vector<std::string>;
 
-        virtual bool is_player() const {
+        virtual auto is_player() const -> bool {
             return false;
         }
-        virtual bool is_avatar() const {
+        virtual auto is_avatar() const -> bool {
             return false;
         }
-        virtual bool is_npc() const {
+        virtual auto is_npc() const -> bool {
             return false;
         }
-        virtual bool is_monster() const {
+        virtual auto is_monster() const -> bool {
             return false;
         }
-        virtual monster *as_monster() {
+        virtual auto as_monster() -> monster * {
             return nullptr;
         }
-        virtual const monster *as_monster() const {
+        virtual auto as_monster() const -> const monster * {
             return nullptr;
         }
-        virtual npc *as_npc() {
+        virtual auto as_npc() -> npc * {
             return nullptr;
         }
-        virtual const npc *as_npc() const {
+        virtual auto as_npc() const -> const npc * {
             return nullptr;
         }
-        virtual Character *as_character() {
+        virtual auto as_character() -> Character * {
             return nullptr;
         }
-        virtual const Character *as_character() const {
+        virtual auto as_character() const -> const Character * {
             return nullptr;
         }
-        virtual player *as_player() {
+        virtual auto as_player() -> player * {
             return nullptr;
         }
-        virtual const player *as_player() const {
+        virtual auto as_player() const -> const player * {
             return nullptr;
         }
-        virtual avatar *as_avatar() {
+        virtual auto as_avatar() -> avatar * {
             return nullptr;
         }
-        virtual const avatar *as_avatar() const {
+        virtual auto as_avatar() const -> const avatar * {
             return nullptr;
         }
         /** return the direction the creature is facing, for sdl horizontal flip **/
         FacingDirection facing = FD_RIGHT;
         /** Returns true for non-real Creatures used temporarily; i.e. fake NPC's used for turret fire. */
-        virtual bool is_fake() const;
+        virtual auto is_fake() const -> bool;
         /** Sets a Creature's fake boolean. */
         virtual void set_fake( bool fake_value );
 
@@ -154,9 +154,9 @@ class Creature
         virtual void die( Creature *killer ) = 0;
 
         /** Should always be overwritten by the appropriate player/NPC/monster version. */
-        virtual float hit_roll() const = 0;
-        virtual float dodge_roll() = 0;
-        virtual float stability_roll() const = 0;
+        virtual auto hit_roll() const -> float = 0;
+        virtual auto dodge_roll() -> float = 0;
+        virtual auto stability_roll() const -> float = 0;
 
         /**
          * Simplified attitude towards any creature:
@@ -175,24 +175,24 @@ class Creature
         /**
          * Simplified attitude string for unlocalized needs.
          */
-        static std::string attitude_raw_string( Attitude att );
+        static auto attitude_raw_string( Attitude att ) -> std::string;
 
         /**
          * Creature Attitude as String and color
          */
-        static const std::pair<translation, nc_color> &get_attitude_ui_data( Attitude att );
+        static auto get_attitude_ui_data( Attitude att ) -> const std::pair<translation, nc_color> &;
 
         /**
          * Attitude (of this creature) towards another creature. This might not be symmetric.
          */
-        virtual Attitude attitude_to( const Creature &other ) const = 0;
+        virtual auto attitude_to( const Creature &other ) const -> Attitude = 0;
 
         /**
          * Called when a creature triggers a trap, returns true if they don't set it off.
          * @param tr is the trap that was triggered.
          * @param pos is the location of the trap (not necessarily of the creature) in the main map.
          */
-        virtual bool avoid_trap( const tripoint &pos, const trap &tr ) const = 0;
+        virtual auto avoid_trap( const tripoint &pos, const trap &tr ) const -> bool = 0;
 
         /**
          * The functions check whether this creature can see the target.
@@ -203,20 +203,20 @@ class Creature
          * the other monster is visible.
          */
         /*@{*/
-        virtual bool sees( const Creature &critter ) const;
-        virtual bool sees( const tripoint &t, bool is_avatar = false, int range_mod = 0 ) const;
+        virtual auto sees( const Creature &critter ) const -> bool;
+        virtual auto sees( const tripoint &t, bool is_avatar = false, int range_mod = 0 ) const -> bool;
         /*@}*/
 
         /**
          * How far the creature sees under the given light. Places outside this range can
          * @param light_level See @ref game::light_level.
          */
-        virtual int sight_range( int light_level ) const = 0;
+        virtual auto sight_range( int light_level ) const -> int = 0;
 
         /** Returns an approximation of the creature's strength. */
-        virtual float power_rating() const = 0;
+        virtual auto power_rating() const -> float = 0;
         /** Returns an approximate number of tiles this creature can travel per turn. */
-        virtual float speed_rating() const = 0;
+        virtual auto speed_rating() const -> float = 0;
         /**
          * For fake-players (turrets, mounted turrets) this functions
          * chooses a target. This is for creatures that are friendly towards
@@ -229,17 +229,17 @@ class Creature
          * because the player is in the way.
          * @param area The area of effect of the projectile aimed.
          */
-        Creature *auto_find_hostile_target( int range, int &boo_hoo, int area = 0 );
+        auto auto_find_hostile_target( int range, int &boo_hoo, int area = 0 ) -> Creature *;
 
         /**
          * Size of the target this creature presents to ranged weapons.
          * 0.0 means unhittable, 1.0 means all projectiles going through this creature's tile will hit it.
          */
-        double ranged_target_size() const;
+        auto ranged_target_size() const -> double;
 
         // handles blocking of damage instance. mutates &dam
-        virtual bool block_hit( Creature *source, bodypart_id &bp_hit,
-                                damage_instance &dam ) = 0;
+        virtual auto block_hit( Creature *source, bodypart_id &bp_hit,
+                                damage_instance &dam ) -> bool = 0;
 
         // handles armor absorption (including clothing damage etc)
         // of damage instance. mutates &dam
@@ -249,10 +249,10 @@ class Creature
         void knock_back_from( const tripoint &p );
         virtual void knock_back_to( const tripoint &to ) = 0;
 
-        int size_melee_penalty() const;
+        auto size_melee_penalty() const -> int;
         // begins a melee attack against the creature
         // returns hit - dodge (>=0 = hit, <0 = miss)
-        virtual int deal_melee_attack( Creature *source, int hitroll );
+        virtual auto deal_melee_attack( Creature *source, int hitroll ) -> int;
 
         // completes a melee attack against the creature
         // dealt_dam is overwritten with the values of the damage dealt
@@ -275,8 +275,8 @@ class Creature
          * @param bp The attacked body part
          * @param dam The damage dealt
          */
-        virtual dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
-                const damage_instance &dam );
+        virtual auto deal_damage( Creature *source, bodypart_id bp,
+                const damage_instance &dam ) -> dealt_damage_instance;
         // for each damage type, how much gets through and how much pain do we
         // accrue? mutates damage and pain
         virtual void deal_damage_handle_type( const damage_unit &du,
@@ -298,38 +298,38 @@ class Creature
         virtual void on_hit( Creature *source, bodypart_id bp_hit,
                              float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) = 0;
 
-        virtual bool digging() const;
-        virtual bool is_on_ground() const = 0;
-        virtual bool is_underwater() const;
-        virtual bool is_warm() const; // is this creature warm, for IR vision, heat drain, etc
-        virtual bool in_species( const species_id & ) const;
+        virtual auto digging() const -> bool;
+        virtual auto is_on_ground() const -> bool = 0;
+        virtual auto is_underwater() const -> bool;
+        virtual auto is_warm() const -> bool; // is this creature warm, for IR vision, heat drain, etc
+        virtual auto in_species( const species_id & ) const -> bool;
 
-        virtual bool has_weapon() const = 0;
-        virtual bool is_hallucination() const = 0;
+        virtual auto has_weapon() const -> bool = 0;
+        virtual auto is_hallucination() const -> bool = 0;
         // returns true if health is zero or otherwise should be dead
-        virtual bool is_dead_state() const = 0;
+        virtual auto is_dead_state() const -> bool = 0;
 
         // Resistances
-        virtual bool is_elec_immune() const = 0;
-        virtual bool is_immune_effect( const efftype_id &type ) const = 0;
-        virtual bool is_immune_damage( damage_type type ) const = 0;
+        virtual auto is_elec_immune() const -> bool = 0;
+        virtual auto is_immune_effect( const efftype_id &type ) const -> bool = 0;
+        virtual auto is_immune_damage( damage_type type ) const -> bool = 0;
 
         // Field dangers
         /** Returns true if there is a field in the field set that is dangerous to us. */
-        bool is_dangerous_fields( const field &fld ) const;
+        auto is_dangerous_fields( const field &fld ) const -> bool;
         /** Returns true if the given field entry is dangerous to us. */
-        bool is_dangerous_field( const field_entry &entry ) const;
+        auto is_dangerous_field( const field_entry &entry ) const -> bool;
         /** Returns true if we are immune to the field type with the given fid. Does not
          *  handle intensity, so this function should only be called through is_dangerous_field().
          */
-        virtual bool is_immune_field( const field_type_id & ) const {
+        virtual auto is_immune_field( const field_type_id & ) const -> bool {
             return false;
         }
 
         /** Returns multiplier on fall damage at low velocity (knockback/pit/1 z-level, not 5 z-levels) */
-        virtual float fall_damage_mod() const = 0;
+        virtual auto fall_damage_mod() const -> float = 0;
         /** Deals falling/collision damage with terrain/creature at pos */
-        virtual int impact( int force, const tripoint &pos ) = 0;
+        virtual auto impact( int force, const tripoint &pos ) -> int = 0;
 
         /**
          * This function checks the creatures @ref is_dead_state and (if true) calls @ref die.
@@ -343,15 +343,15 @@ class Creature
          */
         void check_dead_state();
 
-        virtual int posx() const = 0;
-        virtual int posy() const = 0;
-        virtual int posz() const = 0;
-        virtual const tripoint &pos() const = 0;
+        virtual auto posx() const -> int = 0;
+        virtual auto posy() const -> int = 0;
+        virtual auto posz() const -> int = 0;
+        virtual auto pos() const -> const tripoint & = 0;
 
         virtual void setpos( const tripoint &pos ) = 0;
 
         /** Processes move stopping effects. Returns false if movement is stopped. */
-        virtual bool move_effects( bool attacking ) = 0;
+        virtual auto move_effects( bool attacking ) -> bool = 0;
 
         void add_effect( const effect &eff, bool force = false, bool deferred = false );
         /** Adds or modifies an effect. If intensity is given it will set the effect intensity
@@ -361,47 +361,47 @@ class Creature
         void add_effect( const efftype_id &eff_id, const time_duration &dur,
                          body_part bp = num_bp, int intensity = 0, bool force = false, bool deferred = false );
         /** Gives chance to save via environmental resist, returns false if resistance was successful. */
-        bool add_env_effect( const efftype_id &eff_id, body_part vector, int strength,
+        auto add_env_effect( const efftype_id &eff_id, body_part vector, int strength,
                              const time_duration &dur,
                              body_part bp = num_bp, int intensity = 1,
-                             bool force = false );
+                             bool force = false ) -> bool;
 
         // Deleted variant of add_env_effect, to make sure calls to it don't get re-introduced during porting
-        bool add_env_effect( const efftype_id &eff_id, body_part vector, int strength,
+        auto add_env_effect( const efftype_id &eff_id, body_part vector, int strength,
                              const time_duration &dur,
                              body_part bp, bool REMOVED, int intensity = 1,
-                             bool force = false ) = delete;
+                             bool force = false ) -> bool = delete;
         /** Removes a listed effect. bp = num_bp means to remove all effects of
          * a given type, targeted or untargeted. Returns true if anything was
          * removed. */
-        bool remove_effect( const efftype_id &eff_id, body_part bp = num_bp );
-        virtual bool remove_effect( const efftype_id &eff_id, const bodypart_str_id &bp );
+        auto remove_effect( const efftype_id &eff_id, body_part bp = num_bp ) -> bool;
+        virtual auto remove_effect( const efftype_id &eff_id, const bodypart_str_id &bp ) -> bool;
         /** Remove all effects. */
         void clear_effects();
         /** Check if creature has the matching effect. bp = num_bp means to check if the Creature has any effect
          *  of the matching type, targeted or untargeted. */
-        bool has_effect( const efftype_id &eff_id, body_part bp = num_bp ) const;
-        bool has_effect( const efftype_id &eff_id, const bodypart_str_id &bp ) const;
+        auto has_effect( const efftype_id &eff_id, body_part bp = num_bp ) const -> bool;
+        auto has_effect( const efftype_id &eff_id, const bodypart_str_id &bp ) const -> bool;
         /** Check if creature has any effect with the given flag. */
-        bool has_effect_with_flag( const std::string &flag, body_part bp = num_bp ) const;
+        auto has_effect_with_flag( const std::string &flag, body_part bp = num_bp ) const -> bool;
         /** Return the effect that matches the given arguments exactly. */
-        const effect &get_effect( const efftype_id &eff_id, body_part bp = num_bp ) const;
-        effect &get_effect( const efftype_id &eff_id, body_part bp = num_bp );
+        auto get_effect( const efftype_id &eff_id, body_part bp = num_bp ) const -> const effect &;
+        auto get_effect( const efftype_id &eff_id, body_part bp = num_bp ) -> effect &;
         /** Returns pointers to all effects matching given type. */
-        std::vector<const effect *> get_all_effects_of_type( const efftype_id &eff_id ) const;
+        auto get_all_effects_of_type( const efftype_id &eff_id ) const -> std::vector<const effect *>;
         /** Returns the duration of the matching effect. Returns 0 if effect doesn't exist. */
-        time_duration get_effect_dur( const efftype_id &eff_id, body_part bp = num_bp ) const;
+        auto get_effect_dur( const efftype_id &eff_id, body_part bp = num_bp ) const -> time_duration;
         /** Returns the intensity of the matching effect. Returns 0 if effect doesn't exist. */
-        int get_effect_int( const efftype_id &eff_id, body_part bp = num_bp ) const;
+        auto get_effect_int( const efftype_id &eff_id, body_part bp = num_bp ) const -> int;
         /** Returns true if the creature resists an effect */
-        bool resists_effect( const effect &e ) const;
+        auto resists_effect( const effect &e ) const -> bool;
 
         // Methods for setting/getting misc key/value pairs.
         void set_value( const std::string &key, const std::string &value );
         void remove_value( const std::string &key );
-        std::string get_value( const std::string &key ) const;
+        auto get_value( const std::string &key ) const -> std::string;
 
-        virtual units::mass get_weight() const = 0;
+        virtual auto get_weight() const -> units::mass = 0;
 
         /**
          * Processes through all the effects on the Creature.
@@ -412,77 +412,77 @@ class Creature
         virtual void process_effects_internal() = 0;
 
         /** Returns true if the player has the entered trait, returns false for non-humans */
-        virtual bool has_trait( const trait_id &flag ) const;
+        virtual auto has_trait( const trait_id &flag ) const -> bool;
 
         // not-quite-stats, maybe group these with stats later
         virtual void mod_pain( int npain );
         virtual void mod_pain_noresist( int npain );
         virtual void set_pain( int npain );
-        virtual int get_pain() const;
-        virtual int get_perceived_pain() const;
-        virtual std::pair<std::string, nc_color> get_pain_description() const;
+        virtual auto get_pain() const -> int;
+        virtual auto get_perceived_pain() const -> int;
+        virtual auto get_pain_description() const -> std::pair<std::string, nc_color>;
 
-        int get_moves() const;
+        auto get_moves() const -> int;
         void mod_moves( int nmoves );
         void set_moves( int nmoves );
 
-        virtual bool in_sleep_state() const;
+        virtual auto in_sleep_state() const -> bool;
 
         /*
          * Get/set our killer, this is currently used exclusively to allow
          * mondeath effects to happen after death cleanup
          */
-        virtual Creature *get_killer() const;
+        virtual auto get_killer() const -> Creature *;
 
         /*
          * Getters for stats - combat-related stats will all be held within
          * the Creature and re-calculated during every normalize() call
          */
-        virtual int get_num_blocks() const;
-        virtual int get_num_dodges() const;
-        virtual int get_num_blocks_bonus() const;
-        virtual int get_num_dodges_bonus() const;
-        virtual int get_num_dodges_base() const;
+        virtual auto get_num_blocks() const -> int;
+        virtual auto get_num_dodges() const -> int;
+        virtual auto get_num_blocks_bonus() const -> int;
+        virtual auto get_num_dodges_bonus() const -> int;
+        virtual auto get_num_dodges_base() const -> int;
 
-        virtual int get_env_resist( bodypart_id bp ) const;
+        virtual auto get_env_resist( bodypart_id bp ) const -> int;
 
-        virtual int get_armor_bash( bodypart_id bp ) const;
-        virtual int get_armor_cut( bodypart_id bp ) const;
-        virtual int get_armor_bullet( bodypart_id bp ) const;
-        virtual int get_armor_bash_base( bodypart_id bp ) const;
-        virtual int get_armor_cut_base( bodypart_id bp ) const;
-        virtual int get_armor_bullet_base( bodypart_id bp ) const;
-        virtual int get_armor_bash_bonus() const;
-        virtual int get_armor_cut_bonus() const;
-        virtual int get_armor_bullet_bonus() const;
+        virtual auto get_armor_bash( bodypart_id bp ) const -> int;
+        virtual auto get_armor_cut( bodypart_id bp ) const -> int;
+        virtual auto get_armor_bullet( bodypart_id bp ) const -> int;
+        virtual auto get_armor_bash_base( bodypart_id bp ) const -> int;
+        virtual auto get_armor_cut_base( bodypart_id bp ) const -> int;
+        virtual auto get_armor_bullet_base( bodypart_id bp ) const -> int;
+        virtual auto get_armor_bash_bonus() const -> int;
+        virtual auto get_armor_cut_bonus() const -> int;
+        virtual auto get_armor_bullet_bonus() const -> int;
 
-        virtual int get_armor_type( damage_type dt, bodypart_id bp ) const = 0;
+        virtual auto get_armor_type( damage_type dt, bodypart_id bp ) const -> int = 0;
 
-        virtual float get_dodge() const;
-        virtual float get_melee() const = 0;
-        virtual float get_hit() const;
+        virtual auto get_dodge() const -> float;
+        virtual auto get_melee() const -> float = 0;
+        virtual auto get_hit() const -> float;
 
-        virtual int get_speed() const;
-        virtual m_size get_size() const = 0;
-        virtual int get_hp( const bodypart_id &bp ) const;
-        virtual int get_hp() const;
-        virtual int get_hp_max( const bodypart_id &bp ) const;
-        virtual int get_hp_max() const;
-        virtual int hp_percentage() const = 0;
-        virtual bool made_of( const material_id &m ) const = 0;
-        virtual bool made_of_any( const std::set<material_id> &ms ) const = 0;
+        virtual auto get_speed() const -> int;
+        virtual auto get_size() const -> m_size = 0;
+        virtual auto get_hp( const bodypart_id &bp ) const -> int;
+        virtual auto get_hp() const -> int;
+        virtual auto get_hp_max( const bodypart_id &bp ) const -> int;
+        virtual auto get_hp_max() const -> int;
+        virtual auto hp_percentage() const -> int = 0;
+        virtual auto made_of( const material_id &m ) const -> bool = 0;
+        virtual auto made_of_any( const std::set<material_id> &ms ) const -> bool = 0;
         // standard creature material sets
         static const std::set<material_id> cmat_flesh;
         static const std::set<material_id> cmat_fleshnveg;
         static const std::set<material_id> cmat_flammable;
         static const std::set<material_id> cmat_flameres;
-        virtual field_type_id bloodType() const = 0;
-        virtual field_type_id gibType() const = 0;
+        virtual auto bloodType() const -> field_type_id = 0;
+        virtual auto gibType() const -> field_type_id = 0;
         // TODO: replumb this to use a std::string along with monster flags.
-        virtual bool has_flag( const m_flag ) const {
+        virtual auto has_flag( const m_flag ) const -> bool {
             return false;
         }
-        virtual bool uncanny_dodge() {
+        virtual auto uncanny_dodge() -> bool {
             return false;
         }
 
@@ -492,25 +492,25 @@ class Creature
         /**this is the actual body of the creature*/
         std::map<bodypart_str_id, bodypart> body;
     public:
-        anatomy_id get_anatomy() const;
+        auto get_anatomy() const -> anatomy_id;
         void set_anatomy( anatomy_id anat );
 
-        bodypart_id get_random_body_part( bool main = false ) const;
+        auto get_random_body_part( bool main = false ) const -> bodypart_id;
         /**
          * Returns body parts this creature have.
          * @param only_main If true, only displays parts that can have hit points
          */
-        std::vector<bodypart_id> get_all_body_parts( bool only_main = false ) const;
+        auto get_all_body_parts( bool only_main = false ) const -> std::vector<bodypart_id>;
 
-        const std::map<bodypart_str_id, bodypart> &get_body() const;
+        auto get_body() const -> const std::map<bodypart_str_id, bodypart> &;
         void set_body();
-        bodypart *get_part( const bodypart_id &id );
-        bodypart get_part( const bodypart_id &id ) const;
+        auto get_part( const bodypart_id &id ) -> bodypart *;
+        auto get_part( const bodypart_id &id ) const -> bodypart;
 
-        int get_part_hp_cur( const bodypart_id &id ) const;
-        int get_part_hp_max( const bodypart_id &id ) const;
+        auto get_part_hp_cur( const bodypart_id &id ) const -> int;
+        auto get_part_hp_max( const bodypart_id &id ) const -> int;
 
-        int get_part_healed_total( const bodypart_id &id ) const;
+        auto get_part_healed_total( const bodypart_id &id ) const -> int;
 
         void set_part_hp_cur( const bodypart_id &id, int set );
         void set_part_hp_max( const bodypart_id &id, int set );
@@ -523,16 +523,16 @@ class Creature
         void set_all_parts_hp_cur( int set );
         void set_all_parts_hp_to_max();
 
-        virtual int get_speed_base() const;
-        virtual int get_speed_bonus() const;
-        virtual int get_block_bonus() const;
+        virtual auto get_speed_base() const -> int;
+        virtual auto get_speed_bonus() const -> int;
+        virtual auto get_block_bonus() const -> int;
 
-        virtual float get_dodge_base() const = 0;
-        virtual float get_hit_base() const = 0;
-        virtual float get_dodge_bonus() const;
-        virtual float get_hit_bonus() const;
+        virtual auto get_dodge_base() const -> float = 0;
+        virtual auto get_hit_base() const -> float = 0;
+        virtual auto get_dodge_bonus() const -> float;
+        virtual auto get_hit_bonus() const -> float;
 
-        virtual bool has_grab_break_tec() const = 0;
+        virtual auto has_grab_break_tec() const -> bool = 0;
 
         /*
          * Setters for stats and bonuses
@@ -559,12 +559,12 @@ class Creature
         virtual void mod_dodge_bonus( float ndodge );
         virtual void mod_hit_bonus( float  nhit );
 
-        virtual units::mass weight_capacity() const;
+        virtual auto weight_capacity() const -> units::mass;
 
         /** Returns settings for pathfinding. */
-        virtual const pathfinding_settings &get_pathfinding_settings() const = 0;
+        virtual auto get_pathfinding_settings() const -> const pathfinding_settings & = 0;
         /** Returns a set of points we do not want to path through. */
-        virtual std::set<tripoint> get_path_avoid() const = 0;
+        virtual auto get_path_avoid() const -> std::set<tripoint> = 0;
 
         int moves = 0;
         bool underwater = false;
@@ -581,7 +581,7 @@ class Creature
          * to this can be stacked, the return value is acceptable as vStart for the next
          * call without creating empty lines or overwriting lines.
          */
-        virtual int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const = 0;
+        virtual auto print_info( const catacurses::window &w, int vStart, int vLines, int column ) const -> int = 0;
 
         /** Describe this creature as seen by the avatar via infrared vision. */
         void describe_infrared( std::vector<std::string> &buf ) const;
@@ -786,15 +786,15 @@ class Creature
                                           string_format( npc_speech, std::forward<Args>( args )... ) );
         }
 
-        virtual std::string extended_description() const = 0;
+        virtual auto extended_description() const -> std::string = 0;
 
-        virtual nc_color symbol_color() const = 0;
-        virtual nc_color basic_symbol_color() const = 0;
-        virtual const std::string &symbol() const = 0;
-        virtual bool is_symbol_highlighted() const;
+        virtual auto symbol_color() const -> nc_color = 0;
+        virtual auto basic_symbol_color() const -> nc_color = 0;
+        virtual auto symbol() const -> const std::string & = 0;
+        virtual auto is_symbol_highlighted() const -> bool;
 
         // TODO: There may be a cleaner way of doing it than exposing the map
-        effects_map get_all_effects() const;
+        auto get_all_effects() const -> effects_map;
 
     protected:
         Creature *killer = nullptr; // whoever killed us. this should be NULL unless we are dead
@@ -831,8 +831,8 @@ class Creature
         Creature();
         Creature( const Creature & ) = default;
         Creature( Creature && ) = default;
-        Creature &operator=( const Creature & ) = default;
-        Creature &operator=( Creature && ) = default;
+        auto operator=( const Creature & ) -> Creature & = default;
+        auto operator=( Creature && ) -> Creature & = default;
 
     protected:
         virtual void on_stat_change( const std::string &, int ) {}
@@ -840,7 +840,7 @@ class Creature
         virtual void on_damage_of_type( int, damage_type, const bodypart_id & ) {}
 
     public:
-        body_part select_body_part( Creature *source, int hit_roll ) const;
+        auto select_body_part( Creature *source, int hit_roll ) const -> body_part;
 
         static void load_hit_range( const JsonObject & );
         static void reset_hit_range();
@@ -852,7 +852,7 @@ class Creature
          * Its purpose is to avoid repeated code and improve source readability / maintainability.
          *
          */
-        std::string replace_with_npc_name( std::string input ) const;
+        auto replace_with_npc_name( std::string input ) const -> std::string;
     protected:
         /**
          * These two functions are responsible for storing and loading the members

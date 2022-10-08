@@ -30,7 +30,7 @@ class scent_type
     public:
         static void load_scent_type( const JsonObject &jo, const std::string &src );
         void load( const JsonObject &jo, const std::string & );
-        static const std::vector<scent_type> &get_all();
+        static auto get_all() -> const std::vector<scent_type> &;
         static void check_scent_consistency();
         bool was_loaded = false;
 
@@ -56,7 +56,7 @@ class scent_map
         scent_map( const game &g ) : gm( g ) { }
 
         void deserialize( const std::string &data, bool is_type = false );
-        std::string serialize( bool is_type = false ) const;
+        auto serialize( bool is_type = false ) const -> std::string;
 
         void draw( const catacurses::window &win, int div, const tripoint &center ) const;
 
@@ -72,15 +72,15 @@ class scent_map
          */
         /**@{*/
         void set( const tripoint &p, int value, const scenttype_id &type = scenttype_id() );
-        int get( const tripoint &p ) const;
+        auto get( const tripoint &p ) const -> int;
         /**@}*/
         void set_unsafe( const tripoint &p, int value, const scenttype_id &type = scenttype_id() );
-        int get_unsafe( const tripoint &p ) const;
+        auto get_unsafe( const tripoint &p ) const -> int;
 
-        scenttype_id get_type( const tripoint &p ) const;
+        auto get_type( const tripoint &p ) const -> scenttype_id;
 
-        bool inbounds( const tripoint &p ) const;
-        bool inbounds( const point &p ) const {
+        auto inbounds( const tripoint &p ) const -> bool;
+        auto inbounds( const point &p ) const -> bool {
             return inbounds( tripoint( p, 0 ) );
         }
 };

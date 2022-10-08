@@ -142,7 +142,7 @@ void advanced_inventory::load_settings()
     save_state->exit_code = exit_none;
 }
 
-std::string advanced_inventory::get_sortname( advanced_inv_sortby sortby )
+auto advanced_inventory::get_sortname( advanced_inv_sortby sortby ) -> std::string
 {
     switch( sortby ) {
         case SORTBY_NONE:
@@ -169,7 +169,7 @@ std::string advanced_inventory::get_sortname( advanced_inv_sortby sortby )
     return "!BUG!";
 }
 
-bool advanced_inventory::get_square( const std::string &action, aim_location &ret )
+auto advanced_inventory::get_square( const std::string &action, aim_location &ret ) -> bool
 {
     for( advanced_inv_area &s : squares ) {
         if( s.actionname == action ) {
@@ -180,7 +180,7 @@ bool advanced_inventory::get_square( const std::string &action, aim_location &re
     return false;
 }
 
-aim_location advanced_inventory::screen_relative_location( aim_location area )
+auto advanced_inventory::screen_relative_location( aim_location area ) -> aim_location
 {
     if( use_tiles && tile_iso ) {
         return squares[area].relative_location;
@@ -189,7 +189,7 @@ aim_location advanced_inventory::screen_relative_location( aim_location area )
     }
 }
 
-inline std::string advanced_inventory::get_location_key( aim_location area )
+inline auto advanced_inventory::get_location_key( aim_location area ) -> std::string
 {
     return squares[area].minimapname;
 }
@@ -417,7 +417,7 @@ struct advanced_inv_sorter {
     advanced_inv_sorter( advanced_inv_sortby sort ) {
         sortby = sort;
     }
-    bool operator()( const advanced_inv_listitem &d1, const advanced_inv_listitem &d2 ) {
+    auto operator()( const advanced_inv_listitem &d1, const advanced_inv_listitem &d2 ) -> bool {
         // Note: the item pointer can only be null on sort by category, otherwise it is always valid.
         switch( sortby ) {
             case SORTBY_NONE:
@@ -523,7 +523,7 @@ struct advanced_inv_sorter {
     }
 };
 
-int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_location sel )
+auto advanced_inventory::print_header( advanced_inventory_pane &pane, aim_location sel ) -> int
 {
     const catacurses::window &window = pane.window;
     int area = pane.get_area();
@@ -707,7 +707,7 @@ enum aim_entry {
     ENTRY_RESET     = 3
 };
 
-bool advanced_inventory::move_all_items( bool nested_call )
+auto advanced_inventory::move_all_items( bool nested_call ) -> bool
 {
     advanced_inventory_pane &spane = panes[src];
     advanced_inventory_pane &dpane = panes[dest];
@@ -974,7 +974,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
     return true;
 }
 
-bool advanced_inventory::show_sort_menu( advanced_inventory_pane &pane )
+auto advanced_inventory::show_sort_menu( advanced_inventory_pane &pane ) -> bool
 {
     uilist sm;
     sm.text = _( "Sort by…" );
@@ -1000,7 +1000,7 @@ bool advanced_inventory::show_sort_menu( advanced_inventory_pane &pane )
     return true;
 }
 
-input_context advanced_inventory::register_ctxt() const
+auto advanced_inventory::register_ctxt() const -> input_context
 {
     input_context ctxt( "ADVANCED_INVENTORY" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -1200,9 +1200,9 @@ void advanced_inventory::start_activity( const aim_location destarea, const aim_
     }
 }
 
-bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
+auto advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
         advanced_inventory_pane &dpane, const advanced_inventory_pane &spane,
-        const std::string &action )
+        const std::string &action ) -> bool
 {
     bool exit = false;
     if( sitem == nullptr || !sitem->is_item_entry() ) {
@@ -1613,7 +1613,7 @@ void query_destination_callback::draw_squares( const uilist *menu )
     wnoutrefresh( menu->window );
 }
 
-bool advanced_inventory::query_destination( aim_location &def )
+auto advanced_inventory::query_destination( aim_location &def ) -> bool
 {
     if( def != AIM_ALL ) {
         if( squares[def].canputitems() ) {
@@ -1665,7 +1665,7 @@ bool advanced_inventory::query_destination( aim_location &def )
     return false;
 }
 
-bool advanced_inventory::move_content( item &src_container, item &dest_container )
+auto advanced_inventory::move_content( item &src_container, item &dest_container ) -> bool
 {
     if( !src_container.is_container() ) {
         popup( _( "Source must be container." ) );
@@ -1707,8 +1707,8 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
     return true;
 }
 
-bool advanced_inventory::query_charges( aim_location destarea, const advanced_inv_listitem &sitem,
-                                        const std::string &action, int &amount )
+auto advanced_inventory::query_charges( aim_location destarea, const advanced_inv_listitem &sitem,
+                                        const std::string &action, int &amount ) -> bool
 {
     // should be a specific location instead
     assert( destarea != AIM_ALL );
@@ -1872,7 +1872,7 @@ void advanced_inventory::draw_minimap()
     }
 }
 
-char advanced_inventory::get_minimap_sym( side p ) const
+auto advanced_inventory::get_minimap_sym( side p ) const -> char
 {
     static const std::array<char, NUM_PANES> c_side = {{'L', 'R'}};
     static const std::array<char, NUM_PANES> d_side = {{'^', 'v'}};
@@ -1920,7 +1920,7 @@ void advanced_inventory::do_return_entry()
     save_state->exit_code = exit_re_entry;
 }
 
-bool advanced_inventory::is_processing() const
+auto advanced_inventory::is_processing() const -> bool
 {
     return save_state->re_enter_move_all != ENTRY_START;
 }

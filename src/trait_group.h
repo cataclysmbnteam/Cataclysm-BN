@@ -22,12 +22,12 @@ using Trait_list = std::vector<trait_id>;
 /**
  * Returns a randomized list of traits from the given trait group.
  */
-Trait_list traits_from( const Trait_group_tag &gid );
+auto traits_from( const Trait_group_tag &gid ) -> Trait_list;
 
 /**
  * Check whether a particular trait is a member of the given group.
  */
-bool group_contains_trait( const Trait_group_tag &gid, const trait_id &tid );
+auto group_contains_trait( const Trait_group_tag &gid, const trait_id &tid ) -> bool;
 
 /**
  * See @ref mutation_branch::load_trait_group
@@ -53,7 +53,7 @@ void load_trait_group( const JsonObject &jsobj, const Trait_group_tag &gid,
  * subtype. It must be either "distribution" or "collection". See @ref Trait_group.
  * @throw JsonError as usual for JSON errors, including invalid input values.
  */
-Trait_group_tag load_trait_group( const JsonValue &value, const std::string &default_subtype );
+auto load_trait_group( const JsonValue &value, const std::string &default_subtype ) -> Trait_group_tag;
 
 /**
  * Show a debug menu for testing trait groups.
@@ -74,14 +74,14 @@ class Trait_creation_data
         Trait_creation_data( int _probability ) : probability( _probability ) {}
         virtual ~Trait_creation_data() = default;
         Trait_creation_data( const Trait_creation_data & ) = delete;
-        Trait_creation_data &operator=( const Trait_creation_data & ) = delete;
+        auto operator=( const Trait_creation_data & ) -> Trait_creation_data & = delete;
 
         /**
          * Create a list of traits. The resulting list might be empty.
          * @param[out] rec Recursion list, output goes here
          */
-        virtual trait_group::Trait_list create( RecursionList &rec ) const = 0;
-        trait_group::Trait_list create() const;
+        virtual auto create( RecursionList &rec ) const -> trait_group::Trait_list = 0;
+        auto create() const -> trait_group::Trait_list;
 
         /**
          * Check the trait templates for consistency (valid trait types, etc).
@@ -92,12 +92,12 @@ class Trait_creation_data
          * Remove the given trait from this and all linked groups.
          * Used for blacklisting.
          */
-        virtual bool remove_trait( const trait_id &tid ) = 0;
+        virtual auto remove_trait( const trait_id &tid ) -> bool = 0;
 
         /**
          * Check if this group or any linked groups contain the given trait.
          */
-        virtual bool has_trait( const trait_id &tid ) const = 0;
+        virtual auto has_trait( const trait_id &tid ) const -> bool = 0;
 
         // Probability, used by the parent object.
         int probability;
@@ -115,10 +115,10 @@ class Single_trait_creator : public Trait_creation_data
 
         trait_id id;
 
-        trait_group::Trait_list create( RecursionList &rec ) const override;
+        auto create( RecursionList &rec ) const -> trait_group::Trait_list override;
         void check_consistency() const override;
-        bool remove_trait( const trait_id &tid ) override;
-        bool has_trait( const trait_id &tid ) const override;
+        auto remove_trait( const trait_id &tid ) -> bool override;
+        auto has_trait( const trait_id &tid ) const -> bool override;
 };
 
 /**
@@ -133,10 +133,10 @@ class Trait_group_creator : public Trait_creation_data
 
         trait_group::Trait_group_tag id;
 
-        trait_group::Trait_list create( RecursionList &rec ) const override;
+        auto create( RecursionList &rec ) const -> trait_group::Trait_list override;
         void check_consistency() const override;
-        bool remove_trait( const trait_id &tid ) override;
-        bool has_trait( const trait_id &tid ) const override;
+        auto remove_trait( const trait_id &tid ) -> bool override;
+        auto has_trait( const trait_id &tid ) const -> bool override;
 };
 
 /**
@@ -161,8 +161,8 @@ class Trait_group : public Trait_creation_data
         virtual void add_entry( std::unique_ptr<Trait_creation_data> ptr ) = 0;
 
         void check_consistency() const override;
-        bool remove_trait( const trait_id &tid ) override;
-        bool has_trait( const trait_id &tid ) const override;
+        auto remove_trait( const trait_id &tid ) -> bool override;
+        auto has_trait( const trait_id &tid ) const -> bool override;
 
     protected:
         // Links to all entries in this group.
@@ -181,7 +181,7 @@ class Trait_group_collection : public Trait_group
         Trait_group_collection( int probability );
         ~Trait_group_collection() override = default;
 
-        trait_group::Trait_list create( RecursionList &rec ) const override;
+        auto create( RecursionList &rec ) const -> trait_group::Trait_list override;
         void add_entry( std::unique_ptr<Trait_creation_data> ptr ) override;
 };
 
@@ -197,7 +197,7 @@ class Trait_group_distribution : public Trait_group
             Trait_group( probability ) {}
         ~Trait_group_distribution() override = default;
 
-        trait_group::Trait_list create( RecursionList &rec ) const override;
+        auto create( RecursionList &rec ) const -> trait_group::Trait_list override;
         void add_entry( std::unique_ptr<Trait_creation_data> ptr ) override;
 };
 

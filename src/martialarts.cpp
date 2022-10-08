@@ -52,7 +52,7 @@ generic_factory<martialart> martialarts( "martial art style" );
 generic_factory<ma_buff> ma_buffs( "martial art buff" );
 } // namespace
 
-matype_id martial_art_learned_from( const itype &type )
+auto martial_art_learned_from( const itype &type ) -> matype_id
 {
     if( !type.can_use( "MA_MANUAL" ) ) {
         return {};
@@ -85,7 +85,7 @@ void add_if_exists( const JsonObject &jo, Container &cont, bool was_loaded,
 class ma_skill_reader : public generic_typed_reader<ma_skill_reader>
 {
     public:
-        std::pair<skill_id, int> get_next( JsonIn &jin ) const {
+        auto get_next( JsonIn &jin ) const -> std::pair<skill_id, int> {
             JsonObject jo = jin.get_object();
             return std::pair<skill_id, int>( skill_id( jo.get_string( "name" ) ), jo.get_int( "level" ) );
         }
@@ -103,7 +103,7 @@ class ma_weapon_damage_reader : public generic_typed_reader<ma_weapon_damage_rea
     public:
         std::map<std::string, damage_type> dt_map = get_dt_map();
 
-        std::pair<damage_type, int> get_next( JsonIn &jin ) const {
+        auto get_next( JsonIn &jin ) const -> std::pair<damage_type, int> {
             JsonObject jo = jin.get_object();
             std::string type = jo.get_string( "type" );
             const auto iter = get_dt_map().find( type );
@@ -192,14 +192,14 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
 
 /** @relates string_id */
 template<>
-const ma_technique &string_id<ma_technique>::obj() const
+auto string_id<ma_technique>::obj() const -> const ma_technique &
 {
     return ma_techniques.obj( *this );
 }
 
 /** @relates string_id */
 template<>
-bool string_id<ma_technique>::is_valid() const
+auto string_id<ma_technique>::is_valid() const -> bool
 {
     return ma_techniques.is_valid( *this );
 }
@@ -228,14 +228,14 @@ void ma_buff::load( const JsonObject &jo, const std::string &src )
 
 /** @relates string_id */
 template<>
-const ma_buff &string_id<ma_buff>::obj() const
+auto string_id<ma_buff>::obj() const -> const ma_buff &
 {
     return ma_buffs.obj( *this );
 }
 
 /** @relates string_id */
 template<>
-bool string_id<ma_buff>::is_valid() const
+auto string_id<ma_buff>::is_valid() const -> bool
 {
     return ma_buffs.is_valid( *this );
 }
@@ -248,7 +248,7 @@ void load_martial_art( const JsonObject &jo, const std::string &src )
 class ma_buff_reader : public generic_typed_reader<ma_buff_reader>
 {
     public:
-        mabuff_id get_next( JsonIn &jin ) const {
+        auto get_next( JsonIn &jin ) const -> mabuff_id {
             if( jin.test_string() ) {
                 return mabuff_id( jin.get_string() );
             }
@@ -305,19 +305,19 @@ void martialart::load( const JsonObject &jo, const std::string & )
 
 /** @relates string_id */
 template<>
-const martialart &string_id<martialart>::obj() const
+auto string_id<martialart>::obj() const -> const martialart &
 {
     return martialarts.obj( *this );
 }
 
 /** @relates string_id */
 template<>
-bool string_id<martialart>::is_valid() const
+auto string_id<martialart>::is_valid() const -> bool
 {
     return martialarts.is_valid( *this );
 }
 
-std::vector<matype_id> all_martialart_types()
+auto all_martialart_types() -> std::vector<matype_id>
 {
     std::vector<matype_id> result;
     for( const auto &ma : martialarts.get_all() ) {
@@ -326,7 +326,7 @@ std::vector<matype_id> all_martialart_types()
     return result;
 }
 
-std::vector<matype_id> autolearn_martialart_types()
+auto autolearn_martialart_types() -> std::vector<matype_id>
 {
     std::vector<matype_id> result;
     for( const auto &ma : martialarts.get_all() ) {
@@ -411,7 +411,7 @@ void finialize_martial_arts()
     }
 }
 
-std::string martialart_difficulty( const matype_id &mstyle )
+auto martialart_difficulty( const matype_id &mstyle ) -> std::string
 {
     std::string diff;
     if( mstyle->learn_difficulty <= 2 ) {
@@ -435,7 +435,7 @@ void clear_techniques_and_martial_arts()
     ma_techniques.reset();
 }
 
-bool ma_requirements::is_valid_character( const Character &u ) const
+auto ma_requirements::is_valid_character( const Character &u ) const -> bool
 {
     for( const mabuff_id &buff_id : req_buffs ) {
         if( !u.has_mabuff( buff_id ) ) {
@@ -481,7 +481,7 @@ bool ma_requirements::is_valid_character( const Character &u ) const
     return true;
 }
 
-bool ma_requirements::is_valid_weapon( const item &i ) const
+auto ma_requirements::is_valid_weapon( const item &i ) const -> bool
 {
     for( const std::string &flag : req_flags ) {
         if( !i.has_flag( flag ) ) {
@@ -497,7 +497,7 @@ bool ma_requirements::is_valid_weapon( const item &i ) const
     return true;
 }
 
-std::string ma_requirements::get_description( bool buff ) const
+auto ma_requirements::get_description( bool buff ) const -> std::string
 {
     std::string dump;
 
@@ -599,7 +599,7 @@ ma_technique::ma_technique()
     grab_break = false; // allows grab_breaks, like tec_break
 }
 
-bool ma_technique::is_valid_character( const Character &u ) const
+auto ma_technique::is_valid_character( const Character &u ) const -> bool
 {
     return reqs.is_valid_character( u );
 }
@@ -616,12 +616,12 @@ ma_buff::ma_buff()
 
 }
 
-efftype_id ma_buff::get_effect_id() const
+auto ma_buff::get_effect_id() const -> efftype_id
 {
     return efftype_id( std::string( "mabuff:" ) + id.str() );
 }
 
-const ma_buff *ma_buff::from_effect( const effect &eff )
+auto ma_buff::from_effect( const effect &eff ) -> const ma_buff *
 {
     const std::string &id = eff.get_effect_type()->id.str();
     // Same as in get_effect_id!
@@ -636,7 +636,7 @@ void ma_buff::apply_buff( Character &u ) const
     u.add_effect( get_effect_id(), time_duration::from_turns( buff_duration ) );
 }
 
-bool ma_buff::is_valid_character( const Character &u ) const
+auto ma_buff::is_valid_character( const Character &u ) const -> bool
 {
     return reqs.is_valid_character( u );
 }
@@ -647,57 +647,57 @@ void ma_buff::apply_character( Character &u ) const
     u.set_num_blocks_bonus( u.get_num_blocks_bonus() + blocks_bonus );
 }
 
-int ma_buff::hit_bonus( const Character &u ) const
+auto ma_buff::hit_bonus( const Character &u ) const -> int
 {
     return bonuses.get_flat( u, affected_stat::HIT );
 }
-int ma_buff::dodge_bonus( const Character &u ) const
+auto ma_buff::dodge_bonus( const Character &u ) const -> int
 {
     return bonuses.get_flat( u, affected_stat::DODGE );
 }
-int ma_buff::block_bonus( const Character &u ) const
+auto ma_buff::block_bonus( const Character &u ) const -> int
 {
     return bonuses.get_flat( u, affected_stat::BLOCK );
 }
-int ma_buff::arpen_bonus( const Character &u, damage_type dt ) const
+auto ma_buff::arpen_bonus( const Character &u, damage_type dt ) const -> int
 {
     return bonuses.get_flat( u, affected_stat::ARMOR_PENETRATION, dt );
 }
-int ma_buff::speed_bonus( const Character &u ) const
+auto ma_buff::speed_bonus( const Character &u ) const -> int
 {
     return bonuses.get_flat( u, affected_stat::SPEED );
 }
-int ma_buff::armor_bonus( const Character &guy, damage_type dt ) const
+auto ma_buff::armor_bonus( const Character &guy, damage_type dt ) const -> int
 {
     return bonuses.get_flat( guy, affected_stat::ARMOR, dt );
 }
-float ma_buff::damage_bonus( const Character &u, damage_type dt ) const
+auto ma_buff::damage_bonus( const Character &u, damage_type dt ) const -> float
 {
     return bonuses.get_flat( u, affected_stat::DAMAGE, dt );
 }
-float ma_buff::damage_mult( const Character &u, damage_type dt ) const
+auto ma_buff::damage_mult( const Character &u, damage_type dt ) const -> float
 {
     return bonuses.get_mult( u, affected_stat::DAMAGE, dt );
 }
-bool ma_buff::is_throw_immune() const
+auto ma_buff::is_throw_immune() const -> bool
 {
     return throw_immune;
 }
-bool ma_buff::is_quiet() const
+auto ma_buff::is_quiet() const -> bool
 {
     return quiet;
 }
-bool ma_buff::is_stealthy() const
+auto ma_buff::is_stealthy() const -> bool
 {
     return stealthy;
 }
 
-bool ma_buff::can_melee() const
+auto ma_buff::can_melee() const -> bool
 {
     return melee_allowed;
 }
 
-std::string ma_buff::get_description( bool passive ) const
+auto ma_buff::get_description( bool passive ) const -> std::string
 {
     std::string dump;
     dump += string_format( _( "<bold>Buff technique:</bold> %s" ), _( name ) ) + "\n";
@@ -825,7 +825,7 @@ void martialart::apply_onkill_buffs( Character &u ) const
     simultaneous_add( u, onkill_buffs );
 }
 
-bool martialart::has_technique( const Character &u, const matec_id &tec_id ) const
+auto martialart::has_technique( const Character &u, const matec_id &tec_id ) const -> bool
 {
     for( const matec_id &elem : techniques ) {
         const ma_technique &tec = elem.obj();
@@ -836,12 +836,12 @@ bool martialart::has_technique( const Character &u, const matec_id &tec_id ) con
     return false;
 }
 
-bool martialart::has_weapon( const itype_id &itt ) const
+auto martialart::has_weapon( const itype_id &itt ) const -> bool
 {
     return weapons.count( itt ) > 0;
 }
 
-bool martialart::weapon_valid( const item &it ) const
+auto martialart::weapon_valid( const item &it ) const -> bool
 {
     if( allow_melee ) {
         return true;
@@ -862,19 +862,19 @@ bool martialart::weapon_valid( const item &it ) const
     return false;
 }
 
-std::string martialart::get_initiate_avatar_message() const
+auto martialart::get_initiate_avatar_message() const -> std::string
 {
     return initiate[0];
 }
 
-std::string martialart::get_initiate_npc_message() const
+auto martialart::get_initiate_npc_message() const -> std::string
 {
     return initiate[1];
 }
 // Player stuff
 
 // technique
-std::vector<matec_id> character_martial_arts::get_all_techniques( const item &weap ) const
+auto character_martial_arts::get_all_techniques( const item &weap ) const -> std::vector<matec_id>
 {
     std::vector<matec_id> tecs;
     // Grab individual item techniques
@@ -888,7 +888,7 @@ std::vector<matec_id> character_martial_arts::get_all_techniques( const item &we
 }
 
 // defensive technique-related
-bool character_martial_arts::has_miss_recovery_tec( const item &weap ) const
+auto character_martial_arts::has_miss_recovery_tec( const item &weap ) const -> bool
 {
     for( const matec_id &technique : get_all_techniques( weap ) ) {
         if( technique->miss_recovery ) {
@@ -898,7 +898,7 @@ bool character_martial_arts::has_miss_recovery_tec( const item &weap ) const
     return false;
 }
 
-ma_technique character_martial_arts::get_miss_recovery_tec( const item &weap ) const
+auto character_martial_arts::get_miss_recovery_tec( const item &weap ) const -> ma_technique
 {
     ma_technique tech;
     for( const matec_id &technique : get_all_techniques( weap ) ) {
@@ -912,7 +912,7 @@ ma_technique character_martial_arts::get_miss_recovery_tec( const item &weap ) c
 }
 
 // This one isn't used with a weapon
-bool character_martial_arts::has_grab_break_tec() const
+auto character_martial_arts::has_grab_break_tec() const -> bool
 {
     for( const matec_id &technique : get_all_techniques( item() ) ) {
         if( technique->grab_break ) {
@@ -922,7 +922,7 @@ bool character_martial_arts::has_grab_break_tec() const
     return false;
 }
 
-ma_technique character_martial_arts::get_grab_break_tec( const item &weap ) const
+auto character_martial_arts::get_grab_break_tec( const item &weap ) const -> ma_technique
 {
     ma_technique tec;
     for( const matec_id &technique : get_all_techniques( weap ) ) {
@@ -934,7 +934,7 @@ ma_technique character_martial_arts::get_grab_break_tec( const item &weap ) cons
     return tec;
 }
 
-bool player::can_grab_break( const item &weap ) const
+auto player::can_grab_break( const item &weap ) const -> bool
 {
     if( !has_grab_break_tec() ) {
         return false;
@@ -945,7 +945,7 @@ bool player::can_grab_break( const item &weap ) const
     return tec.is_valid_character( *this );
 }
 
-bool Character::can_miss_recovery( const item &weap ) const
+auto Character::can_miss_recovery( const item &weap ) const -> bool
 {
     if( !martial_arts_data->has_miss_recovery_tec( weap ) ) {
         return false;
@@ -956,7 +956,7 @@ bool Character::can_miss_recovery( const item &weap ) const
     return tec.is_valid_character( *this );
 }
 
-bool character_martial_arts::can_leg_block( const Character &owner ) const
+auto character_martial_arts::can_leg_block( const Character &owner ) const -> bool
 {
     const martialart &ma = style_selected.obj();
     ///\EFFECT_UNARMED increases ability to perform leg block
@@ -975,7 +975,7 @@ bool character_martial_arts::can_leg_block( const Character &owner ) const
     return false;
 }
 
-bool character_martial_arts::can_arm_block( const Character &owner ) const
+auto character_martial_arts::can_arm_block( const Character &owner ) const -> bool
 {
     const martialart &ma = style_selected.obj();
     ///\EFFECT_UNARMED increases ability to perform arm block
@@ -995,12 +995,12 @@ bool character_martial_arts::can_arm_block( const Character &owner ) const
     return false;
 }
 
-bool character_martial_arts::can_limb_block( const Character &owner ) const
+auto character_martial_arts::can_limb_block( const Character &owner ) const -> bool
 {
     return can_arm_block( owner ) || can_leg_block( owner );
 }
 
-bool character_martial_arts::is_force_unarmed() const
+auto character_martial_arts::is_force_unarmed() const -> bool
 {
     return style_selected->force_unarmed;
 }
@@ -1068,7 +1068,7 @@ static void accumulate_ma_buff_effects( const C &container, F f )
 }
 
 template<typename C, typename F>
-static bool search_ma_buff_effect( const C &container, F f )
+static auto search_ma_buff_effect( const C &container, F f ) -> bool
 {
     for( auto &elem : container ) {
         for( auto &eff : elem.second ) {
@@ -1087,7 +1087,7 @@ static bool search_ma_buff_effect( const C &container, F f )
 }
 
 // bonuses
-float Character::mabuff_tohit_bonus() const
+auto Character::mabuff_tohit_bonus() const -> float
 {
     float ret = 0;
     accumulate_ma_buff_effects( *effects, [&ret, this]( const ma_buff & b, const effect & ) {
@@ -1095,7 +1095,7 @@ float Character::mabuff_tohit_bonus() const
     } );
     return ret;
 }
-float Character::mabuff_dodge_bonus() const
+auto Character::mabuff_dodge_bonus() const -> float
 {
     float ret = 0;
     accumulate_ma_buff_effects( *effects, [&ret, this]( const ma_buff & b, const effect & d ) {
@@ -1103,7 +1103,7 @@ float Character::mabuff_dodge_bonus() const
     } );
     return ret;
 }
-int Character::mabuff_block_bonus() const
+auto Character::mabuff_block_bonus() const -> int
 {
     int ret = 0;
     accumulate_ma_buff_effects( *effects, [&ret, this]( const ma_buff & b, const effect & d ) {
@@ -1111,7 +1111,7 @@ int Character::mabuff_block_bonus() const
     } );
     return ret;
 }
-int Character::mabuff_speed_bonus() const
+auto Character::mabuff_speed_bonus() const -> int
 {
     int ret = 0;
     accumulate_ma_buff_effects( *effects, [&ret, this]( const ma_buff & b, const effect & d ) {
@@ -1119,7 +1119,7 @@ int Character::mabuff_speed_bonus() const
     } );
     return ret;
 }
-int Character::mabuff_arpen_bonus( damage_type type ) const
+auto Character::mabuff_arpen_bonus( damage_type type ) const -> int
 {
     int ret = 0;
     accumulate_ma_buff_effects( *effects, [&ret, type, this]( const ma_buff & b, const effect & d ) {
@@ -1127,7 +1127,7 @@ int Character::mabuff_arpen_bonus( damage_type type ) const
     } );
     return ret;
 }
-int Character::mabuff_armor_bonus( damage_type type ) const
+auto Character::mabuff_armor_bonus( damage_type type ) const -> int
 {
     int ret = 0;
     accumulate_ma_buff_effects( *effects, [&ret, type, this]( const ma_buff & b, const effect & d ) {
@@ -1135,7 +1135,7 @@ int Character::mabuff_armor_bonus( damage_type type ) const
     } );
     return ret;
 }
-float Character::mabuff_damage_mult( damage_type type ) const
+auto Character::mabuff_damage_mult( damage_type type ) const -> float
 {
     float ret = 1.f;
     accumulate_ma_buff_effects( *effects, [&ret, type, this]( const ma_buff & b, const effect & d ) {
@@ -1145,7 +1145,7 @@ float Character::mabuff_damage_mult( damage_type type ) const
     } );
     return ret;
 }
-int Character::mabuff_damage_bonus( damage_type type ) const
+auto Character::mabuff_damage_bonus( damage_type type ) const -> int
 {
     int ret = 0;
     accumulate_ma_buff_effects( *effects, [&ret, type, this]( const ma_buff & b, const effect & d ) {
@@ -1153,7 +1153,7 @@ int Character::mabuff_damage_bonus( damage_type type ) const
     } );
     return ret;
 }
-int Character::mabuff_attack_cost_penalty() const
+auto Character::mabuff_attack_cost_penalty() const -> int
 {
     int ret = 0;
     accumulate_ma_buff_effects( *effects, [&ret, this]( const ma_buff & b, const effect & d ) {
@@ -1161,7 +1161,7 @@ int Character::mabuff_attack_cost_penalty() const
     } );
     return ret;
 }
-float Character::mabuff_attack_cost_mult() const
+auto Character::mabuff_attack_cost_mult() const -> float
 {
     float ret = 1.0f;
     accumulate_ma_buff_effects( *effects, [&ret, this]( const ma_buff & b, const effect & d ) {
@@ -1173,45 +1173,45 @@ float Character::mabuff_attack_cost_mult() const
     return ret;
 }
 
-bool Character::is_throw_immune() const
+auto Character::is_throw_immune() const -> bool
 {
     return search_ma_buff_effect( *effects, []( const ma_buff & b, const effect & ) {
         return b.is_throw_immune();
     } );
 }
-bool Character::is_quiet() const
+auto Character::is_quiet() const -> bool
 {
     return search_ma_buff_effect( *effects, []( const ma_buff & b, const effect & ) {
         return b.is_quiet();
     } );
 }
-bool player::is_stealthy() const
+auto player::is_stealthy() const -> bool
 {
     return search_ma_buff_effect( *effects, []( const ma_buff & b, const effect & ) {
         return b.is_stealthy();
     } );
 }
 
-bool player::can_melee() const
+auto player::can_melee() const -> bool
 {
     return search_ma_buff_effect( *effects, []( const ma_buff & b, const effect & ) {
         return b.can_melee();
     } );
 }
 
-bool Character::has_mabuff( const mabuff_id &id ) const
+auto Character::has_mabuff( const mabuff_id &id ) const -> bool
 {
     return search_ma_buff_effect( *effects, [&id]( const ma_buff & b, const effect & ) {
         return b.id == id;
     } );
 }
 
-bool Character::has_grab_break_tec() const
+auto Character::has_grab_break_tec() const -> bool
 {
     return martial_arts_data->has_grab_break_tec();
 }
 
-bool character_martial_arts::has_martialart( const matype_id &ma ) const
+auto character_martial_arts::has_martialart( const matype_id &ma ) const -> bool
 {
     return std::find( ma_styles.begin(), ma_styles.end(), ma ) != ma_styles.end();
 }
@@ -1224,7 +1224,7 @@ void character_martial_arts::add_martialart( const matype_id &ma_id )
     ma_styles.emplace_back( ma_id );
 }
 
-bool player::can_autolearn( const matype_id &ma_id ) const
+auto player::can_autolearn( const matype_id &ma_id ) const -> bool
 {
     if( ma_id.obj().autolearn_skills.empty() ) {
         return false;
@@ -1257,32 +1257,32 @@ void character_martial_arts::martialart_use_message( const Character &owner ) co
     }
 }
 
-float ma_technique::damage_bonus( const Character &u, damage_type type ) const
+auto ma_technique::damage_bonus( const Character &u, damage_type type ) const -> float
 {
     return bonuses.get_flat( u, affected_stat::DAMAGE, type );
 }
 
-float ma_technique::damage_multiplier( const Character &u, damage_type type ) const
+auto ma_technique::damage_multiplier( const Character &u, damage_type type ) const -> float
 {
     return bonuses.get_mult( u, affected_stat::DAMAGE, type );
 }
 
-float ma_technique::move_cost_multiplier( const Character &u ) const
+auto ma_technique::move_cost_multiplier( const Character &u ) const -> float
 {
     return bonuses.get_mult( u, affected_stat::MOVE_COST );
 }
 
-float ma_technique::move_cost_penalty( const Character &u ) const
+auto ma_technique::move_cost_penalty( const Character &u ) const -> float
 {
     return bonuses.get_flat( u, affected_stat::MOVE_COST );
 }
 
-float ma_technique::armor_penetration( const Character &u, damage_type type ) const
+auto ma_technique::armor_penetration( const Character &u, damage_type type ) const -> float
 {
     return bonuses.get_flat( u, affected_stat::ARMOR_PENETRATION, type );
 }
 
-std::string ma_technique::get_description() const
+auto ma_technique::get_description() const -> std::string
 {
     std::string dump;
     std::string type;
@@ -1409,8 +1409,8 @@ std::string ma_technique::get_description() const
     return dump;
 }
 
-bool ma_style_callback::key( const input_context &ctxt, const input_event &event, int entnum,
-                             uilist * )
+auto ma_style_callback::key( const input_context &ctxt, const input_event &event, int entnum,
+                             uilist * ) -> bool
 {
     const std::string &action = ctxt.input_to_action( event );
     if( action != "SHOW_DESCRIPTION" ) {

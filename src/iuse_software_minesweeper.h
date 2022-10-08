@@ -14,7 +14,7 @@ class window;
 class minesweeper_game
 {
     private:
-        bool check_win();
+        auto check_win() -> bool;
         void new_level();
         point max;
         point min;
@@ -34,7 +34,7 @@ class minesweeper_game
         std::map<int, std::map<int, reveal> > mLevelReveal;
 
     public:
-        int start_game();
+        auto start_game() -> int;
         minesweeper_game();
 };
 

@@ -15,7 +15,7 @@
 
 //copied from SDL2_ttf code
 //except type changed from unsigned to uint32_t
-uint32_t UTF8_getch( const char **src, int *srclen )
+auto UTF8_getch( const char **src, int *srclen ) -> uint32_t
 {
     const unsigned char *p = *reinterpret_cast<const unsigned char **>( src );
     int left = 0;
@@ -96,7 +96,7 @@ uint32_t UTF8_getch( const char **src, int *srclen )
     return ch;
 }
 
-std::string utf32_to_utf8( uint32_t ch )
+auto utf32_to_utf8( uint32_t ch ) -> std::string
 {
     char out[5];
     char *buf = out;
@@ -139,7 +139,7 @@ std::string utf32_to_utf8( uint32_t ch )
 //Calculate width of a Unicode string
 //Latin characters have a width of 1
 //CJK characters have a width of 2, etc
-int utf8_width( const char *s, const bool ignore_tags )
+auto utf8_width( const char *s, const bool ignore_tags ) -> int
 {
     if( ignore_tags ) {
         return utf8_width( remove_color_tags( s ) );
@@ -157,17 +157,17 @@ int utf8_width( const char *s, const bool ignore_tags )
     return w;
 }
 
-int utf8_width( const std::string &str, const bool ignore_tags )
+auto utf8_width( const std::string &str, const bool ignore_tags ) -> int
 {
     return utf8_width( str.c_str(), ignore_tags );
 }
 
-int utf8_width( const utf8_wrapper &str, const bool ignore_tags )
+auto utf8_width( const utf8_wrapper &str, const bool ignore_tags ) -> int
 {
     return utf8_width( str.c_str(), ignore_tags );
 }
 
-std::string left_justify( const std::string &str, const int width, const bool ignore_tags )
+auto left_justify( const std::string &str, const int width, const bool ignore_tags ) -> std::string
 {
     int str_width = utf8_width( str, ignore_tags );
     if( str_width >= width ) {
@@ -177,7 +177,7 @@ std::string left_justify( const std::string &str, const int width, const bool ig
     }
 }
 
-std::string right_justify( const std::string &str, const int width, const bool ignore_tags )
+auto right_justify( const std::string &str, const int width, const bool ignore_tags ) -> std::string
 {
     int str_width = utf8_width( str, ignore_tags );
     if( str_width >= width ) {
@@ -187,7 +187,7 @@ std::string right_justify( const std::string &str, const int width, const bool i
     }
 }
 
-std::string utf8_justify( const std::string &str, const int width, const bool ignore_tags )
+auto utf8_justify( const std::string &str, const int width, const bool ignore_tags ) -> std::string
 {
     if( width < 0 ) {
         return left_justify( str, -width, ignore_tags );
@@ -201,7 +201,7 @@ std::string utf8_justify( const std::string &str, const int width, const bool ig
 //If the cursor is not on the first half of the character,
 //prevpos (which points to the first byte of the cursor located char)
 // should be a different value.
-int cursorx_to_position( const char *line, int cursorx, int *prevpos, int maxlen )
+auto cursorx_to_position( const char *line, int cursorx, int *prevpos, int maxlen ) -> int
 {
     int dummy;
     int i = 0;
@@ -235,7 +235,7 @@ int cursorx_to_position( const char *line, int cursorx, int *prevpos, int maxlen
     return i;
 }
 
-std::string utf8_truncate( const std::string &s, size_t length )
+auto utf8_truncate( const std::string &s, size_t length ) -> std::string
 {
 
     if( length == 0 || s.empty() ) {
@@ -273,7 +273,7 @@ static void build_base64_decoding_table()
     }
 }
 
-std::string base64_encode( const std::string &str )
+auto base64_encode( const std::string &str ) -> std::string
 {
     //assume it is already encoded
     if( !str.empty() && str[0] == '#' ) {
@@ -307,7 +307,7 @@ std::string base64_encode( const std::string &str )
     return "#" + encoded_data;
 }
 
-std::string base64_decode( const std::string &str )
+auto base64_decode( const std::string &str ) -> std::string
 {
     // do not decode if it is not base64
     if( str.empty() || str[0] != '#' ) {
@@ -380,7 +380,7 @@ static void strip_trailing_nulls( std::string &str )
     }
 }
 
-std::wstring utf8_to_wstr( const std::string &str )
+auto utf8_to_wstr( const std::string &str ) -> std::wstring
 {
 #if defined(_WIN32)
     int sz = MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, nullptr, 0 ) + 1;
@@ -397,7 +397,7 @@ std::wstring utf8_to_wstr( const std::string &str )
 #endif
 }
 
-std::string wstr_to_utf8( const std::wstring &wstr )
+auto wstr_to_utf8( const std::wstring &wstr ) -> std::string
 {
 #if defined(_WIN32)
     int sz = WideCharToMultiByte( CP_UTF8, 0, wstr.c_str(), -1, nullptr, 0, nullptr, nullptr );
@@ -414,7 +414,7 @@ std::string wstr_to_utf8( const std::wstring &wstr )
 #endif
 }
 
-std::string utf32_to_utf8( const std::u32string &str )
+auto utf32_to_utf8( const std::u32string &str ) -> std::string
 {
     std::string ret;
     ret.reserve( str.length() );
@@ -424,7 +424,7 @@ std::string utf32_to_utf8( const std::u32string &str )
     return ret;
 }
 
-std::u32string utf8_to_utf32( const std::string &str )
+auto utf8_to_utf32( const std::string &str ) -> std::u32string
 {
     int len = str.length();
     const char *dat = str.data();
@@ -437,7 +437,7 @@ std::u32string utf8_to_utf32( const std::string &str )
     return ret;
 }
 
-std::vector<std::string> utf8_display_split( const std::string &s )
+auto utf8_display_split( const std::string &s ) -> std::vector<std::string>
 {
     std::vector<std::string> result;
     std::string current_glyph;
@@ -457,7 +457,7 @@ std::vector<std::string> utf8_display_split( const std::string &s )
     return result;
 }
 
-int center_text_pos( const char *text, int start_pos, int end_pos )
+auto center_text_pos( const char *text, int start_pos, int end_pos ) -> int
 {
     int full_screen = end_pos - start_pos + 1;
     int str_len = utf8_width( text );
@@ -470,12 +470,12 @@ int center_text_pos( const char *text, int start_pos, int end_pos )
     return start_pos + position;
 }
 
-int center_text_pos( const std::string &text, int start_pos, int end_pos )
+auto center_text_pos( const std::string &text, int start_pos, int end_pos ) -> int
 {
     return center_text_pos( text.c_str(), start_pos, end_pos );
 }
 
-int center_text_pos( const utf8_wrapper &text, int start_pos, int end_pos )
+auto center_text_pos( const utf8_wrapper &text, int start_pos, int end_pos ) -> int
 {
     int full_screen = end_pos - start_pos + 1;
     int str_len = text.display_width();
@@ -516,7 +516,7 @@ utf8_wrapper::utf8_wrapper( const char *d ) : _length( 0 ), _display_width( 0 )
     init_utf8_wrapper();
 }
 
-size_t utf8_wrapper::byte_start( size_t bstart, size_t start ) const
+auto utf8_wrapper::byte_start( size_t bstart, size_t start ) const -> size_t
 {
     if( bstart >= _data.length() ) {
         return _data.length();
@@ -533,7 +533,7 @@ size_t utf8_wrapper::byte_start( size_t bstart, size_t start ) const
     return utf8str - _data.c_str();
 }
 
-size_t utf8_wrapper::byte_start_display( size_t bstart, size_t start ) const
+auto utf8_wrapper::byte_start_display( size_t bstart, size_t start ) const -> size_t
 {
     if( bstart >= _data.length() ) {
         return _data.length();
@@ -571,18 +571,18 @@ void utf8_wrapper::insert( size_t start, const utf8_wrapper &other )
     _display_width += other._display_width;
 }
 
-utf8_wrapper utf8_wrapper::substr( size_t start, size_t length ) const
+auto utf8_wrapper::substr( size_t start, size_t length ) const -> utf8_wrapper
 {
     return substr_byte( byte_start( 0, start ), length, false );
 }
 
-utf8_wrapper utf8_wrapper::substr_display( size_t start, size_t length ) const
+auto utf8_wrapper::substr_display( size_t start, size_t length ) const -> utf8_wrapper
 {
     return substr_byte( byte_start_display( 0, start ), length, true );
 }
 
-utf8_wrapper utf8_wrapper::substr_byte( size_t bytestart, size_t length,
-                                        bool use_display_width ) const
+auto utf8_wrapper::substr_byte( size_t bytestart, size_t length,
+                                        bool use_display_width ) const -> utf8_wrapper
 {
     if( length == 0 || bytestart >= _data.length() ) {
         return utf8_wrapper();
@@ -596,7 +596,7 @@ utf8_wrapper utf8_wrapper::substr_byte( size_t bytestart, size_t length,
     return utf8_wrapper( _data.substr( bytestart, bend - bytestart ) );
 }
 
-uint32_t utf8_wrapper::at( size_t start ) const
+auto utf8_wrapper::at( size_t start ) const -> uint32_t
 {
     const size_t bstart = byte_start( 0, start );
     const char *utf8str = _data.c_str() + bstart;
@@ -626,7 +626,7 @@ void utf8_wrapper::append( const utf8_wrapper &other )
     _display_width += other._display_width;
 }
 
-utf8_wrapper &utf8_wrapper::replace_all( const utf8_wrapper &search, const utf8_wrapper &replace )
+auto utf8_wrapper::replace_all( const utf8_wrapper &search, const utf8_wrapper &replace ) -> utf8_wrapper &
 {
     for( std::string::size_type i = _data.find( search._data ); i != std::string::npos;
          i = _data.find( search._data, i ) ) {
@@ -638,7 +638,7 @@ utf8_wrapper &utf8_wrapper::replace_all( const utf8_wrapper &search, const utf8_
     return *this;
 }
 
-std::string utf8_wrapper::shorten( size_t maxlength ) const
+auto utf8_wrapper::shorten( size_t maxlength ) const -> std::string
 {
     if( display_width() <= maxlength ) {
         return str();

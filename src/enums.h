@@ -5,7 +5,7 @@
 template<typename T> struct enum_traits;
 
 template<typename T>
-constexpr inline int sgn( const T x )
+constexpr inline auto sgn( const T x ) -> int
 {
     return x < 0 ? -1 : ( x > 0 ? 1 : 0 );
 }
@@ -230,7 +230,7 @@ enum layer_level {
     MAX_CLOTHING_LAYER
 };
 
-inline layer_level &operator++( layer_level &l )
+inline auto operator++( layer_level &l ) -> layer_level &
 {
     l = static_cast<layer_level>( l + 1 );
     return l;
@@ -302,12 +302,12 @@ enum class monotonically : int {
     unknown,
 };
 
-constexpr bool is_increasing( monotonically m )
+constexpr auto is_increasing( monotonically m ) -> bool
 {
     return m == monotonically::constant || m == monotonically::increasing;
 }
 
-constexpr bool is_decreasing( monotonically m )
+constexpr auto is_decreasing( monotonically m ) -> bool
 {
     return m == monotonically::constant || m == monotonically::decreasing;
 }

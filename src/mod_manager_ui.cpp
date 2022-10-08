@@ -17,7 +17,7 @@ mod_ui::mod_ui( mod_manager &mman )
 {
 }
 
-std::string mod_ui::get_information( const MOD_INFORMATION *mod )
+auto mod_ui::get_information( const MOD_INFORMATION *mod ) -> std::string
 {
     if( mod == nullptr ) {
         return "";
@@ -96,7 +96,7 @@ struct conflict_pair {
     mod_id with;
 };
 
-static std::string fmt_conflicts( const std::vector<conflict_pair> &list )
+static auto fmt_conflicts( const std::vector<conflict_pair> &list ) -> std::string
 {
     std::string ret;
 
@@ -136,7 +136,7 @@ static void check_conflicts( const mod_id &mod, const std::vector<mod_id> &activ
     }
 }
 
-ret_val<bool> mod_ui::try_add( const mod_id &mod_to_add, std::vector<mod_id> &active_list )
+auto mod_ui::try_add( const mod_id &mod_to_add, std::vector<mod_id> &active_list ) -> ret_val<bool>
 {
     if( std::find( active_list.begin(), active_list.end(), mod_to_add ) != active_list.end() ) {
         // The same mod can not be added twice. That makes no sense.
@@ -278,7 +278,7 @@ void mod_ui::try_shift( char direction, size_t &selection, std::vector<mod_id> &
     selection += selshift;
 }
 
-bool mod_ui::can_shift_up( size_t selection, const std::vector<mod_id> &active_list )
+auto mod_ui::can_shift_up( size_t selection, const std::vector<mod_id> &active_list ) -> bool
 {
     // error catch for out of bounds
     if( selection >= active_list.size() ) {
@@ -303,7 +303,7 @@ bool mod_ui::can_shift_up( size_t selection, const std::vector<mod_id> &active_l
     return !newsel_id->core && !newsel_is_dependency;
 }
 
-bool mod_ui::can_shift_down( size_t selection, const std::vector<mod_id> &active_list )
+auto mod_ui::can_shift_down( size_t selection, const std::vector<mod_id> &active_list ) -> bool
 {
     // error catch for out of bounds
     if( selection >= active_list.size() ) {

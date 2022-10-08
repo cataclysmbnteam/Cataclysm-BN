@@ -79,7 +79,7 @@ static const mtype_id mon_secubot( "mon_secubot" );
 
 static const std::string flag_CONSOLE( "CONSOLE" );
 
-static catacurses::window init_window()
+static auto init_window() -> catacurses::window
 {
     const int width = FULL_SCREEN_WIDTH;
     const int height = FULL_SCREEN_HEIGHT;
@@ -196,7 +196,7 @@ void computer_session::use()
     reset_terminal(); // This should have been done by now, but just in case.
 }
 
-bool computer_session::hack_attempt( player &p, int Security )
+auto computer_session::hack_attempt( player &p, int Security ) -> bool
 {
     if( Security == -1 ) {
         Security = comp.security;    // Set to main system security if no value passed
@@ -226,7 +226,7 @@ bool computer_session::hack_attempt( player &p, int Security )
     return successful_attempt;
 }
 
-static item *pick_usb()
+static auto pick_usb() -> item *
 {
     auto filter = []( const item & it ) {
         return it.typeId() == itype_usb_drive;
@@ -1515,19 +1515,19 @@ void computer_session::action_emerg_ref_center()
 }
 
 template<typename ...Args>
-bool computer_session::query_bool( const std::string &text, Args &&... args )
+auto computer_session::query_bool( const std::string &text, Args &&... args ) -> bool
 {
     return query_ynq( text, std::forward<Args>( args )... ) == ynq::yes;
 }
 
 template<typename ...Args>
-bool computer_session::query_any( const std::string &text, Args &&... args )
+auto computer_session::query_any( const std::string &text, Args &&... args ) -> bool
 {
     print_indented_line( 0, width, text, std::forward<Args>( args )... );
     return query_any();
 }
 
-bool computer_session::query_any()
+auto computer_session::query_any() -> bool
 {
     ui_manager::redraw();
     inp_mngr.wait_for_any_key();
@@ -1535,7 +1535,7 @@ bool computer_session::query_any()
 }
 
 template<typename ...Args>
-computer_session::ynq computer_session::query_ynq( const std::string &text, Args &&... args )
+auto computer_session::query_ynq( const std::string &text, Args &&... args ) -> computer_session::ynq
 {
     const std::string formatted_text = string_format( text, std::forward<Args>( args )... );
     const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );

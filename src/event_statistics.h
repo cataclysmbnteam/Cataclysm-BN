@@ -40,8 +40,8 @@ using event_fields_type = std::unordered_map<std::string, cata_variant_type>;
 class event_transformation
 {
     public:
-        event_multiset value( stats_tracker & ) const;
-        std::unique_ptr<stats_tracker_state> watch( stats_tracker & ) const;
+        auto value( stats_tracker & ) const -> event_multiset;
+        auto watch( stats_tracker & ) const -> std::unique_ptr<stats_tracker_state>;
 
         void load( const JsonObject &, const std::string & );
         void check() const;
@@ -52,8 +52,8 @@ class event_transformation
         string_id<event_transformation> id;
         bool was_loaded = false;
 
-        event_fields_type fields() const;
-        monotonically monotonicity() const;
+        auto fields() const -> event_fields_type;
+        auto monotonicity() const -> monotonically;
 
         class impl;
     private:
@@ -64,8 +64,8 @@ class event_transformation
 class event_statistic
 {
     public:
-        cata_variant value( stats_tracker & ) const;
-        std::unique_ptr<stats_tracker_state> watch( stats_tracker & ) const;
+        auto value( stats_tracker & ) const -> cata_variant;
+        auto watch( stats_tracker & ) const -> std::unique_ptr<stats_tracker_state>;
 
         void load( const JsonObject &, const std::string & );
         void check() const;
@@ -76,12 +76,12 @@ class event_statistic
         string_id<event_statistic> id;
         bool was_loaded = false;
 
-        const translation &description() const {
+        auto description() const -> const translation & {
             return description_;
         }
 
-        cata_variant_type type() const;
-        monotonically monotonicity() const;
+        auto type() const -> cata_variant_type;
+        auto monotonicity() const -> monotonically;
 
         class impl;
     private:
@@ -94,14 +94,14 @@ class score
     public:
         score() = default;
         // Returns translated description including value
-        std::string description( stats_tracker & ) const;
-        cata_variant value( stats_tracker & ) const;
+        auto description( stats_tracker & ) const -> std::string;
+        auto value( stats_tracker & ) const -> cata_variant;
 
         void load( const JsonObject &, const std::string & );
         void check() const;
         static void load_score( const JsonObject &, const std::string & );
         static void check_consistency();
-        static const std::vector<score> &get_all();
+        static auto get_all() -> const std::vector<score> &;
         static void reset();
 
         string_id<score> id;

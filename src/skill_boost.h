@@ -17,15 +17,15 @@ class skill_boost
     public:
         skill_boost() = default;
 
-        std::string stat() const;
-        const std::vector<std::string> &skills() const;
-        float calc_bonus( int skill_total ) const;
+        auto stat() const -> std::string;
+        auto skills() const -> const std::vector<std::string> &;
+        auto calc_bonus( int skill_total ) const -> float;
 
         static void load_boost( const JsonObject &jo, const std::string &src );
         static void reset();
 
-        static const std::vector<skill_boost> &get_all();
-        static cata::optional<skill_boost> get( const std::string &stat_str );
+        static auto get_all() -> const std::vector<skill_boost> &;
+        static auto get( const std::string &stat_str ) -> cata::optional<skill_boost>;
 
     private:
         friend class generic_factory<skill_boost>;

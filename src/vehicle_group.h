@@ -37,7 +37,7 @@ class VehicleGroup
             vehicles.add( type, probability );
         }
 
-        const vproto_id &pick() const {
+        auto pick() const -> const vproto_id & {
             return *vehicles.pick();
         }
 
@@ -54,7 +54,7 @@ class VehicleGroup
 struct VehicleFacings {
     VehicleFacings( const JsonObject &jo, const std::string &key );
 
-    units::angle pick() const;
+    auto pick() const -> units::angle;
 
     std::vector<units::angle> values;
 };
@@ -63,11 +63,11 @@ struct VehicleLocation {
     VehicleLocation( const jmapgen_int &x, const jmapgen_int &y, const VehicleFacings &facings )
         : x( x ), y( y ), facings( facings ) {}
 
-    units::angle pick_facing() const {
+    auto pick_facing() const -> units::angle {
         return facings.pick();
     }
 
-    point pick_point() const;
+    auto pick_point() const -> point;
 
     jmapgen_int x;
     jmapgen_int y;
@@ -84,7 +84,7 @@ struct VehiclePlacement {
         locations.emplace_back( x, y, facings );
     }
 
-    const VehicleLocation *pick() const;
+    auto pick() const -> const VehicleLocation *;
     static void load( const JsonObject &jo );
     static void reset();
 

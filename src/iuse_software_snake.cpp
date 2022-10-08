@@ -84,7 +84,7 @@ void snake_game::snake_over( const catacurses::window &w_snake, int iScore )
     wnoutrefresh( w_snake );
 }
 
-int snake_game::start_game()
+auto snake_game::start_game() -> int
 {
     std::vector<std::pair<int, int> > vSnakeBody;
     std::map<int, std::map<int, bool> > mSnakeBody;

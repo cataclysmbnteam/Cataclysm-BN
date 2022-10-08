@@ -41,8 +41,8 @@ struct mod_value {
 
 struct clothing_mod {
     void load( const JsonObject &jo, const std::string &src );
-    float get_mod_val( const clothing_mod_type &type, const item &it ) const;
-    bool has_mod_type( const clothing_mod_type &type ) const;
+    auto get_mod_val( const clothing_mod_type &type, const item &it ) const -> float;
+    auto has_mod_type( const clothing_mod_type &type ) const -> bool;
 
     clothing_mod_id id;
     bool was_loaded = false;
@@ -54,7 +54,7 @@ struct clothing_mod {
     std::vector< mod_value > mod_values;
     bool restricted = false;
 
-    static size_t count();
+    static auto count() -> size_t;
 };
 
 namespace clothing_mods
@@ -76,10 +76,10 @@ constexpr std::array<clothing_mod_type, 9> all_clothing_mod_types = {{
 void load( const JsonObject &jo, const std::string &src );
 void reset();
 
-const std::vector<clothing_mod> &get_all();
-const std::vector<clothing_mod> &get_all_with( clothing_mod_type type );
+auto get_all() -> const std::vector<clothing_mod> &;
+auto get_all_with( clothing_mod_type type ) -> const std::vector<clothing_mod> &;
 
-std::string string_from_clothing_mod_type( clothing_mod_type type );
+auto string_from_clothing_mod_type( clothing_mod_type type ) -> std::string;
 
 } // namespace clothing_mods
 

@@ -14,7 +14,7 @@ class event_subscriber
     public:
         event_subscriber() = default;
         event_subscriber( const event_subscriber & ) = delete;
-        event_subscriber &operator=( const event_subscriber & ) = delete;
+        auto operator=( const event_subscriber & ) -> event_subscriber & = delete;
         virtual ~event_subscriber();
         virtual void notify( const cata::event & ) = 0;
     private:
@@ -29,7 +29,7 @@ class event_bus
     public:
         event_bus() = default;
         event_bus( const event_bus & ) = delete;
-        event_bus &operator=( const event_bus & ) = delete;
+        auto operator=( const event_bus & ) -> event_bus & = delete;
         ~event_bus();
         void subscribe( event_subscriber * );
         void unsubscribe( event_subscriber * );
@@ -43,6 +43,6 @@ class event_bus
         std::vector<event_subscriber *> subscribers;
 };
 
-event_bus &get_event_bus();
+auto get_event_bus() -> event_bus &;
 
 #endif // CATA_SRC_EVENT_BUS_H

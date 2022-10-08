@@ -96,13 +96,13 @@ generic_factory<morale_type_data> morale_data( "morale type" );
 } // namespace
 
 template<>
-const morale_type_data &morale_type::obj() const
+auto morale_type::obj() const -> const morale_type_data &
 {
     return morale_data.obj( *this );
 }
 
 template<>
-bool morale_type::is_valid() const
+auto morale_type::is_valid() const -> bool
 {
     return morale_data.is_valid( *this );
 }
@@ -134,14 +134,14 @@ void morale_type_data::check() const
 {
 }
 
-std::string morale_type_data::describe() const
+auto morale_type_data::describe() const -> std::string
 {
     // if `msg` contains conversion specification (e.g. %s),
     // but nothing to put there, `string_format` will return an error message
     return string_format( text );
 }
 
-std::string morale_type_data::describe( const std::string &s ) const
+auto morale_type_data::describe( const std::string &s ) const -> std::string
 {
     return string_format( text, s );
 }

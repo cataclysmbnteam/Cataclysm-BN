@@ -83,10 +83,10 @@ class profession
         static void load_item_substitutions( const JsonObject &jo );
 
         // these should be the only ways used to get at professions
-        static const profession_id &generic(); // gives id of generic, default profession
-        static const std::vector<profession> &get_all();
+        static auto generic() -> const profession_id &; // gives id of generic, default profession
+        static auto get_all() -> const std::vector<profession> &;
 
-        static bool has_initialized();
+        static auto has_initialized() -> bool;
         // clear profession map, every profession pointer becomes invalid!
         static void reset();
         /** calls @ref check_definition for each profession */
@@ -94,30 +94,30 @@ class profession
         /** Check that item/CBM/addiction/skill definitions are valid. */
         void check_definition() const;
 
-        const profession_id &ident() const;
-        std::string gender_appropriate_name( bool male ) const;
-        std::string description( bool male ) const;
-        signed int point_cost() const;
-        std::list<item> items( bool male, const std::vector<trait_id> &traits ) const;
-        std::vector<addiction> addictions() const;
-        vproto_id vehicle() const;
-        std::vector<mtype_id> pets() const;
-        std::vector<bionic_id> CBMs() const;
-        StartingSkillList skills() const;
+        auto ident() const -> const profession_id &;
+        auto gender_appropriate_name( bool male ) const -> std::string;
+        auto description( bool male ) const -> std::string;
+        auto point_cost() const -> signed int;
+        auto items( bool male, const std::vector<trait_id> &traits ) const -> std::list<item>;
+        auto addictions() const -> std::vector<addiction>;
+        auto vehicle() const -> vproto_id;
+        auto pets() const -> std::vector<mtype_id>;
+        auto CBMs() const -> std::vector<bionic_id>;
+        auto skills() const -> StartingSkillList;
 
-        std::map<spell_id, int> spells() const;
+        auto spells() const -> std::map<spell_id, int>;
 
         /**
          * Check if this type of profession has a certain flag set.
          *
          * Current flags: none
          */
-        bool has_flag( const std::string &flag ) const;
+        auto has_flag( const std::string &flag ) const -> bool;
 
-        bool is_locked_trait( const trait_id &trait ) const;
-        bool is_forbidden_trait( const trait_id &trait ) const;
-        std::vector<trait_id> get_locked_traits() const;
-        std::set<trait_id> get_forbidden_traits() const;
+        auto is_locked_trait( const trait_id &trait ) const -> bool;
+        auto is_forbidden_trait( const trait_id &trait ) const -> bool;
+        auto get_locked_traits() const -> std::vector<trait_id>;
+        auto get_forbidden_traits() const -> std::set<trait_id>;
 };
 
 #endif // CATA_SRC_PROFESSION_H

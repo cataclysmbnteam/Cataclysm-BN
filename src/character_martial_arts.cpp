@@ -29,32 +29,32 @@ character_martial_arts::character_martial_arts()
     };
 }
 
-bool character_martial_arts::selected_allow_melee() const
+auto character_martial_arts::selected_allow_melee() const -> bool
 {
     return style_selected->allow_melee;
 }
 
-bool character_martial_arts::selected_strictly_melee() const
+auto character_martial_arts::selected_strictly_melee() const -> bool
 {
     return style_selected->strictly_melee;
 }
 
-bool character_martial_arts::selected_has_weapon( const itype_id &weap ) const
+auto character_martial_arts::selected_has_weapon( const itype_id &weap ) const -> bool
 {
     return style_selected->has_weapon( weap );
 }
 
-bool character_martial_arts::selected_force_unarmed() const
+auto character_martial_arts::selected_force_unarmed() const -> bool
 {
     return style_selected->force_unarmed;
 }
 
-bool character_martial_arts::knows_selected_style() const
+auto character_martial_arts::knows_selected_style() const -> bool
 {
     return has_martialart( style_selected );
 }
 
-bool character_martial_arts::selected_is_none() const
+auto character_martial_arts::selected_is_none() const -> bool
 {
     return style_selected == style_none;
 }
@@ -108,7 +108,7 @@ void character_martial_arts::selected_style_check()
     }
 }
 
-std::string character_martial_arts::enumerate_known_styles( const itype_id &weap ) const
+auto character_martial_arts::enumerate_known_styles( const itype_id &weap ) const -> std::string
 {
     return enumerate_as_string( ma_styles.begin(), ma_styles.end(),
     [weap]( const matype_id & mid ) {
@@ -116,7 +116,7 @@ std::string character_martial_arts::enumerate_known_styles( const itype_id &weap
     } );
 }
 
-std::string character_martial_arts::selected_style_name( const Character &owner ) const
+auto character_martial_arts::selected_style_name( const Character &owner ) const -> std::string
 {
     if( style_selected->force_unarmed || style_selected->weapon_valid( owner.weapon ) ) {
         return style_selected->name.translated();
@@ -127,8 +127,8 @@ std::string character_martial_arts::selected_style_name( const Character &owner 
     }
 }
 
-std::vector<matype_id> character_martial_arts::get_unknown_styles( const character_martial_arts
-        &from ) const
+auto character_martial_arts::get_unknown_styles( const character_martial_arts
+        &from ) const -> std::vector<matype_id>
 {
     std::vector<matype_id> ret;
     for( const matype_id &i : from.ma_styles ) {

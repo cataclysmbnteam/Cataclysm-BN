@@ -20,18 +20,18 @@ generic_factory<overmap_location> locations( "overmap location" );
 } // namespace
 
 template<>
-bool string_id<overmap_location>::is_valid() const
+auto string_id<overmap_location>::is_valid() const -> bool
 {
     return locations.is_valid( *this );
 }
 
 template<>
-const overmap_location &string_id<overmap_location>::obj() const
+auto string_id<overmap_location>::obj() const -> const overmap_location &
 {
     return locations.obj( *this );
 }
 
-bool overmap_location::test( const oter_id &oter ) const
+auto overmap_location::test( const oter_id &oter ) const -> bool
 {
     return std::any_of( terrains.cbegin(), terrains.cend(),
     [ &oter ]( const oter_type_str_id & type ) {
@@ -39,7 +39,7 @@ bool overmap_location::test( const oter_id &oter ) const
     } );
 }
 
-oter_type_id overmap_location::get_random_terrain() const
+auto overmap_location::get_random_terrain() const -> oter_type_id
 {
     return random_entry( terrains );
 }
@@ -53,7 +53,7 @@ void overmap_location::load( const JsonObject &jo, const std::string & )
     }
 }
 
-std::vector<oter_type_id> overmap_location::get_all_terrains() const
+auto overmap_location::get_all_terrains() const -> std::vector<oter_type_id>
 {
     std::vector<oter_type_id> ret;
     for( oter_type_str_id elem : terrains ) {

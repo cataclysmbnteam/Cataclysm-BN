@@ -84,61 +84,61 @@ class mapgendata
          */
         mapgendata( const mapgendata &other, const oter_id &other_id );
 
-        const oter_id &terrain_type() const {
+        auto terrain_type() const -> const oter_id & {
             return terrain_type_;
         }
-        float monster_density() const {
+        auto monster_density() const -> float {
             return density_;
         }
-        const time_point &when() const {
+        auto when() const -> const time_point & {
             return when_;
         }
-        ::mission *mission() const {
+        auto mission() const -> ::mission * {
             return mission_;
         }
-        int zlevel() const {
+        auto zlevel() const -> int {
             // TODO: should be able to determine this from the map itself
             return zlevel_;
         }
 
         void set_dir( int dir_in, int val );
         void fill( int val );
-        int &dir( int dir_in );
-        const oter_id &north() const {
+        auto dir( int dir_in ) -> int &;
+        auto north() const -> const oter_id & {
             return t_nesw[0];
         }
-        const oter_id &east()  const {
+        auto east()  const -> const oter_id & {
             return t_nesw[1];
         }
-        const oter_id &south() const {
+        auto south() const -> const oter_id & {
             return t_nesw[2];
         }
-        const oter_id &west()  const {
+        auto west()  const -> const oter_id & {
             return t_nesw[3];
         }
-        const oter_id &neast() const {
+        auto neast() const -> const oter_id & {
             return t_nesw[4];
         }
-        const oter_id &seast() const {
+        auto seast() const -> const oter_id & {
             return t_nesw[5];
         }
-        const oter_id &swest() const {
+        auto swest() const -> const oter_id & {
             return t_nesw[6];
         }
-        const oter_id &nwest() const {
+        auto nwest() const -> const oter_id & {
             return t_nesw[7];
         }
-        const oter_id &above() const {
+        auto above() const -> const oter_id & {
             return t_above;
         }
-        const oter_id &below() const {
+        auto below() const -> const oter_id & {
             return t_below;
         }
-        const oter_id &neighbor_at( om_direction::type dir ) const;
+        auto neighbor_at( om_direction::type dir ) const -> const oter_id &;
         void fill_groundcover();
         void square_groundcover( const point &p1, const point &p2 );
-        ter_id groundcover();
-        bool is_groundcover( const ter_id &iid ) const;
+        auto groundcover() -> ter_id;
+        auto is_groundcover( const ter_id &iid ) const -> bool;
 };
 
 #endif // CATA_SRC_MAPGENDATA_H

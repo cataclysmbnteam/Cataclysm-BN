@@ -19,14 +19,14 @@
  * @param vertex the unequal angle
  * @returns base in equivalent units to distance
  */
-double iso_tangent( double distance, units::angle vertex );
+auto iso_tangent( double distance, units::angle vertex ) -> double;
 
 //! This compile-time usable function combines the sign of each (x, y, z) component into a single integer
 //! to allow simple runtime and compile-time mapping of (x, y, z) tuples to @ref direction enumerators.
 //! Specifically, (0, -, +) => (0, 1, 2); a base-3 number.
 //! This only works correctly for inputs between -1,-1,-1 and 1,1,1.
 //! For numbers outside that range, use make_xyz().
-inline constexpr unsigned make_xyz_unit( const tripoint &p ) noexcept
+inline constexpr auto make_xyz_unit( const tripoint &p ) noexcept -> unsigned
 {
     return ( ( p.x > 0 ) ? 2u : ( p.x < 0 ) ? 1u : 0u ) * 1u +
            ( ( p.y > 0 ) ? 2u : ( p.y < 0 ) ? 1u : 0u ) * 3u +
@@ -34,7 +34,7 @@ inline constexpr unsigned make_xyz_unit( const tripoint &p ) noexcept
 }
 
 // This more general version of this function gives correct values for larger inputs.
-unsigned make_xyz( const tripoint & );
+auto make_xyz( const tripoint & ) -> unsigned;
 
 enum class direction : unsigned {
     ABOVENORTHWEST = make_xyz_unit( tripoint_above + tripoint_north_west ),
@@ -69,52 +69,52 @@ enum class direction : unsigned {
 };
 
 template< class T >
-constexpr inline direction operator%( const direction &lhs, const T &rhs )
+constexpr inline auto operator%( const direction &lhs, const T &rhs ) -> direction
 {
     return static_cast<direction>( static_cast<T>( lhs ) % rhs );
 }
 
 template< class T >
-constexpr inline T operator+( const direction &lhs, const T &rhs )
+constexpr inline auto operator+( const direction &lhs, const T &rhs ) -> T
 {
     return static_cast<T>( lhs ) + rhs;
 }
 
 template< class T >
-constexpr inline bool operator==( const direction &lhs, const T &rhs )
+constexpr inline auto operator==( const direction &lhs, const T &rhs ) -> bool
 {
     return static_cast<T>( lhs ) == rhs;
 }
 
 template< class T >
-constexpr inline bool operator==( const T &lhs, const direction &rhs )
+constexpr inline auto operator==( const T &lhs, const direction &rhs ) -> bool
 {
     return operator==( rhs, lhs );
 }
 
 template< class T >
-constexpr inline bool operator!=( const T &lhs, const direction &rhs )
+constexpr inline auto operator!=( const T &lhs, const direction &rhs ) -> bool
 {
     return !operator==( rhs, lhs );
 }
 
 template< class T >
-constexpr inline bool operator!=( const direction &lhs, const T &rhs )
+constexpr inline auto operator!=( const direction &lhs, const T &rhs ) -> bool
 {
     return !operator==( lhs, rhs );
 }
 
-direction direction_from( const point &p ) noexcept;
-direction direction_from( const tripoint &p ) noexcept;
-direction direction_from( const point &p1, const point &p2 ) noexcept;
-direction direction_from( const tripoint &p, const tripoint &q );
+auto direction_from( const point &p ) noexcept -> direction;
+auto direction_from( const tripoint &p ) noexcept -> direction;
+auto direction_from( const point &p1, const point &p2 ) noexcept -> direction;
+auto direction_from( const tripoint &p, const tripoint &q ) -> direction;
 
-point direction_XY( direction dir );
-std::string direction_name( direction dir );
-std::string direction_name_short( direction dir );
+auto direction_XY( direction dir ) -> point;
+auto direction_name( direction dir ) -> std::string;
+auto direction_name_short( direction dir ) -> std::string;
 
 /* Get suffix describing vector from p to q (e.g. 1NW, 2SE) or empty string if p == q */
-std::string direction_suffix( const tripoint &p, const tripoint &q );
+auto direction_suffix( const tripoint &p, const tripoint &q ) -> std::string;
 
 /**
  * The actual Bresenham algorithm in 2D and 3D, everything else should call these
@@ -125,50 +125,50 @@ void bresenham( const point &p1, const point &p2, int t,
 void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
                 const std::function<bool( const tripoint & )> &interact );
 
-tripoint move_along_line( const tripoint &loc, const std::vector<tripoint> &line,
-                          int distance );
+auto move_along_line( const tripoint &loc, const std::vector<tripoint> &line,
+                          int distance ) -> tripoint;
 // The "t" value decides WHICH Bresenham line is used.
-std::vector<point> line_to( const point &p1, const point &p2, int t = 0 );
+auto line_to( const point &p1, const point &p2, int t = 0 ) -> std::vector<point>;
 // t and t2 decide which Bresenham line is used.
-std::vector<tripoint> line_to( const tripoint &loc1, const tripoint &loc2, int t = 0, int t2 = 0 );
+auto line_to( const tripoint &loc1, const tripoint &loc2, int t = 0, int t2 = 0 ) -> std::vector<tripoint>;
 // sqrt(dX^2 + dY^2)
 
-inline int trig_dist_squared( const tripoint &loc1, const tripoint &loc2 )
+inline auto trig_dist_squared( const tripoint &loc1, const tripoint &loc2 ) -> int
 {
     return ( ( loc1.x - loc2.x ) * ( loc1.x - loc2.x ) ) +
            ( ( loc1.y - loc2.y ) * ( loc1.y - loc2.y ) ) +
            ( ( loc1.z - loc2.z ) * ( loc1.z - loc2.z ) );
 }
-inline float trig_dist( const tripoint &loc1, const tripoint &loc2 )
+inline auto trig_dist( const tripoint &loc1, const tripoint &loc2 ) -> float
 {
     return std::sqrt( static_cast<double>( trig_dist_squared( loc1, loc2 ) ) );
 }
-inline float trig_dist( const point &loc1, const point &loc2 )
+inline auto trig_dist( const point &loc1, const point &loc2 ) -> float
 {
     return trig_dist( tripoint( loc1, 0 ), tripoint( loc2, 0 ) );
 }
 
 // Chebyshev distance; maximum of dX and dY
-inline int square_dist( const tripoint &loc1, const tripoint &loc2 )
+inline auto square_dist( const tripoint &loc1, const tripoint &loc2 ) -> int
 {
     const tripoint d = ( loc1 - loc2 ).abs();
     return std::max( { d.x, d.y, d.z } );
 }
-inline int square_dist( const point &loc1, const point &loc2 )
+inline auto square_dist( const point &loc1, const point &loc2 ) -> int
 {
     const point d = ( loc1 - loc2 ).abs();
     return std::max( d.x, d.y );
 }
 
 // Choose between the above two according to the "circular distances" option
-inline int rl_dist( const tripoint &loc1, const tripoint &loc2 )
+inline auto rl_dist( const tripoint &loc1, const tripoint &loc2 ) -> int
 {
     if( trigdist ) {
         return trig_dist( loc1, loc2 );
     }
     return square_dist( loc1, loc2 );
 }
-inline int rl_dist( const point &a, const point &b )
+inline auto rl_dist( const point &a, const point &b ) -> int
 {
     return rl_dist( tripoint( a, 0 ), tripoint( b, 0 ) );
 }
@@ -184,14 +184,14 @@ struct FastDistanceApproximation {
     public:
         inline FastDistanceApproximation( int value ) : value( value ) { }
         template<typename T>
-        inline bool operator<=( const T &rhs ) const {
+        inline auto operator<=( const T &rhs ) const -> bool {
             if( trigdist ) {
                 return value <= rhs * rhs;
             }
             return value <= rhs;
         }
         template<typename T>
-        inline bool operator>=( const T &rhs ) const {
+        inline auto operator>=( const T &rhs ) const -> bool {
             if( trigdist ) {
                 return value >= rhs * rhs;
             }
@@ -205,48 +205,48 @@ struct FastDistanceApproximation {
         }
 };
 
-inline FastDistanceApproximation trig_dist_fast( const tripoint &loc1, const tripoint &loc2 )
+inline auto trig_dist_fast( const tripoint &loc1, const tripoint &loc2 ) -> FastDistanceApproximation
 {
     return ( loc1.x - loc2.x ) * ( loc1.x - loc2.x ) +
            ( loc1.y - loc2.y ) * ( loc1.y - loc2.y ) +
            ( loc1.z - loc2.z ) * ( loc1.z - loc2.z );
 }
-inline FastDistanceApproximation square_dist_fast( const tripoint &loc1, const tripoint &loc2 )
+inline auto square_dist_fast( const tripoint &loc1, const tripoint &loc2 ) -> FastDistanceApproximation
 {
     const tripoint d = ( loc1 - loc2 ).abs();
     return std::max( { d.x, d.y, d.z } );
 }
-inline FastDistanceApproximation rl_dist_fast( const tripoint &loc1, const tripoint &loc2 )
+inline auto rl_dist_fast( const tripoint &loc1, const tripoint &loc2 ) -> FastDistanceApproximation
 {
     if( trigdist ) {
         return trig_dist_fast( loc1, loc2 );
     }
     return square_dist_fast( loc1, loc2 );
 }
-inline FastDistanceApproximation rl_dist_fast( const point &a, const point &b )
+inline auto rl_dist_fast( const point &a, const point &b ) -> FastDistanceApproximation
 {
     return rl_dist_fast( tripoint( a, 0 ), tripoint( b, 0 ) );
 }
 
-float rl_dist_exact( const tripoint &loc1, const tripoint &loc2 );
+auto rl_dist_exact( const tripoint &loc1, const tripoint &loc2 ) -> float;
 // Sum of distance in both axes
-int manhattan_dist( const point &loc1, const point &loc2 );
+auto manhattan_dist( const point &loc1, const point &loc2 ) -> int;
 
 // Travel distance between 2 points on a square grid, assuming diagonal moves
 // cost sqrt(2) and cardinal moves cost 1.
-int octile_dist( const point &loc1, const point &loc2, int multiplier = 1 );
-float octile_dist_exact( const point &loc1, const point &loc2 );
+auto octile_dist( const point &loc1, const point &loc2, int multiplier = 1 ) -> int;
+auto octile_dist_exact( const point &loc1, const point &loc2 ) -> float;
 
 // get angle of direction represented by point
-units::angle atan2( const point & );
+auto atan2( const point & ) -> units::angle;
 
 // Get the magnitude of the slope ranging from 0.0 to 1.0
-float get_normalized_angle( const point &start, const point &end );
-std::vector<tripoint> continue_line( const std::vector<tripoint> &line, int distance );
-std::vector<point> squares_in_direction( const point &p1, const point &p2 );
+auto get_normalized_angle( const point &start, const point &end ) -> float;
+auto continue_line( const std::vector<tripoint> &line, int distance ) -> std::vector<tripoint>;
+auto squares_in_direction( const point &p1, const point &p2 ) -> std::vector<point>;
 // Returns a vector of squares adjacent to @from that are closer to @to than @from is.
 // Currently limited to the same z-level as @from.
-std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &to );
+auto squares_closer_to( const tripoint &from, const tripoint &to ) -> std::vector<tripoint>;
 void calc_ray_end( units::angle, int range, const tripoint &p, tripoint &out );
 /**
  * Calculates the horizontal angle between the lines from (0,0,0) to @p a and
@@ -255,6 +255,6 @@ void calc_ray_end( units::angle, int range, const tripoint &p, tripoint &out );
  * Example: if @p a is (0,1) and @p b is (1,0), the result will 90 degree
  * The function currently ignores the z component.
  */
-units::angle coord_to_angle( const tripoint &a, const tripoint &b );
+auto coord_to_angle( const tripoint &a, const tripoint &b ) -> units::angle;
 
 #endif // CATA_SRC_LINE_H

@@ -16,17 +16,17 @@ const int mm_submap::default_symbol = 0;
 
 #define dbg(x) DebugLog((x),DC::MapMem)
 
-static std::string find_legacy_mm_file()
+static auto find_legacy_mm_file() -> std::string
 {
     return g->get_player_base_save_path() + ".mm";
 }
 
-static std::string find_mm_dir()
+static auto find_mm_dir() -> std::string
 {
     return string_format( "%s.mm1", g->get_player_base_save_path() );
 }
 
-static std::string find_region_path( const std::string &dirname, const tripoint &p )
+static auto find_region_path( const std::string &dirname, const tripoint &p ) -> std::string
 {
     return string_format( "%s/%d.%d.%d.mmr", dirname, p.x, p.y, p.z );
 }
@@ -48,7 +48,7 @@ mm_submap::mm_submap() = default;
 
 mm_region::mm_region() : submaps {{ nullptr }} {}
 
-bool mm_region::is_empty() const
+auto mm_region::is_empty() const -> bool
 {
     for( const auto &itt : submaps ) {
         for( const shared_ptr_fast<mm_submap> &it : itt ) {
@@ -70,14 +70,14 @@ map_memory::map_memory()
     clear_cache();
 }
 
-const memorized_terrain_tile &map_memory::get_tile( const tripoint &pos )
+auto map_memory::get_tile( const tripoint &pos ) -> const memorized_terrain_tile &
 {
     coord_pair p( pos );
     const mm_submap &sm = get_submap( p.sm );
     return sm.tile( p.loc );
 }
 
-bool map_memory::has_memory_for_autodrive( const tripoint &pos )
+auto map_memory::has_memory_for_autodrive( const tripoint &pos ) -> bool
 {
     // HACK: Map memory is not supposed to be used by ingame mechanics.
     //       It's just a graphical overlay, it memorizes tileset tiles and text symbols.
@@ -100,7 +100,7 @@ void map_memory::memorize_tile( const tripoint &pos, const std::string &ter,
     sm.set_tile( p.loc, memorized_terrain_tile{ ter, subtile, rotation } );
 }
 
-int map_memory::get_symbol( const tripoint &pos )
+auto map_memory::get_symbol( const tripoint &pos ) -> int
 {
     coord_pair p( pos );
     const mm_submap &sm = get_submap( p.sm );
@@ -122,7 +122,7 @@ void map_memory::clear_memorized_tile( const tripoint &pos )
     sm.set_tile( p.loc, mm_submap::default_tile );
 }
 
-bool map_memory::prepare_region( const tripoint &p1, const tripoint &p2 )
+auto map_memory::prepare_region( const tripoint &p1, const tripoint &p2 ) -> bool
 {
     assert( p1.z == p2.z );
     assert( p1.x <= p2.x && p1.y <= p2.y );
@@ -164,7 +164,7 @@ bool map_memory::prepare_region( const tripoint &p1, const tripoint &p2 )
     return true;
 }
 
-shared_ptr_fast<mm_submap> map_memory::fetch_submap( const tripoint &sm_pos )
+auto map_memory::fetch_submap( const tripoint &sm_pos ) -> shared_ptr_fast<mm_submap>
 {
     shared_ptr_fast<mm_submap> sm = find_submap( sm_pos );
     if( sm ) {
@@ -177,7 +177,7 @@ shared_ptr_fast<mm_submap> map_memory::fetch_submap( const tripoint &sm_pos )
     return allocate_submap( sm_pos );
 }
 
-shared_ptr_fast<mm_submap> map_memory::allocate_submap( const tripoint &sm_pos )
+auto map_memory::allocate_submap( const tripoint &sm_pos ) -> shared_ptr_fast<mm_submap>
 {
     // Since all save/load operations are done on regions of submaps,
     // we need to allocate the whole region at once.
@@ -200,7 +200,7 @@ shared_ptr_fast<mm_submap> map_memory::allocate_submap( const tripoint &sm_pos )
     return ret;
 }
 
-shared_ptr_fast<mm_submap> map_memory::find_submap( const tripoint &sm_pos )
+auto map_memory::find_submap( const tripoint &sm_pos ) -> shared_ptr_fast<mm_submap>
 {
     auto sm = submaps.find( sm_pos );
     if( sm == submaps.end() ) {
@@ -229,7 +229,7 @@ static void temp_remove_open_air( shared_ptr_fast<mm_submap> sm )
 
 }
 
-shared_ptr_fast<mm_submap> map_memory::load_submap( const tripoint &sm_pos )
+auto map_memory::load_submap( const tripoint &sm_pos ) -> shared_ptr_fast<mm_submap>
 {
     if( test_mode ) {
         return nullptr;
@@ -281,7 +281,7 @@ shared_ptr_fast<mm_submap> map_memory::load_submap( const tripoint &sm_pos )
     return ret;
 }
 
-mm_submap &map_memory::get_submap( const tripoint &sm_pos )
+auto map_memory::get_submap( const tripoint &sm_pos ) -> mm_submap &
 {
     // First, try fetching from cache.
     // If it's not in cache (or cache is absent), go the long way.
@@ -330,7 +330,7 @@ void map_memory::load( const tripoint &pos )
     dbg( DL::Info ) << "[LOAD] Done.";
 }
 
-bool map_memory::save( const tripoint &pos )
+auto map_memory::save( const tripoint &pos ) -> bool
 {
     tripoint sm_center = coord_pair( pos ).sm;
     const std::string dirname = find_mm_dir();

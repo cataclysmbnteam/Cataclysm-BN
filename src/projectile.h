@@ -29,30 +29,30 @@ struct projectile {
          * Returns an item that should be dropped or an item for which is_null() is true
          *  when item to drop is unset.
          */
-        const item &get_drop() const;
+        auto get_drop() const -> const item &;
         /** Copies item `it` as a drop for this projectile. */
         void set_drop( const item &it );
         void set_drop( item &&it );
         void unset_drop();
 
-        const explosion_data &get_custom_explosion() const;
+        auto get_custom_explosion() const -> const explosion_data &;
         void set_custom_explosion( const explosion_data &ex );
         void unset_custom_explosion();
 
-        const std::set<ammo_effect_str_id> &get_ammo_effects() {
+        auto get_ammo_effects() -> const std::set<ammo_effect_str_id> & {
             return proj_effects;
         }
 
         projectile();
         projectile( const projectile & );
         projectile( projectile && );
-        projectile &operator=( const projectile & );
+        auto operator=( const projectile & ) -> projectile &;
         ~projectile();
 
         void deserialize( JsonIn &jsin );
         void load( JsonObject &jo );
 
-        bool has_effect( const ammo_effect_str_id &id ) const {
+        auto has_effect( const ammo_effect_str_id &id ) const -> bool {
             return proj_effects.count( id ) > 0;
         }
         void add_effect( const ammo_effect_str_id &id ) {
@@ -78,7 +78,7 @@ struct dealt_projectile_attack {
 void apply_ammo_effects( const tripoint &p, const std::set<ammo_effect_str_id> &effects );
 // Legacy. TODO: Remove
 void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects );
-int max_aoe_size( const std::set<ammo_effect_str_id> &tags );
-int max_aoe_size( const std::set<std::string> &tags );
+auto max_aoe_size( const std::set<ammo_effect_str_id> &tags ) -> int;
+auto max_aoe_size( const std::set<std::string> &tags ) -> int;
 
 #endif // CATA_SRC_PROJECTILE_H

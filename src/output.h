@@ -85,7 +85,7 @@ using chtype = int;
 #define LINE_XXXX_UNICODE 0x253C
 
 // Supports line drawing
-inline std::string string_from_int( const catacurses::chtype ch )
+inline auto string_from_int( const catacurses::chtype ch ) -> std::string
 {
     catacurses::chtype charcode = ch;
     // LINE_NESW  - X for on, O for off
@@ -151,7 +151,7 @@ extern int OVERMAP_WINDOW_TERM_WIDTH; // width of the overmap window in terminal
 extern int OVERMAP_WINDOW_TERM_HEIGHT; // same for height
 extern int OVERMAP_LEGEND_WIDTH; // width of overmap window legend
 
-nc_color msgtype_to_color( game_message_type type, bool bOldMsg = false );
+auto msgtype_to_color( game_message_type type, bool bOldMsg = false ) -> nc_color;
 
 /**
  * @anchor color_tags
@@ -201,21 +201,21 @@ nc_color msgtype_to_color( game_message_type type, bool bOldMsg = false );
 /**
  * Removes the prefix starting at the first occurrence of c1 until the first occurrence of c2
  */
-std::string rm_prefix( std::string str, char c1 = '<', char c2 = '>' );
+auto rm_prefix( std::string str, char c1 = '<', char c2 = '>' ) -> std::string;
 
 /**
  * Adds the color represented by the next color tag found in the string to the top of the stack.
  * If color_error == report_color_error::yes a debugmsg will be shown when the tag is not valid.
  */
-color_tag_parse_result::tag_type update_color_stack(
+auto update_color_stack(
     std::stack<nc_color> &color_stack, const std::string &seg,
-    report_color_error color_error = report_color_error::yes );
+    report_color_error color_error = report_color_error::yes ) -> color_tag_parse_result::tag_type;
 
 /**
  * Removes the color tags from the input string. This might be required when the string is to
  * be used for functions that don't handle color tags.
  */
-std::string remove_color_tags( const std::string &s );
+auto remove_color_tags( const std::string &s ) -> std::string;
 /*@}*/
 
 /**
@@ -226,7 +226,7 @@ std::string remove_color_tags( const std::string &s );
  * @return A vector of lines, it may contain empty strings. Each entry is at most `width`
  * console cells width.
  */
-std::vector<std::string> foldstring( const std::string &str, int width, char split = ' ' );
+auto foldstring( const std::string &str, int width, char split = ' ' ) -> std::vector<std::string>;
 
 /**
  * Print text with embedded @ref color_tags, x, y are in curses system.
@@ -256,8 +256,8 @@ void print_colored_text( const catacurses::window &w, const point &p, nc_color &
  * @return The maximal scrollable offset ([number of lines to be printed] - [lines available in the window]).
  * This allows the caller to restrict the begin_line number on future calls / when modified by the user.
  */
-int print_scrollable( const catacurses::window &w, int begin_line, const std::string &text,
-                      const nc_color &base_color, const std::string &scroll_msg );
+auto print_scrollable( const catacurses::window &w, int begin_line, const std::string &text,
+                      const nc_color &base_color, const std::string &scroll_msg ) -> int;
 /**
  * Fold and print text in the given window. The function handles @ref color_tags and
  * uses them while printing.
@@ -273,15 +273,15 @@ int print_scrollable( const catacurses::window &w, int begin_line, const std::st
  * @return The number of lines of the formatted text (after folding). This may be larger than
  * the height of the window.
  */
-int fold_and_print( const catacurses::window &w, const point &begin, int width,
-                    const nc_color &base_color, const std::string &text, char split = ' ' );
+auto fold_and_print( const catacurses::window &w, const point &begin, int width,
+                    const nc_color &base_color, const std::string &text, char split = ' ' ) -> int;
 /**
  * Same as other @ref fold_and_print, but does string formatting via @ref string_format.
  */
 template<typename ...Args>
-inline int fold_and_print( const catacurses::window &w, const point &begin,
+inline auto fold_and_print( const catacurses::window &w, const point &begin,
                            const int width, const nc_color &base_color,
-                           const char *const mes, Args &&... args )
+                           const char *const mes, Args &&... args ) -> int
 {
     return fold_and_print( w, begin, width, base_color, string_format( mes,
                            std::forward<Args>( args )... ) );
@@ -303,15 +303,15 @@ inline int fold_and_print( const catacurses::window &w, const point &begin,
  * always the same value, regardless of `begin_line`, it can be used to determine the maximal
  * value for `begin_line`.
  */
-int fold_and_print_from( const catacurses::window &w, const point &begin, int width,
-                         int begin_line, const nc_color &base_color, const std::string &text );
+auto fold_and_print_from( const catacurses::window &w, const point &begin, int width,
+                         int begin_line, const nc_color &base_color, const std::string &text ) -> int;
 /**
  * Same as other @ref fold_and_print_from, but does formatting via @ref string_format.
  */
 template<typename ...Args>
-inline int fold_and_print_from( const catacurses::window &w, const point &begin,
+inline auto fold_and_print_from( const catacurses::window &w, const point &begin,
                                 const int width, const int begin_line, const nc_color &base_color,
-                                const char *const mes, Args &&... args )
+                                const char *const mes, Args &&... args ) -> int
 {
     return fold_and_print_from( w, begin, width, begin_line, base_color,
                                 string_format( mes, std::forward<Args>( args )... ) );
@@ -329,7 +329,7 @@ inline int fold_and_print_from( const catacurses::window &w, const point &begin,
 void trim_and_print( const catacurses::window &w, const point &begin, int width,
                      const nc_color &base_color, const std::string &text,
                      report_color_error color_error = report_color_error::yes );
-std::string trim_by_length( const std::string &text, int width );
+auto trim_by_length( const std::string &text, int width ) -> std::string;
 template<typename ...Args>
 inline void trim_and_print( const catacurses::window &w, const point &begin,
                             const int width, const nc_color &base_color,
@@ -350,15 +350,15 @@ inline void trim_and_print( const catacurses::window &w, const point &begin,
 }
 void center_print( const catacurses::window &w, int y, const nc_color &FG,
                    const std::string &text );
-int right_print( const catacurses::window &w, int line, int right_indent,
-                 const nc_color &FG, const std::string &text );
+auto right_print( const catacurses::window &w, int line, int right_indent,
+                 const nc_color &FG, const std::string &text ) -> int;
 void insert_table( const catacurses::window &w, int pad, int line, int columns,
                    const nc_color &FG, const std::string &divider, bool r_align,
                    const std::vector<std::string> &data );
 void scrollable_text( const std::function<catacurses::window()> &init_window,
                       const std::string &title, const std::string &text );
-std::string name_and_value( const std::string &name, int value, int field_width );
-std::string name_and_value( const std::string &name, const std::string &value, int field_width );
+auto name_and_value( const std::string &name, int value, int field_width ) -> std::string;
+auto name_and_value( const std::string &name, const std::string &value, int field_width ) -> std::string;
 
 void wputch( const catacurses::window &w, nc_color FG, int ch );
 // Using int ch is deprecated, use an UTF-8 encoded string instead
@@ -409,8 +409,8 @@ class border_helper
                 // Prevent accidentally copying the return value from border_helper::add_border
                 border_info( const border_info & ) = delete;
                 border_info( border_info && ) = default;
-                border_info &operator=( const border_info & ) = delete;
-                border_info &operator=( border_info && ) = default;
+                auto operator=( const border_info & ) -> border_info & = delete;
+                auto operator=( border_info && ) -> border_info & = default;
 
                 friend class border_helper;
             private:
@@ -421,7 +421,7 @@ class border_helper
                 std::reference_wrapper<border_helper> helper;
         };
 
-        border_info &add_border();
+        auto add_border() -> border_info &;
         void draw_border( const catacurses::window &win );
 
         friend class border_info;
@@ -432,39 +432,39 @@ class border_helper
             bool bottom = false;
             bool left = false;
 
-            int as_curses_line() const;
+            auto as_curses_line() const -> int;
         };
         cata::optional<std::map<point, border_connection>> border_connection_map;
 
         std::forward_list<border_info> border_info_list;
 };
 
-std::string word_rewrap( const std::string &ins, int width, uint32_t split = ' ' );
-std::vector<size_t> get_tag_positions( const std::string &s );
-std::vector<std::string> split_by_color( const std::string &s );
+auto word_rewrap( const std::string &ins, int width, uint32_t split = ' ' ) -> std::string;
+auto get_tag_positions( const std::string &s ) -> std::vector<size_t>;
+auto split_by_color( const std::string &s ) -> std::vector<std::string>;
 
-bool query_yn( const std::string &text );
+auto query_yn( const std::string &text ) -> bool;
 template<typename ...Args>
-inline bool query_yn( const char *const msg, Args &&... args )
+inline auto query_yn( const char *const msg, Args &&... args ) -> bool
 {
     return query_yn( string_format( msg, std::forward<Args>( args )... ) );
 }
 
-bool query_int( int &result, int default_val, const std::string &text );
+auto query_int( int &result, int default_val, const std::string &text ) -> bool;
 template<typename ...Args>
-inline bool query_int( int &result, int default_val, const char *const msg, Args &&... args )
+inline auto query_int( int &result, int default_val, const char *const msg, Args &&... args ) -> bool
 {
     return query_int( result, default_val, string_format( msg, std::forward<Args>( args )... ) );
 }
 
-bool query_int( int &result, const std::string &text );
+auto query_int( int &result, const std::string &text ) -> bool;
 template<typename ...Args>
-inline bool query_int( int &result, const char *const msg, Args &&... args )
+inline auto query_int( int &result, const char *const msg, Args &&... args ) -> bool
 {
     return query_int( result, string_format( msg, std::forward<Args>( args )... ) );
 }
 
-std::vector<std::string> get_hotkeys( const std::string &s );
+auto get_hotkeys( const std::string &s ) -> std::vector<std::string>;
 
 /**
  * @name Popup windows
@@ -497,7 +497,7 @@ enum PopupFlags {
 };
 
 template<typename ...Args>
-inline int popup_getkey( const char *const mes, Args &&... args )
+inline auto popup_getkey( const char *const mes, Args &&... args ) -> int
 {
     return popup( string_format( mes, std::forward<Args>( args )... ), PF_GET_KEY );
 }
@@ -511,7 +511,7 @@ inline void popup( const char *mes, Args &&... args )
 {
     popup( string_format( mes, std::forward<Args>( args )... ), PF_NONE );
 }
-int popup( const std::string &text, PopupFlags flags = PF_NONE );
+auto popup( const std::string &text, PopupFlags flags = PF_NONE ) -> int;
 template<typename ...Args>
 inline void full_screen_popup( const char *mes, Args &&... args )
 {
@@ -519,8 +519,8 @@ inline void full_screen_popup( const char *mes, Args &&... args )
 }
 
 /*@}*/
-std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
-                              const std::vector<iteminfo> &vItemCompare );
+auto format_item_info( const std::vector<iteminfo> &vItemDisplay,
+                              const std::vector<iteminfo> &vItemCompare ) -> std::string;
 
 // the extra data that item_info needs to draw
 struct item_info_data {
@@ -541,16 +541,16 @@ struct item_info_data {
                         const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare,
                         int &ptr_selected );
 
-        const std::string &get_item_name() const {
+        auto get_item_name() const -> const std::string & {
             return sItemName;
         }
-        const std::string &get_type_name() const {
+        auto get_type_name() const -> const std::string & {
             return sTypeName;
         }
-        const std::vector<iteminfo> &get_item_display() const {
+        auto get_item_display() const -> const std::vector<iteminfo> & {
             return vItemDisplay;
         }
-        const std::vector<iteminfo> &get_item_compare() const {
+        auto get_item_compare() const -> const std::vector<iteminfo> & {
             return vItemCompare;
         }
 
@@ -564,12 +564,12 @@ struct item_info_data {
         unsigned int padding = 1;
 };
 
-input_event draw_item_info( const catacurses::window &win, item_info_data &data );
+auto draw_item_info( const catacurses::window &win, item_info_data &data ) -> input_event;
 
-input_event draw_item_info( int iLeft, int iWidth, int iTop, int iHeight, item_info_data &data );
+auto draw_item_info( int iLeft, int iWidth, int iTop, int iHeight, item_info_data &data ) -> input_event;
 
-input_event draw_item_info( const std::function<catacurses::window()> &init_window,
-                            item_info_data &data );
+auto draw_item_info( const std::function<catacurses::window()> &init_window,
+                            item_info_data &data ) -> input_event;
 
 enum class item_filter_type : int {
     FIRST = 1, // used for indexing into tables
@@ -588,14 +588,14 @@ enum class item_filter_type : int {
 void draw_item_filter_rules( const catacurses::window &win, int starty, int height,
                              item_filter_type type );
 
-char rand_char();
-int special_symbol( int sym );
+auto rand_char() -> char;
+auto special_symbol( int sym ) -> int;
 
-size_t shortcut_print( const catacurses::window &w, const point &p, nc_color text_color,
-                       nc_color shortcut_color, const std::string &fmt );
-size_t shortcut_print( const catacurses::window &w, nc_color text_color, nc_color shortcut_color,
-                       const std::string &fmt );
-std::string shortcut_text( nc_color shortcut_color, const std::string &fmt );
+auto shortcut_print( const catacurses::window &w, const point &p, nc_color text_color,
+                       nc_color shortcut_color, const std::string &fmt ) -> size_t;
+auto shortcut_print( const catacurses::window &w, nc_color text_color, nc_color shortcut_color,
+                       const std::string &fmt ) -> size_t;
+auto shortcut_text( nc_color shortcut_color, const std::string &fmt ) -> std::string;
 
 /**
  * @return Pair of a string containing the bar, and its color
@@ -606,15 +606,15 @@ std::string shortcut_text( nc_color shortcut_color, const std::string &fmt );
  */
 // The last color is used for an empty bar
 // extra_resolution
-std::pair<std::string, nc_color> get_bar( float cur, float max, int width = 5,
+auto get_bar( float cur, float max, int width = 5,
         bool extra_resolution = true,
-        const std::vector<nc_color> &colors = { c_green, c_light_green, c_yellow, c_light_red, c_red } );
+        const std::vector<nc_color> &colors = { c_green, c_light_green, c_yellow, c_light_red, c_red } ) -> std::pair<std::string, nc_color>;
 
-std::pair<std::string, nc_color> get_hp_bar( int cur_hp, int max_hp, bool is_mon = false );
+auto get_hp_bar( int cur_hp, int max_hp, bool is_mon = false ) -> std::pair<std::string, nc_color>;
 
-std::pair<std::string, nc_color> get_stamina_bar( int cur_stam, int max_stam );
+auto get_stamina_bar( int cur_stam, int max_stam ) -> std::pair<std::string, nc_color>;
 
-std::pair<std::string, nc_color> get_light_level( float light );
+auto get_light_level( float light ) -> std::pair<std::string, nc_color>;
 
 /**
  * @return String containing the bar. Example: "Label [********    ]".
@@ -631,8 +631,8 @@ std::pair<std::string, nc_color> get_light_level( float light );
 // MSVC has problem dealing with template functions.
 // Implementing this function in cpp file results link error.
 template<typename RatingIterator>
-inline std::string get_labeled_bar( const double val, const int width, const std::string &label,
-                                    RatingIterator begin, RatingIterator end )
+inline auto get_labeled_bar( const double val, const int width, const std::string &label,
+                                    RatingIterator begin, RatingIterator end ) -> std::string
 {
     std::string result;
 
@@ -677,8 +677,8 @@ enum class enumeration_conjunction {
  * @param conj Choose how to separate the last elements.
  */
 template<typename _Container>
-std::string enumerate_as_string( const _Container &values,
-                                 enumeration_conjunction conj = enumeration_conjunction::and_ )
+auto enumerate_as_string( const _Container &values,
+                                 enumeration_conjunction conj = enumeration_conjunction::and_ ) -> std::string
 {
     const std::string final_separator = [&]() {
         switch( conj ) {
@@ -731,8 +731,8 @@ std::string enumerate_as_string( const _Container &values,
  * @param conj Choose how to separate the last elements.
  */
 template<typename _FIter, typename F>
-std::string enumerate_as_string( _FIter first, _FIter last, F string_for,
-                                 enumeration_conjunction conj = enumeration_conjunction::and_ )
+auto enumerate_as_string( _FIter first, _FIter last, F string_for,
+                                 enumeration_conjunction conj = enumeration_conjunction::and_ ) -> std::string
 {
     std::vector<std::string> values;
     values.reserve( static_cast<size_t>( std::distance( first, last ) ) );
@@ -752,7 +752,7 @@ std::string enumerate_as_string( _FIter first, _FIter last, F string_for,
  * @param label Label before the bar. Can be empty.
  * @param c Character to fill the bar with.
  */
-std::string get_labeled_bar( double val, int width, const std::string &label, char c );
+auto get_labeled_bar( double val, int width, const std::string &label, char c ) -> std::string;
 
 void draw_tab( const catacurses::window &w, int iOffsetX, const std::string &sText,
                bool bSelected );
@@ -831,24 +831,24 @@ class scrollbar
     public:
         scrollbar();
         // relative position of the scrollbar to the window
-        scrollbar &offset_x( int offx );
-        scrollbar &offset_y( int offy );
+        auto offset_x( int offx ) -> scrollbar &;
+        auto offset_y( int offy ) -> scrollbar &;
         // total number of lines
-        scrollbar &content_size( int csize );
+        auto content_size( int csize ) -> scrollbar &;
         // index of the beginning line
-        scrollbar &viewport_pos( int vpos );
+        auto viewport_pos( int vpos ) -> scrollbar &;
         // number of lines shown
-        scrollbar &viewport_size( int vsize );
+        auto viewport_size( int vsize ) -> scrollbar &;
         // window border color
-        scrollbar &border_color( nc_color border_c );
+        auto border_color( nc_color border_c ) -> scrollbar &;
         // scrollbar arrow color
-        scrollbar &arrow_color( nc_color arrow_c );
+        auto arrow_color( nc_color arrow_c ) -> scrollbar &;
         // scrollbar slot color
-        scrollbar &slot_color( nc_color slot_c );
+        auto slot_color( nc_color slot_c ) -> scrollbar &;
         // scrollbar bar color
-        scrollbar &bar_color( nc_color bar_c );
+        auto bar_color( nc_color bar_c ) -> scrollbar &;
         // can viewport_pos go beyond (content_size - viewport_size)?
-        scrollbar &scroll_to_last( bool scr2last );
+        auto scroll_to_last( bool scr2last ) -> scrollbar &;
         // draw the scrollbar to the window
         void apply( const catacurses::window &window );
     private:
@@ -881,9 +881,9 @@ class scrolling_text_view
         void page_down();
         void draw( const nc_color &base_color );
     private:
-        int text_width();
-        int num_lines();
-        int max_offset();
+        auto text_width() -> int;
+        auto num_lines() -> int;
+        auto max_offset() -> int;
 
         catacurses::window &w_;
         std::vector<std::string> text_;
@@ -926,34 +926,34 @@ class scrollingcombattext
                       const std::string &p_sText2 = "", game_message_type p_gmt2 = m_neutral,
                       const std::string &p_sType = "" );
 
-                int getStep() const {
+                auto getStep() const -> int {
                     return iStep;
                 }
-                int getStepOffset() const {
+                auto getStepOffset() const -> int {
                     return iStepOffset;
                 }
-                int advanceStep() {
+                auto advanceStep() -> int {
                     return ++iStep;
                 }
-                int advanceStepOffset() {
+                auto advanceStepOffset() -> int {
                     return ++iStepOffset;
                 }
-                int getPosX() const;
-                int getPosY() const;
-                direction getDirecton() const {
+                auto getPosX() const -> int;
+                auto getPosY() const -> int;
+                auto getDirecton() const -> direction {
                     return oDir;
                 }
-                int getInitPosX() const {
+                auto getInitPosX() const -> int {
                     return pos.x;
                 }
-                int getInitPosY() const {
+                auto getInitPosY() const -> int {
                     return pos.y;
                 }
-                std::string getType() const {
+                auto getType() const -> std::string {
                     return sType;
                 }
-                std::string getText( const std::string &type = "full" ) const;
-                game_message_type getMsgType( const std::string &type = "first" ) const;
+                auto getText( const std::string &type = "full" ) const -> std::string;
+                auto getMsgType( const std::string &type = "first" ) const -> game_message_type;
         };
 
         std::vector<cSCT> vSCT;
@@ -968,11 +968,11 @@ class scrollingcombattext
 
 extern scrollingcombattext SCT;
 
-std::string format_volume( const units::volume &volume );
-std::string format_volume( const units::volume &volume, int width, bool *out_truncated,
-                           double *out_value );
+auto format_volume( const units::volume &volume ) -> std::string;
+auto format_volume( const units::volume &volume, int width, bool *out_truncated,
+                           double *out_value ) -> std::string;
 
-inline std::string format_money( int cents )
+inline auto format_money( int cents ) -> std::string
 {
     return string_format( _( "$%.2f" ), cents / 100.0 );
 }
@@ -982,14 +982,14 @@ inline std::string format_money( int cents )
  *  May differ from OPTIONS["TERMINAL_X"], for instance in
  *  SDL FULLSCREEN mode, the user setting is overridden.
  */
-int get_terminal_width();
+auto get_terminal_width() -> int;
 
 /** Get the height in font glyphs of the drawing screen.
  *
  *  May differ from OPTIONS["TERMINAL_Y"], for instance in
  *  SDL FULLSCREEN mode, the user setting is overridden.
  */
-int get_terminal_height();
+auto get_terminal_height() -> int;
 
 /**
  * Check whether we're in tile drawing mode. The most important
@@ -1000,7 +1000,7 @@ int get_terminal_height();
  * drawing API and use polymorphy, but for the time being there will
  * be a lot of switching around in the map drawing code.
  */
-bool is_draw_tiles_mode();
+auto is_draw_tiles_mode() -> bool;
 
 /**
  * Make changes made to the display visible to the user immediately.
@@ -1019,7 +1019,7 @@ void refresh_display();
  * @return Colorized string.
  */
 template<typename F>
-std::string colorize_symbols( const std::string &str, F color_of )
+auto colorize_symbols( const std::string &str, F color_of ) -> std::string
 {
     std::string res;
     nc_color prev_color = c_unset;

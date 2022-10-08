@@ -42,9 +42,9 @@ class tree
 {
     public:
         // Entry point, evaluates the tree and returns the selected goal.
-        std::string tick( const oracle_t *subject );
+        auto tick( const oracle_t *subject ) -> std::string;
         // Retrieves the most recently determined goal without re-evaluating the tree.
-        std::string goal() const;
+        auto goal() const -> std::string;
         // Set the root node of the tree.
         void add( const node_t *new_node );
     private:
@@ -57,8 +57,8 @@ class node_t
     public:
         node_t();
         // Entry point for tree traversal.
-        behavior_return tick( const oracle_t *subject ) const;
-        std::string goal() const;
+        auto tick( const oracle_t *subject ) const -> behavior_return;
+        auto goal() const -> std::string;
 
         // Interface to construct a node.
         void set_strategy( const strategy_t *new_strategy );

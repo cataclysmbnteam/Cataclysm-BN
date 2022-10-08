@@ -67,7 +67,7 @@ void main_menu::clear_error()
 }
 
 //CJK characters have a width of 2, etc
-static int utf8_width_notags( const char *s )
+static auto utf8_width_notags( const char *s ) -> int
 {
     int len = strlen( s );
     const char *ptr = s;
@@ -193,8 +193,8 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
     wnoutrefresh( w_open );
 }
 
-std::vector<std::string> main_menu::load_file( const std::string &path,
-        const std::string &alt_text ) const
+auto main_menu::load_file( const std::string &path,
+        const std::string &alt_text ) const -> std::vector<std::string>
 {
     std::vector<std::string> result;
     read_from_file_optional( path, [&result]( std::istream & fin ) {
@@ -213,7 +213,7 @@ std::vector<std::string> main_menu::load_file( const std::string &path,
 }
 
 /* compare against table of easter dates */
-bool main_menu::is_easter( int day, int month, int year )
+auto main_menu::is_easter( int day, int month, int year ) -> bool
 {
     if( month == 3 ) {
         switch( year ) {
@@ -241,7 +241,7 @@ bool main_menu::is_easter( int day, int month, int year )
     return false;
 }
 
-holiday main_menu::get_holiday_from_time()
+auto main_menu::get_holiday_from_time() -> holiday
 {
     bool success = false;
 
@@ -444,7 +444,7 @@ void main_menu::load_char_templates()
     std::reverse( templates.begin(), templates.end() );
 }
 
-bool main_menu::opening_screen()
+auto main_menu::opening_screen() -> bool
 {
     // set holiday based on local system time
     current_holiday = get_holiday_from_time();
@@ -749,7 +749,7 @@ bool main_menu::opening_screen()
     return start;
 }
 
-bool main_menu::new_character_tab()
+auto main_menu::new_character_tab() -> bool
 {
     std::vector<std::string> vSubItems;
     vSubItems.push_back( pgettext( "Main Menu|New Game", "<C|c>ustom Character" ) );
@@ -981,7 +981,7 @@ bool main_menu::new_character_tab()
     return start;
 }
 
-bool main_menu::load_character_tab( bool transfer )
+auto main_menu::load_character_tab( bool transfer ) -> bool
 {
     bool start = false;
     const auto all_worldnames = world_generator->all_worldnames();
@@ -1382,7 +1382,7 @@ void main_menu::world_tab()
     } // end while layer == ...
 }
 
-std::string main_menu::halloween_spider()
+auto main_menu::halloween_spider() -> std::string
 {
     static const std::string spider =
         "\\ \\ \\/ / / / / / / /\n"
@@ -1413,7 +1413,7 @@ std::string main_menu::halloween_spider()
     return spider;
 }
 
-std::string main_menu::halloween_graves()
+auto main_menu::halloween_graves() -> std::string
 {
     static const std::string graves =
         "                    _\n"

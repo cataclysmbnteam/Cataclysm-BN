@@ -21,12 +21,12 @@ void reset_mutation_types()
     mutation_types.clear();
 }
 
-bool mutation_type_exists( const std::string &id )
+auto mutation_type_exists( const std::string &id ) -> bool
 {
     return mutation_types.find( id ) != mutation_types.end();
 }
 
-std::vector<trait_id> get_mutations_in_type( const std::string &id )
+auto get_mutations_in_type( const std::string &id ) -> std::vector<trait_id>
 {
     std::vector<trait_id> ret;
     for( const mutation_branch &it : mutation_branch::get_all() ) {
@@ -37,7 +37,7 @@ std::vector<trait_id> get_mutations_in_type( const std::string &id )
     return ret;
 }
 
-std::vector<trait_id> get_mutations_in_types( const std::set<std::string> &ids )
+auto get_mutations_in_types( const std::set<std::string> &ids ) -> std::vector<trait_id>
 {
     std::vector<trait_id> ret;
     for( const std::string &it : ids ) {

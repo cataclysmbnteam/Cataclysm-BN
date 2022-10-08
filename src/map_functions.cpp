@@ -4,7 +4,7 @@
 namespace map_funcs
 {
 
-int climbing_cost( const map &m, const tripoint &from, const tripoint &to )
+auto climbing_cost( const map &m, const tripoint &from, const tripoint &to ) -> int
 {
     // TODO: All sorts of mutations, equipment weight etc. for characters
     if( !m.valid_move( from, to, false, true ) ) {

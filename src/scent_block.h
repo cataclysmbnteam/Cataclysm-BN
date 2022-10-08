@@ -69,7 +69,7 @@ struct scent_block {
         }
     }
 
-    point index( const tripoint &p ) const {
+    auto index( const tripoint &p ) const -> point {
         return -origin.xy() + p.xy();
     }
 

@@ -106,25 +106,25 @@ namespace game_info
 {
 /** Return the name of the current operating system.
  */
-std::string operating_system();
+auto operating_system() -> std::string;
 /** Return a detailed version of the operating system; e.g. "Ubuntu 18.04" or "(Windows) 10 1809".
  */
-std::string operating_system_version();
+auto operating_system_version() -> std::string;
 /** Return the "bitness" of the game (not necessarily of the operating system); either: 64-bit, 32-bit or Unknown.
  */
-std::string bitness();
+auto bitness() -> std::string;
 /** Return the game version, as in the entry screen.
  */
-std::string game_version();
+auto game_version() -> std::string;
 /** Return the underlying graphics version used by the game; either Tiles or Curses.
 */
-std::string graphics_version();
+auto graphics_version() -> std::string;
 /** Return a list of the loaded mods, including the mod full name and its id name in brackets, e.g. "Dark Days Ahead [dda]".
 */
-std::string mods_loaded();
+auto mods_loaded() -> std::string;
 /** Generate a game report, including the information returned by all of the other functions.
  */
-std::string game_report();
+auto game_report() -> std::string;
 } // namespace game_info
 
 // Enumerations                                                     {{{1
@@ -218,14 +218,14 @@ void setDebugLogClasses( const enum_bitset<DC> &mask, bool silent = false );
 /**
  * @return true if any error has been logged in this run.
  */
-bool debug_has_error_been_observed();
+auto debug_has_error_been_observed() -> bool;
 
 /**
  * Capturing debug messages during func execution,
  * used to test debugmsg calls in the unit tests
  * @return std::string debugmsg
  */
-std::string capture_debugmsg_during( const std::function<void()> &func );
+auto capture_debugmsg_during( const std::function<void()> &func ) -> std::string;
 
 /**
  * Should be called after catacurses::stdscr is initialized.
@@ -251,16 +251,16 @@ class DebugLogGuard
         explicit DebugLogGuard( std::ostream &s ) : s( &s ) {}
         ~DebugLogGuard();
 
-        std::ostream &operator*() {
+        auto operator*() -> std::ostream & {
             return *s;
         }
-        const std::ostream &operator*() const {
+        auto operator*() const -> const std::ostream & {
             return *s;
         }
 };
 
-DebugLogGuard realDebugLog( DL lev, DC cl, const char *filename,
-                            const char *line, const char *funcname );
+auto realDebugLog( DL lev, DC cl, const char *filename,
+                            const char *line, const char *funcname ) -> DebugLogGuard;
 } // namespace detail
 
 /**

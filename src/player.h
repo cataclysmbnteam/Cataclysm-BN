@@ -60,7 +60,7 @@ struct dealt_projectile_attack;
 class profession;
 struct trap;
 
-nc_color encumb_color( int level );
+auto encumb_color( int level ) -> nc_color;
 enum game_message_type : int;
 class vehicle;
 struct item_comp;
@@ -93,8 +93,8 @@ class player : public Character
         player( const player & ) = delete;
         player( player && );
         ~player() override;
-        player &operator=( const player & ) = delete;
-        player &operator=( player && );
+        auto operator=( const player & ) -> player & = delete;
+        auto operator=( player && ) -> player &;
 
         /** Calls Character::normalize()
          *  normalizes HP and body temperature
@@ -102,13 +102,13 @@ class player : public Character
 
         void normalize() override;
 
-        bool is_player() const override {
+        auto is_player() const -> bool override {
             return true;
         }
-        player *as_player() override {
+        auto as_player() -> player * override {
             return this;
         }
-        const player *as_player() const override {
+        auto as_player() const -> const player * override {
             return this;
         }
 
@@ -117,14 +117,14 @@ class player : public Character
         /** Handles the still hard-coded effects. */
         void hardcoded_effects( effect &it );
         /** Returns the modifier value used for vomiting effects. */
-        double vomit_mod();
+        auto vomit_mod() -> double;
 
-        bool is_npc() const override {
+        auto is_npc() const -> bool override {
             return false;    // Overloaded for NPCs in npc.h
         }
 
         /** Returns what color the player should be drawn as */
-        nc_color basic_symbol_color() const override;
+        auto basic_symbol_color() const -> nc_color override;
 
         // populate variables, inventory items, and misc from json object
         virtual void deserialize( JsonIn &jsin ) = 0;
@@ -145,39 +145,39 @@ class player : public Character
         void power_mutations();
 
         /** Returns the bionic with the given invlet, or NULL if no bionic has that invlet */
-        bionic *bionic_by_invlet( int ch );
+        auto bionic_by_invlet( int ch ) -> bionic *;
 
         /** Called when a player triggers a trap, returns true if they don't set it off */
-        bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
+        auto avoid_trap( const tripoint &pos, const trap &tr ) const -> bool override;
 
         void pause(); // '.' command; pauses & resets recoil
 
         // martialarts.cpp
 
         /** Returns true if the player can learn the entered martial art */
-        bool can_autolearn( const matype_id &ma_id ) const;
+        auto can_autolearn( const matype_id &ma_id ) const -> bool;
 
         /** Returns value of player's stable footing */
-        float stability_roll() const override;
+        auto stability_roll() const -> float override;
         /** Returns true if the player has stealthy movement */
-        bool is_stealthy() const;
+        auto is_stealthy() const -> bool;
         /** Returns true if the current martial art works with the player's current weapon */
-        bool can_melee() const;
+        auto can_melee() const -> bool;
         /** Returns true if the player should be dead */
-        bool is_dead_state() const override;
+        auto is_dead_state() const -> bool override;
 
         /** Returns true if the player is able to use a grab breaking technique */
-        bool can_grab_break( const item &weap ) const;
+        auto can_grab_break( const item &weap ) const -> bool;
         // melee.cpp
 
         /**
          * Returns a weapon's modified dispersion value.
          * @param obj Weapon to check dispersion on
          */
-        dispersion_sources get_weapon_dispersion( const item &obj ) const;
+        auto get_weapon_dispersion( const item &obj ) const -> dispersion_sources;
 
         /** How many moves does it take to aim gun to the target accuracy. */
-        int gun_engagement_moves( const item &gun, int target = 0, int start = MAX_RECOIL ) const;
+        auto gun_engagement_moves( const item &gun, int target = 0, int start = MAX_RECOIL ) const -> int;
 
         /**
          *  Fires a gun or auxiliary gunmod (ignoring any current mode)
@@ -186,7 +186,7 @@ class player : public Character
          *  @return number of shots actually fired
          */
 
-        int fire_gun( const tripoint &target, int shots = 1 );
+        auto fire_gun( const tripoint &target, int shots = 1 ) -> int;
         /**
          *  Fires a gun or auxiliary gunmod (ignoring any current mode)
          *  @param target where the first shot is aimed at (may vary for later shots)
@@ -194,7 +194,7 @@ class player : public Character
          *  @param gun item to fire (which does not necessary have to be in the players possession)
          *  @return number of shots actually fired
          */
-        int fire_gun( const tripoint &target, int shots, item &gun );
+        auto fire_gun( const tripoint &target, int shots, item &gun ) -> int;
 
         /** Handles reach melee attacks */
         void reach_attack( const tripoint &p );
@@ -207,30 +207,30 @@ class player : public Character
 
 
         /** NPC-related item rating functions */
-        double weapon_value( const item &weap, int ammo = 10 ) const; // Evaluates item as a weapon
-        double gun_value( const item &weap, int ammo = 10 ) const; // Evaluates item as a gun
-        double melee_value( const item &weap ) const; // As above, but only as melee
-        double unarmed_value() const; // Evaluate yourself!
+        auto weapon_value( const item &weap, int ammo = 10 ) const -> double; // Evaluates item as a weapon
+        auto gun_value( const item &weap, int ammo = 10 ) const -> double; // Evaluates item as a gun
+        auto melee_value( const item &weap ) const -> double; // As above, but only as melee
+        auto unarmed_value() const -> double; // Evaluate yourself!
 
         /** Returns the player's dodge_roll to be compared against an aggressor's hit_roll() */
-        float dodge_roll() override;
+        auto dodge_roll() -> float override;
 
         /** Returns melee skill level, to be used to throttle dodge practice. **/
-        float get_melee() const override;
+        auto get_melee() const -> float override;
 
         /** Handles the uncanny dodge bionic and effects, returns true if the player successfully dodges */
-        bool uncanny_dodge() override;
+        auto uncanny_dodge() -> bool override;
 
         // ranged.cpp
         /** Execute a throw */
-        dealt_projectile_attack throw_item( const tripoint &target, const item &to_throw,
-                                            const cata::optional<tripoint> &blind_throw_from_pos = cata::nullopt );
+        auto throw_item( const tripoint &target, const item &to_throw,
+                                            const cata::optional<tripoint> &blind_throw_from_pos = cata::nullopt ) -> dealt_projectile_attack;
 
         // Mental skills and stats
         /** Returns a value used when attempting to convince NPC's of something */
-        int talk_skill() const;
+        auto talk_skill() const -> int;
         /** Returns a value used when attempting to intimidate NPC's */
-        int intimidation() const;
+        auto intimidation() const -> int;
 
         /**
          * Check if a given body part is immune to a given damage type
@@ -243,13 +243,13 @@ class player : public Character
          * @param dam: Type of damage to check for
          * @returns true if given damage can not reduce hp of given body part
          */
-        bool immune_to( body_part bp, damage_unit dam ) const;
+        auto immune_to( body_part bp, damage_unit dam ) const -> bool;
         /** Modifies a pain value by player traits before passing it to Creature::mod_pain() */
         void mod_pain( int npain ) override;
         /** Sets new intensity of pain an reacts to it */
         void set_pain( int npain ) override;
         /** Returns perceived pain (reduced with painkillers)*/
-        int get_perceived_pain() const override;
+        auto get_perceived_pain() const -> int override;
 
         void add_pain_msg( int val, body_part bp ) const;
 
@@ -257,31 +257,31 @@ class player : public Character
         void knock_back_to( const tripoint &to ) override;
 
         /** Returns multiplier on fall damage at low velocity (knockback/pit/1 z-level, not 5 z-levels) */
-        float fall_damage_mod() const override;
+        auto fall_damage_mod() const -> float override;
         /** Deals falling/collision damage with terrain/creature at pos */
-        int impact( int force, const tripoint &pos ) override;
+        auto impact( int force, const tripoint &pos ) -> int override;
 
         /** Returns overall % of HP remaining */
-        int hp_percentage() const override;
+        auto hp_percentage() const -> int override;
 
         /** Returns list of artifacts in player inventory. **/
-        std::list<item *> get_artifact_items();
+        auto get_artifact_items() -> std::list<item *>;
 
         /** used for drinking from hands, returns how many charges were consumed */
-        int drink_from_hands( item &water );
+        auto drink_from_hands( item &water ) -> int;
         /** Used for eating object at pos, returns true if object is removed from inventory (last charge was consumed) */
-        bool consume( item_location loc );
+        auto consume( item_location loc ) -> bool;
         /** Used for eating a particular item that doesn't need to be in inventory.
          *  Returns true if the item is to be removed (doesn't remove). */
-        bool consume_item( item &target );
+        auto consume_item( item &target ) -> bool;
 
         /** Used for eating entered comestible, returns true if comestible is successfully eaten */
-        bool eat( item &food, bool force = false );
+        auto eat( item &food, bool force = false ) -> bool;
 
-        int get_lift_assist() const;
+        auto get_lift_assist() const -> int;
 
-        bool list_ammo( const item &base, std::vector<item::reload_option> &ammo_list,
-                        bool include_empty_mags = true, bool include_potential = false ) const;
+        auto list_ammo( const item &base, std::vector<item::reload_option> &ammo_list,
+                        bool include_empty_mags = true, bool include_potential = false ) const -> bool;
         /**
          * Select suitable ammo with which to reload the item
          * @param base Item to select ammo for
@@ -289,28 +289,28 @@ class player : public Character
          * @param include_empty_mags Allow selection of empty magazines
          * @param include_potential Include ammo that can potentially be used, but not right now
          */
-        item::reload_option select_ammo( const item &base, bool prompt = false,
-                                         bool include_empty_mags = true, bool include_potential = false ) const;
+        auto select_ammo( const item &base, bool prompt = false,
+                                         bool include_empty_mags = true, bool include_potential = false ) const -> item::reload_option;
 
         /** Select ammo from the provided options */
-        item::reload_option select_ammo( const item &base, std::vector<item::reload_option> opts ) const;
+        auto select_ammo( const item &base, std::vector<item::reload_option> opts ) const -> item::reload_option;
 
         /** Check player strong enough to lift an object unaided by equipment (jacks, levers etc) */
-        bool can_lift( int lift_strength_required ) const;
+        auto can_lift( int lift_strength_required ) const -> bool;
 
         /**
          * Check player capable of taking off an item.
          * @param it Thing to be taken off
          */
-        ret_val<bool> can_takeoff( const item &it, const std::list<item> *res = nullptr ) const;
+        auto can_takeoff( const item &it, const std::list<item> *res = nullptr ) const -> ret_val<bool>;
 
         /**
          * Check player capable of wielding an item.
          * @param it Thing to be wielded
          */
-        ret_val<bool> can_wield( const item &it ) const;
+        auto can_wield( const item &it ) const -> ret_val<bool>;
 
-        bool unwield();
+        auto unwield() -> bool;
 
         /**
          * Whether a tool or gun is potentially reloadable (optionally considering a specific ammo)
@@ -319,7 +319,7 @@ class player : public Character
          * @note items currently loaded with a detachable magazine are considered reloadable
          * @note items with integral magazines are reloadable if free capacity permits (+/- ammo matches)
          */
-        bool can_reload( const item &it, const itype_id &ammo = itype_id() ) const;
+        auto can_reload( const item &it, const itype_id &ammo = itype_id() ) const -> bool;
 
         /**
          * Attempt to mend an item (fix any current faults)
@@ -334,22 +334,22 @@ class player : public Character
          * @param ammo either ammo or magazine to use when reloading the item
          * @param qty maximum units of ammo to reload. Capped by remaining capacity and ignored if reloading using a magazine.
          */
-        int item_reload_cost( const item &it, const item &ammo, int qty ) const;
+        auto item_reload_cost( const item &it, const item &ammo, int qty ) const -> int;
 
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
-        cata::optional<std::list<item>::iterator>
-        wear( int pos, bool interactive = true );
-        cata::optional<std::list<item>::iterator>
-        wear( item &to_wear, bool interactive = true );
+        auto
+        wear( int pos, bool interactive = true ) -> cata::optional<std::list<item>::iterator>;
+        auto
+        wear( item &to_wear, bool interactive = true ) -> cata::optional<std::list<item>::iterator>;
 
         /** Takes off an item, returning false on fail. The taken off item is processed in the interact */
-        bool takeoff( item &it, std::list<item> *res = nullptr );
-        bool takeoff( int pos );
+        auto takeoff( item &it, std::list<item> *res = nullptr ) -> bool;
+        auto takeoff( int pos ) -> bool;
 
         /** So far only called by unload() from game.cpp */
-        bool add_or_drop_with_msg( item &it, bool unloading = false );
+        auto add_or_drop_with_msg( item &it, bool unloading = false ) -> bool;
 
-        bool unload( item_location loc );
+        auto unload( item_location loc ) -> bool;
 
         /**
          * Try to wield a contained item consuming moves proportional to weapon skill and volume.
@@ -358,8 +358,8 @@ class player : public Character
          * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
          * @param base_cost Cost due to storage type.
          */
-        bool wield_contents( item &container, item *internal_item = nullptr, bool penalties = true,
-                             int base_cost = INVENTORY_HANDLING_PENALTY );
+        auto wield_contents( item &container, item *internal_item = nullptr, bool penalties = true,
+                             int base_cost = INVENTORY_HANDLING_PENALTY ) -> bool;
         /**
          * Stores an item inside another consuming moves proportional to weapon skill and volume
          * @param container Container in which to store the item
@@ -382,31 +382,31 @@ class player : public Character
         void reassign_item( item &it, int invlet );
 
         /** Removes gunmod after first unloading any contained ammo and returns true on success */
-        bool gunmod_remove( item &gun, item &mod );
+        auto gunmod_remove( item &gun, item &mod ) -> bool;
 
         /** Starts activity to install gunmod having warned user about any risk of failure or irremovable mods s*/
         void gunmod_add( item &gun, item &mod );
 
         /** @return Odds for success (pair.first) and gunmod damage (pair.second) */
-        std::pair<int, int> gunmod_installation_odds( const item &gun, const item &mod ) const;
+        auto gunmod_installation_odds( const item &gun, const item &mod ) const -> std::pair<int, int>;
 
         /** Starts activity to install toolmod */
         void toolmod_add( item_location tool, item_location mod );
 
         /** Note that we've read a book at least once. **/
-        virtual bool has_identified( const itype_id &item_id ) const = 0;
+        virtual auto has_identified( const itype_id &item_id ) const -> bool = 0;
 
         /** Handles sleep attempts by the player, starts ACT_TRY_SLEEP activity */
         void try_to_sleep( const time_duration &dur = 30_minutes );
         /** Rate point's ability to serve as a bed. Takes all mutations, fatigue and stimulants into account. */
-        int sleep_spot( const tripoint &p ) const;
+        auto sleep_spot( const tripoint &p ) const -> int;
         /** Checked each turn during "lying_down", returns true if the player falls asleep */
-        bool can_sleep();
+        auto can_sleep() -> bool;
 
         /** Uses morale, pain and fatigue to return the player's focus target goto value */
-        int calc_focus_equilibrium() const;
+        auto calc_focus_equilibrium() const -> int;
         /** Calculates actual focus gain/loss value from focus equilibrium*/
-        int calc_focus_change() const;
+        auto calc_focus_change() const -> int;
         /** Uses calc_focus_change to update the player's current focus */
         void update_mental_focus();
         /** Resets stats, and applies effects in an idempotent manner */
@@ -422,7 +422,7 @@ class player : public Character
             power_mut_ui_cmd cmd;
             trait_id mut;
         };
-        power_mut_ui_result power_mutations_ui();
+        auto power_mutations_ui() -> power_mut_ui_result;
 
         /** last time we checked for sleep */
         time_point last_sleep_check = calendar::turn_zero;
@@ -431,9 +431,9 @@ class player : public Character
     public:
 
         //returns true if the warning is now beyond final and results in hostility.
-        bool add_faction_warning( const faction_id &id );
-        int current_warnings_fac( const faction_id &id );
-        bool beyond_final_warning( const faction_id &id );
+        auto add_faction_warning( const faction_id &id ) -> bool;
+        auto current_warnings_fac( const faction_id &id ) -> int;
+        auto beyond_final_warning( const faction_id &id ) -> bool;
 
         /** This handles giving xp for a skill */
         void practice( const skill_id &id, int amount, int cap = 99, bool suppress_warning = false );
@@ -443,7 +443,7 @@ class player : public Character
         void on_worn_item_transform( const item &old_it, const item &new_it );
 
         /** Get the formatted name of the currently wielded item (if any) with current gun mode (if gun) */
-        std::string weapname() const;
+        auto weapname() const -> std::string;
 
         void process_items();
         /**
@@ -455,70 +455,70 @@ class player : public Character
          * @return An item that contains the removed charges, it's effectively a
          * copy of the item with the proper charges.
          */
-        item reduce_charges( int position, int quantity );
+        auto reduce_charges( int position, int quantity ) -> item;
         /**
          * Remove charges from a specific item (given by a pointer to it).
          * Otherwise identical to @ref reduce_charges(int,int)
          * @param it A pointer to the item, it *must* exist.
          * @param quantity How many charges to remove
          */
-        item reduce_charges( item *it, int quantity );
+        auto reduce_charges( item *it, int quantity ) -> item;
 
         /**
         * Check whether player has a bionic power armor interface.
         * @return true if player has an active bionic capable of powering armor, false otherwise.
         */
-        bool can_interface_armor() const;
+        auto can_interface_armor() const -> bool;
 
-        bool has_mission_item( int mission_id ) const; // Has item with mission_id
+        auto has_mission_item( int mission_id ) const -> bool; // Has item with mission_id
         /**
          * Check whether the player has a gun that uses the given type of ammo.
          */
-        bool has_gun_for_ammo( const ammotype &at ) const;
-        bool has_magazine_for_ammo( const ammotype &at ) const;
+        auto has_gun_for_ammo( const ammotype &at ) const -> bool;
+        auto has_magazine_for_ammo( const ammotype &at ) const -> bool;
 
         // Checks crafting inventory for books providing the requested recipe.
         // Then checks nearby NPCs who could provide it too.
         // Returns -1 to indicate recipe not found, otherwise difficulty to learn.
-        int has_recipe( const recipe *r, const inventory &crafting_inv,
-                        const std::vector<npc *> &helpers ) const;
-        bool has_recipe_requirements( const recipe &rec ) const;
+        auto has_recipe( const recipe *r, const inventory &crafting_inv,
+                        const std::vector<npc *> &helpers ) const -> int;
+        auto has_recipe_requirements( const recipe &rec ) const -> bool;
 
-        bool studied_all_recipes( const itype &book ) const;
+        auto studied_all_recipes( const itype &book ) const -> bool;
 
         /** Returns all recipes that are known from the books (either in inventory or nearby). */
-        recipe_subset get_recipes_from_books( const inventory &crafting_inv,
-                                              recipe_filter filter = nullptr ) const;
+        auto get_recipes_from_books( const inventory &crafting_inv,
+                                              recipe_filter filter = nullptr ) const -> recipe_subset;
         /**
           * Returns all available recipes (from books and npc companions)
           * @param crafting_inv Current available items to craft
           * @param helpers List of NPCs that could help with crafting.
           * @param filter If set, will return only recipes that match the filter (should be much faster).
           */
-        recipe_subset get_available_recipes( const inventory &crafting_inv,
+        auto get_available_recipes( const inventory &crafting_inv,
                                              const std::vector<npc *> *helpers = nullptr,
-                                             recipe_filter filter = nullptr ) const;
+                                             recipe_filter filter = nullptr ) const -> recipe_subset;
 
         /** For use with in progress crafts */
-        int available_assistant_count( const recipe &rec ) const;
+        auto available_assistant_count( const recipe &rec ) const -> int;
         /**
          * Time to craft not including speed multiplier
          */
-        int base_time_to_craft( const recipe &rec, int batch_size = 1 ) const;
+        auto base_time_to_craft( const recipe &rec, int batch_size = 1 ) const -> int;
         /**
          * Expected time to craft a recipe, with assumption that multipliers stay constant.
          */
-        int expected_time_to_craft( const recipe &rec, int batch_size = 1, bool in_progress = false ) const;
-        std::vector<const item *> get_eligible_containers_for_crafting() const;
-        bool check_eligible_containers_for_crafting( const recipe &rec, int batch_size = 1 ) const;
-        bool can_make( const recipe *r, int batch_size = 1 );  // have components?
+        auto expected_time_to_craft( const recipe &rec, int batch_size = 1, bool in_progress = false ) const -> int;
+        auto get_eligible_containers_for_crafting() const -> std::vector<const item *>;
+        auto check_eligible_containers_for_crafting( const recipe &rec, int batch_size = 1 ) const -> bool;
+        auto can_make( const recipe *r, int batch_size = 1 ) -> bool;  // have components?
         /**
          * Returns true if the player can start crafting the recipe with the given batch size
          * The player is not required to have enough tool charges to finish crafting, only to
          * complete the first step (total / 20 + total % 20 charges)
          */
-        bool can_start_craft( const recipe *rec, recipe_filter_flags, int batch_size = 1 );
-        bool making_would_work( const recipe_id &id_to_make, int batch_size );
+        auto can_start_craft( const recipe *rec, recipe_filter_flags, int batch_size = 1 ) -> bool;
+        auto making_would_work( const recipe_id &id_to_make, int batch_size ) -> bool;
 
         /**
          * Start various types of crafts
@@ -530,14 +530,14 @@ class player : public Character
         void make_craft( const recipe_id &id, int batch_size, const tripoint &loc = tripoint_zero );
         void make_all_craft( const recipe_id &id, int batch_size, const tripoint &loc = tripoint_zero );
         /** consume components and create an active, in progress craft containing them */
-        item_location start_craft( craft_command &command, const tripoint &loc );
+        auto start_craft( craft_command &command, const tripoint &loc ) -> item_location;
         /**
          * Calculate a value representing the success of the player at crafting the given recipe,
          * taking player skill, recipe difficulty, npc helpers, and player mutations into account.
          * @param making the recipe for which to calculate
          * @return a value >= 0.0 with >= 1.0 representing unequivocal success
          */
-        double crafting_success_roll( const recipe &making ) const;
+        auto crafting_success_roll( const recipe &making ) const -> double;
         /**
          * Check if the player meets the requirements to continue the in progress craft and if
          * unable to continue print messages explaining the reason.
@@ -546,12 +546,12 @@ class player : public Character
          * @param craft the currently in progress craft
          * @return if the craft can be continued
          */
-        bool can_continue_craft( item &craft );
+        auto can_continue_craft( item &craft ) -> bool;
         /**
          * Returns nearby NPCs ready and willing to help with crafting or some other manual task.
          * @param max If set, limits number of helpers to that value
          */
-        std::vector<npc *> get_crafting_helpers( size_t max = 0 ) const;
+        auto get_crafting_helpers( size_t max = 0 ) const -> std::vector<npc *>;
         /**
          * Handle skill gain for player and followers during crafting
          * @param craft the currently in progress craft
@@ -560,22 +560,22 @@ class player : public Character
          */
         void craft_skill_gain( const item &craft, const int &multiplier );
 
-        const requirement_data *select_requirements(
+        auto select_requirements(
             const std::vector<const requirement_data *> &, int batch, const inventory &,
-            const std::function<bool( const item & )> &filter ) const;
-        comp_selection<item_comp>
+            const std::function<bool( const item & )> &filter ) const -> const requirement_data *;
+        auto
         select_item_component( const std::vector<item_comp> &components,
                                int batch, inventory &map_inv, bool can_cancel = false,
-                               const std::function<bool( const item & )> &filter = return_true<item>, bool player_inv = true );
-        std::list<item> consume_items( const comp_selection<item_comp> &is, int batch,
-                                       const std::function<bool( const item & )> &filter = return_true<item> );
-        std::list<item> consume_items( map &m, const comp_selection<item_comp> &is, int batch,
+                               const std::function<bool( const item & )> &filter = return_true<item>, bool player_inv = true ) -> comp_selection<item_comp>;
+        auto consume_items( const comp_selection<item_comp> &is, int batch,
+                                       const std::function<bool( const item & )> &filter = return_true<item> ) -> std::list<item>;
+        auto consume_items( map &m, const comp_selection<item_comp> &is, int batch,
                                        const std::function<bool( const item & )> &filter = return_true<item>,
-                                       const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE );
-        std::list<item> consume_items( const std::vector<item_comp> &components, int batch = 1,
-                                       const std::function<bool( const item & )> &filter = return_true<item> );
+                                       const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE ) -> std::list<item>;
+        auto consume_items( const std::vector<item_comp> &components, int batch = 1,
+                                       const std::function<bool( const item & )> &filter = return_true<item> ) -> std::list<item>;
         /** Consume tools for the next multiplier * 5% progress of the craft */
-        bool craft_consume_tools( item &craft, int mulitplier, bool start_craft );
+        auto craft_consume_tools( item &craft, int mulitplier, bool start_craft ) -> bool;
         void consume_tools( const comp_selection<tool_comp> &tool, int batch );
         void consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
                             const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE,
@@ -616,7 +616,7 @@ class player : public Character
         void mod_stat( const std::string &stat, float modifier ) override;
 
         void set_underwater( bool );
-        bool is_hallucination() const override;
+        auto is_hallucination() const -> bool override;
         void environmental_revert_effect();
 
         //message related stuff
@@ -638,7 +638,7 @@ class player : public Character
         void search_surroundings();
 
         using Character::query_yn;
-        bool query_yn( const std::string &mes ) const override;
+        auto query_yn( const std::string &mes ) const -> bool override;
 
 
         /**
@@ -663,7 +663,7 @@ class player : public Character
          * @param target Item consumed. Must be a medication or a container of medication.
          * @return Whether the target was fully consumed.
          */
-        bool consume_med( item &target );
+        auto consume_med( item &target ) -> bool;
 
     private:
 
@@ -672,6 +672,6 @@ class player : public Character
 };
 
 /** Calculates the player's morale cap due to fatigue */
-int calc_fatigue_cap( int fatigue );
+auto calc_fatigue_cap( int fatigue ) -> int;
 
 #endif // CATA_SRC_PLAYER_H

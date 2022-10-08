@@ -14,7 +14,7 @@ class distribution_grid;
 class active_tile_data
 {
     public:
-        static active_tile_data *create( const std::string &id );
+        static auto create( const std::string &id ) -> active_tile_data *;
 
     private:
         time_point last_updated;
@@ -34,7 +34,7 @@ class active_tile_data
             last_updated = to;
         }
 
-        time_point get_last_updated() {
+        auto get_last_updated() -> time_point {
             return last_updated;
         }
         void set_last_updated( time_point t ) {
@@ -45,8 +45,8 @@ class active_tile_data
         void deserialize( JsonIn &jsin );
 
         virtual ~active_tile_data();
-        virtual active_tile_data *clone() const = 0;
-        virtual const std::string &get_type() const = 0;
+        virtual auto clone() const -> active_tile_data * = 0;
+        virtual auto get_type() const -> const std::string & = 0;
 
         virtual void store( JsonOut &jsout ) const = 0;
         virtual void load( JsonObject &jo ) = 0;
@@ -58,7 +58,7 @@ namespace active_tiles
 
 // TODO: Don't return a raw pointer
 template <typename T = active_tile_data>
-T * furn_at( const tripoint_abs_ms &pos );
+auto furn_at( const tripoint_abs_ms &pos ) -> T *;
 
 } // namespace active_tiles
 

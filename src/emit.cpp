@@ -12,7 +12,7 @@ static std::map<emit_id, emit> emits_all;
 
 /** @relates string_id */
 template<>
-bool string_id<emit>::is_valid() const
+auto string_id<emit>::is_valid() const -> bool
 {
     const auto found = emits_all.find( *this );
     if( found == emits_all.end() ) {
@@ -23,7 +23,7 @@ bool string_id<emit>::is_valid() const
 
 /** @relates string_id */
 template<>
-const emit &string_id<emit>::obj() const
+auto string_id<emit>::obj() const -> const emit &
 {
     const auto found = emits_all.find( *this );
     if( found == emits_all.end() ) {
@@ -36,7 +36,7 @@ const emit &string_id<emit>::obj() const
 
 emit::emit() : id_( emit_id::NULL_ID() ) {}
 
-bool emit::is_null() const
+auto emit::is_null() const -> bool
 {
     return id_ == emit_id::NULL_ID();
 }
@@ -55,7 +55,7 @@ void emit::load_emit( const JsonObject &jo )
     emits_all[ et.id_ ] = et;
 }
 
-const std::map<emit_id, emit> &emit::all()
+auto emit::all() -> const std::map<emit_id, emit> &
 {
     return emits_all;
 }

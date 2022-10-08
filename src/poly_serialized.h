@@ -23,7 +23,7 @@ class poly_serialized : public std::unique_ptr<T>
         poly_serialized( T *value ) : std::unique_ptr<T>( value ) {}
         poly_serialized( const poly_serialized<T> &other ) :
             std::unique_ptr<T>( other ? other.get()->clone() : nullptr ) {}
-        poly_serialized &operator=( poly_serialized<T> other ) {
+        auto operator=( poly_serialized<T> other ) -> poly_serialized & {
             std::unique_ptr<T>::operator=( std::move( other ) );
             return *this;
         }
@@ -58,7 +58,7 @@ class poly_serialized : public std::unique_ptr<T>
 };
 
 template <class T, class... Args>
-poly_serialized<T> make_poly_serialized( Args &&...args )
+auto make_poly_serialized( Args &&...args ) -> poly_serialized<T>
 {
     return poly_serialized<T>( new T( std::forward<Args>( args )... ) );
 }

@@ -98,7 +98,7 @@ namespace io
 {
 
 template<>
-std::string enum_to_string<event_type>( event_type data );
+auto enum_to_string<event_type>( event_type data ) -> std::string;
 
 } // namespace io
 
@@ -107,7 +107,7 @@ namespace std
 
 template<>
 struct hash<event_type> {
-    size_t operator()( const event_type v ) const noexcept {
+    auto operator()( const event_type v ) const noexcept -> size_t {
         return static_cast<size_t>( v );
     }
 };
@@ -556,7 +556,7 @@ class event
         // verify that the types you pass match the expected types for the
         // event_type you pass as a template parameter.
         template<event_type Type, typename... Args>
-        static event make( Args &&... args ) {
+        static auto make( Args &&... args ) -> event {
             using Spec = event_detail::event_spec<Type>;
             // Using is_empty mostly just to verify that the type is defined at
             // all, but it so happens that it ought to be empty too.
@@ -571,16 +571,16 @@ class event
         }
 
         using fields_type = std::unordered_map<std::string, cata_variant_type>;
-        static fields_type get_fields( event_type );
+        static auto get_fields( event_type ) -> fields_type;
 
-        event_type type() const {
+        auto type() const -> event_type {
             return type_;
         }
-        time_point time() const {
+        auto time() const -> time_point {
             return time_;
         }
 
-        cata_variant get_variant( const std::string &key ) const {
+        auto get_variant( const std::string &key ) const -> cata_variant {
             auto it = data_.find( key );
             if( it == data_.end() ) {
                 debugmsg( "No such key %s in event of type %s", key,
@@ -590,7 +590,7 @@ class event
             return it->second;
         }
 
-        cata_variant get_variant_or_void( const std::string &key ) const {
+        auto get_variant_or_void( const std::string &key ) const -> cata_variant {
             auto it = data_.find( key );
             if( it == data_.end() ) {
                 return cata_variant();
@@ -608,7 +608,7 @@ class event
             return get_variant( key ).get<T>();
         }
 
-        const data_type &data() const {
+        auto data() const -> const data_type & {
             return data_;
         }
     private:
@@ -625,7 +625,7 @@ struct make_event_helper<Type, std::index_sequence<I...>> {
     using Spec = event_spec<Type>;
 
     template<typename... Args>
-    event operator()( time_point time, Args &&... args ) {
+    auto operator()( time_point time, Args &&... args ) -> event {
         return event(
                    Type,
                    time,

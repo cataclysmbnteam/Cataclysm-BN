@@ -121,7 +121,7 @@ void map::create_burnproducts( const tripoint &p, const item &fuel, const units:
 }
 
 // Use a helper for a bit less boilerplate
-int map::burn_body_part( player &u, field_entry &cur, body_part bp, const int scale )
+auto map::burn_body_part( player &u, field_entry &cur, body_part bp, const int scale ) -> int
 {
     int total_damage = 0;
     const int intensity = cur.get_field_intensity();
@@ -158,12 +158,12 @@ void map::process_fields()
     }
 }
 
-bool ter_furn_has_flag( const ter_t &ter, const furn_t &furn, const ter_bitflags flag )
+auto ter_furn_has_flag( const ter_t &ter, const furn_t &furn, const ter_bitflags flag ) -> bool
 {
     return ter.has_flag( flag ) || furn.has_flag( flag );
 }
 
-static int ter_furn_movecost( const ter_t &ter, const furn_t &furn )
+static auto ter_furn_movecost( const ter_t &ter, const furn_t &furn ) -> int
 {
     if( ter.movecost == 0 ) {
         return 0;
@@ -177,7 +177,7 @@ static int ter_furn_movecost( const ter_t &ter, const furn_t &furn )
 }
 
 // Wrapper to allow skipping bound checks except at the edges of the map
-std::pair<tripoint, maptile> map::maptile_has_bounds( const tripoint &p, const bool bounds_checked )
+auto map::maptile_has_bounds( const tripoint &p, const bool bounds_checked ) -> std::pair<tripoint, maptile>
 {
     if( bounds_checked ) {
         // We know that the point is in bounds
@@ -187,7 +187,7 @@ std::pair<tripoint, maptile> map::maptile_has_bounds( const tripoint &p, const b
     return {p, maptile_at( p )};
 }
 
-std::array<std::pair<tripoint, maptile>, 8> map::get_neighbors( const tripoint &p )
+auto map::get_neighbors( const tripoint &p ) -> std::array<std::pair<tripoint, maptile>, 8>
 {
     // Find out which edges are in the bubble
     // Where possible, do just one bounds check for all the neighbors
@@ -208,7 +208,7 @@ std::array<std::pair<tripoint, maptile>, 8> map::get_neighbors( const tripoint &
     };
 }
 
-bool map::gas_can_spread_to( field_entry &cur, const tripoint &src, const tripoint &dst )
+auto map::gas_can_spread_to( field_entry &cur, const tripoint &src, const tripoint &dst ) -> bool
 {
     maptile dst_tile = maptile_at( dst );
     const field_entry *tmpfld = dst_tile.get_field().find_field( cur.get_field_type() );
@@ -351,7 +351,7 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
     }
 }
 
-static inline bool check_flammable( const map_data_common_t &t )
+static inline auto check_flammable( const map_data_common_t &t ) -> bool
 {
     return t.has_flag( TFLAG_FLAMMABLE ) || t.has_flag( TFLAG_FLAMMABLE_ASH ) ||
            t.has_flag( TFLAG_FLAMMABLE_HARD );
@@ -1891,8 +1891,8 @@ void map::monster_in_field( monster &z )
     }
 }
 
-std::tuple<maptile, maptile, maptile> map::get_wind_blockers( const int &winddirection,
-        const tripoint &pos )
+auto map::get_wind_blockers( const int &winddirection,
+        const tripoint &pos ) -> std::tuple<maptile, maptile, maptile>
 {
     static const std::array<std::pair<int, std::tuple< point, point, point >>, 9> outputs = {{
             { 330, std::make_tuple( point_east, point_north_east, point_south_east ) },

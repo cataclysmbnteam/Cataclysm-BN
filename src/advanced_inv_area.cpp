@@ -31,7 +31,7 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
-int advanced_inv_area::get_item_count() const
+auto advanced_inv_area::get_item_count() const -> int
 {
     if( id == AIM_INVENTORY ) {
         return g->u.inv.size();
@@ -196,7 +196,7 @@ void advanced_inv_area::init()
     }
 }
 
-units::volume advanced_inv_area::free_volume( bool in_vehicle ) const
+auto advanced_inv_area::free_volume( bool in_vehicle ) const -> units::volume
 {
     // should be a specific location instead
     assert( id != AIM_ALL );
@@ -206,7 +206,7 @@ units::volume advanced_inv_area::free_volume( bool in_vehicle ) const
     return in_vehicle ? veh->free_volume( vstor ) : get_map().free_volume( pos );
 }
 
-bool advanced_inv_area::is_same( const advanced_inv_area &other ) const
+auto advanced_inv_area::is_same( const advanced_inv_area &other ) const -> bool
 {
     // All locations (sans the below) are compared by the coordinates,
     // e.g. dragged vehicle (to the south) and AIM_SOUTH are the same.
@@ -220,7 +220,7 @@ bool advanced_inv_area::is_same( const advanced_inv_area &other ) const
     return id == other.id;
 }
 
-bool advanced_inv_area::canputitems( const advanced_inv_listitem *advitem )
+auto advanced_inv_area::canputitems( const advanced_inv_listitem *advitem ) -> bool
 {
     bool canputitems = false;
     bool from_vehicle = false;
@@ -245,7 +245,7 @@ bool advanced_inv_area::canputitems( const advanced_inv_listitem *advitem )
     return canputitems;
 }
 
-item *advanced_inv_area::get_container( bool in_vehicle )
+auto advanced_inv_area::get_container( bool in_vehicle ) -> item *
 {
     item *container = nullptr;
 
@@ -355,7 +355,7 @@ void advanced_inv_area::set_container( const advanced_inv_listitem *advitem )
     }
 }
 
-bool advanced_inv_area::is_container_valid( const item *it ) const
+auto advanced_inv_area::is_container_valid( const item *it ) const -> bool
 {
     if( it != nullptr ) {
         if( it->typeId() == uistate.adv_inv_container_type ) {
@@ -374,7 +374,7 @@ bool advanced_inv_area::is_container_valid( const item *it ) const
     return false;
 }
 
-static tripoint aim_vector( aim_location id )
+static auto aim_vector( aim_location id ) -> tripoint
 {
     switch( id ) {
         case AIM_SOUTHWEST:
@@ -423,7 +423,7 @@ void advanced_inv_area::set_container_position()
 }
 
 template <typename T>
-advanced_inv_area::itemstack advanced_inv_area::i_stacked( T items )
+auto advanced_inv_area::i_stacked( T items ) -> advanced_inv_area::itemstack
 {
     //create a new container for our stacked items
     advanced_inv_area::itemstack stacks;

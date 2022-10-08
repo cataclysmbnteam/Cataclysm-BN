@@ -16,9 +16,9 @@ class ammunition_type
         ammunition_type() = default;
         explicit ammunition_type( std::string name ) : name_( std::move( name ) ) { }
 
-        std::string name() const;
+        auto name() const -> std::string;
 
-        const itype_id &default_ammotype() const {
+        auto default_ammotype() const -> const itype_id & {
             return default_ammotype_;
         }
 

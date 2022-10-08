@@ -23,7 +23,7 @@ namespace behavior
 // To avoid a local minima when the character has access to warmth in a shelter but gets cold
 // when they go outside, this method needs to only alert when travel time to known shelter
 // approaches time to freeze.
-status_t character_oracle_t::needs_warmth_badly() const
+auto character_oracle_t::needs_warmth_badly() const -> status_t
 {
     const player *p = dynamic_cast<const player *>( subject );
     // Use player::temp_conv to predict whether the Character is "in trouble".
@@ -35,7 +35,7 @@ status_t character_oracle_t::needs_warmth_badly() const
     return success;
 }
 
-status_t character_oracle_t::needs_water_badly() const
+auto character_oracle_t::needs_water_badly() const -> status_t
 {
     // Check thirst threshold.
     if( subject->get_thirst() > thirst_levels::parched ) {
@@ -44,7 +44,7 @@ status_t character_oracle_t::needs_water_badly() const
     return success;
 }
 
-status_t character_oracle_t::needs_food_badly() const
+auto character_oracle_t::needs_food_badly() const -> status_t
 {
     // Check hunger threshold.
     if( subject->get_kcal_percent() < 0.5f ) {
@@ -53,7 +53,7 @@ status_t character_oracle_t::needs_food_badly() const
     return success;
 }
 
-status_t character_oracle_t::can_wear_warmer_clothes() const
+auto character_oracle_t::can_wear_warmer_clothes() const -> status_t
 {
     const player *p = dynamic_cast<const player *>( subject );
     // Check inventory for wearable warmer clothes, greedily.
@@ -67,7 +67,7 @@ status_t character_oracle_t::can_wear_warmer_clothes() const
     return failure;
 }
 
-status_t character_oracle_t::can_make_fire() const
+auto character_oracle_t::can_make_fire() const -> status_t
 {
     // Check inventory for firemaking tools and fuel
     bool tool = false;
@@ -89,14 +89,14 @@ status_t character_oracle_t::can_make_fire() const
     return success;
 }
 
-status_t character_oracle_t::can_take_shelter() const
+auto character_oracle_t::can_take_shelter() const -> status_t
 {
     // See if we know about some shelter
     // Don't know how yet.
     return failure;
 }
 
-status_t character_oracle_t::has_water() const
+auto character_oracle_t::has_water() const -> status_t
 {
     // Check if we know about water somewhere
     bool found_water = subject->inv.has_item_with( []( const item & cand ) {
@@ -105,7 +105,7 @@ status_t character_oracle_t::has_water() const
     return found_water ? running : failure;
 }
 
-status_t character_oracle_t::has_food() const
+auto character_oracle_t::has_food() const -> status_t
 {
     // Check if we know about food somewhere
     bool found_food = subject->inv.has_item_with( []( const item & cand ) {

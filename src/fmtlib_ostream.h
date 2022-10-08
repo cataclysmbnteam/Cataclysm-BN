@@ -40,14 +40,14 @@ template <class Char> class formatbuf : public std::basic_streambuf<Char>
         // to overflow. There is no disadvantage here for sputn since this always
         // results in a call to xsputn.
 
-        int_type overflow( int_type ch = traits_type::eof() ) FMT_OVERRIDE {
+        auto overflow( int_type ch = traits_type::eof() ) -> int_type FMT_OVERRIDE {
             if( !traits_type::eq_int_type( ch, traits_type::eof() ) ) {
                 buffer_.push_back( static_cast<Char>( ch ) );
             }
             return ch;
         }
 
-        std::streamsize xsputn( const Char *s, std::streamsize count ) FMT_OVERRIDE {
+        auto xsputn( const Char *s, std::streamsize count ) -> std::streamsize FMT_OVERRIDE {
             buffer_.append( s, s + count );
             return count;
         }
@@ -80,12 +80,12 @@ template <typename T, typename Char> class is_streamable
 {
     private:
         template <typename U>
-        static bool_constant < !std::is_same < decltype( std::declval<test_stream<Char>&>()
+        static auto
+                test( int ) -> bool_constant < !std::is_same < decltype( std::declval<test_stream<Char>&>()
                 << std::declval<U>() ),
-                void_t< >>::value >
-                test( int );
+                void_t< >>::value >;
 
-        template <typename> static std::false_type test( ... );
+        template <typename> static auto test( ... ) -> std::false_type;
 
         using result = decltype( test<T>( 0 ) );
 

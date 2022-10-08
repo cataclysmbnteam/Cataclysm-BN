@@ -63,7 +63,7 @@ struct city {
         return size >= 0;
     }
 
-    int get_distance_from( const tripoint_om_omt &p ) const;
+    auto get_distance_from( const tripoint_om_omt &p ) const -> int;
 };
 
 enum class lab_type : int {
@@ -77,7 +77,7 @@ namespace io
 {
 
 template<>
-std::string enum_to_string<lab_type>( lab_type data );
+auto enum_to_string<lab_type>( lab_type data ) -> std::string;
 
 } // namespace io
 
@@ -183,7 +183,7 @@ class overmap
         overmap( const point_abs_om &p );
         ~overmap();
 
-        overmap &operator=( const overmap & );
+        auto operator=( const overmap & ) -> overmap &;
 
         /**
          * Create content in the overmap.
@@ -191,7 +191,7 @@ class overmap
         void populate( overmap_special_batch &enabled_specials );
         void populate();
 
-        const point_abs_om &pos() const {
+        auto pos() const -> const point_abs_om & {
             return loc;
         }
 
@@ -202,9 +202,9 @@ class overmap
          * chosen place on the overmap with the specific overmap terrain.
          * Returns @ref invalid_tripoint if no suitable place has been found.
          */
-        tripoint_om_omt find_random_omt( const std::pair<std::string, ot_match_type> &target ) const;
-        tripoint_om_omt find_random_omt( const std::string &omt_base_type,
-                                         ot_match_type match_type = ot_match_type::type ) const {
+        auto find_random_omt( const std::pair<std::string, ot_match_type> &target ) const -> tripoint_om_omt;
+        auto find_random_omt( const std::string &omt_base_type,
+                                         ot_match_type match_type = ot_match_type::type ) const -> tripoint_om_omt {
             return find_random_omt( std::make_pair( omt_base_type, match_type ) );
         };
         /**
@@ -213,26 +213,26 @@ class overmap
          * @returns A vector of terrain coordinates (absolute overmap terrain
          * coordinates), or empty vector if no matching terrain is found.
          */
-        std::vector<point_abs_omt> find_terrain( const std::string &term, int zlevel );
+        auto find_terrain( const std::string &term, int zlevel ) -> std::vector<point_abs_omt>;
 
         void ter_set( const tripoint_om_omt &p, const oter_id &id );
-        const oter_id &ter( const tripoint_om_omt &p ) const;
-        bool &seen( const tripoint_om_omt &p );
-        bool seen( const tripoint_om_omt &p ) const;
-        bool &explored( const tripoint_om_omt &p );
-        bool is_explored( const tripoint_om_omt &p ) const;
+        auto ter( const tripoint_om_omt &p ) const -> const oter_id &;
+        auto seen( const tripoint_om_omt &p ) -> bool &;
+        auto seen( const tripoint_om_omt &p ) const -> bool;
+        auto explored( const tripoint_om_omt &p ) -> bool &;
+        auto is_explored( const tripoint_om_omt &p ) const -> bool;
 
-        bool has_note( const tripoint_om_omt &p ) const;
-        cata::optional<int> has_note_with_danger_radius( const tripoint_om_omt &p ) const;
-        bool is_marked_dangerous( const tripoint_om_omt &p ) const;
-        const std::vector<om_note> &all_notes( int z ) const;
-        const std::string &note( const tripoint_om_omt &p ) const;
+        auto has_note( const tripoint_om_omt &p ) const -> bool;
+        auto has_note_with_danger_radius( const tripoint_om_omt &p ) const -> cata::optional<int>;
+        auto is_marked_dangerous( const tripoint_om_omt &p ) const -> bool;
+        auto all_notes( int z ) const -> const std::vector<om_note> &;
+        auto note( const tripoint_om_omt &p ) const -> const std::string &;
         void add_note( const tripoint_om_omt &p, std::string message );
         void delete_note( const tripoint_om_omt &p );
         void mark_note_dangerous( const tripoint_om_omt &p, int radius, bool is_dangerous );
 
-        bool has_extra( const tripoint_om_omt &p ) const;
-        const string_id<map_extra> &extra( const tripoint_om_omt &p ) const;
+        auto has_extra( const tripoint_om_omt &p ) const -> bool;
+        auto extra( const tripoint_om_omt &p ) const -> const string_id<map_extra> &;
         void add_extra( const tripoint_om_omt &p, const string_id<map_extra> &id );
         void delete_extra( const tripoint_om_omt &p );
 
@@ -240,7 +240,7 @@ class overmap
          * Getter for overmap scents.
          * @returns a reference to a scent_trace from the requested location.
          */
-        const scent_trace &scent_at( const tripoint_abs_omt &loc ) const;
+        auto scent_at( const tripoint_abs_omt &loc ) const -> const scent_trace &;
         /**
          * Setter for overmap scents, stores the provided scent at the provided location.
          */
@@ -250,8 +250,8 @@ class overmap
          * @returns Whether @param p is within desired bounds of the overmap
          * @param clearance Minimal distance from the edges of the overmap
          */
-        static bool inbounds( const tripoint_om_omt &p, int clearance = 0 );
-        static bool inbounds( const point_om_omt &p, int clearance = 0 ) {
+        static auto inbounds( const tripoint_om_omt &p, int clearance = 0 ) -> bool;
+        static auto inbounds( const point_om_omt &p, int clearance = 0 ) -> bool {
             return inbounds( tripoint_om_omt( p, 0 ), clearance );
         }
         /**
@@ -264,27 +264,27 @@ class overmap
          * @returns A vector of note coordinates (absolute overmap terrain
          * coordinates), or empty vector if no matching notes are found.
          */
-        std::vector<point_abs_omt> find_notes( int z, const std::string &text );
+        auto find_notes( int z, const std::string &text ) -> std::vector<point_abs_omt>;
         /**
          * Return a vector containing the absolute coordinates of
          * every matching map extra on the current z level of the current overmap.
          * @returns A vector of map extra coordinates (absolute overmap terrain
          * coordinates), or empty vector if no matching map extras are found.
          */
-        std::vector<point_abs_omt> find_extras( int z, const std::string &text );
+        auto find_extras( int z, const std::string &text ) -> std::vector<point_abs_omt>;
 
         /**
          * Returns whether or not the location has been generated (e.g. mapgen has run).
          * @param loc Location to check.
          * @returns True if param @loc has been generated.
          */
-        bool is_omt_generated( const tripoint_om_omt &loc ) const;
+        auto is_omt_generated( const tripoint_om_omt &loc ) const -> bool;
 
         /** Returns the (0, 0) corner of the overmap in the global coordinates. */
-        point_abs_omt global_base_point() const;
+        auto global_base_point() const -> point_abs_omt;
 
         // TODO: Should depend on coordinates
-        const regional_settings &get_settings() const {
+        auto get_settings() const -> const regional_settings & {
             return *settings;
         }
 
@@ -299,8 +299,8 @@ class overmap
         std::multimap<tripoint_om_sm, mongroup> zg;
     public:
         /** Unit test enablers to check if a given mongroup is present. */
-        bool mongroup_check( const mongroup &candidate ) const;
-        bool monster_check( const std::pair<tripoint_om_sm, monster> &candidate ) const;
+        auto mongroup_check( const mongroup &candidate ) const -> bool;
+        auto monster_check( const std::pair<tripoint_om_sm, monster> &candidate ) const -> bool;
 
     private:
         /** Mapping of overmap coordinate to bits representing NESW+up+down connectivity. */
@@ -317,23 +317,23 @@ class overmap
         std::vector<city> cities;
         std::vector<lab> labs;
         std::map<overmap_connection_id, std::vector<tripoint_om_omt>> connections_out;
-        cata::optional<basecamp *> find_camp( const point_abs_omt &p );
+        auto find_camp( const point_abs_omt &p ) -> cata::optional<basecamp *>;
         /// Adds the npc to the contained list of npcs ( @ref npcs ).
         void insert_npc( shared_ptr_fast<npc> who );
         /// Removes the npc and returns it ( or returns nullptr if not found ).
-        shared_ptr_fast<npc> erase_npc( const character_id &id );
+        auto erase_npc( const character_id &id ) -> shared_ptr_fast<npc>;
 
         void for_each_npc( const std::function<void( npc & )> &callback );
         void for_each_npc( const std::function<void( const npc & )> &callback ) const;
 
-        shared_ptr_fast<npc> find_npc( const character_id &id ) const;
+        auto find_npc( const character_id &id ) const -> shared_ptr_fast<npc>;
 
-        const std::vector<shared_ptr_fast<npc>> &get_npcs() const {
+        auto get_npcs() const -> const std::vector<shared_ptr_fast<npc>> & {
             return npcs;
         }
-        std::vector<shared_ptr_fast<npc>> get_npcs( const std::function<bool( const npc & )>
+        auto get_npcs( const std::function<bool( const npc & )>
                                        &predicate )
-                                       const;
+                                       const -> std::vector<shared_ptr_fast<npc>>;
 
     private:
         friend class overmapbuffer;
@@ -354,7 +354,7 @@ class overmap
 
         pimpl<regional_settings> settings;
 
-        oter_id get_default_terrain( int z ) const;
+        auto get_default_terrain( int z ) const -> oter_id;
 
         // Initialize
         void init_layers();
@@ -382,16 +382,16 @@ class overmap
         void generate( const overmap *north, const overmap *east,
                        const overmap *south, const overmap *west,
                        overmap_special_batch &enabled_specials );
-        bool generate_sub( int z );
-        bool generate_over( int z );
+        auto generate_sub( int z ) -> bool;
+        auto generate_over( int z ) -> bool;
 
-        const city &get_nearest_city( const tripoint_om_omt &p ) const;
+        auto get_nearest_city( const tripoint_om_omt &p ) const -> const city &;
 
         void signal_hordes( const tripoint_rel_sm &p, int sig_power );
         void process_mongroups();
         void move_hordes();
 
-        static bool is_obsolete_terrain( const std::string &ter );
+        static auto is_obsolete_terrain( const std::string &ter ) -> bool;
         void convert_terrain( const std::unordered_map<tripoint_om_omt, std::string> &needs_conversion );
 
         // Overall terrain
@@ -411,28 +411,28 @@ class overmap
                 const overmap *south, const overmap *west );
 
         // City Building
-        overmap_special_id pick_random_building_to_place( int town_dist ) const;
+        auto pick_random_building_to_place( int town_dist ) const -> overmap_special_id;
 
         void place_cities();
         void place_building( const tripoint_om_omt &p, om_direction::type dir, const city &town );
 
         void build_city_street( const overmap_connection &connection, const point_om_omt &p, int cs,
                                 om_direction::type dir, const city &town, int block_width = 2 );
-        bool build_lab( const tripoint_om_omt &p, lab &l, int size,
+        auto build_lab( const tripoint_om_omt &p, lab &l, int size,
                         std::vector<point_om_omt> &lab_train_points,
-                        const std::string &prefix, int train_odds );
+                        const std::string &prefix, int train_odds ) -> bool;
         void build_anthill( const tripoint_om_omt &p, int s );
         void build_tunnel( const tripoint_om_omt &p, int s, om_direction::type dir );
-        bool build_slimepit( const tripoint_om_omt &origin, int s );
+        auto build_slimepit( const tripoint_om_omt &origin, int s ) -> bool;
         void build_mine( const tripoint_om_omt &origin, int s );
 
         // Connection laying
-        pf::directed_path<point_om_omt> lay_out_connection(
+        auto lay_out_connection(
             const overmap_connection &connection, const point_om_omt &source,
-            const point_om_omt &dest, int z, bool must_be_unexplored ) const;
-        pf::directed_path<point_om_omt> lay_out_street(
+            const point_om_omt &dest, int z, bool must_be_unexplored ) const -> pf::directed_path<point_om_omt>;
+        auto lay_out_street(
             const overmap_connection &connection, const point_om_omt &source,
-            om_direction::type dir, size_t len ) const;
+            om_direction::type dir, size_t len ) const -> pf::directed_path<point_om_omt>;
 
         void build_connection(
             const overmap_connection &connection, const pf::directed_path<point_om_omt> &path, int z,
@@ -443,20 +443,20 @@ class overmap
         void connect_closest_points( const std::vector<point_om_omt> &points, int z,
                                      const overmap_connection &connection );
         // Polishing
-        bool check_ot( const std::string &otype, ot_match_type match_type,
-                       const tripoint_om_omt &p ) const;
-        bool check_overmap_special_type( const overmap_special_id &id,
-                                         const tripoint_om_omt &location ) const;
+        auto check_ot( const std::string &otype, ot_match_type match_type,
+                       const tripoint_om_omt &p ) const -> bool;
+        auto check_overmap_special_type( const overmap_special_id &id,
+                                         const tripoint_om_omt &location ) const -> bool;
         void chip_rock( const tripoint_om_omt &p );
 
         void polish_river();
         void good_river( const tripoint_om_omt &p );
 
-        om_direction::type random_special_rotation( const overmap_special &special,
-                const tripoint_om_omt &p, bool must_be_unexplored ) const;
+        auto random_special_rotation( const overmap_special &special,
+                const tripoint_om_omt &p, bool must_be_unexplored ) const -> om_direction::type;
 
-        bool can_place_special( const overmap_special &special, const tripoint_om_omt &p,
-                                om_direction::type dir, bool must_be_unexplored ) const;
+        auto can_place_special( const overmap_special &special, const tripoint_om_omt &p,
+                                om_direction::type dir, bool must_be_unexplored ) const -> bool;
 
         void place_special(
             const overmap_special &special, const tripoint_om_omt &p, om_direction::type dir,
@@ -483,9 +483,9 @@ class overmap
          * @param sector sector identifies the location where specials are being placed.
          * @param place_optional restricts attempting to place specials that have met their minimum count in the first pass.
          */
-        bool place_special_attempt(
+        auto place_special_attempt(
             overmap_special_batch &enabled_specials, const point_om_omt &sector, int sector_width,
-            bool place_optional, bool must_be_unexplored );
+            bool place_optional, bool must_be_unexplored ) -> bool;
 
         void place_mongroups();
         void place_radios();
@@ -500,8 +500,8 @@ class overmap
         static void reset_obsolete_terrains();
 };
 
-bool is_river( const oter_id &ter );
-bool is_river_or_lake( const oter_id &ter );
+auto is_river( const oter_id &ter ) -> bool;
+auto is_river_or_lake( const oter_id &ter ) -> bool;
 
 /**
 * Determine if the provided name is a match with the provided overmap terrain
@@ -510,35 +510,35 @@ bool is_river_or_lake( const oter_id &ter );
 * @param oter is the overmap terrain id we're comparing our name with.
 * @param match_type is the matching rule to use when comparing the two values.
 */
-bool is_ot_match( const std::string &name, const oter_id &oter,
-                  ot_match_type match_type );
+auto is_ot_match( const std::string &name, const oter_id &oter,
+                  ot_match_type match_type ) -> bool;
 
 /**
 * Returns the string of oter without any directional suffix
 */
-std::string oter_no_dir( const oter_id &oter );
+auto oter_no_dir( const oter_id &oter ) -> std::string;
 
 /**
  * Returns oter rotation direction value.
  */
-om_direction::type oter_get_rotation_dir( const oter_id &oter );
+auto oter_get_rotation_dir( const oter_id &oter ) -> om_direction::type;
 
 /**
 * Returns number of clockwise rotations 0, 1, 2, 3 respectively
 * if the suffix is _north, _east, _south, _west.
 * Returns 0 if there's no suffix.
 */
-int oter_get_rotations( const oter_id &oter );
+auto oter_get_rotations( const oter_id &oter ) -> int;
 
 /**
 * Returns the directional suffix or "" if there isn't one.
 *
 * Returned reference is kept alive during the whole program execution.
 */
-const std::string &oter_get_rotation_string( const oter_id &oter );
+auto oter_get_rotation_string( const oter_id &oter ) -> const std::string &;
 
 /**
  * Determine whether provided tile belongs to overmap connection.
  */
-bool belongs_to_connection( const overmap_connection_id &id, const oter_id &oter );
+auto belongs_to_connection( const overmap_connection_id &id, const oter_id &oter ) -> bool;
 #endif // CATA_SRC_OVERMAP_H

@@ -206,19 +206,19 @@ static const mtype_id mon_zombie_skeltal_minion( "mon_zombie_skeltal_minion" );
 static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 
 // shared utility functions
-static bool within_visual_range( monster *z, int max_range )
+static auto within_visual_range( monster *z, int max_range ) -> bool
 {
     return !( rl_dist( z->pos(), g->u.pos() ) > max_range || !z->sees( g->u ) );
 }
 
-static bool within_target_range( const monster *const z, const Creature *const target, int range )
+static auto within_target_range( const monster *const z, const Creature *const target, int range ) -> bool
 {
     return target != nullptr &&
            rl_dist( z->pos(), target->pos() ) <= range &&
            z->sees( *target );
 }
 
-static Creature *sting_get_target( monster *z, float range = 5.0f )
+static auto sting_get_target( monster *z, float range = 5.0f ) -> Creature *
 {
     Creature *target = z->attack_target();
 
@@ -235,7 +235,7 @@ static Creature *sting_get_target( monster *z, float range = 5.0f )
     return rl_dist( z->pos(), target->pos() ) <= range ? target : nullptr;
 }
 
-static bool sting_shoot( monster *z, Creature *target, damage_instance &dam, float range )
+static auto sting_shoot( monster *z, Creature *target, damage_instance &dam, float range ) -> bool
 {
     if( target->uncanny_dodge() ) {
         target->add_msg_if_player( m_bad, _( "The %s shoots a dart but you dodge it." ),
@@ -272,7 +272,7 @@ static bool sting_shoot( monster *z, Creature *target, damage_instance &dam, flo
 // If allow_zlev is false, don't allow attacking up/down at all.
 // If allow_zlev is true, also allow distance == 1 and on different z-level
 // as long as floor/ceiling doesn't exist.
-static bool is_adjacent( const monster *z, const Creature *target, const bool allow_zlev )
+static auto is_adjacent( const monster *z, const Creature *target, const bool allow_zlev ) -> bool
 {
     if( target == nullptr ) {
         return false;
@@ -302,7 +302,7 @@ static bool is_adjacent( const monster *z, const Creature *target, const bool al
     return g->m.ter( up ) == t_open_air && g->m.is_outside( down );
 }
 
-static npc make_fake_npc( monster *z, int str, int dex, int inte, int per )
+static auto make_fake_npc( monster *z, int str, int dex, int inte, int per ) -> npc
 {
     npc tmp;
     tmp.name = _( "The " ) + z->name();
@@ -321,12 +321,12 @@ static npc make_fake_npc( monster *z, int str, int dex, int inte, int per )
     return tmp;
 }
 
-bool mattack::none( monster * )
+auto mattack::none( monster * ) -> bool
 {
     return true;
 }
 
-bool mattack::eat_crop( monster *z )
+auto mattack::eat_crop( monster *z ) -> bool
 {
     for( const auto &p : g->m.points_in_radius( z->pos(), 1 ) ) {
         if( g->m.has_flag( "PLANT", p ) && one_in( 4 ) ) {
@@ -338,7 +338,7 @@ bool mattack::eat_crop( monster *z )
     return true;
 }
 
-bool mattack::eat_food( monster *z )
+auto mattack::eat_food( monster *z ) -> bool
 {
     for( const auto &p : g->m.points_in_radius( z->pos(), 1 ) ) {
         //Protect crop seeds from carnivores, give omnivores eat_crop special also
@@ -370,7 +370,7 @@ bool mattack::eat_food( monster *z )
     return true;
 }
 
-bool mattack::antqueen( monster *z )
+auto mattack::antqueen( monster *z ) -> bool
 {
     std::vector<tripoint> egg_points;
     std::vector<monster *> ants;
@@ -442,7 +442,7 @@ bool mattack::antqueen( monster *z )
     return true;
 }
 
-bool mattack::shriek( monster *z )
+auto mattack::shriek( monster *z ) -> bool
 {
     Creature *target = z->attack_target();
     if( target == nullptr ||
@@ -458,7 +458,7 @@ bool mattack::shriek( monster *z )
     return true;
 }
 
-bool mattack::shriek_alert( monster *z )
+auto mattack::shriek_alert( monster *z ) -> bool
 {
     if( !z->can_act() || z->has_effect( effect_shrieking ) ) {
         return false;
@@ -483,7 +483,7 @@ bool mattack::shriek_alert( monster *z )
     return true;
 }
 
-bool mattack::shriek_stun( monster *z )
+auto mattack::shriek_stun( monster *z ) -> bool
 {
     if( !z->can_act() || !z->has_effect( effect_shrieking ) ) {
         return false;
@@ -531,7 +531,7 @@ bool mattack::shriek_stun( monster *z )
     return true;
 }
 
-bool mattack::howl( monster *z )
+auto mattack::howl( monster *z ) -> bool
 {
     Creature *target = z->attack_target();
     if( target == nullptr ||
@@ -563,7 +563,7 @@ bool mattack::howl( monster *z )
     return true;
 }
 
-bool mattack::rattle( monster *z )
+auto mattack::rattle( monster *z ) -> bool
 {
     // TODO: Let it rattle at non-player friendlies
     const int min_dist = z->friendly != 0 ? 1 : 4;
@@ -582,7 +582,7 @@ bool mattack::rattle( monster *z )
     return true;
 }
 
-bool mattack::acid( monster *z )
+auto mattack::acid( monster *z ) -> bool
 {
     if( !z->can_act() ) {
         return false;
@@ -635,7 +635,7 @@ bool mattack::acid( monster *z )
     return true;
 }
 
-bool mattack::acid_barf( monster *z )
+auto mattack::acid_barf( monster *z ) -> bool
 {
     if( !z->can_act() ) {
         return false;
@@ -698,7 +698,7 @@ bool mattack::acid_barf( monster *z )
     return true;
 }
 
-bool mattack::acid_accurate( monster *z )
+auto mattack::acid_accurate( monster *z ) -> bool
 {
     if( !z->can_act() ) {
         return false;
@@ -728,7 +728,7 @@ bool mattack::acid_accurate( monster *z )
     return true;
 }
 
-bool mattack::shockstorm( monster *z )
+auto mattack::shockstorm( monster *z ) -> bool
 {
     if( !z->can_act() ) {
         return false;
@@ -776,13 +776,13 @@ bool mattack::shockstorm( monster *z )
     return true;
 }
 
-bool mattack::shocking_reveal( monster *z )
+auto mattack::shocking_reveal( monster *z ) -> bool
 {
     shockstorm( z );
     return true;
 }
 
-bool mattack::pull_metal_weapon( monster *z )
+auto mattack::pull_metal_weapon( monster *z ) -> bool
 {
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Constants and Configuration
@@ -842,7 +842,7 @@ bool mattack::pull_metal_weapon( monster *z )
     return true;
 }
 
-bool mattack::boomer( monster *z )
+auto mattack::boomer( monster *z ) -> bool
 {
     if( !z->can_act() ) {
         return false;
@@ -901,7 +901,7 @@ bool mattack::boomer( monster *z )
     return true;
 }
 
-bool mattack::boomer_glow( monster *z )
+auto mattack::boomer_glow( monster *z ) -> bool
 {
     if( !z->can_act() ) {
         return false;
@@ -963,7 +963,7 @@ bool mattack::boomer_glow( monster *z )
     return true;
 }
 
-bool mattack::resurrect( monster *z )
+auto mattack::resurrect( monster *z ) -> bool
 {
     // Chance to recover some of our missing speed (yes this will regain
     // loses from being revived ourselves as well).
@@ -1109,7 +1109,7 @@ void mattack::smash_specific( monster *z, Creature *target )
     smash( z );
 }
 
-bool mattack::smash( monster *z )
+auto mattack::smash( monster *z ) -> bool
 {
     if( !z->can_act() ) {
         return false;
@@ -1163,8 +1163,8 @@ bool mattack::smash( monster *z )
  *                      second = the number of empty spaces found.
  */
 template <size_t N = 1>
-std::pair < std::array < tripoint, ( 2 * N + 1 ) * ( 2 * N + 1 ) >, size_t >
-find_empty_neighbors( const tripoint &origin )
+auto
+find_empty_neighbors( const tripoint &origin ) -> std::pair < std::array < tripoint, ( 2 * N + 1 ) * ( 2 * N + 1 ) >, size_t >
 {
     constexpr auto r = static_cast<int>( N );
 
@@ -1186,8 +1186,8 @@ find_empty_neighbors( const tripoint &origin )
  * @see find_empty_neighbors
  */
 template <size_t N = 1>
-std::pair < std::array < tripoint, ( 2 * N + 1 ) * ( 2 * N + 1 ) >, size_t >
-find_empty_neighbors( const Creature &c )
+auto
+find_empty_neighbors( const Creature &c ) -> std::pair < std::array < tripoint, ( 2 * N + 1 ) * ( 2 * N + 1 ) >, size_t >
 {
     return find_empty_neighbors<N>( c.pos() );
 }
@@ -1196,7 +1196,7 @@ find_empty_neighbors( const Creature &c )
 /**
  * Get a size_t value in the closed interval [0, size]; a convenience to avoid messy casting.
   */
-static size_t get_random_index( const size_t size )
+static auto get_random_index( const size_t size ) -> size_t
 {
     return static_cast<size_t>( rng( 0, static_cast<int>( size - 1 ) ) );
 }
@@ -1206,12 +1206,12 @@ static size_t get_random_index( const size_t size )
  * Get a size_t value in the closed interval [0, c.size() - 1]; a convenience to avoid messy casting.
  */
 template <typename Container>
-size_t get_random_index( const Container &c )
+auto get_random_index( const Container &c ) -> size_t
 {
     return get_random_index( c.size() );
 }
 
-bool mattack::science( monster *const z ) // I said SCIENCE again!
+auto mattack::science( monster *const z ) -> bool // I said SCIENCE again!
 {
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Constants and Configuration
@@ -1416,7 +1416,7 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
     return true;
 }
 
-static body_part body_part_hit_by_plant()
+static auto body_part_hit_by_plant() -> body_part
 {
     body_part hit = num_bp;
     if( one_in( 2 ) ) {
@@ -1436,7 +1436,7 @@ static body_part body_part_hit_by_plant()
     return hit;
 }
 
-bool mattack::growplants( monster *z )
+auto mattack::growplants( monster *z ) -> bool
 {
     for( const auto &p : g->m.points_in_radius( z->pos(), 3 ) ) {
 
@@ -1529,7 +1529,7 @@ bool mattack::growplants( monster *z )
     return true;
 }
 
-bool mattack::grow_vine( monster *z )
+auto mattack::grow_vine( monster *z ) -> bool
 {
     if( z->friendly ) {
         if( rl_dist( g->u.pos(), z->pos() ) <= 3 ) {
@@ -1550,7 +1550,7 @@ bool mattack::grow_vine( monster *z )
     return true;
 }
 
-bool mattack::vine( monster *z )
+auto mattack::vine( monster *z ) -> bool
 {
     int vine_neighbors = 0;
     bool parent_out_of_range = !g->m.inbounds( z->move_target() );
@@ -1605,7 +1605,7 @@ bool mattack::vine( monster *z )
     return true;
 }
 
-bool mattack::spit_sap( monster *z )
+auto mattack::spit_sap( monster *z ) -> bool
 {
     if( !z->can_act() ) {
         return false;
@@ -1630,7 +1630,7 @@ bool mattack::spit_sap( monster *z )
     return true;
 }
 
-bool mattack::triffid_heartbeat( monster *z )
+auto mattack::triffid_heartbeat( monster *z ) -> bool
 {
     sounds::sound( z->pos(), 14, sounds::sound_t::movement, _( "thu-THUMP." ), true, "misc",
                    "heartbeat" );
@@ -1690,7 +1690,7 @@ bool mattack::triffid_heartbeat( monster *z )
     return true;
 }
 
-bool mattack::fungus( monster *z )
+auto mattack::fungus( monster *z ) -> bool
 {
     // TODO: Infect NPCs?
     // It takes a while
@@ -1723,12 +1723,12 @@ bool mattack::fungus( monster *z )
     return true;
 }
 
-bool mattack::fungus_corporate( monster *z )
+auto mattack::fungus_corporate( monster *z ) -> bool
 {
     return fungus( z );
 }
 
-bool mattack::fungus_haze( monster *z )
+auto mattack::fungus_haze( monster *z ) -> bool
 {
     //~ That spore sound again
     sounds::sound( z->pos(), 10, sounds::sound_t::combat, _( "Pouf!" ), true, "misc", "puff" );
@@ -1743,7 +1743,7 @@ bool mattack::fungus_haze( monster *z )
     return true;
 }
 
-bool mattack::fungus_big_blossom( monster *z )
+auto mattack::fungus_big_blossom( monster *z ) -> bool
 {
     bool firealarm = false;
     const auto u_see = g->u.sees( *z );
@@ -1789,7 +1789,7 @@ bool mattack::fungus_big_blossom( monster *z )
     return true;
 }
 
-bool mattack::fungus_inject( monster *z )
+auto mattack::fungus_inject( monster *z ) -> bool
 {
     // For faster copy+paste
     Creature *target = &g->u;
@@ -1852,7 +1852,7 @@ bool mattack::fungus_inject( monster *z )
     return true;
 }
 
-bool mattack::fungus_bristle( monster *z )
+auto mattack::fungus_bristle( monster *z ) -> bool
 {
     if( g->u.has_trait( trait_THRESH_MARLOSS ) || g->u.has_trait( trait_THRESH_MYCUS ) ) {
         z->friendly = 1;
@@ -1909,7 +1909,7 @@ bool mattack::fungus_bristle( monster *z )
     return true;
 }
 
-bool mattack::fungus_growth( monster *z )
+auto mattack::fungus_growth( monster *z ) -> bool
 {
     // Young fungaloid growing into an adult
     if( g->u.sees( *z ) ) {
@@ -1922,7 +1922,7 @@ bool mattack::fungus_growth( monster *z )
     return false;
 }
 
-bool mattack::fungus_sprout( monster *z )
+auto mattack::fungus_sprout( monster *z ) -> bool
 {
     Character &player_character = get_player_character();
     // To avoid map shift weirdness
@@ -1945,7 +1945,7 @@ bool mattack::fungus_sprout( monster *z )
     return true;
 }
 
-bool mattack::fungus_fortify( monster *z )
+auto mattack::fungus_fortify( monster *z ) -> bool
 {
     if( z->friendly ) {
         // TODO: handle friendly monsters
@@ -2075,7 +2075,7 @@ bool mattack::fungus_fortify( monster *z )
     return true;
 }
 
-bool mattack::impale( monster *z )
+auto mattack::impale( monster *z ) -> bool
 {
     if( !z->can_act() ) {
         return false;
@@ -2133,7 +2133,7 @@ bool mattack::impale( monster *z )
     return true;
 }
 
-bool mattack::dermatik( monster *z )
+auto mattack::dermatik( monster *z ) -> bool
 {
     if( !z->can_act() ) {
         return false;
@@ -2214,7 +2214,7 @@ bool mattack::dermatik( monster *z )
     return true;
 }
 
-bool mattack::dermatik_growth( monster *z )
+auto mattack::dermatik_growth( monster *z ) -> bool
 {
     // Dermatik larva growing into an adult
     if( g->u.sees( *z ) ) {
@@ -2226,14 +2226,14 @@ bool mattack::dermatik_growth( monster *z )
     return false;
 }
 
-bool mattack::fungal_trail( monster *z )
+auto mattack::fungal_trail( monster *z ) -> bool
 {
     fungal_effects fe( *g, g->m );
     fe.spread_fungus( z->pos() );
     return false;
 }
 
-bool mattack::plant( monster *z )
+auto mattack::plant( monster *z ) -> bool
 {
     fungal_effects fe( *g, g->m );
     if( g->u.sees( *z ) ) {
@@ -2251,7 +2251,7 @@ bool mattack::plant( monster *z )
     return true;
 }
 
-bool mattack::disappear( monster *z )
+auto mattack::disappear( monster *z ) -> bool
 {
     z->set_hp( 0 );
     return true;
@@ -2267,7 +2267,7 @@ static void poly_keep_speed( monster &mon, const mtype_id &id )
     mon.set_speed_base( old_speed );
 }
 
-static bool blobify( monster &blob, monster &target )
+static auto blobify( monster &blob, monster &target ) -> bool
 {
     if( g->u.sees( target ) ) {
         add_msg( m_warning, _( "%s is engulfed by %s!" ),
@@ -2303,7 +2303,7 @@ static bool blobify( monster &blob, monster &target )
     return true;
 }
 
-bool mattack::formblob( monster *z )
+auto mattack::formblob( monster *z ) -> bool
 {
     if( z->friendly ) {
         // TODO: handle friendly monsters
@@ -2384,7 +2384,7 @@ bool mattack::formblob( monster *z )
     return true; // consider returning false to try again immediately if nothing happened?
 }
 
-bool mattack::callblobs( monster *z )
+auto mattack::callblobs( monster *z ) -> bool
 {
     if( z->friendly ) {
         // TODO: handle friendly monsters
@@ -2426,7 +2426,7 @@ bool mattack::callblobs( monster *z )
     return true;
 }
 
-bool mattack::jackson( monster *z )
+auto mattack::jackson( monster *z ) -> bool
 {
     // Jackson draws nearby zombies into the dance.
     std::list<monster *> allies;
@@ -2467,7 +2467,7 @@ bool mattack::jackson( monster *z )
     return true;
 }
 
-bool mattack::dance( monster *z )
+auto mattack::dance( monster *z ) -> bool
 {
     if( g->u.sees( *z ) ) {
         switch( rng( 1, 10 ) ) {
@@ -2507,7 +2507,7 @@ bool mattack::dance( monster *z )
     return true;
 }
 
-bool mattack::dogthing( monster *z )
+auto mattack::dogthing( monster *z ) -> bool
 {
     if( z == nullptr ) {
         // TODO: replace pointers with references
@@ -2529,7 +2529,7 @@ bool mattack::dogthing( monster *z )
     return false;
 }
 
-bool mattack::tentacle( monster *z )
+auto mattack::tentacle( monster *z ) -> bool
 {
     if( z->friendly ) {
         // TODO: handle friendly monsters
@@ -2584,7 +2584,7 @@ bool mattack::tentacle( monster *z )
     return true;
 }
 
-bool mattack::ranged_pull( monster *z )
+auto mattack::ranged_pull( monster *z ) -> bool
 {
     Creature *target = z->attack_target();
     if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 3 ||
@@ -2682,7 +2682,7 @@ bool mattack::ranged_pull( monster *z )
     return true;
 }
 
-bool mattack::grab( monster *z )
+auto mattack::grab( monster *z ) -> bool
 {
     if( !z->can_act() ) {
         return false;
@@ -2748,7 +2748,7 @@ bool mattack::grab( monster *z )
     return true;
 }
 
-bool mattack::grab_drag( monster *z )
+auto mattack::grab_drag( monster *z ) -> bool
 {
     if( !z || !z->can_act() ) {
         return false;
@@ -2808,7 +2808,7 @@ bool mattack::grab_drag( monster *z )
     return true;
 }
 
-bool mattack::gene_sting( monster *z )
+auto mattack::gene_sting( monster *z ) -> bool
 {
     const float range = 7.0f;
     Creature *target = sting_get_target( z, range );
@@ -2829,7 +2829,7 @@ bool mattack::gene_sting( monster *z )
     return true;
 }
 
-bool mattack::para_sting( monster *z )
+auto mattack::para_sting( monster *z ) -> bool
 {
     const float range = 4.0f;
     Creature *target = sting_get_target( z, range );
@@ -2850,7 +2850,7 @@ bool mattack::para_sting( monster *z )
     return true;
 }
 
-bool mattack::triffid_growth( monster *z )
+auto mattack::triffid_growth( monster *z ) -> bool
 {
     // Young triffid growing into an adult
     if( g->u.sees( *z ) ) {
@@ -2862,7 +2862,7 @@ bool mattack::triffid_growth( monster *z )
     return false;
 }
 
-bool mattack::stare( monster *z )
+auto mattack::stare( monster *z ) -> bool
 {
     if( z->friendly ) {
         // TODO: handle friendly monsters
@@ -2887,7 +2887,7 @@ bool mattack::stare( monster *z )
     return true;
 }
 
-bool mattack::fear_paralyze( monster *z )
+auto mattack::fear_paralyze( monster *z ) -> bool
 {
     if( z->friendly ) {
         // TODO: handle friendly monsters
@@ -2914,7 +2914,7 @@ bool mattack::fear_paralyze( monster *z )
 
     return true;
 }
-bool mattack::nurse_check_up( monster *z )
+auto mattack::nurse_check_up( monster *z ) -> bool
 {
     bool found_target = false;
     player *target = nullptr;
@@ -2958,7 +2958,7 @@ bool mattack::nurse_check_up( monster *z )
     }
     return false;
 }
-bool mattack::nurse_assist( monster *z )
+auto mattack::nurse_assist( monster *z ) -> bool
 {
 
     const bool u_see = g->u.sees( *z );
@@ -2996,7 +2996,7 @@ bool mattack::nurse_assist( monster *z )
     }
     return false;
 }
-bool mattack::nurse_operate( monster *z )
+auto mattack::nurse_operate( monster *z ) -> bool
 {
     const itype_id ammo_type( "anesthetic" );
 
@@ -3100,7 +3100,7 @@ bool mattack::nurse_operate( monster *z )
     z->anger = 0;
     return false;
 }
-bool mattack::check_money_left( monster *z )
+auto mattack::check_money_left( monster *z ) -> bool
 {
     if( !z->has_effect( effect_pet ) ) {
         if( z->friendly == -1 &&
@@ -3143,7 +3143,7 @@ bool mattack::check_money_left( monster *z )
     }
     return false;
 }
-bool mattack::photograph( monster *z )
+auto mattack::photograph( monster *z ) -> bool
 {
     if( !within_visual_range( z, 6 ) ) {
         return false;
@@ -3269,7 +3269,7 @@ bool mattack::photograph( monster *z )
     return true;
 }
 
-bool mattack::tazer( monster *z )
+auto mattack::tazer( monster *z ) -> bool
 {
     Creature *target = z->attack_target();
     if( target == nullptr || !is_adjacent( z, target, false ) ) {
@@ -3469,7 +3469,7 @@ void mattack::tankgun( monster *z, Creature *target )
     z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * tmp.weapon.ammo_required();
 }
 
-bool mattack::searchlight( monster *z )
+auto mattack::searchlight( monster *z ) -> bool
 {
 
     int max_lamp_count = 3;
@@ -3655,7 +3655,7 @@ bool mattack::searchlight( monster *z )
     return true;
 }
 
-bool mattack::flamethrower( monster *z )
+auto mattack::flamethrower( monster *z ) -> bool
 {
     if( z->friendly ) {
         // TODO: handle friendly monsters
@@ -3772,7 +3772,7 @@ void mattack::flame( monster *z, Creature *target )
     }
 }
 
-bool mattack::copbot( monster *z )
+auto mattack::copbot( monster *z ) -> bool
 {
     Creature *target = z->attack_target();
     if( target == nullptr ) {
@@ -3821,7 +3821,7 @@ bool mattack::copbot( monster *z )
     return true;
 }
 
-bool mattack::chickenbot( monster *z )
+auto mattack::chickenbot( monster *z ) -> bool
 {
     int mode = 0;
     int boo_hoo = 0;
@@ -3903,7 +3903,7 @@ bool mattack::chickenbot( monster *z )
     return true;
 }
 
-bool mattack::multi_robot( monster *z )
+auto mattack::multi_robot( monster *z ) -> bool
 {
     int mode = 0;
     int boo_hoo = 0;
@@ -3980,7 +3980,7 @@ bool mattack::multi_robot( monster *z )
     return true;
 }
 
-bool mattack::ratking( monster *z )
+auto mattack::ratking( monster *z ) -> bool
 {
     if( z->friendly ) {
         // TODO: handle friendly monsters
@@ -4015,7 +4015,7 @@ bool mattack::ratking( monster *z )
     return true;
 }
 
-bool mattack::generator( monster *z )
+auto mattack::generator( monster *z ) -> bool
 {
     sounds::sound( z->pos(), 100, sounds::sound_t::activity, "hmmmm" );
     if( calendar::once_every( 1_minutes ) && z->get_hp() < z->get_hp_max() ) {
@@ -4025,7 +4025,7 @@ bool mattack::generator( monster *z )
     return true;
 }
 
-bool mattack::upgrade( monster *z )
+auto mattack::upgrade( monster *z ) -> bool
 {
     std::vector<monster *> targets;
     for( monster &zed : g->all_monsters() ) {
@@ -4081,7 +4081,7 @@ bool mattack::upgrade( monster *z )
     return true;
 }
 
-bool mattack::breathe( monster *z )
+auto mattack::breathe( monster *z ) -> bool
 {
     // It takes a while
     z->moves -= 100;
@@ -4108,7 +4108,7 @@ bool mattack::breathe( monster *z )
     return true;
 }
 
-bool mattack::stretch_bite( monster *z )
+auto mattack::stretch_bite( monster *z ) -> bool
 {
     if( !z->can_act() ) {
         return false;
@@ -4198,7 +4198,7 @@ bool mattack::stretch_bite( monster *z )
     return true;
 }
 
-bool mattack::brandish( monster *z )
+auto mattack::brandish( monster *z ) -> bool
 {
     if( z->friendly ) {
         // TODO: handle friendly monsters
@@ -4214,7 +4214,7 @@ bool mattack::brandish( monster *z )
     return true;
 }
 
-bool mattack::flesh_golem( monster *z )
+auto mattack::flesh_golem( monster *z ) -> bool
 {
     if( !z->can_act() ) {
         return false;
@@ -4278,7 +4278,7 @@ bool mattack::flesh_golem( monster *z )
     return true;
 }
 
-bool mattack::absorb_meat( monster *z )
+auto mattack::absorb_meat( monster *z ) -> bool
 {
     //Absorb no more than 1/10th monster's volume, times the volume of a meat chunk
     const int monster_volume = units::to_liter( z->get_volume() );
@@ -4330,7 +4330,7 @@ bool mattack::absorb_meat( monster *z )
     return false;
 }
 
-bool mattack::lunge( monster *z )
+auto mattack::lunge( monster *z ) -> bool
 {
     if( !z->can_act() ) {
         return false;
@@ -4405,7 +4405,7 @@ bool mattack::lunge( monster *z )
     return true;
 }
 
-bool mattack::longswipe( monster *z )
+auto mattack::longswipe( monster *z ) -> bool
 {
     if( z->friendly ) {
         // TODO: handle friendly monsters
@@ -4532,7 +4532,7 @@ static void parrot_common( monster *parrot )
                    false, "speech", parrot->type->id.str() );
 }
 
-bool mattack::parrot( monster *z )
+auto mattack::parrot( monster *z ) -> bool
 {
     if( z->has_effect( effect_shrieking ) ) {
         sounds::sound( z->pos(), 120, sounds::sound_t::alert, _( "a piercing wail!" ), false, "shout",
@@ -4547,7 +4547,7 @@ bool mattack::parrot( monster *z )
     return false;
 }
 
-bool mattack::parrot_at_danger( monster *parrot )
+auto mattack::parrot_at_danger( monster *parrot ) -> bool
 {
     for( monster &monster : g->all_monsters() ) {
         if( one_in( 20 ) && ( monster.faction->attitude( parrot->faction ) == mf_attitude::MFA_HATE ||
@@ -4562,7 +4562,7 @@ bool mattack::parrot_at_danger( monster *parrot )
     return false;
 }
 
-bool mattack::darkman( monster *z )
+auto mattack::darkman( monster *z ) -> bool
 {
     if( z->friendly ) {
         // TODO: handle friendly monsters
@@ -4612,7 +4612,7 @@ bool mattack::darkman( monster *z )
     return true;
 }
 
-bool mattack::slimespring( monster *z )
+auto mattack::slimespring( monster *z ) -> bool
 {
     if( rl_dist( z->pos(), g->u.pos() ) > 30 ) {
         return false;
@@ -4668,7 +4668,7 @@ bool mattack::slimespring( monster *z )
     return true;
 }
 
-bool mattack::thrown_by_judo( monster *z )
+auto mattack::thrown_by_judo( monster *z ) -> bool
 {
     Creature *target = z->attack_target();
     if( target == nullptr ||
@@ -4721,7 +4721,7 @@ bool mattack::thrown_by_judo( monster *z )
     }
 }
 
-bool mattack::riotbot( monster *z )
+auto mattack::riotbot( monster *z ) -> bool
 {
     Creature *target = z->attack_target();
     if( target == nullptr ) {
@@ -4922,7 +4922,7 @@ bool mattack::riotbot( monster *z )
     return true;
 }
 
-bool mattack::evolve_kill_strike( monster *z )
+auto mattack::evolve_kill_strike( monster *z ) -> bool
 {
     Creature *target = z->attack_target();
     if( target == nullptr ||
@@ -4991,7 +4991,7 @@ bool mattack::evolve_kill_strike( monster *z )
     return true;
 }
 
-bool mattack::leech_spawner( monster *z )
+auto mattack::leech_spawner( monster *z ) -> bool
 {
     const bool u_see = g->u.sees( *z );
     std::list<monster *> allies;
@@ -5023,7 +5023,7 @@ bool mattack::leech_spawner( monster *z )
     return true;
 }
 
-bool mattack::mon_leech_evolution( monster *z )
+auto mattack::mon_leech_evolution( monster *z ) -> bool
 {
     const bool u_see = g->u.sees( *z );
     const bool is_queen = z->has_flag( MF_QUEEN );
@@ -5047,7 +5047,7 @@ bool mattack::mon_leech_evolution( monster *z )
     return true;
 }
 
-bool mattack::tindalos_teleport( monster *z )
+auto mattack::tindalos_teleport( monster *z ) -> bool
 {
     Creature *target = z->attack_target();
     if( target == nullptr ) {
@@ -5090,7 +5090,7 @@ bool mattack::tindalos_teleport( monster *z )
     return true;
 }
 
-bool mattack::flesh_tendril( monster *z )
+auto mattack::flesh_tendril( monster *z ) -> bool
 {
     Creature *target = z->attack_target();
 
@@ -5146,7 +5146,7 @@ bool mattack::flesh_tendril( monster *z )
     return false;
 }
 
-bool mattack::bio_op_random_biojutsu( monster *z )
+auto mattack::bio_op_random_biojutsu( monster *z ) -> bool
 {
     int choice;
     int redo;
@@ -5190,7 +5190,7 @@ bool mattack::bio_op_random_biojutsu( monster *z )
     return true;
 }
 
-bool mattack::bio_op_takedown( monster *z )
+auto mattack::bio_op_takedown( monster *z ) -> bool
 {
     if( !z->can_act() ) {
         return false;
@@ -5285,7 +5285,7 @@ bool mattack::bio_op_takedown( monster *z )
     return true;
 }
 
-bool mattack::bio_op_impale( monster *z )
+auto mattack::bio_op_impale( monster *z ) -> bool
 {
     if( !z->can_act() ) {
         return false;
@@ -5366,7 +5366,7 @@ bool mattack::bio_op_impale( monster *z )
     return true;
 }
 
-bool mattack::bio_op_disarm( monster *z )
+auto mattack::bio_op_disarm( monster *z ) -> bool
 {
     if( !z->can_act() ) {
         return false;
@@ -5432,7 +5432,7 @@ bool mattack::bio_op_disarm( monster *z )
     return true;
 }
 
-bool mattack::suicide( monster *z )
+auto mattack::suicide( monster *z ) -> bool
 {
     Creature *target = z->attack_target();
     if( !within_target_range( z, target, 2 ) ) {
@@ -5443,7 +5443,7 @@ bool mattack::suicide( monster *z )
     return false;
 }
 
-bool mattack::kamikaze( monster *z )
+auto mattack::kamikaze( monster *z ) -> bool
 {
     if( z->ammo.empty() ) {
         // We somehow lost our ammo! Toggle this special off so we stop processing
@@ -5580,8 +5580,8 @@ struct grenade_helper_struct {
 };
 
 // Returns 0 if this should be retired, 1 if it was successful, and -1 if something went horribly wrong
-static int grenade_helper( monster *const z, Creature *const target, const int dist,
-                           const int moves, std::map<itype_id, grenade_helper_struct> data )
+static auto grenade_helper( monster *const z, Creature *const target, const int dist,
+                           const int moves, std::map<itype_id, grenade_helper_struct> data ) -> int
 {
     // Can't do anything if we can't act
     if( !z->can_act() ) {
@@ -5665,7 +5665,7 @@ static int grenade_helper( monster *const z, Creature *const target, const int d
     return 1;
 }
 
-bool mattack::grenadier( monster *const z )
+auto mattack::grenadier( monster *const z ) -> bool
 {
     // Build our grenade map
     std::map<itype_id, grenade_helper_struct> grenades;
@@ -5696,7 +5696,7 @@ bool mattack::grenadier( monster *const z )
     return true;
 }
 
-bool mattack::grenadier_elite( monster *const z )
+auto mattack::grenadier_elite( monster *const z ) -> bool
 {
     // Build our grenade map
     std::map<itype_id, grenade_helper_struct> grenades;
@@ -5732,7 +5732,7 @@ bool mattack::grenadier_elite( monster *const z )
     return true;
 }
 
-bool mattack::stretch_attack( monster *z )
+auto mattack::stretch_attack( monster *z ) -> bool
 {
     if( !z->can_act() ) {
         return false;
@@ -5813,7 +5813,7 @@ bool mattack::stretch_attack( monster *z )
     return true;
 }
 
-bool mattack::zombie_fuse( monster *z )
+auto mattack::zombie_fuse( monster *z ) -> bool
 {
     monster *critter = nullptr;
     for( const tripoint &p : g->m.points_in_radius( z->pos(), 1 ) ) {
@@ -5843,7 +5843,7 @@ bool mattack::zombie_fuse( monster *z )
     return true;
 }
 
-bool mattack::doot( monster *z )
+auto mattack::doot( monster *z ) -> bool
 {
     z->moves -= 300;
     if( g->u.sees( *z ) ) {
@@ -5869,7 +5869,7 @@ bool mattack::doot( monster *z )
     return true;
 }
 
-bool mattack::dodge_check( monster *z, Creature *target )
+auto mattack::dodge_check( monster *z, Creature *target ) -> bool
 {
     ///\EFFECT_DODGE increases chance of dodging, vs their melee skill
     float dodge = std::max( target->get_dodge() - rng( 0, z->get_hit() ), 0.0f );

@@ -30,10 +30,10 @@ struct four_quadrants {
 
     std::array<float, 4> values;
 
-    float &operator[]( quadrant q ) {
+    auto operator[]( quadrant q ) -> float & {
         return values[static_cast<int>( q )];
     }
-    float operator[]( quadrant q ) const {
+    auto operator[]( quadrant q ) const -> float {
         return values[static_cast<int>( q )];
     }
     void fill( float v ) {
@@ -42,19 +42,19 @@ struct four_quadrants {
         values[2] = v;
         values[3] = v;
     }
-    float max() const {
+    auto max() const -> float {
         return *std::max_element( values.begin(), values.end() );
     }
-    std::string to_string() const;
+    auto to_string() const -> std::string;
 
-    friend four_quadrants operator*( const four_quadrants &l, const four_quadrants &r ) {
+    friend auto operator*( const four_quadrants &l, const four_quadrants &r ) -> four_quadrants {
         four_quadrants result;
         std::transform( l.values.begin(), l.values.end(), r.values.begin(),
                         result.values.begin(), std::multiplies<float>() );
         return result;
     }
 
-    friend four_quadrants elementwise_max( const four_quadrants &l, const four_quadrants &r ) {
+    friend auto elementwise_max( const four_quadrants &l, const four_quadrants &r ) -> four_quadrants {
         four_quadrants result;
         std::transform( l.values.begin(), l.values.end(), r.values.begin(),
         result.values.begin(), []( float l, float r ) {
@@ -63,7 +63,7 @@ struct four_quadrants {
         return result;
     }
 
-    friend four_quadrants elementwise_max( const four_quadrants &l, const float r ) {
+    friend auto elementwise_max( const four_quadrants &l, const float r ) -> four_quadrants {
         four_quadrants result( l );
         for( float &v : result.values ) {
             // This looks like it should be v = std::max( v, r ) doesn't it?
@@ -82,11 +82,11 @@ struct four_quadrants {
 // 1 / (e^al) where a = coefficient of absorption and l = length.
 // Factoring out length, we get 1 / (e^((a1*a2*a3*...*an)*l))
 // We merge all of the absorption values by taking their cumulative average.
-inline float sight_calc( const float &numerator, const float &transparency, const int &distance )
+inline auto sight_calc( const float &numerator, const float &transparency, const int &distance ) -> float
 {
     return numerator / std::exp( transparency * distance );
 }
-inline bool sight_check( const float &transparency, const float &/*intensity*/ )
+inline auto sight_check( const float &transparency, const float &/*intensity*/ ) -> bool
 {
     return transparency > LIGHT_TRANSPARENCY_SOLID;
 }
@@ -98,8 +98,8 @@ inline void update_light_quadrants( four_quadrants &update, const float &new_val
 {
     update[q] = std::max( update[q], new_value );
 }
-inline float accumulate_transparency( const float &cumulative_transparency,
-                                      const float &current_transparency, const int &distance )
+inline auto accumulate_transparency( const float &cumulative_transparency,
+                                      const float &current_transparency, const int &distance ) -> float
 {
     return ( ( distance - 1 ) * cumulative_transparency + current_transparency ) / distance;
 }

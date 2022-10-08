@@ -32,10 +32,10 @@
 
 using namespace auto_pickup;
 
-static bool check_special_rule( const std::vector<material_id> &materials,
-                                const std::string &rule );
+static auto check_special_rule( const std::vector<material_id> &materials,
+                                const std::string &rule ) -> bool;
 
-auto_pickup::player_settings &get_auto_pickup()
+auto get_auto_pickup() -> auto_pickup::player_settings &
 {
     static auto_pickup::player_settings single_instance;
     return single_instance;
@@ -526,7 +526,7 @@ void rule::test_pattern() const
     }
 }
 
-bool player_settings::has_rule( const item *it )
+auto player_settings::has_rule( const item *it ) -> bool
 {
     const std::string &name = it->tname( 1 );
     for( auto &elem : character_rules ) {
@@ -563,12 +563,12 @@ void player_settings::remove_rule( const item *it )
     }
 }
 
-bool player_settings::empty() const
+auto player_settings::empty() const -> bool
 {
     return global_rules.empty() && character_rules.empty();
 }
 
-bool check_special_rule( const std::vector<material_id> &materials, const std::string &rule )
+auto check_special_rule( const std::vector<material_id> &materials, const std::string &rule ) -> bool
 {
     char type = ' ';
     std::vector<std::string> filter;
@@ -682,7 +682,7 @@ void rule_list::refresh_map_items( cache &map_items ) const
     }
 }
 
-rule_state base_settings::check_item( const std::string &sItemName ) const
+auto base_settings::check_item( const std::string &sItemName ) const -> rule_state
 {
     if( !map_items.ready ) {
         recreate();
@@ -702,17 +702,17 @@ void player_settings::clear_character_rules()
     invalidate();
 }
 
-bool player_settings::save_character()
+auto player_settings::save_character() -> bool
 {
     return save( true );
 }
 
-bool player_settings::save_global()
+auto player_settings::save_global() -> bool
 {
     return save( false );
 }
 
-bool player_settings::save( const bool bCharacter )
+auto player_settings::save( const bool bCharacter ) -> bool
 {
     auto savefile = PATH_INFO::autopickup();
 
@@ -822,7 +822,7 @@ void npc_settings::refresh_map_items( cache &map_items ) const
     rules.refresh_map_items( map_items );
 }
 
-bool npc_settings::empty() const
+auto npc_settings::empty() const -> bool
 {
     return rules.empty();
 }

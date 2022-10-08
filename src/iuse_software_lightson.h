@@ -24,15 +24,15 @@ class lightson_game
         void reset_level();
         void generate_change_coords( int changes );
         void draw_level();
-        bool check_win();
+        auto check_win() -> bool;
         void toggle_lights();
         void toggle_lights_at( const point &pt );
-        bool get_value_at( const point &pt );
+        auto get_value_at( const point &pt ) -> bool;
         void set_value_at( const point &pt, bool value );
         void toggle_value_at( const point &pt );
 
     public:
-        int start_game();
+        auto start_game() -> int;
         lightson_game() = default;
 };
 

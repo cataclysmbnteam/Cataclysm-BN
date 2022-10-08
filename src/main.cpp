@@ -182,7 +182,7 @@ int APIENTRY WinMain( HINSTANCE /* hInstance */, HINSTANCE /* hPrevInstance */,
 #elif defined(__ANDROID__)
 extern "C" int SDL_main( int argc, char **argv ) {
 #else
-int main( int argc, char *argv[] )
+auto main( int argc, char *argv[] ) -> int
 {
 #endif
     init_crash_handlers();

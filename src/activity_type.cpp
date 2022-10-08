@@ -22,7 +22,7 @@ static std::map< activity_id, activity_type > activity_type_all;
 
 /** @relates string_id */
 template<>
-const activity_type &string_id<activity_type>::obj() const
+auto string_id<activity_type>::obj() const -> const activity_type &
 {
     const auto found = activity_type_all.find( *this );
     if( found == activity_type_all.end() ) {
@@ -101,7 +101,7 @@ void activity_type::call_do_turn( player_activity *act, player *p ) const
     }
 }
 
-bool activity_type::call_finish( player_activity *act, player *p ) const
+auto activity_type::call_finish( player_activity *act, player *p ) const -> bool
 {
     const auto &pair = activity_handlers::finish_functions.find( id_ );
     if( pair != activity_handlers::finish_functions.end() ) {
@@ -118,7 +118,7 @@ void activity_type::reset()
     activity_type_all.clear();
 }
 
-std::string activity_type::stop_phrase() const
+auto activity_type::stop_phrase() const -> std::string
 {
     return string_format( _( "Stop %s?" ), verb_ );
 }

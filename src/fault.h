@@ -30,27 +30,27 @@ class fault
     public:
         fault() : id_( fault_id( "null" ) ) {}
 
-        const fault_id &id() const {
+        auto id() const -> const fault_id & {
             return id_;
         }
 
-        bool is_null() const {
+        auto is_null() const -> bool {
             return id_ == fault_id( "null" );
         }
 
-        std::string name() const {
+        auto name() const -> std::string {
             return name_.translated();
         }
 
-        std::string description() const {
+        auto description() const -> std::string {
             return description_.translated();
         }
 
-        const std::map<std::string, mending_method> &mending_methods() const {
+        auto mending_methods() const -> const std::map<std::string, mending_method> & {
             return mending_methods_;
         }
 
-        const mending_method *find_mending_method( const std::string &id ) const {
+        auto find_mending_method( const std::string &id ) const -> const mending_method * {
             if( mending_methods_.find( id ) != mending_methods_.end() ) {
                 return &mending_methods_.at( id );
             } else {
@@ -58,7 +58,7 @@ class fault
             }
         }
 
-        bool has_flag( const std::string &flag ) const {
+        auto has_flag( const std::string &flag ) const -> bool {
             return flags.count( flag );
         }
 
@@ -66,7 +66,7 @@ class fault
         static void load_fault( const JsonObject &jo );
 
         /** Get all currently loaded faults */
-        static const std::map<fault_id, fault> &all();
+        static auto all() -> const std::map<fault_id, fault> &;
 
         /** Clear all loaded faults (invalidating any pointers) */
         static void reset();

@@ -29,12 +29,12 @@ class overmap_connection
 
                 int basic_cost = 0;
 
-                bool allows_terrain( const oter_id &oter ) const;
-                bool allows_turns() const {
+                auto allows_terrain( const oter_id &oter ) const -> bool;
+                auto allows_turns() const -> bool {
                     return terrain->is_linear();
                 }
 
-                bool is_orthogonal() const {
+                auto is_orthogonal() const -> bool {
                     return flags.count( flag::orthogonal );
                 }
 
@@ -47,8 +47,8 @@ class overmap_connection
         };
 
     public:
-        const subtype *pick_subtype_for( const oter_id &ground ) const;
-        bool has( const oter_id &oter ) const;
+        auto pick_subtype_for( const oter_id &ground ) const -> const subtype *;
+        auto has( const oter_id &oter ) const -> bool;
 
         void load( const JsonObject &jo, const std::string &src );
         void check() const;
@@ -81,8 +81,8 @@ void finalize();
 void check_consistency();
 void reset();
 
-overmap_connection_id guess_for( const oter_type_id &oter );
-overmap_connection_id guess_for( const oter_id &oter );
+auto guess_for( const oter_type_id &oter ) -> overmap_connection_id;
+auto guess_for( const oter_id &oter ) -> overmap_connection_id;
 
 } // namespace overmap_connections
 

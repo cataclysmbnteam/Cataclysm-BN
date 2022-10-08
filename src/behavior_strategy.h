@@ -19,26 +19,26 @@ class strategy_t
 {
     public:
         virtual ~strategy_t() = default;
-        virtual behavior_return evaluate( const oracle_t *subject,
-                                          std::vector<const node_t *> children ) const = 0;
+        virtual auto evaluate( const oracle_t *subject,
+                                          std::vector<const node_t *> children ) const -> behavior_return = 0;
 };
 
 class sequential_t : public strategy_t
 {
-        behavior_return evaluate( const oracle_t *subject,
-                                  std::vector<const node_t *> children ) const override;
+        auto evaluate( const oracle_t *subject,
+                                  std::vector<const node_t *> children ) const -> behavior_return override;
 };
 
 class fallback_t : public strategy_t
 {
-        behavior_return evaluate( const oracle_t *subject,
-                                  std::vector<const node_t *> children ) const override;
+        auto evaluate( const oracle_t *subject,
+                                  std::vector<const node_t *> children ) const -> behavior_return override;
 };
 
 class sequential_until_done_t : public strategy_t
 {
-        behavior_return evaluate( const oracle_t *subject,
-                                  std::vector<const node_t *> children ) const override;
+        auto evaluate( const oracle_t *subject,
+                                  std::vector<const node_t *> children ) const -> behavior_return override;
 };
 
 extern std::unordered_map<std::string, const strategy_t *> strategy_map;

@@ -35,7 +35,7 @@ class string_input_popup;
 class ui_adaptor;
 struct input_event;
 
-catacurses::window new_centered_win( int nlines, int ncols );
+auto new_centered_win( int nlines, int ncols ) -> catacurses::window;
 
 /**
  * mvwzstr: line of text with horizontal offset and color
@@ -89,37 +89,37 @@ struct uilist_entry {
     uilist_entry( int R, bool E, int K, std::string T, nc_color H, nc_color C ) : retval( R ),
         enabled( E ), hotkey( K ), txt( T ), hotkey_color( H ), text_color( C ) {}
 
-    uilist_entry &with_retval( int R ) {
+    auto with_retval( int R ) -> uilist_entry & {
         retval = R;
         return *this;
     }
 
-    uilist_entry &with_hotkey( int K ) {
+    auto with_hotkey( int K ) -> uilist_entry & {
         hotkey = K;
         return *this;
     }
 
-    uilist_entry &with_enabled( bool E ) {
+    auto with_enabled( bool E ) -> uilist_entry & {
         enabled = E;
         return *this;
     }
 
-    uilist_entry &with_descr( std::string s ) {
+    auto with_descr( std::string s ) -> uilist_entry & {
         desc = std::move( s );
         return *this;
     }
 
-    uilist_entry &with_ctxt( std::string s ) {
+    auto with_ctxt( std::string s ) -> uilist_entry & {
         ctxt = std::move( s );
         return *this;
     }
 
-    uilist_entry &with_hk_color( nc_color c ) {
+    auto with_hk_color( nc_color c ) -> uilist_entry & {
         hotkey_color = c;
         return *this;
     }
 
-    uilist_entry &with_txt_color( nc_color c ) {
+    auto with_txt_color( nc_color c ) -> uilist_entry & {
         text_color = c;
         return *this;
     }
@@ -171,8 +171,8 @@ class uilist_callback
         * After a new item is selected, call this once
         */
         virtual void select( uilist * ) {}
-        virtual bool key( const input_context &, const input_event &/*key*/, int /*entnum*/,
-                          uilist * ) {
+        virtual auto key( const input_context &, const input_event &/*key*/, int /*entnum*/,
+                          uilist * ) -> bool {
             return false;
         }
         virtual void refresh( uilist * ) {}
@@ -192,9 +192,9 @@ class uilist // NOLINT(cata-xy)
                 struct auto_assign {
                 };
 
-                size_scalar &operator=( auto_assign );
-                size_scalar &operator=( int val );
-                size_scalar &operator=( const std::function<int()> &fun );
+                auto operator=( auto_assign ) -> size_scalar &;
+                auto operator=( int val ) -> size_scalar &;
+                auto operator=( const std::function<int()> &fun ) -> size_scalar &;
 
                 friend class uilist;
 
@@ -208,11 +208,11 @@ class uilist // NOLINT(cata-xy)
                 struct auto_assign {
                 };
 
-                pos_scalar &operator=( auto_assign );
-                pos_scalar &operator=( int val );
+                auto operator=( auto_assign ) -> pos_scalar &;
+                auto operator=( int val ) -> pos_scalar &;
                 // the parameter to the function is the corresponding size vector element
                 // (width for x, height for y)
-                pos_scalar &operator=( const std::function<int( int )> &fun );
+                auto operator=( const std::function<int( int )> &fun ) -> pos_scalar &;
 
                 friend class uilist;
 
@@ -237,7 +237,7 @@ class uilist // NOLINT(cata-xy)
         // initialize the window or reposition it after screen size change.
         void reposition( ui_adaptor &ui );
         void show();
-        bool scrollby( int scrollby );
+        auto scrollby( int scrollby ) -> bool;
         void query( bool loop = true, int timeout = -1 );
 
         /**
@@ -257,7 +257,7 @@ class uilist // NOLINT(cata-xy)
         /**
          * Get current filter string.
          */
-        const std::string &get_filter() const {
+        auto get_filter() const -> const std::string & {
             return filter;
         }
 
@@ -265,7 +265,7 @@ class uilist // NOLINT(cata-xy)
          * Get filtered list of entries.
          * Elements are indices for 'entries'.
          */
-        const std::vector<int> &get_filtered() const {
+        auto get_filtered() const -> const std::vector<int> & {
             return fentries;
         }
 
@@ -274,7 +274,7 @@ class uilist // NOLINT(cata-xy)
          * @param sel Entry to select (index for 'entries').
          * @returns 'false' if entry does not exist / is not available with current filter.
          */
-        bool set_selected( int sel );
+        auto set_selected( int sel ) -> bool;
 
         void addentry( const std::string &str );
         void addentry( int r, bool e, int k, const std::string &str );
@@ -302,12 +302,12 @@ class uilist // NOLINT(cata-xy)
         //     menu.query()
         //     // before `ui` or `menu` is deconstructed, the menu will always be
         //     // displayed on screen.
-        shared_ptr_fast<ui_adaptor> create_or_get_ui_adaptor();
+        auto create_or_get_ui_adaptor() -> shared_ptr_fast<ui_adaptor>;
 
         operator int() const;
 
     private:
-        int scroll_amount_from_action( const std::string &action );
+        auto scroll_amount_from_action( const std::string &action ) -> int;
         void apply_scrollbar();
         // This function assumes it's being called from `query` and should
         // not be made public.

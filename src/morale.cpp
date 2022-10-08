@@ -51,7 +51,7 @@ namespace io
 {
 
 template<>
-std::string enum_to_string<morale_subtype_t>( morale_subtype_t data )
+auto enum_to_string<morale_subtype_t>( morale_subtype_t data ) -> std::string
 {
     switch( data ) {
         // *INDENT-OFF*
@@ -78,34 +78,34 @@ struct morale_mult {
     double good;    // For good morale
     double bad;     // For bad morale
 
-    morale_mult operator * ( const morale_mult &rhs ) const {
+    auto operator * ( const morale_mult &rhs ) const -> morale_mult {
         return morale_mult( *this ) *= rhs;
     }
 
-    morale_mult &operator *= ( const morale_mult &rhs ) {
+    auto operator *= ( const morale_mult &rhs ) -> morale_mult & {
         good *= rhs.good;
         bad *= rhs.bad;
         return *this;
     }
 };
 
-inline double operator * ( double morale, const morale_mult &mult )
+inline auto operator * ( double morale, const morale_mult &mult ) -> double
 {
     return morale * ( ( morale >= 0.0 ) ? mult.good : mult.bad );
 }
 
-inline double operator * ( const morale_mult &mult, double morale )
+inline auto operator * ( const morale_mult &mult, double morale ) -> double
 {
     return morale * mult;
 }
 
-inline double operator *= ( double &morale, const morale_mult &mult )
+inline auto operator *= ( double &morale, const morale_mult &mult ) -> double
 {
     morale = morale * mult;
     return morale;
 }
 
-inline int operator *= ( int &morale, const morale_mult &mult )
+inline auto operator *= ( int &morale, const morale_mult &mult ) -> int
 {
     morale = morale * mult;
     return morale;
@@ -126,7 +126,7 @@ static const morale_mult prozac( 1.0, 0.25 );
 static const morale_mult prozac_bad( 0.25, 1.0 );
 } // namespace morale_mults
 
-std::string player_morale::morale_point::get_name() const
+auto player_morale::morale_point::get_name() const -> std::string
 {
     if( subtype.has_description() ) {
         return type.obj().describe( subtype.describe() );
@@ -135,41 +135,41 @@ std::string player_morale::morale_point::get_name() const
     }
 }
 
-int player_morale::morale_point::get_net_bonus() const
+auto player_morale::morale_point::get_net_bonus() const -> int
 {
     return bonus * ( ( !is_permanent() && age > decay_start ) ?
                      logarithmic_range( to_turns<int>( decay_start ), to_turns<int>( duration ),
                                         to_turns<int>( age ) ) : 1 );
 }
 
-int player_morale::morale_point::get_net_bonus( const morale_mult &mult ) const
+auto player_morale::morale_point::get_net_bonus( const morale_mult &mult ) const -> int
 {
     return get_net_bonus() * mult;
 }
 
-bool player_morale::morale_point::is_expired() const
+auto player_morale::morale_point::is_expired() const -> bool
 {
     // Zero morale bonuses will be shown occasionally anyway
     return ( !is_permanent() && age >= duration ) || bonus == 0;
 }
 
-bool player_morale::morale_point::is_permanent() const
+auto player_morale::morale_point::is_permanent() const -> bool
 {
     return ( duration == 0_turns );
 }
 
-bool player_morale::morale_point::type_matches( const morale_type &_type ) const
+auto player_morale::morale_point::type_matches( const morale_type &_type ) const -> bool
 {
     return _type == type;
 }
 
-bool player_morale::morale_point::matches( const morale_type &_type,
-        const morale_subtype &_subtype ) const
+auto player_morale::morale_point::matches( const morale_type &_type,
+        const morale_subtype &_subtype ) const -> bool
 {
     return _type == type && subtype.matches( _subtype );
 }
 
-bool player_morale::morale_point::matches( const morale_point &mp ) const
+auto player_morale::morale_point::matches( const morale_point &mp ) const -> bool
 {
     return type == mp.type && subtype.matches( mp.subtype );
 }
@@ -207,8 +207,8 @@ void player_morale::morale_point::add( const int new_bonus, const int new_max_bo
     age = 0_turns; // Brand new. The assignment should stay below get_net_bonus() and pick_time().
 }
 
-time_duration player_morale::morale_point::pick_time( const time_duration &current_time,
-        const time_duration &new_time, bool same_sign ) const
+auto player_morale::morale_point::pick_time( const time_duration &current_time,
+        const time_duration &new_time, bool same_sign ) const -> time_duration
 {
     const time_duration remaining_time = current_time - age;
     return ( remaining_time <= new_time && same_sign ) ? new_time : remaining_time;
@@ -219,7 +219,7 @@ void player_morale::morale_point::set_percent_contribution( double contribution 
     percent_contribution = contribution;
 }
 
-double player_morale::morale_point::get_percent_contribution() const
+auto player_morale::morale_point::get_percent_contribution() const -> double
 {
     return percent_contribution;
 }
@@ -233,13 +233,13 @@ void player_morale::morale_point::decay( const time_duration &ticks )
     age += ticks;
 }
 
-int player_morale::morale_point::normalize_bonus( int bonus, int max_bonus, bool capped ) const
+auto player_morale::morale_point::normalize_bonus( int bonus, int max_bonus, bool capped ) const -> int
 {
     return ( ( std::abs( bonus ) > std::abs( max_bonus ) && ( max_bonus != 0 ||
                capped ) ) ? max_bonus : bonus );
 }
 
-bool player_morale::mutation_data::get_active() const
+auto player_morale::mutation_data::get_active() const -> bool
 {
     return active;
 }
@@ -372,14 +372,14 @@ void player_morale::set_permanent_typed( const morale_type &type, int bonus,
     add( type, subtype, bonus, 0, 0_turns, 0_turns, false );
 }
 
-bool player_morale::has( const morale_type &type ) const
+auto player_morale::has( const morale_type &type ) const -> bool
 {
     return std::any_of( points.begin(), points.end(), [&type]( const morale_point & m ) {
         return m.type_matches( type );
     } );
 }
 
-int player_morale::get( const morale_type &type ) const
+auto player_morale::get( const morale_type &type ) const -> int
 {
     // TODO: This should be well defined for multiple bonuses of the same type!
     auto iter = std::find_if( points.begin(), points.end(), [&type]( const morale_point & m ) {
@@ -419,7 +419,7 @@ void player_morale::remove_expired()
     } );
 }
 
-morale_mult player_morale::get_temper_mult() const
+auto player_morale::get_temper_mult() const -> morale_mult
 {
     morale_mult mult;
 
@@ -459,7 +459,7 @@ void player_morale::calculate_percentage()
     }
 }
 
-int player_morale::get_total_negative_value() const
+auto player_morale::get_total_negative_value() const -> int
 {
     const morale_mult mult = get_temper_mult();
     int sum = 0;
@@ -472,7 +472,7 @@ int player_morale::get_total_negative_value() const
     return std::sqrt( sum );
 }
 
-int player_morale::get_total_positive_value() const
+auto player_morale::get_total_positive_value() const -> int
 {
     const morale_mult mult = get_temper_mult();
     int sum = 0;
@@ -486,7 +486,7 @@ int player_morale::get_total_positive_value() const
     return std::sqrt( sum );
 }
 
-int player_morale::get_level() const
+auto player_morale::get_level() const -> int
 {
     if( !level_is_valid ) {
         const morale_mult mult = get_temper_mult();
@@ -608,7 +608,7 @@ void player_morale::display( int focus_eq, int pain_penalty, int fatigue_cap )
                 }
             }
 
-            int max_width() const {
+            auto max_width() const -> int {
                 if( sep_line ) {
                     return 0;
                 } else if( right.empty() ) {
@@ -838,7 +838,7 @@ void player_morale::display( int focus_eq, int pain_penalty, int fatigue_cap )
     } while( action != "CONFIRM" && action != "QUIT" );
 }
 
-bool player_morale::consistent_with( const player_morale &morale ) const
+auto player_morale::consistent_with( const player_morale &morale ) const -> bool
 {
     const auto test_points = []( const player_morale & lhs, const player_morale & rhs ) {
         for( const auto &lhp : lhs.points ) {
@@ -900,7 +900,7 @@ void player_morale::invalidate()
     level_is_valid = false;
 }
 
-bool player_morale::has_mutation( const trait_id &mid )
+auto player_morale::has_mutation( const trait_id &mid ) -> bool
 {
     const auto &mutation = mutations.find( mid );
     return ( mutation != mutations.end() && mutation->second.get_active() );
@@ -1175,14 +1175,14 @@ void player_morale::update_squeamish_penalty()
 // For some reason, moving this to header breaks things
 player_morale::morale_subtype::morale_subtype() = default;
 
-bool player_morale::morale_subtype::has_description() const
+auto player_morale::morale_subtype::has_description() const -> bool
 {
     return subtype_type == morale_subtype_t::by_item;
 }
 
 // TODO: Get rid of this ugly include that is only used here!
 #include "itype.h"
-std::string player_morale::morale_subtype::describe() const
+auto player_morale::morale_subtype::describe() const -> std::string
 {
     switch( subtype_type ) {
         case morale_subtype_t::by_item:

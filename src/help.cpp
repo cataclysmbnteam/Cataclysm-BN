@@ -27,7 +27,7 @@
 #include "translations.h"
 #include "ui_manager.h"
 
-help &get_help()
+auto get_help() -> help &
 {
     static help single_instance;
     return single_instance;
@@ -71,7 +71,7 @@ void help::deserialize( JsonIn &jsin )
     }
 }
 
-std::string help::get_dir_grid()
+auto help::get_dir_grid() -> std::string
 {
     static const std::array<action_id, 9> movearray = {{
             ACTION_MOVE_FORTH_LEFT, ACTION_MOVE_FORTH, ACTION_MOVE_FORTH_RIGHT,
@@ -125,7 +125,7 @@ void help::draw_menu( const catacurses::window &win )
     wnoutrefresh( win );
 }
 
-std::string help::get_note_colors()
+auto help::get_note_colors() -> std::string
 {
     std::string text = _( "Note colors: " );
     for( const auto &color_pair : get_note_color_names() ) {
@@ -225,7 +225,7 @@ void help::display_help()
     } while( action != "QUIT" );
 }
 
-std::string get_hint()
+auto get_hint() -> std::string
 {
     return SNIPPET.random_from_category( "hint" ).value_or( translation() ).translated();
 }

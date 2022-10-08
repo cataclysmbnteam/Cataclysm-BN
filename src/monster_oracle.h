@@ -19,9 +19,9 @@ class monster_oracle_t : public oracle_t
         /**
          * Predicates used by AI to determine goals.
          */
-        status_t has_special() const;
-        status_t not_hallucination() const;
-        status_t items_available() const;
+        auto has_special() const -> status_t;
+        auto not_hallucination() const -> status_t;
+        auto items_available() const -> status_t;
     private:
         const monster *subject;
 };

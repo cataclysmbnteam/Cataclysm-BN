@@ -58,11 +58,11 @@ void draw_custom_explosion( const tripoint &p, const std::map<tripoint, nc_color
 } // namespace explosion_handler
 
 // TODO: Better file
-bucketed_points bucket_by_distance( const tripoint &origin,
-                                    const std::map<tripoint, double> &to_bucket );
-bucketed_points optimal_bucketing( const bucketed_points &buckets, size_t max_buckets );
+auto bucket_by_distance( const tripoint &origin,
+                                    const std::map<tripoint, double> &to_bucket ) -> bucketed_points;
+auto optimal_bucketing( const bucketed_points &buckets, size_t max_buckets ) -> bucketed_points;
 
-bool minimap_requires_animation();
-bool terrain_requires_animation();
+auto minimap_requires_animation() -> bool;
+auto terrain_requires_animation() -> bool;
 
 #endif // CATA_SRC_ANIMATION_H

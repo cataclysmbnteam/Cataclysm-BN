@@ -81,7 +81,7 @@ struct language_info {
  * Initialize language system (detect system UI language, load definitions).
  * Does not change current language/locale.
  */
-bool init_language_system();
+auto init_language_system() -> bool;
 
 /**
  * Prompt for explicit language selection.
@@ -94,7 +94,7 @@ void prompt_select_lang_on_startup();
  * List of loaded language definitions.
  * Always contains at least 1 language (English).
  */
-const std::vector<language_info> &list_available_languages();
+auto list_available_languages() -> const std::vector<language_info> &;
 
 /**
  * Set language and locale to current value of USE_LANG option.
@@ -108,18 +108,18 @@ void set_language();
  * if the option has been changed without subsequent `set_language()` call.
  * If lang system has not been initialized, falls back to English.
  */
-const language_info &get_language();
+auto get_language() -> const language_info &;
 
 /**
  * Get prioritized list of substrings for language-dependent file paths.
  * The substrings can be used as file/folder names or as prefixes/suffixes.
  */
-std::vector<std::string> get_lang_path_substring( const std::string &lang_id );
+auto get_lang_path_substring( const std::string &lang_id ) -> std::vector<std::string>;
 
 /**
  * Check whether language has translation files compiled for it.
  */
-bool translations_exists_for_lang( const std::string &lang_id );
+auto translations_exists_for_lang( const std::string &lang_id ) -> bool;
 
 namespace cata_libintl
 {
@@ -128,7 +128,7 @@ class trans_library;
 
 namespace l10n_data
 {
-const cata_libintl::trans_library &get_library();
+auto get_library() -> const cata_libintl::trans_library &;
 
 void reload_catalogues();
 void unload_catalogues();

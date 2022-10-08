@@ -19,6 +19,6 @@ struct enum_traits<character_stat> {
     static constexpr character_stat last = character_stat::DUMMY_STAT;
 };
 /**Get translated name of a stat*/
-std::string get_stat_name( character_stat Stat );
+auto get_stat_name( character_stat Stat ) -> std::string;
 
 #endif // CATA_SRC_CHARACTER_STAT_H

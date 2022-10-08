@@ -50,7 +50,7 @@ class scenario
         vproto_id _starting_vehicle = vproto_id::NULL_ID();
 
         void load( const JsonObject &jo, const std::string &src );
-        bool scenario_traits_conflict_with_profession_traits( const profession &p ) const;
+        auto scenario_traits_conflict_with_profession_traits( const profession &p ) const -> bool;
 
     public:
         //these three aren't meant for external use, but had to be made public regardless
@@ -58,10 +58,10 @@ class scenario
         static void load_scenario( const JsonObject &jo, const std::string &src );
 
         // these should be the only ways used to get at scenario
-        static const scenario *generic(); // points to the generic, default profession
+        static auto generic() -> const scenario *; // points to the generic, default profession
         // return a random scenario, weighted for use w/ random character creation
-        static const scenario *weighted_random();
-        static const std::vector<scenario> &get_all();
+        static auto weighted_random() -> const scenario *;
+        static auto get_all() -> const std::vector<scenario> &;
 
         // clear scenario map, every scenario pointer becomes invalid!
         static void reset();
@@ -70,48 +70,48 @@ class scenario
         /** Check that item definitions are valid */
         void check_definition() const;
 
-        const string_id<scenario> &ident() const;
-        std::string gender_appropriate_name( bool male ) const;
-        std::string description( bool male ) const;
-        start_location_id start_location() const;
-        start_location_id random_start_location() const;
-        std::string start_name() const;
-        int start_location_count() const;
-        int start_location_targets_count() const;
+        auto ident() const -> const string_id<scenario> &;
+        auto gender_appropriate_name( bool male ) const -> std::string;
+        auto description( bool male ) const -> std::string;
+        auto start_location() const -> start_location_id;
+        auto random_start_location() const -> start_location_id;
+        auto start_name() const -> std::string;
+        auto start_location_count() const -> int;
+        auto start_location_targets_count() const -> int;
 
-        vproto_id vehicle() const;
+        auto vehicle() const -> vproto_id;
 
-        const profession_id &weighted_random_profession() const;
-        std::vector<profession_id> permitted_professions() const;
+        auto weighted_random_profession() const -> const profession_id &;
+        auto permitted_professions() const -> std::vector<profession_id>;
 
-        bool traitquery( const trait_id &trait ) const;
-        std::set<trait_id> get_locked_traits() const;
-        bool is_locked_trait( const trait_id &trait ) const;
-        bool is_forbidden_trait( const trait_id &trait ) const;
+        auto traitquery( const trait_id &trait ) const -> bool;
+        auto get_locked_traits() const -> std::set<trait_id>;
+        auto is_locked_trait( const trait_id &trait ) const -> bool;
+        auto is_forbidden_trait( const trait_id &trait ) const -> bool;
 
-        bool allowed_start( const start_location_id &loc ) const;
-        signed int point_cost() const;
-        bool has_map_extra() const;
-        const std::string &get_map_extra() const;
+        auto allowed_start( const start_location_id &loc ) const -> bool;
+        auto point_cost() const -> signed int;
+        auto has_map_extra() const -> bool;
+        auto get_map_extra() const -> const std::string &;
 
         /**
          * Returns "All", "Limited", or "Almost all" (translated)
          * This is used by newcharacter.cpp
         */
-        std::string prof_count_str() const;
+        auto prof_count_str() const -> std::string;
 
         // Is this scenario blacklisted?
-        bool scen_is_blacklisted() const;
+        auto scen_is_blacklisted() const -> bool;
 
         /** Such as a seasonal start, fiery start, surrounded start, etc. */
-        bool has_flag( const std::string &flag ) const;
+        auto has_flag( const std::string &flag ) const -> bool;
 
         /**
          *
          */
-        bool can_pick( const scenario &current_scenario, int points ) const;
+        auto can_pick( const scenario &current_scenario, int points ) const -> bool;
 
-        const std::vector<mission_type_id> &missions() const;
+        auto missions() const -> const std::vector<mission_type_id> &;
 
 };
 

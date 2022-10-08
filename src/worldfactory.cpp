@@ -46,27 +46,27 @@ save_t::save_t( const std::string &name )
 {
 }
 
-std::string save_t::player_name() const
+auto save_t::player_name() const -> std::string
 {
     return name;
 }
 
-std::string save_t::base_path() const
+auto save_t::base_path() const -> std::string
 {
     return base64_encode( name );
 }
 
-save_t save_t::from_player_name( const std::string &name )
+auto save_t::from_player_name( const std::string &name ) -> save_t
 {
     return save_t( name );
 }
 
-save_t save_t::from_base_path( const std::string &base_path )
+auto save_t::from_base_path( const std::string &base_path ) -> save_t
 {
     return save_t( base64_decode( base_path ) );
 }
 
-static std::string get_next_valid_worldname()
+static auto get_next_valid_worldname() -> std::string
 {
     std::string worldname = Name::get( nameIsWorldName );
 
@@ -89,12 +89,12 @@ void WORLD::COPY_WORLD( const WORLD *world_to_copy )
     active_mod_order = world_to_copy->active_mod_order;
 }
 
-std::string WORLD::folder_path() const
+auto WORLD::folder_path() const -> std::string
 {
     return PATH_INFO::savedir() + world_name;
 }
 
-bool WORLD::save_exists( const save_t &name ) const
+auto WORLD::save_exists( const save_t &name ) const -> bool
 {
     return std::find( world_saves.begin(), world_saves.end(), name ) != world_saves.end();
 }
@@ -118,7 +118,7 @@ worldfactory::worldfactory()
 
 worldfactory::~worldfactory() = default;
 
-WORLDPTR worldfactory::add_world( std::unique_ptr<WORLD> retworld )
+auto worldfactory::add_world( std::unique_ptr<WORLD> retworld ) -> WORLDPTR
 {
     if( !retworld->save() ) {
         return nullptr;
@@ -126,14 +126,14 @@ WORLDPTR worldfactory::add_world( std::unique_ptr<WORLD> retworld )
     return ( all_worlds[ retworld->world_name ] = std::move( retworld ) ).get();
 }
 
-WORLDPTR worldfactory::make_new_world( const std::vector<mod_id> &mods )
+auto worldfactory::make_new_world( const std::vector<mod_id> &mods ) -> WORLDPTR
 {
     std::unique_ptr<WORLD> retworld = std::make_unique<WORLD>();
     retworld->active_mod_order = mods;
     return add_world( std::move( retworld ) );
 }
 
-WORLDPTR worldfactory::make_new_world( bool show_prompt, const std::string &world_to_copy )
+auto worldfactory::make_new_world( bool show_prompt, const std::string &world_to_copy ) -> WORLDPTR
 {
     // World to return after generating
     std::unique_ptr<WORLD> retworld = std::make_unique<WORLD>();
@@ -178,7 +178,7 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt, const std::string &worl
     return add_world( std::move( retworld ) );
 }
 
-WORLDPTR worldfactory::make_new_world( special_game_id special_type )
+auto worldfactory::make_new_world( special_game_id special_type ) -> WORLDPTR
 {
     std::string worldname;
     switch( special_type ) {
@@ -220,7 +220,7 @@ void worldfactory::set_active_world( WORLDPTR world )
     }
 }
 
-bool WORLD::save( const bool is_conversion ) const
+auto WORLD::save( const bool is_conversion ) const -> bool
 {
     if( !assure_dir_exist( folder_path() ) ) {
         DebugLog( DL::Error, DC::Main ) << "Unable to create or open world[" << world_name
@@ -334,12 +334,12 @@ void worldfactory::init()
     }
 }
 
-bool worldfactory::has_world( const std::string &name ) const
+auto worldfactory::has_world( const std::string &name ) const -> bool
 {
     return all_worlds.count( name ) > 0;
 }
 
-std::vector<std::string> worldfactory::all_worldnames() const
+auto worldfactory::all_worldnames() const -> std::vector<std::string>
 {
     std::vector<std::string> result;
     for( auto &elem : all_worlds ) {
@@ -348,7 +348,7 @@ std::vector<std::string> worldfactory::all_worldnames() const
     return result;
 }
 
-WORLDPTR worldfactory::pick_world( bool show_prompt )
+auto worldfactory::pick_world( bool show_prompt ) -> WORLDPTR
 {
     std::vector<std::string> world_names = all_worldnames();
 
@@ -595,14 +595,14 @@ void worldfactory::save_last_world_info()
     }, _( "last world info" ) );
 }
 
-std::string worldfactory::pick_random_name()
+auto worldfactory::pick_random_name() -> std::string
 {
     // TODO: add some random worldname parameters to name generator
     return get_next_valid_worldname();
 }
 
-int worldfactory::show_worldgen_tab_options( const catacurses::window &, WORLDPTR world,
-        const std::function<bool()> &on_quit )
+auto worldfactory::show_worldgen_tab_options( const catacurses::window &, WORLDPTR world,
+        const std::function<bool()> &on_quit ) -> int
 {
     get_options().set_world_options( &world->WORLD_OPTIONS );
     const std::string action = get_options().show( false, true, on_quit );
@@ -851,17 +851,17 @@ void worldfactory::edit_active_world_mods( WORLDPTR world )
     }
 }
 
-int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win, WORLDPTR world,
-        const std::function<bool()> &on_quit )
+auto worldfactory::show_worldgen_tab_modselection( const catacurses::window &win, WORLDPTR world,
+        const std::function<bool()> &on_quit ) -> int
 {
     return show_modselection_window( win, world->active_mod_order, on_quit, on_quit, false );
 }
 
-int worldfactory::show_modselection_window( const catacurses::window &win,
+auto worldfactory::show_modselection_window( const catacurses::window &win,
         std::vector<mod_id> &active_mod_order,
         const std::function<bool()> &on_quit,
         const std::function<bool()> &on_backtab,
-        bool standalone )
+        bool standalone ) -> int
 {
     {
         std::vector<mod_id> tmp_mod_order;
@@ -1324,8 +1324,8 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
     return tab_output;
 }
 
-int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORLDPTR world,
-        const std::function<bool()> &on_quit )
+auto worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORLDPTR world,
+        const std::function<bool()> &on_quit ) -> int
 {
     catacurses::window w_confirmation;
 
@@ -1551,7 +1551,7 @@ void worldfactory::draw_empty_worldgen_tabs( const catacurses::window &w )
     draw_border_below_tabs( w );
 }
 
-bool worldfactory::valid_worldname( const std::string &name, bool automated )
+auto worldfactory::valid_worldname( const std::string &name, bool automated ) -> bool
 {
     std::string msg;
 
@@ -1609,7 +1609,7 @@ void WORLD::load_legacy_options( std::istream &fin )
     }
 }
 
-bool WORLD::load_options()
+auto WORLD::load_options() -> bool
 {
     WORLD_OPTIONS = get_options().get_world_defaults();
 
@@ -1663,12 +1663,12 @@ void load_external_option( const JsonObject &jo )
     }
 }
 
-mod_manager &worldfactory::get_mod_manager()
+auto worldfactory::get_mod_manager() -> mod_manager &
 {
     return *mman;
 }
 
-WORLDPTR worldfactory::get_world( const std::string &name )
+auto worldfactory::get_world( const std::string &name ) -> WORLDPTR
 {
     const auto iter = all_worlds.find( name );
     if( iter == all_worlds.end() ) {
@@ -1679,7 +1679,7 @@ WORLDPTR worldfactory::get_world( const std::string &name )
 }
 
 // Helper predicate to exclude files from deletion when resetting a world directory.
-static bool isForbidden( const std::string &candidate )
+static auto isForbidden( const std::string &candidate ) -> bool
 {
     return candidate.find( PATH_INFO::worldoptions() ) != std::string::npos ||
            candidate.find( "mods.json" ) != std::string::npos;

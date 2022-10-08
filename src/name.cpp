@@ -33,7 +33,7 @@ static const std::map< std::string, nameFlags > gender_flags {
     { "unisex", nameIsUnisexName }
 };
 
-static nameFlags usage_flag( const std::string &usage )
+static auto usage_flag( const std::string &usage ) -> nameFlags
 {
     const auto it = usage_flags.find( usage );
     if( it != usage_flags.end() ) {
@@ -42,7 +42,7 @@ static nameFlags usage_flag( const std::string &usage )
     return static_cast< nameFlags >( 0 );
 }
 
-static nameFlags gender_flag( const std::string &gender )
+static auto gender_flag( const std::string &gender ) -> nameFlags
 {
     const auto it = gender_flags.find( gender );
     if( it != gender_flags.end() ) {
@@ -87,7 +87,7 @@ void load_from_file( const std::string &filename )
 // i.e. if searchFlag is  [ Male|Family ]
 // it will match any group with those two flags set, such as [ Unisex|Family ]
 using names_vec = std::vector< decltype( names.cbegin() ) >;
-static names_vec get_matching_groups( nameFlags searchFlags )
+static auto get_matching_groups( nameFlags searchFlags ) -> names_vec
 {
     names_vec matching_groups;
     for( auto it = names.cbegin(), end = names.cend(); it != end; ++it ) {
@@ -100,7 +100,7 @@ static names_vec get_matching_groups( nameFlags searchFlags )
 }
 
 // Get a random name with the specified flag
-std::string get( nameFlags searchFlags )
+auto get( nameFlags searchFlags ) -> std::string
 {
     auto matching_groups = get_matching_groups( searchFlags );
     if( !matching_groups.empty() ) {
@@ -125,7 +125,7 @@ std::string get( nameFlags searchFlags )
     return std::string( _( "Tom" ) );
 }
 
-std::string generate( bool is_male )
+auto generate( bool is_male ) -> std::string
 {
     const nameFlags baseSearchFlags = is_male ? nameIsMaleName : nameIsFemaleName;
     //One in twenty chance to pull from the backer list, otherwise generate a name from the parts list

@@ -52,11 +52,11 @@ struct talk_trial {
     int difficulty = 0;
     std::function<bool( const dialogue & )> condition;
 
-    int calc_chance( const dialogue &d ) const;
+    auto calc_chance( const dialogue &d ) const -> int;
     /**
      * Returns a user-friendly representation of @ref type
      */
-    std::string name() const;
+    auto name() const -> std::string;
     std::vector<trial_mod> modifiers;
     operator bool() const {
         return type != TALK_TRIAL_NONE;
@@ -64,7 +64,7 @@ struct talk_trial {
     /**
      * Roll for success or failure of this trial.
      */
-    bool roll( dialogue &d ) const;
+    auto roll( dialogue &d ) const -> bool;
 
     talk_trial() = default;
     talk_trial( const JsonObject & );
@@ -120,7 +120,7 @@ struct talk_effect_fun_t {
         void set_bulk_trade_accept( bool is_trade, bool is_npc = false );
         void set_npc_gets_item( bool to_use );
         void set_add_mission( const std::string &mission_id );
-        const std::vector<std::pair<int, itype_id>> &get_likely_rewards() const;
+        auto get_likely_rewards() const -> const std::vector<std::pair<int, itype_id>> &;
         void set_u_buy_monster( const std::string &monster_type_id, int cost, int count, bool pacified,
                                 const translation &name );
         void set_u_learn_recipe( const std::string &learned_recipe_id );
@@ -154,8 +154,8 @@ struct talk_effect_t {
           */
         talk_topic next_topic = talk_topic( "TALK_NONE" );
 
-        talk_topic apply( dialogue &d ) const;
-        dialogue_consequence get_consequence( const dialogue &d ) const;
+        auto apply( dialogue &d ) const -> talk_topic;
+        auto get_consequence( const dialogue &d ) const -> dialogue_consequence;
 
         /**
           * Sets an effect and consequence based on function pointer.
@@ -211,8 +211,8 @@ struct talk_response {
     talk_effect_t success;
     talk_effect_t failure;
 
-    talk_data create_option_line( const dialogue &d, char letter );
-    std::set<dialogue_consequence> get_consequences( const dialogue &d ) const;
+    auto create_option_line( const dialogue &d, char letter ) -> talk_data;
+    auto get_consequences( const dialogue &d ) const -> std::set<dialogue_consequence>;
 
     talk_response();
     talk_response( const JsonObject & );
@@ -238,14 +238,14 @@ struct dialogue {
         /** Missions that have been assigned by this npc to the player they currently speak to. */
         std::vector<mission *> missions_assigned;
 
-        talk_topic opt( dialogue_window &d_win, const std::string &npc_name, const talk_topic &topic );
+        auto opt( dialogue_window &d_win, const std::string &npc_name, const talk_topic &topic ) -> talk_topic;
 
         dialogue() = default;
 
         mutable itype_id cur_item;
         mutable std::string reason;
 
-        std::string dynamic_line( const talk_topic &topic ) const;
+        auto dynamic_line( const talk_topic &topic ) const -> std::string;
         void apply_speaker_effects( const talk_topic &the_topic );
 
         /** This dialogue is happening over a radio */
@@ -264,60 +264,60 @@ struct dialogue {
          * Add a simple response that switches the topic to the new one. If first == true, force
          * this topic to the front of the responses.
          */
-        talk_response &add_response( const std::string &text, const std::string &r,
-                                     bool first = false );
+        auto add_response( const std::string &text, const std::string &r,
+                                     bool first = false ) -> talk_response &;
         /**
          * Add a response with the result TALK_DONE.
          */
-        talk_response &add_response_done( const std::string &text );
+        auto add_response_done( const std::string &text ) -> talk_response &;
         /**
          * Add a response with the result TALK_NONE.
          */
-        talk_response &add_response_none( const std::string &text );
+        auto add_response_none( const std::string &text ) -> talk_response &;
         /**
          * Add a simple response that switches the topic to the new one and executes the given
          * action. The response always succeeds. Consequence is based on function used.
          */
-        talk_response &add_response( const std::string &text, const std::string &r,
-                                     dialogue_fun_ptr effect_success, bool first = false );
+        auto add_response( const std::string &text, const std::string &r,
+                                     dialogue_fun_ptr effect_success, bool first = false ) -> talk_response &;
 
         /**
          * Add a simple response that switches the topic to the new one and executes the given
          * action. The response always succeeds. Consequence must be explicitly specified.
          */
-        talk_response &add_response( const std::string &text, const std::string &r,
+        auto add_response( const std::string &text, const std::string &r,
                                      std::function<void( npc & )> effect_success,
-                                     dialogue_consequence consequence, bool first = false );
+                                     dialogue_consequence consequence, bool first = false ) -> talk_response &;
         /**
          * Add a simple response that switches the topic to the new one and sets the currently
          * talked about mission to the given one. The mission pointer must be valid.
          */
-        talk_response &add_response( const std::string &text, const std::string &r, mission *miss,
-                                     bool first = false );
+        auto add_response( const std::string &text, const std::string &r, mission *miss,
+                                     bool first = false ) -> talk_response &;
         /**
          * Add a simple response that switches the topic to the new one and sets the currently
          * talked about skill to the given one.
          */
-        talk_response &add_response( const std::string &text, const std::string &r, const skill_id &skill,
-                                     bool first = false );
+        auto add_response( const std::string &text, const std::string &r, const skill_id &skill,
+                                     bool first = false ) -> talk_response &;
         /**
         * Add a simple response that switches the topic to the new one and sets the currently
         * talked about magic spell to the given one.
         */
-        talk_response &add_response( const std::string &text, const std::string &r,
-                                     const spell_id &sp, bool first = false );
+        auto add_response( const std::string &text, const std::string &r,
+                                     const spell_id &sp, bool first = false ) -> talk_response &;
         /**
          * Add a simple response that switches the topic to the new one and sets the currently
          * talked about martial art style to the given one.
          */
-        talk_response &add_response( const std::string &text, const std::string &r,
-                                     const martialart &style, bool first = false );
+        auto add_response( const std::string &text, const std::string &r,
+                                     const martialart &style, bool first = false ) -> talk_response &;
         /**
          * Add a simple response that switches the topic to the new one and sets the currently
          * talked about item type to the given one.
          */
-        talk_response &add_response( const std::string &text, const std::string &r,
-                                     const itype_id &item_type, bool first = false );
+        auto add_response( const std::string &text, const std::string &r,
+                                     const itype_id &item_type, bool first = false ) -> talk_response &;
 };
 
 /**
@@ -336,9 +336,9 @@ struct dynamic_line_t {
         dynamic_line_t( const std::string &line );
         dynamic_line_t( const JsonObject &jo );
         dynamic_line_t( JsonArray ja );
-        static dynamic_line_t from_member( const JsonObject &jo, const std::string &member_name );
+        static auto from_member( const JsonObject &jo, const std::string &member_name ) -> dynamic_line_t;
 
-        std::string operator()( const dialogue &d ) const {
+        auto operator()( const dialogue &d ) const -> std::string {
             if( !function ) {
                 return std::string{};
             }
@@ -359,7 +359,7 @@ class json_talk_response
         bool is_default = false;
 
         void load_condition( const JsonObject &jo );
-        bool test_condition( const dialogue &d ) const;
+        auto test_condition( const dialogue &d ) const -> bool;
 
     public:
         json_talk_response() = default;
@@ -368,8 +368,8 @@ class json_talk_response
         /**
          * Callback from @ref json_talk_topic::gen_responses, see there.
          */
-        bool gen_responses( dialogue &d, bool switch_done ) const;
-        bool gen_repeat_response( dialogue &d, const itype_id &item_id, bool switch_done ) const;
+        auto gen_responses( dialogue &d, bool switch_done ) const -> bool;
+        auto gen_repeat_response( dialogue &d, const itype_id &item_id, bool switch_done ) const -> bool;
 };
 
 /**
@@ -394,7 +394,7 @@ class json_dynamic_line_effect
         talk_effect_t effect;
     public:
         json_dynamic_line_effect( const JsonObject &jo, const std::string &id );
-        bool test_condition( const dialogue &d ) const;
+        auto test_condition( const dialogue &d ) const -> bool;
         void apply( dialogue &d ) const;
 };
 
@@ -420,8 +420,8 @@ class json_talk_topic
          */
         void load( const JsonObject &jo );
 
-        std::string get_dynamic_line( const dialogue &d ) const;
-        std::vector<json_dynamic_line_effect> get_speaker_effects() const;
+        auto get_dynamic_line( const dialogue &d ) const -> std::string;
+        auto get_speaker_effects() const -> std::vector<json_dynamic_line_effect>;
 
         void check_consistency() const;
         /**
@@ -431,7 +431,7 @@ class json_talk_topic
          * @return true if built in response should excluded (not added). If false, built in
          * responses will be added (behind those added here).
          */
-        bool gen_responses( dialogue &d ) const;
+        auto gen_responses( dialogue &d ) const -> bool;
 };
 
 void unload_talk_topics();

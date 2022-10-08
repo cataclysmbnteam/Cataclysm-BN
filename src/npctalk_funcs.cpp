@@ -889,7 +889,7 @@ void talk_function::lead_to_safety( npc &p )
     p.set_attitude( NPCATT_LEAD );
 }
 
-bool npc_trading::pay_npc( npc &np, int cost )
+auto npc_trading::pay_npc( npc &np, int cost ) -> bool
 {
     if( np.op_of_u.owed >= cost ) {
         np.op_of_u.owed -= cost;
@@ -955,7 +955,7 @@ void talk_function::start_training( npc &p )
     p.add_effect( effect_asked_to_train, 6_hours );
 }
 
-npc *pick_follower()
+auto pick_follower() -> npc *
 {
     std::vector<npc *> followers;
     std::vector<tripoint> locations;

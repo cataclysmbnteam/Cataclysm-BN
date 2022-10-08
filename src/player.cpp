@@ -261,7 +261,7 @@ player::player()
 
 player::~player() = default;
 player::player( player && ) = default;
-player &player::operator=( player && ) = default;
+auto player::operator=( player && ) -> player & = default;
 
 void player::normalize()
 {
@@ -496,7 +496,7 @@ void player::recalc_speed_bonus()
     }
 }
 
-float player::stability_roll() const
+auto player::stability_roll() const -> float
 {
     /** @EFFECT_STR improves player stability roll */
 
@@ -508,7 +508,7 @@ float player::stability_roll() const
     return get_melee() + get_str() + ( get_per() / 3.0f ) + ( get_dex() / 4.0f );
 }
 
-bool player::is_hallucination() const
+auto player::is_hallucination() const -> bool
 {
     return false;
 }
@@ -521,7 +521,7 @@ void player::set_underwater( bool u )
     }
 }
 
-nc_color player::basic_symbol_color() const
+auto player::basic_symbol_color() const -> nc_color
 {
     if( has_effect( effect_onfire ) ) {
         return c_red;
@@ -567,7 +567,7 @@ void player::mod_stat( const std::string &stat, float modifier )
     }
 }
 
-std::list<item *> player::get_artifact_items()
+auto player::get_artifact_items() -> std::list<item *>
 {
     std::list<item *> art_items;
     const invslice &stacks = inv.slice();
@@ -590,7 +590,7 @@ std::list<item *> player::get_artifact_items()
     return art_items;
 }
 
-bool player::avoid_trap( const tripoint &pos, const trap &tr ) const
+auto player::avoid_trap( const tripoint &pos, const trap &tr ) const -> bool
 {
     /** @EFFECT_DEX increases chance to avoid traps */
 
@@ -740,7 +740,7 @@ void player::search_surroundings()
     }
 }
 
-int player::talk_skill() const
+auto player::talk_skill() const -> int
 {
     /** @EFFECT_INT slightly increases talking skill */
 
@@ -751,7 +751,7 @@ int player::talk_skill() const
     return ret;
 }
 
-int player::intimidation() const
+auto player::intimidation() const -> int
 {
     /** @EFFECT_STR increases intimidation factor */
     int ret = get_str() * 2;
@@ -774,7 +774,7 @@ int player::intimidation() const
     return ret;
 }
 
-bool player::is_dead_state() const
+auto player::is_dead_state() const -> bool
 {
     return get_part_hp_cur( bodypart_id( "head" ) ) <= 0 ||
            get_part_hp_cur( bodypart_id( "torso" ) ) <= 0;
@@ -915,7 +915,7 @@ void player::on_hit( Creature *source, bodypart_id bp_hit,
     Character::on_hit( source, bp_hit, 0.0f, proj );
 }
 
-int player::get_lift_assist() const
+auto player::get_lift_assist() const -> int
 {
     int result = 0;
     const std::vector<npc *> helpers = get_crafting_helpers();
@@ -925,7 +925,7 @@ int player::get_lift_assist() const
     return result;
 }
 
-bool player::immune_to( body_part bp, damage_unit dam ) const
+auto player::immune_to( body_part bp, damage_unit dam ) const -> bool
 {
     if( has_trait( trait_DEBUG_NODMG ) || is_immune_damage( dam.type ) ) {
         return true;
@@ -981,7 +981,7 @@ void player::set_pain( int npain )
     }
 }
 
-int player::get_perceived_pain() const
+auto player::get_perceived_pain() const -> int
 {
     if( get_effect_int( effect_adrenaline ) > 1 ) {
         return 0;
@@ -990,7 +990,7 @@ int player::get_perceived_pain() const
     return std::max( get_pain() - get_painkiller(), 0 );
 }
 
-float player::fall_damage_mod() const
+auto player::fall_damage_mod() const -> float
 {
     if( has_effect_with_flag( "EFFECT_FEATHER_FALL" ) ) {
         return 0.0f;
@@ -1019,7 +1019,7 @@ float player::fall_damage_mod() const
 }
 
 // force is maximum damage to hp before scaling
-int player::impact( const int force, const tripoint &p )
+auto player::impact( const int force, const tripoint &p ) -> int
 {
     // Falls over ~30m are fatal more often than not
     // But that would be quite a lot considering 21 z-levels in game
@@ -1228,7 +1228,7 @@ void player::knock_back_to( const tripoint &to )
     }
 }
 
-int player::hp_percentage() const
+auto player::hp_percentage() const -> int
 {
     const bodypart_id head_id = bodypart_id( "head" );
     const bodypart_id torso_id = bodypart_id( "torso" );
@@ -1535,7 +1535,7 @@ void player::process_effects_internal()
     }
 }
 
-double player::vomit_mod()
+auto player::vomit_mod() -> double
 {
     double mod = 1;
     if( has_effect( effect_weed_high ) ) {
@@ -1720,7 +1720,7 @@ void player::process_items()
     }
 }
 
-item player::reduce_charges( int position, int quantity )
+auto player::reduce_charges( int position, int quantity ) -> item
 {
     item &it = i_at( position );
     if( it.is_null() ) {
@@ -1736,7 +1736,7 @@ item player::reduce_charges( int position, int quantity )
     return tmp;
 }
 
-item player::reduce_charges( item *it, int quantity )
+auto player::reduce_charges( item *it, int quantity ) -> item
 {
     if( !has_item( *it ) ) {
         debugmsg( "invalid item (name %s) for reduce_charges", it->tname() );
@@ -1751,7 +1751,7 @@ item player::reduce_charges( item *it, int quantity )
     return result;
 }
 
-bool player::can_interface_armor() const
+auto player::can_interface_armor() const -> bool
 {
     bool okay = std::any_of( my_bionics->begin(), my_bionics->end(),
     []( const bionic & b ) {
@@ -1760,13 +1760,13 @@ bool player::can_interface_armor() const
     return okay;
 }
 
-bool player::has_mission_item( int mission_id ) const
+auto player::has_mission_item( int mission_id ) const -> bool
 {
     return mission_id != -1 && has_item_with( has_mission_item_filter{ mission_id } );
 }
 
 //Returns the amount of charges that were consumed by the player
-int player::drink_from_hands( item &water )
+auto player::drink_from_hands( item &water ) -> int
 {
     int charges_consumed = 0;
     if( query_yn( _( "Drink %s from your hands?" ),
@@ -1785,7 +1785,7 @@ int player::drink_from_hands( item &water )
 }
 
 // TODO: Properly split medications and food instead of hacking around
-bool player::consume_med( item &target )
+auto player::consume_med( item &target ) -> bool
 {
     if( !target.is_medication() ) {
         return false;
@@ -1835,7 +1835,7 @@ bool player::consume_med( item &target )
     return target.charges <= 0;
 }
 
-static bool query_consume_ownership( item &target, player &p )
+static auto query_consume_ownership( item &target, player &p ) -> bool
 {
     if( !target.is_owned_by( p, true ) ) {
         bool choice = true;
@@ -1865,7 +1865,7 @@ static bool query_consume_ownership( item &target, player &p )
     return true;
 }
 
-bool player::consume_item( item &target )
+auto player::consume_item( item &target ) -> bool
 {
     if( target.is_null() ) {
         add_msg_if_player( m_info, _( "You do not have that item." ) );
@@ -1902,7 +1902,7 @@ bool player::consume_item( item &target )
     return false;
 }
 
-bool player::consume( item_location loc )
+auto player::consume( item_location loc ) -> bool
 {
     item &target = *loc;
     const bool wielding = is_wielding( target );
@@ -1957,7 +1957,7 @@ bool player::consume( item_location loc )
     return true;
 }
 
-bool player::add_faction_warning( const faction_id &id )
+auto player::add_faction_warning( const faction_id &id ) -> bool
 {
     const auto it = warning_record.find( id );
     if( it != warning_record.end() ) {
@@ -1980,7 +1980,7 @@ bool player::add_faction_warning( const faction_id &id )
     return false;
 }
 
-int player::current_warnings_fac( const faction_id &id )
+auto player::current_warnings_fac( const faction_id &id ) -> int
 {
     const auto it = warning_record.find( id );
     if( it != warning_record.end() ) {
@@ -1993,7 +1993,7 @@ int player::current_warnings_fac( const faction_id &id )
     return 0;
 }
 
-bool player::beyond_final_warning( const faction_id &id )
+auto player::beyond_final_warning( const faction_id &id ) -> bool
 {
     const auto it = warning_record.find( id );
     if( it != warning_record.end() ) {
@@ -2006,8 +2006,8 @@ bool player::beyond_final_warning( const faction_id &id )
     return false;
 }
 
-item::reload_option player::select_ammo( const item &base,
-        std::vector<item::reload_option> opts ) const
+auto player::select_ammo( const item &base,
+        std::vector<item::reload_option> opts ) const -> item::reload_option
 {
     if( opts.empty() ) {
         add_msg_if_player( m_info, _( "Never mind." ) );
@@ -2195,7 +2195,7 @@ item::reload_option player::select_ammo( const item &base,
                 can_partial_reload( _can_partial_reload )
             {}
 
-            bool key( const input_context &, const input_event &event, int idx, uilist *menu ) override {
+            auto key( const input_context &, const input_event &event, int idx, uilist *menu ) -> bool override {
                 auto cur_key = event.get_first_input();
                 if( default_to != -1 && cur_key == last_key ) {
                     // Select the first entry on the list
@@ -2239,8 +2239,8 @@ item::reload_option player::select_ammo( const item &base,
     return opts[ menu.ret ];
 }
 
-bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo_list,
-                        bool include_empty_mags, bool include_potential ) const
+auto player::list_ammo( const item &base, std::vector<item::reload_option> &ammo_list,
+                        bool include_empty_mags, bool include_potential ) const -> bool
 {
     auto opts = base.gunmods();
     opts.push_back( &base );
@@ -2282,8 +2282,8 @@ bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo
     return ammo_match_found;
 }
 
-item::reload_option player::select_ammo( const item &base, bool prompt,
-        bool include_empty_mags, bool include_potential ) const
+auto player::select_ammo( const item &base, bool prompt,
+        bool include_empty_mags, bool include_potential ) const -> item::reload_option
 {
     std::vector<item::reload_option> ammo_list;
     const bool ammo_match_found = list_ammo( base, ammo_list, include_empty_mags, include_potential );
@@ -2341,7 +2341,7 @@ item::reload_option player::select_ammo( const item &base, bool prompt,
     return select_ammo( base, std::move( ammo_list ) );
 }
 
-ret_val<bool> player::can_wield( const item &it ) const
+auto player::can_wield( const item &it ) const -> ret_val<bool>
 {
     if( it.made_of( LIQUID ) ) {
         return ret_val<bool>::make_failure( _( "Can't wield spilt liquids." ) );
@@ -2380,7 +2380,7 @@ ret_val<bool> player::can_wield( const item &it ) const
     return ret_val<bool>::make_success();
 }
 
-bool player::unwield()
+auto player::unwield() -> bool
 {
     if( weapon.is_null() ) {
         return true;
@@ -2424,7 +2424,7 @@ static const std::vector<matype_id> bio_cqb_styles{ {
         matype_id{ "style_zui_quan" }
     }};
 
-bool character_martial_arts::pick_style( const avatar &you )    // Style selection menu
+auto character_martial_arts::pick_style( const avatar &you ) -> bool    // Style selection menu
 {
     enum style_selection {
         KEEP_HANDS_FREE = 0,
@@ -2488,7 +2488,7 @@ bool character_martial_arts::pick_style( const avatar &you )    // Style selecti
     return true;
 }
 
-bool player::can_reload( const item &it, const itype_id &ammo ) const
+auto player::can_reload( const item &it, const itype_id &ammo ) const -> bool
 {
     if( !it.is_reloadable_with( ammo ) ) {
         return false;
@@ -2660,7 +2660,7 @@ void player::mend_item( item_location &&obj, bool interactive )
     }
 }
 
-int player::item_reload_cost( const item &it, const item &ammo, int qty ) const
+auto player::item_reload_cost( const item &it, const item &ammo, int qty ) const -> int
 {
     if( ammo.is_ammo() ) {
         qty = std::max( std::min( ammo.charges, qty ), 1 );
@@ -2711,14 +2711,14 @@ int player::item_reload_cost( const item &it, const item &ammo, int qty ) const
     return std::max( mv, 25 );
 }
 
-cata::optional<std::list<item>::iterator>
-player::wear( int pos, bool interactive )
+auto
+player::wear( int pos, bool interactive ) -> cata::optional<std::list<item>::iterator>
 {
     return wear( i_at( pos ), interactive );
 }
 
-cata::optional<std::list<item>::iterator>
-player::wear( item &to_wear, bool interactive )
+auto
+player::wear( item &to_wear, bool interactive ) -> cata::optional<std::list<item>::iterator>
 {
     if( is_worn( to_wear ) ) {
         if( interactive ) {
@@ -2762,7 +2762,7 @@ player::wear( item &to_wear, bool interactive )
     return result;
 }
 
-bool player::can_lift( int lift_strength_required ) const
+auto player::can_lift( int lift_strength_required ) const -> bool
 {
     // avoid comparing by weight as different objects use differing scales (grams vs kilograms etc)
     int str = get_str();
@@ -2779,7 +2779,7 @@ bool player::can_lift( int lift_strength_required ) const
     return str + npc_str >= lift_strength_required;
 }
 
-ret_val<bool> player::can_takeoff( const item &it, const std::list<item> *res ) const
+auto player::can_takeoff( const item &it, const std::list<item> *res ) const -> ret_val<bool>
 {
     auto iter = std::find_if( worn.begin(), worn.end(), [ &it ]( const item & wit ) {
         return &it == &wit;
@@ -2803,7 +2803,7 @@ ret_val<bool> player::can_takeoff( const item &it, const std::list<item> *res ) 
     return ret_val<bool>::make_success();
 }
 
-bool player::takeoff( item &it, std::list<item> *res )
+auto player::takeoff( item &it, std::list<item> *res ) -> bool
 {
     const auto ret = can_takeoff( it, res );
     if( !ret.success() ) {
@@ -2847,12 +2847,12 @@ bool player::takeoff( item &it, std::list<item> *res )
     return true;
 }
 
-bool player::takeoff( int pos )
+auto player::takeoff( int pos ) -> bool
 {
     return takeoff( i_at( pos ) );
 }
 
-bool player::add_or_drop_with_msg( item &it, const bool unloading )
+auto player::add_or_drop_with_msg( item &it, const bool unloading ) -> bool
 {
     if( it.made_of( LIQUID ) ) {
         liquid_handler::consume_liquid( it, 1 );
@@ -2873,7 +2873,7 @@ bool player::add_or_drop_with_msg( item &it, const bool unloading )
     return true;
 }
 
-bool player::unload( item_location loc )
+auto player::unload( item_location loc ) -> bool
 {
     item &it = *loc.get_item();
     // Unload a container consuming moves per item successfully removed
@@ -3068,7 +3068,7 @@ void player::use( int inventory_position )
     use( loc );
 }
 
-static bool is_pet_food( const item &itm )
+static auto is_pet_food( const item &itm ) -> bool
 {
     return itm.type->can_use( "DOGFOOD" ) ||
            itm.type->can_use( "CATFOOD" ) ||
@@ -3152,7 +3152,7 @@ void player::reassign_item( item &it, int invlet )
     }
 }
 
-static bool has_mod( const item &gun, const item &mod )
+static auto has_mod( const item &gun, const item &mod ) -> bool
 {
     for( const item *toolmod : gun.gunmods() ) {
         if( &mod == toolmod ) {
@@ -3162,7 +3162,7 @@ static bool has_mod( const item &gun, const item &mod )
     return false;
 }
 
-bool player::gunmod_remove( item &gun, item &mod )
+auto player::gunmod_remove( item &gun, item &mod ) -> bool
 {
     if( !has_mod( gun, mod ) ) {
         debugmsg( "Cannot remove non-existent gunmod" );
@@ -3213,7 +3213,7 @@ bool player::gunmod_remove( item &gun, item &mod )
     return true;
 }
 
-std::pair<int, int> player::gunmod_installation_odds( const item &gun, const item &mod ) const
+auto player::gunmod_installation_odds( const item &gun, const item &mod ) const -> std::pair<int, int>
 {
     // Mods with INSTALL_DIFFICULT have a chance to fail, potentially damaging the gun
     if( !mod.has_flag( "INSTALL_DIFFICULT" ) || has_trait( trait_DEBUG_HS ) ) {
@@ -3372,7 +3372,7 @@ void player::toolmod_add( item_location tool, item_location mod )
     activity.targets.emplace_back( std::move( mod ) );
 }
 
-bool player::studied_all_recipes( const itype &book ) const
+auto player::studied_all_recipes( const itype &book ) const -> bool
 {
     if( !book.book ) {
         return true;
@@ -3385,8 +3385,8 @@ bool player::studied_all_recipes( const itype &book ) const
     return true;
 }
 
-recipe_subset player::get_recipes_from_books( const inventory &crafting_inv,
-        recipe_filter filter ) const
+auto player::get_recipes_from_books( const inventory &crafting_inv,
+        recipe_filter filter ) const -> recipe_subset
 {
     recipe_subset res;
 
@@ -3405,8 +3405,8 @@ recipe_subset player::get_recipes_from_books( const inventory &crafting_inv,
     return res;
 }
 
-recipe_subset player::get_available_recipes( const inventory &crafting_inv,
-        const std::vector<npc *> *helpers, recipe_filter filter ) const
+auto player::get_available_recipes( const inventory &crafting_inv,
+        const std::vector<npc *> *helpers, recipe_filter filter ) const -> recipe_subset
 {
     recipe_subset res;
 
@@ -3559,7 +3559,7 @@ void player::try_to_sleep( const time_duration &dur )
     assign_activity( activity_id( "ACT_TRY_SLEEP" ), to_moves<int>( dur ) );
 }
 
-int player::sleep_spot( const tripoint &p ) const
+auto player::sleep_spot( const tripoint &p ) const -> int
 {
     const int current_stim = get_stim();
     const comfort_response_t comfort_info = base_comfort_value( p );
@@ -3609,7 +3609,7 @@ int player::sleep_spot( const tripoint &p ) const
     return sleepy;
 }
 
-bool player::can_sleep()
+auto player::can_sleep() -> bool
 {
     if( has_effect( effect_meth ) ) {
         // Sleep ain't happening until that meth wears off completely.
@@ -3744,13 +3744,13 @@ void player::handle_skill_warning( const skill_id &id, bool force_warning )
     }
 }
 
-bool player::has_recipe_requirements( const recipe &rec ) const
+auto player::has_recipe_requirements( const recipe &rec ) const -> bool
 {
     return get_all_skills().has_recipe_requirements( rec );
 }
 
-int player::has_recipe( const recipe *r, const inventory &crafting_inv,
-                        const std::vector<npc *> &helpers ) const
+auto player::has_recipe( const recipe *r, const inventory &crafting_inv,
+                        const std::vector<npc *> &helpers ) const -> int
 {
     if( !r->skill_used ) {
         return 0;
@@ -3764,7 +3764,7 @@ int player::has_recipe( const recipe *r, const inventory &crafting_inv,
     return available.contains( *r ) ? available.get_custom_difficulty( r ) : -1;
 }
 
-bool player::has_gun_for_ammo( const ammotype &at ) const
+auto player::has_gun_for_ammo( const ammotype &at ) const -> bool
 {
     return has_item_with( [at]( const item & it ) {
         // item::ammo_type considers the active gunmod.
@@ -3772,7 +3772,7 @@ bool player::has_gun_for_ammo( const ammotype &at ) const
     } );
 }
 
-bool player::has_magazine_for_ammo( const ammotype &at ) const
+auto player::has_magazine_for_ammo( const ammotype &at ) const -> bool
 {
     return has_item_with( [&at]( const item & it ) {
         return !it.has_flag( "NO_RELOAD" ) &&
@@ -3783,7 +3783,7 @@ bool player::has_magazine_for_ammo( const ammotype &at ) const
     } );
 }
 
-std::string player::weapname() const
+auto player::weapname() const -> std::string
 {
     if( weapon.is_gun() ) {
         std::string str = string_format( "(%d) [%s] %s", weapon.ammo_remaining(),
@@ -3821,8 +3821,8 @@ std::string player::weapname() const
     }
 }
 
-bool player::wield_contents( item &container, item *internal_item, bool penalties,
-                             int base_cost )
+auto player::wield_contents( item &container, item *internal_item, bool penalties,
+                             int base_cost ) -> bool
 {
     // if index not specified and container has multiple items then ask the player to choose one
     if( internal_item == nullptr ) {
@@ -3898,7 +3898,7 @@ void player::store( item &container, item &put, bool penalties, int base_cost )
     reset_encumbrance();
 }
 
-nc_color encumb_color( int level )
+auto encumb_color( int level ) -> nc_color
 {
     if( level < 0 ) {
         return c_green;
@@ -3915,12 +3915,12 @@ nc_color encumb_color( int level )
     return c_red;
 }
 
-float player::get_melee() const
+auto player::get_melee() const -> float
 {
     return get_skill_level( skill_id( "melee" ) );
 }
 
-bool player::uncanny_dodge()
+auto player::uncanny_dodge() -> bool
 {
     bool is_u = this == &g->u;
     bool seen = g->u.sees( *this );
@@ -4007,12 +4007,12 @@ void player::add_msg_player_or_say( const game_message_params &params,
     Messages::add_msg( params, player_msg );
 }
 
-bool player::query_yn( const std::string &mes ) const
+auto player::query_yn( const std::string &mes ) const -> bool
 {
     return ::query_yn( mes );
 }
 
-int calc_fatigue_cap( int fatigue )
+auto calc_fatigue_cap( int fatigue ) -> int
 {
     if( fatigue >= fatigue_levels::massive ) {
         return 20;
@@ -4026,7 +4026,7 @@ int calc_fatigue_cap( int fatigue )
     return 0;
 }
 
-int player::calc_focus_equilibrium() const
+auto player::calc_focus_equilibrium() const -> int
 {
     int focus_equilibrium = 100;
 
@@ -4097,7 +4097,7 @@ int player::calc_focus_equilibrium() const
     return focus_equilibrium;
 }
 
-int player::calc_focus_change() const
+auto player::calc_focus_change() const -> int
 {
     int focus_gap = calc_focus_equilibrium() - focus_pool;
 

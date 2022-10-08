@@ -102,7 +102,7 @@ void handle_all_liquid( item liquid, const int radius )
     }
 }
 
-bool consume_liquid( item &liquid, const int radius )
+auto consume_liquid( item &liquid, const int radius ) -> bool
 {
     const auto original_charges = liquid.charges;
     while( liquid.charges > 0 && handle_liquid( liquid, nullptr, radius ) ) {
@@ -111,9 +111,9 @@ bool consume_liquid( item &liquid, const int radius )
     return original_charges != liquid.charges;
 }
 
-bool handle_liquid_from_ground( map_stack::iterator on_ground,
+auto handle_liquid_from_ground( map_stack::iterator on_ground,
                                 const tripoint &pos,
-                                const int radius )
+                                const int radius ) -> bool
 {
     // TODO: not all code paths on handle_liquid consume move points, fix that.
     handle_liquid( *on_ground, nullptr, radius, &pos );
@@ -124,8 +124,8 @@ bool handle_liquid_from_ground( map_stack::iterator on_ground,
     return true;
 }
 
-bool handle_liquid_from_container( item *in_container,
-                                   item &container, int radius )
+auto handle_liquid_from_container( item *in_container,
+                                   item &container, int radius ) -> bool
 {
     // TODO: not all code paths on handle_liquid consume move points, fix that.
     const int old_charges = in_container->charges;
@@ -137,7 +137,7 @@ bool handle_liquid_from_container( item *in_container,
     return in_container->charges <= 0;
 }
 
-bool handle_liquid_from_container( item &container, int radius )
+auto handle_liquid_from_container( item &container, int radius ) -> bool
 {
     std::vector<item *> remove;
     bool handled = false;
@@ -153,11 +153,11 @@ bool handle_liquid_from_container( item &container, int radius )
     return handled;
 }
 
-static bool get_liquid_target( item &liquid, item *const source, const int radius,
+static auto get_liquid_target( item &liquid, item *const source, const int radius,
                                const tripoint *const source_pos,
                                const vehicle *const source_veh,
                                const monster *const source_mon,
-                               liquid_dest_opt &target )
+                               liquid_dest_opt &target ) -> bool
 {
     if( !liquid.made_of( LIQUID ) ) {
         debugmsg( "Tried to handle_liquid a non-liquid!" );
@@ -303,9 +303,9 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
     return true;
 }
 
-static bool perform_liquid_transfer( item &liquid, const tripoint *const source_pos,
+static auto perform_liquid_transfer( item &liquid, const tripoint *const source_pos,
                                      const vehicle *const source_veh, const int part_num,
-                                     const monster *const source_mon, liquid_dest_opt &target )
+                                     const monster *const source_mon, liquid_dest_opt &target ) -> bool
 {
     bool transfer_ok = false;
     if( !liquid.made_of( LIQUID ) ) {
@@ -397,10 +397,10 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
     return transfer_ok;
 }
 
-bool handle_liquid( item &liquid, item *const source, const int radius,
+auto handle_liquid( item &liquid, item *const source, const int radius,
                     const tripoint *const source_pos,
                     const vehicle *const source_veh, const int part_num,
-                    const monster *const source_mon )
+                    const monster *const source_mon ) -> bool
 {
     if( liquid.made_of( SOLID ) ) {
         debugmsg( "Tried to handle_liquid a non-liquid!" );

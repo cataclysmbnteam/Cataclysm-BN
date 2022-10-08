@@ -142,11 +142,11 @@ class user_turn
             user_turn_start = std::chrono::steady_clock::now();
         }
 
-        bool has_timeout_elapsed() {
+        auto has_timeout_elapsed() -> bool {
             return moves_elapsed() > 100;
         }
 
-        int moves_elapsed() {
+        auto moves_elapsed() -> int {
             const float turn_duration = get_option<float>( "TURN_DURATION" );
             // Magic number 0.005 chosen due to option menu's 2 digit precision and
             // the option menu UI rounding <= 0.005 down to "0.00" in the display.
@@ -164,7 +164,7 @@ class user_turn
 
 };
 
-static bool init_weather_anim( const weather_type_id &wtype, weather_printable &wPrint )
+static auto init_weather_anim( const weather_type_id &wtype, weather_printable &wPrint ) -> bool
 {
     const weather_animation_t &anim = wtype->animation;
 
@@ -235,7 +235,7 @@ static void generate_weather_anim_frame( const weather_type_id &wtype, weather_p
     }
 }
 
-input_context game::get_player_input( std::string &action )
+auto game::get_player_input( std::string &action ) -> input_context
 {
     input_context ctxt;
     if( uquit == QUIT_WATCH ) {
@@ -836,7 +836,7 @@ static void smash()
     }
 }
 
-static int try_set_alarm()
+static auto try_set_alarm() -> int
 {
     uilist as_m;
     const bool already_set = g->u.has_effect( effect_alarm_clock );
@@ -1511,7 +1511,7 @@ void game::open_consume_item_menu()
     }
 }
 
-bool game::handle_action()
+auto game::handle_action() -> bool
 {
     std::string action;
     input_context ctxt;

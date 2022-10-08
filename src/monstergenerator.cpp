@@ -36,7 +36,7 @@ namespace io
 {
 
 template<>
-std::string enum_to_string<mon_trigger>( mon_trigger data )
+auto enum_to_string<mon_trigger>( mon_trigger data ) -> std::string
 {
     switch( data ) {
         // *INDENT-OFF*
@@ -60,7 +60,7 @@ std::string enum_to_string<mon_trigger>( mon_trigger data )
 }
 
 template<>
-std::string enum_to_string<m_flag>( m_flag data )
+auto enum_to_string<m_flag>( m_flag data ) -> std::string
 {
     // see mtype.h for commentary
     switch( data ) {
@@ -189,28 +189,28 @@ std::string enum_to_string<m_flag>( m_flag data )
 
 /** @relates string_id */
 template<>
-const mtype &string_id<mtype>::obj() const
+auto string_id<mtype>::obj() const -> const mtype &
 {
     return MonsterGenerator::generator().mon_templates->obj( *this );
 }
 
 /** @relates string_id */
 template<>
-bool string_id<mtype>::is_valid() const
+auto string_id<mtype>::is_valid() const -> bool
 {
     return MonsterGenerator::generator().mon_templates->is_valid( *this );
 }
 
 /** @relates string_id */
 template<>
-const species_type &string_id<species_type>::obj() const
+auto string_id<species_type>::obj() const -> const species_type &
 {
     return MonsterGenerator::generator().mon_species->obj( *this );
 }
 
 /** @relates string_id */
 template<>
-bool string_id<species_type>::is_valid() const
+auto string_id<species_type>::is_valid() const -> bool
 {
     return MonsterGenerator::generator().mon_species->is_valid( *this );
 }
@@ -245,7 +245,7 @@ void MonsterGenerator::reset()
     init_attack();
 }
 
-static int calc_bash_skill( const mtype &t )
+static auto calc_bash_skill( const mtype &t ) -> int
 {
     // IOW, the critter's max bashing damage
     int ret = t.melee_dice * t.melee_sides;
@@ -261,7 +261,7 @@ static int calc_bash_skill( const mtype &t )
     return ret;
 }
 
-static m_size volume_to_size( const units::volume &vol )
+static auto volume_to_size( const units::volume &vol ) -> m_size
 {
     if( vol <= 7500_ml ) {
         return MS_TINY;
@@ -646,7 +646,7 @@ void MonsterGenerator::load_monster( const JsonObject &jo, const std::string &sr
     mon_templates->load( jo, src );
 }
 
-mon_effect_data load_mon_effect_data( const JsonObject &e )
+auto load_mon_effect_data( const JsonObject &e ) -> mon_effect_data
 {
     bool permanent = e.get_bool( "permanent", false );
     if( permanent && json_report_strict ) {
@@ -667,7 +667,7 @@ mon_effect_data load_mon_effect_data( const JsonObject &e )
 class mon_attack_effect_reader : public generic_typed_reader<mon_attack_effect_reader>
 {
     public:
-        mon_effect_data get_next( JsonIn &jin ) const {
+        auto get_next( JsonIn &jin ) const -> mon_effect_data {
             JsonObject e = jin.get_object();
             return load_mon_effect_data( e );
         }
@@ -954,12 +954,12 @@ void species_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "fear_triggers", fear, trigger_reader );
 }
 
-const std::vector<mtype> &MonsterGenerator::get_all_mtypes() const
+auto MonsterGenerator::get_all_mtypes() const -> const std::vector<mtype> &
 {
     return mon_templates->get_all();
 }
 
-mtype_id MonsterGenerator::get_valid_hallucination() const
+auto MonsterGenerator::get_valid_hallucination() const -> mtype_id
 {
     return random_entry( hallucination_monsters );
 }
@@ -974,10 +974,10 @@ class mattack_hardcoded_wrapper : public mattack_actor
             , cpp_function( f ) { }
 
         ~mattack_hardcoded_wrapper() override = default;
-        bool call( monster &m ) const override {
+        auto call( monster &m ) const -> bool override {
             return cpp_function( &m );
         }
-        std::unique_ptr<mattack_actor> clone() const override {
+        auto clone() const -> std::unique_ptr<mattack_actor> override {
             return std::make_unique<mattack_hardcoded_wrapper>( *this );
         }
 
@@ -1010,8 +1010,8 @@ void MonsterGenerator::add_attack( const mtype_special_attack &wrapper )
     attack_map.emplace( wrapper->id, wrapper );
 }
 
-mtype_special_attack MonsterGenerator::create_actor( const JsonObject &obj,
-        const std::string &src ) const
+auto MonsterGenerator::create_actor( const JsonObject &obj,
+        const std::string &src ) const -> mtype_special_attack
 {
     // Legacy support: tolerate attack types being specified as the type
     const std::string type = obj.get_string( "type", "monster_attack" );

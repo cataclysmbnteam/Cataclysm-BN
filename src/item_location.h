@@ -42,26 +42,26 @@ class item_location
         void serialize( JsonOut &js ) const;
         void deserialize( JsonIn &js );
 
-        bool operator==( const item_location &rhs ) const;
-        bool operator!=( const item_location &rhs ) const;
+        auto operator==( const item_location &rhs ) const -> bool;
+        auto operator!=( const item_location &rhs ) const -> bool;
 
         explicit operator bool() const;
 
-        item &operator*();
-        const item &operator*() const;
+        auto operator*() -> item &;
+        auto operator*() const -> const item &;
 
-        item *operator->();
-        const item *operator->() const;
+        auto operator->() -> item *;
+        auto operator->() const -> const item *;
 
         /** Returns the type of location where the item is found */
-        type where() const;
+        auto where() const -> type;
 
         /** Returns the position where the item is found */
-        tripoint position() const;
+        auto position() const -> tripoint;
 
         /** Describes the item location
          *  @param ch if set description is relative to character location */
-        std::string describe( const Character *ch = nullptr ) const;
+        auto describe( const Character *ch = nullptr ) const -> std::string;
 
         /** Move an item from the location to the character inventory
          *  @param ch Character who's inventory gets the item
@@ -70,24 +70,24 @@ class item_location
          *  @warning all further operations using this class are invalid
          *  @warning it is unsafe to call this within unsequenced operations (see #15542)
          *  @return item_location for the item */
-        item_location obtain( Character &ch, int qty = -1 );
+        auto obtain( Character &ch, int qty = -1 ) -> item_location;
 
         /** Calculate (but do not deduct) number of moves required to obtain an item
          *  @see item_location::obtain */
-        int obtain_cost( const Character &ch, int qty = -1 ) const;
+        auto obtain_cost( const Character &ch, int qty = -1 ) const -> int;
 
         /** Removes the selected item from the game
          *  @warning all further operations using this class are invalid */
         void remove_item();
 
         /** Gets the selected item or nullptr */
-        item *get_item();
-        const item *get_item() const;
+        auto get_item() -> item *;
+        auto get_item() const -> const item *;
 
         void set_should_stack( bool should_stack ) const;
 
         /** returns the parent item, or an invalid location if it has no parent */
-        item_location parent_item() const;
+        auto parent_item() const -> item_location;
 
         // This is a dirty hack, don't use. TODO: Make not necessary, then delete
         void make_dirty();

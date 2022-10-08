@@ -16,12 +16,12 @@
 
 using namespace trait_group;
 
-Trait_list trait_group::traits_from( const Trait_group_tag &gid )
+auto trait_group::traits_from( const Trait_group_tag &gid ) -> Trait_list
 {
     return mutation_branch::get_group( gid )->create();
 }
 
-bool trait_group::group_contains_trait( const Trait_group_tag &gid, const trait_id &tid )
+auto trait_group::group_contains_trait( const Trait_group_tag &gid, const trait_id &tid ) -> bool
 {
     return mutation_branch::get_group( gid )->has_trait( tid );
 }
@@ -33,7 +33,7 @@ void trait_group::load_trait_group( const JsonObject &jsobj, const Trait_group_t
 }
 
 // NOTE: This function is largely based on item_group::get_unique_group_id()
-static Trait_group_tag get_unique_trait_group_id()
+static auto get_unique_trait_group_id() -> Trait_group_tag
 {
     // This is just a hint what id to use next. Overflow of it is defined and if the group
     // name is already used, we simply go the next id.
@@ -50,8 +50,8 @@ static Trait_group_tag get_unique_trait_group_id()
     }
 }
 
-Trait_group_tag trait_group::load_trait_group( const JsonValue &value,
-        const std::string &default_subtype )
+auto trait_group::load_trait_group( const JsonValue &value,
+        const std::string &default_subtype ) -> Trait_group_tag
 {
     if( value.test_string() ) {
         return Trait_group_tag( value.get_string() );
@@ -117,7 +117,7 @@ void trait_group::debug_spawn()
     }
 }
 
-Trait_list Trait_creation_data::create() const
+auto Trait_creation_data::create() const -> Trait_list
 {
     RecursionList rec;
     auto result = create( rec );
@@ -134,7 +134,7 @@ Single_trait_creator::Single_trait_creator( const trait_id &id, int probability 
 {
 }
 
-Trait_list Single_trait_creator::create( RecursionList & /* rec */ ) const
+auto Single_trait_creator::create( RecursionList & /* rec */ ) const -> Trait_list
 {
     return Trait_list { id };
 }
@@ -146,14 +146,14 @@ void Single_trait_creator::check_consistency() const
     }
 }
 
-bool Single_trait_creator::remove_trait( const trait_id &tid )
+auto Single_trait_creator::remove_trait( const trait_id &tid ) -> bool
 {
     // Return true if I would be empty after "removing" the given trait, thus
     // signaling to my parent that I should be removed.
     return tid == id;
 }
 
-bool Single_trait_creator::has_trait( const trait_id &tid ) const
+auto Single_trait_creator::has_trait( const trait_id &tid ) const -> bool
 {
     return tid == id;
 }
@@ -163,7 +163,7 @@ Trait_group_creator::Trait_group_creator( const Trait_group_tag &id, int probabi
 {
 }
 
-Trait_list Trait_group_creator::create( RecursionList &rec ) const
+auto Trait_group_creator::create( RecursionList &rec ) const -> Trait_list
 {
 
     Trait_list result;
@@ -193,12 +193,12 @@ void Trait_group_creator::check_consistency() const
     }
 }
 
-bool Trait_group_creator::remove_trait( const trait_id &tid )
+auto Trait_group_creator::remove_trait( const trait_id &tid ) -> bool
 {
     return mutation_branch::get_group( id )->remove_trait( tid );
 }
 
-bool Trait_group_creator::has_trait( const trait_id &tid ) const
+auto Trait_group_creator::has_trait( const trait_id &tid ) const -> bool
 {
     return mutation_branch::get_group( id )->has_trait( tid );
 }
@@ -220,7 +220,7 @@ void Trait_group::check_consistency() const
     }
 }
 
-bool Trait_group::remove_trait( const trait_id &tid )
+auto Trait_group::remove_trait( const trait_id &tid ) -> bool
 {
     for( auto it = creators.begin(); it != creators.end(); ) {
         if( ( *it )->remove_trait( tid ) ) {
@@ -233,7 +233,7 @@ bool Trait_group::remove_trait( const trait_id &tid )
     return creators.empty();
 }
 
-bool Trait_group::has_trait( const trait_id &tid ) const
+auto Trait_group::has_trait( const trait_id &tid ) const -> bool
 {
     for( const auto &creator : creators ) {
         if( creator->has_trait( tid ) ) {
@@ -251,7 +251,7 @@ Trait_group_collection::Trait_group_collection( int probability )
     }
 }
 
-Trait_list Trait_group_collection::create( RecursionList &rec ) const
+auto Trait_group_collection::create( RecursionList &rec ) const -> Trait_list
 {
     Trait_list result;
     for( const auto &creator : creators ) {
@@ -290,7 +290,7 @@ void Trait_group_distribution::add_entry( std::unique_ptr<Trait_creation_data> p
     ptr.release();
 }
 
-Trait_list Trait_group_distribution::create( RecursionList &rec ) const
+auto Trait_group_distribution::create( RecursionList &rec ) const -> Trait_list
 {
     Trait_list result;
     int p = rng( 0, sum_prob - 1 );

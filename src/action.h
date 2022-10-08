@@ -338,7 +338,7 @@ enum action_id : int {
  * @param restrict_to_printable If `true` the function returns the bound keys only if they are printable. If `false`, all keys (whether they are printable or not) are returned.
  * @returns all keys (as characters) currently bound to a give action ID
  */
-std::vector<char> keys_bound_to( action_id act, bool restrict_to_printable = true );
+auto keys_bound_to( action_id act, bool restrict_to_printable = true ) -> std::vector<char>;
 
 /**
  * Get the key for an action, used in the action menu to give each action the hotkey it is bound to.
@@ -347,7 +347,7 @@ std::vector<char> keys_bound_to( action_id act, bool restrict_to_printable = tru
  * @returns the key code for the hotkey or -1 if no key is associated with the given action.
  * @note We ignore bindings to '?' because that will already do something else in this menu (open the menu keybindings).
  */
-int hotkey_for_action( action_id action, bool restrict_to_printable = true );
+auto hotkey_for_action( action_id action, bool restrict_to_printable = true ) -> int;
 
 /**
  * Lookup an action ID by its unique string identifier
@@ -359,7 +359,7 @@ int hotkey_for_action( action_id action, bool restrict_to_printable = true );
  * @param ident Unique string identifier corresponding to an @ref action_id
  * @returns Corresponding action_id for the supplied string identifier
  */
-action_id look_up_action( const std::string &ident );
+auto look_up_action( const std::string &ident ) -> action_id;
 
 /**
  * Lookup a unique string identifier for a given action ID.
@@ -373,7 +373,7 @@ action_id look_up_action( const std::string &ident );
  * @param act The action ID to lookup an identifier for
  * @returns The string identifier for the specified action ID.
  */
-std::string action_ident( action_id act );
+auto action_ident( action_id act ) -> std::string;
 
 /**
  * Lookup whether an action can affect the state of the game world.
@@ -388,7 +388,7 @@ std::string action_ident( action_id act );
  * @param act action ID to lookup in table
  * @returns true if action has potential to alter world state, otherwise returns false.
  */
-bool can_action_change_worldstate( action_id act );
+auto can_action_change_worldstate( action_id act ) -> bool;
 
 /**
  * Lookup the action ID assigned to a given key.
@@ -399,7 +399,7 @@ bool can_action_change_worldstate( action_id act );
  * @param ch The character corresponding to the key to look up
  * @returns The action id of the specified key
  */
-action_id action_from_key( char ch );
+auto action_from_key( char ch ) -> action_id;
 
 /**
  * Request player input of adjacent tile, possibly including vertical tiles
@@ -411,7 +411,7 @@ action_id action_from_key( char ch );
  * @param[in] message Message used in assembling the prompt to the player
  * @param[in] allow_vertical Allows player to select tiles above/below them if true
  */
-cata::optional<tripoint> choose_adjacent( const std::string &message, bool allow_vertical = false );
+auto choose_adjacent( const std::string &message, bool allow_vertical = false ) -> cata::optional<tripoint>;
 
 /**
  * Request player input of a direction, possibly including vertical component
@@ -424,8 +424,8 @@ cata::optional<tripoint> choose_adjacent( const std::string &message, bool allow
  * @param[in] message Message used in assembling the prompt to the player
  * @param[in] allow_vertical Allows direction vector to have vertical component if true
  */
-cata::optional<tripoint> choose_direction( const std::string &message,
-        bool allow_vertical = false );
+auto choose_direction( const std::string &message,
+        bool allow_vertical = false ) -> cata::optional<tripoint>;
 
 /**
  * Request player input of adjacent tile with highlighting, possibly on different z-level
@@ -442,8 +442,8 @@ cata::optional<tripoint> choose_direction( const std::string &message,
  * @param[in] action An action ID to drive the highlighting output
  * @param[in] allow_vertical Allows direction vector to have vertical component if true
  */
-cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        const std::string &failure_message, action_id action, bool allow_vertical = false );
+auto choose_adjacent_highlight( const std::string &message,
+        const std::string &failure_message, action_id action, bool allow_vertical = false ) -> cata::optional<tripoint>;
 
 /**
  * Request player input of adjacent tile with highlighting, possibly on different z-level
@@ -461,20 +461,20 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
  * @param[in] allowed A function that will be called to determine if a given location is allowed for selection
  * @param[in] allow_vertical Allows direction vector to have vertical component if true
  */
-cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
+auto choose_adjacent_highlight( const std::string &message,
         const std::string &failure_message, const std::function<bool( const tripoint & )> &allowed,
-        bool allow_vertical = false );
+        bool allow_vertical = false ) -> cata::optional<tripoint>;
 
 // (Press X (or Y)|Try) to Z
-std::string press_x( action_id act );
-std::string press_x( action_id act, const std::string &key_bound,
-                     const std::string &key_unbound );
-std::string press_x( action_id act, const std::string &key_bound_pre,
-                     const std::string &key_bound_suf, const std::string &key_unbound );
+auto press_x( action_id act ) -> std::string;
+auto press_x( action_id act, const std::string &key_bound,
+                     const std::string &key_unbound ) -> std::string;
+auto press_x( action_id act, const std::string &key_bound_pre,
+                     const std::string &key_bound_suf, const std::string &key_unbound ) -> std::string;
 // ('Z'ing|zing) (X( or Y)))
-std::string press_x( action_id act, const std::string &act_desc );
+auto press_x( action_id act, const std::string &act_desc ) -> std::string;
 // Return "Press X" or nullopt if not bound
-cata::optional<std::string> press_x_if_bound( action_id act );
+auto press_x_if_bound( action_id act ) -> cata::optional<std::string>;
 
 // only has effect in iso mode
 enum class iso_rotate {
@@ -500,10 +500,10 @@ enum class iso_rotate {
  * @param[in] d coordinate delta, each coordinate should be -1, 0, or 1
  * @returns ID of corresponding move action (usually... see note above)
  */
-action_id get_movement_action_from_delta( const tripoint &d, iso_rotate rot );
+auto get_movement_action_from_delta( const tripoint &d, iso_rotate rot ) -> action_id;
 
 // Helper function to convert movement action to coordinate delta point
-point get_delta_from_movement_action( action_id act, iso_rotate rot );
+auto get_delta_from_movement_action( action_id act, iso_rotate rot ) -> point;
 
 /**
  * Show the action menu
@@ -513,7 +513,7 @@ point get_delta_from_movement_action( action_id act, iso_rotate rot );
  *
  * @returns action_id ID of action requested by user at menu.
  */
-action_id handle_action_menu();
+auto handle_action_menu() -> action_id;
 
 /**
  * Show in-game main menu
@@ -523,7 +523,7 @@ action_id handle_action_menu();
  *
  * @returns action_id ID of action requested by user at menu.
  */
-action_id handle_main_menu();
+auto handle_main_menu() -> action_id;
 
 /**
  * Test whether it is possible to perform a given action.
@@ -538,7 +538,7 @@ action_id handle_main_menu();
  * @param p Point to perform test at
  * @returns true if movement is possible in the indicated direction
  */
-bool can_interact_at( action_id action, const tripoint &p );
+auto can_interact_at( action_id action, const tripoint &p ) -> bool;
 
 /**
  * Test whether it is possible to perform butcher action
@@ -552,7 +552,7 @@ bool can_interact_at( action_id action, const tripoint &p );
  * @param p Point to perform the test at
  * @returns true if there is a corpse or item that can be disassembled at a point, otherwise false
  */
-bool can_butcher_at( const tripoint &p );
+auto can_butcher_at( const tripoint &p ) -> bool;
 
 /**
  * Test whether vertical movement is possible
@@ -568,7 +568,7 @@ bool can_butcher_at( const tripoint &p );
  * @param movez Direction to move. -1 for down, all other values for up
  * @returns true if movement is possible in the indicated direction, otherwise false
  */
-bool can_move_vertical_at( const tripoint &p, int movez );
+auto can_move_vertical_at( const tripoint &p, int movez ) -> bool;
 
 /**
  * Test whether examine is possible
@@ -581,6 +581,6 @@ bool can_move_vertical_at( const tripoint &p, int movez );
  * @param p Point to perform the test at
  * @returns true if the examine action is possible at this point, otherwise false
  */
-bool can_examine_at( const tripoint &p );
+auto can_examine_at( const tripoint &p ) -> bool;
 
 #endif // CATA_SRC_ACTION_H

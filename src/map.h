@@ -110,11 +110,11 @@ class map_stack : public item_stack
         map_stack( cata::colony<item> *newstack, tripoint newloc, map *neworigin ) :
             item_stack( newstack ), location( newloc ), myorigin( neworigin ) {}
         void insert( const item &newitem ) override;
-        iterator erase( const_iterator it ) override;
-        int count_limit() const override {
+        auto erase( const_iterator it ) -> iterator override;
+        auto count_limit() const -> int override {
             return MAX_ITEM_IN_SQUARE;
         }
-        units::volume max_volume() const override;
+        auto max_volume() const -> units::volume override;
 };
 
 struct visibility_variables {
@@ -173,7 +173,7 @@ struct bash_results {
     // If there was recurrent bashing, it will be here
     std::vector<bash_results> subresults;
 
-    bash_results &operator|=( const bash_results &other );
+    auto operator|=( const bash_results &other ) -> bash_results &;
 };
 
 /** Draw parameters used by map::drawsq() and similar methods. */
@@ -195,11 +195,11 @@ struct drawsq_params {
          * Default: false.
          */
         //@{
-        constexpr drawsq_params &highlight( bool v ) {
+        constexpr auto highlight( bool v ) -> drawsq_params & {
             do_highlight = v;
             return *this;
         }
-        constexpr bool highlight() const {
+        constexpr auto highlight() const -> bool {
             return do_highlight;
         }
         //@}
@@ -209,11 +209,11 @@ struct drawsq_params {
          * Default: true.
          */
         //@{
-        constexpr drawsq_params &show_items( bool v ) {
+        constexpr auto show_items( bool v ) -> drawsq_params & {
             do_show_items = v;
             return *this;
         }
-        constexpr bool show_items() const {
+        constexpr auto show_items() const -> bool {
             return do_show_items;
         }
         //@}
@@ -223,11 +223,11 @@ struct drawsq_params {
          * Default: false.
          */
         //@{
-        constexpr drawsq_params &low_light( bool v ) {
+        constexpr auto low_light( bool v ) -> drawsq_params & {
             do_low_light = v;
             return *this;
         }
-        constexpr bool low_light() const {
+        constexpr auto low_light() const -> bool {
             return do_low_light;
         }
         //@}
@@ -237,11 +237,11 @@ struct drawsq_params {
          * Default: false;
          */
         //@{
-        constexpr drawsq_params &bright_light( bool v ) {
+        constexpr auto bright_light( bool v ) -> drawsq_params & {
             do_bright_light = v;
             return *this;
         }
-        constexpr bool bright_light() const {
+        constexpr auto bright_light() const -> bool {
             return do_bright_light;
         }
         //@}
@@ -251,11 +251,11 @@ struct drawsq_params {
          * Default: false.
          */
         //@{
-        constexpr drawsq_params &memorize( bool v ) {
+        constexpr auto memorize( bool v ) -> drawsq_params & {
             do_memorize = v;
             return *this;
         }
-        constexpr bool memorize() const {
+        constexpr auto memorize() const -> bool {
             return do_memorize;
         }
         //@}
@@ -266,11 +266,11 @@ struct drawsq_params {
          * Default: true.
          */
         //@{
-        constexpr drawsq_params &output( bool v ) {
+        constexpr auto output( bool v ) -> drawsq_params & {
             do_output = v;
             return *this;
         }
-        constexpr bool output() const {
+        constexpr auto output() const -> bool {
             return do_output;
         }
         //@}
@@ -280,15 +280,15 @@ struct drawsq_params {
          * Default: uses avatar's current view center.
          */
         //@{
-        constexpr drawsq_params &center( const tripoint &p ) {
+        constexpr auto center( const tripoint &p ) -> drawsq_params & {
             view_center = p;
             return *this;
         }
-        constexpr drawsq_params &center_at_avatar() {
+        constexpr auto center_at_avatar() -> drawsq_params & {
             view_center = tripoint_min;
             return *this;
         }
-        tripoint center() const;
+        auto center() const -> tripoint;
         //@}
 };
 
@@ -396,8 +396,8 @@ class map
         explicit map( bool zlev ) : map( MAPSIZE, zlev ) { }
         virtual ~map();
 
-        map &operator=( const map & ) = delete;
-        map &operator=( map && );
+        auto operator=( const map & ) -> map & = delete;
+        auto operator=( map && ) -> map &;
 
         /**
          * Sets a dirty flag on the a given cache.
@@ -483,12 +483,12 @@ class map
             }
         }
 
-        bool check_seen_cache( const tripoint &p ) const {
+        auto check_seen_cache( const tripoint &p ) const -> bool {
             std::bitset<MAPSIZE_X *MAPSIZE_Y> &memory_seen_cache =
                 get_cache( p.z ).map_memory_seen_cache;
             return !memory_seen_cache[ static_cast<size_t>( p.x + p.y * MAPSIZE_Y ) ];
         }
-        bool check_and_set_seen_cache( const tripoint &p ) const {
+        auto check_and_set_seen_cache( const tripoint &p ) const -> bool {
             std::bitset<MAPSIZE_X *MAPSIZE_Y> &memory_seen_cache =
                 get_cache( p.z ).map_memory_seen_cache;
             if( !memory_seen_cache[ static_cast<size_t>( p.x + p.y * MAPSIZE_Y ) ] ) {
@@ -509,21 +509,21 @@ class map
         };
         /** Helper function for light claculation; exposed here for map editor
          */
-        static apparent_light_info apparent_light_helper( const level_cache &map_cache,
-                const tripoint &p );
+        static auto apparent_light_helper( const level_cache &map_cache,
+                const tripoint &p ) -> apparent_light_info;
         /** Determine the visible light level for a tile, based on light_at
          * for the tile, vision distance, etc
          *
          * @param p The tile on this map to draw.
          * @param cache Currently cached visibility parameters
          */
-        lit_level apparent_light_at( const tripoint &p, const visibility_variables &cache ) const;
-        visibility_type get_visibility( lit_level ll,
-                                        const visibility_variables &cache ) const;
+        auto apparent_light_at( const tripoint &p, const visibility_variables &cache ) const -> lit_level;
+        auto get_visibility( lit_level ll,
+                                        const visibility_variables &cache ) const -> visibility_type;
 
         // See field.cpp
-        std::tuple<maptile, maptile, maptile> get_wind_blockers( const int &winddirection,
-                const tripoint &pos );
+        auto get_wind_blockers( const int &winddirection,
+                const tripoint &pos ) -> std::tuple<maptile, maptile, maptile>;
 
         /** Draw a visible part of the map into `w`.
          *
@@ -589,20 +589,20 @@ class map
         void clear_spawns();
         void clear_traps();
 
-        maptile maptile_at( const tripoint &p ) const;
-        maptile maptile_at( const tripoint &p );
+        auto maptile_at( const tripoint &p ) const -> maptile;
+        auto maptile_at( const tripoint &p ) -> maptile;
     private:
         // Versions of the above that don't do bounds checks
-        maptile maptile_at_internal( const tripoint &p ) const;
-        maptile maptile_at_internal( const tripoint &p );
-        std::pair<tripoint, maptile> maptile_has_bounds( const tripoint &p, bool bounds_checked );
-        std::array<std::pair<tripoint, maptile>, 8> get_neighbors( const tripoint &p );
+        auto maptile_at_internal( const tripoint &p ) const -> maptile;
+        auto maptile_at_internal( const tripoint &p ) -> maptile;
+        auto maptile_has_bounds( const tripoint &p, bool bounds_checked ) -> std::pair<tripoint, maptile>;
+        auto get_neighbors( const tripoint &p ) -> std::array<std::pair<tripoint, maptile>, 8>;
         void spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
                          const time_duration &outdoor_age_speedup, scent_block &sblk );
         void create_hot_air( const tripoint &p, int intensity );
-        bool gas_can_spread_to( field_entry &cur, const tripoint &src, const tripoint &dst );
+        auto gas_can_spread_to( field_entry &cur, const tripoint &src, const tripoint &dst ) -> bool;
         void gas_spread_to( field_entry &cur, maptile &dst, const tripoint &p );
-        int burn_body_part( player &u, field_entry &cur, body_part bp, int scale );
+        auto burn_body_part( player &u, field_entry &cur, body_part bp, int scale ) -> int;
     public:
 
         // Movement and LOS
@@ -620,59 +620,59 @@ class map
         * 0         | Impassable. Use `passable`/`impassable` to check for this.
         * n > 0     | x*n turns to move past this
         */
-        int move_cost( const tripoint &p, const vehicle *ignored_vehicle = nullptr ) const;
-        int move_cost( const point &p, const vehicle *ignored_vehicle = nullptr ) const {
+        auto move_cost( const tripoint &p, const vehicle *ignored_vehicle = nullptr ) const -> int;
+        auto move_cost( const point &p, const vehicle *ignored_vehicle = nullptr ) const -> int {
             return move_cost( tripoint( p, abs_sub.z ), ignored_vehicle );
         }
-        bool impassable( const tripoint &p ) const;
-        bool impassable( const point &p ) const {
+        auto impassable( const tripoint &p ) const -> bool;
+        auto impassable( const point &p ) const -> bool {
             return !passable( p );
         }
-        bool passable( const tripoint &p ) const;
-        bool passable( const point &p ) const {
+        auto passable( const tripoint &p ) const -> bool;
+        auto passable( const point &p ) const -> bool {
             return passable( tripoint( p, abs_sub.z ) );
         }
-        bool is_wall_adjacent( const tripoint &center ) const;
+        auto is_wall_adjacent( const tripoint &center ) const -> bool;
 
         /**
         * Similar behavior to `move_cost()`, but ignores vehicles.
         */
-        int move_cost_ter_furn( const tripoint &p ) const;
-        int move_cost_ter_furn( const point &p ) const {
+        auto move_cost_ter_furn( const tripoint &p ) const -> int;
+        auto move_cost_ter_furn( const point &p ) const -> int {
             return move_cost_ter_furn( tripoint( p, abs_sub.z ) );
         }
-        bool impassable_ter_furn( const tripoint &p ) const;
-        bool passable_ter_furn( const tripoint &p ) const;
+        auto impassable_ter_furn( const tripoint &p ) const -> bool;
+        auto passable_ter_furn( const tripoint &p ) const -> bool;
 
         /**
         * Cost to move out of one tile and into the next.
         *
         * @return The cost in turns to move out of tripoint `from` and into `to`
         */
-        int combined_movecost( const tripoint &from, const tripoint &to,
+        auto combined_movecost( const tripoint &from, const tripoint &to,
                                const vehicle *ignored_vehicle = nullptr,
-                               int modifier = 0, bool flying = false, bool via_ramp = false ) const;
+                               int modifier = 0, bool flying = false, bool via_ramp = false ) const -> int;
 
         /**
          * Returns true if a creature could walk from `from` to `to` in one step.
          * That is, if the tiles are adjacent and either on the same z-level or connected
          * by stairs or (in case of flying monsters) open air with no floors.
          */
-        bool valid_move( const tripoint &from, const tripoint &to,
-                         bool bash = false, bool flying = false, bool via_ramp = false ) const;
+        auto valid_move( const tripoint &from, const tripoint &to,
+                         bool bash = false, bool flying = false, bool via_ramp = false ) const -> bool;
 
         /**
          * Size of map objects at `p` for purposes of ranged combat.
          * Size is in percentage of tile: if 1.0, all attacks going through tile
          * should hit map objects on it, if 0.0 there is nothing to be hit (air/water).
          */
-        double ranged_target_size( const tripoint &p ) const;
+        auto ranged_target_size( const tripoint &p ) const -> double;
 
         // Sees:
         /**
         * Returns whether `F` sees `T` with a view range of `range`.
         */
-        bool sees( const tripoint &F, const tripoint &T, int range ) const;
+        auto sees( const tripoint &F, const tripoint &T, int range ) const -> bool;
     private:
         /**
          * Don't expose the slope adjust outside map functions.
@@ -684,18 +684,18 @@ class map
          * the two points, and may subsequently be used to form a path between them.
          * Set to zero if the function returns false.
         **/
-        bool sees( const tripoint &F, const tripoint &T, int range, int &bresenham_slope ) const;
+        auto sees( const tripoint &F, const tripoint &T, int range, int &bresenham_slope ) const -> bool;
     public:
         /**
         * Returns coverage of target in relation to the observer. Target is loc2, observer is loc1.
         * First tile from the target is an obstacle, which has the coverage value.
         * If there's no obstacle adjacent to the target - no coverage.
         */
-        int obstacle_coverage( const tripoint &loc1, const tripoint &loc2 ) const;
+        auto obstacle_coverage( const tripoint &loc1, const tripoint &loc2 ) const -> int;
         /**
         * Returns coverage value of the tile.
         */
-        int coverage( const tripoint &p ) const;
+        auto coverage( const tripoint &p ) const -> int;
         /**
          * Check whether there's a direct line of sight between `F` and
          * `T` with the additional movecost restraints.
@@ -705,18 +705,18 @@ class map
          * 2. That moving over the line of sight would have a move_cost between
          *    `cost_min` and `cost_max`.
          */
-        bool clear_path( const tripoint &f, const tripoint &t, int range,
-                         int cost_min, int cost_max ) const;
+        auto clear_path( const tripoint &f, const tripoint &t, int range,
+                         int cost_min, int cost_max ) const -> bool;
 
         /**
          * Checks if a rotated vehicle is blocking diagonal movement, tripoints must be adjacent
          */
-        bool obstructed_by_vehicle_rotation( const tripoint &from, const tripoint &to ) const;
+        auto obstructed_by_vehicle_rotation( const tripoint &from, const tripoint &to ) const -> bool;
 
         /**
          * Checks if a rotated vehicle is blocking diagonal vision, tripoints must be adjacent
          */
-        bool obscured_by_vehicle_rotation( const tripoint &from, const tripoint &to ) const;
+        auto obscured_by_vehicle_rotation( const tripoint &from, const tripoint &to ) const -> bool;
 
         /**
          * Populates a vector of points that are reachable within a number of steps from a
@@ -736,19 +736,19 @@ class map
          * until it finds a clear line or decides there isn't one.
          * returns the line found, which may be the straight line, but blocked.
          */
-        std::vector<tripoint> find_clear_path( const tripoint &source, const tripoint &destination ) const;
+        auto find_clear_path( const tripoint &source, const tripoint &destination ) const -> std::vector<tripoint>;
 
         /**
          * Check whether the player can access the items located @p. Certain furniture/terrain
          * may prevent that (e.g. a locked safe).
          */
-        bool accessible_items( const tripoint &t ) const;
+        auto accessible_items( const tripoint &t ) const -> bool;
         /**
          * Calculate next search points surrounding the current position.
          * Points closer to the target come first.
          * This method leads to straighter lines and prevents weird looking movements away from the target.
          */
-        std::vector<tripoint> get_dir_circle( const tripoint &f, const tripoint &t ) const;
+        auto get_dir_circle( const tripoint &f, const tripoint &t ) const -> std::vector<tripoint>;
 
         /**
          * Calculate the best path using A*
@@ -758,12 +758,12 @@ class map
          * @param settings Structure describing pathfinding parameters.
          * @param pre_closed Never path through those points. They can still be the source or the destination.
          */
-        std::vector<tripoint> route( const tripoint &f, const tripoint &t,
+        auto route( const tripoint &f, const tripoint &t,
                                      const pathfinding_settings &settings,
-        const std::set<tripoint> &pre_closed = {{ }} ) const;
+        const std::set<tripoint> &pre_closed = {{ }} ) const -> std::vector<tripoint>;
 
         // Vehicles: Common to 2D and 3D
-        VehicleList get_vehicles();
+        auto get_vehicles() -> VehicleList;
         void add_vehicle_to_cache( vehicle * );
         void clear_vehicle_point_from_cache( vehicle *veh, const tripoint &pt );
         void update_vehicle_cache( vehicle *, int old_zlevel );
@@ -772,29 +772,29 @@ class map
         void clear_vehicle_list( int zlev );
         void update_vehicle_list( const submap *to, int zlev );
         //Returns true if vehicle zones are dirty and need to be recached
-        bool check_vehicle_zones( int zlev );
-        std::vector<zone_data *> get_vehicle_zones( int zlev );
+        auto check_vehicle_zones( int zlev ) -> bool;
+        auto get_vehicle_zones( int zlev ) -> std::vector<zone_data *>;
         void register_vehicle_zone( vehicle *, int zlev );
-        bool deregister_vehicle_zone( zone_data &zone );
+        auto deregister_vehicle_zone( zone_data &zone ) -> bool;
 
         // Removes vehicle from map and returns it in unique_ptr
-        std::unique_ptr<vehicle> detach_vehicle( vehicle *veh );
+        auto detach_vehicle( vehicle *veh ) -> std::unique_ptr<vehicle>;
         void destroy_vehicle( vehicle *veh );
         // Vehicle movement
         void vehmove();
         // Selects a vehicle to move, returns false if no moving vehicles
-        bool vehproceed( VehicleList &vehicle_list );
+        auto vehproceed( VehicleList &vehicle_list ) -> bool;
 
         // Vehicles
-        VehicleList get_vehicles( const tripoint &start, const tripoint &end );
+        auto get_vehicles( const tripoint &start, const tripoint &end ) -> VehicleList;
         /**
         * Checks if tile is occupied by vehicle and by which part.
         *
         * @param p Tile to check for vehicle
         */
-        optional_vpart_position veh_at( const tripoint &p ) const;
-        vehicle *veh_at_internal( const tripoint &p, int &part_num );
-        const vehicle *veh_at_internal( const tripoint &p, int &part_num ) const;
+        auto veh_at( const tripoint &p ) const -> optional_vpart_position;
+        auto veh_at_internal( const tripoint &p, int &part_num ) -> vehicle *;
+        auto veh_at_internal( const tripoint &p, int &part_num ) const -> const vehicle *;
         // Put player on vehicle at x,y
         void board_vehicle( const tripoint &p, player *pl );
         // Remove given passenger from given vehicle part.
@@ -805,30 +805,30 @@ class map
         void unboard_vehicle( const tripoint &p, bool dead_passenger = false );
         // Change vehicle coordinates and move vehicle's driver along.
         // WARNING: not checking collisions!
-        bool displace_vehicle( vehicle &veh, const tripoint &dp );
+        auto displace_vehicle( vehicle &veh, const tripoint &dp ) -> bool;
 
         // Shift the vehicle's z-level without moving any parts
         void shift_vehicle_z( vehicle &veh, int z_shift );
         // move water under wheels. true if moved
-        bool displace_water( const tripoint &dp );
+        auto displace_water( const tripoint &dp ) -> bool;
 
         // Returns the wheel area of the vehicle multiplied by traction of the surface
         // When ignore_movement_modifiers is set to true, it returns the area of the wheels touching the ground
         // TODO: Remove the ugly sinking vehicle hack
-        float vehicle_wheel_traction( const vehicle &veh, bool ignore_movement_modifiers = false ) const;
+        auto vehicle_wheel_traction( const vehicle &veh, bool ignore_movement_modifiers = false ) const -> float;
 
         // Executes vehicle-vehicle collision based on vehicle::collision results
         // Returns impulse of the executed collision
         // If vector contains collisions with vehicles other than veh2, they will be ignored
-        float vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
-                                         const std::vector<veh_collision> &collisions );
+        auto vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
+                                         const std::vector<veh_collision> &collisions ) -> float;
         // Throws vehicle passengers about the vehicle, possibly out of it
         // Returns change in vehicle orientation due to lost control
-        units::angle shake_vehicle( vehicle &veh, int velocity_before, units::angle direction );
+        auto shake_vehicle( vehicle &veh, int velocity_before, units::angle direction ) -> units::angle;
 
         // Actually moves the vehicle
         // Unlike displace_vehicle, this one handles collisions
-        vehicle *move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing );
+        auto move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing ) -> vehicle *;
 
         // Furniture
         void set( const tripoint &p, const ter_id &new_terrain, const furn_id &new_furniture );
@@ -836,22 +836,22 @@ class map
             furn_set( p, new_furniture );
             ter_set( p, new_terrain );
         }
-        std::string name( const tripoint &p );
-        std::string name( const point &p ) {
+        auto name( const tripoint &p ) -> std::string;
+        auto name( const point &p ) -> std::string {
             return name( tripoint( p, abs_sub.z ) );
         }
-        std::string disp_name( const tripoint &p );
+        auto disp_name( const tripoint &p ) -> std::string;
         /**
         * Returns the name of the obstacle at p that might be blocking movement/projectiles/etc.
         * Note that this only accounts for vehicles, terrain, and furniture.
         */
-        std::string obstacle_name( const tripoint &p );
-        bool has_furn( const tripoint &p ) const;
-        bool has_furn( const point &p ) const {
+        auto obstacle_name( const tripoint &p ) -> std::string;
+        auto has_furn( const tripoint &p ) const -> bool;
+        auto has_furn( const point &p ) const -> bool {
             return has_furn( tripoint( p, abs_sub.z ) );
         }
-        furn_id furn( const tripoint &p ) const;
-        furn_id furn( const point &p ) const {
+        auto furn( const tripoint &p ) const -> furn_id;
+        auto furn( const point &p ) const -> furn_id {
             return furn( tripoint( p, abs_sub.z ) );
         }
         /**
@@ -866,15 +866,15 @@ class map
         void furn_set( const point &p, const furn_id &new_furniture ) {
             furn_set( tripoint( p, abs_sub.z ), new_furniture );
         }
-        std::string furnname( const tripoint &p );
-        std::string furnname( const point &p ) {
+        auto furnname( const tripoint &p ) -> std::string;
+        auto furnname( const point &p ) -> std::string {
             return furnname( tripoint( p, abs_sub.z ) );
         }
-        bool can_move_furniture( const tripoint &pos, player *p = nullptr );
+        auto can_move_furniture( const tripoint &pos, player *p = nullptr ) -> bool;
 
         // Terrain
-        ter_id ter( const tripoint &p ) const;
-        ter_id ter( const point &p ) const {
+        auto ter( const tripoint &p ) const -> ter_id;
+        auto ter( const point &p ) const -> ter_id {
             return ter( tripoint( p, abs_sub.z ) );
         }
 
@@ -885,42 +885,42 @@ class map
         // terrain. Additional overrides can be passed in to override terrain
         // at specific positions. This is used to display terrain overview in
         // the map editor.
-        uint8_t get_known_connections( const tripoint &p, int connect_group,
-                                       const std::map<tripoint, ter_id> &override = {} ) const;
+        auto get_known_connections( const tripoint &p, int connect_group,
+                                       const std::map<tripoint, ter_id> &override = {} ) const -> uint8_t;
         /**
          * Returns the full harvest list, for spawning.
          */
-        const harvest_id &get_harvest( const tripoint &p ) const;
+        auto get_harvest( const tripoint &p ) const -> const harvest_id &;
         /**
          * Returns names of the items that would be dropped.
          */
-        const std::set<std::string> &get_harvest_names( const tripoint &p ) const;
-        ter_id get_ter_transforms_into( const tripoint &p ) const;
-        furn_id get_furn_transforms_into( const tripoint &p ) const;
+        auto get_harvest_names( const tripoint &p ) const -> const std::set<std::string> &;
+        auto get_ter_transforms_into( const tripoint &p ) const -> ter_id;
+        auto get_furn_transforms_into( const tripoint &p ) const -> furn_id;
 
-        bool ter_set( const tripoint &p, const ter_id &new_terrain );
-        bool ter_set( const point &p, const ter_id &new_terrain ) {
+        auto ter_set( const tripoint &p, const ter_id &new_terrain ) -> bool;
+        auto ter_set( const point &p, const ter_id &new_terrain ) -> bool {
             return ter_set( tripoint( p, abs_sub.z ), new_terrain );
         }
 
-        std::string tername( const tripoint &p ) const;
-        std::string tername( const point &p ) const {
+        auto tername( const tripoint &p ) const -> std::string;
+        auto tername( const point &p ) const -> std::string {
             return tername( tripoint( p, abs_sub.z ) );
         }
 
         // Check for terrain/furniture/field that provide a
         // "fire" item to be used for example when crafting or when
         // a iuse function needs fire.
-        bool has_nearby_fire( const tripoint &p, int radius = 1 );
+        auto has_nearby_fire( const tripoint &p, int radius = 1 ) -> bool;
         /**
          * Check whether a table/workbench/vehicle kitchen or other flat
          * surface is nearby that could be used for crafting or eating.
          */
-        bool has_nearby_table( const tripoint &p, int radius = 1 );
+        auto has_nearby_table( const tripoint &p, int radius = 1 ) -> bool;
         /**
          * Check whether a chair or vehicle seat is nearby.
          */
-        bool has_nearby_chair( const tripoint &p, int radius = 1 );
+        auto has_nearby_chair( const tripoint &p, int radius = 1 ) -> bool;
         /**
          * Check if creature can see some items at p. Includes:
          * - check for items at this location (has_items(p))
@@ -929,19 +929,19 @@ class map
          * - check for CONTAINER flag (makes items only visible when
          * the creature is at p or at an adjacent square).
          */
-        bool sees_some_items( const tripoint &p, const Creature &who ) const;
-        bool sees_some_items( const tripoint &p, const tripoint &from ) const;
+        auto sees_some_items( const tripoint &p, const Creature &who ) const -> bool;
+        auto sees_some_items( const tripoint &p, const tripoint &from ) const -> bool;
         /**
          * Check if the creature could see items at p if there were
          * any items. This is similar to @ref sees_some_items, but it
          * does not check that there are actually any items.
          */
-        bool could_see_items( const tripoint &p, const Creature &who ) const;
-        bool could_see_items( const tripoint &p, const tripoint &from ) const;
+        auto could_see_items( const tripoint &p, const Creature &who ) const -> bool;
+        auto could_see_items( const tripoint &p, const tripoint &from ) const -> bool;
         /**
          * Checks for existence of items. Faster than i_at(p).empty
          */
-        bool has_items( const tripoint &p ) const;
+        auto has_items( const tripoint &p ) const -> bool;
 
         /**
          * Calls the examine function of furniture or terrain at given tile, for given character.
@@ -952,101 +952,101 @@ class map
         /**
          * Returns true if point at pos is harvestable right now, with no extra tools.
          */
-        bool is_harvestable( const tripoint &pos ) const;
+        auto is_harvestable( const tripoint &pos ) const -> bool;
 
         // Flags
         // Words relevant to terrain (sharp, etc)
-        std::string features( const tripoint &p );
-        std::string features( const point &p ) {
+        auto features( const tripoint &p ) -> std::string;
+        auto features( const point &p ) -> std::string {
             return features( tripoint( p, abs_sub.z ) );
         }
         // Checks terrain, furniture and vehicles
-        bool has_flag( const std::string &flag, const tripoint &p ) const;
-        bool has_flag( const std::string &flag, const point &p ) const {
+        auto has_flag( const std::string &flag, const tripoint &p ) const -> bool;
+        auto has_flag( const std::string &flag, const point &p ) const -> bool {
             return has_flag( flag, tripoint( p, abs_sub.z ) );
         }
         // True if items can be dropped in this tile
-        bool can_put_items( const tripoint &p ) const;
-        bool can_put_items( const point &p ) const {
+        auto can_put_items( const tripoint &p ) const -> bool;
+        auto can_put_items( const point &p ) const -> bool {
             return can_put_items( tripoint( p, abs_sub.z ) );
         }
         // True if items can be placed in this tile
-        bool can_put_items_ter_furn( const tripoint &p ) const;
-        bool can_put_items_ter_furn( const point &p ) const {
+        auto can_put_items_ter_furn( const tripoint &p ) const -> bool;
+        auto can_put_items_ter_furn( const point &p ) const -> bool {
             return can_put_items_ter_furn( tripoint( p, abs_sub.z ) );
         }
         // Checks terrain
-        bool has_flag_ter( const std::string &flag, const tripoint &p ) const;
-        bool has_flag_ter( const std::string &flag, const point &p ) const {
+        auto has_flag_ter( const std::string &flag, const tripoint &p ) const -> bool;
+        auto has_flag_ter( const std::string &flag, const point &p ) const -> bool {
             return has_flag_ter( flag, tripoint( p, abs_sub.z ) );
         }
         // Checks furniture
-        bool has_flag_furn( const std::string &flag, const tripoint &p ) const;
-        bool has_flag_furn( const std::string &flag, const point &p ) const {
+        auto has_flag_furn( const std::string &flag, const tripoint &p ) const -> bool;
+        auto has_flag_furn( const std::string &flag, const point &p ) const -> bool {
             return has_flag_furn( flag, tripoint( p, abs_sub.z ) );
         }
         // Checks terrain or furniture
-        bool has_flag_ter_or_furn( const std::string &flag, const tripoint &p ) const;
-        bool has_flag_ter_or_furn( const std::string &flag, const point &p ) const {
+        auto has_flag_ter_or_furn( const std::string &flag, const tripoint &p ) const -> bool;
+        auto has_flag_ter_or_furn( const std::string &flag, const point &p ) const -> bool {
             return has_flag_ter_or_furn( flag, tripoint( p, abs_sub.z ) );
         }
         // Fast "oh hai it's update_scent/lightmap/draw/monmove/self/etc again, what about this one" flag checking
         // Checks terrain, furniture and vehicles
-        bool has_flag( ter_bitflags flag, const tripoint &p ) const;
-        bool has_flag( ter_bitflags flag, const point &p ) const {
+        auto has_flag( ter_bitflags flag, const tripoint &p ) const -> bool;
+        auto has_flag( ter_bitflags flag, const point &p ) const -> bool {
             return has_flag( flag, tripoint( p, abs_sub.z ) );
         }
         // Checks terrain
-        bool has_flag_ter( ter_bitflags flag, const tripoint &p ) const;
-        bool has_flag_ter( ter_bitflags flag, const point &p ) const {
+        auto has_flag_ter( ter_bitflags flag, const tripoint &p ) const -> bool;
+        auto has_flag_ter( ter_bitflags flag, const point &p ) const -> bool {
             return has_flag_ter( flag, tripoint( p, abs_sub.z ) );
         }
         // Checks furniture
-        bool has_flag_furn( ter_bitflags flag, const tripoint &p ) const;
-        bool has_flag_furn( ter_bitflags flag, const point &p ) const {
+        auto has_flag_furn( ter_bitflags flag, const tripoint &p ) const -> bool;
+        auto has_flag_furn( ter_bitflags flag, const point &p ) const -> bool {
             return has_flag_furn( flag, tripoint( p, abs_sub.z ) );
         }
         // Checks terrain or furniture
-        bool has_flag_ter_or_furn( ter_bitflags flag, const tripoint &p ) const;
-        bool has_flag_ter_or_furn( ter_bitflags flag, const point &p ) const {
+        auto has_flag_ter_or_furn( ter_bitflags flag, const tripoint &p ) const -> bool;
+        auto has_flag_ter_or_furn( ter_bitflags flag, const point &p ) const -> bool {
             return has_flag_ter_or_furn( flag, tripoint( p, abs_sub.z ) );
         }
 
         // Bashable
         /** Returns true if there is a bashable vehicle part or the furn/terrain is bashable at p */
-        bool is_bashable( const tripoint &p, bool allow_floor = false ) const;
-        bool is_bashable( const point &p ) const {
+        auto is_bashable( const tripoint &p, bool allow_floor = false ) const -> bool;
+        auto is_bashable( const point &p ) const -> bool {
             return is_bashable( tripoint( p, abs_sub.z ) );
         }
         /** Returns true if the terrain at p is bashable */
-        bool is_bashable_ter( const tripoint &p, bool allow_floor = false ) const;
-        bool is_bashable_ter( const point &p ) const {
+        auto is_bashable_ter( const tripoint &p, bool allow_floor = false ) const -> bool;
+        auto is_bashable_ter( const point &p ) const -> bool {
             return is_bashable_ter( tripoint( p, abs_sub.z ) );
         }
         /** Returns true if the furniture at p is bashable */
-        bool is_bashable_furn( const tripoint &p ) const;
-        bool is_bashable_furn( const point &p ) const {
+        auto is_bashable_furn( const tripoint &p ) const -> bool;
+        auto is_bashable_furn( const point &p ) const -> bool {
             return is_bashable_furn( tripoint( p, abs_sub.z ) );
         }
         /** Returns true if the furniture or terrain at p is bashable */
-        bool is_bashable_ter_furn( const tripoint &p, bool allow_floor = false ) const;
-        bool is_bashable_ter_furn( const point &p ) const {
+        auto is_bashable_ter_furn( const tripoint &p, bool allow_floor = false ) const -> bool;
+        auto is_bashable_ter_furn( const point &p ) const -> bool {
             return is_bashable_ter_furn( tripoint( p, abs_sub.z ) );
         }
         /** Returns max_str of the furniture or terrain at p */
-        int bash_strength( const tripoint &p, bool allow_floor = false ) const;
-        int bash_strength( const point &p ) const {
+        auto bash_strength( const tripoint &p, bool allow_floor = false ) const -> int;
+        auto bash_strength( const point &p ) const -> int {
             return bash_strength( tripoint( p, abs_sub.z ) );
         }
         /** Returns min_str of the furniture or terrain at p */
-        int bash_resistance( const tripoint &p, bool allow_floor = false ) const;
-        int bash_resistance( const point &p ) const {
+        auto bash_resistance( const tripoint &p, bool allow_floor = false ) const -> int;
+        auto bash_resistance( const point &p ) const -> int {
             return bash_resistance( tripoint( p, abs_sub.z ) );
         }
         /** Returns a success rating from -1 to 10 for a given tile based on a set strength, used for AI movement planning
         *  Values roughly correspond to 10% increment chances of success on a given bash, rounded down. -1 means the square is not bashable */
-        int bash_rating( int str, const tripoint &p, bool allow_floor = false ) const;
-        int bash_rating( const int str, const point &p ) const {
+        auto bash_rating( int str, const tripoint &p, bool allow_floor = false ) const -> int;
+        auto bash_rating( const int str, const point &p ) const -> int {
             return bash_rating( str, tripoint( p, abs_sub.z ) );
         }
 
@@ -1062,8 +1062,8 @@ class map
             make_rubble( p, f_rubble, false, t_dirt, false );
         }
 
-        bool is_outside( const tripoint &p ) const;
-        bool is_outside( const point &p ) const {
+        auto is_outside( const tripoint &p ) const -> bool;
+        auto is_outside( const point &p ) const -> bool {
             return is_outside( tripoint( p, abs_sub.z ) );
         }
         /**
@@ -1072,12 +1072,12 @@ class map
          * @param p The coordinate to look at.
          * @return true if the terrain can be dived into; false if not.
          */
-        bool is_divable( const tripoint &p ) const;
-        bool is_divable( const point &p ) const {
+        auto is_divable( const tripoint &p ) const -> bool;
+        auto is_divable( const point &p ) const -> bool {
             return is_divable( tripoint( p, abs_sub.z ) );
         }
-        bool is_water_shallow_current( const tripoint &p ) const;
-        bool is_water_shallow_current( const point &p ) const {
+        auto is_water_shallow_current( const tripoint &p ) const -> bool;
+        auto is_water_shallow_current( const point &p ) const -> bool {
             return is_water_shallow_current( tripoint( p, abs_sub.z ) );
         }
 
@@ -1089,24 +1089,24 @@ class map
          *  @param dir Direction of check
          *  @return true if from x to xmax or y to ymax depending on direction
          *  all terrain is floor and the last terrain is a wall */
-        bool is_last_ter_wall( bool no_furn, const point &p,
-                               const point &max, direction dir ) const;
+        auto is_last_ter_wall( bool no_furn, const point &p,
+                               const point &max, direction dir ) const -> bool;
 
         /**
          * Checks if there are any tinder flagged items on the tile.
          * @param p tile to check
          */
-        bool tinder_at( const tripoint &p );
+        auto tinder_at( const tripoint &p ) -> bool;
 
         /**
          * Checks if there are any flammable items on the tile.
          * @param p tile to check
          * @param threshold Fuel threshold (lower means worse fuels are accepted).
          */
-        bool flammable_items_at( const tripoint &p, int threshold = 0 );
+        auto flammable_items_at( const tripoint &p, int threshold = 0 ) -> bool;
         /** Returns true if there is a flammable item or field or the furn/terrain is flammable at p */
-        bool is_flammable( const tripoint &p );
-        point random_outdoor_tile();
+        auto is_flammable( const tripoint &p ) -> bool;
+        auto random_outdoor_tile() -> point;
         // mapgen
 
         void draw_line_ter( const ter_id &type, const point &p1, const point &p2 );
@@ -1135,8 +1135,8 @@ class map
         // Optionally toggles instances $from->$to & $to->$from
         void translate_radius( const ter_id &from, const ter_id &to, float radi, const tripoint &p,
                                bool same_submap = false, bool toggle_between = false );
-        bool close_door( const tripoint &p, bool inside, bool check_only );
-        bool open_door( const tripoint &p, bool inside, bool check_only = false );
+        auto close_door( const tripoint &p, bool inside, bool check_only ) -> bool;
+        auto open_door( const tripoint &p, bool inside, bool check_only = false ) -> bool;
         // Destruction
         /** bash a square for a set number of times at set power.  Does not destroy */
         void batter( const tripoint &p, int power, int tries = 1, bool silent = false );
@@ -1147,7 +1147,7 @@ class map
         void crush( const tripoint &p );
         void shoot( const tripoint &p, projectile &proj, bool hit_items );
         /** Checks if a square should collapse, returns the X for the one_in(X) collapse chance */
-        int collapse_check( const tripoint &p );
+        auto collapse_check( const tripoint &p ) -> int;
         /** Causes a collapse at p, such as from destroying a wall */
         void collapse_at( const tripoint &p, bool silent, bool was_supporting = false,
                           bool destroy_pos = true );
@@ -1156,7 +1156,7 @@ class map
         /** Triggers a recursive collapse of suspended tiles based on their support validity*/
         void collapse_invalid_suspension( const tripoint &point );
         /** Checks the four orientations in which a suspended tile could be valid, and returns if the tile is valid*/
-        bool is_suspension_valid( const tripoint &point );
+        auto is_suspension_valid( const tripoint &point ) -> bool;
         /** Tries to smash the items at the given tripoint. */
         void smash_items( const tripoint &p, int power, const std::string &cause_message, bool do_destroy );
         /**
@@ -1169,16 +1169,16 @@ class map
          * @param bash_floor Allow bashing the floor and the tile that supports it
          * @param bashing_vehicle Vehicle that should NOT be bashed (because it is doing the bashing)
          */
-        bash_results bash( const tripoint &p, int str, bool silent = false,
+        auto bash( const tripoint &p, int str, bool silent = false,
                            bool destroy = false, bool bash_floor = false,
-                           const vehicle *bashing_vehicle = nullptr );
+                           const vehicle *bashing_vehicle = nullptr ) -> bash_results;
 
-        bash_results bash_vehicle( const tripoint &p, const bash_params &params );
-        bash_results bash_ter_furn( const tripoint &p, const bash_params &params );
+        auto bash_vehicle( const tripoint &p, const bash_params &params ) -> bash_results;
+        auto bash_ter_furn( const tripoint &p, const bash_params &params ) -> bash_results;
 
         // Effects of attacks/items
-        bool hit_with_acid( const tripoint &p );
-        bool hit_with_fire( const tripoint &p );
+        auto hit_with_acid( const tripoint &p ) -> bool;
+        auto hit_with_fire( const tripoint &p ) -> bool;
 
         /**
          * Returns true if there is furniture for which filter returns true in a 1 tile radius of p.
@@ -1186,14 +1186,14 @@ class map
          * @param p the location to check at
          * @param filter what to filter the furniture by.
          */
-        bool has_adjacent_furniture_with( const tripoint &p,
-                                          const std::function<bool( const furn_t & )> &filter );
+        auto has_adjacent_furniture_with( const tripoint &p,
+                                          const std::function<bool( const furn_t & )> &filter ) -> bool;
         /**
          * Remove moppable fields/items at this location
          *  @param p the location
          *  @return true if anything moppable was there, false otherwise.
          */
-        bool mop_spills( const tripoint &p );
+        auto mop_spills( const tripoint &p ) -> bool;
         /**
          * Moved here from weather.cpp for speed. Decays fire, washable fields and scent.
          * Washable fields are decayed only by 1/3 of the amount fire is.
@@ -1201,12 +1201,12 @@ class map
         void decay_fields_and_scent( const time_duration &amount );
 
         // Signs
-        std::string get_signage( const tripoint &p ) const;
+        auto get_signage( const tripoint &p ) const -> std::string;
         void set_signage( const tripoint &p, const std::string &message ) const;
         void delete_signage( const tripoint &p ) const;
 
         // Radiation
-        int get_radiation( const tripoint &p ) const;
+        auto get_radiation( const tripoint &p ) const -> int;
         void set_radiation( const tripoint &p, int value );
         void set_radiation( const point &p, const int value ) {
             set_radiation( tripoint( p, abs_sub.z ), value );
@@ -1222,7 +1222,7 @@ class map
 
         // Temperature
         // Temperature for submap
-        int get_temperature( const tripoint &p ) const;
+        auto get_temperature( const tripoint &p ) const -> int;
         // Set temperature for all four submap quadrants
         void set_temperature( const tripoint &p, int temperature );
         void set_temperature( const point &p, int new_temperature ) {
@@ -1231,21 +1231,21 @@ class map
 
         // Returns points for all submaps with inconsistent state relative to
         // the list in map.  Used in tests.
-        std::vector<tripoint> check_submap_active_item_consistency();
+        auto check_submap_active_item_consistency() -> std::vector<tripoint>;
         // Accessor that returns a wrapped reference to an item stack for safe modification.
-        map_stack i_at( const tripoint &p );
-        map_stack i_at( const point &p ) {
+        auto i_at( const tripoint &p ) -> map_stack;
+        auto i_at( const point &p ) -> map_stack {
             return i_at( tripoint( p, abs_sub.z ) );
         }
-        item water_from( const tripoint &p );
+        auto water_from( const tripoint &p ) -> item;
         void i_clear( const tripoint &p );
         void i_clear( const point &p ) {
             i_clear( tripoint( p, abs_sub.z ) );
         }
         // i_rem() methods that return values act like container::erase(),
         // returning an iterator to the next item after removal.
-        map_stack::iterator i_rem( const tripoint &p, map_stack::const_iterator it );
-        map_stack::iterator i_rem( const point &location, map_stack::const_iterator it ) {
+        auto i_rem( const tripoint &p, map_stack::const_iterator it ) -> map_stack::iterator;
+        auto i_rem( const point &location, map_stack::const_iterator it ) -> map_stack::iterator {
             return i_rem( tripoint( location, abs_sub.z ), it );
         }
         void i_rem( const tripoint &p, item *it );
@@ -1275,9 +1275,9 @@ class map
                          const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0 ) {
             spawn_item( tripoint( p, abs_sub.z ), type_id, quantity, charges, birthday, damlevel );
         }
-        units::volume max_volume( const tripoint &p );
-        units::volume free_volume( const tripoint &p );
-        units::volume stored_volume( const tripoint &p );
+        auto max_volume( const tripoint &p ) -> units::volume;
+        auto free_volume( const tripoint &p ) -> units::volume;
+        auto stored_volume( const tripoint &p ) -> units::volume;
 
         /**
          *  Adds an item to map tile or stacks charges
@@ -1287,8 +1287,8 @@ class map
          *  @return reference to dropped (and possibly stacked) item or null item on failure
          *  @warning function is relatively expensive and meant for user initiated actions, not mapgen
          */
-        item &add_item_or_charges( const tripoint &pos, item obj, bool overflow = true );
-        item &add_item_or_charges( const point &p, item obj, bool overflow = true ) {
+        auto add_item_or_charges( const tripoint &pos, item obj, bool overflow = true ) -> item &;
+        auto add_item_or_charges( const point &p, item obj, bool overflow = true ) -> item & {
             return add_item_or_charges( tripoint( p, abs_sub.z ), obj, overflow );
         }
 
@@ -1299,11 +1299,11 @@ class map
          *
          * @returns The item that got added, or nulitem.
          */
-        item &add_item( const tripoint &p, item new_item );
+        auto add_item( const tripoint &p, item new_item ) -> item &;
         void add_item( const point &p, item new_item ) {
             add_item( tripoint( p, abs_sub.z ), new_item );
         }
-        item &spawn_an_item( const tripoint &p, item new_item, int charges, int damlevel );
+        auto spawn_an_item( const tripoint &p, item new_item, int charges, int damlevel ) -> item &;
         void spawn_an_item( const point &p, item new_item, int charges, int damlevel ) {
             spawn_an_item( tripoint( p, abs_sub.z ), new_item, charges, damlevel );
         }
@@ -1332,13 +1332,13 @@ class map
          * somewhere else.
          */
         /*@{*/
-        std::list<item> use_amount_square( const tripoint &p, const itype_id &type,
-                                           int &quantity, const std::function<bool( const item & )> &filter = return_true<item> );
-        std::list<item> use_amount( const tripoint &origin, int range, const itype_id &type,
-                                    int &quantity, const std::function<bool( const item & )> &filter = return_true<item> );
-        std::list<item> use_charges( const tripoint &origin, int range, const itype_id &type,
+        auto use_amount_square( const tripoint &p, const itype_id &type,
+                                           int &quantity, const std::function<bool( const item & )> &filter = return_true<item> ) -> std::list<item>;
+        auto use_amount( const tripoint &origin, int range, const itype_id &type,
+                                    int &quantity, const std::function<bool( const item & )> &filter = return_true<item> ) -> std::list<item>;
+        auto use_charges( const tripoint &origin, int range, const itype_id &type,
                                      int &quantity, const std::function<bool( const item & )> &filter = return_true<item>,
-                                     basecamp *bcp = nullptr );
+                                     basecamp *bcp = nullptr ) -> std::list<item>;
         /*@}*/
 
         /**
@@ -1358,12 +1358,12 @@ class map
         * @param ammo percentage chance item will be filled with default ammo
         * @return vector containing all placed items
         */
-        std::vector<item *> place_items( const item_group_id &loc, int chance, const tripoint &p1,
+        auto place_items( const item_group_id &loc, int chance, const tripoint &p1,
                                          const tripoint &p2, bool ongrass, const time_point &turn,
-                                         int magazine = 0, int ammo = 0 );
-        std::vector<item *> place_items( const item_group_id &loc, int chance, const point &p1,
+                                         int magazine = 0, int ammo = 0 ) -> std::vector<item *>;
+        auto place_items( const item_group_id &loc, int chance, const point &p1,
                                          const point &p2, bool ongrass, const time_point &turn,
-                                         int magazine = 0, int ammo = 0 ) {
+                                         int magazine = 0, int ammo = 0 ) -> std::vector<item *> {
             return place_items( loc, chance, tripoint( p1, abs_sub.z ), tripoint( p2, abs_sub.z ), ongrass,
                                 turn, magazine, ammo );
         }
@@ -1375,11 +1375,11 @@ class map
         * @param turn The birthday that the created items shall have.
         * @return Vector of pointers to placed items (can be empty, but no nulls).
         */
-        std::vector<item *> put_items_from_loc( const item_group_id &loc, const tripoint &p,
-                                                const time_point &turn = calendar::start_of_cataclysm );
+        auto put_items_from_loc( const item_group_id &loc, const tripoint &p,
+                                                const time_point &turn = calendar::start_of_cataclysm ) -> std::vector<item *>;
 
         // Similar to spawn_an_item, but spawns a list of items, or nothing if the list is empty.
-        std::vector<item *> spawn_items( const tripoint &p, const std::vector<item> &new_items );
+        auto spawn_items( const tripoint &p, const std::vector<item> &new_items ) -> std::vector<item *>;
         void spawn_items( const point &p, const std::vector<item> &new_items ) {
             spawn_items( tripoint( p, abs_sub.z ), new_items );
         }
@@ -1392,18 +1392,18 @@ class map
         // Partial construction functions
         void partial_con_set( const tripoint &p, const partial_con &con );
         void partial_con_remove( const tripoint &p );
-        partial_con *partial_con_at( const tripoint &p );
+        auto partial_con_at( const tripoint &p ) -> partial_con *;
         // Traps
         void trap_set( const tripoint &p, const trap_id &type );
 
-        const trap &tr_at( const tripoint &p ) const;
+        auto tr_at( const tripoint &p ) const -> const trap &;
         /// See @ref trap::can_see, which is called for the trap here.
-        bool can_see_trap_at( const tripoint &p, const Character &c ) const;
+        auto can_see_trap_at( const tripoint &p, const Character &c ) const -> bool;
 
         void disarm_trap( const tripoint &p );
         void remove_trap( const tripoint &p );
-        const std::vector<tripoint> &get_furn_field_locations() const;
-        const std::vector<tripoint> &trap_locations( const trap_id &type ) const;
+        auto get_furn_field_locations() const -> const std::vector<tripoint> &;
+        auto trap_locations( const trap_id &type ) const -> const std::vector<tripoint> &;
 
         // Spawns byproducts from items destroyed in fire.
         void create_burnproducts( const tripoint &p, const item &fuel, const units::mass &burned_mass );
@@ -1430,33 +1430,33 @@ class map
          * one can not change the fields.
          * @param p The local map coordinates, if out of bounds, returns an empty field.
          */
-        const field &field_at( const tripoint &p ) const;
+        auto field_at( const tripoint &p ) const -> const field &;
         /**
          * Gets fields that are here. Both for querying and edition.
          */
-        field &field_at( const tripoint &p );
+        auto field_at( const tripoint &p ) -> field &;
         /**
          * Get the age of a field entry (@ref field_entry::age), if there is no
          * field of that type, returns `-1_turns`.
          */
-        time_duration get_field_age( const tripoint &p, const field_type_id &type ) const;
+        auto get_field_age( const tripoint &p, const field_type_id &type ) const -> time_duration;
         /**
          * Get the intensity of a field entry (@ref field_entry::intensity),
          * if there is no field of that type, returns 0.
          */
-        int get_field_intensity( const tripoint &p, const field_type_id &type ) const;
+        auto get_field_intensity( const tripoint &p, const field_type_id &type ) const -> int;
         /**
          * Increment/decrement age of field entry at point.
          * @return resulting age or `-1_turns` if not present (does *not* create a new field).
          */
-        time_duration mod_field_age( const tripoint &p, const field_type_id &type,
-                                     const time_duration &offset );
+        auto mod_field_age( const tripoint &p, const field_type_id &type,
+                                     const time_duration &offset ) -> time_duration;
         /**
          * Increment/decrement intensity of field entry at point, creating if not present,
          * removing if intensity becomes 0.
          * @return resulting intensity, or 0 for not present (either removed or not created at all).
          */
-        int mod_field_intensity( const tripoint &p, const field_type_id &type, int offset );
+        auto mod_field_intensity( const tripoint &p, const field_type_id &type, int offset ) -> int;
         /**
          * Set age of field entry at point.
          * @param p Location of field
@@ -1466,8 +1466,8 @@ class map
          * if false, the existing age is ignored and overridden.
          * @return resulting age or `-1_turns` if not present (does *not* create a new field).
          */
-        time_duration set_field_age( const tripoint &p, const field_type_id &type,
-                                     const time_duration &age, bool isoffset = false );
+        auto set_field_age( const tripoint &p, const field_type_id &type,
+                                     const time_duration &age, bool isoffset = false ) -> time_duration;
         /**
          * Set intensity of field entry at point, creating if not present,
          * removing if intensity becomes 0.
@@ -1478,20 +1478,20 @@ class map
          * if false, the existing intensity is ignored and overridden.
          * @return resulting intensity, or 0 for not present (either removed or not created at all).
          */
-        int set_field_intensity( const tripoint &p, const field_type_id &type, int new_intensity,
-                                 bool isoffset = false );
+        auto set_field_intensity( const tripoint &p, const field_type_id &type, int new_intensity,
+                                 bool isoffset = false ) -> int;
         /**
          * Get field of specific type at point.
          * @return NULL if there is no such field entry at that place.
          */
-        field_entry *get_field( const tripoint &p, const field_type_id &type );
-        bool dangerous_field_at( const tripoint &p );
+        auto get_field( const tripoint &p, const field_type_id &type ) -> field_entry *;
+        auto dangerous_field_at( const tripoint &p ) -> bool;
         /**
          * Add field entry at point, or set intensity if present
          * @return false if the field could not be created (out of bounds), otherwise true.
          */
-        bool add_field( const tripoint &p, const field_type_id &type_id, int intensity = INT_MAX,
-                        const time_duration &age = 0_turns, bool hit_player = true );
+        auto add_field( const tripoint &p, const field_type_id &type_id, int intensity = INT_MAX,
+                        const time_duration &age = 0_turns, bool hit_player = true ) -> bool;
         /**
          * Remove field entry at xy, ignored if the field entry is not present.
          */
@@ -1522,17 +1522,17 @@ class map
                              const point &min, const point &max );
 
         // Computers
-        computer *computer_at( const tripoint &p );
-        computer *add_computer( const tripoint &p, const std::string &name, int security );
+        auto computer_at( const tripoint &p ) -> computer *;
+        auto add_computer( const tripoint &p, const std::string &name, int security ) -> computer *;
 
         // Camps
         void add_camp( const tripoint_abs_omt &omt_pos, const std::string &name );
         void remove_submap_camp( const tripoint & );
-        basecamp hoist_submap_camp( const tripoint &p );
-        bool point_within_camp( const tripoint &point_check ) const;
+        auto hoist_submap_camp( const tripoint &p ) -> basecamp;
+        auto point_within_camp( const tripoint &point_check ) const -> bool;
         // Graffiti
-        bool has_graffiti_at( const tripoint &p ) const;
-        const std::string &graffiti_at( const tripoint &p ) const;
+        auto has_graffiti_at( const tripoint &p ) const -> bool;
+        auto graffiti_at( const tripoint &p ) const -> const std::string &;
         void set_graffiti( const tripoint &p, const std::string &contents );
         void delete_graffiti( const tripoint &p );
 
@@ -1541,7 +1541,7 @@ class map
          * Checks 3x3 block centered on p for terrain to climb.
          * @return Difficulty of climbing check from point p.
          */
-        int climb_difficulty( const tripoint &p ) const;
+        auto climb_difficulty( const tripoint &p ) const -> int;
 
         // Support (of weight, structures etc.)
     private:
@@ -1553,10 +1553,10 @@ class map
 
         // Returns true if terrain at p has NO flag TFLAG_NO_FLOOR,
         // if we're not in z-levels mode or if we're at lowest level
-        bool has_floor( const tripoint &p ) const;
+        auto has_floor( const tripoint &p ) const -> bool;
         /** Does this tile support vehicles and furniture above it */
-        bool supports_above( const tripoint &p ) const;
-        bool has_floor_or_support( const tripoint &p ) const;
+        auto supports_above( const tripoint &p ) const -> bool;
+        auto has_floor_or_support( const tripoint &p ) const -> bool;
 
         /**
          * Handles map objects of given type (not creatures) falling down.
@@ -1575,7 +1575,7 @@ class map
          */
         void process_falling();
 
-        bool is_cornerfloor( const tripoint &p ) const;
+        auto is_cornerfloor( const tripoint &p ) const -> bool;
 
         // mapgen.cpp functions
         void generate( const tripoint &p, const time_point &when );
@@ -1589,8 +1589,8 @@ class map
         void place_toilet( const point &p, int charges = 6 * 4 );
         void place_vending( const point &p, const item_group_id &type, bool reinforced = false );
         // places an NPC, if static NPCs are enabled or if force is true
-        character_id place_npc( const point &p, const string_id<npc_template> &type,
-                                bool force = false );
+        auto place_npc( const point &p, const string_id<npc_template> &type,
+                                bool force = false ) -> character_id;
         void apply_faction_ownership( const point &p1, const point &p2, const faction_id &id );
         void add_spawn( const mtype_id &type, int count, const tripoint &p,
                         bool friendly = false, int faction_id = -1, int mission_id = -1,
@@ -1602,28 +1602,28 @@ class map
         void build_obstacle_cache( const tripoint &start, const tripoint &end,
                                    float( &obstacle_cache )[MAPSIZE_X][MAPSIZE_Y] );
 
-        vehicle *add_vehicle( const vgroup_id &type, const tripoint &p, units::angle dir,
+        auto add_vehicle( const vgroup_id &type, const tripoint &p, units::angle dir,
                               int init_veh_fuel = -1, int init_veh_status = -1,
-                              bool merge_wrecks = true );
-        vehicle *add_vehicle( const vgroup_id &type, const point &p, units::angle dir,
+                              bool merge_wrecks = true ) -> vehicle *;
+        auto add_vehicle( const vgroup_id &type, const point &p, units::angle dir,
                               int init_veh_fuel = -1, int init_veh_status = -1,
-                              bool merge_wrecks = true );
-        vehicle *add_vehicle( const vproto_id &type, const tripoint &p, units::angle dir,
+                              bool merge_wrecks = true ) -> vehicle *;
+        auto add_vehicle( const vproto_id &type, const tripoint &p, units::angle dir,
                               int init_veh_fuel = -1, int init_veh_status = -1,
-                              bool merge_wrecks = true );
-        vehicle *add_vehicle( const vproto_id &type, const point &p, units::angle dir,
+                              bool merge_wrecks = true ) -> vehicle *;
+        auto add_vehicle( const vproto_id &type, const point &p, units::angle dir,
                               int init_veh_fuel = -1, int init_veh_status = -1,
-                              bool merge_wrecks = true );
+                              bool merge_wrecks = true ) -> vehicle *;
         // Light/transparency
-        float light_transparency( const tripoint &p ) const;
+        auto light_transparency( const tripoint &p ) const -> float;
         // Assumes 0,0 is light map center
-        lit_level light_at( const tripoint &p ) const;
+        auto light_at( const tripoint &p ) const -> lit_level;
         // Raw values for tilesets
-        float ambient_light_at( const tripoint &p ) const;
+        auto ambient_light_at( const tripoint &p ) const -> float;
         /**
          * Returns whether the tile at `p` is transparent(you can look past it).
          */
-        bool is_transparent( const tripoint &p ) const;
+        auto is_transparent( const tripoint &p ) const -> bool;
         // End of light/transparency
 
         /**
@@ -1634,39 +1634,39 @@ class map
          * @param max_range All squares that are further away than this are invisible.
          * Ignored if smaller than 0.
          */
-        bool pl_sees( const tripoint &t, int max_range ) const;
+        auto pl_sees( const tripoint &t, int max_range ) const -> bool;
         /**
          * Uses the map cache to tell if the player could see the given square.
          * pl_sees implies pl_line_of_sight
          * Used for infrared.
          */
-        bool pl_line_of_sight( const tripoint &t, int max_range ) const;
+        auto pl_line_of_sight( const tripoint &t, int max_range ) const -> bool;
         std::set<vehicle *> dirty_vehicle_list;
 
         /** return @ref abs_sub */
-        tripoint get_abs_sub() const;
+        auto get_abs_sub() const -> tripoint;
         /**
          * Translates local (to this map) coordinates of a square to global absolute coordinates.
          * Coordinates is in the system that is used by the ter/furn/i_at functions.
          * Output is in the same scale, but in global system.
          */
-        tripoint getabs( const tripoint &p ) const;
-        point getabs( const point &p ) const {
+        auto getabs( const tripoint &p ) const -> tripoint;
+        auto getabs( const point &p ) const -> point {
             return getabs( tripoint( p, abs_sub.z ) ).xy();
         }
         /**
          * Inverse of @ref getabs
          */
-        tripoint getlocal( const tripoint &p ) const;
-        point getlocal( const point &p ) const {
+        auto getlocal( const tripoint &p ) const -> tripoint;
+        auto getlocal( const point &p ) const -> point {
             return getlocal( tripoint( p, abs_sub.z ) ).xy();
         }
-        virtual bool inbounds( const tripoint &p ) const;
-        bool inbounds( const point &p ) const {
+        virtual auto inbounds( const tripoint &p ) const -> bool;
+        auto inbounds( const point &p ) const -> bool {
             return inbounds( tripoint( p, 0 ) );
         }
 
-        bool inbounds_z( const int z ) const {
+        auto inbounds_z( const int z ) const -> bool {
             return z >= -OVERMAP_DEPTH && z <= OVERMAP_HEIGHT;
         }
 
@@ -1675,10 +1675,10 @@ class map
         void clip_to_bounds( int &x, int &y ) const;
         void clip_to_bounds( int &x, int &y, int &z ) const;
 
-        int getmapsize() const {
+        auto getmapsize() const -> int {
             return my_MAPSIZE;
         }
-        bool has_zlevels() const {
+        auto has_zlevels() const -> bool {
             return zlevels;
         }
 
@@ -1715,8 +1715,8 @@ class map
 
     protected:
         void saven( const tripoint &grid );
-        bool loadn( const tripoint &grid, bool update_vehicles );
-        bool loadn( const point &grid, bool update_vehicles ) {
+        auto loadn( const tripoint &grid, bool update_vehicles ) -> bool;
+        auto loadn( const point &grid, bool update_vehicles ) -> bool {
             if( zlevels ) {
                 bool generated = false;
                 for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
@@ -1803,15 +1803,15 @@ class map
 
         // Builds a transparency cache and returns true if the cache was invalidated.
         // Used to determine if seen cache should be rebuilt.
-        bool build_transparency_cache( int zlev );
-        bool build_vision_transparency_cache( int zlev );
+        auto build_transparency_cache( int zlev ) -> bool;
+        auto build_vision_transparency_cache( int zlev ) -> bool;
         // fills lm with sunlight. pzlev is current player's zlevel
         void build_sunlight_cache( int pzlev );
     public:
         void build_outside_cache( int zlev );
         // Builds a floor cache and returns true if the cache was invalidated.
         // Used to determine if seen cache should be rebuilt.
-        bool build_floor_cache( int zlev );
+        auto build_floor_cache( int zlev ) -> bool;
         // We want this visible in `game`, because we want it built earlier in the turn than the rest
         void build_floor_caches();
         // Checks all suspended tiles on a z level and adds those that are invalid to the support_dirty_cache */
@@ -1839,18 +1839,18 @@ class map
         void set_abs_sub( const tripoint &p );
 
     private:
-        field &get_field( const tripoint &p );
+        auto get_field( const tripoint &p ) -> field &;
 
         /**
          * Get the submap pointer with given index in @ref grid, the index must be valid!
          */
-        submap *getsubmap( size_t grididx ) const;
+        auto getsubmap( size_t grididx ) const -> submap *;
         /**
          * Get the submap pointer containing the specified position within the reality bubble.
          * (p) must be a valid coordinate, check with @ref inbounds.
          */
-        submap *get_submap_at( const tripoint &p ) const;
-        submap *get_submap_at( const point &p ) const {
+        auto get_submap_at( const tripoint &p ) const -> submap *;
+        auto get_submap_at( const point &p ) const -> submap * {
             return get_submap_at( tripoint( p, abs_sub.z ) );
         }
         /**
@@ -1858,8 +1858,8 @@ class map
          * The same as other get_submap_at, (p) must be valid (@ref inbounds).
          * Also writes the position within the submap to offset_p
          */
-        submap *get_submap_at( const tripoint &p, point &offset_p ) const;
-        submap *get_submap_at( const point &p, point &offset_p ) const {
+        auto get_submap_at( const tripoint &p, point &offset_p ) const -> submap *;
+        auto get_submap_at( const point &p, point &offset_p ) const -> submap * {
             return get_submap_at( { p, abs_sub.z }, offset_p );
         }
         /**
@@ -1867,18 +1867,18 @@ class map
          * be valid: 0 <= x < my_MAPSIZE, same for y.
          * z must be between -OVERMAP_DEPTH and OVERMAP_HEIGHT
          */
-        submap *get_submap_at_grid( const point &gridp ) const {
+        auto get_submap_at_grid( const point &gridp ) const -> submap * {
             return getsubmap( get_nonant( gridp ) );
         }
-        submap *get_submap_at_grid( const tripoint &gridp ) const;
+        auto get_submap_at_grid( const tripoint &gridp ) const -> submap *;
     protected:
         /**
          * Get the index of a submap pointer in the grid given by grid coordinates. The grid
          * coordinates must be valid: 0 <= x < my_MAPSIZE, same for y.
          * Version with z-levels checks for z between -OVERMAP_DEPTH and OVERMAP_HEIGHT
          */
-        size_t get_nonant( const tripoint &gridp ) const;
-        size_t get_nonant( const point &gridp ) const {
+        auto get_nonant( const tripoint &gridp ) const -> size_t;
+        auto get_nonant( const point &gridp ) const -> size_t {
             return get_nonant( { gridp, abs_sub.z } );
         }
         /**
@@ -1892,7 +1892,7 @@ class map
          * fills the map::max_populated_zlev and returns it
          * @return max_populated_zlev value
          */
-        int calc_max_populated_zlev();
+        auto calc_max_populated_zlev() -> int;
         /**
          * Conditionally invalidates max_pupulated_zlev cache if the submap uniformity change occurs above current
          *  max_pupulated_zlev value
@@ -1904,25 +1904,25 @@ class map
          * Internal versions of public functions to avoid checking same variables multiple times.
          * They lack safety checks, because their callers already do those.
          */
-        int move_cost_internal( const furn_t &furniture, const ter_t &terrain,
-                                const vehicle *veh, int vpart ) const;
-        int bash_rating_internal( int str, const furn_t &furniture,
+        auto move_cost_internal( const furn_t &furniture, const ter_t &terrain,
+                                const vehicle *veh, int vpart ) const -> int;
+        auto bash_rating_internal( int str, const furn_t &furniture,
                                   const ter_t &terrain, bool allow_floor,
-                                  const vehicle *veh, int part ) const;
+                                  const vehicle *veh, int part ) const -> int;
 
         /**
          * Internal version of the drawsq. Keeps a cached maptile for less re-getting.
          * Returns false if it has drawn all it should, true if `draw_from_above` should be called after.
          */
-        bool draw_maptile( const catacurses::window &w, const tripoint &p,
-                           const maptile &tile, const drawsq_params &params ) const;
+        auto draw_maptile( const catacurses::window &w, const tripoint &p,
+                           const maptile &tile, const drawsq_params &params ) const -> bool;
         /**
          * Draws the tile as seen from above.
          */
         void draw_from_above( const catacurses::window &w, const tripoint &p,
                               const maptile &tile, const drawsq_params &params ) const;
 
-        int determine_wall_corner( const tripoint &p ) const;
+        auto determine_wall_corner( const tripoint &p ) const -> int;
         // apply a circular light pattern immediately, however it's best to use...
         void apply_light_source( const tripoint &p, float luminance );
         // ...this, which will apply the light after at the end of generate_lightmap, and prevent redundant
@@ -1936,24 +1936,24 @@ class map
                               const tripoint &s, const tripoint &e, float luminance );
         void add_light_from_items( const tripoint &p, item_stack::iterator begin,
                                    item_stack::iterator end );
-        std::unique_ptr<vehicle> add_vehicle_to_map( std::unique_ptr<vehicle> veh, bool merge_wrecks );
+        auto add_vehicle_to_map( std::unique_ptr<vehicle> veh, bool merge_wrecks ) -> std::unique_ptr<vehicle>;
 
         // Internal methods used to bash just the selected features
         // "Externaled" for testing, because the interface to bashing is rng dependent
     public:
         // Information on what to bash/what was bashed is read from/written to the bash_params/bash_results struct
-        bash_results bash_items( const tripoint &p, const bash_params &params );
-        bash_results bash_field( const tripoint &p, const bash_params &params );
+        auto bash_items( const tripoint &p, const bash_params &params ) -> bash_results;
+        auto bash_field( const tripoint &p, const bash_params &params ) -> bash_results;
 
         // Successfully bashing things down
-        bash_results bash_ter_success( const tripoint &p, const bash_params &params );
-        bash_results bash_furn_success( const tripoint &p, const bash_params &params );
+        auto bash_ter_success( const tripoint &p, const bash_params &params ) -> bash_results;
+        auto bash_furn_success( const tripoint &p, const bash_params &params ) -> bash_results;
 
     private:
         // Gets the roof type of the tile at p
         // Second argument refers to whether we have to get a roof (we're over an unpassable tile)
         // or can just return air because we bashed down an entire floor tile
-        ter_id get_roof( const tripoint &p, bool allow_air ) const;
+        auto get_roof( const tripoint &p, bool allow_air ) const -> ter_id;
 
     public:
         void process_items();
@@ -2024,11 +2024,11 @@ class map
         bool last_full_vehicle_list_dirty = true;
 
         // Note: no bounds check
-        level_cache &get_cache( int zlev ) const {
+        auto get_cache( int zlev ) const -> level_cache & {
             return *caches[zlev + OVERMAP_DEPTH];
         }
 
-        pathfinding_cache &get_pathfinding_cache( int zlev ) const;
+        auto get_pathfinding_cache( int zlev ) const -> pathfinding_cache &;
 
         visibility_variables visibility_variables_cache;
 
@@ -2037,66 +2037,66 @@ class map
         cata::optional<std::pair<tripoint, int>> max_populated_zlev = cata::nullopt;
 
     public:
-        const level_cache &get_cache_ref( int zlev ) const {
+        auto get_cache_ref( int zlev ) const -> const level_cache & {
             return *caches[zlev + OVERMAP_DEPTH];
         }
 
-        const pathfinding_cache &get_pathfinding_cache_ref( int zlev ) const;
+        auto get_pathfinding_cache_ref( int zlev ) const -> const pathfinding_cache &;
 
         void update_pathfinding_cache( int zlev ) const;
 
         void update_visibility_cache( int zlev );
-        const visibility_variables &get_visibility_variables_cache() const;
+        auto get_visibility_variables_cache() const -> const visibility_variables &;
 
         void update_submap_active_item_status( const tripoint &p );
 
         // Just exposed for unit test introspection.
-        const std::set<tripoint> &get_submaps_with_active_items() const {
+        auto get_submaps_with_active_items() const -> const std::set<tripoint> & {
             return submaps_with_active_items;
         }
         // Clips the area to map bounds
-        tripoint_range<tripoint> points_in_rectangle(
-            const tripoint &from, const tripoint &to ) const;
-        tripoint_range<tripoint> points_in_radius(
-            const tripoint &center, size_t radius, size_t radiusz = 0 ) const;
+        auto points_in_rectangle(
+            const tripoint &from, const tripoint &to ) const -> tripoint_range<tripoint>;
+        auto points_in_radius(
+            const tripoint &center, size_t radius, size_t radiusz = 0 ) const -> tripoint_range<tripoint>;
         /**
          * Yields a range of all points that are contained in the map and have the z-level of
          * this map (@ref abs_sub).
          */
-        tripoint_range<tripoint> points_on_zlevel() const;
+        auto points_on_zlevel() const -> tripoint_range<tripoint>;
         /// Same as above, but uses the specific z-level. If the given z-level is invalid, it
         /// returns an empty range.
-        tripoint_range<tripoint> points_on_zlevel( int z ) const;
+        auto points_on_zlevel( int z ) const -> tripoint_range<tripoint>;
 
-        std::list<item_location> get_active_items_in_radius( const tripoint &center, int radius ) const;
-        std::list<item_location> get_active_items_in_radius( const tripoint &center, int radius,
-                special_item_type type ) const;
+        auto get_active_items_in_radius( const tripoint &center, int radius ) const -> std::list<item_location>;
+        auto get_active_items_in_radius( const tripoint &center, int radius,
+                special_item_type type ) const -> std::list<item_location>;
 
         /**returns positions of furnitures with matching flag in the specified radius*/
-        std::list<tripoint> find_furnitures_with_flag_in_radius( const tripoint &center, size_t radius,
+        auto find_furnitures_with_flag_in_radius( const tripoint &center, size_t radius,
                 const std::string &flag,
-                size_t radiusz = 0 );
+                size_t radiusz = 0 ) -> std::list<tripoint>;
         /**returns creatures in specified radius*/
-        std::list<Creature *> get_creatures_in_radius( const tripoint &center, size_t radius,
-                size_t radiusz = 0 );
+        auto get_creatures_in_radius( const tripoint &center, size_t radius,
+                size_t radiusz = 0 ) -> std::list<Creature *>;
 
-        level_cache &access_cache( int zlev );
-        const level_cache &access_cache( int zlev ) const;
-        bool dont_draw_lower_floor( const tripoint &p );
+        auto access_cache( int zlev ) -> level_cache &;
+        auto access_cache( int zlev ) const -> const level_cache &;
+        auto dont_draw_lower_floor( const tripoint &p ) -> bool;
 };
 
-map &get_map();
+auto get_map() -> map &;
 
 template<int SIZE, int MULTIPLIER>
 void shift_bitset_cache( std::bitset<SIZE *SIZE> &cache, const point &s );
 
-bool ter_furn_has_flag( const ter_t &ter, const furn_t &furn, ter_bitflags flag );
+auto ter_furn_has_flag( const ter_t &ter, const furn_t &furn, ter_bitflags flag ) -> bool;
 class tinymap : public map
 {
         friend class editmap;
     public:
         tinymap( int mapsize = 2, bool zlevels = false );
-        bool inbounds( const tripoint &p ) const override;
+        auto inbounds( const tripoint &p ) const -> bool override;
 };
 
 class fake_map : public tinymap

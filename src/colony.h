@@ -213,14 +213,14 @@ class colony : private element_allocator_type
                 friend class colony_reverse_iterator<false>;
                 friend class colony_reverse_iterator<true>;
 
-                inline colony_iterator &operator=( const colony_iterator &source ) noexcept {
+                inline auto operator=( const colony_iterator &source ) noexcept -> colony_iterator & {
                     group_pointer = source.group_pointer;
                     element_pointer = source.element_pointer;
                     skipfield_pointer = source.skipfield_pointer;
                     return *this;
                 }
 
-                inline colony_iterator &operator=( const colony_iterator < !is_const > &source ) noexcept {
+                inline auto operator=( const colony_iterator < !is_const > &source ) noexcept -> colony_iterator & {
                     group_pointer = source.group_pointer;
                     element_pointer = source.element_pointer;
                     skipfield_pointer = source.skipfield_pointer;
@@ -228,8 +228,8 @@ class colony : private element_allocator_type
                 }
 
                 // Move assignment - only really necessary if the allocator uses non-standard i.e. smart pointers
-                inline colony_iterator &operator=( colony_iterator &&source )
-                noexcept { // Move is a copy in this scenario
+                inline auto operator=( colony_iterator &&source )
+                noexcept -> colony_iterator & { // Move is a copy in this scenario
                     assert( &source != this );
                     group_pointer = std::move( source.group_pointer );
                     element_pointer = std::move( source.element_pointer );
@@ -237,7 +237,7 @@ class colony : private element_allocator_type
                     return *this;
                 }
 
-                inline colony_iterator &operator=( colony_iterator < !is_const > &&source ) noexcept {
+                inline auto operator=( colony_iterator < !is_const > &&source ) noexcept -> colony_iterator & {
                     assert( &source != this );
                     group_pointer = std::move( source.group_pointer );
                     element_pointer = std::move( source.element_pointer );
@@ -245,34 +245,34 @@ class colony : private element_allocator_type
                     return *this;
                 }
 
-                inline COLONY_FORCE_INLINE bool operator==( const colony_iterator &rh ) const noexcept {
+                inline COLONY_FORCE_INLINE auto operator==( const colony_iterator &rh ) const noexcept -> bool {
                     return ( element_pointer == rh.element_pointer );
                 }
 
-                inline COLONY_FORCE_INLINE bool operator==( const colony_iterator < !is_const > &rh ) const
-                noexcept {
+                inline COLONY_FORCE_INLINE auto operator==( const colony_iterator < !is_const > &rh ) const
+                noexcept -> bool {
                     return ( element_pointer == rh.element_pointer );
                 }
 
-                inline COLONY_FORCE_INLINE bool operator!=( const colony_iterator &rh ) const noexcept {
+                inline COLONY_FORCE_INLINE auto operator!=( const colony_iterator &rh ) const noexcept -> bool {
                     return ( element_pointer != rh.element_pointer );
                 }
 
-                inline COLONY_FORCE_INLINE bool operator!=( const colony_iterator < !is_const > &rh ) const
-                noexcept {
+                inline COLONY_FORCE_INLINE auto operator!=( const colony_iterator < !is_const > &rh ) const
+                noexcept -> bool {
                     return ( element_pointer != rh.element_pointer );
                 }
 
                 // may cause exception with uninitialized iterator
-                inline COLONY_FORCE_INLINE reference operator*() const {
+                inline COLONY_FORCE_INLINE auto operator*() const -> reference {
                     return *( reinterpret_cast<pointer>( element_pointer ) );
                 }
 
-                inline COLONY_FORCE_INLINE pointer operator->() const noexcept {
+                inline COLONY_FORCE_INLINE auto operator->() const noexcept -> pointer {
                     return reinterpret_cast<pointer>( element_pointer );
                 }
 
-                colony_iterator &operator++() {
+                auto operator++() -> colony_iterator & {
                     // covers uninitialized colony_iterator
                     assert( group_pointer != nullptr );
                     // Assert that iterator is not already at end()
@@ -294,7 +294,7 @@ class colony : private element_allocator_type
                     return *this;
                 }
 
-                inline colony_iterator operator++( int ) {
+                inline auto operator++( int ) -> colony_iterator {
                     const colony_iterator copy( *this );
                     ++*this;
                     return copy;
@@ -312,7 +312,7 @@ class colony : private element_allocator_type
 
             public:
 
-                colony_iterator &operator--() {
+                auto operator--() -> colony_iterator & {
                     assert( group_pointer != nullptr );
                     assert( !( element_pointer == group_pointer->elements &&
                                group_pointer->previous_group ==
@@ -337,45 +337,45 @@ class colony : private element_allocator_type
                     return *this;
                 }
 
-                inline colony_iterator operator--( int ) {
+                inline auto operator--( int ) -> colony_iterator {
                     const colony_iterator copy( *this );
                     --*this;
                     return copy;
                 }
 
-                inline bool operator>( const colony_iterator &rh ) const noexcept {
+                inline auto operator>( const colony_iterator &rh ) const noexcept -> bool {
                     return ( ( group_pointer == rh.group_pointer ) & ( element_pointer > rh.element_pointer ) ) ||
                            ( group_pointer != rh.group_pointer &&
                              group_pointer->group_number > rh.group_pointer->group_number );
                 }
 
-                inline bool operator<( const colony_iterator &rh ) const noexcept {
+                inline auto operator<( const colony_iterator &rh ) const noexcept -> bool {
                     return rh > *this;
                 }
 
-                inline bool operator>=( const colony_iterator &rh ) const noexcept {
+                inline auto operator>=( const colony_iterator &rh ) const noexcept -> bool {
                     return !( rh > *this );
                 }
 
-                inline bool operator<=( const colony_iterator &rh ) const noexcept {
+                inline auto operator<=( const colony_iterator &rh ) const noexcept -> bool {
                     return !( *this > rh );
                 }
 
-                inline bool operator>( const colony_iterator < !is_const > &rh ) const noexcept {
+                inline auto operator>( const colony_iterator < !is_const > &rh ) const noexcept -> bool {
                     return ( ( group_pointer == rh.group_pointer ) & ( element_pointer > rh.element_pointer ) ) ||
                            ( group_pointer != rh.group_pointer &&
                              group_pointer->group_number > rh.group_pointer->group_number );
                 }
 
-                inline bool operator<( const colony_iterator < !is_const > &rh ) const noexcept {
+                inline auto operator<( const colony_iterator < !is_const > &rh ) const noexcept -> bool {
                     return rh > *this;
                 }
 
-                inline bool operator>=( const colony_iterator < !is_const > &rh ) const noexcept {
+                inline auto operator>=( const colony_iterator < !is_const > &rh ) const noexcept -> bool {
                     return !( rh > *this );
                 }
 
-                inline bool operator<=( const colony_iterator < !is_const > &rh ) const noexcept {
+                inline auto operator<=( const colony_iterator < !is_const > &rh ) const noexcept -> bool {
                     return !( *this > rh );
                 }
 
@@ -429,35 +429,35 @@ class colony : private element_allocator_type
 
                 friend class colony;
 
-                inline colony_reverse_iterator &operator=( const colony_reverse_iterator &source ) noexcept {
+                inline auto operator=( const colony_reverse_iterator &source ) noexcept -> colony_reverse_iterator & {
                     it = source.it;
                     return *this;
                 }
 
                 // move assignment
-                inline colony_reverse_iterator &operator=( colony_reverse_iterator &&source ) noexcept {
+                inline auto operator=( colony_reverse_iterator &&source ) noexcept -> colony_reverse_iterator & {
                     it = std::move( source.it );
                     return *this;
                 }
 
-                inline COLONY_FORCE_INLINE bool operator==( const colony_reverse_iterator &rh ) const noexcept {
+                inline COLONY_FORCE_INLINE auto operator==( const colony_reverse_iterator &rh ) const noexcept -> bool {
                     return ( it == rh.it );
                 }
 
-                inline COLONY_FORCE_INLINE bool operator!=( const colony_reverse_iterator &rh ) const noexcept {
+                inline COLONY_FORCE_INLINE auto operator!=( const colony_reverse_iterator &rh ) const noexcept -> bool {
                     return ( it != rh.it );
                 }
 
-                inline COLONY_FORCE_INLINE reference operator*() const noexcept {
+                inline COLONY_FORCE_INLINE auto operator*() const noexcept -> reference {
                     return *( reinterpret_cast<pointer>( it.element_pointer ) );
                 }
 
-                inline COLONY_FORCE_INLINE pointer *operator->() const noexcept {
+                inline COLONY_FORCE_INLINE auto operator->() const noexcept -> pointer * {
                     return reinterpret_cast<pointer>( it.element_pointer );
                 }
 
                 // In this case we have to redefine the algorithm, rather than using the internal iterator's -- operator, in order for the reverse_iterator to be allowed to reach rend() ie. begin_iterator - 1
-                colony_reverse_iterator &operator++() {
+                auto operator++() -> colony_reverse_iterator & {
                     colony::group_pointer_type &group_pointer = it.group_pointer;
                     colony::aligned_pointer_type &element_pointer = it.element_pointer;
                     colony::skipfield_pointer_type &skipfield_pointer = it.skipfield_pointer;
@@ -490,13 +490,13 @@ class colony : private element_allocator_type
                     return *this;
                 }
 
-                inline colony_reverse_iterator operator++( int ) {
+                inline auto operator++( int ) -> colony_reverse_iterator {
                     const colony_reverse_iterator copy( *this );
                     ++*this;
                     return copy;
                 }
 
-                inline COLONY_FORCE_INLINE colony_reverse_iterator &operator--() {
+                inline COLONY_FORCE_INLINE auto operator--() -> colony_reverse_iterator & {
                     // i.e. Check that we are not already at rbegin()
                     assert( !( it.element_pointer == it.group_pointer->last_endpoint - 1 &&
                                it.group_pointer->next_group == nullptr ) );
@@ -504,55 +504,55 @@ class colony : private element_allocator_type
                     return *this;
                 }
 
-                inline colony_reverse_iterator operator--( int ) {
+                inline auto operator--( int ) -> colony_reverse_iterator {
                     const colony_reverse_iterator copy( *this );
                     --*this;
                     return copy;
                 }
 
-                inline typename colony::iterator base() const {
+                inline auto base() const -> typename colony::iterator {
                     return ++( typename colony::iterator( it ) );
                 }
 
-                inline bool operator>( const colony_reverse_iterator &rh ) const noexcept {
+                inline auto operator>( const colony_reverse_iterator &rh ) const noexcept -> bool {
                     return ( rh.it > it );
                 }
 
-                inline bool operator<( const colony_reverse_iterator &rh ) const noexcept {
+                inline auto operator<( const colony_reverse_iterator &rh ) const noexcept -> bool {
                     return ( it > rh.it );
                 }
 
-                inline bool operator>=( const colony_reverse_iterator &rh ) const noexcept {
+                inline auto operator>=( const colony_reverse_iterator &rh ) const noexcept -> bool {
                     return !( it > rh.it );
                 }
 
-                inline bool operator<=( const colony_reverse_iterator &rh ) const noexcept {
+                inline auto operator<=( const colony_reverse_iterator &rh ) const noexcept -> bool {
                     return !( rh.it > it );
                 }
 
-                inline COLONY_FORCE_INLINE bool operator==( const colony_reverse_iterator < !r_is_const > &rh )
-                const noexcept {
+                inline COLONY_FORCE_INLINE auto operator==( const colony_reverse_iterator < !r_is_const > &rh )
+                const noexcept -> bool {
                     return ( it == rh.it );
                 }
 
-                inline COLONY_FORCE_INLINE bool operator!=( const colony_reverse_iterator < !r_is_const > &rh )
-                const noexcept {
+                inline COLONY_FORCE_INLINE auto operator!=( const colony_reverse_iterator < !r_is_const > &rh )
+                const noexcept -> bool {
                     return ( it != rh.it );
                 }
 
-                inline bool operator>( const colony_reverse_iterator < !r_is_const > &rh ) const noexcept {
+                inline auto operator>( const colony_reverse_iterator < !r_is_const > &rh ) const noexcept -> bool {
                     return ( rh.it > it );
                 }
 
-                inline bool operator<( const colony_reverse_iterator < !r_is_const > &rh ) const noexcept {
+                inline auto operator<( const colony_reverse_iterator < !r_is_const > &rh ) const noexcept -> bool {
                     return ( it > rh.it );
                 }
 
-                inline bool operator>=( const colony_reverse_iterator < !r_is_const > &rh ) const noexcept {
+                inline auto operator>=( const colony_reverse_iterator < !r_is_const > &rh ) const noexcept -> bool {
                     return !( it > rh.it );
                 }
 
-                inline bool operator<=( const colony_reverse_iterator < !r_is_const > &rh ) const noexcept {
+                inline auto operator<=( const colony_reverse_iterator < !r_is_const > &rh ) const noexcept -> bool {
                     return !( rh.it > it );
                 }
 
@@ -822,48 +822,48 @@ class colony : private element_allocator_type
             insert( element_list );
         }
 
-        inline COLONY_FORCE_INLINE iterator begin() noexcept {
+        inline COLONY_FORCE_INLINE auto begin() noexcept -> iterator {
             return begin_iterator;
         }
 
-        inline COLONY_FORCE_INLINE const iterator &begin() const
-        noexcept { // To allow for functions which only take const colony & as a source eg. copy constructor
+        inline COLONY_FORCE_INLINE auto begin() const
+        noexcept -> const iterator & { // To allow for functions which only take const colony & as a source eg. copy constructor
             return begin_iterator;
         }
 
-        inline COLONY_FORCE_INLINE iterator end() noexcept {
+        inline COLONY_FORCE_INLINE auto end() noexcept -> iterator {
             return end_iterator;
         }
 
-        inline COLONY_FORCE_INLINE const iterator &end() const noexcept {
+        inline COLONY_FORCE_INLINE auto end() const noexcept -> const iterator & {
             return end_iterator;
         }
 
-        inline const_iterator cbegin() const noexcept {
+        inline auto cbegin() const noexcept -> const_iterator {
             return const_iterator( begin_iterator.group_pointer, begin_iterator.element_pointer,
                                    begin_iterator.skipfield_pointer );
         }
 
-        inline const_iterator cend() const noexcept {
+        inline auto cend() const noexcept -> const_iterator {
             return const_iterator( end_iterator.group_pointer, end_iterator.element_pointer,
                                    end_iterator.skipfield_pointer );
         }
 
-        inline reverse_iterator rbegin()
-        const { // May throw exception if colony is empty so end_iterator is uninitialized
+        inline auto rbegin()
+        const -> reverse_iterator { // May throw exception if colony is empty so end_iterator is uninitialized
             return ++reverse_iterator( end_iterator );
         }
 
-        inline reverse_iterator rend() const noexcept {
+        inline auto rend() const noexcept -> reverse_iterator {
             return reverse_iterator( begin_iterator.group_pointer, begin_iterator.element_pointer - 1,
                                      begin_iterator.skipfield_pointer - 1 );
         }
 
-        inline const_reverse_iterator crbegin() const {
+        inline auto crbegin() const -> const_reverse_iterator {
             return ++const_reverse_iterator( end_iterator );
         }
 
-        inline const_reverse_iterator crend() const noexcept {
+        inline auto crend() const noexcept -> const_reverse_iterator {
             return const_reverse_iterator( begin_iterator.group_pointer, begin_iterator.element_pointer - 1,
                                            begin_iterator.skipfield_pointer - 1 );
         }
@@ -942,7 +942,7 @@ class colony : private element_allocator_type
          * insert the element into a previously erased element slot if one exists, otherwise will
          * insert to back of colony. Returns iterator to location of inserted element.
          */
-        iterator insert( const element_type &element ) {
+        auto insert( const element_type &element ) -> iterator {
             if( end_iterator.element_pointer != nullptr ) {
                 switch( ( ( groups_with_erasures_list_head != nullptr ) << 1 ) | ( end_iterator.element_pointer ==
                         reinterpret_cast<aligned_pointer_type>( end_iterator.group_pointer->skipfield ) ) ) {
@@ -1101,7 +1101,7 @@ class colony : private element_allocator_type
          * The move-insert function is near-identical to the regular insert function, with the
          * exception of the element construction method and is_nothrow tests.
          */
-        iterator insert( element_type &&element ) {
+        auto insert( element_type &&element ) -> iterator {
             if( end_iterator.element_pointer != nullptr ) {
                 switch( ( ( groups_with_erasures_list_head != nullptr ) << 1 ) | ( end_iterator.element_pointer ==
                         reinterpret_cast<aligned_pointer_type>( end_iterator.group_pointer->skipfield ) ) ) {
@@ -1249,7 +1249,7 @@ class colony : private element_allocator_type
          * of the element construction method and change to is_nothrow tests.
          */
         template<typename... arguments>
-        iterator emplace( arguments &&... parameters ) {
+        auto emplace( arguments &&... parameters ) -> iterator {
             if( end_iterator.element_pointer != nullptr ) {
                 switch( ( ( groups_with_erasures_list_head != nullptr ) << 1 ) | ( end_iterator.element_pointer ==
                         reinterpret_cast<aligned_pointer_type>( end_iterator.group_pointer->skipfield ) ) ) {
@@ -1745,7 +1745,7 @@ class colony : private element_allocator_type
          *
          * if uninitialized/invalid iterator supplied, function could generate an exception
          */
-        iterator erase( const const_iterator &it ) {
+        auto erase( const const_iterator &it ) -> iterator {
             assert( !empty() );
             const group_pointer_type group_pointer = it.group_pointer;
             // not uninitialized iterator
@@ -2288,22 +2288,22 @@ class colony : private element_allocator_type
         }
 
         /** Returns a boolean indicating whether the colony is currently empty of elements. */
-        inline COLONY_FORCE_INLINE bool empty() const noexcept {
+        inline COLONY_FORCE_INLINE auto empty() const noexcept -> bool {
             return total_number_of_elements == 0;
         }
 
         /** Returns total number of elements currently stored in container. */
-        inline size_type size() const noexcept {
+        inline auto size() const noexcept -> size_type {
             return total_number_of_elements;
         }
 
         /** Returns the maximum number of elements that the allocator can store in the container. */
-        inline size_type max_size() const noexcept {
+        inline auto max_size() const noexcept -> size_type {
             return std::allocator_traits<element_allocator_type>::max_size( *this );
         }
 
         /** Returns total number of elements currently able to be stored in container without expansion. */
-        inline size_type capacity() const noexcept {
+        inline auto capacity() const noexcept -> size_type {
             return total_capacity;
         }
 
@@ -2312,7 +2312,7 @@ class colony : private element_allocator_type
          * inaccurate if the elements themselves dynamically-allocate data. Utility function
          * primarily for benchmarking.
          */
-        inline size_type approximate_memory_use() const noexcept {
+        inline auto approximate_memory_use() const noexcept -> size_type {
             return
                 sizeof( *this ) + // sizeof colony basic structure
                 ( total_capacity * ( sizeof( aligned_element_type ) + sizeof( skipfield_type ) ) )
@@ -2408,7 +2408,7 @@ class colony : private element_allocator_type
          * Copy the elements from another colony to this colony, clearing this colony of existing
          * elements first.
          */
-        inline colony &operator=( const colony &source ) {
+        inline auto operator=( const colony &source ) -> colony & {
             assert( &source != this );
 
             destroy_all_data();
@@ -2426,7 +2426,7 @@ class colony : private element_allocator_type
          * without any insertions), can be safely destructed or used in any regular way without
          * problems.
          */
-        colony &operator=( colony &&source ) COLONY_NOEXCEPT_MOVE_ASSIGNMENT( allocator_type ) {
+        auto operator=( colony &&source ) COLONY_NOEXCEPT_MOVE_ASSIGNMENT( allocator_type ) -> colony & {
             assert( &source != this );
             destroy_all_data();
 
@@ -2450,7 +2450,7 @@ class colony : private element_allocator_type
         }
 
         /** Compare contents of another colony to this colony. Returns true if they are equal. */
-        bool operator==( const colony &rh ) const noexcept {
+        auto operator==( const colony &rh ) const noexcept -> bool {
             assert( this != &rh );
 
             if( total_number_of_elements != rh.total_number_of_elements ) {
@@ -2468,7 +2468,7 @@ class colony : private element_allocator_type
         }
 
         /** Compare contents of another colony to this colony. Returns true if they are unequal. */
-        inline bool operator!=( const colony &rh ) const noexcept {
+        inline auto operator!=( const colony &rh ) const noexcept -> bool {
             return !( *this == rh );
         }
 
@@ -2953,8 +2953,8 @@ class colony : private element_allocator_type
          * the positive or negative amount indicated by distance.
          */
         template <bool is_const>
-        inline colony_iterator<is_const> next( const colony_iterator<is_const> &it,
-                                               const typename colony_iterator<is_const>::difference_type distance = 1 ) const {
+        inline auto next( const colony_iterator<is_const> &it,
+                                               const typename colony_iterator<is_const>::difference_type distance = 1 ) const -> colony_iterator<is_const> {
             colony_iterator<is_const> return_iterator( it );
             advance( return_iterator, distance );
             return return_iterator;
@@ -2965,8 +2965,8 @@ class colony : private element_allocator_type
          * the positive or negative amount indicated by distance.
          */
         template <bool is_const>
-        inline colony_reverse_iterator<is_const> next( const colony_reverse_iterator<is_const> &it,
-                const typename colony_reverse_iterator<is_const>::difference_type distance = 1 ) const {
+        inline auto next( const colony_reverse_iterator<is_const> &it,
+                const typename colony_reverse_iterator<is_const>::difference_type distance = 1 ) const -> colony_reverse_iterator<is_const> {
             colony_reverse_iterator<is_const> return_iterator( it );
             advance( return_iterator, distance );
             return return_iterator;
@@ -2977,8 +2977,8 @@ class colony : private element_allocator_type
          * positive or negative amount indicated by distance.
          */
         template <bool is_const>
-        inline colony_iterator<is_const> prev( const colony_iterator<is_const> &it,
-                                               const typename colony_iterator<is_const>::difference_type distance = 1 ) const {
+        inline auto prev( const colony_iterator<is_const> &it,
+                                               const typename colony_iterator<is_const>::difference_type distance = 1 ) const -> colony_iterator<is_const> {
             colony_iterator<is_const> return_iterator( it );
             advance( return_iterator, -distance );
             return return_iterator;
@@ -2989,8 +2989,8 @@ class colony : private element_allocator_type
          * positive or negative amount indicated by distance.
          */
         template <bool is_const>
-        inline colony_reverse_iterator<is_const> prev( const colony_reverse_iterator<is_const> &it,
-                const typename colony_reverse_iterator<is_const>::difference_type distance = 1 ) const {
+        inline auto prev( const colony_reverse_iterator<is_const> &it,
+                const typename colony_reverse_iterator<is_const>::difference_type distance = 1 ) const -> colony_reverse_iterator<is_const> {
             colony_reverse_iterator<is_const> return_iterator( it );
             advance( return_iterator, -distance );
             return return_iterator;
@@ -3002,8 +3002,8 @@ class colony : private element_allocator_type
          * location in the colony.
          */
         template <bool is_const>
-        typename colony_iterator<is_const>::difference_type distance( const colony_iterator<is_const>
-                &first, const colony_iterator<is_const> &last ) const {
+        auto distance( const colony_iterator<is_const>
+                &first, const colony_iterator<is_const> &last ) const -> typename colony_iterator<is_const>::difference_type {
             // Code logic:
             // If iterators are the same, return 0
             // Otherwise, find which iterator is later in colony, copy that to iterator2. Copy the lower to iterator1.
@@ -3085,9 +3085,9 @@ class colony : private element_allocator_type
         }
 
         template <bool is_const>
-        inline typename colony_reverse_iterator<is_const>::difference_type distance(
+        inline auto distance(
             const colony_reverse_iterator<is_const> &first,
-            const colony_reverse_iterator<is_const> &last ) const {
+            const colony_reverse_iterator<is_const> &last ) const -> typename colony_reverse_iterator<is_const>::difference_type {
             return distance( last.it, first.it );
         }
 
@@ -3109,7 +3109,7 @@ class colony : private element_allocator_type
          *
          * Cannot be noexcept as colony could be empty or pointer invalid
          */
-        iterator get_iterator_from_pointer( const pointer element_pointer ) const {
+        auto get_iterator_from_pointer( const pointer element_pointer ) const -> iterator {
             assert( !empty() );
             assert( element_pointer != nullptr );
 
@@ -3143,7 +3143,7 @@ class colony : private element_allocator_type
          * may throw exception if iterator is invalid/uninitialized
          */
         template <bool is_const>
-        size_type get_index_from_iterator( const colony_iterator<is_const> &it ) const {
+        auto get_index_from_iterator( const colony_iterator<is_const> &it ) const -> size_type {
             assert( !empty() );
             assert( it.group_pointer != nullptr );
 
@@ -3179,8 +3179,8 @@ class colony : private element_allocator_type
          * Index is from front of colony (same as iterator), not back of colony.
          */
         template <bool is_const>
-        inline size_type get_index_from_reverse_iterator( const colony_reverse_iterator<is_const>
-                &rev_iterator ) const {
+        inline auto get_index_from_reverse_iterator( const colony_reverse_iterator<is_const>
+                &rev_iterator ) const -> size_type {
             return get_index_from_iterator( rev_iterator.it );
         }
 
@@ -3194,7 +3194,7 @@ class colony : private element_allocator_type
          *  Cannot be noexcept as colony could be empty
          */
         template <typename index_type>
-        iterator get_iterator_from_index( const index_type index ) const {
+        auto get_iterator_from_index( const index_type index ) const -> iterator {
             assert( !empty() );
             assert( std::numeric_limits<index_type>::is_integer );
 
@@ -3204,14 +3204,14 @@ class colony : private element_allocator_type
         }
 
         /** Returns a copy of the allocator used by the colony instance. */
-        inline allocator_type get_allocator() const noexcept {
+        inline auto get_allocator() const noexcept -> allocator_type {
             return element_allocator_type();
         }
 
     private:
 
         struct less {
-            bool operator()( const element_type &a, const element_type &b ) const noexcept {
+            auto operator()( const element_type &a, const element_type &b ) const noexcept -> bool {
                 return a < b;
             }
         };
@@ -3227,7 +3227,7 @@ class colony : private element_allocator_type
 
             sort_dereferencer() noexcept = default;
 
-            bool operator()( const pointer first, const pointer second ) {
+            auto operator()( const pointer first, const pointer second ) -> bool {
                 return stored_instance( *first, *second );
             }
         };

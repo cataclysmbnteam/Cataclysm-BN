@@ -17,7 +17,7 @@ void load_soundset();
 
 #else
 
-inline bool init_sound()
+inline auto init_sound() -> bool
 {
     return false;
 }

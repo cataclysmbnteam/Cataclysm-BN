@@ -22,7 +22,7 @@
 static const std::string MOD_SEARCH_FILE( "modinfo.json" );
 
 template<>
-const MOD_INFORMATION &string_id<MOD_INFORMATION>::obj() const
+auto string_id<MOD_INFORMATION>::obj() const -> const MOD_INFORMATION &
 {
     const auto &map = world_generator->get_mod_manager().mod_map;
     const auto iter = map.find( *this );
@@ -35,12 +35,12 @@ const MOD_INFORMATION &string_id<MOD_INFORMATION>::obj() const
 }
 
 template<>
-bool string_id<MOD_INFORMATION>::is_valid() const
+auto string_id<MOD_INFORMATION>::is_valid() const -> bool
 {
     return world_generator->get_mod_manager().mod_map.count( *this ) > 0;
 }
 
-std::string MOD_INFORMATION::name() const
+auto MOD_INFORMATION::name() const -> std::string
 {
     if( translatable_info.name().empty() ) {
         // "No name" gets confusing if many mods have no name
@@ -51,12 +51,12 @@ std::string MOD_INFORMATION::name() const
     }
 }
 
-std::string MOD_INFORMATION::description() const
+auto MOD_INFORMATION::description() const -> std::string
 {
     return translatable_info.description();
 }
 
-const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories()
+auto get_mod_list_categories() -> const std::vector<std::pair<std::string, std::string> > &
 {
     static const std::vector<std::pair<std::string, std::string> > mod_list_categories = {
         {"core", translate_marker( "CORE GAME DATA" )},
@@ -77,7 +77,7 @@ const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories
     return mod_list_categories;
 }
 
-const std::vector<std::pair<std::string, std::string> > &get_mod_list_tabs()
+auto get_mod_list_tabs() -> const std::vector<std::pair<std::string, std::string> > &
 {
     static const std::vector<std::pair<std::string, std::string> > mod_list_tabs = {
         {"tab_default", translate_marker( "Default" )},
@@ -88,7 +88,7 @@ const std::vector<std::pair<std::string, std::string> > &get_mod_list_tabs()
     return mod_list_tabs;
 }
 
-const std::map<std::string, std::string> &get_mod_list_cat_tab()
+auto get_mod_list_cat_tab() -> const std::map<std::string, std::string> &
 {
     static const std::map<std::string, std::string> mod_list_cat_tab = {
         {"item_exclude", "tab_blacklist"},
@@ -119,7 +119,7 @@ mod_manager::mod_manager()
 
 mod_manager::~mod_manager() = default;
 
-std::vector<mod_id> mod_manager::all_mods() const
+auto mod_manager::all_mods() const -> std::vector<mod_id>
 {
     std::vector<mod_id> result;
     std::transform( mod_map.begin(), mod_map.end(),
@@ -129,7 +129,7 @@ std::vector<mod_id> mod_manager::all_mods() const
     return result;
 }
 
-dependency_tree &mod_manager::get_tree()
+auto mod_manager::get_tree() -> dependency_tree &
 {
     return *tree;
 }
@@ -189,7 +189,7 @@ void mod_manager::remove_invalid_mods( t_mod_list &mods ) const
 namespace mod_management
 {
 
-std::vector<MOD_INFORMATION> load_mods_from( const std::string &path )
+auto load_mods_from( const std::string &path ) -> std::vector<MOD_INFORMATION>
 {
     std::vector<MOD_INFORMATION> out;
 
@@ -232,7 +232,7 @@ std::vector<MOD_INFORMATION> load_mods_from( const std::string &path )
     return out;
 }
 
-cata::optional<MOD_INFORMATION> load_modfile( const JsonObject &jo, const std::string &path )
+auto load_modfile( const JsonObject &jo, const std::string &path ) -> cata::optional<MOD_INFORMATION>
 {
     if( !jo.has_string( "type" ) || jo.get_string( "type" ) != "MOD_INFO" ) {
         // Ignore anything that is not a mod-info
@@ -335,7 +335,7 @@ void load_mod_info( const std::string &info_file_path, std::vector<MOD_INFORMATI
     } );
 }
 
-bool save_mod_list( const t_mod_list &list, const std::string &path )
+auto save_mod_list( const t_mod_list &list, const std::string &path ) -> bool
 {
     return write_to_file( path, [&]( std::ostream & fout ) {
         JsonOut json( fout, true ); // pretty-print
@@ -343,7 +343,7 @@ bool save_mod_list( const t_mod_list &list, const std::string &path )
     }, _( "list of default mods" ) );
 }
 
-cata::optional<t_mod_list> load_mod_list( const std::string &path )
+auto load_mod_list( const std::string &path ) -> cata::optional<t_mod_list>
 {
     t_mod_list res;
 
@@ -395,13 +395,13 @@ void mod_manager::add_mods( std::vector<MOD_INFORMATION> &&list )
     }
 }
 
-bool mod_manager::set_default_mods( const t_mod_list &mods )
+auto mod_manager::set_default_mods( const t_mod_list &mods ) -> bool
 {
     default_mods = mods;
     return mod_management::save_mod_list( mods, PATH_INFO::mods_user_default() );
 }
 
-std::string mod_manager::get_mods_list_file( const WORLDPTR world )
+auto mod_manager::get_mods_list_file( const WORLDPTR world ) -> std::string
 {
     return world->folder_path() + "/mods.json";
 }
@@ -455,19 +455,19 @@ void mod_manager::load_mods_list( WORLDPTR world ) const
     }
 }
 
-const mod_manager::t_mod_list &mod_manager::get_default_mods() const
+auto mod_manager::get_default_mods() const -> const mod_manager::t_mod_list &
 {
     return default_mods;
 }
 
-inline bool compare_mod_by_name_and_category( const MOD_INFORMATION *const a,
-        const MOD_INFORMATION *const b )
+inline auto compare_mod_by_name_and_category( const MOD_INFORMATION *const a,
+        const MOD_INFORMATION *const b ) -> bool
 {
     return localized_compare( std::make_pair( a->category, a->name() ),
                               std::make_pair( b->category, b->name() ) );
 }
 
-std::vector<mod_id> mod_manager::get_all_sorted() const
+auto mod_manager::get_all_sorted() const -> std::vector<mod_id>
 {
     std::vector<mod_id> available_cores, available_supplementals;
     std::vector<mod_id> ordered_mods;
@@ -504,7 +504,7 @@ translatable_mod_info::translatable_mod_info( std::string name,
     language_version = INVALID_LANGUAGE_VERSION;
 }
 
-std::string translatable_mod_info::name()
+auto translatable_mod_info::name() -> std::string
 {
     if( name_raw.empty() ) {
         return "";
@@ -515,7 +515,7 @@ std::string translatable_mod_info::name()
     return name_tr;
 }
 
-std::string translatable_mod_info::description()
+auto translatable_mod_info::description() -> std::string
 {
     if( description_raw.empty() ) {
         return "";

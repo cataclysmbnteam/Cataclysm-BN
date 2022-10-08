@@ -26,7 +26,7 @@ class anatomy
         float size_sum = 0.0f;
 
         // TODO: get_better_name_for_function
-        bodypart_str_id get_part_with_cumulative_hit_size( float size ) const;
+        auto get_part_with_cumulative_hit_size( float size ) const -> bodypart_str_id;
 
     public:
         anatomy_id id;
@@ -34,14 +34,14 @@ class anatomy
 
         anatomy() = default;
         anatomy( const anatomy & ) = default;
-        anatomy &operator=( const anatomy & ) = default;
+        auto operator=( const anatomy & ) -> anatomy & = default;
 
         /** Returns a random body_part token. main_parts_only will limit it to arms, legs, torso, and head. */
-        bodypart_id random_body_part() const;
+        auto random_body_part() const -> bodypart_id;
         /** Returns a random body part dependent on attacker's relative size and hit roll. */
-        bodypart_id select_body_part( int size_diff, int hit_roll ) const;
+        auto select_body_part( int size_diff, int hit_roll ) const -> bodypart_id;
 
-        std::vector<bodypart_id> get_bodyparts() const;
+        auto get_bodyparts() const -> std::vector<bodypart_id>;
         void add_body_part( const bodypart_str_id &new_bp );
         // TODO: remove_body_part
 

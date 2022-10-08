@@ -42,8 +42,8 @@ class mapbuffer
          * is not stored than and the caller must take of the submap object
          * on their own (and properly delete it).
          */
-        bool add_submap( const tripoint &p, std::unique_ptr<submap> &sm );
-        bool add_submap( const tripoint &p, submap *sm );
+        auto add_submap( const tripoint &p, std::unique_ptr<submap> &sm ) -> bool;
+        auto add_submap( const tripoint &p, submap *sm ) -> bool;
 
         /** Get a submap stored in this buffer.
          *
@@ -53,8 +53,8 @@ class mapbuffer
          * and could not be loaded. The mapbuffer takes care of the returned
          * submap object, don't delete it on your own.
          */
-        submap *lookup_submap( const tripoint &p );
-        submap *lookup_submap( const tripoint_abs_sm &p ) {
+        auto lookup_submap( const tripoint &p ) -> submap *;
+        auto lookup_submap( const tripoint_abs_sm &p ) -> submap * {
             return lookup_submap( p.raw() );
         }
 
@@ -62,14 +62,14 @@ class mapbuffer
         using submap_map_t = std::map<tripoint, submap *>;
 
     public:
-        inline submap_map_t::iterator begin() {
+        inline auto begin() -> submap_map_t::iterator {
             return submaps.begin();
         }
-        inline submap_map_t::iterator end() {
+        inline auto end() -> submap_map_t::iterator {
             return submaps.end();
         }
 
-        bool is_submap_loaded( const tripoint &p ) const {
+        auto is_submap_loaded( const tripoint &p ) const -> bool {
             return submaps.count( p ) > 0;
         }
 
@@ -77,7 +77,7 @@ class mapbuffer
         // There's a very good reason this is private,
         // if not handled carefully, this can erase in-use submaps and crash the game.
         void remove_submap( tripoint addr );
-        submap *unserialize_submaps( const tripoint &p );
+        auto unserialize_submaps( const tripoint &p ) -> submap *;
         void deserialize( JsonIn &jsin );
         void save_quad( const std::string &dirname, const std::string &filename,
                         const tripoint &om_addr, std::list<tripoint> &submaps_to_delete,

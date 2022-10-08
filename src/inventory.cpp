@@ -56,7 +56,7 @@ struct itype;
 const invlet_wrapper
 inv_chars( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()+.:;=@[\\]^_{|}" );
 
-bool invlet_wrapper::valid( const int invlet ) const
+auto invlet_wrapper::valid( const int invlet ) const -> bool
 {
     if( invlet > std::numeric_limits<char>::max() || invlet < std::numeric_limits<char>::min() ) {
         return false;
@@ -107,13 +107,13 @@ void invlet_favorites::erase( char invlet )
     ids_by_invlet[invlet_u] = itype_id();
 }
 
-bool invlet_favorites::contains( char invlet, const itype_id &id ) const
+auto invlet_favorites::contains( char invlet, const itype_id &id ) const -> bool
 {
     uint8_t invlet_u = invlet;
     return ids_by_invlet[invlet_u] == id;
 }
 
-std::string invlet_favorites::invlets_for( const itype_id &id ) const
+auto invlet_favorites::invlets_for( const itype_id &id ) const -> std::string
 {
     auto map_iterator = invlets_by_id.find( id );
     if( map_iterator == invlets_by_id.end() ) {
@@ -122,15 +122,15 @@ std::string invlet_favorites::invlets_for( const itype_id &id ) const
     return map_iterator->second;
 }
 
-const std::unordered_map<itype_id, std::string> &
-invlet_favorites::get_invlets_by_id() const
+auto
+invlet_favorites::get_invlets_by_id() const -> const std::unordered_map<itype_id, std::string> &
 {
     return invlets_by_id;
 }
 
 inventory::inventory() = default;
 
-invslice inventory::slice()
+auto inventory::slice() -> invslice
 {
     invslice stacks;
     for( auto &elem : items ) {
@@ -139,7 +139,7 @@ invslice inventory::slice()
     return stacks;
 }
 
-const_invslice inventory::const_slice() const
+auto inventory::const_slice() const -> const_invslice
 {
     const_invslice stacks;
     for( const auto &item : items ) {
@@ -148,7 +148,7 @@ const_invslice inventory::const_slice() const
     return stacks;
 }
 
-const std::list<item> &inventory::const_stack( int i ) const
+auto inventory::const_stack( int i ) const -> const std::list<item> &
 {
     if( i < 0 || i >= static_cast<int>( items.size() ) ) {
         debugmsg( "Attempted to access stack %d in an inventory (size %d)", i, items.size() );
@@ -163,12 +163,12 @@ const std::list<item> &inventory::const_stack( int i ) const
     return *iter;
 }
 
-size_t inventory::size() const
+auto inventory::size() const -> size_t
 {
     return items.size();
 }
 
-inventory &inventory::operator+= ( const inventory &rhs )
+auto inventory::operator+= ( const inventory &rhs ) -> inventory &
 {
     for( size_t i = 0; i < rhs.size(); i++ ) {
         push_back( rhs.const_stack( i ) );
@@ -176,7 +176,7 @@ inventory &inventory::operator+= ( const inventory &rhs )
     return *this;
 }
 
-inventory &inventory::operator+= ( const std::list<item> &rhs )
+auto inventory::operator+= ( const std::list<item> &rhs ) -> inventory &
 {
     for( const auto &rh : rhs ) {
         add_item( rh, false, false );
@@ -184,7 +184,7 @@ inventory &inventory::operator+= ( const std::list<item> &rhs )
     return *this;
 }
 
-inventory &inventory::operator+= ( const std::vector<item> &rhs )
+auto inventory::operator+= ( const std::vector<item> &rhs ) -> inventory &
 {
     for( const auto &rh : rhs ) {
         add_item( rh, true );
@@ -192,13 +192,13 @@ inventory &inventory::operator+= ( const std::vector<item> &rhs )
     return *this;
 }
 
-inventory &inventory::operator+= ( const item &rhs )
+auto inventory::operator+= ( const item &rhs ) -> inventory &
 {
     add_item( rhs );
     return *this;
 }
 
-inventory &inventory::operator+= ( const item_stack &rhs )
+auto inventory::operator+= ( const item_stack &rhs ) -> inventory &
 {
     for( const auto &p : rhs ) {
         if( !p.made_of( LIQUID ) ) {
@@ -208,17 +208,17 @@ inventory &inventory::operator+= ( const item_stack &rhs )
     return *this;
 }
 
-inventory inventory::operator+ ( const inventory &rhs )
+auto inventory::operator+ ( const inventory &rhs ) -> inventory
 {
     return inventory( *this ) += rhs;
 }
 
-inventory inventory::operator+ ( const std::list<item> &rhs )
+auto inventory::operator+ ( const std::list<item> &rhs ) -> inventory
 {
     return inventory( *this ) += rhs;
 }
 
-inventory inventory::operator+ ( const item &rhs )
+auto inventory::operator+ ( const item &rhs ) -> inventory
 {
     return inventory( *this ) += rhs;
 }
@@ -229,7 +229,7 @@ void inventory::unsort()
     items_type_cached = false;
 }
 
-static bool stack_compare( const std::list<item> &lhs, const std::list<item> &rhs )
+static auto stack_compare( const std::list<item> &lhs, const std::list<item> &rhs ) -> bool
 {
     return lhs.front() < rhs.front();
 }
@@ -264,7 +264,7 @@ void inventory::update_cache_with_item( item &newit )
     invlet_cache.set( newit.invlet, newit.typeId() );
 }
 
-char inventory::find_usable_cached_invlet( const itype_id &item_type )
+auto inventory::find_usable_cached_invlet( const itype_id &item_type ) -> char
 {
     // Some of our preferred letters might already be used.
     for( auto invlet : invlet_cache.invlets_for( item_type ) ) {
@@ -282,7 +282,7 @@ char inventory::find_usable_cached_invlet( const itype_id &item_type )
     return 0;
 }
 
-item &inventory::add_item( item newit, bool keep_invlet, bool assign_invlet, bool should_stack )
+auto inventory::add_item( item newit, bool keep_invlet, bool assign_invlet, bool should_stack ) -> item &
 {
     binned = false;
     items_type_cached = false;
@@ -334,8 +334,8 @@ void inventory::build_items_type_cache()
     items_type_cached = true;
 }
 
-item &inventory::add_item_by_items_type_cache( item newit, bool keep_invlet, bool assign_invlet,
-        bool should_stack )
+auto inventory::add_item_by_items_type_cache( item newit, bool keep_invlet, bool assign_invlet,
+        bool should_stack ) -> item &
 {
     binned = false;
     if( !items_type_cached ) {
@@ -459,7 +459,7 @@ void inventory::restack( player &p )
 #endif
 }
 
-static int count_charges_in_list( const itype *type, const map_stack &items )
+static auto count_charges_in_list( const itype *type, const map_stack &items ) -> int
 {
     for( const auto &candidate : items ) {
         if( candidate.type == type ) {
@@ -689,7 +689,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
     pts.clear();
 }
 
-std::list<item> inventory::reduce_stack( const int position, const int quantity )
+auto inventory::reduce_stack( const int position, const int quantity ) -> std::list<item>
 {
     int pos = 0;
     std::list<item> ret;
@@ -712,7 +712,7 @@ std::list<item> inventory::reduce_stack( const int position, const int quantity 
     return ret;
 }
 
-item inventory::remove_item( const item *it )
+auto inventory::remove_item( const item *it ) -> item
 {
     auto tmp = remove_items_with( [&it]( const item & i ) {
         return &i == it;
@@ -726,7 +726,7 @@ item inventory::remove_item( const item *it )
     return item();
 }
 
-item inventory::remove_item( const int position )
+auto inventory::remove_item( const int position ) -> item
 {
     int pos = 0;
     for( invstack::iterator iter = items.begin(); iter != items.end(); ++iter ) {
@@ -752,7 +752,7 @@ item inventory::remove_item( const int position )
     return item();
 }
 
-std::list<item> inventory::remove_randomly_by_volume( const units::volume &volume )
+auto inventory::remove_randomly_by_volume( const units::volume &volume ) -> std::list<item>
 {
     std::list<item> result;
     units::volume volume_dropped = 0_ml;
@@ -794,7 +794,7 @@ void inventory::dump( std::vector<item *> &dest )
     }
 }
 
-const item &inventory::find_item( int position ) const
+auto inventory::find_item( int position ) const -> const item &
 {
     if( position < 0 || position >= static_cast<int>( items.size() ) ) {
         return null_item_reference();
@@ -806,12 +806,12 @@ const item &inventory::find_item( int position ) const
     return iter->front();
 }
 
-item &inventory::find_item( int position )
+auto inventory::find_item( int position ) -> item &
 {
     return const_cast<item &>( const_cast<const inventory *>( this )->find_item( position ) );
 }
 
-int inventory::invlet_to_position( char invlet ) const
+auto inventory::invlet_to_position( char invlet ) const -> int
 {
     int i = 0;
     for( const auto &elem : items ) {
@@ -823,7 +823,7 @@ int inventory::invlet_to_position( char invlet ) const
     return INT_MIN;
 }
 
-int inventory::position_by_item( const item *it ) const
+auto inventory::position_by_item( const item *it ) const -> int
 {
     int p = 0;
     for( const auto &stack : items ) {
@@ -837,7 +837,7 @@ int inventory::position_by_item( const item *it ) const
     return INT_MIN;
 }
 
-int inventory::position_by_type( const itype_id &type ) const
+auto inventory::position_by_type( const itype_id &type ) const -> int
 {
     int i = 0;
     for( auto &elem : items ) {
@@ -849,8 +849,8 @@ int inventory::position_by_type( const itype_id &type ) const
     return INT_MIN;
 }
 
-std::list<item> inventory::use_amount( itype_id it, int quantity,
-                                       const std::function<bool( const item & )> &filter )
+auto inventory::use_amount( itype_id it, int quantity,
+                                       const std::function<bool( const item & )> &filter ) -> std::list<item>
 {
     items.sort( stack_compare );
     std::list<item> ret;
@@ -875,25 +875,25 @@ std::list<item> inventory::use_amount( itype_id it, int quantity,
     return ret;
 }
 
-bool inventory::has_tools( const itype_id &it, int quantity,
-                           const std::function<bool( const item & )> &filter ) const
+auto inventory::has_tools( const itype_id &it, int quantity,
+                           const std::function<bool( const item & )> &filter ) const -> bool
 {
     return has_amount( it, quantity, true, filter );
 }
 
-bool inventory::has_components( const itype_id &it, int quantity,
-                                const std::function<bool( const item & )> &filter ) const
+auto inventory::has_components( const itype_id &it, int quantity,
+                                const std::function<bool( const item & )> &filter ) const -> bool
 {
     return has_amount( it, quantity, false, filter );
 }
 
-bool inventory::has_charges( const itype_id &it, int quantity,
-                             const std::function<bool( const item & )> &filter ) const
+auto inventory::has_charges( const itype_id &it, int quantity,
+                             const std::function<bool( const item & )> &filter ) const -> bool
 {
     return ( charges_of( it, INT_MAX, filter ) >= quantity );
 }
 
-int inventory::leak_level( const std::string &flag ) const
+auto inventory::leak_level( const std::string &flag ) const -> int
 {
     int ret = 0;
 
@@ -911,7 +911,7 @@ int inventory::leak_level( const std::string &flag ) const
     return ret;
 }
 
-int inventory::worst_item_value( npc *p ) const
+auto inventory::worst_item_value( npc *p ) const -> int
 {
     int worst = 99999;
     for( const auto &elem : items ) {
@@ -924,7 +924,7 @@ int inventory::worst_item_value( npc *p ) const
     return worst;
 }
 
-bool inventory::has_enough_painkiller( int pain ) const
+auto inventory::has_enough_painkiller( int pain ) const -> bool
 {
     for( const auto &elem : items ) {
         const item &it = elem.front();
@@ -937,7 +937,7 @@ bool inventory::has_enough_painkiller( int pain ) const
     return false;
 }
 
-item *inventory::most_appropriate_painkiller( int pain )
+auto inventory::most_appropriate_painkiller( int pain ) -> item *
 {
     int difference = 9999;
     item *ret = &null_item_reference();
@@ -991,7 +991,7 @@ void inventory::rust_iron_items()
     }
 }
 
-units::mass inventory::weight() const
+auto inventory::weight() const -> units::mass
 {
     units::mass ret = 0_gram;
     for( const auto &elem : items ) {
@@ -1036,7 +1036,7 @@ void for_each_item_in_both(
     }
 }
 
-units::mass inventory::weight_without( const excluded_stacks &without ) const
+auto inventory::weight_without( const excluded_stacks &without ) const -> units::mass
 {
     units::mass ret = weight();
 
@@ -1054,7 +1054,7 @@ units::mass inventory::weight_without( const excluded_stacks &without ) const
     return ret;
 }
 
-units::volume inventory::volume() const
+auto inventory::volume() const -> units::volume
 {
     units::volume ret = 0_ml;
     for( const auto &elem : items ) {
@@ -1065,7 +1065,7 @@ units::volume inventory::volume() const
     return ret;
 }
 
-units::volume inventory::volume_without( const excluded_stacks &without ) const
+auto inventory::volume_without( const excluded_stacks &without ) const -> units::volume
 {
     units::volume ret = volume();
 
@@ -1083,7 +1083,7 @@ units::volume inventory::volume_without( const excluded_stacks &without ) const
     return ret;
 }
 
-std::vector<item *> inventory::active_items()
+auto inventory::active_items() -> std::vector<item *>
 {
     std::vector<item *> ret;
     for( std::list<item> &elem : items ) {
@@ -1096,7 +1096,7 @@ std::vector<item *> inventory::active_items()
     return ret;
 }
 
-enchantment inventory::get_active_enchantment_cache( const Character &owner ) const
+auto inventory::get_active_enchantment_cache( const Character &owner ) const -> enchantment
 {
     enchantment temp_cache;
     for( const std::list<item> &elem : items ) {
@@ -1126,12 +1126,12 @@ void inventory::update_quality_cache()
     } );
 }
 
-const std::map<quality_id, std::map<int, int>> &inventory::get_quality_cache() const
+auto inventory::get_quality_cache() const -> const std::map<quality_id, std::map<int, int>> &
 {
     return quality_cache;
 }
 
-int inventory::count_item( const itype_id &item_type ) const
+auto inventory::count_item( const itype_id &item_type ) const -> int
 {
     int num = 0;
     const itype_bin bin = get_binned_items();
@@ -1255,7 +1255,7 @@ void inventory::set_stack_favorite( const int position, const bool favorite )
     }
 }
 
-invlets_bitset inventory::allocated_invlets() const
+auto inventory::allocated_invlets() const -> invlets_bitset
 {
     invlets_bitset invlets;
 
@@ -1267,7 +1267,7 @@ invlets_bitset inventory::allocated_invlets() const
     return invlets;
 }
 
-const itype_bin &inventory::get_binned_items() const
+auto inventory::get_binned_items() const -> const itype_bin &
 {
     if( binned ) {
         return binned_items;

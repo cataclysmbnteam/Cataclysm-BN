@@ -31,20 +31,20 @@ class save_t
         save_t( const std::string &name );
 
     public:
-        std::string player_name() const;
-        std::string base_path() const;
+        auto player_name() const -> std::string;
+        auto base_path() const -> std::string;
 
-        static save_t from_player_name( const std::string &name );
-        static save_t from_base_path( const std::string &base_path );
+        static auto from_player_name( const std::string &name ) -> save_t;
+        static auto from_base_path( const std::string &base_path ) -> save_t;
 
-        bool operator==( const save_t &rhs ) const {
+        auto operator==( const save_t &rhs ) const -> bool {
             return name == rhs.name;
         }
-        bool operator!=( const save_t &rhs ) const {
+        auto operator!=( const save_t &rhs ) const -> bool {
             return !operator==( rhs );
         }
         save_t( const save_t & ) = default;
-        save_t &operator=( const save_t & ) = default;
+        auto operator=( const save_t & ) -> save_t & = default;
 };
 
 struct WORLD {
@@ -54,7 +54,7 @@ struct WORLD {
          * all the world specific files. It depends on @ref world_name,
          * changing that will also change the result of this function.
          */
-        std::string folder_path() const;
+        auto folder_path() const -> std::string;
 
         std::string world_name;
         options_manager::options_container WORLD_OPTIONS;
@@ -68,13 +68,13 @@ struct WORLD {
         WORLD();
         void COPY_WORLD( const WORLD *world_to_copy );
 
-        bool save_exists( const save_t &name ) const;
+        auto save_exists( const save_t &name ) const -> bool;
         void add_save( const save_t &name );
 
-        bool save( bool is_conversion = false ) const;
+        auto save( bool is_conversion = false ) const -> bool;
 
         void load_options( JsonIn &jsin );
-        bool load_options();
+        auto load_options() -> bool;
         void load_legacy_options( std::istream &fin );
 };
 
@@ -91,33 +91,33 @@ class worldfactory
         ~worldfactory();
 
         // Generate a world
-        WORLDPTR make_new_world( bool show_prompt = true, const std::string &world_to_copy = "" );
-        WORLDPTR make_new_world( special_game_id special_type );
+        auto make_new_world( bool show_prompt = true, const std::string &world_to_copy = "" ) -> WORLDPTR;
+        auto make_new_world( special_game_id special_type ) -> WORLDPTR;
         // Used for unit tests - does NOT verify if the mods can be loaded
-        WORLDPTR make_new_world( const std::vector<mod_id> &mods );
+        auto make_new_world( const std::vector<mod_id> &mods ) -> WORLDPTR;
         /// Returns the *existing* world of given name.
-        WORLDPTR get_world( const std::string &name );
-        bool has_world( const std::string &name ) const;
+        auto get_world( const std::string &name ) -> WORLDPTR;
+        auto has_world( const std::string &name ) const -> bool;
 
         void set_active_world( WORLDPTR world );
 
         void init();
 
-        WORLDPTR pick_world( bool show_prompt = true );
+        auto pick_world( bool show_prompt = true ) -> WORLDPTR;
 
         WORLDPTR active_world;
 
-        std::vector<std::string> all_worldnames() const;
+        auto all_worldnames() const -> std::vector<std::string>;
 
         std::string last_world_name;
         std::string last_character_name;
 
         void save_last_world_info();
 
-        mod_manager &get_mod_manager();
+        auto get_mod_manager() -> mod_manager &;
 
         void remove_world( const std::string &worldname );
-        bool valid_worldname( const std::string &name, bool automated = false );
+        auto valid_worldname( const std::string &name, bool automated = false ) -> bool;
 
         /**
          * @param delete_folder If true: delete all the files and directories  of the given
@@ -135,18 +135,18 @@ class worldfactory
 
         void load_last_world_info();
 
-        std::string pick_random_name();
-        int show_worldgen_tab_options( const catacurses::window &win, WORLDPTR world,
-                                       const std::function<bool()> &on_quit );
-        int show_worldgen_tab_modselection( const catacurses::window &win, WORLDPTR world,
-                                            const std::function<bool()> &on_quit );
-        int show_worldgen_tab_confirm( const catacurses::window &win, WORLDPTR world,
-                                       const std::function<bool()> &on_quit );
+        auto pick_random_name() -> std::string;
+        auto show_worldgen_tab_options( const catacurses::window &win, WORLDPTR world,
+                                       const std::function<bool()> &on_quit ) -> int;
+        auto show_worldgen_tab_modselection( const catacurses::window &win, WORLDPTR world,
+                                            const std::function<bool()> &on_quit ) -> int;
+        auto show_worldgen_tab_confirm( const catacurses::window &win, WORLDPTR world,
+                                       const std::function<bool()> &on_quit ) -> int;
 
-        int show_modselection_window( const catacurses::window &win, std::vector<mod_id> &active_mod_order,
+        auto show_modselection_window( const catacurses::window &win, std::vector<mod_id> &active_mod_order,
                                       const std::function<bool()> &on_quit,
                                       const std::function<bool()> &on_backtab,
-                                      bool standalone );
+                                      bool standalone ) -> int;
         void draw_modselection_borders( const catacurses::window &win, const input_context &ctxtp,
                                         bool standalone );
         static void draw_empty_worldgen_tabs( const catacurses::window &w );
@@ -154,7 +154,7 @@ class worldfactory
                             const std::vector<mod_id> &mods, bool is_active_list, const std::string &text_if_empty,
                             const catacurses::window &w_shift );
 
-        WORLDPTR add_world( std::unique_ptr<WORLD> retworld );
+        auto add_world( std::unique_ptr<WORLD> retworld ) -> WORLDPTR;
 
         pimpl<mod_manager> mman;
         pimpl<mod_ui> mman_ui;

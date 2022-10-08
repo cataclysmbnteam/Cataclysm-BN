@@ -356,7 +356,7 @@ struct mtype {
          * species is a set and can contain several species, one entry that is
          * in both monster types fulfills that test.
          */
-        bool same_species( const mtype &other ) const;
+        auto same_species( const mtype &other ) const -> bool;
         /**
          * If this is not empty, the monster can be converted into an item
          * of this type (if it's friendly).
@@ -381,36 +381,36 @@ struct mtype {
         pathfinding_settings path_settings;
 
         // Used to fetch the properly pluralized monster type name
-        std::string nname( unsigned int quantity = 1 ) const;
-        bool has_special_attack( const std::string &attack_name ) const;
-        bool has_flag( m_flag flag ) const;
+        auto nname( unsigned int quantity = 1 ) const -> std::string;
+        auto has_special_attack( const std::string &attack_name ) const -> bool;
+        auto has_flag( m_flag flag ) const -> bool;
         void set_flag( m_flag flag, bool state = true );
-        bool made_of( const material_id &material ) const;
-        bool made_of_any( const std::set<material_id> &materials ) const;
-        bool has_anger_trigger( mon_trigger trigger ) const;
-        bool has_fear_trigger( mon_trigger trigger ) const;
-        bool has_placate_trigger( mon_trigger trigger ) const;
-        bool in_category( const std::string &category ) const;
-        bool in_species( const species_id &spec ) const;
-        bool in_species( const species_type &spec ) const;
-        std::vector<std::string> species_descriptions() const;
+        auto made_of( const material_id &material ) const -> bool;
+        auto made_of_any( const std::set<material_id> &materials ) const -> bool;
+        auto has_anger_trigger( mon_trigger trigger ) const -> bool;
+        auto has_fear_trigger( mon_trigger trigger ) const -> bool;
+        auto has_placate_trigger( mon_trigger trigger ) const -> bool;
+        auto in_category( const std::string &category ) const -> bool;
+        auto in_species( const species_id &spec ) const -> bool;
+        auto in_species( const species_type &spec ) const -> bool;
+        auto species_descriptions() const -> std::vector<std::string>;
         //Used for corpses.
-        field_type_id bloodType() const;
-        field_type_id gibType() const;
+        auto bloodType() const -> field_type_id;
+        auto gibType() const -> field_type_id;
         // The item id of the meat items that are produced by this monster (or "null")
         // if there is no matching item type. e.g. "veggy" for plant monsters.
-        itype_id get_meat_itype() const;
-        int get_meat_chunks_count() const;
-        std::string get_description() const;
-        std::string get_footsteps() const;
+        auto get_meat_itype() const -> itype_id;
+        auto get_meat_chunks_count() const -> int;
+        auto get_description() const -> std::string;
+        auto get_footsteps() const -> std::string;
         void set_strategy();
         void add_goal( const std::string &goal_id );
-        const behavior::node_t *get_goals() const;
+        auto get_goals() const -> const behavior::node_t *;
 
         // Historically located in monstergenerator.cpp
         void load( const JsonObject &jo, const std::string &src );
 };
 
-mon_effect_data load_mon_effect_data( const JsonObject &e );
+auto load_mon_effect_data( const JsonObject &e ) -> mon_effect_data;
 
 #endif // CATA_SRC_MTYPE_H

@@ -49,7 +49,7 @@ class wish_mutate_callback: public uilist_callback
         std::map<trait_id, bool> pTraits;
         player *p;
 
-        nc_color mcolor( const trait_id &m ) {
+        auto mcolor( const trait_id &m ) -> nc_color {
             if( pTraits[ m ] ) {
                 return c_green;
             }
@@ -57,7 +57,7 @@ class wish_mutate_callback: public uilist_callback
         }
 
         wish_mutate_callback() = default;
-        bool key( const input_context &, const input_event &event, int entnum, uilist *menu ) override {
+        auto key( const input_context &, const input_event &event, int entnum, uilist *menu ) -> bool override {
             if( event.get_first_input() == 't' && p->has_trait( vTraits[ entnum ] ) ) {
                 if( p->has_base_trait( vTraits[ entnum ] ) ) {
                     p->toggle_trait( vTraits[ entnum ] );
@@ -339,8 +339,8 @@ class wish_monster_callback: public uilist_callback
             lastent = -2;
         }
 
-        bool key( const input_context &, const input_event &event, int /*entnum*/,
-                  uilist * /*menu*/ ) override {
+        auto key( const input_context &, const input_event &event, int /*entnum*/,
+                  uilist * /*menu*/ ) -> bool override {
             if( event.get_first_input() == 'f' ) {
                 friendly = !friendly;
                 // Force tmp monster regen
@@ -482,8 +482,8 @@ class wish_item_callback: public uilist_callback
             }
         }
 
-        bool key( const input_context &, const input_event &event, int /*entnum*/,
-                  uilist * /*menu*/ ) override {
+        auto key( const input_context &, const input_event &event, int /*entnum*/,
+                  uilist * /*menu*/ ) -> bool override {
             if( event.get_first_input() == 'f' ) {
                 incontainer = !incontainer;
                 return true;

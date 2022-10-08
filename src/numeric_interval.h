@@ -20,15 +20,15 @@ struct numeric_interval {
         min( middle - lower_margin ), max( middle + upper_margin ) {
     }
 
-    bool operator==( const numeric_interval<T> &rhs ) const {
+    auto operator==( const numeric_interval<T> &rhs ) const -> bool {
         return min == rhs.min && max == rhs.max;
     }
 
-    bool contains( T val ) const {
+    auto contains( T val ) const -> bool {
         return val >= min && val <= max;
     }
 
-    bool empty() const {
+    auto empty() const -> bool {
         return max == 0 || min > max;
     }
 

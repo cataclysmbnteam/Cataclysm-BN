@@ -7,12 +7,12 @@
 #include "units.h"
 #include "debug.h"
 
-size_t item_stack::size() const
+auto item_stack::size() const -> size_t
 {
     return items->size();
 }
 
-bool item_stack::empty() const
+auto item_stack::empty() const -> bool
 {
     return items->empty();
 }
@@ -25,62 +25,62 @@ void item_stack::clear()
     }
 }
 
-item_stack::iterator item_stack::begin()
+auto item_stack::begin() -> item_stack::iterator
 {
     return items->begin();
 }
 
-item_stack::iterator item_stack::end()
+auto item_stack::end() -> item_stack::iterator
 {
     return items->end();
 }
 
-item_stack::const_iterator item_stack::begin() const
+auto item_stack::begin() const -> item_stack::const_iterator
 {
     return items->cbegin();
 }
 
-item_stack::const_iterator item_stack::end() const
+auto item_stack::end() const -> item_stack::const_iterator
 {
     return items->cend();
 }
 
-item_stack::reverse_iterator item_stack::rbegin()
+auto item_stack::rbegin() -> item_stack::reverse_iterator
 {
     return items->rbegin();
 }
 
-item_stack::reverse_iterator item_stack::rend()
+auto item_stack::rend() -> item_stack::reverse_iterator
 {
     return items->rend();
 }
 
-item_stack::const_reverse_iterator item_stack::rbegin() const
+auto item_stack::rbegin() const -> item_stack::const_reverse_iterator
 {
     return items->crbegin();
 }
 
-item_stack::const_reverse_iterator item_stack::rend() const
+auto item_stack::rend() const -> item_stack::const_reverse_iterator
 {
     return items->crend();
 }
 
-item_stack::iterator item_stack::get_iterator_from_pointer( item *it )
+auto item_stack::get_iterator_from_pointer( item *it ) -> item_stack::iterator
 {
     return items->get_iterator_from_pointer( it );
 }
 
-item_stack::iterator item_stack::get_iterator_from_index( size_t idx )
+auto item_stack::get_iterator_from_index( size_t idx ) -> item_stack::iterator
 {
     return items->get_iterator_from_index( idx );
 }
 
-size_t item_stack::get_index_from_iterator( const item_stack::const_iterator &it )
+auto item_stack::get_index_from_iterator( const item_stack::const_iterator &it ) -> size_t
 {
     return items->get_index_from_iterator( it );
 }
 
-item &item_stack::only_item()
+auto item_stack::only_item() -> item &
 {
     if( empty() ) {
         debugmsg( "Missing item at target location" );
@@ -95,7 +95,7 @@ item &item_stack::only_item()
     return *items->begin();
 }
 
-units::volume item_stack::stored_volume() const
+auto item_stack::stored_volume() const -> units::volume
 {
     units::volume ret = 0_ml;
     for( const item &it : *items ) {
@@ -104,7 +104,7 @@ units::volume item_stack::stored_volume() const
     return ret;
 }
 
-int item_stack::amount_can_fit( const item &it ) const
+auto item_stack::amount_can_fit( const item &it ) const -> int
 {
     // Without stacking charges, would we violate the count limit?
     const bool violates_count = size() >= static_cast<size_t>( count_limit() );
@@ -118,7 +118,7 @@ int item_stack::amount_can_fit( const item &it ) const
     return it.count_by_charges() ? std::min( ret, it.charges ) : ret;
 }
 
-item *item_stack::stacks_with( const item &it )
+auto item_stack::stacks_with( const item &it ) -> item *
 {
     for( item &here : *items ) {
         if( here.stacks_with( it ) ) {
@@ -128,7 +128,7 @@ item *item_stack::stacks_with( const item &it )
     return nullptr;
 }
 
-const item *item_stack::stacks_with( const item &it ) const
+auto item_stack::stacks_with( const item &it ) const -> const item *
 {
     for( const item &here : *items ) {
         if( here.stacks_with( it ) ) {
@@ -138,7 +138,7 @@ const item *item_stack::stacks_with( const item &it ) const
     return nullptr;
 }
 
-units::volume item_stack::free_volume() const
+auto item_stack::free_volume() const -> units::volume
 {
     return max_volume() - stored_volume();
 }

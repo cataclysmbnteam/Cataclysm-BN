@@ -88,9 +88,9 @@ static const std::string flag_SWIMMABLE( "SWIMMABLE" );
 
 #define dbg(x) DebugLog((x), DC::SDL)
 
-bool can_fire_turret( avatar &you, const map &m, const turret_data &turret );
+auto can_fire_turret( avatar &you, const map &m, const turret_data &turret ) -> bool;
 
-bool avatar_action::move( avatar &you, map &m, const tripoint &d )
+auto avatar_action::move( avatar &you, map &m, const tripoint &d ) -> bool
 {
     if( ( !g->check_safe_mode_allowed() ) || you.has_active_mutation( trait_SHELL2 ) ) {
         if( you.has_active_mutation( trait_SHELL2 ) ) {
@@ -440,7 +440,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     return false;
 }
 
-bool avatar_action::ramp_move( avatar &you, map &m, const tripoint &dest_loc )
+auto avatar_action::ramp_move( avatar &you, map &m, const tripoint &dest_loc ) -> bool
 {
     if( dest_loc.z != you.posz() ) {
         // No recursive ramp_moves
@@ -573,7 +573,7 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
     you.drench( 100, drenchFlags, true );
 }
 
-static float rate_critter( const Creature &c )
+static auto rate_critter( const Creature &c ) -> float
 {
     const npc *np = dynamic_cast<const npc *>( &c );
     if( np != nullptr ) {
@@ -616,7 +616,7 @@ void avatar_action::autoattack( avatar &you, map &m )
     you.reach_attack( best.pos() );
 }
 
-bool avatar_action::can_fire_weapon( avatar &you, const map &m, const item &weapon )
+auto avatar_action::can_fire_weapon( avatar &you, const map &m, const item &weapon ) -> bool
 {
     if( !weapon.is_gun() ) {
         debugmsg( "Expected item to be a gun" );
@@ -654,7 +654,7 @@ bool avatar_action::can_fire_weapon( avatar &you, const map &m, const item &weap
  * @param turret Turret to check.
  * @return True if all conditions are true, otherwise false.
  */
-bool can_fire_turret( avatar &you, const map &m, const turret_data &turret )
+auto can_fire_turret( avatar &you, const map &m, const turret_data &turret ) -> bool
 {
     const item &weapon = *turret.base();
     if( !weapon.is_gun() ) {
@@ -767,7 +767,7 @@ void avatar_action::mend( avatar &you, item_location loc )
     }
 }
 
-bool avatar_action::eat_here( avatar &you )
+auto avatar_action::eat_here( avatar &you ) -> bool
 {
     map &here = get_map();
     if( ( you.has_active_mutation( trait_RUMINANT ) || you.has_active_mutation( trait_GRAZER ) ) &&
@@ -1109,8 +1109,8 @@ void avatar_action::wield( item_location &loc )
     }
 }
 
-static item::reload_option favorite_ammo_or_select(
-    const player &u, const item &it, bool empty, bool prompt )
+static auto favorite_ammo_or_select(
+    const player &u, const item &it, bool empty, bool prompt ) -> item::reload_option
 {
     const_cast<item_location &>( u.ammo_location ).make_dirty();
     if( u.ammo_location ) {
@@ -1130,7 +1130,7 @@ static item::reload_option favorite_ammo_or_select(
     return u.select_ammo( it, prompt, empty );
 }
 
-static bool can_reload_item_or_mods( const avatar &you, const item &itm )
+static auto can_reload_item_or_mods( const avatar &you, const item &itm ) -> bool
 {
     for( const item *mod : itm.gunmods() ) {
         if( can_reload_item_or_mods( you, *mod ) ) {

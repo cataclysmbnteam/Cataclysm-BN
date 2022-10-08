@@ -49,7 +49,7 @@ static std::set<const recipe *> null_match;
 static DynamicDataLoader::deferred_json deferred;
 
 template<>
-const recipe &string_id<recipe>::obj() const
+auto string_id<recipe>::obj() const -> const recipe &
 {
     const auto iter = recipe_dict.recipes.find( *this );
     if( iter != recipe_dict.recipes.end() ) {
@@ -65,18 +65,18 @@ const recipe &string_id<recipe>::obj() const
 }
 
 template<>
-bool string_id<recipe>::is_valid() const
+auto string_id<recipe>::is_valid() const -> bool
 {
     return recipe_dict.recipes.find( *this ) != recipe_dict.recipes.end();
 }
 
-const recipe &recipe_dictionary::get_uncraft( const itype_id &id )
+auto recipe_dictionary::get_uncraft( const itype_id &id ) -> const recipe &
 {
     auto iter = recipe_dict.uncraft.find( recipe_id( id.str() ) );
     return iter != recipe_dict.uncraft.end() ? iter->second : null_recipe;
 }
 
-recipe_filter recipe_filter_by_component( const itype_id &c )
+auto recipe_filter_by_component( const itype_id &c ) -> recipe_filter
 {
     return [c]( const recipe & r ) {
         for( const auto &opts : r.simple_requirements().get_components() ) {
@@ -92,7 +92,7 @@ recipe_filter recipe_filter_by_component( const itype_id &c )
 
 // searches for left-anchored partial match in the relevant recipe requirements set
 template <class group>
-bool search_reqs( group gp, const std::string &txt )
+auto search_reqs( group gp, const std::string &txt ) -> bool
 {
     return std::any_of( gp.begin(), gp.end(), [&]( const typename group::value_type & opts ) {
         return std::any_of( opts.begin(),
@@ -103,8 +103,8 @@ bool search_reqs( group gp, const std::string &txt )
 }
 // template specialization to make component searches easier
 template<>
-bool search_reqs( std::vector<std::vector<item_comp> >  gp,
-                  const std::string &txt )
+auto search_reqs( std::vector<std::vector<item_comp> >  gp,
+                  const std::string &txt ) -> bool
 {
     return std::any_of( gp.begin(), gp.end(), [&]( const std::vector<item_comp> &opts ) {
         return std::any_of( opts.begin(), opts.end(), [&]( const item_comp & ic ) {
@@ -113,7 +113,7 @@ bool search_reqs( std::vector<std::vector<item_comp> >  gp,
     } );
 }
 
-std::vector<const recipe *> recipe_subset::favorite() const
+auto recipe_subset::favorite() const -> std::vector<const recipe *>
 {
     std::vector<const recipe *> res;
 
@@ -127,7 +127,7 @@ std::vector<const recipe *> recipe_subset::favorite() const
     return res;
 }
 
-std::vector<const recipe *> recipe_subset::hidden() const
+auto recipe_subset::hidden() const -> std::vector<const recipe *>
 {
     std::vector<const recipe *> res;
 
@@ -141,7 +141,7 @@ std::vector<const recipe *> recipe_subset::hidden() const
     return res;
 }
 
-std::vector<const recipe *> recipe_subset::recent() const
+auto recipe_subset::recent() const -> std::vector<const recipe *>
 {
     std::vector<const recipe *> res;
 
@@ -155,8 +155,8 @@ std::vector<const recipe *> recipe_subset::recent() const
 
     return res;
 }
-std::vector<const recipe *> recipe_subset::search( const std::string &txt,
-        const search_type key ) const
+auto recipe_subset::search( const std::string &txt,
+        const search_type key ) const -> std::vector<const recipe *>
 {
     std::vector<const recipe *> res;
 
@@ -210,18 +210,18 @@ recipe_subset::recipe_subset( const recipe_subset &src, const std::vector<const 
     }
 }
 
-recipe_subset recipe_subset::reduce( const std::string &txt, const search_type key ) const
+auto recipe_subset::reduce( const std::string &txt, const search_type key ) const -> recipe_subset
 {
     return recipe_subset( *this, search( txt, key ) );
 }
-recipe_subset recipe_subset::intersection( const recipe_subset &subset ) const
+auto recipe_subset::intersection( const recipe_subset &subset ) const -> recipe_subset
 {
     std::vector<const recipe *> intersection_result;
     std::set_intersection( this->begin(), this->end(), subset.begin(), subset.end(),
                            std::back_inserter( intersection_result ) );
     return recipe_subset( *this, intersection_result );
 }
-recipe_subset recipe_subset::difference( const recipe_subset &subset ) const
+auto recipe_subset::difference( const recipe_subset &subset ) const -> recipe_subset
 {
     std::vector<const recipe *> difference_result;
     std::set_difference( this->begin(), this->end(), subset.begin(), subset.end(),
@@ -229,7 +229,7 @@ recipe_subset recipe_subset::difference( const recipe_subset &subset ) const
     return recipe_subset( *this, difference_result );
 }
 
-std::vector<const recipe *> recipe_subset::search_result( const itype_id &item ) const
+auto recipe_subset::search_result( const itype_id &item ) const -> std::vector<const recipe *>
 {
     std::vector<const recipe *> res;
 
@@ -244,7 +244,7 @@ std::vector<const recipe *> recipe_subset::search_result( const itype_id &item )
     return res;
 }
 
-bool recipe_subset::empty_category( const std::string &cat, const std::string &subcat ) const
+auto recipe_subset::empty_category( const std::string &cat, const std::string &subcat ) const -> bool
 {
     if( subcat == "CSC_*_FAVORITE" ) {
         return uistate.favorite_recipes.empty();
@@ -269,8 +269,8 @@ bool recipe_subset::empty_category( const std::string &cat, const std::string &s
     return true;
 }
 
-std::vector<const recipe *> recipe_subset::in_category( const std::string &cat,
-        const std::string &subcat ) const
+auto recipe_subset::in_category( const std::string &cat,
+        const std::string &subcat ) const -> std::vector<const recipe *>
 {
     std::vector<const recipe *> res;
     auto iter = category.find( cat );
@@ -293,7 +293,7 @@ std::vector<const recipe *> recipe_subset::in_category( const std::string &cat,
     return res;
 }
 
-const std::set<const recipe *> &recipe_subset::of_component( const itype_id &id ) const
+auto recipe_subset::of_component( const itype_id &id ) const -> const std::set<const recipe *> &
 {
     auto iter = component.find( id );
     return iter != component.end() ? iter->second : null_match;
@@ -309,8 +309,8 @@ void recipe_dictionary::load_uncraft( const JsonObject &jo, const std::string &s
     load( jo, src, recipe_dict.uncraft );
 }
 
-recipe &recipe_dictionary::load( const JsonObject &jo, const std::string &src,
-                                 std::map<recipe_id, recipe> &out )
+auto recipe_dictionary::load( const JsonObject &jo, const std::string &src,
+                                 std::map<recipe_id, recipe> &out ) -> recipe &
 {
     recipe r;
 
@@ -330,22 +330,22 @@ recipe &recipe_dictionary::load( const JsonObject &jo, const std::string &src,
     return out[ r.ident() ] = std::move( r );
 }
 
-size_t recipe_dictionary::size() const
+auto recipe_dictionary::size() const -> size_t
 {
     return recipes.size();
 }
 
-std::map<recipe_id, recipe>::const_iterator recipe_dictionary::begin() const
+auto recipe_dictionary::begin() const -> std::map<recipe_id, recipe>::const_iterator
 {
     return recipes.begin();
 }
 
-std::map<recipe_id, recipe>::const_iterator recipe_dictionary::end() const
+auto recipe_dictionary::end() const -> std::map<recipe_id, recipe>::const_iterator
 {
     return recipes.end();
 }
 
-bool recipe_dictionary::is_item_on_loop( const itype_id &i ) const
+auto recipe_dictionary::is_item_on_loop( const itype_id &i ) const -> bool
 {
     return items_on_loops.count( i );
 }
@@ -540,7 +540,7 @@ void recipe_subset::include( const recipe_subset &subset )
     }
 }
 
-int recipe_subset::get_custom_difficulty( const recipe *r ) const
+auto recipe_subset::get_custom_difficulty( const recipe *r ) const -> int
 {
     const auto iter = difficulties.find( r );
     if( iter != difficulties.end() ) {

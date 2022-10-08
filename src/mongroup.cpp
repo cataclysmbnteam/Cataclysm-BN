@@ -29,24 +29,24 @@ bool monster_whitelist_is_exclusive = false;
 
 /** @relates string_id */
 template<>
-bool string_id<MonsterGroup>::is_valid() const
+auto string_id<MonsterGroup>::is_valid() const -> bool
 {
     return MonsterGroupManager::isValidMonsterGroup( *this );
 }
 
 /** @relates string_id */
 template<>
-const MonsterGroup &string_id<MonsterGroup>::obj() const
+auto string_id<MonsterGroup>::obj() const -> const MonsterGroup &
 {
     return MonsterGroupManager::GetMonsterGroup( *this );
 }
 
-bool mongroup::is_safe() const
+auto mongroup::is_safe() const -> bool
 {
     return type.obj().is_safe;
 }
 
-bool mongroup::empty() const
+auto mongroup::empty() const -> bool
 {
     return population <= 0 && monsters.empty();
 }
@@ -57,7 +57,7 @@ void mongroup::clear()
     monsters.clear();
 }
 
-float mongroup::avg_speed() const
+auto mongroup::avg_speed() const -> float
 {
     float avg_speed = 0;
     if( monsters.empty() ) {
@@ -80,7 +80,7 @@ float mongroup::avg_speed() const
     return avg_speed;
 }
 
-const MonsterGroup &MonsterGroupManager::GetUpgradedMonsterGroup( const mongroup_id &group )
+auto MonsterGroupManager::GetUpgradedMonsterGroup( const mongroup_id &group ) -> const MonsterGroup &
 {
     const MonsterGroup *groupptr = &group.obj();
     if( get_option<float>( "MONSTER_UPGRADE_FACTOR" ) > 0 ) {
@@ -95,8 +95,8 @@ const MonsterGroup &MonsterGroupManager::GetUpgradedMonsterGroup( const mongroup
 }
 
 //Quantity is adjusted directly as a side effect of this function
-MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
-    const mongroup_id &group_name, int *quantity )
+auto MonsterGroupManager::GetResultFromGroup(
+    const mongroup_id &group_name, int *quantity ) -> MonsterGroupResult
 {
     auto &group = GetUpgradedMonsterGroup( group_name );
     int spawn_chance = rng( 1, group.freq_total ); //Default 1000 unless specified
@@ -199,7 +199,7 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
     return spawn_details;
 }
 
-bool MonsterGroup::IsMonsterInGroup( const mtype_id &mtypeid ) const
+auto MonsterGroup::IsMonsterInGroup( const mtype_id &mtypeid ) const -> bool
 {
     if( defaultMonster == mtypeid ) {
         return true;
@@ -212,12 +212,12 @@ bool MonsterGroup::IsMonsterInGroup( const mtype_id &mtypeid ) const
     return false;
 }
 
-bool MonsterGroupManager::IsMonsterInGroup( const mongroup_id &group, const mtype_id &monster )
+auto MonsterGroupManager::IsMonsterInGroup( const mongroup_id &group, const mtype_id &monster ) -> bool
 {
     return group.obj().IsMonsterInGroup( monster );
 }
 
-const mongroup_id &MonsterGroupManager::Monster2Group( const mtype_id &monster )
+auto MonsterGroupManager::Monster2Group( const mtype_id &monster ) -> const mongroup_id &
 {
     for( auto &g : monsterGroupMap ) {
         if( g.second.IsMonsterInGroup( monster ) ) {
@@ -227,7 +227,7 @@ const mongroup_id &MonsterGroupManager::Monster2Group( const mtype_id &monster )
     return mongroup_id::NULL_ID();
 }
 
-std::vector<mtype_id> MonsterGroupManager::GetMonstersFromGroup( const mongroup_id &group )
+auto MonsterGroupManager::GetMonstersFromGroup( const mongroup_id &group ) -> std::vector<mtype_id>
 {
     const MonsterGroup &g = group.obj();
 
@@ -241,12 +241,12 @@ std::vector<mtype_id> MonsterGroupManager::GetMonstersFromGroup( const mongroup_
     return monsters;
 }
 
-bool MonsterGroupManager::isValidMonsterGroup( const mongroup_id &group )
+auto MonsterGroupManager::isValidMonsterGroup( const mongroup_id &group ) -> bool
 {
     return monsterGroupMap.count( group ) > 0;
 }
 
-const MonsterGroup &MonsterGroupManager::GetMonsterGroup( const mongroup_id &group )
+auto MonsterGroupManager::GetMonsterGroup( const mongroup_id &group ) -> const MonsterGroup &
 {
     const auto it = monsterGroupMap.find( group );
     if( it == monsterGroupMap.end() ) {
@@ -277,7 +277,7 @@ void MonsterGroupManager::LoadMonsterWhitelist( const JsonObject &jo )
     add_array_to_set( monster_categories_whitelist, jo, "categories" );
 }
 
-bool MonsterGroupManager::monster_is_blacklisted( const mtype_id &m )
+auto MonsterGroupManager::monster_is_blacklisted( const mtype_id &m ) -> bool
 {
     if( monster_whitelist.count( m.str() ) > 0 ) {
         return false;
@@ -398,7 +398,7 @@ void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
     monsterGroupMap[g.name] = g;
 }
 
-bool MonsterGroupManager::is_animal( const mongroup_id &group_name )
+auto MonsterGroupManager::is_animal( const mongroup_id &group_name ) -> bool
 {
     const MonsterGroup *groupptr = &group_name.obj();
     return groupptr->is_animal;
@@ -431,7 +431,7 @@ void MonsterGroupManager::check_group_definitions()
     }
 }
 
-const mtype_id &MonsterGroupManager::GetRandomMonsterFromGroup( const mongroup_id &group_name )
+auto MonsterGroupManager::GetRandomMonsterFromGroup( const mongroup_id &group_name ) -> const mtype_id &
 {
     const auto &group = group_name.obj();
     int spawn_chance = rng( 1, group.freq_total ); //Default 1000 unless specified

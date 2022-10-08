@@ -38,7 +38,7 @@ static constexpr int OMSPEC_FREQ = 15;
 struct overmap_special_spawns : public overmap_spawns {
     numeric_interval<int> radius;
 
-    bool operator==( const overmap_special_spawns &rhs ) const {
+    auto operator==( const overmap_special_spawns &rhs ) const -> bool {
         return overmap_spawns::operator==( rhs ) && radius == rhs.radius;
     }
 
@@ -57,7 +57,7 @@ struct overmap_special_terrain {
      * Returns whether this terrain of the special can be placed on the specified terrain.
      * It's true if oter meets any of locations.
      */
-    bool can_be_placed_on( const oter_id &oter ) const;
+    auto can_be_placed_on( const oter_id &oter ) const -> bool;
 };
 
 struct overmap_special_connection {
@@ -74,11 +74,11 @@ class overmap_special
 {
     public:
         /** Returns terrain at the given point. */
-        const overmap_special_terrain &get_terrain_at( const tripoint &p ) const;
+        auto get_terrain_at( const tripoint &p ) const -> const overmap_special_terrain &;
         /** @returns true if this special requires a city */
-        bool requires_city() const;
+        auto requires_city() const -> bool;
         /** @returns whether the special at specified tripoint can belong to the specified city. */
-        bool can_belong_to_city( const tripoint_om_omt &p, const city &cit ) const;
+        auto can_belong_to_city( const tripoint_om_omt &p, const city &cit ) const -> bool;
 
         overmap_special_id id;
         std::list<overmap_special_terrain> terrains;
@@ -110,13 +110,13 @@ void finalize();
 void check_consistency();
 void reset();
 
-const std::vector<overmap_special> &get_all();
+auto get_all() -> const std::vector<overmap_special> &;
 
-overmap_special_batch get_default_batch( const point_abs_om &origin );
+auto get_default_batch( const point_abs_om &origin ) -> overmap_special_batch;
 /**
  * Generates a simple special from a building id.
  */
-overmap_special_id create_building_from( const oter_type_str_id &base );
+auto create_building_from( const oter_type_str_id &base ) -> overmap_special_id;
 
 } // namespace overmap_specials
 
@@ -136,7 +136,7 @@ struct om_special_sectors {
 * Gets a collection of sectors and their width for usage in placing overmap specials.
 * @param sector_width used to divide the OMAPX by OMAPY map into sectors.
 */
-om_special_sectors get_sectors( int sector_width );
+auto get_sectors( int sector_width ) -> om_special_sectors;
 
 // Wrapper around an overmap special to track progress of placing specials.
 struct overmap_special_placement {
@@ -160,21 +160,21 @@ class overmap_special_batch
 
         // Wrapper methods that make overmap_special_batch act like
         // the underlying vector of overmap placements.
-        std::vector<overmap_special_placement>::iterator begin() {
+        auto begin() -> std::vector<overmap_special_placement>::iterator {
             return placements.begin();
         }
-        std::vector<overmap_special_placement>::iterator end() {
+        auto end() -> std::vector<overmap_special_placement>::iterator {
             return placements.end();
         }
-        std::vector<overmap_special_placement>::iterator erase(
-            std::vector<overmap_special_placement>::iterator pos ) {
+        auto erase(
+            std::vector<overmap_special_placement>::iterator pos ) -> std::vector<overmap_special_placement>::iterator {
             return placements.erase( pos );
         }
-        bool empty() {
+        auto empty() -> bool {
             return placements.empty();
         }
 
-        point_abs_om get_origin() const {
+        auto get_origin() const -> point_abs_om {
             return origin_overmap;
         }
 

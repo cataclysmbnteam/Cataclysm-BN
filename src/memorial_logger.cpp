@@ -134,7 +134,7 @@ void memorial_logger::load( std::istream &fin )
  * and returns the resulting string. Used for saving and for writing out to the
  * memorial file.
  */
-std::string memorial_logger::dump() const
+auto memorial_logger::dump() const -> std::string
 {
     static const char *eol = cata_files::eol();
     std::string output;

@@ -22,17 +22,17 @@ struct projectile_attack_aim {
 /**
  * Evaluates dispersion sources, range, and target to determine attack trajectory.
  **/
-projectile_attack_aim projectile_attack_roll( const dispersion_sources &dispersion, double range,
-        double target_size );
+auto projectile_attack_roll( const dispersion_sources &dispersion, double range,
+        double target_size ) -> projectile_attack_aim;
 
 /**
  *  Fires a projectile at the target point from the source point with total_dispersion
  *  dispersion.
  *  Returns the rolled dispersion of the shot and the actually hit point.
  */
-dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tripoint &source,
+auto projectile_attack( const projectile &proj_arg, const tripoint &source,
         const tripoint &target_arg, const dispersion_sources &dispersion,
-        Creature *origin = nullptr, const vehicle *in_veh = nullptr );
+        Creature *origin = nullptr, const vehicle *in_veh = nullptr ) -> dealt_projectile_attack;
 
 namespace ranged
 {
@@ -45,8 +45,8 @@ namespace ranged
  * @param target_size size of the target, in the range (0, 1].
  * @param missed_by maximum degree of miss, in the range (0, 1]. Effectively a multiplier on @param target_size.
  */
-double hit_chance( const dispersion_sources &dispersion, double range, double target_size,
-                   double missed_by = 1.0 );
+auto hit_chance( const dispersion_sources &dispersion, double range, double target_size,
+                   double missed_by = 1.0 ) -> double;
 
 } // namespace ranged
 

@@ -49,7 +49,7 @@ struct ranged_bash_info {
     public:
 
         // In C++20, this would be = default
-        bool operator==( const ranged_bash_info &rhs ) const {
+        auto operator==( const ranged_bash_info &rhs ) const -> bool {
             return tie() == rhs.tie();
         }
 
@@ -122,7 +122,7 @@ struct map_deconstruct_info {
     ter_str_id ter_set;    // terrain to set (REQUIRED for terrain))
     furn_str_id furn_set;    // furniture to set (only used by furniture, not terrain)
     map_deconstruct_info();
-    bool load( const JsonObject &jsobj, const std::string &member, bool is_furniture );
+    auto load( const JsonObject &jsobj, const std::string &member, bool is_furniture ) -> bool;
 };
 struct furn_workbench_info {
     // Base multiplier applied for crafting here
@@ -134,7 +134,7 @@ struct furn_workbench_info {
     void deserialize( JsonIn &jsin );
 
     // In C++20, this would be = default
-    bool operator==( const furn_workbench_info &rhs ) const {
+    auto operator==( const furn_workbench_info &rhs ) const -> bool {
         return std::tie( multiplier, allowed_mass, allowed_volume )
                == std::tie( rhs.multiplier, rhs.allowed_mass, rhs.allowed_volume );
     }
@@ -153,7 +153,7 @@ struct plant_data {
     void deserialize( JsonIn &jsin );
 
     // In C++20, this would be = default
-    bool operator==( const plant_data &rhs ) const {
+    auto operator==( const plant_data &rhs ) const -> bool {
         return std::tie( transform, base, growth_multiplier, harvest_multiplier )
                == std::tie( rhs.transform, rhs.base, rhs.growth_multiplier, rhs.harvest_multiplier );
     }
@@ -202,7 +202,7 @@ struct pry_result {
         furniture = 0,
         terrain
     };
-    bool load( const JsonObject &jsobj, const std::string &member, map_object_type obj_type );
+    auto load( const JsonObject &jsobj, const std::string &member, map_object_type obj_type ) -> bool;
 };
 
 /*
@@ -349,8 +349,8 @@ struct map_data_common_t {
         virtual ~map_data_common_t() = default;
 
     protected:
-        friend furn_t null_furniture_t();
-        friend ter_t null_terrain_t();
+        friend auto null_furniture_t() -> furn_t;
+        friend auto null_terrain_t() -> ter_t;
         // The (untranslated) plaintext name of the terrain type the user would see (i.e. dirt)
         std::string name_;
 
@@ -361,12 +361,12 @@ struct map_data_common_t {
     public:
         ter_str_id curtain_transform;
 
-        bool has_curtains() const {
+        auto has_curtains() const -> bool {
             return !( curtain_transform.is_empty() || curtain_transform.is_null() );
         }
 
     public:
-        std::string name() const;
+        auto name() const -> std::string;
 
         /*
         * The symbol drawn on the screen for the terrain. Please note that
@@ -408,15 +408,15 @@ struct map_data_common_t {
 
         bool transparent = false;
 
-        const std::set<std::string> &get_flags() const {
+        auto get_flags() const -> const std::set<std::string> & {
             return flags;
         }
 
-        bool has_flag( const std::string &flag ) const {
+        auto has_flag( const std::string &flag ) const -> bool {
             return flags.count( flag ) > 0;
         }
 
-        bool has_flag( const ter_bitflags flag ) const {
+        auto has_flag( const ter_bitflags flag ) const -> bool {
             return bitflags.test( flag );
         }
 
@@ -426,23 +426,23 @@ struct map_data_common_t {
 
         void set_connects( const std::string &connect_group_string );
 
-        bool connects( int &ret ) const;
+        auto connects( int &ret ) const -> bool;
 
-        bool connects_to( int test_connect_group ) const {
+        auto connects_to( int test_connect_group ) const -> bool {
             return connect_group != TERCONN_NONE && connect_group == test_connect_group;
         }
 
-        int symbol() const;
-        nc_color color() const;
+        auto symbol() const -> int;
+        auto color() const -> nc_color;
 
-        const harvest_id &get_harvest() const;
+        auto get_harvest() const -> const harvest_id &;
         /**
          * Returns a set of names of the items that would be dropped.
          * Used for NPC whitelist checking.
          */
-        const std::set<std::string> &get_harvest_names() const;
+        auto get_harvest_names() const -> const std::set<std::string> &;
 
-        std::string extended_description() const;
+        auto extended_description() const -> std::string;
 
         bool was_loaded = false;
 
@@ -472,18 +472,18 @@ struct ter_t : map_data_common_t {
 
     ter_t();
 
-    static size_t count();
+    static auto count() -> size_t;
 
     void load( const JsonObject &jo, const std::string &src ) override;
     void check() const override;
-    static const std::vector<ter_t> &get_all();
+    static auto get_all() -> const std::vector<ter_t> &;
 };
 
 void set_ter_ids();
 void finalize_furn();
 void reset_furn_ter();
 /** Gets lockpicked object and message */
-lockpicking_open_result get_lockpicking_open_result( ter_id ter_type, furn_id furn_type );
+auto get_lockpicking_open_result( ter_id ter_type, furn_id furn_type ) -> lockpicking_open_result;
 
 /*
  * The terrain list contains the master list of  information and metadata for a given type of terrain.
@@ -519,19 +519,19 @@ struct furn_t : map_data_common_t {
     cata::poly_serialized<active_tile_data> active;
 
     // May return NULL
-    const itype *crafting_pseudo_item_type() const;
+    auto crafting_pseudo_item_type() const -> const itype *;
     // May return NULL
-    const itype *crafting_ammo_item_type() const;
+    auto crafting_ammo_item_type() const -> const itype *;
 
     furn_t();
 
-    static size_t count();
+    static auto count() -> size_t;
 
-    bool is_movable() const;
+    auto is_movable() const -> bool;
 
     void load( const JsonObject &jo, const std::string &src ) override;
     void check() const override;
-    static const std::vector<furn_t> &get_all();
+    static auto get_all() -> const std::vector<furn_t> &;
 };
 
 void load_furniture( const JsonObject &jo, const std::string &src );

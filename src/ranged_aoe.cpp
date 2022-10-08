@@ -17,12 +17,12 @@ struct tripoint_distance {
         , distance_squared( distance_squared )
     {}
     tripoint_distance( const tripoint_distance & ) = default;
-    tripoint_distance &operator = ( const tripoint_distance & ) = default;
+    auto operator = ( const tripoint_distance & ) -> tripoint_distance & = default;
     tripoint p;
     int distance_squared;
 
     // Inverted because it's descending by default
-    bool operator<( const tripoint_distance &rhs ) const {
+    auto operator<( const tripoint_distance &rhs ) const -> bool {
         return rhs.distance_squared < this->distance_squared;
     }
 };
@@ -33,7 +33,7 @@ struct aoe_flood_node {
         : parent( parent ), parent_coverage( parent_coverage )
     {}
     aoe_flood_node( const aoe_flood_node & ) = default;
-    aoe_flood_node &operator = ( const aoe_flood_node & ) = default;
+    auto operator = ( const aoe_flood_node & ) -> aoe_flood_node & = default;
     tripoint parent = tripoint_min;
     double parent_coverage = 0.0;
 };
@@ -126,7 +126,7 @@ void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &a
 }
 
 // TODO: Make this not a CTRL+C+V
-std::map<tripoint, double> expected_coverage( const shape &sh, const map &here, int bash_power )
+auto expected_coverage( const shape &sh, const map &here, int bash_power ) -> std::map<tripoint, double>
 {
     const auto sigdist_to_coverage = []( const double sigdist ) {
         return std::min( 1.0, -sigdist );

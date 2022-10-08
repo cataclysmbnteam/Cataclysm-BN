@@ -18,7 +18,7 @@ struct explosion_data {
     cata::optional<projectile> fragment;
 
     /** Returns the range at which blast damage is 0 and shrapnel is out of range. */
-    int safe_range() const;
+    auto safe_range() const -> int;
     explicit operator bool() const;
 };
 
@@ -59,10 +59,10 @@ void emp_blast( const tripoint &p );
 /** Shockwave applies knockback with given parameters to all targets within radius of p. */
 void shockwave( const tripoint &p, const shockwave_data &sw, const std::string &exp_name );
 
-projectile shrapnel_from_legacy( int power, float blast_radius );
-float blast_radius_from_legacy( int power, float distance_factor );
+auto shrapnel_from_legacy( int power, float blast_radius ) -> projectile;
+auto blast_radius_from_legacy( int power, float distance_factor ) -> float;
 } // namespace explosion_handler
 
-explosion_data load_explosion_data( const JsonObject &jo );
+auto load_explosion_data( const JsonObject &jo ) -> explosion_data;
 
 #endif // CATA_SRC_EXPLOSION_H

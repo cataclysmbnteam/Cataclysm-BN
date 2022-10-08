@@ -9,7 +9,7 @@
 #include <locale>
 #include <sstream>
 
-bool lcmatch( const std::string &str, const std::string &qry )
+auto lcmatch( const std::string &str, const std::string &qry ) -> bool
 {
     if( std::locale().name() != "en_US.UTF-8" && std::locale().name() != "C" ) {
         auto &f = std::use_facet<std::ctype<wchar_t>>( std::locale() );
@@ -32,17 +32,17 @@ bool lcmatch( const std::string &str, const std::string &qry )
     return haystack.find( needle ) != std::string::npos;
 }
 
-bool lcmatch( const translation &str, const std::string &qry )
+auto lcmatch( const translation &str, const std::string &qry ) -> bool
 {
     return lcmatch( str.translated(), qry );
 }
 
-bool lcequal( const std::string &str1, const std::string &str2 )
+auto lcequal( const std::string &str1, const std::string &str2 ) -> bool
 {
     return to_lower_case( str1 ) == to_lower_case( str2 );
 }
 
-bool match_include_exclude( const std::string &text, std::string filter )
+auto match_include_exclude( const std::string &text, std::string filter ) -> bool
 {
     size_t iPos;
     bool found = false;
@@ -76,18 +76,18 @@ bool match_include_exclude( const std::string &text, std::string filter )
     return found;
 }
 
-bool string_starts_with( const std::string &s1, const std::string &s2 )
+auto string_starts_with( const std::string &s1, const std::string &s2 ) -> bool
 {
     return s1.compare( 0, s2.size(), s2 ) == 0;
 }
 
-bool string_ends_with( const std::string &s1, const std::string &s2 )
+auto string_ends_with( const std::string &s1, const std::string &s2 ) -> bool
 {
     return s1.size() >= s2.size() &&
            s1.compare( s1.size() - s2.size(), s2.size(), s2 ) == 0;
 }
 
-std::string join( const std::vector<std::string> &strings, const std::string &joiner )
+auto join( const std::vector<std::string> &strings, const std::string &joiner ) -> std::string
 {
     std::ostringstream buffer;
 
@@ -100,7 +100,7 @@ std::string join( const std::vector<std::string> &strings, const std::string &jo
     return buffer.str();
 }
 
-std::vector<std::string> string_split( const std::string &text_in, char delim_in )
+auto string_split( const std::string &text_in, char delim_in ) -> std::vector<std::string>
 {
     std::vector<std::string> elems;
 
@@ -121,7 +121,7 @@ std::vector<std::string> string_split( const std::string &text_in, char delim_in
     return elems;
 }
 
-int ci_find_substr( const std::string &str1, const std::string &str2 )
+auto ci_find_substr( const std::string &str1, const std::string &str2 ) -> int
 {
     std::locale loc = std::locale();
 
@@ -136,7 +136,7 @@ int ci_find_substr( const std::string &str1, const std::string &str2 )
     }
 }
 
-bool wildcard_match( const std::string &text_in, const std::string &pattern_in )
+auto wildcard_match( const std::string &text_in, const std::string &pattern_in ) -> bool
 {
     std::string text = text_in;
 
@@ -182,7 +182,7 @@ bool wildcard_match( const std::string &text_in, const std::string &pattern_in )
     return true;
 }
 
-std::string wildcard_trim_rule( const std::string &pattern_in )
+auto wildcard_trim_rule( const std::string &pattern_in ) -> std::string
 {
     std::string pattern = pattern_in;
     size_t pos = pattern.find( "**" );
@@ -197,7 +197,7 @@ std::string wildcard_trim_rule( const std::string &pattern_in )
 }
 
 template<typename Prep>
-std::string trim( const std::string &s, Prep prep )
+auto trim( const std::string &s, Prep prep ) -> std::string
 {
     auto wsfront = std::find_if_not( s.begin(), s.end(), [&prep]( int c ) {
         return prep( c );
@@ -208,14 +208,14 @@ std::string trim( const std::string &s, Prep prep )
     } ).base() );
 }
 
-std::string trim( const std::string &s )
+auto trim( const std::string &s ) -> std::string
 {
     return trim( s, []( int c ) {
         return isspace( c );
     } );
 }
 
-std::string trim_punctuation_marks( const std::string &s )
+auto trim_punctuation_marks( const std::string &s ) -> std::string
 {
     return trim( s, []( int c ) {
         return ispunct( c );
@@ -223,7 +223,7 @@ std::string trim_punctuation_marks( const std::string &s )
 }
 
 using char_t = std::string::value_type;
-std::string to_upper_case( const std::string &s )
+auto to_upper_case( const std::string &s ) -> std::string
 {
     if( std::locale().name() != "en_US.UTF-8" && std::locale().name() != "C" ) {
         const auto &f = std::use_facet<std::ctype<wchar_t>>( std::locale() );
@@ -238,7 +238,7 @@ std::string to_upper_case( const std::string &s )
     return res;
 }
 
-std::string to_lower_case( const std::string &s )
+auto to_lower_case( const std::string &s ) -> std::string
 {
     if( std::locale().name() != "en_US.UTF-8" && std::locale().name() != "C" ) {
         const auto &f = std::use_facet<std::ctype<wchar_t>>( std::locale() );
@@ -287,7 +287,7 @@ void replace_first( std::string &input, const std::string &what, const std::stri
     }
 }
 
-std::string replace_all( std::string input, const std::string &what, const std::string &with )
+auto replace_all( std::string input, const std::string &what, const std::string &with ) -> std::string
 {
     std::string text = std::move( input );
 
@@ -309,7 +309,7 @@ std::string replace_all( std::string input, const std::string &what, const std::
     return text;
 }
 
-std::string replace_colors( std::string text )
+auto replace_colors( std::string text ) -> std::string
 {
     static const std::vector<std::pair<std::string, std::string>> info_colors = {
         {"info", get_all_colors().get_name( c_cyan )},
@@ -330,7 +330,7 @@ std::string replace_colors( std::string text )
     return text;
 }
 
-std::string &capitalize_letter( std::string &str, size_t n )
+auto capitalize_letter( std::string &str, size_t n ) -> std::string &
 {
     char c = str[n];
     if( !str.empty() && c >= 'a' && c <= 'z' ) {
@@ -341,7 +341,7 @@ std::string &capitalize_letter( std::string &str, size_t n )
     return str;
 }
 
-std::string trim_whitespaces( const std::string &str )
+auto trim_whitespaces( const std::string &str ) -> std::string
 {
     // Source: https://stackoverflow.com/a/1798170
 

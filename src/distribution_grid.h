@@ -52,12 +52,12 @@ class distribution_grid
 
     public:
         distribution_grid( const std::vector<tripoint_abs_sm> &global_submap_coords, mapbuffer &buffer );
-        bool empty() const;
+        auto empty() const -> bool;
         explicit operator bool() const;
         void update( time_point to );
-        int mod_resource( int amt, bool recurse = true );
-        int get_resource( bool recurse = true ) const;
-        const std::vector<tripoint_abs_ms> &get_contents() const {
+        auto mod_resource( int amt, bool recurse = true ) -> int;
+        auto get_resource( bool recurse = true ) const -> int;
+        auto get_contents() const -> const std::vector<tripoint_abs_ms> & {
             return flat_contents;
         }
 };
@@ -69,7 +69,7 @@ struct transform_queue_entry {
     furn_str_id id;
     std::string msg;
 
-    bool operator==( const transform_queue_entry &l ) const {
+    auto operator==( const transform_queue_entry &l ) const -> bool {
         return p == l.p && id == l.id && msg == l.msg;
     }
 };
@@ -101,11 +101,11 @@ class grid_furn_transform_queue
             queue.clear();
         }
 
-        bool operator==( const grid_furn_transform_queue &l ) const {
+        auto operator==( const grid_furn_transform_queue &l ) const -> bool {
             return queue == l.queue;
         }
 
-        std::string to_string() const;
+        auto to_string() const -> std::string;
 };
 
 /**
@@ -122,7 +122,7 @@ class distribution_grid_tracker
         /**
          * @param omt_pos Absolute submap position of one of the tiles of the grid.
          */
-        distribution_grid &make_distribution_grid_at( const tripoint_abs_sm &sm_pos );
+        auto make_distribution_grid_at( const tripoint_abs_sm &sm_pos ) -> distribution_grid &;
 
         /**
          * In submap coords, to mirror @ref map
@@ -146,19 +146,19 @@ class distribution_grid_tracker
          * Gets grid at given global map square coordinate. @ref map::getabs
          */
         /**@{*/
-        distribution_grid &grid_at( const tripoint_abs_ms &p );
-        const distribution_grid &grid_at( const tripoint_abs_ms &p ) const;
+        auto grid_at( const tripoint_abs_ms &p ) -> distribution_grid &;
+        auto grid_at( const tripoint_abs_ms &p ) const -> const distribution_grid &;
         /*@}*/
 
         /**
          * Identify grid at given overmap tile (for debug purposes).
          * @returns 0 if there's no grid.
          */
-        std::uintptr_t debug_grid_id( const tripoint_abs_omt &omp ) const;
+        auto debug_grid_id( const tripoint_abs_omt &omp ) const -> std::uintptr_t;
 
         void update( time_point to );
 
-        grid_furn_transform_queue &get_transform_queue() {
+        auto get_transform_queue() -> grid_furn_transform_queue & {
             return transform_queue;
         }
 
@@ -203,13 +203,13 @@ void traverse( StartPoint &start,
                VehFunc veh_action, GridFunc grid_action );
 
 /* Useful if we want to act only in one type. */
-inline constexpr traverse_visitor_result noop_visitor_grid( const distribution_grid & )
+inline constexpr auto noop_visitor_grid( const distribution_grid & ) -> traverse_visitor_result
 {
     return traverse_visitor_result::continue_further;
 }
 
 /* Useful if we want to act only in one type. */
-inline constexpr traverse_visitor_result noop_visitor_veh( const vehicle & )
+inline constexpr auto noop_visitor_veh( const vehicle & ) -> traverse_visitor_result
 {
     return traverse_visitor_result::continue_further;
 }
@@ -220,6 +220,6 @@ inline constexpr traverse_visitor_result noop_visitor_veh( const vehicle & )
  * Returns distribution grid tracker that is a part of the global game *g. @ref game
  * TODO: This wouldn't be required in an ideal world
  */
-distribution_grid_tracker &get_distribution_grid_tracker();
+auto get_distribution_grid_tracker() -> distribution_grid_tracker &;
 
 #endif // CATA_SRC_DISTRIBUTION_GRID_H

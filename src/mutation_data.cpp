@@ -33,7 +33,7 @@ TraitGroupMap trait_groups;
 namespace io
 {
 template<>
-std::string enum_to_string<m_size>( m_size data )
+auto enum_to_string<m_size>( m_size data ) -> std::string
 {
     switch( data ) {
         case m_size::MS_TINY:
@@ -65,19 +65,19 @@ std::map<std::string, std::vector<trait_id> > mutations_category;
 std::map<std::string, mutation_category_trait> mutation_category_traits;
 
 template<>
-const mutation_branch &string_id<mutation_branch>::obj() const
+auto string_id<mutation_branch>::obj() const -> const mutation_branch &
 {
     return trait_factory.obj( *this );
 }
 
 template<>
-bool string_id<mutation_branch>::is_valid() const
+auto string_id<mutation_branch>::is_valid() const -> bool
 {
     return trait_factory.is_valid( *this );
 }
 
 template<>
-bool string_id<Trait_group>::is_valid() const
+auto string_id<Trait_group>::is_valid() const -> bool
 {
     return trait_groups.count( *this );
 }
@@ -153,63 +153,63 @@ void mutation_category_trait::load( const JsonObject &jsobj )
     mutation_category_traits[new_category.id] = new_category;
 }
 
-std::string mutation_category_trait::name() const
+auto mutation_category_trait::name() const -> std::string
 {
     return _( raw_name );
 }
 
-std::string mutation_category_trait::mutagen_message() const
+auto mutation_category_trait::mutagen_message() const -> std::string
 {
     return _( raw_mutagen_message );
 }
 
-std::string mutation_category_trait::iv_message() const
+auto mutation_category_trait::iv_message() const -> std::string
 {
     return _( raw_iv_message );
 }
 
-std::string mutation_category_trait::iv_sound_message() const
+auto mutation_category_trait::iv_sound_message() const -> std::string
 {
     return _( raw_iv_sound_message );
 }
 
-std::string mutation_category_trait::iv_sound_id() const
+auto mutation_category_trait::iv_sound_id() const -> std::string
 {
     return _( raw_iv_sound_id );
 }
 
-std::string mutation_category_trait::iv_sound_variant() const
+auto mutation_category_trait::iv_sound_variant() const -> std::string
 {
     return _( raw_iv_sound_variant );
 }
 
-std::string mutation_category_trait::iv_sleep_message() const
+auto mutation_category_trait::iv_sleep_message() const -> std::string
 {
     return _( raw_iv_sleep_message );
 }
 
-std::string mutation_category_trait::junkie_message() const
+auto mutation_category_trait::junkie_message() const -> std::string
 {
     return _( raw_junkie_message );
 }
 
-std::string mutation_category_trait::memorial_message_male() const
+auto mutation_category_trait::memorial_message_male() const -> std::string
 {
     return pgettext( "memorial_male", raw_memorial_message.c_str() );
 }
 
-std::string mutation_category_trait::memorial_message_female() const
+auto mutation_category_trait::memorial_message_female() const -> std::string
 {
     return pgettext( "memorial_female", raw_memorial_message.c_str() );
 }
 
-const std::map<std::string, mutation_category_trait> &mutation_category_trait::get_all()
+auto mutation_category_trait::get_all() -> const std::map<std::string, mutation_category_trait> &
 {
     return mutation_category_traits;
 }
 
-const mutation_category_trait &mutation_category_trait::get_category( const std::string
-        &category_id )
+auto mutation_category_trait::get_category( const std::string
+        &category_id ) -> const mutation_category_trait &
 {
     return mutation_category_traits.find( category_id )->second;
 }
@@ -230,7 +230,7 @@ void mutation_category_trait::check_consistency()
     }
 }
 
-static mut_attack load_mutation_attack( const JsonObject &jo )
+static auto load_mutation_attack( const JsonObject &jo ) -> mut_attack
 {
     mut_attack ret;
     jo.read( "attack_text_u", ret.attack_text_u );
@@ -276,7 +276,7 @@ static mut_attack load_mutation_attack( const JsonObject &jo )
     return ret;
 }
 
-static social_modifiers load_mutation_social_mods( const JsonObject &jo )
+static auto load_mutation_social_mods( const JsonObject &jo ) -> social_modifiers
 {
     social_modifiers ret;
     jo.read( "lie", ret.lie );
@@ -292,7 +292,7 @@ void mutation_branch::load_trait( const JsonObject &jo, const std::string &src )
 
 mut_transform::mut_transform() : active( false ), moves( 0 ) {}
 
-bool mut_transform::load( const JsonObject &jsobj, const std::string &member )
+auto mut_transform::load( const JsonObject &jsobj, const std::string &member ) -> bool
 {
     JsonObject j = jsobj.get_object( member );
 
@@ -546,22 +546,22 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     }
 }
 
-std::string mutation_branch::spawn_item_message() const
+auto mutation_branch::spawn_item_message() const -> std::string
 {
     return _( raw_spawn_item_message );
 }
 
-std::string mutation_branch::ranged_mutation_message() const
+auto mutation_branch::ranged_mutation_message() const -> std::string
 {
     return _( raw_ranged_mutation_message );
 }
 
-std::string mutation_branch::name() const
+auto mutation_branch::name() const -> std::string
 {
     return raw_name.translated();
 }
 
-std::string mutation_branch::desc() const
+auto mutation_branch::desc() const -> std::string
 {
     return raw_desc.translated();
 }
@@ -618,7 +618,7 @@ void mutation_branch::check_consistency()
     }
 }
 
-nc_color mutation_branch::get_display_color() const
+auto mutation_branch::get_display_color() const -> nc_color
 {
     if( threshold || profession ) {
         return c_white;
@@ -635,12 +635,12 @@ nc_color mutation_branch::get_display_color() const
     }
 }
 
-std::string mutation_branch::get_name( const trait_id &mutation_id )
+auto mutation_branch::get_name( const trait_id &mutation_id ) -> std::string
 {
     return mutation_id->name();
 }
 
-const std::vector<mutation_branch> &mutation_branch::get_all()
+auto mutation_branch::get_all() -> const std::vector<mutation_branch> &
 {
     return trait_factory.get_all();
 }
@@ -671,7 +671,7 @@ void dreams::clear()
     all_dreams.clear();
 }
 
-std::string dreams::get_random_for_category( const std::string &cat, int strength )
+auto dreams::get_random_for_category( const std::string &cat, int strength ) -> std::string
 {
     std::vector<const dream *> valid_dreams;
     for( const dream &d : all_dreams ) {
@@ -686,7 +686,7 @@ std::string dreams::get_random_for_category( const std::string &cat, int strengt
     return random_entry( selected_dream->messages ).translated();
 }
 
-bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept
+auto trait_display_sort( const trait_id &a, const trait_id &b ) noexcept -> bool
 {
     if( a->get_display_color() > b->get_display_color() ) {
         return true;
@@ -698,7 +698,7 @@ bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept
     return localized_compare( a->name(), b->name() );
 }
 
-bool trait_display_nocolor_sort( const trait_id &a, const trait_id &b ) noexcept
+auto trait_display_nocolor_sort( const trait_id &a, const trait_id &b ) noexcept -> bool
 {
     return localized_compare( a->name(), b->name() );
 }
@@ -710,7 +710,7 @@ void mutation_branch::load_trait_blacklist( const JsonObject &jsobj )
     }
 }
 
-bool mutation_branch::trait_is_blacklisted( const trait_id &tid )
+auto mutation_branch::trait_is_blacklisted( const trait_id &tid ) -> bool
 {
     return trait_blacklist.count( tid );
 }
@@ -741,8 +741,8 @@ void mutation_branch::load_trait_group( const JsonObject &jsobj )
     load_trait_group( jsobj, group_id, subtype );
 }
 
-static Trait_group &make_group_or_throw( const trait_group::Trait_group_tag &gid,
-        bool is_collection )
+static auto make_group_or_throw( const trait_group::Trait_group_tag &gid,
+        bool is_collection ) -> Trait_group &
 {
     // NOTE: If the gid is already in the map, emplace will just return an iterator to it
     auto found = ( is_collection
@@ -875,14 +875,14 @@ void mutation_branch::add_entry( Trait_group &tg, const JsonObject &obj )
     tg.add_entry( std::move( ptr ) );
 }
 
-shared_ptr_fast<Trait_group> mutation_branch::get_group( const
-        trait_group::Trait_group_tag &gid )
+auto mutation_branch::get_group( const
+        trait_group::Trait_group_tag &gid ) -> shared_ptr_fast<Trait_group>
 {
     auto found = trait_groups.find( gid );
     return found != trait_groups.end() ? found->second : nullptr;
 }
 
-std::vector<trait_group::Trait_group_tag> mutation_branch::get_all_group_names()
+auto mutation_branch::get_all_group_names() -> std::vector<trait_group::Trait_group_tag>
 {
     std::vector<trait_group::Trait_group_tag> rval;
     for( auto &group : trait_groups ) {
@@ -891,7 +891,7 @@ std::vector<trait_group::Trait_group_tag> mutation_branch::get_all_group_names()
     return rval;
 }
 
-bool mutation_category_is_valid( const std::string &cat )
+auto mutation_category_is_valid( const std::string &cat ) -> bool
 {
     return mutation_category_traits.count( cat );
 }

@@ -15,9 +15,9 @@ struct layer_details {
     int total = 0;
 
     void reset();
-    int layer( int encumbrance );
+    auto layer( int encumbrance ) -> int;
 
-    bool operator ==( const layer_details &rhs ) const {
+    auto operator ==( const layer_details &rhs ) const -> bool {
         return max == rhs.max &&
                total == rhs.total &&
                pieces == rhs.pieces;
@@ -40,7 +40,7 @@ struct encumbrance_data {
         *this = encumbrance_data();
     }
 
-    bool operator ==( const encumbrance_data &rhs ) const {
+    auto operator ==( const encumbrance_data &rhs ) const -> bool {
         return encumbrance == rhs.encumbrance &&
                armor_encumbrance == rhs.armor_encumbrance &&
                layer_penalty == rhs.layer_penalty &&

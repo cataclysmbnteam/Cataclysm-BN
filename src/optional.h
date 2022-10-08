@@ -40,11 +40,11 @@ class optional
         };
         bool full;
 
-        T &get() {
+        auto get() -> T & {
             assert( full );
             return data;
         }
-        const T &get() const {
+        auto get() const -> const T & {
             assert( full );
             return data;
         }
@@ -104,33 +104,33 @@ class optional
             reset();
         }
 
-        constexpr const T *operator->() const {
+        constexpr auto operator->() const -> const T * {
             return &get();
         }
-        T *operator->() {
+        auto operator->() -> T * {
             return &get();
         }
-        constexpr const T &operator*() const {
+        constexpr auto operator*() const -> const T & {
             return get();
         }
-        T &operator*() {
+        auto operator*() -> T & {
             return get();
         }
 
         constexpr explicit operator bool() const noexcept {
             return full;
         }
-        constexpr bool has_value() const noexcept {
+        constexpr auto has_value() const noexcept -> bool {
             return full;
         }
 
-        T &value() {
+        auto value() -> T & {
             if( !full ) {
                 throw bad_optional_access();
             }
             return get();
         }
-        const T &value() const {
+        auto value() const -> const T & {
             if( !full ) {
                 throw bad_optional_access();
             }
@@ -138,18 +138,18 @@ class optional
         }
 
         template<typename O>
-        T value_or( O &&other ) const {
+        auto value_or( O &&other ) const -> T {
             return full ? get() : static_cast<T>( other );
         }
 
         template<class... Args>
-        T &emplace( Args &&... args ) {
+        auto emplace( Args &&... args ) -> T & {
             reset();
             construct( std::forward<Args>( args )... );
             return get();
         }
         template<class U, class... Args>
-        T &emplace( std::initializer_list<U> ilist, Args &&... args ) {
+        auto emplace( std::initializer_list<U> ilist, Args &&... args ) -> T & {
             reset();
             construct( ilist, std::forward<Args>( args )... );
             return get();
@@ -162,11 +162,11 @@ class optional
             }
         }
 
-        optional &operator=( nullopt_t ) noexcept {
+        auto operator=( nullopt_t ) noexcept -> optional & {
             reset();
             return *this;
         }
-        optional &operator=( const optional &other ) {
+        auto operator=( const optional &other ) -> optional & {
             if( full && other.full ) {
                 get() = other.get();
             } else if( full ) {
@@ -176,7 +176,7 @@ class optional
             }
             return *this;
         }
-        optional &operator=( optional &&other ) {
+        auto operator=( optional &&other ) -> optional & {
             if( full && other.full ) {
                 get() = std::move( other.get() );
             } else if( full ) {
@@ -191,7 +191,7 @@ class optional
                        !std::is_same<optional<T>, typename std::decay<U>::type>::value &&
                        std::is_constructible < T, U && >::value &&
                        std::is_convertible < U &&, T >::value, bool >::type = true >
-        optional & operator=( U && value ) {
+        auto operator=( U && value ) -> optional & {
             if( full ) {
                 get() = std::forward<U>( value );
             } else {
@@ -200,7 +200,7 @@ class optional
             return *this;
         }
         template<class U>
-        optional &operator=( const optional<U> &other ) {
+        auto operator=( const optional<U> &other ) -> optional & {
             if( full && other.full ) {
                 get() = other.get();
             } else if( full ) {
@@ -211,7 +211,7 @@ class optional
             return *this;
         }
         template<class U>
-        optional &operator=( optional<U> &&other ) {
+        auto operator=( optional<U> &&other ) -> optional & {
             if( full && other.full ) {
                 get() = std::move( other.get() );
             } else if( full ) {
@@ -238,7 +238,7 @@ class optional
 };
 
 template<class T, class U>
-constexpr bool operator==( const optional<T> &lhs, const optional<U> &rhs )
+constexpr auto operator==( const optional<T> &lhs, const optional<U> &rhs ) -> bool
 {
     if( lhs.has_value() != rhs.has_value() ) {
         return false;
@@ -250,7 +250,7 @@ constexpr bool operator==( const optional<T> &lhs, const optional<U> &rhs )
 }
 
 template< class T, class U >
-constexpr bool operator!=( const optional<T> &lhs, const optional<U> &rhs )
+constexpr auto operator!=( const optional<T> &lhs, const optional<U> &rhs ) -> bool
 {
     return !operator==( lhs, rhs );
 }

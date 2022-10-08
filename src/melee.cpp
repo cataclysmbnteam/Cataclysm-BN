@@ -114,9 +114,9 @@ static const species_id HUMAN( "HUMAN" );
 
 void player_hit_message( Character *attacker, const std::string &message,
                          Creature &t, int dam, bool crit = false );
-int  stumble( Character &u, const item &weap );
-std::string melee_message( const ma_technique &tec, Character &p,
-                           const dealt_damage_instance &ddi );
+auto  stumble( Character &u, const item &weap ) -> int;
+auto melee_message( const ma_technique &tec, Character &p,
+                           const dealt_damage_instance &ddi ) -> std::string;
 
 /* Melee Functions!
  * These all belong to class player.
@@ -132,28 +132,28 @@ std::string melee_message( const ma_technique &tec, Character &p,
  *   skills, torso encumbrance penalties and drunken master bonuses.
  */
 
-const item &Character::used_weapon() const
+auto Character::used_weapon() const -> const item &
 {
     return martial_arts_data->selected_force_unarmed() ? null_item_reference() : weapon;
 }
 
-item &Character::used_weapon()
+auto Character::used_weapon() -> item &
 {
     return const_cast<item &>( const_cast<const Character *>( this )->used_weapon() );
 }
 
-bool Character::is_armed() const
+auto Character::is_armed() const -> bool
 {
     return !weapon.is_null();
 }
 
-bool Character::unarmed_attack() const
+auto Character::unarmed_attack() const -> bool
 {
     const item &weap = used_weapon();
     return weap.is_null() || weap.has_flag( "UNARMED_WEAPON" );
 }
 
-bool Character::handle_melee_wear( item &shield, float wear_multiplier )
+auto Character::handle_melee_wear( item &shield, float wear_multiplier ) -> bool
 {
     if( wear_multiplier <= 0.0f ) {
         return false;
@@ -271,7 +271,7 @@ bool Character::handle_melee_wear( item &shield, float wear_multiplier )
     return true;
 }
 
-float Character::get_hit_weapon( const item &weap ) const
+auto Character::get_hit_weapon( const item &weap ) const -> float
 {
     /** @EFFECT_UNARMED improves hit chance for unarmed weapons */
     /** @EFFECT_BASHING improves hit chance for bashing weapons */
@@ -288,13 +288,13 @@ float Character::get_hit_weapon( const item &weap ) const
     return ( skill / 3.0f ) + ( get_skill_level( skill_melee ) / 2.0f ) + weap.type->m_to_hit;
 }
 
-float Character::get_melee_hit_base() const
+auto Character::get_melee_hit_base() const -> float
 {
     // Character::get_hit_base includes stat calculations already
     return Character::get_hit_base() + get_hit_weapon( used_weapon() ) + mabuff_tohit_bonus();
 }
 
-float Character::hit_roll() const
+auto Character::hit_roll() const -> float
 {
     // Dexterity, skills, weapon and martial arts
     float hit = get_melee_hit_base();
@@ -326,7 +326,7 @@ void Character::clear_miss_reasons()
     melee_miss_reasons.clear();
 }
 
-std::string Character::get_miss_reason()
+auto Character::get_miss_reason() -> std::string
 {
     // everything that lowers accuracy in player::hit_roll()
     // adding it in hit_roll() might not be safe if it's called multiple times
@@ -709,7 +709,7 @@ void player::reach_attack( const tripoint &p )
     reach_attacking = false;
 }
 
-int stumble( Character &u, const item &weap )
+auto stumble( Character &u, const item &weap ) -> int
 {
     if( u.has_trait( trait_DEFT ) ) {
         return 0;
@@ -725,7 +725,7 @@ int stumble( Character &u, const item &weap )
            ( weap.weight() / ( u.str_cur * 10_gram + 13.0_gram ) );
 }
 
-bool Character::scored_crit( float target_dodge, const item &weap ) const
+auto Character::scored_crit( float target_dodge, const item &weap ) const -> bool
 {
     return rng_float( 0, 1.0 ) < crit_chance( hit_roll(), target_dodge, weap );
 }
@@ -733,12 +733,12 @@ bool Character::scored_crit( float target_dodge, const item &weap ) const
 /**
  * Limits a probability to be between 0.0 and 1.0
  */
-inline double limit_probability( double unbounded_probability )
+inline auto limit_probability( double unbounded_probability ) -> double
 {
     return std::max( std::min( unbounded_probability, 1.0 ), 0.0 );
 }
 
-double Character::crit_chance( float roll_hit, float target_dodge, const item &weap ) const
+auto Character::crit_chance( float roll_hit, float target_dodge, const item &weap ) const -> double
 {
     // Weapon to-hit roll
     double weapon_crit_chance = 0.5;
@@ -808,7 +808,7 @@ double Character::crit_chance( float roll_hit, float target_dodge, const item &w
     return chance_triple;
 }
 
-float Character::get_dodge() const
+auto Character::get_dodge() const -> float
 {
     //If we're asleep or busy we can't dodge
     if( in_sleep_state() || has_effect( effect_narcosis ) ) {
@@ -851,12 +851,12 @@ float Character::get_dodge() const
     return std::max( 0.0f, ret );
 }
 
-float player::dodge_roll()
+auto player::dodge_roll() -> float
 {
     return get_dodge() * 5;
 }
 
-float Character::bonus_damage( bool random ) const
+auto Character::bonus_damage( bool random ) const -> float
 {
     /** @EFFECT_STR increases bashing damage */
     if( random ) {
@@ -1111,8 +1111,8 @@ void Character::roll_stab_damage( bool crit, damage_instance &di, bool /*average
     di.add_damage( DT_STAB, stab_dam, arpen, armor_mult, stab_mul );
 }
 
-matec_id Character::pick_technique( Creature &t, const item &weap,
-                                    bool crit, bool dodge_counter, bool block_counter )
+auto Character::pick_technique( Creature &t, const item &weap,
+                                    bool crit, bool dodge_counter, bool block_counter ) -> matec_id
 {
 
     const std::vector<matec_id> all = martial_arts_data->get_all_techniques( weap );
@@ -1214,14 +1214,14 @@ matec_id Character::pick_technique( Creature &t, const item &weap,
     return random_entry( possible, tec_none );
 }
 
-bool Character::valid_aoe_technique( Creature &t, const ma_technique &technique )
+auto Character::valid_aoe_technique( Creature &t, const ma_technique &technique ) -> bool
 {
     std::vector<Creature *> dummy_targets;
     return valid_aoe_technique( t, technique, dummy_targets );
 }
 
-bool Character::valid_aoe_technique( Creature &t, const ma_technique &technique,
-                                     std::vector<Creature *> &targets )
+auto Character::valid_aoe_technique( Creature &t, const ma_technique &technique,
+                                     std::vector<Creature *> &targets ) -> bool
 {
     if( technique.aoe.empty() ) {
         return false;
@@ -1327,14 +1327,14 @@ bool Character::valid_aoe_technique( Creature &t, const ma_technique &technique,
     return false;
 }
 
-bool character_martial_arts::has_technique( const Character &guy, const matec_id &id,
-        const item &weap ) const
+auto character_martial_arts::has_technique( const Character &guy, const matec_id &id,
+        const item &weap ) const -> bool
 {
     return weap.has_technique( id ) ||
            style_selected->has_technique( guy, id );
 }
 
-static damage_unit &get_damage_unit( std::vector<damage_unit> &di, const damage_type dt )
+static auto get_damage_unit( std::vector<damage_unit> &di, const damage_type dt ) -> damage_unit &
 {
     static damage_unit nullunit( DT_NULL, 0, 0, 0, 0 );
     for( auto &du : di ) {
@@ -1525,7 +1525,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
     }
 }
 
-static int blocking_ability( const item &shield )
+static auto blocking_ability( const item &shield ) -> int
 {
     int block_bonus = 0;
     if( shield.has_technique( WBLOCK_3 ) ) {
@@ -1540,7 +1540,7 @@ static int blocking_ability( const item &shield )
     return block_bonus;
 }
 
-item &Character::best_shield()
+auto Character::best_shield() -> item &
 {
     // Note: wielded weapon, not one used for attacks
     int best_value = blocking_ability( weapon );
@@ -1570,7 +1570,7 @@ item &Character::best_shield()
     return *best;
 }
 
-bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instance &dam )
+auto Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instance &dam ) -> bool
 {
     // Shouldn't block if player is asleep
     if( in_sleep_state() || has_effect( effect_narcosis ) ) {
@@ -1811,7 +1811,7 @@ void Character::perform_special_attacks( Creature &t, dealt_damage_instance &dea
     }
 }
 
-std::string Character::melee_special_effects( Creature &t, damage_instance &d, item &weap )
+auto Character::melee_special_effects( Creature &t, damage_instance &d, item &weap ) -> std::string
 {
     std::string dump;
 
@@ -1899,7 +1899,7 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
     return dump;
 }
 
-static damage_instance hardcoded_mutation_attack( const Character &u, const trait_id &id )
+static auto hardcoded_mutation_attack( const Character &u, const trait_id &id ) -> damage_instance
 {
     if( id == trait_BEAK_PECK ) {
         // method open to improvement, please feel free to suggest
@@ -1953,7 +1953,7 @@ static damage_instance hardcoded_mutation_attack( const Character &u, const trai
     return damage_instance();
 }
 
-std::vector<special_attack> Character::mutation_attacks( Creature &t ) const
+auto Character::mutation_attacks( Creature &t ) const -> std::vector<special_attack>
 {
     std::vector<special_attack> ret;
 
@@ -2032,7 +2032,7 @@ std::vector<special_attack> Character::mutation_attacks( Creature &t ) const
     return ret;
 }
 
-std::string melee_message( const ma_technique &tec, Character &p, const dealt_damage_instance &ddi )
+auto melee_message( const ma_technique &tec, Character &p, const dealt_damage_instance &ddi ) -> std::string
 {
     // Those could be extracted to a json
 
@@ -2212,7 +2212,7 @@ void player_hit_message( Character *attacker, const std::string &message,
     attacker->add_msg_player_or_npc( msgtype, msg, msg, t.disp_name() );
 }
 
-int Character::attack_cost( const item &weap ) const
+auto Character::attack_cost( const item &weap ) const -> int
 {
     const int base_move_cost = weap.attack_cost() / 2;
     const int melee_skill = has_active_bionic( bionic_id( bio_cqb ) ) ? BIO_CQB_LEVEL : get_skill_level(
@@ -2252,7 +2252,7 @@ int Character::attack_cost( const item &weap ) const
     return move_cost;
 }
 
-double player::weapon_value( const item &weap, int ammo ) const
+auto player::weapon_value( const item &weap, int ammo ) const -> double
 {
     if( is_wielding( weap ) ) {
         auto cached_value = cached_info.find( "weapon_value" );
@@ -2280,7 +2280,7 @@ double player::weapon_value( const item &weap, int ammo ) const
     return my_val;
 }
 
-double player::melee_value( const item &weap ) const
+auto player::melee_value( const item &weap ) const -> double
 {
     // start with average effective dps against a range of enemies
     double my_value = weap.average_dps( *this );
@@ -2305,7 +2305,7 @@ double player::melee_value( const item &weap ) const
     return std::max( 0.0, my_value );
 }
 
-double player::unarmed_value() const
+auto player::unarmed_value() const -> double
 {
     // TODO: Martial arts
     return melee_value( item() );
@@ -2434,12 +2434,12 @@ void avatar::steal( npc &target )
  * Once the accuracy (sum of modifiers) of an attack has been determined,
  * this is used to actually roll the "hit value" of the attack to be compared to dodge.
  */
-float melee::melee_hit_range( float accuracy )
+auto melee::melee_hit_range( float accuracy ) -> float
 {
     return normal_roll( accuracy * 5, 25.0f );
 }
 
-melee_statistic_data melee::get_stats()
+auto melee::get_stats() -> melee_statistic_data
 {
     return melee_stats;
 }

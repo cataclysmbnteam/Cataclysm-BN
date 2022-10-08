@@ -88,11 +88,11 @@ static const itype_id itype_battery( "battery" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 
-static float obstacle_blast_percentage( float range, float distance )
+static auto obstacle_blast_percentage( float range, float distance ) -> float
 {
     return distance > range ? 0.0f : distance > range / 2 ? 0.5f : 1.0f;
 }
-static float critter_blast_percentage( Creature *c, float range, float distance )
+static auto critter_blast_percentage( Creature *c, float range, float distance ) -> float
 {
     const float radius_reduction = distance > range ? 0.0f : distance > range / 2 ? 0.5f : 1.0f;
 
@@ -112,13 +112,13 @@ static float critter_blast_percentage( Creature *c, float range, float distance 
     }
 }
 
-static float item_blast_percentage( float range, float distance )
+static auto item_blast_percentage( float range, float distance ) -> float
 {
     const float radius_reduction = 1.0f - distance / range;
     return radius_reduction;
 }
 
-explosion_data load_explosion_data( const JsonObject &jo )
+auto load_explosion_data( const JsonObject &jo ) -> explosion_data
 {
     explosion_data ret;
     // First new explosions
@@ -157,8 +157,8 @@ explosion_data load_explosion_data( const JsonObject &jo )
 namespace explosion_handler
 {
 // (C1001) Compiler Internal Error on Visual Studio 2015 with Update 2
-static std::map<const Creature *, int> do_blast( const tripoint &p, const float power,
-        const float radius, const bool fire )
+static auto do_blast( const tripoint &p, const float power,
+        const float radius, const bool fire ) -> std::map<const Creature *, int>
 {
     const float tile_dist = 1.0f;
     const float diag_dist = trigdist ? M_SQRT2 * tile_dist : 1.0f * tile_dist;
@@ -343,9 +343,9 @@ static std::map<const Creature *, int> do_blast( const tripoint &p, const float 
     return blasted;
 }
 
-static std::map<const Creature *, int> do_blast_new( const tripoint &blast_center,
+static auto do_blast_new( const tripoint &blast_center,
         const float raw_blast_force,
-        const float raw_blast_radius )
+        const float raw_blast_radius ) -> std::map<const Creature *, int>
 {
     /*
     Explosions are completed in 3 stages.
@@ -609,7 +609,7 @@ static std::map<const Creature *, int> do_blast_new( const tripoint &blast_cente
 }
 
 
-static std::map<const Creature *, int> shrapnel( const tripoint &src, const projectile &fragment )
+static auto shrapnel( const tripoint &src, const projectile &fragment ) -> std::map<const Creature *, int>
 {
     std::map<const Creature *, int> damaged;
 
@@ -1148,7 +1148,7 @@ void explosion_funcs::resonance_cascade( const queued_explosion &qe )
     }
 }
 
-projectile shrapnel_from_legacy( int power, float blast_radius )
+auto shrapnel_from_legacy( int power, float blast_radius ) -> projectile
 {
     int range = 2 * blast_radius;
     // Damage approximately equal to blast damage at epicenter
@@ -1161,13 +1161,13 @@ projectile shrapnel_from_legacy( int power, float blast_radius )
     return proj;
 }
 
-float blast_radius_from_legacy( int power, float distance_factor )
+auto blast_radius_from_legacy( int power, float distance_factor ) -> float
 {
     return std::pow( power * power_to_dmg_mult, ( 1.0 / 4.0 ) ) *
            ( std::log( 0.75f ) / std::log( distance_factor ) );
 }
 
-explosion_queue &get_explosion_queue()
+auto get_explosion_queue() -> explosion_queue &
 {
     static explosion_queue singleton;
     return singleton;
@@ -1200,12 +1200,12 @@ void explosion_queue::execute()
 
 } // namespace explosion_handler
 
-float shrapnel_calc( const float &intensity, const float &last_obstacle, const int & )
+auto shrapnel_calc( const float &intensity, const float &last_obstacle, const int & ) -> float
 {
     return intensity - last_obstacle;
 }
 
-bool shrapnel_check( const float &obstacle, const float &last_intensity )
+auto shrapnel_check( const float &obstacle, const float &last_intensity ) -> bool
 {
     return last_intensity - obstacle > 0.0f;
 }
@@ -1215,13 +1215,13 @@ void update_fragment_cloud( float &output, const float &new_intensity, quadrant 
     output = std::max( output, new_intensity );
 }
 
-float accumulate_fragment_cloud( const float &cumulative_obstacle, const float &current_obstacle,
-                                 const int & )
+auto accumulate_fragment_cloud( const float &cumulative_obstacle, const float &current_obstacle,
+                                 const int & ) -> float
 {
     return std::max( cumulative_obstacle, current_obstacle ) + 1;
 }
 
-int explosion_data::safe_range() const
+auto explosion_data::safe_range() const -> int
 {
     return std::max<int>( radius, fragment ? fragment->range : 0 ) + 1;
 }

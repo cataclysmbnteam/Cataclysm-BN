@@ -14,7 +14,7 @@
 #include "translations.h"
 #include "cata_utility.h"
 
-bool damage_unit::operator==( const damage_unit &other ) const
+auto damage_unit::operator==( const damage_unit &other ) const -> bool
 {
     return type == other.type &&
            amount == other.amount &&
@@ -24,7 +24,7 @@ bool damage_unit::operator==( const damage_unit &other ) const
 }
 
 damage_instance::damage_instance() = default;
-damage_instance damage_instance::physical( float bash, float cut, float stab, float arpen )
+auto damage_instance::physical( float bash, float cut, float stab, float arpen ) -> damage_instance
 {
     damage_instance d;
     d.add_damage( DT_BASH, bash, arpen );
@@ -61,7 +61,7 @@ void damage_instance::mult_damage( double multiplier, bool pre_armor )
         }
     }
 }
-float damage_instance::type_damage( damage_type dt ) const
+auto damage_instance::type_damage( damage_type dt ) const -> float
 {
     float ret = 0;
     for( const auto &elem : damage_units ) {
@@ -72,7 +72,7 @@ float damage_instance::type_damage( damage_type dt ) const
     return ret;
 }
 //This returns the damage from this damage_instance. The damage done to the target will be reduced by their armor.
-float damage_instance::total_damage() const
+auto damage_instance::total_damage() const -> float
 {
     float ret = 0;
     for( const auto &elem : damage_units ) {
@@ -85,7 +85,7 @@ void damage_instance::clear()
     damage_units.clear();
 }
 
-bool damage_instance::empty() const
+auto damage_instance::empty() const -> bool
 {
     return damage_units.empty();
 }
@@ -117,27 +117,27 @@ void damage_instance::add( const damage_unit &new_du )
     }
 }
 
-std::vector<damage_unit>::iterator damage_instance::begin()
+auto damage_instance::begin() -> std::vector<damage_unit>::iterator
 {
     return damage_units.begin();
 }
 
-std::vector<damage_unit>::const_iterator damage_instance::begin() const
+auto damage_instance::begin() const -> std::vector<damage_unit>::const_iterator
 {
     return damage_units.begin();
 }
 
-std::vector<damage_unit>::iterator damage_instance::end()
+auto damage_instance::end() -> std::vector<damage_unit>::iterator
 {
     return damage_units.end();
 }
 
-std::vector<damage_unit>::const_iterator damage_instance::end() const
+auto damage_instance::end() const -> std::vector<damage_unit>::const_iterator
 {
     return damage_units.end();
 }
 
-bool damage_instance::operator==( const damage_instance &other ) const
+auto damage_instance::operator==( const damage_instance &other ) const -> bool
 {
     return damage_units == other.damage_units;
 }
@@ -169,7 +169,7 @@ void dealt_damage_instance::set_damage( damage_type dt, int amount )
 
     dealt_dams[dt] = amount;
 }
-int dealt_damage_instance::type_damage( damage_type dt ) const
+auto dealt_damage_instance::type_damage( damage_type dt ) const -> int
 {
     if( static_cast<size_t>( dt ) < dealt_dams.size() ) {
         return dealt_dams[dt];
@@ -177,7 +177,7 @@ int dealt_damage_instance::type_damage( damage_type dt ) const
 
     return 0;
 }
-int dealt_damage_instance::total_damage() const
+auto dealt_damage_instance::total_damage() const -> int
 {
     return std::accumulate( dealt_dams.begin(), dealt_dams.end(), 0 );
 }
@@ -210,17 +210,17 @@ void resistances::set_resist( damage_type dt, float amount )
 {
     resist_vals[dt] = amount;
 }
-float resistances::type_resist( damage_type dt ) const
+auto resistances::type_resist( damage_type dt ) const -> float
 {
     return resist_vals[dt];
 }
-float resistances::get_effective_resist( const damage_unit &du ) const
+auto resistances::get_effective_resist( const damage_unit &du ) const -> float
 {
     return std::max( type_resist( du.type ) - du.res_pen,
                      0.0f ) * du.res_mult;
 }
 
-resistances &resistances::operator+=( const resistances &other )
+auto resistances::operator+=( const resistances &other ) -> resistances &
 {
     for( size_t i = 0; i < NUM_DT; i++ ) {
         resist_vals[ i ] += other.resist_vals[ i ];
@@ -242,12 +242,12 @@ static const std::map<std::string, damage_type> dt_map = {
     { translate_marker_context( "damage type", "electric" ), DT_ELECTRIC }
 };
 
-const std::map<std::string, damage_type> &get_dt_map()
+auto get_dt_map() -> const std::map<std::string, damage_type> &
 {
     return dt_map;
 }
 
-damage_type dt_by_name( const std::string &name )
+auto dt_by_name( const std::string &name ) -> damage_type
 {
     const auto &iter = dt_map.find( name );
     if( iter == dt_map.end() ) {
@@ -257,7 +257,7 @@ damage_type dt_by_name( const std::string &name )
     return iter->second;
 }
 
-std::string name_by_dt( const damage_type &dt )
+auto name_by_dt( const damage_type &dt ) -> std::string
 {
     auto iter = dt_map.cbegin();
     while( iter != dt_map.cend() ) {
@@ -270,7 +270,7 @@ std::string name_by_dt( const damage_type &dt )
     return err_msg;
 }
 
-const skill_id &skill_by_dt( damage_type dt )
+auto skill_by_dt( damage_type dt ) -> const skill_id &
 {
     static skill_id skill_bashing( "bashing" );
     static skill_id skill_cutting( "cutting" );
@@ -291,7 +291,7 @@ const skill_id &skill_by_dt( damage_type dt )
     }
 }
 
-static damage_unit load_damage_unit( const JsonObject &curr )
+static auto load_damage_unit( const JsonObject &curr ) -> damage_unit
 {
     damage_type dt = dt_by_name( curr.get_string( "damage_type" ) );
     if( dt == DT_NULL ) {
@@ -310,7 +310,7 @@ static damage_unit load_damage_unit( const JsonObject &curr )
     return damage_unit( dt, amount, arpen, armor_mul * unc_armor_mul, damage_mul * unc_damage_mul );
 }
 
-static damage_unit load_damage_unit_inherit( const JsonObject &curr, const damage_instance &parent )
+static auto load_damage_unit_inherit( const JsonObject &curr, const damage_instance &parent ) -> damage_unit
 {
     damage_unit ret = load_damage_unit( curr );
 
@@ -342,7 +342,7 @@ static damage_unit load_damage_unit_inherit( const JsonObject &curr, const damag
     return ret;
 }
 
-static damage_instance blank_damage_instance()
+static auto blank_damage_instance() -> damage_instance
 {
     damage_instance ret;
 
@@ -353,18 +353,18 @@ static damage_instance blank_damage_instance()
     return ret;
 }
 
-damage_instance load_damage_instance( const JsonObject &jo )
+auto load_damage_instance( const JsonObject &jo ) -> damage_instance
 {
     return load_damage_instance_inherit( jo, blank_damage_instance() );
 }
 
-damage_instance load_damage_instance( const JsonArray &jarr )
+auto load_damage_instance( const JsonArray &jarr ) -> damage_instance
 {
     return load_damage_instance_inherit( jarr, blank_damage_instance() );
 }
 
 
-damage_instance load_damage_instance_inherit( const JsonObject &jo, const damage_instance &parent )
+auto load_damage_instance_inherit( const JsonObject &jo, const damage_instance &parent ) -> damage_instance
 {
     damage_instance di;
     if( jo.has_array( "values" ) ) {
@@ -378,7 +378,7 @@ damage_instance load_damage_instance_inherit( const JsonObject &jo, const damage
     return di;
 }
 
-damage_instance load_damage_instance_inherit( const JsonArray &jarr, const damage_instance &parent )
+auto load_damage_instance_inherit( const JsonArray &jarr, const damage_instance &parent ) -> damage_instance
 {
     damage_instance di;
     for( const JsonObject curr : jarr ) {
@@ -388,7 +388,7 @@ damage_instance load_damage_instance_inherit( const JsonArray &jarr, const damag
     return di;
 }
 
-std::array<float, NUM_DT> load_damage_array( const JsonObject &jo )
+auto load_damage_array( const JsonObject &jo ) -> std::array<float, NUM_DT>
 {
     std::array<float, NUM_DT> ret;
     float init_val = jo.get_float( "all", 0.0f );
@@ -411,7 +411,7 @@ std::array<float, NUM_DT> load_damage_array( const JsonObject &jo )
     return ret;
 }
 
-resistances load_resistances_instance( const JsonObject &jo )
+auto load_resistances_instance( const JsonObject &jo ) -> resistances
 {
     resistances ret;
     ret.resist_vals = load_damage_array( jo );

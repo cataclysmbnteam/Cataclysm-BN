@@ -18,7 +18,7 @@
 
 static constexpr int SCENT_RADIUS = 40;
 
-static nc_color sev( const size_t level )
+static auto sev( const size_t level ) -> nc_color
 {
     static const std::array<nc_color, 22> colors = { {
             c_cyan,
@@ -91,7 +91,7 @@ void scent_map::shift( const point &sm_shift )
     grscent = new_scent;
 }
 
-int scent_map::get( const tripoint &p ) const
+auto scent_map::get( const tripoint &p ) const -> int
 {
     if( inbounds( p ) && grscent[p.x][p.y] > 0 ) {
         return get_unsafe( p );
@@ -113,12 +113,12 @@ void scent_map::set_unsafe( const tripoint &p, int value, const scenttype_id &ty
         typescent = type;
     }
 }
-int scent_map::get_unsafe( const tripoint &p ) const
+auto scent_map::get_unsafe( const tripoint &p ) const -> int
 {
     return grscent[p.x][p.y] - std::abs( gm.get_levz() - p.z );
 }
 
-scenttype_id scent_map::get_type( const tripoint &p ) const
+auto scent_map::get_type( const tripoint &p ) const -> scenttype_id
 {
     scenttype_id id;
     if( inbounds( p ) && grscent[p.x][p.y] > 0 ) {
@@ -127,7 +127,7 @@ scenttype_id scent_map::get_type( const tripoint &p ) const
     return id;
 }
 
-bool scent_map::inbounds( const tripoint &p ) const
+auto scent_map::inbounds( const tripoint &p ) const -> bool
 {
     // HACK: This weird long check here is a hack around the fact that scentmap is 2D
     // A z-level can access scentmap if it is within SCENT_MAP_Z_REACH flying z-level move from player's z-level
@@ -249,13 +249,13 @@ generic_factory<scent_type> scent_factory( "scent_type" );
 } // namespace
 
 template<>
-const scent_type &string_id<scent_type>::obj() const
+auto string_id<scent_type>::obj() const -> const scent_type &
 {
     return scent_factory.obj( *this );
 }
 
 template<>
-bool string_id<scent_type>::is_valid() const
+auto string_id<scent_type>::is_valid() const -> bool
 {
     return scent_factory.is_valid( *this );
 }
@@ -271,7 +271,7 @@ void scent_type::load( const JsonObject &jo, const std::string & )
     assign( jo, "receptive_species", receptive_species );
 }
 
-const std::vector<scent_type> &scent_type::get_all()
+auto scent_type::get_all() -> const std::vector<scent_type> &
 {
     return scent_factory.get_all();
 }

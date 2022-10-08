@@ -38,12 +38,12 @@ class consistency_report
             warns.push_back( string_format( format, std::forward<Args>( args )... ) );
         }
 
-        bool is_empty() const {
+        auto is_empty() const -> bool {
             return warns.empty();
         }
 
         /** Format the report for debugmsg. */
-        std::string format( const std::string &data_type, const std::string &id ) const {
+        auto format( const std::string &data_type, const std::string &id ) const -> std::string {
             std::string ret = string_format( "Warnings for %s \"%s\":", data_type, id );
             for( const std::string &s : warns ) {
                 ret += '\n';

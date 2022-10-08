@@ -89,11 +89,11 @@ struct PlfTStream {
         }
     }
 
-    PlfTStream cloned() const {
+    auto cloned() const -> PlfTStream {
         return *this;
     }
 
-    PlfToken peek_internal() const {
+    auto peek_internal() const -> PlfToken {
         std::string tok;
         size_t pos = this->pos;
         while( pos < end ) {
@@ -134,22 +134,22 @@ struct PlfTStream {
         return PlfToken{ PlfOp::NumOps, 0, pos, 0 };
     }
 
-    PlfToken get() {
+    auto get() -> PlfToken {
         PlfToken t = peek_internal();
         pos = t.start + t.len;
         return t;
     }
 
-    PlfToken peek() const {
+    auto peek() const -> PlfToken {
         return peek_internal();
     }
 
-    PlfTStream &skip() {
+    auto skip() -> PlfTStream & {
         get();
         return *this;
     }
 
-    bool has_tokens() const {
+    auto has_tokens() const -> bool {
         return peek().kind != PlfOp::NumOps;
     }
 };
@@ -163,15 +163,15 @@ struct ParseRet {
 
 using ParserPtr = ParseRet( * )( const PlfTStream &ts );
 
-ParseRet plf_get_expr( const PlfTStream &ts );
-ParseRet plf_get_or( const PlfTStream &ts );
-ParseRet plf_get_and( const PlfTStream &ts );
-ParseRet plf_get_eq( const PlfTStream &ts );
-ParseRet plf_get_cmp( const PlfTStream &ts );
-ParseRet plf_get_mod( const PlfTStream &ts );
-ParseRet plf_get_value( const PlfTStream &ts );
+auto plf_get_expr( const PlfTStream &ts ) -> ParseRet;
+auto plf_get_or( const PlfTStream &ts ) -> ParseRet;
+auto plf_get_and( const PlfTStream &ts ) -> ParseRet;
+auto plf_get_eq( const PlfTStream &ts ) -> ParseRet;
+auto plf_get_cmp( const PlfTStream &ts ) -> ParseRet;
+auto plf_get_mod( const PlfTStream &ts ) -> ParseRet;
+auto plf_get_value( const PlfTStream &ts ) -> ParseRet;
 
-PlfNodePtr parse_plural_rules( const std::string &s )
+auto parse_plural_rules( const std::string &s ) -> PlfNodePtr
 {
     PlfTStream tokstr( &s );
     ParseRet ret = plf_get_expr( tokstr );
@@ -183,7 +183,7 @@ PlfNodePtr parse_plural_rules( const std::string &s )
     return std::move( ret.expr );
 }
 
-static bool plf_try_binary_op( ParseRet &left, PlfOp op, ParserPtr parser )
+static auto plf_try_binary_op( ParseRet &left, PlfOp op, ParserPtr parser ) -> bool
 {
     const PlfTStream &ts = left.ts;
     if( ts.peek().kind != op ) {
@@ -198,7 +198,7 @@ static bool plf_try_binary_op( ParseRet &left, PlfOp op, ParserPtr parser )
     return true;
 }
 
-ParseRet plf_get_expr( const PlfTStream &ts )
+auto plf_get_expr( const PlfTStream &ts ) -> ParseRet
 {
     ParseRet e1 = plf_get_or( ts );
     if( e1.ts.peek().kind != PlfOp::TerCond ) {
@@ -217,21 +217,21 @@ ParseRet plf_get_expr( const PlfTStream &ts )
     e3.ts );
 }
 
-ParseRet plf_get_or( const PlfTStream &ts )
+auto plf_get_or( const PlfTStream &ts ) -> ParseRet
 {
     ParseRet ret = plf_get_and( ts );
     plf_try_binary_op( ret, PlfOp::Or, plf_get_or );
     return ret;
 }
 
-ParseRet plf_get_and( const PlfTStream &ts )
+auto plf_get_and( const PlfTStream &ts ) -> ParseRet
 {
     ParseRet ret = plf_get_eq( ts );
     plf_try_binary_op( ret, PlfOp::And, plf_get_and );
     return ret;
 }
 
-ParseRet plf_get_eq( const PlfTStream &ts )
+auto plf_get_eq( const PlfTStream &ts ) -> ParseRet
 {
     ParseRet ret = plf_get_cmp( ts );
     if( plf_try_binary_op( ret, PlfOp::Eq, plf_get_cmp ) ) {
@@ -241,7 +241,7 @@ ParseRet plf_get_eq( const PlfTStream &ts )
     return ret;
 }
 
-ParseRet plf_get_cmp( const PlfTStream &ts )
+auto plf_get_cmp( const PlfTStream &ts ) -> ParseRet
 {
     ParseRet ret = plf_get_mod( ts );
     if( plf_try_binary_op( ret, PlfOp::GreaterEq, plf_get_mod ) ) {
@@ -257,14 +257,14 @@ ParseRet plf_get_cmp( const PlfTStream &ts )
     return ret;
 }
 
-ParseRet plf_get_mod( const PlfTStream &ts )
+auto plf_get_mod( const PlfTStream &ts ) -> ParseRet
 {
     ParseRet ret = plf_get_value( ts );
     plf_try_binary_op( ret, PlfOp::Mod, plf_get_value );
     return ret;
 }
 
-ParseRet plf_get_value( const PlfTStream &ts )
+auto plf_get_value( const PlfTStream &ts ) -> ParseRet
 {
     PlfToken next = ts.peek();
     if( next.kind == PlfOp::BrOpen ) {
@@ -292,7 +292,7 @@ ParseRet plf_get_value( const PlfTStream &ts )
     }
 }
 
-size_t PlfNode::eval( size_t n ) const
+auto PlfNode::eval( size_t n ) const -> size_t
 {
     switch( op ) {
         case PlfOp::Mod: {
@@ -332,7 +332,7 @@ size_t PlfNode::eval( size_t n ) const
     return 0;
 }
 
-std::string PlfNode::debug_dump() const
+auto PlfNode::debug_dump() const -> std::string
 {
     switch( op ) {
         case PlfOp::TerCond:
@@ -361,7 +361,7 @@ std::string PlfNode::debug_dump() const
 constexpr u32 MO_STRING_DESCR_SIZE = 8;
 constexpr u8 PLF_SEPARATOR = 0;
 
-trans_catalogue trans_catalogue::load_from_file( const std::string &file_path )
+auto trans_catalogue::load_from_file( const std::string &file_path ) -> trans_catalogue
 {
     std::stringstream buffer;
     cata_ifstream file = std::move( cata_ifstream().mode( cata_ios_mode::binary ).open( file_path ) );
@@ -375,12 +375,12 @@ trans_catalogue trans_catalogue::load_from_file( const std::string &file_path )
     return load_from_memory( buffer.str() );
 }
 
-trans_catalogue trans_catalogue::load_from_memory( std::string mo_file )
+auto trans_catalogue::load_from_memory( std::string mo_file ) -> trans_catalogue
 {
     return trans_catalogue( std::move( mo_file ) );
 }
 
-u8 trans_catalogue::get_u8( u32 offs ) const
+auto trans_catalogue::get_u8( u32 offs ) const -> u8
 {
     if( offs + 1 > buf_size() ) {
         std::string e = string_format( "tried get_u8() at offs %#x with file size %#x", offs, buf_size() );
@@ -389,7 +389,7 @@ u8 trans_catalogue::get_u8( u32 offs ) const
     return get_u8_unsafe( offs );
 }
 
-u32 trans_catalogue::get_u32( u32 offs ) const
+auto trans_catalogue::get_u32( u32 offs ) const -> u32
 {
     if( offs + 4 > buf_size() ) {
         std::string e = string_format( "tried get_u32() at offs %#x with file size %#x", offs, buf_size() );
@@ -398,7 +398,7 @@ u32 trans_catalogue::get_u32( u32 offs ) const
     return get_u32_unsafe( offs );
 }
 
-trans_catalogue::string_descr trans_catalogue::get_string_descr( u32 offs ) const
+auto trans_catalogue::get_string_descr( u32 offs ) const -> trans_catalogue::string_descr
 {
     string_descr ret;
     ret.length = get_u32( offs );
@@ -406,7 +406,7 @@ trans_catalogue::string_descr trans_catalogue::get_string_descr( u32 offs ) cons
     return ret;
 }
 
-trans_catalogue::string_descr trans_catalogue::get_string_descr_unsafe( u32 offs ) const
+auto trans_catalogue::get_string_descr_unsafe( u32 offs ) const -> trans_catalogue::string_descr
 {
     string_descr ret;
     ret.length = get_u32_unsafe( offs );
@@ -414,7 +414,7 @@ trans_catalogue::string_descr trans_catalogue::get_string_descr_unsafe( u32 offs
     return ret;
 }
 
-std::string trans_catalogue::get_metadata() const
+auto trans_catalogue::get_metadata() const -> std::string
 {
     // We're looking for a string with empty msgid and absent msgctxt and msgid_pl.
     // Since the strings are sorted in lexicographical order, this will be the first string.
@@ -584,8 +584,8 @@ void trans_catalogue::check_encoding( const meta_headers &headers )
     }
 }
 
-trans_catalogue::catalogue_plurals_info trans_catalogue::parse_plf_header(
-    const meta_headers &headers )
+auto trans_catalogue::parse_plf_header(
+    const meta_headers &headers ) -> trans_catalogue::catalogue_plurals_info
 {
     constexpr size_t MAX_PLURAL_FORMS = 8;
 
@@ -673,7 +673,7 @@ trans_catalogue::trans_catalogue( std::string buffer )
     check_string_plurals();
 }
 
-bool trans_catalogue::check_nth_translation_has_plf( u32 n ) const
+auto trans_catalogue::check_nth_translation_has_plf( u32 n ) const -> bool
 {
     u32 descr_offs = offs_trans_table + n * MO_STRING_DESCR_SIZE;
     string_descr r = get_string_descr_unsafe( descr_offs );
@@ -687,7 +687,7 @@ bool trans_catalogue::check_nth_translation_has_plf( u32 n ) const
     return false;
 }
 
-const char *trans_catalogue::get_nth_orig_string( u32 n ) const
+auto trans_catalogue::get_nth_orig_string( u32 n ) const -> const char *
 {
     u32 descr_offs = offs_orig_table + n * MO_STRING_DESCR_SIZE;
     string_descr r = get_string_descr_unsafe( descr_offs );
@@ -695,7 +695,7 @@ const char *trans_catalogue::get_nth_orig_string( u32 n ) const
     return offs_to_cstr( r.offset );
 }
 
-const char *trans_catalogue::get_nth_translation( u32 n ) const
+auto trans_catalogue::get_nth_translation( u32 n ) const -> const char *
 {
     u32 descr_offs = offs_trans_table + n * MO_STRING_DESCR_SIZE;
     string_descr r = get_string_descr_unsafe( descr_offs );
@@ -703,7 +703,7 @@ const char *trans_catalogue::get_nth_translation( u32 n ) const
     return offs_to_cstr( r.offset );
 }
 
-const char *trans_catalogue::get_nth_pl_translation( u32 n, size_t num ) const
+auto trans_catalogue::get_nth_pl_translation( u32 n, size_t num ) const -> const char *
 {
     u32 descr_offs = offs_trans_table + n * MO_STRING_DESCR_SIZE;
     string_descr r = get_string_descr_unsafe( descr_offs );
@@ -729,8 +729,8 @@ const char *trans_catalogue::get_nth_pl_translation( u32 n, size_t num ) const
 // Translation library
 // ===============================================================================================
 
-std::vector<trans_library::library_string_descr>::const_iterator trans_library::find_entry(
-    const char *id ) const
+auto trans_library::find_entry(
+    const char *id ) const -> std::vector<trans_library::library_string_descr>::const_iterator
 {
     auto it = std::lower_bound( strings.begin(), strings.end(),
     id, [this]( const library_string_descr & a_descr, const char *b ) -> bool {
@@ -787,7 +787,7 @@ void trans_library::build_string_table()
     }
 }
 
-trans_library trans_library::create( std::vector<trans_catalogue> catalogues )
+auto trans_library::create( std::vector<trans_catalogue> catalogues ) -> trans_library
 {
     trans_library lib;
     lib.catalogues = std::move( catalogues );
@@ -795,7 +795,7 @@ trans_library trans_library::create( std::vector<trans_catalogue> catalogues )
     return lib;
 }
 
-const char *trans_library::lookup_string( const char *id ) const
+auto trans_library::lookup_string( const char *id ) const -> const char *
 {
     auto it = find_entry( id );
     if( it == strings.end() ) {
@@ -804,7 +804,7 @@ const char *trans_library::lookup_string( const char *id ) const
     return catalogues[it->catalogue].get_nth_translation( it->entry );
 }
 
-const char *trans_library::lookup_pl_string( const char *id, size_t n ) const
+auto trans_library::lookup_pl_string( const char *id, size_t n ) const -> const char *
 {
     auto it = find_entry( id );
     if( it == strings.end() ) {
@@ -813,19 +813,19 @@ const char *trans_library::lookup_pl_string( const char *id, size_t n ) const
     return catalogues[it->catalogue].get_nth_pl_translation( it->entry, n );
 }
 
-const char *trans_library::get( const char *msgid ) const
+auto trans_library::get( const char *msgid ) const -> const char *
 {
     const char *ret = lookup_string( msgid );
     return ret ? ret : msgid;
 }
 
-const char *trans_library::get_pl( const char *msgid, const char *msgid_pl, size_t n ) const
+auto trans_library::get_pl( const char *msgid, const char *msgid_pl, size_t n ) const -> const char *
 {
     const char *ret = lookup_pl_string( msgid, n );
     return ret ? ret : ( n == 1  ? msgid : msgid_pl );
 }
 
-const char *trans_library::get_ctx( const char *msgctxt, const char *msgid ) const
+auto trans_library::get_ctx( const char *msgctxt, const char *msgid ) const -> const char *
 {
     std::string buf;
     buf.reserve( strlen( msgctxt ) + 1 + strlen( msgid ) );
@@ -836,8 +836,8 @@ const char *trans_library::get_ctx( const char *msgctxt, const char *msgid ) con
     return ret ? ret : msgid;
 }
 
-const char *trans_library::get_ctx_pl( const char *msgctxt, const char *msgid, const char *msgid_pl,
-                                       size_t n ) const
+auto trans_library::get_ctx_pl( const char *msgctxt, const char *msgid, const char *msgid_pl,
+                                       size_t n ) const -> const char *
 {
     std::string buf;
     buf.reserve( strlen( msgctxt ) + 1 + strlen( msgid ) );

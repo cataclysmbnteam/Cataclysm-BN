@@ -34,7 +34,7 @@
 #include "vpart_position.h"
 
 template <typename T>
-static int find_index( const T &sel, const item *obj )
+static auto find_index( const T &sel, const item *obj ) -> int
 {
     int idx = -1;
     sel.visit_items( [&idx, &obj]( const item * e ) {
@@ -48,7 +48,7 @@ static int find_index( const T &sel, const item *obj )
 }
 
 template <typename T>
-static item *retrieve_index( const T &sel, int idx )
+static auto retrieve_index( const T &sel, int idx ) -> item *
 {
     item *obj = nullptr;
     sel.visit_items( [&idx, &obj]( const item * e ) {
@@ -76,24 +76,24 @@ class item_location::impl
 
         virtual ~impl() = default;
 
-        virtual type where() const = 0;
-        virtual item_location parent_item() const {
+        virtual auto where() const -> type = 0;
+        virtual auto parent_item() const -> item_location {
             return item_location();
         }
-        virtual tripoint position() const = 0;
-        virtual std::string describe( const Character * ) const = 0;
-        virtual item_location obtain( Character &, int ) = 0;
-        virtual int obtain_cost( const Character &, int ) const = 0;
+        virtual auto position() const -> tripoint = 0;
+        virtual auto describe( const Character * ) const -> std::string = 0;
+        virtual auto obtain( Character &, int ) -> item_location = 0;
+        virtual auto obtain_cost( const Character &, int ) const -> int = 0;
         virtual void remove_item() = 0;
         virtual void serialize( JsonOut &js ) const = 0;
-        virtual item *unpack( int ) const = 0;
+        virtual auto unpack( int ) const -> item * = 0;
 
-        item *target() const {
+        auto target() const -> item * {
             ensure_unpacked();
             return what.get();
         }
 
-        virtual bool valid() const {
+        virtual auto valid() const -> bool {
             ensure_unpacked();
             return !!what;
         }
@@ -123,26 +123,26 @@ class item_location::impl
 class item_location::impl::nowhere : public item_location::impl
 {
     public:
-        type where() const override {
+        auto where() const -> type override {
             return type::invalid;
         }
 
-        tripoint position() const override {
+        auto position() const -> tripoint override {
             debugmsg( "invalid use of nowhere item_location" );
             return tripoint_min;
         }
 
-        std::string describe( const Character * ) const override {
+        auto describe( const Character * ) const -> std::string override {
             debugmsg( "invalid use of nowhere item_location" );
             return "";
         }
 
-        item_location obtain( Character &, int ) override {
+        auto obtain( Character &, int ) -> item_location override {
             debugmsg( "invalid use of nowhere item_location" );
             return item_location();
         }
 
-        int obtain_cost( const Character &, int ) const override {
+        auto obtain_cost( const Character &, int ) const -> int override {
             debugmsg( "invalid use of nowhere item_location" );
             return 0;
         }
@@ -151,7 +151,7 @@ class item_location::impl::nowhere : public item_location::impl
             debugmsg( "invalid use of nowhere item_location" );
         }
 
-        item *unpack( int ) const override {
+        auto unpack( int ) const -> item * override {
             return nullptr;
         }
 
@@ -181,19 +181,19 @@ class item_location::impl::item_on_map : public item_location::impl
             js.end_object();
         }
 
-        item *unpack( int idx ) const override {
+        auto unpack( int idx ) const -> item * override {
             return retrieve_index( cur, idx );
         }
 
-        type where() const override {
+        auto where() const -> type override {
             return type::map;
         }
 
-        tripoint position() const override {
+        auto position() const -> tripoint override {
             return cur;
         }
 
-        std::string describe( const Character *ch ) const override {
+        auto describe( const Character *ch ) const -> std::string override {
             std::string res = get_map().name( cur );
             if( ch ) {
                 res += std::string( " " ) += direction_suffix( ch->pos(), cur );
@@ -201,7 +201,7 @@ class item_location::impl::item_on_map : public item_location::impl
             return res;
         }
 
-        item_location obtain( Character &ch, int qty ) override {
+        auto obtain( Character &ch, int qty ) -> item_location override {
             ch.moves -= obtain_cost( ch, qty );
 
             item obj = target()->split( qty );
@@ -214,7 +214,7 @@ class item_location::impl::item_on_map : public item_location::impl
             }
         }
 
-        int obtain_cost( const Character &ch, int qty ) const override {
+        auto obtain_cost( const Character &ch, int qty ) const -> int override {
             if( !target() ) {
                 return 0;
             }
@@ -249,7 +249,7 @@ class item_location::impl::item_on_person : public item_location::impl
         character_id who_id;
         mutable Character *who;
 
-        bool ensure_who_unpacked() const {
+        auto ensure_who_unpacked() const -> bool {
             if( !who ) {
                 who = g->critter_by_id<Character>( who_id );
                 if( !who ) {
@@ -284,25 +284,25 @@ class item_location::impl::item_on_person : public item_location::impl
             js.end_object();
         }
 
-        item *unpack( int idx ) const override {
+        auto unpack( int idx ) const -> item * override {
             if( !ensure_who_unpacked() ) {
                 return nullptr;
             }
             return retrieve_index( *who, idx );
         }
 
-        type where() const override {
+        auto where() const -> type override {
             return type::character;
         }
 
-        tripoint position() const override {
+        auto position() const -> tripoint override {
             if( !ensure_who_unpacked() ) {
                 return tripoint_zero;
             }
             return who->pos();
         }
 
-        std::string describe( const Character *ch ) const override {
+        auto describe( const Character *ch ) const -> std::string override {
             if( !target() || !ensure_who_unpacked() ) {
                 return std::string();
             }
@@ -324,7 +324,7 @@ class item_location::impl::item_on_person : public item_location::impl
             }
         }
 
-        item_location obtain( Character &ch, int qty ) override {
+        auto obtain( Character &ch, int qty ) -> item_location override {
             ch.mod_moves( -obtain_cost( ch, qty ) );
 
             if( &ch.i_at( ch.get_item_position( target() ) ) == target() ) {
@@ -342,7 +342,7 @@ class item_location::impl::item_on_person : public item_location::impl
             }
         }
 
-        int obtain_cost( const Character &ch, int qty ) const override {
+        auto obtain_cost( const Character &ch, int qty ) const -> int override {
             if( !target() || !ensure_who_unpacked() ) {
                 return 0;
             }
@@ -400,7 +400,7 @@ class item_location::impl::item_on_person : public item_location::impl
             who->remove_item( *what );
         }
 
-        bool valid() const override {
+        auto valid() const -> bool override {
             ensure_who_unpacked();
             ensure_unpacked();
             return !!what && !!who;
@@ -434,19 +434,19 @@ class item_location::impl::item_on_vehicle : public item_location::impl
             js.end_object();
         }
 
-        item *unpack( int idx ) const override {
+        auto unpack( int idx ) const -> item * override {
             return idx >= 0 ? retrieve_index( cur, idx ) : &cur.veh.part( cur.part ).base;
         }
 
-        type where() const override {
+        auto where() const -> type override {
             return type::vehicle;
         }
 
-        tripoint position() const override {
+        auto position() const -> tripoint override {
             return cur.veh.global_part_pos3( cur.part );
         }
 
-        std::string describe( const Character *ch ) const override {
+        auto describe( const Character *ch ) const -> std::string override {
             vpart_position part_pos( cur.veh, cur.part );
             std::string res;
             if( auto label = part_pos.get_label() ) {
@@ -463,7 +463,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
             return res;
         }
 
-        item_location obtain( Character &ch, int qty ) override {
+        auto obtain( Character &ch, int qty ) -> item_location override {
             ch.moves -= obtain_cost( ch, qty );
 
             item obj = target()->split( qty );
@@ -476,7 +476,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
             }
         }
 
-        int obtain_cost( const Character &ch, int qty ) const override {
+        auto obtain_cost( const Character &ch, int qty ) const -> int override {
             if( !target() ) {
                 return 0;
             }
@@ -521,7 +521,7 @@ class item_location::impl::item_in_container : public item_location::impl
 
         // figures out the index for the item, which is where it is in the total list of contents
         // note: could be a better way of handling this?
-        int calc_index() const {
+        auto calc_index() const -> int {
             int idx = 0;
             for( const item *it : container->contents.all_items_top() ) {
                 if( target() == it ) {
@@ -535,7 +535,7 @@ class item_location::impl::item_in_container : public item_location::impl
             return idx;
         }
     public:
-        item_location parent_item() const override {
+        auto parent_item() const -> item_location override {
             return container;
         }
 
@@ -550,7 +550,7 @@ class item_location::impl::item_in_container : public item_location::impl
             js.end_object();
         }
 
-        item *unpack( int idx ) const override {
+        auto unpack( int idx ) const -> item * override {
             if( idx < 0 || static_cast<size_t>( idx ) >= target()->contents.num_item_stacks() ) {
                 return nullptr;
             }
@@ -564,18 +564,18 @@ class item_location::impl::item_in_container : public item_location::impl
             }
         }
 
-        std::string describe( const Character * ) const override {
+        auto describe( const Character * ) const -> std::string override {
             if( !target() ) {
                 return std::string();
             }
             return string_format( _( "inside %s" ), container->tname() );
         }
 
-        type where() const override {
+        auto where() const -> type override {
             return type::container;
         }
 
-        tripoint position() const override {
+        auto position() const -> tripoint override {
             return container.position();
         }
 
@@ -583,7 +583,7 @@ class item_location::impl::item_in_container : public item_location::impl
             container->remove_item( *target() );
         }
 
-        item_location obtain( Character &ch, int qty ) override {
+        auto obtain( Character &ch, int qty ) -> item_location override {
             ch.mod_moves( -obtain_cost( ch, qty ) );
 
             item obj = target()->split( qty );
@@ -596,7 +596,7 @@ class item_location::impl::item_in_container : public item_location::impl
             }
         }
 
-        int obtain_cost( const Character &ch, int qty ) const override {
+        auto obtain_cost( const Character &ch, int qty ) const -> int override {
             if( !target() ) {
                 return 0;
             }
@@ -636,12 +636,12 @@ item_location::item_location( const vehicle_cursor &vc, item *which )
 item_location::item_location( const item_location &container, item *which )
     : ptr( new impl::item_in_container( container, which ) ) {}
 
-bool item_location::operator==( const item_location &rhs ) const
+auto item_location::operator==( const item_location &rhs ) const -> bool
 {
     return ptr->target() == rhs.ptr->target();
 }
 
-bool item_location::operator!=( const item_location &rhs ) const
+auto item_location::operator!=( const item_location &rhs ) const -> bool
 {
     return ptr->target() != rhs.ptr->target();
 }
@@ -651,22 +651,22 @@ item_location::operator bool() const
     return ptr->valid();
 }
 
-item &item_location::operator*()
+auto item_location::operator*() -> item &
 {
     return *ptr->target();
 }
 
-const item &item_location::operator*() const
+auto item_location::operator*() const -> const item &
 {
     return *ptr->target();
 }
 
-item *item_location::operator->()
+auto item_location::operator->() -> item *
 {
     return ptr->target();
 }
 
-const item *item_location::operator->() const
+auto item_location::operator->() const -> const item *
 {
     return ptr->target();
 }
@@ -717,7 +717,7 @@ void item_location::deserialize( JsonIn &js )
     }
 }
 
-item_location item_location::parent_item() const
+auto item_location::parent_item() const -> item_location
 {
     if( where() == type::container ) {
         return ptr->parent_item();
@@ -726,22 +726,22 @@ item_location item_location::parent_item() const
     return item_location::nowhere;
 }
 
-item_location::type item_location::where() const
+auto item_location::where() const -> item_location::type
 {
     return ptr->where();
 }
 
-tripoint item_location::position() const
+auto item_location::position() const -> tripoint
 {
     return ptr->position();
 }
 
-std::string item_location::describe( const Character *ch ) const
+auto item_location::describe( const Character *ch ) const -> std::string
 {
     return ptr->describe( ch );
 }
 
-item_location item_location::obtain( Character &ch, int qty )
+auto item_location::obtain( Character &ch, int qty ) -> item_location
 {
     if( !ptr->valid() ) {
         debugmsg( "item location does not point to valid item" );
@@ -750,7 +750,7 @@ item_location item_location::obtain( Character &ch, int qty )
     return ptr->obtain( ch, qty );
 }
 
-int item_location::obtain_cost( const Character &ch, int qty ) const
+auto item_location::obtain_cost( const Character &ch, int qty ) const -> int
 {
     return ptr->obtain_cost( ch, qty );
 }
@@ -765,12 +765,12 @@ void item_location::remove_item()
     ptr.reset( new impl::nowhere() );
 }
 
-item *item_location::get_item()
+auto item_location::get_item() -> item *
 {
     return ptr->target();
 }
 
-const item *item_location::get_item() const
+auto item_location::get_item() const -> const item *
 {
     return ptr->target();
 }

@@ -51,14 +51,14 @@ static std::map<requirement_id, requirement_data> requirements_all;
 
 /** @relates string_id */
 template<>
-bool string_id<requirement_data>::is_valid() const
+auto string_id<requirement_data>::is_valid() const -> bool
 {
     return requirements_all.count( *this );
 }
 
 /** @relates string_id */
 template<>
-const requirement_data &string_id<requirement_data>::obj() const
+auto string_id<requirement_data>::obj() const -> const requirement_data &
 {
     const auto found = requirements_all.find( *this );
     if( found == requirements_all.end() ) {
@@ -98,19 +98,19 @@ void quality::load( const JsonObject &jo, const std::string & )
 
 /** @relates string_id */
 template<>
-const quality &string_id<quality>::obj() const
+auto string_id<quality>::obj() const -> const quality &
 {
     return quality_factory.obj( *this );
 }
 
 /** @relates string_id */
 template<>
-bool string_id<quality>::is_valid() const
+auto string_id<quality>::is_valid() const -> bool
 {
     return quality_factory.is_valid( *this );
 }
 
-std::string quality_requirement::to_string( const int, const int ) const
+auto quality_requirement::to_string( const int, const int ) const -> std::string
 {
     //~ %1$d: tool count, %2$s: quality requirement name, %3$d: quality level requirement
     return string_format( vgettext( "%1$d tool with %2$s of %3$d or more.",
@@ -118,7 +118,7 @@ std::string quality_requirement::to_string( const int, const int ) const
                           count, type.obj().name, level );
 }
 
-std::string quality_requirement::to_colored_string() const
+auto quality_requirement::to_colored_string() const -> std::string
 {
     //~ %1$d: tool count, %2$s: quality requirement name, %3$d: quality level requirement
     return string_format( vgettext( "%1$d tool with <info>%2$s of %3$d</info> or more",
@@ -126,12 +126,12 @@ std::string quality_requirement::to_colored_string() const
                           count, type.obj().name, level );
 }
 
-bool tool_comp::by_charges() const
+auto tool_comp::by_charges() const -> bool
 {
     return count > 0;
 }
 
-std::string tool_comp::to_string( const int batch, const int ) const
+auto tool_comp::to_string( const int batch, const int ) const -> std::string
 {
     if( by_charges() ) {
         //~ %1$s: tool name, %2$d: charge requirement
@@ -143,7 +143,7 @@ std::string tool_comp::to_string( const int batch, const int ) const
     }
 }
 
-std::string item_comp::to_string( const int batch, const int avail ) const
+auto item_comp::to_string( const int batch, const int avail ) const -> std::string
 {
     const int c = std::abs( count ) * batch;
     const itype *type_ptr = &*type;
@@ -290,7 +290,7 @@ void requirement_data::load_obj_list( const JsonArray &jsarr, std::vector< std::
     }
 }
 
-requirement_data requirement_data::operator*( unsigned scalar ) const
+auto requirement_data::operator*( unsigned scalar ) const -> requirement_data
 {
     requirement_data res = *this;
     for( auto &group : res.components ) {
@@ -307,7 +307,7 @@ requirement_data requirement_data::operator*( unsigned scalar ) const
     return res;
 }
 
-requirement_data requirement_data::operator+( const requirement_data &rhs ) const
+auto requirement_data::operator+( const requirement_data &rhs ) const -> requirement_data
 {
     requirement_data res = *this;
 
@@ -356,7 +356,7 @@ void requirement_data::save_requirement( const requirement_data &req, const requ
 }
 
 template<typename T>
-bool requirement_data::any_marked_available( const std::vector<T> &comps )
+auto requirement_data::any_marked_available( const std::vector<T> &comps ) -> bool
 {
     for( const auto &comp : comps ) {
         if( comp.available == available_status::a_true ) {
@@ -367,8 +367,8 @@ bool requirement_data::any_marked_available( const std::vector<T> &comps )
 }
 
 template<typename T>
-std::string requirement_data::print_all_objs( const std::string &header,
-        const std::vector< std::vector<T> > &objs )
+auto requirement_data::print_all_objs( const std::string &header,
+        const std::vector< std::vector<T> > &objs ) -> std::string
 {
     std::string buffer;
     for( const auto &list : objs ) {
@@ -389,7 +389,7 @@ std::string requirement_data::print_all_objs( const std::string &header,
     return header + "\n" + buffer + "\n";
 }
 
-std::string requirement_data::list_all() const
+auto requirement_data::list_all() const -> std::string
 {
     std::string buffer;
     buffer += print_all_objs( _( "These tools are required:" ), tools );
@@ -399,8 +399,8 @@ std::string requirement_data::list_all() const
 }
 
 template<typename T>
-std::string requirement_data::print_missing_objs( const std::string &header,
-        const std::vector< std::vector<T> > &objs )
+auto requirement_data::print_missing_objs( const std::string &header,
+        const std::vector< std::vector<T> > &objs ) -> std::string
 {
     std::string buffer;
     for( const auto &list : objs ) {
@@ -423,7 +423,7 @@ std::string requirement_data::print_missing_objs( const std::string &header,
     return header + "\n" + buffer + "\n";
 }
 
-std::string requirement_data::list_missing() const
+auto requirement_data::list_missing() const -> std::string
 {
     std::string buffer;
     buffer += print_missing_objs( _( "These tools are missing:" ), tools );
@@ -461,7 +461,7 @@ void requirement_data::check_consistency( const std::vector< std::vector<T> > &v
     }
 }
 
-const std::map<requirement_id, requirement_data> &requirement_data::all()
+auto requirement_data::all() -> const std::map<requirement_id, requirement_data> &
 {
     return requirements_all;
 }
@@ -596,9 +596,9 @@ void requirement_data::reset()
     requirements_all.clear();
 }
 
-std::vector<std::string> requirement_data::get_folded_components_list( int width, nc_color col,
+auto requirement_data::get_folded_components_list( int width, nc_color col,
         const inventory &crafting_inv, const std::function<bool( const item & )> &filter, int batch,
-        std::string hilite, requirement_display_flags flags ) const
+        std::string hilite, requirement_display_flags flags ) const -> std::vector<std::string>
 {
     std::vector<std::string> out_buffer;
     if( components.empty() ) {
@@ -614,10 +614,10 @@ std::vector<std::string> requirement_data::get_folded_components_list( int width
 }
 
 template<typename T>
-std::vector<std::string> requirement_data::get_folded_list( int width,
+auto requirement_data::get_folded_list( int width,
         const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
         const std::vector< std::vector<T> > &objs, int batch, const std::string &hilite,
-        requirement_display_flags flags ) const
+        requirement_display_flags flags ) const -> std::vector<std::string>
 {
     // hack: ensure 'cached' availability is up to date
     can_make_with_inventory( crafting_inv, filter );
@@ -674,8 +674,8 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
     return out_buffer;
 }
 
-std::vector<std::string> requirement_data::get_folded_tools_list( int width, nc_color col,
-        const inventory &crafting_inv, int batch ) const
+auto requirement_data::get_folded_tools_list( int width, nc_color col,
+        const inventory &crafting_inv, int batch ) const -> std::vector<std::string>
 {
     std::vector<std::string> output_buffer;
     output_buffer.push_back( colorize( _( "Tools required:" ), col ) );
@@ -695,8 +695,8 @@ std::vector<std::string> requirement_data::get_folded_tools_list( int width, nc_
     return output_buffer;
 }
 
-bool requirement_data::can_make_with_inventory( const inventory &crafting_inv,
-        const std::function<bool( const item & )> &filter, int batch, cost_adjustment flags ) const
+auto requirement_data::can_make_with_inventory( const inventory &crafting_inv,
+        const std::function<bool( const item & )> &filter, int batch, cost_adjustment flags ) const -> bool
 {
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -720,10 +720,10 @@ bool requirement_data::can_make_with_inventory( const inventory &crafting_inv,
 }
 
 template<typename T>
-bool requirement_data::has_comps( const inventory &crafting_inv,
+auto requirement_data::has_comps( const inventory &crafting_inv,
                                   const std::vector< std::vector<T> > &vec,
                                   const std::function<bool( const item & )> &filter,
-                                  int batch, cost_adjustment flags )
+                                  int batch, cost_adjustment flags ) -> bool
 {
     bool retval = true;
     int total_UPS_charges_used = 0;
@@ -756,9 +756,9 @@ bool requirement_data::has_comps( const inventory &crafting_inv,
     return retval;
 }
 
-bool quality_requirement::has(
+auto quality_requirement::has(
     const inventory &crafting_inv, const std::function<bool( const item & )> &, int,
-    cost_adjustment, std::function<void( int )> ) const
+    cost_adjustment, std::function<void( int )> ) const -> bool
 {
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -766,8 +766,8 @@ bool quality_requirement::has(
     return crafting_inv.has_quality( type, level, count );
 }
 
-nc_color quality_requirement::get_color( bool has_one, const inventory &,
-        const std::function<bool( const item & )> &, int ) const
+auto quality_requirement::get_color( bool has_one, const inventory &,
+        const std::function<bool( const item & )> &, int ) const -> nc_color
 {
     if( available == available_status::a_true ) {
         return c_green;
@@ -775,9 +775,9 @@ nc_color quality_requirement::get_color( bool has_one, const inventory &,
     return has_one ? c_dark_gray : c_red;
 }
 
-bool tool_comp::has(
+auto tool_comp::has(
     const inventory &crafting_inv, const std::function<bool( const item & )> &filter, int batch,
-    cost_adjustment flags, std::function<void( int )> visitor ) const
+    cost_adjustment flags, std::function<void( int )> visitor ) const -> bool
 {
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -798,8 +798,8 @@ bool tool_comp::has(
     }
 }
 
-nc_color tool_comp::get_color( bool has_one, const inventory &crafting_inv,
-                               const std::function<bool( const item & )> &filter, int batch ) const
+auto tool_comp::get_color( bool has_one, const inventory &crafting_inv,
+                               const std::function<bool( const item & )> &filter, int batch ) const -> nc_color
 {
     if( available == available_status::a_insufficent ) {
         return c_brown;
@@ -809,9 +809,9 @@ nc_color tool_comp::get_color( bool has_one, const inventory &crafting_inv,
     return has_one ? c_dark_gray : c_red;
 }
 
-bool item_comp::has(
+auto item_comp::has(
     const inventory &crafting_inv, const std::function<bool( const item & )> &filter, int batch,
-    cost_adjustment, std::function<void( int )> ) const
+    cost_adjustment, std::function<void( int )> ) const -> bool
 {
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -824,8 +824,8 @@ bool item_comp::has(
     }
 }
 
-nc_color item_comp::get_color( bool has_one, const inventory &crafting_inv,
-                               const std::function<bool( const item & )> &filter, int batch ) const
+auto item_comp::get_color( bool has_one, const inventory &crafting_inv,
+                               const std::function<bool( const item & )> &filter, int batch ) const -> nc_color
 {
     if( available == available_status::a_insufficent ) {
         return c_brown;
@@ -836,8 +836,8 @@ nc_color item_comp::get_color( bool has_one, const inventory &crafting_inv,
 }
 
 template<typename T, typename ID>
-const T *requirement_data::find_by_type( const std::vector< std::vector<T> > &vec,
-        const ID &type )
+auto requirement_data::find_by_type( const std::vector< std::vector<T> > &vec,
+        const ID &type ) -> const T *
 {
     for( const auto &list : vec ) {
         for( const auto &comp : list ) {
@@ -849,8 +849,8 @@ const T *requirement_data::find_by_type( const std::vector< std::vector<T> > &ve
     return nullptr;
 }
 
-bool requirement_data::check_enough_materials( const inventory &crafting_inv,
-        const std::function<bool( const item & )> &filter, int batch ) const
+auto requirement_data::check_enough_materials( const inventory &crafting_inv,
+        const std::function<bool( const item & )> &filter, int batch ) const -> bool
 {
     bool retval = true;
     for( const auto &component_choices : components ) {
@@ -867,8 +867,8 @@ bool requirement_data::check_enough_materials( const inventory &crafting_inv,
     return retval;
 }
 
-bool requirement_data::check_enough_materials( const item_comp &comp, const inventory &crafting_inv,
-        const std::function<bool( const item & )> &filter, int batch ) const
+auto requirement_data::check_enough_materials( const item_comp &comp, const inventory &crafting_inv,
+        const std::function<bool( const item & )> &filter, int batch ) const -> bool
 {
     if( comp.available != available_status::a_true ) {
         return false;
@@ -915,7 +915,7 @@ bool requirement_data::check_enough_materials( const item_comp &comp, const inve
 }
 
 template <typename T>
-static bool apply_blacklist( std::vector<std::vector<T>> &vec, const itype_id &id )
+static auto apply_blacklist( std::vector<std::vector<T>> &vec, const itype_id &id ) -> bool
 {
     // remove all instances of @id type from each of the options
     for( auto &opts : vec ) {
@@ -979,27 +979,27 @@ void requirement_data::replace_item( const itype_id &id, const itype_id &replace
     apply_replacement( components, id, replacement );
 }
 
-const requirement_data::alter_tool_comp_vector &requirement_data::get_tools() const
+auto requirement_data::get_tools() const -> const requirement_data::alter_tool_comp_vector &
 {
     return tools;
 }
 
-const requirement_data::alter_quali_req_vector &requirement_data::get_qualities() const
+auto requirement_data::get_qualities() const -> const requirement_data::alter_quali_req_vector &
 {
     return qualities;
 }
 
-const requirement_data::alter_item_comp_vector &requirement_data::get_components() const
+auto requirement_data::get_components() const -> const requirement_data::alter_item_comp_vector &
 {
     return components;
 }
 
-requirement_data::alter_item_comp_vector &requirement_data::get_components()
+auto requirement_data::get_components() -> requirement_data::alter_item_comp_vector &
 {
     return components;
 }
 
-requirement_data requirement_data::disassembly_requirements() const
+auto requirement_data::disassembly_requirements() const -> requirement_data
 {
     // TODO:
     // Allow jsonizing those tool replacements
@@ -1117,8 +1117,8 @@ requirement_data requirement_data::disassembly_requirements() const
     return ret;
 }
 
-requirement_data requirement_data::continue_requirements( const std::vector<item_comp>
-        &required_comps, const std::list<item> &remaining_comps )
+auto requirement_data::continue_requirements( const std::vector<item_comp>
+        &required_comps, const std::list<item> &remaining_comps ) -> requirement_data
 {
     // Create an empty requirement_data
     requirement_data ret;
@@ -1170,8 +1170,8 @@ requirement_data requirement_data::continue_requirements( const std::vector<item
 }
 
 template<typename T, typename Accum>
-static std::vector<std::vector<T>> consolidate( std::vector<std::vector<T>> old_vec,
-                                const Accum &accum )
+static auto consolidate( std::vector<std::vector<T>> old_vec,
+                                const Accum &accum ) -> std::vector<std::vector<T>>
 {
     const auto type_lt = []( const T & lhs, const T & rhs ) -> bool {
         //TODO change to use localized sorting
@@ -1274,7 +1274,7 @@ void requirement_data::consolidate()
 }
 
 template<typename T>
-static bool sorted_equal( std::vector<std::vector<T>> lhs, std::vector<std::vector<T>> rhs )
+static auto sorted_equal( std::vector<std::vector<T>> lhs, std::vector<std::vector<T>> rhs ) -> bool
 {
     if( lhs.size() != rhs.size() ) {
         return false;
@@ -1290,7 +1290,7 @@ static bool sorted_equal( std::vector<std::vector<T>> lhs, std::vector<std::vect
     return lhs == rhs;
 }
 
-bool requirement_data::has_same_requirements_as( const requirement_data &that ) const
+auto requirement_data::has_same_requirements_as( const requirement_data &that ) const -> bool
 {
     return sorted_equal( tools, that.tools ) && sorted_equal( qualities, that.qualities )
            && sorted_equal( components, that.components );
@@ -1488,9 +1488,9 @@ deduped_requirement_data::deduped_requirement_data( const requirement_data &in,
     }
 }
 
-bool deduped_requirement_data::can_make_with_inventory(
+auto deduped_requirement_data::can_make_with_inventory(
     const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
-    int batch, cost_adjustment flags ) const
+    int batch, cost_adjustment flags ) const -> bool
 {
     return std::any_of( alternatives().begin(), alternatives().end(),
     [&]( const requirement_data & alt ) {
@@ -1498,9 +1498,9 @@ bool deduped_requirement_data::can_make_with_inventory(
     } );
 }
 
-std::vector<const requirement_data *> deduped_requirement_data::feasible_alternatives(
+auto deduped_requirement_data::feasible_alternatives(
     const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
-    int batch, cost_adjustment flags ) const
+    int batch, cost_adjustment flags ) const -> std::vector<const requirement_data *>
 {
     std::vector<const requirement_data *> result;
     for( const requirement_data &req : alternatives() ) {
@@ -1511,16 +1511,16 @@ std::vector<const requirement_data *> deduped_requirement_data::feasible_alterna
     return result;
 }
 
-const requirement_data *deduped_requirement_data::select_alternative(
+auto deduped_requirement_data::select_alternative(
     player &crafter, const std::function<bool( const item & )> &filter, int batch,
-    cost_adjustment flags ) const
+    cost_adjustment flags ) const -> const requirement_data *
 {
     return select_alternative( crafter, crafter.crafting_inventory(), filter, batch, flags );
 }
 
-const requirement_data *deduped_requirement_data::select_alternative(
+auto deduped_requirement_data::select_alternative(
     player &crafter, const inventory &inv, const std::function<bool( const item & )> &filter,
-    int batch, cost_adjustment flags ) const
+    int batch, cost_adjustment flags ) const -> const requirement_data *
 {
     const std::vector<const requirement_data *> all_reqs =
         feasible_alternatives( inv, filter, batch, flags );

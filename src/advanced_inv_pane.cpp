@@ -55,12 +55,12 @@ void advanced_inventory_pane::load_settings( int saved_area_idx,
 
 static const std::string flag_HIDDEN_ITEM( "HIDDEN_ITEM" );
 
-bool advanced_inventory_pane::is_filtered( const advanced_inv_listitem &it ) const
+auto advanced_inventory_pane::is_filtered( const advanced_inv_listitem &it ) const -> bool
 {
     return is_filtered( *it.items.front() );
 }
 
-bool advanced_inventory_pane::is_filtered( const item &it ) const
+auto advanced_inventory_pane::is_filtered( const item &it ) const -> bool
 {
     if( it.has_flag( flag_HIDDEN_ITEM ) ) {
         return true;
@@ -262,7 +262,7 @@ void advanced_inventory_pane::scroll_category( int offset )
     skip_category_headers( offset > 0 ? +1 : -1 );
 }
 
-advanced_inv_listitem *advanced_inventory_pane::get_cur_item_ptr()
+auto advanced_inventory_pane::get_cur_item_ptr() -> advanced_inv_listitem *
 {
     if( static_cast<size_t>( index ) >= items.size() ) {
         return nullptr;

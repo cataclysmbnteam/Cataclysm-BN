@@ -31,8 +31,8 @@ void reset();
 void finalize();
 void check_consistency();
 
-const construction_sequence *lookup_sequence( const ter_str_id &id );
-const construction_sequence *lookup_sequence( const furn_str_id &id );
+auto lookup_sequence( const ter_str_id &id ) -> const construction_sequence *;
+auto lookup_sequence( const furn_str_id &id ) -> const construction_sequence *;
 
 } // namespace construction_sequences
 

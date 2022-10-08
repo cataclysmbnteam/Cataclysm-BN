@@ -30,7 +30,7 @@
 #include "translations.h"
 #include "ui_manager.h"
 
-safemode &get_safemode()
+auto get_safemode() -> safemode &
 {
     static safemode single_instance;
     return single_instance;
@@ -41,7 +41,7 @@ void safemode::show()
     show( _( " SAFE MODE MANAGER " ), true );
 }
 
-std::string safemode::npc_type_name()
+auto safemode::npc_type_name() -> std::string
 {
     static std::string name = "human";
     return name;
@@ -610,7 +610,7 @@ void safemode::add_rule( const std::string &rule_in, const Creature::Attitude at
     }
 }
 
-bool safemode::has_rule( const std::string &rule_in, const Creature::Attitude attitude_in )
+auto safemode::has_rule( const std::string &rule_in, const Creature::Attitude attitude_in ) -> bool
 {
     for( auto &elem : character_rules ) {
         if( rule_in.length() == elem.rule.length()
@@ -636,7 +636,7 @@ void safemode::remove_rule( const std::string &rule_in, const Creature::Attitude
     }
 }
 
-bool safemode::empty() const
+auto safemode::empty() const -> bool
 {
     return global_rules.empty() && character_rules.empty();
 }
@@ -703,9 +703,9 @@ void safemode::set_rule( const rules_class &rule_in, const std::string &name_in,
     }
 }
 
-rule_state safemode::check_monster( const std::string &creature_name_in,
+auto safemode::check_monster( const std::string &creature_name_in,
                                     const Creature::Attitude attitude_in,
-                                    const int proximity_in ) const
+                                    const int proximity_in ) const -> rule_state
 {
     const auto iter = safemode_rules_hostile.find( creature_name_in );
     if( iter != safemode_rules_hostile.end() ) {
@@ -723,8 +723,8 @@ rule_state safemode::check_monster( const std::string &creature_name_in,
     return RULE_NONE;
 }
 
-bool safemode::is_sound_safe( const std::string &sound_name_in,
-                              const int proximity_in ) const
+auto safemode::is_sound_safe( const std::string &sound_name_in,
+                              const int proximity_in ) const -> bool
 {
     bool sound_safe = false;
     for( const rules_class &rule : safemode_rules_sound ) {
@@ -745,17 +745,17 @@ void safemode::clear_character_rules()
     character_rules.clear();
 }
 
-bool safemode::save_character()
+auto safemode::save_character() -> bool
 {
     return save( true );
 }
 
-bool safemode::save_global()
+auto safemode::save_global() -> bool
 {
     return save( false );
 }
 
-bool safemode::save( const bool is_character_in )
+auto safemode::save( const bool is_character_in ) -> bool
 {
     is_character = is_character_in;
     auto file = PATH_INFO::safemode();

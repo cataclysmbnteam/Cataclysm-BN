@@ -15,7 +15,7 @@ namespace io
 {
 
 template<>
-std::string enum_to_string<game_message_type>( game_message_type data )
+auto enum_to_string<game_message_type>( game_message_type data ) -> std::string
 {
     switch( data ) {
             // *INDENT-OFF*
@@ -38,7 +38,7 @@ std::string enum_to_string<game_message_type>( game_message_type data )
 }
 
 template<>
-std::string enum_to_string<description_affix>( description_affix data )
+auto enum_to_string<description_affix>( description_affix data ) -> std::string
 {
     switch( data ) {
         // *INDENT-OFF*
@@ -56,7 +56,7 @@ std::string enum_to_string<description_affix>( description_affix data )
 }
 
 template<>
-std::string enum_to_string<fields::stacking_type>( fields::stacking_type data )
+auto enum_to_string<fields::stacking_type>( fields::stacking_type data ) -> std::string
 {
     switch( data ) {
         // *INDENT-OFF*
@@ -81,42 +81,42 @@ generic_factory<field_type> all_field_types( "field types" );
 
 /** @relates int_id */
 template<>
-bool int_id<field_type>::is_valid() const
+auto int_id<field_type>::is_valid() const -> bool
 {
     return all_field_types.is_valid( *this );
 }
 
 /** @relates int_id */
 template<>
-const field_type &int_id<field_type>::obj() const
+auto int_id<field_type>::obj() const -> const field_type &
 {
     return all_field_types.obj( *this );
 }
 
 /** @relates int_id */
 template<>
-const string_id<field_type> &int_id<field_type>::id() const
+auto int_id<field_type>::id() const -> const string_id<field_type> &
 {
     return all_field_types.convert( *this );
 }
 
 /** @relates string_id */
 template<>
-bool string_id<field_type>::is_valid() const
+auto string_id<field_type>::is_valid() const -> bool
 {
     return all_field_types.is_valid( *this );
 }
 
 /** @relates string_id */
 template<>
-const field_type &string_id<field_type>::obj() const
+auto string_id<field_type>::obj() const -> const field_type &
 {
     return all_field_types.obj( *this );
 }
 
 /** @relates string_id */
 template<>
-int_id<field_type> string_id<field_type>::id() const
+auto string_id<field_type>::id() const -> int_id<field_type>
 {
     return all_field_types.convert( *this, fd_null );
 }
@@ -127,7 +127,7 @@ int_id<field_type>::int_id( const string_id<field_type> &id ) : _id( id.id() )
 {
 }
 
-const field_intensity_level &field_type::get_intensity_level( int level ) const
+auto field_type::get_intensity_level( int level ) const -> const field_intensity_level &
 {
     if( level < 0 || static_cast<size_t>( level ) >= intensity_levels.size() ) {
         // level + 1 for the original intensity number
@@ -298,7 +298,7 @@ void field_type::check() const
     bash_info.check( id.str(), map_bash_info::map_object_type::field );
 }
 
-size_t field_type::count()
+auto field_type::count() -> size_t
 {
     return all_field_types.size();
 }
@@ -327,7 +327,7 @@ void field_types::reset()
     all_field_types.reset();
 }
 
-const std::vector<field_type> &field_types::get_all()
+auto field_types::get_all() -> const std::vector<field_type> &
 {
     return all_field_types.get_all();
 }
@@ -443,7 +443,7 @@ void field_types::set_field_type_ids()
 
 }
 
-field_type field_types::get_field_type_by_legacy_enum( int legacy_enum_id )
+auto field_types::get_field_type_by_legacy_enum( int legacy_enum_id ) -> field_type
 {
     for( const auto &ft : all_field_types.get_all() ) {
         if( legacy_enum_id == ft.legacy_enum_id ) {

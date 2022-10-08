@@ -54,13 +54,13 @@ class advanced_inventory_pane
             area = prev_area;
             viewing_cargo = prev_viewing_cargo;
         }
-        aim_location get_area() const {
+        auto get_area() const -> aim_location {
             return area;
         }
-        bool prev_in_vehicle() const {
+        auto prev_in_vehicle() const -> bool {
             return prev_viewing_cargo;
         }
-        bool in_vehicle() const {
+        auto in_vehicle() const -> bool {
             return viewing_cargo;
         }
         advanced_inv_pane_save_state *save_state;
@@ -92,11 +92,11 @@ class advanced_inventory_pane
          * @param it The item to check, oly the name member is examined.
          * @return Whether the item should be filtered (and not shown).
          */
-        bool is_filtered( const advanced_inv_listitem &it ) const;
+        auto is_filtered( const advanced_inv_listitem &it ) const -> bool;
         /**
          * Same as the other, but checks the real item.
          */
-        bool is_filtered( const item &it ) const;
+        auto is_filtered( const item &it ) const -> bool;
         /**
          * Scroll @ref index, by given offset,
          * @param offset Must not be 0.
@@ -111,7 +111,7 @@ class advanced_inventory_pane
          * @return either null, if @ref index is invalid, or the selected
          * item in @ref items.
          */
-        advanced_inv_listitem *get_cur_item_ptr();
+        auto get_cur_item_ptr() -> advanced_inv_listitem *;
         /**
          * Set the filter string, disables filtering when the filter string is empty.
          */

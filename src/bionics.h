@@ -129,11 +129,11 @@ struct bionic_data {
     std::set<bionic_id> available_upgrades;
 
     std::set<flag_str_id> flags;
-    bool has_flag( const flag_str_id &flag ) const;
+    auto has_flag( const flag_str_id &flag ) const -> bool;
 
-    itype_id itype() const;
+    auto itype() const -> itype_id;
 
-    bool is_included( const bionic_id &id ) const;
+    auto is_included( const bionic_id &id ) const -> bool;
 
     static void load_bionic( const JsonObject &jo, const std::string &src );
     static void check_consistency();
@@ -165,24 +165,24 @@ struct bionic {
         bionic( bionic_id pid, char pinvlet )
             : id( pid ), invlet( pinvlet ), incapacitated_time( 0_turns ) { }
 
-        const bionic_data &info() const {
+        auto info() const -> const bionic_data & {
             return *id;
         }
 
         void set_flag( const std::string &flag );
         void remove_flag( const std::string &flag );
-        bool has_flag( const std::string &flag ) const;
+        auto has_flag( const std::string &flag ) const -> bool;
 
-        int get_quality( const quality_id &quality ) const;
+        auto get_quality( const quality_id &quality ) const -> int;
 
-        bool is_this_fuel_powered( const itype_id &this_fuel ) const;
+        auto is_this_fuel_powered( const itype_id &this_fuel ) const -> bool;
         void toggle_safe_fuel_mod();
         void toggle_auto_start_mod();
 
         void set_auto_start_thresh( float val );
-        float get_auto_start_thresh() const;
-        bool is_auto_start_on() const;
-        bool is_auto_start_keep_full() const;
+        auto get_auto_start_thresh() const -> float;
+        auto is_auto_start_on() const -> bool;
+        auto is_auto_start_keep_full() const -> bool;
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
@@ -199,15 +199,15 @@ class bionic_collection : public std::vector<bionic>
 };
 
 /**List of bodyparts occupied by a bionic*/
-std::vector<bodypart_id> get_occupied_bodyparts( const bionic_id &bid );
+auto get_occupied_bodyparts( const bionic_id &bid ) -> std::vector<bodypart_id>;
 
-char get_free_invlet( player &p );
-std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro,
-                               bool each_bp_on_new_line = true );
+auto get_free_invlet( player &p ) -> char;
+auto list_occupied_bps( const bionic_id &bio_id, const std::string &intro,
+                               bool each_bp_on_new_line = true ) -> std::string;
 
-int bionic_manip_cos( float adjusted_skill, int bionic_difficulty );
+auto bionic_manip_cos( float adjusted_skill, int bionic_difficulty ) -> int;
 
-std::vector<bionic_id> bionics_cancelling_trait( const std::vector<bionic_id> &bios,
-        const trait_id &tid );
+auto bionics_cancelling_trait( const std::vector<bionic_id> &bios,
+        const trait_id &tid ) -> std::vector<bionic_id>;
 
 #endif // CATA_SRC_BIONICS_H

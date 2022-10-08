@@ -20,7 +20,7 @@ enum units_type {
  * @p num must be non-negative, @p den must be positive, and @c num+den must not overflow.
  */
 template<typename T, typename U>
-T divide_round_up( units::quantity<T, U> num, units::quantity<T, U> den )
+auto divide_round_up( units::quantity<T, U> num, units::quantity<T, U> den ) -> T
 {
     T n = num.value();
     T d = den.value();
@@ -32,10 +32,10 @@ T divide_round_up( units::quantity<T, U> num, units::quantity<T, U> den )
  *
  * With a second argument, can use a different maximum.
  */
-units::angle normalize( units::angle, units::angle mod = 360_degrees );
+auto normalize( units::angle, units::angle mod = 360_degrees ) -> units::angle;
 
 template<typename T, typename U, std::enable_if_t<std::is_floating_point<T>::value>* = nullptr>
-units::quantity<T, U> round_to_multiple_of( units::quantity<T, U> val, units::quantity<T, U> of )
+auto round_to_multiple_of( units::quantity<T, U> val, units::quantity<T, U> of ) -> units::quantity<T, U>
 {
     int multiple = std::lround( val / of );
     return multiple * of;
@@ -52,7 +52,7 @@ units::quantity<T, U> round_to_multiple_of( units::quantity<T, U> val, units::qu
  *
  * @return name of unit.
  */
-const char *velocity_units( units_type vel_units );
+auto velocity_units( units_type vel_units ) -> const char *;
 
 /**
  * Create a units label for a weight value.
@@ -62,7 +62,7 @@ const char *velocity_units( units_type vel_units );
  *
  * @return name of unit
  */
-const char *weight_units();
+auto weight_units() -> const char *;
 
 /**
  * Create an abbreviated units label for a volume value.
@@ -72,7 +72,7 @@ const char *weight_units();
  *
  * @return name of unit.
  */
-const char *volume_units_abbr();
+auto volume_units_abbr() -> const char *;
 
 /**
  * Create a units label for a volume value.
@@ -82,7 +82,7 @@ const char *volume_units_abbr();
  *
  * @return name of unit.
  */
-const char *volume_units_long();
+auto volume_units_long() -> const char *;
 
 /**
  * Convert internal velocity units to units defined by user.
@@ -93,7 +93,7 @@ const char *volume_units_long();
  * @returns Velocity in the user selected measurement system and in appropriate
  *          units for the object being measured.
  */
-double convert_velocity( int velocity, units_type vel_units );
+auto convert_velocity( int velocity, units_type vel_units ) -> double;
 
 /**
  * Convert weight in grams to units defined by user (kg or lbs)
@@ -102,17 +102,17 @@ double convert_velocity( int velocity, units_type vel_units );
  *
  * @returns Weight converted to user selected unit
  */
-double convert_weight( const units::mass &weight );
+auto convert_weight( const units::mass &weight ) -> double;
 
 /**
  * Convert volume from ml to units defined by user.
  */
-double convert_volume( int volume );
+auto convert_volume( int volume ) -> double;
 
 /**
  * Convert volume from ml to units defined by user,
  * optionally returning the units preferred scale.
  */
-double convert_volume( int volume, int *out_scale );
+auto convert_volume( int volume, int *out_scale ) -> double;
 
 #endif // CATA_SRC_UNITS_UTILITY_H

@@ -44,21 +44,21 @@ static constexpr int KEY_BACKSPACE  =
     0x107;    /* Backspace */                  //<---------not used
 static constexpr int KEY_DC         = 0x151;    /* Delete Character */
 static constexpr int KEY_F0         = 0x108;
-inline constexpr int KEY_F( const int n )
+inline constexpr auto KEY_F( const int n ) -> int
 {
     return KEY_F0 + n;    /* F1, F2, etc*/
 }
 static constexpr int F_KEY_NUM_BEG  = 0;
 static constexpr int F_KEY_NUM_END  = 63;
-inline constexpr int F_KEY_NUM( const int key )
+inline constexpr auto F_KEY_NUM( const int key ) -> int
 {
     return key - KEY_F0;
 }
-inline constexpr bool IS_F_KEY( const int key )
+inline constexpr auto IS_F_KEY( const int key ) -> bool
 {
     return key >= KEY_F( F_KEY_NUM_BEG ) && key <= KEY_F( F_KEY_NUM_END );
 }
-inline constexpr int KEY_NUM( const int n )
+inline constexpr auto KEY_NUM( const int n ) -> int
 {
     return 0x30 + n;     /* Numbers 0, 1, ..., 9 */
 }
@@ -71,8 +71,8 @@ static constexpr int KEY_END        = 0x168;    /* End */
 static constexpr int LEGEND_HEIGHT = 11;
 static constexpr int BORDER_SPACE = 2;
 
-bool is_mouse_enabled();
-std::string get_input_string_from_file( const std::string &fname = "input.txt" );
+auto is_mouse_enabled() -> bool;
+auto get_input_string_from_file( const std::string &fname = "input.txt" ) -> std::string;
 
 enum mouse_buttons { MOUSE_BUTTON_LEFT = 1, MOUSE_BUTTON_RIGHT, SCROLLWHEEL_UP, SCROLLWHEEL_DOWN, MOUSE_MOVE };
 
@@ -129,7 +129,7 @@ struct input_event {
 #endif
     }
 
-    int get_first_input() const;
+    auto get_first_input() const -> int;
 
     void add_input( const int input ) {
         sequence.push_back( input );
@@ -147,7 +147,7 @@ struct input_event {
     }
 #endif
 
-    bool operator==( const input_event &other ) const {
+    auto operator==( const input_event &other ) const -> bool {
         if( type != other.type ) {
             return false;
         }
@@ -228,14 +228,14 @@ class input_manager
          * @param overwrites_default If this is non-NULL, this will be used as return parameter and will be set to true if the default
          *                           keybinding is overridden by something else in the given context.
          */
-        const std::vector<input_event> &get_input_for_action( const std::string &action_descriptor,
-                const std::string &context = "default", bool *overwrites_default = nullptr );
+        auto get_input_for_action( const std::string &action_descriptor,
+                const std::string &context = "default", bool *overwrites_default = nullptr ) -> const std::vector<input_event> &;
 
         /**
          * Return first char associated with an action ID in a given context.
          */
-        int get_first_char_for_action( const std::string &action_descriptor,
-                                       const std::string &context = "default" );
+        auto get_first_char_for_action( const std::string &action_descriptor,
+                                       const std::string &context = "default" ) -> int;
 
         /**
          * Initializes the input manager, aka loads the input mapping configuration JSON.
@@ -251,12 +251,12 @@ class input_manager
          * Return the previously pressed key, or 0 if there is no previous input
          * or the previous input wasn't a key.
          */
-        int get_previously_pressed_key() const;
+        auto get_previously_pressed_key() const -> int;
 
         /**
          * Get the keycode associated with the given key name.
          */
-        int get_keycode( const std::string &name ) const;
+        auto get_keycode( const std::string &name ) const -> int;
 
         /**
          * Get the key name associated with the given keyboard keycode.
@@ -267,14 +267,14 @@ class input_manager
          * of the key. This acts as the inverse to get_keyname:
          * <code>get_keyname(get_keycode(a), , true) == a</code>
          */
-        std::string get_keyname( int ch, input_event_t inp_type, bool portable = false ) const;
+        auto get_keyname( int ch, input_event_t inp_type, bool portable = false ) const -> std::string;
 
         /**
          * curses getch() replacement.
          *
          * Defined in the respective platform wrapper, e.g. sdlcurse.cpp
          */
-        input_event get_input_event();
+        auto get_input_event() -> input_event;
 
         /**
          * Wait until the user presses a key. Mouse and similar input is ignored,
@@ -291,7 +291,7 @@ class input_manager
         void reset_timeout() {
             set_timeout( -1 );
         }
-        int get_timeout() const {
+        auto get_timeout() const -> int {
             return input_timeout;
         }
 
@@ -326,8 +326,8 @@ class input_manager
 
         int input_timeout;
 
-        t_input_event_list &get_or_create_event_list( const std::string &action_descriptor,
-                const std::string &context );
+        auto get_or_create_event_list( const std::string &action_descriptor,
+                const std::string &context ) -> t_input_event_list &;
         void remove_input_for_action( const std::string &action_descriptor, const std::string &context );
         void add_input_for_action( const std::string &action_descriptor, const std::string &context,
                                    const input_event &event );
@@ -346,10 +346,10 @@ class input_manager
          *                           context. It will be set to false if the found
          *                           action was in the default context.
          */
-        const action_attributes &get_action_attributes(
+        auto get_action_attributes(
             const std::string &action_id,
             const std::string &context = "default",
-            bool *overwrites_default = nullptr );
+            bool *overwrites_default = nullptr ) -> const action_attributes &;
 
         /**
          * Get a value to be used as the default name for a newly created action.
@@ -362,7 +362,7 @@ class input_manager
          *         that action's name is returned. Otherwise, no_translation( action_id ) is
          *         returned.
          */
-        translation get_default_action_name( const std::string &action_id ) const;
+        auto get_default_action_name( const std::string &action_id ) const -> translation;
 };
 
 // Singleton for our input manager.
@@ -532,9 +532,9 @@ class input_context
          * @return Returns the set of non-conflicting, single character keyboard
          *         keys suitable for use as hotkeys.
          */
-        std::string get_available_single_char_hotkeys(
+        auto get_available_single_char_hotkeys(
             std::string requested_keys =
-                "abcdefghijkpqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-=:;'\",./<>?!@#$%^&*()_+[]\\{}|`~" );
+                "abcdefghijkpqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-=:;'\",./<>?!@#$%^&*()_+[]\\{}|`~" ) -> std::string;
 
         using input_event_filter = std::function<bool( const input_event & )>;
         static const input_event_filter disallow_lower_case;
@@ -556,9 +556,9 @@ class input_context
          * @param evt_filter Only keys satisfying this function will be
          *                   described.
          */
-        std::string get_desc( const std::string &action_descriptor,
+        auto get_desc( const std::string &action_descriptor,
                               unsigned int max_limit = 0,
-                              const input_event_filter &evt_filter = allow_all_keys ) const;
+                              const input_event_filter &evt_filter = allow_all_keys ) const -> std::string;
 
         /**
          * Get a description based on `text`. If a bound key for `action_descriptor`
@@ -574,15 +574,15 @@ class input_context
          *
          * @param evt_filter Only keys satisfying this function will be considered
          */
-        std::string get_desc( const std::string &action_descriptor,
+        auto get_desc( const std::string &action_descriptor,
                               const std::string &text,
-                              const input_event_filter &evt_filter = allow_all_keys ) const;
+                              const input_event_filter &evt_filter = allow_all_keys ) const -> std::string;
 
         /**
          * Equivalent to get_desc( act, get_action_name( act ), filter )
          **/
-        std::string describe_key_and_name( const std::string &action_descriptor,
-                                           const input_event_filter &evt_filter = allow_all_keys ) const;
+        auto describe_key_and_name( const std::string &action_descriptor,
+                                           const input_event_filter &evt_filter = allow_all_keys ) const -> std::string;
 
         /**
          * Handles input and returns the next action in the queue.
@@ -596,8 +596,8 @@ class input_context
          *         `register_action()`, or "ERROR" if an error happened.
          *
          */
-        const std::string &handle_input();
-        const std::string &handle_input( int timeout );
+        auto handle_input() -> const std::string &;
+        auto handle_input( int timeout ) -> const std::string &;
 
         /**
          * Convert a direction action (UP, DOWN etc) to a delta vector.
@@ -606,7 +606,7 @@ class input_context
          * the delta vector associated with it. Otherwise returns an empty value.
          * The returned vector will always have a z component of 0.
          */
-        cata::optional<tripoint> get_direction( const std::string &action ) const;
+        auto get_direction( const std::string &action ) const -> cata::optional<tripoint>;
 
         /**
          * Get the coordinates associated with the last mouse click (if any).
@@ -615,7 +615,7 @@ class input_context
          *       and returns the absolute map coordinate.
          *       Eventually this should be made more flexible.
          */
-        cata::optional<tripoint> get_coordinates( const catacurses::window &capture_win_ );
+        auto get_coordinates( const catacurses::window &capture_win_ ) -> cata::optional<tripoint>;
 
         // Below here are shortcuts for registering common key combinations.
         void register_directions();
@@ -629,19 +629,19 @@ class input_context
          * @param permit_execute_action If `true` the function allows the user to specify an action to execute
          * @returns action_id of any action the user specified to execute, or ACTION_NULL if none
          */
-        action_id display_menu( bool permit_execute_action = false );
+        auto display_menu( bool permit_execute_action = false ) -> action_id;
 
         /**
          * Temporary method to retrieve the raw input received, so that input_contexts
          * can be used in screens where not all possible actions have been defined in
          * keybindings.json yet.
          */
-        input_event get_raw_input();
+        auto get_raw_input() -> input_event;
 
         /**
          * Get the human-readable name for an action.
          */
-        std::string get_action_name( const std::string &action_id ) const;
+        auto get_action_name( const std::string &action_id ) const -> std::string;
 
         /* For the future, something like this might be nice:
          * const std::string register_action(const std::string& action_descriptor, x, y, width, height);
@@ -649,11 +649,11 @@ class input_context
          */
 
         // (Press X (or Y)|Try) to Z
-        std::string press_x( const std::string &action_id ) const;
-        std::string press_x( const std::string &action_id, const std::string &key_bound,
-                             const std::string &key_unbound ) const;
-        std::string press_x( const std::string &action_id, const std::string &key_bound_pre,
-                             const std::string &key_bound_suf, const std::string &key_unbound ) const;
+        auto press_x( const std::string &action_id ) const -> std::string;
+        auto press_x( const std::string &action_id, const std::string &key_bound,
+                             const std::string &key_unbound ) const -> std::string;
+        auto press_x( const std::string &action_id, const std::string &key_bound_pre,
+                             const std::string &key_bound_suf, const std::string &key_unbound ) const -> std::string;
 
         /**
          * Keys (and only keys, other input types are not included) that
@@ -662,16 +662,16 @@ class input_context
          * @param restrict_to_printable If `true` the function returns the bound keys only if they are printable. If `false`, all keys (whether they are printable or not) are returned.
          * @returns All keys bound to the given action descriptor.
          */
-        std::vector<char> keys_bound_to( const std::string &action_descriptor,
-                                         bool restrict_to_printable = true ) const;
-        std::string key_bound_to( const std::string &action_descriptor, size_t index = 0,
-                                  bool restrict_to_printable = true ) const;
+        auto keys_bound_to( const std::string &action_descriptor,
+                                         bool restrict_to_printable = true ) const -> std::vector<char>;
+        auto key_bound_to( const std::string &action_descriptor, size_t index = 0,
+                                  bool restrict_to_printable = true ) const -> std::string;
 
         /**
         * Get/Set edittext to display IME unspecified string.
         */
         void set_edittext( const std::string &s );
-        std::string get_edittext();
+        auto get_edittext() -> std::string;
 
         void set_iso( bool mode = true );
 
@@ -689,7 +689,7 @@ class input_context
         std::vector<std::string> registered_actions;
         std::string edittext;
     public:
-        const std::string &input_to_action( const input_event &inp ) const;
+        auto input_to_action( const input_event &inp ) const -> const std::string &;
     private:
         bool registered_any_input;
         std::string category; // The input category this context uses.
@@ -711,12 +711,12 @@ class input_context
         /**
          * Returns whether action uses the specified input
          */
-        bool action_uses_input( const std::string &action_id, const input_event &event ) const;
+        auto action_uses_input( const std::string &action_id, const input_event &event ) const -> bool;
         /**
          * Return a user presentable list of actions that conflict with the
          * proposed keybinding. Returns an empty string if nothing conflicts.
          */
-        std::string get_conflicts( const input_event &event ) const;
+        auto get_conflicts( const input_event &event ) const -> std::string;
         /**
          * Clear an input_event from all conflicting keybindings that are
          * registered by this input_context.
@@ -732,10 +732,10 @@ class input_context
          * @param phrase  The phrase to search within each of the given strings
          * @return A vector of the filtered strings
          */
-        std::vector<std::string> filter_strings_by_phrase( const std::vector<std::string> &strings,
-                const std::string &phrase ) const;
+        auto filter_strings_by_phrase( const std::vector<std::string> &strings,
+                const std::string &phrase ) const -> std::vector<std::string>;
     public:
-        std::vector<std::string> get_registered_actions_copy() const {
+        auto get_registered_actions_copy() const -> std::vector<std::string> {
             return registered_actions;
         }
 };
@@ -745,7 +745,7 @@ class input_context
  *
  * Always false in non-SDL versions.
  */
-bool gamepad_available();
+auto gamepad_available() -> bool;
 
 // rotate a delta direction clockwise
 void rotate_direction_cw( int &dx, int &dy );

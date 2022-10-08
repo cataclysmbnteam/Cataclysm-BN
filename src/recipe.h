@@ -25,7 +25,7 @@ enum class recipe_filter_flags : int {
     no_rotten = 1,
 };
 
-inline constexpr recipe_filter_flags operator&( recipe_filter_flags l, recipe_filter_flags r )
+inline constexpr auto operator&( recipe_filter_flags l, recipe_filter_flags r ) -> recipe_filter_flags
 {
     return static_cast<recipe_filter_flags>(
                static_cast<unsigned>( l ) & static_cast<unsigned>( r ) );
@@ -45,7 +45,7 @@ class recipe
             return !result_.is_null();
         }
 
-        const itype_id &result() const {
+        auto result() const -> const itype_id & {
             return result_;
         }
 
@@ -64,34 +64,34 @@ class recipe
          * Use simple_requirements() for player display or when you just want to
          * know the requirements as listed in the json files.  Use
          * deduped_requirements() to calculate actual craftability of a recipe. */
-        const requirement_data &simple_requirements() const {
+        auto simple_requirements() const -> const requirement_data & {
             return requirements_;
         }
 
-        const deduped_requirement_data &deduped_requirements() const {
+        auto deduped_requirements() const -> const deduped_requirement_data & {
             return deduped_requirements_;
         }
 
-        const recipe_id &ident() const {
+        auto ident() const -> const recipe_id & {
             return ident_;
         }
 
-        bool is_blacklisted() const {
+        auto is_blacklisted() const -> bool {
             return requirements_.is_blacklisted();
         }
 
         // Slower equivalent of is_blacklisted that needs to be used before
         // recipe finalization happens
-        bool will_be_blacklisted() const;
+        auto will_be_blacklisted() const -> bool;
 
-        std::function<bool( const item & )> get_component_filter(
-            recipe_filter_flags = recipe_filter_flags::none ) const;
+        auto get_component_filter(
+            recipe_filter_flags = recipe_filter_flags::none ) const -> std::function<bool( const item & )>;
 
         /** Prevent this recipe from ever being added to the player's learned recipies ( used for special NPC crafting ) */
         bool never_learn = false;
 
         /** If recipe can be used for disassembly fetch the combined requirements */
-        requirement_data disassembly_requirements() const {
+        auto disassembly_requirements() const -> requirement_data {
             if( reversible ) {
                 return simple_requirements().disassembly_requirements();
             } else {
@@ -100,7 +100,7 @@ class recipe
         }
 
         /// @returns The name (@ref item::nname) of the resulting item (@ref result).
-        std::string result_name() const;
+        auto result_name() const -> std::string;
 
         std::map<itype_id, int> byproducts;
 
@@ -118,38 +118,38 @@ class recipe
 
         // These are primarily used by the crafting menu.
         // Format the primary skill string.
-        std::string primary_skill_string( const Character *c, bool print_skill_level ) const;
+        auto primary_skill_string( const Character *c, bool print_skill_level ) const -> std::string;
 
         // Format the other skills string.  This is also used for searching within the crafting
         // menu which includes the primary skill.
-        std::string required_skills_string( const Character *, bool include_primary_skill,
-                                            bool print_skill_level ) const;
+        auto required_skills_string( const Character *, bool include_primary_skill,
+                                            bool print_skill_level ) const -> std::string;
 
         // This is used by the basecamp bulletin board.
-        std::string required_all_skills_string() const;
+        auto required_all_skills_string() const -> std::string;
 
 
         // Create a string to describe the time savings of batch-crafting, if any.
         // Format: "N% at >M units" or "none"
-        std::string batch_savings_string() const;
+        auto batch_savings_string() const -> std::string;
 
         // Create an item instance as if the recipe was just finished,
         // Contain charges multiplier
-        item create_result() const;
-        std::vector<item> create_results( int batch = 1 ) const;
+        auto create_result() const -> item;
+        auto create_results( int batch = 1 ) const -> std::vector<item>;
 
         // Create byproduct instances as if the recipe was just finished
-        std::vector<item> create_byproducts( int batch = 1 ) const;
+        auto create_byproducts( int batch = 1 ) const -> std::vector<item>;
 
-        bool has_byproducts() const;
+        auto has_byproducts() const -> bool;
 
-        int batch_time( int batch, float multiplier, size_t assistants ) const;
-        time_duration batch_duration( int batch = 1, float multiplier = 1.0,
-                                      size_t assistants = 0 ) const;
+        auto batch_time( int batch, float multiplier, size_t assistants ) const -> int;
+        auto batch_duration( int batch = 1, float multiplier = 1.0,
+                                      size_t assistants = 0 ) const -> time_duration;
 
-        bool has_flag( const std::string &flag_name ) const;
+        auto has_flag( const std::string &flag_name ) const -> bool;
 
-        bool is_reversible() const {
+        auto is_reversible() const -> bool {
             return reversible;
         }
 
@@ -157,15 +157,15 @@ class recipe
         void finalize();
 
         /** Returns a non-empty string describing an inconsistency (if any) in the recipe. */
-        std::string get_consistency_error() const;
+        auto get_consistency_error() const -> std::string;
 
-        bool is_blueprint() const;
-        const std::string &get_blueprint() const;
-        const translation &blueprint_name() const;
-        const std::vector<itype_id> &blueprint_resources() const;
-        const std::vector<std::pair<std::string, int>> &blueprint_provides() const;
-        const std::vector<std::pair<std::string, int>> &blueprint_requires() const;
-        const std::vector<std::pair<std::string, int>> &blueprint_excludes() const;
+        auto is_blueprint() const -> bool;
+        auto get_blueprint() const -> const std::string &;
+        auto blueprint_name() const -> const translation &;
+        auto blueprint_resources() const -> const std::vector<itype_id> &;
+        auto blueprint_provides() const -> const std::vector<std::pair<std::string, int>> &;
+        auto blueprint_requires() const -> const std::vector<std::pair<std::string, int>> &;
+        auto blueprint_excludes() const -> const std::vector<std::pair<std::string, int>> &;
         /**
          * Calculate blueprint requirements according to changed terrain and furniture
          * tiles, then check the calculated requirements against blueprint requirements
@@ -174,12 +174,12 @@ class recipe
          */
         void check_blueprint_requirements();
 
-        bool hot_result() const;
+        auto hot_result() const -> bool;
 
         /** Returns the amount or charges recipe will produce. */
-        int makes_amount() const;
+        auto makes_amount() const -> int;
         /** Returns number of charges of the item needed for single disassembly. */
-        int disassembly_batch_size() const;
+        auto disassembly_batch_size() const -> int;
 
     private:
         void add_requirements( const std::vector<std::pair<requirement_id, int>> &reqs );

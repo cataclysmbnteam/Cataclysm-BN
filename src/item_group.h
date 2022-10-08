@@ -26,11 +26,11 @@ namespace item_group
  * Note that this may return a null-item, if the group does not exist, is empty or did not
  * create an item this time. You have to check this with @ref item::is_null.
  */
-item item_from( const item_group_id &group_id, const time_point &birthday );
+auto item_from( const item_group_id &group_id, const time_point &birthday ) -> item;
 /**
  * Same as above but with implicit birthday at turn 0.
  */
-item item_from( const item_group_id &group_id );
+auto item_from( const item_group_id &group_id ) -> item;
 
 using ItemList = std::vector<item>;
 /**
@@ -47,25 +47,25 @@ using ItemList = std::vector<item>;
  * with @ref group_is_defined.
  * @param birthday The birthday (@ref item::bday) of the items created by this function.
  */
-ItemList items_from( const item_group_id &group_id, const time_point &birthday );
+auto items_from( const item_group_id &group_id, const time_point &birthday ) -> ItemList;
 /**
  * Same as above but with implicit birthday at turn 0.
  */
-ItemList items_from( const item_group_id &group_id );
+auto items_from( const item_group_id &group_id ) -> ItemList;
 /**
  * Check whether a specific item group contains a specific item type.
  */
-bool group_contains_item( const item_group_id &group_id, const itype_id &type_id );
+auto group_contains_item( const item_group_id &group_id, const itype_id &type_id ) -> bool;
 /**
  * Return every item type that can possibly be spawned by the item group
  */
-std::set<const itype *> every_possible_item_from( const item_group_id &group_id );
+auto every_possible_item_from( const item_group_id &group_id ) -> std::set<const itype *>;
 /**
  * Check whether an item group of the given id exists. You may use this to either choose an
  * alternative group or check the json definitions for consistency (spawn data in json that
  * refers to a non-existing group is broken), or just alert the player.
  */
-bool group_is_defined( const item_group_id &group_id );
+auto group_is_defined( const item_group_id &group_id ) -> bool;
 /**
  * Shows an menu to debug the item groups.
  */
@@ -94,7 +94,7 @@ void load_item_group( const JsonObject &jsobj, const item_group_id &group_id,
  * subtype. It must be either "distribution" or "collection". See @ref Item_group.
  * @throw JsonError as usual for JSON errors, including invalid input values.
  */
-item_group_id load_item_group( const JsonValue &value, const std::string &default_subtype );
+auto load_item_group( const JsonValue &value, const std::string &default_subtype ) -> item_group_id;
 } // namespace item_group
 
 /**
@@ -115,14 +115,14 @@ class Item_spawn_data
          * @param[in] birthday All items have that value as birthday.
          * @param[out] rec Recursion list, output goes here
          */
-        virtual ItemList create( const time_point &birthday, RecursionList &rec ) const = 0;
-        ItemList create( const time_point &birthday ) const;
+        virtual auto create( const time_point &birthday, RecursionList &rec ) const -> ItemList = 0;
+        auto create( const time_point &birthday ) const -> ItemList;
         /**
          * The same as create, but create a single item only.
          * The returned item might be a null item!
          */
-        virtual item create_single( const time_point &birthday, RecursionList &rec ) const = 0;
-        item create_single( const time_point &birthday ) const;
+        virtual auto create_single( const time_point &birthday, RecursionList &rec ) const -> item = 0;
+        auto create_single( const time_point &birthday ) const -> item;
         /**
          * Check item / spawn settings for consistency. Includes
          * checking for valid item types and valid settings.
@@ -132,11 +132,11 @@ class Item_spawn_data
          * For item blacklisted, remove the given item from this and
          * all linked groups.
          */
-        virtual bool remove_item( const itype_id &itemid ) = 0;
-        virtual bool replace_item( const itype_id &itemid, const itype_id &replacementid ) = 0;
-        virtual bool has_item( const itype_id &itemid ) const = 0;
+        virtual auto remove_item( const itype_id &itemid ) -> bool = 0;
+        virtual auto replace_item( const itype_id &itemid, const itype_id &replacementid ) -> bool = 0;
+        virtual auto has_item( const itype_id &itemid ) const -> bool = 0;
 
-        virtual std::set<const itype *> every_item() const = 0;
+        virtual auto every_item() const -> std::set<const itype *> = 0;
 
         /** probability, used by the parent object. */
         int probability;
@@ -188,8 +188,8 @@ class Item_modifier
 
         void modify( item &new_item ) const;
         void check_consistency( const std::string &context ) const;
-        bool remove_item( const itype_id &itemid );
-        bool replace_item( const itype_id &itemid, const itype_id &replacementid );
+        auto remove_item( const itype_id &itemid ) -> bool;
+        auto replace_item( const itype_id &itemid, const itype_id &replacementid ) -> bool;
 
         // Currently these always have the same chance as the item group it's part of, but
         // theoretically it could be defined per-item / per-group.
@@ -233,14 +233,14 @@ class Single_item_creator : public Item_spawn_data
 
         void inherit_ammo_mag_chances( int ammo, int mag );
 
-        ItemList create( const time_point &birthday, RecursionList &rec ) const override;
-        item create_single( const time_point &birthday, RecursionList &rec ) const override;
+        auto create( const time_point &birthday, RecursionList &rec ) const -> ItemList override;
+        auto create_single( const time_point &birthday, RecursionList &rec ) const -> item override;
         void check_consistency( const std::string &context ) const override;
-        bool remove_item( const itype_id &itemid ) override;
-        bool replace_item( const itype_id &itemid, const itype_id &replacementid ) override;
+        auto remove_item( const itype_id &itemid ) -> bool override;
+        auto replace_item( const itype_id &itemid, const itype_id &replacementid ) -> bool override;
 
-        bool has_item( const itype_id &itemid ) const override;
-        std::set<const itype *> every_item() const override;
+        auto has_item( const itype_id &itemid ) const -> bool override;
+        auto every_item() const -> std::set<const itype *> override;
 };
 
 /**
@@ -279,17 +279,17 @@ class Item_group : public Item_spawn_data
          */
         void add_entry( std::unique_ptr<Item_spawn_data> ptr );
 
-        ItemList create( const time_point &birthday, RecursionList &rec ) const override;
-        item create_single( const time_point &birthday, RecursionList &rec ) const override;
+        auto create( const time_point &birthday, RecursionList &rec ) const -> ItemList override;
+        auto create_single( const time_point &birthday, RecursionList &rec ) const -> item override;
         void check_consistency( const std::string &context ) const override;
-        bool remove_item( const itype_id &itemid ) override;
-        bool replace_item( const itype_id &itemid, const itype_id &replacementid ) override;
-        bool has_item( const itype_id &itemid ) const override;
-        std::set<const itype *> every_item() const override;
+        auto remove_item( const itype_id &itemid ) -> bool override;
+        auto replace_item( const itype_id &itemid, const itype_id &replacementid ) -> bool override;
+        auto has_item( const itype_id &itemid ) const -> bool override;
+        auto every_item() const -> std::set<const itype *> override;
         /**
          * Hack for testing. TODO: Find a better way.
          */
-        const prop_list &get_items() const {
+        auto get_items() const -> const prop_list & {
             return items;
         }
 

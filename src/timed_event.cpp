@@ -328,12 +328,12 @@ void timed_event_manager::add( const timed_event_type type, const time_point &wh
     events.emplace_back( type, when, faction_id, where );
 }
 
-bool timed_event_manager::queued( const timed_event_type type ) const
+auto timed_event_manager::queued( const timed_event_type type ) const -> bool
 {
     return const_cast<timed_event_manager &>( *this ).get( type ) != nullptr;
 }
 
-timed_event *timed_event_manager::get( const timed_event_type type )
+auto timed_event_manager::get( const timed_event_type type ) -> timed_event *
 {
     for( auto &e : events ) {
         if( e.type == type ) {

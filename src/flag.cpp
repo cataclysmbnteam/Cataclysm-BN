@@ -16,42 +16,42 @@ generic_factory<json_flag> json_flags_all( "json_flags" );
 
 /** @relates int_id */
 template<>
-bool flag_id ::is_valid() const
+auto flag_id ::is_valid() const -> bool
 {
     return json_flags_all.is_valid( *this );
 }
 
 /** @relates int_id */
 template<>
-const json_flag &flag_id::obj() const
+auto flag_id::obj() const -> const json_flag &
 {
     return json_flags_all.obj( *this );
 }
 
 /** @relates int_id */
 template<>
-const flag_str_id &flag_id::id() const
+auto flag_id::id() const -> const flag_str_id &
 {
     return json_flags_all.convert( *this );
 }
 
 /** @relates string_id */
 template<>
-bool flag_str_id ::is_valid() const
+auto flag_str_id ::is_valid() const -> bool
 {
     return json_flags_all.is_valid( *this );
 }
 
 /** @relates string_id */
 template<>
-const json_flag &flag_str_id::obj() const
+auto flag_str_id::obj() const -> const json_flag &
 {
     return json_flags_all.obj( *this );
 }
 
 /** @relates string_id */
 template<>
-flag_id flag_str_id::id() const
+auto flag_str_id::id() const -> flag_id
 {
     return json_flags_all.convert( *this, flag_id( -1 ) );
 }
@@ -67,7 +67,7 @@ json_flag::operator bool() const
     return id.is_valid();
 }
 
-const json_flag &json_flag::get( const std::string &id )
+auto json_flag::get( const std::string &id ) -> const json_flag &
 {
     static const json_flag null_value = json_flag();
     const flag_str_id f_id( id );
@@ -120,12 +120,12 @@ void json_flag::finalize_all()
     json_flags_all.finalize();
 }
 
-bool json_flag::is_ready()
+auto json_flag::is_ready() -> bool
 {
     return !json_flags_all.empty();
 }
 
-const std::vector<json_flag> &json_flag::get_all()
+auto json_flag::get_all() -> const std::vector<json_flag> &
 {
     return json_flags_all.get_all();
 }

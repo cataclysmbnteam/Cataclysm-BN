@@ -51,40 +51,40 @@ class vehicle_selector : public visitable<vehicle_selector>
 
         // similar to item_location you are not supposed to store this class between turns
         vehicle_selector( const vehicle_selector &that ) = delete;
-        vehicle_selector &operator=( const vehicle_selector & ) = delete;
+        auto operator=( const vehicle_selector & ) -> vehicle_selector & = delete;
         vehicle_selector( vehicle_selector && ) = default;
 
-        size_type size() const {
+        auto size() const -> size_type {
             return data.size();
         }
-        iterator begin() {
+        auto begin() -> iterator {
             return data.begin();
         }
-        iterator end() {
+        auto end() -> iterator {
             return data.end();
         }
-        const_iterator begin() const {
+        auto begin() const -> const_iterator {
             return data.cbegin();
         }
-        const_iterator end() const {
+        auto end() const -> const_iterator {
             return data.cend();
         }
-        const_iterator cbegin() const {
+        auto cbegin() const -> const_iterator {
             return data.cbegin();
         }
-        const_iterator cend() const {
+        auto cend() const -> const_iterator {
             return data.cend();
         }
-        reference front() {
+        auto front() -> reference {
             return data.front();
         }
-        const_reference front() const {
+        auto front() const -> const_reference {
             return data.front();
         }
-        reference back() {
+        auto back() -> reference {
             return data.back();
         }
-        const_reference back() const {
+        auto back() const -> const_reference {
             return data.back();
         }
 

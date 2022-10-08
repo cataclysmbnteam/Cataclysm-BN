@@ -60,7 +60,7 @@ class trading_window
         int your_balance = 0;
 
         void setup_trade( int cost, npc &np );
-        bool perform_trade( npc &np, const std::string &deal );
+        auto perform_trade( npc &np, const std::string &deal ) -> bool;
         void update_npc_owed( npc &np );
 
     private:
@@ -79,24 +79,24 @@ class trading_window
         units::volume volume_left;
         units::mass weight_left;
 
-        int get_var_trade( const item &it, int total_count, int amount_hint );
-        bool npc_will_accept_trade( const npc &np ) const;
-        int calc_npc_owes_you( const npc &np ) const;
+        auto get_var_trade( const item &it, int total_count, int amount_hint ) -> int;
+        auto npc_will_accept_trade( const npc &np ) const -> bool;
+        auto calc_npc_owes_you( const npc &np ) const -> int;
 };
 
 namespace npc_trading
 {
 
-bool pay_npc( npc &np, int cost );
+auto pay_npc( npc &np, int cost ) -> bool;
 
-int cash_to_favor( const npc &, int cash );
+auto cash_to_favor( const npc &, int cash ) -> int;
 
 void transfer_items( std::vector<item_pricing> &stuff, player &giver, player &receiver,
                      std::list<item_location *> &from_map, bool npc_gives );
-double net_price_adjustment( const player &buyer, const player &seller );
-bool trade( npc &p, int cost, const std::string &deal );
-std::vector<item_pricing> init_selling( npc &p );
-std::vector<item_pricing> init_buying( player &buyer, player &seller, bool is_npc );
+auto net_price_adjustment( const player &buyer, const player &seller ) -> double;
+auto trade( npc &p, int cost, const std::string &deal ) -> bool;
+auto init_selling( npc &p ) -> std::vector<item_pricing>;
+auto init_buying( player &buyer, player &seller, bool is_npc ) -> std::vector<item_pricing>;
 } // namespace npc_trading
 
 #endif // CATA_SRC_NPCTRADE_H

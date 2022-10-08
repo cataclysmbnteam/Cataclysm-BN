@@ -104,8 +104,8 @@ void computer::set_mission( const int id )
     mission_id = id;
 }
 
-static computer_action computer_action_from_legacy_enum( int val );
-static computer_failure_type computer_failure_type_from_legacy_enum( int val );
+static auto computer_action_from_legacy_enum( int val ) -> computer_action;
+static auto computer_failure_type_from_legacy_enum( int val ) -> computer_failure_type;
 
 void computer::load_legacy_data( const std::string &data )
 {
@@ -200,7 +200,7 @@ void computer::remove_option( computer_action const action )
     }
 }
 
-static computer_action computer_action_from_legacy_enum( const int val )
+static auto computer_action_from_legacy_enum( const int val ) -> computer_action
 {
     switch( val ) {
         // Used to migrate old saves. Do not change the numbers!
@@ -260,7 +260,7 @@ static computer_action computer_action_from_legacy_enum( const int val )
     }
 }
 
-static computer_failure_type computer_failure_type_from_legacy_enum( const int val )
+static auto computer_failure_type_from_legacy_enum( const int val ) -> computer_failure_type
 {
     switch( val ) {
         // Used to migrate old saves. Do not change the numbers!
@@ -284,7 +284,7 @@ static computer_failure_type computer_failure_type_from_legacy_enum( const int v
 namespace io
 {
 template<>
-std::string enum_to_string<computer_action>( const computer_action act )
+auto enum_to_string<computer_action>( const computer_action act ) -> std::string
 {
     switch( act ) {
         // *INDENT-OFF*
@@ -346,7 +346,7 @@ std::string enum_to_string<computer_action>( const computer_action act )
 }
 
 template<>
-std::string enum_to_string<computer_failure_type>( const computer_failure_type fail )
+auto enum_to_string<computer_failure_type>( const computer_failure_type fail ) -> std::string
 {
     switch( fail ){
         // *INDENT-OFF*
@@ -380,7 +380,7 @@ struct enum_traits<computer_failure_type> {
     static constexpr computer_failure_type last = NUM_COMPUTER_FAILURES;
 };
 
-computer_option computer_option::from_json( const JsonObject &jo )
+auto computer_option::from_json( const JsonObject &jo ) -> computer_option
 {
     translation name;
     jo.read( "name", name );
@@ -389,7 +389,7 @@ computer_option computer_option::from_json( const JsonObject &jo )
     return computer_option( name.translated(), action, sec );
 }
 
-computer_failure computer_failure::from_json( const JsonObject &jo )
+auto computer_failure::from_json( const JsonObject &jo ) -> computer_failure
 {
     const computer_failure_type type = jo.get_enum_value<computer_failure_type>( "action" );
     return computer_failure( type );

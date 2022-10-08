@@ -116,7 +116,7 @@ void game::serialize( std::ostream &fout )
     json.end_object();
 }
 
-std::string scent_map::serialize( bool is_type ) const
+auto scent_map::serialize( bool is_type ) const -> std::string
 {
     std::ostringstream rle_out;
     rle_out.imbue( std::locale::classic() );
@@ -339,7 +339,7 @@ void overmap::reset_obsolete_terrains()
     obsolete_terrains.clear();
 }
 
-bool overmap::is_obsolete_terrain( const std::string &ter )
+auto overmap::is_obsolete_terrain( const std::string &ter ) -> bool
 {
     return obsolete_terrains.find( ter ) != obsolete_terrains.end();
 }
@@ -847,7 +847,7 @@ void overmap::serialize_view( std::ostream &fout ) const
 // Compares all fields except position and monsters
 // If any group has monsters, it is never equal to any group (because monsters are unique)
 struct mongroup_bin_eq {
-    bool operator()( const mongroup &a, const mongroup &b ) const {
+    auto operator()( const mongroup &a, const mongroup &b ) const -> bool {
         return a.monsters.empty() &&
                b.monsters.empty() &&
                a.type == b.type &&
@@ -863,7 +863,7 @@ struct mongroup_bin_eq {
 };
 
 struct mongroup_hash {
-    std::size_t operator()( const mongroup &mg ) const {
+    auto operator()( const mongroup &mg ) const -> std::size_t {
         // Note: not hashing monsters or position
         size_t ret = std::hash<mongroup_id>()( mg.type );
         cata::hash_combine( ret, mg.radius );

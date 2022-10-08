@@ -190,10 +190,10 @@ class mission_debug
         static void edit( player &who );
         static void edit_player();
         static void edit_npc( npc &who );
-        static std::string describe( const mission &m );
+        static auto describe( const mission &m ) -> std::string;
 };
 
-static int info_uilist( bool display_all_entries = true )
+static auto info_uilist( bool display_all_entries = true ) -> int
 {
     // always displayed
     std::vector<uilist_entry> uilist_initializer = {
@@ -241,7 +241,7 @@ static int info_uilist( bool display_all_entries = true )
     return uilist( _( "Info…" ), uilist_initializer );
 }
 
-static int vehicle_uilist()
+static auto vehicle_uilist() -> int
 {
     std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( DEBUG_VEHICLE_BATTERY_CHARGE, true, 'b', _( "Change [b]attery charge" ) ) },
@@ -250,7 +250,7 @@ static int vehicle_uilist()
     return uilist( _( "Vehicle…" ), uilist_initializer );
 }
 
-static int teleport_uilist()
+static auto teleport_uilist() -> int
 {
     const std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( DEBUG_SHORT_TELEPORT, true, 's', _( "Teleport - short range" ) ) },
@@ -262,7 +262,7 @@ static int teleport_uilist()
     return uilist( _( "Teleport…" ), uilist_initializer );
 }
 
-static int spawning_uilist()
+static auto spawning_uilist() -> int
 {
     const std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( DEBUG_WISH, true, 'w', _( "Spawn an item" ) ) },
@@ -276,7 +276,7 @@ static int spawning_uilist()
     return uilist( _( "Spawning…" ), uilist_initializer );
 }
 
-static int map_uilist()
+static auto map_uilist() -> int
 {
     const std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( DEBUG_REVEAL_MAP, true, 'r', _( "Reveal map" ) ) },
@@ -303,7 +303,7 @@ static int map_uilist()
  *   This allows to have some menu elements at the same time in the main menu and in the debug menu.
  * @returns The chosen action.
  */
-static int debug_menu_uilist( bool display_all_entries = true )
+static auto debug_menu_uilist( bool display_all_entries = true ) -> int
 {
     std::vector<uilist_entry> menu = {
         { uilist_entry( 1, true, 'i', _( "Info…" ) ) },
@@ -458,7 +458,7 @@ void spawn_nested_mapgen()
     }
 }
 
-static Character &pick_character( Character &preselected )
+static auto pick_character( Character &preselected ) -> Character &
 {
     std::vector< tripoint > locations;
     uilist charmenu;
@@ -1085,7 +1085,7 @@ void character_edit_menu( Character &c )
     character_edit_menu( c );
 }
 
-static std::string mission_status_string( mission::mission_status status )
+static auto mission_status_string( mission::mission_status status ) -> std::string
 {
     static const std::map<mission::mission_status, std::string> desc{ {
             { mission::mission_status::yet_to_start, translate_marker( "Yet to start" ) },
@@ -1103,7 +1103,7 @@ static std::string mission_status_string( mission::mission_status status )
     return _( "Bugged" );
 }
 
-std::string mission_debug::describe( const mission &m )
+auto mission_debug::describe( const mission &m ) -> std::string
 {
     std::stringstream data;
     data << _( "Type:" ) << m.type->id.str();
@@ -1196,7 +1196,7 @@ void mission_debug::edit_player()
     edit_mission( *all_missions[mmenu.ret] );
 }
 
-static bool remove_from_vec( std::vector<mission *> &vec, mission *m )
+static auto remove_from_vec( std::vector<mission *> &vec, mission *m ) -> bool
 {
     auto iter = std::remove( vec.begin(), vec.end(), m );
     bool ret = iter != vec.end();

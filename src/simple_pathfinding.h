@@ -67,8 +67,8 @@ using two_node_scoring_fn =
     std::function<node_score( directed_node<Point>, cata::optional<directed_node<Point>> )>;
 
 // non-templated implementation
-directed_path<point> greedy_path( const point &source, const point &dest, const point &max,
-                                  two_node_scoring_fn<point> scorer );
+auto greedy_path( const point &source, const point &dest, const point &max,
+                                  two_node_scoring_fn<point> scorer ) -> directed_path<point>;
 
 /**
  * Uses Greedy Best-First-Search to find a short path from source to destination [2D only].
@@ -80,8 +80,8 @@ directed_path<point> greedy_path( const point &source, const point &dest, const 
  * @param scorer function of (node &current, node *previous) that returns node_score.
  */
 template<typename Point, typename = std::enable_if_t<Point::dimension == 2>>
-directed_path<Point> greedy_path( const Point &source, const Point &dest, const Point &max,
-                                  two_node_scoring_fn<Point> scorer )
+auto greedy_path( const Point &source, const Point &dest, const Point &max,
+                                  two_node_scoring_fn<Point> scorer ) -> directed_path<Point>
 {
     directed_path<Point> res;
     const two_node_scoring_fn<point> point_scorer
@@ -125,9 +125,9 @@ using omt_scoring_fn = std::function<omt_score( tripoint_abs_omt )>;
  * @param scorer function that returns the omt_score for the given OMT
  * @param max_cost Maximum path cost (optional)
  */
-simple_path<tripoint_abs_omt> find_overmap_path( const tripoint_abs_omt &source,
+auto find_overmap_path( const tripoint_abs_omt &source,
         const tripoint_abs_omt &dest, int radius, omt_scoring_fn scorer,
-        cata::optional<int> max_cost = cata::nullopt );
+        cata::optional<int> max_cost = cata::nullopt ) -> simple_path<tripoint_abs_omt>;
 
 } // namespace pf
 

@@ -25,13 +25,13 @@ generic_factory<ter_furn_transform> ter_furn_transform_factory( "ter_furn_transf
 } // namespace
 
 template<>
-const ter_furn_transform &string_id<ter_furn_transform>::obj() const
+auto string_id<ter_furn_transform>::obj() const -> const ter_furn_transform &
 {
     return ter_furn_transform_factory.obj( *this );
 }
 
 template<>
-bool string_id<ter_furn_transform>::is_valid() const
+auto string_id<ter_furn_transform>::is_valid() const -> bool
 {
     return ter_furn_transform_factory.is_valid( *this );
 }
@@ -46,12 +46,12 @@ void ter_furn_transform::reset_all()
     ter_furn_transform_factory.reset();
 }
 
-bool ter_furn_transform::is_valid() const
+auto ter_furn_transform::is_valid() const -> bool
 {
     return ter_furn_transform_factory.is_valid( this->id );
 }
 
-const std::vector<ter_furn_transform> &ter_furn_transform::get_all()
+auto ter_furn_transform::get_all() -> const std::vector<ter_furn_transform> &
 {
     return ter_furn_transform_factory.get_all();
 }
@@ -121,8 +121,8 @@ void ter_furn_transform::load( const JsonObject &jo, const std::string & )
 }
 
 template<class T, class K>
-cata::optional<ter_furn_data<T>> ter_furn_transform::find_transform( const
-                              std::map<K, ter_furn_data<T>> &list, const K &key ) const
+auto ter_furn_transform::find_transform( const
+                              std::map<K, ter_furn_data<T>> &list, const K &key ) const -> cata::optional<ter_furn_data<T>>
 {
     const auto result_iter = list.find( key );
     if( result_iter == list.cend() ) {
@@ -132,8 +132,8 @@ cata::optional<ter_furn_data<T>> ter_furn_transform::find_transform( const
 }
 
 template<class T, class K>
-cata::optional<T> ter_furn_transform::next( const std::map<K, ter_furn_data<T>> &list,
-        const K &key ) const
+auto ter_furn_transform::next( const std::map<K, ter_furn_data<T>> &list,
+        const K &key ) const -> cata::optional<T>
 {
     const cata::optional<ter_furn_data<T>> result = find_transform( list, key );
     if( result ) {
@@ -142,29 +142,29 @@ cata::optional<T> ter_furn_transform::next( const std::map<K, ter_furn_data<T>> 
     return cata::nullopt;
 }
 
-cata::optional<ter_str_id> ter_furn_transform::next_ter( const ter_str_id &ter ) const
+auto ter_furn_transform::next_ter( const ter_str_id &ter ) const -> cata::optional<ter_str_id>
 {
     return next( ter_transform, ter );
 }
 
-cata::optional<ter_str_id> ter_furn_transform::next_ter( const std::string &flag ) const
+auto ter_furn_transform::next_ter( const std::string &flag ) const -> cata::optional<ter_str_id>
 {
     return next( ter_flag_transform, flag );
 }
 
-cata::optional<furn_str_id> ter_furn_transform::next_furn( const furn_str_id &furn ) const
+auto ter_furn_transform::next_furn( const furn_str_id &furn ) const -> cata::optional<furn_str_id>
 {
     return next( furn_transform, furn );
 }
 
-cata::optional<furn_str_id> ter_furn_transform::next_furn( const std::string &flag ) const
+auto ter_furn_transform::next_furn( const std::string &flag ) const -> cata::optional<furn_str_id>
 {
     return next( furn_flag_transform, flag );
 }
 
 template<class T, class K>
-bool ter_furn_transform::add_message( const std::map<K, ter_furn_data<T>> &list, const K &key,
-                                      const Creature &critter, const tripoint &location ) const
+auto ter_furn_transform::add_message( const std::map<K, ter_furn_data<T>> &list, const K &key,
+                                      const Creature &critter, const tripoint &location ) const -> bool
 {
     const cata::optional<ter_furn_data<T>> result = find_transform( list, key );
     if( result && !result->has_msg() ) {
@@ -250,7 +250,7 @@ void ter_furn_transform::transform( map &m, const tripoint &location ) const
 }
 
 template<class T>
-cata::optional<T> ter_furn_data<T>::pick() const
+auto ter_furn_data<T>::pick() const -> cata::optional<T>
 {
     const T *picked = list.pick();
     if( picked == nullptr ) {
@@ -260,7 +260,7 @@ cata::optional<T> ter_furn_data<T>::pick() const
 }
 
 template<class T>
-bool ter_furn_data<T>::has_msg() const
+auto ter_furn_data<T>::has_msg() const -> bool
 {
     return !message.empty();
 }

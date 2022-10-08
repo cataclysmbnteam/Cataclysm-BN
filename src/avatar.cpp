@@ -99,7 +99,7 @@ class JsonOut;
 
 static void skim_book_msg( const item &book, avatar &u );
 
-avatar &get_avatar()
+auto get_avatar() -> avatar &
 {
     return g->u;
 }
@@ -114,19 +114,19 @@ avatar::avatar()
 
 avatar::~avatar() = default;
 avatar::avatar( avatar && ) = default;
-avatar &avatar::operator=( avatar && ) = default;
+auto avatar::operator=( avatar && ) -> avatar & = default;
 
 void avatar::toggle_map_memory()
 {
     show_map_memory = !show_map_memory;
 }
 
-bool avatar::should_show_map_memory()
+auto avatar::should_show_map_memory() -> bool
 {
     return show_map_memory;
 }
 
-bool avatar::save_map_memory()
+auto avatar::save_map_memory() -> bool
 {
     return player_map_memory->save( g->m.getabs( pos() ) );
 }
@@ -141,7 +141,7 @@ void avatar::prepare_map_memory_region( const tripoint &p1, const tripoint &p2 )
     player_map_memory->prepare_region( p1, p2 );
 }
 
-const memorized_terrain_tile &avatar::get_memorized_tile( const tripoint &pos ) const
+auto avatar::get_memorized_tile( const tripoint &pos ) const -> const memorized_terrain_tile &
 {
     return player_map_memory->get_tile( pos );
 }
@@ -157,7 +157,7 @@ void avatar::memorize_symbol( const tripoint &pos, const int symbol )
     player_map_memory->memorize_symbol( pos, symbol );
 }
 
-int avatar::get_memorized_symbol( const tripoint &p ) const
+auto avatar::get_memorized_symbol( const tripoint &p ) const -> int
 {
     return player_map_memory->get_symbol( p );
 }
@@ -167,27 +167,27 @@ void avatar::clear_memorized_tile( const tripoint &pos )
     player_map_memory->clear_memorized_tile( pos );
 }
 
-bool avatar::has_memorized_tile_for_autodrive( const tripoint &p ) const
+auto avatar::has_memorized_tile_for_autodrive( const tripoint &p ) const -> bool
 {
     return player_map_memory->has_memory_for_autodrive( p );
 }
 
-std::vector<mission *> avatar::get_active_missions() const
+auto avatar::get_active_missions() const -> std::vector<mission *>
 {
     return active_missions;
 }
 
-std::vector<mission *> avatar::get_completed_missions() const
+auto avatar::get_completed_missions() const -> std::vector<mission *>
 {
     return completed_missions;
 }
 
-std::vector<mission *> avatar::get_failed_missions() const
+auto avatar::get_failed_missions() const -> std::vector<mission *>
 {
     return failed_missions;
 }
 
-mission *avatar::get_active_mission() const
+auto avatar::get_active_mission() const -> mission *
 {
     return active_mission;
 }
@@ -200,7 +200,7 @@ void avatar::reset_all_misions()
     failed_missions.clear();
 }
 
-tripoint_abs_omt avatar::get_active_mission_target() const
+auto avatar::get_active_mission_target() const -> tripoint_abs_omt
 {
     if( active_mission == nullptr ) {
         return overmap::invalid_tripoint;
@@ -249,7 +249,7 @@ void avatar::on_mission_finished( mission &cur_mission )
     }
 }
 
-const player *avatar::get_book_reader( const item &book, std::vector<std::string> &reasons ) const
+auto avatar::get_book_reader( const item &book, std::vector<std::string> &reasons ) const -> const player *
 {
     const player *reader = nullptr;
     if( !book.is_book() ) {
@@ -339,7 +339,7 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
     return reader;
 }
 
-int avatar::time_to_read( const item &book, const player &reader, const player *learner ) const
+auto avatar::time_to_read( const item &book, const player &reader, const player *learner ) const -> int
 {
     const auto &type = book.type->book;
     const skill_id &skill = type->skill;
@@ -373,7 +373,7 @@ int avatar::time_to_read( const item &book, const player &reader, const player *
  * str_values: Parallel to values, these contain the learning penalties (as doubles in string form) as follows:
  *             Experience gained = Experience normally gained * penalty
  */
-bool avatar::read( item_location loc, const bool continuous )
+auto avatar::read( item_location loc, const bool continuous ) -> bool
 {
     if( !loc ) {
         add_msg( m_info, _( "Never mind." ) );
@@ -658,7 +658,7 @@ void avatar::grab( object_type grab_type, const tripoint &grab_point )
     path_settings->avoid_rough_terrain = grab_type != OBJECT_NONE;
 }
 
-object_type avatar::get_grab_type() const
+auto avatar::get_grab_type() const -> object_type
 {
     return grab_type;
 }
@@ -939,7 +939,7 @@ void avatar::do_read( item_location loc )
     activity.set_to_null();
 }
 
-bool avatar::has_identified( const itype_id &item_id ) const
+auto avatar::has_identified( const itype_id &item_id ) const -> bool
 {
     return items_identified.count( item_id ) > 0;
 }
@@ -993,27 +993,27 @@ void avatar::disp_morale()
     morale->display( equilibrium, pain_penalty, fatigue_cap );
 }
 
-int avatar::get_str_base() const
+auto avatar::get_str_base() const -> int
 {
     return Character::get_str_base() + std::max( 0, str_upgrade );
 }
 
-int avatar::get_dex_base() const
+auto avatar::get_dex_base() const -> int
 {
     return Character::get_dex_base() + std::max( 0, dex_upgrade );
 }
 
-int avatar::get_int_base() const
+auto avatar::get_int_base() const -> int
 {
     return Character::get_int_base() + std::max( 0, int_upgrade );
 }
 
-int avatar::get_per_base() const
+auto avatar::get_per_base() const -> int
 {
     return Character::get_per_base() + std::max( 0, per_upgrade );
 }
 
-int avatar::kill_xp() const
+auto avatar::kill_xp() const -> int
 {
     return g->get_kill_tracker().kill_xp();
 }
@@ -1027,7 +1027,7 @@ static const std::array<int, 20> xp_cutoffs = { {
     }
 };
 
-int avatar::free_upgrade_points() const
+auto avatar::free_upgrade_points() const -> int
 {
     const int xp = kill_xp();
     int lvl = 0;
@@ -1041,7 +1041,7 @@ int avatar::free_upgrade_points() const
     return lvl - str_upgrade - dex_upgrade - int_upgrade - per_upgrade;
 }
 
-cata::optional<int> avatar::kill_xp_for_next_point() const
+auto avatar::kill_xp_for_next_point() const -> cata::optional<int>
 {
     auto it = std::lower_bound( xp_cutoffs.begin(), xp_cutoffs.end(), kill_xp() );
     if( it == xp_cutoffs.end() ) {
@@ -1072,7 +1072,7 @@ void avatar::upgrade_stat( character_stat stat )
     }
 }
 
-faction *avatar::get_faction() const
+auto avatar::get_faction() const -> faction *
 {
     return g->faction_manager_ptr->get( faction_id( "your_followers" ) );
 }
@@ -1179,7 +1179,7 @@ void avatar::cycle_move_mode()
     }
 }
 
-bool avatar::wield( item &target )
+auto avatar::wield( item &target ) -> bool
 {
     if( is_wielding( target ) ) {
         return true;
@@ -1236,7 +1236,7 @@ bool avatar::wield( item &target )
     return true;
 }
 
-bool avatar::invoke_item( item *used, const tripoint &pt )
+auto avatar::invoke_item( item *used, const tripoint &pt ) -> bool
 {
     const std::map<std::string, use_function> &use_methods = used->type->use_methods;
 
@@ -1274,17 +1274,17 @@ bool avatar::invoke_item( item *used, const tripoint &pt )
     return invoke_item( used, method, pt );
 }
 
-bool avatar::invoke_item( item *used )
+auto avatar::invoke_item( item *used ) -> bool
 {
     return Character::invoke_item( used );
 }
 
-bool avatar::invoke_item( item *used, const std::string &method, const tripoint &pt )
+auto avatar::invoke_item( item *used, const std::string &method, const tripoint &pt ) -> bool
 {
     return Character::invoke_item( used, method, pt );
 }
 
-bool avatar::invoke_item( item *used, const std::string &method )
+auto avatar::invoke_item( item *used, const std::string &method ) -> bool
 {
     return Character::invoke_item( used, method );
 }

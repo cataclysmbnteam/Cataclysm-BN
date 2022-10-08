@@ -18,14 +18,14 @@ query_popup::query_popup()
 {
 }
 
-query_popup &query_popup::context( const std::string &cat )
+auto query_popup::context( const std::string &cat ) -> query_popup &
 {
     invalidate_ui();
     category = cat;
     return *this;
 }
 
-query_popup &query_popup::option( const std::string &opt )
+auto query_popup::option( const std::string &opt ) -> query_popup &
 {
     invalidate_ui();
     options.emplace_back( opt, []( const input_event & ) {
@@ -34,59 +34,59 @@ query_popup &query_popup::option( const std::string &opt )
     return *this;
 }
 
-query_popup &query_popup::option( const std::string &opt,
-                                  const std::function<bool( const input_event & )> &filter )
+auto query_popup::option( const std::string &opt,
+                                  const std::function<bool( const input_event & )> &filter ) -> query_popup &
 {
     invalidate_ui();
     options.emplace_back( opt, filter );
     return *this;
 }
 
-query_popup &query_popup::allow_anykey( bool allow )
+auto query_popup::allow_anykey( bool allow ) -> query_popup &
 {
     // Change does not affect cache, do not invalidate the window
     anykey = allow;
     return *this;
 }
 
-query_popup &query_popup::allow_cancel( bool allow )
+auto query_popup::allow_cancel( bool allow ) -> query_popup &
 {
     // Change does not affect cache, do not invalidate the window
     cancel = allow;
     return *this;
 }
 
-query_popup &query_popup::on_top( bool top )
+auto query_popup::on_top( bool top ) -> query_popup &
 {
     invalidate_ui();
     ontop = top;
     return *this;
 }
 
-query_popup &query_popup::full_screen( bool full )
+auto query_popup::full_screen( bool full ) -> query_popup &
 {
     invalidate_ui();
     fullscr = full;
     return *this;
 }
 
-query_popup &query_popup::cursor( size_t pos )
+auto query_popup::cursor( size_t pos ) -> query_popup &
 {
     // Change does not affect cache, do not invalidate window
     cur = pos;
     return *this;
 }
 
-query_popup &query_popup::default_color( const nc_color &d_color )
+auto query_popup::default_color( const nc_color &d_color ) -> query_popup &
 {
     default_text_color = d_color;
     return *this;
 }
 
-std::vector<std::vector<std::string>> query_popup::fold_query(
+auto query_popup::fold_query(
                                        const std::string &category,
                                        const std::vector<query_option> &options,
-                                       const int max_width, const int horz_padding )
+                                       const int max_width, const int horz_padding ) -> std::vector<std::vector<std::string>>
 {
     input_context ctxt( category );
 
@@ -239,7 +239,7 @@ void query_popup::show() const
     wnoutrefresh( win );
 }
 
-std::shared_ptr<ui_adaptor> query_popup::create_or_get_adaptor( bool disable_below )
+auto query_popup::create_or_get_adaptor( bool disable_below ) -> std::shared_ptr<ui_adaptor>
 {
     std::shared_ptr<ui_adaptor> ui = adaptor.lock();
     if( !ui ) {
@@ -260,7 +260,7 @@ std::shared_ptr<ui_adaptor> query_popup::create_or_get_adaptor( bool disable_bel
     return ui;
 }
 
-query_popup::result query_popup::query_once()
+auto query_popup::query_once() -> query_popup::result
 {
     if( !anykey && !cancel && options.empty() ) {
         return { false, "ERROR", {} };
@@ -345,7 +345,7 @@ query_popup::result query_popup::query_once()
     return res;
 }
 
-query_popup::result query_popup::query()
+auto query_popup::query() -> query_popup::result
 {
     ime_sentry sentry( ime_sentry::disable );
 
@@ -358,7 +358,7 @@ query_popup::result query_popup::query()
     return res;
 }
 
-std::string query_popup::wait_text( const std::string &text, const nc_color &bar_color )
+auto query_popup::wait_text( const std::string &text, const nc_color &bar_color ) -> std::string
 {
     static const std::array<std::string, 4> phase_icons = {{ "|", "/", "-", "\\" }};
     static size_t phase = phase_icons.size() - 1;
@@ -366,7 +366,7 @@ std::string query_popup::wait_text( const std::string &text, const nc_color &bar
     return string_format( " %s %s", colorize( phase_icons[phase], bar_color ), text );
 }
 
-std::string query_popup::wait_text( const std::string &text )
+auto query_popup::wait_text( const std::string &text ) -> std::string
 {
     return wait_text( text, c_light_green );
 }

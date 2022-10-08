@@ -139,7 +139,7 @@ static const std::vector<debug_log_class> debug_log_classes = { {
     }
 };
 
-options_manager &get_options()
+auto get_options() -> options_manager &
 {
     static options_manager single_instance;
     return single_instance;
@@ -230,7 +230,7 @@ options_manager::cOpt::cOpt()
     hide = COPT_NO_HIDE;
 }
 
-static options_manager::cOpt::COPT_VALUE_TYPE get_value_type( const std::string &sType )
+static auto get_value_type( const std::string &sType ) -> options_manager::cOpt::COPT_VALUE_TYPE
 {
     using CVT = options_manager::cOpt::COPT_VALUE_TYPE;
 
@@ -530,7 +530,7 @@ void options_manager::add_option_group( const std::string &page_id,
     adding_to_group_.clear();
 }
 
-const options_manager::Group &options_manager::find_group( const std::string &id ) const
+auto options_manager::find_group( const std::string &id ) const -> const options_manager::Group &
 {
     static Group null_group;
     if( id.empty() ) {
@@ -573,17 +573,17 @@ void options_manager::cOpt::setPrerequisites( const std::string &sOption,
     sPrerequisiteAllowedValues = sAllowedValues;
 }
 
-std::string options_manager::cOpt::getPrerequisite() const
+auto options_manager::cOpt::getPrerequisite() const -> std::string
 {
     return sPrerequisite;
 }
 
-bool options_manager::cOpt::hasPrerequisite() const
+auto options_manager::cOpt::hasPrerequisite() const -> bool
 {
     return !sPrerequisite.empty();
 }
 
-bool options_manager::cOpt::checkPrerequisite() const
+auto options_manager::cOpt::checkPrerequisite() const -> bool
 {
     if( !hasPrerequisite() ) {
         return true;
@@ -600,7 +600,7 @@ bool options_manager::cOpt::checkPrerequisite() const
 }
 
 //helper functions
-bool options_manager::cOpt::is_hidden() const
+auto options_manager::cOpt::is_hidden() const -> bool
 {
     switch( hide ) {
         case COPT_NO_HIDE:
@@ -642,32 +642,32 @@ bool options_manager::cOpt::is_hidden() const
     return false;
 }
 
-std::string options_manager::cOpt::getName() const
+auto options_manager::cOpt::getName() const -> std::string
 {
     return sName;
 }
 
-std::string options_manager::cOpt::getPage() const
+auto options_manager::cOpt::getPage() const -> std::string
 {
     return sPage;
 }
 
-std::string options_manager::cOpt::getMenuText() const
+auto options_manager::cOpt::getMenuText() const -> std::string
 {
     return _( sMenuText );
 }
 
-std::string options_manager::cOpt::getTooltip() const
+auto options_manager::cOpt::getTooltip() const -> std::string
 {
     return _( sTooltip );
 }
 
-std::string options_manager::cOpt::getType() const
+auto options_manager::cOpt::getType() const -> std::string
 {
     return sType;
 }
 
-bool options_manager::cOpt::operator==( const cOpt &rhs ) const
+auto options_manager::cOpt::operator==( const cOpt &rhs ) const -> bool
 {
     if( sType != rhs.sType ) {
         return false;
@@ -687,7 +687,7 @@ bool options_manager::cOpt::operator==( const cOpt &rhs ) const
     }
 }
 
-std::string options_manager::cOpt::getValue( bool classis_locale ) const
+auto options_manager::cOpt::getValue( bool classis_locale ) const -> std::string
 {
     if( sType == "string_select" || sType == "string_input" ) {
         return sSet;
@@ -711,7 +711,7 @@ std::string options_manager::cOpt::getValue( bool classis_locale ) const
 }
 
 template<>
-std::string options_manager::cOpt::value_as<std::string>() const
+auto options_manager::cOpt::value_as<std::string>() const -> std::string
 {
     if( eType != CVT_STRING ) {
         debugmsg( "%s tried to get string value from option of type %s", sName, sType );
@@ -720,7 +720,7 @@ std::string options_manager::cOpt::value_as<std::string>() const
 }
 
 template<>
-bool options_manager::cOpt::value_as<bool>() const
+auto options_manager::cOpt::value_as<bool>() const -> bool
 {
     if( eType != CVT_BOOL ) {
         debugmsg( "%s tried to get boolean value from option of type %s", sName, sType );
@@ -729,7 +729,7 @@ bool options_manager::cOpt::value_as<bool>() const
 }
 
 template<>
-float options_manager::cOpt::value_as<float>() const
+auto options_manager::cOpt::value_as<float>() const -> float
 {
     if( eType != CVT_FLOAT ) {
         debugmsg( "%s tried to get float value from option of type %s", sName, sType );
@@ -738,7 +738,7 @@ float options_manager::cOpt::value_as<float>() const
 }
 
 template<>
-int options_manager::cOpt::value_as<int>() const
+auto options_manager::cOpt::value_as<int>() const -> int
 {
     if( eType != CVT_INT ) {
         debugmsg( "%s tried to get integer value from option of type %s", sName, sType );
@@ -746,7 +746,7 @@ int options_manager::cOpt::value_as<int>() const
     return iSet;
 }
 
-std::string options_manager::cOpt::getValueName() const
+auto options_manager::cOpt::getValueName() const -> std::string
 {
     if( sType == "string_select" ) {
         const auto iter = std::find_if( vItems.begin(),
@@ -772,7 +772,7 @@ std::string options_manager::cOpt::getValueName() const
     return getValue();
 }
 
-std::string options_manager::cOpt::getDefaultText( const bool bTranslated ) const
+auto options_manager::cOpt::getDefaultText( const bool bTranslated ) const -> std::string
 {
     if( sType == "string_select" ) {
         const auto iter = std::find_if( vItems.begin(), vItems.end(),
@@ -811,7 +811,7 @@ std::string options_manager::cOpt::getDefaultText( const bool bTranslated ) cons
     return "";
 }
 
-int options_manager::cOpt::getItemPos( const std::string &sSearch ) const
+auto options_manager::cOpt::getItemPos( const std::string &sSearch ) const -> int
 {
     if( sType == "string_select" ) {
         for( size_t i = 0; i < vItems.size(); i++ ) {
@@ -824,12 +824,12 @@ int options_manager::cOpt::getItemPos( const std::string &sSearch ) const
     return -1;
 }
 
-std::vector<options_manager::id_and_option> options_manager::cOpt::getItems() const
+auto options_manager::cOpt::getItems() const -> std::vector<options_manager::id_and_option>
 {
     return vItems;
 }
 
-int options_manager::cOpt::getIntPos( const int iSearch ) const
+auto options_manager::cOpt::getIntPos( const int iSearch ) const -> int
 {
     if( sType == "int_map" ) {
         for( size_t i = 0; i < mIntValues.size(); i++ ) {
@@ -842,8 +842,8 @@ int options_manager::cOpt::getIntPos( const int iSearch ) const
     return -1;
 }
 
-cata::optional< std::tuple<int, std::string> > options_manager::cOpt::findInt(
-    const int iSearch ) const
+auto options_manager::cOpt::findInt(
+    const int iSearch ) const -> cata::optional< std::tuple<int, std::string> >
 {
     int i = static_cast<int>( getIntPos( iSearch ) );
     if( i == -1 ) {
@@ -852,7 +852,7 @@ cata::optional< std::tuple<int, std::string> > options_manager::cOpt::findInt(
     return mIntValues[i];
 }
 
-int options_manager::cOpt::getMaxLength() const
+auto options_manager::cOpt::getMaxLength() const -> int
 {
     if( sType == "string_input" ) {
         return iMaxLength;
@@ -1016,9 +1016,9 @@ void options_manager::cOpt::setValue( std::string sSetIn )
  * All found values added to resource_option as name, resource_dir.
  * Furthermore, it builds possible values list for cOpt class.
  */
-static std::vector<options_manager::id_and_option> build_resource_list(
+static auto build_resource_list(
     std::map<std::string, std::string> &resource_option, const std::string &operation_name,
-    const std::string &dirname, const std::string &filename )
+    const std::string &dirname, const std::string &filename ) -> std::vector<options_manager::id_and_option>
 {
     std::vector<options_manager::id_and_option> resource_names;
 
@@ -1065,8 +1065,8 @@ static std::vector<options_manager::id_and_option> build_resource_list(
     return resource_names;
 }
 
-std::vector<options_manager::id_and_option> options_manager::load_tilesets_from(
-    const std::string &path )
+auto options_manager::load_tilesets_from(
+    const std::string &path ) -> std::vector<options_manager::id_and_option>
 {
     // Use local map as build_resource_list will clear the first parameter
     std::map<std::string, std::string> local_tilesets;
@@ -1079,7 +1079,7 @@ std::vector<options_manager::id_and_option> options_manager::load_tilesets_from(
     return tileset_names;
 }
 
-std::vector<options_manager::id_and_option> options_manager::build_tilesets_list()
+auto options_manager::build_tilesets_list() -> std::vector<options_manager::id_and_option>
 {
     // Clear tilesets
     TILESETS.clear();
@@ -1107,8 +1107,8 @@ std::vector<options_manager::id_and_option> options_manager::build_tilesets_list
     return result;
 }
 
-std::vector<options_manager::id_and_option> options_manager::load_soundpack_from(
-    const std::string &path )
+auto options_manager::load_soundpack_from(
+    const std::string &path ) -> std::vector<options_manager::id_and_option>
 {
     // build_resource_list will clear &resource_option - first param
     std::map<std::string, std::string> local_soundpacks;
@@ -1122,7 +1122,7 @@ std::vector<options_manager::id_and_option> options_manager::load_soundpack_from
     return soundpack_names;
 }
 
-std::vector<options_manager::id_and_option> options_manager::build_soundpacks_list()
+auto options_manager::build_soundpacks_list() -> std::vector<options_manager::id_and_option>
 {
     // Clear soundpacks before loading
     SOUNDPACKS.clear();
@@ -2684,9 +2684,9 @@ static void draw_borders_internal( const catacurses::window &w, std::set<int> &v
     wnoutrefresh( w );
 }
 
-std::string
+auto
 options_manager::PageItem::fmt_tooltip( const Group &group,
-                                        const options_manager::options_container &cont ) const
+                                        const options_manager::options_container &cont ) const -> std::string
 {
     switch( type ) {
         case ItemType::BlankLine:
@@ -2737,8 +2737,8 @@ struct string_col {
     string_col( const std::string &s, nc_color col ) : s( s ), col( col ) { }
 };
 
-std::string options_manager::show( bool ingame, const bool world_options_only,
-                                   const std::function<bool()> &on_quit )
+auto options_manager::show( bool ingame, const bool world_options_only,
+                                   const std::function<bool()> &on_quit ) -> std::string
 {
     const int iWorldOptPage = std::find_if( pages_.begin(), pages_.end(), [&]( const Page & p ) {
         return p.id_ == "world_default";
@@ -3277,14 +3277,14 @@ void options_manager::deserialize( JsonIn &jsin )
     }
 }
 
-std::string options_manager::migrateOptionName( const std::string &name ) const
+auto options_manager::migrateOptionName( const std::string &name ) const -> std::string
 {
     const auto iter = mMigrateOption.find( name );
     return iter != mMigrateOption.end() ? iter->second.first : name;
 }
 
-std::string options_manager::migrateOptionValue( const std::string &name,
-        const std::string &val ) const
+auto options_manager::migrateOptionValue( const std::string &name,
+        const std::string &val ) const -> std::string
 {
     const auto iter = mMigrateOption.find( name );
     if( iter == mMigrateOption.end() ) {
@@ -3327,7 +3327,7 @@ void options_manager::cache_to_globals()
 #endif
 }
 
-bool options_manager::save()
+auto options_manager::save() -> bool
 {
     const auto savefile = PATH_INFO::options();
     cache_to_globals();
@@ -3349,12 +3349,12 @@ void options_manager::load()
     cache_to_globals();
 }
 
-bool options_manager::has_option( const std::string &name ) const
+auto options_manager::has_option( const std::string &name ) const -> bool
 {
     return options.count( name );
 }
 
-options_manager::cOpt &options_manager::get_option( const std::string &name )
+auto options_manager::get_option( const std::string &name ) -> options_manager::cOpt &
 {
     if( options.count( name ) == 0 ) {
         debugmsg( "requested non-existing option %s", name );
@@ -3376,7 +3376,7 @@ options_manager::cOpt &options_manager::get_option( const std::string &name )
     return wopts[name];
 }
 
-options_manager::options_container options_manager::get_world_defaults() const
+auto options_manager::get_world_defaults() const -> options_manager::options_container
 {
     std::unordered_map<std::string, cOpt> result;
     for( auto &elem : options ) {

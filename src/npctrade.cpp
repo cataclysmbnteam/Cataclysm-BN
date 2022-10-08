@@ -93,7 +93,7 @@ void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &give
     }
 }
 
-std::vector<item_pricing> npc_trading::init_selling( npc &np )
+auto npc_trading::init_selling( npc &np ) -> std::vector<item_pricing>
 {
     std::vector<item_pricing> result;
     invslice slice = np.inv.slice();
@@ -118,7 +118,7 @@ std::vector<item_pricing> npc_trading::init_selling( npc &np )
     return result;
 }
 
-double npc_trading::net_price_adjustment( const player &buyer, const player &seller )
+auto npc_trading::net_price_adjustment( const player &buyer, const player &seller ) -> double
 {
     // Adjust the prices based on your barter skill.
     // cap adjustment so nothing is ever sold below value
@@ -145,7 +145,7 @@ void buy_helper( T &src, Callback cb )
     } );
 }
 
-std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &seller, bool is_npc )
+auto npc_trading::init_buying( player &buyer, player &seller, bool is_npc ) -> std::vector<item_pricing>
 {
     std::vector<item_pricing> result;
     npc *np_p = dynamic_cast<npc *>( &buyer );
@@ -471,7 +471,7 @@ void trading_window::show_item_data( size_t offset,
     }
 }
 
-int trading_window::get_var_trade( const item &it, int total_count, int amount_hint )
+auto trading_window::get_var_trade( const item &it, int total_count, int amount_hint ) -> int
 {
     string_input_popup popup_input;
     int how_many = total_count;
@@ -497,7 +497,7 @@ int trading_window::get_var_trade( const item &it, int total_count, int amount_h
     return std::min( total_count, how_many );
 }
 
-bool trading_window::perform_trade( npc &np, const std::string &deal )
+auto trading_window::perform_trade( npc &np, const std::string &deal ) -> bool
 {
     volume_left = np.volume_capacity() - np.volume_carried();
     weight_left = np.weight_capacity() - np.weight_carried();
@@ -666,7 +666,7 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
 
 // Returns how much the NPC will owe you after this transaction.
 // You must also check if they will accept the trade.
-int trading_window::calc_npc_owes_you( const npc &np ) const
+auto trading_window::calc_npc_owes_you( const npc &np ) const -> int
 {
     // Friends don't hold debts against friends.
     if( np.will_exchange_items_freely() ) {
@@ -696,7 +696,7 @@ void trading_window::update_npc_owed( npc &np )
 // op_of_u.owed is the positive when the NPC owes the player, and negative if the player owes the
 // NPC
 // cost is positive when the player owes the NPC money for a service to be performed
-bool npc_trading::trade( npc &np, int cost, const std::string &deal )
+auto npc_trading::trade( npc &np, int cost, const std::string &deal ) -> bool
 {
     np.shop_restock();
     //np.drop_items( np.weight_carried() - np.weight_capacity(),
@@ -745,7 +745,7 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
 }
 
 // Will the NPC accept the trade that's currently on offer?
-bool trading_window::npc_will_accept_trade( const npc &np ) const
+auto trading_window::npc_will_accept_trade( const npc &np ) const -> bool
 {
     return np.will_exchange_items_freely() || your_balance + np.max_credit_extended() > 0;
 }

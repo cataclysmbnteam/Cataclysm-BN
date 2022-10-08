@@ -51,13 +51,13 @@ static const std::string flag_SWIMMABLE( "SWIMMABLE" );
 
 class inventory;
 
-std::vector<char> keys_bound_to( action_id act, const bool restrict_to_printable )
+auto keys_bound_to( action_id act, const bool restrict_to_printable ) -> std::vector<char>
 {
     input_context ctxt = get_default_mode_input_context();
     return ctxt.keys_bound_to( action_ident( act ), restrict_to_printable );
 }
 
-action_id action_from_key( char ch )
+auto action_from_key( char ch ) -> action_id
 {
     input_context ctxt = get_default_mode_input_context();
     const input_event event( ch, CATA_INPUT_KEYBOARD );
@@ -65,7 +65,7 @@ action_id action_from_key( char ch )
     return look_up_action( action );
 }
 
-std::string action_ident( action_id act )
+auto action_ident( action_id act ) -> std::string
 {
     switch( act ) {
         case ACTION_PAUSE:
@@ -345,7 +345,7 @@ std::string action_ident( action_id act )
     }
 }
 
-bool can_action_change_worldstate( const action_id act )
+auto can_action_change_worldstate( const action_id act ) -> bool
 {
     switch( act ) {
         // Shift view
@@ -415,7 +415,7 @@ bool can_action_change_worldstate( const action_id act )
     }
 }
 
-action_id look_up_action( const std::string &ident )
+auto look_up_action( const std::string &ident ) -> action_id
 {
     // Temporarily for the interface with the input manager!
     if( ident == "move_nw" ) {
@@ -449,24 +449,24 @@ action_id look_up_action( const std::string &ident )
 }
 
 // (Press X (or Y)|Try) to Z
-std::string press_x( action_id act )
+auto press_x( action_id act ) -> std::string
 {
     input_context ctxt = get_default_mode_input_context();
     return ctxt.press_x( action_ident( act ), _( "Press " ), "", _( "Try" ) );
 }
-std::string press_x( action_id act, const std::string &key_bound, const std::string &key_unbound )
+auto press_x( action_id act, const std::string &key_bound, const std::string &key_unbound ) -> std::string
 {
     input_context ctxt = get_default_mode_input_context();
     return ctxt.press_x( action_ident( act ), key_bound, "", key_unbound );
 }
-std::string press_x( action_id act, const std::string &key_bound_pre,
+auto press_x( action_id act, const std::string &key_bound_pre,
                      const std::string &key_bound_suf,
-                     const std::string &key_unbound )
+                     const std::string &key_unbound ) -> std::string
 {
     input_context ctxt = get_default_mode_input_context();
     return ctxt.press_x( action_ident( act ), key_bound_pre, key_bound_suf, key_unbound );
 }
-cata::optional<std::string> press_x_if_bound( action_id act )
+auto press_x_if_bound( action_id act ) -> cata::optional<std::string>
 {
     input_context ctxt = get_default_mode_input_context();
     std::string description = action_ident( act );
@@ -476,7 +476,7 @@ cata::optional<std::string> press_x_if_bound( action_id act )
     return press_x( act );
 }
 
-action_id get_movement_action_from_delta( const tripoint &d, const iso_rotate rot )
+auto get_movement_action_from_delta( const tripoint &d, const iso_rotate rot ) -> action_id
 {
     if( d.z == -1 ) {
         return ACTION_MOVE_DOWN;
@@ -504,7 +504,7 @@ action_id get_movement_action_from_delta( const tripoint &d, const iso_rotate ro
     }
 }
 
-point get_delta_from_movement_action( const action_id act, const iso_rotate rot )
+auto get_delta_from_movement_action( const action_id act, const iso_rotate rot ) -> point
 {
     const bool iso_mode = rot == iso_rotate::yes && use_tiles && tile_iso;
     switch( act ) {
@@ -529,7 +529,7 @@ point get_delta_from_movement_action( const action_id act, const iso_rotate rot 
     }
 }
 
-int hotkey_for_action( action_id action, const bool restrict_to_printable )
+auto hotkey_for_action( action_id action, const bool restrict_to_printable ) -> int
 {
     auto is_valid_key = []( char key ) {
         return key != '?';
@@ -539,7 +539,7 @@ int hotkey_for_action( action_id action, const bool restrict_to_printable )
     return valid == keys.end() ? -1 : *valid;
 }
 
-bool can_butcher_at( const tripoint &p )
+auto can_butcher_at( const tripoint &p ) -> bool
 {
     avatar &you = get_avatar();
     // TODO: unify this with game::butcher
@@ -562,7 +562,7 @@ bool can_butcher_at( const tripoint &p )
     return has_corpse || has_item;
 }
 
-bool can_move_vertical_at( const tripoint &p, int movez )
+auto can_move_vertical_at( const tripoint &p, int movez ) -> bool
 {
     map &here = get_map();
     // TODO: unify this with game::move_vertical
@@ -581,7 +581,7 @@ bool can_move_vertical_at( const tripoint &p, int movez )
     }
 }
 
-bool can_examine_at( const tripoint &p )
+auto can_examine_at( const tripoint &p ) -> bool
 {
     map &here = get_map();
     Character &u = get_player_character();
@@ -611,7 +611,7 @@ bool can_examine_at( const tripoint &p )
     return here.can_see_trap_at( p, u );
 }
 
-static bool can_pickup_at( const tripoint &p )
+static auto can_pickup_at( const tripoint &p ) -> bool
 {
     bool veh_has_items = false;
     map &here = get_map();
@@ -623,7 +623,7 @@ static bool can_pickup_at( const tripoint &p )
     return here.has_items( p ) || veh_has_items;
 }
 
-bool can_interact_at( action_id action, const tripoint &p )
+auto can_interact_at( action_id action, const tripoint &p ) -> bool
 {
     map &here = get_map();
     switch( action ) {
@@ -652,7 +652,7 @@ bool can_interact_at( action_id action, const tripoint &p )
     }
 }
 
-action_id handle_action_menu()
+auto handle_action_menu() -> action_id
 {
     const input_context ctxt = get_default_mode_input_context();
     std::string catgname;
@@ -938,7 +938,7 @@ action_id handle_action_menu()
 #undef REGISTER_CATEGORY
 }
 
-action_id handle_main_menu()
+auto handle_main_menu() -> action_id
 {
     const input_context ctxt = get_default_mode_input_context();
     std::vector<uilist_entry> entries;
@@ -974,7 +974,7 @@ action_id handle_main_menu()
     }
 }
 
-cata::optional<tripoint> choose_direction( const std::string &message, const bool allow_vertical )
+auto choose_direction( const std::string &message, const bool allow_vertical ) -> cata::optional<tripoint>
 {
     input_context ctxt( "DEFAULTMODE" );
     ctxt.set_iso( true );
@@ -1016,7 +1016,7 @@ cata::optional<tripoint> choose_direction( const std::string &message, const boo
     return cata::nullopt;
 }
 
-cata::optional<tripoint> choose_adjacent( const std::string &message, const bool allow_vertical )
+auto choose_adjacent( const std::string &message, const bool allow_vertical ) -> cata::optional<tripoint>
 {
     const cata::optional<tripoint> dir = choose_direction( message, allow_vertical );
 
@@ -1032,8 +1032,8 @@ cata::optional<tripoint> choose_adjacent( const std::string &message, const bool
     return *dir + g->u.pos();
 }
 
-cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        const std::string &failure_message, const action_id action, bool allow_vertical )
+auto choose_adjacent_highlight( const std::string &message,
+        const std::string &failure_message, const action_id action, bool allow_vertical ) -> cata::optional<tripoint>
 {
     const std::function<bool( const tripoint & )> f = [&action]( const tripoint & p ) {
         return can_interact_at( action, p );
@@ -1041,9 +1041,9 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
     return choose_adjacent_highlight( message, failure_message, f, allow_vertical );
 }
 
-cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
+auto choose_adjacent_highlight( const std::string &message,
         const std::string &failure_message, const std::function<bool ( const tripoint & )> &allowed,
-        const bool allow_vertical )
+        const bool allow_vertical ) -> cata::optional<tripoint>
 {
     std::vector<tripoint> valid;
     map &here = get_map();

@@ -21,8 +21,8 @@ std::unordered_map<std::string, const strategy_t *> strategy_map = {{
 using namespace behavior;
 
 // A standard behavior strategy, execute runnable children in order unless one fails.
-behavior_return sequential_t::evaluate( const oracle_t *subject,
-                                        const std::vector<const node_t *> children ) const
+auto sequential_t::evaluate( const oracle_t *subject,
+                                        const std::vector<const node_t *> children ) const -> behavior_return
 {
     for( const node_t *child : children ) {
         behavior_return outcome = child->tick( subject );
@@ -34,8 +34,8 @@ behavior_return sequential_t::evaluate( const oracle_t *subject,
 }
 
 // A standard behavior strategy, execute runnable children in order until one succeeds.
-behavior_return fallback_t::evaluate( const oracle_t *subject,
-                                      const std::vector<const node_t *> children ) const
+auto fallback_t::evaluate( const oracle_t *subject,
+                                      const std::vector<const node_t *> children ) const -> behavior_return
 {
     for( const node_t *child : children ) {
         behavior_return outcome = child->tick( subject );
@@ -47,8 +47,8 @@ behavior_return fallback_t::evaluate( const oracle_t *subject,
 }
 
 // A non-standard behavior strategy, execute runnable children in order unconditionally.
-behavior_return sequential_until_done_t::evaluate( const oracle_t *subject,
-        const std::vector<const node_t *> children ) const
+auto sequential_until_done_t::evaluate( const oracle_t *subject,
+        const std::vector<const node_t *> children ) const -> behavior_return
 {
     for( const node_t *child : children ) {
         behavior_return outcome = child->tick( subject );

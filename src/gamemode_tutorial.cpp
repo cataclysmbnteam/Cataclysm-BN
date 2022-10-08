@@ -50,7 +50,7 @@ namespace io
 {
 
 template<>
-std::string enum_to_string<tut_lesson>( tut_lesson data )
+auto enum_to_string<tut_lesson>( tut_lesson data ) -> std::string
 {
     switch( data ) {
             // *INDENT-OFF*
@@ -103,7 +103,7 @@ std::string enum_to_string<tut_lesson>( tut_lesson data )
 }
 } // namespace io
 
-bool tutorial_game::init()
+auto tutorial_game::init() -> bool
 {
     // TODO: clean up old tutorial
     Character &player_character = get_player_character();

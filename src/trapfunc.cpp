@@ -62,7 +62,7 @@ static const mtype_id mon_shadow( "mon_shadow" );
 static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
 
 // A pit becomes less effective as it fills with corpses.
-static float pit_effectiveness( const tripoint &p )
+static auto pit_effectiveness( const tripoint &p ) -> float
 {
     units::volume corpse_volume = 0_ml;
     for( auto &pit_content : g->m.i_at( p ) ) {
@@ -77,12 +77,12 @@ static float pit_effectiveness( const tripoint &p )
     return std::max( 0.0f, 1.0f - corpse_volume / filled_volume );
 }
 
-bool trapfunc::none( const tripoint &, Creature *, item * )
+auto trapfunc::none( const tripoint &, Creature *, item * ) -> bool
 {
     return false;
 }
 
-bool trapfunc::bubble( const tripoint &p, Creature *c, item * )
+auto trapfunc::bubble( const tripoint &p, Creature *c, item * ) -> bool
 {
     // tiny animals don't trigger bubble wrap
     if( c != nullptr && c->get_size() == MS_TINY ) {
@@ -100,7 +100,7 @@ bool trapfunc::bubble( const tripoint &p, Creature *c, item * )
     return true;
 }
 
-bool trapfunc::glass( const tripoint &p, Creature *c, item * )
+auto trapfunc::glass( const tripoint &p, Creature *c, item * ) -> bool
 {
     if( c != nullptr ) {
         // tiny animals and hallucinations don't trigger glass trap
@@ -126,7 +126,7 @@ bool trapfunc::glass( const tripoint &p, Creature *c, item * )
     return true;
 }
 
-bool trapfunc::cot( const tripoint &, Creature *c, item * )
+auto trapfunc::cot( const tripoint &, Creature *c, item * ) -> bool
 {
     monster *z = dynamic_cast<monster *>( c );
     if( z != nullptr ) {
@@ -138,7 +138,7 @@ bool trapfunc::cot( const tripoint &, Creature *c, item * )
     return false;
 }
 
-bool trapfunc::beartrap( const tripoint &p, Creature *c, item * )
+auto trapfunc::beartrap( const tripoint &p, Creature *c, item * ) -> bool
 {
     // tiny animals don't trigger bear traps
     if( c != nullptr && c->get_size() == MS_TINY ) {
@@ -169,7 +169,7 @@ bool trapfunc::beartrap( const tripoint &p, Creature *c, item * )
     return true;
 }
 
-bool trapfunc::board( const tripoint &, Creature *c, item * )
+auto trapfunc::board( const tripoint &, Creature *c, item * ) -> bool
 {
     if( c == nullptr ) {
         return false;
@@ -198,7 +198,7 @@ bool trapfunc::board( const tripoint &, Creature *c, item * )
     return true;
 }
 
-bool trapfunc::caltrops( const tripoint &, Creature *c, item * )
+auto trapfunc::caltrops( const tripoint &, Creature *c, item * ) -> bool
 {
     if( c == nullptr ) {
         return false;
@@ -227,7 +227,7 @@ bool trapfunc::caltrops( const tripoint &, Creature *c, item * )
     return true;
 }
 
-bool trapfunc::caltrops_glass( const tripoint &p, Creature *c, item * )
+auto trapfunc::caltrops_glass( const tripoint &p, Creature *c, item * ) -> bool
 {
     if( c == nullptr ) {
         return false;
@@ -257,7 +257,7 @@ bool trapfunc::caltrops_glass( const tripoint &p, Creature *c, item * )
     return true;
 }
 
-bool trapfunc::tripwire( const tripoint &p, Creature *c, item * )
+auto trapfunc::tripwire( const tripoint &p, Creature *c, item * ) -> bool
 {
     if( c == nullptr ) {
         return false;
@@ -316,7 +316,7 @@ bool trapfunc::tripwire( const tripoint &p, Creature *c, item * )
     return true;
 }
 
-bool trapfunc::crossbow( const tripoint &p, Creature *c, item * )
+auto trapfunc::crossbow( const tripoint &p, Creature *c, item * ) -> bool
 {
     bool add_bolt = true;
     if( c != nullptr ) {
@@ -411,7 +411,7 @@ bool trapfunc::crossbow( const tripoint &p, Creature *c, item * )
     return true;
 }
 
-bool trapfunc::shotgun( const tripoint &p, Creature *c, item * )
+auto trapfunc::shotgun( const tripoint &p, Creature *c, item * ) -> bool
 {
     sounds::sound( p, 60, sounds::sound_t::combat, _( "Kerblam!" ), false, "fire_gun",
                    g->m.tr_at( p ).loadid == tr_shotgun_1 ? "shotgun_s" : "shotgun_d" );
@@ -509,7 +509,7 @@ bool trapfunc::shotgun( const tripoint &p, Creature *c, item * )
     return true;
 }
 
-bool trapfunc::blade( const tripoint &, Creature *c, item * )
+auto trapfunc::blade( const tripoint &, Creature *c, item * ) -> bool
 {
     if( c == nullptr ) {
         return false;
@@ -527,7 +527,7 @@ bool trapfunc::blade( const tripoint &, Creature *c, item * )
     return true;
 }
 
-bool trapfunc::snare_light( const tripoint &p, Creature *c, item * )
+auto trapfunc::snare_light( const tripoint &p, Creature *c, item * ) -> bool
 {
     sounds::sound( p, 2, sounds::sound_t::combat, _( "Snap!" ), false, "trap", "snare" );
     g->m.remove_trap( p );
@@ -553,7 +553,7 @@ bool trapfunc::snare_light( const tripoint &p, Creature *c, item * )
     return true;
 }
 
-bool trapfunc::snare_heavy( const tripoint &p, Creature *c, item * )
+auto trapfunc::snare_heavy( const tripoint &p, Creature *c, item * ) -> bool
 {
     sounds::sound( p, 4, sounds::sound_t::combat, _( "Snap!" ), false, "trap", "snare" );
     g->m.remove_trap( p );
@@ -596,7 +596,7 @@ bool trapfunc::snare_heavy( const tripoint &p, Creature *c, item * )
     return true;
 }
 
-static explosion_data get_basic_explosion_data()
+static auto get_basic_explosion_data() -> explosion_data
 {
     // equivalent of grenade explosion
     explosion_data data;
@@ -610,7 +610,7 @@ static explosion_data get_basic_explosion_data()
     return data;
 }
 
-bool trapfunc::landmine( const tripoint &p, Creature *c, item * )
+auto trapfunc::landmine( const tripoint &p, Creature *c, item * ) -> bool
 {
     // tiny animals are too light to trigger land mines
     if( c != nullptr && c->get_size() == MS_TINY ) {
@@ -625,7 +625,7 @@ bool trapfunc::landmine( const tripoint &p, Creature *c, item * )
     return true;
 }
 
-bool trapfunc::boobytrap( const tripoint &p, Creature *c, item * )
+auto trapfunc::boobytrap( const tripoint &p, Creature *c, item * ) -> bool
 {
     if( c != nullptr ) {
         c->add_msg_player_or_npc( m_bad, _( "You trigger a booby trap!" ),
@@ -636,7 +636,7 @@ bool trapfunc::boobytrap( const tripoint &p, Creature *c, item * )
     return true;
 }
 
-bool trapfunc::telepad( const tripoint &p, Creature *c, item * )
+auto trapfunc::telepad( const tripoint &p, Creature *c, item * ) -> bool
 {
     //~ the sound of a telepad functioning
     sounds::sound( p, 6, sounds::sound_t::movement, _( "vvrrrRRMM*POP!*" ), false, "trap", "teleport" );
@@ -654,7 +654,7 @@ bool trapfunc::telepad( const tripoint &p, Creature *c, item * )
     return false;
 }
 
-bool trapfunc::goo( const tripoint &p, Creature *c, item * )
+auto trapfunc::goo( const tripoint &p, Creature *c, item * ) -> bool
 {
     g->m.remove_trap( p );
     if( c == nullptr ) {
@@ -696,7 +696,7 @@ bool trapfunc::goo( const tripoint &p, Creature *c, item * )
     return false;
 }
 
-bool trapfunc::dissector( const tripoint &p, Creature *c, item * )
+auto trapfunc::dissector( const tripoint &p, Creature *c, item * ) -> bool
 {
     if( c == nullptr ) {
         return false;
@@ -753,7 +753,7 @@ bool trapfunc::dissector( const tripoint &p, Creature *c, item * )
     return true;
 }
 
-bool trapfunc::pit( const tripoint &p, Creature *c, item * )
+auto trapfunc::pit( const tripoint &p, Creature *c, item * ) -> bool
 {
     if( c == nullptr ) {
         return false;
@@ -802,7 +802,7 @@ bool trapfunc::pit( const tripoint &p, Creature *c, item * )
     return true;
 }
 
-bool trapfunc::pit_spikes( const tripoint &p, Creature *c, item * )
+auto trapfunc::pit_spikes( const tripoint &p, Creature *c, item * ) -> bool
 {
     if( c == nullptr ) {
         return false;
@@ -881,7 +881,7 @@ bool trapfunc::pit_spikes( const tripoint &p, Creature *c, item * )
     return true;
 }
 
-bool trapfunc::pit_glass( const tripoint &p, Creature *c, item * )
+auto trapfunc::pit_glass( const tripoint &p, Creature *c, item * ) -> bool
 {
     if( c == nullptr ) {
         return false;
@@ -964,7 +964,7 @@ bool trapfunc::pit_glass( const tripoint &p, Creature *c, item * )
     return true;
 }
 
-bool trapfunc::lava( const tripoint &p, Creature *c, item * )
+auto trapfunc::lava( const tripoint &p, Creature *c, item * ) -> bool
 {
     if( c == nullptr ) {
         return false;
@@ -1006,26 +1006,26 @@ bool trapfunc::lava( const tripoint &p, Creature *c, item * )
 }
 
 // STUB
-bool trapfunc::portal( const tripoint &p, Creature *c, item *i )
+auto trapfunc::portal( const tripoint &p, Creature *c, item *i ) -> bool
 {
     // TODO: make this do something unique and interesting
     return telepad( p, c, i );
 }
 
 // Don't ask NPCs - they always want to do the first thing that comes to their minds
-static bool query_for_item( const player *pl, const itype_id &itemname, const char *que )
+static auto query_for_item( const player *pl, const itype_id &itemname, const char *que ) -> bool
 {
     return pl->has_amount( itemname, 1 ) && ( !pl->is_player() || query_yn( que ) );
 }
 
-static tripoint random_neighbor( tripoint center )
+static auto random_neighbor( tripoint center ) -> tripoint
 {
     center.x += rng( -1, 1 );
     center.y += rng( -1, 1 );
     return center;
 }
 
-static bool sinkhole_safety_roll( player *p, const itype_id &itemname, const int diff )
+static auto sinkhole_safety_roll( player *p, const itype_id &itemname, const int diff ) -> bool
 {
     ///\EFFECT_STR increases chance to attach grapnel, bullwhip, or rope when falling into a sinkhole
 
@@ -1068,7 +1068,7 @@ static bool sinkhole_safety_roll( player *p, const itype_id &itemname, const int
     }
 }
 
-bool trapfunc::sinkhole( const tripoint &p, Creature *c, item *i )
+auto trapfunc::sinkhole( const tripoint &p, Creature *c, item *i ) -> bool
 {
     // tiny creatures don't trigger the sinkhole to collapse
     if( c == nullptr || c->get_size() == MS_TINY ) {
@@ -1116,7 +1116,7 @@ bool trapfunc::sinkhole( const tripoint &p, Creature *c, item *i )
     return true;
 }
 
-bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
+auto trapfunc::ledge( const tripoint &p, Creature *c, item * ) -> bool
 {
     if( c == nullptr ) {
         return false;
@@ -1227,7 +1227,7 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
     return true;
 }
 
-bool trapfunc::temple_flood( const tripoint &p, Creature *c, item * )
+auto trapfunc::temple_flood( const tripoint &p, Creature *c, item * ) -> bool
 {
     // Monsters and npcs are completely ignored here, should they?
     if( c == &g->u ) {
@@ -1248,7 +1248,7 @@ bool trapfunc::temple_flood( const tripoint &p, Creature *c, item * )
     return false;
 }
 
-bool trapfunc::temple_toggle( const tripoint &p, Creature *c, item * )
+auto trapfunc::temple_toggle( const tripoint &p, Creature *c, item * ) -> bool
 {
     // Monsters and npcs are completely ignored here, should they?
     if( c == &g->u ) {
@@ -1285,7 +1285,7 @@ bool trapfunc::temple_toggle( const tripoint &p, Creature *c, item * )
     return false;
 }
 
-bool trapfunc::glow( const tripoint &p, Creature *c, item * )
+auto trapfunc::glow( const tripoint &p, Creature *c, item * ) -> bool
 {
     if( c == nullptr ) {
         return false;
@@ -1324,7 +1324,7 @@ bool trapfunc::glow( const tripoint &p, Creature *c, item * )
     return true;
 }
 
-bool trapfunc::hum( const tripoint &p, Creature *, item * )
+auto trapfunc::hum( const tripoint &p, Creature *, item * ) -> bool
 {
     int volume = rng( 1, 200 );
     std::string sfx;
@@ -1345,7 +1345,7 @@ bool trapfunc::hum( const tripoint &p, Creature *, item * )
     return true;
 }
 
-bool trapfunc::shadow( const tripoint &p, Creature *c, item * )
+auto trapfunc::shadow( const tripoint &p, Creature *c, item * ) -> bool
 {
     if( c != &g->u ) {
         return false;
@@ -1373,7 +1373,7 @@ bool trapfunc::shadow( const tripoint &p, Creature *c, item * )
     return true;
 }
 
-bool trapfunc::map_regen( const tripoint &p, Creature *c, item * )
+auto trapfunc::map_regen( const tripoint &p, Creature *c, item * ) -> bool
 {
     if( c ) {
         player *n = dynamic_cast<player *>( c );
@@ -1395,7 +1395,7 @@ bool trapfunc::map_regen( const tripoint &p, Creature *c, item * )
     return false;
 }
 
-bool trapfunc::drain( const tripoint &, Creature *c, item * )
+auto trapfunc::drain( const tripoint &, Creature *c, item * ) -> bool
 {
     if( c != nullptr ) {
         c->add_msg_if_player( m_bad, _( "You feel your life force sapping away." ) );
@@ -1412,7 +1412,7 @@ bool trapfunc::drain( const tripoint &, Creature *c, item * )
     return false;
 }
 
-bool trapfunc::cast_spell( const tripoint &p, Creature *critter, item * )
+auto trapfunc::cast_spell( const tripoint &p, Creature *critter, item * ) -> bool
 {
     if( critter == nullptr ) {
         return false;
@@ -1425,7 +1425,7 @@ bool trapfunc::cast_spell( const tripoint &p, Creature *critter, item * )
     return true;
 }
 
-bool trapfunc::snake( const tripoint &p, Creature *, item * )
+auto trapfunc::snake( const tripoint &p, Creature *, item * ) -> bool
 {
     //~ the sound a snake makes
     sounds::sound( p, 10, sounds::sound_t::movement, _( "ssssssss" ), false, "misc", "snake_hiss" );
@@ -1462,7 +1462,7 @@ bool trapfunc::snake( const tripoint &p, Creature *, item * )
  * @return A function object with a pointer to the matched function,
  *         or to trapfunc::none if there is no match.
  */
-const trap_function &trap_function_from_string( const std::string &function_name )
+auto trap_function_from_string( const std::string &function_name ) -> const trap_function &
 {
     static const std::unordered_map<std::string, trap_function> funmap = {{
             { "none", trapfunc::none },

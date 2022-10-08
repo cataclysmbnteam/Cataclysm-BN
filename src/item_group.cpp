@@ -23,18 +23,18 @@ static const std::string flag_VARSIZE( "VARSIZE" );
 
 /** @relates string_id */
 template<>
-bool string_id<Item_group>::is_valid() const
+auto string_id<Item_group>::is_valid() const -> bool
 {
     return item_group::group_is_defined( *this );
 }
 
-Item_spawn_data::ItemList Item_spawn_data::create( const time_point &birthday ) const
+auto Item_spawn_data::create( const time_point &birthday ) const -> Item_spawn_data::ItemList
 {
     RecursionList rec;
     return create( birthday, rec );
 }
 
-item Item_spawn_data::create_single( const time_point &birthday ) const
+auto Item_spawn_data::create_single( const time_point &birthday ) const -> item
 {
     RecursionList rec;
     return create_single( birthday, rec );
@@ -47,7 +47,7 @@ Single_item_creator::Single_item_creator( const std::string &_id, Type _type, in
 {
 }
 
-item Single_item_creator::create_single( const time_point &birthday, RecursionList &rec ) const
+auto Single_item_creator::create_single( const time_point &birthday, RecursionList &rec ) const -> item
 {
     item tmp;
     if( type == S_ITEM ) {
@@ -84,8 +84,8 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
     return tmp;
 }
 
-Item_spawn_data::ItemList Single_item_creator::create( const time_point &birthday,
-        RecursionList &rec ) const
+auto Single_item_creator::create( const time_point &birthday,
+        RecursionList &rec ) const -> Item_spawn_data::ItemList
 {
     ItemList result;
     int cnt = 1;
@@ -144,7 +144,7 @@ void Single_item_creator::check_consistency( const std::string &context ) const
     }
 }
 
-bool Single_item_creator::remove_item( const itype_id &itemid )
+auto Single_item_creator::remove_item( const itype_id &itemid ) -> bool
 {
     if( modifier ) {
         if( modifier->remove_item( itemid ) ) {
@@ -166,7 +166,7 @@ bool Single_item_creator::remove_item( const itype_id &itemid )
     return type == S_NONE;
 }
 
-bool Single_item_creator::replace_item( const itype_id &itemid, const itype_id &replacementid )
+auto Single_item_creator::replace_item( const itype_id &itemid, const itype_id &replacementid ) -> bool
 {
     if( modifier ) {
         if( modifier->replace_item( itemid, replacementid ) ) {
@@ -187,12 +187,12 @@ bool Single_item_creator::replace_item( const itype_id &itemid, const itype_id &
     return type == S_NONE;
 }
 
-bool Single_item_creator::has_item( const itype_id &itemid ) const
+auto Single_item_creator::has_item( const itype_id &itemid ) const -> bool
 {
     return type == S_ITEM && itemid.str() == id;
 }
 
-std::set<const itype *> Single_item_creator::every_item() const
+auto Single_item_creator::every_item() const -> std::set<const itype *>
 {
     switch( type ) {
         case S_ITEM: {
@@ -395,7 +395,7 @@ void Item_modifier::check_consistency( const std::string &context ) const
     }
 }
 
-bool Item_modifier::remove_item( const itype_id &itemid )
+auto Item_modifier::remove_item( const itype_id &itemid ) -> bool
 {
     if( ammo != nullptr ) {
         if( ammo->remove_item( itemid ) ) {
@@ -411,7 +411,7 @@ bool Item_modifier::remove_item( const itype_id &itemid )
     return false;
 }
 
-bool Item_modifier::replace_item( const itype_id &itemid, const itype_id &replacementid )
+auto Item_modifier::replace_item( const itype_id &itemid, const itype_id &replacementid ) -> bool
 {
     if( ammo != nullptr ) {
         ammo->replace_item( itemid, replacementid );
@@ -474,7 +474,7 @@ void Item_group::add_entry( std::unique_ptr<Item_spawn_data> ptr )
     items.push_back( std::move( ptr ) );
 }
 
-Item_spawn_data::ItemList Item_group::create( const time_point &birthday, RecursionList &rec ) const
+auto Item_group::create( const time_point &birthday, RecursionList &rec ) const -> Item_spawn_data::ItemList
 {
     ItemList result;
     if( type == G_COLLECTION ) {
@@ -501,7 +501,7 @@ Item_spawn_data::ItemList Item_group::create( const time_point &birthday, Recurs
     return result;
 }
 
-item Item_group::create_single( const time_point &birthday, RecursionList &rec ) const
+auto Item_group::create_single( const time_point &birthday, RecursionList &rec ) const -> item
 {
     if( type == G_COLLECTION ) {
         for( const auto &elem : items ) {
@@ -530,7 +530,7 @@ void Item_group::check_consistency( const std::string &context ) const
     }
 }
 
-bool Item_group::remove_item( const itype_id &itemid )
+auto Item_group::remove_item( const itype_id &itemid ) -> bool
 {
     for( prop_list::iterator a = items.begin(); a != items.end(); ) {
         if( ( *a )->remove_item( itemid ) ) {
@@ -543,7 +543,7 @@ bool Item_group::remove_item( const itype_id &itemid )
     return items.empty();
 }
 
-bool Item_group::replace_item( const itype_id &itemid, const itype_id &replacementid )
+auto Item_group::replace_item( const itype_id &itemid, const itype_id &replacementid ) -> bool
 {
     for( const std::unique_ptr<Item_spawn_data> &elem : items ) {
         ( elem )->replace_item( itemid, replacementid );
@@ -551,7 +551,7 @@ bool Item_group::replace_item( const itype_id &itemid, const itype_id &replaceme
     return items.empty();
 }
 
-bool Item_group::has_item( const itype_id &itemid ) const
+auto Item_group::has_item( const itype_id &itemid ) const -> bool
 {
     for( const std::unique_ptr<Item_spawn_data> &elem : items ) {
         if( ( elem )->has_item( itemid ) ) {
@@ -561,7 +561,7 @@ bool Item_group::has_item( const itype_id &itemid ) const
     return false;
 }
 
-std::set<const itype *> Item_group::every_item() const
+auto Item_group::every_item() const -> std::set<const itype *>
 {
     std::set<const itype *> result;
     for( const auto &spawn_data : items ) {
@@ -571,8 +571,8 @@ std::set<const itype *> Item_group::every_item() const
     return result;
 }
 
-item_group::ItemList item_group::items_from( const item_group_id &group_id,
-        const time_point &birthday )
+auto item_group::items_from( const item_group_id &group_id,
+        const time_point &birthday ) -> item_group::ItemList
 {
     const auto group = item_controller->get_group( group_id );
     if( group == nullptr ) {
@@ -581,12 +581,12 @@ item_group::ItemList item_group::items_from( const item_group_id &group_id,
     return group->create( birthday );
 }
 
-item_group::ItemList item_group::items_from( const item_group_id &group_id )
+auto item_group::items_from( const item_group_id &group_id ) -> item_group::ItemList
 {
     return items_from( group_id, calendar::start_of_cataclysm );
 }
 
-item item_group::item_from( const item_group_id &group_id, const time_point &birthday )
+auto item_group::item_from( const item_group_id &group_id, const time_point &birthday ) -> item
 {
     const auto group = item_controller->get_group( group_id );
     if( group == nullptr ) {
@@ -595,17 +595,17 @@ item item_group::item_from( const item_group_id &group_id, const time_point &bir
     return group->create_single( birthday );
 }
 
-item item_group::item_from( const item_group_id &group_id )
+auto item_group::item_from( const item_group_id &group_id ) -> item
 {
     return item_from( group_id, calendar::start_of_cataclysm );
 }
 
-bool item_group::group_is_defined( const item_group_id &group_id )
+auto item_group::group_is_defined( const item_group_id &group_id ) -> bool
 {
     return item_controller->get_group( group_id ) != nullptr;
 }
 
-bool item_group::group_contains_item( const item_group_id &group_id, const itype_id &type_id )
+auto item_group::group_contains_item( const item_group_id &group_id, const itype_id &type_id ) -> bool
 {
     const auto group = item_controller->get_group( group_id );
     if( group == nullptr ) {
@@ -614,7 +614,7 @@ bool item_group::group_contains_item( const item_group_id &group_id, const itype
     return group->has_item( type_id );
 }
 
-std::set<const itype *> item_group::every_possible_item_from( const item_group_id &group_id )
+auto item_group::every_possible_item_from( const item_group_id &group_id ) -> std::set<const itype *>
 {
     Item_spawn_data *group = item_controller->get_group( group_id );
     if( group == nullptr ) {
@@ -629,7 +629,7 @@ void item_group::load_item_group( const JsonObject &jsobj, const item_group_id &
     item_controller->load_item_group( jsobj, group_id, subtype );
 }
 
-static item_group_id get_unique_group_id()
+static auto get_unique_group_id() -> item_group_id
 {
     // This is just a hint what id to use next. Overflow of it is defined and if the group
     // name is already used, we simply go the next id.
@@ -646,8 +646,8 @@ static item_group_id get_unique_group_id()
     }
 }
 
-item_group_id item_group::load_item_group( const JsonValue &value,
-        const std::string &default_subtype )
+auto item_group::load_item_group( const JsonValue &value,
+        const std::string &default_subtype ) -> item_group_id
 {
     if( value.test_string() ) {
         return item_group_id( value.get_string() );

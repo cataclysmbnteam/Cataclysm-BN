@@ -16,9 +16,9 @@ struct construction_group {
         construction_group_str_id id;
         bool was_loaded = false;
 
-        std::string name() const;
+        auto name() const -> std::string;
 
-        static size_t count();
+        static auto count() -> size_t;
 
     private:
         translation _name;
@@ -30,7 +30,7 @@ namespace construction_groups
 void load( const JsonObject &jo, const std::string &src );
 void reset();
 
-const std::vector<construction_group> &get_all();
+auto get_all() -> const std::vector<construction_group> &;
 
 } // namespace construction_groups
 

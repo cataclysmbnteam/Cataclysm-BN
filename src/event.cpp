@@ -4,7 +4,7 @@ namespace io
 {
 
 template<>
-std::string enum_to_string<event_type>( event_type data )
+auto enum_to_string<event_type>( event_type data ) -> std::string
 {
     switch( data ) {
         // *INDENT-OFF*
@@ -150,8 +150,8 @@ static void get_fields_if_match( event_type type, event::fields_type &out )
 }
 
 template<int... I>
-static event::fields_type
-get_fields_helper( event_type type, std::integer_sequence<int, I...> )
+static auto
+get_fields_helper( event_type type, std::integer_sequence<int, I...> ) -> event::fields_type
 {
     event::fields_type result;
     bool discard[] = {
@@ -161,7 +161,7 @@ get_fields_helper( event_type type, std::integer_sequence<int, I...> )
     return result;
 }
 
-event::fields_type event::get_fields( event_type type )
+auto event::get_fields( event_type type ) -> event::fields_type
 {
     return get_fields_helper(
                type, std::make_integer_sequence<int, static_cast<int>( event_type::num_event_types )> {} );

@@ -101,7 +101,7 @@ void sokoban_game::parse_level( std::istream &fin )
     }
 }
 
-int sokoban_game::get_wall_connection( const point &i )
+auto sokoban_game::get_wall_connection( const point &i ) -> int
 {
     bool bTop = false;
     bool bRight = false;
@@ -200,7 +200,7 @@ void sokoban_game::draw_level( const catacurses::window &w_sokoban )
     }
 }
 
-bool sokoban_game::check_win()
+auto sokoban_game::check_win() -> bool
 {
     for( auto &elem : vLevelDone[iCurrentLevel] ) {
         if( mLevel[elem.first][elem.second] != "*" ) {
@@ -210,7 +210,7 @@ bool sokoban_game::check_win()
     return true;
 }
 
-int sokoban_game::start_game()
+auto sokoban_game::start_game() -> int
 {
     int iScore = 0;
     int iMoves = 0;

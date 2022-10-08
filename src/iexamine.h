@@ -114,24 +114,24 @@ void workbench( player &p, const tripoint &examp );
 void dimensional_portal( player &p, const tripoint &examp );
 void check_power( player &p, const tripoint &examp );
 
-bool pour_into_keg( const tripoint &pos, item &liquid );
-cata::optional<tripoint> getGasPumpByNumber( const tripoint &p, int number );
-bool toPumpFuel( const tripoint &src, const tripoint &dst, int units );
-cata::optional<tripoint> getNearFilledGasTank( const tripoint &center, int &gas_units );
+auto pour_into_keg( const tripoint &pos, item &liquid ) -> bool;
+auto getGasPumpByNumber( const tripoint &p, int number ) -> cata::optional<tripoint>;
+auto toPumpFuel( const tripoint &src, const tripoint &dst, int units ) -> bool;
+auto getNearFilledGasTank( const tripoint &center, int &gas_units ) -> cata::optional<tripoint>;
 
-bool has_keg( const tripoint &pos );
+auto has_keg( const tripoint &pos ) -> bool;
 
-std::list<item> get_harvest_items( const itype &type, int plant_count,
-                                   int seed_count, bool byproducts );
+auto get_harvest_items( const itype &type, int plant_count,
+                                   int seed_count, bool byproducts ) -> std::list<item>;
 
 // Planting functions
-std::vector<seed_tuple> get_seed_entries( const std::vector<item *> &seed_inv );
-int query_seed( const std::vector<seed_tuple> &seed_entries );
+auto get_seed_entries( const std::vector<item *> &seed_inv ) -> std::vector<seed_tuple>;
+auto query_seed( const std::vector<seed_tuple> &seed_entries ) -> int;
 void plant_seed( player &p, const tripoint &examp, const itype_id &seed_id );
 void harvest_plant( player &p, const tripoint &examp, bool from_activity = false );
 void fertilize_plant( player &p, const tripoint &tile, const itype_id &fertilizer );
-itype_id choose_fertilizer( player &p, const std::string &pname, bool ask_player );
-ret_val<bool> can_fertilize( player &p, const tripoint &tile, const itype_id &fertilizer );
+auto choose_fertilizer( player &p, const std::string &pname, bool ask_player ) -> itype_id;
+auto can_fertilize( player &p, const tripoint &tile, const itype_id &fertilizer ) -> ret_val<bool>;
 
 // Skill training common functions
 void practice_survival_while_foraging( player *p );

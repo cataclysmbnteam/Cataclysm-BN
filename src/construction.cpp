@@ -99,16 +99,16 @@ class inventory;
 namespace construct
 {
 // Checks for whether terrain mod can proceed
-bool check_nothing( const tripoint & );
-bool check_empty( const tripoint & ); // tile is empty
-bool check_support( const tripoint & ); // at least two orthogonal supports
-bool check_deconstruct( const tripoint & ); // either terrain or furniture must be deconstructible
-bool check_empty_up_OK( const tripoint & ); // tile is empty and below OVERMAP_HEIGHT
-bool check_up_OK( const tripoint & ); // tile is below OVERMAP_HEIGHT
-bool check_down_OK( const tripoint & ); // tile is above OVERMAP_DEPTH
-bool check_no_trap( const tripoint & );
-bool check_ramp_low( const tripoint & );
-bool check_ramp_high( const tripoint & );
+auto check_nothing( const tripoint & ) -> bool;
+auto check_empty( const tripoint & ) -> bool; // tile is empty
+auto check_support( const tripoint & ) -> bool; // at least two orthogonal supports
+auto check_deconstruct( const tripoint & ) -> bool; // either terrain or furniture must be deconstructible
+auto check_empty_up_OK( const tripoint & ) -> bool; // tile is empty and below OVERMAP_HEIGHT
+auto check_up_OK( const tripoint & ) -> bool; // tile is below OVERMAP_HEIGHT
+auto check_down_OK( const tripoint & ) -> bool; // tile is above OVERMAP_DEPTH
+auto check_no_trap( const tripoint & ) -> bool;
+auto check_ramp_low( const tripoint & ) -> bool;
+auto check_ramp_high( const tripoint & ) -> bool;
 
 // Special actions to be run post-terrain-mod
 static void done_nothing( const tripoint & ) {}
@@ -141,18 +141,18 @@ std::vector<construction_id> constructions_sorted;
 IMPLEMENT_STRING_AND_INT_IDS( construction, all_constructions )
 
 // Helper functions, nobody but us needs to call these.
-static bool can_construct( const construction_group_str_id &group );
-static bool can_construct( const construction &con );
-static bool player_can_build( Character &ch, const inventory &inv,
-                              const construction_group_str_id &group );
-static bool player_can_see_to_build( Character &ch, const construction_group_str_id &group );
+static auto can_construct( const construction_group_str_id &group ) -> bool;
+static auto can_construct( const construction &con ) -> bool;
+static auto player_can_build( Character &ch, const inventory &inv,
+                              const construction_group_str_id &group ) -> bool;
+static auto player_can_see_to_build( Character &ch, const construction_group_str_id &group ) -> bool;
 static void place_construction( const construction_group_str_id &group );
 
 // Color standardization for string streams
 static const deferred_color color_title = def_c_light_red; //color for titles
 static const deferred_color color_data = def_c_cyan; //color for data parts
 
-static bool has_pre_terrain( const construction &con, const tripoint &p )
+static auto has_pre_terrain( const construction &con, const tripoint &p ) -> bool
 {
     const map &here = get_map();
     if( !con.pre_terrain.is_empty() ) {
@@ -168,7 +168,7 @@ static bool has_pre_terrain( const construction &con, const tripoint &p )
     return true;
 }
 
-static bool has_pre_terrain( const construction &con )
+static auto has_pre_terrain( const construction &con ) -> bool
 {
     for( const tripoint &p : get_map().points_in_radius( g->u.pos(), 1 ) ) {
         if( p != g->u.pos() && has_pre_terrain( con, p ) ) {
@@ -242,7 +242,7 @@ void finalize()
     } );
 }
 
-const std::vector<construction_id> &get_all_sorted()
+auto get_all_sorted() -> const std::vector<construction_id> &
 {
     if( !all_constructions.is_finalized() ) {
         debugmsg( "constructions_sorted called before finalization" );
@@ -261,8 +261,8 @@ void override_build_times( time_duration time )
 
 } // namespace constructions
 
-static std::vector<const construction *> constructions_by_group( const construction_group_str_id
-        &group )
+static auto constructions_by_group( const construction_group_str_id
+        &group ) -> std::vector<const construction *>
 {
     if( !all_constructions.is_finalized() ) {
         debugmsg( "constructions_by_group called before finalization" );
@@ -327,7 +327,7 @@ static void draw_grid( const catacurses::window &w, const int list_width )
     wnoutrefresh( w );
 }
 
-static nc_color construction_color( const construction_group_str_id &group, bool highlight )
+static auto construction_color( const construction_group_str_id &group, bool highlight ) -> nc_color
 {
     Character &player_character = get_player_character();
     nc_color col = c_dark_gray;
@@ -358,7 +358,7 @@ static nc_color construction_color( const construction_group_str_id &group, bool
     return highlight ? hilite( col ) : col;
 }
 
-cata::optional<construction_id> construction_menu( const bool blueprint )
+auto construction_menu( const bool blueprint ) -> cata::optional<construction_id>
 {
     if( !all_constructions.is_finalized() ) {
         debugmsg( "construction_menu called before finalization" );
@@ -859,7 +859,7 @@ cata::optional<construction_id> construction_menu( const bool blueprint )
     return ret;
 }
 
-bool player_can_build( Character &ch, const inventory &inv, const construction_group_str_id &group )
+auto player_can_build( Character &ch, const inventory &inv, const construction_group_str_id &group ) -> bool
 {
     // check all with the same group to see if player can build any
     std::vector<const construction *> cons = constructions_by_group( group );
@@ -871,7 +871,7 @@ bool player_can_build( Character &ch, const inventory &inv, const construction_g
     return false;
 }
 
-bool player_can_build( Character &ch, const inventory &inv, const construction &con )
+auto player_can_build( Character &ch, const inventory &inv, const construction &con ) -> bool
 {
     if( ch.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -884,7 +884,7 @@ bool player_can_build( Character &ch, const inventory &inv, const construction &
     return con.requirements->can_make_with_inventory( inv, is_crafting_component );
 }
 
-bool player_can_see_to_build( Character &ch, const construction_group_str_id &group )
+auto player_can_see_to_build( Character &ch, const construction_group_str_id &group ) -> bool
 {
     if( character_funcs::can_see_fine_details( ch ) || ch.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -898,7 +898,7 @@ bool player_can_see_to_build( Character &ch, const construction_group_str_id &gr
     return false;
 }
 
-bool can_construct( const construction_group_str_id &group )
+auto can_construct( const construction_group_str_id &group ) -> bool
 {
     // check all with the same group to see if player can build any
     std::vector<const construction *> cons = constructions_by_group( group );
@@ -910,7 +910,7 @@ bool can_construct( const construction_group_str_id &group )
     return false;
 }
 
-bool can_construct( const construction &con, const tripoint &p )
+auto can_construct( const construction &con, const tripoint &p ) -> bool
 {
     const map &here = get_map();
     // see if the special pre-function checks out
@@ -932,7 +932,7 @@ bool can_construct( const construction &con, const tripoint &p )
     return place_okay;
 }
 
-bool can_construct( const construction &con )
+auto can_construct( const construction &con ) -> bool
 {
     for( const tripoint &p : get_map().points_in_radius( g->u.pos(), 1 ) ) {
         if( p != g->u.pos() && can_construct( con, p ) ) {
@@ -1122,12 +1122,12 @@ void complete_construction( Character &ch )
     }
 }
 
-bool construct::check_nothing( const tripoint & )
+auto construct::check_nothing( const tripoint & ) -> bool
 {
     return true;
 }
 
-bool construct::check_empty( const tripoint &p )
+auto construct::check_empty( const tripoint &p ) -> bool
 {
     map &here = get_map();
     return ( here.has_flag( flag_FLAT, p ) && !here.has_furn( p ) &&
@@ -1135,7 +1135,7 @@ bool construct::check_empty( const tripoint &p )
              here.i_at( p ).empty() && !here.veh_at( p ) );
 }
 
-inline std::array<tripoint, 4> get_orthogonal_neighbors( const tripoint &p )
+inline auto get_orthogonal_neighbors( const tripoint &p ) -> std::array<tripoint, 4>
 {
     return {{
             p + point_north,
@@ -1145,7 +1145,7 @@ inline std::array<tripoint, 4> get_orthogonal_neighbors( const tripoint &p )
         }};
 }
 
-bool construct::check_support( const tripoint &p )
+auto construct::check_support( const tripoint &p ) -> bool
 {
     map &here = get_map();
     // need two or more orthogonally adjacent supports
@@ -1161,7 +1161,7 @@ bool construct::check_support( const tripoint &p )
     return num_supports >= 2;
 }
 
-bool construct::check_deconstruct( const tripoint &p )
+auto construct::check_deconstruct( const tripoint &p ) -> bool
 {
     map &here = get_map();
     if( here.has_furn( p.xy() ) ) {
@@ -1171,29 +1171,29 @@ bool construct::check_deconstruct( const tripoint &p )
     return here.ter( p.xy() ).obj().deconstruct.can_do;
 }
 
-bool construct::check_empty_up_OK( const tripoint &p )
+auto construct::check_empty_up_OK( const tripoint &p ) -> bool
 {
     return check_empty( p ) && check_up_OK( p );
 }
 
-bool construct::check_up_OK( const tripoint & )
+auto construct::check_up_OK( const tripoint & ) -> bool
 {
     // You're not going above +OVERMAP_HEIGHT.
     return ( g->get_levz() < OVERMAP_HEIGHT );
 }
 
-bool construct::check_down_OK( const tripoint & )
+auto construct::check_down_OK( const tripoint & ) -> bool
 {
     // You're not going below -OVERMAP_DEPTH.
     return ( g->get_levz() > -OVERMAP_DEPTH );
 }
 
-bool construct::check_no_trap( const tripoint &p )
+auto construct::check_no_trap( const tripoint &p ) -> bool
 {
     return get_map().tr_at( p ).is_null();
 }
 
-bool construct::check_ramp_high( const tripoint &p )
+auto construct::check_ramp_high( const tripoint &p ) -> bool
 {
     if( check_up_OK( p ) && check_up_OK( p + tripoint_above ) ) {
         for( const point &car_d : four_cardinal_directions ) {
@@ -1206,7 +1206,7 @@ bool construct::check_ramp_high( const tripoint &p )
     return false;
 }
 
-bool construct::check_ramp_low( const tripoint &p )
+auto construct::check_ramp_low( const tripoint &p ) -> bool
 {
     return check_up_OK( p ) && check_up_OK( p + tripoint_above );
 }
@@ -1261,7 +1261,7 @@ void construct::done_grave( const tripoint &p )
     here.destroy_furn( p, true );
 }
 
-static vpart_id vpart_from_item( const itype_id &item_id )
+static auto vpart_from_item( const itype_id &item_id ) -> vpart_id
 {
     for( const auto &e : vpart_info::all() ) {
         const vpart_info &vp = e.second;
@@ -1734,14 +1734,14 @@ void construction::finalize()
     reqs_using.clear();
 }
 
-int construction::print_time( const catacurses::window &w, const point &p, int width,
-                              nc_color col ) const
+auto construction::print_time( const catacurses::window &w, const point &p, int width,
+                              nc_color col ) const -> int
 {
     std::string text = get_time_string();
     return fold_and_print( w, p, width, col, text );
 }
 
-float construction::time_scale() const
+auto construction::time_scale() const -> float
 {
     //incorporate construction time scaling
     if( get_option<int>( "CONSTRUCTION_SCALING" ) == 0 ) {
@@ -1751,12 +1751,12 @@ float construction::time_scale() const
     }
 }
 
-bool construction::is_blacklisted() const
+auto construction::is_blacklisted() const -> bool
 {
     return requirements->is_blacklisted();
 }
 
-int construction::adjusted_time() const
+auto construction::adjusted_time() const -> int
 {
     int final_time = to_moves<int>( time );
     int assistants = 0;
@@ -1778,13 +1778,13 @@ int construction::adjusted_time() const
     return final_time;
 }
 
-std::string construction::get_time_string() const
+auto construction::get_time_string() const -> std::string
 {
     const time_duration turns = time_duration::from_turns( adjusted_time() / 100 );
     return _( "Time to complete: " ) + colorize( to_string( turns ), color_data );
 }
 
-std::vector<std::string> construction::get_folded_time_string( int width ) const
+auto construction::get_folded_time_string( int width ) const -> std::vector<std::string>
 {
     std::string time_text = get_time_string();
     std::vector<std::string> folded_time = foldstring( time_text, width );

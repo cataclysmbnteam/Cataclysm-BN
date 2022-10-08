@@ -216,19 +216,19 @@ std::vector<bionic_id> faulty_bionics;
 
 /** @relates string_id */
 template<>
-const bionic_data &string_id<bionic_data>::obj() const
+auto string_id<bionic_data>::obj() const -> const bionic_data &
 {
     return bionic_factory.obj( *this );
 }
 
 /** @relates string_id */
 template<>
-bool string_id<bionic_data>::is_valid() const
+auto string_id<bionic_data>::is_valid() const -> bool
 {
     return bionic_factory.is_valid( *this );
 }
 
-std::vector<bodypart_id> get_occupied_bodyparts( const bionic_id &bid )
+auto get_occupied_bodyparts( const bionic_id &bid ) -> std::vector<bodypart_id>
 {
     std::vector<bodypart_id> parts;
     for( const std::pair<const bodypart_str_id, int> &element : bid->occupied_bodyparts ) {
@@ -239,18 +239,18 @@ std::vector<bodypart_id> get_occupied_bodyparts( const bionic_id &bid )
     return parts;
 }
 
-bool bionic_data::has_flag( const flag_str_id &flag ) const
+auto bionic_data::has_flag( const flag_str_id &flag ) const -> bool
 {
     return flags.count( flag ) > 0;
 }
 
-itype_id bionic_data::itype() const
+auto bionic_data::itype() const -> itype_id
 {
     // Item id matches bionic id (as strings).
     return itype_id( id.str() );
 }
 
-bool bionic_data::is_included( const bionic_id &id ) const
+auto bionic_data::is_included( const bionic_id &id ) const -> bool
 {
     return std::find( included_bionics.begin(), included_bionics.end(), id ) != included_bionics.end();
 }
@@ -527,7 +527,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
 //
 // Well, because like diseases, which are also in a Big Switch, bionics don't
 // share functions....
-bool Character::activate_bionic( int b, bool eff_only )
+auto Character::activate_bionic( int b, bool eff_only ) -> bool
 {
     bionic &bio = ( *my_bionics )[b];
     const bool mounted = is_mounted();
@@ -1061,7 +1061,7 @@ bool Character::activate_bionic( int b, bool eff_only )
     return true;
 }
 
-bool Character::deactivate_bionic( int b, bool eff_only )
+auto Character::deactivate_bionic( int b, bool eff_only ) -> bool
 {
     bionic &bio = ( *my_bionics )[b];
 
@@ -1151,7 +1151,7 @@ bool Character::deactivate_bionic( int b, bool eff_only )
     return true;
 }
 
-bool Character::burn_fuel( int b, bool start )
+auto Character::burn_fuel( int b, bool start ) -> bool
 {
     bionic &bio = ( *my_bionics )[b];
     if( ( bio.info().fuel_opts.empty() && !bio.info().is_remote_fueled ) ||
@@ -1353,7 +1353,7 @@ void Character::passive_power_gen( int b )
     }
 }
 
-itype_id Character::find_remote_fuel( bool look_only )
+auto Character::find_remote_fuel( bool look_only ) -> itype_id
 {
     itype_id remote_fuel;
     map &here = get_map();
@@ -1407,7 +1407,7 @@ itype_id Character::find_remote_fuel( bool look_only )
     return remote_fuel;
 }
 
-int Character::consume_remote_fuel( int amount )
+auto Character::consume_remote_fuel( int amount ) -> int
 {
     int unconsumed_amount = amount;
     const std::vector<item *> cables = items_with( []( const item & it ) {
@@ -1471,7 +1471,7 @@ void Character::heat_emission( int b, int fuel_energy )
     }
 }
 
-float Character::get_effective_efficiency( int b, float fuel_efficiency )
+auto Character::get_effective_efficiency( int b, float fuel_efficiency ) -> float
 {
     const bionic &bio = ( *my_bionics )[b];
     const cata::optional<float> &coverage_penalty = bio.info().coverage_power_gen_penalty;
@@ -1503,8 +1503,8 @@ float Character::get_effective_efficiency( int b, float fuel_efficiency )
  * @param rate divides the number of turns we may charge (rate of 2 discharges in half the time).
  * @return indicates whether we successfully charged the bionic.
  */
-static bool attempt_recharge( Character &p, bionic &bio, units::energy &amount, int factor = 1,
-                              int rate = 1 )
+static auto attempt_recharge( Character &p, bionic &bio, units::energy &amount, int factor = 1,
+                              int rate = 1 ) -> bool
 {
     const bionic_data &info = bio.info();
     units::energy power_cost = info.power_over_time * factor;
@@ -1820,7 +1820,7 @@ void Character::bionics_uninstall_failure( monster &installer, player &patient, 
     }
 }
 
-bool Character::has_enough_anesth( const itype *cbm, player & )
+auto Character::has_enough_anesth( const itype *cbm, player & ) -> bool
 {
     if( !cbm->bionic ) {
         debugmsg( "has_enough_anesth( const itype *cbm ): %s is not a bionic", cbm->get_id() );
@@ -1840,10 +1840,10 @@ bool Character::has_enough_anesth( const itype *cbm, player & )
 }
 
 // bionic manipulation adjusted skill
-float Character::bionics_adjusted_skill( const skill_id &most_important_skill,
+auto Character::bionics_adjusted_skill( const skill_id &most_important_skill,
         const skill_id &important_skill,
         const skill_id &least_important_skill,
-        int skill_level )
+        int skill_level ) -> float
 {
     int pl_skill = bionics_pl_skill( most_important_skill, important_skill, least_important_skill,
                                      skill_level );
@@ -1855,9 +1855,9 @@ float Character::bionics_adjusted_skill( const skill_id &most_important_skill,
     return adjusted_skill;
 }
 
-int Character::bionics_pl_skill( const skill_id &most_important_skill,
+auto Character::bionics_pl_skill( const skill_id &most_important_skill,
                                  const skill_id &important_skill,
-                                 const skill_id &least_important_skill, int skill_level )
+                                 const skill_id &least_important_skill, int skill_level ) -> int
 {
     int pl_skill;
     if( skill_level == -1 ) {
@@ -1883,7 +1883,7 @@ int Character::bionics_pl_skill( const skill_id &most_important_skill,
 }
 
 // bionic manipulation chance of success
-int bionic_manip_cos( float adjusted_skill, int bionic_difficulty )
+auto bionic_manip_cos( float adjusted_skill, int bionic_difficulty ) -> int
 {
     if( g->u.has_trait( trait_DEBUG_BIONICS ) ) {
         return 100;
@@ -1904,8 +1904,8 @@ int bionic_manip_cos( float adjusted_skill, int bionic_difficulty )
     return chance_of_success;
 }
 
-bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc,
-                                      int skill_level )
+auto Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc,
+                                      int skill_level ) -> bool
 {
     // If malfunctioning bionics doesn't have associated item it gets predefined difficulty
     int difficulty = BIONIC_NOITEM_DIFFICULTY;
@@ -1974,8 +1974,8 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
     return true;
 }
 
-bool Character::uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc,
-                                  int skill_level )
+auto Character::uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc,
+                                  int skill_level ) -> bool
 {
     // If malfunctioning bionics doesn't have associated item it gets predefined difficulty
     int difficulty = BIONIC_NOITEM_DIFFICULTY;
@@ -2079,8 +2079,8 @@ void Character::perform_uninstall( bionic_id bid, int difficulty, int success,
     here.invalidate_map_cache( g->get_levz() );
 }
 
-bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
-                                  float adjusted_skill )
+auto Character::uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
+                                  float adjusted_skill ) -> bool
 {
     if( installer.ammo[itype_anesthetic] <= 0 ) {
         if( g->u.sees( installer ) ) {
@@ -2146,8 +2146,8 @@ bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, 
     return false;
 }
 
-bool Character::can_install_bionics( const itype &type, player &installer, bool autodoc,
-                                     int skill_level )
+auto Character::can_install_bionics( const itype &type, player &installer, bool autodoc,
+                                     int skill_level ) -> bool
 {
     if( !type.bionic ) {
         debugmsg( "Tried to install NULL bionic" );
@@ -2227,7 +2227,7 @@ bool Character::can_install_bionics( const itype &type, player &installer, bool 
     return true;
 }
 
-float Character::env_surgery_bonus( int radius )
+auto Character::env_surgery_bonus( int radius ) -> float
 {
     float bonus = 1.0;
     map &here = get_map();
@@ -2239,8 +2239,8 @@ float Character::env_surgery_bonus( int radius )
     return bonus;
 }
 
-bool Character::install_bionics( const itype &type, player &installer, bool autodoc,
-                                 int skill_level )
+auto Character::install_bionics( const itype &type, player &installer, bool autodoc,
+                                 int skill_level ) -> bool
 {
     if( !type.bionic ) {
         debugmsg( "Tried to install NULL bionic" );
@@ -2465,8 +2465,8 @@ void Character::bionics_install_failure( const std::string &installer,
 
 }
 
-std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro,
-                               const bool each_bp_on_new_line )
+auto list_occupied_bps( const bionic_id &bio_id, const std::string &intro,
+                               const bool each_bp_on_new_line ) -> std::string
 {
     if( bio_id->occupied_bodyparts.empty() ) {
         return "";
@@ -2482,7 +2482,7 @@ std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro
     return desc;
 }
 
-int Character::get_used_bionics_slots( const bodypart_id &bp ) const
+auto Character::get_used_bionics_slots( const bodypart_id &bp ) const -> int
 {
     int used_slots = 0;
     for( const bionic_id &bid : get_bionics() ) {
@@ -2495,7 +2495,7 @@ int Character::get_used_bionics_slots( const bodypart_id &bp ) const
     return used_slots;
 }
 
-std::map<bodypart_id, int> Character::bionic_installation_issues( const bionic_id &bioid ) const
+auto Character::bionic_installation_issues( const bionic_id &bioid ) const -> std::map<bodypart_id, int>
 {
     std::map<bodypart_id, int> issues;
     if( !get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
@@ -2510,12 +2510,12 @@ std::map<bodypart_id, int> Character::bionic_installation_issues( const bionic_i
     return issues;
 }
 
-int Character::get_total_bionics_slots( const bodypart_id &bp ) const
+auto Character::get_total_bionics_slots( const bodypart_id &bp ) const -> int
 {
     return bp->bionic_slots();
 }
 
-int Character::get_free_bionics_slots( const bodypart_id &bp ) const
+auto Character::get_free_bionics_slots( const bodypart_id &bp ) const -> int
 {
     return get_total_bionics_slots( bp ) - get_used_bionics_slots( bp );
 }
@@ -2611,12 +2611,12 @@ void Character::remove_bionic( const bionic_id &b )
     }
 }
 
-int Character::num_bionics() const
+auto Character::num_bionics() const -> int
 {
     return my_bionics->size();
 }
 
-std::pair<int, int> Character::amount_of_storage_bionics() const
+auto Character::amount_of_storage_bionics() const -> std::pair<int, int>
 {
     units::energy lvl = get_max_power_level();
 
@@ -2649,7 +2649,7 @@ std::pair<int, int> Character::amount_of_storage_bionics() const
     return results;
 }
 
-bionic &Character::bionic_at_index( int i )
+auto Character::bionic_at_index( int i ) -> bionic &
 {
     return ( *my_bionics )[i];
 }
@@ -2669,12 +2669,12 @@ void bionic::remove_flag( const std::string &flag )
     bionic_tags.erase( flag );
 }
 
-bool bionic::has_flag( const std::string &flag ) const
+auto bionic::has_flag( const std::string &flag ) const -> bool
 {
     return bionic_tags.find( flag ) != bionic_tags.end();
 }
 
-int bionic::get_quality( const quality_id &quality ) const
+auto bionic::get_quality( const quality_id &quality ) const -> int
 {
     const auto &i = info();
     if( i.fake_item.is_empty() ) {
@@ -2684,7 +2684,7 @@ int bionic::get_quality( const quality_id &quality ) const
     return item( i.fake_item ).get_quality( quality );
 }
 
-bool bionic::is_this_fuel_powered( const itype_id &this_fuel ) const
+auto bionic::is_this_fuel_powered( const itype_id &this_fuel ) const -> bool
 {
     const std::vector<itype_id> fuel_op = info().fuel_opts;
     return std::find( fuel_op.begin(), fuel_op.end(), this_fuel ) != fuel_op.end();
@@ -2746,17 +2746,17 @@ void bionic::set_auto_start_thresh( float val )
     auto_start_threshold = val;
 }
 
-float bionic::get_auto_start_thresh() const
+auto bionic::get_auto_start_thresh() const -> float
 {
     return auto_start_threshold;
 }
 
-bool bionic::is_auto_start_on() const
+auto bionic::is_auto_start_on() const -> bool
 {
     return get_auto_start_thresh() > -1.0;
 }
 
-bool bionic::is_auto_start_keep_full() const
+auto bionic::is_auto_start_keep_full() const -> bool
 {
     return get_auto_start_thresh() > 0.99;
 }
@@ -2812,8 +2812,8 @@ void bionic::deserialize( JsonIn &jsin )
 
 }
 
-std::vector<bionic_id> bionics_cancelling_trait( const std::vector<bionic_id> &bios,
-        const trait_id &tid )
+auto bionics_cancelling_trait( const std::vector<bionic_id> &bios,
+        const trait_id &tid ) -> std::vector<bionic_id>
 {
     // Vector of bionics to return
     std::vector<bionic_id> bionics_cancelling;

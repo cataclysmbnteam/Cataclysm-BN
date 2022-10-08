@@ -25,8 +25,8 @@ class Creature_tracker
         class weak_ptr_comparator
         {
             public:
-                bool operator()( const weak_ptr_fast<monster> &lhs,
-                                 const weak_ptr_fast<monster> &rhs ) const {
+                auto operator()( const weak_ptr_fast<monster> &lhs,
+                                 const weak_ptr_fast<monster> &rhs ) const -> bool {
                     return lhs.lock().get() < rhs.lock().get();
                 }
         };
@@ -48,7 +48,7 @@ class Creature_tracker
          * If there is no monster, it returns a `nullptr`.
          * Dead monsters are ignored and not returned.
          */
-        shared_ptr_fast<monster> find( const tripoint &pos ) const;
+        auto find( const tripoint &pos ) const -> shared_ptr_fast<monster>;
         /**
          * Returns a temporary id of the given monster (which must exist in the tracker).
          * The id is valid until monsters are added or removed from the tracker.
@@ -56,19 +56,19 @@ class Creature_tracker
          * Use @ref from_temporary_id to get the monster pointer back. (The later may
          * return a nullptr if the given id is not valid.)
          */
-        int temporary_id( const monster &critter ) const;
-        shared_ptr_fast<monster> from_temporary_id( int id );
+        auto temporary_id( const monster &critter ) const -> int;
+        auto from_temporary_id( int id ) -> shared_ptr_fast<monster>;
         /**
         * Adds the given monster to the tracker. @p critter must not be null.
          * If the operation succeeded, the monster pointer is now managed by this tracker.
          * @return Whether the operation was successful. It may fail if there is already
          * another monster at the location of the new monster.
          */
-        bool add( shared_ptr_fast<monster> critter );
-        size_t size() const;
+        auto add( shared_ptr_fast<monster> critter ) -> bool;
+        auto size() const -> size_t;
         /** Updates the position of the given monster to the given point. Returns whether the operation
          *  was successful. */
-        bool update_pos( const monster &critter, const tripoint &new_pos );
+        auto update_pos( const monster &critter, const tripoint &new_pos ) -> bool;
         /** Removes the given monster from the Creature tracker, adjusting other entries as needed. */
         void remove( const monster &critter );
         void clear();
@@ -76,18 +76,18 @@ class Creature_tracker
         /** Swaps the positions of two monsters */
         void swap_positions( monster &first, monster &second );
         /** Kills 0 hp monsters. Returns if it killed any. */
-        bool kill_marked_for_death();
+        auto kill_marked_for_death() -> bool;
         /** Removes dead monsters from. Their pointers are invalidated. */
         void remove_dead();
 
-        const std::vector<shared_ptr_fast<monster>> &get_monsters_list() const {
+        auto get_monsters_list() const -> const std::vector<shared_ptr_fast<monster>> & {
             return monsters_list;
         }
 
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );
 
-        const decltype( monster_faction_map_ ) &factions() const {
+        auto factions() const -> const decltype( monster_faction_map_ ) & {
             return monster_faction_map_;
         }
 

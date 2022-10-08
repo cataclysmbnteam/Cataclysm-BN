@@ -367,7 +367,7 @@ namespace io
 {
 
 template<>
-std::string enum_to_string<character_movemode>( character_movemode data )
+auto enum_to_string<character_movemode>( character_movemode data ) -> std::string
 {
     switch( data ) {
             // *INDENT-OFF*
@@ -384,7 +384,7 @@ std::string enum_to_string<character_movemode>( character_movemode data )
 
 } // namespace io
 
-Character &get_player_character()
+auto get_player_character() -> Character &
 {
     return g->u;
 }
@@ -461,7 +461,7 @@ Character::Character() :
 
 Character::~Character() = default;
 Character::Character( Character && ) = default;
-Character &Character::operator=( Character && ) = default;
+auto Character::operator=( Character && ) -> Character & = default;
 
 void Character::setID( character_id i, bool force )
 {
@@ -474,12 +474,12 @@ void Character::setID( character_id i, bool force )
     }
 }
 
-character_id Character::getID() const
+auto Character::getID() const -> character_id
 {
     return this->id;
 }
 
-field_type_id Character::bloodType() const
+auto Character::bloodType() const -> field_type_id
 {
     if( has_trait( trait_ACIDBLOOD ) ) {
         return fd_acid;
@@ -495,23 +495,23 @@ field_type_id Character::bloodType() const
     }
     return fd_blood;
 }
-field_type_id Character::gibType() const
+auto Character::gibType() const -> field_type_id
 {
     return fd_gibs_flesh;
 }
 
-bool Character::in_species( const species_id &spec ) const
+auto Character::in_species( const species_id &spec ) const -> bool
 {
     return spec == HUMAN;
 }
 
-bool Character::is_warm() const
+auto Character::is_warm() const -> bool
 {
     // TODO: is there a mutation (plant?) that makes a npc not warm blooded?
     return true;
 }
 
-const std::string &Character::symbol() const
+auto Character::symbol() const -> const std::string &
 {
     static const std::string character_symbol( "@" );
     return character_symbol;
@@ -538,12 +538,12 @@ void Character::mod_stat( const std::string &stat, float modifier )
     }
 }
 
-m_size Character::get_size() const
+auto Character::get_size() const -> m_size
 {
     return size_class;
 }
 
-std::string Character::disp_name( bool possessive, bool capitalize_first ) const
+auto Character::disp_name( bool possessive, bool capitalize_first ) const -> std::string
 {
     if( !possessive ) {
         if( is_player() ) {
@@ -558,13 +558,13 @@ std::string Character::disp_name( bool possessive, bool capitalize_first ) const
     }
 }
 
-std::string Character::skin_name() const
+auto Character::skin_name() const -> std::string
 {
     // TODO: Return actual deflecting layer name
     return _( "armor" );
 }
 
-int Character::effective_dispersion( int dispersion ) const
+auto Character::effective_dispersion( int dispersion ) const -> int
 {
     /** @EFFECT_PER penalizes sight dispersion when low. */
     dispersion += ranged_per_mod();
@@ -574,7 +574,7 @@ int Character::effective_dispersion( int dispersion ) const
     return std::max( dispersion, 0 );
 }
 
-std::pair<int, int> Character::get_fastest_sight( const item &gun, double recoil ) const
+auto Character::get_fastest_sight( const item &gun, double recoil ) const -> std::pair<int, int>
 {
     // Get fastest sight that can be used to improve aim further below @ref recoil.
     int sight_speed_modifier = INT_MIN;
@@ -598,7 +598,7 @@ std::pair<int, int> Character::get_fastest_sight( const item &gun, double recoil
     return std::make_pair( sight_speed_modifier, limit );
 }
 
-int Character::get_most_accurate_sight( const item &gun ) const
+auto Character::get_most_accurate_sight( const item &gun ) const -> int
 {
     if( !gun.is_gun() ) {
         return 0;
@@ -615,7 +615,7 @@ int Character::get_most_accurate_sight( const item &gun ) const
     return limit;
 }
 
-double Character::aim_speed_skill_modifier( const skill_id &gun_skill ) const
+auto Character::aim_speed_skill_modifier( const skill_id &gun_skill ) const -> double
 {
     double skill_mult = 1.0;
     if( gun_skill == skill_pistol ) {
@@ -631,17 +631,17 @@ double Character::aim_speed_skill_modifier( const skill_id &gun_skill ) const
     return skill_mult * std::min( MAX_SKILL, get_skill_level( gun_skill ) );
 }
 
-double Character::aim_speed_dex_modifier() const
+auto Character::aim_speed_dex_modifier() const -> double
 {
     return get_dex() - 8;
 }
 
-double Character::aim_speed_encumbrance_modifier() const
+auto Character::aim_speed_encumbrance_modifier() const -> double
 {
     return ( encumb( bp_hand_l ) + encumb( bp_hand_r ) ) / 10.0;
 }
 
-double Character::aim_cap_from_volume( const item &gun ) const
+auto Character::aim_cap_from_volume( const item &gun ) const -> double
 {
     skill_id gun_skill = gun.gun_skill();
     double aim_cap = std::min( 49.0, 49.0 - static_cast<float>( gun.volume() / 75_ml ) );
@@ -662,7 +662,7 @@ double Character::aim_cap_from_volume( const item &gun ) const
     return aim_cap;
 }
 
-double Character::aim_per_move( const item &gun, double recoil ) const
+auto Character::aim_per_move( const item &gun, double recoil ) const -> double
 {
     if( !gun.is_gun() ) {
         return 0.0;
@@ -711,12 +711,12 @@ double Character::aim_per_move( const item &gun, double recoil ) const
     return std::min( aim_speed, recoil - limit );
 }
 
-const tripoint &Character::pos() const
+auto Character::pos() const -> const tripoint &
 {
     return position;
 }
 
-int Character::sight_range( int light_level ) const
+auto Character::sight_range( int light_level ) const -> int
 {
     if( light_level == 0 ) {
         return 1;
@@ -740,12 +740,12 @@ int Character::sight_range( int light_level ) const
     return clamp( range, 1, sight_max );
 }
 
-int Character::unimpaired_range() const
+auto Character::unimpaired_range() const -> int
 {
     return std::min( sight_max, 60 );
 }
 
-bool Character::overmap_los( const tripoint_abs_omt &omt, int sight_points )
+auto Character::overmap_los( const tripoint_abs_omt &omt, int sight_points ) -> bool
 {
     const tripoint_abs_omt ompos = global_omt_location();
     const point_rel_omt offset = omt.xy() - ompos.xy();
@@ -768,7 +768,7 @@ bool Character::overmap_los( const tripoint_abs_omt &omt, int sight_points )
     return true;
 }
 
-int Character::overmap_sight_range( int light_level ) const
+auto Character::overmap_sight_range( int light_level ) const -> int
 {
     int sight = sight_range( light_level );
     if( sight < SEEX ) {
@@ -799,7 +799,7 @@ int Character::overmap_sight_range( int light_level ) const
     return std::max( sight, 3 );
 }
 
-int Character::clairvoyance() const
+auto Character::clairvoyance() const -> int
 {
     if( vision_mode_cache[VISION_CLAIRVOYANCE_SUPER] ) {
         return MAX_CLAIRVOYANCE;
@@ -817,7 +817,7 @@ int Character::clairvoyance() const
     return -1;
 }
 
-bool Character::sight_impaired() const
+auto Character::sight_impaired() const -> bool
 {
     return ( ( ( has_effect( effect_boomered ) || has_effect( effect_no_sight ) ||
                  has_effect( effect_darkness ) ) &&
@@ -832,7 +832,7 @@ bool Character::sight_impaired() const
              has_trait( trait_PER_SLIME ) );
 }
 
-bool Character::has_alarm_clock() const
+auto Character::has_alarm_clock() const -> bool
 {
     map &here = get_map();
     return ( has_item_with_flag( "ALARMCLOCK", true ) ||
@@ -841,7 +841,7 @@ bool Character::has_alarm_clock() const
              has_bionic( bio_watch ) );
 }
 
-bool Character::has_watch() const
+auto Character::has_watch() const -> bool
 {
     map &here = get_map();
     return ( has_item_with_flag( "WATCH", true ) ||
@@ -879,7 +879,7 @@ void Character::action_taken()
     nv_cached = false;
 }
 
-int Character::swim_speed() const
+auto Character::swim_speed() const -> int
 {
     int ret;
     if( is_mounted() ) {
@@ -959,7 +959,7 @@ int Character::swim_speed() const
     return ret;
 }
 
-bool Character::is_on_ground() const
+auto Character::is_on_ground() const -> bool
 {
     return get_working_leg_count() < 2 || has_effect( effect_downed );
 }
@@ -970,7 +970,7 @@ void Character::cancel_stashed_activity()
     stashed_outbounds_backlog = player_activity();
 }
 
-player_activity Character::get_stashed_activity() const
+auto Character::get_stashed_activity() const -> player_activity
 {
     return stashed_outbounds_activity;
 }
@@ -981,7 +981,7 @@ void Character::set_stashed_activity( const player_activity &act, const player_a
     stashed_outbounds_backlog = act_back;
 }
 
-bool Character::has_stashed_activity() const
+auto Character::has_stashed_activity() const -> bool
 {
     return static_cast<bool>( stashed_outbounds_activity );
 }
@@ -993,7 +993,7 @@ void Character::assign_stashed_activity()
     cancel_stashed_activity();
 }
 
-bool Character::check_outbounds_activity( const player_activity &act, bool check_only )
+auto Character::check_outbounds_activity( const player_activity &act, bool check_only ) -> bool
 {
     map &here = get_map();
     if( ( act.placement != tripoint_zero && act.placement != tripoint_min &&
@@ -1025,7 +1025,7 @@ void Character::clear_destination_activity()
     destination_activity = player_activity();
 }
 
-player_activity Character::get_destination_activity() const
+auto Character::get_destination_activity() const -> player_activity
 {
     return destination_activity;
 }
@@ -1081,7 +1081,7 @@ void Character::mount_creature( monster &z )
     mod_moves( -100 );
 }
 
-bool Character::check_mount_will_move( const tripoint &dest_loc )
+auto Character::check_mount_will_move( const tripoint &dest_loc ) -> bool
 {
     if( !is_mounted() ) {
         return true;
@@ -1099,7 +1099,7 @@ bool Character::check_mount_will_move( const tripoint &dest_loc )
     return true;
 }
 
-bool Character::check_mount_is_spooked()
+auto Character::check_mount_is_spooked() -> bool
 {
     if( !is_mounted() ) {
         return false;
@@ -1140,7 +1140,7 @@ bool Character::check_mount_is_spooked()
     return false;
 }
 
-bool Character::is_mounted() const
+auto Character::is_mounted() const -> bool
 {
     return has_effect( effect_riding ) && mounted_creature;
 }
@@ -1277,14 +1277,14 @@ void Character::dismount()
 }
 
 /** Returns true if the character has two functioning arms */
-bool Character::has_two_arms() const
+auto Character::has_two_arms() const -> bool
 {
     return get_working_arm_count() >= 2;
 }
 
 // working is defined here as not disabled which means arms can be not broken
 // and still not count if they have low enough hitpoints
-int Character::get_working_arm_count() const
+auto Character::get_working_arm_count() const -> int
 {
     if( has_active_mutation( trait_SHELL2 ) ) {
         return 0;
@@ -1302,7 +1302,7 @@ int Character::get_working_arm_count() const
 }
 
 // working is defined here as not broken
-int Character::get_working_leg_count() const
+auto Character::get_working_leg_count() const -> int
 {
     int limb_count = 0;
     if( !is_limb_broken( bodypart_id( "leg_l" ) ) ) {
@@ -1314,19 +1314,19 @@ int Character::get_working_leg_count() const
     return limb_count;
 }
 
-bool Character::is_limb_disabled( const bodypart_id &limb ) const
+auto Character::is_limb_disabled( const bodypart_id &limb ) const -> bool
 {
     return get_part_hp_cur( limb ) <= get_part_hp_max( limb ) * .125;
 }
 
 // this is the source of truth on if a limb is broken so all code to determine
 // if a limb is broken should point here to make any future changes to breaking easier
-bool Character::is_limb_broken( const bodypart_id &limb ) const
+auto Character::is_limb_broken( const bodypart_id &limb ) const -> bool
 {
     return get_part_hp_cur( limb ) == 0;
 }
 
-bool Character::can_run()
+auto Character::can_run() -> bool
 {
     return ( get_stamina() > get_stamina_max() * 0.1f ) && get_working_leg_count() >= 2;
 }
@@ -1456,7 +1456,7 @@ void static try_remove_crushed( Character &c )
     }
 }
 
-bool static try_remove_grab( Character &c )
+auto static try_remove_grab( Character &c ) -> bool
 {
     int zed_number = 0;
     map &here = get_map();
@@ -1532,7 +1532,7 @@ void static try_remove_webs( Character &c )
     }
 }
 
-bool Character::move_effects( bool attacking )
+auto Character::move_effects( bool attacking ) -> bool
 {
     if( has_effect( effect_downed ) ) {
         try_remove_downed( *this );
@@ -1611,12 +1611,12 @@ void Character::wait_effects()
     }
 }
 
-character_movemode Character::get_movement_mode() const
+auto Character::get_movement_mode() const -> character_movemode
 {
     return move_mode;
 }
 
-bool Character::movement_mode_is( const character_movemode mode ) const
+auto Character::movement_mode_is( const character_movemode mode ) const -> bool
 {
     return move_mode == mode;
 }
@@ -1786,27 +1786,27 @@ void Character::recalc_sight_limits()
 namespace vision
 {
 
-float threshold_for_nv_range( float range )
+auto threshold_for_nv_range( float range ) -> float
 {
     constexpr float epsilon = 0.0001f;
     return LIGHT_AMBIENT_LOW / std::exp( range * LIGHT_TRANSPARENCY_OPEN_AIR )
            - epsilon;
 }
 
-float nv_range_from_per( int per )
+auto nv_range_from_per( int per ) -> float
 {
     // The -1 is because the math is incorrect, but we want the UI to show correct numbers
     return per / 3.0f - 1.0f;
 }
 
-float nv_range_from_eye_encumbrance( int enc )
+auto nv_range_from_eye_encumbrance( int enc ) -> float
 {
     return -( enc / 10.0f );
 }
 
 } // namespace vision
 
-float Character::get_vision_threshold( float light_level ) const
+auto Character::get_vision_threshold( float light_level ) const -> float
 {
     if( vision_mode_cache[DEBUG_NIGHTVISION] ) {
         // Debug vision always works with absurdly little light.
@@ -1853,7 +1853,7 @@ void Character::check_item_encumbrance_flag()
     }
 }
 
-bool Character::natural_attack_restricted_on( const bodypart_id &bp ) const
+auto Character::natural_attack_restricted_on( const bodypart_id &bp ) const -> bool
 {
     for( const item &i : worn ) {
         if( i.covers( bp->token ) && !i.has_flag( "ALLOWS_NATURAL_ATTACKS" ) &&
@@ -1865,7 +1865,7 @@ bool Character::natural_attack_restricted_on( const bodypart_id &bp ) const
     return false;
 }
 
-std::vector<bionic_id> Character::get_bionics() const
+auto Character::get_bionics() const -> std::vector<bionic_id>
 {
     std::vector<bionic_id> result;
     for( const bionic &b : *my_bionics ) {
@@ -1874,7 +1874,7 @@ std::vector<bionic_id> Character::get_bionics() const
     return result;
 }
 
-bool Character::has_bionic( const bionic_id &b ) const
+auto Character::has_bionic( const bionic_id &b ) const -> bool
 {
     for( const bionic_id &bid : get_bionics() ) {
         if( bid == b ) {
@@ -1884,7 +1884,7 @@ bool Character::has_bionic( const bionic_id &b ) const
     return false;
 }
 
-bool Character::has_active_bionic( const bionic_id &b ) const
+auto Character::has_active_bionic( const bionic_id &b ) const -> bool
 {
     for( const bionic &i : *my_bionics ) {
         if( i.id == b ) {
@@ -1894,12 +1894,12 @@ bool Character::has_active_bionic( const bionic_id &b ) const
     return false;
 }
 
-bool Character::has_any_bionic() const
+auto Character::has_any_bionic() const -> bool
 {
     return !get_bionics().empty();
 }
 
-bionic_id Character::get_remote_fueled_bionic() const
+auto Character::get_remote_fueled_bionic() const -> bionic_id
 {
     for( const bionic_id &bid : get_bionics() ) {
         if( bid->is_remote_fueled ) {
@@ -1909,7 +1909,7 @@ bionic_id Character::get_remote_fueled_bionic() const
     return bionic_id();
 }
 
-bool Character::can_fuel_bionic_with( const item &it ) const
+auto Character::can_fuel_bionic_with( const item &it ) const -> bool
 {
     if( !it.is_fuel() ) {
         return false;
@@ -1925,7 +1925,7 @@ bool Character::can_fuel_bionic_with( const item &it ) const
     return false;
 }
 
-std::vector<bionic_id> Character::get_bionic_fueled_with( const item &it ) const
+auto Character::get_bionic_fueled_with( const item &it ) const -> std::vector<bionic_id>
 {
     std::vector<bionic_id> bionics;
 
@@ -1940,7 +1940,7 @@ std::vector<bionic_id> Character::get_bionic_fueled_with( const item &it ) const
     return bionics;
 }
 
-std::vector<bionic_id> Character::get_fueled_bionics() const
+auto Character::get_fueled_bionics() const -> std::vector<bionic_id>
 {
     std::vector<bionic_id> bionics;
     for( const bionic_id &bid : get_bionics() ) {
@@ -1951,7 +1951,7 @@ std::vector<bionic_id> Character::get_fueled_bionics() const
     return bionics;
 }
 
-bionic_id Character::get_most_efficient_bionic( const std::vector<bionic_id> &bids ) const
+auto Character::get_most_efficient_bionic( const std::vector<bionic_id> &bids ) const -> bionic_id
 {
     float temp_eff = 0;
     bionic_id bio( "null" );
@@ -1964,12 +1964,12 @@ bionic_id Character::get_most_efficient_bionic( const std::vector<bionic_id> &bi
     return bio;
 }
 
-units::energy Character::get_power_level() const
+auto Character::get_power_level() const -> units::energy
 {
     return power_level;
 }
 
-units::energy Character::get_max_power_level() const
+auto Character::get_max_power_level() const -> units::energy
 {
     return max_power_level;
 }
@@ -2001,22 +2001,22 @@ void Character::mod_max_power_level( const units::energy &npower_max )
     max_power_level += npower_max;
 }
 
-bool Character::is_max_power() const
+auto Character::is_max_power() const -> bool
 {
     return power_level >= max_power_level;
 }
 
-bool Character::has_power() const
+auto Character::has_power() const -> bool
 {
     return power_level > 0_kJ;
 }
 
-bool Character::has_max_power() const
+auto Character::has_max_power() const -> bool
 {
     return max_power_level > 0_kJ;
 }
 
-bool Character::enough_power_for( const bionic_id &bid ) const
+auto Character::enough_power_for( const bionic_id &bid ) const -> bool
 {
     return power_level >= bid->power_activate;
 }
@@ -2073,7 +2073,7 @@ void Character::conduct_blood_analysis() const
     }
 }
 
-std::vector<itype_id> Character::get_fuel_available( const bionic_id &bio ) const
+auto Character::get_fuel_available( const bionic_id &bio ) const -> std::vector<itype_id>
 {
     std::vector<itype_id> stored_fuels;
     for( const itype_id &fuel : bio->fuel_opts ) {
@@ -2085,7 +2085,7 @@ std::vector<itype_id> Character::get_fuel_available( const bionic_id &bio ) cons
     return stored_fuels;
 }
 
-int Character::get_fuel_capacity( const itype_id &fuel ) const
+auto Character::get_fuel_capacity( const itype_id &fuel ) const -> int
 {
     int amount_stored = 0;
     if( !get_value( fuel.str() ).empty() ) {
@@ -2104,7 +2104,7 @@ int Character::get_fuel_capacity( const itype_id &fuel ) const
     return capacity - amount_stored;
 }
 
-int Character::get_total_fuel_capacity( const itype_id &fuel ) const
+auto Character::get_total_fuel_capacity( const itype_id &fuel ) const -> int
 {
     int capacity = 0;
     for( const bionic_id &bid : get_bionics() ) {
@@ -2166,7 +2166,7 @@ void Character::update_fuel_storage( const itype_id &fuel )
 
 }
 
-int Character::get_mod_stat_from_bionic( const character_stat &Stat ) const
+auto Character::get_mod_stat_from_bionic( const character_stat &Stat ) const -> int
 {
     int ret = 0;
     for( const bionic_id &bid : get_bionics() ) {
@@ -2178,8 +2178,8 @@ int Character::get_mod_stat_from_bionic( const character_stat &Stat ) const
     return ret;
 }
 
-cata::optional<std::list<item>::iterator> Character::wear_item( const item &to_wear,
-        bool interactive )
+auto Character::wear_item( const item &to_wear,
+        bool interactive ) -> cata::optional<std::list<item>::iterator>
 {
     const auto ret = can_wear( to_wear );
     if( !ret.success() ) {
@@ -2238,7 +2238,7 @@ cata::optional<std::list<item>::iterator> Character::wear_item( const item &to_w
     return new_item_it;
 }
 
-int Character::amount_worn( const itype_id &id ) const
+auto Character::amount_worn( const itype_id &id ) const -> int
 {
     int amount = 0;
     for( auto &elem : worn ) {
@@ -2249,8 +2249,8 @@ int Character::amount_worn( const itype_id &id ) const
     return amount;
 }
 
-std::vector<item_location> Character::nearby( const
-        std::function<bool( const item *, const item * )> &func, int radius ) const
+auto Character::nearby( const
+        std::function<bool( const item *, const item * )> &func, int radius ) const -> std::vector<item_location>
 {
     std::vector<item_location> res;
 
@@ -2282,7 +2282,7 @@ std::vector<item_location> Character::nearby( const
     return res;
 }
 
-int Character::i_add_to_container( const item &it, const bool unloading )
+auto Character::i_add_to_container( const item &it, const bool unloading ) -> int
 {
     int charges = it.charges;
     if( !it.is_ammo() || unloading ) {
@@ -2318,7 +2318,7 @@ int Character::i_add_to_container( const item &it, const bool unloading )
     return charges;
 }
 
-item &Character::i_add( item it, bool should_stack )
+auto Character::i_add( item it, bool should_stack ) -> item &
 {
     itype_id item_type_id = it.typeId();
     last_item = item_type_id;
@@ -2344,7 +2344,7 @@ item &Character::i_add( item it, bool should_stack )
     return item_in_inv;
 }
 
-std::list<item> Character::remove_worn_items_with( std::function<bool( item & )> filter )
+auto Character::remove_worn_items_with( std::function<bool( item & )> filter ) -> std::list<item>
 {
     std::list<item> result;
     for( auto iter = worn.begin(); iter != worn.end(); ) {
@@ -2358,7 +2358,7 @@ std::list<item> Character::remove_worn_items_with( std::function<bool( item & )>
     return result;
 }
 
-item *Character::invlet_to_item( const int linvlet )
+auto Character::invlet_to_item( const int linvlet ) -> item *
 {
     // Invlets may come from curses, which may also return any kind of key codes, those being
     // of type int and they can become valid, but different characters when casted to char.
@@ -2382,7 +2382,7 @@ item *Character::invlet_to_item( const int linvlet )
 }
 
 // Negative positions indicate weapon/clothing, 0 & positive indicate inventory
-const item &Character::i_at( int position ) const
+auto Character::i_at( int position ) const -> const item &
 {
     if( position == -1 ) {
         return weapon;
@@ -2399,12 +2399,12 @@ const item &Character::i_at( int position ) const
     return inv.find_item( position );
 }
 
-item &Character::i_at( int position )
+auto Character::i_at( int position ) -> item &
 {
     return const_cast<item &>( const_cast<const Character *>( this )->i_at( position ) );
 }
 
-int Character::get_item_position( const item *it ) const
+auto Character::get_item_position( const item *it ) const -> int
 {
     if( weapon.has_item( *it ) ) {
         return -1;
@@ -2421,7 +2421,7 @@ int Character::get_item_position( const item *it ) const
     return inv.position_by_item( it );
 }
 
-item Character::i_rem( int pos )
+auto Character::i_rem( int pos ) -> item
 {
     item tmp;
     if( pos == -1 ) {
@@ -2439,7 +2439,7 @@ item Character::i_rem( int pos )
     return inv.remove_item( pos );
 }
 
-item Character::i_rem( const item *it )
+auto Character::i_rem( const item *it ) -> item
 {
     auto tmp = remove_items_with( [&it]( const item & i ) {
         return &i == it;
@@ -2456,7 +2456,7 @@ void Character::i_rem_keep_contents( const int idx )
     i_rem( idx ).spill_contents( pos() );
 }
 
-bool Character::i_add_or_drop( item &it, int qty )
+auto Character::i_add_or_drop( item &it, int qty ) -> bool
 {
     bool retval = true;
     bool drop = it.made_of( LIQUID );
@@ -2475,7 +2475,7 @@ bool Character::i_add_or_drop( item &it, int qty )
     return retval;
 }
 
-std::list<item *> Character::get_dependent_worn_items( const item &it ) const
+auto Character::get_dependent_worn_items( const item &it ) const -> std::list<item *>
 {
     std::list<item *> dependent;
     // Adds dependent worn items recursively
@@ -2544,7 +2544,7 @@ void Character::drop( const drop_locations &what, const tripoint &target,
     }
 }
 
-invlets_bitset Character::allocated_invlets() const
+auto Character::allocated_invlets() const -> invlets_bitset
 {
     invlets_bitset invlets = inv.allocated_invlets();
 
@@ -2558,14 +2558,14 @@ invlets_bitset Character::allocated_invlets() const
     return invlets;
 }
 
-bool Character::has_active_item( const itype_id &id ) const
+auto Character::has_active_item( const itype_id &id ) const -> bool
 {
     return has_item_with( [id]( const item & it ) {
         return it.active && it.typeId() == id;
     } );
 }
 
-item Character::remove_weapon()
+auto Character::remove_weapon() -> item
 {
     item tmp = weapon;
     weapon = item();
@@ -2581,7 +2581,7 @@ void Character::remove_mission_items( int mission_id )
     remove_items_with( has_mission_item_filter { mission_id } );
 }
 
-std::vector<const item *> Character::get_ammo( const ammotype &at ) const
+auto Character::get_ammo( const ammotype &at ) const -> std::vector<const item *>
 {
     return items_with( [at]( const item & it ) {
         return it.ammo_type() == at;
@@ -2673,7 +2673,7 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
     }
 }
 
-std::vector<item_location> Character::find_ammo( const item &obj, bool empty, int radius ) const
+auto Character::find_ammo( const item &obj, bool empty, int radius ) const -> std::vector<item_location>
 {
     std::vector<item_location> res;
 
@@ -2691,7 +2691,7 @@ std::vector<item_location> Character::find_ammo( const item &obj, bool empty, in
     return res;
 }
 
-std::vector<item_location> Character::find_reloadables()
+auto Character::find_reloadables() -> std::vector<item_location>
 {
     std::vector<item_location> reloadables;
 
@@ -2716,22 +2716,22 @@ std::vector<item_location> Character::find_reloadables()
     return reloadables;
 }
 
-units::mass Character::weight_carried() const
+auto Character::weight_carried() const -> units::mass
 {
     return weight_carried_reduced_by( {} );
 }
 
-units::volume Character::volume_carried() const
+auto Character::volume_carried() const -> units::volume
 {
     return inv.volume();
 }
 
-int Character::best_nearby_lifting_assist() const
+auto Character::best_nearby_lifting_assist() const -> int
 {
     return best_nearby_lifting_assist( this->pos() );
 }
 
-int Character::best_nearby_lifting_assist( const tripoint &world_pos ) const
+auto Character::best_nearby_lifting_assist( const tripoint &world_pos ) const -> int
 {
     const quality_id LIFT( "LIFT" );
     int mech_lift = 0;
@@ -2747,7 +2747,7 @@ int Character::best_nearby_lifting_assist( const tripoint &world_pos ) const
                      } );
 }
 
-units::mass Character::weight_carried_reduced_by( const excluded_stacks &without ) const
+auto Character::weight_carried_reduced_by( const excluded_stacks &without ) const -> units::mass
 {
     const std::map<const item *, int> empty;
 
@@ -2795,7 +2795,7 @@ units::mass Character::weight_carried_reduced_by( const excluded_stacks &without
     return ret;
 }
 
-units::volume Character::volume_carried_reduced_by( const excluded_stacks &without ) const
+auto Character::volume_carried_reduced_by( const excluded_stacks &without ) const -> units::volume
 {
     if( without.empty() ) {
         return inv.volume();
@@ -2804,7 +2804,7 @@ units::volume Character::volume_carried_reduced_by( const excluded_stacks &witho
     }
 }
 
-units::mass Character::weight_capacity() const
+auto Character::weight_capacity() const -> units::mass
 {
     if( has_trait( trait_DEBUG_STORAGE ) ) {
         // Infinite enough
@@ -2848,13 +2848,13 @@ units::mass Character::weight_capacity() const
     return ret;
 }
 
-units::volume Character::volume_capacity() const
+auto Character::volume_capacity() const -> units::volume
 {
     return volume_capacity_reduced_by( 0_ml );
 }
 
-units::volume Character::volume_capacity_reduced_by(
-    const units::volume &mod, const excluded_stacks &without ) const
+auto Character::volume_capacity_reduced_by(
+    const units::volume &mod, const excluded_stacks &without ) const -> units::volume
 {
     if( has_trait( trait_DEBUG_STORAGE ) ) {
         return units::volume_max;
@@ -2884,26 +2884,26 @@ units::volume Character::volume_capacity_reduced_by(
     return std::max( ret, 0_ml );
 }
 
-bool Character::can_pick_volume( const item &it ) const
+auto Character::can_pick_volume( const item &it ) const -> bool
 {
     inventory projected = inv;
     projected.add_item( it, true );
     return projected.volume() <= volume_capacity();
 }
 
-bool Character::can_pick_volume( units::volume volume ) const
+auto Character::can_pick_volume( units::volume volume ) const -> bool
 {
     // Might not be 100% true because some items restack to a very tiny bit less
     // but close enough not to matter
     return inv.volume() + volume <= volume_capacity();
 }
 
-bool Character::can_pick_weight( const item &it, bool safe ) const
+auto Character::can_pick_weight( const item &it, bool safe ) const -> bool
 {
     return can_pick_weight( it.weight(), safe );
 }
 
-bool Character::can_pick_weight( units::mass weight, bool safe ) const
+auto Character::can_pick_weight( units::mass weight, bool safe ) const -> bool
 {
     if( !safe ) {
         // Character can carry up to four times their maximum weight
@@ -2914,7 +2914,7 @@ bool Character::can_pick_weight( units::mass weight, bool safe ) const
     }
 }
 
-bool Character::can_use( const item &it, const item &context ) const
+auto Character::can_use( const item &it, const item &context ) const -> bool
 {
     const auto &ctx = !context.is_null() ? context : it;
 
@@ -2939,7 +2939,7 @@ bool Character::can_use( const item &it, const item &context ) const
     return true;
 }
 
-ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) const
+auto Character::can_wear( const item &it, bool with_equip_change ) const -> ret_val<bool>
 {
     if( !it.is_armor() ) {
         return ret_val<bool>::make_failure( _( "Putting on a %s would be tricky." ), it.tname() );
@@ -3152,7 +3152,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
     return ret_val<bool>::make_success();
 }
 
-ret_val<bool> Character::can_unwield( const item &it ) const
+auto Character::can_unwield( const item &it ) const -> ret_val<bool>
 {
     if( it.has_flag( "NO_UNWIELD" ) ) {
         return ret_val<bool>::make_failure( _( "You cannot unwield your %s." ), it.tname() );
@@ -3161,7 +3161,7 @@ ret_val<bool> Character::can_unwield( const item &it ) const
     return ret_val<bool>::make_success();
 }
 
-ret_val<bool> Character::can_swap( const item &it ) const
+auto Character::can_swap( const item &it ) const -> ret_val<bool>
 {
     if( it.has_flag( flag_POWERARMOR_MOD ) ) {
         int max_layer = 2;
@@ -3217,7 +3217,7 @@ void Character::drop_invalid_inventory()
     }
 }
 
-bool Character::has_artifact_with( const art_effect_passive effect ) const
+auto Character::has_artifact_with( const art_effect_passive effect ) const -> bool
 {
     if( weapon.has_effect_when_wielded( effect ) ) {
         return true;
@@ -3232,12 +3232,12 @@ bool Character::has_artifact_with( const art_effect_passive effect ) const
     } );
 }
 
-bool Character::is_wielding( const item &target ) const
+auto Character::is_wielding( const item &target ) const -> bool
 {
     return &weapon == &target;
 }
 
-bool Character::is_wearing( const item &itm ) const
+auto Character::is_wearing( const item &itm ) const -> bool
 {
     for( auto &i : worn ) {
         if( &i == &itm ) {
@@ -3247,7 +3247,7 @@ bool Character::is_wearing( const item &itm ) const
     return false;
 }
 
-bool Character::is_wearing( const itype_id &it ) const
+auto Character::is_wearing( const itype_id &it ) const -> bool
 {
     for( auto &i : worn ) {
         if( i.typeId() == it ) {
@@ -3257,7 +3257,7 @@ bool Character::is_wearing( const itype_id &it ) const
     return false;
 }
 
-bool Character::is_wearing_on_bp( const itype_id &it, const bodypart_id &bp ) const
+auto Character::is_wearing_on_bp( const itype_id &it, const bodypart_id &bp ) const -> bool
 {
     for( auto &i : worn ) {
         if( i.typeId() == it && i.covers( bp->token ) ) {
@@ -3267,7 +3267,7 @@ bool Character::is_wearing_on_bp( const itype_id &it, const bodypart_id &bp ) co
     return false;
 }
 
-bool Character::worn_with_flag( const std::string &flag, const bodypart_id &bp ) const
+auto Character::worn_with_flag( const std::string &flag, const bodypart_id &bp ) const -> bool
 {
     return std::any_of( worn.begin(), worn.end(), [&flag, bp]( const item & it ) {
         return it.has_flag( flag ) && ( bp == bodypart_str_id::NULL_ID() ||
@@ -3275,7 +3275,7 @@ bool Character::worn_with_flag( const std::string &flag, const bodypart_id &bp )
     } );
 }
 
-const item *Character::item_worn_with_flag( const std::string &flag, const bodypart_id &bp ) const
+auto Character::item_worn_with_flag( const std::string &flag, const bodypart_id &bp ) const -> const item *
 {
     const item *it_with_flag = nullptr;
     for( const item &it : worn ) {
@@ -3288,7 +3288,7 @@ const item *Character::item_worn_with_flag( const std::string &flag, const bodyp
     return it_with_flag;
 }
 
-std::vector<std::string> Character::get_overlay_ids() const
+auto Character::get_overlay_ids() const -> std::vector<std::string>
 {
     std::vector<std::string> rval;
     std::multimap<int, std::string> mutation_sorting;
@@ -3338,27 +3338,27 @@ std::vector<std::string> Character::get_overlay_ids() const
     return rval;
 }
 
-const SkillLevelMap &Character::get_all_skills() const
+auto Character::get_all_skills() const -> const SkillLevelMap &
 {
     return *_skills;
 }
 
-const SkillLevel &Character::get_skill_level_object( const skill_id &ident ) const
+auto Character::get_skill_level_object( const skill_id &ident ) const -> const SkillLevel &
 {
     return _skills->get_skill_level_object( ident );
 }
 
-SkillLevel &Character::get_skill_level_object( const skill_id &ident )
+auto Character::get_skill_level_object( const skill_id &ident ) -> SkillLevel &
 {
     return _skills->get_skill_level_object( ident );
 }
 
-int Character::get_skill_level( const skill_id &ident ) const
+auto Character::get_skill_level( const skill_id &ident ) const -> int
 {
     return _skills->get_skill_level( ident );
 }
 
-int Character::get_skill_level( const skill_id &ident, const item &context ) const
+auto Character::get_skill_level( const skill_id &ident, const item &context ) const -> int
 {
     return _skills->get_skill_level( ident, context );
 }
@@ -3373,7 +3373,7 @@ void Character::mod_skill_level( const skill_id &ident, const int delta )
     _skills->mod_skill_level( ident, delta );
 }
 
-std::string Character::enumerate_unmet_requirements( const item &it, const item &context ) const
+auto Character::enumerate_unmet_requirements( const item &it, const item &context ) const -> std::string
 {
     std::vector<std::string> unmet_reqs;
 
@@ -3397,7 +3397,7 @@ std::string Character::enumerate_unmet_requirements( const item &it, const item 
     return enumerate_as_string( unmet_reqs );
 }
 
-int Character::rust_rate() const
+auto Character::rust_rate() const -> int
 {
     const std::string &rate_option = get_option<std::string>( "SKILL_RUST" );
     if( rate_option == "off" ) {
@@ -3419,7 +3419,7 @@ int Character::rust_rate() const
     return ret;
 }
 
-int Character::read_speed( bool return_stat_effect ) const
+auto Character::read_speed( bool return_stat_effect ) const -> int
 {
     // Stat window shows stat effects on based on current stat
     const int intel = get_int();
@@ -3439,13 +3439,13 @@ int Character::read_speed( bool return_stat_effect ) const
     return return_stat_effect ? ret : ret * 100 / to_moves<int>( 1_minutes );
 }
 
-bool Character::meets_skill_requirements( const std::map<skill_id, int> &req,
-        const item &context ) const
+auto Character::meets_skill_requirements( const std::map<skill_id, int> &req,
+        const item &context ) const -> bool
 {
     return _skills->meets_skill_requirements( req, context );
 }
 
-bool Character::meets_skill_requirements( const construction &con ) const
+auto Character::meets_skill_requirements( const construction &con ) const -> bool
 {
     return std::all_of( con.required_skills.begin(), con.required_skills.end(),
     [&]( const std::pair<skill_id, int> &pr ) {
@@ -3453,7 +3453,7 @@ bool Character::meets_skill_requirements( const construction &con ) const
     } );
 }
 
-bool Character::meets_stat_requirements( const item &it ) const
+auto Character::meets_stat_requirements( const item &it ) const -> bool
 {
     return ( it.has_flag( flag_STR_DRAW ) || get_str() >= it.get_min_str() ) &&
            get_dex() >= it.type->min_dex &&
@@ -3461,7 +3461,7 @@ bool Character::meets_stat_requirements( const item &it ) const
            get_per() >= it.type->min_per;
 }
 
-bool Character::meets_requirements( const item &it, const item &context ) const
+auto Character::meets_requirements( const item &it, const item &context ) const -> bool
 {
     const auto &ctx = !context.is_null() ? context : it;
     return meets_stat_requirements( it ) && meets_skill_requirements( it.type->min_skills, ctx );
@@ -3626,7 +3626,7 @@ void Character::reset()
     Creature::reset();
 }
 
-bool Character::has_nv()
+auto Character::has_nv() -> bool
 {
     static bool nv = false;
 
@@ -3645,12 +3645,12 @@ void Character::reset_encumbrance()
     *encumbrance_cache = calc_encumbrance();
 }
 
-char_encumbrance_data Character::calc_encumbrance() const
+auto Character::calc_encumbrance() const -> char_encumbrance_data
 {
     return calc_encumbrance( item() );
 }
 
-char_encumbrance_data Character::calc_encumbrance( const item &new_item ) const
+auto Character::calc_encumbrance( const item &new_item ) const -> char_encumbrance_data
 {
 
     char_encumbrance_data enc;
@@ -3661,7 +3661,7 @@ char_encumbrance_data Character::calc_encumbrance( const item &new_item ) const
     return enc;
 }
 
-units::mass Character::get_weight() const
+auto Character::get_weight() const -> units::mass
 {
     units::mass ret = 0_gram;
     units::mass wornWeight = std::accumulate( worn.begin(), worn.end(), 0_gram,
@@ -3677,22 +3677,22 @@ units::mass Character::get_weight() const
     return ret;
 }
 
-char_encumbrance_data Character::get_encumbrance() const
+auto Character::get_encumbrance() const -> char_encumbrance_data
 {
     return *encumbrance_cache;
 }
 
-char_encumbrance_data Character::get_encumbrance( const item &new_item ) const
+auto Character::get_encumbrance( const item &new_item ) const -> char_encumbrance_data
 {
     return calc_encumbrance( new_item );
 }
 
-int Character::extraEncumbrance( const layer_level level, const int bp ) const
+auto Character::extraEncumbrance( const layer_level level, const int bp ) const -> int
 {
     return encumbrance_cache->elems[bp].layer_penalty_details[static_cast<int>( level )].total;
 }
 
-bool Character::change_side( item &it, bool interactive )
+auto Character::change_side( item &it, bool interactive ) -> bool
 {
     const auto ret = can_swap( it );
     if( !ret.success() ) {
@@ -3724,7 +3724,7 @@ bool Character::change_side( item &it, bool interactive )
     return true;
 }
 
-bool Character::change_side( item_location &loc, bool interactive )
+auto Character::change_side( item_location &loc, bool interactive ) -> bool
 {
     if( !loc || !is_worn( *loc ) ) {
         if( interactive ) {
@@ -3780,7 +3780,7 @@ static void layer_item( char_encumbrance_data &vals,
     }
 }
 
-bool Character::is_wearing_power_armor( bool *hasHelmet ) const
+auto Character::is_wearing_power_armor( bool *hasHelmet ) const -> bool
 {
     bool result = false;
     for( auto &elem : worn ) {
@@ -3805,7 +3805,7 @@ bool Character::is_wearing_power_armor( bool *hasHelmet ) const
     return result;
 }
 
-bool Character::is_wearing_active_power_armor() const
+auto Character::is_wearing_active_power_armor() const -> bool
 {
     for( const auto &w : worn ) {
         if( w.has_flag( flag_POWERARMOR_EXO ) && w.active ) {
@@ -3815,7 +3815,7 @@ bool Character::is_wearing_active_power_armor() const
     return false;
 }
 
-bool Character::is_wearing_active_optcloak() const
+auto Character::is_wearing_active_optcloak() const -> bool
 {
     for( auto &w : worn ) {
         if( w.active && w.has_flag( flag_ACTIVE_CLOAKING ) ) {
@@ -3825,7 +3825,7 @@ bool Character::is_wearing_active_optcloak() const
     return false;
 }
 
-bool Character::in_climate_control()
+auto Character::in_climate_control() -> bool
 {
     bool regulated_area = false;
     // Check
@@ -3864,7 +3864,7 @@ bool Character::in_climate_control()
     return regulated_area;
 }
 
-static int wind_resistance_from_item_list( const std::vector<const item *> &items )
+static auto wind_resistance_from_item_list( const std::vector<const item *> &items ) -> int
 {
     int total_exposed = 100;
 
@@ -3881,8 +3881,8 @@ static int wind_resistance_from_item_list( const std::vector<const item *> &item
 namespace warmth
 {
 
-std::map<bodypart_id, int> wind_resistance_from_clothing(
-    const std::map<bodypart_id, std::vector<const item *>> &clothing_map )
+auto wind_resistance_from_clothing(
+    const std::map<bodypart_id, std::vector<const item *>> &clothing_map ) -> std::map<bodypart_id, int>
 {
     std::map<bodypart_id, int> ret;
     for( const std::pair<const bodypart_id, std::vector<const item *>> &on_bp : clothing_map ) {
@@ -3902,7 +3902,7 @@ void layer_details::reset()
 // The stacking penalty applies by doubling the encumbrance of
 // each item except the highest encumbrance one.
 // So we add them together and then subtract out the highest.
-int layer_details::layer( const int encumbrance )
+auto layer_details::layer( const int encumbrance ) -> int
 {
     /*
      * We should only get to this point with an encumbrance value of 0
@@ -3926,7 +3926,7 @@ int layer_details::layer( const int encumbrance )
     return total - current;
 }
 
-std::list<item>::iterator Character::position_to_wear_new_item( const item &new_item )
+auto Character::position_to_wear_new_item( const item &new_item ) -> std::list<item>::iterator
 {
     // By default we put this item on after the last item on the same or any
     // lower layer.
@@ -3998,7 +3998,7 @@ void Character::item_encumb( char_encumbrance_data &vals, const item &new_item )
     }
 }
 
-int Character::encumb( body_part bp ) const
+auto Character::encumb( body_part bp ) const -> int
 {
     return encumbrance_cache->elems[bp].encumbrance;
 }
@@ -4041,7 +4041,7 @@ void Character::mut_cbm_encumb( char_encumbrance_data &vals ) const
     }
 }
 
-body_part_set Character::exclusive_flag_coverage( const std::string &flag ) const
+auto Character::exclusive_flag_coverage( const std::string &flag ) const -> body_part_set
 {
     body_part_set ret = body_part_set::all();
 
@@ -4061,58 +4061,58 @@ body_part_set Character::exclusive_flag_coverage( const std::string &flag ) cons
 
 // get_stat() always gets total (current) value, NEVER just the base
 // get_stat_bonus() is always just the bonus amount
-int Character::get_str() const
+auto Character::get_str() const -> int
 {
     return std::max( 0, get_str_base() + str_bonus );
 }
-int Character::get_dex() const
+auto Character::get_dex() const -> int
 {
     return std::max( 0, get_dex_base() + dex_bonus );
 }
-int Character::get_per() const
+auto Character::get_per() const -> int
 {
     return std::max( 0, get_per_base() + per_bonus );
 }
-int Character::get_int() const
+auto Character::get_int() const -> int
 {
     return std::max( 0, get_int_base() + int_bonus );
 }
 
-int Character::get_str_base() const
+auto Character::get_str_base() const -> int
 {
     return str_max;
 }
-int Character::get_dex_base() const
+auto Character::get_dex_base() const -> int
 {
     return dex_max;
 }
-int Character::get_per_base() const
+auto Character::get_per_base() const -> int
 {
     return per_max;
 }
-int Character::get_int_base() const
+auto Character::get_int_base() const -> int
 {
     return int_max;
 }
 
-int Character::get_str_bonus() const
+auto Character::get_str_bonus() const -> int
 {
     return str_bonus;
 }
-int Character::get_dex_bonus() const
+auto Character::get_dex_bonus() const -> int
 {
     return dex_bonus;
 }
-int Character::get_per_bonus() const
+auto Character::get_per_bonus() const -> int
 {
     return per_bonus;
 }
-int Character::get_int_bonus() const
+auto Character::get_int_bonus() const -> int
 {
     return int_bonus;
 }
 
-static int get_speedydex_bonus( const int dex )
+static auto get_speedydex_bonus( const int dex ) -> int
 {
     static const std::string speedydex_min_dex( "SPEEDYDEX_MIN_DEX" );
     static const std::string speedydex_dex_speed( "SPEEDYDEX_DEX_SPEED" );
@@ -4121,28 +4121,28 @@ static int get_speedydex_bonus( const int dex )
     return modified_dex * get_option<int>( speedydex_dex_speed );
 }
 
-int Character::get_speed() const
+auto Character::get_speed() const -> int
 {
     return Creature::get_speed() + get_speedydex_bonus( get_dex() );
 }
 
-int Character::ranged_dex_mod() const
+auto Character::ranged_dex_mod() const -> int
 {
     ///\EFFECT_DEX <20 increases ranged penalty
     return std::max( ( 20.0 - get_dex() ) * 0.5, 0.0 );
 }
 
-int Character::ranged_per_mod() const
+auto Character::ranged_per_mod() const -> int
 {
     ///\EFFECT_PER <20 increases ranged aiming penalty.
     return std::max( ( 20.0 - get_per() ) * 1.2, 0.0 );
 }
 
-int Character::get_healthy() const
+auto Character::get_healthy() const -> int
 {
     return healthy;
 }
-int Character::get_healthy_mod() const
+auto Character::get_healthy_mod() const -> int
 {
     return healthy_mod;
 }
@@ -4222,7 +4222,7 @@ void Character::print_health() const
 namespace io
 {
 template<>
-std::string enum_to_string<character_stat>( character_stat data )
+auto enum_to_string<character_stat>( character_stat data ) -> std::string
 {
     switch( data ) {
         // *INDENT-OFF*
@@ -4291,7 +4291,7 @@ void Character::mod_healthy_mod( int nhealthy_mod, int cap )
     healthy_mod = std::max( healthy_mod, low_cap );
 }
 
-int Character::get_stored_kcal() const
+auto Character::get_stored_kcal() const -> int
 {
     return stored_calories;
 }
@@ -4314,22 +4314,22 @@ void Character::set_stored_kcal( int kcal )
     }
 }
 
-int Character::max_stored_kcal() const
+auto Character::max_stored_kcal() const -> int
 {
     return 2500 * 7;
 }
 
-float Character::get_kcal_percent() const
+auto Character::get_kcal_percent() const -> float
 {
     return static_cast<float>( get_stored_kcal() ) / static_cast<float>( max_stored_kcal() );
 }
 
-int Character::get_thirst() const
+auto Character::get_thirst() const -> int
 {
     return thirst;
 }
 
-std::pair<std::string, nc_color> Character::get_thirst_description() const
+auto Character::get_thirst_description() const -> std::pair<std::string, nc_color>
 {
     int thirst = get_thirst();
     std::string hydration_string;
@@ -4358,7 +4358,7 @@ std::pair<std::string, nc_color> Character::get_thirst_description() const
     return std::make_pair( hydration_string, hydration_color );
 }
 
-std::pair<std::string, nc_color> Character::get_hunger_description() const
+auto Character::get_hunger_description() const -> std::pair<std::string, nc_color>
 {
     int total_kcal = stored_calories + stomach.get_calories();
     int max_kcal = max_stored_kcal();
@@ -4393,7 +4393,7 @@ std::pair<std::string, nc_color> Character::get_hunger_description() const
     return std::make_pair( hunger_string, hunger_color );
 }
 
-std::pair<std::string, nc_color> Character::get_fatigue_description() const
+auto Character::get_fatigue_description() const -> std::pair<std::string, nc_color>
 {
     int fatigue = get_fatigue();
     std::string fatigue_string;
@@ -4452,17 +4452,17 @@ void Character::set_sleep_deprivation( int nsleep_deprivation )
                                   nsleep_deprivation ) );
 }
 
-int Character::get_fatigue() const
+auto Character::get_fatigue() const -> int
 {
     return fatigue;
 }
 
-int Character::get_sleep_deprivation() const
+auto Character::get_sleep_deprivation() const -> int
 {
     return sleep_deprivation;
 }
 
-std::pair<std::string, nc_color> Character::get_pain_description() const
+auto Character::get_pain_description() const -> std::pair<std::string, nc_color>
 {
     const std::pair<std::string, nc_color> pain = Creature::get_pain_description();
     nc_color pain_color = pain.second;
@@ -4483,7 +4483,7 @@ std::pair<std::string, nc_color> Character::get_pain_description() const
     return std::make_pair( pain_string, pain_color );
 }
 
-bool Character::is_deaf() const
+auto Character::is_deaf() const -> bool
 {
     return get_effect_int( effect_deaf ) > 2 || worn_with_flag( flag_DEAF ) ||
            has_trait( trait_DEAF ) ||
@@ -4533,14 +4533,14 @@ void Character::reset_bonuses()
     Creature::reset_bonuses();
 }
 
-std::string Character::get_weight_string() const
+auto Character::get_weight_string() const -> std::string
 {
     double weight = convert_weight( bodyweight() );
     int display_weight = static_cast<int>( std::round( weight ) );
     return std::to_string( display_weight ) + " " + weight_units();
 }
 
-int Character::get_max_healthy() const
+auto Character::get_max_healthy() const -> int
 {
     return 200;
 }
@@ -4655,8 +4655,8 @@ void Character::update_health( int external_modifiers )
 
 // Returns the number of multiples of tick_length we would "pass" on our way `from` to `to`
 // For example, if `tick_length` is 1 hour, then going from 0:59 to 1:01 should return 1
-inline int ticks_between( const time_point &from, const time_point &to,
-                          const time_duration &tick_length )
+inline auto ticks_between( const time_point &from, const time_point &to,
+                          const time_duration &tick_length ) -> int
 {
     return ( to_turn<int>( to ) / to_turns<int>( tick_length ) ) - ( to_turn<int>
             ( from ) / to_turns<int>( tick_length ) );
@@ -4716,7 +4716,7 @@ void Character::update_body( const time_point &from, const time_point &to )
     do_skill_rust();
 }
 
-item *Character::best_quality_item( const quality_id &qual )
+auto Character::best_quality_item( const quality_id &qual ) -> item *
 {
     std::vector<item *> qual_inv = items_with( [qual]( const item & itm ) {
         return itm.has_quality( qual );
@@ -4890,7 +4890,7 @@ void Character::update_needs( int rate_multiplier )
         }
     }
 }
-needs_rates Character::calc_needs_rates() const
+auto Character::calc_needs_rates() const -> needs_rates
 {
     const effect &sleep = get_effect( effect_sleep );
     const bool has_recycler = has_bionic( bio_recycler );
@@ -5140,7 +5140,7 @@ void Character::check_needs_extremes()
     }
 }
 
-bool Character::is_hibernating() const
+auto Character::is_hibernating() const -> bool
 {
     return has_effect( effect_sleep ) && get_kcal_percent() > 0.5f &&
            get_thirst() <= thirst_levels::very_thirsty && has_active_mutation( trait_HIBERNATE );
@@ -5684,7 +5684,7 @@ void Character::temp_equalizer( const bodypart_id &bp1, const bodypart_id &bp2 )
     temp_cur[bp2->token] -= diff;
 }
 
-Character::comfort_response_t Character::base_comfort_value( const tripoint &p ) const
+auto Character::base_comfort_value( const tripoint &p ) const -> Character::comfort_response_t
 {
     // Comfort of sleeping spots is "objective", while sleep_spot( p ) is "subjective"
     // As in the latter also checks for fatigue and other variables while this function
@@ -5815,7 +5815,7 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
     return comfort_response;
 }
 
-int Character::blood_loss( const bodypart_id &bp ) const
+auto Character::blood_loss( const bodypart_id &bp ) const -> int
 {
     int hp_cur_sum = get_part_hp_cur( bp );
     int hp_max_sum = get_part_hp_max( bp );
@@ -5833,22 +5833,22 @@ int Character::blood_loss( const bodypart_id &bp ) const
     return 100 - ( 100 * hp_cur_sum ) / hp_max_sum;
 }
 
-float Character::get_dodge_base() const
+auto Character::get_dodge_base() const -> float
 {
     /** @EFFECT_DEX increases dodge base */
     /** @EFFECT_DODGE increases dodge_base */
     return get_dex() / 2.0f + get_skill_level( skill_dodge );
 }
-float Character::get_hit_base() const
+auto Character::get_hit_base() const -> float
 {
     /** @EFFECT_DEX increases hit base, slightly */
     return get_dex() / 4.0f;
 }
 
-hp_part Character::body_window( const std::string &menu_header,
+auto Character::body_window( const std::string &menu_header,
                                 bool show_all, bool precise,
                                 int normal_bonus, int head_bonus, int torso_bonus,
-                                float bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const
+                                float bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const -> hp_part
 {
     /* This struct establishes some kind of connection between the hp_part (which can be healed and
      * have HP) and the body_part. Note that there are more body_parts than hp_parts. For example:
@@ -6054,7 +6054,7 @@ hp_part Character::body_window( const std::string &menu_header,
     }
 }
 
-nc_color Character::limb_color( const bodypart_id &bp, bool bleed, bool bite, bool infect ) const
+auto Character::limb_color( const bodypart_id &bp, bool bleed, bool bite, bool infect ) const -> nc_color
 {
     if( bp == bodypart_id( "num_bp" ) ) {
         return c_light_gray;
@@ -6092,12 +6092,12 @@ nc_color Character::limb_color( const bodypart_id &bp, bool bleed, bool bite, bo
     return i_color;
 }
 
-std::string Character::get_name() const
+auto Character::get_name() const -> std::string
 {
     return name;
 }
 
-std::vector<std::string> Character::get_grammatical_genders() const
+auto Character::get_grammatical_genders() const -> std::vector<std::string>
 {
     if( male ) {
         return { "m" };
@@ -6106,7 +6106,7 @@ std::vector<std::string> Character::get_grammatical_genders() const
     }
 }
 
-nc_color Character::symbol_color() const
+auto Character::symbol_color() const -> nc_color
 {
     nc_color basic = basic_symbol_color();
 
@@ -6147,7 +6147,7 @@ nc_color Character::symbol_color() const
     return basic;
 }
 
-bool Character::is_immune_field( const field_type_id &fid ) const
+auto Character::is_immune_field( const field_type_id &fid ) const -> bool
 {
     // Obviously this makes us invincible
     if( has_trait( trait_DEBUG_NODMG ) ) {
@@ -6188,12 +6188,12 @@ bool Character::is_immune_field( const field_type_id &fid ) const
     return Creature::is_immune_field( fid );
 }
 
-bool Character::is_elec_immune() const
+auto Character::is_elec_immune() const -> bool
 {
     return is_immune_damage( DT_ELECTRIC );
 }
 
-bool Character::is_immune_effect( const efftype_id &eff ) const
+auto Character::is_immune_effect( const efftype_id &eff ) const -> bool
 {
     if( eff == effect_downed ) {
         return is_throw_immune() || ( has_trait( trait_LEG_TENT_BRACE ) && footwear_factor() == 0 );
@@ -6215,7 +6215,7 @@ bool Character::is_immune_effect( const efftype_id &eff ) const
     return false;
 }
 
-bool Character::is_immune_damage( const damage_type dt ) const
+auto Character::is_immune_damage( const damage_type dt ) const -> bool
 {
     switch( dt ) {
         case DT_NULL:
@@ -6258,13 +6258,13 @@ bool Character::is_immune_damage( const damage_type dt ) const
     }
 }
 
-bool Character::is_rad_immune() const
+auto Character::is_rad_immune() const -> bool
 {
     bool has_helmet = false;
     return ( is_wearing_power_armor( &has_helmet ) && has_helmet ) || worn_with_flag( "RAD_PROOF" );
 }
 
-int Character::throw_range( const item &it ) const
+auto Character::throw_range( const item &it ) const -> int
 {
     if( it.is_null() ) {
         return -1;
@@ -6310,12 +6310,12 @@ int Character::throw_range( const item &it ) const
 }
 
 const std::vector<material_id> Character::fleshy = { material_id( "flesh" ), material_id( "hflesh" ) };
-bool Character::made_of( const material_id &m ) const
+auto Character::made_of( const material_id &m ) const -> bool
 {
     // TODO: check for mutations that change this.
     return std::find( fleshy.begin(), fleshy.end(), m ) != fleshy.end();
 }
-bool Character::made_of_any( const std::set<material_id> &ms ) const
+auto Character::made_of_any( const std::set<material_id> &ms ) const -> bool
 {
     // TODO: check for mutations that change this.
     return std::any_of( fleshy.begin(), fleshy.end(), [&ms]( const material_id & e ) {
@@ -6323,30 +6323,30 @@ bool Character::made_of_any( const std::set<material_id> &ms ) const
     } );
 }
 
-tripoint Character::global_square_location() const
+auto Character::global_square_location() const -> tripoint
 {
     return get_map().getabs( position );
 }
 
-tripoint Character::global_sm_location() const
+auto Character::global_sm_location() const -> tripoint
 {
     return ms_to_sm_copy( global_square_location() );
 }
 
-tripoint_abs_omt Character::global_omt_location() const
+auto Character::global_omt_location() const -> tripoint_abs_omt
 {
     // TODO: fix point types
     return tripoint_abs_omt( ms_to_omt_copy( global_square_location() ) );
 }
 
-bool Character::is_blind() const
+auto Character::is_blind() const -> bool
 {
     return ( worn_with_flag( flag_BLIND ) ||
              has_effect( effect_blind ) ||
              has_active_bionic( bio_blindfold ) );
 }
 
-bool Character::is_invisible() const
+auto Character::is_invisible() const -> bool
 {
     return (
                has_effect_with_flag( flag_EFFECT_INVISIBLE ) ||
@@ -6356,7 +6356,7 @@ bool Character::is_invisible() const
            );
 }
 
-int Character::visibility( bool, int ) const
+auto Character::visibility( bool, int ) const -> int
 {
     // 0-100 %
     if( is_invisible() ) {
@@ -6374,7 +6374,7 @@ int Character::visibility( bool, int ) const
  * item.light.* is -unimplemented- for the moment, as it is a custom override for
  * applying light sources/arcs with specific angle and direction.
  */
-float Character::active_light() const
+auto Character::active_light() const -> float
 {
     float lumination = 0;
 
@@ -6422,7 +6422,7 @@ float Character::active_light() const
     return lumination;
 }
 
-bool Character::sees_with_specials( const Creature &critter ) const
+auto Character::sees_with_specials( const Creature &critter ) const -> bool
 {
     // electroreceptors grants vision of robots and electric monsters through walls
     if( has_trait( trait_ELECTRORECEPTORS ) &&
@@ -6441,7 +6441,7 @@ bool Character::sees_with_specials( const Creature &critter ) const
     return false;
 }
 
-bool Character::pour_into( item &container, item &liquid )
+auto Character::pour_into( item &container, item &liquid ) -> bool
 {
     std::string err;
     const int amount = container.get_remaining_capacity_for_liquid( liquid, *this, &err );
@@ -6463,7 +6463,7 @@ bool Character::pour_into( item &container, item &liquid )
     return true;
 }
 
-bool Character::pour_into( vehicle &veh, item &liquid )
+auto Character::pour_into( vehicle &veh, item &liquid ) -> bool
 {
     auto sel = [&]( const vehicle_part & pt ) {
         return pt.is_tank() && pt.can_reload( liquid );
@@ -6492,7 +6492,7 @@ bool Character::pour_into( vehicle &veh, item &liquid )
     return true;
 }
 
-resistances Character::mutation_armor( bodypart_id bp ) const
+auto Character::mutation_armor( bodypart_id bp ) const -> resistances
 {
     resistances res;
     for( const trait_id &iter : get_mutations() ) {
@@ -6502,17 +6502,17 @@ resistances Character::mutation_armor( bodypart_id bp ) const
     return res;
 }
 
-float Character::mutation_armor( bodypart_id bp, damage_type dt ) const
+auto Character::mutation_armor( bodypart_id bp, damage_type dt ) const -> float
 {
     return mutation_armor( bp ).type_resist( dt );
 }
 
-float Character::mutation_armor( bodypart_id bp, const damage_unit &du ) const
+auto Character::mutation_armor( bodypart_id bp, const damage_unit &du ) const -> float
 {
     return mutation_armor( bp ).get_effective_resist( du );
 }
 
-int Character::ammo_count_for( const item &gun )
+auto Character::ammo_count_for( const item &gun ) -> int
 {
     int ret = item::INFINITE_CHARGES;
     if( !gun.is_gun() ) {
@@ -6553,14 +6553,14 @@ int Character::ammo_count_for( const item &gun )
     return ret;
 }
 
-float Character::rest_quality() const
+auto Character::rest_quality() const -> float
 {
     // Just a placeholder for now.
     // TODO: Waiting/reading/being unconscious on bed/sofa/grass
     return has_effect( effect_sleep ) ? 1.0f : 0.0f;
 }
 
-hp_part Character::bp_to_hp( const body_part bp )
+auto Character::bp_to_hp( const body_part bp ) -> hp_part
 {
     switch( bp ) {
         case bp_head:
@@ -6586,7 +6586,7 @@ hp_part Character::bp_to_hp( const body_part bp )
     }
 }
 
-body_part Character::hp_to_bp( const hp_part hpart )
+auto Character::hp_to_bp( const hp_part hpart ) -> body_part
 {
     switch( hpart ) {
         case hp_head:
@@ -6606,7 +6606,7 @@ body_part Character::hp_to_bp( const hp_part hpart )
     }
 }
 
-std::string Character::extended_description() const
+auto Character::extended_description() const -> std::string
 {
     std::string ss;
     if( is_player() ) {
@@ -6665,7 +6665,7 @@ std::string Character::extended_description() const
     return replace_colors( ss );
 }
 
-social_modifiers Character::get_mutation_social_mods() const
+auto Character::get_mutation_social_mods() const -> social_modifiers
 {
     social_modifiers mods;
     for( const mutation_branch *mut : cached_mutations ) {
@@ -6676,7 +6676,7 @@ social_modifiers Character::get_mutation_social_mods() const
 }
 
 template <float mutation_branch::*member>
-float calc_mutation_value( const std::vector<const mutation_branch *> &mutations )
+auto calc_mutation_value( const std::vector<const mutation_branch *> &mutations ) -> float
 {
     float lowest = 0.0f;
     float highest = 0.0f;
@@ -6690,7 +6690,7 @@ float calc_mutation_value( const std::vector<const mutation_branch *> &mutations
 }
 
 template <float mutation_branch::*member>
-float calc_mutation_value_additive( const std::vector<const mutation_branch *> &mutations )
+auto calc_mutation_value_additive( const std::vector<const mutation_branch *> &mutations ) -> float
 {
     float ret = 0.0f;
     for( const mutation_branch *mut : mutations ) {
@@ -6700,7 +6700,7 @@ float calc_mutation_value_additive( const std::vector<const mutation_branch *> &
 }
 
 template <float mutation_branch::*member>
-float calc_mutation_value_multiplicative( const std::vector<const mutation_branch *> &mutations )
+auto calc_mutation_value_multiplicative( const std::vector<const mutation_branch *> &mutations ) -> float
 {
     float ret = 1.0f;
     for( const mutation_branch *mut : mutations ) {
@@ -6748,7 +6748,7 @@ mutation_value_map = {
     { "skill_rust_multiplier", calc_mutation_value_multiplicative<&mutation_branch::skill_rust_multiplier> }
 };
 
-float Character::mutation_value( const std::string &val ) const
+auto Character::mutation_value( const std::string &val ) const -> float
 {
     // Syntax similar to tuple get<n>()
     const auto found = mutation_value_map.find( val );
@@ -6761,7 +6761,7 @@ float Character::mutation_value( const std::string &val ) const
     }
 }
 
-float Character::healing_rate( float at_rest_quality ) const
+auto Character::healing_rate( float at_rest_quality ) const -> float
 {
     // TODO: Cache
     float heal_rate;
@@ -6803,7 +6803,7 @@ float Character::healing_rate( float at_rest_quality ) const
     return final_rate;
 }
 
-float Character::healing_rate_medicine( float at_rest_quality, const bodypart_id &bp ) const
+auto Character::healing_rate_medicine( float at_rest_quality, const bodypart_id &bp ) const -> float
 {
     float rate_medicine = 0.0f;
     float bandaged_rate = 0.0f;
@@ -6856,17 +6856,17 @@ float Character::healing_rate_medicine( float at_rest_quality, const bodypart_id
     return rate_medicine;
 }
 
-float Character::bmi() const
+auto Character::bmi() const -> float
 {
     return 25;
 }
 
-units::mass Character::bodyweight() const
+auto Character::bodyweight() const -> units::mass
 {
     return units::from_kilogram( bmi() * std::pow( height() / 100.0f, 2 ) );
 }
 
-units::mass Character::bionics_weight() const
+auto Character::bionics_weight() const -> units::mass
 {
     units::mass bio_weight = 0_gram;
     for( const bionic_id &bid : get_bionics() ) {
@@ -6883,7 +6883,7 @@ void Character::reset_chargen_attributes()
     init_height = 175;
 }
 
-int Character::base_age() const
+auto Character::base_age() const -> int
 {
     return init_age;
 }
@@ -6898,21 +6898,21 @@ void Character::mod_base_age( int mod )
     init_age += mod;
 }
 
-int Character::age() const
+auto Character::age() const -> int
 {
     int years_since_cataclysm = to_turns<int>( calendar::turn - calendar::turn_zero ) /
                                 to_turns<int>( calendar::year_length() );
     return init_age + years_since_cataclysm;
 }
 
-std::string Character::age_string() const
+auto Character::age_string() const -> std::string
 {
     //~ how old the character is in years. try to limit number of characters to fit on the screen
     std::string unformatted = _( "%d years" );
     return string_format( unformatted, age() );
 }
 
-int Character::base_height() const
+auto Character::base_height() const -> int
 {
     return init_height;
 }
@@ -6927,7 +6927,7 @@ void Character::mod_base_height( int mod )
     init_height += mod;
 }
 
-std::string Character::height_string() const
+auto Character::height_string() const -> std::string
 {
     const bool metric = get_option<std::string>( "DISTANCE_UNITS" ) == "metric";
 
@@ -6942,7 +6942,7 @@ std::string Character::height_string() const
     return string_format( "%d\'%d\"", feet, remainder_inches );
 }
 
-int Character::height() const
+auto Character::height() const -> int
 {
     switch( get_size() ) {
         case MS_TINY:
@@ -6963,28 +6963,28 @@ int Character::height() const
     abort();
 }
 
-int Character::bmr() const
+auto Character::bmr() const -> int
 {
     return metabolic_rate_base() * 2500;
 }
 
-int Character::get_armor_bash( bodypart_id bp ) const
+auto Character::get_armor_bash( bodypart_id bp ) const -> int
 {
     return get_armor_bash_base( bp ) + armor_bash_bonus;
 }
 
-int Character::get_armor_cut( bodypart_id bp ) const
+auto Character::get_armor_cut( bodypart_id bp ) const -> int
 {
     return get_armor_cut_base( bp ) + armor_cut_bonus;
 }
 
-int Character::get_armor_bullet( bodypart_id bp ) const
+auto Character::get_armor_bullet( bodypart_id bp ) const -> int
 {
     return get_armor_bullet_base( bp ) + armor_bullet_bonus;
 }
 
 // TODO: Reduce duplication with below function
-int Character::get_armor_type( damage_type dt, bodypart_id bp ) const
+auto Character::get_armor_type( damage_type dt, bodypart_id bp ) const -> int
 {
     switch( dt ) {
         case DT_TRUE:
@@ -7022,8 +7022,8 @@ int Character::get_armor_type( damage_type dt, bodypart_id bp ) const
     return 0;
 }
 
-std::map<bodypart_id, int> Character::get_all_armor_type( damage_type dt,
-        const std::map<bodypart_id, std::vector<const item *>> &clothing_map ) const
+auto Character::get_all_armor_type( damage_type dt,
+        const std::map<bodypart_id, std::vector<const item *>> &clothing_map ) const -> std::map<bodypart_id, int>
 {
     std::map<bodypart_id, int> ret;
     for( const bodypart_id &bp : get_all_body_parts() ) {
@@ -7072,7 +7072,7 @@ std::map<bodypart_id, int> Character::get_all_armor_type( damage_type dt,
     return ret;
 }
 
-int Character::get_armor_bash_base( bodypart_id bp ) const
+auto Character::get_armor_bash_base( bodypart_id bp ) const -> int
 {
     int ret = 0;
     for( auto &i : worn ) {
@@ -7091,7 +7091,7 @@ int Character::get_armor_bash_base( bodypart_id bp ) const
     return ret;
 }
 
-int Character::get_armor_cut_base( bodypart_id bp ) const
+auto Character::get_armor_cut_base( bodypart_id bp ) const -> int
 {
     int ret = 0;
     for( auto &i : worn ) {
@@ -7110,7 +7110,7 @@ int Character::get_armor_cut_base( bodypart_id bp ) const
     return ret;
 }
 
-int Character::get_armor_bullet_base( bodypart_id bp ) const
+auto Character::get_armor_bullet_base( bodypart_id bp ) const -> int
 {
     int ret = 0;
     for( auto &i : worn ) {
@@ -7130,7 +7130,7 @@ int Character::get_armor_bullet_base( bodypart_id bp ) const
     return ret;
 }
 
-int Character::get_env_resist( bodypart_id bp ) const
+auto Character::get_env_resist( bodypart_id bp ) const -> int
 {
     int ret = 0;
     for( auto &i : worn ) {
@@ -7153,12 +7153,12 @@ int Character::get_env_resist( bodypart_id bp ) const
     return ret;
 }
 
-int Character::get_armor_acid( bodypart_id bp ) const
+auto Character::get_armor_acid( bodypart_id bp ) const -> int
 {
     return get_armor_type( DT_ACID, bp );
 }
 
-int Character::get_stim() const
+auto Character::get_stim() const -> int
 {
     return stim;
 }
@@ -7173,7 +7173,7 @@ void Character::mod_stim( int mod )
     stim += mod;
 }
 
-int Character::get_rad() const
+auto Character::get_rad() const -> int
 {
     return radiation;
 }
@@ -7191,12 +7191,12 @@ void Character::mod_rad( int mod )
     set_rad( std::max( 0, get_rad() + mod ) );
 }
 
-int Character::get_stamina() const
+auto Character::get_stamina() const -> int
 {
     return stamina;
 }
 
-int Character::get_stamina_max() const
+auto Character::get_stamina_max() const -> int
 {
     static const std::string player_max_stamina( "PLAYER_MAX_STAMINA" );
     static const std::string max_stamina_modifier( "max_stamina_modifier" );
@@ -7254,7 +7254,7 @@ void Character::burn_move_stamina( int moves )
     }
 }
 
-float Character::stamina_move_cost_modifier() const
+auto Character::stamina_move_cost_modifier() const -> float
 {
     // Both walk and run speed drop to half their maximums as stamina approaches 0.
     // Convert stamina to a float first to allow for decimal place carrying
@@ -7319,22 +7319,22 @@ void Character::update_stamina( int turns )
     set_stamina( std::min( std::max( get_stamina(), 0 ), max_stam ) );
 }
 
-bool Character::invoke_item( item *used )
+auto Character::invoke_item( item *used ) -> bool
 {
     return invoke_item( used, pos() );
 }
 
-bool Character::invoke_item( item *, const tripoint & )
+auto Character::invoke_item( item *, const tripoint & ) -> bool
 {
     return false;
 }
 
-bool Character::invoke_item( item *used, const std::string &method )
+auto Character::invoke_item( item *used, const std::string &method ) -> bool
 {
     return invoke_item( used, method, pos() );
 }
 
-bool Character::invoke_item( item *used, const std::string &method, const tripoint &pt )
+auto Character::invoke_item( item *used, const std::string &method, const tripoint &pt ) -> bool
 {
     if( !has_enough_charges( *used, true ) ) {
         return false;
@@ -7363,7 +7363,7 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
     return false;
 }
 
-bool Character::dispose_item( item_location &&obj, const std::string &prompt )
+auto Character::dispose_item( item_location &&obj, const std::string &prompt ) -> bool
 {
     uilist menu;
     menu.text = prompt.empty() ? string_format( _( "Dispose of %s" ), obj->tname() ) : prompt;
@@ -7458,7 +7458,7 @@ bool Character::dispose_item( item_location &&obj, const std::string &prompt )
     return false;
 }
 
-bool Character::has_enough_charges( const item &it, bool show_msg ) const
+auto Character::has_enough_charges( const item &it, bool show_msg ) const -> bool
 {
     if( !it.is_tool() || !it.ammo_required() ) {
         return true;
@@ -7512,7 +7512,7 @@ bool Character::has_enough_charges( const item &it, bool show_msg ) const
     return true;
 }
 
-bool Character::consume_charges( item &used, int qty )
+auto Character::consume_charges( item &used, int qty ) -> bool
 {
     if( qty < 0 ) {
         debugmsg( "Tried to consume negative charges" );
@@ -7569,7 +7569,7 @@ bool Character::consume_charges( item &used, int qty )
     return false;
 }
 
-int Character::item_handling_cost( const item &it, bool penalties, int base_cost ) const
+auto Character::item_handling_cost( const item &it, bool penalties, int base_cost ) const -> int
 {
     int mv = base_cost;
     if( penalties ) {
@@ -7593,8 +7593,8 @@ int Character::item_handling_cost( const item &it, bool penalties, int base_cost
     return std::min( std::max( mv, 0 ), MAX_HANDLING_COST );
 }
 
-int Character::item_store_cost( const item &it, const item & /* container */, bool penalties,
-                                int base_cost ) const
+auto Character::item_store_cost( const item &it, const item & /* container */, bool penalties,
+                                int base_cost ) const -> int
 {
     /** @EFFECT_PISTOL decreases time taken to store a pistol */
     /** @EFFECT_SMG decreases time taken to store an SMG */
@@ -7608,7 +7608,7 @@ int Character::item_store_cost( const item &it, const item & /* container */, bo
     return item_handling_cost( it, penalties, base_cost ) / ( ( lvl + 10.0f ) / 10.0f );
 }
 
-int Character::item_wear_cost( const item &it ) const
+auto Character::item_wear_cost( const item &it ) const -> int
 {
     double mv = item_handling_cost( it );
 
@@ -7683,7 +7683,7 @@ void Character::wake_up()
     }
 }
 
-int Character::get_shout_volume() const
+auto Character::get_shout_volume() const -> int
 {
     int base = 10;
     int shout_multiplier = 2;
@@ -7839,7 +7839,7 @@ void Character::vomit()
 }
 
 // adjacent_tile() returns a safe, unoccupied adjacent tile. If there are no such tiles, returns player position instead.
-tripoint Character::adjacent_tile() const
+auto Character::adjacent_tile() const -> tripoint
 {
     std::vector<tripoint> ret;
     int dangerous_fields = 0;
@@ -7881,7 +7881,7 @@ void Character::set_fac_id( const std::string &my_fac_id )
     fac_id = faction_id( my_fac_id );
 }
 
-std::string get_stat_name( character_stat Stat )
+auto get_stat_name( character_stat Stat ) -> std::string
 {
     switch( Stat ) {
         // *INDENT-OFF*
@@ -7967,7 +7967,7 @@ void Character::drench_mut_calc()
 }
 
 /// Returns the mutation category with the highest strength
-std::string Character::get_highest_category() const
+auto Character::get_highest_category() const -> std::string
 {
     int iLevel = 0;
     std::string sMaxCat;
@@ -8035,8 +8035,8 @@ void Character::rebuild_mutation_cache()
     }
 }
 
-double Character::bonus_from_enchantments( double base, enchant_vals::mod value,
-        bool round ) const
+auto Character::bonus_from_enchantments( double base, enchant_vals::mod value,
+        bool round ) const -> double
 {
     return enchantment_cache->calc_bonus( value, base, round );
 }
@@ -8291,7 +8291,7 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
     }
 }
 
-bool Character::armor_absorb( damage_unit &du, item &armor )
+auto Character::armor_absorb( damage_unit &du, item &armor ) -> bool
 {
     if( rng( 1, 100 ) > armor.get_coverage() ) {
         return false;
@@ -8354,7 +8354,7 @@ bool Character::armor_absorb( damage_unit &du, item &armor )
                              rng( 2 * itype::damage_scale, 3 * itype::damage_scale ) : itype::damage_scale, du.type );
 }
 
-float Character::bionic_armor_bonus( const bodypart_id &bp, damage_type dt ) const
+auto Character::bionic_armor_bonus( const bodypart_id &bp, damage_type dt ) const -> float
 {
     float result = 0.0f;
     if( dt == DT_CUT || dt == DT_STAB ) {
@@ -8383,8 +8383,8 @@ float Character::bionic_armor_bonus( const bodypart_id &bp, damage_type dt ) con
     return result;
 }
 
-std::map<bodypart_id, int> Character::get_armor_fire( const
-        std::map<bodypart_id, std::vector<const item *>> &clothing_map ) const
+auto Character::get_armor_fire( const
+        std::map<bodypart_id, std::vector<const item *>> &clothing_map ) const -> std::map<bodypart_id, int>
 {
     return get_all_armor_type( DT_HEAT, clothing_map );
 }
@@ -8456,8 +8456,8 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
     }
 }
 
-dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
-        const damage_instance &d )
+auto Character::deal_damage( Creature *source, bodypart_id bp,
+        const damage_instance &d ) -> dealt_damage_instance
 {
     if( has_trait( trait_DEBUG_NODMG ) ) {
         return dealt_damage_instance();
@@ -8612,8 +8612,8 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
     return dealt_dams;
 }
 
-int Character::reduce_healing_effect( const efftype_id &eff_id, int remove_med,
-                                      const bodypart_id &hurt )
+auto Character::reduce_healing_effect( const efftype_id &eff_id, int remove_med,
+                                      const bodypart_id &hurt ) -> int
 {
     const body_part hurt_token = hurt->token;
     effect &e = get_effect( eff_id, hurt_token );
@@ -8672,7 +8672,7 @@ void Character::hurtall( int dam, Creature *source, bool disturb /*= true*/ )
     on_hurt( source, disturb );
 }
 
-int Character::hitall( int dam, int vary, Creature *source )
+auto Character::hitall( int dam, int vary, Creature *source ) -> int
 {
     int damage_taken = 0;
     for( int i = 0; i < num_hp_parts; i++ ) {
@@ -8713,7 +8713,7 @@ void Character::on_hurt( Creature *source, bool disturb /*= true*/ )
     }
 }
 
-bool Character::crossed_threshold() const
+auto Character::crossed_threshold() const -> bool
 {
     for( const trait_id &mut : get_mutations() ) {
         if( mut->threshold ) {
@@ -8756,7 +8756,7 @@ void Character::set_type_of_scent( const scenttype_id &id )
     type_of_scent = id;
 }
 
-scenttype_id Character::get_type_of_scent() const
+auto Character::get_type_of_scent() const -> scenttype_id
 {
     return type_of_scent;
 }
@@ -8856,7 +8856,7 @@ void Character::rooted()
     }
 }
 
-bool Character::wearing_something_on( const bodypart_id &bp ) const
+auto Character::wearing_something_on( const bodypart_id &bp ) const -> bool
 {
     for( auto &i : worn ) {
         if( i.covers( bp->token ) ) {
@@ -8866,7 +8866,7 @@ bool Character::wearing_something_on( const bodypart_id &bp ) const
     return false;
 }
 
-bool Character::is_wearing_shoes( const side &which_side ) const
+auto Character::is_wearing_shoes( const side &which_side ) const -> bool
 {
     bool left = true;
     bool right = true;
@@ -8895,7 +8895,7 @@ bool Character::is_wearing_shoes( const side &which_side ) const
     return ( left && right );
 }
 
-bool Character::is_wearing_helmet() const
+auto Character::is_wearing_helmet() const -> bool
 {
     for( const item &i : worn ) {
         if( i.covers( bp_head ) && !i.has_flag( flag_HELMET_COMPAT ) && !i.has_flag( flag_SKINTIGHT ) &&
@@ -8907,7 +8907,7 @@ bool Character::is_wearing_helmet() const
     return false;
 }
 
-int Character::head_cloth_encumbrance() const
+auto Character::head_cloth_encumbrance() const -> int
 {
     int ret = 0;
     for( auto &i : worn ) {
@@ -8920,7 +8920,7 @@ int Character::head_cloth_encumbrance() const
     return ret;
 }
 
-double Character::armwear_factor() const
+auto Character::armwear_factor() const -> double
 {
     double ret = 0;
     if( wearing_something_on( bodypart_id( "arm_l" ) ) ) {
@@ -8932,7 +8932,7 @@ double Character::armwear_factor() const
     return ret;
 }
 
-double Character::footwear_factor() const
+auto Character::footwear_factor() const -> double
 {
     double ret = 0;
     if( wearing_something_on( bodypart_id( "foot_l" ) ) ) {
@@ -8944,7 +8944,7 @@ double Character::footwear_factor() const
     return ret;
 }
 
-int Character::shoe_type_count( const itype_id &it ) const
+auto Character::shoe_type_count( const itype_id &it ) const -> int
 {
     int ret = 0;
     if( is_wearing_on_bp( it, bodypart_id( "foot_l" ) ) ) {
@@ -8956,7 +8956,7 @@ int Character::shoe_type_count( const itype_id &it ) const
     return ret;
 }
 
-std::vector<item *> Character::inv_dump()
+auto Character::inv_dump() -> std::vector<item *>
 {
     std::vector<item *> ret;
     if( is_armed() && can_unwield( weapon ).success() ) {
@@ -8969,7 +8969,7 @@ std::vector<item *> Character::inv_dump()
     return ret;
 }
 
-bool Character::covered_with_flag( const std::string &flag, const body_part_set &parts ) const
+auto Character::covered_with_flag( const std::string &flag, const body_part_set &parts ) const -> bool
 {
     if( parts.none() ) {
         return true;
@@ -8992,7 +8992,7 @@ bool Character::covered_with_flag( const std::string &flag, const body_part_set 
     return to_cover.none();
 }
 
-bool Character::is_waterproof( const body_part_set &parts ) const
+auto Character::is_waterproof( const body_part_set &parts ) const -> bool
 {
     return covered_with_flag( "WATERPROOF", parts );
 }
@@ -9083,7 +9083,7 @@ void Character::apply_persistent_morale()
     }
 }
 
-int Character::get_morale_level() const
+auto Character::get_morale_level() const -> int
 {
     return morale->get_level();
 }
@@ -9099,12 +9099,12 @@ void Character::add_morale( const morale_type &type, int bonus, int max_bonus,
     }
 }
 
-bool Character::has_morale( const morale_type &type ) const
+auto Character::has_morale( const morale_type &type ) const -> bool
 {
     return morale->has( type );
 }
 
-int Character::get_morale( const morale_type &type ) const
+auto Character::get_morale( const morale_type &type ) const -> int
 {
     return morale->get( type );
 }
@@ -9119,12 +9119,12 @@ void Character::clear_morale()
     morale->clear();
 }
 
-bool Character::has_morale_to_read() const
+auto Character::has_morale_to_read() const -> bool
 {
     return get_morale_level() >= -40;
 }
 
-bool Character::check_and_recover_morale()
+auto Character::check_and_recover_morale() -> bool
 {
     player_morale test_morale;
 
@@ -9181,7 +9181,7 @@ void Character::stop_hauling()
     }
 }
 
-bool Character::is_hauling() const
+auto Character::is_hauling() const -> bool
 {
     return hauling;
 }
@@ -9219,12 +9219,12 @@ void Character::assign_activity( const player_activity &act, bool allow_resume )
     }
 }
 
-bool Character::has_activity( const activity_id &type ) const
+auto Character::has_activity( const activity_id &type ) const -> bool
 {
     return activity.id() == type;
 }
 
-bool Character::has_activity( const std::vector<activity_id> &types ) const
+auto Character::has_activity( const std::vector<activity_id> &types ) const -> bool
 {
     return std::find( types.begin(), types.end(), activity.id() ) != types.end();
 }
@@ -9317,12 +9317,12 @@ void Character::fall_asleep( const time_duration &duration )
     add_effect( effect_sleep, duration );
 }
 
-bool Character::in_sleep_state() const
+auto Character::in_sleep_state() const -> bool
 {
     return Creature::in_sleep_state() || activity.id() == ACT_TRY_SLEEP;
 }
 
-std::string Character::is_snuggling() const
+auto Character::is_snuggling() const -> std::string
 {
     map &here = get_map();
     auto begin = here.i_at( pos() ).begin();
@@ -9369,8 +9369,8 @@ std::string Character::is_snuggling() const
     return "nothing";
 }
 
-std::map<bodypart_id, int> Character::warmth( const std::map<bodypart_id, std::vector<const item *>>
-        &clothing_map ) const
+auto Character::warmth( const std::map<bodypart_id, std::vector<const item *>>
+        &clothing_map ) const -> std::map<bodypart_id, int>
 {
     std::map<bodypart_id, int> ret;
     for( const bodypart_id &bp : get_all_body_parts() ) {
@@ -9399,9 +9399,9 @@ namespace warmth
 {
 
 template <typename Acc = int const&( int const &, int const & )>
-static std::map<bodypart_id, int> acc_clothing_warmth( const
+static auto acc_clothing_warmth( const
         std::map<bodypart_id, std::vector<const item *>> &clothing_map,
-        Acc accumulation_function )
+        Acc accumulation_function ) -> std::map<bodypart_id, int>
 {
     std::map<bodypart_id, int> ret;
     for( const std::pair<const bodypart_id, std::vector<const item *>> &pr : clothing_map ) {
@@ -9414,19 +9414,19 @@ static std::map<bodypart_id, int> acc_clothing_warmth( const
     return ret;
 }
 
-std::map<bodypart_id, int> from_clothing(
-    const std::map<bodypart_id, std::vector<const item *>> &clothing_map )
+auto from_clothing(
+    const std::map<bodypart_id, std::vector<const item *>> &clothing_map ) -> std::map<bodypart_id, int>
 {
     return acc_clothing_warmth( clothing_map, std::plus<int>() );
 }
 
-std::map<bodypart_id, int> bonus_from_clothing(
-    const std::map<bodypart_id, std::vector<const item *>> &clothing_map )
+auto bonus_from_clothing(
+    const std::map<bodypart_id, std::vector<const item *>> &clothing_map ) -> std::map<bodypart_id, int>
 {
     return acc_clothing_warmth( clothing_map, std::max<int> );
 }
 
-std::map<bodypart_id, int> from_effects( const Character &c )
+auto from_effects( const Character &c ) -> std::map<bodypart_id, int>
 {
     std::map<bodypart_id, int> ret;
     for( const effect *e : c.get_all_effects_of_type( effect_heating_bionic ) ) {
@@ -9437,7 +9437,7 @@ std::map<bodypart_id, int> from_effects( const Character &c )
 
 } // namespace warmth
 
-bool Character::can_use_floor_warmth() const
+auto Character::can_use_floor_warmth() const -> bool
 {
     return in_sleep_state() ||
            has_activity( activity_id( "ACT_WAIT" ) ) ||
@@ -9462,7 +9462,7 @@ bool Character::can_use_floor_warmth() const
            has_activity( activity_id( "ACT_STUDY_SPELL" ) );
 }
 
-int Character::floor_bedding_warmth( const tripoint &pos )
+auto Character::floor_bedding_warmth( const tripoint &pos ) -> int
 {
     map &here = get_map();
     const trap &trap_at_pos = here.tr_at( pos );
@@ -9488,7 +9488,7 @@ int Character::floor_bedding_warmth( const tripoint &pos )
     return floor_bedding_warmth;
 }
 
-int Character::floor_item_warmth( const tripoint &pos )
+auto Character::floor_item_warmth( const tripoint &pos ) -> int
 {
     int item_warmth = 0;
 
@@ -9523,7 +9523,7 @@ int Character::floor_item_warmth( const tripoint &pos )
     return item_warmth;
 }
 
-int Character::floor_warmth( const tripoint &pos ) const
+auto Character::floor_warmth( const tripoint &pos ) const -> int
 {
     const int item_warmth = floor_item_warmth( pos );
     int bedding_warmth = floor_bedding_warmth( pos );
@@ -9538,7 +9538,7 @@ int Character::floor_warmth( const tripoint &pos ) const
     return ( item_warmth + bedding_warmth + floor_mut_warmth );
 }
 
-int Character::bodytemp_modifier_traits( bool overheated ) const
+auto Character::bodytemp_modifier_traits( bool overheated ) const -> int
 {
     int mod = 0;
     for( const trait_id &iter : get_mutations() ) {
@@ -9547,7 +9547,7 @@ int Character::bodytemp_modifier_traits( bool overheated ) const
     return mod;
 }
 
-int Character::bodytemp_modifier_traits_floor() const
+auto Character::bodytemp_modifier_traits_floor() const -> int
 {
     int mod = 0;
     for( const trait_id &iter : get_mutations() ) {
@@ -9556,7 +9556,7 @@ int Character::bodytemp_modifier_traits_floor() const
     return mod;
 }
 
-int Character::temp_corrected_by_climate_control( int temperature ) const
+auto Character::temp_corrected_by_climate_control( int temperature ) const -> int
 {
     const int variation = int( BODYTEMP_NORM * 0.5 );
     if( temperature < BODYTEMP_SCORCHING + variation &&
@@ -9578,7 +9578,7 @@ int Character::temp_corrected_by_climate_control( int temperature ) const
     return temperature;
 }
 
-bool Character::has_item_with_flag( const std::string &flag, bool need_charges ) const
+auto Character::has_item_with_flag( const std::string &flag, bool need_charges ) const -> bool
 {
     return has_item_with( [&flag, &need_charges]( const item & it ) {
         if( it.is_tool() && need_charges ) {
@@ -9588,15 +9588,15 @@ bool Character::has_item_with_flag( const std::string &flag, bool need_charges )
     } );
 }
 
-std::vector<const item *> Character::all_items_with_flag( const std::string &flag ) const
+auto Character::all_items_with_flag( const std::string &flag ) const -> std::vector<const item *>
 {
     return items_with( [&flag]( const item & it ) {
         return it.has_flag( flag );
     } );
 }
 
-bool Character::has_charges( const itype_id &it, int quantity,
-                             const std::function<bool( const item & )> &filter ) const
+auto Character::has_charges( const itype_id &it, int quantity,
+                             const std::function<bool( const item & )> &filter ) const -> bool
 {
     if( it == itype_fire || it == itype_apparatus ) {
         return has_fire( quantity );
@@ -9623,8 +9623,8 @@ bool Character::has_charges( const itype_id &it, int quantity,
     return charges_of( it, quantity, filter ) == quantity;
 }
 
-std::list<item> Character::use_amount( itype_id it, int quantity,
-                                       const std::function<bool( const item & )> &filter )
+auto Character::use_amount( itype_id it, int quantity,
+                                       const std::function<bool( const item & )> &filter ) -> std::list<item>
 {
     std::list<item> ret;
     if( weapon.use_amount( it, quantity, ret ) ) {
@@ -9646,7 +9646,7 @@ std::list<item> Character::use_amount( itype_id it, int quantity,
     return ret;
 }
 
-bool Character::use_charges_if_avail( const itype_id &it, int quantity )
+auto Character::use_charges_if_avail( const itype_id &it, int quantity ) -> bool
 {
     if( has_charges( it, quantity ) ) {
         use_charges( it, quantity );
@@ -9655,8 +9655,8 @@ bool Character::use_charges_if_avail( const itype_id &it, int quantity )
     return false;
 }
 
-std::list<item> Character::use_charges( const itype_id &what, int qty,
-                                        const std::function<bool( const item & )> &filter )
+auto Character::use_charges( const itype_id &what, int qty,
+                                        const std::function<bool( const item & )> &filter ) -> std::list<item>
 {
     std::list<item> res;
 
@@ -9742,7 +9742,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty,
     return res;
 }
 
-bool Character::has_fire( const int quantity ) const
+auto Character::has_fire( const int quantity ) const -> bool
 {
     // TODO: Replace this with a "tool produces fire" flag.
 
@@ -9801,7 +9801,7 @@ void Character::set_painkiller( int npkill )
     }
 }
 
-int Character::get_painkiller() const
+auto Character::get_painkiller() const -> int
 {
     return pkill;
 }
@@ -9908,7 +9908,7 @@ void Character::on_stat_change( const std::string &stat, int value )
     morale->on_stat_change( stat, value );
 }
 
-bool Character::has_opposite_trait( const trait_id &flag ) const
+auto Character::has_opposite_trait( const trait_id &flag ) const -> bool
 {
     for( const trait_id &i : flag->cancels ) {
         if( has_trait( i ) ) {
@@ -9925,7 +9925,7 @@ bool Character::has_opposite_trait( const trait_id &flag ) const
     return false;
 }
 
-int Character::adjust_for_focus( int amount ) const
+auto Character::adjust_for_focus( int amount ) const -> int
 {
     int effective_focus = focus_pool;
     if( has_trait( trait_FASTLEARNER ) ) {
@@ -9943,7 +9943,7 @@ int Character::adjust_for_focus( int amount ) const
     return roll_remainder( tmp );
 }
 
-std::set<tripoint> Character::get_path_avoid() const
+auto Character::get_path_avoid() const -> std::set<tripoint>
 {
     std::set<tripoint> ret;
     for( npc &guy : g->all_npcs() ) {
@@ -9957,12 +9957,12 @@ std::set<tripoint> Character::get_path_avoid() const
     return ret;
 }
 
-const pathfinding_settings &Character::get_pathfinding_settings() const
+auto Character::get_pathfinding_settings() const -> const pathfinding_settings &
 {
     return *path_settings;
 }
 
-float Character::power_rating() const
+auto Character::power_rating() const -> float
 {
     int dmg = std::max( { weapon.damage_melee( DT_BASH ),
                           weapon.damage_melee( DT_CUT ),
@@ -9987,7 +9987,7 @@ float Character::power_rating() const
     return ret;
 }
 
-float Character::speed_rating() const
+auto Character::speed_rating() const -> float
 {
     float ret = get_speed() / 100.0f;
     ret *= 100.0f / run_cost( 100, false );
@@ -9998,7 +9998,7 @@ float Character::speed_rating() const
     return ret;
 }
 
-item &Character::item_with_best_of_quality( const quality_id &qid )
+auto Character::item_with_best_of_quality( const quality_id &qid ) -> item &
 {
     int maxq = max_quality( qid );
     auto items_with_quality = items_with( [qid]( const item & it ) {
@@ -10012,7 +10012,7 @@ item &Character::item_with_best_of_quality( const quality_id &qid )
     return null_item_reference();
 }
 
-int Character::run_cost( int base_cost, bool diag ) const
+auto Character::run_cost( int base_cost, bool diag ) const -> int
 {
     float movecost = static_cast<float>( base_cost );
     if( diag ) {
@@ -10197,7 +10197,7 @@ void Character::place_corpse( const tripoint_abs_omt &om_target )
     bay.add_item_or_charges( fin, body );
 }
 
-bool Character::sees_with_infrared( const Creature &critter ) const
+auto Character::sees_with_infrared( const Creature &critter ) const -> bool
 {
     if( !vision_mode_cache[IR_VISION] || !critter.is_warm() ) {
         return false;
@@ -10214,12 +10214,12 @@ bool Character::sees_with_infrared( const Creature &critter ) const
     return here.sees( pos(), critter.pos(), sight_range( current_daylight_level( calendar::turn ) ) );
 }
 
-bool Character::is_visible_in_range( const Creature &critter, const int range ) const
+auto Character::is_visible_in_range( const Creature &critter, const int range ) const -> bool
 {
     return sees( critter ) && rl_dist( pos(), critter.pos() ) <= range;
 }
 
-std::vector<Creature *> Character::get_visible_creatures( const int range ) const
+auto Character::get_visible_creatures( const int range ) const -> std::vector<Creature *>
 {
     return g->get_creatures_if( [this, range]( const Creature & critter ) -> bool {
         return this != &critter && pos() != critter.pos() && // TODO: get rid of fake npcs (pos() check)
@@ -10227,7 +10227,7 @@ std::vector<Creature *> Character::get_visible_creatures( const int range ) cons
     } );
 }
 
-std::vector<Creature *> Character::get_hostile_creatures( int range ) const
+auto Character::get_hostile_creatures( int range ) const -> std::vector<Creature *>
 {
     return g->get_creatures_if( [this, range]( const Creature & critter ) -> bool {
         // Fixes circular distance range for ranged attacks
@@ -10238,7 +10238,7 @@ std::vector<Creature *> Character::get_hostile_creatures( int range ) const
     } );
 }
 
-bool Character::knows_trap( const tripoint &pos ) const
+auto Character::knows_trap( const tripoint &pos ) const -> bool
 {
     const tripoint p = get_map().getabs( pos );
     return known_traps.count( p ) > 0;
@@ -10255,7 +10255,7 @@ void Character::add_known_trap( const tripoint &pos, const trap &t )
     }
 }
 
-bool Character::can_hear( const tripoint &source, const int volume ) const
+auto Character::can_hear( const tripoint &source, const int volume ) const -> bool
 {
     if( is_deaf() ) {
         return false;
@@ -10270,7 +10270,7 @@ bool Character::can_hear( const tripoint &source, const int volume ) const
     return ( volume - get_weather().weather_id->sound_attn ) * volume_multiplier >= dist;
 }
 
-float Character::hearing_ability() const
+auto Character::hearing_ability() const -> float
 {
     float volume_multiplier = 1.0;
 
@@ -10299,7 +10299,7 @@ float Character::hearing_ability() const
     return volume_multiplier;
 }
 
-std::vector<std::string> Character::short_description_parts() const
+auto Character::short_description_parts() const -> std::vector<std::string>
 {
     std::vector<std::string> result;
 
@@ -10323,12 +10323,12 @@ std::vector<std::string> Character::short_description_parts() const
     return result;
 }
 
-std::string Character::short_description() const
+auto Character::short_description() const -> std::string
 {
     return join( short_description_parts(), ";   " );
 }
 
-int Character::print_info( const catacurses::window &w, int vStart, int, int column ) const
+auto Character::print_info( const catacurses::window &w, int vStart, int, int column ) const -> int
 {
     mvwprintw( w, point( column, vStart++ ), _( "You (%s)" ), name );
     return vStart;
@@ -10345,12 +10345,12 @@ void Character::shift_destination( const point &shift )
     }
 }
 
-bool Character::has_weapon() const
+auto Character::has_weapon() const -> bool
 {
     return !unarmed_attack();
 }
 
-int Character::get_lowest_hp() const
+auto Character::get_lowest_hp() const -> int
 {
     // Set lowest_hp to an arbitrarily large number.
     int lowest_hp = 999;
@@ -10363,7 +10363,7 @@ int Character::get_lowest_hp() const
     return lowest_hp;
 }
 
-Creature::Attitude Character::attitude_to( const Creature &other ) const
+auto Character::attitude_to( const Creature &other ) const -> Creature::Attitude
 {
     const auto m = dynamic_cast<const monster *>( &other );
     if( m != nullptr ) {
@@ -10408,7 +10408,7 @@ Creature::Attitude Character::attitude_to( const Creature &other ) const
     return A_NEUTRAL;
 }
 
-bool Character::sees( const tripoint &t, bool, int ) const
+auto Character::sees( const tripoint &t, bool, int ) const -> bool
 {
     const int wanted_range = rl_dist( pos(), t );
     bool can_see = is_player() ? get_map().pl_sees( t, wanted_range ) :
@@ -10425,7 +10425,7 @@ bool Character::sees( const tripoint &t, bool, int ) const
     return can_see;
 }
 
-bool Character::sees( const Creature &critter ) const
+auto Character::sees( const Creature &critter ) const -> bool
 {
     // This handles only the player/npc specific stuff (monsters don't have traits or bionics).
     const int dist = rl_dist( pos(), critter.pos() );
@@ -10436,7 +10436,7 @@ bool Character::sees( const Creature &critter ) const
     return Creature::sees( critter );
 }
 
-nc_color Character::bodytemp_color( int bp ) const
+auto Character::bodytemp_color( int bp ) const -> nc_color
 {
     nc_color color = c_light_gray; // default
     if( bp == bp_eyes ) {
@@ -10475,23 +10475,23 @@ void Character::clear_destination()
     next_expected_position = cata::nullopt;
 }
 
-bool Character::has_distant_destination() const
+auto Character::has_distant_destination() const -> bool
 {
     return has_destination() && !get_destination_activity().is_null() &&
            get_destination_activity().id() == ACT_TRAVELLING && !omt_path.empty();
 }
 
-bool Character::is_auto_moving() const
+auto Character::is_auto_moving() const -> bool
 {
     return destination_point.has_value();
 }
 
-bool Character::has_destination() const
+auto Character::has_destination() const -> bool
 {
     return !auto_move_route.empty();
 }
 
-bool Character::has_destination_activity() const
+auto Character::has_destination_activity() const -> bool
 {
     return !get_destination_activity().is_null() && destination_point &&
            position == get_map().getlocal( *destination_point );
@@ -10508,12 +10508,12 @@ void Character::start_destination_activity()
     clear_destination();
 }
 
-std::vector<tripoint> &Character::get_auto_move_route()
+auto Character::get_auto_move_route() -> std::vector<tripoint> &
 {
     return auto_move_route;
 }
 
-action_id Character::get_next_auto_move_direction()
+auto Character::get_next_auto_move_direction() -> action_id
 {
     if( !has_destination() ) {
         return ACTION_NULL;
@@ -10541,7 +10541,7 @@ action_id Character::get_next_auto_move_direction()
     return get_movement_action_from_delta( dp, iso_rotate::yes );
 }
 
-bool Character::defer_move( const tripoint &next )
+auto Character::defer_move( const tripoint &next ) -> bool
 {
     // next must be adjacent to current pos
     if( square_dist( next, pos() ) != 1 ) {
@@ -10556,7 +10556,7 @@ bool Character::defer_move( const tripoint &next )
     return true;
 }
 
-const recipe_subset &Character::get_learned_recipes() const
+auto Character::get_learned_recipes() const -> const recipe_subset &
 {
     if( *_skills != *autolearn_skills_stamp ) {
         for( const auto &r : recipe_dict.all_autolearn() ) {
@@ -10570,7 +10570,7 @@ const recipe_subset &Character::get_learned_recipes() const
     return *learned_recipes;
 }
 
-bool Character::knows_recipe( const recipe *rec ) const
+auto Character::knows_recipe( const recipe *rec ) const -> bool
 {
     return get_learned_recipes().contains( *rec );
 }
@@ -10583,7 +10583,7 @@ void Character::learn_recipe( const recipe *const rec )
     learned_recipes->include( rec );
 }
 
-bool Character::can_learn_by_disassembly( const recipe &rec ) const
+auto Character::can_learn_by_disassembly( const recipe &rec ) const -> bool
 {
     return !rec.learn_by_disassembly.empty() &&
            meets_skill_requirements( rec.learn_by_disassembly );

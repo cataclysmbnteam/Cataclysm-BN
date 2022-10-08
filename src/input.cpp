@@ -47,12 +47,12 @@ struct ContainsPredicate {
     ContainsPredicate( const T1 &container ) : container( container ) { }
 
     // Operator overload required to leverage std functional interface.
-    bool operator()( T2 c ) {
+    auto operator()( T2 c ) -> bool {
         return std::find( container.begin(), container.end(), c ) != container.end();
     }
 };
 
-static int str_to_int( const std::string &number )
+static auto str_to_int( const std::string &number ) -> int
 {
     // ensure user's locale doesn't interfere with number format
     std::istringstream buffer( number );
@@ -62,7 +62,7 @@ static int str_to_int( const std::string &number )
     return result;
 }
 
-static std::string int_to_str( int number )
+static auto int_to_str( int number ) -> std::string
 {
     // ensure user's locale doesn't interfere with number format
     std::ostringstream buffer;
@@ -71,7 +71,7 @@ static std::string int_to_str( int number )
     return buffer.str();
 }
 
-bool is_mouse_enabled()
+auto is_mouse_enabled() -> bool
 {
 #if defined(_WIN32) && !defined(TILES)
     return false;
@@ -81,7 +81,7 @@ bool is_mouse_enabled()
 }
 
 //helper function for those have problem inputting certain characters.
-std::string get_input_string_from_file( const std::string &fname )
+auto get_input_string_from_file( const std::string &fname ) -> std::string
 {
     std::string ret;
     read_from_file_optional( fname, [&ret]( std::istream & fin ) {
@@ -97,7 +97,7 @@ std::string get_input_string_from_file( const std::string &fname )
     return ret;
 }
 
-int input_event::get_first_input() const
+auto input_event::get_first_input() const -> int
 {
     if( sequence.empty() ) {
         return UNKNOWN_UNICODE;
@@ -399,7 +399,7 @@ void input_manager::init_keycode_mapping()
     keyname_to_keycode["MOUSE_MOVE"] = MOUSE_MOVE;
 }
 
-int input_manager::get_keycode( const std::string &name ) const
+auto input_manager::get_keycode( const std::string &name ) const -> int
 {
     const t_name_to_key_map::const_iterator a = keyname_to_keycode.find( name );
     if( a != keyname_to_keycode.end() ) {
@@ -412,7 +412,7 @@ int input_manager::get_keycode( const std::string &name ) const
     return 0;
 }
 
-std::string input_manager::get_keyname( int ch, input_event_t inp_type, bool portable ) const
+auto input_manager::get_keyname( int ch, input_event_t inp_type, bool portable ) const -> std::string
 {
     cata::optional<std::string> raw;
     if( inp_type == CATA_INPUT_KEYBOARD ) {
@@ -461,25 +461,25 @@ std::string input_manager::get_keyname( int ch, input_event_t inp_type, bool por
     return portable ? *raw : pgettext( "key name", raw->c_str() );
 }
 
-const std::vector<input_event> &input_manager::get_input_for_action( const std::string
-        &action_descriptor, const std::string &context, bool *overwrites_default )
+auto input_manager::get_input_for_action( const std::string
+        &action_descriptor, const std::string &context, bool *overwrites_default ) -> const std::vector<input_event> &
 {
     const action_attributes &attributes = get_action_attributes( action_descriptor, context,
                                           overwrites_default );
     return attributes.input_events;
 }
 
-int input_manager::get_first_char_for_action( const std::string &action_descriptor,
-        const std::string &context )
+auto input_manager::get_first_char_for_action( const std::string &action_descriptor,
+        const std::string &context ) -> int
 {
     std::vector<input_event> input_events = get_input_for_action( action_descriptor, context );
     return input_events.empty() ? 0 : input_events[0].get_first_input();
 }
 
-const action_attributes &input_manager::get_action_attributes(
+auto input_manager::get_action_attributes(
     const std::string &action_id,
     const std::string &context,
-    bool *overwrites_default )
+    bool *overwrites_default ) -> const action_attributes &
 {
 
     if( context != default_context_id ) {
@@ -513,7 +513,7 @@ const action_attributes &input_manager::get_action_attributes(
     return default_action_context[action_id];
 }
 
-translation input_manager::get_default_action_name( const std::string &action_id ) const
+auto input_manager::get_default_action_name( const std::string &action_id ) const -> translation
 {
     const t_action_contexts::const_iterator default_action_context = action_contexts.find(
                 default_context_id );
@@ -529,8 +529,8 @@ translation input_manager::get_default_action_name( const std::string &action_id
     }
 }
 
-input_manager::t_input_event_list &input_manager::get_or_create_event_list(
-    const std::string &action_descriptor, const std::string &context )
+auto input_manager::get_or_create_event_list(
+    const std::string &action_descriptor, const std::string &context ) -> input_manager::t_input_event_list &
 {
     // A new context is created in the event that the user creates a local
     // keymapping in a context that doesn't yet exist e.g. a context without
@@ -586,14 +586,14 @@ void input_manager::add_input_for_action(
     events.push_back( event );
 }
 
-bool input_context::action_uses_input( const std::string &action_id,
-                                       const input_event &event ) const
+auto input_context::action_uses_input( const std::string &action_id,
+                                       const input_event &event ) const -> bool
 {
     const auto &events = inp_mngr.get_action_attributes( action_id, category ).input_events;
     return std::find( events.begin(), events.end(), event ) != events.end();
 }
 
-std::string input_context::get_conflicts( const input_event &event ) const
+auto input_context::get_conflicts( const input_event &event ) const -> std::string
 {
     return enumerate_as_string( registered_actions.begin(), registered_actions.end(),
     [ this, &event ]( const std::string & action ) {
@@ -631,7 +631,7 @@ const std::string HELP_KEYBINDINGS = "HELP_KEYBINDINGS";
 const std::string COORDINATE = "COORDINATE";
 const std::string TIMEOUT = "TIMEOUT";
 
-const std::string &input_context::input_to_action( const input_event &inp ) const
+auto input_context::input_to_action( const input_event &inp ) const -> const std::string &
 {
     for( auto &elem : registered_actions ) {
         const std::string &action = elem;
@@ -692,8 +692,8 @@ void input_context::register_action( const std::string &action_descriptor, const
     }
 }
 
-std::vector<char> input_context::keys_bound_to( const std::string &action_descriptor,
-        const bool restrict_to_printable ) const
+auto input_context::keys_bound_to( const std::string &action_descriptor,
+        const bool restrict_to_printable ) const -> std::vector<char>
 {
     std::vector<char> result;
     const std::vector<input_event> &events = inp_mngr.get_input_for_action( action_descriptor,
@@ -711,14 +711,14 @@ std::vector<char> input_context::keys_bound_to( const std::string &action_descri
     return result;
 }
 
-std::string input_context::key_bound_to( const std::string &action_descriptor, const size_t index,
-        const bool restrict_to_printable ) const
+auto input_context::key_bound_to( const std::string &action_descriptor, const size_t index,
+        const bool restrict_to_printable ) const -> std::string
 {
     const auto bound_keys = keys_bound_to( action_descriptor, restrict_to_printable );
     return bound_keys.size() > index ? std::string( 1, bound_keys[index] ) : "";
 }
 
-std::string input_context::get_available_single_char_hotkeys( std::string requested_keys )
+auto input_context::get_available_single_char_hotkeys( std::string requested_keys ) -> std::string
 {
     for( std::vector<std::string>::const_iterator registered_action = registered_actions.begin();
          registered_action != registered_actions.end();
@@ -753,9 +753,9 @@ const input_context::input_event_filter input_context::allow_all_keys =
     return true;
 };
 
-std::string input_context::get_desc( const std::string &action_descriptor,
+auto input_context::get_desc( const std::string &action_descriptor,
                                      const unsigned int max_limit,
-                                     const input_context::input_event_filter &evt_filter ) const
+                                     const input_context::input_event_filter &evt_filter ) const -> std::string
 {
     if( action_descriptor == "ANY_INPUT" ) {
         return "(*)"; // * for wildcard
@@ -805,9 +805,9 @@ std::string input_context::get_desc( const std::string &action_descriptor,
     return rval;
 }
 
-std::string input_context::get_desc( const std::string &action_descriptor,
+auto input_context::get_desc( const std::string &action_descriptor,
                                      const std::string &text,
-                                     const input_context::input_event_filter &evt_filter ) const
+                                     const input_context::input_event_filter &evt_filter ) const -> std::string
 {
     if( action_descriptor == "ANY_INPUT" ) {
         // \u00A0 is the non-breaking space
@@ -845,18 +845,18 @@ std::string input_context::get_desc( const std::string &action_descriptor,
     }
 }
 
-std::string input_context::describe_key_and_name( const std::string &action_descriptor,
-        const input_context::input_event_filter &evt_filter ) const
+auto input_context::describe_key_and_name( const std::string &action_descriptor,
+        const input_context::input_event_filter &evt_filter ) const -> std::string
 {
     return get_desc( action_descriptor, get_action_name( action_descriptor ), evt_filter );
 }
 
-const std::string &input_context::handle_input()
+auto input_context::handle_input() -> const std::string &
 {
     return handle_input( timeout );
 }
 
-const std::string &input_context::handle_input( const int timeout )
+auto input_context::handle_input( const int timeout ) -> const std::string &
 {
     const auto old_timeout = inp_mngr.get_timeout();
     if( timeout >= 0 ) {
@@ -958,7 +958,7 @@ void rotate_direction_cw( int &dx, int &dy )
     dy = dir_num / 3 - 1;
 }
 
-cata::optional<tripoint> input_context::get_direction( const std::string &action ) const
+auto input_context::get_direction( const std::string &action ) const -> cata::optional<tripoint>
 {
     static const auto noop = static_cast<tripoint( * )( tripoint )>( []( tripoint p ) {
         return p;
@@ -996,7 +996,7 @@ cata::optional<tripoint> input_context::get_direction( const std::string &action
 const std::string display_help_hotkeys =
     "abcdefghijkpqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:;'\",/<>?!@#$%^&*()_[]\\{}|`~";
 
-action_id input_context::display_menu( const bool permit_execute_action )
+auto input_context::display_menu( const bool permit_execute_action ) -> action_id
 {
     action_id action_to_execute = ACTION_NULL;
 
@@ -1296,12 +1296,12 @@ action_id input_context::display_menu( const bool permit_execute_action )
     return action_to_execute;
 }
 
-input_event input_context::get_raw_input()
+auto input_context::get_raw_input() -> input_event
 {
     return next_action;
 }
 
-int input_manager::get_previously_pressed_key() const
+auto input_manager::get_previously_pressed_key() const -> int
 {
     return previously_pressed_key;
 }
@@ -1330,12 +1330,12 @@ void input_manager::wait_for_any_key()
 
 #if !(defined(TILES) || defined(_WIN32))
 // Also specify that we don't have a gamepad plugged in.
-bool gamepad_available()
+auto gamepad_available() -> bool
 {
     return false;
 }
 
-cata::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win )
+auto input_context::get_coordinates( const catacurses::window &capture_win ) -> cata::optional<tripoint>
 {
     if( !coordinate_input_received ) {
         return cata::nullopt;
@@ -1358,7 +1358,7 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
 }
 #endif
 
-std::string input_context::get_action_name( const std::string &action_id ) const
+auto input_context::get_action_name( const std::string &action_id ) const -> std::string
 {
     // 1) Check action name overrides specific to this input_context
     const auto action_name_override =
@@ -1387,20 +1387,20 @@ std::string input_context::get_action_name( const std::string &action_id ) const
 }
 
 // (Press X (or Y)|Try) to Z
-std::string input_context::press_x( const std::string &action_id ) const
+auto input_context::press_x( const std::string &action_id ) const -> std::string
 {
     return press_x( action_id, _( "Press " ), "", _( "Try" ) );
 }
 
-std::string input_context::press_x( const std::string &action_id, const std::string &key_bound,
-                                    const std::string &key_unbound ) const
+auto input_context::press_x( const std::string &action_id, const std::string &key_bound,
+                                    const std::string &key_unbound ) const -> std::string
 {
     return press_x( action_id, key_bound, "", key_unbound );
 }
 
 // TODO: merge this with input_context::get_desc
-std::string input_context::press_x( const std::string &action_id, const std::string &key_bound_pre,
-                                    const std::string &key_bound_suf, const std::string &key_unbound ) const
+auto input_context::press_x( const std::string &action_id, const std::string &key_bound_pre,
+                                    const std::string &key_bound_suf, const std::string &key_unbound ) const -> std::string
 {
     if( action_id == "ANY_INPUT" ) {
         return _( "any key" );
@@ -1431,8 +1431,8 @@ void input_context::set_iso( bool mode )
     iso_mode = mode;
 }
 
-std::vector<std::string> input_context::filter_strings_by_phrase(
-    const std::vector<std::string> &strings, const std::string &phrase ) const
+auto input_context::filter_strings_by_phrase(
+    const std::vector<std::string> &strings, const std::string &phrase ) const -> std::vector<std::string>
 {
     std::vector<std::string> filtered_strings;
 
@@ -1450,7 +1450,7 @@ void input_context::set_edittext( const std::string &s )
     edittext = s;
 }
 
-std::string input_context::get_edittext()
+auto input_context::get_edittext() -> std::string
 {
     return edittext;
 }

@@ -107,14 +107,14 @@ class base_settings
 
     public:
         virtual ~base_settings() = default;
-        rule_state check_item( const std::string &sItemName ) const;
+        auto check_item( const std::string &sItemName ) const -> rule_state;
 };
 
 class player_settings : public base_settings
 {
     private:
         void load( bool bCharacter );
-        bool save( bool bCharacter );
+        auto save( bool bCharacter ) -> bool;
 
         rule_list global_rules;
         rule_list character_rules;
@@ -124,19 +124,19 @@ class player_settings : public base_settings
     public:
         ~player_settings() override = default;
         void create_rule( const item *it );
-        bool has_rule( const item *it );
+        auto has_rule( const item *it ) -> bool;
         void add_rule( const item *it );
         void remove_rule( const item *it );
 
         void clear_character_rules();
 
         void show();
-        bool save_character();
-        bool save_global();
+        auto save_character() -> bool;
+        auto save_global() -> bool;
         void load_character();
         void load_global();
 
-        bool empty() const;
+        auto empty() const -> bool;
 };
 
 class npc_settings : public base_settings
@@ -155,11 +155,11 @@ class npc_settings : public base_settings
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );
 
-        bool empty() const;
+        auto empty() const -> bool;
 };
 
 } // namespace auto_pickup
 
-auto_pickup::player_settings &get_auto_pickup();
+auto get_auto_pickup() -> auto_pickup::player_settings &;
 
 #endif // CATA_SRC_AUTO_PICKUP_H

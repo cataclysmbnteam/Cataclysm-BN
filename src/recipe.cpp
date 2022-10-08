@@ -40,12 +40,12 @@ static const itype_id itype_hotplate( "hotplate" );
 
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 
-time_duration recipe::batch_duration( int batch, float multiplier, size_t assistants ) const
+auto recipe::batch_duration( int batch, float multiplier, size_t assistants ) const -> time_duration
 {
     return time_duration::from_turns( batch_time( batch, multiplier, assistants ) / 100 );
 }
 
-int recipe::batch_time( int batch, float multiplier, size_t assistants ) const
+auto recipe::batch_time( int batch, float multiplier, size_t assistants ) const -> int
 {
     // 1.0f is full speed
     // 0.33f is 1/3 speed
@@ -89,7 +89,7 @@ int recipe::batch_time( int batch, float multiplier, size_t assistants ) const
     return static_cast<int>( total_time );
 }
 
-bool recipe::has_flag( const std::string &flag_name ) const
+auto recipe::has_flag( const std::string &flag_name ) const -> bool
 {
     return flags.count( flag_name );
 }
@@ -384,7 +384,7 @@ void recipe::add_requirements( const std::vector<std::pair<requirement_id, int>>
     } );
 }
 
-std::string recipe::get_consistency_error() const
+auto recipe::get_consistency_error() const -> std::string
 {
     if( category == "CC_BUILDING" ) {
         if( is_blueprint() || oter_str_id( result_.c_str() ).is_valid() ) {
@@ -450,7 +450,7 @@ std::string recipe::get_consistency_error() const
     return std::string();
 }
 
-item recipe::create_result() const
+auto recipe::create_result() const -> item
 {
     item newit( result_, calendar::turn, item::default_charges_tag{} );
     if( charges ) {
@@ -477,7 +477,7 @@ item recipe::create_result() const
     return newit;
 }
 
-std::vector<item> recipe::create_results( int batch ) const
+auto recipe::create_results( int batch ) const -> std::vector<item>
 {
     std::vector<item> items;
 
@@ -498,7 +498,7 @@ std::vector<item> recipe::create_results( int batch ) const
     return items;
 }
 
-std::vector<item> recipe::create_byproducts( int batch ) const
+auto recipe::create_byproducts( int batch ) const -> std::vector<item>
 {
     std::vector<item> bps;
     for( const auto &e : byproducts ) {
@@ -523,7 +523,7 @@ std::vector<item> recipe::create_byproducts( int batch ) const
     return bps;
 }
 
-bool recipe::has_byproducts() const
+auto recipe::has_byproducts() const -> bool
 {
     return !byproducts.empty();
 }
@@ -532,8 +532,8 @@ bool recipe::has_byproducts() const
 // skill colored green (or yellow if beyond characters skill)
 // optionally with the skill level (player / difficulty)
 template<typename Iter>
-std::string required_skills_as_string( Iter first, Iter last, const Character *c,
-                                       const bool print_skill_level )
+auto required_skills_as_string( Iter first, Iter last, const Character *c,
+                                       const bool print_skill_level ) -> std::string
 {
     if( first == last ) {
         return _( "<color_cyan>none</color>" );
@@ -553,7 +553,7 @@ std::string required_skills_as_string( Iter first, Iter last, const Character *c
 // Format a std::pair<skill_id, int> for the basecamp bulletin board.
 // skill colored white with difficulty in parenthesis.
 template<typename Iter>
-std::string required_skills_as_string( Iter first, Iter last )
+auto required_skills_as_string( Iter first, Iter last ) -> std::string
 {
     if( first == last ) {
         return _( "<color_cyan>none</color>" );
@@ -566,7 +566,7 @@ std::string required_skills_as_string( Iter first, Iter last )
     } );
 }
 
-std::string recipe::primary_skill_string( const Character *c, bool print_skill_level ) const
+auto recipe::primary_skill_string( const Character *c, bool print_skill_level ) const -> std::string
 {
     std::vector< std::pair<skill_id, int> > skillList;
 
@@ -577,8 +577,8 @@ std::string recipe::primary_skill_string( const Character *c, bool print_skill_l
     return required_skills_as_string( skillList.begin(), skillList.end(), c, print_skill_level );
 }
 
-std::string recipe::required_skills_string( const Character *c, bool include_primary_skill,
-        bool print_skill_level ) const
+auto recipe::required_skills_string( const Character *c, bool include_primary_skill,
+        bool print_skill_level ) const -> std::string
 {
     std::vector<std::pair<skill_id, int>> skillList = sorted_lex( required_skills );
 
@@ -589,7 +589,7 @@ std::string recipe::required_skills_string( const Character *c, bool include_pri
     return required_skills_as_string( skillList.begin(), skillList.end(), c, print_skill_level );
 }
 
-std::string recipe::required_all_skills_string() const
+auto recipe::required_all_skills_string() const -> std::string
 {
     std::vector<std::pair<skill_id, int>> skillList = sorted_lex( required_skills );
     // There is primary skill used, add it to the front
@@ -599,14 +599,14 @@ std::string recipe::required_all_skills_string() const
     return required_skills_as_string( skillList.begin(), skillList.end() );
 }
 
-std::string recipe::batch_savings_string() const
+auto recipe::batch_savings_string() const -> std::string
 {
     return ( batch_rsize != 0 ) ?
            string_format( _( "%s%% at >%s units" ), static_cast<int>( batch_rscale * 100 ), batch_rsize )
            : _( "none" );
 }
 
-std::string recipe::result_name() const
+auto recipe::result_name() const -> std::string
 {
     std::string name = item::nname( result_ );
     if( uistate.favorite_recipes.find( this->ident() ) != uistate.favorite_recipes.end() ) {
@@ -616,7 +616,7 @@ std::string recipe::result_name() const
     return name;
 }
 
-bool recipe::will_be_blacklisted() const
+auto recipe::will_be_blacklisted() const -> bool
 {
     if( requirements_.is_blacklisted() ) {
         return true;
@@ -633,8 +633,8 @@ bool recipe::will_be_blacklisted() const
     return any_is_blacklisted( reqs_internal ) || any_is_blacklisted( reqs_external );
 }
 
-std::function<bool( const item & )> recipe::get_component_filter(
-    const recipe_filter_flags flags ) const
+auto recipe::get_component_filter(
+    const recipe_filter_flags flags ) const -> std::function<bool( const item & )>
 {
     const item result = create_result();
 
@@ -677,45 +677,45 @@ std::function<bool( const item & )> recipe::get_component_filter(
     };
 }
 
-bool recipe::is_blueprint() const
+auto recipe::is_blueprint() const -> bool
 {
     return !blueprint.empty();
 }
 
-const std::string &recipe::get_blueprint() const
+auto recipe::get_blueprint() const -> const std::string &
 {
     return blueprint;
 }
 
-const translation &recipe::blueprint_name() const
+auto recipe::blueprint_name() const -> const translation &
 {
     return bp_name;
 }
 
-const std::vector<itype_id> &recipe::blueprint_resources() const
+auto recipe::blueprint_resources() const -> const std::vector<itype_id> &
 {
     return bp_resources;
 }
 
-const std::vector<std::pair<std::string, int>> &recipe::blueprint_provides() const
+auto recipe::blueprint_provides() const -> const std::vector<std::pair<std::string, int>> &
 {
     return bp_provides;
 }
 
-const std::vector<std::pair<std::string, int>>  &recipe::blueprint_requires() const
+auto recipe::blueprint_requires() const -> const std::vector<std::pair<std::string, int>>  &
 {
     return bp_requires;
 }
 
-const std::vector<std::pair<std::string, int>>  &recipe::blueprint_excludes() const
+auto recipe::blueprint_excludes() const -> const std::vector<std::pair<std::string, int>>  &
 {
     return bp_excludes;
 }
 
-static std::string dump_requirements(
+static auto dump_requirements(
     const requirement_data &reqs,
     int move_cost,
-    const std::map<skill_id, int> &skills )
+    const std::map<skill_id, int> &skills ) -> std::string
 {
     std::ostringstream os;
     JsonOut jsout( os, /*pretty_print=*/true );
@@ -801,7 +801,7 @@ void recipe::check_blueprint_requirements()
     }
 }
 
-bool recipe::hot_result() const
+auto recipe::hot_result() const -> bool
 {
     // Check if the recipe tools make this food item hot upon making it.
     // We don't actually know which specific tool the player used/will use here, but
@@ -828,7 +828,7 @@ bool recipe::hot_result() const
     return false;
 }
 
-int recipe::makes_amount() const
+auto recipe::makes_amount() const -> int
 {
     int makes;
     if( charges.has_value() ) {
@@ -840,7 +840,7 @@ int recipe::makes_amount() const
     return makes ? makes * result_mult : 1 ;
 }
 
-int recipe::disassembly_batch_size() const
+auto recipe::disassembly_batch_size() const -> int
 {
     if( !result_->count_by_charges() ) {
         return 1;

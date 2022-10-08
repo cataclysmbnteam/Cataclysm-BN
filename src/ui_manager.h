@@ -30,8 +30,8 @@ class ui_adaptor
         ui_adaptor( ui_adaptor &&rhs ) = delete;
         ~ui_adaptor();
 
-        ui_adaptor &operator=( const ui_adaptor &rhs ) = delete;
-        ui_adaptor &operator=( ui_adaptor &&rhs ) = delete;
+        auto operator=( const ui_adaptor &rhs ) -> ui_adaptor & = delete;
+        auto operator=( ui_adaptor &&rhs ) -> ui_adaptor & = delete;
 
         // If win is null, the function has the same effect as position( point_zero, point_zero )
         void position_from_window( const catacurses::window &win );

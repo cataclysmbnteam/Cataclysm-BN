@@ -42,7 +42,7 @@ void nc_color::deserialize( JsonIn &jsin )
     }
 }
 
-color_manager &get_all_colors()
+auto get_all_colors() -> color_manager &
 {
     static color_manager single_instance;
     return single_instance;
@@ -99,8 +99,8 @@ void color_manager::finalize()
     }
 }
 
-nc_color color_manager::name_to_color( const std::string &name,
-                                       const report_color_error color_error ) const
+auto color_manager::name_to_color( const std::string &name,
+                                       const report_color_error color_error ) const -> nc_color
 {
     const color_id id = name_to_id( name, color_error );
     const color_struct &entry = color_array[id];
@@ -108,8 +108,8 @@ nc_color color_manager::name_to_color( const std::string &name,
     return entry.custom > 0 ? entry.custom : entry.color;
 }
 
-color_id color_manager::name_to_id( const std::string &name,
-                                    const report_color_error color_error ) const
+auto color_manager::name_to_id( const std::string &name,
+                                    const report_color_error color_error ) const -> color_id
 {
     auto iter = name_map.find( name );
     if( iter == name_map.end() ) {
@@ -122,12 +122,12 @@ color_id color_manager::name_to_id( const std::string &name,
     return iter->second;
 }
 
-std::string color_manager::id_to_name( const color_id id ) const
+auto color_manager::id_to_name( const color_id id ) const -> std::string
 {
     return color_array[id].name;
 }
 
-color_id color_manager::color_to_id( const nc_color &color ) const
+auto color_manager::color_to_id( const nc_color &color ) const -> color_id
 {
     auto iter = inverted_map.find( color );
     if( iter != inverted_map.end() ) {
@@ -146,7 +146,7 @@ color_id color_manager::color_to_id( const nc_color &color ) const
     return def_c_unset;
 }
 
-nc_color color_manager::get( const color_id id ) const
+auto color_manager::get( const color_id id ) const -> nc_color
 {
     if( id >= num_colors ) {
         debugmsg( "Invalid color index: %d. Color array size: %zd", id, color_array.size() );
@@ -158,13 +158,13 @@ nc_color color_manager::get( const color_id id ) const
     return entry.custom > 0 ? entry.custom : entry.color;
 }
 
-std::string color_manager::get_name( const nc_color &color ) const
+auto color_manager::get_name( const nc_color &color ) const -> std::string
 {
     color_id id = color_to_id( color );
     return id_to_name( id );
 }
 
-nc_color color_manager::get_invert( const nc_color &color ) const
+auto color_manager::get_invert( const nc_color &color ) const -> nc_color
 {
     const color_id id = color_to_id( color );
     auto &entry = color_array[id];
@@ -172,7 +172,7 @@ nc_color color_manager::get_invert( const nc_color &color ) const
     return entry.invert_custom > 0 ? entry.invert_custom : entry.invert;
 }
 
-nc_color color_manager::get_random() const
+auto color_manager::get_random() const -> nc_color
 {
     return random_entry( color_array ).color;
 }
@@ -186,7 +186,7 @@ void color_manager::add_color( const color_id col, const std::string &name,
     name_map[name] = col;
 }
 
-nc_color color_manager::get_highlight( const nc_color &color, const hl_enum bg ) const
+auto color_manager::get_highlight( const nc_color &color, const hl_enum bg ) const -> nc_color
 {
     const color_id id = color_to_id( color );
     const color_struct &st = color_array[id];
@@ -194,8 +194,8 @@ nc_color color_manager::get_highlight( const nc_color &color, const hl_enum bg )
     return hl[bg];
 }
 
-nc_color color_manager::highlight_from_names( const std::string &name,
-        const std::string &bg_name ) const
+auto color_manager::highlight_from_names( const std::string &name,
+        const std::string &bg_name ) const -> nc_color
 {
     /*
     //             Base Name      Highlight      Red BG              White BG            Green BG            Yellow BG
@@ -500,49 +500,49 @@ void init_colors()
     };
 }
 
-nc_color invert_color( const nc_color &c )
+auto invert_color( const nc_color &c ) -> nc_color
 {
     const nc_color color = all_colors.get_invert( c );
     return static_cast<int>( color ) > 0 ? color : c_pink;
 }
 
-nc_color hilite( const nc_color &c )
+auto hilite( const nc_color &c ) -> nc_color
 {
     const nc_color color = all_colors.get_highlight( c, HL_BLUE );
     return static_cast<int>( color ) > 0 ? color : h_white;
 }
 
-nc_color red_background( const nc_color &c )
+auto red_background( const nc_color &c ) -> nc_color
 {
     const nc_color color = all_colors.get_highlight( c, HL_RED );
     return static_cast<int>( color ) > 0 ? color : c_white_red;
 }
 
-nc_color white_background( const nc_color &c )
+auto white_background( const nc_color &c ) -> nc_color
 {
     const nc_color color = all_colors.get_highlight( c, HL_WHITE );
     return static_cast<int>( color ) > 0 ? color : c_black_white;
 }
 
-nc_color green_background( const nc_color &c )
+auto green_background( const nc_color &c ) -> nc_color
 {
     const nc_color color = all_colors.get_highlight( c, HL_GREEN );
     return static_cast<int>( color ) > 0 ? color : c_black_green;
 }
 
-nc_color yellow_background( const nc_color &c )
+auto yellow_background( const nc_color &c ) -> nc_color
 {
     const nc_color color = all_colors.get_highlight( c, HL_YELLOW );
     return static_cast<int>( color ) > 0 ? color : c_black_yellow;
 }
 
-nc_color magenta_background( const nc_color &c )
+auto magenta_background( const nc_color &c ) -> nc_color
 {
     const nc_color color = all_colors.get_highlight( c, HL_MAGENTA );
     return static_cast<int>( color ) > 0 ? color : c_black_magenta;
 }
 
-nc_color cyan_background( const nc_color &c )
+auto cyan_background( const nc_color &c ) -> nc_color
 {
     const nc_color color = all_colors.get_highlight( c, HL_CYAN );
     return static_cast<int>( color ) > 0 ? color : c_black_cyan;
@@ -559,8 +559,8 @@ nc_color cyan_background( const nc_color &c )
  * @param color The color to get, as a std::string.
  * @return The nc_color constant that matches the input.
  */
-nc_color color_from_string( const std::string &color,
-                            const report_color_error color_error )
+auto color_from_string( const std::string &color,
+                            const report_color_error color_error ) -> nc_color
 {
     if( color.empty() ) {
         return c_unset;
@@ -594,7 +594,7 @@ nc_color color_from_string( const std::string &color,
 /**
  * The reverse of color_from_string.
  */
-std::string string_from_color( const nc_color &color )
+auto string_from_color( const nc_color &color ) -> std::string
 {
     std::string sColor = all_colors.get_name( color );
 
@@ -612,7 +612,7 @@ std::string string_from_color( const nc_color &color )
  * @param color The color to get, as a std::string.
  * @return The nc_color constant that matches the input.
  */
-nc_color bgcolor_from_string( const std::string &color )
+auto bgcolor_from_string( const std::string &color ) -> nc_color
 {
 
     std::string new_color = "i_" + color;
@@ -636,8 +636,8 @@ nc_color bgcolor_from_string( const std::string &color )
     return i_white;
 }
 
-color_tag_parse_result get_color_from_tag( const std::string &s,
-        const report_color_error color_error )
+auto get_color_from_tag( const std::string &s,
+        const report_color_error color_error ) -> color_tag_parse_result
 {
     if( s.empty() || s[0] != '<' ) {
         return { color_tag_parse_result::non_color_tag, {} };
@@ -661,22 +661,22 @@ color_tag_parse_result get_color_from_tag( const std::string &s,
     }
 }
 
-std::string get_tag_from_color( const nc_color &color )
+auto get_tag_from_color( const nc_color &color ) -> std::string
 {
     return "<color_" + string_from_color( color ) + ">";
 }
 
-std::string colorize( const std::string &text, const nc_color &color )
+auto colorize( const std::string &text, const nc_color &color ) -> std::string
 {
     return get_tag_from_color( color ) + text + "</color>";
 }
 
-std::string colorize( const translation &text, const nc_color &color )
+auto colorize( const translation &text, const nc_color &color ) -> std::string
 {
     return colorize( text.translated(), color );
 }
 
-std::string get_note_string_from_color( const nc_color &color )
+auto get_note_string_from_color( const nc_color &color ) -> std::string
 {
     for( auto i : color_by_string_map ) {
         if( i.second.color == color ) {
@@ -687,7 +687,7 @@ std::string get_note_string_from_color( const nc_color &color )
     return "Y";
 }
 
-nc_color get_note_color( const std::string &note_id )
+auto get_note_color( const std::string &note_id ) -> nc_color
 {
     const auto candidate_color = color_by_string_map.find( note_id );
     if( candidate_color != std::end( color_by_string_map ) ) {
@@ -697,7 +697,7 @@ nc_color get_note_color( const std::string &note_id )
     return c_yellow;
 }
 
-std::list<std::pair<std::string, std::string>> get_note_color_names()
+auto get_note_color_names() -> std::list<std::pair<std::string, std::string>>
 {
     std::list<std::pair<std::string, std::string>> color_list;
     for( const auto &color_pair : color_by_string_map ) {
@@ -1025,7 +1025,7 @@ void color_manager::show_gui()
     }
 }
 
-bool color_manager::save_custom()
+auto color_manager::save_custom() -> bool
 {
     const auto savefile = PATH_INFO::custom_colors();
 

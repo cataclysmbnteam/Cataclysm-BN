@@ -68,7 +68,7 @@ void foreach_effect( Creature &c,
     }
 }
 
-cata::optional<bodypart_str_id> query_body_part( Creature &c )
+auto query_body_part( Creature &c ) -> cata::optional<bodypart_str_id>
 {
     wisheffect_state &last_val = uistate.debug_menu.effect;
     const std::vector<bodypart_id> &all_bps = c.get_all_body_parts();
@@ -85,7 +85,7 @@ cata::optional<bodypart_str_id> query_body_part( Creature &c )
     }
     return last_val.bodypart;
 }
-cata::optional<int> query_intensity()
+auto query_intensity() -> cata::optional<int>
 {
     wisheffect_state &last_val = uistate.debug_menu.effect;
     try {
@@ -98,7 +98,7 @@ cata::optional<int> query_intensity()
     }
     return last_val.intensity;
 }
-cata::optional<time_duration> try_read_time_string( const std::string &ts )
+auto try_read_time_string( const std::string &ts ) -> cata::optional<time_duration>
 {
     // Ugly hack, but does the job (it's debug anyway)
     // Have to wrap it in quotes because we're reading a raw string
@@ -117,7 +117,7 @@ cata::optional<time_duration> try_read_time_string( const std::string &ts )
         return cata::nullopt;
     }
 }
-cata::optional<time_duration> query_duration()
+auto query_duration() -> cata::optional<time_duration>
 {
     wisheffect_state &last_val = uistate.debug_menu.effect;
     string_input_popup popup;
@@ -134,7 +134,7 @@ cata::optional<time_duration> query_duration()
         return cata::nullopt;
     }
 }
-bool toggle_effect_force()
+auto toggle_effect_force() -> bool
 {
     uistate.debug_menu.effect.force = !uistate.debug_menu.effect.force;
     return uistate.debug_menu.effect.force;
@@ -162,12 +162,12 @@ class effect_select_callback : public uilist_callback
             : c( c )
         {}
 
-        static const std::map<std::string, effect_select_fun> &get_handled_actions() {
+        static auto get_handled_actions() -> const std::map<std::string, effect_select_fun> & {
             return handled_actions;
         }
 
-        bool key( const input_context &ctx, const input_event &key, int entnum,
-                  uilist *parent_menu ) override {
+        auto key( const input_context &ctx, const input_event &key, int entnum,
+                  uilist *parent_menu ) -> bool override {
             const std::string &action = ctx.input_to_action( key );
             auto iter = handled_actions.find( action );
             if( iter != handled_actions.end() ) {
@@ -280,13 +280,13 @@ class effect_edit_callback : public uilist_callback
             , on_creature_changed( on_creature_changed )
         {}
 
-        static std::map<std::string, effect_edit_fun> get_handled_actions() {
+        static auto get_handled_actions() -> std::map<std::string, effect_edit_fun> {
             return handled_actions;
         }
 
 
-        bool key( const input_context &ctx, const input_event &key, int entnum,
-                  uilist *parent_menu ) override {
+        auto key( const input_context &ctx, const input_event &key, int entnum,
+                  uilist *parent_menu ) -> bool override {
             const std::string &action = ctx.input_to_action( key );
             auto iter = handled_actions.find( action );
             if( iter != handled_actions.end() ) {

@@ -26,7 +26,7 @@ namespace active_tiles
 {
 
 template<typename T>
-T *furn_at( const tripoint_abs_ms &p )
+auto furn_at( const tripoint_abs_ms &p ) -> T *
 {
     tripoint_abs_sm p_abs_sm;
     point_sm_ms p_within_sm;
@@ -87,11 +87,11 @@ class null_tile_data : public active_tile_data
 {
         void update_internal( time_point, const tripoint_abs_ms &, distribution_grid & ) override
         {}
-        active_tile_data *clone() const override {
+        auto clone() const -> active_tile_data * override {
             return new null_tile_data( *this );
         }
 
-        const std::string &get_type() const override {
+        auto get_type() const -> const std::string & override {
             static const std::string type( "null" );
             return type;
         }
@@ -103,8 +103,8 @@ class null_tile_data : public active_tile_data
 
 // Copypasted from character.cpp
 // TODO: Move somewhere (calendar?)
-inline int ticks_between( const time_point &from, const time_point &to,
-                          const time_duration &tick_length )
+inline auto ticks_between( const time_point &from, const time_point &to,
+                          const time_duration &tick_length ) -> int
 {
     return ( to_turn<int>( to ) / to_turns<int>( tick_length ) ) - ( to_turn<int>
             ( from ) / to_turns<int>( tick_length ) );
@@ -135,12 +135,12 @@ void solar_tile::update_internal( time_point to, const tripoint_abs_ms &p, distr
     grid.mod_resource( static_cast<int>( std::min( static_cast<std::int64_t>( INT_MAX ), produced ) ) );
 }
 
-active_tile_data *solar_tile::clone() const
+auto solar_tile::clone() const -> active_tile_data *
 {
     return new solar_tile( *this );
 }
 
-const std::string &solar_tile::get_type() const
+auto solar_tile::get_type() const -> const std::string &
 {
     static const std::string type( "solar" );
     return type;
@@ -167,12 +167,12 @@ void battery_tile::update_internal( time_point, const tripoint_abs_ms &, distrib
     // TODO: Shouldn't have this function!
 }
 
-active_tile_data *battery_tile::clone() const
+auto battery_tile::clone() const -> active_tile_data *
 {
     return new battery_tile( *this );
 }
 
-const std::string &battery_tile::get_type() const
+auto battery_tile::get_type() const -> const std::string &
 {
     static const std::string type( "battery" );
     return type;
@@ -189,12 +189,12 @@ void battery_tile::load( JsonObject &jo )
     jo.read( "max_stored", max_stored );
 }
 
-int battery_tile::get_resource() const
+auto battery_tile::get_resource() const -> int
 {
     return stored;
 }
 
-int battery_tile::mod_resource( int amt )
+auto battery_tile::mod_resource( int amt ) -> int
 {
     // TODO: Avoid int64 math if possible
     std::int64_t sum = static_cast<std::int64_t>( stored ) + amt;
@@ -220,12 +220,12 @@ void charge_watcher_tile::update_internal( time_point /*to*/, const tripoint_abs
     }
 }
 
-active_tile_data *charge_watcher_tile::clone() const
+auto charge_watcher_tile::clone() const -> active_tile_data *
 {
     return new charge_watcher_tile( *this );
 }
 
-const std::string &charge_watcher_tile::get_type() const
+auto charge_watcher_tile::get_type() const -> const std::string &
 {
     static const std::string type( "charge_watcher" );
     return type;
@@ -283,12 +283,12 @@ void charger_tile::update_internal( time_point to, const tripoint_abs_ms &p,
     }
 }
 
-active_tile_data *charger_tile::clone() const
+auto charger_tile::clone() const -> active_tile_data *
 {
     return new charger_tile( *this );
 }
 
-const std::string &charger_tile::get_type() const
+auto charger_tile::get_type() const -> const std::string &
 {
     static const std::string type( "charger" );
     return type;
@@ -326,12 +326,12 @@ void steady_consumer_tile::update_internal( time_point to, const tripoint_abs_ms
     get_distribution_grid_tracker().get_transform_queue().add( p, transform.id, transform.msg );
 }
 
-active_tile_data *steady_consumer_tile::clone() const
+auto steady_consumer_tile::clone() const -> active_tile_data *
 {
     return new steady_consumer_tile( *this );
 }
 
-const std::string &steady_consumer_tile::get_type() const
+auto steady_consumer_tile::get_type() const -> const std::string &
 {
     static const std::string type( "steady_consumer" );
     return type;
@@ -356,12 +356,12 @@ void vehicle_connector_tile::update_internal( time_point, const tripoint_abs_ms 
 {
 }
 
-active_tile_data *vehicle_connector_tile::clone() const
+auto vehicle_connector_tile::clone() const -> active_tile_data *
 {
     return new vehicle_connector_tile( *this );
 }
 
-const std::string &vehicle_connector_tile::get_type() const
+auto vehicle_connector_tile::get_type() const -> const std::string &
 {
     static const std::string type( "vehicle_connector" );
     return type;
@@ -377,7 +377,7 @@ void vehicle_connector_tile::load( JsonObject &jo )
     jo.read( "connected_vehicles", connected_vehicles );
 }
 
-static std::map<std::string, std::unique_ptr<active_tile_data>> build_type_map()
+static auto build_type_map() -> std::map<std::string, std::unique_ptr<active_tile_data>>
 {
     std::map<std::string, std::unique_ptr<active_tile_data>> type_map;
     const auto add_type = [&type_map]( active_tile_data * arg ) {
@@ -392,7 +392,7 @@ static std::map<std::string, std::unique_ptr<active_tile_data>> build_type_map()
     return type_map;
 }
 
-active_tile_data *active_tile_data::create( const std::string &id )
+auto active_tile_data::create( const std::string &id ) -> active_tile_data *
 {
     static const auto type_map = build_type_map();
     const auto iter = type_map.find( id );

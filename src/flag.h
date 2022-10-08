@@ -24,35 +24,35 @@ class json_flag
         json_flag() = default;
 
         /** Fetches flag definition (or null flag if not found) */
-        static const json_flag &get( const std::string &id );
+        static auto get( const std::string &id ) -> const json_flag &;
 
         /** Get informative text for display in UI */
-        std::string info() const {
+        auto info() const -> std::string {
             return info_.translated();
         }
 
         /** Get "restriction" phrase, saying what items with this flag must be able to do */
-        std::string restriction() const {
+        auto restriction() const -> std::string {
             return restriction_.translated();
         }
 
         /** Is flag inherited by base items from any attached items? */
-        bool inherit() const {
+        auto inherit() const -> bool {
             return inherit_;
         }
 
         /** Is flag inherited by crafted items from any component items? */
-        bool craft_inherit() const {
+        auto craft_inherit() const -> bool {
             return craft_inherit_;
         }
 
         /** Requires this flag to be installed on vehicle */
-        std::string requires_flag() const {
+        auto requires_flag() const -> std::string {
             return requires_flag_;
         }
 
         /** The flag's modifier on the fun value of comestibles */
-        int taste_mod() const {
+        auto taste_mod() const -> int {
             return taste_mod_;
         }
 
@@ -62,9 +62,9 @@ class json_flag
         void check() const;
 
         /** true, if flags were loaded */
-        static bool is_ready();
+        static auto is_ready() -> bool;
 
-        static const std::vector<json_flag> &get_all();
+        static auto get_all() -> const std::vector<json_flag> &;
 
     private:
         translation info_;

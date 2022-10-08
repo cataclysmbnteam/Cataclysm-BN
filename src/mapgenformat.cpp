@@ -48,7 +48,7 @@ format_effect<ID>::format_effect( const std::string &chars, std::vector<ID> dets
 }
 
 template<typename ID>
-ID format_effect<ID>::translate( const char c ) const
+auto format_effect<ID>::translate( const char c ) const -> ID
 {
     const auto index = characters.find( c );
     if( index == std::string::npos ) {

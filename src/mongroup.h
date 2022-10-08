@@ -33,7 +33,7 @@ struct MonsterGroupEntry {
     std::vector<std::string> conditions;
     time_duration starts;
     time_duration ends;
-    bool lasts_forever() const {
+    auto lasts_forever() const -> bool {
         return ends <= 0_turns;
     }
 
@@ -65,7 +65,7 @@ struct MonsterGroup {
     mongroup_id name;
     mtype_id defaultMonster;
     FreqDef  monsters;
-    bool IsMonsterInGroup( const mtype_id &id ) const;
+    auto IsMonsterInGroup( const mtype_id &id ) const -> bool;
     bool is_animal = false;
     // replaces this group after a period of
     // time when exploring an unexplored portion of the map
@@ -117,8 +117,8 @@ struct mongroup {
         type( ptype ), pos( ppos ), radius( prad ), population( ppop ), target( ptarget ),
         interest( pint ), dying( pdie ), horde( phorde ), diffuse( pdiff ) { }
     mongroup() = default;
-    bool is_safe() const;
-    bool empty() const;
+    auto is_safe() const -> bool;
+    auto empty() const -> bool;
     void clear();
     void set_target( const point_om_sm &p ) {
         target.x() = p.x();
@@ -146,7 +146,7 @@ struct mongroup {
         }
         interest = set;
     }
-    float avg_speed() const;
+    auto avg_speed() const -> float;
 
     template<typename Archive>
     void io( Archive & );
@@ -164,26 +164,26 @@ class MonsterGroupManager
         static void LoadMonsterBlacklist( const JsonObject &jo );
         static void LoadMonsterWhitelist( const JsonObject &jo );
         static void FinalizeMonsterGroups();
-        static MonsterGroupResult GetResultFromGroup( const mongroup_id &group, int *quantity = nullptr );
-        static bool IsMonsterInGroup( const mongroup_id &group, const mtype_id &monster );
-        static bool isValidMonsterGroup( const mongroup_id &group );
-        static const mongroup_id &Monster2Group( const mtype_id &monster );
-        static std::vector<mtype_id> GetMonstersFromGroup( const mongroup_id &group );
-        static const MonsterGroup &GetMonsterGroup( const mongroup_id &group );
-        static const MonsterGroup &GetUpgradedMonsterGroup( const mongroup_id &group );
+        static auto GetResultFromGroup( const mongroup_id &group, int *quantity = nullptr ) -> MonsterGroupResult;
+        static auto IsMonsterInGroup( const mongroup_id &group, const mtype_id &monster ) -> bool;
+        static auto isValidMonsterGroup( const mongroup_id &group ) -> bool;
+        static auto Monster2Group( const mtype_id &monster ) -> const mongroup_id &;
+        static auto GetMonstersFromGroup( const mongroup_id &group ) -> std::vector<mtype_id>;
+        static auto GetMonsterGroup( const mongroup_id &group ) -> const MonsterGroup &;
+        static auto GetUpgradedMonsterGroup( const mongroup_id &group ) -> const MonsterGroup &;
         /**
          * Gets a random monster, weighted by frequency.
          * Ignores cost multiplier.
          */
-        static const mtype_id &GetRandomMonsterFromGroup( const mongroup_id &group );
+        static auto GetRandomMonsterFromGroup( const mongroup_id &group ) -> const mtype_id &;
 
         static void check_group_definitions();
 
         static void ClearMonsterGroups();
 
-        static bool monster_is_blacklisted( const mtype_id &m );
+        static auto monster_is_blacklisted( const mtype_id &m ) -> bool;
 
-        static bool is_animal( const mongroup_id &group );
+        static auto is_animal( const mongroup_id &group ) -> bool;
 
     private:
         static std::map<mongroup_id, MonsterGroup> monsterGroupMap;

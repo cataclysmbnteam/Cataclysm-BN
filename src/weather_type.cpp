@@ -13,7 +13,7 @@ generic_factory<weather_type> weather_type_factory( "weather_type" );
 namespace io
 {
 template<>
-std::string enum_to_string<precip_class>( precip_class data )
+auto enum_to_string<precip_class>( precip_class data ) -> std::string
 {
     switch( data ) {
         case precip_class::none:
@@ -32,7 +32,7 @@ std::string enum_to_string<precip_class>( precip_class data )
 }
 
 template<>
-std::string enum_to_string<sun_intensity_type>( sun_intensity_type data )
+auto enum_to_string<sun_intensity_type>( sun_intensity_type data ) -> std::string
 {
     switch( data ) {
         case sun_intensity_type::none:
@@ -51,7 +51,7 @@ std::string enum_to_string<sun_intensity_type>( sun_intensity_type data )
 }
 
 template<>
-std::string enum_to_string<weather_time_requirement_type>( weather_time_requirement_type data )
+auto enum_to_string<weather_time_requirement_type>( weather_time_requirement_type data ) -> std::string
 {
     switch( data ) {
         case weather_time_requirement_type::day:
@@ -68,7 +68,7 @@ std::string enum_to_string<weather_time_requirement_type>( weather_time_requirem
 }
 
 template<>
-std::string enum_to_string<weather_sound_category>( weather_sound_category data )
+auto enum_to_string<weather_sound_category>( weather_sound_category data ) -> std::string
 {
     switch( data ) {
         case weather_sound_category::drizzle:
@@ -95,14 +95,14 @@ std::string enum_to_string<weather_sound_category>( weather_sound_category data 
 } // namespace io
 
 template<>
-const weather_type &weather_type_id::obj() const
+auto weather_type_id::obj() const -> const weather_type &
 {
     return weather_type_factory.obj( *this );
 }
 
 /** @relates string_id */
 template<>
-bool string_id<weather_type>::is_valid() const
+auto string_id<weather_type>::is_valid() const -> bool
 {
     return weather_type_factory.is_valid( *this );
 }
@@ -197,7 +197,7 @@ void weather_types::finalize_all()
     weather_type_factory.finalize();
 }
 
-const std::vector<weather_type> &weather_types::get_all()
+auto weather_types::get_all() -> const std::vector<weather_type> &
 {
     return weather_type_factory.get_all();
 }

@@ -39,47 +39,47 @@ class ret_val
     public:
         ret_val() = delete;
 
-        static ret_val make_success( T val = default_success::value ) {
+        static auto make_success( T val = default_success::value ) -> ret_val {
             return make_success( val, std::string() );
         }
 
-        static ret_val make_failure( T val = default_failure::value ) {
+        static auto make_failure( T val = default_failure::value ) -> ret_val {
             return make_failure( val, std::string() );
         }
 
         template<class... A, typename S = std::string, typename = is_convertible_to_string<S>>
-        static ret_val make_success( T val, const S &msg, A && ... args ) {
+        static auto make_success( T val, const S &msg, A && ... args ) -> ret_val {
             return ret_val( string_format( msg, std::forward<A>( args )... ), val, true );
         }
 
         template<class... A, typename S = std::string, typename = is_convertible_to_string<S>>
-        static ret_val make_failure( T val, const S &msg, A && ... args ) {
+        static auto make_failure( T val, const S &msg, A && ... args ) -> ret_val {
             return ret_val( string_format( msg, std::forward<A>( args )... ), val, false );
         }
 
         template<class... A, typename S = std::string, typename = is_convertible_to_string<S>>
-        static ret_val make_success( const S &msg, A && ... args ) {
+        static auto make_success( const S &msg, A && ... args ) -> ret_val {
             return make_success( default_success::value, msg, std::forward<A>( args )... );
         }
 
         template<class... A, typename S = std::string, typename = is_convertible_to_string<S>>
-        static ret_val make_failure( const S &msg, A && ... args ) {
+        static auto make_failure( const S &msg, A && ... args ) -> ret_val {
             return make_failure( default_failure::value, msg, std::forward<A>( args )... );
         }
 
-        bool success() const {
+        auto success() const -> bool {
             return succ;
         }
 
-        T value() const {
+        auto value() const -> T {
             return val;
         }
 
-        const std::string &str() const {
+        auto str() const -> const std::string & {
             return msg;
         }
 
-        const char *c_str() const {
+        auto c_str() const -> const char * {
             return msg.c_str();
         }
 

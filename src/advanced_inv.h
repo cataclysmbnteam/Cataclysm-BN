@@ -36,10 +36,10 @@ class advanced_inventory
          * Converts from screen relative location to game-space relative location
          * for control rotation in isometric mode.
         */
-        aim_location screen_relative_location( aim_location area );
-        std::string get_location_key( aim_location area );
+        auto screen_relative_location( aim_location area ) -> aim_location;
+        auto get_location_key( aim_location area ) -> std::string;
 
-        advanced_inv_area &get_one_square( const aim_location &loc ) {
+        auto get_one_square( const aim_location &loc ) -> advanced_inv_area & {
             return squares[loc];
         }
     private:
@@ -63,7 +63,7 @@ class advanced_inventory
         const int minimap_height = 3;
         void draw_minimap();
         void refresh_minimap();
-        char get_minimap_sym( side p ) const;
+        auto get_minimap_sym( side p ) const -> char;
 
         bool inCategoryMode = false;
 
@@ -105,7 +105,7 @@ class advanced_inventory
         /**
          * registers all the ctxt for display()
          */
-        input_context register_ctxt() const;
+        auto register_ctxt() const -> input_context;
         /**
          *  a smaller chunk of display()
          */
@@ -116,9 +116,9 @@ class advanced_inventory
         /**
          * returns whether the display loop exits or not
          */
-        bool action_move_item( advanced_inv_listitem *sitem,
+        auto action_move_item( advanced_inv_listitem *sitem,
                                advanced_inventory_pane &dpane, const advanced_inventory_pane &spane,
-                               const std::string &action );
+                               const std::string &action ) -> bool;
 
         void action_examine( advanced_inv_listitem *sitem, advanced_inventory_pane &spane );
 
@@ -129,17 +129,17 @@ class advanced_inventory
         void do_return_entry();
         // returns true if currently processing a routine
         // (such as `MOVE_ALL_ITEMS' with `AIM_ALL' source)
-        bool is_processing() const;
+        auto is_processing() const -> bool;
 
-        static std::string get_sortname( advanced_inv_sortby sortby );
-        bool move_all_items( bool nested_call = false );
+        static auto get_sortname( advanced_inv_sortby sortby ) -> std::string;
+        auto move_all_items( bool nested_call = false ) -> bool;
         void print_items( const advanced_inventory_pane &pane, bool active );
         void recalc_pane( side p );
         void redraw_pane( side p );
         void redraw_sidebar();
         // Returns the x coordinate where the header started. The header is
         // displayed right of it, everything left of it is till free.
-        int print_header( advanced_inventory_pane &pane, aim_location sel );
+        auto print_header( advanced_inventory_pane &pane, aim_location sel ) -> int;
         void init();
         /**
          * Translate an action ident from the input context to an aim_location.
@@ -149,14 +149,14 @@ class advanced_inventory
          * @return true if the action did refer to an location (which has been
          * stored in ret), false otherwise.
          */
-        bool get_square( const std::string &action, aim_location &ret );
+        auto get_square( const std::string &action, aim_location &ret ) -> bool;
         void change_square( aim_location changeSquare, advanced_inventory_pane &dpane,
                             advanced_inventory_pane &spane );
         /**
          * Show the sort-by menu and change the sorting of this pane accordingly.
          * @return whether the sort order was actually changed.
          */
-        bool show_sort_menu( advanced_inventory_pane &pane );
+        auto show_sort_menu( advanced_inventory_pane &pane ) -> bool;
         /**
          * Checks whether one can put items into the supplied location.
          * If the supplied location is AIM_ALL, query for the actual location
@@ -165,13 +165,13 @@ class advanced_inventory
          * The result true also indicates the def is not AIM_ALL (because the
          * actual location has been queried).
          */
-        bool query_destination( aim_location &def );
+        auto query_destination( aim_location &def ) -> bool;
         /**
          * Move content of source container into destination container (destination pane = AIM_CONTAINER)
          * @param src_container Source container
          * @param dest_container Destination container
          */
-        bool move_content( item &src_container, item &dest_container );
+        auto move_content( item &src_container, item &dest_container ) -> bool;
         /**
          * Setup how many items/charges (if counted by charges) should be moved.
          * @param destarea Where to move to. This must not be AIM_ALL.
@@ -183,8 +183,8 @@ class advanced_inventory
          *      should be moved. A return value of true indicates that amount now contains
          *      a valid item count to be moved.
          */
-        bool query_charges( aim_location destarea, const advanced_inv_listitem &sitem,
-                            const std::string &action, int &amount );
+        auto query_charges( aim_location destarea, const advanced_inv_listitem &sitem,
+                            const std::string &action, int &amount ) -> bool;
 };
 
 #endif // CATA_SRC_ADVANCED_INV_H

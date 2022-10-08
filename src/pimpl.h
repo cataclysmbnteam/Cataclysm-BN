@@ -47,16 +47,16 @@ class pimpl : private std::unique_ptr<T>
         explicit pimpl( const pimpl<T> &rhs ) : std::unique_ptr<T>( new T( *rhs ) ) { }
         explicit pimpl( pimpl<T> &&rhs ) : std::unique_ptr<T>( new T( std::move( *rhs ) ) ) { }
 
-        pimpl<T> &operator=( const pimpl<T> &rhs ) {
+        auto operator=( const pimpl<T> &rhs ) -> pimpl<T> & {
             operator*() = *rhs;
             return *this;
         }
-        pimpl<T> &operator=( pimpl<T> &&rhs ) {
+        auto operator=( pimpl<T> &&rhs ) -> pimpl<T> & {
             operator*() = std::move( *rhs );
             return *this;
         }
 
-        bool operator==( const pimpl<T> &rhs ) const {
+        auto operator==( const pimpl<T> &rhs ) const -> bool {
             return operator*() == *rhs;
         }
 

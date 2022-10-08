@@ -34,8 +34,8 @@
 
 static const std::string flag_VARSIZE( "VARSIZE" );
 
-bool game::dump_stats( const std::string &what, dump_mode mode,
-                       const std::vector<std::string> &opts )
+auto game::dump_stats( const std::string &what, dump_mode mode,
+                       const std::vector<std::string> &opts ) -> bool
 {
     try {
         loading_ui ui( false );

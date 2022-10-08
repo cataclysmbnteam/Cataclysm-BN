@@ -73,8 +73,8 @@ class material_type
         void load( const JsonObject &jsobj, const std::string &src );
         void check() const;
 
-        material_id ident() const;
-        std::string name() const;
+        auto ident() const -> material_id;
+        auto name() const -> std::string;
         /**
          * @returns An empty optional if this material can not be
          * salvaged into any items (e.g. for powder, liquids).
@@ -82,41 +82,41 @@ class material_type
          * into (e.g. clothes made of material leather can be salvaged
          * into lather patches).
          */
-        cata::optional<itype_id> salvaged_into() const;
-        itype_id repaired_with() const;
-        int bash_resist() const;
-        int cut_resist() const;
-        int bullet_resist() const;
-        std::string bash_dmg_verb() const;
-        std::string cut_dmg_verb() const;
-        std::string dmg_adj( int damage ) const;
-        int acid_resist() const;
-        int elec_resist() const;
-        int fire_resist() const;
-        int chip_resist() const;
-        float warmth_when_wet() const {
+        auto salvaged_into() const -> cata::optional<itype_id>;
+        auto repaired_with() const -> itype_id;
+        auto bash_resist() const -> int;
+        auto cut_resist() const -> int;
+        auto bullet_resist() const -> int;
+        auto bash_dmg_verb() const -> std::string;
+        auto cut_dmg_verb() const -> std::string;
+        auto dmg_adj( int damage ) const -> std::string;
+        auto acid_resist() const -> int;
+        auto elec_resist() const -> int;
+        auto fire_resist() const -> int;
+        auto chip_resist() const -> int;
+        auto warmth_when_wet() const -> float {
             return _warmth_when_wet;
         }
-        float specific_heat_liquid() const;
-        float specific_heat_solid() const;
-        float latent_heat() const;
-        int freeze_point() const;
-        int density() const;
-        cata::optional<int> wind_resist() const;
-        bool edible() const;
-        bool rotting() const;
-        bool soft() const;
-        bool reinforces() const;
+        auto specific_heat_liquid() const -> float;
+        auto specific_heat_solid() const -> float;
+        auto latent_heat() const -> float;
+        auto freeze_point() const -> int;
+        auto density() const -> int;
+        auto wind_resist() const -> cata::optional<int>;
+        auto edible() const -> bool;
+        auto rotting() const -> bool;
+        auto soft() const -> bool;
+        auto reinforces() const -> bool;
 
-        double vitamin( const vitamin_id &id ) const {
+        auto vitamin( const vitamin_id &id ) const -> double {
             const auto iter = _vitamins.find( id );
             return iter != _vitamins.end() ? iter->second : 0;
         }
 
-        const mat_burn_data &burn_data( size_t intensity ) const;
-        const mat_burn_products &burn_products() const;
-        const material_id_list &compact_accepts() const;
-        const mat_compacts_into &compacts_into() const;
+        auto burn_data( size_t intensity ) const -> const mat_burn_data &;
+        auto burn_products() const -> const mat_burn_products &;
+        auto compact_accepts() const -> const material_id_list &;
+        auto compacts_into() const -> const mat_compacts_into &;
 };
 
 namespace materials
@@ -126,9 +126,9 @@ void load( const JsonObject &jo, const std::string &src );
 void check();
 void reset();
 
-material_list get_all();
-material_list get_compactable();
-std::set<material_id> get_rotting();
+auto get_all() -> material_list;
+auto get_compactable() -> material_list;
+auto get_rotting() -> std::set<material_id>;
 
 } // namespace materials
 

@@ -21,8 +21,8 @@ struct pick_drop_selection;
  * Returns `false` if the player was presented a prompt and decided to cancel the pickup.
  * `true` in other cases.
  */
-bool do_pickup( std::vector<pick_drop_selection> &targets, bool autopickup );
-bool query_thief();
+auto do_pickup( std::vector<pick_drop_selection> &targets, bool autopickup ) -> bool;
+auto query_thief() -> bool;
 
 enum from_where : int {
     from_cargo = 0,
@@ -33,7 +33,7 @@ enum from_where : int {
 /** Pick up items; 'g' or ',' or via examine() */
 void pick_up( const tripoint &p, int min, from_where get_items_from = prompt );
 /** Determines the cost of moving an item by a character. */
-int cost_to_move_item( const Character &who, const item &it );
+auto cost_to_move_item( const Character &who, const item &it ) -> int;
 
 /**
  * If character is handling a potentially spillable bucket, gracefully handle what
@@ -45,7 +45,7 @@ int cost_to_move_item( const Character &who, const item &it );
  * @param it item to handle
  * @param m map they are on
  */
-bool handle_spillable_contents( Character &c, item &it, map &m );
+auto handle_spillable_contents( Character &c, item &it, map &m ) -> bool;
 } // namespace pickup
 
 #endif // CATA_SRC_PICKUP_H

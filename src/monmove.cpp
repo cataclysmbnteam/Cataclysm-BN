@@ -75,12 +75,12 @@ static const std::string flag_LIQUID( "LIQUID" );
 
 #define MONSTER_FOLLOW_DIST 8
 
-bool monster::wander()
+auto monster::wander() -> bool
 {
     return ( goal == pos() );
 }
 
-bool monster::is_immune_field( const field_type_id &fid ) const
+auto monster::is_immune_field( const field_type_id &fid ) const -> bool
 {
     if( fid == fd_fungal_haze ) {
         return has_flag( MF_NO_BREATHE ) || type->in_species( FUNGUS );
@@ -111,12 +111,12 @@ bool monster::is_immune_field( const field_type_id &fid ) const
     return Creature::is_immune_field( fid );
 }
 
-static bool z_is_valid( int z )
+static auto z_is_valid( int z ) -> bool
 {
     return z >= -OVERMAP_DEPTH && z <= OVERMAP_HEIGHT;
 }
 
-bool monster::will_move_to( const tripoint &p ) const
+auto monster::will_move_to( const tripoint &p ) const -> bool
 {
     if( g->m.impassable( p ) ) {
         if( digging() ) {
@@ -227,7 +227,7 @@ bool monster::will_move_to( const tripoint &p ) const
     return true;
 }
 
-bool monster::can_reach_to( const tripoint &p ) const
+auto monster::can_reach_to( const tripoint &p ) const -> bool
 {
     map &here = get_map();
     if( p.z > pos().z && z_is_valid( pos().z ) ) {
@@ -248,14 +248,14 @@ bool monster::can_reach_to( const tripoint &p ) const
     return true;
 }
 
-bool monster::can_squeeze_to( const tripoint &p ) const
+auto monster::can_squeeze_to( const tripoint &p ) const -> bool
 {
     map &m = get_map();
 
     return !m.obstructed_by_vehicle_rotation( pos(), p );
 }
 
-bool monster::can_move_to( const tripoint &p ) const
+auto monster::can_move_to( const tripoint &p ) const -> bool
 {
     return can_reach_to( p ) && will_move_to( p );
 }
@@ -279,7 +279,7 @@ void monster::wander_to( const tripoint &p, int f )
     wandf = f;
 }
 
-float monster::rate_target( Creature &c, float best, bool smart ) const
+auto monster::rate_target( Creature &c, float best, bool smart ) const -> float
 {
     const auto d = rl_dist_fast( pos(), c.pos() );
     if( d <= 0 ) {
@@ -605,8 +605,8 @@ void monster::plan()
  * Since it incorporates the current distance metric,
  * it also scales for diagonal vs orthogonal movement.
  **/
-static float get_stagger_adjust( const tripoint &source, const tripoint &destination,
-                                 const tripoint &next_step )
+static auto get_stagger_adjust( const tripoint &source, const tripoint &destination,
+                                 const tripoint &next_step ) -> float
 {
     // TODO: push this down into rl_dist
     const float initial_dist =
@@ -621,13 +621,13 @@ static float get_stagger_adjust( const tripoint &source, const tripoint &destina
  * Returns true if the given square presents a possibility of drowning for the monster: it's deep water, it's liquid,
  * the monster can drown, and there is no boardable vehicle part present.
  */
-bool monster::is_aquatic_danger( const tripoint &at_pos )
+auto monster::is_aquatic_danger( const tripoint &at_pos ) -> bool
 {
     return g->m.has_flag_ter( TFLAG_DEEP_WATER, at_pos ) && g->m.has_flag( flag_LIQUID, at_pos ) &&
            can_drown() && !g->m.veh_at( at_pos ).part_with_feature( "BOARDABLE", false );
 }
 
-bool monster::die_if_drowning( const tripoint &at_pos, const int chance )
+auto monster::die_if_drowning( const tripoint &at_pos, const int chance ) -> bool
 {
     if( is_aquatic_danger( at_pos ) && one_in( chance ) ) {
         die( nullptr );
@@ -1054,7 +1054,7 @@ void monster::move()
     }
 }
 
-player *monster::find_dragged_foe()
+auto monster::find_dragged_foe() -> player *
 {
     // Make sure they're actually dragging someone.
     if( !dragged_foe_id.is_valid() || !has_effect( effect_dragging ) ) {
@@ -1174,7 +1174,7 @@ void monster::footsteps( const tripoint &p )
     return;
 }
 
-tripoint monster::scent_move()
+auto monster::scent_move() -> tripoint
 {
     // TODO: Remove when scentmap is 3D
     if( std::abs( posz() - g->get_levz() ) > SCENT_MAP_Z_REACH ) {
@@ -1249,7 +1249,7 @@ tripoint monster::scent_move()
     return random_entry( smoves, next );
 }
 
-int monster::calc_movecost( const tripoint &f, const tripoint &t ) const
+auto monster::calc_movecost( const tripoint &f, const tripoint &t ) const -> int
 {
     int movecost = 0;
 
@@ -1302,7 +1302,7 @@ int monster::calc_movecost( const tripoint &f, const tripoint &t ) const
     return movecost;
 }
 
-int monster::calc_climb_cost( const tripoint &f, const tripoint &t ) const
+auto monster::calc_climb_cost( const tripoint &f, const tripoint &t ) const -> int
 {
     if( flies() ) {
         return 100;
@@ -1322,8 +1322,8 @@ int monster::calc_climb_cost( const tripoint &f, const tripoint &t ) const
  * Return points of an area extending 1 tile to either side and
  * (maxdepth) tiles behind basher.
  */
-static std::vector<tripoint> get_bashing_zone( const tripoint &bashee, const tripoint &basher,
-        int maxdepth )
+static auto get_bashing_zone( const tripoint &bashee, const tripoint &basher,
+        int maxdepth ) -> std::vector<tripoint>
 {
     std::vector<tripoint> direction;
     direction.push_back( bashee );
@@ -1348,7 +1348,7 @@ static std::vector<tripoint> get_bashing_zone( const tripoint &bashee, const tri
     return zone;
 }
 
-bool monster::bash_at( const tripoint &p )
+auto monster::bash_at( const tripoint &p ) -> bool
 {
     if( p.z != posz() ) {
         // TODO: Remove this
@@ -1391,7 +1391,7 @@ bool monster::bash_at( const tripoint &p )
     return true;
 }
 
-int monster::bash_estimate()
+auto monster::bash_estimate() -> int
 {
     int estimate = bash_skill();
     if( has_flag( MF_GROUP_BASH ) ) {
@@ -1402,12 +1402,12 @@ int monster::bash_estimate()
     return estimate;
 }
 
-int monster::bash_skill()
+auto monster::bash_skill() -> int
 {
     return type->bash_skill;
 }
 
-int monster::group_bash_skill( const tripoint &target )
+auto monster::group_bash_skill( const tripoint &target ) -> int
 {
     if( !has_flag( MF_GROUP_BASH ) ) {
         return bash_skill();
@@ -1449,7 +1449,7 @@ int monster::group_bash_skill( const tripoint &target )
     return bashskill;
 }
 
-bool monster::attack_at( const tripoint &p )
+auto monster::attack_at( const tripoint &p ) -> bool
 {
     if( has_flag( MF_PACIFIST ) ) {
         return false;
@@ -1502,7 +1502,7 @@ bool monster::attack_at( const tripoint &p )
     return false;
 }
 
-static tripoint find_closest_stair( const tripoint &near_this, const ter_bitflags stair_type )
+static auto find_closest_stair( const tripoint &near_this, const ter_bitflags stair_type ) -> tripoint
 {
     map &here = get_map();
     for( const tripoint &candidate : closest_points_first( near_this, 10 ) ) {
@@ -1514,8 +1514,8 @@ static tripoint find_closest_stair( const tripoint &near_this, const ter_bitflag
     return near_this;
 }
 
-bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
-                       const float stagger_adjustment )
+auto monster::move_to( const tripoint &p, bool force, bool step_on_critter,
+                       const float stagger_adjustment ) -> bool
 {
     const bool on_ground = !digging() && !flies();
 
@@ -1723,7 +1723,7 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     return true;
 }
 
-bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
+auto monster::push_to( const tripoint &p, const int boost, const size_t depth ) -> bool
 {
     if( is_hallucination() ) {
         // Don't let hallucinations push, not even other hallucinations
@@ -1984,7 +1984,7 @@ void monster::knock_back_to( const tripoint &to )
          Make sure that non-smashing monsters won't "teleport" through windows
          Injure monsters if they're gonna be walking through pits or whatever
  */
-bool monster::will_reach( const point &p )
+auto monster::will_reach( const point &p ) -> bool
 {
     monster_attitude att = attitude( &g->u );
     if( att != MATT_FOLLOW && att != MATT_ATTACK && att != MATT_FRIEND && att != MATT_ZLAVE ) {
@@ -2021,7 +2021,7 @@ bool monster::will_reach( const point &p )
     return false;
 }
 
-int monster::turns_to_reach( const point &p )
+auto monster::turns_to_reach( const point &p ) -> int
 {
     // HACK: This function is a(n old) temporary hack that should soon be removed
     auto path = g->m.route( pos(), tripoint( p, posz() ), get_pathfinding_settings() );

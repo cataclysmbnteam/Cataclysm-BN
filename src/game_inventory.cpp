@@ -95,7 +95,7 @@ class inventory_filter_preset : public inventory_selector_preset
     public:
         inventory_filter_preset( const item_location_filter &filter );
 
-        bool is_shown( const item_location &location ) const override;
+        auto is_shown( const item_location &location ) const -> bool override;
 
     private:
         item_location_filter filter;
@@ -104,7 +104,7 @@ class inventory_filter_preset : public inventory_selector_preset
 namespace
 {
 
-std::string good_bad_none( int value )
+auto good_bad_none( int value ) -> std::string
 {
     if( value > 0 ) {
         return string_format( "<good>+%d</good>", value );
@@ -114,7 +114,7 @@ std::string good_bad_none( int value )
     return std::string();
 }
 
-std::string highlight_good_bad_none( int value )
+auto highlight_good_bad_none( int value ) -> std::string
 {
     if( value > 0 ) {
         return string_format( "<color_yellow_green>+%d</color>", value );
@@ -124,7 +124,7 @@ std::string highlight_good_bad_none( int value )
     return string_format( "<color_yellow>%d</color>", value );
 }
 
-int anesthetic_requirement( int mult )
+auto anesthetic_requirement( int mult ) -> int
 {
     const requirement_data req_anesth = *requirement_id( "anesthetic" ) * mult;
     if( !req_anesth.get_tools().empty() && !req_anesth.get_tools().front().empty() ) {
@@ -140,22 +140,22 @@ inventory_filter_preset::inventory_filter_preset( const item_location_filter &fi
     : filter( filter )
 {}
 
-bool inventory_filter_preset::is_shown( const item_location &location ) const
+auto inventory_filter_preset::is_shown( const item_location &location ) const -> bool
 {
     return filter( location );
 }
 
-static item_location_filter convert_filter( const item_filter &filter )
+static auto convert_filter( const item_filter &filter ) -> item_location_filter
 {
     return [ &filter ]( const item_location & loc ) {
         return filter( *loc );
     };
 }
 
-static item_location inv_internal( player &u, const inventory_selector_preset &preset,
+static auto inv_internal( player &u, const inventory_selector_preset &preset,
                                    const std::string &title, int radius,
                                    const std::string &none_message,
-                                   const std::string &hint = std::string() )
+                                   const std::string &hint = std::string() ) -> item_location
 {
     inventory_pick_selector inv_s( u, preset );
 
@@ -267,15 +267,15 @@ void game_menus::inv::common( avatar &you )
     } while( !started_action );
 }
 
-item_location game_menus::inv::titled_filter_menu( item_filter filter, avatar &you,
-        const std::string &title, const std::string &none_message )
+auto game_menus::inv::titled_filter_menu( item_filter filter, avatar &you,
+        const std::string &title, const std::string &none_message ) -> item_location
 {
     return inv_internal( you, inventory_filter_preset( convert_filter( filter ) ),
                          title, -1, none_message );
 }
 
-item_location game_menus::inv::titled_menu( avatar &you, const std::string &title,
-        const std::string &none_message )
+auto game_menus::inv::titled_menu( avatar &you, const std::string &title,
+        const std::string &none_message ) -> item_location
 {
     const std::string msg = none_message.empty() ? _( "Your inventory is empty." ) : none_message;
     return inv_internal( you, inventory_selector_preset(), title, -1, msg );
@@ -331,7 +331,7 @@ class armor_inventory_preset: public inventory_selector_preset
     protected:
         player &p;
     private:
-        std::string get_number_string( int number ) const {
+        auto get_number_string( int number ) const -> std::string {
             return number ? string_format( "<%s>%d</color>", color, number ) : std::string();
         }
 
@@ -345,11 +345,11 @@ class wear_inventory_preset: public armor_inventory_preset
             armor_inventory_preset( p, color )
         {}
 
-        bool is_shown( const item_location &loc ) const override {
+        auto is_shown( const item_location &loc ) const -> bool override {
             return loc->is_armor() && !p.is_worn( *loc );
         }
 
-        std::string get_denial( const item_location &loc ) const override {
+        auto get_denial( const item_location &loc ) const -> std::string override {
             const auto ret = p.can_wear( *loc );
 
             if( !ret.success() ) {
@@ -360,7 +360,7 @@ class wear_inventory_preset: public armor_inventory_preset
         }
 };
 
-item_location game_menus::inv::wear( player &p )
+auto game_menus::inv::wear( player &p ) -> item_location
 {
     return inv_internal( p, wear_inventory_preset( p, "color_yellow" ), _( "Wear item" ), 1,
                          _( "You have nothing to wear." ) );
@@ -373,11 +373,11 @@ class take_off_inventory_preset: public armor_inventory_preset
             armor_inventory_preset( p, color )
         {}
 
-        bool is_shown( const item_location &loc ) const override {
+        auto is_shown( const item_location &loc ) const -> bool override {
             return loc->is_armor() && p.is_worn( *loc );
         }
 
-        std::string get_denial( const item_location &loc ) const override {
+        auto get_denial( const item_location &loc ) const -> std::string override {
             const ret_val<bool> ret = p.can_takeoff( *loc );
 
             if( !ret.success() ) {
@@ -388,20 +388,20 @@ class take_off_inventory_preset: public armor_inventory_preset
         }
 };
 
-item_location game_menus::inv::take_off( avatar &you )
+auto game_menus::inv::take_off( avatar &you ) -> item_location
 {
     return inv_internal( you, take_off_inventory_preset( you, "color_red" ), _( "Take off item" ), 1,
                          _( "You don't wear anything." ) );
 }
 
-item_location game::inv_map_splice( item_filter filter, const std::string &title, int radius,
-                                    const std::string &none_message )
+auto game::inv_map_splice( item_filter filter, const std::string &title, int radius,
+                                    const std::string &none_message ) -> item_location
 {
     return inv_internal( u, inventory_filter_preset( convert_filter( filter ) ),
                          title, radius, none_message );
 }
 
-item_location game_menus::inv::container_for( avatar &you, const item &liquid, int radius )
+auto game_menus::inv::container_for( avatar &you, const item &liquid, int radius ) -> item_location
 {
     const auto filter = [ &liquid ]( const item_location & location ) {
         if( location.where() == item_location::type::character ) {
@@ -428,7 +428,7 @@ class pickup_inventory_preset : public inventory_selector_preset
     public:
         pickup_inventory_preset( const player &p ) : p( p ) {}
 
-        std::string get_denial( const item_location &loc ) const override {
+        auto get_denial( const item_location &loc ) const -> std::string override {
             if( !p.has_item( *loc ) ) {
                 if( loc->made_of( LIQUID ) ) {
                     return _( "Can't pick up spilt liquids" );
@@ -472,11 +472,11 @@ class disassemble_inventory_preset : public pickup_inventory_preset
             }, _( "TIME" ) );
         }
 
-        bool is_shown( const item_location &loc ) const override {
+        auto is_shown( const item_location &loc ) const -> bool override {
             return get_recipe( loc );
         }
 
-        std::string get_denial( const item_location &loc ) const override {
+        auto get_denial( const item_location &loc ) const -> std::string override {
             const ret_val<bool> ret = crafting::can_disassemble( p, *loc, inv );
             if( !ret.success() ) {
                 return ret.str();
@@ -485,7 +485,7 @@ class disassemble_inventory_preset : public pickup_inventory_preset
         }
 
     protected:
-        const recipe &get_recipe( const item_location &loc ) const {
+        auto get_recipe( const item_location &loc ) const -> const recipe & {
             return recipe_dictionary::get_uncraft( loc->typeId() );
         }
 
@@ -494,7 +494,7 @@ class disassemble_inventory_preset : public pickup_inventory_preset
         const inventory &inv;
 };
 
-item_location game_menus::inv::disassemble( player &p )
+auto game_menus::inv::disassemble( player &p ) -> item_location
 {
     return inv_internal( p, disassemble_inventory_preset( p, p.crafting_inventory() ),
                          _( "Disassemble item" ), 1,
@@ -606,14 +606,14 @@ class comestible_inventory_preset : public inventory_selector_preset
             }, _( "ENERGY (kJ)" ) );
         }
 
-        bool is_shown( const item_location &loc ) const override {
+        auto is_shown( const item_location &loc ) const -> bool override {
             // If an item was inserted into a non-container, we can't eat it.
             // For example, we couldn't eat an item mod made of meat
             return p.can_consume( *loc ) &&
                    ( loc.where() != item_location::type::container || loc.parent_item()->is_container() );
         }
 
-        std::string get_denial( const item_location &loc ) const override {
+        auto get_denial( const item_location &loc ) const -> std::string override {
             const item &med = !( *loc ).is_container_empty() && ( *loc ).get_contained().is_medication() &&
                               ( *loc ).get_contained().type->has_use() ? ( *loc ).get_contained() : *loc;
 
@@ -638,7 +638,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             return inventory_selector_preset::get_denial( loc );
         }
 
-        bool sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const override {
+        auto sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const -> bool override {
             time_duration time_a = get_time_left( lhs.any_item() );
             time_duration time_b = get_time_left( rhs.any_item() );
             int order_a = get_order( lhs.any_item(), time_a );
@@ -651,7 +651,7 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
     protected:
-        int get_order( const item_location &loc, const time_duration &time ) const {
+        auto get_order( const item_location &loc, const time_duration &time ) const -> int {
             if( time > 0_turns && !( loc->type->container && loc->type->container->preserves ) ) {
                 return 0;
             } else if( get_consumable_item( loc ).rotten() ) {
@@ -669,15 +669,15 @@ class comestible_inventory_preset : public inventory_selector_preset
 
         // WARNING: this can return consumables which are not necessarily possessing
         // the comestible type. please dereference responsibly.
-        const item &get_consumable_item( const item_location &loc ) const {
+        auto get_consumable_item( const item_location &loc ) const -> const item & {
             return p.get_consumable_from( const_cast<item &>( *loc ) );
         }
 
-        const islot_comestible &get_edible_comestible( const item_location &loc ) const {
+        auto get_edible_comestible( const item_location &loc ) const -> const islot_comestible & {
             return get_edible_comestible( get_consumable_item( loc ) );
         }
 
-        const islot_comestible &get_edible_comestible( const item &it ) const {
+        auto get_edible_comestible( const item &it ) const -> const islot_comestible & {
             if( it.is_comestible() && p.can_eat( it ).success() ) {
                 // Ok since can_eat() returns false if is_craft() is true
                 return *it.type->comestible;
@@ -686,7 +686,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             return dummy;
         }
 
-        time_duration get_time_left( const item_location &loc ) const {
+        auto get_time_left( const item_location &loc ) const -> time_duration {
             time_duration time_left = 0_turns;
             const time_duration shelf_life = get_edible_comestible( loc ).spoils;
             if( shelf_life > 0_turns ) {
@@ -704,7 +704,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             return time_left;
         }
 
-        std::string get_time_left_rounded( const item_location &loc ) const {
+        auto get_time_left_rounded( const item_location &loc ) const -> std::string {
             const item &it = get_consumable_item( loc );
             if( it.is_going_bad() ) {
                 return _( "soon!" );
@@ -714,7 +714,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             return to_string_approx( time_left );
         }
 
-        std::string get_freshness( const item_location &loc ) {
+        auto get_freshness( const item_location &loc ) -> std::string {
             const item &it = get_consumable_item( loc );
             const double rot_progress = it.get_relative_rot();
             if( it.is_fresh() ) {
@@ -738,7 +738,7 @@ class comestible_inventory_preset : public inventory_selector_preset
         const player &p;
 };
 
-static std::string get_consume_needs_hint( player &p )
+static auto get_consume_needs_hint( player &p ) -> std::string
 {
     auto hint = std::string();
     auto desc = p.get_hunger_description();
@@ -755,7 +755,7 @@ static std::string get_consume_needs_hint( player &p )
     return hint;
 }
 
-item_location game_menus::inv::consume( player &p )
+auto game_menus::inv::consume( player &p ) -> item_location
 {
     if( !g->u.has_activity( ACT_EAT_MENU ) ) {
         g->u.assign_activity( ACT_EAT_MENU );
@@ -773,7 +773,7 @@ class comestible_filtered_inventory_preset : public comestible_inventory_preset
         comestible_filtered_inventory_preset( const player &p, bool( *predicate )( const item &it ) ) :
             comestible_inventory_preset( p ), predicate( predicate ) {}
 
-        bool is_shown( const item_location &loc ) const override {
+        auto is_shown( const item_location &loc ) const -> bool override {
             return comestible_inventory_preset::is_shown( loc ) &&
                    predicate( get_consumable_item( loc ) );
         }
@@ -782,7 +782,7 @@ class comestible_filtered_inventory_preset : public comestible_inventory_preset
         bool( *predicate )( const item &it );
 };
 
-item_location game_menus::inv::consume_food( player &p )
+auto game_menus::inv::consume_food( player &p ) -> item_location
 {
     if( !g->u.has_activity( ACT_CONSUME_FOOD_MENU ) ) {
         g->u.assign_activity( ACT_CONSUME_FOOD_MENU );
@@ -797,7 +797,7 @@ item_location game_menus::inv::consume_food( player &p )
     get_consume_needs_hint( p ) );
 }
 
-item_location game_menus::inv::consume_drink( player &p )
+auto game_menus::inv::consume_drink( player &p ) -> item_location
 {
     if( !g->u.has_activity( ACT_CONSUME_DRINK_MENU ) ) {
         g->u.assign_activity( ACT_CONSUME_DRINK_MENU );
@@ -812,7 +812,7 @@ item_location game_menus::inv::consume_drink( player &p )
     get_consume_needs_hint( p ) );
 }
 
-item_location game_menus::inv::consume_meds( player &p )
+auto game_menus::inv::consume_meds( player &p ) -> item_location
 {
     if( !g->u.has_activity( ACT_CONSUME_MEDS_MENU ) ) {
         g->u.assign_activity( ACT_CONSUME_MEDS_MENU );
@@ -839,7 +839,7 @@ class activatable_inventory_preset : public pickup_inventory_preset
             }
         }
 
-        bool is_shown( const item_location &loc ) const override {
+        auto is_shown( const item_location &loc ) const -> bool override {
             if( !( *loc ).is_container_empty() && ( *loc ).get_contained().is_medication() &&
                 ( *loc ).get_contained().type->has_use() ) {
                 return true;
@@ -847,7 +847,7 @@ class activatable_inventory_preset : public pickup_inventory_preset
             return loc->type->has_use();
         }
 
-        std::string get_denial( const item_location &loc ) const override {
+        auto get_denial( const item_location &loc ) const -> std::string override {
             const item &it = !( *loc ).is_container_empty() && ( *loc ).get_contained().is_medication() &&
                              ( *loc ).get_contained().type->has_use() ? ( *loc ).get_contained() : *loc;
             const auto &uses = it.type->use_methods;
@@ -878,7 +878,7 @@ class activatable_inventory_preset : public pickup_inventory_preset
         }
 
     protected:
-        std::string get_action_name( const item &it ) const {
+        auto get_action_name( const item &it ) const -> std::string {
             const auto &uses = it.type->use_methods;
 
             if( uses.size() == 1 ) {
@@ -894,7 +894,7 @@ class activatable_inventory_preset : public pickup_inventory_preset
         const player &p;
 };
 
-item_location game_menus::inv::use( avatar &you )
+auto game_menus::inv::use( avatar &you ) -> item_location
 {
     return inv_internal( you, activatable_inventory_preset( you ),
                          _( "Use item" ), 1,
@@ -920,11 +920,11 @@ class gunmod_inventory_preset : public inventory_selector_preset
             }, _( "DAMAGE RISK" ) );
         }
 
-        bool is_shown( const item_location &loc ) const override {
+        auto is_shown( const item_location &loc ) const -> bool override {
             return loc->is_gun() && !loc->is_gunmod();
         }
 
-        std::string get_denial( const item_location &loc ) const override {
+        auto get_denial( const item_location &loc ) const -> std::string override {
             const auto ret = loc->is_gunmod_compatible( gunmod );
 
             if( !ret.success() ) {
@@ -943,7 +943,7 @@ class gunmod_inventory_preset : public inventory_selector_preset
             return std::string();
         }
 
-        bool sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const override {
+        auto sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const -> bool override {
             const auto a = get_odds( lhs.any_item() );
             const auto b = get_odds( rhs.any_item() );
 
@@ -956,7 +956,7 @@ class gunmod_inventory_preset : public inventory_selector_preset
 
     protected:
         /** @return Odds for successful installation (pair.first) and gunmod damage (pair.second) */
-        std::pair<int, int> get_odds( const item_location &gun ) const {
+        auto get_odds( const item_location &gun ) const -> std::pair<int, int> {
             return p.gunmod_installation_odds( *gun, gunmod );
         }
 
@@ -965,7 +965,7 @@ class gunmod_inventory_preset : public inventory_selector_preset
         const item &gunmod;
 };
 
-item_location game_menus::inv::gun_to_modify( player &p, const item &gunmod )
+auto game_menus::inv::gun_to_modify( player &p, const item &gunmod ) -> item_location
 {
     return inv_internal( p, gunmod_inventory_preset( p, gunmod ),
                          _( "Select gun to modify" ), -1,
@@ -1054,11 +1054,11 @@ class read_inventory_preset final: public inventory_selector_preset
             }, _( "CHAPTER IN" ), unknown );
         }
 
-        bool is_shown( const item_location &loc ) const override {
+        auto is_shown( const item_location &loc ) const -> bool override {
             return loc->is_book();
         }
 
-        std::string get_denial( const item_location &loc ) const override {
+        auto get_denial( const item_location &loc ) const -> std::string override {
             // This is terrible and needs to be removed asap when this entire file is refactored
             // to use the new avatar class
             const avatar *u = p.as_avatar();
@@ -1074,7 +1074,7 @@ class read_inventory_preset final: public inventory_selector_preset
             return std::string();
         }
 
-        nc_color get_color( const inventory_entry &entry ) const override {
+        auto get_color( const inventory_entry &entry ) const -> nc_color override {
             if( !entry.is_item() ) {
                 return inventory_selector_preset::get_color( entry );
             }
@@ -1088,7 +1088,7 @@ class read_inventory_preset final: public inventory_selector_preset
         * 3. CanNotTrainSkillAnymore grouped by skill.
         * 4. ForFun sorted to make most fun books first.
         */
-        bool sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const override {
+        auto sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const -> bool override {
             const bool base_sort = inventory_selector_preset::sort_compare( lhs, rhs );
 
             // Player doesn't really interested if NPC knows about book.
@@ -1106,10 +1106,10 @@ class read_inventory_preset final: public inventory_selector_preset
 
             struct localized_string {
                 std::string s;
-                bool operator==( const localized_string &other ) const {
+                auto operator==( const localized_string &other ) const -> bool {
                     return s == other.s;
                 }
-                bool operator<( const localized_string &other ) const {
+                auto operator<( const localized_string &other ) const -> bool {
                     return localized_compare( s, other.s );
                 }
             };
@@ -1139,7 +1139,7 @@ class read_inventory_preset final: public inventory_selector_preset
                         }
                     }
 
-                    localized_string get_localized_skill()const {
+                    auto get_localized_skill()const -> localized_string {
                         assert( can_teach );
 
                         if( book.martial_art ) {
@@ -1192,11 +1192,11 @@ class read_inventory_preset final: public inventory_selector_preset
         }
 
     private:
-        const islot_book &get_book( const item_location &loc ) const {
+        auto get_book( const item_location &loc ) const -> const islot_book & {
             return *loc->type->book;
         }
 
-        bool is_known( const item_location &loc ) const {
+        auto is_known( const item_location &loc ) const -> bool {
             // This is terrible and needs to be removed asap when this entire file is refactored
             // to use the new avatar class
             if( const avatar *u = dynamic_cast<const avatar *>( &p ) ) {
@@ -1205,7 +1205,7 @@ class read_inventory_preset final: public inventory_selector_preset
             return false;
         }
 
-        int get_known_recipes( const islot_book &book ) const {
+        auto get_known_recipes( const islot_book &book ) const -> int {
             int res = 0;
             for( const auto &elem : book.recipes ) {
                 if( p.knows_recipe( elem.recipe ) ) {
@@ -1218,7 +1218,7 @@ class read_inventory_preset final: public inventory_selector_preset
         const player &p;
 };
 
-item_location game_menus::inv::read( player &pl )
+auto game_menus::inv::read( player &pl ) -> item_location
 {
     const std::string none_msg = pl.is_player() ? _( "You have nothing to read." ) :
                                  string_format( _( "%s has nothing to read." ), pl.disp_name() );
@@ -1231,7 +1231,7 @@ class steal_inventory_preset : public pickup_inventory_preset
         steal_inventory_preset( const avatar &p, const player &victim ) :
             pickup_inventory_preset( p ), victim( victim ) {}
 
-        bool is_shown( const item_location &loc ) const override {
+        auto is_shown( const item_location &loc ) const -> bool override {
             return !victim.is_worn( *loc ) && &victim.weapon != &( *loc );
         }
 
@@ -1239,7 +1239,7 @@ class steal_inventory_preset : public pickup_inventory_preset
         const player &victim;
 };
 
-item_location game_menus::inv::steal( avatar &you, player &victim )
+auto game_menus::inv::steal( avatar &you, player &victim ) -> item_location
 {
     return inv_internal( victim, steal_inventory_preset( you, victim ),
                          string_format( _( "Steal from %s" ), victim.name ), -1,
@@ -1309,7 +1309,7 @@ class weapon_inventory_preset: public inventory_selector_preset
             }, _( "MOVES" ) );
         }
 
-        std::string get_denial( const item_location &loc ) const override {
+        auto get_denial( const item_location &loc ) const -> std::string override {
             const auto ret = p.can_wield( *loc );
 
             if( !ret.success() ) {
@@ -1320,11 +1320,11 @@ class weapon_inventory_preset: public inventory_selector_preset
         }
 
     private:
-        bool deals_melee_damage( const item &it ) const {
+        auto deals_melee_damage( const item &it ) const -> bool {
             return it.damage_melee( DT_BASH ) || it.damage_melee( DT_CUT ) || it.damage_melee( DT_STAB );
         }
 
-        std::string get_damage_string( float damage, bool display_zeroes = false ) const {
+        auto get_damage_string( float damage, bool display_zeroes = false ) const -> std::string {
             return damage ||
                    display_zeroes ? string_format( "<color_yellow>%g</color>", damage ) : std::string();
         }
@@ -1332,7 +1332,7 @@ class weapon_inventory_preset: public inventory_selector_preset
         const player &p;
 };
 
-item_location game_menus::inv::wield( avatar &you )
+auto game_menus::inv::wield( avatar &you ) -> item_location
 {
     return inv_internal( you, weapon_inventory_preset( you ), _( "Wield item" ), 1,
                          _( "You have nothing to wield." ) );
@@ -1345,7 +1345,7 @@ class holster_inventory_preset: public weapon_inventory_preset
             weapon_inventory_preset( p ), actor( actor ) {
         }
 
-        bool is_shown( const item_location &loc ) const override {
+        auto is_shown( const item_location &loc ) const -> bool override {
             return actor.can_holster( *loc );
         }
 
@@ -1353,7 +1353,7 @@ class holster_inventory_preset: public weapon_inventory_preset
         const holster_actor &actor;
 };
 
-item_location game_menus::inv::holster( player &p, item &holster )
+auto game_menus::inv::holster( player &p, item &holster ) -> item_location
 {
     const std::string holster_name = holster.tname( 1, false );
     const auto actor = dynamic_cast<const holster_actor *>
@@ -1385,11 +1385,11 @@ class saw_barrel_inventory_preset: public weapon_inventory_preset
             weapon_inventory_preset( p ), p( p ), tool( tool ), actor( actor ) {
         }
 
-        bool is_shown( const item_location &loc ) const override {
+        auto is_shown( const item_location &loc ) const -> bool override {
             return loc->is_gun();
         }
 
-        std::string get_denial( const item_location &loc ) const override {
+        auto get_denial( const item_location &loc ) const -> std::string override {
             const auto ret = actor.can_use_on( p, tool, *loc );
 
             if( !ret.success() ) {
@@ -1417,7 +1417,7 @@ class salvage_inventory_preset: public inventory_selector_preset
             }, _( "TIME" ) );
         }
 
-        bool is_shown( const item_location &loc ) const override {
+        auto is_shown( const item_location &loc ) const -> bool override {
             return actor->valid_to_cut_up( *loc.get_item() );
         }
 
@@ -1425,7 +1425,7 @@ class salvage_inventory_preset: public inventory_selector_preset
         const salvage_actor *actor;
 };
 
-item_location game_menus::inv::salvage( player &p, const salvage_actor *actor )
+auto game_menus::inv::salvage( player &p, const salvage_actor *actor ) -> item_location
 {
     return inv_internal( p, salvage_inventory_preset( actor ),
                          _( "Cut up what?" ), 1,
@@ -1439,7 +1439,7 @@ class repair_inventory_preset: public inventory_selector_preset
             actor( actor ), main_tool( main_tool ) {
         }
 
-        bool is_shown( const item_location &loc ) const override {
+        auto is_shown( const item_location &loc ) const -> bool override {
             return loc->made_of_any( actor->materials ) && !loc->count_by_charges() && !loc->is_firearm() &&
                    &*loc != main_tool;
         }
@@ -1449,8 +1449,8 @@ class repair_inventory_preset: public inventory_selector_preset
         const item *main_tool;
 };
 
-item_location game_menus::inv::repair( player &p, const repair_item_actor *actor,
-                                       const item *main_tool )
+auto game_menus::inv::repair( player &p, const repair_item_actor *actor,
+                                       const item *main_tool ) -> item_location
 {
     return inv_internal( p, repair_inventory_preset( actor, main_tool ),
                          _( "Repair what?" ), 1,
@@ -1458,7 +1458,7 @@ item_location game_menus::inv::repair( player &p, const repair_item_actor *actor
                                         main_tool->type_name( 1 ) ) );
 }
 
-item_location game_menus::inv::saw_barrel( player &p, item &tool )
+auto game_menus::inv::saw_barrel( player &p, item &tool ) -> item_location
 {
     const auto actor = dynamic_cast<const saw_barrel_actor *>
                        ( tool.type->get_use( "saw_barrel" )->get_actor_ptr() );
@@ -1477,7 +1477,7 @@ item_location game_menus::inv::saw_barrel( player &p, item &tool )
                        );
 }
 
-drop_locations game_menus::inv::multidrop( player &p )
+auto game_menus::inv::multidrop( player &p ) -> drop_locations
 {
     p.inv.restack( p );
 
@@ -1506,8 +1506,8 @@ drop_locations game_menus::inv::multidrop( player &p )
     return inv_s.execute();
 }
 
-iuse_locations game_menus::inv::multiwash( Character &ch, int water, int cleanser, bool do_soft,
-        bool do_hard )
+auto game_menus::inv::multiwash( Character &ch, int water, int cleanser, bool do_soft,
+        bool do_hard ) -> iuse_locations
 {
     const inventory_filter_preset preset( [do_soft, do_hard]( const item_location & location ) {
         return location->has_flag( "FILTHY" ) && ( ( do_soft && location->is_soft() ) ||
@@ -1710,9 +1710,9 @@ void game_menus::inv::swap_letters( player &p )
     }
 }
 
-static item_location autodoc_internal( player &u, player &patient,
+static auto autodoc_internal( player &u, player &patient,
                                        const inventory_selector_preset &preset,
-                                       int radius, bool uninstall = false, bool surgeon = false )
+                                       int radius, bool uninstall = false, bool surgeon = false ) -> item_location
 {
     inventory_pick_selector inv_s( u, preset );
     std::string hint;
@@ -1797,11 +1797,11 @@ class bionic_install_preset: public inventory_selector_preset
             }, _( "ANESTHETIC REQUIRED" ) );
         }
 
-        bool is_shown( const item_location &loc ) const override {
+        auto is_shown( const item_location &loc ) const -> bool override {
             return loc->is_bionic();
         }
 
-        std::string get_denial( const item_location &loc ) const override {
+        auto get_denial( const item_location &loc ) const -> std::string override {
             const item *it = loc.get_item();
             const itype *itemtype = it->type;
             const bionic_id &bid = itemtype->bionic->id;
@@ -1841,14 +1841,14 @@ class bionic_install_preset: public inventory_selector_preset
 
     private:
         // Returns a formatted string of how long the operation will take.
-        std::string get_operation_duration( const item_location &loc ) {
+        auto get_operation_duration( const item_location &loc ) -> std::string {
             const int difficulty = loc.get_item()->type->bionic->difficulty;
             // 20 minutes per bionic difficulty.
             return to_string( time_duration::from_minutes( difficulty * 20 ) );
         }
 
         // Failure chance for bionic install. Combines multiple other functions together.
-        std::string get_failure_chance( const item_location &loc ) {
+        auto get_failure_chance( const item_location &loc ) -> std::string {
 
             const int difficulty = loc.get_item()->type->bionic->difficulty;
             int chance_of_failure = 100;
@@ -1874,7 +1874,7 @@ class bionic_install_preset: public inventory_selector_preset
                                   chance_of_failure );
         }
 
-        std::string get_anesth_amount( const item_location &loc ) {
+        auto get_anesth_amount( const item_location &loc ) -> std::string {
 
             const int weight = 7;
             const int duration = loc.get_item()->type->bionic->difficulty * 2;
@@ -1901,11 +1901,11 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
             }, _( "PRICE" ) );
         }
 
-        bool is_shown( const item_location &loc ) const override {
+        auto is_shown( const item_location &loc ) const -> bool override {
             return loc->is_bionic();
         }
 
-        std::string get_denial( const item_location &loc ) const override {
+        auto get_denial( const item_location &loc ) const -> std::string override {
             const item *it = loc.get_item();
             const itype *itemtype = it->type;
             const bionic_id &bid = itemtype->bionic->id;
@@ -1936,14 +1936,14 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
 
     private:
         // Returns a formatted string of how long the operation will take.
-        std::string get_operation_duration( const item_location &loc ) {
+        auto get_operation_duration( const item_location &loc ) -> std::string {
             const int difficulty = loc.get_item()->type->bionic->difficulty;
             // 20 minutes per bionic difficulty.
             return to_string( time_duration::from_minutes( difficulty * 20 ) );
         }
 
         // Failure chance for bionic install. Combines multiple other functions together.
-        std::string get_failure_chance( const item_location &loc ) {
+        auto get_failure_chance( const item_location &loc ) -> std::string {
 
             const int difficulty = loc.get_item()->type->bionic->difficulty;
             int chance_of_failure = 100;
@@ -1964,12 +1964,12 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
             return string_format( _( "%i%%" ), chance_of_failure );
         }
 
-        std::string get_money_amount( const item_location &loc ) {
+        auto get_money_amount( const item_location &loc ) -> std::string {
             return format_money( loc.get_item()->price( true ) * 2 );
         }
 };
 
-item_location game_menus::inv::install_bionic( player &p, player &patient, bool surgeon )
+auto game_menus::inv::install_bionic( player &p, player &patient, bool surgeon ) -> item_location
 {
     if( surgeon ) {
         return autodoc_internal( p, patient, bionic_install_surgeon_preset( p, patient ), 5, false,
@@ -1998,11 +1998,11 @@ class bionic_uninstall_preset : public inventory_selector_preset
             }, _( "ANESTHETIC REQUIRED" ) );
         }
 
-        bool is_shown( const item_location &loc ) const override {
+        auto is_shown( const item_location &loc ) const -> bool override {
             return loc->has_flag( flag_IN_CBM );
         }
 
-        std::string get_denial( const item_location &loc ) const override {
+        auto get_denial( const item_location &loc ) const -> std::string override {
             const itype *itemtype = loc.get_item()->type;
 
             if( !p.has_enough_anesth( itemtype, pa ) ) {
@@ -2020,14 +2020,14 @@ class bionic_uninstall_preset : public inventory_selector_preset
 
     private:
         // Returns a formatted string of how long the operation will take.
-        std::string get_operation_duration( const item_location &loc ) {
+        auto get_operation_duration( const item_location &loc ) -> std::string {
             const int difficulty = loc.get_item()->type->bionic->difficulty;
             // 20 minutes per bionic difficulty.
             return to_string( time_duration::from_minutes( difficulty * 20 ) );
         }
 
         // Failure chance for bionic uninstall. Combines multiple other functions together.
-        std::string get_failure_chance( const item_location &loc ) {
+        auto get_failure_chance( const item_location &loc ) -> std::string {
 
             // Uninstall difficulty gets a +2
             const int difficulty = loc.get_item()->type->bionic->difficulty + 2;
@@ -2048,14 +2048,14 @@ class bionic_uninstall_preset : public inventory_selector_preset
             return string_format( _( "%i%%" ), chance_of_failure );
         }
 
-        std::string get_anesth_amount( const item_location &loc ) {
+        auto get_anesth_amount( const item_location &loc ) -> std::string {
             const int weight = 7;
             const int duration = loc.get_item()->type->bionic->difficulty * 2;
             return string_format( _( "%i mL" ), anesthetic_requirement( duration * weight ) );
         }
 };
 
-item_location game_menus::inv::uninstall_bionic( player &p, player &patient )
+auto game_menus::inv::uninstall_bionic( player &p, player &patient ) -> item_location
 {
     return autodoc_internal( p, patient, bionic_uninstall_preset( p, patient ), 0, true );
 }
@@ -2068,11 +2068,11 @@ class bionic_sterilize_preset : public inventory_selector_preset
             p( pl ) {
         }
 
-        bool is_shown( const item_location &loc ) const override {
+        auto is_shown( const item_location &loc ) const -> bool override {
             return loc->has_fault( fault_bionic_nonsterile ) && loc->is_bionic();
         }
 
-        std::string get_denial( const item_location &loc ) const override {
+        auto get_denial( const item_location &loc ) const -> std::string override {
             if( loc.get_item()->has_flag( flag_FILTHY ) ) {
                 return  _( "CBM is filthy.  Wash it first." );
             }
@@ -2084,9 +2084,9 @@ class bionic_sterilize_preset : public inventory_selector_preset
         player &p;
 };
 
-static item_location autoclave_internal( player &u,
+static auto autoclave_internal( player &u,
         const inventory_selector_preset &preset,
-        int radius )
+        int radius ) -> item_location
 {
     inventory_pick_selector inv_s( u, preset );
     inv_s.set_title( _( "Sterilization" ) );
@@ -2117,7 +2117,7 @@ static item_location autoclave_internal( player &u,
     } while( true );
 
 }
-item_location game_menus::inv::sterilize_cbm( player &p )
+auto game_menus::inv::sterilize_cbm( player &p ) -> item_location
 {
     return autoclave_internal( p, bionic_sterilize_preset( p ), 6 );
 }

@@ -21,7 +21,7 @@ map_selector::map_selector( const tripoint &pos, int radius, bool accessible )
     }
 }
 
-tripoint_range<tripoint> points_in_range( const map &m )
+auto points_in_range( const map &m ) -> tripoint_range<tripoint>
 {
     const int z = m.get_abs_sub().z;
     const bool hasz = m.has_zlevels();
@@ -30,14 +30,14 @@ tripoint_range<tripoint> points_in_range( const map &m )
                tripoint( SEEX * m.getmapsize() - 1, SEEY * m.getmapsize() - 1, hasz ? OVERMAP_HEIGHT : z ) );
 }
 
-cata::optional<tripoint> random_point( const map &m,
-                                       const std::function<bool( const tripoint & )> &predicate )
+auto random_point( const map &m,
+                                       const std::function<bool( const tripoint & )> &predicate ) -> cata::optional<tripoint>
 {
     return random_point( points_in_range( m ), predicate );
 }
 
-cata::optional<tripoint> random_point( const tripoint_range<tripoint> &range,
-                                       const std::function<bool( const tripoint & )> &predicate )
+auto random_point( const tripoint_range<tripoint> &range,
+                                       const std::function<bool( const tripoint & )> &predicate ) -> cata::optional<tripoint>
 {
     // Optimist approach: just assume there are plenty of suitable places and a randomly
     // chosen point will have a good chance to hit one of them.

@@ -25,23 +25,23 @@ class recipe_dictionary
 
     public:
         /** Returns all recipes that can be automatically learned */
-        const std::set<const recipe *> &all_autolearn() const {
+        auto all_autolearn() const -> const std::set<const recipe *> & {
             return autolearn;
         }
 
         /** Returns all blueprints */
-        const std::set<const recipe *> &all_blueprints() const {
+        auto all_blueprints() const -> const std::set<const recipe *> & {
             return blueprints;
         }
 
-        size_t size() const;
-        std::map<recipe_id, recipe>::const_iterator begin() const;
-        std::map<recipe_id, recipe>::const_iterator end() const;
+        auto size() const -> size_t;
+        auto begin() const -> std::map<recipe_id, recipe>::const_iterator;
+        auto end() const -> std::map<recipe_id, recipe>::const_iterator;
 
-        bool is_item_on_loop( const itype_id & ) const;
+        auto is_item_on_loop( const itype_id & ) const -> bool;
 
         /** Returns disassembly recipe (or null recipe if no match) */
-        static const recipe &get_uncraft( const itype_id &id );
+        static auto get_uncraft( const itype_id &id ) -> const recipe &;
 
         static void load_recipe( const JsonObject &jo, const std::string &src );
         static void load_uncraft( const JsonObject &jo, const std::string &src );
@@ -56,8 +56,8 @@ class recipe_dictionary
          */
         static void delete_if( const std::function<bool( const recipe & )> &pred );
 
-        static recipe &load( const JsonObject &jo, const std::string &src,
-                             std::map<recipe_id, recipe> &out );
+        static auto load( const JsonObject &jo, const std::string &src,
+                             std::map<recipe_id, recipe> &out ) -> recipe &;
 
     private:
         std::map<recipe_id, recipe> recipes;
@@ -74,7 +74,7 @@ extern recipe_dictionary recipe_dict;
 
 using recipe_filter = std::function<bool( const recipe &r )>;
 
-recipe_filter recipe_filter_by_component( const itype_id &c );
+auto recipe_filter_by_component( const itype_id &c ) -> recipe_filter;
 
 class recipe_subset
 {
@@ -103,7 +103,7 @@ class recipe_subset
         }
 
         /** Check if the subset contains a recipe with the specified id. */
-        bool contains( const recipe &r ) const {
+        auto contains( const recipe &r ) const -> bool {
             return ids.count( r.ident() ) != 0;
         }
 
@@ -111,20 +111,20 @@ class recipe_subset
          * Get custom difficulty for the recipe.
          * @return Either custom difficulty if it was specified, or recipe default difficulty.
          */
-        int get_custom_difficulty( const recipe *r ) const;
+        auto get_custom_difficulty( const recipe *r ) const -> int;
 
         /** Check if there is any recipes in given category (optionally restricted to subcategory) */
-        bool empty_category(
+        auto empty_category(
             const std::string &cat,
-            const std::string &subcat = std::string() ) const;
+            const std::string &subcat = std::string() ) const -> bool;
 
         /** Get all recipes in given category (optionally restricted to subcategory) */
-        std::vector<const recipe *> in_category(
+        auto in_category(
             const std::string &cat,
-            const std::string &subcat = std::string() ) const;
+            const std::string &subcat = std::string() ) const -> std::vector<const recipe *>;
 
         /** Returns all recipes which could use component */
-        const std::set<const recipe *> &of_component( const itype_id &id ) const;
+        auto of_component( const itype_id &id ) const -> const std::set<const recipe *> &;
 
         enum class search_type {
             name,
@@ -138,27 +138,27 @@ class recipe_subset
         };
 
         /** Find marked favorite recipes */
-        std::vector<const recipe *> favorite() const;
+        auto favorite() const -> std::vector<const recipe *>;
 
         /** Find recently used recipes */
-        std::vector<const recipe *> recent() const;
+        auto recent() const -> std::vector<const recipe *>;
 
         /** Find hidden recipes */
-        std::vector<const recipe *> hidden() const;
+        auto hidden() const -> std::vector<const recipe *>;
 
         /** Find recipes matching query (left anchored partial matches are supported) */
-        std::vector<const recipe *> search( const std::string &txt,
-                                            search_type key = search_type::name ) const;
+        auto search( const std::string &txt,
+                                            search_type key = search_type::name ) const -> std::vector<const recipe *>;
         /** Find recipes matching query and return a new recipe_subset */
-        recipe_subset reduce( const std::string &txt, search_type key = search_type::name ) const;
+        auto reduce( const std::string &txt, search_type key = search_type::name ) const -> recipe_subset;
         /** Set intersection between recipe_subsets */
-        recipe_subset intersection( const recipe_subset &subset ) const;
+        auto intersection( const recipe_subset &subset ) const -> recipe_subset;
         /** Set difference between recipe_subsets */
-        recipe_subset difference( const recipe_subset &subset ) const;
+        auto difference( const recipe_subset &subset ) const -> recipe_subset;
         /** Find recipes producing the item */
-        std::vector<const recipe *> search_result( const itype_id &item ) const;
+        auto search_result( const itype_id &item ) const -> std::vector<const recipe *>;
 
-        size_t size() const {
+        auto size() const -> size_t {
             return recipes.size();
         }
 
@@ -169,11 +169,11 @@ class recipe_subset
             ids.clear();
         }
 
-        std::set<const recipe *>::const_iterator begin() const {
+        auto begin() const -> std::set<const recipe *>::const_iterator {
             return recipes.begin();
         }
 
-        std::set<const recipe *>::const_iterator end() const {
+        auto end() const -> std::set<const recipe *>::const_iterator {
             return recipes.end();
         }
 

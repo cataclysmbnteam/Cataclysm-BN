@@ -31,7 +31,7 @@ void node_t::add_child( const node_t *new_child )
     children.push_back( new_child );
 }
 
-behavior_return node_t::tick( const oracle_t *subject ) const
+auto node_t::tick( const oracle_t *subject ) const -> behavior_return
 {
     assert( predicate );
     if( children.empty() ) {
@@ -47,19 +47,19 @@ behavior_return node_t::tick( const oracle_t *subject ) const
     }
 }
 
-std::string node_t::goal() const
+auto node_t::goal() const -> std::string
 {
     return _goal;
 }
 
-std::string tree::tick( const oracle_t *subject )
+auto tree::tick( const oracle_t *subject ) -> std::string
 {
     behavior_return result = root->tick( subject );
     active_node = result.result == running ? result.selection : nullptr;
     return goal();
 }
 
-std::string tree::goal() const
+auto tree::goal() const -> std::string
 {
     return active_node == nullptr ? "idle" : active_node->goal();
 }
@@ -84,7 +84,7 @@ std::list<node_data> temp_node_data;
 } // namespace
 
 template<>
-const node_t &string_id<node_t>::obj() const
+auto string_id<node_t>::obj() const -> const node_t &
 {
     return behavior_factory.obj( *this );
 }

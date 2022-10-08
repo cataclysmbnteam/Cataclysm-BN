@@ -13,23 +13,23 @@
 
 struct tripoint;
 
-bool item_contents::empty() const
+auto item_contents::empty() const -> bool
 {
     return items.empty();
 }
 
-ret_val<bool> item_contents::insert_item( const item &it )
+auto item_contents::insert_item( const item &it ) -> ret_val<bool>
 {
     items.push_back( it );
     return ret_val<bool>::make_success();
 }
 
-size_t item_contents::num_item_stacks() const
+auto item_contents::num_item_stacks() const -> size_t
 {
     return items.size();
 }
 
-bool item_contents::spill_contents( const tripoint &pos )
+auto item_contents::spill_contents( const tripoint &pos ) -> bool
 {
     for( item &it : items ) {
         get_map().add_item_or_charges( pos, it );
@@ -102,12 +102,12 @@ void item_contents::migrate_item( item &obj, const std::set<itype_id> &migration
     }
 }
 
-bool item_contents::has_any_with( const std::function<bool( const item &it )> &filter ) const
+auto item_contents::has_any_with( const std::function<bool( const item &it )> &filter ) const -> bool
 {
     return std::any_of( items.begin(), items.end(), filter );
 }
 
-bool item_contents::stacks_with( const item_contents &rhs ) const
+auto item_contents::stacks_with( const item_contents &rhs ) const -> bool
 {
     return std::equal( items.begin(), items.end(), rhs.items.begin(), []( const item & a,
     const item & b ) {
@@ -115,7 +115,7 @@ bool item_contents::stacks_with( const item_contents &rhs ) const
     } );
 }
 
-item *item_contents::get_item_with( const std::function<bool( const item &it )> &filter )
+auto item_contents::get_item_with( const std::function<bool( const item &it )> &filter ) -> item *
 {
     auto bomb_it = std::find_if( items.begin(), items.end(), filter );
     if( bomb_it == items.end() ) {
@@ -125,7 +125,7 @@ item *item_contents::get_item_with( const std::function<bool( const item &it )> 
     }
 }
 
-std::list<item *> item_contents::all_items_top()
+auto item_contents::all_items_top() -> std::list<item *>
 {
     std::list<item *> ret;
     for( item &it : items ) {
@@ -134,7 +134,7 @@ std::list<item *> item_contents::all_items_top()
     return ret;
 }
 
-std::list<const item *> item_contents::all_items_top() const
+auto item_contents::all_items_top() const -> std::list<const item *>
 {
     std::list<const item *> ret;
     for( const item &it : items ) {
@@ -143,7 +143,7 @@ std::list<const item *> item_contents::all_items_top() const
     return ret;
 }
 
-std::list<item *> item_contents::all_items_ptr()
+auto item_contents::all_items_ptr() -> std::list<item *>
 {
     std::list<item *> ret;
     for( item &it : items ) {
@@ -154,7 +154,7 @@ std::list<item *> item_contents::all_items_ptr()
     return ret;
 }
 
-std::list<const item *> item_contents::all_items_ptr() const
+auto item_contents::all_items_ptr() const -> std::list<const item *>
 {
     std::list<const item *> ret;
     for( const item &it : items ) {
@@ -165,7 +165,7 @@ std::list<const item *> item_contents::all_items_ptr() const
     return ret;
 }
 
-std::vector<item *> item_contents::gunmods()
+auto item_contents::gunmods() -> std::vector<item *>
 {
     std::vector<item *> res;
     for( item &e : items ) {
@@ -176,7 +176,7 @@ std::vector<item *> item_contents::gunmods()
     return res;
 }
 
-std::vector<const item *> item_contents::gunmods() const
+auto item_contents::gunmods() const -> std::vector<const item *>
 {
     std::vector<const item *> res;
     for( const item &e : items ) {
@@ -187,27 +187,27 @@ std::vector<const item *> item_contents::gunmods() const
     return res;
 }
 
-item &item_contents::front()
+auto item_contents::front() -> item &
 {
     return items.front();
 }
 
-const item &item_contents::front() const
+auto item_contents::front() const -> const item &
 {
     return items.front();
 }
 
-item &item_contents::back()
+auto item_contents::back() -> item &
 {
     return items.back();
 }
 
-const item &item_contents::back() const
+auto item_contents::back() const -> const item &
 {
     return items.back();
 }
 
-units::volume item_contents::item_size_modifier() const
+auto item_contents::item_size_modifier() const -> units::volume
 {
     units::volume ret = 0_ml;
     for( const item &it : items ) {
@@ -216,7 +216,7 @@ units::volume item_contents::item_size_modifier() const
     return ret;
 }
 
-units::mass item_contents::item_weight_modifier() const
+auto item_contents::item_weight_modifier() const -> units::mass
 {
     units::mass ret = 0_gram;
     for( const item &it : items ) {
@@ -225,7 +225,7 @@ units::mass item_contents::item_weight_modifier() const
     return ret;
 }
 
-int item_contents::best_quality( const quality_id &id ) const
+auto item_contents::best_quality( const quality_id &id ) const -> int
 {
     int ret = INT_MIN;
     for( const item &it : items ) {

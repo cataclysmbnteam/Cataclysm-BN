@@ -153,7 +153,7 @@ class generic_factory
         // TEMPORARY until 0.G: Remove "ident" support
         const std::string legacy_id_member_name = "ident";
 
-        bool find_id( const string_id<T> &id, int_id<T> &result ) const {
+        auto find_id( const string_id<T> &id, int_id<T> &result ) const -> bool {
             if( id._version == version ) {
                 result = int_id<T>( id._cid );
                 return is_valid( result );
@@ -209,7 +209,7 @@ class generic_factory
         /**
          * Returns whether the factory has been finalized.
          */
-        bool is_finalized() const {
+        auto is_finalized() const -> bool {
             return _is_finalized;
         }
 
@@ -223,7 +223,7 @@ class generic_factory
         * @return true if `jo` is loaded and false if loading is deferred.
         * @throws JsonError If `jo` is both abstract and real. (contains "abstract" and "id" members)
         */
-        bool handle_inheritance( T &def, const JsonObject &jo, const std::string &src ) {
+        auto handle_inheritance( T &def, const JsonObject &jo, const std::string &src ) -> bool {
             static const std::string copy_from_member_name( "copy-from" );
             static const std::string abstract_member_name( "abstract" );
             if( jo.has_string( copy_from_member_name ) ) {
@@ -351,7 +351,7 @@ class generic_factory
          * The new object replaces any existing object of the same id.
          * The function returns the actual object reference.
          */
-        T &insert( const T &obj ) {
+        auto insert( const T &obj ) -> T & {
             // this invalidates `_cid` cache for all previously added string_ids,
             // but! it's necessary to invalidate cache for all possibly cached "missed" lookups
             // (lookups for not-yet-inserted elements)
@@ -402,13 +402,13 @@ class generic_factory
         /**
          * Returns the number of loaded objects.
          */
-        size_t size() const {
+        auto size() const -> size_t {
             return list.size();
         }
         /**
          * Returns whether factory is empty.
          */
-        bool empty() const {
+        auto empty() const -> bool {
             return list.empty();
         }
         /**
@@ -426,7 +426,7 @@ class generic_factory
         /**
          * Returns all the loaded objects. It can be used to iterate over them.
          */
-        const std::vector<T> &get_all() const {
+        auto get_all() const -> const std::vector<T> & {
             return list;
         }
         /**
@@ -444,7 +444,7 @@ class generic_factory
          * Note: If the id was valid, the returned object can be modified (after
          * casting the const away).
          */
-        const T &obj( const int_id<T> &id ) const {
+        auto obj( const int_id<T> &id ) const -> const T & {
             if( !is_valid( id ) ) {
                 debugmsg( "invalid %s id \"%d\"", type_name, id.to_i() );
                 return dummy_obj;
@@ -458,7 +458,7 @@ class generic_factory
          * Note: If the id was valid, the returned object can be modified (after
          * casting the const away).
          */
-        const T &obj( const string_id<T> &id ) const {
+        auto obj( const string_id<T> &id ) const -> const T & {
             int_id<T> i_id;
             if( !find_id( id, i_id ) ) {
                 debugmsg( "invalid %s id \"%s\"", type_name, id.c_str() );
@@ -470,21 +470,21 @@ class generic_factory
          * Checks whether the factory contains an object with the given id.
          * This function can be used to implement @ref int_id::is_valid().
          */
-        bool is_valid( const int_id<T> &id ) const {
+        auto is_valid( const int_id<T> &id ) const -> bool {
             return static_cast<size_t>( id.to_i() ) < list.size();
         }
         /**
          * Checks whether the factory contains an object with the given id.
          * This function can be used to implement @ref string_id::is_valid().
          */
-        bool is_valid( const string_id<T> &id ) const {
+        auto is_valid( const string_id<T> &id ) const -> bool {
             int_id<T> dummy;
             return find_id( id, dummy );
         }
         /**
          * Converts string_id<T> to int_id<T>. Returns null_id on failure.
          */
-        int_id<T> convert( const string_id<T> &id, const int_id<T> &null_id ) const {
+        auto convert( const string_id<T> &id, const int_id<T> &null_id ) const -> int_id<T> {
             int_id<T> result;
             if( find_id( id, result ) ) {
                 return result;
@@ -495,7 +495,7 @@ class generic_factory
         /**
          * Converts int_id<T> to string_id<T>. Returns null_id on failure.
          */
-        const string_id<T> &convert( const int_id<T> &id ) const {
+        auto convert( const int_id<T> &id ) const -> const string_id<T> & {
             return obj( id ).id;
         }
         /**@}*/
@@ -514,21 +514,21 @@ class generic_factory
                 Version( int64_t version ) : version( version ) {}
                 int64_t  version = -1;
             public:
-                bool operator==( const Version &rhs ) const {
+                auto operator==( const Version &rhs ) const -> bool {
                     return version == rhs.version;
                 }
-                bool operator!=( const Version &rhs ) const {
+                auto operator!=( const Version &rhs ) const -> bool {
                     return !( rhs == *this );
                 }
         };
 
         // current version of this generic_factory
-        Version get_version() {
+        auto get_version() -> Version {
             return Version( version );
         }
 
         // checks whether given version is the same as current version of this generic_factory
-        bool is_valid( const Version &v ) {
+        auto is_valid( const Version &v ) -> bool {
             return v.version == version;
         }
 };
@@ -700,7 +700,7 @@ static_assert( !supports_proportional<DL>::value, "enums should not support rela
 // return.
 template < typename MemberType, std::enable_if_t < !supports_proportional<MemberType>::value > * =
            nullptr >
-inline bool handle_proportional( const JsonObject &jo, const std::string &name, MemberType & )
+inline auto handle_proportional( const JsonObject &jo, const std::string &name, MemberType & ) -> bool
 {
     if( jo.has_object( "proportional" ) ) {
         JsonObject proportional = jo.get_object( "proportional" );
@@ -718,7 +718,7 @@ inline bool handle_proportional( const JsonObject &jo, const std::string &name, 
 // So, check if there is a proportional entry, check if it's got a valid value
 // and if it does, multiply the member by it.
 template<typename MemberType, std::enable_if_t<supports_proportional<MemberType>::value>* = nullptr>
-inline bool handle_proportional( const JsonObject &jo, const std::string &name, MemberType &member )
+inline auto handle_proportional( const JsonObject &jo, const std::string &name, MemberType &member ) -> bool
 {
     if( jo.has_object( "proportional" ) ) {
         JsonObject proportional = jo.get_object( "proportional" );
@@ -748,7 +748,7 @@ inline bool handle_proportional( const JsonObject &jo, const std::string &name, 
 template < typename MemberType,
            std::enable_if_t < !supports_relative<MemberType>::value > * = nullptr
            >
-inline bool handle_relative( const JsonObject &jo, const std::string &name, MemberType & )
+inline auto handle_relative( const JsonObject &jo, const std::string &name, MemberType & ) -> bool
 {
     if( jo.has_object( "relative" ) ) {
         JsonObject relative = jo.get_object( "relative" );
@@ -766,7 +766,7 @@ inline bool handle_relative( const JsonObject &jo, const std::string &name, Memb
 // this, so member will contain the value of the thing we inherit from
 // So, check if there is a relative entry, then add it to our member
 template<typename MemberType, std::enable_if_t<supports_relative<MemberType>::value>* = nullptr>
-inline bool handle_relative( const JsonObject &jo, const std::string &name, MemberType &member )
+inline auto handle_relative( const JsonObject &jo, const std::string &name, MemberType &member ) -> bool
 {
     if( jo.has_object( "relative" ) ) {
         JsonObject relative = jo.get_object( "relative" );
@@ -848,8 +848,8 @@ inline void optional( const JsonObject &jo, const bool was_loaded, const std::st
  * Reads a string and stores the first byte of it in `sym`. Throws if the input contains more
  * or less than one byte.
  */
-inline bool one_char_symbol_reader( const JsonObject &jo, const std::string &member_name, int &sym,
-                                    bool )
+inline auto one_char_symbol_reader( const JsonObject &jo, const std::string &member_name, int &sym,
+                                    bool ) -> bool
 {
     std::string sym_as_string;
     if( !jo.read( member_name, sym_as_string ) ) {
@@ -866,8 +866,8 @@ inline bool one_char_symbol_reader( const JsonObject &jo, const std::string &mem
  * Reads a UTF-8 string (or int as legacy fallback) and stores Unicode codepoint of it in `symbol`.
  * Throws if the inputs width is more than one console cell wide.
  */
-inline bool unicode_codepoint_from_symbol_reader( const JsonObject &jo,
-        const std::string &member_name, uint32_t &member, bool )
+inline auto unicode_codepoint_from_symbol_reader( const JsonObject &jo,
+        const std::string &member_name, uint32_t &member, bool ) -> bool
 {
     int sym_as_int;
     std::string sym_as_string;

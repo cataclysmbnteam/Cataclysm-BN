@@ -876,9 +876,9 @@ void mdeath::broken_ammo( monster &z )
     mdeath::broken( z );
 }
 
-static std::vector<item> butcher_cbm_item( const itype_id &what,
+static auto butcher_cbm_item( const itype_id &what,
         const time_point &birthday, const std::vector<std::string> &flags,
-        const std::vector<fault_id> &faults )
+        const std::vector<fault_id> &faults ) -> std::vector<item>
 {
     item something( what, birthday );
     for( const std::string &flg : flags ) {
@@ -891,9 +891,9 @@ static std::vector<item> butcher_cbm_item( const itype_id &what,
     return {something};
 }
 
-static std::vector<item> butcher_cbm_group( const item_group_id &group,
+static auto butcher_cbm_group( const item_group_id &group,
         const time_point &birthday, const std::vector<std::string> &flags,
-        const std::vector<fault_id> &faults )
+        const std::vector<fault_id> &faults ) -> std::vector<item>
 {
     std::vector<item> spawned = item_group::items_from( group, birthday );
     for( item &it : spawned ) {

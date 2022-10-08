@@ -119,13 +119,13 @@ faction_template::faction_template( const JsonObject &jsobj )
     }
 }
 
-std::string faction::describe() const
+auto faction::describe() const -> std::string
 {
     std::string ret = _( desc );
     return ret;
 }
 
-std::vector<std::string> faction::epilogue() const
+auto faction::epilogue() const -> std::vector<std::string>
 {
     std::vector<std::string> ret;
     for( const std::tuple<int, int, snippet_id> &epilogue_entry : epilogue_data ) {
@@ -164,7 +164,7 @@ void faction::remove_member( const character_id &guy_id )
 }
 
 // Used in game.cpp
-std::string fac_ranking_text( int val )
+auto fac_ranking_text( int val ) -> std::string
 {
     if( val <= -100 ) {
         return _( "Archenemy" );
@@ -213,7 +213,7 @@ std::string fac_ranking_text( int val )
 }
 
 // Used in game.cpp
-std::string fac_respect_text( int val )
+auto fac_respect_text( int val ) -> std::string
 {
     // Respected, feared, etc.
     if( val >= 100 ) {
@@ -258,7 +258,7 @@ std::string fac_respect_text( int val )
     return pgettext( "Faction respect", "Neutral" );
 }
 
-std::string fac_wealth_text( int val, int size )
+auto fac_wealth_text( int val, int size ) -> std::string
 {
     //Wealth per person
     val = val / size;
@@ -289,7 +289,7 @@ std::string fac_wealth_text( int val, int size )
     return pgettext( "Faction wealth", "Destitute" );
 }
 
-std::string faction::food_supply_text()
+auto faction::food_supply_text() -> std::string
 {
     //Convert to how many days you can support the population
     int val = food_supply / ( size * 288 );
@@ -308,7 +308,7 @@ std::string faction::food_supply_text()
     return pgettext( "Faction food", "Starving" );
 }
 
-nc_color faction::food_supply_color()
+auto faction::food_supply_color() -> nc_color
 {
     int val = food_supply / ( size * 288 );
     if( val >= 30 ) {
@@ -324,7 +324,7 @@ nc_color faction::food_supply_color()
     }
 }
 
-bool faction::has_relationship( const faction_id &guy_id, npc_factions::relationship flag ) const
+auto faction::has_relationship( const faction_id &guy_id, npc_factions::relationship flag ) const -> bool
 {
     for( const auto &rel_data : relations ) {
         if( rel_data.first == guy_id.c_str() ) {
@@ -334,7 +334,7 @@ bool faction::has_relationship( const faction_id &guy_id, npc_factions::relation
     return false;
 }
 
-std::string fac_combat_ability_text( int val )
+auto fac_combat_ability_text( int val ) -> std::string
 {
     if( val >= 150 ) {
         return pgettext( "Faction combat lvl", "Legendary" );
@@ -397,8 +397,8 @@ void faction_manager::create_if_needed()
     }
 }
 
-faction *faction_manager::add_new_faction( const std::string &name_new, const faction_id &id_new,
-        const faction_id &template_id )
+auto faction_manager::add_new_faction( const std::string &name_new, const faction_id &id_new,
+        const faction_id &template_id ) -> faction *
 {
     for( const faction_template &fac_temp : npc_factions::all_templates ) {
         if( template_id == fac_temp.id ) {
@@ -412,7 +412,7 @@ faction *faction_manager::add_new_faction( const std::string &name_new, const fa
     return nullptr;
 }
 
-faction *faction_manager::get( const faction_id &id, const bool complain )
+auto faction_manager::get( const faction_id &id, const bool complain ) -> faction *
 {
     if( id.is_null() ) {
         return get( faction_id( "no_faction" ) );
@@ -491,7 +491,7 @@ void faction::faction_display( const catacurses::window &fac_w, const int width 
     fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, c_light_gray, _( desc ) );
 }
 
-int npc::faction_display( const catacurses::window &fac_w, const int width ) const
+auto npc::faction_display( const catacurses::window &fac_w, const int width ) const -> int
 {
     int retval = 0;
     int y = 2;

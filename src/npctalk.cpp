@@ -115,13 +115,13 @@ static std::map<std::string, json_talk_topic> json_talk_topics;
 // Every OWED_VAL that the NPC owes you counts as +1 towards convincing
 #define OWED_VAL 1000
 
-int topic_category( const talk_topic &the_topic );
+auto topic_category( const talk_topic &the_topic ) -> int;
 
-const talk_topic &special_talk( char ch );
+auto special_talk( char ch ) -> const talk_topic &;
 
-std::string give_item_to( npc &p, bool allow_use );
+auto give_item_to( npc &p, bool allow_use ) -> std::string;
 
-std::string talk_trial::name() const
+auto talk_trial::name() const -> std::string
 {
     static const std::array<std::string, NUM_TALK_TRIALS> texts = { {
             "", translate_marker( "LIE" ), translate_marker( "PERSUADE" ), translate_marker( "INTIMIDATE" ), ""
@@ -135,13 +135,13 @@ std::string talk_trial::name() const
 }
 
 /** Time (in turns) and cost (in cent) for training: */
-time_duration calc_skill_training_time( const npc &p, const skill_id &skill )
+auto calc_skill_training_time( const npc &p, const skill_id &skill ) -> time_duration
 {
     return 1_minutes + 30_seconds * g->u.get_skill_level( skill ) -
            1_seconds * p.get_skill_level( skill );
 }
 
-int calc_skill_training_cost( const npc &p, const skill_id &skill )
+auto calc_skill_training_cost( const npc &p, const skill_id &skill ) -> int
 {
     if( p.is_player_ally() ) {
         return 0;
@@ -153,12 +153,12 @@ int calc_skill_training_cost( const npc &p, const skill_id &skill )
 // TODO: all styles cost the same and take the same time to train,
 // maybe add values to the ma_style class to makes this variable
 // TODO: maybe move this function into the ma_style class? Or into the NPC class?
-time_duration calc_ma_style_training_time( const npc &, const matype_id & /* id */ )
+auto calc_ma_style_training_time( const npc &, const matype_id & /* id */ ) -> time_duration
 {
     return 30_minutes;
 }
 
-int calc_ma_style_training_cost( const npc &p, const matype_id & /* id */ )
+auto calc_ma_style_training_cost( const npc &p, const matype_id & /* id */ ) -> int
 {
     if( p.is_player_ally() ) {
         return 0;
@@ -167,7 +167,7 @@ int calc_ma_style_training_cost( const npc &p, const matype_id & /* id */ )
     return 800;
 }
 
-int npc::calc_spell_training_cost( const bool knows, int difficulty, int level )
+auto npc::calc_spell_training_cost( const bool knows, int difficulty, int level ) -> int
 {
     if( is_player_ally() ) {
         return 0;
@@ -180,7 +180,7 @@ int npc::calc_spell_training_cost( const bool knows, int difficulty, int level )
 }
 
 // Rescale values from "mission scale" to "opinion scale"
-int npc_trading::cash_to_favor( const npc &, int cash )
+auto npc_trading::cash_to_favor( const npc &, int cash ) -> int
 {
     // TODO: It should affect different NPCs to a different degree
     // Square root of mission value in dollars
@@ -217,8 +217,8 @@ enum npc_chat_menu {
 // given a vector of NPCs, presents a menu to allow a player to pick one.
 // everyone == true adds another entry at the end to allow selecting all listed NPCs
 // this implies a return value of npc_list.size() means "everyone"
-static int npc_select_menu( const std::vector<npc *> &npc_list, const std::string &prompt,
-                            const bool everyone = true )
+static auto npc_select_menu( const std::vector<npc *> &npc_list, const std::string &prompt,
+                            const bool everyone = true ) -> int
 {
     if( npc_list.empty() ) {
         return -1;
@@ -892,7 +892,7 @@ void npc::talk_to_u( bool radio_contact )
     }
 }
 
-std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
+auto dialogue::dynamic_line( const talk_topic &the_topic ) const -> std::string
 {
     if( !the_topic.item_type.is_null() ) {
         cur_item = the_topic.item_type;
@@ -1142,8 +1142,8 @@ void dialogue::apply_speaker_effects( const talk_topic &the_topic )
     }
 }
 
-talk_response &dialogue::add_response( const std::string &text, const std::string &r,
-                                       const bool first )
+auto dialogue::add_response( const std::string &text, const std::string &r,
+                                       const bool first ) -> talk_response &
 {
     talk_response result = talk_response();
     result.truetext = no_translation( text );
@@ -1160,35 +1160,35 @@ talk_response &dialogue::add_response( const std::string &text, const std::strin
     }
 }
 
-talk_response &dialogue::add_response_done( const std::string &text )
+auto dialogue::add_response_done( const std::string &text ) -> talk_response &
 {
     return add_response( text, "TALK_DONE" );
 }
 
-talk_response &dialogue::add_response_none( const std::string &text )
+auto dialogue::add_response_none( const std::string &text ) -> talk_response &
 {
     return add_response( text, "TALK_NONE" );
 }
 
-talk_response &dialogue::add_response( const std::string &text, const std::string &r,
-                                       talkfunction_ptr effect_success, const bool first )
+auto dialogue::add_response( const std::string &text, const std::string &r,
+                                       talkfunction_ptr effect_success, const bool first ) -> talk_response &
 {
     talk_response &result = add_response( text, r, first );
     result.success.set_effect( effect_success );
     return result;
 }
 
-talk_response &dialogue::add_response( const std::string &text, const std::string &r,
+auto dialogue::add_response( const std::string &text, const std::string &r,
                                        std::function<void( npc & )> effect_success,
-                                       dialogue_consequence consequence, const bool first )
+                                       dialogue_consequence consequence, const bool first ) -> talk_response &
 {
     talk_response &result = add_response( text, r, first );
     result.success.set_effect_consequence( effect_success, consequence );
     return result;
 }
 
-talk_response &dialogue::add_response( const std::string &text, const std::string &r,
-                                       mission *miss, const bool first )
+auto dialogue::add_response( const std::string &text, const std::string &r,
+                                       mission *miss, const bool first ) -> talk_response &
 {
     if( miss == nullptr ) {
         debugmsg( "tried to select null mission" );
@@ -1198,32 +1198,32 @@ talk_response &dialogue::add_response( const std::string &text, const std::strin
     return result;
 }
 
-talk_response &dialogue::add_response( const std::string &text, const std::string &r,
-                                       const skill_id &skill, const bool first )
+auto dialogue::add_response( const std::string &text, const std::string &r,
+                                       const skill_id &skill, const bool first ) -> talk_response &
 {
     talk_response &result = add_response( text, r, first );
     result.skill = skill;
     return result;
 }
 
-talk_response &dialogue::add_response( const std::string &text, const std::string &r,
-                                       const spell_id &sp, const bool first )
+auto dialogue::add_response( const std::string &text, const std::string &r,
+                                       const spell_id &sp, const bool first ) -> talk_response &
 {
     talk_response &result = add_response( text, r, first );
     result.dialogue_spell = sp;
     return result;
 }
 
-talk_response &dialogue::add_response( const std::string &text, const std::string &r,
-                                       const martialart &style, const bool first )
+auto dialogue::add_response( const std::string &text, const std::string &r,
+                                       const martialart &style, const bool first ) -> talk_response &
 {
     talk_response &result = add_response( text, r, first );
     result.style = style.id;
     return result;
 }
 
-talk_response &dialogue::add_response( const std::string &text, const std::string &r,
-                                       const itype_id &item_type, const bool first )
+auto dialogue::add_response( const std::string &text, const std::string &r,
+                                       const itype_id &item_type, const bool first ) -> talk_response &
 {
     if( item_type.is_null() ) {
         debugmsg( "explicitly specified null item" );
@@ -1365,7 +1365,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
     }
 }
 
-static int parse_mod( const dialogue &d, const std::string &attribute, const int factor )
+static auto parse_mod( const dialogue &d, const std::string &attribute, const int factor ) -> int
 {
     player &u = *d.alpha;
     npc &p = *d.beta;
@@ -1399,7 +1399,7 @@ static int parse_mod( const dialogue &d, const std::string &attribute, const int
     return modifier;
 }
 
-int talk_trial::calc_chance( const dialogue &d ) const
+auto talk_trial::calc_chance( const dialogue &d ) const -> int
 {
     player &u = *d.alpha;
     if( u.has_trait( trait_DEBUG_MIND_CONTROL ) ) {
@@ -1472,7 +1472,7 @@ int talk_trial::calc_chance( const dialogue &d ) const
     return std::max( 0, std::min( 100, chance ) );
 }
 
-bool talk_trial::roll( dialogue &d ) const
+auto talk_trial::roll( dialogue &d ) const -> bool
 {
     player &u = *d.alpha;
     if( type == TALK_TRIAL_NONE || u.has_trait( trait_DEBUG_MIND_CONTROL ) ) {
@@ -1488,7 +1488,7 @@ bool talk_trial::roll( dialogue &d ) const
     return success;
 }
 
-int topic_category( const talk_topic &the_topic )
+auto topic_category( const talk_topic &the_topic ) -> int
 {
     const auto &topic = the_topic.id;
     // TODO: ideally, this would be a property of the topic itself.
@@ -1658,7 +1658,7 @@ void dialogue::add_topic( const talk_topic &topic )
     topic_stack.push_back( topic );
 }
 
-talk_data talk_response::create_option_line( const dialogue &d, const char letter )
+auto talk_response::create_option_line( const dialogue &d, const char letter ) -> talk_data
 {
     std::string ftext;
     text = ( truefalse_condition( d ) ? truetext : falsetext ).translated();
@@ -1689,7 +1689,7 @@ talk_data talk_response::create_option_line( const dialogue &d, const char lette
     return {letter, color, ftext};
 }
 
-std::set<dialogue_consequence> talk_response::get_consequences( const dialogue &d ) const
+auto talk_response::get_consequences( const dialogue &d ) const -> std::set<dialogue_consequence>
 {
     int chance = trial.calc_chance( d );
     if( chance >= 100 ) {
@@ -1701,7 +1701,7 @@ std::set<dialogue_consequence> talk_response::get_consequences( const dialogue &
     return {{ success.get_consequence( d ), failure.get_consequence( d ) }};
 }
 
-dialogue_consequence talk_effect_t::get_consequence( const dialogue &d ) const
+auto talk_effect_t::get_consequence( const dialogue &d ) const -> dialogue_consequence
 {
     if( d.beta->op_of_u.anger + opinion.anger >= d.beta->hostile_anger_level() ) {
         return dialogue_consequence::hostile;
@@ -1709,7 +1709,7 @@ dialogue_consequence talk_effect_t::get_consequence( const dialogue &d ) const
     return guaranteed_consequence;
 }
 
-const talk_topic &special_talk( char ch )
+auto special_talk( char ch ) -> const talk_topic &
 {
     static const std::map<char, talk_topic> key_map = {{
             { 'L', talk_topic( "TALK_LOOK_AT" ) },
@@ -1728,8 +1728,8 @@ const talk_topic &special_talk( char ch )
     return no_topic;
 }
 
-talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
-                          const talk_topic &topic )
+auto dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
+                          const talk_topic &topic ) -> talk_topic
 {
     std::string challenge = dynamic_line( topic );
     gen_responses( topic );
@@ -1880,7 +1880,7 @@ talk_trial::talk_trial( const JsonObject &jo )
     }
 }
 
-static talk_topic load_inline_topic( const JsonObject &jo )
+static auto load_inline_topic( const JsonObject &jo ) -> talk_topic
 {
     const std::string id = jo.get_string( "id" );
     json_talk_topics[id].load( jo );
@@ -2373,7 +2373,7 @@ void talk_effect_fun_t::set_add_mission( const std::string &mission_id )
     };
 }
 
-const std::vector<std::pair<int, itype_id>> &talk_effect_fun_t::get_likely_rewards() const
+auto talk_effect_fun_t::get_likely_rewards() const -> const std::vector<std::pair<int, itype_id>> &
 {
     return likely_rewards;
 }
@@ -2471,7 +2471,7 @@ void talk_effect_t::set_effect( talkfunction_ptr ptr )
     set_effect_consequence( npctalk_setter, response );
 }
 
-talk_topic talk_effect_t::apply( dialogue &d ) const
+auto talk_effect_t::apply( dialogue &d ) const -> talk_topic
 {
     // Need to get a reference to the mission before effects are applied, because effects can remove the mission
     mission *miss = d.beta->chatbin.mission_selected;
@@ -2902,7 +2902,7 @@ void json_talk_response::load_condition( const JsonObject &jo )
     read_condition<dialogue>( jo, "condition", condition, true );
 }
 
-bool json_talk_response::test_condition( const dialogue &d ) const
+auto json_talk_response::test_condition( const dialogue &d ) const -> bool
 {
     if( condition ) {
         return condition( d );
@@ -2910,7 +2910,7 @@ bool json_talk_response::test_condition( const dialogue &d ) const
     return true;
 }
 
-bool json_talk_response::gen_responses( dialogue &d, bool switch_done ) const
+auto json_talk_response::gen_responses( dialogue &d, bool switch_done ) const -> bool
 {
     if( !is_switch || !switch_done ) {
         if( test_condition( d ) ) {
@@ -2922,8 +2922,8 @@ bool json_talk_response::gen_responses( dialogue &d, bool switch_done ) const
 }
 
 // repeat responses always go in front
-bool json_talk_response::gen_repeat_response( dialogue &d, const itype_id &item_id,
-        bool switch_done ) const
+auto json_talk_response::gen_repeat_response( dialogue &d, const itype_id &item_id,
+        bool switch_done ) const -> bool
 {
     if( !is_switch || !switch_done ) {
         if( test_condition( d ) ) {
@@ -2937,11 +2937,11 @@ bool json_talk_response::gen_repeat_response( dialogue &d, const itype_id &item_
     return false;
 }
 
-static std::string translate_gendered_line(
+static auto translate_gendered_line(
     const std::string &line,
     const std::vector<std::string> &relevant_genders,
     const dialogue &d
-)
+) -> std::string
 {
     GenderMap gender_map;
     for( const std::string &subject : relevant_genders ) {
@@ -2956,7 +2956,7 @@ static std::string translate_gendered_line(
     return gettext_gendered( gender_map, line );
 }
 
-dynamic_line_t dynamic_line_t::from_member( const JsonObject &jo, const std::string &member_name )
+auto dynamic_line_t::from_member( const JsonObject &jo, const std::string &member_name ) -> dynamic_line_t
 {
     if( jo.has_array( member_name ) ) {
         return dynamic_line_t( jo.get_array( member_name ) );
@@ -3105,7 +3105,7 @@ json_dynamic_line_effect::json_dynamic_line_effect( const JsonObject &jo, const 
     effect = tmp_effect;
 }
 
-bool json_dynamic_line_effect::test_condition( const dialogue &d ) const
+auto json_dynamic_line_effect::test_condition( const dialogue &d ) const -> bool
 {
     return condition( d );
 }
@@ -3153,7 +3153,7 @@ void json_talk_topic::load( const JsonObject &jo )
                                  replace_built_in_responses );
 }
 
-bool json_talk_topic::gen_responses( dialogue &d ) const
+auto json_talk_topic::gen_responses( dialogue &d ) const -> bool
 {
     d.responses.reserve( responses.size() ); // A wild guess, can actually be more or less
 
@@ -3190,12 +3190,12 @@ bool json_talk_topic::gen_responses( dialogue &d ) const
     return replace_built_in_responses;
 }
 
-std::string json_talk_topic::get_dynamic_line( const dialogue &d ) const
+auto json_talk_topic::get_dynamic_line( const dialogue &d ) const -> std::string
 {
     return dynamic_line( d );
 }
 
-std::vector<json_dynamic_line_effect> json_talk_topic::get_speaker_effects() const
+auto json_talk_topic::get_speaker_effects() const -> std::vector<json_dynamic_line_effect>
 {
     return speaker_effects;
 }
@@ -3223,7 +3223,7 @@ void load_talk_topic( const JsonObject &jo )
     }
 }
 
-std::string npc::pick_talk_topic( const player &/*u*/ )
+auto npc::pick_talk_topic( const player &/*u*/ ) -> std::string
 {
     if( personality.aggression > 0 ) {
         if( op_of_u.fear * 2 < personality.bravery && personality.altruism < 0 ) {
@@ -3260,7 +3260,7 @@ enum consumption_result {
 };
 
 // Returns true if we destroyed the item through consumption
-static consumption_result try_consume( npc &p, item &it, std::string &reason )
+static auto try_consume( npc &p, item &it, std::string &reason ) -> consumption_result
 {
     // TODO: Unify this with 'player::consume_item()'
     bool consuming_contents = it.is_container() && !it.contents.empty();
@@ -3328,7 +3328,7 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
     return CONSUMED_ALL;
 }
 
-std::string give_item_to( npc &p, bool allow_use )
+auto give_item_to( npc &p, bool allow_use ) -> std::string
 {
     if( p.is_hallucination() ) {
         return _( "No thanks, I'm good." );
@@ -3429,12 +3429,12 @@ std::string give_item_to( npc &p, bool allow_use )
     return reason;
 }
 
-bool npc::has_item_whitelist() const
+auto npc::has_item_whitelist() const -> bool
 {
     return is_player_ally() && !rules.pickup_whitelist->empty();
 }
 
-bool npc::item_name_whitelisted( const std::string &to_match )
+auto npc::item_name_whitelisted( const std::string &to_match ) -> bool
 {
     if( !has_item_whitelist() ) {
         return true;
@@ -3454,7 +3454,7 @@ bool npc::item_name_whitelisted( const std::string &to_match )
     return wlist.check_item( to_match ) == RULE_WHITELISTED;
 }
 
-bool npc::item_whitelisted( const item &it )
+auto npc::item_whitelisted( const item &it ) -> bool
 {
     if( !has_item_whitelist() ) {
         return true;

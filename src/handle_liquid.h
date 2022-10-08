@@ -54,7 +54,7 @@ void handle_all_liquid( item liquid, int radius );
  * declined all options to handle the liquid and no charges of the liquid have been transferred.
  * `true` indicates some charges have been transferred (but not necessarily all of them).
  */
-bool consume_liquid( item &liquid, int radius = 0 );
+auto consume_liquid( item &liquid, int radius = 0 ) -> bool;
 
 /**
  * Handle finite liquid from ground. The function also handles consuming move points.
@@ -67,8 +67,8 @@ bool consume_liquid( item &liquid, int radius = 0 );
  * The iterator is invalidated in that case. Otherwise the item remains but may have
  * fewer charges.
  */
-bool handle_liquid_from_ground( map_stack::iterator on_ground, const tripoint &pos,
-                                int radius = 0 );
+auto handle_liquid_from_ground( map_stack::iterator on_ground, const tripoint &pos,
+                                int radius = 0 ) -> bool;
 
 /**
  * Handle liquid from inside a container item. The function also handles consuming move points.
@@ -80,12 +80,12 @@ bool handle_liquid_from_ground( map_stack::iterator on_ground, const tripoint &p
  * The iterator is invalidated in that case. Otherwise the item remains but may have
  * fewer charges.
  */
-bool handle_liquid_from_container( item *in_container, item &container,
-                                   int radius = 0 );
+auto handle_liquid_from_container( item *in_container, item &container,
+                                   int radius = 0 ) -> bool;
 /**
  * Shortcut to the above: handles the first item in the container.
  */
-bool handle_liquid_from_container( item &container, int radius = 0 );
+auto handle_liquid_from_container( item &container, int radius = 0 ) -> bool;
 
 /**
  * This may start a player activity if either \p source_pos or \p source_veh is not
@@ -106,10 +106,10 @@ bool handle_liquid_from_container( item &container, int radius = 0 );
  * Basically `false` indicates the user does not *want* to handle the liquid, `true`
  * indicates they want to handle it.
  */
-bool handle_liquid( item &liquid, item *source = nullptr, int radius = 0,
+auto handle_liquid( item &liquid, item *source = nullptr, int radius = 0,
                     const tripoint *source_pos = nullptr,
                     const vehicle *source_veh = nullptr, int part_num = -1,
-                    const monster *source_mon = nullptr );
+                    const monster *source_mon = nullptr ) -> bool;
 } // namespace liquid_handler
 
 #endif // CATA_SRC_HANDLE_LIQUID_H

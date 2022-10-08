@@ -14,7 +14,7 @@ namespace map_funcs
  * 0 means climbing is not possible.
  * Return value can depend on the orientation of the terrain.
  */
-int climbing_cost( const map &m, const tripoint &from, const tripoint &to );
+auto climbing_cost( const map &m, const tripoint &from, const tripoint &to ) -> int;
 
 } // namespace map_funcs
 

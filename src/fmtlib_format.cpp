@@ -12,8 +12,8 @@ namespace detail
 {
 
 template <typename T>
-int format_float( char *buf, std::size_t size, const char *format, int precision,
-                  T value )
+auto format_float( char *buf, std::size_t size, const char *format, int precision,
+                  T value ) -> int
 {
 #ifdef FMT_FUZZ
     if( precision > 100000 )
@@ -33,13 +33,13 @@ FMT_NOEXCEPT;
 
 // DEPRECATED! This function exists for ABI compatibility.
 template <typename Char>
-typename basic_format_context<std::back_insert_iterator<buffer<Char>>,
-         Char>::iterator
+auto
          vformat_to( buffer<Char> &buf, basic_string_view<Char> format_str,
                      basic_format_args<basic_format_context<
                      std::back_insert_iterator<buffer<type_identity_t<Char>>>,
                      type_identity_t<Char>>>
-                     args )
+                     args ) -> typename basic_format_context<std::back_insert_iterator<buffer<Char>>,
+         Char>::iterator
 {
     using iterator = std::back_insert_iterator<buffer<char>>;
     using context = basic_format_context <

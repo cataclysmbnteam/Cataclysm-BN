@@ -16,7 +16,7 @@ constexpr int INVALID_LANGUAGE_VERSION = 0;
 namespace detail
 {
 // returns current language generation/version
-int get_current_language_version();
+auto get_current_language_version() -> int;
 } // namespace detail
 
 void invalidate_translations();
@@ -47,10 +47,10 @@ void invalidate_translations();
 namespace detail
 {
 // same as _(), but without local cache
-const char *_translate_internal( const char *msg ) ATTRIBUTE_FORMAT_ARG( 1 );
+auto _translate_internal( const char *msg ) -> const char * ATTRIBUTE_FORMAT_ARG( 1 );
 
 // same as _(), but without local cache
-inline std::string _translate_internal( const std::string &msg )
+inline auto _translate_internal( const std::string &msg ) -> std::string
 {
     return _translate_internal( msg.c_str() );
 }
@@ -66,7 +66,7 @@ class local_translation_cache<std::string>
         std::string cached_arg;
         std::string cached_translation;
     public:
-        const std::string &operator()( const std::string &arg ) {
+        auto operator()( const std::string &arg ) -> const std::string & {
             if( cached_lang_version != get_current_language_version() || cached_arg != arg ) {
                 cached_lang_version = get_current_language_version();
                 cached_arg = arg;
@@ -85,7 +85,7 @@ class local_translation_cache<const char *>
         bool same_as_arg;
         const char *cached_translation;
     public:
-        const char *operator()( const char *arg ) {
+        auto operator()( const char *arg ) -> const char * {
             if( cached_lang_version != get_current_language_version() || cached_arg != arg ) {
                 cached_lang_version = get_current_language_version();
                 cached_translation = _translate_internal( arg );
@@ -100,12 +100,12 @@ class local_translation_cache<const char *>
 
 // these getters are used to work around the MSVC bug that happened with using decltype in lambda
 // see build log: https://gist.github.com/Aivean/e76a70edce0a1589c76bcf754ffb016b
-static inline local_translation_cache<const char *> get_local_translation_cache( const char * )
+static inline auto get_local_translation_cache( const char * ) -> local_translation_cache<const char *>
 {
     return local_translation_cache<const char *>();
 }
-static inline local_translation_cache<std::string> get_local_translation_cache(
-    const std::string & )
+static inline auto get_local_translation_cache(
+    const std::string & ) -> local_translation_cache<std::string>
 {
     return local_translation_cache<std::string>();
 }
@@ -119,14 +119,14 @@ static inline local_translation_cache<std::string> get_local_translation_cache(
         return cache( arg ); \
     } )( msg ) )
 
-const char *vgettext( const char *msgid, const char *msgid_plural,
-                      size_t n ) ATTRIBUTE_FORMAT_ARG( 1 );
+auto vgettext( const char *msgid, const char *msgid_plural,
+                      size_t n ) -> const char * ATTRIBUTE_FORMAT_ARG( 1 );
 
-const char *pgettext( const char *context, const char *msgid ) ATTRIBUTE_FORMAT_ARG( 2 );
+auto pgettext( const char *context, const char *msgid ) -> const char * ATTRIBUTE_FORMAT_ARG( 2 );
 
 // same as pgettext, but supports plural forms like vgettext
-const char *vpgettext( const char *context, const char *msgid, const char *msgid_plural,
-                       size_t n ) ATTRIBUTE_FORMAT_ARG( 2 );
+auto vpgettext( const char *context, const char *msgid, const char *msgid_plural,
+                       size_t n ) -> const char * ATTRIBUTE_FORMAT_ARG( 2 );
 
 
 using GenderMap = std::map<std::string, std::vector<std::string>>;
@@ -141,7 +141,7 @@ using GenderMap = std::map<std::string, std::vector<std::string>>;
  * chosen for each subject (or the language default if there are no genders in
  * common).
  */
-std::string gettext_gendered( const GenderMap &genders, const std::string &msg );
+auto gettext_gendered( const GenderMap &genders, const std::string &msg ) -> std::string;
 
 class JsonIn;
 
@@ -166,15 +166,15 @@ class translation
         /**
          * Store a string, an optional plural form, and an optional context for translation
          **/
-        static translation to_translation( const std::string &raw );
-        static translation to_translation( const std::string &ctxt, const std::string &raw );
-        static translation pl_translation( const std::string &raw, const std::string &raw_pl );
-        static translation pl_translation( const std::string &ctxt, const std::string &raw,
-                                           const std::string &raw_pl );
+        static auto to_translation( const std::string &raw ) -> translation;
+        static auto to_translation( const std::string &ctxt, const std::string &raw ) -> translation;
+        static auto pl_translation( const std::string &raw, const std::string &raw_pl ) -> translation;
+        static auto pl_translation( const std::string &ctxt, const std::string &raw,
+                                           const std::string &raw_pl ) -> translation;
         /**
          * Store a string that needs no translation.
          **/
-        static translation no_translation( const std::string &str );
+        static auto no_translation( const std::string &str ) -> translation;
 
         /**
          * Can be used to ensure a translation object has plural form enabled
@@ -209,7 +209,7 @@ class translation
          * the translated string. A number can be used to translate the plural
          * form if the object has it.
          **/
-        std::string translated( int num = 1 ) const;
+        auto translated( int num = 1 ) const -> std::string;
 
         /**
          * Methods exposing the underlying raw strings are not implemented, and
@@ -221,13 +221,13 @@ class translation
          * `no_translation`, and retrieve it using `translated()` when saving.
          * This ensures consistent behavior before and after saving and loading.
          **/
-        std::string untranslated() const = delete;
+        auto untranslated() const -> std::string = delete;
 
         /**
          * Whether the underlying string is empty, not matter what the context
          * is or whether translation is needed.
          **/
-        bool empty() const;
+        auto empty() const -> bool;
 
         /**
          * Compare translations by their translated strings (singular form).
@@ -235,20 +235,20 @@ class translation
          * Be especially careful when using these to sort translations, as the
          * translated result will change when switching the language.
          **/
-        bool translated_lt( const translation &that ) const;
-        bool translated_eq( const translation &that ) const;
-        bool translated_ne( const translation &that ) const;
+        auto translated_lt( const translation &that ) const -> bool;
+        auto translated_eq( const translation &that ) const -> bool;
+        auto translated_ne( const translation &that ) const -> bool;
 
         /**
          * Compare translations by their context, raw strings (singular / plural), and no-translation flag
          */
-        bool operator==( const translation &that ) const;
-        bool operator!=( const translation &that ) const;
+        auto operator==( const translation &that ) const -> bool;
+        auto operator!=( const translation &that ) const -> bool;
 
         /**
          * Only used for migrating old snippet hashes into snippet ids.
          */
-        std::pair<bool, int> legacy_hash() const;
+        auto legacy_hash() const -> std::pair<bool, int>;
 
     private:
         translation( const std::string &ctxt, const std::string &raw );
@@ -272,26 +272,26 @@ class translation
 /**
  * Shorthands for translation::to_translation
  **/
-translation to_translation( const std::string &raw );
-translation to_translation( const std::string &ctxt, const std::string &raw );
+auto to_translation( const std::string &raw ) -> translation;
+auto to_translation( const std::string &ctxt, const std::string &raw ) -> translation;
 /**
  * Shorthands for translation::pl_translation
  **/
-translation pl_translation( const std::string &raw, const std::string &raw_pl );
-translation pl_translation( const std::string &ctxt, const std::string &raw,
-                            const std::string &raw_pl );
+auto pl_translation( const std::string &raw, const std::string &raw_pl ) -> translation;
+auto pl_translation( const std::string &ctxt, const std::string &raw,
+                            const std::string &raw_pl ) -> translation;
 /**
  * Shorthand for translation::no_translation
  **/
-translation no_translation( const std::string &str );
+auto no_translation( const std::string &str ) -> translation;
 
 /**
  * Stream output and concatenation of translations. Singular forms are used.
  **/
-std::ostream &operator<<( std::ostream &out, const translation &t );
-std::string operator+( const translation &lhs, const std::string &rhs );
-std::string operator+( const std::string &lhs, const translation &rhs );
-std::string operator+( const translation &lhs, const translation &rhs );
+auto operator<<( std::ostream &out, const translation &t ) -> std::ostream &;
+auto operator+( const translation &lhs, const std::string &rhs ) -> std::string;
+auto operator+( const std::string &lhs, const translation &rhs ) -> std::string;
+auto operator+( const translation &lhs, const translation &rhs ) -> std::string;
 
 // Localized comparison operator, intended for sorting strings when they should
 // be sorted according to the user's locale.
@@ -302,7 +302,7 @@ std::string operator+( const translation &lhs, const translation &rhs );
 // the translated name.
 struct localized_comparator {
     template<typename T, typename U>
-    bool operator()( const std::pair<T, U> &l, const std::pair<T, U> &r ) const {
+    auto operator()( const std::pair<T, U> &l, const std::pair<T, U> &r ) const -> bool {
         if( ( *this )( l.first, r.first ) ) {
             return true;
         }
@@ -313,8 +313,8 @@ struct localized_comparator {
     }
 
     template<typename Head, typename... Tail>
-    bool operator()( const std::tuple<Head, Tail...> &l,
-                     const std::tuple<Head, Tail...> &r ) const {
+    auto operator()( const std::tuple<Head, Tail...> &l,
+                     const std::tuple<Head, Tail...> &r ) const -> bool {
         if( ( *this )( std::get<0>( l ), std::get<0>( r ) ) ) {
             return true;
         }
@@ -326,12 +326,12 @@ struct localized_comparator {
     }
 
     template<typename T>
-    bool operator()( const T &l, const T &r ) const {
+    auto operator()( const T &l, const T &r ) const -> bool {
         return l < r;
     }
 
-    bool operator()( const std::string &, const std::string & ) const;
-    bool operator()( const std::wstring &, const std::wstring & ) const;
+    auto operator()( const std::string &, const std::string & ) const -> bool;
+    auto operator()( const std::wstring &, const std::wstring & ) const -> bool;
 
     template<typename Head, typename... Tail, size_t... Ints>
     auto tie_tail( const std::tuple<Head, Tail...> &t, std::index_sequence<Ints...> ) const {

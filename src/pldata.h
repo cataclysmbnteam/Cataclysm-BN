@@ -63,7 +63,7 @@ struct social_modifiers {
     int persuade = 0;
     int intimidate = 0;
 
-    social_modifiers &operator+=( const social_modifiers &other ) {
+    auto operator+=( const social_modifiers &other ) -> social_modifiers & {
         this->lie += other.lie;
         this->persuade += other.persuade;
         this->intimidate += other.intimidate;
@@ -71,7 +71,7 @@ struct social_modifiers {
     }
 };
 
-inline social_modifiers operator+( social_modifiers lhs, const social_modifiers &rhs )
+inline auto operator+( social_modifiers lhs, const social_modifiers &rhs ) -> social_modifiers
 {
     lhs += rhs;
     return lhs;

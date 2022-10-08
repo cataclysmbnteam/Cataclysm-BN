@@ -23,11 +23,11 @@ class dispersion_sources
         void add_multiplier( double new_multiplier ) {
             multipliers.push_back( new_multiplier );
         }
-        double roll() const;
-        double max() const;
-        double avg() const;
+        auto roll() const -> double;
+        auto max() const -> double;
+        auto avg() const -> double;
 
-        friend std::ostream &operator<<( std::ostream &stream, const dispersion_sources &sources );
+        friend auto operator<<( std::ostream &stream, const dispersion_sources &sources ) -> std::ostream &;
 };
 
 #endif // CATA_SRC_DISPERSION_H

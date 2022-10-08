@@ -16,42 +16,42 @@ generic_factory<ammo_effect> all_ammo_effects( "ammo effects" );
 
 /** @relates int_id */
 template<>
-bool int_id<ammo_effect>::is_valid() const
+auto int_id<ammo_effect>::is_valid() const -> bool
 {
     return all_ammo_effects.is_valid( *this );
 }
 
 /** @relates int_id */
 template<>
-const ammo_effect &int_id<ammo_effect>::obj() const
+auto int_id<ammo_effect>::obj() const -> const ammo_effect &
 {
     return all_ammo_effects.obj( *this );
 }
 
 /** @relates int_id */
 template<>
-const string_id<ammo_effect> &int_id<ammo_effect>::id() const
+auto int_id<ammo_effect>::id() const -> const string_id<ammo_effect> &
 {
     return all_ammo_effects.convert( *this );
 }
 
 /** @relates string_id */
 template<>
-bool string_id<ammo_effect>::is_valid() const
+auto string_id<ammo_effect>::is_valid() const -> bool
 {
     return all_ammo_effects.is_valid( *this );
 }
 
 /** @relates string_id */
 template<>
-const ammo_effect &string_id<ammo_effect>::obj() const
+auto string_id<ammo_effect>::obj() const -> const ammo_effect &
 {
     return all_ammo_effects.obj( *this );
 }
 
 /** @relates string_id */
 template<>
-int_id<ammo_effect> string_id<ammo_effect>::id() const
+auto string_id<ammo_effect>::id() const -> int_id<ammo_effect>
 {
     return all_ammo_effects.convert( *this, AE_NULL );
 }
@@ -139,7 +139,7 @@ void ammo_effect::check() const
     }
 }
 
-size_t ammo_effect::count()
+auto ammo_effect::count() -> size_t
 {
     return all_ammo_effects.size();
 }
@@ -167,7 +167,7 @@ void ammo_effects::reset()
     all_ammo_effects.reset();
 }
 
-const std::vector<ammo_effect> &ammo_effects::get_all()
+auto ammo_effects::get_all() -> const std::vector<ammo_effect> &
 {
     return all_ammo_effects.get_all();
 }

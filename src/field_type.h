@@ -41,7 +41,7 @@ namespace std
 {
 template <>
 struct hash<description_affix> {
-    std::size_t operator()( const description_affix &k ) const noexcept {
+    auto operator()( const description_affix &k ) const noexcept -> std::size_t {
         return static_cast<size_t>( k );
     }
 };
@@ -92,16 +92,16 @@ struct field_effect {
     game_message_type env_message_type = m_neutral;
     translation message;
     translation message_npc;
-    time_duration get_duration() const {
+    auto get_duration() const -> time_duration {
         return rng( min_duration, max_duration );
     }
-    std::string get_message() const {
+    auto get_message() const -> std::string {
         return message.translated();
     }
-    std::string get_message_npc() const {
+    auto get_message_npc() const -> std::string {
         return message_npc.translated();
     }
-    effect get_effect( const time_point &start_time = calendar::turn ) const {
+    auto get_effect( const time_point &start_time = calendar::turn ) const -> effect {
         return effect( &id.obj(), get_duration(), bp, intensity, start_time );
     }
 };
@@ -185,91 +185,91 @@ struct field_type {
         fields::stacking_type stacking_type = fields::stacking_type::intensity;
 
     public:
-        const field_intensity_level &get_intensity_level( int level = 0 ) const;
-        std::string get_name( int level = 0 ) const {
+        auto get_intensity_level( int level = 0 ) const -> const field_intensity_level &;
+        auto get_name( int level = 0 ) const -> std::string {
             return get_intensity_level( level ).name.translated();
         }
-        uint32_t get_codepoint( int level = 0 ) const {
+        auto get_codepoint( int level = 0 ) const -> uint32_t {
             return get_intensity_level( level ).symbol;
         }
-        std::string get_symbol( int level = 0 ) const {
+        auto get_symbol( int level = 0 ) const -> std::string {
             return utf32_to_utf8( get_intensity_level( level ).symbol );
         }
-        nc_color get_color( int level = 0 ) const {
+        auto get_color( int level = 0 ) const -> nc_color {
             return get_intensity_level( level ).color;
         }
-        bool get_dangerous( int level = 0 ) const {
+        auto get_dangerous( int level = 0 ) const -> bool {
             return get_intensity_level( level ).dangerous;
         }
-        bool get_transparent( int level = 0 ) const {
+        auto get_transparent( int level = 0 ) const -> bool {
             return get_intensity_level( level ).transparent;
         }
-        int get_move_cost( int level = 0 ) const {
+        auto get_move_cost( int level = 0 ) const -> int {
             return get_intensity_level( level ).move_cost;
         }
-        int get_extra_radiation_min( int level = 0 ) const {
+        auto get_extra_radiation_min( int level = 0 ) const -> int {
             return get_intensity_level( level ).extra_radiation_min;
         }
-        int get_extra_radiation_max( int level = 0 ) const {
+        auto get_extra_radiation_max( int level = 0 ) const -> int {
             return get_intensity_level( level ).extra_radiation_max;
         }
-        int get_radiation_hurt_damage_min( int level = 0 ) const {
+        auto get_radiation_hurt_damage_min( int level = 0 ) const -> int {
             return get_intensity_level( level ).radiation_hurt_damage_min;
         }
-        int get_radiation_hurt_damage_max( int level = 0 ) const {
+        auto get_radiation_hurt_damage_max( int level = 0 ) const -> int {
             return get_intensity_level( level ).radiation_hurt_damage_max;
         }
-        std::string get_radiation_hurt_message( int level = 0 ) const {
+        auto get_radiation_hurt_message( int level = 0 ) const -> std::string {
             return get_intensity_level( level ).radiation_hurt_message.translated();
         }
-        int get_intensity_upgrade_chance( int level = 0 ) const {
+        auto get_intensity_upgrade_chance( int level = 0 ) const -> int {
             return get_intensity_level( level ).intensity_upgrade_chance;
         }
-        time_duration get_intensity_upgrade_duration( int level = 0 ) const {
+        auto get_intensity_upgrade_duration( int level = 0 ) const -> time_duration {
             return get_intensity_level( level ).intensity_upgrade_duration;
         }
-        int get_monster_spawn_chance( int level = 0 ) const {
+        auto get_monster_spawn_chance( int level = 0 ) const -> int {
             return get_intensity_level( level ).monster_spawn_chance;
         }
-        int get_monster_spawn_count( int level = 0 ) const {
+        auto get_monster_spawn_count( int level = 0 ) const -> int {
             return get_intensity_level( level ).monster_spawn_count;
         }
-        int get_monster_spawn_radius( int level = 0 ) const {
+        auto get_monster_spawn_radius( int level = 0 ) const -> int {
             return get_intensity_level( level ).monster_spawn_radius;
         }
-        mongroup_id get_monster_spawn_group( int level = 0 ) const {
+        auto get_monster_spawn_group( int level = 0 ) const -> mongroup_id {
             return get_intensity_level( level ).monster_spawn_group;
         }
-        float get_light_emitted( int level = 0 ) const {
+        auto get_light_emitted( int level = 0 ) const -> float {
             return get_intensity_level( level ).light_emitted;
         }
-        float get_local_light_override( int level = 0 )const {
+        auto get_local_light_override( int level = 0 )const -> float {
             return get_intensity_level( level ).local_light_override;
         }
-        float get_translucency( int level = 0 ) const {
+        auto get_translucency( int level = 0 ) const -> float {
             return get_intensity_level( level ).translucency;
         }
-        int get_convection_temperature_mod( int level = 0 ) const {
+        auto get_convection_temperature_mod( int level = 0 ) const -> int {
             return get_intensity_level( level ).convection_temperature_mod;
         }
 
-        bool is_dangerous() const {
+        auto is_dangerous() const -> bool {
             return std::any_of( intensity_levels.begin(), intensity_levels.end(),
             []( const field_intensity_level & elem ) {
                 return elem.dangerous;
             } );
         }
-        bool is_transparent() const {
+        auto is_transparent() const -> bool {
             return std::all_of( intensity_levels.begin(), intensity_levels.end(),
             []( const field_intensity_level & elem ) {
                 return elem.transparent;
             } );
         }
-        int get_max_intensity() const {
+        auto get_max_intensity() const -> int {
             return intensity_levels.size();
         }
 
-        static size_t count();
+        static auto count() -> size_t;
 };
 
 namespace field_types
@@ -280,9 +280,9 @@ void finalize_all();
 void check_consistency();
 void reset();
 
-const std::vector<field_type> &get_all();
+auto get_all() -> const std::vector<field_type> &;
 void set_field_type_ids();
-field_type get_field_type_by_legacy_enum( int legacy_enum_id );
+auto get_field_type_by_legacy_enum( int legacy_enum_id ) -> field_type;
 
 } // namespace field_types
 

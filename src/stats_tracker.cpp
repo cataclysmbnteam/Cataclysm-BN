@@ -8,8 +8,8 @@
 #include "debug.h"
 #include "event_statistics.h"
 
-static bool event_data_matches( const cata::event::data_type &data,
-                                const cata::event::data_type &criteria )
+static auto event_data_matches( const cata::event::data_type &data,
+                                const cata::event::data_type &criteria ) -> bool
 {
     for( const auto &criterion : criteria ) {
         auto it = data.find( criterion.first );
@@ -27,7 +27,7 @@ void event_multiset::set_type( event_type type )
     type_ = type;
 }
 
-int event_multiset::count() const
+auto event_multiset::count() const -> int
 {
     int total = 0;
     for( const auto &pair : counts_ ) {
@@ -36,7 +36,7 @@ int event_multiset::count() const
     return total;
 }
 
-int event_multiset::count( const cata::event::data_type &criteria ) const
+auto event_multiset::count( const cata::event::data_type &criteria ) const -> int
 {
     int total = 0;
     for( const auto &pair : counts_ ) {
@@ -47,12 +47,12 @@ int event_multiset::count( const cata::event::data_type &criteria ) const
     return total;
 }
 
-int event_multiset::total( const std::string &field ) const
+auto event_multiset::total( const std::string &field ) const -> int
 {
     return total( field, {} );
 }
 
-int event_multiset::total( const std::string &field, const cata::event::data_type &criteria ) const
+auto event_multiset::total( const std::string &field, const cata::event::data_type &criteria ) const -> int
 {
     int total = 0;
     for( const auto &pair : counts_ ) {
@@ -67,7 +67,7 @@ int event_multiset::total( const std::string &field, const cata::event::data_typ
     return total;
 }
 
-int event_multiset::minimum( const std::string &field ) const
+auto event_multiset::minimum( const std::string &field ) const -> int
 {
     int minimum = 0;
     for( const auto &pair : counts_ ) {
@@ -83,7 +83,7 @@ int event_multiset::minimum( const std::string &field ) const
     return minimum;
 }
 
-int event_multiset::maximum( const std::string &field ) const
+auto event_multiset::maximum( const std::string &field ) const -> int
 {
     int maximum = 0;
     for( const auto &pair : counts_ ) {
@@ -140,18 +140,18 @@ stats_tracker::~stats_tracker()
     unwatch_all();
 }
 
-event_multiset &stats_tracker::get_events( event_type type )
+auto stats_tracker::get_events( event_type type ) -> event_multiset &
 {
     return data.emplace( type, event_multiset( type ) ).first->second;
 }
 
-event_multiset stats_tracker::get_events(
-    const string_id<event_transformation> &transform_id )
+auto stats_tracker::get_events(
+    const string_id<event_transformation> &transform_id ) -> event_multiset
 {
     return transform_id->value( *this );
 }
 
-cata_variant stats_tracker::value_of( const string_id<event_statistic> &stat )
+auto stats_tracker::value_of( const string_id<event_statistic> &stat ) -> cata_variant
 {
     return stat->value( *this );
 }
@@ -233,7 +233,7 @@ void stats_tracker::stat_value_changed( const string_id<event_statistic> &id,
     }
 }
 
-std::vector<const score *> stats_tracker::valid_scores() const
+auto stats_tracker::valid_scores() const -> std::vector<const score *>
 {
     std::vector<const score *> result;
     for( const score &scr : score::get_all() ) {

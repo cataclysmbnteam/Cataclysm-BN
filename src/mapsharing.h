@@ -15,23 +15,23 @@ extern bool worldmenu;
 
 void setSharing( bool mode );
 void setUsername( const std::string &name );
-bool isSharing();
-std::string getUsername();
+auto isSharing() -> bool;
+auto getUsername() -> std::string;
 
 void setCompetitive( bool mode );
-bool isCompetitive();
+auto isCompetitive() -> bool;
 
 void setWorldmenu( bool mode );
-bool isWorldmenu();
+auto isWorldmenu() -> bool;
 
 extern std::set<std::string> admins;
-bool isAdmin();
+auto isAdmin() -> bool;
 
 void setAdmins( const std::set<std::string> &names );
 void addAdmin( const std::string &name );
 
 extern std::set<std::string> debuggers;
-bool isDebugger();
+auto isDebugger() -> bool;
 
 void setDebuggers( const std::set<std::string> &names );
 void addDebugger( const std::string &name );

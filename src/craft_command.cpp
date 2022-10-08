@@ -24,7 +24,7 @@
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 template<typename CompType>
-std::string comp_selection<CompType>::nname() const
+auto comp_selection<CompType>::nname() const -> std::string
 {
     switch( use_from ) {
         case use_from_map:
@@ -46,7 +46,7 @@ namespace io
 {
 
 template<>
-std::string enum_to_string<usage>( usage data )
+auto enum_to_string<usage>( usage data ) -> std::string
 {
     switch( data ) {
         // *INDENT-OFF*
@@ -192,7 +192,7 @@ void craft_command::execute( const tripoint &new_loc )
 
 /** Does a string join with ', ' of the components in the passed vector and inserts into 'str' */
 template<typename T>
-static std::string component_list_string( const std::vector<comp_selection<T>> &components )
+static auto component_list_string( const std::vector<comp_selection<T>> &components ) -> std::string
 {
     return enumerate_as_string( components.begin(), components.end(),
     []( const comp_selection<T> &comp ) {
@@ -200,8 +200,8 @@ static std::string component_list_string( const std::vector<comp_selection<T>> &
     } );
 }
 
-bool craft_command::query_continue( const std::vector<comp_selection<item_comp>> &missing_items,
-                                    const std::vector<comp_selection<tool_comp>> &missing_tools )
+auto craft_command::query_continue( const std::vector<comp_selection<item_comp>> &missing_items,
+                                    const std::vector<comp_selection<tool_comp>> &missing_tools ) -> bool
 {
     std::string ss = _( "Some components used previously are missing.  Continue?" );
 
@@ -220,7 +220,7 @@ bool craft_command::query_continue( const std::vector<comp_selection<item_comp>>
     return query_yn( ss );
 }
 
-item craft_command::create_in_progress_craft()
+auto craft_command::create_in_progress_craft() -> item
 {
     // Use up the components and tools
     std::list<item> used;
@@ -279,13 +279,13 @@ item craft_command::create_in_progress_craft()
     return new_craft;
 }
 
-skill_id craft_command::get_skill_id()
+auto craft_command::get_skill_id() -> skill_id
 {
     return rec->skill_used;
 }
 
-std::vector<comp_selection<item_comp>> craft_command::check_item_components_missing(
-                                        const inventory &map_inv ) const
+auto craft_command::check_item_components_missing(
+                                        const inventory &map_inv ) const -> std::vector<comp_selection<item_comp>>
 {
     std::vector<comp_selection<item_comp>> missing;
 
@@ -349,8 +349,8 @@ std::vector<comp_selection<item_comp>> craft_command::check_item_components_miss
     return missing;
 }
 
-std::vector<comp_selection<tool_comp>> craft_command::check_tool_components_missing(
-                                        const inventory &map_inv ) const
+auto craft_command::check_tool_components_missing(
+                                        const inventory &map_inv ) const -> std::vector<comp_selection<tool_comp>>
 {
     std::vector<comp_selection<tool_comp>> missing;
 

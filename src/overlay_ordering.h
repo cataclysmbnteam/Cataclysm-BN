@@ -13,7 +13,7 @@ extern std::map<std::string, int> tileset_mutation_overlay_ordering;
 void load_overlay_ordering( const JsonObject &jsobj );
 void load_overlay_ordering_into_array( const JsonObject &jsobj,
                                        std::map<std::string, int> &orderarray );
-int get_overlay_order_of_mutation( const std::string &mutation_id_string );
+auto get_overlay_order_of_mutation( const std::string &mutation_id_string ) -> int;
 void reset_overlay_ordering();
 
 #endif // CATA_SRC_OVERLAY_ORDERING_H

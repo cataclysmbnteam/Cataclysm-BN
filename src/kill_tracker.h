@@ -23,15 +23,15 @@ class kill_tracker : public event_subscriber
         void reset( const std::map<mtype_id, int> &kills,
                     const std::vector<std::string> &npc_kills );
         /** Returns the number of kills of the given mon_id by the player. */
-        int kill_count( const mtype_id & ) const;
+        auto kill_count( const mtype_id & ) const -> int;
         /** Returns the number of kills of the given monster species by the player. */
-        int kill_count( const species_id & ) const;
-        int monster_kill_count() const;
-        int npc_kill_count() const;
+        auto kill_count( const species_id & ) const -> int;
+        auto monster_kill_count() const -> int;
+        auto npc_kill_count() const -> int;
         // returns player's "kill xp" for monsters via STK
-        int kill_xp() const;
+        auto kill_xp() const -> int;
 
-        std::string get_kills_text() const;
+        auto get_kills_text() const -> std::string;
 
         void clear();
 

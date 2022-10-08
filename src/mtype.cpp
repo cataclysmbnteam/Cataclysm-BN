@@ -62,17 +62,17 @@ mtype::mtype()
     .set( MF_LEATHER );
 }
 
-std::string mtype::nname( unsigned int quantity ) const
+auto mtype::nname( unsigned int quantity ) const -> std::string
 {
     return name.translated( quantity );
 }
 
-bool mtype::has_special_attack( const std::string &attack_name ) const
+auto mtype::has_special_attack( const std::string &attack_name ) const -> bool
 {
     return special_attacks.find( attack_name ) != special_attacks.end();
 }
 
-bool mtype::has_flag( m_flag flag ) const
+auto mtype::has_flag( m_flag flag ) const -> bool
 {
     MonsterGenerator::generator().m_flag_usage_stats[flag]++;
     return flags[flag];
@@ -83,12 +83,12 @@ void mtype::set_flag( m_flag flag, bool state )
     flags.set( flag, state );
 }
 
-bool mtype::made_of( const material_id &material ) const
+auto mtype::made_of( const material_id &material ) const -> bool
 {
     return std::find( mat.begin(), mat.end(),  material ) != mat.end();
 }
 
-bool mtype::made_of_any( const std::set<material_id> &materials ) const
+auto mtype::made_of_any( const std::set<material_id> &materials ) const -> bool
 {
     if( mat.empty() ) {
         return false;
@@ -99,36 +99,36 @@ bool mtype::made_of_any( const std::set<material_id> &materials ) const
     } );
 }
 
-bool mtype::has_anger_trigger( mon_trigger trigger ) const
+auto mtype::has_anger_trigger( mon_trigger trigger ) const -> bool
 {
     return anger[trigger];
 }
 
-bool mtype::has_fear_trigger( mon_trigger trigger ) const
+auto mtype::has_fear_trigger( mon_trigger trigger ) const -> bool
 {
     return fear[trigger];
 }
 
-bool mtype::has_placate_trigger( mon_trigger trigger ) const
+auto mtype::has_placate_trigger( mon_trigger trigger ) const -> bool
 {
     return placate[trigger];
 }
 
-bool mtype::in_category( const std::string &category ) const
+auto mtype::in_category( const std::string &category ) const -> bool
 {
     return categories.find( category ) != categories.end();
 }
 
-bool mtype::in_species( const species_id &spec ) const
+auto mtype::in_species( const species_id &spec ) const -> bool
 {
     return species.count( spec ) > 0;
 }
 
-bool mtype::in_species( const species_type &spec ) const
+auto mtype::in_species( const species_type &spec ) const -> bool
 {
     return species_ptrs.count( &spec ) > 0;
 }
-std::vector<std::string> mtype::species_descriptions() const
+auto mtype::species_descriptions() const -> std::vector<std::string>
 {
     std::vector<std::string> ret;
     for( const species_id &s : species ) {
@@ -139,7 +139,7 @@ std::vector<std::string> mtype::species_descriptions() const
     return ret;
 }
 
-bool mtype::same_species( const mtype &other ) const
+auto mtype::same_species( const mtype &other ) const -> bool
 {
     for( auto &s : species_ptrs ) {
         if( other.in_species( *s ) ) {
@@ -149,7 +149,7 @@ bool mtype::same_species( const mtype &other ) const
     return false;
 }
 
-field_type_id mtype::bloodType() const
+auto mtype::bloodType() const -> field_type_id
 {
     if( has_flag( MF_ACID_BLOOD ) )
         //A monster that has the death effect "ACID" does not need to have acid blood.
@@ -174,7 +174,7 @@ field_type_id mtype::bloodType() const
     return fd_null;
 }
 
-field_type_id mtype::gibType() const
+auto mtype::gibType() const -> field_type_id
 {
     if( has_flag( MF_LARVA ) || in_species( MOLLUSK ) ) {
         return fd_gibs_invertebrate;
@@ -192,7 +192,7 @@ field_type_id mtype::gibType() const
     return fd_null;
 }
 
-itype_id mtype::get_meat_itype() const
+auto mtype::get_meat_itype() const -> itype_id
 {
     if( has_flag( MF_POISON ) ) {
         if( made_of( material_id( "flesh" ) ) || made_of( material_id( "hflesh" ) ) ) {
@@ -226,18 +226,18 @@ itype_id mtype::get_meat_itype() const
     return itype_id::NULL_ID();
 }
 
-int mtype::get_meat_chunks_count() const
+auto mtype::get_meat_chunks_count() const -> int
 {
     const float ch = to_gram( weight ) * ( 0.40f - 0.02f * std::log10( to_gram( weight ) ) );
     return static_cast<int>( ch / to_gram( get_meat_itype()->weight ) );
 }
 
-std::string mtype::get_description() const
+auto mtype::get_description() const -> std::string
 {
     return description.translated();
 }
 
-std::string mtype::get_footsteps() const
+auto mtype::get_footsteps() const -> std::string
 {
     for( const species_id &s : species ) {
         return s.obj().get_footsteps();
@@ -255,7 +255,7 @@ void mtype::add_goal( const std::string &goal_id )
     goals.add_child( &string_id<behavior::node_t>( goal_id ).obj() );
 }
 
-const behavior::node_t *mtype::get_goals() const
+auto mtype::get_goals() const -> const behavior::node_t *
 {
     return &goals;
 }

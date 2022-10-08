@@ -189,15 +189,15 @@ const int avoidance_vehicles_radius = 5;
 
 } // namespace
 
-std::string npc_action_name( npc_action action );
+auto npc_action_name( npc_action action ) -> std::string;
 
 void print_action( const char *prepend, npc_action action );
 
-bool compare_sound_alert( const dangerous_sound &sound_a, const dangerous_sound &sound_b );
+auto compare_sound_alert( const dangerous_sound &sound_a, const dangerous_sound &sound_b ) -> bool;
 
-hp_part most_damaged_hp_part( const Character &c );
+auto most_damaged_hp_part( const Character &c ) -> hp_part;
 
-bool compare_sound_alert( const dangerous_sound &sound_a, const dangerous_sound &sound_b )
+auto compare_sound_alert( const dangerous_sound &sound_a, const dangerous_sound &sound_b ) -> bool
 {
     if( sound_a.type != sound_b.type ) {
         return sound_a.type < sound_b.type;
@@ -205,7 +205,7 @@ bool compare_sound_alert( const dangerous_sound &sound_a, const dangerous_sound 
     return sound_a.volume < sound_b.volume;
 }
 
-static bool clear_shot_reach( const tripoint &from, const tripoint &to, bool check_ally = true )
+static auto clear_shot_reach( const tripoint &from, const tripoint &to, bool check_ally = true ) -> bool
 {
     std::vector<tripoint> path = line_to( from, to );
     tripoint target_point = path.back();
@@ -229,7 +229,7 @@ static bool clear_shot_reach( const tripoint &from, const tripoint &to, bool che
     return !get_map().obstructed_by_vehicle_rotation( last_point, target_point );
 }
 
-tripoint npc::good_escape_direction( bool include_pos )
+auto npc::good_escape_direction( bool include_pos ) -> tripoint
 {
     map &here = get_map();
     if( path.empty() ) {
@@ -281,12 +281,12 @@ tripoint npc::good_escape_direction( bool include_pos )
     return random_entry( candidates );
 }
 
-bool npc::sees_dangerous_field( const tripoint &p ) const
+auto npc::sees_dangerous_field( const tripoint &p ) const -> bool
 {
     return is_dangerous_fields( get_map().field_at( p ) );
 }
 
-bool npc::could_move_onto( const tripoint &p ) const
+auto npc::could_move_onto( const tripoint &p ) const -> bool
 {
     map &here = get_map();
     if( !here.passable( p ) ) {
@@ -312,7 +312,7 @@ bool npc::could_move_onto( const tripoint &p ) const
     return true;
 }
 
-std::vector<sphere> npc::find_dangerous_explosives() const
+auto npc::find_dangerous_explosives() const -> std::vector<sphere>
 {
     std::vector<sphere> result;
 
@@ -345,7 +345,7 @@ std::vector<sphere> npc::find_dangerous_explosives() const
     return result;
 }
 
-float npc::evaluate_enemy( const Creature &target ) const
+auto npc::evaluate_enemy( const Creature &target ) const -> float
 {
     if( target.is_monster() ) {
         const monster &mon = dynamic_cast<const monster &>( target );
@@ -359,7 +359,7 @@ float npc::evaluate_enemy( const Creature &target ) const
     }
 }
 
-static bool too_close( const tripoint &critter_pos, const tripoint &ally_pos, const int def_radius )
+static auto too_close( const tripoint &critter_pos, const tripoint &ally_pos, const int def_radius ) -> bool
 {
     return rl_dist( critter_pos, ally_pos ) <= def_radius;
 }
@@ -634,7 +634,7 @@ void npc::assess_danger()
     ai_cache.danger_assessment = assessment;
 }
 
-float npc::character_danger( const Character &uc ) const
+auto npc::character_danger( const Character &uc ) const -> float
 {
     // TODO: Remove this when possible
     const player &u = dynamic_cast<const player &>( uc );
@@ -1309,7 +1309,7 @@ void npc::execute_action( npc_action action )
     }
 }
 
-npc_action npc::method_of_fleeing()
+auto npc::method_of_fleeing() -> npc_action
 {
     if( in_vehicle ) {
         return npc_undecided;
@@ -1317,7 +1317,7 @@ npc_action npc::method_of_fleeing()
     return npc_flee;
 }
 
-npc_action npc::method_of_attack()
+auto npc::method_of_attack() -> npc_action
 {
     Character &player_character = get_player_character();
     Creature *critter = current_target();
@@ -1457,12 +1457,12 @@ npc_action npc::method_of_attack()
     return ( dont_move || !same_z ) ? npc_undecided : npc_melee;
 }
 
-npc_action npc::address_needs()
+auto npc::address_needs() -> npc_action
 {
     return address_needs( ai_cache.danger );
 }
 
-static bool wants_to_reload( const npc &who, const item &it )
+static auto wants_to_reload( const npc &who, const item &it ) -> bool
 {
     if( !who.can_reload( it ) ) {
         return false;
@@ -1478,12 +1478,12 @@ static bool wants_to_reload( const npc &who, const item &it )
     return remaining < required || remaining < it.ammo_capacity();
 }
 
-static bool wants_to_reload_with( const item &weap, const item &ammo )
+static auto wants_to_reload_with( const item &weap, const item &ammo ) -> bool
 {
     return !ammo.is_magazine() || ammo.ammo_remaining() > weap.ammo_remaining();
 }
 
-item &npc::find_reloadable()
+auto npc::find_reloadable() -> item &
 {
     auto cached_value = cached_info.find( "reloadables" );
     if( cached_value != cached_info.end() ) {
@@ -1517,12 +1517,12 @@ item &npc::find_reloadable()
     return null_item_reference();
 }
 
-const item &npc::find_reloadable() const
+auto npc::find_reloadable() const -> const item &
 {
     return const_cast<const item &>( const_cast<npc *>( this )->find_reloadable() );
 }
 
-bool npc::can_reload_current()
+auto npc::can_reload_current() -> bool
 {
     if( !weapon.is_gun() || !wants_to_reload( *this, weapon ) ) {
         return false;
@@ -1531,7 +1531,7 @@ bool npc::can_reload_current()
     return static_cast<bool>( find_usable_ammo( weapon ) );
 }
 
-item_location npc::find_usable_ammo( const item &weap )
+auto npc::find_usable_ammo( const item &weap ) -> item_location
 {
     if( !can_reload( weap ) ) {
         return item_location();
@@ -1545,7 +1545,7 @@ item_location npc::find_usable_ammo( const item &weap )
     return loc;
 }
 
-item_location npc::find_usable_ammo( const item &weap ) const
+auto npc::find_usable_ammo( const item &weap ) const -> item_location
 {
     return const_cast<npc *>( this )->find_usable_ammo( weap );
 }
@@ -1584,7 +1584,7 @@ void npc::deactivate_combat_cbms()
     cbm_weapon_index = -1;
 }
 
-bool npc::activate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
+auto npc::activate_bionic_by_id( const bionic_id &cbm_id, bool eff_only ) -> bool
 {
     int index = 0;
     for( const bionic &i : *my_bionics ) {
@@ -1600,7 +1600,7 @@ bool npc::activate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
     return false;
 }
 
-bool npc::use_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
+auto npc::use_bionic_by_id( const bionic_id &cbm_id, bool eff_only ) -> bool
 {
     int index = 0;
     for( const bionic &i : *my_bionics ) {
@@ -1616,7 +1616,7 @@ bool npc::use_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
     return false;
 }
 
-bool npc::deactivate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
+auto npc::deactivate_bionic_by_id( const bionic_id &cbm_id, bool eff_only ) -> bool
 {
     int index = 0;
     for( const bionic &i : *my_bionics ) {
@@ -1632,7 +1632,7 @@ bool npc::deactivate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
     return false;
 }
 
-bool npc::wants_to_recharge_cbm()
+auto npc::wants_to_recharge_cbm() -> bool
 {
     const units::energy curr_power =  get_power_level();
     const float allowed_ratio = static_cast<int>( rules.cbm_recharge ) / 100.0f;
@@ -1649,13 +1649,13 @@ bool npc::wants_to_recharge_cbm()
     return false;
 }
 
-bool npc::can_use_offensive_cbm() const
+auto npc::can_use_offensive_cbm() const -> bool
 {
     const float allowed_ratio = static_cast<int>( rules.cbm_reserve ) / 100.0f;
     return get_power_level() > get_max_power_level() * allowed_ratio;
 }
 
-bool npc::consume_cbm_items( const std::function<bool( const item & )> &filter )
+auto npc::consume_cbm_items( const std::function<bool( const item & )> &filter ) -> bool
 {
     invslice slice = inv.slice();
     int index = -1;
@@ -1675,7 +1675,7 @@ bool npc::consume_cbm_items( const std::function<bool( const item & )> &filter )
     return consume( loc ) && old_moves != moves;
 }
 
-bool npc::recharge_cbm()
+auto npc::recharge_cbm() -> bool
 {
     // non-allied NPCs don't consume resources to recharge
     if( !is_player_ally() ) {
@@ -1750,7 +1750,7 @@ bool npc::recharge_cbm()
     return false;
 }
 
-healing_options npc::patient_assessment( const Character &c )
+auto npc::patient_assessment( const Character &c ) -> healing_options
 {
     healing_options try_to_fix;
     try_to_fix.clear_all();
@@ -1789,7 +1789,7 @@ healing_options npc::patient_assessment( const Character &c )
     return try_to_fix;
 }
 
-npc_action npc::address_needs( float danger )
+auto npc::address_needs( float danger ) -> npc_action
 {
     Character &player_character = get_player_character();
     // rng because NPCs are not meant to be hypervigilant hawks that notice everything
@@ -1933,7 +1933,7 @@ npc_action npc::address_needs( float danger )
     return npc_undecided;
 }
 
-npc_action npc::address_player()
+auto npc::address_player() -> npc_action
 {
     Character &player_character = get_player_character();
     if( ( attitude == NPCATT_TALK ) && sees( player_character ) ) {
@@ -1993,7 +1993,7 @@ npc_action npc::address_player()
     return npc_undecided;
 }
 
-npc_action npc::long_term_goal_action()
+auto npc::long_term_goal_action() -> npc_action
 {
     add_msg( m_debug, "long_term_goal_action()" );
 
@@ -2017,7 +2017,7 @@ npc_action npc::long_term_goal_action()
     return npc_undecided;
 }
 
-double npc::confidence_mult() const
+auto npc::confidence_mult() const -> double
 {
     if( !is_player_ally() ) {
         return 1.0f;
@@ -2037,7 +2037,7 @@ double npc::confidence_mult() const
     return 1.0f;
 }
 
-int npc::confident_shoot_range( const item &it, int recoil ) const
+auto npc::confident_shoot_range( const item &it, int recoil ) const -> int
 {
     int res = 0;
     if( !it.is_gun() ) {
@@ -2052,7 +2052,7 @@ int npc::confident_shoot_range( const item &it, int recoil ) const
     return res;
 }
 
-int npc::confident_gun_mode_range( const gun_mode &gun, int at_recoil ) const
+auto npc::confident_gun_mode_range( const gun_mode &gun, int at_recoil ) const -> int
 {
     if( !gun || gun.melee() ) {
         return 0;
@@ -2068,7 +2068,7 @@ int npc::confident_gun_mode_range( const gun_mode &gun, int at_recoil ) const
     return std::max<int>( confident_range, 1 );
 }
 
-int npc::confident_throw_range( const item &thrown, Creature *target ) const
+auto npc::confident_throw_range( const item &thrown, Creature *target ) const -> int
 {
     double average_dispersion = ranged::throwing_dispersion( *this, thrown, target, false ) / 2.0;
     double even_chance_range = ( target == nullptr ? 0.5 : target->ranged_target_size() ) /
@@ -2079,7 +2079,7 @@ int npc::confident_throw_range( const item &thrown, Creature *target ) const
 }
 
 // Index defaults to -1, i.e., wielded weapon
-bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) const
+auto npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) const -> bool
 {
     // TODO: Get actual dispersion instead of extracting it (badly) from confident range
     int confident = throwing ?
@@ -2126,7 +2126,7 @@ bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) 
     return true;
 }
 
-bool npc::enough_time_to_reload( const item &gun ) const
+auto npc::enough_time_to_reload( const item &gun ) const -> bool
 {
     int rltime = item_reload_cost( gun, item( gun.ammo_default() ),
                                    gun.ammo_capacity() );
@@ -2166,7 +2166,7 @@ void npc::aim()
     }
 }
 
-bool npc::update_path( const tripoint &p, const bool no_bashing, bool force )
+auto npc::update_path( const tripoint &p, const bool no_bashing, bool force ) -> bool
 {
     if( p == pos() ) {
         path.clear();
@@ -2209,12 +2209,12 @@ bool npc::update_path( const tripoint &p, const bool no_bashing, bool force )
     return false;
 }
 
-bool npc::can_open_door( const tripoint &p, const bool inside ) const
+auto npc::can_open_door( const tripoint &p, const bool inside ) const -> bool
 {
     return !rules.has_flag( ally_rule::avoid_doors ) && get_map().open_door( p, inside, true );
 }
 
-bool npc::can_move_to( const tripoint &p, bool no_bashing ) const
+auto npc::can_move_to( const tripoint &p, bool no_bashing ) const -> bool
 {
     map &here = get_map();
     // Allow moving into any bashable spots, but penalize them during pathing
@@ -2572,7 +2572,7 @@ void npc::move_away_from( const tripoint &pt, bool no_bash_atk, std::set<tripoin
     move_to( best_pos, no_bash_atk, nomove );
 }
 
-bool npc::find_job_to_perform()
+auto npc::find_job_to_perform() -> bool
 {
     for( activity_id &elem : job.get_prioritised_vector() ) {
         if( job.get_priority_of_job( elem ) == 0 ) {
@@ -2695,7 +2695,7 @@ void npc::move_pause()
     }
 }
 
-static cata::optional<tripoint> nearest_passable( const tripoint &p, const tripoint &closest_to )
+static auto nearest_passable( const tripoint &p, const tripoint &closest_to ) -> cata::optional<tripoint>
 {
     map &here = get_map();
     if( here.passable( p ) ) {
@@ -3072,7 +3072,7 @@ void npc::pick_up_item()
 }
 
 template <typename T>
-std::list<item> npc_pickup_from_stack( npc &who, T &items )
+auto npc_pickup_from_stack( npc &who, T &items ) -> std::list<item>
 {
     const bool whitelisting = who.has_item_whitelist();
     auto volume_allowed = who.volume_capacity() - who.volume_carried();
@@ -3119,13 +3119,13 @@ std::list<item> npc_pickup_from_stack( npc &who, T &items )
     return picked_up;
 }
 
-std::list<item> npc::pick_up_item_map( const tripoint &where )
+auto npc::pick_up_item_map( const tripoint &where ) -> std::list<item>
 {
     map_stack stack = get_map().i_at( where );
     return npc_pickup_from_stack( *this, stack );
 }
 
-std::list<item> npc::pick_up_item_vehicle( vehicle &veh, int part_index )
+auto npc::pick_up_item_vehicle( vehicle &veh, int part_index ) -> std::list<item>
 {
     auto stack = veh.get_items( part_index );
     return npc_pickup_from_stack( *this, stack );
@@ -3250,7 +3250,7 @@ void npc::drop_items( units::mass drop_weight, units::volume drop_volume, int mi
     update_worst_item_value();
 }
 
-bool npc::find_corpse_to_pulp()
+auto npc::find_corpse_to_pulp() -> bool
 {
     Character &player_character = get_player_character();
     if( ( is_player_ally() && ( !rules.has_flag( ally_rule::allow_pulp ) ||
@@ -3331,7 +3331,7 @@ bool npc::find_corpse_to_pulp()
     return corpse != nullptr;
 }
 
-bool npc::do_pulp()
+auto npc::do_pulp() -> bool
 {
     if( !pulp_location ) {
         return false;
@@ -3348,7 +3348,7 @@ bool npc::do_pulp()
     return moves != old_moves;
 }
 
-bool npc::do_player_activity()
+auto npc::do_player_activity() -> bool
 {
     int old_moves = moves;
     if( moves > 200 && activity && ( activity.is_multi_type() ||
@@ -3400,7 +3400,7 @@ bool npc::do_player_activity()
     return moves != old_moves;
 }
 
-bool npc::wield_better_weapon()
+auto npc::wield_better_weapon() -> bool
 {
     // TODO: Allow wielding weaker weapons against weaker targets
     bool can_use_gun = ( !is_player_ally() || rules.has_flag( ally_rule::use_guns ) );
@@ -3472,7 +3472,7 @@ bool npc::wield_better_weapon()
     return true;
 }
 
-bool npc::scan_new_items()
+auto npc::scan_new_items() -> bool
 {
     add_msg( m_debug, "%s scanning new items", name );
     if( wield_better_weapon() ) {
@@ -3508,7 +3508,7 @@ static void npc_throw( npc &np, item &it, int index, const tripoint &pos )
     }
 }
 
-bool npc::alt_attack()
+auto npc::alt_attack() -> bool
 {
     if( ( is_player_ally() && !rules.has_flag( ally_rule::use_grenades ) ) || is_hallucination() ) {
         return false;
@@ -3764,7 +3764,7 @@ void npc::use_painkiller()
 // Not be unhealthy
 // Not have side effects
 // Be eaten before it rots (favor soon-to-rot perishables)
-static float rate_food( const item &it, int want_nutr, int want_quench )
+static auto rate_food( const item &it, int want_nutr, int want_quench ) -> float
 {
     const auto &food = it.get_comestible();
     if( !food ) {
@@ -3845,7 +3845,7 @@ static float rate_food( const item &it, int want_nutr, int want_quench )
     return weight;
 }
 
-bool npc::consume_food_from_camp()
+auto npc::consume_food_from_camp() -> bool
 {
     if( !is_player_ally() ) {
         return false;
@@ -3882,7 +3882,7 @@ bool npc::consume_food_from_camp()
     return false;
 }
 
-bool npc::consume_food()
+auto npc::consume_food() -> bool
 {
     float best_weight = 0.0f;
     int index = -1;
@@ -4043,13 +4043,13 @@ void npc::look_for_player( const Character &sought )
     */
 }
 
-bool npc::saw_player_recently() const
+auto npc::saw_player_recently() const -> bool
 {
     return last_player_seen_pos && get_map().inbounds( *last_player_seen_pos ) &&
            last_seen_player_turn > 0;
 }
 
-bool npc::has_omt_destination() const
+auto npc::has_omt_destination() const -> bool
 {
     return goal != no_goal_point;
 }
@@ -4275,7 +4275,7 @@ void npc::guard_current_pos()
     guard_pos = get_map().getabs( pos() );
 }
 
-std::string npc_action_name( npc_action action )
+auto npc_action_name( npc_action action ) -> std::string
 {
     switch( action ) {
         case npc_undecided:
@@ -4342,34 +4342,34 @@ void print_action( const char *prepend, npc_action action )
     }
 }
 
-const Creature *npc::current_target() const
+auto npc::current_target() const -> const Creature *
 {
     // TODO: Arguably we should return a shared_ptr to ensure that the returned
     // object stays alive while the caller uses it.  Not doing that for now.
     return ai_cache.target.lock().get();
 }
 
-Creature *npc::current_target()
+auto npc::current_target() -> Creature *
 {
     // TODO: As above.
     return ai_cache.target.lock().get();
 }
 
-const Creature *npc::current_ally() const
+auto npc::current_ally() const -> const Creature *
 {
     // TODO: Arguably we should return a shared_ptr to ensure that the returned
     // object stays alive while the caller uses it.  Not doing that for now.
     return ai_cache.ally.lock().get();
 }
 
-Creature *npc::current_ally()
+auto npc::current_ally() -> Creature *
 {
     // TODO: As above.
     return ai_cache.ally.lock().get();
 }
 
 // Maybe TODO: Move to Character method and use map methods
-static body_part bp_affected( npc &who, const efftype_id &effect_type )
+static auto bp_affected( npc &who, const efftype_id &effect_type ) -> body_part
 {
     body_part ret = num_bp;
     int highest_intensity = INT_MIN;
@@ -4384,7 +4384,7 @@ static body_part bp_affected( npc &who, const efftype_id &effect_type )
     return ret;
 }
 
-static std::string distance_string( int range )
+static auto distance_string( int range ) -> std::string
 {
     if( range < 6 ) {
         return "<danger_close_distance>";
@@ -4450,8 +4450,8 @@ void npc::warn_about( const std::string &type, const time_duration &d, const std
     }
 }
 
-bool npc::complain_about( const std::string &issue, const time_duration &dur,
-                          const std::string &speech, const bool force, const sounds::sound_t priority )
+auto npc::complain_about( const std::string &issue, const time_duration &dur,
+                          const std::string &speech, const bool force, const sounds::sound_t priority ) -> bool
 {
     // Don't have a default constructor for time_point, so accessing it in the
     // complaints map is a bit difficult, those lambdas should cover it.
@@ -4481,7 +4481,7 @@ bool npc::complain_about( const std::string &issue, const time_duration &dur,
     return false;
 }
 
-bool npc::complain()
+auto npc::complain() -> bool
 {
     static const std::string infected_string = "infected";
     static const std::string fatigue_string = "fatigue";
@@ -4604,7 +4604,7 @@ void npc::do_reload( const item &it )
     has_new_items = true;
 }
 
-bool npc::adjust_worn()
+auto npc::adjust_worn() -> bool
 {
     bool any_broken = false;
     for( const bodypart_id &bp : get_all_body_parts() ) {

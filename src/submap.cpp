@@ -51,7 +51,7 @@ submap::submap()
 submap::submap( submap && ) = default;
 submap::~submap() = default;
 
-submap &submap::operator=( submap && ) = default;
+auto submap::operator=( submap && ) -> submap & = default;
 
 static const std::string COSMETICS_GRAFFITI( "GRAFFITI" );
 static const std::string COSMETICS_SIGNAGE( "SIGNAGE" );
@@ -62,15 +62,15 @@ struct cosmetic_find_result {
     bool result;
     int ndx;
 };
-static cosmetic_find_result make_result( bool b, int ndx )
+static auto make_result( bool b, int ndx ) -> cosmetic_find_result
 {
     cosmetic_find_result result;
     result.result = b;
     result.ndx = ndx;
     return result;
 }
-static cosmetic_find_result find_cosmetic(
-    const std::vector<submap::cosmetic_t> &cosmetics, const point &p, const std::string &type )
+static auto find_cosmetic(
+    const std::vector<submap::cosmetic_t> &cosmetics, const point &p, const std::string &type ) -> cosmetic_find_result
 {
     for( size_t i = 0; i < cosmetics.size(); ++i ) {
         if( cosmetics[i].pos == p && cosmetics[i].type == type ) {
@@ -80,12 +80,12 @@ static cosmetic_find_result find_cosmetic(
     return make_result( false, -1 );
 }
 
-bool submap::has_graffiti( const point &p ) const
+auto submap::has_graffiti( const point &p ) const -> bool
 {
     return find_cosmetic( cosmetics, p, COSMETICS_GRAFFITI ).result;
 }
 
-const std::string &submap::get_graffiti( const point &p ) const
+auto submap::get_graffiti( const point &p ) const -> const std::string &
 {
     const auto fresult = find_cosmetic( cosmetics, p, COSMETICS_GRAFFITI );
     if( fresult.result ) {
@@ -115,7 +115,7 @@ void submap::delete_graffiti( const point &p )
         cosmetics.pop_back();
     }
 }
-bool submap::has_signage( const point &p ) const
+auto submap::has_signage( const point &p ) const -> bool
 {
     if( frn[p.x][p.y].obj().has_flag( "SIGN" ) ) {
         return find_cosmetic( cosmetics, p, COSMETICS_SIGNAGE ).result;
@@ -123,7 +123,7 @@ bool submap::has_signage( const point &p ) const
 
     return false;
 }
-std::string submap::get_signage( const point &p ) const
+auto submap::get_signage( const point &p ) const -> std::string
 {
     if( frn[p.x][p.y].obj().has_flag( "SIGN" ) ) {
         const auto fresult = find_cosmetic( cosmetics, p, COSMETICS_SIGNAGE );
@@ -169,12 +169,12 @@ void submap::update_legacy_computer()
     }
 }
 
-bool submap::has_computer( const point &p ) const
+auto submap::has_computer( const point &p ) const -> bool
 {
     return computers.find( p ) != computers.end() || ( legacy_computer && ter[p.x][p.y] == t_console );
 }
 
-const computer *submap::get_computer( const point &p ) const
+auto submap::get_computer( const point &p ) const -> const computer *
 {
     // the returned object will not get modified (should not, at least), so we
     // don't yet need to update to std::map
@@ -188,7 +188,7 @@ const computer *submap::get_computer( const point &p ) const
     return nullptr;
 }
 
-computer *submap::get_computer( const point &p )
+auto submap::get_computer( const point &p ) -> computer *
 {
     // need to update to std::map first so modifications to the returned object
     // only affects the exact point p
@@ -217,7 +217,7 @@ void submap::delete_computer( const point &p )
     computers.erase( p );
 }
 
-bool submap::contains_vehicle( vehicle *veh )
+auto submap::contains_vehicle( vehicle *veh ) -> bool
 {
     const auto match = std::find_if(
                            begin( vehicles ), end( vehicles ),

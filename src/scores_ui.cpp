@@ -21,7 +21,7 @@
 #include "ui.h"
 #include "ui_manager.h"
 
-static std::string get_achievements_text( const achievements_tracker &achievements )
+static auto get_achievements_text( const achievements_tracker &achievements ) -> std::string
 {
     std::string os;
     std::vector<const achievement *> valid_achievements = achievements.valid_achievements();
@@ -51,7 +51,7 @@ static std::string get_achievements_text( const achievements_tracker &achievemen
     return os;
 }
 
-static std::string get_scores_text( stats_tracker &stats )
+static auto get_scores_text( stats_tracker &stats ) -> std::string
 {
     std::string os;
     std::vector<const score *> valid_scores = stats.valid_scores();

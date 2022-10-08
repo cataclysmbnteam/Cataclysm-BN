@@ -161,7 +161,7 @@ namespace io
 {
 
 template<>
-std::string enum_to_string<map_extra_method>( map_extra_method data )
+auto enum_to_string<map_extra_method>( map_extra_method data ) -> std::string
 {
     switch( data ) {
         // *INDENT-OFF*
@@ -187,7 +187,7 @@ generic_factory<map_extra> extras( "map extra" );
 
 /** @relates string_id */
 template<>
-const map_extra &string_id<map_extra>::obj() const
+auto string_id<map_extra>::obj() const -> const map_extra &
 {
     return extras.obj( *this );
 }
@@ -195,12 +195,12 @@ const map_extra &string_id<map_extra>::obj() const
 namespace MapExtras
 {
 
-const generic_factory<map_extra> &mapExtraFactory()
+auto mapExtraFactory() -> const generic_factory<map_extra> &
 {
     return extras;
 }
 
-static bool mx_null( map &, const tripoint & )
+static auto mx_null( map &, const tripoint & ) -> bool
 {
     debugmsg( "Tried to generate null map extra." );
 
@@ -259,7 +259,7 @@ static void dead_vegetation_parser( map &m, const tripoint &loc )
     }
 }
 
-static bool mx_house_wasp( map &m, const tripoint &loc )
+static auto mx_house_wasp( map &m, const tripoint &loc ) -> bool
 {
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
@@ -297,7 +297,7 @@ static bool mx_house_wasp( map &m, const tripoint &loc )
     return true;
 }
 
-static bool mx_house_spider( map &m, const tripoint &loc )
+static auto mx_house_spider( map &m, const tripoint &loc ) -> bool
 {
     auto spider_type = mon_spider_widow_giant;
     auto egg_type = f_egg_sackbw;
@@ -333,7 +333,7 @@ static bool mx_house_spider( map &m, const tripoint &loc )
     return true;
 }
 
-static bool mx_helicopter( map &m, const tripoint &abs_sub )
+static auto mx_helicopter( map &m, const tripoint &abs_sub ) -> bool
 {
     point c{ rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ) };
 
@@ -505,7 +505,7 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
     return true;
 }
 
-static bool mx_military( map &m, const tripoint & )
+static auto mx_military( map &m, const tripoint & ) -> bool
 {
     int num_bodies = dice( 2, 6 );
     for( int i = 0; i < num_bodies; i++ ) {
@@ -540,7 +540,7 @@ static bool mx_military( map &m, const tripoint & )
     return true;
 }
 
-static bool mx_science( map &m, const tripoint & )
+static auto mx_science( map &m, const tripoint & ) -> bool
 {
     int num_bodies = dice( 2, 5 );
     for( int i = 0; i < num_bodies; i++ ) {
@@ -566,7 +566,7 @@ static bool mx_science( map &m, const tripoint & )
     return true;
 }
 
-static bool mx_collegekids( map &m, const tripoint & )
+static auto mx_collegekids( map &m, const tripoint & ) -> bool
 {
     //college kids that got into trouble
     int num_bodies = dice( 2, 6 );
@@ -601,7 +601,7 @@ static bool mx_collegekids( map &m, const tripoint & )
     return true;
 }
 
-static bool mx_roadblock( map &m, const tripoint &abs_sub )
+static auto mx_roadblock( map &m, const tripoint &abs_sub ) -> bool
 {
     // TODO: fix point types
     const tripoint_abs_omt abs_omt( sm_to_omt_copy( abs_sub ) );
@@ -765,7 +765,7 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
     return true;
 }
 
-static bool mx_marloss_pilgrimage( map &m, const tripoint &abs_sub )
+static auto mx_marloss_pilgrimage( map &m, const tripoint &abs_sub ) -> bool
 {
     const tripoint leader_pos( rng( 4, 19 ), rng( 4, 19 ), abs_sub.z );
     const int max_followers = rng( 3, 12 );
@@ -784,7 +784,7 @@ static bool mx_marloss_pilgrimage( map &m, const tripoint &abs_sub )
     return true;
 }
 
-static bool mx_bandits_block( map &m, const tripoint &abs_sub )
+static auto mx_bandits_block( map &m, const tripoint &abs_sub ) -> bool
 {
     const tripoint_abs_omt abs_omt( sm_to_omt_copy( abs_sub ) );
     const oter_id &north = overmap_buffer.ter( abs_omt + point_north );
@@ -838,7 +838,7 @@ static bool mx_bandits_block( map &m, const tripoint &abs_sub )
     return false;
 }
 
-static bool mx_drugdeal( map &m, const tripoint &abs_sub )
+static auto mx_drugdeal( map &m, const tripoint &abs_sub ) -> bool
 {
     // Decide on a drug type
     int num_drugs = 0;
@@ -965,7 +965,7 @@ static bool mx_drugdeal( map &m, const tripoint &abs_sub )
     return true;
 }
 
-static bool mx_supplydrop( map &m, const tripoint &/*abs_sub*/ )
+static auto mx_supplydrop( map &m, const tripoint &/*abs_sub*/ ) -> bool
 {
     int num_crates = rng( 1, 5 );
     for( int i = 0; i < num_crates; i++ ) {
@@ -1011,7 +1011,7 @@ static bool mx_supplydrop( map &m, const tripoint &/*abs_sub*/ )
     return true;
 }
 
-static bool mx_portal( map &m, const tripoint &abs_sub )
+static auto mx_portal( map &m, const tripoint &abs_sub ) -> bool
 {
     // All points except the borders are valid--we need the 1 square buffer so that we can do a 1 unit radius
     // around our chosen portal point without clipping against the edge of the map.
@@ -1063,7 +1063,7 @@ static bool mx_portal( map &m, const tripoint &abs_sub )
     return true;
 }
 
-static bool mx_minefield( map &m_orig, const tripoint &abs_sub )
+static auto mx_minefield( map &m_orig, const tripoint &abs_sub ) -> bool
 {
     const tripoint_abs_omt abs_omt( sm_to_omt_copy( abs_sub ) );
     const oter_id &center = overmap_buffer.ter( abs_omt );
@@ -1605,7 +1605,7 @@ static bool mx_minefield( map &m_orig, const tripoint &abs_sub )
     return did_something;
 }
 
-static bool mx_crater( map &m, const tripoint &abs_sub )
+static auto mx_crater( map &m, const tripoint &abs_sub ) -> bool
 {
     int size = rng( 2, 6 );
     int size_squared = size * size;
@@ -1651,7 +1651,7 @@ static void place_fumarole( map &m, const point &p1, const point &p2, std::set<p
 
 }
 
-static bool mx_portal_in( map &m, const tripoint &abs_sub )
+static auto mx_portal_in( map &m, const tripoint &abs_sub ) -> bool
 {
     const tripoint portal_location = { rng( 5, SEEX * 2 - 6 ), rng( 5, SEEX * 2 - 6 ), abs_sub.z };
     const point p( portal_location.xy() );
@@ -1778,7 +1778,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
     return true;
 }
 
-static bool mx_shia( map &m, const tripoint &loc )
+static auto mx_shia( map &m, const tripoint &loc ) -> bool
 {
     // A rare chance to spawn Shia. This was extracted from the hardcoded forest mapgen
     // and moved into a map extra, but it still has a one_in chance of spawning because
@@ -1792,7 +1792,7 @@ static bool mx_shia( map &m, const tripoint &loc )
     return false;
 }
 
-static bool mx_spider( map &m, const tripoint &abs_sub )
+static auto mx_spider( map &m, const tripoint &abs_sub ) -> bool
 {
     // This was extracted from the hardcoded forest mapgen and slightly altered so
     // that it used flags rather than specific terrain types in determining where to
@@ -1819,7 +1819,7 @@ static bool mx_spider( map &m, const tripoint &abs_sub )
     return true;
 }
 
-static bool mx_jabberwock( map &m, const tripoint &loc )
+static auto mx_jabberwock( map &m, const tripoint &loc ) -> bool
 {
     // A rare chance to spawn a jabberwock. This was extracted from the harcoded forest mapgen
     // and moved into a map extra. It still has a one_in chance of spawning because otherwise
@@ -1834,7 +1834,7 @@ static bool mx_jabberwock( map &m, const tripoint &loc )
     return false;
 }
 
-static bool mx_grove( map &m, const tripoint &abs_sub )
+static auto mx_grove( map &m, const tripoint &abs_sub ) -> bool
 {
     // From wikipedia - The main meaning of "grove" is a group of trees that grow close together,
     // generally without many bushes or other plants underneath.
@@ -1871,7 +1871,7 @@ static bool mx_grove( map &m, const tripoint &abs_sub )
     return true;
 }
 
-static bool mx_shrubbery( map &m, const tripoint &abs_sub )
+static auto mx_shrubbery( map &m, const tripoint &abs_sub ) -> bool
 {
     // This map extra finds the first shrub in the area, and then converts all trees, young trees,
     // and shrubs in the area into that type of shrub.
@@ -1905,7 +1905,7 @@ static bool mx_shrubbery( map &m, const tripoint &abs_sub )
     return true;
 }
 
-static bool mx_clearcut( map &m, const tripoint &abs_sub )
+static auto mx_clearcut( map &m, const tripoint &abs_sub ) -> bool
 {
     // From wikipedia - Clearcutting, clearfelling or clearcut logging is a forestry/logging
     // practice in which most or all trees in an area are uniformly cut down.
@@ -1931,7 +1931,7 @@ static bool mx_clearcut( map &m, const tripoint &abs_sub )
     return did_something;
 }
 
-static bool mx_pond( map &m, const tripoint &abs_sub )
+static auto mx_pond( map &m, const tripoint &abs_sub ) -> bool
 {
     // This map extra creates small ponds using a simple cellular automaton.
 
@@ -1980,7 +1980,7 @@ static bool mx_pond( map &m, const tripoint &abs_sub )
     return true;
 }
 
-static bool mx_clay_deposit( map &m, const tripoint &abs_sub )
+static auto mx_clay_deposit( map &m, const tripoint &abs_sub ) -> bool
 {
     // This map extra creates small clay deposits using a simple cellular automaton.
 
@@ -2025,7 +2025,7 @@ static bool mx_clay_deposit( map &m, const tripoint &abs_sub )
     return false;
 }
 
-static bool mx_dead_vegetation( map &m, const tripoint &abs_sub )
+static auto mx_dead_vegetation( map &m, const tripoint &abs_sub ) -> bool
 {
     // This map extra kills all plant life, creating area of desolation.
     // Possible result of acid rain / radiation / etc.,
@@ -2042,7 +2042,7 @@ static bool mx_dead_vegetation( map &m, const tripoint &abs_sub )
     return true;
 }
 
-static bool mx_point_dead_vegetation( map &m, const tripoint &abs_sub )
+static auto mx_point_dead_vegetation( map &m, const tripoint &abs_sub ) -> bool
 {
     // This map extra creates patch of dead vegetation using a simple cellular automaton.
     // Lesser version of mx_dead_vegetation
@@ -2172,7 +2172,7 @@ static void burned_ground_parser( map &m, const tripoint &loc )
     }
 }
 
-static bool mx_point_burned_ground( map &m, const tripoint &abs_sub )
+static auto mx_point_burned_ground( map &m, const tripoint &abs_sub ) -> bool
 {
     // This map extra creates patch of burned ground using a simple cellular automaton.
     // Lesser version of mx_burned_ground
@@ -2196,7 +2196,7 @@ static bool mx_point_burned_ground( map &m, const tripoint &abs_sub )
     return true;
 }
 
-static bool mx_burned_ground( map &m, const tripoint &abs_sub )
+static auto mx_burned_ground( map &m, const tripoint &abs_sub ) -> bool
 {
     // This map extra simulates effects of extensive past fire event; it destroys most vegetation,
     // and flamable objects, swaps vehicles with wreckage, levels houses, scatters ash etc.
@@ -2227,7 +2227,7 @@ static bool mx_burned_ground( map &m, const tripoint &abs_sub )
     return true;
 }
 
-static bool mx_roadworks( map &m, const tripoint &abs_sub )
+static auto mx_roadworks( map &m, const tripoint &abs_sub ) -> bool
 {
     // This map extra creates road works on NS & EW roads, including barricades (as barrier poles),
     // holes in the road, scattered soil, chance for heavy utility vehicles and some working
@@ -2532,7 +2532,7 @@ static bool mx_roadworks( map &m, const tripoint &abs_sub )
     return true;
 }
 
-static bool mx_mayhem( map &m, const tripoint &abs_sub )
+static auto mx_mayhem( map &m, const tripoint &abs_sub ) -> bool
 {
     switch( rng( 1, 3 ) ) {
         //Car accident resulted in a shootout with two victims
@@ -2619,7 +2619,7 @@ static bool mx_mayhem( map &m, const tripoint &abs_sub )
     return true;
 }
 
-static bool mx_casings( map &m, const tripoint &abs_sub )
+static auto mx_casings( map &m, const tripoint &abs_sub ) -> bool
 {
     const auto items = item_group::items_from( item_group_id( "ammo_casings" ), calendar::turn );
 
@@ -2766,7 +2766,7 @@ static bool mx_casings( map &m, const tripoint &abs_sub )
     return true;
 }
 
-static bool mx_looters( map &m, const tripoint &abs_sub )
+static auto mx_looters( map &m, const tripoint &abs_sub ) -> bool
 {
     const tripoint center( rng( 5, SEEX * 2 - 5 ), rng( 5, SEEY * 2 - 5 ), abs_sub.z );
     //25% chance to spawn a corpse with some blood around it
@@ -2791,7 +2791,7 @@ static bool mx_looters( map &m, const tripoint &abs_sub )
     return true;
 }
 
-static bool mx_corpses( map &m, const tripoint &abs_sub )
+static auto mx_corpses( map &m, const tripoint &abs_sub ) -> bool
 {
     const int num_corpses = rng( 1, 5 );
     const auto gibs = item_group::items_from( item_group_id( "remains_human_generic" ),
@@ -2827,7 +2827,7 @@ static bool mx_corpses( map &m, const tripoint &abs_sub )
     return true;
 }
 
-static bool mx_grave( map &m, const tripoint &abs_sub )
+static auto mx_grave( map &m, const tripoint &abs_sub ) -> bool
 {
     //95% chance to spawn a grave with common people/pets
     if( !one_in( 20 ) ) {
@@ -2983,7 +2983,7 @@ map_extra_pointer get_function( const std::string &name )
 }
 
 std::vector<std::string> all_function_names;
-std::vector<std::string> get_all_function_names()
+auto get_all_function_names() -> std::vector<std::string>
 {
     return all_function_names;
 }
@@ -3051,7 +3051,7 @@ void apply_function( const std::string &id, map &m, const tripoint &abs_sub )
     apply_function( string_id<map_extra>( id ), m, abs_sub );
 }
 
-FunctionMap all_functions()
+auto all_functions() -> FunctionMap
 {
     return builtin_functions;
 }

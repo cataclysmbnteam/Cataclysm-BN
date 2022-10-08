@@ -19,8 +19,8 @@ struct melee_statistic_data {
 namespace melee
 {
 
-float melee_hit_range( float accuracy );
-melee_statistic_data get_stats();
+auto melee_hit_range( float accuracy ) -> float;
+auto get_stats() -> melee_statistic_data;
 void clear_stats();
 extern melee_statistic_data melee_stats;
 } // namespace melee

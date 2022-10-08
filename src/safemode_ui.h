@@ -75,7 +75,7 @@ class safemode
         void test_pattern( int tab_in, int row_in );
 
         void load( bool is_character_in );
-        bool save( bool is_character_in );
+        auto save( bool is_character_in ) -> bool;
 
         bool is_character = false;
 
@@ -86,32 +86,32 @@ class safemode
     public:
         std::string lastmon_whitelist;
 
-        bool has_rule( const std::string &rule_in, Creature::Attitude attitude_in );
+        auto has_rule( const std::string &rule_in, Creature::Attitude attitude_in ) -> bool;
         void add_rule( const std::string &rule_in, Creature::Attitude attitude_in,
                        int proximity_in, rule_state state_in );
         void remove_rule( const std::string &rule_in, Creature::Attitude attitude_in );
         void clear_character_rules();
-        rule_state check_monster( const std::string &creature_name_in, Creature::Attitude attitude_in,
-                                  int proximity_in ) const;
+        auto check_monster( const std::string &creature_name_in, Creature::Attitude attitude_in,
+                                  int proximity_in ) const -> rule_state;
 
-        bool is_sound_safe( const std::string &sound_name_in, int proximity_in ) const;
+        auto is_sound_safe( const std::string &sound_name_in, int proximity_in ) const -> bool;
 
-        std::string npc_type_name();
+        auto npc_type_name() -> std::string;
 
         void show();
         void show( const std::string &custom_name_in, bool is_safemode_in );
 
-        bool save_character();
-        bool save_global();
+        auto save_character() -> bool;
+        auto save_global() -> bool;
         void load_character();
         void load_global();
 
-        bool empty() const;
+        auto empty() const -> bool;
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
 };
 
-safemode &get_safemode();
+auto get_safemode() -> safemode &;
 
 #endif // CATA_SRC_SAFEMODE_UI_H

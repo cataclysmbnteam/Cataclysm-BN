@@ -33,15 +33,15 @@ struct point_node {
     point_node( point pos, om_direction::type dir, int priority = 0 ): pos( pos ), dir( dir ),
         priority( priority ) {}
     // Operator overload required by priority queue interface.
-    bool operator< ( const point_node &n ) const {
+    auto operator< ( const point_node &n ) const -> bool {
         return priority > n.priority;
     }
 };
 
 } // namespace
 
-directed_path<point> greedy_path( const point &source, const point &dest, const point &max,
-                                  two_node_scoring_fn<point> scorer )
+auto greedy_path( const point &source, const point &dest, const point &max,
+                                  two_node_scoring_fn<point> scorer ) -> directed_path<point>
 {
     using Node = point_node;
     const auto inbounds = [ max ]( const point & p ) {
@@ -132,7 +132,7 @@ directed_path<point> greedy_path( const point &source, const point &dest, const 
 namespace
 {
 
-const tripoint &direction_to_tripoint( direction dir )
+auto direction_to_tripoint( direction dir ) -> const tripoint &
 {
     switch( dir ) {
         case direction::EAST:
@@ -153,7 +153,7 @@ const tripoint &direction_to_tripoint( direction dir )
     }
 }
 
-bool is_horizontal( direction dir )
+auto is_horizontal( direction dir ) -> bool
 {
     switch( dir ) {
         case direction::EAST:
@@ -173,7 +173,7 @@ bool is_horizontal( direction dir )
 struct scored_address {
     tripoint_abs_omt addr;
     int32_t score;
-    bool operator> ( const scored_address &other ) const {
+    auto operator> ( const scored_address &other ) const -> bool {
         return score > other.score;
     }
 };
@@ -194,12 +194,12 @@ struct navigation_node {
     // Whether z-level transitions are permitted from this node.
     bool allow_z_change;
 
-    direction get_prev_dir() const {
+    auto get_prev_dir() const -> direction {
         return static_cast<direction>( prev_dir );
     }
 };
 
-const std::vector<direction> &enumerate_directions( bool allow_z_change )
+auto enumerate_directions( bool allow_z_change ) -> const std::vector<direction> &
 {
     static const std::vector<direction> cardinal_dirs = {direction::EAST, direction::SOUTH, direction::WEST, direction::NORTH};
     static const std::vector<direction> all_dirs = [&]() {
@@ -216,12 +216,12 @@ const std::vector<direction> &enumerate_directions( bool allow_z_change )
     }
 }
 
-direction reverse_direction( direction dir )
+auto reverse_direction( direction dir ) -> direction
 {
     return direction_from( -direction_to_tripoint( dir ) );
 }
 
-int adjust_omt_cost( int base_cost, direction dir_in, direction dir_out )
+auto adjust_omt_cost( int base_cost, direction dir_in, direction dir_out ) -> int
 {
     // Adjust cost for 90-degree turns. We travel from the midpoint of one edge
     // to the midpoint of an adjacent edge in a square, which is a diagonal
@@ -240,9 +240,9 @@ const omt_score omt_score::rejected( -1 );
 omt_score::omt_score( int node_cost, bool allow_z_change ) : node_cost( node_cost ),
     allow_z_change( allow_z_change ) {}
 
-simple_path<tripoint_abs_omt> find_overmap_path( const tripoint_abs_omt &source,
+auto find_overmap_path( const tripoint_abs_omt &source,
         const tripoint_abs_omt &dest, const int radius, omt_scoring_fn scorer,
-        cata::optional<int> max_cost )
+        cata::optional<int> max_cost ) -> simple_path<tripoint_abs_omt>
 {
     constexpr size_t max_search_count = 100000;
     simple_path<tripoint_abs_omt> ret;

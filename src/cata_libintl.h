@@ -65,15 +65,15 @@ struct PlfNode {
     PlfNodePtr c;
     PlfOp op = PlfOp::NumOps;
 
-    size_t eval( size_t n ) const;
-    std::string debug_dump() const;
+    auto eval( size_t n ) const -> size_t;
+    auto debug_dump() const -> std::string;
 };
 
 /**
  * Parse plural rules expression and build AST.
  * @throws std::runtime_error on failure.
  */
-PlfNodePtr parse_plural_rules( const std::string &s );
+auto parse_plural_rules( const std::string &s ) -> PlfNodePtr;
 
 /**
  * Translation catalogue. Corresponds to single MO file.
@@ -108,17 +108,17 @@ class trans_catalogue
         inline void set_buffer( std::string buffer ) {
             this->buffer = std::move( buffer );
         }
-        inline u32 buf_size() const {
+        inline auto buf_size() const -> u32 {
             return static_cast<u32>( buffer.size() );
         }
 
-        u8 get_u8( u32 offs ) const;
-        inline u8 get_u8_unsafe( u32 offs ) const {
+        auto get_u8( u32 offs ) const -> u8;
+        inline auto get_u8_unsafe( u32 offs ) const -> u8 {
             return static_cast<u8>( buffer[offs] );
         }
 
-        u32 get_u32( u32 offs ) const;
-        inline u32 get_u32_unsafe( u32 offs ) const {
+        auto get_u32( u32 offs ) const -> u32;
+        inline auto get_u32_unsafe( u32 offs ) const -> u32 {
             if( is_little_endian ) {
                 return get_u8_unsafe( offs ) |
                        get_u8_unsafe( offs + 1 ) << 8 |
@@ -132,44 +132,44 @@ class trans_catalogue
             }
         }
 
-        string_descr get_string_descr( u32 offs ) const;
-        string_descr get_string_descr_unsafe( u32 offs ) const;
+        auto get_string_descr( u32 offs ) const -> string_descr;
+        auto get_string_descr_unsafe( u32 offs ) const -> string_descr;
 
-        inline const char *offs_to_cstr( u32 offs ) const {
+        inline auto offs_to_cstr( u32 offs ) const -> const char * {
             return &buffer[offs];
         }
 
         void process_file_header();
         void check_string_terminators();
         void check_string_plurals();
-        std::string get_metadata() const;
+        auto get_metadata() const -> std::string;
         static void check_encoding( const meta_headers &headers );
-        static catalogue_plurals_info parse_plf_header( const meta_headers &headers );
+        static auto parse_plf_header( const meta_headers &headers ) -> catalogue_plurals_info;
 
     public:
         /**
          * Load translation catalogue from given MO file.
          * @throws std::runtime_error on failure.
          */
-        static trans_catalogue load_from_file( const std::string &file_path );
+        static auto load_from_file( const std::string &file_path ) -> trans_catalogue;
         /**
          * Load translation catalogue from given MO file in memory.
          * @throws std::runtime_error on failure.
          */
-        static trans_catalogue load_from_memory( std::string mo_file );
+        static auto load_from_memory( std::string mo_file ) -> trans_catalogue;
 
         /** Number of entries in the catalogue. */
-        inline u32 get_num_strings() const {
+        inline auto get_num_strings() const -> u32 {
             return number_of_strings;
         }
         /** Get singular translated string of given entry. */
-        const char *get_nth_translation( u32 n ) const;
+        auto get_nth_translation( u32 n ) const -> const char *;
         /** Get correct plural translated string of given entry for given number. */
-        const char *get_nth_pl_translation( u32 n, size_t num ) const;
+        auto get_nth_pl_translation( u32 n, size_t num ) const -> const char *;
         /** Get original msgid (with msgctxt) of given entry. */
-        const char *get_nth_orig_string( u32 n ) const;
+        auto get_nth_orig_string( u32 n ) const -> const char *;
         /** Check whether translated string contains plural forms. */
-        bool check_nth_translation_has_plf( u32 n ) const;
+        auto check_nth_translation_has_plf( u32 n ) const -> bool;
 };
 
 /**
@@ -192,9 +192,9 @@ class trans_library
         std::vector<trans_catalogue> catalogues;
 
         void build_string_table();
-        std::vector<library_string_descr>::const_iterator find_entry( const char *id ) const;
-        const char *lookup_string( const char *id ) const;
-        const char *lookup_pl_string( const char *id, size_t n ) const;
+        auto find_entry( const char *id ) const -> std::vector<library_string_descr>::const_iterator;
+        auto lookup_string( const char *id ) const -> const char *;
+        auto lookup_pl_string( const char *id, size_t n ) const -> const char *;
 
     public:
         /**
@@ -203,7 +203,7 @@ class trans_library
          * If 2 or more catalogues have entries with same id (msgid + optional msgctxt),
          * only the entry from the first such catalogue is used.
          */
-        static trans_library create( std::vector<trans_catalogue> catalogues );
+        static auto create( std::vector<trans_catalogue> catalogues ) -> trans_library;
 
         /**
          * @name Translation lookup
@@ -217,11 +217,11 @@ class trans_library
          *
          * @{
          */
-        const char *get( const char *msgid ) const;
-        const char *get_pl( const char *msgid, const char *msgid_pl, size_t n ) const;
-        const char *get_ctx( const char *msgctxt, const char *msgid ) const;
-        const char *get_ctx_pl( const char *msgctxt, const char *msgid, const char *msgid_pl,
-                                size_t n ) const;
+        auto get( const char *msgid ) const -> const char *;
+        auto get_pl( const char *msgid, const char *msgid_pl, size_t n ) const -> const char *;
+        auto get_ctx( const char *msgctxt, const char *msgid ) const -> const char *;
+        auto get_ctx_pl( const char *msgctxt, const char *msgid, const char *msgid_pl,
+                                size_t n ) const -> const char *;
         /** @} */
 };
 } // namespace cata_libintl

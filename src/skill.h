@@ -49,58 +49,58 @@ class Skill
         static std::vector<Skill> skills;
         static void load_skill( const JsonObject &jsobj );
         // For loading old saves that still have integer-based ids.
-        static skill_id from_legacy_int( int legacy_id );
-        static skill_id random_skill();
+        static auto from_legacy_int( int legacy_id ) -> skill_id;
+        static auto random_skill() -> skill_id;
 
         // clear skill vector, every skill pointer becomes invalid!
         static void reset();
 
-        static std::vector<const Skill *> get_skills_sorted_by(
-            std::function<bool ( const Skill &, const Skill & )> pred );
+        static auto get_skills_sorted_by(
+            std::function<bool ( const Skill &, const Skill & )> pred ) -> std::vector<const Skill *>;
 
         Skill();
         Skill( const skill_id &ident, const translation &name, const translation &description,
                const std::set<std::string> &tags, skill_displayType_id display_type );
 
-        const skill_id &ident() const {
+        auto ident() const -> const skill_id & {
             return _ident;
         }
-        std::string name() const {
+        auto name() const -> std::string {
             return _name.translated();
         }
-        std::string description() const {
+        auto description() const -> std::string {
             return _description.translated();
         }
-        int get_companion_skill_practice( const std::string &companion_skill ) const {
+        auto get_companion_skill_practice( const std::string &companion_skill ) const -> int {
             return _companion_skill_practice.find( companion_skill ) == _companion_skill_practice.end() ? 0 :
                    _companion_skill_practice.at( companion_skill );
         }
-        skill_displayType_id display_category() const {
+        auto display_category() const -> skill_displayType_id {
             return _display_type;
         }
-        time_info_t time_to_attack() const {
+        auto time_to_attack() const -> time_info_t {
             return _time_to_attack;
         }
-        int companion_combat_rank_factor() const {
+        auto companion_combat_rank_factor() const -> int {
             return _companion_combat_rank_factor;
         }
-        int companion_survival_rank_factor() const {
+        auto companion_survival_rank_factor() const -> int {
             return _companion_survival_rank_factor;
         }
-        int companion_industry_rank_factor() const {
+        auto companion_industry_rank_factor() const -> int {
             return _companion_industry_rank_factor;
         }
 
-        bool operator==( const Skill &b ) const {
+        auto operator==( const Skill &b ) const -> bool {
             return this->_ident == b._ident;
         }
 
-        bool operator!=( const Skill &b ) const {
+        auto operator!=( const Skill &b ) const -> bool {
             return !( *this == b );
         }
 
-        bool is_combat_skill() const;
-        bool is_contextual_skill() const;
+        auto is_combat_skill() const -> bool;
+        auto is_contextual_skill() const -> bool;
 };
 
 class SkillLevel
@@ -114,18 +114,18 @@ class SkillLevel
     public:
         SkillLevel() = default;
 
-        bool isTraining() const {
+        auto isTraining() const -> bool {
             return _isTraining;
         }
-        bool toggleTraining() {
+        auto toggleTraining() -> bool {
             _isTraining = !_isTraining;
             return _isTraining;
         }
 
-        int level() const {
+        auto level() const -> int {
             return _level;
         }
-        int level( int plevel ) {
+        auto level( int plevel ) -> int {
             _level = plevel;
             if( _level > _highestLevel ) {
                 _highestLevel = _level;
@@ -133,63 +133,63 @@ class SkillLevel
             return plevel;
         }
 
-        int highestLevel() const {
+        auto highestLevel() const -> int {
             return _highestLevel;
         }
 
-        int exercise( bool raw = false ) const {
+        auto exercise( bool raw = false ) const -> int {
             return raw ? _exercise : _exercise / ( ( _level + 1 ) * ( _level + 1 ) );
         }
 
-        int exercised_level() const {
+        auto exercised_level() const -> int {
             return level() * level() * 100 + exercise();
         }
 
         void train( int amount, bool skip_scaling = false );
-        bool isRusting() const;
-        bool rust( bool charged_bio_mem, int character_rate );
+        auto isRusting() const -> bool;
+        auto rust( bool charged_bio_mem, int character_rate ) -> bool;
         void practice();
-        bool can_train() const;
+        auto can_train() const -> bool;
 
         void readBook( int minimumGain, int maximumGain, int maximumLevel = -1 );
 
-        bool operator==( const SkillLevel &b ) const {
+        auto operator==( const SkillLevel &b ) const -> bool {
             return this->_level == b._level && this->_exercise == b._exercise;
         }
-        bool operator< ( const SkillLevel &b ) const {
+        auto operator< ( const SkillLevel &b ) const -> bool {
             return this->_level < b._level || ( this->_level == b._level && this->_exercise < b._exercise );
         }
-        bool operator> ( const SkillLevel &b ) const {
+        auto operator> ( const SkillLevel &b ) const -> bool {
             return this->_level > b._level || ( this->_level == b._level && this->_exercise > b._exercise );
         }
 
-        bool operator==( const int &b ) const {
+        auto operator==( const int &b ) const -> bool {
             return this->_level == b;
         }
-        bool operator< ( const int &b ) const {
+        auto operator< ( const int &b ) const -> bool {
             return this->_level < b;
         }
-        bool operator> ( const int &b ) const {
+        auto operator> ( const int &b ) const -> bool {
             return this->_level > b;
         }
 
-        bool operator!=( const SkillLevel &b ) const {
+        auto operator!=( const SkillLevel &b ) const -> bool {
             return !( *this == b );
         }
-        bool operator<=( const SkillLevel &b ) const {
+        auto operator<=( const SkillLevel &b ) const -> bool {
             return !( *this > b );
         }
-        bool operator>=( const SkillLevel &b ) const {
+        auto operator>=( const SkillLevel &b ) const -> bool {
             return !( *this < b );
         }
 
-        bool operator!=( const int &b ) const {
+        auto operator!=( const int &b ) const -> bool {
             return !( *this == b );
         }
-        bool operator<=( const int &b ) const {
+        auto operator<=( const int &b ) const -> bool {
             return !( *this > b );
         }
-        bool operator>=( const int &b ) const {
+        auto operator>=( const int &b ) const -> bool {
             return !( *this < b );
         }
 
@@ -200,26 +200,26 @@ class SkillLevel
 class SkillLevelMap : public std::map<skill_id, SkillLevel>
 {
     public:
-        const SkillLevel &get_skill_level_object( const skill_id &ident ) const;
-        SkillLevel &get_skill_level_object( const skill_id &ident );
+        auto get_skill_level_object( const skill_id &ident ) const -> const SkillLevel &;
+        auto get_skill_level_object( const skill_id &ident ) -> SkillLevel &;
         void mod_skill_level( const skill_id &ident, int delta );
-        int get_skill_level( const skill_id &ident ) const;
-        int get_skill_level( const skill_id &ident, const item &context ) const;
+        auto get_skill_level( const skill_id &ident ) const -> int;
+        auto get_skill_level( const skill_id &ident, const item &context ) const -> int;
 
-        bool meets_skill_requirements( const std::map<skill_id, int> &req ) const;
-        bool meets_skill_requirements( const std::map<skill_id, int> &req,
-                                       const item &context ) const;
+        auto meets_skill_requirements( const std::map<skill_id, int> &req ) const -> bool;
+        auto meets_skill_requirements( const std::map<skill_id, int> &req,
+                                       const item &context ) const -> bool;
         /** Calculates skill difference
          * @param req Required skills to be compared with.
          * @param context An item to provide context for contextual skills. Can be null.
          * @return Difference in skills. Positive numbers - exceeds; negative - lacks; empty map - no difference.
          */
-        std::map<skill_id, int> compare_skill_requirements(
-            const std::map<skill_id, int> &req, const item &context ) const;
-        std::map<skill_id, int> compare_skill_requirements(
-            const std::map<skill_id, int> &req ) const;
-        int exceeds_recipe_requirements( const recipe &rec ) const;
-        bool has_recipe_requirements( const recipe &rec ) const;
+        auto compare_skill_requirements(
+            const std::map<skill_id, int> &req, const item &context ) const -> std::map<skill_id, int>;
+        auto compare_skill_requirements(
+            const std::map<skill_id, int> &req ) const -> std::map<skill_id, int>;
+        auto exceeds_recipe_requirements( const recipe &rec ) const -> int;
+        auto has_recipe_requirements( const recipe &rec ) const -> bool;
 };
 
 class SkillDisplayType
@@ -232,19 +232,19 @@ class SkillDisplayType
         static void load( const JsonObject &jsobj );
         static void reset();
 
-        static const SkillDisplayType &get_skill_type( const skill_displayType_id & );
+        static auto get_skill_type( const skill_displayType_id & ) -> const SkillDisplayType &;
 
         SkillDisplayType();
         SkillDisplayType( const skill_displayType_id &ident, const translation &display_string );
 
-        const skill_displayType_id &ident() const {
+        auto ident() const -> const skill_displayType_id & {
             return _ident;
         }
-        std::string display_string() const {
+        auto display_string() const -> std::string {
             return _display_string.translated();
         }
 };
 
-double price_adjustment( int );
+auto price_adjustment( int ) -> double;
 
 #endif // CATA_SRC_SKILL_H

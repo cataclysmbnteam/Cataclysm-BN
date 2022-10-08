@@ -26,7 +26,7 @@ class safe_reference
     public:
         safe_reference() = default;
 
-        T *get() const {
+        auto get() const -> T * {
             return impl.lock().get();
         }
 
@@ -34,15 +34,15 @@ class safe_reference
             return !!*this;
         }
 
-        bool operator!() const {
+        auto operator!() const -> bool {
             return impl.expired();
         }
 
-        T &operator*() const {
+        auto operator*() const -> T & {
             return *get();
         }
 
-        T *operator->() const {
+        auto operator->() const -> T * {
             return get();
         }
     private:
@@ -58,10 +58,10 @@ class safe_reference_anchor
     public:
         safe_reference_anchor();
         safe_reference_anchor( const safe_reference_anchor & );
-        safe_reference_anchor &operator=( const safe_reference_anchor & );
+        auto operator=( const safe_reference_anchor & ) -> safe_reference_anchor &;
 
         template<typename T>
-        safe_reference<T> reference_to( T *object ) {
+        auto reference_to( T *object ) -> safe_reference<T> {
             // Using the shared_ptr aliasing constructor
             return safe_reference<T>( std::shared_ptr<T>( impl, object ) );
         }

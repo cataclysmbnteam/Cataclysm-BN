@@ -122,30 +122,30 @@ class enchantment
 
         // attempts to add two like enchantments together.
         // if their conditions don't match, return false. else true.
-        bool add( const enchantment &rhs );
+        auto add( const enchantment &rhs ) -> bool;
 
         // adds two enchantments together and ignores their conditions
         void force_add( const enchantment &rhs );
 
-        int get_value_add( enchant_vals::mod value ) const;
-        double get_value_multiply( enchant_vals::mod value ) const;
+        auto get_value_add( enchant_vals::mod value ) const -> int;
+        auto get_value_multiply( enchant_vals::mod value ) const -> double;
 
         /**
          * Calculate bonus provided by this enchantment for given base value.
          */
-        double calc_bonus( enchant_vals::mod value, double base, bool round = false ) const;
+        auto calc_bonus( enchant_vals::mod value, double base, bool round = false ) const -> double;
 
         // this enchantment has a valid condition and is in the right location
-        bool is_active( const Character &guy, const item &parent ) const;
+        auto is_active( const Character &guy, const item &parent ) const -> bool;
 
         // @active means the container for the enchantment is active, for comparison to active flag.
-        bool is_active( const Character &guy, bool active ) const;
+        auto is_active( const Character &guy, bool active ) const -> bool;
 
         /**
          * Whether this enchantment will be active if parent item is wielded.
          * Assumes condition is satisfied.
          */
-        inline bool is_active_when_wielded() const {
+        inline auto is_active_when_wielded() const -> bool {
             return has::WIELD == active_conditions.first || has::HELD == active_conditions.first;
         }
 
@@ -163,11 +163,11 @@ class enchantment
         // casts all the hit_me_effects on self or a target depending on the enchantment definition
         void cast_hit_me( Character &caster, const Creature *target ) const;
 
-        const std::set<trait_id> &get_mutations() const {
+        auto get_mutations() const -> const std::set<trait_id> & {
             return mutations;
         }
 
-        bool operator==( const enchantment &rhs ) const;
+        auto operator==( const enchantment &rhs ) const -> bool;
 
         static void check_consistency();
         void check() const;
@@ -191,9 +191,9 @@ class enchantment
         void add_activation( const time_duration &freq, const fake_spell &fake );
 
         // checks if the enchantments have the same active_conditions
-        bool stacks_with( const enchantment &rhs ) const;
+        auto stacks_with( const enchantment &rhs ) const -> bool;
 
-        int mult_bonus( enchant_vals::mod value_type, int base_value ) const;
+        auto mult_bonus( enchant_vals::mod value_type, int base_value ) const -> int;
 
         // performs cooldown and distance checks before casting enchantment spells
         void cast_enchantment_spell( Character &caster, const Creature *target,

@@ -50,7 +50,7 @@ struct ammo_effect {
         bool was_loaded = false;
 
     public:
-        static size_t count();
+        static auto count() -> size_t;
 };
 
 namespace ammo_effects
@@ -61,7 +61,7 @@ void finalize_all();
 void check_consistency();
 void reset();
 
-const std::vector<ammo_effect> &get_all();
+auto get_all() -> const std::vector<ammo_effect> &;
 
 } // namespace ammo_effects
 

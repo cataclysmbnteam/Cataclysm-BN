@@ -71,10 +71,10 @@ class advanced_inv_listitem
          * Whether this is a category header entry, which does *not* have a reference
          * to an item, only @ref cat is valid.
          */
-        bool is_category_header() const;
+        auto is_category_header() const -> bool;
 
         /** Returns true if this is an item entry */
-        bool is_item_entry() const;
+        auto is_item_entry() const -> bool;
         /**
          * Create a category header entry.
          * @param cat The category reference, must not be null.

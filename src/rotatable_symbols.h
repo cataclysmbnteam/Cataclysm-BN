@@ -17,7 +17,7 @@ void reset();
 // @param symbol Symbol to rotate.
 // @param n Number of rotations.
 
-uint32_t get( const uint32_t &symbol, int n );
+auto get( const uint32_t &symbol, int n ) -> uint32_t;
 
 } // namespace rotatable_symbols
 

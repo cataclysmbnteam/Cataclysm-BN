@@ -28,41 +28,41 @@ namespace trapfunc
 // creature is the creature that triggered the trap,
 // item is the item that triggered the trap,
 // creature and item can be nullptr.
-bool none( const tripoint &, Creature *, item * );
-bool bubble( const tripoint &p, Creature *c, item *i );
-bool glass( const tripoint &p, Creature *c, item *i );
-bool cot( const tripoint &p, Creature *c, item *i );
-bool beartrap( const tripoint &p, Creature *c, item *i );
-bool snare_light( const tripoint &p, Creature *c, item *i );
-bool snare_heavy( const tripoint &p, Creature *c, item *i );
-bool board( const tripoint &p, Creature *c, item *i );
-bool caltrops( const tripoint &p, Creature *c, item *i );
-bool caltrops_glass( const tripoint &p, Creature *c, item *i );
-bool tripwire( const tripoint &p, Creature *c, item *i );
-bool crossbow( const tripoint &p, Creature *c, item *i );
-bool shotgun( const tripoint &p, Creature *c, item *i );
-bool blade( const tripoint &p, Creature *c, item *i );
-bool landmine( const tripoint &p, Creature *c, item *i );
-bool telepad( const tripoint &p, Creature *c, item *i );
-bool goo( const tripoint &p, Creature *c, item *i );
-bool dissector( const tripoint &p, Creature *c, item *i );
-bool sinkhole( const tripoint &p, Creature *c, item *i );
-bool pit( const tripoint &p, Creature *c, item *i );
-bool pit_spikes( const tripoint &p, Creature *c, item *i );
-bool pit_glass( const tripoint &p, Creature *c, item *i );
-bool lava( const tripoint &p, Creature *c, item *i );
-bool portal( const tripoint &p, Creature *c, item *i );
-bool ledge( const tripoint &p, Creature *c, item *i );
-bool boobytrap( const tripoint &p, Creature *c, item *i );
-bool temple_flood( const tripoint &p, Creature *c, item *i );
-bool temple_toggle( const tripoint &p, Creature *c, item *i );
-bool glow( const tripoint &p, Creature *c, item *i );
-bool hum( const tripoint &p, Creature *c, item *i );
-bool shadow( const tripoint &p, Creature *c, item *i );
-bool map_regen( const tripoint &p, Creature *c, item *i );
-bool drain( const tripoint &p, Creature *c, item *i );
-bool snake( const tripoint &p, Creature *c, item *i );
-bool cast_spell( const tripoint &p, Creature *critter, item * );
+auto none( const tripoint &, Creature *, item * ) -> bool;
+auto bubble( const tripoint &p, Creature *c, item *i ) -> bool;
+auto glass( const tripoint &p, Creature *c, item *i ) -> bool;
+auto cot( const tripoint &p, Creature *c, item *i ) -> bool;
+auto beartrap( const tripoint &p, Creature *c, item *i ) -> bool;
+auto snare_light( const tripoint &p, Creature *c, item *i ) -> bool;
+auto snare_heavy( const tripoint &p, Creature *c, item *i ) -> bool;
+auto board( const tripoint &p, Creature *c, item *i ) -> bool;
+auto caltrops( const tripoint &p, Creature *c, item *i ) -> bool;
+auto caltrops_glass( const tripoint &p, Creature *c, item *i ) -> bool;
+auto tripwire( const tripoint &p, Creature *c, item *i ) -> bool;
+auto crossbow( const tripoint &p, Creature *c, item *i ) -> bool;
+auto shotgun( const tripoint &p, Creature *c, item *i ) -> bool;
+auto blade( const tripoint &p, Creature *c, item *i ) -> bool;
+auto landmine( const tripoint &p, Creature *c, item *i ) -> bool;
+auto telepad( const tripoint &p, Creature *c, item *i ) -> bool;
+auto goo( const tripoint &p, Creature *c, item *i ) -> bool;
+auto dissector( const tripoint &p, Creature *c, item *i ) -> bool;
+auto sinkhole( const tripoint &p, Creature *c, item *i ) -> bool;
+auto pit( const tripoint &p, Creature *c, item *i ) -> bool;
+auto pit_spikes( const tripoint &p, Creature *c, item *i ) -> bool;
+auto pit_glass( const tripoint &p, Creature *c, item *i ) -> bool;
+auto lava( const tripoint &p, Creature *c, item *i ) -> bool;
+auto portal( const tripoint &p, Creature *c, item *i ) -> bool;
+auto ledge( const tripoint &p, Creature *c, item *i ) -> bool;
+auto boobytrap( const tripoint &p, Creature *c, item *i ) -> bool;
+auto temple_flood( const tripoint &p, Creature *c, item *i ) -> bool;
+auto temple_toggle( const tripoint &p, Creature *c, item *i ) -> bool;
+auto glow( const tripoint &p, Creature *c, item *i ) -> bool;
+auto hum( const tripoint &p, Creature *c, item *i ) -> bool;
+auto shadow( const tripoint &p, Creature *c, item *i ) -> bool;
+auto map_regen( const tripoint &p, Creature *c, item *i ) -> bool;
+auto drain( const tripoint &p, Creature *c, item *i ) -> bool;
+auto snake( const tripoint &p, Creature *c, item *i ) -> bool;
+auto cast_spell( const tripoint &p, Creature *critter, item * ) -> bool;
 } // namespace trapfunc
 
 struct vehicle_handle_trap_data {
@@ -120,28 +120,28 @@ struct trap {
         int floor_bedding_warmth = 0;
     public:
         vehicle_handle_trap_data vehicle_data;
-        std::string name() const;
+        auto name() const -> std::string;
         /**
          * There are special always invisible traps. See player::search_surroundings
          */
-        bool is_always_invisible() const {
+        auto is_always_invisible() const -> bool {
             return always_invisible;
         }
         /**
          * How easy it is to spot the trap. Smaller values means it's easier to spot.
          */
-        int get_visibility() const {
+        auto get_visibility() const -> int {
             return visibility;
         }
 
-        std::string  map_regen_target() const;
+        auto  map_regen_target() const -> std::string;
 
         /**
          * Whether triggering the trap can be avoid (if greater than 0) and if so, this is
          * compared to dodge skill (with some adjustments). Smaller values means it's easier
          * to dodge.
          */
-        int get_avoidance() const {
+        auto get_avoidance() const -> int {
             return avoidance;
         }
         /**
@@ -149,24 +149,24 @@ struct trap {
          * (e.g. for funnels), a values of 99 means it can not be disarmed at all. Smaller values
          * makes it easier to disarm the trap.
          */
-        int get_difficulty() const {
+        auto get_difficulty() const -> int {
             return difficulty;
         }
         /**
          * If true, this is not really a trap and there won't be any safety queries before stepping
          * onto it (e.g. for funnels).
          */
-        bool is_benign() const {
+        auto is_benign() const -> bool {
             return benign;
         }
         /** Player has not yet seen the trap and returns the variable chance, at this moment,
          of whether the trap is seen or not. */
-        bool detect_trap( const tripoint &pos, const Character &p ) const;
+        auto detect_trap( const tripoint &pos, const Character &p ) const -> bool;
         /**
          * Can player/npc p see this kind of trap, either by their memory (they known there is
          * the trap) or by the visibility of the trap (the trap is not hidden at all)?
          */
-        bool can_see( const tripoint &pos, const Character &p ) const;
+        auto can_see( const tripoint &pos, const Character &p ) const -> bool;
         /**
          * Trigger trap effects.
          * @param creature The creature that triggered the trap, it does not necessarily have to
@@ -180,7 +180,7 @@ struct trap {
         /**
          * If the given item is throw onto the trap, does it trigger the trap?
          */
-        bool triggered_by_item( const item &itm ) const;
+        auto triggered_by_item( const item &itm ) const -> bool;
         /**
          * Called when a trap at the given point in the map has been disarmed.
          * It should spawn trap items (if any) and remove the trap from the map via
@@ -190,13 +190,13 @@ struct trap {
         /**
          * This is used when defining area this trap occupies. A value of 0 means trap occupies exactly 1 tile.
          */
-        int get_trap_radius() const {
+        auto get_trap_radius() const -> int {
             return trap_radius;
         }
         /**
          * Whether this is the null-traps, aka no trap at all.
          */
-        bool is_null() const;
+        auto is_null() const -> bool;
         /**
          * Loads this specific trap.
          */
@@ -212,13 +212,13 @@ struct trap {
          * The funnel filling is handled in weather.cpp. is_funnel is used the check whether the
          * funnel specific code should be run for this trap.
          */
-        bool is_funnel() const;
-        double funnel_turns_per_charge( double rain_depth_mm_per_hour ) const;
+        auto is_funnel() const -> bool;
+        auto funnel_turns_per_charge( double rain_depth_mm_per_hour ) const -> double;
         /**
          * Returns all trap objects that are actually funnels (is_funnel returns true for all
          * of them).
          */
-        static const std::vector<const trap *> &get_funnels();
+        static auto get_funnels() -> const std::vector<const trap *> &;
         /*@}*/
 
         /*@{*/
@@ -247,10 +247,10 @@ struct trap {
          */
         static void check_consistency();
         /*@}*/
-        static size_t count();
+        static auto count() -> size_t;
 };
 
-const trap_function &trap_function_from_string( const std::string &function_name );
+auto trap_function_from_string( const std::string &function_name ) -> const trap_function &;
 
 extern trap_id
 tr_null,

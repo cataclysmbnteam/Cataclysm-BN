@@ -21,18 +21,18 @@ void eat( avatar &you );
 void eat( avatar &you, item_location loc );
 // special rules for eating: grazing etc
 // returns false if no rules are needed
-bool eat_here( avatar &you );
+auto eat_here( avatar &you ) -> bool;
 
 // Standard movement; handles attacks, traps, &c. Returns false if auto move
 // should be canceled
-bool move( avatar &you, map &m, const tripoint &d );
-inline bool move( avatar &you, map &m, const point &d )
+auto move( avatar &you, map &m, const tripoint &d ) -> bool;
+inline auto move( avatar &you, map &m, const point &d ) -> bool
 {
     return move( you, m, tripoint( d, 0 ) );
 }
 
 // Handle moving from a ramp
-bool ramp_move( avatar &you, map &m, const tripoint &dest );
+auto ramp_move( avatar &you, map &m, const tripoint &dest ) -> bool;
 
 /** Handles swimming by the player. Called by avatar_action::move(). */
 void swim( map &m, avatar &you, const tripoint &p );
@@ -68,7 +68,7 @@ void unload( avatar &you );
  * Used for validating ACT_AIM and turret weapon
  * @return True if all conditions are true, otherwise false.
  */
-bool can_fire_weapon( avatar &you, const map &m, const item &weapon );
+auto can_fire_weapon( avatar &you, const map &m, const item &weapon ) -> bool;
 
 /** Checks if the wielded weapon is a gun and can be fired then starts interactive aiming */
 void fire_wielded_weapon( avatar &you );

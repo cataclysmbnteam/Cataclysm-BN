@@ -36,10 +36,10 @@ class InvalidEnumString : public std::runtime_error
 };
 
 template<typename E>
-std::string enum_to_string( E );
+auto enum_to_string( E ) -> std::string;
 
 template<typename E>
-std::unordered_map<std::string, E> build_enum_lookup_map()
+auto build_enum_lookup_map() -> std::unordered_map<std::string, E>
 {
     static_assert( std::is_enum<E>::value, "E should be an enum type" );
     static_assert( has_enum_traits<E>::value, "enum E needs a specialization of enum_traits" );
@@ -63,7 +63,7 @@ std::unordered_map<std::string, E> build_enum_lookup_map()
 
 // Helper function to do the lookup in an associative container
 template<typename C, typename E = typename C::mapped_type>
-inline E string_to_enum_look_up( const C &container, const std::string &data )
+inline auto string_to_enum_look_up( const C &container, const std::string &data ) -> E
 {
     const auto iter = container.find( data );
     if( iter == container.end() ) {
@@ -74,7 +74,7 @@ inline E string_to_enum_look_up( const C &container, const std::string &data )
 }
 
 template<typename E>
-E string_to_enum( const std::string &data )
+auto string_to_enum( const std::string &data ) -> E
 {
     static const std::unordered_map<std::string, E> string_to_enum_map =
         build_enum_lookup_map<E>();

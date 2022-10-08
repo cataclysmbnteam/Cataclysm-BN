@@ -64,7 +64,7 @@ static const itype_id itype_id_military( "id_military" );
 static const skill_id skill_survival( "survival" );
 static const species_id ZOMBIE( "ZOMBIE" );
 
-bool monexamine::pet_menu( monster &z )
+auto monexamine::pet_menu( monster &z ) -> bool
 {
     enum choices {
         swap_pos = 0,
@@ -346,7 +346,7 @@ void monexamine::shear_animal( monster &z )
     add_msg( _( "You start shearing the %s." ), z.get_name() );
 }
 
-static item_location pet_armor_loc( monster &z )
+static auto pet_armor_loc( monster &z ) -> item_location
 {
     auto filter = [z]( const item & it ) {
         return z.type->bodytype == it.get_pet_armor_bodytype() &&
@@ -357,7 +357,7 @@ static item_location pet_armor_loc( monster &z )
     return game_menus::inv::titled_filter_menu( filter, g->u, _( "Pet armor" ) );
 }
 
-static item_location tack_loc()
+static auto tack_loc() -> item_location
 {
     auto filter = []( const item & it ) {
         return it.has_flag( "TACK" );
@@ -407,7 +407,7 @@ void monexamine::insert_battery( monster &z )
     }
 }
 
-bool monexamine::mech_hack( monster &z )
+auto monexamine::mech_hack( monster &z ) -> bool
 {
     itype_id card_type = itype_id_military;
     if( g->u.has_amount( card_type, 1 ) ) {
@@ -426,7 +426,7 @@ bool monexamine::mech_hack( monster &z )
     return false;
 }
 
-static int prompt_for_amount( const char *const msg, const int max )
+static auto prompt_for_amount( const char *const msg, const int max ) -> int
 {
     const std::string formatted = string_format( msg, max );
     const int amount = string_input_popup()
@@ -439,7 +439,7 @@ static int prompt_for_amount( const char *const msg, const int max )
     return clamp( amount, 0, max );
 }
 
-bool monexamine::pay_bot( monster &z )
+auto monexamine::pay_bot( monster &z ) -> bool
 {
     time_duration friend_time = z.get_effect_dur( effect_pet );
     const int charge_count = g->u.charges_of( itype_cash_card );
@@ -479,7 +479,7 @@ bool monexamine::pay_bot( monster &z )
     return false;
 }
 
-bool monexamine::mfriend_menu( monster &z )
+auto monexamine::mfriend_menu( monster &z ) -> bool
 {
     enum choices {
         swap_pos = 0,
@@ -542,7 +542,7 @@ void monexamine::attach_or_remove_saddle( monster &z )
     }
 }
 
-bool Character::can_mount( const monster &critter ) const
+auto Character::can_mount( const monster &critter ) const -> bool
 {
     const auto &avoid = get_path_avoid();
     auto route = g->m.route( pos(), critter.pos(), get_pathfinding_settings(), avoid );
@@ -667,7 +667,7 @@ void monexamine::dump_items( monster &z )
     g->u.moves -= 200;
 }
 
-bool monexamine::give_items_to( monster &z )
+auto monexamine::give_items_to( monster &z ) -> bool
 {
     std::string pet_name = z.get_name();
     if( !z.storage_item ) {
@@ -706,7 +706,7 @@ bool monexamine::give_items_to( monster &z )
     return false;
 }
 
-bool monexamine::add_armor( monster &z )
+auto monexamine::add_armor( monster &z ) -> bool
 {
     std::string pet_name = z.get_name();
     item_location loc = pet_armor_loc( z );

@@ -82,13 +82,13 @@ struct enum_traits<mission_goal> {
 
 struct mission_place {
     // Return true if the place (global overmap terrain coordinate) is valid for starting a mission
-    static bool never( const tripoint_abs_omt & ) {
+    static auto never( const tripoint_abs_omt & ) -> bool {
         return false;
     }
-    static bool always( const tripoint_abs_omt & ) {
+    static auto always( const tripoint_abs_omt & ) -> bool {
         return true;
     }
-    static bool near_town( const tripoint_abs_omt & );
+    static auto near_town( const tripoint_abs_omt & ) -> bool;
 };
 
 /* mission_start functions are first run when a mission is accepted; this
@@ -159,30 +159,30 @@ struct mission_target_params {
 
 namespace mission_util
 {
-tripoint_abs_omt random_house_in_closest_city();
-tripoint_abs_omt target_closest_lab_entrance( const tripoint_abs_omt &origin, int reveal_rad,
-        mission *miss );
-bool reveal_road( const tripoint_abs_omt &source, const tripoint_abs_omt &dest,
-                  overmapbuffer &omb );
-tripoint_abs_omt reveal_om_ter( const std::string &omter, int reveal_rad, bool must_see,
-                                int target_z = 0 );
-tripoint_abs_omt target_om_ter( const std::string &omter, int reveal_rad, mission *miss,
-                                bool must_see, int target_z = 0 );
-tripoint_abs_omt target_om_ter_random(
+auto random_house_in_closest_city() -> tripoint_abs_omt;
+auto target_closest_lab_entrance( const tripoint_abs_omt &origin, int reveal_rad,
+        mission *miss ) -> tripoint_abs_omt;
+auto reveal_road( const tripoint_abs_omt &source, const tripoint_abs_omt &dest,
+                  overmapbuffer &omb ) -> bool;
+auto reveal_om_ter( const std::string &omter, int reveal_rad, bool must_see,
+                                int target_z = 0 ) -> tripoint_abs_omt;
+auto target_om_ter( const std::string &omter, int reveal_rad, mission *miss,
+                                bool must_see, int target_z = 0 ) -> tripoint_abs_omt;
+auto target_om_ter_random(
     const std::string &omter, int reveal_rad, mission *miss, bool must_see, int range,
-    tripoint_abs_omt loc = overmap::invalid_tripoint );
+    tripoint_abs_omt loc = overmap::invalid_tripoint ) -> tripoint_abs_omt;
 void set_reveal( const std::string &terrain,
                  std::vector<std::function<void( mission *miss )>> &funcs );
 void set_reveal_any( const JsonArray &ja,
                      std::vector<std::function<void( mission *miss )>> &funcs );
-mission_target_params parse_mission_om_target( const JsonObject &jo );
-cata::optional<tripoint_abs_omt> assign_mission_target( const mission_target_params &params );
-tripoint_abs_omt get_om_terrain_pos( const mission_target_params &params );
+auto parse_mission_om_target( const JsonObject &jo ) -> mission_target_params;
+auto assign_mission_target( const mission_target_params &params ) -> cata::optional<tripoint_abs_omt>;
+auto get_om_terrain_pos( const mission_target_params &params ) -> tripoint_abs_omt;
 void set_assign_om_target( const JsonObject &jo,
                            std::vector<std::function<void( mission *miss )>> &funcs );
-bool set_update_mapgen( const JsonObject &jo,
-                        std::vector<std::function<void( mission *miss )>> &funcs );
-bool load_funcs( const JsonObject &jo, std::vector<std::function<void( mission *miss )>> &funcs );
+auto set_update_mapgen( const JsonObject &jo,
+                        std::vector<std::function<void( mission *miss )>> &funcs ) -> bool;
+auto load_funcs( const JsonObject &jo, std::vector<std::function<void( mission *miss )>> &funcs ) -> bool;
 } // namespace mission_util
 
 struct mission_goal_condition_context {
@@ -249,41 +249,41 @@ struct mission_type {
 
         mission_type() = default;
 
-        mission create( const character_id &npc_id ) const;
+        auto create( const character_id &npc_id ) const -> mission;
 
         /**
          * Get the mission_type object of the given id. Returns null if the input is invalid!
          */
-        static const mission_type *get( const mission_type_id &id );
+        static auto get( const mission_type_id &id ) -> const mission_type *;
         /**
          * Converts the legacy int id to a string_id.
          */
-        static mission_type_id from_legacy( int old_id );
+        static auto from_legacy( int old_id ) -> mission_type_id;
         /**
          * Returns a random id of a mission type that can be started at the defined origin
          * around tripoint p, see @ref mission_start.
          * Returns @ref MISSION_NULL if no suitable type could be found.
          */
-        static mission_type_id get_random_id( mission_origin origin, const tripoint_abs_omt &p );
+        static auto get_random_id( mission_origin origin, const tripoint_abs_omt &p ) -> mission_type_id;
         /**
          * Get all mission types at once.
          */
-        static const std::vector<mission_type> &get_all();
+        static auto get_all() -> const std::vector<mission_type> &;
 
-        bool test_goal_condition( const mission_goal_condition_context &d ) const;
+        auto test_goal_condition( const mission_goal_condition_context &d ) const -> bool;
 
         static void reset();
         static void load_mission_type( const JsonObject &jo, const std::string &src );
         static void finalize();
         static void check_consistency();
 
-        bool parse_funcs( const JsonObject &jo, std::function<void( mission * )> &phase_func );
+        auto parse_funcs( const JsonObject &jo, std::function<void( mission * )> &phase_func ) -> bool;
         void load( const JsonObject &jo, const std::string &src );
 
         /**
          * Returns the translated name
          */
-        std::string tname() const;
+        auto tname() const -> std::string;
 };
 
 class mission
@@ -347,38 +347,38 @@ class mission
         character_id player_id;
     public:
 
-        std::string name();
-        mission_type_id mission_id();
+        auto name() -> std::string;
+        auto mission_id() -> mission_type_id;
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
 
         mission();
         /** Getters, they mostly return the member directly, mostly. */
         /*@{*/
-        bool has_deadline() const;
-        time_point get_deadline() const;
-        std::string get_description() const;
-        bool has_target() const;
-        const tripoint_abs_omt &get_target() const;
-        const mission_type &get_type() const;
-        bool has_follow_up() const;
-        mission_type_id get_follow_up() const;
-        int get_value() const;
-        int get_id() const;
-        const itype_id &get_item_id() const;
-        character_id get_npc_id() const;
-        const std::vector<std::pair<int, itype_id>> &get_likely_rewards() const;
-        bool has_generic_rewards() const;
+        auto has_deadline() const -> bool;
+        auto get_deadline() const -> time_point;
+        auto get_description() const -> std::string;
+        auto has_target() const -> bool;
+        auto get_target() const -> const tripoint_abs_omt &;
+        auto get_type() const -> const mission_type &;
+        auto has_follow_up() const -> bool;
+        auto get_follow_up() const -> mission_type_id;
+        auto get_value() const -> int;
+        auto get_id() const -> int;
+        auto get_item_id() const -> const itype_id &;
+        auto get_npc_id() const -> character_id;
+        auto get_likely_rewards() const -> const std::vector<std::pair<int, itype_id>> &;
+        auto has_generic_rewards() const -> bool;
         /**
          * Whether the mission is assigned to a player character. If not, the mission is free and
          * can be assigned.
          */
-        bool is_assigned() const;
+        auto is_assigned() const -> bool;
         /**
          * To which player the mission is assigned. It returns the id (@ref player::getID) of the
          * player.
          */
-        character_id get_assigned_player_id() const;
+        auto get_assigned_player_id() const -> character_id;
         /*@}*/
 
         /**
@@ -398,31 +398,31 @@ class mission
         /** Handles partial mission completion (kill complete, now report back!). */
         void step_complete( int step );
         /** Checks if the player has completed the matching mission and returns true if they have. */
-        bool is_complete( const character_id &npc_id ) const;
+        auto is_complete( const character_id &npc_id ) const -> bool;
         /** Checks if the player has failed the matching mission and returns true if they have. */
-        bool has_failed() const;
+        auto has_failed() const -> bool;
         /** Checks if the mission is started, but not failed and not succeeded. */
-        bool in_progress() const;
+        auto in_progress() const -> bool;
         /** Processes this mission. */
         void process();
         /** Called when the player talks with an NPC. May resolve mission goals, e.g. MGOAL_TALK_TO_NPC. */
         void on_talk_with_npc( const character_id &npc_id );
 
         // TODO: Give topics a string_id
-        std::string dialogue_for_topic( const std::string &topic ) const;
+        auto dialogue_for_topic( const std::string &topic ) const -> std::string;
 
         /**
          * Create a new mission of the given type and assign it to the given npc.
          * Returns the new mission.
          */
-        static mission *reserve_new( const mission_type_id &type, const character_id &npc_id );
-        static mission *reserve_random( mission_origin origin, const tripoint_abs_omt &p,
-                                        const character_id &npc_id );
+        static auto reserve_new( const mission_type_id &type, const character_id &npc_id ) -> mission *;
+        static auto reserve_random( mission_origin origin, const tripoint_abs_omt &p,
+                                        const character_id &npc_id ) -> mission *;
         /**
          * Returns the mission with the matching id (@ref uid). Returns NULL if no mission with that
          * id exists.
          */
-        static mission *find( int id );
+        static auto find( int id ) -> mission *;
         /**
          * Remove all active missions, used to cleanup on exit and before reloading a new game.
          */
@@ -443,15 +443,15 @@ class mission
         static void serialize_all( JsonOut &json );
         static void unserialize_all( JsonIn &jsin );
         /** Converts a vector mission ids to a vector of mission pointers. Invalid ids are skipped! */
-        static std::vector<mission *> to_ptr_vector( const std::vector<int> &vec );
-        static std::vector<int> to_uid_vector( const std::vector<mission *> &vec );
+        static auto to_ptr_vector( const std::vector<int> &vec ) -> std::vector<mission *>;
+        static auto to_uid_vector( const std::vector<mission *> &vec ) -> std::vector<int>;
 
         // For save/load
-        static std::vector<mission *> get_all_active();
+        static auto get_all_active() -> std::vector<mission *>;
         static void add_existing( const mission &m );
 
-        static mission_status status_from_string( const std::string &s );
-        static std::string status_to_string( mission_status st );
+        static auto status_from_string( const std::string &s ) -> mission_status;
+        static auto status_to_string( mission_status st ) -> std::string;
 
         /** Used to handle saves from before player_id was a member of mission */
         void set_player_id_legacy_0c( character_id id );

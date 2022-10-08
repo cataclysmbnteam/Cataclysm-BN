@@ -61,27 +61,27 @@ void tileray::clear_advance()
     steps = 0;
 }
 
-int tileray::dx() const
+auto tileray::dx() const -> int
 {
     return last_d.x;
 }
 
-int tileray::dy() const
+auto tileray::dy() const -> int
 {
     return last_d.y;
 }
 
-units::angle tileray::dir() const
+auto tileray::dir() const -> units::angle
 {
     return direction;
 }
 
-int tileray::quadrant() const
+auto tileray::quadrant() const -> int
 {
     return static_cast<int>( std::floor( direction / 90_degrees ) ) % 4;
 }
 
-int tileray::dir4() const
+auto tileray::dir4() const -> int
 {
     if( direction >= 45_degrees && direction <= 135_degrees ) {
         return 1;
@@ -94,7 +94,7 @@ int tileray::dir4() const
     }
 }
 
-int tileray::dir8() const
+auto tileray::dir8() const -> int
 {
     int oct = 0;
     units::angle dir = direction;
@@ -110,7 +110,7 @@ int tileray::dir8() const
 
 // This function assumes a vehicle is being drawn.
 // It assumes horizontal lines are never skewed, vertical lines often skewed.
-int tileray::dir_symbol( int sym ) const
+auto tileray::dir_symbol( int sym ) const -> int
 {
     switch( sym ) {
         // output.cpp special_symbol() converts yubn to corners, hj to lines, c to cross
@@ -169,24 +169,24 @@ int tileray::dir_symbol( int sym ) const
     return sym;
 }
 
-std::string tileray::to_string_azimuth_from_north() const
+auto tileray::to_string_azimuth_from_north() const -> std::string
 {
     return std::to_string( std::lround( to_degrees( dir() + 90_degrees ) ) % 360 ) + "°";
 }
 
-int tileray::ortho_dx( int od ) const
+auto tileray::ortho_dx( int od ) const -> int
 {
     od *= -sy[quadrant()];
     return mostly_vertical() ? od : 0;
 }
 
-int tileray::ortho_dy( int od ) const
+auto tileray::ortho_dy( int od ) const -> int
 {
     od *= sx[quadrant()];
     return mostly_vertical() ? 0 : od;
 }
 
-bool tileray::mostly_vertical() const
+auto tileray::mostly_vertical() const -> bool
 {
     return abs_d.x <= abs_d.y;
 }
@@ -234,7 +234,7 @@ void tileray::advance( int num )
     }
 }
 
-int tileray::get_steps() const
+auto tileray::get_steps() const -> int
 {
     return steps;
 }

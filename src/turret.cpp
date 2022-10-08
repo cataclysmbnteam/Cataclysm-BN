@@ -29,7 +29,7 @@ static const itype_id fuel_type_battery( "battery" );
 
 static const efftype_id effect_on_roof( "on_roof" );
 
-std::vector<vehicle_part *> vehicle::turrets()
+auto vehicle::turrets() -> std::vector<vehicle_part *>
 {
     std::vector<vehicle_part *> res;
 
@@ -41,7 +41,7 @@ std::vector<vehicle_part *> vehicle::turrets()
     return res;
 }
 
-std::vector<vehicle_part *> vehicle::turrets( const tripoint &target )
+auto vehicle::turrets( const tripoint &target ) -> std::vector<vehicle_part *>
 {
     std::vector<vehicle_part *> res = turrets();
     // exclude turrets not ready to fire or where target is out of range
@@ -52,7 +52,7 @@ std::vector<vehicle_part *> vehicle::turrets( const tripoint &target )
     return res;
 }
 
-turret_data vehicle::turret_query( vehicle_part &pt )
+auto vehicle::turret_query( vehicle_part &pt ) -> turret_data
 {
     if( !pt.is_turret() || pt.removed || pt.is_broken() ) {
         return turret_data();
@@ -60,38 +60,38 @@ turret_data vehicle::turret_query( vehicle_part &pt )
     return turret_data( this, &pt );
 }
 
-turret_data vehicle::turret_query( const vehicle_part &pt ) const
+auto vehicle::turret_query( const vehicle_part &pt ) const -> turret_data
 {
     return const_cast<vehicle *>( this )->turret_query( const_cast<vehicle_part &>( pt ) );
 }
 
-turret_data vehicle::turret_query( const tripoint &pos )
+auto vehicle::turret_query( const tripoint &pos ) -> turret_data
 {
     auto res = get_parts_at( pos, "TURRET", part_status_flag::any );
     return !res.empty() ? turret_query( *res.front() ) : turret_data();
 }
 
-turret_data vehicle::turret_query( const tripoint &pos ) const
+auto vehicle::turret_query( const tripoint &pos ) const -> turret_data
 {
     return const_cast<vehicle *>( this )->turret_query( pos );
 }
 
-std::string turret_data::name() const
+auto turret_data::name() const -> std::string
 {
     return part->name();
 }
 
-item_location turret_data::base()
+auto turret_data::base() -> item_location
 {
     return item_location( vehicle_cursor( *veh, veh->index_of_part( part ) ), &part->base );
 }
 
-item_location turret_data::base() const
+auto turret_data::base() const -> item_location
 {
     return item_location( vehicle_cursor( *veh, veh->index_of_part( part ) ), &part->base );
 }
 
-int turret_data::ammo_remaining() const
+auto turret_data::ammo_remaining() const -> int
 {
     if( !veh || !part ) {
         return 0;
@@ -102,7 +102,7 @@ int turret_data::ammo_remaining() const
     return part->base.ammo_remaining();
 }
 
-int turret_data::ammo_capacity() const
+auto turret_data::ammo_capacity() const -> int
 {
     if( !veh || !part || part->info().has_flag( "USE_TANKS" ) ) {
         return 0;
@@ -110,7 +110,7 @@ int turret_data::ammo_capacity() const
     return part->base.ammo_capacity();
 }
 
-const itype *turret_data::ammo_data() const
+auto turret_data::ammo_data() const -> const itype *
 {
     if( !veh || !part ) {
         return nullptr;
@@ -121,7 +121,7 @@ const itype *turret_data::ammo_data() const
     return part->base.ammo_data();
 }
 
-itype_id turret_data::ammo_current() const
+auto turret_data::ammo_current() const -> itype_id
 {
     auto opts = ammo_options();
     if( opts.count( part->ammo_pref ) ) {
@@ -136,7 +136,7 @@ itype_id turret_data::ammo_current() const
     return opts.empty() ? itype_id::NULL_ID() : *opts.begin();
 }
 
-std::set<itype_id> turret_data::ammo_options() const
+auto turret_data::ammo_options() const -> std::set<itype_id>
 {
     std::set<itype_id> opts;
 
@@ -163,7 +163,7 @@ std::set<itype_id> turret_data::ammo_options() const
     return opts;
 }
 
-bool turret_data::ammo_select( const itype_id &ammo )
+auto turret_data::ammo_select( const itype_id &ammo ) -> bool
 {
     if( !ammo_options().count( ammo ) ) {
         return false;
@@ -173,7 +173,7 @@ bool turret_data::ammo_select( const itype_id &ammo )
     return true;
 }
 
-std::set<ammo_effect_str_id> turret_data::ammo_effects() const
+auto turret_data::ammo_effects() const -> std::set<ammo_effect_str_id>
 {
     if( !veh || !part ) {
         return std::set<ammo_effect_str_id>();
@@ -185,7 +185,7 @@ std::set<ammo_effect_str_id> turret_data::ammo_effects() const
     return res;
 }
 
-int turret_data::range() const
+auto turret_data::range() const -> int
 {
     if( !veh || !part ) {
         return 0;
@@ -199,7 +199,7 @@ int turret_data::range() const
     return part->base.gun_range();
 }
 
-bool turret_data::in_range( const tripoint &target ) const
+auto turret_data::in_range( const tripoint &target ) const -> bool
 {
     if( !veh || !part ) {
         return false;
@@ -209,7 +209,7 @@ bool turret_data::in_range( const tripoint &target ) const
     return range >= dist;
 }
 
-bool turret_data::can_reload() const
+auto turret_data::can_reload() const -> bool
 {
     if( !veh || !part || part->info().has_flag( "USE_TANKS" ) ) {
         return false;
@@ -221,7 +221,7 @@ bool turret_data::can_reload() const
     return part->base.ammo_remaining() < part->base.ammo_capacity();
 }
 
-bool turret_data::can_unload() const
+auto turret_data::can_unload() const -> bool
 {
     if( !veh || !part || part->info().has_flag( "USE_TANKS" ) ) {
         return false;
@@ -229,7 +229,7 @@ bool turret_data::can_unload() const
     return part->base.ammo_remaining() || part->base.magazine_current();
 }
 
-turret_data::status turret_data::query() const
+auto turret_data::query() const -> turret_data::status
 {
     if( !veh || !part ) {
         return status::invalid;
@@ -289,7 +289,7 @@ void turret_data::post_fire( player &p, int shots )
     veh->drain( fuel_type_battery, mode->get_gun_ups_drain() * shots );
 }
 
-int turret_data::fire( player &p, const tripoint &target )
+auto turret_data::fire( player &p, const tripoint &target ) -> int
 {
     if( !veh || !part ) {
         return 0;
@@ -333,7 +333,7 @@ void vehicle::turrets_aim_and_fire_single()
     turrets_aim_and_fire( turrets );
 }
 
-bool vehicle::turrets_aim_and_fire_all_manual( bool show_msg )
+auto vehicle::turrets_aim_and_fire_all_manual( bool show_msg ) -> bool
 {
     std::vector<vehicle_part *> turrets = find_all_ready_turrets( true, false );
 
@@ -362,7 +362,7 @@ void vehicle::turrets_override_automatic_aim()
     turrets_aim( turrets );
 }
 
-int vehicle::turrets_aim_and_fire( std::vector<vehicle_part *> &turrets )
+auto vehicle::turrets_aim_and_fire( std::vector<vehicle_part *> &turrets ) -> int
 {
     int shots = 0;
     if( turrets_aim( turrets ) ) {
@@ -379,7 +379,7 @@ int vehicle::turrets_aim_and_fire( std::vector<vehicle_part *> &turrets )
     return shots;
 }
 
-bool vehicle::turrets_aim( std::vector<vehicle_part *> &turrets )
+auto vehicle::turrets_aim( std::vector<vehicle_part *> &turrets ) -> bool
 {
     // Clear existing targets
     for( vehicle_part *t : turrets ) {
@@ -409,7 +409,7 @@ bool vehicle::turrets_aim( std::vector<vehicle_part *> &turrets )
     return got_target;
 }
 
-std::vector<vehicle_part *> vehicle::find_all_ready_turrets( bool manual, bool automatic )
+auto vehicle::find_all_ready_turrets( bool manual, bool automatic ) -> std::vector<vehicle_part *>
 {
     std::vector<vehicle_part *> res;
     for( vehicle_part *t : turrets() ) {
@@ -516,7 +516,7 @@ void vehicle::turrets_set_mode()
     }
 }
 
-npc vehicle::get_targeting_npc( const vehicle_part &pt )
+auto vehicle::get_targeting_npc( const vehicle_part &pt ) -> npc
 {
     // Make a fake NPC to represent the targeting system
     npc cpu;
@@ -539,7 +539,7 @@ npc vehicle::get_targeting_npc( const vehicle_part &pt )
     return cpu;
 }
 
-int vehicle::automatic_fire_turret( vehicle_part &pt )
+auto vehicle::automatic_fire_turret( vehicle_part &pt ) -> int
 {
     turret_data gun = turret_query( pt );
 

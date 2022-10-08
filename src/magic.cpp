@@ -53,7 +53,7 @@ namespace io
 {
 // *INDENT-OFF*
 template<>
-std::string enum_to_string<valid_target>( valid_target data )
+auto enum_to_string<valid_target>( valid_target data ) -> std::string
 {
     switch( data ) {
         case valid_target::target_ally: return "ally";
@@ -70,7 +70,7 @@ std::string enum_to_string<valid_target>( valid_target data )
     abort();
 }
 template<>
-std::string enum_to_string<body_part>( body_part data )
+auto enum_to_string<body_part>( body_part data ) -> std::string
 {
     switch( data ) {
         case body_part::bp_torso: return "TORSO";
@@ -91,7 +91,7 @@ std::string enum_to_string<body_part>( body_part data )
     abort();
 }
 template<>
-std::string enum_to_string<spell_flag>( spell_flag data )
+auto enum_to_string<spell_flag>( spell_flag data ) -> std::string
 {
     switch( data ) {
         case spell_flag::PERMANENT: return "PERMANENT";
@@ -133,13 +133,13 @@ generic_factory<spell_type> spell_factory( "spell" );
 } // namespace
 
 template<>
-const spell_type &string_id<spell_type>::obj() const
+auto string_id<spell_type>::obj() const -> const spell_type &
 {
     return spell_factory.obj( *this );
 }
 
 template<>
-bool string_id<spell_type>::is_valid() const
+auto string_id<spell_type>::is_valid() const -> bool
 {
     return spell_factory.is_valid( *this );
 }
@@ -149,7 +149,7 @@ void spell_type::load_spell( const JsonObject &jo, const std::string &src )
     spell_factory.load( jo, src );
 }
 
-static energy_type energy_source_from_string( const std::string &str )
+static auto energy_source_from_string( const std::string &str ) -> energy_type
 {
     if( str == "MANA" ) {
         return mana_energy;
@@ -169,7 +169,7 @@ static energy_type energy_source_from_string( const std::string &str )
     }
 }
 
-static damage_type damage_type_from_string( const std::string &str )
+static auto damage_type_from_string( const std::string &str ) -> damage_type
 {
     if( str == "fire" ) {
         return DT_HEAT;
@@ -197,7 +197,7 @@ static damage_type damage_type_from_string( const std::string &str )
     }
 }
 
-static std::string moves_to_string( const int moves )
+static auto moves_to_string( const int moves ) -> std::string
 {
     if( moves < to_moves<int>( 2_seconds ) ) {
         return string_format( _( "%d moves" ), moves );
@@ -342,7 +342,7 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     }
 }
 
-static bool spell_infinite_loop_check( std::set<spell_id> spell_effects, const spell_id &sp )
+static auto spell_infinite_loop_check( std::set<spell_id> spell_effects, const spell_id &sp ) -> bool
 {
     if( spell_effects.count( sp ) ) {
         return true;
@@ -426,7 +426,7 @@ void spell_type::check_consistency()
     }
 }
 
-const std::vector<spell_type> &spell_type::get_all()
+auto spell_type::get_all() -> const std::vector<spell_type> &
 {
     return spell_factory.get_all();
 }
@@ -436,7 +436,7 @@ void spell_type::reset_all()
     spell_factory.reset();
 }
 
-bool spell_type::is_valid() const
+auto spell_type::is_valid() const -> bool
 {
     return spell_factory.is_valid( this->id );
 }
@@ -453,34 +453,34 @@ void spell::set_message( const translation &msg )
     alt_message = msg;
 }
 
-spell_id spell::id() const
+auto spell::id() const -> spell_id
 {
     return type;
 }
 
-trait_id spell::spell_class() const
+auto spell::spell_class() const -> trait_id
 {
     return type->spell_class;
 }
 
-skill_id spell::skill() const
+auto spell::skill() const -> skill_id
 {
     return type->skill;
 }
 
-int spell::field_intensity() const
+auto spell::field_intensity() const -> int
 {
     return std::min( type->max_field_intensity,
                      static_cast<int>( type->min_field_intensity + std::round( get_level() *
                                        type->field_intensity_increment ) ) );
 }
 
-int spell::min_leveled_damage() const
+auto spell::min_leveled_damage() const -> int
 {
     return type->min_damage + std::round( get_level() * type->damage_increment );
 }
 
-int spell::damage() const
+auto spell::damage() const -> int
 {
     const int leveled_damage = min_leveled_damage();
 
@@ -496,7 +496,7 @@ int spell::damage() const
     }
 }
 
-std::string spell::damage_string() const
+auto spell::damage_string() const -> std::string
 {
     if( has_flag( spell_flag::RANDOM_DAMAGE ) ) {
         return string_format( "%d-%d", min_leveled_damage(), type->max_damage );
@@ -510,12 +510,12 @@ std::string spell::damage_string() const
     }
 }
 
-int spell::min_leveled_aoe() const
+auto spell::min_leveled_aoe() const -> int
 {
     return type->min_aoe + std::round( get_level() * type->aoe_increment );
 }
 
-int spell::aoe() const
+auto spell::aoe() const -> int
 {
     const int leveled_aoe = min_leveled_aoe();
 
@@ -530,7 +530,7 @@ int spell::aoe() const
     }
 }
 
-bool spell::in_aoe( const tripoint &source, const tripoint &target ) const
+auto spell::in_aoe( const tripoint &source, const tripoint &target ) const -> bool
 {
     if( has_flag( spell_flag::RANDOM_AOE ) ) {
         return rl_dist( source, target ) <= type->max_aoe;
@@ -539,7 +539,7 @@ bool spell::in_aoe( const tripoint &source, const tripoint &target ) const
     }
 }
 
-std::string spell::aoe_string() const
+auto spell::aoe_string() const -> std::string
 {
     if( has_flag( spell_flag::RANDOM_AOE ) ) {
         return string_format( "%d-%d", min_leveled_aoe(), type->max_aoe );
@@ -548,7 +548,7 @@ std::string spell::aoe_string() const
     }
 }
 
-int spell::range() const
+auto spell::range() const -> int
 {
     const int leveled_range = type->min_range + std::round( get_level() * type->range_increment );
     if( type->max_range >= type->min_range ) {
@@ -558,12 +558,12 @@ int spell::range() const
     }
 }
 
-int spell::min_leveled_duration() const
+auto spell::min_leveled_duration() const -> int
 {
     return type->min_duration + std::round( get_level() * type->duration_increment );
 }
 
-int spell::duration() const
+auto spell::duration() const -> int
 {
     const int leveled_duration = min_leveled_duration();
 
@@ -579,7 +579,7 @@ int spell::duration() const
     }
 }
 
-std::string spell::duration_string() const
+auto spell::duration_string() const -> std::string
 {
     if( has_flag( spell_flag::RANDOM_DURATION ) ) {
         return string_format( "%s - %s", moves_to_string( min_leveled_duration() ),
@@ -589,7 +589,7 @@ std::string spell::duration_string() const
     }
 }
 
-time_duration spell::duration_turns() const
+auto spell::duration_turns() const -> time_duration
 {
     return 1_turns * duration() / 100;
 }
@@ -615,12 +615,12 @@ void spell::set_level( int nlevel )
     gain_levels( nlevel );
 }
 
-bool spell::is_max_level() const
+auto spell::is_max_level() const -> bool
 {
     return get_level() >= type->max_level;
 }
 
-bool spell::can_learn( const Character &guy ) const
+auto spell::can_learn( const Character &guy ) const -> bool
 {
     if( type->spell_class == trait_NONE ) {
         return true;
@@ -628,7 +628,7 @@ bool spell::can_learn( const Character &guy ) const
     return guy.has_trait( type->spell_class );
 }
 
-int spell::energy_cost( const Character &guy ) const
+auto spell::energy_cost( const Character &guy ) const -> int
 {
     int cost;
     if( type->base_energy_cost < type->final_energy_cost ) {
@@ -658,17 +658,17 @@ int spell::energy_cost( const Character &guy ) const
     return cost;
 }
 
-bool spell::has_flag( const spell_flag &flag ) const
+auto spell::has_flag( const spell_flag &flag ) const -> bool
 {
     return type->spell_tags[flag];
 }
 
-bool spell::is_spell_class( const trait_id &mid ) const
+auto spell::is_spell_class( const trait_id &mid ) const -> bool
 {
     return mid == type->spell_class;
 }
 
-bool spell::can_cast( const Character &guy ) const
+auto spell::can_cast( const Character &guy ) const -> bool
 {
     switch( type->energy_source ) {
         case mana_energy:
@@ -693,12 +693,12 @@ bool spell::can_cast( const Character &guy ) const
     }
 }
 
-int spell::get_difficulty() const
+auto spell::get_difficulty() const -> int
 {
     return type->difficulty;
 }
 
-int spell::casting_time( const Character &guy ) const
+auto spell::casting_time( const Character &guy ) const -> int
 {
     // casting time in moves
     int casting_time = 0;
@@ -726,12 +726,12 @@ int spell::casting_time( const Character &guy ) const
     return casting_time;
 }
 
-std::string spell::name() const
+auto spell::name() const -> std::string
 {
     return type->name.translated();
 }
 
-std::string spell::message() const
+auto spell::message() const -> std::string
 {
     if( !alt_message.empty() ) {
         return alt_message.translated();
@@ -739,7 +739,7 @@ std::string spell::message() const
     return type->message.translated();
 }
 
-float spell::spell_fail( const Character &guy ) const
+auto spell::spell_fail( const Character &guy ) const -> float
 {
     if( has_flag( spell_flag::NO_FAIL ) ) {
         return 0.0f;
@@ -779,7 +779,7 @@ float spell::spell_fail( const Character &guy ) const
     return clamp( fail_chance, 0.0f, 1.0f );
 }
 
-std::string spell::colorized_fail_percent( const Character &guy ) const
+auto spell::colorized_fail_percent( const Character &guy ) const -> std::string
 {
     const float fail_fl = spell_fail( guy ) * 100.0f;
     std::string fail_str;
@@ -802,7 +802,7 @@ std::string spell::colorized_fail_percent( const Character &guy ) const
     return colorize( fail_str, color );
 }
 
-int spell::xp() const
+auto spell::xp() const -> int
 {
     return experience;
 }
@@ -817,7 +817,7 @@ void spell::set_exp( int nxp )
     experience = nxp;
 }
 
-std::string spell::energy_string() const
+auto spell::energy_string() const -> std::string
 {
     switch( type->energy_source ) {
         case hp_energy:
@@ -835,7 +835,7 @@ std::string spell::energy_string() const
     }
 }
 
-std::string spell::energy_cost_string( const Character &guy ) const
+auto spell::energy_cost_string( const Character &guy ) const -> std::string
 {
     if( energy_source() == none_energy ) {
         return _( "none" );
@@ -858,7 +858,7 @@ std::string spell::energy_cost_string( const Character &guy ) const
     return _( "error: energy_type" );
 }
 
-std::string spell::energy_cur_string( const Character &guy ) const
+auto spell::energy_cur_string( const Character &guy ) const -> std::string
 {
     if( energy_source() == none_energy ) {
         return _( "infinite" );
@@ -884,12 +884,12 @@ std::string spell::energy_cur_string( const Character &guy ) const
     return _( "error: energy_type" );
 }
 
-bool spell::is_valid() const
+auto spell::is_valid() const -> bool
 {
     return type.is_valid();
 }
 
-bool spell::bp_is_affected( body_part bp ) const
+auto spell::bp_is_affected( body_part bp ) const -> bool
 {
     return type->affected_bps.count( convert_bp( bp ) );
 }
@@ -932,27 +932,27 @@ void spell::make_sound( const tripoint &target, int loudness ) const
                    type->sound_ambient, type->sound_id, type->sound_variant );
 }
 
-std::string spell::effect() const
+auto spell::effect() const -> std::string
 {
     return type->effect_name;
 }
 
-energy_type spell::energy_source() const
+auto spell::energy_source() const -> energy_type
 {
     return type->energy_source;
 }
 
-bool spell::is_target_in_range( const Creature &caster, const tripoint &p ) const
+auto spell::is_target_in_range( const Creature &caster, const tripoint &p ) const -> bool
 {
     return rl_dist( caster.pos(), p ) <= range();
 }
 
-bool spell::is_valid_target( valid_target t ) const
+auto spell::is_valid_target( valid_target t ) const -> bool
 {
     return type->valid_targets[t];
 }
 
-bool spell::is_valid_target( const Creature &caster, const tripoint &p ) const
+auto spell::is_valid_target( const Creature &caster, const tripoint &p ) const -> bool
 {
     bool valid = false;
     if( Creature *const cr = g->critter_at<Creature>( p ) ) {
@@ -968,12 +968,12 @@ bool spell::is_valid_target( const Creature &caster, const tripoint &p ) const
     return valid;
 }
 
-bool spell::is_valid_effect_target( valid_target t ) const
+auto spell::is_valid_effect_target( valid_target t ) const -> bool
 {
     return type->effect_targets[t];
 }
 
-bool spell::target_by_monster_id( const tripoint &p ) const
+auto spell::target_by_monster_id( const tripoint &p ) const -> bool
 {
     if( type->targeted_monster_ids.empty() ) {
         return true;
@@ -987,12 +987,12 @@ bool spell::target_by_monster_id( const tripoint &p ) const
     return valid;
 }
 
-std::string spell::description() const
+auto spell::description() const -> std::string
 {
     return type->description.translated();
 }
 
-nc_color spell::damage_type_color() const
+auto spell::damage_type_color() const -> nc_color
 {
     switch( dmg_type() ) {
         case DT_HEAT:
@@ -1020,7 +1020,7 @@ nc_color spell::damage_type_color() const
     }
 }
 
-std::string spell::damage_type_string() const
+auto spell::damage_type_string() const -> std::string
 {
     return name_by_dt( dmg_type() );
 }
@@ -1031,13 +1031,13 @@ constexpr double a = 6200.0;
 constexpr double b = 0.146661;
 constexpr double c = -62.5;
 
-int spell::get_level() const
+auto spell::get_level() const -> int
 {
     // you aren't at the next level unless you have the requisite xp, so floor
     return std::max( static_cast<int>( std::floor( std::log( experience + a ) / b + c ) ), 0 );
 }
 
-int spell::get_max_level() const
+auto spell::get_max_level() const -> int
 {
     return type->max_level;
 }
@@ -1045,7 +1045,7 @@ int spell::get_max_level() const
 // helper function to calculate xp needed to be at a certain level
 // pulled out as a helper function to make it easier to either be used in the future
 // or easier to tweak the formula
-static int exp_for_level( int level )
+static auto exp_for_level( int level ) -> int
 {
     // level 0 never needs xp
     if( level == 0 ) {
@@ -1054,12 +1054,12 @@ static int exp_for_level( int level )
     return std::ceil( std::exp( ( level - c ) * b ) ) - a;
 }
 
-int spell::exp_to_next_level() const
+auto spell::exp_to_next_level() const -> int
 {
     return exp_for_level( get_level() + 1 ) - xp();
 }
 
-std::string spell::exp_progress() const
+auto spell::exp_progress() const -> std::string
 {
     const int level = get_level();
     const int this_level_xp = exp_for_level( level );
@@ -1070,7 +1070,7 @@ std::string spell::exp_progress() const
     return string_format( "%i%%", clamp( static_cast<int>( std::round( progress * 100 ) ), 0, 99 ) );
 }
 
-float spell::exp_modifier( const Character &guy ) const
+auto spell::exp_modifier( const Character &guy ) const -> float
 {
     const float int_modifier = ( guy.get_int() - 8.0f ) / 8.0f;
     const float difficulty_modifier = get_difficulty() / 20.0f;
@@ -1079,7 +1079,7 @@ float spell::exp_modifier( const Character &guy ) const
     return ( int_modifier + difficulty_modifier + spellcraft_modifier ) / 5.0f + 1.0f;
 }
 
-int spell::casting_exp( const Character &guy ) const
+auto spell::casting_exp( const Character &guy ) const -> int
 {
     // the amount of xp you would get with no modifiers
     const int base_casting_xp = 75;
@@ -1087,7 +1087,7 @@ int spell::casting_exp( const Character &guy ) const
     return std::round( guy.adjust_for_focus( base_casting_xp * exp_modifier( guy ) ) );
 }
 
-std::string spell::enumerate_targets() const
+auto spell::enumerate_targets() const -> std::string
 {
     std::vector<std::string> all_valid_targets;
     int last_target = static_cast<int>( valid_target::_LAST );
@@ -1114,7 +1114,7 @@ std::string spell::enumerate_targets() const
     return ret;
 }
 
-std::string spell::list_targeted_monster_names() const
+auto spell::list_targeted_monster_names() const -> std::string
 {
     if( type->targeted_monster_ids.empty() ) {
         return "";
@@ -1130,36 +1130,36 @@ std::string spell::list_targeted_monster_names() const
     return ret;
 }
 
-damage_type spell::dmg_type() const
+auto spell::dmg_type() const -> damage_type
 {
     return type->dmg_type;
 }
 
-damage_instance spell::get_damage_instance() const
+auto spell::get_damage_instance() const -> damage_instance
 {
     damage_instance dmg;
     dmg.add_damage( dmg_type(), damage() );
     return dmg;
 }
 
-dealt_damage_instance spell::get_dealt_damage_instance() const
+auto spell::get_dealt_damage_instance() const -> dealt_damage_instance
 {
     dealt_damage_instance dmg;
     dmg.set_damage( dmg_type(), damage() );
     return dmg;
 }
 
-std::string spell::effect_data() const
+auto spell::effect_data() const -> std::string
 {
     return type->effect_str;
 }
 
-vproto_id spell::summon_vehicle_id() const
+auto spell::summon_vehicle_id() const -> vproto_id
 {
     return vproto_id( type->effect_str );
 }
 
-int spell::heal( const tripoint &target ) const
+auto spell::heal( const tripoint &target ) const -> int
 {
     monster *const mon = g->critter_at<monster>( target );
     if( mon ) {
@@ -1229,8 +1229,8 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
     }
 }
 
-cata::optional<tripoint> spell::random_valid_target( const Creature &caster,
-        const tripoint &caster_pos ) const
+auto spell::random_valid_target( const Creature &caster,
+        const tripoint &caster_pos ) const -> cata::optional<tripoint>
 {
     std::set<tripoint> valid_area;
     for( const tripoint &target : spell_effect::spell_effect_blast( *this, caster_pos, caster_pos,
@@ -1293,17 +1293,17 @@ void known_magic::deserialize( JsonIn &jsin )
     data.read( "invlets", invlets );
 }
 
-bool known_magic::knows_spell( const std::string &sp ) const
+auto known_magic::knows_spell( const std::string &sp ) const -> bool
 {
     return knows_spell( spell_id( sp ) );
 }
 
-bool known_magic::knows_spell( const spell_id &sp ) const
+auto known_magic::knows_spell( const spell_id &sp ) const -> bool
 {
     return spellbook.count( sp ) == 1;
 }
 
-bool known_magic::knows_spell() const
+auto known_magic::knows_spell() const -> bool
 {
     return !spellbook.empty();
 }
@@ -1386,7 +1386,7 @@ void known_magic::forget_spell( const spell_id &sp )
     spellbook.erase( sp );
 }
 
-bool known_magic::can_learn_spell( const Character &guy, const spell_id &sp ) const
+auto known_magic::can_learn_spell( const Character &guy, const spell_id &sp ) const -> bool
 {
     const spell_type &sp_t = sp.obj();
     if( sp_t.spell_class == trait_NONE ) {
@@ -1395,7 +1395,7 @@ bool known_magic::can_learn_spell( const Character &guy, const spell_id &sp ) co
     return !guy.has_opposite_trait( sp_t.spell_class );
 }
 
-spell &known_magic::get_spell( const spell_id &sp )
+auto known_magic::get_spell( const spell_id &sp ) -> spell &
 {
     if( !knows_spell( sp ) ) {
         static spell bugged_spell;
@@ -1405,7 +1405,7 @@ spell &known_magic::get_spell( const spell_id &sp )
     return spellbook.at( sp );
 }
 
-std::vector<spell *> known_magic::get_spells()
+auto known_magic::get_spells() -> std::vector<spell *>
 {
     std::vector<spell *> spells;
     for( auto &spell_pair : spellbook ) {
@@ -1414,7 +1414,7 @@ std::vector<spell *> known_magic::get_spells()
     return spells;
 }
 
-int known_magic::available_mana() const
+auto known_magic::available_mana() const -> int
 {
     return mana;
 }
@@ -1429,7 +1429,7 @@ void known_magic::mod_mana( const Character &guy, int add_mana )
     set_mana( clamp( mana + add_mana, 0, max_mana( guy ) ) );
 }
 
-int known_magic::max_mana( const Character &guy ) const
+auto known_magic::max_mana( const Character &guy ) const -> int
 {
     float int_bonus = ( ( 0.2f + guy.get_int() * 0.1f ) - 1.0f ) * mana_base;
     float mut_mul = guy.mutation_value( "mana_multiplier" );
@@ -1442,7 +1442,7 @@ int known_magic::max_mana( const Character &guy ) const
     return std::max( 0, natural_cap - bp_penalty + ench_bonus );
 }
 
-double known_magic::mana_regen_rate( const Character &guy ) const
+auto known_magic::mana_regen_rate( const Character &guy ) const -> double
 {
     // mana should replenish in 8 hours.
     double full_replenish = to_turns<double>( 8_hours );
@@ -1460,7 +1460,7 @@ void known_magic::update_mana( const Character &guy, double turns )
     mod_mana( guy, mana_regen_rate( guy ) * turns );
 }
 
-std::vector<spell_id> known_magic::spells() const
+auto known_magic::spells() const -> std::vector<spell_id>
 {
     std::vector<spell_id> spell_ids;
     for( auto pair : spellbook ) {
@@ -1470,7 +1470,7 @@ std::vector<spell_id> known_magic::spells() const
 }
 
 // does the Character have enough energy (of the type of the spell) to cast the spell?
-bool known_magic::has_enough_energy( const Character &guy, spell &sp ) const
+auto known_magic::has_enough_energy( const Character &guy, spell &sp ) const -> bool
 {
     int cost = sp.energy_cost( guy );
     switch( sp.energy_source() ) {
@@ -1496,19 +1496,19 @@ bool known_magic::has_enough_energy( const Character &guy, spell &sp ) const
     }
 }
 
-int known_magic::time_to_learn_spell( const Character &guy, const std::string &str ) const
+auto known_magic::time_to_learn_spell( const Character &guy, const std::string &str ) const -> int
 {
     return time_to_learn_spell( guy, spell_id( str ) );
 }
 
-int known_magic::time_to_learn_spell( const Character &guy, const spell_id &sp ) const
+auto known_magic::time_to_learn_spell( const Character &guy, const spell_id &sp ) const -> int
 {
     const int base_time = to_moves<int>( 30_minutes );
     return base_time * ( 1.0 + sp->difficulty / ( 1.0 + ( guy.get_int() - 8.0 ) / 8.0 ) +
                          ( guy.get_skill_level( sp->skill ) / 10.0 ) );
 }
 
-int known_magic::get_spellname_max_width()
+auto known_magic::get_spellname_max_width() -> int
 {
     int width = 0;
     for( const spell *sp : get_spells() ) {
@@ -1530,8 +1530,8 @@ class spellcasting_callback : public uilist_callback
         spellcasting_callback( std::vector<spell *> &spells,
                                bool casting_ignore ) : known_spells( spells ),
             casting_ignore( casting_ignore ) {}
-        bool key( const input_context &, const input_event &event, int entnum,
-                  uilist * /*menu*/ ) override {
+        auto key( const input_context &, const input_event &event, int entnum,
+                  uilist * /*menu*/ ) -> bool override {
             if( event.get_first_input() == 'I' ) {
                 casting_ignore = !casting_ignore;
                 return true;
@@ -1578,7 +1578,7 @@ class spellcasting_callback : public uilist_callback
         }
 };
 
-static bool casting_time_encumbered( const spell &sp, const Character &guy )
+static auto casting_time_encumbered( const spell &sp, const Character &guy ) -> bool
 {
     int encumb = 0;
     if( !sp.has_flag( spell_flag::NO_LEGS ) ) {
@@ -1592,7 +1592,7 @@ static bool casting_time_encumbered( const spell &sp, const Character &guy )
     return encumb > 0;
 }
 
-static bool energy_cost_encumbered( const spell &sp, const Character &guy )
+static auto energy_cost_encumbered( const spell &sp, const Character &guy ) -> bool
 {
     if( !sp.has_flag( spell_flag::NO_HANDS ) ) {
         return std::max( 0, guy.encumb( bp_hand_l ) + guy.encumb( bp_hand_r ) - 10 ) > 0;
@@ -1602,7 +1602,7 @@ static bool energy_cost_encumbered( const spell &sp, const Character &guy )
 
 // this prints various things about the spell out in a list
 // including flags and things like "goes through walls"
-static std::string enumerate_spell_data( const spell &sp )
+static auto enumerate_spell_data( const spell &sp ) -> std::string
 {
     std::vector<std::string> spell_data;
     if( sp.has_flag( spell_flag::CONCENTRATE ) ) {
@@ -1772,7 +1772,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
                         string_format( "%s: %s", _( "Duration" ), sp.duration_string() ) );
 }
 
-bool known_magic::set_invlet( const spell_id &sp, int invlet, const std::set<int> &used_invlets )
+auto known_magic::set_invlet( const spell_id &sp, int invlet, const std::set<int> &used_invlets ) -> bool
 {
     if( used_invlets.count( invlet ) > 0 ) {
         return false;
@@ -1786,7 +1786,7 @@ void known_magic::rem_invlet( const spell_id &sp )
     invlets.erase( sp );
 }
 
-int known_magic::get_invlet( const spell_id &sp, std::set<int> &used_invlets )
+auto known_magic::get_invlet( const spell_id &sp, std::set<int> &used_invlets ) -> int
 {
     auto found = invlets.find( sp );
     if( found != invlets.end() ) {
@@ -1816,7 +1816,7 @@ int known_magic::get_invlet( const spell_id &sp, std::set<int> &used_invlets )
     return 0;
 }
 
-int known_magic::select_spell( const Character &guy )
+auto known_magic::select_spell( const Character &guy ) -> int
 {
     // max width of spell names
     const int max_spell_name_length = get_spellname_max_width();
@@ -1881,7 +1881,7 @@ void spellbook_callback::add_spell( const spell_id &sp )
     spells.emplace_back( sp.obj() );
 }
 
-static std::string color_number( const int num )
+static auto color_number( const int num ) -> std::string
 {
     if( num > 0 ) {
         return colorize( std::to_string( num ), c_light_green );
@@ -1892,7 +1892,7 @@ static std::string color_number( const int num )
     }
 }
 
-static std::string color_number( const float num )
+static auto color_number( const float num ) -> std::string
 {
     if( num > 100 ) {
         return colorize( string_format( "+%.0f", num ), c_light_green );
@@ -2063,7 +2063,7 @@ void fake_spell::deserialize( JsonIn &jsin )
     load( data );
 }
 
-spell fake_spell::get_spell( int min_level_override ) const
+auto fake_spell::get_spell( int min_level_override ) const -> spell
 {
     spell sp( id );
     // the max level this spell will be. can be optionally limited
@@ -2087,7 +2087,7 @@ spell fake_spell::get_spell( int min_level_override ) const
     return sp;
 }
 
-bool fake_spell::operator==( const fake_spell &rhs ) const
+auto fake_spell::operator==( const fake_spell &rhs ) const -> bool
 {
     return id == rhs.id &&
            max_level == rhs.max_level &&

@@ -159,7 +159,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
     }
 }
 
-static size_t blood_trail_len( int damage )
+static auto blood_trail_len( int damage ) -> size_t
 {
     if( damage > 50 ) {
         return 3;
@@ -171,8 +171,8 @@ static size_t blood_trail_len( int damage )
     return 0;
 }
 
-projectile_attack_aim projectile_attack_roll( const dispersion_sources &dispersion, double range,
-        double target_size )
+auto projectile_attack_roll( const dispersion_sources &dispersion, double range,
+        double target_size ) -> projectile_attack_aim
 {
     projectile_attack_aim aim;
 
@@ -198,9 +198,9 @@ projectile_attack_aim projectile_attack_roll( const dispersion_sources &dispersi
     return aim;
 }
 
-dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tripoint &source,
+auto projectile_attack( const projectile &proj_arg, const tripoint &source,
         const tripoint &target_arg, const dispersion_sources &dispersion,
-        Creature *origin, const vehicle *in_veh )
+        Creature *origin, const vehicle *in_veh ) -> dealt_projectile_attack
 {
     const bool do_animation = get_option<bool>( "ANIMATION_PROJECTILES" );
 
@@ -511,8 +511,8 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
 namespace ranged
 {
 
-double hit_chance( const dispersion_sources &dispersion, double range, double target_size,
-                   double missed_by )
+auto hit_chance( const dispersion_sources &dispersion, double range, double target_size,
+                   double missed_by ) -> double
 {
     if( range <= 0 ) {
         return 1.0;

@@ -57,11 +57,11 @@ class item_category
         item_category( const std::string &id, const translation &name, int sort_rank )
             : name_( name ), sort_rank_( sort_rank ), id( item_category_id( id ) ) {}
 
-        std::string name() const;
-        item_category_id get_id() const;
-        cata::optional<zone_type_id> priority_zone( const item &it ) const;
-        cata::optional<zone_type_id> zone() const;
-        int sort_rank() const;
+        auto name() const -> std::string;
+        auto get_id() const -> item_category_id;
+        auto priority_zone( const item &it ) const -> cata::optional<zone_type_id>;
+        auto zone() const -> cata::optional<zone_type_id>;
+        auto sort_rank() const -> int;
 
         /**
          * Comparison operators
@@ -69,9 +69,9 @@ class item_category
          * Used for sorting.  Will result in sorting by @ref sort_rank, then by @ref name, then by @ref id.
          */
         /*@{*/
-        bool operator<( const item_category &rhs ) const;
-        bool operator==( const item_category &rhs ) const;
-        bool operator!=( const item_category &rhs ) const;
+        auto operator<( const item_category &rhs ) const -> bool;
+        auto operator==( const item_category &rhs ) const -> bool;
+        auto operator!=( const item_category &rhs ) const -> bool;
         /*@}*/
 
         // generic_factory stuff

@@ -62,12 +62,12 @@ advanced_inv_listitem::advanced_inv_listitem( const item_category *cat )
 {
 }
 
-bool advanced_inv_listitem::is_category_header() const
+auto advanced_inv_listitem::is_category_header() const -> bool
 {
     return items.empty() && cat != nullptr;
 }
 
-bool advanced_inv_listitem::is_item_entry() const
+auto advanced_inv_listitem::is_item_entry() const -> bool
 {
     return !items.empty();
 }

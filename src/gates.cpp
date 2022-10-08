@@ -69,10 +69,10 @@ struct gate_data {
     void load( const JsonObject &jo, const std::string &src );
     void check() const;
 
-    bool is_suitable_wall( const tripoint &pos ) const;
+    auto is_suitable_wall( const tripoint &pos ) const -> bool;
 };
 
-gate_id get_gate_id( const tripoint &pos )
+auto get_gate_id( const tripoint &pos ) -> gate_id
 {
     return gate_id( get_map().ter( pos ).id().str() );
 }
@@ -129,7 +129,7 @@ void gate_data::check() const
     }
 }
 
-bool gate_data::is_suitable_wall( const tripoint &pos ) const
+auto gate_data::is_suitable_wall( const tripoint &pos ) const -> bool
 {
     const auto wid = get_map().ter( pos );
     const auto iter = std::find_if( walls.begin(), walls.end(), [ wid ]( const ter_str_id & wall ) {

@@ -23,7 +23,7 @@ class auto_note_manager_gui
 
         void show();
 
-        bool was_changed() const;
+        auto was_changed() const -> bool;
 
     private:
         /// The map extra type cache. This is initialized with all known map extra types
@@ -51,18 +51,18 @@ class auto_note_settings
         friend class auto_note_manager_gui;
 
     public:
-        bool has_auto_note_enabled( const string_id<map_extra> &mapExtId ) const;
+        auto has_auto_note_enabled( const string_id<map_extra> &mapExtId ) const -> bool;
 
         void set_auto_note_status( const string_id<map_extra> &mapExtId, bool enabled );
 
         void set_discovered( const string_id<map_extra> &mapExtId );
 
-        bool was_discovered( const string_id<map_extra> &mapExtId ) const;
+        auto was_discovered( const string_id<map_extra> &mapExtId ) const -> bool;
 
     public:
         void load();
 
-        bool save();
+        auto save() -> bool;
 
         void clear();
 
@@ -74,7 +74,7 @@ class auto_note_settings
 
     private:
         /// Build string containing path to the auto notes save file for the active player.
-        std::string build_save_path() const;
+        auto build_save_path() const -> std::string;
 
     private:
         /// This set contains the ID strings of all map extras that have auto note enabled.
@@ -86,6 +86,6 @@ class auto_note_settings
 };
 } // namespace auto_notes
 
-auto_notes::auto_note_settings &get_auto_notes_settings();
+auto get_auto_notes_settings() -> auto_notes::auto_note_settings &;
 
 #endif // CATA_SRC_AUTO_NOTE_H

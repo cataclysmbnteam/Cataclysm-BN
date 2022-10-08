@@ -22,7 +22,7 @@ class effect;
 class item;
 struct itype;
 
-matype_id martial_art_learned_from( const itype & );
+auto martial_art_learned_from( const itype & ) -> matype_id;
 
 struct ma_requirements {
     bool was_loaded = false;
@@ -52,10 +52,10 @@ struct ma_requirements {
         wall_adjacent = false;
     }
 
-    std::string get_description( bool buff = false ) const;
+    auto get_description( bool buff = false ) const -> std::string;
 
-    bool is_valid_character( const Character &u ) const;
-    bool is_valid_weapon( const item &i ) const;
+    auto is_valid_character( const Character &u ) const -> bool;
+    auto is_valid_weapon( const item &i ) const -> bool;
 
     void load( const JsonObject &jo, const std::string &src );
 };
@@ -72,12 +72,12 @@ class ma_technique
         std::string name;
 
         std::string description;
-        std::string get_description() const;
+        auto get_description() const -> std::string;
 
         std::string goal; // the melee goal this achieves
 
         // given a Character's state, does this bonus apply to him?
-        bool is_valid_character( const Character &u ) const;
+        auto is_valid_character( const Character &u ) const -> bool;
 
         std::set<std::string> flags;
 
@@ -121,11 +121,11 @@ class ma_technique
         /** All kinds of bonuses by types to damage, hit etc. */
         bonus_container bonuses;
 
-        float damage_bonus( const Character &u, damage_type type ) const;
-        float damage_multiplier( const Character &u, damage_type type ) const;
-        float move_cost_multiplier( const Character &u ) const;
-        float move_cost_penalty( const Character &u ) const;
-        float armor_penetration( const Character &u, damage_type type ) const;
+        auto damage_bonus( const Character &u, damage_type type ) const -> float;
+        auto damage_multiplier( const Character &u, damage_type type ) const -> float;
+        auto move_cost_multiplier( const Character &u ) const -> float;
+        auto move_cost_penalty( const Character &u ) const -> float;
+        auto armor_penetration( const Character &u, damage_type type ) const -> float;
 };
 
 class ma_buff
@@ -138,44 +138,44 @@ class ma_buff
         void apply_buff( Character &u ) const;
 
         // given a Character's state, does this bonus apply to him?
-        bool is_valid_character( const Character &u ) const;
+        auto is_valid_character( const Character &u ) const -> bool;
 
         // apply static bonuses to a Character
         void apply_character( Character &u ) const;
 
         // returns the stat bonus for the on-hit stat (for rolls)
-        int hit_bonus( const Character &u ) const;
-        int dodge_bonus( const Character &u ) const;
-        int speed_bonus( const Character &u ) const;
-        int block_bonus( const Character &u ) const;
-        int arpen_bonus( const Character &u, damage_type dt ) const;
+        auto hit_bonus( const Character &u ) const -> int;
+        auto dodge_bonus( const Character &u ) const -> int;
+        auto speed_bonus( const Character &u ) const -> int;
+        auto block_bonus( const Character &u ) const -> int;
+        auto arpen_bonus( const Character &u, damage_type dt ) const -> int;
 
         // returns the armor bonus for various armor stats (equivalent to armor)
-        int armor_bonus( const Character &guy, damage_type dt ) const;
+        auto armor_bonus( const Character &guy, damage_type dt ) const -> int;
 
         // returns the stat bonus for the various damage stats (for rolls)
-        float damage_bonus( const Character &u, damage_type dt ) const;
+        auto damage_bonus( const Character &u, damage_type dt ) const -> float;
 
         // returns damage multipliers for the various damage stats (applied after
         // bonuses)
-        float damage_mult( const Character &u, damage_type dt ) const;
+        auto damage_mult( const Character &u, damage_type dt ) const -> float;
 
         // returns various boolean flags
-        bool is_throw_immune() const;
-        bool is_quiet() const;
-        bool can_melee() const;
-        bool is_stealthy() const;
+        auto is_throw_immune() const -> bool;
+        auto is_quiet() const -> bool;
+        auto can_melee() const -> bool;
+        auto is_stealthy() const -> bool;
 
         // The ID of the effect that is used to store this buff
-        efftype_id get_effect_id() const;
+        auto get_effect_id() const -> efftype_id;
         // If the effects represents an ma_buff effect, return the ma_buff, otherwise return null.
-        static const ma_buff *from_effect( const effect &eff );
+        static auto from_effect( const effect &eff ) -> const ma_buff *;
 
         mabuff_id id;
         bool was_loaded = false;
         std::string name;
         std::string description;
-        std::string get_description( bool passive = false ) const;
+        auto get_description( bool passive = false ) const -> std::string;
 
         ma_requirements reqs;
 
@@ -230,15 +230,15 @@ class martialart
         void apply_onkill_buffs( Character &u ) const;
 
         // determines if a technique is valid or not for this style
-        bool has_technique( const Character &u, const matec_id &tec_id ) const;
+        auto has_technique( const Character &u, const matec_id &tec_id ) const -> bool;
         // determines if a weapon is valid for this style
-        bool has_weapon( const itype_id & ) const;
+        auto has_weapon( const itype_id & ) const -> bool;
         // Is this weapon OK with this art?
-        bool weapon_valid( const item &it ) const;
+        auto weapon_valid( const item &it ) const -> bool;
         // Getter for Character style change message
-        std::string get_initiate_avatar_message() const;
+        auto get_initiate_avatar_message() const -> std::string;
         // Getter for NPC style change message
-        std::string get_initiate_npc_message() const;
+        auto get_initiate_npc_message() const -> std::string;
 
         matype_id id;
         bool was_loaded = false;
@@ -283,7 +283,7 @@ class ma_style_callback : public uilist_callback
             , styles( selectable_styles )
         {}
 
-        bool key( const input_context &ctxt, const input_event &event, int entnum, uilist *menu ) override;
+        auto key( const input_context &ctxt, const input_event &event, int entnum, uilist *menu ) -> bool override;
         ~ma_style_callback() override = default;
 };
 
@@ -292,9 +292,9 @@ void load_martial_art( const JsonObject &jo, const std::string &src );
 void check_martialarts();
 void clear_techniques_and_martial_arts();
 void finialize_martial_arts();
-std::string martialart_difficulty( const matype_id &mstyle );
+auto martialart_difficulty( const matype_id &mstyle ) -> std::string;
 
-std::vector<matype_id> all_martialart_types();
-std::vector<matype_id> autolearn_martialart_types();
+auto all_martialart_types() -> std::vector<matype_id>;
+auto autolearn_martialart_types() -> std::vector<matype_id>;
 
 #endif // CATA_SRC_MARTIALARTS_H

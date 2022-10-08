@@ -35,7 +35,7 @@ struct species_type {
     enum_bitset<mon_trigger> anger;
     enum_bitset<mon_trigger> fear;
     enum_bitset<mon_trigger> placate;
-    std::string get_footsteps() const {
+    auto get_footsteps() const -> std::string {
         return footsteps.translated();
     }
 
@@ -49,7 +49,7 @@ struct species_type {
 class MonsterGenerator
 {
     public:
-        static MonsterGenerator &generator() {
+        static auto generator() -> MonsterGenerator & {
             static MonsterGenerator generator;
 
             return generator;
@@ -69,8 +69,8 @@ class MonsterGenerator
 
         void check_monster_definitions() const;
 
-        const std::vector<mtype> &get_all_mtypes() const;
-        mtype_id get_valid_hallucination() const;
+        auto get_all_mtypes() const -> const std::vector<mtype> &;
+        auto get_valid_hallucination() const -> mtype_id;
         friend struct mtype;
         friend struct species_type;
         friend class mattack_actor;
@@ -90,7 +90,7 @@ class MonsterGenerator
         void add_attack( const mtype_special_attack &wrapper );
 
         /** Gets an actor object without saving it anywhere */
-        mtype_special_attack create_actor( const JsonObject &obj, const std::string &src ) const;
+        auto create_actor( const JsonObject &obj, const std::string &src ) const -> mtype_special_attack;
 
         // finalization
         void apply_species_attributes( mtype &mon );

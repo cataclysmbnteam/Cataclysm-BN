@@ -26,12 +26,12 @@ static const std::string part_location_structure( "structure" );
 static const itype_id itype_battery( "battery" );
 static const itype_id fuel_type_muscle( "muscle" );
 
-std::string vehicle::disp_name() const
+auto vehicle::disp_name() const -> std::string
 {
     return string_format( _( "the %s" ), name );
 }
 
-char vehicle::part_sym( const int p, const bool exact ) const
+auto vehicle::part_sym( const int p, const bool exact ) const -> char
 {
     if( p < 0 || p >= static_cast<int>( parts.size() ) || parts[p].removed ) {
         return ' ';
@@ -52,7 +52,7 @@ char vehicle::part_sym( const int p, const bool exact ) const
 // similar to part_sym(int p) but for use when drawing SDL tiles. Called only by cata_tiles
 // during draw_vpart vector returns at least 1 element, max of 2 elements. If 2 elements the
 // second denotes if it is open or damaged
-vpart_id vehicle::part_id_string( const int p, bool roof, char &part_mod ) const
+auto vehicle::part_id_string( const int p, bool roof, char &part_mod ) const -> vpart_id
 {
     part_mod = 0;
     if( p < 0 || p >= static_cast<int>( parts.size() ) || parts[p].removed ) {
@@ -87,7 +87,7 @@ vpart_id vehicle::part_id_string( const int p, bool roof, char &part_mod ) const
     return idinfo;
 }
 
-nc_color vehicle::part_color( const int p, const bool exact ) const
+auto vehicle::part_color( const int p, const bool exact ) const -> nc_color
 {
     if( p < 0 || p >= static_cast<int>( parts.size() ) ) {
         return c_black;
@@ -154,8 +154,8 @@ nc_color vehicle::part_color( const int p, const bool exact ) const
  * @param hl The index of the part to highlight (if any).
  * @param detail Whether or not to show detailed contents for fuel components.
  */
-int vehicle::print_part_list( const catacurses::window &win, int y1, const int max_y, int width,
-                              int p, int hl /*= -1*/, bool detail ) const
+auto vehicle::print_part_list( const catacurses::window &win, int y1, const int max_y, int width,
+                              int p, int hl /*= -1*/, bool detail ) const -> int
 {
     if( p < 0 || p >= static_cast<int>( parts.size() ) ) {
         return y1;
@@ -319,7 +319,7 @@ void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int 
  * Returns an array of fuel types that can be printed
  * @return An array of printable fuel type ids
  */
-std::vector<itype_id> vehicle::get_printable_fuel_types() const
+auto vehicle::get_printable_fuel_types() const -> std::vector<itype_id>
 {
     std::set<itype_id> opts;
     for( const auto &pt : parts ) {

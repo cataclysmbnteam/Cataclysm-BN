@@ -23,7 +23,7 @@ void apply_base_faction( const monfaction &base, monfaction &faction );
 
 /** @relates int_id */
 template<>
-const monfaction &int_id<monfaction>::obj() const
+auto int_id<monfaction>::obj() const -> const monfaction &
 {
     if( static_cast<size_t>( _id ) >= faction_list.size() ) {
         debugmsg( "invalid monfaction id %d", _id );
@@ -35,14 +35,14 @@ const monfaction &int_id<monfaction>::obj() const
 
 /** @relates int_id */
 template<>
-const string_id<monfaction> &int_id<monfaction>::id() const
+auto int_id<monfaction>::id() const -> const string_id<monfaction> &
 {
     return obj().id;
 }
 
 /** @relates string_id */
 template<>
-int_id<monfaction> string_id<monfaction>::id() const
+auto string_id<monfaction>::id() const -> int_id<monfaction>
 {
     const auto &iter = faction_map.find( *this );
     if( iter == faction_map.end() ) {
@@ -54,14 +54,14 @@ int_id<monfaction> string_id<monfaction>::id() const
 
 /** @relates string_id */
 template<>
-const monfaction &string_id<monfaction>::obj() const
+auto string_id<monfaction>::obj() const -> const monfaction &
 {
     return id().obj();
 }
 
 /** @relates string_id */
 template<>
-bool string_id<monfaction>::is_valid() const
+auto string_id<monfaction>::is_valid() const -> bool
 {
     return faction_map.count( *this ) > 0;
 }
@@ -73,7 +73,7 @@ int_id<monfaction>::int_id( const string_id<monfaction> &id )
 {
 }
 
-mfaction_id monfactions::get_or_add_faction( const mfaction_str_id &id )
+auto monfactions::get_or_add_faction( const mfaction_str_id &id ) -> mfaction_id
 {
     auto found = faction_map.find( id );
     if( found == faction_map.end() ) {
@@ -103,7 +103,7 @@ static void apply_base_faction( mfaction_id base, mfaction_id faction_id )
     }
 }
 
-mf_attitude monfaction::attitude( const mfaction_id &other ) const
+auto monfaction::attitude( const mfaction_id &other ) const -> mf_attitude
 {
     const auto &found = attitude_map.find( other );
     if( found != attitude_map.end() ) {

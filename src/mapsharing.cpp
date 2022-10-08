@@ -19,11 +19,11 @@ void MAP_SHARING::setUsername( const std::string &name )
     MAP_SHARING::username = name;
 }
 
-bool MAP_SHARING::isSharing()
+auto MAP_SHARING::isSharing() -> bool
 {
     return MAP_SHARING::sharing;
 }
-std::string MAP_SHARING::getUsername()
+auto MAP_SHARING::getUsername() -> std::string
 {
     return MAP_SHARING::username;
 }
@@ -32,7 +32,7 @@ void MAP_SHARING::setCompetitive( bool mode )
 {
     MAP_SHARING::competitive = mode;
 }
-bool MAP_SHARING::isCompetitive()
+auto MAP_SHARING::isCompetitive() -> bool
 {
     return MAP_SHARING::competitive;
 }
@@ -41,12 +41,12 @@ void MAP_SHARING::setWorldmenu( bool mode )
 {
     MAP_SHARING::worldmenu = mode;
 }
-bool MAP_SHARING::isWorldmenu()
+auto MAP_SHARING::isWorldmenu() -> bool
 {
     return MAP_SHARING::worldmenu;
 }
 
-bool MAP_SHARING::isAdmin()
+auto MAP_SHARING::isAdmin() -> bool
 {
     return admins.find( getUsername() ) != admins.end();
 }
@@ -62,7 +62,7 @@ void MAP_SHARING::addAdmin( const std::string &name )
     MAP_SHARING::debuggers.insert( name );
 }
 
-bool MAP_SHARING::isDebugger()
+auto MAP_SHARING::isDebugger() -> bool
 {
     return debuggers.find( getUsername() ) != debuggers.end();
 }

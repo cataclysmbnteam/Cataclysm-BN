@@ -21,7 +21,7 @@
 
 namespace auto_notes
 {
-std::string auto_note_settings::build_save_path() const
+auto auto_note_settings::build_save_path() const -> std::string
 {
     return g->get_player_base_save_path() + ".ano.json";
 }
@@ -31,7 +31,7 @@ void auto_note_settings::clear()
     autoNoteEnabled.clear();
 }
 
-bool auto_note_settings::save()
+auto auto_note_settings::save() -> bool
 {
     if( !file_exist( g->get_player_base_save_path() + ".sav" ) ) {
         return true;
@@ -114,7 +114,7 @@ void auto_note_settings::set_discovered( const string_id<map_extra> &mapExtId )
     discovered.insert( mapExtId );
 }
 
-bool auto_note_settings::was_discovered( const string_id<map_extra> &mapExtId ) const
+auto auto_note_settings::was_discovered( const string_id<map_extra> &mapExtId ) const -> bool
 {
     return discovered.count( mapExtId ) != 0;
 }
@@ -129,7 +129,7 @@ void auto_note_settings::show_gui()
     }
 }
 
-bool auto_note_settings::has_auto_note_enabled( const string_id<map_extra> &mapExtId ) const
+auto auto_note_settings::has_auto_note_enabled( const string_id<map_extra> &mapExtId ) const -> bool
 {
     return autoNoteEnabled.count( mapExtId ) != 0;
 }
@@ -166,7 +166,7 @@ auto_note_manager_gui::auto_note_manager_gui()
     }
 }
 
-bool auto_note_manager_gui::was_changed() const
+auto auto_note_manager_gui::was_changed() const -> bool
 {
     return wasChanged;
 }
@@ -383,7 +383,7 @@ void auto_note_manager_gui::show()
 }
 } // namespace auto_notes
 
-auto_notes::auto_note_settings &get_auto_notes_settings()
+auto get_auto_notes_settings() -> auto_notes::auto_note_settings &
 {
     static auto_notes::auto_note_settings staticSettings;
     return staticSettings;

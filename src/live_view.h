@@ -17,7 +17,7 @@ class live_view
 
         void init();
         void show( const tripoint &p );
-        bool is_enabled();
+        auto is_enabled() -> bool;
         void hide();
 
     private:

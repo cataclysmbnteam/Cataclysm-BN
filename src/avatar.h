@@ -57,65 +57,65 @@ class avatar : public player
         avatar( const avatar & ) = delete;
         avatar( avatar && );
         ~avatar() override;
-        avatar &operator=( const avatar & ) = delete;
-        avatar &operator=( avatar && );
+        auto operator=( const avatar & ) -> avatar & = delete;
+        auto operator=( avatar && ) -> avatar &;
 
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
         void serialize( JsonOut &json ) const override;
         void deserialize( JsonIn &jsin ) override;
-        bool save_map_memory();
+        auto save_map_memory() -> bool;
         void load_map_memory();
 
         // newcharacter.cpp
-        bool create( character_type type, const std::string &tempname = "" );
+        auto create( character_type type, const std::string &tempname = "" ) -> bool;
         void randomize( bool random_scenario, points_left &points, bool play_now = false );
-        bool load_template( const std::string &template_name, points_left &points );
+        auto load_template( const std::string &template_name, points_left &points ) -> bool;
         void save_template( const std::string &name, const points_left &points );
 
-        bool is_avatar() const override {
+        auto is_avatar() const -> bool override {
             return true;
         }
-        avatar *as_avatar() override {
+        auto as_avatar() -> avatar * override {
             return this;
         }
-        const avatar *as_avatar() const override {
+        auto as_avatar() const -> const avatar * override {
             return this;
         }
 
         void toggle_map_memory();
-        bool should_show_map_memory();
+        auto should_show_map_memory() -> bool;
         void prepare_map_memory_region( const tripoint &p1, const tripoint &p2 );
         /** Memorizes a given tile in tiles mode; finalize_tile_memory needs to be called after it */
         void memorize_tile( const tripoint &pos, const std::string &ter, int subtile,
                             int rotation );
         /** Returns last stored map tile in given location in tiles mode */
-        const memorized_terrain_tile &get_memorized_tile( const tripoint &p ) const;
+        auto get_memorized_tile( const tripoint &p ) const -> const memorized_terrain_tile &;
         /** Memorizes a given tile in curses mode; finalize_terrain_memory_curses needs to be called after it */
         void memorize_symbol( const tripoint &pos, int symbol );
         /** Returns last stored map tile in given location in curses mode */
-        int get_memorized_symbol( const tripoint &p ) const;
+        auto get_memorized_symbol( const tripoint &p ) const -> int;
         void clear_memorized_tile( const tripoint &pos );
         /** Returns last stored map tile in given location in tiles mode */
-        bool has_memorized_tile_for_autodrive( const tripoint &p ) const;
+        auto has_memorized_tile_for_autodrive( const tripoint &p ) const -> bool;
 
         /** Provides the window and detailed morale data */
         void disp_morale();
         /** Resets all missions before saving character to template */
         void reset_all_misions();
 
-        std::vector<mission *> get_active_missions() const;
-        std::vector<mission *> get_completed_missions() const;
-        std::vector<mission *> get_failed_missions() const;
+        auto get_active_missions() const -> std::vector<mission *>;
+        auto get_completed_missions() const -> std::vector<mission *>;
+        auto get_failed_missions() const -> std::vector<mission *>;
         /**
          * Returns the mission that is currently active. Returns null if mission is active.
          */
-        mission *get_active_mission() const;
+        auto get_active_mission() const -> mission *;
         /**
          * Returns the target of the active mission or @ref overmap::invalid_tripoint if there is
          * no active mission.
          */
-        tripoint_abs_omt get_active_mission_target() const;
+        auto get_active_mission_target() const -> tripoint_abs_omt;
         /**
          * Set which mission is active. The mission must be listed in @ref active_missions.
          */
@@ -138,7 +138,7 @@ class avatar : public player
          * @returns nullptr, if neither the player nor his followers can read to the player, otherwise the player/NPC
          * who can read and can read the fastest
          */
-        const player *get_book_reader( const item &book, std::vector<std::string> &reasons ) const;
+        auto get_book_reader( const item &book, std::vector<std::string> &reasons ) const -> const player *;
         /**
          * Helper function for get_book_reader
          * @warning This function assumes that the everyone is able to read
@@ -147,18 +147,18 @@ class avatar : public player
          * @param reader the player/NPC who's reading to the caller
          * @param learner if not nullptr, assume that the caller and reader read at a pace that isn't too fast for him
          */
-        int time_to_read( const item &book, const player &reader, const player *learner = nullptr ) const;
+        auto time_to_read( const item &book, const player &reader, const player *learner = nullptr ) const -> int;
         /** Handles reading effects and returns true if activity started */
-        bool read( item_location loc, bool continuous = false );
+        auto read( item_location loc, bool continuous = false ) -> bool;
         /** Completes book reading action. **/
         void do_read( item_location loc );
         /** Note that we've read a book at least once. **/
-        bool has_identified( const itype_id &item_id ) const override;
+        auto has_identified( const itype_id &item_id ) const -> bool override;
 
         void wake_up();
         // Grab furniture / vehicle
         void grab( object_type grab_type, const tripoint &grab_point = tripoint_zero );
-        object_type get_grab_type() const;
+        auto get_grab_type() const -> object_type;
         /** Handles player vomiting effects */
         void vomit();
 
@@ -171,21 +171,21 @@ class avatar : public player
 
         pimpl<teleporter_list> translocators;
 
-        int get_str_base() const override;
-        int get_dex_base() const override;
-        int get_int_base() const override;
-        int get_per_base() const override;
+        auto get_str_base() const -> int override;
+        auto get_dex_base() const -> int override;
+        auto get_int_base() const -> int override;
+        auto get_per_base() const -> int override;
 
         // how many points are available to upgrade via STK
-        int free_upgrade_points() const;
+        auto free_upgrade_points() const -> int;
         // how much "kill xp" you have
-        int kill_xp() const;
+        auto kill_xp() const -> int;
         // how much "kill xp" needed for next point (empty if reached max level)
-        cata::optional<int> kill_xp_for_next_point() const;
+        auto kill_xp_for_next_point() const -> cata::optional<int>;
         // upgrade stat from kills
         void upgrade_stat( character_stat stat );
 
-        faction *get_faction() const override;
+        auto get_faction() const -> faction * override;
         // Set in npc::talk_to_you for use in further NPC interactions
         bool dialogue_by_radio = false;
         // Preferred aim mode - ranged.cpp aim mode defaults to this if possible
@@ -202,15 +202,15 @@ class avatar : public player
         // Toggles crouching on/off.
         void toggle_crouch_mode();
 
-        bool wield( item &target ) override;
+        auto wield( item &target ) -> bool override;
 
         using Character::invoke_item;
-        bool invoke_item( item *, const tripoint &pt ) override;
-        bool invoke_item( item * ) override;
-        bool invoke_item( item *, const std::string &, const tripoint &pt ) override;
-        bool invoke_item( item *, const std::string & ) override;
+        auto invoke_item( item *, const tripoint &pt ) -> bool override;
+        auto invoke_item( item * ) -> bool override;
+        auto invoke_item( item *, const std::string &, const tripoint &pt ) -> bool override;
+        auto invoke_item( item *, const std::string & ) -> bool override;
 
-        monster_visible_info &get_mon_visible() {
+        auto get_mon_visible() -> monster_visible_info & {
             return mon_visible;
         }
 
@@ -252,6 +252,6 @@ class avatar : public player
         monster_visible_info mon_visible;
 };
 
-avatar &get_avatar();
+auto get_avatar() -> avatar &;
 
 #endif // CATA_SRC_AVATAR_H

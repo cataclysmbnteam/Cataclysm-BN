@@ -29,12 +29,12 @@ struct half_open_rectangle : rectangle<Point> {
     using base::p_min;
     using base::p_max;
 
-    constexpr bool contains( const Point &p ) const {
+    constexpr auto contains( const Point &p ) const -> bool {
         using Traits = point_traits<Point>;
         return Traits::x( p ) >= Traits::x( p_min ) && Traits::x( p ) < Traits::x( p_max ) &&
                Traits::y( p ) >= Traits::y( p_min ) && Traits::y( p ) < Traits::y( p_max );
     }
-    constexpr bool overlaps( const rectangle<Point> &r ) const {
+    constexpr auto overlaps( const rectangle<Point> &r ) const -> bool {
         using Traits = point_traits<Point>;
         return !( Traits::x( r.p_min ) >= Traits::x( p_max ) ||
                   Traits::y( r.p_min ) >= Traits::y( p_max ) ||
@@ -50,12 +50,12 @@ struct inclusive_rectangle : rectangle<Point> {
     using base::p_min;
     using base::p_max;
 
-    constexpr bool contains( const Point &p ) const {
+    constexpr auto contains( const Point &p ) const -> bool {
         using Traits = point_traits<Point>;
         return Traits::x( p ) >= Traits::x( p_min ) && Traits::x( p ) <= Traits::x( p_max ) &&
                Traits::y( p ) >= Traits::y( p_min ) && Traits::y( p ) <= Traits::y( p_max );
     }
-    constexpr bool overlaps( const rectangle<Point> &r ) const {
+    constexpr auto overlaps( const rectangle<Point> &r ) const -> bool {
         using Traits = point_traits<Point>;
         return !( Traits::x( r.p_min ) > Traits::x( p_max ) ||
                   Traits::y( r.p_min ) > Traits::y( p_max ) ||
@@ -92,7 +92,7 @@ struct half_open_cuboid : cuboid<Tripoint> {
     using base::p_min;
     using base::p_max;
 
-    constexpr bool contains( const Tripoint &p ) const {
+    constexpr auto contains( const Tripoint &p ) const -> bool {
         using Traits = point_traits<Tripoint>;
         return Traits::x( p ) >= Traits::x( p_min ) && Traits::x( p ) < Traits::x( p_max ) &&
                Traits::y( p ) >= Traits::y( p_min ) && Traits::y( p ) < Traits::y( p_max ) &&
@@ -107,7 +107,7 @@ struct inclusive_cuboid : cuboid<Tripoint> {
     using base::p_min;
     using base::p_max;
 
-    constexpr bool contains( const Tripoint &p ) const {
+    constexpr auto contains( const Tripoint &p ) const -> bool {
         using Traits = point_traits<Tripoint>;
         return Traits::x( p ) >= Traits::x( p_min ) && Traits::x( p ) <= Traits::x( p_max ) &&
                Traits::y( p ) >= Traits::y( p_min ) && Traits::y( p ) <= Traits::y( p_max ) &&
@@ -121,7 +121,7 @@ struct inclusive_cuboid : cuboid<Tripoint> {
 // Useful for example to round an arbitrary point to the nearest point on the
 // screen, or the nearest point in a particular submap.
 template<typename Point>
-Point clamp( const Point &p, const half_open_rectangle<Point> &r )
+auto clamp( const Point &p, const half_open_rectangle<Point> &r ) -> Point
 {
     using Traits = point_traits<Point>;
     return Point( ::clamp( Traits::x( p ), Traits::x( r.p_min ), Traits::x( r.p_max ) - 1 ),
@@ -129,7 +129,7 @@ Point clamp( const Point &p, const half_open_rectangle<Point> &r )
 }
 
 template<typename Point>
-Point clamp( const Point &p, const inclusive_rectangle<Point> &r )
+auto clamp( const Point &p, const inclusive_rectangle<Point> &r ) -> Point
 {
     using Traits = point_traits<Point>;
     return Point( ::clamp( Traits::x( p ), Traits::x( r.p_min ), Traits::x( r.p_max ) ),
@@ -137,7 +137,7 @@ Point clamp( const Point &p, const inclusive_rectangle<Point> &r )
 }
 
 template<typename Tripoint>
-Tripoint clamp( const Tripoint &p, const half_open_cuboid<Tripoint> &c )
+auto clamp( const Tripoint &p, const half_open_cuboid<Tripoint> &c ) -> Tripoint
 {
     using Traits = point_traits<Tripoint>;
     return Tripoint( ::clamp( Traits::x( p ), Traits::x( c.p_min ), Traits::x( c.p_max ) - 1 ),
@@ -146,7 +146,7 @@ Tripoint clamp( const Tripoint &p, const half_open_cuboid<Tripoint> &c )
 }
 
 template<typename Tripoint>
-Tripoint clamp( const Tripoint &p, const inclusive_cuboid<Tripoint> &c )
+auto clamp( const Tripoint &p, const inclusive_cuboid<Tripoint> &c ) -> Tripoint
 {
     using Traits = point_traits<Tripoint>;
     return Tripoint( ::clamp( Traits::x( p ), Traits::x( c.p_min ), Traits::x( c.p_max ) ),

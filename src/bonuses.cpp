@@ -10,7 +10,7 @@
 #include "string_formatter.h"
 #include "translations.h"
 
-static bool needs_damage_type( affected_stat as )
+static auto needs_damage_type( affected_stat as ) -> bool
 {
     return as == affected_stat::DAMAGE ||
            as == affected_stat::ARMOR ||
@@ -38,7 +38,7 @@ static const std::map<std::string, scaling_stat> scaling_stat_map = {{
     }
 };
 
-static scaling_stat scaling_stat_from_string( const std::string &s )
+static auto scaling_stat_from_string( const std::string &s ) -> scaling_stat
 {
     const auto &iter = scaling_stat_map.find( s );
     if( iter == scaling_stat_map.end() ) {
@@ -48,7 +48,7 @@ static scaling_stat scaling_stat_from_string( const std::string &s )
     return iter->second;
 }
 
-static affected_stat affected_stat_from_string( const std::string &s )
+static auto affected_stat_from_string( const std::string &s ) -> affected_stat
 {
     const auto &iter = affected_stat_map.find( s );
     if( iter != affected_stat_map.end() ) {
@@ -71,7 +71,7 @@ static const std::map<affected_stat, std::string> affected_stat_map_translation 
     }
 };
 
-static std::string string_from_affected_stat( const affected_stat &s )
+static auto string_from_affected_stat( const affected_stat &s ) -> std::string
 {
     const auto &iter = affected_stat_map_translation.find( s );
     return iter != affected_stat_map_translation.end() ? _( iter->second ) : "";
@@ -85,7 +85,7 @@ static const std::map<scaling_stat, std::string> scaling_stat_map_translation = 
     }
 };
 
-static std::string string_from_scaling_stat( const scaling_stat &s )
+static auto string_from_scaling_stat( const scaling_stat &s ) -> std::string
 {
     const auto &iter = scaling_stat_map_translation.find( s );
     return iter != scaling_stat_map_translation.end() ? _( iter->second ) : "";
@@ -148,17 +148,17 @@ affected_type::affected_type( affected_stat s, damage_type t )
     }
 }
 
-bool affected_type::operator<( const affected_type &other ) const
+auto affected_type::operator<( const affected_type &other ) const -> bool
 {
     return stat < other.stat || ( stat == other.stat && type < other.type );
 }
-bool affected_type::operator==( const affected_type &other ) const
+auto affected_type::operator==( const affected_type &other ) const -> bool
 {
     // NOTE: Constructor has to ensure type is set to NULL for some stats
     return stat == other.stat && type == other.type;
 }
 
-float bonus_container::get_flat( const Character &u, affected_stat stat, damage_type dt ) const
+auto bonus_container::get_flat( const Character &u, affected_stat stat, damage_type dt ) const -> float
 {
     const affected_type type( stat, dt );
     const auto &iter = bonuses_flat.find( type );
@@ -173,12 +173,12 @@ float bonus_container::get_flat( const Character &u, affected_stat stat, damage_
 
     return ret;
 }
-float bonus_container::get_flat( const Character &u, affected_stat stat ) const
+auto bonus_container::get_flat( const Character &u, affected_stat stat ) const -> float
 {
     return get_flat( u, stat, DT_NULL );
 }
 
-float bonus_container::get_mult( const Character &u, affected_stat stat, damage_type dt ) const
+auto bonus_container::get_mult( const Character &u, affected_stat stat, damage_type dt ) const -> float
 {
     const affected_type type( stat, dt );
     const auto &iter = bonuses_mult.find( type );
@@ -194,12 +194,12 @@ float bonus_container::get_mult( const Character &u, affected_stat stat, damage_
     // Currently all relevant effects require non-negative values
     return std::max( 0.0f, ret );
 }
-float bonus_container::get_mult( const Character &u, affected_stat stat ) const
+auto bonus_container::get_mult( const Character &u, affected_stat stat ) const -> float
 {
     return get_mult( u, stat, DT_NULL );
 }
 
-std::string bonus_container::get_description() const
+auto bonus_container::get_description() const -> std::string
 {
     std::string dump;
     for( const auto &boni : bonuses_mult ) {
@@ -251,7 +251,7 @@ std::string bonus_container::get_description() const
     return dump;
 }
 
-float effect_scaling::get( const Character &u ) const
+auto effect_scaling::get( const Character &u ) const -> float
 {
     float bonus = 0.0f;
     switch( stat ) {

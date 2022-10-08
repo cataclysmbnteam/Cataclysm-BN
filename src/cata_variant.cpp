@@ -4,7 +4,7 @@ namespace io
 {
 
 template<>
-std::string enum_to_string<cata_variant_type>( cata_variant_type type )
+auto enum_to_string<cata_variant_type>( cata_variant_type type ) -> std::string
 {
     switch( type ) {
         // *INDENT-OFF*

@@ -169,7 +169,7 @@ static const std::string flag_PLOWABLE( "PLOWABLE" );
 static const std::string flag_RAD_RESIST( "RAD_RESIST" );
 static const std::string flag_SUN_GLASSES( "SUN_GLASSES" );
 
-static float addiction_scaling( float at_min, float at_max, float add_lvl )
+static auto addiction_scaling( float at_min, float at_max, float add_lvl ) -> float
 {
     // Not addicted
     if( add_lvl < MIN_ADDICTION_LEVEL ) {
@@ -778,7 +778,7 @@ void Character::suffer_in_sunlight()
     }
 }
 
-std::map<bodypart_id, float> Character::bodypart_exposure()
+auto Character::bodypart_exposure() -> std::map<bodypart_id, float>
 {
     std::map<bodypart_id, float> bp_exposure;
     // May need to iterate over all body parts several times, so make a copy
@@ -1526,7 +1526,7 @@ void Character::suffer()
     }
 }
 
-bool Character::irradiate( float rads, bool bypass )
+auto Character::irradiate( float rads, bool bypass ) -> bool
 {
     int rad_mut = 0;
     if( has_trait( trait_RADIOACTIVE3 ) ) {
@@ -1932,7 +1932,7 @@ void Character::add_addiction( add_type type, int strength )
     }
 }
 
-bool Character::has_addiction( add_type type ) const
+auto Character::has_addiction( add_type type ) const -> bool
 {
     return std::any_of( addictions.begin(), addictions.end(),
     [type]( const addiction & ad ) {
@@ -1953,7 +1953,7 @@ void Character::rem_addiction( add_type type )
     }
 }
 
-int Character::addiction_level( add_type type ) const
+auto Character::addiction_level( add_type type ) const -> int
 {
     auto iter = std::find_if( addictions.begin(), addictions.end(),
     [type]( const addiction & ad ) {
@@ -1962,7 +1962,7 @@ int Character::addiction_level( add_type type ) const
     return iter != addictions.end() ? iter->intensity : 0;
 }
 
-int  Character::leak_level( const std::string &flag ) const
+auto  Character::leak_level( const std::string &flag ) const -> int
 {
     int leak_level = 0;
     leak_level = inv.leak_level( flag );

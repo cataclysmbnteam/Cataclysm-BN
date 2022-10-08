@@ -46,7 +46,7 @@ void active_item_cache::add( item &it, point location )
     target_list.push_back( item_reference{ location, it.get_safe_reference() } );
 }
 
-bool active_item_cache::empty() const
+auto active_item_cache::empty() const -> bool
 {
     for( std::pair<int, std::list<item_reference>> active_queue : active_items ) {
         if( !active_queue.second.empty() ) {
@@ -56,7 +56,7 @@ bool active_item_cache::empty() const
     return true;
 }
 
-std::vector<item_reference> active_item_cache::get()
+auto active_item_cache::get() -> std::vector<item_reference>
 {
     std::vector<item_reference> all_cached_items;
     for( std::pair<const int, std::list<item_reference>> &kv : active_items ) {
@@ -72,7 +72,7 @@ std::vector<item_reference> active_item_cache::get()
     return all_cached_items;
 }
 
-std::vector<item_reference> active_item_cache::get_for_processing()
+auto active_item_cache::get_for_processing() -> std::vector<item_reference>
 {
     std::vector<item_reference> items_to_process;
     for( std::pair<const int, std::list<item_reference>> &kv : active_items ) {
@@ -96,7 +96,7 @@ std::vector<item_reference> active_item_cache::get_for_processing()
     return items_to_process;
 }
 
-std::vector<item_reference> active_item_cache::get_special( special_item_type type )
+auto active_item_cache::get_special( special_item_type type ) -> std::vector<item_reference>
 {
     std::vector<item_reference> matching_items;
     for( const item_reference &it : special_items[type] ) {

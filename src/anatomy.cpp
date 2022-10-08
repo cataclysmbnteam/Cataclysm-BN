@@ -28,13 +28,13 @@ generic_factory<anatomy> anatomy_factory( "anatomy" );
 } // namespace
 
 template<>
-bool anatomy_id::is_valid() const
+auto anatomy_id::is_valid() const -> bool
 {
     return anatomy_factory.is_valid( *this );
 }
 
 template<>
-const anatomy &anatomy_id::obj() const
+auto anatomy_id::obj() const -> const anatomy &
 {
     return anatomy_factory.obj( *this );
 }
@@ -106,7 +106,7 @@ void anatomy::check() const
     }
 }
 
-std::vector<bodypart_id> anatomy::get_bodyparts() const
+auto anatomy::get_bodyparts() const -> std::vector<bodypart_id>
 {
     return cached_bps;
 }
@@ -119,7 +119,7 @@ void anatomy::add_body_part( const bodypart_str_id &new_bp )
 }
 
 // TODO: get_function_with_better_name
-bodypart_str_id anatomy::get_part_with_cumulative_hit_size( float size ) const
+auto anatomy::get_part_with_cumulative_hit_size( float size ) const -> bodypart_str_id
 {
     for( const bodypart_id &part : cached_bps ) {
         size -= part->hit_size;
@@ -131,12 +131,12 @@ bodypart_str_id anatomy::get_part_with_cumulative_hit_size( float size ) const
     return bodypart_str_id::NULL_ID();
 }
 
-bodypart_id anatomy::random_body_part() const
+auto anatomy::random_body_part() const -> bodypart_id
 {
     return get_part_with_cumulative_hit_size( rng_float( 0.0f, size_sum ) ).id();
 }
 
-bodypart_id anatomy::select_body_part( int size_diff, int hit_roll ) const
+auto anatomy::select_body_part( int size_diff, int hit_roll ) const -> bodypart_id
 {
     const size_t size_diff_index = static_cast<size_t>( 1 + clamp( size_diff, -1, 1 ) );
     weighted_float_list<bodypart_id> hit_weights;

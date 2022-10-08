@@ -7,8 +7,8 @@
 #if __GLIBCXX__
 template<typename T> using shared_ptr_fast = std::__shared_ptr<T, __gnu_cxx::_S_single>;
 template<typename T> using weak_ptr_fast = std::__weak_ptr<T, __gnu_cxx::_S_single>;
-template<typename T, typename... Args> shared_ptr_fast<T> make_shared_fast(
-    Args &&... args )
+template<typename T, typename... Args> auto make_shared_fast(
+    Args &&... args ) -> shared_ptr_fast<T>
 {
     return std::__make_shared<T, __gnu_cxx::_S_single>( args... );
 }

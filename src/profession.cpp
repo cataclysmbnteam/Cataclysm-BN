@@ -39,7 +39,7 @@ static class json_item_substitution
             trait_requirements() = default;
             std::vector<trait_id> present;
             std::vector<trait_id> absent;
-            bool meets_condition( const std::vector<trait_id> &traits ) const;
+            auto meets_condition( const std::vector<trait_id> &traits ) const -> bool;
         };
         struct substitution {
             trait_requirements trait_reqs;
@@ -54,20 +54,20 @@ static class json_item_substitution
         std::map<itype_id, std::vector<substitution>> substitutions;
         std::vector<std::pair<itype_id, trait_requirements>> bonuses;
     public:
-        std::vector<itype_id> get_bonus_items( const std::vector<trait_id> &traits ) const;
-        std::vector<item> get_substitution( const item &it, const std::vector<trait_id> &traits ) const;
+        auto get_bonus_items( const std::vector<trait_id> &traits ) const -> std::vector<itype_id>;
+        auto get_substitution( const item &it, const std::vector<trait_id> &traits ) const -> std::vector<item>;
 } item_substitutions;
 
 /** @relates string_id */
 template<>
-const profession &string_id<profession>::obj() const
+auto string_id<profession>::obj() const -> const profession &
 {
     return all_profs.obj( *this );
 }
 
 /** @relates string_id */
 template<>
-bool string_id<profession>::is_valid() const
+auto string_id<profession>::is_valid() const -> bool
 {
     return all_profs.is_valid( *this );
 }
@@ -89,7 +89,7 @@ void profession::load_profession( const JsonObject &jo, const std::string &src )
 class skilllevel_reader : public generic_typed_reader<skilllevel_reader>
 {
     public:
-        std::pair<skill_id, int> get_next( JsonIn &jin ) const {
+        auto get_next( JsonIn &jin ) const -> std::pair<skill_id, int> {
             JsonObject jo = jin.get_object();
             return std::pair<skill_id, int>( skill_id( jo.get_string( "name" ) ), jo.get_int( "level" ) );
         }
@@ -105,7 +105,7 @@ class skilllevel_reader : public generic_typed_reader<skilllevel_reader>
 class addiction_reader : public generic_typed_reader<addiction_reader>
 {
     public:
-        addiction get_next( JsonIn &jin ) const {
+        auto get_next( JsonIn &jin ) const -> addiction {
             JsonObject jo = jin.get_object();
             return addiction( addiction_type( jo.get_string( "type" ) ), jo.get_int( "intensity" ) );
         }
@@ -121,7 +121,7 @@ class addiction_reader : public generic_typed_reader<addiction_reader>
 class item_reader : public generic_typed_reader<item_reader>
 {
     public:
-        profession::itypedec get_next( JsonIn &jin ) const {
+        auto get_next( JsonIn &jin ) const -> profession::itypedec {
             // either a plain item type id string, or an array with item type id
             // and as second entry the item description.
             if( jin.test_string() ) {
@@ -245,12 +245,12 @@ void profession::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
 }
 
-const profession_id &profession::generic()
+auto profession::generic() -> const profession_id &
 {
     return generic_profession_id;
 }
 
-const std::vector<profession> &profession::get_all()
+auto profession::get_all() -> const std::vector<profession> &
 {
     return all_profs.get_all();
 }
@@ -334,17 +334,17 @@ void profession::check_definition() const
     }
 }
 
-bool profession::has_initialized()
+auto profession::has_initialized() -> bool
 {
     return generic_profession_id.is_valid();
 }
 
-const profession_id &profession::ident() const
+auto profession::ident() const -> const profession_id &
 {
     return id;
 }
 
-std::string profession::gender_appropriate_name( bool male ) const
+auto profession::gender_appropriate_name( bool male ) const -> std::string
 {
     if( male ) {
         return _name_male.translated();
@@ -353,7 +353,7 @@ std::string profession::gender_appropriate_name( bool male ) const
     }
 }
 
-std::string profession::description( bool male ) const
+auto profession::description( bool male ) const -> std::string
 {
     if( male ) {
         return _description_male.translated();
@@ -362,13 +362,13 @@ std::string profession::description( bool male ) const
     }
 }
 
-static time_point advanced_spawn_time()
+static auto advanced_spawn_time() -> time_point
 {
     const int initial_days = get_option<int>( "INITIAL_DAY" );
     return calendar::before_time_starts + 1_days * initial_days;
 }
 
-signed int profession::point_cost() const
+auto profession::point_cost() const -> signed int
 {
     return _point_cost;
 }
@@ -383,7 +383,7 @@ static void clear_faults( item &it )
     }
 }
 
-std::list<item> profession::items( bool male, const std::vector<trait_id> &traits ) const
+auto profession::items( bool male, const std::vector<trait_id> &traits ) const -> std::list<item>
 {
     std::list<item> result;
     auto add_legacy_items = [&result]( const itypedecvec & vec ) {
@@ -458,58 +458,58 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
     return result;
 }
 
-vproto_id profession::vehicle() const
+auto profession::vehicle() const -> vproto_id
 {
     return _starting_vehicle;
 }
 
-std::vector<mtype_id> profession::pets() const
+auto profession::pets() const -> std::vector<mtype_id>
 {
     return _starting_pets;
 }
 
-std::vector<addiction> profession::addictions() const
+auto profession::addictions() const -> std::vector<addiction>
 {
     return _starting_addictions;
 }
 
-std::vector<bionic_id> profession::CBMs() const
+auto profession::CBMs() const -> std::vector<bionic_id>
 {
     return _starting_CBMs;
 }
 
-std::vector<trait_id> profession::get_locked_traits() const
+auto profession::get_locked_traits() const -> std::vector<trait_id>
 {
     return _starting_traits;
 }
 
-std::set<trait_id> profession::get_forbidden_traits() const
+auto profession::get_forbidden_traits() const -> std::set<trait_id>
 {
     return _forbidden_traits;
 }
 
-profession::StartingSkillList profession::skills() const
+auto profession::skills() const -> profession::StartingSkillList
 {
     return _starting_skills;
 }
 
-bool profession::has_flag( const std::string &flag ) const
+auto profession::has_flag( const std::string &flag ) const -> bool
 {
     return flags.count( flag ) != 0;
 }
 
-bool profession::is_locked_trait( const trait_id &trait ) const
+auto profession::is_locked_trait( const trait_id &trait ) const -> bool
 {
     return std::find( _starting_traits.begin(), _starting_traits.end(), trait ) !=
            _starting_traits.end();
 }
 
-bool profession::is_forbidden_trait( const trait_id &trait ) const
+auto profession::is_forbidden_trait( const trait_id &trait ) const -> bool
 {
     return _forbidden_traits.count( trait ) != 0;
 }
 
-std::map<spell_id, int> profession::spells() const
+auto profession::spells() const -> std::map<spell_id, int>
 {
     return _starting_spells;
 }
@@ -635,8 +635,8 @@ void json_item_substitution::check_consistency()
     }
 }
 
-bool json_item_substitution::trait_requirements::meets_condition( const std::vector<trait_id>
-        &traits ) const
+auto json_item_substitution::trait_requirements::meets_condition( const std::vector<trait_id>
+        &traits ) const -> bool
 {
     const auto pred = [&traits]( const trait_id & s ) {
         return std::find( traits.begin(), traits.end(), s ) != traits.end();
@@ -645,8 +645,8 @@ bool json_item_substitution::trait_requirements::meets_condition( const std::vec
            std::none_of( absent.begin(), absent.end(), pred );
 }
 
-std::vector<item> json_item_substitution::get_substitution( const item &it,
-        const std::vector<trait_id> &traits ) const
+auto json_item_substitution::get_substitution( const item &it,
+        const std::vector<trait_id> &traits ) const -> std::vector<item>
 {
     auto iter = substitutions.find( it.typeId() );
     std::vector<item> ret;
@@ -687,8 +687,8 @@ std::vector<item> json_item_substitution::get_substitution( const item &it,
     return ret;
 }
 
-std::vector<itype_id> json_item_substitution::get_bonus_items( const std::vector<trait_id>
-        &traits ) const
+auto json_item_substitution::get_bonus_items( const std::vector<trait_id>
+        &traits ) const -> std::vector<itype_id>
 {
     std::vector<itype_id> ret;
     for( const auto &pair : bonuses ) {

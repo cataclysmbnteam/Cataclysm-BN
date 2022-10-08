@@ -113,7 +113,7 @@ namespace io
 {
 // *INDENT-OFF*
 template<>
-std::string enum_to_string<sounds::sound_t>( sounds::sound_t data )
+auto enum_to_string<sounds::sound_t>( sounds::sound_t data ) -> std::string
 {
     switch ( data ) {
     case sounds::sound_t::background: return "background";
@@ -150,7 +150,7 @@ static std::unordered_map<tripoint, sound_event> sound_markers;
 // My research indicates that attenuation through soil-like materials is as
 // high as 100x the attenuation through air, plus vertical distances are
 // roughly five times as large as horizontal ones.
-static int sound_distance( const tripoint &source, const tripoint &sink )
+static auto sound_distance( const tripoint &source, const tripoint &sink ) -> int
 {
     const int lower_z = std::min( source.z, sink.z );
     const int upper_z = std::max( source.z, sink.z );
@@ -216,7 +216,7 @@ static void vector_quick_remove( std::vector<C> &source, int index )
     source.pop_back();
 }
 
-static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, int>> input_sounds )
+static auto cluster_sounds( std::vector<std::pair<tripoint, int>> input_sounds ) -> std::vector<centroid>
 {
     // If there are too many monsters and too many noise sources (which can be monsters, go figure),
     // applying sound events to monsters can dominate processing time for the whole game,
@@ -276,7 +276,7 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, int
     return sound_clusters;
 }
 
-static int get_signal_for_hordes( const centroid &centr )
+static auto get_signal_for_hordes( const centroid &centr ) -> int
 {
     //Volume in  tiles. Signal for hordes in submaps
     //modify vol using weather vol.Weather can reduce monster hearing
@@ -336,7 +336,7 @@ void sounds::process_sounds()
 }
 
 // skip some sounds to avoid message spam
-static bool describe_sound( sounds::sound_t category, bool from_player_position )
+static auto describe_sound( sounds::sound_t category, bool from_player_position ) -> bool
 {
     if( from_player_position ) {
         switch( category ) {
@@ -574,7 +574,7 @@ void sounds::reset_markers()
     sound_markers.clear();
 }
 
-std::vector<tripoint> sounds::get_footstep_markers()
+auto sounds::get_footstep_markers() -> std::vector<tripoint>
 {
     // Optimization, make this static and clear it in reset_markers?
     std::vector<tripoint> footsteps;
@@ -585,7 +585,7 @@ std::vector<tripoint> sounds::get_footstep_markers()
     return footsteps;
 }
 
-std::pair<std::vector<tripoint>, std::vector<tripoint>> sounds::get_monster_sounds()
+auto sounds::get_monster_sounds() -> std::pair<std::vector<tripoint>, std::vector<tripoint>>
 {
     auto sound_clusters = cluster_sounds( recent_sounds );
     std::vector<tripoint> sound_locations;
@@ -602,7 +602,7 @@ std::pair<std::vector<tripoint>, std::vector<tripoint>> sounds::get_monster_soun
     return { sound_locations, cluster_centroids };
 }
 
-std::string sounds::sound_at( const tripoint &location )
+auto sounds::sound_at( const tripoint &location ) -> std::string
 {
     auto this_sound = sound_markers.find( location );
     if( this_sound == sound_markers.end() ) {
@@ -1616,15 +1616,15 @@ void sfx::do_vehicle_exterior_engine_sfx() { }
 void sfx::do_ambient() { }
 void sfx::fade_audio_group( group, int ) { }
 void sfx::fade_audio_channel( channel, int ) { }
-bool sfx::is_channel_playing( channel )
+auto sfx::is_channel_playing( channel ) -> bool
 {
     return false;
 }
-int sfx::set_channel_volume( channel, int )
+auto sfx::set_channel_volume( channel, int ) -> int
 {
     return 0;
 }
-bool sfx::has_variant_sound( const std::string &, const std::string & )
+auto sfx::has_variant_sound( const std::string &, const std::string & ) -> bool
 {
     return false;
 }
@@ -1640,7 +1640,7 @@ void sfx::do_obstacle( const std::string & ) { }
 /** Functions from sfx that do not use the SDL_mixer API at all. They can be used in builds
   * without sound support. */
 /*@{*/
-int sfx::get_heard_volume( const tripoint &source )
+auto sfx::get_heard_volume( const tripoint &source ) -> int
 {
     int distance = sound_distance( get_avatar().pos(), source );
     // fract = -100 / 24
@@ -1653,7 +1653,7 @@ int sfx::get_heard_volume( const tripoint &source )
     return ( heard_volume );
 }
 
-units::angle sfx::get_heard_angle( const tripoint &source )
+auto sfx::get_heard_angle( const tripoint &source ) -> units::angle
 {
     units::angle angle = coord_to_angle( get_player_character().pos(), source ) + 90_degrees;
     //add_msg(m_warning, "angle: %i", angle);

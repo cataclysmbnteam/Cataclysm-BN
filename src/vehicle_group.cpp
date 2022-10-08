@@ -24,7 +24,7 @@ std::unordered_map<vspawn_id, VehicleSpawn> vspawns;
 
 /** @relates string_id */
 template<>
-const VehicleGroup &string_id<VehicleGroup>::obj() const
+auto string_id<VehicleGroup>::obj() const -> const VehicleGroup &
 {
     const auto iter = vgroups.find( *this );
     if( iter == vgroups.end() ) {
@@ -35,25 +35,25 @@ const VehicleGroup &string_id<VehicleGroup>::obj() const
     return iter->second;
 }
 
-units::angle VehicleFacings::pick() const
+auto VehicleFacings::pick() const -> units::angle
 {
     return random_entry( values );
 }
 
-point VehicleLocation::pick_point() const
+auto VehicleLocation::pick_point() const -> point
 {
     return point( x.get(), y.get() );
 }
 
 /** @relates string_id */
 template<>
-bool string_id<VehicleGroup>::is_valid() const
+auto string_id<VehicleGroup>::is_valid() const -> bool
 {
     return vgroups.count( *this ) > 0;
 }
 
 template<>
-const VehiclePlacement &string_id<VehiclePlacement>::obj() const
+auto string_id<VehiclePlacement>::obj() const -> const VehiclePlacement &
 {
     const auto iter = vplacements.find( *this );
     if( iter == vplacements.end() ) {
@@ -65,7 +65,7 @@ const VehiclePlacement &string_id<VehiclePlacement>::obj() const
 }
 
 template<>
-bool string_id<VehiclePlacement>::is_valid() const
+auto string_id<VehiclePlacement>::is_valid() const -> bool
 {
     return vplacements.count( *this ) > 0;
 }
@@ -110,7 +110,7 @@ void VehiclePlacement::reset()
     vplacements.clear();
 }
 
-const VehicleLocation *VehiclePlacement::pick() const
+auto VehiclePlacement::pick() const -> const VehicleLocation *
 {
     if( const auto chosen = random_entry_opt( locations ) ) {
         return &chosen->get();
@@ -155,7 +155,7 @@ void VehicleFunction_json::apply( map &m, const std::string &terrain_name ) cons
 }
 
 template<>
-const VehicleSpawn &string_id<VehicleSpawn>::obj() const
+auto string_id<VehicleSpawn>::obj() const -> const VehicleSpawn &
 {
     const auto iter = vspawns.find( *this );
     if( iter == vspawns.end() ) {
@@ -167,7 +167,7 @@ const VehicleSpawn &string_id<VehicleSpawn>::obj() const
 }
 
 template<>
-bool string_id<VehicleSpawn>::is_valid() const
+auto string_id<VehicleSpawn>::is_valid() const -> bool
 {
     return vspawns.count( *this ) > 0;
 }

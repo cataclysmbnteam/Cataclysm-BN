@@ -21,7 +21,7 @@ iteminfo_query::iteminfo_query( const iteminfo_query_base &values )
 {
 }
 
-bool iteminfo_query::test( const iteminfo_parts &value ) const
+auto iteminfo_query::test( const iteminfo_parts &value ) const -> bool
 {
     return iteminfo_query_base::test( static_cast<size_t>( value ) );
 }

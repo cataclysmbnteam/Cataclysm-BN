@@ -104,11 +104,11 @@ class capture_debugmsg
 {
     public:
         capture_debugmsg();
-        std::string dmsg();
+        auto dmsg() -> std::string;
         ~capture_debugmsg();
 };
 
-std::string capture_debugmsg_during( const std::function<void()> &func )
+auto capture_debugmsg_during( const std::function<void()> &func ) -> std::string
 {
     capture_debugmsg capture;
     func();
@@ -121,7 +121,7 @@ capture_debugmsg::capture_debugmsg()
     captured = "";
 }
 
-std::string capture_debugmsg::dmsg()
+auto capture_debugmsg::dmsg() -> std::string
 {
     capturing = false;
     return captured;
@@ -132,7 +132,7 @@ capture_debugmsg::~capture_debugmsg()
     capturing = false;
 }
 
-bool debug_has_error_been_observed()
+auto debug_has_error_been_observed() -> bool
 {
     return error_observed;
 }
@@ -154,7 +154,7 @@ std::set<std::string> ignored_messages;
 
 // debugmsg prompts that could not be shown immediately are buffered and replayed when catacurses::stdscr is available
 // need to use method here to ensure `buffered_prompts` vector is initialized single time
-static std::vector<buffered_prompt_info> &buffered_prompts()
+static auto buffered_prompts() -> std::vector<buffered_prompt_info> &
 {
     static std::vector<buffered_prompt_info> buffered_prompts;
     return buffered_prompts;
@@ -299,7 +299,7 @@ struct time_info {
     int mseconds;
 
     template <typename Stream>
-    friend Stream &operator<<( Stream &out, const time_info &t ) {
+    friend auto operator<<( Stream &out, const time_info &t ) -> Stream & {
         using char_t = typename Stream::char_type;
         using base   = std::basic_ostream<char_t>;
 
@@ -313,7 +313,7 @@ struct time_info {
     }
 };
 
-static time_info get_time() noexcept;
+static auto get_time() noexcept -> time_info;
 
 struct repetition_folder {
     const char *m_filename = nullptr;
@@ -327,7 +327,7 @@ struct repetition_folder {
 
     int repeat_count = 0;
 
-    bool test( const char *filename, const char *line, const char *funcname, const std::string &text ) {
+    auto test( const char *filename, const char *line, const char *funcname, const std::string &text ) -> bool {
         return m_filename == filename &&
                m_line == line &&
                m_funcname == funcname &&
@@ -361,7 +361,7 @@ struct repetition_folder {
         repeat_count = 0;
     }
 
-    bool timed_out() {
+    auto timed_out() -> bool {
         const time_info now = get_time();
 
         const int now_raw = now.mseconds + 1000 * now.seconds + 60000 * now.minutes + 3600000 * now.hours;
@@ -424,7 +424,7 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
 // ---------------------------------------------------------------------
 
 template<typename E>
-static std::string fmt_mask( const enum_bitset<E> &mask )
+static auto fmt_mask( const enum_bitset<E> &mask ) -> std::string
 {
     if( mask.test_all() ) {
         return "ALL";
@@ -473,7 +473,7 @@ void setDebugLogClasses( const enum_bitset<DC> &mask, bool silent )
     debugClass = mask;
 }
 
-static bool checkDebugLevelClass( DL lev, DC cl )
+static auto checkDebugLevelClass( DL lev, DC cl ) -> bool
 {
     if( lev == DL::Error || cl == DC::DebugMsg ) {
         return true;
@@ -493,7 +493,7 @@ static bool checkDebugLevelClass( DL lev, DC cl )
 
 struct NullBuf : public std::streambuf {
     NullBuf() = default;
-    int overflow( int c ) override {
+    auto overflow( int c ) -> int override {
         return c;
     }
 };
@@ -513,7 +513,7 @@ static time_info get_time() noexcept
                      };
 }
 #else
-static time_info get_time() noexcept
+static auto get_time() noexcept -> time_info
 {
     timeval tv;
     gettimeofday( &tv, nullptr );
@@ -532,7 +532,7 @@ struct DebugFile {
     ~DebugFile();
     void init( DebugOutput, const std::string &filename );
     void deinit();
-    std::ostream &get_file();
+    auto get_file() -> std::ostream &;
 
     // Using shared_ptr for the type-erased deleter support, not because
     // it needs to be shared.
@@ -548,7 +548,7 @@ struct DebugFile {
 // because DebugLog (that uses them) might be called from the constructor of some non-local static entity
 // during dynamic initialization phase, when non-local static variables here are
 // only zero-initialized
-static DebugFile &debugFile()
+static auto debugFile() -> DebugFile &
 {
     static DebugFile debugFile;
     return debugFile;
@@ -571,7 +571,7 @@ void DebugFile::deinit()
     file.reset();
 }
 
-std::ostream &DebugFile::get_file()
+auto DebugFile::get_file() -> std::ostream &
 {
     if( !file ) {
         file = std::make_shared<std::ostringstream>();
@@ -642,7 +642,7 @@ void deinitDebug()
 namespace io
 {
 template<>
-std::string enum_to_string<DL>( DL x )
+auto enum_to_string<DL>( DL x ) -> std::string
 {
     switch( x ) {
         // *INDENT-OFF*
@@ -659,7 +659,7 @@ std::string enum_to_string<DL>( DL x )
 }
 
 template<>
-std::string enum_to_string<DC>( DC x )
+auto enum_to_string<DC>( DC x ) -> std::string
 {
     switch( x ) {
         // *INDENT-OFF*
@@ -1143,8 +1143,8 @@ detail::DebugLogGuard::~DebugLogGuard()
     *s << std::endl;
 }
 
-detail::DebugLogGuard detail::realDebugLog( DL lev, DC cl, const char *filename,
-        const char *line, const char *funcname )
+auto detail::realDebugLog( DL lev, DC cl, const char *filename,
+        const char *line, const char *funcname ) -> detail::DebugLogGuard
 {
     if( lev == DL::Error ) {
         error_observed = true;
@@ -1199,7 +1199,7 @@ detail::DebugLogGuard detail::realDebugLog( DL lev, DC cl, const char *filename,
     return DebugLogGuard( nullStream );
 }
 
-std::string game_info::operating_system()
+auto game_info::operating_system() -> std::string
 {
 #if defined(__ANDROID__)
     return "Android";
@@ -1239,7 +1239,7 @@ std::string game_info::operating_system()
  * @note The output buffer is limited to 512 characters.
  * @returns The result of the command (only stdout) or an empty string if there was a problem.
  */
-static std::string shell_exec( const std::string &command )
+static auto shell_exec( const std::string &command ) -> std::string
 {
     std::vector<char> buffer( 512 );
     std::string output;
@@ -1321,7 +1321,7 @@ static std::string bsd_version()
  * @note The code shells-out to call `lsb_release -a`.
  * @returns If successful, a string containing the Linux system version, otherwise an empty string.
  */
-static std::string linux_version()
+static auto linux_version() -> std::string
 {
     std::string output;
     output = shell_exec( "lsb_release -a" );
@@ -1450,7 +1450,7 @@ static std::string windows_version()
 }
 #endif // Various OS define tests
 
-std::string game_info::operating_system_version()
+auto game_info::operating_system_version() -> std::string
 {
 #if defined(__ANDROID__)
     return android_version();
@@ -1467,7 +1467,7 @@ std::string game_info::operating_system_version()
 #endif
 }
 
-std::string game_info::bitness()
+auto game_info::bitness() -> std::string
 {
     if( sizeof( void * ) == 8 ) {
         return "64-bit";
@@ -1480,12 +1480,12 @@ std::string game_info::bitness()
     return "Unknown";
 }
 
-std::string game_info::game_version()
+auto game_info::game_version() -> std::string
 {
     return getVersionString();
 }
 
-std::string game_info::graphics_version()
+auto game_info::graphics_version() -> std::string
 {
 #if defined(TILES)
     return "Tiles";
@@ -1494,7 +1494,7 @@ std::string game_info::graphics_version()
 #endif
 }
 
-std::string game_info::mods_loaded()
+auto game_info::mods_loaded() -> std::string
 {
     if( world_generator->active_world == nullptr ) {
         return "No active world";
@@ -1516,7 +1516,7 @@ std::string game_info::mods_loaded()
     return join( mod_names, ",\n    " ); // note: 4 spaces for a slight offset.
 }
 
-std::string game_info::game_report()
+auto game_info::game_report() -> std::string
 {
     std::string os_version = operating_system_version();
     if( os_version.empty() ) {

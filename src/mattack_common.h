@@ -29,8 +29,8 @@ class mattack_actor
         void load( const JsonObject &jo, const std::string &src );
 
         virtual ~mattack_actor() = default;
-        virtual bool call( monster & ) const = 0;
-        virtual std::unique_ptr<mattack_actor> clone() const = 0;
+        virtual auto call( monster & ) const -> bool = 0;
+        virtual auto clone() const -> std::unique_ptr<mattack_actor> = 0;
         virtual void load_internal( const JsonObject &jo, const std::string &src ) = 0;
 };
 
@@ -44,15 +44,15 @@ struct mtype_special_attack {
         mtype_special_attack( const mattack_id &id, mon_action_attack f );
         mtype_special_attack( std::unique_ptr<mattack_actor> f ) : actor( std::move( f ) ) { }
 
-        const mattack_actor &operator*() const {
+        auto operator*() const -> const mattack_actor & {
             return *actor;
         }
 
-        const mattack_actor *operator->() const {
+        auto operator->() const -> const mattack_actor * {
             return actor.get();
         }
 
-        const mattack_actor *get() const {
+        auto get() const -> const mattack_actor * {
             return actor.get();
         }
 };

@@ -46,7 +46,7 @@ std::map<efftype_id, effect_type> effect_types;
 
 /** @relates string_id */
 template<>
-const effect_type &string_id<effect_type>::obj() const
+auto string_id<effect_type>::obj() const -> const effect_type &
 {
     const auto iter = effect_types.find( *this );
     if( iter == effect_types.end() ) {
@@ -59,12 +59,12 @@ const effect_type &string_id<effect_type>::obj() const
 
 /** @relates string_id */
 template<>
-bool string_id<effect_type>::is_valid() const
+auto string_id<effect_type>::is_valid() const -> bool
 {
     return effect_types.count( *this ) > 0;
 }
 
-std::vector<efftype_id> find_all_effect_types()
+auto find_all_effect_types() -> std::vector<efftype_id>
 {
     std::vector<efftype_id> all;
     all.reserve( effect_types.size() );
@@ -250,7 +250,7 @@ static void extract_effect(
     }
 }
 
-bool effect_type::load_mod_data( const JsonObject &jo, const std::string &member )
+auto effect_type::load_mod_data( const JsonObject &jo, const std::string &member ) -> bool
 {
     if( jo.has_object( member ) ) {
         JsonObject j = jo.get_object( member );
@@ -406,17 +406,17 @@ bool effect_type::load_mod_data( const JsonObject &jo, const std::string &member
     }
 }
 
-effect_rating effect_type::get_rating() const
+auto effect_type::get_rating() const -> effect_rating
 {
     return rating;
 }
 
-bool effect_type::use_name_ints() const
+auto effect_type::use_name_ints() const -> bool
 {
     return name.size() > 1;
 }
 
-bool effect_type::use_desc_ints( bool reduced ) const
+auto effect_type::use_desc_ints( bool reduced ) const -> bool
 {
     if( reduced ) {
         return static_cast<size_t>( max_intensity ) <= reduced_desc.size();
@@ -425,7 +425,7 @@ bool effect_type::use_desc_ints( bool reduced ) const
     }
 }
 
-game_message_type effect_type::gain_game_message_type() const
+auto effect_type::gain_game_message_type() const -> game_message_type
 {
     switch( rating ) {
         case e_good:
@@ -441,7 +441,7 @@ game_message_type effect_type::gain_game_message_type() const
             return m_neutral;
     }
 }
-game_message_type effect_type::lose_game_message_type() const
+auto effect_type::lose_game_message_type() const -> game_message_type
 {
     switch( rating ) {
         case e_good:
@@ -457,53 +457,53 @@ game_message_type effect_type::lose_game_message_type() const
             return m_neutral;
     }
 }
-std::string effect_type::get_apply_message() const
+auto effect_type::get_apply_message() const -> std::string
 {
     return apply_message;
 }
-std::string effect_type::get_apply_memorial_log() const
+auto effect_type::get_apply_memorial_log() const -> std::string
 {
     return apply_memorial_log;
 }
-std::string effect_type::get_remove_message() const
+auto effect_type::get_remove_message() const -> std::string
 {
     return remove_message;
 }
-std::string effect_type::get_remove_memorial_log() const
+auto effect_type::get_remove_memorial_log() const -> std::string
 {
     return remove_memorial_log;
 }
 
-std::string effect_type::get_blood_analysis_description() const
+auto effect_type::get_blood_analysis_description() const -> std::string
 {
     return blood_analysis_description;
 }
 
-bool effect_type::get_main_parts() const
+auto effect_type::get_main_parts() const -> bool
 {
     return main_parts_only;
 }
-time_duration effect_type::get_max_duration() const
+auto effect_type::get_max_duration() const -> time_duration
 {
     return max_duration;
 }
-bool effect_type::is_permanent() const
+auto effect_type::is_permanent() const -> bool
 {
     return permanent;
 }
-bool effect_type::is_show_in_info() const
+auto effect_type::is_show_in_info() const -> bool
 {
     return show_in_info;
 }
-time_duration effect_type::get_int_dur_factor() const
+auto effect_type::get_int_dur_factor() const -> time_duration
 {
     return int_dur_factor;
 }
-morale_type effect_type::get_morale_type() const
+auto effect_type::get_morale_type() const -> morale_type
 {
     return morale;
 }
-bool effect_type::load_miss_msgs( const JsonObject &jo, const std::string &member )
+auto effect_type::load_miss_msgs( const JsonObject &jo, const std::string &member ) -> bool
 {
     if( jo.has_array( member ) ) {
         for( JsonArray inner : jo.get_array( member ) ) {
@@ -513,7 +513,7 @@ bool effect_type::load_miss_msgs( const JsonObject &jo, const std::string &membe
     }
     return false;
 }
-bool effect_type::load_decay_msgs( const JsonObject &jo, const std::string &member )
+auto effect_type::load_decay_msgs( const JsonObject &jo, const std::string &member ) -> bool
 {
     if( jo.has_array( member ) ) {
         for( JsonArray inner : jo.get_array( member ) ) {
@@ -550,12 +550,12 @@ void effect_type::check_consistency()
 
 effect effect::null_effect;
 
-bool effect::is_null() const
+auto effect::is_null() const -> bool
 {
     return !eff_type;
 }
 
-std::string effect::disp_name() const
+auto effect::disp_name() const -> std::string
 {
     if( eff_type->name.empty() ) {
         debugmsg( "No names for effect type, ID: %s", eff_type->id.c_str() );
@@ -602,7 +602,7 @@ struct desc_freq {
         val( v ), pos_string( pos ), neg_string( neg ) {}
 };
 
-std::string effect::disp_desc( bool reduced ) const
+auto effect::disp_desc( bool reduced ) const -> std::string
 {
     std::string ret;
     // First print stat changes, adding + if value is positive
@@ -753,7 +753,7 @@ std::string effect::disp_desc( bool reduced ) const
     return ret;
 }
 
-std::string effect::disp_short_desc( bool reduced ) const
+auto effect::disp_short_desc( bool reduced ) const -> std::string
 {
     if( eff_type->use_desc_ints( reduced ) ) {
         if( reduced ) {
@@ -770,7 +770,7 @@ std::string effect::disp_short_desc( bool reduced ) const
     }
 }
 
-bool effect::decay( const time_point &time, const bool player )
+auto effect::decay( const time_point &time, const bool player ) -> bool
 {
     // Decay intensity if supposed to do so
     // TODO: Remove effects that would decay to 0 intensity?
@@ -789,16 +789,16 @@ bool effect::decay( const time_point &time, const bool player )
     return false;
 }
 
-bool effect::use_part_descs() const
+auto effect::use_part_descs() const -> bool
 {
     return eff_type->part_descs;
 }
 
-time_duration effect::get_duration() const
+auto effect::get_duration() const -> time_duration
 {
     return duration;
 }
-time_duration effect::get_max_duration() const
+auto effect::get_max_duration() const -> time_duration
 {
     return eff_type->get_max_duration();
 }
@@ -827,17 +827,17 @@ void effect::mult_duration( double dur, bool alert )
     set_duration( duration * dur, alert );
 }
 
-time_point effect::get_start_time() const
+auto effect::get_start_time() const -> time_point
 {
     return start_time;
 }
 
-const bodypart_str_id &effect::get_bp() const
+auto effect::get_bp() const -> const bodypart_str_id &
 {
     return convert_bp( bp );
 }
 
-bool effect::is_permanent() const
+auto effect::is_permanent() const -> bool
 {
     return permanent || eff_type->is_permanent();
 }
@@ -846,16 +846,16 @@ void effect::set_permanent()
     permanent = true;
 }
 
-int effect::get_intensity() const
+auto effect::get_intensity() const -> int
 {
     return intensity;
 }
-int effect::get_max_intensity() const
+auto effect::get_max_intensity() const -> int
 {
     return eff_type->max_intensity;
 }
 
-int effect::set_intensity( int val, bool alert )
+auto effect::set_intensity( int val, bool alert ) -> int
 {
     if( intensity < 1 ) {
         // Fix bad intensity
@@ -883,31 +883,31 @@ int effect::set_intensity( int val, bool alert )
     return intensity;
 }
 
-int effect::mod_intensity( int mod, bool alert )
+auto effect::mod_intensity( int mod, bool alert ) -> int
 {
     return set_intensity( intensity + mod, alert );
 }
 
-const std::vector<trait_id> &effect::get_resist_traits() const
+auto effect::get_resist_traits() const -> const std::vector<trait_id> &
 {
     return eff_type->resist_traits;
 }
-const std::vector<efftype_id> &effect::get_resist_effects() const
+auto effect::get_resist_effects() const -> const std::vector<efftype_id> &
 {
     return eff_type->resist_effects;
 }
-const std::vector<efftype_id> &effect::get_removes_effects() const
+auto effect::get_removes_effects() const -> const std::vector<efftype_id> &
 {
     return eff_type->removes_effects;
 }
-std::vector<efftype_id> effect::get_blocks_effects() const
+auto effect::get_blocks_effects() const -> std::vector<efftype_id>
 {
     std::vector<efftype_id> ret = eff_type->removes_effects;
     ret.insert( ret.end(), eff_type->blocks_effects.begin(), eff_type->blocks_effects.end() );
     return ret;
 }
 
-int effect::get_mod( std::string arg, bool reduced ) const
+auto effect::get_mod( std::string arg, bool reduced ) const -> int
 {
     auto &mod_data = eff_type->mod_data;
     double min = 0;
@@ -939,7 +939,7 @@ int effect::get_mod( std::string arg, bool reduced ) const
     }
 }
 
-int effect::get_avg_mod( std::string arg, bool reduced ) const
+auto effect::get_avg_mod( std::string arg, bool reduced ) const -> int
 {
     auto &mod_data = eff_type->mod_data;
     double min = 0;
@@ -971,7 +971,7 @@ int effect::get_avg_mod( std::string arg, bool reduced ) const
     }
 }
 
-int effect::get_amount( std::string arg, bool reduced ) const
+auto effect::get_amount( std::string arg, bool reduced ) const -> int
 {
     int intensity_capped = eff_type->max_effective_intensity > 0 ? std::min(
                                eff_type->max_effective_intensity, intensity ) : intensity;
@@ -988,7 +988,7 @@ int effect::get_amount( std::string arg, bool reduced ) const
     return static_cast<int>( ret );
 }
 
-int effect::get_min_val( std::string arg, bool reduced ) const
+auto effect::get_min_val( std::string arg, bool reduced ) const -> int
 {
     auto &mod_data = eff_type->mod_data;
     double ret = 0;
@@ -1003,7 +1003,7 @@ int effect::get_min_val( std::string arg, bool reduced ) const
     return static_cast<int>( ret );
 }
 
-int effect::get_max_val( std::string arg, bool reduced ) const
+auto effect::get_max_val( std::string arg, bool reduced ) const -> int
 {
     auto &mod_data = eff_type->mod_data;
     double ret = 0;
@@ -1018,7 +1018,7 @@ int effect::get_max_val( std::string arg, bool reduced ) const
     return static_cast<int>( ret );
 }
 
-bool effect::get_sizing( const std::string &arg ) const
+auto effect::get_sizing( const std::string &arg ) const -> bool
 {
     if( arg == "PAIN" ) {
         return eff_type->pain_sizing;
@@ -1028,7 +1028,7 @@ bool effect::get_sizing( const std::string &arg ) const
     return false;
 }
 
-double effect::get_percentage( std::string arg, int val, bool reduced ) const
+auto effect::get_percentage( std::string arg, int val, bool reduced ) const -> double
 {
     auto &mod_data = eff_type->mod_data;
     auto found_top_base = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "chance_top" ) );
@@ -1105,8 +1105,8 @@ double effect::get_percentage( std::string arg, int val, bool reduced ) const
     return ret;
 }
 
-bool effect::activated( const time_point &when, std::string arg, int val, bool reduced,
-                        double mod ) const
+auto effect::activated( const time_point &when, std::string arg, int val, bool reduced,
+                        double mod ) const -> bool
 {
     auto &mod_data = eff_type->mod_data;
     auto found_top_base = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "chance_top" ) );
@@ -1182,7 +1182,7 @@ bool effect::activated( const time_point &when, std::string arg, int val, bool r
     return false;
 }
 
-double effect::get_addict_mod( const std::string &arg, int addict_level ) const
+auto effect::get_addict_mod( const std::string &arg, int addict_level ) const -> double
 {
     // TODO: convert this to JSON id's and values once we have JSON'ed addictions
     if( arg == "PKILL" ) {
@@ -1196,28 +1196,28 @@ double effect::get_addict_mod( const std::string &arg, int addict_level ) const
     }
 }
 
-bool effect::get_harmful_cough() const
+auto effect::get_harmful_cough() const -> bool
 {
     return eff_type->harmful_cough;
 }
-int effect::get_dur_add_perc() const
+auto effect::get_dur_add_perc() const -> int
 {
     return eff_type->dur_add_perc;
 }
-time_duration effect::get_int_dur_factor() const
+auto effect::get_int_dur_factor() const -> time_duration
 {
     return eff_type->get_int_dur_factor();
 }
-int effect::get_int_add_val() const
+auto effect::get_int_add_val() const -> int
 {
     return eff_type->int_add_val;
 }
 
-std::vector<std::pair<std::string, int>> effect::get_miss_msgs() const
+auto effect::get_miss_msgs() const -> std::vector<std::pair<std::string, int>>
 {
     return eff_type->miss_msgs;
 }
-std::string effect::get_speed_name() const
+auto effect::get_speed_name() const -> std::string
 {
     // USes the speed_mod_name if one exists, else defaults to the first entry in "name".
     // But make sure the name for this intensity actually exists!
@@ -1232,12 +1232,12 @@ std::string effect::get_speed_name() const
     }
 }
 
-bool effect::impairs_movement() const
+auto effect::impairs_movement() const -> bool
 {
     return eff_type->impairs_movement;
 }
 
-const effect_type *effect::get_effect_type() const
+auto effect::get_effect_type() const -> const effect_type *
 {
     return eff_type;
 }
@@ -1407,7 +1407,7 @@ void load_effect_type( const JsonObject &jo )
     effect_types[new_etype.id] = new_etype;
 }
 
-bool effect::has_flag( const std::string &flag ) const
+auto effect::has_flag( const std::string &flag ) const -> bool
 {
     return eff_type->flags.count( flag ) > 0;
 }
@@ -1456,7 +1456,7 @@ void effect::deserialize( JsonIn &jsin )
     removed = false;
 }
 
-std::string texitify_base_healing_power( const int power )
+auto texitify_base_healing_power( const int power ) -> std::string
 {
     if( power == 1 ) {
         return colorize( _( "very poor" ), c_red );
@@ -1475,7 +1475,7 @@ std::string texitify_base_healing_power( const int power )
     return "";
 }
 
-std::string texitify_healing_power( const int power )
+auto texitify_healing_power( const int power ) -> std::string
 {
     if( power >= 1 && power <= 2 ) {
         return colorize( _( "very poor" ), c_red );

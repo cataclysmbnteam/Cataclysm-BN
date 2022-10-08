@@ -27,7 +27,7 @@ struct harvest_entry {
     std::string type = "null";
     float mass_ratio = 0.00f;
 
-    static harvest_entry load( const JsonObject &jo, const std::string &src );
+    static auto load( const JsonObject &jo, const std::string &src ) -> harvest_entry;
 
     std::vector<std::string> flags;
     std::vector<fault_id> faults;
@@ -38,43 +38,43 @@ class harvest_list
     public:
         harvest_list();
 
-        const harvest_id &id() const;
+        auto id() const -> const harvest_id &;
 
-        std::string message() const;
+        auto message() const -> std::string;
 
-        bool is_null() const;
+        auto is_null() const -> bool;
 
-        const std::list<harvest_entry> &entries() const {
+        auto entries() const -> const std::list<harvest_entry> & {
             return entries_;
         }
 
-        bool empty() const {
+        auto empty() const -> bool {
             return entries().empty();
         }
 
-        bool has_entry_type( std::string type ) const;
+        auto has_entry_type( std::string type ) const -> bool;
 
         /**
          * Returns a set of cached, translated names of the items this harvest entry could produce.
          * Filled in at finalization and not valid before that stage.
          */
-        const std::set<std::string> &names() const {
+        auto names() const -> const std::set<std::string> & {
             return names_;
         }
 
-        std::string describe( int at_skill = -1 ) const;
+        auto describe( int at_skill = -1 ) const -> std::string;
 
-        std::list<harvest_entry>::const_iterator begin() const;
-        std::list<harvest_entry>::const_iterator end() const;
-        std::list<harvest_entry>::const_reverse_iterator rbegin() const;
-        std::list<harvest_entry>::const_reverse_iterator rend() const;
+        auto begin() const -> std::list<harvest_entry>::const_iterator;
+        auto end() const -> std::list<harvest_entry>::const_iterator;
+        auto rbegin() const -> std::list<harvest_entry>::const_reverse_iterator;
+        auto rend() const -> std::list<harvest_entry>::const_reverse_iterator;
 
         /** Load harvest data, create relevant global entries, then return the id of the new list */
-        static const harvest_id &load( const JsonObject &jo, const std::string &src,
-                                       const std::string &force_id = "" );
+        static auto load( const JsonObject &jo, const std::string &src,
+                                       const std::string &force_id = "" ) -> const harvest_id &;
 
         /** Get all currently loaded harvest data */
-        static const std::map<harvest_id, harvest_list> &all();
+        static auto all() -> const std::map<harvest_id, harvest_list> &;
 
         /** Fills out the set of cached names. */
         static void finalize_all();

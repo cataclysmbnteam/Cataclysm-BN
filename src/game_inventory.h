@@ -31,11 +31,11 @@ namespace game_menus
 namespace inv
 {
 // item selector for all items in @you's inventory.
-item_location titled_menu( avatar &you, const std::string &title,
-                           const std::string &none_message = "" );
+auto titled_menu( avatar &you, const std::string &title,
+                           const std::string &none_message = "" ) -> item_location;
 // item selector for items in @you's inventory with a filter
-item_location titled_filter_menu( item_filter filter, avatar &you,
-                                  const std::string &title, const std::string &none_message = "" );
+auto titled_filter_menu( item_filter filter, avatar &you,
+                                  const std::string &title, const std::string &none_message = "" ) -> item_location;
 
 /**
 * @name Customized inventory menus
@@ -58,7 +58,7 @@ void swap_letters( player &p );
  * Select items to drop.
  * @return A list of pairs of item_location, quantity.
  */
-drop_locations multidrop( player &p );
+auto multidrop( player &p ) -> drop_locations;
 
 /**
  * Select items to wash.
@@ -68,48 +68,48 @@ drop_locations multidrop( player &p );
  * @param do_hard Whether to allow hard items
  * @return A list of selected item_locations with quantities.
  */
-iuse_locations multiwash( Character &ch, int water, int cleanser, bool do_soft, bool do_hard );
+auto multiwash( Character &ch, int water, int cleanser, bool do_soft, bool do_hard ) -> iuse_locations;
 
 /** Consuming an item. */
-item_location consume( player &p );
+auto consume( player &p ) -> item_location;
 /** Consuming a food item via a custom menu. */
-item_location consume_food( player &p );
+auto consume_food( player &p ) -> item_location;
 /** Consuming a drink item via a custom menu. */
-item_location consume_drink( player &p );
+auto consume_drink( player &p ) -> item_location;
 /** Consuming a medication item via a custom menu. */
-item_location consume_meds( player &p );
+auto consume_meds( player &p ) -> item_location;
 /** Choosing a container for liquid. */
-item_location container_for( avatar &you, const item &liquid, int radius = 0 );
+auto container_for( avatar &you, const item &liquid, int radius = 0 ) -> item_location;
 /** Item disassembling menu. */
-item_location disassemble( player &p );
+auto disassemble( player &p ) -> item_location;
 /** Gunmod installation menu. */
-item_location gun_to_modify( player &p, const item &gunmod );
+auto gun_to_modify( player &p, const item &gunmod ) -> item_location;
 /** Book reading menu. */
-item_location read( player &pl );
+auto read( player &pl ) -> item_location;
 /** Menu for stealing stuff. */
-item_location steal( avatar &you, player &victim );
+auto steal( avatar &you, player &victim ) -> item_location;
 /** Item activation menu. */
-item_location use( avatar &you );
+auto use( avatar &you ) -> item_location;
 /** Item wielding/unwielding menu. */
-item_location wield( avatar &you );
+auto wield( avatar &you ) -> item_location;
 /** Item wielding/unwielding menu. */
-item_location holster( player &p, item &holster );
+auto holster( player &p, item &holster ) -> item_location;
 /** Choosing a gun to saw down it's barrel. */
-item_location saw_barrel( player &p, item &tool );
+auto saw_barrel( player &p, item &tool ) -> item_location;
 /** Choose item to wear. */
-item_location wear( player &p );
+auto wear( player &p ) -> item_location;
 /** Choose item to take off. */
-item_location take_off( avatar &you );
+auto take_off( avatar &you ) -> item_location;
 /** Item cut up menu. */
-item_location salvage( player &p, const salvage_actor *actor );
+auto salvage( player &p, const salvage_actor *actor ) -> item_location;
 /** Repair menu. */
-item_location repair( player &p, const repair_item_actor *actor, const item *main_tool );
+auto repair( player &p, const repair_item_actor *actor, const item *main_tool ) -> item_location;
 /** Bionic install menu. */
-item_location install_bionic( player &p, player &patient, bool surgeon = false );
+auto install_bionic( player &p, player &patient, bool surgeon = false ) -> item_location;
 /** Bionic uninstall menu. */
-item_location uninstall_bionic( player &p, player &patient );
+auto uninstall_bionic( player &p, player &patient ) -> item_location;
 /**Autoclave sterilize menu*/
-item_location sterilize_cbm( player &p );
+auto sterilize_cbm( player &p ) -> item_location;
 /*@}*/
 
 } // namespace inv

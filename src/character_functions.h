@@ -15,8 +15,8 @@ namespace character_funcs
 {
 
 /** Estimate effect duration based on relevant skill */
-time_duration estimate_effect_dur( int skill_lvl, const efftype_id &effect,
-                                   const time_duration &error_magnitude, int threshold, const Creature &target );
+auto estimate_effect_dur( int skill_lvl, const efftype_id &effect,
+                                   const time_duration &error_magnitude, int threshold, const Creature &target ) -> time_duration;
 
 /**
  * Siphons fuel (if available) from the specified vehicle into container or
@@ -25,10 +25,10 @@ time_duration estimate_effect_dur( int skill_lvl, const efftype_id &effect,
 void siphon( Character &ch, vehicle &veh, const itype_id &desired_liquid );
 
 /** Returns enjoyability value of a book for given character. */
-int get_book_fun_for( const Character &ch, const item &book );
+auto get_book_fun_for( const Character &ch, const item &book ) -> int;
 
 /** Returns whether character considers it fun to read the book. */
-bool is_fun_to_read( const Character &ch, const item &book );
+auto is_fun_to_read( const Character &ch, const item &book ) -> bool;
 
 /** Threshold for fine detail vision mod. */
 constexpr float FINE_VISION_THRESHOLD = 4.0f;
@@ -53,8 +53,8 @@ constexpr float FINE_VISION_PERFECT = 1.0f;
  *
  * @{
  */
-float fine_detail_vision_mod( const Character &who );
-float fine_detail_vision_mod( const Character &who, const tripoint &p );
+auto fine_detail_vision_mod( const Character &who ) -> float;
+auto fine_detail_vision_mod( const Character &who, const tripoint &p ) -> float;
 /** @} */
 
 /**
@@ -67,8 +67,8 @@ float fine_detail_vision_mod( const Character &who, const tripoint &p );
  *
  * @{
  */
-bool can_see_fine_details( const Character &who );
-bool can_see_fine_details( const Character &who, const tripoint &p );
+auto can_see_fine_details( const Character &who ) -> bool;
+auto can_see_fine_details( const Character &who, const tripoint &p ) -> bool;
 /** @} */
 
 } // namespace character_funcs

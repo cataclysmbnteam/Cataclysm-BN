@@ -106,7 +106,7 @@ static const trait_id trait_XXXL( "XXXL" );
 
 #define NEWCHAR_TAB_MAX 6 // The ID of the rightmost tab
 
-static int skill_increment_cost( const Character &u, const skill_id &skill );
+static auto skill_increment_cost( const Character &u, const skill_id &skill ) -> int;
 
 enum struct tab_direction {
     NONE,
@@ -115,15 +115,15 @@ enum struct tab_direction {
     QUIT
 };
 
-tab_direction set_points( avatar &u, points_left &points );
-tab_direction set_stats( avatar &u, points_left &points );
-tab_direction set_traits( avatar &u, points_left &points );
-tab_direction set_scenario( avatar &u, points_left &points, tab_direction direction );
-tab_direction set_profession( avatar &u, points_left &points, tab_direction direction );
-tab_direction set_skills( avatar &u, points_left &points );
-tab_direction set_description( avatar &you, bool allow_reroll, points_left &points );
+auto set_points( avatar &u, points_left &points ) -> tab_direction;
+auto set_stats( avatar &u, points_left &points ) -> tab_direction;
+auto set_traits( avatar &u, points_left &points ) -> tab_direction;
+auto set_scenario( avatar &u, points_left &points, tab_direction direction ) -> tab_direction;
+auto set_profession( avatar &u, points_left &points, tab_direction direction ) -> tab_direction;
+auto set_skills( avatar &u, points_left &points ) -> tab_direction;
+auto set_description( avatar &you, bool allow_reroll, points_left &points ) -> tab_direction;
 
-static cata::optional<std::string> query_for_template_name();
+static auto query_for_template_name() -> cata::optional<std::string>;
 void reset_scenario( avatar &u, const scenario *scen );
 
 void Character::pick_name( bool bUseDefault )
@@ -135,8 +135,8 @@ void Character::pick_name( bool bUseDefault )
     }
 }
 
-static matype_id choose_ma_style( const character_type type, const std::vector<matype_id> &styles,
-                                  const avatar &u )
+static auto choose_ma_style( const character_type type, const std::vector<matype_id> &styles,
+                                  const avatar &u ) -> matype_id
 {
     if( type == character_type::NOW || type == character_type::FULL_RANDOM ) {
         return random_entry( styles );
@@ -182,7 +182,7 @@ static matype_id choose_ma_style( const character_type type, const std::vector<m
  *
  * @return true, if player can pick profession. Otherwise - false.
  */
-static bool can_pick_prof( const profession &prof, const player &u, int points )
+static auto can_pick_prof( const profession &prof, const player &u, int points ) -> bool
 {
     return prof.point_cost() - u.prof->point_cost() <= points;
 }
@@ -397,7 +397,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
     set_body();
 }
 
-bool avatar::create( character_type type, const std::string &tempname )
+auto avatar::create( character_type type, const std::string &tempname ) -> bool
 {
     weapon = item( "null", calendar::start_of_cataclysm );
 
@@ -686,7 +686,7 @@ void draw_sorting_indicator( const catacurses::window &w_sorting, const input_co
     fold_and_print( w_sorting, point_zero, ( TERMX / 2 ), c_light_gray, sort_text );
 }
 
-tab_direction set_points( avatar &, points_left &points )
+auto set_points( avatar &, points_left &points ) -> tab_direction
 {
     tab_direction retval = tab_direction::NONE;
 
@@ -788,7 +788,7 @@ tab_direction set_points( avatar &, points_left &points )
     return retval;
 }
 
-tab_direction set_stats( avatar &u, points_left &points )
+auto set_stats( avatar &u, points_left &points ) -> tab_direction
 {
     const int max_stat_points = points.is_freeform() ? 20 : MAX_STAT;
 
@@ -1023,7 +1023,7 @@ tab_direction set_stats( avatar &u, points_left &points )
     } while( true );
 }
 
-tab_direction set_traits( avatar &u, points_left &points )
+auto set_traits( avatar &u, points_left &points ) -> tab_direction
 {
     const int max_trait_points = get_option<int>( "MAX_TRAIT_POINTS" );
 
@@ -1335,7 +1335,7 @@ struct {
     bool sort_by_points = true;
     bool male = false;
     /** @related player */
-    bool operator()( const profession_id &a, const profession_id &b ) {
+    auto operator()( const profession_id &a, const profession_id &b ) -> bool {
         // The generic ("Unemployed") profession should be listed first.
         const profession_id &gen = profession::generic();
         if( b == gen ) {
@@ -1354,8 +1354,8 @@ struct {
 } profession_sorter;
 
 /** Handle the profession tab of the character generation menu */
-tab_direction set_profession( avatar &u, points_left &points,
-                              const tab_direction direction )
+auto set_profession( avatar &u, points_left &points,
+                              const tab_direction direction ) -> tab_direction
 {
     int cur_id = 0;
     tab_direction retval = tab_direction::NONE;
@@ -1735,12 +1735,12 @@ tab_direction set_profession( avatar &u, points_left &points,
  *
  * @note: There is one exception: if the current level is 0, it can be boosted by 2 levels for 1 point.
  */
-static int skill_increment_cost( const Character &u, const skill_id &skill )
+static auto skill_increment_cost( const Character &u, const skill_id &skill ) -> int
 {
     return std::max( 1, ( u.get_skill_level( skill ) + 1 ) / 2 );
 }
 
-tab_direction set_skills( avatar &u, points_left &points )
+auto set_skills( avatar &u, points_left &points ) -> tab_direction
 {
     ui_adaptor ui;
     catacurses::window w;
@@ -1987,7 +1987,7 @@ struct {
     bool male = false;
     bool cities_enabled = false;
     /** @related player */
-    bool operator()( const scenario *a, const scenario *b ) {
+    auto operator()( const scenario *a, const scenario *b ) -> bool {
         if( cities_enabled ) {
             // The generic ("Unemployed") profession should be listed first.
             const scenario *gen = scenario::generic();
@@ -2009,8 +2009,8 @@ struct {
     }
 } scenario_sorter;
 
-tab_direction set_scenario( avatar &u, points_left &points,
-                            const tab_direction direction )
+auto set_scenario( avatar &u, points_left &points,
+                            const tab_direction direction ) -> tab_direction
 {
     int cur_id = 0;
     tab_direction retval = tab_direction::NONE;
@@ -2375,8 +2375,8 @@ static void draw_age( const catacurses::window &w_age, const avatar &you, const 
 }
 } // namespace char_creation
 
-tab_direction set_description( avatar &you, const bool allow_reroll,
-                               points_left &points )
+auto set_description( avatar &you, const bool allow_reroll,
+                               points_left &points ) -> tab_direction
 {
     static constexpr int RANDOM_START_LOC_ENTRY = INT_MIN;
     const std::string RANDOM_START_LOC_TEXT_TEMPLATE =
@@ -2849,12 +2849,12 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
     } while( true );
 }
 
-std::vector<trait_id> Character::get_base_traits() const
+auto Character::get_base_traits() const -> std::vector<trait_id>
 {
     return std::vector<trait_id>( my_traits.begin(), my_traits.end() );
 }
 
-std::vector<trait_id> Character::get_mutations( bool include_hidden ) const
+auto Character::get_mutations( bool include_hidden ) const -> std::vector<trait_id>
 {
     std::vector<trait_id> result;
     for( const std::pair<const trait_id, trait_data> &t : my_mutations ) {
@@ -2919,7 +2919,7 @@ void newcharacter::add_traits( Character &ch, points_left &points )
     }
 }
 
-trait_id newcharacter::random_good_trait()
+auto newcharacter::random_good_trait() -> trait_id
 {
     std::vector<trait_id> vTraitsGood;
 
@@ -2932,7 +2932,7 @@ trait_id newcharacter::random_good_trait()
     return random_entry( vTraitsGood );
 }
 
-trait_id newcharacter::random_bad_trait()
+auto newcharacter::random_bad_trait() -> trait_id
 {
     std::vector<trait_id> vTraitsBad;
 
@@ -2945,7 +2945,7 @@ trait_id newcharacter::random_bad_trait()
     return random_entry( vTraitsBad );
 }
 
-cata::optional<std::string> query_for_template_name()
+auto query_for_template_name() -> cata::optional<std::string>
 {
     static const std::set<int> fname_char_blacklist = {
 #if defined(_WIN32)
@@ -3004,7 +3004,7 @@ void avatar::save_template( const std::string &name, const points_left &points )
     }, _( "player template" ) );
 }
 
-bool avatar::load_template( const std::string &template_name, points_left &points )
+auto avatar::load_template( const std::string &template_name, points_left &points ) -> bool
 {
     return read_from_file_json( PATH_INFO::templatedir() + template_name +
     ".template", [&]( JsonIn & jsin ) {
@@ -3094,7 +3094,7 @@ void points_left::init_from_options()
 }
 
 // Highest amount of points to spend on stats without points going invalid
-int points_left::stat_points_left() const
+auto points_left::stat_points_left() const -> int
 {
     switch( limit ) {
         case FREEFORM:
@@ -3110,7 +3110,7 @@ int points_left::stat_points_left() const
     return 0;
 }
 
-int points_left::trait_points_left() const
+auto points_left::trait_points_left() const -> int
 {
     switch( limit ) {
         case FREEFORM:
@@ -3125,29 +3125,29 @@ int points_left::trait_points_left() const
     return 0;
 }
 
-int points_left::skill_points_left() const
+auto points_left::skill_points_left() const -> int
 {
     return stat_points + trait_points + skill_points;
 }
 
-bool points_left::is_freeform()
+auto points_left::is_freeform() -> bool
 {
     return limit == FREEFORM;
 }
 
-bool points_left::is_valid()
+auto points_left::is_valid() -> bool
 {
     return is_freeform() ||
            ( stat_points_left() >= 0 && trait_points_left() >= 0 &&
              skill_points_left() >= 0 );
 }
 
-bool points_left::has_spare()
+auto points_left::has_spare() -> bool
 {
     return !is_freeform() && is_valid() && skill_points_left() > 0;
 }
 
-std::string points_left::to_string()
+auto points_left::to_string() -> std::string
 {
     if( limit == MULTI_POOL ) {
         return string_format(
@@ -3170,7 +3170,7 @@ std::string points_left::to_string()
 namespace newcharacter
 {
 
-bool has_conflicting_trait( const Character &ch, const trait_id &t )
+auto has_conflicting_trait( const Character &ch, const trait_id &t ) -> bool
 {
     return ch.has_opposite_trait( t ) ||
            has_lower_trait( ch, t ) ||
@@ -3178,7 +3178,7 @@ bool has_conflicting_trait( const Character &ch, const trait_id &t )
            has_same_type_trait( ch, t ) ;
 }
 
-bool has_lower_trait( const Character &ch, const trait_id &t )
+auto has_lower_trait( const Character &ch, const trait_id &t ) -> bool
 {
     for( const trait_id &it : t->prereqs ) {
         if( ch.has_trait( it ) || has_lower_trait( ch, it ) ) {
@@ -3188,7 +3188,7 @@ bool has_lower_trait( const Character &ch, const trait_id &t )
     return false;
 }
 
-bool has_higher_trait( const Character &ch, const trait_id &t )
+auto has_higher_trait( const Character &ch, const trait_id &t ) -> bool
 {
     for( const trait_id &it : t->replacements ) {
         if( ch.has_trait( it ) || has_higher_trait( ch, it ) ) {
@@ -3198,7 +3198,7 @@ bool has_higher_trait( const Character &ch, const trait_id &t )
     return false;
 }
 
-bool has_same_type_trait( const Character &ch, const trait_id &t )
+auto has_same_type_trait( const Character &ch, const trait_id &t ) -> bool
 {
     for( const trait_id &it : get_mutations_in_types( t->types ) ) {
         if( ch.has_trait( it ) && t != it ) {

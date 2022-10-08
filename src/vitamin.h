@@ -33,43 +33,43 @@ class vitamin
     public:
         vitamin() : id_( vitamin_id( "null" ) ), rate_( 1_hours ) {}
 
-        const vitamin_id &id() const {
+        auto id() const -> const vitamin_id & {
             return id_;
         }
 
-        const vitamin_type &type() const {
+        auto type() const -> const vitamin_type & {
             return type_;
         }
 
-        bool is_null() const {
+        auto is_null() const -> bool {
             return id_ == vitamin_id( "null" );
         }
 
-        std::string name() const {
+        auto name() const -> std::string {
             return name_.translated();
         }
 
-        bool has_flag( const std::string &flag ) const {
+        auto has_flag( const std::string &flag ) const -> bool {
             return flags_.count( flag ) > 0;
         }
 
         /** Disease effect with increasing intensity proportional to vitamin deficiency */
-        const efftype_id &deficiency() const {
+        auto deficiency() const -> const efftype_id & {
             return deficiency_;
         }
 
         /** Disease effect with increasing intensity proportional to vitamin excess */
-        const efftype_id &excess() const {
+        auto excess() const -> const efftype_id & {
             return excess_;
         }
 
         /** Lower bound for deficiency of this vitamin */
-        int min() const {
+        auto min() const -> int {
             return min_;
         }
 
         /** Upper bound for any accumulation of this vitamin */
-        int max() const {
+        auto max() const -> int {
             return max_;
         }
 
@@ -77,18 +77,18 @@ class vitamin
          * Usage rate of vitamin (time to consume unit)
          * Lower bound is zero whereby vitamin is not required (but may still accumulate)
          */
-        time_duration rate() const {
+        auto rate() const -> time_duration {
             return rate_;
         }
 
         /** Get intensity of deficiency or zero if not deficient for specified qty */
-        int severity( int qty ) const;
+        auto severity( int qty ) const -> int;
 
         /** Load vitamin from JSON definition */
         static void load_vitamin( const JsonObject &jo );
 
         /** Get all currently loaded vitamins */
-        static const std::map<vitamin_id, vitamin> &all();
+        static auto all() -> const std::map<vitamin_id, vitamin> &;
 
         /** Check consistency of all loaded vitamins */
         static void check_consistency();

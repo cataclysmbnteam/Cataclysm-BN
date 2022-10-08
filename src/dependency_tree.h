@@ -38,18 +38,18 @@ class dependency_node
         void add_child( dependency_node *child );
         void add_conflict( const dependency_node *conflict );
 
-        bool is_available();
-        bool has_errors();
-        std::map<node_error_type, std::vector<std::string > > errors();
-        std::string s_errors();
+        auto is_available() -> bool;
+        auto has_errors() -> bool;
+        auto errors() -> std::map<node_error_type, std::vector<std::string > >;
+        auto s_errors() -> std::string;
 
         // Tree traversal
         // Upward towards head(s)
-        std::vector<mod_id> get_dependencies_as_strings();
-        std::vector<dependency_node * > get_dependencies_as_nodes();
+        auto get_dependencies_as_strings() -> std::vector<mod_id>;
+        auto get_dependencies_as_nodes() -> std::vector<dependency_node * >;
         // Downward towards leaf(ves)
-        std::vector<mod_id> get_dependents_as_strings();
-        std::vector< dependency_node * > get_dependents_as_nodes();
+        auto get_dependents_as_strings() -> std::vector<mod_id>;
+        auto get_dependents_as_nodes() -> std::vector< dependency_node * >;
 
         void inherit_errors();
 };
@@ -68,14 +68,14 @@ class dependency_tree
 
         // tree traversal
         // Upward by key
-        std::vector<mod_id > get_dependencies_of_X_as_strings( mod_id key );
-        std::vector<dependency_node * > get_dependencies_of_X_as_nodes( mod_id key );
+        auto get_dependencies_of_X_as_strings( mod_id key ) -> std::vector<mod_id >;
+        auto get_dependencies_of_X_as_nodes( mod_id key ) -> std::vector<dependency_node * >;
         // Downward by key
-        std::vector< mod_id > get_dependents_of_X_as_strings( mod_id key );
-        std::vector< dependency_node * > get_dependents_of_X_as_nodes( mod_id key );
+        auto get_dependents_of_X_as_strings( mod_id key ) -> std::vector< mod_id >;
+        auto get_dependents_of_X_as_nodes( mod_id key ) -> std::vector< dependency_node * >;
 
-        bool is_available( mod_id key );
-        dependency_node *get_node( mod_id key );
+        auto is_available( mod_id key ) -> bool;
+        auto get_node( mod_id key ) -> dependency_node *;
 
         std::map<mod_id, dependency_node, mod_id::LexCmp> master_node_map;
     private:

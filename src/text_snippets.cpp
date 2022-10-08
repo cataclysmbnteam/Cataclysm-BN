@@ -76,12 +76,12 @@ void snippet_library::clear_snippets()
     snippets_by_id.clear();
 }
 
-bool snippet_library::has_category( const std::string &category ) const
+auto snippet_library::has_category( const std::string &category ) const -> bool
 {
     return snippets_by_category.find( category ) != snippets_by_category.end();
 }
 
-cata::optional<translation> snippet_library::get_snippet_by_id( const snippet_id &id ) const
+auto snippet_library::get_snippet_by_id( const snippet_id &id ) const -> cata::optional<translation>
 {
     const auto it = snippets_by_id.find( id );
     if( it == snippets_by_id.end() ) {
@@ -90,7 +90,7 @@ cata::optional<translation> snippet_library::get_snippet_by_id( const snippet_id
     return it->second;
 }
 
-const translation &snippet_library::get_snippet_ref_by_id( const snippet_id &id ) const
+auto snippet_library::get_snippet_ref_by_id( const snippet_id &id ) const -> const translation &
 {
     const auto it = snippets_by_id.find( id );
     if( it == snippets_by_id.end() ) {
@@ -100,12 +100,12 @@ const translation &snippet_library::get_snippet_ref_by_id( const snippet_id &id 
     return it->second;
 }
 
-bool snippet_library::has_snippet_with_id( const snippet_id &id ) const
+auto snippet_library::has_snippet_with_id( const snippet_id &id ) const -> bool
 {
     return snippets_by_id.find( id ) != snippets_by_id.end();
 }
 
-std::string snippet_library::expand( const std::string &str ) const
+auto snippet_library::expand( const std::string &str ) const -> std::string
 {
     size_t tag_begin = str.find( '<' );
     if( tag_begin == std::string::npos ) {
@@ -127,7 +127,7 @@ std::string snippet_library::expand( const std::string &str ) const
            + expand( str.substr( tag_end + 1 ) );
 }
 
-snippet_id snippet_library::random_id_from_category( const std::string &cat ) const
+auto snippet_library::random_id_from_category( const std::string &cat ) const -> snippet_id
 {
     const auto it = snippets_by_category.find( cat );
     if( it == snippets_by_category.end() ) {
@@ -142,13 +142,13 @@ snippet_id snippet_library::random_id_from_category( const std::string &cat ) co
     return random_entry( it->second.ids );
 }
 
-cata::optional<translation> snippet_library::random_from_category( const std::string &cat ) const
+auto snippet_library::random_from_category( const std::string &cat ) const -> cata::optional<translation>
 {
     return random_from_category( cat, rng_bits() );
 }
 
-cata::optional<translation> snippet_library::random_from_category( const std::string &cat,
-        unsigned int seed ) const
+auto snippet_library::random_from_category( const std::string &cat,
+        unsigned int seed ) const -> cata::optional<translation>
 {
     const auto it = snippets_by_category.find( cat );
     if( it == snippets_by_category.end() ) {
@@ -173,7 +173,7 @@ cata::optional<translation> snippet_library::random_from_category( const std::st
     }
 }
 
-snippet_id snippet_library::migrate_hash_to_id( const int old_hash )
+auto snippet_library::migrate_hash_to_id( const int old_hash ) -> snippet_id
 {
     if( !hash_to_id_migration.has_value() ) {
         hash_to_id_migration.emplace();
@@ -191,12 +191,12 @@ snippet_id snippet_library::migrate_hash_to_id( const int old_hash )
     return it->second;
 }
 
-template<> const translation &snippet_id::obj() const
+template<> auto snippet_id::obj() const -> const translation &
 {
     return SNIPPET.get_snippet_ref_by_id( *this );
 }
 
-template<> bool snippet_id::is_valid() const
+template<> auto snippet_id::is_valid() const -> bool
 {
     return SNIPPET.has_snippet_with_id( *this );
 }

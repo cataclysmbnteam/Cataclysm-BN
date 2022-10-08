@@ -46,8 +46,8 @@ enum class mutation_tab_mode {
 };
 // needs extensive improvement
 
-static trait_id GetTrait( std::vector<trait_id> active, std::vector<trait_id> passive, int cursor,
-                          mutation_tab_mode tab_mode )
+static auto GetTrait( std::vector<trait_id> active, std::vector<trait_id> passive, int cursor,
+                          mutation_tab_mode tab_mode ) -> trait_id
 {
     trait_id mut_id;
     if( tab_mode == mutation_tab_mode::active ) {
@@ -110,7 +110,7 @@ void player::power_mutations()
     }
 }
 
-player::power_mut_ui_result player::power_mutations_ui()
+auto player::power_mutations_ui() -> player::power_mut_ui_result
 {
     std::vector<trait_id> passive;
     std::vector<trait_id> active;

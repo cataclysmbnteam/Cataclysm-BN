@@ -62,7 +62,7 @@ void recipe_group_data::check() const
     }
 }
 
-std::map<recipe_id, translation> recipe_group::get_recipes_by_bldg( const std::string &bldg )
+auto recipe_group::get_recipes_by_bldg( const std::string &bldg ) -> std::map<recipe_id, translation>
 {
     std::map<recipe_id, translation> all_rec;
     if( bldg == "ALL" ) {
@@ -81,8 +81,8 @@ std::map<recipe_id, translation> recipe_group::get_recipes_by_bldg( const std::s
     }
 }
 
-std::map<recipe_id, translation> recipe_group::get_recipes_by_id( const std::string &id,
-        const std::string &om_terrain_id )
+auto recipe_group::get_recipes_by_id( const std::string &id,
+        const std::string &om_terrain_id ) -> std::map<recipe_id, translation>
 {
     std::map<recipe_id, translation> all_rec;
     if( !recipe_groups_data.is_valid( group_id( id ) ) ) {

@@ -19,12 +19,12 @@ class color_loader
         static constexpr size_t COLOR_NAMES_COUNT = 16;
 
     private:
-        static ColorType from_rgb( int r, int g, int b );
+        static auto from_rgb( int r, int g, int b ) -> ColorType;
 
         std::map<std::string, ColorType> consolecolors;
 
         // color names as read from the json file
-        static const std::array<std::string, COLOR_NAMES_COUNT> &main_color_names() {
+        static auto main_color_names() -> const std::array<std::string, COLOR_NAMES_COUNT> & {
             static const std::array<std::string, COLOR_NAMES_COUNT> names{ { "BLACK", "RED", "GREEN",
                     "BROWN", "BLUE", "MAGENTA", "CYAN", "GRAY", "DGRAY", "LRED", "LGREEN", "YELLOW",
                     "LBLUE", "LMAGENTA", "LCYAN", "WHITE"
@@ -39,7 +39,7 @@ class color_loader
                 consolecolors[color] = from_rgb( jsarr.get_int( 0 ), jsarr.get_int( 1 ), jsarr.get_int( 2 ) );
             }
         }
-        ColorType ccolor( const std::string &color ) const {
+        auto ccolor( const std::string &color ) const -> ColorType {
             const auto it = consolecolors.find( color );
             if( it == consolecolors.end() ) {
                 throw std::runtime_error( std::string( "requested non-existing color " ) + color );

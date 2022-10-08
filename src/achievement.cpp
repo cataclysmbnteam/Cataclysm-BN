@@ -55,14 +55,14 @@ generic_factory<achievement> achievement_factory( "achievement" );
 
 /** @relates string_id */
 template<>
-const achievement &string_id<achievement>::obj() const
+auto string_id<achievement>::obj() const -> const achievement &
 {
     return achievement_factory.obj( *this );
 }
 
 /** @relates string_id */
 template<>
-bool string_id<achievement>::is_valid() const
+auto string_id<achievement>::is_valid() const -> bool
 {
     return achievement_factory.is_valid( *this );
 }
@@ -71,7 +71,7 @@ namespace io
 {
 
 template<>
-std::string enum_to_string<achievement_comparison>( achievement_comparison data )
+auto enum_to_string<achievement_comparison>( achievement_comparison data ) -> std::string
 {
     switch( data ) {
         // *INDENT-OFF*
@@ -87,7 +87,7 @@ std::string enum_to_string<achievement_comparison>( achievement_comparison data 
 }
 
 template<>
-std::string enum_to_string<achievement::time_bound::epoch>( achievement::time_bound::epoch data )
+auto enum_to_string<achievement::time_bound::epoch>( achievement::time_bound::epoch data ) -> std::string
 {
     switch( data ) {
         // *INDENT-OFF*
@@ -103,7 +103,7 @@ std::string enum_to_string<achievement::time_bound::epoch>( achievement::time_bo
 
 } // namespace io
 
-static nc_color color_from_completion( achievement_completion comp )
+static auto color_from_completion( achievement_completion comp ) -> nc_color
 {
     switch( comp ) {
         case achievement_completion::pending:
@@ -159,7 +159,7 @@ struct achievement_requirement {
         }
     }
 
-    bool satisifed_by( const cata_variant &v ) const {
+    auto satisifed_by( const cata_variant &v ) const -> bool {
         int value = v.get<int>();
         switch( comparison ) {
             case achievement_comparison::less_equal:
@@ -176,7 +176,7 @@ struct achievement_requirement {
     }
 };
 
-static time_point epoch_to_time_point( achievement::time_bound::epoch e )
+static auto epoch_to_time_point( achievement::time_bound::epoch e ) -> time_point
 {
     switch( e ) {
         case achievement::time_bound::epoch::cataclysm:
@@ -208,12 +208,12 @@ void achievement::time_bound::check( const string_id<achievement> &id ) const
     }
 }
 
-time_point achievement::time_bound::target() const
+auto achievement::time_bound::target() const -> time_point
 {
     return epoch_to_time_point( epoch_ ) + period_;
 }
 
-achievement_completion achievement::time_bound::completed() const
+auto achievement::time_bound::completed() const -> achievement_completion
 {
     time_point now = calendar::turn;
     switch( comparison_ ) {
@@ -238,7 +238,7 @@ achievement_completion achievement::time_bound::completed() const
     abort();
 }
 
-std::string achievement::time_bound::ui_text() const
+auto achievement::time_bound::ui_text() const -> std::string
 {
     time_point now = calendar::turn;
     achievement_completion comp = completed();
@@ -313,7 +313,7 @@ void achievement::check_consistency()
     achievement_factory.check();
 }
 
-const std::vector<achievement> &achievement::get_all()
+auto achievement::get_all() -> const std::vector<achievement> &
 {
     return achievement_factory.get_all();
 }
@@ -348,8 +348,8 @@ void achievement::check() const
     }
 }
 
-static std::string text_for_requirement( const achievement_requirement &req,
-        const cata_variant &current_value )
+static auto text_for_requirement( const achievement_requirement &req,
+        const cata_variant &current_value ) -> std::string
 {
     bool is_satisfied = req.satisifed_by( current_value );
     nc_color c = is_satisfied ? c_green : c_yellow;
@@ -378,21 +378,21 @@ class requirement_watcher : stat_watcher
             stats.add_watcher( req.statistic, this );
         }
 
-        const cata_variant &current_value() const {
+        auto current_value() const -> const cata_variant & {
             return current_value_;
         }
 
-        const achievement_requirement &requirement() const {
+        auto requirement() const -> const achievement_requirement & {
             return *requirement_;
         }
 
         void new_value( const cata_variant &new_value, stats_tracker & ) override;
 
-        bool is_satisfied( stats_tracker &stats ) {
+        auto is_satisfied( stats_tracker &stats ) -> bool {
             return requirement_->satisifed_by( requirement_->statistic->value( stats ) );
         }
 
-        std::string ui_text() const {
+        auto ui_text() const -> std::string {
             return text_for_requirement( *requirement_, current_value_ );
         }
     private:
@@ -414,7 +414,7 @@ void requirement_watcher::new_value( const cata_variant &new_value, stats_tracke
 namespace io
 {
 template<>
-std::string enum_to_string<achievement_completion>( achievement_completion data )
+auto enum_to_string<achievement_completion>( achievement_completion data ) -> std::string
 {
     switch( data ) {
         // *INDENT-OFF*
@@ -431,7 +431,7 @@ std::string enum_to_string<achievement_completion>( achievement_completion data 
 
 } // namespace io
 
-std::string achievement_state::ui_text( const achievement *ach ) const
+auto achievement_state::ui_text( const achievement *ach ) const -> std::string
 {
     // First: the achievement name and description
     nc_color c = color_from_completion( completion );
@@ -522,13 +522,13 @@ void achievement_tracker::set_requirement( requirement_watcher *watcher, bool is
     }
 }
 
-bool achievement_tracker::time_is_expired() const
+auto achievement_tracker::time_is_expired() const -> bool
 {
     return achievement_->time_constraint() &&
            achievement_->time_constraint()->completed() == achievement_completion::failed;
 }
 
-std::vector<cata_variant> achievement_tracker::current_values() const
+auto achievement_tracker::current_values() const -> std::vector<cata_variant>
 {
     std::vector<cata_variant> result;
     result.reserve( watchers_.size() );
@@ -538,7 +538,7 @@ std::vector<cata_variant> achievement_tracker::current_values() const
     return result;
 }
 
-std::string achievement_tracker::ui_text() const
+auto achievement_tracker::ui_text() const -> std::string
 {
     // Determine overall achievement status
     if( time_is_expired() ) {
@@ -578,7 +578,7 @@ achievements_tracker::achievements_tracker(
 
 achievements_tracker::~achievements_tracker() = default;
 
-std::vector<const achievement *> achievements_tracker::valid_achievements() const
+auto achievements_tracker::valid_achievements() const -> std::vector<const achievement *>
 {
     std::vector<const achievement *> result;
     for( const achievement &ach : achievement::get_all() ) {
@@ -609,7 +609,7 @@ void achievements_tracker::report_achievement( const achievement *a, achievement
     trackers_.erase( tracker_it );
 }
 
-achievement_completion achievements_tracker::is_completed( const string_id<achievement> &id ) const
+auto achievements_tracker::is_completed( const string_id<achievement> &id ) const -> achievement_completion
 {
     auto it = achievements_status_.find( id );
     if( it == achievements_status_.end() ) {
@@ -623,7 +623,7 @@ achievement_completion achievements_tracker::is_completed( const string_id<achie
     return it->second.completion;
 }
 
-bool achievements_tracker::is_hidden( const achievement *ach ) const
+auto achievements_tracker::is_hidden( const achievement *ach ) const -> bool
 {
     if( is_completed( ach->id ) == achievement_completion::completed ) {
         return false;
@@ -637,7 +637,7 @@ bool achievements_tracker::is_hidden( const achievement *ach ) const
     return false;
 }
 
-std::string achievements_tracker::ui_text_for( const achievement *ach ) const
+auto achievements_tracker::ui_text_for( const achievement *ach ) const -> std::string
 {
     auto state_it = achievements_status_.find( ach->id );
     if( state_it != achievements_status_.end() ) {

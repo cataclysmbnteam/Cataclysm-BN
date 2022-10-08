@@ -135,23 +135,23 @@ class string_identity_static
 #endif
         {}
 
-        inline const std::string &str() const {
+        inline auto str() const -> const std::string & {
             return get_interned_string( _id );
         }
 
-        inline bool is_empty() const {
+        inline auto is_empty() const -> bool {
             return _id == empty_interned_string();
         }
 
         /** Returns unique int identifier for this string */
-        static int string_id_intern( std::string &&s );
-        static int string_id_intern( std::string &s );
-        static int string_id_intern( const std::string &s );
+        static auto string_id_intern( std::string &&s ) -> int;
+        static auto string_id_intern( std::string &s ) -> int;
+        static auto string_id_intern( const std::string &s ) -> int;
 
         /** Returns string by its unique identifier */
-        static const std::string &get_interned_string( int id );
+        static auto get_interned_string( int id ) -> const std::string &;
         /** Returns unique int identifier for empty string (cached) */
-        static int empty_interned_string();
+        static auto empty_interned_string() -> int;
 
         template<typename T>
         friend class string_id;
@@ -177,11 +177,11 @@ class string_identity_dynamic
         template<typename S, class = std::enable_if_t<std::is_convertible<S, std::string>::value>>
         explicit string_identity_dynamic( S && id ) : _id( std::forward<S>( id ) )  {}
 
-        inline const std::string &str() const {
+        inline auto str() const -> const std::string & {
             return _id;
         }
 
-        inline bool is_empty() const {
+        inline auto is_empty() const -> bool {
             return _id.empty();
         }
 
@@ -224,19 +224,19 @@ class string_id
          * Guarantees total order, but DOESN'T guarantee the same order after process restart!
          * To have a predictable lexicographic order, use `LexCmp` (much slower!)
          */
-        bool operator<( const This &rhs ) const {
+        auto operator<( const This &rhs ) const -> bool {
             return _id._id < rhs._id._id;
         }
         /**
          * The usual comparator, compares the string id as usual.
          */
-        bool operator==( const This &rhs ) const {
+        auto operator==( const This &rhs ) const -> bool {
             return _id._id == rhs._id._id;
         }
         /**
          * The usual comparator, compares the string id as usual.
          */
-        bool operator!=( const This &rhs ) const {
+        auto operator!=( const This &rhs ) const -> bool {
             return ! operator==( rhs );
         }
         /**
@@ -244,7 +244,7 @@ class string_id
          * object. Ids are often used in debug messages, where they are forwarded as C-strings
          * to be included in the format string, e.g. debugmsg("invalid id: %s", id.c_str())
          */
-        const char *c_str() const {
+        auto c_str() const -> const char * {
             return _id.str().c_str();
         }
         /**
@@ -252,7 +252,7 @@ class string_id
          * have any information as what type of object it refers to (the T template parameter of
          * the class).
          */
-        const std::string &str() const {
+        auto str() const -> const std::string & {
             return _id.str();
         }
 
@@ -266,43 +266,43 @@ class string_id
          * Translate the string based it to the matching integer based id.
          * This may issue a debug message if the string is not a valid id.
          */
-        int_id<T> id() const;
+        auto id() const -> int_id<T>;
         /**
          * Translate the string based it to the matching integer based id.
          * If this string_id is not valid, returns `fallback`.
          * Does not produce debug message.
          */
-        int_id<T> id_or( const int_id<T> &fallback ) const;
+        auto id_or( const int_id<T> &fallback ) const -> int_id<T>;
         /**
          * Returns the actual object this id refers to. May show a debug message if the id is invalid.
          */
-        const T &obj() const;
+        auto obj() const -> const T &;
 
-        const T &operator*() const {
+        auto operator*() const -> const T & {
             return obj();
 
         }
-        const T *operator->() const {
+        auto operator->() const -> const T * {
             return &obj();
         }
 
         /**
          * Returns whether this id is valid, that means whether it refers to an existing object.
          */
-        bool is_valid() const;
+        auto is_valid() const -> bool;
         /**
          * Returns whether this id is empty. An empty id can still be valid,
          * and emptiness does not mean that it's null. Named is_empty() to
          * keep consistency with the rest is_.. functions
          */
-        bool is_empty() const {
+        auto is_empty() const -> bool {
             return _id.is_empty();
         }
         /**
          * Returns a null id whose `string_id<T>::is_null()` must always return true. See @ref is_null.
          * Specializations are defined in string_id_null_ids.cpp to avoid instantiation ordering issues.
          */
-        static const string_id<T> &NULL_ID();
+        static auto NULL_ID() -> const string_id<T> &;
         /**
          * Returns whether this represents the id of the null-object (in which case it's the null-id).
          * Note that not all types assigned to T may have a null-object. As such, there won't be a
@@ -314,7 +314,7 @@ class string_id
          * Note: per definition the null-id shall be valid. This allows to use it in places
          * that require a (valid) id, but it can still represent a "don't use it" value.
          */
-        bool is_null() const {
+        auto is_null() const -> bool {
             return operator==( NULL_ID() );
         }
         /**
@@ -356,7 +356,7 @@ namespace std
 {
 template<typename T>
 struct hash<string_id<T>> {
-    std::size_t operator()( const string_id<T> &v ) const noexcept {
+    auto operator()( const string_id<T> &v ) const noexcept -> std::size_t {
         using IdType = decltype( v._id._id );
         return std::hash<IdType>()( v._id._id );
     }
@@ -366,7 +366,7 @@ struct hash<string_id<T>> {
 /** Lexicographic order comparator for string_ids */
 template<typename T>
 struct lexicographic {
-    bool operator()( const string_id<T> &x, const string_id<T> &y ) const {
+    auto operator()( const string_id<T> &x, const string_id<T> &y ) const -> bool {
         //TODO change to use localized sorting
         // NOLINTNEXTLINE cata-use-localized-sorting
         return x.str() < y.str();

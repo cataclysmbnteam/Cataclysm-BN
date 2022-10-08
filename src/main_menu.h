@@ -17,7 +17,7 @@ class main_menu
     public:
         main_menu() : ctxt( "MAIN_MENU" ) { }
         // Shows the main menu and returns whether a game was started or not
-        bool opening_screen();
+        auto opening_screen() -> bool;
 
     private:
         // ASCII art that says "Cataclysm Dark Days Ahead"
@@ -38,8 +38,8 @@ class main_menu
         */
         void init_strings();
         /** Helper function for @ref init_strings */
-        std::vector<std::string> load_file( const std::string &path,
-                                            const std::string &alt_text ) const;
+        auto load_file( const std::string &path,
+                                            const std::string &alt_text ) const -> std::vector<std::string>;
 
         // Play a sound whenever the user moves left or right in the main menu or its tabs
         void on_move() const;
@@ -54,8 +54,8 @@ class main_menu
 
         // Tab functions. They return whether a game was started or not. The ones that can never
         // start a game have a void return type.
-        bool new_character_tab();
-        bool load_character_tab( bool transfer = false );
+        auto new_character_tab() -> bool;
+        auto load_character_tab( bool transfer = false ) -> bool;
         void world_tab();
 
         /*
@@ -106,13 +106,13 @@ class main_menu
         void init_windows();
 
         /* holiday functions and member variables*/
-        static bool is_easter( int day, int month, int year );
-        holiday get_holiday_from_time();
+        static auto is_easter( int day, int month, int year ) -> bool;
+        auto get_holiday_from_time() -> holiday;
 
         holiday current_holiday = holiday::none;
 
-        static std::string halloween_spider();
-        std::string halloween_graves();
+        static auto halloween_spider() -> std::string;
+        auto halloween_graves() -> std::string;
 };
 
 #endif // CATA_SRC_MAIN_MENU_H

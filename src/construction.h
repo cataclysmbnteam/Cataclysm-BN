@@ -88,14 +88,14 @@ struct construction {
         bool pre_special_is_valid_for_dirt = true;
 
         // NPC assistance adjusted
-        int adjusted_time() const;
-        int print_time( const catacurses::window &w, const point &, int width, nc_color col ) const;
-        std::vector<std::string> get_folded_time_string( int width ) const;
+        auto adjusted_time() const -> int;
+        auto print_time( const catacurses::window &w, const point &, int width, nc_color col ) const -> int;
+        auto get_folded_time_string( int width ) const -> std::vector<std::string>;
 
         // Result of construction scaling option
-        float time_scale() const;
+        auto time_scale() const -> float;
 
-        bool is_blacklisted() const;
+        auto is_blacklisted() const -> bool;
 
         // If true, the requirements are generated during finalization
         bool vehicle_start = false;
@@ -107,7 +107,7 @@ struct construction {
         bool dark_craftable = false;
 
     private:
-        std::string get_time_string() const;
+        auto get_time_string() const -> std::string;
 };
 
 namespace constructions
@@ -117,16 +117,16 @@ void reset();
 void check_consistency();
 void finalize();
 
-const std::vector<construction_id> &get_all_sorted();
+auto get_all_sorted() -> const std::vector<construction_id> &;
 
 // Set all constructions to take the specified time.
 void override_build_times( time_duration time );
 } // namespace constructions
 
-cata::optional<construction_id> construction_menu( bool blueprint );
+auto construction_menu( bool blueprint ) -> cata::optional<construction_id>;
 void complete_construction( Character &ch );
-bool can_construct( const construction &con, const tripoint &p );
-bool player_can_build( Character &ch, const inventory &inv, const construction &con );
+auto can_construct( const construction &con, const tripoint &p ) -> bool;
+auto player_can_build( Character &ch, const inventory &inv, const construction &con ) -> bool;
 
 void get_build_reqs_for_furn_ter_ids( const recipe_id &rid,
                                       const std::pair<std::map<ter_id, int>,

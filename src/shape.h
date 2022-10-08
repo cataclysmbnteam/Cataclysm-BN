@@ -21,15 +21,15 @@ class JsonOut;
 class shape
 {
     public:
-        double distance_at( const tripoint &p ) const;
-        double distance_at( const rl_vec3d &p ) const;
+        auto distance_at( const tripoint &p ) const -> double;
+        auto distance_at( const rl_vec3d &p ) const -> double;
         /**
          * Approximation of bounding box, guaranteed to contain all points.
          */
-        inclusive_cuboid<tripoint> bounding_box() const;
+        auto bounding_box() const -> inclusive_cuboid<tripoint>;
         // TODO: Envelope instead of transformed bb
-        inclusive_cuboid<rl_vec3d> bounding_box_float() const;
-        const tripoint &get_origin() const;
+        auto bounding_box_float() const -> inclusive_cuboid<rl_vec3d>;
+        auto get_origin() const -> const tripoint &;
 
         shape( const std::shared_ptr<shape_impl> &, const tripoint &origin );
         shape( const shape & );
@@ -51,12 +51,12 @@ class shape_factory
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );
 
-        std::shared_ptr<shape> create( const tripoint &start, const tripoint &end ) const;
-        std::shared_ptr<shape> create( const rl_vec3d &start, const rl_vec3d &end ) const;
-        double get_range() const;
-        std::string get_description() const;
+        auto create( const tripoint &start, const tripoint &end ) const -> std::shared_ptr<shape>;
+        auto create( const rl_vec3d &start, const rl_vec3d &end ) const -> std::shared_ptr<shape>;
+        auto get_range() const -> double;
+        auto get_description() const -> std::string;
 
-        shape_factory &operator=( const shape_factory &other );
+        auto operator=( const shape_factory &other ) -> shape_factory &;
     private:
         std::shared_ptr<shape_factory_impl> impl;
 };

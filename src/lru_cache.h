@@ -15,11 +15,11 @@ class lru_cache
         using Pair = std::pair<Key, Value>;
 
         void insert( int limit, const Key &, const Value & );
-        Value get( const Key &, const Value &default_ ) const;
+        auto get( const Key &, const Value &default_ ) const -> Value;
         void remove( const Key & );
 
         void clear();
-        const std::list<Pair> &list() const;
+        auto list() const -> const std::list<Pair> &;
     private:
         void trim( int limit );
         std::list<Pair> ordered_list;

@@ -6,36 +6,36 @@
 
 #include "cata_utility.h"
 
-std::string point::to_string() const
+auto point::to_string() const -> std::string
 {
     std::ostringstream os;
     os << *this;
     return os.str();
 }
 
-std::string tripoint::to_string() const
+auto tripoint::to_string() const -> std::string
 {
     std::ostringstream os;
     os << *this;
     return os.str();
 }
 
-std::ostream &operator<<( std::ostream &os, const point &pos )
+auto operator<<( std::ostream &os, const point &pos ) -> std::ostream &
 {
     return os << "(" << pos.x << "," << pos.y << ")";
 }
 
-std::ostream &operator<<( std::ostream &os, const tripoint &pos )
+auto operator<<( std::ostream &os, const tripoint &pos ) -> std::ostream &
 {
     return os << "(" << pos.x << "," << pos.y << "," << pos.z << ")";
 }
 
-std::vector<tripoint> closest_points_first( const tripoint &center, int max_dist )
+auto closest_points_first( const tripoint &center, int max_dist ) -> std::vector<tripoint>
 {
     return closest_points_first( center, 0, max_dist );
 }
 
-std::vector<tripoint> closest_points_first( const tripoint &center, int min_dist, int max_dist )
+auto closest_points_first( const tripoint &center, int min_dist, int max_dist ) -> std::vector<tripoint>
 {
     const std::vector<point> points = closest_points_first( center.xy(), min_dist, max_dist );
 
@@ -49,12 +49,12 @@ std::vector<tripoint> closest_points_first( const tripoint &center, int min_dist
     return result;
 }
 
-std::vector<point> closest_points_first( const point &center, int max_dist )
+auto closest_points_first( const point &center, int max_dist ) -> std::vector<point>
 {
     return closest_points_first( center, 0, max_dist );
 }
 
-std::vector<point> closest_points_first( const point &center, int min_dist, int max_dist )
+auto closest_points_first( const point &center, int min_dist, int max_dist ) -> std::vector<point>
 {
     min_dist = std::max( min_dist, 0 );
     max_dist = std::max( max_dist, 0 );

@@ -41,7 +41,7 @@ static const trait_id trait_TOXICFLESH( "TOXICFLESH" );
 static const trait_id trait_NORANGEDCRIT( "NO_RANGED_CRIT" );
 
 // Simplified version of the function in monattack.cpp
-static bool is_adjacent( const monster &z, const Creature &target )
+static auto is_adjacent( const monster &z, const Creature &target ) -> bool
 {
     if( rl_dist( z.pos(), target.pos() ) != 1 ) {
         return false;
@@ -66,12 +66,12 @@ void leap_actor::load_internal( const JsonObject &obj, const std::string & )
     max_consider_range = obj.get_float( "max_consider_range", 200.0f );
 }
 
-std::unique_ptr<mattack_actor> leap_actor::clone() const
+auto leap_actor::clone() const -> std::unique_ptr<mattack_actor>
 {
     return std::make_unique<leap_actor>( *this );
 }
 
-bool leap_actor::call( monster &z ) const
+auto leap_actor::call( monster &z ) const -> bool
 {
     if( !z.can_act() || !z.move_effects( false ) ) {
         return false;
@@ -158,7 +158,7 @@ bool leap_actor::call( monster &z ) const
     return true;
 }
 
-std::unique_ptr<mattack_actor> mon_spellcasting_actor::clone() const
+auto mon_spellcasting_actor::clone() const -> std::unique_ptr<mattack_actor>
 {
     return std::make_unique<mon_spellcasting_actor>( *this );
 }
@@ -179,7 +179,7 @@ void mon_spellcasting_actor::load_internal( const JsonObject &obj, const std::st
     move_cost = spell_data.casting_time( fake_player );
 }
 
-bool mon_spellcasting_actor::call( monster &mon ) const
+auto mon_spellcasting_actor::call( monster &mon ) const -> bool
 {
     if( !mon.can_act() ) {
         return false;
@@ -266,7 +266,7 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
     }
 }
 
-Creature *melee_actor::find_target( monster &z ) const
+auto melee_actor::find_target( monster &z ) const -> Creature *
 {
     if( !z.can_act() ) {
         return nullptr;
@@ -280,7 +280,7 @@ Creature *melee_actor::find_target( monster &z ) const
     return target;
 }
 
-bool melee_actor::call( monster &z ) const
+auto melee_actor::call( monster &z ) const -> bool
 {
     Creature *target = find_target( z );
     if( target == nullptr ) {
@@ -355,7 +355,7 @@ void melee_actor::on_damage( monster &z, Creature &target, dealt_damage_instance
     }
 }
 
-std::unique_ptr<mattack_actor> melee_actor::clone() const
+auto melee_actor::clone() const -> std::unique_ptr<mattack_actor>
 {
     return std::make_unique<melee_actor>( *this );
 }
@@ -387,7 +387,7 @@ void bite_actor::on_damage( monster &z, Creature &target, dealt_damage_instance 
     }
 }
 
-std::unique_ptr<mattack_actor> bite_actor::clone() const
+auto bite_actor::clone() const -> std::unique_ptr<mattack_actor>
 {
     return std::make_unique<bite_actor>( *this );
 }
@@ -462,12 +462,12 @@ void gun_actor::load_internal( const JsonObject &obj, const std::string & )
     no_crits = obj.get_bool( "no_crits", no_crits );
 }
 
-std::unique_ptr<mattack_actor> gun_actor::clone() const
+auto gun_actor::clone() const -> std::unique_ptr<mattack_actor>
 {
     return std::make_unique<gun_actor>( *this );
 }
 
-int gun_actor::get_max_range()  const
+auto gun_actor::get_max_range()  const -> int
 {
     int max_range = 0;
     for( const auto &e : ranges ) {
@@ -476,7 +476,7 @@ int gun_actor::get_max_range()  const
     return max_range;
 }
 
-bool gun_actor::call( monster &z ) const
+auto gun_actor::call( monster &z ) const -> bool
 {
     Creature *target;
 
@@ -515,7 +515,7 @@ bool gun_actor::call( monster &z ) const
     return false;
 }
 
-bool gun_actor::try_target( monster &z, Creature &target ) const
+auto gun_actor::try_target( monster &z, Creature &target ) const -> bool
 {
     if( require_sunlight && !g->is_in_sunlight( z.pos() ) ) {
         if( one_in( 3 ) && g->u.sees( z ) ) {

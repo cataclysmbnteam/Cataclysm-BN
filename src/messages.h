@@ -23,13 +23,13 @@ class window;
 
 namespace Messages
 {
-std::vector<std::pair<std::string, std::string>> recent_messages( size_t count );
+auto recent_messages( size_t count ) -> std::vector<std::pair<std::string, std::string>>;
 void add_msg( std::string msg );
 void add_msg( const game_message_params &params, std::string msg );
 void clear_messages();
 void deactivate();
-size_t size();
-bool has_undisplayed_messages();
+auto size() -> size_t;
+auto has_undisplayed_messages() -> bool;
 void display_messages();
 void display_messages( const catacurses::window &ipk_target, int left, int top, int right,
                        int bottom );

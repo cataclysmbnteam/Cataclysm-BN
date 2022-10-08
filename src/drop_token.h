@@ -25,20 +25,20 @@ class item_drop_token
             , parent_number( parent_number )
         {}
 
-        bool operator==( const item_drop_token &other ) const {
+        auto operator==( const item_drop_token &other ) const -> bool {
             return turn == other.turn
                    && drop_number == other.drop_number
                    && parent_number == other.parent_number;
         }
-        bool operator!=( const item_drop_token &other ) const {
+        auto operator!=( const item_drop_token &other ) const -> bool {
             return !( *this == other );
         }
-        bool is_child_of( const item_drop_token &other ) const {
+        auto is_child_of( const item_drop_token &other ) const -> bool {
             return turn == other.turn
                    && parent_number == other.drop_number
                    && drop_number != other.drop_number;
         }
-        bool is_sibling_of( const item_drop_token &other ) const {
+        auto is_sibling_of( const item_drop_token &other ) const -> bool {
             return turn == other.turn
                    && parent_number == other.parent_number &&
                    !is_child_of( other );
@@ -56,7 +56,7 @@ class drop_token_provider
     public:
         drop_token_provider() = default;
 
-        item_drop_token make_next( time_point turn );
+        auto make_next( time_point turn ) -> item_drop_token;
         void clear();
 
         void serialize( JsonOut &jsout ) const;
@@ -66,10 +66,10 @@ class drop_token_provider
 namespace drop_token
 {
 
-drop_token_provider &get_provider();
+auto get_provider() -> drop_token_provider &;
 
 } // namespace drop_token
 
-std::ostream &operator<<( std::ostream &os, const item_drop_token &dt );
+auto operator<<( std::ostream &os, const item_drop_token &dt ) -> std::ostream &;
 
 #endif // CATA_SRC_DROP_TOKEN_H

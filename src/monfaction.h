@@ -22,7 +22,7 @@ namespace monfactions
 void reset();
 void finalize();
 void load_monster_faction( const JsonObject &jo );
-mfaction_id get_or_add_faction( const mfaction_str_id &id );
+auto get_or_add_faction( const mfaction_str_id &id ) -> mfaction_id;
 } // namespace monfactions
 
 class monfaction
@@ -34,7 +34,7 @@ class monfaction
 
         mfaction_att_map attitude_map;
 
-        mf_attitude attitude( const mfaction_id &other ) const;
+        auto attitude( const mfaction_id &other ) const -> mf_attitude;
 };
 
 #endif // CATA_SRC_MONFACTION_H

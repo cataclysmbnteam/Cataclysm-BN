@@ -83,17 +83,17 @@ static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 
-static inline std::string status_color( bool status )
+static inline auto status_color( bool status ) -> std::string
 {
     return status ? "<color_green>" : "<color_red>";
 }
-static inline std::string health_color( bool status )
+static inline auto health_color( bool status ) -> std::string
 {
     return status ? "<color_light_green>" : "<color_light_red>";
 }
 
 // cap JACK requirements to support arbitrarily large vehicles
-static double jack_quality( const vehicle &veh )
+static auto jack_quality( const vehicle &veh ) -> double
 {
     const units::quantity<double, units::mass::unit_type> mass = std::min( veh.total_mass(),
             JACK_LIMIT );
@@ -109,7 +109,7 @@ static auto can_refill = []( const vehicle_part &pt )
 void act_vehicle_siphon( vehicle *veh );
 void act_vehicle_unload_fuel( vehicle *veh );
 
-player_activity veh_interact::serialize_activity()
+auto veh_interact::serialize_activity() -> player_activity
 {
     const auto *pt = sel_vehicle_part;
     const auto *vp = sel_vpart_info;
@@ -164,15 +164,15 @@ player_activity veh_interact::serialize_activity()
     return res;
 }
 
-player_activity veh_interact::run( vehicle &veh, const point &p )
+auto veh_interact::run( vehicle &veh, const point &p ) -> player_activity
 {
     veh_interact vehint( veh, p );
     vehint.do_main_loop();
     return vehint.serialize_activity();
 }
 
-vehicle_part &veh_interact::select_part( const vehicle &veh, const part_selector &sel,
-        const std::string &title )
+auto veh_interact::select_part( const vehicle &veh, const part_selector &sel,
+        const std::string &title ) -> vehicle_part &
 {
     static vehicle_part null_part;
     vehicle_part *res = &null_part;
@@ -294,8 +294,8 @@ void veh_interact::allocate_windows()
     w_details = catacurses::newwin( details_h, details_w, point( details_x, details_y ) );
 }
 
-bool veh_interact::format_reqs( std::string &msg, const requirement_data &reqs,
-                                const std::map<skill_id, int> &skills, int moves ) const
+auto veh_interact::format_reqs( std::string &msg, const requirement_data &reqs,
+                                const std::map<skill_id, int> &skills, int moves ) const -> bool
 {
     const inventory &inv = g->u.crafting_inventory();
     bool ok = reqs.can_make_with_inventory( inv, is_crafting_component );
@@ -340,7 +340,7 @@ struct veh_interact::install_info_t {
     std::array<std::string, 8> tab_list_short;
 };
 
-shared_ptr_fast<ui_adaptor> veh_interact::create_or_get_ui_adaptor()
+auto veh_interact::create_or_get_ui_adaptor() -> shared_ptr_fast<ui_adaptor>
 {
     shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
     if( !current_ui ) {
@@ -535,7 +535,7 @@ void veh_interact::cache_tool_availability_update_lifting( const tripoint &world
  *             an action requiring a minimum morale,
  *         UNKNOWN_TASK if the requested operation is unrecognized.
  */
-task_reason veh_interact::cant_do( char mode )
+auto veh_interact::cant_do( char mode ) -> task_reason
 {
     const avatar &you = get_avatar();
     bool enough_morale = true;
@@ -678,7 +678,7 @@ task_reason veh_interact::cant_do( char mode )
     return CAN_DO;
 }
 
-bool veh_interact::is_drive_conflict()
+auto veh_interact::is_drive_conflict() -> bool
 {
     std::string conflict_type;
     bool has_conflict = veh->has_engine_conflict( sel_vpart_info, conflict_type );
@@ -691,7 +691,7 @@ bool veh_interact::is_drive_conflict()
     return has_conflict;
 }
 
-bool veh_interact::can_self_jack()
+auto veh_interact::can_self_jack() -> bool
 {
     int lvl = jack_quality( *veh );
 
@@ -703,7 +703,7 @@ bool veh_interact::can_self_jack()
     return false;
 }
 
-bool veh_interact::update_part_requirements()
+auto veh_interact::update_part_requirements() -> bool
 {
     if( sel_vpart_info == nullptr ) {
         return false;
@@ -1148,8 +1148,8 @@ void veh_interact::do_install()
     }
 }
 
-bool veh_interact::move_in_list( int &pos, const std::string &action, const int size,
-                                 const int header ) const
+auto veh_interact::move_in_list( int &pos, const std::string &action, const int size,
+                                 const int header ) const -> bool
 {
     int lines_per_page = page_size - header;
     if( action == "PREV_TAB" || action == "LEFT" ) {
@@ -1730,7 +1730,7 @@ void veh_interact::move_overview_line( int amount )
     overview_offset = std::min( overview_limit, overview_offset );
 }
 
-vehicle_part *veh_interact::get_most_damaged_part() const
+auto veh_interact::get_most_damaged_part() const -> vehicle_part *
 {
     auto part_damage_comparison = []( const vpart_reference & a, const vpart_reference & b ) {
         return !b.part().removed && b.part().base.damage() > a.part().base.damage();
@@ -1747,13 +1747,13 @@ vehicle_part *veh_interact::get_most_damaged_part() const
     return &( *high_damage_iterator ).part();
 }
 
-vehicle_part *veh_interact::get_most_repariable_part() const
+auto veh_interact::get_most_repariable_part() const -> vehicle_part *
 {
     auto &part = veh_utils::most_repairable_part( *veh, g->u );
     return part ? &part : nullptr;
 }
 
-bool veh_interact::can_remove_part( int idx, const player &p )
+auto veh_interact::can_remove_part( int idx, const player &p ) -> bool
 {
     sel_vehicle_part = &veh->part( idx );
     sel_vpart_info = &sel_vehicle_part->info();
@@ -1960,7 +1960,7 @@ void veh_interact::do_siphon()
     overview( sel, act );
 }
 
-bool veh_interact::do_unload()
+auto veh_interact::do_unload() -> bool
 {
     switch( cant_do( 'd' ) ) {
         case INVALID_TARGET:
@@ -2100,7 +2100,7 @@ void veh_interact::do_relabel()
  * @param d The coordinates, relative to the viewport's 0-point (?)
  * @return The first vehicle part at the specified coordinates.
  */
-int veh_interact::part_at( const point &d )
+auto veh_interact::part_at( const point &d ) -> int
 {
     const point vd = -dd + d.rotate( 1 );
     return veh->part_displayed_at( vd );
@@ -2111,7 +2111,7 @@ int veh_interact::part_at( const point &d )
  * Affects coloring in display_list() and is also used to
  * sort can_mount so potentially installable parts come first.
  */
-bool veh_interact::can_potentially_install( const vpart_info &vpart )
+auto veh_interact::can_potentially_install( const vpart_info &vpart ) -> bool
 {
     return g->u.has_trait( trait_DEBUG_HS ) ||
            vpart.install_requirements().can_make_with_inventory( crafting_inv, is_crafting_component );
@@ -2322,7 +2322,7 @@ void veh_interact::display_veh()
     wnoutrefresh( w_disp );
 }
 
-static std::string wheel_state_description( const vehicle &veh )
+static auto wheel_state_description( const vehicle &veh ) -> std::string
 {
     bool is_boat = !veh.floating.empty();
     bool is_land = !veh.wheelcache.empty() || !is_boat;
@@ -2660,7 +2660,7 @@ void veh_interact::display_mode()
     wnoutrefresh( w_mode );
 }
 
-size_t veh_interact::display_esc( const catacurses::window &win )
+auto veh_interact::display_esc( const catacurses::window &win ) -> size_t
 {
     std::string backstr = _( "<ESC>-back" );
     // right text align

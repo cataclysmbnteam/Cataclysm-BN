@@ -17,13 +17,13 @@ generic_factory<ascii_art> ascii_art_factory( "ascii_art" );
 } // namespace
 
 template<>
-const ascii_art &string_id<ascii_art>::obj() const
+auto string_id<ascii_art>::obj() const -> const ascii_art &
 {
     return ascii_art_factory.obj( *this );
 }
 
 template<>
-bool string_id<ascii_art>::is_valid() const
+auto string_id<ascii_art>::is_valid() const -> bool
 {
     return ascii_art_factory.is_valid( *this );
 }

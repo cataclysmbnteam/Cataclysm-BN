@@ -16,23 +16,23 @@ enum pf_special : int {
     PF_SHARP = 0x80,     // sharp items (barbed wire, etc)
 };
 
-constexpr pf_special operator | ( pf_special lhs, pf_special rhs )
+constexpr auto operator | ( pf_special lhs, pf_special rhs ) -> pf_special
 {
     return static_cast<pf_special>( static_cast< int >( lhs ) | static_cast< int >( rhs ) );
 }
 
-constexpr pf_special operator & ( pf_special lhs, pf_special rhs )
+constexpr auto operator & ( pf_special lhs, pf_special rhs ) -> pf_special
 {
     return static_cast<pf_special>( static_cast< int >( lhs ) & static_cast< int >( rhs ) );
 }
 
-inline pf_special &operator |= ( pf_special &lhs, pf_special rhs )
+inline auto operator |= ( pf_special &lhs, pf_special rhs ) -> pf_special &
 {
     lhs = static_cast<pf_special>( static_cast< int >( lhs ) | static_cast< int >( rhs ) );
     return lhs;
 }
 
-inline pf_special &operator &= ( pf_special &lhs, pf_special rhs )
+inline auto operator &= ( pf_special &lhs, pf_special rhs ) -> pf_special &
 {
     lhs = static_cast<pf_special>( static_cast< int >( lhs ) & static_cast< int >( rhs ) );
     return lhs;
@@ -70,7 +70,7 @@ struct pathfinding_settings {
         : bash_strength( bs ), max_dist( md ), max_length( ml ), climb_cost( cc ),
           allow_open_doors( aod ), avoid_traps( at ), allow_climb_stairs( acs ), avoid_rough_terrain( art ),
           avoid_sharp( as ) {}
-    pathfinding_settings &operator = ( const pathfinding_settings & ) = default;
+    auto operator = ( const pathfinding_settings & ) -> pathfinding_settings & = default;
 };
 
 #endif // CATA_SRC_PATHFINDING_H

@@ -33,12 +33,12 @@ enum class description_target : int {
     terrain
 };
 
-static bool debug_vision()
+static auto debug_vision() -> bool
 {
     return debug_mode || get_player_character().has_trait( trait_DEBUG_NIGHTVISION );
 }
 
-static const Creature *seen_critter( const game &g, const tripoint &p )
+static auto seen_critter( const game &g, const tripoint &p ) -> const Creature *
 {
     const Creature *critter = g.critter_at( p, true );
     if( critter != nullptr && g.u.sees( *critter ) ) {
@@ -170,7 +170,7 @@ void game::extended_description( const tripoint &p )
     } while( action != "CONFIRM" && action != "QUIT" );
 }
 
-std::string map_data_common_t::extended_description() const
+auto map_data_common_t::extended_description() const -> std::string
 {
     std::stringstream ss;
     ss << "<header>" << string_format( _( "That is a %s." ), name() ) << "</header>" << '\n';

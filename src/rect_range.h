@@ -30,32 +30,32 @@ class rect_range
                 }
 
             public:
-                bool operator==( const iterator &rhs ) const {
+                auto operator==( const iterator &rhs ) const -> bool {
                     return range == rhs.range && index == rhs.index;
                 }
-                bool operator!=( const iterator &rhs ) const {
+                auto operator!=( const iterator &rhs ) const -> bool {
                     return !operator==( rhs );
                 }
-                RectType operator*() const {
+                auto operator*() const -> RectType {
                     return { ( index % range->count.x ) *range->width, ( index / range->count.x ) *range->height, range->width, range->height };
                 }
 
-                iterator operator+( const int offset ) const {
+                auto operator+( const int offset ) const -> iterator {
                     return iterator( range, index + offset );
                 }
-                int operator-( const iterator &rhs ) const {
+                auto operator-( const iterator &rhs ) const -> int {
                     return index - rhs.index;
                 }
-                iterator &operator++() {
+                auto operator++() -> iterator & {
                     ++index;
                     return *this;
                 }
         };
 
-        iterator begin() const {
+        auto begin() const -> iterator {
             return iterator( this, 0 );
         }
-        iterator end() const {
+        auto end() const -> iterator {
             return iterator( this, count.x * count.y );
         }
 };

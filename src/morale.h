@@ -40,8 +40,8 @@ class player_morale
 
         player_morale( player_morale && ) = default;
         player_morale( const player_morale & ) = default;
-        player_morale &operator =( player_morale && ) = default;
-        player_morale &operator =( const player_morale & ) = default;
+        auto operator =( player_morale && ) -> player_morale & = default;
+        auto operator =( const player_morale & ) -> player_morale & = default;
 
         /** Adds morale to existing or creates one */
         void add( morale_type type, int bonus, int max_bonus = 0,
@@ -58,28 +58,28 @@ class player_morale
         /** Sets the new level for the permanent morale, or creates one */
         void set_permanent( const morale_type &type, int bonus );
         /** Returns true if any morale point with specified morale exists */
-        bool has( const morale_type &type ) const;
+        auto has( const morale_type &type ) const -> bool;
         /** Returns bonus from specified morale */
-        int get( const morale_type &type ) const;
+        auto get( const morale_type &type ) const -> int;
         /** Removes specified morale */
         void remove( const morale_type &type );
         /** Clears up all morale points */
         void clear();
         /** Returns overall morale level */
-        int get_level() const;
+        auto get_level() const -> int;
         /** Ticks down morale counters and removes them */
         void decay( const time_duration &ticks = 1_turns );
         /** Displays morale screen */
         void display( int focus_eq, int pain_penalty, int fatigue_cap );
         /** Returns false whether morale is inconsistent with the argument.
          *  Only permanent morale is checked */
-        bool consistent_with( const player_morale &morale ) const;
+        auto consistent_with( const player_morale &morale ) const -> bool;
 
         /**calculates the percentage contribution for each morale point*/
         void calculate_percentage();
 
-        int get_total_positive_value() const;
-        int get_total_negative_value() const;
+        auto get_total_positive_value() const -> int;
+        auto get_total_negative_value() const -> int;
 
         void on_mutation_gain( const trait_id &mid );
         void on_mutation_loss( const trait_id &mid );
@@ -109,13 +109,13 @@ class player_morale
                     , eff_type( eff_type ) {};
 
                 // TODO: (optional) use optional
-                bool has_description() const;
-                std::string describe() const;
+                auto has_description() const -> bool;
+                auto describe() const -> std::string;
 
-                bool matches( const morale_subtype &other ) const {
+                auto matches( const morale_subtype &other ) const -> bool {
                     return *this == other;
                 }
-                bool operator==( const morale_subtype &other ) const {
+                auto operator==( const morale_subtype &other ) const -> bool {
                     if( subtype_type != other.subtype_type ) {
                         return false;
                     }
@@ -163,15 +163,15 @@ class player_morale
                 void deserialize( JsonIn &jsin );
                 void serialize( JsonOut &json ) const;
 
-                std::string get_name() const;
-                int get_net_bonus() const;
-                int get_net_bonus( const morale_mult &mult ) const;
-                bool is_expired() const;
-                bool is_permanent() const;
-                bool type_matches( const morale_type &_type ) const;
-                bool matches( const morale_type &_type ) const;
-                bool matches( const morale_type &_type, const morale_subtype &_subtype ) const;
-                bool matches( const morale_point &mp ) const;
+                auto get_name() const -> std::string;
+                auto get_net_bonus() const -> int;
+                auto get_net_bonus( const morale_mult &mult ) const -> int;
+                auto is_expired() const -> bool;
+                auto is_permanent() const -> bool;
+                auto type_matches( const morale_type &_type ) const -> bool;
+                auto matches( const morale_type &_type ) const -> bool;
+                auto matches( const morale_type &_type, const morale_subtype &_subtype ) const -> bool;
+                auto matches( const morale_point &mp ) const -> bool;
 
                 void add( int new_bonus, int new_max_bonus, time_duration new_duration,
                           time_duration new_decay_start, bool new_cap );
@@ -180,7 +180,7 @@ class player_morale
                  *contribution should be bettween [0,100] (inclusive)
                  */
                 void set_percent_contribution( double contribution );
-                double get_percent_contribution() const;
+                auto get_percent_contribution() const -> double;
             private:
                 morale_type type;
                 morale_subtype subtype;
@@ -198,29 +198,29 @@ class player_morale
                  * Returns either new_time or remaining time (which one is greater).
                  * Only returns new time if same_sign is true
                  */
-                time_duration pick_time( const time_duration &current_time, const time_duration &new_time,
-                                         bool same_sign ) const;
+                auto pick_time( const time_duration &current_time, const time_duration &new_time,
+                                         bool same_sign ) const -> time_duration;
                 /**
                  * Returns normalized bonus if either max_bonus != 0 or capped == true
                  */
-                int normalize_bonus( int bonus, int max_bonus, bool capped ) const;
+                auto normalize_bonus( int bonus, int max_bonus, bool capped ) const -> int;
         };
     private:
         void add( morale_type type, const morale_subtype &subtype, int bonus, int max_bonus,
                   const time_duration &duration, const time_duration &decay_start,
                   bool capped );
-        int has( const morale_type &type, const morale_subtype &subtype ) const;
+        auto has( const morale_type &type, const morale_subtype &subtype ) const -> int;
         void remove( const morale_type &type, const morale_subtype &subtype );
         void set_permanent_typed( const morale_type &type, int bonus, const morale_subtype &subtype );
 
-        morale_mult get_temper_mult() const;
+        auto get_temper_mult() const -> morale_mult;
 
         void set_prozac( bool new_took_prozac );
         void set_prozac_bad( bool new_took_prozac_bad );
         void set_stylish( bool new_stylish );
         void set_worn( const item &it, bool worn );
         void set_mutation( const trait_id &mid, bool active );
-        bool has_mutation( const trait_id &mid );
+        auto has_mutation( const trait_id &mid ) -> bool;
 
         void remove_if( const std::function<bool( const morale_point & )> &func );
         void remove_expired();
@@ -265,7 +265,7 @@ class player_morale
                     on_loss( on_loss ),
                     active( false ) {}
                 void set_active( player_morale &sender, bool new_active );
-                bool get_active() const;
+                auto get_active() const -> bool;
                 void clear();
             private:
                 mutation_handler on_gain;

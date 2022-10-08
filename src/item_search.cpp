@@ -13,9 +13,9 @@
 #include "string_id.h"
 #include "type_id.h"
 
-std::pair<std::string, std::string> get_both( const std::string &a );
+auto get_both( const std::string &a ) -> std::pair<std::string, std::string>;
 
-std::function<bool( const item & )> basic_item_filter( std::string filter )
+auto basic_item_filter( std::string filter ) -> std::function<bool( const item & )>
 {
     size_t colon;
     char flag = '\0';
@@ -88,12 +88,12 @@ std::function<bool( const item & )> basic_item_filter( std::string filter )
     }
 }
 
-std::function<bool( const item & )> item_filter_from_string( const std::string &filter )
+auto item_filter_from_string( const std::string &filter ) -> std::function<bool( const item & )>
 {
     return filter_from_string<item>( filter, basic_item_filter );
 }
 
-std::pair<std::string, std::string> get_both( const std::string &a )
+auto get_both( const std::string &a ) -> std::pair<std::string, std::string>
 {
     size_t split_mark = a.find( ';' );
     return std::make_pair( a.substr( 0, split_mark - 1 ),

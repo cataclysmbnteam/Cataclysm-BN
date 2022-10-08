@@ -90,7 +90,7 @@ struct computer_option {
     void serialize( JsonOut &jout ) const;
     void deserialize( JsonIn &jin );
     // Load from data files
-    static computer_option from_json( const JsonObject &jo );
+    static auto from_json( const JsonObject &jo ) -> computer_option;
 };
 
 struct computer_failure {
@@ -103,7 +103,7 @@ struct computer_failure {
     void serialize( JsonOut &jout ) const;
     void deserialize( JsonIn &jin );
     // Load from data files
-    static computer_failure from_json( const JsonObject &jo );
+    static auto from_json( const JsonObject &jo ) -> computer_failure;
 };
 
 class computer

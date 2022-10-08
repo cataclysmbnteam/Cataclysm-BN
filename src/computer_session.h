@@ -32,7 +32,7 @@ class computer_session
 
         /** Returns true if the player successfully hacks the computer. Security = -1 defaults to
          *  the main system security. */
-        bool hack_attempt( player &p, int Security = -1 );
+        auto hack_attempt( player &p, int Security = -1 ) -> bool;
 
         // Called by use()
         void activate_function( computer_action action );
@@ -68,15 +68,15 @@ class computer_session
             quit,
         };
         template<typename ...Args>
-        ynq query_ynq( const std::string &text, Args &&... args );
+        auto query_ynq( const std::string &text, Args &&... args ) -> ynq;
         // Same as query_ynq, but returns true for y or Y
         template<typename ...Args>
-        bool query_bool( const std::string &text, Args &&... args );
+        auto query_bool( const std::string &text, Args &&... args ) -> bool;
         // Simply wait for any key, returns True
         template<typename ...Args>
-        bool query_any( const std::string &text, Args &&... args );
+        auto query_any( const std::string &text, Args &&... args ) -> bool;
         // Wait for any key without new output
-        bool query_any();
+        auto query_any() -> bool;
 
         void action_amigara_log();
         void action_amigara_start();

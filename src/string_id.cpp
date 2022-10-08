@@ -8,20 +8,20 @@ using InternMapType = std::unordered_map<std::string, int>;
 using ReverseLookupVecType = std::vector<const std::string *>;
 } // namespace
 
-inline static InternMapType &get_intern_map()
+inline static auto get_intern_map() -> InternMapType &
 {
     static InternMapType map{};
     return map;
 }
 
-inline static ReverseLookupVecType &get_reverse_lookup_vec()
+inline static auto get_reverse_lookup_vec() -> ReverseLookupVecType &
 {
     static ReverseLookupVecType vec{};
     return vec;
 }
 
 template<typename S>
-inline static int universal_string_id_intern( S &&s )
+inline static auto universal_string_id_intern( S &&s ) -> int
 {
     int next_id = get_reverse_lookup_vec().size();
     const auto &pair = get_intern_map().emplace( std::forward<S>( s ), next_id );
@@ -31,27 +31,27 @@ inline static int universal_string_id_intern( S &&s )
     return pair.first->second;
 }
 
-int string_identity_static::string_id_intern( const std::string &s )
+auto string_identity_static::string_id_intern( const std::string &s ) -> int
 {
     return universal_string_id_intern( s );
 }
 
-int string_identity_static::string_id_intern( std::string &s )
+auto string_identity_static::string_id_intern( std::string &s ) -> int
 {
     return universal_string_id_intern( s );
 }
 
-int string_identity_static::string_id_intern( std::string &&s )
+auto string_identity_static::string_id_intern( std::string &&s ) -> int
 {
     return universal_string_id_intern( std::move( s ) );
 }
 
-const std::string &string_identity_static::get_interned_string( int id )
+auto string_identity_static::get_interned_string( int id ) -> const std::string &
 {
     return *get_reverse_lookup_vec()[id];
 }
 
-int string_identity_static::empty_interned_string()
+auto string_identity_static::empty_interned_string() -> int
 {
     static int empty_string_id = string_id_intern( "" );
     return empty_string_id;

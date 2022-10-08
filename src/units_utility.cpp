@@ -2,7 +2,7 @@
 
 #include "options.h"
 
-const char *velocity_units( const units_type vel_units )
+auto velocity_units( const units_type vel_units ) -> const char *
 {
     if( get_option<std::string>( "USE_METRIC_SPEEDS" ) == "mph" ) {
         return _( "mph" );
@@ -20,7 +20,7 @@ const char *velocity_units( const units_type vel_units )
     return "error: unknown units!";
 }
 
-units::angle normalize( units::angle a, units::angle mod )
+auto normalize( units::angle a, units::angle mod ) -> units::angle
 {
     a = units::fmod( a, mod );
     if( a < 0_degrees ) {
@@ -29,12 +29,12 @@ units::angle normalize( units::angle a, units::angle mod )
     return a;
 }
 
-const char *weight_units()
+auto weight_units() -> const char *
 {
     return get_option<std::string>( "USE_METRIC_WEIGHTS" ) == "lbs" ? _( "lbs" ) : _( "kg" );
 }
 
-const char *volume_units_abbr()
+auto volume_units_abbr() -> const char *
 {
     const std::string vol_units = get_option<std::string>( "VOLUME_UNITS" );
     if( vol_units == "c" ) {
@@ -46,7 +46,7 @@ const char *volume_units_abbr()
     }
 }
 
-const char *volume_units_long()
+auto volume_units_long() -> const char *
 {
     const std::string vol_units = get_option<std::string>( "VOLUME_UNITS" );
     if( vol_units == "c" ) {
@@ -58,7 +58,7 @@ const char *volume_units_long()
     }
 }
 
-double convert_velocity( int velocity, const units_type vel_units )
+auto convert_velocity( int velocity, const units_type vel_units ) -> double
 {
     const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
     // internal units to mph conversion
@@ -82,7 +82,7 @@ double convert_velocity( int velocity, const units_type vel_units )
     return ret;
 }
 
-double convert_weight( const units::mass &weight )
+auto convert_weight( const units::mass &weight ) -> double
 {
     double ret = to_gram( weight );
     if( get_option<std::string>( "USE_METRIC_WEIGHTS" ) == "kg" ) {
@@ -93,12 +93,12 @@ double convert_weight( const units::mass &weight )
     return ret;
 }
 
-double convert_volume( int volume )
+auto convert_volume( int volume ) -> double
 {
     return convert_volume( volume, nullptr );
 }
 
-double convert_volume( int volume, int *out_scale )
+auto convert_volume( int volume, int *out_scale ) -> double
 {
     double ret = volume;
     int scale = 0;

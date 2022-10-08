@@ -27,10 +27,10 @@ class start_location
         void finalize();
         void check() const;
 
-        std::string name() const;
-        int targets_count() const;
-        std::pair<std::string, ot_match_type> random_target() const;
-        const std::set<std::string> &flags() const;
+        auto name() const -> std::string;
+        auto targets_count() const -> int;
+        auto random_target() const -> std::pair<std::string, ot_match_type>;
+        auto flags() const -> const std::set<std::string> &;
 
         /**
          * Find a suitable start location on the overmap.
@@ -38,7 +38,7 @@ class start_location
          * It may return `overmap::invalid_tripoint` if no suitable starting location could be found
          * in the world.
          */
-        tripoint_abs_omt find_player_initial_location() const;
+        auto find_player_initial_location() const -> tripoint_abs_omt;
         /**
          * Initialize the map at players start location using @ref prepare_map.
          * @param omtstart Global overmap terrain coordinates where the player is to be spawned.
@@ -85,7 +85,7 @@ void finalize_all();
 void check_consistency();
 void reset();
 
-const std::vector<start_location> &get_all();
+auto get_all() -> const std::vector<start_location> &;
 
 } // namespace start_locations
 

@@ -61,16 +61,16 @@ class window
         window( std::shared_ptr<void> ptr ) : native_window( std::move( ptr ) ) {
         }
         template<typename T = void>
-        T * get() const {
+        auto get() const -> T * {
             return static_cast<T *>( native_window.get() );
         }
         explicit operator bool() const {
             return native_window.operator bool();
         }
-        bool operator==( const window &rhs ) const {
+        auto operator==( const window &rhs ) const -> bool {
             return native_window.get() == rhs.native_window.get();
         }
-        std::weak_ptr<void> weak_ptr() const {
+        auto weak_ptr() const -> std::weak_ptr<void> {
             return native_window;
         }
 };
@@ -91,7 +91,7 @@ using attr_t = unsigned short;
 
 extern window stdscr;
 
-window newwin( int nlines, int ncols, const point &begin );
+auto newwin( int nlines, int ncols, const point &begin ) -> window;
 void wborder( const window &win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr,
               chtype bl, chtype br );
 void mvwhline( const window &win, const point &p, chtype ch, int n );
@@ -129,12 +129,12 @@ void curs_set( int visibility );
 void wattron( const window &win, const nc_color &attrs );
 void wattroff( const window &win, int attrs );
 void waddch( const window &win, chtype ch );
-int getmaxy( const window &win );
-int getmaxx( const window &win );
-int getbegx( const window &win );
-int getbegy( const window &win );
-int getcurx( const window &win );
-int getcury( const window &win );
+auto getmaxy( const window &win ) -> int;
+auto getmaxx( const window &win ) -> int;
+auto getbegx( const window &win ) -> int;
+auto getbegy( const window &win ) -> int;
+auto getcurx( const window &win ) -> int;
+auto getcury( const window &win ) -> int;
 } // namespace catacurses
 
 #endif // CATA_SRC_CURSESDEF_H

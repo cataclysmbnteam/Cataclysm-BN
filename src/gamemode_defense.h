@@ -54,10 +54,10 @@ enum caravan_category {
 struct defense_game : public special_game {
         defense_game();
 
-        special_game_id id() override {
+        auto id() -> special_game_id override {
             return SGAME_DEFENSE;
         }
-        bool init() override;
+        auto init() -> bool override;
         void per_turn() override;
         void pre_action( action_id &act ) override;
         void post_action( action_id act ) override;
@@ -74,10 +74,10 @@ struct defense_game : public special_game {
 
         void spawn_wave();
         void caravan();
-        std::vector<mtype_id> pick_monster_wave();
+        auto pick_monster_wave() -> std::vector<mtype_id>;
         void spawn_wave_monster( const mtype_id &type );
 
-        std::string special_wave_message( std::string name );
+        auto special_wave_message( std::string name ) -> std::string;
 
         int current_wave = 0;
 

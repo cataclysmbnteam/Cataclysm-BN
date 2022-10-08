@@ -91,17 +91,17 @@ class wave_animation : public basic_animation
         }
 };
 
-bool is_point_visible( const tripoint &p, int margin = 0 )
+auto is_point_visible( const tripoint &p, int margin = 0 ) -> bool
 {
     return g->is_in_viewport( p, margin ) && g->u.sees( p );
 }
 
-bool is_radius_visible( const tripoint &center, int radius )
+auto is_radius_visible( const tripoint &center, int radius ) -> bool
 {
     return is_point_visible( center, -radius );
 }
 
-bool is_layer_visible( const std::map<tripoint, explosion_tile> &layer )
+auto is_layer_visible( const std::map<tripoint, explosion_tile> &layer ) -> bool
 {
     return std::any_of( layer.begin(), layer.end(),
     []( const std::pair<tripoint, explosion_tile> &element ) {
@@ -110,13 +110,13 @@ bool is_layer_visible( const std::map<tripoint, explosion_tile> &layer )
 }
 
 // Convert p to screen position relative to u's current position and view
-tripoint relative_view_pos( const player &u, const tripoint &p ) noexcept
+auto relative_view_pos( const player &u, const tripoint &p ) noexcept -> tripoint
 {
     return p - ( u.pos() + u.view_offset ) + point( POSX, POSY );
 }
 
 // Convert p to screen position relative to the current terrain view
-tripoint relative_view_pos( const game &g, const tripoint &p ) noexcept
+auto relative_view_pos( const game &g, const tripoint &p ) noexcept -> tripoint
 {
     return p - g.ter_view_p + point( POSX, POSY );
 }
@@ -167,12 +167,12 @@ void draw_explosion_curses( game &g, const tripoint &center, const int r,
     }
 }
 
-constexpr explosion_neighbors operator | ( explosion_neighbors lhs, explosion_neighbors rhs )
+constexpr auto operator | ( explosion_neighbors lhs, explosion_neighbors rhs ) -> explosion_neighbors
 {
     return static_cast<explosion_neighbors>( static_cast< int >( lhs ) | static_cast< int >( rhs ) );
 }
 
-constexpr explosion_neighbors operator ^ ( explosion_neighbors lhs, explosion_neighbors rhs )
+constexpr auto operator ^ ( explosion_neighbors lhs, explosion_neighbors rhs ) -> explosion_neighbors
 {
     return static_cast<explosion_neighbors>( static_cast< int >( lhs ) ^ static_cast< int >( rhs ) );
 }
@@ -972,8 +972,8 @@ void game::draw_monster_override( const tripoint &, const mtype_id &, const int,
 }
 #endif
 
-bucketed_points bucket_by_distance( const tripoint &origin,
-                                    const std::map<tripoint, double> &to_bucket )
+auto bucket_by_distance( const tripoint &origin,
+                                    const std::map<tripoint, double> &to_bucket ) -> bucketed_points
 {
     std::map<int, one_bucket> by_distance;
     for( const std::pair<const tripoint, double> &pv : to_bucket ) {
@@ -987,7 +987,7 @@ bucketed_points bucket_by_distance( const tripoint &origin,
     return buckets;
 }
 
-bucketed_points optimal_bucketing( const bucketed_points &buckets, size_t max_buckets )
+auto optimal_bucketing( const bucketed_points &buckets, size_t max_buckets ) -> bucketed_points
 {
     if( buckets.size() <= max_buckets ) {
         return buckets;
@@ -1124,7 +1124,7 @@ void draw_cone_aoe( const tripoint &origin, const std::map<tripoint, double> &ao
 }
 } // namespace ranged
 
-bool minimap_requires_animation()
+auto minimap_requires_animation() -> bool
 {
 #if defined(TILES)
     return tilecontext->minimap_requires_animation();
@@ -1133,7 +1133,7 @@ bool minimap_requires_animation()
 #endif // TILES
 }
 
-bool terrain_requires_animation()
+auto terrain_requires_animation() -> bool
 {
 #if defined(TILES)
     return tilecontext->terrain_requires_animation();

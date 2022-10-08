@@ -25,53 +25,53 @@ struct tripoint;
 void rng_set_engine_seed( unsigned int seed );
 
 using cata_default_random_engine = std::minstd_rand0;
-cata_default_random_engine &rng_get_engine();
-unsigned int rng_bits();
+auto rng_get_engine() -> cata_default_random_engine &;
+auto rng_bits() -> unsigned int;
 
-int rng( int lo, int hi );
-double rng_float( double lo, double hi );
+auto rng( int lo, int hi ) -> int;
+auto rng_float( double lo, double hi ) -> double;
 
 template<typename U>
-units::quantity<double, U> rng_float( units::quantity<double, U> lo,
-                                      units::quantity<double, U> hi )
+auto rng_float( units::quantity<double, U> lo,
+                                      units::quantity<double, U> hi ) -> units::quantity<double, U>
 {
     return { rng_float( lo.value(), hi.value() ), U{} };
 }
 
-units::angle random_direction();
+auto random_direction() -> units::angle;
 
-bool one_in( int chance );
-bool one_turn_in( const time_duration &duration );
-bool x_in_y( double x, double y );
-bool check( units::probability p );
-int dice( int number, int sides );
+auto one_in( int chance ) -> bool;
+auto one_turn_in( const time_duration &duration ) -> bool;
+auto x_in_y( double x, double y ) -> bool;
+auto check( units::probability p ) -> bool;
+auto dice( int number, int sides ) -> int;
 
 // Returns x + x_in_y( x-int(x), 1 )
-int roll_remainder( double value );
-inline int roll_remainder( float value )
+auto roll_remainder( double value ) -> int;
+inline auto roll_remainder( float value ) -> int
 {
     return roll_remainder( static_cast<double>( value ) );
 }
 
-int djb2_hash( const unsigned char *input );
+auto djb2_hash( const unsigned char *input ) -> int;
 
-double rng_normal( double lo, double hi );
+auto rng_normal( double lo, double hi ) -> double;
 
-inline double rng_normal( double hi )
+inline auto rng_normal( double hi ) -> double
 {
     return rng_normal( 0.0, hi );
 }
 
-double normal_roll( double mean, double stddev );
+auto normal_roll( double mean, double stddev ) -> double;
 
-double rng_exponential( double min, double mean );
+auto rng_exponential( double min, double mean ) -> double;
 
-inline double rng_exponential( double mean )
+inline auto rng_exponential( double mean ) -> double
 {
     return rng_exponential( 0.0, mean );
 }
 
-double exponential_roll( double lambda );
+auto exponential_roll( double lambda ) -> double;
 
 /**
  * Returns a random entry in the container.
@@ -85,7 +85,7 @@ double exponential_roll( double lambda );
  * \code random_entry( vect, std::string("default") ); \endcode
  */
 template<typename C, typename D, typename V = typename C::value_type>
-inline V random_entry( const C &container, D default_value )
+inline auto random_entry( const C &container, D default_value ) -> V
 {
     if( container.empty() ) {
         return default_value;
@@ -116,7 +116,7 @@ cata::optional<decltype( std::ref( *container.begin() ) )>
  * is empty.
  */
 template<typename C, typename V = typename C::value_type>
-inline V random_entry( const C &container )
+inline auto random_entry( const C &container ) -> V
 {
     if( container.empty() ) {
         return V();
@@ -145,8 +145,8 @@ class is_std_array : public is_std_array_helper<typename std::decay<T>::type>
  * or to the default value.
  */
 template<typename C, typename V = typename C::value_type>
-inline typename std::enable_if < !is_std_array<C>::value,
-       const V & >::type random_entry_ref( const C &container )
+inline auto random_entry_ref( const C &container ) -> typename std::enable_if < !is_std_array<C>::value,
+       const V & >::type
 {
     if( container.empty() ) {
         static const V default_value = V();
@@ -157,7 +157,7 @@ inline typename std::enable_if < !is_std_array<C>::value,
     return *iter;
 }
 template<typename V, std::size_t N>
-inline const V &random_entry_ref( const std::array<V, N> &container )
+inline auto random_entry_ref( const std::array<V, N> &container ) -> const V &
 {
     static_assert( N > 0, "Need a non-empty array to get a random value from it" );
     return container[rng( 0, N - 1 )];
@@ -167,7 +167,7 @@ inline const V &random_entry_ref( const std::array<V, N> &container )
  * The container must not be empty!
  */
 template<typename C, typename V = typename C::value_type>
-inline V random_entry_removed( C &container )
+inline auto random_entry_removed( C &container ) -> V
 {
     auto iter = container.begin();
     std::advance( iter, rng( 0, container.size() - 1 ) );
@@ -177,12 +177,12 @@ inline V random_entry_removed( C &container )
 }
 
 /// Returns a range enclosing all valid points of the map.
-tripoint_range<tripoint> points_in_range( const map &m );
+auto points_in_range( const map &m ) -> tripoint_range<tripoint>;
 /// Returns a random point in the given range that satisfies the given predicate ( if any ).
-cata::optional<tripoint> random_point( const tripoint_range<tripoint> &range,
-                                       const std::function<bool( const tripoint & )> &predicate );
+auto random_point( const tripoint_range<tripoint> &range,
+                                       const std::function<bool( const tripoint & )> &predicate ) -> cata::optional<tripoint>;
 /// Same as other random_point with a range enclosing all valid points of the map.
-cata::optional<tripoint> random_point( const map &m,
-                                       const std::function<bool( const tripoint & )> &predicate );
+auto random_point( const map &m,
+                                       const std::function<bool( const tripoint & )> &predicate ) -> cata::optional<tripoint>;
 
 #endif // CATA_SRC_RNG_H

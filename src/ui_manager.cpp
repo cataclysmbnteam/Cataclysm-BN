@@ -88,13 +88,13 @@ void ui_adaptor::mark_resize() const
     deferred_resize = true;
 }
 
-static bool contains( const rectangle<point> &lhs, const rectangle<point> &rhs )
+static auto contains( const rectangle<point> &lhs, const rectangle<point> &rhs ) -> bool
 {
     return rhs.p_min.x >= lhs.p_min.x && rhs.p_max.x <= lhs.p_max.x &&
            rhs.p_min.y >= lhs.p_min.y && rhs.p_max.y <= lhs.p_max.y;
 }
 
-static bool overlap( const rectangle<point> &lhs, const rectangle<point> &rhs )
+static auto overlap( const rectangle<point> &lhs, const rectangle<point> &rhs ) -> bool
 {
     return lhs.p_min.x < rhs.p_max.x && lhs.p_min.y < rhs.p_max.y &&
            rhs.p_min.x < lhs.p_max.x && rhs.p_min.y < lhs.p_max.y;

@@ -50,14 +50,14 @@ struct stacked_items {
 
 // TODO: This should get information on whether children are consecutive
 /** Finds possible parent-child relations in picked up items to save moves */
-std::vector<pick_drop_selection> optimize_pickup( const std::vector<item_location> &targets,
-        const std::vector<int> &quantities );
-std::list<act_item> reorder_for_dropping( Character &p, const drop_locations &drop );
-std::list<item> obtain_and_tokenize_items( player &p, std::list<act_item> &items );
-std::vector<stacked_items> stack_for_pickup_ui( const
-        std::vector<item_stack::iterator> &unstacked );
+auto optimize_pickup( const std::vector<item_location> &targets,
+        const std::vector<int> &quantities ) -> std::vector<pick_drop_selection>;
+auto reorder_for_dropping( Character &p, const drop_locations &drop ) -> std::list<act_item>;
+auto obtain_and_tokenize_items( player &p, std::list<act_item> &items ) -> std::list<item>;
+auto stack_for_pickup_ui( const
+        std::vector<item_stack::iterator> &unstacked ) -> std::vector<stacked_items>;
 // TODO: This probably shouldn't return raw iterators
-std::vector<std::list<item_stack::iterator>> flatten( const std::vector<stacked_items> &stacked );
+auto flatten( const std::vector<stacked_items> &stacked ) -> std::vector<std::list<item_stack::iterator>>;
 
 } // namespace pickup
 

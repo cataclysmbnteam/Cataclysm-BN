@@ -35,16 +35,16 @@ class distribution
         distribution();
         distribution( const distribution & );
 
-        float roll() const;
+        auto roll() const -> float;
 
-        distribution operator+( const distribution &other ) const;
-        distribution operator*( const distribution &other ) const;
-        distribution &operator=( const distribution &other );
+        auto operator+( const distribution &other ) const -> distribution;
+        auto operator*( const distribution &other ) const -> distribution;
+        auto operator=( const distribution &other ) -> distribution &;
 
-        static distribution constant( float val );
-        static distribution rng_roll( int from, int to );
-        static distribution dice_roll( int sides, int size );
-        static distribution one_in( float in );
+        static auto constant( float val ) -> distribution;
+        static auto rng_roll( int from, int to ) -> distribution;
+        static auto dice_roll( int sides, int size ) -> distribution;
+        static auto one_in( float in ) -> distribution;
 };
 
 class npc_class
@@ -81,27 +81,27 @@ class npc_class
         std::map<bionic_id, int> bionic_list;
         npc_class();
 
-        std::string get_name() const;
-        std::string get_job_description() const;
+        auto get_name() const -> std::string;
+        auto get_job_description() const -> std::string;
 
-        int roll_strength() const;
-        int roll_dexterity() const;
-        int roll_intelligence() const;
-        int roll_perception() const;
+        auto roll_strength() const -> int;
+        auto roll_dexterity() const -> int;
+        auto roll_intelligence() const -> int;
+        auto roll_perception() const -> int;
 
-        int roll_skill( const skill_id & ) const;
+        auto roll_skill( const skill_id & ) const -> int;
 
-        const item_group_id &get_shopkeeper_items() const;
+        auto get_shopkeeper_items() const -> const item_group_id &;
 
         void load( const JsonObject &jo, const std::string &src );
 
-        static const npc_class_id &from_legacy_int( int i );
+        static auto from_legacy_int( int i ) -> const npc_class_id &;
 
-        static const npc_class_id &random_common();
+        static auto random_common() -> const npc_class_id &;
 
         static void load_npc_class( const JsonObject &jo, const std::string &src );
 
-        static const std::vector<npc_class> &get_all();
+        static auto get_all() -> const std::vector<npc_class> &;
 
         static void reset_npc_classes();
 

@@ -112,7 +112,7 @@ Creature::Creature()
 
 Creature::~Creature() = default;
 
-std::vector<std::string> Creature::get_grammatical_genders() const
+auto Creature::get_grammatical_genders() const -> std::vector<std::string>
 {
     // Returning empty list means we use the language-specified default
     return {};
@@ -171,17 +171,17 @@ void Creature::process_turn()
     }
 }
 
-bool Creature::is_underwater() const
+auto Creature::is_underwater() const -> bool
 {
     return underwater;
 }
 
-bool Creature::digging() const
+auto Creature::digging() const -> bool
 {
     return false;
 }
 
-bool Creature::is_dangerous_fields( const field &fld ) const
+auto Creature::is_dangerous_fields( const field &fld ) const -> bool
 {
     // Else check each field to see if it's dangerous to us
     for( auto &dfield : fld ) {
@@ -193,13 +193,13 @@ bool Creature::is_dangerous_fields( const field &fld ) const
     return false;
 }
 
-bool Creature::is_dangerous_field( const field_entry &entry ) const
+auto Creature::is_dangerous_field( const field_entry &entry ) const -> bool
 {
     // If it's dangerous and we're not immune return true, else return false
     return entry.is_dangerous() && !is_immune_field( entry.get_field_type() );
 }
 
-bool Creature::sees( const Creature &critter ) const
+auto Creature::sees( const Creature &critter ) const -> bool
 {
     // Creatures always see themselves (simplifies drawing).
     if( &critter == this ) {
@@ -275,7 +275,7 @@ bool Creature::sees( const Creature &critter ) const
     return sees( critter.pos(), critter.is_avatar() ) && visible( ch );
 }
 
-bool Creature::sees( const tripoint &t, bool is_avatar, int range_mod ) const
+auto Creature::sees( const tripoint &t, bool is_avatar, int range_mod ) const -> bool
 {
     if( !fov_3d && posz() != t.z ) {
         return false;
@@ -319,8 +319,8 @@ bool Creature::sees( const tripoint &t, bool is_avatar, int range_mod ) const
 
 // Helper function to check if potential area of effect of a weapon overlaps vehicle
 // Maybe TODO: If this is too slow, precalculate a bounding box and clip the tested area to it
-static bool overlaps_vehicle( const std::set<tripoint> &veh_area, const tripoint &pos,
-                              const int area )
+static auto overlaps_vehicle( const std::set<tripoint> &veh_area, const tripoint &pos,
+                              const int area ) -> bool
 {
     for( const tripoint &tmp : tripoint_range<tripoint>( pos - tripoint( area, area, 0 ),
             pos + tripoint( area - 1, area - 1, 0 ) ) ) {
@@ -332,7 +332,7 @@ static bool overlaps_vehicle( const std::set<tripoint> &veh_area, const tripoint
     return false;
 }
 
-Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area )
+auto Creature::auto_find_hostile_target( int range, int &boo_hoo, int area ) -> Creature *
 {
     Creature *target = nullptr;
     player &u = g->u; // Could easily protect something that isn't the player
@@ -478,7 +478,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
  * Damage-related functions
  */
 
-int Creature::size_melee_penalty() const
+auto Creature::size_melee_penalty() const -> int
 {
     switch( get_size() ) {
         case MS_TINY:
@@ -499,7 +499,7 @@ int Creature::size_melee_penalty() const
     return 0;
 }
 
-int Creature::deal_melee_attack( Creature *source, int hitroll )
+auto Creature::deal_melee_attack( Creature *source, int hitroll ) -> int
 {
     int hit_spread = hitroll - dodge_roll() - size_melee_penalty();
     if( has_flag( MF_IMMOBILE ) ) {
@@ -612,7 +612,7 @@ void print_dmg_msg( Creature &target, Creature *source, const dealt_damage_insta
     }
 }
 
-dealt_damage_instance hit_with_aoe( Creature &target, Creature *source, const damage_instance &di )
+auto hit_with_aoe( Creature &target, Creature *source, const damage_instance &di ) -> dealt_damage_instance
 {
     const auto all_body_parts = target.get_body();
     float hit_size_sum = std::accumulate( all_body_parts.begin(), all_body_parts.end(), 0.0f,
@@ -876,8 +876,8 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     attack.missed_by = goodhit;
 }
 
-dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
-        const damage_instance &dam )
+auto Creature::deal_damage( Creature *source, bodypart_id bp,
+        const damage_instance &dam ) -> dealt_damage_instance
 {
     if( is_dead_state() ) {
         return dealt_damage_instance();
@@ -957,17 +957,17 @@ void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, i
  * State check functions
  */
 
-bool Creature::is_warm() const
+auto Creature::is_warm() const -> bool
 {
     return true;
 }
 
-bool Creature::in_species( const species_id & ) const
+auto Creature::in_species( const species_id & ) const -> bool
 {
     return false;
 }
 
-bool Creature::is_fake() const
+auto Creature::is_fake() const -> bool
 {
     return fake;
 }
@@ -1109,8 +1109,8 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur,
         }
     }
 }
-bool Creature::add_env_effect( const efftype_id &eff_id, body_part vector, int strength,
-                               const time_duration &dur, body_part bp, int intensity, bool force )
+auto Creature::add_env_effect( const efftype_id &eff_id, body_part vector, int strength,
+                               const time_duration &dur, body_part bp, int intensity, bool force ) -> bool
 {
     if( !force && is_immune_effect( eff_id ) ) {
         return false;
@@ -1133,11 +1133,11 @@ void Creature::clear_effects()
         }
     }
 }
-bool Creature::remove_effect( const efftype_id &eff_id, body_part bp )
+auto Creature::remove_effect( const efftype_id &eff_id, body_part bp ) -> bool
 {
     return remove_effect( eff_id, convert_bp( bp ) );
 }
-bool Creature::remove_effect( const efftype_id &eff_id, const bodypart_str_id &bp )
+auto Creature::remove_effect( const efftype_id &eff_id, const bodypart_str_id &bp ) -> bool
 {
     if( !has_effect( eff_id, bp ) ) {
         //Effect doesn't exist, so do nothing
@@ -1176,11 +1176,11 @@ bool Creature::remove_effect( const efftype_id &eff_id, const bodypart_str_id &b
     }
     return true;
 }
-bool Creature::has_effect( const efftype_id &eff_id, body_part bp ) const
+auto Creature::has_effect( const efftype_id &eff_id, body_part bp ) const -> bool
 {
     return has_effect( eff_id, convert_bp( bp ) );
 }
-bool Creature::has_effect( const efftype_id &eff_id, const bodypart_str_id &bp ) const
+auto Creature::has_effect( const efftype_id &eff_id, const bodypart_str_id &bp ) const -> bool
 {
     // num_bp means anything targeted or not
     if( !bp ) {
@@ -1198,7 +1198,7 @@ bool Creature::has_effect( const efftype_id &eff_id, const bodypart_str_id &bp )
     }
 }
 
-bool Creature::has_effect_with_flag( const std::string &flag, body_part bp ) const
+auto Creature::has_effect_with_flag( const std::string &flag, body_part bp ) const -> bool
 {
     const auto &tmp = convert_bp( bp ).id();
     for( const auto &elem : *effects ) {
@@ -1211,12 +1211,12 @@ bool Creature::has_effect_with_flag( const std::string &flag, body_part bp ) con
     return false;
 }
 
-effect &Creature::get_effect( const efftype_id &eff_id, body_part bp )
+auto Creature::get_effect( const efftype_id &eff_id, body_part bp ) -> effect &
 {
     return const_cast<effect &>( const_cast<const Creature *>( this )->get_effect( eff_id, bp ) );
 }
 
-const effect &Creature::get_effect( const efftype_id &eff_id, body_part bp ) const
+auto Creature::get_effect( const efftype_id &eff_id, body_part bp ) const -> const effect &
 {
     auto got_outer = effects->find( eff_id );
     if( got_outer != effects->end() ) {
@@ -1227,7 +1227,7 @@ const effect &Creature::get_effect( const efftype_id &eff_id, body_part bp ) con
     }
     return effect::null_effect;
 }
-std::vector<const effect *> Creature::get_all_effects_of_type( const efftype_id &eff_id ) const
+auto Creature::get_all_effects_of_type( const efftype_id &eff_id ) const -> std::vector<const effect *>
 {
     std::vector<const effect *> ret;
     auto got_outer = effects->find( eff_id );
@@ -1238,7 +1238,7 @@ std::vector<const effect *> Creature::get_all_effects_of_type( const efftype_id 
     }
     return ret;
 }
-time_duration Creature::get_effect_dur( const efftype_id &eff_id, body_part bp ) const
+auto Creature::get_effect_dur( const efftype_id &eff_id, body_part bp ) const -> time_duration
 {
     const effect &eff = get_effect( eff_id, bp );
     if( !eff.is_null() ) {
@@ -1247,7 +1247,7 @@ time_duration Creature::get_effect_dur( const efftype_id &eff_id, body_part bp )
 
     return 0_turns;
 }
-int Creature::get_effect_int( const efftype_id &eff_id, body_part bp ) const
+auto Creature::get_effect_int( const efftype_id &eff_id, body_part bp ) const -> int
 {
     const effect &eff = get_effect( eff_id, bp );
     if( !eff.is_null() ) {
@@ -1307,7 +1307,7 @@ void Creature::process_effects()
     }
 }
 
-bool Creature::resists_effect( const effect &e ) const
+auto Creature::resists_effect( const effect &e ) const -> bool
 {
     for( auto &i : e.get_resist_effects() ) {
         if( has_effect( i ) ) {
@@ -1322,7 +1322,7 @@ bool Creature::resists_effect( const effect &e ) const
     return false;
 }
 
-bool Creature::has_trait( const trait_id &/*flag*/ ) const
+auto Creature::has_trait( const trait_id &/*flag*/ ) const -> bool
 {
     return false;
 }
@@ -1338,7 +1338,7 @@ void Creature::remove_value( const std::string &key )
     values.erase( key );
 }
 
-std::string Creature::get_value( const std::string &key ) const
+auto Creature::get_value( const std::string &key ) const -> std::string
 {
     auto it = values.find( key );
     return ( it == values.end() ) ? "" : it->second;
@@ -1363,17 +1363,17 @@ void Creature::set_pain( int npain )
     }
 }
 
-int Creature::get_pain() const
+auto Creature::get_pain() const -> int
 {
     return pain;
 }
 
-int Creature::get_perceived_pain() const
+auto Creature::get_perceived_pain() const -> int
 {
     return get_pain();
 }
 
-std::pair<std::string, nc_color> Creature::get_pain_description() const
+auto Creature::get_pain_description() const -> std::pair<std::string, nc_color>
 {
     float scale = get_perceived_pain() / 10.f;
     std::string pain_string;
@@ -1401,7 +1401,7 @@ std::pair<std::string, nc_color> Creature::get_pain_description() const
     return std::make_pair( pain_string, pain_color );
 }
 
-int Creature::get_moves() const
+auto Creature::get_moves() const -> int
 {
     return moves;
 }
@@ -1414,7 +1414,7 @@ void Creature::set_moves( int nmoves )
     moves = nmoves;
 }
 
-bool Creature::in_sleep_state() const
+auto Creature::in_sleep_state() const -> bool
 {
     return has_effect( effect_sleep ) || has_effect( effect_lying_down ) ||
            has_effect( effect_npc_suspend );
@@ -1423,7 +1423,7 @@ bool Creature::in_sleep_state() const
 /*
  * Killer-related things
  */
-Creature *Creature::get_killer() const
+auto Creature::get_killer() const -> Creature *
 {
     return killer;
 }
@@ -1437,84 +1437,84 @@ void Creature::set_killer( Creature *const killer )
     }
 }
 
-int Creature::get_num_blocks() const
+auto Creature::get_num_blocks() const -> int
 {
     return num_blocks + num_blocks_bonus;
 }
-int Creature::get_num_dodges() const
+auto Creature::get_num_dodges() const -> int
 {
     return num_dodges + num_dodges_bonus;
 }
-int Creature::get_num_blocks_bonus() const
+auto Creature::get_num_blocks_bonus() const -> int
 {
     return num_blocks_bonus;
 }
-int Creature::get_num_dodges_bonus() const
+auto Creature::get_num_dodges_bonus() const -> int
 {
     return num_dodges_bonus;
 }
-int Creature::get_num_dodges_base() const
+auto Creature::get_num_dodges_base() const -> int
 {
     return num_dodges;
 }
 
 // currently this is expected to be overridden to actually have use
-int Creature::get_env_resist( bodypart_id ) const
+auto Creature::get_env_resist( bodypart_id ) const -> int
 {
     return 0;
 }
-int Creature::get_armor_bash( bodypart_id ) const
+auto Creature::get_armor_bash( bodypart_id ) const -> int
 {
     return armor_bash_bonus;
 }
-int Creature::get_armor_cut( bodypart_id ) const
+auto Creature::get_armor_cut( bodypart_id ) const -> int
 {
     return armor_cut_bonus;
 }
-int Creature::get_armor_bullet( bodypart_id ) const
+auto Creature::get_armor_bullet( bodypart_id ) const -> int
 {
     return armor_bullet_bonus;
 }
-int Creature::get_armor_bash_base( bodypart_id ) const
+auto Creature::get_armor_bash_base( bodypart_id ) const -> int
 {
     return armor_bash_bonus;
 }
-int Creature::get_armor_cut_base( bodypart_id ) const
+auto Creature::get_armor_cut_base( bodypart_id ) const -> int
 {
     return armor_cut_bonus;
 }
-int Creature::get_armor_bullet_base( bodypart_id ) const
+auto Creature::get_armor_bullet_base( bodypart_id ) const -> int
 {
     return armor_bullet_bonus;
 }
-int Creature::get_armor_bash_bonus() const
+auto Creature::get_armor_bash_bonus() const -> int
 {
     return armor_bash_bonus;
 }
-int Creature::get_armor_cut_bonus() const
+auto Creature::get_armor_cut_bonus() const -> int
 {
     return armor_cut_bonus;
 }
-int Creature::get_armor_bullet_bonus() const
+auto Creature::get_armor_bullet_bonus() const -> int
 {
     return armor_bullet_bonus;
 }
 
 
-int Creature::get_speed() const
+auto Creature::get_speed() const -> int
 {
     return get_speed_base() + get_speed_bonus();
 }
-float Creature::get_dodge() const
+auto Creature::get_dodge() const -> float
 {
     return get_dodge_base() + get_dodge_bonus();
 }
-float Creature::get_hit() const
+auto Creature::get_hit() const -> float
 {
     return get_hit_base() + get_hit_bonus();
 }
 
-anatomy_id Creature::get_anatomy() const
+auto Creature::get_anatomy() const -> anatomy_id
 {
     return creature_anatomy;
 }
@@ -1524,7 +1524,7 @@ void Creature::set_anatomy( anatomy_id anat )
     creature_anatomy = anat;
 }
 
-const std::map<bodypart_str_id, bodypart> &Creature::get_body() const
+auto Creature::get_body() const -> const std::map<bodypart_str_id, bodypart> &
 {
     return body;
 }
@@ -1537,7 +1537,7 @@ void Creature::set_body()
     }
 }
 
-bodypart *Creature::get_part( const bodypart_id &id )
+auto Creature::get_part( const bodypart_id &id ) -> bodypart *
 {
     auto found = body.find( id.id() );
     if( found == body.end() ) {
@@ -1547,7 +1547,7 @@ bodypart *Creature::get_part( const bodypart_id &id )
     return &found->second;
 }
 
-bodypart Creature::get_part( const bodypart_id &id ) const
+auto Creature::get_part( const bodypart_id &id ) const -> bodypart
 {
     auto found = body.find( id.id() );
     if( found == body.end() ) {
@@ -1557,17 +1557,17 @@ bodypart Creature::get_part( const bodypart_id &id ) const
     return found->second;
 }
 
-int Creature::get_part_hp_cur( const bodypart_id &id ) const
+auto Creature::get_part_hp_cur( const bodypart_id &id ) const -> int
 {
     return get_part( id ).get_hp_cur();
 }
 
-int Creature::get_part_hp_max( const bodypart_id &id ) const
+auto Creature::get_part_hp_max( const bodypart_id &id ) const -> int
 {
     return get_part( id ).get_hp_max();
 }
 
-int Creature::get_part_healed_total( const bodypart_id &id ) const
+auto Creature::get_part_healed_total( const bodypart_id &id ) const -> int
 {
     return get_part( id ).get_healed_total();
 }
@@ -1617,14 +1617,14 @@ void Creature::set_all_parts_hp_to_max()
 }
 
 
-bodypart_id Creature::get_random_body_part( bool main ) const
+auto Creature::get_random_body_part( bool main ) const -> bodypart_id
 {
     // TODO: Refuse broken limbs, adjust for mutations
     const bodypart_id &part = get_anatomy()->random_body_part();
     return main ? part->main_part.id() : part;
 }
 
-std::vector<bodypart_id> Creature::get_all_body_parts( bool only_main ) const
+auto Creature::get_all_body_parts( bool only_main ) const -> std::vector<bodypart_id>
 {
     std::vector<bodypart_id> all_bps;
     for( const std::pair<const bodypart_str_id, bodypart> &elem : body ) {
@@ -1637,7 +1637,7 @@ std::vector<bodypart_id> Creature::get_all_body_parts( bool only_main ) const
     return  all_bps;
 }
 
-int Creature::get_hp( const bodypart_id &bp ) const
+auto Creature::get_hp( const bodypart_id &bp ) const -> int
 {
     if( bp != bodypart_id( "num_bp" ) ) {
         return get_part_hp_cur( bp );
@@ -1649,12 +1649,12 @@ int Creature::get_hp( const bodypart_id &bp ) const
     return hp_total;
 }
 
-int Creature::get_hp() const
+auto Creature::get_hp() const -> int
 {
     return get_hp( bodypart_id( "num_bp" ) );
 }
 
-int Creature::get_hp_max( const bodypart_id &bp ) const
+auto Creature::get_hp_max( const bodypart_id &bp ) const -> int
 {
     if( bp != bodypart_id( "num_bp" ) ) {
         return get_part_hp_max( bp );
@@ -1666,28 +1666,28 @@ int Creature::get_hp_max( const bodypart_id &bp ) const
     return hp_total;
 }
 
-int Creature::get_hp_max() const
+auto Creature::get_hp_max() const -> int
 {
     return get_hp_max( bodypart_id( "num_bp" ) );
 }
 
-int Creature::get_speed_base() const
+auto Creature::get_speed_base() const -> int
 {
     return speed_base;
 }
-int Creature::get_speed_bonus() const
+auto Creature::get_speed_bonus() const -> int
 {
     return speed_bonus;
 }
-float Creature::get_dodge_bonus() const
+auto Creature::get_dodge_bonus() const -> float
 {
     return dodge_bonus;
 }
-int Creature::get_block_bonus() const
+auto Creature::get_block_bonus() const -> int
 {
     return block_bonus; //base is 0
 }
-float Creature::get_hit_bonus() const
+auto Creature::get_hit_bonus() const -> float
 {
     return hit_bonus; //base is 0
 }
@@ -1771,7 +1771,7 @@ void Creature::mod_hit_bonus( float nhit )
     hit_bonus += nhit;
 }
 
-units::mass Creature::weight_capacity() const
+auto Creature::weight_capacity() const -> units::mass
 {
     units::mass base_carry = 13_kilogram;
     switch( get_size() ) {
@@ -1819,12 +1819,12 @@ void Creature::draw( const catacurses::window &w, const tripoint &origin, bool i
     }
 }
 
-bool Creature::is_symbol_highlighted() const
+auto Creature::is_symbol_highlighted() const -> bool
 {
     return false;
 }
 
-body_part Creature::select_body_part( Creature *source, int hit_roll ) const
+auto Creature::select_body_part( Creature *source, int hit_roll ) const -> body_part
 {
     int szdif = source->get_size() - get_size();
 
@@ -1843,7 +1843,7 @@ void Creature::check_dead_state()
     }
 }
 
-std::string Creature::attitude_raw_string( Attitude att )
+auto Creature::attitude_raw_string( Attitude att ) -> std::string
 {
     switch( att ) {
         case Creature::A_HOSTILE:
@@ -1857,7 +1857,7 @@ std::string Creature::attitude_raw_string( Attitude att )
     }
 }
 
-const std::pair<translation, nc_color> &Creature::get_attitude_ui_data( Attitude att )
+auto Creature::get_attitude_ui_data( Attitude att ) -> const std::pair<translation, nc_color> &
 {
     using pair_t = std::pair<translation, nc_color>;
     static const std::array<pair_t, 5> strings {
@@ -1877,7 +1877,7 @@ const std::pair<translation, nc_color> &Creature::get_attitude_ui_data( Attitude
     return strings[att];
 }
 
-std::string Creature::replace_with_npc_name( std::string input ) const
+auto Creature::replace_with_npc_name( std::string input ) const -> std::string
 {
     return replace_all( std::move( input ), "<npcname>", disp_name() );
 }
@@ -2006,7 +2006,7 @@ void Creature::describe_specials( std::vector<std::string> &buf ) const
     buf.push_back( _( "You sense a creature here." ) );
 }
 
-effects_map Creature::get_all_effects() const
+auto Creature::get_all_effects() const -> effects_map
 {
     effects_map effects_without_removed;
     for( auto &outer : *effects ) {

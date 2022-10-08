@@ -25,12 +25,12 @@
 #include "translations.h"
 #include "ui_manager.h"
 
-static std::string find_quad_path( const std::string &dirname, const tripoint &om_addr )
+static auto find_quad_path( const std::string &dirname, const tripoint &om_addr ) -> std::string
 {
     return string_format( "%s/%d.%d.%d.map", dirname, om_addr.x, om_addr.y, om_addr.z );
 }
 
-static std::string find_dirname( const tripoint &om_addr )
+static auto find_dirname( const tripoint &om_addr ) -> std::string
 {
     const tripoint segment_addr = omt_to_seg_copy( om_addr );
     return string_format( "%s/maps/%d.%d.%d", g->get_world_base_save_path(), segment_addr.x,
@@ -54,7 +54,7 @@ void mapbuffer::reset()
     submaps.clear();
 }
 
-bool mapbuffer::add_submap( const tripoint &p, submap *sm )
+auto mapbuffer::add_submap( const tripoint &p, submap *sm ) -> bool
 {
     if( submaps.count( p ) != 0 ) {
         return false;
@@ -65,7 +65,7 @@ bool mapbuffer::add_submap( const tripoint &p, submap *sm )
     return true;
 }
 
-bool mapbuffer::add_submap( const tripoint &p, std::unique_ptr<submap> &sm )
+auto mapbuffer::add_submap( const tripoint &p, std::unique_ptr<submap> &sm ) -> bool
 {
     const bool result = add_submap( p, sm.get() );
     if( result ) {
@@ -85,7 +85,7 @@ void mapbuffer::remove_submap( tripoint addr )
     submaps.erase( m_target );
 }
 
-submap *mapbuffer::lookup_submap( const tripoint &p )
+auto mapbuffer::lookup_submap( const tripoint &p ) -> submap *
 {
     const auto iter = submaps.find( p );
     if( iter == submaps.end() ) {
@@ -244,7 +244,7 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
 
 // We're reading in way too many entities here to mess around with creating sub-objects and
 // seeking around in them, so we're using the json streaming API.
-submap *mapbuffer::unserialize_submaps( const tripoint &p )
+auto mapbuffer::unserialize_submaps( const tripoint &p ) -> submap *
 {
     // Map the tripoint to the submap quad that stores it.
     const tripoint om_addr = sm_to_omt_copy( p );

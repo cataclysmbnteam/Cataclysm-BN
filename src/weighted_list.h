@@ -16,7 +16,7 @@ template <typename W, typename T> struct weighted_object {
 
 namespace weighted_list_detail
 {
-unsigned int gen_rand_i();
+auto gen_rand_i() -> unsigned int;
 } // namespace weighted_list_detail
 
 template <typename W, typename T> struct weighted_list {
@@ -30,7 +30,7 @@ template <typename W, typename T> struct weighted_list {
          * @param obj The object that will be added to the list.
          * @param weight The weight of the object.
          */
-        T *add( const T &obj, const W &weight ) {
+        auto add( const T &obj, const W &weight ) -> T * {
             if( weight >= 0 ) {
                 objects.emplace_back( obj, weight );
                 total_weight += weight;
@@ -48,7 +48,7 @@ template <typename W, typename T> struct weighted_list {
          * @param obj The object that will be updated or added to the list.
          * @param weight The new weight of the object.
          */
-        T *add_or_replace( const T &obj, const W &weight ) {
+        auto add_or_replace( const T &obj, const W &weight ) -> T * {
             if( weight >= 0 ) {
                 invalidate_precalc();
                 for( auto &itr : objects ) {
@@ -91,14 +91,14 @@ template <typename W, typename T> struct weighted_list {
          * and biased by weight. If the weighted list is empty or all items in it
          * have a weight of zero, it will return a NULL pointer.
          */
-        const T *pick( unsigned int randi ) const {
+        auto pick( unsigned int randi ) const -> const T * {
             if( total_weight > 0 ) {
                 return &( objects[pick_ent( randi )].obj );
             } else {
                 return nullptr;
             }
         }
-        const T *pick() const {
+        auto pick() const -> const T * {
             return pick( weighted_list_detail::gen_rand_i() );
         }
 
@@ -108,14 +108,14 @@ template <typename W, typename T> struct weighted_list {
          * have a weight of zero, it will return a NULL pointer. This is the
          * non-const version so that the returned result may be modified.
          */
-        T *pick( unsigned int randi ) {
+        auto pick( unsigned int randi ) -> T * {
             if( total_weight > 0 ) {
                 return &( objects[pick_ent( randi )].obj );
             } else {
                 return nullptr;
             }
         }
-        T *pick() {
+        auto pick() -> T * {
             return pick( weighted_list_detail::gen_rand_i() );
         }
 
@@ -132,7 +132,7 @@ template <typename W, typename T> struct weighted_list {
          * This will return the weight of a specific object. If the object is not
          * in the weighted list it will return 0.
          */
-        W get_specific_weight( const T &obj ) const {
+        auto get_specific_weight( const T &obj ) const -> W {
             for( auto &itr : objects ) {
                 if( itr.obj == obj ) {
                     return itr.weight;
@@ -144,32 +144,32 @@ template <typename W, typename T> struct weighted_list {
         /**
          * This will return the sum of all the object's weights in the list.
          */
-        W get_weight() const {
+        auto get_weight() const -> W {
             return total_weight;
         }
 
-        typename std::vector<weighted_object<W, T> >::iterator begin() {
+        auto begin() -> typename std::vector<weighted_object<W, T> >::iterator {
             return objects.begin();
         }
-        typename std::vector<weighted_object<W, T> >::iterator end() {
+        auto end() -> typename std::vector<weighted_object<W, T> >::iterator {
             return objects.end();
         }
-        typename std::vector<weighted_object<W, T> >::const_iterator begin() const {
+        auto begin() const -> typename std::vector<weighted_object<W, T> >::const_iterator {
             return objects.begin();
         }
-        typename std::vector<weighted_object<W, T> >::const_iterator end() const {
+        auto end() const -> typename std::vector<weighted_object<W, T> >::const_iterator {
             return objects.end();
         }
-        typename std::vector<weighted_object<W, T> >::iterator erase(
+        auto erase(
             typename std::vector<weighted_object<W, T> >::iterator first,
-            typename std::vector<weighted_object<W, T> >::iterator last ) {
+            typename std::vector<weighted_object<W, T> >::iterator last ) -> typename std::vector<weighted_object<W, T> >::iterator {
             invalidate_precalc();
             return objects.erase( first, last );
         }
-        size_t size() const noexcept {
+        auto size() const noexcept -> size_t {
             return objects.size();
         }
-        bool empty() const noexcept {
+        auto empty() const noexcept -> bool {
             return objects.empty();
         }
 
@@ -179,7 +179,7 @@ template <typename W, typename T> struct weighted_list {
         W total_weight;
         std::vector<weighted_object<W, T> > objects;
 
-        virtual size_t pick_ent( unsigned int ) const = 0;
+        virtual auto pick_ent( unsigned int ) const -> size_t = 0;
         virtual void invalidate_precalc() {}
 };
 
@@ -198,7 +198,7 @@ template <typename T> struct weighted_int_list : public weighted_list<int, T> {
 
     protected:
 
-        size_t pick_ent( unsigned int randi ) const override {
+        auto pick_ent( unsigned int randi ) const -> size_t override {
             if( this->objects.size() == 1 ) {
                 return 0;
             }
@@ -233,7 +233,7 @@ template <typename T> struct weighted_float_list : public weighted_list<double, 
 
     protected:
 
-        size_t pick_ent( unsigned int randi ) const override {
+        auto pick_ent( unsigned int randi ) const -> size_t override {
             const double picked = static_cast<double>( randi ) / UINT_MAX * this->total_weight;
             double accumulated_weight = 0;
             size_t i;

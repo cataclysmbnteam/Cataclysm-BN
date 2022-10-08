@@ -18,12 +18,12 @@ void construction_group::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "name", _name );
 }
 
-std::string construction_group::name() const
+auto construction_group::name() const -> std::string
 {
     return _name.translated();
 }
 
-size_t construction_group::count()
+auto construction_group::count() -> size_t
 {
     return all_construction_groups.size();
 }
@@ -38,7 +38,7 @@ void construction_groups::reset()
     all_construction_groups.reset();
 }
 
-const std::vector<construction_group> &construction_groups::get_all()
+auto construction_groups::get_all() -> const std::vector<construction_group> &
 {
     return all_construction_groups.get_all();
 }

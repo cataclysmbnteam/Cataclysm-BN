@@ -162,7 +162,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
             {}
 
             // Actually a move operator, used by c++03 in group_vector's remove, expand_capacity and append
-            group &operator=( const group &source ) noexcept {
+            auto operator=( const group &source ) noexcept -> group & {
                 nodes = source.nodes;
                 free_list_head = source.free_list_head;
                 beyond_end = source.beyond_end;
@@ -180,7 +180,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 source.beyond_end = nullptr;
             }
 
-            group &operator=( group &&source ) noexcept {
+            auto operator=( group &&source ) noexcept -> group & {
                 nodes = std::move( source.nodes );
                 free_list_head = std::move( source.free_list_head );
                 beyond_end = std::move( source.beyond_end );
@@ -247,7 +247,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                     source.blank();
                 }
 
-                group_vector &operator = ( group_vector &&source ) noexcept {
+                auto operator = ( group_vector &&source ) noexcept -> group_vector & {
                     if LIST_CONSTEXPR( std::is_trivial<group_pointer_type>::value ) {
                         // NOLINTNEXTLINE(bugprone-undefined-memory-manipulation)
                         std::memcpy( static_cast<void *>( this ), &source, sizeof( group_vector ) );
@@ -492,7 +492,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 }
 
                 // In working implementation this cannot throw
-                group_pointer_type get_nearest_freelist_group( const node_pointer_type location_node ) noexcept {
+                auto get_nearest_freelist_group( const node_pointer_type location_node ) noexcept -> group_pointer_type {
                     const group_pointer_type beyond_end_group = last_endpoint_group + 1;
                     group_pointer_type left = last_searched_group - 1, right = last_searched_group + 1,
                                        freelist_group = nullptr;
@@ -754,72 +754,72 @@ template <class element_type, class element_allocator_type = std::allocator<elem
 
                 friend class list;
 
-                inline LIST_FORCE_INLINE bool operator==( const list_iterator rh ) const noexcept {
+                inline LIST_FORCE_INLINE auto operator==( const list_iterator rh ) const noexcept -> bool {
                     return ( node_pointer == rh.node_pointer );
                 }
 
-                inline LIST_FORCE_INLINE bool operator==( const list_iterator < !is_const > rh ) const
-                noexcept {
+                inline LIST_FORCE_INLINE auto operator==( const list_iterator < !is_const > rh ) const
+                noexcept -> bool {
                     return ( node_pointer == rh.node_pointer );
                 }
 
-                inline LIST_FORCE_INLINE bool operator!=( const list_iterator rh ) const noexcept {
+                inline LIST_FORCE_INLINE auto operator!=( const list_iterator rh ) const noexcept -> bool {
                     return ( node_pointer != rh.node_pointer );
                 }
 
-                inline LIST_FORCE_INLINE bool operator!=( const list_iterator < !is_const > rh ) const
-                noexcept {
+                inline LIST_FORCE_INLINE auto operator!=( const list_iterator < !is_const > rh ) const
+                noexcept -> bool {
                     return ( node_pointer != rh.node_pointer );
                 }
 
-                inline LIST_FORCE_INLINE reference operator*() const {
+                inline LIST_FORCE_INLINE auto operator*() const -> reference {
                     return node_pointer->element;
                 }
 
-                inline LIST_FORCE_INLINE pointer operator->() const {
+                inline LIST_FORCE_INLINE auto operator->() const -> pointer {
                     return &( node_pointer->element );
                 }
 
-                inline LIST_FORCE_INLINE list_iterator &operator++() noexcept {
+                inline LIST_FORCE_INLINE auto operator++() noexcept -> list_iterator & {
                     assert( node_pointer != nullptr ); // covers uninitialized list_iterator
                     node_pointer = node_pointer->next;
                     return *this;
                 }
 
-                inline list_iterator operator++( int ) noexcept {
+                inline auto operator++( int ) noexcept -> list_iterator {
                     const list_iterator copy( *this );
                     ++*this;
                     return copy;
                 }
 
-                inline LIST_FORCE_INLINE list_iterator &operator--() noexcept {
+                inline LIST_FORCE_INLINE auto operator--() noexcept -> list_iterator & {
                     assert( node_pointer != nullptr ); // covers uninitialized list_iterator
                     node_pointer = node_pointer->previous;
                     return *this;
                 }
 
-                inline list_iterator operator--( int ) noexcept {
+                inline auto operator--( int ) noexcept -> list_iterator {
                     const list_iterator copy( *this );
                     --*this;
                     return copy;
                 }
 
-                inline list_iterator &operator=( const list_iterator &rh ) noexcept {
+                inline auto operator=( const list_iterator &rh ) noexcept -> list_iterator & {
                     node_pointer = rh.node_pointer;
                     return *this;
                 }
 
-                inline list_iterator &operator=( const list_iterator < !is_const > &rh ) noexcept {
+                inline auto operator=( const list_iterator < !is_const > &rh ) noexcept -> list_iterator & {
                     node_pointer = rh.node_pointer;
                     return *this;
                 }
 
-                inline list_iterator &operator=( list_iterator &&rh ) noexcept {
+                inline auto operator=( list_iterator &&rh ) noexcept -> list_iterator & {
                     node_pointer = std::move( rh.node_pointer );
                     return *this;
                 }
 
-                inline list_iterator &operator=( const list_iterator < !is_const > &&rh ) noexcept {
+                inline auto operator=( const list_iterator < !is_const > &&rh ) noexcept -> list_iterator & {
                     node_pointer = std::move( rh.node_pointer );
                     return *this;
                 }
@@ -858,79 +858,79 @@ template <class element_type, class element_allocator_type = std::allocator<elem
 
                 friend class list;
 
-                inline LIST_FORCE_INLINE bool operator==( const list_reverse_iterator rh ) const noexcept {
+                inline LIST_FORCE_INLINE auto operator==( const list_reverse_iterator rh ) const noexcept -> bool {
                     return ( node_pointer == rh.node_pointer );
                 }
 
-                inline LIST_FORCE_INLINE bool operator==( const list_reverse_iterator < !is_const > rh ) const
-                noexcept {
+                inline LIST_FORCE_INLINE auto operator==( const list_reverse_iterator < !is_const > rh ) const
+                noexcept -> bool {
                     return ( node_pointer == rh.node_pointer );
                 }
 
-                inline LIST_FORCE_INLINE bool operator!=( const list_reverse_iterator rh ) const noexcept {
+                inline LIST_FORCE_INLINE auto operator!=( const list_reverse_iterator rh ) const noexcept -> bool {
                     return ( node_pointer != rh.node_pointer );
                 }
 
-                inline LIST_FORCE_INLINE bool operator!=( const list_reverse_iterator < !is_const > rh ) const
-                noexcept {
+                inline LIST_FORCE_INLINE auto operator!=( const list_reverse_iterator < !is_const > rh ) const
+                noexcept -> bool {
                     return ( node_pointer != rh.node_pointer );
                 }
 
-                inline LIST_FORCE_INLINE reference operator*() const {
+                inline LIST_FORCE_INLINE auto operator*() const -> reference {
                     return node_pointer->element;
                 }
 
-                inline LIST_FORCE_INLINE pointer operator->() const {
+                inline LIST_FORCE_INLINE auto operator->() const -> pointer {
                     return &( node_pointer->element );
                 }
 
-                inline LIST_FORCE_INLINE list_reverse_iterator &operator++() noexcept {
+                inline LIST_FORCE_INLINE auto operator++() noexcept -> list_reverse_iterator & {
                     assert( node_pointer != nullptr ); // covers uninitialized list_reverse_iterator
                     node_pointer = node_pointer->previous;
                     return *this;
                 }
 
-                inline list_reverse_iterator operator++( int ) noexcept {
+                inline auto operator++( int ) noexcept -> list_reverse_iterator {
                     const list_reverse_iterator copy( *this );
                     ++*this;
                     return copy;
                 }
 
-                inline LIST_FORCE_INLINE list_reverse_iterator &operator--() noexcept {
+                inline LIST_FORCE_INLINE auto operator--() noexcept -> list_reverse_iterator & {
                     assert( node_pointer != nullptr );
                     node_pointer = node_pointer->next;
                     return *this;
                 }
 
-                inline list_reverse_iterator operator--( int ) noexcept {
+                inline auto operator--( int ) noexcept -> list_reverse_iterator {
                     const list_reverse_iterator copy( *this );
                     --*this;
                     return copy;
                 }
 
-                inline list_reverse_iterator &operator=( const list_reverse_iterator &rh ) noexcept {
+                inline auto operator=( const list_reverse_iterator &rh ) noexcept -> list_reverse_iterator & {
                     node_pointer = rh.node_pointer;
                     return *this;
                 }
 
-                inline list_reverse_iterator &operator=( const list_reverse_iterator < !is_const > &rh )
-                noexcept {
+                inline auto operator=( const list_reverse_iterator < !is_const > &rh )
+                noexcept -> list_reverse_iterator & {
                     node_pointer = rh.node_pointer;
                     return *this;
                 }
 
-                inline list_reverse_iterator &operator=( list_reverse_iterator &&rh ) noexcept {
+                inline auto operator=( list_reverse_iterator &&rh ) noexcept -> list_reverse_iterator & {
                     node_pointer = std::move( rh.node_pointer );
                     return *this;
                 }
 
-                inline list_reverse_iterator &operator=( const list_reverse_iterator < !is_const > &&
-                        rh ) noexcept {
+                inline auto operator=( const list_reverse_iterator < !is_const > &&
+                        rh ) noexcept -> list_reverse_iterator & {
                     node_pointer = std::move( rh.node_pointer );
                     return *this;
                 }
 
-                inline typename list::iterator base() const noexcept {
+                inline auto base() const noexcept -> typename list::iterator {
                     return typename list::iterator( node_pointer->next );
                 }
 
@@ -1115,62 +1115,62 @@ template <class element_type, class element_allocator_type = std::allocator<elem
             groups.destroy_all_data( last_endpoint );
         }
 
-        inline iterator begin() noexcept {
+        inline auto begin() noexcept -> iterator {
             return begin_iterator;
         }
 
-        inline const_iterator begin() const noexcept {
+        inline auto begin() const noexcept -> const_iterator {
             return begin_iterator;
         }
 
-        inline iterator end() noexcept {
+        inline auto end() noexcept -> iterator {
             return end_iterator;
         }
 
-        inline const_iterator end() const noexcept {
+        inline auto end() const noexcept -> const_iterator {
             return end_iterator;
         }
 
-        inline const_iterator cbegin() const noexcept {
+        inline auto cbegin() const noexcept -> const_iterator {
             return const_iterator( begin_iterator.node_pointer );
         }
 
-        inline const_iterator cend() const noexcept {
+        inline auto cend() const noexcept -> const_iterator {
             return const_iterator( end_iterator.node_pointer );
         }
 
-        inline reverse_iterator rbegin() const noexcept {
+        inline auto rbegin() const noexcept -> reverse_iterator {
             return reverse_iterator( end_node.previous );
         }
 
-        inline reverse_iterator rend() const noexcept {
+        inline auto rend() const noexcept -> reverse_iterator {
             return reverse_iterator( end_iterator.node_pointer );
         }
 
-        inline const_reverse_iterator crbegin() const noexcept {
+        inline auto crbegin() const noexcept -> const_reverse_iterator {
             return const_reverse_iterator( end_node.previous );
         }
 
-        inline const_reverse_iterator crend() const noexcept {
+        inline auto crend() const noexcept -> const_reverse_iterator {
             return const_reverse_iterator( end_iterator.node_pointer );
         }
 
-        inline reference front() {
+        inline auto front() -> reference {
             assert( begin_iterator.node_pointer != &end_node );
             return begin_iterator.node_pointer->element;
         }
 
-        inline const_reference front() const {
+        inline auto front() const -> const_reference {
             assert( begin_iterator.node_pointer != &end_node );
             return begin_iterator.node_pointer->element;
         }
 
-        inline reference back() {
+        inline auto back() -> reference {
             assert( end_node.previous != &end_node );
             return end_node.previous->element;
         }
 
-        inline const_reference back() const {
+        inline auto back() const -> const_reference {
             assert( end_node.previous != &end_node );
             return end_node.previous->element;
         }
@@ -1206,7 +1206,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
 
     public:
 
-        iterator insert( const iterator it, const element_type &element ) {
+        auto insert( const iterator it, const element_type &element ) -> iterator {
             // ie. list is not empty
             if( last_endpoint != nullptr ) {
                 // No erased nodes available for reuse
@@ -1301,7 +1301,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
         }
 
         // This is almost identical to the insert implementation above with the only change being std::move of the element
-        iterator insert( const iterator it, element_type &&element ) {
+        auto insert( const iterator it, element_type &&element ) -> iterator {
             if( last_endpoint != nullptr ) {
                 if( node_allocator_pair.number_of_erased_nodes == 0 ) {
                     if( last_endpoint == groups.last_endpoint_group->beyond_end ) {
@@ -1392,7 +1392,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
 
         // This is almost identical to the insert implementations above with the only changes being std::forward of element parameters
         template<typename... arguments>
-        iterator emplace( const iterator it, arguments &&... parameters ) {
+        auto emplace( const iterator it, arguments &&... parameters ) -> iterator {
             if( last_endpoint != nullptr ) {
                 if( node_allocator_pair.number_of_erased_nodes == 0 ) {
                     if( last_endpoint == groups.last_endpoint_group->beyond_end ) {
@@ -1473,12 +1473,12 @@ template <class element_type, class element_allocator_type = std::allocator<elem
         }
 
         template<typename... arguments>
-        inline LIST_FORCE_INLINE reference emplace_back( arguments &&... parameters ) {
+        inline LIST_FORCE_INLINE auto emplace_back( arguments &&... parameters ) -> reference {
             return ( emplace( end_iterator, std::forward<arguments>( parameters )... ) ).node_pointer->element;
         }
 
         template<typename... arguments>
-        inline LIST_FORCE_INLINE reference emplace_front( arguments &&... parameters ) {
+        inline LIST_FORCE_INLINE auto emplace_front( arguments &&... parameters ) -> reference {
             return ( emplace( begin_iterator,
                               std::forward<arguments>( parameters )... ) ).node_pointer->element;
         }
@@ -1518,8 +1518,8 @@ template <class element_type, class element_allocator_type = std::allocator<elem
     public:
 
         // Fill insert
-        iterator insert( iterator position, const size_type number_of_elements,
-                         const element_type &element ) {
+        auto insert( iterator position, const size_type number_of_elements,
+                         const element_type &element ) -> iterator {
             if( number_of_elements == 0 ) {
                 return end_iterator;
             } else if( number_of_elements == 1 ) {
@@ -1653,9 +1653,9 @@ template <class element_type, class element_allocator_type = std::allocator<elem
 
         // Range insert
         template <class iterator_type>
-        iterator insert( const iterator it,
+        auto insert( const iterator it,
                          typename plf_enable_if_c < !std::numeric_limits<iterator_type>::is_integer,
-                         iterator_type >::type first, const iterator_type last ) {
+                         iterator_type >::type first, const iterator_type last ) -> iterator {
             if( first == last ) {
                 return end_iterator;
             }
@@ -1670,8 +1670,8 @@ template <class element_type, class element_allocator_type = std::allocator<elem
         }
 
         // Initializer-list insert
-        inline iterator insert( const iterator it,
-                                const std::initializer_list<element_type> &element_list ) {
+        inline auto insert( const iterator it,
+                                const std::initializer_list<element_type> &element_list ) -> iterator {
             // use range insert:
             return insert( it, element_list.begin(), element_list.end() );
         }
@@ -1693,7 +1693,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
 
         // Single erase:
         // if uninitialized/invalid iterator supplied, function could generate an exception, hence no noexcept
-        iterator erase( const const_iterator it ) {
+        auto erase( const const_iterator it ) -> iterator {
             assert( node_pointer_allocator_pair.total_number_of_elements != 0 );
             assert( it.node_pointer != nullptr );
             assert( it.node_pointer != end_iterator.node_pointer );
@@ -1813,7 +1813,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
             erase( begin_iterator );
         }
 
-        inline list &operator=( const list &source ) {
+        inline auto operator=( const list &source ) -> list & {
             assert( &source != this );
 
             clear();
@@ -1824,7 +1824,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
         }
 
         // Move assignment
-        list &operator=( list &&source ) LIST_NOEXCEPT_MOVE_ASSIGNMENT( allocator_type ) {
+        auto operator=( list &&source ) LIST_NOEXCEPT_MOVE_ASSIGNMENT( allocator_type ) -> list & {
             assert( &source != this );
 
             // Move source values across:
@@ -1847,7 +1847,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
             return *this;
         }
 
-        bool operator==( const list &rh ) const noexcept {
+        auto operator==( const list &rh ) const noexcept -> bool {
             assert( this != &rh );
 
             if( node_pointer_allocator_pair.total_number_of_elements !=
@@ -1866,27 +1866,27 @@ template <class element_type, class element_allocator_type = std::allocator<elem
             return true;
         }
 
-        inline bool operator!=( const list &rh ) const noexcept {
+        inline auto operator!=( const list &rh ) const noexcept -> bool {
             return !( *this == rh );
         }
 
-        inline bool empty() const noexcept {
+        inline auto empty() const noexcept -> bool {
             return node_pointer_allocator_pair.total_number_of_elements == 0;
         }
 
-        inline size_type size() const noexcept {
+        inline auto size() const noexcept -> size_type {
             return node_pointer_allocator_pair.total_number_of_elements;
         }
 
-        inline size_type max_size() const noexcept {
+        inline auto max_size() const noexcept -> size_type {
             return std::allocator_traits<element_allocator_type>::max_size( *this );
         }
 
-        inline size_type capacity() const noexcept {
+        inline auto capacity() const noexcept -> size_type {
             return groups.element_allocator_pair.capacity;
         }
 
-        inline size_type approximate_memory_use() const noexcept {
+        inline auto approximate_memory_use() const noexcept -> size_type {
             return static_cast<size_type>( sizeof( *this ) + ( groups.element_allocator_pair.capacity * sizeof(
                                                node ) ) + ( sizeof( group ) * groups.group_allocator_pair.capacity ) );
         }
@@ -1894,7 +1894,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
     private:
 
         struct less {
-            inline bool operator()( const element_type &a, const element_type &b ) const noexcept {
+            inline auto operator()( const element_type &a, const element_type &b ) const noexcept -> bool {
                 return a < b;
             }
         };
@@ -1910,7 +1910,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
 
             sort_dereferencer() noexcept = default;
 
-            inline bool operator()( const node_pointer_type first, const node_pointer_type second ) {
+            inline auto operator()( const node_pointer_type first, const node_pointer_type second ) -> bool {
                 return stored_instance( first->element, second->element );
             }
         };
@@ -2267,7 +2267,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
 
         // Used by unique()
         struct eq {
-            inline bool operator()( const element_type &a, const element_type &b ) const noexcept {
+            inline auto operator()( const element_type &a, const element_type &b ) const noexcept -> bool {
                 return a == b;
             }
         };
@@ -2282,7 +2282,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
 
             eq_to() noexcept = default;
 
-            inline bool operator()( const element_type compare_value ) const noexcept {
+            inline auto operator()( const element_type compare_value ) const noexcept -> bool {
                 return value == compare_value;
             }
         };
@@ -2290,7 +2290,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
     public:
 
         template <class comparison_function>
-        size_type unique( comparison_function compare ) {
+        auto unique( comparison_function compare ) -> size_type {
             const size_type original_number_of_elements = node_pointer_allocator_pair.total_number_of_elements;
 
             if( original_number_of_elements > 1 ) {
@@ -2308,12 +2308,12 @@ template <class element_type, class element_allocator_type = std::allocator<elem
             return original_number_of_elements - node_pointer_allocator_pair.total_number_of_elements;
         }
 
-        inline size_type unique() {
+        inline auto unique() -> size_type {
             return unique( eq() );
         }
 
         template <class predicate_function>
-        size_type remove_if( predicate_function predicate ) {
+        auto remove_if( predicate_function predicate ) -> size_type {
             const size_type original_number_of_elements = node_pointer_allocator_pair.total_number_of_elements;
 
             if( original_number_of_elements != 0 ) {
@@ -2382,7 +2382,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
             return original_number_of_elements - node_pointer_allocator_pair.total_number_of_elements;
         }
 
-        inline size_type remove( const element_type &value ) {
+        inline auto remove( const element_type &value ) -> size_type {
             return remove_if( eq_to( value ) );
         }
 
@@ -2431,7 +2431,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
             insert( end_iterator, element_list );
         }
 
-        inline allocator_type get_allocator() const noexcept {
+        inline auto get_allocator() const noexcept -> allocator_type {
             return element_allocator_type();
         }
 

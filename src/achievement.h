@@ -63,21 +63,21 @@ class achievement
         static void load_achievement( const JsonObject &, const std::string & );
         static void finalize();
         static void check_consistency();
-        static const std::vector<achievement> &get_all();
+        static auto get_all() -> const std::vector<achievement> &;
         static void reset();
 
         string_id<achievement> id;
         bool was_loaded = false;
 
-        const translation &name() const {
+        auto name() const -> const translation & {
             return name_;
         }
 
-        const translation &description() const {
+        auto description() const -> const translation & {
             return description_;
         }
 
-        const std::vector<string_id<achievement>> &hidden_by() const {
+        auto hidden_by() const -> const std::vector<string_id<achievement>> & {
             return hidden_by_;
         }
 
@@ -93,20 +93,20 @@ class achievement
                 void deserialize( JsonIn & );
                 void check( const string_id<achievement> & ) const;
 
-                time_point target() const;
-                achievement_completion completed() const;
-                std::string ui_text() const;
+                auto target() const -> time_point;
+                auto completed() const -> achievement_completion;
+                auto ui_text() const -> std::string;
             private:
                 achievement_comparison comparison_;
                 epoch epoch_;
                 time_duration period_;
         };
 
-        const cata::optional<time_bound> &time_constraint() const {
+        auto time_constraint() const -> const cata::optional<time_bound> & {
             return time_constraint_;
         }
 
-        const std::vector<achievement_requirement> &requirements() const {
+        auto requirements() const -> const std::vector<achievement_requirement> & {
             return requirements_;
         }
     private:
@@ -134,7 +134,7 @@ struct achievement_state {
     // The values for each requirement at the time of completion or failure
     std::vector<cata_variant> final_values;
 
-    std::string ui_text( const achievement * ) const;
+    auto ui_text( const achievement * ) const -> std::string;
 
     void serialize( JsonOut & ) const;
     void deserialize( JsonIn & );
@@ -145,16 +145,16 @@ class achievement_tracker
     public:
         // Non-movable because requirement_watcher stores a pointer to us
         achievement_tracker( const achievement_tracker & ) = delete;
-        achievement_tracker &operator=( const achievement_tracker & ) = delete;
+        auto operator=( const achievement_tracker & ) -> achievement_tracker & = delete;
 
         achievement_tracker( const achievement &a, achievements_tracker &tracker,
                              stats_tracker &stats );
 
         void set_requirement( requirement_watcher *watcher, bool is_satisfied );
 
-        bool time_is_expired() const;
-        std::vector<cata_variant> current_values() const;
-        std::string ui_text() const;
+        auto time_is_expired() const -> bool;
+        auto current_values() const -> std::vector<cata_variant>;
+        auto ui_text() const -> std::string;
     private:
         const achievement *achievement_;
         achievements_tracker *tracker_;
@@ -172,7 +172,7 @@ class achievements_tracker : public event_subscriber
     public:
         // Non-movable because achievement_tracker stores a pointer to us
         achievements_tracker( const achievements_tracker & ) = delete;
-        achievements_tracker &operator=( const achievements_tracker & ) = delete;
+        auto operator=( const achievements_tracker & ) -> achievements_tracker & = delete;
 
         achievements_tracker(
             stats_tracker &,
@@ -180,13 +180,13 @@ class achievements_tracker : public event_subscriber
         ~achievements_tracker() override;
 
         // Return all scores which are valid now and existed at game start
-        std::vector<const achievement *> valid_achievements() const;
+        auto valid_achievements() const -> std::vector<const achievement *>;
 
         void report_achievement( const achievement *, achievement_completion );
 
-        achievement_completion is_completed( const string_id<achievement> & ) const;
-        bool is_hidden( const achievement * ) const;
-        std::string ui_text_for( const achievement * ) const;
+        auto is_completed( const string_id<achievement> & ) const -> achievement_completion;
+        auto is_hidden( const achievement * ) const -> bool;
+        auto ui_text_for( const achievement * ) const -> std::string;
 
         void clear();
         void notify( const cata::event & ) override;

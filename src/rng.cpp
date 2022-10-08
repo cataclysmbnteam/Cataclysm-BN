@@ -9,14 +9,14 @@
 #include "cata_utility.h"
 #include "units.h"
 
-unsigned int rng_bits()
+auto rng_bits() -> unsigned int
 {
     // Whole uint range.
     static std::uniform_int_distribution<unsigned int> rng_uint_dist;
     return rng_uint_dist( rng_get_engine() );
 }
 
-int rng( int lo, int hi )
+auto rng( int lo, int hi ) -> int
 {
     static std::uniform_int_distribution<int> rng_int_dist;
     if( lo > hi ) {
@@ -25,7 +25,7 @@ int rng( int lo, int hi )
     return rng_int_dist( rng_get_engine(), std::uniform_int_distribution<>::param_type( lo, hi ) );
 }
 
-double rng_float( double lo, double hi )
+auto rng_float( double lo, double hi ) -> double
 {
     static std::uniform_real_distribution<double> rng_real_dist;
     if( lo > hi ) {
@@ -34,25 +34,25 @@ double rng_float( double lo, double hi )
     return rng_real_dist( rng_get_engine(), std::uniform_real_distribution<>::param_type( lo, hi ) );
 }
 
-units::angle random_direction()
+auto random_direction() -> units::angle
 {
     return rng_float( 0_pi_radians, 2_pi_radians );
 }
 
-double normal_roll( double mean, double stddev )
+auto normal_roll( double mean, double stddev ) -> double
 {
     static std::normal_distribution<double> rng_normal_dist;
     return rng_normal_dist( rng_get_engine(), std::normal_distribution<>::param_type( mean, stddev ) );
 }
 
-double exponential_roll( double lambda )
+auto exponential_roll( double lambda ) -> double
 {
     static std::exponential_distribution<double> rng_exponential_dist;
     return rng_exponential_dist( rng_get_engine(),
                                  std::exponential_distribution<>::param_type( lambda ) );
 }
 
-double rng_exponential( double min, double mean )
+auto rng_exponential( double min, double mean ) -> double
 {
     const double adjusted_mean = mean - min;
     if( adjusted_mean <= 0.0 ) {
@@ -62,27 +62,27 @@ double rng_exponential( double min, double mean )
     return min + exponential_roll( 1.0 / adjusted_mean );
 }
 
-bool one_in( int chance )
+auto one_in( int chance ) -> bool
 {
     return ( chance <= 1 || rng( 0, chance - 1 ) == 0 );
 }
 
-bool one_turn_in( const time_duration &duration )
+auto one_turn_in( const time_duration &duration ) -> bool
 {
     return one_in( to_turns<int>( duration ) );
 }
 
-bool x_in_y( double x, double y )
+auto x_in_y( double x, double y ) -> bool
 {
     return rng_float( 0.0, 1.0 ) <= x / y;
 }
 
-bool check( units::probability p )
+auto check( units::probability p ) -> bool
 {
     return rng( 0, 1000000 - 1 ) < units::to_one_in_million( p );
 }
 
-int dice( int number, int sides )
+auto dice( int number, int sides ) -> int
 {
     int ret = 0;
     for( int i = 0; i < number; i++ ) {
@@ -93,7 +93,7 @@ int dice( int number, int sides )
 
 // probabilistically round a double to an int
 // 1.3 has a 70% chance of rounding to 1, 30% chance to 2.
-int roll_remainder( double value )
+auto roll_remainder( double value ) -> int
 {
     double integ;
     double frac = modf( value, &integ );
@@ -108,7 +108,7 @@ int roll_remainder( double value )
 
 // http://www.cse.yorku.ca/~oz/hash.html
 // for world seeding.
-int djb2_hash( const unsigned char *input )
+auto djb2_hash( const unsigned char *input ) -> int
 {
     unsigned int hash = 5381;
     unsigned char c = *input++;
@@ -119,7 +119,7 @@ int djb2_hash( const unsigned char *input )
     return hash;
 }
 
-double rng_normal( double lo, double hi )
+auto rng_normal( double lo, double hi ) -> double
 {
     if( lo > hi ) {
         std::swap( lo, hi );
@@ -133,7 +133,7 @@ double rng_normal( double lo, double hi )
     return clamp( val, lo, hi );
 }
 
-cata_default_random_engine &rng_get_engine()
+auto rng_get_engine() -> cata_default_random_engine &
 {
     // NOLINTNEXTLINE(cata-determinism)
     static cata_default_random_engine eng(
@@ -150,7 +150,7 @@ void rng_set_engine_seed( unsigned int seed )
 
 namespace weighted_list_detail
 {
-unsigned int gen_rand_i()
+auto gen_rand_i() -> unsigned int
 {
     return rng_bits();
 }

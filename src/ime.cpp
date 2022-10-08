@@ -101,7 +101,7 @@ class imm_wrapper
 static imm_wrapper imm;
 #endif
 
-static bool ime_enabled()
+static auto ime_enabled() -> bool
 {
 #if defined( __ANDROID__ )
     return false; // always call disable_ime() (i.e. do nothing) on return

@@ -89,20 +89,20 @@ class advanced_inv_area
         void init();
 
         template <typename T>
-        advanced_inv_area::itemstack i_stacked( T items );
+        auto i_stacked( T items ) -> advanced_inv_area::itemstack;
         // if you want vehicle cargo, specify so via `in_vehicle'
-        units::volume free_volume( bool in_vehicle = false ) const;
-        int get_item_count() const;
+        auto free_volume( bool in_vehicle = false ) const -> units::volume;
+        auto get_item_count() const -> int;
         // Other area is actually the same item source, e.g. dragged vehicle to the south and AIM_SOUTH
-        bool is_same( const advanced_inv_area &other ) const;
+        auto is_same( const advanced_inv_area &other ) const -> bool;
         // does _not_ check vehicle storage, do that with `can_store_in_vehicle()' below
-        bool canputitems( const advanced_inv_listitem *advitem = nullptr );
+        auto canputitems( const advanced_inv_listitem *advitem = nullptr ) -> bool;
         // if you want vehicle cargo, specify so via `in_vehicle'
-        item *get_container( bool in_vehicle = false );
+        auto get_container( bool in_vehicle = false ) -> item *;
         void set_container( const advanced_inv_listitem *advitem );
-        bool is_container_valid( const item *it ) const;
+        auto is_container_valid( const item *it ) const -> bool;
         void set_container_position();
-        bool can_store_in_vehicle() const {
+        auto can_store_in_vehicle() const -> bool {
             // disallow for non-valid vehicle locations
             if( id > AIM_DRAGGED || id < AIM_SOUTHWEST ) {
                 return false;

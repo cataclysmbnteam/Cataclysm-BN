@@ -30,7 +30,7 @@
 #include "type_id.h"
 #include "ui.h"
 
-static bool popup_string( std::string &result, std::string &title )
+static auto popup_string( std::string &result, std::string &title ) -> bool
 {
     string_input_popup popup;
     popup.title( title );
@@ -43,7 +43,7 @@ static bool popup_string( std::string &result, std::string &title )
     return true;
 }
 
-bool teleporter_list::activate_teleporter( const tripoint_abs_omt &omt_pt, const tripoint & )
+auto teleporter_list::activate_teleporter( const tripoint_abs_omt &omt_pt, const tripoint & ) -> bool
 {
     std::string point_name;
     std::string title = _( "Name this gate." );
@@ -58,7 +58,7 @@ void teleporter_list::deactivate_teleporter( const tripoint_abs_omt &omt_pt, con
 
 // returns the first valid teleport location near a teleporter
 // returns map square (global coordinates)
-static cata::optional<tripoint> find_valid_teleporters_omt( const tripoint_abs_omt &omt_pt )
+static auto find_valid_teleporters_omt( const tripoint_abs_omt &omt_pt ) -> cata::optional<tripoint>
 {
     // this is the top left hand square of the global absolute coordinate
     // of the overmap terrain we want to try to teleport to.
@@ -75,7 +75,7 @@ static cata::optional<tripoint> find_valid_teleporters_omt( const tripoint_abs_o
     return cata::nullopt;
 }
 
-bool teleporter_list::place_avatar_overmap( Character &you, const tripoint_abs_omt &omt_pt ) const
+auto teleporter_list::place_avatar_overmap( Character &you, const tripoint_abs_omt &omt_pt ) const -> bool
 {
     tinymap omt_dest( 2, true );
     tripoint_abs_sm sm_dest = project_to<coords::sm>( omt_pt );
@@ -123,7 +123,7 @@ void teleporter_list::translocate( const std::set<tripoint> &targets )
     }
 }
 
-bool teleporter_list::knows_translocator( const tripoint_abs_omt &omt_pos ) const
+auto teleporter_list::knows_translocator( const tripoint_abs_omt &omt_pos ) const -> bool
 {
     return known_teleporters.find( omt_pos ) != known_teleporters.end();
 }
@@ -188,7 +188,7 @@ class teleporter_callback : public uilist_callback
         }
 };
 
-cata::optional<tripoint_abs_omt> teleporter_list::choose_teleport_location()
+auto teleporter_list::choose_teleport_location() -> cata::optional<tripoint_abs_omt>
 {
     cata::optional<tripoint_abs_omt> ret = cata::nullopt;
 

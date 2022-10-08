@@ -23,90 +23,90 @@ class field_entry
         field_entry( const field_type_id &t, const int i, const time_duration &a ) : type( t ),
             intensity( i ), age( a ), is_alive( true ) { }
 
-        nc_color color() const;
+        auto color() const -> nc_color;
 
-        std::string symbol() const;
+        auto symbol() const -> std::string;
 
         //returns the move cost of this field
-        int move_cost() const;
+        auto move_cost() const -> int;
 
-        int extra_radiation_min() const;
-        int extra_radiation_max() const;
-        int radiation_hurt_damage_min() const;
-        int radiation_hurt_damage_max() const;
-        std::string radiation_hurt_message() const;
-        int intensity_upgrade_chance() const;
-        time_duration intensity_upgrade_duration() const;
-        int monster_spawn_chance() const;
-        int monster_spawn_count() const;
-        int monster_spawn_radius() const;
-        mongroup_id monster_spawn_group() const;
+        auto extra_radiation_min() const -> int;
+        auto extra_radiation_max() const -> int;
+        auto radiation_hurt_damage_min() const -> int;
+        auto radiation_hurt_damage_max() const -> int;
+        auto radiation_hurt_message() const -> std::string;
+        auto intensity_upgrade_chance() const -> int;
+        auto intensity_upgrade_duration() const -> time_duration;
+        auto monster_spawn_chance() const -> int;
+        auto monster_spawn_count() const -> int;
+        auto monster_spawn_radius() const -> int;
+        auto monster_spawn_group() const -> mongroup_id;
 
-        float light_emitted() const;
-        float local_light_override() const;
-        float translucency() const;
-        bool is_transparent() const;
-        int convection_temperature_mod() const;
+        auto light_emitted() const -> float;
+        auto local_light_override() const -> float;
+        auto translucency() const -> float;
+        auto is_transparent() const -> bool;
+        auto convection_temperature_mod() const -> int;
 
         //Returns the field_type_id of the current field entry.
-        field_type_id get_field_type() const;
+        auto get_field_type() const -> field_type_id;
 
         // Allows you to modify the field_type_id of the current field entry.
         // This probably shouldn't be called outside of field::replace_field, as it
         // breaks the field drawing code and field lookup
-        field_type_id set_field_type( const field_type_id &new_type );
+        auto set_field_type( const field_type_id &new_type ) -> field_type_id;
 
         // Returns the maximum intensity of the current field entry.
-        int get_max_field_intensity() const;
+        auto get_max_field_intensity() const -> int;
         // Returns the current intensity of the current field entry.
-        int get_field_intensity() const;
+        auto get_field_intensity() const -> int;
         // Allows you to modify the intensity of the current field entry.
-        int set_field_intensity( int new_intensity );
+        auto set_field_intensity( int new_intensity ) -> int;
 
         /// @returns @ref age.
-        time_duration get_field_age() const;
+        auto get_field_age() const -> time_duration;
         /// Sets @ref age to the given value.
         /// @returns New value of @ref age.
-        time_duration set_field_age( const time_duration &new_age );
+        auto set_field_age( const time_duration &new_age ) -> time_duration;
         /// Adds given value to @ref age.
         /// @returns New value of @ref age.
-        time_duration mod_field_age( const time_duration &mod_age ) {
+        auto mod_field_age( const time_duration &mod_age ) -> time_duration {
             return set_field_age( get_field_age() + mod_age );
         }
 
         //Returns if the current field is dangerous or not.
-        bool is_dangerous() const {
+        auto is_dangerous() const -> bool {
             return type.obj().is_dangerous();
         }
 
         //Returns the display name of the current field given its current intensity.
         //IE: light smoke, smoke, heavy smoke
-        std::string name() const {
+        auto name() const -> std::string {
             return type.obj().get_name( intensity - 1 );
         }
 
         //Returns true if this is an active field, false if it should be removed.
-        bool is_field_alive() {
+        auto is_field_alive() -> bool {
             return is_alive;
         }
 
-        bool gas_can_spread() {
+        auto gas_can_spread() -> bool {
             return is_field_alive() && type.obj().phase == GAS && type.obj().percent_spread > 0;
         }
 
-        time_duration get_underwater_age_speedup() const {
+        auto get_underwater_age_speedup() const -> time_duration {
             return type.obj().underwater_age_speedup;
         }
 
-        int get_gas_absorption_factor() const {
+        auto get_gas_absorption_factor() const -> int {
             return type.obj().gas_absorption_factor;
         }
 
-        bool decays_on_actualize() const {
+        auto decays_on_actualize() const -> bool {
             return type.obj().accelerated_decay;
         }
 
-        std::vector<field_effect> field_effects() const;
+        auto field_effects() const -> std::vector<field_effect>;
 
     private:
         // The field identifier.
@@ -136,17 +136,17 @@ class field
          * Returns a field entry corresponding to the field_type_id parameter passed in.
          * If no fields are found then nullptr is returned.
          */
-        field_entry *find_field( const field_type_id &field_type_to_find );
+        auto find_field( const field_type_id &field_type_to_find ) -> field_entry *;
         /**
          * Returns a field entry corresponding to the field_type_id parameter passed in.
          * If no fields are found then nullptr is returned.
          */
-        const field_entry *find_field_c( const field_type_id &field_type_to_find ) const;
+        auto find_field_c( const field_type_id &field_type_to_find ) const -> const field_entry *;
         /**
          * Returns a field entry corresponding to the field_type_id parameter passed in.
          * If no fields are found then nullptr is returned.
          */
-        const field_entry *find_field( const field_type_id &field_type_to_find ) const;
+        auto find_field( const field_type_id &field_type_to_find ) const -> const field_entry *;
 
         /**
          * Inserts the given field_type_id into the field list for a given tile if it does not already exist.
@@ -155,8 +155,8 @@ class field
          * The intensity is added to an existing field entry, but the age is only used for newly added entries.
          * @return false if the field_type_id already exists, true otherwise.
          */
-        bool add_field( const field_type_id &field_type_to_add, int new_intensity = 1,
-                        const time_duration &new_age = 0_turns );
+        auto add_field( const field_type_id &field_type_to_add, int new_intensity = 1,
+                        const time_duration &new_age = 0_turns ) -> bool;
 
         /**
          * Removes the field entry with a type equal to the field_type_id parameter.
@@ -164,7 +164,7 @@ class field
          * function returns true.
          * @return True if the field was removed, false if it did not exist in the first place.
          */
-        bool remove_field( const field_type_id &field_to_remove );
+        auto remove_field( const field_type_id &field_to_remove ) -> bool;
         /**
          * Make sure to decrement the field counter in the submap.
          * Removes the field entry, the iterator must point into @ref _field_type_list and must be valid.
@@ -172,27 +172,27 @@ class field
         void remove_field( std::map<field_type_id, field_entry>::iterator );
 
         // Returns the number of fields existing on the current tile.
-        unsigned int field_count() const;
+        auto field_count() const -> unsigned int;
 
         /**
          * Returns field type that should be drawn.
          */
-        field_type_id displayed_field_type() const;
+        auto displayed_field_type() const -> field_type_id;
 
-        description_affix displayed_description_affix() const;
+        auto displayed_description_affix() const -> description_affix;
 
         //Returns the vector iterator to begin searching through the list.
-        std::map<field_type_id, field_entry>::iterator begin();
-        std::map<field_type_id, field_entry>::const_iterator begin() const;
+        auto begin() -> std::map<field_type_id, field_entry>::iterator;
+        auto begin() const -> std::map<field_type_id, field_entry>::const_iterator;
 
         //Returns the vector iterator to end searching through the list.
-        std::map<field_type_id, field_entry>::iterator end();
-        std::map<field_type_id, field_entry>::const_iterator end() const;
+        auto end() -> std::map<field_type_id, field_entry>::iterator;
+        auto end() const -> std::map<field_type_id, field_entry>::const_iterator;
 
         /**
          * Returns the total move cost from all fields.
          */
-        int total_move_cost() const;
+        auto total_move_cost() const -> int;
 
     private:
         // A pointer lookup table of all field effects on the current tile.

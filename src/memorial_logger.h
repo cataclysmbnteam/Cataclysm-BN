@@ -38,7 +38,7 @@ class memorial_logger : public event_subscriber
         // Dumps all memorial events into a single newline-delimited string
         // (this is the content of the temporary file used to preserve the log
         // over saves, not the final memorial file).
-        std::string dump() const;
+        auto dump() const -> std::string;
 
         // Prints out the final memorial file
         void write( std::ostream &memorial_file, const std::string &epitaph ) const;

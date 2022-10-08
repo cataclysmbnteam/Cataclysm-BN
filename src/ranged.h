@@ -34,29 +34,29 @@ using trajectory = std::vector<tripoint>;
 /**
  * Firing ranged weapon. This mode allows spending moves on aiming.
  */
-trajectory mode_fire( avatar &you, aim_activity_actor &activity );
+auto mode_fire( avatar &you, aim_activity_actor &activity ) -> trajectory;
 
 /** Throwing item */
-trajectory mode_throw( avatar &you, item &relevant, bool blind_throwing );
+auto mode_throw( avatar &you, item &relevant, bool blind_throwing ) -> trajectory;
 
 /** Reach attacking */
-trajectory mode_reach( avatar &you, item &weapon );
+auto mode_reach( avatar &you, item &weapon ) -> trajectory;
 
 /** Manually firing vehicle turret */
-trajectory mode_turret_manual( avatar &you, turret_data &turret );
+auto mode_turret_manual( avatar &you, turret_data &turret ) -> trajectory;
 
 /** Selecting target for turrets (when using vehicle controls) */
-trajectory mode_turrets( avatar &you, vehicle &veh, const std::vector<vehicle_part *> &turrets );
+auto mode_turrets( avatar &you, vehicle &veh, const std::vector<vehicle_part *> &turrets ) -> trajectory;
 
 /** Casting a spell */
-trajectory mode_spell( avatar &you, spell &casting, bool no_fail, bool no_mana );
+auto mode_spell( avatar &you, spell &casting, bool no_fail, bool no_mana ) -> trajectory;
 
 /** Executing an AoE attack given by shape. */
-trajectory mode_shaped( avatar &you, shape_factory &shape_fac, aim_activity_actor &activity );
+auto mode_shaped( avatar &you, shape_factory &shape_fac, aim_activity_actor &activity ) -> trajectory;
 
 } // namespace target_handler
 
-int range_with_even_chance_of_good_hit( int dispersion );
+auto range_with_even_chance_of_good_hit( int dispersion ) -> int;
 
 namespace ranged
 {
@@ -66,42 +66,42 @@ namespace ranged
  * @param messages Used to store messages describing failed checks
  * @return True if all conditions are true
  */
-bool gunmode_checks_common( avatar &you, const map &m, std::vector<std::string> &messages,
-                            const gun_mode &gmode );
+auto gunmode_checks_common( avatar &you, const map &m, std::vector<std::string> &messages,
+                            const gun_mode &gmode ) -> bool;
 
 /**
  * Various checks for gunmode when firing a weapon
  * @param messages Used to store messages describing failed checks
  * @return True if all conditions are true
  */
-bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> &messages,
-                            const gun_mode &gmode );
+auto gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> &messages,
+                            const gun_mode &gmode ) -> bool;
 
-std::vector<Creature *> targetable_creatures( const Character &c, int range );
-std::vector<Creature *> targetable_creatures( const Character &c, int range,
-        const turret_data &turret );
+auto targetable_creatures( const Character &c, int range ) -> std::vector<Creature *>;
+auto targetable_creatures( const Character &c, int range,
+        const turret_data &turret ) -> std::vector<Creature *>;
 
-int burst_penalty( const Character &p, const item &gun, int gun_recoil );
+auto burst_penalty( const Character &p, const item &gun, int gun_recoil ) -> int;
 
 /** How much dispersion does one point of target's dodge add when throwing at said target? */
-int throw_dispersion_per_dodge( const Character &c, bool add_encumbrance );
+auto throw_dispersion_per_dodge( const Character &c, bool add_encumbrance ) -> int;
 /** Dispersion of a thrown item, against a given target, taking into account whether or not the throw was blind. */
-int throwing_dispersion( const Character &c, const item &to_throw, Creature *critter,
-                         bool is_blind_throw );
-int throw_cost( const player &c, const item &to_throw );
+auto throwing_dispersion( const Character &c, const item &to_throw, Creature *critter,
+                         bool is_blind_throw ) -> int;
+auto throw_cost( const player &c, const item &to_throw ) -> int;
 
 /** Penalties potentially incurred by STR_DRAW weapons */
-float get_str_draw_penalty( const item &it, const Character &p );
-float str_draw_damage_modifier( const item &it, const Character &p );
-float str_draw_dispersion_modifier( const item &it, const Character &p );
-float str_draw_range_modifier( const item &it, const Character &p );
+auto get_str_draw_penalty( const item &it, const Character &p ) -> float;
+auto str_draw_damage_modifier( const item &it, const Character &p ) -> float;
+auto str_draw_dispersion_modifier( const item &it, const Character &p ) -> float;
+auto str_draw_range_modifier( const item &it, const Character &p ) -> float;
 
 /** AoE attack, with area given by shape */
 void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &attacker );
 
-std::map<tripoint, double> expected_coverage( const shape &sh, const map &here, int bash_power );
+auto expected_coverage( const shape &sh, const map &here, int bash_power ) -> std::map<tripoint, double>;
 
-dealt_damage_instance hit_with_aoe( Creature &target, Creature *source, const damage_instance &di );
+auto hit_with_aoe( Creature &target, Creature *source, const damage_instance &di ) -> dealt_damage_instance;
 
 void draw_cone_aoe( const tripoint &origin, const std::map<tripoint, double> &aoe );
 
@@ -120,7 +120,7 @@ void print_dmg_msg( Creature &target, Creature *source, const dealt_damage_insta
 void prompt_select_default_ammo_for( avatar &u, const item &w );
 
 /** Returns true if a gun misfires, jams, or has other problems, else returns false. */
-bool handle_gun_damage( Character &shooter, item &it );
+auto handle_gun_damage( Character &shooter, item &it ) -> bool;
 
 } // namespace ranged
 

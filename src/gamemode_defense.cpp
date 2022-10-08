@@ -60,11 +60,11 @@ static constexpr int SPECIAL_WAVE_MIN = 5;
 #define NUMALIGN(n) ((n) >= 10000 ? 20 : ((n) >= 1000 ? 21 :\
                      ((n) >= 100 ? 22 : ((n) >= 10 ? 23 : 24))))
 
-std::string caravan_category_name( caravan_category cat );
-std::vector<itype_id> caravan_items( caravan_category cat );
+auto caravan_category_name( caravan_category cat ) -> std::string;
+auto caravan_items( caravan_category cat ) -> std::vector<itype_id>;
 std::set<m_flag> monflags_to_add;
 
-int caravan_price( player &u, int price );
+auto caravan_price( player &u, int price ) -> int;
 
 void draw_caravan_borders( const catacurses::window &w, int current_window );
 void draw_caravan_categories( const catacurses::window &w, int category_selected,
@@ -72,10 +72,10 @@ void draw_caravan_categories( const catacurses::window &w, int category_selected
 void draw_caravan_items( const catacurses::window &w, std::vector<itype_id> *items,
                          std::vector<int> *counts, int offset, int item_selected );
 
-std::string defense_style_name( defense_style style );
-std::string defense_style_description( defense_style style );
-std::string defense_location_name( defense_location location );
-std::string defense_location_description( defense_location location );
+auto defense_style_name( defense_style style ) -> std::string;
+auto defense_style_description( defense_style style ) -> std::string;
+auto defense_location_name( defense_location location ) -> std::string;
+auto defense_location_description( defense_location location ) -> std::string;
 
 defense_game::defense_game()
     : time_between_waves( 0_turns )
@@ -94,7 +94,7 @@ defense_game::defense_game()
     init_to_style( DEFENSE_EASY );
 }
 
-bool defense_game::init()
+auto defense_game::init() -> bool
 {
     calendar::turn = calendar::turn_zero + 12_hours; // Start at noon
     get_weather().temperature = 65;
@@ -753,7 +753,7 @@ void defense_game::refresh_setup( const catacurses::window &w, int selection )
     wnoutrefresh( w );
 }
 
-std::string defense_style_name( defense_style style )
+auto defense_style_name( defense_style style ) -> std::string
 {
     // 24 Characters Max!
     switch( style ) {
@@ -783,7 +783,7 @@ std::string defense_style_name( defense_style style )
     return "Bug!  (bug in defense.cpp:defense_style_name)";
 }
 
-std::string defense_style_description( defense_style style )
+auto defense_style_description( defense_style style ) -> std::string
 {
     // 51 Characters Max!
     switch( style ) {
@@ -813,7 +813,7 @@ std::string defense_style_description( defense_style style )
     return "What the heck is this I don't even know.  (defense.cpp:defense_style_description)";
 }
 
-std::string defense_location_name( defense_location location )
+auto defense_location_name( defense_location location ) -> std::string
 {
     switch( location ) {
         case DEFLOC_NULL:
@@ -834,7 +834,7 @@ std::string defense_location_name( defense_location location )
     return "a ghost's house (bug in defense.cpp:defense_location_name)";
 }
 
-std::string defense_location_description( defense_location location )
+auto defense_location_description( defense_location location ) -> std::string
 {
     switch( location ) {
         case DEFLOC_NULL:
@@ -1079,7 +1079,7 @@ void defense_game::caravan()
     }
 }
 
-std::string caravan_category_name( caravan_category cat )
+auto caravan_category_name( caravan_category cat ) -> std::string
 {
     switch( cat ) {
         case CARAVAN_CART:
@@ -1104,7 +1104,7 @@ std::string caravan_category_name( caravan_category cat )
     return "BUG (defense.cpp:caravan_category_name)";
 }
 
-std::vector<itype_id> caravan_items( caravan_category cat )
+auto caravan_items( caravan_category cat ) -> std::vector<itype_id>
 {
     std::vector<itype_id> ret;
     std::string group_id;
@@ -1267,7 +1267,7 @@ void draw_caravan_items( const catacurses::window &w, std::vector<itype_id> *ite
     wnoutrefresh( w );
 }
 
-int caravan_price( player &u, int price )
+auto caravan_price( player &u, int price ) -> int
 {
     ///\EFFECT_BARTER reduces caravan prices, 5% per point, up to 50%
     if( u.get_skill_level( skill_barter ) > 10 ) {
@@ -1320,7 +1320,7 @@ void defense_game::spawn_wave()
     add_msg( m_info, "********" );
 }
 
-std::vector<mtype_id> defense_game::pick_monster_wave()
+auto defense_game::pick_monster_wave() -> std::vector<mtype_id>
 {
     std::vector<mongroup_id> valid;
     std::vector<mtype_id> ret;
@@ -1386,7 +1386,7 @@ void defense_game::spawn_wave_monster( const mtype_id &type )
     }
 }
 
-std::string defense_game::special_wave_message( std::string name )
+auto defense_game::special_wave_message( std::string name ) -> std::string
 {
     std::string ret;
     ret += string_format( _( "Wave %d: " ), current_wave );

@@ -133,7 +133,7 @@ void mission_start::kill_horde_master( mission *miss )
  * 3) A spot near the center of the tile that is not a console
  * 4) A random spot near the center of the tile.
  */
-static tripoint find_potential_computer_point( const tinymap &compmap )
+static auto find_potential_computer_point( const tinymap &compmap ) -> tripoint
 {
     constexpr int rng_x_min = 10;
     constexpr int rng_x_max = SEEX * 2 - 11;

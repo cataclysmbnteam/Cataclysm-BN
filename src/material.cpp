@@ -24,14 +24,14 @@ generic_factory<material_type> material_data( "material" );
 
 /** @relates string_id */
 template<>
-bool string_id<material_type>::is_valid() const
+auto string_id<material_type>::is_valid() const -> bool
 {
     return material_data.is_valid( *this );
 }
 
 /** @relates string_id */
 template<>
-const material_type &string_id<material_type>::obj() const
+auto string_id<material_type>::obj() const -> const material_type &
 {
     return material_data.obj( *this );
 }
@@ -44,7 +44,7 @@ material_type::material_type() :
     _dmg_adj = { translate_marker( "lightly damaged" ), translate_marker( "damaged" ), translate_marker( "very damaged" ), translate_marker( "thoroughly damaged" ) };
 }
 
-static mat_burn_data load_mat_burn_data( const JsonObject &jsobj )
+static auto load_mat_burn_data( const JsonObject &jsobj ) -> mat_burn_data
 {
     mat_burn_data bd;
     assign( jsobj, "immune", bd.immune );
@@ -147,52 +147,52 @@ void material_type::check() const
     }
 }
 
-material_id material_type::ident() const
+auto material_type::ident() const -> material_id
 {
     return id;
 }
 
-std::string material_type::name() const
+auto material_type::name() const -> std::string
 {
     return _( _name );
 }
 
-cata::optional<itype_id> material_type::salvaged_into() const
+auto material_type::salvaged_into() const -> cata::optional<itype_id>
 {
     return _salvaged_into;
 }
 
-itype_id material_type::repaired_with() const
+auto material_type::repaired_with() const -> itype_id
 {
     return _repaired_with;
 }
 
-int material_type::bash_resist() const
+auto material_type::bash_resist() const -> int
 {
     return _bash_resist;
 }
 
-int material_type::cut_resist() const
+auto material_type::cut_resist() const -> int
 {
     return _cut_resist;
 }
 
-int material_type::bullet_resist() const
+auto material_type::bullet_resist() const -> int
 {
     return _bullet_resist;
 }
 
-std::string material_type::bash_dmg_verb() const
+auto material_type::bash_dmg_verb() const -> std::string
 {
     return _( _bash_dmg_verb );
 }
 
-std::string material_type::cut_dmg_verb() const
+auto material_type::cut_dmg_verb() const -> std::string
 {
     return _( _cut_dmg_verb );
 }
 
-std::string material_type::dmg_adj( int damage ) const
+auto material_type::dmg_adj( int damage ) const -> std::string
 {
     if( damage <= 0 ) {
         // not damaged (+/- reinforced)
@@ -203,92 +203,92 @@ std::string material_type::dmg_adj( int damage ) const
     return _( _dmg_adj[std::min( static_cast<size_t>( damage ), _dmg_adj.size() ) - 1] );
 }
 
-int material_type::acid_resist() const
+auto material_type::acid_resist() const -> int
 {
     return _acid_resist;
 }
 
-int material_type::elec_resist() const
+auto material_type::elec_resist() const -> int
 {
     return _elec_resist;
 }
 
-int material_type::fire_resist() const
+auto material_type::fire_resist() const -> int
 {
     return _fire_resist;
 }
 
-int material_type::chip_resist() const
+auto material_type::chip_resist() const -> int
 {
     return _chip_resist;
 }
 
-float material_type::specific_heat_liquid() const
+auto material_type::specific_heat_liquid() const -> float
 {
     return _specific_heat_liquid;
 }
 
-float material_type::specific_heat_solid() const
+auto material_type::specific_heat_solid() const -> float
 {
     return _specific_heat_solid;
 }
 
-float material_type::latent_heat() const
+auto material_type::latent_heat() const -> float
 {
     return _latent_heat;
 }
 
-int material_type::freeze_point() const
+auto material_type::freeze_point() const -> int
 {
     return _freeze_point;
 }
 
-int material_type::density() const
+auto material_type::density() const -> int
 {
     return _density;
 }
 
-cata::optional<int> material_type::wind_resist() const
+auto material_type::wind_resist() const -> cata::optional<int>
 {
     return _wind_resist;
 }
 
-bool material_type::edible() const
+auto material_type::edible() const -> bool
 {
     return _edible;
 }
 
-bool material_type::rotting() const
+auto material_type::rotting() const -> bool
 {
     return _rotting;
 }
 
-bool material_type::soft() const
+auto material_type::soft() const -> bool
 {
     return _soft;
 }
 
-bool material_type::reinforces() const
+auto material_type::reinforces() const -> bool
 {
     return _reinforces;
 }
 
-const mat_burn_data &material_type::burn_data( size_t intensity ) const
+auto material_type::burn_data( size_t intensity ) const -> const mat_burn_data &
 {
     return _burn_data[ std::min<size_t>( intensity, _burn_data.size() ) - 1 ];
 }
 
-const mat_burn_products &material_type::burn_products() const
+auto material_type::burn_products() const -> const mat_burn_products &
 {
     return _burn_products;
 }
 
-const material_id_list &material_type::compact_accepts() const
+auto material_type::compact_accepts() const -> const material_id_list &
 {
     return _compact_accepts;
 }
 
-const mat_compacts_into &material_type::compacts_into() const
+auto material_type::compacts_into() const -> const mat_compacts_into &
 {
     return _compacts_into;
 }
@@ -308,12 +308,12 @@ void materials::reset()
     material_data.reset();
 }
 
-material_list materials::get_all()
+auto materials::get_all() -> material_list
 {
     return material_data.get_all();
 }
 
-material_list materials::get_compactable()
+auto materials::get_compactable() -> material_list
 {
     material_list all = get_all();
     material_list compactable;
@@ -324,7 +324,7 @@ material_list materials::get_compactable()
     return compactable;
 }
 
-std::set<material_id> materials::get_rotting()
+auto materials::get_rotting() -> std::set<material_id>
 {
     static generic_factory<material_type>::Version version;
     static std::set<material_id> rotting;

@@ -41,7 +41,7 @@ namespace io
 {
     // *INDENT-OFF*
     template<>
-    std::string enum_to_string<enchantment::has>( enchantment::has data )
+    auto enum_to_string<enchantment::has>( enchantment::has data ) -> std::string
     {
         switch ( data ) {
         case enchantment::has::HELD: return "HELD";
@@ -54,7 +54,7 @@ namespace io
     }
 
     template<>
-    std::string enum_to_string<enchantment::condition>( enchantment::condition data )
+    auto enum_to_string<enchantment::condition>( enchantment::condition data ) -> std::string
     {
         switch ( data ) {
         case enchantment::condition::ALWAYS: return "ALWAYS";
@@ -68,7 +68,7 @@ namespace io
     }
 
     template<>
-    std::string enum_to_string<enchant_vals::mod>( enchant_vals::mod data )
+    auto enum_to_string<enchant_vals::mod>( enchant_vals::mod data ) -> std::string
     {
         switch ( data ) {
             case enchant_vals::mod::STRENGTH: return "STRENGTH";
@@ -163,13 +163,13 @@ generic_factory<enchantment> enchant_factory( "enchantment" );
 } // namespace
 
 template<>
-const enchantment &string_id<enchantment>::obj() const
+auto string_id<enchantment>::obj() const -> const enchantment &
 {
     return enchant_factory.obj( *this );
 }
 
 template<>
-bool string_id<enchantment>::is_valid() const
+auto string_id<enchantment>::is_valid() const -> bool
 {
     return enchant_factory.is_valid( *this );
 }
@@ -184,7 +184,7 @@ void enchantment::reset()
     enchant_factory.reset();
 }
 
-bool enchantment::is_active( const Character &guy, const item &parent ) const
+auto enchantment::is_active( const Character &guy, const item &parent ) const -> bool
 {
     if( !guy.has_item( parent ) ) {
         return false;
@@ -201,7 +201,7 @@ bool enchantment::is_active( const Character &guy, const item &parent ) const
     return is_active( guy, parent.active );
 }
 
-bool enchantment::is_active( const Character &guy, const bool active ) const
+auto enchantment::is_active( const Character &guy, const bool active ) const -> bool
 {
     if( active_conditions.second == condition::ACTIVE ) {
         return active;
@@ -366,12 +366,12 @@ void enchantment::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-bool enchantment::stacks_with( const enchantment &rhs ) const
+auto enchantment::stacks_with( const enchantment &rhs ) const -> bool
 {
     return active_conditions == rhs.active_conditions;
 }
 
-bool enchantment::add( const enchantment &rhs )
+auto enchantment::add( const enchantment &rhs ) -> bool
 {
     if( !stacks_with( rhs ) ) {
         return false;
@@ -413,7 +413,7 @@ void enchantment::force_add( const enchantment &rhs )
     }
 }
 
-int enchantment::get_value_add( const enchant_vals::mod value ) const
+auto enchantment::get_value_add( const enchant_vals::mod value ) const -> int
 {
     const auto found = values_add.find( value );
     if( found == values_add.cend() ) {
@@ -422,7 +422,7 @@ int enchantment::get_value_add( const enchant_vals::mod value ) const
     return found->second;
 }
 
-double enchantment::get_value_multiply( const enchant_vals::mod value ) const
+auto enchantment::get_value_multiply( const enchant_vals::mod value ) const -> double
 {
     const auto found = values_multiply.find( value );
     if( found == values_multiply.cend() ) {
@@ -431,7 +431,7 @@ double enchantment::get_value_multiply( const enchant_vals::mod value ) const
     return found->second;
 }
 
-double enchantment::calc_bonus( enchant_vals::mod value, double base, bool round ) const
+auto enchantment::calc_bonus( enchant_vals::mod value, double base, bool round ) const -> double
 {
     bool use_add = true;
     switch( value ) {
@@ -451,7 +451,7 @@ double enchantment::calc_bonus( enchant_vals::mod value, double base, bool round
     return ret;
 }
 
-int enchantment::mult_bonus( enchant_vals::mod value_type, int base_value ) const
+auto enchantment::mult_bonus( enchant_vals::mod value_type, int base_value ) const -> int
 {
     return get_value_multiply( value_type ) * base_value;
 }
@@ -531,7 +531,7 @@ void enchantment::cast_enchantment_spell( Character &caster, const Creature *tar
     }
 }
 
-bool enchantment::operator==( const enchantment &rhs ) const
+auto enchantment::operator==( const enchantment &rhs ) const -> bool
 {
     return id == rhs.id &&
            mutations == rhs.mutations &&
@@ -549,14 +549,14 @@ namespace
 {
 
 template <float mutation_branch::*First>
-bool is_set_value( const trait_id &mut, float val )
+auto is_set_value( const trait_id &mut, float val ) -> bool
 {
     return ( *mut ).*First == val;
 }
 
 template <float mutation_branch::*First, float mutation_branch::* ...Rest,
           typename std::enable_if<( sizeof...( Rest ) > 0 ), bool>::type NonEmpty = false >
-                  bool is_set_value( const trait_id &mut, float val )
+                  auto is_set_value( const trait_id &mut, float val ) -> bool
 {
     return ( *mut ).*First == val && is_set_value<Rest...>( mut, val );
 }

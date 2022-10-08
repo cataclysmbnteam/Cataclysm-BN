@@ -40,8 +40,8 @@ class leap_actor : public mattack_actor
         ~leap_actor() override = default;
 
         void load_internal( const JsonObject &obj, const std::string &src ) override;
-        bool call( monster & ) const override;
-        std::unique_ptr<mattack_actor> clone() const override;
+        auto call( monster & ) const -> bool override;
+        auto clone() const -> std::unique_ptr<mattack_actor> override;
 };
 
 class mon_spellcasting_actor : public mattack_actor
@@ -56,8 +56,8 @@ class mon_spellcasting_actor : public mattack_actor
         ~mon_spellcasting_actor() override = default;
 
         void load_internal( const JsonObject &obj, const std::string &src ) override;
-        bool call( monster & ) const override;
-        std::unique_ptr<mattack_actor> clone() const override;
+        auto call( monster & ) const -> bool override;
+        auto clone() const -> std::unique_ptr<mattack_actor> override;
 };
 
 class melee_actor : public mattack_actor
@@ -102,12 +102,12 @@ class melee_actor : public mattack_actor
         melee_actor();
         ~melee_actor() override = default;
 
-        virtual Creature *find_target( monster &z ) const;
+        virtual auto find_target( monster &z ) const -> Creature *;
         virtual void on_damage( monster &z, Creature &target, dealt_damage_instance &dealt ) const;
 
         void load_internal( const JsonObject &obj, const std::string &src ) override;
-        bool call( monster & ) const override;
-        std::unique_ptr<mattack_actor> clone() const override;
+        auto call( monster & ) const -> bool override;
+        auto clone() const -> std::unique_ptr<mattack_actor> override;
 };
 
 class bite_actor : public melee_actor
@@ -123,7 +123,7 @@ class bite_actor : public melee_actor
         void on_damage( monster &z, Creature &target, dealt_damage_instance &dealt ) const override;
 
         void load_internal( const JsonObject &obj, const std::string &src ) override;
-        std::unique_ptr<mattack_actor> clone() const override;
+        auto clone() const -> std::unique_ptr<mattack_actor> override;
 };
 
 class gun_actor : public mattack_actor
@@ -183,17 +183,17 @@ class gun_actor : public mattack_actor
 
         /** If true then disable this attack completely if not brightly lit */
         bool require_sunlight = false;
-        bool try_target( monster &z, Creature &target ) const;
+        auto try_target( monster &z, Creature &target ) const -> bool;
         void shoot( monster &z, const tripoint &target, const gun_mode_id &mode,
                     int inital_recoil = 0 ) const;
-        int get_max_range() const;
+        auto get_max_range() const -> int;
 
         gun_actor();
         ~gun_actor() override = default;
 
         void load_internal( const JsonObject &obj, const std::string &src ) override;
-        bool call( monster & ) const override;
-        std::unique_ptr<mattack_actor> clone() const override;
+        auto call( monster & ) const -> bool override;
+        auto clone() const -> std::unique_ptr<mattack_actor> override;
 };
 
 #endif // CATA_SRC_MATTACK_ACTORS_H

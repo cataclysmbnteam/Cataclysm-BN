@@ -60,19 +60,19 @@ class int_id
         /**
          * Comparison, only useful when the id is used in std::map or std::set as key.
          */
-        bool operator<( const This &rhs ) const {
+        auto operator<( const This &rhs ) const -> bool {
             return _id < rhs._id;
         }
         /**
          * The usual comparator, compares the integer id as usual
          */
-        bool operator==( const This &rhs ) const {
+        auto operator==( const This &rhs ) const -> bool {
             return _id == rhs._id;
         }
         /**
          * The usual comparator, compares the integer id as usual
          */
-        bool operator!=( const This &rhs ) const {
+        auto operator!=( const This &rhs ) const -> bool {
             return _id != rhs._id;
         }
 
@@ -81,7 +81,7 @@ class int_id
          * have any information as what type of object it refers to (the T template parameter of
          * the class).
          */
-        int to_i() const {
+        auto to_i() const -> int {
             return _id;
         }
         /**
@@ -97,21 +97,21 @@ class int_id
 
         // Those are optional, you need to implement them on your own if you want to use them.
         // If you don't implement them, but use them, you'll get a linker error.
-        const string_id<T> &id() const;
-        const T &obj() const;
+        auto id() const -> const string_id<T> &;
+        auto obj() const -> const T &;
 
-        const T &operator*() const {
+        auto operator*() const -> const T & {
             return obj();
         }
 
-        const T *operator->() const {
+        auto operator->() const -> const T * {
             return &obj();
         }
 
         /**
          * Returns whether this id is valid, that means whether it refers to an existing object.
          */
-        bool is_valid() const;
+        auto is_valid() const -> bool;
 
     private:
         int _id;
@@ -122,7 +122,7 @@ namespace std
 {
 template<typename T>
 struct hash< int_id<T> > {
-    std::size_t operator()( const int_id<T> &v ) const noexcept {
+    auto operator()( const int_id<T> &v ) const noexcept -> std::size_t {
         return hash<int>()( v.to_i() );
     }
 };

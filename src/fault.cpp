@@ -13,14 +13,14 @@ static std::map<fault_id, fault> faults_all;
 
 /** @relates string_id */
 template<>
-bool string_id<fault>::is_valid() const
+auto string_id<fault>::is_valid() const -> bool
 {
     return faults_all.count( *this );
 }
 
 /** @relates string_id */
 template<>
-const fault &string_id<fault>::obj() const
+auto string_id<fault>::obj() const -> const fault &
 {
     const auto found = faults_all.find( *this );
     if( found == faults_all.end() ) {
@@ -77,7 +77,7 @@ void fault::load_fault( const JsonObject &jo )
     }
 }
 
-const std::map<fault_id, fault> &fault::all()
+auto fault::all() -> const std::map<fault_id, fault> &
 {
     return faults_all;
 }

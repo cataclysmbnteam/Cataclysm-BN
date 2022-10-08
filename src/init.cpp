@@ -111,7 +111,7 @@ DynamicDataLoader::DynamicDataLoader()
 
 DynamicDataLoader::~DynamicDataLoader() = default;
 
-DynamicDataLoader &DynamicDataLoader::get_instance()
+auto DynamicDataLoader::get_instance() -> DynamicDataLoader &
 {
     static DynamicDataLoader theDynamicDataLoader;
     return theDynamicDataLoader;
@@ -133,7 +133,7 @@ struct DynamicDataLoader::cached_streams {
     lru_cache<std::string, shared_ptr_fast<std::istringstream>> cache;
 };
 
-shared_ptr_fast<std::istream> DynamicDataLoader::get_cached_stream( const std::string &path )
+auto DynamicDataLoader::get_cached_stream( const std::string &path ) -> shared_ptr_fast<std::istream>
 {
     assert( !finalized && "Cannot open data file after finalization." );
     assert( stream_cache && "Stream cache is only available during finalization" );

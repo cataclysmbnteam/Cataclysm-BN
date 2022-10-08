@@ -15,6 +15,6 @@ struct SpeechBubble {
 
 void load_speech( const JsonObject &jo );
 void reset_speech();
-const SpeechBubble &get_speech( const std::string &label );
+auto get_speech( const std::string &label ) -> const SpeechBubble &;
 
 #endif // CATA_SRC_SPEECH_H

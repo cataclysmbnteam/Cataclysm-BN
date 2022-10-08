@@ -75,7 +75,7 @@ struct jmapgen_int {
      */
     jmapgen_int( const JsonObject &jo, const std::string &tag, int def_val, int def_valmax );
 
-    int get() const;
+    auto get() const -> int;
 };
 
 enum jmapgen_setmap_op {
@@ -119,12 +119,12 @@ struct jmapgen_setmap {
         x( ix ), y( iy ), x2( ix2 ), y2( iy2 ), op( iop ), val( ival ), chance( ione_in ),
         repeat( irepeat ), rotation( irotation ),
         fuel( ifuel ), status( istatus ) {}
-    bool apply( mapgendata &dat, const point &offset ) const;
+    auto apply( mapgendata &dat, const point &offset ) const -> bool;
     /**
      * checks if applying these objects to data would cause cause a collision with vehicles
      * on the same map
      **/
-    bool has_vehicle_collision( mapgendata &dat, const point &offset ) const;
+    auto has_vehicle_collision( mapgendata &dat, const point &offset ) const -> bool;
 };
 
 /**
@@ -159,7 +159,7 @@ class jmapgen_piece
         virtual void apply( mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y ) const = 0;
         virtual ~jmapgen_piece() = default;
         jmapgen_int repeat;
-        virtual bool has_vehicle_collision( mapgendata &/*dat*/, const point &/*offset*/ ) const {
+        virtual auto has_vehicle_collision( mapgendata &/*dat*/, const point &/*offset*/ ) const -> bool {
             return false;
         }
 };
@@ -190,7 +190,7 @@ class map_key
         map_key( const std::string & );
         map_key( const JsonMember & );
 
-        friend bool operator==( const map_key &l, const map_key &r ) {
+        friend auto operator==( const map_key &l, const map_key &r ) -> bool {
             return l.str == r.str;
         }
 
@@ -201,7 +201,7 @@ namespace std
 {
 template<>
 struct hash<map_key> {
-    size_t operator()( const map_key &k ) const noexcept {
+    auto operator()( const map_key &k ) const noexcept -> size_t {
         return hash<std::string> {}( k.str );
     }
 };
@@ -236,7 +236,7 @@ class mapgen_palette
         /**
          * Loads a palette object and returns it. Doesn't save it anywhere.
          */
-        static mapgen_palette load_temp( const JsonObject &jo, const std::string &src );
+        static auto load_temp( const JsonObject &jo, const std::string &src ) -> mapgen_palette;
         /**
          * Load a palette object and adds it to the global set of palettes.
          * If "palette" field is specified, those palettes will be loaded recursively.
@@ -248,12 +248,12 @@ class mapgen_palette
         /**
          * Returns a palette with given id. If not found, debugmsg and returns a dummy.
          */
-        static const mapgen_palette &get( const palette_id &id );
+        static auto get( const palette_id &id ) -> const mapgen_palette &;
 
         static void check_definitions();
     private:
-        static mapgen_palette load_internal( const JsonObject &jo, const std::string &src, bool require_id,
-                                             bool allow_recur );
+        static auto load_internal( const JsonObject &jo, const std::string &src, bool require_id,
+                                             bool allow_recur ) -> mapgen_palette;
 
         /**
          * Adds a palette to this one. New values take preference over the old ones.
@@ -267,7 +267,7 @@ struct jmapgen_objects {
 
         jmapgen_objects( const point &offset, const point &mapsize );
 
-        bool check_bounds( const jmapgen_place &place, const JsonObject &jso );
+        auto check_bounds( const jmapgen_place &place, const JsonObject &jso ) -> bool;
 
         void add( const jmapgen_place &place, shared_ptr_fast<const jmapgen_piece> piece );
 
@@ -295,7 +295,7 @@ struct jmapgen_objects {
          * checks if applying these objects to data would cause cause a collision with vehicles
          * on the same map
          **/
-        bool has_vehicle_collision( mapgendata &dat, const point &offset ) const;
+        auto has_vehicle_collision( mapgendata &dat, const point &offset ) const -> bool;
 
     private:
         /**
@@ -310,9 +310,9 @@ struct jmapgen_objects {
 class mapgen_function_json_base
 {
     public:
-        bool check_inbounds( const jmapgen_int &x, const jmapgen_int &y, const JsonObject &jso ) const;
-        size_t calc_index( const point &p ) const;
-        bool has_vehicle_collision( mapgendata &dat, const point &offset ) const;
+        auto check_inbounds( const jmapgen_int &x, const jmapgen_int &y, const JsonObject &jso ) const -> bool;
+        auto calc_index( const point &p ) const -> size_t;
+        auto has_vehicle_collision( mapgendata &dat, const point &offset ) const -> bool;
 
     private:
         pimpl<json_source_location> jsrcloc;
@@ -322,10 +322,10 @@ class mapgen_function_json_base
         virtual ~mapgen_function_json_base();
 
         void setup_common();
-        bool setup_common( const JsonObject &jo );
+        auto setup_common( const JsonObject &jo ) -> bool;
         void setup_setmap( const JsonArray &parray );
         // Returns true if the mapgen qualifies at this point already
-        virtual bool setup_internal( const JsonObject &jo ) = 0;
+        virtual auto setup_internal( const JsonObject &jo ) -> bool = 0;
         virtual void setup_setmap_internal() { }
 
         void check_common( const std::string &oter_name ) const;
@@ -357,7 +357,7 @@ class mapgen_function_json : public mapgen_function_json_base, public virtual ma
         oter_id predecessor_mapgen;
 
     protected:
-        bool setup_internal( const JsonObject &jo ) override;
+        auto setup_internal( const JsonObject &jo ) -> bool override;
 
     private:
         jmapgen_int rotation;
@@ -370,15 +370,15 @@ class update_mapgen_function_json : public mapgen_function_json_base
         ~update_mapgen_function_json() override = default;
 
         void setup();
-        bool setup_update( const JsonObject &jo );
+        auto setup_update( const JsonObject &jo ) -> bool;
         void check( const std::string &oter_name ) const;
-        bool update_map( const tripoint_abs_omt &omt_pos, const point &offset,
-                         mission *miss, bool verify = false ) const;
-        bool update_map( mapgendata &md, const point &offset = point_zero,
-                         bool verify = false ) const;
+        auto update_map( const tripoint_abs_omt &omt_pos, const point &offset,
+                         mission *miss, bool verify = false ) const -> bool;
+        auto update_map( mapgendata &md, const point &offset = point_zero,
+                         bool verify = false ) const -> bool;
 
     protected:
-        bool setup_internal( const JsonObject &/*jo*/ ) override;
+        auto setup_internal( const JsonObject &/*jo*/ ) -> bool override;
         ter_id fill_ter;
 };
 
@@ -392,7 +392,7 @@ class mapgen_function_json_nested : public mapgen_function_json_base
 
         void nest( mapgendata &dat, const point &offset ) const;
     protected:
-        bool setup_internal( const JsonObject &jo ) override;
+        auto setup_internal( const JsonObject &jo ) -> bool override;
 
     private:
         jmapgen_int rotation;
@@ -403,8 +403,8 @@ class mapgen_function_json_nested : public mapgen_function_json_base
 /*
  * Load mapgen function of any type from a json object
  */
-std::shared_ptr<mapgen_function> load_mapgen_function( const JsonObject &jio,
-        const std::string &id_base, const point &offset );
+auto load_mapgen_function( const JsonObject &jio,
+        const std::string &id_base, const point &offset ) -> std::shared_ptr<mapgen_function>;
 /*
  * Load the above directly from a file via init, as opposed to riders attached to overmap_terrain. Added check
  * for oter_mapgen / oter_mapgen_weights key, multiple possible ( i.e., [ "house_w_1", "duplex" ] )
@@ -417,11 +417,11 @@ void reset_mapgens();
  * Otherwise it returns the index of the added entry in the vector of @ref oter_mapgen.
  */
 // @TODO this should go away. It is only used for old build-in mapgen. Mapgen should be done via JSON.
-int register_mapgen_function( const std::string &key );
+auto register_mapgen_function( const std::string &key ) -> int;
 /**
  * Check that @p key is present in @ref oter_mapgen.
  */
-bool has_mapgen_for( const std::string &key );
+auto has_mapgen_for( const std::string &key ) -> bool;
 /*
  * Sets the above after init, and initializes mapgen_function_json instances as well
  */
@@ -451,7 +451,7 @@ enum room_type {
 };
 
 // helpful functions
-bool connects_to( const oter_id &there, int dir );
+auto connects_to( const oter_id &there, int dir ) -> bool;
 void mapgen_rotate( map *m, oter_id terrain_type, bool north_is_down = false );
 // wrappers for map:: functions
 void line( map *m, const ter_id &type, const point &p1, const point &p2 );

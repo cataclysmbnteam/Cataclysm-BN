@@ -50,11 +50,11 @@ struct game_message : public JsonDeserializer, public JsonSerializer {
         type( t ) {
     }
 
-    const time_point &turn() const {
+    auto turn() const -> const time_point & {
         return timestamp_in_turns;
     }
 
-    std::string get_with_count() const {
+    auto get_with_count() const -> std::string {
         if( count <= 1 ) {
             return message;
         }
@@ -65,19 +65,19 @@ struct game_message : public JsonDeserializer, public JsonSerializer {
     /** Get whether or not a message should not be displayed (hidden) in the side bar because it's in a cooldown period.
      * @returns `true` if the message should **not** be displayed, `false` otherwise.
      */
-    bool is_in_cooldown() const {
+    auto is_in_cooldown() const -> bool {
         return cooldown_hidden;
     }
 
-    bool is_new( const time_point &current ) const {
+    auto is_new( const time_point &current ) const -> bool {
         return turn() >= current;
     }
 
-    bool is_recent( const time_point &current ) const {
+    auto is_recent( const time_point &current ) const -> bool {
         return turn() + 5_turns >= current;
     }
 
-    nc_color get_color( const time_point &current ) const {
+    auto get_color( const time_point &current ) const -> nc_color {
         if( is_new( current ) ) {
             // color for new messages
             return msgtype_to_color( type, false );
@@ -117,16 +117,16 @@ class messages_impl
         time_point curmes = calendar::turn_zero; // The last-seen message.
         bool active = true;
 
-        bool has_undisplayed_messages() const {
+        auto has_undisplayed_messages() const -> bool {
             return !messages.empty() && messages.back().turn() > curmes;
         }
 
-        const game_message &history( const int i ) const {
+        auto history( const int i ) const -> const game_message & {
             return messages[messages.size() - i - 1];
         }
 
         // coalesce recent like messages
-        bool coalesce_messages( const game_message &m ) {
+        auto coalesce_messages( const game_message &m ) -> bool {
             if( messages.empty() ) {
                 return false;
             }
@@ -241,7 +241,7 @@ class messages_impl
             }
         }
 
-        std::vector<std::pair<std::string, std::string>> recent_messages( size_t count ) const {
+        auto recent_messages( size_t count ) const -> std::vector<std::pair<std::string, std::string>> {
             count = std::min( count, messages.size() );
 
             std::vector<std::pair<std::string, std::string>> result;
@@ -305,7 +305,7 @@ class messages_impl
 // Messages object.
 messages_impl player_messages;
 
-bool message_exceeds_ttl( const game_message &message )
+auto message_exceeds_ttl( const game_message &message ) -> bool
 {
     return message_ttl > 0 &&
            message.timestamp_in_user_actions + message_ttl <= g->get_user_action_counter();
@@ -313,7 +313,7 @@ bool message_exceeds_ttl( const game_message &message )
 
 } //namespace
 
-std::vector<std::pair<std::string, std::string>> Messages::recent_messages( const size_t count )
+auto Messages::recent_messages( const size_t count ) -> std::vector<std::pair<std::string, std::string>>
 {
     return player_messages.recent_messages( count );
 }
@@ -359,18 +359,18 @@ void Messages::deactivate()
     player_messages.active = false;
 }
 
-size_t Messages::size()
+auto Messages::size() -> size_t
 {
     return player_messages.messages.size();
 }
 
-bool Messages::has_undisplayed_messages()
+auto Messages::has_undisplayed_messages() -> bool
 {
     return player_messages.has_undisplayed_messages();
 }
 
 // Returns pairs of message log type id and untranslated name
-static const std::vector<std::pair<game_message_type, const char *>> &msg_type_and_names()
+static auto msg_type_and_names() -> const std::vector<std::pair<game_message_type, const char *>> &
 {
     static const std::vector<std::pair<game_message_type, const char *>> type_n_names = {
         { m_good, translate_marker_context( "message type", "good" ) },
@@ -385,7 +385,7 @@ static const std::vector<std::pair<game_message_type, const char *>> &msg_type_a
 }
 
 // Get message type from translated name, returns true if name is a valid translated name
-static bool msg_type_from_name( game_message_type &type, const std::string &name )
+static auto msg_type_from_name( game_message_type &type, const std::string &name ) -> bool
 {
     for( const auto &p : msg_type_and_names() ) {
         if( name == pgettext( "message type", p.second ) ) {
@@ -409,7 +409,7 @@ class dialog
         void show();
         void input();
         void do_filter( const std::string &filter_str );
-        static std::vector<std::string> filter_help_text( int width );
+        static auto filter_help_text( int width ) -> std::vector<std::string>;
 
         const nc_color border_color;
         const nc_color filter_color;
@@ -760,7 +760,7 @@ void Messages::dialog::run()
     }
 }
 
-std::vector<std::string> Messages::dialog::filter_help_text( int width )
+auto Messages::dialog::filter_help_text( int width ) -> std::vector<std::string>
 {
     const auto &help_fmt = _(
                                "<color_light_gray>The default is to search the entire message log.  "

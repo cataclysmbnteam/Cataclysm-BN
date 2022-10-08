@@ -50,8 +50,8 @@ class invlet_wrapper : private std::string
     public:
         invlet_wrapper( const char *chars ) : std::string( chars ) { }
 
-        bool valid( int invlet ) const;
-        std::string get_allowed_chars() const {
+        auto valid( int invlet ) const -> bool;
+        auto get_allowed_chars() const -> std::string {
             return *this;
         }
 
@@ -76,11 +76,11 @@ class invlet_favorites
 
         void set( char invlet, const itype_id & );
         void erase( char invlet );
-        bool contains( char invlet, const itype_id & ) const;
-        std::string invlets_for( const itype_id & ) const;
+        auto contains( char invlet, const itype_id & ) const -> bool;
+        auto invlets_for( const itype_id & ) const -> std::string;
 
         // For serialization only
-        const std::unordered_map<itype_id, std::string> &get_invlets_by_id() const;
+        auto get_invlets_by_id() const -> const std::unordered_map<itype_id, std::string> &;
     private:
         std::unordered_map<itype_id, std::string> invlets_by_id;
         std::array<itype_id, 256> ids_by_invlet;
@@ -91,37 +91,37 @@ class inventory : public visitable<inventory>
     public:
         friend visitable<inventory>;
 
-        invslice slice();
-        const_invslice const_slice() const;
-        const std::list<item> &const_stack( int i ) const;
-        size_t size() const;
+        auto slice() -> invslice;
+        auto const_slice() const -> const_invslice;
+        auto const_stack( int i ) const -> const std::list<item> &;
+        auto size() const -> size_t;
 
         std::map<char, itype_id> assigned_invlet;
 
         inventory();
         inventory( inventory && ) = default;
         inventory( const inventory & ) = default;
-        inventory &operator=( inventory && ) = default;
-        inventory &operator=( const inventory & ) = default;
+        auto operator=( inventory && ) -> inventory & = default;
+        auto operator=( const inventory & ) -> inventory & = default;
 
-        inventory &operator+= ( const inventory &rhs );
-        inventory &operator+= ( const item &rhs );
-        inventory &operator+= ( const std::list<item> &rhs );
-        inventory &operator+= ( const std::vector<item> &rhs );
-        inventory &operator+= ( const item_stack &rhs );
-        inventory  operator+ ( const inventory &rhs );
-        inventory  operator+ ( const item &rhs );
-        inventory  operator+ ( const std::list<item> &rhs );
+        auto operator+= ( const inventory &rhs ) -> inventory &;
+        auto operator+= ( const item &rhs ) -> inventory &;
+        auto operator+= ( const std::list<item> &rhs ) -> inventory &;
+        auto operator+= ( const std::vector<item> &rhs ) -> inventory &;
+        auto operator+= ( const item_stack &rhs ) -> inventory &;
+        auto  operator+ ( const inventory &rhs ) -> inventory;
+        auto  operator+ ( const item &rhs ) -> inventory;
+        auto  operator+ ( const std::list<item> &rhs ) -> inventory;
 
         void unsort(); // flags the inventory as unsorted
         void clear();
         void push_back( const std::list<item> &newits );
         // returns a reference to the added item
-        item &add_item( item newit, bool keep_invlet = false, bool assign_invlet = true,
-                        bool should_stack = true );
+        auto add_item( item newit, bool keep_invlet = false, bool assign_invlet = true,
+                        bool should_stack = true ) -> item &;
         // use item type cache to speed up, remember to run build_items_type_cache() before using it
-        item &add_item_by_items_type_cache( item newit, bool keep_invlet = false, bool assign_invlet = true,
-                                            bool should_stack = true );
+        auto add_item_by_items_type_cache( item newit, bool keep_invlet = false, bool assign_invlet = true,
+                                            bool should_stack = true ) -> item &;
         void add_item_keep_invlet( item newit );
         void push_back( item newit );
 
@@ -147,16 +147,16 @@ class inventory : public visitable<inventory>
          * in this inventory.
          * @return A copy of the removed item.
          */
-        item remove_item( const item *it );
-        item remove_item( int position );
+        auto remove_item( const item *it ) -> item;
+        auto remove_item( int position ) -> item;
         /**
          * Randomly select items until the volume quota is filled.
          */
-        std::list<item> remove_randomly_by_volume( const units::volume &volume );
-        std::list<item> reduce_stack( int position, int quantity );
+        auto remove_randomly_by_volume( const units::volume &volume ) -> std::list<item>;
+        auto reduce_stack( int position, int quantity ) -> std::list<item>;
 
-        const item &find_item( int position ) const;
-        item &find_item( int position );
+        auto find_item( int position ) const -> const item &;
+        auto find_item( int position ) -> item &;
 
         /**
          * Returns the item position of the stack that contains the given item (compared by
@@ -165,45 +165,45 @@ class inventory : public visitable<inventory>
          * same when the given item points to the container and when it points to the item inside
          * the container. All items that are part of the same stack have the same item position.
          */
-        int position_by_item( const item *it ) const;
-        int position_by_type( const itype_id &type ) const;
+        auto position_by_item( const item *it ) const -> int;
+        auto position_by_type( const itype_id &type ) const -> int;
 
         /** Return the item position of the item with given invlet, return INT_MIN if
          * the inventory does not have such an item with that invlet. Don't use this on npcs inventory. */
-        int invlet_to_position( char invlet ) const;
+        auto invlet_to_position( char invlet ) const -> int;
 
         // Below, "amount" refers to quantity
         //        "charges" refers to charges
-        std::list<item> use_amount( itype_id it, int quantity,
-                                    const std::function<bool( const item & )> &filter = return_true<item> );
+        auto use_amount( itype_id it, int quantity,
+                                    const std::function<bool( const item & )> &filter = return_true<item> ) -> std::list<item>;
 
-        bool has_tools( const itype_id &it, int quantity,
-                        const std::function<bool( const item & )> &filter = return_true<item> ) const;
-        bool has_components( const itype_id &it, int quantity,
-                             const std::function<bool( const item & )> &filter = return_true<item> ) const;
-        bool has_charges( const itype_id &it, int quantity,
-                          const std::function<bool( const item & )> &filter = return_true<item> ) const;
+        auto has_tools( const itype_id &it, int quantity,
+                        const std::function<bool( const item & )> &filter = return_true<item> ) const -> bool;
+        auto has_components( const itype_id &it, int quantity,
+                             const std::function<bool( const item & )> &filter = return_true<item> ) const -> bool;
+        auto has_charges( const itype_id &it, int quantity,
+                          const std::function<bool( const item & )> &filter = return_true<item> ) const -> bool;
 
-        int leak_level( const std::string &flag ) const; // level of leaked bad stuff from items
+        auto leak_level( const std::string &flag ) const -> int; // level of leaked bad stuff from items
 
         // NPC/AI functions
-        int worst_item_value( npc *p ) const;
-        bool has_enough_painkiller( int pain ) const;
-        item *most_appropriate_painkiller( int pain );
+        auto worst_item_value( npc *p ) const -> int;
+        auto has_enough_painkiller( int pain ) const -> bool;
+        auto most_appropriate_painkiller( int pain ) -> item *;
 
         void rust_iron_items();
 
-        units::mass weight() const;
-        units::mass weight_without( const excluded_stacks &without ) const;
-        units::volume volume() const;
-        units::volume volume_without( const excluded_stacks &without ) const;
+        auto weight() const -> units::mass;
+        auto weight_without( const excluded_stacks &without ) const -> units::mass;
+        auto volume() const -> units::volume;
+        auto volume_without( const excluded_stacks &without ) const -> units::volume;
 
         // dumps contents into dest (does not delete contents)
         void dump( std::vector<item *> &dest );
 
         // vector rather than list because it's NOT an item stack
         // returns all items that need processing
-        std::vector<item *> active_items();
+        auto active_items() -> std::vector<item *>;
 
         void json_load_invcache( JsonIn &jsin );
         void json_load_items( JsonIn &jsin );
@@ -221,31 +221,31 @@ class inventory : public visitable<inventory>
 
         void set_stack_favorite( int position, bool favorite );
 
-        invlets_bitset allocated_invlets() const;
+        auto allocated_invlets() const -> invlets_bitset;
 
         /**
          * Returns visitable items binned by their itype.
          * May not contain items that wouldn't be visited by @ref visitable methods.
          */
-        const itype_bin &get_binned_items() const;
+        auto get_binned_items() const -> const itype_bin &;
 
         void update_cache_with_item( item &newit );
 
         void copy_invlet_of( const inventory &other );
 
         // gets a singular enchantment that is an amalgamation of all items that have active enchantments
-        enchantment get_active_enchantment_cache( const Character &owner ) const;
+        auto get_active_enchantment_cache( const Character &owner ) const -> enchantment;
 
-        int count_item( const itype_id &item_type ) const;
+        auto count_item( const itype_id &item_type ) const -> int;
 
         void update_quality_cache();
-        const std::map<quality_id, std::map<int, int>> &get_quality_cache() const;
+        auto get_quality_cache() const -> const std::map<quality_id, std::map<int, int>> &;
 
         void build_items_type_cache();
 
     private:
         invlet_favorites invlet_cache;
-        char find_usable_cached_invlet( const itype_id &item_type );
+        auto find_usable_cached_invlet( const itype_id &item_type ) -> char;
 
         invstack items;
         std::map<itype_id, std::list<std::list<item>*>> items_type_cache;

@@ -81,42 +81,42 @@ void player_activity::set_to_null()
     sfx::end_activity_sounds(); // kill activity sounds when activity is nullified
 }
 
-bool player_activity::rooted() const
+auto player_activity::rooted() const -> bool
 {
     return type->rooted();
 }
 
-std::string player_activity::get_stop_phrase() const
+auto player_activity::get_stop_phrase() const -> std::string
 {
     return type->stop_phrase();
 }
 
-const translation &player_activity::get_verb() const
+auto player_activity::get_verb() const -> const translation &
 {
     return type->verb();
 }
 
-int player_activity::get_value( size_t index, int def ) const
+auto player_activity::get_value( size_t index, int def ) const -> int
 {
     return index < values.size() ? values[index] : def;
 }
 
-bool player_activity::is_suspendable() const
+auto player_activity::is_suspendable() const -> bool
 {
     return type->suspendable();
 }
 
-bool player_activity::is_multi_type() const
+auto player_activity::is_multi_type() const -> bool
 {
     return type->multi_activity();
 }
 
-std::string player_activity::get_str_value( size_t index, const std::string &def ) const
+auto player_activity::get_str_value( size_t index, const std::string &def ) const -> std::string
 {
     return index < str_values.size() ? str_values[index] : def;
 }
 
-static std::string craft_progress_message( const avatar &u, const player_activity &act )
+static auto craft_progress_message( const avatar &u, const player_activity &act ) -> std::string
 {
     const item *craft = act.targets.front().get_item();
     if( craft == nullptr ) {
@@ -174,7 +174,7 @@ static std::string craft_progress_message( const avatar &u, const player_activit
                           mults_desc );
 }
 
-cata::optional<std::string> player_activity::get_progress_message( const avatar &u ) const
+auto player_activity::get_progress_message( const avatar &u ) const -> cata::optional<std::string>
 {
     if( !type || get_verb().empty() ) {
         return cata::optional<std::string>();
@@ -377,7 +377,7 @@ void player_activity::canceled( Character &who )
 }
 
 template <typename T>
-bool containers_equal( const T &left, const T &right )
+auto containers_equal( const T &left, const T &right ) -> bool
 {
     if( left.size() != right.size() ) {
         return false;
@@ -386,7 +386,7 @@ bool containers_equal( const T &left, const T &right )
     return std::equal( left.begin(), left.end(), right.begin() );
 }
 
-bool player_activity::can_resume_with( const player_activity &other, const Character &who ) const
+auto player_activity::can_resume_with( const player_activity &other, const Character &who ) const -> bool
 {
     // Should be used for relative positions
     // And to forbid resuming now-invalid crafting
@@ -433,7 +433,7 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
            position == other.position && name == other.name && targets == other.targets;
 }
 
-bool player_activity::is_distraction_ignored( distraction_type type ) const
+auto player_activity::is_distraction_ignored( distraction_type type ) const -> bool
 {
     return ignored_distractions.find( type ) != ignored_distractions.end();
 }

@@ -29,7 +29,7 @@ class item_action_generator
     private:
         action_map item_actions;
     public:
-        static item_action_generator &generator() {
+        static auto generator() -> item_action_generator & {
             static item_action_generator generator;
 
             return generator;
@@ -41,16 +41,16 @@ class item_action_generator
         // Assigns items to actions they perform on use
         // Prefers items with smaller charge_per_use
         // "pseudos" are extra items not in player's inventory that should still be mapped
-        item_action_map map_actions_to_items( player &p ) const;
-        item_action_map map_actions_to_items( player &p, const std::vector<item *> &pseudos ) const;
+        auto map_actions_to_items( player &p ) const -> item_action_map;
+        auto map_actions_to_items( player &p, const std::vector<item *> &pseudos ) const -> item_action_map;
 
         // Returns (translated) name of action
-        std::string get_action_name( const item_action_id &id ) const;
+        auto get_action_name( const item_action_id &id ) const -> std::string;
 
-        bool action_exists( const item_action_id &id ) const;
-        const item_action &get_action( const item_action_id &id ) const;
+        auto action_exists( const item_action_id &id ) const -> bool;
+        auto get_action( const item_action_id &id ) const -> const item_action &;
 
-        const action_map &get_item_action_map() const {
+        auto get_item_action_map() const -> const action_map & {
             return item_actions;
         }
 

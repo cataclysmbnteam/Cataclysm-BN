@@ -49,7 +49,7 @@ namespace std
 
 template<>
 struct hash<tut_lesson> {
-    size_t operator()( const tut_lesson v ) const noexcept {
+    auto operator()( const tut_lesson v ) const noexcept -> size_t {
         return static_cast<size_t>( v );
     }
 };
@@ -57,10 +57,10 @@ struct hash<tut_lesson> {
 } // namespace std
 
 struct tutorial_game : public special_game {
-        special_game_id id() override {
+        auto id() -> special_game_id override {
             return SGAME_TUTORIAL;
         }
-        bool init() override;
+        auto init() -> bool override;
         void per_turn() override;
         void pre_action( action_id &act ) override;
         void post_action( action_id act ) override;

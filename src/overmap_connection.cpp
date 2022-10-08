@@ -24,18 +24,18 @@ static const std::map<std::string, overmap_connection::subtype::flag> connection
 };
 
 template<>
-bool string_id<overmap_connection>::is_valid() const
+auto string_id<overmap_connection>::is_valid() const -> bool
 {
     return connections.is_valid( *this );
 }
 
 template<>
-const overmap_connection &string_id<overmap_connection>::obj() const
+auto string_id<overmap_connection>::obj() const -> const overmap_connection &
 {
     return connections.obj( *this );
 }
 
-bool overmap_connection::subtype::allows_terrain( const oter_id &oter ) const
+auto overmap_connection::subtype::allows_terrain( const oter_id &oter ) const -> bool
 {
     if( oter->type_is( terrain ) ) {
         return true;    // Can be built on similar terrains.
@@ -64,8 +64,8 @@ void overmap_connection::subtype::deserialize( JsonIn &jsin )
     load( jo );
 }
 
-const overmap_connection::subtype *overmap_connection::pick_subtype_for(
-    const oter_id &ground ) const
+auto overmap_connection::pick_subtype_for(
+    const oter_id &ground ) const -> const overmap_connection::subtype *
 {
     if( !ground ) {
         return nullptr;
@@ -91,7 +91,7 @@ const overmap_connection::subtype *overmap_connection::pick_subtype_for(
     return result;
 }
 
-bool overmap_connection::has( const oter_id &oter ) const
+auto overmap_connection::has( const oter_id &oter ) const -> bool
 {
     return std::find_if( subtypes.cbegin(), subtypes.cend(), [&oter]( const subtype & elem ) {
         return oter->type_is( elem.terrain );
@@ -154,7 +154,7 @@ void reset()
     connections.reset();
 }
 
-overmap_connection_id guess_for( const oter_id &oter )
+auto guess_for( const oter_id &oter ) -> overmap_connection_id
 {
     const auto &all = connections.get_all();
     const auto iter = std::find_if( all.cbegin(),
@@ -165,7 +165,7 @@ overmap_connection_id guess_for( const oter_id &oter )
     return iter != all.cend() ? iter->id : overmap_connection_id::NULL_ID();
 }
 
-overmap_connection_id guess_for( const oter_type_id &oter )
+auto guess_for( const oter_type_id &oter ) -> overmap_connection_id
 {
     return guess_for( oter->get_first() );
 }

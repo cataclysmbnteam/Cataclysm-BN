@@ -84,7 +84,7 @@ window_panel::window_panel( std::function<void( avatar &, const catacurses::wind
 // panels prettify and helper functions
 // ====================================
 
-static std::string trunc_ellipse( const std::string &input, unsigned int trunc )
+static auto trunc_ellipse( const std::string &input, unsigned int trunc ) -> std::string
 {
     if( utf8_width( input ) > static_cast<int>( trunc ) ) {
         return utf8_truncate( input, trunc - 1 ) + "…";
@@ -112,7 +112,7 @@ static void draw_rectangle( const catacurses::window &w, nc_color, point top_lef
     }
 }
 
-static std::pair<nc_color, std::string> str_string( const avatar &p )
+static auto str_string( const avatar &p ) -> std::pair<nc_color, std::string>
 {
     nc_color clr;
 
@@ -127,7 +127,7 @@ static std::pair<nc_color, std::string> str_string( const avatar &p )
                                p.get_str() ) : "++" ) );
 }
 
-static std::pair<nc_color, std::string> dex_string( const avatar &p )
+static auto dex_string( const avatar &p ) -> std::pair<nc_color, std::string>
 {
     nc_color clr;
 
@@ -142,7 +142,7 @@ static std::pair<nc_color, std::string> dex_string( const avatar &p )
                                p.get_dex() ) : "++" ) );
 }
 
-static std::pair<nc_color, std::string> int_string( const avatar &p )
+static auto int_string( const avatar &p ) -> std::pair<nc_color, std::string>
 {
     nc_color clr;
 
@@ -157,7 +157,7 @@ static std::pair<nc_color, std::string> int_string( const avatar &p )
                                p.get_int() ) : "++" ) );
 }
 
-static std::pair<nc_color, std::string> per_string( const avatar &p )
+static auto per_string( const avatar &p ) -> std::pair<nc_color, std::string>
 {
     nc_color clr;
 
@@ -172,7 +172,7 @@ static std::pair<nc_color, std::string> per_string( const avatar &p )
                                p.get_per() ) : "++" ) );
 }
 
-static nc_color focus_color( int focus )
+static auto focus_color( int focus ) -> nc_color
 {
     if( focus < 25 ) {
         return c_red;
@@ -189,7 +189,7 @@ static nc_color focus_color( int focus )
     }
 }
 
-int window_panel::get_height() const
+auto window_panel::get_height() const -> int
 {
     if( height == -1 ) {
         if( pixel_minimap_option ) {
@@ -203,12 +203,12 @@ int window_panel::get_height() const
     return height;
 }
 
-int window_panel::get_width() const
+auto window_panel::get_width() const -> int
 {
     return width;
 }
 
-std::string window_panel::get_name() const
+auto window_panel::get_name() const -> std::string
 {
     return name;
 }
@@ -436,7 +436,7 @@ static void decorate_panel( const std::string &name, const catacurses::window &w
     wprintz( w, c_white, title_suffix );
 }
 
-static std::string get_temp( const avatar &u )
+static auto get_temp( const avatar &u ) -> std::string
 {
     std::string temp;
     if( u.has_item_with_flag( "THERMOMETER" ) ||
@@ -449,7 +449,7 @@ static std::string get_temp( const avatar &u )
     return temp;
 }
 
-static std::string get_moon_graphic()
+static auto get_moon_graphic() -> std::string
 {
     //moon phase display
     static std::vector<std::string> vMoonPhase = { "(   )", "(  ))", "( | )", "((  )" };
@@ -465,7 +465,7 @@ static std::string get_moon_graphic()
     return sPhase;
 }
 
-static std::string get_moon()
+static auto get_moon() -> std::string
 {
     const int iPhase = static_cast<int>( get_moon_phase( calendar::turn ) );
     switch( iPhase ) {
@@ -492,7 +492,7 @@ static std::string get_moon()
     }
 }
 
-static std::string time_approx()
+static auto time_approx() -> std::string
 {
     const int iHour = hour_of_day<int>( calendar::turn );
     if( iHour >= 23 || iHour <= 1 ) {
@@ -517,7 +517,7 @@ static std::string time_approx()
     return _( "Night" );
 }
 
-static nc_color value_color( int stat )
+static auto value_color( int stat ) -> nc_color
 {
     nc_color valuecolor = c_light_gray;
 
@@ -533,7 +533,7 @@ static nc_color value_color( int stat )
     return valuecolor;
 }
 
-static std::pair<nc_color, int> morale_stat( const avatar &u )
+static auto morale_stat( const avatar &u ) -> std::pair<nc_color, int>
 {
     const int morale_int = u.get_morale_level();
     nc_color morale_color = c_white;
@@ -545,7 +545,7 @@ static std::pair<nc_color, int> morale_stat( const avatar &u )
     return std::make_pair( morale_color, morale_int );
 }
 
-static std::pair<int, int> temp_delta( const avatar &u )
+static auto temp_delta( const avatar &u ) -> std::pair<int, int>
 {
     int current_bp_extreme = 0;
     int conv_bp_extreme = 0;
@@ -562,7 +562,7 @@ static std::pair<int, int> temp_delta( const avatar &u )
     return std::make_pair( current_bp_extreme, conv_bp_extreme );
 }
 
-static int define_temp_level( const int lvl )
+static auto define_temp_level( const int lvl ) -> int
 {
     if( lvl > BODYTEMP_SCORCHING ) {
         return 7;
@@ -580,7 +580,7 @@ static int define_temp_level( const int lvl )
     return 1;
 }
 
-static std::string temp_delta_string( const avatar &u )
+static auto temp_delta_string( const avatar &u ) -> std::string
 {
     std::string temp_message;
     std::pair<int, int> temp_pair = temp_delta( u );
@@ -609,7 +609,7 @@ static std::string temp_delta_string( const avatar &u )
     return temp_message;
 }
 
-static std::pair<nc_color, std::string> temp_delta_arrows( const avatar &u )
+static auto temp_delta_arrows( const avatar &u ) -> std::pair<nc_color, std::string>
 {
     std::string temp_message;
     nc_color temp_color = c_white;
@@ -646,7 +646,7 @@ static std::pair<nc_color, std::string> temp_delta_arrows( const avatar &u )
     return std::make_pair( temp_color, temp_message );
 }
 
-static std::pair<nc_color, std::string> temp_stat( const avatar &u )
+static auto temp_stat( const avatar &u ) -> std::pair<nc_color, std::string>
 {
     /// Find hottest/coldest bodypart
     // Calculate the most extreme body temperatures
@@ -680,7 +680,7 @@ static std::pair<nc_color, std::string> temp_stat( const avatar &u )
     return std::make_pair( temp_color, temp_string );
 }
 
-static std::string get_armor( const avatar &u, body_part bp, unsigned int truncate = 0 )
+static auto get_armor( const avatar &u, body_part bp, unsigned int truncate = 0 ) -> std::string
 {
     for( std::list<item>::const_iterator it = u.worn.end(); it != u.worn.begin(); ) {
         --it;
@@ -691,7 +691,7 @@ static std::string get_armor( const avatar &u, body_part bp, unsigned int trunca
     return "-";
 }
 
-static face_type get_face_type( const avatar &u )
+static auto get_face_type( const avatar &u ) -> face_type
 {
     face_type fc = face_human;
     if( u.has_trait( trait_THRESH_FELINE ) ) {
@@ -704,8 +704,8 @@ static face_type get_face_type( const avatar &u )
     return fc;
 }
 
-static std::string morale_emotion( const int morale_cur, const face_type face,
-                                   const bool horizontal_style )
+static auto morale_emotion( const int morale_cur, const face_type face,
+                                   const bool horizontal_style ) -> std::string
 {
     if( horizontal_style ) {
         if( face == face_bear || face == face_cat ) {
@@ -786,7 +786,7 @@ static std::string morale_emotion( const int morale_cur, const face_type face,
     }
 }
 
-static std::pair<nc_color, std::string> power_stat( const avatar &u )
+static auto power_stat( const avatar &u ) -> std::pair<nc_color, std::string>
 {
     nc_color c_pwr = c_red;
     std::string s_pwr;
@@ -813,7 +813,7 @@ static std::pair<nc_color, std::string> power_stat( const avatar &u )
     return std::make_pair( c_pwr, s_pwr );
 }
 
-static std::pair<nc_color, std::string> mana_stat( const player &u )
+static auto mana_stat( const player &u ) -> std::pair<nc_color, std::string>
 {
     nc_color c_mana = c_red;
     std::string s_mana;
@@ -831,7 +831,7 @@ static std::pair<nc_color, std::string> mana_stat( const player &u )
     return std::make_pair( c_mana, s_mana );
 }
 
-static nc_color safe_color()
+static auto safe_color() -> nc_color
 {
     nc_color s_color = g->safe_mode ? c_green : c_red;
     if( g->safe_mode == SAFE_MODE_OFF && get_option<bool>( "AUTOSAFEMODE" ) ) {
@@ -850,7 +850,7 @@ static nc_color safe_color()
     return s_color;
 }
 
-static int get_int_digits( const int &digits )
+static auto get_int_digits( const int &digits ) -> int
 {
     int temp = std::abs( digits );
     if( digits > 0 ) {
@@ -991,7 +991,7 @@ static void draw_stats( avatar &u, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
-static nc_color move_mode_color( avatar &u )
+static auto move_mode_color( avatar &u ) -> nc_color
 {
     if( u.movement_mode_is( CMM_RUN ) ) {
         return c_red;
@@ -1002,7 +1002,7 @@ static nc_color move_mode_color( avatar &u )
     }
 }
 
-static std::string move_mode_string( avatar &u )
+static auto move_mode_string( avatar &u ) -> std::string
 {
     if( u.movement_mode_is( CMM_RUN ) ) {
         return pgettext( "movement-type", "R" );
@@ -1126,14 +1126,14 @@ static void draw_needs_compact( const avatar &u, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
-static std::string carry_weight_string( const avatar &u )
+static auto carry_weight_string( const avatar &u ) -> std::string
 {
     double weight_carried = round_up( convert_weight( u.weight_carried() ), 1 ); // In kg/lbs
     double weight_capacity = round_up( convert_weight( u.weight_capacity() ), 1 );
     return string_format( "%.1f/%.1f", weight_carried, weight_capacity );
 }
 
-static std::string carry_volume_string( const avatar &u )
+static auto carry_volume_string( const avatar &u ) -> std::string
 {
     double volume_carried = round_up( convert_volume( to_milliliter( u.volume_carried() ) ),
                                       2 );
@@ -2122,17 +2122,17 @@ static void draw_mana_wide( const player &u, const catacurses::window &w )
 // INITIALIZERS
 // ============
 
-static bool spell_panel()
+static auto spell_panel() -> bool
 {
     return get_avatar().magic->knows_spell();
 }
 
-bool default_render()
+auto default_render() -> bool
 {
     return true;
 }
 
-static std::vector<window_panel> initialize_default_classic_panels()
+static auto initialize_default_classic_panels() -> std::vector<window_panel>
 {
     std::vector<window_panel> ret;
 
@@ -2164,7 +2164,7 @@ static std::vector<window_panel> initialize_default_classic_panels()
     return ret;
 }
 
-static std::vector<window_panel> initialize_default_compact_panels()
+static auto initialize_default_compact_panels() -> std::vector<window_panel>
 {
     std::vector<window_panel> ret;
 
@@ -2191,7 +2191,7 @@ static std::vector<window_panel> initialize_default_compact_panels()
     return ret;
 }
 
-static std::vector<window_panel> initialize_default_label_narrow_panels()
+static auto initialize_default_label_narrow_panels() -> std::vector<window_panel>
 {
     std::vector<window_panel> ret;
 
@@ -2223,7 +2223,7 @@ static std::vector<window_panel> initialize_default_label_narrow_panels()
     return ret;
 }
 
-static std::vector<window_panel> initialize_default_label_panels()
+static auto initialize_default_label_panels() -> std::vector<window_panel>
 {
     std::vector<window_panel> ret;
 
@@ -2256,7 +2256,7 @@ static std::vector<window_panel> initialize_default_label_panels()
     return ret;
 }
 
-static std::map<std::string, std::vector<window_panel>> initialize_default_panel_layouts()
+static auto initialize_default_panel_layouts() -> std::map<std::string, std::vector<window_panel>>
 {
     std::map<std::string, std::vector<window_panel>> ret;
 
@@ -2275,7 +2275,7 @@ panel_manager::panel_manager()
     layouts = initialize_default_panel_layouts();
 }
 
-std::vector<window_panel> &panel_manager::get_current_layout()
+auto panel_manager::get_current_layout() -> std::vector<window_panel> &
 {
     auto kv = layouts.find( current_layout_id );
     if( kv != layouts.end() ) {
@@ -2286,12 +2286,12 @@ std::vector<window_panel> &panel_manager::get_current_layout()
     return get_current_layout();
 }
 
-std::string panel_manager::get_current_layout_id() const
+auto panel_manager::get_current_layout_id() const -> std::string
 {
     return current_layout_id;
 }
 
-int panel_manager::get_width_right()
+auto panel_manager::get_width_right() -> int
 {
     if( get_option<std::string>( "SIDEBAR_POSITION" ) == "left" ) {
         return width_left;
@@ -2299,7 +2299,7 @@ int panel_manager::get_width_right()
     return width_right;
 }
 
-int panel_manager::get_width_left()
+auto panel_manager::get_width_left() -> int
 {
     if( get_option<std::string>( "SIDEBAR_POSITION" ) == "left" ) {
         return width_right;
@@ -2319,7 +2319,7 @@ void panel_manager::update_offsets( int x )
     width_left = 0;
 }
 
-bool panel_manager::save()
+auto panel_manager::save() -> bool
 {
     return write_to_file( PATH_INFO::panel_options(), [&]( std::ostream & fout ) {
         JsonOut jout( fout, true );
@@ -2327,7 +2327,7 @@ bool panel_manager::save()
     }, _( "panel options" ) );
 }
 
-bool panel_manager::load()
+auto panel_manager::load() -> bool
 {
     return read_from_file_optional_json( PATH_INFO::panel_options(), [&]( JsonIn & jsin ) {
         deserialize( jsin );

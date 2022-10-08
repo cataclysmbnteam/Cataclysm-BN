@@ -20,7 +20,7 @@ Creature_tracker::Creature_tracker() = default;
 
 Creature_tracker::~Creature_tracker() = default;
 
-shared_ptr_fast<monster> Creature_tracker::find( const tripoint &pos ) const
+auto Creature_tracker::find( const tripoint &pos ) const -> shared_ptr_fast<monster>
 {
     const auto iter = monsters_by_location.find( pos );
     if( iter != monsters_by_location.end() ) {
@@ -32,7 +32,7 @@ shared_ptr_fast<monster> Creature_tracker::find( const tripoint &pos ) const
     return nullptr;
 }
 
-int Creature_tracker::temporary_id( const monster &critter ) const
+auto Creature_tracker::temporary_id( const monster &critter ) const -> int
 {
     const auto iter = std::find_if( monsters_list.begin(), monsters_list.end(),
     [&]( const shared_ptr_fast<monster> &ptr ) {
@@ -44,7 +44,7 @@ int Creature_tracker::temporary_id( const monster &critter ) const
     return iter - monsters_list.begin();
 }
 
-shared_ptr_fast<monster> Creature_tracker::from_temporary_id( const int id )
+auto Creature_tracker::from_temporary_id( const int id ) -> shared_ptr_fast<monster>
 {
     if( static_cast<size_t>( id ) < monsters_list.size() ) {
         return monsters_list[id];
@@ -53,7 +53,7 @@ shared_ptr_fast<monster> Creature_tracker::from_temporary_id( const int id )
     }
 }
 
-bool Creature_tracker::add( shared_ptr_fast<monster> critter_ptr )
+auto Creature_tracker::add( shared_ptr_fast<monster> critter_ptr ) -> bool
 {
     assert( critter_ptr );
     monster &critter = *critter_ptr;
@@ -105,12 +105,12 @@ void Creature_tracker::add_to_faction_map( shared_ptr_fast<monster> critter_ptr 
     }
 }
 
-size_t Creature_tracker::size() const
+auto Creature_tracker::size() const -> size_t
 {
     return monsters_list.size();
 }
 
-bool Creature_tracker::update_pos( const monster &critter, const tripoint &new_pos )
+auto Creature_tracker::update_pos( const monster &critter, const tripoint &new_pos ) -> bool
 {
     if( critter.is_dead() ) {
         // find ignores dead critters anyway, changing their position in the
@@ -251,7 +251,7 @@ void Creature_tracker::swap_positions( monster &first, monster &second )
     }
 }
 
-bool Creature_tracker::kill_marked_for_death()
+auto Creature_tracker::kill_marked_for_death() -> bool
 {
     // Important: `Creature::die` must not be called after creature objects (NPCs, monsters) have
     // been removed, the dying creature could still have a pointer (the killer) to another creature.

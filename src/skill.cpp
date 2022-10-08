@@ -28,7 +28,7 @@ static const SkillDisplayType invalid_skill_type;
 
 /** @relates string_id */
 template<>
-const Skill &string_id<Skill>::obj() const
+auto string_id<Skill>::obj() const -> const Skill &
 {
     for( const Skill &skill : Skill::skills ) {
         if( skill.ident() == *this ) {
@@ -46,7 +46,7 @@ const Skill &string_id<Skill>::obj() const
 
 /** @relates string_id */
 template<>
-bool string_id<Skill>::is_valid() const
+auto string_id<Skill>::is_valid() const -> bool
 {
     return &obj() != &invalid_skill;
 }
@@ -64,8 +64,8 @@ Skill::Skill( const skill_id &ident, const translation &name, const translation 
 {
 }
 
-std::vector<const Skill *> Skill::get_skills_sorted_by(
-    std::function<bool ( const Skill &, const Skill & )> pred )
+auto Skill::get_skills_sorted_by(
+    std::function<bool ( const Skill &, const Skill & )> pred ) -> std::vector<const Skill *>
 {
     std::vector<const Skill *> result;
     result.reserve( skills.size() );
@@ -140,7 +140,7 @@ SkillDisplayType::SkillDisplayType( const skill_displayType_id &ident,
 
 /** @relates string_id */
 template<>
-const SkillDisplayType &skill_displayType_id::obj() const
+auto skill_displayType_id::obj() const -> const SkillDisplayType &
 {
     for( const SkillDisplayType &skill : SkillDisplayType::skillTypes ) {
         if( skill.ident() == *this ) {
@@ -173,7 +173,7 @@ void SkillDisplayType::reset()
     skillTypes.clear();
 }
 
-const SkillDisplayType &SkillDisplayType::get_skill_type( const skill_displayType_id &id )
+auto SkillDisplayType::get_skill_type( const skill_displayType_id &id ) -> const SkillDisplayType &
 {
     for( auto &i : skillTypes ) {
         if( i._ident == id ) {
@@ -183,7 +183,7 @@ const SkillDisplayType &SkillDisplayType::get_skill_type( const skill_displayTyp
     return invalid_skill_type;
 }
 
-skill_id Skill::from_legacy_int( const int legacy_id )
+auto Skill::from_legacy_int( const int legacy_id ) -> skill_id
 {
     static const std::array<skill_id, 28> legacy_skills = { {
             skill_id::NULL_ID(), skill_id( "dodge" ), skill_id( "melee" ), skill_id( "unarmed" ),
@@ -202,19 +202,19 @@ skill_id Skill::from_legacy_int( const int legacy_id )
     return skills.front().ident(); // return a non-null id because callers might not expect a null-id
 }
 
-skill_id Skill::random_skill()
+auto Skill::random_skill() -> skill_id
 {
     return random_entry_ref( skills ).ident();
 }
 
 // used for the pacifist trait
-bool Skill::is_combat_skill() const
+auto Skill::is_combat_skill() const -> bool
 {
     static const std::string combat_skill( "combat_skill" );
     return _tags.count( combat_skill ) > 0;
 }
 
-bool Skill::is_contextual_skill() const
+auto Skill::is_contextual_skill() const -> bool
 {
     static const std::string contextual_skill( "contextual_skill" );
     return _tags.count( contextual_skill ) > 0;
@@ -247,7 +247,7 @@ void SkillLevel::train( int amount, bool skip_scaling )
 
 namespace
 {
-time_duration rustRate( int level )
+auto rustRate( int level ) -> time_duration
 {
     // for n = [0, 7]
     //
@@ -260,13 +260,13 @@ time_duration rustRate( int level )
 }
 } //namespace
 
-bool SkillLevel::isRusting() const
+auto SkillLevel::isRusting() const -> bool
 {
     return get_option<std::string>( "SKILL_RUST" ) != "off" && ( _level > 0 ) &&
            calendar::turn - _lastPracticed > rustRate( _level );
 }
 
-bool SkillLevel::rust( bool charged_bio_mem, int character_rate )
+auto SkillLevel::rust( bool charged_bio_mem, int character_rate ) -> bool
 {
     const time_duration delta = calendar::turn - _lastPracticed;
     const float char_rate = character_rate / 100.0;
@@ -308,12 +308,12 @@ void SkillLevel::readBook( int minimumGain, int maximumGain, int maximumLevel )
     practice();
 }
 
-bool SkillLevel::can_train() const
+auto SkillLevel::can_train() const -> bool
 {
     return get_option<float>( "SKILL_TRAINING_SPEED" ) > 0.0;
 }
 
-const SkillLevel &SkillLevelMap::get_skill_level_object( const skill_id &ident ) const
+auto SkillLevelMap::get_skill_level_object( const skill_id &ident ) const -> const SkillLevel &
 {
     static const SkillLevel null_skill{};
 
@@ -331,7 +331,7 @@ const SkillLevel &SkillLevelMap::get_skill_level_object( const skill_id &ident )
     return null_skill;
 }
 
-SkillLevel &SkillLevelMap::get_skill_level_object( const skill_id &ident )
+auto SkillLevelMap::get_skill_level_object( const skill_id &ident ) -> SkillLevel &
 {
     static SkillLevel null_skill;
 
@@ -349,24 +349,24 @@ void SkillLevelMap::mod_skill_level( const skill_id &ident, int delta )
     obj.level( obj.level() + delta );
 }
 
-int SkillLevelMap::get_skill_level( const skill_id &ident ) const
+auto SkillLevelMap::get_skill_level( const skill_id &ident ) const -> int
 {
     return get_skill_level_object( ident ).level();
 }
 
-int SkillLevelMap::get_skill_level( const skill_id &ident, const item &context ) const
+auto SkillLevelMap::get_skill_level( const skill_id &ident, const item &context ) const -> int
 {
     const auto id = context.is_null() ? ident : context.contextualize_skill( ident );
     return get_skill_level( id );
 }
 
-bool SkillLevelMap::meets_skill_requirements( const std::map<skill_id, int> &req ) const
+auto SkillLevelMap::meets_skill_requirements( const std::map<skill_id, int> &req ) const -> bool
 {
     return meets_skill_requirements( req, item() );
 }
 
-bool SkillLevelMap::meets_skill_requirements( const std::map<skill_id, int> &req,
-        const item &context ) const
+auto SkillLevelMap::meets_skill_requirements( const std::map<skill_id, int> &req,
+        const item &context ) const -> bool
 {
     return std::all_of( req.begin(), req.end(),
     [this, &context]( const std::pair<skill_id, int> &pr ) {
@@ -374,14 +374,14 @@ bool SkillLevelMap::meets_skill_requirements( const std::map<skill_id, int> &req
     } );
 }
 
-std::map<skill_id, int> SkillLevelMap::compare_skill_requirements(
-    const std::map<skill_id, int> &req ) const
+auto SkillLevelMap::compare_skill_requirements(
+    const std::map<skill_id, int> &req ) const -> std::map<skill_id, int>
 {
     return compare_skill_requirements( req, item() );
 }
 
-std::map<skill_id, int> SkillLevelMap::compare_skill_requirements(
-    const std::map<skill_id, int> &req, const item &context ) const
+auto SkillLevelMap::compare_skill_requirements(
+    const std::map<skill_id, int> &req, const item &context ) const -> std::map<skill_id, int>
 {
     std::map<skill_id, int> res;
 
@@ -395,7 +395,7 @@ std::map<skill_id, int> SkillLevelMap::compare_skill_requirements(
     return res;
 }
 
-int SkillLevelMap::exceeds_recipe_requirements( const recipe &rec ) const
+auto SkillLevelMap::exceeds_recipe_requirements( const recipe &rec ) const -> int
 {
     int over = rec.skill_used ? get_skill_level( rec.skill_used ) - rec.difficulty : 0;
     for( const auto &elem : compare_skill_requirements( rec.required_skills ) ) {
@@ -404,14 +404,14 @@ int SkillLevelMap::exceeds_recipe_requirements( const recipe &rec ) const
     return over;
 }
 
-bool SkillLevelMap::has_recipe_requirements( const recipe &rec ) const
+auto SkillLevelMap::has_recipe_requirements( const recipe &rec ) const -> bool
 {
     return exceeds_recipe_requirements( rec ) >= 0;
 }
 
 // Actually take the difference in barter skill between the two parties involved
 // Caps at 200% when you are 5 levels ahead, int comparison is handled in npctalk.cpp
-double price_adjustment( int barter_skill )
+auto price_adjustment( int barter_skill ) -> double
 {
     if( barter_skill <= 0 ) {
         return 1.0;

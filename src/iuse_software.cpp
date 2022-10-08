@@ -15,9 +15,9 @@
 #include "string_formatter.h"
 #include "translations.h"
 
-bool play_videogame( const std::string &function_name,
+auto play_videogame( const std::string &function_name,
                      std::string &end_message,
-                     int &score )
+                     int &score ) -> bool
 {
     if( function_name == "null" ) {
         score = 30;

@@ -24,21 +24,21 @@ struct points_left {
     points_left();
     void init_from_options();
     // Highest amount of points to spend on stats without points going invalid
-    int stat_points_left() const;
-    int trait_points_left() const;
-    int skill_points_left() const;
-    bool is_freeform();
-    bool is_valid();
-    bool has_spare();
-    std::string to_string();
+    auto stat_points_left() const -> int;
+    auto trait_points_left() const -> int;
+    auto skill_points_left() const -> int;
+    auto is_freeform() -> bool;
+    auto is_valid() -> bool;
+    auto has_spare() -> bool;
+    auto to_string() -> std::string;
 };
 
 namespace newcharacter
 {
 /** Returns the id of a random starting trait that costs >= 0 points */
-trait_id random_good_trait();
+auto random_good_trait() -> trait_id;
 /** Returns the id of a random starting trait that costs < 0 points */
-trait_id random_bad_trait();
+auto random_bad_trait() -> trait_id;
 /**
  * Adds mandatory scenario and profession traits unless character already has them.
  * And if they do, refunds the points.
@@ -47,13 +47,13 @@ void add_traits( Character &ch );
 void add_traits( Character &ch, points_left &points );
 
 /** Returns true if character has a conflicting trait to the entered trait. */
-bool has_conflicting_trait( const Character &ch, const trait_id &t );
+auto has_conflicting_trait( const Character &ch, const trait_id &t ) -> bool;
 /** Returns true if charcater has a trait which upgrades into the entered trait. */
-bool has_lower_trait( const Character &ch, const trait_id &t );
+auto has_lower_trait( const Character &ch, const trait_id &t ) -> bool;
 /** Returns true if character has a trait which is an upgrade of the entered trait. */
-bool has_higher_trait( const Character &ch, const trait_id &t );
+auto has_higher_trait( const Character &ch, const trait_id &t ) -> bool;
 /** Returns true if character has a trait that shares a type with the entered trait. */
-bool has_same_type_trait( const Character &ch, const trait_id &t );
+auto has_same_type_trait( const Character &ch, const trait_id &t ) -> bool;
 } // namespace newcharacter
 
 #endif // CATA_SRC_NEWCHARACTER_H

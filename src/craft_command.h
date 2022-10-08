@@ -44,13 +44,13 @@ struct comp_selection {
         : use_from( use_from ), comp( comp )
     {}
     comp_selection( const comp_selection & ) = default;
-    comp_selection &operator = ( const comp_selection & ) = default;
+    auto operator = ( const comp_selection & ) -> comp_selection & = default;
     /** Tells us where the selected component should be used from. */
     usage use_from = use_from_none;
     CompType comp;
 
     /** provides a translated name for 'comp', suffixed with it's location e.g '(nearby)'. */
-    std::string nname() const;
+    auto nname() const -> std::string;
 
     void serialize( JsonOut &jsout ) const;
     void deserialize( JsonIn &jsin );
@@ -77,20 +77,20 @@ class craft_command
          * Consumes the selected components and returns the resulting in progress craft item.
          * Must be called after execute().
          */
-        item create_in_progress_craft();
+        auto create_in_progress_craft() -> item;
 
-        bool is_long() const {
+        auto is_long() const -> bool {
             return longcraft;
         }
 
-        bool has_cached_selections() const {
+        auto has_cached_selections() const -> bool {
             return !item_selections.empty() || !tool_selections.empty();
         }
 
-        bool empty() const {
+        auto empty() const -> bool {
             return rec == nullptr;
         }
-        skill_id get_skill_id();
+        auto get_skill_id() -> skill_id;
 
     private:
         const recipe *rec = nullptr;
@@ -113,15 +113,15 @@ class craft_command
         std::vector<comp_selection<tool_comp>> tool_selections;
 
         /** Checks if tools we selected in a previous call to execute() are still available. */
-        std::vector<comp_selection<item_comp>> check_item_components_missing(
-                                                const inventory &map_inv ) const;
+        auto check_item_components_missing(
+                                                const inventory &map_inv ) const -> std::vector<comp_selection<item_comp>>;
         /** Checks if items we selected in a previous call to execute() are still available. */
-        std::vector<comp_selection<tool_comp>> check_tool_components_missing(
-                                                const inventory &map_inv ) const;
+        auto check_tool_components_missing(
+                                                const inventory &map_inv ) const -> std::vector<comp_selection<tool_comp>>;
 
         /** Creates a continue pop up asking to continue crafting and listing the missing components */
-        bool query_continue( const std::vector<comp_selection<item_comp>> &missing_items,
-                             const std::vector<comp_selection<tool_comp>> &missing_tools );
+        auto query_continue( const std::vector<comp_selection<item_comp>> &missing_items,
+                             const std::vector<comp_selection<tool_comp>> &missing_tools ) -> bool;
 };
 
 #endif // CATA_SRC_CRAFT_COMMAND_H

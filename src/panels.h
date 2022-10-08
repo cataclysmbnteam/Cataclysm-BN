@@ -34,7 +34,7 @@ void draw_overmap_chunk( const catacurses::window &w_minimap, const avatar &you,
                          int height );
 } // namespace overmap_ui
 
-bool default_render();
+auto default_render() -> bool;
 
 class window_panel
 {
@@ -46,9 +46,9 @@ class window_panel
         std::function<void( avatar &, const catacurses::window & )> draw;
         std::function<bool()> render;
 
-        int get_height() const;
-        int get_width() const;
-        std::string get_name() const;
+        auto get_height() const -> int;
+        auto get_width() const -> int;
+        auto get_name() const -> std::string;
         bool toggle;
         bool always_draw;
 
@@ -66,26 +66,26 @@ class panel_manager
         ~panel_manager() = default;
         panel_manager( panel_manager && ) = default;
         panel_manager( const panel_manager & ) = default;
-        panel_manager &operator=( panel_manager && ) = default;
-        panel_manager &operator=( const panel_manager & ) = default;
+        auto operator=( panel_manager && ) -> panel_manager & = default;
+        auto operator=( const panel_manager & ) -> panel_manager & = default;
 
-        static panel_manager &get_manager() {
+        static auto get_manager() -> panel_manager & {
             static panel_manager single_instance;
             return single_instance;
         }
 
-        std::vector<window_panel> &get_current_layout();
-        std::string get_current_layout_id() const;
-        int get_width_right();
-        int get_width_left();
+        auto get_current_layout() -> std::vector<window_panel> &;
+        auto get_current_layout_id() const -> std::string;
+        auto get_width_right() -> int;
+        auto get_width_left() -> int;
 
         void show_adm();
 
         void init();
 
     private:
-        bool save();
-        bool load();
+        auto save() -> bool;
+        auto load() -> bool;
         void serialize( JsonOut &json );
         void deserialize( JsonIn &jsin );
         // update the screen offsets so the game knows how to adjust the main window

@@ -21,10 +21,10 @@ class morale_type_data
         bool was_loaded = false;
 
         /** Describes this morale type without replacing anything. */
-        std::string describe() const;
+        auto describe() const -> std::string;
         /** Describes this morale type, with some string to replace wildcard with. */
-        std::string describe( const std::string &s ) const;
-        bool is_permanent() const {
+        auto describe( const std::string &s ) const -> std::string;
+        auto is_permanent() const -> bool {
             return permanent;
         }
 

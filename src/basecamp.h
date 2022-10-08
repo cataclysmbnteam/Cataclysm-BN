@@ -80,17 +80,17 @@ struct direction_data {
 // base_dir and the eight directional points
 extern const std::map<point, direction_data> all_directions;
 
-point direction_from_id( const std::string &id );
+auto direction_from_id( const std::string &id ) -> point;
 
 const point base_dir;
 const std::string prefix = "faction_base_";
 const std::string id = "FACTION_CAMP";
 const int prefix_len = 13;
-std::string faction_encode_short( const std::string &type );
-std::string faction_encode_abs( const expansion_data &e, int number );
-std::string faction_decode( const std::string &full_type );
-time_duration to_workdays( const time_duration &work_time );
-int max_upgrade_by_type( const std::string &type );
+auto faction_encode_short( const std::string &type ) -> std::string;
+auto faction_encode_abs( const expansion_data &e, int number ) -> std::string;
+auto faction_decode( const std::string &full_type ) -> std::string;
+auto to_workdays( const time_duration &work_time ) -> time_duration;
+auto max_upgrade_by_type( const std::string &type ) -> int;
 } // namespace base_camps
 
 // camp resource structures
@@ -122,22 +122,22 @@ class basecamp
                   const std::vector<point> &directions_,
                   const std::map<point, expansion_data> &expansions_ );
 
-        inline bool is_valid() const {
+        inline auto is_valid() const -> bool {
             return !name.empty() && omt_pos != tripoint_abs_omt();
         }
-        inline int board_x() const {
+        inline auto board_x() const -> int {
             return bb_pos.x;
         }
-        inline int board_y() const {
+        inline auto board_y() const -> int {
             return bb_pos.y;
         }
-        inline tripoint_abs_omt camp_omt_pos() const {
+        inline auto camp_omt_pos() const -> tripoint_abs_omt {
             return omt_pos;
         }
-        inline const std::string &camp_name() const {
+        inline auto camp_name() const -> const std::string & {
             return name;
         }
-        tripoint get_bb_pos() const {
+        auto get_bb_pos() const -> tripoint {
             return bb_pos;
         }
         void validate_bb_pos( const tripoint &new_abs_pos ) {
@@ -150,7 +150,7 @@ class basecamp
         }
         void set_by_radio( bool access_by_radio );
 
-        std::string board_name() const;
+        auto board_name() const -> std::string;
         std::vector<point> directions;
         std::vector<tripoint_abs_omt> fortifications;
         std::string name;
@@ -165,50 +165,50 @@ class basecamp
                             const point &dir );
         void define_camp( const tripoint_abs_omt &p, const std::string &camp_type = "default" );
 
-        std::string expansion_tab( const point &dir ) const;
+        auto expansion_tab( const point &dir ) const -> std::string;
         // upgrade levels
-        bool has_provides( const std::string &req, const expansion_data &e_data, int level = 0 ) const;
-        bool has_provides( const std::string &req, const cata::optional<point> &dir = cata::nullopt,
-                           int level = 0 ) const;
+        auto has_provides( const std::string &req, const expansion_data &e_data, int level = 0 ) const -> bool;
+        auto has_provides( const std::string &req, const cata::optional<point> &dir = cata::nullopt,
+                           int level = 0 ) const -> bool;
         void update_resources( const std::string &bldg );
         void update_provides( const std::string &bldg, expansion_data &e_data );
         void update_in_progress( const std::string &bldg, const point &dir );
 
-        bool can_expand();
+        auto can_expand() -> bool;
         /// Returns the name of the building the current building @ref dir upgrades into,
         /// "null" if there isn't one
-        std::string next_upgrade( const point &dir, int offset = 1 ) const;
-        std::vector<basecamp_upgrade> available_upgrades( const point &dir );
+        auto next_upgrade( const point &dir, int offset = 1 ) const -> std::string;
+        auto available_upgrades( const point &dir ) -> std::vector<basecamp_upgrade>;
 
         // camp utility functions
-        int recruit_evaluation() const;
-        int recruit_evaluation( int &sbase, int &sexpansions, int &sfaction, int &sbonus ) const;
+        auto recruit_evaluation() const -> int;
+        auto recruit_evaluation( int &sbase, int &sexpansions, int &sfaction, int &sbonus ) const -> int;
         // confirm there is at least 1 loot destination and 1 unsorted loot zone in the camp
-        bool validate_sort_points();
+        auto validate_sort_points() -> bool;
         // Validates the expansion data
-        expansion_data parse_expansion( const std::string &terrain,
-                                        const tripoint_abs_omt &new_pos );
+        auto parse_expansion( const std::string &terrain,
+                                        const tripoint_abs_omt &new_pos ) -> expansion_data;
         /**
          * Invokes the zone manager and validates that the necessary sort zones exist.
          */
-        bool set_sort_points();
+        auto set_sort_points() -> bool;
 
         // food utility
         /// Takes all the food from the camp_food zone and increases the faction
         /// food_supply
-        bool distribute_food();
-        bool has_water();
+        auto distribute_food() -> bool;
+        auto has_water() -> bool;
 
         // recipes, gathering, and craft support functions
         // from a direction
-        std::map<recipe_id, translation> recipe_deck( const point &dir ) const;
+        auto recipe_deck( const point &dir ) const -> std::map<recipe_id, translation>;
         // from a building
-        std::map<recipe_id, translation> recipe_deck( const std::string &bldg ) const;
-        int recipe_batch_max( const recipe &making ) const;
+        auto recipe_deck( const std::string &bldg ) const -> std::map<recipe_id, translation>;
+        auto recipe_batch_max( const recipe &making ) const -> int;
         void form_crafting_inventory();
         void form_crafting_inventory( map &target_map );
-        std::list<item> use_charges( const itype_id &fake_id, int &quantity );
-        item_group_id get_gatherlist() const;
+        auto use_charges( const itype_id &fake_id, int &quantity ) -> std::list<item>;
+        auto get_gatherlist() const -> item_group_id;
         /**
          * spawn items or corpses based on search attempts
          * @param skill skill level of the search
@@ -228,7 +228,7 @@ class basecamp
          * if skill is higher, an item or corpse is spawned
          */
         void hunting_results( int skill, const std::string &task, int attempts, int difficulty );
-        inline const tripoint &get_dumping_spot() const {
+        inline auto get_dumping_spot() const -> const tripoint & {
             return dumping_spot;
         }
         // dumping spot in absolute co-ords
@@ -241,39 +241,39 @@ class basecamp
         void add_available_recipes( mission_data &mission_key, const point &dir,
                                     const std::map<recipe_id, translation> &craft_recipes );
 
-        std::string recruit_description( int npc_count );
+        auto recruit_description( int npc_count ) -> std::string;
         /// Provides a "guess" for some of the things your gatherers will return with
         /// to upgrade the camp
-        std::string gathering_description( const std::string &bldg );
+        auto gathering_description( const std::string &bldg ) -> std::string;
         /// Returns a string for the number of plants that are harvestable, plots ready to plant,
         /// and ground that needs tilling
-        std::string farm_description( const tripoint_abs_omt &farm_pos, size_t &plots_count,
-                                      farm_ops operation );
+        auto farm_description( const tripoint_abs_omt &farm_pos, size_t &plots_count,
+                                      farm_ops operation ) -> std::string;
         /// Returns the description of a camp crafting options. converts fire charges to charcoal,
         /// allows dark crafting
-        std::string craft_description( const recipe_id &itm );
+        auto craft_description( const recipe_id &itm ) -> std::string;
 
         // main mission description collection
         void get_available_missions( mission_data &mission_key );
         void get_available_missions_by_dir( mission_data &mission_key, const point &dir );
         // available companion list manipulation
         void reset_camp_workers();
-        comp_list get_mission_workers( const std::string &mission_id, bool contains = false );
+        auto get_mission_workers( const std::string &mission_id, bool contains = false ) -> comp_list;
         // main mission start/return dispatch function
-        bool handle_mission( const std::string &miss_id, const cata::optional<point> &opt_miss_dir );
+        auto handle_mission( const std::string &miss_id, const cata::optional<point> &opt_miss_dir ) -> bool;
 
         // mission start functions
         /// generic mission start function that wraps individual mission
-        npc_ptr start_mission( const std::string &miss_id, time_duration duration,
+        auto start_mission( const std::string &miss_id, time_duration duration,
                                bool must_feed, const std::string &desc, bool group,
                                const std::vector<item *> &equipment,
-                               const skill_id &skill_tested, int skill_level );
-        npc_ptr start_mission( const std::string &miss_id, time_duration duration,
+                               const skill_id &skill_tested, int skill_level ) -> npc_ptr;
+        auto start_mission( const std::string &miss_id, time_duration duration,
                                bool must_feed, const std::string &desc, bool group,
                                const std::vector<item *> &equipment,
-                               const std::map<skill_id, int> &required_skills = {} );
+                               const std::map<skill_id, int> &required_skills = {} ) -> npc_ptr;
         void start_upgrade( const std::string &bldg, const point &dir, const std::string &key );
-        std::string om_upgrade_description( const std::string &bldg, bool trunc = false ) const;
+        auto om_upgrade_description( const std::string &bldg, bool trunc = false ) const -> std::string;
         void start_menial_labor();
         void worker_assignment_ui();
         void job_assignment_ui();
@@ -289,37 +289,37 @@ class basecamp
         void start_fortifications( std::string &bldg_exp );
         void start_combat_mission( const std::string &miss );
         /// Called when a companion starts a chop shop @ref task mission
-        bool start_garage_chop( const point &dir, const tripoint_abs_omt &omt_tgt );
+        auto start_garage_chop( const point &dir, const tripoint_abs_omt &omt_tgt ) -> bool;
         void start_farm_op( const point &dir, const tripoint_abs_omt &omt_tgt, farm_ops op );
         ///Display items listed in @ref equipment to let the player pick what to give the departing
         ///NPC, loops until quit or empty.
-        std::vector<item *> give_equipment( std::vector<item *> equipment, const std::string &msg );
+        auto give_equipment( std::vector<item *> equipment, const std::string &msg ) -> std::vector<item *>;
 
         // mission return functions
         /// called to select a companion to return to the base
-        npc_ptr companion_choose_return( const std::string &miss_id, time_duration min_duration );
+        auto companion_choose_return( const std::string &miss_id, time_duration min_duration ) -> npc_ptr;
         /// called with a companion @ref comp who is not the camp manager, finishes updating their
         /// skills, consuming food, and returning them to the base.
         void finish_return( npc &comp, bool fixed_time, const std::string &return_msg,
                             const std::string &skill, int difficulty, bool cancel = false );
         /// a wrapper function for @ref companion_choose_return and @ref finish_return
-        npc_ptr mission_return( const std::string &miss_id, time_duration min_duration,
+        auto mission_return( const std::string &miss_id, time_duration min_duration,
                                 bool fixed_time, const std::string &return_msg,
-                                const std::string &skill, int difficulty );
+                                const std::string &skill, int difficulty ) -> npc_ptr;
         /// select a companion for any mission to return to base
-        npc_ptr emergency_recall();
+        auto emergency_recall() -> npc_ptr;
 
         /// Called to close upgrade missions, @ref miss is the name of the mission id
         /// and @ref dir is the direction of the location to be upgraded
-        bool upgrade_return( const point &dir, const std::string &miss );
+        auto upgrade_return( const point &dir, const std::string &miss ) -> bool;
         /// As above, but with an explicit blueprint recipe to upgrade
-        bool upgrade_return( const point &dir, const std::string &miss, const std::string &bldg );
+        auto upgrade_return( const point &dir, const std::string &miss, const std::string &bldg ) -> bool;
 
         /// Choose which expansion you should start, called when a survey mission is completed
-        bool survey_return();
-        bool menial_return();
+        auto survey_return() -> bool;
+        auto menial_return() -> bool;
         /// Called when a companion completes a gathering @ref task mission
-        bool gathering_return( const std::string &task, time_duration min_time );
+        auto gathering_return( const std::string &task, time_duration min_time ) -> bool;
         void recruit_return( const std::string &task, int score );
         /**
         * Perform any mix of the three farm tasks.
@@ -327,14 +327,14 @@ class basecamp
         * @param omt_tgt the overmap pos3 of the farm_ops
         * @param op whether to plow, plant, or harvest
         */
-        bool farm_return( const std::string &task, const tripoint_abs_omt &omt_tgt, farm_ops op );
+        auto farm_return( const std::string &task, const tripoint_abs_omt &omt_tgt, farm_ops op ) -> bool;
         void fortifications_return();
 
         void combat_mission_return( const std::string &miss );
         void validate_assignees();
         void add_assignee( character_id id );
         void remove_assignee( character_id id );
-        std::vector<npc_ptr> get_npcs_assigned();
+        auto get_npcs_assigned() -> std::vector<npc_ptr>;
         // Save/load
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
@@ -370,7 +370,7 @@ class basecamp_action_components
         basecamp_action_components( const recipe &making, int batch_size, basecamp & );
 
         // Returns true iff all necessary components were successfully chosen
-        bool choose_components();
+        auto choose_components() -> bool;
         void consume_components();
     private:
         const recipe &making_;

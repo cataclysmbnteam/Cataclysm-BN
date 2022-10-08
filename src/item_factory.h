@@ -26,7 +26,7 @@ namespace cata
 template <typename T> class value_ptr;
 }  // namespace cata
 
-bool item_is_blacklisted( const itype_id &id );
+auto item_is_blacklisted( const itype_id &id ) -> bool;
 
 using Item_list = std::vector<item>;
 
@@ -126,11 +126,11 @@ class Item_factory
         /**
          * Get the item group object. Returns null if the item group does not exists.
          */
-        Item_spawn_data *get_group( const item_group_id &item_group_id );
+        auto get_group( const item_group_id &item_group_id ) -> Item_spawn_data *;
         /**
          * Returns the idents of all item groups that are known.
          */
-        std::vector<item_group_id> get_all_group_names();
+        auto get_all_group_names() -> std::vector<item_group_id>;
         /**
          * Sets the chance of the specified item in the group.
          * @param group_id Group to add item to
@@ -139,7 +139,7 @@ class Item_factory
          * group.
          * @return false if the group doesn't exist.
          */
-        bool add_item_to_group( const item_group_id &group_id, const itype_id &item_id, int chance );
+        auto add_item_to_group( const item_group_id &group_id, const itype_id &item_id, int chance ) -> bool;
         /*@}*/
 
         /**
@@ -178,7 +178,7 @@ class Item_factory
         void load_migration( const JsonObject &jo );
 
         /** Applies any migration of the item id */
-        itype_id migrate_id( const itype_id &id );
+        auto migrate_id( const itype_id &id ) -> itype_id;
 
         /**
          * Applies any migrations to an instance of an item
@@ -193,7 +193,7 @@ class Item_factory
          * Check if an item type is known to the Item_factory.
          * @param id Item type id (@ref itype::id).
          */
-        bool has_template( const itype_id &id ) const;
+        auto has_template( const itype_id &id ) const -> bool;
 
         /**
          * Returns the itype with the given id.
@@ -201,7 +201,7 @@ class Item_factory
          * generated, stored and returned.
          * @param id Item type id (@ref itype::id).
          */
-        const itype *find_template( const itype_id &id ) const;
+        auto find_template( const itype_id &id ) const -> const itype *;
     public:
 
         /**
@@ -215,27 +215,27 @@ class Item_factory
          * Check if an iuse is known to the Item_factory.
          * @param type Iuse type id.
          */
-        bool has_iuse( const item_action_id &type ) const {
+        auto has_iuse( const item_action_id &type ) const -> bool {
             return iuse_function_list.find( type ) != iuse_function_list.end();
         }
 
         void load_item_blacklist( const JsonObject &json );
 
         /** Get all item templates (both static and runtime) */
-        std::vector<const itype *> all() const;
+        auto all() const -> std::vector<const itype *>;
 
         /** Get item types created at runtime. */
-        std::vector<const itype *> get_runtime_types() const;
+        auto get_runtime_types() const -> std::vector<const itype *>;
 
         /** Find all item templates (both static and runtime) matching UnaryPredicate function */
-        std::vector<const itype *> find( const std::function<bool( const itype & )> &func );
+        auto find( const std::function<bool( const itype & )> &func ) -> std::vector<const itype *>;
 
         /**
          * Create a new (and currently unused) item type id.
          */
-        itype_id create_artifact_id() const;
+        auto create_artifact_id() const -> itype_id;
 
-        std::list<itype_id> subtype_replacement( const itype_id & ) const;
+        auto subtype_replacement( const itype_id & ) const -> std::list<itype_id>;
 
     private:
         /** Set at finalization and prevents alterations to the static item templates */
@@ -259,13 +259,13 @@ class Item_factory
          * @param msg Stream in which all error messages are printed.
          * @param ammo Ammo type to check.
          */
-        bool check_ammo_type( std::string &msg, const ammotype &ammo ) const;
+        auto check_ammo_type( std::string &msg, const ammotype &ammo ) const -> bool;
 
         /**
          * Called before creating a new template and handles inheritance via copy-from
          * May defer instantiation of the template if depends on other objects not as-yet loaded
          */
-        bool load_definition( const JsonObject &jo, const std::string &src, itype &def );
+        auto load_definition( const JsonObject &jo, const std::string &src, itype &def ) -> bool;
 
         /**
          * Load the data of the slot struct. It creates the slot object (of type SlotType) and
@@ -310,9 +310,9 @@ class Item_factory
         void set_use_methods_from_json( const JsonObject &jo, const std::string &member,
                                         std::map<std::string, use_function> &use_methods );
 
-        use_function usage_from_string( const std::string &type ) const;
+        auto usage_from_string( const std::string &type ) const -> use_function;
 
-        std::pair<std::string, use_function> usage_from_object( const JsonObject &obj );
+        auto usage_from_object( const JsonObject &obj ) -> std::pair<std::string, use_function>;
 
         /**
          * Helper function for Item_group loading
@@ -327,9 +327,9 @@ class Item_factory
          * probabilities can be inherited.
          * @returns Whether anything was loaded.
          */
-        bool load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, const JsonObject &obj,
-                           const std::string &name, const Item_group &parent );
-        bool load_string( std::vector<std::string> &vec, const JsonObject &obj, const std::string &name );
+        auto load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, const JsonObject &obj,
+                           const std::string &name, const Item_group &parent ) -> bool;
+        auto load_string( std::vector<std::string> &vec, const JsonObject &obj, const std::string &name ) -> bool;
         void add_entry( Item_group &ig, const JsonObject &obj );
 
         void load_basic_info( const JsonObject &jo, itype &def, const std::string &src );

@@ -43,7 +43,7 @@ struct damage_unit {
                  float armor_mult = 1.0f, float dmg_mult = 1.0f ) :
         type( dt ), amount( amt ), res_pen( arpen ), res_mult( armor_mult ), damage_multiplier( dmg_mult ) { }
 
-    bool operator==( const damage_unit &other ) const;
+    auto operator==( const damage_unit &other ) const -> bool;
 };
 
 // a single atomic unit of damage from an attack. Can include multiple types
@@ -51,21 +51,21 @@ struct damage_unit {
 struct damage_instance {
     std::vector<damage_unit> damage_units;
     damage_instance();
-    static damage_instance physical( float bash, float cut, float stab, float arpen = 0.0f );
+    static auto physical( float bash, float cut, float stab, float arpen = 0.0f ) -> damage_instance;
     damage_instance( damage_type dt, float amt, float arpen = 0.0f,
                      float arpen_mult = 1.0f, float dmg_mult = 1.0f );
     void mult_damage( double multiplier, bool pre_armor = false );
-    float type_damage( damage_type dt ) const;
-    float total_damage() const;
+    auto type_damage( damage_type dt ) const -> float;
+    auto total_damage() const -> float;
     void clear();
-    bool empty() const;
+    auto empty() const -> bool;
 
-    std::vector<damage_unit>::iterator begin();
-    std::vector<damage_unit>::const_iterator begin() const;
-    std::vector<damage_unit>::iterator end();
-    std::vector<damage_unit>::const_iterator end() const;
+    auto begin() -> std::vector<damage_unit>::iterator;
+    auto begin() const -> std::vector<damage_unit>::const_iterator;
+    auto end() -> std::vector<damage_unit>::iterator;
+    auto end() const -> std::vector<damage_unit>::const_iterator;
 
-    bool operator==( const damage_instance &other ) const;
+    auto operator==( const damage_instance &other ) const -> bool;
 
     /**
      * Adds damage to the instance.
@@ -88,8 +88,8 @@ struct dealt_damage_instance {
 
     dealt_damage_instance();
     void set_damage( damage_type dt, int amount );
-    int type_damage( damage_type dt ) const;
-    int total_damage() const;
+    auto type_damage( damage_type dt ) const -> int;
+    auto total_damage() const -> int;
 };
 
 struct resistances {
@@ -101,30 +101,30 @@ struct resistances {
     resistances( const item &armor, bool to_self = false );
     resistances( monster &monster );
     void set_resist( damage_type dt, float amount );
-    float type_resist( damage_type dt ) const;
+    auto type_resist( damage_type dt ) const -> float;
 
-    float get_effective_resist( const damage_unit &du ) const;
+    auto get_effective_resist( const damage_unit &du ) const -> float;
 
-    resistances &operator+=( const resistances &other );
+    auto operator+=( const resistances &other ) -> resistances &;
 };
 
-const std::map<std::string, damage_type> &get_dt_map();
-damage_type dt_by_name( const std::string &name );
-std::string name_by_dt( const damage_type &dt );
+auto get_dt_map() -> const std::map<std::string, damage_type> &;
+auto dt_by_name( const std::string &name ) -> damage_type;
+auto name_by_dt( const damage_type &dt ) -> std::string;
 
-const skill_id &skill_by_dt( damage_type dt );
+auto skill_by_dt( damage_type dt ) -> const skill_id &;
 
-damage_instance load_damage_instance( const JsonObject &jo );
-damage_instance load_damage_instance( const JsonArray &jarr );
+auto load_damage_instance( const JsonObject &jo ) -> damage_instance;
+auto load_damage_instance( const JsonArray &jarr ) -> damage_instance;
 
-damage_instance load_damage_instance_inherit( const JsonObject &jo, const damage_instance &parent );
-damage_instance load_damage_instance_inherit( const JsonArray &jarr,
-        const damage_instance &parent );
+auto load_damage_instance_inherit( const JsonObject &jo, const damage_instance &parent ) -> damage_instance;
+auto load_damage_instance_inherit( const JsonArray &jarr,
+        const damage_instance &parent ) -> damage_instance;
 
-resistances load_resistances_instance( const JsonObject &jo );
+auto load_resistances_instance( const JsonObject &jo ) -> resistances;
 
 // Returns damage or resistance data
 // Handles some shorthands
-std::array<float, NUM_DT> load_damage_array( const JsonObject &jo );
+auto load_damage_array( const JsonObject &jo ) -> std::array<float, NUM_DT>;
 
 #endif // CATA_SRC_DAMAGE_H

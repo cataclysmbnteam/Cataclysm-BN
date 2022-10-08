@@ -26,12 +26,12 @@ enum class farm_ops {
     plant = 2,
     harvest = 4
 };
-inline bool operator&( const farm_ops &rhs, const farm_ops &lhs )
+inline auto operator&( const farm_ops &rhs, const farm_ops &lhs ) -> bool
 {
     return static_cast<int>( rhs ) & static_cast<int>( lhs );
 }
 
-std::string get_mission_action_string( const std::string &input_mission );
+auto get_mission_action_string( const std::string &input_mission ) -> std::string;
 
 namespace talk_function
 {
@@ -48,13 +48,13 @@ void remove_overseer( npc & );
 
 void draw_camp_tabs( const catacurses::window &win, base_camps::tab_mode cur_tab,
                      const std::vector<std::vector<mission_entry>> &entries );
-std::string name_mission_tabs( const tripoint_abs_omt &omt_pos, const std::string &role_id,
-                               const std::string &cur_title, base_camps::tab_mode cur_tab );
+auto name_mission_tabs( const tripoint_abs_omt &omt_pos, const std::string &role_id,
+                               const std::string &cur_title, base_camps::tab_mode cur_tab ) -> std::string;
 
 /// Returns the OM tiles surrounding the camp, @ref purge removes all tiles that aren't expansions
-std::vector<std::pair<std::string, tripoint_abs_omt>> om_building_region(
-            const tripoint_abs_omt &omt_pos, int range, bool purge = false );
+auto om_building_region(
+            const tripoint_abs_omt &omt_pos, int range, bool purge = false ) -> std::vector<std::pair<std::string, tripoint_abs_omt>>;
 /// Returns the x and y coordinates of ( omt_tar - omt_pos ), clamped to [-1, 1]
-point om_simple_dir( const tripoint_abs_omt &omt_pos, const tripoint_abs_omt &omt_tar );
+auto om_simple_dir( const tripoint_abs_omt &omt_pos, const tripoint_abs_omt &omt_tar ) -> point;
 } // namespace talk_function
 #endif // CATA_SRC_FACTION_CAMP_H

@@ -41,7 +41,7 @@ const units::volume DEFAULT_MAX_VOLUME_IN_SQUARE = units::from_liter( 1000 );
 generic_factory<ter_t> terrain_data( "terrain" );
 generic_factory<furn_t> furniture_data( "furniture" );
 
-bool is_json_check_strict( const std::string &src )
+auto is_json_check_strict( const std::string &src ) -> bool
 {
     return json_report_strict || src == "dda";
 }
@@ -50,28 +50,28 @@ bool is_json_check_strict( const std::string &src )
 
 /** @relates int_id */
 template<>
-inline bool int_id<ter_t>::is_valid() const
+inline auto int_id<ter_t>::is_valid() const -> bool
 {
     return terrain_data.is_valid( *this );
 }
 
 /** @relates int_id */
 template<>
-const ter_t &int_id<ter_t>::obj() const
+auto int_id<ter_t>::obj() const -> const ter_t &
 {
     return terrain_data.obj( *this );
 }
 
 /** @relates int_id */
 template<>
-const string_id<ter_t> &int_id<ter_t>::id() const
+auto int_id<ter_t>::id() const -> const string_id<ter_t> &
 {
     return terrain_data.convert( *this );
 }
 
 /** @relates int_id */
 template<>
-int_id<ter_t> string_id<ter_t>::id() const
+auto string_id<ter_t>::id() const -> int_id<ter_t>
 {
     return terrain_data.convert( *this, t_null );
 }
@@ -84,56 +84,56 @@ int_id<ter_t>::int_id( const string_id<ter_t> &id ) : _id( id.id() )
 
 /** @relates string_id */
 template<>
-const ter_t &string_id<ter_t>::obj() const
+auto string_id<ter_t>::obj() const -> const ter_t &
 {
     return terrain_data.obj( *this );
 }
 
 /** @relates string_id */
 template<>
-bool string_id<ter_t>::is_valid() const
+auto string_id<ter_t>::is_valid() const -> bool
 {
     return terrain_data.is_valid( *this );
 }
 
 /** @relates int_id */
 template<>
-bool int_id<furn_t>::is_valid() const
+auto int_id<furn_t>::is_valid() const -> bool
 {
     return furniture_data.is_valid( *this );
 }
 
 /** @relates int_id */
 template<>
-const furn_t &int_id<furn_t>::obj() const
+auto int_id<furn_t>::obj() const -> const furn_t &
 {
     return furniture_data.obj( *this );
 }
 
 /** @relates int_id */
 template<>
-const string_id<furn_t> &int_id<furn_t>::id() const
+auto int_id<furn_t>::id() const -> const string_id<furn_t> &
 {
     return furniture_data.convert( *this );
 }
 
 /** @relates string_id */
 template<>
-bool string_id<furn_t>::is_valid() const
+auto string_id<furn_t>::is_valid() const -> bool
 {
     return furniture_data.is_valid( *this );
 }
 
 /** @relates string_id */
 template<>
-const furn_t &string_id<furn_t>::obj() const
+auto string_id<furn_t>::obj() const -> const furn_t &
 {
     return furniture_data.obj( *this );
 }
 
 /** @relates string_id */
 template<>
-int_id<furn_t> string_id<furn_t>::id() const
+auto string_id<furn_t>::id() const -> int_id<furn_t>
 {
     return furniture_data.convert( *this, f_null );
 }
@@ -295,7 +295,7 @@ void map_bash_info::finalize()
     }
 }
 
-static const std::string &map_object_type_to_str( map_bash_info::map_object_type type )
+static auto map_object_type_to_str( map_bash_info::map_object_type type ) -> const std::string &
 {
     switch( type ) {
         case map_bash_info::map_object_type::terrain:
@@ -337,8 +337,8 @@ void map_bash_info::check( const std::string &id, map_object_type type ) const
 map_deconstruct_info::map_deconstruct_info() : can_do( false ), deconstruct_above( false ),
     ter_set( ter_str_id::NULL_ID() ), furn_set( furn_str_id::NULL_ID() ) {}
 
-bool map_deconstruct_info::load( const JsonObject &jsobj, const std::string &member,
-                                 bool is_furniture )
+auto map_deconstruct_info::load( const JsonObject &jsobj, const std::string &member,
+                                 bool is_furniture ) -> bool
 {
     if( !jsobj.has_object( member ) ) {
         return false;
@@ -388,8 +388,8 @@ pry_result::pry_result() : pry_quality( -1 ), pry_bonus_mult( 1 ),
     break_ter_type( ter_str_id::NULL_ID() ), break_furn_type( furn_str_id::NULL_ID() ),
     pry_items( item_group_id( "EMPTY_GROUP" ) ), break_items( item_group_id( "EMPTY_GROUP" ) ) {}
 
-bool pry_result::load( const JsonObject &jsobj, const std::string &member,
-                       map_object_type obj_type )
+auto pry_result::load( const JsonObject &jsobj, const std::string &member,
+                       map_object_type obj_type ) -> bool
 {
     if( !jsobj.has_object( member ) ) {
         return false;
@@ -440,7 +440,7 @@ bool pry_result::load( const JsonObject &jsobj, const std::string &member,
     return true;
 }
 
-furn_t null_furniture_t()
+auto null_furniture_t() -> furn_t
 {
     furn_t new_furniture;
     new_furniture.id = furn_str_id::NULL_ID();
@@ -461,7 +461,7 @@ ter_t::ter_t() : open( ter_str_id::NULL_ID() ), close( ter_str_id::NULL_ID() ),
     transforms_into( ter_str_id::NULL_ID() ),
     roof( ter_str_id::NULL_ID() ), trap( tr_null ) {}
 
-ter_t null_terrain_t()
+auto null_terrain_t() -> ter_t
 {
     ter_t new_terrain;
 
@@ -508,7 +508,7 @@ void load_season_array( const JsonObject &jo, const std::string &key, C &contain
     }
 }
 
-std::string map_data_common_t::name() const
+auto map_data_common_t::name() const -> std::string
 {
     return _( name_ );
 }
@@ -547,22 +547,22 @@ void map_data_common_t::load_symbol( const JsonObject &jo )
     }
 }
 
-int map_data_common_t::symbol() const
+auto map_data_common_t::symbol() const -> int
 {
     return symbol_[season_of_year( calendar::turn )];
 }
 
-nc_color map_data_common_t::color() const
+auto map_data_common_t::color() const -> nc_color
 {
     return color_[season_of_year( calendar::turn )];
 }
 
-const harvest_id &map_data_common_t::get_harvest() const
+auto map_data_common_t::get_harvest() const -> const harvest_id &
 {
     return harvest_by_season[season_of_year( calendar::turn )];
 }
 
-const std::set<std::string> &map_data_common_t::get_harvest_names() const
+auto map_data_common_t::get_harvest_names() const -> const std::set<std::string> &
 {
     static const std::set<std::string> null_names = {};
     const harvest_id &hid = get_harvest();
@@ -611,7 +611,7 @@ void map_data_common_t::set_connects( const std::string &connect_group_string )
     }
 }
 
-bool map_data_common_t::connects( int &ret ) const
+auto map_data_common_t::connects( int &ret ) const -> bool
 {
     if( connect_group != TERCONN_NONE ) {
         ret = connect_group;
@@ -1057,7 +1057,7 @@ void reset_furn_ter()
     furniture_data.reset();
 }
 
-lockpicking_open_result get_lockpicking_open_result( ter_id ter_type, furn_id furn_type )
+auto get_lockpicking_open_result( ter_id ter_type, furn_id furn_type ) -> lockpicking_open_result
 {
     lockpicking_open_result result;
 
@@ -1255,7 +1255,7 @@ void set_furn_ids()
     f_gunsafe_ml = furn_id( "f_gunsafe_ml" );
 }
 
-size_t ter_t::count()
+auto ter_t::count() -> size_t
 {
     return terrain_data.size();
 }
@@ -1263,7 +1263,7 @@ size_t ter_t::count()
 namespace io
 {
 template<>
-std::string enum_to_string<season_type>( season_type data )
+auto enum_to_string<season_type>( season_type data ) -> std::string
 {
     switch( data ) {
         // *INDENT-OFF*
@@ -1501,19 +1501,19 @@ void ter_t::check() const
     }
 }
 
-const std::vector<ter_t> &ter_t::get_all()
+auto ter_t::get_all() -> const std::vector<ter_t> &
 {
     return terrain_data.get_all();
 }
 
 furn_t::furn_t() : open( furn_str_id::NULL_ID() ), close( furn_str_id::NULL_ID() ) {}
 
-size_t furn_t::count()
+auto furn_t::count() -> size_t
 {
     return furniture_data.size();
 }
 
-bool furn_t::is_movable() const
+auto furn_t::is_movable() const -> bool
 {
     return move_str_req >= 0;
 }
@@ -1592,7 +1592,7 @@ void furn_t::check() const
     }
 }
 
-const std::vector<furn_t> &furn_t::get_all()
+auto furn_t::get_all() -> const std::vector<furn_t> &
 {
     return furniture_data.get_all();
 }

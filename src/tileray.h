@@ -41,27 +41,27 @@ class tileray
         void init( const point &ad );   // init ray with ad
         void init( units::angle adir ); // init ray with direction
 
-        int dx() const;       // return dx of last advance (-1 to 1)
-        int dy() const;       // return dy of last advance (-1 to 1)
-        units::angle dir() const;      // return direction of ray
-        int quadrant() const;
-        int dir4() const;     // return 4-sided direction (0 = east, 1 = south, 2 = west, 3 = north)
-        int dir8() const;     // return 8-sided direction (0 = east, 1 = southeast, 2 = south ...)
+        auto dx() const -> int;       // return dx of last advance (-1 to 1)
+        auto dy() const -> int;       // return dy of last advance (-1 to 1)
+        auto dir() const -> units::angle;      // return direction of ray
+        auto quadrant() const -> int;
+        auto dir4() const -> int;     // return 4-sided direction (0 = east, 1 = south, 2 = west, 3 = north)
+        auto dir8() const -> int;     // return 8-sided direction (0 = east, 1 = southeast, 2 = south ...)
         // convert certain symbols from north-facing variant into current dir facing
-        int dir_symbol( int sym ) const;
+        auto dir_symbol( int sym ) const -> int;
 
         /** convert to a string representation of the azimuth from north, in integer degrees */
-        std::string to_string_azimuth_from_north() const;
+        auto to_string_azimuth_from_north() const -> std::string;
 
         // return dx for point at "od" distance in orthogonal direction
-        int ortho_dx( int od ) const;
+        auto ortho_dx( int od ) const -> int;
         // return dy for point at "od" distance in orthogonal direction
-        int ortho_dy( int od ) const;
-        bool mostly_vertical() const;  // return if ray is mostly vertical
+        auto ortho_dy( int od ) const -> int;
+        auto mostly_vertical() const -> bool;  // return if ray is mostly vertical
 
         void advance( int num = 1 ); // move to the next tile (calculate last dx, dy)
         void clear_advance(); // clear steps, leftover, last_dx, and last_dy
-        int get_steps() const;  // how many steps we advanced
+        auto get_steps() const -> int;  // how many steps we advanced
 };
 
 #endif // CATA_SRC_TILERAY_H

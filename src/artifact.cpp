@@ -29,16 +29,16 @@
 #include "value_ptr.h"
 
 template<typename V, typename B>
-inline units::quantity<V, B> rng( const units::quantity<V, B> &min,
-                                  const units::quantity<V, B> &max )
+inline auto rng( const units::quantity<V, B> &min,
+                                  const units::quantity<V, B> &max ) -> units::quantity<V, B>
 {
     return units::quantity<V, B>( rng( min.value(), max.value() ), B{} );
 }
 
-std::vector<art_effect_passive> fill_good_passive();
-std::vector<art_effect_passive> fill_bad_passive();
-std::vector<art_effect_active>  fill_good_active();
-std::vector<art_effect_active>  fill_bad_active();
+auto fill_good_passive() -> std::vector<art_effect_passive>;
+auto fill_bad_passive() -> std::vector<art_effect_passive>;
+auto  fill_good_active() -> std::vector<art_effect_active>;
+auto  fill_bad_active() -> std::vector<art_effect_active>;
 
 static const std::array<int, NUM_AEPS> passive_effect_cost = { {
         0, // AEP_NULL
@@ -589,7 +589,7 @@ static const std::array<std::string, 20> artifact_noun = { {
         translate_marker( "%s Graves" ), translate_marker( "%s Horrors" ), translate_marker( "%s Suffering" ), translate_marker( "%s Death" ), translate_marker( "%s Horror" )
     }
 };
-std::string artifact_name( const std::string &type );
+auto artifact_name( const std::string &type ) -> std::string;
 //Dreams for each charge req
 static const std::array<artifact_dream_datum, NUM_ACRS> artifact_dream_data = { {
         {   {translate_marker( "The %s is somehow vaguely dissatisfied even though it doesn't want anything.  Seeing this is a bug!" )},
@@ -674,7 +674,7 @@ void it_artifact_armor::create_name( const std::string &type )
     name = no_translation( artifact_name( type ) );
 }
 
-itype_id new_artifact()
+auto new_artifact() -> itype_id
 {
     if( one_in( 2 ) ) {
         // Generate a "tool" artifact
@@ -928,7 +928,7 @@ itype_id new_artifact()
     }
 }
 
-itype_id new_natural_artifact( artifact_natural_property prop )
+auto new_natural_artifact( artifact_natural_property prop ) -> itype_id
 {
     // Natural artifacts are always tools.
     it_artifact_tool def;
@@ -1048,7 +1048,7 @@ itype_id new_natural_artifact( artifact_natural_property prop )
     return def.get_id();
 }
 
-std::vector<art_effect_passive> fill_good_passive()
+auto fill_good_passive() -> std::vector<art_effect_passive>
 {
     std::vector<art_effect_passive> ret;
     for( int i = AEP_NULL + 1; i < AEP_SPLIT; i++ ) {
@@ -1057,7 +1057,7 @@ std::vector<art_effect_passive> fill_good_passive()
     return ret;
 }
 
-std::vector<art_effect_passive> fill_bad_passive()
+auto fill_bad_passive() -> std::vector<art_effect_passive>
 {
     std::vector<art_effect_passive> ret;
     for( int i = AEP_SPLIT + 1; i < NUM_AEPS; i++ ) {
@@ -1066,7 +1066,7 @@ std::vector<art_effect_passive> fill_bad_passive()
     return ret;
 }
 
-std::vector<art_effect_active> fill_good_active()
+auto fill_good_active() -> std::vector<art_effect_active>
 {
     std::vector<art_effect_active> ret;
     for( int i = AEA_NULL + 1; i < AEA_SPLIT; i++ ) {
@@ -1075,7 +1075,7 @@ std::vector<art_effect_active> fill_good_active()
     return ret;
 }
 
-std::vector<art_effect_active> fill_bad_active()
+auto fill_bad_active() -> std::vector<art_effect_active>
 {
     std::vector<art_effect_active> ret;
     for( int i = AEA_SPLIT + 1; i < NUM_AEAS; i++ ) {
@@ -1084,7 +1084,7 @@ std::vector<art_effect_active> fill_bad_active()
     return ret;
 }
 
-std::string artifact_name( const std::string &type )
+auto artifact_name( const std::string &type ) -> std::string
 {
     const std::string noun = _( random_entry_ref( artifact_noun ) );
     const std::string adj = _( random_entry_ref( artifact_adj ) );
@@ -1274,7 +1274,7 @@ void it_artifact_armor::deserialize( const JsonObject &jo )
     }
 }
 
-bool save_artifacts( const std::string &path )
+auto save_artifacts( const std::string &path ) -> bool
 {
     return write_to_file( path, [&]( std::ostream & fout ) {
         JsonOut json( fout, true );
@@ -1417,7 +1417,7 @@ namespace io
 {
 #define PAIR(x) case x: return #x;
 template<>
-std::string enum_to_string<art_effect_passive>( art_effect_passive data )
+auto enum_to_string<art_effect_passive>( art_effect_passive data ) -> std::string
 {
     switch( data ) {
         // *INDENT-OFF*
@@ -1469,7 +1469,7 @@ std::string enum_to_string<art_effect_passive>( art_effect_passive data )
     abort();
 }
 template<>
-std::string enum_to_string<art_effect_active>( art_effect_active data )
+auto enum_to_string<art_effect_active>( art_effect_active data ) -> std::string
 {
     switch( data ) {
         // *INDENT-OFF*
@@ -1515,7 +1515,7 @@ std::string enum_to_string<art_effect_active>( art_effect_active data )
 }
 
 template<>
-std::string enum_to_string<art_charge>( art_charge data )
+auto enum_to_string<art_charge>( art_charge data ) -> std::string
 {
     switch( data ) {
         // *INDENT-OFF*
@@ -1535,7 +1535,7 @@ std::string enum_to_string<art_charge>( art_charge data )
 }
 
 template<>
-std::string enum_to_string<art_charge_req>( art_charge_req data )
+auto enum_to_string<art_charge_req>( art_charge_req data ) -> std::string
 {
     switch( data ) {
         // *INDENT-OFF*

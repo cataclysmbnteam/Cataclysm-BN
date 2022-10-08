@@ -33,7 +33,7 @@ constexpr scale omt = scale::overmap_terrain;
 constexpr scale seg = scale::segment;
 constexpr scale om = scale::overmap;
 
-constexpr int map_squares_per( scale s )
+constexpr auto map_squares_per( scale s ) -> int
 {
     static_assert( SEEX == SEEY, "we assume submaps are square" );
     static_assert( OMAPX == OMAPY, "we assume overmaps are square" );
@@ -62,7 +62,7 @@ enum class origin {
     overmap, // from corner of overmap
 };
 
-constexpr origin origin_from_scale( scale s )
+constexpr auto origin_from_scale( scale s ) -> origin
 {
     switch( s ) {
         case scale::submap:
@@ -108,20 +108,20 @@ class coord_point
             raw_( xy.raw(), z )
         {}
 
-        constexpr Point &raw() {
+        constexpr auto raw() -> Point & {
             return raw_;
         }
-        constexpr const Point &raw() const {
+        constexpr auto raw() const -> const Point & {
             return raw_;
         }
 
-        constexpr auto &x() {
+        constexpr auto x() -> auto & {
             return raw_.x;
         }
         constexpr auto x() const {
             return raw_.x;
         }
-        constexpr auto &y() {
+        constexpr auto y() -> auto & {
             return raw_.y;
         }
         constexpr auto y() const {
@@ -130,14 +130,14 @@ class coord_point
         constexpr auto xy() const {
             return coord_point<point, Origin, Scale>( raw_.xy() );
         }
-        constexpr auto &z() {
+        constexpr auto z() -> auto & {
             return raw_.z;
         }
         constexpr auto z() const {
             return raw_.z;
         }
 
-        std::string to_string() const {
+        auto to_string() const -> std::string {
             return raw_.to_string();
         }
 
@@ -148,49 +148,49 @@ class coord_point
             raw().deserialize( jsin );
         }
 
-        coord_point &operator+=( const coord_point<Point, origin::relative, Scale> &r ) {
+        auto operator+=( const coord_point<Point, origin::relative, Scale> &r ) -> coord_point & {
             raw_ += r.raw();
             return *this;
         }
 
-        coord_point &operator-=( const coord_point<Point, origin::relative, Scale> &r ) {
+        auto operator-=( const coord_point<Point, origin::relative, Scale> &r ) -> coord_point & {
             raw_ -= r.raw();
             return *this;
         }
 
-        coord_point &operator+=( const point &r ) {
+        auto operator+=( const point &r ) -> coord_point & {
             raw_ += r;
             return *this;
         }
 
-        coord_point &operator-=( const point &r ) {
+        auto operator-=( const point &r ) -> coord_point & {
             raw_ -= r;
             return *this;
         }
 
-        coord_point &operator+=( const tripoint &r ) {
+        auto operator+=( const tripoint &r ) -> coord_point & {
             raw_ += r;
             return *this;
         }
 
-        coord_point &operator-=( const tripoint &r ) {
+        auto operator-=( const tripoint &r ) -> coord_point & {
             raw_ -= r;
             return *this;
         }
 
-        friend inline coord_point operator+( const coord_point &l, const point &r ) {
+        friend inline auto operator+( const coord_point &l, const point &r ) -> coord_point {
             return coord_point( l.raw() + r );
         }
 
-        friend inline coord_point operator+( const coord_point &l, const tripoint &r ) {
+        friend inline auto operator+( const coord_point &l, const tripoint &r ) -> coord_point {
             return coord_point( l.raw() + r );
         }
 
-        friend inline coord_point operator-( const coord_point &l, const point &r ) {
+        friend inline auto operator-( const coord_point &l, const point &r ) -> coord_point {
             return coord_point( l.raw() - r );
         }
 
-        friend inline coord_point operator-( const coord_point &l, const tripoint &r ) {
+        friend inline auto operator-( const coord_point &l, const tripoint &r ) -> coord_point {
             return coord_point( l.raw() - r );
         }
     private:
@@ -198,22 +198,22 @@ class coord_point
 };
 
 template<typename Point, origin Origin, scale Scale>
-constexpr inline bool operator==( const coord_point<Point, Origin, Scale> &l,
-                                  const coord_point<Point, Origin, Scale> &r )
+constexpr inline auto operator==( const coord_point<Point, Origin, Scale> &l,
+                                  const coord_point<Point, Origin, Scale> &r ) -> bool
 {
     return l.raw() == r.raw();
 }
 
 template<typename Point, origin Origin, scale Scale>
-constexpr inline bool operator!=( const coord_point<Point, Origin, Scale> &l,
-                                  const coord_point<Point, Origin, Scale> &r )
+constexpr inline auto operator!=( const coord_point<Point, Origin, Scale> &l,
+                                  const coord_point<Point, Origin, Scale> &r ) -> bool
 {
     return l.raw() != r.raw();
 }
 
 template<typename Point, origin Origin, scale Scale>
-constexpr inline bool operator<( const coord_point<Point, Origin, Scale> &l,
-                                 const coord_point<Point, Origin, Scale> &r )
+constexpr inline auto operator<( const coord_point<Point, Origin, Scale> &l,
+                                 const coord_point<Point, Origin, Scale> &r ) -> bool
 {
     return l.raw() < r.raw();
 }
@@ -262,21 +262,21 @@ constexpr inline auto operator-(
 
 // Only relative points can be multiplied by a constant
 template<typename Point, scale Scale>
-constexpr inline coord_point<Point, origin::relative, Scale> operator*(
-    int l, const coord_point<Point, origin::relative, Scale> &r )
+constexpr inline auto operator*(
+    int l, const coord_point<Point, origin::relative, Scale> &r ) -> coord_point<Point, origin::relative, Scale>
 {
     return coord_point<Point, origin::relative, Scale>( l * r.raw() );
 }
 
 template<typename Point, scale Scale>
-constexpr inline coord_point<Point, origin::relative, Scale> operator*(
-    const coord_point<Point, origin::relative, Scale> &r, int l )
+constexpr inline auto operator*(
+    const coord_point<Point, origin::relative, Scale> &r, int l ) -> coord_point<Point, origin::relative, Scale>
 {
     return coord_point<Point, origin::relative, Scale>( r.raw() * l );
 }
 
 template<typename Point, origin Origin, scale Scale>
-inline std::ostream &operator<<( std::ostream &os, const coord_point<Point, Origin, Scale> &p )
+inline auto operator<<( std::ostream &os, const coord_point<Point, Origin, Scale> &p ) -> std::ostream &
 {
     return os << p.raw();
 }
@@ -287,8 +287,8 @@ struct project_to_impl;
 template<int ScaleUp, scale ResultScale>
 struct project_to_impl<ScaleUp, 0, ResultScale> {
     template<typename Point, origin Origin, scale SourceScale>
-    coord_point<Point, Origin, ResultScale> operator()(
-        const coord_point<Point, Origin, SourceScale> &src ) {
+    auto operator()(
+        const coord_point<Point, Origin, SourceScale> &src ) -> coord_point<Point, Origin, ResultScale> {
         return coord_point<Point, Origin, ResultScale>( multiply_xy( src.raw(), ScaleUp ) );
     }
 };
@@ -296,16 +296,16 @@ struct project_to_impl<ScaleUp, 0, ResultScale> {
 template<int ScaleDown, scale ResultScale>
 struct project_to_impl<0, ScaleDown, ResultScale> {
     template<typename Point, origin Origin, scale SourceScale>
-    coord_point<Point, Origin, ResultScale> operator()(
-        const coord_point<Point, Origin, SourceScale> &src ) {
+    auto operator()(
+        const coord_point<Point, Origin, SourceScale> &src ) -> coord_point<Point, Origin, ResultScale> {
         return coord_point<Point, Origin, ResultScale>(
                    divide_xy_round_to_minus_infinity( src.raw(), ScaleDown ) );
     }
 };
 
 template<scale ResultScale, typename Point, origin Origin, scale SourceScale>
-inline coord_point<Point, Origin, ResultScale> project_to(
-    const coord_point<Point, Origin, SourceScale> &src )
+inline auto project_to(
+    const coord_point<Point, Origin, SourceScale> &src ) -> coord_point<Point, Origin, ResultScale>
 {
     constexpr int scale_down = map_squares_per( ResultScale ) / map_squares_per( SourceScale );
     constexpr int scale_up = map_squares_per( SourceScale ) / map_squares_per( ResultScale );
@@ -384,8 +384,8 @@ struct quotient_remainder_tripoint {
 //  tripoint_om_sm remainder;
 //  std::tie( quotient, remainder ) = project_remain<coords::om>( val );
 template<scale ResultScale, origin Origin, scale SourceScale>
-inline quotient_remainder_point<Origin, ResultScale, SourceScale> project_remain(
-    const coord_point<point, Origin, SourceScale> &src )
+inline auto project_remain(
+    const coord_point<point, Origin, SourceScale> &src ) -> quotient_remainder_point<Origin, ResultScale, SourceScale>
 {
     constexpr int ScaleDown = map_squares_per( ResultScale ) / map_squares_per( SourceScale );
     static_assert( ScaleDown > 0, "You can only project to coarser coordinate systems" );
@@ -399,8 +399,8 @@ inline quotient_remainder_point<Origin, ResultScale, SourceScale> project_remain
 }
 
 template<scale ResultScale, origin Origin, scale SourceScale>
-inline quotient_remainder_tripoint<Origin, ResultScale, SourceScale> project_remain(
-    const coord_point<tripoint, Origin, SourceScale> &src )
+inline auto project_remain(
+    const coord_point<tripoint, Origin, SourceScale> &src ) -> quotient_remainder_tripoint<Origin, ResultScale, SourceScale>
 {
     quotient_remainder_point<Origin, ResultScale, SourceScale> point_result =
         project_remain<ResultScale>( src.xy() );
@@ -447,7 +447,7 @@ namespace std
 
 template<typename Point, coords::origin Origin, coords::scale Scale>
 struct hash<coords::coord_point<Point, Origin, Scale>> {
-    std::size_t operator()( const coords::coord_point<Point, Origin, Scale> &p ) const {
+    auto operator()( const coords::coord_point<Point, Origin, Scale> &p ) const -> std::size_t {
         const hash<Point> h{};
         return h( p.raw() );
     }
@@ -502,51 +502,51 @@ using coords::project_combine;
 using coords::project_bounds;
 
 template<typename Point, coords::origin Origin, coords::scale Scale>
-inline int square_dist( const coords::coord_point<Point, Origin, Scale> &loc1,
-                        const coords::coord_point<Point, Origin, Scale> &loc2 )
+inline auto square_dist( const coords::coord_point<Point, Origin, Scale> &loc1,
+                        const coords::coord_point<Point, Origin, Scale> &loc2 ) -> int
 {
     return square_dist( loc1.raw(), loc2.raw() );
 }
 
 template<typename Point, coords::origin Origin, coords::scale Scale>
-inline int trig_dist( const coords::coord_point<Point, Origin, Scale> &loc1,
-                      const coords::coord_point<Point, Origin, Scale> &loc2 )
+inline auto trig_dist( const coords::coord_point<Point, Origin, Scale> &loc1,
+                      const coords::coord_point<Point, Origin, Scale> &loc2 ) -> int
 {
     return trig_dist( loc1.raw(), loc2.raw() );
 }
 
 template<typename Point, coords::origin Origin, coords::scale Scale>
-inline int rl_dist( const coords::coord_point<Point, Origin, Scale> &loc1,
-                    const coords::coord_point<Point, Origin, Scale> &loc2 )
+inline auto rl_dist( const coords::coord_point<Point, Origin, Scale> &loc1,
+                    const coords::coord_point<Point, Origin, Scale> &loc2 ) -> int
 {
     return rl_dist( loc1.raw(), loc2.raw() );
 }
 
 template<typename Point, coords::origin Origin, coords::scale Scale>
-inline int manhattan_dist( const coords::coord_point<Point, Origin, Scale> &loc1,
-                           const coords::coord_point<Point, Origin, Scale> &loc2 )
+inline auto manhattan_dist( const coords::coord_point<Point, Origin, Scale> &loc1,
+                           const coords::coord_point<Point, Origin, Scale> &loc2 ) -> int
 {
     return manhattan_dist( loc1.raw(), loc2.raw() );
 }
 
 template<typename Point, coords::origin Origin, coords::scale Scale>
-inline int octile_dist( const coords::coord_point<Point, Origin, Scale> &loc1,
-                        const coords::coord_point<Point, Origin, Scale> &loc2, int multiplier = 1 )
+inline auto octile_dist( const coords::coord_point<Point, Origin, Scale> &loc1,
+                        const coords::coord_point<Point, Origin, Scale> &loc2, int multiplier = 1 ) -> int
 {
     return octile_dist( loc1.raw(), loc2.raw(), multiplier );
 }
 
 template<typename Point, coords::origin Origin, coords::scale Scale>
-direction direction_from( const coords::coord_point<Point, Origin, Scale> &loc1,
-                          const coords::coord_point<Point, Origin, Scale> &loc2 )
+auto direction_from( const coords::coord_point<Point, Origin, Scale> &loc1,
+                          const coords::coord_point<Point, Origin, Scale> &loc2 ) -> direction
 {
     return direction_from( loc1.raw(), loc2.raw() );
 }
 
 template<typename Point, coords::origin Origin, coords::scale Scale>
-std::vector<coords::coord_point<Point, Origin, Scale>>
+auto
         line_to( const coords::coord_point<Point, Origin, Scale> &loc1,
-                 const coords::coord_point<Point, Origin, Scale> &loc2 )
+                 const coords::coord_point<Point, Origin, Scale> &loc2 ) -> std::vector<coords::coord_point<Point, Origin, Scale>>
 {
     std::vector<Point> raw_result = line_to( loc1.raw(), loc2.raw() );
     std::vector<coords::coord_point<Point, Origin, Scale>> result;
@@ -558,43 +558,43 @@ std::vector<coords::coord_point<Point, Origin, Scale>>
 }
 
 template<typename Point, coords::origin Origin, coords::scale Scale>
-coords::coord_point<Point, Origin, Scale>
+auto
 midpoint( const coords::coord_point<Point, Origin, Scale> &loc1,
-          const coords::coord_point<Point, Origin, Scale> &loc2 )
+          const coords::coord_point<Point, Origin, Scale> &loc2 ) -> coords::coord_point<Point, Origin, Scale>
 {
     return coords::coord_point<Point, Origin, Scale>( ( loc1.raw() + loc2.raw() ) / 2 );
 }
 
 template<typename Point>
-Point midpoint( const inclusive_rectangle<Point> &box )
+auto midpoint( const inclusive_rectangle<Point> &box ) -> Point
 {
     constexpr point one( 1, 1 ); // NOLINT(cata-use-named-point-constants)
     return midpoint( box.p_min, box.p_max + one );
 }
 
 template<typename Point>
-Point midpoint( const half_open_rectangle<Point> &box )
+auto midpoint( const half_open_rectangle<Point> &box ) -> Point
 {
     return midpoint( box.p_min, box.p_max );
 }
 
 template<typename Tripoint>
-Tripoint midpoint( const inclusive_cuboid<Tripoint> &box )
+auto midpoint( const inclusive_cuboid<Tripoint> &box ) -> Tripoint
 {
     constexpr tripoint one( 1, 1, 1 );
     return midpoint( box.p_min, box.p_max + one );
 }
 
 template<typename Tripoint>
-Tripoint midpoint( const half_open_cuboid<Tripoint> &box )
+auto midpoint( const half_open_cuboid<Tripoint> &box ) -> Tripoint
 {
     return midpoint( box.p_min, box.p_max );
 }
 
 template<typename Point, coords::origin Origin, coords::scale Scale>
-std::vector<coords::coord_point<Point, Origin, Scale>>
+auto
         closest_points_first( const coords::coord_point<Point, Origin, Scale> &loc,
-                              int min_dist, int max_dist )
+                              int min_dist, int max_dist ) -> std::vector<coords::coord_point<Point, Origin, Scale>>
 {
     std::vector<Point> raw_result = closest_points_first( loc.raw(), min_dist, max_dist );
     std::vector<coords::coord_point<Point, Origin, Scale>> result;
@@ -606,9 +606,9 @@ std::vector<coords::coord_point<Point, Origin, Scale>>
     return result;
 }
 template<typename Point, coords::origin Origin, coords::scale Scale>
-std::vector<coords::coord_point<Point, Origin, Scale>>
+auto
         closest_points_first( const coords::coord_point<Point, Origin, Scale> &loc,
-                              int max_dist )
+                              int max_dist ) -> std::vector<coords::coord_point<Point, Origin, Scale>>
 {
     return closest_points_first( loc, 0, max_dist );
 }
@@ -680,20 +680,20 @@ struct real_coords {
         fromabs( omt_to_ms_copy( a ) );
     }
 
-    point_abs_omt abs_omt() const {
+    auto abs_omt() const -> point_abs_omt {
         return project_to<coords::omt>( point_abs_sm( abs_sub ) );
     }
 
     // helper functions to return abs_pos of submap/overmap tile/overmap's start
 
-    point begin_sub() {
+    auto begin_sub() -> point {
         return point( abs_sub.x * tiles_in_sub, abs_sub.y * tiles_in_sub );
     }
-    point begin_om_pos() {
+    auto begin_om_pos() -> point {
         return point( ( abs_om.x * subs_in_om * tiles_in_sub ) + ( om_pos.x * 2 * tiles_in_sub ),
                       ( abs_om.y * subs_in_om * tiles_in_sub ) + ( om_pos.y * 2 * tiles_in_sub ) );
     }
-    point begin_om() {
+    auto begin_om() -> point {
         return point( abs_om.x * subs_in_om * tiles_in_sub, abs_om.y * subs_in_om * tiles_in_sub );
     }
 };

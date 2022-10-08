@@ -22,7 +22,7 @@ void kill_tracker::reset( const std::map<mtype_id, int> &kills_,
     npc_kills = npc_kills_;
 }
 
-int kill_tracker::kill_count( const mtype_id &mon ) const
+auto kill_tracker::kill_count( const mtype_id &mon ) const -> int
 {
     auto it = kills.find( mon );
     if( it != kills.end() ) {
@@ -31,7 +31,7 @@ int kill_tracker::kill_count( const mtype_id &mon ) const
     return 0;
 }
 
-int kill_tracker::kill_count( const species_id &spec ) const
+auto kill_tracker::kill_count( const species_id &spec ) const -> int
 {
     int result = 0;
     for( const auto &pair : kills ) {
@@ -42,7 +42,7 @@ int kill_tracker::kill_count( const species_id &spec ) const
     return result;
 }
 
-int kill_tracker::monster_kill_count() const
+auto kill_tracker::monster_kill_count() const -> int
 {
     int result = 0;
     for( const auto &pair : kills ) {
@@ -51,12 +51,12 @@ int kill_tracker::monster_kill_count() const
     return result;
 }
 
-int kill_tracker::npc_kill_count() const
+auto kill_tracker::npc_kill_count() const -> int
 {
     return npc_kills.size();
 }
 
-int kill_tracker::kill_xp() const
+auto kill_tracker::kill_xp() const -> int
 {
     int ret = 0;
     for( const std::pair<const mtype_id, int> &pair : kills ) {
@@ -66,7 +66,7 @@ int kill_tracker::kill_xp() const
     return ret;
 }
 
-std::string kill_tracker::get_kills_text() const
+auto kill_tracker::get_kills_text() const -> std::string
 {
     std::vector<std::string> data;
     int totalkills = 0;

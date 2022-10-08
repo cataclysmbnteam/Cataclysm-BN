@@ -30,7 +30,7 @@
 namespace veh_utils
 {
 
-int calc_xp_gain( const vpart_info &vp, const skill_id &sk, const Character &who )
+auto calc_xp_gain( const vpart_info &vp, const skill_id &sk, const Character &who ) -> int
 {
     const auto iter = vp.install_skills.find( sk );
     if( iter == vp.install_skills.end() ) {
@@ -52,7 +52,7 @@ int calc_xp_gain( const vpart_info &vp, const skill_id &sk, const Character &who
                       to_moves<int>( 1_minutes * std::pow( lvl, 2 ) ) );
 }
 
-vehicle_part &most_repairable_part( vehicle &veh, Character &who, bool only_repairable )
+auto most_repairable_part( vehicle &veh, Character &who, bool only_repairable ) -> vehicle_part &
 {
     const auto &inv = who.crafting_inventory();
 
@@ -106,7 +106,7 @@ vehicle_part &most_repairable_part( vehicle &veh, Character &who, bool only_repa
     return high_damage_iterator->part();
 }
 
-bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
+auto repair_part( vehicle &veh, vehicle_part &pt, Character &who_c ) -> bool
 {
     // TODO: Get rid of this cast after moving relevant functions down to Character
     player &who = static_cast<player &>( who_c );

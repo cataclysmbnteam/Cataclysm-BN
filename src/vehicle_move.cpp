@@ -64,28 +64,28 @@ static const int mi_to_vmi = 100;
 static const float mps_to_miph = 2.23694f;
 
 // convert m/s to vehicle 100ths of a mile per hour
-int mps_to_vmiph( double mps )
+auto mps_to_vmiph( double mps ) -> int
 {
     return mps * mps_to_miph * mi_to_vmi;
 }
 
 // convert vehicle 100ths of a mile per hour to m/s
-double vmiph_to_mps( int vmiph )
+auto vmiph_to_mps( int vmiph ) -> double
 {
     return vmiph / mps_to_miph / mi_to_vmi;
 }
 
-int cmps_to_vmiph( int cmps )
+auto cmps_to_vmiph( int cmps ) -> int
 {
     return cmps * mps_to_miph;
 }
 
-int vmiph_to_cmps( int vmiph )
+auto vmiph_to_cmps( int vmiph ) -> int
 {
     return vmiph / mps_to_miph;
 }
 
-int vehicle::slowdown( int at_velocity ) const
+auto vehicle::slowdown( int at_velocity ) const -> int
 {
     double mps = vmiph_to_mps( std::abs( at_velocity ) );
 
@@ -352,9 +352,9 @@ void vehicle::stop( bool update_cache )
     }
 }
 
-bool vehicle::collision( std::vector<veh_collision> &colls,
+auto vehicle::collision( std::vector<veh_collision> &colls,
                          const tripoint &dp,
-                         bool just_detect, bool bash_floor )
+                         bool just_detect, bool bash_floor ) -> bool
 {
 
     /*
@@ -468,8 +468,8 @@ static void terrain_collision_data( const tripoint &p, bool bash_floor,
     density = bash_min;
 }
 
-veh_collision vehicle::part_collision( int part, const tripoint &p,
-                                       bool just_detect, bool bash_floor )
+auto vehicle::part_collision( int part, const tripoint &p,
+                                       bool just_detect, bool bash_floor ) -> veh_collision
 {
     // Vertical collisions need to be handled differently
     // All collisions have to be either fully vertical or fully horizontal for now
@@ -917,7 +917,7 @@ void vehicle::handle_trap( const tripoint &p, int part )
     }
 }
 
-bool vehicle::has_harnessed_animal() const
+auto vehicle::has_harnessed_animal() const -> bool
 {
     for( size_t e = 0; e < parts.size(); e++ ) {
         const vehicle_part &vp = parts[ e ];
@@ -983,7 +983,7 @@ void vehicle::selfdrive( const point &p )
     }
 }
 
-bool vehicle::check_is_heli_landed()
+auto vehicle::check_is_heli_landed() -> bool
 {
     // @TODO - when there are chasms that extend below z-level 0 - perhaps the heli
     // will be able to descend into them but for now, assume z-level-0 == the ground.
@@ -994,7 +994,7 @@ bool vehicle::check_is_heli_landed()
     return false;
 }
 
-bool vehicle::check_heli_descend( player &p )
+auto vehicle::check_heli_descend( player &p ) -> bool
 {
     if( !is_rotorcraft() ) {
         debugmsg( "A vehicle is somehow flying without being an aircraft" );
@@ -1030,7 +1030,7 @@ bool vehicle::check_heli_descend( player &p )
 
 }
 
-bool vehicle::check_heli_ascend( player &p )
+auto vehicle::check_heli_ascend( player &p ) -> bool
 {
     if( !is_rotorcraft() ) {
         debugmsg( "A vehicle is somehow flying without being an aircraft" );
@@ -1190,7 +1190,7 @@ void vehicle::possibly_recover_from_skid()
 }
 
 // if not skidding, move_vec == face_vec, mv <dot> fv == 1, velocity*1 is returned.
-float vehicle::forward_velocity() const
+auto vehicle::forward_velocity() const -> float
 {
     rl_vec2d mv = move_vec();
     rl_vec2d fv = face_vec();
@@ -1198,7 +1198,7 @@ float vehicle::forward_velocity() const
     return velocity * dot;
 }
 
-rl_vec2d vehicle::velo_vec() const
+auto vehicle::velo_vec() const -> rl_vec2d
 {
     rl_vec2d ret;
     if( skidding ) {
@@ -1211,29 +1211,29 @@ rl_vec2d vehicle::velo_vec() const
     return ret;
 }
 
-static inline rl_vec2d angle_to_vec( units::angle angle )
+static inline auto angle_to_vec( units::angle angle ) -> rl_vec2d
 {
     return rl_vec2d( units::cos( angle ), units::sin( angle ) );
 }
 
 // normalized.
-rl_vec2d vehicle::move_vec() const
+auto vehicle::move_vec() const -> rl_vec2d
 {
     return angle_to_vec( move.dir() );
 }
 
 // normalized.
-rl_vec2d vehicle::face_vec() const
+auto vehicle::face_vec() const -> rl_vec2d
 {
     return angle_to_vec( face.dir() );
 }
 
-rl_vec2d vehicle::dir_vec() const
+auto vehicle::dir_vec() const -> rl_vec2d
 {
     return angle_to_vec( turn_dir );
 }
 
-float get_collision_factor( const float delta_v )
+auto get_collision_factor( const float delta_v ) -> float
 {
     if( std::abs( delta_v ) <= 31 ) {
         return ( 1 - ( 0.9 * std::abs( delta_v ) ) / 31 );
@@ -1242,7 +1242,7 @@ float get_collision_factor( const float delta_v )
     }
 }
 
-vehicle *vehicle::act_on_map()
+auto vehicle::act_on_map() -> vehicle *
 {
     const tripoint pt = global_pos3();
     map &here = get_map();
@@ -1439,7 +1439,7 @@ void vehicle::shift_zlevel()
     }
 }
 
-bool vehicle::check_on_ramp( int idir, const tripoint &offset ) const
+auto vehicle::check_on_ramp( int idir, const tripoint &offset ) const -> bool
 {
     for( auto &prt : get_all_parts() ) {
         tripoint partPoint = global_pos3() + offset + prt.part().precalc[idir];
@@ -1564,8 +1564,8 @@ void vehicle::check_falling_or_floating()
     in_water =  2 * water_tiles >= pts.size();
 }
 
-float map::vehicle_wheel_traction( const vehicle &veh,
-                                   const bool ignore_movement_modifiers /*=false*/ ) const
+auto map::vehicle_wheel_traction( const vehicle &veh,
+                                   const bool ignore_movement_modifiers /*=false*/ ) const -> float
 {
     if( veh.is_in_water( true ) ) {
         return veh.can_float() ? 1.0f : -1.0f;
@@ -1628,8 +1628,8 @@ float map::vehicle_wheel_traction( const vehicle &veh,
     return traction_wheel_area;
 }
 
-units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
-                                 const units::angle direction )
+auto map::shake_vehicle( vehicle &veh, const int velocity_before,
+                                 const units::angle direction ) -> units::angle
 {
     const int d_vel = std::abs( veh.velocity - velocity_before ) / 100;
 
@@ -1728,12 +1728,12 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
 
 namespace vehicle_movement
 {
-static bool scan_rails_from_veh_internal(
+static auto scan_rails_from_veh_internal(
     const map &m,
     const vehicle &veh,
     tripoint scan_initial_pos,
     point veh_plus_y_vec,
-    point scan_vec )
+    point scan_vec ) -> bool
 {
     for( size_t rail_id = 0; rail_id < veh.rail_profile.size(); rail_id++ ) {
         int rail_y_rel_to_pivot = veh.rail_profile[rail_id] - veh.pivot_point().y;
@@ -1750,13 +1750,13 @@ static bool scan_rails_from_veh_internal(
     return true;
 }
 
-static bool scan_rails_at_shift(
+static auto scan_rails_at_shift(
     const map &m,
     const vehicle &veh,
     int velocity_sign,
     units::angle dir,
     int shift_sign,
-    tripoint *shift_amt = nullptr )
+    tripoint *shift_amt = nullptr ) -> bool
 {
     point ray_delta;
     {
@@ -1810,12 +1810,12 @@ static bool scan_rails_at_shift(
     return false;
 }
 
-static inline rail_processing_result make_none()
+static inline auto make_none() -> rail_processing_result
 {
     return rail_processing_result();
 }
 
-static inline rail_processing_result make_turn( units::angle a )
+static inline auto make_turn( units::angle a ) -> rail_processing_result
 {
     rail_processing_result res;
     res.do_turn = true;
@@ -1823,7 +1823,7 @@ static inline rail_processing_result make_turn( units::angle a )
     return res;
 }
 
-static inline rail_processing_result make_shift( tripoint dp )
+static inline auto make_shift( tripoint dp ) -> rail_processing_result
 {
     rail_processing_result res;
     res.do_shift = true;
@@ -1831,7 +1831,7 @@ static inline rail_processing_result make_shift( tripoint dp )
     return res;
 }
 
-rail_processing_result process_movement_on_rails( const map &m, const vehicle &veh )
+auto process_movement_on_rails( const map &m, const vehicle &veh ) -> rail_processing_result
 {
     int face_dir_degrees = std::round( units::to_degrees( veh.face.dir() ) );
     int face_dir_snapped = ( face_dir_degrees / 45 ) * 45;
@@ -1913,7 +1913,7 @@ rail_processing_result process_movement_on_rails( const map &m, const vehicle &v
     return make_none();
 }
 
-bool is_on_rails( const map &m, const vehicle &veh )
+auto is_on_rails( const map &m, const vehicle &veh ) -> bool
 {
     if( !veh.can_use_rails() ) {
         // Must be rail-worthy

@@ -81,37 +81,37 @@ class player_activity
 
         player_activity( player_activity && ) = default;
         player_activity( const player_activity & ) = default;
-        player_activity &operator=( player_activity && ) = default;
-        player_activity &operator=( const player_activity & ) = default;
+        auto operator=( player_activity && ) -> player_activity & = default;
+        auto operator=( const player_activity & ) -> player_activity & = default;
 
         explicit operator bool() const {
             return !type.is_null();
         }
-        bool is_null() const {
+        auto is_null() const -> bool {
             return type.is_null();
         }
-        bool is_multi_type() const;
+        auto is_multi_type() const -> bool;
         /** This replaces the former usage `act.type = ACT_NULL` */
         void set_to_null();
 
-        const activity_id &id() const {
+        auto id() const -> const activity_id & {
             return type;
         }
-        bool rooted() const;
+        auto rooted() const -> bool;
 
         // Question to ask when the activity is to be stopped,
         // e.g. "Stop doing something?", already translated.
-        std::string get_stop_phrase() const;
+        auto get_stop_phrase() const -> std::string;
 
-        const translation &get_verb() const;
+        auto get_verb() const -> const translation &;
 
-        int get_value( size_t index, int def = 0 ) const;
-        std::string get_str_value( size_t index, const std::string &def = "" ) const;
+        auto get_value( size_t index, int def = 0 ) const -> int;
+        auto get_str_value( size_t index, const std::string &def = "" ) const -> std::string;
 
         /**
          * Helper that returns an activity specific progress message.
          */
-        cata::optional<std::string> get_progress_message( const avatar &u ) const;
+        auto get_progress_message( const avatar &u ) const -> cata::optional<std::string>;
 
         /**
          * If this returns true, the action can be continued without
@@ -119,7 +119,7 @@ class player_activity
          * possible if the player start the very same activity (with the same
          * parameters) again.
          */
-        bool is_suspendable() const;
+        auto is_suspendable() const -> bool;
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
@@ -150,9 +150,9 @@ class player_activity
          * Returns true if activities are similar enough that this activity
          * can be resumed instead of starting the other activity.
          */
-        bool can_resume_with( const player_activity &other, const Character &who ) const;
+        auto can_resume_with( const player_activity &other, const Character &who ) const -> bool;
 
-        bool is_distraction_ignored( distraction_type type ) const;
+        auto is_distraction_ignored( distraction_type type ) const -> bool;
         void ignore_distraction( distraction_type type );
         void allow_distractions();
         void inherit_distractions( const player_activity & );

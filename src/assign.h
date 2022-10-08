@@ -51,8 +51,8 @@ inline void report_strict_violation( const JsonObject &jo, const std::string &me
 }
 
 template <typename T, typename std::enable_if<std::is_arithmetic<T>::value, int>::type = 0>
-bool assign( const JsonObject &jo, const std::string &name, T &val, bool strict = false,
-             T lo = std::numeric_limits<T>::lowest(), T hi = std::numeric_limits<T>::max() )
+auto assign( const JsonObject &jo, const std::string &name, T &val, bool strict = false,
+             T lo = std::numeric_limits<T>::lowest(), T hi = std::numeric_limits<T>::max() ) -> bool
 {
     T out;
     double scalar;
@@ -100,7 +100,7 @@ bool assign( const JsonObject &jo, const std::string &name, T &val, bool strict 
 
 // Overload assign specifically for bool to avoid warnings,
 // and also to avoid potentially nonsensical interactions between relative and proportional.
-inline bool assign( const JsonObject &jo, const std::string &name, bool &val, bool strict = false )
+inline auto assign( const JsonObject &jo, const std::string &name, bool &val, bool strict = false ) -> bool
 {
     bool out;
 
@@ -119,8 +119,8 @@ inline bool assign( const JsonObject &jo, const std::string &name, bool &val, bo
 }
 
 template <typename T, typename std::enable_if<std::is_arithmetic<T>::value, int>::type = 0>
-bool assign( const JsonObject &jo, const std::string &name, std::pair<T, T> &val,
-             bool strict = false, T lo = std::numeric_limits<T>::lowest(), T hi = std::numeric_limits<T>::max() )
+auto assign( const JsonObject &jo, const std::string &name, std::pair<T, T> &val,
+             bool strict = false, T lo = std::numeric_limits<T>::lowest(), T hi = std::numeric_limits<T>::max() ) -> bool
 {
     std::pair<T, T> out;
 
@@ -158,7 +158,7 @@ bool assign( const JsonObject &jo, const std::string &name, std::pair<T, T> &val
 // handled below in a separate function.
 template < typename T, typename std::enable_if < std::is_class<T>::value &&!is_optional<T>::value,
            int >::type = 0 >
-bool assign( const JsonObject &jo, const std::string &name, T &val, bool strict = false )
+auto assign( const JsonObject &jo, const std::string &name, T &val, bool strict = false ) -> bool
 {
     T out;
     if( !jo.read( name, out ) ) {
@@ -176,8 +176,8 @@ bool assign( const JsonObject &jo, const std::string &name, T &val, bool strict 
 }
 
 template <typename T>
-typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
-    const JsonObject &jo, const std::string &name, std::set<T> &val, bool = false )
+auto assign(
+    const JsonObject &jo, const std::string &name, std::set<T> &val, bool = false ) -> typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type
 {
     JsonObject add = jo.get_object( "extend" );
     add.allow_omitted_members();
@@ -217,7 +217,7 @@ typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::typ
  * Supports extend by pair and delete by key.
  */
 template <typename T>
-bool assign_map_from_array( const JsonObject &jo, const std::string &name, T &val, bool = false )
+auto assign_map_from_array( const JsonObject &jo, const std::string &name, T &val, bool = false ) -> bool
 {
     using K = typename T::key_type;
     using V = typename T::mapped_type;
@@ -271,10 +271,10 @@ bool assign_map_from_array( const JsonObject &jo, const std::string &name, T &va
     return res;
 }
 
-inline bool assign( const JsonObject &jo, const std::string &name, units::volume &val,
+inline auto assign( const JsonObject &jo, const std::string &name, units::volume &val,
                     bool strict = false,
                     const units::volume lo = units::volume_min,
-                    const units::volume hi = units::volume_max )
+                    const units::volume hi = units::volume_max ) -> bool
 {
     const auto parse = [&name]( const JsonObject & obj, units::volume & out ) {
         if( obj.has_int( name ) ) {
@@ -352,10 +352,10 @@ inline bool assign( const JsonObject &jo, const std::string &name, units::volume
     return true;
 }
 
-inline bool assign( const JsonObject &jo, const std::string &name, units::mass &val,
+inline auto assign( const JsonObject &jo, const std::string &name, units::mass &val,
                     bool strict = false,
                     const units::mass lo = units::mass_min,
-                    const units::mass hi = units::mass_max )
+                    const units::mass hi = units::mass_max ) -> bool
 {
     const auto parse = [&name]( const JsonObject & obj, units::mass & out ) {
         if( obj.has_int( name ) ) {
@@ -418,10 +418,10 @@ inline bool assign( const JsonObject &jo, const std::string &name, units::mass &
     return true;
 }
 
-inline bool assign( const JsonObject &jo, const std::string &name, units::money &val,
+inline auto assign( const JsonObject &jo, const std::string &name, units::money &val,
                     bool strict = false,
                     const units::money lo = units::money_min,
-                    const units::money hi = units::money_max )
+                    const units::money hi = units::money_max ) -> bool
 {
     const auto parse = [&name]( const JsonObject & obj, units::money & out ) {
         if( obj.has_int( name ) ) {
@@ -484,10 +484,10 @@ inline bool assign( const JsonObject &jo, const std::string &name, units::money 
     return true;
 }
 
-inline bool assign( const JsonObject &jo, const std::string &name, units::energy &val,
+inline auto assign( const JsonObject &jo, const std::string &name, units::energy &val,
                     bool strict = false,
                     const units::energy lo = units::energy_min,
-                    const units::energy hi = units::energy_max )
+                    const units::energy hi = units::energy_max ) -> bool
 {
     const auto parse = [&name]( const JsonObject & obj, units::energy & out ) {
         if( obj.has_int( name ) ) {
@@ -559,24 +559,24 @@ inline bool assign( const JsonObject &jo, const std::string &name, units::energy
 // For example, in 10 * 0 Fahrenheit, 10 * 0 Celsius - what's the expected result of those?
 template < typename lvt, typename ut, typename s,
            typename std::enable_if_t<units::quantity_details<ut>::common_zero_point::value>* = nullptr>
-inline units::quantity<lvt, ut> mult_unit( const JsonObject &, const std::string &,
-        const units::quantity<lvt, ut> &val, const s scalar )
+inline auto mult_unit( const JsonObject &, const std::string &,
+        const units::quantity<lvt, ut> &val, const s scalar ) -> units::quantity<lvt, ut>
 {
     return val * scalar;
 }
 
 template < typename lvt, typename ut, typename s,
            typename std::enable_if_t < !units::quantity_details<ut>::common_zero_point::value > * = nullptr >
-inline units::quantity<lvt, ut> mult_unit( const JsonObject &err, const std::string &name,
-        const units::quantity<lvt, ut> &, const s )
+inline auto mult_unit( const JsonObject &err, const std::string &name,
+        const units::quantity<lvt, ut> &, const s ) -> units::quantity<lvt, ut>
 {
     err.throw_error( "Multiplying units with multiple scales with different zero points is not well defined",
                      name );
 }
 
 template<typename T, typename F>
-inline bool assign_unit_common( const JsonObject &jo, const std::string &name, T &val, F parse,
-                                bool strict, const T lo, const T hi )
+inline auto assign_unit_common( const JsonObject &jo, const std::string &name, T &val, F parse,
+                                bool strict, const T lo, const T hi ) -> bool
 {
     T out;
 
@@ -626,10 +626,10 @@ inline bool assign_unit_common( const JsonObject &jo, const std::string &name, T
     return true;
 }
 
-inline bool assign( const JsonObject &jo, const std::string &name, units::probability &val,
+inline auto assign( const JsonObject &jo, const std::string &name, units::probability &val,
                     bool strict = false,
                     const units::probability lo = units::probability_min,
-                    const units::probability hi = units::probability_max )
+                    const units::probability hi = units::probability_max ) -> bool
 {
     const auto parse = [&name]( const JsonObject & obj, units::probability & out ) {
         if( obj.has_string( name ) ) {
@@ -657,10 +657,10 @@ inline bool assign( const JsonObject &jo, const std::string &name, units::probab
     return assign_unit_common( jo, name, val, parse, strict, lo, hi );
 }
 
-inline bool assign( const JsonObject &jo, const std::string &name, units::temperature &val,
+inline auto assign( const JsonObject &jo, const std::string &name, units::temperature &val,
                     bool strict = false,
                     const units::temperature lo = units::temperature_min,
-                    const units::temperature hi = units::temperature_max )
+                    const units::temperature hi = units::temperature_max ) -> bool
 {
     const auto parse = [&name]( const JsonObject & obj, units::temperature & out ) {
         if( obj.has_string( name ) ) {
@@ -692,8 +692,8 @@ inline bool assign( const JsonObject &jo, const std::string &name, units::temper
     return assign_unit_common( jo, name, val, parse, strict, lo, hi );
 }
 
-inline bool assign( const JsonObject &jo, const std::string &name, nc_color &val,
-                    const bool strict = false )
+inline auto assign( const JsonObject &jo, const std::string &name, nc_color &val,
+                    const bool strict = false ) -> bool
 {
     if( !jo.has_member( name ) ) {
         return false;
@@ -713,9 +713,9 @@ inline bool assign( const JsonObject &jo, const std::string &name, nc_color &val
 class time_duration;
 
 template<typename T>
-inline typename
+inline auto
+read_with_factor( const JsonObject &jo, const std::string &name, T &val, const T &factor ) -> typename
 std::enable_if<std::is_same<typename std::decay<T>::type, time_duration>::value, bool>::type
-read_with_factor( const JsonObject &jo, const std::string &name, T &val, const T &factor )
 {
     int tmp;
     if( jo.read( name, tmp, false ) ) {
@@ -736,9 +736,9 @@ read_with_factor( const JsonObject &jo, const std::string &name, T &val, const T
 // will be ignored. If it is called with time_duration, it is available and the
 // *caller* is responsible for including the "calendar.h" header.
 template<typename T>
-inline typename
-std::enable_if<std::is_same<typename std::decay<T>::type, time_duration>::value, bool>::type assign(
-    const JsonObject &jo, const std::string &name, T &val, bool strict, const T &factor )
+inline auto assign(
+    const JsonObject &jo, const std::string &name, T &val, bool strict, const T &factor ) -> typename
+std::enable_if<std::is_same<typename std::decay<T>::type, time_duration>::value, bool>::type
 {
     T out{};
     double scalar;
@@ -781,8 +781,8 @@ std::enable_if<std::is_same<typename std::decay<T>::type, time_duration>::value,
 }
 
 template<typename T>
-inline bool assign( const JsonObject &jo, const std::string &name, cata::optional<T> &val,
-                    const bool strict = false )
+inline auto assign( const JsonObject &jo, const std::string &name, cata::optional<T> &val,
+                    const bool strict = false ) -> bool
 {
     if( !jo.has_member( name ) ) {
         return false;
@@ -934,11 +934,11 @@ static void check_assigned_dmg( const JsonObject &err, const std::string &name,
     }
 }
 
-inline bool assign( const JsonObject &jo, const std::string &name, damage_instance &val,
+inline auto assign( const JsonObject &jo, const std::string &name, damage_instance &val,
                     bool strict = false,
                     const damage_instance &lo = damage_instance( DT_NULL, 0.0f, 0.0f, 0.0f, 0.0f ),
                     const damage_instance &hi = damage_instance( DT_NULL, float_max, float_max, float_max,
-                            float_max ) )
+                            float_max ) ) -> bool
 {
     // What we'll eventually be returning for the damage instance
     damage_instance out;

@@ -17,14 +17,14 @@ constexpr int MAX_ADDICTION_LEVEL = 20;
 // with an optional pre-translated message.
 void addict_effect( Character &u, addiction &add );
 
-std::string addiction_type_name( add_type cur );
+auto addiction_type_name( add_type cur ) -> std::string;
 
-std::string addiction_name( const addiction &cur );
+auto addiction_name( const addiction &cur ) -> std::string;
 
-morale_type addiction_craving( add_type cur );
+auto addiction_craving( add_type cur ) -> morale_type;
 
-add_type addiction_type( const std::string &name );
+auto addiction_type( const std::string &name ) -> add_type;
 
-std::string addiction_text( const addiction &cur );
+auto addiction_text( const addiction &cur ) -> std::string;
 
 #endif // CATA_SRC_ADDICTION_H

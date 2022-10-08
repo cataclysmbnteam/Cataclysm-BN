@@ -30,7 +30,7 @@ class gun_mode
             flags( flags ) {}
 
         /** if true perform a melee attach as opposed to shooting */
-        bool melee() const {
+        auto melee() const -> bool {
             return flags.count( "MELEE" );
         }
 
@@ -38,25 +38,25 @@ class gun_mode
             return target != nullptr;
         }
 
-        item &operator*() {
+        auto operator*() -> item & {
             return *target;
         }
-        const item &operator*() const {
+        auto operator*() const -> const item & {
             return *target;
         }
 
-        item *operator->() {
+        auto operator->() -> item * {
             return target;
         }
-        const item *operator->() const {
+        auto operator->() const -> const item * {
             return target;
         }
 
-        std::string name() const {
+        auto name() const -> std::string {
             return name_;
         }
 
-        std::string tname() const {
+        auto tname() const -> std::string {
             return _( name_ );
         }
 };

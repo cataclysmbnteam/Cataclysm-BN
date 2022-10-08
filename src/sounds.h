@@ -74,11 +74,11 @@ void process_sounds();
 void process_sound_markers( player *p );
 
 // Return list of points that have sound events the player can hear.
-std::vector<tripoint> get_footstep_markers();
+auto get_footstep_markers() -> std::vector<tripoint>;
 // Return list of all sounds and the list of sound cluster centroids.
-std::pair<std::vector<tripoint>, std::vector<tripoint>> get_monster_sounds();
+auto get_monster_sounds() -> std::pair<std::vector<tripoint>, std::vector<tripoint>>;
 // retrieve the sound event(s?) at a location.
-std::string sound_at( const tripoint &location );
+auto sound_at( const tripoint &location ) -> std::string;
 /** Tells us if sound has been enabled in options */
 extern bool sound_enabled;
 } // namespace sounds
@@ -145,8 +145,8 @@ void generate_melee_sound( const tripoint &source, const tripoint &target, bool 
 void do_hearing_loss( int turns = -1 );
 void remove_hearing_loss();
 void do_projectile_hit( const Creature &target );
-int get_heard_volume( const tripoint &source );
-units::angle get_heard_angle( const tripoint &source );
+auto get_heard_volume( const tripoint &source ) -> int;
+auto get_heard_angle( const tripoint &source ) -> units::angle;
 void do_footstep();
 void do_danger_music();
 void do_ambient();
@@ -154,11 +154,11 @@ void do_vehicle_engine_sfx();
 void do_vehicle_exterior_engine_sfx();
 void fade_audio_group( group group, int duration );
 void fade_audio_channel( channel channel, int duration );
-bool is_channel_playing( channel channel );
-bool has_variant_sound( const std::string &id, const std::string &variant );
+auto is_channel_playing( channel channel ) -> bool;
+auto has_variant_sound( const std::string &id, const std::string &variant ) -> bool;
 void stop_sound_effect_fade( channel channel, int duration );
 void stop_sound_effect_timed( channel channel, int time );
-int set_channel_volume( channel channel, int volume );
+auto set_channel_volume( channel channel, int volume ) -> int;
 void do_player_death_hurt( const player &target, bool death );
 void do_fatigue();
 // @param obst should be string id of obstacle terrain or vehicle part

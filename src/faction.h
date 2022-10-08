@@ -20,10 +20,10 @@
 // TODO: Redefine?
 static constexpr int MAX_FAC_NAME_SIZE = 40;
 
-std::string fac_ranking_text( int val );
-std::string fac_respect_text( int val );
-std::string fac_wealth_text( int val, int size );
-std::string fac_combat_ability_text( int val );
+auto fac_ranking_text( int val ) -> std::string;
+auto fac_respect_text( int val ) -> std::string;
+auto fac_wealth_text( int val, int size ) -> std::string;
+auto fac_combat_ability_text( int val ) -> std::string;
 
 class JsonIn;
 class JsonObject;
@@ -70,7 +70,7 @@ class faction_template
 
     public:
         explicit faction_template( const faction_template & ) = default;
-        faction_template &operator = ( const faction_template & ) = default;
+        auto operator = ( const faction_template & ) -> faction_template & = default;
         static void load( const JsonObject &jsobj );
         static void check_consistency();
         static void reset();
@@ -102,13 +102,13 @@ class faction : public faction_template
         void serialize( JsonOut &json ) const;
         void faction_display( const catacurses::window &fac_w, int width ) const;
 
-        std::string describe() const;
-        std::vector<std::string> epilogue() const;
+        auto describe() const -> std::string;
+        auto epilogue() const -> std::vector<std::string>;
 
-        std::string food_supply_text();
-        nc_color food_supply_color();
+        auto food_supply_text() -> std::string;
+        auto food_supply_color() -> nc_color;
 
-        bool has_relationship( const faction_id &guy_id, npc_factions::relationship flag ) const;
+        auto has_relationship( const faction_id &guy_id, npc_factions::relationship flag ) const -> bool;
         void add_to_membership( const character_id &guy_id, const std::string &guy_name, bool known );
         void remove_member( const character_id &guy_id );
         std::vector<int> opinion_of;
@@ -128,14 +128,14 @@ class faction_manager
         void clear();
         void create_if_needed();
         void display() const;
-        faction *add_new_faction( const std::string &name_new, const faction_id &id_new,
-                                  const faction_id &template_id );
+        auto add_new_faction( const std::string &name_new, const faction_id &id_new,
+                                  const faction_id &template_id ) -> faction *;
         void remove_faction( const faction_id &id );
-        const std::map<faction_id, faction> &all() const {
+        auto all() const -> const std::map<faction_id, faction> & {
             return factions;
         }
 
-        faction *get( const faction_id &id, bool complain = true );
+        auto get( const faction_id &id, bool complain = true ) -> faction *;
 };
 
 #endif // CATA_SRC_FACTION_H

@@ -63,7 +63,7 @@ class explosion_queue
         }
 };
 
-explosion_queue &get_explosion_queue();
+auto get_explosion_queue() -> explosion_queue &;
 
 } // namespace explosion_handler
 

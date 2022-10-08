@@ -73,8 +73,8 @@ namespace talk_function
 void companion_mission( npc &p );
 
 // Display the available missions and let the player choose one
-bool display_and_choose_opts( mission_data &mission_key, const tripoint_abs_omt &omt_pos,
-                              const std::string &role_id, const std::string &title );
+auto display_and_choose_opts( mission_data &mission_key, const tripoint_abs_omt &omt_pos,
+                              const std::string &role_id, const std::string &title ) -> bool;
 
 /**
  * Send a companion on an individual mission or attaches them to a group to depart later
@@ -87,28 +87,28 @@ bool display_and_choose_opts( mission_data &mission_key, const tripoint_abs_omt 
  * @param skill_level is checked to prevent lower level NPCs from going on missions
  */
 ///Send a companion on an individual mission or attaches them to a group to depart later
-npc_ptr individual_mission( npc &p, const std::string &desc, const std::string &miss_id,
+auto individual_mission( npc &p, const std::string &desc, const std::string &miss_id,
                             bool group = false, const std::vector<item *> &equipment = {},
-                            const std::map<skill_id, int> &required_skills = {} );
-npc_ptr individual_mission( const tripoint_abs_omt &omt_pos, const std::string &role_id,
+                            const std::map<skill_id, int> &required_skills = {} ) -> npc_ptr;
+auto individual_mission( const tripoint_abs_omt &omt_pos, const std::string &role_id,
                             const std::string &desc, const std::string &miss_id,
                             bool group = false, const std::vector<item *> &equipment = {},
-                            const std::map<skill_id, int> &required_skills = {} );
+                            const std::map<skill_id, int> &required_skills = {} ) -> npc_ptr;
 
 ///All of these missions are associated with the ranch camp and need to me updated/merged into the new ones
 void caravan_return( npc &p, const std::string &dest, const std::string &id );
 void caravan_depart( npc &p, const std::string &dest, const std::string &id );
-int caravan_dist( const std::string &dest );
+auto caravan_dist( const std::string &dest ) -> int;
 
 void field_build_1( npc &p );
 void field_build_2( npc &p );
 void field_plant( npc &p, const std::string &place );
 void field_harvest( npc &p, const std::string &place );
-bool scavenging_patrol_return( npc &p );
-bool scavenging_raid_return( npc &p );
-bool labor_return( npc &p );
-bool carpenter_return( npc &p );
-bool forage_return( npc &p );
+auto scavenging_patrol_return( npc &p ) -> bool;
+auto scavenging_raid_return( npc &p ) -> bool;
+auto labor_return( npc &p ) -> bool;
+auto carpenter_return( npc &p ) -> bool;
+auto forage_return( npc &p ) -> bool;
 
 /// Trains NPC @ref comp, in skill_tested for duration time_worked at difficulty 1, several groups of skills can also be input
 void companion_skill_trainer( npc &comp, const std::string &skill_tested = "",
@@ -116,34 +116,34 @@ void companion_skill_trainer( npc &comp, const std::string &skill_tested = "",
 void companion_skill_trainer( npc &comp, const skill_id &skill_tested,
                               time_duration time_worked = 1_hours, int difficulty = 1 );
 //Combat functions
-bool companion_om_combat_check( const comp_list &group, const tripoint_abs_omt &om_tgt,
-                                bool try_engage = false );
+auto companion_om_combat_check( const comp_list &group, const tripoint_abs_omt &om_tgt,
+                                bool try_engage = false ) -> bool;
 void force_on_force( const comp_list &defender, const std::string &def_desc,
                      const comp_list &attacker, const std::string &att_desc, int advantage );
-bool force_on_force( const comp_list &defender, const std::string &def_desc,
+auto force_on_force( const comp_list &defender, const std::string &def_desc,
                      const std::vector< monster * > &monsters_fighting,
-                     const std::string &att_desc, int advantage );
-int combat_score( const comp_list &group );    //Used to determine retreat
-int combat_score( const std::vector< monster * > &group );
+                     const std::string &att_desc, int advantage ) -> bool;
+auto combat_score( const comp_list &group ) -> int;    //Used to determine retreat
+auto combat_score( const std::vector< monster * > &group ) -> int;
 void attack_random( const comp_list &attacker, const comp_list &defender );
 void attack_random( const std::vector< monster * > &group, const comp_list &defender );
 void attack_random( const comp_list &attacker, const std::vector< monster * > &group );
-npc_ptr temp_npc( const string_id<npc_template> &type );
+auto temp_npc( const string_id<npc_template> &type ) -> npc_ptr;
 
 //Utility functions
 /// Returns npcs that have the given companion mission.
-comp_list companion_list( const npc &p, const std::string &mission_id, bool contains = false );
-comp_list companion_list( const tripoint &omt_pos, const std::string &role_id,
-                          const std::string &mission_id, bool contains = false );
-comp_list companion_sort( comp_list available,
-                          const std::map<skill_id, int> &required_skills = {} );
-std::vector<comp_rank> companion_rank( const comp_list &available, bool adj = true );
-npc_ptr companion_choose( const std::map<skill_id, int> &required_skills = {} );
-npc_ptr companion_choose_return( const npc &p, const std::string &mission_id,
-                                 const time_point &deadline );
-npc_ptr companion_choose_return( const tripoint_abs_omt &omt_pos, const std::string &role_id,
+auto companion_list( const npc &p, const std::string &mission_id, bool contains = false ) -> comp_list;
+auto companion_list( const tripoint &omt_pos, const std::string &role_id,
+                          const std::string &mission_id, bool contains = false ) -> comp_list;
+auto companion_sort( comp_list available,
+                          const std::map<skill_id, int> &required_skills = {} ) -> comp_list;
+auto companion_rank( const comp_list &available, bool adj = true ) -> std::vector<comp_rank>;
+auto companion_choose( const std::map<skill_id, int> &required_skills = {} ) -> npc_ptr;
+auto companion_choose_return( const npc &p, const std::string &mission_id,
+                                 const time_point &deadline ) -> npc_ptr;
+auto companion_choose_return( const tripoint_abs_omt &omt_pos, const std::string &role_id,
                                  const std::string &mission_id, const time_point &deadline,
-                                 bool by_mission = true );
+                                 bool by_mission = true ) -> npc_ptr;
 
 //Return NPC to your party
 void companion_return( npc &comp );

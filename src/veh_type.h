@@ -142,9 +142,9 @@ class vpart_info
 
     public:
         /** Translated name of a part */
-        std::string name() const;
+        auto name() const -> std::string;
 
-        vpart_id get_id() const {
+        auto get_id() const -> vpart_id {
             return id;
         }
 
@@ -218,10 +218,10 @@ class vpart_info
         bool legacy = true;
 
         /** Format the description for display */
-        int format_description( std::string &msg, const nc_color &format_color, int width ) const;
+        auto format_description( std::string &msg, const nc_color &format_color, int width ) const -> int;
 
         /** Installation requirements for this component */
-        requirement_data install_requirements() const;
+        auto install_requirements() const -> requirement_data;
 
         /** Required skills to install this component */
         std::map<skill_id, int> install_skills;
@@ -230,10 +230,10 @@ class vpart_info
         int install_moves = to_moves<int>( 1_hours );
 
         /** Installation time (in moves) for this component accounting for player skills */
-        int install_time( const player &p ) const;
+        auto install_time( const player &p ) const -> int;
 
         /** Requirements for removal of this component */
-        requirement_data removal_requirements() const;
+        auto removal_requirements() const -> requirement_data;
 
         /** Required skills to remove this component */
         std::map<skill_id, int> removal_skills;
@@ -242,13 +242,13 @@ class vpart_info
         int removal_moves = -1;
 
         /** Removal time (in moves) for this component accounting for player skills */
-        int removal_time( const player &p ) const;
+        auto removal_time( const player &p ) const -> int;
 
         /** Requirements for repair of this component (per level of damage) */
-        requirement_data repair_requirements() const;
+        auto repair_requirements() const -> requirement_data;
 
         /** Returns whether or not the part is repairable  */
-        bool is_repairable() const;
+        auto is_repairable() const -> bool;
 
         /** Required skills to repair this component */
         std::map<skill_id, int> repair_skills;
@@ -257,7 +257,7 @@ class vpart_info
         int repair_moves = to_moves<int>( 1_hours );
 
         /** Repair time (in moves) to fully repair this component, accounting for player skills */
-        int repair_time( const player &p ) const;
+        auto repair_time( const player &p ) const -> int;
 
         /** @ref item_group this part breaks into when destroyed */
         item_group_id breaks_into_group = item_group_id( "EMPTY_GROUP" );
@@ -286,29 +286,29 @@ class vpart_info
          * @name Engine specific functions
          *
          */
-        std::vector<std::string> engine_excludes() const;
-        int engine_m2c() const;
-        float engine_backfire_threshold() const;
-        int engine_backfire_freq() const;
-        int engine_muscle_power_factor() const;
-        float engine_damaged_power_factor() const;
-        int engine_noise_factor() const;
-        std::vector<itype_id> engine_fuel_opts() const;
+        auto engine_excludes() const -> std::vector<std::string>;
+        auto engine_m2c() const -> int;
+        auto engine_backfire_threshold() const -> float;
+        auto engine_backfire_freq() const -> int;
+        auto engine_muscle_power_factor() const -> int;
+        auto engine_damaged_power_factor() const -> float;
+        auto engine_noise_factor() const -> int;
+        auto engine_fuel_opts() const -> std::vector<itype_id>;
         /**
          * @name Wheel specific functions
          *
          */
-        float wheel_rolling_resistance() const;
-        int wheel_area() const;
-        std::vector<std::pair<std::string, int>> wheel_terrain_mod() const;
-        float wheel_or_rating() const;
+        auto wheel_rolling_resistance() const -> float;
+        auto wheel_area() const -> int;
+        auto wheel_terrain_mod() const -> std::vector<std::pair<std::string, int>>;
+        auto wheel_or_rating() const -> float;
         /** @name rotor specific functions
         */
-        int rotor_diameter() const;
+        auto rotor_diameter() const -> int;
         /**
          * Getter for optional workbench info
          */
-        const cata::optional<vpslot_workbench> &get_workbench_info() const;
+        auto get_workbench_info() const -> const cata::optional<vpslot_workbench> &;
 
     private:
         /** Name from vehicle part definition which if set overrides the base item name */
@@ -330,13 +330,13 @@ class vpart_info
         // Display order in vehicle interact display
         int list_order = 0;
 
-        const std::set<std::string> &get_flags() const {
+        auto get_flags() const -> const std::set<std::string> & {
             return flags;
         }
-        bool has_flag( const std::string &flag ) const {
+        auto has_flag( const std::string &flag ) const -> bool {
             return flags.count( flag ) != 0;
         }
-        bool has_flag( const vpart_bitflags flag ) const {
+        auto has_flag( const vpart_bitflags flag ) const -> bool {
             return bitflags.test( flag );
         }
         void set_flag( const std::string &flag );
@@ -351,7 +351,7 @@ class vpart_info
         static void check();
         static void reset();
 
-        static const std::map<vpart_id, vpart_info> &all();
+        static auto all() -> const std::map<vpart_id, vpart_info> &;
 };
 
 struct vehicle_item_spawn {
@@ -386,7 +386,7 @@ struct vehicle_prototype {
     vehicle_prototype( vehicle_prototype && );
     ~vehicle_prototype();
 
-    vehicle_prototype &operator=( vehicle_prototype && );
+    auto operator=( vehicle_prototype && ) -> vehicle_prototype &;
 
     std::string name;
     std::vector<part_def> parts;
@@ -398,7 +398,7 @@ struct vehicle_prototype {
     static void reset();
     static void finalize();
 
-    static std::vector<vproto_id> get_all();
+    static auto get_all() -> std::vector<vproto_id>;
 };
 
 #endif // CATA_SRC_VEH_TYPE_H

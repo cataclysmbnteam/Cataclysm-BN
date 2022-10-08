@@ -122,7 +122,7 @@ class DynamicDataLoader
         /**
          * Returns the single instance of this class.
          */
-        static DynamicDataLoader &get_instance();
+        static auto get_instance() -> DynamicDataLoader &;
         /**
          * Load all data from json files located in
          * the path (recursive).
@@ -164,7 +164,7 @@ class DynamicDataLoader
         /**
          * Returns whether the data is finalized and ready to be utilized.
          */
-        bool is_data_finalized() const {
+        auto is_data_finalized() const -> bool {
             return finalized;
         }
 
@@ -174,7 +174,7 @@ class DynamicDataLoader
          * avoid conflict of stream cursor. The stream cursor is not reset if a
          * cached stream is returned.
          */
-        shared_ptr_fast<std::istream> get_cached_stream( const std::string &path );
+        auto get_cached_stream( const std::string &path ) -> shared_ptr_fast<std::istream>;
 };
 
 #endif // CATA_SRC_INIT_H

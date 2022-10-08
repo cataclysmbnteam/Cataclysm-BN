@@ -18,14 +18,14 @@ static std::map<vitamin_id, vitamin> vitamins_all;
 
 /** @relates string_id */
 template<>
-bool string_id<vitamin>::is_valid() const
+auto string_id<vitamin>::is_valid() const -> bool
 {
     return vitamins_all.count( *this );
 }
 
 /** @relates string_id */
 template<>
-const vitamin &string_id<vitamin>::obj() const
+auto string_id<vitamin>::obj() const -> const vitamin &
 {
     const auto found = vitamins_all.find( *this );
     if( found == vitamins_all.end() ) {
@@ -36,7 +36,7 @@ const vitamin &string_id<vitamin>::obj() const
     return found->second;
 }
 
-int vitamin::severity( int qty ) const
+auto vitamin::severity( int qty ) const -> int
 {
     for( int i = 0; i != static_cast<int>( disease_.size() ); ++i ) {
         if( ( qty >= disease_[ i ].first && qty <= disease_[ i ].second ) ||
@@ -95,7 +95,7 @@ void vitamin::load_vitamin( const JsonObject &jo )
     }
 }
 
-const std::map<vitamin_id, vitamin> &vitamin::all()
+auto vitamin::all() -> const std::map<vitamin_id, vitamin> &
 {
     return vitamins_all;
 }
@@ -127,7 +127,7 @@ void vitamin::reset()
 namespace io
 {
 template<>
-std::string enum_to_string<vitamin_type>( vitamin_type data )
+auto enum_to_string<vitamin_type>( vitamin_type data ) -> std::string
 {
     switch( data ) {
         case vitamin_type::VITAMIN:

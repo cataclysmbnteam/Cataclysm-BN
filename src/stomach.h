@@ -25,24 +25,24 @@ struct nutrients {
     void min_in_place( const nutrients &r );
     void max_in_place( const nutrients &r );
 
-    int get_vitamin( const vitamin_id & ) const;
+    auto get_vitamin( const vitamin_id & ) const -> int;
 
-    bool operator==( const nutrients &r ) const;
-    bool operator!=( const nutrients &r ) const {
+    auto operator==( const nutrients &r ) const -> bool;
+    auto operator!=( const nutrients &r ) const -> bool {
         return !( *this == r );
     }
 
-    nutrients &operator+=( const nutrients &r );
-    nutrients &operator-=( const nutrients &r );
-    nutrients &operator*=( int r );
-    nutrients &operator/=( int r );
+    auto operator+=( const nutrients &r ) -> nutrients &;
+    auto operator-=( const nutrients &r ) -> nutrients &;
+    auto operator*=( int r ) -> nutrients &;
+    auto operator/=( int r ) -> nutrients &;
 
-    friend nutrients operator*( nutrients l, int r ) {
+    friend auto operator*( nutrients l, int r ) -> nutrients {
         l *= r;
         return l;
     }
 
-    friend nutrients operator/( nutrients l, int r ) {
+    friend auto operator/( nutrients l, int r ) -> nutrients {
         l /= r;
         return l;
     }
@@ -82,19 +82,19 @@ class stomach_contents
          * @param metabolic_rates The metabolic rates of the owner of this stomach
          * @param five_mins Five-minute intervals passed since this method was last called
          */
-        food_summary digest( const needs_rates &metabolic_rates, int five_mins );
+        auto digest( const needs_rates &metabolic_rates, int five_mins ) -> food_summary;
 
         // Empties the stomach of all contents.
         void empty();
 
-        int get_calories() const;
+        auto get_calories() const -> int;
 
         // changes calorie amount
         void mod_calories( int calories );
 
         // how long has it been since i ate?
         // only really relevant for player::stomach
-        time_duration time_since_ate() const;
+        auto time_since_ate() const -> time_duration;
         // update last_ate to calendar::turn
         void ate();
 
@@ -109,7 +109,7 @@ class stomach_contents
         time_point last_ate;
 
         // Gets the rates at which this stomach will digest things.
-        stomach_digest_rates get_digest_rates( const needs_rates &metabolic_rates );
+        auto get_digest_rates( const needs_rates &metabolic_rates ) -> stomach_digest_rates;
 
 };
 

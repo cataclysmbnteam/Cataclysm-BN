@@ -37,13 +37,13 @@ class map_item_stack
         // through all older item groups for a match.
         void add_at_pos( const item *it, const tripoint &pos );
 
-        static bool map_item_stack_sort( const map_item_stack &lhs, const map_item_stack &rhs );
+        static auto map_item_stack_sort( const map_item_stack &lhs, const map_item_stack &rhs ) -> bool;
 };
 
-std::vector<map_item_stack> filter_item_stacks( const std::vector<map_item_stack> &stack,
-        const std::string &filter );
-int list_filter_high_priority( std::vector<map_item_stack> &stack, const std::string &priorities );
-int list_filter_low_priority( std::vector<map_item_stack> &stack, int start,
-                              const std::string &priorities );
+auto filter_item_stacks( const std::vector<map_item_stack> &stack,
+        const std::string &filter ) -> std::vector<map_item_stack>;
+auto list_filter_high_priority( std::vector<map_item_stack> &stack, const std::string &priorities ) -> int;
+auto list_filter_low_priority( std::vector<map_item_stack> &stack, int start,
+                              const std::string &priorities ) -> int;
 
 #endif // CATA_SRC_MAP_ITEM_STACK_H

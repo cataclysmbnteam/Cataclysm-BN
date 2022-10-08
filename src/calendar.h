@@ -60,7 +60,7 @@ namespace calendar
 /**
  * Predicate to handle rate-limiting. Returns `true` after every @p event_frequency duration.
  */
-bool once_every( const time_duration &event_frequency );
+auto once_every( const time_duration &event_frequency ) -> bool;
 
 /**
  * A number that represents the longest possible action.
@@ -82,14 +82,14 @@ extern const int INDEFINITELY_LONG;
 extern const time_duration INDEFINITELY_LONG_DURATION;
 
 /// @returns Whether the eternal season is enabled.
-bool eternal_season();
+auto eternal_season() -> bool;
 void set_eternal_season( bool is_eternal_season );
 
 /** @returns Time in a year, (configured in current world settings) */
-time_duration year_length();
+auto year_length() -> time_duration;
 
 /** @returns Time of a season (configured in current world settings) */
-time_duration season_length();
+auto season_length() -> time_duration;
 void set_season_length( int dur );
 
 /**
@@ -97,10 +97,10 @@ void set_season_length( int dur );
  * should be used to convert JSON values (that assume the default for the season length
  * option) to actual in-game length.
  */
-float season_ratio();
+auto season_ratio() -> float;
 
 /** Returns the translated name of the season (with first letter being uppercase). */
-std::string name_season( season_type s );
+auto name_season( season_type s ) -> std::string;
 
 const extern time_point &start_of_cataclysm;
 const extern time_point &start_of_game;
@@ -126,33 +126,33 @@ extern const time_point turn_zero;
 } // namespace calendar
 
 template<typename T>
-constexpr T to_turns( const time_duration &duration );
+constexpr auto to_turns( const time_duration &duration ) -> T;
 template<typename T>
-constexpr T to_seconds( const time_duration &duration );
+constexpr auto to_seconds( const time_duration &duration ) -> T;
 template<typename T>
-constexpr T to_minutes( const time_duration &duration );
+constexpr auto to_minutes( const time_duration &duration ) -> T;
 template<typename T>
-constexpr T to_hours( const time_duration &duration );
+constexpr auto to_hours( const time_duration &duration ) -> T;
 template<typename T>
-constexpr T to_days( const time_duration &duration );
+constexpr auto to_days( const time_duration &duration ) -> T;
 template<typename T>
-constexpr T to_weeks( const time_duration &duration );
+constexpr auto to_weeks( const time_duration &duration ) -> T;
 template<typename T>
-constexpr T to_moves( const time_duration &duration );
+constexpr auto to_moves( const time_duration &duration ) -> T;
 
 template<typename T>
-constexpr T to_turn( const time_point &point );
+constexpr auto to_turn( const time_point &point ) -> T;
 
 template<typename T>
-constexpr time_duration operator/( const time_duration &lhs, T rhs );
+constexpr auto operator/( const time_duration &lhs, T rhs ) -> time_duration;
 template<typename T>
-inline time_duration &operator/=( time_duration &lhs, T rhs );
+inline auto operator/=( time_duration &lhs, T rhs ) -> time_duration &;
 template<typename T>
-constexpr time_duration operator*( const time_duration &lhs, T rhs );
+constexpr auto operator*( const time_duration &lhs, T rhs ) -> time_duration;
 template<typename T>
-constexpr time_duration operator*( T lhs, const time_duration &rhs );
+constexpr auto operator*( T lhs, const time_duration &rhs ) -> time_duration;
 template<typename T>
-inline time_duration &operator*=( time_duration &lhs, T rhs );
+inline auto operator*=( time_duration &lhs, T rhs ) -> time_duration &;
 
 /**
  * A duration defined as a number of specific time units.
@@ -201,27 +201,27 @@ class time_duration
          */
         /**@{*/
         template<typename T>
-        static constexpr time_duration from_turns( const T t ) {
+        static constexpr auto from_turns( const T t ) -> time_duration {
             return time_duration( t );
         }
         template<typename T>
-        static constexpr time_duration from_seconds( const T t ) {
+        static constexpr auto from_seconds( const T t ) -> time_duration {
             return time_duration( t );
         }
         template<typename T>
-        static constexpr time_duration from_minutes( const T m ) {
+        static constexpr auto from_minutes( const T m ) -> time_duration {
             return from_turns( m * 60 );
         }
         template<typename T>
-        static constexpr time_duration from_hours( const T h ) {
+        static constexpr auto from_hours( const T h ) -> time_duration {
             return from_minutes( h * 60 );
         }
         template<typename T>
-        static constexpr time_duration from_days( const T d ) {
+        static constexpr auto from_days( const T d ) -> time_duration {
             return from_hours( d * 24 );
         }
         template<typename T>
-        static constexpr time_duration from_weeks( const T d ) {
+        static constexpr auto from_weeks( const T d ) -> time_duration {
             return from_days( d * 7 );
         }
         /**@}*/
@@ -238,132 +238,132 @@ class time_duration
          */
         /**@{*/
         template<typename T>
-        friend constexpr T to_turns( const time_duration &duration ) {
+        friend constexpr auto to_turns( const time_duration &duration ) -> T {
             return duration.turns_;
         }
         template<typename T>
-        friend constexpr T to_seconds( const time_duration &duration ) {
+        friend constexpr auto to_seconds( const time_duration &duration ) -> T {
             return duration.turns_;
         }
         template<typename T>
-        friend constexpr T to_minutes( const time_duration &duration ) {
+        friend constexpr auto to_minutes( const time_duration &duration ) -> T {
             return static_cast<T>( duration.turns_ ) / static_cast<T>( 60 );
         }
         template<typename T>
-        friend constexpr T to_hours( const time_duration &duration ) {
+        friend constexpr auto to_hours( const time_duration &duration ) -> T {
             return static_cast<T>( duration.turns_ ) / static_cast<T>( 60 * 60 );
         }
         template<typename T>
-        friend constexpr T to_days( const time_duration &duration ) {
+        friend constexpr auto to_days( const time_duration &duration ) -> T {
             return static_cast<T>( duration.turns_ ) / static_cast<T>( 60 * 60 * 24 );
         }
         template<typename T>
-        friend constexpr T to_weeks( const time_duration &duration ) {
+        friend constexpr auto to_weeks( const time_duration &duration ) -> T {
             return static_cast<T>( duration.turns_ ) / static_cast<T>( 60 * 60 * 24 * 7 );
         }
         template<typename T>
-        friend constexpr T to_moves( const time_duration &duration ) {
+        friend constexpr auto to_moves( const time_duration &duration ) -> T {
             return to_turns<int>( duration ) * 100;
         }
         /**@{*/
 
-        constexpr bool operator<( const time_duration &rhs ) const {
+        constexpr auto operator<( const time_duration &rhs ) const -> bool {
             return turns_ < rhs.turns_;
         }
-        constexpr bool operator<=( const time_duration &rhs ) const {
+        constexpr auto operator<=( const time_duration &rhs ) const -> bool {
             return turns_ <= rhs.turns_;
         }
-        constexpr bool operator>( const time_duration &rhs ) const {
+        constexpr auto operator>( const time_duration &rhs ) const -> bool {
             return turns_ > rhs.turns_;
         }
-        constexpr bool operator>=( const time_duration &rhs ) const {
+        constexpr auto operator>=( const time_duration &rhs ) const -> bool {
             return turns_ >= rhs.turns_;
         }
-        constexpr bool operator==( const time_duration &rhs ) const {
+        constexpr auto operator==( const time_duration &rhs ) const -> bool {
             return turns_ == rhs.turns_;
         }
-        constexpr bool operator!=( const time_duration &rhs ) const {
+        constexpr auto operator!=( const time_duration &rhs ) const -> bool {
             return turns_ != rhs.turns_;
         }
 
-        friend constexpr time_duration operator-( const time_duration &duration ) {
+        friend constexpr auto operator-( const time_duration &duration ) -> time_duration {
             return time_duration( -duration.turns_ );
         }
-        friend constexpr time_duration operator+( const time_duration &lhs, const time_duration &rhs ) {
+        friend constexpr auto operator+( const time_duration &lhs, const time_duration &rhs ) -> time_duration {
             return time_duration( lhs.turns_ + rhs.turns_ );
         }
-        friend time_duration &operator+=( time_duration &lhs, const time_duration &rhs ) {
+        friend auto operator+=( time_duration &lhs, const time_duration &rhs ) -> time_duration & {
             return lhs = time_duration( lhs.turns_ + rhs.turns_ );
         }
-        friend constexpr time_duration operator-( const time_duration &lhs, const time_duration &rhs ) {
+        friend constexpr auto operator-( const time_duration &lhs, const time_duration &rhs ) -> time_duration {
             return time_duration( lhs.turns_ - rhs.turns_ );
         }
-        friend time_duration &operator-=( time_duration &lhs, const time_duration &rhs ) {
+        friend auto operator-=( time_duration &lhs, const time_duration &rhs ) -> time_duration & {
             return lhs = time_duration( lhs.turns_ - rhs.turns_ );
         }
         // Using double here because it has the highest precision. Callers can cast it to whatever they want.
-        friend double operator/( const time_duration &lhs, const time_duration &rhs ) {
+        friend auto operator/( const time_duration &lhs, const time_duration &rhs ) -> double {
             return static_cast<double>( lhs.turns_ ) / static_cast<double>( rhs.turns_ );
         }
         template<typename T>
-        friend constexpr time_duration operator/( const time_duration &lhs, const T rhs ) {
+        friend constexpr auto operator/( const time_duration &lhs, const T rhs ) -> time_duration {
             return time_duration( lhs.turns_ / rhs );
         }
         template<typename T>
-        friend time_duration &operator/=( time_duration &lhs, const T rhs ) {
+        friend auto operator/=( time_duration &lhs, const T rhs ) -> time_duration & {
             return lhs = time_duration( lhs.turns_ / rhs );
         }
         template<typename T>
-        friend constexpr time_duration operator*( const time_duration &lhs, const T rhs ) {
+        friend constexpr auto operator*( const time_duration &lhs, const T rhs ) -> time_duration {
             return time_duration( lhs.turns_ * rhs );
         }
         template<typename T>
-        friend constexpr time_duration operator*( const T lhs, const time_duration &rhs ) {
+        friend constexpr auto operator*( const T lhs, const time_duration &rhs ) -> time_duration {
             return time_duration( lhs * rhs.turns_ );
         }
         template<typename T>
-        friend time_duration &operator*=( time_duration &lhs, const T rhs ) {
+        friend auto operator*=( time_duration &lhs, const T rhs ) -> time_duration & {
             return lhs = time_duration( lhs.turns_ * rhs );
         }
-        friend time_duration operator%( const time_duration &lhs, const time_duration &rhs ) {
+        friend auto operator%( const time_duration &lhs, const time_duration &rhs ) -> time_duration {
             return time_duration( lhs.turns_ % rhs.turns_ );
         }
 
         /// Returns a random duration in the range [low, hi].
-        friend time_duration rng( time_duration lo, time_duration hi );
+        friend auto rng( time_duration lo, time_duration hi ) -> time_duration;
 
         static const std::vector<std::pair<std::string, time_duration>> units;
 };
 
 /// @see x_in_y(int,int)
-bool x_in_y( const time_duration &a, const time_duration &b );
+auto x_in_y( const time_duration &a, const time_duration &b ) -> bool;
 
 /**
  * Convert the given number into an duration by calling the matching
  * `time_duration::from_*` function.
  */
 /**@{*/
-constexpr time_duration operator"" _turns( const unsigned long long int v )
+constexpr auto operator"" _turns( const unsigned long long int v ) -> time_duration
 {
     return time_duration::from_turns( v );
 }
-constexpr time_duration operator"" _seconds( const unsigned long long int v )
+constexpr auto operator"" _seconds( const unsigned long long int v ) -> time_duration
 {
     return time_duration::from_seconds( v );
 }
-constexpr time_duration operator"" _minutes( const unsigned long long int v )
+constexpr auto operator"" _minutes( const unsigned long long int v ) -> time_duration
 {
     return time_duration::from_minutes( v );
 }
-constexpr time_duration operator"" _hours( const unsigned long long int v )
+constexpr auto operator"" _hours( const unsigned long long int v ) -> time_duration
 {
     return time_duration::from_hours( v );
 }
-constexpr time_duration operator"" _days( const unsigned long long int v )
+constexpr auto operator"" _days( const unsigned long long int v ) -> time_duration
 {
     return time_duration::from_days( v );
 }
-constexpr time_duration operator"" _weeks( const unsigned long long int v )
+constexpr auto operator"" _weeks( const unsigned long long int v ) -> time_duration
 {
     return time_duration::from_weeks( v );
 }
@@ -376,7 +376,7 @@ constexpr time_duration operator"" _weeks( const unsigned long long int v )
  * (the second is clipped again and the number of additional minutes would be
  * 0 so it's skipped).
  */
-std::string to_string( const time_duration &d );
+auto to_string( const time_duration &d ) -> std::string;
 
 enum class clipped_align {
     none,
@@ -402,7 +402,7 @@ enum class clipped_unit {
  * given duration. E.g. an input of 60 minutes will return "1 hour", an input of
  * 59 minutes will return "59 minutes".
  */
-std::pair<int, clipped_unit> clipped_time( const time_duration &d );
+auto clipped_time( const time_duration &d ) -> std::pair<int, clipped_unit>;
 
 /**
  * Returns a string showing a duration as whole number of appropriate units, e.g.
@@ -411,12 +411,12 @@ std::pair<int, clipped_unit> clipped_time( const time_duration &d );
  * given duration. E.g. an input of 60 minutes will return "1 hour", an input of
  * 59 minutes will return "59 minutes".
  */
-std::string to_string_clipped( const time_duration &d, clipped_align align = clipped_align::none );
+auto to_string_clipped( const time_duration &d, clipped_align align = clipped_align::none ) -> std::string;
 /**
  * Returns approximate duration.
  * @param verbose If true, 'less than' and 'more than' will be printed instead of '<' and '>' respectively.
  */
-std::string to_string_approx( const time_duration &dur, bool verbose = true );
+auto to_string_approx( const time_duration &dur, bool verbose = true ) -> std::string;
 
 /**
  * A point in the game time. Use `calendar::turn` to get the current point.
@@ -440,7 +440,7 @@ class time_point
 
         // TODO: remove this, nobody should need it, one should use a constant `time_point`
         // (representing turn 0) and a `time_duration` instead.
-        static constexpr time_point from_turn( const int t ) {
+        static constexpr auto from_turn( const int t ) -> time_point {
             return time_point( t );
         }
 
@@ -449,76 +449,76 @@ class time_point
 
         // TODO: try to get rid of this
         template<typename T>
-        friend constexpr T to_turn( const time_point &point ) {
+        friend constexpr auto to_turn( const time_point &point ) -> T {
             return point.turn_;
         }
 
-        friend constexpr inline bool operator<( const time_point &lhs, const time_point &rhs ) {
+        friend constexpr inline auto operator<( const time_point &lhs, const time_point &rhs ) -> bool {
             return to_turn<int>( lhs ) < to_turn<int>( rhs );
         }
-        friend constexpr inline bool operator<=( const time_point &lhs, const time_point &rhs ) {
+        friend constexpr inline auto operator<=( const time_point &lhs, const time_point &rhs ) -> bool {
             return to_turn<int>( lhs ) <= to_turn<int>( rhs );
         }
-        friend constexpr inline bool operator>( const time_point &lhs, const time_point &rhs ) {
+        friend constexpr inline auto operator>( const time_point &lhs, const time_point &rhs ) -> bool {
             return to_turn<int>( lhs ) > to_turn<int>( rhs );
         }
-        friend constexpr inline bool operator>=( const time_point &lhs, const time_point &rhs ) {
+        friend constexpr inline auto operator>=( const time_point &lhs, const time_point &rhs ) -> bool {
             return to_turn<int>( lhs ) >= to_turn<int>( rhs );
         }
-        friend constexpr inline bool operator==( const time_point &lhs, const time_point &rhs ) {
+        friend constexpr inline auto operator==( const time_point &lhs, const time_point &rhs ) -> bool {
             return to_turn<int>( lhs ) == to_turn<int>( rhs );
         }
-        friend constexpr inline bool operator!=( const time_point &lhs, const time_point &rhs ) {
+        friend constexpr inline auto operator!=( const time_point &lhs, const time_point &rhs ) -> bool {
             return to_turn<int>( lhs ) != to_turn<int>( rhs );
         }
 
-        friend constexpr inline time_duration operator-(
-            const time_point &lhs, const time_point &rhs ) {
+        friend constexpr inline auto operator-(
+            const time_point &lhs, const time_point &rhs ) -> time_duration {
             return time_duration::from_turns( to_turn<int>( lhs ) - to_turn<int>( rhs ) );
         }
-        friend constexpr inline time_point operator+(
-            const time_point &lhs, const time_duration &rhs ) {
+        friend constexpr inline auto operator+(
+            const time_point &lhs, const time_duration &rhs ) -> time_point {
             return time_point::from_turn( to_turn<int>( lhs ) + to_turns<int>( rhs ) );
         }
-        friend time_point inline &operator+=( time_point &lhs, const time_duration &rhs ) {
+        friend inline auto operator+=( time_point &lhs, const time_duration &rhs ) -> time_point & {
             return lhs = time_point::from_turn( to_turn<int>( lhs ) + to_turns<int>( rhs ) );
         }
-        friend constexpr inline time_point operator-(
-            const time_point &lhs, const time_duration &rhs ) {
+        friend constexpr inline auto operator-(
+            const time_point &lhs, const time_duration &rhs ) -> time_point {
             return time_point::from_turn( to_turn<int>( lhs ) - to_turns<int>( rhs ) );
         }
-        friend time_point inline &operator-=( time_point &lhs, const time_duration &rhs ) {
+        friend inline auto operator-=( time_point &lhs, const time_duration &rhs ) -> time_point & {
             return lhs = time_point::from_turn( to_turn<int>( lhs ) - to_turns<int>( rhs ) );
         }
 
         // TODO: implement minutes_of_hour and so on and use it.
 };
 
-inline time_duration time_past_midnight( const time_point &p )
+inline auto time_past_midnight( const time_point &p ) -> time_duration
 {
     return ( p - calendar::turn_zero ) % 1_days;
 }
 
-inline time_duration time_past_new_year( const time_point &p )
+inline auto time_past_new_year( const time_point &p ) -> time_duration
 {
     return ( p - calendar::turn_zero ) % calendar::year_length();
 }
 
 template<typename T>
-inline T minute_of_hour( const time_point &p )
+inline auto minute_of_hour( const time_point &p ) -> T
 {
     return to_minutes<T>( ( p - calendar::turn_zero ) % 1_hours );
 }
 
 template<typename T>
-inline T hour_of_day( const time_point &p )
+inline auto hour_of_day( const time_point &p ) -> T
 {
     return to_hours<T>( ( p - calendar::turn_zero ) % 1_days );
 }
 
 /// This uses the current season length.
 template<typename T>
-inline T day_of_season( const time_point &p )
+inline auto day_of_season( const time_point &p ) -> T
 {
     return to_days<T>( ( p - calendar::turn_zero ) % calendar::season_length() );
 }
@@ -539,7 +539,7 @@ class calendar_config
         friend class game;
         friend void calendar::set_calendar_config( const calendar_config & );
 
-        calendar_config &operator=( const calendar_config & ) = default;
+        auto operator=( const calendar_config & ) -> calendar_config & = default;
 
     public:
         calendar_config( time_point start_of_cataclysm,
@@ -554,19 +554,19 @@ class calendar_config
         calendar_config( const calendar_config & ) = default;
 
         // TODO: Remove reference bit after testing!
-        const time_point &start_of_cataclysm() const {
+        auto start_of_cataclysm() const -> const time_point & {
             return _start_of_cataclysm;
         }
-        const time_point &start_of_game() const {
+        auto start_of_game() const -> const time_point & {
             return _start_of_game;
         }
-        const season_type &initial_season() const {
+        auto initial_season() const -> const season_type & {
             return _initial_season;
         }
-        bool eternal_season() const {
+        auto eternal_season() const -> bool {
             return _eternal_season;
         }
-        time_duration season_length() const {
+        auto season_length() const -> time_duration {
             // TODO: Store it in calendar config once the rest of the game looks at config properly
             return calendar::season_length();
         }
@@ -574,38 +574,38 @@ class calendar_config
 
 /// @returns The season of the of the given time point. Returns the same season for
 /// any input if the calendar::eternal_season yields true.
-season_type season_of_year( const time_point &p );
+auto season_of_year( const time_point &p ) -> season_type;
 /// @returns The time point formatted to be shown to the player. Contains year, season, day and time of day.
-std::string to_string( const time_point &p );
+auto to_string( const time_point &p ) -> std::string;
 /// @returns The time point formatted to be shown to the player. Contains only the time of day, not the year, day or season.
-std::string to_string_time_of_day( const time_point &p );
+auto to_string_time_of_day( const time_point &p ) -> std::string;
 /** Returns the current light level of the moon. */
-moon_phase get_moon_phase( const time_point &p );
+auto get_moon_phase( const time_point &p ) -> moon_phase;
 /** Returns the current sunrise time based on the time of year. */
-time_point sunrise( const time_point &p );
+auto sunrise( const time_point &p ) -> time_point;
 /** Returns the current sunset time based on the time of year. */
-time_point sunset( const time_point &p );
+auto sunset( const time_point &p ) -> time_point;
 /** Returns the time it gets light based on sunrise */
-time_point daylight_time( const time_point &p );
+auto daylight_time( const time_point &p ) -> time_point;
 /** Returns the time it gets dark based on sunset */
-time_point night_time( const time_point &p );
+auto night_time( const time_point &p ) -> time_point;
 /** Returns true if it's currently night time - after dusk and before dawn. */
-bool is_night( const time_point &p );
+auto is_night( const time_point &p ) -> bool;
 /** Returns true if it's currently day time - after dawn and before dusk. */
-bool is_day( const time_point &p );
+auto is_day( const time_point &p ) -> bool;
 /** Returns true if it's currently dusk - between sunset and and twilight_duration after sunset. */
-bool is_dusk( const time_point &p );
+auto is_dusk( const time_point &p ) -> bool;
 /** Returns true if it's currently dawn - between sunrise and twilight_duration after sunrise. */
-bool is_dawn( const time_point &p );
+auto is_dawn( const time_point &p ) -> bool;
 /** Returns the current seasonally-adjusted maximum daylight level */
-double current_daylight_level( const time_point &p );
+auto current_daylight_level( const time_point &p ) -> double;
 /** How much light is provided in full daylight */
-double default_daylight_level();
+auto default_daylight_level() -> double;
 /** Returns the current sunlight or moonlight level through the preceding functions.
  *  By default, returns sunlight level for vision, with moonlight providing a measurable amount
  *  of light.  with vision == false, returns sunlight for solar panel purposes, and moonlight
  *  provides 0 light */
-float sunlight( const time_point &p, bool vision = true );
+auto sunlight( const time_point &p, bool vision = true ) -> float;
 
 enum class weekdays : int {
     SUNDAY = 0,
@@ -617,6 +617,6 @@ enum class weekdays : int {
     SATURDAY,
 };
 
-weekdays day_of_week( const time_point &p );
+auto day_of_week( const time_point &p ) -> weekdays;
 
 #endif // CATA_SRC_CALENDAR_H

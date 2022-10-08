@@ -11,14 +11,14 @@
 namespace behavior
 {
 
-status_t return_running( const oracle_t * )
+auto return_running( const oracle_t * ) -> status_t
 {
     return running;
 }
 
 // Just a little helper to make populating predicate_map slightly less gross.
-static std::function < status_t( const oracle_t * ) >
-make_function( status_t ( character_oracle_t::* fun )() const )
+static auto
+make_function( status_t ( character_oracle_t::* fun )() const ) -> std::function < status_t( const oracle_t * ) >
 {
     return static_cast<status_t ( oracle_t::* )() const>( fun );
 }

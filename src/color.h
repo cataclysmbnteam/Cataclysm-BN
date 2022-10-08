@@ -359,19 +359,19 @@ class nc_color
         // Most of the functions here are implemented in ncurses_def.cpp
         // (for ncurses builds) *and* in cursesport.cpp (for other builds).
 
-        static nc_color from_color_pair_index( int index );
-        int to_color_pair_index() const;
+        static auto from_color_pair_index( int index ) -> nc_color;
+        auto to_color_pair_index() const -> int;
 
         operator int() const {
             return attribute_value;
         }
 
         // Returns this attribute plus A_BOLD.
-        nc_color bold() const;
-        bool is_bold() const;
+        auto bold() const -> nc_color;
+        auto is_bold() const -> bool;
         // Returns this attribute plus A_BLINK.
-        nc_color blink() const;
-        bool is_blink() const;
+        auto blink() const -> nc_color;
+        auto is_blink() const -> bool;
 
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );
@@ -382,7 +382,7 @@ namespace std
 {
 template<>
 struct hash<nc_color> {
-    std::size_t operator()( const nc_color &v ) const noexcept {
+    auto operator()( const nc_color &v ) const noexcept -> std::size_t {
         return hash<int>()( v.operator int() );
     }
 };
@@ -419,28 +419,28 @@ class color_manager
         std::unordered_map<nc_color, color_id> inverted_map;
         std::unordered_map<std::string, color_id> name_map;
 
-        bool save_custom();
+        auto save_custom() -> bool;
 
     public:
         color_manager() = default;
 
-        nc_color get( color_id id ) const;
+        auto get( color_id id ) const -> nc_color;
 
-        nc_color get_invert( const nc_color &color ) const;
-        nc_color get_highlight( const nc_color &color, hl_enum bg ) const;
-        nc_color get_random() const;
+        auto get_invert( const nc_color &color ) const -> nc_color;
+        auto get_highlight( const nc_color &color, hl_enum bg ) const -> nc_color;
+        auto get_random() const -> nc_color;
 
-        color_id color_to_id( const nc_color &color ) const;
-        color_id name_to_id( const std::string &name,
-                             report_color_error color_error = report_color_error::yes ) const;
+        auto color_to_id( const nc_color &color ) const -> color_id;
+        auto name_to_id( const std::string &name,
+                             report_color_error color_error = report_color_error::yes ) const -> color_id;
 
-        std::string get_name( const nc_color &color ) const;
-        std::string id_to_name( color_id id ) const;
+        auto get_name( const nc_color &color ) const -> std::string;
+        auto id_to_name( color_id id ) const -> std::string;
 
-        nc_color name_to_color( const std::string &name,
-                                report_color_error color_error = report_color_error::yes ) const;
+        auto name_to_color( const std::string &name,
+                                report_color_error color_error = report_color_error::yes ) const -> nc_color;
 
-        nc_color highlight_from_names( const std::string &name, const std::string &bg_name ) const;
+        auto highlight_from_names( const std::string &name, const std::string &bg_name ) const -> nc_color;
 
         void load_default();
         void load_custom( const std::string &sPath = "" );
@@ -451,7 +451,7 @@ class color_manager
         void deserialize( JsonIn &jsin );
 };
 
-color_manager &get_all_colors();
+auto get_all_colors() -> color_manager &;
 
 /**
  * For color values that are created *before* the color definitions are loaded
@@ -489,27 +489,27 @@ struct color_tag_parse_result {
 
 extern std::unordered_map<std::string, note_color> color_by_string_map;
 
-nc_color hilite( const nc_color &c );
-nc_color invert_color( const nc_color &c );
-nc_color red_background( const nc_color &c );
-nc_color white_background( const nc_color &c );
-nc_color green_background( const nc_color &c );
-nc_color yellow_background( const nc_color &c );
-nc_color magenta_background( const nc_color &c );
-nc_color cyan_background( const nc_color &c );
+auto hilite( const nc_color &c ) -> nc_color;
+auto invert_color( const nc_color &c ) -> nc_color;
+auto red_background( const nc_color &c ) -> nc_color;
+auto white_background( const nc_color &c ) -> nc_color;
+auto green_background( const nc_color &c ) -> nc_color;
+auto yellow_background( const nc_color &c ) -> nc_color;
+auto magenta_background( const nc_color &c ) -> nc_color;
+auto cyan_background( const nc_color &c ) -> nc_color;
 
-nc_color color_from_string( const std::string &color,
-                            report_color_error color_error = report_color_error::yes );
-std::string string_from_color( const nc_color &color );
-nc_color bgcolor_from_string( const std::string &color );
-color_tag_parse_result get_color_from_tag( const std::string &s,
-        report_color_error color_error = report_color_error::yes );
-std::string get_tag_from_color( const nc_color &color );
-std::string colorize( const std::string &text, const nc_color &color );
-std::string colorize( const translation &text, const nc_color &color );
+auto color_from_string( const std::string &color,
+                            report_color_error color_error = report_color_error::yes ) -> nc_color;
+auto string_from_color( const nc_color &color ) -> std::string;
+auto bgcolor_from_string( const std::string &color ) -> nc_color;
+auto get_color_from_tag( const std::string &s,
+        report_color_error color_error = report_color_error::yes ) -> color_tag_parse_result;
+auto get_tag_from_color( const nc_color &color ) -> std::string;
+auto colorize( const std::string &text, const nc_color &color ) -> std::string;
+auto colorize( const translation &text, const nc_color &color ) -> std::string;
 
-std::string get_note_string_from_color( const nc_color &color );
-nc_color get_note_color( const std::string &note_id );
-std::list<std::pair<std::string, std::string>> get_note_color_names();
+auto get_note_string_from_color( const nc_color &color ) -> std::string;
+auto get_note_color( const std::string &note_id ) -> nc_color;
+auto get_note_color_names() -> std::list<std::pair<std::string, std::string>>;
 
 #endif // CATA_SRC_COLOR_H

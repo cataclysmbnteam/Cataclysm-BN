@@ -15,7 +15,7 @@
  */
 struct pair_greater_cmp_first {
     template< class T, class U >
-    bool operator()( const std::pair<T, U> &a, const std::pair<T, U> &b ) const {
+    auto operator()( const std::pair<T, U> &a, const std::pair<T, U> &b ) const -> bool {
         return a.first > b.first;
     }
 
@@ -35,7 +35,7 @@ struct null_deleter {
  *
  * Optimized floor function, similar to std::floor but faster.
  */
-inline int fast_floor( double v )
+inline auto fast_floor( double v ) -> int
 {
     return static_cast<int>( v ) - ( v < static_cast<int>( v ) );
 }
@@ -47,14 +47,14 @@ inline int fast_floor( double v )
  * @param dp Decimal place to round the value at.
  * @return Rounded value.
  */
-double round_up( double val, unsigned int dp );
+auto round_up( double val, unsigned int dp ) -> double;
 
 /** Divide @p num by @p den, rounding up
 *
 * @p num must be non-negative, @p den must be positive, and @c num+den must not overflow.
 */
 template<typename T, typename std::enable_if<std::is_integral<T>::value, int>::type = 0>
-T divide_round_up( T num, T den )
+auto divide_round_up( T num, T den ) -> T
 {
     return ( num + den - 1 ) / den;
 }
@@ -69,7 +69,7 @@ T divide_round_up( T num, T den )
  * @return True if test value is greater than lower boundary and less than upper
  *         boundary, otherwise returns false.
  */
-bool isBetween( int test, int down, int up );
+auto isBetween( int test, int down, int up ) -> bool;
 
 /**
  * Basic logistic function.
@@ -80,7 +80,7 @@ bool isBetween( int test, int down, int up );
  *
  * @return Value of the logistic curve at the given point
  */
-double logarithmic( double t );
+auto logarithmic( double t ) -> double;
 
 /**
  * Normalized logistic function
@@ -94,7 +94,7 @@ double logarithmic( double t );
  *
  * @return The value of the scaled logistic curve at point pos.
  */
-double logarithmic_range( int min, int max, int pos );
+auto logarithmic_range( int min, int max, int pos ) -> double;
 
 /**
  * Cumulative distribution function of a certain normal distribution.
@@ -105,7 +105,7 @@ double logarithmic_range( int min, int max, int pos );
  *
  * @return The probability that a random point from the distribution will be lesser than @param x
  */
-double normal_cdf( double x, double mean, double stddev );
+auto normal_cdf( double x, double mean, double stddev ) -> double;
 
 /**
  * Clamp the value of a modifier in order to bound the resulting value
@@ -124,7 +124,7 @@ double normal_cdf( double x, double mean, double stddev );
  *
  * @returns Value of mod, possibly altered to respect the min and max boundaries
  */
-int bound_mod_to_vals( int val, int mod, int max, int min );
+auto bound_mod_to_vals( int val, int mod, int max, int min ) -> int;
 
 /**
  * Clamp (number and space wise) value to with,
@@ -133,8 +133,8 @@ int bound_mod_to_vals( int val, int mod, int max, int min );
  * optionally returning a flag that indicate if the value was truncated to fit the width
  */
 /**@{*/
-double clamp_to_width( double value, int width, int &scale );
-double clamp_to_width( double value, int width, int &scale, bool *out_truncated );
+auto clamp_to_width( double value, int width, int &scale ) -> double;
+auto clamp_to_width( double value, int width, int &scale, bool *out_truncated ) -> double;
 /**@}*/
 
 /**
@@ -142,7 +142,7 @@ double clamp_to_width( double value, int width, int &scale, bool *out_truncated 
  * Does not check if min is lower than max.
  */
 template<typename T>
-constexpr T clamp( const T &val, const T &min, const T &max )
+constexpr auto clamp( const T &val, const T &min, const T &max ) -> T
 {
     return std::max( min, std::min( max, val ) );
 }
@@ -152,14 +152,14 @@ constexpr T clamp( const T &val, const T &min, const T &max )
  * Does not clamp t, meaning it can return values lower than min (if t<0) or higher than max (if t>1).
  */
 template<typename T>
-constexpr T lerp( const T &min, const T &max, float t )
+constexpr auto lerp( const T &min, const T &max, float t ) -> T
 {
     return ( 1.0f - t ) * min + t * max;
 }
 
 /** Linear interpolation with t clamped to [0, 1] */
 template<typename T>
-constexpr T lerp_clamped( const T &min, const T &max, float t )
+constexpr auto lerp_clamped( const T &min, const T &max, float t ) -> T
 {
     return lerp( min, max, clamp( t, 0.0f, 1.0f ) );
 }
@@ -170,7 +170,7 @@ constexpr T lerp_clamped( const T &min, const T &max, float t )
  * `points` should be sorted by first elements of the pairs.
  * If x is outside range, returns second value of the first (if x < points[0].first) or last point.
  */
-float multi_lerp( const std::vector<std::pair<float, float>> &points, float x );
+auto multi_lerp( const std::vector<std::pair<float, float>> &points, float x ) -> float;
 
 /**
  * @brief Class used to access a list as if it were circular.
@@ -201,7 +201,7 @@ class list_circularizer
         }
 
         /** Return list element at the current location */
-        T &cur() const {
+        auto cur() const -> T & {
             // list could be null, but it would be a design time mistake and really, the callers fault.
             return ( *_list )[_index];
         }
@@ -221,7 +221,7 @@ class list_circularizer
  *
  */
 
-std::string obscure_message( const std::string &str, std::function<char()> f );
+auto obscure_message( const std::string &str, std::function<char()> f ) -> std::string;
 
 /**
  * Erases elements from a set that match given predicate function.
@@ -230,7 +230,7 @@ std::string obscure_message( const std::string &str, std::function<char()> f );
  */
 //bool erase_if( const std::function<bool( const value_type & )> &predicate ) {
 template<typename Col, class Pred>
-bool erase_if( Col &set, Pred predicate )
+auto erase_if( Col &set, Pred predicate ) -> bool
 {
     bool ret = false;
     auto iter = set.begin();
@@ -245,7 +245,7 @@ bool erase_if( Col &set, Pred predicate )
     return ret;
 }
 
-int modulo( int v, int m );
+auto modulo( int v, int m ) -> int;
 
 class on_out_of_scope
 {

@@ -106,10 +106,10 @@ static const std::string flag_VARSIZE( "VARSIZE" );
 
 class basecamp;
 
-static std::pair<bench_type, float> best_bench_here( const item &craft, const tripoint &loc,
-        bool can_lift );
+static auto best_bench_here( const item &craft, const tripoint &loc,
+        bool can_lift ) -> std::pair<bench_type, float>;
 
-static bool crafting_allowed( const Character &who, const recipe &rec )
+static auto crafting_allowed( const Character &who, const recipe &rec ) -> bool
 {
     if( morale_crafting_speed_multiplier( who, rec ) <= 0.0f ) {
         add_msg( m_info, _( "Your morale is too low to craft such a difficult thing…" ) );
@@ -128,7 +128,7 @@ static bool crafting_allowed( const Character &who, const recipe &rec )
     return true;
 }
 
-float lighting_crafting_speed_multiplier( const Character &who, const recipe &rec )
+auto lighting_crafting_speed_multiplier( const Character &who, const recipe &rec ) -> float
 {
     if( character_funcs::can_see_fine_details( who ) ) {
         return 1.0f;
@@ -160,7 +160,7 @@ float lighting_crafting_speed_multiplier( const Character &who, const recipe &re
     }
 }
 
-float morale_crafting_speed_multiplier( const Character &who, const recipe &rec )
+auto morale_crafting_speed_multiplier( const Character &who, const recipe &rec ) -> float
 {
     int morale = who.get_morale_level();
     if( morale >= 0 ) {
@@ -183,7 +183,7 @@ float morale_crafting_speed_multiplier( const Character &who, const recipe &rec 
 }
 
 template<typename T>
-static float lerped_multiplier( const T &value, const T &low, const T &high )
+static auto lerped_multiplier( const T &value, const T &low, const T &high ) -> float
 {
     // No effect if less than allowed value
     if( value < low ) {
@@ -198,7 +198,7 @@ static float lerped_multiplier( const T &value, const T &low, const T &high )
     return 1.0f + ( value - low ) * ( 0.25f - 1.0f ) / ( high - low );
 }
 
-float workbench_crafting_speed_multiplier( const item &craft, const bench_location &bench )
+auto workbench_crafting_speed_multiplier( const item &craft, const bench_location &bench ) -> float
 {
     float multiplier = 0.0f;
     units::mass allowed_mass;
@@ -263,7 +263,7 @@ float workbench_crafting_speed_multiplier( const item &craft, const bench_locati
     return multiplier;
 }
 
-float crafting_speed_multiplier( const Character &who, const recipe &rec, bool in_progress )
+auto crafting_speed_multiplier( const Character &who, const recipe &rec, bool in_progress ) -> float
 {
     const float result = morale_crafting_speed_multiplier( who, rec ) *
                          lighting_crafting_speed_multiplier( who, rec );
@@ -279,8 +279,8 @@ float crafting_speed_multiplier( const Character &who, const recipe &rec, bool i
     return result;
 }
 
-float crafting_speed_multiplier( const Character &who, const item &craft,
-                                 const bench_location &bench )
+auto crafting_speed_multiplier( const Character &who, const item &craft,
+                                 const bench_location &bench ) -> float
 {
     if( !craft.is_craft() ) {
         debugmsg( "Can't calculate crafting speed multiplier of non-craft '%s'", craft.tname() );
@@ -332,7 +332,7 @@ float crafting_speed_multiplier( const Character &who, const item &craft,
     return total_multi;
 }
 
-bool Character::has_morale_to_craft() const
+auto Character::has_morale_to_craft() const -> bool
 {
     return get_morale_level() >= -50;
 }
@@ -368,7 +368,7 @@ void player::long_craft( const tripoint &loc )
     }
 }
 
-bool player::making_would_work( const recipe_id &id_to_make, int batch_size )
+auto player::making_would_work( const recipe_id &id_to_make, int batch_size ) -> bool
 {
     const auto &making = *id_to_make;
     if( !( making && crafting_allowed( *this, making ) ) ) {
@@ -386,7 +386,7 @@ bool player::making_would_work( const recipe_id &id_to_make, int batch_size )
     return check_eligible_containers_for_crafting( making, batch_size );
 }
 
-int player::available_assistant_count( const recipe &rec ) const
+auto player::available_assistant_count( const recipe &rec ) const -> int
 {
     // NPCs around you should assist in batch production if they have the skills
     // TODO: Cache them in activity, include them in modifier calculations
@@ -397,20 +397,20 @@ int player::available_assistant_count( const recipe &rec ) const
     } );
 }
 
-int player::base_time_to_craft( const recipe &rec, int batch_size ) const
+auto player::base_time_to_craft( const recipe &rec, int batch_size ) const -> int
 {
     const size_t assistants = available_assistant_count( rec );
     return rec.batch_time( batch_size, 1.0f, assistants );
 }
 
-int player::expected_time_to_craft( const recipe &rec, int batch_size, bool in_progress ) const
+auto player::expected_time_to_craft( const recipe &rec, int batch_size, bool in_progress ) const -> int
 {
     const size_t assistants = available_assistant_count( rec );
     float modifier = crafting_speed_multiplier( *this, rec, in_progress );
     return rec.batch_time( batch_size, modifier, assistants );
 }
 
-bool player::check_eligible_containers_for_crafting( const recipe &rec, int batch_size ) const
+auto player::check_eligible_containers_for_crafting( const recipe &rec, int batch_size ) const -> bool
 {
     std::vector<const item *> conts = get_eligible_containers_for_crafting();
     const std::vector<item> res = rec.create_results( batch_size );
@@ -470,7 +470,7 @@ bool player::check_eligible_containers_for_crafting( const recipe &rec, int batc
     return true;
 }
 
-static bool is_container_eligible_for_crafting( const item &cont, bool allow_bucket )
+static auto is_container_eligible_for_crafting( const item &cont, bool allow_bucket ) -> bool
 {
     if( cont.is_watertight_container() || ( allow_bucket && cont.is_bucket() ) ) {
         return !cont.is_container_full( allow_bucket );
@@ -479,7 +479,7 @@ static bool is_container_eligible_for_crafting( const item &cont, bool allow_buc
     return false;
 }
 
-std::vector<const item *> player::get_eligible_containers_for_crafting() const
+auto player::get_eligible_containers_for_crafting() const -> std::vector<const item *>
 {
     std::vector<const item *> conts;
 
@@ -527,7 +527,7 @@ std::vector<const item *> player::get_eligible_containers_for_crafting() const
     return conts;
 }
 
-bool player::can_make( const recipe *r, int batch_size )
+auto player::can_make( const recipe *r, int batch_size ) -> bool
 {
     const inventory &crafting_inv = crafting_inventory();
 
@@ -539,7 +539,7 @@ bool player::can_make( const recipe *r, int batch_size )
                crafting_inv, r->get_component_filter(), batch_size );
 }
 
-bool player::can_start_craft( const recipe *rec, recipe_filter_flags flags, int batch_size )
+auto player::can_start_craft( const recipe *rec, recipe_filter_flags flags, int batch_size ) -> bool
 {
     if( !rec ) {
         return false;
@@ -550,13 +550,13 @@ bool player::can_start_craft( const recipe *rec, recipe_filter_flags flags, int 
                inv, rec->get_component_filter( flags ), batch_size, cost_adjustment::start_only );
 }
 
-const inventory &Character::crafting_inventory( bool clear_path )
+auto Character::crafting_inventory( bool clear_path ) -> const inventory &
 {
     return crafting_inventory( tripoint_zero, PICKUP_RANGE, clear_path );
 }
 
-const inventory &Character::crafting_inventory( const tripoint &src_pos, int radius,
-        bool clear_path )
+auto Character::crafting_inventory( const tripoint &src_pos, int radius,
+        bool clear_path ) -> const inventory &
 {
     tripoint inv_pos = src_pos;
     if( src_pos == tripoint_zero ) {
@@ -651,7 +651,7 @@ static void set_components( std::list<item> &components, const std::list<item> &
  * Helper for @ref set_item_map_or_vehicle
  * This is needed to still get a vaild item_location if overflow occurs
  */
-static item_location set_item_map( const tripoint &loc, item &newit )
+static auto set_item_map( const tripoint &loc, item &newit ) -> item_location
 {
     // Includes loc
     for( const tripoint &tile : closest_points_first( loc, 2 ) ) {
@@ -668,7 +668,7 @@ static item_location set_item_map( const tripoint &loc, item &newit )
 /**
  * Set an item on the map or in a vehicle and return the new location
  */
-static item_location set_item_map_or_vehicle( const player &p, const tripoint &loc, item &newit )
+static auto set_item_map_or_vehicle( const player &p, const tripoint &loc, item &newit ) -> item_location
 {
     map &here = get_map();
     if( const cata::optional<vpart_reference> vp = here.veh_at( loc ).part_with_feature( "CARGO",
@@ -709,7 +709,7 @@ static item_location set_item_map_or_vehicle( const player &p, const tripoint &l
     }
 }
 
-static item_location set_item_inventory( player &p, item &newit )
+static auto set_item_inventory( player &p, item &newit ) -> item_location
 {
     p.inv.assign_empty_invlet( newit, p );
     // We might not have space for the item
@@ -724,7 +724,7 @@ static item_location set_item_inventory( player &p, item &newit )
     return set_item_map_or_vehicle( p, p.pos(), newit );
 }
 
-item_location player::start_craft( craft_command &command, const tripoint & )
+auto player::start_craft( craft_command &command, const tripoint & ) -> item_location
 {
     if( command.empty() ) {
         debugmsg( "Attempted to start craft with empty command" );
@@ -814,7 +814,7 @@ void player::craft_skill_gain( const item &craft, const int &multiplier )
     }
 }
 
-double player::crafting_success_roll( const recipe &making ) const
+auto player::crafting_success_roll( const recipe &making ) const -> double
 {
     int secondary_dice = 0;
     int secondary_difficulty = 0;
@@ -889,7 +889,7 @@ double player::crafting_success_roll( const recipe &making ) const
     return skill_roll / diff_roll;
 }
 
-int item::get_next_failure_point() const
+auto item::get_next_failure_point() const -> int
 {
     if( !is_craft() ) {
         debugmsg( "get_next_failure_point() called on non-craft '%s.'  Aborting.", tname() );
@@ -924,7 +924,7 @@ static void destroy_random_component( item &craft, const player &crafter )
                                    _( "<npcname> messes up and destroys the %s" ), destroyed.tname() );
 }
 
-bool item::handle_craft_failure( player &crafter )
+auto item::handle_craft_failure( player &crafter ) -> bool
 {
     if( !is_craft() ) {
         debugmsg( "handle_craft_failure() called on non-craft '%s.'  Aborting.", tname() );
@@ -969,7 +969,7 @@ bool item::handle_craft_failure( player &crafter )
     return false;
 }
 
-requirement_data item::get_continue_reqs() const
+auto item::get_continue_reqs() const -> requirement_data
 {
     if( !is_craft() ) {
         debugmsg( "get_continue_reqs() called on non-craft '%s.'  Aborting.", tname() );
@@ -1153,7 +1153,7 @@ void complete_craft( player &p, item &craft, const bench_location & )
     p.inv.restack( p );
 }
 
-bool player::can_continue_craft( item &craft )
+auto player::can_continue_craft( item &craft ) -> bool
 {
     if( !craft.is_craft() ) {
         debugmsg( "complete_craft() called on non-craft '%s.'  Aborting.", craft.tname() );
@@ -1272,9 +1272,9 @@ bool player::can_continue_craft( item &craft )
 
     return true;
 }
-const requirement_data *player::select_requirements(
+auto player::select_requirements(
     const std::vector<const requirement_data *> &alternatives, int batch, const inventory &inv,
-    const std::function<bool( const item & )> &filter ) const
+    const std::function<bool( const item & )> &filter ) const -> const requirement_data *
 {
     assert( !alternatives.empty() );
     if( alternatives.size() == 1 || !is_avatar() ) {
@@ -1305,9 +1305,9 @@ const requirement_data *player::select_requirements(
 }
 
 /* selection of component if a recipe requirement has multiple options (e.g. 'duct tap' or 'welder') */
-comp_selection<item_comp> player::select_item_component( const std::vector<item_comp> &components,
+auto player::select_item_component( const std::vector<item_comp> &components,
         int batch, inventory &map_inv, bool can_cancel,
-        const std::function<bool( const item & )> &filter, bool player_inv )
+        const std::function<bool( const item & )> &filter, bool player_inv ) -> comp_selection<item_comp>
 {
     std::vector<item_comp> player_has;
     std::vector<item_comp> map_has;
@@ -1504,15 +1504,15 @@ static void empty_buckets( player &p )
     }
 }
 
-std::list<item> player::consume_items( const comp_selection<item_comp> &is, int batch,
-                                       const std::function<bool( const item & )> &filter )
+auto player::consume_items( const comp_selection<item_comp> &is, int batch,
+                                       const std::function<bool( const item & )> &filter ) -> std::list<item>
 {
     return consume_items( get_map(), is, batch, filter, pos(), PICKUP_RANGE );
 }
 
-std::list<item> player::consume_items( map &m, const comp_selection<item_comp> &is, int batch,
+auto player::consume_items( map &m, const comp_selection<item_comp> &is, int batch,
                                        const std::function<bool( const item & )> &filter,
-                                       const tripoint &origin, int radius )
+                                       const tripoint &origin, int radius ) -> std::list<item>
 {
     std::list<item> ret;
 
@@ -1565,8 +1565,8 @@ std::list<item> player::consume_items( map &m, const comp_selection<item_comp> &
 /* This call is in-efficient when doing it for multiple items with the same map inventory.
 In that case, consider using select_item_component with 1 pre-created map inventory, and then passing the results
 to consume_items */
-std::list<item> player::consume_items( const std::vector<item_comp> &components, int batch,
-                                       const std::function<bool( const item & )> &filter )
+auto player::consume_items( const std::vector<item_comp> &components, int batch,
+                                       const std::function<bool( const item & )> &filter ) -> std::list<item>
 {
     inventory map_inv;
     map_inv.form_from_map( pos(), PICKUP_RANGE, this );
@@ -1579,7 +1579,7 @@ struct avail_tool_comp {
         : comp( comp ), charges( charges ), ideal( ideal )
     {}
     avail_tool_comp( const avail_tool_comp & ) = default;
-    avail_tool_comp &operator =( const avail_tool_comp & ) = default;
+    auto operator =( const avail_tool_comp & ) -> avail_tool_comp & = default;
 
     comp_selection<tool_comp> comp;
     int charges;
@@ -1589,10 +1589,10 @@ struct avail_tool_comp {
 namespace crafting
 {
 
-static std::vector<avail_tool_comp>
+static auto
 find_tool_component( const Character *player_with_inv, const std::vector<tool_comp> &tools,
                      int batch,
-                     const inventory &map_inv, cost_adjustment charge_mod )
+                     const inventory &map_inv, cost_adjustment charge_mod ) -> std::vector<avail_tool_comp>
 {
     std::vector<avail_tool_comp> available_tools;
 
@@ -1662,9 +1662,9 @@ find_tool_component( const Character *player_with_inv, const std::vector<tool_co
     return available_tools;
 }
 
-static comp_selection<tool_comp>
+static auto
 query_tool_selection( const std::vector<avail_tool_comp> &available_tools,
-                      const std::string &hotkeys, bool can_cancel, bool is_npc )
+                      const std::string &hotkeys, bool can_cancel, bool is_npc ) -> comp_selection<tool_comp>
 {
     if( available_tools.empty() ) {
         // This SHOULD only happen if cooking with a fire,
@@ -1723,12 +1723,12 @@ query_tool_selection( const std::vector<avail_tool_comp> &available_tools,
     return available_tools.at( static_cast<size_t>( tmenu.ret ) ).comp;
 }
 
-comp_selection<tool_comp>
+auto
 select_tool_component( const std::vector<tool_comp> &tools, int batch, const inventory &map_inv,
                        const Character *player_with_inv,
                        bool can_cancel,
                        const std::string &hotkeys,
-                       cost_adjustment adjustment )
+                       cost_adjustment adjustment ) -> comp_selection<tool_comp>
 {
     std::vector<avail_tool_comp> options = find_tool_component( player_with_inv, tools, batch, map_inv,
                                            adjustment );
@@ -1736,10 +1736,10 @@ select_tool_component( const std::vector<tool_comp> &tools, int batch, const inv
     return query_tool_selection( options, hotkeys, can_cancel, is_npc );
 }
 
-comp_selection<tool_comp>
+auto
 select_tool_component( const std::vector<tool_comp> &tools, int batch, const inventory &map_inv,
                        const Character *player_with_inv,
-                       bool can_cancel )
+                       bool can_cancel ) -> comp_selection<tool_comp>
 {
     return select_tool_component( tools, batch, map_inv, player_with_inv, can_cancel, DEFAULT_HOTKEYS,
                                   cost_adjustment::none );
@@ -1747,7 +1747,7 @@ select_tool_component( const std::vector<tool_comp> &tools, int batch, const inv
 
 } // namespace crafting
 
-bool player::craft_consume_tools( item &craft, int mulitplier, bool start_craft )
+auto player::craft_consume_tools( item &craft, int mulitplier, bool start_craft ) -> bool
 {
     if( !craft.is_craft() ) {
         debugmsg( "craft_consume_tools() called on non-craft '%s.' Aborting.", craft.tname() );
@@ -1872,8 +1872,8 @@ void player::consume_tools( const std::vector<tool_comp> &tools, int batch,
                    cost_adjustment::none ), batch );
 }
 
-ret_val<bool> crafting::can_disassemble( const Character &who, const item &obj,
-        const inventory &inv )
+auto crafting::can_disassemble( const Character &who, const item &obj,
+        const inventory &inv ) -> ret_val<bool>
 {
     const auto &r = recipe_dictionary::get_uncraft( obj.typeId() );
 
@@ -1949,8 +1949,8 @@ struct disass_prompt_result {
     const recipe *r = nullptr;
 };
 
-static disass_prompt_result prompt_disassemble_in_seq( avatar &you, const item &obj,
-        bool interactive, bool autoselect_max )
+static auto prompt_disassemble_in_seq( avatar &you, const item &obj,
+        bool interactive, bool autoselect_max ) -> disass_prompt_result
 {
     disass_prompt_result res;
 
@@ -2047,7 +2047,7 @@ static disass_prompt_result prompt_disassemble_in_seq( avatar &you, const item &
     return res;
 }
 
-static bool prompt_disassemble_single( avatar &you, item_location target, bool interactive )
+static auto prompt_disassemble_single( avatar &you, item_location target, bool interactive ) -> bool
 {
     if( !target ) {
         add_msg( _( "Never mind." ) );
@@ -2071,18 +2071,18 @@ static bool prompt_disassemble_single( avatar &you, item_location target, bool i
     return true;
 }
 
-bool crafting::disassemble( avatar &you )
+auto crafting::disassemble( avatar &you ) -> bool
 {
     item_location target = game_menus::inv::disassemble( you );
     return prompt_disassemble_single( you, target, false );
 }
 
-bool crafting::disassemble( avatar &you, item_location target )
+auto crafting::disassemble( avatar &you, item_location target ) -> bool
 {
     return prompt_disassemble_single( you, target, true );
 }
 
-bool crafting::disassemble_all( avatar &you, bool recursively )
+auto crafting::disassemble_all( avatar &you, bool recursively ) -> bool
 {
     std::vector<iuse_location> targets;
 
@@ -2305,7 +2305,7 @@ void remove_ammo( item &dis_item, Character &who )
     }
 }
 
-std::vector<npc *> player::get_crafting_helpers( size_t max ) const
+auto player::get_crafting_helpers( size_t max ) const -> std::vector<npc *>
 {
     size_t n = 0;
     return g->get_npcs_if( [ &n, max, this]( const npc & guy ) {
@@ -2323,8 +2323,8 @@ std::vector<npc *> player::get_crafting_helpers( size_t max ) const
     } );
 }
 
-static std::pair<bench_type, float> best_bench_here( const item &craft, const tripoint &loc,
-        bool can_lift )
+static auto best_bench_here( const item &craft, const tripoint &loc,
+        bool can_lift ) -> std::pair<bench_type, float>
 {
     bench_type best_type = bench_type::ground;
     float best_mult = workbench_crafting_speed_multiplier( craft, bench_location{bench_type::ground, loc} );
@@ -2355,7 +2355,7 @@ static std::pair<bench_type, float> best_bench_here( const item &craft, const tr
     return std::make_pair( best_type, best_mult );
 }
 
-bench_location find_best_bench( const player &p, const item &craft )
+auto find_best_bench( const player &p, const item &craft ) -> bench_location
 {
     bool can_lift = p.can_wield( craft ).success() && p.weight_capacity() >= craft.weight();
     std::pair<bench_type, float> bench_here = best_bench_here( craft, p.pos(), can_lift );
@@ -2393,8 +2393,8 @@ bench_location find_best_bench( const player &p, const item &craft )
 namespace crafting
 {
 
-std::set<itype_id> get_books_for_recipe( const Character &c, const inventory &crafting_inv,
-        const recipe *r )
+auto get_books_for_recipe( const Character &c, const inventory &crafting_inv,
+        const recipe *r ) -> std::set<itype_id>
 {
     std::set<itype_id> book_ids;
     const int skill_level = c.get_skill_level( r->skill_used );
@@ -2408,7 +2408,7 @@ std::set<itype_id> get_books_for_recipe( const Character &c, const inventory &cr
     return book_ids;
 }
 
-std::set<itype_id> get_books_for_recipe( const recipe *r )
+auto get_books_for_recipe( const recipe *r ) -> std::set<itype_id>
 {
     std::set<itype_id> book_ids;
     std::transform( r->booksets.begin(), r->booksets.end(), std::inserter( book_ids, book_ids.end() ),
@@ -2418,15 +2418,15 @@ std::set<itype_id> get_books_for_recipe( const recipe *r )
     return book_ids;
 }
 
-int charges_for_complete( int full_charges )
+auto charges_for_complete( int full_charges ) -> int
 {
     return full_charges;
 }
-int charges_for_starting( int full_charges )
+auto charges_for_starting( int full_charges ) -> int
 {
     return full_charges / 20 + full_charges % 20;
 }
-int charges_for_continuing( int full_charges )
+auto charges_for_continuing( int full_charges ) -> int
 {
     return full_charges / 20;
 }

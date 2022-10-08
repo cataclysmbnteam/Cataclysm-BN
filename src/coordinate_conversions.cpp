@@ -2,7 +2,7 @@
 
 #include "game_constants.h"
 
-static int divide( int v, int m )
+static auto divide( int v, int m ) -> int
 {
     if( v >= 0 ) {
         return v / m;
@@ -10,19 +10,19 @@ static int divide( int v, int m )
     return ( v - m + 1 ) / m;
 }
 
-static int divide( int v, int m, int &r )
+static auto divide( int v, int m, int &r ) -> int
 {
     const int result = divide( v, m );
     r = v - result * m;
     return result;
 }
 
-point omt_to_om_copy( const point &p )
+auto omt_to_om_copy( const point &p ) -> point
 {
     return point( divide( p.x, OMAPX ), divide( p.y, OMAPY ) );
 }
 
-tripoint omt_to_om_copy( const tripoint &p )
+auto omt_to_om_copy( const tripoint &p ) -> tripoint
 {
     return tripoint( divide( p.x, OMAPX ), divide( p.y, OMAPY ), p.z );
 }
@@ -33,22 +33,22 @@ void omt_to_om( int &x, int &y )
     y = divide( y, OMAPY );
 }
 
-point omt_to_om_remain( int &x, int &y )
+auto omt_to_om_remain( int &x, int &y ) -> point
 {
     return point( divide( x, OMAPX, x ), divide( y, OMAPY, y ) );
 }
 
-point om_to_omt_copy( const point &p )
+auto om_to_omt_copy( const point &p ) -> point
 {
     return point( p.x * OMAPX, p.y * OMAPY );
 }
 
-point sm_to_omt_copy( const point &p )
+auto sm_to_omt_copy( const point &p ) -> point
 {
     return point( divide( p.x, 2 ), divide( p.y, 2 ) );
 }
 
-tripoint sm_to_omt_copy( const tripoint &p )
+auto sm_to_omt_copy( const tripoint &p ) -> tripoint
 {
     return tripoint( divide( p.x, 2 ), divide( p.y, 2 ), p.z );
 }
@@ -59,17 +59,17 @@ void sm_to_omt( int &x, int &y )
     y = divide( y, 2 );
 }
 
-point sm_to_omt_remain( int &x, int &y )
+auto sm_to_omt_remain( int &x, int &y ) -> point
 {
     return point( divide( x, 2, x ), divide( y, 2, y ) );
 }
 
-point sm_to_om_copy( const point &p )
+auto sm_to_om_copy( const point &p ) -> point
 {
     return point( divide( p.x, 2 * OMAPX ), divide( p.y, 2 * OMAPY ) );
 }
 
-tripoint sm_to_om_copy( const tripoint &p )
+auto sm_to_om_copy( const tripoint &p ) -> tripoint
 {
     return tripoint( divide( p.x, 2 * OMAPX ), divide( p.y, 2 * OMAPY ), p.z );
 }
@@ -80,22 +80,22 @@ void sm_to_om( int &x, int &y )
     y = divide( y, 2 * OMAPY );
 }
 
-point sm_to_om_remain( int &x, int &y )
+auto sm_to_om_remain( int &x, int &y ) -> point
 {
     return point( divide( x, 2 * OMAPX, x ), divide( y, 2 * OMAPY, y ) );
 }
 
-point omt_to_ms_copy( const point &p )
+auto omt_to_ms_copy( const point &p ) -> point
 {
     return point( p.x * 2 * SEEX, p.y * 2 * SEEY );
 }
 
-point omt_to_sm_copy( const point &p )
+auto omt_to_sm_copy( const point &p ) -> point
 {
     return point( p.x * 2, p.y * 2 );
 }
 
-tripoint omt_to_sm_copy( const tripoint &p )
+auto omt_to_sm_copy( const tripoint &p ) -> tripoint
 {
     return tripoint( p.x * 2, p.y * 2, p.z );
 }
@@ -106,12 +106,12 @@ void omt_to_sm( int &x, int &y )
     y *= 2;
 }
 
-point om_to_sm_copy( const point &p )
+auto om_to_sm_copy( const point &p ) -> point
 {
     return point( p.x * 2 * OMAPX, p.y * 2 * OMAPX );
 }
 
-tripoint om_to_sm_copy( const tripoint &p )
+auto om_to_sm_copy( const tripoint &p ) -> tripoint
 {
     return tripoint( p.x * 2 * OMAPX, p.y * 2 * OMAPX, p.z );
 }
@@ -122,12 +122,12 @@ void om_to_sm( int &x, int &y )
     y *= 2 * OMAPY;
 }
 
-point ms_to_sm_copy( const point &p )
+auto ms_to_sm_copy( const point &p ) -> point
 {
     return point( divide( p.x, SEEX ), divide( p.y, SEEY ) );
 }
 
-tripoint ms_to_sm_copy( const tripoint &p )
+auto ms_to_sm_copy( const tripoint &p ) -> tripoint
 {
     return tripoint( divide( p.x, SEEX ), divide( p.y, SEEY ), p.z );
 }
@@ -138,17 +138,17 @@ void ms_to_sm( int &x, int &y )
     y = divide( y, SEEY );
 }
 
-point ms_to_sm_remain( int &x, int &y )
+auto ms_to_sm_remain( int &x, int &y ) -> point
 {
     return point( divide( x, SEEX, x ), divide( y, SEEY, y ) );
 }
 
-point sm_to_ms_copy( const point &p )
+auto sm_to_ms_copy( const point &p ) -> point
 {
     return point( p.x * SEEX, p.y * SEEY );
 }
 
-tripoint sm_to_ms_copy( const tripoint &p )
+auto sm_to_ms_copy( const tripoint &p ) -> tripoint
 {
     return tripoint( p.x * SEEX, p.y * SEEY, p.z );
 }
@@ -159,12 +159,12 @@ void sm_to_ms( int &x, int &y )
     y *= SEEY;
 }
 
-point ms_to_omt_copy( const point &p )
+auto ms_to_omt_copy( const point &p ) -> point
 {
     return point( divide( p.x, SEEX * 2 ), divide( p.y, SEEY * 2 ) );
 }
 
-tripoint ms_to_omt_copy( const tripoint &p )
+auto ms_to_omt_copy( const tripoint &p ) -> tripoint
 {
     return tripoint( divide( p.x, SEEX * 2 ), divide( p.y, SEEY * 2 ), p.z );
 }
@@ -175,22 +175,22 @@ void ms_to_omt( int &x, int &y )
     y = divide( y, SEEY * 2 );
 }
 
-point ms_to_omt_remain( int &x, int &y )
+auto ms_to_omt_remain( int &x, int &y ) -> point
 {
     return point( divide( x, SEEX * 2, x ), divide( y, SEEY * 2, y ) );
 }
 
-tripoint omt_to_seg_copy( const tripoint &p )
+auto omt_to_seg_copy( const tripoint &p ) -> tripoint
 {
     return tripoint( divide( p.x, SEG_SIZE ), divide( p.y, SEG_SIZE ), p.z );
 }
 
-point sm_to_mmr_remain( int &x, int &y )
+auto sm_to_mmr_remain( int &x, int &y ) -> point
 {
     return point( divide( x, MM_REG_SIZE, x ), divide( y, MM_REG_SIZE, y ) );
 }
 
-tripoint mmr_to_sm_copy( const tripoint &p )
+auto mmr_to_sm_copy( const tripoint &p ) -> tripoint
 {
     return tripoint( p.x * MM_REG_SIZE, p.y * MM_REG_SIZE, p.z );
 }

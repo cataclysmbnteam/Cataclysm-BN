@@ -22,21 +22,21 @@ namespace Name
 void load_from_file( const std::string &filename );
 
 /// Return a random name given search flags
-std::string get( nameFlags searchFlags );
+auto get( nameFlags searchFlags ) -> std::string;
 
 /// Return a random full name given gender
-std::string generate( bool is_male );
+auto generate( bool is_male ) -> std::string;
 
 /// Clear names used for generation
 void clear();
 } // namespace Name
 
-inline nameFlags operator|( nameFlags l, nameFlags r )
+inline auto operator|( nameFlags l, nameFlags r ) -> nameFlags
 {
     return static_cast<nameFlags>( static_cast<unsigned>( l ) | static_cast<unsigned>( r ) );
 }
 
-inline nameFlags operator&( nameFlags l, nameFlags r )
+inline auto operator&( nameFlags l, nameFlags r ) -> nameFlags
 {
     return static_cast<nameFlags>( static_cast<unsigned>( l ) & static_cast<unsigned>( r ) );
 }

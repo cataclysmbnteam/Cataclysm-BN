@@ -5,7 +5,7 @@
 #include "debug.h"
 #include "translations.h"
 
-std::string special_game_name( special_game_id id )
+auto special_game_name( special_game_id id ) -> std::string
 {
     switch( id ) {
         case SGAME_NULL:
@@ -20,7 +20,7 @@ std::string special_game_name( special_game_id id )
     }
 }
 
-std::unique_ptr<special_game> get_special_game( special_game_id id )
+auto get_special_game( special_game_id id ) -> std::unique_ptr<special_game>
 {
     std::unique_ptr<special_game> ret;
     switch( id ) {

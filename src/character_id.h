@@ -16,15 +16,15 @@ class character_id
         explicit character_id( int i ) : value( i ) {
         }
 
-        bool is_valid() const {
+        auto is_valid() const -> bool {
             return value > 0;
         }
 
-        int get_value() const {
+        auto get_value() const -> int {
             return value;
         }
 
-        character_id &operator++() {
+        auto operator++() -> character_id & {
             ++value;
             return *this;
         }
@@ -32,19 +32,19 @@ class character_id
         void serialize( JsonOut & ) const;
         void deserialize( JsonIn & );
 
-        friend inline bool operator==( character_id l, character_id r ) {
+        friend inline auto operator==( character_id l, character_id r ) -> bool {
             return l.get_value() == r.get_value();
         }
 
-        friend inline bool operator!=( character_id l, character_id r ) {
+        friend inline auto operator!=( character_id l, character_id r ) -> bool {
             return l.get_value() != r.get_value();
         }
 
-        friend inline bool operator<( character_id l, character_id r ) {
+        friend inline auto operator<( character_id l, character_id r ) -> bool {
             return l.get_value() < r.get_value();
         }
 
-        friend inline std::ostream &operator<<( std::ostream &o, character_id id ) {
+        friend inline auto operator<<( std::ostream &o, character_id id ) -> std::ostream & {
             return o << id.get_value();
         }
     private:
