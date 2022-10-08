@@ -3,6 +3,7 @@
     "//": "These groups are called by the exhibit, zoo, and science basements, and NPC missions",
     "type": "monstergroup",
     "name": "GROUP_DINOSAUR",
+    "default": "mon_null",
     "monsters": [
       { "monster": "mon_coelophysis", "weight": 4, "cost_multiplier": 5, "pack_size": [ 4, 8 ] },
       { "monster": "mon_dilophosaurus", "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
@@ -64,6 +65,7 @@
   {
     "type": "monstergroup",
     "name": "GROUP_DINOSAUR_ASIA",
+    "default": "mon_null",
     "monsters": [
       { "monster": "mon_qianzhousaurus", "weight": 200, "cost_multiplier": 40, "pack_size": [ 1, 2 ] },
       { "monster": "mon_velociraptor", "weight": 200, "cost_multiplier": 10, "pack_size": [ 2, 4 ] }
@@ -72,6 +74,7 @@
   {
     "type": "monstergroup",
     "name": "GROUP_DINOSAUR_HARMLESS",
+    "default": "mon_null",
     "monsters": [
       { "monster": "mon_compsognathus", "weight": 100, "pack_size": [ 1, 2 ] },
       { "monster": "mon_gallimimus", "weight": 50, "pack_size": [ 1, 2 ] },
@@ -88,6 +91,7 @@
   {
     "type": "monstergroup",
     "name": "GROUP_DINOSAUR_DANGEROUS",
+    "default": "mon_null",
     "monsters": [
       { "monster": "mon_coelophysis", "weight": 200, "cost_multiplier": 5, "pack_size": [ 1, 2 ] },
       { "monster": "mon_dilophosaurus", "weight": 150, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
@@ -106,6 +110,7 @@
   {
     "type": "monstergroup",
     "name": "GROUP_DINOSAUR_HARMLESS_HATCHLING",
+    "default": "mon_null",
     "monsters": [
       { "monster": "mon_compsognathus_hatchling", "weight": 20, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_gallimimus_hatchling", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
@@ -141,6 +146,7 @@
   {
     "type": "monstergroup",
     "name": "GROUP_DINOSAUR_DANGEROUS_HATCHLING",
+    "default": "mon_null",
     "monsters": [
       { "monster": "mon_coelophysis_hatchling", "weight": 4, "cost_multiplier": 5, "pack_size": [ 1, 2 ] },
       { "monster": "mon_dilophosaurus_hatchling", "weight": 15, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
@@ -169,6 +175,7 @@
   {
     "type": "monstergroup",
     "name": "GROUP_DINOSAUR_HARMLESS_JUVENILE",
+    "default": "mon_null",
     "monsters": [
       { "monster": "mon_gallimimus_juvenile", "weight": 50, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_struthiomimus_juvenile", "weight": 50, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
@@ -189,6 +196,7 @@
   {
     "type": "monstergroup",
     "name": "GROUP_DINOSAUR_DANGEROUS_JUVENILE",
+    "default": "mon_null",
     "monsters": [
       { "monster": "mon_dilophosaurus_juvenile", "weight": 15, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
       { "monster": "mon_ceratosaurus_juvenile", "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
@@ -229,6 +237,7 @@
   {
     "type": "monstergroup",
     "name": "GROUP_DINOSAUR_MEGA_CARNIVORE",
+    "default": "mon_null",
     "monsters": [
       { "monster": "mon_spinosaurus", "weight": 50, "cost_multiplier": 40 },
       { "monster": "mon_torvosaurus", "weight": 50, "cost_multiplier": 40 },
@@ -264,6 +273,7 @@
   {
     "type": "monstergroup",
     "name": "GROUP_DINOSAUR_PREDATOR_WILDERNESS",
+    "default": "mon_null",
     "monsters": [
       { "monster": "mon_coelophysis", "pack_size": [ 4, 8 ], "conditions": [ "DAY", "SPRING", "SUMMER", "AUTUMN" ] },
       { "monster": "mon_ceratosaurus", "cost_multiplier": 30, "starts": "3 days" },
