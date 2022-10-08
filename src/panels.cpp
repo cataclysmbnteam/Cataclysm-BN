@@ -132,16 +132,14 @@ static std::pair<nc_color, std::string> per_string( const avatar &p )
 
 int window_panel::get_height() const
 {
-    if( height == -1 ) {
-        if( pixel_minimap_option ) {
-            return  get_option<int>( "PIXEL_MINIMAP_HEIGHT" ) > 0 ?
-                    get_option<int>( "PIXEL_MINIMAP_HEIGHT" ) :
-                    width / 2;
-        } else {
-            return 0;
-        }
+    if( height != -1 ) {
+        return height;
+    } else if( pixel_minimap_option ) {
+        const int minimap_height = get_option<int>( "PIXEL_MINIMAP_HEIGHT" );
+        return minimap_height > 0 ? minimap_height : width / 2;
+    } else {
+        return 0;
     }
-    return height;
 }
 
 int window_panel::get_width() const
