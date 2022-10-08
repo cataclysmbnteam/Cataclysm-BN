@@ -1,11 +1,16 @@
 name: Bug Report
 description: Create a report to help us improve
 
-# title: "[Bug]: "
 labels: ["bug"]
-# assignees:
 
 body:
+  - type: markdown
+    attributes:
+      value: |
+        # Thanks for taking the time to fill out this bug report!
+        It is encouraged to open this bug report directly from the game.
+        `Main menu (ESC)` > `Debug Menu` > `Info` > `Open a bug report on github`
+        please check [README](README.md#ive-found-a-bug-what-should-i-do) for more information.
   - type: textarea
     id: describe-bug
     attributes:
@@ -50,8 +55,10 @@ body:
     attributes:
       label: Versions and configuration
       description: |
-        Please complete the following information; you can now go to:
-        - "Main menu (ESC) > Debug Menu > Info > Generate game report" to generate this report.
+        It is discouraged to write this manually:
+        - [let the game generate it for you.](#describe-bug)
+        If you decided to write it manually:
+        - `Main menu (ESC)` > `Debug Menu` > `Info` > `Generate game report` to generate this report.
         - Please update your OS version with a more precise version.
       placeholder: |
         - OS: [e.g. iOS 8 or Windows 10 or Ubuntu 18.04]

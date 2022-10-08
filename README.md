@@ -75,6 +75,14 @@ Press the `?` key, followed by the `1` key to see the full list of key commands.
 
 Please submit an issue on [our GitHub page](https://github.com/cataclysmbnteam/Cataclysm-BN/issues) using [bug report form](https://github.com/cataclysmbnteam/Cataclysm-BN/issues/new?template=bug_report.yml).
 
+Bug Report with `Version and configuration` written in can be automatically created by using `Open a bug report on github` option in the debug menu.
+
+| 1. open Options (ESC) -> Debug Menu (a) |         2. open Info (i)         |
+| :-------------------------------------: | :------------------------------: |
+|      ![](doc/img/readme-bug1.png)       |   ![](doc/img/readme-bug2.png)   |
+|   3. Open a bug report on github (U)    | 4. An link to issue is generated |
+|      ![](doc/img/readme-bug3.png)       |   ![](doc/img/readme-bug4.png)   |
+
 #### I would like to make a suggestion. What should I do?
 
 -   For simple ideas: please visit [our Discussions page](https://github.com/cataclysmbnteam/Cataclysm-BN/discussions/categories/ideas). It could be a new feature, a port request, a mod idea, or anything else.
