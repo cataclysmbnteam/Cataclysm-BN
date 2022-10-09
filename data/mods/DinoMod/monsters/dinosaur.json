@@ -477,7 +477,6 @@
     "reproduction": { "baby_egg": "egg_compsognathus", "baby_count": 3, "baby_timer": 6 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 166 },
-    "petfood": { "food": [ "DINOFOOD_B" ] },
     "flags": [
       "SEES",
       "SMELLS",
@@ -489,6 +488,7 @@
       "SWIMS",
       "CANPLAY",
       "SWARMS",
+      "CATFOOD",
       "GROUP_MORALE"
     ],
     "harvest": "dino_pred_feather_leather",
@@ -525,7 +525,6 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 2 },
     "special_attacks": [ [ "EAT_CROP", 60 ], [ "scratch", 20 ] ],
-    "petfood": { "food": [ "DINOFOOD_A", "DINOFOOD_C" ] },
     "flags": [
       "SEES",
       "SMELLS",
@@ -535,6 +534,8 @@
       "PET_MOUNTABLE",
       "PET_WONT_FOLLOW",
       "HIT_AND_RUN",
+      "CATTLEFODDER",
+      "DOGFOOD",
       "WARM"
     ],
     "harvest": "dino_feather_leather",
@@ -596,8 +597,7 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 200 },
     "special_attacks": [ { "type": "bite", "cooldown": 10 } ],
-    "petfood": { "food": [ "DINOFOOD_B" ] },
-    "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CLIMBS", "CANPLAY" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CLIMBS", "CATFOOD", "CANPLAY" ],
     "vision_night": 5,
     "harvest": "bird_small",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "HURT", "FRIEND_DIED" ],
@@ -636,8 +636,17 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 1 },
     "special_attacks": [ [ "EAT_CROP", 30 ], [ "LONGSWIPE", 25 ] ],
-    "petfood": { "food": [ "DINOFOOD_C" ] },
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_MOUNTABLE", "PET_WONT_FOLLOW", "WARM" ],
+    "flags": [
+      "SEES",
+      "SMELLS",
+      "HEARS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "PET_MOUNTABLE",
+      "PET_WONT_FOLLOW",
+      "CATTLEFODDER",
+      "WARM"
+    ],
     "harvest": "dino_feather_leather",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "fear_triggers": [ "FRIEND_DIED" ],
