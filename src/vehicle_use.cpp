@@ -438,7 +438,8 @@ int vehicle::select_engine()
     uilist tmenu;
     tmenu.text = _( "Toggle which?" );
 
-    const auto is_engine_active = [this]( int e, const itype_id & fuel_id ) -> bool {
+    const auto is_engine_active = [this]( size_t x, const itype_id & fuel_id ) -> bool {
+        const int e = engines[ x ];
         return parts[ e ].enabled && parts[ e ].fuel_current() == fuel_id;
     };
     const auto is_engine_available = [this]( size_t x, const itype_id & fuel_id ) -> bool {
@@ -455,26 +456,25 @@ int vehicle::select_engine()
         return title;
     };
 
-    const auto get_opt
-    = []( bool is_available, bool is_active, const std::string &  opt ) -> uilist_entry {
-        return uilist_entry( opt + ( is_active ? _( " (active)" ) : "" ) )
+    const auto get_opt = [&]( size_t x, const itype_id &  fuel_id ) -> uilist_entry {
+        const bool is_active = is_engine_active( x, fuel_id );
+        const bool is_available = is_engine_available( x, fuel_id );
+
+        return uilist_entry( item::nname( fuel_id ) + ( is_active ? _( " (active)" ) : "" ) )
         .with_enabled( is_available )
         .with_txt_color( is_active ? c_light_green : c_light_gray );
     };
 
     int i = 0;
-    const auto entry_alt_fuels = [&]( size_t x ) {
-        int e = engines[ x ];
-        const std::string &part_name = parts[ e ].name();
-        const std::string spaces = std::string( parts[ e ].name( /*colorize*/ false ).size() + 3, ' ' );
-        const auto fuel_opts = part_info( e ).engine_fuel_opts();
+    const auto entry_alt_fuels = [ &, this]( size_t x ) {
+        int engine_id = engines[ x ];
+        const std::string &part_name = parts[ engine_id ].name();
 
         tmenu.entries.emplace_back( get_title( part_name ) );
 
+        const auto fuel_opts = part_info( engine_id ).engine_fuel_opts();
         for( const itype_id &fuel_id : fuel_opts ) {
-            const bool is_active = is_engine_active( e, fuel_id );
-            const bool is_available = is_engine_available( x, fuel_id );
-            auto opt = get_opt( is_available, is_active, item::nname( fuel_id ) );
+            auto opt = get_opt( x, fuel_id );
             opt.retval = i++;
             tmenu.entries.emplace_back( opt );
         }
