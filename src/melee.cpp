@@ -603,7 +603,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
     const int encumbrance_cost = roll_remainder( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) *
                                  2.0f );
     const int deft_bonus = hit_spread < 0 && has_trait( trait_DEFT ) ? 50 : 0;
-    const float skill_cost = std::max( 0.667f, ( 30 - melee ) / 30 );
+    const float skill_cost = std::max( 0.667f, static_cast<float>( ( 30 - melee ) / 30 ) );
     /** @EFFECT_MELEE reduces stamina cost of melee attacks */
     const int mod_sta = ( weight_cost + encumbrance_cost - deft_bonus + 50 ) * -1 * skill_cost;
     mod_stamina( std::min( -50, mod_sta ) );
