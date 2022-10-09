@@ -375,7 +375,7 @@ void vehicle::control_engines()
     //count active engines
     const int fuel_count = std::accumulate( engines.begin(), engines.end(), int{0},
     [&]( int acc, int e ) {
-        return acc + static_cast<int>(part_info( e ).engine_fuel_opts().size());
+        return acc + static_cast<int>( part_info( e ).engine_fuel_opts().size() );
     } );
 
     const auto adjust_engine = [this]( int e_toggle ) {
@@ -444,30 +444,37 @@ int vehicle::select_engine()
     const auto is_engine_available = [this]( size_t x, const itype_id & fuel_id ) -> bool {
         const int e = engines[x];
         return parts[ e ].is_available() &&
-        ( is_perpetual_type( x ) || fuel_id == fuel_type_muscle || ( fuel_left( fuel_id ) > 0 ) );
+        ( is_perpetual_type( x ) || fuel_id == fuel_type_muscle || fuel_left( fuel_id ) > 0 );
     };
 
-    const auto add_entry = [&tmenu]( int idx, bool is_available, bool is_active,
-    const std::string & part_name, const std::string &  fuel_name ) {
-        tmenu.addentry( idx, is_available, -1, "[%s] %s %s",
-                        is_active ? "x" : " ", part_name, fuel_name );
+    const auto get_title = []( const std::string & s ) -> uilist_entry {
+        auto title = uilist_entry( s )
+        .with_enabled( false )
+        .with_txt_color( c_cyan );
+        title.force_color = true; // ui.h does not have force_color, adding it would recompile everything
+        return title;
     };
 
+    const auto get_opt
+    = []( bool is_available, bool is_active, const std::string &  opt ) -> uilist_entry {
+        return uilist_entry( opt + ( is_active ? _( " (active)" ) : "" ) )
+        .with_enabled( is_available )
+        .with_txt_color( is_active ? c_light_green : c_light_gray );
+    };
 
-    int i = 0;
     const auto entry_alt_fuels = [&]( size_t x ) {
         int e = engines[ x ];
         const std::string &part_name = parts[ e ].name();
         const std::string spaces = std::string( parts[ e ].name( /*colorize*/ false ).size() + 3, ' ' );
         const auto fuel_opts = part_info( e ).engine_fuel_opts();
 
-        bool is_first = true;
+        tmenu.entries.emplace_back( get_title( part_name ) );
+
         for( const itype_id &fuel_id : fuel_opts ) {
             const bool is_active = is_engine_active( e, fuel_id );
             const bool is_available = is_engine_available( x, fuel_id );
-
-            add_entry( i++, is_available, is_active, is_first ? part_name : spaces, item::nname( fuel_id ) );
-            is_first = false;
+            auto opt =  get_opt( is_available, is_active, item::nname( fuel_id ) );
+            tmenu.entries.emplace_back( opt );
         }
     };
 
