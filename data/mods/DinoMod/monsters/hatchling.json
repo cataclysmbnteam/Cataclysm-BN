@@ -151,9 +151,8 @@
     "dodge": 1,
     "upgrades": { "age_grow": 14, "into": "mon_compsognathus" },
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 3 },
-    "death_function": { "effect": { "id": "death_guilt", "min_level": 3 } },
     "petfood": { "food": [ "DINOFOOD_B" ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "STUMBLES", "NO_BREED", "CANPLAY" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "GUILT", "STUMBLES", "NO_BREED", "CANPLAY" ],
     "harvest": "bird_tiny"
   },
   {
@@ -164,9 +163,8 @@
     "default_faction": "herbivore_young",
     "color": "light_green_yellow",
     "upgrades": { "age_grow": 20, "into": "mon_gallimimus_juvenile" },
-    "death_function": { "effect": { "id": "death_guilt", "min_level": 3 } },
     "petfood": { "food": [ "DINOFOOD_A", "DINOFOOD_B", "DINOFOOD_C" ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "STUMBLES", "NO_BREED" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "GUILT", "CANPLAY", "STUMBLES", "NO_BREED" ]
   },
   {
     "id": "mon_struthiomimus_hatchling",
@@ -188,9 +186,8 @@
     "default_faction": "insectivore_young",
     "color": "light_green_yellow",
     "upgrades": { "age_grow": 25, "into": "mon_albertonykus" },
-    "death_function": { "effect": { "id": "death_guilt", "min_level": 3 } },
     "petfood": { "food": [ "DINOFOOD_A", "DINOFOOD_B" ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "STUMBLES", "NO_BREED" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "GUILT", "CANPLAY", "STUMBLES", "NO_BREED" ]
   },
   {
     "id": "mon_nothronychus_hatchling",
