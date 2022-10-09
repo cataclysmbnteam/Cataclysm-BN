@@ -375,7 +375,7 @@ void vehicle::control_engines()
     //count active engines
     const int fuel_count = std::accumulate( engines.begin(), engines.end(), int{0},
     [&]( int acc, int e ) {
-        return acc + part_info( e ).engine_fuel_opts().size();
+        return acc + static_cast<int>(part_info( e ).engine_fuel_opts().size());
     } );
 
     const auto adjust_engine = [this]( int e_toggle ) {
@@ -444,8 +444,7 @@ int vehicle::select_engine()
     const auto is_engine_available = [this]( size_t x, const itype_id & fuel_id ) -> bool {
         const int e = engines[x];
         return parts[ e ].is_available() &&
-        ( is_perpetual_type( x ) || fuel_id == fuel_type_muscle ||
-          fuel_left( fuel_id ) );
+        ( is_perpetual_type( x ) || fuel_id == fuel_type_muscle || ( fuel_left( fuel_id ) > 0 ) );
     };
 
     const auto add_entry = [&tmenu]( int idx, bool is_available, bool is_active,
