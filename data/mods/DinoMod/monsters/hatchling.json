@@ -151,8 +151,19 @@
     "dodge": 1,
     "upgrades": { "age_grow": 14, "into": "mon_compsognathus" },
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 3 },
-    "petfood": { "food": [ "DINOFOOD_B" ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "GUILT", "STUMBLES", "NO_BREED", "CANPLAY" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CATFOOD",
+      "CANPLAY"
+    ],
     "harvest": "bird_tiny"
   },
   {
@@ -163,8 +174,21 @@
     "default_faction": "herbivore_young",
     "color": "light_green_yellow",
     "upgrades": { "age_grow": 20, "into": "mon_gallimimus_juvenile" },
-    "petfood": { "food": [ "DINOFOOD_A", "DINOFOOD_B", "DINOFOOD_C" ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "GUILT", "CANPLAY", "STUMBLES", "NO_BREED" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "GUILT",
+      "CANPLAY",
+      "STUMBLES",
+      "CATFOOD",
+      "DOGFOOD",
+      "CATTLEFODDER",
+      "NO_BREED"
+    ]
   },
   {
     "id": "mon_struthiomimus_hatchling",
@@ -186,8 +210,20 @@
     "default_faction": "insectivore_young",
     "color": "light_green_yellow",
     "upgrades": { "age_grow": 25, "into": "mon_albertonykus" },
-    "petfood": { "food": [ "DINOFOOD_A", "DINOFOOD_B" ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "GUILT", "CANPLAY", "STUMBLES", "NO_BREED" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "GUILT",
+      "CANPLAY",
+      "STUMBLES",
+      "CATFOOD",
+      "DOGFOOD",
+      "NO_BREED"
+    ]
   },
   {
     "id": "mon_nothronychus_hatchling",
@@ -199,11 +235,10 @@
   {
     "id": "mon_anzu_hatchling",
     "type": "MONSTER",
-    "copy-from": "mon_dilophosaurus_hatchling",
+    "copy-from": "mon_gallimimus_hatchling",
     "name": "green and magenta hatchling",
     "default_faction": "anzu_hatchling",
-    "upgrades": { "age_grow": 40, "into": "mon_anzu_juvenile" },
-    "petfood": { "food": [ "DINOFOOD_A", "DINOFOOD_B", "DINOFOOD_C" ] }
+    "upgrades": { "age_grow": 40, "into": "mon_anzu_juvenile" }
   },
   {
     "id": "mon_saurornitholestes_hatchling",
