@@ -471,9 +471,7 @@ int vehicle::select_engine()
         const std::string &part_name = parts[ engine_id ].name();
 
         tmenu.entries.emplace_back( get_title( part_name ) );
-
-        const auto fuel_opts = part_info( engine_id ).engine_fuel_opts();
-        for( const itype_id &fuel_id : fuel_opts ) {
+        for( const auto &fuel_id : part_info( engine_id ).engine_fuel_opts() ) {
             auto opt = get_opt( x, fuel_id );
             opt.retval = i++;
             tmenu.entries.emplace_back( opt );
