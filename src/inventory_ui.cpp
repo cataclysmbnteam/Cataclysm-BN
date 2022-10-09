@@ -631,11 +631,9 @@ std::vector<inventory_entry *> inventory_column::get_entries(
 {
     std::vector<inventory_entry *> res;
 
-    if( allows_selecting() ) {
-        for( const auto &elem : entries ) {
-            if( filter_func( elem ) ) {
-                res.push_back( const_cast<inventory_entry *>( &elem ) );
-            }
+    for( const auto &elem : entries ) {
+        if( filter_func( elem ) ) {
+            res.push_back( const_cast<inventory_entry *>( &elem ) );
         }
     }
 
@@ -1007,7 +1005,7 @@ void selection_column_base::reset_width( const std::vector<inventory_column *> &
     };
 
     for( const inventory_column *const col : all_columns ) {
-        if( col && !dynamic_cast<const selection_column_base *>( col ) ) {
+        if( col && col->allows_selecting() && !dynamic_cast<const selection_column_base *>( col ) ) {
             for( const inventory_entry *const ent : col->get_entries( always_yes ) ) {
                 if( ent ) {
                     expand_to_fit( *ent );
@@ -2523,7 +2521,7 @@ void inventory_drop_selector::rebuild()
                                     iter_dropping->second :
                                     0;
 
-            size_t implied_drop_count = total_count - selected_count;
+            size_t implied_drop_count = matching_count - selected_count;
 
             if( selected_count + implied_drop_count > total_count ) {
                 debugmsg( "Dropped item count > total item count" );
@@ -2565,10 +2563,10 @@ void inventory_drop_selector::rebuild()
             only_implied.chosen_count = implied_count.selected;
             sel_col.on_change( only_implied );
         }
+
         refresh_active_column();
-
-
     }
+
     // TODO: Refresh only those which changed status
     for( inventory_column *col : get_all_columns() ) {
         col->clear_cell_cache();

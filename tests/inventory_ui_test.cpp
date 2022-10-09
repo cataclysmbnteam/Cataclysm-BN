@@ -117,15 +117,15 @@ const auto is_item = []( const inventory_entry &ie )
     return ie.is_item();
 };
 
-static void verify_has_entries( debug_inventory_selector &ui, const item &filler )
+static void verify_has_entries( const debug_inventory_selector &ui, const item &filler )
 {
     const itype_id filler_id = filler.typeId();
     size_t total_item_entry_count = 0;
     for( const inventory_column *col : ui.get_all_columns() ) {
-        auto entries = col->get_entries( is_item );
+        auto entries = col->get_entries( true_fun );
         for( auto &entry : entries ) {
-            if( entry->any_item()->typeId() == filler_id ) {
-                total_item_entry_count += entry->get_total_charges();
+            if( entry->is_item() && entry->any_item()->typeId() == filler_id ) {
+                total_item_entry_count += entry->get_stack_size();
             }
         }
     }
@@ -153,39 +153,30 @@ static void test_drop_implications( player &u,
 
     ui.set_filter( "" );
     ui.select_position( ui.get_selection_position() );
-    THEN( "Expected number of bottles is predicted to be dropped" ) {
-        for( const inventory_column *col : ui.get_all_columns() ) {
-            const_cast<inventory_column *>( col )->prepare_paging();
-            printf( "Col:\n" );
-            for( auto entry : col->get_entries( true_fun ) ) {
-                printf( "%s, ", entry->cached_name.c_str() );
-            }
-            printf( "\n" );
-        }
 
+    THEN( "Expected number of bottles is predicted to be dropped" ) {
         const selection_column_base *selection = nullptr;
         for( const inventory_column *col : ui.get_all_columns() ) {
             // Horrible!
             const selection_column_base *cast_col = dynamic_cast<const selection_column_base *>( col );
-            if( cast_col != nullptr && cast_col->visible() ) {
+            if( cast_col != nullptr ) {
+                REQUIRE( selection == nullptr );
                 selection = cast_col;
-                break;
             }
         }
 
         REQUIRE( selection != nullptr );
         auto entries = selection->get_entries( is_item );
 
-        CAPTURE( selection->get_entries( true_fun ) );
         REQUIRE( entries.size() > 0 );
 
-        size_t actual_filler_count = std::accumulate( entries.begin(), entries.end(), 0,
+        size_t actual_implied_filler_count = std::accumulate( entries.begin(), entries.end(), 0,
         [&filler]( int acc, const inventory_entry * ie ) {
-            return acc + ( ie->any_item()->typeId() == filler.typeId() ? ie->get_stack_size() : 0 );
+            return acc + ( ie->any_item()->typeId() == filler.typeId() ? ie->chosen_count : 0 );
         } );
 
-        CHECK( actual_filler_count >= expected_filler_count_min );
-        CHECK( actual_filler_count <= expected_filler_count_max );
+        CHECK( actual_implied_filler_count >= expected_filler_count_min );
+        CHECK( actual_implied_filler_count <= expected_filler_count_max );
     }
 }
 
@@ -210,6 +201,16 @@ TEST_CASE( "when dropping bags, the ui adds implied drops to 'selection' column"
         }
         REQUIRE( filler_count > 0 );
         CAPTURE( filler_count );
+
+        size_t filler_count_in_inv = 0;
+        for( const auto &elem : u.inv.slice() ) {
+            for( auto iter = elem->begin(); iter != elem->end(); iter++ ) {
+                if( iter->typeId() == filler.typeId() ) {
+                    filler_count_in_inv++;
+                }
+            }
+        }
+        REQUIRE( filler_count == filler_count_in_inv );
 
         ui.add_character_items( u );
 
@@ -259,7 +260,7 @@ static void test_drop_colors( player &u,
 }
 
 TEST_CASE( "when dropping bags, the ui colors implied drops in 'TODO: find good way to reference color here'",
-           "[ui][drop_token]" )
+           "[ui][drop_token][.]" )
 {
     return;
 
