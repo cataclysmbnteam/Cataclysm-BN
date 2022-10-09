@@ -25,21 +25,16 @@
     "miss_msg_u": "%1$s tries to stomp on you, but you dodge!",
     "miss_msg_npc": "%1$s tries stomp on <npcname>, but they dodge!",
     "no_dmg_msg_u": "%1$s stomps on your %2$s, but your armor protects you.",
-    "no_dmg_msg_npc": "%1$s stomps on <npcname>, but their armor protects them.",
-    "dodgeable": true,
-    "blockable": false
+    "no_dmg_msg_npc": "%1$s stomps on <npcname>, but their armor protects them."
   },
   {
     "type": "monster_attack",
     "attack_type": "melee",
     "id": "tailsmash_DinoMod",
     "move_cost": 400,
-    "range": 3,
-    "no_adjacent": true,
     "cooldown": 20,
     "damage_max_instance": [ { "damage_type": "bash", "amount": 30 } ],
     "body_parts": [ [ "torso", 3 ], [ "leg_r", 1 ], [ "leg_l", 1 ], [ "arm_r", 1 ], [ "arm_l", 1 ] ],
-    "throw_strength": 100,
     "hit_dmg_u": "%1$s swings its massive tail at your %2$s, pulverizing it!",
     "hit_dmg_npc": "%1$s swings its massive tail at <npcname>'s %2$s!",
     "no_dmg_msg_u": "%s swings its tail at you, but it's blunted by your armor.",
@@ -52,11 +47,9 @@
     "attack_type": "melee",
     "id": "tailsmash_ankyl_DinoMod",
     "move_cost": 400,
-    "range": 2,
     "cooldown": 20,
     "damage_max_instance": [ { "damage_type": "stab", "amount": 6 }, { "damage_type": "bash", "amount": 24 } ],
     "body_parts": [ [ "torso", 1 ], [ "leg_r", 4 ], [ "leg_l", 4 ], [ "arm_r", 1 ], [ "arm_l", 1 ] ],
-    "throw_strength": 50,
     "hit_dmg_u": "%1$s swings its spiked tail at your %2$s, smashing it!",
     "hit_dmg_npc": "%1$s swings its spiked tail at <npcname>'s %2$s!",
     "no_dmg_msg_u": "%s swings its spiked tail at you, but it's blunted by your armor.",
@@ -85,7 +78,6 @@
     "id": "stretch_horns_DinoMod",
     "cooldown": 20,
     "move_cost": 200,
-    "range": 3,
     "damage_max_instance": [ { "damage_type": "stab", "amount": 10 } ],
     "hit_dmg_u": "%1$s thrusts its long horns at you, piercing your %2$s!",
     "hit_dmg_npc": "%1$s thrusts its long horns at <npcname>!",
@@ -108,7 +100,6 @@
     "min_damage": 0,
     "max_damage": 0,
     "valid_targets": [ "self" ],
-    "shape": "blast",
     "effect": "noise"
   }
 ]
