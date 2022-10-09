@@ -207,7 +207,6 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 2,
     "upgrades": { "age_grow": 70, "into": "mon_gallimimus" },
-    "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 3 },
     "flags": [
       "SEES",
       "HEARS",
