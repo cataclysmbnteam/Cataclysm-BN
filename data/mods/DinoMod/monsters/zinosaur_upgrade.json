@@ -1135,7 +1135,6 @@
       "NIGHT_INVISIBILITY"
     ],
     "harvest": "zed_dino_leather",
-    "dissect": "dissect_dino_large_pred",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -1185,7 +1184,6 @@
       "NIGHT_INVISIBILITY"
     ],
     "harvest": "zed_dino_leather",
-    "dissect": "dissect_dino_large_pred",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -1420,7 +1418,6 @@
       "NIGHT_INVISIBILITY"
     ],
     "harvest": "zed_dino_feather",
-    "dissect": "dissect_dino_large_pred",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -2167,10 +2164,8 @@
     "armor_cut": 19,
     "armor_bullet": 26,
     "armor_acid": 3,
-    "armor_elec": 2,
     "vision_day": 30,
     "vision_night": 3,
-    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": { "half_life": 15, "into": "mon_silophosaurus_brute" },
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
     "flags": [ "SEES", "HEARS", "PET_MOUNTABLE", "POISON", "NO_BREATHE", "REVIVES", "FILTHY", "HARDTOSHOOT" ],
@@ -3006,7 +3001,6 @@
     "relative": { "armor_bash": 30, "armor_cut": 37 },
     "extend": { "flags": [ "DRIPS_GASOLINE", "LOUDMOVES" ] },
     "special_attacks": [ [ "GRAB", 30 ], [ "FLAMETHROWER", 30 ] ],
-    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_syn_armored" ],
     "upgrades": {  },
     "death_drops": [
       { "item": "wheel", "count": 4 },
@@ -3014,7 +3008,7 @@
       { "group": "supplies_mechanics", "count": 10 },
       { "group": "supplies_metal", "count": 10 }
     ],
-    "death_function": { "effect": { "id": "death_fireball", "hit_self": true } },
+    "death_function": [ "FIREBALL" ],
     "categories": [ "DINOSAUR", "MAN_MADE" ]
   },
   {
@@ -3031,7 +3025,6 @@
     "relative": { "armor_bash": 30, "armor_cut": 37 },
     "extend": { "flags": [ "DRIPS_GASOLINE", "LOUDMOVES" ] },
     "special_attacks": [ [ "GRAB", 30 ], [ "FLAMETHROWER", 30 ] ],
-    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_syn_armored" ],
     "upgrades": {  },
     "death_drops": [
       { "item": "wheel", "count": 4 },
@@ -3039,7 +3032,7 @@
       { "group": "supplies_mechanics", "count": 10 },
       { "group": "supplies_metal", "count": 10 }
     ],
-    "death_function": { "effect": { "id": "death_fireball", "hit_self": true } },
+    "death_function": [ "FIREBALL" ],
     "categories": [ "DINOSAUR", "MAN_MADE" ]
   },
   {
@@ -3202,7 +3195,6 @@
     "special_attacks": [ [ "ACID_BARF", 10 ] ],
     "vision_night": 3,
     "harvest": "zed_dino_feather",
-    "dissect": "dissect_dino_large_pred",
     "categories": [ "DINOSAUR" ],
     "looks_like": "mon_zyrannosaurus",
     "volume": "540 L",
