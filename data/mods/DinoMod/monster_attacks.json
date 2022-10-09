@@ -63,7 +63,6 @@
     "id": "stretch_horn_DinoMod",
     "cooldown": 20,
     "move_cost": 200,
-    "range": 3,
     "damage_max_instance": [ { "damage_type": "stab", "amount": 10 } ],
     "hit_dmg_u": "%1$s thrusts its long horn at you, piercing your %2$s!",
     "hit_dmg_npc": "%1$s thrusts its long horn at <npcname>!",
