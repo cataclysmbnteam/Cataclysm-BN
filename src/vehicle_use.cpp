@@ -462,6 +462,7 @@ int vehicle::select_engine()
         .with_txt_color( is_active ? c_light_green : c_light_gray );
     };
 
+    int i = 0;
     const auto entry_alt_fuels = [&]( size_t x ) {
         int e = engines[ x ];
         const std::string &part_name = parts[ e ].name();
@@ -473,7 +474,8 @@ int vehicle::select_engine()
         for( const itype_id &fuel_id : fuel_opts ) {
             const bool is_active = is_engine_active( e, fuel_id );
             const bool is_available = is_engine_available( x, fuel_id );
-            auto opt =  get_opt( is_available, is_active, item::nname( fuel_id ) );
+            auto opt = get_opt( is_available, is_active, item::nname( fuel_id ) );
+            opt.retval = i++;
             tmenu.entries.emplace_back( opt );
         }
     };
