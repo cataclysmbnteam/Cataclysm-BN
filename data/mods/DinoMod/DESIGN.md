@@ -40,9 +40,9 @@ monsters folder:
 * zed-dinosaur.json is where new zombified dinos go. copy-from can be very helpful here.
 
 # DDA and BN
-As much as possible, there should be content and feature parity between both (all?) Cataclysm variants for the best player experience and easiest mod maintenance. As of April 2021 the known code differences between the two for DinoMod are:
+As much as possible, there should be content and feature parity between both (all?) Cataclysm variants for the best player experience and easiest mod maintenance. As of October 2022 the known code differences between the two for DinoMod are:
 * Monstergroups folder - BN groups need  "default" and "cost_multiplier" to be defined, "weight should be "freq" instead
-* Monsters folder - DDA supports bullet armor and biosignature and not the BLEEDS flag while BN supports BLEEDS and not bullet armor or biosignature. These hit the monster folder. 
+* Monsters folder - DDA supports bullet armor and biosignature and not the BLEEDS or the GUILT flag while BN supports BLEEDS and GUILT and not bullet armor or biosignature or the death_guilt death_function.
 * mutagen recipes - "activity_level" is removed in BN.
 * lab locations - lots of content missing or different in BN, science basements still need to be reconstructed from BN originals
 * laser items - BN port removes pocket_data and amm0_to_fire lines and changes damage_type bullet to stab
