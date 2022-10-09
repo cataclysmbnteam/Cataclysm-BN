@@ -614,7 +614,7 @@ void vehicle::use_controls( const tripoint &pos )
     Character &character = get_player_character();
     const auto confirm_stop_driving = [this] {
         return !is_flying_in_air() || query_yn(
-            _( "Really let go of controls while flying? This will result in a crash." ) );
+            _( "Really let go of controls while flying?  This will result in a crash." ) );
     };
 
     if( remote ) {
