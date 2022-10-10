@@ -210,7 +210,7 @@
     "light_emitted": 15,
     "required_str": -1,
     "emissions": [ "emit_shock_burst" ],
-    "flags": [ "TRANSPARENT" ],
+    "flags": [ "TRANSPARENT", "MIGO_NERVE" ],
     "examine_action": "migo_nerve_cluster",
     "bash": {
       "str_min": 250,

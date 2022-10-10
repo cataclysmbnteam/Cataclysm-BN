@@ -1707,6 +1707,7 @@ class map
         * @param p The point on this map where the item is and creature will be
         */
         void rotten_item_spawn( const item &item, const tripoint &p );
+        void smash_migo_nerve( const tripoint &p );
     private:
         // Helper #1 - spawns monsters on one submap
         void spawn_monsters_submap( const tripoint &gp, bool ignore_sight );

@@ -6149,7 +6149,6 @@ void iexamine::migo_nerve_cluster( player &p, const tripoint &examp )
         }
         if( open ) {
             add_msg( m_good, _( "The nerve cluster collapses in on itself, and the nearby cages open!" ) );
-
         } else {
             add_msg( _( "The nerve cluster collapses in on itself, to no discernible effect." ) );
         }
@@ -6157,7 +6156,9 @@ void iexamine::migo_nerve_cluster( player &p, const tripoint &examp )
                        _( "a loud alien shriek reverberating through the structure!" ), true,
                        "shout", "scream_tortured" );
         g->place_critter_around( mon_mi_go_myrmidon, examp, 1 );
-        add_msg( m_bad, _( "Something stirs and clambers out of the ruined mass of flesh and nerves!" ) );
+        if( p.sees( examp ) ) {
+            add_msg( m_bad, _( "Something stirs and clambers out of the ruined mass of flesh and nerves!" ) );
+        }
         here.furn_set( examp, furn_id( "f_alien_scar" ) );
     }
 }
