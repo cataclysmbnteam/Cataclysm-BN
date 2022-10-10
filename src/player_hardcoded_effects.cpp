@@ -77,7 +77,6 @@ static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_paincysts( "paincysts" );
 static const efftype_id effect_panacea( "panacea" );
-static const efftype_id effect_psychosis_temporary( "psychosis_temporary" );
 static const efftype_id effect_rat( "rat" );
 static const efftype_id effect_recover( "recover" );
 static const efftype_id effect_shakes( "shakes" );
@@ -594,15 +593,15 @@ void player::hardcoded_effects( effect &it )
         if( dur > 10_hours ) {
             if( one_in( 7200 - ( dur - 360_minutes ) / 4_turns ) ) {
                 add_msg_if_player( m_bad,
-                                   _( "You feel something reaching out to you, straining your mind to its limit!" ) );
+                                   _( "You feel something reaching out to you, before reality around you frays!" ) );
                 if( has_artifact_with( AEP_PSYSHIELD ) || ( worn_with_flag( "PSYSHIELD_PARTIAL" ) &&
                         one_in( 10 ) ) ) {
                     // Transfers half of remaining duration of nether attention, tinfoil only sometimes helps
-                    it.mult_duration( .5 );
-                    add_effect( effect_psychosis_temporary, dur );
+                    it.mult_duration( 0.5 );
+                    add_effect( effect_teleglow, dur );
                 } else {
-                    // Transfers all remaining duration of nether attention to psychotic break
-                    add_effect( effect_psychosis_temporary, dur );
+                    // Transfers all remaining duration of nether attention to dimensional instability
+                    add_effect( effect_teleglow, dur );
                 }
                 it.set_duration( 0_turns );
             }
@@ -628,7 +627,7 @@ void player::hardcoded_effects( effect &it )
                     moves -= 4 * get_speed();
                 }
                 // Reduce duration a bit but don't remove completely
-                it.mult_duration( .75 );
+                it.mult_duration( 0.75 );
             }
             if( one_turn_in( 1200_minutes - dur ) ) {
                 if( has_artifact_with( AEP_PSYSHIELD ) || ( worn_with_flag( "PSYSHIELD_PARTIAL" ) &&
@@ -639,7 +638,7 @@ void player::hardcoded_effects( effect &it )
                     add_effect( effect_dazed, rng( 1_minutes, 2_minutes ) );
                 }
                 // Reduce duration a bit but don't remove completely
-                it.mult_duration( .75 );
+                it.mult_duration( 0.75 );
             }
         }
         if( dur > 4_hours ) {
@@ -647,7 +646,7 @@ void player::hardcoded_effects( effect &it )
                 add_msg_if_player( m_bad, _( "Your vision is filled with bright lights…" ) );
                 add_effect( effect_blind, rng( 1_minutes, 2_minutes ) );
                 // Reduce duration a bit but don't remove completely
-                it.mult_duration( .9 );
+                it.mult_duration( 0.9 );
             }
             if( one_in( 5000 ) && !has_effect( effect_nausea ) ) {
                 add_msg_if_player( m_bad, _( "A wave of nausea passes over you." ) );
@@ -658,7 +657,7 @@ void player::hardcoded_effects( effect &it )
             add_msg_if_player( m_bad, _( "Shifting shapes dance on the edge of your vision." ) );
             add_effect( effect_hallu, 4_hours );
             // Reduce duration a bit but don't remove completely
-            it.mult_duration( .9 );
+            it.mult_duration( 0.9 );
         }
         if( one_turn_in( 40_minutes ) ) {
             if( has_artifact_with( AEP_PSYSHIELD ) || ( worn_with_flag( "PSYSHIELD_PARTIAL" ) &&
@@ -737,14 +736,14 @@ void player::hardcoded_effects( effect &it )
                         add_msg( m_warning, _( "A portal opens nearby, and a monster crawls through!" ) );
                     }
                     // Reduce duration a bit but don't remove completely
-                    it.mult_duration( .75 );
+                    it.mult_duration( 0.75 );
                 }
             }
             if( one_in( 21000 - ( dur - 360_minutes ) / 4_turns ) ) {
                 add_msg_if_player( m_bad, _( "You shudder suddenly." ) );
                 mutate();
                 // Reduce duration a bit but don't remove completely
-                it.mult_duration( .75 );
+                it.mult_duration( 0.75 );
             }
         }
         if( dur > 4_hours ) {
@@ -757,14 +756,14 @@ void player::hardcoded_effects( effect &it )
                 add_msg_if_player( m_bad, _( "A blue flash of radiation permeates your vision briefly!" ) );
                 irradiate( rng( 10, 20 ), true );
                 // Reduce duration a bit but don't remove completely
-                it.mult_duration( .9 );
+                it.mult_duration( 0.9 );
             }
         }
         if( one_in( 4000 ) ) {
             add_msg_if_player( m_bad, _( "You're suddenly covered in ectoplasm." ) );
             add_effect( effect_boomered, 10_minutes );
             // Reduce duration a bit but don't remove completely
-            it.mult_duration( .9 );
+            it.mult_duration( 0.9 );
         }
         if( one_in( 5000 ) ) {
             add_msg_if_player( m_bad, _( "A strange sound reverberates around the edges of reality." ) );

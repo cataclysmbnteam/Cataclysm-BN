@@ -1190,18 +1190,6 @@
   },
   {
     "type": "effect_type",
-    "id": "psychosis_temporary",
-    "name": [ "Touched Mind" ],
-    "desc": [
-      "Intrusive and otherworldly imagery erode your sense of what is real.  Thorazine might help, or you can ride it out and hope for the best."
-    ],
-    "remove_message": "The stress wearing on your mind fades.",
-    "rating": "bad",
-    "max_duration": "12 h",
-    "flags": [ "EFFECT_SCHIZO" ]
-  },
-  {
-    "type": "effect_type",
     "id": "jetinjector",
     "name": [ "RX12 Healing Comedown", "RX12 Healing Rush" ],
     "desc": [ "You feel completely drained.", "You feel the rush of stimulants in your body!" ],

@@ -310,14 +310,12 @@ void Character::suffer_while_awake( const int current_stim )
     if( has_trait( trait_CHEMIMBALANCE ) ) {
         suffer_from_chemimbalance();
     }
-    if( ( has_trait( trait_SCHIZOPHRENIC ) || has_artifact_with( AEP_SCHIZO ) ||
-          has_effect_with_flag( "EFFECT_SCHIZO" ) ) &&
+    if( ( has_trait( trait_SCHIZOPHRENIC ) || has_artifact_with( AEP_SCHIZO ) ) &&
         !has_effect( effect_took_thorazine ) ) {
         suffer_from_schizophrenia();
     }
 
-    if( ( has_trait( trait_NARCOLEPTIC ) || has_artifact_with( AEP_SCHIZO ) ||
-          has_effect_with_flag( "EFFECT_SCHIZO" ) ) ) {
+    if( ( has_trait( trait_NARCOLEPTIC ) || has_artifact_with( AEP_SCHIZO ) ) ) {
         if( one_turn_in( 8_hours ) ) {
             add_msg( m_bad,
                      _( "You're suddenly overcome with the urge to sleep and you pass out." ) );
