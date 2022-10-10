@@ -2253,6 +2253,9 @@ bool mattack::plant( monster *z )
 
 bool mattack::disappear( monster *z )
 {
+    // No death drops or corpse, just in case a vanishing monster is set to have that when killed normally
+    z->no_corpse_quiet = true;
+    z->no_extra_death_drops = true;
     z->set_hp( 0 );
     return true;
 }
@@ -4568,8 +4571,12 @@ bool mattack::darkman( monster *z )
         // TODO: handle friendly monsters
         return false;
     }
+    // Wont do stuff unless it can see you and is in range
     if( rl_dist( z->pos(), g->u.pos() ) > 40 ) {
         return false;
+    }
+    if( !z->sees( g->u ) ) {
+        return true;
     }
     if( monster *const shadow = g->place_critter_around( mon_shadow, z->pos(), 1 ) ) {
         z->moves -= 10;
@@ -4578,10 +4585,6 @@ bool mattack::darkman( monster *z )
             add_msg( m_warning, _( "A shadow splits from the %s!" ),
                      z->name() );
         }
-    }
-    // Wont do the combat stuff unless it can see you
-    if( !z->sees( g->u ) ) {
-        return true;
     }
     // What do we say?
     switch( rng( 1, 7 ) ) {
