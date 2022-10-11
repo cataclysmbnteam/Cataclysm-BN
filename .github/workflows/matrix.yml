@@ -26,30 +26,30 @@ jobs:
     strategy:
       matrix:
         include:
-          - compiler: g++-12
+          - compiler: g++-11
             os: ubuntu-latest
             cmake: 0
             tiles: 0
             sound: 0
             test-stage: 1
-            title: GCC 12, Ubuntu, Curses
+            title: GCC 11, Ubuntu, Curses
             native: linux64
-          - compiler: g++-12
+          - compiler: g++-11
             os: ubuntu-latest
             cmake: 1
             tiles: 1
             sound: 1
             languages: all
             native: linux64
-            title: GCC 12, Ubuntu, Tiles, CMake, Languages
-          - compiler: g++-12
+            title: GCC 11, Ubuntu, Tiles, CMake, Languages
+          - compiler: g++-10
             os: ubuntu-latest
             cmake: 0
             tiles: 1
             sound: 0
             sanitize: address
             native: linux64
-            title: GCC 12, Ubuntu, Tiles, NoSound, ASan
+            title: GCC 10, Ubuntu, Tiles, NoSound, ASan
           - compiler: clang++-12
             os: ubuntu-latest
             cmake: 0
@@ -95,10 +95,8 @@ jobs:
           sudo apt-get install libncursesw5-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev \
             libsdl2-mixer-dev libpulse-dev ccache gettext parallel
     - name: install missing compiler (ubuntu)
-      if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && matrix.compiler == 'g++-12' }}
-      run: |
-          sudo apt-get install ${{ matrix.compiler }}
-          ${{ matrix.compiler }} --version
+      if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && matrix.compiler == 'g++-11' }}
+      run: sudo apt-get install ${{ matrix.compiler }}
     - name: check compiler (mac)
       if: ${{ env.SKIP == 'false' && runner.os == 'macOS' }}
       run: |
