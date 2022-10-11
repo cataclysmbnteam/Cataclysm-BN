@@ -45,6 +45,7 @@ Head over to https://github.com/olanti-p/BN_Astyle and follow instructions in th
 
 Extensions's source code lives over at https://github.com/lukamicoder/astyle-extension.
 To install and compile it:
+
 1. Add the `Visual Studio extension development` workload through Visual Studio installer to your VS2019
 2. Download and extract the source code, or clone the repository (a simple `git clone --depth 1 https://github.com/lukamicoder/astyle-extension.git` should do).
 3. From the root folder, open `astyle-extension/AStyleExtension2017.sln`
@@ -73,7 +74,7 @@ You may follow the steps for VS2019 to compile from source, but there are pre-bu
 
 ![image](img/VS_Astyle_Step_3.png)
 
-*Note:* You can also configure keybindings for aforementioned commands in `Tools` - `Options` - `Environment` - `Keybindings` menu:
+_Note:_ You can also configure keybindings for aforementioned commands in `Tools` - `Options` - `Environment` - `Keybindings` menu:
 
 ![image](img/VS_Astyle_Step_4.png)
 
@@ -83,66 +84,69 @@ See the [JSON style guide](JSON_STYLE.md).
 
 ## ctags
 
-In addition to the usual means of creating a `tags` file via e.g. [`ctags`](http://ctags.sourceforge.net/), we provide `tools/json_tools/cddatags.py` to augment a `tags` file with locations of definitions taken from CDDA JSON data.  `cddatags.py` is designed to safely update a tags file containing source code tags, so if you want both types of tag in your `tags` file then you can run `ctags -R . && tools/json_tools/cddatags.py`.  Alternatively, there is a rule in the `Makefile` to do this for you; just run `make ctags` or `make etags`.
-
+In addition to the usual means of creating a `tags` file via e.g. [`ctags`](http://ctags.sourceforge.net/), we provide `tools/json_tools/cddatags.py` to augment a `tags` file with locations of definitions taken from CDDA JSON data. `cddatags.py` is designed to safely update a tags file containing source code tags, so if you want both types of tag in your `tags` file then you can run `ctags -R . && tools/json_tools/cddatags.py`. Alternatively, there is a rule in the `Makefile` to do this for you; just run `make ctags` or `make etags`.
 
 ## clang-tidy
 
 Cataclysm has a [clang-tidy configuration file](../.clang-tidy) and if you have
 `clang-tidy` available you can run it to perform static analysis of the
-codebase.  We test with `clang-tidy` from LLVM 8.0.1 on Travis, so for the most
+codebase. We test with `clang-tidy` from LLVM 8.0.1 on Travis, so for the most
 consistent results, you might want to use that version.
 
 To run it you have a few options.
 
-* `clang-tidy` ships with a wrapper script `run-clang-tidy.py`.
+-   `clang-tidy` ships with a wrapper script `run-clang-tidy.py`.
 
-* Use CMake's built-in support by adding `-DCMAKE_CXX_CLANG_TIDY=clang-tidy`
-  or similar, pointing it to your chosen clang-tidy version.
+-   Use CMake's built-in support by adding `-DCMAKE_CXX_CLANG_TIDY=clang-tidy`
+    or similar, pointing it to your chosen clang-tidy version.
 
-* To run `clang-tidy` directly try something like
+-   To run `clang-tidy` directly try something like
+
 ```sh
 grep '"file": "' build/compile_commands.json | \
     sed "s+.*$PWD/++;s+\"$++" | \
     egrep '.' | \
     xargs -P 9 -n 1 clang-tidy -quiet
 ```
+
 To focus on a subset of files add their names into the `egrep` regex in the
 middle of the command-line.
 
 ### Custom clang-tidy plugin
 
-We have written our own clang-tidy checks in a custom plugin.  Unfortunately,
+We have written our own clang-tidy checks in a custom plugin. Unfortunately,
 `clang-tidy` as distributed by LLVM doesn't support plugins, so making this
 work requires some extra steps.
 
 #### Ubuntu Xenial
 
 If you are on Ubuntu Xenial then you might be able to get it working the same
-way Travis does.  Add the LLVM 8 Xenial source [listed
-here](https://apt.llvm.org/) to your `sources.list`, install the `clang-8
-libclang-8-dev llvm-8-dev llvm-8-tools` packages and build Cataclysm with CMake
+way Travis does. Add the LLVM 8 Xenial source [listed
+here](https://apt.llvm.org/) to your `sources.list`, install the `clang-8 libclang-8-dev llvm-12-dev llvm-12-tools` packages and build Cataclysm with CMake
 adding `-DCATA_CLANG_TIDY_PLUGIN=ON`.
 
 On other distributions you will probably need to build `clang-tidy` yourself.
-* Check out the `llvm`, `clang`, and `clang-tools-extra` repositories in the
-  required layout (as described for example
-  [here](https://quuxplusone.github.io/blog/2018/04/16/building-llvm-from-source/).
-* Patch in plugin support for `clang-tidy` using [this
-  patch](https://github.com/jbytheway/clang-tidy-plugin-support/blob/master/plugin-support.patch).
-* Configure LLVM using CMake, including the
-  `-DCMAKE_EXE_LINKER_FLAGS="-rdynamic"` option.
-* Add the `build/bin` directory to your path so that `clang-tidy` and
-  `FileCheck` are found from there.
 
-Then you can use your locally build `clang-tidy` to compile Cataclysm.  You'll
+-   Check out the `llvm`, `clang`, and `clang-tools-extra` repositories in the
+    required layout (as described for example
+    [here](https://quuxplusone.github.io/blog/2018/04/16/building-llvm-from-source/).
+-   Patch in plugin support for `clang-tidy` using [this
+    patch](https://github.com/jbytheway/clang-tidy-plugin-support/blob/master/plugin-support.patch).
+-   Configure LLVM using CMake, including the
+    `-DCMAKE_EXE_LINKER_FLAGS="-rdynamic"` option.
+-   Add the `build/bin` directory to your path so that `clang-tidy` and
+    `FileCheck` are found from there.
+
+Then you can use your locally build `clang-tidy` to compile Cataclysm. You'll
 need to use the CMake version of the Cataclysm build rather than the `Makefile`
-build.  Add the following CMake options:
+build. Add the following CMake options:
+
 ```sh
 -DCATA_CLANG_TIDY_PLUGIN=ON
 -DCATA_CLANG_TIDY_INCLUDE_DIR="$extra_dir/clang-tidy"
 -DCATA_CHECK_CLANG_TIDY="$extra_dir/test/clang-tidy/check_clang_tidy.py"
 ```
+
 where `$extra_dir` is the location of your `clang-tools-extra` checkout.
 
 To run `clang-tidy` with this plugin enabled add the
@@ -150,11 +154,12 @@ To run `clang-tidy` with this plugin enabled add the
 to your `clang-tidy` command line.
 
 If you wish to run the tests for the custom clang-tidy plugin you will also
-need `lit`.  This will be built as part of `llvm`, or you can install it via
+need `lit`. This will be built as part of `llvm`, or you can install it via
 `pip` or your local package manager if you prefer.
 
 Then, assuming `build` is your Cataclysm build directory, you can run the tests
 with
+
 ```sh
 lit -v build/tools/clang-tidy-plugin/test
 ```
@@ -164,12 +169,13 @@ lit -v build/tools/clang-tidy-plugin/test
 ##### Build LLVM
 
 To build llvm on Windows, you'll first need to get some tools installed.
-- Cmake
-- Python 3 (Python 2 may not work for building llvm, but it's still required to run
-the lit test, which will be discussed in the next section.)
-- MinGW-w64 (other compilers may or may not work. Clang itself does not seem to be
-building llvm on Windows correctly.)
-- A shell environment
+
+-   Cmake
+-   Python 3 (Python 2 may not work for building llvm, but it's still required to run
+    the lit test, which will be discussed in the next section.)
+-   MinGW-w64 (other compilers may or may not work. Clang itself does not seem to be
+    building llvm on Windows correctly.)
+-   A shell environment
 
 After the tools are installed, a patch still needs to be applied before building
 llvm, since `clang-tidy` as distributed by LLVM doesn't support plugins.
@@ -226,16 +232,18 @@ After building clang-tidy as a library from the llvm source, the next step is to
 build clang-tidy as an executable, with the custom checks from the CDDA source.
 
 In this step, the following tools are required.
-- Python 2 (used to run the lit test for the custom checks)
-- Python 3 (used to run other python scripts)
-- CMake
-- MinGW-w64
-- FileCheck (built from the llvm source)
-- A shell environment
+
+-   Python 2 (used to run the lit test for the custom checks)
+-   Python 3 (used to run other python scripts)
+-   CMake
+-   MinGW-w64
+-   FileCheck (built from the llvm source)
+-   A shell environment
 
 You also need to install yaml for python 3 to work. Download the `.whl` installer
 corresponding to your python version from [here](https://pyyaml.org/wiki/PyYAML)
 and execute the following command inside the `<python3_root>/Scripts` directory
+
 ```sh
 pip install path/to/your/downloaded/file.whl
 ```
@@ -252,7 +260,7 @@ index 553ef0ebe0..f591bc80d1 100644
 @@ -3,8 +3,8 @@ include(ExternalProject)
  find_package(LLVM REQUIRED CONFIG)
  find_package(Clang REQUIRED CONFIG)
- 
+
 -add_library(
 -    CataAnalyzerPlugin MODULE
 +add_executable(
@@ -263,7 +271,7 @@ index 553ef0ebe0..f591bc80d1 100644
 @@ -51,6 +51,11 @@ else()
          CataAnalyzerPlugin SYSTEM PRIVATE ${CATA_CLANG_TIDY_INCLUDE_DIR})
  endif()
- 
+
 +target_link_libraries(
 +    CataAnalyzerPlugin
 +    clangTidyMain
@@ -271,7 +279,7 @@ index 553ef0ebe0..f591bc80d1 100644
 +
  target_compile_definitions(
      CataAnalyzerPlugin PRIVATE ${LLVM_DEFINITIONS})
- 
+
 diff --git a/tools/clang-tidy-plugin/test/lit.cfg b/tools/clang-tidy-plugin/test/lit.cfg
 index 4ab6e913a7..d1a4418ba6 100644
 --- a/tools/clang-tidy-plugin/test/lit.cfg
@@ -279,13 +287,13 @@ index 4ab6e913a7..d1a4418ba6 100644
 @@ -17,11 +17,13 @@ else:
              config.plugin_build_root, 'clang-tidy-plugin-support', 'bin',
              'check_clang_tidy.py')
- 
+
 -cata_include = os.path.join( config.cata_source_dir, "src" )
 +cata_include = os.path.join( config.cata_source_dir, "./src" )
- 
+
  cata_plugin = os.path.join(
          config.plugin_build_root, 'libCataAnalyzerPlugin.so')
- 
+
 +cata_plugin = ''
 +
  config.substitutions.append(('%check_clang_tidy', check_clang_tidy))
@@ -350,14 +358,14 @@ You can also add `-fix-errors` to apply fixes reported by the checks, or
 ## include-what-you-use
 
 [include-what-you-use](https://github.com/include-what-you-use/include-what-you-use)
-(IWYU) is a project intended to optimise includes.  It will calculate the
+(IWYU) is a project intended to optimise includes. It will calculate the
 required headers and add and remove includes as appropriate.
 
-Running on this codebase revealed some issues.  You will need a version of IWYU
+Running on this codebase revealed some issues. You will need a version of IWYU
 where the following PR has been merged (which has not yet happened at time of
 writing, but with luck might make it into the clang-10 release of IWYU):
 
-* https://github.com/include-what-you-use/include-what-you-use/pull/775
+-   https://github.com/include-what-you-use/include-what-you-use/pull/775
 
 Once you have IWYU built, build the codebase using cmake, with
 `CMAKE_EXPORT_COMPILE_COMMANDS=ON` on to create a compilation database
@@ -374,42 +382,42 @@ so you might need to run clang-tidy (as described above) and then re-run IWYU a
 second time.
 
 There are mapping files in `tools/iwyu` intended to help IWYU pick the right
-headers.  Mostly they should be fairly obvious, but the SDL mappings might
-warrant further explanation.  We want to force most SDL includes to go via
+headers. Mostly they should be fairly obvious, but the SDL mappings might
+warrant further explanation. We want to force most SDL includes to go via
 `sdl_wrappers.h`, because that handles the platform-dependence issues (the
-include paths are different on Windows).  There are a couple of exceptions
-(`SDL_version.h` and `SDL_mixer.h`).  The former is because `main.cpp` can't
-include all SDL headers, because they `#define WinMain`.  All the mappings in
+include paths are different on Windows). There are a couple of exceptions
+(`SDL_version.h` and `SDL_mixer.h`). The former is because `main.cpp` can't
+include all SDL headers, because they `#define WinMain`. All the mappings in
 `sdl.imp` are designed to make this happen.
 
-We have to use IWYU pragmas in some situations.  Some of the reasons are:
+We have to use IWYU pragmas in some situations. Some of the reasons are:
 
-* IWYU has a concept of [associated
-  headers](https://github.com/include-what-you-use/include-what-you-use/blob/master/docs/IWYUPragmas.md#iwyu-pragma-associated),
-  where each cpp file can have some number of such headers.  The cpp file is
-  expected to define the things declared in those headers.  In Cata, the
-  mapping between headers and cpp files is not nearly so simple, so there are
-  files with multiple associated headers, and files with none.  Headers that
-  are not the associated header of any cpp file will not get their includes
-  updated, which could lead to broken builds, so ideally all headers would be
-  associated to some cpp file.  You can use the following command to get a list
-  of headers which are not currently associated to any cpp file (requires GNU
-  sed):
+-   IWYU has a concept of [associated
+    headers](https://github.com/include-what-you-use/include-what-you-use/blob/master/docs/IWYUPragmas.md#iwyu-pragma-associated),
+    where each cpp file can have some number of such headers. The cpp file is
+    expected to define the things declared in those headers. In Cata, the
+    mapping between headers and cpp files is not nearly so simple, so there are
+    files with multiple associated headers, and files with none. Headers that
+    are not the associated header of any cpp file will not get their includes
+    updated, which could lead to broken builds, so ideally all headers would be
+    associated to some cpp file. You can use the following command to get a list
+    of headers which are not currently associated to any cpp file (requires GNU
+    sed):
 
 ```
 diff <(ls src/*.h | sed 's!.*/!!') <(for i in src/*.cpp; do echo $i; sed -n '/^#include/{p; :loop n; p; /^$/q; b loop}' $i; done | grep 'e "' | grep -o '"[^"]*"' | sort -u | tr -d '"')
 ```
 
-* Due to a [clang bug](https://bugs.llvm.org/show_bug.cgi?id=20666), uses in
-  template arguments to explicit instantiations are not counted, which leads to
-  some need for `IWYU pragma: keep`.
+-   Due to a [clang bug](https://bugs.llvm.org/show_bug.cgi?id=20666), uses in
+    template arguments to explicit instantiations are not counted, which leads to
+    some need for `IWYU pragma: keep`.
 
-* Due to
-  [these](https://github.com/include-what-you-use/include-what-you-use/blob/4909f206b46809775e9b5381f852eda62cbf4bf7/iwyu.cc#L1617)
-  [missing](https://github.com/include-what-you-use/include-what-you-use/blob/4909f206b46809775e9b5381f852eda62cbf4bf7/iwyu.cc#L1629)
-  features of IWYU, it does not count uses in template arguments to return
-  types, which leads to other requirements for `IWYU pragma: keep`.
+-   Due to
+    [these](https://github.com/include-what-you-use/include-what-you-use/blob/4909f206b46809775e9b5381f852eda62cbf4bf7/iwyu.cc#L1617)
+    [missing](https://github.com/include-what-you-use/include-what-you-use/blob/4909f206b46809775e9b5381f852eda62cbf4bf7/iwyu.cc#L1629)
+    features of IWYU, it does not count uses in template arguments to return
+    types, which leads to other requirements for `IWYU pragma: keep`.
 
-* IWYU seems to have particular trouble with types used in maps and
-  `cata::optional`.  Have not looked into this in detail, but again worked
-  around it with pragmas.
+-   IWYU seems to have particular trouble with types used in maps and
+    `cata::optional`. Have not looked into this in detail, but again worked
+    around it with pragmas.

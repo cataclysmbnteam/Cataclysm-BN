@@ -56,8 +56,8 @@ then
         cmake_extra_opts+=("-DCATA_CLANG_TIDY_PLUGIN=ON")
         # Need to specify the particular LLVM / Clang versions to use, lest it
         # use the llvm-7 that comes by default on the Travis Xenial image.
-        cmake_extra_opts+=("-DLLVM_DIR=/usr/lib/llvm-8/lib/cmake/llvm")
-        cmake_extra_opts+=("-DClang_DIR=/usr/lib/llvm-8/lib/cmake/clang")
+        cmake_extra_opts+=("-DLLVM_DIR=/usr/lib/llvm-12/lib/cmake/llvm")
+        cmake_extra_opts+=("-DClang_DIR=/usr/lib/llvm-12/lib/cmake/clang")
     fi
 
     if echo "$COMPILER" | grep -q "clang"

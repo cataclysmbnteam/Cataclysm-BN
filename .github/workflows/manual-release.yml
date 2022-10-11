@@ -6,7 +6,7 @@ on:
     inputs:
       version:
         description: 'Version string for the release'
-        required: true 
+        required: true
         type: string
 env:
   VERSION: ${{ inputs.version }}
@@ -157,7 +157,7 @@ jobs:
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
     env:
-        ZSTD_CLEVEL: 17
+        ZSTD_CLEVEL: 20
     steps:
       - uses: actions/checkout@v2
       - name: Create VERSION.TXT

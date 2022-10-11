@@ -34,7 +34,7 @@ target_include_directories(
 if ("${CATA_CLANG_TIDY_INCLUDE_DIR}" STREQUAL "")
     SET(ctps_releases
         https://github.com/jbytheway/clang-tidy-plugin-support/releases/download)
-    SET(ctps_version llvm-8.0.1-r12)
+    SET(ctps_version llvm-12.0.0-r3)
     SET(ctps_src
         ${CMAKE_CURRENT_BINARY_DIR}/clang-tidy-plugin-support)
 
