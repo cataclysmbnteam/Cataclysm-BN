@@ -16,13 +16,12 @@ Checks: >
   llvm-namespace-comment,
   misc-*,
   modernize-*,
-  -modernize-use-auto,
-  -modernize-use-trailing-return-type,
   performance-*,
   readability-*,
   -bugprone-misplaced-widening-cast,
   -bugprone-narrowing-conversions,
   -bugprone-unused-return-value,
+  -bugprone-implicit-widening-of-multiplication-result,
   -cert-err34-c,
   -cert-flp30-c,
   -cert-msc30-c,
@@ -52,9 +51,18 @@ Checks: >
   -readability-magic-numbers,
   -readability-named-parameter,
   -readability-redundant-control-flow,
-  -readability-identifier-length,
+  -modernize-use-trailing-return-type,
+  -modernize-use-nodiscard,
+# trailing return and nodiscard is just too many to fix
 
-WarningsAsErrors: "*"
+WarningsAsErrors: >
+  *
+  -modernize-use-auto,
+  -readability-make-member-function-const,
+  -readability-convert-member-functions-to-static,
+  -readability-identifier-length,
+  -readability-redundant-access-specifiers
+
 HeaderFilterRegex: "(src|(test(?!.*catch.*catch.h))|tools).*"
 FormatStyle: none
 CheckOptions:
