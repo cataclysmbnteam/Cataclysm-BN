@@ -41,7 +41,7 @@ if ("${CATA_CLANG_TIDY_INCLUDE_DIR}" STREQUAL "")
     ExternalProject_Add(
         clang-tidy-plugin-support
         URL ${ctps_releases}/${ctps_version}/clang-tidy-plugin-support-${ctps_version}.tar.xz
-        URL_HASH SHA256=39cbdd1992566f9565b4394fc663769d3e8ea5bca3802cd4317728f724f5a8b7
+        URL_HASH SHA256=c84aaf35b4d5bb9130b1cc309a92146ae5c62fd69db30a6254725beac9d60990
         SOURCE_DIR ${ctps_src}
         CONFIGURE_COMMAND ""
         BUILD_COMMAND ""
