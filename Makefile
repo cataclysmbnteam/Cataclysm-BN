@@ -283,11 +283,11 @@ ifneq ($(CLANG), 0)
     CXXFLAGS += -fno-builtin
   endif
   ifeq ($(CCACHE), 1)
-    CXX = CCACHE_CPP2=1 $(CCACHEBIN) $(CROSS)$(COMPILER)
-    LD  = CCACHE_CPP2=1 $(CCACHEBIN) $(CROSS)$(COMPILER)
+    CXX = CCACHE_CPP2=1  $(CCACHEBIN) $(CROSS)$(COMPILER)
+    LD  = CCACHE_CPP2=1  $(CCACHEBIN) $(CROSS)$(LINKER)
   else
     CXX = $(CROSS)$(COMPILER)
-    LD  = $(CROSS)$(COMPILER)
+    LD  = $(CROSS)$(LINKER)
   endif
 else
   # Compiler version & target machine - used later for MXE ICE workaround
@@ -298,10 +298,10 @@ else
 
   ifeq ($(CCACHE), 1)
     CXX = $(CCACHEBIN) $(CROSS)$(COMPILER)
-    LD  = $(CCACHEBIN) $(CROSS)$(COMPILER)
+    LD  = $(CCACHEBIN) $(CROSS)$(LINKER)
   else
     CXX = $(CROSS)$(COMPILER)
-    LD  = $(CROSS)$(COMPILER)
+    LD  = $(CROSS)$(LINKER)
   endif
 endif
 
@@ -409,10 +409,12 @@ ifndef RELEASE
 endif
 
 ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
-  OTHERS += -std=gnu++14
+  CXX_STANDARD_VERSION_FLAG = -std=gnu++20
 else
-  OTHERS += -std=c++14
+  CXX_STANDARD_VERSION_FLAG = -std=c++20
 endif
+
+OTHERS += $(CXX_STANDARD_VERSION_FLAG)
 
 ifeq ($(CYGWIN),1)
 WARNINGS += -Wimplicit-fallthrough=0
@@ -494,11 +496,7 @@ endif
 # OSX
 ifeq ($(NATIVE), osx)
   ifeq ($(OSX_MIN),)
-    ifneq ($(CLANG), 0)
-      OSX_MIN = 10.7
-    else
-      OSX_MIN = 10.5
-    endif
+    OSX_MIN = 11
   endif
   DEFINES += -DMACOSX
   CXXFLAGS += -mmacosx-version-min=$(OSX_MIN)
