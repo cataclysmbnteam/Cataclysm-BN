@@ -189,7 +189,7 @@ static std::map<const Creature *, int> do_blast( const tripoint &p, const float 
         const tripoint pt = open.top().second;
         open.pop();
 
-        if( closed.count( pt ) != 0 ) {
+        if( closed.contains( pt ) ) {
             continue;
         }
 
@@ -208,7 +208,7 @@ static std::map<const Creature *, int> do_blast( const tripoint &p, const float 
         // Iterate over all neighbors. Bash all of them, propagate to some
         for( size_t i = 0; i < max_index; i++ ) {
             tripoint dest( pt + tripoint( x_offset[i], y_offset[i], z_offset[i] ) );
-            if( closed.count( dest ) != 0 || !here.inbounds( dest ) ||
+            if( closed.contains( dest ) || !here.inbounds( dest ) ||
                 here.obstructed_by_vehicle_rotation( pt, dest ) ) {
                 continue;
             }
@@ -235,7 +235,7 @@ static std::map<const Creature *, int> do_blast( const tripoint &p, const float 
                 next_dist += zlev_dist;
             }
 
-            if( dist_map.count( dest ) == 0 || dist_map[dest] > next_dist ) {
+            if( !dist_map.contains( dest ) || dist_map[dest] > next_dist ) {
                 open.push( std::make_pair( next_dist, dest ) );
                 dist_map[dest] = next_dist;
             }
@@ -244,7 +244,7 @@ static std::map<const Creature *, int> do_blast( const tripoint &p, const float 
 
     // Draw the explosion
     std::map<tripoint, nc_color> explosion_colors;
-    for( auto &pt : closed ) {
+    for( const auto &pt : closed ) {
         if( here.impassable( pt ) ) {
             continue;
         }
@@ -477,7 +477,7 @@ static std::map<const Creature *, int> do_blast_new( const tripoint &blast_cente
 
         // Critter damage occurs next to reduce the amount of flung enemies, leading to much less predictable damage output
         if( Creature *critter = g->critter_at( position, true ) ) {
-            if( blasted.count( critter ) ) {
+            if( blasted.contains( critter ) ) {
                 // Prevent multibashes to monsters due to flinging.
                 continue;
             }
@@ -535,7 +535,7 @@ static std::map<const Creature *, int> do_blast_new( const tripoint &blast_cente
                                  raw_blast_force;
 
         if( Creature *critter = g->critter_at( position, true ) ) {
-            if( !already_flung.count( critter ) ) {
+            if( !already_flung.contains( critter ) ) {
                 player *pl = dynamic_cast<player *>( critter );
 
                 const int weight = to_gram( critter->get_weight() );
@@ -649,7 +649,7 @@ static std::map<const Creature *, int> shrapnel( const tripoint &src, const proj
         if( visited_cache[target.x][target.y] <= 0.0f || rl_dist( src, target ) > fragment.range ) {
             continue;
         }
-        auto critter = g->critter_at( target );
+        auto *critter = g->critter_at( target );
         if( critter && !critter->is_dead_state() ) {
             // dealt_dag->m.total_damage() == 0 means armor block
             // dealt_dag->m.total_damage() > 0 means took damage

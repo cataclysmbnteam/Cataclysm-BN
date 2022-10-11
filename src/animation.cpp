@@ -629,7 +629,7 @@ void draw_line_curses( game &g, const tripoint &center, const std::vector<tripoi
 {
     drawsq_params params = drawsq_params().highlight( true ).center( center );
     for( const tripoint &p : ret ) {
-        const auto critter = g.critter_at( p, true );
+        auto *const critter = g.critter_at( p, true );
 
         // NPCs and monsters get drawn with inverted colors
         if( critter && g.u.sees( *critter ) ) {

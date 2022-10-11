@@ -86,7 +86,7 @@ JsonObject::JsonObject( JsonIn &j )
     while( !jsin->end_object() ) {
         std::string n = jsin->get_member_name();
         int p = jsin->tell();
-        if( positions.count( n ) > 0 ) {
+        if( positions.contains( n ) ) {
             j.error( "duplicate entry in json object" );
         }
         positions[n] = p;
@@ -112,12 +112,12 @@ void JsonObject::report_unvisited() const
         json_report_strict
         && report_unvisited_members
         && !reported_unvisited_members
-        && !std::uncaught_exception()
+        && !std::uncaught_exceptions()
     ) {
         reported_unvisited_members = true;
         for( const std::pair<const std::string, int> &p : positions ) {
             const std::string &name = p.first;
-            if( !visited_members.count( name ) && !string_starts_with( name, "//" ) ) {
+            if( !visited_members.contains( name ) && !string_starts_with( name, "//" ) ) {
                 try {
                     throw_error( string_format( "Invalid or misplaced field name \"%s\" in JSON data", name ), name );
                 } catch( const JsonError &e ) {
@@ -180,7 +180,7 @@ int JsonObject::verify_position( const std::string &name,
 
 bool JsonObject::has_member( const std::string &name ) const
 {
-    return positions.count( name ) > 0;
+    return positions.contains( name );
 }
 
 std::string JsonObject::line_number() const
@@ -463,13 +463,14 @@ JsonArray::JsonArray( const JsonArray &ja )
 
 JsonArray &JsonArray::operator=( const JsonArray &ja )
 {
-    jsin = ja.jsin;
-    start = ja.start;
-    index = 0;
-    positions = ja.positions;
-    end_ = ja.end_;
-    final_separator = ja.final_separator;
-
+    if( this != &ja ) {
+        jsin = ja.jsin;
+        start = ja.start;
+        index = 0;
+        positions = ja.positions;
+        end_ = ja.end_;
+        final_separator = ja.final_separator;
+    }
     return *this;
 }
 
@@ -1690,7 +1691,7 @@ void JsonIn::error( const std::string &message, int offset )
     rewind( 3, 240 );
     size_t startpos = tell();
     std::string buffer( pos - startpos, '\0' );
-    stream->read( &buffer[0], pos - startpos );
+    stream->read( buffer.data(), pos - startpos );
     auto it = buffer.begin();
     for( ; it < buffer.end() && ( *it == '\r' || *it == '\n' ); ++it ) {
         // skip starting newlines
@@ -1834,7 +1835,7 @@ std::string JsonIn::substr( size_t pos, size_t len )
     }
     ret.resize( len );
     stream->seekg( pos );
-    stream->read( &ret[0], len );
+    stream->read( ret.data(), len );
     return ret;
 }
 

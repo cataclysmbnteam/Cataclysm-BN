@@ -273,9 +273,9 @@ static void update_note_preview( const std::string &note,
     const char symbol = std::get<0>( om_symbol );
     const std::string note_text = note.substr( std::get<2>( om_symbol ), std::string::npos );
 
-    auto w_preview       = std::get<0>( preview_windows );
-    auto w_preview_title = std::get<1>( preview_windows );
-    auto w_preview_map   = std::get<2>( preview_windows );
+    auto *w_preview       = std::get<0>( preview_windows );
+    auto *w_preview_title = std::get<1>( preview_windows );
+    auto *w_preview_map   = std::get<2>( preview_windows );
 
     draw_border( *w_preview );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -607,7 +607,7 @@ static bool sortfunc_symbol( const note_cached &a, const note_cached &b )
 
 static tripoint_abs_omt show_notes_manager( const tripoint_abs_omt &origin )
 {
-    tripoint_abs_omt result = tripoint_abs_omt( tripoint_min );
+    auto result = tripoint_abs_omt( tripoint_min );
 
     bool ask_when_deleting = true;
     uilist nmenu;
@@ -923,7 +923,7 @@ static void draw_ascii( const catacurses::window &w,
         }
         std::vector<npc *> followers;
         // get friendly followers
-        for( auto &elem : g->get_follower_list() ) {
+        for( const auto &elem : g->get_follower_list() ) {
             shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
             if( !npc_to_get ) {
                 continue;

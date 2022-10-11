@@ -14,6 +14,7 @@
 #include <tuple>
 #include <utility>
 #include <vector>
+#include <ranges>
 
 #include "activity_actor_definitions.h"
 #include "avatar.h"
@@ -385,7 +386,7 @@ void drop_on_map( Character &c, item_drop_reason reason, const std::list<item> &
                 break;
         }
     }
-    for( auto &it : items ) {
+    for( const auto &it : items ) {
         here.add_item_or_charges( where, it );
         pass_to_ownership_handling( it, c );
     }
@@ -518,7 +519,7 @@ std::list<act_item> reorder_for_dropping( Character &p, const drop_locations &dr
         invslice old_inv = p.inv.slice();
         for( size_t i = 0; i < old_inv.size() && excessive_volume > 0_ml; i++ ) {
             // TODO: Reimplement random dropping?
-            if( inv_indices.count( i ) != 0 ) {
+            if( inv_indices.contains( i ) ) {
                 continue;
             }
             std::list<item> &inv_stack = *old_inv[i];
@@ -1278,13 +1279,11 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
 
 static bool has_skill_for_vehicle_work( const std::map<skill_id, int> &required_skills, player &p )
 {
-    for( const auto &e : required_skills ) {
-        bool hasSkill = p.get_skill_level( e.first ) >= e.second;
-        if( !hasSkill ) {
-            return false;
-        }
-    }
-    return true;
+    return std::ranges::all_of( required_skills, [&p]( const auto &skill ) {
+        const auto &[skill_id, level] = skill;
+
+        return p.get_skill_level( skill_id ) >= level;
+    } );
 }
 
 static activity_reason_info can_do_activity_there( const activity_id &act, player &p,
@@ -1542,7 +1541,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                 return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, index );
             }
             std::set<construction_id> used_idx;
-            const activity_reason_info act_info = find_base_construction(
+            activity_reason_info act_info = find_base_construction(
                     constructions::get_all_sorted(), p, pre_inv, src_loc, part_con_idx, index, used_idx
                                                   );
             return act_info;
@@ -1578,7 +1577,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                     std::vector<item *> seed_inv = p.items_with( []( const item & itm ) {
                         return itm.is_seed();
                     } );
-                    for( const auto elem : seed_inv ) {
+                    for( auto *const elem : seed_inv ) {
                         if( elem->typeId() == itype_id( seed ) ) {
                             return activity_reason_info::ok( do_activity_reason::NEEDS_PLANTING );
                         }
@@ -1953,7 +1952,7 @@ static bool tidy_activity( player &p, const tripoint &src_loc,
     if( !zone_src_set.empty() ) {
         const auto &zone_src_sorted = get_sorted_tiles_by_distance( loot_abspos, zone_src_set );
         // Find the nearest unsorted zone to dump objects at
-        for( auto &src_elem : zone_src_sorted ) {
+        for( const auto &src_elem : zone_src_sorted ) {
             if( !here.can_put_items_ter_furn( here.getlocal( src_elem ) ) ) {
                 continue;
             }
@@ -2173,7 +2172,7 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
         // sort source tiles by distance
         const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
 
-        for( auto &src : src_sorted ) {
+        for( const auto &src : src_sorted ) {
             act.placement = src;
             act.coord_set.erase( src );
 

@@ -38,7 +38,7 @@ class monster;
 class spell_events;
 class drop_token_provider;
 
-static constexpr int DEFAULT_TILESET_ZOOM = 16;
+inline constexpr int DEFAULT_TILESET_ZOOM = 16;
 
 static const std::string SAVE_MASTER( "master.gsav" );
 static const std::string SAVE_ARTIFACTS( "artifacts.gsav" );

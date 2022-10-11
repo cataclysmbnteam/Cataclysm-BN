@@ -129,7 +129,6 @@ struct visibility_variables {
 };
 
 struct bash_params {
-    bash_params() = default;
     // Initial strength
     int strength;
     // Make a sound?
@@ -1666,7 +1665,7 @@ class map
             return inbounds( tripoint( p, 0 ) );
         }
 
-        bool inbounds_z( const int z ) const {
+        static bool inbounds_z( const int z )  {
             return z >= -OVERMAP_DEPTH && z <= OVERMAP_HEIGHT;
         }
 
@@ -1691,7 +1690,6 @@ class map
         void rotate( int turns, bool setpos_safe = false );
 
         // Monster spawning:
-    public:
         /**
          * Spawn monsters from submap spawn points and from the overmap.
          * @param ignore_sight If true, monsters may spawn in the view of the player

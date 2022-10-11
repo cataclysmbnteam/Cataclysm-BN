@@ -48,9 +48,13 @@ class vpart_position
             return vehicle_.get();
         }
         // TODO: remove this, add a vpart_reference class instead
+        // HACK: don't know how to handle this
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
         size_t part_index() const {
             return part_index_;
         }
+#pragma GCC diagnostic pop
 
         bool is_inside() const;
 

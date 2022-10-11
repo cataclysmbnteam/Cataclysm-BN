@@ -90,7 +90,7 @@ time_point sunrise( const time_point &p )
                    "Expected spring to be the first season.  If not, code below will use wrong index into array" );
 
     static const std::array<int, 4> start_hours = { { sunrise_equinox, sunrise_summer, sunrise_equinox, sunrise_winter, } };
-    const size_t season = static_cast<size_t>( season_of_year( p ) );
+    const auto season = static_cast<size_t>( season_of_year( p ) );
     assert( season < start_hours.size() );
 
     const double start_hour = start_hours[season];
