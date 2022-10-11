@@ -1,3 +1,4 @@
+
 #include <algorithm>
 #include <array>
 #include <bitset>
@@ -40,6 +41,7 @@
 #include <ostream>
 #include <queue>
 #include <random>
+#include <ranges>
 #include <set>
 #include <sstream>
 #include <stack>
