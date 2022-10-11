@@ -1279,7 +1279,7 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
 
 static bool has_skill_for_vehicle_work( const std::map<skill_id, int> &required_skills, player &p )
 {
-    return std::ranges::all_of( required_skills, [&p]( const auto &skill ) {
+    return std::ranges::all_of( required_skills, [&p]( const auto & skill ) {
         const auto &[skill_id, level] = skill;
 
         return p.get_skill_level( skill_id ) >= level;
@@ -1542,8 +1542,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
             }
             std::set<construction_id> used_idx;
             activity_reason_info act_info = find_base_construction(
-                    constructions::get_all_sorted(), p, pre_inv, src_loc, part_con_idx, index, used_idx
-                                                  );
+                                                constructions::get_all_sorted(), p, pre_inv, src_loc, part_con_idx, index, used_idx
+                                            );
             return act_info;
         }
     } else if( act == ACT_MULTIPLE_FARM ) {

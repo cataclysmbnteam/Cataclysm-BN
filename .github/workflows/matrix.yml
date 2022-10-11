@@ -96,7 +96,9 @@ jobs:
             libsdl2-mixer-dev libpulse-dev ccache gettext parallel
     - name: install missing compiler (ubuntu)
       if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && matrix.compiler == 'g++-12' }}
-      run: sudo apt-get install ${{ matrix.compiler }}
+      run: |
+          sudo apt-get install ${{ matrix.compiler }}
+          ${{ matrix.compiler }} --version
     - name: check compiler (mac)
       if: ${{ env.SKIP == 'false' && runner.os == 'macOS' }}
       run: |
