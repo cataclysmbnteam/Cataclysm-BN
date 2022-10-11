@@ -403,7 +403,7 @@ std::string to_string_time_of_day( const time_point &p )
     const int hour = hour_of_day<int>( p );
     const int minute = minute_of_hour<int>( p );
     const int second = ( to_seconds<int>( time_past_midnight( p ) ) ) % 60;
-    const std::string format_type = get_option<std::string>( "24_HOUR" );
+    const auto format_type = get_option<std::string>( "24_HOUR" );
 
     if( format_type == "military" ) {
         return string_format( "%02d%02d.%02d", hour, minute, second );

@@ -12,6 +12,7 @@
 #include <sstream>
 #include <string>
 #include <tuple>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 #include <ranges>
@@ -811,7 +812,7 @@ void stash_activity_actor::do_turn( player_activity &, Character &who )
 {
     const tripoint pos = who.pos() + relpos;
 
-    monster *pet = g->critter_at<monster>( pos );
+    auto *pet = g->critter_at<monster>( pos );
     if( pet != nullptr && pet->has_effect( effect_pet ) ) {
         stash_on_pet( obtain_activity_items( who, items ), *pet, who );
         if( items.empty() ) {
@@ -1535,7 +1536,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
         // PICKUP_RANGE -1 because we will be adjacent to the spot when arriving.
         const inventory pre_inv = p.crafting_inventory( src_loc, PICKUP_RANGE - 1 );
         for( const zone_data &zone : zones ) {
-            const blueprint_options &options = dynamic_cast<const blueprint_options &>( zone.get_options() );
+            const auto &options = dynamic_cast<const blueprint_options &>( zone.get_options() );
             const construction_id index = options.get_index();
             if( !stuff_there.empty() ) {
                 return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, index );
@@ -1567,7 +1568,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                     return activity_reason_info::fail( do_activity_reason::BLOCKING_TILE );
                 } else {
                     // do we have the required seed on our person?
-                    const plot_options &options = dynamic_cast<const plot_options &>( zone.get_options() );
+                    const auto &options = dynamic_cast<const plot_options &>( zone.get_options() );
                     const itype_id seed = options.get_seed();
                     // If its a farm zone with no specified seed, and we've checked for tilling and harvesting.
                     // then it means no further work can be done here
@@ -2475,34 +2476,21 @@ static void check_npc_revert( player &p )
 static zone_type_id get_zone_for_act( const tripoint &src_loc, const zone_manager &mgr,
                                       const activity_id &act_id )
 {
-    zone_type_id ret = zone_type_id( "" );
-    if( act_id == ACT_VEHICLE_DECONSTRUCTION ) {
-        ret = zone_type_VEHICLE_DECONSTRUCT;
-    }
-    if( act_id == ACT_VEHICLE_REPAIR ) {
-        ret = zone_type_VEHICLE_REPAIR;
-    }
-    if( act_id == ACT_MULTIPLE_CHOP_TREES ) {
-        ret = zone_type_CHOP_TREES;
-    }
-    if( act_id == ACT_MULTIPLE_CONSTRUCTION ) {
-        ret = zone_type_CONSTRUCTION_BLUEPRINT;
-    }
-    if( act_id == ACT_MULTIPLE_FARM ) {
-        ret = zone_type_FARM_PLOT;
-    }
-    if( act_id == ACT_MULTIPLE_BUTCHER ) {
-        ret = zone_type_LOOT_CORPSE;
-    }
-    if( act_id == ACT_MULTIPLE_CHOP_PLANKS ) {
-        ret = zone_type_LOOT_WOOD;
-    }
-    if( act_id == ACT_MULTIPLE_FISH ) {
-        ret = zone_type_FISHING_SPOT;
-    }
-    if( act_id == ACT_MULTIPLE_MINE ) {
-        ret = zone_type_MINING;
-    }
+    const auto zones = std::unordered_map<activity_id, zone_type_id>( {
+        {ACT_VEHICLE_DECONSTRUCTION, zone_type_VEHICLE_DECONSTRUCT},
+        {ACT_VEHICLE_REPAIR, zone_type_VEHICLE_REPAIR},
+        {ACT_MULTIPLE_CHOP_TREES, zone_type_CHOP_TREES},
+        {ACT_MULTIPLE_CONSTRUCTION, zone_type_CONSTRUCTION_BLUEPRINT},
+        {ACT_MULTIPLE_FARM, zone_type_FARM_PLOT},
+        {ACT_MULTIPLE_BUTCHER, zone_type_LOOT_CORPSE},
+        {ACT_MULTIPLE_CHOP_PLANKS, zone_type_LOOT_WOOD},
+        {ACT_MULTIPLE_FISH, zone_type_FISHING_SPOT},
+        {ACT_MULTIPLE_MINE, zone_type_MINING},
+    } );
+    if( zones.contains( act_id ) ) {
+        return zones.at( act_id );
+    };
+    auto ret = zone_type_id( "" );
     if( src_loc != tripoint_zero && act_id == ACT_FETCH_REQUIRED ) {
         const zone_data *zd = mgr.get_zone_at( get_map().getabs( src_loc ) );
         if( zd ) {

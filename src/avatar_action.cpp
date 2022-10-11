@@ -580,7 +580,7 @@ static float rate_critter( const Creature &c )
         return np->weapon_value( np->weapon );
     }
 
-    const monster *m = dynamic_cast<const monster *>( &c );
+    const auto *m = dynamic_cast<const monster *>( &c );
     return m->type->difficulty;
 }
 
@@ -715,7 +715,7 @@ void avatar_action::fire_wielded_weapon( avatar &you )
     } else if( !weapon.is_gun() ) {
         return;
     } else if( weapon.ammo_data() && weapon.type->gun &&
-               !weapon.type->gun->ammo.count( weapon.ammo_data()->ammo->type ) ) {
+               !weapon.type->gun->ammo.contains( weapon.ammo_data()->ammo->type ) ) {
         std::string ammoname = weapon.ammo_current()->nname( 1 );
         add_msg( m_info, _( "The %s can't be fired while loaded with incompatible ammunition %s" ),
                  weapon.tname(), ammoname );
@@ -785,8 +785,9 @@ bool avatar_action::eat_here( avatar &you )
             return true;
         }
     }
-    if( you.has_active_mutation( trait_GRAZER ) && ( here.ter( you.pos() ) == t_grass ||
-            here.ter( you.pos() ) == t_grass_long || here.ter( you.pos() ) == t_grass_tall ) ) {
+
+    const std::set grasses { t_grass, t_grass_long, t_grass_tall };
+    if( you.has_active_mutation( trait_GRAZER ) && grasses.contains( here.ter( you.pos() ) ) ) {
         item food( item( itype_grass, calendar::turn, 1 ) );
         if( you.get_stored_kcal() > you.max_stored_kcal() -
             food.get_comestible()->default_nutrition.kcal ) {

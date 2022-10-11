@@ -770,7 +770,7 @@ bool veh_interact::update_part_requirements()
             }
         }
 
-        if( !axles.empty() && axles.count( -dd.x ) == 0 ) {
+        if( !axles.empty() && !axles.contains( -dd.x ) ) {
             // Installing more than one steerable axle is hard
             // (but adding a wheel to an existing axle isn't)
             dif_steering = axles.size() + 5;
