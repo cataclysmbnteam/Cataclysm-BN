@@ -77,9 +77,10 @@ static units::temperature season_temp( const weather_generator &wg, double year_
     // Scale year_fraction [0, 1) to [0.0, 4.0). So [0.0, 1.0) - spring, [1.0, 2.0) - summer, [2.0, 3.0) - autumn, [3.0, 4.0) - winter.
     const double quadrum = year_fraction * 4;
     const double season_midpoint_quadrum = quadrum - 0.5;
+    constexpr auto num_seasons = static_cast<size_t>( season_type::NUM_SEASONS );
     const size_t current_season = ( static_cast<size_t>( std::floor( season_midpoint_quadrum ) +
-                                    NUM_SEASONS ) ) % NUM_SEASONS;
-    const size_t next_season = ( current_season + 1 ) % NUM_SEASONS;
+                                    num_seasons ) ) % num_seasons;
+    const size_t next_season = ( current_season + 1 ) % num_seasons;
     // 0 - current season just started, 1 - season just ended (shouldn't actually happen)
     const double t = season_midpoint_quadrum - std::floor( season_midpoint_quadrum );
     return units::multiply_any_unit( wg.season_stats[current_season].average_temperature, 1.0 - t )
@@ -214,40 +215,40 @@ const weather_type_id &weather_generator::get_weather_conditions( const w_point 
     w_point wp2 = w;
     const weather_type_id *current_conditions = &weather_type_id::NULL_ID();
     for( const weather_type_id &type : weather_types ) {
-        const weather_requirements &requires = type->requirements;
-        weather_requirements rq2 = requires;
+        const weather_requirements &requirements = type->requirements;
+        weather_requirements rq2 = requirements;
         bool test_pressure =
-            requires.pressure_max > w.pressure &&
-            requires.pressure_min < w.pressure;
+            requirements.pressure_max > w.pressure &&
+            requirements.pressure_min < w.pressure;
         bool test_humidity =
-            requires.humidity_max > w.humidity &&
-            requires.humidity_min < w.humidity;
-        if( ( requires.humidity_and_pressure && !( test_pressure && test_humidity ) ) ||
-            ( !requires.humidity_and_pressure && !( test_pressure || test_humidity ) ) ) {
+            requirements.humidity_max > w.humidity &&
+            requirements.humidity_min < w.humidity;
+        if( ( requirements.humidity_and_pressure && !( test_pressure && test_humidity ) ) ||
+            ( !requirements.humidity_and_pressure && !( test_pressure || test_humidity ) ) ) {
             continue;
         }
         bool test_temperature =
-            requires.temperature_max > units::to_fahrenheit( w.temperature ) &&
-            requires.temperature_min < units::to_fahrenheit( w.temperature );
+            requirements.temperature_max > units::to_fahrenheit( w.temperature ) &&
+            requirements.temperature_min < units::to_fahrenheit( w.temperature );
         bool test_windspeed =
-            requires.windpower_max > w.windpower &&
-            requires.windpower_min < w.windpower;
-        bool test_acidic = !requires.acidic || w.acidic;
+            requirements.windpower_max > w.windpower &&
+            requirements.windpower_min < w.windpower;
+        bool test_acidic = !requirements.acidic || w.acidic;
         if( !( test_temperature && test_windspeed && test_acidic ) ) {
             continue;
         }
 
-        if( !requires.required_weathers.empty() ) {
-            if( std::find( requires.required_weathers.begin(), requires.required_weathers.end(),
-                           *current_conditions ) == requires.required_weathers.end() ) {
+        if( !requirements.required_weathers.empty() ) {
+            if( std::find( requirements.required_weathers.begin(), requirements.required_weathers.end(),
+                           *current_conditions ) == requirements.required_weathers.end() ) {
                 continue;
             }
         }
 
-        if( requires.time != weather_time_requirement_type::both ) {
+        if( requirements.time != weather_time_requirement_type::both ) {
             bool day = is_day( calendar::turn );
-            if( ( requires.time == weather_time_requirement_type::day && !day ) ||
-                ( requires.time == weather_time_requirement_type::night && day ) ) {
+            if( ( requirements.time == weather_time_requirement_type::day && !day ) ||
+                ( requirements.time == weather_time_requirement_type::night && day ) ) {
                 continue;
             }
         }
