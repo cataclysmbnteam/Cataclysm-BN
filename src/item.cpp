@@ -7369,7 +7369,7 @@ int item::ammo_consume( int qty, const tripoint &pos )
             item &e = contents.front();
             if( need >= e.charges ) {
                 need -= e.charges;
-                remove_item( contents.back() );
+                remove_item( contents.front() );
             } else {
                 e.charges -= need;
                 need = 0;
