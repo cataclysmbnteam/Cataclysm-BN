@@ -27,7 +27,7 @@ jobs:
       with:
         fetch-depth: 1
     - name: JSON style check
-      run: make style-json
+      run: make style-json COMPILER=g++-10
     - name: Display Corrections
       if: failure()
       run: git diff

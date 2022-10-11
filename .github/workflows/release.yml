@@ -152,7 +152,7 @@ jobs:
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
     env:
-        ZSTD_CLEVEL: 17
+        ZSTD_CLEVEL: 20
     steps:
       - uses: actions/checkout@v2
       - name: Create VERSION.TXT

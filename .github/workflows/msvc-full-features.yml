@@ -44,7 +44,7 @@ env:
   # our dependencies, so we hack the triplet file to build only release versions
   # Have to use github.workspace because runner namespace isn't available yet.
   VCPKG_OVERLAY_TRIPLETS: ${{ github.workspace }}\.github\vcpkg_triplets
-  ZSTD_CLEVEL: 17
+  ZSTD_CLEVEL: 20
 
 jobs:
   build_catatclysm:
