@@ -5451,8 +5451,11 @@ needs_rates Character::calc_needs_rates() const
         rates.recovery = 2.0f * ( 1.0f + mutation_value( fatigue_regen_modifier ) );
         if( is_hibernating() ) {
             // Hunger and thirst advance *much* more slowly whilst we hibernate.
-            rates.hunger *= ( 1.0f / 7.0f );
-            rates.thirst *= ( 1.0f / 7.0f );
+            // This will slow calories consumption enough to go through the 7 days of hibernation
+            if( one_in( 50 / rates.hunger ) ) {
+                g->u.mod_stored_kcal( 1 );
+            }
+            rates.thirst *= ( 1.0f / 14.0f );
         }
         rates.recovery -= static_cast<float>( get_perceived_pain() ) / 60;
 
@@ -9808,7 +9811,7 @@ void Character::fall_asleep()
         }
     }
     if( has_active_mutation( trait_HIBERNATE ) ) {
-        if( get_stored_kcal() > max_stored_kcal() - bmr() / 4 &&
+        if( get_stored_kcal() > max_stored_kcal() * 0.9 &&
             get_thirst() < thirst_levels::thirsty ) {
             if( is_avatar() ) {
                 g->memorial().add( pgettext( "memorial_male", "Entered hibernation." ),

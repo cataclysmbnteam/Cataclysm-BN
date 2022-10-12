@@ -1066,7 +1066,7 @@ void Character::hardcoded_effects( effect &it )
             set_fatigue( 25 ); //Prevent us from waking up naturally while under anesthesia
         }
 
-        if( get_fatigue() <= 10 && !has_effect( effect_narcosis ) ) {
+        if( get_fatigue() <= 10 && !has_effect( effect_narcosis ) && !is_hibernating() ) {
             set_fatigue( 0 );
             if( get_sleep_deprivation() < sleep_deprivation_levels::harmless ) {
                 add_msg_if_player( m_good, _( "You feel well rested." ) );
