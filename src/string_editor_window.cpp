@@ -125,7 +125,6 @@ folded_text::folded_text( const std::string &str, int line_width )
             // break with at least one word character before
             && src_word > src_start ) {
             src_break = src;
-            bytes_break = bytes;
             cpts_break = cpts;
             width_break = width;
         }
