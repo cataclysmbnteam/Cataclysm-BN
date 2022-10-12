@@ -678,7 +678,7 @@ std::string colorize( const translation &text, const nc_color &color )
 
 auto get_note_string_from_color( const nc_color &color ) -> std::string
 {
-    for( const auto& pair : color_by_string_map ) {
+    for( const auto &pair : color_by_string_map ) {
         if( pair.second.color == color ) {
             return pair.first;
         }
