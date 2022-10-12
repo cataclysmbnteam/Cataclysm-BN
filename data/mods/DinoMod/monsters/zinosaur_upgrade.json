@@ -3138,7 +3138,7 @@
     },
     "upgrades": { "half_life": 12, "into": "mon_silophosaurus_hulk" },
     "special_attacks": [
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
+      [ "SMASH", 45 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
     ]
   },
@@ -3179,7 +3179,7 @@
     },
     "upgrades": { "half_life": 12, "into": "mon_skinosaurus_hulk" },
     "special_attacks": [
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
+      [ "SMASH", 45 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
     ]
   },
@@ -3218,7 +3218,7 @@
     },
     "upgrades": { "half_life": 12, "into": "mon_sorvosaurus_hulk" },
     "special_attacks": [
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
+      [ "SMASH", 45 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
     ]
   },
@@ -3257,7 +3257,7 @@
     },
     "upgrades": { "half_life": 12, "into": "mon_sallosaurus_hulk" },
     "special_attacks": [
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
+      [ "SMASH", 45 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
     ]
   },
@@ -3290,7 +3290,7 @@
     "relative": { "armor_bash": 12, "armor_cut": 15, "armor_bullet": 6, "vision_day": 35, "vision_night": 3 },
     "upgrades": { "half_life": 12, "into": "mon_syrannosaurus_hulk" },
     "special_attacks": [
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
+      [ "SMASH", 45 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
     ]
   },
@@ -3332,7 +3332,7 @@
     },
     "upgrades": { "half_life": 12, "into": "mon_sallimimus_hulk" },
     "special_attacks": [
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
+      [ "SMASH", 45 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
     ]
   },
@@ -3373,7 +3373,7 @@
     },
     "upgrades": { "half_life": 12, "into": "mon_sothronychus_hulk" },
     "special_attacks": [
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
+      [ "SMASH", 45 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
     ]
   },
@@ -3414,7 +3414,7 @@
     },
     "upgrades": { "half_life": 12, "into": "mon_sanzu_hulk" },
     "special_attacks": [
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
+      [ "SMASH", 45 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
     ]
   },
@@ -3455,7 +3455,7 @@
     },
     "upgrades": { "half_life": 12, "into": "mon_sutahraptor_hulk" },
     "special_attacks": [
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
+      [ "SMASH", 45 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
     ]
   },
