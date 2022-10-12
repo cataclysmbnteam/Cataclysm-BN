@@ -554,9 +554,6 @@ std::vector<std::string> diary::get_head_text()
         const int minutes = to_minutes<int>( turn_diff ) % 60;
         const int seconds = to_seconds<int>( turn_diff ) % 60;
 
-        const int leftside_length = std::to_string( opened_page + 1 ).length() + std::to_string(
-                                        pages.size() ).length() + to_string( get_page_ptr()->turn ).length();
-
         std::string time_diff_text;
         if( opened_page != 0 ) {
             // will display the time since last entry (excluding days) as "hours:min:sec"

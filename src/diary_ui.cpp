@@ -253,7 +253,6 @@ void diary::show_diary_ui( diary *c_diary )
     ui_desc.on_screen_resize( [&]( ui_adaptor & ui ) {
         const std::pair<point, point> beg_and_max = diary_window_position();
         const point &beg = beg_and_max.first;
-        const point &max = beg_and_max.second;
 
         w_desc = catacurses::newwin( 3, TERMX - uis_padding() * 2, point( uis_padding(), beg.y - 6 ) );
 
