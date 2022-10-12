@@ -122,7 +122,7 @@ class diary
         /*returns the text of opened page*/
         std::string get_page_text();
         /*returns text for head of page*/
-        std::vector<std::string> diary::get_head_text();
+        std::vector<std::string> get_head_text();
         /*the following methods are used to fill the change_list and desc_map in comparison to the previous page*/
         void skill_changes();
         void kill_changes();
