@@ -70,13 +70,11 @@ folded_text::folded_text( const std::string &str, int line_width )
     const char *src_word = src_start;
     // ... at the last breaking position
     const char *src_break = src_start;
-    int bytes_break = bytes_start;
     int cpts_break = cpts_start;
     int width_break = width_start;
     while( bytes > 0 ) {
         // ... before current processed character
         const char *const src_curr = src;
-        const int bytes_curr = bytes;
         const int cpts_curr = cpts;
         const int width_curr = width;
         // ... after current processed character
