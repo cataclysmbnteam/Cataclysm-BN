@@ -196,7 +196,7 @@ void diary::show_diary_ui( diary *c_diary )
                                   beg_and_max.second.y ) - point( uis_padding(), 0 );
         const int midx = max.x / 2;
 
-        w_changes = catacurses::newwin( max.y - 3, midx - 1, beg + point( 0, 3 ) );
+        w_changes = catacurses::newwin( max.y - 3, midx - 1, beg + point_south );
         w_text = catacurses::newwin( max.y - 3, max.x - midx - 1, beg + point( 2 + midx, 3 ) );
         w_border = catacurses::newwin( max.y + 5, max.x + 9, beg + point( -4, -2 ) );
 
