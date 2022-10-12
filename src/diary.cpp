@@ -552,26 +552,29 @@ std::vector<std::string> diary::get_head_text()
         const int days = to_days<int>( turn_diff );
         const int hours = to_hours<int>( turn_diff ) % 24;
         const int minutes = to_minutes<int>( turn_diff ) % 60;
+        const int seconds = to_seconds<int>( turn_diff ) % 60;
 
         const int leftside_length = std::to_string( opened_page + 1 ).length() + std::to_string(
                                         pages.size() ).length() + to_string( get_page_ptr()->turn ).length();
 
         std::string time_diff_text;
         if( opened_page != 0 ) {
+            // will display the time since last entry (excluding days) as "hours:min:sec"
             std::string days_text;
-            std::string hours_text;
-            std::string minutes_text;
+            std::string time_text;
             if( days > 0 ) {
                 days_text = string_format( vgettext( "%d day, ", "%d days, ", days ), days );
             }
-            if( hours > 0 ) {
-                hours_text = string_format( vgettext( "%d hour, ", "%d hours, ", hours ), hours );
-            }
-            minutes_text = string_format( vgettext( "%d minute",
-                                                    "%d minutes", minutes ), minutes );
-            //~ %1$s is xx days, %2$s is xx hours, %3$s is xx minutes
-            time_diff_text = string_format( _( "%1$s%2$s%3$s since last entry" ),
-                                            days_text, hours_text, minutes_text );
+
+            time_text += ( hours > 9 ) ? std::to_string( hours ) : "0" + std::to_string( hours );
+            time_text += ":";
+            time_text += ( minutes > 9 ) ? std::to_string( minutes ) : "0" + std::to_string( minutes );
+            time_text += ":";
+            time_text += ( seconds > 9 ) ? std::to_string( seconds ) : "0" + std::to_string( seconds );
+
+            //~ %1$s is xx days, %2$d is the time left in universal format
+            time_diff_text = string_format( _( "%1$s%2$s since last entry" ),
+                                            days_text, time_text );
 
         }
         //~ Head text of a diary page
