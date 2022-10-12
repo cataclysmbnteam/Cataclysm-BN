@@ -317,7 +317,8 @@ void Character::suffer_while_awake( const int current_stim )
 
     if( ( has_trait( trait_NARCOLEPTIC ) || has_artifact_with( AEP_SCHIZO ) ) ) {
         if( one_turn_in( 8_hours ) ) {
-            add_msg_player_or_npc( m_bad, _( "You're suddenly overcome with the urge to sleep and you pass out." ),
+            add_msg_player_or_npc( m_bad,
+                                   _( "You're suddenly overcome with the urge to sleep and you pass out." ),
                                    _( "<npcname>'s suddenly passes out." ) );
             fall_asleep( 20_minutes );
         }
@@ -563,7 +564,7 @@ void Character::suffer_from_schizophrenia()
     if( one_turn_in( 12_hours ) ) {
         skill_id raised_skill = Skill::random_skill();
         add_msg_if_player( m_good, _( "You increase %1$s to level %2$d." ), raised_skill.obj().name(),
-                 get_skill_level( raised_skill ) + 1 );
+                           get_skill_level( raised_skill ) + 1 );
         return;
     }
 
@@ -1278,8 +1279,9 @@ void Character::suffer_from_bad_bionics()
     }
     if( has_bionic( bio_spasm ) && one_turn_in( 5_hours ) && !has_effect( effect_downed ) &&
         !has_effect( effect_narcosis ) ) {
-        add_msg_player_or_npc( m_warning, _( "Your malfunctioning bionic causes you to spasm and fall to the floor!" ),
-                           _( "<npcname> spasms and falls to the floor!" ) );
+        add_msg_player_or_npc( m_warning,
+                               _( "Your malfunctioning bionic causes you to spasm and fall to the floor!" ),
+                               _( "<npcname> spasms and falls to the floor!" ) );
         mod_pain( 1 );
         add_effect( effect_stunned, 1_turns );
         add_effect( effect_downed, 10_turns, num_bp, 0 );
