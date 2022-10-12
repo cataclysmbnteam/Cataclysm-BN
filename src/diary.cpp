@@ -542,7 +542,7 @@ std::string diary::get_page_text()
     return "";
 }
 
-std::string diary::get_head_text()
+std::vector<std::string> diary::get_head_text()
 {
 
     if( !pages.empty() ) {
@@ -570,21 +570,30 @@ std::string diary::get_head_text()
             minutes_text = string_format( vgettext( "%d minute",
                                                     "%d minutes", minutes ), minutes );
             //~ %1$s is xx days, %2$s is xx hours, %3$s is xx minutes
-            const std::string final_entry = string_format( _( "%1$s%2$s%3$s since last entry" ),
+            time_diff_text = string_format( _( "%1$s%2$s%3$s since last entry" ),
                                             days_text, hours_text, minutes_text );
-            time_diff_text = std::string( 49 - leftside_length,
-                                          ' ' ) + "| " + final_entry;
+
         }
         //~ Head text of a diary page
         //~ %1$d is the current page number, %2$d is the number of pages in total
-        //~ %3$s is the time point when the current page was created
-        //~ %4$s is time relative to the previous page
-        return " " + string_format( _( "Entry: %1$d/%2$d, %3$s %4$s" ),
-                                    opened_page + 1, pages.size(),
-                                    to_string( get_page_ptr()->turn ),
-                                    time_diff_text );
+        std::vector<std::string> head_text = { string_format( _( "Entry: %1$d/%2$d" ), opened_page + 1, pages.size() ) };
+
+        std::string complete_time_text = to_string( get_page_ptr()->turn ); // get complete time
+        std::string day_and_time_text = complete_time_text.substr( complete_time_text.find_last_of( ',' ) +
+                                        2 );
+        std::string year_and_season_text = complete_time_text.substr( 0,
+                                           complete_time_text.find_last_of( ',' ) + 1 );
+
+        head_text.insert( head_text.end(), year_and_season_text );
+        head_text.insert( head_text.end(), day_and_time_text );
+        head_text.insert( head_text.end(), time_diff_text );
+        if( !time_diff_text.empty() ) {
+            head_text.insert( head_text.end(), { "" } );
+        }
+
+        return head_text;
     }
-    return "";
+    return { "" };
 }
 
 void diary::death_entry()
@@ -656,8 +665,12 @@ void diary::export_to_txt( bool lastexport )
     for( int i = 0; i < static_cast<int>( pages.size() ); i++ ) {
         set_opened_page( i );
         const diary_page page = *get_page_ptr();
-        myfile << get_head_text() + "\n\n";
-        for( std::string &str : this->get_change_list() ) {
+
+        std::vector<std::string> left_diary_text = this->get_head_text();
+        std::vector<std::string> change_list = this->get_change_list();
+        left_diary_text.insert( left_diary_text.end(), change_list.begin(), change_list.end() );
+
+        for( std::string &str : left_diary_text ) {
             myfile << remove_color_tags( str ) + "\n";
         }
         std::vector<std::string> folded_text = foldstring( page.m_text, 50 );

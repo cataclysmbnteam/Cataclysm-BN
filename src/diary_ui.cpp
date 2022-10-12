@@ -164,12 +164,11 @@ static int uis_padding()
 void diary::show_diary_ui( diary *c_diary )
 {
     catacurses::window w_diary;
-    catacurses::window w_pages;
-    catacurses::window w_text;
-    catacurses::window w_changes;
-    catacurses::window w_border;
-    catacurses::window w_desc;
-    catacurses::window w_head;
+    catacurses::window w_pages; // pages window, left of diary
+    catacurses::window w_text; // right part of diary
+    catacurses::window w_changes; // left part of diary
+    catacurses::window w_border; // borders of diary
+    catacurses::window w_desc; // keybindings window up
     catacurses::window w_info;
 
     enum class window_mode : int { PAGE_WIN = 0, CHANGE_WIN, TEXT_WIN, NUM_WIN, FIRST_WIN = 0, LAST_WIN = NUM_WIN - 1 };
@@ -200,7 +199,6 @@ void diary::show_diary_ui( diary *c_diary )
         w_changes = catacurses::newwin( max.y - 3, midx - 1, beg + point( 0, 3 ) );
         w_text = catacurses::newwin( max.y - 3, max.x - midx - 1, beg + point( 2 + midx, 3 ) );
         w_border = catacurses::newwin( max.y + 5, max.x + 9, beg + point( -4, -2 ) );
-        w_head = catacurses::newwin( 1, max.x, beg + point_south );
 
         ui.position_from_window( w_border );
     } );
@@ -209,20 +207,20 @@ void diary::show_diary_ui( diary *c_diary )
         werase( w_changes );
         werase( w_text );
         werase( w_border );
-        werase( w_head );
 
         draw_diary_border( &w_border );
 
-        print_list_scrollable( &w_changes, c_diary->get_change_list(), &selected[window_mode::CHANGE_WIN],
+        // first get head text, then add the change list to it
+        std::vector<std::string> left_diary_text = c_diary->get_head_text();
+        std::vector<std::string> change_list = c_diary->get_change_list();
+        left_diary_text.insert( left_diary_text.end(), change_list.begin(), change_list.end() );
+
+        print_list_scrollable( &w_changes, left_diary_text, &selected[window_mode::CHANGE_WIN],
                                currwin == window_mode::CHANGE_WIN, false, report_color_error::yes );
         print_list_scrollable( &w_text, c_diary->get_page_text(), &selected[window_mode::TEXT_WIN],
                                currwin == window_mode::TEXT_WIN, false, report_color_error::no );
 
-        trim_and_print( w_head, point_south_east, getmaxx( w_head ) - 2, c_white,
-                        c_diary->get_head_text() );
-
         wnoutrefresh( w_border );
-        wnoutrefresh( w_head );
         wnoutrefresh( w_changes );
         wnoutrefresh( w_text );
     } );
