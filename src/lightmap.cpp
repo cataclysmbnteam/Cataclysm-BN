@@ -1250,7 +1250,6 @@ void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
         cata::unreachable();
     };
 
-    float newStart = 0.0f;
     int radius = 60 - offsetDistance;
     if( start < end ) {
         return;
@@ -1261,23 +1260,24 @@ void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
         delta.y = -distance;
         bool started_row = false;
         T current_transparency = 0.0;
-        float away = start - ( -distance + 0.5f ) / ( -distance -
-                     0.5f ); //The distance between our first leadingEdge and start
 
         //We initialize delta.x to -distance adjusted so that the commented start < leadingEdge condition below is never false
-        delta.x = -distance + std::max( static_cast<int>( std::ceil( away * ( -distance - 0.5f ) ) ), 0 );
+        delta.x = std::ceil( std::max( static_cast<float>( -distance ),
+                                       ( ( -distance - 0.5f ) * start ) - 0.5f ) );
+        //And a limit so that the commented end > trailingEdge is never true
+        int x_limit = std::floor( std::min( 0.0f,
+                                            ( ( -distance + 0.5f ) * end ) - 0.5f ) ) + 1;
+
         int last_dist = -1;
-        for( ; delta.x <= 0; delta.x++ ) {
+        for( ; delta.x <= x_limit; delta.x++ ) {
             point current( offset.x + delta.x * xx + delta.y * xy, offset.y + delta.x * yx + delta.y * yy );
-            float trailingEdge = ( delta.x - 0.5f ) / ( delta.y + 0.5f );
-            float leadingEdge = ( delta.x + 0.5f ) / ( delta.y - 0.5f );
 
             if( !( current.x >= 0 && current.y >= 0 && current.x < MAPSIZE_X &&
                    current.y < MAPSIZE_Y ) /* || start < leadingEdge */ ) {
                 continue;
-            } else if( end > trailingEdge ) {
+            } /*else if( end > trailingEdge ) {
                 break;
-            }
+            }*/
 
             if( check_blocked( current ) ) {
                 continue;
@@ -1309,9 +1309,9 @@ void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
             }
 
             if( new_transparency == current_transparency ) {
-                newStart = leadingEdge;
                 continue;
             }
+            float trailingEdge = ( delta.x - 0.5f ) / ( delta.y + 0.5f );
             // Only cast recursively if previous span was not opaque.
             if( check( current_transparency, last_intensity ) ) {
                 //Are we moving off a fast path?
@@ -1338,7 +1338,7 @@ void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
             // The new span starts at the leading edge of the previous square if it is opaque,
             // and at the trailing edge of the current square if it is transparent.
             if( !check( current_transparency, last_intensity ) ) {
-                start = newStart;
+                start = ( delta.x - 0.5f ) / ( delta.y - 0.5f );
             } else {
                 // Note this is the same slope as the recursive call we just made.
                 start = trailingEdge;
@@ -1348,7 +1348,6 @@ void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
                 return;
             }
             current_transparency = new_transparency;
-            newStart = leadingEdge;
         }
         if( !check( current_transparency, last_intensity ) ) {
             // If we reach the end of the span with terrain being opaque, we don't iterate further.
