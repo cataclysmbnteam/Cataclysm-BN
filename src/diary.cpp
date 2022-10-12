@@ -69,7 +69,7 @@ diary_page *diary::get_page_ptr( int offset )
 void diary::add_to_change_list( std::string entry, std::string desc )
 {
     if( !desc.empty() ) {
-        desc_map[change_list.size()] = desc;
+        desc_map[change_list.size() + get_head_text().size()] = desc;
     }
     change_list.push_back( entry );
 }
