@@ -63,7 +63,6 @@ folded_text::folded_text( const std::string &str, int line_width )
     int width = 0;
     // ... before current line start
     const char *src_start = src;
-    int bytes_start = bytes;
     int cpts_start = cpts;
     int width_start = width;
     // ... after the last word character
