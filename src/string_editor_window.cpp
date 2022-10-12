@@ -53,7 +53,7 @@ struct ime_preview_range {
     point display_last;
 };
 
-folded_text::folded_text( const std::string &str, const int line_width )
+folded_text::folded_text( const std::string &str, int line_width )
 {
     // string pointer, remaining bytes, total codepoints, and total display width ...
     // ... before current processed character
@@ -95,7 +95,6 @@ folded_text::folded_text( const std::string &str, const int line_width )
                     std::string( src_start, src_break )
                 } );
                 src_start = src_break;
-                bytes_start = bytes_break;
                 cpts_start = cpts_break;
                 width_start = width_break;
             } else if( src_curr > src_start ) {
@@ -106,7 +105,6 @@ folded_text::folded_text( const std::string &str, const int line_width )
                     std::string( src_start, src_curr )
                 } );
                 src_start = src_curr;
-                bytes_start = bytes_curr;
                 cpts_start = cpts_curr;
                 width_start = width_curr;
             }
@@ -118,7 +116,6 @@ folded_text::folded_text( const std::string &str, const int line_width )
                 std::string( src_start, src )
             } );
             src_start = src;
-            bytes_start = bytes;
             cpts_start = cpts;
             width_start = width;
         }
@@ -148,7 +145,7 @@ const std::vector<folded_line> &folded_text::get_lines() const
     return lines;
 }
 
-point folded_text::codepoint_coordinates( const int cpt_idx, const bool zero_x ) const
+point folded_text::codepoint_coordinates( int cpt_idx, bool zero_x ) const
 {
     if( lines.empty() ) {
         return point_zero;
