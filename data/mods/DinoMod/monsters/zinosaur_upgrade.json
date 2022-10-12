@@ -3152,10 +3152,9 @@
     "proportional": { "hp": 2.5 },
     "relative": { "melee_dice": 1, "melee_cut": 5, "armor_bash": 8, "armor_cut": 15, "armor_bullet": 6 },
     "special_attacks": [
-      { "id": "smash", "throw_strength": 54 },
-      { "id": "stretch_attack" },
-      { "id": "longswipe" },
-      { "id": "cut_throat" },
+      [ "SMASH", 20 ],
+      [ "STRETCH_ATTACK", 20 ],
+      [ "LONGSWIPE", 20 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
     ],
     "volume": "1000 L",
@@ -3194,10 +3193,9 @@
     "proportional": { "hp": 2.5 },
     "relative": { "melee_dice": 1, "melee_cut": 5, "armor_bash": 8, "armor_cut": 15, "armor_bullet": 6 },
     "special_attacks": [
-      { "id": "smash", "throw_strength": 54 },
-      { "id": "stretch_attack" },
-      { "id": "longswipe" },
-      { "id": "cut_throat" },
+      [ "SMASH", 20 ],
+      [ "STRETCH_ATTACK", 20 ],
+      [ "LONGSWIPE", 20 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
     ]
   },
@@ -3234,10 +3232,9 @@
     "proportional": { "hp": 2.5 },
     "relative": { "melee_dice": 1, "melee_cut": 5, "armor_bash": 8, "armor_cut": 15, "armor_bullet": 6 },
     "special_attacks": [
-      { "id": "smash", "throw_strength": 54 },
-      { "id": "stretch_attack" },
-      { "id": "longswipe" },
-      { "id": "cut_throat" },
+      [ "SMASH", 20 ],
+      [ "STRETCH_ATTACK", 20 ],
+      [ "LONGSWIPE", 20 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
     ]
   },
@@ -3274,10 +3271,9 @@
     "proportional": { "hp": 2.5 },
     "relative": { "melee_dice": 1, "melee_cut": 6, "armor_bash": 8, "armor_cut": 15, "armor_bullet": 6 },
     "special_attacks": [
-      { "id": "smash", "throw_strength": 54 },
-      { "id": "stretch_attack" },
-      { "id": "longswipe" },
-      { "id": "cut_throat" },
+      [ "SMASH", 20 ],
+      [ "STRETCH_ATTACK", 20 ],
+      [ "LONGSWIPE", 20 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
     ]
   },
@@ -3311,10 +3307,9 @@
     "melee_cut": 6,
     "relative": { "armor_bash": 8, "armor_cut": 15, "armor_bullet": 6 },
     "special_attacks": [
-      { "id": "smash", "throw_strength": 54 },
-      { "id": "stretch_attack" },
-      { "id": "longswipe" },
-      { "id": "cut_throat" },
+      [ "SMASH", 20 ],
+      [ "STRETCH_ATTACK", 20 ],
+      [ "LONGSWIPE", 20 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
     ]
   },
@@ -3351,10 +3346,9 @@
     "proportional": { "hp": 2.5 },
     "relative": { "melee_dice": 1, "melee_cut": 5, "armor_bash": 8, "armor_cut": 15, "armor_bullet": 6 },
     "special_attacks": [
-      { "id": "smash", "throw_strength": 54 },
-      { "id": "stretch_attack" },
-      { "id": "longswipe" },
-      { "id": "cut_throat" },
+      [ "SMASH", 20 ],
+      [ "STRETCH_ATTACK", 20 ],
+      [ "LONGSWIPE", 20 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
     ],
     "volume": "1000 L",
@@ -3393,10 +3387,9 @@
     "proportional": { "hp": 2.5 },
     "relative": { "melee_dice": 1, "melee_cut": 5, "armor_bash": 8, "armor_cut": 15, "armor_bullet": 6 },
     "special_attacks": [
-      { "id": "smash", "throw_strength": 54 },
-      { "id": "stretch_attack" },
-      { "id": "longswipe" },
-      { "id": "cut_throat" },
+      [ "SMASH", 20 ],
+      [ "STRETCH_ATTACK", 20 ],
+      [ "LONGSWIPE", 20 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
     ],
     "volume": "1000 L",
@@ -3435,10 +3428,9 @@
     "proportional": { "hp": 2.5 },
     "relative": { "melee_dice": 1, "melee_cut": 5, "armor_bash": 8, "armor_cut": 15, "armor_bullet": 6 },
     "special_attacks": [
-      { "id": "smash", "throw_strength": 54 },
-      { "id": "stretch_attack" },
-      { "id": "longswipe" },
-      { "id": "cut_throat" },
+      [ "SMASH", 20 ],
+      [ "STRETCH_ATTACK", 20 ],
+      [ "LONGSWIPE", 20 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
     ],
     "volume": "1000 L",
@@ -3477,10 +3469,9 @@
     "proportional": { "hp": 2.5 },
     "relative": { "melee_dice": 1, "melee_cut": 5, "armor_bash": 8, "armor_cut": 15, "armor_bullet": 6 },
     "special_attacks": [
-      { "id": "smash", "throw_strength": 54 },
-      { "id": "stretch_attack" },
-      { "id": "longswipe" },
-      { "id": "cut_throat" },
+      [ "SMASH", 20 ],
+      [ "STRETCH_ATTACK", 20 ],
+      [ "LONGSWIPE", 20 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
     ],
     "volume": "1000 L",
