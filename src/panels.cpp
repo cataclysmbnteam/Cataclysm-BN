@@ -1044,7 +1044,7 @@ static auto get_weight_color( const avatar &u ) -> nc_color
     } else {
         return c_light_gray;
     }
-};
+}
 
 static auto get_volume_color( const avatar &u ) -> nc_color
 {
@@ -1055,7 +1055,7 @@ static auto get_volume_color( const avatar &u ) -> nc_color
     } else {
         return c_light_gray;
     }
-};
+}
 
 static void draw_weightvolume_classic( const avatar &u, const catacurses::window &w )
 {
