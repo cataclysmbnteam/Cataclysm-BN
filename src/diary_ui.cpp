@@ -21,6 +21,9 @@
 
 namespace
 {
+// maximum limit of the UIs width. After that we center them, with an even space left and right
+const int MAX_DAIRY_UI_WIDTH = 150;
+
 /**print list scrollable, printed std::vector<std::string> as list with scrollbar*/
 void print_list_scrollable( catacurses::window *win, std::vector<std::string> list, int *selection,
                             int entries_per_page, int xoffset, int width, bool active, bool border,
@@ -150,6 +153,12 @@ static std::pair<point, point> diary_window_position()
     };
 }
 
+static int uis_padding()
+{
+    const int padding = TERMX - MAX_DAIRY_UI_WIDTH;
+    return ( padding >= 0 ) ? padding / 2 : 0;
+}
+
 void diary::show_diary_ui( diary *c_diary )
 {
     catacurses::window w_diary;
@@ -160,8 +169,7 @@ void diary::show_diary_ui( diary *c_diary )
     catacurses::window w_desc;
     catacurses::window w_head;
     catacurses::window w_info;
-    // below this width, the diaries UIs will occupy all the screen (in width)
-    const int SPECIAL_DISPLAY_LIMIT = 150;
+
     enum class window_mode : int { PAGE_WIN = 0, CHANGE_WIN, TEXT_WIN, NUM_WIN, FIRST_WIN = 0, LAST_WIN = NUM_WIN - 1 };
     window_mode currwin = window_mode::PAGE_WIN;
 
@@ -181,11 +189,10 @@ void diary::show_diary_ui( diary *c_diary )
     ui_adaptor ui_diary;
     ui_diary.on_screen_resize( [&]( ui_adaptor & ui ) {
         const std::pair<point, point> beg_and_max = diary_window_position();
-        const point &beg = ( TERMX > SPECIAL_DISPLAY_LIMIT ) ? beg_and_max.first : beg_and_max.first +
-                           point( -3, -1 );
-        const point &max = ( TERMX > SPECIAL_DISPLAY_LIMIT ) ? beg_and_max.second : point(
-                               TERMX - beg_and_max.first.x - 3,
-                               beg_and_max.second.y );
+        const point &beg = ( uis_padding() != 0 ) ? point( uis_padding() + MAX_DAIRY_UI_WIDTH / 4 - 3,
+                           beg_and_max.first.y - 1 ) : beg_and_max.first + point( uis_padding() - 3, -1 );
+        const point &max = point( TERMX - beg.x - 5,
+                                  beg_and_max.second.y ) - point( uis_padding(), 0 );
         const int midx = max.x / 2;
 
         w_changes = catacurses::newwin( max.y - 3, midx - 1, beg + point( 0, 3 ) );
@@ -224,12 +231,9 @@ void diary::show_diary_ui( diary *c_diary )
         const point &beg = beg_and_max.first;
         const point &max = beg_and_max.second;
 
-        if( TERMX > SPECIAL_DISPLAY_LIMIT ) {
-            w_pages = catacurses::newwin( max.y + 5, max.x * 3 / 10, point( beg.x - 5 - max.x * 3 / 10,
-                                          beg.y - 2 ) );
-        } else {
-            w_pages = catacurses::newwin( max.y + 5, beg.x - 7, point( 0, beg.y - 3 ) );
-        }
+        w_pages = catacurses::newwin( max.y + 5,
+                                      ( uis_padding() != 0 ) ? MAX_DAIRY_UI_WIDTH / 4 - 7 : beg.x - 7, point( uis_padding(),
+                                              beg.y - 3 ) );
 
         ui.position_from_window( w_pages );
     } );
@@ -251,12 +255,7 @@ void diary::show_diary_ui( diary *c_diary )
         const point &beg = beg_and_max.first;
         const point &max = beg_and_max.second;
 
-        if( TERMX > SPECIAL_DISPLAY_LIMIT ) {
-            w_desc = catacurses::newwin( 3, max.x * 3 / 10 + max.x + 10, point( beg.x - 5 - max.x * 3 / 10,
-                                         beg.y - 6 ) );
-        } else {
-            w_desc = catacurses::newwin( 3, TERMX, point( 0, beg.y - 6 ) );
-        }
+        w_desc = catacurses::newwin( 3, TERMX - uis_padding() * 2, point( uis_padding(), beg.y - 6 ) );
 
         ui.position_from_window( w_desc );
     } );
@@ -283,13 +282,8 @@ void diary::show_diary_ui( diary *c_diary )
         const point &beg = beg_and_max.first;
         const point &max = beg_and_max.second;
 
-        if( TERMX > SPECIAL_DISPLAY_LIMIT ) {
-            w_info = catacurses::newwin( ( max.y / 2 - 4 > 7 ) ? 7 : max.y / 2 - 4, max.x + 9, beg + point( -4,
-                                         4 + max.y ) );
-        } else {
-            w_info = catacurses::newwin( ( TERMY - beg.y - max.y - 2 ) > 7 ? 7 : TERMY - beg.y - max.y - 2,
-                                         TERMX, point( 0, beg.y + max.y + 2 ) );
-        }
+        w_info = catacurses::newwin( ( TERMY - beg.y - max.y - 2 ) > 7 ? 7 : TERMY - beg.y - max.y - 2,
+                                     TERMX - uis_padding() * 2, point( uis_padding(), beg.y + max.y + 2 ) );
 
         ui.position_from_window( w_info );
     } );
