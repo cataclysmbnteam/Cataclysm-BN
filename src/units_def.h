@@ -51,9 +51,9 @@ class quantity
          */
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wzero-as-null-pointer-constant"
-// clang false-positive: https://github.com/llvm/llvm-project/issues/55919
+        // clang false-positive: https://github.com/llvm/llvm-project/issues/55919
         /**@{*/
-        constexpr auto operator<=>( const this_type & ) const = default;
+        constexpr auto operator<=> ( const this_type & ) const = default; // *NOPAD*
         /**@}*/
 #pragma clang diagnostic pop
 
