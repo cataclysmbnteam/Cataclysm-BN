@@ -26,7 +26,7 @@ int climbing_cost( const map &m, const tripoint &from, const tripoint &to )
     return 50 + diff * 100;
 }
 
-void handle_migo_nerve( const map &m, const tripoint &p, bool spawn_damaged )
+void handle_migo_nerve( map &m, const tripoint &p, bool spawn_damaged )
 {
     bool open = false;
     for( const tripoint &tmp : m.points_in_radius( p, 12 ) ) {
