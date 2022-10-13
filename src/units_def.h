@@ -49,9 +49,13 @@ class quantity
         /**
          * The usual comparators, they compare the base value only.
          */
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wzero-as-null-pointer-constant"
+// clang false-positive: https://github.com/llvm/llvm-project/issues/55919
         /**@{*/
         constexpr auto operator<=>( const this_type & ) const = default;
         /**@}*/
+#pragma clang diagnostic pop
 
         /**
          * Addition and subtraction of quantities of the same unit type. Result is
