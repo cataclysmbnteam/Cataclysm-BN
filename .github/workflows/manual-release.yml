@@ -13,7 +13,7 @@ env:
 jobs:
   release:
     name: Create Release
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
       release_already_exists: ${{ steps.tag_check.outputs.exists }}
@@ -93,14 +93,14 @@ jobs:
             mxe: x86_64
             mxe_apt: x86-64
             artifact: windows-tiles-x64
-            os: ubuntu-latest
+            os: ubuntu-22.04
             ext: zip
             content: application/zip
           - name: Windows Tiles x32
             mxe: i686
             mxe_apt: i686
             artifact: windows-tiles-x32
-            os: ubuntu-latest
+            os: ubuntu-22.04
             ext: zip
             content: application/zip
           - name: Linux Tiles x64
@@ -134,21 +134,21 @@ jobs:
             ext: dmg
             content: application/x-apple-diskimage
           - name: Android x64
-            os: ubuntu-latest
+            os: ubuntu-22.04
             mxe: none
             android: arm64
             artifact: android-x64
             ext: apk
             content: application/apk
           - name: Android x32
-            os: ubuntu-latest
+            os: ubuntu-22.04
             mxe: none
             android: arm32
             artifact: android-x32
             ext: apk
             content: application/apk
           - name: Android Bundle
-            os: ubuntu-latest
+            os: ubuntu-22.04
             mxe: none
             android: bundle
             artifact: android-bundle
