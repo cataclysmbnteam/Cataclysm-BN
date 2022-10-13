@@ -213,8 +213,8 @@
     "flags": [ "TRANSPARENT", "MIGO_NERVE" ],
     "examine_action": "migo_nerve_cluster",
     "bash": {
-      "str_min": 250,
-      "str_max": 600,
+      "str_min": 8,
+      "str_max": 40,
       "sound": "splorch!",
       "sound_fail": "whump!",
       "furn_set": "f_alien_scar",

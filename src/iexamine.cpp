@@ -199,7 +199,6 @@ static const quality_id qual_DIG( "DIG" );
 static const mtype_id mon_broken_cyborg( "mon_broken_cyborg" );
 static const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
 static const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
-static const mtype_id mon_mi_go_myrmidon( "mon_mi_go_myrmidon" );
 static const mtype_id mon_prototype_cyborg( "mon_prototype_cyborg" );
 static const mtype_id mon_spider_cellar_giant_s( "mon_spider_cellar_giant_s" );
 static const mtype_id mon_spider_web_s( "mon_spider_web_s" );
@@ -6141,24 +6140,7 @@ void iexamine::migo_nerve_cluster( player &p, const tripoint &examp )
     if( query_yn( _( "This looks important.  Tear open nerve cluster?" ) ) ) {
         p.mod_moves( -200 );
         add_msg( _( "You grab hold of a sinewy tendril and wrench it loose!" ) );
-        for( const tripoint &tmp : here.points_in_radius( examp, 12 ) ) {
-            if( here.ter( tmp ) == ter_id( "t_wall_resin_cage" ) ) {
-                here.ter_set( tmp, ter_id( "t_floor_resin" ) );
-                open = true;
-            }
-        }
-        if( open ) {
-            add_msg( m_good, _( "The nerve cluster collapses in on itself, and the nearby cages open!" ) );
-        } else {
-            add_msg( _( "The nerve cluster collapses in on itself, to no discernible effect." ) );
-        }
-        sounds::sound( examp, 120, sounds::sound_t::combat,
-                       _( "a loud alien shriek reverberating through the structure!" ), true,
-                       "shout", "scream_tortured" );
-        g->place_critter_around( mon_mi_go_myrmidon, examp, 1 );
-        if( p.sees( examp ) ) {
-            add_msg( m_bad, _( "Something stirs and clambers out of the ruined mass of flesh and nerves!" ) );
-        }
+        map_funcs::handle_migo_nerve( here, examp, false );
         here.furn_set( examp, furn_id( "f_alien_scar" ) );
     }
 }

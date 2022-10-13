@@ -57,6 +57,7 @@
 #include "iuse_actor.h"
 #include "lightmap.h"
 #include "line.h"
+#include "map_functions.h"
 #include "map_iterator.h"
 #include "map_memory.h"
 #include "map_selector.h"
@@ -121,7 +122,6 @@ static const itype_id itype_vac_sealer( "vac_sealer" );
 static const itype_id itype_welder( "welder" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
-static const mtype_id mon_mi_go_myrmidon( "mon_mi_go_myrmidon" );
 
 static const skill_id skill_traps( "traps" );
 
@@ -3297,7 +3297,7 @@ bash_results map::bash_furn_success( const tripoint &p, const bash_params &param
         fungal_effects( *g, *this ).create_spores( p );
     }
     if( has_flag_furn( "MIGO_NERVE", p ) ) {
-        smash_migo_nerve( p );
+        map_funcs::handle_migo_nerve( *this, p, true );
     }
     std::string soundfxvariant = furnid.id.str();
     const bool tent = !bash.tent_centers.empty();
@@ -7114,31 +7114,6 @@ void map::rotten_item_spawn( const item &item, const tripoint &pnt )
                 add_msg( m_warning, _( "Something has crawled out of the %s!" ), item.tname() );
             }
         }
-    }
-}
-
-void map::smash_migo_nerve( const tripoint &p )
-{
-    bool open = false;
-    map &here = get_map();
-    for( const tripoint &tmp : here.points_in_radius( p, 12 ) ) {
-        if( here.ter( tmp ) == ter_id( "t_wall_resin_cage" ) ) {
-            here.ter_set( tmp, ter_id( "t_floor_resin" ) );
-            open = true;
-        }
-    }
-    if( open ) {
-        add_msg( m_good, _( "The nerve cluster collapses in on itself, and the nearby cages open!" ) );
-    } else {
-        add_msg( _( "The nerve cluster collapses in on itself, to no discernible effect." ) );
-    }
-    sounds::sound( p, 120, sounds::sound_t::combat,
-                   _( "a loud alien shriek reverberating through the structure!" ), true,
-                   "shout", "scream_tortured" );
-    monster *const spawn = g->place_critter_around( mon_mi_go_myrmidon, p, 1 );
-    spawn->set_hp( spawn->get_hp_max() / 2 );
-    if( g->u.sees( p ) ) {
-        add_msg( m_bad, _( "Something stirs and clambers out of the ruined mass of flesh and nerves!" ) );
     }
 }
 
