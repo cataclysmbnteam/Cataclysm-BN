@@ -9,20 +9,12 @@ body:
       value: |
         ## Thanks for reaching out!
 
-        Please submit this bug report directly from the game
+        This bug report can be directly generated within the game.
 
         - `Main menu (ESC)` > `Debug Menu` > `Info` > `Submit a bug report on github`
         - it fills out necessary information automatically for you
 
         please check [README](../../README.md#ive-found-a-bug-what-should-i-do) for more information.
-
-  # - type: checkboxes
-  #   id: checks
-  #   attributes:
-  #     label: Please make sure that there are no similar issues
-  #     options:
-  #       - label: I have searched the issue tracker and confirmed that this is not a duplicate.
-  #         required: true
 
   - type: textarea
     id: describe-bug
@@ -30,7 +22,10 @@ body:
       label: Describe the bug
       description: >
         A clear and concise description of what the bug is,
-        and how do you expect it to be (with the reason).
+        and how do you expect it to be.
+      placeholder: |
+        (...) is not working as intended and instead does (...).
+        it should have been (...), because (...).
     validations:
       required: true
 
@@ -60,8 +55,7 @@ body:
     attributes:
       label: Versions and configuration
       description: |
-        - It is discouraged to write this manually, [let the game generate it for you](../../README.md#ive-found-a-bug-what-should-i-do)
-        - If you decided to write it manually: `Main menu (ESC)` > `Debug Menu` > `Info` > `Generate game report` to generate this report.
+        - To generate:`Main menu (ESC)` > `Debug Menu` > `Info` > `Generate game report`
         - Please update your OS version with a more precise version.
       placeholder: |
         - OS: [e.g. iOS 8 or Windows 10 or Ubuntu 18.04]
@@ -76,14 +70,15 @@ body:
     id: additional-context
     attributes:
       label: Additional context
-      description: Add any other context about the problem here.
-      placeholder: |
+      description: |
+        Add any other context about the problem here.
         Crash: if your problem refers to a crash, please add the following files to the "Additional Context" paragraph:
         - From the /config folder (you can zip them both together):
             - crash.log file.
             - debug.log file.
         - Your save file (zipped)
 
+      placeholder: |
         - note #1: you can drag and drop files in this issue post!
         - note #2: it is very important for us that you provide a save file in case of a crash. It really helps the developers
             to reproduce the bug and fix it. If possible, try to provide a save file that occurs in the right conditions, just
