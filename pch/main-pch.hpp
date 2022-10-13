@@ -41,7 +41,6 @@
 #include <ostream>
 #include <queue>
 #include <random>
-#include <ranges>
 #include <set>
 #include <sstream>
 #include <stack>

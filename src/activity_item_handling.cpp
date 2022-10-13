@@ -15,7 +15,6 @@
 #include <unordered_map>
 #include <utility>
 #include <vector>
-#include <ranges>
 
 #include "activity_actor_definitions.h"
 #include "avatar.h"
@@ -1280,7 +1279,7 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
 
 static bool has_skill_for_vehicle_work( const std::map<skill_id, int> &required_skills, player &p )
 {
-    return std::ranges::all_of( required_skills, [&p]( const auto & skill ) {
+    return std::all_of( required_skills.begin(), required_skills.end(), [&p]( const auto & skill ) {
         const auto &[skill_id, level] = skill;
 
         return p.get_skill_level( skill_id ) >= level;
