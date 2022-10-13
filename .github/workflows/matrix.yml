@@ -11,7 +11,7 @@ on:
 jobs:
   skip-duplicates:
     continue-on-error: true
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     # Map a step output to a job output
     outputs:
       should_skip: ${{ steps.skip_check.outputs.should_skip }}
@@ -27,7 +27,7 @@ jobs:
       matrix:
         include:
           - compiler: g++-11
-            os: ubuntu-latest
+            os: ubuntu-22.04
             cmake: 0
             tiles: 0
             sound: 0
@@ -35,7 +35,7 @@ jobs:
             title: GCC 11, Ubuntu, Curses
             native: linux64
           - compiler: g++-11
-            os: ubuntu-latest
+            os: ubuntu-22.04
             cmake: 1
             tiles: 1
             sound: 1
@@ -43,7 +43,7 @@ jobs:
             native: linux64
             title: GCC 11, Ubuntu, Tiles, CMake, Languages
           - compiler: g++-10
-            os: ubuntu-latest
+            os: ubuntu-22.04
             cmake: 0
             tiles: 1
             sound: 0
@@ -51,7 +51,7 @@ jobs:
             native: linux64
             title: GCC 10, Ubuntu, Tiles, NoSound, ASan
           - compiler: clang++-12
-            os: ubuntu-latest
+            os: ubuntu-22.04
             cmake: 0
             tiles: 1
             sound: 0
