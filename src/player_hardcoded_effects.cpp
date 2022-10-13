@@ -746,8 +746,15 @@ void player::hardcoded_effects( effect &it )
         }
         if( dur > 4_hours ) {
             // 8 teleports
-            if( one_turn_in( 1000_minutes - dur ) && !has_effect( effect_valium ) ) {
-                add_effect( effect_shakes, rng( 4_minutes, 8_minutes ) );
+            if( one_in( 10000 ) ) {
+                if( !has_trait( trait_M_IMMUNE ) ) {
+                    add_effect( effect_fungus, 1_turns, num_bp );
+                    add_msg_if_player( m_bad, _( "You smell mold, and your skin itches." ) );
+                } else {
+                    add_msg_if_player( m_info, _( "We have many colonists awaiting passage." ) );
+                }
+                // Set ourselves up for removal
+                it.set_duration( 0_turns );
             }
             if( one_in( 5000 ) ) {
                 // Like with the glow anomaly trap, but lower max and bypasses radsuits
