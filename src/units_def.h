@@ -3,6 +3,7 @@
 #define CATA_SRC_UNITS_DEF_H
 
 #include <cmath>
+#include <compare>
 
 class JsonIn;
 class JsonOut;
@@ -49,24 +50,7 @@ class quantity
          * The usual comparators, they compare the base value only.
          */
         /**@{*/
-        constexpr bool operator==( const this_type &rhs ) const {
-            return value_ == rhs.value_;
-        }
-        constexpr bool operator!=( const this_type &rhs ) const {
-            return !operator==( rhs );
-        }
-        constexpr bool operator<( const this_type &rhs ) const {
-            return value_ < rhs.value_;
-        }
-        constexpr bool operator>=( const this_type &rhs ) const {
-            return !operator<( rhs );
-        }
-        constexpr bool operator>( const this_type &rhs ) const {
-            return value_ > rhs.value_;
-        }
-        constexpr bool operator<=( const this_type &rhs ) const {
-            return !operator>( rhs );
-        }
+        constexpr auto operator<=>( const this_type & ) const = default;
         /**@}*/
 
         /**
