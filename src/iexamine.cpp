@@ -6135,7 +6135,6 @@ void iexamine::check_power( player &, const tripoint &examp )
 
 void iexamine::migo_nerve_cluster( player &p, const tripoint &examp )
 {
-    bool open = false;
     map &here = get_map();
     if( query_yn( _( "This looks important.  Tear open nerve cluster?" ) ) ) {
         p.mod_moves( -200 );
