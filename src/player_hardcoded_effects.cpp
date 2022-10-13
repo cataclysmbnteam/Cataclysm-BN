@@ -6,6 +6,7 @@
 
 #include "activity_handlers.h"
 #include "avatar.h"
+#include "character.h"
 #include "damage.h"
 #include "effect.h"
 #include "enums.h"
@@ -594,8 +595,7 @@ void player::hardcoded_effects( effect &it )
             if( one_in( 7200 - ( dur - 360_minutes ) / 4_turns ) ) {
                 add_msg_if_player( m_bad,
                                    _( "You feel something reaching out to you, before reality around you frays!" ) );
-                if( has_artifact_with( AEP_PSYSHIELD ) || ( worn_with_flag( "PSYSHIELD_PARTIAL" ) &&
-                        one_in( 10 ) ) ) {
+                if( has_psy_protection( 10 ) ) {
                     // Transfers half of remaining duration of nether attention, tinfoil only sometimes helps
                     it.mult_duration( 0.5 );
                     add_effect( effect_teleglow, dur );
@@ -618,8 +618,7 @@ void player::hardcoded_effects( effect &it )
         }
         if( dur > 6_hours ) {
             if( one_in( 5000 ) ) {
-                if( has_artifact_with( AEP_PSYSHIELD ) || ( worn_with_flag( "PSYSHIELD_PARTIAL" ) &&
-                        one_in( 4 ) ) ) {
+                if( has_psy_protection( 4 ) ) {
                     add_msg_if_player( m_bad, _( "You feel something probing your mind, but it is rebuffed!" ) );
                 } else {
                     add_msg_if_player( m_bad, _( "A terrifying image in the back out your mind paralyzes you." ) );
@@ -630,8 +629,7 @@ void player::hardcoded_effects( effect &it )
                 it.mult_duration( 0.75 );
             }
             if( one_turn_in( 1200_minutes - dur ) ) {
-                if( has_artifact_with( AEP_PSYSHIELD ) || ( worn_with_flag( "PSYSHIELD_PARTIAL" ) &&
-                        one_in( 4 ) ) ) {
+                if( has_psy_protection( 4 ) ) {
                     add_msg_if_player( m_bad, _( "You feel a buzzing in the back of your mind, but it passes." ) );
                 } else {
                     add_msg_if_player( m_bad, _( "You feel something scream in the back of your mind!" ) );
@@ -660,8 +658,7 @@ void player::hardcoded_effects( effect &it )
             it.mult_duration( 0.9 );
         }
         if( one_turn_in( 40_minutes ) ) {
-            if( has_artifact_with( AEP_PSYSHIELD ) || ( worn_with_flag( "PSYSHIELD_PARTIAL" ) &&
-                    one_in( 4 ) ) ) {
+            if( has_psy_protection( 4 ) ) {
                 add_msg_if_player( m_bad, _( "You feel weird for a moment, but it passes." ) );
             } else {
                 // Less morale drop and faster decay than Psychosis negative messages, but more frequent
@@ -710,7 +707,8 @@ void player::hardcoded_effects( effect &it )
         }
         if( dur > 6_hours ) {
             // 12 teleports
-            if( one_in( 14400 - ( dur - 360_minutes ) / 4_turns ) ) {
+            // Once every 4 hours baseline, once every 2 hours max
+            if( one_turn_in( 14_hours - dur ) ) {
                 tripoint dest( 0, 0, posz() );
                 int &x = dest.x;
                 int &y = dest.y;

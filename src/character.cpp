@@ -6264,6 +6264,16 @@ bool Character::is_rad_immune() const
     return ( is_wearing_power_armor( &has_helmet ) && has_helmet ) || worn_with_flag( "RAD_PROOF" );
 }
 
+bool Character::has_psy_protection ( int partial_chance )
+{
+    if( has_artifact_with( AEP_PSYSHIELD ) || (worn_with_flag( "PSYSHIELD_PARTIAL" ) &&
+                one_in( partial_chance ) ) ) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 int Character::throw_range( const item &it ) const
 {
     if( it.is_null() ) {

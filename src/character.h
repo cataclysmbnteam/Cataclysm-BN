@@ -1446,6 +1446,8 @@ class Character : public Creature, public visitable<Character>
         bool is_immune_damage( damage_type ) const override;
         /** Returns true if the player is protected from radiation */
         bool is_rad_immune() const;
+        /** Returns true if the player has a psyshield artifact, or sometimes if wearing tinfoil */
+        bool has_psy_protection( int partial_chance );
         /** Returns true if the player is immune to throws */
         bool is_throw_immune() const;
 
