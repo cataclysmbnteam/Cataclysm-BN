@@ -581,15 +581,24 @@ void monster::plan()
     } else if( friendly > 0 && one_in( 3 ) ) {
         // Grow restless with no targets
         friendly--;
-    } else if( friendly != 0 && has_effect( effect_led_by_leash ) ) {
-        // visibility doesn't matter, we're getting pulled by a leash
-        if( rl_dist( pos(), g->u.pos() ) > 1 ) {
+    } else if( friendly < 0 && sees( g->u ) && !has_flag( MF_PET_WONT_FOLLOW ) ) {
+        if( rl_dist( pos(), g->u.pos() ) > 2 ) {
             set_dest( g->u.pos() );
         } else {
             unset_dest();
         }
-    } else if( friendly < 0 && sees( g->u ) && !has_flag( MF_PET_WONT_FOLLOW ) ) {
-        if( rl_dist( pos(), g->u.pos() ) > 2 ) {
+    }
+
+    // being led by a leash override other movements decisions
+    if( has_effect( effect_led_by_leash ) && friendly != 0 ) {
+        // if we have an hostile target adjacent to the payer, and we're not fleeing, we can potentially attack it
+        if( target != nullptr && rl_dist( g->u.pos(), target->pos() ) < 2 &&
+            target->attitude_to( g->u ) == Attitude::A_HOSTILE && !fleeing ) {
+            // if we're too far from the player, go back to it
+            if( rl_dist( pos(), g->u.pos() ) > 5 ) {
+                set_dest( g->u.pos() );
+            }
+        } else if( rl_dist( pos(), g->u.pos() ) > 1 ) {
             set_dest( g->u.pos() );
         } else {
             unset_dest();
@@ -1044,12 +1053,13 @@ void monster::move()
         moves -= 100;
         stumble();
         path.clear();
-        if( has_effect( effect_led_by_leash ) ) {
-            if( rl_dist( pos(), g->u.pos() ) > 6 ) {
-                // Either failed to keep up with the player or moved away
-                remove_effect( effect_led_by_leash );
-                add_msg( m_info, _( "You lose hold of a leash." ) );
-            }
+    }
+
+    if( has_effect( effect_led_by_leash ) ) {
+        if( rl_dist( pos(), g->u.pos() ) > 8 ) {
+            // Either failed to keep up with the player or moved away
+            remove_effect( effect_led_by_leash );
+            add_msg( m_info, _( "You lose hold of a leash." ) );
         }
     }
 }

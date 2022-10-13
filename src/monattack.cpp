@@ -4529,7 +4529,7 @@ bool mattack::longswipe( monster *z )
 static void parrot_common( monster *parrot )
 {
     // It takes a while
-    parrot->moves -= 100;
+    parrot->moves -= 10;
     const SpeechBubble &speech = get_speech( parrot->type->id.str() );
     sounds::sound( parrot->pos(), speech.volume, sounds::sound_t::speech, speech.text.translated(),
                    false, "speech", parrot->type->id.str() );
