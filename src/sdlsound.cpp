@@ -77,6 +77,11 @@ static bool sound_init_success = false;
 static std::map<std::string, music_playlist> playlists;
 static std::string current_soundpack_path;
 
+/** The ambient sound we're currently playing **/
+static int current_ambient_volume = 0;
+static int current_selected_sound_effect_volume = 0;
+static Mix_Chunk *current_ambient_effect = nullptr;
+
 static std::unordered_map<std::string, int> unique_paths;
 static sfx_resources_t sfx_resources;
 static std::vector<id_and_variant> sfx_preload;
@@ -270,7 +275,7 @@ void stop_music()
     absolute_playlist_at = 0;
 }
 
-void update_music_volume()
+void update_volumes()
 {
     if( test_mode ) {
         return;
@@ -281,7 +286,14 @@ void update_music_volume()
         return;
     }
 
+
     Mix_VolumeMusic( current_music_track_volume * get_option<int>( "MUSIC_VOLUME" ) / 100 );
+
+    if( current_ambient_effect != nullptr ) {
+        Mix_VolumeChunk( current_ambient_effect,
+                         current_selected_sound_effect_volume * get_option<int>( "AMBIENT_SOUND_VOLUME" ) *
+                         current_ambient_volume / ( 100 * 100 ) );
+    }
     // Start playing music, if we aren't already doing so (if
     // SOUND_ENABLED was toggled.)
 
@@ -571,6 +583,7 @@ void sfx::play_ambient_variant_sound( const std::string &id, const std::string &
     if( is_channel_playing( channel ) ) {
         return;
     }
+
     const sound_effect *eff = find_random_effect( id, variant );
     if( eff == nullptr ) {
         return;
@@ -605,6 +618,9 @@ void sfx::play_ambient_variant_sound( const std::string &id, const std::string &
             cleanup_when_channel_finished( ch, effect_to_play );
         }
     }
+    current_selected_sound_effect_volume = selected_sound_effect.volume;
+    current_ambient_volume = volume;
+    current_ambient_effect = effect_to_play;
 }
 
 void load_soundset()
