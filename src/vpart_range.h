@@ -12,17 +12,6 @@
 #include "vpart_position.h"
 #include "vehicle.h"
 
-#if defined(__GNUC__)
-// HACK: See https://github.com/CleverRaven/Cataclysm-DDA/pull/58210 for details
-#   undef assert
-#   define assert( expr ) \
-    do { \
-        if( !( expr ) ) { \
-            __builtin_unreachable(); \
-        } \
-    } while( false )
-#endif
-
 enum class part_status_flag : int;
 
 /**
