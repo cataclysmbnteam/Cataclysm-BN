@@ -887,8 +887,11 @@ void character_edit_menu( Character &c )
                     p.set_stored_kcal( p.max_stored_kcal() );
                     break;
                 default:
-                    if( smenu.ret >= 6 && smenu.ret < static_cast<int>( vits.size() + 6 ) ) {
-                        auto iter = std::next( vits.begin(), smenu.ret - 6 );
+                    // if you add/remove an entry above, change the value below
+                    const int non_vitamin_entries = 5;
+                    if( smenu.ret >= non_vitamin_entries &&
+                        smenu.ret < static_cast<int>( vits.size() + non_vitamin_entries ) ) {
+                        auto iter = std::next( vits.begin(), smenu.ret - non_vitamin_entries );
                         if( query_int( value, _( "Set %s to?  Currently: %d" ),
                                        iter->second.name(), p.vitamin_get( iter->first ) ) ) {
                             p.vitamin_set( iter->first, value );
