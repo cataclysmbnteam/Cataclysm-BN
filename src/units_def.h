@@ -98,23 +98,23 @@ class quantity
          */
         /**@{*/
 
-        template<typename other_value_type>
+        template<Arithmatic other_value_type>
         constexpr quantity < combined_value_type<other_value_type>, unit_type >
         operator+( const quantity<other_value_type, unit_type> &rhs ) const {
             return { value_ + rhs.value(), unit_type{} };
         }
-        template<typename other_value_type>
+        template<Arithmatic other_value_type>
         constexpr quantity < combined_value_type<other_value_type>, unit_type >
         operator-( const quantity<other_value_type, unit_type> &rhs ) const {
             return { value_ - rhs.value(), unit_type{} };
         }
 
-        template<typename other_value_type>
+        template<Arithmatic other_value_type>
         this_type &operator+=( const quantity<other_value_type, unit_type> &rhs ) {
             value_ += rhs.value();
             return *this;
         }
-        template<typename other_value_type>
+        template<Arithmatic other_value_type>
         this_type &operator-=( const quantity<other_value_type, unit_type> &rhs ) {
             value_ -= rhs.value();
             return *this;
@@ -192,10 +192,10 @@ inline quantity<V, U> fmod( quantity<V, U> num, quantity<V, U> den )
 
 // scalar * quantity<foo, unit> == quantity<decltype(foo * scalar), unit>
 
-template<typename vt, typename st>
+template<Arithmatic vt, Arithmatic st>
 using multiplied_value_type = decltype( std::declval<vt>() * std::declval<st>() );
 
-template<typename lvt, typename ut, Arithmatic st>
+template<Arithmatic lvt, typename ut, Arithmatic st>
 inline constexpr quantity<multiplied_value_type<lvt, st>, ut>
 operator*( const st &factor, const quantity<lvt, ut> &rhs )
 {
@@ -205,7 +205,7 @@ operator*( const st &factor, const quantity<lvt, ut> &rhs )
 }
 
 // same as above only with inverse order of operands: quantity * scalar
-template<typename lvt, typename ut, Arithmatic st>
+template<Arithmatic lvt, typename ut, Arithmatic st>
 inline constexpr quantity<multiplied_value_type<lvt, st>, ut>
 operator*( const quantity<lvt, ut> &lhs, const st &factor )
 {
@@ -222,7 +222,7 @@ multiply_any_unit( const quantity<lvt, ut> &lhs, const st &factor )
     return { lhs.value() *factor, ut{} };
 }
 
-template<typename t, typename st>
+template<Arithmatic t, Arithmatic st>
 inline constexpr multiplied_value_type<t, st>
 multiply_any_unit( const t &lhs, const st &factor )
 {
@@ -234,7 +234,7 @@ multiply_any_unit( const t &lhs, const st &factor )
 // inline void operator*( quantity<lvt, ut>, quantity<rvt, ut> ) = delete;
 
 // operator *=
-template<typename lvt, typename ut, Arithmatic st>
+template<Arithmatic lvt, typename ut, Arithmatic st>
 inline quantity<lvt, ut> &
 operator*=( quantity<lvt, ut> &lhs, const st &factor )
 {
@@ -244,7 +244,7 @@ operator*=( quantity<lvt, ut> &lhs, const st &factor )
 
 // and the reverse of the multiplication above:
 // quantity<foo, unit> / scalar == quantity<decltype(foo / scalar), unit>
-template<typename lvt, typename ut, Arithmatic rvt>
+template<Arithmatic lvt, typename ut, Arithmatic rvt>
 inline constexpr quantity<decltype( std::declval<lvt>() * std::declval<rvt>() ), ut>
 operator/( const quantity<lvt, ut> &lhs, const rvt &divisor )
 {
@@ -255,12 +255,12 @@ operator/( const quantity<lvt, ut> &lhs, const rvt &divisor )
 // template<Arithmatic lvt, typename ut, typename rvt>
 // inline void operator/( lvt, quantity<rvt, ut> ) = delete;
 
-template<typename lvt, typename rvt>
+template<Arithmatic lvt, Arithmatic rvt>
 using divided_value_type = decltype( std::declval<lvt>() / std::declval<rvt>() );
 
 
 // quantity<foo, unit> / quantity<bar, unit> == decltype(foo / bar)
-template<typename lvt, typename ut, typename rvt>
+template<Arithmatic lvt, typename ut, Arithmatic rvt>
 inline constexpr decltype( std::declval<lvt>() / std::declval<rvt>() )
 operator/( const quantity<lvt, ut> &lhs, const quantity<rvt, ut> &rhs )
 {
@@ -268,7 +268,7 @@ operator/( const quantity<lvt, ut> &lhs, const quantity<rvt, ut> &rhs )
 }
 
 // operator /=
-template<typename lvt, typename ut, Arithmatic st>
+template<Arithmatic lvt, typename ut, Arithmatic st>
 inline quantity<lvt, ut> &
 operator/=( quantity<lvt, ut> &lhs, const st &divisor )
 {
@@ -278,7 +278,7 @@ operator/=( quantity<lvt, ut> &lhs, const st &divisor )
 
 // remainder:
 // quantity<foo, unit> % scalar == quantity<decltype(foo % scalar), unit>
-template<typename lvt, typename ut, Arithmatic rvt>
+template<Arithmatic lvt, typename ut, Arithmatic rvt>
 inline constexpr quantity < decltype( std::declval<lvt>() % std::declval<rvt>() ), ut >
 operator%( const quantity<lvt, ut> &lhs, const rvt &divisor )
 {
@@ -290,7 +290,7 @@ operator%( const quantity<lvt, ut> &lhs, const rvt &divisor )
 // inline void operator%( lvt, quantity<rvt, ut> ) = delete;
 
 // quantity<foo, unit> % quantity<bar, unit> == decltype(foo % bar)
-template<typename lvt, typename ut, typename rvt>
+template<Arithmatic lvt, typename ut, Arithmatic rvt>
 inline constexpr quantity < decltype( std::declval<lvt>() % std::declval<rvt>() ), ut >
 operator%( const quantity<lvt, ut> &lhs, const quantity<rvt, ut> &rhs )
 {
@@ -298,14 +298,14 @@ operator%( const quantity<lvt, ut> &lhs, const quantity<rvt, ut> &rhs )
 }
 
 // operator %=
-template<typename lvt, typename ut, typename st, typename = typename std::enable_if<std::is_arithmetic<st>::value>::type>
+template<Arithmatic lvt, typename ut, Arithmatic st>
 inline quantity<lvt, ut> &
 operator%=( quantity<lvt, ut> &lhs, const st &divisor )
 {
     lhs = lhs % divisor;
     return lhs;
 }
-template<typename lvt, typename ut, typename rvt>
+template<Arithmatic lvt, typename ut, Arithmatic rvt>
 inline quantity<lvt, ut> &
 operator%=( quantity<lvt, ut> &lhs, const quantity<rvt, ut> &rhs )
 {
