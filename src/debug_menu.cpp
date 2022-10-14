@@ -887,8 +887,7 @@ void character_edit_menu( Character &c )
                     p.set_stored_kcal( p.max_stored_kcal() );
                     break;
                 default:
-                    // if you add/remove an entry above, change the value below
-                    const int non_vitamin_entries = 5;
+                    const int non_vitamin_entries = smenu.entries.size() - vits.size();
                     if( smenu.ret >= non_vitamin_entries &&
                         smenu.ret < static_cast<int>( vits.size() + non_vitamin_entries ) ) {
                         auto iter = std::next( vits.begin(), smenu.ret - non_vitamin_entries );
