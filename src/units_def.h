@@ -4,6 +4,9 @@
 
 #include <cmath>
 #include <compare>
+#include <concepts>
+
+#include "concepts_utility.h"
 
 class JsonIn;
 class JsonOut;
@@ -11,7 +14,7 @@ class JsonOut;
 namespace units
 {
 
-template<typename V, typename U>
+template<Arithmatic V, typename U>
 class quantity
 {
     public:
@@ -35,7 +38,7 @@ class quantity
          * Conversion from other value type, e.g. from `quantity<int, foo>` to
          * `quantity<float, foo>`. The unit type stays the same!
          */
-        template<typename other_value_type>
+        template<Arithmatic other_value_type>
         constexpr quantity( const quantity<other_value_type, unit_type> &other ) : value_( other.value() ) {
         }
 
@@ -55,7 +58,18 @@ class quantity
 #endif
         // clang false-positive: https://github.com/llvm/llvm-project/issues/55919
         /**@{*/
-        constexpr auto operator<=> ( const this_type & ) const = default; // *NOPAD*
+        template<Arithmatic other_value_type>
+        using combined_value_type = decltype( std::declval<value_type>() +
+                                              std::declval<other_value_type>() );
+
+        constexpr auto operator <=>( const this_type& other ) const = default; // *NOPAD*
+
+        template <Arithmatic other_value_type>
+        requires std::common_with<value_type, other_value_type>
+        constexpr auto operator<=> ( const quantity<other_value_type, unit_type> &other ) const { // *NOPAD*
+            using common_type = std::common_type_t<value_type, other_value_type>;
+            return static_cast<common_type>( value_ ) <=> static_cast<common_type>( other.value() ); // *NOPAD*
+        }
         /**@}*/
 #ifdef __clang__
 #pragma clang diagnostic pop
@@ -83,15 +97,14 @@ class quantity
          * \endcode
          */
         /**@{*/
+
         template<typename other_value_type>
-        constexpr quantity < decltype( std::declval<value_type>() + std::declval<other_value_type>() ),
-                  unit_type >
+        constexpr quantity < combined_value_type<other_value_type>, unit_type >
         operator+( const quantity<other_value_type, unit_type> &rhs ) const {
             return { value_ + rhs.value(), unit_type{} };
         }
         template<typename other_value_type>
-        constexpr quantity < decltype( std::declval<value_type>() + std::declval<other_value_type>() ),
-                  unit_type >
+        constexpr quantity < combined_value_type<other_value_type>, unit_type >
         operator-( const quantity<other_value_type, unit_type> &rhs ) const {
             return { value_ - rhs.value(), unit_type{} };
         }
@@ -178,8 +191,12 @@ inline quantity<V, U> fmod( quantity<V, U> num, quantity<V, U> den )
 // "quantity / scalar" or "quantity / other_quanity" is meant.
 
 // scalar * quantity<foo, unit> == quantity<decltype(foo * scalar), unit>
-template<typename lvt, typename ut, typename st, typename = typename std::enable_if<std::is_arithmetic<st>::value>::type>
-inline constexpr quantity<decltype( std::declval<lvt>() * std::declval<st>() ), ut>
+
+template<typename vt, typename st>
+using multiplied_value_type = decltype( std::declval<vt>() * std::declval<st>() );
+
+template<typename lvt, typename ut, Arithmatic st>
+inline constexpr quantity<multiplied_value_type<lvt, st>, ut>
 operator*( const st &factor, const quantity<lvt, ut> &rhs )
 {
     static_assert( quantity_details<ut>::common_zero_point::value,
@@ -188,8 +205,8 @@ operator*( const st &factor, const quantity<lvt, ut> &rhs )
 }
 
 // same as above only with inverse order of operands: quantity * scalar
-template<typename lvt, typename ut, typename st, typename = typename std::enable_if<std::is_arithmetic<st>::value>::type>
-inline constexpr quantity<decltype( std::declval<st>() * std::declval<lvt>() ), ut>
+template<typename lvt, typename ut, Arithmatic st>
+inline constexpr quantity<multiplied_value_type<lvt, st>, ut>
 operator*( const quantity<lvt, ut> &lhs, const st &factor )
 {
     static_assert( quantity_details<ut>::common_zero_point::value,
@@ -199,25 +216,25 @@ operator*( const quantity<lvt, ut> &lhs, const st &factor )
 
 // Explicit "yes, I know what I'm doing" multiplication
 template<typename lvt, typename ut, typename st>
-inline constexpr quantity<decltype( std::declval<st>() * std::declval<lvt>() ), ut>
+inline constexpr quantity<multiplied_value_type<lvt, st>, ut>
 multiply_any_unit( const quantity<lvt, ut> &lhs, const st &factor )
 {
     return { lhs.value() *factor, ut{} };
 }
 
 template<typename t, typename st>
-inline constexpr decltype( std::declval<st>() * std::declval<t>() )
+inline constexpr multiplied_value_type<t, st>
 multiply_any_unit( const t &lhs, const st &factor )
 {
     return lhs * factor;
 }
 
 // quantity<foo, unit> * quantity<bar, unit> is not supported
-template<typename lvt, typename ut, typename rvt, typename = typename std::enable_if<std::is_arithmetic<lvt>::value>::type>
-inline void operator*( quantity<lvt, ut>, quantity<rvt, ut> ) = delete;
+// template<Arithmatic lvt, typename ut, typename rvt>
+// inline void operator*( quantity<lvt, ut>, quantity<rvt, ut> ) = delete;
 
 // operator *=
-template<typename lvt, typename ut, typename st, typename = typename std::enable_if<std::is_arithmetic<st>::value>::type>
+template<typename lvt, typename ut, Arithmatic st>
 inline quantity<lvt, ut> &
 operator*=( quantity<lvt, ut> &lhs, const st &factor )
 {
@@ -225,9 +242,9 @@ operator*=( quantity<lvt, ut> &lhs, const st &factor )
     return lhs;
 }
 
-// and the revers of the multiplication above:
+// and the reverse of the multiplication above:
 // quantity<foo, unit> / scalar == quantity<decltype(foo / scalar), unit>
-template<typename lvt, typename ut, typename rvt, typename = typename std::enable_if<std::is_arithmetic<rvt>::value>::type>
+template<typename lvt, typename ut, Arithmatic rvt>
 inline constexpr quantity<decltype( std::declval<lvt>() * std::declval<rvt>() ), ut>
 operator/( const quantity<lvt, ut> &lhs, const rvt &divisor )
 {
@@ -235,8 +252,12 @@ operator/( const quantity<lvt, ut> &lhs, const rvt &divisor )
 }
 
 // scalar / quantity<foo, unit> is not supported
-template<typename lvt, typename ut, typename rvt, typename = typename std::enable_if<std::is_arithmetic<lvt>::value>::type>
-inline void operator/( lvt, quantity<rvt, ut> ) = delete;
+// template<Arithmatic lvt, typename ut, typename rvt>
+// inline void operator/( lvt, quantity<rvt, ut> ) = delete;
+
+template<typename lvt, typename rvt>
+using divided_value_type = decltype( std::declval<lvt>() / std::declval<rvt>() );
+
 
 // quantity<foo, unit> / quantity<bar, unit> == decltype(foo / bar)
 template<typename lvt, typename ut, typename rvt>
@@ -247,7 +268,7 @@ operator/( const quantity<lvt, ut> &lhs, const quantity<rvt, ut> &rhs )
 }
 
 // operator /=
-template<typename lvt, typename ut, typename st, typename = typename std::enable_if<std::is_arithmetic<st>::value>::type>
+template<typename lvt, typename ut, Arithmatic st>
 inline quantity<lvt, ut> &
 operator/=( quantity<lvt, ut> &lhs, const st &divisor )
 {
@@ -257,7 +278,7 @@ operator/=( quantity<lvt, ut> &lhs, const st &divisor )
 
 // remainder:
 // quantity<foo, unit> % scalar == quantity<decltype(foo % scalar), unit>
-template<typename lvt, typename ut, typename rvt, typename = typename std::enable_if<std::is_arithmetic<rvt>::value>::type>
+template<typename lvt, typename ut, Arithmatic rvt>
 inline constexpr quantity < decltype( std::declval<lvt>() % std::declval<rvt>() ), ut >
 operator%( const quantity<lvt, ut> &lhs, const rvt &divisor )
 {
@@ -265,8 +286,8 @@ operator%( const quantity<lvt, ut> &lhs, const rvt &divisor )
 }
 
 // scalar % quantity<foo, unit> is not supported
-template<typename lvt, typename ut, typename rvt, typename = typename std::enable_if<std::is_arithmetic<lvt>::value>::type>
-inline void operator%( lvt, quantity<rvt, ut> ) = delete;
+// template<typename lvt, typename ut, typename rvt, typename = typename std::enable_if<std::is_arithmetic<lvt>::value>::type>
+// inline void operator%( lvt, quantity<rvt, ut> ) = delete;
 
 // quantity<foo, unit> % quantity<bar, unit> == decltype(foo % bar)
 template<typename lvt, typename ut, typename rvt>

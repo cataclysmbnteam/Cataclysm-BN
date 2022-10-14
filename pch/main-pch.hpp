@@ -1,4 +1,4 @@
-
+ 
 #include <algorithm>
 #include <array>
 #include <bitset>
@@ -10,6 +10,7 @@
 #include <climits>
 #include <clocale>
 #include <cmath>
+#include <compare>
 #include <complex>
 #include <csignal>
 #include <cstdarg>
@@ -48,11 +49,9 @@
 #include <string>
 #include <system_error>
 #include <tuple>
-#include <typeinfo>
 #include <type_traits>
+#include <typeinfo>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
 #include <vector>
-
-#include "../src/colony.h"
