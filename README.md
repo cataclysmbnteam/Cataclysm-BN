@@ -36,9 +36,9 @@ Please read [COMPILING.md](doc/COMPILING/COMPILING.md) - it covers general infor
 
 We also have the following build guides:
 
--   Building on Windows with `MSYS2` at [COMPILING-MSYS.md](doc/COMPILING/COMPILING-MSYS.md)
--   Building on Windows with `vcpkg` at [COMPILING-VS-VCPKG.md](doc/COMPILING/COMPILING-VS-VCPKG.md)
--   Building with `cmake` at [COMPILING-CMAKE.md](doc/COMPILING/COMPILING-CMAKE.md) (_unofficial guide_)
+- Building on Windows with `MSYS2` at [COMPILING-MSYS.md](doc/COMPILING/COMPILING-MSYS.md)
+- Building on Windows with `vcpkg` at [COMPILING-VS-VCPKG.md](doc/COMPILING/COMPILING-VS-VCPKG.md)
+- Building with `cmake` at [COMPILING-CMAKE.md](doc/COMPILING/COMPILING-CMAKE.md) (_unofficial guide_)
 
 ## Contribute
 
@@ -73,9 +73,19 @@ Press the `?` key, followed by the `1` key to see the full list of key commands.
 
 #### I've found a bug. What should I do?
 
-Please submit an issue on [our GitHub page](https://github.com/cataclysmbnteam/Cataclysm-BN/issues) using [bug report form](https://github.com/cataclysmbnteam/Cataclysm-BN/issues/new?template=bug_report.yml).
+[Bug report](https://github.com/cataclysmbnteam/Cataclysm-BN/issues/new?template=bug_report.yml) can be submitted via debug menu.
+
+Run `Submit a bug report on github` inside the game to submit an issue.
+
+| 1. open Options (ESC) -> Debug Menu (a) |         2. open Info (i)         |
+| :-------------------------------------: | :------------------------------: |
+|      ![](doc/img/readme-bug1.png)       |   ![](doc/img/readme-bug2.png)   |
+|  3. Submit a bug report on github (U)   | 4. An link to issue is generated |
+|      ![](doc/img/readme-bug3.png)       |   ![](doc/img/readme-bug4.png)   |
+
+It will open a bug report on browser with `Version and configuration` filled in.
 
 #### I would like to make a suggestion. What should I do?
 
--   For simple ideas: please visit [our Discussions page](https://github.com/cataclysmbnteam/Cataclysm-BN/discussions/categories/ideas). It could be a new feature, a port request, a mod idea, or anything else.
--   Please submit an issue on [our GitHub page](https://github.com/cataclysmbnteam/Cataclysm-BN/issues/) using [feature request form](https://github.com/cataclysmbnteam/Cataclysm-BN/issues/new?template=feature_request.yml).
+- For simple ideas: please visit [our Discussions page](https://github.com/cataclysmbnteam/Cataclysm-BN/discussions/categories/ideas). It could be a new feature, a port request, a mod idea, or anything else.
+- Please submit an issue on [our GitHub page](https://github.com/cataclysmbnteam/Cataclysm-BN/issues/) using [feature request form](https://github.com/cataclysmbnteam/Cataclysm-BN/issues/new?template=feature_request.yml).
