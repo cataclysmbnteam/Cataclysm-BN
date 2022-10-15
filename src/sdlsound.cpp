@@ -307,7 +307,6 @@ void update_volumes()
     // Then start back the last saved ambient sound with the new volume (fetched in the function)
     if( current_ambient_id != "" ) {
         // Stop currently playing channels
-        std::vector<int> channels_playing = {};
         for( int i = 0; i < static_cast<int>( sfx::channel::MAX_CHANNEL ); i++ ) {
             if( sfx::is_channel_playing( static_cast<sfx::channel>( i ) ) ) {
                 Mix_HaltChannel( i );
@@ -600,7 +599,6 @@ void sfx::play_ambient_variant_sound( const std::string &id, const std::string &
     if( is_channel_playing( channel ) ) {
         return;
     }
-
     const sound_effect *eff = find_random_effect( id, variant );
     if( eff == nullptr ) {
         return;
