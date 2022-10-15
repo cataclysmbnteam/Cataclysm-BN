@@ -7,10 +7,10 @@
 
 std::string trunc_ellipse( const std::string &input, unsigned int trunc );
 
-auto color_compare_base( int base, int value ) -> nc_color;
+nc_color color_compare_base( int base, int value );
 
-auto value_trimmed( int value, int maximum = 100 ) -> std::string;
+std::string value_trimmed( int value, int maximum = 100 );
 
-auto focus_color( int focus ) -> nc_color;
+nc_color focus_color( int focus );
 
 #endif

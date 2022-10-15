@@ -11,7 +11,7 @@ std::string trunc_ellipse( const std::string &input, unsigned int trunc )
     return input;
 }
 
-auto color_compare_base( int base, int value ) -> nc_color
+nc_color color_compare_base( int base, int value )
 {
     if( base < value ) {
         return c_green;
@@ -22,7 +22,7 @@ auto color_compare_base( int base, int value ) -> nc_color
     }
 }
 
-auto value_trimmed( int value, int maximum ) -> std::string
+std::string value_trimmed( int value, int maximum )
 {
     if( value > maximum ) {
         return "++";
@@ -31,7 +31,7 @@ auto value_trimmed( int value, int maximum ) -> std::string
     }
 }
 
-auto focus_color( int focus ) -> nc_color
+nc_color focus_color( int focus )
 {
     if( focus < 25 ) {
         return c_red;

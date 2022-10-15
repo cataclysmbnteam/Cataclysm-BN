@@ -676,7 +676,7 @@ std::string colorize( const translation &text, const nc_color &color )
     return colorize( text.translated(), color );
 }
 
-auto get_note_string_from_color( const nc_color &color ) -> std::string
+std::string get_note_string_from_color( const nc_color &color )
 {
     for( const auto &pair : color_by_string_map ) {
         if( pair.second.color == color ) {
@@ -697,7 +697,7 @@ nc_color get_note_color( const std::string &note_id )
     return c_yellow;
 }
 
-auto get_note_color_names() -> std::list<std::pair<std::string, std::string>>
+std::list<std::pair<std::string, std::string>> get_note_color_names()
 {
     auto color_list = std::list<std::pair<std::string, std::string>> {};
     for( const auto &color_pair : color_by_string_map ) {
