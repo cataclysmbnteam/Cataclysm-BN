@@ -5,7 +5,7 @@
 #include "debug.h"
 #include "url_utility.h"
 
-auto open_url( const std::string &url ) -> void
+void open_url( const std::string &url )
 {
     static const std::string executable =
 #if defined(_WIN32)
@@ -27,7 +27,7 @@ auto open_url( const std::string &url ) -> void
     }
 }
 
-auto encode_url( const std::string &text ) -> std::string
+std::string encode_url( const std::string &text )
 {
     std::ostringstream escaped;
     escaped.fill( '0' );
