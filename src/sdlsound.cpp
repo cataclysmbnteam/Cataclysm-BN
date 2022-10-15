@@ -78,9 +78,13 @@ static std::map<std::string, music_playlist> playlists;
 static std::string current_soundpack_path;
 
 /** The ambient sound we're currently playing **/
-static int current_ambient_volume = 0;
-static int current_selected_sound_effect_volume = 0;
-static Mix_Chunk *current_ambient_effect = nullptr;
+static std::string current_ambient_id = "";
+static std::string current_ambient_variant;
+static int current_ambient_volume;
+static sfx::channel current_ambient_channel;
+static int current_ambient_fade_in_duration;
+static double current_ambient_pitch;
+static int current_ambient_loops;
 
 static std::unordered_map<std::string, int> unique_paths;
 static sfx_resources_t sfx_resources;
@@ -286,14 +290,10 @@ void update_volumes()
         return;
     }
 
-
+    // Change volume of current music
     Mix_VolumeMusic( current_music_track_volume * get_option<int>( "MUSIC_VOLUME" ) / 100 );
 
-    if( current_ambient_effect != nullptr ) {
-        Mix_VolumeChunk( current_ambient_effect,
-                         current_selected_sound_effect_volume * get_option<int>( "AMBIENT_SOUND_VOLUME" ) *
-                         current_ambient_volume / ( 100 * 100 ) );
-    }
+
     // Start playing music, if we aren't already doing so (if
     // SOUND_ENABLED was toggled.)
 
@@ -301,6 +301,23 @@ void update_volumes()
     // #28018 is resolved, as this function may be called from places
     // other than the main menu.
     play_music( "title" );
+
+
+    // Call the play ambient function with the valid last parameters it used
+    // The logic to avoid duplicate ambient sounds etc. is in the function
+    if( current_ambient_id != "" ) {
+        // Stop currently playing channels
+        std::vector<int> channels_playing = {};
+        for( int i = 0; i < static_cast<int>( sfx::channel::MAX_CHANNEL ); i++ ) {
+            if( sfx::is_channel_playing( static_cast<sfx::channel>( i ) ) ) {
+                Mix_HaltChannel( i );
+            }
+        }
+        // Start the last playing channel
+        sfx::play_ambient_variant_sound( current_ambient_id, current_ambient_variant,
+                                         current_ambient_volume, current_ambient_channel, current_ambient_fade_in_duration,
+                                         current_ambient_pitch, current_ambient_loops );
+    }
 }
 
 // Allocate new Mix_Chunk as a null-chunk. Results in a valid, but empty chunk
@@ -618,9 +635,13 @@ void sfx::play_ambient_variant_sound( const std::string &id, const std::string &
             cleanup_when_channel_finished( ch, effect_to_play );
         }
     }
-    current_selected_sound_effect_volume = selected_sound_effect.volume;
+    current_ambient_id = id;
+    current_ambient_variant = variant;
     current_ambient_volume = volume;
-    current_ambient_effect = effect_to_play;
+    current_ambient_channel = channel;
+    current_ambient_fade_in_duration = fade_in_duration;
+    current_ambient_pitch = pitch;
+    current_ambient_loops = loops;
 }
 
 void load_soundset()
