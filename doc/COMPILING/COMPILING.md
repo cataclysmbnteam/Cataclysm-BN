@@ -1,27 +1,56 @@
-* [General Linux Guide](#general-linux-guide)
-  * [Compiler](#compiler)
-  * [Tools](#tools)
-  * [Dependencies](#dependencies)
-  * [Make flags](#make-flags)
-  * [Compiling localization files](#compiling-localization-files)
-* [Debian](#debian)
-  * [Linux (native) ncurses builds](#linux-native-ncurses-builds)
-  * [Linux (native) SDL builds](#linux-native-sdl-builds)
-  * [Cross-compiling to linux 32-bit from linux 64-bit](#cross-compiling-to-linux-32-bit-from-linux-64-bit)
-  * [Cross-compile to Windows from Linux](#cross-compile-to-windows-from-linux)
-  * [Cross-compile to Mac OS X from Linux](#cross-compile-to-mac-os-x-from-linux)
-  * [Cross-compile to Android from Linux](#cross-compile-to-android-from-linux)
-  * [Troubleshooting](#linux-troubleshooting)
-* [Mac OS X](#mac-os-x)
-  * [Simple build using Homebrew](#simple-build-using-homebrew)
-  * [Advanced info for Developers](#advanced-info-for-developers)
-  * [Troubleshooting](#mac-os-x-troubleshooting)
-* [Windows](#windows)
-  * [Building with Visual Studio](#building-with-visual-studio)
-  * [Building with MSYS2](#building-with-msys2)
-  * [Building with CYGWIN](#building-with-cygwin)
-  * [Building with Clang and MinGW64](#building-with-clang-and-mingw64)
-* [BSDs](#bsds)
+- [General Linux Guide](#general-linux-guide)
+  - [Compiler](#compiler)
+  - [Tools](#tools)
+  - [Dependencies](#dependencies)
+  - [Make flags](#make-flags)
+  - [Compiling localization files](#compiling-localization-files)
+- [Debian](#debian)
+  - [Linux (native) ncurses builds](#linux-native-ncurses-builds)
+    - [Building](#building)
+  - [Linux (native) SDL builds](#linux-native-sdl-builds)
+    - [Building](#building-1)
+  - [Cross-compiling to linux 32-bit from linux 64-bit](#cross-compiling-to-linux-32-bit-from-linux-64-bit)
+    - [Building](#building-2)
+  - [Cross-compile to Windows from Linux](#cross-compile-to-windows-from-linux)
+    - [Installing MXE from binary distribution](#installing-mxe-from-binary-distribution)
+    - [Installing MXE from source](#installing-mxe-from-source)
+    - [Building (SDL)](#building-sdl)
+  - [Cross-compile to Mac OS X from Linux](#cross-compile-to-mac-os-x-from-linux)
+    - [Dependencies](#dependencies-1)
+    - [Setup](#setup)
+    - [Building (SDL)](#building-sdl-1)
+    - [Building (ncurses)](#building-ncurses)
+  - [Cross-compile to Android from Linux](#cross-compile-to-android-from-linux)
+    - [Dependencies](#dependencies-2)
+    - [Setup](#setup-1)
+    - [Android device setup](#android-device-setup)
+    - [Building](#building-3)
+    - [Additional notes](#additional-notes)
+  - [Linux Troubleshooting](#linux-troubleshooting)
+- [Mac OS X](#mac-os-x)
+  - [Simple build using Homebrew](#simple-build-using-homebrew)
+  - [Advanced info for Developers](#advanced-info-for-developers)
+    - [SDL](#sdl)
+    - [ncurses](#ncurses)
+    - [gcc](#gcc)
+    - [Compiling](#compiling)
+    - [Make options](#make-options)
+    - [Make examples](#make-examples)
+    - [Running](#running)
+    - [Test suite](#test-suite)
+    - [dmg distribution](#dmg-distribution)
+  - [Mac OS X Troubleshooting](#mac-os-x-troubleshooting)
+    - [ISSUE: Game runs very slowly when built for Mac OS X 10.11 or earlier](#issue-game-runs-very-slowly-when-built-for-mac-os-x-1011-or-earlier)
+    - [ISSUE: Colors don't show up correctly](#issue-colors-dont-show-up-correctly)
+- [Windows](#windows)
+  - [Building with MSYS2](#building-with-msys2)
+  - [Building with CYGWIN](#building-with-cygwin)
+  - [Building with Clang and MinGW64](#building-with-clang-and-mingw64)
+- [BSDs](#bsds)
+    - [Building on FreeBSD/amd64 10.1 with the system compiler](#building-on-freebsdamd64-101-with-the-system-compiler)
+    - [Building ncurses version on FreeBSD/amd64 9.3 with GCC 4.8.4 from ports](#building-ncurses-version-on-freebsdamd64-93-with-gcc-484-from-ports)
+    - [Building on OpenBSD/amd64 5.8 with GCC 4.9.2 from ports/packages](#building-on-openbsdamd64-58-with-gcc-492-from-portspackages)
+    - [Building on NetBSD/amd64 7.0RC1 with the system compiler](#building-on-netbsdamd64-70rc1-with-the-system-compiler)
 
 # General Linux Guide
 
@@ -115,7 +144,7 @@ If you want to compile files for specific languages, you should add `LANGUAGES="
 
     make LANGUAGES="zh_CN zh_TW"
 
-You can get the language ID from the filenames of `*.po` in `lang/po` directory or use `LANGUAGES="all"` to compile all available localizations. 
+You can get the language ID from the filenames of `*.po` in `lang/po` directory or use `LANGUAGES="all"` to compile all available localizations.
 
 # Debian
 
@@ -153,6 +182,13 @@ Dependencies:
 Install:
 
     sudo apt-get install libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libfreetype6-dev build-essential
+
+check correct version of SDL2 is installed by running:
+```sh
+> sdl2-config --version
+2.0.22
+```
+using old version of SDL could result in [IME not working.](https://github.com/cataclysmbnteam/Cataclysm-BN/issues/1497)
 
 ### Building
 
