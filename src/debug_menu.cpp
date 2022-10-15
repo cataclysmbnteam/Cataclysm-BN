@@ -1789,7 +1789,7 @@ void debug()
                 smenu.addentry( 2, true, 'd', "%s: %d", _( "day" ), day_of_season<int>( calendar::turn ) );
                 smenu.addentry( 3, true, 'h', "%s: %d", _( "hour" ), hour_of_day<int>( calendar::turn ) );
                 smenu.addentry( 4, true, 'm', "%s: %d", _( "minute" ), minute_of_hour<int>( calendar::turn ) );
-                smenu.addentry( 5, true, 't', "%s: %d", _( "turn" ),
+                smenu.addentry( 5, true, 't', "%s: %d", pgettext( "point in time", "turn" ),
                                 to_turns<int>( calendar::turn - calendar::turn_zero ) );
                 smenu.selected = iSel;
                 smenu.query();
