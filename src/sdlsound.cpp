@@ -303,8 +303,8 @@ void update_volumes()
     play_music( "title" );
 
 
-    // Call the play ambient function with the valid last parameters it used
-    // The logic to avoid duplicate ambient sounds etc. is in the function
+    // Stop channels playing (different ambient sounds)
+    // Then start back the last saved ambient sound with the new volume (fetched in the function)
     if( current_ambient_id != "" ) {
         // Stop currently playing channels
         std::vector<int> channels_playing = {};
@@ -313,7 +313,7 @@ void update_volumes()
                 Mix_HaltChannel( i );
             }
         }
-        // Start the last playing channel
+        // Start the last playing channel with updated volume
         sfx::play_ambient_variant_sound( current_ambient_id, current_ambient_variant,
                                          current_ambient_volume, current_ambient_channel, current_ambient_fade_in_duration,
                                          current_ambient_pitch, current_ambient_loops );
