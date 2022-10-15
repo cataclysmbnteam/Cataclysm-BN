@@ -7011,10 +7011,10 @@ std::vector<map_item_stack> game::find_nearby_items( int iRadius )
         return ret;
     }
 
-    int range = fov_3d ? fov_3d_z_range : 0;
+    int range = fov_3d ? ( fov_3d_z_range * 2 ) + 1 : 1;
     int center_z = u.pos().z;
 
-    for( int i = 0; i <= range * 2; i++ ) {
+    for( int i = 1; i <= range; i++ ) {
         int z = i % 2 ? center_z - i / 2 : center_z + i / 2;
         for( auto &points_p_it : closest_points_first( {u.pos().xy(), z}, iRadius ) ) {
             if( points_p_it.y >= u.posy() - iRadius && points_p_it.y <= u.posy() + iRadius &&
