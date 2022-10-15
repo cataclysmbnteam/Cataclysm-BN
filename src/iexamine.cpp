@@ -6139,7 +6139,7 @@ void iexamine::migo_nerve_cluster( player &p, const tripoint &examp )
     if( query_yn( _( "This looks important.  Tear open nerve cluster?" ) ) ) {
         p.mod_moves( -200 );
         add_msg( _( "You grab hold of a sinewy tendril and wrench it loose!" ) );
-        map_funcs::handle_migo_nerve( here, examp, false );
+        map_funcs::migo_nerve_cage_removal( here, examp, false );
         here.furn_set( examp, furn_id( "f_alien_scar" ) );
     }
 }

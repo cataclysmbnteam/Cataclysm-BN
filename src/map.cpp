@@ -3297,7 +3297,7 @@ bash_results map::bash_furn_success( const tripoint &p, const bash_params &param
         fungal_effects( *g, *this ).create_spores( p );
     }
     if( has_flag_furn( "MIGO_NERVE", p ) ) {
-        map_funcs::handle_migo_nerve( *this, p, true );
+        map_funcs::migo_nerve_cage_removal( *this, p, true );
     }
     std::string soundfxvariant = furnid.id.str();
     const bool tent = !bash.tent_centers.empty();
