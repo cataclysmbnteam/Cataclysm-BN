@@ -78,7 +78,7 @@ static std::map<std::string, music_playlist> playlists;
 static std::string current_soundpack_path;
 
 /** The ambient sound we're currently playing **/
-static std::string current_ambient_id = "";
+static std::string current_ambient_id;
 static std::string current_ambient_variant;
 static int current_ambient_volume;
 static sfx::channel current_ambient_channel;
@@ -305,7 +305,7 @@ void update_volumes()
 
     // Stop channels playing (different ambient sounds)
     // Then start back the last saved ambient sound with the new volume (fetched in the function)
-    if( current_ambient_id != "" ) {
+    if( current_ambient_id.empty() ) {
         // Stop currently playing channels
         for( int i = 0; i < static_cast<int>( sfx::channel::MAX_CHANNEL ); i++ ) {
             if( sfx::is_channel_playing( static_cast<sfx::channel>( i ) ) ) {
