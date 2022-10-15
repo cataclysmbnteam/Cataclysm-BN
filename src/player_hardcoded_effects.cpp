@@ -589,17 +589,16 @@ void player::hardcoded_effects( effect &it )
             mod_per_bonus( -( dur > 400_minutes ? 10.0 : dur / 40_minutes ) );
         }
     } else if( id == effect_attention ) {
-        if( dur > 10_hours ) {
+        if( intense > 6 ) {
             if( one_in( 7200 - ( dur - 360_minutes ) / 4_turns ) ) {
                 add_msg_if_player( m_bad,
                                    _( "You feel something reaching out to you, before reality around you frays!" ) );
                 if( has_psy_protection( 10 ) ) {
                     // Transfers half of remaining duration of nether attention, tinfoil only sometimes helps
-                    it.mult_duration( 0.5 );
-                    add_effect( effect_teleglow, dur );
+                    add_effect( effect_teleglow, ( dur / 2 ), num_bp, ( intense / 2 ) );
                 } else {
                     // Transfers all remaining duration of nether attention to dimensional instability
-                    add_effect( effect_teleglow, dur );
+                    add_effect( effect_teleglow, dur, num_bp, intense );
                 }
                 it.set_duration( 0_turns );
             }
@@ -608,13 +607,11 @@ void player::hardcoded_effects( effect &it )
                     add_msg( m_bad, _( "You pass out." ) );
                 }
                 fall_asleep( 2_hours );
-                if( one_in( 6 ) ) {
-                    // Set ourselves up for removal
-                    it.set_duration( 0_turns );
-                }
+                it.mod_duration( -10_minutes * intense );
+                it.mod_intensity( -1 );
             }
         }
-        if( dur > 6_hours ) {
+        if( intense > 4 ) {
             if( one_in( 5000 ) ) {
                 if( has_psy_protection( 4 ) ) {
                     add_msg_if_player( m_bad, _( "You feel something probing your mind, but it is rebuffed!" ) );
@@ -623,8 +620,10 @@ void player::hardcoded_effects( effect &it )
                     add_effect( effect_fearparalyze, 5_turns );
                     moves -= 4 * get_speed();
                 }
-                // Reduce duration a bit but don't remove completely
-                it.mult_duration( 0.75 );
+                it.mod_duration( -10_minutes * intense );
+                if( one_in( 2 ) ) {
+                    it.mod_intensity( -1 );
+                }
             }
             if( one_turn_in( 1200_minutes - dur ) ) {
                 if( has_psy_protection( 4 ) ) {
@@ -633,16 +632,20 @@ void player::hardcoded_effects( effect &it )
                     add_msg_if_player( m_bad, _( "You feel something scream in the back of your mind!" ) );
                     add_effect( effect_dazed, rng( 1_minutes, 2_minutes ) );
                 }
-                // Reduce duration a bit but don't remove completely
-                it.mult_duration( 0.75 );
+                it.mod_duration( -10_minutes * intense );
+                if( one_in( 3 ) ) {
+                    it.mod_intensity( -1 );
+                }
             }
         }
-        if( dur > 4_hours ) {
+        if( intense > 2 ) {
             if( one_turn_in( 1200_minutes - dur ) ) {
                 add_msg_if_player( m_bad, _( "Your vision is filled with bright lights…" ) );
                 add_effect( effect_blind, rng( 1_minutes, 2_minutes ) );
-                // Reduce duration a bit but don't remove completely
-                it.mult_duration( 0.9 );
+                it.mod_duration( -10_minutes * intense );
+                if( one_in( 4 ) ) {
+                    it.mod_intensity( -1 );
+                }
             }
             if( one_in( 5000 ) && !has_effect( effect_nausea ) ) {
                 add_msg_if_player( m_bad, _( "A wave of nausea passes over you." ) );
@@ -652,8 +655,7 @@ void player::hardcoded_effects( effect &it )
         if( one_in( 5000 ) && !has_effect( effect_hallu ) ) {
             add_msg_if_player( m_bad, _( "Shifting shapes dance on the edge of your vision." ) );
             add_effect( effect_hallu, 4_hours );
-            // Reduce duration a bit but don't remove completely
-            it.mult_duration( 0.9 );
+            it.mod_duration( -10_minutes * intense );
         }
         if( one_turn_in( 40_minutes ) ) {
             if( has_psy_protection( 4 ) ) {
@@ -667,16 +669,14 @@ void player::hardcoded_effects( effect &it )
             }
         }
     } else if( id == effect_teleglow ) {
-        // Default we get around 300 duration points per teleport (possibly more
-        // depending on the source).
+        // Each teleportation increases intensity by 1, 2 intensities per tier of effect.
         // TODO: Include a chance to teleport to the nether realm.
         // TODO: This with regards to NPCS
         if( !is_player() ) {
             // NO, no teleporting around the player because an NPC has teleglow!
             return;
         }
-        if( dur > 10_hours ) {
-            // 20 teleports (no decay; in practice at least 21)
+        if( intense > 6 ) {
             if( one_in( 6000 - ( ( dur - 600_minutes ) / 1_minutes ) ) ) {
                 if( !is_npc() ) {
                     add_msg( _( "Glowing lights surround you, and you teleport." ) );
@@ -701,10 +701,10 @@ void player::hardcoded_effects( effect &it )
                     // Set ourselves up for removal
                     it.set_duration( 0_turns );
                 }
+                it.mod_intensity( -1 );
             }
         }
-        if( dur > 6_hours ) {
-            // 12 teleports
+        if( intense > 4 ) {
             // Once every 4 hours baseline, once every 2 hours max
             if( one_turn_in( 14_hours - dur ) ) {
                 tripoint dest( 0, 0, posz() );
@@ -731,19 +731,20 @@ void player::hardcoded_effects( effect &it )
                                                             _( "A monster appears nearby!" ) );
                         add_msg( m_warning, _( "A portal opens nearby, and a monster crawls through!" ) );
                     }
-                    // Reduce duration a bit but don't remove completely
-                    it.mult_duration( 0.75 );
+                    it.mod_duration( -10_minutes * intense );
+                    it.mod_intensity( -1 );
                 }
             }
             if( one_in( 21000 - ( dur - 360_minutes ) / 4_turns ) ) {
                 add_msg_if_player( m_bad, _( "You shudder suddenly." ) );
                 mutate();
-                // Reduce duration a bit but don't remove completely
-                it.mult_duration( 0.75 );
+                it.mod_duration( -10_minutes * intense );
+                if( one_in( 2 ) ) {
+                    it.mod_intensity( -1 );
+                }
             }
         }
-        if( dur > 4_hours ) {
-            // 8 teleports
+        if( intense > 2 ) {
             if( one_in( 10000 ) ) {
                 if( !has_trait( trait_M_IMMUNE ) ) {
                     add_effect( effect_fungus, 1_turns, num_bp );
@@ -758,15 +759,16 @@ void player::hardcoded_effects( effect &it )
                 // Like with the glow anomaly trap, but lower max and bypasses radsuits
                 add_msg_if_player( m_bad, _( "A blue flash of radiation permeates your vision briefly!" ) );
                 irradiate( rng( 10, 20 ), true );
-                // Reduce duration a bit but don't remove completely
-                it.mult_duration( 0.9 );
+                it.mod_duration( -10_minutes * intense );
+                if( one_in( 4 ) ) {
+                    it.mod_intensity( -1 );
+                }
             }
         }
         if( one_in( 4000 ) ) {
             add_msg_if_player( m_bad, _( "You're suddenly covered in ectoplasm." ) );
             add_effect( effect_boomered, 10_minutes );
-            // Reduce duration a bit but don't remove completely
-            it.mult_duration( 0.9 );
+            it.mod_duration( -10_minutes * intense );
         }
         if( one_in( 5000 ) ) {
             add_msg_if_player( m_bad, _( "A strange sound reverberates around the edges of reality." ) );
