@@ -1080,19 +1080,19 @@ std::unique_ptr<activity_actor> migration_cancel_activity_actor::deserialize( Js
     return migration_cancel_activity_actor().clone();
 }
 
-void open_gate_activity_actor::start( player_activity &act, Character & )
+void toggle_gate_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = moves_total;
     act.moves_left = moves_total;
 }
 
-void open_gate_activity_actor::finish( player_activity &act, Character & )
+void toggle_gate_activity_actor::finish( player_activity &act, Character & )
 {
-    gates::open_gate( placement );
+    gates::toggle_gate( placement );
     act.set_to_null();
 }
 
-void open_gate_activity_actor::serialize( JsonOut &jsout ) const
+void toggle_gate_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
@@ -1102,9 +1102,9 @@ void open_gate_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> open_gate_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> toggle_gate_activity_actor::deserialize( JsonIn &jsin )
 {
-    open_gate_activity_actor actor( 0, tripoint_zero );
+    toggle_gate_activity_actor actor( 0, tripoint_zero );
 
     JsonObject data = jsin.get_object();
 
@@ -1265,7 +1265,7 @@ deserialize_functions = {
     { activity_id( "ACT_HACKING" ), &hacking_activity_actor::deserialize },
     { activity_id( "ACT_MIGRATION_CANCEL" ), &migration_cancel_activity_actor::deserialize },
     { activity_id( "ACT_MOVE_ITEMS" ), &move_items_activity_actor::deserialize },
-    { activity_id( "ACT_OPEN_GATE" ), &open_gate_activity_actor::deserialize },
+    { activity_id( "ACT_TOGGLE_GATE" ), &toggle_gate_activity_actor::deserialize },
     { activity_id( "ACT_PICKUP" ), &pickup_activity_actor::deserialize },
     { activity_id( "ACT_STASH" ), &stash_activity_actor::deserialize },
     { activity_id( "ACT_THROW" ), &throw_activity_actor::deserialize },

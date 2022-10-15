@@ -670,7 +670,7 @@ class game
 
         /**@}*/
 
-        void open_gate( const tripoint &p );
+        void toggle_gate( const tripoint &p );
 
         // Knockback functions: knock target at t along a line, either calculated
         // from source position s using force parameter or passed as an argument;

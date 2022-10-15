@@ -372,26 +372,27 @@ class move_items_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 };
 
-class open_gate_activity_actor : public activity_actor
+class toggle_gate_activity_actor : public activity_actor
 {
     private:
         int moves_total;
         tripoint placement;
 
         /**
-         * @pre @p other is a open_gate_activity_actor
+         * @pre @p other is a toggle_gate_activity_actor
          */
         bool can_resume_with_internal( const activity_actor &other, const Character & ) const override {
-            const open_gate_activity_actor &og_actor = static_cast<const open_gate_activity_actor &>( other );
+            const toggle_gate_activity_actor &og_actor = static_cast<const toggle_gate_activity_actor &>
+                    ( other );
             return placement == og_actor.placement;
         }
 
     public:
-        open_gate_activity_actor( int gate_moves, const tripoint &gate_placement ) :
+        toggle_gate_activity_actor( int gate_moves, const tripoint &gate_placement ) :
             moves_total( gate_moves ), placement( gate_placement ) {}
 
         activity_id get_type() const override {
-            return activity_id( "ACT_OPEN_GATE" );
+            return activity_id( "ACT_TOGGLE_GATE" );
         }
 
         void start( player_activity &act, Character & ) override;
@@ -399,7 +400,7 @@ class open_gate_activity_actor : public activity_actor
         void finish( player_activity &act, Character & ) override;
 
         std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<open_gate_activity_actor>( *this );
+            return std::make_unique<toggle_gate_activity_actor>( *this );
         }
 
         void serialize( JsonOut &jsout ) const override;

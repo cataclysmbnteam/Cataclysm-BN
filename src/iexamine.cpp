@@ -957,7 +957,7 @@ void iexamine::elevator( player &p, const tripoint &examp )
 }
 
 /**
- * Open gate.
+ * Open or close gate.
  */
 void iexamine::controls_gate( player &p, const tripoint &examp )
 {
@@ -965,7 +965,7 @@ void iexamine::controls_gate( player &p, const tripoint &examp )
         none( p, examp );
         return;
     }
-    g->open_gate( examp );
+    g->toggle_gate( examp );
 }
 
 static bool try_start_hacking( player &p, const tripoint &examp )
