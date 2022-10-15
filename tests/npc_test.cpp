@@ -378,7 +378,7 @@ TEST_CASE( "npc-movement" )
                 // This prevents npcs occasionally teleporting away
                 guy->assign_activity( activity_id( "ACT_MEDITATE" ) );
                 //Sometimes they spawn with sledge hammers and bash down the walls
-                guy->weapon= item( "null", calendar::start_of_cataclysm );;
+                guy->weapon = item( "null", calendar::start_of_cataclysm );;
                 overmap_buffer.insert_npc( guy );
                 g->load_npcs();
                 guy->set_attitude( ( type == 'M' || type == 'C' ) ? NPCATT_NULL : NPCATT_FOLLOW );
