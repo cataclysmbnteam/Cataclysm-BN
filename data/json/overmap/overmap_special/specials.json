@@ -4825,7 +4825,7 @@
     "city_distance": [ 5, 60 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 0, 2 ],
-    "flags": [ "CLASSIC", "WILDERNESS" ]
+    "flags": [ "CLASSIC", "WILDERNESS", "ELECTRIC_GRID" ]
   },
   {
     "type": "overmap_special",
