@@ -2170,9 +2170,12 @@ void inventory_drop_selector::process_selected( int &count,
     count = 0;
 }
 
-drop_locations inventory_drop_selector::execute()
+std::pair<int, drop_locations> inventory_drop_selector::execute()
 {
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
+
+    dropping.clear();
+    refresh_active_column();
 
     int count = 0;
     while( true ) {
@@ -2244,11 +2247,12 @@ drop_locations inventory_drop_selector::execute()
             }
             break;
         } else if( input.action == "QUIT" ) {
-            return drop_locations();
+            return std::pair<int, drop_locations>( 0, drop_locations() );
         } else if( input.action == "INVENTORY_FILTER" ) {
             set_filter();
         } else if( input.action == "TOGGLE_FAVORITE" ) {
-            // TODO: implement favoriting in multi selection menus while maintaining selection
+            get_active_column().on_input( input );
+            return std::pair<int, drop_locations>( 1, drop_locations() );
         } else {
             on_input( input );
             count = 0;
@@ -2264,7 +2268,7 @@ drop_locations inventory_drop_selector::execute()
         dropped_pos_and_qty.emplace_back( loc, drop_pair.second );
     }
 
-    return dropped_pos_and_qty;
+    return std::pair<int, drop_locations>( 0, dropped_pos_and_qty );
 }
 
 void inventory_drop_selector::set_chosen_count( inventory_entry &entry, size_t count )
