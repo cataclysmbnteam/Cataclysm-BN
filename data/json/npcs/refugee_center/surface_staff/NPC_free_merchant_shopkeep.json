@@ -679,7 +679,7 @@
       "effect": [
         { "u_buy_item": "FMCNote", "count": 100 },
         { "u_add_var": "FMShopkeep_Mission4", "type": "mission", "context": "flag", "value": "yes" }
-      ],     
+      ],
       "update_mapgen": [
         {
           "om_terrain": "evac_center_8_z1",
