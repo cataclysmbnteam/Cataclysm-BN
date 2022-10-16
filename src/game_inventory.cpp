@@ -1509,13 +1509,12 @@ drop_locations game_menus::inv::multidrop( player &p )
             return drop_locations();
         }
 
-        std::pair<int, drop_locations> result = inv_s.execute();
-        if( result.first == 0 ) {
-            return result.second;
-        }
+        drop_locations result = inv_s.execute();
         // An item has been favorited, reopen the UI
-        else {
+        if( inv_s.keep_open ) {
             continue;
+        } else {
+            return result;
         }
     } while( true );
 }

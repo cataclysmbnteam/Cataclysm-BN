@@ -712,7 +712,7 @@ class inventory_drop_selector : public inventory_multiselector
     public:
         inventory_drop_selector( player &p,
                                  const inventory_selector_preset &preset = default_preset );
-        std::pair<int, drop_locations> execute();
+        drop_locations execute();
 
     protected:
         stats get_raw_stats() const override;
