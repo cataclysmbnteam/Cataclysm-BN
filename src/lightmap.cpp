@@ -1402,7 +1402,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
     bool blocked_restore_cache[8] = {false};
 
     if( origin.z == target_z ) {
-        apply_vision_transparency_cache( g->u.pos(), target_z, vision_restore_cache,
+        apply_vision_transparency_cache( get_avatar().pos(), target_z, vision_restore_cache,
                                          blocked_restore_cache );
     }
 
@@ -1445,7 +1445,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
     }
 
     if( origin.z == target_z ) {
-        restore_vision_transparency_cache( g->u.pos(), target_z, vision_restore_cache,
+        restore_vision_transparency_cache( get_avatar().pos(), target_z, vision_restore_cache,
                                            blocked_restore_cache );
     }
 
