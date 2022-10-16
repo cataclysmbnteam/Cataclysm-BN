@@ -1715,24 +1715,20 @@ class map
 
     protected:
         void saven( const tripoint &grid );
-        bool loadn( const tripoint &grid, bool update_vehicles );
-        bool loadn( const point &grid, bool update_vehicles ) {
+        void loadn( const tripoint &grid, bool update_vehicles );
+        void loadn( const point &grid, bool update_vehicles ) {
             if( zlevels ) {
-                bool generated = false;
                 for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
-                    generated |= loadn( tripoint( grid, gridz ), update_vehicles );
+                    loadn( tripoint( grid, gridz ), update_vehicles );
                 }
 
-                if( generated ) {
-                    // Note: we want it in a separate loop! It is a post-load cleanup
-                    // Since we're adding roofs, we want it to go up (from lowest to highest)
-                    for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
-                        add_roofs( tripoint( grid, gridz ) );
-                    }
+                // Note: we want it in a separate loop! It is a post-load cleanup
+                // Since we're adding roofs, we want it to go up (from lowest to highest)
+                for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
+                    add_roofs( tripoint( grid, gridz ) );
                 }
-                return generated;
             } else {
-                return loadn( tripoint( grid, abs_sub.z ), update_vehicles );
+                loadn( tripoint( grid, abs_sub.z ), update_vehicles );
             }
         }
         /**
