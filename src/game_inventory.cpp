@@ -1510,7 +1510,7 @@ drop_locations game_menus::inv::multidrop( player &p )
         }
 
         drop_locations result = inv_s.execute();
-        // An item has been favorited, reopen the UI
+        // an item has been favorited, reopen the UI
         if( inv_s.keep_open ) {
             continue;
         } else {
