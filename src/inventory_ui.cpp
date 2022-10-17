@@ -1,3 +1,4 @@
+#pragma optimize("", off)
 #include "inventory_ui.h"
 
 #include "avatar.h"
@@ -2182,17 +2183,19 @@ drop_locations inventory_drop_selector::execute()
         return true;
     };
 
-    for( const std::pair<const item *const, int> &drop_pair : dropping ) {
+    for( std::pair<const item *const, int> &drop_pair : dropping ) {
         for( auto &col : get_all_columns() ) {
-            for( const auto &entry : col->get_entries( always_yes ) ) {
+            std::vector < inventory_entry *> entries = col->get_entries( always_yes );
+            for( const auto &entry : entries ) {
                 if( entry->any_item().get_item() == drop_pair.first ) {
                     selected_entries.push_back( std::pair<inventory_entry *, int>( entry, drop_pair.second ) );
-                    break;
                 }
             }
         }
     }
 
+    // clear the dropping variable, for the same reason as the refresh_active_column() one
+    dropping.clear();
     for( auto selected_entry : selected_entries ) {
         set_chosen_count( *selected_entry.first, selected_entry.second );
     }
@@ -2272,6 +2275,7 @@ drop_locations inventory_drop_selector::execute()
         } else if( input.action == "INVENTORY_FILTER" ) {
             set_filter();
         } else if( input.action == "TOGGLE_FAVORITE" ) {
+            // change the item favorited state
             get_active_column().on_input( input );
             this->keep_open = true;
             return drop_locations();

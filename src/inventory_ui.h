@@ -18,6 +18,7 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "input.h"
+#include "item.h"
 #include "item_handling_util.h"
 #include "item_location.h"
 #include "memory_fast.h"
