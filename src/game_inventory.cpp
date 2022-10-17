@@ -1498,7 +1498,7 @@ drop_locations game_menus::inv::multidrop( player &p )
     inv_s.set_title( _( "Multidrop" ) );
     inv_s.set_hint( _( "To drop x items, type a number before selecting." ) );
 
-    do {
+    while( true ) {
         p.inv.restack( p );
         inv_s.clear_items();
         inv_s.add_character_items( p );
@@ -1515,7 +1515,7 @@ drop_locations game_menus::inv::multidrop( player &p )
         } else {
             return result;
         }
-    } while( true );
+    }
 }
 
 iuse_locations game_menus::inv::multiwash( Character &ch, int water, int cleanser, bool do_soft,
