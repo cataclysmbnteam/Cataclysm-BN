@@ -2182,10 +2182,9 @@ drop_locations inventory_drop_selector::execute()
         return true;
     };
 
-    for( std::pair<const item *const, int> &drop_pair : dropping ) {
+    for( const std::pair<const item *const, int> &drop_pair : dropping ) {
         for( auto &col : get_all_columns() ) {
-            std::vector < inventory_entry *> entries = col->get_entries( always_yes );
-            for( const auto &entry : entries ) {
+            for( const auto &entry : col->get_entries( always_yes ) ) {
                 if( entry->any_item().get_item() == drop_pair.first ) {
                     selected_entries.push_back( std::pair<inventory_entry *, int>( entry, drop_pair.second ) );
                 }
@@ -2193,7 +2192,7 @@ drop_locations inventory_drop_selector::execute()
         }
     }
 
-    // clear the dropping variable, for the same reason as the refresh_active_column() one
+    // empty the dropping variable, in case of 2 stacks of items being merged on unfavorite/favorite
     dropping.clear();
     for( auto selected_entry : selected_entries ) {
         set_chosen_count( *selected_entry.first, selected_entry.second );
