@@ -1469,7 +1469,7 @@ double item::average_dps( const player &guy ) const
 void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                        bool debug /* debug */ ) const
 {
-    if( debug_mode && parts->test( iteminfo_parts::BASE_MOD_SRC ) ) {
+    if( display_mod_source && parts->test( iteminfo_parts::BASE_MOD_SRC ) ) {
         info.emplace_back( "BASE", string_format( _( "<stat>Origin: %s</stat>" ),
                            enumerate_as_string( type->src.begin(),
         type->src.end(), []( const std::pair<itype_id, mod_id> &source ) {
@@ -3540,7 +3540,7 @@ void item::contents_info( std::vector<iteminfo> &info, const iteminfo_query *par
                                               &converted_volume_scale ), 2 );
                 info.emplace_back( "DESCRIPTION", contents_item->display_name() );
                 iteminfo::flags f = iteminfo::no_newline;
-                if( debug_mode ) {
+                if( display_mod_source ) {
                     info.emplace_back( "DESCRIPTION", string_format( _( "<stat>Origin: %s</stat>" ),
                                        enumerate_as_string( contents_item->type->src.begin(),
                     contents_item->type->src.end(), []( const std::pair<itype_id, mod_id> &content_source ) {
@@ -3555,7 +3555,7 @@ void item::contents_info( std::vector<iteminfo> &info, const iteminfo_query *par
                                    converted_volume );
             } else {
                 info.emplace_back( "DESCRIPTION", contents_item->display_name() );
-                if( debug_mode ) {
+                if( display_mod_source ) {
                     info.emplace_back( "DESCRIPTION", string_format( _( "<stat>Origin: %s</stat>" ),
                                        enumerate_as_string( contents_item->type->src.begin(),
                     contents_item->type->src.end(), []( const std::pair<itype_id, mod_id> &content_source ) {

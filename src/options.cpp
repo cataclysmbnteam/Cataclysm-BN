@@ -2092,6 +2092,13 @@ void options_manager::add_options_debug()
 
     add_empty_line();
 
+    add( "MOD_SOURCE", "debug", translate_marker( "Display Mod Source" ),
+         translate_marker( "Displays what content pack a piece of furniture, terrain, item or monster comes from or is affected by.  Disable if it's annoying." ),
+         true
+       );
+
+    add_empty_line();
+
     add_option_group( "debug", Group( "debug_log", to_translation( "Logging" ),
                                       to_translation( "Configure debug.log verbosity." ) ),
     [&]( const std::string & page_id ) {
@@ -2140,8 +2147,6 @@ void options_manager::add_options_debug()
          translate_marker( "Scales experience gained from practicing skills and reading books.  0.5 is half as fast as default, 2.0 is twice as fast, 0.0 disables skill training except for NPC training." ),
          0.0, 100.0, 1.0, 0.1
        );
-
-    add_empty_line();
 
     add( "SKILL_RUST", "debug", translate_marker( "Skill rust" ),
          translate_marker( "Set the level of skill rust.  Vanilla: Vanilla Cataclysm - Capped: Capped at skill levels 2 - Int: Intelligence dependent - IntCap: Intelligence dependent, capped - Off: None at all." ),
@@ -3312,6 +3317,7 @@ void options_manager::cache_to_globals()
 
     json_report_unused_fields = ::get_option<bool>( "REPORT_UNUSED_JSON_FIELDS" );
     json_report_strict = test_mode || json_report_unused_fields;
+    display_mod_source = ::get_option<bool>( "MOD_SOURCE" );
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
     use_tiles = ::get_option<bool>( "USE_TILES" );
     use_tiles_overmap = ::get_option<bool>( "USE_TILES_OVERMAP" );
