@@ -1498,7 +1498,6 @@ drop_locations game_menus::inv::multidrop( player &p )
     inv_s.set_title( _( "Multidrop" ) );
     inv_s.set_hint( _( "To drop x items, type a number before selecting." ) );
 
-    bool started_action = false;
     do {
         p.inv.restack( p );
         inv_s.clear_items();

@@ -1,4 +1,3 @@
-#pragma optimize("", off)
 #include "inventory_ui.h"
 
 #include "avatar.h"
