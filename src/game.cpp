@@ -344,6 +344,7 @@ void game::load_static_data()
 
     get_auto_pickup().load_global();
     get_safemode().load_global();
+    get_distraction_manager().load();
 }
 
 bool game::check_mod_data( const std::vector<mod_id> &opts, loading_ui &ui )
@@ -666,6 +667,7 @@ bool game::start_game()
     safe_mode = ( get_option<bool>( "SAFEMODE" ) ? SAFE_MODE_ON : SAFE_MODE_OFF );
     mostseen = 0; // ...and mostseen is 0, we haven't seen any monsters yet.
     get_safemode().load_global();
+    get_distraction_manager().load();
 
     init_autosave();
 
@@ -1736,7 +1738,8 @@ void game::process_voluntary_act_interrupt()
     }
 
     // If player is performing a task and a monster is dangerously close, warn them
-    // regardless of previous safemode warnings
+    // regardless of previous safemode warnings.
+    // Distraction Manager can change this.
     if( has_activity && !u.has_activity( activity_id( "ACT_AIM" ) ) &&
         !u.activity.is_distraction_ignored( distraction_type::hostile_spotted_near ) ) {
         Creature *hostile_critter = is_hostile_very_close();
@@ -4130,7 +4133,7 @@ void game::mon_info_update( )
         }
     }
 
-    if( uistate.distraction_hostile_spotted && newseen > mostseen ) {
+    if( newseen > mostseen ) {
         if( newseen - mostseen == 1 ) {
             if( !new_seen_mon.empty() ) {
                 monster &critter = *new_seen_mon.back();
@@ -4270,7 +4273,7 @@ void game::monmove()
             !critter.is_hallucination() ) {
             u.mod_power_level( -25_kJ );
             add_msg( m_warning, _( "Your motion alarm goes off!" ) );
-            cancel_activity_or_ignore_query( distraction_type::motion_alarm,
+            cancel_activity_or_ignore_query( distraction_type::alert,
                                              _( "Your motion alarm goes off!" ) );
             if( u.has_effect( efftype_id( "sleep" ) ) ) {
                 u.wake_up();

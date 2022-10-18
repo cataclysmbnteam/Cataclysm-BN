@@ -121,10 +121,7 @@ class uistatedata
         bool distraction_hostile_spotted = true;
         bool distraction_conversation = true;
         bool distraction_asthma = true;
-        bool distraction_dangerous_field = true;
         bool distraction_weather_change = true;
-        bool distraction_hunger = true;
-        bool distraction_thirst = true;
 
         // V Menu Stuff
         int list_item_sort = 0;

@@ -41,6 +41,7 @@ std::string moddir();
 std::string options();
 std::string panel_options();
 std::string safemode();
+std::string distraction();
 std::string savedir();
 std::string sokoban();
 std::string templatedir();

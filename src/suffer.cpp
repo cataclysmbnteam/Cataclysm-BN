@@ -669,7 +669,7 @@ void Character::suffer_from_asthma( const int current_stim )
             if( has_effect( effect_sleep ) ) {
                 wake_up();
             } else {
-                if( uistate.distraction_asthma && !is_npc() ) {
+                if( !is_npc() ) {
                     g->cancel_activity_or_ignore_query( distraction_type::asthma,
                                                         _( "You can't focus while choking!" ) );
                 }
@@ -706,7 +706,7 @@ void Character::suffer_from_asthma( const int current_stim )
         }
     } else {
         add_effect( effect_asthma, rng( 5_minutes, 20_minutes ) );
-        if( uistate.distraction_asthma && !is_npc() ) {
+        if( !is_npc() ) {
             g->cancel_activity_or_ignore_query( distraction_type::asthma,
                                                 _( "You can't focus while choking!" ) );
         }
