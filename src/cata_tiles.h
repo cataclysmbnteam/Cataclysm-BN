@@ -382,10 +382,7 @@ class cata_tiles
         bool find_overlay_looks_like( bool male, const std::string &overlay, std::string &draw_id );
 
         /**
-         * @brief draw_from_id_string without category, subcategory and height_3d
-         * @overload bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
-         *                        const std::string &subcategory, const tripoint &pos, int subtile, int rota,
-         *                        lit_level ll, bool apply_night_vision_goggles, int &height_3d, int overlay_count );
+         * @brief draw_from_id_string() without category, subcategory and height_3d
          *
          * @param category C_NONE
          * @param subcategory empty_string
@@ -394,10 +391,7 @@ class cata_tiles
         bool draw_from_id_string( const std::string &id, const tripoint &pos, int subtile, int rota,
                                   lit_level ll, bool apply_night_vision_goggles, int overlay_count );
         /**
-         * @brief * @brief draw_from_id_string without height_3d
-         * @overload bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
-         *               const std::string &subcategory, const tripoint &pos, int subtile, int rota,
-         *               lit_level ll, bool apply_night_vision_goggles, int &height_3d, int overlay_count );
+         * @brief * @brief draw_from_id_string() without height_3d
          *
          * @param height_3d nullint
          */
@@ -405,10 +399,7 @@ class cata_tiles
                                   const std::string &subcategory, const tripoint &pos, int subtile, int rota,
                                   lit_level ll, bool apply_night_vision_goggles, int overlay_count );
         /**
-         * @brief draw_from_id_string without height_3d
-         * @overload bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
-         *                        const std::string &subcategory, const tripoint &pos, int subtile, int rota,
-         *                        lit_level ll, bool apply_night_vision_goggles, int &height_3d, int overlay_count );
+         * @brief draw_from_id_string() without height_3d
          *
          * @param category C_NONE
          * @param subcategory empty_string
@@ -416,7 +407,7 @@ class cata_tiles
         bool draw_from_id_string( const std::string &id, const tripoint &pos, int subtile, int rota,
                                   lit_level ll, bool apply_night_vision_goggles, int &height_3d, int overlay_count );
         /**
-         * @brief Try to draw a tile using the given id.
+         * @brief Try to draw a tile using the given id. calls draw_tile_at() at the end.
          *
          * @param id String id of the tile to draw.
          * @param category Category of the tile to draw.
@@ -428,20 +419,46 @@ class cata_tiles
          * @param apply_night_vision_goggles use night vision colors?
          * @param height_3d return parameter for height of the sprite
          * @param overlay_count how blue the tile looks for lower z levels
-         * @return true if the tile was found and drawn.
+         * @return always true
          */
         bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
                                   const std::string &subcategory, const tripoint &pos, int subtile, int rota,
                                   lit_level ll, bool apply_night_vision_goggles, int &height_3d, int overlay_count );
 
+        /**
+         * @brief draw_sprite_at() without height_3d
+         */
         bool draw_sprite_at(
             const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
             const point &, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
             bool apply_night_vision_goggles, int overlay_count );
+
+        /**
+         * @brief Try to draw either forground or background using the given reference.
+         *
+         * @param svlist list of weighted subtile variants
+         * @param rota_fg is it foreground (true) or background?
+         * @return always true.
+         */
         bool draw_sprite_at(
             const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
             const point &, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
             bool apply_night_vision_goggles, int &height_3d, int overlay_count );
+
+        /**
+         * @brief Calls draw_sprite_at() twice each for foreground and background.
+         *
+         * @param tile Tile to draw.
+         * @param p Point to draw the tile at.
+         * @param loc_rand picked random int
+         * @param rota_fg rotate foreground: { UP = 0, LEFT = 1, DOWN = 2, RIGHT = 3 }
+         * @param rota rotation: { UP = 0, LEFT = 1, DOWN = 2, RIGHT = 3 }
+         * @param ll light level
+         * @param apply_night_vision_goggles use night vision colors?
+         * @param height_3d return parameter for height of the sprite
+         * @param overlay_count how blue the tile looks for lower z levels
+         * @return always true.
+         */
         bool draw_tile_at( const tile_type &tile, const point &, unsigned int loc_rand, int rota,
                            lit_level ll, bool apply_night_vision_goggles, int &height_3d, int overlay_count );
 
