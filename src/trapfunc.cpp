@@ -620,8 +620,7 @@ bool trapfunc::landmine( const tripoint &p, Creature *c, item *i )
         c->add_msg_player_or_npc( m_bad, _( "You trigger a land mine!" ),
                                   _( "<npcname> triggers a land mine!" ) );
     }
-
-    explosion_handler::explosion( p, get_basic_explosion_data(), i->activated_by );
+    explosion_handler::explosion( p, get_basic_explosion_data(), nullptr );
     g->m.remove_trap( p );
     return true;
 }
