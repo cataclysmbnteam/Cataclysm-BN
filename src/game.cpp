@@ -8971,6 +8971,8 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
                      _( "Stepping into that %1$s looks risky.  Run into it if you wish to enter anyway." ),
                      enumerate_as_string( harmful_stuff ) );
             return true;
+        } else if ( dangerous_terrain_opt == "NEVERALT" ) {
+            return true;
         }
     }
     // Used to decide whether to print a 'moving is slow message
