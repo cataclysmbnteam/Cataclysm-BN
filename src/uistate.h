@@ -113,16 +113,6 @@ class uistatedata
         // draw monster groups on the overmap.
         bool overmap_debug_mongroup = false;
 
-        // Distraction manager stuff
-        bool distraction_noise = true;
-        bool distraction_pain = true;
-        bool distraction_attack = true;
-        bool distraction_hostile_close = true;
-        bool distraction_hostile_spotted = true;
-        bool distraction_conversation = true;
-        bool distraction_asthma = true;
-        bool distraction_weather_change = true;
-
         // V Menu Stuff
         int list_item_sort = 0;
         std::string list_item_filter;

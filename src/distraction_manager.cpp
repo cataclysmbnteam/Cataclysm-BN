@@ -271,4 +271,3 @@ distraction_manager::distraction_manager_gui &get_distraction_manager()
     static distraction_manager::distraction_manager_gui staticSettings;
     return staticSettings;
 }
-
