@@ -6133,6 +6133,17 @@ void iexamine::check_power( player &, const tripoint &examp )
     add_msg( m_info, _( "This electric grid stores %d kJ of electric power." ), amt );
 }
 
+void iexamine::migo_nerve_cluster( player &p, const tripoint &examp )
+{
+    map &here = get_map();
+    if( query_yn( _( "This looks important.  Tear open nerve cluster?" ) ) ) {
+        p.mod_moves( -200 );
+        add_msg( _( "You grab hold of a sinewy tendril and wrench it loose!" ) );
+        map_funcs::migo_nerve_cage_removal( here, examp, false );
+        here.furn_set( examp, furn_id( "f_alien_scar" ) );
+    }
+}
+
 /**
  * Given then name of one of the above functions, returns the matching function
  * pointer. If no match is found, defaults to iexamine::none but prints out a
@@ -6225,6 +6236,7 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "workbench", &iexamine::workbench },
             { "dimensional_portal", &iexamine::dimensional_portal },
             { "check_power", &iexamine::check_power },
+            { "migo_nerve_cluster", &iexamine::migo_nerve_cluster },
         }
     };
 

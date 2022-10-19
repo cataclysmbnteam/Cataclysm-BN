@@ -57,6 +57,7 @@
 #include "iuse_actor.h"
 #include "lightmap.h"
 #include "line.h"
+#include "map_functions.h"
 #include "map_iterator.h"
 #include "map_memory.h"
 #include "map_selector.h"
@@ -3294,6 +3295,9 @@ bash_results map::bash_furn_success( const tripoint &p, const bash_params &param
 
     if( has_flag_furn( "FUNGUS", p ) ) {
         fungal_effects( *g, *this ).create_spores( p );
+    }
+    if( has_flag_furn( "MIGO_NERVE", p ) ) {
+        map_funcs::migo_nerve_cage_removal( *this, p, true );
     }
     std::string soundfxvariant = furnid.id.str();
     const bool tent = !bash.tent_centers.empty();
