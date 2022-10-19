@@ -8444,6 +8444,14 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
         on_hurt( source );
     }
 
+    if( is_dead_state() ) {
+        // if the player killed himself, add it to the kill count list
+        if( !is_npc() && !killer && source == g->u.as_character() ) {
+            g->events().send<event_type::character_kills_character>( g->u.getID(), getID(), get_name() );
+        }
+        set_killer( source );
+    }
+
     if( !bypass_med ) {
         // remove healing effects if damaged
         int remove_med = roll_remainder( dam / 5.0f );
@@ -8706,10 +8714,6 @@ void Character::on_hurt( Creature *source, bool disturb /*= true*/ )
                 g->cancel_activity_or_ignore_query( distraction_type::attacked, _( "You were hurt!" ) );
             }
         }
-    }
-
-    if( is_dead_state() ) {
-        set_killer( source );
     }
 }
 

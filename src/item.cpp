@@ -8625,7 +8625,7 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
 
         if( ammo_type.special_cookoff ) {
             // If it has a special effect just trigger it.
-            apply_ammo_effects( p, ammo_type.ammo_effects );
+            apply_ammo_effects( p, ammo_type.ammo_effects, activated_by );
         }
         charges_remaining -= rounds_exploded;
         if( charges_remaining > 0 ) {

@@ -329,7 +329,7 @@ static std::map<const Creature *, int> do_blast( const tripoint &p, const float 
             const int part_dam = rng( force * blp.low_mul, force * blp.high_mul );
             const std::string hit_part_name = body_part_name_accusative( blp.bp->token );
             const auto dmg_instance = damage_instance( DT_BASH, part_dam, 0, blp.armor_mul );
-            const auto result = pl->deal_damage( nullptr, blp.bp, dmg_instance );
+            const auto result = pl->deal_damage( source, blp.bp, dmg_instance );
             const int res_dmg = result.total_damage();
 
             add_msg( m_debug, "%s for %d raw, %d actual", hit_part_name, part_dam, res_dmg );
