@@ -164,7 +164,7 @@ bool map::build_transparency_cache( const int zlev )
     return true;
 }
 
-bool map::build_vision_transparency_cache( Character &player )
+bool map::build_vision_transparency_cache( const Character &player )
 {
     const tripoint &p = player.pos();
 
@@ -1309,7 +1309,7 @@ castLightAll<float, float, shrapnel_calc, shrapnel_check,
 void map::apply_vision_transparency_cache( const tripoint &center, int target_z,
         float ( &vision_restore_cache )[9], bool ( &blocked_restore_cache )[8] )
 {
-    auto &map_cache = get_cache( target_z );
+    level_cache &map_cache = get_cache( target_z );
     float ( &transparency_cache )[MAPSIZE_X][MAPSIZE_Y] = map_cache.transparency_cache;
     diagonal_blocks( &blocked_cache )[MAPSIZE_X][MAPSIZE_Y] = map_cache.vehicle_obscured_cache;
 
@@ -1402,7 +1402,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
     bool blocked_restore_cache[8] = {false};
 
     if( origin.z == target_z ) {
-        apply_vision_transparency_cache( get_avatar().pos(), target_z, vision_restore_cache,
+        apply_vision_transparency_cache( get_player_character().pos(), target_z, vision_restore_cache,
                                          blocked_restore_cache );
     }
 
@@ -1445,7 +1445,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
     }
 
     if( origin.z == target_z ) {
-        restore_vision_transparency_cache( get_avatar().pos(), target_z, vision_restore_cache,
+        restore_vision_transparency_cache( get_player_character().pos(), target_z, vision_restore_cache,
                                            blocked_restore_cache );
     }
 

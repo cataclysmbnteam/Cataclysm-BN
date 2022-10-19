@@ -1799,7 +1799,7 @@ class map
         // Builds a transparency cache and returns true if the cache was invalidated.
         // Used to determine if seen cache should be rebuilt.
         bool build_transparency_cache( int zlev );
-        bool build_vision_transparency_cache( Character &player );
+        bool build_vision_transparency_cache( const Character &player );
         // fills lm with sunlight. pzlev is current player's zlevel
         void build_sunlight_cache( int pzlev );
     public:
