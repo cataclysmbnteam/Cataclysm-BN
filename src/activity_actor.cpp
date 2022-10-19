@@ -178,9 +178,14 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
     gun_mode gun = weapon->gun_current_mode();
     int shots_fired = static_cast<player *>( &who )->fire_gun( fin_trajectory.back(), gun.qty, *gun );
 
-    // TODO: bionic power cost of firing should be derived from a value of the relevant weapon.
-    if( shots_fired && ( bp_cost_per_shot > 0_J ) ) {
-        who.mod_power_level( -bp_cost_per_shot * shots_fired );
+    if( shots_fired > 0 ) {
+        // TODO: bionic power cost of firing should be derived from a value of the relevant weapon.
+        if( bp_cost_per_shot > 0_J ) {
+            who.mod_power_level( -bp_cost_per_shot * shots_fired );
+        }
+        if( stamina_cost_per_shot > 0 ) {
+            who.mod_stamina( -stamina_cost_per_shot * shots_fired );
+        }
     }
 }
 
@@ -196,6 +201,7 @@ void aim_activity_actor::serialize( JsonOut &jsout ) const
 
     jsout.member( "fake_weapon", fake_weapon );
     jsout.member( "bp_cost_per_shot", bp_cost_per_shot );
+    jsout.member( "stamina_cost_per_shot", stamina_cost_per_shot );
     jsout.member( "first_turn", first_turn );
     jsout.member( "action", action );
     jsout.member( "aif_duration", aif_duration );
@@ -216,6 +222,7 @@ std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonIn &jsin )
 
     data.read( "fake_weapon", actor.fake_weapon );
     data.read( "bp_cost_per_shot", actor.bp_cost_per_shot );
+    data.read( "stamina_cost_per_shot", actor.stamina_cost_per_shot );
     data.read( "first_turn", actor.first_turn );
     data.read( "action", actor.action );
     data.read( "aif_duration", actor.aif_duration );
@@ -258,6 +265,18 @@ bool aim_activity_actor::load_RAS_weapon()
     player &you = get_avatar();
     item *weapon = get_weapon();
     gun_mode gun = weapon->gun_current_mode();
+
+    // Will burn (0.2% max base stamina * the strength required to fire)
+    stamina_cost_per_shot = gun->get_min_str() * static_cast<int>
+                            ( 0.002f * get_option<int>( "PLAYER_MAX_STAMINA" ) );
+    const int sta_percent = ( 100 * you.get_stamina() ) / you.get_stamina_max();
+    if( you.get_stamina() < stamina_cost_per_shot ) {
+        you.add_msg_if_player( m_bad, _( "You're too tired to draw your %s." ), weapon->tname() );
+        return false;
+    }
+    // At low stamina levels, firing starts getting slow.
+    const int reload_stamina_penalty = ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
+
     const auto ammo_location_is_valid = [&]() -> bool {
         you.ammo_location.make_dirty();
         if( !you.ammo_location )
@@ -281,19 +300,11 @@ bool aim_activity_actor::load_RAS_weapon()
         // Menu canceled
         return false;
     }
-    int reload_time = 0;
-    reload_time += opt.moves();
+    const int reload_time = reload_stamina_penalty + opt.moves();
     if( !gun->reload( you, std::move( opt.ammo ), 1 ) ) {
         // Reload not allowed
         return false;
     }
-
-    // Burn 0.2% max base stamina x the strength required to fire.
-    you.mod_stamina( gun->get_min_str() * static_cast<int>( -0.002f *
-                     get_option<int>( "PLAYER_MAX_STAMINA" ) ) );
-    // At low stamina levels, firing starts getting slow.
-    int sta_percent = ( 100 * you.get_stamina() ) / you.get_stamina_max();
-    reload_time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
 
     you.moves -= reload_time;
     loaded_RAS_weapon = true;
