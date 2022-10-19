@@ -610,7 +610,7 @@ static explosion_data get_basic_explosion_data()
     return data;
 }
 
-bool trapfunc::landmine( const tripoint &p, Creature *c, item * )
+bool trapfunc::landmine( const tripoint &p, Creature *c, item *i )
 {
     // tiny animals are too light to trigger land mines
     if( c != nullptr && c->get_size() == MS_TINY ) {
@@ -620,7 +620,8 @@ bool trapfunc::landmine( const tripoint &p, Creature *c, item * )
         c->add_msg_player_or_npc( m_bad, _( "You trigger a land mine!" ),
                                   _( "<npcname> triggers a land mine!" ) );
     }
-    explosion_handler::explosion( p, get_basic_explosion_data() );
+
+    explosion_handler::explosion( p, get_basic_explosion_data(), i->activated_by );
     g->m.remove_trap( p );
     return true;
 }
@@ -631,7 +632,8 @@ bool trapfunc::boobytrap( const tripoint &p, Creature *c, item * )
         c->add_msg_player_or_npc( m_bad, _( "You trigger a booby trap!" ),
                                   _( "<npcname> triggers a booby trap!" ) );
     }
-    explosion_handler::explosion( p, get_basic_explosion_data() );
+    // TODO implement if the player is the source?
+    explosion_handler::explosion( p, get_basic_explosion_data(), nullptr );
     g->m.remove_trap( p );
     return true;
 }

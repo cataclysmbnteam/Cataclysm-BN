@@ -123,7 +123,8 @@ void apply_ammo_effects( const tripoint &p, const std::set<ammo_effect_str_id> &
                 }
             }
         if( ae.aoe_explosion_data ) {
-            explosion_handler::explosion( p, ae.aoe_explosion_data );
+            // TODO implement if the player is the source
+            explosion_handler::explosion( p, ae.aoe_explosion_data, nullptr );
         }
         if( ae.do_flashbang ) {
             explosion_handler::flashbang( p, false, "explosion" );

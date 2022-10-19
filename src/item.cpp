@@ -8613,7 +8613,8 @@ bool item::will_explode_in_fire() const
 bool item::detonate( const tripoint &p, std::vector<item> &drops )
 {
     if( type->explosion ) {
-        explosion_handler::explosion( p, type->explosion );
+        // TODO implement if the player is the source
+        explosion_handler::explosion( p, type->explosion, nullptr );
         return true;
     } else if( type->ammo && ( type->ammo->special_cookoff || type->ammo->cookoff ) ) {
         int charges_remaining = charges;

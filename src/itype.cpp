@@ -125,6 +125,12 @@ int itype::invoke( player &p, item &it, const tripoint &pos, const std::string &
         p.add_msg_if_player( m_info, ret.str() );
         return 0;
     }
+    // used for grenades and such, to increase kill count
+    // add this check because invoke is called a second time when the explosion detonate, with the avatar in p
+    // even if the grenade has been thrown by a NPC
+    if( !it.activated_by ) {
+        it.activated_by = &p;
+    }
 
     return use->call( p, it, false, pos );
 }

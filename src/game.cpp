@@ -4377,7 +4377,8 @@ void game::overmap_npc_move()
    stun > 0 indicates base stun duration, and causes impact stun; stun == -1 indicates only impact stun
    dam_mult multiplies impact damage, bash effect on impact, and sound level on impact */
 
-void game::knockback( const tripoint &s, const tripoint &t, int force, int stun, int dam_mult )
+void game::knockback( const tripoint &s, const tripoint &t, int force, int stun, int dam_mult,
+                      Creature *source )
 {
     std::vector<tripoint> traj;
     traj.clear();
@@ -4386,14 +4387,15 @@ void game::knockback( const tripoint &s, const tripoint &t, int force, int stun,
     traj = continue_line( traj, force );
     traj.insert( traj.begin(), t ); // how annoying, continue_line() doesn't either!
 
-    knockback( traj, stun, dam_mult );
+    knockback( traj, stun, dam_mult, source );
 }
 
 /* Knockback target at traj.front() along line traj; traj should already have considered knockback distance.
    stun > 0 indicates base stun duration, and causes impact stun; stun == -1 indicates only impact stun
    dam_mult multiplies impact damage, bash effect on impact, and sound level on impact */
 
-void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
+void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult,
+                      Creature *source = nullptr )
 {
     // TODO: make the force parameter actually do something.
     // the header file says higher force causes more damage.
@@ -4419,7 +4421,7 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                     targ->add_effect( effect_stunned, 1_turns * force_remaining );
                     add_msg( _( "%s was stunned!" ), targ->name() );
                     add_msg( _( "%s slammed into an obstacle!" ), targ->name() );
-                    targ->apply_damage( nullptr, bodypart_id( "torso" ), dam_mult * force_remaining );
+                    targ->apply_damage( source, bodypart_id( "torso" ), dam_mult * force_remaining );
                     targ->check_dead_state();
                 }
                 m.bash( traj[i], 2 * dam_mult * force_remaining );
@@ -4446,7 +4448,7 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                 } else if( u.pos() == traj.front() ) {
                     add_msg( m_bad, _( "%s collided with you and sent you flying!" ), targ->name() );
                 }
-                knockback( traj, stun, dam_mult );
+                knockback( traj, stun, dam_mult, source );
                 break;
             }
             targ->setpos( traj[i] );
@@ -4525,7 +4527,7 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                 } else if( u.posx() == traj_front.x && u.posy() == traj_front.y ) {
                     add_msg( m_bad, _( "%s collided with you and sent you flying!" ), targ->name );
                 }
-                knockback( traj, stun, dam_mult );
+                knockback( traj, stun, dam_mult, source );
                 break;
             }
             targ->setpos( traj[i] );
@@ -4567,7 +4569,8 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                     };
                     for( const bodypart_id &bp : bps ) {
                         if( one_in( 2 ) ) {
-                            u.deal_damage( nullptr, bp, damage_instance( DT_BASH, force_remaining * dam_mult ) );
+                            // how is killing yourself handled?
+                            u.deal_damage( source, bp, damage_instance( DT_BASH, force_remaining * dam_mult ) );
                         }
                     }
                     u.check_dead_state();
@@ -4601,7 +4604,7 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                         add_msg( _( "You collided with someone and sent her flying!" ) );
                     }
                 }
-                knockback( traj, stun, dam_mult );
+                knockback( traj, stun, dam_mult, source );
                 break;
             }
             if( m.has_flag( "LIQUID", u.pos() ) && force_remaining == 0 ) {
@@ -5138,7 +5141,8 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
         if( cannot_push ) {
             return false;
         }
-        knockback( kbp, p, std::max( 1, bash_dmg / 10 ), -1, 1 );
+        // TODO implement who was closing the door and replace nullptr
+        knockback( kbp, p, std::max( 1, bash_dmg / 10 ), -1, 1, nullptr );
         // TODO: perhaps damage/destroy the gate
         // if the npc was really big?
     }
@@ -5167,7 +5171,8 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
             if( cannot_push ) {
                 return false;
             }
-            knockback( kbp, p, std::max( 1, bash_dmg / 10 ), -1, 1 );
+            // TODO implement who was closing the door and replace nullptr
+            knockback( kbp, p, std::max( 1, bash_dmg / 10 ), -1, 1, nullptr );
             if( critter_at( p ) ) {
                 return false;
             }

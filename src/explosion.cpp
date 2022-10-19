@@ -158,7 +158,7 @@ namespace explosion_handler
 {
 // (C1001) Compiler Internal Error on Visual Studio 2015 with Update 2
 static std::map<const Creature *, int> do_blast( const tripoint &p, const float power,
-        const float radius, const bool fire )
+        const float radius, const bool fire, Creature *source )
 {
     const float tile_dist = 1.0f;
     const float diag_dist = trigdist ? M_SQRT2 * tile_dist : 1.0f * tile_dist;
@@ -296,10 +296,9 @@ static std::map<const Creature *, int> do_blast( const tripoint &p, const float 
 
         player *pl = dynamic_cast<player *>( critter );
         if( pl == nullptr ) {
-            // TODO: player's fault?
             const double dmg = std::max( force - critter->get_armor_bash( bodypart_id( "torso" ) ) / 3.0, 0.0 );
             const int actual_dmg = rng_float( dmg, dmg * 2 );
-            critter->apply_damage( nullptr, bodypart_id( "torso" ), actual_dmg );
+            critter->apply_damage( source, bodypart_id( "torso" ), actual_dmg );
             critter->check_dead_state();
             blasted[critter] = actual_dmg;
             continue;
@@ -345,7 +344,7 @@ static std::map<const Creature *, int> do_blast( const tripoint &p, const float 
 
 static std::map<const Creature *, int> do_blast_new( const tripoint &blast_center,
         const float raw_blast_force,
-        const float raw_blast_radius )
+        const float raw_blast_radius, Creature *source )
 {
     /*
     Explosions are completed in 3 stages.
@@ -519,7 +518,7 @@ static std::map<const Creature *, int> do_blast_new( const tripoint &blast_cente
                     }
                 }
             } else {
-                critter->deal_damage( nullptr, bodypart_id( "torso" ), shockwave_dmg );
+                critter->deal_damage( source, bodypart_id( "torso" ), shockwave_dmg );
                 critter->check_dead_state();
                 blasted[critter] = blast_force;
             }
@@ -609,7 +608,8 @@ static std::map<const Creature *, int> do_blast_new( const tripoint &blast_cente
 }
 
 
-static std::map<const Creature *, int> shrapnel( const tripoint &src, const projectile &fragment )
+static std::map<const Creature *, int> shrapnel( const tripoint &src, const projectile &fragment,
+        Creature *source )
 {
     std::map<const Creature *, int> damaged;
 
@@ -674,7 +674,7 @@ static std::map<const Creature *, int> shrapnel( const tripoint &src, const proj
                     }
                 }
             } else {
-                dealt_damage_instance dealt = critter->deal_damage( nullptr, bps[0], proj.impact );
+                dealt_damage_instance dealt = critter->deal_damage( source, bps[0], proj.impact );
                 if( dealt.total_damage() > 0 ) {
                     damage_taken += dealt.total_damage();
                 }
@@ -694,7 +694,8 @@ static std::map<const Creature *, int> shrapnel( const tripoint &src, const proj
     return damaged;
 }
 
-void explosion( const tripoint &p, float power, float factor, bool fire, int legacy_casing_mass,
+void explosion( const tripoint &p, Creature *source, float power, float factor, bool fire,
+                int legacy_casing_mass,
                 float )
 {
     if( factor >= 1.0f ) {
@@ -707,12 +708,12 @@ void explosion( const tripoint &p, float power, float factor, bool fire, int leg
     if( legacy_casing_mass > 0 ) {
         data.fragment = explosion_handler::shrapnel_from_legacy( power, data.radius );
     }
-    explosion( p, data );
+    explosion( p, data, source );
 }
 
-void explosion( const tripoint &p, const explosion_data &ex )
+void explosion( const tripoint &p, const explosion_data &ex, Creature *source )
 {
-    queued_explosion qe( p, ExplosionType::Regular );
+    queued_explosion qe( p, ExplosionType::Regular, source );
     qe.exp_data = ex;
     get_explosion_queue().add( std::move( qe ) );
 }
@@ -737,14 +738,14 @@ void explosion_funcs::regular( const queued_explosion &qe )
     std::map<const Creature *, int> damaged_by_shrapnel;
     const auto &shr = ex.fragment;
     if( shr ) {
-        damaged_by_shrapnel = shrapnel( p, shr.value() );
+        damaged_by_shrapnel = shrapnel( p, shr.value(), qe.source );
     }
 
     if( ex.radius >= 0.0f && ex.damage > 0.0f ) {
         if( get_option<bool>( "NEW_EXPLOSIONS" ) && !ex.fire ) {
-            damaged_by_blast = do_blast_new( p, ex.damage, ex.radius );
+            damaged_by_blast = do_blast_new( p, ex.damage, ex.radius, qe.source );
         } else {
-            damaged_by_blast = do_blast( p, ex.damage, ex.radius, ex.fire );
+            damaged_by_blast = do_blast( p, ex.damage, ex.radius, ex.fire, qe.source );
         }
     }
 
@@ -804,7 +805,8 @@ void explosion_funcs::regular( const queued_explosion &qe )
 
 void flashbang( const tripoint &p, bool player_immune, const std::string &exp_name )
 {
-    queued_explosion qe( p, ExplosionType::Flashbang );
+    // flashbangs cannot kill, so skip the source
+    queued_explosion qe( p, ExplosionType::Flashbang, nullptr );
     qe.affects_player = !player_immune;
     qe.graphics_name = exp_name;
     get_explosion_queue().add( std::move( qe ) );
@@ -861,9 +863,10 @@ void explosion_funcs::flashbang( const queued_explosion &qe )
     // TODO: Blind/deafen NPC
 }
 
-void shockwave( const tripoint &p, const shockwave_data &sw, const std::string &exp_name )
+void shockwave( const tripoint &p, const shockwave_data &sw, const std::string &exp_name,
+                Creature *source )
 {
-    queued_explosion qe( p, ExplosionType::Shockwave );
+    queued_explosion qe( p, ExplosionType::Shockwave, source );
     qe.swave_data = sw;
     qe.graphics_name = exp_name;
     get_explosion_queue().add( std::move( qe ) );
@@ -886,7 +889,7 @@ void explosion_funcs::shockwave( const queued_explosion &qe )
         }
         if( rl_dist( critter.pos(), p ) <= sw.radius ) {
             add_msg( _( "%s is caught in the shockwave!" ), critter.name() );
-            g->knockback( p, critter.pos(), sw.force, sw.stun, sw.dam_mult );
+            g->knockback( p, critter.pos(), sw.force, sw.stun, sw.dam_mult, qe.source );
         }
     }
     // TODO: combine the two loops and the case for g->u using all_creatures()
@@ -896,14 +899,14 @@ void explosion_funcs::shockwave( const queued_explosion &qe )
         }
         if( rl_dist( guy.pos(), p ) <= sw.radius ) {
             add_msg( _( "%s is caught in the shockwave!" ), guy.name );
-            g->knockback( p, guy.pos(), sw.force, sw.stun, sw.dam_mult );
+            g->knockback( p, guy.pos(), sw.force, sw.stun, sw.dam_mult, qe.source );
         }
     }
     if( rl_dist( g->u.pos(), p ) <= sw.radius && sw.affects_player &&
         ( !g->u.has_trait( trait_LEG_TENT_BRACE ) || g->u.footwear_factor() == 1 ||
           ( g->u.footwear_factor() == .5 && one_in( 2 ) ) ) ) {
         add_msg( m_bad, _( "You're caught in the shockwave!" ) );
-        g->knockback( p, g->u.pos(), sw.force, sw.stun, sw.dam_mult );
+        g->knockback( p, g->u.pos(), sw.force, sw.stun, sw.dam_mult, qe.source );
     }
 }
 
@@ -1138,7 +1141,7 @@ void explosion_funcs::resonance_cascade( const queued_explosion &qe )
                     ex.radius = 1;
                     ex.damage = rng( 1, 10 );
                     ex.fire = one_in( 4 );
-                    explosion( dest, ex );
+                    explosion( dest, ex, qe.source );
                     break;
                 }
                 default:
