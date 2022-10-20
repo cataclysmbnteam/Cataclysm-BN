@@ -219,20 +219,12 @@ class Tileset:
 
     source_dir: Path
     output_dir: Path
-    use_all = False
-    obsolete_fillers = False
-    palette_copies = False
-    palette = False
-    format_json = False
-    only_json = False
-
-    output_conf_file = None
-    pngnum = 0
-    unreferenced_pngnames = {
-        "main": [],
-        "filler": [],
-    }
-    pngname_to_pngnum = {"null_image": 0}
+    use_all: bool = False
+    obsolete_fillers: bool = False
+    palette_copies: bool = False
+    palette: bool = False
+    format_json: bool = False
+    only_json: bool = False
 
     def __post_init__(self):
         if not self.source_dir.is_dir() or not os.access(
@@ -241,6 +233,14 @@ class Tileset:
             raise ComposingException(
                 f"Error: cannot open directory {self.source_dir}"
             )
+
+        self.output_conf_file = None
+        self.pngnum = 0
+        self.unreferenced_pngnames = {
+            "main": [],
+            "filler": [],
+        }
+        self.pngname_to_pngnum = {"null_image": 0}
 
         self.processed_ids = []
         info_path = self.source_dir.joinpath("tile_info.json")
@@ -406,8 +406,12 @@ class Tileset:
                         sheet.offset_x_retracted != sheet.offset_x
                         or sheet.offset_y_retracted != sheet.offset_y
                     ):
-                        FALLBACK.sprite_offset_x_retracted  = sheet.offset_x_retracted
-                        FALLBACK.sprite_offset_y_retracted = sheet.offset_y_retracted
+                        FALLBACK.sprite_offset_x_retracted = (
+                            sheet.offset_x_retracted
+                        )
+                        FALLBACK.sprite_offset_y_retracted = (
+                            sheet.offset_y_retracted
+                        )
                     if sheet.pixelscale != 1.0:
                         FALLBACK.pixelscale = sheet.pixelscale
                 continue
