@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
 Merge all tile entries and PNGs in a compositing tileset directory into
-a tile_config.json and tilesheet .png file(s) ready for use in CDDA.
+a tile_config.json and tilesheet .png file(s) ready for use in BN.
 
 Examples:
 
-    %(prog)s ../CDDA-Tilesets/gfx/Retrodays/
-    %(prog)s --use-all ../CDDA-Tilesets/gfx/UltimateCataclysm/
+    %(prog)s /gfx/Retrodays/
+    %(prog)s --use-all gfx/MSX++UndeadPeopleEdition/
 
 By default, output is written back to the source directory. Pass an output
 directory as the last argument to place output files there instead. The
@@ -1004,7 +1004,7 @@ def main() -> Union[int, ComposingException]:
         "--format-json",
         dest="format_json",
         action="store_true",
-        help="Use either CDDA formatter or Python json.tool "
+        help="Use either BN formatter or Python json.tool "
         "to format the tile_config.json",
     )
     arg_parser.add_argument(
