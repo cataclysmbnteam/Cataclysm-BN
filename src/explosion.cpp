@@ -510,7 +510,7 @@ static std::map<const Creature *, int> do_blast_new( const tripoint &blast_cente
                     const int part_dam = rng( blast_force * blast_part.low_mul, blast_force * blast_part.high_mul );
                     const std::string hit_part_name = body_part_name_accusative( blast_part.bp->token );
                     const auto dmg_instance = damage_instance( DT_BASH, part_dam, 0, blast_part.armor_mul );
-                    const auto result = player_ptr->deal_damage( nullptr, blast_part.bp, dmg_instance );
+                    const auto result = player_ptr->deal_damage( source, blast_part.bp, dmg_instance );
                     const int res_dmg = result.total_damage();
 
                     if( res_dmg > 0 ) {
@@ -668,7 +668,7 @@ static std::map<const Creature *, int> shrapnel( const tripoint &src, const proj
                     // Halve damage to be closer to what monsters take
                     damage_instance half_impact = proj.impact;
                     half_impact.mult_damage( 0.5f );
-                    dealt_damage_instance dealt = critter->deal_damage( nullptr, bp, proj.impact );
+                    dealt_damage_instance dealt = critter->deal_damage( source, bp, proj.impact );
                     if( dealt.total_damage() > 0 ) {
                         damage_taken += dealt.total_damage();
                     }
