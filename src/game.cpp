@@ -8951,28 +8951,25 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
     if( !shifting_furniture && !pushing && is_dangerous_tile( dest_loc ) ) {
         std::vector<std::string> harmful_stuff = get_dangerous_tile( dest_loc );
         const auto dangerous_terrain_opt = get_option<std::string>( "DANGEROUS_TERRAIN_WARNING_PROMPT" );
+        const auto harmful_text = enumerate_as_string( harmful_stuff );
+        const auto warn_msg = [&]( const char *const msg ) {
+            add_msg( m_warning, msg, harmful_text );
+        };
 
         if( dangerous_terrain_opt == "IGNORE" ) {
-            add_msg( m_warning, _( "Stepping into that %1$s looked risky, but you entered anyway." ),
-            enumerate_as_string( harmful_stuff ) );
+            warn_msg( _( "Stepping into that %1$s looks risky, but you enter anyway." ) );
         } else if( dangerous_terrain_opt == "ALWAYS" && !prompt_dangerous_tile( dest_loc ) ) {
             return true;
         } else if( dangerous_terrain_opt == "RUNNING" &&
                    ( !u.movement_mode_is( CMM_RUN ) || !prompt_dangerous_tile( dest_loc ) ) ) {
-            add_msg( m_warning,
-                     _( "Stepping into that %1$s looks risky.  Run into it if you wish to enter anyway." ),
-                     enumerate_as_string( harmful_stuff ) );
+            warn_msg( _( "Stepping into that %1$s looks risky.  Run into it if you wish to enter anyway." ) );
             return true;
         } else if( dangerous_terrain_opt == "CROUCHING" &&
                    ( !u.movement_mode_is( CMM_CROUCH ) || !prompt_dangerous_tile( dest_loc ) ) ) {
-            add_msg( m_warning,
-                     _( "Stepping into that %1$s looks risky.  Crouch and move into it if you wish to enter anyway." ),
-                     enumerate_as_string( harmful_stuff ) );
+            warn_msg( _( "Stepping into that %1$s looks risky.  Crouch and move into it if you wish to enter anyway." ) );
             return true;
         } else if( dangerous_terrain_opt == "NEVER" && !u.movement_mode_is( CMM_RUN ) ) {
-            add_msg( m_warning,
-                     _( "Stepping into that %1$s looks risky.  Run into it if you wish to enter anyway." ),
-                     enumerate_as_string( harmful_stuff ) );
+            warn_msg( _( "Stepping into that %1$s looks risky.  Run into it if you wish to enter anyway." ) );
             return true;
         }
     }
