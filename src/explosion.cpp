@@ -694,7 +694,6 @@ static std::map<const Creature *, int> shrapnel( const tripoint &src, const proj
     // BEGIN DRAWING EXPLOSION
     // Go see do_blast_new for detailled explanations
     const tripoint &blast_center = src;
-    const float raw_blast_force = fragment.impact.total_damage();
     const float raw_blast_radius = fragment.range;
 
     using dist_point_pair = std::pair<float, tripoint>;
