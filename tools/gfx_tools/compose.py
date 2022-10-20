@@ -77,37 +77,6 @@ class FailFastHandler(logging.StreamHandler):
     def emit(self, record):
         sys.exit(1)
 
-
-def write_to_json(
-    pathname: str,
-    data: Union[dict, list],
-    format_json: bool = False,
-) -> None:
-    """
-    Write data to a JSON file
-    """
-    kwargs = {
-        "ensure_ascii": False,
-    }
-    if format_json:
-        kwargs["indent"] = 2
-
-    with open(pathname, "w", encoding="utf-8") as file:
-        json.dump(data, file, **kwargs)
-
-    if not format_json:
-        return
-
-    json_formatter = Path("tools/format/json_formatter.cgi")
-    if json_formatter.is_file():
-        cmd = [json_formatter, pathname]
-        subprocess.call(cmd)
-    else:
-        log.warning(
-            "%s not found, Python built-in formatter was used.", json_formatter
-        )
-
-
 class ComposingException(Exception):
     """
     Base class for all composing exceptions

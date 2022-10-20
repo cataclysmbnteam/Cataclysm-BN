@@ -6,23 +6,10 @@ from pathlib import Path
 
 from .Fallback import FALLBACK
 from .log import log
+from .util import read_properties, write_to_json
 from tqdm import tqdm
 
 PROPERTIES_FILENAME = "tileset.txt"
-
-
-def read_properties(filepath: str) -> dict:
-    """
-    tileset.txt reader
-    """
-    with open(filepath, "r", encoding="utf-8") as file:
-        pairs = {}
-        for line in file.readlines():
-            line = line.strip()
-            if line and not line.startswith("#"):
-                key, value = line.split(":")
-                pairs[key.strip()] = value.strip()
-    return pairs
 
 
 @dataclass
@@ -127,9 +114,11 @@ class Tileset:
         # loop through tilesheets and parse all configs in subdirectories,
         # create sheet images
         added_first_null = False
-        for config in self.info[1:]:
-            sheet = Tilesheet(self, config)
+        configs = self.info[1:]
+        sheets = [Tilesheet(self, config) for config in configs]
 
+        def compose_sheet(sheet: Tilesheet):
+            nonlocal added_first_null
             if not added_first_null:
                 sheet.sprites.append(sheet.null_image)
                 added_first_null = True
@@ -141,7 +130,7 @@ class Tileset:
             else:
                 sheet_type = "main"
 
-            log.info("parsing %s tilesheet %s", sheet_type, sheet.name)
+            log.info(f"parsing {sheet_type} tilesheet {sheet.name}")
             if not run_silent:
                 print(
                     f"Composing [{sheet_type}] tilesheet [{sheet.name}]...",
@@ -158,12 +147,15 @@ class Tileset:
                     print("Saving output PNG...", end=" ", flush=True)
                 # write output PNGs
                 if not sheet.write_composite_png():
-                    continue
+                    return None
                 if not run_silent:
                     print("done.", flush=True)
                 sheet.max_index = self.pngnum
 
             typed_sheets[sheet_type].append(sheet)
+
+        for sheet in sheets:
+            compose_sheet(sheet)
 
         # combine config data in the correct order
         sheet_configs = (
