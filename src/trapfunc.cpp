@@ -610,7 +610,7 @@ static explosion_data get_basic_explosion_data()
     return data;
 }
 
-bool trapfunc::landmine( const tripoint &p, Creature *c, item *i )
+bool trapfunc::landmine( const tripoint &p, Creature *c, item * )
 {
     // tiny animals are too light to trigger land mines
     if( c != nullptr && c->get_size() == MS_TINY ) {
