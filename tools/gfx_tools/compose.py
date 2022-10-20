@@ -14,6 +14,7 @@ output directory will be created if it does not already exist.
 """
 
 import argparse
+import dataclasses
 import itertools
 import json
 import logging
@@ -26,6 +27,8 @@ from pathlib import Path
 from textwrap import dedent
 from types import SimpleNamespace
 from typing import Any, NamedTuple, Optional, Tuple, TypedDict, Union
+from itertools import chain, count, cycle, repeat
+from compose.fallback import FALLBACK
 
 try:
     vips_path = os.getenv("LIBVIPS_PATH")
@@ -142,63 +145,6 @@ PNGSAVE_ARGS = {
     "strip": True,
     "filter": 8,
 }
-
-
-class Ascii(TypedDict):
-    offset: int
-    bold: bool
-    color: str
-
-from itertools import chain, count, cycle, repeat
-
-OTHER_COLORS = ("RED", "GREEN", "BLUE", "CYAN", "MAGENTA", "YELLOW")
-
-COLORS = list(
-    chain(
-        zip(cycle((False, True)), ("BLACK", "WHITE", "WHITE", "BLACK")),
-        zip(repeat(False), OTHER_COLORS),
-        zip(repeat(True), OTHER_COLORS),
-    )
-)
-
-
-def get_colors() -> list[Ascii]:
-    return [
-        {"offset": offset, "bold": pair[0], "color": pair[1]}
-        for offset, pair in zip(count(0, step=256), COLORS)
-    ]
-@dataclass
-class FallBack:
-    file: str = "fallback.png"
-    tiles: list[str] = field(default_factory=list)
-    ascii: list[Ascii] = field(default_factory=get_colors)
-
-FALLBACK = FallBack()
-
-EXPECTED = {
-    "file": "fallback.png",
-    "tiles": [],
-    "ascii": [
-        {"offset": 0, "bold": False, "color": "BLACK"},
-        {"offset": 256, "bold": True, "color": "WHITE"},
-        {"offset": 512, "bold": False, "color": "WHITE"},
-        {"offset": 768, "bold": True, "color": "BLACK"},
-        {"offset": 1024, "bold": False, "color": "RED"},
-        {"offset": 1280, "bold": False, "color": "GREEN"},
-        {"offset": 1536, "bold": False, "color": "BLUE"},
-        {"offset": 1792, "bold": False, "color": "CYAN"},
-        {"offset": 2048, "bold": False, "color": "MAGENTA"},
-        {"offset": 2304, "bold": False, "color": "YELLOW"},
-        {"offset": 2560, "bold": True, "color": "RED"},
-        {"offset": 2816, "bold": True, "color": "GREEN"},
-        {"offset": 3072, "bold": True, "color": "BLUE"},
-        {"offset": 3328, "bold": True, "color": "CYAN"},
-        {"offset": 3584, "bold": True, "color": "MAGENTA"},
-        {"offset": 3840, "bold": True, "color": "YELLOW"},
-    ],
-}
-
-assert asdict(FALLBACK) == EXPECTED
 
 log = logging.getLogger(__name__)
 
@@ -452,22 +398,18 @@ class Tileset:
             if sheet.is_fallback:
                 fallback_name = sheet.name
                 if not sheet.is_standard():
-                    FALLBACK["sprite_width"] = sheet.sprite_width
-                    FALLBACK["sprite_height"] = sheet.sprite_height
-                    FALLBACK["sprite_offset_x"] = sheet.offset_x
-                    FALLBACK["sprite_offset_y"] = sheet.offset_y
+                    FALLBACK.sprite_width = sheet.sprite_width
+                    FALLBACK.sprite_height = sheet.sprite_height
+                    FALLBACK.sprite_offset_x = sheet.offset_x
+                    FALLBACK.sprite_offset_y = sheet.offset_y
                     if (
                         sheet.offset_x_retracted != sheet.offset_x
                         or sheet.offset_y_retracted != sheet.offset_y
                     ):
-                        FALLBACK[
-                            "sprite_offset_x_retracted"
-                        ] = sheet.offset_x_retracted
-                        FALLBACK[
-                            "sprite_offset_y_retracted"
-                        ] = sheet.offset_y_retracted
+                        FALLBACK.sprite_offset_x_retracted  = sheet.offset_x_retracted
+                        FALLBACK.sprite_offset_y_retracted = sheet.offset_y_retracted
                     if sheet.pixelscale != 1.0:
-                        FALLBACK["pixelscale"] = sheet.pixelscale
+                        FALLBACK.pixelscale = sheet.pixelscale
                 continue
             if sheet.is_filler and not main_finished:
                 create_tile_entries_for_unused(
@@ -523,8 +465,8 @@ class Tileset:
         # finalize "tiles-new" config
         tiles_new = list(tiles_new_dict.values())
 
-        FALLBACK["file"] = fallback_name
-        tiles_new.append(FALLBACK)
+        FALLBACK.file = fallback_name
+        tiles_new.append(dataclasses.asdict(FALLBACK))
         output_conf = {
             "tile_info": [
                 {
