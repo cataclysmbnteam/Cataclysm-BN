@@ -41,7 +41,8 @@ std::string enum_to_string<distraction_type>( distraction_type data )
     debugmsg( "Invalid distraction_type" );
     abort();
 }
-}
+} // namespace io
+
 namespace distraction_manager
 {
 

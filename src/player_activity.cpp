@@ -437,12 +437,8 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
 
 bool player_activity::is_distraction_ignored( distraction_type type ) const
 {
-    if( get_distraction_manager().is_ignored( type ) ||
-        ignored_distractions.find( type ) != ignored_distractions.end() ) {
-        return true;
-    } else {
-        return false;
-    }
+    return ( get_distraction_manager().is_ignored( type ) ||
+             ignored_distractions.find( type ) != ignored_distractions.end() );
 }
 
 void player_activity::ignore_distraction( distraction_type type )
