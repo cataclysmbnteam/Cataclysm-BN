@@ -648,7 +648,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
         wprintz( w, c_light_gray, _( " Difficulty " ) + std::to_string( type->difficulty ) );
     }
 
-    if( debug_mode ) {
+    if( display_mod_source ) {
         const std::string mod_src = enumerate_as_string( type->src.begin(),
         type->src.end(), []( const std::pair<mtype_id, mod_id> &source ) {
             return string_format( "'%s'", source.second->name() );
@@ -708,7 +708,7 @@ std::string monster::extended_description() const
         }
     }
 
-    if( debug_mode ) {
+    if( display_mod_source ) {
         ss += _( "Origin: " );
         ss += enumerate_as_string( type->src.begin(),
         type->src.end(), []( const std::pair<mtype_id, mod_id> &source ) {
