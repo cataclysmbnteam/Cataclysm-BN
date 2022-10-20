@@ -1292,13 +1292,13 @@ void options_manager::add_options_general()
 
     add( "DANGEROUS_TERRAIN_WARNING_PROMPT", "general",
          translate_marker( "Dangerous terrain warning prompt" ),
-         translate_marker( "Always: You will be prompted to move onto dangerous tiles.  Running: You will only be able to move onto dangerous tiles while running and will be prompted.  Crouching: You will only be able to move onto a dangerous tile while crouching and will be prompted.  Never:  You will not be able to move onto a dangerous tile unless running and will not be warned or prompted.  Never (Alt): No restriction whatsoever." ),
+         translate_marker( "Always: You will be prompted to move onto dangerous tiles.  Running: You will only be able to move onto dangerous tiles while running and will be prompted.  Crouching: You will only be able to move onto a dangerous tile while crouching and will be prompted.  Never:  You will not be able to move onto a dangerous tile unless running and will not be warned or prompted.  Ignore:  You will be able to move onto a dangerous tile without any warnings or prompts." ),
     {
         { "ALWAYS", to_translation( "Always" ) },
         { "RUNNING", translate_marker( "Running" ) },
         { "CROUCHING", translate_marker( "Crouching" ) },
         { "NEVER", translate_marker( "Never" ) },
-        { "NEVERALT", translate_marker( "Never (Alt)" ) }
+        { "IGNORE", translate_marker( "Ignore" ) }
     },
     "ALWAYS"
        );
