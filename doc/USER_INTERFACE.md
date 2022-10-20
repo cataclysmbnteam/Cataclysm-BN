@@ -1,6 +1,6 @@
 # User Interface
 
-Cataclysm: Dark Days Ahead uses ncurses, or in the case of the tiles build, an
+Cataclysm: Bright Nights uses ncurses, or in the case of the tiles build, an
 ncurses port, for user interface. Window management is achieved by `ui_adaptor`,
 which requires a resizing callback and a redrawing callback for each UI to handle
 resizing and redrawing. Details on how to use `ui_adaptor` can be found within
