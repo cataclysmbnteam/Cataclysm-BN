@@ -482,6 +482,11 @@ static bool checkDebugLevelClass( DL lev, DC cl )
     }
 }
 
+void debug_reset_ignored_messages()
+{
+    ignored_messages.clear();
+}
+
 // Debug only                                                       {{{1
 // ---------------------------------------------------------------------
 
