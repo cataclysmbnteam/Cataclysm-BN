@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Any, Optional, Tuple, Union
+from typing import Any
 
 from compose import Tilesheet
 from .log import log
@@ -21,7 +21,7 @@ class TileEntry:
         self,
         tilesheet: Tilesheet,
         data: dict,
-        filepath: Union[str, Path],
+        filepath: str | Path,
     ) -> None:
         self.tilesheet = tilesheet
         self.data = data
@@ -29,9 +29,9 @@ class TileEntry:
 
     def convert(
         self,
-        entry: Union[dict, None] = None,
+        entry: dict | None = None,
         prefix: str = "",
-    ) -> Optional[dict]:
+    ) -> dict | None:
         """
         Recursively compile input into game-compatible objects in-place
         """
@@ -109,7 +109,7 @@ class TileEntry:
 
     def convert_entry_layer(
         self,
-        entry_layer: Union[list, str],
+        entry_layer: list | str,
     ) -> list:
         """
         Convert sprite names to sprite indexes in one fg or bg tile entry part
@@ -141,8 +141,8 @@ class TileEntry:
 
     def convert_random_variations(
         self,
-        sprite_names: Union[list, str],
-    ) -> Tuple[list, bool]:
+        sprite_names: list | str,
+    ) -> tuple[list, bool]:
         """
         Convert list of random weighted variation objects
         """

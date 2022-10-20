@@ -1,7 +1,6 @@
 import json
 import os
 from pathlib import Path
-from typing import Union
 
 
 from .Tileset import Tileset
@@ -166,7 +165,7 @@ class Tilesheet:
 
     def load_image(
         self,
-        png_path: Union[str, Path],
+        png_path: Path,
     ) -> pyvips.Image:
         """
         Load and verify an image using pyvips

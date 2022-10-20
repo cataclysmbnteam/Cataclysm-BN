@@ -18,7 +18,6 @@ import logging
 import sys
 from logging.config import dictConfig
 from pathlib import Path
-from typing import Union
 
 from compose import Tileset
 from compose.log import (
@@ -45,7 +44,7 @@ class ComposingException(Exception):
     """
 
 
-def main() -> Union[int, ComposingException]:
+def fake_main() -> int | ComposingException:
     """
     Called when the script is executed directly
     """
@@ -171,4 +170,4 @@ def main() -> Union[int, ComposingException]:
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    sys.exit(fake_main())
