@@ -93,8 +93,8 @@
 #  make LINTJSON=0
 # Disable building and running tests.
 #  make RUNTESTS=0
-# Make compiling object file and linking show simple command (default 0)
-#  make VERBOSE=0
+# Make compiling object file and linking show full command.
+#  make VERBOSE=1
 
 # comment these to toggle them as one sees fit.
 # DEBUG is best turned on if you plan to debug in gdb -- please do!
@@ -893,7 +893,12 @@ $(PCH_P): $(PCH_H)
 	-$(CXX) $(CPPFLAGS) $(DEFINES) $(subst -Werror,,$(CXXFLAGS)) -c $(PCH_H) -o $(PCH_P)
 
 $(BUILD_PREFIX)$(TARGET_NAME).a: $(OBJS)
+ifeq ($(VERBOSE),1)
 	$(AR) rcs $(BUILD_PREFIX)$(TARGET_NAME).a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS))
+else
+	@echo "Creating $@..."
+	@$(AR) rcs $(BUILD_PREFIX)$(TARGET_NAME).a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS))
+endif
 
 .PHONY: version
 version:
