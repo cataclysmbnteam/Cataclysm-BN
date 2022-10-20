@@ -14,15 +14,19 @@ output directory will be created if it does not already exist.
 """
 
 import argparse
-import json
 import logging
-import subprocess
 import sys
 from logging.config import dictConfig
 from pathlib import Path
-from typing import Any, Union
+from typing import Union
 
-from compose import Tileset, log
+from compose import Tileset
+from compose.log import (
+    log,
+    FailFastHandler,
+    LevelTrackingFilter,
+    LOGGING_CONFIG,
+)
 
 
 # variable for silent script run (no output to terminal)
@@ -34,48 +38,6 @@ no_tqdm = False
 # File name to ignore containing directory
 ignore_file = ".scratch"
 
-
-class LevelTrackingFilter(logging.Filter):
-    """
-    Logging handler that will remember the highest level that was called
-    """
-
-    def __init__(self):
-        super().__init__()
-        self.level = logging.NOTSET
-
-    def filter(self, record):
-        self.level = max(self.level, record.levelno)
-        return True
-
-
-LOGGING_CONFIG = {
-    "formatters": {
-        "standard": {"format": "%(levelname)s %(funcName)s: %(message)s"},
-    },
-    "handlers": {
-        "default": {
-            "level": "NOTSET",  # will be set later
-            "formatter": "standard",
-            "class": "logging.StreamHandler",
-        },
-    },
-    "loggers": {
-        __name__: {
-            "handlers": ["default"],
-            "level": "INFO",
-        },
-    },
-    "disable_existing_loggers": False,
-    "version": 1,
-}
-
-
-
-
-class FailFastHandler(logging.StreamHandler):
-    def emit(self, record):
-        sys.exit(1)
 
 class ComposingException(Exception):
     """
