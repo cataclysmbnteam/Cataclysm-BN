@@ -28,6 +28,7 @@
 #include "pimpl.h"
 #include "point.h"
 #include "ret_val.h"
+#include "safe_reference.h"
 #include "string_id.h"
 #include "type_id.h"
 
@@ -413,6 +414,7 @@ class player : public Character
         void reset_stats() override;
 
     private:
+        safe_reference_anchor anchor;
         enum class power_mut_ui_cmd {
             Exit,
             Activate,
@@ -429,7 +431,7 @@ class player : public Character
         bool bio_soporific_powered_at_last_sleep_check = false;
 
     public:
-
+        safe_reference<player> get_safe_reference();
         //returns true if the warning is now beyond final and results in hostility.
         bool add_faction_warning( const faction_id &id );
         int current_warnings_fac( const faction_id &id );

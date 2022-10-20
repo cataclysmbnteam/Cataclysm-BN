@@ -2232,7 +2232,7 @@ class item : public visitable<item>
     public:
         char invlet = 0;      // Inventory letter
         bool active = false; // If true, it has active effects to be processed
-        Creature *activated_by = nullptr;
+        safe_reference<player> activated_by;
         bool is_favorite = false;
 
         void set_favorite( bool favorite );

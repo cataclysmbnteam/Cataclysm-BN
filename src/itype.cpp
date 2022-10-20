@@ -98,6 +98,7 @@ void itype::tick( player &p, item &it, const tripoint &pos ) const
 {
     // Maybe should move charge decrementing here?
     for( auto &method : use_methods ) {
+        //player &pref = *it.activated_by.get();
         method.second.call( p, it, true, pos );
     }
 }
@@ -128,8 +129,8 @@ int itype::invoke( player &p, item &it, const tripoint &pos, const std::string &
     // used for grenades and such, to increase kill count
     // add this check because invoke is called a second time when the explosion detonate, with the avatar in p
     // even if the grenade has been thrown by a NPC
-    if( !it.activated_by ) {
-        it.activated_by = &p;
+    if( !it.activated_by.get() ) {
+        it.activated_by = p.get_safe_reference();
     }
 
     return use->call( p, it, false, pos );

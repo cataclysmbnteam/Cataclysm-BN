@@ -631,7 +631,6 @@ bool trapfunc::boobytrap( const tripoint &p, Creature *c, item * )
         c->add_msg_player_or_npc( m_bad, _( "You trigger a booby trap!" ),
                                   _( "<npcname> triggers a booby trap!" ) );
     }
-    // TODO implement if the player is the source?
     explosion_handler::explosion( p, get_basic_explosion_data(), nullptr );
     g->m.remove_trap( p );
     return true;

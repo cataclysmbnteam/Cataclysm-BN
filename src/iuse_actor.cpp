@@ -564,14 +564,13 @@ int explosion_iuse::use( player &p, item &it, bool t, const tripoint &pos ) cons
         }
         return 0;
     }
-    trigger_explosion( pos, it.activated_by );
+    trigger_explosion( pos, it.activated_by.get() );
     return 1;
 }
 
 void explosion_iuse::trigger_explosion( const tripoint &pos, Creature *source ) const
 {
     if( explosion ) {
-        // TODO implement if the player is the source
         explosion_handler::explosion( pos, explosion, source );
     }
 
