@@ -691,6 +691,95 @@ static std::map<const Creature *, int> shrapnel( const tripoint &src, const proj
         }
     }
 
+    // BEGIN DRAWING EXPLOSION
+    // Go see do_blast_new for detailled explanations
+    const tripoint &blast_center = src;
+    const float raw_blast_force = fragment.impact.total_damage();
+    const float raw_blast_radius = fragment.range;
+
+    using dist_point_pair = std::pair<float, tripoint>;
+    const int Z_LEVEL_DIST = 4;
+
+    const int z_levels_affected = raw_blast_radius / Z_LEVEL_DIST;
+    const tripoint_range<tripoint> affected_block(
+        blast_center + tripoint( -raw_blast_radius, -raw_blast_radius, -z_levels_affected ),
+        blast_center + tripoint( raw_blast_radius, raw_blast_radius, z_levels_affected )
+    );
+
+    static std::vector<dist_point_pair> blast_map( MAPSIZE_X * MAPSIZE_Y );
+    static std::map<tripoint, nc_color> explosion_colors;
+    blast_map.clear();
+    explosion_colors.clear();
+
+    for( const tripoint &target : affected_block ) {
+        if( !get_map().inbounds( target ) ) {
+            continue;
+        }
+
+        // Uses this ternany check instead of rl_dist because it converts trig_dist's distance to int implicitly
+        const float distance = (
+                                   trigdist ?
+                                   trig_dist( blast_center, target ) :
+                                   square_dist( blast_center, target )
+                               );
+        const float z_distance = abs( target.z - blast_center.z );
+        const float z_aware_distance = distance + ( Z_LEVEL_DIST - 1 ) * z_distance;
+        if( z_aware_distance <= raw_blast_radius ) {
+            blast_map.emplace_back( std::make_pair( z_aware_distance, target ) );
+        }
+    }
+
+    std::stable_sort( blast_map.begin(), blast_map.end(), []( dist_point_pair pair1,
+    dist_point_pair pair2 ) {
+        return pair1.first <= pair2.first;
+    } );
+
+    int animated_explosion_range = 0.0f;
+    std::map<const Creature *, int> blasted;
+
+    int i = 0;
+    for( const dist_point_pair &pair : blast_map ) {
+        float distance;
+        tripoint position;
+        tripoint last_position = blast_center;
+        std::tie( distance, position ) = pair;
+
+        const std::vector<tripoint> line_of_movement = line_to( blast_center, position );
+        const bool has_obstacles = std::any_of( line_of_movement.begin(),
+        line_of_movement.end(), [position, &last_position]( tripoint ray_position ) {
+            if( get_map().obstructed_by_vehicle_rotation( last_position, ray_position ) ) {
+                return true;
+            }
+            last_position = ray_position;
+            return ray_position != position && get_map().impassable( ray_position );
+        } );
+
+        // Don't bother animating explosions that are on other levels
+        const bool to_animate = get_player_character().posz() == position.z;
+
+        // Animate the explosion by drawing the shock wave rather than the whole explosion
+        if( to_animate && distance > animated_explosion_range ) {
+            // Draw only 1/2 rings to speed up the animation
+            if( i % 2 == 0 ) {
+                draw_custom_explosion( blast_center, explosion_colors, "fd_smoke" );
+            }
+            i++;
+            explosion_colors.clear();
+            animated_explosion_range++;
+        }
+
+        if( has_obstacles ) {
+            continue;
+        }
+
+        if( to_animate ) {
+            explosion_colors[position] = c_white;
+        }
+    }
+    // Final blast wave points
+    draw_custom_explosion( blast_center, explosion_colors, "fd_smoke" );
+    // END DRAWING EXPLOSION
+
     return damaged;
 }
 
