@@ -5,6 +5,10 @@ from typing import Any
 
 from .log import log
 
+class ComposingException(Exception):
+    """
+    Base class for all composing exceptions
+    """
 
 def read_properties(filepath: str) -> dict[str, str]:
     """

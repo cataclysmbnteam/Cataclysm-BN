@@ -6,7 +6,8 @@ from pathlib import Path
 
 from .Fallback import FALLBACK
 from .log import log
-from .util import read_properties, write_to_json
+from .util import read_properties, write_to_json, ComposingException
+
 from tqdm import tqdm
 
 PROPERTIES_FILENAME = "tileset.txt"
@@ -95,7 +96,7 @@ class Tileset:
         return self.output_conf_file
 
     def compose(
-        self, *, ignore_file: str, run_silent=False, no_tqdm=False
+        self, ignore_file: str, run_silent=False, no_tqdm=False
     ) -> None:
         """
         Convert a composing tileset into a package readable by the game

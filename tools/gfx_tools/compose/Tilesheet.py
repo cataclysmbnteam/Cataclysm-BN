@@ -2,10 +2,11 @@ import json
 import os
 from pathlib import Path
 
-
 from .Tileset import Tileset
-from tqdm import tqdm
 from .log import log
+from .util import ComposingException
+
+from tqdm import tqdm
 
 try:
     vips_path = os.getenv("LIBVIPS_PATH")
