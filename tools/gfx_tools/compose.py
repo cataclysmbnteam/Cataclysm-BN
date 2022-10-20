@@ -7,6 +7,7 @@ from textwrap import dedent
 from enum import StrEnum
 
 import typer
+from typer import Argument as Arg, Option as Opt
 
 from compose.Tileset import Tileset
 from compose.log import (
@@ -61,19 +62,21 @@ app = typer.Typer(context_settings=CONTEXT_SETTINGS)
 # fmt: off
 @app.command()
 def main(
-    source_dir: Path = typer.Argument(..., help="Tileset source files directory path"),
-    output_dir: Path = typer.Argument(None, help="Output directory path"),
+    source_dir:       Path     = Arg(...,                         help="Tileset source files directory path"),
+    output_dir:       Path     = Arg(None,                        help="Output directory path"),
 
-    use_all: bool = typer.Option(False, help="Add unused images with id being their basename"),
-    obsolete_fillers: bool = typer.Option(False, help="Warn about obsoleted fillers"),
-    palette_copies: bool = typer.Option(False, help="Produce copies of tilesheets quantized to 8bpp colormaps."),
-    palette: bool = typer.Option(False, help="Quantize all tilesheets to 8bpp colormaps."),
-    format_json: bool = typer.Option(False, help="Use either BN formatter or Python json.tool"),
-    only_json: bool = typer.Option(False, help="Only output the tile_config.json"),
-    fail_fast: bool = typer.Option(False, help="Stop immediately after an error has occurred"),
-    loglevel: LogLevel = typer.Option(LogLevel.WARNING, help="set verbosity level"),
-    feedback: FeedBack = typer.Option(FeedBack.SILENT, help=FEEDBACK_DESC),
+    use_all:          bool     = Opt(False, "--use_all",          help="Add unused images with id being their basename"),
+    obsolete_fillers: bool     = Opt(False, "--obsolete-fillers", help="Warn about obsoleted fillers"),
+    palette_copies:   bool     = Opt(False, "--palette-copies",   help="Produce copies of tilesheets quantized to 8bpp colormaps."),
+    palette:          bool     = Opt(False, "--palette",          help="Quantize all tilesheets to 8bpp colormaps."),
+    format_json:      bool     = Opt(False, "--format-json",      help="Use either BN formatter or Python json.tool"),
+    only_json:        bool     = Opt(False, "--only-json",        help="Only output the tile_config.json"),
+    fail_fast:        bool     = Opt(False, "--fail-fast",        help="Stop immediately after an error has occurred"),
+
+    loglevel:         LogLevel = Opt(LogLevel.WARNING,            help="set verbosity level"),
+    feedback:         FeedBack = Opt(FeedBack.SILENT,             help=FEEDBACK_DESC),
 ) -> int | ComposingException:
+# fmt: on
     """
     Merge all tile entries and PNGs in a compositing tileset directory into
     a tile_config.json and tilesheet .png file(s) ready for use in BN.
@@ -87,7 +90,6 @@ def main(
     output directory will be created if it does not already exist.
     """
 
-# fmt: on
     if output_dir is None:
         output_dir = source_dir
 
