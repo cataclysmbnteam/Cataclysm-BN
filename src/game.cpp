@@ -4452,15 +4452,15 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult,
                 break;
             }
             targ->setpos( traj[i] );
-            if( m.has_flag( "LIQUID", targ->pos() ) && !targ->can_drown() && !targ->is_dead() ) {
-                targ->die( nullptr );
+            if( m.has_flag( "LIQUID", targ->pos() ) && targ->can_drown() && !targ->is_dead() ) {
+                targ->die( source );
                 if( u.sees( *targ ) ) {
                     add_msg( _( "The %s drowns!" ), targ->name() );
                 }
             }
             if( !m.has_flag( "LIQUID", targ->pos() ) && targ->has_flag( MF_AQUATIC ) &&
                 !targ->is_dead() ) {
-                targ->die( nullptr );
+                targ->die( source );
                 if( u.sees( *targ ) ) {
                     add_msg( _( "The %s flops around and dies!" ), targ->name() );
                 }
@@ -4493,7 +4493,7 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult,
                     };
                     for( const bodypart_id &bp : bps ) {
                         if( one_in( 2 ) ) {
-                            targ->deal_damage( nullptr, bp, damage_instance( DT_BASH, force_remaining * dam_mult ) );
+                            targ->deal_damage( source, bp, damage_instance( DT_BASH, force_remaining * dam_mult ) );
                         }
                     }
                     targ->check_dead_state();
@@ -4569,7 +4569,6 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult,
                     };
                     for( const bodypart_id &bp : bps ) {
                         if( one_in( 2 ) ) {
-                            // how is killing yourself handled?
                             u.deal_damage( source, bp, damage_instance( DT_BASH, force_remaining * dam_mult ) );
                         }
                     }
