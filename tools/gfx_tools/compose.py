@@ -14,15 +14,18 @@ output directory will be created if it does not already exist.
 """
 
 import argparse
+import itertools
 import json
 import logging
 import os
 import subprocess
 import sys
-
+from dataclasses import asdict, dataclass, field
 from logging.config import dictConfig
 from pathlib import Path
-from typing import Any, Optional, Tuple, Union
+from textwrap import dedent
+from types import SimpleNamespace
+from typing import Any, NamedTuple, Optional, Tuple, TypedDict, Union
 
 try:
     vips_path = os.getenv("LIBVIPS_PATH")
@@ -65,10 +68,13 @@ def setup_progress_bar() -> str:
         from tkinter.messagebox import askyesno
 
         txt_title = "compose.py: TQDM module not installed"
-        txt_message = "VERBOSE mode requires TQDM module"
-        " to display progress bar(s). "
-        "Do you want to install TQDM "
-        "(and it's dependencies) via PIP?"
+        txt_message = dedent(
+            """
+            VERBOSE mode requires TQDM module
+            to display progress bar(s).
+            Do you want to install TQDM "
+            (and it's dependencies) via PIP?"""
+        )
         if askyesno(txt_title, txt_message):
             try:
                 sub = subprocess.Popen(
@@ -137,7 +143,39 @@ PNGSAVE_ARGS = {
     "filter": 8,
 }
 
-FALLBACK = {
+
+class Ascii(TypedDict):
+    offset: int
+    bold: bool
+    color: str
+
+from itertools import chain, count, cycle, repeat
+
+OTHER_COLORS = ("RED", "GREEN", "BLUE", "CYAN", "MAGENTA", "YELLOW")
+
+COLORS = list(
+    chain(
+        zip(cycle((False, True)), ("BLACK", "WHITE", "WHITE", "BLACK")),
+        zip(repeat(False), OTHER_COLORS),
+        zip(repeat(True), OTHER_COLORS),
+    )
+)
+
+
+def get_colors() -> list[Ascii]:
+    return [
+        {"offset": offset, "bold": pair[0], "color": pair[1]}
+        for offset, pair in zip(count(0, step=256), COLORS)
+    ]
+@dataclass
+class FallBack:
+    file: str = "fallback.png"
+    tiles: list[str] = field(default_factory=list)
+    ascii: list[Ascii] = field(default_factory=get_colors)
+
+FALLBACK = FallBack()
+
+EXPECTED = {
     "file": "fallback.png",
     "tiles": [],
     "ascii": [
@@ -160,6 +198,7 @@ FALLBACK = {
     ],
 }
 
+assert asdict(FALLBACK) == EXPECTED
 
 log = logging.getLogger(__name__)
 
@@ -226,40 +265,30 @@ class ComposingException(Exception):
     """
 
 
+@dataclass
 class Tileset:
     """
     Referenced sprites memory and handling, tile entries conversion
     """
 
-    def __init__(
-        self,
-        source_dir: Path,
-        output_dir: Path,
-        use_all: bool = False,
-        obsolete_fillers: bool = False,
-        palette_copies: bool = False,
-        palette: bool = False,
-        format_json: bool = False,
-        only_json: bool = False,
-    ) -> None:
-        self.source_dir = source_dir
-        self.output_dir = output_dir
-        self.use_all = use_all
-        self.obsolete_fillers = obsolete_fillers
-        self.palette_copies = palette_copies
-        self.palette = palette
-        self.format_json = format_json
-        self.only_json = only_json
-        self.output_conf_file = None
+    source_dir: Path
+    output_dir: Path
+    use_all = False
+    obsolete_fillers = False
+    palette_copies = False
+    palette = False
+    format_json = False
+    only_json = False
 
-        self.pngnum = 0
-        self.unreferenced_pngnames = {
-            "main": [],
-            "filler": [],
-        }
+    output_conf_file = None
+    pngnum = 0
+    unreferenced_pngnames = {
+        "main": [],
+        "filler": [],
+    }
+    pngname_to_pngnum = {"null_image": 0}
 
-        self.pngname_to_pngnum = {"null_image": 0}
-
+    def __post_init__(self):
         if not self.source_dir.is_dir() or not os.access(
             self.source_dir, os.R_OK
         ):
@@ -275,23 +304,22 @@ class Tileset:
         self.iso = False
         self.retract_dist_min = -1.0
         self.retract_dist_max = 1.0
-        self.info = [{}]
+
+        self.info = json.loads(info_path.read_text())
 
         if not os.access(info_path, os.R_OK):
             raise ComposingException(f"Error: cannot open {info_path}")
 
-        with open(info_path, "r", encoding="utf-8") as file:
-            self.info = json.load(file)
-            self.sprite_width = self.info[0].get("width", self.sprite_width)
-            self.sprite_height = self.info[0].get("height", self.sprite_height)
-            self.pixelscale = self.info[0].get("pixelscale", self.pixelscale)
-            self.retract_dist_min = self.info[0].get(
-                "retract_dist_min", self.retract_dist_min
-            )
-            self.retract_dist_max = self.info[0].get(
-                "retract_dist_max", self.retract_dist_max
-            )
-            self.iso = self.info[0].get("iso", self.iso)
+        self.sprite_width = self.info[0].get("width", self.sprite_width)
+        self.sprite_height = self.info[0].get("height", self.sprite_height)
+        self.pixelscale = self.info[0].get("pixelscale", self.pixelscale)
+        self.retract_dist_min = self.info[0].get(
+            "retract_dist_min", self.retract_dist_min
+        )
+        self.retract_dist_max = self.info[0].get(
+            "retract_dist_max", self.retract_dist_max
+        )
+        self.iso = self.info[0].get("iso", self.iso)
 
     def determine_conffile(self) -> str:
         """
