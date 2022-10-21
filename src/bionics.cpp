@@ -907,7 +907,7 @@ bool Character::activate_bionic( int b, bool eff_only )
         sw.stun = 2;
         sw.dam_mult = 8;
         // affects_player is always false, so assuming the player is always the source of this
-        explosion_handler::shockwave( pos(), sw, "explosion", &g->u );
+        explosion_handler::shockwave( pos(), sw, "explosion", &get_player_character() );
         add_msg_if_player( m_neutral, _( "You unleash a powerful shockwave!" ) );
         mod_moves( -100 );
     } else if( bio.id == bio_meteorologist ) {
