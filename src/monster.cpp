@@ -648,7 +648,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
         wprintz( w, c_light_gray, _( " Difficulty " ) + std::to_string( type->difficulty ) );
     }
 
-    if( debug_mode ) {
+    if( display_mod_source ) {
         const std::string mod_src = enumerate_as_string( type->src.begin(),
         type->src.end(), []( const std::pair<mtype_id, mod_id> &source ) {
             return string_format( "'%s'", source.second->name() );
@@ -708,7 +708,7 @@ std::string monster::extended_description() const
         }
     }
 
-    if( debug_mode ) {
+    if( display_mod_source ) {
         ss += _( "Origin: " );
         ss += enumerate_as_string( type->src.begin(),
         type->src.end(), []( const std::pair<mtype_id, mod_id> &source ) {
@@ -1394,7 +1394,6 @@ void monster::melee_attack( Creature &target )
 
 void monster::melee_attack( Creature &target, float accuracy )
 {
-    int hitspread = target.deal_melee_attack( this, melee::melee_hit_range( accuracy ) );
     mod_moves( -type->attack_cost );
     if( type->melee_dice == 0 ) {
         // We don't attack, so just return
@@ -1409,6 +1408,8 @@ void monster::melee_attack( Creature &target, float accuracy )
     if( !can_squeeze_to( target.pos() ) ) {
         return;
     }
+
+    int hitspread = target.deal_melee_attack( this, melee::melee_hit_range( accuracy ) );
 
     if( target.is_player() ||
         ( target.is_npc() && g->u.attitude_to( target ) == A_FRIENDLY ) ) {

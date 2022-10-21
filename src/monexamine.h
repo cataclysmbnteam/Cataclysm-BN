@@ -33,6 +33,7 @@ void untie_pet( monster &z );
 void shear_animal( monster &z );
 void mount_pet( monster &z );
 void attach_or_remove_saddle( monster &z );
+void deactivate_pet( monster &z );
 
 /*
 *Manages the milking and milking cool down of monsters.

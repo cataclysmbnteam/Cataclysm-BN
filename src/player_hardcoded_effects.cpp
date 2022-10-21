@@ -1002,11 +1002,9 @@ void player::hardcoded_effects( effect &it )
         }
     } else if( id == effect_sleep ) {
         set_moves( 0 );
-#if defined(TILES)
-        if( is_player() ) {
-            SDL_PumpEvents();
+        if( is_avatar() ) {
+            inp_mngr.pump_events();
         }
-#endif // TILES
 
         if( has_effect( effect_narcosis ) && get_fatigue() <= 25 ) {
             set_fatigue( 25 ); //Prevent us from waking up naturally while under anesthesia

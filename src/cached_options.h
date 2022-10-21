@@ -48,6 +48,9 @@ extern bool log_from_top;
 extern int message_ttl;
 extern int message_cooldown;
 
+/** Display mod source for items, furniture, terrain and monsters.*/
+extern bool display_mod_source;
+
 /**
  * Circular distances.
  * If true, calculate distance in a realistic way [sqrt(dX^2 + dY^2)].

@@ -96,6 +96,7 @@
 #include "uistate.h"
 #include "units.h"
 #include "units_utility.h"
+#include "url_utility.h"
 #include "vehicle.h"
 #include "veh_type.h"
 #include "vitamin.h"
@@ -164,6 +165,7 @@ enum debug_menu_index {
     DEBUG_QUIT_NOSAVE,
     DEBUG_TEST_WEATHER,
     DEBUG_SAVE_SCREENSHOT,
+    DEBUG_BUG_REPORT,
     DEBUG_GAME_REPORT,
     DEBUG_DISPLAY_SCENTS_LOCAL,
     DEBUG_DISPLAY_SCENTS_TYPE_LOCAL,
@@ -177,7 +179,8 @@ enum debug_menu_index {
     DEBUG_TEST_MAP_EXTRA_DISTRIBUTION,
     DEBUG_VEHICLE_BATTERY_CHARGE,
     DEBUG_HOUR_TIMER,
-    DEBUG_NESTED_MAPGEN
+    DEBUG_NESTED_MAPGEN,
+    DEBUG_RESET_IGNORED_MESSAGES,
 };
 
 class mission_debug
@@ -198,6 +201,7 @@ static int info_uilist( bool display_all_entries = true )
     // always displayed
     std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( DEBUG_SAVE_SCREENSHOT, true, 'H', _( "Take screenshot" ) ) },
+        { uilist_entry( DEBUG_BUG_REPORT, true, 'U', _( "Submit a bug report on github" ) ) },
         { uilist_entry( DEBUG_GAME_REPORT, true, 'r', _( "Generate game report" ) ) },
     };
 
@@ -233,6 +237,7 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( DEBUG_PRINT_NPC_MAGIC, true, 'M', _( "Print NPC magic info to console" ) ) },
             { uilist_entry( DEBUG_TEST_WEATHER, true, 'W', _( "Test weather" ) ) },
             { uilist_entry( DEBUG_TEST_MAP_EXTRA_DISTRIBUTION, true, 'e', _( "Test map extra list" ) ) },
+            { uilist_entry( DEBUG_RESET_IGNORED_MESSAGES, true, 'I', _( "Reset ignored debug messages" ) ) },
         };
         uilist_initializer.insert( uilist_initializer.begin(), debug_only_options.begin(),
                                    debug_only_options.end() );
@@ -370,7 +375,7 @@ static int debug_menu_uilist( bool display_all_entries = true )
 
 void teleport_short()
 {
-    const cata::optional<tripoint> where = g->look_around();
+    const cata::optional<tripoint> where = g->look_around( true );
     if( !where || *where == g->u.pos() ) {
         return;
     }
@@ -432,7 +437,7 @@ void spawn_nested_mapgen()
     nest_menu.query();
     const int nest_choice = nest_menu.ret;
     if( nest_choice >= 0 && nest_choice < static_cast<int>( nest_str.size() ) ) {
-        const cata::optional<tripoint> where = g->look_around();
+        const cata::optional<tripoint> where = g->look_around( true );
         if( !where ) {
             return;
         }
@@ -570,8 +575,8 @@ void character_edit_menu( Character &c )
 
     std::vector<uilist_entry> menu_entries = static_entries;
     if( !spell_type::get_all().empty() ) {
-        menu_entries.emplace_back( edit_character::learn_spells, true, 'S', _( "Learn all [S]pells" ) );
-        menu_entries.emplace_back( edit_character::level_spells, true, 'L', _( "[L]evel a spell" ) );
+        menu_entries.emplace_back( edit_character::learn_spells, true, 'L', _( "[L]earn all Spells" ) );
+        menu_entries.emplace_back( edit_character::level_spells, true, 'v', _( "Le[v]el a spell" ) );
     }
     if( p.is_npc() ) {
         menu_entries.emplace_back( edit_character::mission_add, true, 'm',  _( "Add [m]ission" ) );
@@ -887,8 +892,10 @@ void character_edit_menu( Character &c )
                     p.set_stored_kcal( p.max_stored_kcal() );
                     break;
                 default:
-                    if( smenu.ret >= 6 && smenu.ret < static_cast<int>( vits.size() + 6 ) ) {
-                        auto iter = std::next( vits.begin(), smenu.ret - 6 );
+                    const int non_vitamin_entries = smenu.entries.size() - vits.size();
+                    if( smenu.ret >= non_vitamin_entries &&
+                        smenu.ret < static_cast<int>( vits.size() + non_vitamin_entries ) ) {
+                        auto iter = std::next( vits.begin(), smenu.ret - non_vitamin_entries );
                         if( query_int( value, _( "Set %s to?  Currently: %d" ),
                                        iter->second.name(), p.vitamin_get( iter->first ) ) ) {
                             p.vitamin_set( iter->first, value );
@@ -952,7 +959,7 @@ void character_edit_menu( Character &c )
             mission_debug::edit( p );
             break;
         case edit_character::tele: {
-            if( const cata::optional<tripoint> newpos = g->look_around() ) {
+            if( const cata::optional<tripoint> newpos = g->look_around( true ) ) {
                 p.setpos( *newpos );
                 if( p.is_player() ) {
                     if( p.is_mounted() ) {
@@ -1290,6 +1297,7 @@ void benchmark( const int max_difference, bench_kind kind )
             break;
         }
         g->invalidate_main_ui_adaptor();
+        inp_mngr.pump_events();
         ui_manager::redraw_invalidated();
         if( kind == bench_kind::FPS ) {
             refresh_display();
@@ -1432,7 +1440,7 @@ void debug()
 
             tripoint initial_pos = g->u.pos();
             const look_around_result first = g->look_around( false, initial_pos, initial_pos,
-                                             false, true, false );
+                                             false, true, false, false, tripoint_zero, true );
 
             if( !first.position ) {
                 break;
@@ -1440,7 +1448,7 @@ void debug()
 
             popup.message( "%s", _( "Select second point." ) );
             const look_around_result second = g->look_around( false, initial_pos, *first.position,
-                                              true, true, false );
+                                              true, true, false, false, tripoint_zero, true );
 
             if( !second.position ) {
                 break;
@@ -1522,7 +1530,7 @@ void debug()
             break;
 
         case DEBUG_SPAWN_ARTIFACT:
-            if( const cata::optional<tripoint> center = g->look_around() ) {
+            if( const cata::optional<tripoint> center = g->look_around( true ) ) {
                 artifact_natural_property prop = static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1,
                                                  ARTPROP_MAX - 1 ) );
                 m.create_anomaly( *center, prop );
@@ -1605,7 +1613,7 @@ void debug()
         break;
 
         case DEBUG_GEN_SOUND: {
-            const cata::optional<tripoint> where = g->look_around();
+            const cata::optional<tripoint> where = g->look_around( true );
             if( !where ) {
                 return;
             }
@@ -1786,7 +1794,7 @@ void debug()
                 smenu.addentry( 2, true, 'd', "%s: %d", _( "day" ), day_of_season<int>( calendar::turn ) );
                 smenu.addentry( 3, true, 'h', "%s: %d", _( "hour" ), hour_of_day<int>( calendar::turn ) );
                 smenu.addentry( 4, true, 'm', "%s: %d", _( "minute" ), minute_of_hour<int>( calendar::turn ) );
-                smenu.addentry( 5, true, 't', "%s: %d", _( "turn" ),
+                smenu.addentry( 5, true, 't', "%s: %d", pgettext( "point in time", "turn" ),
                                 to_turns<int>( calendar::turn - calendar::turn_zero ) );
                 smenu.selected = iSel;
                 smenu.query();
@@ -1969,9 +1977,24 @@ void debug()
             g->queue_screenshot = true;
             break;
 
+        case DEBUG_BUG_REPORT: {
+            constexpr const char *const bug_report_url =
+                "https://github.com/cataclysmbnteam/Cataclysm-BN/issues/new"
+                "?labels=bug"
+                "&template=bug_report.yml"
+                "&versions-and-configuration=";
+
+            const std::string report = game_info::game_report();
+            const std::string url = bug_report_url + encode_url( report );
+
+            open_url( url );
+            DebugLog( DL::Info, DC::Main ) << " GAME REPORT:\n" << report;
+            popup( _( "Opened a link to Bug Report on github." ) );
+            break;
+        }
         case DEBUG_GAME_REPORT: {
             // generate a game report, useful for bug reporting.
-            std::string report = game_info::game_report();
+            const std::string report = game_info::game_report();
             // write to log
             DebugLog( DL::Info, DC::Main ) << " GAME REPORT:\n" << report;
             std::string popup_msg = _( "Report written to debug.log" );
@@ -2013,6 +2036,9 @@ void debug()
 
         case DEBUG_TEST_MAP_EXTRA_DISTRIBUTION:
             MapExtras::debug_spawn_test();
+            break;
+        case DEBUG_RESET_IGNORED_MESSAGES:
+            debug_reset_ignored_messages();
             break;
     }
     m.invalidate_map_cache( g->get_levz() );
