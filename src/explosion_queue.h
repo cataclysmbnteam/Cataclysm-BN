@@ -21,7 +21,7 @@ enum class ExplosionType {
 struct queued_explosion {
     queued_explosion() = default;
     queued_explosion( const tripoint &pos, ExplosionType type,
-                      Creature *source = nullptr ) : pos( pos ), type( type ), source( source ) {}
+                      Creature *source ) : pos( pos ), type( type ), source( source ) {}
 
     /** Origin */
     tripoint pos;

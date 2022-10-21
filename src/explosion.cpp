@@ -1051,7 +1051,7 @@ void emp_blast( const tripoint &p )
 
 void resonance_cascade( const tripoint &p )
 {
-    get_explosion_queue().add( queued_explosion( p, ExplosionType::ResonanceCascade ) );
+    get_explosion_queue().add( queued_explosion( p, ExplosionType::ResonanceCascade, nullptr ) );
 }
 
 void explosion_funcs::resonance_cascade( const queued_explosion &qe )
