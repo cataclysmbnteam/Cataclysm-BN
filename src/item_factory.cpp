@@ -30,6 +30,7 @@
 #include "game_constants.h"
 #include "generic_factory.h"
 #include "init.h"
+#include "input.h"
 #include "item.h"
 #include "item_contents.h"
 #include "item_group.h"
@@ -1515,6 +1516,7 @@ void Item_factory::check_definitions() const
     }
     for( const auto &elem : m_template_groups ) {
         elem.second->check_consistency( elem.first.str() );
+        inp_mngr.pump_events();
     }
 }
 

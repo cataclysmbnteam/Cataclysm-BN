@@ -1295,6 +1295,7 @@ void benchmark( const int max_difference, bench_kind kind )
             break;
         }
         g->invalidate_main_ui_adaptor();
+        inp_mngr.pump_events();
         ui_manager::redraw_invalidated();
         if( kind == bench_kind::FPS ) {
             refresh_display();

@@ -524,13 +524,17 @@ void game::toggle_pixel_minimap()
 void game::reload_tileset()
 {
 #if defined(TILES)
+    // Disable UIs below to avoid accessing the tile context during loading.
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
     try {
         tilecontext->reinit();
         std::vector<mod_id> dummy;
         tilecontext->load_tileset(
             get_option<std::string>( "TILES" ),
             world_generator->active_world ? world_generator->active_world->active_mod_order : dummy,
-            false, true
+            /*precheck=*/false,
+            /*force=*/true,
+            /*pump_events=*/true
         );
         tilecontext->do_tile_loading_report();
     } catch( const std::exception &err ) {
@@ -639,15 +643,16 @@ special_game_id game::gametype() const
     return gamemode ? gamemode->id() : SGAME_NULL;
 }
 
-void game::load_map( const tripoint &pos_sm )
+void game::load_map( const tripoint &pos_sm, const bool pump_events )
 {
     // TODO: fix point types
-    load_map( tripoint_abs_sm( pos_sm ) );
+    load_map( tripoint_abs_sm( pos_sm ), pump_events );
 }
 
-void game::load_map( const tripoint_abs_sm &pos_sm )
+void game::load_map( const tripoint_abs_sm &pos_sm,
+                     const bool pump_events )
 {
-    m.load( pos_sm, true );
+    m.load( pos_sm, true, pump_events );
     grid_tracker_ptr->load( m );
 }
 
@@ -713,7 +718,7 @@ bool game::start_game()
     // The player is centered in the map, but lev[xyz] refers to the top left point of the map
     lev.x -= HALF_MAPSIZE;
     lev.y -= HALF_MAPSIZE;
-    load_map( lev );
+    load_map( lev, /*pump_events=*/true );
 
     m.invalidate_map_cache( get_levz() );
     m.build_map_cache( get_levz() );
@@ -9967,6 +9972,7 @@ void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
         prev_point = pt;
         if( animate && ( seen || u.sees( *c ) ) ) {
             invalidate_main_ui_adaptor();
+            inp_mngr.pump_events();
             ui_manager::redraw_invalidated();
             refresh_display();
         }

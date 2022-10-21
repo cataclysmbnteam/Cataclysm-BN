@@ -46,6 +46,7 @@
 #include "game.h"
 #include "harvest.h"
 #include "iexamine.h"
+#include "input.h"
 #include "int_id.h"
 #include "item.h"
 #include "item_contents.h"
@@ -751,6 +752,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
     // the vehicle was seen before or after the move.
     if( !player_character.activity && ( seen || sees_veh( player_character, veh, true ) ) ) {
         g->invalidate_main_ui_adaptor();
+        inp_mngr.pump_events();
         ui_manager::redraw_invalidated();
         refresh_display();
     }
@@ -6602,7 +6604,7 @@ void map::save()
     }
 }
 
-void map::load( const tripoint &w, const bool update_vehicle )
+void map::load( const tripoint &w, const bool update_vehicle, const bool pump_events )
 {
     for( auto &traps : traplocs ) {
         traps.clear();
@@ -6613,15 +6615,18 @@ void map::load( const tripoint &w, const bool update_vehicle )
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
             loadn( point( gridx, gridy ), update_vehicle );
+            if( pump_events ) {
+                inp_mngr.pump_events();
+            }
         }
     }
     reset_vehicle_cache( );
 }
 
-void map::load( const tripoint_abs_sm &w, const bool update_vehicle )
+void map::load( const tripoint_abs_sm &w, const bool update_vehicle, const bool pump_events )
 {
     // TODO: fix point types
-    load( w.raw(), update_vehicle );
+    load( w.raw(), update_vehicle, pump_events );
 }
 
 void map::shift_traps( const tripoint &shift )

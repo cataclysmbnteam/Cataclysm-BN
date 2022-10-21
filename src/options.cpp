@@ -2629,6 +2629,8 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
                            bool force_tile_change )
 {
     if( used_tiles_changed ) {
+        // Disable UIs below to avoid accessing the tile context during loading.
+        ui_adaptor dummy( ui_adaptor::disable_uis_below {} );
         //try and keep SDL calls limited to source files that deal specifically with them
         try {
             tilecontext->reinit();
@@ -2637,8 +2639,9 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
             tilecontext->load_tileset(
                 get_option<std::string>( "TILES" ),
                 ingame ? world_generator->active_world->active_mod_order : dummy,
-                false,
-                force_tile_change
+                /*precheck=*/false,
+                /*force=*/force_tile_change,
+                /*pump_events=*/true
             );
             //game_ui::init_ui is called when zoom is changed
             g->reset_zoom();
