@@ -48,14 +48,14 @@ namespace distraction_manager
 
 static const std::map< distraction_type, std::pair< std::string, std::string> >
 distraction_desc = {
-    {distraction_type::noise,                { _( "Noise" ),                     _( "Interrupts you if you hear a noise." ) } },
-    {distraction_type::pain,                 { _( "Pain" ),                      _( "Interrupts you if you feel pain." ) } },
-    {distraction_type::attacked,             { _( "Attacked" ),                  _( "Interrupts you if you are hurt." ) } },
-    {distraction_type::hostile_spotted_far,  { _( "Hostile Spotted" ),           _( "Interrupts you if you see an enemy." ) } },
-    {distraction_type::hostile_spotted_near, { _( "Hostile Dangerously Close" ), _( "Interrupts you if an enemy comes within 5 squares." ) } },
-    {distraction_type::talked_to,            { _( "Conversation" ),              _( "Interrupts you if someone starts a conversation." ) } },
-    {distraction_type::asthma,               { _( "Asthma" ),                    _( "Interrupts you if you have an asthma attack." ) } },
-    {distraction_type::weather_change,       { _( "Weather change" ),            _( "Interrupts you if the weather becomes dangerous." ) } }
+    {distraction_type::noise,                { translate_marker( "Noise" ),                     translate_marker( "Interrupts you if you hear a noise." ) } },
+    {distraction_type::pain,                 { translate_marker( "Pain" ),                      translate_marker( "Interrupts you if you feel pain." ) } },
+    {distraction_type::attacked,             { translate_marker( "Attacked" ),                  translate_marker( "Interrupts you if you are hurt." ) } },
+    {distraction_type::hostile_spotted_far,  { translate_marker( "Hostile Spotted" ),           translate_marker( "Interrupts you if you see an enemy." ) } },
+    {distraction_type::hostile_spotted_near, { translate_marker( "Hostile Dangerously Close" ), translate_marker( "Interrupts you if an enemy comes within 5 squares." ) } },
+    {distraction_type::talked_to,            { translate_marker( "Conversation" ),              translate_marker( "Interrupts you if someone starts a conversation." ) } },
+    {distraction_type::asthma,               { translate_marker( "Asthma" ),                    translate_marker( "Interrupts you if you have an asthma attack." ) } },
+    {distraction_type::weather_change,       { translate_marker( "Weather change" ),            translate_marker( "Interrupts you if the weather becomes dangerous." ) } }
 };
 
 void distraction_manager_gui::show()
