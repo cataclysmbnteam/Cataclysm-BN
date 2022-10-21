@@ -98,7 +98,6 @@ void itype::tick( player &p, item &it, const tripoint &pos ) const
 {
     // Maybe should move charge decrementing here?
     for( auto &method : use_methods ) {
-        //player &pref = *it.activated_by.get();
         method.second.call( p, it, true, pos );
     }
 }
