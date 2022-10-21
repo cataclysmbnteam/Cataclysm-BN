@@ -2244,7 +2244,7 @@ bool game::handle_action()
             case ACTION_SUICIDE:
                 if( query_yn( _( "Commit suicide?" ) ) ) {
                     if( query_yn( _( "REALLY commit suicide?" ) ) ) {
-                        u.apply_damage( u.as_character(), body_part_head, 99999 );
+                        u.apply_damage( &u, body_part_head, 99999 );
                         u.moves = 0;
                         u.place_corpse();
                         uquit = QUIT_SUICIDE;
