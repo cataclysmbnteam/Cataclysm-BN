@@ -42,22 +42,22 @@ jobs:
             languages: all
             native: linux64
             title: GCC 11, Ubuntu, Tiles, CMake, Languages
-          - compiler: g++-10
+          - compiler: g++-11
             os: ubuntu-22.04
             cmake: 0
             tiles: 1
             sound: 0
             sanitize: address
             native: linux64
-            title: GCC 10, Ubuntu, Tiles, NoSound, ASan
-          - compiler: clang++-12
+            title: GCC 11, Ubuntu, Tiles, NoSound, ASan
+          - compiler: clang++-14
             os: ubuntu-22.04
             cmake: 0
             tiles: 1
             sound: 0
             sanitize: address,undefined
             native: linux64
-            title: Clang 12, Ubuntu, Tiles, NoSound, ASan, UBSan
+            title: Clang 14, Ubuntu, Tiles, NoSound, ASan, UBSan
           - compiler: clang++
             os: macos-11
             cmake: 0
@@ -94,9 +94,10 @@ jobs:
           sudo apt-get update
           sudo apt-get install libncursesw5-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev \
             libsdl2-mixer-dev libpulse-dev ccache gettext parallel
-      - name: install missing compiler (ubuntu)
-        if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && matrix.compiler == 'g++-11' }}
-        run: sudo apt-get install ${{ matrix.compiler }}
+      # ubuntu 22.04 has GCC 11 and clang 14
+      # - name: install missing compiler (ubuntu)
+      #   if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && matrix.compiler == 'g++-11' }}
+      #   run: sudo apt-get install ${{ matrix.compiler }}
       - name: check compiler (mac)
         if: ${{ env.SKIP == 'false' && runner.os == 'macOS' }}
         run: |
