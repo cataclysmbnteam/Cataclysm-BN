@@ -68,6 +68,7 @@ static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 
 static const construction_category_id construction_category_ALL( "ALL" );
+static const construction_category_id construction_category_FAVORITE( "FAVORITE" );
 static const construction_category_id construction_category_FILTER( "FILTER" );
 
 static const itype_id itype_2x4( "2x4" );
@@ -371,6 +372,21 @@ static nc_color construction_color( const construction_group_str_id &group, bool
     return highlight ? hilite( col ) : col;
 }
 
+static bool is_favorite( const construction_group_str_id &c )
+{
+    return uistate.favorite_construct_recipes.count( c ) > 0;
+}
+
+static void favorite_add( const construction_group_str_id &c )
+{
+    uistate.favorite_construct_recipes.insert( c );
+}
+
+static void favorite_remove( const construction_group_str_id &c )
+{
+    uistate.favorite_construct_recipes.erase( c );
+}
+
 cata::optional<construction_id> construction_menu( const bool blueprint )
 {
     if( !all_constructions.is_finalized() ) {
@@ -431,6 +447,7 @@ cata::optional<construction_id> construction_menu( const bool blueprint )
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" );
     ctxt.register_action( "QUIT" );
+    ctxt.register_action( "TOGGLE_FAVORITE" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "FILTER" );
     ctxt.register_action( "RESET_FILTER" );
@@ -634,8 +651,9 @@ cata::optional<construction_id> construction_menu( const bool blueprint )
             if( highlight ) {
                 cursor_pos = print_from;
             }
+            const std::string group_name = is_favorite( group ) ? "* " + group->name() : group->name();
             trim_and_print( w_list, print_from, w_list_width,
-                            construction_color( group, highlight ), group->name() );
+                            construction_color( group, highlight ), group_name );
         }
 
         // Clear out lines for tools & materials
@@ -720,6 +738,9 @@ cata::optional<construction_id> construction_menu( const bool blueprint )
                 [&]( const construction_group_str_id & group ) {
                     return lcmatch( group->name(), filter );
                 } );
+            } else if( category_id == construction_category_FAVORITE ) {
+                constructs.clear();
+                std::copy_if( available.begin(), available.end(), std::back_inserter( constructs ), is_favorite );
             } else {
                 constructs = cat_available[category_id];
             }
@@ -755,6 +776,16 @@ cata::optional<construction_id> construction_menu( const bool blueprint )
                 notes.push_back( string_format(
                                      _( "Press [<color_red>%s</color>] to show unavailable constructions." ),
                                      ctxt.get_desc( "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" ) ) );
+            }
+            if( select >= 0 && static_cast<size_t>( select ) < constructs.size() &&
+                is_favorite( constructs[select] ) ) {
+                notes.push_back( string_format(
+                                     _( "Press [<color_yellow>%s</color>] to remove from favorites." ),
+                                     ctxt.get_desc( "TOGGLE_FAVORITE" ) ) );
+            } else {
+                notes.push_back( string_format(
+                                     _( "Press [<color_yellow>%s</color>] to add to favorites." ),
+                                     ctxt.get_desc( "TOGGLE_FAVORITE" ) ) );
             }
             notes.push_back( string_format(
                                  _( "Press [<color_yellow>%s</color>] to view and edit keybindings." ),
@@ -830,6 +861,19 @@ cata::optional<construction_id> construction_menu( const bool blueprint )
             }
         } else if( action == "QUIT" ) {
             exit = true;
+        } else if( action == "TOGGLE_FAVORITE" ) {
+            if( constructs.empty() || select >= static_cast<int>( constructs.size() ) ) {
+                // Nothing to be done here
+                continue;
+            }
+            update_info = true;
+            update_cat = true;
+            const auto &c = constructs[select];
+            if( is_favorite( c ) ) {
+                favorite_remove( c );
+            } else {
+                favorite_add( c );
+            }
         } else if( action == "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" ) {
             update_info = true;
             update_cat = true;
