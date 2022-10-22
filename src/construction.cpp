@@ -278,6 +278,14 @@ static std::vector<const construction *> constructions_by_group( const construct
     return result;
 }
 
+static void sort_constructions_by_name( std::vector<construction_group_str_id> &list )
+{
+    std::sort( list.begin(), list.end(),
+    []( const construction_group_str_id & a, const construction_group_str_id & b ) {
+        return localized_compare( a->name(), b->name() );
+    } );
+}
+
 static void list_available_constructions( std::vector<construction_group_str_id> &available,
         std::map<construction_category_id, std::vector<construction_group_str_id>> &cat_available,
         bool hide_unconstructable )
@@ -309,6 +317,10 @@ static void list_available_constructions( std::vector<construction_group_str_id>
                 cat_available[c.category].push_back( c.group );
             }
         }
+    }
+    sort_constructions_by_name( available );
+    for( auto &it : cat_available ) {
+        sort_constructions_by_name( it.second );
     }
 }
 
