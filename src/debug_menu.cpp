@@ -1321,10 +1321,15 @@ void benchmark( const int max_difference, bench_kind kind )
     std::string msg_txt;
     switch( kind ) {
         case bench_kind::FPS:
-            msg_txt = _( "Refreshed %d times in %.3f seconds.  (%.3f fps average)" );
+            //~ 'Refresh' here means draw + display, i.e. includes OS display delay.
+            //~ This is the actual "FPS" people often measure in games.
+            msg_txt = _( "Refreshed %1$d times in %2$.3f seconds.  (%3$.3f fps average)" );
             break;
         case bench_kind::DRAW:
-            msg_txt = _( "Drew %d times in %.3f seconds.  (%.3f per second average)" );
+            //~ 'Draw' here means time taken to draw the scene without displaying it.
+            //~ It's a separate thing from "FPS", and is mostly useful for profiling
+            //~ draw calls and measuring OS display delay caused by UI sync.
+            msg_txt = _( "Drew %1$d times in %2$.3f seconds.  (%3$.3f per second average)" );
             break;
     }
     add_msg( m_info, msg_txt, draw_counter,
