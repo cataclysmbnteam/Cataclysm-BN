@@ -18,7 +18,7 @@
     "casing": "308_casing",
     "range": 65,
     "//": "Balanced as FMJ rather than JHP.",
-    "damage": { "damage_type": "bullet", "amount": 58, "armor_penetration": 33 },
+    "damage": { "damage_type": "bullet", "amount": 55, "armor_penetration": 31 },
     "dispersion": 15,
     "recoil": 3000,
     "effects": [ "COOKOFF" ]
@@ -30,7 +30,7 @@
     "name": { "str": "7.62x51mm M80" },
     "casing": "762_51_casing",
     "description": "A 7.62x51mm NATO round with a 147gr FMJ bullet.  It is a powerful rifle cartridge commonly used by hunters and military snipers because of its high accuracy and long range.",
-    "relative": { "damage": { "damage_type": "bullet", "amount": -7, "armor_penetration": 18 }, "dispersion": -10 },
+    "relative": { "damage": { "damage_type": "bullet", "amount": -7, "armor_penetration": 17 }, "dispersion": -10 },
     "proportional": { "recoil": 1.1 },
     "extend": { "effects": [ "NEVER_MISFIRES" ] }
   },
