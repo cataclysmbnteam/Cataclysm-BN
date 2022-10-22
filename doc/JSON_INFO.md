@@ -3408,7 +3408,7 @@ Example:
     // List of mod's dependencies. Dependencies are guaranteed to be loaded before the mod is loaded.
     "dependencies": [ "dda", "zed_templates" ],
     // List of mods that are incompatible with this mod.
-    "conflics": [ "worse_zeds" ],
+    "conflicts": [ "worse_zeds" ],
     // Special flag for core game data, can only be used by total overhaul mods. Only 1 core mod can be loaded at a time.
     "core": false,
     // Marks mod as obsolete. Obsolete mods don't show up in mod selection list by default, and have a warning on them.

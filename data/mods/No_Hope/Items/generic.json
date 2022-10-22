@@ -213,7 +213,7 @@
   {
     "type": "GENERIC",
     "id": "spidery_legs_big",
-    "name": { "str_sp": "set of spidery legs" },
+    "name": { "str": "set of spidery legs", "str_pl": "sets of spidery legs" },
     "description": "A set of big pointy legs, like the ones found under a tripod.",
     "symbol": "W",
     "color": "light_gray",

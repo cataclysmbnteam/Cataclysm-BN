@@ -532,8 +532,8 @@ bool Character::activate_bionic( int b, bool eff_only )
     bionic &bio = ( *my_bionics )[b];
     const bool mounted = is_mounted();
     if( bio.incapacitated_time > 0_turns ) {
-        add_msg( m_info, _( "Your %s is shorting out and can't be activated." ),
-                 bio.info().name );
+        add_msg_if_player( m_info, _( "Your %s is shorting out and can't be activated." ),
+                           bio.info().name );
         return false;
     }
 
@@ -1066,8 +1066,8 @@ bool Character::deactivate_bionic( int b, bool eff_only )
     bionic &bio = ( *my_bionics )[b];
 
     if( bio.incapacitated_time > 0_turns ) {
-        add_msg( m_info, _( "Your %s is shorting out and can't be deactivated." ),
-                 bio.info().name );
+        add_msg_if_player( m_info, _( "Your %s is shorting out and can't be deactivated." ),
+                           bio.info().name );
         return false;
     }
 
@@ -1089,8 +1089,8 @@ bool Character::deactivate_bionic( int b, bool eff_only )
             return false;
         }
         if( get_power_level() < bio.info().power_deactivate ) {
-            add_msg( m_info, _( "You don't have the power to deactivate your %s." ),
-                     bio.info().name );
+            add_msg_if_player( m_info, _( "You don't have the power to deactivate your %s." ),
+                               bio.info().name );
             return false;
         }
 

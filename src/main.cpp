@@ -40,6 +40,7 @@
 #include "path_info.h"
 #include "rng.h"
 #include "type_id.h"
+#include "ui_manager.h"
 
 class ui_adaptor;
 
@@ -121,6 +122,8 @@ static void signal_handler( int signal )
         inp_mngr.reset_timeout();
         bool confirmed = query_yn( _( "Really Quit?  All unsaved changes will be lost." ) );
         inp_mngr.set_timeout( old_timeout );
+        ui_manager::redraw_invalidated();
+        catacurses::doupdate();
         if( !confirmed ) {
             return;
         }

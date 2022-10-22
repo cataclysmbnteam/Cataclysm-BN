@@ -524,13 +524,17 @@ void game::toggle_pixel_minimap()
 void game::reload_tileset()
 {
 #if defined(TILES)
+    // Disable UIs below to avoid accessing the tile context during loading.
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
     try {
         tilecontext->reinit();
         std::vector<mod_id> dummy;
         tilecontext->load_tileset(
             get_option<std::string>( "TILES" ),
             world_generator->active_world ? world_generator->active_world->active_mod_order : dummy,
-            false, true
+            /*precheck=*/false,
+            /*force=*/true,
+            /*pump_events=*/true
         );
         tilecontext->do_tile_loading_report();
     } catch( const std::exception &err ) {
@@ -639,15 +643,16 @@ special_game_id game::gametype() const
     return gamemode ? gamemode->id() : SGAME_NULL;
 }
 
-void game::load_map( const tripoint &pos_sm )
+void game::load_map( const tripoint &pos_sm, const bool pump_events )
 {
     // TODO: fix point types
-    load_map( tripoint_abs_sm( pos_sm ) );
+    load_map( tripoint_abs_sm( pos_sm ), pump_events );
 }
 
-void game::load_map( const tripoint_abs_sm &pos_sm )
+void game::load_map( const tripoint_abs_sm &pos_sm,
+                     const bool pump_events )
 {
-    m.load( pos_sm, true );
+    m.load( pos_sm, true, pump_events );
     grid_tracker_ptr->load( m );
 }
 
@@ -713,7 +718,7 @@ bool game::start_game()
     // The player is centered in the map, but lev[xyz] refers to the top left point of the map
     lev.x -= HALF_MAPSIZE;
     lev.y -= HALF_MAPSIZE;
-    load_map( lev );
+    load_map( lev, /*pump_events=*/true );
 
     m.invalidate_map_cache( get_levz() );
     m.build_map_cache( get_levz() );
@@ -5100,27 +5105,27 @@ void game::exam_vehicle( vehicle &veh, const point &c )
 
 bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int bash_dmg )
 {
-    // TODO: Z
-    const int &x = p.x;
-    const int &y = p.y;
-    const std::string &door_name = door_type.obj().name();
-    // sed when player/monsters are knocked back and when moving items out of the way
-    point kb( x, y );
     const auto valid_location = [&]( const tripoint & p ) {
         return g->is_empty( p );
     };
-    if( const cata::optional<tripoint> pos = random_point( m.points_in_radius( p, 2 ),
-            valid_location ) ) {
-        kb.x = -pos->x + x + x;
-        kb.y = -pos->y + y + y;
-    }
-    const tripoint kbp( kb, p.z );
-    if( kbp == p ) {
-        // can't pushback any creatures anywhere, that means the door can't close.
-        return false;
-    }
-    const bool can_see = u.sees( tripoint( x, y, p.z ) );
-    player *npc_or_player = critter_at<player>( tripoint( x, y, p.z ), false );
+    const auto get_random_point = [&]() -> tripoint {
+        if( auto pos = random_point( m.points_in_radius( p, 2 ), valid_location ) )
+        {
+            return  p * 2 - ( *pos );
+        } else
+        {
+            return p;
+        }
+    };
+
+    const std::string &door_name = door_type.obj().name();
+    const tripoint kbp = get_random_point();
+
+    // can't pushback any creatures/items anywhere, that means the door can't close.
+    const bool cannot_push = kbp == p;
+    const bool can_see = u.sees( p );
+
+    player *npc_or_player = critter_at<player>( p, false );
     if( npc_or_player != nullptr ) {
         if( bash_dmg <= 0 ) {
             return false;
@@ -5135,6 +5140,9 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
         }
         // TODO: make the npc angry?
         npc_or_player->hitall( bash_dmg, 0, nullptr );
+        if( cannot_push ) {
+            return false;
+        }
         knockback( kbp, p, std::max( 1, bash_dmg / 10 ), -1, 1 );
         // TODO: perhaps damage/destroy the gate
         // if the npc was really big?
@@ -5161,6 +5169,9 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
         }
         if( !critter.is_dead() ) {
             // Still alive? Move the critter away so the door can close
+            if( cannot_push ) {
+                return false;
+            }
             knockback( kbp, p, std::max( 1, bash_dmg / 10 ), -1, 1 );
             if( critter_at( p ) ) {
                 return false;
@@ -5179,11 +5190,11 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
             return false;
         }
     }
-    if( bash_dmg < 0 && !m.i_at( point( x, y ) ).empty() ) {
+    if( bash_dmg < 0 && !m.i_at( p ).empty() ) {
         return false;
     }
     if( bash_dmg == 0 ) {
-        for( auto &elem : m.i_at( point( x, y ) ) ) {
+        for( auto &elem : m.i_at( p ) ) {
             if( elem.made_of( LIQUID ) ) {
                 // Liquids are OK, will be destroyed later
                 continue;
@@ -5196,9 +5207,9 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
         }
     }
 
-    m.ter_set( point( x, y ), door_type );
-    if( m.has_flag( "NOITEM", point( x, y ) ) ) {
-        map_stack items = m.i_at( point( x, y ) );
+    m.ter_set( p, door_type );
+    if( m.has_flag( "NOITEM", p ) ) {
+        map_stack items = m.i_at( p );
         for( map_stack::iterator it = items.begin(); it != items.end(); ) {
             if( it->made_of( LIQUID ) ) {
                 it = items.erase( it );
@@ -5213,6 +5224,9 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
                 it = items.erase( it );
                 continue;
             }
+            if( cannot_push ) {
+                return false;
+            }
             m.add_item_or_charges( kbp, *it );
             it = items.erase( it );
         }
@@ -5220,9 +5234,9 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
     return true;
 }
 
-void game::open_gate( const tripoint &p )
+void game::toggle_gate( const tripoint &p )
 {
-    gates::open_gate( p, u );
+    gates::toggle_gate( p, u );
 }
 
 void game::moving_vehicle_dismount( const tripoint &dest_loc )
@@ -6651,21 +6665,21 @@ void game::pre_print_all_tile_info( const tripoint &lp, const catacurses::window
     print_all_tile_info( lp, w_info, area_name, 1, first_line, last_line, cache );
 }
 
-cata::optional<tripoint> game::look_around()
+cata::optional<tripoint> game::look_around( bool force_3d )
 {
     tripoint center = u.pos() + u.view_offset;
     look_around_result result = look_around( /*show_window=*/true, center, center, false, false,
-                                false );
+                                false, false, tripoint_zero, force_3d );
     return result.position;
 }
 
 look_around_result game::look_around( bool show_window, tripoint &center,
                                       const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking,
-                                      bool is_moving_zone, const tripoint &end_point )
+                                      bool is_moving_zone, const tripoint &end_point, bool force_3d )
 {
     bVMonsterLookFire = false;
     // TODO: Make this `true`
-    const bool allow_zlev_move = m.has_zlevels() && get_option<bool>( "FOV_3D" );
+    const bool allow_zlev_move = m.has_zlevels() && ( get_option<bool>( "FOV_3D" ) || force_3d );
 
     temp_exit_fullscreen();
 
@@ -6750,8 +6764,10 @@ look_around_result game::look_around( bool show_window, tripoint &center,
 #endif // TILES
 
     const int old_levz = get_levz();
-    const int min_levz = std::max( old_levz - fov_3d_z_range, -OVERMAP_DEPTH );
-    const int max_levz = std::min( old_levz + fov_3d_z_range, OVERMAP_HEIGHT );
+    const int min_levz = force_3d ? -OVERMAP_DEPTH : std::max( old_levz - fov_3d_z_range,
+                         -OVERMAP_DEPTH );
+    const int max_levz = force_3d ? OVERMAP_HEIGHT : std::min( old_levz + fov_3d_z_range,
+                         OVERMAP_HEIGHT );
 
     m.update_visibility_cache( old_levz );
     const visibility_variables &cache = m.get_visibility_variables_cache();
@@ -7011,10 +7027,10 @@ std::vector<map_item_stack> game::find_nearby_items( int iRadius )
         return ret;
     }
 
-    int range = fov_3d ? fov_3d_z_range : 0;
+    int range = fov_3d ? ( fov_3d_z_range * 2 ) + 1 : 1;
     int center_z = u.pos().z;
 
-    for( int i = 0; i <= range * 2; i++ ) {
+    for( int i = 1; i <= range; i++ ) {
         int z = i % 2 ? center_z - i / 2 : center_z + i / 2;
         for( auto &points_p_it : closest_points_first( {u.pos().xy(), z}, iRadius ) ) {
             if( points_p_it.y >= u.posy() - iRadius && points_p_it.y <= u.posy() + iRadius &&
@@ -8708,7 +8724,8 @@ bool game::disable_robot( const tripoint &p )
         return false;
     }
     monster &critter = *mon_ptr;
-    if( critter.friendly == 0 || critter.has_flag( MF_RIDEABLE_MECH ) ||
+    if( critter.friendly == 0 || critter.has_effect( effect_pet ) ||
+        critter.has_flag( MF_RIDEABLE_MECH ) ||
         ( critter.has_flag( MF_PAY_BOT ) && critter.has_effect( effect_paid ) ) ) {
         // Can only disable / reprogram friendly monsters
         return false;
@@ -9955,6 +9972,7 @@ void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
         prev_point = pt;
         if( animate && ( seen || u.sees( *c ) ) ) {
             invalidate_main_ui_adaptor();
+            inp_mngr.pump_events();
             ui_manager::redraw_invalidated();
             refresh_display();
         }

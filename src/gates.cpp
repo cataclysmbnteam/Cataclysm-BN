@@ -165,7 +165,7 @@ void gates::reset()
 //  !|   |!        !   |
 //
 
-void gates::open_gate( const tripoint &pos )
+void gates::toggle_gate( const tripoint &pos )
 {
     const gate_id gid = get_gate_id( pos );
 
@@ -233,7 +233,7 @@ void gates::open_gate( const tripoint &pos )
     }
 }
 
-void gates::open_gate( const tripoint &pos, player &p )
+void gates::toggle_gate( const tripoint &pos, player &p )
 {
     const gate_id gid = get_gate_id( pos );
 
@@ -245,7 +245,7 @@ void gates::open_gate( const tripoint &pos, player &p )
     const gate_data &gate = gates_data.obj( gid );
 
     p.add_msg_if_player( gate.pull_message );
-    p.assign_activity( player_activity( open_gate_activity_actor(
+    p.assign_activity( player_activity( toggle_gate_activity_actor(
                                             gate.moves,
                                             pos
                                         ) ) );
