@@ -2732,7 +2732,7 @@ void game::load_world_modfiles( loading_ui &ui )
     if( std::none_of( mods.begin(), mods.end(), []( const mod_id & e ) {
     return e->core;
 } ) ) {
-        mods.insert( mods.begin(), mod_id( "dda" ) );
+        mods.insert( mods.begin(), mod_management::get_default_core_content_pack() );
     }
 
     load_artifacts( get_world_base_save_path() + "/" + SAVE_ARTIFACTS );

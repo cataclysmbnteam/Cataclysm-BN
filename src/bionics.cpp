@@ -281,7 +281,7 @@ void bionic_data::reset()
 
 void bionic_data::load( const JsonObject &jsobj, const std::string src )
 {
-    bool strict = src == "dda";
+    const bool strict = is_strict_enabled( src );
 
     mandatory( jsobj, was_loaded, "name", name );
     mandatory( jsobj, was_loaded, "description", description );

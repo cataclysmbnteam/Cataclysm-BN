@@ -682,7 +682,7 @@ class mon_attack_effect_reader : public generic_typed_reader<mon_attack_effect_r
 
 void mtype::load( const JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "dda";
+    const bool strict = is_strict_enabled( src );
 
     MonsterGenerator &gen = MonsterGenerator::generator();
 
@@ -1052,7 +1052,7 @@ mtype_special_attack MonsterGenerator::create_actor( const JsonObject &obj,
 
 void mattack_actor::load( const JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "dda";
+    const bool strict = is_strict_enabled( src );
 
     // Legacy support
     if( !jo.has_string( "id" ) ) {
