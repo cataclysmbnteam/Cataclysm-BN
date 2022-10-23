@@ -6,7 +6,7 @@
     "authors": [ "tungtn" ],
     "description": "Removes survivor armor.",
     "category": "item_exclude",
-    "dependencies": [ "dda" ],
+    "dependencies": [ "bn" ],
     "obsolete": true
   }
 ]
