@@ -66,6 +66,7 @@
 #include "dependency_tree.h"
 #include "distribution_grid.h"
 #include "drop_token.h"
+#include "distraction_manager.h"
 #include "editmap.h"
 #include "enums.h"
 #include "event.h"
@@ -343,6 +344,7 @@ void game::load_static_data()
 
     get_auto_pickup().load_global();
     get_safemode().load_global();
+    get_distraction_manager().load();
 }
 
 bool game::check_mod_data( const std::vector<mod_id> &opts, loading_ui &ui )
@@ -670,6 +672,7 @@ bool game::start_game()
     safe_mode = ( get_option<bool>( "SAFEMODE" ) ? SAFE_MODE_ON : SAFE_MODE_OFF );
     mostseen = 0; // ...and mostseen is 0, we haven't seen any monsters yet.
     get_safemode().load_global();
+    get_distraction_manager().load();
 
     init_autosave();
 
@@ -1740,7 +1743,8 @@ void game::process_voluntary_act_interrupt()
     }
 
     // If player is performing a task and a monster is dangerously close, warn them
-    // regardless of previous safemode warnings
+    // regardless of previous safemode warnings.
+    // Distraction Manager can change this.
     if( has_activity && !u.has_activity( activity_id( "ACT_AIM" ) ) &&
         !u.activity.is_distraction_ignored( distraction_type::hostile_spotted_near ) ) {
         Creature *hostile_critter = is_hostile_very_close();
@@ -1830,6 +1834,7 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
                                    text, u.activity.get_stop_phrase() )
                          .option( "YES", allow_key )
                          .option( "NO", allow_key )
+                         .option( "MANAGER", allow_key )
                          .option( "IGNORE", allow_key )
                          .query()
                          .action;
@@ -1843,6 +1848,11 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
         for( auto &activity : u.backlog ) {
             activity.ignore_distraction( type );
         }
+    }
+    if( action == "MANAGER" ) {
+        u.cancel_activity();
+        get_distraction_manager().show();
+        return true;
     }
 
     ui_manager::redraw();
@@ -2301,6 +2311,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "open_autopickup" );
     ctxt.register_action( "open_autonotes" );
     ctxt.register_action( "open_safemode" );
+    ctxt.register_action( "open_distraction_manager" );
     ctxt.register_action( "open_color" );
     ctxt.register_action( "open_world_mods" );
     ctxt.register_action( "debug" );
@@ -4267,7 +4278,7 @@ void game::monmove()
             !critter.is_hallucination() ) {
             u.mod_power_level( -25_kJ );
             add_msg( m_warning, _( "Your motion alarm goes off!" ) );
-            cancel_activity_or_ignore_query( distraction_type::motion_alarm,
+            cancel_activity_or_ignore_query( distraction_type::alert,
                                              _( "Your motion alarm goes off!" ) );
             if( u.has_effect( efftype_id( "sleep" ) ) ) {
                 u.wake_up();
