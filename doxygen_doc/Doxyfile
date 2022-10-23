@@ -415,7 +415,7 @@ TYPEDEF_HIDES_STRUCT   = NO
 # range is 0..9, the default is 0, corresponding to a cache size of 2^16 = 65536
 # symbols.
 
-LOOKUP_CACHE_SIZE      = 0
+LOOKUP_CACHE_SIZE      = 4
 
 #---------------------------------------------------------------------------
 # Build related configuration options
@@ -1642,7 +1642,7 @@ EXPAND_ONLY_PREDEF     = NO
 # If the SEARCH_INCLUDES tag is set to YES (the default) the includes files
 # pointed to by INCLUDE_PATH will be searched when a #include is found.
 
-SEARCH_INCLUDES        = YES
+SEARCH_INCLUDES        = NO
 
 # The INCLUDE_PATH tag can be used to specify one or more directories that
 # contain include files that are not input files but should be processed by
