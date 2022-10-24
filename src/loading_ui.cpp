@@ -5,6 +5,7 @@
 
 #include "cached_options.h"
 #include "color.h"
+#include "input.h"
 #include "output.h"
 #include "sdl_wrappers.h"
 #include "translations.h"
@@ -79,8 +80,6 @@ void loading_ui::show()
     if( menu != nullptr ) {
         ui_manager::redraw();
         refresh_display();
-#if defined(TILES)
-        SDL_PumpEvents();
-#endif // TILES
+        inp_mngr.pump_events();
     }
 }

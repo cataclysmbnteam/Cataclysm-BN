@@ -2,7 +2,7 @@
   {
     "type": "construction",
     "id": "constr_deconstruct",
-    "description": "Deconstruct Furniture",
+    "group": "deconstruct_furniture",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "20 m",
@@ -14,7 +14,7 @@
   {
     "type": "construction",
     "id": "constr_deconstruct_simple",
-    "description": "Deconstruct Simple Furniture",
+    "group": "deconstruct_simple_furniture",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "10 m",
@@ -28,7 +28,7 @@
   {
     "type": "construction",
     "id": "constr_crafting_spot",
-    "description": "Make crafting spot",
+    "group": "make_crafting_spot",
     "category": "OTHER",
     "required_skills": [  ],
     "time": "0 m",
@@ -36,12 +36,12 @@
     "pre_special": "check_empty",
     "post_flags": [ "keep_items" ],
     "dark_craftable": true,
-    "post_terrain": "f_ground_crafting_spot"
+    "post_furniture": "f_ground_crafting_spot"
   },
   {
     "type": "construction",
     "id": "constr_pit_spiked",
-    "description": "Spike Pit",
+    "group": "spike_pit",
     "category": "DIG",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "5 m",
@@ -52,7 +52,7 @@
   {
     "type": "construction",
     "id": "constr_pit_glass",
-    "description": "Glass Pit",
+    "group": "glass_pit",
     "category": "DIG",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "5 m",
@@ -63,7 +63,7 @@
   {
     "type": "construction",
     "id": "constr_chop_trunk",
-    "description": "Chop Tree Trunk Into Planks",
+    "group": "chop_tree_trunk_into_planks",
     "category": "FARM_WOOD",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "60 m",
@@ -76,7 +76,7 @@
   {
     "type": "construction",
     "id": "constr_improvised_shelter",
-    "description": "Build Improvised Shelter",
+    "group": "build_improvised_shelter",
     "category": "CONSTRUCT",
     "required_skills": [ [ "survival", 2 ] ],
     "time": "60 m",
@@ -89,7 +89,7 @@
   {
     "type": "construction",
     "id": "constr_door_curtain",
-    "description": "Build Door Curtain",
+    "group": "build_door_curtain",
     "//": "Door frame not required",
     "category": "CONSTRUCT",
     "required_skills": [ [ "tailor", 1 ] ],
@@ -108,7 +108,7 @@
   {
     "type": "construction",
     "id": "constr_beaded_door",
-    "description": "Build Beaded Curtain",
+    "group": "build_beaded_curtain",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "60 m",
@@ -116,12 +116,12 @@
     "components": [ [ [ "wooden_bead", 2000 ] ], [ [ "stick_long", 1 ] ], [ [ "string_36", 20 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_terrain": "t_door_frame",
-    "post_terrain": "f_beaded_door"
+    "post_furniture": "f_beaded_door"
   },
   {
     "type": "construction",
     "id": "constr_door_makeshift",
-    "description": "Build Makeshift Door",
+    "group": "build_makeshift_door",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
@@ -134,7 +134,7 @@
   {
     "type": "construction",
     "id": "constr_door_frame",
-    "description": "Build Door",
+    "group": "build_door",
     "//": "Step 1: door frame",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 1 ] ],
@@ -147,7 +147,7 @@
   {
     "type": "construction",
     "id": "constr_door",
-    "description": "Build Door",
+    "group": "build_door",
     "//": "Step 2: door",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
@@ -160,7 +160,7 @@
   {
     "type": "construction",
     "id": "constr_fill_water_sh",
-    "description": "Fill Shallow Water With Dirt",
+    "group": "fill_shallow_water_with_dirt",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "60 m",
@@ -173,7 +173,7 @@
   {
     "type": "construction",
     "id": "constr_fill_swater_sh",
-    "description": "Fill Salt Water With Dirt",
+    "group": "fill_salt_water_with_dirt",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "60 m",
@@ -186,7 +186,7 @@
   {
     "type": "construction",
     "id": "constr_door_peep",
-    "description": "Build Door",
+    "group": "build_door",
     "//": "Step 3: peephole",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
@@ -199,7 +199,7 @@
   {
     "type": "construction",
     "id": "constr_repair_door",
-    "description": "Repair Wood Door",
+    "group": "repair_wood_door",
     "//": "Repair the regular door",
     "category": "REPAIR",
     "required_skills": [ [ "fabrication", 1 ] ],
@@ -212,7 +212,7 @@
   {
     "type": "construction",
     "id": "constr_repair_door_peep",
-    "description": "Repair Wood Door",
+    "group": "repair_wood_door",
     "//": "Repair the peephole door",
     "category": "REPAIR",
     "required_skills": [ [ "fabrication", 1 ] ],
@@ -225,7 +225,7 @@
   {
     "type": "construction",
     "id": "constr_repair_rdoor",
-    "description": "Repair Wood Door",
+    "group": "repair_wood_door",
     "//": "Repair the reinforced door",
     "category": "REPAIR",
     "required_skills": [ [ "fabrication", 2 ] ],
@@ -238,7 +238,7 @@
   {
     "type": "construction",
     "id": "constr_door_boarded",
-    "description": "Board Up Wood Door",
+    "group": "board_up_wood_door",
     "//": "regular door",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 0 ] ],
@@ -251,7 +251,7 @@
   {
     "type": "construction",
     "id": "constr_door_boarded_peep",
-    "description": "Board Up Wood Door",
+    "group": "board_up_wood_door",
     "//": "peephole door",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 0 ] ],
@@ -264,7 +264,7 @@
   {
     "type": "construction",
     "id": "constr_door_boarded_damaged",
-    "description": "Board Up Wood Door",
+    "group": "board_up_wood_door",
     "//": "boarded damaged door",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 0 ] ],
@@ -277,7 +277,7 @@
   {
     "type": "construction",
     "id": "constr_door_boarded_damaged_peep",
-    "description": "Board Up Wood Door",
+    "group": "board_up_wood_door",
     "//": "boarded damaged peephole door",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 0 ] ],
@@ -290,7 +290,7 @@
   {
     "type": "construction",
     "id": "constr_rdoor_boarded",
-    "description": "Board Up Wood Door",
+    "group": "board_up_wood_door",
     "//": "the reinforced doors",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 0 ] ],
@@ -303,7 +303,7 @@
   {
     "type": "construction",
     "id": "constr_rdoor_boarded_damaged",
-    "description": "Board Up Wood Door",
+    "group": "board_up_wood_door",
     "//": "damaged reinforced doors",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 0 ] ],
@@ -316,7 +316,7 @@
   {
     "type": "construction",
     "id": "constr_rdoor",
-    "description": "Reinforce Wood Door",
+    "group": "reinforce_wood_door",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "45 m",
@@ -328,7 +328,7 @@
   {
     "type": "construction",
     "id": "constr_mdoor_frame",
-    "description": "Build Metal Door",
+    "group": "build_metal_door",
     "//": "step 1: door frame",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
@@ -341,7 +341,7 @@
   {
     "type": "construction",
     "id": "constr_door_metal",
-    "description": "Build Metal Door",
+    "group": "build_metal_door",
     "//": "Step 2: metal door",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 7 ] ],
@@ -358,7 +358,7 @@
   {
     "type": "construction",
     "id": "constr_door_metal_peep",
-    "description": "Build Metal Door",
+    "group": "build_metal_door",
     "//": "Step 3: peephole",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
@@ -371,7 +371,7 @@
   {
     "type": "construction",
     "id": "constr_window_empty",
-    "description": "Build Window",
+    "group": "build_window",
     "//": "Step 1: window frame",
     "category": "WINDOWS",
     "required_skills": [ [ "fabrication", 2 ] ],
@@ -384,7 +384,7 @@
   {
     "type": "construction",
     "id": "constr_window_no_curtains",
-    "description": "Build Window",
+    "group": "build_window",
     "//": "Step 2: window, no curtains",
     "category": "WINDOWS",
     "required_skills": [ [ "fabrication", 3 ] ],
@@ -396,7 +396,7 @@
   {
     "type": "construction",
     "id": "constr_window_domestic",
-    "description": "Build Window",
+    "group": "build_window",
     "//": "Step 3: window with curtains",
     "category": "WINDOWS",
     "required_skills": [ [ "fabrication", 2 ] ],
@@ -409,7 +409,7 @@
   {
     "type": "construction",
     "id": "constr_clean_broken_window",
-    "description": "Clean Broken Window",
+    "group": "clean_broken_window",
     "category": "REPAIR",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "5 m",
@@ -421,7 +421,7 @@
   {
     "type": "construction",
     "id": "constr_window_taped",
-    "description": "Tape Up Window",
+    "group": "tape_up_window",
     "//": "Need a recipe for each type of window tapable due to how code works",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 0 ] ],
@@ -434,7 +434,7 @@
   {
     "type": "construction",
     "id": "constr_window_domestic_taped",
-    "description": "Tape Up Window",
+    "group": "tape_up_window",
     "//": "Need a recipe for each type of window tapable due to how code works",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 0 ] ],
@@ -447,7 +447,7 @@
   {
     "type": "construction",
     "id": "constr_window_alarm_taped",
-    "description": "Tape Up Window",
+    "group": "tape_up_window",
     "//": "Need a recipe for each type of window tapable due to how code works",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 0 ] ],
@@ -460,7 +460,7 @@
   {
     "type": "construction",
     "id": "constr_window_no_curtains_taped",
-    "description": "Tape Up Window",
+    "group": "tape_up_window",
     "//": "Need a recipe for each type of window tapable due to how code works",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 0 ] ],
@@ -473,7 +473,7 @@
   {
     "type": "construction",
     "id": "constr_revert_window_taped",
-    "description": "Remove Tape from Window",
+    "group": "remove_tape_from_window",
     "//": "Need a recipe for each type of window tapable due to how code works",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 0 ] ],
@@ -485,7 +485,7 @@
   {
     "type": "construction",
     "id": "constr_revert_window_domestic_taped",
-    "description": "Remove Tape from Window",
+    "group": "remove_tape_from_window",
     "//": "Need a recipe for each type of window tapable due to how code works",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 0 ] ],
@@ -497,7 +497,7 @@
   {
     "type": "construction",
     "id": "constr_revert_window_alarm_taped",
-    "description": "Remove Tape from Window",
+    "group": "remove_tape_from_window",
     "//": "Need a recipe for each type of window tapable due to how code works",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 0 ] ],
@@ -509,7 +509,7 @@
   {
     "type": "construction",
     "id": "constr_revert_window_no_curtains_taped",
-    "description": "Remove Tape from Window",
+    "group": "remove_tape_from_window",
     "//": "Need a recipe for each type of window tapable due to how code works",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 0 ] ],
@@ -521,7 +521,7 @@
   {
     "type": "construction",
     "id": "constr_window_boarded",
-    "description": "Board Up Window",
+    "group": "board_up_window",
     "//": "Board up normal window",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 0 ] ],
@@ -534,7 +534,7 @@
   {
     "type": "construction",
     "id": "constr_window_boarded_curtains",
-    "description": "Board Up Window",
+    "group": "board_up_window",
     "//": "Board up window with curtains",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 0 ] ],
@@ -548,7 +548,7 @@
   {
     "type": "construction",
     "id": "constr_window_boarded_noglass_empty",
-    "description": "Board Up Window",
+    "group": "board_up_window",
     "//": "Board up empty window",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 0 ] ],
@@ -561,7 +561,7 @@
   {
     "type": "construction",
     "id": "constr_window_boarded_noglass_frame",
-    "description": "Board Up Window",
+    "group": "board_up_window",
     "//": "Board up window frame only",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 0 ] ],
@@ -574,7 +574,7 @@
   {
     "type": "construction",
     "id": "constr_window_reinforced",
-    "description": "Reinforce Boarded Window",
+    "group": "reinforce_boarded_window",
     "//": "For regular windows",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 3 ] ],
@@ -587,7 +587,7 @@
   {
     "type": "construction",
     "id": "constr_window_reinforced_noglass",
-    "description": "Reinforce Boarded Window",
+    "group": "reinforce_boarded_window",
     "//": "For windows with no glass that were barricaded",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 3 ] ],
@@ -600,7 +600,7 @@
   {
     "type": "construction",
     "id": "constr_window_enhanced",
-    "description": "Armor Reinforced Window",
+    "group": "armor_reinforced_window",
     "//": "Armor up regular reinforced window",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 6 ] ],
@@ -613,7 +613,7 @@
   {
     "type": "construction",
     "id": "constr_window_enhanced_noglass",
-    "description": "Armor Reinforced Window",
+    "group": "armor_reinforced_window",
     "//": "When underlying window has no glass",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 6 ] ],
@@ -626,7 +626,7 @@
   {
     "type": "construction",
     "id": "constr_bars",
-    "description": "Build Metal Bars",
+    "group": "build_metal_bars",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 5 ] ],
     "time": "60 m",
@@ -639,7 +639,7 @@
   {
     "type": "construction",
     "id": "constr_wall_wattle_half",
-    "description": "Build Wattle-and-Daub Wall",
+    "group": "build_wattle_and_daub_wall",
     "//": "Step 1: half of a wall in an empty space",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
@@ -658,7 +658,7 @@
   {
     "type": "construction",
     "id": "constr_wall_wattle",
-    "description": "Build Wattle-and-Daub Wall",
+    "group": "build_wattle_and_daub_wall",
     "//": "Step 2: complete the half made wall",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
@@ -677,7 +677,7 @@
   {
     "type": "construction",
     "id": "constr_repair_wall_wattle",
-    "description": "Repair Wattle-and-Daub Wall",
+    "group": "repair_wattle_and_daub_wall",
     "category": "REPAIR",
     "required_skills": [ [ "fabrication", 2 ], [ "survival", 2 ] ],
     "time": "30 m",
@@ -695,7 +695,7 @@
   {
     "type": "construction",
     "id": "constr_wall_half_window_empty",
-    "description": "Build Wood Wall",
+    "group": "build_wood_wall",
     "//": "Step 1: half of a wall where a window used to be",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
@@ -708,7 +708,7 @@
   {
     "type": "construction",
     "id": "constr_wall_half",
-    "description": "Build Wood Wall",
+    "group": "build_wood_wall",
     "//": "Step 1: frame wall in an empty space",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
@@ -721,7 +721,7 @@
   {
     "type": "construction",
     "id": "constr_wall_wood",
-    "description": "Build Wood Wall",
+    "group": "build_wood_wall",
     "//": "Step 2: complete the half made wall by putting paneling on it",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
@@ -734,7 +734,7 @@
   {
     "type": "construction",
     "id": "constr_repair_wall_wood",
-    "description": "Repair Wood Wall",
+    "group": "repair_wood_wall",
     "//": "fix a chip",
     "category": "REPAIR",
     "required_skills": [ [ "fabrication", 1 ] ],
@@ -747,7 +747,7 @@
   {
     "type": "construction",
     "id": "constr_repair_wall_wood_chipped",
-    "description": "Repair Wood Wall",
+    "group": "repair_wood_wall",
     "//": "fix the broken to chipped",
     "category": "REPAIR",
     "required_skills": [ [ "fabrication", 1 ] ],
@@ -760,7 +760,7 @@
   {
     "type": "construction",
     "id": "constr_wall_log_half",
-    "description": "Build Log Wall",
+    "group": "build_log_wall",
     "//": "Step 1: half of a log wall",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
@@ -773,20 +773,15 @@
   {
     "type": "construction",
     "id": "constr_wall_log",
-    "description": "Build Log Wall",
+    "copy-from": "constr_wall_log_half",
     "//": "Step 2: Finish the log wall",
-    "category": "CONSTRUCT",
-    "required_skills": [ [ "fabrication", 3 ] ],
-    "time": "60 m",
-    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "log", 2 ] ], [ [ "stick", 3 ], [ "2x4", 6 ] ] ],
     "pre_terrain": "t_wall_log_half",
     "post_terrain": "t_wall_log"
   },
   {
     "type": "construction",
     "id": "constr_repair_wall_log",
-    "description": "Repair Log Wall",
+    "group": "repair_log_wall",
     "//": "Fix the chipped back to normal",
     "category": "REPAIR",
     "required_skills": [ [ "fabrication", 2 ] ],
@@ -799,7 +794,7 @@
   {
     "type": "construction",
     "id": "constr_repair_wall_log_chipped",
-    "description": "Repair Log Wall",
+    "group": "repair_log_wall",
     "//": "fix broken back to chipped",
     "category": "REPAIR",
     "required_skills": [ [ "fabrication", 2 ] ],
@@ -812,7 +807,7 @@
   {
     "type": "construction",
     "id": "constr_sandbag_half",
-    "description": "Build Sandbag Wall",
+    "group": "build_sandbag_wall",
     "//": "Step 1: Build sandbag barricade",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
@@ -821,26 +816,26 @@
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
     "dark_craftable": true,
-    "post_terrain": "f_sandbag_half"
+    "post_furniture": "f_sandbag_half"
   },
   {
     "type": "construction",
     "id": "constr_sandbag_wall",
-    "description": "Build Sandbag Wall",
+    "group": "build_sandbag_wall",
     "//": "Step 2: Finish the sandbag wall",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "20 m",
     "components": [ [ [ "sandbag", 20 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
-    "pre_terrain": "f_sandbag_half",
+    "pre_furniture": "f_sandbag_half",
     "dark_craftable": true,
-    "post_terrain": "f_sandbag_wall"
+    "post_furniture": "f_sandbag_wall"
   },
   {
     "type": "construction",
     "id": "constr_earthbag_half",
-    "description": "Build Earthbag Wall",
+    "group": "build_earthbag_wall",
     "//": "Step 1: Build earthbag barricade",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
@@ -849,26 +844,26 @@
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
     "dark_craftable": true,
-    "post_terrain": "f_earthbag_half"
+    "post_furniture": "f_earthbag_half"
   },
   {
     "type": "construction",
     "id": "constr_earthbag_wall",
-    "description": "Build Earthbag Wall",
+    "group": "build_earthbag_wall",
     "//": "Step 2: Finish the earthbag wall",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "20 m",
     "components": [ [ [ "earthbag", 20 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
-    "pre_terrain": "f_earthbag_half",
+    "pre_furniture": "f_earthbag_half",
     "dark_craftable": true,
-    "post_terrain": "f_earthbag_wall"
+    "post_furniture": "f_earthbag_wall"
   },
   {
     "type": "construction",
     "id": "constr_scrap_wall_halfway",
-    "description": "Build Metal Wall",
+    "group": "build_metal_wall",
     "//": "Step 1: foundation",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
@@ -882,7 +877,7 @@
   {
     "type": "construction",
     "id": "constr_scrap_wall",
-    "description": "Build Metal Wall",
+    "group": "build_metal_wall",
     "//": "Step 2: finish wall",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
@@ -896,7 +891,7 @@
   {
     "type": "construction",
     "id": "constr_brick_wall_halfway",
-    "description": "Build Brick Wall",
+    "group": "build_brick_wall",
     "//": "Step 1: start wall",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
@@ -909,7 +904,7 @@
   {
     "type": "construction",
     "id": "constr_brick_wall",
-    "description": "Build Brick Wall",
+    "group": "build_brick_wall",
     "//": "Step 2: finish wall",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
@@ -922,7 +917,7 @@
   {
     "type": "construction",
     "id": "constr_concrete",
-    "description": "Build Concrete Floor",
+    "group": "build_concrete_floor",
     "//": "Builds a concrete floor from a pit.",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
@@ -936,7 +931,7 @@
   {
     "type": "construction",
     "id": "constr_fill_pot",
-    "description": "Fill Pit With Dirt",
+    "group": "fill_pit_with_dirt",
     "//": "Fills a deep pit with dirt.",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
@@ -950,7 +945,7 @@
   {
     "type": "construction",
     "id": "constr_woodchips",
-    "description": "Make Woodchip Floor",
+    "group": "make_woodchip_floor",
     "//": "Adds wood chippings to a shallow pit to prevent plants growing, or for looks.",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
@@ -963,7 +958,7 @@
   {
     "type": "construction",
     "id": "constr_railroad_rubble",
-    "description": "Make Gravel Floor",
+    "group": "make_gravel_floor",
     "//": "Covers the floor with pebbles. Used for constructing railroads.",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 1 ] ],
@@ -976,7 +971,7 @@
   {
     "type": "construction",
     "id": "constr_railroad_track_small",
-    "description": "Build Straight Small Railroad Track",
+    "group": "build_straight_small_railroad_track",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "30 m",
@@ -988,7 +983,7 @@
   {
     "type": "construction",
     "id": "constr_railroad_track_small_d",
-    "description": "Build Diagonal Small Railroad Track",
+    "group": "build_diagonal_small_railroad_track",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "30 m",
@@ -1000,7 +995,7 @@
   {
     "type": "construction",
     "id": "constr_floor_noroof",
-    "description": "Build Wooden Floor",
+    "group": "build_wooden_floor",
     "//": "Makes an outside wooden paving, similar to what would be used in patios.",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 1 ] ],
@@ -1013,7 +1008,7 @@
   {
     "type": "construction",
     "id": "constr_sconc_wall_halfway",
-    "description": "Build Simple Concrete Wall",
+    "group": "build_simple_concrete_wall",
     "//": "Step 1: foundation",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
@@ -1027,7 +1022,7 @@
   {
     "type": "construction",
     "id": "constr_sconc_wall",
-    "description": "Build Simple Concrete Wall",
+    "group": "build_simple_concrete_wall",
     "//": "Step 2: finish wall",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
@@ -1041,7 +1036,7 @@
   {
     "type": "construction",
     "id": "constr_reb_cage_strconc_wall",
-    "description": "Build Reinforced Concrete Wall",
+    "group": "build_reinforced_concrete_wall",
     "//": "Step 1: rebar cage",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
@@ -1054,7 +1049,7 @@
   {
     "type": "construction",
     "id": "constr_strconc_wall_halfway",
-    "description": "Build Reinforced Concrete Wall",
+    "group": "build_reinforced_concrete_wall",
     "//": "Step 2: foundation",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
@@ -1068,7 +1063,7 @@
   {
     "type": "construction",
     "id": "constr_strconc_wall",
-    "description": "Build Reinforced Concrete Wall",
+    "group": "build_reinforced_concrete_wall",
     "//": "Step 3: finish wall",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
@@ -1082,7 +1077,7 @@
   {
     "type": "construction",
     "id": "constr_reb_cage_column",
-    "description": "Build Concrete Column",
+    "group": "build_concrete_column",
     "//": "Step 1: rebar cage",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
@@ -1095,7 +1090,7 @@
   {
     "type": "construction",
     "id": "constr_column_halfway",
-    "description": "Build Concrete Column",
+    "group": "build_concrete_column",
     "//": "Step 2: foundation",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
@@ -1109,7 +1104,7 @@
   {
     "type": "construction",
     "id": "constr_column",
-    "description": "Build Concrete Column",
+    "group": "build_concrete_column",
     "//": "Step 3: finish column",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
@@ -1123,7 +1118,7 @@
   {
     "type": "construction",
     "id": "constr_scrap_floor",
-    "description": "Build Metal Roof",
+    "group": "build_metal_roof",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 5 ] ],
     "time": "90 m",
@@ -1137,7 +1132,7 @@
   {
     "type": "construction",
     "id": "constr_ov_smreb_cage_thconc_floor",
-    "description": "Build Concrete Roof",
+    "group": "build_concrete_roof",
     "//": "Step 1: rebar cage & supports",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 5 ] ],
@@ -1150,7 +1145,7 @@
   {
     "type": "construction",
     "id": "constr_thconc_floor",
-    "description": "Build Concrete Roof",
+    "group": "build_concrete_roof",
     "//": "Step 2: roof & floor",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 5 ] ],
@@ -1164,7 +1159,7 @@
   {
     "type": "construction",
     "id": "constr_ov_reb_cage_strconc_floor",
-    "description": "Build Reinforced Concrete Roof",
+    "group": "build_reinforced_concrete_roof",
     "//": "Step 1: rebar cage & supports",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
@@ -1177,7 +1172,7 @@
   {
     "type": "construction",
     "id": "constr_strconc_floor_halfway",
-    "description": "Build Reinforced Concrete Roof",
+    "group": "build_reinforced_concrete_roof",
     "//": "Step 2: start roof & floor",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
@@ -1191,7 +1186,7 @@
   {
     "type": "construction",
     "id": "constr_strconc_floor",
-    "description": "Build Reinforced Concrete Roof",
+    "group": "build_reinforced_concrete_roof",
     "//": "Step 3: finish roof & floor",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
@@ -1205,7 +1200,7 @@
   {
     "type": "construction",
     "id": "constr_palisade",
-    "description": "Build Palisade Wall",
+    "group": "build_palisade_wall",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "120 m",
@@ -1227,7 +1222,7 @@
   {
     "type": "construction",
     "id": "constr_rock_wall_half",
-    "description": "Build Stone Wall",
+    "group": "build_stone_wall",
     "//": "Step 1: half the wall",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
@@ -1240,7 +1235,7 @@
   {
     "type": "construction",
     "id": "constr_rock_wall",
-    "description": "Build Stone Wall",
+    "group": "build_stone_wall",
     "//": "Step 2: the full wall",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
@@ -1253,7 +1248,7 @@
   {
     "type": "construction",
     "id": "constr_drystone_wall_half",
-    "description": "Build Dry Stone Wall",
+    "group": "build_dry_stone_wall",
     "//": "Step 1: half the wall",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 1 ] ],
@@ -1266,7 +1261,7 @@
   {
     "type": "construction",
     "id": "constr_drystone_wall",
-    "description": "Build Dry Stone Wall",
+    "group": "build_dry_stone_wall",
     "//": "Step 2: the full wall",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
@@ -1279,7 +1274,7 @@
   {
     "type": "construction",
     "id": "constr_ponywall",
-    "description": "Build Pony Wall",
+    "group": "build_pony_wall",
     "//": "a thin half-wall used to divide rooms.",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
@@ -1292,7 +1287,7 @@
   {
     "type": "construction",
     "id": "constr_floor",
-    "description": "Build Roof",
+    "group": "build_roof",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "120 m",
@@ -1305,7 +1300,7 @@
   {
     "type": "construction",
     "id": "constr_dirtfloor_thatchroof",
-    "description": "Build Thatched Roof",
+    "group": "build_thatched_roof",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 5 ], [ "survival", 3 ] ],
     "time": "120 m",
@@ -1317,7 +1312,7 @@
   {
     "type": "construction",
     "id": "constr_floor_primitive",
-    "description": "Build Log & Sod Roof",
+    "group": "build_log_sod_roof",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "120 m",
@@ -1335,7 +1330,7 @@
   {
     "type": "construction",
     "id": "constr_dirtfloor",
-    "description": "Build Roof Over Dirt Floor",
+    "group": "build_roof_over_dirt_floor",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "60 m",
@@ -1348,7 +1343,7 @@
   {
     "type": "construction",
     "id": "constr_palisade_pulley",
-    "description": "Build Rope & Pulley System",
+    "group": "build_rope_pulley_system",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 5 ], [ "mechanics", 2 ] ],
     "time": "60 m",
@@ -1360,7 +1355,7 @@
   {
     "type": "construction",
     "id": "constr_palisade_gate",
-    "description": "Build Palisade Gate",
+    "group": "build_palisade_gate",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "120 m",
@@ -1373,7 +1368,7 @@
   {
     "type": "construction",
     "id": "constr_fence_post",
-    "description": "Build Fence Posts",
+    "group": "build_fence_posts",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "15 m",
@@ -1385,7 +1380,7 @@
   {
     "type": "construction",
     "id": "constr_fence",
-    "description": "Build Fence",
+    "group": "build_fence",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "15 m",
@@ -1397,7 +1392,7 @@
   {
     "type": "construction",
     "id": "constr_fencegate",
-    "description": "Build Fence Gate",
+    "group": "build_fence_gate",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
@@ -1409,7 +1404,7 @@
   {
     "type": "construction",
     "id": "constr_fence_rope",
-    "description": "Build Rope Fence",
+    "group": "build_rope_fence",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "15 m",
@@ -1420,7 +1415,7 @@
   {
     "type": "construction",
     "id": "constr_fence_wire",
-    "description": "Build Wire Fence",
+    "group": "build_wire_fence",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "15 m",
@@ -1431,7 +1426,7 @@
   {
     "type": "construction",
     "id": "constr_fence_barbed",
-    "description": "Build Barbed Wire Fence",
+    "group": "build_barbed_wire_fence",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "15 m",
@@ -1442,7 +1437,7 @@
   {
     "type": "construction",
     "id": "constr_chainfence_posts",
-    "description": "Build Chainlink Fence",
+    "group": "build_chainlink_fence",
     "//": "Step 1: fence posts",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
@@ -1455,7 +1450,7 @@
   {
     "type": "construction",
     "id": "constr_chainfence",
-    "description": "Build Chainlink Fence",
+    "group": "build_chainlink_fence",
     "//": "Step 2: chainlink",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
@@ -1467,7 +1462,7 @@
   {
     "type": "construction",
     "id": "constr_chaingate",
-    "description": "Build Chainlink Gate",
+    "group": "build_chainlink_gate",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "150 m",
@@ -1479,7 +1474,7 @@
   {
     "type": "construction",
     "id": "constr_screen_door",
-    "description": "Build Screen Door",
+    "group": "build_screen_door",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "60 m",
@@ -1492,7 +1487,7 @@
   {
     "type": "construction",
     "id": "constr_screened_porch_wall",
-    "description": "Build Screen Mesh Wall",
+    "group": "build_screen_mesh_wall",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "60 m",
@@ -1505,7 +1500,7 @@
   {
     "type": "construction",
     "id": "constr_chickenwire_fence_post",
-    "description": "Build Chickenwire Fence",
+    "group": "build_chickenwire_fence",
     "//": "Step 1: 2x4 stud frame",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
@@ -1518,7 +1513,7 @@
   {
     "type": "construction",
     "id": "constr_chickenwire_fence",
-    "description": "Build Chickenwire Fence",
+    "group": "build_chickenwire_fence",
     "//": "Step 2: chickenwire",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
@@ -1530,7 +1525,7 @@
   {
     "type": "construction",
     "id": "constr_chickenwire_gate",
-    "description": "Build Chickenwire Gate",
+    "group": "build_chickenwire_gate",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "45 m",
@@ -1542,33 +1537,33 @@
   {
     "type": "construction",
     "id": "constr_crate_c",
-    "description": "Seal Crate",
+    "group": "seal_crate",
     "category": "FURN",
     "required_skills": [ [ "mechanics", 0 ] ],
     "time": "10 m",
     "//": "You can re-use the lid and most of the nails",
     "components": [ [ [ "nail", 6 ] ] ],
     "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
-    "pre_terrain": "f_crate_o",
+    "pre_furniture": "f_crate_o",
     "post_flags": [ "keep_items" ],
-    "post_terrain": "f_crate_c"
+    "post_furniture": "f_crate_c"
   },
   {
     "type": "construction",
     "id": "constr_crate_o",
-    "description": "Build Crate",
+    "group": "build_crate",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "45 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
     "components": [ [ [ "wood_sheet", 2 ], [ "wood_panel", 4 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 24 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_crate_o"
+    "post_furniture": "f_crate_o"
   },
   {
     "type": "construction",
     "id": "constr_coffin_o",
-    "description": "Build Coffin",
+    "group": "build_coffin",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "60 m",
@@ -1580,32 +1575,32 @@
       [ [ "nail", 24 ] ]
     ],
     "pre_special": "check_empty",
-    "post_terrain": "f_coffin_o"
+    "post_furniture": "f_coffin_o"
   },
   {
     "type": "construction",
     "id": "constr_coffin_c",
-    "description": "Seal Coffin",
+    "group": "seal_coffin",
     "category": "FURN",
     "required_skills": [ [ "mechanics", 0 ] ],
     "time": "10 m",
     "components": [ [ [ "nail", 6 ] ] ],
     "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
-    "pre_terrain": "f_coffin_o",
-    "post_terrain": "f_coffin_c",
+    "pre_furniture": "f_coffin_o",
+    "post_furniture": "f_coffin_c",
     "post_flags": [ "keep_items" ]
   },
   {
     "type": "construction",
     "id": "constr_grave",
-    "description": "Dig Grave and Bury Sealed Coffin",
+    "group": "dig_grave_and_bury_sealed_coffin",
     "category": "DIG",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "HAMMER", "level": 1 } ], [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "rock", 20 ], [ "2x4", 2 ] ] ],
     "pre_flags": "DIGGABLE",
-    "pre_terrain": "f_coffin_c",
+    "pre_furniture": "f_coffin_c",
     "post_flags": [ "keep_items" ],
     "post_terrain": "t_grave_new",
     "post_special": "done_grave"
@@ -1613,235 +1608,235 @@
   {
     "type": "construction",
     "id": "constr_bulletin",
-    "description": "Build Bulletin Board",
+    "group": "build_bulletin_board",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "20 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [ [ [ "2x4", 4 ], [ "wood_panel", 1 ] ], [ [ "nail", 8 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_bulletin"
+    "post_furniture": "f_bulletin"
   },
   {
     "type": "construction",
     "id": "constr_dresser",
-    "description": "Build Dresser",
+    "group": "build_dresser",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [ [ [ "2x4", 4 ] ], [ [ "wood_sheet", 1 ], [ "wood_panel", 1 ] ], [ [ "nail", 8 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_dresser"
+    "post_furniture": "f_dresser"
   },
   {
     "type": "construction",
     "id": "constr_bookcase",
-    "description": "Build Bookcase",
+    "group": "build_bookcase",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [ [ [ "2x4", 6 ] ], [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "nail", 16 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_bookcase"
+    "post_furniture": "f_bookcase"
   },
   {
     "type": "construction",
     "id": "constr_entertainment_center",
-    "description": "Build Entertainment Center",
+    "group": "build_entertainment_center",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "80 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [ [ [ "2x4", 14 ] ], [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "nail", 20 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_entertainment_center"
+    "post_furniture": "f_entertainment_center"
   },
   {
     "type": "construction",
     "id": "constr_locker",
-    "description": "Build Locker",
+    "group": "build_locker",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH", "level": 1 } ] ],
     "components": [ [ [ "sheet_metal", 2 ] ], [ [ "pipe", 8 ] ], [ [ "lock", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_locker"
+    "post_furniture": "f_locker"
   },
   {
     "type": "construction",
     "id": "constr_rack_wood",
-    "description": "Build Wooden Rack",
+    "group": "build_wooden_rack",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "80 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [ [ [ "2x4", 6 ] ], [ [ "wood_sheet", 2 ], [ "wood_panel", 4 ] ], [ [ "nail", 40 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_rack_wood"
+    "post_furniture": "f_rack_wood"
   },
   {
     "type": "construction",
     "id": "constr_rack",
-    "description": "Build Metal Rack",
+    "group": "build_metal_rack",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH", "level": 1 } ] ],
     "components": [ [ [ "pipe", 12 ] ], [ [ "sheet_metal", 2 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_rack"
+    "post_furniture": "f_rack"
   },
   {
     "type": "construction",
     "id": "constr_warehouse_shelf",
-    "description": "Build Warehouse Shelf",
+    "group": "build_warehouse_shelf",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "90 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH", "level": 1 } ] ],
     "components": [ [ [ "pipe", 12 ] ], [ [ "sheet_metal", 8 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_warehouse_shelf"
+    "post_furniture": "f_warehouse_shelf"
   },
   {
     "type": "construction",
     "id": "constr_rack_coat",
-    "description": "Build Coat Rack",
+    "group": "build_coat_rack",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "25 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "2x4", 3 ] ], [ [ "nail", 8 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_rack_coat"
+    "post_furniture": "f_rack_coat"
   },
   {
     "type": "construction",
     "id": "constr_cupboard",
-    "description": "Build Cupboard",
+    "group": "build_cupboard",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "20 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
     "components": [ [ [ "2x4", 3 ] ], [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "nail", 8 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_cupboard"
+    "post_furniture": "f_cupboard"
   },
   {
     "type": "construction",
     "id": "constr_counter",
-    "description": "Build Counter",
+    "group": "build_counter",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [ [ [ "2x4", 2 ] ], [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "nail", 8 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_counter"
+    "post_furniture": "f_counter"
   },
   {
     "type": "construction",
     "id": "constr_table",
-    "description": "Build Table",
+    "group": "build_table",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [ [ [ "2x4", 4 ] ], [ [ "wood_sheet", 1 ], [ "wood_panel", 1 ] ], [ [ "nail", 8 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_table"
+    "post_furniture": "f_table"
   },
   {
     "type": "construction",
     "id": "constr_place_table",
-    "description": "Place Table",
+    "group": "place_table",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "1 m",
     "components": [ [ [ "w_table", 1 ] ] ],
     "pre_special": "check_empty",
     "dark_craftable": true,
-    "post_terrain": "f_table"
+    "post_furniture": "f_table"
   },
   {
     "type": "construction",
     "id": "constr_coffee_table",
-    "description": "Build Coffee Table",
+    "group": "build_coffee_table",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [ [ [ "2x4", 2 ] ], [ [ "wood_sheet", 1 ], [ "wood_panel", 1 ] ], [ [ "nail", 8 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_coffee_table"
+    "post_furniture": "f_coffee_table"
   },
   {
     "type": "construction",
     "id": "constr_workbench",
-    "description": "Build Workbench",
+    "group": "build_workbench",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "60 m",
     "using": [ [ "welding_standard", 5 ] ],
     "components": [ [ [ "pipe", 8 ] ], [ [ "sheet_metal", 2 ] ], [ [ "sheet_metal_small", 4 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_workbench"
+    "post_furniture": "f_workbench"
   },
   {
     "type": "construction",
     "id": "constr_place_workbench",
-    "description": "Place Workbench",
+    "group": "place_workbench",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "1 m",
     "components": [ [ [ "workbench", 1 ] ] ],
     "pre_special": "check_empty",
     "dark_craftable": true,
-    "post_terrain": "f_workbench"
+    "post_furniture": "f_workbench"
   },
   {
     "type": "construction",
     "id": "constr_chair",
-    "description": "Build Chair",
+    "group": "build_chair",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_chair"
+    "post_furniture": "f_chair"
   },
   {
     "type": "construction",
     "id": "constr_stool",
-    "description": "Build Stool",
+    "group": "build_stool",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "25 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_stool"
+    "post_furniture": "f_stool"
   },
   {
     "type": "construction",
     "id": "constr_bench",
-    "description": "Build Bench",
+    "group": "build_bench",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 10 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_bench"
+    "post_furniture": "f_bench"
   },
   {
     "type": "construction",
     "id": "constr_makeshift_bed",
-    "description": "Build Makeshift Bed",
+    "group": "build_makeshift_bed",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "45 m",
@@ -1852,12 +1847,12 @@
       [ [ "sheet", 2 ], [ "blanket", 1 ], [ "down_blanket", 1 ], [ "fur_blanket", 1 ] ]
     ],
     "pre_special": "check_empty",
-    "post_terrain": "f_makeshift_bed"
+    "post_furniture": "f_makeshift_bed"
   },
   {
     "type": "construction",
     "id": "constr_straw_bed",
-    "description": "Build Straw Bed",
+    "group": "build_straw_bed",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "30 m",
@@ -1865,12 +1860,12 @@
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
     "dark_craftable": true,
-    "post_terrain": "f_straw_bed"
+    "post_furniture": "f_straw_bed"
   },
   {
     "type": "construction",
     "id": "constr_leaves_pile",
-    "description": "Build Pile of Leaves",
+    "group": "build_pile_of_leaves",
     "category": "FURN",
     "required_skills": [ [ "survival", 0 ] ],
     "time": "1 m",
@@ -1878,24 +1873,24 @@
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
     "dark_craftable": true,
-    "post_terrain": "f_leaves_pile"
+    "post_furniture": "f_leaves_pile"
   },
   {
     "type": "construction",
     "id": "constr_bed",
-    "description": "Build Bed from Scratch",
+    "group": "build_bed_from_scratch",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 10 ] ], [ [ "mattress", 1 ], [ "down_mattress", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_bed"
+    "post_furniture": "f_bed"
   },
   {
     "type": "construction",
     "id": "constr_bunkbed",
-    "description": "Build Bunk Bed",
+    "group": "build_bunk_bed",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "130 m",
@@ -1907,120 +1902,120 @@
       [ [ "mattress", 2 ], [ "down_mattress", 2 ] ]
     ],
     "pre_special": "check_empty",
-    "post_terrain": "f_bunkbed"
+    "post_furniture": "f_bunkbed"
   },
   {
     "type": "construction",
     "id": "constr_bed_frame",
-    "description": "Build Bed Frame",
+    "group": "build_bed_frame",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "55 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 10 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_bed_frame"
+    "post_furniture": "f_bed_frame"
   },
   {
     "type": "construction",
     "id": "constr_finish_bed",
-    "description": "Add Mattress to Bed Frame",
+    "group": "add_mattress_to_bed_frame",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "5 m",
     "components": [ [ [ "mattress", 1 ], [ "down_mattress", 1 ] ] ],
-    "pre_terrain": "f_bed_frame",
+    "pre_furniture": "f_bed_frame",
     "dark_craftable": true,
-    "post_terrain": "f_bed"
+    "post_furniture": "f_bed"
   },
   {
     "type": "construction",
     "id": "constr_armchair",
-    "description": "Build Armchair",
+    "group": "build_armchair",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 3 ], [ "tailor", 3 ] ],
     "time": "45 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [ [ [ "2x4", 10 ] ], [ [ "nail", 8 ] ], [ [ "blanket", 1 ], [ "down_blanket", 1 ], [ "fur_blanket", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_armchair"
+    "post_furniture": "f_armchair"
   },
   {
     "type": "construction",
     "id": "constr_sofa",
-    "description": "Build Sofa",
+    "group": "build_sofa",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 4 ], [ "tailor", 3 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 10 ] ], [ [ "blanket", 1 ], [ "down_blanket", 1 ], [ "fur_blanket", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_sofa"
+    "post_furniture": "f_sofa"
   },
   {
     "type": "construction",
     "id": "constr_sign",
-    "description": "Build Sign",
+    "group": "build_sign",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "20 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "2x4", 1 ], [ "wood_panel", 1 ] ], [ [ "2x4", 2 ] ], [ [ "nail", 6 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_sign"
+    "post_furniture": "f_sign"
   },
   {
     "type": "construction",
     "id": "constr_fireplace",
-    "description": "Build Stone Fireplace",
+    "group": "build_stone_fireplace",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "120 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "rock", 40 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_fireplace"
+    "post_furniture": "f_fireplace"
   },
   {
     "type": "construction",
     "id": "constr_woodstove",
-    "description": "Build Wood Stove",
+    "group": "build_wood_stove",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 4 ], [ "mechanics", 0 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "SAW_M", "level": 1 } ] ],
     "components": [ [ [ "metal_tank", 1 ] ], [ [ "pipe", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_woodstove"
+    "post_furniture": "f_woodstove"
   },
   {
     "type": "construction",
     "id": "constr_fvat_empty",
-    "description": "Build Fermenting Vat",
+    "group": "build_fermenting_vat",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 2 ], [ "cooking", 3 ] ],
     "time": "90 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [ [ [ "2x4", 14 ] ], [ [ "nail", 12 ] ], [ [ "sheet_metal_small", 12 ] ], [ [ "water_faucet", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_fvat_empty"
+    "post_furniture": "f_fvat_empty"
   },
   {
     "type": "construction",
     "id": "constr_wood_keg",
-    "description": "Build Wooden Keg",
+    "group": "build_wooden_keg",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "120 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [ [ [ "2x4", 18 ] ], [ [ "nail", 14 ] ], [ [ "sheet_metal", 1 ] ], [ [ "water_faucet", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_wood_keg"
+    "post_furniture": "f_wood_keg"
   },
   {
     "type": "construction",
     "id": "constr_standing_tank",
-    "description": "Build Standing Tank",
+    "group": "build_standing_tank",
     "//": "a freestanding metal tank, useful for holding liquids",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 2 ] ],
@@ -2033,12 +2028,12 @@
     ],
     "components": [ [ [ "metal_tank", 4 ] ], [ [ "water_faucet", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_standing_tank"
+    "post_furniture": "f_standing_tank"
   },
   {
     "type": "construction",
     "id": "constr_forge",
-    "description": "Place Forge",
+    "group": "place_forge",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "1 m",
@@ -2046,12 +2041,12 @@
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
     "dark_craftable": true,
-    "post_terrain": "f_forge"
+    "post_furniture": "f_forge"
   },
   {
     "type": "construction",
     "id": "constr_still",
-    "description": "Place Still",
+    "group": "place_still",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "1 m",
@@ -2059,16 +2054,16 @@
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
     "dark_craftable": true,
-    "post_terrain": "f_still"
+    "post_furniture": "f_still"
   },
   {
     "type": "construction",
     "id": "constr_covered_well",
-    "description": "Build Water Well",
+    "group": "build_water_well",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "480 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "rock", 40 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ] ],
     "pre_terrain": "t_pit",
     "post_terrain": "t_covered_well"
@@ -2076,7 +2071,7 @@
   {
     "type": "construction",
     "id": "constr_water_pump",
-    "description": "Build Water Well",
+    "group": "build_water_well",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ], [ "mechanics", 2 ] ],
     "time": "180 m",
@@ -2088,43 +2083,43 @@
   {
     "type": "construction",
     "id": "constr_hay",
-    "description": "Place Hay Bale",
+    "group": "place_hay_bale",
     "category": "FURN",
     "required_skills": [ [ "survival", 0 ] ],
     "time": "10 m",
     "components": [ [ [ "straw_pile", 40 ], [ "withered", 40 ] ], [ [ "rope_30", 1 ], [ "rope_makeshift_30", 1 ], [ "vine_30", 1 ] ] ],
     "pre_special": "check_empty",
     "dark_craftable": true,
-    "post_terrain": "f_hay"
+    "post_furniture": "f_hay"
   },
   {
     "type": "construction",
     "id": "constr_desk",
-    "description": "Build Desk",
+    "group": "build_desk",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "90 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ], [ { "id": "CUT", "level": 1 } ] ],
     "components": [ [ [ "2x4", 8 ] ], [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "nail", 24 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_desk"
+    "post_furniture": "f_desk"
   },
   {
     "type": "construction",
     "id": "constr_wardrobe",
-    "description": "Build Wardrobe",
+    "group": "build_wardrobe",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ], [ { "id": "SAW_M", "level": 1 } ] ],
     "components": [ [ [ "2x4", 10 ] ], [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "nail", 24 ] ], [ [ "pipe", 2 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_wardrobe"
+    "post_furniture": "f_wardrobe"
   },
   {
     "type": "construction",
     "id": "constr_safe",
-    "description": "Build Safe",
+    "group": "build_safe",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 9 ] ],
     "time": "420 m",
@@ -2142,12 +2137,12 @@
       [ [ "hard_plate", 1 ] ]
     ],
     "pre_special": "check_empty",
-    "post_terrain": "f_safe_o"
+    "post_furniture": "f_safe_o"
   },
   {
     "type": "construction",
     "id": "constr_dumpster",
-    "description": "Build Dumpster",
+    "group": "build_dumpster",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "180 m",
@@ -2155,12 +2150,12 @@
     "using": [ [ "welding_standard", 15 ] ],
     "components": [ [ [ "frame", 4 ] ], [ [ "sheet_metal", 16 ] ], [ [ "steel_lump", 2 ], [ "steel_chunk", 8 ], [ "scrap", 40 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_dumpster"
+    "post_furniture": "f_dumpster"
   },
   {
     "type": "construction",
     "id": "constr_mailbox",
-    "description": "Build Mailbox",
+    "group": "build_mailbox",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "60 m",
@@ -2168,12 +2163,12 @@
     "using": [ [ "welding_standard", 1 ] ],
     "components": [ [ [ "sheet_metal", 1 ] ], [ [ "2x4", 2 ] ], [ [ "nail", 5 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_mailbox"
+    "post_furniture": "f_mailbox"
   },
   {
     "type": "construction",
     "id": "constr_door_bar",
-    "description": "Build Bar Door",
+    "group": "build_bar_door",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "180 m",
@@ -2186,7 +2181,7 @@
   {
     "type": "construction",
     "id": "constr_window_bars",
-    "description": "Install Bars Onto Window",
+    "group": "install_bars_onto_window",
     "pre_note": "Install Bars Onto Store Showcase Window",
     "category": "WINDOWS",
     "required_skills": [ [ "fabrication", 5 ] ],
@@ -2200,7 +2195,7 @@
   {
     "type": "construction",
     "id": "constr_window_frame_bars",
-    "description": "Install Bars Onto Window",
+    "group": "install_bars_onto_window",
     "pre_note": "Install Bars Onto Empty Window Frame",
     "category": "WINDOWS",
     "required_skills": [ [ "fabrication", 5 ] ],
@@ -2214,7 +2209,7 @@
   {
     "type": "construction",
     "id": "constr_window_bars_no_curtains",
-    "description": "Install Bars Onto Window",
+    "group": "install_bars_onto_window",
     "pre_note": "Install Bars Onto Window With No Curtains",
     "category": "WINDOWS",
     "required_skills": [ [ "fabrication", 5 ] ],
@@ -2228,7 +2223,7 @@
   {
     "type": "construction",
     "id": "constr_window_bars_alarm",
-    "description": "Install Bars Onto Window",
+    "group": "install_bars_onto_window",
     "pre_note": "Install Bars Onto Store Showcase Window With Alarm",
     "category": "WINDOWS",
     "required_skills": [ [ "fabrication", 5 ] ],
@@ -2242,7 +2237,7 @@
   {
     "type": "construction",
     "id": "constr_window_bars_curtains",
-    "description": "Install Bars Onto Window",
+    "group": "install_bars_onto_window",
     "pre_note": "Install Curtains Onto Window With Bars",
     "category": "WINDOWS",
     "required_skills": [ [ "fabrication", 2 ] ],
@@ -2255,7 +2250,7 @@
   {
     "type": "construction",
     "id": "constr_support_l",
-    "description": "Build Large Metal Support",
+    "group": "build_large_metal_support",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 9 ] ],
     "time": "600 m",
@@ -2268,7 +2263,7 @@
   {
     "type": "construction",
     "id": "constr_support_s",
-    "description": "Build Small Metal Support",
+    "group": "build_small_metal_support",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 8 ] ],
     "time": "240 m",
@@ -2281,7 +2276,7 @@
   {
     "type": "construction",
     "id": "constr_grass_white",
-    "description": "Paint Grass White",
+    "group": "paint_grass_white",
     "category": "DECORATE",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "4 m",
@@ -2293,7 +2288,7 @@
   {
     "type": "construction",
     "id": "constr_grass_white_dead",
-    "description": "Paint Grass White",
+    "group": "paint_grass_white",
     "category": "DECORATE",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "4 m",
@@ -2305,7 +2300,7 @@
   {
     "type": "construction",
     "id": "constr_grass_white_golf",
-    "description": "Paint Grass White",
+    "group": "paint_grass_white",
     "category": "DECORATE",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "4 m",
@@ -2317,7 +2312,7 @@
   {
     "type": "construction",
     "id": "constr_pavement_y",
-    "description": "Paint Pavement Yellow",
+    "group": "paint_pavement_yellow",
     "category": "DECORATE",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "4 m",
@@ -2329,7 +2324,7 @@
   {
     "type": "construction",
     "id": "constr_pavement_y_bg_dp",
-    "description": "Paint Pavement Yellow",
+    "group": "paint_pavement_yellow",
     "category": "DECORATE",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "4 m",
@@ -2341,7 +2336,7 @@
   {
     "type": "construction",
     "id": "constr_revert_pavement_y",
-    "description": "Take Paint Off Pavement",
+    "group": "take_paint_off_pavement",
     "category": "DECORATE",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "10 m",
@@ -2352,7 +2347,7 @@
   {
     "type": "construction",
     "id": "constr_revert_pavement_y_bg_dp",
-    "description": "Take Paint Off Pavement",
+    "group": "take_paint_off_pavement",
     "category": "DECORATE",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "10 m",
@@ -2363,7 +2358,7 @@
   {
     "type": "construction",
     "id": "constr_railing",
-    "description": "Build Wooden Railing",
+    "group": "build_wooden_railing",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
@@ -2375,7 +2370,7 @@
   {
     "type": "construction",
     "id": "constr_manhole_cover",
-    "description": "Cover Manhole",
+    "group": "cover_manhole",
     "category": "CONSTRUCT",
     "required_skills": [ [ "mechanics", 0 ] ],
     "time": "1 m",
@@ -2387,7 +2382,7 @@
   {
     "type": "construction",
     "id": "constr_revert_floor_waxed_y",
-    "description": "Remove Wax From Floor",
+    "group": "remove_wax_from_floor",
     "category": "DECORATE",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "10 m",
@@ -2398,7 +2393,7 @@
   {
     "type": "construction",
     "id": "constr_wall_r",
-    "description": "Paint Wall Red",
+    "group": "paint_wall_red",
     "category": "DECORATE",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "4 m",
@@ -2410,7 +2405,7 @@
   {
     "type": "construction",
     "id": "constr_wall_b",
-    "description": "Paint Wall Blue",
+    "group": "paint_wall_blue",
     "category": "DECORATE",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "4 m",
@@ -2422,7 +2417,7 @@
   {
     "type": "construction",
     "id": "constr_wall_w",
-    "description": "Paint Wall White",
+    "group": "paint_wall_white",
     "category": "DECORATE",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "4 m",
@@ -2434,7 +2429,7 @@
   {
     "type": "construction",
     "id": "constr_wall_g",
-    "description": "Paint Wall Green",
+    "group": "paint_wall_green",
     "category": "DECORATE",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "4 m",
@@ -2446,7 +2441,7 @@
   {
     "type": "construction",
     "id": "constr_wall_p",
-    "description": "Paint Wall Purple",
+    "group": "paint_wall_purple",
     "category": "DECORATE",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "4 m",
@@ -2458,7 +2453,7 @@
   {
     "type": "construction",
     "id": "constr_wall_y",
-    "description": "Paint Wall Yellow",
+    "group": "paint_wall_yellow",
     "category": "DECORATE",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "4 m",
@@ -2470,7 +2465,7 @@
   {
     "type": "construction",
     "id": "constr_revert_wall_paint",
-    "description": "Take Paint Off Wall",
+    "group": "take_paint_off_wall",
     "//": "For vertical walls",
     "category": "DECORATE",
     "required_skills": [ [ "fabrication", 0 ] ],
@@ -2482,7 +2477,7 @@
   {
     "type": "construction",
     "id": "constr_revert_carpet",
-    "description": "Remove Carpet",
+    "group": "remove_carpet",
     "category": "DECORATE",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "10 m",
@@ -2493,7 +2488,7 @@
   {
     "type": "construction",
     "id": "constr_carpet_red",
-    "description": "Carpet Floor Red",
+    "group": "carpet_floor_red",
     "category": "DECORATE",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "30 m",
@@ -2505,7 +2500,7 @@
   {
     "type": "construction",
     "id": "constr_carpet_purple",
-    "description": "Carpet Floor Purple",
+    "group": "carpet_floor_purple",
     "category": "DECORATE",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "30 m",
@@ -2517,7 +2512,7 @@
   {
     "type": "construction",
     "id": "constr_carpet_yellow",
-    "description": "Carpet Floor Yellow",
+    "group": "carpet_floor_yellow",
     "category": "DECORATE",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "30 m",
@@ -2529,7 +2524,7 @@
   {
     "type": "construction",
     "id": "constr_carpet_green",
-    "description": "Carpet Floor Green",
+    "group": "carpet_floor_green",
     "category": "DECORATE",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "30 m",
@@ -2541,7 +2536,7 @@
   {
     "type": "construction",
     "id": "constr_floor_waxed",
-    "description": "Wax Floor",
+    "group": "wax_floor",
     "category": "DECORATE",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "10 m",
@@ -2553,7 +2548,7 @@
   {
     "type": "construction",
     "id": "constr_revert_floor_waxed",
-    "description": "Remove Wax From Floor",
+    "group": "remove_wax_from_floor",
     "category": "DECORATE",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "10 m",
@@ -2564,7 +2559,7 @@
   {
     "type": "construction",
     "id": "constr_dig_downstair",
-    "description": "Dig Downstair",
+    "group": "dig_downstair",
     "category": "DIG",
     "required_skills": [ [ "fabrication", 5 ] ],
     "time": "420 m",
@@ -2582,7 +2577,7 @@
   {
     "type": "construction",
     "id": "constr_mine_downstair",
-    "description": "Mine Downstair",
+    "group": "mine_downstair",
     "category": "DIG",
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "480 m",
@@ -2600,25 +2595,13 @@
   {
     "type": "construction",
     "id": "constr_mine_downstair_no_roof",
-    "description": "Mine Downstair",
-    "category": "DIG",
-    "required_skills": [ [ "fabrication", 6 ] ],
-    "time": "480 m",
-    "qualities": [
-      [ { "id": "AXE", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
-      [ { "id": "HAMMER", "level": 2 } ],
-      [ { "id": "DIG", "level": 2 } ]
-    ],
-    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 160 ], [ "elec_jackhammer", 7000 ] ] ],
-    "components": [ [ [ "2x4", 12 ], [ "log", 12 ] ], [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ] ],
-    "pre_special": "check_down_OK",
-    "pre_terrain": "t_rock_floor_no_roof",
-    "post_special": "done_mine_downstair"
+    "copy-from": "constr_mine_downstair",
+    "pre_terrain": "t_rock_floor_no_roof"
   },
   {
     "type": "construction",
     "id": "constr_repair_wood_stairs_up",
-    "description": "Repair Wooden Staircase",
+    "group": "repair_wooden_staircase",
     "//": "Fix the broken back to normal",
     "category": "REPAIR",
     "required_skills": [ [ "fabrication", 4 ] ],
@@ -2632,7 +2615,7 @@
   {
     "type": "construction",
     "id": "constr_wood_stairs_up_half",
-    "description": "Build Wooden Staircase",
+    "group": "build_wooden_staircase",
     "//": "Step 1: stairs frame in an empty space",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
@@ -2645,7 +2628,7 @@
   {
     "type": "construction",
     "id": "constr_wood_stairs_up",
-    "description": "Build Wooden Staircase",
+    "group": "build_wooden_staircase",
     "//": "Step 2: complete the half made stairs by putting paneling on it",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
@@ -2659,7 +2642,7 @@
   {
     "type": "construction",
     "id": "constr_mine_upstair",
-    "description": "Mine Upstair",
+    "group": "mine_upstair",
     "category": "DIG",
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "480 m",
@@ -2691,7 +2674,7 @@
   {
     "type": "construction",
     "id": "constr_veh",
-    "description": "Start Vehicle Construction",
+    "group": "start_vehicle_construction",
     "//": "no components required, they are filled in at runtime based on the vehicle parts that can be used to start a vehicle",
     "category": "OTHER",
     "required_skills": [ [ "mechanics", 0 ] ],
@@ -2705,19 +2688,19 @@
   {
     "type": "construction",
     "id": "constr_barricade_road",
-    "description": "Build Road Barricade",
+    "group": "build_road_barricade",
     "category": "OTHER",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "20 m",
     "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
     "components": [ [ [ "2x4", 6 ] ], [ [ "nail", 12 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_barricade_road"
+    "post_furniture": "f_barricade_road"
   },
   {
     "type": "construction",
     "id": "constr_pontoon_dp",
-    "description": "Build Pontoon Bridge",
+    "group": "build_pontoon_bridge",
     "//": "Set up pontoon bridge",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 5 ] ],
@@ -2734,7 +2717,7 @@
   {
     "type": "construction",
     "id": "constr_riverbridge_dp",
-    "description": "Build River Bridge",
+    "group": "build_river_bridge",
     "//": "Set up River bridge",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 5 ] ],
@@ -2752,7 +2735,7 @@
   {
     "type": "construction",
     "id": "constr_dock",
-    "description": "Build River Dock/Shallow Bridge",
+    "group": "build_river_dock_shallow_bridge",
     "//": "Set up dock",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
@@ -2765,7 +2748,7 @@
   {
     "type": "construction",
     "id": "constr_dock_deep_pile",
-    "description": "Build Deep River Dock",
+    "group": "build_deep_river_dock",
     "//": "Step 1: securing a pile down on the riverbed; not easy work without machinery",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
@@ -2778,7 +2761,7 @@
   {
     "type": "construction",
     "id": "constr_dock_deep_frame",
-    "description": "Build Deep River Dock",
+    "group": "build_deep_river_dock",
     "//": "Step 2: add a log frame atop the pile",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
@@ -2791,7 +2774,7 @@
   {
     "type": "construction",
     "id": "constr_dock_deep",
-    "description": "Build Deep River Dock",
+    "group": "build_deep_river_dock",
     "//": "Step 3: Finish with a wood surface",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
@@ -2804,7 +2787,7 @@
   {
     "type": "construction",
     "id": "constr_place_water_mill",
-    "description": "Place Water Mill",
+    "group": "place_water_mill",
     "//": "Set up Water Mill",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
@@ -2812,12 +2795,12 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "water_mill", 1 ] ] ],
     "pre_terrain": "t_water_moving_sh",
-    "post_terrain": "f_water_mill"
+    "post_furniture": "f_water_mill"
   },
   {
     "type": "construction",
     "id": "constr_place_wind_mill",
-    "description": "Place Wind Mill",
+    "group": "place_wind_mill",
     "//": "Set up Wind Mill",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
@@ -2825,12 +2808,12 @@
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "components": [ [ [ "wind_mill", 1 ] ] ],
     "pre_terrain": "t_pit_shallow",
-    "post_terrain": "f_wind_mill"
+    "post_furniture": "f_wind_mill"
   },
   {
     "type": "construction",
     "id": "constr_sh_bridge",
-    "description": "Build Shallow Temporary Bridge",
+    "group": "build_shallow_temporary_bridge",
     "//": "Set up shallow bridge",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
@@ -2843,18 +2826,18 @@
   {
     "type": "construction",
     "id": "constr_planter",
-    "description": "Build Planter",
+    "group": "build_planter",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "25 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
     "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 36 ] ], [ [ "pebble", 200 ] ], [ [ "material_soil", 75 ] ] ],
-    "post_terrain": "f_planter"
+    "post_furniture": "f_planter"
   },
   {
     "type": "construction",
     "id": "constr_cut_grass_long",
-    "description": "Cut Grass",
+    "group": "cut_grass",
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
     "time": "6 m",
@@ -2866,7 +2849,7 @@
   {
     "type": "construction",
     "id": "constr_cut_grass_tall",
-    "description": "Cut Grass",
+    "group": "cut_grass",
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
     "time": "6 m",
@@ -2878,7 +2861,7 @@
   {
     "type": "construction",
     "id": "constr_remove_grass",
-    "description": "Remove Grass",
+    "group": "remove_grass",
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
     "time": "6 m",
@@ -2890,7 +2873,7 @@
   {
     "type": "construction",
     "id": "constr_remove_grass_long",
-    "description": "Remove Grass",
+    "group": "remove_grass",
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
     "time": "6 m",
@@ -2902,7 +2885,7 @@
   {
     "type": "construction",
     "id": "constr_remove_grass_tall",
-    "description": "Remove Grass",
+    "group": "remove_grass",
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
     "time": "6 m",
@@ -2914,7 +2897,7 @@
   {
     "type": "construction",
     "id": "constr_remove_grass_dead",
-    "description": "Remove Grass",
+    "group": "remove_grass",
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
     "time": "6 m",
@@ -2926,7 +2909,7 @@
   {
     "type": "construction",
     "id": "constr_remove_grass_golf",
-    "description": "Remove Grass",
+    "group": "remove_grass",
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
     "time": "6 m",
@@ -2937,7 +2920,7 @@
   {
     "type": "construction",
     "id": "constr_remove_grass_white",
-    "description": "Remove Grass",
+    "group": "remove_grass",
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
     "time": "6 m",
@@ -2948,7 +2931,7 @@
   {
     "type": "construction",
     "id": "constr_extract_sand",
-    "description": "Extract Sand",
+    "group": "extract_sand",
     "category": "OTHER",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "30 m",
@@ -2961,7 +2944,7 @@
   {
     "type": "construction",
     "id": "constr_extract_clay",
-    "description": "Extract Clay",
+    "group": "extract_clay",
     "category": "OTHER",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "30 m",
@@ -2974,7 +2957,7 @@
   {
     "type": "construction",
     "id": "constr_remove_gravel",
-    "description": "Remove gravel and replace with dirt",
+    "group": "remove_gravel_and_replace_with_dirt",
     "category": "OTHER",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "60 m",
@@ -2987,31 +2970,31 @@
   {
     "type": "construction",
     "id": "constr_kiln_empty",
-    "description": "Build Charcoal Kiln",
+    "group": "build_charcoal_kiln",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "120 m",
     "components": [ [ [ "rock", 40 ] ], [ [ "material_soil", 2 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
-    "post_terrain": "f_kiln_empty"
+    "post_furniture": "f_kiln_empty"
   },
   {
     "type": "construction",
     "id": "constr_kiln_metal_empty",
-    "description": "Build Metal Charcoal Kiln",
+    "group": "build_metal_charcoal_kiln",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
     "components": [ [ [ "metal_tank", 4 ] ], [ [ "pipe", 4 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_kiln_metal_empty"
+    "post_furniture": "f_kiln_metal_empty"
   },
   {
     "type": "construction",
     "id": "constr_smoking_rack",
-    "description": "Build Smoking Rack",
+    "group": "build_smoking_rack",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 3 ], [ "cooking", 2 ] ],
     "time": "90 m",
@@ -3019,24 +3002,24 @@
     "components": [ [ [ "stick", 16 ], [ "2x4", 16 ] ], [ [ "rock", 8 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
-    "post_terrain": "f_smoking_rack"
+    "post_furniture": "f_smoking_rack"
   },
   {
     "type": "construction",
     "id": "constr_forge_rock",
-    "description": "Build Rock Forge",
+    "group": "build_rock_forge",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "120 m",
     "components": [ [ [ "rock", 40 ] ], [ [ "material_soil", 3 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
-    "post_terrain": "f_forge_rock"
+    "post_furniture": "f_forge_rock"
   },
   {
     "type": "construction",
     "id": "constr_clay_kiln",
-    "description": "Build Clay Kiln",
+    "group": "build_clay_kiln",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "150 m",
@@ -3048,12 +3031,12 @@
     ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
-    "post_terrain": "f_clay_kiln"
+    "post_furniture": "f_clay_kiln"
   },
   {
     "type": "construction",
     "id": "constr_m_frame",
-    "description": "Build Reinforced Glass Window",
+    "group": "build_reinforced_glass_window",
     "//": "Step 1 : metal frame",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 7 ] ],
@@ -3066,7 +3049,7 @@
   {
     "type": "construction",
     "id": "constr_reinforced_glass",
-    "description": "Build Reinforced Glass Window",
+    "group": "build_reinforced_glass_window",
     "//": "Step 2 : Reinforced Glass",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 8 ] ],
@@ -3079,7 +3062,7 @@
   {
     "type": "construction",
     "id": "constr_reinforce_glass_shutter",
-    "description": "Build Reinforced Glass Window",
+    "group": "build_reinforced_glass_window",
     "//": "Step 3 : Metal shutters",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 8 ] ],
@@ -3092,7 +3075,7 @@
   {
     "type": "construction",
     "id": "constr_rootcellar",
-    "description": "Build Root Cellar",
+    "group": "build_root_cellar",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "130 m",
@@ -3105,7 +3088,7 @@
   {
     "type": "construction",
     "id": "constr_firewood_source",
-    "description": "Mark firewood source",
+    "group": "mark_firewood_source",
     "category": "OTHER",
     "required_skills": [  ],
     "time": "0 m",
@@ -3118,7 +3101,7 @@
   {
     "type": "construction",
     "id": "constr_practice_target",
-    "description": "Mark practice target",
+    "group": "mark_practice_target",
     "category": "OTHER",
     "required_skills": [  ],
     "time": "0 m",
@@ -3131,7 +3114,7 @@
   {
     "type": "construction",
     "id": "constr_butcher_rack",
-    "description": "Build Butchering Rack",
+    "group": "build_butchering_rack",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 2 ], [ "cooking", 2 ] ],
     "time": "45 m",
@@ -3143,12 +3126,12 @@
     ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
-    "post_terrain": "f_butcher_rack"
+    "post_furniture": "f_butcher_rack"
   },
   {
     "type": "construction",
     "id": "constr_junk_palisade",
-    "description": "Build Junk Metal Barrier",
+    "group": "build_junk_metal_barrier",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "120 m",
@@ -3169,7 +3152,7 @@
   {
     "type": "construction",
     "id": "constr_junk_wall_bolts",
-    "description": "Reinforce Junk Metal Wall using bolts",
+    "group": "reinforce_junk_metal_wall_using_bolts",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "120 m",
@@ -3197,7 +3180,7 @@
   {
     "type": "construction",
     "id": "constr_junk_wall_spot_weld",
-    "description": "Reinforce Junk Metal Wall using spot-welds",
+    "group": "reinforce_junk_metal_wall_using_spot_welds",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "90 m",
@@ -3220,7 +3203,7 @@
   {
     "type": "construction",
     "id": "constr_junk_floor",
-    "description": "Build Junk Metal Floor",
+    "group": "build_junk_metal_floor",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "120 m",
@@ -3248,7 +3231,7 @@
   {
     "type": "construction",
     "id": "constr_pillow_fort",
-    "description": "Build Pillow Fort",
+    "group": "build_pillow_fort",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "15 m",
@@ -3258,12 +3241,12 @@
       [ [ "down_blanket", 3 ], [ "blanket", 3 ], [ "fur_blanket", 3 ] ]
     ],
     "pre_terrain": "t_floor",
-    "post_terrain": "f_pillow_fort"
+    "post_furniture": "f_pillow_fort"
   },
   {
     "type": "construction",
     "id": "constr_cardboard_fort",
-    "description": "Build Cardboard Fort",
+    "group": "build_cardboard_fort",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "15 m",
@@ -3275,12 +3258,12 @@
       [ [ "plastic_sheet", 1 ] ],
       [ [ "duct_tape", 4 ] ]
     ],
-    "post_terrain": "f_cardboard_fort"
+    "post_furniture": "f_cardboard_fort"
   },
   {
     "type": "construction",
     "id": "constr_firering",
-    "description": "Build Fire Ring",
+    "group": "build_fire_ring",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "15 m",
@@ -3289,12 +3272,12 @@
     "pre_note": "Can be deconstructed without tools.",
     "pre_terrain": "t_dirt",
     "dark_craftable": true,
-    "post_terrain": "f_firering"
+    "post_furniture": "f_firering"
   },
   {
     "type": "construction",
     "id": "constr_wall_rammed_earth",
-    "description": "Build Rammed Earth Wall",
+    "group": "build_rammed_earth_wall",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "360 m",
@@ -3311,31 +3294,31 @@
   {
     "type": "construction",
     "id": "constr_hanging_meathook",
-    "description": "Hang Hanging Meathook",
+    "group": "hang_hanging_meathook",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "15 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SCREW", "level": 1 } ] ],
     "components": [ [ [ "grip_hook", 1 ] ], [ [ "chain", 1 ] ] ],
     "pre_special": "check_support",
-    "post_terrain": "f_hanging_meathook"
+    "post_furniture": "f_hanging_meathook"
   },
   {
     "type": "construction",
     "id": "constr_counter_gate",
-    "description": "Build Counter Gate",
+    "group": "build_counter_gate",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "2x4", 6 ] ], [ [ "nail", 10 ] ], [ [ "hinge", 2 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_counter_gate_c"
+    "post_furniture": "f_counter_gate_c"
   },
   {
     "type": "construction",
     "id": "constr_splitrail_fencegate",
-    "description": "Build Split Rail Fence Gate",
+    "group": "build_split_rail_fence_gate",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
@@ -3347,7 +3330,7 @@
   {
     "type": "construction",
     "id": "constr_privacy_fencegate",
-    "description": "Build Privacy Fence Gate",
+    "group": "build_privacy_fence_gate",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
@@ -3359,7 +3342,7 @@
   {
     "type": "construction",
     "id": "constr_splitrail_fence",
-    "description": "Build Split Rail Fence",
+    "group": "build_split_rail_fence",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
@@ -3371,7 +3354,7 @@
   {
     "type": "construction",
     "id": "constr_privacy_fence",
-    "description": "Build Privacy Fence",
+    "group": "build_privacy_fence",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
@@ -3383,7 +3366,7 @@
   {
     "type": "construction",
     "id": "constr_adobe_brick_wall_halfway",
-    "description": "Build Brick Wall from Adobe",
+    "group": "build_brick_wall_from_adobe",
     "//": "Step 1: start wall",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
@@ -3401,7 +3384,7 @@
   {
     "type": "construction",
     "id": "constr_adobe_brick_wall",
-    "description": "Build Brick Wall from Adobe",
+    "group": "build_brick_wall_from_adobe",
     "//": "Step 2: finish wall",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
@@ -3419,7 +3402,7 @@
   {
     "type": "construction",
     "id": "constr_wall_resin_cage",
-    "description": "Extrude Resin Lattice",
+    "group": "extrude_resin_lattice",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "120 m",
@@ -3431,7 +3414,7 @@
   {
     "type": "construction",
     "id": "constr_wall_resin",
-    "description": "Extrude Resin Wall",
+    "group": "extrude_resin_wall",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "30 m",
@@ -3442,7 +3425,7 @@
   {
     "type": "construction",
     "id": "constr_floor_resin",
-    "description": "Extrude Resin Floor and Roof",
+    "group": "extrude_resin_floor_and_roof",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "90 m",
@@ -3454,7 +3437,7 @@
   {
     "type": "construction",
     "id": "constr_platform_resin",
-    "description": "Extrude Resin Floor (no roof)",
+    "group": "extrude_resin_floor_no_roof",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "30 m",
@@ -3465,8 +3448,20 @@
   },
   {
     "type": "construction",
+    "id": "constr_door_resin",
+    "group": "extrude_resin_door",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "120 m",
+    "qualities": [ { "id": "SMOOTH", "level": 1 } ],
+    "components": [ [ [ "alien_pod_resin", 2 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_resin_hole_c"
+  },
+  {
+    "type": "construction",
     "id": "constr_leanto",
-    "description": "Build Pine Lean-To",
+    "group": "build_pine_lean_to",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "90m",
@@ -3478,7 +3473,7 @@
   {
     "type": "construction",
     "id": "constr_tarptent",
-    "description": "Build Tarp Lean-To",
+    "group": "build_tarp_lean_to",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "50m",
@@ -3490,8 +3485,21 @@
   },
   {
     "type": "construction",
+    "id": "constr_t_floor_for_basecamp",
+    "group": "",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10m",
+    "on_display": false,
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "pre_flags": [ "DIGGABLE", "FLAT" ],
+    "dark_craftable": true,
+    "post_terrain": "t_floor"
+  },
+  {
+    "type": "construction",
     "id": "constr_pit_shallow",
-    "description": "Dig a Shallow Pit",
+    "group": "dig_a_shallow_pit",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "30m",
@@ -3504,7 +3512,7 @@
   {
     "type": "construction",
     "id": "constr_pit",
-    "description": "Dig a Deep Pit",
+    "group": "dig_a_deep_pit",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "150m",
@@ -3517,7 +3525,7 @@
   {
     "type": "construction",
     "id": "constr_arcfurnace",
-    "description": "Build Arc Furnace",
+    "group": "build_arc_furnace",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "120 m",
@@ -3540,12 +3548,12 @@
       [ [ "mortar_build", 10 ] ]
     ],
     "pre_special": "check_empty",
-    "post_terrain": "f_arcfurnace_empty"
+    "post_furniture": "f_arcfurnace_empty"
   },
   {
     "type": "construction",
     "id": "constr_bellows",
-    "description": "Build a bellow.",
+    "group": "build_a_bellow",
     "//": "faction camp workshop recipe",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 1 ] ],
@@ -3554,12 +3562,12 @@
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "2x4", 4 ] ], [ [ "leather", 12 ] ], [ [ "scrap", 20 ] ], [ [ "wire", 8 ] ] ],
     "pre_flags": [ "FLAT" ],
-    "post_terrain": "f_bellows"
+    "post_furniture": "f_bellows"
   },
   {
     "type": "construction",
     "id": "constr_drophammer",
-    "description": "Build a drop hammer.",
+    "group": "build_a_drop_hammer",
     "//": "faction camp workshop recipe",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
@@ -3568,12 +3576,12 @@
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "metal_tank", 2 ] ], [ [ "water_faucet", 2 ] ], [ [ "anvil", 1 ] ], [ [ "chain", 4 ] ], [ [ "pipe", 3 ] ] ],
     "pre_flags": [ "FLAT" ],
-    "post_terrain": "f_drophammer"
+    "post_furniture": "f_drophammer"
   },
   {
     "type": "construction",
     "id": "constr_radio_tower",
-    "description": "Build a radio tower.",
+    "group": "build_a_radio_tower",
     "//": "faction camp workshop recipe",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
@@ -3604,7 +3612,7 @@
   {
     "type": "construction",
     "id": "constr_radio_controls",
-    "description": "Build a radio tower console.",
+    "group": "build_a_radio_tower_console",
     "//": "faction camp workshop recipe",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
@@ -3629,31 +3637,31 @@
   {
     "type": "construction",
     "id": "constr_logstool",
-    "description": "Build Log Stool",
+    "group": "build_log_stool",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "10 m",
     "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
     "components": [ [ [ "log", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_logstool"
+    "post_furniture": "f_logstool"
   },
   {
     "type": "construction",
     "id": "constr_decorative_tree",
-    "description": "Build Decorative Tree",
+    "group": "build_decorative_tree",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "20 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [ [ [ "stick", 4 ], [ "log", 1 ] ], [ [ "nail", 20 ] ], [ [ "pine_bough", 8 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_decorative_tree"
+    "post_furniture": "f_decorative_tree"
   },
   {
     "type": "construction",
     "id": "constr_metal_grate_window",
-    "description": "Build Metal Grate Over a Window",
+    "group": "build_metal_grate_over_a_window",
     "//": "Step 1: Build metal grate over a window",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 5 ] ],
@@ -3667,7 +3675,7 @@
   {
     "type": "construction",
     "id": "constr_metal_grate_window_no_glass",
-    "description": "Build Metal Grate Over a Window Without Glass",
+    "group": "build_metal_grate_over_a_window_without_glass",
     "//": "Step 2: Build metal grate over a window",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 5 ] ],
@@ -3681,7 +3689,7 @@
   {
     "type": "construction",
     "id": "constr_metal_grate_window_curtain",
-    "description": "Build Metal Grate Over a Window",
+    "group": "build_metal_grate_over_a_window",
     "//": "Step 3: Build curtain over metal grate",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 2 ] ],
@@ -3695,7 +3703,7 @@
   {
     "type": "construction",
     "id": "constr_metal_grate_window_curtain_no_glass",
-    "description": "Build Metal Grate Over a Window Without Glass",
+    "group": "build_metal_grate_over_a_window_without_glass",
     "//": "Step 4: Build curtain over metal grate",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 2 ] ],
@@ -3709,7 +3717,7 @@
   {
     "type": "construction",
     "id": "constr_single_pane_glass",
-    "description": "Build Single Glazed Glass Window",
+    "group": "build_single_glazed_glass_window",
     "//": "Step 1: Build single glazed glass window",
     "category": "WINDOWS",
     "required_skills": [ [ "fabrication", 2 ] ],
@@ -3722,7 +3730,7 @@
   {
     "type": "construction",
     "id": "constr_single_pane_glass_curtain",
-    "description": "Build Single Glazed Glass Window",
+    "group": "build_single_glazed_glass_window",
     "//": "Step 2: Build curtain for single glazed glass window",
     "category": "WINDOWS",
     "required_skills": [ [ "fabrication", 2 ] ],
@@ -3735,7 +3743,7 @@
   {
     "type": "construction",
     "id": "constr_reinforced_single_pane_glass",
-    "description": "Build Reinforced Single Glazed Glass Window",
+    "group": "build_reinforced_single_glazed_glass_window",
     "//": "Step 1: Build reinforced single glazed glass window",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 3 ] ],
@@ -3748,7 +3756,7 @@
   {
     "type": "construction",
     "id": "constr_reinforced_single_pane_glass_curtain",
-    "description": "Build Reinforced Single Glazed Glass Window",
+    "group": "build_reinforced_single_glazed_glass_window",
     "//": "Step 2: Build curtain for reinforced single glazed glass window",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 2 ] ],
@@ -3761,7 +3769,7 @@
   {
     "type": "construction",
     "id": "constr_double_pane_glass",
-    "description": "Build Double Glazed Glass Window",
+    "group": "build_double_glazed_glass_window",
     "//": "Step 1: Build double glazed glass window",
     "category": "WINDOWS",
     "required_skills": [ [ "fabrication", 3 ] ],
@@ -3774,7 +3782,7 @@
   {
     "type": "construction",
     "id": "constr_double_pane_glass_curtain",
-    "description": "Build Double Glazed Glass Window",
+    "group": "build_double_glazed_glass_window",
     "//": "Step 2: Build curtain for double glazed glass window",
     "category": "WINDOWS",
     "required_skills": [ [ "fabrication", 2 ] ],
@@ -3787,7 +3795,7 @@
   {
     "type": "construction",
     "id": "constr_reinforced_double_pane_glass",
-    "description": "Build Reinforced Double Glazed Glass Window",
+    "group": "build_reinforced_double_glazed_glass_window",
     "//": "Step 1: Build reinforced double glazed glass window",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 3 ] ],
@@ -3800,7 +3808,7 @@
   {
     "type": "construction",
     "id": "constr_reinforced_double_pane_glass_curtain",
-    "description": "Build Reinforced Double Glazed Glass Window",
+    "group": "build_reinforced_double_glazed_glass_window",
     "//": "Step 2: Build curtain for reinforced double glazed glass window",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 2 ] ],
@@ -3813,7 +3821,7 @@
   {
     "type": "construction",
     "id": "constr_triple_pane_glass",
-    "description": "Build Triple Glazed Glass Window",
+    "group": "build_triple_glazed_glass_window",
     "//": "Step 1: Build triple glazed glass window",
     "category": "WINDOWS",
     "required_skills": [ [ "fabrication", 3 ] ],
@@ -3826,7 +3834,7 @@
   {
     "type": "construction",
     "id": "constr_triple_pane_glass_curtain",
-    "description": "Build Triple Glazed Glass Window",
+    "group": "build_triple_glazed_glass_window",
     "//": "Step 2: Build curtain for triple glazed glass window",
     "category": "WINDOWS",
     "required_skills": [ [ "fabrication", 2 ] ],
@@ -3839,7 +3847,7 @@
   {
     "type": "construction",
     "id": "constr_reinforced_triple_pane_glass",
-    "description": "Build Reinforced Triple Glazed Glass Window",
+    "group": "build_reinforced_triple_glazed_glass_window",
     "//": "Step 1: Build reinforced triple glazed glass window",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 3 ] ],
@@ -3852,7 +3860,7 @@
   {
     "type": "construction",
     "id": "constr_reinforced_triple_pane_glass_curtain",
-    "description": "Build Reinforced Triple Glazed Glass Window",
+    "group": "build_reinforced_triple_glazed_glass_window",
     "//": "Step 2: Build curtain for reinforced triple glazed glass window",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 2 ] ],
@@ -3865,7 +3873,7 @@
   {
     "type": "construction",
     "id": "constr_quadruple_pane_glass",
-    "description": "Build Quadruple Glazed Glass Window",
+    "group": "build_quadruple_glazed_glass_window",
     "//": "Step 1: Build quadruple glazed glass window",
     "category": "WINDOWS",
     "required_skills": [ [ "fabrication", 3 ] ],
@@ -3878,7 +3886,7 @@
   {
     "type": "construction",
     "id": "constr_quadruple_pane_glass_curtain",
-    "description": "Build Quadruple Glazed Glass Window",
+    "group": "build_quadruple_glazed_glass_window",
     "//": "Step 2: Build curtain for quadruple glazed glass window",
     "category": "WINDOWS",
     "required_skills": [ [ "fabrication", 2 ] ],
@@ -3891,7 +3899,7 @@
   {
     "type": "construction",
     "id": "constr_reinforced_quadruple_pane_glass",
-    "description": "Build Reinforced Quadruple Glazed Glass Window",
+    "group": "build_reinforced_quadruple_glazed_glass_window",
     "//": "Step 1: Build reinforced quadruple glazed glass window",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 3 ] ],
@@ -3904,7 +3912,7 @@
   {
     "type": "construction",
     "id": "constr_reinforced_quadruple_pane_glass_curtain",
-    "description": "Build Reinforced Quadruple Glazed Glass Window",
+    "group": "build_reinforced_quadruple_glazed_glass_window",
     "//": "Step 2: Build curtain for reinforced quadruple glazed glass window",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 2 ] ],
@@ -3917,7 +3925,7 @@
   {
     "type": "construction",
     "id": "constr_plastic_window",
-    "description": "Build Plastic Window",
+    "group": "build_plastic_window",
     "//": "Step 1: Build plastic window",
     "category": "WINDOWS",
     "required_skills": [ [ "fabrication", 2 ] ],
@@ -3930,7 +3938,7 @@
   {
     "type": "construction",
     "id": "constr_plastic_window_curtain",
-    "description": "Build Plastic Window",
+    "group": "build_plastic_window",
     "//": "Step 2: Build curtain for plastic window",
     "category": "WINDOWS",
     "required_skills": [ [ "fabrication", 2 ] ],
@@ -3943,7 +3951,7 @@
   {
     "type": "construction",
     "id": "constr_reinforced_plastic_window",
-    "description": "Build Reinforced Plastic Window",
+    "group": "build_reinforced_plastic_window",
     "//": "Step 1: Build reinforced plastic window",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 2 ] ],
@@ -3956,7 +3964,7 @@
   {
     "type": "construction",
     "id": "constr_reinforced_plastic_window_curtain",
-    "description": "Build Reinforced Plastic Window",
+    "group": "build_reinforced_plastic_window",
     "//": "Step 2: Build curtain for reinforced plastic window",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 2 ] ],
@@ -3969,7 +3977,7 @@
   {
     "type": "construction",
     "id": "constr_tempered_window",
-    "description": "Build Window from Tempered Glass",
+    "group": "build_window_from_tempered_glass",
     "//": "Step 1: Build tempered window",
     "category": "WINDOWS",
     "required_skills": [ [ "fabrication", 4 ] ],
@@ -3982,7 +3990,7 @@
   {
     "type": "construction",
     "id": "constr_tempered_window_curtain",
-    "description": "Build Window from Tempered Glass",
+    "group": "build_window_from_tempered_glass",
     "//": "Step 2: Build curtain for tempered window",
     "category": "WINDOWS",
     "required_skills": [ [ "fabrication", 2 ] ],
@@ -3995,7 +4003,7 @@
   {
     "type": "construction",
     "id": "constr_skylight_frame",
-    "description": "Build Sky Light Frame",
+    "group": "build_sky_light_frame",
     "//": "Step 1: Build skylight frame flat roof",
     "category": "WINDOWS",
     "required_skills": [ [ "fabrication", 4 ] ],
@@ -4008,85 +4016,55 @@
   {
     "type": "construction",
     "id": "constr_skylight_frame_tar_roof",
-    "description": "Build Sky Light Frame",
+    "copy-from": "constr_skylight_frame",
     "//": "Step 2: Build skylight frame tar roof",
-    "category": "WINDOWS",
-    "required_skills": [ [ "fabrication", 4 ] ],
-    "time": "90 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 16 ] ] ],
     "pre_terrain": "t_tar_flat_roof",
     "post_terrain": "t_skylight_frame"
   },
   {
     "type": "construction",
     "id": "constr_skylight_frame_shingle_roof",
-    "description": "Build Sky Light Frame",
+    "copy-from": "constr_skylight_frame",
     "//": "Step 3: Build skylight frame shingle roof",
-    "category": "WINDOWS",
-    "required_skills": [ [ "fabrication", 4 ] ],
-    "time": "90 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 16 ] ] ],
     "pre_terrain": "t_shingle_flat_roof",
     "post_terrain": "t_skylight_frame"
   },
   {
     "type": "construction",
     "id": "constr_skylight_frame_thatched_roof",
-    "description": "Build Sky Light Frame",
+    "copy-from": "constr_skylight_frame",
     "//": "Step 4: Build skylight frame thatched roof",
-    "category": "WINDOWS",
-    "required_skills": [ [ "fabrication", 4 ] ],
-    "time": "90 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 16 ] ] ],
     "pre_terrain": "t_thatch_roof",
     "post_terrain": "t_skylight_frame"
   },
   {
     "type": "construction",
     "id": "constr_skylight_frame_metal_roof",
-    "description": "Build Sky Light Frame",
+    "copy-from": "constr_skylight_frame",
     "//": "Step 5: Build skylight frame metal roof",
-    "category": "WINDOWS",
-    "required_skills": [ [ "fabrication", 4 ] ],
-    "time": "90 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 16 ] ] ],
     "pre_terrain": "t_metal_flat_roof",
     "post_terrain": "t_skylight_frame"
   },
   {
     "type": "construction",
     "id": "constr_skylight_frame_tiled_roof",
-    "description": "Build Sky Light Frame",
+    "copy-from": "constr_skylight_frame",
     "//": "Step 6: Build skylight frame  tiled roof",
-    "category": "WINDOWS",
-    "required_skills": [ [ "fabrication", 4 ] ],
-    "time": "90 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 16 ] ] ],
     "pre_terrain": "t_tile_flat_roof",
     "post_terrain": "t_skylight_frame"
   },
   {
     "type": "construction",
     "id": "constr_skylight_frame_open_air",
-    "description": "Build Sky Light Frame",
+    "copy-from": "constr_skylight_frame",
     "//": "Step 7: Build skylight frame open air",
-    "category": "WINDOWS",
-    "required_skills": [ [ "fabrication", 4 ] ],
-    "time": "90 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 16 ] ] ],
     "pre_terrain": "t_open_air",
     "post_terrain": "t_skylight_frame"
   },
   {
     "type": "construction",
     "id": "constr_skylight_frame_Rock_Roof",
-    "description": "Build Sky Light Frame",
+    "group": "build_sky_light_frame",
     "//": "Step 8: Build skylight frame rock roof",
     "category": "WINDOWS",
     "required_skills": [ [ "fabrication", 4 ] ],
@@ -4100,7 +4078,7 @@
   {
     "type": "construction",
     "id": "constr_glass_roof",
-    "description": "Build Sky Light",
+    "group": "build_sky_light",
     "//": "Step 1: Build skylight",
     "category": "WINDOWS",
     "required_skills": [ [ "fabrication", 4 ] ],
@@ -4113,7 +4091,7 @@
   {
     "type": "construction",
     "id": "constr_solar_unit",
-    "description": "Install Solar Panel",
+    "group": "install_solar_panel",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 4 ], [ "electronics", 1 ] ],
     "time": "30 m",
@@ -4122,12 +4100,12 @@
     "components": [ [ [ "steel_chunk", 5 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "pipe", 4 ] ], [ [ "solar_panel", 1 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
-    "post_terrain": "f_solar_unit"
+    "post_furniture": "f_solar_unit"
   },
   {
     "type": "construction",
     "id": "constr_solar_unit_2",
-    "description": "Install Upgraded Solar Panel",
+    "group": "install_upgraded_solar_panel",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 4 ], [ "electronics", 1 ] ],
     "time": "30 m",
@@ -4136,12 +4114,12 @@
     "components": [ [ [ "steel_chunk", 5 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "pipe", 4 ] ], [ [ "solar_panel_v2", 1 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
-    "post_terrain": "f_solar_unit_v2"
+    "post_furniture": "f_solar_unit_v2"
   },
   {
     "type": "construction",
     "id": "constr_battery",
-    "description": "Install Battery",
+    "group": "install_battery",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 3 ], [ "electronics", 1 ] ],
     "time": "30 m",
@@ -4156,12 +4134,12 @@
     ],
     "pre_note": "Will only work if constructed in a building with an electric grid.",
     "pre_special": "check_empty",
-    "post_terrain": "f_battery"
+    "post_furniture": "f_battery"
   },
   {
     "type": "construction",
     "id": "constr_battery_large",
-    "description": "Install Storage Battery",
+    "group": "install_storage_battery",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 3 ], [ "electronics", 1 ] ],
     "time": "30 m",
@@ -4176,12 +4154,12 @@
     ],
     "pre_note": "Will only work if constructed in a building with an electric grid.",
     "pre_special": "check_empty",
-    "post_terrain": "f_battery_large"
+    "post_furniture": "f_battery_large"
   },
   {
     "type": "construction",
     "id": "constr_battery_huge",
-    "description": "Install Large Storage Battery",
+    "group": "install_large_storage_battery",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 3 ], [ "electronics", 1 ] ],
     "time": "30 m",
@@ -4196,12 +4174,12 @@
     ],
     "pre_note": "Will only work if constructed in a building with an electric grid.",
     "pre_special": "check_empty",
-    "post_terrain": "f_battery_huge"
+    "post_furniture": "f_battery_huge"
   },
   {
     "type": "construction",
     "id": "constr_oven",
-    "description": "Install Oven",
+    "group": "install_oven",
     "category": "FURN",
     "required_skills": [  ],
     "time": "10 m",
@@ -4209,12 +4187,12 @@
     "components": [ [ [ "oven", 1 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
-    "post_terrain": "f_oven"
+    "post_furniture": "f_oven"
   },
   {
     "type": "construction",
     "id": "constr_gridfridge",
-    "description": "Install Refrigerator",
+    "group": "install_refrigerator",
     "category": "FURN",
     "required_skills": [  ],
     "time": "10 m",
@@ -4222,34 +4200,34 @@
     "components": [ [ [ "fridge", 1 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
-    "post_terrain": "f_fridge"
+    "post_furniture": "f_fridge"
   },
   {
     "type": "construction",
     "id": "constr_gridfridge_switch_off",
-    "description": "Toggle Refrigerator/Freezer",
+    "group": "toggle_refrigerator_freezer",
     "required_skills": [  ],
     "category": "FURN",
     "time": "1 m",
     "dark_craftable": true,
-    "pre_terrain": "f_fridge_on",
-    "post_terrain": "f_fridge_off"
+    "pre_furniture": "f_fridge_on",
+    "post_furniture": "f_fridge_off"
   },
   {
     "type": "construction",
     "id": "constr_gridfridge_switch_on",
-    "description": "Toggle Refrigerator/Freezer",
+    "group": "toggle_refrigerator_freezer",
     "required_skills": [  ],
     "category": "FURN",
     "time": "1 m",
     "dark_craftable": true,
-    "pre_terrain": "f_fridge_off",
-    "post_terrain": "f_fridge_on"
+    "pre_furniture": "f_fridge_off",
+    "post_furniture": "f_fridge_on"
   },
   {
     "type": "construction",
     "id": "constr_gridminifreezer",
-    "description": "Install Minifreezer",
+    "group": "install_minifreezer",
     "category": "FURN",
     "required_skills": [  ],
     "time": "10 m",
@@ -4257,34 +4235,34 @@
     "components": [ [ [ "minifreezer", 1 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
-    "post_terrain": "f_minifreezer"
+    "post_furniture": "f_minifreezer"
   },
   {
     "type": "construction",
     "id": "constr_gridminifreezer_switch_off",
-    "description": "Toggle Refrigerator/Freezer",
+    "group": "toggle_refrigerator_freezer",
     "required_skills": [  ],
     "category": "FURN",
     "time": "1 m",
     "dark_craftable": true,
-    "pre_terrain": "f_minifreezer_on",
-    "post_terrain": "f_minifreezer_off"
+    "pre_furniture": "f_minifreezer_on",
+    "post_furniture": "f_minifreezer_off"
   },
   {
     "type": "construction",
     "id": "constr_gridminifreezer_switch_on",
-    "description": "Toggle Refrigerator/Freezer",
+    "group": "toggle_refrigerator_freezer",
     "required_skills": [  ],
     "category": "FURN",
     "time": "1 m",
     "dark_craftable": true,
-    "pre_terrain": "f_minifreezer_off",
-    "post_terrain": "f_minifreezer_on"
+    "pre_furniture": "f_minifreezer_off",
+    "post_furniture": "f_minifreezer_on"
   },
   {
     "type": "construction",
     "id": "constr_cable_connector",
-    "description": "Build Jumper Cable Connector",
+    "group": "build_jumper_cable_connector",
     "category": "FURN",
     "required_skills": [ [ "electronics", 1 ] ],
     "time": "45 m",
@@ -4293,12 +4271,12 @@
     "components": [ [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid.",
     "pre_special": "check_empty",
-    "post_terrain": "f_cable_connector"
+    "post_furniture": "f_cable_connector"
   },
   {
     "type": "construction",
     "id": "constr_charger",
-    "description": "Place Charger",
+    "group": "place_charger",
     "category": "FURN",
     "required_skills": [ [ "electronics", 1 ] ],
     "time": "30 m",
@@ -4307,12 +4285,12 @@
     "components": [ [ [ "cable", 5 ] ], [ [ "battery_charger", 1 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
     "pre_note": "Will only work if constructed in a building with an electric grid.",
     "pre_special": "check_empty",
-    "post_terrain": "f_charger"
+    "post_furniture": "f_charger"
   },
   {
     "type": "construction",
     "id": "constr_gridwelder",
-    "description": "Place Arc Welder",
+    "group": "place_arc_welder",
     "category": "OTHER",
     "required_skills": [ [ "electronics", 1 ] ],
     "time": "30 m",
@@ -4321,12 +4299,12 @@
     "components": [ [ [ "welder", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
-    "post_terrain": "f_gridwelder"
+    "post_furniture": "f_gridwelder"
   },
   {
     "type": "construction",
     "id": "constr_gridwelderrig",
-    "description": "Place Welding Rig",
+    "group": "place_welding_rig",
     "category": "FURN",
     "required_skills": [ [ "electronics", 1 ] ],
     "time": "30 m",
@@ -4335,12 +4313,12 @@
     "components": [ [ [ "weldrig", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
-    "post_terrain": "f_welderrig"
+    "post_furniture": "f_welderrig"
   },
   {
     "type": "construction",
     "id": "constr_gridforge",
-    "description": "Place Electric Forge",
+    "group": "place_electric_forge",
     "category": "OTHER",
     "required_skills": [ [ "electronics", 1 ] ],
     "time": "30 m",
@@ -4349,12 +4327,12 @@
     "components": [ [ [ "forge", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
-    "post_terrain": "f_gridforge"
+    "post_furniture": "f_gridforge"
   },
   {
     "type": "construction",
     "id": "constr_gridkiln",
-    "description": "Place Electric Kiln",
+    "group": "place_electric_kiln",
     "category": "OTHER",
     "required_skills": [ [ "electronics", 1 ] ],
     "time": "30 m",
@@ -4363,12 +4341,12 @@
     "components": [ [ [ "kiln", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
-    "post_terrain": "f_gridkiln"
+    "post_furniture": "f_gridkiln"
   },
   {
     "type": "construction",
     "id": "constr_gridelectrolysis_kit",
-    "description": "Place Electrolysis Kit",
+    "group": "place_electrolysis_kit",
     "category": "OTHER",
     "required_skills": [ [ "electronics", 1 ] ],
     "time": "30 m",
@@ -4377,12 +4355,12 @@
     "components": [ [ [ "electrolysis_kit", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
-    "post_terrain": "f_gridelectrolysis_kit"
+    "post_furniture": "f_gridelectrolysis_kit"
   },
   {
     "type": "construction",
     "id": "constr_gridautoclave",
-    "description": "Place Autoclave",
+    "group": "place_autoclave",
     "category": "OTHER",
     "required_skills": [ [ "electronics", 1 ] ],
     "time": "30 m",
@@ -4391,12 +4369,12 @@
     "components": [ [ [ "autoclave", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
-    "post_terrain": "f_gridautoclave"
+    "post_furniture": "f_gridautoclave"
   },
   {
     "type": "construction",
     "id": "constr_griddehydrator",
-    "description": "Place Food Dehydrator",
+    "group": "place_food_dehydrator",
     "category": "OTHER",
     "required_skills": [ [ "electronics", 1 ] ],
     "time": "30 m",
@@ -4405,12 +4383,12 @@
     "components": [ [ [ "dehydrator", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
-    "post_terrain": "f_griddehydrator"
+    "post_furniture": "f_griddehydrator"
   },
   {
     "type": "construction",
     "id": "constr_gridfood_processor",
-    "description": "Place Food Processor",
+    "group": "place_food_processor",
     "category": "OTHER",
     "required_skills": [ [ "electronics", 1 ] ],
     "time": "30 m",
@@ -4419,12 +4397,12 @@
     "components": [ [ [ "food_processor", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
-    "post_terrain": "f_gridfood_processor"
+    "post_furniture": "f_gridfood_processor"
   },
   {
     "type": "construction",
     "id": "constr_gridvac_sealer",
-    "description": "Place Vaccuum Sealer",
+    "group": "place_vaccuum_sealer",
     "category": "OTHER",
     "required_skills": [ [ "electronics", 1 ] ],
     "time": "30 m",
@@ -4433,12 +4411,12 @@
     "components": [ [ [ "vac_sealer", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
-    "post_terrain": "f_gridvac_sealer"
+    "post_furniture": "f_gridvac_sealer"
   },
   {
     "type": "construction",
     "id": "constr_gridrvkitchen",
-    "description": "Place RV-kitchen unit",
+    "group": "place_rv_kitchen_unit",
     "category": "FURN",
     "required_skills": [ [ "electronics", 1 ] ],
     "time": "30 m",
@@ -4447,12 +4425,12 @@
     "components": [ [ [ "kitchen_unit", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
-    "post_terrain": "f_rvoven"
+    "post_furniture": "f_rvoven"
   },
   {
     "type": "construction",
     "id": "constr_gridsolderingiron",
-    "description": "Place soldering iron",
+    "group": "place_soldering_iron",
     "category": "FURN",
     "required_skills": [ [ "electronics", 1 ] ],
     "time": "30 m",
@@ -4461,12 +4439,12 @@
     "components": [ [ [ "soldering_iron", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
-    "post_terrain": "f_gridsolderingiron"
+    "post_furniture": "f_gridsolderingiron"
   },
   {
     "type": "construction",
     "id": "constr_t_gates_mech_control",
-    "description": "Build mechanical winch",
+    "group": "build_mechanical_winch",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 7 ], [ "mechanics", 3 ] ],
     "time": "60 m",
@@ -4489,7 +4467,7 @@
   {
     "type": "construction",
     "id": "constr_t_door_metal_locked",
-    "description": "Build metal garage gate",
+    "group": "build_metal_garage_gate",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 7 ], [ "mechanics", 2 ] ],
     "time": "220 m",
@@ -4512,31 +4490,31 @@
   {
     "type": "construction",
     "id": "constr_f_autodoc",
-    "description": "Install Autodoc",
+    "group": "install_autodoc",
     "category": "WORKSHOP",
     "required_skills": [ [ "electronics", 5 ] ],
     "time": "20 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SCREW", "level": 1 } ] ],
     "components": [ [ [ "autodoc", 1 ] ], [ [ "power_supply", 2 ] ], [ [ "heavy_battery_cell", 2 ] ], [ [ "cable", 40 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_autodoc"
+    "post_furniture": "f_autodoc"
   },
   {
     "type": "construction",
     "id": "constr_f_autodoc_couch",
-    "description": "Install Autodoc couch",
+    "group": "install_autodoc_couch",
     "category": "WORKSHOP",
     "required_skills": [ [ "electronics", 4 ] ],
     "time": "10 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SCREW", "level": 1 } ] ],
     "components": [ [ [ "autodoc_couch", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_autodoc_couch"
+    "post_furniture": "f_autodoc_couch"
   },
   {
     "type": "construction",
     "id": "constr_f_floor_lamp",
-    "description": "Build floor lamp",
+    "group": "build_floor_lamp",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 2 ], [ "electronics", 0 ] ],
     "time": "20 m",
@@ -4544,6 +4522,6 @@
     "components": [ [ [ "cable", 2 ] ], [ [ "power_supply", 1 ] ], [ [ "light_bulb", 1 ] ], [ [ "steel_lump", 1 ] ], [ [ "pipe", 1 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
-    "post_terrain": "f_floor_lamp_off"
+    "post_furniture": "f_floor_lamp_off"
   }
 ]

@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <array>
+#include <map>
 #include <memory>
 #include <utility>
 
@@ -13,7 +14,9 @@
 #include "character.h"
 #include "color.h"
 #include "construction.h"
+#include "construction_partial.h"
 #include "crafting.h"
+#include "distraction_manager.h"
 #include "item.h"
 #include "itype.h"
 #include "map.h"
@@ -434,7 +437,8 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
 
 bool player_activity::is_distraction_ignored( distraction_type type ) const
 {
-    return ignored_distractions.find( type ) != ignored_distractions.end();
+    return ( get_distraction_manager().is_ignored( type ) ||
+             ignored_distractions.find( type ) != ignored_distractions.end() );
 }
 
 void player_activity::ignore_distraction( distraction_type type )

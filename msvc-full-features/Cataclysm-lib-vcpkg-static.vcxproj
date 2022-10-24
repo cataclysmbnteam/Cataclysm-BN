@@ -99,7 +99,6 @@
         </Link>
         <PreBuildEvent>
             <Command>prebuild.cmd</Command>
-            <Message>Get version string</Message>
         </PreBuildEvent>
         <ProjectReference>
             <LinkLibraryDependencies>true</LinkLibraryDependencies>

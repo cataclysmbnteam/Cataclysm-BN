@@ -237,7 +237,9 @@ inline layer_level &operator++( layer_level &l )
 }
 
 /** Possible reasons to interrupt an activity. */
+/** New distractions need to update distraction_manager.cpp */
 enum class distraction_type {
+    alert,
     noise,
     pain,
     attacked,
@@ -245,8 +247,13 @@ enum class distraction_type {
     hostile_spotted_near,
     talked_to,
     asthma,
-    motion_alarm,
     weather_change,
+    num_distraction_type,
+};
+
+template<>
+struct enum_traits<distraction_type> {
+    static constexpr distraction_type last = distraction_type::num_distraction_type;
 };
 
 enum game_message_type : int {

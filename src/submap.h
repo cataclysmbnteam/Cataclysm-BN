@@ -15,7 +15,7 @@
 #include "calendar.h"
 #include "colony.h"
 #include "computer.h"
-#include "construction.h"
+#include "construction_partial.h"
 #include "field.h"
 #include "game_constants.h"
 #include "item.h"

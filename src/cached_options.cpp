@@ -9,6 +9,7 @@ bool use_tiles_overmap = false;
 bool log_from_top;
 int message_ttl;
 int message_cooldown;
+bool display_mod_source;
 bool trigdist;
 bool fov_3d;
 bool static_z_effect = false;

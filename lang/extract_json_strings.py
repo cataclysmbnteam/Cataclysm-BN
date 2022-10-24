@@ -75,6 +75,7 @@ ignorable = {
     "charge_removal_blacklist",
     "city_building",
     "colordef",
+    "construction_sequence",
     "disease_type",
     "emit",
     "enchantment",
@@ -135,6 +136,7 @@ automatically_convertible = {
     "BOOK",
     "COMESTIBLE",
     "construction_category",
+    "construction_group",
     "CONTAINER",
     "dream",
     "ENGINE",
@@ -236,7 +238,6 @@ def extract_clothing_mod(state, item):
 
 
 def extract_construction(state, item):
-    writestr(state, item["description"])
     if "pre_note" in item:
         writestr(state, item["pre_note"])
 

@@ -1052,7 +1052,7 @@ void spell_effect::mutate( const spell &sp, Creature &caster, const tripoint &ta
 
 void spell_effect::bash( const spell &sp, Creature &caster, const tripoint &target )
 {
-    const std::set<tripoint> area = spell_effect_blast( sp, caster.pos(), target, sp.aoe(), false );
+    const std::set<tripoint> area = spell_effect_blast( sp, caster.pos(), target, sp.aoe(), true );
     for( const tripoint &potential_target : area ) {
         if( !sp.is_valid_target( caster, potential_target ) ) {
             continue;

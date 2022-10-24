@@ -220,6 +220,18 @@
   },
   {
     "type": "effect_type",
+    "id": "leashed",
+    "name": [ "Has Leash" ],
+    "desc": [ "AI tag used for critters wearing a leash.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "led_by_leash",
+    "name": [ "Being Led By Leash" ],
+    "desc": [ "AI tag used for critters forced to follow using a leash.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
     "id": "monster_armor",
     "name": [ "Has Armor" ],
     "desc": [ "AI tag used for critters wearing armor.  This is a bug if you have it." ],

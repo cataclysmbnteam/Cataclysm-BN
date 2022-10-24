@@ -216,7 +216,8 @@ void defense_game::init_mtypes()
 
 void defense_game::init_constructions()
 {
-    standardize_construction_times( 1 ); // Everything takes 1 minute
+    // Everything takes 1 minute
+    constructions::override_build_times( 1_minutes );
 }
 
 void defense_game::init_map()
@@ -279,6 +280,7 @@ void defense_game::init_map()
                 popup.message( _( "Please wait as the map generates [%2d%%]" ), percent );
                 ui_manager::redraw();
                 refresh_display();
+                inp_mngr.pump_events();
                 old_percent = percent;
             }
             // Round down to the nearest even number

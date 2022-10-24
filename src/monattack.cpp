@@ -2253,6 +2253,9 @@ bool mattack::plant( monster *z )
 
 bool mattack::disappear( monster *z )
 {
+    // No death drops or corpse, just in case a vanishing monster is set to have that when killed normally
+    z->no_corpse_quiet = true;
+    z->no_extra_death_drops = true;
     z->set_hp( 0 );
     return true;
 }
@@ -2658,6 +2661,7 @@ bool mattack::ranged_pull( monster *z )
         range--;
         if( target->is_player() && seen ) {
             g->invalidate_main_ui_adaptor();
+            inp_mngr.pump_events();
             ui_manager::redraw_invalidated();
             refresh_display();
         }
@@ -4524,8 +4528,6 @@ bool mattack::longswipe( monster *z )
 
 static void parrot_common( monster *parrot )
 {
-    // It takes a while
-    parrot->moves -= 100;
     const SpeechBubble &speech = get_speech( parrot->type->id.str() );
     sounds::sound( parrot->pos(), speech.volume, sounds::sound_t::speech, speech.text.translated(),
                    false, "speech", parrot->type->id.str() );
@@ -4567,8 +4569,12 @@ bool mattack::darkman( monster *z )
         // TODO: handle friendly monsters
         return false;
     }
+    // Wont do stuff unless it can see you and is in range
     if( rl_dist( z->pos(), g->u.pos() ) > 40 ) {
         return false;
+    }
+    if( !z->sees( g->u ) ) {
+        return true;
     }
     if( monster *const shadow = g->place_critter_around( mon_shadow, z->pos(), 1 ) ) {
         z->moves -= 10;
@@ -4577,10 +4583,6 @@ bool mattack::darkman( monster *z )
             add_msg( m_warning, _( "A shadow splits from the %s!" ),
                      z->name() );
         }
-    }
-    // Wont do the combat stuff unless it can see you
-    if( !z->sees( g->u ) ) {
-        return true;
     }
     // What do we say?
     switch( rng( 1, 7 ) ) {

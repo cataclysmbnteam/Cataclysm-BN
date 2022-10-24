@@ -1292,8 +1292,14 @@ void options_manager::add_options_general()
 
     add( "DANGEROUS_TERRAIN_WARNING_PROMPT", "general",
          translate_marker( "Dangerous terrain warning prompt" ),
-         translate_marker( "Always: You will be prompted to move onto dangerous tiles.  Running: You will only be able to move onto dangerous tiles while running and will be prompted.  Crouching: You will only be able to move onto a dangerous tile while crouching and will be prompted.  Never:  You will not be able to move onto a dangerous tile unless running and will not be warned or prompted." ),
-    { { "ALWAYS", to_translation( "Always" ) }, { "RUNNING", translate_marker( "Running" ) }, { "CROUCHING", translate_marker( "Crouching" ) }, { "NEVER", translate_marker( "Never" ) } },
+         translate_marker( "Always: You will be prompted to move onto dangerous tiles.  Running: You will only be able to move onto dangerous tiles while running and will be prompted.  Crouching: You will only be able to move onto a dangerous tile while crouching and will be prompted.  Never:  You will not be able to move onto a dangerous tile unless running and will not be warned or prompted.  Ignore:  You will be able to move onto a dangerous tile without any warnings or prompts." ),
+    {
+        { "ALWAYS", to_translation( "Always" ) },
+        { "RUNNING", translate_marker( "Running" ) },
+        { "CROUCHING", translate_marker( "Crouching" ) },
+        { "NEVER", translate_marker( "Never" ) },
+        { "IGNORE", translate_marker( "Ignore" ) }
+    },
     "ALWAYS"
        );
 
@@ -2092,6 +2098,13 @@ void options_manager::add_options_debug()
 
     add_empty_line();
 
+    add( "MOD_SOURCE", "debug", translate_marker( "Display Mod Source" ),
+         translate_marker( "Displays what content pack a piece of furniture, terrain, item or monster comes from or is affected by.  Disable if it's annoying." ),
+         true
+       );
+
+    add_empty_line();
+
     add_option_group( "debug", Group( "debug_log", to_translation( "Logging" ),
                                       to_translation( "Configure debug.log verbosity." ) ),
     [&]( const std::string & page_id ) {
@@ -2140,8 +2153,6 @@ void options_manager::add_options_debug()
          translate_marker( "Scales experience gained from practicing skills and reading books.  0.5 is half as fast as default, 2.0 is twice as fast, 0.0 disables skill training except for NPC training." ),
          0.0, 100.0, 1.0, 0.1
        );
-
-    add_empty_line();
 
     add( "SKILL_RUST", "debug", translate_marker( "Skill rust" ),
          translate_marker( "Set the level of skill rust.  Vanilla: Vanilla Cataclysm - Capped: Capped at skill levels 2 - Int: Intelligence dependent - IntCap: Intelligence dependent, capped - Off: None at all." ),
@@ -2624,6 +2635,8 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
                            bool force_tile_change )
 {
     if( used_tiles_changed ) {
+        // Disable UIs below to avoid accessing the tile context during loading.
+        ui_adaptor dummy( ui_adaptor::disable_uis_below {} );
         //try and keep SDL calls limited to source files that deal specifically with them
         try {
             tilecontext->reinit();
@@ -2632,8 +2645,9 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
             tilecontext->load_tileset(
                 get_option<std::string>( "TILES" ),
                 ingame ? world_generator->active_world->active_mod_order : dummy,
-                false,
-                force_tile_change
+                /*precheck=*/false,
+                /*force=*/force_tile_change,
+                /*pump_events=*/true
             );
             //game_ui::init_ui is called when zoom is changed
             g->reset_zoom();
@@ -3312,6 +3326,7 @@ void options_manager::cache_to_globals()
 
     json_report_unused_fields = ::get_option<bool>( "REPORT_UNUSED_JSON_FIELDS" );
     json_report_strict = test_mode || json_report_unused_fields;
+    display_mod_source = ::get_option<bool>( "MOD_SOURCE" );
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
     use_tiles = ::get_option<bool>( "USE_TILES" );
     use_tiles_overmap = ::get_option<bool>( "USE_TILES_OVERMAP" );
