@@ -206,7 +206,7 @@ void diary::bionic_changes()
                 if( std::find( prev_page->bionics.begin(), prev_page->bionics.end(),
                                elem ) == prev_page->bionics.end() ) {
                     if( flag ) {
-                        add_to_change_list( _( "New Bionics:" ) );
+                        add_to_change_list( _( "New bionics:" ) );
                         flag = false;
                     }
                     const bionic_data &b = elem.obj();
@@ -224,7 +224,7 @@ void diary::bionic_changes()
                 if( std::find( curr_page->bionics.begin(), curr_page->bionics.end(),
                                elem ) == curr_page->bionics.end() ) {
                     if( flag ) {
-                        add_to_change_list( _( "Lost Bionics:" ) );
+                        add_to_change_list( _( "Lost bionics:" ) );
                         flag = false;
                     }
                     const bionic_data &b = elem.obj();
@@ -259,7 +259,7 @@ void diary::kill_changes()
             add_to_change_list( " " );
         }
         if( !curr_page->npc_kills.empty() ) {
-            add_to_change_list( _( "NPC Killed:" ) );
+            add_to_change_list( _( "NPC killed:" ) );
             for( const std::string &npc_name : curr_page->npc_kills ) {
                 add_to_change_list( string_format( "%4d ", 1 ) + colorize( "@ " + npc_name, c_magenta ) );
             }
@@ -314,7 +314,7 @@ void diary::kill_changes()
                 if( ( std::find( prev_npc_kills.begin(), prev_npc_kills.end(),
                                  npc_name ) == prev_npc_kills.end() ) ) {
                     if( flag ) {
-                        add_to_change_list( _( "NPC Killed:" ) );
+                        add_to_change_list( _( "NPC killed:" ) );
                         flag = false;
                     }
                     add_to_change_list( string_format( "%4d ", 1 ) + colorize( "@ " + npc_name, c_magenta ) );
@@ -410,7 +410,7 @@ void diary::trait_changes()
                 if( std::find( prev_page->traits.begin(), prev_page->traits.end(),
                                elem ) == prev_page->traits.end() ) {
                     if( flag ) {
-                        add_to_change_list( _( "Gained Mutations:" ) );
+                        add_to_change_list( _( "Gained mutations:" ) );
                         flag = false;
                     }
                     const mutation_branch &trait = elem.obj();
@@ -428,7 +428,7 @@ void diary::trait_changes()
                 if( std::find( curr_page->traits.begin(), curr_page->traits.end(),
                                elem ) == curr_page->traits.end() ) {
                     if( flag ) {
-                        add_to_change_list( _( "Lost Mutations:" ) );
+                        add_to_change_list( _( "Lost mutations:" ) );
                         flag = false;
                     }
                     const mutation_branch &trait = elem.obj();
