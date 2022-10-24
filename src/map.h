@@ -568,9 +568,13 @@ class map
          * @param w global coordinates of the submap at grid[0]. This
          * is in submap coordinates.
          * @param update_vehicles If true, add vehicles to the vehicle cache.
+         * @param pump_events If true, handle window events during loading. If
+         * you set this to true, do ensure that the map is not accessed before
+         * this function returns (for example, UIs that draw the map should be
+         * disabled).
          */
-        void load( const tripoint &w, bool update_vehicles );
-        void load( const tripoint_abs_sm &w, bool update_vehicles );
+        void load( const tripoint &w, bool update_vehicles, bool pump_events = false );
+        void load( const tripoint_abs_sm &w, bool update_vehicles, bool pump_events = false );
         /**
          * Shift the map along the vector s.
          * This is like loading the map with coordinates derived from the current
@@ -1715,24 +1719,20 @@ class map
 
     protected:
         void saven( const tripoint &grid );
-        bool loadn( const tripoint &grid, bool update_vehicles );
-        bool loadn( const point &grid, bool update_vehicles ) {
+        void loadn( const tripoint &grid, bool update_vehicles );
+        void loadn( const point &grid, bool update_vehicles ) {
             if( zlevels ) {
-                bool generated = false;
                 for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
-                    generated |= loadn( tripoint( grid, gridz ), update_vehicles );
+                    loadn( tripoint( grid, gridz ), update_vehicles );
                 }
 
-                if( generated ) {
-                    // Note: we want it in a separate loop! It is a post-load cleanup
-                    // Since we're adding roofs, we want it to go up (from lowest to highest)
-                    for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
-                        add_roofs( tripoint( grid, gridz ) );
-                    }
+                // Note: we want it in a separate loop! It is a post-load cleanup
+                // Since we're adding roofs, we want it to go up (from lowest to highest)
+                for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
+                    add_roofs( tripoint( grid, gridz ) );
                 }
-                return generated;
             } else {
-                return loadn( tripoint( grid, abs_sub.z ), update_vehicles );
+                loadn( tripoint( grid, abs_sub.z ), update_vehicles );
             }
         }
         /**

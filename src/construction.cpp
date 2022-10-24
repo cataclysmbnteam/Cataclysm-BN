@@ -226,6 +226,7 @@ void finalize()
     for( const construction &c_it : all_constructions.get_all() ) {
         construction &c = const_cast<construction &>( c_it );
         c.finalize();
+        inp_mngr.pump_events();
     }
 
     constructions_sorted.resize( all_constructions.get_all().size() );

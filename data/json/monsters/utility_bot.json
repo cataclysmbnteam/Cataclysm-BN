@@ -118,13 +118,13 @@
   {
     "id": "mon_haulerbot",
     "type": "MONSTER",
-    "name": { "str": "debug hauler bot" },
-    "description": "A dog-sized, quadrupedal robot designed for testing pet-creating monster spawners.  Capable of carrying fairly heavy loads for its size, autonomously stumbling about and surveying the terrain with its various cameras.  Not very useful after the apocalypse, unless it has been reprogrammed to receive commands from a new user.",
+    "name": { "str": "hauler bot" },
+    "description": "A mule-sized, quadrupedal robot designed for commercial and military use.  Capable of carrying fairly heavy loads for its size, autonomously stumbling about and surveying the terrain with its various cameras.  Not very useful after the apocalypse, unless it has been reprogrammed to receive commands from a new user.",
     "default_faction": "utility_bot",
     "species": [ "ROBOT" ],
-    "volume": "25 L",
-    "weight": "30 kg",
-    "mountable_weight_ratio": 0.5,
+    "volume": "65 L",
+    "weight": "100 kg",
+    "mountable_weight_ratio": 0.75,
     "hp": 75,
     "speed": 120,
     "material": [ "steel" ],
@@ -138,17 +138,7 @@
     "vision_day": 50,
     "revert_to_itype": "bot_haulerbot",
     "death_function": [ "BROKEN" ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "ELECTRONIC",
-      "COLDPROOF",
-      "NO_BREATHE",
-      "PATH_AVOID_DANGER_2",
-      "PACIFIST",
-      "CANPLAY",
-      "PET_HARNESSABLE"
-    ]
+    "flags": [ "SEES", "HEARS", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER_2", "PACIFIST", "PET_HARNESSABLE" ]
   },
   {
     "id": "mon_molebot",

@@ -1483,6 +1483,18 @@
   },
   {
     "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Let me in…\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Let me in!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
     "speaker": "mon_mi_go_slaver",
     "sound": "\"We're both scavs, in't we?\"",
     "volume": 15

@@ -94,12 +94,14 @@ bool monexamine::pet_menu( monster &z )
         remove_bat,
         insert_bat,
         check_bat,
+        disable_pet,
         attack
     };
 
     uilist amenu;
     std::string pet_name = z.get_name();
     bool is_zombie = z.type->in_species( ZOMBIE );
+    const auto mon_item_id = z.type->revert_to_itype;
     if( is_zombie ) {
         pet_name = _( "zombie slave" );
     }
@@ -235,6 +237,14 @@ bool monexamine::pet_menu( monster &z )
             amenu.addentry( insert_bat, false, 'x', _( "You need a %s to power this mech" ), type.nname( 1 ) );
         }
     }
+    if( !mon_item_id.is_empty() && !z.has_flag( MF_RIDEABLE_MECH ) ) {
+        if( z.has_effect( effect_has_bag ) || z.has_effect( effect_monster_armor ) ||
+            z.has_effect( effect_leashed ) || z.has_effect( effect_saddled ) ) {
+            amenu.addentry( disable_pet, true, 'D', _( "Remove items and deactivate the %s" ), pet_name );
+        } else {
+            amenu.addentry( disable_pet, true, 'D', _( "Deactivate the %s" ), pet_name );
+        }
+    }
     amenu.query();
     int choice = amenu.ret;
 
@@ -318,6 +328,11 @@ bool monexamine::pet_menu( monster &z )
             insert_battery( z );
             break;
         case check_bat:
+            break;
+        case disable_pet:
+            if( query_yn( _( "Really deactivate your %s?" ), pet_name ) ) {
+                deactivate_pet( z );
+            }
             break;
         case attack:
             if( query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
@@ -875,6 +890,36 @@ void monexamine::stop_leading( monster &z )
     z.remove_effect( effect_led_by_leash );
     // The pet may or may not stop following so don't print that here
     add_msg( _( "You release the %s's leash." ), z.get_name() );
+}
+
+
+void monexamine::deactivate_pet( monster &z )
+{
+    if( z.has_effect( effect_has_bag ) ) {
+        remove_bag_from( z );
+    }
+    if( z.has_effect( effect_monster_armor ) ) {
+        remove_armor( z );
+    }
+    if( z.has_effect( effect_tied ) ) {
+        untie_pet( z );
+    }
+    if( z.has_effect( effect_leashed ) ) {
+        remove_leash( z );
+    }
+    if( z.has_effect( effect_saddled ) ) {
+        attach_or_remove_saddle( z );
+    }
+    g->m.add_item_or_charges( z.pos(), z.to_item() );
+    if( !z.has_flag( MF_INTERIOR_AMMO ) ) {
+        for( auto &ammodef : z.ammo ) {
+            if( ammodef.second > 0 ) {
+                g->m.spawn_item( z.pos(), ammodef.first, 1, ammodef.second, calendar::turn );
+            }
+        }
+    }
+    g->u.moves -= 100;
+    g->remove_zombie( z );
 }
 
 void monexamine::milk_source( monster &source_mon )

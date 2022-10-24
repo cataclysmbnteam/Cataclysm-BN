@@ -247,6 +247,10 @@ std::string PATH_INFO::safemode()
 {
     return config_dir_value + "safemode.json";
 }
+std::string PATH_INFO::distraction()
+{
+    return config_dir_value + "distraction.json";
+}
 std::string PATH_INFO::savedir()
 {
     return savedir_value;

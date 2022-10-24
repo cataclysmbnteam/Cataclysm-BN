@@ -317,8 +317,9 @@ void Character::suffer_while_awake( const int current_stim )
 
     if( ( has_trait( trait_NARCOLEPTIC ) || has_artifact_with( AEP_SCHIZO ) ) ) {
         if( one_turn_in( 8_hours ) ) {
-            add_msg( m_bad,
-                     _( "You're suddenly overcome with the urge to sleep and you pass out." ) );
+            add_msg_player_or_npc( m_bad,
+                                   _( "You're suddenly overcome with the urge to sleep and you pass out." ),
+                                   _( "<npcname>'s suddenly passes out." ) );
             fall_asleep( 20_minutes );
         }
     }
@@ -525,7 +526,7 @@ void Character::suffer_from_schizophrenia()
         if( !followers.empty() ) {
             who_gets_angry = random_entry_ref( followers )->name;
         }
-        add_msg( m_bad, _( "%1$s gets angry!" ), who_gets_angry );
+        add_msg_if_player( m_bad, _( "%1$s gets angry!" ), who_gets_angry );
         return;
     }
 
@@ -536,14 +537,14 @@ void Character::suffer_from_schizophrenia()
                 mon_zombie, mon_zombie_fat, mon_zombie_fireman, mon_zombie_cop, mon_zombie_soldier
             }
         };
-        add_msg( _( "%s dies!" ), random_entry_ref( monsters )->nname() );
+        add_msg_if_player( _( "%s dies!" ), random_entry_ref( monsters )->nname() );
         return;
     }
 
     // Limb Breaks
     if( one_turn_in( 4_hours ) ) {
         const translation snip = SNIPPET.random_from_category( "broken_limb" ).value_or( translation() );
-        add_msg( m_bad, "%s", snip );
+        add_msg_if_player( m_bad, "%s", snip );
         return;
     }
 
@@ -555,15 +556,15 @@ void Character::suffer_from_schizophrenia()
                 translation() ).translated() );
         parse_tags( i_talk, *this, *this );
 
-        add_msg( _( "%1$s says: \"%2$s\"" ), i_name, i_talk );
+        add_msg_if_player( _( "%1$s says: \"%2$s\"" ), i_name, i_talk );
         return;
     }
 
     // Skill raise
     if( one_turn_in( 12_hours ) ) {
         skill_id raised_skill = Skill::random_skill();
-        add_msg( m_good, _( "You increase %1$s to level %2$d." ), raised_skill.obj().name(),
-                 get_skill_level( raised_skill ) + 1 );
+        add_msg_if_player( m_good, _( "You increase %1$s to level %2$d." ), raised_skill.obj().name(),
+                           get_skill_level( raised_skill ) + 1 );
         return;
     }
 
@@ -606,7 +607,7 @@ void Character::suffer_from_schizophrenia()
             does_talk = true;
         }
         if( does_talk ) {
-            add_msg( _( "%1$s says: \"%2$s\"" ), i_name_w, i_talk_w );
+            add_msg_if_player( _( "%1$s says: \"%2$s\"" ), i_name_w, i_talk_w );
             return;
         }
     }
@@ -1260,7 +1261,7 @@ void Character::suffer_from_bad_bionics()
             add_msg( m_bad, _( "A bionic emits a crackle of noise!" ) );
             sfx::play_variant_sound( "bionics", "elec_blast", 100 );
         } else {
-            add_msg( m_bad, _( "You feel your faulty bionic shuddering." ) );
+            add_msg_if_player( m_bad, _( "You feel your faulty bionic shuddering." ) );
             sfx::play_variant_sound( "bionics", "elec_blast_muffled", 100 );
         }
         sounds::sound( pos(), 60, sounds::sound_t::movement, _( "Crackle!" ) ); //sfx above
@@ -1278,8 +1279,9 @@ void Character::suffer_from_bad_bionics()
     }
     if( has_bionic( bio_spasm ) && one_turn_in( 5_hours ) && !has_effect( effect_downed ) &&
         !has_effect( effect_narcosis ) ) {
-        add_msg_if_player( m_bad,
-                           _( "Your malfunctioning bionic causes you to spasm and fall to the floor!" ) );
+        add_msg_player_or_npc( m_warning,
+                               _( "Your malfunctioning bionic causes you to spasm and fall to the floor!" ),
+                               _( "<npcname> spasms and falls to the floor!" ) );
         mod_pain( 1 );
         add_effect( effect_stunned, 1_turns );
         add_effect( effect_downed, 10_turns, num_bp, 0 );
@@ -1347,13 +1349,13 @@ void Character::suffer_from_stimulants( const int current_stim )
     }
     if( current_stim > 110 ) {
         if( !has_effect( effect_shakes ) && calendar::once_every( 10_minutes ) ) {
-            add_msg( _( "You shake uncontrollably." ) );
+            add_msg_if_player( _( "You shake uncontrollably." ) );
             add_effect( effect_shakes, 15_minutes + 1_turns );
         }
     }
     if( current_stim > 75 ) {
         if( calendar::once_every( 5_minutes ) && !has_effect( effect_nausea ) ) {
-            add_msg( _( "You feel nauseous…" ) );
+            add_msg_if_player( _( "You feel nauseous…" ) );
             add_effect( effect_nausea, 5_minutes );
         }
     }
@@ -1369,7 +1371,7 @@ void Character::suffer_from_stimulants( const int current_stim )
     }
     if( current_stim < -60 || get_painkiller() > 130 ) {
         if( calendar::once_every( 10_minutes ) ) {
-            add_msg( m_warning, _( "You feel tired…" ) );
+            add_msg_if_player( m_warning, _( "You feel tired…" ) );
             mod_fatigue( rng( 1, 2 ) );
         }
     }

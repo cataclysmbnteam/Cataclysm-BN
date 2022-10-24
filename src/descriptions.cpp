@@ -116,7 +116,7 @@ void game::extended_description( const tripoint &p )
                     desc = _( "You do not see any furniture here." );
                 } else {
                     const furn_id fid = m.furn( p );
-                    if( debug_mode ) {
+                    if( display_mod_source ) {
                         const std::string mod_src = enumerate_as_string( fid->src.begin(),
                         fid->src.end(), []( const std::pair<furn_str_id, mod_id> &source ) {
                             return string_format( "'%s'", source.second->name() );
@@ -132,7 +132,7 @@ void game::extended_description( const tripoint &p )
                     desc = _( "You can't see the terrain here." );
                 } else {
                     const ter_id tid = m.ter( p );
-                    if( debug_mode ) {
+                    if( display_mod_source ) {
                         const std::string mod_src = enumerate_as_string( tid->src.begin(),
                         tid->src.end(), []( const std::pair<ter_str_id, mod_id> &source ) {
                             return string_format( "'%s'", source.second->name() );

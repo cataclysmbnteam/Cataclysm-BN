@@ -574,7 +574,7 @@ class game
         void zones_manager();
 
         // Look at nearby terrain ';', or select zone points
-        cata::optional<tripoint> look_around();
+        cata::optional<tripoint> look_around( bool force_3d = false );
         /**
          * @brief
          *
@@ -590,7 +590,7 @@ class game
          */
         look_around_result look_around( bool show_window, tripoint &center,
                                         const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking,
-                                        bool is_moving_zone = false, const tripoint &end_point = tripoint_zero );
+                                        bool is_moving_zone = false, const tripoint &end_point = tripoint_zero, bool force_3d = false );
 
         // Shared method to print "look around" info
         void pre_print_all_tile_info( const tripoint &lp, const catacurses::window &w_info,
@@ -650,9 +650,13 @@ class game
         /**
          * Load the main map at given location, see @ref map::load, in global, absolute submap
          * coordinates.
+         * @param pump_events If true, handle window events during loading. If
+         * you set this to true, do ensure that the map is not accessed before
+         * this function returns (for example, UIs that draw the map should be
+         * disabled).
          */
-        void load_map( const tripoint &pos_sm );
-        void load_map( const tripoint_abs_sm &pos_sm );
+        void load_map( const tripoint &pos_sm, bool pump_events = false );
+        void load_map( const tripoint_abs_sm &pos_sm, bool pump_events = false );
         /**
          * The overmap which contains the center submap of the reality bubble.
          */
@@ -670,7 +674,7 @@ class game
 
         /**@}*/
 
-        void open_gate( const tripoint &p );
+        void toggle_gate( const tripoint &p );
 
         // Knockback functions: knock target at t along a line, either calculated
         // from source position s using force parameter or passed as an argument;
