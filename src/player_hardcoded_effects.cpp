@@ -590,10 +590,10 @@ void player::hardcoded_effects( effect &it )
         }
     } else if( id == effect_attention ) {
         if( intense > 6 ) {
-            if( one_in( 7200 - ( dur - 360_minutes ) / 4_turns ) ) {
+            if( one_in( 7200 - ( intense * 450 ) ) ) {
                 add_msg_if_player( m_bad,
                                    _( "You feel something reaching out to you, before reality around you frays!" ) );
-                if( has_psy_protection( 10 ) ) {
+                if( has_psy_protection( *this, 10 ) ) {
                     // Transfers half of remaining duration of nether attention, tinfoil only sometimes helps
                     add_effect( effect_teleglow, ( dur / 2 ), num_bp, ( intense / 2 ) );
                 } else {
@@ -602,18 +602,21 @@ void player::hardcoded_effects( effect &it )
                 }
                 it.set_duration( 0_turns );
             }
-            if( one_in( 7200 - ( ( dur - 600_minutes ) / 30_seconds ) ) && one_in( 20 ) ) {
+            if( one_in( 8000 - ( intense * 500 ) ) && one_in( 2 ) ) {
                 if( !is_npc() ) {
-                    add_msg( m_bad, _( "You pass out." ) );
+                    add_msg( m_bad, _( "You pass out from the strain of something bearing down on your mind." ) );
                 }
                 fall_asleep( 2_hours );
-                it.mod_duration( -10_minutes * intense );
+                if( one_in( 10 ) ) {
+                    it.set_duration( 0_turns );
+                }
+                it.mod_duration( -20_minutes * intense );
                 it.mod_intensity( -1 );
             }
         }
         if( intense > 4 ) {
-            if( one_in( 5000 ) ) {
-                if( has_psy_protection( 4 ) ) {
+            if( one_in( 6000 - ( intense * 375 ) ) ) {
+                if( has_psy_protection( *this, 4 ) ) {
                     add_msg_if_player( m_bad, _( "You feel something probing your mind, but it is rebuffed!" ) );
                 } else {
                     add_msg_if_player( m_bad, _( "A terrifying image in the back out your mind paralyzes you." ) );
@@ -625,8 +628,8 @@ void player::hardcoded_effects( effect &it )
                     it.mod_intensity( -1 );
                 }
             }
-            if( one_turn_in( 1200_minutes - dur ) ) {
-                if( has_psy_protection( 4 ) ) {
+            if( one_turn_in( 1200_minutes - ( intense * 90_minutes ) ) ) {
+                if( has_psy_protection( *this, 4 ) ) {
                     add_msg_if_player( m_bad, _( "You feel a buzzing in the back of your mind, but it passes." ) );
                 } else {
                     add_msg_if_player( m_bad, _( "You feel something scream in the back of your mind!" ) );
@@ -639,7 +642,7 @@ void player::hardcoded_effects( effect &it )
             }
         }
         if( intense > 2 ) {
-            if( one_turn_in( 1200_minutes - dur ) ) {
+            if( one_turn_in( 1200_minutes - ( intense * 90_minutes ) ) ) {
                 add_msg_if_player( m_bad, _( "Your vision is filled with bright lights…" ) );
                 add_effect( effect_blind, rng( 1_minutes, 2_minutes ) );
                 it.mod_duration( -10_minutes * intense );
@@ -658,7 +661,7 @@ void player::hardcoded_effects( effect &it )
             it.mod_duration( -10_minutes * intense );
         }
         if( one_turn_in( 40_minutes ) ) {
-            if( has_psy_protection( 4 ) ) {
+            if( has_psy_protection( *this, 4 ) ) {
                 add_msg_if_player( m_bad, _( "You feel weird for a moment, but it passes." ) );
             } else {
                 // Less morale drop and faster decay than Psychosis negative messages, but more frequent
@@ -677,7 +680,7 @@ void player::hardcoded_effects( effect &it )
             return;
         }
         if( intense > 6 ) {
-            if( one_in( 6000 - ( ( dur - 600_minutes ) / 1_minutes ) ) ) {
+            if( one_in( 6000 - ( intense * 250 ) ) ) {
                 if( !is_npc() ) {
                     add_msg( _( "Glowing lights surround you, and you teleport." ) );
                 }
@@ -687,8 +690,11 @@ void player::hardcoded_effects( effect &it )
                     // Set ourselves up for removal
                     it.set_duration( 0_turns );
                 }
+                // Since teleporting grants 1 intensity and 30 minutes duration,
+                // if it doesn't remove it'll get more intense but shorter.
+                it.mod_duration( -20_minutes * intense );
             }
-            if( one_in( 7200 - ( dur - 360_minutes ) / 4_turns ) ) {
+            if( one_in( 7200 - ( intense * 250 ) ) ) {
                 add_msg_if_player( m_bad, _( "You are beset with a vision of a prowling beast." ) );
                 for( const tripoint &dest : g->m.points_in_radius( pos(), 6 ) ) {
                     if( g->m.is_cornerfloor( dest ) ) {
@@ -706,7 +712,7 @@ void player::hardcoded_effects( effect &it )
         }
         if( intense > 4 ) {
             // Once every 4 hours baseline, once every 2 hours max
-            if( one_turn_in( 14_hours - dur ) ) {
+            if( one_turn_in( 14_hours - ( intense * 90_minutes ) ) ) {
                 tripoint dest( 0, 0, posz() );
                 int &x = dest.x;
                 int &y = dest.y;
@@ -735,7 +741,7 @@ void player::hardcoded_effects( effect &it )
                     it.mod_intensity( -1 );
                 }
             }
-            if( one_in( 21000 - ( dur - 360_minutes ) / 4_turns ) ) {
+            if( one_in( 21000 - ( intense * 1125 ) ) ) {
                 add_msg_if_player( m_bad, _( "You shudder suddenly." ) );
                 mutate();
                 it.mod_duration( -10_minutes * intense );

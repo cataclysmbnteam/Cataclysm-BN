@@ -1446,8 +1446,6 @@ class Character : public Creature, public visitable<Character>
         bool is_immune_damage( damage_type ) const override;
         /** Returns true if the player is protected from radiation */
         bool is_rad_immune() const;
-        /** Returns true if the player has a psyshield artifact, or sometimes if wearing tinfoil */
-        bool has_psy_protection( int partial_chance );
         /** Returns true if the player is immune to throws */
         bool is_throw_immune() const;
 
@@ -2245,5 +2243,8 @@ std::map<bodypart_id, int> from_effects( const Character &c );
 std::map<bodypart_id, int> wind_resistance_from_clothing(
     const std::map<bodypart_id, std::vector<const item *>> &clothing_map );
 } // namespace warmth
+
+/** Returns true if the player has a psyshield artifact, or sometimes if wearing tinfoil */
+bool has_psy_protection( const Character &c, int partial_chance );
 
 #endif // CATA_SRC_CHARACTER_H

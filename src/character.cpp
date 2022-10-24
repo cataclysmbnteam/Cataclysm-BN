@@ -6264,12 +6264,6 @@ bool Character::is_rad_immune() const
     return ( is_wearing_power_armor( &has_helmet ) && has_helmet ) || worn_with_flag( "RAD_PROOF" );
 }
 
-bool Character::has_psy_protection( int partial_chance )
-{
-    return has_artifact_with( AEP_PSYSHIELD ) ||
-           ( worn_with_flag( "PSYSHIELD_PARTIAL" ) && one_in( partial_chance ) );
-}
-
 int Character::throw_range( const item &it ) const
 {
     if( it.is_null() ) {
@@ -10593,4 +10587,10 @@ bool Character::can_learn_by_disassembly( const recipe &rec ) const
 {
     return !rec.learn_by_disassembly.empty() &&
            meets_skill_requirements( rec.learn_by_disassembly );
+}
+
+bool has_psy_protection( const Character &c, int partial_chance )
+{
+    return c.has_artifact_with( AEP_PSYSHIELD ) ||
+           ( c.worn_with_flag( "PSYSHIELD_PARTIAL" ) && one_in( partial_chance ) );
 }

@@ -2903,7 +2903,7 @@ bool mattack::fear_paralyze( monster *z )
     }
 
     if( g->u.sees( *z ) && !g->u.has_effect( effect_fearparalyze ) ) {
-        if( get_player_character().has_psy_protection( 4 ) ) {
+        if( has_psy_protection( get_player_character(), 4 ) ) {
             add_msg( _( "The %s probes your mind, but is rebuffed!" ), z->name() );
             ///\EFFECT_INT decreases chance of being paralyzed by fear attack
         } else if( rng( 0, 20 ) > g->u.get_int() ) {
