@@ -10,7 +10,6 @@
 
 #include "calendar.h"
 #include "character.h"
-#include "diary.h"
 #include "enums.h"
 #include "item.h"
 #include "player.h"
@@ -20,6 +19,7 @@
 class JsonIn;
 class JsonObject;
 class JsonOut;
+class diary;
 class faction;
 class mission;
 class monster;

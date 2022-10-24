@@ -25,6 +25,7 @@
 #include "clzones.h"
 #include "color.h"
 #include "debug.h"
+#include "diary.h"
 #include "effect.h"
 #include "enums.h"
 #include "event.h"

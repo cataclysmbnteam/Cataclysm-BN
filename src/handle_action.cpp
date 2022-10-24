@@ -28,6 +28,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "debug_menu.h"
+#include "diary.h"
 #include "faction.h"
 #include "field.h"
 #include "field_type.h"

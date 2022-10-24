@@ -64,6 +64,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "dependency_tree.h"
+#include "diary.h"
 #include "distribution_grid.h"
 #include "drop_token.h"
 #include "editmap.h"
