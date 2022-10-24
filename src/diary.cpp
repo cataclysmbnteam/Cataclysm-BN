@@ -342,12 +342,12 @@ void diary::skill_changes()
         return;
     }
     if( prevpage == nullptr ) {
-        if( currpage->skillsL.empty() ) {
+        if( currpage->skill_levels.empty() ) {
             return;
         } else {
 
             add_to_change_list( _( "Skills:" ) );
-            for( const std::pair<const string_id<Skill>, int> &elem : currpage->skillsL ) {
+            for( const std::pair<const string_id<Skill>, int> &elem : currpage->skill_levels ) {
 
                 if( elem.second > 0 ) {
                     Skill s = elem.first.obj();
@@ -360,16 +360,16 @@ void diary::skill_changes()
     } else {
 
         bool flag = true;
-        for( const std::pair<const string_id<Skill>, int> &elem : currpage->skillsL ) {
-            if( prevpage->skillsL.find( elem.first ) != prevpage->skillsL.end() ) {
-                if( prevpage->skillsL[elem.first] != elem.second ) {
+        for( const std::pair<const string_id<Skill>, int> &elem : currpage->skill_levels ) {
+            if( prevpage->skill_levels.find( elem.first ) != prevpage->skill_levels.end() ) {
+                if( prevpage->skill_levels[elem.first] != elem.second ) {
                     if( flag ) {
                         add_to_change_list( _( "Skills: " ) );
                         flag = false;
                     }
                     Skill s = elem.first.obj();
                     add_to_change_list( string_format( _( "<color_light_blue>%s: %d -> %d</color>" ), s.name(),
-                                                       prevpage->skillsL[elem.first], elem.second ), s.description() );
+                                                       prevpage->skill_levels[elem.first], elem.second ), s.description() );
                 }
 
             }
@@ -641,7 +641,7 @@ void diary::new_page()
     for( Skill &elem : Skill::skills ) {
 
         int level = u->get_skill_level_object( elem.ident() ).level();
-        page->skillsL.insert( { elem.ident(), level } );
+        page->skill_levels.insert( { elem.ident(), level } );
     }
     page->max_power_level = u->get_max_power_level();
     diary::pages.push_back( std::move( page ) );
@@ -722,7 +722,7 @@ void diary::serialize( JsonOut &jsout )
         jsout.member( "traits", n->traits );
         jsout.member( "bionics", n->bionics );
         jsout.member( "spells", n->known_spells );
-        jsout.member( "skillsL", n->skillsL );
+        jsout.member( "skill_levels", n->skill_levels );
         jsout.member( "max_power_level", n->max_power_level );
         jsout.end_object();
     }
@@ -772,7 +772,7 @@ void diary::deserialize( JsonIn &jsin )
             elem.read( "traits", page->traits );
             elem.read( "bionics", page->bionics );
             elem.read( "spells", page->known_spells );
-            elem.read( "skillsL", page->skillsL );
+            elem.read( "skill_levels", page->skill_levels );
             elem.read( "max_power_level", page->max_power_level );
             diary::pages.push_back( std::move( page ) );
         }

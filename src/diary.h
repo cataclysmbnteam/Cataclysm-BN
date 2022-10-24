@@ -23,8 +23,6 @@ struct diary_page {
     virtual ~diary_page() = default;
     /*the text the player added to the page*/
     std::string m_text;
-    time_point previous_Page_turn;
-    std::vector<std::string> diff_to_previous_page;
     /*turn the page was created*/
     time_point turn;
     /*mission ids for completed/active and failed missions*/
@@ -49,13 +47,13 @@ struct diary_page {
     /*bionics id`s the character has*/
     std::vector<bionic_id> bionics;
     /*skill id's with level the character has*/
-    std::map<skill_id, int> skillsL;
+    std::map<skill_id, int> skill_levels;
     /*maximal power level the character has*/
     units::energy max_power_level;
 };
 
 /// <summary>
-/// diary is connectet to the player avatar.
+/// diary is connected to the player avatar.
 /// the player is able to add new pages every page saves the current character progression and shows the improvements compared to the previous pages
 /// The player is also able to add a Text in every page.
 /// </summary>

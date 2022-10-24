@@ -229,7 +229,7 @@ class avatar : public player
          */
         std::vector<mission *> active_missions;
         /**
-        * Diary to track player progression and to write the players stroy
+        * Diary to track player progression and to write the players story
         */
         std::unique_ptr <diary> a_diary;
         /**
