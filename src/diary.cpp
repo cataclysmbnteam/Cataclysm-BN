@@ -577,6 +577,7 @@ std::vector<std::string> diary::get_head_text()
         std::string complete_time_text = to_string( get_page_ptr()->turn ); // get complete time
         std::string day_and_time_text = complete_time_text.substr( complete_time_text.find_last_of( ',' ) +
                                         2 );
+        day_and_time_text[0] = std::toupper( day_and_time_text[0] );
         std::string year_and_season_text = complete_time_text.substr( 0,
                                            complete_time_text.find_last_of( ',' ) + 1 );
 
