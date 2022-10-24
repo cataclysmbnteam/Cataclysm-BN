@@ -23,10 +23,10 @@
 
 namespace
 {
-// maximum limit of the UIs width. After that we center them, with an even space left and right
+// maximum limit of the UIs width. After that, we center them, with an even space left and right
 const int MAX_DAIRY_UI_WIDTH = 150;
 
-/**print list scrollable, printed std::vector<std::string> as list with scrollbar*/
+/**print a scrollable list, printed std::vector<std::string> as list with scrollbar*/
 void print_list_scrollable( catacurses::window *win, std::vector<std::string> list, int *selection,
                             int entries_per_page, int xoffset, int width, bool active, bool border,
                             const report_color_error color_error )
@@ -80,9 +80,9 @@ void print_list_scrollable( catacurses::window *win, std::string text, int *sele
                             int entries_per_page, int xoffset, int width, bool active, bool border,
                             const report_color_error color_error )
 {
-    int borderspace = border ? 1 : 0;
+    int border_space = border ? 1 : 0;
     // -1 on the left for scroll bar and another -1 on the right reserved for cursor
-    std::vector<std::string> list = foldstring( text, width - 2 - borderspace * 2 );
+    std::vector<std::string> list = foldstring( text, width - 2 - border_space * 2 );
     print_list_scrollable( win, list, selection, entries_per_page, xoffset, width, active, border,
                            color_error );
 }
@@ -113,32 +113,32 @@ void draw_diary_border( catacurses::window *win, const nc_color &color = c_white
             mvwprintw( *win, point( i, max.y ), "----" );
         }
     }
-    //top left corner
+    // top left corner
     mvwprintw( *win, point_zero, "    " );
     mvwprintw( *win, point_south, ".-/|" );
     mvwprintw( *win, point( 0, 2 ), "||||" );
     mvwprintw( *win, point( 0, 3 ), "||||" );
-    //bottom left corner
+    // bottom left corner
     mvwprintw( *win, point( 0, max.y - 3 ), "||||" );
     mvwprintw( *win, point( 0, max.y - 2 ), "||||" );
     mvwprintw( *win, point( 0, max.y - 1 ), "||/=" );
     mvwprintw( *win, point( 0, max.y - 0 ), "`'--" );
-    //top right corner
+    // top right corner
     mvwprintw( *win, point( max.x - 3, 0 ), "    " );
     mvwprintw( *win, point( max.x - 3, 1 ), "|\\-." );
     mvwprintw( *win, point( max.x - 3, 2 ), "||||" );
     mvwprintw( *win, point( max.x - 3, 3 ), "||||" );
-    //bottom right corner
+    // bottom right corner
     mvwprintw( *win, max + point( -3, -3 ), "||||" );
     mvwprintw( *win, max + point( -3, -2 ), "||||" );
     mvwprintw( *win, max + point( -3, -1 ), "=\\||" );
     mvwprintw( *win, max + point( -3, 0 ), "--''" );
-    //mid top
+    // mid top
     mvwprintw( *win, point( midx, 0 ), "   " );
     mvwprintw( *win, point( midx, 1 ), "\\ /" );
     mvwprintw( *win, point( midx, 2 ), " | " );
     mvwprintw( *win, point( midx, 3 ), " | " );
-    //mid bottom
+    // mid bottom
     mvwprintw( *win, point( midx, max.y - 3 ), " | " );
     mvwprintw( *win, point( midx, max.y - 2 ), " | " );
     mvwprintw( *win, point( midx, max.y - 1 ), "\\|/" );
@@ -169,7 +169,7 @@ void diary::show_diary_ui( diary *c_diary )
     catacurses::window w_changes; // left part of diary
     catacurses::window w_border; // borders of diary
     catacurses::window w_desc; // keybindings window up
-    catacurses::window w_info;
+    catacurses::window w_info; // bottom window
 
     enum class window_mode : int { PAGE_WIN = 0, CHANGE_WIN, TEXT_WIN, NUM_WIN, FIRST_WIN = 0, LAST_WIN = NUM_WIN - 1 };
     window_mode currwin = window_mode::PAGE_WIN;
@@ -349,7 +349,7 @@ void diary::show_diary_ui( diary *c_diary )
 
         } else if( action == "DELETE PAGE" ) {
             if( !c_diary->pages.empty() ) {
-                if( query_yn( _( "Really delete Page?" ) ) ) {
+                if( query_yn( _( "Delete this page from the diary?" ) ) ) {
                     c_diary->delete_page();
                     if( selected[window_mode::PAGE_WIN] >= static_cast<int>( c_diary->pages.size() ) ) {
                         selected[window_mode::PAGE_WIN] --;
@@ -357,7 +357,7 @@ void diary::show_diary_ui( diary *c_diary )
                 }
             }
         } else if( action == "EXPORT_DIARY" ) {
-            if( query_yn( _( "Export Diary as .txt?" ) ) ) {
+            if( query_yn( _( "Export the diary as .txt?" ) ) ) {
                 c_diary->export_to_txt();
             }
 
@@ -370,8 +370,8 @@ void diary::show_diary_ui( diary *c_diary )
 
 void diary::edit_page_ui( const std::function<catacurses::window()> &create_window )
 {
-    // Modify the stored text so the new text is displayed after exiting from
-    // the editor window and before confirming or canceling the y/n query.
+    // modify the stored text, so the new text is displayed after exiting from
+    // the editor window, and before confirming or canceling the y/n query.
     std::string &new_text = get_page_ptr()->m_text;
     const std::string old_text = new_text;
 
@@ -381,7 +381,7 @@ void diary::edit_page_ui( const std::function<catacurses::window()> &create_wind
         const std::pair<bool, std::string> result = ed.query_string();
         new_text = result.second;
 
-        // Confirmed or unchanged
+        // confirmed or unchanged
         if( result.first || old_text == new_text ) {
             break;
         }

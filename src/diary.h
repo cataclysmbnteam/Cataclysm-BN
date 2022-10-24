@@ -29,9 +29,9 @@ struct diary_page {
     std::vector<int> mission_completed;
     std::vector<int> mission_active;
     std::vector<int> mission_failed;
-    /*monster id and kill count of Killed monster*/
+    /*monster id and kill count of killed monster*/
     std::map<mtype_id, int> kills;
-    /*names of killed npc`s*/
+    /*names of killed npc's*/
     std::vector<std::string> npc_kills;
     /*gender*/
     bool male = false;
@@ -44,7 +44,7 @@ struct diary_page {
     std::vector<trait_id> traits;
     /*spells id with level the character has*/
     std::map<spell_id, int> known_spells;
-    /*bionics id`s the character has*/
+    /*bionics id's the character has*/
     std::vector<bionic_id> bionics;
     /*skill id's with level the character has*/
     std::map<skill_id, int> skill_levels;
@@ -54,12 +54,11 @@ struct diary_page {
 
 /// <summary>
 /// diary is connected to the player avatar.
-/// the player is able to add new pages every page saves the current character progression and shows the improvements compared to the previous pages
-/// The player is also able to add a Text in every page.
+/// the player is able to add new pages, every page saves the current character progression and shows the improvements compared to the previous pages
+/// the player is also able to add a text in every page.
 /// </summary>
 class diary
 {
-        //attribute
     private:
         /*character name who owns the diary*/
         std::string owner;
@@ -70,17 +69,16 @@ class diary
         int opened_page = 0; // NOLINT(cata-serialize)
         /*list of changes from opened page to previous page*/
         std::vector<std::string> change_list; // NOLINT(cata-serialize)
-        /*maps discription to position in change list*/
+        /*maps description to position in change list*/
         std::map<int, std::string> desc_map; // NOLINT(cata-serialize)
 
 
-        //methoden
     public:
         diary();
         virtual ~diary() = default;
-        /*static methode to open a diary ui*/
+        /*static method to open a diary ui*/
         static void show_diary_ui( diary *c_diary );
-        /*last entry in the diary, will be called after character death */
+        /*last entry in the diary, will be called after character death*/
         void death_entry();
 
         /*serialize and deserialize*/
@@ -93,21 +91,19 @@ class diary
 
     private:
         /*uses string_popup_window to edit the text on a page. Is not optimal,
-        because its just one line*/
+        because it's just one line*/
         void edit_page_ui();
-        /*Uses editor window class to edit the text.*/
+        /*uses editor window class to edit the text.*/
         void edit_page_ui( const std::function<catacurses::window()> &create_window );
         /*set page to be be shown in ui*/
-        int set_opened_page( int pagenum );
+        int set_opened_page( int page_number );
         /*create a new page and adds current character progression*/
         void new_page();
         /*set page text*/
         void set_page_text( std::string text );
-        /*delite current page*/
+        /*delete current page*/
         void delete_page();
 
-        /*get opened page nummer*/
-        int get_opened_page_num();
         /*returns a list with all pages by the its date*/
         std::vector<std::string> get_pages_list();
         /*returns a list with all changes compared to the previous page*/
@@ -130,9 +126,9 @@ class diary
         void mission_changes();
         void spell_changes();
 
-        /*expots the diary to a readable .txt file. If its the lastexport, its exportet to memorial otherwise its exportet to the world folder*/
+        /*exports the diary to a readable .txt file. If it's the last export, it's exported to memorial otherwise its exported to the world folder*/
         void export_to_txt( bool lastexport = false );
-        /*method for adding changes to the changelist. with the possibility to connect a desciption*/
+        /*method for adding changes to the changelist. with the possibility to connect a description*/
         void add_to_change_list( std::string entry, std::string desc = "" );
 };
 #endif // CATA_SRC_DIARY_H

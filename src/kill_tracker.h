@@ -18,7 +18,10 @@ class event;
 
 class kill_tracker : public event_subscriber
 {
-        /** to keep track of new kills, need to access private member (kills, npc_kills), may include getter for those and remove friend class diary. */
+        /**
+         * to keep track of new kills, we need to access the private members (kills, npc_kills).
+         * we may include getter for those later, and remove friend class diary.
+         */
         friend class diary;
     public:
         kill_tracker() = default;

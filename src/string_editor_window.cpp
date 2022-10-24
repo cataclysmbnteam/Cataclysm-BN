@@ -42,7 +42,7 @@ class folded_text
     public:
         folded_text( const std::string &str, int line_width );
         const std::vector<folded_line> &get_lines() const;
-        // get the display coordinates of the codepoint at index `cpt_idx`
+        // get the display coordinates of the codepoint at index 'cpt_idx'
         point codepoint_coordinates( int cpt_idx, bool zero_x ) const;
 };
 
@@ -266,13 +266,13 @@ void string_editor_window::cursor_leftright( const int diff )
 {
     const int size = _utext.size();
     if( diff < 0 && _position <= 0 ) {
-        // Warp to end
+        // warp to end
         _position = size;
     } else if( diff > 0 && _position >= size ) {
-        // Warp to start
+        // warp to start
         _position = 0;
     } else {
-        // Move at most `diff` codepoints without warping
+        // move at most 'diff' codepoints without warping
         _position = clamp( _position + diff, 0, size );
     }
 }
@@ -283,13 +283,13 @@ void string_editor_window::cursor_updown( const int diff )
         const int size = _folded->get_lines().size();
         int new_y = 0;
         if( diff < 0 && _cursor_display.y <= 0 ) {
-            // Warp to last line
+            // warp to last line
             new_y = size - 1;
         } else if( diff > 0 && _cursor_display.y >= size - 1 ) {
-            // Warp to first line
+            // warp to first line
             new_y = 0;
         } else {
-            // Move at most `diff` lines without warping
+            // move at most 'diff' lines without warping
             new_y = clamp( _cursor_display.y + diff, 0, size - 1 );
         }
         const folded_line &new_line = _folded->get_lines()[new_y];
@@ -297,7 +297,7 @@ void string_editor_window::cursor_updown( const int diff )
         if( !ustr.empty() && is_linebreak( ustr.at( ustr.size() - 1 ) ) ) {
             ustr = ustr.substr( 0, ustr.size() - 1 );
         }
-        // Put cursor at tbe largest x coordinate in the line less or equal to
+        // put cursor at the largest x coordinate in the line less or equal to
         // the desired position.
         const int offset = ustr.substr_display( 0, _cursor_desired_x ).size();
         _position = new_line.cpts_start + offset;

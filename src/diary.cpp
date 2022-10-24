@@ -35,24 +35,19 @@ std::vector<std::string> diary::get_pages_list()
     return result;
 }
 
-int diary::set_opened_page( int pagenum )
+int diary::set_opened_page( int page_number )
 {
-    if( pagenum != opened_page ) {
+    if( page_number != opened_page ) {
         change_list.clear();
         desc_map.clear();
     }
     if( pages.empty() ) {
         opened_page = -1;
-    } else if( pagenum < 0 ) {
+    } else if( page_number < 0 ) {
         opened_page = pages.size() - 1;
     } else {
-        opened_page = pagenum % pages.size();
+        opened_page = page_number % pages.size();
     }
-    return opened_page;
-}
-
-int diary::get_opened_page_num()
-{
     return opened_page;
 }
 
@@ -79,33 +74,33 @@ void diary::add_to_change_list( std::string entry, std::string desc )
 void diary::spell_changes()
 {
     avatar *u = &get_avatar();
-    diary_page *currpage = get_page_ptr();
-    diary_page *prevpage = get_page_ptr( -1 );
-    if( currpage == nullptr ) {
+    diary_page *curr_page = get_page_ptr();
+    diary_page *prev_page = get_page_ptr( -1 );
+    if( curr_page == nullptr ) {
         return;
     }
-    if( prevpage == nullptr ) {
-        if( !currpage->known_spells.empty() ) {
+    if( prev_page == nullptr ) {
+        if( !curr_page->known_spells.empty() ) {
             add_to_change_list( _( "Known spells:" ) );
-            for( const std::pair<const string_id<spell_type>, int> &elem : currpage->known_spells ) {
+            for( const std::pair<const string_id<spell_type>, int> &elem : curr_page->known_spells ) {
                 const spell s = u->magic->get_spell( elem.first );
                 add_to_change_list( string_format( _( "%s: %d" ), s.name(), elem.second ), s.description() );
             }
             add_to_change_list( " " );
         }
     } else {
-        if( !currpage->known_spells.empty() ) {
+        if( !curr_page->known_spells.empty() ) {
             bool flag = true;
-            for( const std::pair<const string_id<spell_type>, int> &elem : currpage->known_spells ) {
-                if( prevpage->known_spells.find( elem.first ) != prevpage->known_spells.end() ) {
-                    const int prevlvl = prevpage->known_spells[elem.first];
-                    if( elem.second != prevlvl ) {
+            for( const std::pair<const string_id<spell_type>, int> &elem : curr_page->known_spells ) {
+                if( prev_page->known_spells.find( elem.first ) != prev_page->known_spells.end() ) {
+                    const int prev_lvl = prev_page->known_spells[elem.first];
+                    if( elem.second != prev_lvl ) {
                         if( flag ) {
                             add_to_change_list( _( "Improved/new spells: " ) );
                             flag = false;
                         }
                         const spell s = u->magic->get_spell( elem.first );
-                        add_to_change_list( string_format( _( "%s: %d -> %d" ), s.name(), prevlvl, elem.second ),
+                        add_to_change_list( string_format( _( "%s: %d -> %d" ), s.name(), prev_lvl, elem.second ),
                                             s.description() );
                     }
                 } else {
@@ -128,12 +123,12 @@ void diary::spell_changes()
 
 void diary::mission_changes()
 {
-    diary_page *currpage = get_page_ptr();
-    diary_page *prevpage = get_page_ptr( -1 );
-    if( currpage == nullptr ) {
+    diary_page *curr_page = get_page_ptr();
+    diary_page *prev_page = get_page_ptr( -1 );
+    if( curr_page == nullptr ) {
         return;
     }
-    if( prevpage == nullptr ) {
+    if( prev_page == nullptr ) {
         auto add_missions = [&]( const std::string name, const std::vector<int> *missions ) {
             if( !missions->empty() ) {
                 bool flag = true;
@@ -153,16 +148,16 @@ void diary::mission_changes()
                 }
             }
         };
-        add_missions( _( "Active missions:" ), &currpage->mission_active );
-        add_missions( _( "Completed missions:" ), &currpage->mission_completed );
-        add_missions( _( "Failed missions:" ), &currpage->mission_failed );
+        add_missions( _( "Active missions:" ), &curr_page->mission_active );
+        add_missions( _( "Completed missions:" ), &curr_page->mission_completed );
+        add_missions( _( "Failed missions:" ), &curr_page->mission_failed );
 
     } else {
         auto add_missions = [&]( const std::string name, const std::vector<int> *missions,
-        const std::vector<int> *prevmissions ) {
+        const std::vector<int> *prev_missions ) {
             bool flag = true;
             for( const int uid : *missions ) {
-                if( std::find( prevmissions->begin(), prevmissions->end(), uid ) == prevmissions->end() ) {
+                if( std::find( prev_missions->begin(), prev_missions->end(), uid ) == prev_missions->end() ) {
                     mission *miss = mission::find( uid );
                     if( miss != nullptr ) {
                         if( flag ) {
@@ -178,25 +173,25 @@ void diary::mission_changes()
                 }
             }
         };
-        add_missions( _( "New missions:" ), &currpage->mission_active, &prevpage->mission_active );
-        add_missions( _( "New completed missions:" ), &currpage->mission_completed,
-                      &prevpage->mission_completed );
-        add_missions( _( "New failed:" ), &currpage->mission_failed, &prevpage->mission_failed );
+        add_missions( _( "New missions:" ), &curr_page->mission_active, &prev_page->mission_active );
+        add_missions( _( "New completed missions:" ), &curr_page->mission_completed,
+                      &prev_page->mission_completed );
+        add_missions( _( "New failed missions:" ), &curr_page->mission_failed, &prev_page->mission_failed );
 
     }
 }
 
 void diary::bionic_changes()
 {
-    diary_page *currpage = get_page_ptr();
-    diary_page *prevpage = get_page_ptr( -1 );
-    if( currpage == nullptr ) {
+    diary_page *curr_page = get_page_ptr();
+    diary_page *prev_page = get_page_ptr( -1 );
+    if( curr_page == nullptr ) {
         return;
     }
-    if( prevpage == nullptr ) {
-        if( !currpage->bionics.empty() ) {
-            add_to_change_list( _( "Bionics" ) );
-            for( const bionic_id &elem : currpage->bionics ) {
+    if( prev_page == nullptr ) {
+        if( !curr_page->bionics.empty() ) {
+            add_to_change_list( _( "Bionics:" ) );
+            for( const bionic_id &elem : curr_page->bionics ) {
                 const bionic_data &b = elem.obj();
                 add_to_change_list( b.name.translated(), b.description.translated() );
             }
@@ -205,13 +200,13 @@ void diary::bionic_changes()
     } else {
 
         bool flag = true;
-        if( !currpage->bionics.empty() ) {
-            for( const bionic_id &elem : currpage->bionics ) {
+        if( !curr_page->bionics.empty() ) {
+            for( const bionic_id &elem : curr_page->bionics ) {
 
-                if( std::find( prevpage->bionics.begin(), prevpage->bionics.end(),
-                               elem ) == prevpage->bionics.end() ) {
+                if( std::find( prev_page->bionics.begin(), prev_page->bionics.end(),
+                               elem ) == prev_page->bionics.end() ) {
                     if( flag ) {
-                        add_to_change_list( _( "New Bionics: " ) );
+                        add_to_change_list( _( "New Bionics:" ) );
                         flag = false;
                     }
                     const bionic_data &b = elem.obj();
@@ -224,12 +219,12 @@ void diary::bionic_changes()
         }
 
         flag = true;
-        if( !prevpage->bionics.empty() ) {
-            for( const bionic_id &elem : prevpage->bionics ) {
-                if( std::find( currpage->bionics.begin(), currpage->bionics.end(),
-                               elem ) == currpage->bionics.end() ) {
+        if( !prev_page->bionics.empty() ) {
+            for( const bionic_id &elem : prev_page->bionics ) {
+                if( std::find( curr_page->bionics.begin(), curr_page->bionics.end(),
+                               elem ) == curr_page->bionics.end() ) {
                     if( flag ) {
-                        add_to_change_list( _( "Lost Bionics: " ) );
+                        add_to_change_list( _( "Lost Bionics:" ) );
                         flag = false;
                     }
                     const bionic_data &b = elem.obj();
@@ -245,15 +240,15 @@ void diary::bionic_changes()
 
 void diary::kill_changes()
 {
-    diary_page *currpage = get_page_ptr();
-    diary_page *prevpage = get_page_ptr( -1 );
-    if( currpage == nullptr ) {
+    diary_page *curr_page = get_page_ptr();
+    diary_page *prev_page = get_page_ptr( -1 );
+    if( curr_page == nullptr ) {
         return;
     }
-    if( prevpage == nullptr ) {
-        if( !currpage->kills.empty() ) {
-            add_to_change_list( _( "Kills: " ) );
-            for( const std::pair<const string_id<mtype>, int> &elem : currpage->kills ) {
+    if( prev_page == nullptr ) {
+        if( !curr_page->kills.empty() ) {
+            add_to_change_list( _( "Kills:" ) );
+            for( const std::pair<const string_id<mtype>, int> &elem : curr_page->kills ) {
                 const mtype &m = elem.first.obj();
                 nc_color color = m.color;
                 std::string symbol = m.sym;
@@ -263,9 +258,9 @@ void diary::kill_changes()
             }
             add_to_change_list( " " );
         }
-        if( !currpage->npc_kills.empty() ) {
-            add_to_change_list( _( "NPC Killed" ) );
-            for( const std::string &npc_name : currpage->npc_kills ) {
+        if( !curr_page->npc_kills.empty() ) {
+            add_to_change_list( _( "NPC Killed:" ) );
+            for( const std::string &npc_name : curr_page->npc_kills ) {
                 add_to_change_list( string_format( "%4d ", 1 ) + colorize( "@ " + npc_name, c_magenta ) );
             }
             add_to_change_list( " " );
@@ -273,29 +268,29 @@ void diary::kill_changes()
 
     } else {
 
-        if( !currpage->kills.empty() ) {
+        if( !curr_page->kills.empty() ) {
 
             bool flag = true;
-            for( const std::pair<const string_id<mtype>, int> &elem : currpage->kills ) {
+            for( const std::pair<const string_id<mtype>, int> &elem : curr_page->kills ) {
                 const mtype &m = elem.first.obj();
                 nc_color color = m.color;
                 std::string symbol = m.sym;
                 std::string nname = m.nname( elem.second );
                 int kills = elem.second;
-                if( prevpage->kills.count( elem.first ) > 0 ) {
-                    const int prevkills = prevpage->kills[elem.first];
-                    if( kills > prevkills ) {
+                if( prev_page->kills.count( elem.first ) > 0 ) {
+                    const int prev_kills = prev_page->kills[elem.first];
+                    if( kills > prev_kills ) {
                         if( flag ) {
-                            add_to_change_list( _( "Kills: " ) );
+                            add_to_change_list( _( "Kills:" ) );
                             flag = false;
                         }
-                        kills = kills - prevkills;
+                        kills = kills - prev_kills;
                         add_to_change_list( string_format( "%4d ", kills ) + colorize( symbol,
                                             color ) + " " + colorize( nname, c_light_gray ), m.get_description() );
                     }
                 } else {
                     if( flag ) {
-                        add_to_change_list( _( "Kills: " ) );
+                        add_to_change_list( _( "Kills:" ) );
                         flag = false;
                     }
                     add_to_change_list( string_format( "%4d ", kills ) + colorize( symbol,
@@ -309,17 +304,17 @@ void diary::kill_changes()
             }
 
         }
-        if( !currpage->npc_kills.empty() ) {
+        if( !curr_page->npc_kills.empty() ) {
 
-            const std::vector<std::string> &prev_npc_kills = prevpage->npc_kills;
+            const std::vector<std::string> &prev_npc_kills = prev_page->npc_kills;
 
             bool flag = true;
-            for( const std::string &npc_name : currpage->npc_kills ) {
+            for( const std::string &npc_name : curr_page->npc_kills ) {
 
                 if( ( std::find( prev_npc_kills.begin(), prev_npc_kills.end(),
                                  npc_name ) == prev_npc_kills.end() ) ) {
                     if( flag ) {
-                        add_to_change_list( _( "NPC Killed: " ) );
+                        add_to_change_list( _( "NPC Killed:" ) );
                         flag = false;
                     }
                     add_to_change_list( string_format( "%4d ", 1 ) + colorize( "@ " + npc_name, c_magenta ) );
@@ -336,18 +331,18 @@ void diary::kill_changes()
 
 void diary::skill_changes()
 {
-    diary_page *currpage = get_page_ptr();
-    diary_page *prevpage = get_page_ptr( -1 );
-    if( currpage == nullptr ) {
+    diary_page *curr_page = get_page_ptr();
+    diary_page *prev_page = get_page_ptr( -1 );
+    if( curr_page == nullptr ) {
         return;
     }
-    if( prevpage == nullptr ) {
-        if( currpage->skill_levels.empty() ) {
+    if( prev_page == nullptr ) {
+        if( curr_page->skill_levels.empty() ) {
             return;
         } else {
 
             add_to_change_list( _( "Skills:" ) );
-            for( const std::pair<const string_id<Skill>, int> &elem : currpage->skill_levels ) {
+            for( const std::pair<const string_id<Skill>, int> &elem : curr_page->skill_levels ) {
 
                 if( elem.second > 0 ) {
                     Skill s = elem.first.obj();
@@ -360,16 +355,16 @@ void diary::skill_changes()
     } else {
 
         bool flag = true;
-        for( const std::pair<const string_id<Skill>, int> &elem : currpage->skill_levels ) {
-            if( prevpage->skill_levels.find( elem.first ) != prevpage->skill_levels.end() ) {
-                if( prevpage->skill_levels[elem.first] != elem.second ) {
+        for( const std::pair<const string_id<Skill>, int> &elem : curr_page->skill_levels ) {
+            if( prev_page->skill_levels.find( elem.first ) != prev_page->skill_levels.end() ) {
+                if( prev_page->skill_levels[elem.first] != elem.second ) {
                     if( flag ) {
-                        add_to_change_list( _( "Skills: " ) );
+                        add_to_change_list( _( "Skills:" ) );
                         flag = false;
                     }
                     Skill s = elem.first.obj();
                     add_to_change_list( string_format( _( "<color_light_blue>%s: %d -> %d</color>" ), s.name(),
-                                                       prevpage->skill_levels[elem.first], elem.second ), s.description() );
+                                                       prev_page->skill_levels[elem.first], elem.second ), s.description() );
                 }
 
             }
@@ -384,24 +379,24 @@ void diary::skill_changes()
 
 void diary::trait_changes()
 {
-    diary_page *currpage = get_page_ptr();
-    diary_page *prevpage = get_page_ptr( -1 );
-    if( currpage == nullptr ) {
+    diary_page *curr_page = get_page_ptr();
+    diary_page *prev_page = get_page_ptr( -1 );
+    if( curr_page == nullptr ) {
         return;
     }
-    if( prevpage == nullptr ) {
-        if( !currpage->traits.empty() ) {
+    if( prev_page == nullptr ) {
+        if( !curr_page->traits.empty() ) {
             add_to_change_list( _( "Mutations:" ) );
-            for( const trait_id &elem : currpage->traits ) {
+            for( const trait_id &elem : curr_page->traits ) {
                 const mutation_branch &trait = elem.obj();
                 add_to_change_list( colorize( trait.name(), trait.get_display_color() ), trait.desc() );
             }
             add_to_change_list( "" );
         }
     } else {
-        if( prevpage->traits.empty() && !currpage->traits.empty() ) {
+        if( prev_page->traits.empty() && !curr_page->traits.empty() ) {
             add_to_change_list( _( "Mutations:" ) );
-            for( const trait_id &elem : currpage->traits ) {
+            for( const trait_id &elem : curr_page->traits ) {
                 const mutation_branch &trait = elem.obj();
                 add_to_change_list( colorize( trait.name(), trait.get_display_color() ), trait.desc() );
 
@@ -410,12 +405,12 @@ void diary::trait_changes()
         } else {
 
             bool flag = true;
-            for( const trait_id &elem : currpage->traits ) {
+            for( const trait_id &elem : curr_page->traits ) {
 
-                if( std::find( prevpage->traits.begin(), prevpage->traits.end(),
-                               elem ) == prevpage->traits.end() ) {
+                if( std::find( prev_page->traits.begin(), prev_page->traits.end(),
+                               elem ) == prev_page->traits.end() ) {
                     if( flag ) {
-                        add_to_change_list( _( "Gained Mutation: " ) );
+                        add_to_change_list( _( "Gained Mutations:" ) );
                         flag = false;
                     }
                     const mutation_branch &trait = elem.obj();
@@ -428,12 +423,12 @@ void diary::trait_changes()
             }
 
             flag = true;
-            for( const trait_id &elem : prevpage->traits ) {
+            for( const trait_id &elem : prev_page->traits ) {
 
-                if( std::find( currpage->traits.begin(), currpage->traits.end(),
-                               elem ) == currpage->traits.end() ) {
+                if( std::find( curr_page->traits.begin(), curr_page->traits.end(),
+                               elem ) == curr_page->traits.end() ) {
                     if( flag ) {
-                        add_to_change_list( _( "Lost Mutation: " ) );
+                        add_to_change_list( _( "Lost Mutations:" ) );
                         flag = false;
                     }
                     const mutation_branch &trait = elem.obj();
@@ -450,53 +445,53 @@ void diary::trait_changes()
 
 void diary::stat_changes()
 {
-    diary_page *currpage = get_page_ptr();
-    diary_page *prevpage = get_page_ptr( -1 );
-    if( currpage == nullptr ) {
+    diary_page *curr_page = get_page_ptr();
+    diary_page *prev_page = get_page_ptr( -1 );
+    if( curr_page == nullptr ) {
         return;
     }
-    if( prevpage == nullptr ) {
+    if( prev_page == nullptr ) {
         add_to_change_list( _( "Stats:" ) );
-        add_to_change_list( string_format( _( "Strength: %d" ), currpage->strength ) );
-        add_to_change_list( string_format( _( "Dexterity: %d" ), currpage->dexterity ) );
-        add_to_change_list( string_format( _( "Intelligence: %d" ), currpage->intelligence ) );
-        add_to_change_list( string_format( _( "Perception: %d" ), currpage->perception ) );
+        add_to_change_list( string_format( _( "Strength: %d" ), curr_page->strength ) );
+        add_to_change_list( string_format( _( "Dexterity: %d" ), curr_page->dexterity ) );
+        add_to_change_list( string_format( _( "Intelligence: %d" ), curr_page->intelligence ) );
+        add_to_change_list( string_format( _( "Perception: %d" ), curr_page->perception ) );
         add_to_change_list( " " );
     } else {
 
         bool flag = true;
-        if( currpage->strength != prevpage->strength ) {
+        if( curr_page->strength != prev_page->strength ) {
             if( flag ) {
-                add_to_change_list( _( "Stats: " ) );
+                add_to_change_list( _( "Stats:" ) );
                 flag = false;
             }
-            add_to_change_list( string_format( _( "Strength: %d -> %d" ), prevpage->strength,
-                                               currpage->strength ) );
+            add_to_change_list( string_format( _( "Strength: %d -> %d" ), prev_page->strength,
+                                               curr_page->strength ) );
         }
-        if( currpage->dexterity != prevpage->dexterity ) {
+        if( curr_page->dexterity != prev_page->dexterity ) {
             if( flag ) {
-                add_to_change_list( _( "Stats: " ) );
+                add_to_change_list( _( "Stats:" ) );
                 flag = false;
             }
-            add_to_change_list( string_format( _( "Dexterity: %d -> %d" ), prevpage->dexterity,
-                                               currpage->dexterity ) );
+            add_to_change_list( string_format( _( "Dexterity: %d -> %d" ), prev_page->dexterity,
+                                               curr_page->dexterity ) );
         }
-        if( currpage->intelligence != prevpage->intelligence ) {
+        if( curr_page->intelligence != prev_page->intelligence ) {
             if( flag ) {
                 add_to_change_list( _( "Stats: " ) );
                 flag = false;
             }
-            add_to_change_list( string_format( _( "Intelligence: %d -> %d" ), prevpage->intelligence,
-                                               currpage->intelligence ) );
+            add_to_change_list( string_format( _( "Intelligence: %d -> %d" ), prev_page->intelligence,
+                                               curr_page->intelligence ) );
         }
 
-        if( currpage->perception != prevpage->perception ) {
+        if( curr_page->perception != prev_page->perception ) {
             if( flag ) {
-                add_to_change_list( _( "Stats: " ) );
+                add_to_change_list( _( "Stats:" ) );
                 flag = false;
             }
-            add_to_change_list( string_format( _( "Perception: %d -> %d" ), prevpage->perception,
-                                               currpage->perception ) );
+            add_to_change_list( string_format( _( "Perception: %d -> %d" ), prev_page->perception,
+                                               curr_page->perception ) );
         }
         if( !flag ) {
             add_to_change_list( " " );
@@ -546,8 +541,9 @@ std::vector<std::string> diary::get_head_text()
 {
 
     if( !pages.empty() ) {
-        const diary_page *prevpageptr = get_page_ptr( -1 );
-        const time_point prev_turn = ( prevpageptr != nullptr ) ? prevpageptr->turn : calendar::turn_zero;
+        const diary_page *prev_page_ptr = get_page_ptr( -1 );
+        const time_point prev_turn = ( prev_page_ptr != nullptr ) ? prev_page_ptr->turn :
+                                     calendar::turn_zero;
         const time_duration turn_diff = get_page_ptr()->turn - prev_turn;
         const int days = to_days<int>( turn_diff );
         const int hours = to_hours<int>( turn_diff ) % 24;
@@ -598,8 +594,8 @@ std::vector<std::string> diary::get_head_text()
 
 void diary::death_entry()
 {
-    bool lasttime = query_yn( _( "Open your diary for the last time?" ) );
-    if( lasttime ) {
+    bool last_time = query_yn( _( "Open your diary for the last time?" ) );
+    if( last_time ) {
         show_diary_ui( this );
     }
     export_to_txt( true );
@@ -655,10 +651,10 @@ void diary::delete_page()
     }
 }
 
-void diary::export_to_txt( bool lastexport )
+void diary::export_to_txt( bool last_export )
 {
     std::ofstream myfile;
-    std::string path = lastexport ? PATH_INFO::memorialdir() : g->get_world_base_save_path();
+    std::string path = last_export ? PATH_INFO::memorialdir() : g->get_world_base_save_path();
     path += "/" + owner + "s_diary.txt";
     myfile.open( path );
 
@@ -686,10 +682,10 @@ bool diary::store()
 {
     std::string name = base64_encode( get_avatar().get_name() + "_diary" );
     std::string path = g->get_world_base_save_path() + "/" + name + ".json";
-    const bool iswriten = write_to_file( path, [&]( std::ostream & fout ) {
+    const bool is_writen = write_to_file( path, [&]( std::ostream & fout ) {
         serialize( fout );
     }, _( "diary data" ) );
-    return iswriten;
+    return is_writen;
 }
 
 void diary::serialize( std::ostream &fout )

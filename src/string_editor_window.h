@@ -16,9 +16,9 @@ class folded_text;
 struct ime_preview_range;
 
 /// <summary>
-/// Editor, to let the player edit text.
+/// editor, to let the player edit text.
 ///
-/// Example:
+/// example:
 /// string_editor_window ed = string_editor_window( create_window, text );
 /// new_text = ed.query_string();
 ///
