@@ -13,7 +13,8 @@
     "weight": "3 g",
     "bashing": 1,
     "ammo_type": "blunderbuss",
-    "damage": { "damage_type": "stab", "amount": 60, "armor_penetration": 8 },
+    "//": "Half the expected armor pernetration, additionally all blinderbuss rounds have an armor multiplier.",
+    "damage": { "damage_type": "stab", "amount": 44, "armor_penetration": 12, "armor_multiplier": 1.5 },
     "range": 12,
     "dispersion": 60,
     "recoil": 840,
@@ -33,7 +34,7 @@
     "weight": "2 g",
     "bashing": 1,
     "ammo_type": "blunderbuss",
-    "damage": { "damage_type": "stab", "amount": 60 },
+    "damage": { "damage_type": "stab", "amount": 55, "armor_multiplier": 1.5 },
     "range": 6,
     "recoil": 780,
     "effects": [ "COOKOFF", "SHOT", "RECYCLED" ]
@@ -52,7 +53,8 @@
     "weight": "3 g",
     "bashing": 1,
     "ammo_type": "blunderbuss",
-    "damage": { "damage_type": "stab", "amount": 53, "armor_penetration": 12 },
+    "//": "Balanced as standard FMJ to allow lower damage but more penetration over shot.",
+    "damage": { "damage_type": "stab", "amount": 44, "armor_penetration": 24, "armor_multiplier": 1.5 },
     "range": 10,
     "recoil": 840,
     "effects": [ "COOKOFF", "SHOT", "RECYCLED" ]

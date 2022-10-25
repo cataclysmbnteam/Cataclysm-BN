@@ -30,7 +30,7 @@
     "copy-from": "shot_flechette",
     "type": "AMMO",
     "name": { "str": "flechette shell, black powder" },
-    "proportional": { "price": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
+    "proportional": { "price": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8, "armor_penetration": 0.8 }, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -39,7 +39,7 @@
     "copy-from": "shot_slug",
     "type": "AMMO",
     "name": { "str": "shotgun slug, black powder" },
-    "proportional": { "price": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
+    "proportional": { "price": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8, "armor_penetration": 0.8 }, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -123,7 +123,8 @@
     "price_postapoc": 800,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 10,
-    "relative": { "damage": { "damage_type": "bullet", "amount": -6, "armor_penetration": 12 } }
+    "//": "Balanced as standard FMJ to allow lower damage but more penetration over shot.",
+    "relative": { "damage": { "damage_type": "bullet", "amount": -10, "armor_penetration": 22 } }
   },
   {
     "id": "shot_he",
@@ -168,7 +169,8 @@
     "price_postapoc": 400,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "dispersion": 100,
-    "relative": { "range": 12, "damage": { "damage_type": "bullet", "armor_penetration": 6 } },
+    "//": "Balanced as FMJ, half expected arpen",
+    "relative": { "range": 12, "damage": { "damage_type": "bullet", "amount": -10, "armor_penetration": 11 } },
     "proportional": { "recoil": 1.4 },
     "delete": { "effects": [ "SHOT" ] }
   }
