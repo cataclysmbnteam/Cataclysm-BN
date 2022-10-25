@@ -102,6 +102,7 @@
 #include "units.h"
 #include "units_utility.h"
 #include "value_ptr.h"
+#include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
 
@@ -4667,6 +4668,17 @@ static player &player_on_couch( player &p, const tripoint &autodoc_loc, player &
                     return  *g->critter_by_id<player>( e->getID() );
                 }
             }
+        } else if( here.veh_at( couch_loc ).part_with_feature( flag_AUTODOC_COUCH, false ) ) {
+            adjacent_couch = true;
+            couch_pos = couch_loc;
+            if( p.pos() == couch_loc ) {
+                return p;
+            }
+            for( const npc *e : g->allies() ) {
+                if( e->pos() == couch_loc ) {
+                    return  *g->critter_by_id<player>( e->getID() );
+                }
+            }
         }
     }
     return null_patient;
@@ -4678,6 +4690,15 @@ static Character &operator_present( Character &p, const tripoint &autodoc_loc,
     map &here = get_map();
     for( const auto &loc : here.points_in_radius( autodoc_loc, 1 ) ) {
         if( !here.has_flag_furn( flag_AUTODOC_COUCH, loc ) ) {
+            if( p.pos() == loc ) {
+                return p;
+            }
+            for( const npc *e : g->allies() ) {
+                if( e->pos() == loc ) {
+                    return  *g->critter_by_id<player>( e->getID() );
+                }
+            }
+        } else if( here.veh_at( loc ).part_with_feature( flag_AUTODOC_COUCH, false ) ) {
             if( p.pos() == loc ) {
                 return p;
             }

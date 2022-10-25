@@ -3550,11 +3550,24 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
     time_duration time_left = time_duration::from_turns( act->moves_left / 100 );
 
     map &here = get_map();
-    if( autodoc && here.inbounds( p->pos() ) ) {
-        const std::list<tripoint> autodocs = here.find_furnitures_with_flag_in_radius( p->pos(), 1,
-                                             flag_AUTODOC );
+    // first get furnitures autodoc
+    std::list<tripoint> autodocs = here.find_furnitures_with_flag_in_radius( p->pos(), 1,
+                                   flag_AUTODOC );
 
-        if( !here.has_flag_furn( flag_AUTODOC_COUCH, p->pos() ) || autodocs.empty() ) {
+    // if we didn't find one, try to get a vehicle version instead
+    if( autodocs.empty() ) {
+        for( const auto &loc : here.points_in_radius( p->pos(), 1 ) ) {
+            // we found a mounted autodoc
+            if( here.veh_at( loc ).part_with_feature( flag_AUTODOC, false ) ) {
+                autodocs.push_back( loc );
+            }
+        }
+    }
+    // check if player is still on an autodoc couch
+    const auto is_on_autodoc_couch = here.has_flag_furn( flag_AUTODOC_COUCH, p->pos() ) ||
+                                     here.veh_at( p->pos() ).part_with_feature( flag_AUTODOC_COUCH, false );
+    if( autodoc && here.inbounds( p->pos() ) ) {
+        if( !is_on_autodoc_couch || autodocs.empty() ) {
             p->remove_effect( effect_under_op );
             act->set_to_null();
 
