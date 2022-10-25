@@ -3147,5 +3147,10 @@
     "type": "recipe",
     "result": "rubber_armor_horse_from_scratch",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "40x46mm_buckshot_m199",
+    "obsolete": true
   }
 ]
