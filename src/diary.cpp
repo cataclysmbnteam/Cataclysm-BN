@@ -123,7 +123,6 @@ void diary::spell_changes()
 
 void diary::martial_art_changes()
 {
-    avatar *u = &get_avatar();
     diary_page *curr_page = get_page_ptr();
     diary_page *prev_page = get_page_ptr( -1 );
     if( curr_page == nullptr ) {
