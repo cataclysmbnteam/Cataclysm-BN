@@ -357,8 +357,8 @@ void diary::show_diary_ui( diary *c_diary )
                 }
             }
         } else if( action == "EXPORT_DIARY" ) {
-            if( query_yn( _( "Export the diary as .txt?" ) ) ) {
-                c_diary->export_to_txt();
+            if( query_yn( _( "Export the diary as .md?" ) ) ) {
+                c_diary->export_to_md();
             }
 
         } else if( action == "QUIT" ) {

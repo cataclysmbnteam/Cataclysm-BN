@@ -647,7 +647,7 @@ void diary::death_entry()
     if( last_time ) {
         show_diary_ui( this );
     }
-    export_to_txt( true );
+    export_to_md( true );
 }
 
 diary::diary()
@@ -700,11 +700,11 @@ void diary::delete_page()
     }
 }
 
-void diary::export_to_txt( bool last_export )
+void diary::export_to_md( bool last_export )
 {
     std::ofstream myfile;
     std::string path = last_export ? PATH_INFO::memorialdir() : g->get_world_base_save_path();
-    path += "/" + owner + "s_diary.txt";
+    path += "/" + owner + "s_diary.md";
     myfile.open( path );
 
     for( int i = 0; i < static_cast<int>( pages.size() ); i++ ) {
@@ -714,6 +714,8 @@ void diary::export_to_txt( bool last_export )
         std::vector<std::string> left_diary_text = this->get_head_text();
         std::vector<std::string> change_list = this->get_change_list();
         left_diary_text.insert( left_diary_text.end(), change_list.begin(), change_list.end() );
+        // add "## " before each "Entry" line to visually differentiate each page
+        left_diary_text[0] = "## " + left_diary_text[0];
 
         for( std::string &str : left_diary_text ) {
             myfile << remove_color_tags( str ) + "\n";
