@@ -10,6 +10,7 @@
 #include "bionics.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "character_martial_arts.h"
 #include "filesystem.h"
 #include "fstream_utils.h"
 #include "game.h"
@@ -120,6 +121,52 @@ void diary::spell_changes()
 }
 
 
+void diary::martial_art_changes()
+{
+    avatar *u = &get_avatar();
+    diary_page *curr_page = get_page_ptr();
+    diary_page *prev_page = get_page_ptr( -1 );
+    if( curr_page == nullptr ) {
+        return;
+    }
+    if( prev_page == nullptr ) {
+        if( !curr_page->known_martial_arts.empty() ) {
+            add_to_change_list( _( "Known martial arts:" ) );
+            for( const matype_id &elem : curr_page->known_martial_arts ) {
+                const auto &ma = elem.obj();
+                add_to_change_list( ma.name.translated(), ma.description.translated() );
+            }
+            add_to_change_list( "" );
+        }
+    } else {
+        if( prev_page->known_martial_arts.empty() && !curr_page->known_martial_arts.empty() ) {
+            add_to_change_list( _( "New martial arts:" ) );
+            for( const matype_id &elem : curr_page->known_martial_arts ) {
+                const auto &ma = elem.obj();
+                add_to_change_list( ma.name.translated(), ma.description.translated() );
+            }
+            add_to_change_list( "" );
+        } else {
+
+            bool flag = true;
+            for( const matype_id &elem : curr_page->known_martial_arts ) {
+                if( std::find( prev_page->known_martial_arts.begin(), prev_page->known_martial_arts.end(),
+                               elem ) == prev_page->known_martial_arts.end() ) {
+                    if( flag ) {
+                        add_to_change_list( _( "New martial arts:" ) );
+                        flag = false;
+                    }
+                    const auto &ma = elem.obj();
+                    add_to_change_list( ma.name.translated(), ma.description.translated() );
+                }
+
+            }
+            if( !flag ) {
+                add_to_change_list( " " );
+            }
+        }
+    }
+}
 
 void diary::mission_changes()
 {
@@ -511,6 +558,7 @@ std::vector<std::string> diary::get_change_list()
         trait_changes();
         bionic_changes();
         spell_changes();
+        martial_art_changes();
         mission_changes();
         kill_changes();
     }
@@ -634,9 +682,9 @@ void diary::new_page()
         const int lvl = spell->get_level();
         page->known_spells[id] = lvl;
     }
+    page->known_martial_arts = u->martial_arts_data->get_known_styles();
     page->bionics = u->get_bionics();
     for( Skill &elem : Skill::skills ) {
-
         int level = u->get_skill_level_object( elem.ident() ).level();
         page->skill_levels.insert( { elem.ident(), level } );
     }

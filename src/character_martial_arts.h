@@ -85,6 +85,7 @@ class character_martial_arts
         bool is_force_unarmed() const;
 
         std::vector<matec_id> get_all_techniques( const item &weap ) const;
+        std::vector<matype_id> get_known_styles() const;
         std::vector<matype_id> get_unknown_styles( const character_martial_arts &from ) const;
         /** Returns true if the player has technique-based miss recovery */
         bool has_miss_recovery_tec( const item &weap ) const;

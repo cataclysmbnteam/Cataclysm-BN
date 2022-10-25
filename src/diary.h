@@ -44,6 +44,8 @@ struct diary_page {
     std::vector<trait_id> traits;
     /*spells id with level the character has*/
     std::map<spell_id, int> known_spells;
+    /*martial arts id the character has*/
+    std::vector<matype_id> known_martial_arts;
     /*bionics id's the character has*/
     std::vector<bionic_id> bionics;
     /*skill id's with level the character has*/
@@ -125,6 +127,7 @@ class diary
         void stat_changes();
         void mission_changes();
         void spell_changes();
+        void martial_art_changes();
 
         /*exports the diary to a readable .txt file. If it's the last export, it's exported to memorial otherwise its exported to the world folder*/
         void export_to_txt( bool lastexport = false );
