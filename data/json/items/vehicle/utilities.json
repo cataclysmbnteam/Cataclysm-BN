@@ -161,10 +161,10 @@
     "id": "vh_autodoc",
     "name": { "str": "mountable autodoc" },
     "description": "This autodoc has been rigged to run off a vehicle power grid.",
+    "symbol": "&",
+    "color": "light_cyan",
     "price": 120000,
     "price_postapoc": 7500,
-    "symbol": "A",
-    "color": "yellow",
     "weight": "34500 g",
     "volume": "76 L",
     "looks_like": "f_autodoc"
@@ -176,8 +176,8 @@
     "description": "This autodoc couch has been rigged to run off a vehicle power grid.",
     "price": 90000,
     "price_postapoc": 5000,
-    "symbol": "A",
-    "color": "yellow",
+    "symbol": "H",
+    "color": "red",
     "weight": "34500 g",
     "volume": "76 L",
     "looks_like": "f_autodoc_couch"
