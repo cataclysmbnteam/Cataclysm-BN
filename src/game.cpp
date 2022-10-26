@@ -5108,6 +5108,7 @@ void game::delete_cyborg_item( const tripoint &couch_pos, item *cyborg )
                 "AUTODOC_COUCH", false ) ) {
         auto dest_veh = &vp->vehicle();
         int dest_part = vp->part_index();
+
         for( item &it : dest_veh->get_items( dest_part ) ) {
             if( &it == cyborg ) {
                 dest_veh->remove_item( dest_part, &it );

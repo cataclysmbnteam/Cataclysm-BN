@@ -868,7 +868,6 @@
     "damage_modifier": 80,
     "durability": 100,
     "description": "This is an autodoc couch.  It's useful for installing CBMs.  'e'xamine the tile with the autodoc, while on the autodoc couch, to use it.",
-    "epower": -1000,
     "size": 700,
     "item": "vh_autodoc_couch",
     "location": "center",
@@ -877,7 +876,7 @@
       "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "CARGO", "AUTODOC_COUCH", "COVERED", "ENABLED_DRAINS_EPOWER" ],
+    "flags": [ "CARGO", "AUTODOC_COUCH", "COVERED" ],
     "breaks_into": [
       { "item": "steel_lump", "count": [ 6, 10 ] },
       { "item": "steel_chunk", "count": [ 6, 10 ] },
