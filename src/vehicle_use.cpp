@@ -1,4 +1,3 @@
-#pragma optimize("", off)
 #include "character.h"
 #include "vehicle.h" // IWYU pragma: associated
 
