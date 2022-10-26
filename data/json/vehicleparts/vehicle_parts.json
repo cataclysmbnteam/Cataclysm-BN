@@ -839,7 +839,6 @@
     "damage_modifier": 80,
     "durability": 100,
     "description": "This is an autodoc.  You can use it to install or uninstall CBMs, splint broken limbs, treat wounds, check radiation level or conduct a blood analysis.  'e'xamine the tile with the autodoc, while on an autodoc couch, to use it.",
-    "epower": -1000,
     "size": 11,
     "item": "vh_autodoc",
     "location": "center",
@@ -848,7 +847,7 @@
       "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "CARGO", "OBSTACLE", "AUTODOC", "COVERED", "ENABLED_DRAINS_EPOWER" ],
+    "flags": [ "CARGO", "OBSTACLE", "AUTODOC", "COVERED" ],
     "breaks_into": [
       { "item": "steel_lump", "count": [ 6, 10 ] },
       { "item": "steel_chunk", "count": [ 6, 10 ] },
