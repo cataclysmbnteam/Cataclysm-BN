@@ -167,7 +167,7 @@
     "color": "yellow",
     "weight": "34500 g",
     "volume": "76 L",
-    "looks_like": "f_robotic_arm"
+    "looks_like": "f_autodoc"
   },
   {
     "type": "GENERIC",
