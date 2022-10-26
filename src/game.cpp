@@ -5059,7 +5059,7 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &install
         add_msg( m_good, _( "Successfully removed Personality override." ) );
         add_msg( m_bad, _( "Autodoc immediately destroys the CBM upon removal." ) );
 
-        m.i_rem( couch_pos, cyborg );
+        this->delete_cyborg_item( couch_pos, cyborg );
 
         const string_id<npc_template> npc_cyborg( "cyborg_rescued" );
         shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
@@ -5091,7 +5091,7 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &install
             case 5:
                 add_msg( m_info, _( "The removal is a catastrophe." ) );
                 add_msg( m_bad, _( "The body is destroyed!" ) );
-                m.i_rem( couch_pos, cyborg );
+                this->delete_cyborg_item( couch_pos, cyborg );
                 break;
             default:
                 break;
@@ -5099,6 +5099,29 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &install
 
     }
 
+}
+
+void game::delete_cyborg_item( const tripoint &couch_pos, item *cyborg )
+{
+    // if this tile has an autodoc on a vehicle, delete the cyborg from here
+    if( const cata::optional<vpart_reference> vp = get_map().veh_at( couch_pos ).part_with_feature(
+                "AUTODOC_COUCH", false ) ) {
+        auto dest_veh = &vp->vehicle();
+        int dest_part = vp->part_index();
+        for( item &it : dest_veh->get_items( dest_part ) ) {
+            if( &it == cyborg ) {
+                dest_veh->remove_item( dest_part, &it );
+            }
+        }
+    }
+    // otherwise delete it from the ground
+    else {
+        for( item &it : get_map().i_at( couch_pos ) ) {
+            if( &it == cyborg ) {
+                m.i_rem( couch_pos, cyborg );
+            }
+        }
+    }
 }
 
 void game::exam_vehicle( vehicle &veh, const point &c )
@@ -6031,7 +6054,8 @@ void game::print_fields_info( const tripoint &lp, const catacurses::window &w_lo
     }
 }
 
-void game::print_trap_info( const tripoint &lp, const catacurses::window &w_look, const int column,
+void game::print_trap_info( const tripoint &lp, const catacurses::window &w_look,
+                            const int column,
                             int &line )
 {
     const trap &tr = m.tr_at( lp );
@@ -6068,7 +6092,8 @@ void game::print_vehicle_info( const vehicle *veh, int veh_part, const catacurse
     }
 }
 
-void game::print_items_info( const tripoint &lp, const catacurses::window &w_look, const int column,
+void game::print_items_info( const tripoint &lp, const catacurses::window &w_look,
+                             const int column,
                              int &line,
                              const int last_line )
 {
@@ -7260,7 +7285,8 @@ bool game::take_screenshot() const
 #endif
 
 //helper method so we can keep list_items shorter
-void game::reset_item_list_state( const catacurses::window &window, int height, bool bRadiusSort )
+void game::reset_item_list_state( const catacurses::window &window, int height,
+                                  bool bRadiusSort )
 {
     const int width = getmaxx( window );
     for( int i = 1; i < TERMX; i++ ) {
