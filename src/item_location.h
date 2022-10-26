@@ -38,6 +38,14 @@ class item_location
         item_location( const map_cursor &mc, item *which );
         item_location( const vehicle_cursor &vc, item *which );
         item_location( const item_location &container, item *which );
+        /**
+         * Const casting hack warning.
+         * TODO: Split item_location into const and modifying variants
+         */
+        static const item_location make_const( const Character &ch, const item *which );
+        static const item_location make_const( const map_cursor &mc, const item *which );
+        static const item_location make_const( const vehicle_cursor &vc, const item *which );
+        static const item_location make_const( const item_location &container, const item *which );
 
         void serialize( JsonOut &js ) const;
         void deserialize( JsonIn &js );
@@ -97,5 +105,7 @@ class item_location
 
         std::shared_ptr<impl> ptr;
 };
+
+using const_item_location = const item_location;
 
 #endif // CATA_SRC_ITEM_LOCATION_H

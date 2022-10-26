@@ -265,6 +265,9 @@ class item_location::impl::item_on_person : public item_location::impl
         item_on_person( Character &who, item *which ) : impl( which ) {
             who_id = who.getID();
             this->who = &who;
+            if( !who_id.is_valid() ) {
+                // debugmsg( "Created item_location for character with invalid ID %d", who_id.get_value() );
+            }
         }
 
         item_on_person( character_id who_id, int idx ) : impl( idx ), who_id( who_id ), who( nullptr ) {}
@@ -342,7 +345,7 @@ class item_location::impl::item_on_person : public item_location::impl
             }
         }
 
-        int obtain_cost( const Character &ch, int qty ) const override {
+        int obtain_cost( const Character &, int qty ) const override {
             if( !target() || !ensure_who_unpacked() ) {
                 return 0;
             }
@@ -384,10 +387,6 @@ class item_location::impl::item_on_person : public item_location::impl
                     // TODO: calculate cost for searching in inventory proportional to item volume
                     mv += dynamic_cast<player *>( who )->item_handling_cost( obj, true, INVENTORY_HANDLING_PENALTY );
                 }
-            }
-
-            if( &ch != who ) {
-                // TODO: implement movement cost for transferring item between characters
             }
 
             return mv;
@@ -635,6 +634,23 @@ item_location::item_location( const vehicle_cursor &vc, item *which )
 
 item_location::item_location( const item_location &container, item *which )
     : ptr( new impl::item_in_container( container, which ) ) {}
+
+const item_location item_location::make_const( const Character &ch, const item *which )
+{
+    return item_location( const_cast<Character &>( ch ), const_cast<item *>( which ) );
+}
+const item_location item_location::make_const( const map_cursor &mc, const item *which )
+{
+    return item_location( mc, const_cast<item *>( which ) );
+}
+const item_location item_location::make_const( const vehicle_cursor &vc, const item *which )
+{
+    return item_location( vc, const_cast<item *>( which ) );
+}
+const item_location item_location::make_const( const item_location &container, const item *which )
+{
+    return item_location( container, const_cast<item *>( which ) );
+}
 
 bool item_location::operator==( const item_location &rhs ) const
 {

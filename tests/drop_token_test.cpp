@@ -77,12 +77,12 @@ TEST_CASE( "full backpack drop", "[activity][drop_token]" )
         WHEN( "he considers dropping the backpack" ) {
             drop_locations drop;
             drop.push_back( drop_location( item_location( dummy, &dummy.worn.front() ), 1 ) );
-            std::list<pickup::act_item> drop_list = pickup::reorder_for_dropping( dummy, drop );
+            std::list<pickup::const_act_item> drop_list = pickup::reorder_for_dropping( dummy, drop );
             THEN( "he will try to drop all carried items" ) {
                 // TODO: Check that all items will be dropped. inv.size() doesn't work because stacks
                 AND_THEN( "all of them will have identical drop tokens, marking the backpack as parent" ) {
                     item_drop_token first_token = *drop_list.front().loc->drop_token;
-                    for( const pickup::act_item &ait : drop_list ) {
+                    for( const pickup::const_act_item &ait : drop_list ) {
                         CHECK( *ait.loc->drop_token == first_token );
                     }
                 }
@@ -98,7 +98,7 @@ TEST_CASE( "full backpack drop", "[activity][drop_token]" )
                 }
                 AND_THEN( "total volume dropped will equal volume of backpack and all items in inventory" ) {
                     units::volume total_dropped = std::accumulate( drop_list.begin(), drop_list.end(), 0_ml,
-                    []( units::volume acc, const pickup::act_item & ait ) {
+                    []( units::volume acc, const pickup::const_act_item & ait ) {
                         return acc + ait.loc->volume();
                     } );
                     units::volume inventory_volume = dummy.volume_carried();
@@ -138,7 +138,7 @@ TEST_CASE( "full backpack drop", "[activity][drop_token]" )
             REQUIRE( first_backpack_iter != dummy.worn.end() );
             drop.push_back( drop_location( item_location( dummy, &*first_duffel_iter ), 1 ) );
             drop.push_back( drop_location( item_location( dummy, &*first_backpack_iter ), 1 ) );
-            std::list<pickup::act_item> drop_list = pickup::reorder_for_dropping( dummy, drop );
+            std::list<pickup::act_item> drop_list = pickup::reorder_for_dropping( dummy, drop, pickup::nonconst{} );
             THEN( "he will try to drop some, but not all of the carried items" ) {
                 REQUIRE( drop_list.size() > 4 );
 
@@ -250,10 +250,10 @@ TEST_CASE( "full backpack drop", "[activity][drop_token]" )
                 drop.push_back( drop_location( item_location( dummy, it ), 1 ) );
             }
 
-            std::list<pickup::act_item> drop_list = pickup::reorder_for_dropping( dummy, drop );
+            std::list<pickup::const_act_item> drop_list = pickup::reorder_for_dropping( dummy, drop );
             THEN( "at most half of the non-bag items will have zero drop cost" ) {
                 const size_t actual_zero_cost = std::count_if( drop_list.begin(), drop_list.end(),
-                [&]( const pickup::act_item & ait ) {
+                [&]( const pickup::const_act_item & ait ) {
                     return ait.consumed_moves == 0;
                 } );
                 const size_t expected_zero_cost = ( drop_list.size() - 1 ) / 2;

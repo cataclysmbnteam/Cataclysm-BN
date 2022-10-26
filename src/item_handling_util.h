@@ -6,6 +6,8 @@
 
 #include "item_location.h"
 
+class Character;
+class item;
 class JsonIn;
 class JsonOut;
 
@@ -24,5 +26,12 @@ using iuse_locations = std::list<iuse_location>;
 
 using drop_location = iuse_location;
 using drop_locations = std::list<drop_location>;
+
+namespace item_handling
+{
+
+int takeoff_cost( const Character &ch, const item &it );
+
+} // namespace item_handling
 
 #endif // CATA_SRC_ITEM_HANDLING_UTIL_H

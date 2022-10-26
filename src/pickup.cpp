@@ -65,6 +65,25 @@ using pickup_map = std::map<std::string, item_count>;
 
 static void show_pickup_message( const pickup_map &mapPickup );
 
+namespace io
+{
+template<>
+std::string enum_to_string<pickup::drop_intent>( pickup::drop_intent data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+        case pickup::drop_intent::none: return "none";
+        case pickup::drop_intent::specific: return "specific";
+        case pickup::drop_intent::implied: return "implied";
+        // *INDENT-ON*
+        case pickup::drop_intent::last:
+            break;
+    }
+    debugmsg( "Invalid pickup::drop_intent" );
+    abort();
+}
+} // namespace io
+
 struct pickup_count {
     bool pick = false;
     // nullopt if the whole stack is being picked up, nonzero otherwise.
@@ -1290,6 +1309,7 @@ void pick_drop_selection::serialize( JsonOut &jsout ) const
     jsout.member( "target", target );
     jsout.member( "quantity", quantity );
     jsout.member( "children", children );
+    jsout.member( "intent", intent );
 
     jsout.end_object();
 }
@@ -1300,6 +1320,7 @@ void pick_drop_selection::deserialize( JsonIn &jin )
     jo.read( "target", target );
     jo.read( "quantity", quantity );
     jo.read( "children", children );
+    jo.read( "intent", intent );
 }
 
 std::vector<pick_drop_selection> optimize_pickup( const std::vector<item_location> &targets,

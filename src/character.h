@@ -1336,7 +1336,7 @@ class Character : public Creature, public visitable<Character>
 
         void drop_invalid_inventory();
         /** Returns all items that must be taken off before taking off this item */
-        std::list<item *> get_dependent_worn_items( const item &it ) const;
+        std::list<const item *> get_dependent_worn_items( const item &it ) const;
         /** Drops an item to the specified location */
         void drop( item_location loc, const tripoint &where );
         virtual void drop( const drop_locations &what, const tripoint &target, bool stash = false );
@@ -1504,7 +1504,11 @@ class Character : public Creature, public visitable<Character>
         std::string name;
         bool male = true;
 
+        // TODO: Encapsulate!
         std::list<item> worn;
+        const std::list<item> &get_worn() const {
+            return worn;
+        }
         std::array<int, num_hp_parts> damage_bandaged, damage_disinfected;
         bool nv_cached = false;
         // Means player sit inside vehicle on the tile he is now

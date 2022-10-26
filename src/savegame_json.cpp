@@ -3510,23 +3510,57 @@ void iuse_location::deserialize( JsonIn &jsin )
     jsin.end_array();
 }
 
-void pickup::act_item::serialize( JsonOut &jsout ) const
+namespace pickup
+{
+
+template<class ActItem>
+void serialize_act_item_t( JsonOut &jsout, const ActItem &ai )
 {
     jsout.start_array();
-    jsout.write( loc );
-    jsout.write( count );
-    jsout.write( consumed_moves );
+    jsout.write( ai.loc );
+    jsout.write( ai.count );
+    jsout.write( ai.consumed_moves );
     jsout.end_array();
 }
 
-void pickup::act_item::deserialize( JsonIn &jsin )
+template<class ItemLocation>
+void deserialize_act_item_t( JsonIn &jsin, act_item_t<ItemLocation> &ai )
 {
+    // Const hack - would be better with a proper wrapper, but that would be tons of code
+    std::remove_cv_t<ItemLocation> &ai_loc =
+        const_cast<std::remove_cv_t<ItemLocation> &>( ai.loc );
     jsin.start_array();
-    jsin.read( loc );
-    jsin.read( count );
-    jsin.read( consumed_moves );
+    jsin.read( ai_loc );
+    jsin.read( ai.count );
+    jsin.read( ai.consumed_moves );
     jsin.end_array();
 }
+
+template<>
+void act_item::serialize( JsonOut &jsout ) const
+{
+    serialize_act_item_t( jsout, *this );
+}
+
+template<>
+void act_item::deserialize( JsonIn &jsin )
+{
+    deserialize_act_item_t( jsin, *this );
+}
+
+template<>
+void const_act_item::serialize( JsonOut &jsout ) const
+{
+    serialize_act_item_t( jsout, *this );
+}
+
+template<>
+void const_act_item::deserialize( JsonIn &jsin )
+{
+    deserialize_act_item_t( jsin, *this );
+}
+
+} // namespace pickup
 
 // basecamp
 void basecamp::serialize( JsonOut &json ) const

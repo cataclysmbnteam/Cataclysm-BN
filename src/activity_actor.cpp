@@ -699,7 +699,7 @@ drop_activity_actor::drop_activity_actor( Character &ch, const drop_locations &i
         bool force_ground, const tripoint &relpos )
     : force_ground( force_ground ), relpos( relpos )
 {
-    this->items = pickup::reorder_for_dropping( ch, items );
+    this->items = pickup::reorder_for_dropping( ch, items, pickup::nonconst{} );
 }
 
 void drop_activity_actor::start( player_activity &act, Character & )
@@ -1134,7 +1134,7 @@ void wash_activity_actor::start( player_activity &act, Character & )
 stash_activity_actor::stash_activity_actor( Character &ch, const drop_locations &items,
         const tripoint &relpos ) : relpos( relpos )
 {
-    this->items = pickup::reorder_for_dropping( ch, items );
+    this->items = pickup::reorder_for_dropping( ch, items, pickup::nonconst{} );
 }
 
 void stash_activity_actor::start( player_activity &act, Character & )

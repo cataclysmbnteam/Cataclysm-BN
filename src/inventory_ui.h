@@ -22,6 +22,7 @@
 #include "item_location.h"
 #include "memory_fast.h"
 #include "pimpl.h"
+#include "type_id.h"
 #include "units.h"
 
 class Character;
@@ -369,6 +370,10 @@ class inventory_column
 
         entry_cell_cache_t make_entry_cell_cache( const inventory_entry &entry ) const;
         const entry_cell_cache_t &get_entry_cell_cache( size_t index ) const;
+        // TODO: Maybe doesn't need to be public
+    public:
+        void clear_cell_cache() const;
+    protected:
 
         const inventory_selector_preset &preset;
 
@@ -407,11 +412,11 @@ class inventory_column
         size_t visible_cells() const;
 };
 
-class selection_column : public inventory_column
+class selection_column_base : public inventory_column
 {
     public:
-        selection_column( const std::string &id, const std::string &name );
-        ~selection_column() override;
+        selection_column_base( const std::string &id, const std::string &name );
+        ~selection_column_base() override;
 
         bool activatable() const override {
             return inventory_column::activatable() && pages_count() > 1;
@@ -430,9 +435,41 @@ class selection_column : public inventory_column
             // Intentionally ignore mode change.
         }
 
-    private:
+        virtual void tmp() = 0;
+
+        void reselect_last();
+
+    protected:
         const pimpl<item_category> selected_cat;
+
+    private:
         inventory_entry last_changed;
+};
+
+class single_category_selection_column : public selection_column_base
+{
+    public:
+        single_category_selection_column( const std::string &id, const std::string &name );
+        ~single_category_selection_column() override;
+
+        void on_change( const inventory_entry &entry ) override;
+
+        void tmp() override {}
+};
+
+class multicategory_selection_column : public selection_column_base
+{
+    public:
+        multicategory_selection_column( const std::string &id, const std::string &name,
+                                        const std::set<item_category_id> &category_whitelist );
+        ~multicategory_selection_column() override;
+
+        void on_change( const inventory_entry &entry ) override;
+
+        void tmp() override {}
+
+    private:
+        std::set<item_category_id> category_whitelist;
 };
 
 class inventory_selector
@@ -471,7 +508,7 @@ class inventory_selector
 
         // An array of cells for the stat lines. Example: ["Weight (kg)", "10", "/", "20"].
         using stat = std::array<std::string, 4>;
-        using stats = std::array<stat, 2>;
+        using stats = std::vector<stat>;
 
         bool keep_open = false;
 
@@ -505,7 +542,7 @@ class inventory_selector
         /** Given an action from the input_context, try to act according to it. */
         void on_input( const inventory_input &input );
         /** Entry has been changed */
-        void on_change( const inventory_entry &entry );
+        virtual void on_change( const inventory_entry &entry );
 
         shared_ptr_fast<ui_adaptor> create_or_get_ui_adaptor();
 
@@ -666,11 +703,18 @@ class inventory_multiselector : public inventory_selector
     public:
         inventory_multiselector( player &p, const inventory_selector_preset &preset = default_preset,
                                  const std::string &selection_column_title = "" );
+        inventory_multiselector( player &p, const inventory_selector_preset &preset,
+                                 std::unique_ptr<selection_column_base> &&selection_col );
     protected:
         void rearrange_columns( size_t client_width ) override;
-
+        selection_column_base &get_selection_column() {
+            return *selection_col;
+        }
+        const selection_column_base &get_selection_column() const {
+            return *selection_col;
+        }
     private:
-        std::unique_ptr<inventory_column> selection_col;
+        std::unique_ptr<selection_column_base> selection_col;
 };
 
 class inventory_compare_selector : public inventory_multiselector
@@ -707,21 +751,68 @@ class inventory_iuse_selector : public inventory_multiselector
         std::map<const item *, std::vector<iuse_location>> to_use;
 };
 
+struct count_out_of {
+    public:
+        count_out_of() = default;
+        count_out_of( size_t selected, size_t max_count )
+            : selected( selected ), max_count( max_count )
+        {}
+        count_out_of( const count_out_of &rhs ) = default;
+        size_t selected = 0u;
+        size_t max_count = 0u;
+
+        count_out_of &operator=( const count_out_of &rhs ) = default;
+};
+
+class caching_drop_preset : public inventory_selector_preset
+{
+    public:
+        nc_color get_color( const inventory_entry &entry ) const override;
+
+        int get_move_cost_sum() const;
+        const std::unordered_map<const item *, count_out_of> &get_implied_drops() const;
+
+        void set_implied_drops( const std::unordered_map<const item *, count_out_of> &implied ) const;
+
+        // TODO: Remove mutable hacks
+        mutable int move_cost_sum = -1;
+
+    private:
+        // TODO: Remove mutable hacks
+        mutable const std::unordered_map<const item *, count_out_of> *implied_drops = nullptr;
+};
+
+const caching_drop_preset default_drop_preset;
+
 class inventory_drop_selector : public inventory_multiselector
 {
     public:
+        // Probably shouldn't require specific subtype
         inventory_drop_selector( player &p,
-                                 const inventory_selector_preset &preset = default_preset );
+                                 const caching_drop_preset &preset = default_drop_preset );
+        ~inventory_drop_selector();
         drop_locations execute();
 
     protected:
         stats get_raw_stats() const override;
-        /** Toggle item dropping */
-        void set_chosen_count( inventory_entry &entry, size_t count );
-        void process_selected( int &count, const std::vector<inventory_entry *> &selected );
+        void on_change( const inventory_entry &entry ) override;
 
+        /** Toggle item dropping */
+        void set_chosen_drop_count( inventory_entry &entry, size_t count );
+        void process_selected( int count, const std::vector<inventory_entry *> &selected );
+        excluded_stacks get_implied_drops() const;
+
+        const caching_drop_preset &caching_preset;
     private:
+        const pimpl<item_category> implied_cat;
         excluded_stacks dropping;
+
+        void rebuild();
+
+        mutable std::unordered_map<const item *, count_out_of> implied_drops;
+        mutable int move_cost_sum = -1;
+        mutable bool implied_cache_dirty = false;
+
 };
 
 #endif // CATA_SRC_INVENTORY_UI_H
