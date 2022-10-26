@@ -208,8 +208,6 @@ static const skill_id skill_computer( "computer" );
 
 static const species_id PLANT( "PLANT" );
 
-static const std::string flag_AUTODOC( "AUTODOC" );
-
 static const efftype_id effect_accumulated_mutagen( "accumulated_mutagen" );
 static const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
 static const efftype_id effect_ai_controlled( "ai_controlled" );
@@ -5107,7 +5105,7 @@ void game::delete_cyborg_item( const tripoint &couch_pos, item *cyborg )
 {
     // if this tile has an autodoc on a vehicle, delete the cyborg from here
     if( const cata::optional<vpart_reference> vp = get_map().veh_at( couch_pos ).part_with_feature(
-                flag_AUTODOC, false ) ) {
+                "AUTODOC_COUCH", false ) ) {
         auto dest_veh = &vp->vehicle();
         int dest_part = vp->part_index();
 
