@@ -1750,5 +1750,10 @@
     "id": "40x53mm_flechette_m169",
     "type": "MIGRATION",
     "replace": "40x53mm_m1001"
+  },
+  {
+    "id": "8mm_fmj",
+    "type": "MIGRATION",
+    "replace": "8mm_caseless"
   }
 ]
