@@ -3563,7 +3563,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
             }
         }
     }
-    // check if player is still on an autodoc couch
+    // check if player is on an autodoc couch
     const auto is_on_autodoc_couch = here.has_flag_furn( flag_AUTODOC_COUCH, p->pos() ) ||
                                      here.veh_at( p->pos() ).part_with_feature( flag_AUTODOC_COUCH, false );
     if( autodoc && here.inbounds( p->pos() ) ) {
