@@ -4724,6 +4724,22 @@ static item &cyborg_on_couch( const tripoint &couch_pos, item &null_cyborg )
             }
         }
     }
+    // if we're in a autodoc couch on a vehicle, go through the items in it, and return the item if's a cyborg
+    if( const cata::optional<vpart_reference> vp = get_map().veh_at( couch_pos ).part_with_feature(
+                flag_AUTODOC_COUCH, false ) ) {
+        auto dest_veh = &vp->vehicle();
+        int dest_part = vp->part_index();
+        for( item &it : dest_veh->get_items( dest_part ) ) {
+            if( it.typeId() == itype_bot_broken_cyborg || it.typeId() == itype_bot_prototype_cyborg ) {
+                return it;
+            }
+            if( it.typeId() == itype_corpse ) {
+                if( it.get_mtype()->id == mon_broken_cyborg || it.get_mtype()->id == mon_prototype_cyborg ) {
+                    return it;
+                }
+            }
+        }
+    }
     return null_cyborg;
 }
 
