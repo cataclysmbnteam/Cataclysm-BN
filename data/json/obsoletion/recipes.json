@@ -3152,5 +3152,10 @@
     "type": "recipe",
     "result": "40x46mm_buckshot_m199",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "40x53mm_flechette_m169",
+    "obsolete": true
   }
 ]

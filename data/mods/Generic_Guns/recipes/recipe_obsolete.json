@@ -401,11 +401,6 @@
   },
   {
     "type": "recipe",
-    "result": "40x53mm_flechette_m169",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "shot_paper_00",
     "obsolete": true
   },
