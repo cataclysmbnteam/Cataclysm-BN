@@ -152,6 +152,6 @@
       "success_lie": "Thanks for trying…  I guess.",
       "failure": "It's not a big deal, it isn't that urgent."
     },
-    "end": { "effect": [ { "u_buy_item": "petpack", "count": 1 } ] }
+    "end": { "effect": [ { "u_buy_item": "petpack", "count": 2 } ] }
   }
 ]

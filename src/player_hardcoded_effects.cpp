@@ -1002,11 +1002,9 @@ void player::hardcoded_effects( effect &it )
         }
     } else if( id == effect_sleep ) {
         set_moves( 0 );
-#if defined(TILES)
-        if( is_player() ) {
-            SDL_PumpEvents();
+        if( is_avatar() ) {
+            inp_mngr.pump_events();
         }
-#endif // TILES
 
         if( has_effect( effect_narcosis ) && get_fatigue() <= 25 ) {
             set_fatigue( 25 ); //Prevent us from waking up naturally while under anesthesia
@@ -1232,7 +1230,7 @@ void player::hardcoded_effects( effect &it )
                     sounds::sound( pos(), 16, sounds::sound_t::alarm, _( "beep-beep-beep!" ), false, "tool",
                                    "alarm_clock" );
                     const std::string alarm = _( "Your alarm is going off." );
-                    g->cancel_activity_or_ignore_query( distraction_type::noise, alarm );
+                    g->cancel_activity_or_ignore_query( distraction_type::alert, alarm );
                     add_msg( _( "Your alarm went off." ) );
                 }
             }

@@ -70,7 +70,8 @@
       "≠": "f_locker",
       "Ø": "f_pinball_machine",
       "Æ": "f_arcade_machine",
-      "ʭ": "f_ladder"
+      "ʭ": "f_ladder",
+      "¤": "f_table"
     },
     "terrain": {
       "a": "t_thconc_floor",
@@ -92,6 +93,7 @@
       "^": "t_gutter_downspout",
       "|": "t_wall_w",
       "#": "t_brick_wall",
+      "¶": "t_door_glass_c",
       ":": "t_wall_glass",
       "-": "t_sidewalk",
       "o": [

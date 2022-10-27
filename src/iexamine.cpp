@@ -33,6 +33,8 @@
 #include "flag.h"
 #include "color.h"
 #include "construction.h"
+#include "construction_group.h"
+#include "construction_partial.h"
 #include "coordinate_conversions.h"
 #include "craft_command.h"
 #include "creature.h"
@@ -955,7 +957,7 @@ void iexamine::elevator( player &p, const tripoint &examp )
 }
 
 /**
- * Open gate.
+ * Open or close gate.
  */
 void iexamine::controls_gate( player &p, const tripoint &examp )
 {
@@ -963,7 +965,7 @@ void iexamine::controls_gate( player &p, const tripoint &examp )
         none( p, examp );
         return;
     }
-    g->open_gate( examp );
+    g->toggle_gate( examp );
 }
 
 static bool try_start_hacking( player &p, const tripoint &examp )
@@ -1458,42 +1460,31 @@ void iexamine::gunsafe_el( player &p, const tripoint &examp )
     }
 }
 
-/**
- * Checks whether PC has a crowbar then calls iuse.crowbar.
- */
-void iexamine::locked_object( player &p, const tripoint &examp )
+static safe_reference<item> find_best_prying_tool( player &p )
 {
-    auto prying_items = p.crafting_inventory().items_with( []( const item & it ) -> bool {
-        item temporary_item( it.type );
-        return temporary_item.has_quality( quality_id( "PRY" ), 1 );
+    std::vector<item *> prying_items = p.items_with( [&p]( const item & it ) {
+        // Don't search for worn items such as hairpins
+        if( p.get_item_position( &it ) >= -1 ) {
+            item temporary_item( it.type );
+            return temporary_item.has_quality( quality_id( "PRY" ), 1 );
+        }
+        return false;
     } );
-
-    map &here = get_map();
-    if( prying_items.empty() ) {
-        add_msg( m_info, _( "The %s is locked.  If only you had something to pry it with…" ),
-                 here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
-        return;
-    }
 
     // Sort by their quality level.
     std::sort( prying_items.begin(), prying_items.end(), []( const item * a, const item * b ) -> bool {
         return a->get_quality( quality_id( "PRY" ) ) > b->get_quality( quality_id( "PRY" ) );
     } );
 
-    //~ %1$s: terrain/furniture name, %2$s: prying tool name
-    p.add_msg_if_player( _( "You attempt to pry open the %1$s using your %2$s…" ),
-                         here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), prying_items[0]->tname() );
-
     // if crowbar() ever eats charges or otherwise alters the passed item, rewrite this to reflect
     // changes to the original item.
-    item temporary_item( prying_items[0]->type );
-    iuse::crowbar( &p, &temporary_item, false, examp );
+    if( prying_items.empty() ) {
+        return safe_reference<item>();
+    }
+    return ( *prying_items[0] ).get_safe_reference();
 }
 
-/**
-* Checks whether PC has picklocks then calls pick_lock_actor.
-*/
-void iexamine::locked_object_pickable( player &p, const tripoint &examp )
+static safe_reference<item> find_best_lock_picking_tool( player &p )
 {
     std::vector<item *> picklocks = p.items_with( [&p]( const item & it ) {
         // Don't search for worn items such as hairpins
@@ -1502,13 +1493,6 @@ void iexamine::locked_object_pickable( player &p, const tripoint &examp )
         }
         return false;
     } );
-
-    map &here = get_map();
-    if( picklocks.empty() ) {
-        add_msg( m_info, _( "The %s is locked.  If only you had something to pick its lock with…" ),
-                 here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
-        return;
-    }
 
     // Sort by their picklock level.
     std::sort( picklocks.begin(), picklocks.end(), [&]( const item * a, const item * b ) {
@@ -1519,19 +1503,86 @@ void iexamine::locked_object_pickable( player &p, const tripoint &examp )
         return actor_a->pick_quality > actor_b->pick_quality;
     } );
 
-    for( item *it : picklocks ) {
-        const auto actor = dynamic_cast<const pick_lock_actor *>
-                           ( it->type->get_use( "picklock" )->get_actor_ptr() );
-        p.add_msg_if_player( _( "You attempt to pick lock of %1$s using your %2$s…" ),
-                             here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), it->tname() );
-        const ret_val<bool> can_use = actor->can_use( p, *it, false, examp );
-        if( can_use.success() ) {
-            actor->use( p, *it, false, examp );
-            return;
-        } else {
-            p.add_msg_if_player( m_bad, can_use.str() );
-        }
+    if( picklocks.empty() ) {
+        return safe_reference<item>();
     }
+
+    return ( *picklocks[0] ).get_safe_reference();
+}
+
+static void apply_prying_tool( player &p, item *it, const tripoint &examp )
+{
+    map &here = get_map();
+    //~ %1$s: terrain/furniture name, %2$s: prying tool name
+    p.add_msg_if_player( _( "You attempt to pry open the %1$s using your %2$s…" ),
+                         here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), it->tname() );
+
+    // if crowbar() ever eats charges or otherwise alters the passed item, rewrite this to reflect
+    // changes to the original item.
+    iuse::crowbar( &p, it, false, examp );
+}
+
+static void apply_lock_picking_tool( player &p, item *it, const tripoint &examp )
+{
+    map &here = get_map();
+
+    const auto actor = dynamic_cast<const pick_lock_actor *>
+                       ( it->type->get_use( "picklock" )->get_actor_ptr() );
+    p.add_msg_if_player( _( "You attempt to pick lock of %1$s using your %2$s…" ),
+                         here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), it->tname() );
+    const ret_val<bool> can_use = actor->can_use( p, *it, false, examp );
+    if( can_use.success() ) {
+        actor->use( p, *it, false, examp );
+        return;
+    } else {
+        p.add_msg_if_player( m_bad, can_use.str() );
+    }
+}
+
+/**
+ * Checks whether PC has a crowbar then calls iuse.crowbar.
+ */
+void iexamine::locked_object( player &p, const tripoint &examp )
+{
+    map &here = get_map();
+
+    safe_reference<item> prying_tool = find_best_prying_tool( p );
+    if( prying_tool ) {
+        apply_prying_tool( p, prying_tool.get(), examp );
+        return;
+    }
+
+    // if the furniture/terrain is also lockpickable
+    if( here.has_flag_ter_or_furn( "LOCKED", examp ) ) {
+        safe_reference<item> lock_picking_tool = find_best_lock_picking_tool( p );
+        if( lock_picking_tool ) {
+            apply_lock_picking_tool( p, lock_picking_tool.get(), examp );
+        } else {
+            add_msg( m_info, _( "The %s is locked.  If only you had something to pry it or pick its lock…" ),
+                     here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
+        }
+        return;
+    }
+
+    add_msg( m_info, _( "The %s is locked.  If only you had something to pry it…" ),
+             here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
+}
+
+/**
+* Checks whether PC has picklocks then calls pick_lock_actor.
+*/
+void iexamine::locked_object_pickable( player &p, const tripoint &examp )
+{
+    map &here = get_map();
+
+    safe_reference<item> lock_picking_tool = find_best_lock_picking_tool( p );
+    if( lock_picking_tool ) {
+        apply_lock_picking_tool( p, lock_picking_tool.get(), examp );
+        return;
+    }
+
+    add_msg( m_info, _( "The %s is locked.  If only you had something to pick its lock…" ),
+             here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
 }
 
 void iexamine::bulletin_board( player &p, const tripoint &examp )
@@ -3756,7 +3807,7 @@ void iexamine::trap( player &p, const tripoint &examp )
             }
             const construction &built = pc->id.obj();
             if( !query_yn( _( "Unfinished task: %s, %d%% complete here, continue construction?" ),
-                           built.description, pc->counter / 100000 ) ) {
+                           built.group->name(), pc->counter / 100000 ) ) {
                 if( query_yn( _( "Cancel construction?" ) ) ) {
                     here.disarm_trap( examp );
                     for( const item &it : pc->components ) {
@@ -6082,6 +6133,17 @@ void iexamine::check_power( player &, const tripoint &examp )
     add_msg( m_info, _( "This electric grid stores %d kJ of electric power." ), amt );
 }
 
+void iexamine::migo_nerve_cluster( player &p, const tripoint &examp )
+{
+    map &here = get_map();
+    if( query_yn( _( "This looks important.  Tear open nerve cluster?" ) ) ) {
+        p.mod_moves( -200 );
+        add_msg( _( "You grab hold of a sinewy tendril and wrench it loose!" ) );
+        map_funcs::migo_nerve_cage_removal( here, examp, false );
+        here.furn_set( examp, furn_id( "f_alien_scar" ) );
+    }
+}
+
 /**
  * Given then name of one of the above functions, returns the matching function
  * pointer. If no match is found, defaults to iexamine::none but prints out a
@@ -6174,6 +6236,7 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "workbench", &iexamine::workbench },
             { "dimensional_portal", &iexamine::dimensional_portal },
             { "check_power", &iexamine::check_power },
+            { "migo_nerve_cluster", &iexamine::migo_nerve_cluster },
         }
     };
 

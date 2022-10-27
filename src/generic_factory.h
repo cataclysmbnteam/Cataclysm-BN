@@ -10,12 +10,14 @@
 
 #include "assign.h"
 #include "catacharset.h"
+#include "cata_void.h"
 #include "debug.h"
 #include "enum_bitset.h"
 #include "generic_readers.h"
 #include "init.h"
 #include "int_id.h"
 #include "json.h"
+#include "mod_tracker.h"
 #include "output.h"
 #include "string_id.h"
 #include "translations.h"
@@ -134,7 +136,13 @@ class generic_factory
             } while( version == INVALID_VERSION );
         }
 
+        bool _is_finalized = false;
+
     protected:
+        void set_finalized( bool val ) {
+            _is_finalized = val;
+        }
+
         std::vector<T> list;
         std::unordered_map<string_id<T>, int_id<T>> map;
         std::unordered_map<std::string, T> abstracts;
@@ -196,6 +204,13 @@ class generic_factory
               id_member_name( id_member_name ),
               alias_member_name( alias_member_name ),
               dummy_obj() {
+        }
+
+        /**
+         * Returns whether the factory has been finalized.
+         */
+        bool is_finalized() const {
+            return _is_finalized;
         }
 
         /**
@@ -264,6 +279,7 @@ class generic_factory
             }
             if( jo.has_string( id_member_name ) ) {
                 def.id = string_id<T>( jo.get_string( id_member_name ) );
+                assign_src( def, src );
                 def.load( jo, src );
                 insert( def );
 
@@ -284,6 +300,7 @@ class generic_factory
                         break;
                     }
                     def.id = string_id<T>( e );
+                    assign_src( def, src );
                     def.load( jo, src );
                     insert( def );
                 }
@@ -294,6 +311,7 @@ class generic_factory
 
             } else if( jo.has_string( legacy_id_member_name ) ) {
                 def.id = string_id<T>( jo.get_string( legacy_id_member_name ) );
+                assign_src( def, src );
                 def.load( jo, src );
                 insert( def );
 
@@ -314,6 +332,7 @@ class generic_factory
                         break;
                     }
                     def.id = string_id<T>( e );
+                    assign_src( def, src );
                     def.load( jo, src );
                     insert( def );
                 }
@@ -358,6 +377,10 @@ class generic_factory
 
         /** Finalize all entries (derived classes should chain to this method) */
         virtual void finalize() {
+            if( _is_finalized ) {
+                debugmsg( "Attempted to finalize %s factory multiple times.", type_name );
+            }
+
             DynamicDataLoader::get_instance().load_deferred( deferred );
             abstracts.clear();
 
@@ -365,6 +388,7 @@ class generic_factory
             for( size_t i = 0; i < list.size(); i++ ) {
                 list[i].id.set_cid_version( static_cast<int>( i ), version );
             }
+            set_finalized( true );
         }
 
         /**
@@ -392,6 +416,7 @@ class generic_factory
          * Postcondition: `size() == 0`
          */
         void reset() {
+            set_finalized( false );
             inc_version();
             list.clear();
             map.clear();
@@ -611,11 +636,163 @@ inline void mandatory( const JsonObject &jo, const bool was_loaded, const std::s
     }
 }
 
+/*
+ * Template vodoo:
+ * The compiler will construct the appropriate one of these based on if the
+ * type can support the operations being done.
+ * So, it defaults to the false_type, but if it can use the *= operator
+ * against a float, it then supports proportional, and the handle_proportional
+ * template that isn't just a dummy is constructed.
+ * Similarly, if it can use a += operator against it's own type, the non-dummy
+ * handle_relative template is constructed.
+ */
+template<typename T, typename = cata::void_t<>>
+struct supports_proportional : std::false_type { };
+
+template<typename T>
+struct supports_proportional<T, cata::void_t<decltype( std::declval<T &>() *= std::declval<float>() )>> :
+std::true_type {};
+
+// Explicitly specialize these templates for a couple types
+// So the compiler does not attempt to use a template that it should not
+template<>
+struct supports_proportional<bool> : std::false_type {};
+
+// This checks that all units:: types will support relative and proportional
+static_assert( supports_relative<units::energy>::value, "units should support relative" );
+static_assert( supports_proportional<units::energy>::value, "units should support proportional" );
+
+static_assert( supports_relative<int>::value, "ints should support relative" );
+static_assert( supports_proportional<int>::value, "ints should support proportional" );
+
+static_assert( !supports_relative<bool>::value, "bools should not support relative" );
+static_assert( !supports_proportional<bool>::value, "bools should not support proportional" );
+
+// Using string ids with ints doesn't make sense in practice, but it doesn't matter here
+// The type that it is templated with does not change it's behavior
+static_assert( !supports_relative<string_id<int>>::value,
+               "string ids should not support relative" );
+static_assert( !supports_proportional<string_id<int>>::value,
+               "string ids should not support proportional" );
+
+// Using int ids with ints doesn't make sense in practice, but it doesn't matter here
+// The type that it is templated with does not change it's behavior
+static_assert( !supports_relative<int_id<int>>::value,
+               "int ids should not support relative" );
+static_assert( !supports_proportional<int_id<int>>::value,
+               "int ids should not support proportional" );
+
+static_assert( !supports_relative<std::string>::value, "strings should not support relative" );
+static_assert( !supports_proportional<std::string>::value,
+               "strings should not support proportional" );
+
+// Grab an enum class from debug.h
+static_assert( !supports_relative<DebugOutput>::value, "enum classes should not support relative" );
+static_assert( !supports_proportional<DebugOutput>::value,
+               "enum classes should not support proportional" );
+
+// Grab a normal enum from there too
+static_assert( !supports_relative<DL>::value, "enums should not support relative" );
+static_assert( !supports_proportional<DL>::value, "enums should not support relative" );
+
+// Dummy template:
+// Warn if it's trying to use proportional where it cannot, but otherwise just
+// return.
+template < typename MemberType, std::enable_if_t < !supports_proportional<MemberType>::value > * =
+           nullptr >
+inline bool handle_proportional( const JsonObject &jo, const std::string &name, MemberType & )
+{
+    if( jo.has_object( "proportional" ) ) {
+        JsonObject proportional = jo.get_object( "proportional" );
+        proportional.allow_omitted_members();
+        if( proportional.has_member( name ) ) {
+            debugmsg( "Member %s of type %s does not support proportional", name, typeid( MemberType ).name() );
+        }
+    }
+    return false;
+}
+
+// Real template:
+// Copy-from makes it so the thing we're inheriting from is used to construct
+// this, so member will contain the value of the thing we inherit from
+// So, check if there is a proportional entry, check if it's got a valid value
+// and if it does, multiply the member by it.
+template<typename MemberType, std::enable_if_t<supports_proportional<MemberType>::value>* = nullptr>
+inline bool handle_proportional( const JsonObject &jo, const std::string &name, MemberType &member )
+{
+    if( jo.has_object( "proportional" ) ) {
+        JsonObject proportional = jo.get_object( "proportional" );
+        proportional.allow_omitted_members();
+        // We need to check this here, otherwise we get problems with unvisited members
+        if( !proportional.has_member( name ) ) {
+            return false;
+        }
+        if( proportional.has_float( name ) ) {
+            double scalar = proportional.get_float( name );
+            if( scalar <= 0 || scalar == 1 ) {
+                debugmsg( "Invalid scalar %g for %s", scalar, name );
+                return false;
+            }
+            member *= scalar;
+            return true;
+        } else {
+            jo.throw_error( "Invalid scalar for %s", name );
+        }
+    }
+    return false;
+}
+
+// Dummy template:
+// Warn when trying to use relative when it's not supported, but otherwise,
+// return
+template < typename MemberType,
+           std::enable_if_t < !supports_relative<MemberType>::value > * = nullptr
+           >
+inline bool handle_relative( const JsonObject &jo, const std::string &name, MemberType & )
+{
+    if( jo.has_object( "relative" ) ) {
+        JsonObject relative = jo.get_object( "relative" );
+        relative.allow_omitted_members();
+        if( !relative.has_member( name ) ) {
+            return false;
+        }
+        debugmsg( "Member %s of type %s does not support relative", name, typeid( MemberType ).name() );
+    }
+    return false;
+}
+
+// Real template:
+// Copy-from makes it so the thing we're inheriting from is used to construct
+// this, so member will contain the value of the thing we inherit from
+// So, check if there is a relative entry, then add it to our member
+template<typename MemberType, std::enable_if_t<supports_relative<MemberType>::value>* = nullptr>
+inline bool handle_relative( const JsonObject &jo, const std::string &name, MemberType &member )
+{
+    if( jo.has_object( "relative" ) ) {
+        JsonObject relative = jo.get_object( "relative" );
+        relative.allow_omitted_members();
+        // This needs to happen here, otherwise we get unvisited members
+        if( !relative.has_member( name ) ) {
+            return false;
+        }
+        MemberType adder;
+        if( relative.read( name, adder ) ) {
+            member += adder;
+            return true;
+        } else {
+            jo.throw_error( "Invalid adder for %s", name );
+        }
+    }
+    return false;
+}
+
+// No template magic here, yay!
 template<typename MemberType>
 inline void optional( const JsonObject &jo, const bool was_loaded, const std::string &name,
                       MemberType &member )
 {
-    if( !jo.read( name, member ) ) {
+    if( !jo.read( name, member ) && !handle_proportional( jo, name, member ) &&
+        !handle_relative( jo, name, member ) ) {
         if( !was_loaded ) {
             member = MemberType();
         }
@@ -636,7 +813,8 @@ template<typename MemberType, typename DefaultType = MemberType,
 inline void optional( const JsonObject &jo, const bool was_loaded, const std::string &name,
                       MemberType &member, const DefaultType &default_value )
 {
-    if( !jo.read( name, member ) ) {
+    if( !jo.read( name, member ) && !handle_proportional( jo, name, member ) &&
+        !handle_relative( jo, name, member ) ) {
         if( !was_loaded ) {
             member = default_value;
         }

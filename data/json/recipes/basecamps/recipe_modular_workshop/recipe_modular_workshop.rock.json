@@ -182,11 +182,11 @@
     "blueprint_provides": [ { "id": "fbmw_northwest" }, { "id": "blacksmith_recipes_5" } ],
     "blueprint_excludes": [ { "id": "fbmw_northwest" } ],
     "blueprint_needs": {
-      "time": "3 d 17 h 28 m",
-      "skills": [ [ "survival", 0 ], [ "fabrication", 6 ] ],
+      "time": "3 d 17 h 10 m",
+      "skills": [ [ "fabrication", 6 ] ],
       "inline": {
-        "tools": [ [ [ "machete", -1 ], [ "makeshift_machete", -1 ], [ "scythe", -1 ], [ "sickle", -1 ], [ "survivor_machete", -1 ] ] ],
-        "qualities": [ [ { "id": "SAW_W", "level": 2 } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "tools": [  ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 166 ] ],
           [ [ "glass_sheet", 2 ] ],

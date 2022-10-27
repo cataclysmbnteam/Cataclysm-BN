@@ -4291,6 +4291,7 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "bionic_ui_sort_mode", bionic_sort_mode );
     json.member( "overmap_debug_weather", overmap_debug_weather );
     json.member( "overmap_visible_weather", overmap_visible_weather );
+    json.member( "overmap_debug_mongroup", overmap_debug_mongroup );
 
     json.member( "input_history" );
     json.start_object();

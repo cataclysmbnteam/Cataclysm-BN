@@ -667,7 +667,8 @@ enum class enumeration_conjunction {
     none,
     and_,
     or_,
-    newline
+    newline,
+    arrow
 };
 
 /**
@@ -689,9 +690,20 @@ std::string enumerate_as_string( const _Container &values,
                 return ( values.size() > 2 ? _( ", or " ) : _( " or " ) );
             case enumeration_conjunction::newline:
                 return "\n";
+            case enumeration_conjunction::arrow:
+                return _( " > " );
         }
         debugmsg( "Unexpected conjunction" );
         return _( ", " );
+    }
+    ();
+    const std::string separator = [&conj]() {
+        switch( conj ) {
+            case enumeration_conjunction::arrow:
+                return _( " > " );
+            default:
+                return _( ", " );
+        }
     }
     ();
     std::string res;
@@ -702,7 +714,7 @@ std::string enumerate_as_string( const _Container &values,
             } else if( std::next( iter ) == values.end() ) {
                 res += final_separator;
             } else {
-                res += _( ", " );
+                res += separator;
             }
         }
         res += *iter;

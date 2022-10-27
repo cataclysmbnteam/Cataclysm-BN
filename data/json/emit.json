@@ -265,6 +265,13 @@
     "qty": 300
   },
   {
+    "id": "emit_migo_atmosphere_seep",
+    "type": "emit",
+    "field": "fd_migo_atmosphere",
+    "intensity": 1,
+    "qty": 50
+  },
+  {
     "id": "emit_glimmer",
     "type": "emit",
     "field": "fd_dazzling",

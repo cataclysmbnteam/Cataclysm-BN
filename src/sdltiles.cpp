@@ -244,11 +244,14 @@ static void WinCreate()
     if( get_option<std::string>( "FULLSCREEN" ) == "fullscreen" ) {
         window_flags |= SDL_WINDOW_FULLSCREEN;
         fullscreen = true;
+        // It still minimizes, but the screen size is not set to 0 to cause
+        // division by zero
         SDL_SetHint( SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0" );
     } else if( get_option<std::string>( "FULLSCREEN" ) == "windowedbl" ) {
         window_flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
         fullscreen = true;
-        SDL_SetHint( SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0" );
+        // So you can switch to desktop without the game window obscuring it.
+        SDL_SetHint( SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "1" );
     } else if( get_option<std::string>( "FULLSCREEN" ) == "maximized" ) {
         window_flags |= SDL_WINDOW_MAXIMIZED;
     }
@@ -539,11 +542,10 @@ void refresh_display()
     // Select default target (the window), copy rendered buffer
     // there, present it, select the buffer as target again.
     SetRenderTarget( renderer, nullptr );
+    ClearScreen();
 #if defined(__ANDROID__)
     SDL_Rect dstrect = get_android_render_rect( TERMINAL_WIDTH * fontwidth,
                        TERMINAL_HEIGHT * fontheight );
-    SetRenderDrawColor( renderer, 0, 0, 0, 255 );
-    RenderClear( renderer );
     RenderCopy( renderer, display_buffer, NULL, &dstrect );
 #else
     RenderCopy( renderer, display_buffer, nullptr, nullptr );
@@ -589,7 +591,7 @@ static void invalidate_framebuffer( std::vector<curseline> &framebuffer )
     }
 }
 
-void reinitialize_framebuffer()
+void reinitialize_framebuffer( const bool force_invalidate )
 {
     static int prev_height = -1;
     static int prev_width = -1;
@@ -607,7 +609,7 @@ void reinitialize_framebuffer()
         for( int i = 0; i < new_height; i++ ) {
             terminal_framebuffer[i].chars.assign( new_width, cursecell( "" ) );
         }
-    } else if( need_invalidate_framebuffers ) {
+    } else if( force_invalidate || need_invalidate_framebuffers ) {
         need_invalidate_framebuffers = false;
         invalidate_framebuffer( oversized_framebuffer );
         invalidate_framebuffer( terminal_framebuffer );
@@ -1895,7 +1897,7 @@ bool handle_resize( int w, int h )
         TERMINAL_HEIGHT = WindowHeight / fontheight / scaling_factor;
         need_invalidate_framebuffers = true;
         catacurses::stdscr = catacurses::newwin( TERMINAL_HEIGHT, TERMINAL_WIDTH, point_zero );
-        SetupRenderTarget();
+        throwErrorIf( !SetupRenderTarget(), "SetupRenderTarget failed" );
         game_ui::init_ui();
         ui_manager::screen_resized();
         return true;
@@ -2987,7 +2989,8 @@ static void CheckMessages()
 
     last_input = input_event();
 
-    bool need_redraw = false;
+    cata::optional<point> resize_dims;
+    bool render_target_reset = false;
 
     while( SDL_PollEvent( &ev ) ) {
         switch( ev.type ) {
@@ -3023,7 +3026,6 @@ static void CheckMessages()
                     case SDL_WINDOWEVENT_FOCUS_GAINED:
                         break;
                     case SDL_WINDOWEVENT_EXPOSED:
-                        need_redraw = true;
                         needupdate = true;
                         break;
                     case SDL_WINDOWEVENT_RESTORED:
@@ -3035,18 +3037,15 @@ static void CheckMessages()
                         }
 #endif
                         break;
-                    case SDL_WINDOWEVENT_RESIZED: {
-                        restore_on_out_of_scope<input_event> prev_last_input( last_input );
-                        needupdate = handle_resize( ev.window.data1, ev.window.data2 );
+                    case SDL_WINDOWEVENT_RESIZED:
+                        resize_dims = point( ev.window.data1, ev.window.data2 );
                         break;
-                    }
                     default:
                         break;
                 }
                 break;
             case SDL_RENDER_TARGETS_RESET:
-                need_redraw = true;
-                needupdate = true;
+                render_target_reset = true;
                 break;
             case SDL_KEYDOWN: {
 #if defined(__ANDROID__)
@@ -3372,16 +3371,24 @@ static void CheckMessages()
             break;
         }
     }
-    if( need_redraw ) {
+    bool resized = false;
+    if( resize_dims.has_value() ) {
+        restore_on_out_of_scope<input_event> prev_last_input( last_input );
+        needupdate = resized = handle_resize( resize_dims.value().x, resize_dims.value().y );
+    }
+    // resizing already reinitializes the render target
+    if( !resized && render_target_reset ) {
+        throwErrorIf( !SetupRenderTarget(), "SetupRenderTarget failed" );
+        reinitialize_framebuffer( true );
+        needupdate = true;
         restore_on_out_of_scope<input_event> prev_last_input( last_input );
         // FIXME: SDL_RENDER_TARGETS_RESET only seems to be fired after the first redraw
         // when restoring the window after system sleep, rather than immediately
         // on focus gain. This seems to mess up the first redraw and
         // causes black screen that lasts ~0.5 seconds before the screen
         // contents are redrawn in the following code.
-        window_dimensions dim = get_window_dimensions( catacurses::stdscr );
-        ui_manager::invalidate( rectangle<point>( point_zero, dim.window_size_pixel ), false );
-        ui_manager::redraw();
+        ui_manager::invalidate( rectangle<point>( point_zero, point( WindowWidth, WindowHeight ) ), false );
+        ui_manager::redraw_invalidated();
     }
     if( needupdate ) {
         try_sdl_update();
@@ -3538,7 +3545,13 @@ void catacurses::init_interface()
     tilecontext = std::make_unique<cata_tiles>( renderer, geometry );
     try {
         std::vector<mod_id> dummy;
-        tilecontext->load_tileset( get_option<std::string>( "TILES" ), dummy, true );
+        tilecontext->load_tileset(
+            get_option<std::string>( "TILES" ),
+            dummy,
+            /*precheck=*/true,
+            /*force=*/false,
+            /*pump_events=*/true
+        );
     } catch( const std::exception &err ) {
         dbg( DL::Error ) << "failed to check for tileset: " << err.what();
         // use_tiles is the cached value of the USE_TILES option.
@@ -3579,7 +3592,10 @@ void load_tileset()
     }
     tilecontext->load_tileset(
         get_option<std::string>( "TILES" ),
-        world_generator->active_world->active_mod_order
+        world_generator->active_world->active_mod_order,
+        /*precheck=*/false,
+        /*force=*/false,
+        /*pump_events=*/true
     );
     tilecontext->do_tile_loading_report();
 }
@@ -3609,6 +3625,19 @@ void input_manager::set_timeout( const int t )
 {
     input_timeout = t;
     inputdelay = t;
+}
+
+void input_manager::pump_events()
+{
+    if( test_mode ) {
+        return;
+    }
+
+    // Handle all events, but ignore any keypress
+    CheckMessages();
+
+    last_input = input_event();
+    previously_pressed_key = 0;
 }
 
 // This is how we're actually going to handle input events, SDL getch
@@ -3905,5 +3934,11 @@ HWND getWindowHandle()
     return info.info.win.window;
 }
 #endif
+
+const SDL_Renderer_Ptr &get_sdl_renderer()
+{
+    return renderer;
+}
+
 
 #endif // TILES

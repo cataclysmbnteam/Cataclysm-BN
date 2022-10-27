@@ -66,6 +66,7 @@
 #include "martialarts.h"
 #include "material.h"
 #include "messages.h"
+#include "mod_manager.h"
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
@@ -1468,6 +1469,15 @@ double item::average_dps( const player &guy ) const
 void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                        bool debug /* debug */ ) const
 {
+    if( display_mod_source && parts->test( iteminfo_parts::BASE_MOD_SRC ) ) {
+        info.emplace_back( "BASE", string_format( _( "<stat>Origin: %s</stat>" ),
+                           enumerate_as_string( type->src.begin(),
+        type->src.end(), []( const std::pair<itype_id, mod_id> &source ) {
+            return string_format( "'%s'", source.second->name() );
+        }, enumeration_conjunction::arrow ) ) );
+        insert_separation_line( info );
+    }
+
     const std::string space = "  ";
     if( parts->test( iteminfo_parts::BASE_MATERIAL ) ) {
         const std::vector<const material_type *> mat_types = made_of_types();
@@ -3530,6 +3540,13 @@ void item::contents_info( std::vector<iteminfo> &info, const iteminfo_query *par
                                               &converted_volume_scale ), 2 );
                 info.emplace_back( "DESCRIPTION", contents_item->display_name() );
                 iteminfo::flags f = iteminfo::no_newline;
+                if( display_mod_source ) {
+                    info.emplace_back( "DESCRIPTION", string_format( _( "<stat>Origin: %s</stat>" ),
+                                       enumerate_as_string( contents_item->type->src.begin(),
+                    contents_item->type->src.end(), []( const std::pair<itype_id, mod_id> &content_source ) {
+                        return string_format( "'%s'", content_source.second->name() );
+                    }, enumeration_conjunction::arrow ) ) );
+                }
                 if( converted_volume_scale != 0 ) {
                     f |= iteminfo::is_decimal;
                 }
@@ -3538,6 +3555,13 @@ void item::contents_info( std::vector<iteminfo> &info, const iteminfo_query *par
                                    converted_volume );
             } else {
                 info.emplace_back( "DESCRIPTION", contents_item->display_name() );
+                if( display_mod_source ) {
+                    info.emplace_back( "DESCRIPTION", string_format( _( "<stat>Origin: %s</stat>" ),
+                                       enumerate_as_string( contents_item->type->src.begin(),
+                    contents_item->type->src.end(), []( const std::pair<itype_id, mod_id> &content_source ) {
+                        return string_format( "'%s'", content_source.second->name() );
+                    }, enumeration_conjunction::arrow ) ) );
+                }
                 info.emplace_back( "DESCRIPTION", description.translated() );
             }
         }
@@ -7345,7 +7369,7 @@ int item::ammo_consume( int qty, const tripoint &pos )
             item &e = contents.front();
             if( need >= e.charges ) {
                 need -= e.charges;
-                remove_item( contents.back() );
+                remove_item( contents.front() );
             } else {
                 e.charges -= need;
                 need = 0;
