@@ -769,6 +769,7 @@ void diary::serialize( JsonOut &jsout )
         jsout.member( "bionics", n->bionics );
         jsout.member( "spells", n->known_spells );
         jsout.member( "skill_levels", n->skill_levels );
+        jsout.member( "martial_arts", n->known_martial_arts );
         jsout.member( "max_power_level", n->max_power_level );
         jsout.end_object();
     }
@@ -819,6 +820,7 @@ void diary::deserialize( JsonIn &jsin )
             elem.read( "bionics", page->bionics );
             elem.read( "spells", page->known_spells );
             elem.read( "skill_levels", page->skill_levels );
+            elem.read( "martial_arts", page->known_martial_arts );
             elem.read( "max_power_level", page->max_power_level );
             diary::pages.push_back( std::move( page ) );
         }
