@@ -24,6 +24,7 @@
 #include "skill.h"
 #include "string_formatter.h"
 #include "type_id.h"
+#include "units.h"
 
 diary_page::diary_page() = default;
 
@@ -546,6 +547,33 @@ void diary::stat_changes()
     }
 }
 
+
+void diary::max_power_level_changes()
+{
+    diary_page *curr_page = get_page_ptr();
+    diary_page *prev_page = get_page_ptr( -1 );
+    if( curr_page == nullptr ) {
+        return;
+    }
+    if( prev_page == nullptr ) {
+        add_to_change_list( "Max power:" );
+        add_to_change_list( string_format( _( "%ikJ" ),
+                                           units::to_kilojoule( curr_page->max_power_level ) ) );
+        add_to_change_list( " " );
+    } else {
+
+        bool flag = true;
+        if( curr_page->max_power_level != prev_page->max_power_level ) {
+            add_to_change_list( "Max power:" );
+            add_to_change_list( string_format(
+                                    _( "%i -> %ikJ" ),
+                                    units::to_kilojoule( prev_page->max_power_level ),
+                                    units::to_kilojoule( curr_page->max_power_level ) ) );
+            add_to_change_list( " " );
+        }
+    }
+}
+
 std::vector<std::string> diary::get_change_list()
 {
     if( !change_list.empty() ) {
@@ -556,6 +584,7 @@ std::vector<std::string> diary::get_change_list()
         skill_changes();
         trait_changes();
         bionic_changes();
+        max_power_level_changes();
         spell_changes();
         martial_art_changes();
         mission_changes();

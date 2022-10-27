@@ -128,6 +128,7 @@ class diary
         void mission_changes();
         void spell_changes();
         void martial_art_changes();
+        void max_power_level_changes();
 
         /*exports the diary to a readable .md file. If it's the last export, it's exported to memorial otherwise its exported to the world folder*/
         void export_to_md( bool last_export = false );
