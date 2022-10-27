@@ -291,8 +291,22 @@
     "copy-from": "mon_compsognathus_hatchling",
     "name": "dark gray and yellow hatchling",
     "default_faction": "eoraptor",
-    "petfood": { "food": [ "DINOFOOD_A", "DINOFOOD_B", "DINOFOOD_C" ] },
-    "upgrades": { "age_grow": 14, "into": "mon_eoraptor" }
+    "upgrades": { "age_grow": 14, "into": "mon_eoraptor" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "GUILT",
+      "CANPLAY",
+      "STUMBLES",
+      "CATFOOD",
+      "DOGFOOD",
+      "CATTLEFODDER",
+      "NO_BREED"
+    ]
   },
   {
     "id": "mon_sarahsaurus_hatchling",
@@ -301,47 +315,45 @@
     "copy-from": "mon_gallimimus_hatchling",
     "weight": "2 kg",
     "volume": "2 L",
-    "petfood": { "food": [ "DINOFOOD_C" ] },
-    "upgrades": { "age_grow": 40, "into": "mon_sarahsaurus_juvenile" }
+    "upgrades": { "age_grow": 40, "into": "mon_sarahsaurus_juvenile" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "GUILT",
+      "CANPLAY",
+      "STUMBLES",
+      "CATTLEFODDER",
+      "NO_BREED"
+    ]
   },
   {
     "id": "mon_anchisaurus_hatchling",
     "type": "MONSTER",
-    "name": "brown and magenta hatchling",
-    "copy-from": "mon_gallimimus_hatchling",
-    "weight": "2 kg",
-    "volume": "2 L",
-    "petfood": { "food": [ "DINOFOOD_C" ] },
+    "copy-from": "mon_sarahsaurus_hatchling",
     "upgrades": { "age_grow": 20, "into": "mon_anchisaurus_juvenile" }
   },
   {
     "id": "mon_issi_hatchling",
     "type": "MONSTER",
-    "name": "brown and magenta hatchling",
-    "copy-from": "mon_gallimimus_hatchling",
-    "weight": "2 kg",
-    "volume": "2 L",
-    "petfood": { "food": [ "DINOFOOD_C" ] },
+    "copy-from": "mon_sarahsaurus_hatchling",
     "upgrades": { "age_grow": 40, "into": "mon_issi_juvenile" }
   },
   {
     "id": "mon_haplocanthosaurus_hatchling",
     "type": "MONSTER",
-    "name": "brown and magenta hatchling",
-    "copy-from": "mon_gallimimus_hatchling",
+    "copy-from": "mon_issi_hatchling",
     "weight": "4 kg",
     "volume": "4 L",
-    "petfood": { "food": [ "DINOFOOD_C" ] },
     "upgrades": { "age_grow": 45, "into": "mon_haplocanthosaurus_juvenile" }
   },
   {
     "id": "mon_amargasaurus_hatchling",
     "type": "MONSTER",
-    "name": "brown and magenta hatchling",
-    "copy-from": "mon_gallimimus_hatchling",
-    "weight": "4 kg",
-    "volume": "4 L",
-    "petfood": { "food": [ "DINOFOOD_C" ] },
+    "copy-from": "mon_haplocanthosaurus_hatchling",
     "upgrades": { "age_grow": 50, "into": "mon_amargasaurus_juvenile" }
   },
   {
