@@ -522,6 +522,6 @@
     "id": "used_UPS",
     "type": "item_group",
     "//": "A standard civilian UPS, with 0-100% charge.  Use for spawns where the item may have seen heavy use before being dropped.",
-    "items": [ { "item": "heavy_battery_cell", "charges": [ 800, 1000 ], "container-item": "UPS_off" } ]
+    "items": [ { "item": "heavy_battery_cell", "charges": [ 0, 1000 ], "container-item": "UPS_off" } ]
   }
 ]
