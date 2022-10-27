@@ -10,6 +10,7 @@
 
 #include "avatar.h"
 #include "calendar.h"
+#include "cata_unreachable.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "colony.h"
@@ -846,6 +847,7 @@ void cast_zlight_segment(
                          ( *blocked_caches[p.z + OVERMAP_DEPTH] )[p.x - 1][p.y + 1].ne );
                 break;
         }
+        cata::unreachable();
     };
 
     float radius = 60.0f - offset_distance;
@@ -1145,6 +1147,7 @@ void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
                 return ( p.x > 1 && p.y < MAPSIZE_Y - 1 && blocked_array[p.x - 1][p.y + 1].ne );
                 break;
         }
+        cata::unreachable();
     };
 
     float newStart = 0.0f;
