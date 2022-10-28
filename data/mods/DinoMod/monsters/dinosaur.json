@@ -906,7 +906,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 8,
     "hp": 10,
-    "death_drops": { "subtype": "collection", "groups": [ [ "produce", 100 ], [ "vertebrate_parts", 10 ] ] },
+    "death_drops": { "subtype": "collection", "groups": [ [ "produce", 100 ] ] },
     "description": "A bipedal dinosaur about the size of a chicken.  It darts around quickly and has long arms for grabbing what it desires.  It's holding something.",
     "reproduction": { "baby_egg": "egg_eoraptor", "baby_count": 3, "baby_timer": 6 },
     "baby_flags": [ "SPRING", "SUMMER" ],
