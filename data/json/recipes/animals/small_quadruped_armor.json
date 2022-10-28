@@ -30,7 +30,7 @@
     "subcategory": "CSC_ANIMALS_CANINE ARMOR",
     "time": "52 m 30 s",
     "using": [ [ "chainmail_standard", 5 ] ],
-    "components": [ [ [ "link_sheet", 5 ] ], [ [ "chain_link", 131 ] ], [ [ "wire", 1 ] ], [ [ "fur", 6 ], [ "leather", 6 ] ] ]
+    "components": [ [ [ "link_sheet", 5 ] ], [ [ "chain_link", 131 ] ], [ [ "wire", 1 ] ], [ [ "fabric_hides_proper", 6, "LIST" ] ] ]
   },
   {
     "result": "kevlar_armor_small_quadruped",
@@ -42,7 +42,7 @@
     "time": "70 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 63 ] ],
-    "components": [ [ [ "kevlar_plate", 18 ] ], [ [ "rag", 14 ] ], [ [ "leather", 8 ] ] ]
+    "components": [ [ [ "kevlar_plate", 18 ] ], [ [ "fabric_cloth_any", 14, "LIST" ] ], [ [ "fabric_hides_proper", 8, "LIST" ] ] ]
   },
   {
     "result": "leather_armor_small_quadruped",
@@ -131,6 +131,6 @@
     "time": "30 m",
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "duct_tape", 50 ] ], [ [ "bag_plastic", 10 ] ], [ [ "rag", 10 ] ] ]
+    "components": [ [ [ "duct_tape", 50 ] ], [ [ "bag_plastic", 10 ] ], [ [ "fabric_cloth_any", 10, "LIST" ] ] ]
   }
 ]
