@@ -3,7 +3,6 @@
     "id": "forage_spring",
     "type": "item_group",
     "subtype": "distribution",
-    "copy-from": "forage_spring",
     "extend": {
       "entries": [
         { "item": "egg_dino", "prob": 2, "count-min": 2, "count-max": 5 },
@@ -19,7 +18,6 @@
     "id": "forage_summer",
     "type": "item_group",
     "subtype": "distribution",
-    "copy-from": "forage_summer",
     "extend": {
       "entries": [
         { "item": "egg_dino", "prob": 2, "count-min": 2, "count-max": 5 },
