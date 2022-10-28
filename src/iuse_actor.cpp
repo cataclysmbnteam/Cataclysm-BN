@@ -1145,7 +1145,7 @@ void pick_lock_actor::load( const JsonObject &obj )
     pick_quality = obj.get_int( "pick_quality" );
 }
 
-int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
+int pick_lock_actor::use( player &p, item &it, bool, const tripoint &t ) const
 {
     if( p.is_npc() ) {
         return 0;
@@ -1167,7 +1167,7 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
         return is_allowed;
     };
 
-    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
+    const cata::optional<tripoint> pnt_ = ( t != p.pos() ) ? t : choose_adjacent_highlight(
             _( "Use your lockpick where?" ), _( "There is nothing to lockpick nearby." ), f, false );
     if( !pnt_ ) {
         return 0;
