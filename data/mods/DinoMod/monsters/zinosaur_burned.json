@@ -23,7 +23,7 @@
     "fungalize_into": "mon_zilophosaurus_fungus",
     "vision_day": 10,
     "special_attacks": [ [ "GRAB", 7 ] ],
-    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
+    "death_function": [ "SMOKEBURST", "NORMAL" ],
     "harvest": "zed_dino_leather",
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
@@ -75,7 +75,7 @@
     "color": "i_brown",
     "vision_day": 10,
     "special_attacks": [ [ "GRAB", 7 ] ],
-    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
+    "death_function": [ "SMOKEBURST", "NORMAL" ],
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -267,7 +267,7 @@
     "color": "i_brown",
     "vision_day": 10,
     "special_attacks": [ [ "GRAB", 7 ] ],
-    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
+    "death_function": [ "SMOKEBURST", "NORMAL" ],
     "harvest": "zed_dino_leather",
     "flags": [
       "SEES",
@@ -314,7 +314,7 @@
     "color": "i_brown",
     "vision_day": 10,
     "special_attacks": [ [ "GRAB", 7 ] ],
-    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
+    "death_function": [ "SMOKEBURST", "NORMAL" ],
     "harvest": "zed_dino_leather",
     "flags": [
       "SEES",
@@ -420,7 +420,7 @@
     "color": "i_brown",
     "vision_day": 10,
     "special_attacks": [ [ "GRAB", 7 ] ],
-    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
+    "death_function": [ "SMOKEBURST", "NORMAL" ],
     "harvest": "zed_dino_leather",
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
