@@ -1,3 +1,8 @@
+Cataclysm: Dark Days Ahead JSON Web Linting Tool
+This is a tool to help modders and editors of the open source game Cataclysm: Dark Days Ahead write JSON in the game's expected format.
+
+Paste some JSON into the field below and click "Lint" to run an autoformatter against it.
+
 [
   {
     "type": "MONSTER",
@@ -513,7 +518,6 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
-    "bleed_rate": 50,
     "upgrades": {  },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
@@ -537,7 +541,6 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
-    "bleed_rate": 50,
     "upgrades": {  },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
@@ -561,7 +564,6 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
-    "bleed_rate": 50,
     "upgrades": {  },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
@@ -585,7 +587,6 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
-    "bleed_rate": 50,
     "upgrades": {  },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
@@ -609,7 +610,6 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
-    "bleed_rate": 50,
     "upgrades": {  },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
@@ -633,7 +633,6 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
-    "bleed_rate": 50,
     "upgrades": {  },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
@@ -657,7 +656,6 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
-    "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zapatosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
@@ -681,7 +679,6 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
-    "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zapatosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
@@ -705,7 +702,6 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
-    "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zapatosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
@@ -729,7 +725,6 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
-    "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zapatosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
@@ -753,7 +748,6 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
-    "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zapatosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
@@ -777,7 +771,6 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
-    "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zapatosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
@@ -2601,8 +2594,6 @@
       "armor_acid": 3,
       "vision_day": -20
     },
-    "bleed_rate": 50,
-    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -2628,8 +2619,6 @@
       "armor_acid": 3,
       "vision_day": -20
     },
-    "bleed_rate": 50,
-    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -2655,8 +2644,6 @@
       "armor_acid": 3,
       "vision_day": -20
     },
-    "bleed_rate": 50,
-    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -2682,8 +2669,6 @@
       "armor_acid": 3,
       "vision_day": -20
     },
-    "bleed_rate": 50,
-    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -2709,8 +2694,6 @@
       "armor_acid": 3,
       "vision_day": -20
     },
-    "bleed_rate": 50,
-    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -2736,8 +2719,6 @@
       "armor_acid": 3,
       "vision_day": -20
     },
-    "bleed_rate": 50,
-    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -2771,8 +2752,6 @@
       "armor_acid": 3,
       "vision_day": -20
     },
-    "bleed_rate": 50,
-    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -2798,8 +2777,6 @@
       "armor_acid": 3,
       "vision_day": -20
     },
-    "bleed_rate": 50,
-    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -2841,8 +2818,6 @@
       "armor_acid": 3,
       "vision_day": -20
     },
-    "bleed_rate": 50,
-    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -3446,7 +3421,6 @@
     "color": "white_magenta",
     "proportional": { "hp": 4, "speed": 1.25 },
     "relative": { "melee_dice": 1, "melee_damage": -4, "armor_bash": 4, "armor_cut": 6, "armor_bullet": 5 },
-    "bleed_rate": 0,
     "special_attacks": [ [ "SMASH", 20 ] ],
     "upgrades": {  }
   },
@@ -3912,3 +3886,4 @@
     ]
   }
 ]
+
