@@ -557,7 +557,7 @@ void diary::max_power_level_changes()
     }
     if( prev_page == nullptr ) {
         add_to_change_list( "Max power:" );
-        add_to_change_list( string_format( _( "%ikJ" ),
+        add_to_change_list( string_format( _( "<color_yellow>%ikJ</color>" ),
                                            units::to_kilojoule( curr_page->max_power_level ) ) );
         add_to_change_list( " " );
     } else {
@@ -566,7 +566,7 @@ void diary::max_power_level_changes()
         if( curr_page->max_power_level != prev_page->max_power_level ) {
             add_to_change_list( "Max power:" );
             add_to_change_list( string_format(
-                                    _( "%i -> %ikJ" ),
+                                    _( "<color_yellow>%i</color> -> <color_yellow>%ikJ</color>" ),
                                     units::to_kilojoule( prev_page->max_power_level ),
                                     units::to_kilojoule( curr_page->max_power_level ) ) );
             add_to_change_list( " " );
