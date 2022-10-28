@@ -562,7 +562,6 @@ void diary::max_power_level_changes()
         add_to_change_list( " " );
     } else {
 
-        bool flag = true;
         if( curr_page->max_power_level != prev_page->max_power_level ) {
             add_to_change_list( "Max power:" );
             add_to_change_list( string_format(
