@@ -277,6 +277,7 @@
   {
     "type": "monstergroup",
     "name": "GROUP_zanchisaurus_UPGRADE",
+    "default": "mon_sanchisaurus",
     "monsters": [
       { "monster": "mon_sanchisaurus", "freq": 600, "cost_multiplier": 5 },
       { "monster": "mon_zanchisaurus_brute", "freq": 400, "cost_multiplier": 5 }
