@@ -9,7 +9,7 @@
     "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
-    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "chitin_piece", 3 ] ], [ [ "leather", 3 ] ] ]
+    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "chitin_piece", 3 ] ], [ [ "fabric_hides_proper", 3, "LIST" ] ] ]
   },
   {
     "result": "gauntlets_acidchitin",
@@ -22,7 +22,7 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
     "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "acidchitin_piece", 3 ] ], [ [ "leather", 3 ] ] ]
+    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "acidchitin_piece", 3 ] ], [ [ "fabric_hides_proper", 3, "LIST" ] ] ]
   },
   {
     "result": "gauntlets_larmor",
@@ -34,7 +34,7 @@
     "time": "30 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 12 ] ],
-    "components": [ [ [ "leather", 6 ], [ "fur", 6 ] ] ]
+    "components": [ [ [ "fabric_hides_proper", 6, "LIST" ] ] ]
   },
   {
     "result": "gloves_bag",
@@ -100,7 +100,7 @@
     "tools": [ [ [ "welder", 14 ], [ "welder_crude", 21 ], [ "soldering_iron", 21 ], [ "toolset", 21 ] ] ],
     "components": [
       [ [ "nomex", 6 ] ],
-      [ [ "leather", 2 ] ],
+      [ [ "fabric_hides_proper", 2, "LIST" ] ],
       [ [ "duct_tape", 120 ] ],
       [ [ "gloves_tactical", 1 ], [ "kevlar_plate", 4 ] ],
       [ [ "nomex_gloves", 1 ], [ "fire_gauntlets", 1 ] ]
@@ -152,8 +152,8 @@
     "using": [ [ "sewing_standard", 40 ] ],
     "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
     "components": [
-      [ [ "rag", 2 ] ],
-      [ [ "leather", 2 ] ],
+      [ [ "fabric_standard", 2, "LIST" ] ],
+      [ [ "fabric_hides_proper", 2, "LIST" ] ],
       [ [ "scrap", 4 ] ],
       [ [ "duct_tape", 50 ] ],
       [ [ "gloves_tactical", 1 ], [ "kevlar_plate", 4 ] ],
@@ -217,8 +217,8 @@
     "using": [ [ "sewing_standard", 50 ] ],
     "tools": [ [ [ "welder", 14 ], [ "welder_crude", 21 ], [ "soldering_iron", 21 ], [ "toolset", 21 ] ] ],
     "components": [
-      [ [ "rag", 6 ] ],
-      [ [ "leather", 2 ] ],
+      [ [ "fabric_standard", 6, "LIST" ] ],
+      [ [ "fabric_hides_proper", 2, "LIST" ] ],
       [ [ "duct_tape", 80 ] ],
       [ [ "gloves_tactical", 1 ], [ "kevlar_plate", 4 ] ],
       [
@@ -253,7 +253,7 @@
     "using": [ [ "blacksmithing_standard", 24 ], [ "steel_standard", 6 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "fur", 10 ], [ "leather", 10 ] ] ]
+    "components": [ [ [ "fabric_hides_proper", 10, "LIST" ] ] ]
   },
   {
     "result": "gloves_survivor",
@@ -268,8 +268,8 @@
     "using": [ [ "sewing_standard", 50 ] ],
     "tools": [ [ [ "welder", 14 ], [ "welder_crude", 21 ], [ "soldering_iron", 21 ], [ "toolset", 21 ] ] ],
     "components": [
-      [ [ "rag", 2 ] ],
-      [ [ "leather", 6 ] ],
+      [ [ "fabric_standard", 2, "LIST" ] ],
+      [ [ "fabric_hides_proper", 6, "LIST" ] ],
       [ [ "duct_tape", 80 ] ],
       [ [ "gloves_tactical", 1 ], [ "kevlar_plate", 4 ] ],
       [
@@ -366,7 +366,7 @@
     "using": [ [ "sewing_standard", 50 ] ],
     "tools": [ [ [ "welder", 14 ], [ "welder_crude", 21 ], [ "soldering_iron", 21 ], [ "toolset", 21 ] ] ],
     "components": [
-      [ [ "rag", 2 ] ],
+      [ [ "fabric_standard", 2, "LIST" ] ],
       [ [ "fur", 8 ] ],
       [ [ "duct_tape", 80 ] ],
       [ [ "gloves_tactical", 1 ], [ "kevlar_plate", 4 ] ],
@@ -392,8 +392,8 @@
     "using": [ [ "sewing_standard", 100 ] ],
     "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
     "components": [
-      [ [ "leather", 16 ] ],
-      [ [ "rag", 6 ] ],
+      [ [ "fabric_hides_proper", 16, "LIST" ] ],
+      [ [ "fabric_standard", 6, "LIST" ] ],
       [ [ "scrap", 2 ] ],
       [ [ "duct_tape", 160 ] ],
       [ [ "gloves_tactical", 2 ], [ "kevlar_plate", 6 ] ]

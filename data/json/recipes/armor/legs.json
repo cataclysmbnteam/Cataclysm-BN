@@ -11,7 +11,7 @@
     "autolearn": true,
     "using": [ [ "cordage", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "2x4", 1 ] ], [ [ "rag", 4 ] ] ]
+    "components": [ [ [ "2x4", 1 ] ], [ [ "fabric_standard", 4, "LIST" ] ] ]
   },
   {
     "result": "bikini_bottom",
@@ -187,7 +187,7 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 20 ] ],
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 15, "LIST" ] ] ],
-    "components": [ [ [ "plastic_chunk", 8 ] ], [ [ "rag", 4 ], [ "leather", 4 ], [ "fur", 4 ] ] ]
+    "components": [ [ [ "plastic_chunk", 8 ] ], [ [ "fabric_standard", 4, "LIST" ], [ "fabric_hides_any", 4, "LIST" ] ] ]
   },
   {
     "result": "leg_warmers",
@@ -263,7 +263,7 @@
     "using": [ [ "blacksmithing_standard", 28 ], [ "steel_standard", 7 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "fur", 6 ], [ "leather", 6 ] ] ]
+    "components": [ [ [ "fabric_hides_proper", 6, "LIST" ] ] ]
   },
   {
     "result": "legguard_metal",
@@ -277,7 +277,7 @@
     "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
     "using": [ [ "cordage", 4 ], [ "steel_tiny", 4 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "fur", 6 ], [ "leather", 6 ] ] ]
+    "components": [ [ [ "fabric_hides_proper", 6, "LIST" ] ] ]
   },
   {
     "result": "legguard_paper",
@@ -618,6 +618,6 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
     "using": [ [ "forging_standard", 6 ], [ "bronzesmithing_tools", 1 ] ],
-    "components": [ [ [ "fur", 6 ], [ "leather", 6 ] ], [ [ "scrap_bronze", 12 ] ] ]
+    "components": [ [ [ "fabric_hides_proper", 6, "LIST" ] ], [ [ "scrap_bronze", 12 ] ] ]
   }
 ]

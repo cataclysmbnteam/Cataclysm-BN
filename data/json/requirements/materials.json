@@ -66,7 +66,7 @@
     "components": [ [ [ "nanomaterial", 5 ] ] ]
   },
   {
-    "id": "fabric_cloth_any",
+    "id": "fabric_standard",
     "type": "requirement",
     "//": "Any valid fabric material, for when the material used doesn't matter.",
     "components": [ [ [ "rag", 1 ], [ "lycra_patch", 1 ], [ "nylon", 1 ], [ "nomex", 1 ], [ "neoprene", 1 ] ] ]

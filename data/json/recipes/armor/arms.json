@@ -10,7 +10,7 @@
     "autolearn": true,
     "using": [ [ "cordage_short", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "2x4", 1 ] ], [ [ "fabric_cloth_any", 1, "LIST" ] ] ]
+    "components": [ [ [ "2x4", 1 ] ], [ [ "fabric_standard", 1, "LIST" ] ] ]
   },
   {
     "result": "arm_warmers",
@@ -152,7 +152,7 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 10 ] ],
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 15, "LIST" ] ] ],
-    "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "fabric_cloth_any", 2, "LIST" ], [ "fabric_hides_proper", 2, "LIST" ] ] ]
+    "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "fabric_standard", 2, "LIST" ], [ "fabric_hides_proper", 2, "LIST" ] ] ]
   },
   {
     "result": "stockings_tent_arms",

@@ -42,7 +42,7 @@
     "time": "210 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 190 ] ],
-    "components": [ [ [ "kevlar_plate", 56 ] ], [ [ "fabric_cloth_any", 42, "LIST" ] ], [ [ "fabric_hides_proper", 24, "LIST" ] ] ]
+    "components": [ [ [ "kevlar_plate", 56 ] ], [ [ "fabric_standard", 42, "LIST" ] ], [ [ "fabric_hides_proper", 24, "LIST" ] ] ]
   },
   {
     "result": "leather_armor_medium_quadruped",
@@ -54,7 +54,7 @@
     "time": "105 m",
     "byproducts": [ [ "leather", 21 ] ],
     "using": [ [ "sewing_standard", 30 ] ],
-    "components": [ [ [ "armor_blarmor", 3 ] ], [ [ "fabric_cloth_any", 18, "LIST" ] ] ]
+    "components": [ [ [ "armor_blarmor", 3 ] ], [ [ "fabric_standard", 18, "LIST" ] ] ]
   },
   {
     "result": "leather_armor_medium_quadruped",
@@ -78,7 +78,7 @@
       ],
       [ [ "salt", 150 ] ],
       [ [ "leather", 105 ] ],
-      [ [ "fabric_cloth_any", 18, "LIST" ] ]
+      [ [ "fabric_standard", 18, "LIST" ] ]
     ]
   },
   {
@@ -158,6 +158,6 @@
     "time": "210 m",
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "duct_tape", 350 ] ], [ [ "bag_plastic", 70 ] ], [ [ "fabric_cloth_any", 70, "LIST" ] ] ]
+    "components": [ [ [ "duct_tape", 350 ] ], [ [ "bag_plastic", 70 ] ], [ [ "fabric_standard", 70, "LIST" ] ] ]
   }
 ]

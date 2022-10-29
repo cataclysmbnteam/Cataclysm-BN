@@ -11,7 +11,7 @@
     "using": [ [ "forging_standard", 5 ], [ "steel_standard", 5 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "fur", 12 ], [ "leather", 12 ] ] ]
+    "components": [ [ [ "fabric_hides_proper", 12, "LIST" ] ] ]
   },
   {
     "result": "apron_leather",
@@ -35,7 +35,7 @@
     "time": "4 h",
     "book_learn": [ [ "textbook_armschina", 2 ] ],
     "using": [ [ "sewing_standard", 68 ] ],
-    "components": [ [ [ "cordage_superior", 4, "LIST" ] ], [ [ "rag", 4 ] ], [ [ "leather", 42 ], [ "fur", 42 ] ] ]
+    "components": [ [ [ "cordage_superior", 4, "LIST" ] ], [ [ "rag", 4 ] ], [ [ "fabric_hides_proper", 42, "LIST" ] ] ]
   },
   {
     "result": "bikini_top",
@@ -222,7 +222,7 @@
     "using": [ [ "blacksmithing_standard", 32 ], [ "steel_standard", 8 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "fur", 6 ], [ "leather", 6 ] ] ]
+    "components": [ [ [ "fabric_hides_proper", 6, "LIST" ] ] ]
   },
   {
     "result": "cuirass_scrap",
@@ -328,7 +328,7 @@
     "time": "2 h 30 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 360 ] ],
-    "components": [ [ [ "leather", 56 ], [ "fur", 56 ] ], [ [ "rope_natural_short", 2, "LIST" ] ] ]
+    "components": [ [ [ "fabric_hides_any", 56, "LIST" ] ], [ [ "rope_natural_short", 2, "LIST" ] ] ]
   },
   {
     "result": "greatcoat",
@@ -481,7 +481,7 @@
     "using": [ [ "sewing_standard", 60 ] ],
     "tools": [ [ [ "welder", 18 ], [ "welder_crude", 27 ], [ "soldering_iron", 27 ], [ "toolset", 27 ] ] ],
     "components": [
-      [ [ "rag", 15 ] ],
+      [ [ "fabric_standard", 15, "LIST" ] ],
       [ [ "coat_rain", 1 ] ],
       [
         [ "tacvest", 1 ],

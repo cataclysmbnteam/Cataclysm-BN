@@ -393,7 +393,7 @@
     "using": [ [ "blacksmithing_standard", 40 ], [ "steel_standard", 10 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "fur", 4 ], [ "leather", 4 ] ] ]
+    "components": [ [ [ "fabric_hides_proper", 4, "LIST" ] ] ]
   },
   {
     "result": "helmet_chitin",
@@ -405,7 +405,7 @@
     "time": "1 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
-    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "chitin_piece", 6 ] ], [ [ "leather", 6 ] ] ]
+    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "chitin_piece", 6 ] ], [ [ "fabric_hides_proper", 6, "LIST" ] ] ]
   },
   {
     "result": "helmet_acidchitin",
@@ -418,7 +418,7 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
     "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "acidchitin_piece", 6 ] ], [ [ "leather", 6 ] ] ]
+    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "acidchitin_piece", 6 ] ], [ [ "fabric_hides_proper", 6, "LIST" ] ] ]
   },
   {
     "result": "helmet_conical",
@@ -446,7 +446,7 @@
     "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "fur", 4 ], [ "leather", 4 ] ] ]
+    "components": [ [ [ "fabric_hides_proper", 4, "LIST" ] ] ]
   },
   {
     "result": "helmet_kabuto",
@@ -460,7 +460,7 @@
     "using": [ [ "blacksmithing_standard", 48 ], [ "steel_standard", 12 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "fur", 14 ], [ "leather", 14 ] ], [ [ "rag", 4 ] ] ]
+    "components": [ [ [ "fabric_hides_proper", 14, "LIST" ] ], [ [ "fabric_standard", 4, "LIST" ] ] ]
   },
   {
     "result": "helmet_larmor",
@@ -472,7 +472,7 @@
     "time": "30 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 18 ] ],
-    "components": [ [ [ "leather", 16 ], [ "fur", 16 ] ] ]
+    "components": [ [ [ "fabric_hides_proper", 16, "LIST" ] ] ]
   },
   {
     "result": "helmet_nasal",
@@ -486,7 +486,7 @@
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "fur", 3 ], [ "leather", 3 ] ] ]
+    "components": [ [ [ "fabric_hides_proper", 3, "LIST" ] ] ]
   },
   {
     "result": "helmet_nomad",
@@ -512,7 +512,7 @@
     "using": [ [ "blacksmithing_standard", 56 ], [ "steel_standard", 14 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "fur", 4 ], [ "leather", 4 ] ] ]
+    "components": [ [ [ "fabric_hides_proper", 4, "LIST" ] ] ]
   },
   {
     "result": "helmet_scavenger",
@@ -548,7 +548,7 @@
       [ [ "helmet_liner", 1 ], [ "hat_cotton", 1 ], [ "rag", 3 ] ],
       [ [ "tac_helmet", 1 ], [ "tac_fullhelmet", 1 ], [ "helmet_army", 1 ], [ "kevlar_plate", 6 ] ],
       [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ] ],
-      [ [ "leather", 8 ] ],
+      [ [ "fabric_hides_proper", 8, "LIST" ] ],
       [ [ "duct_tape", 150 ] ],
       [
         [ "helmet_riot", 1 ],
@@ -578,8 +578,8 @@
     "tools": [ [ [ "welder", 84 ], [ "welder_crude", 126 ], [ "soldering_iron", 126 ], [ "toolset", 126 ] ] ],
     "components": [
       [ [ "scrap", 4 ] ],
-      [ [ "rag", 6 ] ],
-      [ [ "leather", 16 ] ],
+      [ [ "fabric_standard", 6, "LIST" ] ],
+      [ [ "fabric_hides_proper", 16, "LIST" ] ],
       [ [ "plastic_chunk", 20 ] ],
       [ [ "kevlar_plate", 14 ] ],
       [ [ "hood_rain", 2 ], [ "bag_plastic", 4 ] ],
@@ -673,7 +673,12 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 40 ] ],
     "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
-    "components": [ [ [ "rag", 8 ] ], [ [ "kevlar_plate", 4 ] ], [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ] ], [ [ "duct_tape", 100 ] ] ]
+    "components": [
+      [ [ "fabric_standard", 8, "LIST" ] ],
+      [ [ "kevlar_plate", 4 ] ],
+      [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ] ],
+      [ [ "duct_tape", 100 ] ]
+    ]
   },
   {
     "result": "hood_rain",
@@ -700,8 +705,8 @@
     "using": [ [ "sewing_standard", 40 ] ],
     "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
     "components": [
-      [ [ "leather", 6 ] ],
-      [ [ "rag", 2 ] ],
+      [ [ "fabric_hides_proper", 6, "LIST" ] ],
+      [ [ "fabric_standard", 2, "LIST" ] ],
       [ [ "kevlar_plate", 4 ] ],
       [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ] ],
       [ [ "duct_tape", 100 ] ]
@@ -721,7 +726,7 @@
     "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
     "components": [
       [ [ "fur", 8 ] ],
-      [ [ "rag", 2 ] ],
+      [ [ "fabric_standard", 2, "LIST" ] ],
       [ [ "kevlar_plate", 4 ] ],
       [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ] ],
       [ [ "duct_tape", 100 ] ]
@@ -740,8 +745,8 @@
     "using": [ [ "sewing_standard", 80 ] ],
     "tools": [ [ [ "welder", 42 ], [ "welder_crude", 63 ], [ "soldering_iron", 63 ], [ "toolset", 63 ] ] ],
     "components": [
-      [ [ "leather", 14 ] ],
-      [ [ "rag", 4 ] ],
+      [ [ "fabric_hides_proper", 14, "LIST" ] ],
+      [ [ "fabric_standard", 4, "LIST" ] ],
       [ [ "scrap", 2 ] ],
       [ [ "kevlar_plate", 6 ] ],
       [ [ "hood_rain", 2 ], [ "bag_plastic", 4 ] ],
@@ -1026,7 +1031,7 @@
     "components": [
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
       [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
-      [ [ "rag", 3 ] ],
+      [ [ "fabric_standard", 3, "LIST" ] ],
       [ [ "mask_bal", 1 ], [ "kevlar_plate", 4 ] ]
     ]
   },
@@ -1070,7 +1075,7 @@
     "components": [
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
       [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
-      [ [ "leather", 3 ] ],
+      [ [ "fabric_hides_proper", 3, "LIST" ] ],
       [ [ "mask_bal", 1 ], [ "kevlar_plate", 4 ] ]
     ]
   },
@@ -1089,7 +1094,7 @@
     "components": [
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
       [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
-      [ [ "leather", 6 ] ],
+      [ [ "fabric_hides_proper", 6, "LIST" ] ],
       [ [ "mask_bal", 1 ], [ "kevlar_plate", 6 ] ]
     ]
   },
@@ -1481,7 +1486,7 @@
     "time": "1 h 10 m",
     "book_learn": [ [ "textbook_armwest", 5 ] ],
     "using": [ [ "forging_standard", 3 ], [ "bronzesmithing_tools", 1 ] ],
-    "components": [ [ [ "scrap_bronze", 7 ] ], [ [ "fur", 4 ], [ "leather", 4 ] ] ]
+    "components": [ [ [ "scrap_bronze", 7 ] ], [ [ "fabric_hides_proper", 4, "LIST" ] ] ]
   },
   {
     "result": "attached_ear_plugs_off",
