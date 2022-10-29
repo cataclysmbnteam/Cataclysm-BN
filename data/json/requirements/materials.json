@@ -68,19 +68,19 @@
   {
     "id": "fabric_standard",
     "type": "requirement",
-    "//": "Any valid fabric material, for when the material used doesn't matter.",
+    "//": "Any valid fabric material, for when the material used shouldn't impact the material of the end product.  Excludes felt patches, since this may still be worn on skin.",
     "components": [ [ [ "rag", 1 ], [ "lycra_patch", 1 ], [ "nylon", 1 ], [ "nomex", 1 ], [ "neoprene", 1 ] ] ]
   },
   {
     "id": "fabric_hides_any",
     "type": "requirement",
-    "//": "Materials for where leather or fur are used structurally, but fake fur can be substituted.",
+    "//": "For where leather or fur are used, that don't impact the material of the end product, and for which fake fur won't weaken the end result.",
     "components": [ [ [ "leather", 1 ], [ "fur", 1 ], [ "faux_fur", 1 ] ] ]
   },
   {
     "id": "fabric_hides_proper",
     "type": "requirement",
-    "//": "Materials for where proper leather or fur must be used structurally, but leaving fur on isn't a factor.",
+    "//": "For where proper leather or fur are used, that don't impact the material of the end product, but the real deal is needed for durability.",
     "components": [ [ [ "leather", 1 ], [ "fur", 1 ] ] ]
   },
   {
