@@ -30,7 +30,7 @@
     "subcategory": "CSC_ANIMALS_EQUINE ARMOR",
     "time": "364 m",
     "using": [ [ "chainmail_standard", 7 ] ],
-    "components": [ [ [ "link_sheet", 35 ] ], [ [ "chain_link", 917 ] ], [ [ "wire", 7 ] ], [ [ "fabric_hides_proper", 42, "LIST" ] ] ]
+    "components": [ [ [ "link_sheet", 35 ] ], [ [ "chain_link", 917 ] ], [ [ "wire", 7 ] ], [ [ "fur", 42 ], [ "leather", 42 ] ] ]
   },
   {
     "result": "kevlar_armor_medium_quadruped",
@@ -78,7 +78,14 @@
       ],
       [ [ "salt", 150 ] ],
       [ [ "leather", 105 ] ],
-      [ [ "fabric_standard", 18, "LIST" ] ]
+      [
+        [ "rag", 18 ],
+        [ "lycra_patch", 18 ],
+        [ "nylon", 18 ],
+        [ "leather", 18 ],
+        [ "nomex", 18 ],
+        [ "neoprene", 18 ]
+      ]
     ]
   },
   {

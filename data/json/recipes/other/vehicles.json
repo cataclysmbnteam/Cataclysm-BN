@@ -1101,7 +1101,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "sewing_standard", 50 ], [ "welding_standard", 5 ] ],
-    "components": [ [ [ "pipe", 4 ] ], [ [ "spring", 2 ] ], [ [ "leather", 12 ], [ "fur", 12 ] ], [ [ "rag", 8 ] ] ]
+    "components": [ [ [ "pipe", 4 ] ], [ [ "spring", 2 ] ], [ [ "fabric_hides_proper", 12, "LIST" ], [ "fur", 12 ] ], [ [ "rag", 8 ] ] ]
   },
   {
     "type": "recipe",

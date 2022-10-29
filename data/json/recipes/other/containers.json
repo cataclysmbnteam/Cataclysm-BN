@@ -385,7 +385,7 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 4 ] ],
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "plastic_chunk", 6 ] ], [ [ "rag", 3 ], [ "leather", 3 ], [ "fur", 3 ] ] ]
+    "components": [ [ [ "plastic_chunk", 6 ] ], [ [ "fabric_standard", 3, "LIST" ], [ "fabric_hides_any", 3, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -398,7 +398,7 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 4 ] ],
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 15, "LIST" ] ] ],
-    "components": [ [ [ "plastic_chunk", 10 ] ], [ [ "rag", 3 ], [ "leather", 3 ], [ "fur", 3 ] ] ]
+    "components": [ [ [ "plastic_chunk", 10 ] ], [ [ "fabric_standard", 3, "LIST" ], [ "fabric_hides_any", 3, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -542,7 +542,7 @@
     "components": [
       [ [ "2x4", 2 ] ],
       [ [ "wire", 1 ], [ "scrap", 2 ], [ "copper_scrap_equivalent", 1, "LIST" ] ],
-      [ [ "rag", 2 ], [ "felt_patch", 2 ], [ "leather", 2 ], [ "fur", 2 ] ]
+      [ [ "fabric_standard", 2, "LIST" ], [ "felt_patch", 2 ], [ "fabric_hides_any", 2, "LIST" ] ]
     ]
   },
   {

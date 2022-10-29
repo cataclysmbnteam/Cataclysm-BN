@@ -216,7 +216,7 @@
     "components": [
       [ [ "large_stomach_sealed", 1 ], [ "leather", 10 ], [ "fur", 10 ] ],
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
-      [ [ "rag", 3 ] ],
+      [ [ "fabric_standard", 3, "LIST" ] ],
       [ [ "adhesive", 1, "LIST" ], [ "medical_tape", 50 ] ]
     ]
   },

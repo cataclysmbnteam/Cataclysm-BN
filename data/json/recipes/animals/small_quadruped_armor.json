@@ -30,7 +30,7 @@
     "subcategory": "CSC_ANIMALS_CANINE ARMOR",
     "time": "52 m 30 s",
     "using": [ [ "chainmail_standard", 5 ] ],
-    "components": [ [ [ "link_sheet", 5 ] ], [ [ "chain_link", 131 ] ], [ [ "wire", 1 ] ], [ [ "fabric_hides_proper", 6, "LIST" ] ] ]
+    "components": [ [ [ "link_sheet", 5 ] ], [ [ "chain_link", 131 ] ], [ [ "wire", 1 ] ], [ [ "fur", 6 ], [ "leather", 6 ] ] ]
   },
   {
     "result": "kevlar_armor_small_quadruped",
