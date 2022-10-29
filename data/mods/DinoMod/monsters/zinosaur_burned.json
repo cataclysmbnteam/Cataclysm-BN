@@ -18,7 +18,6 @@
     "armor_cut": 13,
     "armor_acid": 3,
     "armor_fire": 15,
-    "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "hp": 60,
     "fungalize_into": "mon_zilophosaurus_fungus",
     "vision_day": 10,
