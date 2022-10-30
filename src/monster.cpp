@@ -1352,8 +1352,7 @@ bool monster::is_immune_damage( const damage_type dt ) const
         case DT_STAB:
             return false;
         case DT_HEAT:
-            // Ugly hardcode - remove later
-            return made_of( material_id( "steel" ) ) || made_of( material_id( "stone" ) );
+            return has_flag( MF_FIREPROOF );
         case DT_COLD:
             return false;
         case DT_ELECTRIC:

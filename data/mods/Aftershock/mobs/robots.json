@@ -69,6 +69,7 @@
     "armor_bash": 18,
     "armor_cut": 14,
     "armor_bullet": 11,
+    "armor_fire": 5,
     "vision_day": 50,
     "vision_night": 35,
     "revert_to_itype": "bot_chickenbot",
@@ -102,6 +103,7 @@
     "armor_bash": 90,
     "armor_cut": 90,
     "armor_bullet": 72,
+    "armor_fire": 36,
     "vision_day": 50,
     "revert_to_itype": "bot_tankbot",
     "starting_ammo": { "40x46mm_m433": 200, "556": 3000 },
@@ -117,6 +119,7 @@
       "DESTROYS",
       "NO_BREATHE",
       "ELECTRONIC",
+      "FIREPROOF",
       "PRIORITIZE_TARGETS",
       "DROPS_AMMO"
     ]
@@ -145,6 +148,7 @@
     "armor_bash": 12,
     "armor_cut": 8,
     "armor_bullet": 6,
+    "armor_fire": 12,
     "path_settings": { "max_dist": 5 },
     "revert_to_itype": "bot_tripod",
     "starting_ammo": { "napalm": 10000 },
@@ -169,7 +173,7 @@
     ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "tripod", 1 ] ] },
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "BASHES", "NO_BREATHE", "ELECTRONIC", "CLIMBS", "PRIORITIZE_TARGETS", "FIREPROOF" ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "BASHES", "NO_BREATHE", "ELECTRONIC", "CLIMBS", "PRIORITIZE_TARGETS" ]
   },
   {
     "id": "afs_mon_sentinel_lx",
@@ -196,6 +200,7 @@
     "armor_bash": 10,
     "armor_cut": 20,
     "armor_bullet": 16,
+    "armor_fire": 8,
     "vision_day": 6,
     "vision_night": 6,
     "path_settings": { "max_dist": 6 },
@@ -244,6 +249,7 @@
     "armor_bash": 2,
     "armor_cut": 8,
     "armor_bullet": 6,
+    "armor_fire": 3,
     "revert_to_itype": "bot_bloodhound_drone",
     "death_drops": { "groups": [ [ "robots", 4 ], [ "manhack", 1 ], [ "turret_searchlight", 1 ] ] },
     "death_function": [ "BROKEN" ],
@@ -329,6 +335,8 @@
     "melee_dice": 4,
     "melee_dice_sides": 5,
     "melee_cut": 1,
+    "//": "Monsters made out of steel and related materials get an additional resistance to being in flames in map::monster_in_field, but this fits thematically and makes it harder to melt with flamethrowers or lasers.",
+    "armor_fire": 20,
     "starting_ammo": { "water": 1000 },
     "special_attacks": [
       {
@@ -340,7 +348,7 @@
         "ranges": [ [ 0, 5, "BURST" ] ]
       }
     ],
-    "extend": { "flags": [ "FIREPROOF", "BASHES" ] }
+    "extend": { "flags": [ "BASHES" ] }
   },
   {
     "id": "mon_medibot",
@@ -387,6 +395,7 @@
     "armor_bash": 8,
     "armor_cut": 8,
     "armor_bullet": 6,
+    "armor_fire": 3,
     "vision_night": 20,
     "revert_to_itype": "bot_skitterbot_rat",
     "melee_skill": 6,
@@ -409,6 +418,7 @@
     "armor_bash": 8,
     "armor_cut": 8,
     "armor_bullet": 6,
+    "armor_fire": 3,
     "vision_day": 20,
     "revert_to_itype": "bot_skitterbot_grab",
     "melee_skill": 6,
@@ -431,6 +441,7 @@
     "armor_bash": 8,
     "armor_cut": 8,
     "armor_bullet": 6,
+    "armor_fire": 3,
     "vision_day": 20,
     "revert_to_itype": "bot_skitterbot_hunter",
     "starting_ammo": { "8mm_caseless": 120 },
@@ -668,9 +679,10 @@
     "name": "military flame robot",
     "description": "A military robot still operating due to its internal power core.  This one is armed with an electric prod and an integrated flamethrower.",
     "diff": 20,
+    "armor_fire": 12,
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
     "starting_ammo": { "napalm": 1000 },
-    "extend": { "flags": [ "FIREPROOF", "DROPS_AMMO" ] },
+    "extend": { "flags": [ "DROPS_AMMO" ] },
     "special_attacks": [
       {
         "type": "gun",
@@ -748,7 +760,7 @@
     "diff": 20,
     "color": "magenta",
     "luminance": 20,
-    "extend": { "flags": [ "FIREPROOF" ] },
+    "armor_fire": 15,
     "special_attacks": [
       {
         "type": "gun",
@@ -849,7 +861,7 @@
     "armor_cut": 10,
     "armor_bullet": 8,
     "armor_stab": 5,
-    "armor_fire": 5,
+    "armor_fire": 4,
     "armor_acid": 10,
     "vision_day": 50,
     "path_settings": { "max_dist": 5 },
