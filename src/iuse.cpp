@@ -3765,7 +3765,7 @@ int iuse::grenade_inc_act( player *p, item *it, bool t, const tripoint &pos )
                 g->m.add_field( flame, fd_fire, rng( 0, 2 ) );
             }
         }
-        explosion_handler::explosion( pos, 8, 0.8, true );
+        explosion_handler::explosion( pos, p, 8, 0.8, true );
         for( const tripoint &dest : g->m.points_in_radius( pos, 2 ) ) {
             g->m.add_field( dest, fd_incendiary, 3 );
         }
@@ -5234,7 +5234,8 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
 
             case AEA_FIREBALL: {
                 if( const cata::optional<tripoint> fireball = g->look_around() ) {
-                    explosion_handler::explosion( *fireball, 180, 0.5, true );
+                    // only the player can trigger artifact
+                    explosion_handler::explosion( *fireball, p, 180, 0.5, true );
                 }
             }
             break;

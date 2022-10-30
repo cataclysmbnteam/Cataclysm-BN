@@ -564,15 +564,14 @@ int explosion_iuse::use( player &p, item &it, bool t, const tripoint &pos ) cons
         }
         return 0;
     }
-
-    trigger_explosion( pos );
+    trigger_explosion( pos, it.activated_by.get() );
     return 1;
 }
 
-void explosion_iuse::trigger_explosion( const tripoint &pos ) const
+void explosion_iuse::trigger_explosion( const tripoint &pos, Creature *source ) const
 {
     if( explosion ) {
-        explosion_handler::explosion( pos, explosion );
+        explosion_handler::explosion( pos, explosion, source );
     }
 
     if( draw_explosion_radius >= 0 ) {

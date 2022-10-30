@@ -3282,7 +3282,8 @@ bash_results map::bash_ter_success( const tripoint &p, const bash_params &params
     }
 
     if( bash.explosive > 0 ) {
-        explosion_handler::explosion( p, bash.explosive, 0.8, false );
+        // TODO Implement if the player triggered the explosive terrain
+        explosion_handler::explosion( p, nullptr, bash.explosive, 0.8, false );
     }
 
     return result;
@@ -3381,7 +3382,8 @@ bash_results map::bash_furn_success( const tripoint &p, const bash_params &param
     }
 
     if( bash.explosive > 0 ) {
-        explosion_handler::explosion( p, bash.explosive, 0.8, false );
+        // TODO implement if the player triggered the explosive furniture
+        explosion_handler::explosion( p, nullptr, bash.explosive, 0.8, false );
     }
 
     return result;

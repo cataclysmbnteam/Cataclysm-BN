@@ -204,7 +204,7 @@ class explosion_iuse : public iuse_actor
         void info( const item &, std::vector<iteminfo> & ) const override;
 
         /** Produces all the explosions from this actor */
-        void trigger_explosion( const tripoint &p ) const;
+        void trigger_explosion( const tripoint &p, Creature *source ) const;
 };
 
 /**
