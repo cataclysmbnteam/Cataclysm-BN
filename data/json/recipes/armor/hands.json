@@ -217,7 +217,7 @@
     "using": [ [ "sewing_standard", 50 ] ],
     "tools": [ [ [ "welder", 14 ], [ "welder_crude", 21 ], [ "soldering_iron", 21 ], [ "toolset", 21 ] ] ],
     "components": [
-      [ [ "fabric_standard", 6, "LIST" ] ],
+      [ [ "rag", 6 ] ],
       [ [ "fabric_hides_proper", 2, "LIST" ] ],
       [ [ "duct_tape", 80 ] ],
       [ [ "gloves_tactical", 1 ], [ "kevlar_plate", 4 ] ],

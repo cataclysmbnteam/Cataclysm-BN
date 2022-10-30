@@ -481,7 +481,7 @@
     "using": [ [ "sewing_standard", 60 ] ],
     "tools": [ [ [ "welder", 18 ], [ "welder_crude", 27 ], [ "soldering_iron", 27 ], [ "toolset", 27 ] ] ],
     "components": [
-      [ [ "fabric_standard", 15, "LIST" ] ],
+      [ [ "rag", 15 ] ],
       [ [ "coat_rain", 1 ] ],
       [
         [ "tacvest", 1 ],

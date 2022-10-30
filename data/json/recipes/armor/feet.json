@@ -150,7 +150,7 @@
     "using": [ [ "sewing_standard", 80 ] ],
     "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
     "components": [
-      [ [ "fabric_standard", 8, "LIST" ] ],
+      [ [ "rag", 8 ] ],
       [ [ "kevlar_plate", 4 ] ],
       [ [ "duct_tape", 100 ] ],
       [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ]

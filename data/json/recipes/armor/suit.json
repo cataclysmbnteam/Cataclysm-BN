@@ -585,7 +585,7 @@
     "using": [ [ "sewing_standard", 100 ] ],
     "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
     "components": [
-      [ [ "fabric_standard", 30, "LIST" ] ],
+      [ [ "rag", 30 ] ],
       [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
       [
         [ "tacvest", 1 ],
