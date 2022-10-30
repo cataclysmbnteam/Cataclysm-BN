@@ -28,6 +28,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "debug_menu.h"
+#include "diary.h"
 #include "distraction_manager.h"
 #include "faction.h"
 #include "field.h"
@@ -2292,6 +2293,10 @@ bool game::handle_action()
 
             case ACTION_SCORES:
                 show_scores_ui( *achievements_tracker_ptr, stats(), get_kill_tracker() );
+                break;
+
+            case ACTION_DIARY:
+                diary::show_diary_ui( u.get_avatar_diary() );
                 break;
 
             case ACTION_FACTIONS:

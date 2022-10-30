@@ -25,6 +25,7 @@
 #include "clzones.h"
 #include "color.h"
 #include "debug.h"
+#include "diary.h"
 #include "effect.h"
 #include "enums.h"
 #include "event.h"
@@ -110,6 +111,7 @@ avatar::avatar()
     show_map_memory = true;
     active_mission = nullptr;
     grab_type = OBJECT_NONE;
+    a_diary = nullptr;
 }
 
 avatar::~avatar() = default;
@@ -361,6 +363,14 @@ int avatar::time_to_read( const item &book, const player &reader, const player *
         retval += type->time * ( type->intel - effective_int ) * 100;
     }
     return retval;
+}
+
+diary *avatar::get_avatar_diary()
+{
+    if( a_diary == nullptr ) {
+        a_diary = std::make_unique<diary>();
+    }
+    return a_diary.get();
 }
 
 /**
