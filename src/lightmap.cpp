@@ -670,7 +670,8 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
     const bool obstructed = vis <= LIGHT_TRANSPARENCY_SOLID + 0.1;
 
     auto is_opaque = [&map_cache]( const point & p ) {
-        return map_cache.transparency_cache[p.x][p.y] <= LIGHT_TRANSPARENCY_SOLID && g->u.pos().xy() != p;
+        return map_cache.transparency_cache[p.x][p.y] <= LIGHT_TRANSPARENCY_SOLID &&
+               get_player_character().pos().xy() != p;
     };
 
     const bool p_opaque = is_opaque( p.xy() );
