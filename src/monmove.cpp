@@ -18,6 +18,7 @@
 #include "cata_utility.h"
 #include "creature_tracker.h"
 #include "debug.h"
+#include "effect.h"
 #include "field.h"
 #include "field_type.h"
 #include "game.h"
@@ -60,6 +61,7 @@ static const efftype_id effect_operating( "operating" );
 static const efftype_id effect_pacified( "pacified" );
 static const efftype_id effect_pushed( "pushed" );
 static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_led_by_leash( "led_by_leash" );
 
 static const itype_id itype_pressurized_tank( "pressurized_tank" );
 
@@ -336,7 +338,7 @@ void monster::plan()
     auto mood = attitude();
 
     // If we can see the player, move toward them or flee, simpleminded animals are too dumb to follow the player.
-    if( friendly == 0 && sees( g->u ) && !has_flag( MF_PET_WONT_FOLLOW ) && !waiting ) {
+    if( friendly == 0 && sees( g->u ) && !waiting ) {
         dist = rate_target( g->u, dist, smart_planning );
         fleeing = fleeing || is_fleeing( g->u );
         target = &g->u;
@@ -579,8 +581,24 @@ void monster::plan()
     } else if( friendly > 0 && one_in( 3 ) ) {
         // Grow restless with no targets
         friendly--;
-    } else if( friendly < 0 && sees( g->u ) ) {
+    } else if( friendly < 0 && sees( g->u ) && !has_flag( MF_PET_WONT_FOLLOW ) ) {
         if( rl_dist( pos(), g->u.pos() ) > 2 ) {
+            set_dest( g->u.pos() );
+        } else {
+            unset_dest();
+        }
+    }
+
+    // being led by a leash override other movements decisions
+    if( has_effect( effect_led_by_leash ) && friendly != 0 ) {
+        // if we have an hostile target adjacent to the payer, and we're not fleeing, we can potentially attack it
+        if( target != nullptr && rl_dist( g->u.pos(), target->pos() ) < 2 &&
+            target->attitude_to( g->u ) == Attitude::A_HOSTILE && !fleeing ) {
+            // if we're too far from the player, go back to it
+            if( rl_dist( pos(), g->u.pos() ) > 5 ) {
+                set_dest( g->u.pos() );
+            }
+        } else if( rl_dist( pos(), g->u.pos() ) > 1 ) {
             set_dest( g->u.pos() );
         } else {
             unset_dest();
@@ -1036,6 +1054,14 @@ void monster::move()
         stumble();
         path.clear();
     }
+
+    if( has_effect( effect_led_by_leash ) ) {
+        if( rl_dist( pos(), g->u.pos() ) > 8 ) {
+            // Either failed to keep up with the player or moved away
+            remove_effect( effect_led_by_leash );
+            add_msg( m_info, _( "You lose hold of a leash." ) );
+        }
+    }
 }
 
 player *monster::find_dragged_foe()
@@ -1361,7 +1387,7 @@ bool monster::bash_at( const tripoint &p )
     }
 
     bool flat_ground = g->m.has_flag( "ROAD", p ) || g->m.has_flag( "FLAT", p );
-    if( flat_ground ) {
+    if( flat_ground && !g->m.is_bashable_furn( p ) ) {
         bool can_bash_ter = g->m.is_bashable_ter( p );
         bool try_bash_ter = one_in( 50 );
         if( !( can_bash_ter && try_bash_ter ) ) {

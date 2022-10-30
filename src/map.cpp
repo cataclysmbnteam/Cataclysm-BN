@@ -46,6 +46,7 @@
 #include "game.h"
 #include "harvest.h"
 #include "iexamine.h"
+#include "input.h"
 #include "int_id.h"
 #include "item.h"
 #include "item_contents.h"
@@ -57,6 +58,7 @@
 #include "iuse_actor.h"
 #include "lightmap.h"
 #include "line.h"
+#include "map_functions.h"
 #include "map_iterator.h"
 #include "map_memory.h"
 #include "map_selector.h"
@@ -750,6 +752,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
     // the vehicle was seen before or after the move.
     if( !player_character.activity && ( seen || sees_veh( player_character, veh, true ) ) ) {
         g->invalidate_main_ui_adaptor();
+        inp_mngr.pump_events();
         ui_manager::redraw_invalidated();
         refresh_display();
     }
@@ -3306,6 +3309,9 @@ bash_results map::bash_furn_success( const tripoint &p, const bash_params &param
     if( has_flag_furn( "FUNGUS", p ) ) {
         fungal_effects( *g, *this ).create_spores( p );
     }
+    if( has_flag_furn( "MIGO_NERVE", p ) ) {
+        map_funcs::migo_nerve_cage_removal( *this, p, true );
+    }
     std::string soundfxvariant = furnid.id.str();
     const bool tent = !bash.tent_centers.empty();
 
@@ -4487,7 +4493,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                 washing_machine_finished = true;
                 cur_veh.part( part ).enabled = false;
             } else if( calendar::once_every( 15_minutes ) ) {
-                add_msg( _( "It should take %d minutes to finish washing items in the %s." ),
+                add_msg( _( "It should take %1$d minutes to finish washing items in the %2$s." ),
                          to_minutes<int>( time_left ) + 1, cur_veh.name );
                 break;
             }
@@ -6609,7 +6615,7 @@ void map::save()
     }
 }
 
-void map::load( const tripoint &w, const bool update_vehicle )
+void map::load( const tripoint &w, const bool update_vehicle, const bool pump_events )
 {
     for( auto &traps : traplocs ) {
         traps.clear();
@@ -6620,15 +6626,18 @@ void map::load( const tripoint &w, const bool update_vehicle )
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
             loadn( point( gridx, gridy ), update_vehicle );
+            if( pump_events ) {
+                inp_mngr.pump_events();
+            }
         }
     }
     reset_vehicle_cache( );
 }
 
-void map::load( const tripoint_abs_sm &w, const bool update_vehicle )
+void map::load( const tripoint_abs_sm &w, const bool update_vehicle, const bool pump_events )
 {
     // TODO: fix point types
-    load( w.raw(), update_vehicle );
+    load( w.raw(), update_vehicle, pump_events );
 }
 
 void map::shift_traps( const tripoint &shift )
@@ -6868,6 +6877,30 @@ void map::shift( const point &sp )
                             loadn( tripoint( gridx, gridy, gridz ), true );
                         }
                     }
+                }
+            }
+        }
+    }
+    if( zlevels ) {
+        //Go through the generated maps and fill in the roofs
+        for( int gridz = zmin; gridz <= zmax; gridz++ ) {
+            if( sp.x > 0 ) {
+                for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
+                    add_roofs( {my_MAPSIZE - 1, gridy, gridz} );
+                }
+            } else if( sp.x < 0 ) {
+                for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
+                    add_roofs( {0, gridy, gridz} );
+                }
+            }
+
+            if( sp.y > 0 ) {
+                for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
+                    add_roofs( {gridx, my_MAPSIZE - 1, gridz} );
+                }
+            } else if( sp.y < 0 ) {
+                for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
+                    add_roofs( {gridx, 0, gridz} );
                 }
             }
         }

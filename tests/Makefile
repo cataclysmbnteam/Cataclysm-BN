@@ -55,7 +55,12 @@ endif
 tests: $(TEST_TARGET)
 
 $(TEST_TARGET): $(OBJS) $(CATA_LIB)
+ifeq ($(VERBOSE),1)
 	+$(CXX) $(W32FLAGS) -o $@ $(DEFINES) $(OBJS) $(CATA_LIB) $(CXXFLAGS) $(LDFLAGS)
+else
+	@echo "Linking $@..."
+	@$(CXX) $(W32FLAGS) -o $@ $(DEFINES) $(OBJS) $(CATA_LIB) $(CXXFLAGS) $(LDFLAGS)
+endif
 
 $(PCH_P): $(PCH_H)
 	-$(CXX) $(CPPFLAGS) $(DEFINES) $(subst -Werror,,$(CXXFLAGS)) -Wno-non-virtual-dtor -Wno-unused-macros -I. -c $(PCH_H) -o $(PCH_P)
@@ -75,7 +80,12 @@ clean:
 $(shell mkdir -p $(ODIR))
 
 $(ODIR)/%.o: %.cpp $(PCH_P)
+ifeq ($(VERBOSE),1)
 	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(subst main-pch,tests-pch,$(PCHFLAGS)) -c $< -o $@
+else
+	@echo $(@F)
+	@$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(subst main-pch,tests-pch,$(PCHFLAGS)) -c $< -o $@
+endif
 
 .PHONY: clean check tests precompile_header
 

@@ -72,7 +72,7 @@ jobs:
         # Keep vcpkg version here in sync with the builtin-baseline
         # field in vcpkg.json. Caching happens as a post-action which runs at the end of
         # the whole workflow, after vcpkg install happens during msbuild run.
-        vcpkgGitCommitId: '9d9a6f486cc7da7664117a75d01440db0088634a'
+        vcpkgGitCommitId: 'f4b262b259145adb2ab0116a390b08642489d32b'
 
     - name: Integrate vcpkg
       run: |

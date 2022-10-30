@@ -403,7 +403,7 @@
     "no_resume": true
   },
   {
-    "id": "ACT_OPEN_GATE",
+    "id": "ACT_TOGGLE_GATE",
     "type": "activity_type",
     "verb": "working the winch",
     "based_on": "speed"

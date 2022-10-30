@@ -52,9 +52,9 @@
     "blueprint_provides": [ { "id": "fbmh_northeast", "amount": 2 } ],
     "blueprint_excludes": [ { "id": "fbmh_northeast", "amount": 4 }, { "id": "fbmh_tent_northeast" } ],
     "blueprint_needs": {
-      "time": "3 h 30 m",
-      "skills": [ [ "fabrication", 0 ] ],
-      "inline": { "tools": [  ], "qualities": [  ], "components": [ [ [ "alien_pod_resin", 14 ] ] ] }
+      "time": "5 h 30 m",
+      "skills": [ [ "fabrication", 2 ] ],
+      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 16 ] ] ] }
     }
   },
   {
@@ -71,9 +71,9 @@
     "blueprint_provides": [ { "id": "fbmh_east", "amount": 4 } ],
     "blueprint_excludes": [ { "id": "fbmh_east" } ],
     "blueprint_needs": {
-      "time": "1 d 10 h 30 m",
+      "time": "1 d 14 h 30 m",
       "skills": [ [ "fabrication", 2 ] ],
-      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 67 ] ] ] }
+      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 71 ] ] ] }
     }
   },
   {
@@ -91,9 +91,9 @@
     "blueprint_provides": [ { "id": "fbmh_east", "amount": 4 } ],
     "blueprint_excludes": [ { "id": "fbmh_east" }, { "id": "fbmh_tent_northeast" } ],
     "blueprint_needs": {
-      "time": "1 d 15 h",
+      "time": "1 d 19 h",
       "skills": [ [ "fabrication", 2 ] ],
-      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 69 ] ] ] }
+      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 73 ] ] ] }
     }
   },
   {
@@ -110,9 +110,9 @@
     "blueprint_provides": [ { "id": "fbmh_southeast", "amount": 4 } ],
     "blueprint_excludes": [ { "id": "fbmh_southeast" } ],
     "blueprint_needs": {
-      "time": "1 d 10 h 30 m",
+      "time": "1 d 14 h 30 m",
       "skills": [ [ "fabrication", 2 ] ],
-      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 67 ] ] ] }
+      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 71 ] ] ] }
     }
   },
   {
@@ -130,9 +130,9 @@
     "blueprint_provides": [ { "id": "fbmh_southeast", "amount": 4 } ],
     "blueprint_excludes": [ { "id": "fbmh_southeast" }, { "id": "fbmh_tent_east" } ],
     "blueprint_needs": {
-      "time": "1 d 14 h 30 m",
+      "time": "1 d 18 h 30 m",
       "skills": [ [ "fabrication", 2 ] ],
-      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 67 ] ] ] }
+      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 71 ] ] ] }
     }
   },
   {
@@ -149,9 +149,9 @@
     "blueprint_provides": [ { "id": "fbmh_northwest", "amount": 4 } ],
     "blueprint_excludes": [ { "id": "fbmh_northwest" } ],
     "blueprint_needs": {
-      "time": "22 h 30 m",
+      "time": "1 d 30 m",
       "skills": [ [ "fabrication", 2 ] ],
-      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 47 ] ] ] }
+      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 49 ] ] ] }
     }
   },
   {
@@ -168,9 +168,9 @@
     "blueprint_provides": [ { "id": "fbmh_west", "amount": 4 } ],
     "blueprint_excludes": [ { "id": "fbmh_west" } ],
     "blueprint_needs": {
-      "time": "1 d 10 h 30 m",
+      "time": "1 d 14 h 30 m",
       "skills": [ [ "fabrication", 2 ] ],
-      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 67 ] ] ] }
+      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 71 ] ] ] }
     }
   },
   {
@@ -187,9 +187,9 @@
     "blueprint_provides": [ { "id": "fbmh_west", "amount": 4 } ],
     "blueprint_excludes": [ { "id": "fbmh_west" }, { "id": "fbmh_tent_northwest" } ],
     "blueprint_needs": {
-      "time": "1 d 15 h",
+      "time": "1 d 19 h",
       "skills": [ [ "fabrication", 2 ] ],
-      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 69 ] ] ] }
+      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 73 ] ] ] }
     }
   },
   {
@@ -206,9 +206,9 @@
     "blueprint_provides": [ { "id": "fbmh_southwest", "amount": 4 } ],
     "blueprint_excludes": [ { "id": "fbmh_southwest" } ],
     "blueprint_needs": {
-      "time": "1 d 10 h 30 m",
+      "time": "1 d 14 h 30 m",
       "skills": [ [ "fabrication", 2 ] ],
-      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 67 ] ] ] }
+      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 71 ] ] ] }
     }
   },
   {
@@ -225,9 +225,9 @@
     "blueprint_provides": [ { "id": "fbmh_southwest", "amount": 4 } ],
     "blueprint_excludes": [ { "id": "fbmh_southwest" }, { "id": "fbmh_tent_west" } ],
     "blueprint_needs": {
-      "time": "1 d 14 h 30 m",
+      "time": "1 d 18 h 30 m",
       "skills": [ [ "fabrication", 2 ] ],
-      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 67 ] ] ] }
+      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 71 ] ] ] }
     }
   },
   {
@@ -244,9 +244,9 @@
     "blueprint_provides": [ { "id": "fbmh_center", "amount": 2 }, { "id": "fbmh_ne_center" } ],
     "blueprint_excludes": [ { "id": "fbmh_ne_center" } ],
     "blueprint_needs": {
-      "time": "18 h 30 m",
+      "time": "20 h 30 m",
       "skills": [ [ "fabrication", 2 ] ],
-      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 34 ] ] ] }
+      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 36 ] ] ] }
     }
   },
   {
@@ -282,9 +282,9 @@
     "blueprint_provides": [ { "id": "fbmh_center", "amount": 2 }, { "id": "fbmh_nw_center" } ],
     "blueprint_excludes": [ { "id": "fbmh_nw_center" } ],
     "blueprint_needs": {
-      "time": "18 h",
+      "time": "22 h",
       "skills": [ [ "fabrication", 2 ] ],
-      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 32 ] ] ] }
+      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 36 ] ] ] }
     }
   },
   {
@@ -301,9 +301,9 @@
     "blueprint_provides": [ { "id": "fbmh_center", "amount": 2 }, { "id": "fbmh_nw_center" } ],
     "blueprint_excludes": [ { "id": "fbmh_nw_center" }, { "id": "fbmh_tent_west" } ],
     "blueprint_needs": {
-      "time": "23 h 30 m",
+      "time": "1 d 1 h 30 m",
       "skills": [ [ "fabrication", 2 ] ],
-      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 34 ] ] ] }
+      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 36 ] ] ] }
     }
   },
   {
@@ -320,9 +320,9 @@
     "blueprint_provides": [ { "id": "fbmh_center", "amount": 4 }, { "id": "fbmh_ne_center" }, { "id": "fbmh_nw_center" } ],
     "blueprint_excludes": [ { "id": "fbmh_ne_center" }, { "id": "fbmh_nw_center" }, { "id": "fbmh_tent_east" }, { "id": "fbmh_tent_west" } ],
     "blueprint_needs": {
-      "time": "1 d 23 h 30 m",
+      "time": "2 d 1 h 30 m",
       "skills": [ [ "fabrication", 2 ] ],
-      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 70 ] ] ] }
+      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 72 ] ] ] }
     }
   },
   {
@@ -339,9 +339,9 @@
     "blueprint_provides": [ { "id": "fbmh_south", "amount": 2 }, { "id": "fbmh_se_south" } ],
     "blueprint_excludes": [ { "id": "fbmh_se_south" } ],
     "blueprint_needs": {
-      "time": "18 h",
+      "time": "22 h",
       "skills": [ [ "fabrication", 2 ] ],
-      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 32 ] ] ] }
+      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 36 ] ] ] }
     }
   },
   {
@@ -359,9 +359,9 @@
     "blueprint_provides": [ { "id": "fbmh_south", "amount": 2 }, { "id": "fbmh_se_south" } ],
     "blueprint_excludes": [ { "id": "fbmh_se_south" }, { "id": "fbmh_tent_southeast" } ],
     "blueprint_needs": {
-      "time": "23 h 30 m",
+      "time": "1 d 1 h 30 m",
       "skills": [ [ "fabrication", 2 ] ],
-      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 34 ] ] ] }
+      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 36 ] ] ] }
     }
   },
   {
@@ -378,9 +378,9 @@
     "blueprint_provides": [ { "id": "fbmh_south", "amount": 2 }, { "id": "fbmh_sw_south" } ],
     "blueprint_excludes": [ { "id": "fbmh_sw_south" } ],
     "blueprint_needs": {
-      "time": "18 h 30 m",
+      "time": "20 h 30 m",
       "skills": [ [ "fabrication", 2 ] ],
-      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 34 ] ] ] }
+      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 36 ] ] ] }
     }
   },
   {
@@ -421,9 +421,9 @@
       { "id": "fbmh_tent_southwest" }
     ],
     "blueprint_needs": {
-      "time": "1 d 23 h 30 m",
+      "time": "2 d 1 h 30 m",
       "skills": [ [ "fabrication", 2 ] ],
-      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 70 ] ] ] }
+      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 72 ] ] ] }
     }
   }
 ]

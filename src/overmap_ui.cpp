@@ -1471,7 +1471,7 @@ static void draw(
 static void create_note( const tripoint_abs_omt &curs )
 {
     std::string color_notes = _( "Color codes: " );
-    for( const std::pair<std::string, std::string> &color_pair : get_note_color_names() ) {
+    for( const auto &color_pair : get_note_color_names() ) {
         // The color index is not translatable, but the name is.
         color_notes += string_format( "%1$s:<color_%3$s>%2$s</color>, ", color_pair.first.c_str(),
                                       _( color_pair.second ), replace_all( color_pair.second, " ", "_" ) );

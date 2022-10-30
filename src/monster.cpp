@@ -31,6 +31,7 @@
 #include "melee.h"
 #include "messages.h"
 #include "mission.h"
+#include "mod_manager.h"
 #include "mondeath.h"
 #include "mondefense.h"
 #include "monfaction.h"
@@ -647,6 +648,15 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
         wprintz( w, c_light_gray, _( " Difficulty " ) + std::to_string( type->difficulty ) );
     }
 
+    if( display_mod_source ) {
+        const std::string mod_src = enumerate_as_string( type->src.begin(),
+        type->src.end(), []( const std::pair<mtype_id, mod_id> &source ) {
+            return string_format( "'%s'", source.second->name() );
+        }, enumeration_conjunction::arrow );
+        vStart += fold_and_print( w, point( column, vStart + 1 ), getmaxx( w ) - 2, c_cyan,
+                                  string_format( _( "Origin: %s" ), mod_src ) );
+    }
+
     if( sees( g->u ) ) {
         mvwprintz( w, point( column, ++vStart ), c_yellow, _( "Aware of your presence!" ) );
     }
@@ -697,6 +707,16 @@ std::string monster::extended_description() const
             difficulty_str = _( "<color_red>Fatally dangerous!</color>" );
         }
     }
+
+    if( display_mod_source ) {
+        ss += _( "Origin: " );
+        ss += enumerate_as_string( type->src.begin(),
+        type->src.end(), []( const std::pair<mtype_id, mod_id> &source ) {
+            return string_format( "'%s'", source.second->name() );
+        }, enumeration_conjunction::arrow );
+    }
+
+    ss += "\n--\n";
 
     ss += string_format( _( "This is a %s.  %s %s" ), name(), att_colored,
                          difficulty_str ) + "\n";
@@ -1374,7 +1394,6 @@ void monster::melee_attack( Creature &target )
 
 void monster::melee_attack( Creature &target, float accuracy )
 {
-    int hitspread = target.deal_melee_attack( this, melee::melee_hit_range( accuracy ) );
     mod_moves( -type->attack_cost );
     if( type->melee_dice == 0 ) {
         // We don't attack, so just return
@@ -1389,6 +1408,8 @@ void monster::melee_attack( Creature &target, float accuracy )
     if( !can_squeeze_to( target.pos() ) ) {
         return;
     }
+
+    int hitspread = target.deal_melee_attack( this, melee::melee_hit_range( accuracy ) );
 
     if( target.is_player() ||
         ( target.is_npc() && g->u.attitude_to( target ) == A_FRIENDLY ) ) {

@@ -1040,6 +1040,11 @@ void apply<ter_t>( const ter_t &t, const shapetype editshape, const tripoint &ta
             }
         }
         here.ter_set( elem, wter );
+        const tripoint above = elem + tripoint_above;
+
+        if( wter->roof && here.ter( above ) == t_open_air ) {
+            here.ter_set( above, wter->roof );
+        }
     }
 }
 

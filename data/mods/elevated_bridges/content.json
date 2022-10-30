@@ -9,7 +9,7 @@
   {
     "type": "construction",
     "id": "constr_concrete_ramp_low",
-    "description": "Build Low End of a Concrete Ramp",
+    "group": "build_low_end_of_a_concrete_ramp",
     "//": "Builds a low end of a concrete ramp going up on this level and down on the level above.",
     "pre_note": "Build a concrete ramp leading to the next z-level above, and the corresponding ramp down leading from the z-level above to this level.  The high end of a ramp must be built adjacent to allow moving between z-levels in both directions.",
     "category": "DIG",
@@ -26,7 +26,7 @@
   {
     "type": "construction",
     "id": "constr_concrete_ramp_high",
-    "description": "Build High End of a Concrete Ramp",
+    "group": "build_high_end_of_a_concrete_ramp",
     "//": "Builds a high end of a concrete ramp going up on this level and down on the level above.",
     "pre_note": "Build a concrete ramp leading to the next z-level above, and the corresponding ramp down leading from the z-level above to this level.  It must be built next to a low end of a ramp to allow moving between z-levels in both directions.",
     "category": "DIG",

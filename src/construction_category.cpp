@@ -7,6 +7,7 @@
 #include "int_id.h"
 #include "json.h"
 #include "string_id.h"
+#include "type_id_implement.h"
 
 namespace
 {
@@ -15,43 +16,7 @@ generic_factory<construction_category> all_construction_categories( "constructio
 
 } // namespace
 
-/** @relates string_id */
-template<>
-bool string_id<construction_category>::is_valid() const
-{
-    return all_construction_categories.is_valid( *this );
-}
-
-/** @relates string_id */
-template<>
-const construction_category &string_id<construction_category>::obj() const
-{
-    return all_construction_categories.obj( *this );
-}
-
-template<>
-int_id<construction_category> string_id<construction_category>::id() const
-{
-    return all_construction_categories.convert( *this, int_id<construction_category>( -1 ) );
-}
-
-template<>
-bool int_id<construction_category>::is_valid() const
-{
-    return all_construction_categories.is_valid( *this );
-}
-
-template<>
-const construction_category &int_id<construction_category>::obj() const
-{
-    return all_construction_categories.obj( *this );
-}
-
-template<>
-const string_id<construction_category> &int_id<construction_category>::id() const
-{
-    return all_construction_categories.convert( *this );
-}
+IMPLEMENT_STRING_AND_INT_IDS( construction_category, all_construction_categories )
 
 void construction_category::load( const JsonObject &jo, const std::string & )
 {

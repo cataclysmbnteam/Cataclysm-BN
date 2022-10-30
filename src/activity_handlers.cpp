@@ -29,6 +29,7 @@
 #include "colony.h"
 #include "color.h"
 #include "construction.h"
+#include "construction_partial.h"
 #include "coordinate_conversions.h"
 #include "craft_command.h"
 #include "crafting.h"
@@ -3813,7 +3814,7 @@ void activity_handlers::build_do_turn( player_activity *act, player *p )
 
     // Base moves for construction with no speed modifier or assistants
     // Must ensure >= 1 so we don't divide by 0;
-    const double base_total_moves = std::max( 1, built.time );
+    const double base_total_moves = std::max( 1, to_moves<int>( built.time ) );
     // Current expected total moves, includes construction speed modifiers and assistants
     const double cur_total_moves = std::max( 1, built.adjusted_time() );
     // Delta progress in moves adjusted for current crafting speed
@@ -3830,7 +3831,7 @@ void activity_handlers::build_do_turn( player_activity *act, player *p )
     // If construction_progress has reached 100% or more
     if( pc->counter >= 10000000 ) {
         // Activity is canceled in complete_construction()
-        complete_construction( p );
+        complete_construction( *p );
     }
 }
 

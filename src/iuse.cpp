@@ -5517,7 +5517,7 @@ int iuse::handle_ground_graffiti( player &p, item *it, const std::string &prefix
 {
     string_input_popup popup;
     std::string message = popup
-                          .title( prefix + " " + _( "(To delete, clear the text and confirm)" ) )
+                          .description( prefix + " " + _( "(To delete, clear the text and confirm)" ) )
                           .text( g->m.has_graffiti_at( where ) ? g->m.graffiti_at( where ) : std::string() )
                           .identifier( "graffiti" )
                           .query_string();

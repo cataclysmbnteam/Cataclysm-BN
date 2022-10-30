@@ -2249,6 +2249,12 @@
   },
   {
     "type": "keybinding",
+    "name": "Distractions manager",
+    "category": "DEFAULTMODE",
+    "id": "open_distraction_manager"
+  },
+  {
+    "type": "keybinding",
     "name": "Color manager",
     "category": "DEFAULTMODE",
     "id": "open_color"
@@ -2952,6 +2958,13 @@
     "category": "CANCEL_ACTIVITY_OR_IGNORE_QUERY",
     "name": "Ignore further distractions and finish",
     "bindings": [ { "input_method": "keyboard", "key": "I" }, { "input_method": "keyboard", "key": "i" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "MANAGER",
+    "category": "CANCEL_ACTIVITY_OR_IGNORE_QUERY",
+    "name": "Open manager",
+    "bindings": [ { "input_method": "keyboard", "key": "M" }, { "input_method": "keyboard", "key": "m" } ]
   },
   {
     "type": "keybinding",

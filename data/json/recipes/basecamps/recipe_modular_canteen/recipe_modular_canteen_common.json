@@ -97,12 +97,12 @@
     "blueprint_provides": [ { "id": "fbmk_canteen_well" } ],
     "blueprint_excludes": [ { "id": "fbmk_canteen_well" } ],
     "blueprint_needs": {
-      "time": "11 h",
+      "time": "13 h 30 m",
       "skills": [ [ "fabrication", 4 ], [ "mechanics", 2 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH" } ] ],
-        "components": [ [ [ "rock", 40 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ], [ [ "well_pump", 1 ] ], [ [ "pipe", 6 ] ] ]
+        "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ], [ [ "pipe", 6 ] ], [ [ "rock", 40 ] ], [ [ "well_pump", 1 ] ] ]
       }
     }
   },

@@ -139,8 +139,8 @@
     "blueprint_provides": [ { "id": "fbmc_shelter_2_well" }, { "id": "relaying" }, { "id": "scouting" }, { "id": "patrolling" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_2_well" } ],
     "blueprint_needs": {
-      "time": "11 h",
-      "skills": [ [ "mechanics", 2 ], [ "fabrication", 4 ] ],
+      "time": "13 h 30 m",
+      "skills": [ [ "fabrication", 4 ], [ "mechanics", 2 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH" } ] ],
