@@ -32,7 +32,7 @@
       "R": "t_door_metal_c",
       "P": "t_door_bar_locked",
       "-": "t_bars",
-      "y": "t_embrasure_wood"
+      "y": "t_wall_wood"
     },
     "furniture": {
       "X": [ "f_grave_monument", "f_slab", "f_grave_head", "f_grave_stone_old", "f_grave_stone" ],
@@ -65,8 +65,7 @@
       "h": "f_chair",
       "H": "f_stool",
       "l": "f_locker",
-      "a": "f_trashcan",
-      "6": "f_console"
+      "a": "f_trashcan"
     },
     "items": {
       "1": [ { "item": "SUS_dishes", "chance": 100 }, { "item": "SUS_silverware", "chance": 100 } ],
