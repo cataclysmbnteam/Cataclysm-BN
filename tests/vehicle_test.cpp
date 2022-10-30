@@ -104,10 +104,10 @@ TEST_CASE( "damage_vehicle_oob" )
     g->place_player( test_origin + tripoint_east * SEEX );
 
     //Check the vehicle is still there.
-    optional_vpart_position part_pos = get_map().veh_at( {0, 0, 0} );
+    optional_vpart_position part_pos = get_map().veh_at( tripoint_zero );
     REQUIRE( part_pos );
 
-    auto parts = veh_ptr->parts_at_relative( veh_ptr->tripoint_to_mount( {-1, 0, 0} ), true );
+    auto parts = veh_ptr->parts_at_relative( veh_ptr->tripoint_to_mount( tripoint_west ), true );
     REQUIRE( !parts.empty( ) );
     for( int part : parts ) {
         //We aren't actually smashing each chosen part in turn here
