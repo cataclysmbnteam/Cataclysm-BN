@@ -1546,8 +1546,9 @@ static int feedpet( player &p, monster &mon, item &it, m_flag food_flag, const c
 
 static int petfood( player &p, item &it, Petfood animal_food_type )
 {
-    const cata::optional<tripoint> pnt_ = choose_adjacent( string_format( _( "Put the %s where?" ),
-                                          it.tname() ) );
+    const cata::optional<tripoint> pnt_ = choose_adjacent( string_format(
+            _( "Tame which animal with the %s?" ),
+            it.tname() ) );
     if( !pnt_ ) {
         return 0;
     }
