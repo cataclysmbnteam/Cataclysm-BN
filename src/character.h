@@ -2244,4 +2244,7 @@ std::map<bodypart_id, int> wind_resistance_from_clothing(
     const std::map<bodypart_id, std::vector<const item *>> &clothing_map );
 } // namespace warmth
 
+/** Returns true if the player has a psyshield artifact, or sometimes if wearing tinfoil */
+bool has_psy_protection( const Character &c, int partial_chance );
+
 #endif // CATA_SRC_CHARACTER_H
