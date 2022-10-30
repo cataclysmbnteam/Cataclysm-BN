@@ -989,6 +989,10 @@ class map
         bool has_flag_furn( const std::string &flag, const point &p ) const {
             return has_flag_furn( flag, tripoint( p, abs_sub.z ) );
         }
+        // Checks vehicle part flag
+        bool has_flag_vpart( const std::string &flag, const tripoint &p ) const;
+        // Checks vehicle part or furniture
+        bool has_flag_furn_or_vpart( const std::string &flag, const tripoint &p ) const;
         // Checks terrain or furniture
         bool has_flag_ter_or_furn( const std::string &flag, const tripoint &p ) const;
         bool has_flag_ter_or_furn( const std::string &flag, const point &p ) const {
@@ -2076,6 +2080,10 @@ class map
         std::list<tripoint> find_furnitures_with_flag_in_radius( const tripoint &center, size_t radius,
                 const std::string &flag,
                 size_t radiusz = 0 );
+        /**returns positions of furnitures or vehicle parts with matching flag in the specified radius*/
+        std::list<tripoint> find_furnitures_or_vparts_with_flag_in_radius( const tripoint &center,
+                size_t radius,
+                const std::string &flag, size_t radiusz = 0 );
         /**returns creatures in specified radius*/
         std::list<Creature *> get_creatures_in_radius( const tripoint &center, size_t radius,
                 size_t radiusz = 0 );

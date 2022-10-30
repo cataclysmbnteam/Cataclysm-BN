@@ -4657,28 +4657,16 @@ static player &player_on_couch( player &p, const tripoint &autodoc_loc, player &
                                 bool &adjacent_couch, tripoint &couch_pos )
 {
     map &here = get_map();
-    for( const auto &couch_loc : here.points_in_radius( autodoc_loc, 1 ) ) {
-        if( here.has_flag_furn( flag_AUTODOC_COUCH, couch_loc ) ) {
-            adjacent_couch = true;
-            couch_pos = couch_loc;
-            if( p.pos() == couch_loc ) {
-                return p;
-            }
-            for( const npc *e : g->allies() ) {
-                if( e->pos() == couch_loc ) {
-                    return  *g->critter_by_id<player>( e->getID() );
-                }
-            }
-        } else if( here.veh_at( couch_loc ).part_with_feature( flag_AUTODOC_COUCH, false ) ) {
-            adjacent_couch = true;
-            couch_pos = couch_loc;
-            if( p.pos() == couch_loc ) {
-                return p;
-            }
-            for( const npc *e : g->allies() ) {
-                if( e->pos() == couch_loc ) {
-                    return  *g->critter_by_id<player>( e->getID() );
-                }
+    for( const auto &couch_loc : here.find_furnitures_or_vparts_with_flag_in_radius( autodoc_loc, 1,
+            flag_AUTODOC_COUCH ) ) {
+        adjacent_couch = true;
+        couch_pos = couch_loc;
+        if( p.pos() == couch_loc ) {
+            return p;
+        }
+        for( const npc *e : g->allies() ) {
+            if( e->pos() == couch_loc ) {
+                return  *g->critter_by_id<player>( e->getID() );
             }
         }
     }
@@ -4690,16 +4678,7 @@ static Character &operator_present( Character &p, const tripoint &autodoc_loc,
 {
     map &here = get_map();
     for( const auto &loc : here.points_in_radius( autodoc_loc, 1 ) ) {
-        if( !here.has_flag_furn( flag_AUTODOC_COUCH, loc ) ) {
-            if( p.pos() == loc ) {
-                return p;
-            }
-            for( const npc *e : g->allies() ) {
-                if( e->pos() == loc ) {
-                    return  *g->critter_by_id<player>( e->getID() );
-                }
-            }
-        } else if( here.veh_at( loc ).part_with_feature( flag_AUTODOC_COUCH, false ) ) {
+        if( !here.has_flag_furn_or_vpart( flag_AUTODOC_COUCH, loc ) ) {
             if( p.pos() == loc ) {
                 return p;
             }
