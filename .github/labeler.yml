@@ -9,3 +9,6 @@ data:
 
 mods:
   - data/mods/**/*
+
+translation:
+  - lang/**/*
