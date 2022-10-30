@@ -1464,8 +1464,7 @@ static safe_reference<item> find_best_prying_tool( player &p )
 {
     std::vector<item *> prying_items = p.items_with( []( const item & it ) {
         // we want to get worn items (eg crowbar in toolbelt), so no check on item position
-        item temporary_item( it.type );
-        return temporary_item.has_quality( quality_id( "PRY" ), 1 );
+        return it->has_quality( quality_id( "PRY" ), 1 );
     } );
 
     // Sort by their quality level.
