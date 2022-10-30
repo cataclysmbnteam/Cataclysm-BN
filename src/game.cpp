@@ -5026,6 +5026,27 @@ bool game::revive_corpse( const tripoint &p, item &it )
     return place_critter_at( newmon_ptr, p );
 }
 
+void static delete_cyborg_item( map &m, const tripoint &couch_pos, item *cyborg )
+{
+    // if this tile has an autodoc on a vehicle, delete the cyborg item from here
+    if( const cata::optional<vpart_reference> vp = get_map().veh_at( couch_pos ).part_with_feature(
+                flag_AUTODOC_COUCH, false ) ) {
+        auto dest_veh = &vp->vehicle();
+        int dest_part = vp->part_index();
+
+        for( item &it : dest_veh->get_items( dest_part ) ) {
+            if( &it == cyborg ) {
+                dest_veh->remove_item( dest_part, &it );
+            }
+        }
+
+    }
+    // otherwise delete it from the ground
+    else {
+        m.i_rem( couch_pos, cyborg );
+    }
+}
+
 void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &installer )
 {
     int assist_bonus = installer.get_effect_int( effect_assisted );
@@ -5061,7 +5082,7 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &install
         add_msg( m_good, _( "Successfully removed Personality override." ) );
         add_msg( m_bad, _( "Autodoc immediately destroys the CBM upon removal." ) );
 
-        this->delete_cyborg_item( couch_pos, cyborg );
+        delete_cyborg_item( g->m, couch_pos, cyborg );
 
         const string_id<npc_template> npc_cyborg( "cyborg_rescued" );
         shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
@@ -5093,7 +5114,7 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &install
             case 5:
                 add_msg( m_info, _( "The removal is a catastrophe." ) );
                 add_msg( m_bad, _( "The body is destroyed!" ) );
-                this->delete_cyborg_item( couch_pos, cyborg );
+                delete_cyborg_item( g->m, couch_pos, cyborg );
                 break;
             default:
                 break;
@@ -5101,27 +5122,6 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &install
 
     }
 
-}
-
-void game::delete_cyborg_item( const tripoint &couch_pos, item *cyborg )
-{
-    // if this tile has an autodoc on a vehicle, delete the cyborg item from here
-    if( const cata::optional<vpart_reference> vp = get_map().veh_at( couch_pos ).part_with_feature(
-                flag_AUTODOC_COUCH, false ) ) {
-        auto dest_veh = &vp->vehicle();
-        int dest_part = vp->part_index();
-
-        for( item &it : dest_veh->get_items( dest_part ) ) {
-            if( &it == cyborg ) {
-                dest_veh->remove_item( dest_part, &it );
-            }
-        }
-
-    }
-    // otherwise delete it from the ground
-    else {
-        m.i_rem( couch_pos, cyborg );
-    }
 }
 
 void game::exam_vehicle( vehicle &veh, const point &c )
