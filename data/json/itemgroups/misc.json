@@ -205,14 +205,11 @@
     "id": "cathedral_archives",
     "subtype": "collection",
     "entries": [
-      { "item": "book_binder", "prob": 90, "charges-max": 90, "count": [ 1, 5 ] },
       { "item": "file", "prob": 50, "count": [ 1, 15 ] },
       { "item": "paper", "prob": 60, "count": [ 10, 125 ] },
-      { "item": "book_pieces", "prob": 20 },
       { "item": "candle", "prob": 3, "charges": 100 },
       { "item": "holybook_bible1", "prob": 3 },
-      { "item": "candlestick", "prob": 2 },
-      { "item": "book_ruined", "prob": 1 }
+      { "item": "candlestick", "prob": 2 }
     ]
   }
 ]
