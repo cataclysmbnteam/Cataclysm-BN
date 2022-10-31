@@ -3553,6 +3553,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
 
     // check if player is on an autodoc couch
     if( autodoc && here.inbounds( p->pos() ) ) {
+        // this checks if there's an autodoc in a 3D radius around the player (during the operation), excluding just above/below him
         const std::list<tripoint> autodocs = here.find_furnitures_or_vparts_with_flag_in_radius( p->pos(),
                                              1,
                                              flag_AUTODOC );
