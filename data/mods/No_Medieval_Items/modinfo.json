@@ -7,7 +7,7 @@
     "maintainers": [ "Rivet-the-Zombie" ],
     "description": "Removes medieval weapons, armors, and specific books.",
     "category": "item_exclude",
-    "dependencies": [ "dda" ],
+    "dependencies": [ "bn" ],
     "obsolete": true
   },
   {

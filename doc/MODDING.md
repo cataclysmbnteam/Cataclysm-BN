@@ -21,7 +21,7 @@ A barebones `modinfo.json` file looks like this:
     "authors": [ "Your name here", "Your friend's name if you want" ],
     "description": "Your description here",
     "category": "content",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "bn" ]
   }
 ]
 ````
@@ -231,7 +231,7 @@ The entire mod can fit into fifteen lines of JSON, and it's presented below. Jus
     "name": "Prevent Zombie Revivication",
     "description": "Disables zombie revival.",
     "category": "rebalance",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "bn" ]
   },
   {
     "type": "monster_adjustment",
