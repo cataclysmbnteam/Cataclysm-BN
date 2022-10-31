@@ -165,8 +165,8 @@
     "color": "light_cyan",
     "price": 120000,
     "price_postapoc": 7500,
-    "weight": "34500 g",
-    "volume": "76 L",
+    "weight": "120000 g",
+    "volume": "50 L",
     "looks_like": "f_autodoc"
   },
   {
@@ -178,8 +178,8 @@
     "price_postapoc": 5000,
     "symbol": "H",
     "color": "red",
-    "weight": "34500 g",
-    "volume": "76 L",
+    "weight": "100000 g",
+    "volume": "40 L",
     "looks_like": "f_autodoc_couch"
   },
   {
