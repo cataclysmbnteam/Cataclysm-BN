@@ -3007,7 +3007,7 @@ static void CheckMessages()
                             world_generator->active_world &&
                             g && g->uquit == QUIT_NO &&
                             get_option<bool>( "ANDROID_QUICKSAVE" ) &&
-                            !std::uncaught_exception() ) {
+                            !std::uncaught_exceptions() ) {
                             g->quicksave();
                         }
                         break;

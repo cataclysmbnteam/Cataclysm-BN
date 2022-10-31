@@ -8,10 +8,9 @@ on:
     types:
       - completed
 
-
 jobs:
   push-template:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     if: >
       ${{ github.event.workflow_run.event == 'push' &&
       github.event.workflow_run.conclusion == 'success' &&
@@ -33,6 +32,6 @@ jobs:
         run: |
           lang/update_pot.sh
       - name: "Push translation template to Transifex server"
-        env: 
+        env:
           TX_TOKEN: ${{ secrets.TX_TOKEN }}
         run: tx push -s

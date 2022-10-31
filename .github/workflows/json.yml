@@ -5,7 +5,7 @@ on: pull_request
 jobs:
   skip-duplicates:
     continue-on-error: true
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     # Map a step output to a job output
     outputs:
       should_skip: ${{ steps.skip_check.outputs.should_skip }}
@@ -13,21 +13,21 @@ jobs:
       - id: skip_check
         uses: fkirc/skip-duplicate-actions@master
         with:
-          cancel_others: 'true'
+          cancel_others: "true"
           paths: '["**.json"]'
   style-json:
     name: JSON style check
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: skip-duplicates
     if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' }}
 
     steps:
-    - uses: actions/checkout@v1
-      with:
-        fetch-depth: 1
-    - name: JSON style check
-      run: make style-json
-    - name: Display Corrections
-      if: failure()
-      run: git diff
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+      - name: JSON style check
+        run: make style-json COMPILER=g++-11
+      - name: Display Corrections
+        if: failure()
+        run: git diff
