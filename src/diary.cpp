@@ -5,6 +5,7 @@
 #include <iostream>
 #include <fstream>
 #include <algorithm>
+#include <string_view>
 
 #include "avatar.h"
 #include "bionics.h"
@@ -747,9 +748,9 @@ void diary::export_to_md( bool last_export )
         for( std::string &str : left_diary_text ) {
             myfile << remove_color_tags( str ) + "\n";
         }
-        std::vector<std::string> folded_text = foldstring( page.m_text, 50 );
-        for( const auto &folded_text_char : folded_text ) {
-            myfile << folded_text_char + "\n";
+        std::vector<std::string> folded_texts = foldstring( page.m_text, 50 );
+        for( const std::string_view folded_text : folded_texts ) {
+            myfile << folded_text << "\n";
         }
         myfile << "\n\n\n";
     }
