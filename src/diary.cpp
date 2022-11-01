@@ -745,10 +745,10 @@ void diary::export_to_md( bool last_export )
         // add "## " before each "Entry" line to visually differentiate each page
         left_diary_text[0] = "## " + left_diary_text[0];
 
-        for( std::string &str : left_diary_text ) {
+        for( const std::string &str : left_diary_text ) {
             myfile << remove_color_tags( str ) + "\n";
         }
-        std::vector<std::string> folded_texts = foldstring( page.m_text, 50 );
+        const std::vector<std::string> folded_texts = foldstring( page.m_text, 50 );
         for( const std::string_view folded_text : folded_texts ) {
             myfile << folded_text << "\n";
         }
