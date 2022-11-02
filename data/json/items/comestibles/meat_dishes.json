@@ -179,9 +179,7 @@
     "name": "cooked wasteland sausage",
     "copy-from": "sausage_wasteland_raw",
     "parasites": 0,
-    "healthy": 0,
     "spoils_in": "4 days",
-    "quench": -7,
     "fun": -3,
     "description": "Lean sausage made from salt-cured offal, that has been cooked.",
     "flags": [ "EATEN_HOT" ]
