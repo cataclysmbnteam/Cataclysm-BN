@@ -2348,6 +2348,17 @@ bool map::has_flag_furn( const ter_bitflags flag, const tripoint &p ) const
     return furn( p ).obj().has_flag( flag );
 }
 
+bool map::has_flag_vpart( const std::string &flag, const tripoint &p ) const
+{
+    const optional_vpart_position vp = veh_at( p );
+    return static_cast<bool>( vp.part_with_feature( flag, true ) );
+}
+
+bool map::has_flag_furn_or_vpart( const std::string &flag, const tripoint &p ) const
+{
+    return has_flag_furn( flag, p ) || has_flag_vpart( flag, p );
+}
+
 bool map::has_flag_ter_or_furn( const ter_bitflags flag, const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
@@ -4960,6 +4971,7 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
         const cata::optional<vpart_reference> kilnpart = vp.part_with_feature( "KILN", true );
         const cata::optional<vpart_reference> chempart = vp.part_with_feature( "CHEMLAB", true );
         const cata::optional<vpart_reference> autoclavepart = vp.part_with_feature( "AUTOCLAVE", true );
+        const cata::optional<vpart_reference> autodocpart = vp.part_with_feature( "AUTODOC", true );
         const cata::optional<vpart_reference> cargo = vp.part_with_feature( "CARGO", true );
 
         if( kpart ) { // we have a faucet, now to see what to drain
@@ -8686,6 +8698,34 @@ std::list<tripoint> map::find_furnitures_with_flag_in_radius( const tripoint &ce
         }
     }
     return furn_locs;
+}
+
+std::list<tripoint> map::find_furnitures_or_vparts_with_flag_in_radius( const tripoint &center,
+        size_t radius, const std::string &flag, size_t radiusz )
+{
+    std::list<tripoint> locs;
+    for( const auto &loc : points_in_radius( center, radius, radiusz ) ) {
+        // workaround for ramp bridges
+        int dz = 0;
+        if( has_flag( TFLAG_RAMP_UP, loc ) ) {
+            dz = 1;
+        } else if( has_flag( TFLAG_RAMP_DOWN, loc ) ) {
+            dz = -1;
+        }
+
+        if( dz == 0 ) {
+            if( has_flag_furn_or_vpart( flag, loc ) ) {
+                locs.push_back( loc );
+            }
+        } else {
+            const tripoint newloc( loc + tripoint( 0, 0, dz ) );
+            if( has_flag_furn_or_vpart( flag, newloc ) ) {
+                locs.push_back( newloc );
+            }
+        }
+    }
+
+    return locs;
 }
 
 std::list<Creature *> map::get_creatures_in_radius( const tripoint &center, size_t radius,

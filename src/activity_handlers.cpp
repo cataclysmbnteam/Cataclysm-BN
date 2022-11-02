@@ -3550,11 +3550,14 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
     time_duration time_left = time_duration::from_turns( act->moves_left / 100 );
 
     map &here = get_map();
-    if( autodoc && here.inbounds( p->pos() ) ) {
-        const std::list<tripoint> autodocs = here.find_furnitures_with_flag_in_radius( p->pos(), 1,
-                                             flag_AUTODOC );
 
-        if( !here.has_flag_furn( flag_AUTODOC_COUCH, p->pos() ) || autodocs.empty() ) {
+    // check if player is on an autodoc couch
+    if( autodoc && here.inbounds( p->pos() ) ) {
+        // this checks if there's an autodoc in a 3D radius around the player (during the operation), excluding just above/below him
+        const std::list<tripoint> autodocs = here.find_furnitures_or_vparts_with_flag_in_radius( p->pos(),
+                                             1,
+                                             flag_AUTODOC );
+        if( !here.has_flag_furn_or_vpart( flag_AUTODOC_COUCH, p->pos() ) || autodocs.empty() ) {
             p->remove_effect( effect_under_op );
             act->set_to_null();
 
@@ -3685,7 +3688,8 @@ void activity_handlers::operation_finish( player_activity *act, player *p )
         if( act->values[1] > 0 ) {
             add_msg( m_good,
                      _( "The Autodoc returns to its resting position after successfully performing the operation." ) );
-            const std::list<tripoint> autodocs = here.find_furnitures_with_flag_in_radius( p->pos(), 1,
+            const std::list<tripoint> autodocs = here.find_furnitures_or_vparts_with_flag_in_radius( p->pos(),
+                                                 1,
                                                  flag_AUTODOC );
             sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
                            _( "a short upbeat jingle: \"Operation successful\"" ), true,
@@ -3695,7 +3699,8 @@ void activity_handlers::operation_finish( player_activity *act, player *p )
             if( act->str_values[0] == "install" ) {
                 add_msg( m_warning,
                          _( "The Autodoc completes installation and activates bionic but reports about complications during operation." ) );
-                const std::list<tripoint> autodocs = here.find_furnitures_with_flag_in_radius( p->pos(), 1,
+                const std::list<tripoint> autodocs = here.find_furnitures_or_vparts_with_flag_in_radius( p->pos(),
+                                                     1,
                                                      flag_AUTODOC );
                 sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
                                _( "a sad beeping noise: \"Complications detected!  Report to medical personnel immediately!\"" ),
@@ -3705,7 +3710,8 @@ void activity_handlers::operation_finish( player_activity *act, player *p )
             } else {
                 add_msg( m_bad,
                          _( "The Autodoc jerks back to its resting position after failing the operation." ) );
-                const std::list<tripoint> autodocs = here.find_furnitures_with_flag_in_radius( p->pos(), 1,
+                const std::list<tripoint> autodocs = here.find_furnitures_or_vparts_with_flag_in_radius( p->pos(),
+                                                     1,
                                                      flag_AUTODOC );
                 sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
                                _( "a sad beeping noise: \"Operation failed\"" ), true,

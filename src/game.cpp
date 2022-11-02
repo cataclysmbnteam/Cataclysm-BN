@@ -209,6 +209,8 @@ static const skill_id skill_computer( "computer" );
 
 static const species_id PLANT( "PLANT" );
 
+static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
+
 static const efftype_id effect_accumulated_mutagen( "accumulated_mutagen" );
 static const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
 static const efftype_id effect_ai_controlled( "ai_controlled" );
@@ -5030,6 +5032,27 @@ bool game::revive_corpse( const tripoint &p, item &it )
     return place_critter_at( newmon_ptr, p );
 }
 
+void static delete_cyborg_item( map &m, const tripoint &couch_pos, item *cyborg )
+{
+    // if this tile has an autodoc on a vehicle, delete the cyborg item from here
+    if( const cata::optional<vpart_reference> vp = get_map().veh_at( couch_pos ).part_with_feature(
+                flag_AUTODOC_COUCH, false ) ) {
+        auto dest_veh = &vp->vehicle();
+        int dest_part = vp->part_index();
+
+        for( item &it : dest_veh->get_items( dest_part ) ) {
+            if( &it == cyborg ) {
+                dest_veh->remove_item( dest_part, &it );
+            }
+        }
+
+    }
+    // otherwise delete it from the ground
+    else {
+        m.i_rem( couch_pos, cyborg );
+    }
+}
+
 void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &installer )
 {
     int assist_bonus = installer.get_effect_int( effect_assisted );
@@ -5065,7 +5088,7 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &install
         add_msg( m_good, _( "Successfully removed Personality override." ) );
         add_msg( m_bad, _( "Autodoc immediately destroys the CBM upon removal." ) );
 
-        m.i_rem( couch_pos, cyborg );
+        delete_cyborg_item( g->m, couch_pos, cyborg );
 
         const string_id<npc_template> npc_cyborg( "cyborg_rescued" );
         shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
@@ -5097,7 +5120,7 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &install
             case 5:
                 add_msg( m_info, _( "The removal is a catastrophe." ) );
                 add_msg( m_bad, _( "The body is destroyed!" ) );
-                m.i_rem( couch_pos, cyborg );
+                delete_cyborg_item( g->m, couch_pos, cyborg );
                 break;
             default:
                 break;
@@ -6039,7 +6062,8 @@ void game::print_fields_info( const tripoint &lp, const catacurses::window &w_lo
     }
 }
 
-void game::print_trap_info( const tripoint &lp, const catacurses::window &w_look, const int column,
+void game::print_trap_info( const tripoint &lp, const catacurses::window &w_look,
+                            const int column,
                             int &line )
 {
     const trap &tr = m.tr_at( lp );
@@ -6076,7 +6100,8 @@ void game::print_vehicle_info( const vehicle *veh, int veh_part, const catacurse
     }
 }
 
-void game::print_items_info( const tripoint &lp, const catacurses::window &w_look, const int column,
+void game::print_items_info( const tripoint &lp, const catacurses::window &w_look,
+                             const int column,
                              int &line,
                              const int last_line )
 {
@@ -7268,7 +7293,8 @@ bool game::take_screenshot() const
 #endif
 
 //helper method so we can keep list_items shorter
-void game::reset_item_list_state( const catacurses::window &window, int height, bool bRadiusSort )
+void game::reset_item_list_state( const catacurses::window &window, int height,
+                                  bool bRadiusSort )
 {
     const int width = getmaxx( window );
     for( int i = 1; i < TERMX; i++ ) {
