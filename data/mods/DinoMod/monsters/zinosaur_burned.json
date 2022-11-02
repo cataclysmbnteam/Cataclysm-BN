@@ -1205,7 +1205,6 @@
     "melee_damage": [ { "damage_type": "stab", "amount": 15 } ],
     "armor_bash": 7,
     "armor_cut": 16,
-    "weakpoint_sets": [ "wps_lg_ceratopsian_body" ],
     "hp": 200,
     "fungalize_into": "mon_zriceratops_fungus",
     "description": "A heavily-burned, four-legged zombie dinosaur with a bony crest and three wicked-looking horns; it still reeks of charred meat.  Its flesh has mended into a leathery shell."
