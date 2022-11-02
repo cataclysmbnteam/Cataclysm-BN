@@ -83,6 +83,7 @@
       "w": { "item": "cathedral_archives", "chance": 90 },
       "Y": { "item": "coat_rack", "chance": 50, "repeat": [ 1, 5 ] },
       "c": { "item": "makeshift_memorial", "chance": 50 },
+      "C": { "item": "religious_books", "chance": 25, "repeat": [ 1, 2 ] },
       "D": { "item": "school", "chance": 50 },
       "b": { "item": "church", "chance": 10 },
       "a": { "item": "trash", "chance": 80, "repeat": [ 1, 3 ] },
