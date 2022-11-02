@@ -97,7 +97,7 @@
     "type": "GENERIC",
     "category": "tools",
     "name": { "str": "shovel" },
-    "description": "This is a digging tool.  Use it to dig pits adjacent to your location.  This was a popular weapon during ww1.",
+    "description": "This is a digging tool.  Use it to dig pits adjacent to your location.",
     "weight": "1315 g",
     "volume": "3500 ml",
     "price": 2000,
