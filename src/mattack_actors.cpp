@@ -487,7 +487,7 @@ static vehicle *find_target_vehicle( monster &z )
     int distance = 60;
     for( wrapped_vehicle &v : here.get_vehicles() ) {
         int new_dist = rl_dist( z.pos(), v.pos );
-        if( v.v->velocity > 0 && new_dist < distance ) {
+        if( v.v->velocity != 0 && new_dist < distance ) {
             chosen = v.v;
             distance = new_dist;
         }
