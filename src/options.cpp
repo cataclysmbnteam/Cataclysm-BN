@@ -1798,12 +1798,17 @@ void options_manager::add_options_graphics()
 
     get_option( "ANIMATION_SCT_USE_FONT" ).setPrerequisite( "ANIMATION_SCT" );
 
-    add( "ANIMATION_DELAY", "graphics", translate_marker( "Animation delay" ),
-         translate_marker( "The amount of time to pause between animation frames in ms." ),
-         0, 100, 10
-       );
+    add("ANIMATION_DELAY", "graphics", translate_marker("Animation delay"),
+        translate_marker("The amount of time to pause between animation frames in ms."),
+        0, 100, 10
+    );
 
     get_option( "ANIMATION_DELAY" ).setPrerequisite( "ANIMATIONS" );
+
+    add("BLINK_SPEED", "graphics", translate_marker("Map blinking speed"),
+        translate_marker("The amount of time to pause between map extra informations blinking (notes, zombie hordes...) in ms."),
+        100, 5000, 800
+    );
 
     add( "FORCE_REDRAW", "graphics", translate_marker( "Force redraw" ),
          translate_marker( "If true, forces the game to redraw at least once per turn." ),
