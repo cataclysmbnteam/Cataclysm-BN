@@ -136,6 +136,7 @@ static const itype_id itype_charcoal( "charcoal" );
 static const itype_id itype_chem_carbide( "chem_carbide" );
 static const itype_id itype_corpse( "corpse" );
 static const itype_id itype_electrohack( "electrohack" );
+static const itype_id itype_fake_lockpick( "fake_lockpick" );
 static const itype_id itype_fake_milling_item( "fake_milling_item" );
 static const itype_id itype_fake_smoke_plume( "fake_smoke_plume" );
 static const itype_id itype_fertilizer( "fertilizer" );
@@ -208,6 +209,7 @@ static const mtype_id mon_spider_widow_giant_s( "mon_spider_widow_giant_s" );
 static const bionic_id bio_ears( "bio_ears" );
 static const bionic_id bio_fingerhack( "bio_fingerhack" );
 static const bionic_id bio_lighter( "bio_lighter" );
+static const bionic_id bio_lockpick( "bio_lockpick" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
 static const bionic_id bio_power_storage( "bio_power_storage" );
 static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
@@ -1484,6 +1486,17 @@ static safe_reference<item> find_best_prying_tool( player &p )
 
 static safe_reference<item> find_best_lock_picking_tool( player &p )
 {
+
+    // if player has fingerpick bionic, enough power, and doesn't already have a fake_lockpick (in case it could happen somehow), add it to its inventory
+    if( p.has_bionic( bio_lockpick ) && p.get_power_level() >= 50_kJ &&
+    !p.has_item_with( []( const item & it ) {
+    return it.type->get_id() == itype_fake_lockpick;
+    } ) ) {
+        item fake_lockpick( itype_fake_lockpick, calendar::turn );
+        p.i_add( fake_lockpick );
+        p.mod_power_level( -50_kJ );
+    }
+
     std::vector<item *> picklocks = p.items_with( []( const item & it ) {
         // we want to get worn items (eg hairpin), so no check on item position
         return it.type->get_use( "picklock" ) != nullptr;

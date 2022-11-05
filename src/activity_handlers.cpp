@@ -205,6 +205,7 @@ static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_animal( "animal" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_burnt_out_bionic( "burnt_out_bionic" );
+static const itype_id itype_fake_lockpick( "fake_lockpick" );
 static const itype_id itype_grapnel( "grapnel" );
 static const itype_id itype_hd_tow_cable( "hd_tow_cable" );
 static const itype_id itype_log( "log" );
@@ -2554,7 +2555,7 @@ void activity_handlers::lockpicking_finish( player_activity *act, player *p )
     } else if( furn_type == f_gunsafe_ml && lock_roll > ( 3 * pick_roll ) ) {
         p->add_msg_if_player( m_bad, _( "Your clumsy attempt jams the lock!" ) );
         g->m.furn_set( act->placement, furn_str_id( "f_gunsafe_mj" ) );
-    } else if( lock_roll > ( 1.5 * pick_roll ) ) {
+    } else if( lock_roll > ( 1.5 * pick_roll ) && it->type->get_id() != itype_fake_lockpick ) {
         if( it->inc_damage() ) {
             p->add_msg_if_player( m_bad,
                                   _( "The lock stumps your efforts to pick it, and you destroy your tool." ) );
@@ -2574,7 +2575,8 @@ void activity_handlers::lockpicking_finish( player_activity *act, player *p )
                                  p->global_sm_location() );
         }
     }
-    if( destroy ) {
+    // if the item should be destroyed, or it's a dummy fake_lockpick destroy it
+    if( destroy || it->type->get_id() == itype_fake_lockpick ) {
         p->i_rem( it );
     }
 

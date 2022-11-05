@@ -155,6 +155,16 @@
     "use_action": { "type": "firestarter", "moves": 200 }
   },
   {
+    "id": "fake_lockpick",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "Fingerpick" },
+    "description": "An unbreakable, high-tech bionic lockpick.  If you see this, this is a bug.",
+    "volume": 0,
+    "qualities": [ [ "LOCKPICK", 250 ] ],
+    "use_action": { "type": "picklock", "pick_quality": 250 }
+  },
+  {
     "id": "migo_bio_gun",
     "type": "GUN",
     "copy-from": "fake_item",
