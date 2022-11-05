@@ -4566,7 +4566,7 @@
     },
     "upgrades": { "half_life": 12, "into": "mon_sescelosaurus_hulk" },
     "special_attacks": [
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
+      [ "SMASH", 30 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
     ]
   },
@@ -4580,7 +4580,7 @@
     "proportional": { "hp": 2.5 },
     "relative": { "melee_dice": 1, "melee_damage": [ { "damage_type": "stab", "amount": 5 } ], "armor_bash": 8, "armor_cut": 15 },
     "special_attacks": [
-      { "id": "smash", "throw_strength": 54 },
+      [ "SMASH", 30 ],
       { "id": "stretch_attack" },
       { "id": "longswipe" },
       { "id": "cut_throat" },
