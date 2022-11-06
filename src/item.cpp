@@ -6972,12 +6972,14 @@ void item::mark_chapter_as_read( const Character &ch )
     set_var( var, remain );
 }
 
-std::vector<std::pair<const recipe *, int>> item::get_available_recipes( const player &u ) const
+std::vector<std::pair<const recipe *, int>> item::get_available_recipes( const player &u,
+        bool bypass_skill_requirement ) const
 {
     std::vector<std::pair<const recipe *, int>> recipe_entries;
     if( is_book() ) {
         for( const islot_book::recipe_with_description_t &elem : type->book->recipes ) {
-            if( u.get_skill_level( elem.recipe->skill_used ) >= elem.skill_level ) {
+            if( u.get_skill_level( elem.recipe->skill_used ) >= elem.skill_level ||
+                bypass_skill_requirement ) {
                 recipe_entries.push_back( std::make_pair( elem.recipe, elem.skill_level ) );
             }
         }
@@ -6994,7 +6996,10 @@ std::vector<std::pair<const recipe *, int>> item::get_available_recipes( const p
             std::string new_recipe = recipes.substr( first_string_index,
                                      next_string_index - first_string_index );
             const recipe *r = &recipe_id( new_recipe ).obj();
-            recipe_entries.push_back( std::make_pair( r, r->difficulty ) );
+
+            if( u.get_skill_level( r->skill_used ) >= r->difficulty || bypass_skill_requirement ) {
+                recipe_entries.push_back( std::make_pair( r, r->difficulty ) );
+            }
             first_string_index = next_string_index + 1;
         }
     }

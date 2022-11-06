@@ -177,6 +177,8 @@ class recipe_subset
             return recipes.end();
         }
 
+        std::set<const recipe *> get_recipes();
+
     private:
         std::set<const recipe *> recipes;
         std::map<const recipe *, int> difficulties;

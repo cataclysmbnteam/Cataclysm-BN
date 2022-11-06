@@ -885,8 +885,8 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
 void bookbinder_copy_activity_actor::start( player_activity &act, Character & )
 {
     pages = 1 + rec_id->difficulty / 2;
-    act.moves_total = to_moves<int>( pages * 10_minutes );
-    act.moves_left = to_moves<int>( pages * 10_minutes );
+    act.moves_total = to_moves<int>( pages * 1_minutes );
+    act.moves_left = to_moves<int>( pages * 1_minutes );
 }
 
 void bookbinder_copy_activity_actor::do_turn( player_activity &, Character &p )
@@ -900,19 +900,13 @@ void bookbinder_copy_activity_actor::do_turn( player_activity &, Character &p )
 
 void bookbinder_copy_activity_actor::finish( player_activity &act, Character &p )
 {
-    // TODO add back, was always triggered
-    /*if( !book_binder->can_contain( item( itype_paper, calendar::turn, pages ) ) ) {
-        debugmsg( "Book binder can not contain '%s' recipe when it should.", rec_id.str() );
-        act.set_to_null();
-        return;
-    }*/
-
     const bool rec_added = book_binder->eipc_recipe_add( rec_id );
     if( rec_added ) {
         p.add_msg_if_player( m_good, _( "You copy the recipe for %1$s into your recipe book." ),
                              rec_id->result_name() );
 
-       // TODO uncomment p.use_charges( itype_paper, pages );
+        p.use_charges( itype_paper, pages );
+        book_binder.get_item()->charges += pages;
 
         const std::vector<const item *> writing_tools_filter =
         p.crafting_inventory().items_with( [&]( const item & it ) {
@@ -928,7 +922,6 @@ void bookbinder_copy_activity_actor::finish( player_activity &act, Character &p 
         player *player = p.as_player();
 
         player->consume_tools( writing_tools, pages );
-        book_binder->put_in( item( itype_paper, calendar::turn, pages ) );
     } else {
         debugmsg( "Recipe book already has '%s' recipe when it should not.", rec_id.str() );
     }

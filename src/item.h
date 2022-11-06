@@ -1668,7 +1668,8 @@ class item : public visitable<item>
         /**
          * Enumerates recipes available from this book and the skill level required to use them.
          */
-        std::vector<std::pair<const recipe *, int>> get_available_recipes( const player &u ) const;
+        std::vector<std::pair<const recipe *, int>> get_available_recipes( const player &u,
+                bool bypass_skill_requirement = false ) const;
         /*@}*/
 
         /**

@@ -1191,7 +1191,7 @@
   },
   {
     "id": "book_binder",
-    "type": "GENERIC",
+    "type": "TOOL",
     "category": "books",
     "use_action": "BINDER_ADD_RECIPE",
     "symbol": "/",
@@ -1206,9 +1206,10 @@
     "to_hit": -1,
     "price": 500,
     "ammo": "paper",
-    "max_charges": 200,
-    "charges_per_use": 5,
-    "price_postapoc": 50
+    "initial_charges": 1,
+    "max_charges": 20,
+    "price_postapoc": 50,
+    "flags": [ "TRADER_AVOID", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "type": "GENERIC",

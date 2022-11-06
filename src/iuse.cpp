@@ -9808,35 +9808,60 @@ int iuse::binder_add_recipe( player *p, item *binder, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You do not have anything to write with." ) );
         return 0;
     }
+    const std::vector<npc *> helpers = p->get_crafting_helpers();
 
-    const recipe_subset res = p->get_recipes_from_books( crafting_inv );
-    if( !res.size() ) {
+    // get reciipes no matter the skill requirement
+    recipe_subset res_loc;
+    for( const auto &stack : crafting_inv.const_slice() ) {
+        const item &candidate = stack->front();
+
+        for( std::pair<const recipe *, int> recipe_entry :
+             candidate.get_available_recipes( *p, true ) ) {
+            res_loc.include( recipe_entry.first, recipe_entry.second );
+        }
+    }
+
+    // remove learnt recipes
+    std::vector<const recipe *> not_learnt_recipes;
+    recipe_subset res_loc2 = p->get_learned_recipes();
+    for( auto &rec = res_loc.begin(); rec != res_loc.end(); ++rec ) {
+        bool recipe_learnt = false;
+        for( auto &rec2 = res_loc2.begin(); rec2 != res_loc2.end(); ++rec2 ) {
+            if( ( *rec ) == ( *rec2 ) ) {
+                recipe_learnt = true;
+                break;
+            }
+        }
+        if( !recipe_learnt ) {
+            not_learnt_recipes.emplace_back( *rec );
+        }
+    }
+
+
+
+
+    if( !not_learnt_recipes.size() ) {
         p->add_msg_if_player( m_info, _( "You do not have any recipes you can copy." ) );
         return 0;
     }
 
-    std::vector<const recipe *> recipes;
-    recipes.reserve( res.size() );
+    // if player doesn't have at least 1 paper on him, add an early warning message
+    const int papers_on_player = p->charges_of( itype_paper );
+    if( papers_on_player <= 0 ) {
+        p->add_msg_if_player( m_info, _( "You do not have paper to copy a recipe." ) );
+        return 0;
+    }
 
     uilist menu;
     menu.text = _( "Choose recipe to copy" );
 
-    // due to way recipe_subset works, I can't a use range-based for loop here
-    // without compiler errors
-    for( auto rec = res.begin(); rec != res.end(); ++rec ) {
-        // bypass clang: use range-based for loop instead [modernize-loop-convert]
-        // because of the issue above
-        if( rec == res.end() ) {
-            continue;
-        }
-        recipes.emplace_back( *rec );
+    const int charges_left = binder->type->maximum_charges() - binder->charges;
+    for( const recipe *rec : not_learnt_recipes ) {
 
-        const int pages = 1 + ( *rec )->difficulty / 2;
-        int rem = binder->ammo_remaining();
-        bool enough = rem >= pages;
-        //  binder->ammo_remaining() >= pages
-        menu.addentry_col( -1,true, ' ',
-                           ( *rec )->result_name(),
+        const int pages = 1 + rec->difficulty / 2;
+        // greyed out row if there's not enough space in the book, or if there's not enough paper on the player to write the recipe
+        menu.addentry_col( -1, ( charges_left >= pages ) && ( papers_on_player >= pages ), ' ',
+                           rec->result_name(),
                            string_format( vgettext( "%1$d page", "%1$d pages", pages ), pages ) );
     }
 
@@ -9850,24 +9875,17 @@ int iuse::binder_add_recipe( player *p, item *binder, bool, const tripoint & )
         return 0;
     }
 
-    const int pages = 1 + recipes[menu.ret]->difficulty / 2;
-    // TODO was !p->has_charges( itype_paper, pages )
-    if( false ) {
+    const int pages = 1 + not_learnt_recipes[menu.ret]->difficulty / 2;
+    if( !p->has_charges( itype_paper, pages ) ) {
         p->add_msg_if_player( m_info, _( "You do not have enough paper to copy this recipe." ) );
         return 0;
     }
 
-
-    // TODO was binder->ammo_remaining() < pages
-    if( false ) {
-        p->add_msg_if_player( m_info, _( "Your recipe book can not fit this recipe." ) );
-        return 0;
-    }
-
     const std::string old_recipes = binder->get_var( "EIPC_RECIPES" );
-    if( old_recipes.find( "," + recipes[menu.ret]->ident().str() + "," ) != std::string::npos ) {
+    if( old_recipes.find( "," + not_learnt_recipes[menu.ret]->ident().str() + "," ) !=
+        std::string::npos ) {
         p->add_msg_if_player( m_good, _( "Your recipe book already has a recipe for %s." ),
-                              recipes[menu.ret]->result_name() );
+                              not_learnt_recipes[menu.ret]->result_name() );
         return 0;
     }
 
@@ -9888,8 +9906,7 @@ int iuse::binder_add_recipe( player *p, item *binder, bool, const tripoint & )
         }
     }
 
-    // TODO was !has_enough_charges
-    if( false ) {
+    if( !has_enough_charges ) {
         p->add_msg_if_player( m_info, _( "Your writing tool does not have enough charges." ) );
         return 0;
     }
@@ -9897,7 +9914,7 @@ int iuse::binder_add_recipe( player *p, item *binder, bool, const tripoint & )
     p->assign_activity( player_activity(
                             bookbinder_copy_activity_actor(
                                 item_location( *p, binder ),
-                                recipes[menu.ret]->ident() ) ) );
+                                not_learnt_recipes[menu.ret]->ident() ) ) );
 
     return 0;
 }
