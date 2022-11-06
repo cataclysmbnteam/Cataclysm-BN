@@ -9810,7 +9810,7 @@ int iuse::binder_add_recipe( player *p, item *binder, bool, const tripoint & )
     }
     const std::vector<npc *> helpers = p->get_crafting_helpers();
 
-    // get reciipes no matter the skill requirement
+    // get recipes no matter the skill requirement
     recipe_subset res_loc;
     for( const auto &stack : crafting_inv.const_slice() ) {
         const item &candidate = stack->front();
