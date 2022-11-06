@@ -15,7 +15,7 @@
   },
   {
     "id": "pen",
-    "type": "GENERIC",
+    "type": "TOOL",
     "category": "tools",
     "name": { "str": "pen" },
     "description": "A plastic ball point pen.",
