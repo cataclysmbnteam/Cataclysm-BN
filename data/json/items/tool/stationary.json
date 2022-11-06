@@ -25,7 +25,11 @@
     "price_postapoc": 10,
     "material": "plastic",
     "symbol": ";",
-    "color": "light_gray"
+    "color": "light_gray",
+    "initial_charges": 200,
+    "max_charges": 200,
+    "charges_per_use": 1,
+    "flags": [ "WRITE_MESSAGE" ]
   },
   {
     "id": "scissors",
