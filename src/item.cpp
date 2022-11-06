@@ -7300,10 +7300,13 @@ int item::ammo_remaining() const
     }
 
     if( is_magazine() || is_bandolier() ) {
+        int res = 0;
         for( const item *e : contents.all_items_top() ) {
-            return e->charges;
+            res += e->charges;
         }
+        return res;
     }
+
     return 0;
 }
 
