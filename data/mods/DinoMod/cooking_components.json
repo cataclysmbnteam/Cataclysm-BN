@@ -56,8 +56,7 @@
         [ "egg_triceratops", 1 ],
         [ "egg_dimorphodon", 1 ],
         [ "egg_pteranodon", 1 ],
-        [ "egg_quetzalcoatlus", 1 ],
-        [ "egg_mosasaurus", 1 ]
+        [ "egg_quetzalcoatlus", 1 ]
       ]
     ]
   }
