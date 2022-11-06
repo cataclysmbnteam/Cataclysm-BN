@@ -4173,6 +4173,20 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zapatosaurus_hulk",
+    "name": { "str_sp": "sauropod hulk" },
+    "copy-from": "mon_zapatosaurus_brute",
+    "looks_like": "mon_zapatosaurus",
+    "description": "A hideously swollen zombified sauropod body towering into the sky even more than usual.  Its massive body bulges with distended muscles and swollen, festering wounds.",
+    "diff": 5,
+    "color": "white_magenta",
+    "proportional": { "hp": 4, "speed": 1.25 },
+    "relative": { "melee_dice": 1, "melee_damage": -4, "armor_bash": 4, "armor_cut": 6 },
+    "special_attacks": [ [ "SMASH", 20 ] ],
+    "upgrades": {  }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zankylosaurus_hulk",
     "name": { "str_sp": "Ankylosaurus hulk" },
     "copy-from": "mon_zankylosaurus_brute",
