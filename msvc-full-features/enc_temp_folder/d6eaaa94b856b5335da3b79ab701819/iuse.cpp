@@ -9861,8 +9861,8 @@ int iuse::binder_add_recipe( player *p, item *binder, bool, const tripoint & )
         return 0;
     }
 
-    if( character_funcs::fine_detail_vision_mod( *p ) > 4.0f ) {
-        p->add_msg_if_player( m_info, _( "It's too dark to write!" ) );
+    if (character_funcs::fine_detail_vision_mod(*p) > 4.0f) {
+        p->add_msg_if_player(m_info, _("It's too dark to write!"));
         return 0;
     }
 
