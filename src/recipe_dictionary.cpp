@@ -245,7 +245,7 @@ std::vector<const recipe *> recipe_subset::search_result( const itype_id &item )
     return res;
 }
 
-std::set<const recipe*> recipe_subset::get_recipes()
+std::set<const recipe *> recipe_subset::get_recipes()
 {
     return recipes;
 }
