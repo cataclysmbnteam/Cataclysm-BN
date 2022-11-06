@@ -363,7 +363,7 @@ std::pair<bool, std::string> string_editor_window::query_string()
 #if defined(__ANDROID__)
     on_out_of_scope stop_text_input( []() {
         if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
-            StopTextInput();
+            SDL_StopTextInput();
         }
     } );
 #endif

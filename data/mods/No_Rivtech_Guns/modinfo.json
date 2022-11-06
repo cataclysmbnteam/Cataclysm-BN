@@ -6,7 +6,7 @@
     "authors": [ "tungtn/community" ],
     "description": "Removes fictional conventional firearms and ammunition.",
     "category": "item_exclude",
-    "dependencies": [ "dda" ],
+    "dependencies": [ "bn" ],
     "obsolete": true
   },
   {

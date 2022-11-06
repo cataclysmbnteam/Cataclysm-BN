@@ -47,6 +47,7 @@
 #include "mapgenformat.h"
 #include "memory_fast.h"
 #include "mission.h"
+#include "mod_manager.h"
 #include "mongroup.h"
 #include "npc.h"
 #include "omdata.h"
@@ -2403,7 +2404,9 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
     format.resize( static_cast<size_t>( mapgensize.x * mapgensize.y ) );
     // just like mapf::basic_bind("stuff",blargle("foo", etc) ), only json input and faster when applying
     if( jo.has_array( "rows" ) ) {
-        mapgen_palette palette = mapgen_palette::load_temp( jo, "dda" );
+        // TODO: forward correct 'src' parameter
+        mapgen_palette palette = mapgen_palette::load_temp( jo,
+                                 mod_management::get_default_core_content_pack().str() );
         auto &format_terrain = palette.format_terrain;
         auto &format_furniture = palette.format_furniture;
         auto &format_placings = palette.format_placings;
