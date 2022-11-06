@@ -247,7 +247,7 @@ std::vector<const recipe *> recipe_subset::search_result( const itype_id &item )
 
 std::vector<const recipe *> recipe_subset::get_recipes()
 {
-    std::vector<const recipe*> ret(recipes.begin(), recipes.end());
+    std::vector<const recipe *> ret( recipes.begin(), recipes.end() );
     return ret;
 }
 

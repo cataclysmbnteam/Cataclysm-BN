@@ -9849,7 +9849,7 @@ int iuse::binder_add_recipe( player *p, item *binder, bool, const tripoint & )
         bool add_recipe = true;
         for( const recipe *rec_l : learnt_recipes.get_recipes() ) {
             // if it's an available recipe, and it's learned, change the flag so it's not added
-            if( *rec == *rec_l ) {
+            if( rec == rec_l ) {
                 add_recipe = false;
                 break;
             }
