@@ -1672,6 +1672,13 @@ class item : public visitable<item>
         /*@}*/
 
         /**
+         * Add a recipe to the EIPC_RECIPES variable.
+         *
+         * @return true if the recipe was added, false if it is a duplicate
+         */
+        bool eipc_recipe_add( const recipe_id &recipe_id );
+
+        /**
          * @name Martial art techniques
          *
          * See martialarts.h for further info.

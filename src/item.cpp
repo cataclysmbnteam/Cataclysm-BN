@@ -6982,7 +6982,7 @@ std::vector<std::pair<const recipe *, int>> item::get_available_recipes( const p
             }
         }
     } else if( has_var( "EIPC_RECIPES" ) ) {
-        // See einkpc_download_memory_card() in iuse.cpp where this is set.
+        // See eipc_recipe_add() in item.cpp where this is set.
         const std::string recipes = get_var( "EIPC_RECIPES" );
         // Capture the index one past the delimiter, i.e. start of target string.
         size_t first_string_index = recipes.find_first_of( ',' ) + 1;
@@ -6994,13 +6994,27 @@ std::vector<std::pair<const recipe *, int>> item::get_available_recipes( const p
             std::string new_recipe = recipes.substr( first_string_index,
                                      next_string_index - first_string_index );
             const recipe *r = &recipe_id( new_recipe ).obj();
-            if( u.get_skill_level( r->skill_used ) >= r->difficulty ) {
-                recipe_entries.push_back( std::make_pair( r, r->difficulty ) );
-            }
+            recipe_entries.push_back( std::make_pair( r, r->difficulty ) );
             first_string_index = next_string_index + 1;
         }
     }
     return recipe_entries;
+}
+
+bool item::eipc_recipe_add( const recipe_id &recipe_id )
+{
+    bool recipe_success = false;
+
+    const std::string old_recipes = this->get_var( "EIPC_RECIPES" );
+    if( old_recipes.empty() ) {
+        recipe_success = true;
+        this->set_var( "EIPC_RECIPES", "," + recipe_id.str() + "," );
+    } else if( old_recipes.find( "," + recipe_id.str() + "," ) == std::string::npos ) {
+        recipe_success = true;
+        this->set_var( "EIPC_RECIPES", old_recipes + recipe_id.str() + "," );
+    }
+
+    return recipe_success;
 }
 
 const material_type &item::get_random_material() const
@@ -7246,9 +7260,17 @@ units::energy item::energy_remaining() const
 
 int item::ammo_remaining() const
 {
+    int ret = 0;
+
+    // Magazine in the item
     const item *mag = magazine_current();
     if( mag ) {
-        return mag->ammo_remaining();
+        ret += mag->ammo_remaining();
+    }
+
+    // Non ammo using item that uses charges
+    if( ammo_types().empty() ) {
+        ret += charges;
     }
 
     if( is_tool() || is_gun() ) {
@@ -7261,14 +7283,12 @@ int item::ammo_remaining() const
     }
 
     if( is_magazine() || is_bandolier() ) {
-        int res = 0;
         for( const item *e : contents.all_items_top() ) {
-            res += e->charges;
+            ret += e->charges;
         }
-        return res;
     }
 
-    return 0;
+    return ret;
 }
 
 int item::ammo_capacity() const

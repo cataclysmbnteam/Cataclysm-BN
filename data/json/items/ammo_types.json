@@ -600,6 +600,12 @@
     "default": "nitrox"
   },
   {
+    "type": "ammunition_type",
+    "id": "paper",
+    "name": "paper",
+    "default": "paper"
+  },
+  {
     "id": "tinder",
     "name": "tinder",
     "default": "tinder",

@@ -751,6 +751,13 @@
     "no_resume": true
   },
   {
+    "id": "ACT_BINDER_COPY_RECIPE",
+    "type": "activity_type",
+    "verb": "writing",
+    "rooted": true,
+    "based_on": "speed"
+  },
+  {
     "id": "ACT_MIGRATION_CANCEL",
     "type": "activity_type",
     "verb": "canceling activity serialized with legacy code",
