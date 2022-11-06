@@ -177,7 +177,7 @@ class recipe_subset
             return recipes.end();
         }
 
-        std::set<const recipe *> get_recipes();
+        std::vector<const recipe *> get_recipes();
 
     private:
         std::set<const recipe *> recipes;

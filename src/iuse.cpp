@@ -9809,28 +9809,28 @@ int iuse::binder_add_recipe( player *p, item *binder, bool, const tripoint & )
     const std::vector<npc *> helpers = p->get_crafting_helpers();
 
     // get recipes no matter the skill requirement
-    recipe_subset res_loc;
+    recipe_subset available_recipes;
     for( const auto &stack : crafting_inv.const_slice() ) {
         const item &candidate = stack->front();
 
         for( std::pair<const recipe *, int> recipe_entry :
              candidate.get_available_recipes( *p, true ) ) {
-            res_loc.include( recipe_entry.first, recipe_entry.second );
+            available_recipes.include( recipe_entry.first, recipe_entry.second );
         }
     }
 
 
     std::vector<const recipe *> not_learnt_recipes;
     std::string old_recipes = binder->get_var( "EIPC_RECIPES" );
-    recipe_subset learnt_rec = p->get_learned_recipes();
+    recipe_subset learnt_recipes = p->get_learned_recipes();
     // automatically remove already learnt recipes from the book binder, and free book space
     int total_pages_removed = 0;
-    for( auto &rec = res_loc.begin(); rec != res_loc.end(); ++rec ) {
-        if( p->knows_recipe( *rec ) ) {
+    for( const recipe *rec : available_recipes.get_recipes() ) {
+        if( p->knows_recipe( rec ) ) {
             // remove the recipe
-            if( binder->eipc_recipe_remove( ( *rec )->ident() ) ) {
+            if( binder->eipc_recipe_remove( rec->ident() ) ) {
                 // remove the pages from the book
-                int pages_removed = 1 + ( *rec )->difficulty / 2;
+                int pages_removed = 1 + rec->difficulty / 2;
                 binder->charges -= pages_removed;
                 total_pages_removed += pages_removed;
             }
@@ -9845,19 +9845,22 @@ int iuse::binder_add_recipe( player *p, item *binder, bool, const tripoint & )
 
     // only keep not learnt recipes and those that are not already in the book
     old_recipes = binder->get_var( "EIPC_RECIPES" );
-    for( auto &rec = res_loc.begin(); rec != res_loc.end(); ++rec ) {
-        bool do_not_add_recipe = false;
-        for( auto &rec2 = learnt_rec.begin(); rec2 != learnt_rec.end(); ++rec2 ) {
+    for( const recipe *rec : available_recipes.get_recipes() ) {
+        bool add_recipe = true;
+        for( const recipe *rec_l : learnt_recipes.get_recipes() ) {
             // if it's an available recipe, and it's learned, change the flag so it's not added
-            if( ( *rec ) == ( *rec2 ) ) {
-                do_not_add_recipe = true;
+            if( *rec == *rec_l ) {
+                add_recipe = false;
                 break;
             }
         }
-        bool alreadyinbinder = old_recipes.find( "," + ( *rec )->ident().str() + "," ) != std::string::npos;
+        // already in book binder?
+        if( old_recipes.find( "," + rec->ident().str() + "," ) != std::string::npos ) {
+            add_recipe = false;
+        }
 
-        if( !do_not_add_recipe && !alreadyinbinder ) {
-            not_learnt_recipes.emplace_back( *rec );
+        if( add_recipe ) {
+            not_learnt_recipes.emplace_back( rec );
         }
     }
 
