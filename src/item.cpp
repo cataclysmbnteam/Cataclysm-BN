@@ -7265,17 +7265,10 @@ units::energy item::energy_remaining() const
 
 int item::ammo_remaining() const
 {
-    int ret = 0;
-
     // Magazine in the item
     const item *mag = magazine_current();
     if( mag ) {
-        ret += mag->ammo_remaining();
-    }
-
-    // Non ammo using item that uses charges
-    if( ammo_types().empty() ) {
-        ret += charges;
+        return mag->ammo_remaining();
     }
 
     if( is_tool() || is_gun() ) {
@@ -7289,11 +7282,10 @@ int item::ammo_remaining() const
 
     if( is_magazine() || is_bandolier() ) {
         for( const item *e : contents.all_items_top() ) {
-            ret += e->charges;
+            return e->charges;
         }
     }
-
-    return ret;
+    return 0;
 }
 
 int item::ammo_capacity() const
