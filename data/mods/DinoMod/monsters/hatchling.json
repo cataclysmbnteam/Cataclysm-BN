@@ -745,6 +745,6 @@
     "default_faction": "mosasaurus_hatchling",
     "harvest": "mammal_tiny",
     "upgrades": { "age_grow": 30, "into": "mon_mosasaurus_juvenile" },
-    "extend": { "flags": [ "AQUATIC", "CATFOOD", "WATER_CAMOUFLAGE" ] }
+    "extend": { "flags": [ "AQUATIC", "CATFOOD" ] }
   }
 ]
