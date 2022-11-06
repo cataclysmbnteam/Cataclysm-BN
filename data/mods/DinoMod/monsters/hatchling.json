@@ -692,7 +692,6 @@
     "default_faction": "herbivore_young",
     "color": "light_gray",
     "upgrades": { "age_grow": 20, "into": "mon_thescelosaurus_juvenile" },
-    "death_function": { "effect": { "id": "death_guilt", "min_level": 3 } },
     "flags": [
       "SEES",
       "HEARS",
@@ -705,7 +704,8 @@
       "DOGFOOD",
       "CANPLAY",
       "STUMBLES",
-      "NO_BREED"
+      "NO_BREED",
+      "GUILT"
     ]
   },
   {
@@ -745,7 +745,6 @@
     "default_faction": "mosasaurus_hatchling",
     "harvest": "mammal_tiny",
     "upgrades": { "age_grow": 30, "into": "mon_mosasaurus_juvenile" },
-    "death_function": { "effect": { "id": "death_guilt", "min_level": 3 } },
     "extend": { "flags": [ "AQUATIC", "CATFOOD", "WATER_CAMOUFLAGE" ] }
   }
 ]
