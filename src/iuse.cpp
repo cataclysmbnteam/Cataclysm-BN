@@ -1,5 +1,3 @@
-#pragma optimize("", off)
-
 #include "iuse.h"
 
 #include <algorithm>
@@ -9821,21 +9819,42 @@ int iuse::binder_add_recipe( player *p, item *binder, bool, const tripoint & )
         }
     }
 
-    // only keep not learnt recipes and those that are not already in the book
+
     std::vector<const recipe *> not_learnt_recipes;
-    const std::string old_recipes = binder->get_var( "EIPC_RECIPES" );
-    recipe_subset res_loc2 = p->get_learned_recipes();
+    std::string old_recipes = binder->get_var( "EIPC_RECIPES" );
+    recipe_subset learnt_rec = p->get_learned_recipes();
+    // automatically remove already learnt recipes from the book binder, and free book space
+    int total_pages_removed = 0;
+    for( auto &rec = res_loc.begin(); rec != res_loc.end(); ++rec ) {
+        if( p->knows_recipe( *rec ) ) {
+            // remove the recipe
+            if( binder->eipc_recipe_remove( ( *rec )->ident() ) ) {
+                // remove the pages from the book
+                int pages_removed = 1 + ( *rec )->difficulty / 2;
+                binder->charges -= pages_removed;
+                total_pages_removed += pages_removed;
+            }
+        }
+    }
+
+    if( total_pages_removed != 0 ) {
+        p->add_msg_if_player( m_info, _
+                              ( string_format( "You already know some some recipes.  You remove %d pages from the book binder.",
+                                               total_pages_removed ) ) );
+    }
+
+    // only keep not learnt recipes and those that are not already in the book
+    old_recipes = binder->get_var( "EIPC_RECIPES" );
     for( auto &rec = res_loc.begin(); rec != res_loc.end(); ++rec ) {
         bool do_not_add_recipe = false;
-        for( auto &rec2 = res_loc2.begin(); rec2 != res_loc2.end(); ++rec2 ) {
+        for( auto &rec2 = learnt_rec.begin(); rec2 != learnt_rec.end(); ++rec2 ) {
             // if it's an available recipe, and it's learned, change the flag so it's not added
             if( ( *rec ) == ( *rec2 ) ) {
                 do_not_add_recipe = true;
                 break;
             }
         }
-        std::string currrec = ( *rec )->ident().str();
-        bool alreadyinbinder = old_recipes.find( "," + currrec + "," ) != std::string::npos;
+        bool alreadyinbinder = old_recipes.find( "," + ( *rec )->ident().str() + "," ) != std::string::npos;
 
         if( !do_not_add_recipe && !alreadyinbinder ) {
             not_learnt_recipes.emplace_back( *rec );

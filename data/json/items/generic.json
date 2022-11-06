@@ -1209,7 +1209,7 @@
     "initial_charges": 1,
     "max_charges": 500,
     "price_postapoc": 50,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "type": "GENERIC",
