@@ -1487,16 +1487,6 @@ static safe_reference<item> find_best_prying_tool( player &p )
 static safe_reference<item> find_best_lock_picking_tool( player &p )
 {
 
-    // if player has fingerpick bionic, enough power, and doesn't already have a fake_lockpick (in case it could happen somehow), add it to its inventory
-    if( p.has_bionic( bio_lockpick ) && p.get_power_level() >= 50_kJ &&
-    !p.has_item_with( []( const item & it ) {
-    return it.type->get_id() == itype_fake_lockpick;
-    } ) ) {
-        item fake_lockpick( itype_fake_lockpick, calendar::turn );
-        p.i_add( fake_lockpick );
-        p.mod_power_level( -50_kJ );
-    }
-
     std::vector<item *> picklocks = p.items_with( []( const item & it ) {
         // we want to get worn items (eg hairpin), so no check on item position
         return it.type->get_use( "picklock" ) != nullptr;
@@ -1562,6 +1552,13 @@ void iexamine::locked_object( player &p, const tripoint &examp )
 
     // if the furniture/terrain is also lockpickable
     if( here.has_flag_ter_or_furn( "LOCKED", examp ) ) {
+        // if player has fingerpick bionic, enough power add it to its inventory
+        if( p.has_bionic( bio_lockpick ) && p.get_power_level() >= 50_kJ ) {
+            item fake_lockpick( itype_fake_lockpick, calendar::turn );
+            p.i_add( fake_lockpick );
+            p.mod_power_level( -50_kJ );
+        }
+
         safe_reference<item> lock_picking_tool = find_best_lock_picking_tool( p );
         if( lock_picking_tool ) {
             apply_lock_picking_tool( p, lock_picking_tool.get(), examp );
@@ -1582,6 +1579,13 @@ void iexamine::locked_object( player &p, const tripoint &examp )
 void iexamine::locked_object_pickable( player &p, const tripoint &examp )
 {
     map &here = get_map();
+
+    // if player has fingerpick bionic, enough power add it to its inventory
+    if( p.has_bionic( bio_lockpick ) && p.get_power_level() >= 50_kJ ) {
+        item fake_lockpick( itype_fake_lockpick, calendar::turn );
+        p.i_add( fake_lockpick );
+        p.mod_power_level( -50_kJ );
+    }
 
     safe_reference<item> lock_picking_tool = find_best_lock_picking_tool( p );
     if( lock_picking_tool ) {
