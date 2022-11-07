@@ -96,7 +96,7 @@ bool recipe::has_flag( const std::string &flag_name ) const
 
 void recipe::load( const JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "dda";
+    const bool strict = is_strict_enabled( src );
 
     abstract = jo.has_string( "abstract" );
 

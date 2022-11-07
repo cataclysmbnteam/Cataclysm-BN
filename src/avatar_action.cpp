@@ -236,10 +236,6 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
 
     dbg( DL::Debug ) << "game:plmove: From " << you.pos() << " to " << dest_loc;
 
-    if( g->disable_robot( dest_loc ) ) {
-        return false;
-    }
-
     // Check if our movement is actually an attack on a monster or npc
     // Are we displacing a monster?
 

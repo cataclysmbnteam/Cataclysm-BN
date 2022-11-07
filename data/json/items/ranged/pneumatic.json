@@ -83,7 +83,7 @@
     "volume": "2750 ml",
     "bashing": 8,
     "to_hit": -1,
-    "ranged_damage": { "damage_type": "stab", "amount": 15, "armor_penetration": 4 },
+    "ranged_damage": { "damage_type": "bash", "amount": 15, "armor_penetration": 4 },
     "range": 15,
     "dispersion": 350,
     "durability": 7,

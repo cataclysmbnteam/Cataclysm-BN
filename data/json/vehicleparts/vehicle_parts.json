@@ -829,6 +829,62 @@
   },
   {
     "type": "vehicle_part",
+    "id": "autodoc",
+    "name": { "str": "autodoc" },
+    "looks_like": "f_autodoc",
+    "symbol": "&",
+    "color": "light_cyan",
+    "broken_symbol": "#",
+    "broken_color": "light_cyan",
+    "damage_modifier": 80,
+    "durability": 100,
+    "description": "This is an autodoc.  You can use it to install or uninstall CBMs, splint broken limbs, treat wounds, check radiation level or conduct a blood analysis.  'e'xamine the tile with the autodoc, while on an autodoc couch, to use it.",
+    "size": 11,
+    "item": "vh_autodoc",
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "CARGO", "OBSTACLE", "AUTODOC", "COVERED" ],
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 6, 10 ] },
+      { "item": "steel_chunk", "count": [ 6, 10 ] },
+      { "item": "scrap", "count": [ 6, 10 ] },
+      { "item": "hose", "prob": 50 }
+    ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "autodoc_couch",
+    "name": { "str": "autodoc couch" },
+    "looks_like": "f_autodoc_couch",
+    "symbol": "H",
+    "color": "red",
+    "broken_symbol": "#",
+    "broken_color": "red",
+    "damage_modifier": 80,
+    "durability": 100,
+    "description": "This is an autodoc couch.  You can use it to install or uninstall CBMs, splint broken limbs, treat wounds, check radiation level or conduct a blood analysis.  'e'xamine the tile with an autodoc, while on the autodoc couch, to use it.",
+    "size": 700,
+    "item": "vh_autodoc_couch",
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "CARGO", "AUTODOC_COUCH", "BED", "BOARDABLE", "BELTABLE" ],
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 6, 10 ] },
+      { "item": "steel_chunk", "count": [ 6, 10 ] },
+      { "item": "scrap", "count": [ 6, 10 ] },
+      { "item": "hose", "prob": 50 }
+    ]
+  },
+  {
+    "type": "vehicle_part",
     "id": "trunk",
     "name": { "str": "trunk" },
     "symbol": "H",

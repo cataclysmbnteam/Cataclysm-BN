@@ -8444,6 +8444,15 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
         on_hurt( source );
     }
 
+    if( is_dead_state() ) {
+        // if the player killed himself, add it to the kill count list
+        if( !is_npc() && !killer && source == g->u.as_character() ) {
+            g->events().send<event_type::character_kills_character>( get_player_character().getID(), getID(),
+                    get_name() );
+        }
+        set_killer( source );
+    }
+
     if( !bypass_med ) {
         // remove healing effects if damaged
         int remove_med = roll_remainder( dam / 5.0f );
@@ -8706,10 +8715,6 @@ void Character::on_hurt( Creature *source, bool disturb /*= true*/ )
                 g->cancel_activity_or_ignore_query( distraction_type::attacked, _( "You were hurt!" ) );
             }
         }
-    }
-
-    if( is_dead_state() ) {
-        set_killer( source );
     }
 }
 
@@ -10587,4 +10592,10 @@ bool Character::can_learn_by_disassembly( const recipe &rec ) const
 {
     return !rec.learn_by_disassembly.empty() &&
            meets_skill_requirements( rec.learn_by_disassembly );
+}
+
+bool has_psy_protection( const Character &c, int partial_chance )
+{
+    return c.has_artifact_with( AEP_PSYSHIELD ) ||
+           ( c.worn_with_flag( "PSYSHIELD_PARTIAL" ) && one_in( partial_chance ) );
 }

@@ -281,7 +281,7 @@ void bionic_data::reset()
 
 void bionic_data::load( const JsonObject &jsobj, const std::string src )
 {
-    bool strict = src == "dda";
+    const bool strict = is_strict_enabled( src );
 
     mandatory( jsobj, was_loaded, "name", name );
     mandatory( jsobj, was_loaded, "description", description );
@@ -906,8 +906,8 @@ bool Character::activate_bionic( int b, bool eff_only )
         sw.force = 4;
         sw.stun = 2;
         sw.dam_mult = 8;
-
-        explosion_handler::shockwave( pos(), sw, "explosion" );
+        // affects_player is always false, so assuming the player is always the source of this
+        explosion_handler::shockwave( pos(), sw, "explosion", &get_player_character() );
         add_msg_if_player( m_neutral, _( "You unleash a powerful shockwave!" ) );
         mod_moves( -100 );
     } else if( bio.id == bio_meteorologist ) {

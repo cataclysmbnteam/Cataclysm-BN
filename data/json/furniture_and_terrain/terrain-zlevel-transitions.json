@@ -143,6 +143,7 @@
     "color": "dark_gray",
     "move_cost": 2,
     "flags": [ "TRANSPARENT" ],
+    "examine_action": "locked_object",
     "pry": {
       "success_message": "You lift the manhole cover.",
       "fail_message": "You pry, but cannot lift the manhole cover.",

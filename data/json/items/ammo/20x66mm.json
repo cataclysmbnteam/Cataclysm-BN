@@ -9,7 +9,8 @@
     "price_postapoc": 1000,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 10,
-    "proportional": { "damage": { "damage_type": "bullet", "amount": 0.1 }, "recoil": 0.4, "loudness": 0.6 },
+    "damage": { "damage_type": "bash", "amount": 6 },
+    "proportional": { "recoil": 0.4, "loudness": 0.6 },
     "extend": { "effects": [ "LARGE_BEANBAG", "NOGIB" ] }
   },
   {

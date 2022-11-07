@@ -2173,7 +2173,32 @@ void inventory_drop_selector::process_selected( int &count,
 drop_locations inventory_drop_selector::execute()
 {
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
+    this->keep_open = false;
 
+    // if we favorited an item, we exited this function and entered it again
+    // the selected items are in "dropping", so we fetch and display them in the UI
+    std::vector<std::pair<inventory_entry *, int>> selected_entries;
+    const auto always_yes = []( const inventory_entry & ) {
+        return true;
+    };
+
+    for( const std::pair<const item *const, int> &drop_pair : dropping ) {
+        for( auto &col : get_all_columns() ) {
+            for( const auto &entry : col->get_entries( always_yes ) ) {
+                if( entry->any_item().get_item() == drop_pair.first ) {
+                    selected_entries.push_back( std::pair<inventory_entry *, int>( entry, drop_pair.second ) );
+                }
+            }
+        }
+    }
+
+    // empty the dropping variable, in case of 2 stacks of items being merged on unfavorite/favorite
+    dropping.clear();
+    for( auto selected_entry : selected_entries ) {
+        set_chosen_count( *selected_entry.first, selected_entry.second );
+    }
+
+    // main multidrop selection loop
     int count = 0;
     while( true ) {
         ui_manager::redraw();
@@ -2248,7 +2273,10 @@ drop_locations inventory_drop_selector::execute()
         } else if( input.action == "INVENTORY_FILTER" ) {
             set_filter();
         } else if( input.action == "TOGGLE_FAVORITE" ) {
-            // TODO: implement favoriting in multi selection menus while maintaining selection
+            // change the item favorited state
+            get_active_column().on_input( input );
+            this->keep_open = true;
+            return drop_locations();
         } else {
             on_input( input );
             count = 0;

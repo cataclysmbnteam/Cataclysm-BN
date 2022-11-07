@@ -472,7 +472,6 @@ TEST_CASE( "colony insert and erase", "[colony]" )
                 ++count;
             }
         }
-        int count2 = 0;
         for( cata::colony<int>::iterator it = test_colony.begin(); it != test_colony.end(); ) {
             if( ( xor_rand() & 7 ) == 0 ) {
                 it = test_colony.erase( it );
@@ -480,7 +479,6 @@ TEST_CASE( "colony insert and erase", "[colony]" )
             } else {
                 ++it;
             }
-            ++count2;
         }
     }
 

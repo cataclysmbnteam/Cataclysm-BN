@@ -28,6 +28,8 @@
 #include "damage.h"
 #include "debug.h"
 #include "debug_menu.h"
+#include "diary.h"
+#include "distraction_manager.h"
 #include "faction.h"
 #include "field.h"
 #include "field_type.h"
@@ -1468,6 +1470,7 @@ static void cast_spell()
     cast_spell.name = sp.id().c_str();
     if( u.magic->casting_ignore ) {
         const std::vector<distraction_type> ignored_distractions = {
+            distraction_type::alert,
             distraction_type::noise,
             distraction_type::pain,
             distraction_type::attacked,
@@ -1475,7 +1478,6 @@ static void cast_spell()
             distraction_type::hostile_spotted_far,
             distraction_type::talked_to,
             distraction_type::asthma,
-            distraction_type::motion_alarm,
             distraction_type::weather_change
         };
         for( const distraction_type ignored : ignored_distractions ) {
@@ -2244,6 +2246,7 @@ bool game::handle_action()
             case ACTION_SUICIDE:
                 if( query_yn( _( "Commit suicide?" ) ) ) {
                     if( query_yn( _( "REALLY commit suicide?" ) ) ) {
+                        u.apply_damage( &u, body_part_head, 99999 );
                         u.moves = 0;
                         u.place_corpse();
                         uquit = QUIT_SUICIDE;
@@ -2292,6 +2295,10 @@ bool game::handle_action()
                 show_scores_ui( *achievements_tracker_ptr, stats(), get_kill_tracker() );
                 break;
 
+            case ACTION_DIARY:
+                diary::show_diary_ui( u.get_avatar_diary() );
+                break;
+
             case ACTION_FACTIONS:
                 faction_manager_ptr->display();
                 break;
@@ -2322,6 +2329,10 @@ bool game::handle_action()
 
             case ACTION_SAFEMODE:
                 get_safemode().show();
+                break;
+
+            case ACTION_DISTRACTION_MANAGER:
+                get_distraction_manager().show();
                 break;
 
             case ACTION_COLOR:

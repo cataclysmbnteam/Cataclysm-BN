@@ -125,6 +125,13 @@ int itype::invoke( player &p, item &it, const tripoint &pos, const std::string &
         p.add_msg_if_player( m_info, ret.str() );
         return 0;
     }
+    // used for grenades and such, to increase kill count
+    // invoke is called a first time with transform, when the explosive item is activated
+    // then a second time with draw explosion
+    // the player responsible of the explosion is the one that activated the object
+    if( iuse_name == "transform" ) {
+        it.activated_by = p.get_safe_reference();
+    }
 
     return use->call( p, it, false, pos );
 }

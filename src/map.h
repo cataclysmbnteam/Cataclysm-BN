@@ -338,11 +338,6 @@ struct level_cache {
     // same as above but for obstruction rather than light
     diagonal_blocks vehicle_obstructed_cache[MAPSIZE_X][MAPSIZE_Y];
 
-    // stores "adjusted transparency" of the tiles
-    // initial values derived from transparency_cache, uses same units
-    // examples of adjustment: changed transparency on player's tile and special case for crouching
-    float vision_transparency_cache[MAPSIZE_X][MAPSIZE_Y];
-
     // stores "visibility" of the tiles to the player
     // values range from 1 (fully visible to player) to 0 (not visible)
     float seen_cache[MAPSIZE_X][MAPSIZE_Y];
@@ -989,6 +984,10 @@ class map
         bool has_flag_furn( const std::string &flag, const point &p ) const {
             return has_flag_furn( flag, tripoint( p, abs_sub.z ) );
         }
+        // Checks vehicle part flag
+        bool has_flag_vpart( const std::string &flag, const tripoint &p ) const;
+        // Checks vehicle part or furniture
+        bool has_flag_furn_or_vpart( const std::string &flag, const tripoint &p ) const;
         // Checks terrain or furniture
         bool has_flag_ter_or_furn( const std::string &flag, const tripoint &p ) const;
         bool has_flag_ter_or_furn( const std::string &flag, const point &p ) const {
@@ -1804,7 +1803,7 @@ class map
         // Builds a transparency cache and returns true if the cache was invalidated.
         // Used to determine if seen cache should be rebuilt.
         bool build_transparency_cache( int zlev );
-        bool build_vision_transparency_cache( int zlev );
+        bool build_vision_transparency_cache( const Character &player );
         // fills lm with sunlight. pzlev is current player's zlevel
         void build_sunlight_cache( int pzlev );
     public:
@@ -1821,8 +1820,18 @@ class map
         void build_seen_cache( const tripoint &origin, int target_z );
         void apply_character_light( Character &p );
 
+        //Adds/removes player specific transparencies
+        void apply_vision_transparency_cache( const tripoint &center, int target_z,
+                                              float ( &vision_restore_cache )[9], bool ( &blocked_restore_cache )[8] );
+        void restore_vision_transparency_cache( const tripoint &center, int target_z,
+                                                float ( &vision_restore_cache )[9], bool ( &blocked_restore_cache )[8] );
+
         int my_MAPSIZE;
         bool zlevels;
+
+        // stores vision adjustment for the tiles immediately surrounding the player, the order is given by eight_adjacent_offsets in point.h
+        // examples of adjustment: crouching
+        vision_adjustment vision_transparency_cache[8] = { VISION_ADJUST_NONE };
 
         /**
          * Absolute coordinates of first submap (get_submap_at(0,0))
@@ -2076,6 +2085,10 @@ class map
         std::list<tripoint> find_furnitures_with_flag_in_radius( const tripoint &center, size_t radius,
                 const std::string &flag,
                 size_t radiusz = 0 );
+        /**returns positions of furnitures or vehicle parts with matching flag in the specified radius*/
+        std::list<tripoint> find_furnitures_or_vparts_with_flag_in_radius( const tripoint &center,
+                size_t radius,
+                const std::string &flag, size_t radiusz = 0 );
         /**returns creatures in specified radius*/
         std::list<Creature *> get_creatures_in_radius( const tripoint &center, size_t radius,
                 size_t radiusz = 0 );

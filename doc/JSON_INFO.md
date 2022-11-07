@@ -3406,7 +3406,7 @@ Example:
     // Mod version string. This is for users' and maintainers' convenience, so you can use whatever is most convenient here (e.g. date).
     "version": "02 Dec 2021",
     // List of mod's dependencies. Dependencies are guaranteed to be loaded before the mod is loaded.
-    "dependencies": [ "dda", "zed_templates" ],
+    "dependencies": [ "bn", "zed_templates" ],
     // List of mods that are incompatible with this mod.
     "conflicts": [ "worse_zeds" ],
     // Special flag for core game data, can only be used by total overhaul mods. Only 1 core mod can be loaded at a time.

@@ -38,6 +38,11 @@ class is_optional : public detail::is_optional_helper<typename std::decay<T>::ty
 {
 };
 
+/**
+ * Check whether strict checks are enabled for given mod.
+ */
+bool is_strict_enabled( const std::string &src );
+
 inline void report_strict_violation( const JsonObject &jo, const std::string &message,
                                      const std::string &name )
 {

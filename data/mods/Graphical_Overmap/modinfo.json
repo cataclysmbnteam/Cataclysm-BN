@@ -7,7 +7,7 @@
     "maintainers": [ "Larwick" ],
     "description": "Gives the overmap a graphical overhaul.  Please refer to readme for installation.",
     "category": "graphical",
-    "dependencies": [ "dda" ],
+    "dependencies": [ "bn" ],
     "obsolete": true
   }
 ]

@@ -622,5 +622,11 @@
     "id": "glass_shard",
     "name": "glass shards",
     "default": "glass_shard"
+  },
+  {
+    "id": "water",
+    "type": "ammunition_type",
+    "name": "water",
+    "default": "water"
   }
 ]

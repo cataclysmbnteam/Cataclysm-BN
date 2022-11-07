@@ -253,6 +253,8 @@ enum action_id : int {
     ACTION_HELP,
     /** Display main menu */
     ACTION_MAIN_MENU,
+    /** Display diary window */
+    ACTION_DIARY,
     /** Display keybindings list */
     ACTION_KEYBINDINGS,
     /** Display options window */
@@ -267,6 +269,8 @@ enum action_id : int {
     ACTION_COLOR,
     /** Open active world mods */
     ACTION_WORLD_MODS,
+    /** Open distraction manager */
+    ACTION_DISTRACTION_MANAGER,
     /**@}*/
 
     // Debug Functions

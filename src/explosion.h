@@ -40,11 +40,11 @@ namespace explosion_handler
  * If casing mass > 0, shrapnel is produced.
  */
 void explosion(
-    const tripoint &p, float power, float factor = 0.8f,
+    const tripoint &p, Creature *source, float power, float factor = 0.8f,
     bool fire = false, int legacy_casing_mass = 0, float legacy_frag_mass = 0.05
 );
 
-void explosion( const tripoint &p, const explosion_data &ex );
+void explosion( const tripoint &p, const explosion_data &ex, Creature *source );
 
 constexpr float power_to_dmg_mult = 2.0f / 15.0f;
 
@@ -57,7 +57,8 @@ void scrambler_blast( const tripoint &p );
 /** Triggers an EMP blast at p. */
 void emp_blast( const tripoint &p );
 /** Shockwave applies knockback with given parameters to all targets within radius of p. */
-void shockwave( const tripoint &p, const shockwave_data &sw, const std::string &exp_name );
+void shockwave( const tripoint &p, const shockwave_data &sw, const std::string &exp_name,
+                Creature *source );
 
 projectile shrapnel_from_legacy( int power, float blast_radius );
 float blast_radius_from_legacy( int power, float distance_factor );

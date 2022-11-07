@@ -6,7 +6,7 @@
     "authors": [ "Inglonias" ],
     "description": "Removes shocker brutes, zombie hulks, and skeletal juggernauts from the game.",
     "category": "monster_exclude",
-    "dependencies": [ "dda" ],
+    "dependencies": [ "bn" ],
     "obsolete": true
   },
   {

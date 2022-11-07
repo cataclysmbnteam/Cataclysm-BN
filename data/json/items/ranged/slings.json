@@ -16,7 +16,7 @@
     "volume": "250 ml",
     "price_postapoc": 250,
     "to_hit": -2,
-    "ranged_damage": { "damage_type": "stab", "amount": 6 },
+    "ranged_damage": { "damage_type": "bash", "amount": 6 },
     "range": 8,
     "dispersion": 150,
     "durability": 6
@@ -39,7 +39,7 @@
     "volume": "3 L",
     "price_postapoc": 250,
     "to_hit": 1,
-    "ranged_damage": { "damage_type": "stab", "amount": 10 },
+    "ranged_damage": { "damage_type": "bash", "amount": 10 },
     "bashing": 18,
     "range": 10,
     "dispersion": 200,
@@ -59,7 +59,7 @@
     "volume": "250 ml",
     "price_postapoc": 50,
     "to_hit": -2,
-    "ranged_damage": { "damage_type": "stab", "amount": 3 },
+    "ranged_damage": { "damage_type": "bash", "amount": 3 },
     "range": 5,
     "dispersion": 75,
     "durability": 6
@@ -78,7 +78,7 @@
     "volume": "500 ml",
     "price_postapoc": 250,
     "to_hit": -2,
-    "ranged_damage": { "damage_type": "stab", "amount": 5 },
+    "ranged_damage": { "damage_type": "bash", "amount": 5 },
     "range": 8,
     "dispersion": 45,
     "durability": 7
