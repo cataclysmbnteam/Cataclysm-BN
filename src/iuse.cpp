@@ -9839,7 +9839,7 @@ int iuse::binder_add_recipe( player *p, item *binder, bool, const tripoint & )
 
     if( total_pages_removed != 0 ) {
         p->add_msg_if_player( m_info, _
-                              ( string_format( "You already know some some recipes.  You remove %d pages from the book binder.",
+                              ( string_format( "You already know some recipes.  You remove %d pages from the book binder.",
                                                total_pages_removed ) ) );
     }
 
