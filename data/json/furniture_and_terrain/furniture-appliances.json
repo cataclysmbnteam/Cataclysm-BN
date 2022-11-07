@@ -1013,23 +1013,21 @@
     "required_str": 10,
     "crafting_pseudo_items": [ "fake_gridfood_processor", "fake_griddehydrator", "fake_gridvac_sealer", "fake_gridwater_purifier", "press" ],
     "flags": [ "BLOCKSDOOR", "MINEABLE", "EASY_DECONSTRUCT" ],
-    "deconstruct": {
-      "items": [ { "item": "craftrig", "count": 1 }, { "item": "cable", "charges": 5 } ]
-    },
+    "deconstruct": { "items": [ { "item": "craftrig", "count": 1 }, { "item": "cable", "charges": 5 } ] },
     "bash": {
       "str_min": 18,
       "str_max": 50,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-      { "count": [ 4, 7 ], "item": "steel_lump" },
-      { "count": [ 4, 7 ], "item": "steel_chunk" },
-      { "count": [ 4, 7 ], "item": "scrap" },
-      { "charges": 0, "item": "water_purifier", "prob": 50 },
-      { "charges": 0, "item": "vac_sealer", "prob": 50 },
-      { "charges": 0, "item": "dehydrator", "prob": 50 },
-      { "charges": 0, "item": "food_processor", "prob": 50 },
-      { "charges": 0, "item": "press", "prob": 50 }
+        { "count": [ 4, 7 ], "item": "steel_lump" },
+        { "count": [ 4, 7 ], "item": "steel_chunk" },
+        { "count": [ 4, 7 ], "item": "scrap" },
+        { "charges": 0, "item": "water_purifier", "prob": 50 },
+        { "charges": 0, "item": "vac_sealer", "prob": 50 },
+        { "charges": 0, "item": "dehydrator", "prob": 50 },
+        { "charges": 0, "item": "food_processor", "prob": 50 },
+        { "charges": 0, "item": "press", "prob": 50 }
       ]
     }
   },
