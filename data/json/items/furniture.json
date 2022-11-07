@@ -14,6 +14,20 @@
     "color": "light_cyan"
   },
   {
+    "id": "freezer",
+    "type": "TOOL",
+    "looks_like": "f_fridge",
+    "name": "freezer",
+    "description": "A large and heavy freezer, used in labs, restaurants and other environments where you need a large volume of things frozen.",
+    "weight": "80 kg",
+    "volume": "210000 ml",
+    "price": 1000,
+    "price_postapoc": 150,
+    "material": "steel",
+    "symbol": "{",
+    "color": "blue"
+  },
+  {
     "id": "oven",
     "type": "TOOL",
     "looks_like": "f_oven",

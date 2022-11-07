@@ -916,6 +916,11 @@
   },
   {
     "type": "construction_group",
+    "id": "install_freezer",
+    "name": "Install Freezer"
+  },
+  {
+    "type": "construction_group",
     "id": "install_minifreezer",
     "name": "Install Minifreezer"
   },

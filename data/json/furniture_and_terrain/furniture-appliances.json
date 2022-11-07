@@ -827,7 +827,7 @@
     "looks_like": "weldrig",
     "name": "grid welder rig",
     "symbol": "#",
-    "description": "A vehicle welding rig connected to a electrical grid. Has a soldering iron attached.",
+    "description": "A vehicle welding rig connected to a electrical grid.  Has a soldering iron attached.",
     "color": "red",
     "move_cost_mod": -1,
     "coverage": 10,
@@ -1147,6 +1147,42 @@
     "active": [
       "steady_consumer",
       { "power": 20, "consume_every": "600 s", "transform": { "id": "f_fridge", "msg": "The fridge shuts down." } }
+    ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_freezer_off",
+    "name": "freezer (off)",
+    "copy-from": "f_fridge_base",
+    "symbol": "{",
+    "description": "Freeze your food with the amazing science of electricity!  It is switched off.",
+    "color": "blue",
+    "deconstruct": { "items": [ { "item": "freezer", "count": 1 } ] }
+  },
+  {
+    "type": "furniture",
+    "id": "f_freezer",
+    "name": "freezer",
+    "copy-from": "f_fridge_base",
+    "symbol": "{",
+    "description": "Freeze your food with the amazing science of electricity!  It has no power.",
+    "active": [ "charge_watcher", { "min_power": 40, "transform": { "id": "f_freezer_on", "msg": "The freezer starts up." } } ],
+    "color": "blue",
+    "deconstruct": { "items": [ { "item": "freezer", "count": 1 } ] }
+  },
+  {
+    "type": "furniture",
+    "id": "f_freezer_on",
+    "name": "freezer (on)",
+    "copy-from": "f_fridge_base",
+    "symbol": "{",
+    "description": "Freeze your food with the amazing science of electricity!  It is switched on.",
+    "color": "blue",
+    "extend": { "flags": [ "FREEZER" ] },
+    "deconstruct": { "items": [ { "item": "freezer", "count": 1 } ] },
+    "active": [
+      "steady_consumer",
+      { "power": 25, "consume_every": "600 s", "transform": { "id": "f_freezer", "msg": "The freezer shuts down." } }
     ]
   },
   {

@@ -4261,6 +4261,41 @@
   },
   {
     "type": "construction",
+    "id": "constr_gridfreezer",
+    "group": "install_freezer",
+    "category": "FURN",
+    "required_skills": [  ],
+    "time": "10 m",
+    "qualities": [  ],
+    "components": [ [ [ "fridge", 1 ] ] ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_special": "check_empty",
+    "post_furniture": "f_freezer"
+  },
+  {
+    "type": "construction",
+    "id": "constr_gridfreezer_switch_off",
+    "group": "toggle_refrigerator_freezer",
+    "required_skills": [  ],
+    "category": "FURN",
+    "time": "1 m",
+    "dark_craftable": true,
+    "pre_furniture": "f_freezer_on",
+    "post_furniture": "f_freezer_off"
+  },
+  {
+    "type": "construction",
+    "id": "constr_gridfreezer_switch_on",
+    "group": "toggle_refrigerator_freezer",
+    "required_skills": [  ],
+    "category": "FURN",
+    "time": "1 m",
+    "dark_craftable": true,
+    "pre_furniture": "f_freezer_off",
+    "post_furniture": "f_freezer_on"
+  },
+  {
+    "type": "construction",
     "id": "constr_cable_connector",
     "group": "build_jumper_cable_connector",
     "category": "FURN",
