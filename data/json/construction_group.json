@@ -921,6 +921,11 @@
   },
   {
     "type": "construction_group",
+    "id": "install_glass_freezer",
+    "name": "Install Glass Freezer"
+  },
+  {
+    "type": "construction_group",
     "id": "install_minifreezer",
     "name": "Install Minifreezer"
   },
@@ -933,6 +938,11 @@
     "type": "construction_group",
     "id": "install_refrigerator",
     "name": "Install Refrigerator"
+  },
+  {
+    "type": "construction_group",
+    "id": "install_glass_refrigerator",
+    "name": "Install Glass Refrigerator"
   },
   {
     "type": "construction_group",
