@@ -399,7 +399,7 @@
         "...........|            ",
         "yFFy......yH            ",
         "#####.....YH            ",
-        "    #y..JmmH            ",
+        "    #y..J[[H            ",
         "    #F..J.BH            ",
         "    #F..J..H            ",
         "    #y..JJ.H            ",
@@ -417,7 +417,7 @@
         "z": "t_thconc_floor",
         "^": "t_linoleum_white"
       },
-      "furniture": { "%": [ "f_indoor_plant_y", "f_indoor_plant" ], "^": "f_sink", "!": "f_counter" },
+      "furniture": { "%": [ "f_indoor_plant_y", "f_indoor_plant" ], "^": "f_sink", "!": "f_counter", "[": "f_glass_freezer" },
       "items": {
         "u": [
           { "item": "vending_food_items", "chance": 20, "repeat": [ 4, 10 ] },
@@ -441,7 +441,7 @@
           { "item": "hatstore_accessories", "chance": 40, "repeat": [ 1, 2 ] },
           { "item": "shoestore_shoes", "chance": 10, "repeat": [ 1, 2 ] }
         ],
-        "m": { "item": "dessert", "chance": 50, "repeat": [ 1, 2 ] },
+        "[": { "item": "dessert", "chance": 50, "repeat": [ 1, 2 ] },
         "J": [
           { "item": "baked_goods", "chance": 40, "repeat": [ 1, 2 ] },
           { "item": "coffee_display_2", "chance": 50, "repeat": [ 1, 2 ] },

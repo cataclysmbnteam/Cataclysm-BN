@@ -822,6 +822,19 @@
     ]
   },
   {
+    "id": "restaur_freezer",
+    "type": "item_group",
+    "items": [
+      [ "fish_smoked", 5 ],
+      [ "meat_smoked", 5 ],
+      [ "bologna", 5 ],
+      [ "sausage", 5 ],
+      [ "bratwurst_sausage", 5 ],
+      [ "lunchmeat", 5 ],
+      [ "meat", 10 ]
+    ]
+  },
+  {
     "id": "restaur_kitchen",
     "type": "item_group",
     "items": [

@@ -176,7 +176,7 @@
     "coverage": 90,
     "required_str": 10,
     "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [  { "item": "glass_fridge", "count": 1 }] },
+    "deconstruct": { "items": [ { "item": "glass_fridge", "count": 1 } ] },
     "max_volume": "250 L",
     "bash": {
       "str_min": 12,
@@ -228,7 +228,11 @@
     "//": "Consumes more power due to worse insulation.",
     "active": [
       "steady_consumer",
-      { "power": 25, "consume_every": "600 s", "transform": { "id": "f_glass_fridge", "msg": "The fridge shuts down." } }
+      {
+        "power": 25,
+        "consume_every": "600 s",
+        "transform": { "id": "f_glass_fridge", "msg": "The fridge shuts down." }
+      }
     ]
   },
   {
@@ -265,7 +269,11 @@
     "deconstruct": { "items": [ { "item": "freezer", "count": 1 } ] },
     "active": [
       "steady_consumer",
-      { "power": 30, "consume_every": "600 s", "transform": { "id": "f_glass_freezer", "msg": "The freezer shuts down." } }
+      {
+        "power": 30,
+        "consume_every": "600 s",
+        "transform": { "id": "f_glass_freezer", "msg": "The freezer shuts down." }
+      }
     ]
   },
   {
