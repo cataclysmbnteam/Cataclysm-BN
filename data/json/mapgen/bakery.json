@@ -23,7 +23,7 @@
         "_|S.....#.t.o-.........|",
         "_|c.......t.r-..gg^gg..|",
         "_|c.........r--+-----+-|",
-        "_|ccc{{.....r-...&-&...|",
+        "_|ccc{{[[...r-...&-&...|",
         "_||||||||-+---....-....|",
         "_pppaaps|b..l-c.-----.c|",
         "_pppppps|b..l-S.dT-Td.S|",
@@ -64,7 +64,8 @@
         "t": "f_table",
         "r": "f_rack",
         "g": "f_glass_cabinet",
-        "{": "f_fridge"
+        "{": "f_fridge",
+        "[": "f_freezer"
       },
       "toilets": { "T": {  } },
       "place_items": [
@@ -74,6 +75,7 @@
         { "item": "groce_ingredient", "x": 12, "y": [ 14, 16 ], "chance": 50, "repeat": [ 1, 3 ] },
         { "item": "groce_ingredient", "x": [ 9, 11 ], "y": 21, "chance": 50, "repeat": [ 1, 3 ] },
         { "item": "groce_dairyegg", "x": [ 5, 6 ], "y": 16, "chance": 75 },
+        { "item": "frozen_baked_goods", "x": [ 7, 8 ], "y": 16, "chance": 75, "repeat": [ 1, 3] },
         { "item": "groce_bread", "x": 2, "y": 16, "chance": 50 },
         { "item": "groce_bread", "x": 2, "y": 14, "chance": 50 },
         { "item": "groce_bread", "x": 16, "y": 5, "chance": 50 },

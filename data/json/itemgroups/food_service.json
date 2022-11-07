@@ -13,6 +13,17 @@
     ]
   },
   {
+    "id": "frozen_baked_goods",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "cake2", "prob": 15 },
+      { "item": "cake3", "prob": 10 },
+      { "item": "jihelucake", "prob": 10 },
+      { "item": "brownie", "prob": 20 }
+    ]
+  },
+  {
     "id": "tea_dishes",
     "type": "item_group",
     "items": [ [ "ceramic_cup", 70 ], [ "ceramic_plate", 50 ] ]

@@ -1103,7 +1103,7 @@ furn_id f_null,
         f_chair, f_armchair, f_sofa, f_cupboard, f_trashcan, f_desk, f_exercise,
         f_ball_mach, f_bench, f_lane, f_table, f_pool_table,
         f_counter,
-        f_fridge, f_fridge_on, f_minifreezer_on, f_glass_fridge, f_dresser, f_locker,
+        f_fridge, f_fridge_on, f_minifreezer_on, f_glass_fridge, f_freezer, f_dresser, f_locker,
         f_rack, f_bookcase,
         f_washer, f_dryer,
         f_vending_c, f_vending_o, f_dumpster, f_dive_block,
@@ -1176,6 +1176,7 @@ void set_furn_ids()
     f_fridge_on = furn_id( "f_fridge_on" );
     f_minifreezer_on = furn_id( "f_minifreezer_on" );
     f_glass_fridge = furn_id( "f_glass_fridge" );
+    f_freezer = furn_id( "f_freezer" );
     f_dresser = furn_id( "f_dresser" );
     f_locker = furn_id( "f_locker" );
     f_rack = furn_id( "f_rack" );
@@ -1554,9 +1555,9 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
         active.deserialize( jsin );
     }
 
-    if( !was_loaded || jo.has_array( "crafting_pseudo_items" ) ) {
+    if( !was_loaded || jo.has_member( "crafting_pseudo_items" ) ) {
         crafting_pseudo_items.clear();
-        for( const std::string entry : jo.get_array( "crafting_pseudo_items" ) ) {
+        for( const std::string &entry : jo.get_tags( "crafting_pseudo_items" ) ) {
             crafting_pseudo_items.emplace_back( static_cast<itype_id>( entry ) );
         }
     }

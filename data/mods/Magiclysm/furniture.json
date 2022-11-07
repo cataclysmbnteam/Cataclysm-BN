@@ -103,7 +103,7 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": -1,
-    "crafting_pseudo_items": [ "still_lab" ],
+    "crafting_pseudo_items": "still_lab",
     "flags": [ "TRANSPARENT", "NOITEM" ],
     "deconstruct": {
       "items": [
@@ -211,7 +211,7 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": -1,
-    "crafting_pseudo_items": [ "demon_forge" ],
+    "crafting_pseudo_items": "demon_forge",
     "flags": [ "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
     "deconstruct": { "items": [ { "item": "demon_chitin_plate", "count": 14 }, { "item": "char_forge", "count": 1 } ] },
     "examine_action": "reload_furniture",

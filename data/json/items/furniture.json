@@ -28,6 +28,35 @@
     "color": "blue"
   },
   {
+    "id": "glass_fridge",
+    "type": "TOOL",
+    "looks_like": "f_glass_fridge",
+    "name": "refrigerator",
+    "description": "A glass refrigerator.  Used to display chilled goods in shops.",
+    "//": "Glass fridges are lighter than steel, but the volume is larger because of the furniture item.",
+    "weight": "70 kg",
+    "volume": "260000 ml",
+    "price": 1000,
+    "price_postapoc": 150,
+    "material": [ "steel", "glass" ],
+    "symbol": "{",
+    "color": "light_cyan"
+  },
+  {
+    "id": "glass_freezer",
+    "type": "TOOL",
+    "looks_like": "f_glass_fridge",
+    "name": "freezer",
+    "description": "A glass freezer.  Used to display frozen goods in shops.",
+    "weight": "70 kg",
+    "volume": "260000 ml",
+    "price": 1000,
+    "price_postapoc": 150,
+    "material": [ "steel", "glass" ],
+    "symbol": "{",
+    "color": "blue"
+  },
+  {
     "id": "oven",
     "type": "TOOL",
     "looks_like": "f_oven",
