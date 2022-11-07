@@ -1531,7 +1531,6 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "keg_capacity", keg_capacity, legacy_volume_reader, 0_ml );
     mandatory( jo, was_loaded, "required_str", move_str_req );
     optional( jo, was_loaded, "max_volume", max_volume, volume_reader(), DEFAULT_MAX_VOLUME_IN_SQUARE );
-    optional( jo, was_loaded, "crafting_pseudo_item", crafting_pseudo_item, itype_id() );
     optional( jo, was_loaded, "deployed_item", deployed_item );
     load_symbol( jo );
 
@@ -1554,6 +1553,14 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
         JsonIn &jsin = *jo.get_raw( "active" );
         active.deserialize( jsin );
     }
+
+    if( !was_loaded || jo.has_array( "crafting_pseudo_items" ) ) {
+        crafting_pseudo_items.clear();
+        for( const std::string entry : jo.get_array( "crafting_pseudo_items" ) ) {
+            crafting_pseudo_items.emplace_back( static_cast<itype_id>( entry ) );
+        }
+    }
+
 }
 
 void map_data_common_t::check() const

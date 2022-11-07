@@ -926,7 +926,7 @@
     "description": "A pedal driven butter churn.",
     "symbol": "H",
     "color": "light_cyan",
-    "crafting_pseudo_item": "butter_churn",
+    "crafting_pseudo_items": [ "butter_churn" ],
     "move_cost_mod": -1,
     "coverage": 70,
     "required_str": -1,

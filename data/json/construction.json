@@ -4415,6 +4415,20 @@
   },
   {
     "type": "construction",
+    "id": "constr_gridcraftrig",
+    "group": "place_craftrig",
+    "category": "OTHER",
+    "required_skills": [ [ "electronics", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "components": [ [ [ "craftrig", 1 ] ], [ [ "cable", 5 ] ], [ [ "solder_wire", 10 ] ] ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_special": "check_empty",
+    "post_furniture": "f_craftrig"
+  },
+  {
+    "type": "construction",
     "id": "constr_gridrvkitchen",
     "group": "place_rv_kitchen_unit",
     "category": "FURN",

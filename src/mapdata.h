@@ -498,7 +498,7 @@ struct furn_t : map_data_common_t {
     furn_str_id close; // Close action: transform into furniture with matching id
     furn_str_id transforms_into; // Transform into what furniture?
 
-    itype_id crafting_pseudo_item;
+    std::vector<itype_id> crafting_pseudo_items;
     units::volume keg_capacity = 0_ml;
     int comfort = 0;
     int floor_bedding_warmth = 0;
@@ -518,10 +518,8 @@ struct furn_t : map_data_common_t {
 
     cata::poly_serialized<active_tile_data> active;
 
-    // May return NULL
-    const itype *crafting_pseudo_item_type() const;
-    // May return NULL
-    const itype *crafting_ammo_item_type() const;
+    const std::vector<itype> crafting_pseudo_item_types() const;
+    const std::vector<itype> crafting_ammo_item_types() const;
 
     furn_t();
 

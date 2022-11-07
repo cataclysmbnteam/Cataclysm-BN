@@ -1096,6 +1096,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_craftrig",
+    "name": "Place FOODCO Kitchen Buddy"
+  },
+  {
+    "type": "construction_group",
     "id": "place_water_mill",
     "name": "Place Water Mill"
   },

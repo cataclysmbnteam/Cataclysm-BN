@@ -612,7 +612,7 @@
     "move_cost_mod": 3,
     "coverage": 30,
     "required_str": 10,
-    "crafting_pseudo_item": "boulder_anvil",
+    "crafting_pseudo_items": [ "boulder_anvil" ],
     "flags": [ "TRANSPARENT", "MINEABLE", "UNSTABLE", "MOUNTABLE", "TINY" ],
     "bash": {
       "str_min": 16,
@@ -632,7 +632,7 @@
     "move_cost_mod": 6,
     "coverage": 45,
     "required_str": 16,
-    "crafting_pseudo_item": "boulder_anvil",
+    "crafting_pseudo_items": [ "boulder_anvil" ],
     "flags": [ "NOITEM", "TRANSPARENT", "MINEABLE", "UNSTABLE", "MOUNTABLE", "SHORT", "BASHABLE" ],
     "bash": {
       "str_min": 32,
