@@ -786,7 +786,7 @@
   {
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE",
-    "default": "mon_zilophosaurus",
+    "default": "mon_zombie",
     "//": "Only dinos that can fit through a standard door frame should be here",
     "monsters": [
       { "monster": "mon_zilophosaurus", "freq": 1, "cost_multiplier": 40, "starts": 72 },
