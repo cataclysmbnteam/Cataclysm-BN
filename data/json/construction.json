@@ -4246,7 +4246,7 @@
     "time": "1 m",
     "dark_craftable": true,
     "pre_furniture": "f_glass_fridge_on",
-    "post_furniture": "f__glass_fridge_off"
+    "post_furniture": "f_glass_fridge_off"
   },
   {
     "type": "construction",
@@ -4351,7 +4351,7 @@
     "time": "1 m",
     "dark_craftable": true,
     "pre_furniture": "f_glass_freezer_on",
-    "post_furniture": "f__glass_freezer_off"
+    "post_furniture": "f_glass_freezer_off"
   },
   {
     "type": "construction",
