@@ -1555,9 +1555,9 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
         active.deserialize( jsin );
     }
 
-    if( !was_loaded || jo.has_member( "crafting_pseudo_items" ) ) {
+    if( !was_loaded || jo.has_member( "crafting_pseudo_item" ) ) {
         crafting_pseudo_items.clear();
-        for( const std::string &entry : jo.get_tags( "crafting_pseudo_items" ) ) {
+        for( const std::string &entry : jo.get_tags( "crafting_pseudo_item" ) ) {
             crafting_pseudo_items.emplace_back( static_cast<itype_id>( entry ) );
         }
     }

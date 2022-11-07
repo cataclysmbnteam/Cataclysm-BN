@@ -70,7 +70,7 @@
     "color": "light_blue_white",
     "move_cost_mod": 3,
     "coverage": 60,
-    "crafting_pseudo_items": "fake_autoclave",
+    "crafting_pseudo_item": "fake_autoclave",
     "required_str": -1,
     "looks_like": "f_washer",
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF" ],
@@ -864,7 +864,7 @@
     "color": "magenta",
     "move_cost_mod": -1,
     "coverage": 30,
-    "crafting_pseudo_items": "fake_centrifuge",
+    "crafting_pseudo_item": "fake_centrifuge",
     "required_str": -1,
     "flags": [ "TRANSPARENT", "PERMEABLE" ],
     "deconstruct": {
