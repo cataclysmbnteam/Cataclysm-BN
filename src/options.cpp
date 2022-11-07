@@ -1805,8 +1805,8 @@ void options_manager::add_options_graphics()
 
     get_option( "ANIMATION_DELAY" ).setPrerequisite( "ANIMATIONS" );
 
-    add( "BLINK_SPEED", "graphics", translate_marker( "Map blinking speed" ),
-         translate_marker( "The amount of time to pause between map extra informations blinking (notes, zombie hordes...) in ms." ),
+    add( "BLINK_SPEED", "graphics", translate_marker( "Blinking effects speed" ),
+         translate_marker( "The speed of every blinking effects in ms." ),
          100, 5000, 800
        );
 
