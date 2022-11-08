@@ -2959,7 +2959,10 @@ void monster::hear_sound( const tripoint &source, const int vol, const int dist 
     // target_z will require some special check due to soil muffling sounds
 
     int wander_turns = volume * ( goodhearing ? 6 : 1 );
-    process_trigger( mon_trigger::SOUND, volume );
+    // only trigger this if the monster is not friendly or the source isn't the player
+    if (friendly >= 0 || source != g->u.pos()) {
+        process_trigger(mon_trigger::SOUND, volume);
+    }
     if( morale >= 0 && anger >= 10 ) {
         // TODO: Add a proper check for fleeing attitude
         // but cache it nicely, because this part is called a lot
