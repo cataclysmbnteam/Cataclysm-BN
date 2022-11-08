@@ -2587,8 +2587,8 @@ void monster::process_effects_internal()
         }
     }
 
-    //Monster will regen morale and aggression if it is on max HP
-    //It regens more morale and aggression if is currently fleeing.
+    // Monster will regen morale and aggression if it is on max HP
+    // It regens more morale and aggression if is currently fleeing.
     if( type->regen_morale && hp >= type->hp ) {
         if( is_fleeing( g->u ) ) {
             morale = type->morale;

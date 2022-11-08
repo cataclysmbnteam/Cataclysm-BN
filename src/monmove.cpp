@@ -595,13 +595,26 @@ void monster::plan()
         } else {
             unset_dest();
         }
-        // if a pet is close to the player, it gets a morale boost
+        // when the players is close to their pet, it calms them
+        // it helps them reach an homeostatic state, for moral and anger
         const int distance_from_friend = rl_dist( pos(), get_avatar().pos() );
         if( distance_from_friend < 12 ) {
-            if( morale < type->morale && one_in( distance_from_friend * 3 ) ) {
-                morale += 1;
+            if( one_in( distance_from_friend * 3 ) ) {
+                if( morale != type->morale ) {
+                    morale += ( morale < type->morale ) ? 1 : -1;
+                }
+                if( anger != type->agro ) {
+                    anger += ( anger < type->agro ) ? 1 : -1;
+                }
             }
         }
+    }
+
+    if( friendly < 0 && ( has_flag( MF_BIRDFOOD ) || has_flag( MF_CATFOOD ) || has_flag( MF_DOGFOOD ) ||
+                          has_flag( MF_CATTLEFODDER ) ) ) {
+
+        add_msg( string_format( name( 1 ) + "-> morale: %d, anger: %d, is fleeing: %s", morale, anger,
+                                fleeing ? "Y" : "N" ) );
     }
 
     // being led by a leash override other movements decisions
