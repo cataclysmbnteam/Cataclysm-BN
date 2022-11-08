@@ -5667,6 +5667,7 @@ int item::get_encumber( const Character &p ) const
     units::volume contents_volume( 0_ml );
 
     contents_volume += contents.item_size_modifier();
+    // TODO if using the put in content solution for ebook, add a check to ignore the extra contents_volume, same for item_size_modifier
 
     if( p.is_worn( *this ) ) {
         const islot_armor *t = find_armor_data();
