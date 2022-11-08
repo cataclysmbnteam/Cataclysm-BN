@@ -1190,7 +1190,7 @@ monster_attitude monster::attitude( const Character *u ) const
     }
 
     if( effective_anger <= 0 ) {
-        if( get_hp() != get_hp_max() ) {
+        if( get_hp() <= 0.6 != get_hp_max() ) {
             return MATT_FLEE;
         } else {
             return MATT_IGNORE;
