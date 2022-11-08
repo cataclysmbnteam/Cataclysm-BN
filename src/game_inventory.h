@@ -86,6 +86,7 @@ item_location disassemble( player &p );
 item_location gun_to_modify( player &p, const item &gunmod );
 /** Book reading menu. */
 item_location read( player &pl );
+item_location ebookread(Character& pl, item_location& ereader);
 /** Menu for stealing stuff. */
 item_location steal( avatar &you, player &victim );
 /** Item activation menu. */

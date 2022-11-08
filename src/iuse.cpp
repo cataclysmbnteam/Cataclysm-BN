@@ -9992,43 +9992,45 @@ int iuse::ebooksave(player* p, item* it, bool, const tripoint&)
 // will be the hardest part, how to make the player read the book if it's not an activity actor yet? We'll see
 int iuse::ebookread(player* p, item* it, bool, const tripoint&)
 {
-    /*if (!it->is_ebook_storage()) {
+    if (!it->is_ebook_storage()) {
         debugmsg("EBOOKREAD iuse called on item without ebook type pocket");
-        return cata::nullopt;
+        return 0;
     }
 
     if (p->is_npc()) {
-        return cata::nullopt;
+        return 0;
     }
 
     if (p->is_underwater()) {
         p->add_msg_if_player(m_info, _("Unfortunately your device is not waterproof."));
-        return cata::nullopt;
+        return 0;
     }
 
-    if (p->has_trait(trait_HYPEROPIC) && !p->worn_with_flag(flag_FIX_FARSIGHT) &&
+    /*if (p->has_trait(trait_HYPEROPIC) && !p->worn_with_flag(flag_FIX_FARSIGHT) &&
         !p->has_effect(effect_contacts) && !p->has_flag(json_flag_ENHANCED_VISION)) {
         p->add_msg_if_player(m_info,
             _("You'll need to put on reading glasses before you can see the screen."));
         return cata::nullopt;
-    }
+    }*/
 
-    if (!it->active && it->is_transformable()) {
+    // TODO this could break the access to the ebook content because the item type change (on/off version), so I commented it for now
+    /*if (!it->active && it->is_transformable()) {
         const use_function* readinglight = it->type->get_use("transform");
         if (readinglight) {
             readinglight->call(*p, *it, it->active, p->pos());
         }
-    }
+    }*/
 
     item_location ereader = item_location(*p, it);
     item_location book = game_menus::inv::ebookread(*p, ereader);
 
     if (!book) {
-        return cata::nullopt;
+        return 0;
     }
 
-    p->as_avatar()->read(book, ereader);*/
-
     p->add_msg_if_player("iuse::ebookread");
+
+    p->as_avatar()->read(book, ereader);
+
     return 0;
 }

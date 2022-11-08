@@ -383,7 +383,7 @@ diary *avatar::get_avatar_diary()
  * str_values: Parallel to values, these contain the learning penalties (as doubles in string form) as follows:
  *             Experience gained = Experience normally gained * penalty
  */
-bool avatar::read( item_location loc, const bool continuous )
+bool avatar::read( item_location loc, item_location ereader, const bool continuous )
 {
     if( !loc ) {
         add_msg( m_info, _( "Never mind." ) );
@@ -940,7 +940,8 @@ void avatar::do_read( item_location loc )
 
     if( continuous ) {
         activity.set_to_null();
-        read( loc, true );
+        // TODONOW pass ebook as param if needed
+        read( loc, loc, true );
         if( activity ) {
             return;
         }

@@ -2232,6 +2232,14 @@ class item : public visitable<item>
         // This not part serialized or compared on purpose!
         bool encumbrance_update_ = false;
 
+        item_contents& get_contents() {
+            return contents;
+        };
+
+        const item_contents& get_contents() const {
+            return contents;
+        };
+
     private:
         /**
          * Accumulated rot, expressed as time the item has been in standard temperature.

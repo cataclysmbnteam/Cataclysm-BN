@@ -475,6 +475,8 @@ class inventory_selector
 
         bool keep_open = false;
 
+        void add_contained_ebooks(item_location& container);
+
     protected:
         player &u;
         const inventory_selector_preset &preset;
