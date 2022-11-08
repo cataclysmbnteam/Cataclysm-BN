@@ -313,37 +313,6 @@ float monster::rate_target( Creature &c, float best, bool smart ) const
     return FLT_MAX;
 }
 
-
-
-// process effects on m, from tar(get)_m(onster) hostile proximity
-// if the target is hostile toward us, this change our attitude based on different factors:
-// our difficulties difference, our hp % difference, our proximity
-// can have negative effects if the difference with the creature is too big, but tend toward positive bonus (+3)
-// this should make weak monsters afraid of stronger monsters
-static void process_hostile_proximity( monster &m, const monster &tar_m )
-{
-    // monsters get confidence based on the difference between their difficulty and the opponent difficulty
-    // then we add the difference between our health and the target health
-    // and we divide the result
-    float confidence_factor = ( ( ( ( m.type->difficulty_base + m.type->difficulty ) -
-                                    ( tar_m.type->difficulty_base +
-                                      tar_m.type->difficulty ) ) / 5 + 3 ) + ( m.hp_percentage() - tar_m.hp_percentage() ) / 10 );
-    // if monster is further away, it has less impact on his anger and morale
-    confidence_factor /= rl_dist( m.pos(), tar_m.pos() );
-    // add check to avoid breaking the 100 threeshold where monsters fight to death
-    const int rounded_confidence_factor = ( confidence_factor > 0 ) ? std::max( 1,
-                                          static_cast<int>( floor( confidence_factor ) ) ) : std::min( -1,
-                                                  static_cast<int>( floor( confidence_factor ) ) + 1 );
-    // keep bonus/malus from the confidence_factor between +/- cap, for anger and morale
-    const int cap = 30;
-    m.anger += ( ( rounded_confidence_factor > 0 && m.anger < cap ) ||
-                 ( rounded_confidence_factor < 0 &&
-                   m.anger > -cap ) ) ? rounded_confidence_factor : 0;
-    m.morale += ( ( rounded_confidence_factor > 0 && m.morale < cap ) ||
-                  ( rounded_confidence_factor < 0 &&
-                    m.morale > -cap ) ) ? rounded_confidence_factor : 0;
-}
-
 void monster::plan()
 {
     const auto &factions = g->critter_tracker->factions();
@@ -603,13 +572,6 @@ void monster::plan()
         } else if( fleeing ) {
             set_dest( tripoint( posx() * 2 - dest.x, posy() * 2 - dest.y, posz() ) );
         }
-        // if the target is hostile toward us, this change our attitude based on different factors
-        if( target->attitude_to( *this ) == Attitude::A_HOSTILE && !fleeing ) {
-            const monster *m = target->is_monster() ? static_cast<const monster *>( target ) : nullptr;
-            if( m ) {
-                process_hostile_proximity( *this, *m );
-            }
-        }
         if( angers_hostile_weak && att_to_target != Attitude::A_FRIENDLY ) {
             int hp_per = target->hp_percentage();
             if( hp_per <= 70 ) {
@@ -646,13 +608,6 @@ void monster::plan()
                 }
             }
         }
-    }
-
-    if( friendly < 0 && ( has_flag( MF_BIRDFOOD ) || has_flag( MF_CATFOOD ) || has_flag( MF_DOGFOOD ) ||
-                          has_flag( MF_CATTLEFODDER ) ) ) {
-
-        add_msg( string_format( name( 1 ) + "-> morale: %d, anger: %d, is fleeing: %s", morale, anger,
-                                fleeing ? "Y" : "N" ) );
     }
 
     // being led by a leash override other movements decisions
