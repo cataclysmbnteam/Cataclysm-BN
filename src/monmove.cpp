@@ -581,11 +581,26 @@ void monster::plan()
     } else if( friendly > 0 && one_in( 3 ) ) {
         // Grow restless with no targets
         friendly--;
-    } else if( friendly < 0 && sees( g->u ) && !has_flag( MF_PET_WONT_FOLLOW ) ) {
-        if( rl_dist( pos(), g->u.pos() ) > 2 ) {
-            set_dest( g->u.pos() );
+        // if no target, and friendly pet sees the player
+    } else if( friendly < 0 && sees( g->u ) ) {
+        // eg dogs
+        if( !has_flag( MF_PET_WONT_FOLLOW ) ) {
+            // if too far from the player, go to him
+            if( rl_dist( pos(), g->u.pos() ) > 2 ) {
+                set_dest( g->u.pos() );
+            } else {
+                unset_dest();
+            }
+            // eg cows, horses
         } else {
             unset_dest();
+        }
+        // if a pet is close to the player, it gets a morale boost
+        const int distance_from_friend = rl_dist( pos(), get_avatar().pos() );
+        if( distance_from_friend < 12 ) {
+            if( morale < type->morale && one_in( distance_from_friend * 3 ) ) {
+                morale += 1;
+            }
         }
     }
 
