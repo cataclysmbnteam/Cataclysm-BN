@@ -9940,28 +9940,28 @@ int iuse::binder_add_recipe( player *p, item *binder, bool, const tripoint & )
 
 int iuse::ebooksave(player* p, item* it, bool, const tripoint&)
 {
-    /*if (!it->is_ebook_storage()) {
+    if (!it->is_ebook_storage()) {
         debugmsg("EBOOKSAVE iuse called on item without ebook type pocket");
-        return cata::nullopt;
-    }*/
-
-    /*if (p->is_npc()) {
-        return cata::nullopt;
-    }*/
-
-    /*if (p->is_underwater()) {
-        p->add_msg_if_player(m_info, _("Unfortunately your device is not waterproof."));
-        return cata::nullopt;
+        return 0;
     }
 
-    if (p->has_trait(trait_HYPEROPIC) && !p->worn_with_flag(flag_FIX_FARSIGHT) &&
+    if (p->is_npc()) {
+        return 0;
+    }
+
+    if (p->is_underwater()) {
+        p->add_msg_if_player(m_info, _("Unfortunately your device is not waterproof."));
+        return 0;
+    }
+
+    /*if (p->has_trait(trait_HYPEROPIC) && !p->worn_with_flag(flag_FIX_FARSIGHT) &&
         !p->has_effect(effect_contacts) && !p->has_flag(json_flag_ENHANCED_VISION)) {
         p->add_msg_if_player(m_info,
             _("You'll need to put on reading glasses before you can see the screen."));
-        return cata::nullopt;
+        return 0;
     }*/
 
-    /*std::set<itype_id> ebooks;
+    std::set<itype_id> ebooks;
     for (const item* ebook : it->ebooks()) {
         if (!ebook->is_book()) {
             debugmsg("ebook type pocket contains non-book item %s", ebook->typeId().str());
@@ -9969,9 +9969,9 @@ int iuse::ebooksave(player* p, item* it, bool, const tripoint&)
         }
 
         ebooks.insert(ebook->typeId());
-    }*/
+    }
 
-    /*const item_location book = game_menus::inv::titled_filter_menu(
+    const item_location book = game_menus::inv::titled_filter_menu(
         [&p, &ebooks](const item& itm) {
             return itm.is_book() && p->has_identified(itm.typeId()) && !ebooks.count(itm.typeId());
         },
@@ -9979,12 +9979,12 @@ int iuse::ebooksave(player* p, item* it, bool, const tripoint&)
 
     if (!book) {
         p->add_msg_if_player(m_info, _("Nevermind."));
-        return cata::nullopt;
-    }*/
+        return 0;
+    }
 
-    /*p->assign_activity(
-        player_activity(ebooksave_activity_actor(book, item_location(*p, it))));*/
-    p->add_msg_if_player("iuse::ebooksave");
+    p->assign_activity(
+        player_activity(ebooksave_activity_actor(book, item_location(*p, it))));
+    p->add_msg_if_player("iuse::ebooksave, selected book -> " + book->typeId().str());
 
         return 0;
 }

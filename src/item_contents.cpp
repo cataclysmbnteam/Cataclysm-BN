@@ -187,6 +187,26 @@ std::vector<const item *> item_contents::gunmods() const
     return res;
 }
 
+std::vector<item*> item_contents::ebooks()
+{
+    std::vector<item*> res;
+    for (item& e : items) {
+        // TODO add check on is book?
+         res.push_back(&e);
+    }
+    return res;
+}
+
+std::vector<const item*> item_contents::ebooks() const
+{
+    std::vector<const item*> res;
+    for (const item& e : items) {
+        // TODO add check on is book?
+          res.push_back(&e);
+    }
+    return res;
+}
+
 item &item_contents::front()
 {
     return items.front();

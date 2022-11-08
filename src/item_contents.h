@@ -97,6 +97,10 @@ class item_contents
          */
         VisitResponse visit_contents( const std::function<VisitResponse( item *, item * )> &func,
                                       item *parent = nullptr );
+
+        std::vector<item*> ebooks();
+        std::vector<const item*> ebooks() const;
+
         bool remove_internal( const std::function<bool( item & )> &filter,
                               int &count, std::list<item> &res );
 

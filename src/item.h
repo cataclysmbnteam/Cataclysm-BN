@@ -221,6 +221,8 @@ class item : public visitable<item>
          */
         item &convert( const itype_id &new_type );
 
+        std::vector<const item*> ebooks() const;
+
         /**
          * Filter converting this instance to the inactive type
          * If the item is either inactive or cannot be deactivated is a no-op
@@ -455,6 +457,8 @@ class item : public visitable<item>
                             bool debug ) const;
         void final_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                          bool debug ) const;
+
+        bool is_ebook_storage() const;
 
         /**
          * Calculate all burning calculations, but don't actually apply them to item.
@@ -1801,6 +1805,7 @@ class item : public visitable<item>
         /** Does item have an integral magazine (as opposed to allowing detachable magazines) */
         bool magazine_integral() const;
 
+
         /** Get the default magazine type (if any) for the current effective ammo type
          *  @param conversion whether to include the effect of any flags or mods which convert item's ammo type
          *  @return magazine type or "null" if item has integral magazine or no magazines for current ammo type */
@@ -1930,6 +1935,8 @@ class item : public visitable<item>
          */
         int get_reload_time() const;
         /*@}*/
+
+
 
         /**
          * @name Vehicle parts
@@ -2224,14 +2231,6 @@ class item : public visitable<item>
         // encumbrance depending on their content.
         // This not part serialized or compared on purpose!
         bool encumbrance_update_ = false;
-
-        item_contents& get_contents() {
-            return contents;
-        };
-
-        const item_contents& get_contents() const {
-            return contents;
-        };
 
     private:
         /**

@@ -3910,6 +3910,12 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     }
 }
 
+bool item::is_ebook_storage() const
+{
+    // TODO add real check
+    return true;
+}
+
 std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch ) const
 {
     const bool debug = g != nullptr && debug_mode;
@@ -6411,6 +6417,12 @@ int item::get_reload_time() const
 
     return reload_time;
 }
+
+std::vector<const item*> item::ebooks() const
+{
+    return contents.ebooks();
+}
+
 
 bool item::is_silent() const
 {
