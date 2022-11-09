@@ -3855,7 +3855,7 @@ void iexamine::clean_water_source( player &, const tripoint &examp )
     liquid_handler::handle_liquid( water, nullptr, 0, &examp );
 }
 
-const std::vector<itype> furn_t::crafting_pseudo_item_types() const
+std::vector<itype> furn_t::crafting_pseudo_item_types() const
 {
     std::vector<itype> conversion;
     for( const itype_id &itid : crafting_pseudo_items ) {
@@ -3864,7 +3864,7 @@ const std::vector<itype> furn_t::crafting_pseudo_item_types() const
     return conversion;
 }
 
-const std::vector<itype> furn_t::crafting_ammo_item_types() const
+std::vector<itype> furn_t::crafting_ammo_item_types() const
 {
     const std::vector<itype> pseudo_list = crafting_pseudo_item_types();
 

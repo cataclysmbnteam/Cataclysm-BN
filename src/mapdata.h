@@ -518,8 +518,8 @@ struct furn_t : map_data_common_t {
 
     cata::poly_serialized<active_tile_data> active;
 
-    const std::vector<itype> crafting_pseudo_item_types() const;
-    const std::vector<itype> crafting_ammo_item_types() const;
+    std::vector<itype> crafting_pseudo_item_types() const;
+    std::vector<itype> crafting_ammo_item_types() const;
 
     furn_t();
 
