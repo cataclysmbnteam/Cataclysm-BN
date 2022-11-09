@@ -3366,7 +3366,7 @@ void activity_handlers::read_finish( player_activity *act, player *p )
         guy->finish_read( act->targets.front() );
     } else {
         if( avatar *u = dynamic_cast<avatar *>( p ) ) {
-            u->do_read( act->targets.front() );
+            u->do_read(act->targets.front());
         } else {
             act->set_to_null();
         }

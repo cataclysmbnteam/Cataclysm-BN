@@ -10013,13 +10013,6 @@ int iuse::ebookread(player* p, item* it, bool, const tripoint&)
         return cata::nullopt;
     }*/
 
-    // TODO this could break the access to the ebook content because the item type change (on/off version), so I commented it for now
-    /*if (!it->active && it->is_transformable()) {
-        const use_function* readinglight = it->type->get_use("transform");
-        if (readinglight) {
-            readinglight->call(*p, *it, it->active, p->pos());
-        }
-    }*/
 
     item_location ereader = item_location(*p, it);
     item_location book = game_menus::inv::ebookread(*p, ereader);
@@ -10030,7 +10023,17 @@ int iuse::ebookread(player* p, item* it, bool, const tripoint&)
 
     p->add_msg_if_player("iuse::ebookread");
 
-    p->as_avatar()->read(book, ereader);
+        // TODO when the ereader is transformed, we don't have access to the ebook content anymore
+        // This may be problematic
+        // I wonder... shouldn't the books be added to the "on" version instead?
+        if (!it->active && it->is_transformable()) {
+            const use_function* readinglight = it->type->get_use("transform");
+            if (readinglight) {
+                readinglight->call(*p, *it, it->active, p->pos());
+            }
+        }
+
+    p->as_avatar()->read(book);
 
     return 0;
 }

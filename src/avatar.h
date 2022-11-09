@@ -143,6 +143,8 @@ class avatar : public player
          * who can read and can read the fastest
          */
         const player *get_book_reader( const item &book, std::vector<std::string> &reasons ) const;
+
+        item* ereader;
         /**
          * Helper function for get_book_reader
          * @warning This function assumes that the everyone is able to read
@@ -153,7 +155,7 @@ class avatar : public player
          */
         int time_to_read( const item &book, const player &reader, const player *learner = nullptr ) const;
         /** Handles reading effects and returns true if activity started */
-        bool read(item_location loc, item_location ereader = {}, bool continuous = false);
+        bool read(item_location loc, bool continuous = false);
         /** Completes book reading action. **/
         void do_read( item_location loc );
         /** Note that we've read a book at least once. **/

@@ -383,7 +383,7 @@ diary *avatar::get_avatar_diary()
  * str_values: Parallel to values, these contain the learning penalties (as doubles in string form) as follows:
  *             Experience gained = Experience normally gained * penalty
  */
-bool avatar::read( item_location loc, item_location ereader, const bool continuous )
+bool avatar::read( item_location loc, const bool continuous )
 {
     if( !loc ) {
         add_msg( m_info, _( "Never mind." ) );
@@ -409,7 +409,7 @@ bool avatar::read( item_location loc, item_location ereader, const bool continuo
     add_msg( m_debug, "avatar::read: time_taken = %d", time_taken );
     player_activity act( ACT_READ, time_taken, continuous ? activity.index : 0,
                          reader->getID().get_value() );
-    act.targets.emplace_back( loc );
+    act.targets.emplace_back(loc);
 
     if( it.typeId() == itype_guidebook ) {
         // special guidebook effect: print a misc. hint when read
@@ -564,7 +564,6 @@ bool avatar::read( item_location loc, item_location ereader, const bool continuo
     }
 
     // Print some informational messages, but only the first time or if the information changes
-
     if( !continuous || activity.position != act.position ) {
         if( reader != this ) {
             add_msg( m_info, fail_messages[0] );
@@ -763,7 +762,7 @@ void avatar::do_read( item_location loc )
 
     const bool allow_recipes = get_option<bool>( "ALLOW_LEARNING_BOOK_RECIPES" );
 
-    //learners and their penalties
+    // learners and their penalties
     std::vector<std::pair<player *, double>> learners;
     for( size_t i = 0; i < activity.values.size(); i++ ) {
         player *n = g->find_npc( character_id( activity.values[i] ) );
@@ -774,7 +773,7 @@ void avatar::do_read( item_location loc )
         // Otherwise they must have died/teleported or something
     }
     learners.push_back( { this, 1.0 } );
-    //whether to continue reading or not
+    // whether to continue reading or not
     bool continuous = false;
     // NPCs who learned a little about the skill
     std::set<std::string> little_learned;
@@ -850,7 +849,7 @@ void avatar::do_read( item_location loc )
                     add_msg( m_good, _( "%s increases their %s level." ), learner->disp_name(), skill_name );
                 }
             } else {
-                //skill_level == originalSkillLevel
+                // skill_level == originalSkillLevel
                 if( activity.index == learner->getID().get_value() ) {
                     continuous = true;
                 }
@@ -876,7 +875,7 @@ void avatar::do_read( item_location loc )
             }
         }
     }
-    //end for all learners
+    // end for all learners
 
     if( little_learned.size() == 1 ) {
         add_msg( m_info, _( "%s learns a little about %s!" ), little_learned.begin()->c_str(),
@@ -940,8 +939,7 @@ void avatar::do_read( item_location loc )
 
     if( continuous ) {
         activity.set_to_null();
-        // TODONOW pass ebook as param if needed
-        read( loc, loc, true );
+        read( loc, true );
         if( activity ) {
             return;
         }

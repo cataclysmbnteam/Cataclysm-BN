@@ -3912,8 +3912,8 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
 bool item::is_ebook_storage() const
 {
-    // TODO add real check
-    return true;
+    // very cheap, but what other solution without a flag? DDA used a check on the pockets
+    return typeId().str() == "eink_tablet_pc";
 }
 
 std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch ) const

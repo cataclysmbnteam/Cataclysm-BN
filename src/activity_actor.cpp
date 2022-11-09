@@ -981,7 +981,7 @@ std::unique_ptr<activity_actor> ebooksave_activity_actor::deserialize( JsonIn &j
     ebooksave_activity_actor actor = ebooksave_activity_actor( {}, {} );
 
     JsonObject data = jsin.get_object();
-    data.read( "book", actor.book ); // will probably need to remove the book part
+    data.read( "book", actor.book );
     data.read( "ereader", actor.ereader );
     return actor.clone();
 }

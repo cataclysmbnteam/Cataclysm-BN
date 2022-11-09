@@ -4031,7 +4031,7 @@ int player::calc_focus_equilibrium() const
     int focus_equilibrium = 100;
 
     if( activity.id() == ACT_READ ) {
-        item_location loc = activity.targets[0];
+        const item_location loc = activity.targets[0];
         if( loc && loc->is_book() ) {
             auto &bt = *loc->type->book;
             // apply a penalty when we're actually learning something
