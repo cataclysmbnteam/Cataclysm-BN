@@ -144,7 +144,6 @@ class avatar : public player
          */
         const player *get_book_reader( const item &book, std::vector<std::string> &reasons ) const;
 
-        item* ereader;
         /**
          * Helper function for get_book_reader
          * @warning This function assumes that the everyone is able to read
