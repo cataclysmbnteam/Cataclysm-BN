@@ -13,6 +13,7 @@
     "weight": "3 g",
     "bashing": 1,
     "ammo_type": "blunderbuss",
+    "//": "Half the expected armor pernetration, additionally all blinderbuss rounds have an armor multiplier.",
     "damage": { "damage_type": "bullet", "amount": 44, "armor_penetration": 12, "armor_multiplier": 1.5 },
     "range": 12,
     "dispersion": 60,
