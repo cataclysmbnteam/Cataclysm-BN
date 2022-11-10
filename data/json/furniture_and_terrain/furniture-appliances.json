@@ -1218,6 +1218,75 @@
   },
   {
     "type": "furniture",
+    "id": "f_fridge_tank_base",
+    "name": "-",
+    "looks_like": "f_standing_tank",
+    "description": "-",
+    "symbol": "O",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "coverage": 90,
+    "required_str": -1,
+    "flags": [ "BASHABLE", "CONTAINER", "DECONSTRUCT", "LIQUIDCONT", "NOITEM", "SEALED", "TRANSPARENT" ],
+    "deconstruct": { "items": [ { "item": "fridgetank", "count": 1 } ] },
+    "examine_action": "keg",
+    "keg_capacity": 1200,
+    "bash": {
+      "str_min": 10,
+      "str_max": 20,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "steel_lump", "count": [ 8, 13 ] },
+        { "item": "steel_chunk", "count": [ 8, 13 ] },
+        { "item": "scrap", "count": [ 8, 13 ] },
+        { "item": "hose", "prob": 50 },
+        { "item": "motor_tiny", "prob": 25 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_fridge_tank_off",
+    "name": "60L fridge tank (off)",
+    "copy-from": "f_fridge_tank_base",
+    "description": "A 60L refrigerated tank for keeping liquids cool.  Provides some insulation from outside weather.  It is switched off.",
+    "symbol": "O",
+    "color": "light_gray"
+  },
+  {
+    "type": "furniture",
+    "id": "f_fridge_tank",
+    "name": "60L fridge tank",
+    "copy-from": "f_fridge_tank_base",
+    "description": "A 60L refrigerated tank for keeping liquids cool.  Provides some insulation from outside weather.  It has no power.",
+    "symbol": "O",
+    "color": "light_gray",
+    "active": [
+      "charge_watcher",
+      { "min_power": 30, "transform": { "id": "f_fridge_tank_on", "msg": "The refrigerated tank starts up." } }
+    ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_fridge_tank_on",
+    "name": "60L fridge tank (on)",
+    "copy-from": "f_fridge_tank_base",
+    "description": "A 60L refrigerated tank for keeping liquids cool.  Provides some insulation from outside weather.  It is switched on.",
+    "symbol": "O",
+    "color": "light_gray",
+    "extend": { "flags": [ "FRIDGE" ] },
+    "active": [
+      "steady_consumer",
+      {
+        "power": 20,
+        "consume_every": "600 s",
+        "transform": { "id": "f_fridge_tank", "msg": "The refridgerated tank shuts down." }
+      }
+    ]
+  },
+  {
+    "type": "furniture",
     "id": "f_freezer_off",
     "name": "freezer (off)",
     "copy-from": "f_fridge_base",

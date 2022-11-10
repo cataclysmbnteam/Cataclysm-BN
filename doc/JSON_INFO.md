@@ -2706,7 +2706,8 @@ Strength required to move the furniture around. Negative values indicate an unmo
 
 #### `crafting_pseudo_item`
 
-(Optional) Id of an item (tool) that will be available for crafting when this furniture is range (the furniture acts as an item of that type).
+(Optional) Id of an item (tool) that will be available for crafting when this furniture is range (the furniture acts as an item of that type). Can be made into an array.
+Example: `"crafting_pseudo_item": [ "fake_gridwelder", "fake_gridsolderingiron" ],`
 
 #### `workbench`
 

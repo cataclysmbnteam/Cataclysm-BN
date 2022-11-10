@@ -550,6 +550,8 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```FLAT``` Player can build and move furniture on.
 - ```FORAGE_HALLU``` This item can be found with the `HIDDEN_HALLU` flag when found through foraging.
 - ```FORAGE_POISION``` This item can be found with the `HIDDEN_POISON` flag when found through foraging.
+- ```FRIDGE``` This item refrigerates items inside. Preserving them.
+- ```FREEZER``` This item freezes items inside. Preserving them extremely well.
 - ```GOES_DOWN``` Can use <kbd>></kbd> to go down a level.
 - ```GOES_UP``` Can use <kbd><</kbd> to go up a level.
 - ```GROWTH_SEED``` This plant is in its seed stage of growth.
