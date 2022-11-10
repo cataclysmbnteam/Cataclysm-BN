@@ -17,9 +17,9 @@
 #include <utility>
 #include <vector>
 #if defined(_WIN32)
-#include "platform_win.h"
+#   include "platform_win.h"
 #else
-#include <csignal>
+#   include <csignal>
 #endif
 #include "color.h"
 #include "crash.h"

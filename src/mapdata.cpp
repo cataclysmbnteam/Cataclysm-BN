@@ -43,7 +43,7 @@ generic_factory<furn_t> furniture_data( "furniture" );
 
 bool is_json_check_strict( const std::string &src )
 {
-    return json_report_strict || src == "dda";
+    return json_report_strict || is_strict_enabled( src );
 }
 
 } // namespace

@@ -42,6 +42,7 @@
 #include "language.h"
 #include "loading_ui.h"
 #include "map.h"
+#include "mod_manager.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
@@ -159,9 +160,6 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     g->m = map( get_option<bool>( "ZLEVELS" ) );
     disable_mapgen = true;
 
-    overmap_special_batch empty_specials( point_abs_om{} );
-    overmap_buffer.create_custom_overmap( point_abs_om{}, empty_specials );
-
     g->m.load( tripoint( g->get_levx(), g->get_levy(), g->get_levz() ), false );
     get_distribution_grid_tracker().load( g->m );
 
@@ -271,8 +269,9 @@ int main( int argc, const char *argv[] )
     std::vector<const char *> arg_vec( argv, argv + argc );
 
     std::vector<mod_id> mods = extract_mod_selection( arg_vec );
-    if( std::find( mods.begin(), mods.end(), mod_id( "dda" ) ) == mods.end() ) {
-        mods.insert( mods.begin(), mod_id( "dda" ) ); // @todo move unit test items to core
+    mod_id def_core_mod_id = mod_management::get_default_core_content_pack();
+    if( std::find( mods.begin(), mods.end(), def_core_mod_id ) == mods.end() ) {
+        mods.insert( mods.begin(), def_core_mod_id ); // @todo move unit test items to core
     }
 
     option_overrides_t option_overrides_for_test_suite = extract_option_overrides( arg_vec );

@@ -139,6 +139,11 @@ std::vector<matype_id> character_martial_arts::get_unknown_styles( const charact
     return ret;
 }
 
+std::vector<matype_id> character_martial_arts::get_known_styles() const
+{
+    return ma_styles;
+}
+
 void character_martial_arts::serialize( JsonOut &json ) const
 {
     json.start_object();

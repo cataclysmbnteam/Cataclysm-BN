@@ -19,6 +19,7 @@
 class JsonIn;
 class JsonObject;
 class JsonOut;
+class diary;
 class faction;
 class mission;
 class monster;
@@ -130,6 +131,9 @@ class avatar : public player
          */
         void on_mission_finished( mission &cur_mission );
 
+        // return avatar diary
+        diary *get_avatar_diary();
+
         /**
          * Helper function for player::read.
          *
@@ -224,6 +228,10 @@ class avatar : public player
          * way or the other).
          */
         std::vector<mission *> active_missions;
+        /**
+        * Diary to track player progression and to write the player's story
+        */
+        std::unique_ptr <diary> a_diary;
         /**
          * Missions that the player has successfully completed.
          */

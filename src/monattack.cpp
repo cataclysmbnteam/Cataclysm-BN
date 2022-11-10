@@ -87,6 +87,7 @@ static const ammo_effect_str_id ammo_effect_APPLY_SAP( "APPLY_SAP" );
 
 static const efftype_id effect_ai_controlled( "ai_controlled" );
 static const efftype_id effect_assisted( "assisted" );
+static const efftype_id effect_attention( "attention" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
@@ -120,7 +121,6 @@ static const efftype_id effect_shrieking( "shrieking" );
 static const efftype_id effect_slimed( "slimed" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_targeted( "targeted" );
-static const efftype_id effect_teleglow( "teleglow" );
 static const efftype_id effect_under_op( "under_operation" );
 
 static const itype_id itype_ant_egg( "ant_egg" );
@@ -2885,7 +2885,7 @@ bool mattack::stare( monster *z )
         } else {
             add_msg( m_bad, _( "You feel like you're being watched, it makes you sick." ) );
         }
-        g->u.add_effect( effect_teleglow, 80_minutes );
+        g->u.add_effect( effect_attention, 80_minutes );
     }
 
     return true;
@@ -2903,8 +2903,7 @@ bool mattack::fear_paralyze( monster *z )
     }
 
     if( g->u.sees( *z ) && !g->u.has_effect( effect_fearparalyze ) ) {
-        if( g->u.has_artifact_with( AEP_PSYSHIELD ) || ( g->u.worn_with_flag( "PSYSHIELD_PARTIAL" ) &&
-                one_in( 4 ) ) ) {
+        if( has_psy_protection( get_player_character(), 4 ) ) {
             add_msg( _( "The %s probes your mind, but is rebuffed!" ), z->name() );
             ///\EFFECT_INT decreases chance of being paralyzed by fear attack
         } else if( rng( 0, 20 ) > g->u.get_int() ) {
@@ -3058,7 +3057,7 @@ bool mattack::nurse_operate( monster *z )
 
         z->friendly = 0;
         z->anger = 100;
-        std::list<tripoint> couch_pos = g->m.find_furnitures_with_flag_in_radius( z->pos(), 10,
+        std::list<tripoint> couch_pos = g->m.find_furnitures_or_vparts_with_flag_in_radius( z->pos(), 10,
                                         flag_AUTODOC_COUCH );
 
         if( couch_pos.empty() ) {

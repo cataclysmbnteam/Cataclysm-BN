@@ -4290,3 +4290,8 @@ void player::reset_stats()
     recalc_speed_bonus();
 
 }
+
+safe_reference<player> player::get_safe_reference()
+{
+    return anchor.reference_to( this );
+}

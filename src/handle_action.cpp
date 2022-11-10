@@ -28,6 +28,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "debug_menu.h"
+#include "diary.h"
 #include "distraction_manager.h"
 #include "faction.h"
 #include "field.h"
@@ -2245,6 +2246,7 @@ bool game::handle_action()
             case ACTION_SUICIDE:
                 if( query_yn( _( "Commit suicide?" ) ) ) {
                     if( query_yn( _( "REALLY commit suicide?" ) ) ) {
+                        u.apply_damage( &u, body_part_head, 99999 );
                         u.moves = 0;
                         u.place_corpse();
                         uquit = QUIT_SUICIDE;
@@ -2291,6 +2293,10 @@ bool game::handle_action()
 
             case ACTION_SCORES:
                 show_scores_ui( *achievements_tracker_ptr, stats(), get_kill_tracker() );
+                break;
+
+            case ACTION_DIARY:
+                diary::show_diary_ui( u.get_avatar_diary() );
                 break;
 
             case ACTION_FACTIONS:

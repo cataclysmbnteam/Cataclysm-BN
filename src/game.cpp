@@ -64,6 +64,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "dependency_tree.h"
+#include "diary.h"
 #include "distribution_grid.h"
 #include "drop_token.h"
 #include "distraction_manager.h"
@@ -207,6 +208,8 @@ static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_computer( "computer" );
 
 static const species_id PLANT( "PLANT" );
+
+static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
 
 static const efftype_id effect_accumulated_mutagen( "accumulated_mutagen" );
 static const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
@@ -2342,6 +2345,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "toggle_auto_foraging" );
     ctxt.register_action( "toggle_auto_pickup" );
     ctxt.register_action( "toggle_thief_mode" );
+    ctxt.register_action( "diary" );
     ctxt.register_action( "action_menu" );
     ctxt.register_action( "main_menu" );
     ctxt.register_action( "item_action_menu" );
@@ -2521,6 +2525,7 @@ void game::death_screen()
 {
     gamemode->game_over();
     Messages::display_messages();
+    u.get_avatar_diary()->death_entry();
     show_scores_ui( *achievements_tracker_ptr, stats(), get_kill_tracker() );
     disp_NPC_epilogues();
     follower_ids.clear();
@@ -2660,6 +2665,7 @@ bool game::load( const save_t &name )
     }
 
     u.load_map_memory();
+    u.get_avatar_diary()->load();
 
     get_weather().nextweather = calendar::turn;
 
@@ -2743,7 +2749,7 @@ void game::load_world_modfiles( loading_ui &ui )
     if( std::none_of( mods.begin(), mods.end(), []( const mod_id & e ) {
     return e->core;
 } ) ) {
-        mods.insert( mods.begin(), mod_id( "dda" ) );
+        mods.insert( mods.begin(), mod_management::get_default_core_content_pack() );
     }
 
     load_artifacts( get_world_base_save_path() + "/" + SAVE_ARTIFACTS );
@@ -2862,8 +2868,8 @@ bool game::save_player_data()
         save_shortcuts( fout );
     }, _( "quick shortcuts" ) );
 #endif
-
-    return saved_data && saved_map_memory && saved_log
+    const bool saved_diary = u.get_avatar_diary()->store();
+    return saved_data && saved_map_memory && saved_log && saved_diary
 #if defined(__ANDROID__)
            && saved_shortcuts
 #endif
@@ -4393,7 +4399,8 @@ void game::overmap_npc_move()
    stun > 0 indicates base stun duration, and causes impact stun; stun == -1 indicates only impact stun
    dam_mult multiplies impact damage, bash effect on impact, and sound level on impact */
 
-void game::knockback( const tripoint &s, const tripoint &t, int force, int stun, int dam_mult )
+void game::knockback( const tripoint &s, const tripoint &t, int force, int stun, int dam_mult,
+                      Creature *source )
 {
     std::vector<tripoint> traj;
     traj.clear();
@@ -4402,14 +4409,15 @@ void game::knockback( const tripoint &s, const tripoint &t, int force, int stun,
     traj = continue_line( traj, force );
     traj.insert( traj.begin(), t ); // how annoying, continue_line() doesn't either!
 
-    knockback( traj, stun, dam_mult );
+    knockback( traj, stun, dam_mult, source );
 }
 
 /* Knockback target at traj.front() along line traj; traj should already have considered knockback distance.
    stun > 0 indicates base stun duration, and causes impact stun; stun == -1 indicates only impact stun
    dam_mult multiplies impact damage, bash effect on impact, and sound level on impact */
 
-void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
+void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult,
+                      Creature *source = nullptr )
 {
     // TODO: make the force parameter actually do something.
     // the header file says higher force causes more damage.
@@ -4435,7 +4443,7 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                     targ->add_effect( effect_stunned, 1_turns * force_remaining );
                     add_msg( _( "%s was stunned!" ), targ->name() );
                     add_msg( _( "%s slammed into an obstacle!" ), targ->name() );
-                    targ->apply_damage( nullptr, bodypart_id( "torso" ), dam_mult * force_remaining );
+                    targ->apply_damage( source, bodypart_id( "torso" ), dam_mult * force_remaining );
                     targ->check_dead_state();
                 }
                 m.bash( traj[i], 2 * dam_mult * force_remaining );
@@ -4462,19 +4470,19 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                 } else if( u.pos() == traj.front() ) {
                     add_msg( m_bad, _( "%s collided with you and sent you flying!" ), targ->name() );
                 }
-                knockback( traj, stun, dam_mult );
+                knockback( traj, stun, dam_mult, source );
                 break;
             }
             targ->setpos( traj[i] );
-            if( m.has_flag( "LIQUID", targ->pos() ) && !targ->can_drown() && !targ->is_dead() ) {
-                targ->die( nullptr );
+            if( m.has_flag( "LIQUID", targ->pos() ) && targ->can_drown() && !targ->is_dead() ) {
+                targ->die( source );
                 if( u.sees( *targ ) ) {
                     add_msg( _( "The %s drowns!" ), targ->name() );
                 }
             }
             if( !m.has_flag( "LIQUID", targ->pos() ) && targ->has_flag( MF_AQUATIC ) &&
                 !targ->is_dead() ) {
-                targ->die( nullptr );
+                targ->die( source );
                 if( u.sees( *targ ) ) {
                     add_msg( _( "The %s flops around and dies!" ), targ->name() );
                 }
@@ -4507,7 +4515,7 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                     };
                     for( const bodypart_id &bp : bps ) {
                         if( one_in( 2 ) ) {
-                            targ->deal_damage( nullptr, bp, damage_instance( DT_BASH, force_remaining * dam_mult ) );
+                            targ->deal_damage( source, bp, damage_instance( DT_BASH, force_remaining * dam_mult ) );
                         }
                     }
                     targ->check_dead_state();
@@ -4541,7 +4549,7 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                 } else if( u.posx() == traj_front.x && u.posy() == traj_front.y ) {
                     add_msg( m_bad, _( "%s collided with you and sent you flying!" ), targ->name );
                 }
-                knockback( traj, stun, dam_mult );
+                knockback( traj, stun, dam_mult, source );
                 break;
             }
             targ->setpos( traj[i] );
@@ -4583,7 +4591,7 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                     };
                     for( const bodypart_id &bp : bps ) {
                         if( one_in( 2 ) ) {
-                            u.deal_damage( nullptr, bp, damage_instance( DT_BASH, force_remaining * dam_mult ) );
+                            u.deal_damage( source, bp, damage_instance( DT_BASH, force_remaining * dam_mult ) );
                         }
                     }
                     u.check_dead_state();
@@ -4617,7 +4625,7 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                         add_msg( _( "You collided with someone and sent her flying!" ) );
                     }
                 }
-                knockback( traj, stun, dam_mult );
+                knockback( traj, stun, dam_mult, source );
                 break;
             }
             if( m.has_flag( "LIQUID", u.pos() ) && force_remaining == 0 ) {
@@ -5024,6 +5032,27 @@ bool game::revive_corpse( const tripoint &p, item &it )
     return place_critter_at( newmon_ptr, p );
 }
 
+void static delete_cyborg_item( map &m, const tripoint &couch_pos, item *cyborg )
+{
+    // if this tile has an autodoc on a vehicle, delete the cyborg item from here
+    if( const cata::optional<vpart_reference> vp = get_map().veh_at( couch_pos ).part_with_feature(
+                flag_AUTODOC_COUCH, false ) ) {
+        auto dest_veh = &vp->vehicle();
+        int dest_part = vp->part_index();
+
+        for( item &it : dest_veh->get_items( dest_part ) ) {
+            if( &it == cyborg ) {
+                dest_veh->remove_item( dest_part, &it );
+            }
+        }
+
+    }
+    // otherwise delete it from the ground
+    else {
+        m.i_rem( couch_pos, cyborg );
+    }
+}
+
 void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &installer )
 {
     int assist_bonus = installer.get_effect_int( effect_assisted );
@@ -5059,7 +5088,7 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &install
         add_msg( m_good, _( "Successfully removed Personality override." ) );
         add_msg( m_bad, _( "Autodoc immediately destroys the CBM upon removal." ) );
 
-        m.i_rem( couch_pos, cyborg );
+        delete_cyborg_item( g->m, couch_pos, cyborg );
 
         const string_id<npc_template> npc_cyborg( "cyborg_rescued" );
         shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
@@ -5091,7 +5120,7 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &install
             case 5:
                 add_msg( m_info, _( "The removal is a catastrophe." ) );
                 add_msg( m_bad, _( "The body is destroyed!" ) );
-                m.i_rem( couch_pos, cyborg );
+                delete_cyborg_item( g->m, couch_pos, cyborg );
                 break;
             default:
                 break;
@@ -5154,7 +5183,8 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
         if( cannot_push ) {
             return false;
         }
-        knockback( kbp, p, std::max( 1, bash_dmg / 10 ), -1, 1 );
+        // TODO implement who was closing the door and replace nullptr
+        knockback( kbp, p, std::max( 1, bash_dmg / 10 ), -1, 1, nullptr );
         // TODO: perhaps damage/destroy the gate
         // if the npc was really big?
     }
@@ -5183,7 +5213,8 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
             if( cannot_push ) {
                 return false;
             }
-            knockback( kbp, p, std::max( 1, bash_dmg / 10 ), -1, 1 );
+            // TODO implement who was closing the door and replace nullptr
+            knockback( kbp, p, std::max( 1, bash_dmg / 10 ), -1, 1, nullptr );
             if( critter_at( p ) ) {
                 return false;
             }
@@ -6031,7 +6062,8 @@ void game::print_fields_info( const tripoint &lp, const catacurses::window &w_lo
     }
 }
 
-void game::print_trap_info( const tripoint &lp, const catacurses::window &w_look, const int column,
+void game::print_trap_info( const tripoint &lp, const catacurses::window &w_look,
+                            const int column,
                             int &line )
 {
     const trap &tr = m.tr_at( lp );
@@ -6068,7 +6100,8 @@ void game::print_vehicle_info( const vehicle *veh, int veh_part, const catacurse
     }
 }
 
-void game::print_items_info( const tripoint &lp, const catacurses::window &w_look, const int column,
+void game::print_items_info( const tripoint &lp, const catacurses::window &w_look,
+                             const int column,
                              int &line,
                              const int last_line )
 {
@@ -7260,7 +7293,8 @@ bool game::take_screenshot() const
 #endif
 
 //helper method so we can keep list_items shorter
-void game::reset_item_list_state( const catacurses::window &window, int height, bool bRadiusSort )
+void game::reset_item_list_state( const catacurses::window &window, int height,
+                                  bool bRadiusSort )
 {
     const int width = getmaxx( window );
     for( int i = 1; i < TERMX; i++ ) {

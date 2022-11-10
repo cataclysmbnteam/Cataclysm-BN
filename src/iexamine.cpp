@@ -102,6 +102,7 @@
 #include "units.h"
 #include "units_utility.h"
 #include "value_ptr.h"
+#include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
 
@@ -211,6 +212,7 @@ static const bionic_id bio_painkiller( "bio_painkiller" );
 static const bionic_id bio_power_storage( "bio_power_storage" );
 static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
 
+static const std::string flag_AUTODOC( "AUTODOC" );
 static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
 static const std::string flag_BARRICADABLE_WINDOW_CURTAINS( "BARRICADABLE_WINDOW_CURTAINS" );
 static const std::string flag_CLOSES_PORTAL( "CLOSES_PORTAL" );
@@ -1462,13 +1464,9 @@ void iexamine::gunsafe_el( player &p, const tripoint &examp )
 
 static safe_reference<item> find_best_prying_tool( player &p )
 {
-    std::vector<item *> prying_items = p.items_with( [&p]( const item & it ) {
-        // Don't search for worn items such as hairpins
-        if( p.get_item_position( &it ) >= -1 ) {
-            item temporary_item( it.type );
-            return temporary_item.has_quality( quality_id( "PRY" ), 1 );
-        }
-        return false;
+    std::vector<item *> prying_items = p.items_with( []( const item & it ) {
+        // we want to get worn items (eg crowbar in toolbelt), so no check on item position
+        return it.has_quality( quality_id( "PRY" ), 1 );
     } );
 
     // Sort by their quality level.
@@ -1486,12 +1484,9 @@ static safe_reference<item> find_best_prying_tool( player &p )
 
 static safe_reference<item> find_best_lock_picking_tool( player &p )
 {
-    std::vector<item *> picklocks = p.items_with( [&p]( const item & it ) {
-        // Don't search for worn items such as hairpins
-        if( p.get_item_position( &it ) >= -1 ) {
-            return it.type->get_use( "picklock" ) != nullptr;
-        }
-        return false;
+    std::vector<item *> picklocks = p.items_with( []( const item & it ) {
+        // we want to get worn items (eg hairpin), so no check on item position
+        return it.type->get_use( "picklock" ) != nullptr;
     } );
 
     // Sort by their picklock level.
@@ -4655,17 +4650,16 @@ static player &player_on_couch( player &p, const tripoint &autodoc_loc, player &
                                 bool &adjacent_couch, tripoint &couch_pos )
 {
     map &here = get_map();
-    for( const auto &couch_loc : here.points_in_radius( autodoc_loc, 1 ) ) {
-        if( here.has_flag_furn( flag_AUTODOC_COUCH, couch_loc ) ) {
-            adjacent_couch = true;
-            couch_pos = couch_loc;
-            if( p.pos() == couch_loc ) {
-                return p;
-            }
-            for( const npc *e : g->allies() ) {
-                if( e->pos() == couch_loc ) {
-                    return  *g->critter_by_id<player>( e->getID() );
-                }
+    for( const auto &couch_loc : here.find_furnitures_or_vparts_with_flag_in_radius( autodoc_loc, 1,
+            flag_AUTODOC_COUCH ) ) {
+        adjacent_couch = true;
+        couch_pos = couch_loc;
+        if( p.pos() == couch_loc ) {
+            return p;
+        }
+        for( const npc *e : g->allies() ) {
+            if( e->pos() == couch_loc ) {
+                return  *g->critter_by_id<player>( e->getID() );
             }
         }
     }
@@ -4677,7 +4671,7 @@ static Character &operator_present( Character &p, const tripoint &autodoc_loc,
 {
     map &here = get_map();
     for( const auto &loc : here.points_in_radius( autodoc_loc, 1 ) ) {
-        if( !here.has_flag_furn( flag_AUTODOC_COUCH, loc ) ) {
+        if( !here.has_flag_furn_or_vpart( flag_AUTODOC_COUCH, loc ) ) {
             if( p.pos() == loc ) {
                 return p;
             }
@@ -4700,6 +4694,22 @@ static item &cyborg_on_couch( const tripoint &couch_pos, item &null_cyborg )
         if( it.typeId() == itype_corpse ) {
             if( it.get_mtype()->id == mon_broken_cyborg || it.get_mtype()->id == mon_prototype_cyborg ) {
                 return it;
+            }
+        }
+    }
+    // if we're in a autodoc couch on a vehicle, go through the items in it, and return the item if's a cyborg
+    if( const cata::optional<vpart_reference> vp = get_map().veh_at( couch_pos ).part_with_feature(
+                flag_AUTODOC_COUCH, false ) ) {
+        auto dest_veh = &vp->vehicle();
+        int dest_part = vp->part_index();
+        for( item &it : dest_veh->get_items( dest_part ) ) {
+            if( it.typeId() == itype_bot_broken_cyborg || it.typeId() == itype_bot_prototype_cyborg ) {
+                return it;
+            }
+            if( it.typeId() == itype_corpse ) {
+                if( it.get_mtype()->id == mon_broken_cyborg || it.get_mtype()->id == mon_prototype_cyborg ) {
+                    return it;
+                }
             }
         }
     }
@@ -4857,12 +4867,27 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     std::vector<item> arm_splints;
     std::vector<item> leg_splints;
 
+    // find splints on the ground
     for( const item &supplies : get_map().i_at( examp ) ) {
         if( supplies.typeId() == itype_arm_splint ) {
             arm_splints.push_back( supplies );
         }
         if( supplies.typeId() == itype_leg_splint ) {
             leg_splints.push_back( supplies );
+        }
+    }
+    // find splints in vehicle
+    if( const cata::optional<vpart_reference> vp = get_map().veh_at( examp ).part_with_feature(
+                flag_AUTODOC, false ) ) {
+        auto dest_veh = &vp->vehicle();
+        int dest_part = vp->part_index();
+        for( item &it : dest_veh->get_items( dest_part ) ) {
+            if( it.typeId() == itype_arm_splint ) {
+                arm_splints.push_back( it );
+            }
+            if( it.typeId() == itype_leg_splint ) {
+                leg_splints.push_back( it );
+            }
         }
     }
 

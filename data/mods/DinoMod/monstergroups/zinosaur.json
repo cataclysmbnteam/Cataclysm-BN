@@ -267,6 +267,42 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_zarahsaurus_UPGRADE",
+    "default": "mon_skarahsaurus",
+    "monsters": [
+      { "monster": "mon_skarahsaurus", "freq": 600, "cost_multiplier": 5 },
+      { "monster": "mon_zarahsaurus_brute", "freq": 400, "cost_multiplier": 5 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_zanchisaurus_UPGRADE",
+    "default": "mon_sanchisaurus",
+    "monsters": [
+      { "monster": "mon_sanchisaurus", "freq": 600, "cost_multiplier": 5 },
+      { "monster": "mon_zanchisaurus_brute", "freq": 400, "cost_multiplier": 5 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_zissi_UPGRADE",
+    "default": "mon_sissi",
+    "monsters": [
+      { "monster": "mon_sissi", "freq": 600, "cost_multiplier": 5 },
+      { "monster": "mon_zissi_brute", "freq": 400, "cost_multiplier": 5 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_zaplocanthosaurus_UPGRADE",
+    "default": "mon_saplocanthosaurus",
+    "monsters": [
+      { "monster": "mon_saplocanthosaurus", "freq": 600, "cost_multiplier": 5 },
+      { "monster": "mon_zaplocanthosaurus_brute", "freq": 400, "cost_multiplier": 5 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_zamargasaurus_UPGRADE",
     "default": "mon_samargasaurus",
     "monsters": [
@@ -299,6 +335,15 @@
     "monsters": [
       { "monster": "mon_siplodocus", "freq": 600, "cost_multiplier": 5 },
       { "monster": "mon_ziplodocus_brute", "freq": 400, "cost_multiplier": 5 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_zarosaurus_UPGRADE",
+    "default": "mon_sarosaurus",
+    "monsters": [
+      { "monster": "mon_sarosaurus", "freq": 600, "cost_multiplier": 5 },
+      { "monster": "mon_zarosaurus_brute", "freq": 400, "cost_multiplier": 5 }
     ]
   },
   {
@@ -495,6 +540,15 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_zapatosaurus_BRUTE",
+    "default": "mon_zapatosaurus_hulk",
+    "monsters": [
+      { "monster": "mon_zapatosaurus_hulk", "freq": 600, "cost_multiplier": 5 },
+      { "monster": "mon_zapatosaurus_tank", "freq": 400, "cost_multiplier": 5 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_zankylosaurus_BRUTE",
     "default": "mon_zankylosaurus_hulk",
     "monsters": [
@@ -516,6 +570,8 @@
       { "monster": "mon_zanzu", "freq": 1, "cost_multiplier": 40, "starts": 72 },
       { "monster": "mon_zeinonychus", "freq": 1, "cost_multiplier": 40, "starts": 72 },
       { "monster": "mon_zutahraptor", "freq": 1, "cost_multiplier": 40, "starts": 72 },
+      { "monster": "mon_zarahsaurus", "freq": 1, "cost_multiplier": 40, "starts": 72 },
+      { "monster": "mon_zanchisaurus", "freq": 1, "cost_multiplier": 40, "starts": 72 },
       { "monster": "mon_zyoplosaurus", "freq": 1, "cost_multiplier": 40, "starts": 72 },
       { "monster": "mon_zankylosaurus", "freq": 1, "cost_multiplier": 40, "starts": 72 },
       { "monster": "mon_zodosaurus", "freq": 1, "cost_multiplier": 40, "starts": 72 },

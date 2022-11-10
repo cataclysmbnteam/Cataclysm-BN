@@ -119,6 +119,12 @@ bool save_mod_list( const t_mod_list &list, const std::string &path );
  * @returns cata::nullopt on error.
  */
 cata::optional<t_mod_list> load_mod_list( const std::string &path );
+
+/**
+ * Get id of default core content pack.
+ */
+mod_id get_default_core_content_pack();
+
 } // namespace mod_management
 
 class mod_manager

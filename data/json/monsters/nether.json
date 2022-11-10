@@ -172,8 +172,8 @@
     "morale": 500,
     "melee_skill": 6,
     "melee_dice": 3,
-    "melee_dice_sides": 8,
-    "melee_cut": 3,
+    "melee_dice_sides": 3,
+    "melee_damage": [ { "damage_type": "cold", "amount": 9 } ],
     "dodge": 3,
     "armor_bash": 12,
     "armor_cut": 8,
@@ -184,7 +184,7 @@
     "special_attacks": [ [ "DARKMAN", 5 ], [ "scratch", 15 ] ],
     "death_function": [ "DARKMAN" ],
     "regenerates_in_dark": true,
-    "flags": [ "NOHEAD", "HARDTOSHOOT", "WEBWALK", "FLIES", "PLASTIC", "ELECTRIC", "ACIDPROOF", "SUNDEATH", "NO_BREATHE" ]
+    "flags": [ "NOHEAD", "HARDTOSHOOT", "WEBWALK", "FLIES", "PLASTIC", "COLDPROOF", "ACIDPROOF", "SUNDEATH", "NO_BREATHE" ]
   },
   {
     "id": "mon_dementia",
@@ -295,7 +295,20 @@
     "special_attacks": [ [ "FEAR_PARALYZE", 0 ], { "type": "bite", "cooldown": 5 } ],
     "death_drops": "default_zombie_clothes",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BLEED", "HARDTOSHOOT", "ATTACKMON", "HUMAN", "POISON", "REVIVES", "FILTHY" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "WARM",
+      "BLEED",
+      "HARDTOSHOOT",
+      "ATTACKMON",
+      "FLIES",
+      "HUMAN",
+      "POISON",
+      "REVIVES",
+      "FILTHY"
+    ]
   },
   {
     "id": "mon_flying_polyp",
@@ -488,6 +501,7 @@
       "WARM",
       "BASHES",
       "ARTHROPOD_BLOOD",
+      "COLDPROOF",
       "NO_BREATHE",
       "HARDTOSHOOT"
     ]
@@ -533,6 +547,7 @@
       "BASHES",
       "ARTHROPOD_BLOOD",
       "NO_BREATHE",
+      "COLDPROOF",
       "HARDTOSHOOT"
     ]
   },
@@ -596,6 +611,7 @@
       "HARDTOSHOOT",
       "FLIES",
       "PLASTIC",
+      "COLDPROOF",
       "SUNDEATH",
       "NO_BREATHE",
       "HIT_AND_RUN",
@@ -650,8 +666,8 @@
     "morale": 100,
     "melee_skill": 6,
     "melee_dice": 1,
-    "melee_dice_sides": 2,
-    "melee_cut": 0,
+    "melee_dice_sides": 3,
+    "melee_damage": [ { "damage_type": "cold", "amount": 3 } ],
     "dodge": 4,
     "vision_day": 50,
     "harvest": "exempt",
@@ -670,7 +686,7 @@
       "FLIES",
       "PLASTIC",
       "SUNDEATH",
-      "ELECTRIC",
+      "COLDPROOF",
       "ACIDPROOF",
       "HIT_AND_RUN",
       "NO_BREATHE",
@@ -695,14 +711,14 @@
     "aggression": 100,
     "morale": 100,
     "melee_skill": 6,
-    "melee_dice": 1,
-    "melee_dice_sides": 4,
-    "melee_cut": 4,
+    "melee_dice": 2,
+    "melee_dice_sides": 3,
+    "melee_damage": [ { "damage_type": "cold", "amount": 6 } ],
     "dodge": 1,
     "harvest": "exempt",
     "special_attacks": [ [ "DISAPPEAR", 200 ] ],
     "death_function": [ "MELT" ],
-    "flags": [ "SEES", "SMELLS", "WARM", "SWIMS", "PLASTIC", "SUNDEATH", "NOGIB" ]
+    "flags": [ "SEES", "SMELLS", "WARM", "SWIMS", "PLASTIC", "COLDPROOF", "SUNDEATH", "NOGIB" ]
   },
   {
     "id": "mon_shoggoth",

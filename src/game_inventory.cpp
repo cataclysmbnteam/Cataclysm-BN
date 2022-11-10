@@ -1498,12 +1498,24 @@ drop_locations game_menus::inv::multidrop( player &p )
     inv_s.set_title( _( "Multidrop" ) );
     inv_s.set_hint( _( "To drop x items, type a number before selecting." ) );
 
-    if( inv_s.empty() ) {
-        popup( std::string( _( "You have nothing to drop." ) ), PF_GET_KEY );
-        return drop_locations();
-    }
+    while( true ) {
+        p.inv.restack( p );
+        inv_s.clear_items();
+        inv_s.add_character_items( p );
 
-    return inv_s.execute();
+        if( inv_s.empty() ) {
+            popup( std::string( _( "You have nothing to drop." ) ), PF_GET_KEY );
+            return drop_locations();
+        }
+
+        drop_locations result = inv_s.execute();
+        // an item has been favorited, reopen the UI
+        if( inv_s.keep_open ) {
+            continue;
+        } else {
+            return result;
+        }
+    }
 }
 
 iuse_locations game_menus::inv::multiwash( Character &ch, int water, int cleanser, bool do_soft,

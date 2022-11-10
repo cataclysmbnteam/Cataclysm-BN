@@ -158,6 +158,32 @@
   },
   {
     "type": "GENERIC",
+    "id": "vh_autodoc",
+    "name": { "str": "mountable autodoc" },
+    "description": "This autodoc has been rigged to run off a vehicle power grid.",
+    "symbol": "&",
+    "color": "light_cyan",
+    "price": 120000,
+    "price_postapoc": 7500,
+    "weight": "120000 g",
+    "volume": "50 L",
+    "looks_like": "f_autodoc"
+  },
+  {
+    "type": "GENERIC",
+    "id": "vh_autodoc_couch",
+    "name": { "str": "mountable autodoc couch" },
+    "description": "This autodoc couch has been rigged to run off a vehicle power grid.",
+    "price": 90000,
+    "price_postapoc": 5000,
+    "symbol": "H",
+    "color": "red",
+    "weight": "100000 g",
+    "volume": "40 L",
+    "looks_like": "f_autodoc_couch"
+  },
+  {
+    "type": "GENERIC",
     "copy-from": "washing_machine",
     "id": "minifridge",
     "name": { "str": "minifridge" },

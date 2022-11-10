@@ -2348,6 +2348,17 @@ bool map::has_flag_furn( const ter_bitflags flag, const tripoint &p ) const
     return furn( p ).obj().has_flag( flag );
 }
 
+bool map::has_flag_vpart( const std::string &flag, const tripoint &p ) const
+{
+    const optional_vpart_position vp = veh_at( p );
+    return static_cast<bool>( vp.part_with_feature( flag, true ) );
+}
+
+bool map::has_flag_furn_or_vpart( const std::string &flag, const tripoint &p ) const
+{
+    return has_flag_furn( flag, p ) || has_flag_vpart( flag, p );
+}
+
 bool map::has_flag_ter_or_furn( const ter_bitflags flag, const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
@@ -3282,7 +3293,8 @@ bash_results map::bash_ter_success( const tripoint &p, const bash_params &params
     }
 
     if( bash.explosive > 0 ) {
-        explosion_handler::explosion( p, bash.explosive, 0.8, false );
+        // TODO Implement if the player triggered the explosive terrain
+        explosion_handler::explosion( p, nullptr, bash.explosive, 0.8, false );
     }
 
     return result;
@@ -3381,7 +3393,8 @@ bash_results map::bash_furn_success( const tripoint &p, const bash_params &param
     }
 
     if( bash.explosive > 0 ) {
-        explosion_handler::explosion( p, bash.explosive, 0.8, false );
+        // TODO implement if the player triggered the explosive furniture
+        explosion_handler::explosion( p, nullptr, bash.explosive, 0.8, false );
     }
 
     return result;
@@ -4958,6 +4971,7 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
         const cata::optional<vpart_reference> kilnpart = vp.part_with_feature( "KILN", true );
         const cata::optional<vpart_reference> chempart = vp.part_with_feature( "CHEMLAB", true );
         const cata::optional<vpart_reference> autoclavepart = vp.part_with_feature( "AUTOCLAVE", true );
+        const cata::optional<vpart_reference> autodocpart = vp.part_with_feature( "AUTODOC", true );
         const cata::optional<vpart_reference> cargo = vp.part_with_feature( "CARGO", true );
 
         if( kpart ) { // we have a faucet, now to see what to drain
@@ -6247,7 +6261,8 @@ int map::coverage( const tripoint &p ) const
     if( const auto vp = veh_at( p ) ) {
         if( vp->obstacle_at_part() ) {
             return 60;
-        } else if( !vp->part_with_feature( VPFLAG_AISLE, true ) ) {
+        } else if( !vp->part_with_feature( VPFLAG_AISLE, true ) &&
+                   !vp->part_with_feature( "PROTRUSION", true ) ) {
             return 45;
         }
     }
@@ -8234,9 +8249,8 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
     for( int z = minz; z <= maxz; z++ ) {
         do_vehicle_caching( z );
     }
-    for( int z = minz; z <= maxz; z++ ) {
-        seen_cache_dirty |= build_vision_transparency_cache( z );
-    }
+
+    seen_cache_dirty |= build_vision_transparency_cache( get_player_character() );
 
     if( seen_cache_dirty ) {
         skew_vision_cache.clear();
@@ -8686,6 +8700,34 @@ std::list<tripoint> map::find_furnitures_with_flag_in_radius( const tripoint &ce
     return furn_locs;
 }
 
+std::list<tripoint> map::find_furnitures_or_vparts_with_flag_in_radius( const tripoint &center,
+        size_t radius, const std::string &flag, size_t radiusz )
+{
+    std::list<tripoint> locs;
+    for( const auto &loc : points_in_radius( center, radius, radiusz ) ) {
+        // workaround for ramp bridges
+        int dz = 0;
+        if( has_flag( TFLAG_RAMP_UP, loc ) ) {
+            dz = 1;
+        } else if( has_flag( TFLAG_RAMP_DOWN, loc ) ) {
+            dz = -1;
+        }
+
+        if( dz == 0 ) {
+            if( has_flag_furn_or_vpart( flag, loc ) ) {
+                locs.push_back( loc );
+            }
+        } else {
+            const tripoint newloc( loc + tripoint( 0, 0, dz ) );
+            if( has_flag_furn_or_vpart( flag, newloc ) ) {
+                locs.push_back( newloc );
+            }
+        }
+    }
+
+    return locs;
+}
+
 std::list<Creature *> map::get_creatures_in_radius( const tripoint &center, size_t radius,
         size_t radiusz )
 {
@@ -8736,7 +8778,6 @@ level_cache::level_cache()
     diagonal_blocks fill = {false, false};
     std::fill_n( &vehicle_obscured_cache[0][0], map_dimensions, fill );
     std::fill_n( &vehicle_obstructed_cache[0][0], map_dimensions, fill );
-    std::fill_n( &vision_transparency_cache[0][0], map_dimensions, 0.0f );
     std::fill_n( &seen_cache[0][0], map_dimensions, 0.0f );
     std::fill_n( &camera_cache[0][0], map_dimensions, 0.0f );
     std::fill_n( &visibility_cache[0][0], map_dimensions, lit_level::DARK );

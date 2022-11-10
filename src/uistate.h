@@ -138,6 +138,8 @@ class uistatedata
         std::set<recipe_id> favorite_recipes;
         std::vector<recipe_id> recent_recipes;
 
+        std::set<construction_group_str_id> favorite_construct_recipes;
+
         bionic_ui_sort_mode bionic_sort_mode = bionic_ui_sort_mode::POWER;
 
         /* to save input history and make accessible via 'up', you don't need to edit this file, just run:

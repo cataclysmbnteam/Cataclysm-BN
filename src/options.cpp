@@ -3346,7 +3346,7 @@ bool options_manager::save()
 {
     const auto savefile = PATH_INFO::options();
     cache_to_globals();
-    update_music_volume();
+    update_volumes();
 
     return write_to_file( savefile, [&]( std::ostream & fout ) {
         JsonOut jout( fout, true );

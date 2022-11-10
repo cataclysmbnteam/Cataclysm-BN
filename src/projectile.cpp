@@ -107,7 +107,8 @@ void projectile::load( JsonObject &jo )
     jo.read( "proj_effects", proj_effects );
 }
 
-void apply_ammo_effects( const tripoint &p, const std::set<ammo_effect_str_id> &effects )
+void apply_ammo_effects( const tripoint &p, const std::set<ammo_effect_str_id> &effects,
+                         Creature *source )
 {
     map &here = get_map();
     for( const ammo_effect_str_id &ae_id : effects ) {
@@ -123,7 +124,7 @@ void apply_ammo_effects( const tripoint &p, const std::set<ammo_effect_str_id> &
                 }
             }
         if( ae.aoe_explosion_data ) {
-            explosion_handler::explosion( p, ae.aoe_explosion_data );
+            explosion_handler::explosion( p, ae.aoe_explosion_data, source );
         }
         if( ae.do_flashbang ) {
             explosion_handler::flashbang( p, false, "explosion" );
@@ -134,7 +135,7 @@ void apply_ammo_effects( const tripoint &p, const std::set<ammo_effect_str_id> &
     }
 }
 
-void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects )
+void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects, Creature *source )
 {
     std::set<ammo_effect_str_id> effect_ids;
     for( const std::string &s : effects ) {
@@ -143,7 +144,7 @@ void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects
             effect_ids.emplace( id );
         }
     }
-    apply_ammo_effects( p, effect_ids );
+    apply_ammo_effects( p, effect_ids, source );
 }
 
 static int aoe_of( const ammo_effect_str_id &ae_id )

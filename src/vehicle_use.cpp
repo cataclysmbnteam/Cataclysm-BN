@@ -1949,6 +1949,8 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     const bool is_convertible = tags.count( "convertible" ) > 0;
     const int autoclave_part = avail_part_with_feature( interact_part, "AUTOCLAVE", true );
     const bool has_autoclave = autoclave_part >= 0;
+    const int autodoc_part = avail_part_with_feature( interact_part, "AUTODOC", true );
+    const bool has_autodoc = autodoc_part >= 0;
     const bool remotely_controlled = g->remoteveh() == this;
     const int washing_machine_part = avail_part_with_feature( interact_part, "WASHING_MACHINE", true );
     const bool has_washmachine = washing_machine_part >= 0;
@@ -1969,7 +1971,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
 
     enum {
         EXAMINE, TRACK, HANDBRAKE, CONTROL, CONTROL_ELECTRONICS, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET,
-        RELOAD_TURRET, USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_AUTOCLAVE, USE_WASHMACHINE,
+        RELOAD_TURRET, USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_AUTOCLAVE, USE_AUTODOC, USE_WASHMACHINE,
         USE_DISHWASHER, USE_MONSTER_CAPTURE, USE_BIKE_RACK, USE_HARNESS, RELOAD_PLANTER, USE_TOWEL, PEEK_CURTAIN,
     };
     uilist selectmenu;
@@ -1986,6 +1988,9 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     }
     if( has_autoclave ) {
         selectmenu.addentry( USE_AUTOCLAVE, true, 'a', _( "Sterilize a CBM" ) );
+    }
+    if( has_autodoc ) {
+        selectmenu.addentry( USE_AUTODOC, true, 'I', _( "Use autodoc" ) );
     }
     if( has_washmachine ) {
         selectmenu.addentry( USE_WASHMACHINE, true, 'W',
@@ -2103,6 +2108,10 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         }
         case USE_AUTOCLAVE: {
             iexamine::autoclave_empty( you, pos );
+            return;
+        }
+        case USE_AUTODOC: {
+            iexamine::autodoc( you, pos );
             return;
         }
         case USE_WASHMACHINE: {
