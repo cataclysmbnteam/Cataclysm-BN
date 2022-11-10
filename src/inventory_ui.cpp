@@ -699,8 +699,10 @@ void inventory_column::on_input( const inventory_input &input )
     } else if( input.action == "END" ) {
         select( entries.size() - 1, scroll_direction::BACKWARD );
     } else if( input.action == "TOGGLE_FAVORITE" ) {
-        const item_location &loc = get_selected().any_item();
-        set_stack_favorite( loc, !loc->is_favorite );
+        if( !get_selected().locations.empty() ) {
+            const item_location &loc = get_selected().any_item();
+            set_stack_favorite( loc, !loc->is_favorite );
+        }
     }
 }
 
