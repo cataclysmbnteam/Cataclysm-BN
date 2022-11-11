@@ -4226,41 +4226,6 @@
   },
   {
     "type": "construction",
-    "id": "constr_gridfridge_tank",
-    "group": "install_fridge_tank",
-    "category": "FURN",
-    "required_skills": [  ],
-    "time": "10 m",
-    "qualities": [  ],
-    "components": [ [ [ "fridgetank", 1 ] ] ],
-    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
-    "pre_special": "check_empty",
-    "post_furniture": "f_fridge_tank"
-  },
-  {
-    "type": "construction",
-    "id": "constr_gridfridge_tank_switch_off",
-    "group": "toggle_refrigerator_freezer",
-    "required_skills": [  ],
-    "category": "FURN",
-    "time": "1 m",
-    "dark_craftable": true,
-    "pre_furniture": "f_fridge_tank_on",
-    "post_furniture": "f_fridge_tank_off"
-  },
-  {
-    "type": "construction",
-    "id": "constr_gridfridge_tank_switch_on",
-    "group": "toggle_refrigerator_freezer",
-    "required_skills": [  ],
-    "category": "FURN",
-    "time": "1 m",
-    "dark_craftable": true,
-    "pre_furniture": "f_fridge_tank_off",
-    "post_furniture": "f_fridge_tank_on"
-  },
-  {
-    "type": "construction",
     "id": "constr_gridglass_fridge",
     "group": "install_glass_refrigerator",
     "category": "FURN",

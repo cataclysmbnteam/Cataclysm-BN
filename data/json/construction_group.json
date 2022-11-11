@@ -941,11 +941,6 @@
   },
   {
     "type": "construction_group",
-    "id": "install_fridge_tank",
-    "name": "Install 60L Refridgerated Tank"
-  },
-  {
-    "type": "construction_group",
     "id": "install_glass_refrigerator",
     "name": "Install Glass Refrigerator"
   },
