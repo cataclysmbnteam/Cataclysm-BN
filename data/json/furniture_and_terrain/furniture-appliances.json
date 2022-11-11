@@ -168,7 +168,7 @@
     "type": "furniture",
     "abstract": "f_glass_fridge_base",
     "name": "-",
-    "looks_like": "glass_fridge",
+    "looks_like": "f_glass_fridge",
     "symbol": "{",
     "color": "light_cyan",
     "description": "-",
@@ -266,7 +266,7 @@
     "color": "blue",
     "extend": { "flags": [ "FREEZER" ] },
     "//": "Consumes more power due to worse insulation.",
-    "deconstruct": { "items": [ { "item": "freezer", "count": 1 } ] },
+    "deconstruct": { "items": [ { "item": "glass_freezer", "count": 1 } ] },
     "active": [
       "steady_consumer",
       {
