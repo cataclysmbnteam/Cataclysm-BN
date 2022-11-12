@@ -934,10 +934,10 @@ void ebooksave_activity_actor::start( player_activity &act, Character &who )
     const int pages = pages_in_book( book->typeId() );
     const time_duration scanning_time = pages < 1 ? time_per_page : pages * time_per_page;
     who.add_msg_if_player( string_format( "ebooksave pages = %d", pages ) );
-    who.add_msg_if_player( string_format( "scanning_time time = %s", to_string( scanning_time ) ));
-                           act.moves_total = to_moves<int>( scanning_time );
-                           act.moves_left = act.moves_total;
-                           who.add_msg_if_player( _( "Start" ) );
+    who.add_msg_if_player( string_format( "scanning_time time = %s", to_string( scanning_time ) ) );
+    act.moves_total = to_moves<int>( scanning_time );
+    act.moves_left = act.moves_total;
+    who.add_msg_if_player( _( "Start" ) );
 }
 
 void ebooksave_activity_actor::do_turn( player_activity &act, Character &who )
