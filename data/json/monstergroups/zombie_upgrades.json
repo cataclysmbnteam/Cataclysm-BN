@@ -10,5 +10,46 @@
       { "monster": "mon_zombie_soldier_acid_2", "freq": 15, "cost_multiplier": 2 },
       { "monster": "mon_zombie_kevlar_1", "freq": 25, "cost_multiplier": 2 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_UPGRADE",
+    "default": "mon_zombie_tough",
+    "//": "Masters pick from here when upgrading; no dogs, bionics, or profession-types.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
+    "monsters": [
+      { "monster": "mon_zombie_pupa", "freq": 15, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_pupa_decoy", "freq": 15, "cost_multiplier": 2 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_CRAWLER_UPGRADE",
+    "default": "mon_zombie_crawler",
+    "//": "crawling zombie upgrades",
+    "monsters": [
+      { "monster": "mon_zombie_crawler_pupa", "freq": 500, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_crawler_pupa_decoy", "freq": 500, "cost_multiplier": 2 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_FAT",
+    "default": "mon_zombie_gasbag",
+    "//": "fat zombie upgrades",
+    "monsters": [
+      { "monster": "mon_zombie_pupa", "freq": 150, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_pupa_decoy", "freq": 150, "cost_multiplier": 2 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_RAPTOR_UPGRADES",
+    "default": "mon_spawn_raptor",
+    "//": "Raptor upgrades.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
+    "monsters": [
+      { "monster": "mon_spawn_raptor_shady", "freq": 330, "cost_multiplier": 10 },
+      { "monster": "mon_spawn_raptor_electric", "freq": 330, "cost_multiplier": 10 },
+      { "monster": "mon_spawn_raptor_unstable", "freq": 330, "cost_multiplier": 10 }
+    ]
   }
 ]
