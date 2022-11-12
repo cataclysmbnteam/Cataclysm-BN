@@ -9938,19 +9938,19 @@ int iuse::binder_add_recipe( player *p, item *binder, bool, const tripoint & )
 
 
 
-int iuse::ebooksave(player* p, item* it, bool, const tripoint&)
+int iuse::ebooksave( player *p, item *it, bool, const tripoint & )
 {
-    if (!it->is_ebook_storage()) {
-        debugmsg("EBOOKSAVE iuse called on item without ebook type pocket");
+    if( !it->is_ebook_storage() ) {
+        debugmsg( "EBOOKSAVE iuse called on item without ebook type pocket" );
         return 0;
     }
 
-    if (p->is_npc()) {
+    if( p->is_npc() ) {
         return 0;
     }
 
-    if (p->is_underwater()) {
-        p->add_msg_if_player(m_info, _("Unfortunately your device is not waterproof."));
+    if( p->is_underwater() ) {
+        p->add_msg_if_player( m_info, _( "Unfortunately your device is not waterproof." ) );
         return 0;
     }
 
@@ -9962,47 +9962,47 @@ int iuse::ebooksave(player* p, item* it, bool, const tripoint&)
     }*/
 
     std::set<itype_id> ebooks;
-    for (const item* ebook : it->ebooks()) {
-        if (!ebook->is_book()) {
-            debugmsg("ebook type pocket contains non-book item %s", ebook->typeId().str());
+    for( const item *ebook : it->ebooks() ) {
+        if( !ebook->is_book() ) {
+            debugmsg( "ebook type pocket contains non-book item %s", ebook->typeId().str() );
             continue;
         }
 
-        ebooks.insert(ebook->typeId());
+        ebooks.insert( ebook->typeId() );
     }
 
     const item_location book = game_menus::inv::titled_filter_menu(
-        [&p, &ebooks](const item& itm) {
-            return itm.is_book() && p->has_identified(itm.typeId()) && !ebooks.count(itm.typeId());
-        },
-        *p->as_avatar(), _("Scan which book?"));
+    [&p, &ebooks]( const item & itm ) {
+        return itm.is_book() && p->has_identified( itm.typeId() ) && !ebooks.count( itm.typeId() );
+    },
+    *p->as_avatar(), _( "Scan which book?" ) );
 
-    if (!book) {
-        p->add_msg_if_player(m_info, _("Nevermind."));
+    if( !book ) {
+        p->add_msg_if_player( m_info, _( "Nevermind." ) );
         return 0;
     }
 
     p->assign_activity(
-        player_activity(ebooksave_activity_actor(book, item_location(*p, it))));
-    p->add_msg_if_player("iuse::ebooksave, selected book -> " + book->typeId().str());
+        player_activity( ebooksave_activity_actor( book, item_location( *p, it ) ) ) );
+    p->add_msg_if_player( "iuse::ebooksave, selected book -> " + book->typeId().str() );
 
-        return 0;
+    return 0;
 }
 
 // will be the hardest part, how to make the player read the book if it's not an activity actor yet? We'll see
-int iuse::ebookread(player* p, item* it, bool, const tripoint&)
+int iuse::ebookread( player *p, item *it, bool, const tripoint & )
 {
-    if (!it->is_ebook_storage()) {
-        debugmsg("EBOOKREAD iuse called on item without ebook type pocket");
+    if( !it->is_ebook_storage() ) {
+        debugmsg( "EBOOKREAD iuse called on item without ebook type pocket" );
         return 0;
     }
 
-    if (p->is_npc()) {
+    if( p->is_npc() ) {
         return 0;
     }
 
-    if (p->is_underwater()) {
-        p->add_msg_if_player(m_info, _("Unfortunately your device is not waterproof."));
+    if( p->is_underwater() ) {
+        p->add_msg_if_player( m_info, _( "Unfortunately your device is not waterproof." ) );
         return 0;
     }
 
@@ -10014,26 +10014,26 @@ int iuse::ebookread(player* p, item* it, bool, const tripoint&)
     }*/
 
 
-    item_location ereader = item_location(*p, it);
-    item_location book = game_menus::inv::ebookread(*p, ereader);
+    item_location ereader = item_location( *p, it );
+    item_location book = game_menus::inv::ebookread( *p, ereader );
 
-    if (!book) {
+    if( !book ) {
         return 0;
     }
 
-    p->add_msg_if_player("iuse::ebookread");
+    p->add_msg_if_player( "iuse::ebookread" );
 
-        // TODO when the ereader is transformed, we don't have access to the ebook content anymore
-        // This may be problematic
-        // I wonder... shouldn't the books be added to the "on" version instead?
-        if (!it->active && it->is_transformable()) {
-            const use_function* readinglight = it->type->get_use("transform");
-            if (readinglight) {
-                readinglight->call(*p, *it, it->active, p->pos());
-            }
+    // TODO when the ereader is transformed, we don't have access to the ebook content anymore
+    // This may be problematic
+    // TODO note: the segfault doesn't come from here, it still happens when this is commented
+    if( !it->active && it->is_transformable() ) {
+        const use_function *readinglight = it->type->get_use( "transform" );
+        if( readinglight ) {
+            readinglight->call( *p, *it, it->active, p->pos() );
         }
+    }
 
-    p->as_avatar()->read(book);
+    p->as_avatar()->read( book );
 
     return 0;
 }
