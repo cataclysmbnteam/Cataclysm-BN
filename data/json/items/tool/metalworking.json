@@ -58,7 +58,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "charcoal forge" },
-    "description": "This is a portable, charcoal fired, metalworking forge.  If combined with the right tools, you could use this for metalworking.",
+    "description": "This is a portable, charcoal fired, metalworking forge.  If combined with the right tools, you could use this for metalworking, or it could be used to repair metal items.",
     "weight": "8600 g",
     "volume": "8 L",
     "price": 20000,
@@ -71,6 +71,32 @@
     "ammo": "charcoal",
     "sub": "forge",
     "max_charges": 500,
+    "charges_per_use": 8,
+    "use_action": [
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_metal",
+        "materials": [
+          "iron",
+          "steel",
+          "hardsteel",
+          "aluminum",
+          "copper",
+          "bronze",
+          "silver",
+          "gold",
+          "platinum",
+          "superalloy",
+          "lead",
+          "tin",
+          "zinc"
+        ],
+        "skill": "fabrication",
+        "tool_quality": 4,
+        "cost_scaling": 0.1,
+        "move_cost": 500
+      }
+    ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -148,7 +174,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "electric forge" },
-    "description": "This is a portable electric metalworking forge, powered by batteries.  Combined with the right tools, you could use this for metalworking.  With a little mechanical know-how, you could probably even convert it to run directly off a vehicle's power system.",
+    "description": "This is a portable electric metalworking forge, powered by batteries.  Combined with the right tools, you could use this for metalworking, or it could be used to repair metal items.  With a little mechanical know-how, you could probably even convert it to run directly off a vehicle's power system.",
     "weight": "10000 g",
     "volume": "6 L",
     "price": 40000,
@@ -159,6 +185,32 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
+    "charges_per_use": 4,
+    "use_action": [
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_metal",
+        "materials": [
+          "iron",
+          "steel",
+          "hardsteel",
+          "aluminum",
+          "copper",
+          "bronze",
+          "silver",
+          "gold",
+          "platinum",
+          "superalloy",
+          "lead",
+          "tin",
+          "zinc"
+        ],
+        "skill": "fabrication",
+        "tool_quality": 8,
+        "cost_scaling": 0.1,
+        "move_cost": 500
+      }
+    ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "magazines": [
       [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]

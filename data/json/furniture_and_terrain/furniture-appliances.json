@@ -864,6 +864,7 @@
     "coverage": 10,
     "required_str": -1,
     "crafting_pseudo_item": "fake_gridforge",
+    "examine_action": "use_furn_fake_item",
     "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
     "deconstruct": {
       "items": [ { "item": "forge", "count": 1 }, { "item": "cable", "charges": 5 }, { "item": "power_supply", "count": 1 } ]
