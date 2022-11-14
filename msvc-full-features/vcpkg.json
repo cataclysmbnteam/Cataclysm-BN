@@ -1,0 +1,14 @@
+{
+    "name": "bn-vcpkg-dependencies",
+    "version-string": "experimental",
+    "dependencies": [
+        "sdl2",
+        "sdl2-image",
+        {
+          "name": "sdl2-mixer",
+          "features": [ "libflac", "mpg123", "libmodplug", "libvorbis" ]
+        },
+        "sdl2-ttf"
+    ],
+    "builtin-baseline": "f4b262b259145adb2ab0116a390b08642489d32b"
+}

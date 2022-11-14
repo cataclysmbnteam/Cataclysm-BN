@@ -1,6 +1,18 @@
 [
   {
     "type": "item_group",
+    "id": "atomic_vehicle_servicing",
+    "items": [
+      { "item": "plut_cell", "prob": 75, "charges": [ 1, 10 ] },
+      [ "hd_tow_cable", 5 ],
+      [ "jack", 5 ],
+      [ "jack_small", 5 ],
+      [ "jumper_cable", 5 ],
+      [ "jumper_cable_heavy", 5 ]
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "fuel_diesel",
     "items": [
       { "item": "diesel", "prob": 70, "charges-min": 950, "charges-max": 8000, "container-item": "jerrycan" },

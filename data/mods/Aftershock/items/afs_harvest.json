@@ -15,8 +15,8 @@
     "id": "CBM_CIV",
     "type": "harvest",
     "entries": [
-      { "drop": "bio_power_storage", "type": "bionic", "flags": [ "NO_STERILE", "NO_PACKED" ] },
-      { "drop": "bionics_common", "type": "bionic_group", "flags": [ "NO_STERILE", "NO_PACKED" ] },
+      { "drop": "bio_power_storage", "type": "bionic", "faults": [ "fault_bionic_nonsterile" ] },
+      { "drop": "bionics_common", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
       { "drop": "afs_titanium_implant", "type": "bionic", "flags": [ "FILTHY", "NO_STERILE" ], "max": 1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },

@@ -141,6 +141,7 @@
       [ "schematics_secubot", 50 ],
       [ "schematics_skitterbot", 50 ],
       [ "schematics_hazmatbot", 50 ],
+      [ "schematics_haulerbot", 25 ],
       [ "schematics_riotbot", 50 ],
       [ "schematics_sciencebot", 10 ],
       [ "schematics_molebot", 20 ],
@@ -273,10 +274,32 @@
       [ "lye_powder", 10 ],
       [ "oxy_powder", 12 ],
       [ "chemistry_set", 5 ],
+      [ "royal_jelly", 8 ],
       [ "meat_tainted", 8 ],
       [ "veggy_tainted", 4 ],
       [ "slime_scrap", 8 ],
       [ "chem_nitric_acid", 5 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "books_bank_vault",
+    "items": [
+      [ "recipe_raptor", 10 ],
+      [ "recipe_alpha", 10 ],
+      [ "recipe_chimera", 10 ],
+      [ "recipe_elfa", 10 ],
+      [ "recipe_medicalmut", 10 ],
+      [ "recipe_serum", 10 ],
+      [ "recipe_creepy", 10 ],
+      [ "recipe_animal", 10 ],
+      [ "recipe_maiar", 10 ],
+      [ "recipe_labchem", 10 ],
+      [ "recipe_mil_augs", 10 ],
+      [ "recipe_caseless", 10 ],
+      [ "textbook_atomic_lab", 10 ],
+      [ "recipe_lab_elec", 10 ],
+      [ "recipe_lab_cvd", 10 ]
     ]
   },
   {

@@ -38,6 +38,9 @@
 #include "translations.h"
 #include "type_id.h"
 
+static const ammo_effect_str_id ammo_effect_DRAW_AS_LINE( "DRAW_AS_LINE" );
+static const ammo_effect_str_id ammo_effect_NO_DAMAGE_SCALING( "NO_DAMAGE_SCALING" );
+
 void mdefense::none( monster &, Creature *, const dealt_projectile_attack * )
 {
 }
@@ -131,8 +134,8 @@ void mdefense::acidsplash( monster &m, Creature *const source,
     projectile prj;
     prj.speed = 10;
     prj.range = 4;
-    prj.proj_effects.insert( "DRAW_AS_LINE" );
-    prj.proj_effects.insert( "NO_DAMAGE_SCALING" );
+    prj.add_effect( ammo_effect_DRAW_AS_LINE );
+    prj.add_effect( ammo_effect_NO_DAMAGE_SCALING );
     prj.impact.add_damage( DT_ACID, rng( 1, 3 ) );
     for( size_t i = 0; i < num_drops; i++ ) {
         const tripoint &target = random_entry( pts );

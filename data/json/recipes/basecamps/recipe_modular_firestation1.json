@@ -53,12 +53,12 @@
     "blueprint_provides": [ { "id": "fbmc_firestation1_well" }, { "id": "relaying" }, { "id": "scouting" }, { "id": "patrolling" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_well" } ],
     "blueprint_needs": {
-      "time": "11 h",
+      "time": "13 h 30 m",
       "skills": [ [ "fabrication", 4 ], [ "mechanics", 2 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH" } ] ],
-        "components": [ [ [ "rock", 40 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ], [ [ "well_pump", 1 ] ], [ [ "pipe", 6 ] ] ]
+        "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ], [ [ "pipe", 6 ] ], [ [ "rock", 40 ] ], [ [ "well_pump", 1 ] ] ]
       }
     }
   },
@@ -195,7 +195,7 @@
         "components": [ [ [ "rock", 40 ] ] ]
       }
     },
-    "components": [ [ [ "pot", 1 ], [ "rock_pot", 1 ], [ "pot_copper", 1 ], [ "clay_pot", 1 ] ] ]
+    "components": [ [ [ "pot", 1 ], [ "pot_copper", 1 ], [ "clay_pot", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -219,7 +219,7 @@
     ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_fire" } ],
     "blueprint_resources": [ "fake_fireplace", "pot" ],
-    "components": [ [ [ "brazier", 1 ] ], [ [ "pot", 1 ], [ "rock_pot", 1 ], [ "pot_copper", 1 ], [ "clay_pot", 1 ] ] ]
+    "components": [ [ [ "brazier", 1 ] ], [ [ "pot", 1 ], [ "pot_copper", 1 ], [ "clay_pot", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -247,7 +247,7 @@
       "skills": [ [ "mechanics", 0 ], [ "fabrication", 4 ] ],
       "inline": { "tools": [  ], "qualities": [ [ { "id": "SAW_M" } ] ], "components": [ [ [ "metal_tank", 1 ] ], [ [ "pipe", 1 ] ] ] }
     },
-    "components": [ [ [ "pot", 1 ], [ "rock_pot", 1 ], [ "pot_copper", 1 ], [ "clay_pot", 1 ] ] ]
+    "components": [ [ [ "pot", 1 ], [ "pot_copper", 1 ], [ "clay_pot", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -299,20 +299,7 @@
           [ [ "wood_sheet", 1 ], [ "wood_panel", 1 ] ],
           [ [ "nail", 8 ] ],
           [ [ "stick_long", 6 ] ],
-          [
-            [ "rope_6", 1 ],
-            [ "vine_6", 1 ],
-            [ "rope_makeshift_6", 1 ],
-            [ "string_36", 2 ],
-            [ "cordage_36", 2 ],
-            [ "string_6", 12 ],
-            [ "cordage_6", 12 ],
-            [ "thread", 600 ],
-            [ "sinew", 600 ],
-            [ "plant_fibre", 600 ],
-            [ "yarn", 600 ],
-            [ "wire", 8 ]
-          ],
+          [ [ "rope_natural_short", 1, "LIST" ], [ "cordage", 2, "LIST" ], [ "wire", 8 ] ],
           [ [ "pointy_stick", 2 ], [ "spike", 2 ] ]
         ]
       }
@@ -381,12 +368,12 @@
     "blueprint_provides": [ { "id": "fbmc_firestation1_quarters" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_quarters" } ],
     "blueprint_needs": {
-      "time": "15 h 54 m",
+      "time": "7 h 30 m",
       "skills": [ [ "fabrication", 2 ] ],
       "inline": {
-        "tools": [ [ [ "paint_brush", -1 ] ], [ [ "chipper", -1 ] ] ],
+        "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 70 ] ], [ [ "nail", 180 ] ], [ [ "wood_panel", 5 ] ], [ [ "hinge", 10 ] ], [ [ "w_paint", 900 ] ] ]
+        "components": [ [ [ "2x4", 70 ] ], [ [ "hinge", 10 ] ], [ [ "nail", 180 ] ], [ [ "wood_panel", 5 ] ] ]
       }
     }
   },
@@ -545,14 +532,14 @@
   {
     "type": "recipe",
     "result": "faction_base_modular_firestation1_forge",
-    "description": "Let's build a fabrication workshop.",
+    "description": "Let's build a charcoal fabrication workshop.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "skill_used": "fabrication",
     "autolearn": false,
     "never_learn": true,
     "construction_blueprint": "fbmc_firestation1_forge",
-    "blueprint_name": "build a metalworking forge",
+    "blueprint_name": "build a charcoal metalworking forge",
     "blueprint_requires": [ { "id": "fbmc_firestation1_smoking" } ],
     "blueprint_provides": [ { "id": "fbmc_firestation1_forge" }, { "id": "blacksmith_recipes_1" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_forge" } ],
@@ -561,6 +548,31 @@
       "time": "2 h",
       "skills": [ [ "fabrication", 4 ] ],
       "inline": { "tools": [  ], "qualities": [  ], "components": [ [ [ "material_soil", 3 ] ], [ [ "rock", 40 ] ] ] }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_firestation1_grid_forge",
+    "description": "Let's build an electric fabrication workshop.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "skill_used": "fabrication",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_firestation1_grid_forge",
+    "blueprint_name": "build a grid metalworking forge",
+    "blueprint_requires": [ { "id": "fbmc_firestation1_smoking" } ],
+    "blueprint_provides": [ { "id": "fbmc_firestation1_forge" }, { "id": "blacksmith_recipes_1" } ],
+    "blueprint_excludes": [ { "id": "fbmc_firestation1_forge" } ],
+    "blueprint_resources": [ "fake_gridforge", "hammer" ],
+    "blueprint_needs": {
+      "time": "30 m",
+      "skills": [ [ "electronics", 1 ] ],
+      "inline": {
+        "tools": [ [ [ "fake_gridsolderingiron", 20 ], [ "soldering_iron", 20 ], [ "toolset", 20 ] ] ],
+        "qualities": [ [ { "id": "SCREW" } ] ],
+        "components": [ [ [ "cable", 5 ] ], [ [ "forge", 1 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 25 ] ] ]
+      }
     }
   },
   {

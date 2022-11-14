@@ -133,7 +133,8 @@ The more translators there are, the easier it becomes 😄.
 
 ## Developers
 
-Cataclysm: BN uses [GNU gettext][4] to display translated texts.
+Cataclysm: BN uses custom runtime library that works similarly to
+[GNU gettext][4] to display translated texts.
 
 Using `gettext` requires two actions:
 

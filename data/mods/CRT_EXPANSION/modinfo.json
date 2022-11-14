@@ -7,6 +7,6 @@
     "maintainers": [ "Soupster89" ],
     "description": "Adds a plethora of content: professions, guns/mods, WIP enemies, mutations, martial arts, melee weapons, and some QOL changes such as plants from cutting grass.",
     "category": "content",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "bn" ]
   }
 ]

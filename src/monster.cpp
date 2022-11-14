@@ -31,6 +31,7 @@
 #include "melee.h"
 #include "messages.h"
 #include "mission.h"
+#include "mod_manager.h"
 #include "mondeath.h"
 #include "mondefense.h"
 #include "monfaction.h"
@@ -55,6 +56,8 @@
 #include "translations.h"
 #include "trap.h"
 #include "weather.h"
+
+static const ammo_effect_str_id ammo_effect_WHIP( "WHIP" );
 
 static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_beartrap( "beartrap" );
@@ -645,6 +648,15 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
         wprintz( w, c_light_gray, _( " Difficulty " ) + std::to_string( type->difficulty ) );
     }
 
+    if( display_mod_source ) {
+        const std::string mod_src = enumerate_as_string( type->src.begin(),
+        type->src.end(), []( const std::pair<mtype_id, mod_id> &source ) {
+            return string_format( "'%s'", source.second->name() );
+        }, enumeration_conjunction::arrow );
+        vStart += fold_and_print( w, point( column, vStart + 1 ), getmaxx( w ) - 2, c_cyan,
+                                  string_format( _( "Origin: %s" ), mod_src ) );
+    }
+
     if( sees( g->u ) ) {
         mvwprintz( w, point( column, ++vStart ), c_yellow, _( "Aware of your presence!" ) );
     }
@@ -695,6 +707,16 @@ std::string monster::extended_description() const
             difficulty_str = _( "<color_red>Fatally dangerous!</color>" );
         }
     }
+
+    if( display_mod_source ) {
+        ss += _( "Origin: " );
+        ss += enumerate_as_string( type->src.begin(),
+        type->src.end(), []( const std::pair<mtype_id, mod_id> &source ) {
+            return string_format( "'%s'", source.second->name() );
+        }, enumeration_conjunction::arrow );
+    }
+
+    ss += "\n--\n";
 
     ss += string_format( _( "This is a %s.  %s %s" ), name(), att_colored,
                          difficulty_str ) + "\n";
@@ -1330,14 +1352,15 @@ bool monster::is_immune_damage( const damage_type dt ) const
         case DT_STAB:
             return false;
         case DT_HEAT:
-            // Ugly hardcode - remove later
-            return made_of( material_id( "steel" ) ) || made_of( material_id( "stone" ) );
+            return has_flag( MF_FIREPROOF );
         case DT_COLD:
             return false;
         case DT_ELECTRIC:
             return type->sp_defense == &mdefense::zapback ||
                    has_flag( MF_ELECTRIC ) ||
                    has_flag( MF_ELECTRIC_FIELD );
+        case DT_BULLET:
+            return false;
         default:
             return true;
     }
@@ -1370,7 +1393,6 @@ void monster::melee_attack( Creature &target )
 
 void monster::melee_attack( Creature &target, float accuracy )
 {
-    int hitspread = target.deal_melee_attack( this, melee::melee_hit_range( accuracy ) );
     mod_moves( -type->attack_cost );
     if( type->melee_dice == 0 ) {
         // We don't attack, so just return
@@ -1381,6 +1403,12 @@ void monster::melee_attack( Creature &target, float accuracy )
         // This happens sometimes
         return;
     }
+
+    if( !can_squeeze_to( target.pos() ) ) {
+        return;
+    }
+
+    int hitspread = target.deal_melee_attack( this, melee::melee_hit_range( accuracy ) );
 
     if( target.is_player() ||
         ( target.is_npc() && g->u.attitude_to( target ) == A_FRIENDLY ) ) {
@@ -1541,10 +1569,9 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
 {
     const auto &proj = attack.proj;
     double &missed_by = attack.missed_by; // We can change this here
-    const auto &effects = proj.proj_effects;
 
     // Whip has a chance to scare wildlife even if it misses
-    if( effects.count( "WHIP" ) && type->in_category( "WILDLIFE" ) && one_in( 3 ) ) {
+    if( proj.has_effect( ammo_effect_WHIP ) && type->in_category( "WILDLIFE" ) && one_in( 3 ) ) {
         add_effect( effect_run, rng( 3_turns, 5_turns ) );
     }
 
@@ -1601,6 +1628,7 @@ void monster::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, in
         // internal damage, like from smoke or poison
         case DT_CUT:
         case DT_STAB:
+        case DT_BULLET:
         case DT_HEAT:
         default:
             break;
@@ -1621,7 +1649,7 @@ int monster::heal( const int delta_hp, bool overheal )
     if( hp > maxhp && !overheal ) {
         hp = maxhp;
     }
-    return maxhp - old_hp;
+    return hp - old_hp;
 }
 
 void monster::set_hp( const int hp )
@@ -1854,6 +1882,13 @@ int monster::get_armor_bash( bodypart_id bp ) const
     return static_cast<int>( type->armor_bash ) + armor_bash_bonus + get_worn_armor_val( DT_BASH );
 }
 
+int monster::get_armor_bullet( bodypart_id bp ) const
+{
+    ( void ) bp;
+    return static_cast<int>( type->armor_bullet ) + armor_bullet_bonus + get_worn_armor_val(
+               DT_BULLET );
+}
+
 int monster::get_armor_type( damage_type dt, bodypart_id bp ) const
 {
     int worn_armor = get_worn_armor_val( dt );
@@ -1866,6 +1901,8 @@ int monster::get_armor_type( damage_type dt, bodypart_id bp ) const
             return get_armor_bash( bp );
         case DT_CUT:
             return get_armor_cut( bp );
+        case DT_BULLET:
+            return get_armor_bullet( bp );
         case DT_ACID:
             return worn_armor + static_cast<int>( type->armor_acid );
         case DT_STAB:
@@ -1926,7 +1963,7 @@ float monster::stability_roll() const
         case MS_HUGE:
             size_bonus += 10;
             break;
-        case MS_MEDIUM:
+        default:
             break; // keep default
     }
 
@@ -1988,6 +2025,8 @@ float monster::fall_damage_mod() const
             return 1.4f;
         case MS_HUGE:
             return 2.0f;
+        default:
+            return 1.0f;
     }
 
     return 0.0f;
@@ -2189,7 +2228,7 @@ void monster::process_turn()
                 const auto t = g->m.ter( zap );
                 if( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) {
                     if( one_in( 4 ) ) {
-                        explosion_handler::explosion( pos(), 40, 0.8, true );
+                        explosion_handler::explosion( pos(), nullptr, 40, 0.8, true );
                         if( player_sees ) {
                             add_msg( m_warning, _( "The %s explodes in a fiery inferno!" ), g->m.tername( zap ) );
                         }
@@ -2381,6 +2420,31 @@ bool monster::check_mech_powered() const
     return true;
 }
 
+static void process_item_valptr( cata::value_ptr<item> &ptr, monster &mon )
+{
+    if( ptr && ptr->needs_processing() && ptr->process( nullptr, mon.pos(), false ) ) {
+        ptr.reset();
+    }
+}
+
+void monster::process_items()
+{
+    for( auto iter = inv.begin(); iter != inv.end(); ) {
+        if( iter->needs_processing() &&
+            iter->process( nullptr, pos(), false )
+          ) {
+            iter = inv.erase( iter );
+            continue;
+        }
+        iter++;
+    }
+
+    process_item_valptr( storage_item, *this );
+    process_item_valptr( armor_item, *this );
+    process_item_valptr( tack_item, *this );
+    process_item_valptr( tied_item, *this );
+}
+
 void monster::drop_items_on_death()
 {
     if( is_hallucination() ) {
@@ -2485,8 +2549,24 @@ void monster::process_effects_internal()
     }
 
     //If this monster has the ability to heal in combat, do it now.
-    const int healed_amount = heal( type->regenerates );
+    int regeneration_amount = type->regenerates;
+    float regen_multiplier = 0;
+    //Apply effect-triggered regeneration modifiers
+    for( const auto &regeneration_modifier : type->regeneration_modifiers ) {
+        if( has_effect( regeneration_modifier.first ) ) {
+            effect &e = get_effect( regeneration_modifier.first );
+            regen_multiplier = 1.00 + regeneration_modifier.second.base_modifier +
+                               ( e.get_intensity() - 1 ) * regeneration_modifier.second.scale_modifier;
+            regeneration_amount = round( regeneration_amount * regen_multiplier );
+        }
+    }
+    //Prevent negative regeneration
+    if( regeneration_amount < 0 ) {
+        regeneration_amount = 0;
+    }
+    const int healed_amount = heal( round( regeneration_amount ) );
     if( healed_amount > 0 && one_in( 2 ) && g->u.sees( *this ) ) {
+        add_msg( m_debug, ( "Regen: %s" ), healed_amount );
         std::string healing_format_string;
         if( healed_amount >= 50 ) {
             healing_format_string = _( "The %s is visibly regenerating!" );
@@ -2616,7 +2696,7 @@ m_size monster::get_size() const
 
 units::mass monster::get_weight() const
 {
-    return units::operator*( type->weight, get_size() / type->size );
+    return units::operator*( type->weight, ( get_size() + 1 ) / ( type->size + 1 ) );
 }
 
 units::mass monster::weight_capacity() const
@@ -2626,7 +2706,7 @@ units::mass monster::weight_capacity() const
 
 units::volume monster::get_volume() const
 {
-    return units::operator*( type->volume, get_size() / type->size );
+    return units::operator*( type->volume, ( get_size() + 1 ) / ( type->size + 1 ) );
 }
 
 void monster::add_msg_if_npc( const std::string &msg ) const
@@ -2743,7 +2823,7 @@ item monster::to_item() const
 
 float monster::power_rating() const
 {
-    float ret = get_size() - 2; // Zed gets 1, cat -1, hulk 3
+    float ret = get_size() - 1; // Zed gets 1, cat -1, hulk 3
     ret += has_flag( MF_ELECTRONIC ) ? 2 : 0; // Robots tend to have guns
     // Hostile stuff gets a big boost
     // Neutral moose will still get burned if it comes close

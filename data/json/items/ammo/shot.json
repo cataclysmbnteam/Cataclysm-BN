@@ -1,55 +1,10 @@
 [
   {
-    "id": "reloaded_shot_bird",
-    "copy-from": "shot_bird",
-    "type": "AMMO",
-    "name": { "str": "birdshot, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_shot_dragon",
-    "copy-from": "shot_dragon",
-    "type": "AMMO",
-    "name": { "str": "dragon's breath shell, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_shot_00",
-    "copy-from": "shot_00",
-    "type": "AMMO",
-    "name": { "str": "00 shot, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_shot_flechette",
-    "copy-from": "shot_flechette",
-    "type": "AMMO",
-    "name": { "str": "flechette shell, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_shot_slug",
-    "copy-from": "shot_slug",
-    "type": "AMMO",
-    "name": { "str": "shotgun slug, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
     "id": "bp_shot_bird",
     "copy-from": "shot_bird",
     "type": "AMMO",
     "name": { "str": "birdshot, black powder" },
-    "proportional": { "price": 0.6, "damage": { "damage_type": "stab", "amount": 0.8 }, "dispersion": 1.2 },
+    "proportional": { "price": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -58,7 +13,7 @@
     "copy-from": "shot_dragon",
     "type": "AMMO",
     "name": { "str": "dragon's breath shell, black powder" },
-    "proportional": { "price": 0.6, "damage": { "damage_type": "stab", "amount": 0.8 }, "dispersion": 1.2 },
+    "proportional": { "price": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -75,7 +30,7 @@
     "copy-from": "shot_flechette",
     "type": "AMMO",
     "name": { "str": "flechette shell, black powder" },
-    "proportional": { "price": 0.6, "damage": { "damage_type": "stab", "amount": 0.8 }, "dispersion": 1.2 },
+    "proportional": { "price": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -84,7 +39,7 @@
     "copy-from": "shot_slug",
     "type": "AMMO",
     "name": { "str": "shotgun slug, black powder" },
-    "proportional": { "price": 0.6, "damage": { "damage_type": "stab", "amount": 0.8 }, "dispersion": 1.2 },
+    "proportional": { "price": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -106,7 +61,7 @@
     "ammo_type": "shot",
     "casing": "shot_hull",
     "range": 12,
-    "damage": { "damage_type": "stab", "amount": 50 },
+    "damage": { "damage_type": "bullet", "amount": 50 },
     "recoil": 2500,
     "loudness": 160,
     "effects": [ "COOKOFF", "SHOT" ]
@@ -134,7 +89,7 @@
     "price": 100,
     "price_postapoc": 400,
     "range": 0,
-    "damage": { "damage_type": "stab", "amount": 20, "armor_multiplier": 2.0 },
+    "damage": { "damage_type": "bullet", "amount": 20, "armor_multiplier": 2.0 },
     "dispersion": 1000,
     "loudness": 80,
     "shape": [ "cone", { "half_angle": 15, "length": 8 } ],
@@ -149,7 +104,13 @@
     "price": 1000,
     "price_postapoc": 1600,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "proportional": { "damage": { "damage_type": "stab", "amount": 0.2 }, "recoil": 0.6, "loudness": 0.8, "dispersion": 1.2, "range": 0.5 },
+    "proportional": {
+      "damage": { "damage_type": "bullet", "amount": 0.2 },
+      "recoil": 0.6,
+      "loudness": 0.8,
+      "dispersion": 1.2,
+      "range": 0.5
+    },
     "extend": { "effects": [ "INCENDIARY", "STREAM", "NOGIB" ] }
   },
   {
@@ -162,7 +123,7 @@
     "price_postapoc": 800,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 10,
-    "relative": { "damage": { "damage_type": "stab", "amount": -6, "armor_penetration": 12 } }
+    "relative": { "damage": { "damage_type": "bullet", "amount": -6, "armor_penetration": 12 } }
   },
   {
     "id": "shot_he",
@@ -175,8 +136,8 @@
     "price_postapoc": 1600,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 5,
-    "damage": { "damage_type": "stab", "amount": 10, "armor_penetration": 0 },
-    "extend": { "effects": [ "EXPLOSIVE_HESHOT" ] }
+    "damage": { "damage_type": "bullet", "amount": 10, "armor_penetration": 0 },
+    "extend": { "effects": [ "EXPLOSIVE" ] }
   },
   {
     "id": "shot_scrap",
@@ -184,7 +145,7 @@
     "type": "AMMO",
     "name": { "str": "00 shot, scrap loaded" },
     "description": "A shotgun shell filled with whatever was lying around.  They are more damaging than birdshot, but fairly inaccurate.",
-    "proportional": { "price": 0.4, "damage": { "damage_type": "stab", "amount": 0.6 }, "dispersion": 1.2 },
+    "proportional": { "price": 0.4, "damage": { "damage_type": "bullet", "amount": 0.6 }, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -193,7 +154,7 @@
     "copy-from": "shot_scrap",
     "type": "AMMO",
     "name": { "str": "00 shot, black powder, scrap loaded" },
-    "proportional": { "price": 0.6, "damage": { "damage_type": "stab", "amount": 0.8 } },
+    "proportional": { "price": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 } },
     "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -207,7 +168,7 @@
     "price_postapoc": 400,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "dispersion": 100,
-    "relative": { "range": 12, "damage": { "damage_type": "stab", "armor_penetration": 6 } },
+    "relative": { "range": 12, "damage": { "damage_type": "bullet", "armor_penetration": 6 } },
     "proportional": { "recoil": 1.4 },
     "delete": { "effects": [ "SHOT" ] }
   }

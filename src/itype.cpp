@@ -73,6 +73,11 @@ bool itype::has_flag( const std::string &flag ) const
     return item_tags.count( flag );
 }
 
+bool itype::has_flag( const flag_str_id &flag ) const
+{
+    return item_tags.count( flag.str() );
+}
+
 const itype::FlagsSetType &itype::get_flags() const
 {
     return item_tags;
@@ -119,6 +124,13 @@ int itype::invoke( player &p, item &it, const tripoint &pos, const std::string &
     if( !ret.success() ) {
         p.add_msg_if_player( m_info, ret.str() );
         return 0;
+    }
+    // used for grenades and such, to increase kill count
+    // invoke is called a first time with transform, when the explosive item is activated
+    // then a second time with draw explosion
+    // the player responsible of the explosion is the one that activated the object
+    if( iuse_name == "transform" ) {
+        it.activated_by = p.get_safe_reference();
     }
 
     return use->call( p, it, false, pos );

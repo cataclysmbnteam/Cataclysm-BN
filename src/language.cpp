@@ -3,42 +3,35 @@
 #include <algorithm>
 #include <fstream>
 
-#if defined(LOCALIZE)
-#  if defined(_WIN32)
-#    if 1 // Prevent IWYU reordering platform_win.h below mmsystem.h
-#      include "platform_win.h"
-#    endif
-#    include "mmsystem.h"
+#if defined(_WIN32)
+#  if 1 // Prevent IWYU reordering platform_win.h below mmsystem.h
+#    include "platform_win.h"
 #  endif
-#
-#  if defined(MACOSX)
-#    include <CoreFoundation/CFLocale.h>
-#    include <CoreFoundation/CoreFoundation.h>
-#  endif
-#
-#  include <cstdlib>
-#  include <libintl.h>
-#endif // LOCALIZE
+#  include "mmsystem.h"
+#endif
+
+#if defined(MACOSX)
+#  include <CoreFoundation/CFLocale.h>
+#  include <CoreFoundation/CoreFoundation.h>
+#endif
 
 #include "cached_options.h"
-#include "catacharset.h"
 #include "cata_libintl.h"
+#include "catacharset.h"
 #include "debug.h"
+#include "filesystem.h"
 #include "fstream_utils.h"
+#include "json.h"
+#include "mod_manager.h"
 #include "name.h"
 #include "options.h"
+#include "path_info.h"
 #include "path_info.h"
 #include "string_utils.h"
 #include "translations.h"
 #include "ui.h"
-#if defined(LOCALIZE)
-#  include "json.h"
-#  include "ui_manager.h"
-#  include "filesystem.h"
-#  include "mod_manager.h"
-#  include "path_info.h"
-#  include "worldfactory.h"
-#endif
+#include "ui_manager.h"
+#include "worldfactory.h"
 
 #define dbg(x) DebugLog((x), DC::Main)
 
@@ -56,8 +49,6 @@ static language_info const *system_language = nullptr;
 // gettext should be using.
 // May be nullptr if language hasn't been set yet.
 static language_info const *current_language = nullptr;
-
-bool gettext_use_modular = false;
 
 static language_info fallback_language = { "en", R"(English)", "en_US.UTF-8", { "n" }, "", { 1033 } };
 
@@ -87,7 +78,6 @@ static void reload_names()
     Name::load_from_file( PATH_INFO::names() );
 }
 
-#if defined(LOCALIZE)
 #if defined(MACOSX)
 static std::string getSystemUILang()
 {
@@ -188,16 +178,6 @@ static std::string getSystemUILang()
 }
 #endif // _WIN32 / !MACOSX
 
-static bool cata_setenv( const std::string &name, const std::string &value )
-{
-#if defined(_WIN32)
-    std::string s = name + "=" + value;
-    return _putenv( s.c_str() ) == 0;
-#else
-    return setenv( name.c_str(), value.c_str(), true ) == 0;
-#endif
-}
-
 void set_language()
 {
     // Step 1. Choose language id
@@ -214,67 +194,15 @@ void set_language()
         current_language = get_lang_info( lang_opt );
     }
 
-    // Step 1.2 Decide which translation system we're using
-    if( get_option<bool>( "MODULAR_TRANSLATIONS" ) ) {
-        dbg( DL::Info ) << "Using experimental system, language set to '" << lang_opt << "'";
+    dbg( DL::Info ) << "Language set to '" << lang_opt << "'";
 
-        gettext_use_modular = true;
-
-        // Step 2. Setup locale
-        update_global_locale();
-
-        // Step 3. Load translations for game and, possibly, mods
-        l10n_data::reload_catalogues();
-
-        // Step 4. Finalize
-        reload_names();
-        return;
-    }
-
-    gettext_use_modular = false;
-    l10n_data::unload_catalogues();
-
-    // Step 2. Setup locale & environment variables.
-    // By default, gettext uses current locale to determine which language to use.
-    // Since locale for desired language may be missing from user system,
-    // we need to explicitly specify it.
-    if( !cata_setenv( "LANGUAGE", lang_opt ) ) {
-        dbg( DL::Warn ) << "Can't set 'LANGUAGE' environment variable";
-    } else {
-        const auto env = getenv( "LANGUAGE" );
-        if( env != nullptr ) {
-            dbg( DL::Info ) << "Language is set to: '" << lang_opt << "'/'" << env << "'";
-        } else {
-            dbg( DL::Warn ) << "Can't get 'LANGUAGE' environment variable";
-        }
-    }
+    // Step 2. Setup locale
     update_global_locale();
 
-    // Step 3. Bind to gettext domain.
-    std::string locale_dir;
-#if defined(__ANDROID__)
-    // HACK: Since we're using libintl-lite instead of libintl on Android, we hack the locale_dir to point directly to the .mo file.
-    // This is because of our hacky libintl-lite bindtextdomain() implementation.
-    auto env = getenv( "LANGUAGE" );
-    locale_dir = std::string( PATH_INFO::base_path() + "lang/mo/" + ( env ? env : "none" ) +
-                              "/LC_MESSAGES/cataclysm-bn.mo" );
-#elif (defined(__linux__) || (defined(MACOSX) && !defined(TILES)))
-    if( !PATH_INFO::base_path().empty() ) {
-        locale_dir = PATH_INFO::base_path() + "share/locale";
-    } else {
-        locale_dir = "lang/mo";
-    }
-#else
-    locale_dir = "lang/mo";
-#endif
-
-    const char *locale_dir_char = locale_dir.c_str();
-    bindtextdomain( "cataclysm-bn", locale_dir_char );
-    bind_textdomain_codeset( "cataclysm-bn", "UTF-8" );
-    textdomain( "cataclysm-bn" );
+    // Step 3. Load translations for game and, possibly, mods
+    l10n_data::reload_catalogues();
 
     // Step 4. Finalize
-    invalidate_translations();
     reload_names();
 }
 
@@ -320,17 +248,6 @@ static std::vector<language_info> load_languages( const std::string &filepath )
 
     return ret;
 }
-#else // !LOCALIZE
-
-void set_language()
-{
-    current_language = &fallback_language;
-    update_global_locale();
-    reload_names();
-    return;
-}
-
-#endif // LOCALIZE
 
 bool init_language_system()
 {
@@ -363,7 +280,6 @@ bool init_language_system()
     dbg( DL::Info ) << "C locale on startup: '" << sys_c_locale << "'";
     dbg( DL::Info ) << "C++ locale on startup: '" << sys_cpp_locale << "'";
 
-#if defined(LOCALIZE)
     lang_options = load_languages( PATH_INFO::language_defs_file() );
     if( lang_options.empty() ) {
         lang_options = { fallback_language };
@@ -377,10 +293,6 @@ bool init_language_system()
         system_language = get_lang_info( lang );
         dbg( DL::Info ) << "Detected system UI language as '" << lang << "'";
     }
-#else // LOCALIZE
-    system_language = &fallback_language;
-    lang_options = { fallback_language };
-#endif // LOCALIZE
 
     return true;
 }
@@ -484,7 +396,6 @@ std::vector<std::string> get_lang_path_substring( const std::string &lang_id )
     return ret;
 }
 
-#if defined(LOCALIZE)
 bool translations_exists_for_lang( const std::string &lang_id )
 {
 
@@ -497,7 +408,6 @@ bool translations_exists_for_lang( const std::string &lang_id )
     }
     return false;
 }
-#endif // LOCALIZE
 
 bool localized_comparator::operator()( const std::string &l, const std::string &r ) const
 {
@@ -538,7 +448,6 @@ bool localized_comparator::operator()( const std::wstring &l, const std::wstring
 // Translation files management
 // ==============================================================================================
 
-#if defined(LOCALIZE)
 using cata_libintl::trans_library;
 using cata_libintl::trans_catalogue;
 
@@ -605,10 +514,6 @@ static bool add_mod_catalogues( std::vector<trans_catalogue> &list, const std::s
 
 void reload_catalogues()
 {
-    if( !gettext_use_modular ) {
-        return;
-    }
-
     std::vector<trans_catalogue> list;
     add_base_catalogue( list, get_language().id );
     add_mod_catalogues( list, get_language().id );
@@ -625,10 +530,6 @@ void unload_catalogues()
 
 void load_mod_catalogues()
 {
-    if( !gettext_use_modular ) {
-        return;
-    }
-
     assert( !mod_catalogues_loaded );
     std::vector<trans_catalogue> list;
     add_base_catalogue( list, get_language().id );
@@ -638,7 +539,7 @@ void load_mod_catalogues()
 
 void unload_mod_catalogues()
 {
-    if( !gettext_use_modular || !mod_catalogues_loaded ) {
+    if( !mod_catalogues_loaded ) {
         return;
     }
 
@@ -658,7 +559,7 @@ void translatable_mod_info::update()
     name_tr = _( name_raw );
     description_tr = _( description_raw );
 
-    if( !gettext_use_modular || name_tr != name_raw || description_tr != description_raw ) {
+    if( name_tr != name_raw || description_tr != description_raw ) {
         return;
     }
 
@@ -673,5 +574,3 @@ void translatable_mod_info::update()
     name_tr = lib.get( name_raw.c_str() );
     description_tr = lib.get( description_raw.c_str() );
 }
-
-#endif // LOCALIZE

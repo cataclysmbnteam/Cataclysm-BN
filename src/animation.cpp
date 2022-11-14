@@ -42,8 +42,8 @@ namespace
 class basic_animation
 {
     public:
-        basic_animation( const int scale ) :
-            delay{ 0, get_option<int>( "ANIMATION_DELAY" ) * scale * 1000000L } {
+        explicit basic_animation( const int scale ) :
+            delay( get_option<int>( "ANIMATION_DELAY" ) * scale * 1000000L ) {
         }
 
         void draw() const {
@@ -60,13 +60,21 @@ class basic_animation
         void progress() const {
             draw();
 
-            if( delay.tv_nsec > 0 ) {
-                nanosleep( &delay, nullptr );
+            // NOLINTNEXTLINE(cata-no-long): timespec uses long int
+            long int remain = delay;
+            while( remain > 0 ) {
+                // NOLINTNEXTLINE(cata-no-long): timespec uses long int
+                long int do_sleep = std::min( remain, 100'000'000L );
+                timespec to_sleep = timespec { 0, do_sleep };
+                nanosleep( &to_sleep, nullptr );
+                inp_mngr.pump_events();
+                remain -= do_sleep;
             }
         }
 
     private:
-        timespec delay;
+        // NOLINTNEXTLINE(cata-no-long): timespec uses long int
+        long int delay;
 };
 
 class explosion_animation : public basic_animation
@@ -976,12 +984,12 @@ bucketed_points bucket_by_distance( const tripoint &origin,
                                     const std::map<tripoint, double> &to_bucket )
 {
     std::map<int, one_bucket> by_distance;
-    for( const std::pair<tripoint, double> &pv : to_bucket ) {
+    for( const std::pair<const tripoint, double> &pv : to_bucket ) {
         int dist = trig_dist_squared( origin, pv.first );
         by_distance[dist].emplace_back( pv.first, pv.second );
     }
     bucketed_points buckets;
-    for( const std::pair<int, one_bucket> &bc : by_distance ) {
+    for( const std::pair<const int, one_bucket> &bc : by_distance ) {
         buckets.emplace_back( bc.second );
     }
     return buckets;

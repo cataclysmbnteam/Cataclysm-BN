@@ -1,3 +1,5 @@
+#include "cata_utility.h"
+
 #include <algorithm>
 #include <list>
 #include <memory>
@@ -6,7 +8,6 @@
 
 #include "avatar.h"
 #include "calendar.h"
-#include "cata_utility.h"
 #include "catch/catch.hpp"
 #include "game.h"
 #include "inventory.h"
@@ -19,6 +20,7 @@
 #include "player.h"
 #include "point.h"
 #include "rng.h"
+#include "state_helpers.h"
 #include "type_id.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
@@ -38,6 +40,7 @@ static int count_items( const T &src, const itype_id &id )
 
 TEST_CASE( "visitable_remove", "[visitable]" )
 {
+    clear_all_state();
     const itype_id liquid_id( "water" );
     const itype_id container_id( "bottle_plastic" );
     const itype_id worn_id( "flask_hip" );
@@ -492,6 +495,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
 
 TEST_CASE( "inventory_remove_invalidates_binning_cache", "[visitable][inventory]" )
 {
+    clear_all_state();
     inventory inv;
     std::list<item> items = { item( "bone" ) };
     inv += items;

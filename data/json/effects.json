@@ -220,6 +220,18 @@
   },
   {
     "type": "effect_type",
+    "id": "leashed",
+    "name": [ "Has Leash" ],
+    "desc": [ "AI tag used for critters wearing a leash.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "led_by_leash",
+    "name": [ "Being Led By Leash" ],
+    "desc": [ "AI tag used for critters forced to follow using a leash.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
     "id": "monster_armor",
     "name": [ "Has Armor" ],
     "desc": [ "AI tag used for critters wearing armor.  This is a bug if you have it." ],
@@ -315,6 +327,7 @@
     "desc": [ "Your movement is randomized." ],
     "apply_message": "You're stunned!",
     "rating": "bad",
+    "max_duration": "30 m",
     "show_in_info": true
   },
   {
@@ -325,8 +338,8 @@
     "apply_message": "The scream dazes you!",
     "rating": "bad",
     "max_intensity": 10,
-    "max_duration": "10 m",
     "int_add_val": 2,
+    "max_duration": "10 m",
     "base_mods": { "per_mod": [ -5 ], "dex_mod": [ -2 ] },
     "scaling_mods": { "speed_mod": [ -3 ] },
     "show_in_info": true
@@ -372,6 +385,7 @@
     "apply_message": "You're blinded!",
     "remove_message": "Your sight returns!",
     "rating": "bad",
+    "max_duration": "30 m",
     "show_in_info": true
   },
   {
@@ -396,6 +410,7 @@
     "rating": "bad",
     "max_intensity": 3,
     "int_dur_factor": "100 s",
+    "max_duration": "24 h",
     "base_mods": { "pain_min": [ 1 ], "pain_chance": [ -50 ], "pain_chance_bot": [ 1000 ] },
     "scaling_mods": { "pain_max_val": [ 5 ], "pain_chance": [ 150 ] }
   },
@@ -412,8 +427,18 @@
     "desc": [ "You have been stung!" ],
     "rating": "bad",
     "base_mods": { "pain_min": [ 1 ] },
+    "max_duration": "30 m",
     "show_in_info": true,
     "blood_analysis_description": "Stung"
+  },
+  {
+    "type": "effect_type",
+    "id": "antitoxin",
+    "name": [ "Antitoxin" ],
+    "desc": [ "You are temporarily resistant to most poison effects." ],
+    "rating": "good",
+    "max_duration": "60 m",
+    "blood_analysis_description": "Antitoxin"
   },
   {
     "type": "effect_type",
@@ -423,9 +448,11 @@
     "miss_messages": [ [ "You feel bad inside.", 1 ] ],
     "rating": "bad",
     "resist_traits": [ "POISRESIST" ],
+    "resist_effects": [ "antitoxin" ],
     "pain_sizing": true,
     "hurt_sizing": true,
     "main_parts_only": true,
+    "max_duration": "30 m",
     "base_mods": {
       "per_mod": [ -2, -1 ],
       "dex_mod": [ -1, -1 ],
@@ -446,9 +473,11 @@
     "miss_messages": [ [ "You feel bad inside.", 2 ] ],
     "rating": "bad",
     "resist_traits": [ "POISRESIST" ],
+    "resist_effects": [ "antitoxin" ],
     "pain_sizing": true,
     "hurt_sizing": true,
     "main_parts_only": true,
+    "max_duration": "30 m",
     "base_mods": {
       "per_mod": [ -2 ],
       "dex_mod": [ -2 ],
@@ -471,6 +500,8 @@
     "miss_messages": [ [ "Your stomach bothers you.", 1 ] ],
     "rating": "bad",
     "resist_traits": [ "POISRESIST" ],
+    "resist_effects": [ "antitoxin" ],
+    "max_duration": "24 h",
     "base_mods": {
       "per_mod": [ -1 ],
       "dex_mod": [ -1 ],
@@ -510,7 +541,9 @@
     "miss_messages": [ [ "You feel stiff.", 3 ] ],
     "rating": "bad",
     "max_intensity": 20,
+    "max_duration": "30 m",
     "resist_traits": [ "POISRESIST" ],
+    "resist_effects": [ "antitoxin" ],
     "int_add_val": 1,
     "int_decay_tick": 600,
     "base_mods": { "dex_mod": [ -0.34, -0.17 ], "speed_mod": [ -5, -3 ] },
@@ -873,6 +906,7 @@
     "max_intensity": 3,
     "int_decay_tick": 720,
     "int_add_val": 1,
+    "max_duration": "60 m",
     "main_parts_only": true,
     "base_mods": { "speed_mod": [ -7 ] },
     "scaling_mods": { "speed_mod": [ -3 ] }
@@ -888,7 +922,8 @@
     "max_intensity": 3,
     "permanent": true,
     "resist_traits": [ "POISRESIST" ],
-    "base_mods": { "speed_mod": [ -10 ], "str_mod": [ -1 ], "dex_mod": [ -1 ] },
+    "resist_effects": [ "antitoxin" ],
+    "base_mods": { "speed_mod": [ -10, -5 ], "str_mod": [ -1, 0 ], "dex_mod": [ -1 ] },
     "blood_analysis_description": "Fungal Infection"
   },
   {
@@ -1092,6 +1127,7 @@
     "desc": [ "You're coated in sap!" ],
     "apply_message": "You're coated in sap!",
     "rating": "bad",
+    "max_duration": "30 m",
     "miss_messages": [ [ "The sap's too sticky for you to fight effectively.", 3 ] ],
     "base_mods": { "speed_mod": [ -25 ], "dex_mod": [ -3 ] }
   },
@@ -1127,7 +1163,27 @@
   },
   {
     "type": "effect_type",
-    "id": "evil"
+    "id": "cureall_lesser",
+    "removes_effects": [
+      "fungus",
+      "dermatik",
+      "bloodworms",
+      "paincysts",
+      "brainworms",
+      "tapeworm",
+      "blind",
+      "stung",
+      "foodpoison",
+      "infected",
+      "asthma",
+      "common_cold",
+      "flu"
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "evil",
+    "max_duration": "48 h"
   },
   {
     "type": "effect_type",
@@ -1137,7 +1193,14 @@
   },
   {
     "type": "effect_type",
-    "id": "attention"
+    "id": "attention",
+    "name": [ "Being Watched" ],
+    "desc": [ "You can't shake the feeling that something out there is watching you.  Something big…" ],
+    "remove_message": "You no longer feel like you're being watched.",
+    "rating": "bad",
+    "max_intensity": 8,
+    "int_add_val": 1,
+    "max_duration": "12 h"
   },
   {
     "type": "effect_type",
@@ -1257,7 +1320,14 @@
   },
   {
     "type": "effect_type",
-    "id": "teleglow"
+    "id": "teleglow",
+    "name": [ "Dimensional Stress" ],
+    "desc": [ "The fabric of reality currently feels thinner around you." ],
+    "remove_message": "Reality around you returns to normal, for now.",
+    "rating": "bad",
+    "max_intensity": 8,
+    "int_add_val": 1,
+    "max_duration": "12 h"
   },
   {
     "type": "effect_type",
@@ -1392,6 +1462,7 @@
     "apply_message": "You inhale sweetish gas.",
     "remove_message": "The slackness leaves your muscles.",
     "rating": "bad",
+    "max_duration": "30 m",
     "base_mods": { "str_mod": [ -3 ], "dex_mod": [ -3 ], "int_mod": [ -2 ], "per_mod": [ -4 ] }
   },
   {
@@ -1421,7 +1492,14 @@
     "id": "brainworms",
     "rating": "bad",
     "permanent": true,
-    "base_mods": { "pain_chance": [ 512 ], "pain_min": [ 2 ], "pain_max": [ 8 ], "h_mod_chance": [ 512 ], "h_mod_min": [ -10 ] },
+    "base_mods": {
+      "pain_chance": [ 512 ],
+      "pain_min": [ 2 ],
+      "pain_max": [ 8 ],
+      "pain_max_val": [ 30 ],
+      "h_mod_chance": [ 512 ],
+      "h_mod_min": [ -10 ]
+    },
     "blood_analysis_description": "Intracranial Parasites"
   },
   {
@@ -1429,7 +1507,14 @@
     "id": "paincysts",
     "rating": "bad",
     "permanent": true,
-    "base_mods": { "pain_chance": [ 256 ], "pain_min": [ 1 ], "pain_max": [ 4 ], "fatigue_chance": [ 256 ], "fatigue_min": [ 1 ] },
+    "base_mods": {
+      "pain_chance": [ 256 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 4 ],
+      "pain_max_val": [ 45 ],
+      "fatigue_chance": [ 256 ],
+      "fatigue_min": [ 1 ]
+    },
     "blood_analysis_description": "Intramuscular Parasites"
   },
   {

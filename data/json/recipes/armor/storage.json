@@ -85,6 +85,7 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "50 m",
+    "book_learn": [ [ "textbook_tailor", 2 ], [ "manual_tailor", 2 ] ],
     "autolearn": true,
     "using": [ [ "sewing_standard", 20 ] ],
     "components": [ [ [ "rag", 20 ] ] ]
@@ -113,7 +114,7 @@
     "autolearn": true,
     "using": [ [ "adhesive", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "leather", 12 ] ], [ [ "2x4", 2 ] ], [ [ "nail", 8 ] ] ]
+    "components": [ [ [ "leather", 12 ], [ "fur", 12 ] ], [ [ "wood_structural", 1, "LIST" ] ], [ [ "nail", 8 ] ] ]
   },
   {
     "result": "bandolier_pistol",
@@ -264,7 +265,7 @@
     "autolearn": true,
     "using": [ [ "adhesive", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "leather", 15 ] ], [ [ "2x4", 2 ] ], [ [ "nail", 10 ] ] ]
+    "components": [ [ [ "leather", 15 ], [ "fur", 15 ] ], [ [ "wood_structural", 1, "LIST" ] ], [ [ "nail", 10 ] ] ]
   },
   {
     "result": "chestpouch",
@@ -304,9 +305,10 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
-    "difficulty": 2,
+    "difficulty": 3,
     "time": "1 h 20 m",
-    "autolearn": true,
+    "autolearn": [ [ "tailor", 4 ] ],
+    "book_learn": [ [ "textbook_tailor", 2 ], [ "manual_tailor", 2 ], [ "tailor_portfolio", 2 ] ],
     "using": [ [ "sewing_standard", 30 ] ],
     "components": [ [ [ "rag", 40 ] ] ]
   },
@@ -612,7 +614,7 @@
     "autolearn": true,
     "using": [ [ "adhesive", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "leather", 10 ] ], [ [ "2x4", 2 ] ], [ [ "nail", 5 ] ] ]
+    "components": [ [ [ "leather", 10 ], [ "fur", 10 ] ], [ [ "wood_structural", 1, "LIST" ] ], [ [ "nail", 5 ] ] ]
   },
   {
     "result": "sheath",
@@ -661,6 +663,7 @@
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "18 m",
+    "reversible": true,
     "autolearn": true,
     "components": [ [ [ "straw_pile", 5 ], [ "birchbark", 7 ] ] ]
   },

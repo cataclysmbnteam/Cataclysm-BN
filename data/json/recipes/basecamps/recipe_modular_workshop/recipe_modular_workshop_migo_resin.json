@@ -32,12 +32,12 @@
     "blueprint_provides": [ { "id": "fbmw_north" } ],
     "blueprint_excludes": [ { "id": "fbmw_north" } ],
     "blueprint_needs": {
-      "time": "1 d 25 m",
+      "time": "1 d 2 h 25 m",
       "skills": [ [ "fabrication", 2 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ], [ { "id": "SMOOTH" } ] ],
-        "components": [ [ [ "2x4", 22 ] ], [ [ "wood_sheet", 6 ], [ "wood_panel", 12 ] ], [ [ "nail", 128 ] ], [ [ "alien_pod_resin", 33 ] ] ]
+        "components": [ [ [ "2x4", 22 ] ], [ [ "alien_pod_resin", 35 ] ], [ [ "nail", 128 ] ], [ [ "wood_panel", 12 ], [ "wood_sheet", 6 ] ] ]
       }
     }
   },
@@ -55,14 +55,14 @@
     "blueprint_provides": [ { "id": "fbmw_east" }, { "id": "blacksmith_recipes_3" } ],
     "blueprint_excludes": [ { "id": "fbmw_east" } ],
     "blueprint_needs": {
-      "time": "2 d 5 h 40 m",
+      "time": "2 d 7 h 40 m",
       "skills": [ [ "fabrication", 3 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "SAW_W" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SMOOTH" } ] ],
+        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ], [ { "id": "SMOOTH" } ] ],
         "components": [
           [ [ "2x4", 12 ] ],
-          [ [ "alien_pod_resin", 69 ] ],
+          [ [ "alien_pod_resin", 71 ] ],
           [ [ "material_soil", 2 ] ],
           [ [ "nail", 80 ] ],
           [ [ "rock", 40 ] ],
@@ -150,16 +150,16 @@
     "blueprint_provides": [ { "id": "fbmw_northwest" }, { "id": "blacksmith_recipes_5" } ],
     "blueprint_excludes": [ { "id": "fbmw_northwest" } ],
     "blueprint_needs": {
-      "time": "1 d 8 h 58 m",
-      "skills": [ [ "fabrication", 2 ], [ "survival", 0 ] ],
+      "time": "1 d 10 h 40 m",
+      "skills": [ [ "fabrication", 2 ] ],
       "inline": {
-        "tools": [ [ [ "machete", -1 ], [ "makeshift_machete", -1 ], [ "scythe", -1 ], [ "sickle", -1 ], [ "survivor_machete", -1 ] ] ],
+        "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ], [ { "id": "SMOOTH" } ] ],
         "components": [
           [ [ "2x4", 42 ] ],
-          [ [ "wood_sheet", 10 ], [ "wood_panel", 20 ] ],
+          [ [ "alien_pod_resin", 46 ] ],
           [ [ "nail", 230 ] ],
-          [ [ "alien_pod_resin", 44 ] ]
+          [ [ "wood_panel", 20 ], [ "wood_sheet", 10 ] ]
         ]
       }
     }

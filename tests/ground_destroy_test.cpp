@@ -1,9 +1,10 @@
+#include "catch/catch.hpp"
+
 #include <memory>
 #include <set>
 #include <vector>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
 #include "int_id.h"
 #include "item.h"
 #include "itype.h"
@@ -13,6 +14,7 @@
 #include "mapdata.h"
 #include "options.h"
 #include "point.h"
+#include "state_helpers.h"
 #include "type_id.h"
 
 // Destroying pavement with a pickaxe should not leave t_flat_roof.
@@ -21,12 +23,13 @@
 // Behavior may depend on ZLEVELS being set.
 TEST_CASE( "pavement_destroy", "[.]" )
 {
+    clear_all_state();
     const ter_id flat_roof_id = ter_id( "t_flat_roof" );
     REQUIRE( flat_roof_id != t_null );
 
     const bool zlevels_set = get_option<bool>( "ZLEVELS" );
     INFO( "ZLEVELS is " << zlevels_set );
-    clear_map_and_put_player_underground();
+    put_player_underground();
     map &here = get_map();
     // Populate the map with pavement.
     here.ter_set( tripoint_zero, ter_id( "t_pavement" ) );
@@ -47,13 +50,14 @@ TEST_CASE( "pavement_destroy", "[.]" )
 // Behavior may depend on ZLEVELS being set.
 TEST_CASE( "explosion_on_ground", "[.]" )
 {
+    clear_all_state();
     ter_id flat_roof_id = ter_id( "t_flat_roof" );
     REQUIRE( flat_roof_id != t_null );
 
     const bool zlevels_set = get_option<bool>( "ZLEVELS" );
     INFO( "ZLEVELS is " << zlevels_set );
 
-    clear_map_and_put_player_underground();
+    put_player_underground();
     std::vector<ter_id> test_terrain_id = {
         ter_id( "t_dirt" ), ter_id( "t_grass" )
     };
@@ -94,6 +98,7 @@ TEST_CASE( "explosion_on_ground", "[.]" )
 // Behavior depends on ZLEVELS being set.
 TEST_CASE( "explosion_on_floor_with_rock_floor_basement", "[.]" )
 {
+    clear_all_state();
     ter_id flat_roof_id = ter_id( "t_flat_roof" );
     ter_id floor_id = ter_id( "t_floor" );
     ter_id rock_floor_id = ter_id( "t_rock_floor" );
@@ -107,7 +112,7 @@ TEST_CASE( "explosion_on_floor_with_rock_floor_basement", "[.]" )
     const bool zlevels_set = get_option<bool>( "ZLEVELS" );
     INFO( "ZLEVELS is " << zlevels_set );
 
-    clear_map_and_put_player_underground();
+    put_player_underground();
 
     map &here = get_map();
     const int area_dim = 24;
@@ -153,6 +158,7 @@ TEST_CASE( "explosion_on_floor_with_rock_floor_basement", "[.]" )
 // Behavior may depend on ZLEVELS being set.
 TEST_CASE( "collapse_checks", "[.]" )
 {
+    clear_all_state();
     constexpr int wall_size = 5;
 
     const ter_id floor_id = ter_id( "t_floor" );
@@ -167,7 +173,7 @@ TEST_CASE( "collapse_checks", "[.]" )
 
     const bool zlevels_set = get_option<bool>( "ZLEVELS" );
     INFO( "ZLEVELS is " << zlevels_set );
-    clear_map_and_put_player_underground();
+    put_player_underground();
 
     map &here = get_map();
     // build a structure

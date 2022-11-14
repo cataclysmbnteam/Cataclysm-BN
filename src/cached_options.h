@@ -26,6 +26,12 @@ extern bool debug_mode;
 extern bool json_report_unused_fields;
 
 /**
+ * Report extra problems in JSONs.
+ * Because either @ref test_mode or @ref json_report_unused_fields is set.
+ */
+extern bool json_report_strict;
+
+/**
  * Use tiles for display. Always false for ncurses build,
  * but can be toggled in sdl build.
  */
@@ -41,6 +47,9 @@ extern bool use_tiles_overmap;
 extern bool log_from_top;
 extern int message_ttl;
 extern int message_cooldown;
+
+/** Display mod source for items, furniture, terrain and monsters.*/
+extern bool display_mod_source;
 
 /**
  * Circular distances.
@@ -58,6 +67,9 @@ extern int fov_3d_z_range;
 /** Using isometric tileset. */
 extern bool tile_iso;
 
+/** Static z level effect. */
+extern bool static_z_effect;
+
 /**
  * Whether to show the pixel minimap. Always false for ncurses build,
  * but can be toggled during game in sdl build.
@@ -69,5 +81,10 @@ extern bool pixel_minimap_option;
  * available for crafting, see inventory::form_from_map
 */
 extern int PICKUP_RANGE;
+
+/**
+ * If true, disables all debug messages. Only used for debugging "weird" saves.
+ */
+extern bool dont_debugmsg;
 
 #endif // CATA_SRC_CACHED_OPTIONS_H

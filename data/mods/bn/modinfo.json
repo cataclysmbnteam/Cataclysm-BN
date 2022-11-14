@@ -1,0 +1,11 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "bn",
+    "name": "Bright Nights",
+    "description": "Core content for Cataclysm-BN",
+    "category": "core",
+    "core": true,
+    "path": "../../json"
+  }
+]

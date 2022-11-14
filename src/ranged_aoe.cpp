@@ -17,12 +17,13 @@ struct tripoint_distance {
         , distance_squared( distance_squared )
     {}
     tripoint_distance( const tripoint_distance & ) = default;
+    tripoint_distance &operator = ( const tripoint_distance & ) = default;
     tripoint p;
     int distance_squared;
 
     // Inverted because it's descending by default
     bool operator<( const tripoint_distance &rhs ) const {
-        return !( distance_squared < rhs.distance_squared );
+        return rhs.distance_squared < this->distance_squared;
     }
 };
 
@@ -32,6 +33,7 @@ struct aoe_flood_node {
         : parent( parent ), parent_coverage( parent_coverage )
     {}
     aoe_flood_node( const aoe_flood_node & ) = default;
+    aoe_flood_node &operator = ( const aoe_flood_node & ) = default;
     tripoint parent = tripoint_min;
     double parent_coverage = 0.0;
 };
@@ -57,7 +59,7 @@ void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &a
 
     for( const tripoint &child : here.points_in_radius( origin, 1 ) ) {
         double coverage = sigdist_to_coverage( sh.distance_at( child ) );
-        if( coverage > 0.0 ) {
+        if( coverage > 0.0 && !get_map().obstructed_by_vehicle_rotation( origin, child ) ) {
             open[child] = aoe_flood_node( origin, 1.0 );
             queue.emplace( child, trig_dist_squared( origin, child ) );
         }
@@ -99,7 +101,8 @@ void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &a
         if( current_coverage > 0.0 ) {
             for( const tripoint &child : here.points_in_radius( p, 1 ) ) {
                 double coverage = sigdist_to_coverage( sh.distance_at( child ) );
-                if( coverage > 0.0 && closed.count( child ) == 0 &&
+                if( coverage > 0.0 && !get_map().obstructed_by_vehicle_rotation( p, child ) &&
+                    closed.count( child ) == 0 &&
                     ( open.count( child ) == 0 || open.at( child ).parent_coverage < current_coverage ) ) {
                     open[child] = aoe_flood_node( p, current_coverage );
                     queue.emplace( child, trig_dist_squared( origin, child ) );
@@ -114,7 +117,7 @@ void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &a
 
     // Here and not above because we want the animation first
     // Terrain will be shown damaged, but having it in unknown state would complicate timing the animation
-    for( const std::pair<tripoint, double> &pr : final_coverage ) {
+    for( const std::pair<const tripoint, double> &pr : final_coverage ) {
         Creature *critter = g->critter_at( pr.first );
         if( critter != nullptr ) {
             ranged::hit_with_aoe( *critter, &attacker, proj.impact );
@@ -135,7 +138,7 @@ std::map<tripoint, double> expected_coverage( const shape &sh, const map &here, 
 
     for( const tripoint &child : here.points_in_radius( origin, 1 ) ) {
         double coverage = sigdist_to_coverage( sh.distance_at( child ) );
-        if( coverage > 0.0 ) {
+        if( coverage > 0.0 && !get_map().obstructed_by_vehicle_rotation( origin, child ) ) {
             open[child] = aoe_flood_node( origin, 1.0 );
             queue.emplace( child, trig_dist_squared( origin, child ) );
         }
@@ -181,7 +184,8 @@ std::map<tripoint, double> expected_coverage( const shape &sh, const map &here, 
         if( current_coverage > 0.0 ) {
             for( const tripoint &child : here.points_in_radius( p, 1 ) ) {
                 double coverage = sigdist_to_coverage( sh.distance_at( child ) );
-                if( coverage > 0.0 && closed.count( child ) == 0 &&
+                if( coverage > 0.0 && !get_map().obstructed_by_vehicle_rotation( p, child ) &&
+                    closed.count( child ) == 0 &&
                     ( open.count( child ) == 0 || open.at( child ).parent_coverage < current_coverage ) ) {
                     open[child] = aoe_flood_node( p, current_coverage );
                     queue.emplace( child, trig_dist_squared( origin, child ) );

@@ -19,6 +19,7 @@
 /dep/
 /doxygen_doc/html/*
 /doxygen_doc/latex/*
+/doxygen_doc/doxygen-awesome-css
 /font/
 /graveyard/
 /memorial/
@@ -37,6 +38,7 @@ cata_test
 cata_test-tiles
 cataclysm
 cataclysm-tiles
+cataclysm-tiles.exe.manifest
 cataclysm-vcpkg
 cataclysmdda-*
 chkjson*
@@ -57,6 +59,7 @@ logg.txt
 .vscode/
 Debug*/
 Release*/
+.cache/
 
 # Distribution script results
 /msvc-full-features/distribution
@@ -69,6 +72,9 @@ Cataclysm.exe.lastcodeanalysissucceeded
 
 #Visual Studio 2017
 /msvc-full-features/PredictedInputCache_Debug_x64.dat
+
+#vcpkg
+/msvc-full-features/vcpkg_installed
 
 # PVS Studio
 /msvc-full-features/*PVS-Studio*
@@ -190,3 +196,13 @@ Xcode/
 /.flatpak-builder/
 /repo/
 /build-dir/
+
+# precompiled headers
+/pch/pch.hpp.pch
+/pch/main-pch.hpp.gch
+/pch/main-pch.hpp.pch
+/tests/pch/pch.hpp.pch
+/tests/pch/tests-pch.hpp.gch
+/tests/pch/tests-pch.hpp.pch
+/tests/catch/catch.hpp.gch
+/tests/catch/catch.hpp.pch

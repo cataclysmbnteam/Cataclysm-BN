@@ -178,7 +178,6 @@ int mps_to_vmiph( double mps );
 double vmiph_to_mps( int vmiph );
 int cmps_to_vmiph( int cmps );
 int vmiph_to_cmps( int vmiph );
-static constexpr float accel_g = 9.81f;
 
 /**
  * Structure, describing vehicle part (i.e., wheel, seat)
@@ -421,6 +420,9 @@ struct vehicle_part {
         /** direction the part is facing */
         units::angle direction = 0_degrees;
 
+
+        vpart_id proxy_part_id = vpart_id::NULL_ID();
+        char proxy_sym = '\0';
         /**
          * Coordinates for some kind of target; jumper cables and turrets use this
          * Two coordinate pairs are stored: actual target point, and target vehicle center.
@@ -513,7 +515,7 @@ class turret_data
         bool ammo_select( const itype_id &ammo );
 
         /** Effects inclusive of any from ammo loaded from tanks */
-        std::set<std::string> ammo_effects() const;
+        std::set<ammo_effect_str_id> ammo_effects() const;
 
         /** Maximum range considering current ammo (if any) */
         int range() const;
@@ -745,22 +747,6 @@ class vehicle
             return find_vehicle( where.raw() );
         }
 
-    private:
-        /**
-         * Traverses the graph of connected vehicles, starting from start_veh, and continuing
-         * along all vehicles connected by some kind of POWER_TRANSFER part.
-         * @param start_veh The vehicle to start traversing from. NB: the start_vehicle is
-         * assumed to have been already visited!
-         * @param amount An amount of power to traverse with. This is passed back to the visitor,
-         * and reset to the visitor's return value at each step.
-         * @param action A function(vehicle* veh, int amount, int loss) returning int. The function
-         * may do whatever it desires, and may be a lambda (including a capturing lambda).
-         * NB: returning 0 from a visitor will stop traversal immediately!
-         * @return The last visitor's return value.
-         */
-        template <typename Func, typename Vehicle>
-        static int traverse_vehicle_graph( Vehicle *start_veh, int amount, Func action );
-    public:
         vehicle( const vproto_id &type_id, int init_veh_fuel = -1, int init_veh_status = -1 );
         vehicle();
         vehicle( const vehicle & ) = delete;
@@ -774,6 +760,14 @@ class vehicle
         /** Disable or enable refresh() ; used to speed up performance when creating a vehicle */
         void suspend_refresh();
         void enable_refresh();
+
+        inline void attach() {
+            attached = true;
+        }
+
+        inline void detach() {
+            attached = false;
+        }
 
         /**
          * Set stat for part constrained by range [0,durability]
@@ -1007,6 +1001,9 @@ class vehicle
         int avail_part_with_feature( const point &pt, const std::string &f, bool unbroken ) const;
         int avail_part_with_feature( int p, vpart_bitflags f, bool unbroken ) const;
 
+        int obstacle_at_position( const point &pos ) const;
+        int opaque_at_position( const point &pos ) const;
+
         /**
          *  Check if vehicle has at least one unbroken part with specified flag
          *  @param flag Specified flag to search parts for
@@ -1079,12 +1076,16 @@ class vehicle
         // Translate mount coordinates "p" into tile coordinates "q" using given pivot direction and anchor
         void coord_translate( units::angle dir, const point &pivot, const point &p,
                               tripoint &q ) const;
-        // Translate mount coordinates "p" into tile coordinates "q" using given tileray and anchor
-        // should be faster than previous call for repeated translations
-        void coord_translate( tileray tdir, const point &pivot, const point &p, tripoint &q ) const;
+
+        // Translate rotated tile coordinates "p" into mount coordinates "q" using given pivot direction and anchor
+        void coord_translate_reverse( units::angle dir, const point &pivot, const tripoint &p,
+                                      point &q ) const;
 
         tripoint mount_to_tripoint( const point &mount ) const;
         tripoint mount_to_tripoint( const point &mount, const point &offset ) const;
+
+        //Translate tile coordinates into mount coordinates
+        point tripoint_to_mount( const tripoint &p ) const;
 
         // Seek a vehicle part which obstructs tile with given coordinates relative to vehicle position
         int part_at( const point &dp ) const;
@@ -1096,7 +1097,7 @@ class vehicle
 
         // get symbol for map
         char part_sym( int p, bool exact = false ) const;
-        vpart_id part_id_string( int p, char &part_mod ) const;
+        vpart_id part_id_string( int p, bool roof, char &part_mod ) const;
 
         // get color for map
         nc_color part_color( int p, bool exact = false ) const;
@@ -1109,6 +1110,9 @@ class vehicle
             const catacurses::window &win, const point &, int start_index = 0,
             bool fullsize = false, bool verbose = false, bool desc = false,
             bool isHorizontal = false );
+
+        //Refresh part locations
+        void refresh_position();
 
         // Pre-calculate mount points for (idir=0) - current direction or (idir=1) - next turn direction
         void precalc_mounts( int idir, units::angle dir, const point &pivot );
@@ -1219,6 +1223,9 @@ class vehicle
          * Mark mass caches and pivot cache as dirty
          */
         void invalidate_mass();
+
+        //Converts angles into turning increments
+        static int angle_to_increment( units::angle dir );
 
         // get the total mass of vehicle, including cargo and passengers
         units::mass total_mass() const;
@@ -1355,12 +1362,16 @@ class vehicle
         /**
          * is the vehicle flying? is it a rotorcraft?
          */
+        bool is_rotorcraft() const;
+        /**
+         * total area of every rotors in m^2
+         */
+        double total_rotor_area() const;
         double lift_thrust_of_rotorcraft( bool fuelled, bool safe = false ) const;
         bool has_sufficient_rotorlift() const;
         int get_z_change() const;
         bool is_flying_in_air() const;
         void set_flying( bool new_flying_value );
-        bool is_rotorcraft() const;
         /**
          * Traction coefficient of the vehicle.
          * 1.0 on road. Outside roads, depends on mass divided by wheel area
@@ -1405,6 +1416,12 @@ class vehicle
         // leak from broken tanks
         void slow_leak();
 
+        //checks if we are, or will be after movement, on a ramp
+        bool check_on_ramp( int idir = 0, const tripoint &offset = tripoint_zero ) const;
+
+        //calculates the precalc zlevels wrt ramps
+        void adjust_zlevel( int idir = 0, const tripoint &offset = tripoint_zero );
+
         // thrust (1) or brake (-1) vehicle
         // @param z = z thrust for helicopters etc
         void thrust( int thd, int z = 0 );
@@ -1423,6 +1440,28 @@ class vehicle
 
         // turn vehicle left (negative) or right (positive), degrees
         void turn( units::angle deg );
+
+        inline void set_facing( units::angle deg, bool refresh = true ) {
+            turn_dir = deg;
+            face.init( deg );
+            pivot_rotation[0] = deg;
+            if( refresh ) {
+                refresh_position();
+            }
+        }
+
+        inline void set_pivot( const point &pivot, bool refresh = true ) {
+            pivot_cache = pivot;
+            pivot_anchor[0] = pivot;
+            if( refresh ) {
+                refresh_position();
+            }
+        }
+
+        inline void set_facing_and_pivot( units::angle deg, const point &pivot, bool refresh = true ) {
+            set_facing( deg, false );
+            set_pivot( pivot, refresh );
+        }
 
         // Returns if any collision occurred
         bool collision( std::vector<veh_collision> &colls,
@@ -1694,22 +1733,6 @@ class vehicle
         // check if the vehicle should be falling or is in water
         void check_falling_or_floating();
 
-        /** Precalculate vehicle turn. Counts wheels that will land on ter_flag_to_check
-         * new_turn_dir             - turn direction to calculate
-         * falling_only             - is vehicle falling
-         * check_rail_direction     - check if vehicle should land on diagonal/not rail tile (use for trucks only)
-         * ter_flag_to_check        - terrain flag vehicle wheel should land on
-         ** Results:
-         * &wheels_on_rail          - resulting wheels that land on ter_flag_to_check
-         * &turning_wheels_that_are_one_axis_counter - number of wheels that are on one axis and will land on rail
-         */
-        void precalculate_vehicle_turning( units::angle new_turn_dir, bool check_rail_direction,
-                                           ter_bitflags ter_flag_to_check, int &wheels_on_rail,
-                                           int &turning_wheels_that_are_one_axis_counter ) const;
-        bool allow_auto_turn_on_rails( units::angle &corrected_turn_dir ) const;
-        bool allow_manual_turn_on_rails( units::angle &corrected_turn_dir ) const;
-        bool is_wheel_state_correct_to_turn_on_rails( int wheels_on_rail, int wheel_count,
-                int turning_wheels_that_are_one_axis ) const;
         /**
          * Update the submap coordinates and update the tracker info in the overmap
          * (if enabled).
@@ -1717,7 +1740,6 @@ class vehicle
          * the map is just shifted (in the later case simply set smx/smy directly).
          */
         void set_submap_moved( const tripoint &p );
-        void use_autoclave( int p );
         void use_washing_machine( int p );
         void use_dishwasher( int p );
         void use_monster_capture( int part, const tripoint &pos );
@@ -1725,6 +1747,16 @@ class vehicle
         void use_harness( int part, const tripoint &pos );
 
         void interact_with( const tripoint &pos, int interact_part );
+
+        //Check if a movement is blocked, must be adjacent points
+        bool allowed_move( const point &from, const point &to ) const;
+
+        //Check if light is blocked, must be adjacent points
+        bool allowed_light( const point &from, const point &to ) const;
+
+        //Checks if the conditional holds for tiles that can be skipped due to rotation
+        bool check_rotated_intervening( const point &from, const point &to, bool( *check )( const vehicle *,
+                                        const point & ) ) const;
 
         std::string disp_name() const;
 
@@ -1734,6 +1766,7 @@ class vehicle
         // Called by map.cpp to make sure the real position of each zone_data is accurate
         bool refresh_zones();
 
+        //Gets the vehicle space xy bounding box for a vehicle in its current rotation.
         bounding_box get_bounding_box();
         // Retroactively pass time spent outside bubble
         // Funnels, solar panels
@@ -1768,11 +1801,9 @@ class vehicle
         bool valid_part( int part_num ) const;
         // Updates the internal precalculated mount offsets after the vehicle has been displaced
         // used in map::displace_vehicle()
-        std::set<int> advance_precalc_mounts( const point &new_pos, const tripoint &src,
-                                              const tripoint &dp, int ramp_offset,
-                                              bool adjust_pos, std::set<int> parts_to_move );
-        // make sure the vehicle is supported across z-levels or on the same z-level
-        bool level_vehicle();
+        std::set<int> advance_precalc_mounts( const point &new_pos, const tripoint &src );
+        // Adjust the vehicle's global z-level to match its center
+        void shift_zlevel();
 
         std::vector<int> alternators;      // List of alternator indices
         std::vector<int> engines;          // List of engine indices
@@ -1791,6 +1822,28 @@ class vehicle
         // List of parts that will not be on a vehicle very often, or which only one will be present
         std::vector<int> speciality;
         std::vector<int> floating;         // List of parts that provide buoyancy to boats
+
+        /**
+         * Rail profile of the vehicle.
+         *
+         * Describes where the vehicle would expect rails to be on its y axis relative to
+         * its pivot point in its own coordinate space.
+         *
+         * For example, for 2-seated draisine (drawn as facing north):
+         *
+         *       +x
+         *    ..:...:..
+         *    ..:...:..      - and |  draisine frame
+         *    ..0---0..         0     railwheels
+         * -y ..|---|.. +y      p     pivot point
+         *    ..0-p-0..         .     ground
+         *    ..:...:..         :     expected rail
+         *    ..:...:..
+         *       -x
+         *
+         * The rail profile would take the value of { -2, 2 }.
+         */
+        std::vector<int> rail_profile;
 
         // config values
         std::string name;   // vehicle name
@@ -1831,7 +1884,7 @@ class vehicle
 
     public:
         // Subtract from parts.size() to get the real part count.
-        int removed_part_count;
+        int removed_part_count = 0;
 
         /**
          * Submap coordinates of the currently loaded submap (see game::m)
@@ -1848,7 +1901,7 @@ class vehicle
         tripoint sm_pos;
 
         // alternator load as a percentage of engine power, in units of 0.1% so 1000 is 100.0%
-        int alternator_load;
+        int alternator_load = 0;
         /// Time occupied points were calculated.
         time_point occupied_cache_time = calendar::before_time_starts;
         // Turn the vehicle was last processed
@@ -1868,16 +1921,16 @@ class vehicle
         // Only used for collisions, vehicle falls instantly
         int vertical_velocity = 0;
         // id of the om_vehicle struct corresponding to this vehicle
-        int om_id;
+        int om_id = -1;
         // direction, to which vehicle is turning (player control). will rotate frame on next move
         // must be a multiple of 15 degrees
         units::angle turn_dir = 0_degrees;
         // amount of last turning (for calculate skidding due to handbrake)
         units::angle last_turn = 0_degrees;
         // goes from ~1 to ~0 while proceeding every turn
-        float of_turn;
+        float of_turn = 0.0f;
         // leftover from previous turn
-        float of_turn_carry;
+        float of_turn_carry = 0.0f;
         int extra_drag = 0;
         // last time point the fluid was inside tanks was checked for processing
         time_point last_fluid_check = calendar::turn_zero;
@@ -1886,7 +1939,6 @@ class vehicle
         // rotation used for mount precalc values
         std::array<units::angle, 2> pivot_rotation = { { 0_degrees, 0_degrees } };
 
-        bounding_box rail_wheel_bounding_box;
         point front_left;
         point front_right;
         towing_data tow_data;
@@ -1901,7 +1953,7 @@ class vehicle
         bool no_refresh = false;
 
         // if true, pivot_cache needs to be recalculated
-        mutable bool pivot_dirty;
+        mutable bool pivot_dirty = true;
         mutable bool mass_dirty = true;
         mutable bool mass_center_precalc_dirty = true;
         mutable bool mass_center_no_precalc_dirty = true;
@@ -1922,13 +1974,14 @@ class vehicle
         mutable bool is_flying = false;
         int requested_z_change = 0;
 
+        // is the vehicle currently placed on the map
+        bool attached = false;
+
     public:
-        bool is_on_ramp = false;
         // vehicle being driven by player/npc automatically
         bool is_autodriving = false;
         bool is_following = false;
         bool is_patrolling = false;
-        bool all_wheels_on_one_axis;
         // TODO: change these to a bitset + enum?
         // cruise control on/off
         bool cruise_on = true;

@@ -65,7 +65,8 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_thconc_floor",
-      "items": [ { "item": "glass_shard", "count": [ 0, 2 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 0, 2 ] } ],
+      "ranged": { "reduction": [ 1, 1 ], "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -367,7 +368,15 @@
     "symbol": ".",
     "color": "yellow",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "INDOORS", "FLAT" ]
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "FLAT" ],
+    "bash": {
+      "str_min": 12,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "items": [ { "item": "wax", "count": [ 3, 5 ] } ],
+      "bash_below": true
+    }
   },
   {
     "type": "terrain",
@@ -378,7 +387,7 @@
     "color": "magenta",
     "move_cost": 2,
     "roof": "t_flat_roof",
-    "flags": [ "INDOORS", "TRANSPARENT", "FLAT" ]
+    "flags": [ "INDOORS", "TRANSPARENT", "FLAT", "ELEVATOR" ]
   },
   {
     "type": "terrain",

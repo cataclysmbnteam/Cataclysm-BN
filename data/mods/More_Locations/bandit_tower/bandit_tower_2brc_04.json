@@ -35,8 +35,8 @@
       ],
       "rotation": 2,
       "palettes": [ "tri_tower", "upper_level", "bandit_tower_stuff" ],
-      "terrain": { "3": "t_centrifuge", "5": "t_pavement", "8": "t_bridge" },
-      "furniture": { "K": "f_counter", "v": "f_vending_c" },
+      "terrain": { "3": "t_floor", "5": "t_pavement", "8": "t_bridge" },
+      "furniture": { "3": "f_centrifuge", "K": "f_counter", "v": "f_vending_c" },
       "items": {
         "b": { "item": "textbooks", "chance": 20 },
         "C": { "item": "chem_lab", "chance": 40 },

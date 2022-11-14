@@ -18,6 +18,7 @@
 #include "character_id.h"
 #include "color.h"
 #include "debug.h"
+#include "distraction_manager.h"
 #include "enums.h"
 #include "filesystem.h"
 #include "fstream_utils.h"
@@ -29,6 +30,7 @@
 #include "loading_ui.h"
 #include "mapbuffer.h"
 #include "mapsharing.h"
+#include "newcharacter.h"
 #include "optional.h"
 #include "options.h"
 #include "output.h"
@@ -385,6 +387,7 @@ void main_menu::init_strings()
     vSettingsSubItems.push_back( pgettext( "Main Menu|Settings", "K<e|E>ybindings" ) );
     vSettingsSubItems.push_back( pgettext( "Main Menu|Settings", "<A|a>utopickup" ) );
     vSettingsSubItems.push_back( pgettext( "Main Menu|Settings", "<S|s>afemode" ) );
+    vSettingsSubItems.push_back( pgettext( "Main Menu|Settings", "<D|d>istractions" ) );
     vSettingsSubItems.push_back( pgettext( "Main Menu|Settings", "<C|c>olors" ) );
 
     vSettingsHotkeys.clear();
@@ -739,6 +742,8 @@ bool main_menu::opening_screen()
                     } else if( sel2 == 3 ) {
                         get_safemode().show();
                     } else if( sel2 == 4 ) {
+                        get_distraction_manager().show();
+                    } else if( sel2 == 5 ) {
                         all_colors.show_gui();
                     }
                 }

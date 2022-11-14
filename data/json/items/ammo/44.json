@@ -6,7 +6,7 @@
     "name": { "str": ".44 Magnum FMJ" },
     "description": "A brass-jacketed variant of the .44 Magnum round.  This increases penetration at the cost of reduced damage from expansion.",
     "//": "Base damage of 36, balance increase of one-nineth.",
-    "relative": { "damage": { "damage_type": "stab", "amount": -10, "armor_penetration": 23 } }
+    "relative": { "damage": { "damage_type": "bullet", "amount": -10, "armor_penetration": 23 } }
   },
   {
     "id": "44magnum",
@@ -27,28 +27,10 @@
     "casing": "44_casing",
     "range": 16,
     "//": "Hollowpoint bonus of 25%",
-    "damage": { "damage_type": "stab", "amount": 50 },
+    "damage": { "damage_type": "bullet", "amount": 50 },
     "dispersion": 30,
     "recoil": 1570,
     "effects": [ "COOKOFF" ]
-  },
-  {
-    "id": "reloaded_44fmj",
-    "copy-from": "44fmj",
-    "type": "AMMO",
-    "name": { "str": ".44 Magnum FMJ, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_44magnum",
-    "copy-from": "44magnum",
-    "type": "AMMO",
-    "name": { "str": ".44 Magnum, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "bp_44magnum",
@@ -57,7 +39,7 @@
     "name": { "str": ".44 Magnum, black powder" },
     "proportional": {
       "price": 0.3,
-      "damage": { "damage_type": "stab", "amount": 0.76, "armor_penetration": 0.5 },
+      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
     },
@@ -71,7 +53,7 @@
     "name": { "str": ".44 Magnum FMJ, black powder" },
     "proportional": {
       "price": 0.3,
-      "damage": { "damage_type": "stab", "amount": 0.76, "armor_penetration": 0.5 },
+      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
     },

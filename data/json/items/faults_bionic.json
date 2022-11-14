@@ -1,0 +1,41 @@
+[
+  {
+    "id": "fault_bionic_nonsterile",
+    "type": "fault",
+    "name": { "str": "Non-sterile" },
+    "description": "This bionic needs to be sterilized before it can be installed.",
+    "mending_methods": [
+      {
+        "id": "mend_fault_bonic_nonsterile_autoclave",
+        "name": "Sterilize using autoclave",
+        "success_msg": "You successfully package and sterilize the %s using an autoclave.",
+        "time": "10 m",
+        "skills": [ { "id": "electronics", "level": 1 }, { "id": "firstaid", "level": 3 } ],
+        "requirements": {
+          "tools": [ [ [ "autoclave", 5000 ], [ "fake_autoclave", -1 ] ] ],
+          "components": [ [ [ "water", 8 ], [ "water_clean", 8 ] ], [ [ "pouch_autoclave", 1 ] ] ]
+        }
+      },
+      {
+        "id": "mend_fault_bonic_nonsterile_chemical",
+        "name": "Sterilize using chemicals",
+        "success_msg": "You successfully chemically sterilize the %s.",
+        "time": "30 m",
+        "skills": [ { "id": "firstaid", "level": 6 } ],
+        "requirements": {
+          "components": [
+            [
+              [ "chem_formaldehyde", 1 ],
+              [ "chem_phenol", 1 ],
+              [ "chem_hydrogen_peroxide_conc", 1 ],
+              [ "chem_hydrogen_peroxide", 50 ],
+              [ "chem_ethanol", 1000 ],
+              [ "denat_alcohol", 1000 ]
+            ],
+            [ [ "pouch_autoclave", 1 ], [ "bag_plastic", 1 ] ]
+          ]
+        }
+      }
+    ]
+  }
+]

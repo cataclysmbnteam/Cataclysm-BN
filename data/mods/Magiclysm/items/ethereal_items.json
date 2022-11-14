@@ -284,6 +284,7 @@
     "description": "A magically conjured ornate recurve bow of solid flexible wood.  A matching conjured wooden arrow appears when you draw the string back for firing.",
     "flags": [
       "FIRE_TWOHAND",
+      "STR_DRAW",
       "PRIMITIVE_RANGED_WEAPON",
       "BELTED",
       "UNBREAKABLE_MELEE",
@@ -300,7 +301,7 @@
     "to_hit": 1,
     "reload_noise_volume": 3,
     "loudness": 6,
-    "ranged_damage": 29,
+    "ranged_damage": { "damage_type": "stab", "amount": 29 },
     "range": 12,
     "dispersion": 950,
     "durability": 6,

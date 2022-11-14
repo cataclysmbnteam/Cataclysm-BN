@@ -6,7 +6,7 @@
     "name": { "str": "assault rifle" },
     "ammo": "ammo_rifle",
     "description": "The products of decades of improvement, rifle such as this are handy, reliable, and adaptable.  An 'assault rifle', it is capable of providing both accurate semi-automatic fire and bursts of automatic fire.  Short of large creatures and light vehicles, this should take care of most of your problems out to several hundred meters.",
-    "magazines": [ [ "ammo_rifle", [ "rifle_mag", "rifle_sniper_mag" ] ] ]
+    "magazines": [ [ "ammo_rifle", [ "rifle_mag", "rifle_mag_hc" ] ] ]
   },
   {
     "id": "rifle_lmg",
@@ -34,16 +34,7 @@
     "name": "survivor carbine",
     "ammo": "ammo_rifle",
     "description": "A crudely constructed carbine chambered for standard rifle ammo, fed from service rifle magazines.  It locks with a rudimentary lever action system.  The high pressures involved and questionable construction make for less than ideal durability and reliability, but this should still be a serviceable weapon, provided you can stay accurate with it.",
-    "magazines": [ [ "ammo_rifle", [ "rifle_mag", "rifle_sniper_mag" ] ] ]
-  },
-  {
-    "id": "rifle_sniper",
-    "copy-from": "m2010",
-    "type": "GUN",
-    "name": "sniper rifle",
-    "ammo": "ammo_rifle",
-    "description": "Sniper rifles fill military, police and civilian needs for precise, accurate fire.  Modern examples feature detachable magazines and various mounting interfaces for optics and supports.  With care and practice, all should be quite capable of eliminating bipedal threats from very safe ranges. ",
-    "magazines": [ [ "ammo_rifle", [ "rifle_sniper_mag", "rifle_mag" ] ] ]
+    "magazines": [ [ "ammo_rifle", [ "rifle_mag", "rifle_mag_hc" ] ] ]
   },
   {
     "id": "rifle_sporter",
@@ -52,6 +43,6 @@
     "name": "sporter carbine",
     "ammo": "ammo_rifle",
     "description": "Though often mislabeled an asssault rifle, this common, cheap magazine fed carbine isn't capable of automatic fire.  While almost as effective as a proper rifle, the wider variety of components and varying levels of maintenance make these less reliable than their military brethren.  These rifles are just as adequate for taking on anything smaller than large game, however.",
-    "magazines": [ [ "ammo_rifle", [ "rifle_mag", "rifle_sniper_mag" ] ] ]
+    "magazines": [ [ "ammo_rifle", [ "rifle_mag", "rifle_mag_hc" ] ] ]
   }
 ]

@@ -1,10 +1,11 @@
+#include "catch/catch.hpp"
+
 #include <functional>
 #include <list>
 #include <memory>
 #include <string>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
 #include "game_constants.h"
 #include "item.h"
 #include "item_location.h"
@@ -14,11 +15,12 @@
 #include "optional.h"
 #include "point.h"
 #include "rng.h"
+#include "state_helpers.h"
 #include "visitable.h"
 
 TEST_CASE( "item_location_can_maintain_reference_despite_item_removal", "[item][item_location]" )
 {
-    clear_map();
+    clear_all_state();
     map &m = get_map();
     tripoint pos( 60, 60, 0 );
     m.i_clear( pos );
@@ -55,7 +57,7 @@ TEST_CASE( "item_location_can_maintain_reference_despite_item_removal", "[item][
 
 TEST_CASE( "item_location_doesnt_return_stale_map_item", "[item][item_location]" )
 {
-    clear_map();
+    clear_all_state();
     map &m = get_map();
     tripoint pos( 60, 60, 0 );
     m.i_clear( pos );
@@ -69,6 +71,7 @@ TEST_CASE( "item_location_doesnt_return_stale_map_item", "[item][item_location]"
 
 TEST_CASE( "item_in_container", "[item][item_location]" )
 {
+    clear_all_state();
     avatar &dummy = get_avatar();
     item &backpack = dummy.i_add( item( "backpack" ) );
     item jeans( "jeans" );

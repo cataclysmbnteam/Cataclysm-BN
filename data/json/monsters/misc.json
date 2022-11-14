@@ -20,6 +20,7 @@
     "harvest": "exempt",
     "death_function": [ "MELT" ],
     "regenerates": 50,
+    "regeneration_modifiers": [ { "effect": "onfire", "base_mod": -0.3, "scaling_mod": -0.15 }, { "effect": "corroding", "base_mod": -0.8 } ],
     "flags": [ "IMMOBILE", "NOT_HALLUCINATION", "FILTHY" ]
   },
   {
@@ -27,7 +28,7 @@
     "type": "MONSTER",
     "name": { "str": "ancient red dragon" },
     "description": "A towering, hulking dragon, with tremendous, curving horns and shining red scales, its glowing maw peeled back in a hateful grimace as its eyes bore into yours.",
-    "bodytype": "dog",
+    "bodytype": "quadruped",
     "//": "Zombie faction so they don't attack a clear prop",
     "default_faction": "zombie",
     "diff": 50,
@@ -65,6 +66,7 @@
     "melee_cut": 0,
     "armor_bash": 2,
     "armor_cut": 2,
+    "armor_bullet": 2,
     "harvest": "exempt",
     "special_attacks": [ [ "GENERATOR", 1 ] ],
     "death_function": [ "GAMEOVER" ],

@@ -18,7 +18,7 @@
 #include "catacharset.h"
 #include "character_id.h"
 #include "clzones.h"
-#include "common_types.h"
+#include "numeric_interval.h"
 #include "computer.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
@@ -29,6 +29,7 @@
 #include "game.h"
 #include "game_constants.h"
 #include "generic_factory.h"
+#include "input.h"
 #include "int_id.h"
 #include "item.h"
 #include "item_factory.h"
@@ -46,6 +47,7 @@
 #include "mapgenformat.h"
 #include "memory_fast.h"
 #include "mission.h"
+#include "mod_manager.h"
 #include "mongroup.h"
 #include "npc.h"
 #include "omdata.h"
@@ -309,6 +311,7 @@ class mapgen_factory
         void setup() {
             for( std::pair<const std::string, mapgen_basic_container> &omw : mapgens_ ) {
                 omw.second.setup();
+                inp_mngr.pump_events();
             }
             // Dummy entry, overmap terrain null should never appear and is therefor never generated.
             mapgens_.erase( "null" );
@@ -338,7 +341,7 @@ class mapgen_factory
         }
         /// @see mapgen_basic_container::generate
         bool generate( mapgendata &dat, const std::string &key, const int hardcoded_weight = 0 ) const {
-            const auto iter = mapgens_.find( key );
+            const auto iter = mapgens_.find( disable_mapgen ? "test" : key );
             if( iter == mapgens_.end() ) {
                 return false;
             }
@@ -365,11 +368,13 @@ void calculate_mapgen_weights()   // TODO: rename as it runs jsonfunction setup 
     for( auto &pr : nested_mapgen ) {
         for( weighted_object<int, std::shared_ptr<mapgen_function_json_nested>> &ptr : pr.second ) {
             ptr.obj->setup();
+            inp_mngr.pump_events();
         }
     }
     for( auto &pr : update_mapgen ) {
         for( auto &ptr : pr.second ) {
             ptr->setup();
+            inp_mngr.pump_events();
         }
     }
 
@@ -630,8 +635,8 @@ jmapgen_int::jmapgen_int( const JsonObject &jo, const std::string &tag )
     }
 }
 
-jmapgen_int::jmapgen_int( const JsonObject &jo, const std::string &tag, const short def_val,
-                          const short def_valmax )
+jmapgen_int::jmapgen_int( const JsonObject &jo, const std::string &tag, int def_val,
+                          int def_valmax )
     : val( def_val )
     , valmax( def_valmax )
 {
@@ -2399,7 +2404,9 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
     format.resize( static_cast<size_t>( mapgensize.x * mapgensize.y ) );
     // just like mapf::basic_bind("stuff",blargle("foo", etc) ), only json input and faster when applying
     if( jo.has_array( "rows" ) ) {
-        mapgen_palette palette = mapgen_palette::load_temp( jo, "dda" );
+        // TODO: forward correct 'src' parameter
+        mapgen_palette palette = mapgen_palette::load_temp( jo,
+                                 mod_management::get_default_core_content_pack().str() );
         auto &format_terrain = palette.format_terrain;
         auto &format_furniture = palette.format_furniture;
         auto &format_placings = palette.format_placings;
@@ -5463,8 +5470,7 @@ void map::place_vending( const point &p, const item_group_id &type, bool reinfor
         furn_set( p, f_vending_reinforced );
         place_items( type, 100, p, p, false, calendar::start_of_cataclysm );
     } else {
-        // The chance to find a non-ransacked vending machine reduces greatly with every day after the cataclysm
-        if( !one_in( std::max( to_days<int>( calendar::turn - calendar::start_of_cataclysm ), 0 ) + 4 ) ) {
+        if( one_in( 2 ) ) {
             furn_set( p, f_vending_o );
             for( const auto &loc : points_in_radius( { p, abs_sub.z }, 1 ) ) {
                 if( one_in( 4 ) ) {
@@ -5635,11 +5641,9 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units
     veh->sm_pos = ms_to_sm_remain( p_ms );
     veh->pos = p_ms.xy();
     veh->place_spawn_items();
-    veh->face.init( dir );
-    veh->turn_dir = dir;
     // for backwards compatibility, we always spawn with a pivot point of (0,0) so
     // that the mount at (0,0) is located at the spawn position.
-    veh->precalc_mounts( 0, dir, point() );
+    veh->set_facing_and_pivot( dir, point_zero, false );
     //debugmsg("adding veh: %d, sm: %d,%d,%d, pos: %d, %d", veh, veh->smx, veh->smy, veh->smz, veh->posx, veh->posy);
     std::unique_ptr<vehicle> placed_vehicle_up =
         add_vehicle_to_map( std::move( veh ), merge_wrecks );
@@ -5680,6 +5684,9 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
 
     //When hitting a wall, only smash the vehicle once (but walls many times)
     bool needs_smashing = false;
+
+    veh->attach();
+    veh->refresh_position();
 
     for( std::vector<int>::const_iterator part = frame_indices.begin();
          part != frame_indices.end(); part++ ) {
@@ -5855,7 +5862,7 @@ void map::rotate( int turns, const bool setpos_safe )
         }
     }
 
-    clear_vehicle_cache( abs_sub.z );
+    clear_vehicle_cache( );
     clear_vehicle_list( abs_sub.z );
 
     // Move the submaps around.
@@ -5889,7 +5896,7 @@ void map::rotate( int turns, const bool setpos_safe )
             update_vehicle_list( sm, abs_sub.z );
         }
     }
-    reset_vehicle_cache( abs_sub.z );
+    reset_vehicle_cache( );
 
     // rotate zones
     zone_manager &mgr = zone_manager::get_manager();
@@ -6556,11 +6563,11 @@ bool update_mapgen_function_json::update_map( mapgendata &md, const point &offse
     {
         public:
             rotation_guard( const mapgendata &md )
-                : md( md ), rotation( oter_get_rotation( md.terrain_type() ) ) {
+                : md( md ), rotation( oter_get_rotations( md.terrain_type() ) ) {
                 // If the existing map is rotated, we need to rotate it back to the north
                 // orientation before applying our updates.
                 if( rotation != 0 ) {
-                    md.m.rotate( rotation, true );
+                    md.m.rotate( 4 - rotation, true );
                 }
             }
 
@@ -6568,7 +6575,7 @@ bool update_mapgen_function_json::update_map( mapgendata &md, const point &offse
                 // If we rotated the map before applying updates, we now need to rotate
                 // it back to where we found it.
                 if( rotation != 0 ) {
-                    md.m.rotate( 4 - rotation, true );
+                    md.m.rotate( rotation, true );
                 }
             }
         private:

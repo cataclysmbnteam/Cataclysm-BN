@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <climits>
 #include <list>
 #include <memory>
@@ -6,11 +8,11 @@
 #include "avatar.h"
 #include "bionics.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "item.h"
 #include "pimpl.h"
 #include "player.h"
 #include "player_helpers.h"
+#include "state_helpers.h"
 #include "type_id.h"
 #include "units.h"
 
@@ -54,9 +56,8 @@ static void test_consumable_ammo( player &p, std::string &itemname, bool when_em
 
 TEST_CASE( "bionics", "[bionics] [item]" )
 {
+    clear_all_state();
     avatar &dummy = get_avatar();
-    clear_avatar();
-
     // one section failing shouldn't affect the rest
     clear_bionics( dummy );
 

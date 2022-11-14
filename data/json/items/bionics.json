@@ -14,7 +14,7 @@
     "use_action": "install_bionic",
     "flags": [ "CBM" ],
     "is_upgrade": false,
-    "faults": [ "fault_bionic_salvaged" ]
+    "faults": [ "fault_bionic_nonsterile" ]
   },
   {
     "abstract": "bionic_general_npc_usable",
@@ -50,7 +50,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Active Defense System CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "This bionic projects a thin forcefield around the user's body.  Anything attempting to penetrate this field has a chance of being deflected at the cost of energy, reducing their ability to deal damage.  Bullets will be deflected more than swords and those in turn more than massive objects.",
+    "description": "This bionic charges a forcefield around your body that deflects incoming attacks.  Bullets are heavily deflected, piercing well deflected, slashing moderately deflected and bashing barely deflected.  This bionic charges at half speed for 3 turns after being hit, and doesn't consume power when fully charged.",
     "price": 950000,
     "weight": "1000 g",
     "difficulty": 7
@@ -269,7 +269,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Expanded Digestive System CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "This module contains three synthetic stomachs and industrial-grade intestines.  Not only will these extract much more nutrition from food, but also increase the user's resistance to foodborne illness, and occasionally allow the digestion of rotten food.",
+    "description": "This module contains three synthetic stomachs and industrial-grade intestines.  Not only will these extract much more nutrition from food, but also make the user immune to foodborne illness, parasites, and even allow the digestion of rotten food.",
     "price": 550000,
     "difficulty": 6
   },
@@ -339,9 +339,9 @@
     "id": "bio_eye_optic",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
-    "name": { "str": "Telescopic Eyes CBM" },
+    "name": { "str": "Telescopic Lenses CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "An array of high-powered, auto-focusing lenses that replaces much of the material in the inner eye.  This fixes any vision problems and allows for an increased vision range akin to binoculars.",
+    "description": "An array of high-powered, auto-focusing lenses that replaces your natural lenses.  This fixes any mundane vision problems and allows for an increased vision range akin to binoculars.  Once installed they will be impossible to remove, having replaced part of your eyes.",
     "price": 500000,
     "weight": "100 g",
     "difficulty": 5
@@ -608,7 +608,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Repair Nanobots CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A fleet of tiny dormant robots.  While activated they will flit about the user's body, repairing damage and stopping bleeding at the cost of power.",
+    "description": "A fleet of tiny dormant robots.  While activated they will flit about your body, randomly recovering 1 HP every 15s, consuming power and calories only on a success.  It will also slow and eventually stop any bleeding on your body.",
     "price": 950000,
     "weight": "200 g",
     "difficulty": 6
@@ -662,7 +662,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Power Armor Interface CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "Interfaces the user's bionic power system with the internal charging port on suits of power armor, allowing them to draw from the user's bionic power banks.",
+    "description": "Interfaces the user's bionic power system with the internal charging port on suits of power armor, allowing them to draw from the user's bionic power banks.  Twice as efficient as using a UPS.",
     "price": 120000,
     "weight": "500 g",
     "difficulty": 1,
@@ -674,7 +674,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Power Armor Mk. II Interface CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "Interfaces the user's bionic power system with the internal charging port on suits of power armor, allowing them to draw from the user's bionic power banks.  Twice as efficient as the Mk. I model.  The Mk. II was designed by DoubleTech Inc., to meet the popularity of the Mk. II power armor series.",
+    "description": "Interfaces the user's bionic power system with the internal charging port on suits of power armor, allowing them to draw from the user's bionic power banks.  Four times as efficient as using a UPS, the Mk. II was designed by DoubleTech Inc., to meet the popularity of the Mk. II power armor series.",
     "price": 1000000,
     "weight": "400 g",
     "difficulty": 8
@@ -709,7 +709,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Probability Travel CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "Increases the body's wavelength, allowing the user to quantum tunnel through walls, reappearing on the other side.  Power drain in standby is minimal, but each tile tunneled through costs 250 bionic power.",
+    "description": "Increases the body's wavelength, allowing the user to quantum tunnel through walls, reappearing on the other side.  Once installed, activate and select a direction to use.  Tunneling costs 100 bionic power per tile traveled through.",
     "price": 1400000,
     "difficulty": 11
   },
@@ -1219,5 +1219,52 @@
     "description": "Part of the autodoc's 'Cyborg Identity Package', this bionic gives the user a creepy robot voice.",
     "weight": "100 g",
     "difficulty": 5
+  },
+  {
+    "id": "bn_bio_solar",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Solar Panels CBM" },
+    "description": "Installed on your back is a set of retractable solar panels.  When in direct sunlight, they will automatically deploy and slowly recharge your power level.",
+    "price": 350000,
+    "difficulty": 4
+  },
+  {
+    "id": "afs_bio_missiles",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Deployable Grenade Launcher CBM" },
+    "description": "Your right hand can fold inward to reveal a mechanism capable of igniting and firing 40mm grenades across medium distances with great accuracy due built in ballistic calculator.",
+    "price": 100000,
+    "difficulty": 5
+  },
+  {
+    "id": "afs_bio_linguistic_coprocessor",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Linguistic Coprocessor CBM" },
+    "description": "A microcomputer installed into the left hemisphere of your brain to increase the speed that it processes language.  When installed, it provides a passive boost to reading speed.",
+    "price": 100000,
+    "price_postapoc": 50000,
+    "difficulty": 5
+  },
+  {
+    "id": "afs_bio_dopamine_stimulators",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Dopamine Stimulators CBM" },
+    "description": "A set of tiny bionic nerve stimulators that install into the reward center of your brain.  When run with bionic power, it periodically releases a hit of dopamine and other reward chemicals, inducing a state of euphoria and suppressing fear.",
+    "price": 1000000,
+    "price_postapoc": 100000,
+    "difficulty": 8
+  },
+  {
+    "id": "bio_blaster",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Fusion Blaster Arm CBM" },
+    "description": "Heavy-duty fusion blaster was integrated into your left arm!  You may use your energy banks to fire a damaging heat ray.",
+    "price": 220000,
+    "difficulty": 3
   }
 ]

@@ -112,7 +112,7 @@
       [ [ "e_scrap", 2 ], [ "glowplug", 1 ] ],
       [ [ "copper", 1 ], [ "nail", 1 ], [ "wire", 1 ] ],
       [ [ "scrap", 1 ] ],
-      [ [ "duct_tape", 10 ] ],
+      [ [ "adhesive", 1, "LIST" ] ],
       [ [ "cable", 5 ] ]
     ]
   },
@@ -629,7 +629,13 @@
     "components": [
       [ [ "antenna", 1 ] ],
       [ [ "pilot_light", 1 ] ],
-      [ [ "light_minus_battery_cell", 1 ] ],
+      [
+        [ "light_minus_battery_cell", 1 ],
+        [ "light_minus_disposable_cell", 1 ],
+        [ "light_battery_cell", 1 ],
+        [ "light_disposable_cell", 1 ],
+        [ "light_plus_battery_cell", 1 ]
+      ],
       [ [ "amplifier", 1 ] ],
       [ [ "cable", 2 ] ]
     ]

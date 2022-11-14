@@ -14,12 +14,16 @@
 #include "bionics.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "crafting.h"
 #include "character.h"
+#include "character_functions.h"
+#include "character_martial_arts.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
 #include "enums.h"
+#include "examine_item_menu.h"
 #include "game.h"
 #include "input.h"
 #include "inventory.h"
@@ -30,6 +34,7 @@
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "map.h"
+#include "npc.h"
 #include "optional.h"
 #include "options.h"
 #include "output.h"
@@ -57,7 +62,7 @@ static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 
-static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
+static const fault_id fault_bionic_nonsterile( "fault_bionic_nonsterile" );
 
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_electronics( "electronics" );
@@ -66,6 +71,7 @@ static const skill_id skill_firstaid( "firstaid" );
 static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 
 static const bionic_id bio_painkiller( "bio_painkiller" );
+static const bionic_id bio_taste_blocker( "bio_taste_blocker" );
 
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
@@ -77,8 +83,6 @@ static const std::string flag_FILTHY( "FILTHY" );
 static const std::string flag_IN_CBM( "IN_CBM" );
 static const std::string flag_MUSHY( "MUSHY" );
 static const std::string flag_LIQUIDCONT( "LIQUIDCONT" );
-static const std::string flag_NO_PACKED( "NO_PACKED" );
-static const std::string flag_NO_STERILE( "NO_STERILE" );
 static const std::string flag_USE_EAT_VERB( "USE_EAT_VERB" );
 
 static const flag_str_id flag_BIONIC_NPC_USABLE( "BIONIC_NPC_USABLE" );
@@ -228,9 +232,6 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
 
 void game_menus::inv::common( avatar &you )
 {
-    // Return to inventory menu on those inputs
-    static const std::set<int> loop_options = { { '\0', '=', 'f' } };
-
     inventory_pick_selector inv_s( you );
 
     inv_s.set_title( _( "Inventory" ) );
@@ -238,8 +239,7 @@ void game_menus::inv::common( avatar &you )
                         _( "Item hotkeys assigned: <color_light_gray>%d</color>/<color_light_gray>%d</color>" ),
                         you.allocated_invlets().count(), inv_chars.size() ) );
 
-    int res = 0;
-
+    bool started_action = false;
     do {
         you.inv.restack( you );
         inv_s.clear_items();
@@ -256,8 +256,15 @@ void game_menus::inv::common( avatar &you )
             }
         }
 
-        res = g->inventory_item_menu( location );
-    } while( loop_options.count( res ) != 0 );
+        const auto func_pos_x = []() {
+            return 0;
+        };
+        const auto func_width = []() {
+            return 50;
+        };
+        started_action = examine_item_menu::run( location, func_pos_x, func_width,
+                         examine_item_menu::menu_pos_t::right );
+    } while( !started_action );
 }
 
 item_location game_menus::inv::titled_filter_menu( item_filter filter, avatar &you,
@@ -303,6 +310,10 @@ class armor_inventory_preset: public inventory_selector_preset
             append_cell( [ this ]( const item_location & loc ) {
                 return get_number_string( loc->cut_resist() );
             }, _( "CUT" ) );
+
+            append_cell( [ this ]( const item_location & loc ) {
+                return get_number_string( loc->bullet_resist() );
+            }, _( "BULLET" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
                 return get_number_string( loc->acid_resist() );
@@ -466,7 +477,7 @@ class disassemble_inventory_preset : public pickup_inventory_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
-            const auto ret = p.can_disassemble( *loc, inv );
+            const ret_val<bool> ret = crafting::can_disassemble( p, *loc, inv );
             if( !ret.success() ) {
                 return ret.str();
             }
@@ -506,10 +517,14 @@ class comestible_inventory_preset : public inventory_selector_preset
 
             append_cell( [ &p, this ]( const item_location & loc ) {
                 const item &it = get_consumable_item( loc );
-                if( it.has_flag( flag_MUSHY ) ) {
-                    return highlight_good_bad_none( p.fun_for( get_consumable_item( loc ) ).first );
+                const int consume_fun = p.fun_for( get_consumable_item( loc ) ).first;
+                if( consume_fun < 0 && p.has_active_bionic( bio_taste_blocker ) &&
+                    p.get_power_level() > units::from_kilojoule( -consume_fun ) ) {
+                    return string_format( "<color_light_gray>[%d]</color>", consume_fun );
+                } else if( it.has_flag( flag_MUSHY ) ) {
+                    return highlight_good_bad_none( consume_fun );
                 } else {
-                    return good_bad_none( p.fun_for( get_consumable_item( loc ) ).first );
+                    return good_bad_none( consume_fun );
                 }
             }, _( "JOY" ) );
 
@@ -957,7 +972,7 @@ item_location game_menus::inv::gun_to_modify( player &p, const item &gunmod )
                          _( "You don't have any guns to modify." ) );
 }
 
-class read_inventory_preset: public inventory_selector_preset
+class read_inventory_preset final: public inventory_selector_preset
 {
     public:
         read_inventory_preset( const player &p ) : p( p ) {
@@ -967,7 +982,7 @@ class read_inventory_preset: public inventory_selector_preset
                 if( loc->type->can_use( "MA_MANUAL" ) ) {
                     return _( "martial arts" );
                 }
-                const auto &book = get_book( loc );
+                const islot_book &book = get_book( loc );
                 if( !book.skill ) {
                     return std::string();
                 }
@@ -990,13 +1005,13 @@ class read_inventory_preset: public inventory_selector_preset
             }, _( "TRAINS (CURRENT)" ), unknown );
 
             append_cell( [ this ]( const item_location & loc ) -> std::string {
-                const auto &book = get_book( loc );
+                const islot_book &book = get_book( loc );
                 const int unlearned = book.recipes.size() - get_known_recipes( book );
 
                 return unlearned > 0 ? std::to_string( unlearned ) : std::string();
             }, _( "RECIPES" ), unknown );
             append_cell( [ &p ]( const item_location & loc ) -> std::string {
-                return good_bad_none( p.book_fun_for( *loc, p ) );
+                return good_bad_none( character_funcs::get_book_fun_for( p, *loc ) );
             }, _( "FUN" ), unknown );
 
             append_cell( [ this, &p, unknown ]( const item_location & loc ) -> std::string {
@@ -1004,20 +1019,33 @@ class read_inventory_preset: public inventory_selector_preset
 
                 // This is terrible and needs to be removed asap when this entire file is refactored
                 // to use the new avatar class
-                const avatar *u = dynamic_cast<const avatar *>( &p );
-                if( !u ) {
-                    return std::string();
+                const player *reader = nullptr;
+                if( const avatar *av = p.as_avatar() ) {
+                    reader = av->get_book_reader( *loc, dummy );
+                } else if( const npc *n = p.as_npc() ) {
+                    reader = n;
                 }
-                const player *reader = u->get_book_reader( *loc, dummy );
                 if( reader == nullptr ) {
                     return unknown;
                 }
+
+                int time_to_read = 0;
+                // HACK: Need to refactor this
+                // after moving reading methods from `npc` and `avatar`.
+                if( const npc *npc_reader = reader->as_npc() ) {
+                    time_to_read = npc_reader->time_to_read( *loc, *reader );
+                } else if( const avatar *av = reader->as_avatar() ) {
+                    time_to_read = av->time_to_read( *loc, *reader );
+                } else {
+                    debugmsg( "Reader is not NPC or avatar" );
+                    time_to_read = 1;
+                }
                 // Actual reading time (in turns). Can be penalized.
-                const int actual_turns = u->time_to_read( *loc, *reader ) / to_moves<int>( 1_turns );
-                // Theoretical reading time (in turns) based on the reader speed. Free of penalties.
-                const int normal_turns = get_book( loc ).time * reader->read_speed() / to_moves<int>( 1_turns );
+                const int actual_turns = time_to_read / to_moves<int>( 1_turns );
                 const std::string duration = to_string_approx( time_duration::from_turns( actual_turns ), false );
 
+                // Theoretical reading time (in turns) based on the reader speed. Free of penalties.
+                const int normal_turns = get_book( loc ).time * reader->read_speed() / to_moves<int>( 1_turns );
                 if( actual_turns > normal_turns ) { // Longer - complicated stuff.
                     return string_format( "<color_light_red>%s</color>", duration );
                 }
@@ -1033,7 +1061,7 @@ class read_inventory_preset: public inventory_selector_preset
         std::string get_denial( const item_location &loc ) const override {
             // This is terrible and needs to be removed asap when this entire file is refactored
             // to use the new avatar class
-            const avatar *u = dynamic_cast<const avatar *>( &p );
+            const avatar *u = p.as_avatar();
             if( !u ) {
                 return std::string();
             }
@@ -1041,54 +1069,126 @@ class read_inventory_preset: public inventory_selector_preset
             std::vector<std::string> denials;
             if( u->get_book_reader( *loc, denials ) == nullptr && !denials.empty() &&
                 !loc->type->can_use( "learn_spell" ) && u->has_identified( loc->typeId() ) ) {
-                return denials.front();
+                return std::move( denials.front() );
             }
             return std::string();
         }
 
-        std::function<bool( const inventory_entry & )> get_filter( const std::string &filter ) const
-        override {
-            return [this, filter]( const inventory_entry & e ) {
-                if( !is_known( e.any_item() ) ) {
-                    return false;
-                }
-
-                const auto &book = get_book( e.any_item() );
-                if( book.skill && p.get_skill_level_object( book.skill ).can_train() ) {
-                    return lcmatch( book.skill->name(), filter );
-                }
-
-                return false;
-            };
+        nc_color get_color( const inventory_entry &entry ) const override {
+            if( !entry.is_item() ) {
+                return inventory_selector_preset::get_color( entry );
+            }
+            return entry.any_item()->color_in_inventory( p );
         }
 
+        /** Splits books into groups: Unknown, CanTrainSkill, CanNotTrainSkillAnymore, ForFun.
+        * 1. Unknown sorted by default algorithm.
+        * 2. CanTrainSkill grouped by skill and sorted by time to read
+        *    because player probably wants to level up certain skill faster.
+        * 3. CanNotTrainSkillAnymore grouped by skill.
+        * 4. ForFun sorted to make most fun books first.
+        */
         bool sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const override {
             const bool base_sort = inventory_selector_preset::sort_compare( lhs, rhs );
 
-            const bool known_a = is_known( lhs.any_item() );
-            const bool known_b = is_known( rhs.any_item() );
+            // Player doesn't really interested if NPC knows about book.
+            if( p.is_avatar() ) {
+                const bool known_a = is_known( lhs.any_item() );
+                const bool known_b = is_known( rhs.any_item() );
 
-            if( !known_a || !known_b ) {
-                return ( !known_a && !known_b ) ? base_sort : !known_a;
+                // If we don't know book, it should be first.
+                // Since we don't know it's contents,
+                // we don't apply our skill based sortings here.
+                if( !known_a || !known_b ) {
+                    return ( !known_a && !known_b ) ? base_sort : !known_a;
+                }
             }
 
-            const auto &book_a = get_book( lhs.any_item() );
-            const auto &book_b = get_book( rhs.any_item() );
+            struct localized_string {
+                std::string s;
+                bool operator==( const localized_string &other ) const {
+                    return s == other.s;
+                }
+                bool operator<( const localized_string &other ) const {
+                    return localized_compare( s, other.s );
+                }
+            };
 
-            if( !book_a.skill && !book_b.skill ) {
-                return ( book_a.fun == book_b.fun ) ? base_sort : book_a.fun > book_b.fun;
-            } else if( !book_a.skill || !book_b.skill ) {
-                return static_cast<bool>( book_a.skill );
+            // Used to unify martial arts and skills.
+            struct book_info {
+                    bool can_teach = false;
+                    bool can_still_learn = false;
+                    bool is_learnable_already = true;
+                    int time_to_levelup = 0;
+                    int fun = 0;
+
+                    book_info( const islot_book &book, const player &p ):
+                        time_to_levelup( book.time ),
+                        fun( book.fun ),
+                        book( book ) {
+                        if( book.martial_art ) {
+                            can_teach = true;
+                            can_still_learn = !p.martial_arts_data->has_martialart( book.martial_art );
+                        }
+                        if( book.skill ) {
+                            const int skill_level = p.get_skill_level( book.skill );
+
+                            can_teach = true;
+                            can_still_learn = skill_level < book.level;
+                            is_learnable_already = skill_level >= book.req;
+                        }
+                    }
+
+                    localized_string get_localized_skill()const {
+                        assert( can_teach );
+
+                        if( book.martial_art ) {
+                            return { _( "martial arts" ) };
+                        }
+                        return { book.skill->name() };
+                    }
+
+                private:
+                    const islot_book &book;
+            };
+
+            const islot_book &book_a = get_book( lhs.any_item() );
+            const islot_book &book_b = get_book( rhs.any_item() );
+
+            const book_info info_a( book_a, p );
+            const book_info info_b( book_b, p );
+
+            if( !info_a.can_teach && !info_b.can_teach ) {
+                return ( info_a.fun == info_b.fun ) ? base_sort : info_a.fun > info_b.fun;
+            } else if( info_a.can_teach != info_b.can_teach ) {
+                return info_a.can_teach;
             }
 
-            const bool train_a = p.get_skill_level( book_a.skill ) < book_a.level;
-            const bool train_b = p.get_skill_level( book_b.skill ) < book_b.level;
+            if( info_a.can_still_learn != info_b.can_still_learn ) {
+                return info_a.can_still_learn;
+            }
+            const bool can_still_learn = info_a.can_still_learn;
 
-            if( !train_a || !train_b ) {
-                return ( !train_a && !train_b ) ? base_sort : train_a;
+            const localized_string skill_a = info_a.get_localized_skill();
+            const localized_string skill_b = info_b.get_localized_skill();
+            if( can_still_learn ) {
+                const auto a = std::make_tuple(
+                                   skill_a,
+                                   info_a.is_learnable_already ? 0 : 1,
+                                   info_a.time_to_levelup
+                               );
+                const auto b = std::make_tuple(
+                                   skill_b,
+                                   info_b.is_learnable_already ? 0 : 1,
+                                   info_b.time_to_levelup
+                               );
+                return ( a == b ) ? base_sort : ( a < b );
             }
 
-            return base_sort;
+            if( skill_a == skill_b ) {
+                return base_sort;
+            }
+            return skill_a < skill_b;
         }
 
     private:
@@ -1120,9 +1220,9 @@ class read_inventory_preset: public inventory_selector_preset
 
 item_location game_menus::inv::read( player &pl )
 {
-    const std::string msg = pl.is_player() ? _( "You have nothing to read." ) :
-                            string_format( _( "%s has nothing to read." ), pl.disp_name() );
-    return inv_internal( pl, read_inventory_preset( pl ), _( "Read" ), 1, msg );
+    const std::string none_msg = pl.is_player() ? _( "You have nothing to read." ) :
+                                 string_format( _( "%s has nothing to read." ), pl.disp_name() );
+    return inv_internal( pl, read_inventory_preset( pl ), _( "Read" ), 1, none_msg );
 }
 
 class steal_inventory_preset : public pickup_inventory_preset
@@ -1382,7 +1482,14 @@ drop_locations game_menus::inv::multidrop( player &p )
     p.inv.restack( p );
 
     const inventory_filter_preset preset( [ &p ]( const item_location & location ) {
-        return p.can_unwield( *location ).success();
+        const item &itm = *location;
+        if( p.is_wielding( itm ) ) {
+            return p.can_unwield( itm ).success();
+        } else if( p.is_wearing( itm ) ) {
+            return p.can_takeoff( itm ).success();
+        } else {
+            return true;
+        }
     } );
 
     inventory_drop_selector inv_s( p, preset );
@@ -1391,12 +1498,24 @@ drop_locations game_menus::inv::multidrop( player &p )
     inv_s.set_title( _( "Multidrop" ) );
     inv_s.set_hint( _( "To drop x items, type a number before selecting." ) );
 
-    if( inv_s.empty() ) {
-        popup( std::string( _( "You have nothing to drop." ) ), PF_GET_KEY );
-        return drop_locations();
-    }
+    while( true ) {
+        p.inv.restack( p );
+        inv_s.clear_items();
+        inv_s.add_character_items( p );
 
-    return inv_s.execute();
+        if( inv_s.empty() ) {
+            popup( std::string( _( "You have nothing to drop." ) ), PF_GET_KEY );
+            return drop_locations();
+        }
+
+        drop_locations result = inv_s.execute();
+        // an item has been favorited, reopen the UI
+        if( inv_s.keep_open ) {
+            continue;
+        } else {
+            return result;
+        }
+    }
 }
 
 iuse_locations game_menus::inv::multiwash( Character &ch, int water, int cleanser, bool do_soft,
@@ -1699,14 +1818,9 @@ class bionic_install_preset: public inventory_selector_preset
             const itype *itemtype = it->type;
             const bionic_id &bid = itemtype->bionic->id;
 
-            if( it->has_flag( flag_FILTHY ) ) {
+            if( it->has_fault( fault_bionic_nonsterile ) ) {
                 // NOLINTNEXTLINE(cata-text-style): single space after the period for symmetry
-                return _( "/!\\ CBM is highly contaminated. /!\\" );
-            } else if( it->has_flag( flag_NO_STERILE ) ) {
-                // NOLINTNEXTLINE(cata-text-style): single space after the period for symmetry
-                return _( "/!\\ CBM is not sterile. /!\\ Please use autoclave to sterilize." );
-            } else if( it->has_fault( fault_id( "fault_bionic_salvaged" ) ) ) {
-                return _( "CBM already deployed.  Please reset to factory state." );
+                return _( "/!\\ CBM is not sterile. /!\\ Please use autoclave or other methods to sterilize." );
             } else if( pa.has_bionic( bid ) ) {
                 return _( "CBM already installed" );
             } else if( !pa.can_install_cbm_on_bp( get_occupied_bodyparts( bid ) ) ) {
@@ -1808,12 +1922,8 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
             const itype *itemtype = it->type;
             const bionic_id &bid = itemtype->bionic->id;
 
-            if( it->has_flag( flag_FILTHY ) ) {
-                return _( "CBM is filthy." );
-            } else if( it->has_flag( flag_NO_STERILE ) ) {
+            if( it->has_fault( fault_bionic_nonsterile ) ) {
                 return _( "CBM is not sterile." );
-            } else if( it->has_fault( fault_bionic_salvaged ) ) {
-                return _( "CBM is already deployed." );
             } else if( pa.has_bionic( bid ) ) {
                 return _( "CBM is already installed." );
             } else if( bid->upgraded_bionic &&
@@ -1968,30 +2078,15 @@ class bionic_sterilize_preset : public inventory_selector_preset
     public:
         bionic_sterilize_preset( player &pl ) :
             p( pl ) {
-
-            append_cell( []( const item_location & ) {
-                return to_string( 90_minutes );
-            }, _( "CYCLE DURATION" ) );
-
-            append_cell( []( const item_location & ) {
-                return pgettext( "volume of water", "2 L" );
-            }, _( "WATER REQUIRED" ) );
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return loc->has_flag( flag_NO_STERILE ) && loc->is_bionic();
+            return loc->has_fault( fault_bionic_nonsterile ) && loc->is_bionic();
         }
 
         std::string get_denial( const item_location &loc ) const override {
-            auto reqs = *requirement_id( "autoclave_item" );
             if( loc.get_item()->has_flag( flag_FILTHY ) ) {
                 return  _( "CBM is filthy.  Wash it first." );
-            }
-            if( loc.get_item()->has_flag( flag_NO_PACKED ) ) {
-                return  _( "You should put this CBM in an autoclave pouch to keep it sterile." );
-            }
-            if( !reqs.can_make_with_inventory( p.crafting_inventory(), is_crafting_component ) ) {
-                return _( "You need at least 2L of water." );
             }
 
             return std::string();

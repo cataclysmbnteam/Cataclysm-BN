@@ -441,6 +441,7 @@
   },
   {
     "type": "overmap_terrain",
+    "copy-from": "generic_parking",
     "id": [
       "parking_2x1_0",
       "parking_2x1_1",
@@ -453,7 +454,7 @@
       "parking_3x1_2"
     ],
     "name": "parking lot",
-    "sym": "O",
+    "sym": "0",
     "color": "dark_gray",
     "see_cost": 2
   },

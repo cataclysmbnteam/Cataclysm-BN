@@ -267,7 +267,8 @@
         "........."
       ],
       "palettes": [ "lab_palette" ],
-      "terrain": { "C": [ "t_centrifuge" ] }
+      "terrain": { "C": [ "t_thconc_floor" ] },
+      "furniture": { "C": [ "f_centrifuge" ] }
     }
   },
   {
@@ -729,19 +730,11 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "sub_t_machinery",
+    "//": "Todo: add f_centrifuge once all of the below terrain are converted to furniture.",
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "A" ],
-      "terrain": {
-        "A": [
-          "t_machinery_heavy",
-          "t_machinery_heavy",
-          "t_machinery_electronic",
-          "t_machinery_light",
-          "t_centrifuge",
-          "t_console_broken"
-        ]
-      }
+      "terrain": { "A": [ "t_machinery_heavy", "t_machinery_heavy", "t_machinery_electronic", "t_machinery_light", "t_console_broken" ] }
     }
   },
   {

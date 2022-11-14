@@ -103,7 +103,7 @@ public class SplashScreen extends Activity {
     private class InstallProgramTask extends AsyncTask<Void, Integer, Boolean> {
         private final List<String> PRESERVE_SUBFOLDERS = Arrays.asList("sound", "mods", "gfx"); // don't delete custom subfolders under these folders
         private final List<String> PRESERVE_FOLDERS = Arrays.asList("font"); // don't delete this folder
-        private final List<String> PRESERVE_FILES = Arrays.asList("user-default-mods.json"); // don't delete this file
+        private final List<String> PRESERVE_FILES = Arrays.asList("default_mods.json"); // don't delete this file
 
         private int totalFiles = 0;
         private int installedFiles = 0;

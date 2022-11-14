@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <algorithm>
 #include <map>
 #include <sstream>
@@ -7,7 +9,6 @@
 
 #include "bodypart.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "mutation.h"
 #include "npc.h"
 #include "options.h"

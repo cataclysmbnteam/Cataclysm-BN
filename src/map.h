@@ -92,6 +92,10 @@ template<typename T>
 struct weighted_int_list;
 struct rl_vec2d;
 
+
+/** Causes all generated maps to be empty grass and prevents saved maps from being loaded, used by the test suite */
+extern bool disable_mapgen;
+
 namespace cata
 {
 template <class T> class poly_serialized;
@@ -125,6 +129,7 @@ struct visibility_variables {
 };
 
 struct bash_params {
+    bash_params() = default;
     // Initial strength
     int strength;
     // Make a sound?
@@ -140,12 +145,6 @@ struct bash_params {
      * can destroy a wall and a floor under it rather than only one at a time.
      */
     float roll;
-    // Was anything hit?
-    bool did_bash;
-    // Was anything destroyed?
-    bool success;
-    // Did we bash furniture, terrain or vehicle
-    bool bashed_solid;
     /*
      * Are we bashing this location from above?
      * Used in determining what sort of terrain the location will turn into,
@@ -153,6 +152,28 @@ struct bash_params {
      * have a roof either.
     */
     bool bashing_from_above;
+    /**
+     * Hack to prevent infinite recursion.
+     * TODO: Remove, properly unwrap the calls instead
+     */
+    bool do_recurse = true;
+};
+
+struct bash_results {
+    bash_results( bool did_bash, bool success, bool bashed_solid )
+        : did_bash( did_bash ), success( success ), bashed_solid( bashed_solid )
+    {}
+    bash_results() = default;
+    // Was anything hit?
+    bool did_bash = false;
+    // Was anything destroyed?
+    bool success = false;
+    // Did we bash furniture, terrain or vehicle
+    bool bashed_solid = false;
+    // If there was recurrent bashing, it will be here
+    std::vector<bash_results> subresults;
+
+    bash_results &operator|=( const bash_results &other );
 };
 
 /** Draw parameters used by map::drawsq() and similar methods. */
@@ -271,6 +292,12 @@ struct drawsq_params {
         //@}
 };
 
+//This is included in the global namespace rather than within level_cache as c++ doesn't allow forward declarations within a namespace
+struct diagonal_blocks {
+    bool nw;
+    bool ne;
+};
+
 struct level_cache {
     // Zeros all relevant values
     level_cache();
@@ -280,6 +307,9 @@ struct level_cache {
     bool outside_cache_dirty = false;
     bool floor_cache_dirty = false;
     bool seen_cache_dirty = false;
+    bool suspension_cache_initialized = false;
+    bool suspension_cache_dirty = false;
+    std::list<point> suspension_cache;
 
     four_quadrants lm[MAPSIZE_X][MAPSIZE_Y];
     float sm[MAPSIZE_X][MAPSIZE_Y];
@@ -301,10 +331,12 @@ struct level_cache {
     // units: "transparency" (see LIGHT_TRANSPARENCY_OPEN_AIR)
     float transparency_cache[MAPSIZE_X][MAPSIZE_Y];
 
-    // stores "adjusted transparency" of the tiles
-    // initial values derived from transparency_cache, uses same units
-    // examples of adjustment: changed transparency on player's tile and special case for crouching
-    float vision_transparency_cache[MAPSIZE_X][MAPSIZE_Y];
+    // true when light entering a tile diagonally is blocked by the walls of a turned vehicle. The direction is the direction that the light must be travelling.
+    // check the nw value of x+1, y+1 to find the se value of a tile and the ne of x-1, y+1 for sw
+    diagonal_blocks vehicle_obscured_cache[MAPSIZE_X][MAPSIZE_Y];
+
+    // same as above but for obstruction rather than light
+    diagonal_blocks vehicle_obstructed_cache[MAPSIZE_X][MAPSIZE_Y];
 
     // stores "visibility" of the tiles to the player
     // values range from 1 (fully visible to player) to 0 (not visible)
@@ -419,6 +451,12 @@ class map
             }
         }
 
+        void set_suspension_cache_dirty( const int zlev ) {
+            if( inbounds_z( zlev ) ) {
+                get_cache( zlev ).suspension_cache_dirty = true;
+            }
+        }
+
         void set_pathfinding_cache_dirty( int zlev );
         /*@}*/
 
@@ -436,6 +474,7 @@ class map
                 ch.transparency_cache_dirty.set();
                 ch.seen_cache_dirty = true;
                 ch.outside_cache_dirty = true;
+                ch.suspension_cache_dirty = true;
             }
         }
 
@@ -524,9 +563,13 @@ class map
          * @param w global coordinates of the submap at grid[0]. This
          * is in submap coordinates.
          * @param update_vehicles If true, add vehicles to the vehicle cache.
+         * @param pump_events If true, handle window events during loading. If
+         * you set this to true, do ensure that the map is not accessed before
+         * this function returns (for example, UIs that draw the map should be
+         * disabled).
          */
-        void load( const tripoint &w, bool update_vehicles );
-        void load( const tripoint_abs_sm &w, bool update_vehicles );
+        void load( const tripoint &w, bool update_vehicles, bool pump_events = false );
+        void load( const tripoint_abs_sm &w, bool update_vehicles, bool pump_events = false );
         /**
          * Shift the map along the vector s.
          * This is like loading the map with coordinates derived from the current
@@ -556,7 +599,7 @@ class map
         void spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
                          const time_duration &outdoor_age_speedup, scent_block &sblk );
         void create_hot_air( const tripoint &p, int intensity );
-        bool gas_can_spread_to( field_entry &cur, const maptile &dst );
+        bool gas_can_spread_to( field_entry &cur, const tripoint &src, const tripoint &dst );
         void gas_spread_to( field_entry &cur, maptile &dst, const tripoint &p );
         int burn_body_part( player &u, field_entry &cur, body_part bp, int scale );
     public:
@@ -665,6 +708,16 @@ class map
                          int cost_min, int cost_max ) const;
 
         /**
+         * Checks if a rotated vehicle is blocking diagonal movement, tripoints must be adjacent
+         */
+        bool obstructed_by_vehicle_rotation( const tripoint &from, const tripoint &to ) const;
+
+        /**
+         * Checks if a rotated vehicle is blocking diagonal vision, tripoints must be adjacent
+         */
+        bool obscured_by_vehicle_rotation( const tripoint &from, const tripoint &to ) const;
+
+        /**
          * Populates a vector of points that are reachable within a number of steps from a
          * point. It could be generalized to take advantage of z levels, but would need some
          * additional code to detect whether a valid transition was on a tile.
@@ -713,8 +766,8 @@ class map
         void add_vehicle_to_cache( vehicle * );
         void clear_vehicle_point_from_cache( vehicle *veh, const tripoint &pt );
         void update_vehicle_cache( vehicle *, int old_zlevel );
-        void reset_vehicle_cache( int zlev );
-        void clear_vehicle_cache( int zlev );
+        void reset_vehicle_cache( );
+        void clear_vehicle_cache( );
         void clear_vehicle_list( int zlev );
         void update_vehicle_list( const submap *to, int zlev );
         //Returns true if vehicle zones are dirty and need to be recached
@@ -751,12 +804,10 @@ class map
         void unboard_vehicle( const tripoint &p, bool dead_passenger = false );
         // Change vehicle coordinates and move vehicle's driver along.
         // WARNING: not checking collisions!
-        // optionally: include a list of parts to displace instead of the entire vehicle
-        bool displace_vehicle( vehicle &veh, const tripoint &dp, bool adjust_pos = true,
-                               const std::set<int> &parts_to_move = {} );
-        // make sure a vehicle that is split across z-levels is properly supported
-        // calls displace_vehicle() and shouldn't be called from displace_vehicle
-        void level_vehicle( vehicle &veh );
+        bool displace_vehicle( vehicle &veh, const tripoint &dp );
+
+        // Shift the vehicle's z-level without moving any parts
+        void shift_vehicle_z( vehicle &veh, int z_shift );
         // move water under wheels. true if moved
         bool displace_water( const tripoint &dp );
 
@@ -933,6 +984,10 @@ class map
         bool has_flag_furn( const std::string &flag, const point &p ) const {
             return has_flag_furn( flag, tripoint( p, abs_sub.z ) );
         }
+        // Checks vehicle part flag
+        bool has_flag_vpart( const std::string &flag, const tripoint &p ) const;
+        // Checks vehicle part or furniture
+        bool has_flag_furn_or_vpart( const std::string &flag, const tripoint &p ) const;
         // Checks terrain or furniture
         bool has_flag_ter_or_furn( const std::string &flag, const tripoint &p ) const;
         bool has_flag_ter_or_furn( const std::string &flag, const point &p ) const {
@@ -1099,8 +1154,14 @@ class map
         /** Causes a collapse at p, such as from destroying a wall */
         void collapse_at( const tripoint &p, bool silent, bool was_supporting = false,
                           bool destroy_pos = true );
-        /** Tries to smash the items at the given tripoint. Used by the explosion code */
-        void smash_items( const tripoint &p, int power, const std::string &cause_message );
+        /** Checks surrounding tiles for suspension, and has them check for collapse. !!Should only be called after the tile at this point has been destroyed!!*/
+        void propagate_suspension_check( const tripoint &point );
+        /** Triggers a recursive collapse of suspended tiles based on their support validity*/
+        void collapse_invalid_suspension( const tripoint &point );
+        /** Checks the four orientations in which a suspended tile could be valid, and returns if the tile is valid*/
+        bool is_suspension_valid( const tripoint &point );
+        /** Tries to smash the items at the given tripoint. */
+        void smash_items( const tripoint &p, int power, const std::string &cause_message, bool do_destroy );
         /**
          * Returns a pair where first is whether anything was smashed and second is if it was destroyed.
          *
@@ -1111,9 +1172,12 @@ class map
          * @param bash_floor Allow bashing the floor and the tile that supports it
          * @param bashing_vehicle Vehicle that should NOT be bashed (because it is doing the bashing)
          */
-        bash_params bash( const tripoint &p, int str, bool silent = false,
-                          bool destroy = false, bool bash_floor = false,
-                          const vehicle *bashing_vehicle = nullptr );
+        bash_results bash( const tripoint &p, int str, bool silent = false,
+                           bool destroy = false, bool bash_floor = false,
+                           const vehicle *bashing_vehicle = nullptr );
+
+        bash_results bash_vehicle( const tripoint &p, const bash_params &params );
+        bash_results bash_ter_furn( const tripoint &p, const bash_params &params );
 
         // Effects of attacks/items
         bool hit_with_acid( const tripoint &p );
@@ -1279,7 +1343,6 @@ class map
                                      int &quantity, const std::function<bool( const item & )> &filter = return_true<item>,
                                      basecamp *bcp = nullptr );
         /*@}*/
-        std::list<std::pair<tripoint, item *> > get_rc_items( const tripoint &p = { -1, -1, -1 } );
 
         /**
         * Place items from item group in the rectangle f - t. Several items may be spawned
@@ -1458,8 +1521,7 @@ class map
          * Build the map of scent-resistant tiles.
          * Should be way faster than if done in `game.cpp` using public map functions.
          */
-        void scent_blockers( std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &blocks_scent,
-                             std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &reduces_scent,
+        void scent_blockers( std::array<std::array<char, MAPSIZE_X>, MAPSIZE_Y> &scent_transfer,
                              const point &min, const point &max );
 
         // Computers
@@ -1741,7 +1803,7 @@ class map
         // Builds a transparency cache and returns true if the cache was invalidated.
         // Used to determine if seen cache should be rebuilt.
         bool build_transparency_cache( int zlev );
-        bool build_vision_transparency_cache( int zlev );
+        bool build_vision_transparency_cache( const Character &player );
         // fills lm with sunlight. pzlev is current player's zlevel
         void build_sunlight_cache( int pzlev );
     public:
@@ -1751,14 +1813,25 @@ class map
         bool build_floor_cache( int zlev );
         // We want this visible in `game`, because we want it built earlier in the turn than the rest
         void build_floor_caches();
-
+        // Checks all suspended tiles on a z level and adds those that are invalid to the support_dirty_cache */
+        void update_suspension_cache( const int &z );
     protected:
         void generate_lightmap( int zlev );
         void build_seen_cache( const tripoint &origin, int target_z );
         void apply_character_light( Character &p );
 
+        //Adds/removes player specific transparencies
+        void apply_vision_transparency_cache( const tripoint &center, int target_z,
+                                              float ( &vision_restore_cache )[9], bool ( &blocked_restore_cache )[8] );
+        void restore_vision_transparency_cache( const tripoint &center, int target_z,
+                                                float ( &vision_restore_cache )[9], bool ( &blocked_restore_cache )[8] );
+
         int my_MAPSIZE;
         bool zlevels;
+
+        // stores vision adjustment for the tiles immediately surrounding the player, the order is given by eight_adjacent_offsets in point.h
+        // examples of adjustment: crouching
+        vision_adjustment vision_transparency_cache[8] = { VISION_ADJUST_NONE };
 
         /**
          * Absolute coordinates of first submap (get_submap_at(0,0))
@@ -1875,16 +1948,21 @@ class map
         std::unique_ptr<vehicle> add_vehicle_to_map( std::unique_ptr<vehicle> veh, bool merge_wrecks );
 
         // Internal methods used to bash just the selected features
-        // Information on what to bash/what was bashed is read from/written to the bash_params struct
-        void bash_ter_furn( const tripoint &p, bash_params &params );
-        void bash_items( const tripoint &p, bash_params &params );
-        void bash_vehicle( const tripoint &p, bash_params &params );
-        void bash_field( const tripoint &p, bash_params &params );
+        // "Externaled" for testing, because the interface to bashing is rng dependent
+    public:
+        // Information on what to bash/what was bashed is read from/written to the bash_params/bash_results struct
+        bash_results bash_items( const tripoint &p, const bash_params &params );
+        bash_results bash_field( const tripoint &p, const bash_params &params );
 
+        // Successfully bashing things down
+        bash_results bash_ter_success( const tripoint &p, const bash_params &params );
+        bash_results bash_furn_success( const tripoint &p, const bash_params &params );
+
+    private:
         // Gets the roof type of the tile at p
         // Second argument refers to whether we have to get a roof (we're over an unpassable tile)
         // or can just return air because we bashed down an entire floor tile
-        ter_id get_roof( const tripoint &p, bool allow_air );
+        ter_id get_roof( const tripoint &p, bool allow_air ) const;
 
     public:
         void process_items();
@@ -2007,6 +2085,10 @@ class map
         std::list<tripoint> find_furnitures_with_flag_in_radius( const tripoint &center, size_t radius,
                 const std::string &flag,
                 size_t radiusz = 0 );
+        /**returns positions of furnitures or vehicle parts with matching flag in the specified radius*/
+        std::list<tripoint> find_furnitures_or_vparts_with_flag_in_radius( const tripoint &center,
+                size_t radius,
+                const std::string &flag, size_t radiusz = 0 );
         /**returns creatures in specified radius*/
         std::list<Creature *> get_creatures_in_radius( const tripoint &center, size_t radius,
                 size_t radiusz = 0 );

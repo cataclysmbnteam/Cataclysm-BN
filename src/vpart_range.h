@@ -49,6 +49,7 @@ class vehicle_part_iterator
             skip_to_next_valid( i );
         }
         vehicle_part_iterator( const vehicle_part_iterator & ) = default;
+        vehicle_part_iterator &operator=( const vehicle_part_iterator & ) = default;
 
         const vpart_reference &operator*() const {
             assert( vp_ );

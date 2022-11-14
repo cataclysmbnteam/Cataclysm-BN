@@ -105,6 +105,19 @@ class wish_mutate_callback: public uilist_callback
                 mvwprintw( menu->window, point( startx, 3 ),
                            mdata.valid ? _( "Valid" ) : _( "Nonvalid" ) );
 
+                line2++;
+                mvwprintz(
+                    menu->window,
+                    point( startx, line2 ),
+                    c_light_gray,
+                    _( "Id:" )
+                );
+                mvwprintw(
+                    menu->window,
+                    point( startx + 11, line2 ),
+                    mdata.id.str()
+                );
+
                 if( !mdata.prereqs.empty() ) {
                     line2++;
                     mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Prereqs:" ) );
@@ -418,7 +431,7 @@ void debug_menu::wishmonster( const cata::optional<tripoint> &p )
         wmenu.query();
         if( wmenu.ret >= 0 ) {
             const mtype_id &mon_type = mtypes[ wmenu.ret ]->id;
-            if( cata::optional<tripoint> spawn = p ? p : g->look_around() ) {
+            if( cata::optional<tripoint> spawn = p ? p : g->look_around( true ) ) {
                 int num_spawned = 0;
                 for( const tripoint &destination : closest_points_first( *spawn, cb.group ) ) {
                     monster *const mon = g->place_critter_at( mon_type, destination );

@@ -530,7 +530,7 @@ void player_morale::decay( const time_duration &ticks )
     invalidate();
 }
 
-void player_morale::display( int focus_eq, int pain_penalty, int fatigue_penalty )
+void player_morale::display( int focus_eq, int pain_penalty, int fatigue_cap )
 {
     /*calculates the percent contributions of the morale points,
      * must be done before anything else in this method
@@ -720,11 +720,11 @@ void player_morale::display( int focus_eq, int pain_penalty, int fatigue_penalty
             morale_line::line_color::green_gray_red
         );
     }
-    if( fatigue_penalty != 0 ) {
+    if( fatigue_cap ) {
         bottom_lines.emplace_back(
-            _( "Fatigue level:" ), -fatigue_penalty,
-            morale_line::number_format::signed_or_dash,
-            morale_line::line_color::green_gray_red
+            _( "Fatigue Morale Cap:" ), fatigue_cap,
+            morale_line::number_format::normal,
+            morale_line::line_color::red_gray_green
         );
     }
     bottom_lines.emplace_back(

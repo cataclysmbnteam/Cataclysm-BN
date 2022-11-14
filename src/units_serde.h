@@ -7,6 +7,7 @@
  */
 
 #include "json.h"
+#include "units_def.h"
 
 template<typename T>
 T read_from_json_string( JsonIn &jsin, const std::vector<std::pair<std::string, T>> &units )
@@ -61,7 +62,7 @@ T read_from_json_string( JsonIn &jsin, const std::vector<std::pair<std::string, 
         for( ; i < s.size() && isdigit( s[i] ); ++i ) {
             value = value * 10 + ( s[i] - '0' );
         }
-        result += sign_value * value * get_unit();
+        result += units::multiply_any_unit( get_unit(), sign_value * value );
     } while( !skip_spaces() );
     return result;
 }

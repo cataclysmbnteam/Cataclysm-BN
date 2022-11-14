@@ -24,6 +24,12 @@
     "components": [ [ [ "rifle_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ] ]
   },
   {
+    "id": "req_sniper",
+    "type": "requirement",
+    "//": "Components required for rifle ammo",
+    "components": [ [ [ "sniper_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ] ]
+  },
+  {
     "id": "req_rifle_huge",
     "type": "requirement",
     "//": "Components required for huge rifle ammo",

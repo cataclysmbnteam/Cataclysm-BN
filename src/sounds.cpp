@@ -474,7 +474,7 @@ void sounds::process_sound_markers( player *p )
         }
 
         // don't print our own noise or things without descriptions
-        if( !sound.ambient && ( pos != p->pos() ) && !g->m.pl_sees( pos, distance_to_sound ) ) {
+        if( !sound.ambient && ( pos != p->pos() ) && !get_map().pl_sees( pos, distance_to_sound ) ) {
             if( !p->activity.is_distraction_ignored( distraction_type::noise ) &&
                 !get_safemode().is_sound_safe( sound.description, distance_to_sound ) ) {
                 const std::string query = string_format( _( "Heard %s!" ), description );
@@ -546,7 +546,7 @@ void sounds::process_sound_markers( player *p )
         // Enumerate the valid points the player *cannot* see.
         // Unless the source is on a different z-level, then any point is fine
         std::vector<tripoint> unseen_points;
-        for( const tripoint &newp : g->m.points_in_radius( pos, err_offset ) ) {
+        for( const tripoint &newp : get_map().points_in_radius( pos, err_offset ) ) {
             if( diff_z || !p->sees( newp ) ) {
                 unseen_points.emplace_back( newp );
             }
@@ -685,14 +685,14 @@ void sfx::do_vehicle_engine_sfx()
         add_msg( m_debug, "STOP interior_engine_sound, OUT OF CAR" );
         return;
     }
-    if( g->u.in_sleep_state() && !audio_muted ) {
+    if( player_character.in_sleep_state() && !audio_muted ) {
         fade_audio_channel( channel::any, 300 );
         audio_muted = true;
         return;
-    } else if( g->u.in_sleep_state() && audio_muted ) {
+    } else if( player_character.in_sleep_state() && audio_muted ) {
         return;
     }
-    optional_vpart_position vpart_opt = g->m.veh_at( g->u.pos() );
+    optional_vpart_position vpart_opt = get_map().veh_at( player_character.pos() );
     vehicle *veh;
     if( vpart_opt.has_value() ) {
         veh = &vpart_opt->vehicle();
@@ -727,7 +727,7 @@ void sfx::do_vehicle_engine_sfx()
 
     if( !is_channel_playing( ch ) ) {
         play_ambient_variant_sound( id_and_variant.first, id_and_variant.second,
-                                    sfx::get_heard_volume( g->u.pos() ), ch, 1000 );
+                                    sfx::get_heard_volume( player_character.pos() ), ch, 1000 );
         add_msg( m_debug, "START %s %s", id_and_variant.first, id_and_variant.second );
     } else {
         add_msg( m_debug, "PLAYING" );
@@ -789,7 +789,7 @@ void sfx::do_vehicle_engine_sfx()
         Mix_HaltChannel( static_cast<int>( ch ) );
         add_msg( m_debug, "STOP speed %d =/= %d", current_speed, previous_speed );
         play_ambient_variant_sound( id_and_variant.first, id_and_variant.second,
-                                    sfx::get_heard_volume( g->u.pos() ), ch, 1000, pitch );
+                                    sfx::get_heard_volume( player_character.pos() ), ch, 1000, pitch );
         add_msg( m_debug, "PITCH %f", pitch );
     }
     previous_speed = current_speed;
@@ -804,21 +804,22 @@ void sfx::do_vehicle_exterior_engine_sfx()
 
     static const channel ch = channel::exterior_engine_sound;
     static const int ch_int = static_cast<int>( ch );
+    const avatar &player_character = get_avatar();
     // early bail-outs for efficiency
-    if( g->u.in_vehicle ) {
+    if( player_character.in_vehicle ) {
         fade_audio_channel( ch, 300 );
         add_msg( m_debug, "STOP exterior_engine_sound, IN CAR" );
         return;
     }
-    if( g->u.in_sleep_state() && !audio_muted ) {
+    if( player_character.in_sleep_state() && !audio_muted ) {
         fade_audio_channel( channel::any, 300 );
         audio_muted = true;
         return;
-    } else if( g->u.in_sleep_state() && audio_muted ) {
+    } else if( player_character.in_sleep_state() && audio_muted ) {
         return;
     }
 
-    VehicleList vehs = g->m.get_vehicles();
+    VehicleList vehs = get_map().get_vehicles();
     unsigned char noise_factor = 0;
     unsigned char vol = 0;
     vehicle *veh = nullptr;
@@ -826,9 +827,10 @@ void sfx::do_vehicle_exterior_engine_sfx()
     for( wrapped_vehicle vehicle : vehs ) {
         if( vehicle.v->vehicle_noise > 0 &&
             vehicle.v->vehicle_noise -
-            sound_distance( g->u.pos(), vehicle.v->global_pos3() ) > noise_factor ) {
+            sound_distance( player_character.pos(), vehicle.v->global_pos3() ) > noise_factor ) {
 
-            noise_factor = vehicle.v->vehicle_noise - sound_distance( g->u.pos(), vehicle.v->global_pos3() );
+            noise_factor = vehicle.v->vehicle_noise - sound_distance( player_character.pos(),
+                           vehicle.v->global_pos3() );
             veh = vehicle.v;
         }
     }
@@ -1022,8 +1024,9 @@ void sfx::generate_gun_sound( const player &source_arg, const item &firing )
     units::angle angle = 0_degrees;
     int distance = 0;
     std::string selected_sound;
-    // this does not mean p == g->u (it could be a vehicle turret)
-    if( g->u.pos() == source ) {
+    const avatar &player_character = get_avatar();
+    // this does not mean p == avatar (it could be a vehicle turret)
+    if( player_character.pos() == source ) {
         selected_sound = "fire_gun";
 
         const auto mods = firing.gunmods();
@@ -1036,7 +1039,7 @@ void sfx::generate_gun_sound( const player &source_arg, const item &firing )
 
     } else {
         angle = get_heard_angle( source );
-        distance = sound_distance( g->u.pos(), source );
+        distance = sound_distance( player_character.pos(), source );
         if( distance <= 17 ) {
             selected_sound = "fire_gun";
         } else {
@@ -1234,19 +1237,20 @@ void sfx::do_danger_music()
         return;
     }
 
-    if( g->u.in_sleep_state() && !audio_muted ) {
+    avatar &player_character = get_avatar();
+    if( player_character.in_sleep_state() && !audio_muted ) {
         fade_audio_channel( channel::any, 100 );
         audio_muted = true;
         return;
-    } else if( ( g->u.in_sleep_state() && audio_muted ) ||
+    } else if( ( player_character.in_sleep_state() && audio_muted ) ||
                is_channel_playing( channel::chainsaw_theme ) ) {
         fade_audio_group( group::context_themes, 1000 );
         return;
     }
     audio_muted = false;
     int hostiles = 0;
-    for( auto &critter : g->u.get_visible_creatures( 40 ) ) {
-        if( g->u.attitude_to( *critter ) == Creature::A_HOSTILE ) {
+    for( auto &critter : player_character.get_visible_creatures( 40 ) ) {
+        if( player_character.attitude_to( *critter ) == Creature::A_HOSTILE ) {
             hostiles++;
         }
     }
@@ -1288,43 +1292,46 @@ void sfx::do_fatigue()
         return;
     }
 
+    avatar &player_character = get_avatar();
     /*15: Stamina 75%
     16: Stamina 50%
     17: Stamina 25%*/
-    if( g->u.get_stamina() >= g->u.get_stamina_max() * .75 ) {
+    if( player_character.get_stamina() >= player_character.get_stamina_max() * .75 ) {
         fade_audio_group( group::fatigue, 2000 );
         return;
-    } else if( g->u.get_stamina() <= g->u.get_stamina_max() * .74
-               && g->u.get_stamina() >= g->u.get_stamina_max() * .5 &&
-               g->u.male && !is_channel_playing( channel::stamina_75 ) ) {
+    } else if( player_character.get_stamina() <= player_character.get_stamina_max() * .74 &&
+               player_character.get_stamina() >= player_character.get_stamina_max() * .5 &&
+               player_character.male && !is_channel_playing( channel::stamina_75 ) ) {
         fade_audio_group( group::fatigue, 1000 );
         play_ambient_variant_sound( "plmove", "fatigue_m_low", 100, channel::stamina_75, 1000 );
         return;
-    } else if( g->u.get_stamina() <= g->u.get_stamina_max() * .49
-               && g->u.get_stamina() >= g->u.get_stamina_max() * .25 &&
-               g->u.male && !is_channel_playing( channel::stamina_50 ) ) {
+    } else if( player_character.get_stamina() <= player_character.get_stamina_max() * .49 &&
+               player_character.get_stamina() >= player_character.get_stamina_max() * .25 &&
+               player_character.male && !is_channel_playing( channel::stamina_50 ) ) {
         fade_audio_group( group::fatigue, 1000 );
         play_ambient_variant_sound( "plmove", "fatigue_m_med", 100, channel::stamina_50, 1000 );
         return;
-    } else if( g->u.get_stamina() <= g->u.get_stamina_max() * .24 && g->u.get_stamina() >= 0 &&
-               g->u.male && !is_channel_playing( channel::stamina_35 ) ) {
+    } else if( player_character.get_stamina() <= player_character.get_stamina_max() * .24 &&
+               player_character.get_stamina() >= 0 && player_character.male &&
+               !is_channel_playing( channel::stamina_35 ) ) {
         fade_audio_group( group::fatigue, 1000 );
         play_ambient_variant_sound( "plmove", "fatigue_m_high", 100, channel::stamina_35, 1000 );
         return;
-    } else if( g->u.get_stamina() <= g->u.get_stamina_max() * .74
-               && g->u.get_stamina() >= g->u.get_stamina_max() * .5 &&
-               !g->u.male && !is_channel_playing( channel::stamina_75 ) ) {
+    } else if( player_character.get_stamina() <= player_character.get_stamina_max() * .74 &&
+               player_character.get_stamina() >= player_character.get_stamina_max() * .5 &&
+               !player_character.male && !is_channel_playing( channel::stamina_75 ) ) {
         fade_audio_group( group::fatigue, 1000 );
         play_ambient_variant_sound( "plmove", "fatigue_f_low", 100, channel::stamina_75, 1000 );
         return;
-    } else if( g->u.get_stamina() <= g->u.get_stamina_max() * .49
-               && g->u.get_stamina() >= g->u.get_stamina_max() * .25 &&
-               !g->u.male && !is_channel_playing( channel::stamina_50 ) ) {
+    } else if( player_character.get_stamina() <= player_character.get_stamina_max() * .49 &&
+               player_character.get_stamina() >= player_character.get_stamina_max() * .25 &&
+               !player_character.male && !is_channel_playing( channel::stamina_50 ) ) {
         fade_audio_group( group::fatigue, 1000 );
         play_ambient_variant_sound( "plmove", "fatigue_f_med", 100, channel::stamina_50, 1000 );
         return;
-    } else if( g->u.get_stamina() <= g->u.get_stamina_max() * .24 && g->u.get_stamina() >= 0 &&
-               !g->u.male && !is_channel_playing( channel::stamina_35 ) ) {
+    } else if( player_character.get_stamina() <= player_character.get_stamina_max() * .24 &&
+               player_character.get_stamina() >= 0 && !player_character.male &&
+               !is_channel_playing( channel::stamina_35 ) ) {
         fade_audio_group( group::fatigue, 1000 );
         play_ambient_variant_sound( "plmove", "fatigue_f_high", 100, channel::stamina_35, 1000 );
         return;
@@ -1376,8 +1383,9 @@ void sfx::do_footstep()
     end_sfx_timestamp = std::chrono::high_resolution_clock::now();
     sfx_time = end_sfx_timestamp - start_sfx_timestamp;
     if( std::chrono::duration_cast<std::chrono::milliseconds> ( sfx_time ).count() > 400 ) {
-        int heard_volume = sfx::get_heard_volume( g->u.pos() );
-        const auto terrain = g->m.ter( g->u.pos() ).id();
+        const avatar &player_character = get_avatar();
+        int heard_volume = sfx::get_heard_volume( player_character.pos() );
+        const auto terrain = get_map().ter( player_character.pos() ).id();
         static const std::set<ter_str_id> grass = {
             ter_str_id( "t_grass" ),
             ter_str_id( "t_shrub" ),
@@ -1536,8 +1544,8 @@ void sfx::do_obstacle( const std::string &obst )
         return;
     }
 
-    int heard_volume = sfx::get_heard_volume( g->u.pos() );
-    //const auto terrain = g->m.ter( g->u.pos() ).id();
+    int heard_volume = sfx::get_heard_volume( get_avatar().pos() );
+
     static const std::set<std::string> water = {
         "t_water_sh",
         "t_water_dp",
@@ -1565,8 +1573,9 @@ void sfx::play_activity_sound( const std::string &id, const std::string &variant
         return;
     }
 
-    if( act != g->u.activity.id() ) {
-        act = g->u.activity.id();
+    avatar &player_character = get_avatar();
+    if( act != player_character.activity.id() ) {
+        act = player_character.activity.id();
         play_ambient_variant_sound( id, variant, volume, channel::player_activities, 0 );
     }
 }
@@ -1633,7 +1642,7 @@ void sfx::do_obstacle( const std::string & ) { }
 /*@{*/
 int sfx::get_heard_volume( const tripoint &source )
 {
-    int distance = sound_distance( g->u.pos(), source );
+    int distance = sound_distance( get_avatar().pos(), source );
     // fract = -100 / 24
     const float fract = -4.166666;
     int heard_volume = fract * distance - 1 + 100;

@@ -11,6 +11,7 @@
 #include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h" // used for utf8_width()
+#include "character_display.h"
 #include "debug.h"
 #include "enums.h"
 #include "game.h"
@@ -39,6 +40,7 @@ static const std::string flag_OVERSIZE( "OVERSIZE" );
 static const std::string flag_PERSONAL( "PERSONAL" );
 static const std::string flag_POCKETS( "POCKETS" );
 static const std::string flag_SEMITANGIBLE( "SEMITANGIBLE" );
+static const std::string flag_COMPACT( "COMPACT" );
 static const std::string flag_SKINTIGHT( "SKINTIGHT" );
 static const std::string flag_SUPER_FANCY( "SUPER_FANCY" );
 static const std::string flag_SWIM_GOGGLES( "SWIM_GOGGLES" );
@@ -97,7 +99,8 @@ item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
         }
         const int num_items = std::count_if( c.worn.begin(), c.worn.end(),
         [layer, bp]( const item & i ) {
-            return i.get_layer() == layer && i.covers( bp ) && !i.has_flag( flag_SEMITANGIBLE );
+            return i.get_layer() == layer && i.covers( bp ) && !( i.has_flag( flag_SEMITANGIBLE ) ||
+                    i.has_flag( flag_COMPACT ) );
         } );
         if( num_items > 1 ) {
             body_parts_with_stacking_penalty.push_back( bp );
@@ -320,6 +323,8 @@ std::vector<std::string> clothing_protection( const item &worn_item, const int w
                                     string_format( "%3d", static_cast<int>( worn_item.bash_resist() ) ), width ) );
     prot.push_back( name_and_value( space + _( "Cut:" ),
                                     string_format( "%3d", static_cast<int>( worn_item.cut_resist() ) ), width ) );
+    prot.push_back( name_and_value( space + _( "Ballistic:" ),
+                                    string_format( "%3d", static_cast<int>( worn_item.bullet_resist() ) ), width ) );
     prot.push_back( name_and_value( space + _( "Acid:" ),
                                     string_format( "%3d", static_cast<int>( worn_item.acid_resist() ) ), width ) );
     prot.push_back( name_and_value( space + _( "Fire:" ),
@@ -368,6 +373,9 @@ std::vector<std::string> clothing_flags_description( const item &worn_item )
     }
     if( worn_item.has_flag( flag_SEMITANGIBLE ) ) {
         description_stack.push_back( _( "It can occupy the same space as other things." ) );
+    }
+    if( worn_item.has_flag( flag_COMPACT ) ) {
+        description_stack.push_back( _( "It won't encumber you when worn with other things." ) );
     }
 
     return description_stack;
@@ -620,7 +628,8 @@ void player::sort_armor()
         }
 
         mvwprintz( w_encumb, point_east, c_white, _( "Encumbrance and Warmth" ) );
-        print_encumbrance( w_encumb, -1, ( leftListSize > 0 ) ? &*tmp_worn[leftListIndex] : nullptr );
+        character_display::print_encumbrance( w_encumb, *this, -1,
+                                              ( leftListSize > 0 ) ? &*tmp_worn[leftListIndex] : nullptr );
 
         // Right header
         mvwprintz( w_sort_right, point_zero, c_light_gray, _( "(Innermost)" ) );

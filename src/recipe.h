@@ -176,6 +176,11 @@ class recipe
 
         bool hot_result() const;
 
+        /** Returns the amount or charges recipe will produce. */
+        int makes_amount() const;
+        /** Returns number of charges of the item needed for single disassembly. */
+        int disassembly_batch_size() const;
+
     private:
         void add_requirements( const std::vector<std::pair<requirement_id, int>> &reqs );
 

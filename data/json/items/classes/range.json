@@ -1,0 +1,41 @@
+[
+  {
+    "abstract": "muscle_ranged_base",
+    "type": "GUN",
+    "name": { "str": "base range weapon" },
+    "symbol": "(",
+    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON" ],
+    "clip_size": 1,
+    "ammo_effects": [ "NEVER_MISFIRES" ]
+  },
+  {
+    "abstract": "bow_base",
+    "copy-from": "muscle_ranged_base",
+    "type": "GUN",
+    "name": { "str": "base bow" },
+    "skill": "archery",
+    "reload_noise_volume": 3,
+    "color": "yellow",
+    "ammo": "arrow",
+    "extend": { "flags": [ "FIRE_TWOHAND" ] },
+    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ]
+  },
+  {
+    "abstract": "slingshot_base",
+    "//": "Used for slingshots, that use archery, not slings, that use the throw skill instead.",
+    "copy-from": "muscle_ranged_base",
+    "type": "GUN",
+    "name": { "str": "base slingshot" },
+    "skill": "archery",
+    "ammo": "pebble",
+    "valid_mod_locations": [ [ "grip mount", 1 ], [ "underbarrel mount", 1 ] ],
+    "extend": { "flags": [ "BELT_CLIP" ] }
+  },
+  {
+    "abstract": "throwing_weapon_base",
+    "copy-from": "muscle_ranged_base",
+    "type": "GUN",
+    "name": { "str": "base throwing weapon" },
+    "skill": "throw"
+  }
+]

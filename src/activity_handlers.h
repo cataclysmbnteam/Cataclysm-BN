@@ -18,6 +18,9 @@ class item;
 class player;
 class player_activity;
 struct tripoint;
+// TODO (https://github.com/cataclysmbnteam/Cataclysm-BN/issues/1612):
+// Remove that forward declaration after repair_activity_actor.
+class vehicle;
 
 std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint &abspos,
         const std::unordered_set<tripoint> &tiles );
@@ -239,7 +242,6 @@ void wait_stamina_finish( player_activity *act, player *p );
 void socialize_finish( player_activity *act, player *p );
 void try_sleep_finish( player_activity *act, player *p );
 void operation_finish( player_activity *act, player *p );
-void disassemble_finish( player_activity *act, player *p );
 void vibe_finish( player_activity *act, player *p );
 void hand_crank_finish( player_activity *act, player *p );
 void atm_finish( player_activity *act, player *p );
@@ -266,6 +268,26 @@ void try_sleep_query( player_activity *act, player *p );
 // defined in activity_handlers.cpp
 extern const std::map< activity_id, std::function<void( player_activity *, player * )> >
 finish_functions;
+
+// HACK: This is a hack to provide fake items
+// from vehicles or furniture until
+// `repair_activity_actor` would be implemented.
+//
+// TODO (https://github.com/cataclysmbnteam/Cataclysm-BN/issues/1612):
+// Remove that repair code after repair_activity_actor.
+namespace repair_activity_hack
+{
+
+void patch_activity_for_vehicle_welder(
+    player_activity &activity,
+    const tripoint &veh_part_position,
+    const vehicle &veh,
+    int interact_part_idx
+);
+void patch_activity_for_furniture( player_activity &activity,
+                                   const tripoint &furniture_position );
+
+} // namespace repair_activity_hack
 
 } // namespace activity_handlers
 

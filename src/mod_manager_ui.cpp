@@ -80,6 +80,8 @@ std::string mod_ui::get_information( const MOD_INFORMATION *mod )
         info += mod->description() + "\n";
     }
 
+    info += colorize( _( "Mod info path" ), c_light_blue ) + ": " + mod->path_full + "\n";
+
     std::string note = !mm_tree.is_available( mod->ident ) ? mm_tree.get_node(
                            mod->ident )->s_errors() : "";
     if( !note.empty() ) {

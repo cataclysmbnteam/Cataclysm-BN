@@ -143,6 +143,7 @@
         "effects": [
           {
             "effect_id": "sap",
+            "body_part": "torso",
             "intensity": 1,
             "min_duration": "2 seconds",
             "max_duration": "2 seconds",
@@ -159,6 +160,7 @@
         "effects": [
           {
             "effect_id": "sap",
+            "body_part": "torso",
             "intensity": 1,
             "min_duration": "4 seconds",
             "max_duration": "4 seconds",
@@ -176,6 +178,7 @@
         "effects": [
           {
             "effect_id": "sap",
+            "body_part": "torso",
             "intensity": 1,
             "min_duration": "6 seconds",
             "max_duration": "6 seconds",
@@ -236,6 +239,7 @@
     "priority": 4,
     "half_life": "30 minutes",
     "phase": "plasma",
+    "stacking_type": "duration",
     "display_items": false,
     "display_field": true
   },
@@ -1181,7 +1185,6 @@
       {
         "name": "foul-smelling air",
         "sym": "8",
-        "dangerous": true,
         "effects": [
           {
             "effect_id": "migo_atmosphere",
@@ -1226,7 +1229,7 @@
     "dirty_transparency_cache": true,
     "has_fume": true,
     "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
-    "priority": 8,
+    "priority": -1,
     "half_life": "10 minutes",
     "phase": "gas"
   },

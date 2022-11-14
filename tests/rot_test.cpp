@@ -1,7 +1,8 @@
+#include "catch/catch.hpp"
+
 #include <memory>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "enums.h"
 #include "item.h"
 #include "map.h"
@@ -95,7 +96,6 @@ TEST_CASE( "Items rot away" )
     }
 
     SECTION( "Item on map rots away" ) {
-        clear_map();
         const tripoint loc;
 
         if( calendar::turn <= calendar::start_of_cataclysm ) {

@@ -304,6 +304,7 @@
       { "item": "canister_goo", "prob": 8 },
       { "item": "dynamite", "prob": 5 },
       { "item": "mininuke", "prob": 1 },
+      { "item": "bot_haulerbot", "prob": 1 },
       { "item": "bot_manhack", "prob": 1 },
       { "item": "bot_grenade_hack", "prob": 1 },
       { "item": "bot_flashbang_hack", "prob": 1 },
@@ -346,7 +347,7 @@
     "type": "item_group",
     "id": "dog_cop",
     "subtype": "distribution",
-    "entries": [ { "item": "kevlar_harness", "prob": 1 } ]
+    "entries": [ { "item": "kevlar_armor_small_quadruped", "prob": 1 } ]
   },
   {
     "type": "item_group",

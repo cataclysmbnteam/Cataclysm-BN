@@ -55,6 +55,7 @@
 #include "overmap.h"
 #include "overmap_types.h"
 #include "overmapbuffer.h"
+#include "overmap_special.h"
 #include "regional_settings.h"
 #include "rng.h"
 #include "sdltiles.h"
@@ -181,6 +182,19 @@ struct grids_draw_data {
         std::unordered_map<std::uintptr_t, char> list_active;
         std::unordered_map<std::size_t, std::pair<std::vector<tripoint_abs_omt>, char>> list_inactive;
 };
+
+static std::string fmt_omt_coords( const tripoint_abs_omt &coord )
+{
+    if( get_option<std::string>( "OVERMAP_COORDINATE_FORMAT" ) == "subdivided" ) {
+        point_abs_om abs_coord;
+        tripoint_om_omt rel_coord;
+        std::tie( abs_coord, rel_coord ) = project_remain<coords::om>( coord );
+
+        return string_format( "%d'%d, %d'%d", abs_coord.x(), rel_coord.x(), abs_coord.y(), rel_coord.y() );
+    } else {
+        return string_format( "%d, %d", coord.x(), coord.y() );
+    }
+}
 
 static void create_note( const tripoint_abs_omt &curs );
 
@@ -670,9 +684,6 @@ static tripoint_abs_omt show_notes_manager( const tripoint_abs_omt &origin )
                 entry_to_select = i;
             }
             const std::string direction_str = direction_name_short( direction_from( p_player, note.p ) );
-            point_abs_om abs_om;
-            tripoint_om_omt rel_omt;
-            std::tie( abs_om, rel_omt ) = project_remain<coords::om>( note.p );
             const std::string location_desc = overmap_buffer.get_description_at(
                                                   project_to<coords::sm>( note.p ) );
 
@@ -707,8 +718,9 @@ static tripoint_abs_omt show_notes_manager( const tripoint_abs_omt &origin )
             nmenu.addentry_desc( string_format(
                                      "[%s] %s", colorize( note.symbol, note.col ), note.text ),
                                  string_format(
-                                     _( "<color_red>LEVEL %i, %d'%d, %d'%d</color>: %s (Distance: <color_white>%d %s</color>) <color_red>%s</color>" ),
-                                     rel_omt.z(), abs_om.x(), rel_omt.x(), abs_om.y(), rel_omt.y(), location_desc, note.dist_from_pl,
+                                     _( "<color_red>LEVEL %i, %s</color>: %s (Distance: <color_white>%d %s</color>) <color_red>%s</color>" ),
+                                     note.p.z(),
+                                     fmt_omt_coords( note.p ), location_desc, note.dist_from_pl,
                                      trim_whitespaces( direction_str ), is_dangerous ? _( "DANGEROUS AREA!" ) : "" ) );
             nmenu.entries[i].ctxt = string_format(
                                         "%s<color_white>% 4d %s</color>", dr_short, note.dist_from_pl, direction_str
@@ -1422,12 +1434,9 @@ static void draw_om_sidebar(
         print_hint( "QUIT" );
     }
 
-    point_abs_omt abs_omt = center.xy();
-    point_abs_om om;
-    point_om_omt omt;
-    std::tie( om, omt ) = project_remain<coords::om>( abs_omt );
-    mvwprintz( wbar, point( 1, getmaxy( wbar ) - 1 ), c_red,
-               _( "LEVEL %i, %d'%d, %d'%d" ), center.z(), om.x(), omt.x(), om.y(), omt.y() );
+    mvwprintz( wbar, point( 1, getmaxy( wbar ) - 1 ), c_red, _( "LEVEL %i, %s" ), center.z(),
+               fmt_omt_coords( center ) );
+
     wnoutrefresh( wbar );
 }
 
@@ -1462,7 +1471,7 @@ static void draw(
 static void create_note( const tripoint_abs_omt &curs )
 {
     std::string color_notes = _( "Color codes: " );
-    for( const std::pair<std::string, std::string> &color_pair : get_note_color_names() ) {
+    for( const auto &color_pair : get_note_color_names() ) {
         // The color index is not translatable, but the name is.
         color_notes += string_format( "%1$s:<color_%3$s>%2$s</color>, ", color_pair.first.c_str(),
                                       _( color_pair.second ), replace_all( color_pair.second, " ", "_" ) );
@@ -1920,8 +1929,10 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
     ictxt.register_action( "CONFIRM" );
     ictxt.register_action( "LEVEL_UP" );
     ictxt.register_action( "LEVEL_DOWN" );
-    ictxt.register_action( "ZOOM_OUT" );
-    ictxt.register_action( "ZOOM_IN" );
+    if( use_tiles && use_tiles_overmap ) {
+        ictxt.register_action( "ZOOM_OUT" );
+        ictxt.register_action( "ZOOM_IN" );
+    }
     ictxt.register_action( "HELP_KEYBINDINGS" );
     ictxt.register_action( "MOUSE_MOVE" );
     ictxt.register_action( "SELECT" );

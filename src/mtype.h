@@ -200,6 +200,11 @@ struct mon_effect_data {
         chance( nchance ), permanent( perm ) {}
 };
 
+struct regen_modifier {
+    float base_modifier;
+    float scale_modifier;
+};
+
 struct mtype {
     private:
         friend class MonsterGenerator;
@@ -224,6 +229,13 @@ struct mtype {
         void add_special_attack( JsonArray inner, const std::string &src );
         void add_special_attack( const JsonObject &obj, const std::string &src );
 
+        void add_regeneration_modifiers( const JsonObject &jo, const std::string &member_name,
+                                         const std::string &src );
+        void remove_regeneration_modifiers( const JsonObject &jo, const std::string &member_name,
+                                            const std::string &src );
+
+        void add_regeneration_modifier( JsonObject inner, const std::string &src );
+
     public:
         mtype_id id;
 
@@ -233,6 +245,9 @@ struct mtype {
 
         /** Stores effect data for effects placed on attack */
         std::vector<mon_effect_data> atk_effs;
+
+        /** Mod origin */
+        std::vector<std::pair<mtype_id, mod_id>> src;
 
         std::set<species_id> species;
         std::set<std::string> categories;
@@ -259,6 +274,8 @@ struct mtype {
 
         // Number of hitpoints regenerated per turn.
         int regenerates = 0;
+        // Effects that can modify regeneration
+        std::map<efftype_id, regen_modifier> regeneration_modifiers;
         // Monster regenerates very quickly in poorly lit tiles.
         bool regenerates_in_dark = false;
         // Will stop fleeing if at max hp, and regen anger and morale.
@@ -283,6 +300,7 @@ struct mtype {
         int armor_bash = -1;    /** innate armor vs. bash */
         int armor_cut  = -1;    /** innate armor vs. cut */
         int armor_stab = -1;    /** innate armor vs. stabbing */
+        int armor_bullet = -1;  /** innate armor vs. bullet */
         int armor_acid = -1;    /** innate armor vs. acid */
         int armor_fire = -1;    /** innate armor vs. fire */
 

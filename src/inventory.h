@@ -119,6 +119,9 @@ class inventory : public visitable<inventory>
         // returns a reference to the added item
         item &add_item( item newit, bool keep_invlet = false, bool assign_invlet = true,
                         bool should_stack = true );
+        // use item type cache to speed up, remember to run build_items_type_cache() before using it
+        item &add_item_by_items_type_cache( item newit, bool keep_invlet = false, bool assign_invlet = true,
+                                            bool should_stack = true );
         void add_item_keep_invlet( item newit );
         void push_back( item newit );
 
@@ -233,12 +236,22 @@ class inventory : public visitable<inventory>
         // gets a singular enchantment that is an amalgamation of all items that have active enchantments
         enchantment get_active_enchantment_cache( const Character &owner ) const;
 
+        int count_item( const itype_id &item_type ) const;
+
+        void update_quality_cache();
+        const std::map<quality_id, std::map<int, int>> &get_quality_cache() const;
+
+        void build_items_type_cache();
+
     private:
         invlet_favorites invlet_cache;
         char find_usable_cached_invlet( const itype_id &item_type );
 
         invstack items;
+        std::map<itype_id, std::list<std::list<item>*>> items_type_cache;
+        std::map<quality_id, std::map<int, int>> quality_cache;
 
+        bool items_type_cached = false;
         mutable bool binned = false;
         /**
          * Items binned by their type.

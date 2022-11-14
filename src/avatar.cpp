@@ -19,10 +19,13 @@
 #include "catacharset.h"
 #include "character.h"
 #include "character_id.h"
+#include "character_functions.h"
 #include "character_martial_arts.h"
+#include "character_stat.h"
 #include "clzones.h"
 #include "color.h"
 #include "debug.h"
+#include "diary.h"
 #include "effect.h"
 #include "enums.h"
 #include "event.h"
@@ -80,37 +83,15 @@ static const bionic_id bio_watch( "bio_watch" );
 
 static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_contacts( "contacts" );
-static const efftype_id effect_depressants( "depressants" );
-static const efftype_id effect_happy( "happy" );
-static const efftype_id effect_irradiated( "irradiated" );
-static const efftype_id effect_pkill( "pkill" );
-static const efftype_id effect_sad( "sad" );
 static const efftype_id effect_sleep( "sleep" );
-static const efftype_id effect_sleep_deprived( "sleep_deprived" );
 static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
-static const efftype_id effect_stim( "stim" );
-static const efftype_id effect_stim_overdose( "stim_overdose" );
-static const efftype_id effect_thirsty( "thirsty" );
 
 static const itype_id itype_guidebook( "guidebook" );
 
-static const trait_id trait_ARACHNID_ARMS( "ARACHNID_ARMS" );
-static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
-static const trait_id trait_CHITIN2( "CHITIN2" );
-static const trait_id trait_CHITIN3( "CHITIN3" );
-static const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
-static const trait_id trait_COMPOUND_EYES( "COMPOUND_EYES" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
-static const trait_id trait_INSECT_ARMS( "INSECT_ARMS" );
-static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
-static const trait_id trait_STIMBOOST( "STIMBOOST" );
-static const trait_id trait_THICK_SCALES( "THICK_SCALES" );
-static const trait_id trait_WEBBED( "WEBBED" );
-static const trait_id trait_WHISKERS( "WHISKERS" );
-static const trait_id trait_WHISKERS_RAT( "WHISKERS_RAT" );
 
 static const std::string flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
 
@@ -130,6 +111,7 @@ avatar::avatar()
     show_map_memory = true;
     active_mission = nullptr;
     grab_type = OBJECT_NONE;
+    a_diary = nullptr;
 }
 
 avatar::~avatar() = default;
@@ -185,6 +167,11 @@ int avatar::get_memorized_symbol( const tripoint &p ) const
 void avatar::clear_memorized_tile( const tripoint &pos )
 {
     player_map_memory->clear_memorized_tile( pos );
+}
+
+bool avatar::has_memorized_tile_for_autodrive( const tripoint &p ) const
+{
+    return player_map_memory->has_memory_for_autodrive( p );
 }
 
 std::vector<mission *> avatar::get_active_missions() const
@@ -274,13 +261,13 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
     }
 
     // Check for conditions that immediately disqualify the player from reading:
-    const optional_vpart_position vp = g->m.veh_at( pos() );
+    const optional_vpart_position vp = get_map().veh_at( pos() );
     if( vp && vp->vehicle().player_in_control( *this ) ) {
         reasons.emplace_back( _( "It's a bad idea to read while driving!" ) );
         return nullptr;
     }
     const auto &type = book.type->book;
-    if( !fun_to_read( book ) && !has_morale_to_read() ) {
+    if( !character_funcs::is_fun_to_read( *this, book ) && !has_morale_to_read() ) {
         // Low morale still permits skimming
         reasons.emplace_back( _( "What's the point of studying?  (Your morale is too low!)" ) );
         return nullptr;
@@ -299,7 +286,7 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
     } else if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( flag_FIX_FARSIGHT ) &&
                !has_effect( effect_contacts ) && !has_bionic( bio_eye_optic ) ) {
         reasons.emplace_back( _( "Your eyes won't focus without reading glasses." ) );
-    } else if( fine_detail_vision_mod() > 4 ) {
+    } else if( !character_funcs::can_see_fine_details( *this ) ) {
         // Too dark to read only applies if the player can read to himself
         reasons.emplace_back( _( "It's too dark to read!" ) );
         return nullptr;
@@ -329,14 +316,15 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
                    !elem->has_effect( effect_contacts ) ) {
             reasons.push_back( string_format( _( "%s needs reading glasses!" ),
                                               elem->disp_name() ) );
-        } else if( std::min( fine_detail_vision_mod(), elem->fine_detail_vision_mod() ) > 4 ) {
+        } else if( !character_funcs::fine_detail_vision_mod( *this ) &&
+                   !character_funcs::fine_detail_vision_mod( *elem ) ) {
             reasons.push_back( string_format(
                                    _( "It's too dark for %s to read!" ),
                                    elem->disp_name() ) );
         } else if( !elem->sees( *this ) ) {
             reasons.push_back( string_format( _( "%s could read that to you, but they can't see you." ),
                                               elem->disp_name() ) );
-        } else if( !elem->fun_to_read( book ) && !elem->has_morale_to_read() ) {
+        } else if( !character_funcs::is_fun_to_read( *elem, book ) && !elem->has_morale_to_read() ) {
             // Low morale still permits skimming
             reasons.push_back( string_format( _( "%s morale is too low!" ), elem->disp_name( true ) ) );
         } else if( elem->is_blind() ) {
@@ -359,7 +347,7 @@ int avatar::time_to_read( const item &book, const player &reader, const player *
     const skill_id &skill = type->skill;
     // The reader's reading speed has an effect only if they're trying to understand the book as they read it
     // Reading speed is assumed to be how well you learn from books (as opposed to hands-on experience)
-    const bool try_understand = reader.fun_to_read( book ) ||
+    const bool try_understand = character_funcs::is_fun_to_read( reader, book ) ||
                                 reader.get_skill_level( skill ) < type->level;
     int reading_speed = try_understand ? std::max( reader.read_speed(), read_speed() ) : read_speed();
     if( learner ) {
@@ -367,13 +355,22 @@ int avatar::time_to_read( const item &book, const player &reader, const player *
     }
 
     int retval = type->time * reading_speed;
-    retval *= std::min( fine_detail_vision_mod(), reader.fine_detail_vision_mod() );
+    retval *= std::min( character_funcs::fine_detail_vision_mod( *this ),
+                        character_funcs::fine_detail_vision_mod( reader ) );
 
     const int effective_int = std::min( { get_int(), reader.get_int(), learner ? learner->get_int() : INT_MAX } );
     if( type->intel > effective_int && !reader.has_trait( trait_PROF_DICEMASTER ) ) {
         retval += type->time * ( type->intel - effective_int ) * 100;
     }
     return retval;
+}
+
+diary *avatar::get_avatar_diary()
+{
+    if( a_diary == nullptr ) {
+        a_diary = std::make_unique<diary>();
+    }
+    return a_diary.get();
 }
 
 /**
@@ -438,9 +435,10 @@ bool avatar::read( item_location loc, const bool continuous )
     auto candidates = get_crafting_helpers();
     for( npc *elem : candidates ) {
         const int lvl = elem->get_skill_level( skill );
-        const bool skill_req = ( elem->fun_to_read( it ) && ( !skill || lvl >= type->req ) ) ||
+        const bool is_fun_to_read = character_funcs::is_fun_to_read( *elem, it );
+        const bool skill_req = ( is_fun_to_read && ( !skill || lvl >= type->req ) ) ||
                                ( skill && lvl < type->level && lvl >= type->req );
-        const bool morale_req = elem->fun_to_read( it ) || elem->has_morale_to_read();
+        const bool morale_req = is_fun_to_read || elem->has_morale_to_read();
 
         if( !skill_req && elem != reader ) {
             if( skill && lvl < type->req ) {
@@ -610,7 +608,11 @@ bool avatar::read( item_location loc, const bool continuous )
         }
     }
 
-    if( std::min( fine_detail_vision_mod(), reader->fine_detail_vision_mod() ) > 1.0 ) {
+    const float vision_mod = std::min(
+                                 character_funcs::fine_detail_vision_mod( *this ),
+                                 character_funcs::fine_detail_vision_mod( *reader )
+                             );
+    if( vision_mod > character_funcs::FINE_VISION_PERFECT ) {
         add_msg( m_warning,
                  _( "It's difficult for %s to see fine details right now.  Reading will take longer than usual." ),
                  reader->disp_name() );
@@ -642,17 +644,17 @@ bool avatar::read( item_location loc, const bool continuous )
     // Reinforce any existing morale bonus/penalty, so it doesn't decay
     // away while you read more.
     const time_duration decay_start = 1_turns * time_taken / 1000;
-    std::set<player *> apply_morale = { this };
+    std::set<Character *> apply_morale = { this };
     for( const auto &elem : learners ) {
         apply_morale.insert( elem.first );
     }
     for( const auto &elem : fun_learners ) {
         apply_morale.insert( elem.first );
     }
-    for( player *elem : apply_morale ) {
-        //Fun bonuses for spritual and To Serve Man are no longer calculated here.
-        elem->add_morale( MORALE_BOOK, 0, book_fun_for( it, *elem ) * 15, decay_start + 30_minutes,
-                          decay_start, false, it.type );
+    for( Character *ch : apply_morale ) {
+        int fun = character_funcs::get_book_fun_for( *ch, it );
+        ch->add_morale( MORALE_BOOK, 0, fun * 15, decay_start + 30_minutes,
+                        decay_start, false, it.type );
     }
 
     return true;
@@ -692,8 +694,9 @@ static void skim_book_msg( const item &book, avatar &u )
         add_msg( m_info, _( "Requires intelligence of %d to easily read." ), reading->intel );
     }
     //It feels wrong to use a pointer to *this, but I can't find any other player pointers in this method.
-    if( u.book_fun_for( book, u ) != 0 ) {
-        add_msg( m_info, _( "Reading this book affects your morale by %d" ), u.book_fun_for( book, u ) );
+    if( character_funcs::get_book_fun_for( u, book ) != 0 ) {
+        add_msg( m_info, _( "Reading this book affects your morale by %d" ),
+                 character_funcs::get_book_fun_for( u, book ) );
     }
 
     if( book.type->use_methods.count( "MA_MANUAL" ) ) {
@@ -781,10 +784,9 @@ void avatar::do_read( item_location loc )
     for( auto &elem : learners ) {
         player *learner = elem.first;
 
-        if( book_fun_for( book, *learner ) != 0 ) {
-            //Fun bonus is no longer calculated here.
-            learner->add_morale( MORALE_BOOK, book_fun_for( book, *learner ) * 5, book_fun_for( book,
-                                 *learner ) * 15, 1_hours, 30_minutes, true,
+        int book_fun_for = character_funcs::get_book_fun_for( *learner, book );
+        if( book_fun_for != 0 ) {
+            learner->add_morale( MORALE_BOOK, book_fun_for * 5, book_fun_for * 15, 1_hours, 30_minutes, true,
                                  book.type );
         }
 
@@ -952,20 +954,6 @@ bool avatar::has_identified( const itype_id &item_id ) const
     return items_identified.count( item_id ) > 0;
 }
 
-hint_rating avatar::rate_action_read( const item &it ) const
-{
-    if( !it.is_book() ) {
-        return hint_rating::cant;
-    }
-
-    if( !has_identified( it.typeId() ) ) {
-        return hint_rating::good;
-    }
-
-    std::vector<std::string> dummy;
-    return get_book_reader( it, dummy ) == nullptr ? hint_rating::iffy : hint_rating::good;
-}
-
 void avatar::wake_up()
 {
     if( has_effect( effect_sleep ) ) {
@@ -1008,294 +996,11 @@ void avatar::disp_morale()
 {
     int equilibrium = calc_focus_equilibrium();
 
-    int fatigue_penalty = 0;
-    if( get_fatigue() >= fatigue_levels::massive && equilibrium > 20 ) {
-        fatigue_penalty = equilibrium - 20;
-        equilibrium = 20;
-    } else if( get_fatigue() >= fatigue_levels::exhausted && equilibrium > 40 ) {
-        fatigue_penalty = equilibrium - 40;
-        equilibrium = 40;
-    } else if( get_fatigue() >= fatigue_levels::dead_tired && equilibrium > 60 ) {
-        fatigue_penalty = equilibrium - 60;
-        equilibrium = 60;
-    } else if( get_fatigue() >= fatigue_levels::tired && equilibrium > 80 ) {
-        fatigue_penalty = equilibrium - 80;
-        equilibrium = 80;
-    }
+    int fatigue_cap = calc_fatigue_cap( this->get_fatigue() );
 
-    int pain_penalty = 0;
-    if( get_perceived_pain() && !has_trait( trait_CENOBITE ) ) {
-        pain_penalty = calc_focus_equilibrium( true ) - equilibrium - fatigue_penalty;
-    }
+    int pain_penalty = has_trait( trait_CENOBITE ) ? 0 : get_perceived_pain();
 
-    morale->display( equilibrium, pain_penalty, fatigue_penalty );
-}
-
-int avatar::calc_focus_equilibrium( bool ignore_pain ) const
-{
-    int focus_equilibrium = 100;
-
-    if( activity.id() == ACT_READ ) {
-        item_location loc = activity.targets[0];
-        if( loc && loc->is_book() ) {
-            auto &bt = *loc->type->book;
-            // apply a penalty when we're actually learning something
-            const SkillLevel &skill_level = get_skill_level_object( bt.skill );
-            if( skill_level.can_train() && skill_level < bt.level ) {
-                focus_equilibrium -= 50;
-            }
-        }
-    }
-
-    int eff_morale = get_morale_level();
-    // Factor in perceived pain, since it's harder to rest your mind while your body hurts.
-    // Cenobites don't mind, though
-    if( !ignore_pain && !has_trait( trait_CENOBITE ) ) {
-        eff_morale = eff_morale - get_perceived_pain();
-    }
-
-    if( eff_morale < -99 ) {
-        // At very low morale, focus is at it's minimum
-        focus_equilibrium = 1;
-    } else if( eff_morale <= 50 ) {
-        // At -99 to +50 morale, each point of morale gives or takes 1 point of focus
-        focus_equilibrium += eff_morale;
-    } else {
-        /* Above 50 morale, we apply strong diminishing returns.
-        * Each block of 50 takes twice as many morale points as the previous one:
-        * 150 focus at 50 morale (as before)
-        * 200 focus at 150 morale (100 more morale)
-        * 250 focus at 350 morale (200 more morale)
-        * ...
-        * Cap out at 400% focus gain with 3,150+ morale, mostly as a sanity check.
-        */
-
-        int block_multiplier = 1;
-        int morale_left = eff_morale;
-        while( focus_equilibrium < 400 ) {
-            if( morale_left > 50 * block_multiplier ) {
-                // We can afford the entire block.  Get it and continue.
-                morale_left -= 50 * block_multiplier;
-                focus_equilibrium += 50;
-                block_multiplier *= 2;
-            } else {
-                // We can't afford the entire block.  Each block_multiplier morale
-                // points give 1 focus, and then we're done.
-                focus_equilibrium += morale_left / block_multiplier;
-                break;
-            }
-        }
-    }
-
-    // This should be redundant, but just in case...
-    if( focus_equilibrium < 1 ) {
-        focus_equilibrium = 1;
-    } else if( focus_equilibrium > 400 ) {
-        focus_equilibrium = 400;
-    }
-    return focus_equilibrium;
-}
-
-int avatar::calc_focus_change() const
-{
-    int focus_gap = calc_focus_equilibrium() - focus_pool;
-
-    // handle negative gain rates in a symmetric manner
-    int base_change = 1;
-    if( focus_gap < 0 ) {
-        base_change = -1;
-        focus_gap = -focus_gap;
-    }
-
-    // for every 100 points, we have a flat gain of 1 focus.
-    // for every n points left over, we have an n% chance of 1 focus
-    int gain = focus_gap / 100;
-    if( rng( 1, 100 ) <= focus_gap % 100 ) {
-        gain++;
-    }
-
-    gain *= base_change;
-
-    // Fatigue will incrementally decrease any focus above related cap
-    if( ( get_fatigue() >= fatigue_levels::tired && focus_pool > 100 ) ||
-        ( get_fatigue() >= fatigue_levels::dead_tired && focus_pool > 75 ) ||
-        ( get_fatigue() >= fatigue_levels::exhausted && focus_pool > 50 ) ||
-        ( get_fatigue() >= fatigue_levels::massive && focus_pool > 25 ) ) {
-
-        gain = std::min( gain, -1 );
-    }
-    return gain;
-}
-
-void avatar::update_mental_focus()
-{
-    focus_pool += calc_focus_change();
-}
-
-void avatar::reset_stats()
-{
-    const int current_stim = get_stim();
-
-    // Trait / mutation buffs
-    if( has_trait( trait_THICK_SCALES ) ) {
-        add_miss_reason( _( "Your thick scales get in the way." ), 2 );
-    }
-    if( has_trait( trait_CHITIN2 ) || has_trait( trait_CHITIN3 ) || has_trait( trait_CHITIN_FUR3 ) ) {
-        add_miss_reason( _( "Your chitin gets in the way." ), 1 );
-    }
-    if( has_trait( trait_COMPOUND_EYES ) && !wearing_something_on( bodypart_id( "eyes" ) ) ) {
-        mod_per_bonus( 2 );
-    }
-    if( has_trait( trait_INSECT_ARMS ) ) {
-        add_miss_reason( _( "Your insect limbs get in the way." ), 2 );
-    }
-    if( has_trait( trait_INSECT_ARMS_OK ) ) {
-        if( !wearing_something_on( bodypart_id( "torso" ) ) ) {
-            mod_dex_bonus( 1 );
-        } else {
-            mod_dex_bonus( -1 );
-            add_miss_reason( _( "Your clothing restricts your insect arms." ), 1 );
-        }
-    }
-    if( has_trait( trait_WEBBED ) ) {
-        add_miss_reason( _( "Your webbed hands get in the way." ), 1 );
-    }
-    if( has_trait( trait_ARACHNID_ARMS ) ) {
-        add_miss_reason( _( "Your arachnid limbs get in the way." ), 4 );
-    }
-    if( has_trait( trait_ARACHNID_ARMS_OK ) ) {
-        if( !wearing_something_on( bodypart_id( "torso" ) ) ) {
-            mod_dex_bonus( 2 );
-        } else if( !exclusive_flag_coverage( "OVERSIZE" ).test( bp_torso ) ) {
-            mod_dex_bonus( -2 );
-            add_miss_reason( _( "Your clothing constricts your arachnid limbs." ), 2 );
-        }
-    }
-    const auto set_fake_effect_dur = [this]( const efftype_id & type, const time_duration & dur ) {
-        effect &eff = get_effect( type );
-        if( eff.get_duration() == dur ) {
-            return;
-        }
-
-        if( eff.is_null() && dur > 0_turns ) {
-            add_effect( type, dur, num_bp );
-        } else if( dur > 0_turns ) {
-            eff.set_duration( dur );
-        } else {
-            remove_effect( type, num_bp );
-        }
-    };
-    // Painkiller
-    set_fake_effect_dur( effect_pkill, 1_turns * get_painkiller() );
-
-    // Pain
-    if( get_perceived_pain() > 0 ) {
-        const auto ppen = get_pain_penalty();
-        mod_str_bonus( -ppen.strength );
-        mod_dex_bonus( -ppen.dexterity );
-        mod_int_bonus( -ppen.intelligence );
-        mod_per_bonus( -ppen.perception );
-        if( ppen.dexterity > 0 ) {
-            add_miss_reason( _( "Your pain distracts you!" ), static_cast<unsigned>( ppen.dexterity ) );
-        }
-    }
-
-    // Radiation
-    set_fake_effect_dur( effect_irradiated, 1_turns * get_rad() );
-    // Morale
-    const int morale = get_morale_level();
-    set_fake_effect_dur( effect_happy, 1_turns * morale );
-    set_fake_effect_dur( effect_sad, 1_turns * -morale );
-
-    // Stimulants
-    set_fake_effect_dur( effect_stim, 1_turns * current_stim );
-    set_fake_effect_dur( effect_depressants, 1_turns * -current_stim );
-    if( has_trait( trait_STIMBOOST ) ) {
-        set_fake_effect_dur( effect_stim_overdose, 1_turns * ( current_stim - 60 ) );
-    } else {
-        set_fake_effect_dur( effect_stim_overdose, 1_turns * ( current_stim - 30 ) );
-    }
-    // Starvation
-    if( get_kcal_percent() < 0.95f ) {
-        // kcal->percentage of base str
-        static const std::vector<std::pair<float, float>> starv_thresholds = { {
-                std::make_pair( 0.0f, 0.5f ),
-                std::make_pair( 0.8f, 0.1f ),
-                std::make_pair( 0.95f, 0.0f )
-            }
-        };
-
-        const int str_penalty = std::floor( multi_lerp( starv_thresholds, get_kcal_percent() ) );
-        add_miss_reason( _( "You're weak from hunger." ),
-                         static_cast<unsigned>( str_penalty / 2 ) );
-        mod_str_bonus( -str_penalty );
-        mod_dex_bonus( -( str_penalty / 2 ) );
-        mod_int_bonus( -( str_penalty / 2 ) );
-    }
-    // Thirst
-    set_fake_effect_dur( effect_thirsty, 1_turns * ( get_thirst() - thirst_levels::very_thirsty ) );
-    if( get_sleep_deprivation() >= sleep_deprivation_levels::harmless ) {
-        set_fake_effect_dur( effect_sleep_deprived, 1_turns * get_sleep_deprivation() );
-    } else if( has_effect( effect_sleep_deprived ) ) {
-        remove_effect( effect_sleep_deprived );
-    }
-
-    // Dodge-related effects
-    mod_dodge_bonus( mabuff_dodge_bonus() -
-                     ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) / 20.0f - encumb( bp_torso ) / 10.0f );
-    // Whiskers don't work so well if they're covered
-    if( has_trait( trait_WHISKERS ) && !wearing_something_on( bodypart_id( "mouth" ) ) ) {
-        mod_dodge_bonus( 1.5 );
-    }
-    if( has_trait( trait_WHISKERS_RAT ) && !wearing_something_on( bodypart_id( "mouth" ) ) ) {
-        mod_dodge_bonus( 3 );
-    }
-    // depending on mounts size, attacks will hit the mount and use their dodge rating.
-    // if they hit the player, the player cannot dodge as effectively.
-    if( is_mounted() ) {
-        mod_dodge_bonus( -4 );
-    }
-    // Spider hair is basically a full-body set of whiskers, once you get the brain for it
-    if( has_trait( trait_CHITIN_FUR3 ) ) {
-        static const std::array<bodypart_id, 5> parts{ { bodypart_id( "head" ), bodypart_id( "arm_r" ), bodypart_id( "arm_l" ), bodypart_id( "leg_r" ), bodypart_id( "leg_l" ) } };
-        for( const bodypart_id &bp : parts ) {
-            if( !wearing_something_on( bp ) ) {
-                mod_dodge_bonus( +1 );
-            }
-        }
-        // Torso handled separately, bigger bonus
-        if( !wearing_something_on( bodypart_id( "torso" ) ) ) {
-            mod_dodge_bonus( 4 );
-        }
-    }
-
-    // Apply static martial arts buffs
-    martial_arts_data->ma_static_effects( *this );
-
-    if( calendar::once_every( 1_minutes ) ) {
-        update_mental_focus();
-    }
-
-    // Effects
-    for( const auto &maps : *effects ) {
-        for( auto i : maps.second ) {
-            const auto &it = i.second;
-            if( it.is_removed() ) {
-                continue;
-            }
-            bool reduced = resists_effect( it );
-            mod_str_bonus( it.get_mod( "STR", reduced ) );
-            mod_dex_bonus( it.get_mod( "DEX", reduced ) );
-            mod_per_bonus( it.get_mod( "PER", reduced ) );
-            mod_int_bonus( it.get_mod( "INT", reduced ) );
-        }
-    }
-
-    Character::reset_stats();
-
-    recalc_sight_limits();
-    recalc_speed_bonus();
-
+    morale->display( equilibrium, pain_penalty, fatigue_cap );
 }
 
 int avatar::get_str_base() const
@@ -1346,62 +1051,34 @@ int avatar::free_upgrade_points() const
     return lvl - str_upgrade - dex_upgrade - int_upgrade - per_upgrade;
 }
 
-void avatar::upgrade_stat_prompt( const character_stat &stat )
+cata::optional<int> avatar::kill_xp_for_next_point() const
 {
-    const int free_points = free_upgrade_points();
-
-    if( free_points <= 0 ) {
-        auto it = std::lower_bound( xp_cutoffs.begin(), xp_cutoffs.end(), kill_xp() );
-        if( it == xp_cutoffs.end() ) {
-            popup( _( "You've already reached maximum level." ) );
-        } else {
-            popup( _( "Needs %d more experience to gain next level." ),
-                   *it - kill_xp() );
-        }
-        return;
+    auto it = std::lower_bound( xp_cutoffs.begin(), xp_cutoffs.end(), kill_xp() );
+    if( it == xp_cutoffs.end() ) {
+        return cata::nullopt;
+    } else {
+        return *it - kill_xp();
     }
+}
 
-    std::string stat_string;
+void avatar::upgrade_stat( character_stat stat )
+{
     switch( stat ) {
         case character_stat::STRENGTH:
-            stat_string = _( "strength" );
+            str_upgrade++;
             break;
         case character_stat::DEXTERITY:
-            stat_string = _( "dexterity" );
+            dex_upgrade++;
             break;
         case character_stat::INTELLIGENCE:
-            stat_string = _( "intelligence" );
+            int_upgrade++;
             break;
         case character_stat::PERCEPTION:
-            stat_string = _( "perception" );
+            per_upgrade++;
             break;
         case character_stat::DUMMY_STAT:
-            stat_string = _( "invalid stat" );
             debugmsg( "Tried to use invalid stat" );
             break;
-        default:
-            return;
-    }
-
-    if( query_yn( _( "Are you sure you want to raise %s?  %d points available." ), stat_string,
-                  free_points ) ) {
-        switch( stat ) {
-            case character_stat::STRENGTH:
-                str_upgrade++;
-                break;
-            case character_stat::DEXTERITY:
-                dex_upgrade++;
-                break;
-            case character_stat::INTELLIGENCE:
-                int_upgrade++;
-                break;
-            case character_stat::PERCEPTION:
-                per_upgrade++;
-                break;
-            case character_stat::DUMMY_STAT:
-                debugmsg( "Tried to use invalid stat" );
-                break;
-        }
     }
 }
 
@@ -1620,91 +1297,4 @@ bool avatar::invoke_item( item *used, const std::string &method, const tripoint 
 bool avatar::invoke_item( item *used, const std::string &method )
 {
     return Character::invoke_item( used, method );
-}
-
-points_left::points_left()
-{
-    limit = MULTI_POOL;
-    init_from_options();
-}
-
-void points_left::init_from_options()
-{
-    stat_points = get_option<int>( "INITIAL_STAT_POINTS" );
-    trait_points = get_option<int>( "INITIAL_TRAIT_POINTS" );
-    skill_points = get_option<int>( "INITIAL_SKILL_POINTS" );
-}
-
-// Highest amount of points to spend on stats without points going invalid
-int points_left::stat_points_left() const
-{
-    switch( limit ) {
-        case FREEFORM:
-        case ONE_POOL:
-            return stat_points + trait_points + skill_points;
-        case MULTI_POOL:
-            return std::min( trait_points_left(),
-                             stat_points + std::min( 0, trait_points + skill_points ) );
-        case TRANSFER:
-            return 0;
-    }
-
-    return 0;
-}
-
-int points_left::trait_points_left() const
-{
-    switch( limit ) {
-        case FREEFORM:
-        case ONE_POOL:
-            return stat_points + trait_points + skill_points;
-        case MULTI_POOL:
-            return stat_points + trait_points + std::min( 0, skill_points );
-        case TRANSFER:
-            return 0;
-    }
-
-    return 0;
-}
-
-int points_left::skill_points_left() const
-{
-    return stat_points + trait_points + skill_points;
-}
-
-bool points_left::is_freeform()
-{
-    return limit == FREEFORM;
-}
-
-bool points_left::is_valid()
-{
-    return is_freeform() ||
-           ( stat_points_left() >= 0 && trait_points_left() >= 0 &&
-             skill_points_left() >= 0 );
-}
-
-bool points_left::has_spare()
-{
-    return !is_freeform() && is_valid() && skill_points_left() > 0;
-}
-
-std::string points_left::to_string()
-{
-    if( limit == MULTI_POOL ) {
-        return string_format(
-                   _( "Points left: <color_%s>%d</color>%c<color_%s>%d</color>%c<color_%s>%d</color>=<color_%s>%d</color>" ),
-                   stat_points_left() >= 0 ? "light_gray" : "red", stat_points,
-                   trait_points >= 0 ? '+' : '-',
-                   trait_points_left() >= 0 ? "light_gray" : "red", std::abs( trait_points ),
-                   skill_points >= 0 ? '+' : '-',
-                   skill_points_left() >= 0 ? "light_gray" : "red", std::abs( skill_points ),
-                   is_valid() ? "light_gray" : "red", stat_points + trait_points + skill_points );
-    } else if( limit == ONE_POOL ) {
-        return string_format( _( "Points left: %4d" ), skill_points_left() );
-    } else if( limit == TRANSFER ) {
-        return _( "Character Transfer: No changes can be made." );
-    } else {
-        return _( "Freeform" );
-    }
 }

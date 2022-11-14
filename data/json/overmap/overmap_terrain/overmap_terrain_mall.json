@@ -9,9 +9,27 @@
   },
   {
     "type": "overmap_terrain",
+    "abstract": "generic_mall_parking",
+    "name": "mall parking",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK", "RISK_HIGH", "SOURCE_FOOD", "SOURCE_DRINK", "SOURCE_MEDICINE", "SOURCE_FABRICATION" ],
+    "copy-from": "generic_parking"
+  },
+  {
+    "type": "overmap_terrain",
+    "abstract": "generic_mall_road",
+    "name": "mall road",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK", "RISK_HIGH", "SOURCE_FOOD", "SOURCE_DRINK", "SOURCE_MEDICINE", "SOURCE_FABRICATION" ],
+    "copy-from": "generic_road"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "mall_a_1",
     "name": "road",
-    "copy-from": "generic_mall",
+    "copy-from": "generic_mall_road",
     "sym": "┌",
     "color": "dark_gray"
   },
@@ -19,7 +37,7 @@
     "type": "overmap_terrain",
     "id": "mall_a_2",
     "name": "road",
-    "copy-from": "generic_mall",
+    "copy-from": "generic_mall_road",
     "sym": "─",
     "color": "dark_gray"
   },
@@ -115,7 +133,7 @@
     "type": "overmap_terrain",
     "id": "mall_a_6",
     "name": "road",
-    "copy-from": "generic_mall",
+    "copy-from": "generic_mall_road",
     "sym": "│",
     "color": "dark_gray"
   },
@@ -123,7 +141,7 @@
     "type": "overmap_terrain",
     "id": "mall_a_7",
     "name": "lot",
-    "copy-from": "generic_mall",
+    "copy-from": "generic_mall_parking",
     "sym": "O",
     "color": "dark_gray"
   },
@@ -131,7 +149,7 @@
     "type": "overmap_terrain",
     "id": "mall_a_8",
     "name": "lot",
-    "copy-from": "generic_mall",
+    "copy-from": "generic_mall_parking",
     "sym": "O",
     "color": "dark_gray"
   },
@@ -139,7 +157,7 @@
     "type": "overmap_terrain",
     "id": "mall_a_9",
     "name": "lot",
-    "copy-from": "generic_mall",
+    "copy-from": "generic_mall_parking",
     "sym": "O",
     "color": "dark_gray"
   },
@@ -147,7 +165,7 @@
     "type": "overmap_terrain",
     "id": "mall_a_10",
     "name": "road",
-    "copy-from": "generic_mall",
+    "copy-from": "generic_mall_road",
     "sym": "│",
     "color": "dark_gray"
   },
@@ -272,7 +290,7 @@
     "type": "overmap_terrain",
     "id": "mall_a_15",
     "name": "road",
-    "copy-from": "generic_mall",
+    "copy-from": "generic_mall_road",
     "sym": "└",
     "color": "dark_gray"
   },
@@ -280,7 +298,7 @@
     "type": "overmap_terrain",
     "id": "mall_a_16",
     "name": "road",
-    "copy-from": "generic_mall",
+    "copy-from": "generic_mall_road",
     "sym": "─",
     "color": "dark_gray"
   },
@@ -288,7 +306,7 @@
     "type": "overmap_terrain",
     "id": "mall_a_17",
     "name": "road",
-    "copy-from": "generic_mall",
+    "copy-from": "generic_mall_road",
     "sym": "─",
     "color": "dark_gray"
   },
@@ -296,7 +314,7 @@
     "type": "overmap_terrain",
     "id": "mall_a_18",
     "name": "road",
-    "copy-from": "generic_mall",
+    "copy-from": "generic_mall_road",
     "sym": "┐",
     "color": "dark_gray"
   },
@@ -304,7 +322,7 @@
     "type": "overmap_terrain",
     "id": "mall_a_19",
     "name": "road",
-    "copy-from": "generic_mall",
+    "copy-from": "generic_mall_road",
     "sym": "│",
     "color": "dark_gray"
   },
@@ -478,7 +496,7 @@
     "type": "overmap_terrain",
     "id": "mall_a_27",
     "name": "road",
-    "copy-from": "generic_mall",
+    "copy-from": "generic_mall_parking",
     "sym": "│",
     "color": "dark_gray"
   },
@@ -486,7 +504,7 @@
     "type": "overmap_terrain",
     "id": "mall_a_28",
     "name": "road",
-    "copy-from": "generic_mall",
+    "copy-from": "generic_mall_parking",
     "sym": "│",
     "color": "dark_gray"
   },
@@ -658,7 +676,7 @@
     "type": "overmap_terrain",
     "id": "mall_a_36",
     "name": "road",
-    "copy-from": "generic_mall",
+    "copy-from": "generic_mall_parking",
     "sym": "│",
     "color": "dark_gray"
   },
@@ -666,7 +684,7 @@
     "type": "overmap_terrain",
     "id": "mall_a_37",
     "name": "road",
-    "copy-from": "generic_mall",
+    "copy-from": "generic_mall_parking",
     "sym": "│",
     "color": "dark_gray"
   },
@@ -821,7 +839,7 @@
     "type": "overmap_terrain",
     "id": "mall_a_45",
     "name": "road",
-    "copy-from": "generic_mall",
+    "copy-from": "generic_mall_parking",
     "sym": "│",
     "color": "dark_gray"
   },
@@ -829,7 +847,7 @@
     "type": "overmap_terrain",
     "id": "mall_a_46",
     "name": "road",
-    "copy-from": "generic_mall",
+    "copy-from": "generic_mall_parking",
     "sym": "│",
     "color": "dark_gray"
   },
@@ -1018,7 +1036,7 @@
     "type": "overmap_terrain",
     "id": "mall_a_54",
     "name": "road",
-    "copy-from": "generic_mall",
+    "copy-from": "generic_mall_parking",
     "sym": "│",
     "color": "dark_gray"
   },
@@ -1026,7 +1044,7 @@
     "type": "overmap_terrain",
     "id": "mall_a_55",
     "name": "road",
-    "copy-from": "generic_mall",
+    "copy-from": "generic_mall_parking",
     "sym": "│",
     "color": "dark_gray"
   },
@@ -1181,7 +1199,7 @@
     "type": "overmap_terrain",
     "id": "mall_a_63",
     "name": "road",
-    "copy-from": "generic_mall",
+    "copy-from": "generic_mall_parking",
     "sym": "│",
     "color": "dark_gray"
   },
@@ -1189,7 +1207,7 @@
     "type": "overmap_terrain",
     "id": "mall_a_64",
     "name": "road",
-    "copy-from": "generic_mall",
+    "copy-from": "generic_mall_parking",
     "sym": "│",
     "color": "dark_gray"
   },
@@ -1347,7 +1365,7 @@
     "type": "overmap_terrain",
     "id": "mall_a_72",
     "name": "road",
-    "copy-from": "generic_mall",
+    "copy-from": "generic_mall_parking",
     "sym": "│",
     "color": "dark_gray"
   },
@@ -1355,7 +1373,7 @@
     "type": "overmap_terrain",
     "id": "mall_a_73",
     "name": "road",
-    "copy-from": "generic_mall",
+    "copy-from": "generic_mall_parking",
     "sym": "└",
     "color": "dark_gray"
   },
@@ -1363,7 +1381,7 @@
     "type": "overmap_terrain",
     "id": "mall_a_74",
     "name": "road",
-    "copy-from": "generic_mall",
+    "copy-from": "generic_mall_parking",
     "sym": "─",
     "color": "dark_gray"
   },
@@ -1371,7 +1389,7 @@
     "type": "overmap_terrain",
     "id": "mall_a_75",
     "name": "road",
-    "copy-from": "generic_mall",
+    "copy-from": "generic_mall_parking",
     "sym": "─",
     "color": "dark_gray"
   },
@@ -1379,7 +1397,7 @@
     "type": "overmap_terrain",
     "id": "mall_a_76",
     "name": "road",
-    "copy-from": "generic_mall",
+    "copy-from": "generic_mall_parking",
     "sym": "─",
     "color": "dark_gray"
   },
@@ -1387,7 +1405,7 @@
     "type": "overmap_terrain",
     "id": "mall_a_77",
     "name": "road",
-    "copy-from": "generic_mall",
+    "copy-from": "generic_mall_road",
     "sym": "┬",
     "color": "dark_gray"
   },
@@ -1395,7 +1413,7 @@
     "type": "overmap_terrain",
     "id": "mall_a_78",
     "name": "road",
-    "copy-from": "generic_mall",
+    "copy-from": "generic_mall_parking",
     "sym": "─",
     "color": "dark_gray"
   },
@@ -1403,7 +1421,7 @@
     "type": "overmap_terrain",
     "id": "mall_a_79",
     "name": "road",
-    "copy-from": "generic_mall",
+    "copy-from": "generic_mall_parking",
     "sym": "─",
     "color": "dark_gray"
   },
@@ -1411,7 +1429,7 @@
     "type": "overmap_terrain",
     "id": "mall_a_80",
     "name": "road",
-    "copy-from": "generic_mall",
+    "copy-from": "generic_mall_parking",
     "sym": "─",
     "color": "dark_gray"
   },
@@ -1419,7 +1437,7 @@
     "type": "overmap_terrain",
     "id": "mall_a_81",
     "name": "road",
-    "copy-from": "generic_mall",
+    "copy-from": "generic_mall_parking",
     "sym": "┘",
     "color": "dark_gray"
   }

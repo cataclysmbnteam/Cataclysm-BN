@@ -179,7 +179,7 @@
     "items": [
       [ "leather_belt", 20 ],
       [ "gloves_leather", 35 ],
-      [ "leather_harness_dog", 10 ],
+      [ "leather_armor_small_quadruped", 10 ],
       [ "pockknife", 50 ],
       [ "leather_tarp", 10 ],
       [ "leather_cat_tail", 7 ],
@@ -256,8 +256,7 @@
       [ "cell_phone", 1 ],
       [ "smart_phone", 120 ],
       [ "wristwatch", 60 ],
-      [ "mobile_memory_card_used", 10 ],
-      [ "fitness_band", 5 ]
+      [ "mobile_memory_card_used", 10 ]
     ]
   },
   {

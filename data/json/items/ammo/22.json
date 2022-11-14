@@ -6,7 +6,7 @@
     "name": { "str": ".22 CPHP" },
     "description": ".22 Long Rifle ammunition with 30gr copper-plated, hollow-point bullets.  Has a higher velocity and slightly more stopping power than lead round-nose ammunition, but armor will have a magnified effect on its already-low penetration.",
     "//": "Hollowpoint damage increase of 25%",
-    "damage": { "damage_type": "stab", "amount": 20, "armor_penetration": 0 },
+    "damage": { "damage_type": "bullet", "amount": 20, "armor_penetration": 0 },
     "relative": { "range": 3 },
     "proportional": { "recoil": 1.5 }
   },
@@ -29,7 +29,7 @@
     "casing": "22_casing",
     "range": 13,
     "//": "Base damage of 12, balance increase of one-third.",
-    "damage": { "damage_type": "stab", "amount": 16, "armor_penetration": 9 },
+    "damage": { "damage_type": "bullet", "amount": 16, "armor_penetration": 9 },
     "dispersion": 60,
     "recoil": 150,
     "effects": [ "COOKOFF" ]
@@ -52,7 +52,7 @@
     "copy-from": "22_cphp",
     "type": "AMMO",
     "name": { "str": ".22 LR CPHP, black powder" },
-    "proportional": { "price": 0.3, "damage": { "damage_type": "stab", "amount": 0.57 }, "recoil": 0.57, "dispersion": 1.2 },
+    "proportional": { "price": 0.3, "damage": { "damage_type": "bullet", "amount": 0.57 }, "recoil": 0.57, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -63,29 +63,11 @@
     "name": { "str": ".22 LR, black powder" },
     "proportional": {
       "price": 0.3,
-      "damage": { "damage_type": "stab", "amount": 0.57, "armor_penetration": 0.5 },
+      "damage": { "damage_type": "bullet", "amount": 0.57, "armor_penetration": 0.5 },
       "recoil": 0.57,
       "dispersion": 1.2
     },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_22_lr",
-    "copy-from": "22_lr",
-    "type": "AMMO",
-    "name": { "str": ".22 LR, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_22_cphp",
-    "copy-from": "22_cphp",
-    "type": "AMMO",
-    "name": { "str": ".22 CPHP, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }
 ]

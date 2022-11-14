@@ -30,7 +30,7 @@
       "s": "t_floor",
       "w": [ "t_window_domestic", "t_curtains", "t_curtains" ],
       "6": "t_console_broken",
-      "7": "t_centrifuge"
+      "7": "t_floor"
     },
     "furniture": {
       "=": "f_canvas_wall",
@@ -59,7 +59,8 @@
       "U": "f_cupboard",
       "W": "f_woodstove",
       "x": "f_crate_o",
-      "X": "f_crate_c"
+      "X": "f_crate_c",
+      "7": "f_centrifuge"
     },
     "toilets": { "&": { "amount": [ 0, 50 ] } },
     "items": {

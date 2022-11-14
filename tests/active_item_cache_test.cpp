@@ -1,18 +1,19 @@
+#include "catch/catch.hpp"
+
 #include <memory>
 #include <set>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
 #include "map.h"
-#include "map_helpers.h"
 #include "point.h"
+#include "state_helpers.h"
 
 TEST_CASE( "place_active_item_at_various_coordinates", "[item]" )
 {
-    clear_map();
+    clear_all_state();
     for( int z = -OVERMAP_DEPTH; z < OVERMAP_HEIGHT; ++z ) {
         for( int x = 0; x < MAPSIZE_X; ++x ) {
             for( int y = 0; y < MAPSIZE_Y; ++y ) {

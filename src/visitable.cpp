@@ -13,7 +13,6 @@
 #include "character.h"
 #include "colony.h"
 #include "debug.h"
-#include "game.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
@@ -37,11 +36,14 @@ static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_toolset( "toolset" );
 static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_UPS_off( "UPS_off" );
+static const itype_id itype_bio_armor( "bio_armor" );
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
 
 static const bionic_id bio_tools( "bio_tools" );
 static const bionic_id bio_ups( "bio_ups" );
+
+static const flag_str_id flag_BIONIC_ARMOR_INTERFACE( "BIONIC_ARMOR_INTERFACE" );
 /** @relates visitable */
 template <typename T>
 item *visitable<T>::find_parent( const item &it )
@@ -173,8 +175,21 @@ bool visitable<T>::has_quality( const quality_id &qual, int level, int qty ) con
 template <>
 bool visitable<inventory>::has_quality( const quality_id &qual, int level, int qty ) const
 {
+    const inventory *inv = static_cast<const inventory *>( this );
+    const std::map<quality_id, std::map<int, int>> &inv_qual_cache = inv->get_quality_cache();
     int res = 0;
-    for( const auto &stack : static_cast<const inventory *>( this )->items ) {
+    if( !inv_qual_cache.empty() ) {
+        auto iter = inv_qual_cache.find( qual );
+        if( iter != inv_qual_cache.end() ) {
+            for( const auto &q : iter->second ) {
+                if( q.first >= level ) {
+                    res = sum_no_wrap( res, q.second );
+                }
+            }
+        }
+        return res >= qty;
+    }
+    for( const auto &stack : inv->items ) {
         res += stack.size() * has_quality_internal( stack.front(), qual, level, qty );
         if( res >= qty ) {
             return true;
@@ -454,13 +469,13 @@ VisitResponse visitable<map_cursor>::visit_items(
     const std::function<VisitResponse( item *, item * )> &func )
 {
     auto cur = static_cast<map_cursor *>( this );
-
+    map &here = get_map();
     // skip inaccessible items
-    if( g->m.has_flag( "SEALED", *cur ) && !g->m.has_flag( "LIQUIDCONT", *cur ) ) {
+    if( here.has_flag( "SEALED", *cur ) && !here.has_flag( "LIQUIDCONT", *cur ) ) {
         return VisitResponse::NEXT;
     }
 
-    for( auto &e : g->m.i_at( *cur ) ) {
+    for( item &e : here.i_at( *cur ) ) {
         if( visit_internal( func, &e ) == VisitResponse::ABORT ) {
             return VisitResponse::ABORT;
         }
@@ -509,6 +524,35 @@ VisitResponse visitable<vehicle_selector>::visit_items(
             return VisitResponse::ABORT;
         }
     }
+    return VisitResponse::NEXT;
+}
+
+/** @relates visitable */
+template <>
+VisitResponse visitable<monster>::visit_items(
+    const std::function<VisitResponse( item *, item * )> &func )
+{
+    monster *mon = static_cast<monster *>( this );
+
+    for( item &it : mon->inv ) {
+        if( visit_internal( func, &it ) == VisitResponse::ABORT ) {
+            return VisitResponse::ABORT;
+        }
+    }
+
+    if( mon->storage_item && visit_internal( func, &*mon->storage_item ) == VisitResponse::ABORT ) {
+        return VisitResponse::ABORT;
+    }
+    if( mon->armor_item && visit_internal( func, &*mon->armor_item ) == VisitResponse::ABORT ) {
+        return VisitResponse::ABORT;
+    }
+    if( mon->tack_item && visit_internal( func, &*mon->tack_item ) == VisitResponse::ABORT ) {
+        return VisitResponse::ABORT;
+    }
+    if( mon->tied_item && visit_internal( func, &*mon->tied_item ) == VisitResponse::ABORT ) {
+        return VisitResponse::ABORT;
+    }
+
     return VisitResponse::NEXT;
 }
 
@@ -608,6 +652,7 @@ std::list<item> visitable<inventory>::remove_items_with( const
 
     // Invalidate binning cache
     inv->binned = false;
+    inv->items_type_cached = false;
 
     return res;
 }
@@ -673,14 +718,15 @@ std::list<item> visitable<map_cursor>::remove_items_with( const
         return res;
     }
 
-    if( !g->m.inbounds( *cur ) ) {
+    map &here = get_map();
+    if( !here.inbounds( *cur ) ) {
         debugmsg( "cannot remove items from map: cursor out-of-bounds" );
         return res;
     }
 
     // fetch the appropriate item stack
     point offset;
-    submap *sub = g->m.get_submap_at( *cur, offset );
+    submap *sub = here.get_submap_at( *cur, offset );
     cata::colony<item> &stack = sub->get_items( offset );
 
     for( auto iter = stack.begin(); iter != stack.end(); ) {
@@ -706,7 +752,7 @@ std::list<item> visitable<map_cursor>::remove_items_with( const
             ++iter;
         }
     }
-    g->m.update_submap_active_item_status( *cur );
+    here.update_submap_active_item_status( *cur );
     return res;
 }
 
@@ -785,6 +831,67 @@ std::list<item> visitable<vehicle_selector>::remove_items_with( const
         count -= out.size();
         res.splice( res.end(), out );
     }
+
+    return res;
+}
+
+static void remove_from_item_valptr(
+    cata::value_ptr<item> &ptr,
+    const std::function<bool( const item &e )> &filter,
+    int &count, std::list<item> &res )
+{
+    if( ptr ) {
+        if( filter( *ptr ) ) {
+            res.push_back( *ptr );
+            ptr.reset();
+            count -= 1;
+        } else {
+            ptr->contents.remove_internal( filter, count, res );
+        }
+    }
+}
+
+/** @relates visitable */
+template <>
+std::list<item> visitable<monster>::remove_items_with( const
+        std::function<bool( const item &e )> &filter, int count )
+{
+    std::list<item> res;
+
+    monster *mon = static_cast<monster *>( this );
+
+    for( auto iter = mon->inv.begin(); iter != mon->inv.end(); ) {
+        if( filter( *iter ) ) {
+            res.push_back( *iter );
+            iter = mon->inv.erase( iter );
+
+            count -= 1;
+            if( count == 0 ) {
+                return res;
+            }
+        } else {
+            iter->contents.remove_internal( filter, count, res );
+
+            if( count == 0 ) {
+                return res;
+            }
+            iter++;
+        }
+    }
+
+    remove_from_item_valptr( mon->storage_item, filter, count, res );
+    if( count == 0 ) {
+        return res;
+    }
+    remove_from_item_valptr( mon->armor_item, filter, count, res );
+    if( count == 0 ) {
+        return res;
+    }
+    remove_from_item_valptr( mon->tack_item, filter, count, res );
+    if( count == 0 ) {
+        return res;
+    }
+    remove_from_item_valptr( mon->tied_item, filter, count, res );
 
     return res;
 }
@@ -883,6 +990,23 @@ int visitable<Character>::charges_of( const itype_id &what, int limit,
         } else {
             return 0;
         }
+    }
+
+    if( what == itype_bio_armor ) {
+        float efficiency = 1;
+        int power_charges = 0;
+
+        for( const bionic &bio : *self->my_bionics ) {
+            if( bio.powered && bio.info().has_flag( flag_BIONIC_ARMOR_INTERFACE ) ) {
+                efficiency = std::max( efficiency, bio.info().fuel_efficiency );
+            }
+        }
+        if( efficiency == 1 ) {
+            debugmsg( "Character lacks a bionic armor interface with fuel efficiency field." );
+        }
+        power_charges = units::to_kilojoule( self->as_player()->get_power_level() ) * efficiency;
+
+        return std::min( power_charges, limit );
     }
 
     if( what == itype_UPS ) {
@@ -995,3 +1119,4 @@ template class visitable<map_selector>;
 template class visitable<map_cursor>;
 template class visitable<vehicle_selector>;
 template class visitable<vehicle_cursor>;
+template class visitable<monster>;

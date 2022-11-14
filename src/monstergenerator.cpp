@@ -372,6 +372,9 @@ void MonsterGenerator::finalize_mtypes()
         if( mon.armor_stab < 0 ) {
             mon.armor_stab = mon.armor_cut * 0.8;
         }
+        if( mon.armor_bullet < 0 ) {
+            mon.armor_bullet = 0;
+        }
         if( mon.armor_acid < 0 ) {
             mon.armor_acid = mon.armor_cut * 0.5;
         }
@@ -646,7 +649,7 @@ void MonsterGenerator::load_monster( const JsonObject &jo, const std::string &sr
 mon_effect_data load_mon_effect_data( const JsonObject &e )
 {
     bool permanent = e.get_bool( "permanent", false );
-    if( permanent && ( test_mode || json_report_unused_fields ) ) {
+    if( permanent && json_report_strict ) {
         try {
             e.throw_error( "Effect permanence has been moved to effect_type.  Set permanence there.",
                            "permanent" );
@@ -679,7 +682,7 @@ class mon_attack_effect_reader : public generic_typed_reader<mon_attack_effect_r
 
 void mtype::load( const JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "dda";
+    const bool strict = is_strict_enabled( src );
 
     MonsterGenerator &gen = MonsterGenerator::generator();
 
@@ -734,6 +737,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "dodge", sk_dodge, strict, 0 );
     assign( jo, "armor_bash", armor_bash, strict, 0 );
     assign( jo, "armor_cut", armor_cut, strict, 0 );
+    assign( jo, "armor_bullet", armor_bullet, strict, 0 );
     assign( jo, "armor_stab", armor_stab, strict, 0 );
     assign( jo, "armor_acid", armor_acid, strict, 0 );
     assign( jo, "armor_fire", armor_fire, strict, 0 );
@@ -744,6 +748,24 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "regenerates", regenerates, 0 );
     optional( jo, was_loaded, "regenerates_in_dark", regenerates_in_dark, false );
     optional( jo, was_loaded, "regen_morale", regen_morale, false );
+
+    if( !was_loaded || jo.has_member( "regeneration_modifiers" ) ) {
+        regeneration_modifiers.clear();
+        add_regeneration_modifiers( jo, "regeneration_modifiers", src );
+    } else {
+        // Note: regeneration_modifiers left as is, new modifiers are added to it!
+        // Note: member name prefixes are compatible with those used by generic_typed_reader
+        if( jo.has_object( "extend" ) ) {
+            JsonObject tmp = jo.get_object( "extend" );
+            tmp.allow_omitted_members();
+            add_regeneration_modifiers( tmp, "regeneration_modifiers", src );
+        }
+        if( jo.has_object( "delete" ) ) {
+            JsonObject tmp = jo.get_object( "delete" );
+            tmp.allow_omitted_members();
+            remove_regeneration_modifiers( tmp, "regeneration_modifiers", src );
+        }
+    }
 
     optional( jo, was_loaded, "starting_ammo", starting_ammo );
     optional( jo, was_loaded, "luminance", luminance, 0 );
@@ -1030,7 +1052,7 @@ mtype_special_attack MonsterGenerator::create_actor( const JsonObject &obj,
 
 void mattack_actor::load( const JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "dda";
+    const bool strict = is_strict_enabled( src );
 
     // Legacy support
     if( !jo.has_string( "id" ) ) {
@@ -1127,6 +1149,52 @@ void mtype::remove_special_attacks( const JsonObject &jo, const std::string &mem
         if( iter != special_attacks_names.end() ) {
             special_attacks_names.erase( iter );
         }
+    }
+}
+
+void mtype::add_regeneration_modifier( JsonObject inner, const std::string & )
+{
+    const std::string effect_name = inner.get_string( "effect" );
+    const efftype_id effect( effect_name );
+    //TODO: if invalid effect, throw error
+    //  inner.throw_error( "Invalid regeneration_modifiers" );
+
+    if( regeneration_modifiers.count( effect ) > 0 ) {
+        regeneration_modifiers.erase( effect );
+        debugmsg( "%s specifies more than one regeneration modifer for effect %s, ignoring all but the last",
+                  id.c_str(), effect_name );
+    }
+    const float base_mod = inner.get_float( "base_mod", 0.0f );
+    const float scaling_mod = inner.get_float( "scaling_mod", 0.0f );
+
+    regeneration_modifiers.emplace( effect, regen_modifier{ base_mod, scaling_mod } );
+}
+
+void mtype::add_regeneration_modifiers( const JsonObject &jo, const std::string &member,
+                                        const std::string &src )
+{
+    if( !jo.has_array( member ) ) {
+        return;
+    }
+
+    for( const JsonValue entry : jo.get_array( member ) ) {
+        if( entry.test_object() ) {
+            add_regeneration_modifier( entry.get_object(), src );
+            // TODO: add support for regeneration_modifer objects
+            //} else if ( entry.test_object() ) {
+            //    add_regeneration_modifier( entry.get_object(), src );
+        } else {
+            entry.throw_error( "array element is not an object " );
+        }
+    }
+}
+
+void mtype::remove_regeneration_modifiers( const JsonObject &jo, const std::string &member_name,
+        const std::string & )
+{
+    for( const std::string &name : jo.get_tags( member_name ) ) {
+        const efftype_id effect( name );
+        regeneration_modifiers.erase( effect );
     }
 }
 

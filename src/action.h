@@ -173,6 +173,8 @@ enum action_id : int {
     ACTION_FIRE_BURST,
     /** Change fire mode of the current weapon */
     ACTION_SELECT_FIRE_MODE,
+    /** Change default ammo for current weapon */
+    ACTION_SELECT_DEFAULT_AMMO,
     /** Cast a spell (only if any spells are known) */
     ACTION_CAST_SPELL,
     /** Open the drop-item menu */
@@ -251,6 +253,8 @@ enum action_id : int {
     ACTION_HELP,
     /** Display main menu */
     ACTION_MAIN_MENU,
+    /** Display diary window */
+    ACTION_DIARY,
     /** Display keybindings list */
     ACTION_KEYBINDINGS,
     /** Display options window */
@@ -265,6 +269,8 @@ enum action_id : int {
     ACTION_COLOR,
     /** Open active world mods */
     ACTION_WORLD_MODS,
+    /** Open distraction manager */
+    ACTION_DISTRACTION_MANAGER,
     /**@}*/
 
     // Debug Functions

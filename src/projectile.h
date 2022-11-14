@@ -8,20 +8,22 @@
 
 #include "damage.h"
 #include "point.h"
+#include "string_id.h"
 
 class Creature;
 struct explosion_data;
 class item;
+struct ammo_effect;
+
+using ammo_effect_str_id = string_id<ammo_effect>;
 
 struct projectile {
         damage_instance impact;
         // how hard is it to dodge? essentially rolls to-hit,
         // bullets have arbitrarily high values but thrown objects have dodgeable values.
         // TODO: Get rid of this, replace with something sane (or just get rid)
-        int speed;
-        int range;
-
-        std::set<std::string> proj_effects;
+        int speed = 0;
+        int range = 0;
 
         /**
          * Returns an item that should be dropped or an item for which is_null() is true
@@ -37,6 +39,10 @@ struct projectile {
         void set_custom_explosion( const explosion_data &ex );
         void unset_custom_explosion();
 
+        const std::set<ammo_effect_str_id> &get_ammo_effects() {
+            return proj_effects;
+        }
+
         projectile();
         projectile( const projectile & );
         projectile( projectile && );
@@ -46,11 +52,19 @@ struct projectile {
         void deserialize( JsonIn &jsin );
         void load( JsonObject &jo );
 
+        bool has_effect( const ammo_effect_str_id &id ) const {
+            return proj_effects.count( id ) > 0;
+        }
+        void add_effect( const ammo_effect_str_id &id ) {
+            proj_effects.insert( id );
+        }
+
     private:
         // Actual item used (to drop contents etc.).
         // Null in case of bullets (they aren't "made of cartridges").
         std::unique_ptr<item> drop;
         std::unique_ptr<explosion_data> custom_explosion;
+        std::set<ammo_effect_str_id> proj_effects;
 };
 
 struct dealt_projectile_attack {
@@ -61,7 +75,12 @@ struct dealt_projectile_attack {
     double missed_by; // Accuracy of dealt attack
 };
 
-void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects );
+void apply_ammo_effects( const tripoint &p, const std::set<ammo_effect_str_id> &effects,
+                         Creature *source );
+// Legacy. TODO: Remove
+void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects,
+                         Creature *source );
+int max_aoe_size( const std::set<ammo_effect_str_id> &tags );
 int max_aoe_size( const std::set<std::string> &tags );
 
 #endif // CATA_SRC_PROJECTILE_H

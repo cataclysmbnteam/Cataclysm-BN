@@ -18,6 +18,7 @@
 #include "itype.h"
 #include "loading_ui.h"
 #include "material.h"
+#include "mod_manager.h"
 #include "npc.h"
 #include "output.h"
 #include "recipe.h"
@@ -40,7 +41,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
     try {
         loading_ui ui( false );
         load_core_data( ui );
-        load_packs( _( "Loading content packs" ), { mod_id( "dda" ) }, ui );
+        load_packs( _( "Loading content packs" ), { mod_management::get_default_core_content_pack() }, ui );
         DynamicDataLoader::get_instance().finalize_loaded_data( ui );
     } catch( const std::exception &err ) {
         std::cerr << "Error loading data from json: " << err.what() << std::endl;
@@ -99,7 +100,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
 
     } else if( what == "ARMOR" ) {
         header = {
-            "Name", "Encumber (fit)", "Warmth", "Weight", "Storage", "Coverage", "Bash", "Cut", "Acid", "Fire"
+            "Name", "Encumber (fit)", "Warmth", "Weight", "Storage", "Coverage", "Bash", "Cut", "Bullet", "Acid", "Fire"
         };
         auto dump = [&rows]( const item & obj ) {
             std::vector<std::string> r;
@@ -111,6 +112,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             r.push_back( std::to_string( obj.get_coverage() ) );
             r.push_back( std::to_string( obj.bash_resist() ) );
             r.push_back( std::to_string( obj.cut_resist() ) );
+            r.push_back( std::to_string( obj.bullet_resist() ) );
             r.push_back( std::to_string( obj.acid_resist() ) );
             r.push_back( std::to_string( obj.fire_resist() ) );
             rows.push_back( r );

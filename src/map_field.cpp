@@ -208,14 +208,16 @@ std::array<std::pair<tripoint, maptile>, 8> map::get_neighbors( const tripoint &
     };
 }
 
-bool map::gas_can_spread_to( field_entry &cur, const maptile &dst )
+bool map::gas_can_spread_to( field_entry &cur, const tripoint &src, const tripoint &dst )
 {
-    const field_entry *tmpfld = dst.get_field().find_field( cur.get_field_type() );
+    maptile dst_tile = maptile_at( dst );
+    const field_entry *tmpfld = dst_tile.get_field().find_field( cur.get_field_type() );
     // Candidates are existing weaker fields or navigable/flagged tiles with no field.
     if( tmpfld == nullptr || tmpfld->get_field_intensity() < cur.get_field_intensity() ) {
-        const ter_t &ter = dst.get_ter_t();
-        const furn_t &frn = dst.get_furn_t();
-        return ter_furn_movecost( ter, frn ) > 0 || ter_furn_has_flag( ter, frn, TFLAG_PERMEABLE );
+        const ter_t &ter = dst_tile.get_ter_t();
+        const furn_t &frn = dst_tile.get_furn_t();
+        return !obstructed_by_vehicle_rotation( src, dst ) &&
+               ( ter_furn_movecost( ter, frn ) > 0 || ter_furn_has_flag( ter, frn, TFLAG_PERMEABLE ) );
     }
     return false;
 }
@@ -287,8 +289,8 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
     // TODO: Make fall and rise chances parameters to enable heavy/light gas
     if( zlevels && p.z > -OVERMAP_DEPTH ) {
         const tripoint down{ p.xy(), p.z - 1 };
-        maptile down_tile = maptile_at_internal( down );
-        if( gas_can_spread_to( cur, down_tile ) && valid_move( p, down, true, true ) ) {
+        if( gas_can_spread_to( cur, p, down ) && valid_move( p, down, true, true ) ) {
+            maptile down_tile = maptile_at_internal( down );
             gas_spread_to( cur, down_tile, down );
             return;
         }
@@ -306,7 +308,7 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
          count != neighs.size();
          i = ( i + 1 ) % neighs.size(), count++ ) {
         const auto &neigh = neighs[i];
-        if( gas_can_spread_to( cur, neigh.second ) ) {
+        if( gas_can_spread_to( cur, p, neigh.first ) ) {
             spread.push_back( i );
         }
     }
@@ -342,8 +344,8 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
         }
     } else if( zlevels && p.z < OVERMAP_HEIGHT ) {
         const tripoint up{ p.xy(), p.z + 1 };
-        maptile up_tile = maptile_at_internal( up );
-        if( gas_can_spread_to( cur, up_tile ) && valid_move( p, up, true, true ) ) {
+        if( gas_can_spread_to( cur, p, up ) && valid_move( p, up, true, true ) ) {
+            maptile up_tile = maptile_at_internal( up );
             gas_spread_to( cur, up_tile, up );
         }
     }
@@ -400,6 +402,7 @@ void map::process_fields_in_submap( submap *const current_submap,
     // Just to avoid typing that long string for a temp value.
     field_entry *tmpfld = nullptr;
 
+    map &here = get_map();
     tripoint thep;
     thep.z = submap.z;
 
@@ -854,7 +857,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                 if( cur_fd_type_id == fd_fungal_haze ) {
                     if( one_in( 10 - 2 * cur.get_field_intensity() ) ) {
                         // Haze'd terrain
-                        fungal_effects( *g, g->m ).spread_fungus( p );
+                        fungal_effects( *g, here ).spread_fungus( p );
                     }
                 }
 
@@ -877,7 +880,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                 }
 
                 // Apply wandering fields from vents
-                if( cur_fd_type.wandering_field.is_valid() ) {
+                if( cur_fd_type.wandering_field ) {
                     for( const tripoint &pnt : points_in_radius( p, cur.get_field_intensity() - 1 ) ) {
                         field &wandering_field = get_field( pnt );
                         tmpfld = wandering_field.find_field( cur_fd_type.wandering_field );
@@ -924,7 +927,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                             while( tries < 10 && cur.get_field_age() < 5_minutes && cur.get_field_intensity() > 1 ) {
                                 pnt.x = p.x + rng( -1, 1 );
                                 pnt.y = p.y + rng( -1, 1 );
-                                if( passable( pnt ) ) {
+                                if( passable( pnt ) && !obstructed_by_vehicle_rotation( p, pnt ) ) {
                                     add_field( pnt, fd_electricity, 1, cur.get_field_age() + 1_turns );
                                     cur.set_field_intensity( cur.get_field_intensity() - 1 );
                                     tries = 0;
@@ -944,11 +947,12 @@ void map::process_fields_in_submap( submap *const current_submap,
                             if( valid.empty() ) {
                                 tripoint dst( p + point( rng( -1, 1 ), rng( -1, 1 ) ) );
                                 field_entry *elec = get_field( dst ).find_field( fd_electricity );
-                                if( passable( dst ) && elec != nullptr &&
+                                bool pass = passable( dst ) && !obstructed_by_vehicle_rotation( p, dst );
+                                if( pass && elec != nullptr &&
                                     elec->get_field_intensity() < 3 ) {
                                     elec->set_field_intensity( elec->get_field_intensity() + 1 );
                                     cur.set_field_intensity( cur.get_field_intensity() - 1 );
-                                } else if( passable( dst ) ) {
+                                } else if( pass ) {
                                     add_field( dst, fd_electricity, 1, cur.get_field_age() + 1_turns );
                                 }
                                 cur.set_field_intensity( cur.get_field_intensity() - 1 );
@@ -1658,6 +1662,9 @@ void map::monster_in_field( monster &z )
                 const int d = rng( cur.get_field_intensity(), cur.get_field_intensity() * 3 );
                 z.deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( DT_ACID, d ) );
                 z.check_dead_state();
+                if( d > 0 ) {
+                    z.add_effect( effect_corroding, 1_turns * rng( d / 2, d * 2 ) );
+                }
             }
 
         }
@@ -1990,8 +1997,9 @@ void map::propagate_field( const tripoint &center, const field_type_id &type, in
                     closed.insert( pt );
                     continue;
                 }
-
-                open.push( { static_cast<float>( rl_dist( center, pt ) ), pt } );
+                if( !obstructed_by_vehicle_rotation( gp.second, pt ) ) {
+                    open.push( { static_cast<float>( rl_dist( center, pt ) ), pt } );
+                }
             }
         }
     }

@@ -198,7 +198,8 @@
         { "item": "cattlefodder", "x": 38, "y": 13, "amount": [ 0, 4 ] },
         { "item": "cattlefodder", "x": 39, "y": 5, "amount": [ 0, 4 ] },
         { "item": "cattlefodder", "x": 39, "y": 8, "amount": [ 0, 4 ] },
-        { "item": "cattlefodder", "x": 39, "y": 17, "amount": [ 0, 4 ] }
+        { "item": "cattlefodder", "x": 39, "y": 17, "amount": [ 0, 4 ] },
+        { "item": "rennet", "x": 16, "y": 15, "chance": 75, "repeat": 3 }
       ],
       "place_vehicles": [
         { "vehicle": "cube_van_cheap", "x": 7, "y": 5, "chance": 50, "fuel": 300, "status": -1, "rotation": 0 },

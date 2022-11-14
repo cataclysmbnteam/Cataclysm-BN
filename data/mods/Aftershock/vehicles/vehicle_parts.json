@@ -302,13 +302,13 @@
   {
     "abstract": "afs_lightweight_foldable_frame",
     "type": "vehicle_part",
-    "name": { "str": "ultralight foldable frame" },
+    "name": { "str": "foldable ultralight frame" },
     "item": "afs_titanium_foldable_frame",
     "location": "structure",
     "color": "light_gray",
     "durability": 75,
     "symbol": "H",
-    "folded_volume": "10 L",
+    "folded_volume": "4 L",
     "description": "An ultralight titanium foldable framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
     "breaks_into": [ { "item": "afs_scrap_titanium", "count": [ 1, 3 ] } ],
     "requirements": {

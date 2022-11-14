@@ -27,6 +27,25 @@ CXXFLAGS += -I../src -Wno-unused-variable -Wno-sign-compare -Wno-unknown-pragmas
 CXXFLAGS += -Wall -Wextra \
   -Wno-range-loop-analysis # TODO: Fix warnings instead of disabling
 
+ifndef PCH
+  PCH = 1
+endif
+
+ifndef CLANG
+  CLANG = 0
+endif
+
+ifeq ($(PCH), 1)
+PCHFLAGS += -DCATA_CATCH_PCH
+PCH_H = pch/tests-pch.hpp
+ifeq ($(CLANG), 0)
+PCH_P = $(PCH_H).gch
+else
+PCH_P = $(PCH_H).pch
+CXXFLAGS += -Wno-unused-macros
+endif
+endif
+
 ifeq ($(TARGETSYSTEM), WINDOWS)
   TEST_TARGET = $(BUILD_PREFIX)cata_test.exe
 else
@@ -36,7 +55,15 @@ endif
 tests: $(TEST_TARGET)
 
 $(TEST_TARGET): $(OBJS) $(CATA_LIB)
+ifeq ($(VERBOSE),1)
 	+$(CXX) $(W32FLAGS) -o $@ $(DEFINES) $(OBJS) $(CATA_LIB) $(CXXFLAGS) $(LDFLAGS)
+else
+	@echo "Linking $@..."
+	@$(CXX) $(W32FLAGS) -o $@ $(DEFINES) $(OBJS) $(CATA_LIB) $(CXXFLAGS) $(LDFLAGS)
+endif
+
+$(PCH_P): $(PCH_H)
+	-$(CXX) $(CPPFLAGS) $(DEFINES) $(subst -Werror,,$(CXXFLAGS)) -Wno-non-virtual-dtor -Wno-unused-macros -I. -c $(PCH_H) -o $(PCH_P)
 
 # Iterate over all the individual tests.
 check: $(TEST_TARGET)
@@ -45,14 +72,22 @@ check: $(TEST_TARGET)
 clean:
 	rm -rf *obj *objwin
 	rm -f *cata_test
+	rm -f pch/*pch.hpp.gch
+	rm -f pch/*pch.hpp.pch
+	rm -f pch/*pch.hpp.d
 
 #Unconditionally create object directory on invocation.
 $(shell mkdir -p $(ODIR))
 
-$(ODIR)/%.o: %.cpp
-	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -c $< -o $@
+$(ODIR)/%.o: %.cpp $(PCH_P)
+ifeq ($(VERBOSE),1)
+	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(subst main-pch,tests-pch,$(PCHFLAGS)) -c $< -o $@
+else
+	@echo $(@F)
+	@$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(subst main-pch,tests-pch,$(PCHFLAGS)) -c $< -o $@
+endif
 
-.PHONY: clean check tests
+.PHONY: clean check tests precompile_header
 
 .SECONDARY: $(OBJS)
 

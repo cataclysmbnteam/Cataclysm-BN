@@ -25,6 +25,13 @@ using bodypart_str_id = string_id<body_part_type>;
 struct construction_category;
 using construction_category_id = string_id<construction_category>;
 
+struct construction_group;
+using construction_group_str_id = string_id<construction_group>;
+
+struct construction_sequence;
+using construction_sequence_int_id = int_id<construction_sequence>;
+using construction_sequence_id = string_id<construction_sequence>;
+
 struct clothing_mod;
 using clothing_mod_id = string_id<clothing_mod>;
 
@@ -112,6 +119,22 @@ using faction_id = string_id<faction>;
 struct oter_t;
 using oter_id = int_id<oter_t>;
 using oter_str_id = string_id<oter_t>;
+
+struct oter_type_t;
+using oter_type_id = int_id<oter_type_t>;
+using oter_type_str_id = string_id<oter_type_t>;
+
+class overmap_connection;
+using overmap_connection_id = string_id<overmap_connection>;
+
+struct overmap_location;
+using overmap_location_id = string_id<overmap_location>;
+
+class overmap_special;
+using overmap_special_id = string_id<overmap_special>;
+
+class profession;
+using profession_id = string_id<profession>;
 
 class recipe;
 using recipe_id = string_id<recipe>;

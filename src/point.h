@@ -223,6 +223,16 @@ struct tripoint {
 
     std::string to_string() const;
 
+    /**
+     * Rotate x and y components clockwise @param turns times,
+     * 90 degrees per turn, around the center of a rectangle with
+     * the dimensions specified by @param dim.
+     * By default rotates around the origin (0, 0).
+     * NOLINTNEXTLINE(cata-use-named-point-constants) */
+    inline tripoint rotate_2d( int turns, const point &dim = { 1, 1 } ) const {
+        return tripoint( xy().rotate( turns, dim ), z );
+    }
+
     void serialize( JsonOut &jsout ) const;
     void deserialize( JsonIn &jsin );
 
@@ -347,6 +357,10 @@ struct hash<tripoint> {
 
 static constexpr std::array<point, 4> four_adjacent_offsets{{
         point_north, point_east, point_south, point_west
+    }};
+
+static constexpr std::array<point, 4> four_diagonal_offsets{{
+        point_north_east, point_south_east, point_south_west, point_north_west
     }};
 
 static constexpr std::array<point, 8> eight_adjacent_offsets{{

@@ -1,5 +1,22 @@
 [
   {
+    "id": "butter_resealable_containers",
+    "type": "requirement",
+    "//": "Resealable items with contain quality, that would be suitable for agitating milk or cream to make butter in small batches..",
+    "tools": [
+      [
+        [ "beaker", -1 ],
+        [ "bottle_metal", -1 ],
+        [ "bowl_clay", -1 ],
+        [ "bowl_plastic", -1 ],
+        [ "jar_3l_glass", -1 ],
+        [ "jar_glass", -1 ],
+        [ "jug_clay", -1 ],
+        [ "jug_plastic", -1 ]
+      ]
+    ]
+  },
+  {
     "id": "surface_heat",
     "type": "requirement",
     "//": "Heat usable for heating a surface - for example a pot or frying pan.",

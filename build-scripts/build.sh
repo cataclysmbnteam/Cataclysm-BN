@@ -15,12 +15,6 @@ function run_tests
 # We might need binaries installed via pip, so ensure that our personal bin dir is on the PATH
 export PATH=$HOME/.local/bin:$PATH
 
-# In OSX, gettext isn't in PATH
-if [ -n "BREWGETTEXT" ]
-then
-    export PATH="/usr/local/opt/gettext/bin:$PATH"
-fi
-
 if [ -n "$DEPLOY" ]
 then
     : # No-op, for now
@@ -66,12 +60,15 @@ then
         cmake_extra_opts+=("-DClang_DIR=/usr/lib/llvm-8/lib/cmake/clang")
     fi
 
-    if [ "$COMPILER" = "clang++-8" -a -n "$GITHUB_WORKFLOW" -a -n "$CATA_CLANG_TIDY" ]
+    if echo "$COMPILER" | grep -q "clang"
     then
-        # This is a hacky workaround for the fact that the custom clang-tidy we are
-        # using is built for Travis CI, so it's not using the correct include directories
-        # for GitHub workflows.
-        cmake_extra_opts+=("-DCMAKE_CXX_FLAGS=-isystem /usr/include/clang/8.0.0/include")
+        if [ -n "$GITHUB_WORKFLOW" -a -n "$CATA_CLANG_TIDY" ]
+        then
+            # This is a hacky workaround for the fact that the custom clang-tidy we are
+            # using is built for Travis CI, so it's not using the correct include directories
+            # for GitHub workflows.
+            cmake_extra_opts+=("-DCMAKE_CXX_FLAGS=-isystem /usr/include/clang/8.0.0/include")
+        fi
     fi
 
     mkdir build
@@ -182,20 +179,20 @@ then
     # fills the log with nonsense.
     TERM=dumb ./gradlew assembleExperimentalRelease -Pj=$num_jobs -Plocalize=false -Pabi_arm_32=false -Pabi_arm_64=true -Pdeps=/home/travis/build/cataclysmbnteam/Cataclysm-BN/android/app/deps.zip
 else
-    if [ "$OS" == "macos-10.15" ]
+    if [ "$OS" == "macos-11" ]
     then
         export NATIVE=osx
-        # if OSX_MIN we specify here is lower than 10.15 then linker is going
-        # to throw warnings because SDL and gettext libraries installed from 
-        # Homebrew are built with minimum target osx version 10.15
-        export OSX_MIN=10.15
+        # if OSX_MIN we specify here is lower than 11 then linker is going
+        # to throw warnings because uncaught_exceptions, SDL and gettext libraries installed from
+        # Homebrew are built with minimum target osx version 11
+        export OSX_MIN=11
     else
         export BACKTRACE=1
     fi
     make -j "$num_jobs" RELEASE=1 CCACHE=1 CROSS="$CROSS_COMPILATION" LANGUAGES="all" LINTJSON=0
 
     export UBSAN_OPTIONS=print_stacktrace=1
-    if [ "$TRAVIS_OS_NAME" == "osx" ] || [ "$OS" == "macos-10.15" ]
+    if [ "$TRAVIS_OS_NAME" == "osx" ] || [ "$OS" == "macos-11" ]
     then
         run_tests ./tests/cata_test
     else

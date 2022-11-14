@@ -25,6 +25,8 @@
 #include "clzones.h"
 #include "construction.h"
 #include "construction_category.h"
+#include "construction_group.h"
+#include "construction_sequence.h"
 #include "crafting_gui.h"
 #include "creature.h"
 #include "cursesdef.h"
@@ -62,6 +64,7 @@
 #include "mongroup.h"
 #include "monstergenerator.h"
 #include "morale_types.h"
+#include "mutation_data.h"
 #include "mutation.h"
 #include "npc.h"
 #include "npc_class.h"
@@ -70,6 +73,7 @@
 #include "overmap.h"
 #include "overmap_connection.h"
 #include "overmap_location.h"
+#include "overmap_special.h"
 #include "profession.h"
 #include "recipe_dictionary.h"
 #include "recipe_groups.h"
@@ -165,6 +169,7 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
                 }
             }
             ++it;
+            inp_mngr.pump_events();
         }
         data.erase( data.begin(), it );
         if( data.size() == n ) {
@@ -180,6 +185,7 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
                         debugmsg( "(json-error)\n%s", err.what() );
                     }
                 }
+                inp_mngr.pump_events();
             }
             data.clear();
             return; // made no progress on this cycle so abort
@@ -250,7 +256,7 @@ void DynamicDataLoader::initialize()
     add( "profession_item_substitutions", &profession::load_item_substitutions );
     add( "skill", &Skill::load_skill );
     add( "skill_display_type", &SkillDisplayType::load );
-    add( "dream", &dream::load );
+    add( "dream", &dreams::load );
     add( "mutation_category", &mutation_category_trait::load );
     add( "mutation_type", &load_mutation_type );
     add( "mutation", &mutation_branch::load_trait );
@@ -382,7 +388,9 @@ void DynamicDataLoader::initialize()
     add( "obsolete_terrain", &overmap::load_obsolete_terrains );
     add( "overmap_terrain", &overmap_terrains::load );
     add( "construction_category", &construction_categories::load );
-    add( "construction", &load_construction );
+    add( "construction_group", &construction_groups::load );
+    add( "construction_sequence", &construction_sequences::load );
+    add( "construction", &constructions::load );
     add( "mapgen", &load_mapgen );
     add( "overmap_land_use_code", &overmap_land_use_codes::load );
     add( "overmap_connection", &overmap_connections::load );
@@ -517,6 +525,7 @@ void DynamicDataLoader::load_all_from_json( JsonIn &jsin, const std::string &src
         // not an object or an array?
         jsin.error( "expected object or array" );
     }
+    inp_mngr.pump_events();
 }
 
 void DynamicDataLoader::unload_data()
@@ -536,9 +545,12 @@ void DynamicDataLoader::unload_data()
     clear_techniques_and_martial_arts();
     clothing_mods::reset();
     construction_categories::reset();
+    construction_groups::reset();
+    construction_sequences::reset();
+    constructions::reset();
     Creature::reset_hit_range();
     disease_type::reset();
-    dreams.clear();
+    dreams::clear();
     emit::reset();
     enchantment::reset();
     event_statistic::reset();
@@ -575,7 +587,6 @@ void DynamicDataLoader::unload_data()
     recipe_dictionary::reset();
     recipe_group::reset();
     requirement_data::reset();
-    reset_constructions();
     reset_effect_types();
     reset_furn_ter();
     reset_mapgens();
@@ -608,9 +619,7 @@ void DynamicDataLoader::unload_data()
     vpart_info::reset();
     weather_types::reset();
     zone_type::reset_zones();
-#if defined(LOCALIZE)
     l10n_data::unload_mod_catalogues();
-#endif
 #if defined(TILES)
     reset_mod_tileset();
 #endif
@@ -679,7 +688,8 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Monster groups" ), &MonsterGroupManager::FinalizeMonsterGroups },
             { _( "Monster factions" ), &monfactions::finalize },
             { _( "Factions" ), &npc_factions::finalize },
-            { _( "Constructions" ), &finalize_constructions },
+            { _( "Constructions" ), &constructions::finalize },
+            { _( "Construction sequences" ), &construction_sequences::finalize },
             { _( "Crafting recipes" ), &recipe_dictionary::finalize },
             { _( "Recipe groups" ), &recipe_group::check },
             { _( "Martial arts" ), &finialize_martial_arts },
@@ -690,9 +700,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Anatomies" ), &anatomy::finalize_all },
             { _( "Mutations" ), &mutation_branch::finalize },
             { _( "Achievements" ), &achievement::finalize },
-#if defined(LOCALIZE)
-            {_( "Localization" ), &l10n_data::load_mod_catalogues },
-#endif
+            { _( "Localization" ), &l10n_data::load_mod_catalogues },
 #if defined(TILES)
             { _( "Tileset" ), &load_tileset },
 #endif
@@ -751,7 +759,8 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             },
             { _( "Monster groups" ), &MonsterGroupManager::check_group_definitions },
             { _( "Furniture and terrain" ), &check_furniture_and_terrain },
-            { _( "Constructions" ), &check_constructions },
+            { _( "Constructions" ), &constructions::check_consistency },
+            { _( "Construction sequences" ), &constructions::check_consistency },
             { _( "Professions" ), &profession::check_definitions },
             { _( "Scenarios" ), &scenario::check_definitions },
             { _( "Martial arts" ), &check_martialarts },

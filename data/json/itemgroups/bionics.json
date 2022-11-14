@@ -90,7 +90,12 @@
       [ "bio_jointservo", 10 ],
       [ "bio_shotgun", 10 ],
       [ "bio_taste_blocker", 10 ],
-      [ "bio_soporific", 10 ]
+      [ "bio_soporific", 10 ],
+      [ "bn_bio_solar", 10 ],
+      [ "afs_bio_missiles", 10 ],
+      [ "afs_bio_linguistic_coprocessor", 10 ],
+      [ "afs_bio_dopamine_stimulators", 10 ],
+      [ "bio_blaster", 5 ]
     ]
   },
   {
@@ -98,7 +103,6 @@
     "id": "bionics_common",
     "subtype": "distribution",
     "items": [
-      [ "bio_power_storage", 10 ],
       [ "bio_tools", 10 ],
       [ "bio_flashlight", 10 ],
       [ "bio_fuel_cell_gasoline", 10 ],
@@ -111,14 +115,15 @@
       [ "bio_ethanol", 10 ],
       [ "bio_watch", 10 ],
       [ "bio_torsionratchet", 10 ],
-      [ "bio_cable", 10 ]
+      [ "bio_cable", 10 ],
+      [ "bn_bio_solar", 10 ],
+      [ "afs_bio_linguistic_coprocessor", 10 ]
     ]
   },
   {
     "type": "item_group",
     "id": "bionics_mil",
     "items": [
-      [ "bio_power_storage", 10 ],
       [ "bio_batteries", 10 ],
       [ "bio_metabolics", 10 ],
       [ "bio_ethanol", 10 ],
@@ -178,7 +183,9 @@
       [ "bio_cable", 10 ],
       [ "bio_weight", 10 ],
       [ "bio_jointservo", 10 ],
-      [ "bio_shotgun", 10 ]
+      [ "bio_shotgun", 10 ],
+      [ "bio_blaster", 5 ],
+      [ "afs_bio_dopamine_stimulators", 10 ]
     ]
   },
   {
@@ -187,7 +194,6 @@
     "subtype": "distribution",
     "//": "What the commandos get.",
     "items": [
-      [ "bio_power_storage_mkII", 10 ],
       [ "bio_batteries", 10 ],
       [ "bio_metabolics", 20 ],
       [ "bio_torsionratchet", 20 ],
@@ -243,7 +249,10 @@
       [ "bio_meteorologist", 10 ],
       [ "bio_cable", 10 ],
       [ "bio_jointservo", 20 ],
-      [ "bio_shotgun", 10 ]
+      [ "bio_shotgun", 10 ],
+      [ "bn_bio_solar", 15 ],
+      [ "afs_bio_missiles", 10 ],
+      [ "afs_bio_dopamine_stimulators", 10 ]
     ]
   },
   {
@@ -264,7 +273,9 @@
       [ "bio_railgun", 10 ],
       [ "bio_shotgun", 10 ],
       [ "bio_shock", 10 ],
-      [ "bio_targeting", 10 ]
+      [ "bio_targeting", 10 ],
+      [ "bio_blaster", 10 ],
+      [ "afs_bio_missiles", 10 ]
     ]
   },
   {
@@ -285,7 +296,8 @@
       [ "bio_nanobots", 10 ],
       [ "bio_ods", 10 ],
       [ "bio_shock_absorber", 10 ],
-      [ "bio_uncanny_dodge", 10 ]
+      [ "bio_uncanny_dodge", 10 ],
+      [ "afs_bio_dopamine_stimulators", 10 ]
     ]
   },
   {
@@ -332,7 +344,6 @@
     "subtype": "distribution",
     "//": "Bionics dropped by substation mini-boss.",
     "items": [
-      [ "bio_power_storage", 20 ],
       [ "bio_batteries", 20 ],
       [ "bio_ups", 15 ],
       [ "bio_torsionratchet", 20 ],
@@ -345,7 +356,9 @@
       [ "bio_chain_lightning", 15 ],
       [ "bio_adrenaline", 20 ],
       [ "bio_ods", 10 ],
-      [ "bio_weight", 15 ]
+      [ "bio_weight", 15 ],
+      [ "afs_bio_missiles", 10 ],
+      [ "afs_bio_dopamine_stimulators", 15 ]
     ]
   },
   {
@@ -363,5 +376,61 @@
       [ "bio_meteorologist", 10 ],
       [ "bio_purifier", 10 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "bionics_bank_vault",
+    "subtype": "distribution",
+    "//": "Bionics for bank vault.",
+    "items": [
+      [ "bio_ups", 10 ],
+      [ "bio_torsionratchet", 10 ],
+      [ "bio_sunglasses", 10 ],
+      [ "bio_dex_enhancer", 10 ],
+      [ "bio_str_enhancer", 10 ],
+      [ "bio_infrared", 10 ],
+      [ "bio_targeting", 10 ],
+      [ "bio_adrenaline", 10 ],
+      [ "bio_weight", 10 ],
+      [ "bio_eye_enhancer", 10 ],
+      [ "bio_int_enhancer", 10 ],
+      [ "bio_eye_optic", 10 ],
+      [ "bio_gills", 10 ],
+      [ "bio_memory", 10 ],
+      [ "bio_night_vision", 10 ],
+      [ "bio_speed", 10 ],
+      [ "bio_armor_arms", 10 ],
+      [ "bio_armor_eyes", 10 ],
+      [ "bio_armor_head", 10 ],
+      [ "bio_armor_legs", 10 ],
+      [ "bio_armor_torso", 10 ],
+      [ "bio_tools", 10 ],
+      [ "bio_ups", 10 ],
+      [ "bio_power_armor_interface", 10 ],
+      [ "bio_power_armor_interface_mkII", 10 ],
+      [ "bio_shock_absorber", 10 ],
+      [ "bio_fingerhack", 10 ],
+      [ "bio_lockpick", 10 ],
+      [ "bio_radscrubber", 10 ],
+      [ "bio_recycler", 10 ],
+      [ "bio_painkiller", 10 ],
+      [ "bio_time_freeze", 4 ],
+      [ "bio_teleport", 4 ],
+      [ "bio_probability_travel", 4 ],
+      [ "afs_bio_linguistic_coprocessor", 10 ],
+      [ "afs_bio_dopamine_stimulators", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "bionic_power_storage_civ",
+    "//": "Civilian-level power storage bionics.  Only tier one power storage in vanilla, but mods might add to this.",
+    "items": [ [ "bio_power_storage", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "bionic_power_storage_mil",
+    "//": "Military and super-science power storage bionics, includes all current variants.",
+    "items": [ [ "bio_power_storage", 50 ], [ "bio_power_storage_mkII", 50 ] ]
   }
 ]

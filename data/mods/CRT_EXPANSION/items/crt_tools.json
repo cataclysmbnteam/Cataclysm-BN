@@ -134,7 +134,7 @@
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE" ],
     "to_hit": 1,
     "category": "weapons",
-    "qualities": [ [ "AXE", 10 ], [ "CUT", 1 ], [ "HAMMER", 2 ], [ "HAMMER_FINE", 1 ], [ "BUTCHER", 15 ] ]
+    "qualities": [ [ "AXE", 3 ], [ "CUT", 1 ], [ "HAMMER", 2 ], [ "HAMMER_FINE", 1 ], [ "BUTCHER", 15 ] ]
   },
   {
     "id": "crt_etool",

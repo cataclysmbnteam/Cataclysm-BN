@@ -18,7 +18,7 @@
     "casing": "9mm_casing",
     "range": 14,
     "//": "Hollowpoint bonus of 25%",
-    "damage": { "damage_type": "stab", "amount": 34 },
+    "damage": { "damage_type": "bullet", "amount": 34 },
     "dispersion": 60,
     "recoil": 500,
     "effects": [ "COOKOFF" ]
@@ -30,7 +30,7 @@
     "name": { "str": "9x19mm FMJ" },
     "description": "9x19mm ammunition with a brass jacketed 115gr bullet.  It is a popular round for military, law enforcement, and civilian use even after almost 150 years.",
     "//": "Base damage of 22, balance increase of two-nineths.",
-    "relative": { "damage": { "damage_type": "stab", "amount": -7, "armor_penetration": 15 } }
+    "relative": { "damage": { "damage_type": "bullet", "amount": -7, "armor_penetration": 15 } }
   },
   {
     "id": "9mmP",
@@ -42,7 +42,7 @@
     "price_postapoc": 800,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 25,
-    "relative": { "damage": { "damage_type": "stab", "armor_penetration": 15 }, "dispersion": -15 },
+    "relative": { "damage": { "damage_type": "bullet", "armor_penetration": 15 }, "dispersion": -15 },
     "proportional": { "recoil": 2 }
   },
   {
@@ -55,7 +55,7 @@
     "price_postapoc": 400,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 10,
-    "relative": { "damage": { "damage_type": "stab", "amount": 2, "armor_penetration": 2 }, "dispersion": -15 },
+    "relative": { "damage": { "damage_type": "bullet", "amount": 2, "armor_penetration": 2 }, "dispersion": -15 },
     "proportional": { "recoil": 1.5 }
   },
   {
@@ -65,7 +65,7 @@
     "name": { "str": "9x19mm JHP, black powder" },
     "proportional": {
       "price": 0.3,
-      "damage": { "damage_type": "stab", "amount": 0.76, "armor_penetration": 0.5 },
+      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
     },
@@ -79,47 +79,11 @@
     "name": { "str": "9x19mm FMJ, black powder" },
     "proportional": {
       "price": 0.3,
-      "damage": { "damage_type": "stab", "amount": 0.76, "armor_penetration": 0.5 },
+      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
     },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_9mm",
-    "copy-from": "9mm",
-    "type": "AMMO",
-    "name": { "str": "9x19mm JHP, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_9mmfmj",
-    "copy-from": "9mmfmj",
-    "type": "AMMO",
-    "name": { "str": "9x19mm FMJ, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_9mmP",
-    "copy-from": "9mmP",
-    "type": "AMMO",
-    "name": { "str": "9x19mm +P, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_9mmP2",
-    "copy-from": "9mmP2",
-    "type": "AMMO",
-    "name": { "str": "9x19mm +P+, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }
 ]

@@ -44,8 +44,6 @@
 #include "ui_manager.h"
 #include "weather.h"
 
-class overmap_connection;
-
 #if defined(__ANDROID__)
 #include "input.h"
 
@@ -82,9 +80,10 @@ void game::serialize( std::ostream &fout )
     json.start_object();
     // basic game state information.
     json.member( "turn", calendar::turn );
-    json.member( "calendar_start", calendar::start_of_cataclysm );
-    json.member( "game_start", calendar::start_of_game );
-    json.member( "initial_season", static_cast<int>( calendar::initial_season ) );
+    const calendar_config &calendar_config = calendar::config;
+    json.member( "calendar_start", calendar_config._start_of_cataclysm );
+    json.member( "game_start", calendar_config._start_of_game );
+    json.member( "initial_season", static_cast<int>( calendar_config._initial_season ) );
     json.member( "auto_travel_mode", auto_travel_mode );
     json.member( "run_mode", static_cast<int>( safe_mode ) );
     json.member( "mostseen", mostseen );
@@ -179,18 +178,20 @@ void game::unserialize( std::istream &fin )
 
         data.read( "turn", tmpturn );
         data.read( "calendar_start", tmpcalstart );
-        calendar::initial_season = static_cast<season_type>( data.get_int( "initial_season",
-                                   static_cast<int>( SPRING ) ) );
+        calendar_config &calendar_config = calendar::config;
+        calendar_config._initial_season = static_cast<season_type>( data.get_int( "initial_season",
+                                          static_cast<int>( SPRING ) ) );
         // 0.E stable
         if( savegame_loading_version < 26 ) {
             tmpturn *= 6;
             tmpcalstart *= 6;
         }
         calendar::turn = calendar::turn_zero + time_duration::from_turns( tmpturn );
-        calendar::start_of_cataclysm = calendar::turn_zero + time_duration::from_turns( tmpcalstart );
+        calendar_config._start_of_cataclysm = calendar::turn_zero + time_duration::from_turns(
+                tmpcalstart );
 
-        if( !data.read( "game_start", calendar::start_of_game ) ) {
-            calendar::start_of_game = calendar::start_of_cataclysm;
+        if( !data.read( "game_start", calendar_config._start_of_game ) ) {
+            calendar_config._start_of_game = calendar_config._start_of_cataclysm;
         }
 
         data.read( "auto_travel_mode", auto_travel_mode );
@@ -202,7 +203,10 @@ void game::unserialize( std::istream &fin )
         data.read( "om_x", com.x );
         data.read( "om_y", com.y );
 
-        load_map( tripoint( lev.x + com.x * OMAPX * 2, lev.y + com.y * OMAPY * 2, lev.z ) );
+        load_map(
+            tripoint( lev.x + com.x * OMAPX * 2, lev.y + com.y * OMAPY * 2, lev.z ),
+            /*pump_events=*/true
+        );
 
         safe_mode = static_cast<safe_mode_type>( tmprun );
         if( get_option<bool>( "SAFEMODE" ) && safe_mode == SAFE_MODE_OFF ) {
@@ -244,9 +248,11 @@ void game::unserialize( std::istream &fin )
         }
 
         data.read( "player", u );
+        inp_mngr.pump_events();
         data.read( "stats_tracker", *stats_tracker_ptr );
         data.read( "achievements_tracker", *achievements_tracker_ptr );
         data.read( "token_provider", token_provider_ptr );
+        inp_mngr.pump_events();
         Messages::deserialize( data );
 
     } catch( const JsonError &jsonerr ) {
@@ -538,25 +544,6 @@ void overmap::unserialize( std::istream &fin, const std::string &file_path )
                         }
                     }
                 }
-            }
-        } else if( name == "roads_out" ) {
-            // Legacy data, superceded by that stored in the "connections_out" member. A load and save
-            // cycle will migrate this to "connections_out".
-            std::vector<tripoint_om_omt> &roads_out =
-                connections_out[string_id<overmap_connection>( "local_road" )];
-            jsin.start_array();
-            while( !jsin.end_array() ) {
-                jsin.start_object();
-                tripoint_om_omt new_road;
-                while( !jsin.end_object() ) {
-                    std::string road_member_name = jsin.get_member_name();
-                    if( road_member_name == "x" ) {
-                        jsin.read( new_road.x() );
-                    } else if( road_member_name == "y" ) {
-                        jsin.read( new_road.y() );
-                    }
-                }
-                roads_out.push_back( new_road );
             }
         } else if( name == "radios" ) {
             jsin.start_array();

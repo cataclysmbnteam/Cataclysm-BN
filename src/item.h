@@ -33,6 +33,7 @@ class Character;
 class JsonIn;
 class JsonObject;
 class JsonOut;
+class Creature;
 class faction;
 class gun_type_type;
 class gunmod_location;
@@ -333,6 +334,16 @@ class item : public visitable<item>
          */
         nc_color color_in_inventory() const;
         /**
+         * Returns the color of the item depending on usefulness for the passed player,
+         * e.g. differently if it its an unread book or a spoiling food item etc.
+         * This should only be used for displaying data, it should not affect game play.
+         *
+         * @param for_player NPC or avatar which would read book.
+         */
+        // TODO: Start using this version in more places for interation with NPCs
+        // e.g. giving them unmatching food or allergic thing.
+        nc_color color_in_inventory( const player &p ) const;
+        /**
          * Return the (translated) item name.
          * @param quantity used for translation to the proper plural form of the name, e.g.
          * returns "rock" for quantity 1 and "rocks" for quantity > 0.
@@ -520,7 +531,8 @@ class item : public visitable<item>
          * stacks like "3 items-count-by-charge (5)".
          */
         bool display_stacked_with( const item &rhs, bool check_components = false ) const;
-        bool stacks_with( const item &rhs, bool check_components = false ) const;
+        bool stacks_with( const item &rhs, bool check_components = false,
+                          bool skip_type_check = false ) const;
         /**
          * Merge charges of the other item into this item.
          * @return true if the items have been merged, otherwise false.
@@ -744,6 +756,7 @@ class item : public visitable<item>
         /*@}*/
 
         int get_quality( const quality_id &id ) const;
+        std::map<quality_id, int> get_qualities() const;
         bool count_by_charges() const;
 
         /**
@@ -825,7 +838,7 @@ class item : public visitable<item>
          * 1 for other comestibles,
          * 0 otherwise.
          */
-        int spoilage_sort_order();
+        int spoilage_sort_order() const;
 
         /** an item is fresh if it is capable of rotting but still has a long shelf life remaining */
         bool is_fresh() const {
@@ -967,6 +980,7 @@ class item : public visitable<item>
         int bash_resist( bool to_self = false ) const;
         int cut_resist( bool to_self = false )  const;
         int stab_resist( bool to_self = false ) const;
+        int bullet_resist( bool to_self = false ) const;
         /*@}*/
 
         /**
@@ -1195,7 +1209,10 @@ class item : public visitable<item>
          * @see player::can_reload()
          */
         bool is_reloadable() const;
-        /** Returns true if this item can be reloaded with specified ammo type, ignoring capacity. */
+        /**
+         * Returns true if this item can be reloaded with specified ammo type,
+         * ignoring currently loaded ammo.
+         */
         bool can_reload_with( const itype_id &ammo ) const;
         /** Returns true if this item can be reloaded with specified ammo type at this moment. */
         bool is_reloadable_with( const itype_id &ammo ) const;
@@ -1380,6 +1397,7 @@ class item : public visitable<item>
          */
         /*@{*/
         bool has_flag( const std::string &flag ) const;
+        bool has_flag( const flag_str_id &flag ) const;
 
         template<typename Container, typename T = std::decay_t<decltype( *std::declval<const Container &>().begin() )>>
         bool has_any_flag( const Container &flags ) const {
@@ -1536,7 +1554,7 @@ class item : public visitable<item>
         int get_warmth() const;
         /**
          * Returns the @ref islot_armor::thickness value, or 0 for non-armor. Thickness is are
-         * relative value that affects the items resistance against bash / cutting damage.
+         * relative value that affects the items resistance against bash / cutting / bullet damage.
          */
         int get_thickness() const;
         /**
@@ -1641,12 +1659,12 @@ class item : public visitable<item>
          * This is a per-character setting, different characters may have different number of
          * unread chapters.
          */
-        int get_remaining_chapters( const player &u ) const;
+        int get_remaining_chapters( const Character &ch ) const;
         /**
          * Mark one chapter of the book as read by the given player. May do nothing if the book has
          * no unread chapters. This is a per-character setting, see @ref get_remaining_chapters.
          */
-        void mark_chapter_as_read( const player &u );
+        void mark_chapter_as_read( const Character &ch );
         /**
          * Enumerates recipes available from this book and the skill level required to use them.
          */
@@ -1755,7 +1773,7 @@ class item : public visitable<item>
         itype_id common_ammo_default( bool conversion = true ) const;
 
         /** Get ammo effects for item optionally inclusive of any resulting from the loaded ammo */
-        std::set<std::string> ammo_effects( bool with_ammo = true ) const;
+        std::set<ammo_effect_str_id> ammo_effects( bool with_ammo = true ) const;
 
         /* Get the name to be used when sorting this item by ammo type */
         std::string ammo_sort_name() const;
@@ -2214,6 +2232,7 @@ class item : public visitable<item>
     public:
         char invlet = 0;      // Inventory letter
         bool active = false; // If true, it has active effects to be processed
+        safe_reference<player> activated_by;
         bool is_favorite = false;
 
         void set_favorite( bool favorite );
@@ -2232,21 +2251,6 @@ bool item_compare_by_charges( const item &left, const item &right );
 bool item_ptr_compare_by_charges( const item *left, const item *right );
 
 /**
- *  Hint value used in a hack to decide text color.
- *
- *  This is assigned as a result of some legacy logic in @ref draw_item_info().  This
- *  will eventually be rewritten to eliminate the need for this hack.
- */
-enum class hint_rating : int {
-    /** Item should display as gray */
-    cant = 0,
-    /** Item should display as red */
-    iffy = 1,
-    /** Item should display as green */
-    good = -999
-};
-
-/**
  * Returns a reference to a null item (see @ref item::is_null). The reference is always valid
  * and stays valid until the program ends.
  */
@@ -2259,6 +2263,15 @@ inline bool is_crafting_component( const item &component )
 {
     return ( component.allow_crafting_component() || component.count_by_charges() ) &&
            !component.is_filthy();
+}
+
+/**
+ * This is used in recipes, all other cases use is_crafting_component instead. This allows
+ * filthy components to be filtered out in a different manner that allows exceptions.
+ */
+inline bool is_crafting_component_allow_filthy( const item &component )
+{
+    return ( component.allow_crafting_component() || component.count_by_charges() );
 }
 
 namespace charge_removal_blacklist

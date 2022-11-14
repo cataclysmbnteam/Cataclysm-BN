@@ -14,6 +14,7 @@
 #include "action.h"
 #include "activity_handlers.h"
 #include "ammo.h"
+#include "animation.h"
 #include "assign.h"
 #include "avatar.h"
 #include "bionics.h"
@@ -21,6 +22,7 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "character_functions.h"
 #include "character_id.h"
 #include "clothing_mod.h"
 #include "crafting.h"
@@ -107,7 +109,7 @@ static const efftype_id effect_recover( "recover" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stunned( "stunned" );
 
-static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
+static const fault_id fault_bionic_nonsterile( "fault_bionic_nonsterile" );
 
 static const bionic_id bio_syringe( "bio_syringe" );
 
@@ -116,7 +118,6 @@ static const itype_id itype_brazier( "brazier" );
 static const itype_id itype_char_smoker( "char_smoker" );
 static const itype_id itype_fire( "fire" );
 static const itype_id itype_syringe( "syringe" );
-static const itype_id itype_UPS( "UPS" );
 
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
@@ -145,6 +146,7 @@ static const std::string flag_FIT( "FIT" );
 static const std::string flag_OVERSIZE( "OVERSIZE" );
 static const std::string flag_UNDERSIZE( "UNDERSIZE" );
 static const std::string flag_VARSIZE( "VARSIZE" );
+static const std::string flag_POWERARMOR_MOD( "POWERARMOR_MOD" );
 
 class npc;
 
@@ -224,12 +226,22 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
         p.add_msg_if_player( m_info, _( "You need to wield the %1$s before activating it." ), it.tname() );
         return 0;
     }
-    if( need_charges && it.units_remaining( p ) < need_charges ) {
-        if( possess ) {
-            p.add_msg_if_player( m_info, need_charges_msg, it.tname() );
+    if( need_charges ) {
+        if( it.has_flag( flag_POWERARMOR_MOD ) && p.can_interface_armor() ) {
+            if( !p.has_power() ) {
+                if( possess ) {
+                    p.add_msg_if_player( m_info, need_charges_msg, it.tname() );
+                }
+                return 0;
+            }
+        } else if( it.units_remaining( p ) < need_charges ) {
+            if( possess ) {
+                p.add_msg_if_player( m_info, need_charges_msg, it.tname() );
+            }
+            return 0;
         }
-        return 0;
     }
+
 
     if( need_fire && possess ) {
         if( !p.use_charges_if_avail( itype_fire, need_fire ) ) {
@@ -552,9 +564,14 @@ int explosion_iuse::use( player &p, item &it, bool t, const tripoint &pos ) cons
         }
         return 0;
     }
+    trigger_explosion( pos, it.activated_by.get() );
+    return 1;
+}
 
+void explosion_iuse::trigger_explosion( const tripoint &pos, Creature *source ) const
+{
     if( explosion ) {
-        explosion_handler::explosion( pos, explosion );
+        explosion_handler::explosion( pos, explosion, source );
     }
 
     if( draw_explosion_radius >= 0 ) {
@@ -581,7 +598,6 @@ int explosion_iuse::use( player &p, item &it, bool t, const tripoint &pos ) cons
             explosion_handler::emp_blast( dest );
         }
     }
-    return 1;
 }
 
 void explosion_iuse::info( const item &, std::vector<iteminfo> &dump ) const
@@ -705,7 +721,7 @@ static effect_data load_effect_data( const JsonObject &e )
         effect_data ret( efftype_id( e.get_string( "id" ) ), time,
                          get_body_part_token( e.get_string( "bp", "NUM_BP" ) ) );
         ret.permanent = true;
-        if( test_mode || json_report_unused_fields ) {
+        if( json_report_strict ) {
             try {
                 e.throw_error( "Effect permanence has been moved to effect_type.  Set permanence there.",
                                "permanent" );
@@ -875,6 +891,109 @@ int delayed_transform_iuse::use( player &p, item &it, bool t, const tripoint &po
     return iuse_transform::use( p, it, t, pos );
 }
 
+std::unique_ptr<iuse_actor> set_transform_iuse::clone() const
+{
+    return std::make_unique<set_transform_iuse>( *this );
+}
+
+void set_transform_iuse::load( const JsonObject &obj )
+{
+    iuse_transform::load( obj );
+    obj.read( "turn_off", turn_off );
+    obj.read( "flag", flag );
+    if( !obj.read( "set_charges_msg", set_charges_msg ) ) {
+        set_charges_msg = to_translation( "The %s is empty!" );
+    }
+
+    if( !obj.read( "set_charges", set_charges ) ) {
+        set_charges = 0;
+    }
+    set_charges = std::max( set_charges, 0 );
+}
+
+int set_transform_iuse::use( player &p, item &it, bool t, const tripoint &pos ) const
+{
+    if( t ) {
+        return 0; // invoked from active item processing, do nothing.
+    }
+
+    const bool possess = p.has_item( it ) ||
+                         ( it.has_flag( "ALLOWS_REMOTE_USE" ) && square_dist( p.pos(), pos ) == 1 );
+
+    if( set_charges ) {
+        if( it.is_power_armor() && p.can_interface_armor() ) {
+            if( !p.has_power() ) {
+                if( possess ) {
+                    p.add_msg_if_player( m_info, set_charges_msg, it.tname() );
+                }
+                return 0;
+            }
+        } else if( it.units_remaining( p ) < set_charges ) {
+            if( possess ) {
+                p.add_msg_if_player( m_info, set_charges_msg, it.tname() );
+            }
+            return 0;
+        }
+    }
+
+    iuse_transform::use( p, it, t, pos );
+
+    for( auto &elem : p.worn ) {
+        if( elem.has_flag( flag ) && elem.active == turn_off ) {
+            if( elem.type->can_use( "set_transformed" ) ) {
+                const set_transformed_iuse *actor = dynamic_cast<const set_transformed_iuse *>
+                                                    ( elem.get_use( "set_transformed" )->get_actor_ptr() );
+                if( actor == nullptr ) {
+                    debugmsg( "iuse_actor type descriptor and actual type mismatch" );
+                } else {
+                    actor->bypass( p, elem, t, pos );
+                }
+            } else {
+                debugmsg( "Expected set_transformed function" );
+            }
+        }
+    }
+    return 0;
+}
+
+std::unique_ptr<iuse_actor> set_transformed_iuse::clone() const
+{
+    return std::make_unique<set_transformed_iuse>( *this );
+}
+
+void set_transformed_iuse::load( const JsonObject &obj )
+{
+    iuse_transform::load( obj );
+    obj.read( "restricted", restricted );
+    obj.read( "dependencies", dependencies );
+}
+
+int set_transformed_iuse::use( player &p, item &it, bool t, const tripoint &pos ) const
+{
+    if( t ) {
+        return 0; // invoked from active item processing, do nothing.
+    }
+
+    iuse_transform::use( p, it, t, pos );
+
+    return 0;
+}
+
+int set_transformed_iuse::bypass( player &p, item &it, bool t, const tripoint &pos ) const
+{
+    return iuse_transform::use( p, it, t, pos );
+}
+
+ret_val<bool> set_transformed_iuse::can_use( const Character &, const item &, bool,
+        const tripoint & ) const
+{
+    if( restricted ) {
+        return ret_val<bool>::make_failure( _( "Activate via main piece." ) );
+    }
+    return ret_val<bool>::make_success();
+
+}
+
 std::unique_ptr<iuse_actor> place_monster_iuse::clone() const
 {
     return std::make_unique<place_monster_iuse>( *this );
@@ -975,11 +1094,6 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint & ) const
     return 1;
 }
 
-std::unique_ptr<iuse_actor> ups_based_armor_actor::clone() const
-{
-    return std::make_unique<ups_based_armor_actor>( *this );
-}
-
 std::unique_ptr<iuse_actor> place_npc_iuse::clone() const
 {
     return std::make_unique<place_npc_iuse>( *this );
@@ -1020,59 +1134,6 @@ int place_npc_iuse::use( player &p, item &, bool, const tripoint & ) const
     return 1;
 }
 
-void ups_based_armor_actor::load( const JsonObject &obj )
-{
-    obj.read( "activate_msg", activate_msg );
-    obj.read( "deactive_msg", deactive_msg );
-    obj.read( "out_of_power_msg", out_of_power_msg );
-}
-
-static bool has_powersource( const item &i, const player &p )
-{
-    if( i.is_power_armor() && p.can_interface_armor() && p.has_power() ) {
-        return true;
-    }
-    return p.has_charges( itype_UPS, 1 );
-}
-
-int ups_based_armor_actor::use( player &p, item &it, bool t, const tripoint & ) const
-{
-    if( t ) {
-        // Normal, continuous usage, do nothing. The item is *not* charge-based.
-        return 0;
-    }
-    if( p.get_item_position( &it ) >= -1 ) {
-        p.add_msg_if_player( m_info, _( "You should wear the %s before activating it." ),
-                             it.tname() );
-        return 0;
-    }
-    if( !it.active && !has_powersource( it, p ) ) {
-        p.add_msg_if_player( m_info,
-                             _( "You need some source of power for your %s (a simple UPS will do)." ), it.tname() );
-        if( it.is_power_armor() ) {
-            p.add_msg_if_player( m_info,
-                                 _( "There is also a certain bionic that helps with this kind of armor." ) );
-        }
-        return 0;
-    }
-    it.active = !it.active;
-    p.reset_encumbrance();
-    if( it.active ) {
-        if( activate_msg.empty() ) {
-            p.add_msg_if_player( m_info, _( "You activate your %s." ), it.tname() );
-        } else {
-            p.add_msg_if_player( m_info, _( activate_msg ), it.tname() );
-        }
-    } else {
-        if( deactive_msg.empty() ) {
-            p.add_msg_if_player( m_info, _( "You deactivate your %s." ), it.tname() );
-        } else {
-            p.add_msg_if_player( m_info, _( deactive_msg ), it.tname() );
-        }
-    }
-    return 0;
-}
-
 std::unique_ptr<iuse_actor> pick_lock_actor::clone() const
 {
     return std::make_unique<pick_lock_actor>( *this );
@@ -1083,7 +1144,7 @@ void pick_lock_actor::load( const JsonObject &obj )
     pick_quality = obj.get_int( "pick_quality" );
 }
 
-int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
+int pick_lock_actor::use( player &p, item &it, bool, const tripoint &t ) const
 {
     if( p.is_npc() ) {
         return 0;
@@ -1105,7 +1166,7 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
         return is_allowed;
     };
 
-    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
+    const cata::optional<tripoint> pnt_ = ( t != p.pos() ) ? t : choose_adjacent_highlight(
             _( "Use your lockpick where?" ), _( "There is nothing to lockpick nearby." ), f, false );
     if( !pnt_ ) {
         return 0;
@@ -1284,7 +1345,7 @@ int reveal_map_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.add_msg_if_player( _( "You should read your %s when you get to the surface." ),
                              it.tname() );
         return 0;
-    } else if( p.fine_detail_vision_mod() > 4 ) {
+    } else if( !character_funcs::can_see_fine_details( p ) ) {
         p.add_msg_if_player( _( "It's too dark to read." ) );
         return 0;
     }
@@ -1536,7 +1597,7 @@ bool salvage_actor::try_to_cut_up( player &p, item &it ) const
     // There must be some historical significance to these items.
     if( !it.is_salvageable() ) {
         add_msg( m_info, _( "Can't salvage anything from %s." ), it.tname() );
-        if( p.rate_action_disassemble( it ) != hint_rating::cant ) {
+        if( recipe_dictionary::get_uncraft( it.typeId() ) ) {
             add_msg( m_info, _( "Try disassembling the %s instead." ), it.tname() );
         }
         return false;
@@ -2412,7 +2473,7 @@ void learn_spell_actor::info( const item &, std::vector<iteminfo> &dump ) const
 
 int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
 {
-    if( p.fine_detail_vision_mod() > 4 ) {
+    if( !character_funcs::can_see_fine_details( p ) ) {
         p.add_msg_if_player( _( "It's too dark to read." ) );
         return 0;
     }
@@ -2925,7 +2986,7 @@ int ammobelt_actor::use( player &p, item &, bool, const tripoint & ) const
     item mag( belt );
     mag.ammo_unset();
 
-    if( p.rate_action_reload( mag ) != hint_rating::good ) {
+    if( !p.can_reload( mag ) ) {
         p.add_msg_if_player( _( "Insufficient ammunition to assemble %s" ), mag.tname() );
         return 0;
     }
@@ -2977,7 +3038,7 @@ bool repair_item_actor::can_use_tool( const player &p, const item &tool, bool pr
         }
         return false;
     }
-    if( p.fine_detail_vision_mod() > 4 ) {
+    if( !character_funcs::can_see_fine_details( p ) ) {
         if( print_msg ) {
             p.add_msg_if_player( m_info, _( "You can't see to do that!" ) );
         }
@@ -4265,13 +4326,8 @@ ret_val<bool> install_bionic_actor::can_use( const Character &p, const item &it,
         !p.has_trait( trait_DEBUG_BIONICS ) ) {
         return ret_val<bool>::make_failure( _( "You can't self-install bionics." ) );
     } else if( !p.has_trait( trait_DEBUG_BIONICS ) ) {
-        if( it.has_flag( "FILTHY" ) ) {
-            return ret_val<bool>::make_failure( _( "You can't install a filthy CBM!" ) );
-        } else if( it.has_flag( "NO_STERILE" ) ) {
+        if( it.has_fault( fault_bionic_nonsterile ) ) {
             return ret_val<bool>::make_failure( _( "This CBM is not sterile, you can't install it." ) );
-        } else if( it.has_fault( fault_bionic_salvaged ) ) {
-            return ret_val<bool>::make_failure(
-                       _( "This CBM is already deployed.  You need to reset it to factory state." ) );
         } else if( units::energy_max - p.get_max_power_level() < bid->capacity ) {
             return ret_val<bool>::make_failure( _( "Max power capacity already reached" ) );
         }
@@ -4672,7 +4728,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
         return 0;
     }
 
-    if( p.fine_detail_vision_mod() > 4 ) {
+    if( !character_funcs::can_see_fine_details( p ) ) {
         add_msg( m_info, _( "You can't see to sew!" ) );
         return 0;
     }
@@ -4724,7 +4780,10 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
     // We need extra thread to lose it on bad rolls
     const int thread_needed = mod.volume() / 125_ml + 10;
 
-    const auto valid_mods = mod.find_armor_data()->valid_mods;
+    std::vector<std::string> valid_mods;
+    if( mod.find_armor_data() ) {
+        valid_mods = mod.find_armor_data()->valid_mods;
+    }
 
     const auto get_compare_color = [&]( const int before, const int after,
     const bool higher_is_better ) {
@@ -4764,7 +4823,12 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
                 return t;
             };
             // Mod not already present, check if modification is possible
-            if( it.charges < thread_needed ) {
+            if( obj.restricted &&
+                std::find( valid_mods.begin(), valid_mods.end(), obj.flag ) == valid_mods.end() ) {
+                //~ %1$s: modification desc, %2$s: mod name
+                prompt = string_format( _( "Can't %1$s (incompatible with %2$s)" ), tolower( obj.implement_prompt ),
+                                        mod.tname( 1, false ) );
+            } else if( it.charges < thread_needed ) {
                 //~ %1$s: modification desc, %2$d: number of thread needed
                 prompt = string_format( _( "Can't %1$s (need %2$d thread loaded)" ),
                                         tolower( obj.implement_prompt ), thread_needed );
@@ -4772,11 +4836,6 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
                 //~ %1$s: modification desc, %2$d: number of items needed, %3$s: items needed
                 prompt = string_format( _( "Can't %1$s (need %2$d %3$s)" ), tolower( obj.implement_prompt ),
                                         items_needed, item::nname( obj.item_string, items_needed ) );
-            } else if( obj.restricted &&
-                       std::find( valid_mods.begin(), valid_mods.end(), obj.flag ) == valid_mods.end() ) {
-                //~ %1$s: modification desc, %2$s: mod name
-                prompt = string_format( _( "Can't %1$s (incompatible with %2$s)" ), tolower( obj.implement_prompt ),
-                                        mod.tname( 1, false ) );
             } else {
                 // Modification is possible
                 enab = true;
@@ -4793,6 +4852,8 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
         std::string desc;
         desc += format_desc_string( _( "Bash" ), mod.bash_resist(), temp_item.bash_resist(), true );
         desc += format_desc_string( _( "Cut" ), mod.cut_resist(), temp_item.cut_resist(), true );
+        desc += format_desc_string( _( "Ballistic" ), mod.bullet_resist(), temp_item.bullet_resist(),
+                                    true );
         desc += format_desc_string( _( "Acid" ), mod.acid_resist(), temp_item.acid_resist(), true );
         desc += format_desc_string( _( "Fire" ), mod.fire_resist(), temp_item.fire_resist(), true );
         desc += format_desc_string( _( "Warmth" ), mod.get_warmth(), temp_item.get_warmth(), true );
@@ -4833,7 +4894,8 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
 
     std::vector<item_comp> comps;
     comps.push_back( item_comp( repair_item, items_needed ) );
-    p.moves -= to_moves<int>( 30_seconds * p.fine_detail_vision_mod() );
+    // TODO: this may take up to 2 minutes, and so should start an activity instead
+    p.moves -= to_moves<int>( 30_seconds * character_funcs::fine_detail_vision_mod( p ) );
     p.practice( used_skill, items_needed * 3 + 3 );
     /** @EFFECT_TAILOR randomly improves clothing modification efforts */
     int rn = dice( 3, 2 + p.get_skill_level( used_skill ) ); // Skill

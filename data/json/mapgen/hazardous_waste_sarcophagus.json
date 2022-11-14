@@ -147,7 +147,11 @@
         "l": { "item": "cleaning", "chance": 85, "repeat": 2 },
         "F": { "item": "office_paper", "chance": 50 }
       },
-      "place_item": [ { "item": "id_military", "x": 22, "y": 20 }, { "item": "cleansuit", "x": 28, "y": 24 } ],
+      "place_item": [
+        { "item": "id_military", "x": 22, "y": 20 },
+        { "item": "sa_cryptology_key", "x": 22, "y": 20 },
+        { "item": "cleansuit", "x": 28, "y": 24 }
+      ],
       "set": [
         { "square": "radiation", "amount": [ 10, 30 ], "x": 0, "y": 0, "x2": 23, "y2": 23 },
         { "square": "radiation", "amount": [ 10, 30 ], "x": 0, "y": 24, "x2": 23, "y2": 47 },

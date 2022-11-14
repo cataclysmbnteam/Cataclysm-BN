@@ -1,10 +1,11 @@
+#include "catch/catch.hpp"
+
 #include <cstddef>
 #include <algorithm> // std::find
 #include <functional> // std::greater
 #include <utility> // std::move
 #include <vector> // range-insert testing
 
-#include "catch/catch.hpp"
 #include "colony.h"
 #include "colony_list_test_helpers.h"
 
@@ -471,7 +472,6 @@ TEST_CASE( "colony insert and erase", "[colony]" )
                 ++count;
             }
         }
-        int count2 = 0;
         for( cata::colony<int>::iterator it = test_colony.begin(); it != test_colony.end(); ) {
             if( ( xor_rand() & 7 ) == 0 ) {
                 it = test_colony.erase( it );
@@ -479,7 +479,6 @@ TEST_CASE( "colony insert and erase", "[colony]" )
             } else {
                 ++it;
             }
-            ++count2;
         }
     }
 

@@ -12,6 +12,7 @@
 #include "input.h"
 #include "map.h"
 #include "mapdata.h"
+#include "mod_manager.h"
 #include "output.h"
 #include "string_formatter.h"
 #include "string_id.h"
@@ -24,12 +25,18 @@
 static const skill_id skill_survival( "survival" );
 
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
+static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
 
 enum class description_target : int {
     creature,
     furniture,
     terrain
 };
+
+static bool debug_vision()
+{
+    return debug_mode || get_player_character().has_trait( trait_DEBUG_NIGHTVISION );
+}
 
 static const Creature *seen_critter( const game &g, const tripoint &p )
 {
@@ -109,7 +116,15 @@ void game::extended_description( const tripoint &p )
                     desc = _( "You do not see any furniture here." );
                 } else {
                     const furn_id fid = m.furn( p );
-                    desc = fid.obj().extended_description();
+                    if( display_mod_source ) {
+                        const std::string mod_src = enumerate_as_string( fid->src.begin(),
+                        fid->src.end(), []( const std::pair<furn_str_id, mod_id> &source ) {
+                            return string_format( "'%s'", source.second->name() );
+                        }, enumeration_conjunction::arrow );
+                        desc = string_format( _( "Origin: %s\n%s" ), mod_src, fid->extended_description() );
+                    } else {
+                        desc = fid.obj().extended_description();
+                    }
                 }
                 break;
             case description_target::terrain:
@@ -117,7 +132,15 @@ void game::extended_description( const tripoint &p )
                     desc = _( "You can't see the terrain here." );
                 } else {
                     const ter_id tid = m.ter( p );
-                    desc = tid.obj().extended_description();
+                    if( display_mod_source ) {
+                        const std::string mod_src = enumerate_as_string( tid->src.begin(),
+                        tid->src.end(), []( const std::pair<ter_str_id, mod_id> &source ) {
+                            return string_format( "'%s'", source.second->name() );
+                        }, enumeration_conjunction::arrow );
+                        desc = string_format( _( "Origin: %s\n%s" ), mod_src, tid->extended_description() );
+                    } else {
+                        desc = tid.obj().extended_description();
+                    }
                 }
                 break;
         }
@@ -210,6 +233,20 @@ std::string map_data_common_t::extended_description() const
             }
         } else {
             ss << _( "It can be deconstructed, but won't yield any resources." ) << std::endl;
+        }
+    }
+
+    if( debug_vision() ) {
+        ss << "Bash: " << bash.str_min << "-" << bash.str_max << "\n";
+        if( bash.ranged ) {
+            static std::string indent = "    ";
+            ss << "Ranged: " << "\n";
+            ss << indent << "Reduction:" << bash.ranged->reduction.min << "-" << bash.ranged->reduction.max;
+            if( bash.ranged->reduction_laser ) {
+                ss << indent << "Laser res:" << bash.ranged->reduction_laser->min << "-" <<
+                   bash.ranged->reduction_laser->max;
+            }
+            ss << indent << "Block unaimed chance: " << bash.ranged->block_unaimed_chance;
         }
     }
 

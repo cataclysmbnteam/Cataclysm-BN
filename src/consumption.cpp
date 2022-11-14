@@ -1,4 +1,5 @@
 #include "player.h" // IWYU pragma: associated
+#include "consumption.h" // IWYU pragma: associated
 
 #include <algorithm>
 #include <array>
@@ -77,6 +78,7 @@ static const trait_id trait_BEAK_HUM( "BEAK_HUM" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
 static const trait_id trait_EATDEAD( "EATDEAD" );
+static const trait_id trait_EATHEALTH( "EATHEALTH" );
 static const trait_id trait_FANGS_SPIDER( "FANGS_SPIDER" );
 static const trait_id trait_GIZZARD( "GIZZARD" );
 static const trait_id trait_GOURMAND( "GOURMAND" );
@@ -136,6 +138,7 @@ static const std::string flag_LUPINE( "LUPINE" );
 static const std::string flag_MYCUS_OK( "MYCUS_OK" );
 static const std::string flag_NEGATIVE_MONOTONY_OK( "NEGATIVE_MONOTONY_OK" );
 static const std::string flag_NO_BLOAT( "NO_BLOAT" );
+static const std::string flag_NO_INGEST( "NO_INGEST" );
 static const std::string flag_NO_PARASITES( "NO_PARASITES" );
 static const std::string flag_NO_RELOAD( "NO_RELOAD" );
 static const std::string flag_NUTRIENT_OVERRIDE( "NUTRIENT_OVERRIDE" );
@@ -467,57 +470,54 @@ std::pair<int, int> Character::fun_for( const item &comest ) const
 
     // As float to avoid rounding too many times
     float fun = comest.get_comestible_fun();
-    // Rotten food should be pretty disgusting
-    const float relative_rot = comest.get_relative_rot();
-    if( relative_rot > 1.0f && !has_trait( trait_SAPROPHAGE ) && !has_trait( trait_SAPROVORE ) ) {
-        fun -= 10;
-        if( fun > 0 ) {
-            fun *= 0.5f;
-        } else {
-            fun *= 2.0f;
-        }
-    }
+    float fun_max;
 
-    // Food is less enjoyable when eaten too often.
-    if( fun > 0 || comest.has_flag( flag_NEGATIVE_MONOTONY_OK ) ) {
-        for( const consumption_event &event : consumption_history ) {
-            if( event.time > calendar::turn - 2_days && event.type_id == comest.typeId() &&
-                event.component_hash == comest.make_component_hash() ) {
-                fun -= comest.get_comestible()->monotony_penalty;
-                // This effect can't drop fun below 0, unless the food has the right flag.
-                // 0 is the lowest we'll go, no need to keep looping.
-                if( fun <= 0 && !comest.has_flag( flag_NEGATIVE_MONOTONY_OK ) ) {
-                    fun = 0;
-                    break;
-                }
-            }
-        }
-    }
-
-    float fun_max = fun < 0 ? fun * 6 : fun * 3;
-
+    // Lupines/Felines like dog/cat food. Won't skip the rotting check.
+    // This is specifically so that Lupines/Felines don't get the harsher
+    //    morale penalties from rotting cat/dog food.
     if( ( comest.has_flag( flag_LUPINE ) && has_trait( trait_THRESH_LUPINE ) ) ||
         ( comest.has_flag( flag_FELINE ) && has_trait( trait_THRESH_FELINE ) ) ) {
         if( fun < 0 ) {
-            fun = -fun;
-            fun /= 2;
+            fun = -fun / 2;
         }
     }
 
-    if( has_trait( trait_GOURMAND ) ) {
-        if( fun < -1 ) {
-            fun_max = fun;
-            fun /= 2;
-        } else if( fun > 0 ) {
-            fun_max *= 3;
-            fun = fun * 3 / 2;
-        }
-    }
+    const float relative_rot = comest.get_relative_rot();
 
-    if( has_active_bionic( bio_taste_blocker ) && comest.get_comestible_fun() < 0 &&
-        get_power_level() > units::from_kilojoule( -comest.get_comestible_fun() ) &&
-        fun < 0 ) {
-        fun = 0;
+    if( relative_rot > 1.0f && !has_trait( trait_SAPROPHAGE ) && !has_trait( trait_SAPROVORE ) ) {
+        // Rotten food should be pretty disgusting.
+        // Baseline minumum is the same as eating raw meat as a normal human being.
+        fun = std::min( fun - 5, -10.0f );
+        fun_max = fun * 6;
+    } else {
+        // Food is less enjoyable when eaten too often.
+        if( fun > 0 || comest.has_flag( flag_NEGATIVE_MONOTONY_OK ) ) {
+            for( const consumption_event &event : consumption_history->elems ) {
+                if( event.time > calendar::turn - 2_days && event.type_id == comest.typeId() &&
+                    event.component_hash == comest.make_component_hash() ) {
+                    fun -= comest.get_comestible()->monotony_penalty;
+                    // This effect can't drop fun below 0, unless the food has the right flag.
+                    // 0 is the lowest we'll go, no need to keep looping.
+                    if( fun <= 0 && !comest.has_flag( flag_NEGATIVE_MONOTONY_OK ) ) {
+                        fun = 0;
+                        break;
+                    }
+                }
+            }
+        }
+
+        fun_max = fun < 0 ? fun * 6 : fun * 3;
+
+        // I'd assume since gourmands are just big eaters they still can't stand rotten food.
+        if( has_trait( trait_GOURMAND ) ) {
+            if( fun < -1 ) {
+                fun_max = fun;
+                fun /= 2;
+            } else if( fun > 0 ) {
+                fun_max *= 3;
+                fun = fun * 3 / 2;
+            }
+        }
     }
 
     return { static_cast< int >( fun ), static_cast< int >( fun_max ) };
@@ -540,11 +540,15 @@ time_duration Character::vitamin_rate( const vitamin_id &vit ) const
 
 int Character::vitamin_mod( const vitamin_id &vit, int qty, bool capped )
 {
-    auto it = vitamin_levels.find( vit );
-    if( it == vitamin_levels.end() ) {
+    if( !vit.is_valid() ) {
+        debugmsg( "Vitamin with id %s does not exist, and cannot be modified", vit.str() );
         return 0;
     }
-    const auto &v = it->first.obj();
+    // What's going on here? Emplace returns either an iterator to the inserted
+    // item or, if it already exists, an iterator to the (unchanged) extant item
+    // (Okay, technically it returns a pair<iterator, bool>, the iterator is what we want)
+    auto it = vitamin_levels.emplace( vit, 0 ).first;
+    const vitamin &v = *it->first;
 
     if( qty > 0 ) {
         // Accumulations can never occur from food sources
@@ -684,7 +688,8 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
     }
 
     // For all those folks who loved eating marloss berries.  D:< mwuhahaha
-    if( has_trait( trait_M_DEPENDENT ) && !food.has_flag( flag_MYCUS_OK ) ) {
+    if( has_trait( trait_M_DEPENDENT ) && !food.has_flag( flag_MYCUS_OK ) &&
+        !food.has_flag( flag_NO_INGEST ) ) {
         return ret_val<edible_rating>::make_failure( edible_rating::inedible_mutation,
                 _( "We can't eat that.  It's not right for us." ) );
     }
@@ -693,8 +698,7 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
         return ret_val<edible_rating>::make_failure( edible_rating::inedible_mutation,
                 _( "Ugh, you can't drink that!" ) );
     }
-
-    if( has_trait( trait_CARNIVORE ) && nutrition_for( food ) > 0 &&
+    if( has_trait( trait_CARNIVORE ) && ( compute_effective_nutrients( food ).kcal ) > 0 &&
         food.has_any_flag( carnivore_blacklist ) && !food.has_flag( flag_CARNIVORE_OK ) ) {
         return ret_val<edible_rating>::make_failure( edible_rating::inedible_mutation,
                 _( "Eww.  Inedible plant stuff!" ) );
@@ -708,7 +712,8 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
     }
 
     for( const trait_id &mut : get_mutations() ) {
-        if( !food.made_of_any( mut.obj().can_only_eat ) && !mut.obj().can_only_eat.empty() ) {
+        if( !food.made_of_any( mut.obj().can_only_eat ) && !mut.obj().can_only_eat.empty() &&
+            !food.has_flag( flag_NO_INGEST ) ) {
             return ret_val<edible_rating>::make_failure( edible_rating::inedible_mutation,
                     _( "You can't eat this." ) );
         }
@@ -737,7 +742,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
 
     if( food.rotten() ) {
         const bool saprovore = has_trait( trait_SAPROVORE );
-        if( !saprophage && !saprovore ) {
+        if( !saprophage && !saprovore && !has_bionic( bio_digestion ) ) {
             add_consequence( _( "This is rotten and smells awful!" ), edible_rating::rotten );
         }
     }
@@ -861,7 +866,7 @@ bool player::eat( item &food, bool force )
     if( spoiled && !saprophage ) {
         add_msg_if_player( m_bad, _( "Ick, this %s doesn't taste so good…" ), food.tname() );
         if( !has_trait( trait_SAPROVORE ) && !has_trait( trait_EATDEAD ) &&
-            ( !has_bionic( bio_digestion ) || one_in( 3 ) ) ) {
+            !has_bionic( bio_digestion ) ) {
             add_effect( effect_foodpoison, rng( 6_minutes, ( nutr + 1 ) * 6_minutes ) );
         }
     } else if( spoiled && saprophage ) {
@@ -942,10 +947,6 @@ bool player::eat( item &food, bool force )
         use_charges( food.get_comestible()->tool, 1 );
     }
 
-    if( has_active_bionic( bio_taste_blocker ) ) {
-        mod_power_level( units::from_kilojoule( -std::min( 0, food.get_comestible_fun() ) ) );
-    }
-
     if( food.has_flag( flag_FUNGAL_VECTOR ) && !has_trait( trait_M_IMMUNE ) ) {
         add_effect( effect_fungus, 1_turns, num_bp );
     }
@@ -978,10 +979,10 @@ bool player::eat( item &food, bool force )
         }
     }
 
-    consumption_history.emplace_back( food );
+    consumption_history->elems.emplace_back( food );
     // Clean out consumption_history so it doesn't get bigger than needed.
-    while( consumption_history.front().time < calendar::turn - 2_days ) {
-        consumption_history.pop_front();
+    while( consumption_history->elems.front().time < calendar::turn - 2_days ) {
+        consumption_history->elems.pop_front();
     }
 
     return true;
@@ -1067,8 +1068,13 @@ void Character::modify_morale( item &food, int nutr )
 
     std::pair<int, int> fun = fun_for( food );
     if( fun.first < 0 ) {
-        add_morale( MORALE_FOOD_BAD, fun.first, fun.second, morale_time, morale_time / 2, false,
-                    food.type );
+        if( has_active_bionic( bio_taste_blocker ) &&
+            get_power_level() > units::from_kilojoule( -fun.first ) ) {
+            mod_power_level( units::from_kilojoule( std::min( 0, fun_for( food ).first ) ) );
+        } else {
+            add_morale( MORALE_FOOD_BAD, fun.first, fun.second, morale_time, morale_time / 2, false,
+                        food.type );
+        }
     } else if( fun.first > 0 ) {
         add_morale( MORALE_FOOD_GOOD, fun.first, fun.second, morale_time, morale_time / 2, false,
                     food.type );
@@ -1224,33 +1230,25 @@ bool Character::consume_effects( item &food )
 
     int excess_kcal = get_stored_kcal() + stomach.get_calories() + ingested.nutr.kcal -
                       max_stored_kcal();
+
+    // Moved hypermetabolism check here to prevent it being gimped by various bloating/vomit problems.
+    if( excess_kcal > 0 && has_trait( trait_EATHEALTH ) ) {
+        healall( roll_remainder( excess_kcal / 50.0f ) );
+        mod_stored_kcal( -excess_kcal );
+        excess_kcal = 0;
+    }
+
     int excess_quench = -( get_thirst() - comest.quench );
     stomach.ingest( ingested );
     mod_thirst( -contained_food.type->comestible->quench );
 
-    if( ( excess_kcal > 0 || excess_quench > 0 ) && !food.has_flag( flag_NO_BLOAT ) ) {
+
+    if( ( excess_kcal > 0 || excess_quench > 0 ) && !food.has_flag( flag_NO_BLOAT ) &&
+        !has_trait( trait_GOURMAND ) ) {
         add_effect( effect_bloated, 5_minutes );
     }
 
     return true;
-}
-
-hint_rating Character::rate_action_eat( const item &it ) const
-{
-    if( !can_consume( it ) ) {
-        return hint_rating::cant;
-    }
-
-    const auto rating = will_eat( it );
-    if( rating.success() ) {
-        return hint_rating::good;
-    } else if( rating.value() == edible_rating::inedible ||
-               rating.value() == edible_rating::inedible_mutation ) {
-
-        return hint_rating::cant;
-    }
-
-    return hint_rating::iffy;
 }
 
 bool Character::can_feed_reactor_with( const item &it ) const
@@ -1513,4 +1511,10 @@ item &Character::get_consumable_from( item &it ) const
     // Since it's not const.
     null_comestible = item();
     return null_comestible;
+}
+
+consumption_event::consumption_event( const item &food ) : time( calendar::turn )
+{
+    type_id = food.typeId();
+    component_hash = food.make_component_hash();
 }

@@ -109,10 +109,10 @@ void JsonObject::report_unvisited() const
 {
 #ifndef CATA_IN_TOOL
     if(
-        ( test_mode || json_report_unused_fields )
+        json_report_strict
         && report_unvisited_members
         && !reported_unvisited_members
-        && !std::uncaught_exception()
+        && !std::uncaught_exceptions()
     ) {
         reported_unvisited_members = true;
         for( const std::pair<const std::string, int> &p : positions ) {

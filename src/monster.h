@@ -19,6 +19,7 @@
 #include "creature.h"
 #include "cursesdef.h"
 #include "damage.h"
+#include "effect.h"
 #include "enums.h"
 #include "optional.h"
 #include "pldata.h"
@@ -26,6 +27,7 @@
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
+#include "visitable.h"
 
 class Character;
 class JsonIn;
@@ -79,7 +81,7 @@ enum monster_horde_attraction {
     NUM_MONSTER_HORDE_ATTRACTION
 };
 
-class monster : public Creature
+class monster : public Creature, public visitable<monster>
 {
         friend class editmap;
     public:
@@ -94,6 +96,12 @@ class monster : public Creature
 
         bool is_monster() const override {
             return true;
+        }
+        monster *as_monster() override {
+            return this;
+        }
+        const monster *as_monster() const override {
+            return this;
         }
 
         void poly( const mtype_id &id );
@@ -179,10 +187,12 @@ class monster : public Creature
          * will_move_to() checks for impassable terrain etc
          * can_reach_to() checks for z-level difference.
          * can_move_to() is a wrapper for both of them.
+         * can_squeeze_to() checks for vehicle holes.
          */
         bool can_move_to( const tripoint &p ) const;
         bool can_reach_to( const tripoint &p ) const;
         bool will_move_to( const tripoint &p ) const;
+        bool can_squeeze_to( const tripoint &p ) const;
 
         bool will_reach( const point &p ); // Do we have plans to get to (x, y)?
         int  turns_to_reach( const point &p ); // How long will it take?
@@ -350,6 +360,7 @@ class monster : public Creature
         int get_worn_armor_val( damage_type dt ) const;
         int  get_armor_cut( bodypart_id bp ) const override; // Natural armor, plus any worn armor
         int  get_armor_bash( bodypart_id bp ) const override; // Natural armor, plus any worn armor
+        int  get_armor_bullet( bodypart_id bp ) const override; // Natural armor, plus any worn armor
         int  get_armor_type( damage_type dt, bodypart_id bp ) const override;
 
         float get_hit_base() const override;
@@ -417,6 +428,8 @@ class monster : public Creature
         bool use_mech_power( int amt );
         bool check_mech_powered() const;
         int mech_str_addition() const;
+
+        void process_items();
 
         /**
          * Makes monster react to heard sound

@@ -130,7 +130,6 @@
       "=": "t_door_glass_frosted_lab_c",
       ":": "t_reinforced_glass",
       "m": "t_door_metal_c",
-      "o": "t_centrifuge",
       "x": "t_console_broken"
     },
     "furniture": {
@@ -159,6 +158,7 @@
       "M": "f_MS",
       "N": "f_NMR",
       "O": "f_MRI",
+      "o": "f_centrifuge",
       "0": "f_CTscan",
       "r": "f_rack",
       "s": "f_stool",

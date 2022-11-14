@@ -1,10 +1,11 @@
+#include "catch/catch.hpp"
+
 #include <list>
 #include <memory>
 #include <string>
 
 #include "avatar.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "creature.h"
 #include "game.h"
 #include "item.h"
@@ -13,6 +14,7 @@
 #include "mtype.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "state_helpers.h"
 #include "type_id.h"
 
 // The test cases below cover polymorphic functions related to melee hit and dodge rates
@@ -24,8 +26,7 @@
 
 TEST_CASE( "Monster losing grabbing effect", "[player][melee][grab]" )
 {
-    clear_map();
-
+    clear_all_state();
     avatar &dummy = g->u;
     clear_character( dummy );
 

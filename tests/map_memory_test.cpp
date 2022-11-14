@@ -1,9 +1,10 @@
+#include "catch/catch.hpp"
+
 #include <bitset>
 #include <cstdio>
 #include <sstream>
 #include <string>
 
-#include "catch/catch.hpp"
 #include "game_constants.h"
 #include "json.h"
 #include "lru_cache.h"
@@ -29,7 +30,7 @@ TEST_CASE( "map_memory_keeps_region", "[map_memory]" )
     CHECK( !memory.prepare_region( p2, p3 ) );
     CHECK( memory.prepare_region( p1, p4 ) );
     CHECK( !memory.prepare_region( p2, p3 ) );
-    CHECK( memory.prepare_region(
+    CHECK( get_map().has_zlevels() == !memory.prepare_region(
                tripoint( p2.xy(), -p2.z ),
                tripoint( p3.xy(), -p3.z )
            ) );

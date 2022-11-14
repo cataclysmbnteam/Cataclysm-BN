@@ -208,17 +208,25 @@ bool compare_sound_alert( const dangerous_sound &sound_a, const dangerous_sound 
 static bool clear_shot_reach( const tripoint &from, const tripoint &to, bool check_ally = true )
 {
     std::vector<tripoint> path = line_to( from, to );
+    tripoint target_point = path.back();
     path.pop_back();
+    if( path.empty() ) {
+        return true;
+    }
+    tripoint &last_point = path[0];
     for( const tripoint &p : path ) {
         Creature *inter = g->critter_at( p );
         if( check_ally && inter != nullptr ) {
             return false;
         } else if( get_map().impassable( p ) ) {
             return false;
+        } else if( get_map().obstructed_by_vehicle_rotation( last_point, p ) ) {
+            return false;
         }
+        last_point = p;
     }
 
-    return true;
+    return !get_map().obstructed_by_vehicle_rotation( last_point, target_point );
 }
 
 tripoint npc::good_escape_direction( bool include_pos )
@@ -656,14 +664,6 @@ void npc::regen_ai_cache()
     auto i = std::begin( ai_cache.sound_alerts );
     while( i != std::end( ai_cache.sound_alerts ) ) {
         if( sees( here.getlocal( i->abs_pos ) ) ) {
-            // if they were responding to a call for guards because of thievery
-            npc *const sound_source = g->critter_at<npc>( here.getlocal( i->abs_pos ) );
-            if( sound_source ) {
-                if( my_fac == sound_source->my_fac && sound_source->known_stolen_item ) {
-                    sound_source->known_stolen_item = nullptr;
-                    set_attitude( NPCATT_RECOVER_GOODS );
-                }
-            }
             i = ai_cache.sound_alerts.erase( i );
             if( ai_cache.sound_alerts.size() == 1 ) {
                 path.clear();
@@ -1112,6 +1112,7 @@ void npc::execute_action( npc_action action )
             if( is_hallucination() ) {
                 pretend_fire( this, mode.qty, *mode );
             } else {
+                add_msg( m_debug, "%s recoil on firing: %s", name, recoil );
                 fire_gun( tar, mode.qty, *mode );
                 // "discard" the fake bio weapon after shooting it
                 if( cbm_weapon_index >= 0 ) {
@@ -1308,16 +1309,6 @@ void npc::execute_action( npc_action action )
     }
 }
 
-void npc::witness_thievery( item *it )
-{
-    known_stolen_item = it;
-    // Shopkeep is behind glass
-    if( myclass == npc_class_id( "NC_EVAC_SHOPKEEP" ) ) {
-        return;
-    }
-    set_attitude( NPCATT_RECOVER_GOODS );
-}
-
 npc_action npc::method_of_fleeing()
 {
     if( in_vehicle ) {
@@ -1328,6 +1319,7 @@ npc_action npc::method_of_fleeing()
 
 npc_action npc::method_of_attack()
 {
+    Character &player_character = get_player_character();
     Creature *critter = current_target();
     if( critter == nullptr ) {
         // This function shouldn't be called...
@@ -1455,7 +1447,10 @@ npc_action npc::method_of_attack()
     // TODO: Needs a check for transparent but non-passable tiles on the way
     if( !modes.empty() && sees( *critter ) && aim_per_move( weapon, recoil ) > 0 &&
         confident_shoot_range( weapon, get_most_accurate_sight( weapon ) ) >= dist ) {
-        add_msg( m_debug, "%s is aiming" );
+        add_msg( m_debug, "%s is aiming", disp_name() );
+        if( critter->is_player() && player_character.sees( *this ) ) {
+            add_msg( m_bad, _( "%s takes aim at you!" ), disp_name() );
+        }
         return npc_aim;
     }
     add_msg( m_debug, "%s can't figure out what to do", disp_name() );
@@ -1941,7 +1936,7 @@ npc_action npc::address_needs( float danger )
 npc_action npc::address_player()
 {
     Character &player_character = get_player_character();
-    if( ( attitude == NPCATT_TALK || attitude == NPCATT_RECOVER_GOODS ) && sees( player_character ) ) {
+    if( ( attitude == NPCATT_TALK ) && sees( player_character ) ) {
         if( player_character.in_sleep_state() ) {
             // Leave sleeping characters alone.
             return npc_undecided;
@@ -2270,6 +2265,12 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         path.clear();
         move_pause();
     }
+
+    if( here.obstructed_by_vehicle_rotation( pos(), p ) ) {
+        move_pause();
+        return;
+    }
+
     bool attacking = false;
     if( g->critter_at<monster>( p ) ) {
         attacking = true;
@@ -2708,8 +2709,8 @@ static cata::optional<tripoint> nearest_passable( const tripoint &p, const tripo
     const tripoint & r ) {
         return rl_dist( closest_to, l ) < rl_dist( closest_to, r );
     } );
-    auto iter = std::find_if( candidates.begin(), candidates.end(), [&here]( const tripoint & pt ) {
-        return here.passable( pt );
+    auto iter = std::find_if( candidates.begin(), candidates.end(), [&here, &p]( const tripoint & pt ) {
+        return here.passable( pt ) && !here.obstructed_by_vehicle_rotation( p, pt );
     } );
     if( iter != candidates.end() ) {
         return *iter;
@@ -3007,13 +3008,16 @@ void npc::pick_up_item()
     }
 
     const int dist_to_pickup = rl_dist( pos(), wanted_item_pos );
-    if( dist_to_pickup > 1 && !path.empty() ) {
+
+    bool cant_reach = dist_to_pickup > 1 ||
+                      get_map().obstructed_by_vehicle_rotation( pos(), wanted_item_pos );
+    if( cant_reach && !path.empty() ) {
         add_msg( m_debug, "Moving; [%d, %d, %d] => [%d, %d, %d]",
                  posx(), posy(), posz(), path[0].x, path[0].y, path[0].z );
 
         move_to_next();
         return;
-    } else if( dist_to_pickup > 1 && path.empty() ) {
+    } else if( cant_reach && path.empty() ) {
         add_msg( m_debug, "Can't find path" );
         // This can happen, always do something
         fetching_item = false;
@@ -4167,7 +4171,7 @@ void npc::set_omt_destination()
         find_params.types = temp_types;
         find_params.existing_only = false;
         goal = overmap_buffer.find_closest( surface_omt_loc, find_params );
-        omt_path = overmap_buffer.get_travel_path( surface_omt_loc, goal, overmap_path_params::for_npc() );
+        omt_path.clear();
         if( goal != overmap::invalid_tripoint ) {
             omt_path = overmap_buffer.get_travel_path( surface_omt_loc, goal, overmap_path_params::for_npc() );
         }

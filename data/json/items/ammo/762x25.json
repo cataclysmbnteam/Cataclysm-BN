@@ -18,7 +18,7 @@
     "casing": "762_25_casing",
     "range": 13,
     "//": "Base damage of 24, balance increase of two-nineths.",
-    "damage": { "damage_type": "stab", "amount": 37, "armor_penetration": 16 },
+    "damage": { "damage_type": "bullet", "amount": 37, "armor_penetration": 16 },
     "dispersion": 120,
     "recoil": 540,
     "effects": [ "COOKOFF" ]
@@ -30,7 +30,7 @@
     "name": { "str": "7.62x25mm JHP hot load" },
     "description": "A high-pressure commercial version of the 7.62x25mm cartridge, loaded with an 85 gr. FMJ bullet.  It is more powerful than the original.",
     "//": "Hollowpoint bonus of 25%, retains armor penetration due to being a +P load.",
-    "relative": { "price": 500, "range": 2, "damage": { "damage_type": "stab", "amount": 6 } },
+    "relative": { "price": 500, "range": 2, "damage": { "damage_type": "bullet", "amount": 6 } },
     "proportional": { "recoil": 1.4 }
   },
   {
@@ -46,7 +46,7 @@
     "relative": {
       "price": 2000,
       "range": -1,
-      "damage": { "damage_type": "stab", "amount": -5, "armor_penetration": 16 },
+      "damage": { "damage_type": "bullet", "amount": -5, "armor_penetration": 16 },
       "recoil": -270
     }
   },
@@ -57,18 +57,11 @@
     "name": { "str": "7.62x25mm FMJ, black powder" },
     "proportional": {
       "price": 0.3,
-      "damage": { "damage_type": "stab", "amount": 0.76, "armor_penetration": 0.5 },
+      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
     },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_762_25",
-    "copy-from": "762_25hot",
-    "type": "AMMO",
-    "name": { "str": "7.62x25mm, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9, "armor_penetration": 0.9 }, "dispersion": 1.1 }
   }
 ]

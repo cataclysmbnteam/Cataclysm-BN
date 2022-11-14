@@ -121,13 +121,12 @@ Value should be one of:
 | bird | a two legged animal with two wings
 | blob | a blob of material
 | crab | a multilegged animal with two large arms
-| dog | a four legged animal with a short neck elevating the head above the line of the body
+| quadruped | a four legged animal
 | elephant | a very large quadruped animal with a large head and torso with equal sized limbs
 | fish | an aquatic animal with a streamlined body and fins
 | flying insect | a six legged animal with a head and two body segments and wings
 | frog | a four legged animal with a neck and with very large rear legs and small forelegs
 | gator | a four legged animal with a very long body and short legs
-| horse | a four legged animal with a long neck elevating the head above the line of the body
 | human | a bipedal animal with two arms
 | insect | a six legged animal with a head and two body segments
 | kangaroo | a pentapedal animal that utilizes a large tail for stability with very large rear legs and smaller forearms
@@ -256,6 +255,13 @@ What field the monster emits and how often it does so. Time duration can use str
 (integer, optional)
 
 Number of hitpoints regenerated per turn.
+
+## "regeneration_modifiers"
+( array of objects consisting of effect, base_mod (float) and scaling_mod (float), optional )
+"regeneration_modifiers": [ { "effect": "on_fire", "base_mod": -0.3, "scaling_mod": -0.15 } ],
+
+What effects (if any) affect the monster's regeneration positively/negatively.
+The mods stack additively (Intensity 2 on_fire produces a multiplier of 0.45) but are applied multiplicatively.
 
 ## "regenerates_in_dark"
 (boolean, optional)

@@ -10,12 +10,15 @@
 #include "calendar.h"
 #include "enums.h"
 #include "optional.h"
-#include "omdata.h"
+#include "om_direction.h"
 #include "type_id.h"
 
+class item;
 class JsonObject;
 class JsonOut;
-class item;
+struct oter_t;
+class overmap_connection;
+class overmap_special;
 
 struct advanced_inv_pane_save_state {
     public:
@@ -123,7 +126,7 @@ class uistatedata
 
         // construction menu selections
         std::string construction_filter;
-        cata::optional<std::string> last_construction;
+        construction_group_str_id last_construction = construction_group_str_id::NULL_ID();
         construction_category_id construction_tab = construction_category_id::NULL_ID();
 
         // overmap editor selections
@@ -134,6 +137,8 @@ class uistatedata
         std::set<recipe_id> hidden_recipes;
         std::set<recipe_id> favorite_recipes;
         std::vector<recipe_id> recent_recipes;
+
+        std::set<construction_group_str_id> favorite_construct_recipes;
 
         bionic_ui_sort_mode bionic_sort_mode = bionic_ui_sort_mode::POWER;
 

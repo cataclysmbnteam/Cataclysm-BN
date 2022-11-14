@@ -38,6 +38,11 @@ class is_optional : public detail::is_optional_helper<typename std::decay<T>::ty
 {
 };
 
+/**
+ * Check whether strict checks are enabled for given mod.
+ */
+bool is_strict_enabled( const std::string &src );
+
 inline void report_strict_violation( const JsonObject &jo, const std::string &message,
                                      const std::string &name )
 {
@@ -555,6 +560,143 @@ inline bool assign( const JsonObject &jo, const std::string &name, units::energy
     return true;
 }
 
+// Kinda hacky way to avoid allowing multiplying temperature
+// For example, in 10 * 0 Fahrenheit, 10 * 0 Celsius - what's the expected result of those?
+template < typename lvt, typename ut, typename s,
+           typename std::enable_if_t<units::quantity_details<ut>::common_zero_point::value>* = nullptr>
+inline units::quantity<lvt, ut> mult_unit( const JsonObject &, const std::string &,
+        const units::quantity<lvt, ut> &val, const s scalar )
+{
+    return val * scalar;
+}
+
+template < typename lvt, typename ut, typename s,
+           typename std::enable_if_t < !units::quantity_details<ut>::common_zero_point::value > * = nullptr >
+inline units::quantity<lvt, ut> mult_unit( const JsonObject &err, const std::string &name,
+        const units::quantity<lvt, ut> &, const s )
+{
+    err.throw_error( "Multiplying units with multiple scales with different zero points is not well defined",
+                     name );
+}
+
+template<typename T, typename F>
+inline bool assign_unit_common( const JsonObject &jo, const std::string &name, T &val, F parse,
+                                bool strict, const T lo, const T hi )
+{
+    T out;
+
+    // Object via which to report errors which differs for proportional/relative values
+    JsonObject err = jo;
+    err.allow_omitted_members();
+    JsonObject relative = jo.get_object( "relative" );
+    relative.allow_omitted_members();
+    JsonObject proportional = jo.get_object( "proportional" );
+    proportional.allow_omitted_members();
+
+    // Do not require strict parsing for relative and proportional values as rules
+    // such as +10% are well-formed independent of whether they affect base value
+    if( relative.has_member( name ) ) {
+        T tmp;
+        err = relative;
+        if( !parse( err, tmp ) ) {
+            err.throw_error( "invalid relative value specified", name );
+        }
+        strict = false;
+        out = val + tmp;
+
+    } else if( proportional.has_member( name ) ) {
+        double scalar;
+        err = proportional;
+        if( !err.read( name, scalar ) || scalar <= 0 || scalar == 1 ) {
+            err.throw_error( "multiplier must be a positive number other than 1", name );
+        }
+        strict = false;
+        out = mult_unit( err, name, val, scalar );
+
+    } else if( !parse( jo, out ) ) {
+        return false;
+    }
+
+    if( out < lo || out > hi ) {
+        err.throw_error( "value outside supported range", name );
+    }
+
+    if( strict && out == val ) {
+        report_strict_violation( err, "cannot assign explicit value the same as default or inherited value",
+                                 name );
+    }
+
+    val = out;
+
+    return true;
+}
+
+inline bool assign( const JsonObject &jo, const std::string &name, units::probability &val,
+                    bool strict = false,
+                    const units::probability lo = units::probability_min,
+                    const units::probability hi = units::probability_max )
+{
+    const auto parse = [&name]( const JsonObject & obj, units::probability & out ) {
+        if( obj.has_string( name ) ) {
+            long double tmp;
+            std::string suffix;
+            std::istringstream str( obj.get_string( name ) );
+            str.imbue( std::locale::classic() );
+            str >> tmp >> suffix;
+            if( str.peek() != std::istringstream::traits_type::eof() ) {
+                obj.throw_error( "syntax error when specifying volume", name );
+            }
+            if( suffix == "pm" ) {
+                out = units::from_one_in_million( static_cast<units::probability::value_type>( tmp ) );
+            } else if( suffix == "%" ) {
+                out = units::from_percent( tmp );
+            } else {
+                obj.throw_error( "unrecognized volumetric unit", name );
+            }
+            return true;
+        }
+
+        return false;
+    };
+
+    return assign_unit_common( jo, name, val, parse, strict, lo, hi );
+}
+
+inline bool assign( const JsonObject &jo, const std::string &name, units::temperature &val,
+                    bool strict = false,
+                    const units::temperature lo = units::temperature_min,
+                    const units::temperature hi = units::temperature_max )
+{
+    const auto parse = [&name]( const JsonObject & obj, units::temperature & out ) {
+        if( obj.has_string( name ) ) {
+            long double value;
+            std::string suffix;
+            std::istringstream str( obj.get_string( name ) );
+            str.imbue( std::locale::classic() );
+            str >> value >> suffix;
+            if( str.peek() != std::istringstream::traits_type::eof() ) {
+                obj.throw_error( "syntax error when specifying temperature", name );
+            }
+            const auto &unit_suffixes = units::temperature_units;
+            auto iter = std::find_if( unit_suffixes.begin(), unit_suffixes.end(),
+            [&suffix]( const std::pair<std::string, units::temperature> &suffix_value ) {
+                return suffix_value.first == suffix;
+            } );
+            if( iter != unit_suffixes.end() ) {
+                out = mult_unit( obj, name, iter->second, value );
+            } else {
+                obj.throw_error( "unrecognized temperature unit", name );
+            }
+
+            return true;
+        }
+
+        return false;
+    };
+
+    return assign_unit_common( jo, name, val, parse, strict, lo, hi );
+}
+
 inline bool assign( const JsonObject &jo, const std::string &name, nc_color &val,
                     const bool strict = false )
 {
@@ -815,19 +957,25 @@ inline bool assign( const JsonObject &jo, const std::string &name, damage_instan
         float amount = 0.0f;
         float arpen = 0.0f;
         float dmg_mult = 1.0f;
+        bool with_legacy = false;
 
         // There will always be either a prop_damage or damage (name)
         if( jo.has_member( name ) ) {
+            with_legacy = true;
             amount = jo.get_float( name );
         } else if( jo.has_member( "prop_damage" ) ) {
             dmg_mult = jo.get_float( "prop_damage" );
+            with_legacy = true;
         }
         // And there may or may not be armor penetration
         if( jo.has_member( "pierce" ) ) {
+            with_legacy = true;
             arpen = jo.get_float( "pierce" );
         }
 
-        out.add_damage( DT_STAB, amount, arpen, 1.0f, dmg_mult );
+        if( with_legacy ) {
+            out.add_damage( DT_STAB, amount, arpen, 1.0f, dmg_mult );
+        }
     }
 
     // Object via which to report errors which differs for proportional/relative values
@@ -906,7 +1054,7 @@ inline bool assign( const JsonObject &jo, const std::string &name, damage_instan
     }
 
     if( out.damage_units.empty() ) {
-        out = damage_instance( DT_STAB, 0.0f );
+        out = damage_instance( DT_BULLET, 0.0f );
     }
 
     // Now that we've verified everything in out is all good, set val to it

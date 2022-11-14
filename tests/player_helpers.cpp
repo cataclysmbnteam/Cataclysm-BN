@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include "player_helpers.h"
 
 #include <cstddef>
@@ -7,9 +9,9 @@
 
 #include "avatar.h"
 #include "bionics.h"
-#include "catch/catch.hpp"
 #include "character.h"
 #include "character_id.h"
+#include "consumption.h"
 #include "game.h"
 #include "inventory.h"
 #include "item.h"
@@ -74,7 +76,7 @@ void clear_character( player &dummy, bool debug_storage )
     // Clear stomach and then eat a nutritious meal to normalize stomach
     // contents (needs to happen before clear_morale).
     dummy.stomach.empty();
-    dummy.consumption_history.clear();
+    dummy.consumption_history->elems.clear();
     item food( "debug_nutrition" );
     dummy.eat( food );
 
@@ -82,7 +84,7 @@ void clear_character( player &dummy, bool debug_storage )
     // and sets hunger, thirst, fatigue and such to zero
     dummy.environmental_revert_effect();
 
-    dummy.empty_skills();
+    dummy.clear_skills();
     dummy.clear_morale();
     dummy.activity.set_to_null();
     dummy.reset_chargen_attributes();

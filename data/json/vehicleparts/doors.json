@@ -105,7 +105,7 @@
     "damage_reduction": { "all": 28 },
     "description": "An interior door.  Solid construction means you can't see through it when closed.",
     "durability": 240,
-    "flags": [ "OBSTACLE", "OPAQUE", "OPENABLE", "ROOF", "BOARDABLE" ],
+    "flags": [ "OBSTACLE", "OPAQUE", "OPENABLE", "AISLE", "ROOF", "BOARDABLE" ],
     "item": "frame",
     "location": "center",
     "looks_like": "door",

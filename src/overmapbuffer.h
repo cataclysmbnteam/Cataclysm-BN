@@ -14,7 +14,6 @@
 #include "coordinates.h"
 #include "enums.h"
 #include "memory_fast.h"
-#include "omdata.h"
 #include "optional.h"
 #include "overmap_types.h"
 #include "point.h"
@@ -27,6 +26,7 @@ class map_extra;
 class monster;
 class npc;
 class overmap;
+class overmap_special;
 class overmap_special_batch;
 class throbber_popup;
 class vehicle;
@@ -34,6 +34,11 @@ struct mongroup;
 struct om_vehicle;
 struct radio_tower;
 struct regional_settings;
+
+namespace om_direction
+{
+enum class type;
+}
 
 struct overmap_path_params {
     int road_cost = -1;

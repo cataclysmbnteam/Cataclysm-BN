@@ -31,6 +31,8 @@ class window;
 } // namespace catacurses
 class avatar;
 class Character;
+class npc;
+class monster;
 class field;
 class field_entry;
 class JsonObject;
@@ -50,12 +52,20 @@ struct dealt_projectile_attack;
 struct pathfinding_settings;
 struct trap;
 
+template<typename T> struct enum_traits;
+
 enum m_size : int {
-    MS_TINY = 1,    // Squirrel
+    MS_TINY = 0,    // Squirrel
     MS_SMALL,      // Dog
     MS_MEDIUM,    // Human
     MS_LARGE,    // Cow
-    MS_HUGE     // TAAAANK
+    MS_HUGE,    // TAAAANK
+    num_m_size // last
+};
+
+template<>
+struct enum_traits<m_size> {
+    static constexpr m_size last = m_size::num_m_size;
 };
 
 enum FacingDirection {
@@ -90,6 +100,18 @@ class Creature
         }
         virtual bool is_monster() const {
             return false;
+        }
+        virtual monster *as_monster() {
+            return nullptr;
+        }
+        virtual const monster *as_monster() const {
+            return nullptr;
+        }
+        virtual npc *as_npc() {
+            return nullptr;
+        }
+        virtual const npc *as_npc() const {
+            return nullptr;
         }
         virtual Character *as_character() {
             return nullptr;
@@ -365,12 +387,14 @@ class Creature
         /** Return the effect that matches the given arguments exactly. */
         const effect &get_effect( const efftype_id &eff_id, body_part bp = num_bp ) const;
         effect &get_effect( const efftype_id &eff_id, body_part bp = num_bp );
+        /** Returns pointers to all effects matching given type. */
+        std::vector<const effect *> get_all_effects_of_type( const efftype_id &eff_id ) const;
         /** Returns the duration of the matching effect. Returns 0 if effect doesn't exist. */
         time_duration get_effect_dur( const efftype_id &eff_id, body_part bp = num_bp ) const;
         /** Returns the intensity of the matching effect. Returns 0 if effect doesn't exist. */
         int get_effect_int( const efftype_id &eff_id, body_part bp = num_bp ) const;
         /** Returns true if the creature resists an effect */
-        bool resists_effect( const effect &e );
+        bool resists_effect( const effect &e ) const;
 
         // Methods for setting/getting misc key/value pairs.
         void set_value( const std::string &key, const std::string &value );
@@ -424,10 +448,13 @@ class Creature
 
         virtual int get_armor_bash( bodypart_id bp ) const;
         virtual int get_armor_cut( bodypart_id bp ) const;
+        virtual int get_armor_bullet( bodypart_id bp ) const;
         virtual int get_armor_bash_base( bodypart_id bp ) const;
         virtual int get_armor_cut_base( bodypart_id bp ) const;
+        virtual int get_armor_bullet_base( bodypart_id bp ) const;
         virtual int get_armor_bash_bonus() const;
         virtual int get_armor_cut_bonus() const;
+        virtual int get_armor_bullet_bonus() const;
 
         virtual int get_armor_type( damage_type dt, bodypart_id bp ) const = 0;
 
@@ -517,6 +544,7 @@ class Creature
 
         virtual void set_armor_bash_bonus( int nbasharm );
         virtual void set_armor_cut_bonus( int ncutarm );
+        virtual void set_armor_bullet_bonus( int nbulletarm );
 
         virtual void set_speed_base( int nspeed );
         virtual void set_speed_bonus( int nspeed );
@@ -791,6 +819,7 @@ class Creature
 
         int armor_bash_bonus = 0;
         int armor_cut_bonus = 0;
+        int armor_bullet_bonus = 0;
         int speed_base = 0; // only speed needs a base, the rest are assumed at 0 and calculated off skills
 
         int speed_bonus = 0;

@@ -282,10 +282,6 @@ struct islot_armor {
     */
     units::mass weight_capacity_bonus = 0_gram;
     /**
-     * Whether this is a power armor item.
-     */
-    bool power_armor = false;
-    /**
      * Whitelisted clothing mods.
      * Restricted clothing mods must be listed here by id to be compatible.
      */
@@ -321,10 +317,6 @@ struct islot_pet_armor {
      * What animal bodytype can wear this armor
      */
     std::string bodytype = "none";
-    /**
-     * Whether this is a power armor item.
-     */
-    bool power_armor = false;
 };
 
 struct islot_book {
@@ -519,7 +511,7 @@ struct islot_gun : common_ranged_data {
     /**
      * Effects that are applied to the ammo when fired.
      */
-    std::set<std::string> ammo_effects;
+    std::set<ammo_effect_str_id> ammo_effects;
     /**
      * Location for gun mods.
      * Key is the location (untranslated!), value is the number of mods
@@ -619,7 +611,7 @@ struct islot_gunmod : common_ranged_data {
     /** Firing modes added to or replacing those of the base gun */
     std::map<gun_mode_id, gun_modifier_data> mode_modifier;
 
-    std::set<std::string> ammo_effects;
+    std::set<ammo_effect_str_id> ammo_effects;
 
     /** Relative adjustment to base gun handling */
     int handling = 0;
@@ -692,10 +684,15 @@ struct islot_ammo : common_ranged_data {
      *@{*/
     itype_id drop = itype_id::NULL_ID();
 
-    float drop_chance = 1.0;
-
     bool drop_active = true;
     /*@}*/
+
+    /**
+     * Chance to fail to recover the ammo used.
+     * As in, one_in(this_var) chance of destroying it.
+     * For 100% chances, see @ref drop.
+     */
+    int dont_recover_one_in = 1;
 
     /**
      * Default charges.
@@ -703,9 +700,9 @@ struct islot_ammo : common_ranged_data {
     int def_charges = 1;
 
     /**
-     * TODO: document me.
+     * See @ref ammo_effect struct.
      */
-    std::set<std::string> ammo_effects;
+    std::set<ammo_effect_str_id> ammo_effects;
     /**
      * Base loudness of ammo (possibly modified by gun/gunmods). If unspecified an
      * appropriate value is calculated based upon the other properties of the ammo
@@ -829,10 +826,19 @@ struct conditional_name {
     translation name;
 };
 
+class islot_milling
+{
+    public:
+        itype_id into_;
+        int conversion_rate_;
+};
+
 struct itype {
         friend class Item_factory;
 
         using FlagsSetType = std::set<std::string>;
+
+        std::vector<std::pair<itype_id, mod_id>> src;
 
         /**
          * Slots for various item type properties. Each slot may contain a valid pointer or null, check
@@ -859,6 +865,7 @@ struct itype {
         cata::value_ptr<islot_seed> seed;
         cata::value_ptr<islot_artifact> artifact;
         cata::value_ptr<relic> relic_data;
+        cata::value_ptr<islot_milling> milling_data;
         /*@}*/
 
     private:
@@ -1109,7 +1116,9 @@ struct itype {
 
         bool has_use() const;
 
+        // TODO: Remove the string version
         bool has_flag( const std::string &flag ) const;
+        bool has_flag( const flag_str_id &flag ) const;
 
         // returns read-only set of all item tags/flags
         const FlagsSetType &get_flags() const;

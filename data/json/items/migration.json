@@ -386,7 +386,7 @@
   {
     "id": "shot_scrapslug",
     "type": "MIGRATION",
-    "replace": "reloaded_shot_slug"
+    "replace": "shot_slug"
   },
   {
     "id": "UPS_on",
@@ -792,7 +792,7 @@
   {
     "id": "reloaded_10mm",
     "type": "MIGRATION",
-    "replace": "reloaded_10mm_fmj"
+    "replace": "10mm_fmj"
   },
   {
     "id": "locket",
@@ -827,7 +827,7 @@
   {
     "id": "reloaded_270",
     "type": "MIGRATION",
-    "replace": "reloaded_270win_jsp"
+    "replace": "270win_jsp"
   },
   {
     "id": "afs_rolling_pin",
@@ -1247,7 +1247,7 @@
   {
     "id": "reloaded_22_fmj",
     "type": "MIGRATION",
-    "replace": "reloaded_22_cphp"
+    "replace": "22_cphp"
   },
   {
     "id": "hickory_nut_unshelled",
@@ -1315,5 +1315,430 @@
     "id": [ "tanning_pelt", "tanned_pelt" ],
     "type": "MIGRATION",
     "replace": "fur"
+  },
+  {
+    "id": "raw_butter",
+    "type": "MIGRATION",
+    "replace": "butter"
+  },
+  {
+    "id": "reloaded_32_acp",
+    "type": "MIGRATION",
+    "replace": "32_acp"
+  },
+  {
+    "id": "reloaded_38_fmj",
+    "type": "MIGRATION",
+    "replace": "38_fmj"
+  },
+  {
+    "id": "reloaded_38_special",
+    "type": "MIGRATION",
+    "replace": "38_special"
+  },
+  {
+    "id": "reloaded_38super_fmj",
+    "type": "MIGRATION",
+    "replace": "38super_fmj"
+  },
+  {
+    "id": "reloaded_357sig_fmj",
+    "type": "MIGRATION",
+    "replace": "357sig_fmj"
+  },
+  {
+    "id": "reloaded_357sig_jhp",
+    "type": "MIGRATION",
+    "replace": "357sig_jhp"
+  },
+  {
+    "id": "reloaded_357mag_fmj",
+    "type": "MIGRATION",
+    "replace": "357mag_fmj"
+  },
+  {
+    "id": "reloaded_357mag_jhp",
+    "type": "MIGRATION",
+    "replace": "357mag_jhp"
+  },
+  {
+    "id": "reloaded_38_super",
+    "type": "MIGRATION",
+    "replace": "38_super"
+  },
+  {
+    "id": "reloaded_40fmj",
+    "type": "MIGRATION",
+    "replace": "40fmj"
+  },
+  {
+    "id": "reloaded_40sw",
+    "type": "MIGRATION",
+    "replace": "40sw"
+  },
+  {
+    "id": "reloaded_10mm_fmj",
+    "type": "MIGRATION",
+    "replace": "10mm_fmj"
+  },
+  {
+    "id": "reloaded_44fmj",
+    "type": "MIGRATION",
+    "replace": "44fmj"
+  },
+  {
+    "id": "reloaded_44magnum",
+    "type": "MIGRATION",
+    "replace": "44magnum"
+  },
+  {
+    "id": "reloaded_45_acp",
+    "type": "MIGRATION",
+    "replace": "45_acp"
+  },
+  {
+    "id": "reloaded_45_jhp",
+    "type": "MIGRATION",
+    "replace": "45_jhp"
+  },
+  {
+    "id": "reloaded_45_super",
+    "type": "MIGRATION",
+    "replace": "45_super"
+  },
+  {
+    "id": "reloaded_454_Casull",
+    "type": "MIGRATION",
+    "replace": "454_Casull"
+  },
+  {
+    "id": "reloaded_45colt_jhp",
+    "type": "MIGRATION",
+    "replace": "45colt_jhp"
+  },
+  {
+    "id": "reloaded_46mm",
+    "type": "MIGRATION",
+    "replace": "46mm"
+  },
+  {
+    "id": "reloaded_460_fmj",
+    "type": "MIGRATION",
+    "replace": "460_fmj"
+  },
+  {
+    "id": "reloaded_460_rowland",
+    "type": "MIGRATION",
+    "replace": "460_rowland"
+  },
+  {
+    "id": "reloaded_500_Magnum",
+    "type": "MIGRATION",
+    "replace": "500_Magnum"
+  },
+  {
+    "id": "reloaded_57mm",
+    "type": "MIGRATION",
+    "replace": "57mm"
+  },
+  {
+    "id": "reloaded_762_25",
+    "type": "MIGRATION",
+    "replace": "762_25"
+  },
+  {
+    "id": "reloaded_9mm",
+    "type": "MIGRATION",
+    "replace": "9mm"
+  },
+  {
+    "id": "reloaded_9mmP",
+    "type": "MIGRATION",
+    "replace": "9mmP"
+  },
+  {
+    "id": "reloaded_9mmP2",
+    "type": "MIGRATION",
+    "replace": "9mmP2"
+  },
+  {
+    "id": "reloaded_9mmfmj",
+    "type": "MIGRATION",
+    "replace": "9mmfmj"
+  },
+  {
+    "id": "reloaded_9x18mm",
+    "type": "MIGRATION",
+    "replace": "9x18mm"
+  },
+  {
+    "id": "reloaded_9x18mmfmj",
+    "type": "MIGRATION",
+    "replace": "9x18mmfmj"
+  },
+  {
+    "id": "reloaded_9x18mmP2",
+    "type": "MIGRATION",
+    "replace": "9x18mmP2"
+  },
+  {
+    "id": "reloaded_380_JHP",
+    "type": "MIGRATION",
+    "replace": "380_JHP"
+  },
+  {
+    "id": "reloaded_380_p",
+    "type": "MIGRATION",
+    "replace": "380_p"
+  },
+  {
+    "id": "reloaded_380_FMJ",
+    "type": "MIGRATION",
+    "replace": "380_FMJ"
+  },
+  {
+    "id": "reloaded_22_cphp",
+    "type": "MIGRATION",
+    "replace": "22_cphp"
+  },
+  {
+    "id": "reloaded_22_lr",
+    "type": "MIGRATION",
+    "replace": "22_lr"
+  },
+  {
+    "id": "reloaded_223",
+    "type": "MIGRATION",
+    "replace": "223"
+  },
+  {
+    "id": "reloaded_270win_jsp",
+    "type": "MIGRATION",
+    "replace": "270win_jsp"
+  },
+  {
+    "id": "reloaded_300_winmag",
+    "type": "MIGRATION",
+    "replace": "300_winmag"
+  },
+  {
+    "id": "reloaded_3006",
+    "type": "MIGRATION",
+    "replace": "3006"
+  },
+  {
+    "id": "reloaded_3006fmj",
+    "type": "MIGRATION",
+    "replace": "3006fmj"
+  },
+  {
+    "id": "reloaded_3006_incendiary",
+    "type": "MIGRATION",
+    "replace": "3006_incendiary"
+  },
+  {
+    "id": "reloaded_308",
+    "type": "MIGRATION",
+    "replace": "308"
+  },
+  {
+    "id": "reloaded_4570_sp",
+    "type": "MIGRATION",
+    "replace": "4570_sp"
+  },
+  {
+    "id": "reloaded_4570_pen",
+    "type": "MIGRATION",
+    "replace": "4570_pen"
+  },
+  {
+    "id": "reloaded_4570_low",
+    "type": "MIGRATION",
+    "replace": "4570_low"
+  },
+  {
+    "id": "reloaded_50bmg",
+    "type": "MIGRATION",
+    "replace": "50bmg"
+  },
+  {
+    "id": "reloaded_50_incendiary",
+    "type": "MIGRATION",
+    "replace": "50_incendiary"
+  },
+  {
+    "id": "reloaded_50ss",
+    "type": "MIGRATION",
+    "replace": "50ss"
+  },
+  {
+    "id": "reloaded_545",
+    "type": "MIGRATION",
+    "replace": "545"
+  },
+  {
+    "id": "reloaded_545_ap",
+    "type": "MIGRATION",
+    "replace": "545_ap"
+  },
+  {
+    "id": "reloaded_300blk",
+    "type": "MIGRATION",
+    "replace": "300blk"
+  },
+  {
+    "id": "reloaded_556",
+    "type": "MIGRATION",
+    "replace": "556"
+  },
+  {
+    "id": "reloaded_556_incendiary",
+    "type": "MIGRATION",
+    "replace": "556_incendiary"
+  },
+  {
+    "id": "reloaded_700nx",
+    "type": "MIGRATION",
+    "replace": "700nx"
+  },
+  {
+    "id": "reloaded_762_51",
+    "type": "MIGRATION",
+    "replace": "762_51"
+  },
+  {
+    "id": "reloaded_762_51_incendiary",
+    "type": "MIGRATION",
+    "replace": "762_51_incendiary"
+  },
+  {
+    "id": "reloaded_762_54R",
+    "type": "MIGRATION",
+    "replace": "762_54R"
+  },
+  {
+    "id": "reloaded_762_m43",
+    "type": "MIGRATION",
+    "replace": "762_m43"
+  },
+  {
+    "id": "reloaded_762_m87",
+    "type": "MIGRATION",
+    "replace": "762_m87"
+  },
+  {
+    "id": "reloaded_shot_00",
+    "type": "MIGRATION",
+    "replace": "shot_00"
+  },
+  {
+    "id": "reloaded_410shot_000",
+    "type": "MIGRATION",
+    "replace": "410shot_000"
+  },
+  {
+    "id": "reloaded_shot_bird",
+    "type": "MIGRATION",
+    "replace": "shot_bird"
+  },
+  {
+    "id": "reloaded_shot_dragon",
+    "type": "MIGRATION",
+    "replace": "shot_dragon"
+  },
+  {
+    "id": "reloaded_shot_flechette",
+    "type": "MIGRATION",
+    "replace": "shot_flechette"
+  },
+  {
+    "id": "reloaded_shot_slug",
+    "type": "MIGRATION",
+    "replace": "shot_slug"
+  },
+  {
+    "id": "reloaded_5x50dart",
+    "type": "MIGRATION",
+    "replace": "5x50dart"
+  },
+  {
+    "id": "mutant_offal_cooked",
+    "type": "MIGRATION",
+    "replace": "offal_cooked"
+  },
+  {
+    "id": "kevlar_harness",
+    "type": "MIGRATION",
+    "replace": "kevlar_armor_small_quadruped"
+  },
+  {
+    "id": "acidchitin_harness_dog",
+    "type": "MIGRATION",
+    "replace": "acidchitin_armor_small_quadruped"
+  },
+  {
+    "id": "chitin_harness_dog",
+    "type": "MIGRATION",
+    "replace": "chitin_armor_small_quadruped"
+  },
+  {
+    "id": "chainmail_harness_dog",
+    "type": "MIGRATION",
+    "replace": "chainmail_armor_small_quadruped"
+  },
+  {
+    "id": "leather_harness_dog",
+    "type": "MIGRATION",
+    "replace": "leather_armor_small_quadruped"
+  },
+  {
+    "id": "leatherbone_harness_dog",
+    "type": "MIGRATION",
+    "replace": "leatherbone_armor_small_quadruped"
+  },
+  {
+    "id": "rubber_harness_dog",
+    "type": "MIGRATION",
+    "replace": "rubber_armor_small_quadruped"
+  },
+  {
+    "id": "superalloy_harness_dog",
+    "type": "MIGRATION",
+    "replace": "superalloy_armor_small_quadruped"
+  },
+  {
+    "id": "kevlar_armor_horse",
+    "type": "MIGRATION",
+    "replace": "kevlar_armor_medium_quadruped"
+  },
+  {
+    "id": "acidchitin_armor_horse",
+    "type": "MIGRATION",
+    "replace": "acidchitin_armor_medium_quadruped"
+  },
+  {
+    "id": "chitin_armor_horse",
+    "type": "MIGRATION",
+    "replace": "chitin_armor_medium_quadruped"
+  },
+  {
+    "id": "chainmail_armor_horse",
+    "type": "MIGRATION",
+    "replace": "chainmail_armor_medium_quadruped"
+  },
+  {
+    "id": "leather_armor_horse",
+    "type": "MIGRATION",
+    "replace": "leather_armor_medium_quadruped"
+  },
+  {
+    "id": "leatherbone_armor_horse",
+    "type": "MIGRATION",
+    "replace": "leatherbone_armor_medium_quadruped"
+  },
+  {
+    "id": "rubber_armor_horse",
+    "type": "MIGRATION",
+    "replace": "rubber_armor_medium_quadruped"
   }
 ]

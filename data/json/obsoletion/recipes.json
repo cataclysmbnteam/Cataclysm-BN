@@ -67,11 +67,6 @@
     "obsolete": true
   },
   {
-    "type": "recipe",
-    "result": "offal_cooked",
-    "obsolete": true
-  },
-  {
     "result": "tool_rdx_charge",
     "type": "recipe",
     "obsolete": true
@@ -2639,6 +2634,26 @@
   },
   {
     "type": "recipe",
+    "result": "straw_basketuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "straw_fedorauncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "straw_hatuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "straw_sandalsuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "tanned_hide",
     "obsolete": true
   },
@@ -2656,6 +2671,481 @@
   {
     "type": "recipe",
     "result": "tanning_pelt",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "brew_milk_curdled",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "raw_butter",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "milk_cream_rising",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "milk_cream",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_32_acp",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_38_fmj",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_38_special",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_38super_fmj",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_357sig_fmj",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_357sig_jhp",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_357mag_fmj",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_357mag_jhp",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_38_super",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_40fmj",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_40sw",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_10mm_fmj",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_44fmj",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_44magnum",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_45_acp",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_45_jhp",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_45_super",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_454_Casull",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_45colt_jhp",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_46mm",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_460_fmj",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_460_rowland",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_500_Magnum",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_57mm",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_762_25",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_9mm",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_9mmP",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_9mmP2",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_9mmfmj",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_9x18mm",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_9x18mmfmj",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_9x18mmP2",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_380_JHP",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_380_FMJ",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_380_p",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_22_cphp",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_22_lr",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_223",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_270win_jsp",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_300_winmag",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_3006",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_3006fmj",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_3006_incendiary",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_308",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_4570_sp",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_4570_pen",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_4570_low",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_5x50dart",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_50bmg",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_50_incendiary",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_50ss",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_545",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_545_ap",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_300blk",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_556",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_556_incendiary",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_700nx",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_762_51",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_762_51_incendiary",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_762_54R",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_762_m43",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_762_m87",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_shot_00",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_410shot_000",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_shot_bird",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_shot_dragon",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_shot_flechette",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_shot_slug",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mutant_offal_cooked",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "acidchitin_armor_horse",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chitin_armor_horse",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chainmail_armor_horse",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "kevlar_armor_horse",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "leather_armor_horse",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "leatherbone_armor_horse",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rubber_armor_horse",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "acidchitin_harness_dog",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chitin_harness_dog",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chainmail_harness_dog",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "leather_harness_dog",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "leatherbone_harness_dog",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "kevlar_harness",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rubber_harness_dog",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rubber_harness_dog_from_scratch",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "leather_harness_dog_from_scratch",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "leather_armor_horse_from_scratch",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "leatherbone_harness_dog_from_scratch",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "leatherbone_harness_dog_from_leatherharness",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "leatherbone_armor_horse_from_leatherarmor",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "leatherbone_armor_horse_from_scratch",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rubber_armor_horse_from_scratch",
     "obsolete": true
   }
 ]

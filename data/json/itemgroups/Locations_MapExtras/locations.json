@@ -244,7 +244,6 @@
       [ "disinfectant", 35 ],
       [ "aspirin", 40 ],
       [ "vaccine_shot", 5 ],
-      [ "flu_shot", 2 ],
       [ "blanket", 50 ],
       [ "down_blanket", 10 ],
       [ "pillow", 50 ],
@@ -952,13 +951,13 @@
     "type": "item_group",
     "id": "museum_armor_pet",
     "items": [
-      [ "chainmail_armor_horse", 30 ],
-      [ "leather_armor_horse", 30 ],
-      [ "leatherbone_armor_horse", 30 ],
+      [ "chainmail_armor_medium_quadruped", 30 ],
+      [ "leather_armor_medium_quadruped", 30 ],
+      [ "leatherbone_armor_medium_quadruped", 30 ],
       [ "saddlebag", 30 ],
-      [ "chainmail_harness_dog", 30 ],
-      [ "leather_harness_dog", 30 ],
-      [ "leatherbone_harness_dog", 30 ]
+      [ "chainmail_armor_small_quadruped", 30 ],
+      [ "leather_armor_small_quadruped", 30 ],
+      [ "leatherbone_armor_small_quadruped", 30 ]
     ]
   },
   {
@@ -1858,7 +1857,6 @@
       { "item": "mutagen", "prob": 1 },
       { "item": "purifier", "prob": 1 },
       { "item": "yeast", "prob": 3 },
-      { "item": "royal_jelly", "prob": 4 },
       { "item": "superglue", "prob": 30 },
       { "item": "bottle_glass", "prob": 10 },
       { "item": "syringe", "prob": 1 },
@@ -2053,12 +2051,31 @@
   {
     "type": "item_group",
     "id": "vault",
+    "items": [ { "group": "vault_good", "prob": 500 }, { "group": "vault_bad", "prob": 500 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "vault_good",
+    "//": "Useful or good stuff for bank vaults.",
+    "items": [
+      { "group": "bionics_bank_vault", "prob": 40 },
+      { "group": "bionic_power_storage_mil", "prob": 10 },
+      { "group": "guns_obscure", "prob": 20 },
+      { "group": "guns_bank_vault", "prob": 20 },
+      { "group": "antique_bank_vault", "prob": 20 },
+      { "group": "books_bank_vault", "prob": 20 },
+      { "group": "schematics", "prob": 10 },
+      [ "standard_template_construct", 8 ],
+      [ "bionic_scanner", 5 ],
+      [ "spiral_stone", 1 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "vault_bad",
+    "//": "Mostly worthless stuff for bank vaults.",
     "items": [
       { "group": "ammo_atomic_batteries", "prob": 10 },
-      { "group": "schematics", "prob": 5 },
-      [ "recipe_mil_augs", 5 ],
-      [ "recipe_caseless", 5 ],
-      [ "recipe_labchem", 5 ],
       [ "file", 20 ],
       [ "platinum_small", 10 ],
       [ "gold_small", 10 ],
@@ -2087,10 +2104,6 @@
       [ "crown_golden", 5 ],
       [ "diamond_dental_grill", 5 ],
       [ "gold_dental_grill", 5 ],
-      [ "bio_time_freeze", 4 ],
-      [ "bio_teleport", 4 ],
-      [ "bio_probability_travel", 4 ],
-      [ "standard_template_construct", 4 ],
       [ "briefcase", 4 ],
       [ "small_relic", 3 ],
       [ "holy_symbol", 3 ],
@@ -2099,7 +2112,6 @@
       [ "coin_quarter", 2 ],
       [ "straw_doll", 2 ],
       [ "petrified_eye", 1 ],
-      [ "spiral_stone", 1 ],
       [ "etched_skull", 1 ]
     ]
   },
@@ -2235,7 +2247,6 @@
       [ "lamp_oil", 5 ],
       [ "flotation_vest", 1 ],
       [ "vaccine_shot", 10 ],
-      [ "flu_shot", 1 ],
       [ "coat_rain", 5 ],
       [ "hood_rain", 5 ],
       [ "umbrella", 7 ],

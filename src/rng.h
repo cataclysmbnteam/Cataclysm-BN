@@ -10,6 +10,7 @@
 
 #include "optional.h"
 #include "units_angle.h"
+#include "units_probability.h"
 
 class map;
 class time_duration;
@@ -42,6 +43,7 @@ units::angle random_direction();
 bool one_in( int chance );
 bool one_turn_in( const time_duration &duration );
 bool x_in_y( double x, double y );
+bool check( units::probability p );
 int dice( int number, int sides );
 
 // Returns x + x_in_y( x-int(x), 1 )

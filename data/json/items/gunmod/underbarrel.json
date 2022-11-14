@@ -126,7 +126,7 @@
     "gun_data": {
       "ammo": "shot",
       "skill": "shotgun",
-      "ranged_damage": { "damage_type": "stab", "amount": 1 },
+      "ranged_damage": { "damage_type": "bullet", "amount": 1 },
       "dispersion": 425,
       "durability": 7,
       "clip_size": 7,
@@ -151,7 +151,7 @@
     "gun_data": {
       "ammo": "shot",
       "skill": "shotgun",
-      "ranged_damage": 5,
+      "ranged_damage": { "damage_type": "bullet", "amount": 5 },
       "dispersion": 425,
       "durability": 7,
       "clip_size": 12,
@@ -177,7 +177,7 @@
     "gun_data": {
       "ammo": "shot",
       "skill": "shotgun",
-      "ranged_damage": { "damage_type": "stab", "amount": 1 },
+      "ranged_damage": { "damage_type": "bullet", "amount": 1 },
       "dispersion": 320,
       "durability": 6,
       "clip_size": 5,
@@ -203,7 +203,7 @@
     "gun_data": {
       "ammo": "shot",
       "skill": "shotgun",
-      "ranged_damage": { "damage_type": "stab", "amount": 1 },
+      "ranged_damage": { "damage_type": "bullet", "amount": 1 },
       "dispersion": 320,
       "durability": 6,
       "clip_size": 5,
@@ -225,7 +225,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "underbarrel",
-    "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "bow", "launcher" ],
+    "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "archery", "launcher" ],
     "sight_dispersion": 30,
     "aim_speed": 9,
     "flags": [ "PUMP_RAIL_COMPATIBLE" ]
@@ -246,7 +246,7 @@
       "ammo": "shotpaper",
       "skill": "shotgun",
       "range": -2,
-      "ranged_damage": { "damage_type": "stab", "amount": -12 },
+      "ranged_damage": { "damage_type": "bullet", "amount": -12 },
       "dispersion": 600,
       "durability": 10,
       "reload": 150,
@@ -391,7 +391,7 @@
     "location": "underbarrel",
     "mod_targets": [ "pistol" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 15 ] ],
-    "flags": [ "STAB" ]
+    "flags": [ "STAB", "MELEE_GUNMOD" ]
   },
   {
     "id": "rm121aux",

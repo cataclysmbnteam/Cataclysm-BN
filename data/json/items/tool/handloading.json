@@ -5,7 +5,7 @@
     "category": "tools",
     "name": { "str": "hand press", "str_pl": "hand presses" },
     "description": "This is a small hand press for hand loading firearm ammunition.  It comes with everything you need to start hand loading your own munitions.",
-    "weight": "6350 g",
+    "weight": "2268 g",
     "volume": "500 ml",
     "price": 10000,
     "price_postapoc": 2000,

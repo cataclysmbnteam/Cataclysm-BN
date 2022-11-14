@@ -21,7 +21,7 @@ A barebones `modinfo.json` file looks like this:
     "authors": [ "Your name here", "Your friend's name if you want" ],
     "description": "Your description here",
     "category": "content",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "bn" ]
   }
 ]
 ````
@@ -40,7 +40,7 @@ The `category` attribute denotes where the mod will appear in the mod selection 
 
 The `dependencies` attribute is used to tell Cataclysm that your mod is dependent on something present in another mod. If you have no dependencies outside of the core game, then just including `dda` in the list is good enough. If your mod depends on another one to work properly, adding that mod's `id` attribute to the array causes Cataclysm to force that mod to load before yours.
 
-For more details on `MOD_INFO` object, see [JSON_INFO.md](JSON_INFO.md/#mod_info).
+For more details on `MOD_INFO` object, see [JSON_INFO.md](JSON_INFO.md#mod_info).
 
 ## Actually adding things to your mod
 Now that you have a basic mod, you can get around to actually putting some stuff into it!
@@ -114,7 +114,7 @@ Professions are what the game calls the character classes you can choose from wh
 ````
 
 ### Adding an item
-Items are where you really want to read the [JSON_INFO.md](JSON_INFO.md) file, just because there's so much that you can do with them, and every category of item is a little bit different. 
+Items are where you really want to read the [JSON_INFO.md](JSON_INFO.md) file, just because there's so much that you can do with them, and every category of item is a little bit different.
 <!--I chose this one because it's about as basic an item as I could find. Everything else does something.-->
 ````json
 [
@@ -231,7 +231,7 @@ The entire mod can fit into fifteen lines of JSON, and it's presented below. Jus
     "name": "Prevent Zombie Revivication",
     "description": "Disables zombie revival.",
     "category": "rebalance",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "bn" ]
   },
   {
     "type": "monster_adjustment",

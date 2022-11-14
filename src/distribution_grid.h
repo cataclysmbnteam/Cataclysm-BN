@@ -179,15 +179,40 @@ class distribution_grid_tracker
         void on_options_changed();
 };
 
+class vehicle;
+
 namespace distribution_graph
 {
+enum class traverse_visitor_result {
+    stop,
+    continue_further,
+};
 
-/**
-* Traverses the graph of connected vehicles and grids.
+/** Traverses the graph of connected vehicles and grids.
+*
+* Runs Breadth-First over all vehicles and grids calling passed actions on each of them
+* until any visitor action return traverse_visitor_result::stop.
+* Connected vehicles checked by all POWER_TRANSFER part and grids by vehicle connectors.
+*
+* @param start       Reference to the start node of the graph. Assumed to be already visited.
+* @param veh_action  Visitor function which accepts vehicle& or const & then returns traverse_visitor_result.
+* @param grid_action Visitor function which accepts distribution_grid& or const & then returns traverse_visitor_result.
 */
 template <typename VehFunc, typename GridFunc, typename StartPoint>
-int traverse( StartPoint *start, int amount,
-              VehFunc veh_action, GridFunc grid_action );
+void traverse( StartPoint &start,
+               VehFunc veh_action, GridFunc grid_action );
+
+/* Useful if we want to act only in one type. */
+inline constexpr traverse_visitor_result noop_visitor_grid( const distribution_grid & )
+{
+    return traverse_visitor_result::continue_further;
+}
+
+/* Useful if we want to act only in one type. */
+inline constexpr traverse_visitor_result noop_visitor_veh( const vehicle & )
+{
+    return traverse_visitor_result::continue_further;
+}
 
 } // namespace distribution_graph
 

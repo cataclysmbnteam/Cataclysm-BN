@@ -23,6 +23,7 @@
 #include "color.h"
 #include "debug.h"
 #include "enums.h"
+#include "examine_item_menu.h"
 #include "game.h"
 #include "game_constants.h"
 #include "ime.h"
@@ -257,7 +258,7 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
             } else if( pane.in_vehicle() ) {
                 maxvolume = s.veh->max_volume( s.vstor );
             } else {
-                maxvolume = g->m.max_volume( s.pos );
+                maxvolume = get_map().max_volume( s.pos );
             }
             formatted_head = string_format( "%3.1f %s  %s/%s %s",
                                             convert_weight( s.weight ),
@@ -838,6 +839,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
         do_return_entry();
     }
 
+    map &here = get_map();
     if( spane.get_area() == AIM_INVENTORY || spane.get_area() == AIM_WORN ) {
         drop_locations dropped;
         // keep a list of favorites separated, only drop non-fav first if they exist
@@ -868,6 +870,10 @@ bool advanced_inventory::move_all_items( bool nested_call )
             auto iter = g->u.worn.rbegin();
             for( size_t idx = 0; idx < g->u.worn.size(); ++idx, ++iter ) {
                 item &it = *iter;
+
+                if( !g->u.can_takeoff( it ).success() ) {
+                    continue;
+                }
 
                 if( !spane.is_filtered( it ) ) {
                     item_location loc( g->u, &it );
@@ -912,7 +918,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
                 stack_begin = targets.begin();
                 stack_end = targets.end();
             } else {
-                map_stack targets = g->m.i_at( sarea.pos );
+                map_stack targets = here.i_at( sarea.pos );
                 stack_begin = targets.begin();
                 stack_end = targets.end();
             }
@@ -1097,7 +1103,7 @@ void advanced_inventory::change_square( const aim_location changeSquare,
             } else {
                 // check item stacks in vehicle and map at said square
                 auto sq = squares[changeSquare];
-                auto map_stack = g->m.i_at( sq.pos );
+                auto map_stack = get_map().i_at( sq.pos );
                 auto veh_stack = sq.veh->get_items( sq.vstor );
                 // auto switch to vehicle storage if vehicle items are there, or neither are there
                 if( !veh_stack.empty() || map_stack.empty() ) {
@@ -1237,42 +1243,45 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
                            *squares[destarea].get_container( to_vehicle ) ) ) {
             return false;
         }
-    } else if( srcarea == AIM_INVENTORY && destarea == AIM_WORN ) {
+    } else if( srcarea == AIM_INVENTORY ) {
 
         // make sure advanced inventory is reopened after activity completion.
         do_return_entry();
 
-        g->u.assign_activity( ACT_WEAR );
+        if( destarea == AIM_WORN ) {
+            g->u.assign_activity( ACT_WEAR );
 
-        g->u.activity.targets.emplace_back( g->u, sitem->items.front() );
-        g->u.activity.values.push_back( amount_to_move );
+            g->u.activity.targets.emplace_back( g->u, sitem->items.front() );
+            g->u.activity.values.push_back( amount_to_move );
+        } else {
+            item *itm = &g->u.i_at( sitem->idx );
 
+            drop_locations to_move = { drop_location( item_location( g->u, itm ), amount_to_move ) };
+            g->u.assign_activity( drop_activity_actor( g->u, to_move, !to_vehicle, squares[destarea].off ) );
+        }
         // exit so that the activity can be carried out
         exit = true;
 
-    } else if( srcarea == AIM_INVENTORY || srcarea == AIM_WORN ) {
+    } else if( srcarea == AIM_WORN ) {
 
         // make sure advanced inventory is reopened after activity completion.
         do_return_entry();
 
-        // if worn, we need to fix with the worn index number (starts at -2, as -1 is weapon)
-        int idx = srcarea == AIM_INVENTORY ? sitem->idx : player::worn_position_to_index( sitem->idx );
-
-        if( srcarea == AIM_WORN && destarea == AIM_INVENTORY ) {
-            // this is ok because worn items are never stacked (can't move more than 1).
-            g->u.takeoff( idx );
-
-            // exit so that the action can be carried out
-            exit = true;
+        // worn items are never stacked, so this should check out
+        assert( sitem->items.size() == 1 );
+        item *itm = sitem->items.front();
+        ret_val<bool> takeoff_rv = g->u.can_takeoff( *itm );
+        if( !takeoff_rv.success() ) {
+            add_msg( m_info, "%s", takeoff_rv.c_str() );
+        } else if( destarea == AIM_INVENTORY ) {
+            g->u.takeoff( *itm );
         } else {
-            // important if item is worn
-            if( g->u.can_unwield( g->u.i_at( idx ) ).success() ) {
-                drop_locations to_move = { drop_location( item_location( g->u, &g->u.i_at( idx ) ), amount_to_move ) };
-                g->u.assign_activity( drop_activity_actor( g->u, to_move, !to_vehicle, squares[destarea].off ) );
-                // exit so that the activity can be carried out
-                exit = true;
-            }
+            drop_locations to_move = { drop_location( item_location( g->u, itm ), amount_to_move ) };
+            g->u.assign_activity( drop_activity_actor( g->u, to_move, !to_vehicle, squares[destarea].off ) );
         }
+        // exit so that the activity can be carried out
+        exit = true;
+
     } else {
         // from map/vehicle: start ACT_PICKUP or ACT_MOVE_ITEMS as necessary
         // Make sure advanced inventory is reopened after activity completion.
@@ -1312,8 +1321,11 @@ void advanced_inventory::action_examine( advanced_inv_listitem *sitem,
         // "return to AIM".
         do_return_entry();
         assert( g->u.has_activity( ACT_ADV_INVENTORY ) );
-        ret = g->inventory_item_menu( loc, info_startx, info_width,
-                                      src == advanced_inventory::side::left ? game::LEFT_OF_INFO : game::RIGHT_OF_INFO );
+
+        examine_item_menu::run( loc, info_startx, info_width,
+                                src == advanced_inventory::side::left ?
+                                examine_item_menu::menu_pos_t::left :
+                                examine_item_menu::menu_pos_t::right );
         if( !g->u.has_activity( ACT_ADV_INVENTORY ) ) {
             exit = true;
         } else {
@@ -1830,7 +1842,7 @@ void advanced_inventory::draw_minimap()
     // get the center of the window
     tripoint pc = {getmaxx( minimap ) / 2, getmaxy( minimap ) / 2, 0};
     // draw the 3x3 tiles centered around player
-    g->m.draw( minimap, g->u.pos() );
+    get_map().draw( minimap, g->u.pos() );
     for( auto s : sides ) {
         char sym = get_minimap_sym( s );
         if( sym == '\0' ) {

@@ -57,6 +57,7 @@
 #include "options.h"
 #include "output.h"
 #include "overmap_location.h"
+#include "overmap_special.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "path_info.h"
@@ -70,6 +71,7 @@
 #include "uistate.h"
 #include "ui_manager.h"
 #include "wcwidth.h"
+#include "worldfactory.h"
 
 #if defined(__linux__)
 #   include <cstdlib> // getenv()/setenv()
@@ -242,11 +244,14 @@ static void WinCreate()
     if( get_option<std::string>( "FULLSCREEN" ) == "fullscreen" ) {
         window_flags |= SDL_WINDOW_FULLSCREEN;
         fullscreen = true;
+        // It still minimizes, but the screen size is not set to 0 to cause
+        // division by zero
         SDL_SetHint( SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0" );
     } else if( get_option<std::string>( "FULLSCREEN" ) == "windowedbl" ) {
         window_flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
         fullscreen = true;
-        SDL_SetHint( SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0" );
+        // So you can switch to desktop without the game window obscuring it.
+        SDL_SetHint( SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "1" );
     } else if( get_option<std::string>( "FULLSCREEN" ) == "maximized" ) {
         window_flags |= SDL_WINDOW_MAXIMIZED;
     }
@@ -537,11 +542,10 @@ void refresh_display()
     // Select default target (the window), copy rendered buffer
     // there, present it, select the buffer as target again.
     SetRenderTarget( renderer, nullptr );
+    ClearScreen();
 #if defined(__ANDROID__)
     SDL_Rect dstrect = get_android_render_rect( TERMINAL_WIDTH * fontwidth,
                        TERMINAL_HEIGHT * fontheight );
-    SetRenderDrawColor( renderer, 0, 0, 0, 255 );
-    RenderClear( renderer );
     RenderCopy( renderer, display_buffer, NULL, &dstrect );
 #else
     RenderCopy( renderer, display_buffer, nullptr, nullptr );
@@ -587,7 +591,7 @@ static void invalidate_framebuffer( std::vector<curseline> &framebuffer )
     }
 }
 
-void reinitialize_framebuffer()
+void reinitialize_framebuffer( const bool force_invalidate )
 {
     static int prev_height = -1;
     static int prev_width = -1;
@@ -605,7 +609,7 @@ void reinitialize_framebuffer()
         for( int i = 0; i < new_height; i++ ) {
             terminal_framebuffer[i].chars.assign( new_width, cursecell( "" ) );
         }
-    } else if( need_invalidate_framebuffers ) {
+    } else if( force_invalidate || need_invalidate_framebuffers ) {
         need_invalidate_framebuffers = false;
         invalidate_framebuffer( oversized_framebuffer );
         invalidate_framebuffer( terminal_framebuffer );
@@ -914,7 +918,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
             const lit_level ll = overmap_buffer.is_explored( omp ) ? lit_level::LOW : lit_level::LIT;
             // light level is now used for choosing between grayscale filter and normal lit tiles.
             draw_from_id_string( id, TILE_CATEGORY::C_OVERMAP_TERRAIN, "overmap_terrain", omp.raw(),
-                                 subtile, rotation, ll, false, height_3d );
+                                 subtile, rotation, ll, false, height_3d, 0 );
 
             if( see ) {
                 if( blink && uistate.overmap_debug_mongroup ) {
@@ -923,7 +927,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                         auto mgroup_iter = mgroups.begin();
                         std::advance( mgroup_iter, rng( 0, mgroups.size() - 1 ) );
                         draw_from_id_string( ( *mgroup_iter )->type->defaultMonster.str(),
-                                             omp.raw(), 0, 0, lit_level::LIT, false );
+                                             omp.raw(), 0, 0, lit_level::LIT, false, 0 );
                     }
                 }
                 const int horde_size = overmap_buffer.get_horde_size( omp );
@@ -931,32 +935,32 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                     // a little bit of hardcoded fallbacks for hordes
                     if( find_tile_with_season( id ) ) {
                         draw_from_id_string( string_format( "overmap_horde_%d", horde_size ),
-                                             omp.raw(), 0, 0, lit_level::LIT, false );
+                                             omp.raw(), 0, 0, lit_level::LIT, false, 0 );
                     } else {
                         switch( horde_size ) {
                             case HORDE_VISIBILITY_SIZE:
                                 draw_from_id_string( "mon_zombie", omp.raw(), 0, 0, lit_level::LIT,
-                                                     false );
+                                                     false, 0 );
                                 break;
                             case HORDE_VISIBILITY_SIZE + 1:
                                 draw_from_id_string( "mon_zombie_tough", omp.raw(), 0, 0,
-                                                     lit_level::LIT, false );
+                                                     lit_level::LIT, false, 0 );
                                 break;
                             case HORDE_VISIBILITY_SIZE + 2:
                                 draw_from_id_string( "mon_zombie_brute", omp.raw(), 0, 0,
-                                                     lit_level::LIT, false );
+                                                     lit_level::LIT, false, 0 );
                                 break;
                             case HORDE_VISIBILITY_SIZE + 3:
                                 draw_from_id_string( "mon_zombie_hulk", omp.raw(), 0, 0,
-                                                     lit_level::LIT, false );
+                                                     lit_level::LIT, false, 0 );
                                 break;
                             case HORDE_VISIBILITY_SIZE + 4:
                                 draw_from_id_string( "mon_zombie_necro", omp.raw(), 0, 0,
-                                                     lit_level::LIT, false );
+                                                     lit_level::LIT, false, 0 );
                                 break;
                             default:
                                 draw_from_id_string( "mon_zombie_master", omp.raw(), 0, 0,
-                                                     lit_level::LIT, false );
+                                                     lit_level::LIT, false, 0 );
                                 break;
                         }
                     }
@@ -967,17 +971,17 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                 // Highlight areas that already have been generated
                 // TODO: fix point types
                 if( MAPBUFFER.lookup_submap( project_to<coords::sm>( omp ).raw() ) ) {
-                    draw_from_id_string( "highlight", omp.raw(), 0, 0, lit_level::LIT, false );
+                    draw_from_id_string( "highlight", omp.raw(), 0, 0, lit_level::LIT, false, 0 );
                 }
             }
 
             if( blink && overmap_buffer.has_vehicle( omp ) ) {
                 if( find_tile_looks_like( "overmap_remembered_vehicle", TILE_CATEGORY::C_OVERMAP_NOTE ) ) {
                     draw_from_id_string( "overmap_remembered_vehicle", TILE_CATEGORY::C_OVERMAP_NOTE,
-                                         "overmap_note", omp.raw(), 0, 0, lit_level::LIT, false );
+                                         "overmap_note", omp.raw(), 0, 0, lit_level::LIT, false, 0 );
                 } else {
                     draw_from_id_string( "note_c_cyan", TILE_CATEGORY::C_OVERMAP_NOTE,
-                                         "overmap_note", omp.raw(), 0, 0, lit_level::LIT, false );
+                                         "overmap_note", omp.raw(), 0, 0, lit_level::LIT, false, 0 );
                 }
             }
 
@@ -991,7 +995,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
 
                 std::string note_name = "note_" + ter_sym + "_" + string_from_color( ter_color );
                 draw_from_id_string( note_name, TILE_CATEGORY::C_OVERMAP_NOTE, "overmap_note",
-                                     omp.raw(), 0, 0, lit_level::LIT, false );
+                                     omp.raw(), 0, 0, lit_level::LIT, false, 0 );
             }
         }
     }
@@ -1004,7 +1008,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
         int subtile;
         terrain.get_rotation_and_subtile( rotation, subtile );
         draw_from_id_string( id, global_omt_to_draw_position( center_abs_omt ), subtile, rotation,
-                             lit_level::LOW, true );
+                             lit_level::LOW, true, 0 );
     }
     if( uistate.place_special ) {
         for( const overmap_special_terrain &s_ter : uistate.place_special->terrains ) {
@@ -1019,7 +1023,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                 terrain.get_rotation_and_subtile( rotation, subtile );
 
                 draw_from_id_string( id, TILE_CATEGORY::C_OVERMAP_TERRAIN, "overmap_terrain",
-                                     global_omt_to_draw_position( center_abs_omt + rp ), 0, rotation, lit_level::LOW, true );
+                                     global_omt_to_draw_position( center_abs_omt + rp ), 0, rotation, lit_level::LOW, true, 0 );
             }
         }
     }
@@ -1040,7 +1044,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                                    lit_level::LIT, height_3d );
     }
     draw_from_id_string( "cursor", global_omt_to_draw_position( center_abs_omt ), 0, 0, lit_level::LIT,
-                         false );
+                         false, 0 );
 
     if( blink ) {
         // Draw path for auto-travel
@@ -1053,7 +1057,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
             } else {
                 id = "overmap_path_below";
             }
-            draw_from_id_string( id, global_omt_to_draw_position( pos ), 0, 0, lit_level::LIT, false );
+            draw_from_id_string( id, global_omt_to_draw_position( pos ), 0, 0, lit_level::LIT, false, 0 );
         }
 
         // reduce the area where the map cursor is drawn so it doesn't get cut off
@@ -1063,7 +1067,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                     get_mission_arrow( map_cursor_area, center_abs_omt );
         if( mission_arrow ) {
             draw_from_id_string( mission_arrow->second, global_omt_to_draw_position( mission_arrow->first ), 0,
-                                 0, lit_level::LIT, false );
+                                 0, lit_level::LIT, false, 0 );
         }
     }
 
@@ -1893,7 +1897,7 @@ bool handle_resize( int w, int h )
         TERMINAL_HEIGHT = WindowHeight / fontheight / scaling_factor;
         need_invalidate_framebuffers = true;
         catacurses::stdscr = catacurses::newwin( TERMINAL_HEIGHT, TERMINAL_WIDTH, point_zero );
-        SetupRenderTarget();
+        throwErrorIf( !SetupRenderTarget(), "SetupRenderTarget failed" );
         game_ui::init_ui();
         ui_manager::screen_resized();
         return true;
@@ -2780,6 +2784,7 @@ static void CheckMessages()
                     actions_remove.insert( ACTION_CYCLE_MOVE );
                 }
 
+                map &here = get_map();
                 // Check if we can perform one of our actions on nearby terrain. If so,
                 // display that action at the top of the list.
                 for( int dx = -1; dx <= 1; dx++ ) {
@@ -2791,7 +2796,7 @@ static void CheckMessages()
 
                         // Check if we're near a vehicle, if so, vehicle controls should be top.
                         {
-                            const optional_vpart_position vp = g->m.veh_at( pos );
+                            const optional_vpart_position vp = here.veh_at( pos );
                             vehicle *const veh = veh_pointer_or_null( vp );
                             if( veh ) {
                                 const int veh_part = vp ? vp->part_index() : -1;
@@ -2984,7 +2989,8 @@ static void CheckMessages()
 
     last_input = input_event();
 
-    bool need_redraw = false;
+    cata::optional<point> resize_dims;
+    bool render_target_reset = false;
 
     while( SDL_PollEvent( &ev ) ) {
         switch( ev.type ) {
@@ -3001,7 +3007,7 @@ static void CheckMessages()
                             world_generator->active_world &&
                             g && g->uquit == QUIT_NO &&
                             get_option<bool>( "ANDROID_QUICKSAVE" ) &&
-                            !std::uncaught_exception() ) {
+                            !std::uncaught_exceptions() ) {
                             g->quicksave();
                         }
                         break;
@@ -3020,7 +3026,6 @@ static void CheckMessages()
                     case SDL_WINDOWEVENT_FOCUS_GAINED:
                         break;
                     case SDL_WINDOWEVENT_EXPOSED:
-                        need_redraw = true;
                         needupdate = true;
                         break;
                     case SDL_WINDOWEVENT_RESTORED:
@@ -3032,18 +3037,15 @@ static void CheckMessages()
                         }
 #endif
                         break;
-                    case SDL_WINDOWEVENT_RESIZED: {
-                        restore_on_out_of_scope<input_event> prev_last_input( last_input );
-                        needupdate = handle_resize( ev.window.data1, ev.window.data2 );
+                    case SDL_WINDOWEVENT_RESIZED:
+                        resize_dims = point( ev.window.data1, ev.window.data2 );
                         break;
-                    }
                     default:
                         break;
                 }
                 break;
             case SDL_RENDER_TARGETS_RESET:
-                need_redraw = true;
-                needupdate = true;
+                render_target_reset = true;
                 break;
             case SDL_KEYDOWN: {
 #if defined(__ANDROID__)
@@ -3369,16 +3371,24 @@ static void CheckMessages()
             break;
         }
     }
-    if( need_redraw ) {
+    bool resized = false;
+    if( resize_dims.has_value() ) {
+        restore_on_out_of_scope<input_event> prev_last_input( last_input );
+        needupdate = resized = handle_resize( resize_dims.value().x, resize_dims.value().y );
+    }
+    // resizing already reinitializes the render target
+    if( !resized && render_target_reset ) {
+        throwErrorIf( !SetupRenderTarget(), "SetupRenderTarget failed" );
+        reinitialize_framebuffer( true );
+        needupdate = true;
         restore_on_out_of_scope<input_event> prev_last_input( last_input );
         // FIXME: SDL_RENDER_TARGETS_RESET only seems to be fired after the first redraw
         // when restoring the window after system sleep, rather than immediately
         // on focus gain. This seems to mess up the first redraw and
         // causes black screen that lasts ~0.5 seconds before the screen
         // contents are redrawn in the following code.
-        window_dimensions dim = get_window_dimensions( catacurses::stdscr );
-        ui_manager::invalidate( rectangle<point>( point_zero, dim.window_size_pixel ), false );
-        ui_manager::redraw();
+        ui_manager::invalidate( rectangle<point>( point_zero, point( WindowWidth, WindowHeight ) ), false );
+        ui_manager::redraw_invalidated();
     }
     if( needupdate ) {
         try_sdl_update();
@@ -3534,7 +3544,14 @@ void catacurses::init_interface()
     dbg( DL::Info ) << "Initializing SDL Tiles context";
     tilecontext = std::make_unique<cata_tiles>( renderer, geometry );
     try {
-        tilecontext->load_tileset( get_option<std::string>( "TILES" ), true );
+        std::vector<mod_id> dummy;
+        tilecontext->load_tileset(
+            get_option<std::string>( "TILES" ),
+            dummy,
+            /*precheck=*/true,
+            /*force=*/false,
+            /*pump_events=*/true
+        );
     } catch( const std::exception &err ) {
         dbg( DL::Error ) << "failed to check for tileset: " << err.what();
         // use_tiles is the cached value of the USE_TILES option.
@@ -3573,7 +3590,13 @@ void load_tileset()
     if( !tilecontext || !use_tiles ) {
         return;
     }
-    tilecontext->load_tileset( get_option<std::string>( "TILES" ) );
+    tilecontext->load_tileset(
+        get_option<std::string>( "TILES" ),
+        world_generator->active_world->active_mod_order,
+        /*precheck=*/false,
+        /*force=*/false,
+        /*pump_events=*/true
+    );
     tilecontext->do_tile_loading_report();
 }
 
@@ -3602,6 +3625,19 @@ void input_manager::set_timeout( const int t )
 {
     input_timeout = t;
     inputdelay = t;
+}
+
+void input_manager::pump_events()
+{
+    if( test_mode ) {
+        return;
+    }
+
+    // Handle all events, but ignore any keypress
+    CheckMessages();
+
+    last_input = input_event();
+    previously_pressed_key = 0;
 }
 
 // This is how we're actually going to handle input events, SDL getch
@@ -3898,5 +3934,11 @@ HWND getWindowHandle()
     return info.info.win.window;
 }
 #endif
+
+const SDL_Renderer_Ptr &get_sdl_renderer()
+{
+    return renderer;
+}
+
 
 #endif // TILES

@@ -412,7 +412,7 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "48 m",
-    "autolearn": true,
+    "autolearn": [ [ "tailor", 4 ] ],
     "book_learn": [ [ "textbook_tailor", 2 ], [ "manual_tailor", 2 ] ],
     "using": [ [ "sewing_standard", 16 ] ],
     "components": [ [ [ "rag", 8 ] ] ]
@@ -614,7 +614,7 @@
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "fabrication",
     "difficulty": 5,
-    "time": 120000,
+    "time": "8 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
     "using": [ [ "forging_standard", 6 ], [ "bronzesmithing_tools", 1 ] ],

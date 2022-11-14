@@ -14,7 +14,7 @@
 #include "cata_utility.h"
 #include "character_id.h"
 #include "color.h"
-#include "common_types.h"
+#include "numeric_interval.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "debug.h"
@@ -31,6 +31,7 @@
 #include "optional.h"
 #include "overmap.h"
 #include "overmap_connection.h"
+#include "overmap_special.h"
 #include "overmap_types.h"
 #include "popup.h"
 #include "rng.h"
@@ -1686,8 +1687,8 @@ std::set<tripoint_abs_omt> overmapbuffer::electric_grid_at( const tripoint_abs_o
     open.emplace( p );
 
     while( !open.empty() ) {
-        const tripoint_abs_omt elem = open.front();
-        open.pop();
+        // It's weired that the game takes a lot of time to copy a tripoint_abs_omt, so use reference here.
+        const tripoint_abs_omt &elem = open.front();
         result.emplace( elem );
         overmap_with_local_coords omc = get_om_global( elem );
         const auto &connections_bitset = omc.om->electric_grid_connections[omc.local];
@@ -1699,6 +1700,7 @@ std::set<tripoint_abs_omt> overmapbuffer::electric_grid_at( const tripoint_abs_o
                 }
             }
         }
+        open.pop();
     }
 
     return result;

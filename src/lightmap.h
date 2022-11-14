@@ -73,4 +73,10 @@ inline std::ostream &operator<<( std::ostream &os, const lit_level &ll )
     return os << static_cast<int>( ll );
 }
 
+enum vision_adjustment {
+    VISION_ADJUST_NONE,
+    VISION_ADJUST_SOLID,
+    VISION_ADJUST_HIDDEN
+};
+
 #endif // CATA_SRC_LIGHTMAP_H

@@ -1,7 +1,8 @@
+#include "catch/catch.hpp"
+
 #include <functional>
 #include <vector>
 
-#include "catch/catch.hpp"
 #include "test_statistics.h"
 #include "rng.h"
 #include "optional.h"
@@ -19,7 +20,7 @@ static void check_remainder( float proportion )
     CHECK( stats.test_threshold( target_range ) );
 }
 
-TEST_CASE( "roll_remainder_distribution" )
+TEST_CASE( "roll_remainder_distribution", "[.]" )
 {
     check_remainder( 0.0 );
     check_remainder( 0.01 );
@@ -51,7 +52,7 @@ static void check_x_in_y( double x, double y )
     CHECK( stats.test_threshold( target_range ) );
 }
 
-TEST_CASE( "x_in_y_distribution" )
+TEST_CASE( "x_in_y_distribution", "[.]" )
 {
     float y_increment = 0.01;
     for( float y = 0.1; y < 500.0; y += y_increment ) {

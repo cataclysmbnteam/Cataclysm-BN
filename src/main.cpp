@@ -17,9 +17,9 @@
 #include <utility>
 #include <vector>
 #if defined(_WIN32)
-#include "platform_win.h"
+#   include "platform_win.h"
 #else
-#include <csignal>
+#   include <csignal>
 #endif
 #include "color.h"
 #include "crash.h"
@@ -40,6 +40,7 @@
 #include "path_info.h"
 #include "rng.h"
 #include "type_id.h"
+#include "ui_manager.h"
 
 class ui_adaptor;
 
@@ -121,6 +122,8 @@ static void signal_handler( int signal )
         inp_mngr.reset_timeout();
         bool confirmed = query_yn( _( "Really Quit?  All unsaved changes will be lost." ) );
         inp_mngr.set_timeout( old_timeout );
+        ui_manager::redraw_invalidated();
+        catacurses::doupdate();
         if( !confirmed ) {
             return;
         }
@@ -233,7 +236,7 @@ int main( int argc, char *argv[] )
         const char *section_default = nullptr;
         const char *section_map_sharing = "Map sharing";
         const char *section_user_directory = "User directories";
-        const std::array<arg_handler, 12> first_pass_arguments = {{
+        const std::array<arg_handler, 13> first_pass_arguments = {{
                 {
                     "--seed", "<string of letters and or numbers>",
                     "Sets the random number generator's seed value",
@@ -401,6 +404,15 @@ int main( int argc, char *argv[] )
                         PATH_INFO::init_user_dir( params[0] );
                         PATH_INFO::set_standard_filenames();
                         return 1;
+                    }
+                },
+                {
+                    "--dont-debugmsg", nullptr,
+                    "If set, no debug messages will be printed",
+                    section_default,
+                    []( int, const char ** ) -> int {
+                        dont_debugmsg = true;
+                        return 0;
                     }
                 }
             }

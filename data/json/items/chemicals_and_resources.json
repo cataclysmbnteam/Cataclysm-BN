@@ -875,7 +875,7 @@
     "description": "A handful of black gunpowder, made by mixing charcoal and sulfur with saltpeter.  Pretty useless for making modern cartridges, as the soot produced when it burns will quickly clog any firearm, but it could be used to make some vicious bombs.",
     "material": "powder",
     "volume": "100 ml",
-    "weight": "1 g",
+    "weight": "2 g",
     "bashing": 1,
     "ammo_type": "components",
     "container": "bag_plastic",
@@ -1302,6 +1302,23 @@
     "symbol": ")",
     "color": "brown",
     "looks_like": "bag_canvas"
+  },
+  {
+    "id": "rennet",
+    "type": "AMMO",
+    "category": "chems",
+    "name": { "str_sp": "rennet" },
+    "description": "Enzymes used to curdle milk, for making cheese.  Traditionally made from the stomachs of ruminant animals.",
+    "weight": "63 g",
+    "volume": "250 ml",
+    "count": 4,
+    "price": 1000,
+    "price_postapoc": 10,
+    "container": "bottle_plastic_small",
+    "material": "flesh",
+    "symbol": "=",
+    "color": "yellow",
+    "ammo_type": "components"
   },
   {
     "id": "rosin",

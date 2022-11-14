@@ -19,7 +19,7 @@
     "armor_data": { "covers": [ "torso" ], "encumbrance": 14 },
     "reload_noise_volume": 2,
     "loudness": 5,
-    "ranged_damage": 40,
+    "ranged_damage": { "damage_type": "stab", "amount": 40 },
     "range": 20,
     "dispersion": 95,
     "durability": 6,

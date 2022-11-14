@@ -52,8 +52,6 @@ class game;
 
 extern std::unique_ptr<game> g;
 
-extern const int core_version;
-
 extern const int savegame_version;
 extern int savegame_loading_version;
 
@@ -543,8 +541,8 @@ class game
         std::vector<monster *> get_fishable_monsters( std::unordered_set<tripoint> &fishable_locations );
 
         /** Flings the input creature in the given direction. */
-        void fling_creature( Creature *c, const units::angle &dir, float flvel,
-                             bool controlled = false );
+        void fling_creature( Creature *c, const units::angle &dir, float flvel, bool controlled = false,
+                             bool suppress_map_update = false );
 
         float natural_light_level( int zlev ) const;
         /** Returns coarse number-of-squares of visibility at the current light level.
@@ -576,9 +574,23 @@ class game
         void zones_manager();
 
         // Look at nearby terrain ';', or select zone points
-        cata::optional<tripoint> look_around();
+        cata::optional<tripoint> look_around( bool force_3d = false );
+        /**
+         * @brief
+         *
+         * @param show_window display the info window that holds the tile information in the position.
+         * @param center used to calculate the u.view_offset, could center the screen to the position it represents
+         * @param start_point  the start point of the targeting zone, also the initial local position of the cursor
+         * @param has_first_point should be true if the first point has been selected when editing the zone
+         * @param select_zone true if the zone is being edited
+         * @param peeking determines if the player is peeking
+         * @param is_moving_zone true if the zone is being moved, false by default
+         * @param end_point the end point of the targeting zone, only used if is_moving_zone is true, default is tripoint_zero
+         * @return look_around_result
+         */
         look_around_result look_around( bool show_window, tripoint &center,
-                                        const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking );
+                                        const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking,
+                                        bool is_moving_zone = false, const tripoint &end_point = tripoint_zero, bool force_3d = false );
 
         // Shared method to print "look around" info
         void pre_print_all_tile_info( const tripoint &lp, const catacurses::window &w_info,
@@ -595,21 +607,6 @@ class game
         void extended_description( const tripoint &p );
 
         void draw_trail_to_square( const tripoint &t, bool bDrawX );
-
-        enum inventory_item_menu_positon {
-            RIGHT_TERMINAL_EDGE,
-            LEFT_OF_INFO,
-            RIGHT_OF_INFO,
-            LEFT_TERMINAL_EDGE,
-        };
-        int inventory_item_menu( item_location locThisItem,
-        const std::function<int()> &startx = []() {
-            return 0;
-        },
-        const std::function<int()> &width = []() {
-            return 50;
-        },
-        inventory_item_menu_positon position = RIGHT_OF_INFO );
 
         /** Custom-filtered menu for inventory and nearby items and those that within specified radius */
         item_location inv_map_splice( item_filter filter, const std::string &title, int radius = 0,
@@ -637,6 +634,11 @@ class game
         * @returns `true` if the screenshot generation was successful, `false` otherwise.
         */
         bool take_screenshot( const std::string &file_path ) const;
+        /** Saves a screenshot of the current viewport, as a PNG file. Filesystem location is derived from the current world and character.
+        * @note: Only works for SDL/TILES (otherwise the function returns `false`). A window (more precisely, a viewport) must already exist and the SDL renderer must be valid.
+        * @returns `true` if the screenshot generation was successful, `false` otherwise.
+        */
+        bool take_screenshot() const;
 
         /**
          * The top left corner of the reality bubble (in submaps coordinates). This is the same
@@ -648,9 +650,13 @@ class game
         /**
          * Load the main map at given location, see @ref map::load, in global, absolute submap
          * coordinates.
+         * @param pump_events If true, handle window events during loading. If
+         * you set this to true, do ensure that the map is not accessed before
+         * this function returns (for example, UIs that draw the map should be
+         * disabled).
          */
-        void load_map( const tripoint &pos_sm );
-        void load_map( const tripoint_abs_sm &pos_sm );
+        void load_map( const tripoint &pos_sm, bool pump_events = false );
+        void load_map( const tripoint_abs_sm &pos_sm, bool pump_events = false );
         /**
          * The overmap which contains the center submap of the reality bubble.
          */
@@ -668,7 +674,7 @@ class game
 
         /**@}*/
 
-        void open_gate( const tripoint &p );
+        void toggle_gate( const tripoint &p );
 
         // Knockback functions: knock target at t along a line, either calculated
         // from source position s using force parameter or passed as an argument;
@@ -676,8 +682,9 @@ class game
         // force also determines damage along with dam_mult;
         // stun determines base number of turns target is stunned regardless of impact
         // stun == 0 means no stun, stun == -1 indicates only impact stun (wall or npc/monster)
-        void knockback( const tripoint &s, const tripoint &t, int force, int stun, int dam_mult );
-        void knockback( std::vector<tripoint> &traj, int stun, int dam_mult );
+        void knockback( const tripoint &s, const tripoint &t, int force, int stun, int dam_mult,
+                        Creature *source );
+        void knockback( std::vector<tripoint> &traj, int stun, int dam_mult, Creature *source );
 
         // Animation related functions
         void draw_bullet( const tripoint &t, int i, const std::vector<tripoint> &trajectory,
@@ -816,17 +823,10 @@ class game
         void drop_in_direction(); // Drop w/ direction  'D'
 
         void butcher(); // Butcher a corpse  'B'
-
-        void reload( item_location &loc, bool prompt = false, bool empty = true );
     public:
-        void reload_item(); // Reload an item
-        void reload_wielded( bool prompt = false );
-        void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
         // Places the player at the specified point; hurts feet, lists items etc.
         point place_player( const tripoint &dest );
         void place_player_overmap( const tripoint_abs_omt &om_dest );
-
-        bool unload( item_location loc ); // Unload a gun/tool  'U'
 
         unsigned int get_seed() const;
 
@@ -842,9 +842,6 @@ class game
         std::vector<std::string> get_dangerous_tile( const tripoint &dest_loc ) const;
         bool prompt_dangerous_tile( const tripoint &dest_loc ) const;
     private:
-        void wield();
-        void wield( item_location &loc );
-
         void chat(); // Talk to a nearby NPC  'C'
 
         // Internal methods to show "look around" info
@@ -1045,6 +1042,7 @@ class game
         bool fullscreen = false;
         bool was_fullscreen = false;
         bool auto_travel_mode = false;
+        bool queue_screenshot = false;
         safe_mode_type safe_mode;
         int turnssincelastmon = 0; // needed for auto run mode
 

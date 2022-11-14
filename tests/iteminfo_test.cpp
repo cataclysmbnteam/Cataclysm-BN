@@ -1,9 +1,10 @@
+#include "catch/catch.hpp"
+
 #include <memory>
 #include <string>
 #include <vector>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
 #include "game.h"
 #include "item.h"
 #include "iteminfo_query.h"
@@ -141,7 +142,6 @@ TEST_CASE( "item rigidity", "[item][iteminfo][rigidity]" )
 TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
 {
     // new DPS calculations depend on the avatar's stats, so make sure they're consistent
-    clear_avatar();
     REQUIRE( g->u.get_str() == 8 );
     REQUIRE( g->u.get_dex() == 8 );
     iteminfo_query q = q_vec( { iteminfo_parts::BASE_DAMAGE, iteminfo_parts::BASE_TOHIT,
@@ -240,7 +240,7 @@ TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
             "Coverage: <color_c_yellow>90</color>%  Warmth: <color_c_yellow>5</color>\n"
             "--\n"
             "<color_c_white>Encumbrance</color>: <color_c_yellow>3</color> <color_c_red>(poor fit)</color>\n"
-            "<color_c_white>Protection</color>: Bash: <color_c_yellow>1</color>  Cut: <color_c_yellow>1</color>\n"
+            "<color_c_white>Protection</color>: Bash: <color_c_yellow>1</color>  Cut: <color_c_yellow>1</color>  Ballistic: <color_c_yellow>1</color>\n"
             "  Acid: <color_c_yellow>0</color>  Fire: <color_c_yellow>0</color>  Environmental: <color_c_yellow>0</color>\n" );
     }
 
@@ -381,7 +381,7 @@ TEST_CASE( "food freshness and lifetime", "[item][iteminfo][food]" )
     iteminfo_query q = q_vec( { iteminfo_parts::FOOD_ROT } );
 
     // Ensure test character has no skill estimating spoilage
-    g->u.empty_skills();
+    g->u.clear_skills();
     REQUIRE_FALSE( g->u.can_estimate_rot() );
 
     SECTION( "food is fresh" ) {
@@ -470,11 +470,11 @@ TEST_CASE( "repairable and with what tools", "[item][iteminfo][repair]" )
 
     test_info_contains(
         item( "test_halligan" ), q,
-        "<color_c_white>Repair</color> using extended toolset, arc welder, or makeshift arc welder.\n" );
+        "<color_c_white>Repair</color> using grid welder, extended toolset, arc welder, or makeshift arc welder.\n" );
 
     test_info_contains(
         item( "test_hazmat_suit" ), q,
-        "<color_c_white>Repair</color> using soldering iron, TEST soldering iron, or extended toolset.\n" );
+        "<color_c_white>Repair</color> using grid soldering iron, soldering iron, TEST soldering iron, or extended toolset.\n" );
 
     test_info_contains(
         item( "test_rock" ), q, "* This item is <color_c_red>not repairable</color>.\n" );
@@ -538,7 +538,7 @@ TEST_CASE( "show available recipes with item as an ingredient", "[item][iteminfo
 
     GIVEN( "character has a potassium iodide tablet and no skill" ) {
         item &iodine = g->u.i_add( item( "iodine" ) );
-        g->u.empty_skills();
+        g->u.clear_skills();
 
         THEN( "nothing is craftable from it" ) {
             test_info_equals(

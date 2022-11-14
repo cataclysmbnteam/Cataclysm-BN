@@ -16,7 +16,7 @@
     "copy-from": "bandolier_rifle",
     "type": "ARMOR",
     "name": { "str": "rifle bandolier" },
-    "use_action": { "type": "bandolier", "capacity": 16, "ammo": [ "ammo_rifle", "ammo_rifle_huge" ], "draw_cost": 20 }
+    "use_action": { "type": "bandolier", "capacity": 16, "ammo": [ "ammo_rifle", "ammo_sniper", "ammo_rifle_huge" ], "draw_cost": 20 }
   },
   {
     "id": "bandolier_shotgun",
@@ -44,7 +44,7 @@
     "copy-from": "bandolier_wrist",
     "type": "ARMOR",
     "name": { "str": "wrist bandolier" },
-    "use_action": { "type": "bandolier", "capacity": 4, "ammo": [ "ammo_pistol_magnum", "ammo_rifle" ], "draw_cost": 20 }
+    "use_action": { "type": "bandolier", "capacity": 4, "ammo": [ "ammo_pistol_magnum", "ammo_rifle", "ammo_sniper" ], "draw_cost": 20 }
   },
   {
     "id": "grenade_pouch",
@@ -68,6 +68,7 @@
         "ammo_pistol",
         "ammo_pistol_magnum",
         "ammo_rifle",
+        "ammo_sniper",
         "ammo_rifle_huge",
         "ammo_shot",
         "signal_flare",

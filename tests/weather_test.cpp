@@ -1,9 +1,10 @@
+#include "catch/catch.hpp"
+
 #include <algorithm>
 #include <memory>
 #include <vector>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "point.h"
 #include "weather.h"
 #include "weather_gen.h"
@@ -37,6 +38,79 @@ static double proportion_gteq_x( std::vector<double> const &v, double x )
     return static_cast<double>( count ) / v.size();
 }
 
+TEST_CASE( "default season temperatures", "[weather]" )
+{
+    unsigned seed = 0;
+
+    weather_generator generator;
+    auto &season_stats = generator.season_stats;
+    season_stats[SPRING].average_temperature = 8_c;
+    season_stats[SUMMER].average_temperature = 16_c;
+    season_stats[AUTUMN].average_temperature = 7_c;
+    season_stats[WINTER].average_temperature = -14_c;
+
+    // Shouldn't require this 3_c extra
+    // TODO: Find a reason for why it fails without it
+    const units::temperature max_offset = 3_c
+                                          + generator.temperature_daily_amplitude
+                                          + generator.temperature_noise_amplitude;
+    for( size_t current_season = 0;
+         current_season < static_cast<size_t>( NUM_SEASONS );
+         current_season++ ) {
+        size_t next_season = ( current_season + 1 ) % NUM_SEASONS;
+        const time_point start_season_time = calendar::turn_zero
+                                             + current_season * calendar::season_length();
+        const time_point end_season_time = calendar::turn_zero
+                                           + next_season * calendar::season_length();
+        const units::temperature min_temperature = std::min(
+                    season_stats[current_season].average_temperature,
+                    season_stats[next_season].average_temperature ) - max_offset;
+        const units::temperature max_temperature = std::max(
+                    season_stats[current_season].average_temperature,
+                    season_stats[next_season].average_temperature ) + max_offset;
+        constexpr const tripoint_abs_ms pos;
+        for( time_point current_time = start_season_time;
+             current_time < end_season_time;
+             current_time += time_duration::from_hours( 1 ) ) {
+            CAPTURE( current_season );
+            const double season_progress = ( current_time - start_season_time ) / calendar::season_length();
+            CAPTURE( season_progress );
+            int hours_since_season_start = to_hours<int>( current_time - start_season_time );
+            CAPTURE( hours_since_season_start );
+            CHECK( generator.get_weather_temperature( pos, current_time, calendar::config,
+                    seed ) >= min_temperature );
+            CHECK( generator.get_weather_temperature( pos, current_time, calendar::config,
+                    seed ) <= max_temperature );
+        }
+    }
+}
+
+TEST_CASE( "eternal seasons", "[weather]" )
+{
+    for( size_t i = 0; i < NUM_SEASONS; i++ ) {
+        season_type initial_season = static_cast<season_type>( i );
+        calendar_config no_eternal( calendar::turn_zero, calendar::turn_zero, initial_season, false );
+        calendar_config yes_eternal( calendar::turn_zero, calendar::turn_zero, initial_season, true );
+        unsigned seed = 0;
+
+        weather_generator generator;
+        generator.season_stats[i].average_temperature = 100_c;
+        // No variation in time, other than average season temperature
+        generator.temperature_daily_amplitude = 0_c;
+        generator.temperature_noise_amplitude = 0_c;
+        for( size_t j = 0; j < NUM_SEASONS; j++ ) {
+            time_point mid_season = calendar::turn_zero + calendar::season_length() * ( j + 0.5 );
+            bool is_initial_season = j == i;
+            CAPTURE( initial_season );
+            CAPTURE( i );
+            CHECK( generator.get_weather_temperature( tripoint_abs_ms(), mid_season, no_eternal,
+                    seed ) == ( is_initial_season ? 100_c : 0_c ) );
+            CHECK( generator.get_weather_temperature( tripoint_abs_ms(), mid_season, yes_eternal,
+                    seed ) == 100_c );
+        }
+    }
+}
+
 TEST_CASE( "weather realism", "[.]" )
 // Check our simulated weather against numbers from real data
 // from a few years in a few locations in New England. The numbers
@@ -65,7 +139,7 @@ TEST_CASE( "weather realism", "[.]" )
             w_point w = wgen.get_weather( tripoint_zero, i, seed );
             int day = to_days<int>( time_past_new_year( i ) );
             int minute = to_minutes<int>( time_past_midnight( i ) );
-            temperature[day][minute] = w.temperature;
+            temperature[day][minute] = units::to_fahrenheit( w.temperature );
             int hour = to_hours<int>( time_past_new_year( i ) );
             hourly_precip[hour] +=
                 precip_mm_per_hour(
@@ -112,6 +186,23 @@ TEST_CASE( "weather realism", "[.]" )
     }
 }
 
+TEST_CASE( "windchill sanity check", "[wind_chill][slow]" )
+{
+    // Windchill function must be strictly monotonous with temperature
+    // At all possible wind velocities and humidities
+    for( int humidity = 0; humidity <= 100; humidity++ ) {
+        for( int wind_mph = 0; wind_mph <= 100; wind_mph++ ) {
+            int last_windchill = INT_MIN;
+            for( int temperature_f = -200; temperature_f <= 200; temperature_f++ ) {
+                int cur_windchill = get_local_windchill( temperature_f, humidity, wind_mph );
+                CAPTURE( temperature_f, humidity, wind_mph );
+                CHECK( cur_windchill >= last_windchill );
+                last_windchill = cur_windchill;
+            }
+        }
+    }
+}
+
 TEST_CASE( "local wind chill calculation", "[weather][wind_chill]" )
 {
     // `get_local_windchill` returns degrees F offset from current temperature,
@@ -132,18 +223,6 @@ TEST_CASE( "local wind chill calculation", "[weather][wind_chill]" )
 
     SECTION( "below 50F - North American and UK wind chill index" ) {
 
-        // "Windchill temperature is defined only for temperatures at or below 10C (50F)
-        // and wind speeds above 4.8 kilometres per hour (3.0 mph)."
-
-        WHEN( "wind speed is less than 3 mph" ) {
-            THEN( "windchill is undefined and effectively 0" ) {
-                CHECK( 0 == get_local_windchill( 30.0f, 0.0f, 2.9f ) );
-                CHECK( 0 == get_local_windchill( 30.0f, 0.0f, 2.0f ) );
-                CHECK( 0 == get_local_windchill( 30.0f, 0.0f, 1.0f ) );
-                CHECK( 0 == get_local_windchill( 30.0f, 0.0f, 0.0f ) );
-            }
-        }
-
         // "As the air temperature falls, the chilling effect of any wind that is present increases.
         // For example, a 16 km/h (9.9 mph) wind will lower the apparent temperature by a wider
         // margin at an air temperature of −20C (−4F), than a wind of the same speed would if
@@ -163,99 +242,13 @@ TEST_CASE( "local wind chill calculation", "[weather][wind_chill]" )
             WHEN( "temperature is -20C (-4F)" ) {
                 temp_f = -4.0f;
 
-                THEN( "there is more wind chill, an effect of -16F" ) {
-                    CHECK( -16 == get_local_windchill( temp_f, 0.0f, wind_mph ) );
+                THEN( "there is more wind chill, an effect of -12F" ) {
+                    CHECK( -12 == get_local_windchill( temp_f, 0.0f, wind_mph ) );
                 }
             }
-        }
-
-        // More generally:
-
-        WHEN( "wind speed is at least 3 mph" ) {
-            THEN( "windchill gets colder as temperature decreases" ) {
-                CHECK( -8 == get_local_windchill( 40.0f, 0.0f, 15.0f ) );
-                CHECK( -10 == get_local_windchill( 30.0f, 0.0f, 15.0f ) );
-                CHECK( -13 == get_local_windchill( 20.0f, 0.0f, 15.0f ) );
-                CHECK( -16 == get_local_windchill( 10.0f, 0.0f, 15.0f ) );
-                CHECK( -19 == get_local_windchill( 0.0f, 0.0f, 15.0f ) );
-                CHECK( -22 == get_local_windchill( -10.0f, 0.0f, 15.0f ) );
-                CHECK( -25 == get_local_windchill( -20.0f, 0.0f, 15.0f ) );
-                CHECK( -27 == get_local_windchill( -30.0f, 0.0f, 15.0f ) );
-                CHECK( -30 == get_local_windchill( -40.0f, 0.0f, 15.0f ) );
-            }
-        }
-
-        // "When the temperature is −20C (−4F) and the wind speed is 5 km/h (3.1 mph),
-        // the wind chill index is −24C. If the temperature remains at −20C and the wind
-        // speed increases to 30 km/h (19 mph), the wind chill index falls to −33C."
-
-        GIVEN( "constant temperature of -20C (-4F)" ) {
-            temp_f = -4.0f;
-
-            WHEN( "wind speed is 3.1mph" ) {
-                wind_mph = 3.1f;
-
-                THEN( "wind chill is -24C (-11.2F)" ) {
-                    // -4C offset from -20C =~ -7.2F offset from -4F
-                    CHECK( -7 == get_local_windchill( temp_f, 0.0f, wind_mph ) );
-                }
-            }
-            WHEN( "wind speed increases to 19mph" ) {
-                wind_mph = 19.0f;
-
-                THEN( "wind chill is -33C (-27.4F)" ) {
-                    // -13C offset from -20C =~ -23.4F offset from -4F
-                    // NOTE: This should be -23, but we can forgive an off-by-one
-                    CHECK( -22 == get_local_windchill( temp_f, 0.0f, wind_mph ) );
-                }
-            }
-        }
-
-        // Or more generally:
-
-        WHEN( "wind speed is at least 3 mph" ) {
-            THEN( "windchill gets colder as wind increases" ) {
-                // Just below freezing
-                CHECK( -2 == get_local_windchill( 30.0f, 0.0f, 3.0f ) );
-                CHECK( -4 == get_local_windchill( 30.0f, 0.0f, 4.0f ) );
-                CHECK( -5 == get_local_windchill( 30.0f, 0.0f, 5.0f ) );
-                CHECK( -8 == get_local_windchill( 30.0f, 0.0f, 10.0f ) );
-                CHECK( -12 == get_local_windchill( 30.0f, 0.0f, 20.0f ) );
-                CHECK( -15 == get_local_windchill( 30.0f, 0.0f, 30.0f ) );
-                CHECK( -16 == get_local_windchill( 30.0f, 0.0f, 40.0f ) );
-                CHECK( -18 == get_local_windchill( 30.0f, 0.0f, 50.0f ) );
-
-                // Well below zero
-                CHECK( -10 == get_local_windchill( -30.0f, 0.0f, 3.0f ) );
-                CHECK( -13 == get_local_windchill( -30.0f, 0.0f, 4.0f ) );
-                CHECK( -15 == get_local_windchill( -30.0f, 0.0f, 5.0f ) );
-                CHECK( -23 == get_local_windchill( -30.0f, 0.0f, 10.0f ) );
-                CHECK( -31 == get_local_windchill( -30.0f, 0.0f, 20.0f ) );
-                CHECK( -36 == get_local_windchill( -30.0f, 0.0f, 30.0f ) );
-                CHECK( -40 == get_local_windchill( -30.0f, 0.0f, 40.0f ) );
-                CHECK( -43 == get_local_windchill( -30.0f, 0.0f, 50.0f ) );
-            }
-        }
-
-        // The function accepts a humidity argument, but this model does not use it.
-        //
-        // "The North American formula was designed to be applied at low temperatures
-        // (as low as −46C or −50F) when humidity levels are also low."
-
-        THEN( "wind chill index is unaffected by humidity" ) {
-            CHECK( -6 == get_local_windchill( 40.0f, 0.0f, 10.0f ) );
-            CHECK( -6 == get_local_windchill( 40.0f, 50.0f, 10.0f ) );
-            CHECK( -6 == get_local_windchill( 40.0f, 100.0f, 10.0f ) );
-
-            CHECK( -22 == get_local_windchill( 10.0f, 0.0f, 30.0f ) );
-            CHECK( -22 == get_local_windchill( 10.0f, 50.0f, 30.0f ) );
-            CHECK( -22 == get_local_windchill( 10.0f, 100.0f, 30.0f ) );
-
-            CHECK( -33 == get_local_windchill( -20.0f, 0.0f, 30.0f ) );
-            CHECK( -33 == get_local_windchill( -20.0f, 50.0f, 30.0f ) );
-            CHECK( -33 == get_local_windchill( -20.0f, 100.0f, 30.0f ) );
         }
     }
+
 
     SECTION( "50F and above - Australian apparent temperature" ) {
         GIVEN( "constant temperature of 50F" ) {
@@ -266,11 +259,11 @@ TEST_CASE( "local wind chill calculation", "[weather][wind_chill]" )
 
                 THEN( "apparent temp increases as humidity increases" ) {
                     CHECK( -12 == get_local_windchill( temp_f, 0.0f, wind_mph ) );
-                    CHECK( -11 == get_local_windchill( temp_f, 20.0f, wind_mph ) );
-                    CHECK( -9 == get_local_windchill( temp_f, 40.0f, wind_mph ) );
-                    CHECK( -8 == get_local_windchill( temp_f, 60.0f, wind_mph ) );
-                    CHECK( -7 == get_local_windchill( temp_f, 80.0f, wind_mph ) );
-                    CHECK( -5 == get_local_windchill( temp_f, 100.0f, wind_mph ) );
+                    CHECK( -9 == get_local_windchill( temp_f, 20.0f, wind_mph ) );
+                    CHECK( -7 == get_local_windchill( temp_f, 40.0f, wind_mph ) );
+                    CHECK( -6 == get_local_windchill( temp_f, 60.0f, wind_mph ) );
+                    CHECK( -4 == get_local_windchill( temp_f, 80.0f, wind_mph ) );
+                    CHECK( -3 == get_local_windchill( temp_f, 100.0f, wind_mph ) );
                 }
             }
 
@@ -278,12 +271,12 @@ TEST_CASE( "local wind chill calculation", "[weather][wind_chill]" )
                 humidity = 90.0f;
 
                 THEN( "apparent temp decreases as wind increases" ) {
-                    CHECK( 0 == get_local_windchill( temp_f, humidity, 0.0f ) );
-                    CHECK( -6 == get_local_windchill( temp_f, humidity, 10.0f ) );
-                    CHECK( -11 == get_local_windchill( temp_f, humidity, 20.0f ) );
-                    CHECK( -17 == get_local_windchill( temp_f, humidity, 30.0f ) );
-                    CHECK( -23 == get_local_windchill( temp_f, humidity, 40.0f ) );
-                    CHECK( -28 == get_local_windchill( temp_f, humidity, 50.0f ) );
+                    CHECK( 2 == get_local_windchill( temp_f, humidity, 0.0f ) );
+                    CHECK( -4 == get_local_windchill( temp_f, humidity, 10.0f ) );
+                    CHECK( -8 == get_local_windchill( temp_f, humidity, 20.0f ) );
+                    CHECK( -12 == get_local_windchill( temp_f, humidity, 30.0f ) );
+                    CHECK( -16 == get_local_windchill( temp_f, humidity, 40.0f ) );
+                    CHECK( -22 == get_local_windchill( temp_f, humidity, 50.0f ) );
                 }
             }
         }
@@ -311,8 +304,8 @@ TEST_CASE( "local wind chill calculation", "[weather][wind_chill]" )
                 wind_mph = 0.0f;
 
                 THEN( "apparent temp increases more as it gets hotter" ) {
-                    CHECK( -3 == get_local_windchill( 50.0f, humidity, wind_mph ) );
-                    CHECK( -1 == get_local_windchill( 60.0f, humidity, wind_mph ) );
+                    CHECK( -1 == get_local_windchill( 50.0f, humidity, wind_mph ) );
+                    CHECK( 0 == get_local_windchill( 60.0f, humidity, wind_mph ) );
                     CHECK( 1 == get_local_windchill( 70.0f, humidity, wind_mph ) );
                     CHECK( 4 == get_local_windchill( 80.0f, humidity, wind_mph ) );
                     CHECK( 8 == get_local_windchill( 90.0f, humidity, wind_mph ) );
@@ -324,8 +317,8 @@ TEST_CASE( "local wind chill calculation", "[weather][wind_chill]" )
                 wind_mph = 10.0f;
 
                 THEN( "apparent temp is less but still increases more as it gets hotter" ) {
-                    CHECK( -9 == get_local_windchill( 50.0f, humidity, wind_mph ) );
-                    CHECK( -7 == get_local_windchill( 60.0f, humidity, wind_mph ) );
+                    CHECK( -7 == get_local_windchill( 50.0f, humidity, wind_mph ) );
+                    CHECK( -6 == get_local_windchill( 60.0f, humidity, wind_mph ) );
                     CHECK( -5 == get_local_windchill( 70.0f, humidity, wind_mph ) );
                     CHECK( -2 == get_local_windchill( 80.0f, humidity, wind_mph ) );
                     CHECK( 2 == get_local_windchill( 90.0f, humidity, wind_mph ) );

@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <functional>
 #include <map>
 #include <memory>
@@ -7,7 +9,6 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_variant.h"
-#include "catch/catch.hpp"
 #include "character.h"
 #include "character_id.h"
 #include "event.h"

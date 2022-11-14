@@ -18,7 +18,7 @@
     "casing": "38super_casing",
     "range": 14,
     "//": "Base damage of 26, balance increase of two-nineths.",
-    "damage": { "damage_type": "stab", "amount": 32, "armor_penetration": 18 },
+    "damage": { "damage_type": "bullet", "amount": 32, "armor_penetration": 18 },
     "dispersion": 30,
     "recoil": 250,
     "effects": [ "COOKOFF" ]
@@ -33,24 +33,6 @@
     "price_postapoc": 600,
     "count": 20,
     "//": "Hollowpoint damage increase of 25%.",
-    "damage": { "damage_type": "stab", "amount": 40, "armor_penetration": 0 }
-  },
-  {
-    "id": "reloaded_38super_fmj",
-    "copy-from": "38super_fmj",
-    "type": "AMMO",
-    "name": { "str": ".38 Super FMJ, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_38_super",
-    "copy-from": "38_super",
-    "type": "AMMO",
-    "name": { "str": ".38 Super, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "damage": { "damage_type": "bullet", "amount": 40, "armor_penetration": 0 }
   }
 ]

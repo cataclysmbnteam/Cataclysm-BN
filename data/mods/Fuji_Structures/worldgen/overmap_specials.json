@@ -11,8 +11,8 @@
       { "point": [ 0, 1, 0 ], "overmap": "s_lightindustry_11_south" }
     ],
     "connections": [
-      { "point": [ -1, 0, 0 ], "terrain": "road", "existing": false },
-      { "point": [ -2, 0, 0 ], "terrain": "road", "existing": true }
+      { "point": [ -1, 0, 0 ], "connection": "local_road", "existing": false },
+      { "point": [ -2, 0, 0 ], "connection": "local_road", "existing": true }
     ],
     "locations": [ "land", "swamp" ],
     "city_distance": [ 0, -1 ],
@@ -31,7 +31,7 @@
       { "point": [ 0, 0, -2 ], "overmap": "s_gas_b20_south" },
       { "point": [ 0, 1, -2 ], "overmap": "s_gas_b21_south" }
     ],
-    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "existing": true } ],
+    "connections": [ { "point": [ 0, -1, 0 ], "connection": "local_road", "existing": true } ],
     "locations": [ "land", "swamp" ],
     "city_distance": [ 0, -1 ],
     "city_sizes": [ 1, 12 ],
@@ -46,7 +46,7 @@
       { "point": [ 0, 0, 0 ], "overmap": "s_bunker_shop_g_south" },
       { "point": [ 0, 0, -1 ], "overmap": "s_bunker_shop_b_south" }
     ],
-    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "existing": true } ],
+    "connections": [ { "point": [ 0, -1, 0 ], "connection": "local_road", "existing": true } ],
     "locations": [ "land", "swamp" ],
     "city_distance": [ 10, -1 ],
     "city_sizes": [ 1, 12 ],

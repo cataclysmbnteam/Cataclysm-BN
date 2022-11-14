@@ -42,7 +42,7 @@ if [ -n "$CATA_CLANG_TIDY" ]; then
     $travis_retry pip install --user compiledb 'lit==0.11.1' 'click==7.1.2'
 fi
 
-if [ "$LOCALIZE" == "1" ]; then
+if [ -n "$LANGUAGES" ]; then
     $travis_retry pip install --user polib
 fi
 

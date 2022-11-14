@@ -12,6 +12,7 @@
 #include "int_id.h"
 #include "json.h"
 #include "options.h"
+#include "overmap_special.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -1011,6 +1012,21 @@ void regional_settings::finalize()
     }
 }
 
+overmap_special_id city_settings::pick_house() const
+{
+    return houses.pick()->id;
+}
+
+overmap_special_id city_settings::pick_shop() const
+{
+    return shops.pick()->id;
+}
+
+overmap_special_id city_settings::pick_park() const
+{
+    return parks.pick()->id;
+}
+
 void city_settings::finalize()
 {
     houses.finalize();
@@ -1062,7 +1078,7 @@ void building_bin::finalize()
         overmap_special_id current_id = pr.first;
         if( !current_id.is_valid() ) {
             // First, try to convert oter to special
-            string_id<oter_type_t> converted_id( pr.first.str() );
+            oter_type_str_id converted_id( pr.first.str() );
             if( !converted_id.is_valid() ) {
                 debugmsg( "Tried to add city building %s, but it is neither a special nor a terrain type",
                           pr.first.c_str() );

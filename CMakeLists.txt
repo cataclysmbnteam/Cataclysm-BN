@@ -1,5 +1,5 @@
 # Main project build script
-cmake_minimum_required(VERSION 3.1.4)
+cmake_minimum_required(VERSION 3.16)
 
 PROJECT(CataclysmBN)
 
@@ -19,9 +19,10 @@ option(SOUND        "Support for in-game sounds & music."   "OFF")
 option(BACKTRACE    "Support for printing stack backtraces on crash"   "ON")
 option(LIBBACKTRACE "Print backtrace with libbacktrace."    "OFF")
 option(USE_HOME_DIR "Use user's home directory for save files."   "ON")
-option(LOCALIZE     "Support for language localizations. Also enable UTF support."   "ON")
-set(LANGUAGES "" CACHE STRING "Compile localization files for specified languages. List of language ids separated by semicolon. Set to 'all' or leave empty to compile all.")
+set(LANGUAGES "" CACHE STRING "Compile localization files for specified languages. List of language ids separated by semicolon. Set to 'all' or leave empty to compile all, set to 'none' to compile none.")
 option(DYNAMIC_LINKING "Use dynamic linking. Or use static to remove MinGW dependency instead."   "ON")
+option(USE_UNITY_BUILD "Use unity build." "OFF")
+option(USE_PCH_HEADER "Use precompiled PCH header." "OFF")
 option(JSON_FORMAT  "Build JSON formatter" "OFF")
 option(CATA_CCACHE  "Try to find and build with ccache" "ON")
 option(CATA_CLANG_TIDY_PLUGIN "Build Cata's custom clang-tidy plugin" "OFF")
@@ -77,8 +78,6 @@ ENDIF (${CMAKE_SYSTEM_NAME} MATCHES FreeBSD)
 
 IF(${CMAKE_SYSTEM_NAME} MATCHES Darwin)
     SET(_OS_DARWIN_ 1)
-    SET(LOCALIZE OFF)
-    MESSAGE(STATUS "Disable internationalization on Darwin as it is not supported")
 ENDIF(${CMAKE_SYSTEM_NAME} MATCHES Darwin)
 
 include(CheckCXXCompilerFlag)
@@ -114,11 +113,8 @@ ENDIF (NOT DYNAMIC_LINKING)
 # System specific actions
 IF (${CMAKE_SYSTEM_NAME} MATCHES Linux OR ${CMAKE_SYSTEM_NAME} MATCHES FreeBSD)
     IF(NOT DATA_PREFIX)
-      SET( DATA_PREFIX ${CMAKE_INSTALL_PREFIX}/share/cataclysm-dda)
+      SET( DATA_PREFIX ${CMAKE_INSTALL_PREFIX}/share/cataclysm-bn)
     ENDIF(NOT DATA_PREFIX)
-    IF(NOT LOCALE_DIR)
-      SET( LOCALE_DIR ${CMAKE_INSTALL_PREFIX}/share/locale)
-    ENDIF(NOT LOCALE_DIR)
     IF(NOT BIN_PREFIX)
       SET( BIN_PREFIX ${CMAKE_INSTALL_PREFIX}/bin)
     ENDIF(NOT BIN_PREFIX)
@@ -140,9 +136,6 @@ IF (${CMAKE_SYSTEM_NAME} MATCHES Windows)
     IF(NOT DATA_PREFIX)
       SET(DATA_PREFIX ${CMAKE_INSTALL_PREFIX})
     ENDIF(NOT DATA_PREFIX)
-    IF(NOT LOCALE_DIR)
-      SET(LOCALE_DIR ${CMAKE_INSTALL_PREFIX})
-    ENDIF(NOT LOCALE_DIR)
     IF(NOT BIN_PREFIX)
       SET(BIN_PREFIX ${CMAKE_INSTALL_PREFIX})
     ENDIF(NOT BIN_PREFIX)
@@ -192,9 +185,6 @@ ELSE (CMAKE_BUILD_TYPE STREQUAL Debug)
     MESSAGE(STATUS "CMAKE_INSTALL_PREFIX          : ${CMAKE_INSTALL_PREFIX}")
     MESSAGE(STATUS "BIN_PREFIX                    : ${BIN_PREFIX}")
     MESSAGE(STATUS "DATA_PREFIX                   : ${DATA_PREFIX}")
-    IF(LOCALIZE)
-      MESSAGE(STATUS "LOCALE_PATH                   : ${LOCALE_DIR}")
-    ENDIF(LOCALIZE)
     MESSAGE(STATUS "DESKTOP_ENTRY_PATH            : ${DESKTOP_ENTRY_PATH}")
     MESSAGE(STATUS "PIXMAPS_ENTRY_PATH            : ${PIXMAPS_ENTRY_PATH}")
     MESSAGE(STATUS "PIXMAPS_UNITY_ENTRY_PATH      : ${PIXMAPS_UNITY_ENTRY_PATH}")
@@ -205,15 +195,17 @@ ELSE (CMAKE_BUILD_TYPE STREQUAL Debug)
       ADD_DEFINITIONS(-DDATA_DIR_PREFIX)
     ENDIF (PREFIX AND NOT WIN32)
 ENDIF (CMAKE_BUILD_TYPE STREQUAL Debug)
-
     MESSAGE(STATUS "GIT_BINARY                    : ${GIT_EXECUTABLE}")
     MESSAGE(STATUS "DYNAMIC_LINKING               : ${DYNAMIC_LINKING}")
+
     MESSAGE(STATUS "TILES                         : ${TILES}")
     MESSAGE(STATUS "CURSES                        : ${CURSES}")
     MESSAGE(STATUS "SOUND                         : ${SOUND}")
     MESSAGE(STATUS "BACKTRACE                     : ${BACKTRACE}")
-    MESSAGE(STATUS "LOCALIZE                      : ${LOCALIZE}")
     MESSAGE(STATUS "USE_HOME_DIR                  : ${USE_HOME_DIR}\n")
+
+    MESSAGE(STATUS "UNITY_BUILD                   : ${USE_UNITY_BUILD}")
+    MESSAGE(STATUS "PCH_HEADER                    : ${USE_PCH_HEADER}")
 
     MESSAGE(STATUS "LANGUAGES                     : ${LANGUAGES}\n")
 
@@ -227,7 +219,7 @@ IF(MSVC)
     endif()
 ELSE()
     SET(CATA_WARNINGS
-      "-Werror -Wall -Wextra \
+        "-Werror -Wall -Wextra \
        -Wformat-signedness \
        -Wlogical-op \
        -Wmissing-declarations \
@@ -239,7 +231,8 @@ ELSE()
        -Wsuggest-override \
        -Wunused-macros \
        -Wzero-as-null-pointer-constant \
-       -Wno-unknown-warning-option")
+       -Wno-unknown-warning-option \
+       -Wno-range-loop-analysis")
     IF (NOT ${CMAKE_SYSTEM_NAME} MATCHES Windows)
         SET(CATA_WARNINGS "${CATA_WARNINGS} -Wredundant-decls")
     ENDIF()
@@ -250,7 +243,7 @@ ELSE()
     SET(CMAKE_CXX_FLAGS_DEBUG "-Og -g")
 ENDIF()
 
-SET(CMAKE_CXX_STANDARD 14)
+SET(CMAKE_CXX_STANDARD 17)
 
 # Force out-of-source build
 IF(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
@@ -271,7 +264,7 @@ IF(TILES)
     FIND_PACKAGE(SDL2)
     IF(NOT SDL2_FOUND)
       MESSAGE(FATAL_ERROR
-          "This project requires SDL2 to be installed to be compiled in graphical mode. Please install the SDL2 development libraries, or try compiling 
+          "This project requires SDL2 to be installed to be compiled in graphical mode. Please install the SDL2 development libraries, or try compiling
            without the -DTILES=1 for a text only compilation.\nSee INSTALL file for details and more info\n"
       )
     ENDIF(NOT SDL2_FOUND)
@@ -346,31 +339,13 @@ IF(BACKTRACE)
 ENDIF(BACKTRACE)
 
 # Ok. Now create build and install recipes
-IF(LOCALIZE)
-    IF(WIN32)
-      FIND_PACKAGE(Libintl)
-      IF(NOT LIBINTL_FOUND)
-        MESSAGE(FATAL_ERROR
-          "You need the libintl development library to be able to compile with Localize support.\nSee INSTALL file for details and more info\n"
-        )
-      ENDIF(NOT LIBINTL_FOUND)
-      FIND_PACKAGE(Iconv)
-      IF(NOT ICONV_FOUND)
-        MESSAGE(FATAL_ERROr
-          "You need the iconv development library to be able to compile with Localize support.\nSee INSTALL file for details and more info\n"
-        )
-      ENDIF(NOT ICONV_FOUND)
-    ENDIF(WIN32)
-    add_subdirectory(lang)
-    ADD_DEFINITIONS(-DLOCALIZE)
-ENDIF(LOCALIZE)
-
 IF(USE_HOME_DIR)
     ADD_DEFINITIONS(-DUSE_HOME_DIR)
 ENDIF(USE_HOME_DIR)
 
 add_subdirectory(src)
 add_subdirectory(data)
+add_subdirectory(lang)
 if (NOT MSVC)
     add_subdirectory(src/chkjson)
 endif()
@@ -399,4 +374,7 @@ if(CCACHE_FOUND AND CATA_CCACHE)
     set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK ccache)
 endif()
 
+if(USE_UNITY_BUILD)
+    set_property(GLOBAL PROPERTY UNITY_BUILD ON)
+endif()
 # vim:noet

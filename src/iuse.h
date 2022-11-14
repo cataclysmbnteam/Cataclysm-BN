@@ -41,7 +41,6 @@ int anticonvulsant( player *, item *, bool, const tripoint & );
 int weed_cake( player *, item *, bool, const tripoint & );
 int meth( player *, item *, bool, const tripoint & );
 int vaccine( player *, item *, bool, const tripoint & );
-int flu_vaccine( player *, item *, bool, const tripoint & );
 int poison( player *, item *, bool, const tripoint & );
 int meditate( player *, item *, bool, const tripoint & );
 int thorazine( player *, item *, bool, const tripoint & );

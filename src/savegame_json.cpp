@@ -38,6 +38,7 @@
 #include "cata_variant.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "character_encumbrance.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
 #include "clone_ptr.h"
@@ -45,6 +46,7 @@
 #include "colony.h"
 #include "computer.h"
 #include "construction.h"
+#include "consumption.h"
 #include "craft_command.h"
 #include "creature.h"
 #include "creature_tracker.h"
@@ -114,7 +116,6 @@
 #include "flag.h"
 
 struct mutation_branch;
-struct oter_type_t;
 
 static const efftype_id effect_riding( "riding" );
 
@@ -349,6 +350,19 @@ void Character::trait_data::deserialize( JsonIn &jsin )
     data.read( "powered", powered );
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+///// consumption.h
+
+void consumption_history_t::serialize( JsonOut &json ) const
+{
+    json.write( elems );
+}
+
+void consumption_history_t::deserialize( JsonIn &jsin )
+{
+    jsin.read( elems );
+}
+
 void consumption_event::serialize( JsonOut &json ) const
 {
     json.start_object();
@@ -401,6 +415,11 @@ void Character::load( const JsonObject &data )
     data.read( "base_age", init_age );
     data.read( "base_height", init_height );
 
+    if( !data.read( "profession", prof ) || !prof.is_valid() ) {
+        // We are likely an older profession which has since been removed so just set to default.
+        // This is only cosmetic after game start.
+        prof = profession::generic();
+    }
     data.read( "custom_profession", custom_profession );
 
     // needs
@@ -434,9 +453,10 @@ void Character::load( const JsonObject &data )
     JsonObject vits = data.get_object( "vitamin_levels" );
     vits.allow_omitted_members();
     for( const std::pair<const vitamin_id, vitamin> &v : vitamin::all() ) {
-        int lvl = vits.get_int( v.first.str(), 0 );
-        lvl = std::max( std::min( lvl, v.first.obj().max() ), v.first.obj().min() );
-        vitamin_levels[v.first] = lvl;
+        if( vits.has_member( v.first.str() ) ) {
+            int lvl = vits.get_int( v.first.str() );
+            vitamin_levels[v.first] = clamp( lvl, v.first->min(), v.first->max() );
+        }
     }
     data.read( "consumption_history", consumption_history );
     data.read( "activity", activity );
@@ -581,6 +601,9 @@ void Character::load( const JsonObject &data )
         member.read( ( *_skills )[skill_id( member.name() )] );
     }
 
+    data.read( "learned_recipes", *learned_recipes );
+    autolearn_skills_stamp->clear(); // Invalidates the cache
+
     on_stat_change( "thirst", thirst );
     on_stat_change( "stored_calories", stored_calories );
     on_stat_change( "fatigue", fatigue );
@@ -607,6 +630,7 @@ void Character::load( const JsonObject &data )
         overmap_time_array.read_next( tdr );
         overmap_time[pt] = tdr;
     }
+    data.read( "stomach", stomach );
     data.read( "automoveroute", auto_move_route );
 
     known_traps.clear();
@@ -649,6 +673,9 @@ void Character::store( JsonOut &json ) const
     json.member( "base_age", init_age );
     json.member( "base_height", init_height );
 
+    if( prof.is_valid() ) {
+        json.member( "profession", prof );
+    }
     json.member( "custom_profession", custom_profession );
 
     // health
@@ -722,6 +749,10 @@ void Character::store( JsonOut &json ) const
     }
     json.end_object();
 
+    // npc: unimplemented, potentially useful
+    json.member( "learned_recipes", *learned_recipes );
+    autolearn_skills_stamp->clear(); // Invalidates the cache
+
     // npc; unimplemented
     if( power_level < 1_kJ ) {
         json.member( "power_level", std::to_string( units::to_joule( power_level ) ) + " J" );
@@ -739,6 +770,7 @@ void Character::store( JsonOut &json ) const
         }
         json.end_array();
     }
+    json.member( "stomach", stomach );
     json.member( "automoveroute", auto_move_route );
     json.member( "known_traps" );
     json.start_array();
@@ -934,10 +966,6 @@ void avatar::store( JsonOut &json ) const
 {
     player::store( json );
 
-    // player-specific specifics
-    if( prof != nullptr ) {
-        json.member( "profession", prof->ident() );
-    }
     if( g->scen != nullptr ) {
         json.member( "scenario", g->scen->ident() );
     }
@@ -956,9 +984,6 @@ void avatar::store( JsonOut &json ) const
     json.member( "dex_upgrade", std::abs( dex_upgrade ) );
     json.member( "int_upgrade", std::abs( int_upgrade ) );
     json.member( "per_upgrade", std::abs( per_upgrade ) );
-
-    // npc: unimplemented, potentially useful
-    json.member( "learned_recipes", *learned_recipes );
 
     // Player only, books they have read at least once.
     json.member( "items_identified", items_identified );
@@ -1000,14 +1025,6 @@ void avatar::deserialize( JsonIn &jsin )
 void avatar::load( const JsonObject &data )
 {
     player::load( data );
-
-    std::string prof_ident = "(null)";
-    if( data.read( "profession", prof_ident ) && string_id<profession>( prof_ident ).is_valid() ) {
-        prof = &string_id<profession>( prof_ident ).obj();
-    } else {
-        //We are likely an older profession which has since been removed so just set to default.  This is only cosmetic after game start.
-        prof = profession::generic();
-    }
 
     data.read( "controlling_vehicle", controlling_vehicle );
 
@@ -1058,9 +1075,6 @@ void avatar::load( const JsonObject &data )
         }
         g->scen = generic_scenario;
     }
-
-    data.read( "learned_recipes", *learned_recipes );
-    valid_autolearn_skills->clear(); // Invalidates the cache
 
     items_identified.clear();
     data.read( "items_identified", items_identified );
@@ -2449,6 +2463,8 @@ void vehicle_part::deserialize( JsonIn &jsin )
     data.read( "direction", direction_int );
     direction = units::from_degrees( direction_int );
     data.read( "blood", blood );
+    data.read( "proxy_part_id", proxy_part_id );
+    data.read( "proxy_sym", proxy_sym );
     data.read( "enabled", enabled );
     data.read( "flags", flags );
     data.read( "passenger_id", passenger_id );
@@ -2519,6 +2535,8 @@ void vehicle_part::serialize( JsonOut &json ) const
     json.member( "open", open );
     json.member( "direction", std::lround( to_degrees( direction ) ) );
     json.member( "blood", blood );
+    json.member( "proxy_part_id", proxy_part_id );
+    json.member( "proxy_sym", proxy_sym );
     json.member( "enabled", enabled );
     json.member( "flags", flags );
     if( !carry_names.empty() ) {
@@ -2869,11 +2887,7 @@ void mission::deserialize( JsonIn &jsin )
     }
 
     jo.read( "item_id", item_id );
-
-    const std::string omid = jo.get_string( "target_id", "" );
-    if( !omid.empty() ) {
-        target_id = string_id<oter_type_t>( omid );
-    }
+    jo.read( "target_id", target_id );
 
     if( jo.has_int( "recruit_class" ) ) {
         recruit_class = npc_class::from_legacy_int( jo.get_int( "recruit_class" ) );
@@ -2922,7 +2936,7 @@ void mission::serialize( JsonOut &json ) const
 
     json.member( "item_id", item_id );
     json.member( "item_count", item_count );
-    json.member( "target_id", target_id.str() );
+    json.member( "target_id", target_id );
     json.member( "recruit_class", recruit_class );
     json.member( "target_npc_id", target_npc_id );
     json.member( "monster_type", monster_type );
@@ -3026,6 +3040,7 @@ void Creature::store( JsonOut &jsout ) const
 
     jsout.member( "armor_bash_bonus", armor_bash_bonus );
     jsout.member( "armor_cut_bonus", armor_cut_bonus );
+    jsout.member( "armor_bullet_bonus", armor_bullet_bonus );
 
     jsout.member( "speed", speed_base );
 
@@ -3079,6 +3094,7 @@ void Creature::load( const JsonObject &jsin )
 
     jsin.read( "armor_bash_bonus", armor_bash_bonus );
     jsin.read( "armor_cut_bonus", armor_cut_bonus );
+    jsin.read( "armor_bullet_bonus", armor_bullet_bonus );
 
     jsin.read( "speed", speed_base );
 
@@ -4272,9 +4288,11 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "hidden_recipes", hidden_recipes );
     json.member( "favorite_recipes", favorite_recipes );
     json.member( "recent_recipes", recent_recipes );
+    json.member( "favorite_construct_recipes", favorite_construct_recipes );
     json.member( "bionic_ui_sort_mode", bionic_sort_mode );
     json.member( "overmap_debug_weather", overmap_debug_weather );
     json.member( "overmap_visible_weather", overmap_visible_weather );
+    json.member( "overmap_debug_mongroup", overmap_debug_mongroup );
 
     json.member( "input_history" );
     json.start_object();
@@ -4319,9 +4337,11 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "hidden_recipes", hidden_recipes );
     jo.read( "favorite_recipes", favorite_recipes );
     jo.read( "recent_recipes", recent_recipes );
+    jo.read( "favorite_construct_recipes", favorite_construct_recipes );
     jo.read( "bionic_ui_sort_mode", bionic_sort_mode );
     jo.read( "overmap_debug_weather", overmap_debug_weather );
     jo.read( "overmap_visible_weather", overmap_visible_weather );
+    jo.read( "overmap_debug_mongroup", overmap_debug_mongroup );
 
     if( !jo.read( "vmenu_show_items", vmenu_show_items ) ) {
         // This is an old save: 1 means view items, 2 means view monsters,

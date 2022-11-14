@@ -315,6 +315,7 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "difficulty": 3,
+    "autolearn": [ [ "fabrication", 6 ] ],
     "time": "18 m",
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "textbook_chemistry", 3 ], [ "adv_chemistry", 3 ], [ "textbook_mechanics", 5 ] ],
     "using": [ [ "filament", 50 ] ],
@@ -342,12 +343,13 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "difficulty": 4,
+    "skills_required": [ "mechanics", 2 ],
     "time": "10 m",
-    "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "GLARE", "level": 2 } ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 }, { "id": "GLARE", "level": 2 } ],
+    "using": [ [ "steel_tiny", 1 ] ],
     "tools": [ [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "oxy_torch", 10 ] ], [ [ "soldering_iron", 10 ] ] ],
-    "components": [ [ [ "sheet_metal", 1 ] ], [ [ "scrap", 2 ] ], [ [ "circuit", 1 ] ] ]
+    "components": [ [ [ "sheet_metal", 2 ] ], [ [ "pipe", 2 ] ], [ [ "chain", 1 ] ], [ [ "circuit", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -413,8 +415,7 @@
     "components": [
       [
         [ "splinter", 40 ],
-        [ "2x4", 6 ],
-        [ "stick", 8 ],
+        [ "wood_structural", 4, "LIST" ],
         [ "bone", 40 ],
         [ "bone_human", 40 ],
         [ "bone_tainted", 40 ],
@@ -470,12 +471,13 @@
     "skill_used": "fabrication",
     "skills_required": [ "cooking", 2 ],
     "difficulty": 3,
-    "time": "1 h",
+    "time": "12 m",
+    "charges": 10,
     "autolearn": false,
     "batch_time_factors": [ 75, 4 ],
     "book_learn": [ [ "concrete_book", 3 ], [ "adv_chemistry", 3 ], [ "textbook_chemistry", 3 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 250 ], [ "oxy_torch", 50 ] ] ],
-    "components": [ [ [ "material_limestone", 50 ] ] ]
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
+    "components": [ [ [ "material_limestone", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -1039,7 +1041,7 @@
         [ "material_aluminium_ingot", 1 ],
         [ "aluminum_foil", 40 ],
         [ "chem_aluminium_powder", 15 ],
-        [ "can_drink", 2 ]
+        [ "can_drink_unsealed", 2 ]
       ],
       [ [ "copper_scrap_equivalent", 2, "LIST" ] ]
     ]
@@ -1148,6 +1150,7 @@
   {
     "type": "recipe",
     "result": "leather",
+    "id_suffix": "shaving",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "survival",

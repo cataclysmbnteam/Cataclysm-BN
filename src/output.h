@@ -450,6 +450,13 @@ inline bool query_yn( const char *const msg, Args &&... args )
     return query_yn( string_format( msg, std::forward<Args>( args )... ) );
 }
 
+bool query_int( int &result, int default_val, const std::string &text );
+template<typename ...Args>
+inline bool query_int( int &result, int default_val, const char *const msg, Args &&... args )
+{
+    return query_int( result, default_val, string_format( msg, std::forward<Args>( args )... ) );
+}
+
 bool query_int( int &result, const std::string &text );
 template<typename ...Args>
 inline bool query_int( int &result, const char *const msg, Args &&... args )
@@ -659,7 +666,9 @@ inline std::string get_labeled_bar( const double val, const int width, const std
 enum class enumeration_conjunction {
     none,
     and_,
-    or_
+    or_,
+    newline,
+    arrow
 };
 
 /**
@@ -679,18 +688,33 @@ std::string enumerate_as_string( const _Container &values,
                 return ( values.size() > 2 ? _( ", and " ) : _( " and " ) );
             case enumeration_conjunction::or_:
                 return ( values.size() > 2 ? _( ", or " ) : _( " or " ) );
+            case enumeration_conjunction::newline:
+                return "\n";
+            case enumeration_conjunction::arrow:
+                return _( " > " );
         }
         debugmsg( "Unexpected conjunction" );
         return _( ", " );
     }
     ();
+    const std::string separator = [&conj]() {
+        switch( conj ) {
+            case enumeration_conjunction::arrow:
+                return _( " > " );
+            default:
+                return _( ", " );
+        }
+    }
+    ();
     std::string res;
     for( auto iter = values.begin(); iter != values.end(); ++iter ) {
         if( iter != values.begin() ) {
-            if( std::next( iter ) == values.end() ) {
+            if( conj == enumeration_conjunction::newline ) {
+                res += "\n";
+            } else if( std::next( iter ) == values.end() ) {
                 res += final_separator;
             } else {
-                res += _( ", " );
+                res += separator;
             }
         }
         res += *iter;

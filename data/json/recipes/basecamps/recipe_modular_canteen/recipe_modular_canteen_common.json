@@ -43,7 +43,7 @@
         "components": [ [ [ "2x4", 2 ] ], [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "nail", 8 ] ], [ [ "rock", 80 ] ] ]
       }
     },
-    "components": [ [ [ "pot", 1 ], [ "rock_pot", 1 ], [ "pot_copper", 1 ], [ "clay_pot", 1 ] ], [ [ "pan", 1 ] ] ]
+    "components": [ [ [ "pot", 1 ], [ "pot_copper", 1 ], [ "clay_pot", 1 ] ], [ [ "pan", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -81,7 +81,7 @@
         ]
       }
     },
-    "components": [ [ [ "pot", 1 ], [ "rock_pot", 1 ], [ "pot_copper", 1 ], [ "clay_pot", 1 ] ], [ [ "pan", 1 ] ] ]
+    "components": [ [ [ "pot", 1 ], [ "pot_copper", 1 ], [ "clay_pot", 1 ] ], [ [ "pan", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -97,12 +97,12 @@
     "blueprint_provides": [ { "id": "fbmk_canteen_well" } ],
     "blueprint_excludes": [ { "id": "fbmk_canteen_well" } ],
     "blueprint_needs": {
-      "time": "11 h",
+      "time": "13 h 30 m",
       "skills": [ [ "fabrication", 4 ], [ "mechanics", 2 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH" } ] ],
-        "components": [ [ [ "rock", 40 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ], [ [ "well_pump", 1 ] ], [ [ "pipe", 6 ] ] ]
+        "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ], [ [ "pipe", 6 ] ], [ [ "rock", 40 ] ], [ [ "well_pump", 1 ] ] ]
       }
     }
   },
@@ -210,20 +210,7 @@
           [ [ "wood_sheet", 1 ], [ "wood_panel", 1 ] ],
           [ [ "nail", 8 ] ],
           [ [ "stick_long", 6 ] ],
-          [
-            [ "rope_6", 1 ],
-            [ "vine_6", 1 ],
-            [ "rope_makeshift_6", 1 ],
-            [ "string_36", 2 ],
-            [ "cordage_36", 2 ],
-            [ "string_6", 12 ],
-            [ "cordage_6", 12 ],
-            [ "thread", 600 ],
-            [ "sinew", 600 ],
-            [ "plant_fibre", 600 ],
-            [ "yarn", 600 ],
-            [ "wire", 8 ]
-          ],
+          [ [ "rope_natural_short", 1, "LIST" ], [ "cordage", 2, "LIST" ], [ "wire", 8 ] ],
           [ [ "pointy_stick", 2 ], [ "spike", 2 ] ]
         ]
       }

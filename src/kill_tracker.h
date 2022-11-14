@@ -18,13 +18,18 @@ class event;
 
 class kill_tracker : public event_subscriber
 {
+        /**
+         * to keep track of new kills, we need to access the private members (kills, npc_kills).
+         * we may include getter for those later, and remove friend class diary.
+         */
+        friend class diary;
     public:
         kill_tracker() = default;
         void reset( const std::map<mtype_id, int> &kills,
                     const std::vector<std::string> &npc_kills );
-        /** Returns the number of kills of the given mon_id by the player. */
+        /** returns the number of kills of the given mon_id by the player. */
         int kill_count( const mtype_id & ) const;
-        /** Returns the number of kills of the given monster species by the player. */
+        /** returns the number of kills of the given monster species by the player. */
         int kill_count( const species_id & ) const;
         int monster_kill_count() const;
         int npc_kill_count() const;
@@ -40,7 +45,7 @@ class kill_tracker : public event_subscriber
         void serialize( JsonOut & ) const;
         void deserialize( JsonIn & );
     private:
-        std::map<mtype_id, int> kills;         // Player's kill count
+        std::map<mtype_id, int> kills;         // player's kill count
         std::vector<std::string> npc_kills;    // names of NPCs the player killed
 };
 

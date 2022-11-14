@@ -1,9 +1,8 @@
 [
   {
     "id": "hk_mp7",
-    "looks_like": "hk_mp5",
+    "copy-from": "smg_base",
     "type": "GUN",
-    "reload_noise_volume": 10,
     "name": { "str": "H&K MP7A2" },
     "description": "Designed as a personal defense weapon, the MP7 fires the high-powered 4.6x30mm round while being lightweight, compact in size, and practically recoil free.",
     "weight": "1800 g",
@@ -13,12 +12,9 @@
     "to_hit": -2,
     "bashing": 7,
     "material": [ "steel", "plastic" ],
-    "symbol": "(",
     "color": "dark_gray",
     "ammo": "46",
-    "skill": "smg",
     "dispersion": 260,
-    "durability": 8,
     "min_cycle_recoil": 81,
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 5 ] ],
     "built_in_mods": [ "wire_stock" ],
@@ -35,7 +31,6 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazine_well": "250 ml",
     "magazines": [ [ "46", [ "hk46mag", "hk46bigmag" ] ] ]
   }

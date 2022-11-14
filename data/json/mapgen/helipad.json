@@ -63,7 +63,11 @@
         "B": {
           "item": {
             "subtype": "distribution",
-            "entries": [ { "group": "fuel_barrel", "prob": 30 }, { "item": "30gal_drum", "prob": 70 } ]
+            "entries": [
+              { "item": "30gal_drum", "prob": 50 },
+              { "group": "fuel_barrel", "prob": 20 },
+              { "group": "fuel_barrel_full", "prob": 30 }
+            ]
           },
           "chance": 75
         },
@@ -125,7 +129,7 @@
         { "vehicle": "flatbed_truck", "x": 11, "y": 4, "chance": 25, "rotation": 270, "status": -1 },
         { "vehicle": "SmallFlier3_Wreck", "x": 9, "y": 42, "chance": 10, "rotation": 90, "status": -1 },
         { "vehicle": "Smallflier1_Wreck", "x": 18, "y": 34, "chance": 10, "rotation": 270, "status": -1 },
-        { "vehicle": "SmallFlier2_Wreck", "x": 39, "y": 42, "chance": 10, "rotation": 90, "status": -1 }
+        { "vehicle": "mil_helicopters", "x": 39, "y": 42, "chance": 10, "rotation": 90, "status": -1 }
       ]
     }
   },

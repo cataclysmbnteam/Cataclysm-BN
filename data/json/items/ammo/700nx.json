@@ -17,18 +17,10 @@
     "ammo_type": "700nx",
     "casing": "700nx_casing",
     "range": 42,
-    "damage": { "damage_type": "stab", "amount": 110, "armor_penetration": 30 },
+    "//": "Base damage of 110, balance reduction to roughly 80%, armor penetration half expected value which is still quite a lot.",
+    "damage": { "damage_type": "bullet", "amount": 90, "armor_penetration": 25 },
     "dispersion": 15,
     "recoil": 12100,
     "effects": [ "COOKOFF" ]
-  },
-  {
-    "id": "reloaded_700nx",
-    "copy-from": "700nx",
-    "type": "AMMO",
-    "name": { "str": ".700 NX, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }
 ]

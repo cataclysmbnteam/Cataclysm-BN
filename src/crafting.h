@@ -5,14 +5,19 @@
 #include <list>
 #include <set>
 #include <vector>
+
 #include "point.h"
+#include "ret_val.h"
 #include "type_id.h"
 
+class avatar;
 class Character;
 class inventory;
 class item;
+class item_location;
 class player;
 class recipe;
+struct iuse_location;
 struct tool_comp;
 
 enum class cost_adjustment : int;
@@ -35,17 +40,23 @@ struct bench_location {
 template<typename Type>
 struct comp_selection;
 
-// removes any (removable) ammo from the item and stores it in the
-// players inventory.
-void remove_ammo( item &dis_item, player &p );
-// same as above but for each item in the list
-void remove_ammo( std::list<item> &dis_items, player &p );
+/**
+ * @brief Removes any (removable) ammo and stores it in character's inventory.
+ */
+void remove_ammo( item &dis_item, Character &who );
+/**
+ * @brief Removes any (removable) ammo from each item and stores it in character's inventory.
+ */
+void remove_ammo( std::list<item> &dis_items, Character &who );
 
 bench_location find_best_bench( const player &p, const item &craft );
 
 float workbench_crafting_speed_multiplier( const item &craft, const bench_location &bench );
-float crafting_speed_multiplier( const player &p, const recipe &rec, bool in_progress );
-float crafting_speed_multiplier( const player &p, const item &craft, const bench_location &bench );
+float morale_crafting_speed_multiplier( const Character &who, const recipe &rec );
+float lighting_crafting_speed_multiplier( const Character &who, const recipe &rec );
+float crafting_speed_multiplier( const Character &who, const recipe &rec, bool in_progress );
+float crafting_speed_multiplier( const Character &who, const item &craft,
+                                 const bench_location &bench );
 void complete_craft( player &p, item &craft, const bench_location &bench );
 
 namespace crafting
@@ -91,6 +102,29 @@ comp_selection<tool_comp>
 select_tool_component( const std::vector<tool_comp> &tools, int batch, const inventory &map_inv,
                        const Character *player_with_inv,
                        bool can_cancel = false );
+
+/** Check if character can disassemble an item using the given crafting inventory. */
+ret_val<bool> can_disassemble( const Character &who, const item &obj, const inventory &inv );
+
+/**
+ * Prompt for an item to disassemble, then start activity.
+ */
+bool disassemble( avatar &you );
+
+/**
+ * Prompt to disassemble given item, then start activity.
+ */
+bool disassemble( avatar &you, item_location target );
+
+/**
+ * Start an activity to disassemble all items in avatar's square.
+ */
+bool disassemble_all( avatar &you, bool recursively );
+
+/**
+ * Complete disassembly of target item.
+ */
+void complete_disassemble( Character &who, iuse_location target, const tripoint &pos );
 
 } // namespace crafting
 

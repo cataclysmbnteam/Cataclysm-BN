@@ -145,22 +145,20 @@ void mod_manager::refresh_mod_list()
 {
     clear();
 
-    load_mods_from( PATH_INFO::moddir() );
-    load_mods_from( PATH_INFO::user_moddir() );
+    add_mods( mod_management::load_mods_from( PATH_INFO::moddir() ) );
+    add_mods( mod_management::load_mods_from( PATH_INFO::user_moddir() ) );
 
-    if( file_exist( PATH_INFO::mods_dev_default() ) ) {
-        load_mod_info( PATH_INFO::mods_dev_default() );
+    cata::optional<t_mod_list> default_list = mod_management::load_mod_list(
+                PATH_INFO::mods_user_default()
+            );
+    if( !default_list ) {
+        default_list = mod_management::load_mod_list( PATH_INFO::mods_dev_default() );
     }
-    if( file_exist( PATH_INFO::mods_user_default() ) ) {
-        load_mod_info( PATH_INFO::mods_user_default() );
+    if( default_list ) {
+        t_mod_list list = std::move( *default_list );
+        remove_invalid_mods( list );
+        default_mods = list;
     }
-
-    if( !set_default_mods( mod_id( "user:default" ) ) ) {
-        set_default_mods( mod_id( "dev:default" ) );
-    }
-    // remove these mods from the list, so they do not appear to the user
-    remove_mod( mod_id( "user:default" ) );
-    remove_mod( mod_id( "dev:default" ) );
 
     std::map<mod_id, std::vector<mod_id>> mod_dependency_map;
     std::map<mod_id, std::vector<mod_id>> mod_conflict_map;
@@ -181,54 +179,72 @@ void mod_manager::remove_mod( const mod_id &ident )
     }
 }
 
-void mod_manager::remove_invalid_mods( std::vector<mod_id> &mods ) const
+void mod_manager::remove_invalid_mods( t_mod_list &mods ) const
 {
     mods.erase( std::remove_if( mods.begin(), mods.end(), [this]( const mod_id & mod ) {
         return mod_map.count( mod ) == 0;
     } ), mods.end() );
 }
 
-bool mod_manager::set_default_mods( const mod_id &ident )
+namespace mod_management
 {
-    // can't use string_id::is_valid as the global mod_manger instance does not exist yet
-    const auto iter = mod_map.find( ident );
-    if( iter == mod_map.end() ) {
-        return false;
-    }
-    const MOD_INFORMATION &mod = iter->second;
-    auto deps = std::vector<mod_id>( mod.dependencies.begin(), mod.dependencies.end() );
-    remove_invalid_mods( deps );
-    default_mods = deps;
-    return true;
-}
 
-void mod_manager::load_mods_from( const std::string &path )
+std::vector<MOD_INFORMATION> load_mods_from( const std::string &path )
 {
+    std::vector<MOD_INFORMATION> out;
+
     for( auto &mod_file : get_files_from_path( MOD_SEARCH_FILE, path, true ) ) {
-        load_mod_info( mod_file );
+        load_mod_info( mod_file, out );
     }
+
+    std::set<mod_id> idents;
+    std::set<mod_id> has_dupes;
+
+    for( const MOD_INFORMATION &it : out ) {
+        if( idents.count( it.ident ) > 0 ) {
+            has_dupes.emplace( it.ident );
+        } else {
+            idents.emplace( it.ident );
+        }
+    }
+
+    for( const mod_id &ident : has_dupes ) {
+        std::string msg = string_format(
+                              _( "The are multiple mods with same id [%s] found in folder \"%s\":\n" ),
+                              ident, path );
+
+        for( auto it = out.begin(); it != out.end(); ) {
+            if( it->ident == ident ) {
+                msg += "  - ";
+                msg += it->path_full;
+                msg += "\n";
+                it = out.erase( it );
+            } else {
+                it++;
+            }
+        }
+
+        msg += _( "None of them will be loaded to avoid data corruption." );
+
+        debugmsg( msg );
+    }
+
+    return out;
 }
 
-void mod_manager::load_modfile( const JsonObject &jo, const std::string &path )
+cata::optional<MOD_INFORMATION> load_modfile( const JsonObject &jo, const std::string &path )
 {
     if( !jo.has_string( "type" ) || jo.get_string( "type" ) != "MOD_INFO" ) {
         // Ignore anything that is not a mod-info
         jo.allow_omitted_members();
-        return;
+        return cata::nullopt;
     }
 
     // TEMPORARY until 0.G: Remove "ident" support
     const mod_id m_ident( jo.has_string( "ident" ) ? jo.get_string( "ident" ) : jo.get_string( "id" ) );
-    // can't use string_id::is_valid as the global mod_manger instance does not exist yet
-    if( mod_map.count( m_ident ) > 0 ) {
-        // TODO: change this to make unique ident for the mod
-        // (instead of discarding it?)
-        debugmsg( "there is already a mod with ident %s", m_ident.c_str() );
-        return;
-    }
 
     std::string m_cat = jo.get_string( "category", "" );
-    std::pair<int, std::string> p_cat = {-1, ""};
+    std::pair<int, std::string> p_cat = { -1, "" };
     bool bCatFound = false;
 
     do {
@@ -256,13 +272,10 @@ void mod_manager::load_modfile( const JsonObject &jo, const std::string &path )
     } else {
         modfile.path = path;
     }
-    if( assign( jo, "legacy", modfile.legacy ) ) {
-        modfile.legacy = path + "/" + modfile.legacy;
-    }
 
     const std::string m_name = jo.get_string( "name", "" );
     const std::string m_descr = jo.get_string( "description", "" );
-    modfile.translatable_info = translatable_mod_info( m_name, m_descr, modfile.path );
+    modfile.set_translatable_info( translatable_mod_info( m_name, m_descr, modfile.path ) );
 
     assign( jo, "authors", modfile.authors );
     assign( jo, "maintainers", modfile.maintainers );
@@ -287,38 +300,32 @@ void mod_manager::load_modfile( const JsonObject &jo, const std::string &path )
         }
     }
 
-    mod_map[modfile.ident] = std::move( modfile );
+    return { std::move( modfile ) };
 }
 
-bool mod_manager::set_default_mods( const t_mod_list &mods )
-{
-    default_mods = mods;
-    return write_to_file( PATH_INFO::mods_user_default(), [&]( std::ostream & fout ) {
-        JsonOut json( fout, true ); // pretty-print
-        json.start_object();
-        json.member( "type", "MOD_INFO" );
-        json.member( "id", "user:default" );
-        json.member( "dependencies" );
-        json.write( mods );
-        json.end_object();
-    }, _( "list of default mods" ) );
-}
-
-void mod_manager::load_mod_info( const std::string &info_file_path )
+void load_mod_info( const std::string &info_file_path, std::vector<MOD_INFORMATION> &out )
 {
     const std::string main_path = info_file_path.substr( 0, info_file_path.find_last_of( "/\\" ) );
     read_from_file_optional_json( info_file_path, [&]( JsonIn & jsin ) {
         if( jsin.test_object() ) {
             // find type and dispatch single object
             JsonObject jo = jsin.get_object();
-            load_modfile( jo, main_path );
+            cata::optional<MOD_INFORMATION> mf = load_modfile( jo, main_path );
+            if( mf ) {
+                mf->path_full = info_file_path;
+                out.push_back( std::move( *mf ) );
+            }
             jo.finish();
         } else if( jsin.test_array() ) {
             jsin.start_array();
             // find type and dispatch each object until array close
             while( !jsin.end_array() ) {
                 JsonObject jo = jsin.get_object();
-                load_modfile( jo, main_path );
+                cata::optional<MOD_INFORMATION> mf = load_modfile( jo, main_path );
+                if( mf ) {
+                    mf->path_full = info_file_path;
+                    out.push_back( std::move( *mf ) );
+                }
                 jo.finish();
             }
         } else {
@@ -326,6 +333,82 @@ void mod_manager::load_mod_info( const std::string &info_file_path )
             jsin.error( "expected array or object" );
         }
     } );
+}
+
+bool save_mod_list( const t_mod_list &list, const std::string &path )
+{
+    return write_to_file( path, [&]( std::ostream & fout ) {
+        JsonOut json( fout, true ); // pretty-print
+        json.write( list );
+    }, _( "list of default mods" ) );
+}
+
+cata::optional<t_mod_list> load_mod_list( const std::string &path )
+{
+    t_mod_list res;
+
+    auto reader = [&]( JsonIn & jsin ) {
+        jsin.read( res, true );
+    };
+
+    if( read_from_file_optional_json( path, reader ) ) {
+        return { std::move( res ) };
+    } else {
+        return cata::nullopt;
+    }
+}
+
+mod_id get_default_core_content_pack()
+{
+    return mod_id( "bn" );
+}
+
+} // namespace mod_management
+
+bool is_strict_enabled( const std::string &src )
+{
+    return src == mod_management::get_default_core_content_pack().str();
+}
+
+void mod_manager::add_mods( std::vector<MOD_INFORMATION> &&list )
+{
+    struct replacement {
+        mod_id id;
+        std::string path_old;
+        std::string path_new;
+    };
+
+    std::vector<replacement> replaced;
+
+    for( MOD_INFORMATION &info : list ) {
+        auto it = mod_map.find( info.ident );
+        if( it == mod_map.end() ) {
+            mod_map.emplace( info.ident, std::move( info ) );
+        } else {
+            replacement r;
+            r.id = info.ident;
+            r.path_old = it->second.path_full;
+            r.path_new = info.path_full;
+            replaced.push_back( std::move( r ) );
+            it->second = std::move( info );
+        }
+    }
+
+    if( !replaced.empty() ) {
+        DebugLog( DL::Info, DC::Main ) << "[Mod manager] Replaced " << replaced.size() <<
+                                       " mod(s) with user overrides.";
+        std::string msg;
+        for( const replacement &it : replaced ) {
+            msg += string_format( "[%s] from \"%s\" with \"%s\"\n", it.id, it.path_old, it.path_new );
+        }
+        DebugLog( DL::Debug, DC::Main ) << msg;
+    }
+}
+
+bool mod_manager::set_default_mods( const t_mod_list &mods )
+{
+    default_mods = mods;
+    return mod_management::save_mod_list( mods, PATH_INFO::mods_user_default() );
 }
 
 std::string mod_manager::get_mods_list_file( const WORLDPTR world )
@@ -431,7 +514,6 @@ translatable_mod_info::translatable_mod_info( std::string name,
     language_version = INVALID_LANGUAGE_VERSION;
 }
 
-#ifdef LOCALIZE
 std::string translatable_mod_info::name()
 {
     if( name_raw.empty() ) {
@@ -453,14 +535,3 @@ std::string translatable_mod_info::description()
     }
     return description_tr;
 }
-#else // LOCALIZE
-std::string translatable_mod_info::name()
-{
-    return name_raw;
-}
-
-std::string translatable_mod_info::description()
-{
-    return description_raw;
-}
-#endif // LOCALIZE
