@@ -348,7 +348,7 @@
   {
     "type": "furniture",
     "id": "f_glass_freezer",
-    "name": "freezer",
+    "name": "glass door freezer",
     "copy-from": "f_glass_fridge_base",
     "symbol": "{",
     "description": "A glass door freezer!  Maybe there's some ice cream inside.  It has no power.",
