@@ -4204,28 +4204,6 @@
   },
   {
     "type": "construction",
-    "id": "constr_gridfridge_switch_off",
-    "group": "toggle_refrigerator_freezer",
-    "required_skills": [  ],
-    "category": "FURN",
-    "time": "1 m",
-    "dark_craftable": true,
-    "pre_furniture": "f_fridge_on",
-    "post_furniture": "f_fridge_off"
-  },
-  {
-    "type": "construction",
-    "id": "constr_gridfridge_switch_on",
-    "group": "toggle_refrigerator_freezer",
-    "required_skills": [  ],
-    "category": "FURN",
-    "time": "1 m",
-    "dark_craftable": true,
-    "pre_furniture": "f_fridge_off",
-    "post_furniture": "f_fridge_on"
-  },
-  {
-    "type": "construction",
     "id": "constr_gridglass_fridge",
     "group": "install_glass_refrigerator",
     "category": "FURN",
@@ -4236,28 +4214,6 @@
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_furniture": "f_glass_fridge"
-  },
-  {
-    "type": "construction",
-    "id": "constr_gridglass_fridge_switch_off",
-    "group": "toggle_refrigerator_freezer",
-    "required_skills": [  ],
-    "category": "FURN",
-    "time": "1 m",
-    "dark_craftable": true,
-    "pre_furniture": "f_glass_fridge_on",
-    "post_furniture": "f_glass_fridge_off"
-  },
-  {
-    "type": "construction",
-    "id": "constr_gridglass_fridge_switch_on",
-    "group": "toggle_refrigerator_freezer",
-    "required_skills": [  ],
-    "category": "FURN",
-    "time": "1 m",
-    "dark_craftable": true,
-    "pre_furniture": "f_glass_fridge_off",
-    "post_furniture": "f_glass_fridge_on"
   },
   {
     "type": "construction",
@@ -4274,28 +4230,6 @@
   },
   {
     "type": "construction",
-    "id": "constr_gridminifreezer_switch_off",
-    "group": "toggle_refrigerator_freezer",
-    "required_skills": [  ],
-    "category": "FURN",
-    "time": "1 m",
-    "dark_craftable": true,
-    "pre_furniture": "f_minifreezer_on",
-    "post_furniture": "f_minifreezer_off"
-  },
-  {
-    "type": "construction",
-    "id": "constr_gridminifreezer_switch_on",
-    "group": "toggle_refrigerator_freezer",
-    "required_skills": [  ],
-    "category": "FURN",
-    "time": "1 m",
-    "dark_craftable": true,
-    "pre_furniture": "f_minifreezer_off",
-    "post_furniture": "f_minifreezer_on"
-  },
-  {
-    "type": "construction",
     "id": "constr_gridfreezer",
     "group": "install_freezer",
     "category": "FURN",
@@ -4309,28 +4243,6 @@
   },
   {
     "type": "construction",
-    "id": "constr_gridfreezer_switch_off",
-    "group": "toggle_refrigerator_freezer",
-    "required_skills": [  ],
-    "category": "FURN",
-    "time": "1 m",
-    "dark_craftable": true,
-    "pre_furniture": "f_freezer_on",
-    "post_furniture": "f_freezer_off"
-  },
-  {
-    "type": "construction",
-    "id": "constr_gridfreezer_switch_on",
-    "group": "toggle_refrigerator_freezer",
-    "required_skills": [  ],
-    "category": "FURN",
-    "time": "1 m",
-    "dark_craftable": true,
-    "pre_furniture": "f_freezer_off",
-    "post_furniture": "f_freezer_on"
-  },
-  {
-    "type": "construction",
     "id": "constr_gridglass_freezer",
     "group": "install_glass_freezer",
     "category": "FURN",
@@ -4341,28 +4253,6 @@
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_furniture": "f_glass_freezer"
-  },
-  {
-    "type": "construction",
-    "id": "constr_gridglass_freezer_switch_off",
-    "group": "toggle_refrigerator_freezer",
-    "required_skills": [  ],
-    "category": "FURN",
-    "time": "1 m",
-    "dark_craftable": true,
-    "pre_furniture": "f_glass_freezer_on",
-    "post_furniture": "f_glass_freezer_off"
-  },
-  {
-    "type": "construction",
-    "id": "constr_gridglass_freezer_switch_on",
-    "group": "toggle_refrigerator_freezer",
-    "required_skills": [  ],
-    "category": "FURN",
-    "time": "1 m",
-    "dark_craftable": true,
-    "pre_furniture": "f_glass_freezer_off",
-    "post_furniture": "f_glass_freezer_on"
   },
   {
     "type": "construction",

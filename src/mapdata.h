@@ -394,6 +394,8 @@ struct map_data_common_t {
 
         // Message text for notify and transform examine actions
         std::string message;
+        // Prompt text for transform_examine actions
+        std::string prompt;
 
         iexamine_function examine; // What happens when the terrain/furniture is examined
 

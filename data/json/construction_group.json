@@ -1326,11 +1326,6 @@
   },
   {
     "type": "construction_group",
-    "id": "toggle_refrigerator_freezer",
-    "name": "Toggle Refrigerator/Freezer"
-  },
-  {
-    "type": "construction_group",
     "id": "wax_floor",
     "name": "Wax Floor"
   }

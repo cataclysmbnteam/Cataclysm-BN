@@ -1635,22 +1635,47 @@ void iexamine::notify( player &, const tripoint &pos )
 * Transform the examined object into the object specified by its transforms_into property. If the new object has a message property,
 * it is displayed as if the notify examine_action was used.
 */
-void iexamine::transform( player &, const tripoint &pos )
+void iexamine::transform( player &p, const tripoint &pos )
 {
     std::string message;
+    std::string prompt;
 
     if( g->m.has_furn( pos ) ) {
         message = g->m.furn( pos ).obj().message;
-        if( !message.empty() ) {
-            add_msg( _( message ) );
-        }
-        g->m.furn_set( pos, g->m.get_furn_transforms_into( pos ) );
+        prompt = g->m.furn( pos ).obj().prompt;
     } else {
         message = g->m.ter( pos ).obj().message;
-        if( !message.empty() ) {
-            add_msg( _( message ) );
+        prompt = g->m.ter( pos ).obj().prompt;
+    }
+
+    uilist selection_menu;
+    selection_menu.text = _( "Select an action" );
+    selection_menu.addentry( 0, true, 'g', _( "Get items" ) );
+    selection_menu.addentry( 1, true, 't', !prompt.empty() ? _( prompt ) : _( "Transform furniture" ) );
+    selection_menu.query();
+
+    switch( selection_menu.ret ) {
+        case 0:
+            none( p, pos );
+            pickup::pick_up( pos, 0 );
+            return;
+        case 1: {
+            if( g->m.has_furn( pos ) ) {
+                if( !message.empty() ) {
+                    add_msg( _( message ) );
+                }
+                g->m.furn_set( pos, g->m.get_furn_transforms_into( pos ) );
+            } else {
+                if( !message.empty() ) {
+                    add_msg( _( message ) );
+                }
+                g->m.ter_set( pos, g->m.get_ter_transforms_into( pos ) );
+            }
+            return;
         }
-        g->m.ter_set( pos, g->m.get_ter_transforms_into( pos ) );
+        default:
+            none( p, pos );
+            return;
     }
 }
 
