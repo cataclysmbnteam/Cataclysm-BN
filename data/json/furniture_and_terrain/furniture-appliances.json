@@ -1419,6 +1419,10 @@
     "name": "minifreezer (off)",
     "symbol": "H",
     "description": "Freeze your food with the amazing science of electricity!  It is switched off.",
+    "examine_action": "transform",
+    "transforms_into": "f_minifreezer",
+    "prompt": "Switch on the minfreezer.",
+    "message": "You switch on the minifreezer.",
     "color": "blue"
   },
   {
@@ -1428,6 +1432,10 @@
     "copy-from": "f_minifreezer_base",
     "symbol": "H",
     "description": "Freeze your food with the amazing science of electricity!  It has no power.",
+    "examine_action": "transform",
+    "transforms_into": "f_minifreezer_off",
+    "prompt": "Switch off the minifreezer.",
+    "message": "You switch off the minifreezer.",
     "active": [
       "charge_watcher",
       { "min_power": 60, "transform": { "id": "f_minifreezer_on", "msg": "The minifreezer starts up." } }
@@ -1441,6 +1449,10 @@
     "copy-from": "f_minifreezer_base",
     "symbol": "H",
     "description": "Freeze your food with the amazing science of electricity!  It is switched on.",
+    "examine_action": "transform",
+    "transforms_into": "f_minifreezer_off",
+    "prompt": "Switch off the minifreezer.",
+    "message": "You switch off the minifreezer.",
     "color": "blue",
     "extend": { "flags": [ "FREEZER" ] },
     "active": [
