@@ -4444,8 +4444,8 @@
   {
     "type": "construction",
     "id": "constr_gridspaceheater",
-    "description": "Place small space heater",
-    "category": "FURN",
+    "group": "place_small_space_heater",
+    "category": "WORKSHOP",
     "required_skills": [ [ "electronics", 1 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
@@ -4453,13 +4453,13 @@
     "components": [ [ [ "small_space_heater", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
-    "post_terrain": "f_space_heater_off"
+    "post_furniture": "f_space_heater_off"
   },
   {
     "type": "construction",
     "id": "constr_gridlargespaceheater",
-    "description": "Place lartge space heater",
-    "category": "FURN",
+    "group": "place_large_space_heater",
+    "category": "WORKSHOP",
     "required_skills": [ [ "electronics", 1 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
@@ -4467,7 +4467,7 @@
     "components": [ [ [ "large_space_heater", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
-    "post_terrain": "f_space_heater_large_off"
+    "post_furniture": "f_space_heater_large_off"
   },
   {
     "type": "construction",
