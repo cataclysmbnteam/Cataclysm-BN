@@ -1667,7 +1667,7 @@ void Character::recalc_hp()
     // Mutated toughness stacks with starting, by design.
     float hp_mod = 1.0f + mutation_value( "hp_modifier" ) + mutation_value( "hp_modifier_secondary" );
     float hp_adjustment = mutation_value( "hp_adjustment" ) + ( str_boost_val * 3 );
-    calc_all_parts_hp( hp_mod, hp_adjustment, str_max );
+    calc_all_parts_hp( hp_mod, hp_adjustment, get_str_base() );
 }
 
 void Character::calc_all_parts_hp( float hp_mod, float hp_adjustment, int str_max )
