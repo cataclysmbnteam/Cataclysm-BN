@@ -321,6 +321,8 @@ enum ter_bitflags : int {
     TFLAG_Z_TRANSPARENT,
     TFLAG_SUN_ROOF_ABOVE,
     TFLAG_SUSPENDED,
+    TFLAG_FRIDGE,
+    TFLAG_FREEZER,
 
     NUM_TERFLAGS
 };

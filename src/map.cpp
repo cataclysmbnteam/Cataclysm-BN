@@ -4624,10 +4624,10 @@ void map::process_items_in_submap( submap &current_submap, const tripoint &gridp
         if( ter( map_location ) == t_rootcellar ) {
             flag = temperature_flag::TEMP_ROOT_CELLAR;
         }
-        if( has_flag_furn( "FRIDGE", map_location ) ) {
+        if( has_flag_furn( TFLAG_FRIDGE, map_location ) ) {
             flag = temperature_flag::TEMP_FRIDGE;
         }
-        if( has_flag_furn( "FREEZER", map_location ) ) {
+        if( has_flag_furn( TFLAG_FREEZER, map_location ) ) {
             flag = temperature_flag::TEMP_FREEZER;
         }
         map_stack items = i_at( map_location );
