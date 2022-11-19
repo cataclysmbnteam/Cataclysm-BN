@@ -9750,6 +9750,28 @@ int use_function::call( player &p, item &it, bool active, const tripoint &pos ) 
     return actor->use( p, it, active, pos );
 }
 
+/**
+ * Remove a recipe from the EIPC_RECIPES variable.
+ *
+ * @return true if the recipe was deleted
+ */
+bool static eipc_recipe_remove( item &it, const recipe_id &recipe_id )
+{
+    bool recipe_success = false;
+
+    std::string current_recipes = it.get_var( "EIPC_RECIPES" );
+    if( current_recipes.empty() ) {
+        return false;
+    } else if( current_recipes.find( "," + recipe_id.str() + "," ) != std::string::npos ) {
+        recipe_success = true;
+        current_recipes.replace( current_recipes.find( recipe_id.str() ), recipe_id.str().length() + 1,
+                                 "" );
+        it.set_var( "EIPC_RECIPES", current_recipes );
+    }
+
+    return recipe_success;
+}
+
 int iuse::binder_add_recipe( player *p, item *binder, bool, const tripoint & )
 {
     if( p->is_underwater() ) {
@@ -9828,7 +9850,7 @@ int iuse::binder_add_recipe( player *p, item *binder, bool, const tripoint & )
     for( const recipe *rec : available_recipes.get_recipes() ) {
         if( p->knows_recipe( rec ) ) {
             // remove the recipe
-            if( binder->eipc_recipe_remove( rec->ident() ) ) {
+            if( eipc_recipe_remove( *binder, rec->ident() ) ) {
                 // remove the pages from the book
                 int pages_removed = 1 + rec->difficulty / 2;
                 binder->charges -= pages_removed;
@@ -9864,7 +9886,7 @@ int iuse::binder_add_recipe( player *p, item *binder, bool, const tripoint & )
         }
     }
 
-    if( !not_learnt_recipes.size() ) {
+    if( not_learnt_recipes.empty() ) {
         p->add_msg_if_player( m_info, _( "You do not have any recipes you can copy." ) );
         return 0;
     }

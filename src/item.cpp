@@ -7023,24 +7023,6 @@ bool item::eipc_recipe_add( const recipe_id &recipe_id )
     return recipe_success;
 }
 
-
-bool item::eipc_recipe_remove( const recipe_id &recipe_id )
-{
-    bool recipe_success = false;
-
-    std::string current_recipes = this->get_var( "EIPC_RECIPES" );
-    if( current_recipes.empty() ) {
-        return false;
-    } else if( current_recipes.find( "," + recipe_id.str() + "," ) != std::string::npos ) {
-        recipe_success = true;
-        current_recipes.replace( current_recipes.find( recipe_id.str() ), recipe_id.str().length() + 1,
-                                 "" );
-        this->set_var( "EIPC_RECIPES", current_recipes );
-    }
-
-    return recipe_success;
-}
-
 const material_type &item::get_random_material() const
 {
     return random_entry( made_of(), material_id::NULL_ID() ).obj();
