@@ -1985,7 +1985,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
         }
         action = ictxt.handle_input( scroll_timeout );
 #else
-        action = ictxt.handle_input( BLINK_SPEED );
+        action = ictxt.handle_input( get_option<int>( "BLINK_SPEED" ) );
 #endif
         if( const cata::optional<tripoint> vec = ictxt.get_direction( action ) ) {
             int scroll_d = fast_scroll ? fast_scroll_offset : 1;
