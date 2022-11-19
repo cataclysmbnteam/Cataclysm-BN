@@ -5453,7 +5453,7 @@ needs_rates Character::calc_needs_rates() const
             // Hunger and thirst advance *much* more slowly whilst we hibernate.
             // This will slow calories consumption enough to go through the 7 days of hibernation
             if( one_in( 50 / rates.hunger ) ) {
-                g->u.mod_stored_kcal( 1 );
+                get_player_character().mod_stored_kcal( 1 );
             }
             rates.thirst *= ( 1.0f / 14.0f );
         }
