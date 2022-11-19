@@ -114,7 +114,7 @@ void apply_ammo_effects( const tripoint &p, const std::set<ammo_effect_str_id> &
     for( const ammo_effect_str_id &ae_id : effects ) {
         const ammo_effect &ae = *ae_id;
         if( ae.aoe_field_type )
-            for( auto &pt : g->m.points_in_radius( p, ae.aoe_radius, ae.aoe_radius_z ) ) {
+            for( auto &pt : here.points_in_radius( p, ae.aoe_radius, ae.aoe_radius_z ) ) {
                 if( x_in_y( ae.aoe_chance, 100 ) ) {
                     const bool check_sees = !ae.aoe_check_sees || here.sees( p, pt, ae.aoe_check_sees_radius );
                     const bool check_passable = !ae.aoe_check_passable || here.passable( pt );
