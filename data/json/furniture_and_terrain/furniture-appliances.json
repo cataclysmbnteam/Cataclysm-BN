@@ -999,17 +999,13 @@
   {
     "type": "furniture",
     "id": "f_welderrig",
+    "copy-from": "f_gridwelder",
     "looks_like": "weldrig",
     "name": "grid welder rig",
     "symbol": "#",
-    "description": "A vehicle welding rig connected to a electrical grid.  Has a soldering iron attached.",
     "color": "red",
-    "move_cost_mod": -1,
-    "coverage": 10,
-    "required_str": -1,
-    "crafting_pseudo_item": [ "fake_gridwelder", "fake_gridsolderingiron" ],
-    "examine_action": "use_furn_fake_item",
-    "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
+    "description": "A vehicle welding rig connected to a electrical grid.  Has a soldering iron attached.",
+    "extend": { "crafting_pseudo_item": [ "fake_gridsolderingiron" ] },
     "deconstruct": {
       "items": [ { "item": "weldrig", "count": 1 }, { "item": "cable", "charges": 5 }, { "item": "power_supply", "count": 1 } ]
     },
