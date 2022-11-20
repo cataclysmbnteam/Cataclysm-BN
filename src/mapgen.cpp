@@ -426,8 +426,7 @@ static void set_mapgen_defer( const JsonObject &jsi, const std::string &member,
  * load a single mapgen json structure; this can be inside an overmap_terrain, or on it's own.
  */
 std::shared_ptr<mapgen_function>
-load_mapgen_function( const JsonObject &jio, const std::string &/*id_base*/, const point &offset,
-                      const point &total )
+load_mapgen_function( const JsonObject &jio, const point &offset, const point &total )
 {
     int mgweight = jio.get_int( "weight", 1000 );
     if( mgweight <= 0 || jio.get_bool( "disabled", false ) ) {
@@ -455,7 +454,7 @@ load_mapgen_function( const JsonObject &jio, const std::string &/*id_base*/, con
 void load_and_add_mapgen_function( const JsonObject &jio, const std::string &id_base,
                                    const point &offset, const point &total )
 {
-    std::shared_ptr<mapgen_function> f = load_mapgen_function( jio, id_base, offset, total );
+    std::shared_ptr<mapgen_function> f = load_mapgen_function( jio, offset, total );
     if( f ) {
         oter_mapgen.add( id_base, f );
     }
@@ -527,8 +526,7 @@ void load_mapgen( const JsonObject &jo )
                 mapgenid_list.push_back( line );
             }
             if( !mapgenid_list.empty() ) {
-                const std::string mapgenid = mapgenid_list[0];
-                const auto mgfunc = load_mapgen_function( jo, mapgenid, point_zero, point_one );
+                const auto mgfunc = load_mapgen_function( jo, point_zero, point_one );
                 if( mgfunc ) {
                     for( auto &i : mapgenid_list ) {
                         oter_mapgen.add( i, mgfunc );
