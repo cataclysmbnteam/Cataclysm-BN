@@ -662,7 +662,7 @@ std::vector<std::string> diary::get_head_text()
         //~ %1$s is the player's position on the overmap when writing the page
         std::string overmap_position_text = ( !get_page_ptr()->overmap_position_str.empty() ) ?
                                             string_format(
-                                                _( "Map position: %1$s" ),
+                                                _( "Location: %1$s" ),
                                                 get_page_ptr()->overmap_position_str ) : "";
 
         head_text.insert( head_text.end(), year_and_season_text );
