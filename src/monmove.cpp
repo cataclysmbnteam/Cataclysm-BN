@@ -596,7 +596,7 @@ void monster::plan()
             unset_dest();
         }
         // when the players is close to their pet, it calms them
-        // it helps them reach an homeostatic state, for moral and anger
+        // it helps them reach an homeostatic state, for morale and anger
         const int distance_from_friend = rl_dist( pos(), get_avatar().pos() );
         if( distance_from_friend < 12 ) {
             if( one_in( distance_from_friend * 3 ) ) {
