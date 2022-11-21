@@ -670,7 +670,10 @@ std::vector<std::string> diary::get_head_text()
         head_text.insert( head_text.end(), time_diff_text );
         head_text.insert( head_text.end(), overmap_position_text );
 
-        if( !time_diff_text.empty() || !overmap_position_text.empty() ) {
+        if( !time_diff_text.empty() ) {
+            head_text.insert( head_text.end(), { "" } );
+        }
+        if( !overmap_position_text.empty() ) {
             head_text.insert( head_text.end(), { "" } );
         }
 
