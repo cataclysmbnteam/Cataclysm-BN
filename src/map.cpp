@@ -7102,7 +7102,7 @@ template <typename Container>
 void map::remove_rotten_items( Container &items, const tripoint &pnt )
 {
     for( auto it = items.begin(); it != items.end(); ) {
-        if( it->has_rotten_away( pnt ) ) {
+        if( it->has_rotten_away() ) {
             if( it->is_comestible() ) {
                 rotten_item_spawn( *it, pnt );
             }
