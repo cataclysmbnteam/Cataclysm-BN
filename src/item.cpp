@@ -8670,37 +8670,6 @@ bool item::has_rotten_away() const
     }
 }
 
-bool item::has_rotten_away( const tripoint &pnt )
-{
-    if( goes_bad() ) {
-        return process_rot( 1, false, pnt, nullptr );
-    } else if( type->container && type->container->preserves ) {
-        // Containers like tin cans preserves all items inside, they do not rot at all.
-        return false;
-    } else if( type->container && type->container->seals ) {
-        // Items inside rot but do not vanish as the container seals them in.
-        for( item *c : contents.all_items_top() ) {
-            if( c->goes_bad() ) {
-                c->process_rot( 1, true, pnt, nullptr );
-            }
-        }
-        return false;
-    } else {
-        std::vector<item *> removed_items;
-        // Check and remove rotten contents, but always keep the container.
-        for( item *it : contents.all_items_top() ) {
-            if( it->has_rotten_away( pnt ) ) {
-                removed_items.push_back( it );
-            }
-        }
-        for( item *it : removed_items ) {
-            remove_item( *it );
-        }
-
-        return false;
-    }
-}
-
 bool item_ptr_compare_by_charges( const item *left, const item *right )
 {
     if( left->contents.empty() ) {
