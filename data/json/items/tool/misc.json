@@ -250,6 +250,7 @@
     "price_postapoc": 500,
     "bashing": 14,
     "cutting": 20,
+    "to_hit": -1,
     "material": "steel",
     "symbol": "/",
     "color": "dark_gray",
