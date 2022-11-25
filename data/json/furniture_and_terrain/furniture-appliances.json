@@ -1214,5 +1214,161 @@
         { "item": "cable", "charges": [ 1, 1 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "abstract": "f_space_heater_base",
+    "looks_like": "small_space_heater",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "-",
+    "description": "-",
+    "move_cost_mod": 2,
+    "required_str": 1,
+    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "small_space_heater", "count": 1 },
+        { "item": "cable", "charges": 5 },
+        { "item": "power_supply", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "power_supply", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 0, 2 ] },
+        { "item": "cable", "charges": [ 1, 4 ] },
+        { "item": "element", "count": [ 2, 6 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_space_heater",
+    "copy-from": "f_space_heater_base",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "space heater (no power)",
+    "description": "A small portable electric heater, plugged into a wall.  This one has no power.",
+    "examine_action": "transform",
+    "transforms_into": "f_space_heater_off",
+    "message": "You turn the heater off.",
+    "active": [
+      "charge_watcher",
+      { "min_power": 5, "transform": { "id": "f_space_heater_on", "msg": "The space heater warms up." } }
+    ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_space_heater_off",
+    "copy-from": "f_space_heater_base",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "space heater (off)",
+    "description": "A small portable electric heater, plugged into a wall.  This one is currently turned off.",
+    "examine_action": "transform",
+    "transforms_into": "f_space_heater",
+    "message": "You turn the heater on."
+  },
+  {
+    "type": "furniture",
+    "id": "f_space_heater_on",
+    "copy-from": "f_space_heater_base",
+    "looks_like": "small_space_heater_on",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "space heater (on)",
+    "description": "A small portable electric heater, plugged into a wall.  This one is running and providing warmth.",
+    "examine_action": "transform",
+    "transforms_into": "f_space_heater_off",
+    "message": "You turn the heater off.",
+    "light_emitted": 2,
+    "active": [
+      "steady_consumer",
+      {
+        "power": 1,
+        "consume_every": "2 s",
+        "transform": { "id": "f_space_heater", "msg": "The heater runs out of power and cools off." }
+      }
+    ],
+    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "EMITTER" ],
+    "emissions": [ "emit_hot_air2_stream" ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_space_heater_large",
+    "copy-from": "f_space_heater_base",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "large space heater (no power)",
+    "description": "A large portable electric heater, plugged into a wall.  This one has no power.",
+    "examine_action": "transform",
+    "transforms_into": "f_space_heater_large_off",
+    "message": "You turn the heater off.",
+    "active": [
+      "charge_watcher",
+      { "min_power": 5, "transform": { "id": "f_space_heater_large_on", "msg": "The space heater warms up." } }
+    ],
+    "deconstruct": {
+      "items": [
+        { "item": "large_space_heater", "count": 1 },
+        { "item": "cable", "charges": 5 },
+        { "item": "power_supply", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_space_heater_large_off",
+    "copy-from": "f_space_heater_base",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "large space heater (off)",
+    "description": "A large portable electric heater, plugged into a wall.  This one is currently turned off.",
+    "examine_action": "transform",
+    "transforms_into": "f_space_heater_large",
+    "message": "You turn the heater on.",
+    "deconstruct": {
+      "items": [
+        { "item": "large_space_heater", "count": 1 },
+        { "item": "cable", "charges": 5 },
+        { "item": "power_supply", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_space_heater_large_on",
+    "copy-from": "f_space_heater_base",
+    "looks_like": "large_space_heater_on",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "large space heater (on)",
+    "description": "A large portable electric heater, plugged into a wall.  This one is running and providing warmth.",
+    "examine_action": "transform",
+    "transforms_into": "f_space_heater_large_off",
+    "message": "You turn the heater off.",
+    "light_emitted": 2,
+    "active": [
+      "steady_consumer",
+      {
+        "power": 1,
+        "consume_every": "2 s",
+        "transform": { "id": "f_space_heater_large", "msg": "The heater runs out of power and cools off." }
+      }
+    ],
+    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "EMITTER" ],
+    "emissions": [ "emit_hot_air2_blast" ],
+    "deconstruct": {
+      "items": [
+        { "item": "large_space_heater", "count": 1 },
+        { "item": "cable", "charges": 5 },
+        { "item": "power_supply", "count": 1 }
+      ]
+    }
   }
 ]

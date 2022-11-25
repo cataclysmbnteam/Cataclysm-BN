@@ -2002,6 +2002,10 @@ void options_manager::add_options_graphics()
     { { "no", translate_marker( "No" ) }, { "maximized", translate_marker( "Maximized" ) }, { "fullscreen", translate_marker( "Fullscreen" ) }, { "windowedbl", translate_marker( "Windowed borderless" ) } },
     "windowedbl", COPT_CURSES_HIDE
        );
+
+    add( "MINIMIZE_ON_FOCUS_LOSS", "graphics",
+         translate_marker( "Minimize on focus loss.  Requires restart." ),
+         translate_marker( "Minimize fullscreen window when it loses focus." ), false );
 #endif
 
 #if !defined(__ANDROID__)

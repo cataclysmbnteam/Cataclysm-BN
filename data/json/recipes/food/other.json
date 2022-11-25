@@ -330,7 +330,7 @@
         [ "irradiated_lemon", 1 ],
         [ "rennet", 1 ],
         [ "stomach_large", 1 ],
-        [ "stomach", 2 ],
+        [ "stomach", 1 ],
         [ "wild_herbs", 40 ]
       ],
       [ [ "salt_water", 1 ], [ "saline", 1 ], [ "salt", 1 ], [ "seasoning_salt", 1 ] ],

@@ -931,6 +931,16 @@
   },
   {
     "type": "construction_group",
+    "id": "place_small_space_heater",
+    "name": "Place Small Space Heater"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_large_space_heater",
+    "name": "Place Large Space Heater"
+  },
+  {
+    "type": "construction_group",
     "id": "install_solar_panel",
     "name": "Install Solar Panel"
   },

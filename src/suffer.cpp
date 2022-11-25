@@ -264,7 +264,7 @@ void Character::suffer_while_underwater()
             apply_damage( nullptr, bodypart_id( "torso" ), rng( 1, 4 ) );
         }
     }
-    if( has_trait( trait_FRESHWATEROSMOSIS ) && !g->m.has_flag_ter( "SALT_WATER", pos() ) &&
+    if( has_trait( trait_FRESHWATEROSMOSIS ) && !get_map().has_flag_ter( "SALT_WATER", pos() ) &&
         get_thirst() > thirst_levels::turgid ) {
         mod_thirst( -1 );
     }
@@ -658,10 +658,11 @@ void Character::suffer_from_asthma( const int current_stim )
         } else if( nearby_use ) {
             // create new variable to resolve a reference issue
             int amount = 1;
-            if( !g->m.use_charges( g->u.pos(), 2, itype_inhaler, amount ).empty() ) {
+            map &here = get_map();
+            if( !here.use_charges( g->u.pos(), 2, itype_inhaler, amount ).empty() ) {
                 add_msg_if_player( m_info, _( "You use your inhaler and go back to sleep." ) );
-            } else if( !g->m.use_charges( g->u.pos(), 2, itype_oxygen_tank, amount ).empty() ||
-                       !g->m.use_charges( g->u.pos(), 2, itype_smoxygen_tank, amount ).empty() ) {
+            } else if( !here.use_charges( g->u.pos(), 2, itype_oxygen_tank, amount ).empty() ||
+                       !here.use_charges( g->u.pos(), 2, itype_smoxygen_tank, amount ).empty() ) {
                 add_msg_if_player( m_info, _( "You take a deep breath from your oxygen tank "
                                               "and go back to sleep." ) );
             }
@@ -723,7 +724,7 @@ void Character::suffer_in_sunlight()
     const bool leafier = has_trait( trait_LEAVES2 ) || has_trait( trait_LEAVES3 );
     const bool leafiest = has_trait( trait_LEAVES3 );
     int sunlight_nutrition = 0;
-    if( leafy && g->m.is_outside( pos() ) && ( g->light_level( pos().z ) >= 40 ) ) {
+    if( leafy && get_map().is_outside( pos() ) && ( g->light_level( pos().z ) >= 40 ) ) {
         const float weather_factor = ( get_weather().weather_id->sun_intensity >=
                                        sun_intensity_type::normal ) ? 1.0 : 0.5;
         const int player_local_temp = get_weather().get_temperature( pos() );
@@ -943,9 +944,10 @@ void Character::suffer_from_sunburn()
 
 void Character::suffer_from_other_mutations()
 {
+    map &here = get_map();
     if( has_trait( trait_SHARKTEETH ) && one_turn_in( 24_hours ) ) {
         add_msg_if_player( m_neutral, _( "You shed a tooth!" ) );
-        g->m.spawn_item( pos(), "bone", 1 );
+        here.spawn_item( pos(), "bone", 1 );
     }
 
     if( has_active_mutation( trait_WINGS_INSECT ) ) {
@@ -957,7 +959,7 @@ void Character::suffer_from_other_mutations()
     bool wearing_shoes = is_wearing_shoes( side::LEFT ) || is_wearing_shoes( side::RIGHT );
     int root_vitamins = 0;
     int root_water = 0;
-    if( has_trait( trait_ROOTS3 ) && g->m.has_flag( flag_PLOWABLE, pos() ) && !wearing_shoes ) {
+    if( has_trait( trait_ROOTS3 ) && here.has_flag( flag_PLOWABLE, pos() ) && !wearing_shoes ) {
         root_vitamins += 1;
         if( get_thirst() <= thirst_levels::turgid ) {
             root_water += 51;
@@ -991,7 +993,7 @@ void Character::suffer_from_other_mutations()
     //Web Weavers...weave web
     if( has_active_mutation( trait_WEB_WEAVER ) && !in_vehicle ) {
         // this adds intensity to if its not already there.
-        g->m.add_field( pos(), fd_web, 1 );
+        here.add_field( pos(), fd_web, 1 );
 
     }
 
@@ -1016,7 +1018,7 @@ void Character::suffer_from_other_mutations()
 
     if( has_trait( trait_WEB_SPINNER ) && !in_vehicle && one_in( 3 ) ) {
         // this adds intensity to if its not already there.
-        g->m.add_field( pos(), fd_web, 1 );
+        here.add_field( pos(), fd_web, 1 );
     }
 
     bool should_mutate = has_trait( trait_UNSTABLE ) && !has_trait( trait_CHAOTIC_BAD ) &&
@@ -1051,9 +1053,10 @@ void Character::suffer_from_other_mutations()
 
 void Character::suffer_from_radiation()
 {
+    map &here = get_map();
     // checking for radioactive items in inventory
     const int item_radiation = leak_level( "RADIOACTIVE" );
-    const int map_radiation = g->m.get_radiation( pos() );
+    const int map_radiation = here.get_radiation( pos() );
     float rads = map_radiation / 100.0f + item_radiation / 10.0f;
 
     int rad_mut = 0;
@@ -1086,8 +1089,8 @@ void Character::suffer_from_radiation()
             // If you can't, irradiate the player instead
             tripoint rad_point = pos() + point( rng( -3, 3 ), rng( -3, 3 ) );
             // TODO: Radioactive vehicles?
-            if( g->m.get_radiation( rad_point ) < rad_mut ) {
-                g->m.adjust_radiation( rad_point, 1 );
+            if( here.get_radiation( rad_point ) < rad_mut ) {
+                here.adjust_radiation( rad_point, 1 );
             } else {
                 rads += rad_mut;
             }
