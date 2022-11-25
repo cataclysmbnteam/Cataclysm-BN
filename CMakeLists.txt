@@ -329,8 +329,8 @@ if (TILES)
     endif ()
 
     message(STATUS "Searching for SDL2_TTF library --")
-    find_package(SDL2_ttf)
-    if (NOT (SDL2_TTF_FOUND OR TARGET SDL2_ttf::SDL2_ttf OR TARGET SDL2_ttf::SDL2_ttf-static))
+    find_package(sdl2-ttf)
+    if (NOT (SDL2_TTF_FOUND OR TARGET SDL2::SDL2_ttf OR TARGET SDL2::SDL2_ttf-static))
         message(
             FATAL_ERROR
                 "This project requires SDL2_ttf to be installed to be compiled in graphical mode. \
