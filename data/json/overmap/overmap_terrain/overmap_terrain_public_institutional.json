@@ -84,7 +84,7 @@
     "copy-from": "cathedral_1_NW",
     "name": "cathedral tower",
     "delete": { "flags": [ "SIDEWALK" ] }
-  },  
+  },
   {
     "type": "overmap_terrain",
     "id": [ "s_library", "s_library_1", "s_library_2" ],
