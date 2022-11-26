@@ -219,6 +219,9 @@ class Character : public Creature, public visitable<Character>
         // allows forcing a -1 id which is required for templates to not throw errors
         void setID( character_id i, bool force = false );
 
+        /** Returns true if the character should be dead */
+        bool is_dead_state() const override;
+
         field_type_id bloodType() const override;
         field_type_id gibType() const override;
         bool is_warm() const override;

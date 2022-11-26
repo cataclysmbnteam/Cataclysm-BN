@@ -738,12 +738,6 @@ int player::intimidation() const
     return ret;
 }
 
-bool player::is_dead_state() const
-{
-    return get_part_hp_cur( bodypart_id( "head" ) ) <= 0 ||
-           get_part_hp_cur( bodypart_id( "torso" ) ) <= 0;
-}
-
 void player::on_dodge( Creature *source, float difficulty )
 {
     static const matec_id tec_none( "tec_none" );
