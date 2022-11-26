@@ -1805,6 +1805,11 @@ void options_manager::add_options_graphics()
 
     get_option( "ANIMATION_DELAY" ).setPrerequisite( "ANIMATIONS" );
 
+    add( "BLINK_SPEED", "graphics", translate_marker( "Blinking effects speed" ),
+         translate_marker( "The speed of every blinking effects in ms." ),
+         100, 5000, 800
+       );
+
     add( "FORCE_REDRAW", "graphics", translate_marker( "Force redraw" ),
          translate_marker( "If true, forces the game to redraw at least once per turn." ),
          true
