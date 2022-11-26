@@ -692,11 +692,6 @@ bool ma_buff::is_stealthy() const
     return stealthy;
 }
 
-bool ma_buff::can_melee() const
-{
-    return melee_allowed;
-}
-
 std::string ma_buff::get_description( bool passive ) const
 {
     std::string dump;
@@ -1189,13 +1184,6 @@ bool player::is_stealthy() const
 {
     return search_ma_buff_effect( *effects, []( const ma_buff & b, const effect & ) {
         return b.is_stealthy();
-    } );
-}
-
-bool player::can_melee() const
-{
-    return search_ma_buff_effect( *effects, []( const ma_buff & b, const effect & ) {
-        return b.can_melee();
     } );
 }
 

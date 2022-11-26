@@ -162,8 +162,6 @@ class player : public Character
         float stability_roll() const override;
         /** Returns true if the player has stealthy movement */
         bool is_stealthy() const;
-        /** Returns true if the current martial art works with the player's current weapon */
-        bool can_melee() const;
         /** Returns true if the player should be dead */
         bool is_dead_state() const override;
 

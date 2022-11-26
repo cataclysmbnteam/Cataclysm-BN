@@ -163,7 +163,6 @@ class ma_buff
         // returns various boolean flags
         bool is_throw_immune() const;
         bool is_quiet() const;
-        bool can_melee() const;
         bool is_stealthy() const;
 
         // The ID of the effect that is used to store this buff
@@ -191,7 +190,6 @@ class ma_buff
         bonus_container bonuses;
 
         bool quiet = false;
-        bool melee_allowed = false;
         bool throw_immune = false; // are we immune to throws/grabs?
         bool strictly_melee = false; // can we only use it with weapons?
         bool stealthy = false; // do we make less noise when moving?
