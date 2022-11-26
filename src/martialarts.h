@@ -295,4 +295,7 @@ std::string martialart_difficulty( const matype_id &mstyle );
 std::vector<matype_id> all_martialart_types();
 std::vector<matype_id> autolearn_martialart_types();
 
+/** Returns true if the character can learn the entered martial art */
+bool can_autolearn_martial_art( const Character &who, const matype_id &ma_id );
+
 #endif // CATA_SRC_MARTIALARTS_H

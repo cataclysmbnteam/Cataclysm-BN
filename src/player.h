@@ -155,9 +155,6 @@ class player : public Character
 
         // martialarts.cpp
 
-        /** Returns true if the player can learn the entered martial art */
-        bool can_autolearn( const matype_id &ma_id ) const;
-
         /** Returns value of player's stable footing */
         float stability_roll() const override;
         /** Returns true if the player has stealthy movement */

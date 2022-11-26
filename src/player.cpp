@@ -367,7 +367,7 @@ void player::process_turn()
     for( auto &style : autolearn_martialart_types() ) {
         const matype_id &ma( style );
 
-        if( !martial_arts_data->has_martialart( ma ) && can_autolearn( ma ) ) {
+        if( !martial_arts_data->has_martialart( ma ) && can_autolearn_martial_art( *this, ma ) ) {
             martial_arts_data->add_martialart( ma );
             add_msg_if_player( m_info, _( "You have learned a new style: %s!" ), ma.obj().name );
         }

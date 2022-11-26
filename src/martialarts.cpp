@@ -1212,7 +1212,7 @@ void character_martial_arts::add_martialart( const matype_id &ma_id )
     ma_styles.emplace_back( ma_id );
 }
 
-bool player::can_autolearn( const matype_id &ma_id ) const
+bool can_autolearn_martial_art( const Character &who, const matype_id &ma_id )
 {
     if( ma_id.obj().autolearn_skills.empty() ) {
         return false;
@@ -1222,7 +1222,7 @@ bool player::can_autolearn( const matype_id &ma_id ) const
         const skill_id skill_req( elem.first );
         const int required_level = elem.second;
 
-        if( required_level > get_skill_level( skill_req ) ) {
+        if( required_level > who.get_skill_level( skill_req ) ) {
             return false;
         }
     }
