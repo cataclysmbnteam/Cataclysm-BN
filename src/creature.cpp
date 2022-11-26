@@ -176,6 +176,11 @@ bool Creature::is_underwater() const
     return underwater;
 }
 
+void Creature::set_underwater( bool x )
+{
+    underwater = x;
+}
+
 bool Creature::digging() const
 {
     return false;

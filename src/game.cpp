@@ -9922,7 +9922,7 @@ void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
     bool force_next = false;
     tripoint next_forced;
     while( range > 0 ) {
-        c->underwater = false;
+        c->set_underwater( false );
         // TODO: Check whenever it is actually in the viewport
         // or maybe even just redraw the changed tiles
         bool seen = is_u || u.sees( *c ); // To avoid redrawing when not seen
@@ -10045,7 +10045,7 @@ void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
             m.creature_on_trap( *c, false );
         }
     } else {
-        c->underwater = true;
+        c->set_underwater( true );
         if( is_u ) {
             if( controlled ) {
                 add_msg( _( "You dive into water." ) );

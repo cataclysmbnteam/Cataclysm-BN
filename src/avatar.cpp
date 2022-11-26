@@ -992,6 +992,11 @@ void avatar::vomit()
     Character::vomit();
 }
 
+bool avatar::is_hallucination() const
+{
+    return false;
+}
+
 void avatar::disp_morale()
 {
     int equilibrium = calc_focus_equilibrium();

@@ -2213,6 +2213,8 @@ class Character : public Creature, public visitable<Character>
 
         time_point next_climate_control_check;
         bool last_climate_control_ret = false;
+
+        void set_underwater( bool x ) override;
 };
 
 Character &get_player_character();

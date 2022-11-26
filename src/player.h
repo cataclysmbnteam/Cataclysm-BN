@@ -617,8 +617,6 @@ class player : public Character
         std::set<character_id> follower_ids;
         void mod_stat( const std::string &stat, float modifier ) override;
 
-        void set_underwater( bool );
-        bool is_hallucination() const override;
         void environmental_revert_effect();
 
         //message related stuff

@@ -173,6 +173,8 @@ class avatar : public player
          */
         void steal( npc &target );
 
+        bool is_hallucination() const override;
+
         pimpl<teleporter_list> translocators;
 
         int get_str_base() const override;

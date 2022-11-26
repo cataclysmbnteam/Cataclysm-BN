@@ -508,19 +508,6 @@ float player::stability_roll() const
     return get_melee() + get_str() + ( get_per() / 3.0f ) + ( get_dex() / 4.0f );
 }
 
-bool player::is_hallucination() const
-{
-    return false;
-}
-
-void player::set_underwater( bool u )
-{
-    if( underwater != u ) {
-        underwater = u;
-        recalc_sight_limits();
-    }
-}
-
 nc_color player::basic_symbol_color() const
 {
     if( has_effect( effect_onfire ) ) {
@@ -535,7 +522,7 @@ nc_color player::basic_symbol_color() const
     if( has_active_mutation( trait_id( "SHELL2" ) ) ) {
         return c_magenta;
     }
-    if( underwater ) {
+    if( is_underwater() ) {
         return c_blue;
     }
     if( has_active_bionic( bio_cloak ) || has_artifact_with( AEP_INVISIBLE ) ||
@@ -613,7 +600,7 @@ void player::pause()
 
     // Train swimming if underwater
     if( !in_vehicle ) {
-        if( underwater ) {
+        if( is_underwater() ) {
             practice( skill_swimming, 1 );
             drench( 100, { {
                     bp_leg_l, bp_leg_r, bp_torso, bp_arm_l,
@@ -3509,7 +3496,7 @@ void player::try_to_sleep( const time_duration &dur )
         in_shell = true;
     }
     if( has_trait( trait_WATERSLEEP ) ) {
-        if( underwater ) {
+        if( is_underwater() ) {
             add_msg_if_player( m_good,
                                _( "You lay beneath the waves' embrace, gazing up through the water's surface…" ) );
             watersleep = true;

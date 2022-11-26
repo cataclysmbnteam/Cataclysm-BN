@@ -822,7 +822,7 @@ bool Character::sight_impaired() const
     return ( ( ( has_effect( effect_boomered ) || has_effect( effect_no_sight ) ||
                  has_effect( effect_darkness ) ) &&
                ( !( has_trait( trait_PER_SLIME_OK ) ) ) ) ||
-             ( underwater && !has_bionic( bio_membrane ) && !has_trait( trait_MEMBRANE ) &&
+             ( is_underwater() && !has_bionic( bio_membrane ) && !has_trait( trait_MEMBRANE ) &&
                !worn_with_flag( "SWIM_GOGGLES" ) && !has_trait( trait_PER_SLIME_OK ) &&
                !has_trait( trait_CEPH_EYES ) && !has_trait( trait_SEESLEEP ) ) ||
              ( ( has_trait( trait_MYOPIC ) || has_trait( trait_URSINE_EYE ) ) &&
@@ -940,7 +940,7 @@ int Character::swim_speed() const
         ret = std::max( ret, 200 );
     }
     // If (ret > 500), we can not swim; so do not apply the underwater bonus.
-    if( underwater && ret < 500 ) {
+    if( is_underwater() && ret < 500 ) {
         ret -= 50;
     }
 
@@ -1713,7 +1713,7 @@ void Character::recalc_sight_limits()
         sight_max = 1;
         vision_mode_cache.set( BOOMERED );
     } else if( has_effect( effect_in_pit ) || has_effect( effect_no_sight ) ||
-               ( underwater && !has_bionic( bio_membrane ) &&
+               ( is_underwater() && !has_bionic( bio_membrane ) &&
                  !has_trait( trait_MEMBRANE ) && !worn_with_flag( flag_SWIM_GOGGLES ) &&
                  !has_trait( trait_CEPH_EYES ) && !has_trait( trait_PER_SLIME_OK ) ) ) {
         sight_max = 1;
@@ -7720,7 +7720,7 @@ int Character::get_shout_volume() const
     }
 
     // Screaming underwater is not good for oxygen and harder to do overall
-    if( underwater ) {
+    if( is_underwater() ) {
         noise = std::max( minimum_noise, noise / 2 );
     }
     return noise;
@@ -7770,7 +7770,7 @@ void Character::shout( std::string msg, bool order )
     }
 
     // Screaming underwater is not good for oxygen and harder to do overall
-    if( underwater ) {
+    if( is_underwater() ) {
         if( !has_trait( trait_GILLS ) && !has_trait( trait_GILLS_CEPH ) ) {
             mod_stat( "oxygen", -noise );
         }
@@ -10598,4 +10598,12 @@ bool has_psy_protection( const Character &c, int partial_chance )
 {
     return c.has_artifact_with( AEP_PSYSHIELD ) ||
            ( c.worn_with_flag( "PSYSHIELD_PARTIAL" ) && one_in( partial_chance ) );
+}
+
+void Character::set_underwater( bool x )
+{
+    if( is_underwater() != x ) {
+        Creature::set_underwater( x );
+        recalc_sight_limits();
+    }
 }

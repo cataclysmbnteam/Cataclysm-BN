@@ -920,7 +920,7 @@ bool monster::can_climb() const
 
 bool monster::digging() const
 {
-    return digs() || ( can_dig() && underwater );
+    return digs() || ( can_dig() && is_underwater() );
 }
 
 bool monster::can_dig() const
@@ -959,7 +959,7 @@ int monster::sight_range( const int light_level ) const
 {
     // Non-aquatic monsters can't see much when submerged
     if( !can_see() || effect_cache[VISION_IMPAIRED] ||
-        ( underwater && !swims() && !has_flag( MF_AQUATIC ) && !digging() ) ) {
+        ( is_underwater() && !swims() && !has_flag( MF_AQUATIC ) && !digging() ) ) {
         return 1;
     }
     static const int default_daylight = default_daylight_level();
@@ -1277,7 +1277,7 @@ void monster::process_trigger( mon_trigger trig, const std::function<int()> &amo
 
 bool monster::is_underwater() const
 {
-    return underwater && can_submerge();
+    return Creature::is_underwater() && can_submerge();
 }
 
 bool monster::is_on_ground() const

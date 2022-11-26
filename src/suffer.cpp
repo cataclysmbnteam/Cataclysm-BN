@@ -627,7 +627,7 @@ void Character::suffer_from_asthma( const int current_stim )
     bool auto_use = has_charges( itype_inhaler, 1 ) || has_charges( itype_oxygen_tank, 1 ) ||
                     has_charges( itype_smoxygen_tank, 1 );
     bool oxygenator = has_bionic( bio_gills ) && get_power_level() >= 3_kJ;
-    if( underwater ) {
+    if( is_underwater() ) {
         oxygen = oxygen / 2;
         auto_use = false;
     }
@@ -1492,7 +1492,7 @@ void Character::suffer()
         }
     }
 
-    if( underwater ) {
+    if( is_underwater() ) {
         suffer_while_underwater();
     }
 
