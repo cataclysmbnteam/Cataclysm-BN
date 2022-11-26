@@ -329,7 +329,11 @@ if (TILES)
     endif ()
 
     message(STATUS "Searching for SDL2_TTF library --")
-    find_package(sdl2-ttf)
+    if (NOT VCPKG_MANIFEST_MODE)
+        find_package(SDL2_ttf)
+    else()
+        find_package(sdl2-ttf)
+    endif()
     if (NOT (SDL2_TTF_FOUND OR TARGET SDL2::SDL2_ttf OR TARGET SDL2::SDL2_ttf-static))
         message(
             FATAL_ERROR
