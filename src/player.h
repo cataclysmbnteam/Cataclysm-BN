@@ -213,9 +213,6 @@ class player : public Character
         double melee_value( const item &weap ) const; // As above, but only as melee
         double unarmed_value() const; // Evaluate yourself!
 
-        /** Returns the player's dodge_roll to be compared against an aggressor's hit_roll() */
-        float dodge_roll() override;
-
         /** Returns melee skill level, to be used to throttle dodge practice. **/
         float get_melee() const override;
 

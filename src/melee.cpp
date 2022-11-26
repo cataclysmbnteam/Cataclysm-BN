@@ -852,7 +852,7 @@ float Character::get_dodge() const
     return std::max( 0.0f, ret );
 }
 
-float player::dodge_roll()
+float Character::dodge_roll()
 {
     return get_dodge() * 5;
 }
