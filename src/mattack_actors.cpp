@@ -480,16 +480,15 @@ int gun_actor::get_max_range()  const
     return max_range;
 }
 
-static vehicle *find_target_vehicle( monster &z )
+static vehicle *find_target_vehicle( monster &z, int range )
 {
     map &here = get_map();
     vehicle *chosen = nullptr;
-    int distance = 60;
     for( wrapped_vehicle &v : here.get_vehicles() ) {
         int new_dist = rl_dist( z.pos(), v.pos );
-        if( v.v->velocity != 0 && new_dist < distance ) {
+        if( v.v->velocity != 0 && new_dist < range ) {
             chosen = v.v;
-            distance = new_dist;
+            range = new_dist;
         }
     }
     return chosen;
@@ -523,7 +522,7 @@ bool gun_actor::call( monster &z ) const
                 return false;
             }
             //No living targets, try to find a moving car
-            vehicle *veh = find_target_vehicle( z );
+            vehicle *veh = find_target_vehicle( z, get_max_range() );
             if( !veh ) {
                 return false;
             }
