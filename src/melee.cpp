@@ -2286,7 +2286,7 @@ double player::melee_value( const item &weap ) const
         my_value *= 1.0f + 0.5f * ( std::sqrt( reach ) - 1.0f );
     }
     // value polearms less to account for the trickiness of keeping the right range
-    if( weapon.has_flag( "POLEARM" ) ) {
+    if( weap.has_flag( "POLEARM" ) ) {
         my_value *= 0.8;
     }
 
