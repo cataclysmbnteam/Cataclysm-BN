@@ -554,29 +554,6 @@ void player::mod_stat( const std::string &stat, float modifier )
     }
 }
 
-std::list<item *> player::get_artifact_items()
-{
-    std::list<item *> art_items;
-    const invslice &stacks = inv.slice();
-    for( auto &stack : stacks ) {
-        item &stack_iter = stack->front();
-        if( stack_iter.is_artifact() ) {
-            art_items.push_back( &stack_iter );
-        }
-    }
-    for( auto &elem : worn ) {
-        if( elem.is_artifact() ) {
-            art_items.push_back( &elem );
-        }
-    }
-    if( is_armed() ) {
-        if( weapon.is_artifact() ) {
-            art_items.push_back( &weapon );
-        }
-    }
-    return art_items;
-}
-
 bool player::avoid_trap( const tripoint &pos, const trap &tr ) const
 {
     /** @EFFECT_DEX increases chance to avoid traps */
