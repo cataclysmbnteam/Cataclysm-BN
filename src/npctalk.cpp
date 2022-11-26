@@ -3358,8 +3358,8 @@ std::string give_item_to( npc &p, bool allow_use )
     std::string reason = _( "Nope." );
     int our_ammo = p.ammo_count_for( p.weapon );
     int new_ammo = p.ammo_count_for( given );
-    const double new_weapon_value = p.weapon_value( given, new_ammo );
-    const double cur_weapon_value = p.weapon_value( p.weapon, our_ammo );
+    const double new_weapon_value = npc_ai::weapon_value( p, given, new_ammo );
+    const double cur_weapon_value = npc_ai::weapon_value( p, p.weapon, our_ammo );
     add_msg( m_debug, "NPC evaluates own %s (%d ammo): %0.1f",
              p.weapon.typeId().str(), our_ammo, cur_weapon_value );
     add_msg( m_debug, "NPC evaluates your %s (%d ammo): %0.1f",

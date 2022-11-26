@@ -634,14 +634,12 @@ void npc::assess_danger()
     ai_cache.danger_assessment = assessment;
 }
 
-float npc::character_danger( const Character &uc ) const
+float npc::character_danger( const Character &u ) const
 {
-    // TODO: Remove this when possible
-    const player &u = dynamic_cast<const player &>( uc );
     float ret = 0.0;
     bool u_gun = u.weapon.is_gun();
     bool my_gun = weapon.is_gun();
-    double u_weap_val = u.weapon_value( u.weapon );
+    double u_weap_val = npc_ai::weapon_value( u, u.weapon );
     const double &my_weap_val = ai_cache.my_weapon_value;
     if( u_gun && !my_gun ) {
         u_weap_val *= 1.5f;
@@ -679,7 +677,7 @@ void npc::regen_ai_cache()
     ai_cache.can_heal.clear_all();
     ai_cache.danger = 0.0f;
     ai_cache.total_danger = 0.0f;
-    ai_cache.my_weapon_value = weapon_value( weapon );
+    ai_cache.my_weapon_value = npc_ai::weapon_value( *this, weapon );
     ai_cache.dangerous_explosives = find_dangerous_explosives();
 
     assess_danger();
@@ -1485,8 +1483,7 @@ static bool wants_to_reload_with( const item &weap, const item &ammo )
 
 item &npc::find_reloadable()
 {
-    auto cached_value = cached_info.find( "reloadables" );
-    if( cached_value != cached_info.end() ) {
+    if( get_npc_ai_info_cache( "reloadables" ) ) {
         return null_item_reference();
     }
     // Check wielded gun, non-wielded guns, mags and tools
@@ -1513,7 +1510,7 @@ item &npc::find_reloadable()
         return *reloadable;
     }
 
-    cached_info.emplace( "reloadables", 0.0 );
+    set_npc_ai_info_cache( "reloadables", 0.0 );
     return null_item_reference();
 }
 
@@ -3418,7 +3415,7 @@ bool npc::wield_better_weapon()
         bool allowed = can_use_gun && it.is_gun() && ( !use_silent || it.is_silent() );
         double val;
         if( !allowed ) {
-            val = weapon_value( it, 0 );
+            val = npc_ai::weapon_value( *this, it, 0 );
         } else {
             int ammo_count = it.ammo_remaining();
             int ups_drain = it.get_gun_ups_drain();
@@ -3426,7 +3423,7 @@ bool npc::wield_better_weapon()
                 ammo_count = std::min( ammo_count, ups_charges / ups_drain );
             }
 
-            val = weapon_value( it, ammo_count );
+            val = npc_ai::weapon_value( *this, it, ammo_count );
         }
 
         if( val > best_value ) {

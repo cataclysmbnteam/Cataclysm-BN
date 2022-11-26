@@ -1425,4 +1425,17 @@ std::ostream &operator<< ( std::ostream &os, const npc_need &need );
 /** Opens a menu and allows player to select a friendly NPC. */
 npc *pick_follower();
 
+namespace npc_ai
+{
+/** Evaluate item as weapon (melee or gun) */
+double weapon_value( const Character &who, const item &weap, int ammo = 10 );
+/** Evaluates item as a gun */
+double gun_value( const Character &who, const item &weap, int ammo = 10 );
+/** Evaluate item as a melee weapon */
+double melee_value( const Character &who, const item &weap );
+/** Evaluate unarmed melee value */
+double unarmed_value( const Character &who );
+
+} // namespace npc_ai
+
 #endif // CATA_SRC_NPC_H

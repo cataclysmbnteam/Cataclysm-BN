@@ -171,12 +171,6 @@ class player : public Character
         bool can_grab_break( const item &weap ) const;
         // melee.cpp
 
-        /**
-         * Returns a weapon's modified dispersion value.
-         * @param obj Weapon to check dispersion on
-         */
-        dispersion_sources get_weapon_dispersion( const item &obj ) const;
-
         /** How many moves does it take to aim gun to the target accuracy. */
         int gun_engagement_moves( const item &gun, int target = 0, int start = MAX_RECOIL ) const;
 
@@ -202,13 +196,6 @@ class player : public Character
         /** Handles special defenses from an attack that hit us (source can be null) */
         void on_hit( Creature *source, bodypart_id bp_hit,
                      float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) override;
-
-
-        /** NPC-related item rating functions */
-        double weapon_value( const item &weap, int ammo = 10 ) const; // Evaluates item as a weapon
-        double gun_value( const item &weap, int ammo = 10 ) const; // Evaluates item as a gun
-        double melee_value( const item &weap ) const; // As above, but only as melee
-        double unarmed_value() const; // Evaluate yourself!
 
         /** Returns melee skill level, to be used to throttle dodge practice. **/
         float get_melee() const override;

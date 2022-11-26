@@ -57,6 +57,7 @@ class SkillLevel;
 class SkillLevelMap;
 class bionic_collection;
 class character_martial_arts;
+class dispersion_sources;
 class faction;
 class ma_technique;
 class known_magic;
@@ -352,6 +353,12 @@ class Character : public Creature, public visitable<Character>
 
         /* Adjusts provided sight dispersion to account for player stats */
         int effective_dispersion( int dispersion ) const;
+
+        /**
+         * Returns a weapon's modified dispersion value.
+         * @param obj Weapon to check dispersion on
+         */
+        dispersion_sources get_weapon_dispersion( const item &obj ) const;
 
         /* Accessors for aspects of aim speed. */
         std::vector<aim_type> get_aim_types( const item &gun ) const;
@@ -2068,7 +2075,6 @@ class Character : public Creature, public visitable<Character>
 
         trap_map known_traps;
         pimpl<char_encumbrance_data> encumbrance_cache;
-        mutable std::map<std::string, double> cached_info;
         bool bio_soporific_powered_at_last_sleep_check = false;
         /** last time we checked for sleep */
         time_point last_sleep_check = calendar::turn_zero;
@@ -2198,6 +2204,8 @@ class Character : public Creature, public visitable<Character>
         tripoint cached_position;
         inventory cached_crafting_inventory;
 
+        mutable std::map<std::string, double> npc_ai_info_cache;
+
     protected:
         // a cache of all active enchantment values.
         // is recalculated every turn in Character::recalculate_enchantment_cache
@@ -2216,6 +2224,10 @@ class Character : public Creature, public visitable<Character>
         bool last_climate_control_ret = false;
 
         void set_underwater( bool x ) override;
+
+        void clear_npc_ai_info_cache( const std::string &key ) const;
+        void set_npc_ai_info_cache( const std::string &key, double val ) const;
+        cata::optional<double> get_npc_ai_info_cache( const std::string &key ) const;
 };
 
 Character &get_player_character();

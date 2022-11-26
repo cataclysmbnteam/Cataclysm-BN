@@ -2247,16 +2247,16 @@ int Character::attack_cost( const item &weap ) const
     return move_cost;
 }
 
-double player::weapon_value( const item &weap, int ammo ) const
+double npc_ai::weapon_value( const Character &who, const item &weap, int ammo )
 {
-    if( is_wielding( weap ) ) {
-        auto cached_value = cached_info.find( "weapon_value" );
-        if( cached_value != cached_info.end() ) {
-            return cached_value->second;
+    if( who.is_wielding( weap ) ) {
+        auto cached = who.get_npc_ai_info_cache( "weapon_value" );
+        if( cached ) {
+            return *cached;
         }
     }
-    const double val_gun = gun_value( weap, ammo );
-    const double val_melee = melee_value( weap );
+    const double val_gun = gun_value( who, weap, ammo );
+    const double val_melee = melee_value( who, weap );
     const double more = std::max( val_gun, val_melee );
     const double less = std::min( val_gun, val_melee );
 
@@ -2269,18 +2269,18 @@ double player::weapon_value( const item &weap, int ammo ) const
     // A small bonus for guns you can also use to hit stuff with (bayonets etc.)
     const double my_val = ( more + ( less / 2.0 ) ) * armor_penalty;
     add_msg( m_debug, "%s (%ld ammo) sum value: %.1f", weap.type->get_id().str(), ammo, my_val );
-    if( is_wielding( weap ) ) {
-        cached_info.emplace( "weapon_value", my_val );
+    if( who.is_wielding( weap ) ) {
+        who.set_npc_ai_info_cache( "weapon_value", my_val );
     }
     return my_val;
 }
 
-double player::melee_value( const item &weap ) const
+double npc_ai::melee_value( const Character &who, const item &weap )
 {
     // start with average effective dps against a range of enemies
-    double my_value = weap.average_dps( *this );
+    double my_value = weap.average_dps( *who.as_player() );
 
-    float reach = weap.reach_range( *this );
+    float reach = weap.reach_range( who );
     // value reach weapons more
     if( reach > 1.0f ) {
         my_value *= 1.0f + 0.5f * ( std::sqrt( reach ) - 1.0f );
@@ -2291,7 +2291,7 @@ double player::melee_value( const item &weap ) const
     }
 
     // value style weapons more
-    if( !martial_arts_data->enumerate_known_styles( weap.type->get_id() ).empty() ) {
+    if( !who.martial_arts_data->enumerate_known_styles( weap.type->get_id() ).empty() ) {
         my_value *= 1.5;
     }
 
@@ -2300,10 +2300,10 @@ double player::melee_value( const item &weap ) const
     return std::max( 0.0, my_value );
 }
 
-double player::unarmed_value() const
+double npc_ai::unarmed_value( const Character &who )
 {
     // TODO: Martial arts
-    return melee_value( item() );
+    return melee_value( who, item() );
 }
 
 void player::disarm( npc &target )

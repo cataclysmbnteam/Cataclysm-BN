@@ -501,7 +501,8 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
         }
         const int cbm_ammo = free_power /  bio.info().power_activate;
 
-        if( weapon_value( weapon, ammo_count ) < weapon_value( cbm_weapon, cbm_ammo ) ) {
+        if( npc_ai::weapon_value( *this, weapon, ammo_count ) <
+            npc_ai::weapon_value( *this, cbm_weapon, cbm_ammo ) ) {
             real_weapon = weapon;
             weapon = cbm_weapon;
             cbm_weapon_index = index;

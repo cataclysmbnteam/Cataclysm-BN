@@ -573,7 +573,7 @@ static float rate_critter( const Creature &c )
 {
     const npc *np = dynamic_cast<const npc *>( &c );
     if( np != nullptr ) {
-        return np->weapon_value( np->weapon );
+        return npc_ai::weapon_value( *np, np->weapon );
     }
 
     const monster *m = dynamic_cast<const monster *>( &c );
