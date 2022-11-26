@@ -141,8 +141,6 @@ class player : public Character
         /** Maintains body wetness and handles the rate at which the player dries */
         void update_body_wetness( const w_point &weather );
 
-        void power_mutations();
-
         /** Called when a player triggers a trap, returns true if they don't set it off */
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
 
@@ -381,16 +379,6 @@ class player : public Character
 
     private:
         safe_reference_anchor anchor;
-        enum class power_mut_ui_cmd {
-            Exit,
-            Activate,
-            Deactivate,
-        };
-        struct power_mut_ui_result {
-            power_mut_ui_cmd cmd;
-            trait_id mut;
-        };
-        power_mut_ui_result power_mutations_ui();
 
         /** last time we checked for sleep */
         time_point last_sleep_check = calendar::turn_zero;

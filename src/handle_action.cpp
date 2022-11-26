@@ -60,6 +60,7 @@
 #include "monster.h"
 #include "mtype.h"
 #include "mutation.h"
+#include "mutation_ui.h"
 #include "options.h"
 #include "output.h"
 #include "overmap_ui.h"
@@ -2100,7 +2101,7 @@ bool game::handle_action()
                 show_bionics_ui( u );
                 break;
             case ACTION_MUTATIONS:
-                u.power_mutations();
+                show_mutations_ui( u );
                 break;
 
             case ACTION_SORT_ARMOR:

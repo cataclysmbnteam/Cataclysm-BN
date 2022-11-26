@@ -200,8 +200,7 @@ void Character::suffer_water_damage( const mutation_branch &mdata )
     }
 }
 
-void Character::suffer_mutation_power( const mutation_branch &mdata,
-                                       Character::trait_data &tdata )
+void Character::suffer_mutation_power( const mutation_branch &mdata, char_trait_data &tdata )
 {
     if( tdata.powered && tdata.charge > 0 ) {
         // Already-on units just lose a bit of charge
@@ -1482,12 +1481,12 @@ void Character::suffer()
         process_bionic( bio );
     }
 
-    for( std::pair<const trait_id, Character::trait_data> &mut : my_mutations ) {
+    for( std::pair<const trait_id, char_trait_data> &mut : my_mutations ) {
         const mutation_branch &mdata = mut.first.obj();
         if( calendar::once_every( 1_minutes ) ) {
             suffer_water_damage( mdata );
         }
-        Character::trait_data &tdata = mut.second;
+        char_trait_data &tdata = mut.second;
         if( tdata.powered ) {
             suffer_mutation_power( mdata, tdata );
         }

@@ -200,6 +200,23 @@ struct special_attack {
     damage_instance damage;
 };
 
+struct char_trait_data {
+    /** Whether the mutation is activated. */
+    bool powered = false;
+    /** Key to select the mutation in the UI. */
+    char key = ' ';
+    /**
+     * Time (in turns) until the mutation increase hunger/thirst/fatigue according
+     * to its cost (@ref mutation_branch::cost). When those costs have been paid, this
+     * is reset to @ref mutation_branch::cooldown.
+     */
+    int charge = 0;
+    void serialize( JsonOut &json ) const;
+    void deserialize( JsonIn &jsin );
+};
+
+struct mutation_collection : std::unordered_map<trait_id, char_trait_data> {};
+
 class Character : public Creature, public visitable<Character>
 {
     public:
@@ -697,8 +714,6 @@ class Character : public Creature, public visitable<Character>
         bool has_trait_flag( const std::string &b ) const;
         /** Returns true if character has a trait which cancels the entered trait. */
         bool has_opposite_trait( const trait_id &flag ) const;
-        /** Returns the trait id with the given invlet, or an empty string if no trait has that invlet */
-        trait_id trait_by_invlet( int ch ) const;
 
         /** Toggles a trait on the player and in their mutation list */
         void toggle_trait( const trait_id & );
@@ -2041,20 +2056,6 @@ class Character : public Creature, public visitable<Character>
         Character();
         Character( Character && );
         Character &operator=( Character && );
-        struct trait_data {
-            /** Whether the mutation is activated. */
-            bool powered = false;
-            /** Key to select the mutation in the UI. */
-            char key = ' ';
-            /**
-             * Time (in turns) until the mutation increase hunger/thirst/fatigue according
-             * to its cost (@ref mutation_branch::cost). When those costs have been paid, this
-             * is reset to @ref mutation_branch::cooldown.
-             */
-            int charge = 0;
-            void serialize( JsonOut &json ) const;
-            void deserialize( JsonIn &jsin );
-        };
 
         // The player's position on the local map.
         tripoint position;
@@ -2083,13 +2084,15 @@ class Character : public Creature, public visitable<Character>
         time_point last_sleep_check = calendar::turn_zero;
         /** warnings from a faction about bad behavior */
         std::map<faction_id, std::pair<int, time_point>> warning_record;
+    public:
         /**
          * Traits / mutations of the character. Key is the mutation id (it's also a valid
          * key into @ref mutation_data), the value describes the status of the mutation.
          * If there is not entry for a mutation, the character does not have it. If the map
          * contains the entry, the character has the mutation.
          */
-        std::unordered_map<trait_id, trait_data> my_mutations;
+        mutation_collection my_mutations;
+    protected:
         /**
          * Contains mutation ids of the base traits.
          */
@@ -2151,7 +2154,7 @@ class Character : public Creature, public visitable<Character>
     private:
         /** suffer() subcalls */
         void suffer_water_damage( const mutation_branch &mdata );
-        void suffer_mutation_power( const mutation_branch &mdata, Character::trait_data &tdata );
+        void suffer_mutation_power( const mutation_branch &mdata, char_trait_data &tdata );
         void suffer_while_underwater();
         void suffer_from_addictions();
         void suffer_while_awake( int current_stim );
