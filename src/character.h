@@ -586,16 +586,12 @@ class Character : public Creature, public visitable<Character>
          * @param t Creature to attack
          * @param allow_special whether non-forced martial art technique or mutation attack should be
          *   possible with this attack.
-         * @param force_technique special technique to use in attack.
+         * @param force_technique special technique to use in attack (leave as nullptr to use random technique).
          * @param allow_unarmed always uses the wielded weapon regardless of martialarts style
          */
-        void melee_attack( Creature &t, bool allow_special, const matec_id &force_technique,
+        void melee_attack( Creature &t, bool allow_special, const matec_id *force_technique = nullptr,
                            bool allow_unarmed = true );
-        /**
-         * Calls the to other melee_attack function with an empty technique id (meaning no specific
-         * technique should be used).
-         */
-        void melee_attack( Creature &t, bool allow_special );
+
         /** Handles combat effects, returns a string of any valid combat effect messages */
         std::string melee_special_effects( Creature &t, damage_instance &d, item &weap );
         /** Performs special attacks and their effects (poisonous, stinger, etc.) */

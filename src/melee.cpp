@@ -379,15 +379,9 @@ static void melee_train( Character &p, int lo, int hi, const item &weap )
     }
 }
 
-void Character::melee_attack( Creature &t, bool allow_special )
-{
-    static const matec_id no_technique_id( "" );
-    melee_attack( t, allow_special, no_technique_id );
-}
-
 // Melee calculation is in parts. This sets up the attack, then in deal_melee_attack,
 // we calculate if we would hit. In Creature::deal_melee_hit, we calculate if the target dodges.
-void Character::melee_attack( Creature &t, bool allow_special, const matec_id &force_technique,
+void Character::melee_attack( Creature &t, bool allow_special, const matec_id *force_technique,
                               bool allow_unarmed )
 {
     melee::melee_stats.attack_count += 1;
@@ -482,14 +476,14 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
         damage_instance d;
         roll_all_damage( critical_hit, d, false, cur_weapon );
 
-        const bool has_force_technique = !force_technique.str().empty();
+        const bool has_force_technique = force_technique;
 
         // Pick one or more special attacks
         matec_id technique_id;
         if( allow_special && !has_force_technique ) {
             technique_id = pick_technique( t, cur_weapon, critical_hit, false, false );
         } else if( has_force_technique ) {
-            technique_id = force_technique;
+            technique_id = *force_technique;
         } else {
             technique_id = tec_none;
         }
@@ -706,7 +700,7 @@ void Character::reach_attack( const tripoint &p )
     }
 
     reach_attacking = true;
-    melee_attack( *critter, false, force_technique, false );
+    melee_attack( *critter, false, &force_technique, false );
     reach_attacking = false;
 }
 
@@ -1778,7 +1772,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
         } else if( weapon.made_of( material_id( "glass" ) ) ) {
             add_msg( m_bad, _( "The item you are wielding is too fragile to counterattack with!" ) );
         } else {
-            melee_attack( *source, false, tec );
+            melee_attack( *source, false, &tec );
         }
     }
 

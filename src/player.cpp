@@ -795,7 +795,7 @@ void player::on_dodge( Creature *source, float difficulty )
             if( get_stamina() < get_stamina_max() / 3 ) {
                 add_msg( m_bad, _( "You try to counterattack but you are too exhausted!" ) );
             } else {
-                melee_attack( *source, false, tec );
+                melee_attack( *source, false, &tec );
             }
         }
     }
