@@ -197,9 +197,6 @@ class player : public Character
          */
         int fire_gun( const tripoint &target, int shots, item &gun );
 
-        /** Handles reach melee attacks */
-        void reach_attack( const tripoint &p );
-
         /** Called after the player has successfully dodged an attack */
         void on_dodge( Creature *source, float difficulty ) override;
         /** Handles special defenses from an attack that hit us (source can be null) */

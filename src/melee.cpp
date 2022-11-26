@@ -620,7 +620,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
     return;
 }
 
-void player::reach_attack( const tripoint &p )
+void Character::reach_attack( const tripoint &p )
 {
     matec_id force_technique = tec_none;
     /** @EFFECT_MELEE >5 allows WHIP_DISARM technique */
