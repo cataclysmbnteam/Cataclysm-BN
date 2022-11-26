@@ -141,12 +141,7 @@ class player : public Character
         /** Maintains body wetness and handles the rate at which the player dries */
         void update_body_wetness( const w_point &weather );
 
-        /** Generates and handles the UI for player interaction with installed bionics */
-        void power_bionics();
         void power_mutations();
-
-        /** Returns the bionic with the given invlet, or NULL if no bionic has that invlet */
-        bionic *bionic_by_invlet( int ch );
 
         /** Called when a player triggers a trap, returns true if they don't set it off */
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;

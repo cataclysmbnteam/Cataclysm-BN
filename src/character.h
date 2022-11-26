@@ -947,8 +947,10 @@ class Character : public Creature, public visitable<Character>
 
         // --------------- Bionic Stuff ---------------
         /** Handles bionic activation effects of the entered bionic, returns if anything activated */
-        bool activate_bionic( int b, bool eff_only = false );
+        bool activate_bionic( bionic &bio, bool eff_only = false );
         std::vector<bionic_id> get_bionics() const;
+        /** Get state of bionic with given id */
+        bionic &get_bionic_state( const bionic_id &id );
         /** Returns amount of Storage CBMs in the corpse **/
         std::pair<int, int> amount_of_storage_bionics() const;
         /** Returns true if the player has the entered bionic id */
@@ -981,14 +983,12 @@ class Character : public Creature, public visitable<Character>
         std::vector<tripoint_abs_omt> omt_path;
 
         /** Handles bionic effects over time of the entered bionic */
-        void process_bionic( int b );
+        void process_bionic( bionic &bio );
         /** Handles bionic deactivation effects of the entered bionic, returns if anything
          *  deactivated */
-        bool deactivate_bionic( int b, bool eff_only = false );
-        /** Returns the size of my_bionics[] */
-        int num_bionics() const;
-        /** Returns the bionic at a given index in my_bionics[] */
-        bionic &bionic_at_index( int i );
+        bool deactivate_bionic( bionic &bio, bool eff_only = false );
+        /** Whether character has any bionics installed */
+        bool has_bionics() const;
         /** Remove all bionics */
         void clear_bionics();
         int get_used_bionics_slots( const bodypart_id &bp ) const;
@@ -1051,18 +1051,18 @@ class Character : public Creature, public visitable<Character>
                                         float adjusted_skill );
 
         /**Convert fuel to bionic power*/
-        bool burn_fuel( int b, bool start = false );
+        bool burn_fuel( bionic &bio, bool start = false );
         /**Passively produce power from PERPETUAL fuel*/
-        void passive_power_gen( int b );
+        void passive_power_gen( bionic &bio );
         /**Find fuel used by remote powered bionic*/
         itype_id find_remote_fuel( bool look_only = false );
         /**Consume fuel used by remote powered bionic, return amount of request unfulfilled (0 if totally successful).*/
         int consume_remote_fuel( int amount );
         void reset_remote_fuel();
         /**Handle heat from exothermic power generation*/
-        void heat_emission( int b, int fuel_energy );
+        void heat_emission( bionic &bio, int fuel_energy );
         /**Applies modifier to fuel_efficiency and returns the resulting efficiency*/
-        float get_effective_efficiency( int b, float fuel_efficiency );
+        float get_effective_efficiency( bionic &bio, float fuel_efficiency );
 
         units::energy get_power_level() const;
         units::energy get_max_power_level() const;

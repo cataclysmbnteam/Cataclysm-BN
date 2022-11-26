@@ -1583,48 +1583,35 @@ void npc::deactivate_combat_cbms()
 
 bool npc::activate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
 {
-    int index = 0;
-    for( const bionic &i : *my_bionics ) {
-        if( i.id == cbm_id ) {
-            if( !i.powered ) {
-                return activate_bionic( index, eff_only );
-            } else {
-                return false;
-            }
+    if( has_bionic( cbm_id ) ) {
+        bionic &bio = get_bionic_state( cbm_id );
+        if( !bio.powered ) {
+            return activate_bionic( bio, eff_only );
         }
-        index += 1;
     }
     return false;
 }
 
 bool npc::use_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
 {
-    int index = 0;
-    for( const bionic &i : *my_bionics ) {
-        if( i.id == cbm_id ) {
-            if( !i.powered ) {
-                return activate_bionic( index, eff_only );
-            } else {
-                return true;
-            }
+    if( has_bionic( cbm_id ) ) {
+        bionic &bio = get_bionic_state( cbm_id );
+        if( bio.powered ) {
+            return true;
+        } else {
+            return activate_bionic( bio, eff_only );
         }
-        index += 1;
     }
     return false;
 }
 
 bool npc::deactivate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
 {
-    int index = 0;
-    for( const bionic &i : *my_bionics ) {
-        if( i.id == cbm_id ) {
-            if( i.powered ) {
-                return deactivate_bionic( index, eff_only );
-            } else {
-                return false;
-            }
+    if( has_bionic( cbm_id ) ) {
+        bionic &bio = get_bionic_state( cbm_id );
+        if( bio.powered ) {
+            return deactivate_bionic( bio, eff_only );
         }
-        index += 1;
     }
     return false;
 }

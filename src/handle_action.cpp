@@ -15,6 +15,7 @@
 #include "avatar.h"
 #include "avatar_action.h"
 #include "bionics.h"
+#include "bionics_ui.h"
 #include "calendar.h"
 #include "catacharset.h"
 #include "character.h"
@@ -1027,8 +1028,7 @@ static void sleep()
             active.push_back( it->tname() );
         }
     }
-    for( int i = 0; i < g->u.num_bionics(); i++ ) {
-        const bionic &bio = u.bionic_at_index( i );
+    for( const bionic &bio : *u.my_bionics ) {
         if( !bio.powered ) {
             continue;
         }
@@ -2097,7 +2097,7 @@ bool game::handle_action()
                 }
                 break;
             case ACTION_BIONICS:
-                u.power_bionics();
+                show_bionics_ui( u );
                 break;
             case ACTION_MUTATIONS:
                 u.power_mutations();

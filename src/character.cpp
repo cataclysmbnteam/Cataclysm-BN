@@ -1880,6 +1880,17 @@ std::vector<bionic_id> Character::get_bionics() const
     return result;
 }
 
+bionic &Character::get_bionic_state( const bionic_id &id )
+{
+    for( bionic &b : *my_bionics ) {
+        if( id == b.id ) {
+            return b;
+        }
+    }
+    debugmsg( "tried to get state of non-existent bionic with id \"%s\"", id );
+    std::abort();
+}
+
 bool Character::has_bionic( const bionic_id &b ) const
 {
     for( const bionic_id &bid : get_bionics() ) {
@@ -8170,15 +8181,7 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
         if( has_active_bionic( bio_ads ) && ( elem.amount > 0 ) && ( elem.type == DT_BASH ||
                 elem.type == DT_CUT || elem.type == DT_STAB || elem.type == DT_BULLET ) ) {
             float elem_multi = 1;
-            // HACK: In the future this hopefully gets streamlined.
-            const auto &all_bionics = get_bionics();
-            size_t index;
-            for( index = 0; index < all_bionics.size(); index++ ) {
-                if( all_bionics[index] == bio_ads ) {
-                    break;
-                }
-            }
-            bionic &bio = bionic_at_index( index );
+            bionic &bio = get_bionic_state( bio_ads );
             // HACK: Halves charge rate when hit for the next 3 turns, doesn't stack. See bionics.cpp for more information.
             bio.charge_timer = 6;
             // Bullet affected significantly more than stab, stab more than cut, cut more than bash.
@@ -8200,7 +8203,7 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
                 // Either way you still get protection.
                 dam.mult_damage( elem_multi );
                 bio.energy_stored = 0_kJ;
-                deactivate_bionic( index );
+                deactivate_bionic( bio );
                 const units::energy shatter_thresh = ( elem.type == DT_BULLET ) ? 20_kJ : 15_kJ;
                 if( ads_cost >= shatter_thresh ) {
                     if( bio.incapacitated_time == 0_turns ) {
@@ -8215,7 +8218,7 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
                 }
             } else {
                 //You tried to (re)activate it and immediately enter combat, no mitigation for you.
-                deactivate_bionic( index );
+                deactivate_bionic( bio );
                 add_msg_if_player( m_bad, _( "The %s is interrupted and powers down." ), bio.info().name );
             }
         }
