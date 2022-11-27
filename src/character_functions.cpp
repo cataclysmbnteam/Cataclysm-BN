@@ -59,6 +59,7 @@ static const std::string flag_SWIMMABLE( "SWIMMABLE" );
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_darkness( "darkness" );
 static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_nausea( "nausea" );
 static const efftype_id effect_onfire( "onfire" );
@@ -725,6 +726,40 @@ double vomit_mod( const Character &ch )
         mod *= 5 * ch.get_effect_int( effect_nausea );
     }
     return mod;
+}
+
+int talk_skill( const Character &ch )
+{
+    /** @EFFECT_INT slightly increases talking skill */
+
+    /** @EFFECT_PER slightly increases talking skill */
+
+    /** @EFFECT_SPEECH increases talking skill */
+    int ret = ch.get_int() + ch.get_per() + ch.get_skill_level( skill_id( "speech" ) ) * 3;
+    return ret;
+}
+
+int intimidation( const Character &ch )
+{
+    /** @EFFECT_STR increases intimidation factor */
+    int ret = ch.get_str() * 2;
+    if( ch.weapon.is_gun() ) {
+        ret += 10;
+    }
+    if( ch.weapon.damage_melee( DT_BASH ) >= 12 ||
+        ch.weapon.damage_melee( DT_CUT ) >= 12 ||
+        ch.weapon.damage_melee( DT_STAB ) >= 12 ) {
+        ret += 5;
+    }
+
+    if( ch.get_stim() > 20 ) {
+        ret += 2;
+    }
+    if( ch.has_effect( effect_drunk ) ) {
+        ret -= 4;
+    }
+
+    return ret;
 }
 
 } // namespace character_effects

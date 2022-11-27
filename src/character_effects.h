@@ -31,6 +31,12 @@ int calc_morale_fatigue_cap( int fatigue );
 /** Returns the modifier value used for vomiting effects */
 double vomit_mod( const Character &ch );
 
+/** Returns a value used when attempting to convince NPC's of something */
+int talk_skill( const Character &ch );
+
+/** Returns a value used when attempting to intimidate NPC's */
+int intimidation( const Character &ch );
+
 } // namespace character_effects
 
 #endif // CATA_SRC_CHARACTER_EFFECTS_H

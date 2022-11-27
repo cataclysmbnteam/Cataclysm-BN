@@ -524,40 +524,6 @@ void player::mod_stat( const std::string &stat, float modifier )
     }
 }
 
-int player::talk_skill() const
-{
-    /** @EFFECT_INT slightly increases talking skill */
-
-    /** @EFFECT_PER slightly increases talking skill */
-
-    /** @EFFECT_SPEECH increases talking skill */
-    int ret = get_int() + get_per() + get_skill_level( skill_id( "speech" ) ) * 3;
-    return ret;
-}
-
-int player::intimidation() const
-{
-    /** @EFFECT_STR increases intimidation factor */
-    int ret = get_str() * 2;
-    if( weapon.is_gun() ) {
-        ret += 10;
-    }
-    if( weapon.damage_melee( DT_BASH ) >= 12 ||
-        weapon.damage_melee( DT_CUT ) >= 12 ||
-        weapon.damage_melee( DT_STAB ) >= 12 ) {
-        ret += 5;
-    }
-
-    if( get_stim() > 20 ) {
-        ret += 2;
-    }
-    if( has_effect( effect_drunk ) ) {
-        ret -= 4;
-    }
-
-    return ret;
-}
-
 void player::on_dodge( Creature *source, float difficulty )
 {
     static const matec_id tec_none( "tec_none" );
