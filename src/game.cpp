@@ -9440,7 +9440,7 @@ point game::place_player( const tripoint &dest_loc )
 
     // Traps!
     // Try to detect.
-    u.search_surroundings();
+    character_funcs::search_surroundings( u );
     if( u.is_mounted() ) {
         m.creature_on_trap( *u.mounted_creature );
     } else {

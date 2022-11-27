@@ -2667,13 +2667,13 @@ void npc::move_pause()
     // NPCs currently always aim when using a gun, even with no target
     // This simulates them aiming at stuff just at the edge of their range
     if( !weapon.is_gun() ) {
-        pause();
+        character_funcs::do_pause( *this );
         return;
     }
 
     // Stop, drop, and roll
     if( has_effect( effect_onfire ) ) {
-        pause();
+        character_funcs::do_pause( *this );
     } else {
         aim();
         moves = std::min( moves, 0 );

@@ -3,11 +3,14 @@
 
 #include "bionics.h"
 #include "calendar.h"
+#include "character_martial_arts.h"
 #include "character.h"
 #include "creature.h"
 #include "handle_liquid.h"
 #include "itype.h"
 #include "make_static.h"
+#include "map_iterator.h"
+#include "player.h"
 #include "rng.h"
 #include "submap.h"
 #include "trap.h"
@@ -55,10 +58,15 @@ static const std::string flag_SWIMMABLE( "SWIMMABLE" );
 
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_darkness( "darkness" );
+static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_nausea( "nausea" );
+static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_weed_high( "weed_high" );
 
+static const skill_id skill_swimming( "swimming" );
+
+static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
 static const bionic_id bio_soporific( "bio_soporific" );
 
 static const itype_id itype_cookbook_human( "cookbook_human" );
@@ -472,6 +480,143 @@ bool can_interface_armor( const Character &who )
         return b.powered && b.info().has_flag( STATIC( flag_str_id( "BIONIC_ARMOR_INTERFACE" ) ) );
     } );
     return okay;
+}
+
+void do_pause( Character &who )
+{
+    map &here = get_map();
+
+    who.moves = 0;
+    who.recoil = MAX_RECOIL;
+
+    // Train swimming if underwater
+    if( !who.in_vehicle ) {
+        if( who.is_underwater() ) {
+            who.as_player()->practice( skill_swimming, 1 );
+            who.drench( 100, { {
+                    bp_leg_l, bp_leg_r, bp_torso, bp_arm_l,
+                    bp_arm_r, bp_head, bp_eyes, bp_mouth,
+                    bp_foot_l, bp_foot_r, bp_hand_l, bp_hand_r
+                }
+            }, true );
+        } else if( here.has_flag( TFLAG_DEEP_WATER, who.pos() ) ) {
+            who.as_player()->practice( skill_swimming, 1 );
+            // Same as above, except no head/eyes/mouth
+            who.drench( 100, { {
+                    bp_leg_l, bp_leg_r, bp_torso, bp_arm_l,
+                    bp_arm_r, bp_foot_l, bp_foot_r, bp_hand_l,
+                    bp_hand_r
+                }
+            }, true );
+        } else if( here.has_flag( "SWIMMABLE", who.pos() ) ) {
+            who.drench( 40, { { bp_foot_l, bp_foot_r, bp_leg_l, bp_leg_r } }, false );
+        }
+    }
+
+    // Try to put out clothing/hair fire
+    if( who.has_effect( effect_onfire ) ) {
+        time_duration total_removed = 0_turns;
+        time_duration total_left = 0_turns;
+        bool on_ground = who.has_effect( effect_downed );
+        for( const body_part bp : all_body_parts ) {
+            effect &eff = who.get_effect( effect_onfire, bp );
+            if( eff.is_null() ) {
+                continue;
+            }
+
+            // TODO: Tools and skills
+            total_left += eff.get_duration();
+            // Being on the ground will smother the fire much faster because you can roll
+            const time_duration dur_removed = on_ground ? eff.get_duration() / 2 + 2_turns : 1_turns;
+            eff.mod_duration( -dur_removed );
+            total_removed += dur_removed;
+        }
+
+        // Don't drop on the ground when the ground is on fire
+        if( total_left > 1_minutes && !who.is_dangerous_fields( here.field_at( who.pos() ) ) ) {
+            who.add_effect( effect_downed, 2_turns, num_bp, 0, true );
+            who.add_msg_player_or_npc( m_warning,
+                                       _( "You roll on the ground, trying to smother the fire!" ),
+                                       _( "<npcname> rolls on the ground!" ) );
+        } else if( total_removed > 0_turns ) {
+            who.add_msg_player_or_npc( m_warning,
+                                       _( "You attempt to put out the fire on you!" ),
+                                       _( "<npcname> attempts to put out the fire on them!" ) );
+        }
+    }
+
+    // on-pause effects for martial arts
+    who.martial_arts_data->ma_onpause_effects( who );
+
+    if( who.is_npc() ) {
+        // The stuff below doesn't apply to NPCs
+        // search_surroundings should eventually do, though
+        return;
+    }
+
+    if( who.in_vehicle && one_in( 8 ) ) {
+        VehicleList vehs = here.get_vehicles();
+        vehicle *veh = nullptr;
+        for( auto &v : vehs ) {
+            veh = v.v;
+            if( veh && veh->is_moving() && veh->player_in_control( who ) ) {
+                double exp_temp = 1 + veh->total_mass() / 400.0_kilogram +
+                                  std::abs( veh->velocity / 3200.0 );
+                int experience = static_cast<int>( exp_temp );
+                if( exp_temp - experience > 0 && x_in_y( exp_temp - experience, 1.0 ) ) {
+                    experience++;
+                }
+                who.as_player()->practice( skill_id( "driving" ), experience );
+                break;
+            }
+        }
+    }
+
+    search_surroundings( who );
+    who.wait_effects();
+}
+
+void search_surroundings( Character &who )
+{
+    if( who.controlling_vehicle ) {
+        return;
+    }
+    const map &here = get_map();
+    // Search for traps in a larger area than before because this is the only
+    // way we can "find" traps that aren't marked as visible.
+    // Detection formula takes care of likelihood of seeing within this range.
+    for( const tripoint &tp : here.points_in_radius( who.pos(), 5 ) ) {
+        const trap &tr = here.tr_at( tp );
+        if( tr.is_null() || tp == who.pos() ) {
+            continue;
+        }
+        if( who.has_active_bionic( bio_ground_sonar ) && !who.knows_trap( tp ) &&
+            ( tr.loadid == tr_beartrap_buried ||
+              tr.loadid == tr_landmine_buried || tr.loadid == tr_sinkhole ) ) {
+            const std::string direction = direction_name( direction_from( who.pos(), tp ) );
+            who.add_msg_if_player( m_warning, _( "Your ground sonar detected a %1$s to the %2$s!" ),
+                                   tr.name(), direction );
+            who.add_known_trap( tp, tr );
+        }
+        if( !who.sees( tp ) ) {
+            continue;
+        }
+        if( tr.is_always_invisible() || tr.can_see( tp, who ) ) {
+            // Already seen, or can never be seen
+            continue;
+        }
+        // Chance to detect traps we haven't yet seen.
+        if( tr.detect_trap( tp, who ) ) {
+            if( tr.get_visibility() > 0 ) {
+                // Only bug player about traps that aren't trivial to spot.
+                const std::string direction = direction_name(
+                                                  direction_from( who.pos(), tp ) );
+                who.add_msg_if_player( _( "You've spotted a %1$s to the %2$s!" ),
+                                       tr.name(), direction );
+            }
+            who.add_known_trap( tp, tr );
+        }
+    }
 }
 
 } // namespace character_funcs

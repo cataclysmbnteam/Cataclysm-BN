@@ -21,6 +21,7 @@
 #include "catacharset.h"
 #include "character.h"
 #include "character_display.h"
+#include "character_functions.h"
 #include "character_martial_arts.h"
 #include "clzones.h"
 #include "color.h"
@@ -1734,13 +1735,13 @@ bool game::handle_action()
 
             case ACTION_TIMEOUT:
                 if( check_safe_mode_allowed( false ) ) {
-                    u.pause();
+                    character_funcs::do_pause( u );
                 }
                 break;
 
             case ACTION_PAUSE:
                 if( check_safe_mode_allowed() ) {
-                    u.pause();
+                    character_funcs::do_pause( u );
                 }
                 break;
 

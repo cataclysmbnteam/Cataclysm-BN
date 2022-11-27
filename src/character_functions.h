@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_CHARACTER_FUNCTIONS_H
 #define CATA_SRC_CHARACTER_FUNCTIONS_H
 
-#include "point.h"
 #include "type_id.h"
 
 class Character;
@@ -10,6 +9,7 @@ class Creature;
 class item;
 class time_duration;
 class vehicle;
+struct tripoint;
 struct w_point;
 
 namespace character_funcs
@@ -100,6 +100,12 @@ void update_body_wetness( Character &who, const w_point &weather );
 
 /** Check whether character has an active bionic capable of interfacing with power armor. */
 bool can_interface_armor( const Character &who );
+
+/** Do pause action ('.' key). */
+void do_pause( Character &who );
+
+/** Search surrounding squares for traps (and maybe other things in the future). */
+void search_surroundings( Character &who );
 
 } // namespace character_funcs
 

@@ -126,8 +126,6 @@ class player : public Character
         /** Calculates the various speed bonuses we will get from mutations, etc. */
         void recalc_speed_bonus();
 
-        void pause(); // '.' command; pauses & resets recoil
-
         // martialarts.cpp
 
         /** Returns value of player's stable footing */
@@ -551,9 +549,6 @@ class player : public Character
                                     const std::string &npc_speech ) const override;
         void add_msg_player_or_say( const game_message_params &params, const std::string &player_msg,
                                     const std::string &npc_speech ) const override;
-
-        /** Search surrounding squares for traps (and maybe other things in the future). */
-        void search_surroundings();
 
         using Character::query_yn;
         bool query_yn( const std::string &mes ) const override;

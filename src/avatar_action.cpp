@@ -17,6 +17,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
+#include "character_functions.h"
 #include "character_martial_arts.h"
 #include "creature.h"
 #include "cursesdef.h"
@@ -593,7 +594,7 @@ void avatar_action::autoattack( avatar &you, map &m )
     if( critters.empty() ) {
         add_msg( m_info, _( "No hostile creature in reach.  Waiting a turn." ) );
         if( g->check_safe_mode_allowed() ) {
-            you.pause();
+            character_funcs::do_pause( you );
         }
         return;
     }
