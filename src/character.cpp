@@ -2591,6 +2591,11 @@ item Character::remove_weapon()
     return tmp;
 }
 
+bool Character::has_mission_item( int mission_id ) const
+{
+    return mission_id != -1 && has_item_with( has_mission_item_filter{ mission_id } );
+}
+
 void Character::remove_mission_items( int mission_id )
 {
     if( mission_id == -1 ) {

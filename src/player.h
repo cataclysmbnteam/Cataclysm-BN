@@ -394,7 +394,6 @@ class player : public Character
          */
         item reduce_charges( item *it, int quantity );
 
-        bool has_mission_item( int mission_id ) const; // Has item with mission_id
         /**
          * Check whether the player has a gun that uses the given type of ammo.
          */

@@ -1255,6 +1255,7 @@ class Character : public Creature, public visitable<Character>
          */
         bool has_active_item( const itype_id &id ) const;
         item remove_weapon();
+        bool has_mission_item( int mission_id ) const;
         void remove_mission_items( int mission_id );
 
         /**
