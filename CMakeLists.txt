@@ -457,7 +457,7 @@ if (CATA_CLANG_TIDY_PLUGIN)
     add_subdirectory(tools/clang-tidy-plugin)
 endif ()
 
-install(DIRECTORY doc gfx 
+install(DIRECTORY doc gfx
     DESTINATION .
 )
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
