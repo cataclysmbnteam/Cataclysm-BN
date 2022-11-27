@@ -130,8 +130,6 @@ class player : public Character
 
         /** Returns value of player's stable footing */
         float stability_roll() const override;
-        /** Returns true if the player has stealthy movement */
-        bool is_stealthy() const;
 
         /** Returns true if the player is able to use a grab breaking technique */
         bool can_grab_break( const item &weap ) const;

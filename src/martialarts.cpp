@@ -1180,7 +1180,7 @@ bool Character::is_quiet() const
         return b.is_quiet();
     } );
 }
-bool player::is_stealthy() const
+bool Character::is_stealthy() const
 {
     return search_ma_buff_effect( *effects, []( const ma_buff & b, const effect & ) {
         return b.is_stealthy();

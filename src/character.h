@@ -585,6 +585,8 @@ class Character : public Creature, public visitable<Character>
         bool can_miss_recovery( const item &weap ) const;
         /** Returns true if the player has quiet melee attacks */
         bool is_quiet() const;
+        /** Returns true if the player has stealthy movement */
+        bool is_stealthy() const;
 
         // melee.cpp
         /** Checks for valid block abilities and reduces damage accordingly. Returns true if the player blocks */
