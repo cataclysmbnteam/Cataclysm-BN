@@ -496,18 +496,6 @@ void player::recalc_speed_bonus()
     }
 }
 
-float player::stability_roll() const
-{
-    /** @EFFECT_STR improves player stability roll */
-
-    /** @EFFECT_PER slightly improves player stability roll */
-
-    /** @EFFECT_DEX slightly improves player stability roll */
-
-    /** @EFFECT_MELEE improves player stability roll */
-    return get_melee() + get_str() + ( get_per() / 3.0f ) + ( get_dex() / 4.0f );
-}
-
 void player::mod_stat( const std::string &stat, float modifier )
 {
     if( stat == "thirst" ) {

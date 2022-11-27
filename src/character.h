@@ -621,6 +621,9 @@ class Character : public Creature, public visitable<Character>
         // HACK for mdefense::zapback
         bool reach_attacking = false;
 
+        /** Returns value of player's stable footing */
+        float stability_roll() const override;
+
         /** Returns a vector of valid mutation attacks */
         std::vector<special_attack> mutation_attacks( Creature &t ) const;
         /** Returns the bonus bashing damage the player deals based on their stats */
