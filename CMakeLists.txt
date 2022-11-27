@@ -33,6 +33,7 @@ option(USE_UNITY_BUILD "Use unity build." "OFF")
 option(USE_PCH_HEADER "Use precompiled PCH header." "OFF")
 option(JSON_FORMAT "Build JSON formatter" "OFF")
 option(CATA_CCACHE "Try to find and build with ccache" "ON")
+option(TESTS "Compile Cata's tests" "OFF")
 option(CATA_CLANG_TIDY_PLUGIN "Build Cata's custom clang-tidy plugin" "OFF")
 set(CATA_CLANG_TIDY_INCLUDE_DIR
     ""
@@ -48,7 +49,9 @@ set(LINKER
     CACHE STRING "Custom Linker to use")
 set(GETTEXT_MSGFMT_BINARY "" CACHE FILEPATH "msgfmt binary name or path.")
 
+if (TESTS)
 include(CTest)
+endif()
 
 include(GetGitRevisionDescription)
 git_describe(GIT_VERSION --tags --always --match "[0-9A-Z]*.[0-9A-Z]*")
@@ -444,7 +447,9 @@ add_subdirectory(src)
 add_subdirectory(data)
 add_subdirectory(lang)
 
-add_subdirectory(tests)
+if(TESTS)
+    add_subdirectory(tests)
+endif()
 if (JSON_FORMAT)
     add_subdirectory(tools/format)
 endif ()
