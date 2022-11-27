@@ -1387,7 +1387,8 @@ static void draw_weapon_labels( const avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Wield:" ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Style:" ) );
-    trim_and_print( w, point( 8, 0 ), getmaxx( w ) - 8, c_light_gray, u.weapname() );
+    trim_and_print( w, point( 8, 0 ), getmaxx( w ) - 8, c_light_gray,
+                    character_funcs::fmt_wielded_weapon( u ) );
     mvwprintz( w, point( 8, 1 ), c_light_gray, "%s", u.martial_arts_data->selected_style_name( u ) );
     wnoutrefresh( w );
 }
@@ -1499,7 +1500,8 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
 
     draw_minimap( u, w );
     // wielded item
-    trim_and_print( w, point( 8, 0 ), getmaxx( w ) - 8, c_light_gray, u.weapname() );
+    trim_and_print( w, point( 8, 0 ), getmaxx( w ) - 8, c_light_gray,
+                    character_funcs::fmt_wielded_weapon( u ) );
     // style
     mvwprintz( w, point( 8, 1 ), c_light_gray, "%s", u.martial_arts_data->selected_style_name( u ) );
     // location
@@ -1883,7 +1885,8 @@ static void draw_weapon_classic( const avatar &u, const catacurses::window &w )
     werase( w );
 
     mvwprintz( w, point_zero, c_light_gray, _( "Weapon  :" ) );
-    trim_and_print( w, point( 10, 0 ), getmaxx( w ) - 24, c_light_gray, u.weapname() );
+    trim_and_print( w, point( 10, 0 ), getmaxx( w ) - 24, c_light_gray,
+                    character_funcs::fmt_wielded_weapon( u ) );
 
     // Print in sidebar currently used martial style.
     const std::string style = u.martial_arts_data->selected_style_name( u );
@@ -1902,7 +1905,8 @@ static void draw_weapon_classic_alt( const avatar &u, const catacurses::window &
     werase( w );
 
     mvwprintz( w, point_zero, c_light_gray, _( "Weapon:" ) );
-    trim_and_print( w, point( 8, 0 ), getmaxx( w ) - 2, c_light_gray, u.weapname() );
+    trim_and_print( w, point( 8, 0 ), getmaxx( w ) - 2, c_light_gray,
+                    character_funcs::fmt_wielded_weapon( u ) );
 
     // Print in sidebar currently used martial style.
     const std::string style = u.martial_arts_data->selected_style_name( u );

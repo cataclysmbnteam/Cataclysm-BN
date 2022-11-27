@@ -4,6 +4,8 @@
 
 #include "type_id.h"
 
+#include <string>
+
 class Character;
 class Creature;
 class item;
@@ -96,6 +98,9 @@ bool roll_can_sleep( Character &who );
 
 /** Check whether character has an active bionic capable of interfacing with power armor. */
 bool can_interface_armor( const Character &who );
+
+/** Get the formatted name of the currently wielded item (if any) with current gun mode (if gun) */
+std::string fmt_wielded_weapon( const Character &who );
 
 } // namespace character_funcs
 

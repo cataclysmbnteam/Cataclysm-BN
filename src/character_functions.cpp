@@ -412,4 +412,43 @@ bool can_interface_armor( const Character &who )
     return okay;
 }
 
+std::string fmt_wielded_weapon( const Character &who )
+{
+    if( !who.is_armed() ) {
+        return _( "fists" );
+    }
+    const item &weapon = who.weapon;
+    if( weapon.is_gun() ) {
+        std::string str = string_format( "(%d) [%s] %s", weapon.ammo_remaining(),
+                                         weapon.gun_current_mode().tname(), weapon.type_name() );
+        // Is either the base item or at least one auxiliary gunmod loaded (includes empty magazines)
+        bool base = weapon.ammo_capacity() > 0 && !weapon.has_flag( "RELOAD_AND_SHOOT" );
+
+        const auto mods = weapon.gunmods();
+        bool aux = std::any_of( mods.begin(), mods.end(), [&]( const item * e ) {
+            return e->is_gun() && e->ammo_capacity() > 0 && !e->has_flag( "RELOAD_AND_SHOOT" );
+        } );
+
+        if( base || aux ) {
+            for( auto e : mods ) {
+                if( e->is_gun() && e->ammo_capacity() > 0 && !e->has_flag( "RELOAD_AND_SHOOT" ) ) {
+                    str += " (" + std::to_string( e->ammo_remaining() );
+                    if( e->magazine_integral() ) {
+                        str += "/" + std::to_string( e->ammo_capacity() );
+                    }
+                    str += ")";
+                }
+            }
+        }
+        return str;
+
+    } else if( weapon.is_container() && weapon.contents.num_item_stacks() == 1 ) {
+        return string_format( "%s (%d)", weapon.tname(),
+                              weapon.contents.front().charges );
+
+    } else {
+        return weapon.tname();
+    }
+}
+
 } // namespace character_funcs

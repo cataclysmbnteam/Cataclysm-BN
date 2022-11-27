@@ -18,6 +18,7 @@
 #include "bionics.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "character_functions.h"
 #include "character_effects.h"
 #include "character_martial_arts.h"
 #include "character_turn.h"
@@ -1418,7 +1419,7 @@ ret_val<bool> player::can_wield( const item &it ) const
 
     if( is_armed() && weapon.has_flag( "NO_UNWIELD" ) ) {
         return ret_val<bool>::make_failure( _( "The %s is preventing you from wielding the %s." ),
-                                            weapname(), it.tname() );
+                                            character_funcs::fmt_wielded_weapon( *this ), it.tname() );
     }
 
     monster *mount = mounted_creature.get();
@@ -2634,44 +2635,6 @@ bool player::has_magazine_for_ammo( const ammotype &at ) const
                  ( it.is_gun() && it.magazine_current() != nullptr &&
                    it.magazine_current()->ammo_types().count( at ) ) );
     } );
-}
-
-std::string player::weapname() const
-{
-    if( weapon.is_gun() ) {
-        std::string str = string_format( "(%d) [%s] %s", weapon.ammo_remaining(),
-                                         weapon.gun_current_mode().tname(), weapon.type_name() );
-        // Is either the base item or at least one auxiliary gunmod loaded (includes empty magazines)
-        bool base = weapon.ammo_capacity() > 0 && !weapon.has_flag( "RELOAD_AND_SHOOT" );
-
-        const auto mods = weapon.gunmods();
-        bool aux = std::any_of( mods.begin(), mods.end(), [&]( const item * e ) {
-            return e->is_gun() && e->ammo_capacity() > 0 && !e->has_flag( "RELOAD_AND_SHOOT" );
-        } );
-
-        if( base || aux ) {
-            for( auto e : mods ) {
-                if( e->is_gun() && e->ammo_capacity() > 0 && !e->has_flag( "RELOAD_AND_SHOOT" ) ) {
-                    str += " (" + std::to_string( e->ammo_remaining() );
-                    if( e->magazine_integral() ) {
-                        str += "/" + std::to_string( e->ammo_capacity() );
-                    }
-                    str += ")";
-                }
-            }
-        }
-        return str;
-
-    } else if( weapon.is_container() && weapon.contents.num_item_stacks() == 1 ) {
-        return string_format( "%s (%d)", weapon.tname(),
-                              weapon.contents.front().charges );
-
-    } else if( !is_armed() ) {
-        return _( "fists" );
-
-    } else {
-        return weapon.tname();
-    }
 }
 
 bool player::wield_contents( item &container, item *internal_item, bool penalties,

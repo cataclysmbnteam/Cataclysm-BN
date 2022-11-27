@@ -337,9 +337,6 @@ class player : public Character
 
         void on_worn_item_transform( const item &old_it, const item &new_it );
 
-        /** Get the formatted name of the currently wielded item (if any) with current gun mode (if gun) */
-        std::string weapname() const;
-
         /**
          * Remove charges from a specific item (given by its item position).
          * The item must exist and it must be counted by charges.
