@@ -75,7 +75,6 @@ struct dealt_projectile_attack;
 struct islot_comestible;
 struct itype;
 struct mutation_branch;
-struct needs_rates;
 struct pathfinding_settings;
 struct points_left;
 struct trap;
@@ -198,6 +197,13 @@ struct aim_type {
 struct special_attack {
     std::string text;
     damage_instance damage;
+};
+
+struct needs_rates {
+    float thirst = 0.0f;
+    float hunger = 0.0f;
+    float fatigue = 0.0f;
+    float recovery = 0.0f;
 };
 
 struct char_trait_data {

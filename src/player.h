@@ -80,13 +80,6 @@ template<>
 struct ret_val<edible_rating>::default_failure : public
     std::integral_constant<edible_rating, edible_rating::inedible> {};
 
-struct needs_rates {
-    float thirst = 0.0f;
-    float hunger = 0.0f;
-    float fatigue = 0.0f;
-    float recovery = 0.0f;
-};
-
 class player : public Character
 {
     public:
