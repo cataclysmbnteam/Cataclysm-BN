@@ -7352,7 +7352,8 @@ bool Character::has_enough_charges( const item &it, bool show_msg ) const
         return true;
     }
     if( it.is_power_armor() ) {
-        if( ( as_player()->can_interface_armor() && has_charges( itype_bio_armor, it.ammo_required() ) ) ||
+        if( ( character_funcs::can_interface_armor( *this ) &&
+              has_charges( itype_bio_armor, it.ammo_required() ) ) ||
             ( it.has_flag( flag_USE_UPS ) && has_charges( itype_UPS, it.ammo_required() ) ) ||
             it.ammo_sufficient() ) {
             return true;
@@ -7435,7 +7436,7 @@ bool Character::consume_charges( item &used, int qty )
     if( used.is_power_armor() ) {
         if( used.charges >= qty ) {
             used.ammo_consume( qty, pos() );
-        } else if( as_player()->can_interface_armor() && has_charges( itype_bio_armor, qty ) ) {
+        } else if( character_funcs::can_interface_armor( *this ) && has_charges( itype_bio_armor, qty ) ) {
             use_charges( itype_bio_armor, qty );
         } else {
             use_charges( itype_UPS, qty );

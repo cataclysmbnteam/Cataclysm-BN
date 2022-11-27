@@ -1601,15 +1601,6 @@ item player::reduce_charges( item *it, int quantity )
     return result;
 }
 
-bool player::can_interface_armor() const
-{
-    bool okay = std::any_of( my_bionics->begin(), my_bionics->end(),
-    []( const bionic & b ) {
-        return b.powered && b.info().has_flag( STATIC( flag_str_id( "BIONIC_ARMOR_INTERFACE" ) ) );
-    } );
-    return okay;
-}
-
 bool player::has_mission_item( int mission_id ) const
 {
     return mission_id != -1 && has_item_with( has_mission_item_filter{ mission_id } );

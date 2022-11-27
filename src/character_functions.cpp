@@ -1,19 +1,21 @@
 #include "character_functions.h"
 #include "character_effects.h"
 
+#include "bionics.h"
 #include "calendar.h"
 #include "character.h"
 #include "creature.h"
 #include "handle_liquid.h"
 #include "itype.h"
+#include "make_static.h"
 #include "rng.h"
-#include "vpart_position.h"
 #include "submap.h"
-#include "vehicle.h"
 #include "trap.h"
 #include "veh_type.h"
-#include "weather.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 #include "weather_gen.h"
+#include "weather.h"
 
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
@@ -461,6 +463,15 @@ void update_body_wetness( Character &who, const w_point &weather )
         }
     }
     // TODO: Make clothing slow down drying
+}
+
+bool can_interface_armor( const Character &who )
+{
+    bool okay = std::any_of( who.my_bionics->begin(), who.my_bionics->end(),
+    []( const bionic & b ) {
+        return b.powered && b.info().has_flag( STATIC( flag_str_id( "BIONIC_ARMOR_INTERFACE" ) ) );
+    } );
+    return okay;
 }
 
 } // namespace character_funcs

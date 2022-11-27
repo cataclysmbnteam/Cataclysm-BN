@@ -98,6 +98,9 @@ bool roll_can_sleep( Character &who );
 /** Maintains body wetness and handles the rate at which the player dries */
 void update_body_wetness( Character &who, const w_point &weather );
 
+/** Check whether character has an active bionic capable of interfacing with power armor. */
+bool can_interface_armor( const Character &who );
+
 } // namespace character_funcs
 
 #endif // CATA_SRC_CHARACTER_FUNCTIONS_H

@@ -394,12 +394,6 @@ class player : public Character
          */
         item reduce_charges( item *it, int quantity );
 
-        /**
-        * Check whether player has a bionic power armor interface.
-        * @return true if player has an active bionic capable of powering armor, false otherwise.
-        */
-        bool can_interface_armor() const;
-
         bool has_mission_item( int mission_id ) const; // Has item with mission_id
         /**
          * Check whether the player has a gun that uses the given type of ammo.

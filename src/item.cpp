@@ -7866,10 +7866,10 @@ int item::units_remaining( const Character &ch, int limit ) const
 
     int res = ammo_remaining();
     if( res < limit && is_power_armor() ) {
-        if( ch.as_player()->can_interface_armor() && has_flag( flag_USE_UPS ) ) {
+        if( character_funcs::can_interface_armor( ch ) && has_flag( flag_USE_UPS ) ) {
             res += std::max( ch.charges_of( itype_UPS, limit - res ), ch.charges_of( itype_bio_armor,
                              limit - res ) );
-        } else if( ch.as_player()->can_interface_armor() ) {
+        } else if( character_funcs::can_interface_armor( ch ) ) {
             res += ch.charges_of( itype_bio_armor, limit - res );
         } else {
             res += ch.charges_of( itype_UPS, limit - res );
@@ -9382,7 +9382,7 @@ bool item::process_tool( player *carrier, const tripoint &pos )
     energy -= ammo_consume( energy, pos );
 
     // for power armor pieces, try to use power armor interface first.
-    if( carrier && is_power_armor() && carrier->can_interface_armor() ) {
+    if( carrier && is_power_armor() && character_funcs::can_interface_armor( *carrier ) ) {
         if( carrier->use_charges_if_avail( itype_bio_armor, energy ) ) {
             energy = 0;
         }
