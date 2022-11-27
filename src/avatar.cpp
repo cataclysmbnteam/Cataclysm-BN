@@ -1000,7 +1000,7 @@ bool avatar::is_hallucination() const
 
 void avatar::disp_morale()
 {
-    int equilibrium = calc_focus_equilibrium();
+    int equilibrium = character_effects::calc_focus_equilibrium( *this );
 
     int fatigue_cap = character_effects::calc_morale_fatigue_cap( this->get_fatigue() );
 

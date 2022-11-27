@@ -17,6 +17,9 @@ void do_pause( Character &who );
 /** Search surrounding squares for traps (and maybe other things in the future). */
 void search_surroundings( Character &who );
 
+/** Uses calc_focus_change to update the player's current focus */
+void update_mental_focus( Character &who );
+
 } // namespace character_funcs
 
 #endif // CATA_SRC_CHARACTER_TURN_H

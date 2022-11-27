@@ -469,7 +469,7 @@ static void eff_fun_mutating( player &u, effect &it )
     }
 }
 
-void player::hardcoded_effects( effect &it )
+void Character::hardcoded_effects( effect &it )
 {
     if( auto buff = ma_buff::from_effect( it ) ) {
         if( buff->is_valid_character( *this ) ) {
@@ -498,7 +498,7 @@ void player::hardcoded_effects( effect &it )
     const efftype_id &id = it.get_id();
     const auto &iter = hc_effect_map.find( id );
     if( iter != hc_effect_map.end() ) {
-        iter->second( *this, it );
+        iter->second( *as_player(), it );
         return;
     }
 

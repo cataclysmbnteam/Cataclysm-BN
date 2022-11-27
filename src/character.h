@@ -354,6 +354,9 @@ class Character : public Creature, public visitable<Character>
         /** Recalculate size class of character **/
         void recalculate_size();
 
+        /** Calculates the various speed bonuses we will get from mutations, etc. */
+        void recalc_speed_bonus();
+
         /** Returns either "you" or the player's name. capitalize_first assumes
             that the character's name is already upper case and uses it only for
             possessive "your" and "you"
@@ -482,6 +485,8 @@ class Character : public Creature, public visitable<Character>
         /** Handles stat and bonus reset. */
         void reset() override;
 
+        void environmental_revert_effect();
+
         /** Recalculates encumbrance cache. */
         void reset_encumbrance();
         /** Returns ENC provided by armor, etc. */
@@ -539,6 +544,14 @@ class Character : public Creature, public visitable<Character>
          * Handles end-of-turn processing.
          */
         void process_turn() override;
+        /** Processes human-specific effects of effects before calling Creature::process_effects(). */
+        void process_effects_internal() override;
+        /** Handles the still hard-coded effects. */
+        void hardcoded_effects( effect &it );
+        /** Processes human-specific effects of an effect. */
+        void process_one_effect( effect &it, bool is_new ) override;
+        /** Process active items */
+        void process_items();
 
         /** Recalculates HP after a change to max strength */
         void recalc_hp();

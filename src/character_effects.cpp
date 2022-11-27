@@ -11,6 +11,7 @@
 #include "map_iterator.h"
 #include "player.h"
 #include "rng.h"
+#include "skill.h"
 #include "submap.h"
 #include "trap.h"
 #include "veh_type.h"
@@ -18,6 +19,8 @@
 #include "vpart_position.h"
 #include "weather_gen.h"
 #include "weather.h"
+
+static const activity_id ACT_READ( "ACT_READ" );
 
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
@@ -209,6 +212,100 @@ int intimidation( const Character &ch )
     }
 
     return ret;
+}
+
+int calc_focus_equilibrium( const Character &who )
+{
+    int focus_equilibrium = 100;
+
+    if( who.activity.id() == ACT_READ ) {
+        item_location loc = who.activity.targets[0];
+        if( loc && loc->is_book() ) {
+            auto &bt = *loc->type->book;
+            // apply a penalty when we're actually learning something
+            const SkillLevel &skill_level = who.get_skill_level_object( bt.skill );
+            if( skill_level.can_train() && skill_level < bt.level ) {
+                focus_equilibrium -= 50;
+            }
+        }
+    }
+
+    int eff_morale = who.get_morale_level();
+    // Factor in perceived pain, since it's harder to rest your mind while your body hurts.
+    // Cenobites don't mind, though
+    if( !who.has_trait( trait_CENOBITE ) ) {
+        eff_morale = eff_morale - who.get_perceived_pain();
+    }
+
+    // as baseline morale is 100, calc_fatigue_cap() has to -100 to apply accurate penalties.
+    if( calc_morale_fatigue_cap( who.get_fatigue() ) != 0 &&
+        eff_morale > calc_morale_fatigue_cap( who.get_fatigue() ) - 100 ) {
+        eff_morale = calc_morale_fatigue_cap( who.get_fatigue() ) - 100;
+    }
+
+    if( eff_morale < -99 ) {
+        // At very low morale, focus is at it's minimum
+        focus_equilibrium = 1;
+    } else if( eff_morale <= 50 ) {
+        // At -99 to +50 morale, each point of morale gives or takes 1 point of focus
+        focus_equilibrium += eff_morale;
+    } else {
+        /* Above 50 morale, we apply strong diminishing returns.
+        * Each block of 50 takes twice as many morale points as the previous one:
+        * 150 focus at 50 morale (as before)
+        * 200 focus at 150 morale (100 more morale)
+        * 250 focus at 350 morale (200 more morale)
+        * ...
+        * Cap out at 400% focus gain with 3,150+ morale, mostly as a sanity check.
+        */
+
+        int block_multiplier = 1;
+        int morale_left = eff_morale;
+        while( focus_equilibrium < 400 ) {
+            if( morale_left > 50 * block_multiplier ) {
+                // We can afford the entire block.  Get it and continue.
+                morale_left -= 50 * block_multiplier;
+                focus_equilibrium += 50;
+                block_multiplier *= 2;
+            } else {
+                // We can't afford the entire block.  Each block_multiplier morale
+                // points give 1 focus, and then we're done.
+                focus_equilibrium += morale_left / block_multiplier;
+                break;
+            }
+        }
+    }
+
+    // This should be redundant, but just in case...
+    if( focus_equilibrium < 1 ) {
+        focus_equilibrium = 1;
+    } else if( focus_equilibrium > 400 ) {
+        focus_equilibrium = 400;
+    }
+    return focus_equilibrium;
+}
+
+int calc_focus_change( const Character &who )
+{
+    int focus_gap = calc_focus_equilibrium( who ) - who.focus_pool;
+
+    // handle negative gain rates in a symmetric manner
+    int base_change = 1;
+    if( focus_gap < 0 ) {
+        base_change = -1;
+        focus_gap = -focus_gap;
+    }
+
+    // for every 100 points, we have a flat gain of 1 focus.
+    // for every n points left over, we have an n% chance of 1 focus
+    int gain = focus_gap / 100;
+    if( rng( 1, 100 ) <= focus_gap % 100 ) {
+        gain++;
+    }
+
+    gain *= base_change;
+
+    return gain;
 }
 
 } // namespace character_effects

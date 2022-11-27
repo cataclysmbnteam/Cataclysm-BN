@@ -106,11 +106,6 @@ class player : public Character
             return this;
         }
 
-        /** Processes human-specific effects of effects before calling Creature::process_effects(). */
-        void process_effects_internal() override;
-        /** Handles the still hard-coded effects. */
-        void hardcoded_effects( effect &it );
-
         bool is_npc() const override {
             return false;    // Overloaded for NPCs in npc.h
         }
@@ -120,11 +115,6 @@ class player : public Character
 
         // by default save all contained info
         virtual void serialize( JsonOut &jsout ) const = 0;
-
-        /** Resets movement points and applies other non-idempotent changes */
-        void process_turn() override;
-        /** Calculates the various speed bonuses we will get from mutations, etc. */
-        void recalc_speed_bonus();
 
         // martialarts.cpp
 
@@ -330,15 +320,6 @@ class player : public Character
         /** Note that we've read a book at least once. **/
         virtual bool has_identified( const itype_id &item_id ) const = 0;
 
-        /** Uses morale, pain and fatigue to return the player's focus target goto value */
-        int calc_focus_equilibrium() const;
-        /** Calculates actual focus gain/loss value from focus equilibrium*/
-        int calc_focus_change() const;
-        /** Uses calc_focus_change to update the player's current focus */
-        void update_mental_focus();
-        /** Resets stats, and applies effects in an idempotent manner */
-        void reset_stats() override;
-
     private:
         safe_reference_anchor anchor;
 
@@ -359,7 +340,6 @@ class player : public Character
         /** Get the formatted name of the currently wielded item (if any) with current gun mode (if gun) */
         std::string weapname() const;
 
-        void process_items();
         /**
          * Remove charges from a specific item (given by its item position).
          * The item must exist and it must be counted by charges.
@@ -522,8 +502,6 @@ class player : public Character
         std::set<character_id> follower_ids;
         void mod_stat( const std::string &stat, float modifier ) override;
 
-        void environmental_revert_effect();
-
         //message related stuff
         using Character::add_msg_if_player;
         void add_msg_if_player( const std::string &msg ) const override;
@@ -554,9 +532,6 @@ class player : public Character
 
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
-
-        /** Processes human-specific effects of an effect. */
-        void process_one_effect( effect &it, bool is_new ) override;
 
     private:
 

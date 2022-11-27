@@ -1648,20 +1648,6 @@ void Character::expose_to_disease( const diseasetype_id dis_type )
     }
 }
 
-void Character::process_turn()
-{
-    for( bionic &i : *my_bionics ) {
-        if( i.incapacitated_time > 0_turns ) {
-            i.incapacitated_time -= 1_turns;
-            if( i.incapacitated_time == 0_turns ) {
-                add_msg_if_player( m_bad, _( "Your %s bionic comes back online." ), i.info().name );
-            }
-        }
-    }
-
-    Creature::process_turn();
-}
-
 void Character::recalc_hp()
 {
     int str_boost_val = 0;
@@ -3596,51 +3582,6 @@ void Character::do_skill_rust()
         if( newSkill < oldSkillLevel ) {
             add_msg_if_player( m_bad, _( "Your skill in %s has reduced to %d!" ), aSkill.name(), newSkill );
         }
-    }
-}
-
-void Character::reset_stats()
-{
-    // Bionic buffs
-    if( has_active_bionic( bio_hydraulics ) ) {
-        mod_str_bonus( 20 );
-    }
-
-    mod_str_bonus( get_mod_stat_from_bionic( character_stat::STRENGTH ) );
-    mod_dex_bonus( get_mod_stat_from_bionic( character_stat::DEXTERITY ) );
-    mod_per_bonus( get_mod_stat_from_bionic( character_stat::PERCEPTION ) );
-    mod_int_bonus( get_mod_stat_from_bionic( character_stat::INTELLIGENCE ) );
-
-    // Trait / mutation buffs
-    mod_str_bonus( std::floor( mutation_value( "str_modifier" ) ) );
-    mod_dodge_bonus( std::floor( mutation_value( "dodge_modifier" ) ) );
-
-    apply_skill_boost();
-
-    nv_cached = false;
-
-    // Reset our stats to normal levels
-    // Any persistent buffs/debuffs will take place in effects,
-    // player::suffer(), etc.
-
-    // repopulate the stat fields
-    str_cur = str_max + get_str_bonus();
-    dex_cur = dex_max + get_dex_bonus();
-    per_cur = per_max + get_per_bonus();
-    int_cur = int_max + get_int_bonus();
-
-    // Floor for our stats.  No stat changes should occur after this!
-    if( dex_cur < 0 ) {
-        dex_cur = 0;
-    }
-    if( str_cur < 0 ) {
-        str_cur = 0;
-    }
-    if( per_cur < 0 ) {
-        per_cur = 0;
-    }
-    if( int_cur < 0 ) {
-        int_cur = 0;
     }
 }
 

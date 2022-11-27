@@ -37,6 +37,12 @@ int talk_skill( const Character &ch );
 /** Returns a value used when attempting to intimidate NPC's */
 int intimidation( const Character &ch );
 
+/** Uses morale, pain and fatigue to return the player's focus target goto value */
+int calc_focus_equilibrium( const Character &who );
+
+/** Calculates actual focus gain/loss value from focus equilibrium*/
+int calc_focus_change( const Character &who );
+
 } // namespace character_effects
 
 #endif // CATA_SRC_CHARACTER_EFFECTS_H

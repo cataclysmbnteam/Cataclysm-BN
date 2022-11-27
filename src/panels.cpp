@@ -20,6 +20,7 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
+#include "character_effects.h"
 #include "character_functions.h"
 #include "character_martial_arts.h"
 #include "character_oracle.h"
@@ -1197,9 +1198,9 @@ static void draw_char_narrow( avatar &u, const catacurses::window &w )
     }
 
     mvwprintz( w, point( 8, 2 ), focus_color( u.focus_pool ), "%s", u.focus_pool );
-    if( u.focus_pool < u.calc_focus_equilibrium() ) {
+    if( u.focus_pool < character_effects::calc_focus_equilibrium( u ) ) {
         mvwprintz( w, point( 11, 2 ), c_light_green, "↥" );
-    } else if( u.focus_pool > u.calc_focus_equilibrium() ) {
+    } else if( u.focus_pool > character_effects::calc_focus_equilibrium( u ) ) {
         mvwprintz( w, point( 11, 2 ), c_light_red, "↧" );
     }
     mvwprintz( w, point( 26, 0 ), morale_pair.first, "%s", smiley );
