@@ -1413,7 +1413,7 @@ void player::process_one_effect( effect &it, bool is_new )
     }
 
     // Handle vomiting
-    mod = vomit_mod();
+    mod = character_effects::vomit_mod( *this );
     val = 0;
     if( it.activated( calendar::turn, "VOMIT", val, reduced, mod ) ) {
         vomit();
@@ -1475,32 +1475,6 @@ void player::process_effects_internal()
             }
         }
     }
-}
-
-double player::vomit_mod()
-{
-    double mod = 1;
-    if( has_effect( effect_weed_high ) ) {
-        mod *= .1;
-    }
-    if( has_trait( trait_STRONGSTOMACH ) ) {
-        mod *= .5;
-    }
-    if( has_trait( trait_WEAKSTOMACH ) ) {
-        mod *= 2;
-    }
-    if( has_trait( trait_NAUSEA ) ) {
-        mod *= 3;
-    }
-    if( has_trait( trait_VOMITOUS ) ) {
-        mod *= 3;
-    }
-    // If you're already nauseous, any food in your stomach greatly
-    // increases chance of vomiting. Water doesn't provoke vomiting, though.
-    if( stomach.get_calories() > 0 && has_effect( effect_nausea ) ) {
-        mod *= 5 * get_effect_int( effect_nausea );
-    }
-    return mod;
 }
 
 void player::update_body_wetness( const w_point &weather )

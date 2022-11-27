@@ -28,6 +28,9 @@ int get_thirst_speed_penalty( int thirst );
 /** Calculates character's morale cap due to fatigue */
 int calc_morale_fatigue_cap( int fatigue );
 
+/** Returns the modifier value used for vomiting effects */
+double vomit_mod( const Character &ch );
+
 } // namespace character_effects
 
 #endif // CATA_SRC_CHARACTER_EFFECTS_H

@@ -22,13 +22,17 @@ static const trait_id trait_INSOMNIA( "INSOMNIA" );
 static const trait_id trait_INT_SLIME( "INT_SLIME" );
 static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
+static const trait_id trait_NAUSEA( "NAUSEA" );
 static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
+static const trait_id trait_STRONGSTOMACH( "STRONGSTOMACH" );
 static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
+static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
+static const trait_id trait_WEAKSTOMACH( "WEAKSTOMACH" );
 static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
@@ -39,6 +43,8 @@ static const std::string flag_SWIMMABLE( "SWIMMABLE" );
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_darkness( "darkness" );
 static const efftype_id effect_meth( "meth" );
+static const efftype_id effect_nausea( "nausea" );
+static const efftype_id effect_weed_high( "weed_high" );
 
 static const bionic_id bio_soporific( "bio_soporific" );
 
@@ -456,6 +462,32 @@ int calc_morale_fatigue_cap( int fatigue )
         return 80;
     }
     return 0;
+}
+
+double vomit_mod( const Character &ch )
+{
+    double mod = 1;
+    if( ch.has_effect( effect_weed_high ) ) {
+        mod *= .1;
+    }
+    if( ch.has_trait( trait_STRONGSTOMACH ) ) {
+        mod *= .5;
+    }
+    if( ch.has_trait( trait_WEAKSTOMACH ) ) {
+        mod *= 2;
+    }
+    if( ch.has_trait( trait_NAUSEA ) ) {
+        mod *= 3;
+    }
+    if( ch.has_trait( trait_VOMITOUS ) ) {
+        mod *= 3;
+    }
+    // If you're already nauseous, any food in your stomach greatly
+    // increases chance of vomiting. Water doesn't provoke vomiting, though.
+    if( ch.stomach.get_calories() > 0 && ch.has_effect( effect_nausea ) ) {
+        mod *= 5 * ch.get_effect_int( effect_nausea );
+    }
+    return mod;
 }
 
 } // namespace character_effects

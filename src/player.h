@@ -110,8 +110,6 @@ class player : public Character
         void process_effects_internal() override;
         /** Handles the still hard-coded effects. */
         void hardcoded_effects( effect &it );
-        /** Returns the modifier value used for vomiting effects. */
-        double vomit_mod();
 
         bool is_npc() const override {
             return false;    // Overloaded for NPCs in npc.h
