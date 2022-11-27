@@ -50,6 +50,7 @@
 #include "character_display.h"
 #include "character_functions.h"
 #include "character_martial_arts.h"
+#include "character_turn.h"
 #include "clzones.h"
 #include "colony.h"
 #include "color.h"

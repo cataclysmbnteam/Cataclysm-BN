@@ -12,7 +12,7 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "character.h"
-#include "character_functions.h"
+#include "character_turn.h"
 #include "color.h"
 #include "construction.h"
 #include "construction_partial.h"

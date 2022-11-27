@@ -19,6 +19,7 @@
 #include "cata_algo.h"
 #include "character.h"
 #include "character_functions.h"
+#include "character_turn.h"
 #include "character_id.h"
 #include "clzones.h"
 #include "coordinate_conversions.h"
