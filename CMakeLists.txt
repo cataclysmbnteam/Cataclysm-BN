@@ -46,7 +46,7 @@ set(GIT_BINARY
 set(LINKER
     ""
     CACHE STRING "Custom Linker to use")
-set(GETTEXT_MSGFMT_EXECUTABLE "" CACHE FILEPATH "msgfmt binary name or path.")
+set(GETTEXT_MSGFMT_BINARY "" CACHE FILEPATH "msgfmt binary name or path.")
 
 include(CTest)
 
@@ -416,13 +416,17 @@ if (BACKTRACE)
     endif ()
 endif ()
 
-if ((LOCALIZE OR BUILD_TESTING) AND NOT GETTEXT_MSGFMT_EXECUTABLE STREQUAL "")
+if ((LOCALIZE OR BUILD_TESTING) AND "${GETTEXT_MSGFMT_BINARY}" STREQUAL "")
     if(MSVC)
         list(APPEND Gettext_ROOT C:\\msys64\\usr)
         list(APPEND Gettext_ROOT C:\\Program\ Files\\Git\\mingw64)
     endif(MSVC)
     find_package(Gettext)
 endif ()
+if (NOT GETTEXT_MSGFMT_EXECUTABLE )
+    set(GETTEXT_MSGFMT_EXECUTABLE "${GETTEXT_MSGFMT_BINARY}")
+endif()
+
 # Ok. Now create build and install recipes
 if (USE_HOME_DIR)
     add_definitions(-DUSE_HOME_DIR)
