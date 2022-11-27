@@ -46,6 +46,7 @@ set(GIT_BINARY
 set(LINKER
     ""
     CACHE STRING "Custom Linker to use")
+set(GETTEXT_MSGFMT_EXECUTABLE "" CACHE FILEPATH "msgfmt binary name or path.")
 
 include(CTest)
 
@@ -415,7 +416,7 @@ if (BACKTRACE)
     endif ()
 endif ()
 
-if (LOCALIZE OR BUILD_TESTING)
+if ((LOCALIZE OR BUILD_TESTING) AND NOT GETTEXT_MSGFMT_EXECUTABLE STREQUAL "")
     if(MSVC)
         list(APPEND Gettext_ROOT C:\\msys64\\usr)
         list(APPEND Gettext_ROOT C:\\Program\ Files\\Git\\mingw64)
