@@ -984,9 +984,6 @@ class Character : public Creature, public visitable<Character>
         void update_fuel_storage( const itype_id &fuel );
         /**Get stat bonus from bionic*/
         int get_mod_stat_from_bionic( const character_stat &Stat ) const;
-        // route for overmap-scale traveling
-        std::vector<tripoint_abs_omt> omt_path;
-
         /** Handles bionic effects over time of the entered bionic */
         void process_bionic( bionic &bio );
         /** Handles bionic deactivation effects of the entered bionic, returns if anything
@@ -1782,6 +1779,8 @@ class Character : public Creature, public visitable<Character>
         int  run_cost( int base_cost, bool diag = false ) const;
         const pathfinding_settings &get_pathfinding_settings() const override;
         std::set<tripoint> get_path_avoid() const override;
+        /** Route for overmap scale traveling */
+        std::vector<tripoint_abs_omt> omt_path;
         /**
          * Get all hostile creatures currently visible to this player.
          */
