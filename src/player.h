@@ -129,9 +129,6 @@ class player : public Character
         /** Calculates the various speed bonuses we will get from mutations, etc. */
         void recalc_speed_bonus();
 
-        /** Maintains body wetness and handles the rate at which the player dries */
-        void update_body_wetness( const w_point &weather );
-
         void pause(); // '.' command; pauses & resets recoil
 
         // martialarts.cpp

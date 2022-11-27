@@ -10,6 +10,7 @@ class Creature;
 class item;
 class time_duration;
 class vehicle;
+struct w_point;
 
 namespace character_funcs
 {
@@ -93,6 +94,9 @@ int rate_sleep_spot( const Character &who, const tripoint &p );
 
 /** Checked each turn during "lying_down", returns true if the avatar falls asleep */
 bool roll_can_sleep( Character &who );
+
+/** Maintains body wetness and handles the rate at which the player dries */
+void update_body_wetness( Character &who, const w_point &weather );
 
 } // namespace character_funcs
 

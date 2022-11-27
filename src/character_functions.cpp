@@ -12,24 +12,35 @@
 #include "vehicle.h"
 #include "trap.h"
 #include "veh_type.h"
+#include "weather.h"
+#include "weather_gen.h"
 
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
+static const trait_id trait_CHITIN_FUR( "CHITIN_FUR" );
+static const trait_id trait_CHITIN_FUR2( "CHITIN_FUR2" );
+static const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_EASYSLEEPER( "EASYSLEEPER" );
 static const trait_id trait_EASYSLEEPER2( "EASYSLEEPER2" );
+static const trait_id trait_FELINE_FUR( "FELINE_FUR" );
+static const trait_id trait_FUR( "FUR" );
 static const trait_id trait_INSOMNIA( "INSOMNIA" );
 static const trait_id trait_INT_SLIME( "INT_SLIME" );
+static const trait_id trait_LIGHTFUR( "LIGHTFUR" );
 static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
+static const trait_id trait_LUPINE_FUR( "LUPINE_FUR" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_NAUSEA( "NAUSEA" );
 static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SHELL2( "SHELL2" );
+static const trait_id trait_SLIMY( "SLIMY" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STRONGSTOMACH( "STRONGSTOMACH" );
 static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
+static const trait_id trait_URSINE_FUR( "URSINE_FUR" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 static const trait_id trait_WEAKSTOMACH( "WEAKSTOMACH" );
@@ -380,6 +391,76 @@ bool roll_can_sleep( Character &who )
     }
 
     return result;
+}
+
+void update_body_wetness( Character &who, const w_point &weather )
+{
+    // Average number of turns to go from completely soaked to fully dry
+    // assuming average temperature and humidity
+    constexpr time_duration average_drying = 2_hours;
+
+    // A modifier on drying time
+    double delay = 1.0;
+    // Weather slows down drying
+    delay += ( ( weather.humidity - 66 ) - ( units::to_fahrenheit( weather.temperature ) - 65 ) ) / 100;
+    delay = std::max( 0.1, delay );
+    // Fur/slime retains moisture
+    if( who.has_trait( trait_LIGHTFUR ) ||
+        who.has_trait( trait_FUR ) ||
+        who.has_trait( trait_FELINE_FUR ) ||
+        who.has_trait( trait_LUPINE_FUR ) ||
+        who.has_trait( trait_CHITIN_FUR ) ||
+        who.has_trait( trait_CHITIN_FUR2 ) ||
+        who.has_trait( trait_CHITIN_FUR3 ) ) {
+        delay = delay * 6 / 5;
+    }
+    if( who.has_trait( trait_URSINE_FUR ) || who.has_trait( trait_SLIMY ) ) {
+        delay *= 1.5;
+    }
+
+    if( !x_in_y( 1, to_turns<int>( average_drying * delay / 100.0 ) ) ) {
+        // No drying this turn
+        return;
+    }
+
+    // Now per-body-part stuff
+    // To make drying uniform, make just one roll and reuse it
+    const int drying_roll = rng( 1, 80 );
+
+    for( const body_part bp : all_body_parts ) {
+        if( who.body_wetness[bp] == 0 ) {
+            continue;
+        }
+        // This is to normalize drying times
+        int drying_chance = who.drench_capacity[bp];
+        // Body temperature affects duration of wetness
+        // Note: Using temp_conv rather than temp_cur, to better approximate environment
+        if( who.temp_conv[bp] >= BODYTEMP_SCORCHING ) {
+            drying_chance *= 2;
+        } else if( who.temp_conv[bp] >= BODYTEMP_VERY_HOT ) {
+            drying_chance = drying_chance * 3 / 2;
+        } else if( who.temp_conv[bp] >= BODYTEMP_HOT ) {
+            drying_chance = drying_chance * 4 / 3;
+        } else if( who.temp_conv[bp] > BODYTEMP_COLD ) {
+            // Comfortable, doesn't need any changes
+        } else {
+            // Evaporation doesn't change that much at lower temp
+            drying_chance = drying_chance * 3 / 4;
+        }
+
+        if( drying_chance < 1 ) {
+            drying_chance = 1;
+        }
+
+        // TODO: Make evaporation reduce body heat
+        if( drying_chance >= drying_roll ) {
+            who.body_wetness[bp] -= 1;
+            if( who.body_wetness[bp] < 0 ) {
+                who.body_wetness[bp] = 0;
+            }
+        }
+    }
+    // TODO: Make clothing slow down drying
 }
 
 } // namespace character_funcs
