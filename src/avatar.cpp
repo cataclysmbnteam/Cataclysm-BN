@@ -18,6 +18,7 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
+#include "character_effects.h"
 #include "character_id.h"
 #include "character_functions.h"
 #include "character_martial_arts.h"
@@ -1001,7 +1002,7 @@ void avatar::disp_morale()
 {
     int equilibrium = calc_focus_equilibrium();
 
-    int fatigue_cap = calc_fatigue_cap( this->get_fatigue() );
+    int fatigue_cap = character_effects::calc_morale_fatigue_cap( this->get_fatigue() );
 
     int pain_penalty = has_trait( trait_CENOBITE ) ? 0 : get_perceived_pain();
 

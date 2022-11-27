@@ -625,7 +625,4 @@ class player : public Character
         std::map<faction_id, std::pair<int, time_point>> warning_record;
 };
 
-/** Calculates the player's morale cap due to fatigue */
-int calc_fatigue_cap( int fatigue );
-
 #endif // CATA_SRC_PLAYER_H

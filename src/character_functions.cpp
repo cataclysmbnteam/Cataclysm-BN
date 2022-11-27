@@ -204,4 +204,18 @@ int get_thirst_speed_penalty( int thirst )
     return static_cast<int>( multi_lerp( thirst_thresholds, thirst ) );
 }
 
+int calc_morale_fatigue_cap( int fatigue )
+{
+    if( fatigue >= fatigue_levels::massive ) {
+        return 20;
+    } else if( fatigue >= fatigue_levels::exhausted ) {
+        return 40;
+    } else if( fatigue >= fatigue_levels::dead_tired ) {
+        return 60;
+    } else if( fatigue >= fatigue_levels::tired ) {
+        return 80;
+    }
+    return 0;
+}
+
 } // namespace character_effects
