@@ -5,17 +5,6 @@ if (BUILD_TESTING)
     add_definitions(-DCATCH_CONFIG_ENABLE_BENCHMARKING)
 
     # TODO: build MO files required for tests
-    if(MSVC)
-        find_program(GETTEXT_MSGFMT_EXECUTABLE
-            msgfmt.exe
-            HINTS
-                  C:\\msys64\\usr\\bin
-                  C:\\Prorogram\ Files\\Git\\mingw64\\bin
-            REQUIRED
-        )
-    else()
-		set(GETTEXT_MSGFMT_EXECUTABLE msgfmt)
-    endif()
 
     if (TILES)
         add_executable(cata_test-tiles ${CATACLYSM_BN_TEST_SOURCES})
