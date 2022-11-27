@@ -10140,6 +10140,22 @@ void Character::add_known_trap( const tripoint &pos, const trap &t )
     }
 }
 
+bool Character::avoid_trap( const tripoint &pos, const trap &tr ) const
+{
+    /** @EFFECT_DEX increases chance to avoid traps */
+
+    /** @EFFECT_DODGE increases chance to avoid traps */
+    int myroll = dice( 3, dex_cur + get_skill_level( skill_dodge ) * 1.5 );
+    int traproll;
+    if( tr.can_see( pos, *this ) ) {
+        traproll = dice( 3, tr.get_avoidance() );
+    } else {
+        traproll = dice( 6, tr.get_avoidance() );
+    }
+
+    return myroll >= traproll;
+}
+
 bool Character::can_hear( const tripoint &source, const int volume ) const
 {
     if( is_deaf() ) {

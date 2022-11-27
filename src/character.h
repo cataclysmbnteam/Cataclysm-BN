@@ -2010,6 +2010,10 @@ class Character : public Creature, public visitable<Character>
         using trap_map = std::map<tripoint, std::string>;
         bool knows_trap( const tripoint &pos ) const;
         void add_known_trap( const tripoint &pos, const trap &t );
+
+        /** Called when character triggers a trap, returns true if they don't set it off */
+        bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
+
         /** Define color for displaying the body temperature */
         nc_color bodytemp_color( int bp ) const;
 

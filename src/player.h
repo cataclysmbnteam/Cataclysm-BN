@@ -134,9 +134,6 @@ class player : public Character
         /** Maintains body wetness and handles the rate at which the player dries */
         void update_body_wetness( const w_point &weather );
 
-        /** Called when a player triggers a trap, returns true if they don't set it off */
-        bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
-
         void pause(); // '.' command; pauses & resets recoil
 
         // martialarts.cpp
