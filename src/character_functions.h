@@ -6,7 +6,7 @@
 
 #include <string>
 
-enum body_part;
+enum body_part : int;
 class Character;
 class Creature;
 class item;
