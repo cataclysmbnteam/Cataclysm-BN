@@ -847,7 +847,6 @@ class npc : public player
         void deserialize( JsonIn &jsin ) override;
         void serialize( JsonOut &json ) const override;
 
-        // Display
         nc_color basic_symbol_color() const override;
         int print_info( const catacurses::window &w, int line, int vLines, int column ) const override;
         std::string opinion_text() const;

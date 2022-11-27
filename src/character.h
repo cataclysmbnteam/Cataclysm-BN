@@ -1491,7 +1491,7 @@ class Character : public Creature, public visitable<Character>
          */
         social_modifiers get_mutation_social_mods() const;
 
-        /** Color's character's tile's background */
+        nc_color basic_symbol_color() const override;
         nc_color symbol_color() const override;
 
         std::string extended_description() const override;

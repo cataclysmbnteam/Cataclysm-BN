@@ -172,6 +172,7 @@ static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_saddled( "monster_saddled" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
+static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_took_prozac( "took_prozac" );
 static const efftype_id effect_took_xanax( "took_xanax" );
@@ -220,6 +221,7 @@ static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 static const bionic_id bio_ads( "bio_ads" );
 static const bionic_id bio_blindfold( "bio_blindfold" );
 static const bionic_id bio_climate( "bio_climate" );
+static const bionic_id bio_cloak( "bio_cloak" );
 static const bionic_id bio_earplugs( "bio_earplugs" );
 static const bionic_id bio_ears( "bio_ears" );
 static const bionic_id bio_faraday( "bio_faraday" );
@@ -5997,6 +5999,36 @@ std::vector<std::string> Character::get_grammatical_genders() const
     } else {
         return { "f" };
     }
+}
+
+nc_color Character::basic_symbol_color() const
+{
+    if( has_effect( effect_onfire ) ) {
+        return c_red;
+    }
+    if( has_effect( effect_stunned ) ) {
+        return c_light_blue;
+    }
+    if( has_effect( effect_boomered ) ) {
+        return c_pink;
+    }
+    if( has_active_mutation( trait_id( "SHELL2" ) ) ) {
+        return c_magenta;
+    }
+    if( is_underwater() ) {
+        return c_blue;
+    }
+    if( has_active_bionic( bio_cloak ) || has_artifact_with( AEP_INVISIBLE ) ||
+        is_wearing_active_optcloak() || has_trait( trait_DEBUG_CLOAK ) ) {
+        return c_dark_gray;
+    }
+    if( move_mode == CMM_RUN ) {
+        return c_yellow;
+    }
+    if( move_mode == CMM_CROUCH ) {
+        return c_light_gray;
+    }
+    return c_white;
 }
 
 nc_color Character::symbol_color() const

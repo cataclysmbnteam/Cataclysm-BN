@@ -508,36 +508,6 @@ float player::stability_roll() const
     return get_melee() + get_str() + ( get_per() / 3.0f ) + ( get_dex() / 4.0f );
 }
 
-nc_color player::basic_symbol_color() const
-{
-    if( has_effect( effect_onfire ) ) {
-        return c_red;
-    }
-    if( has_effect( effect_stunned ) ) {
-        return c_light_blue;
-    }
-    if( has_effect( effect_boomered ) ) {
-        return c_pink;
-    }
-    if( has_active_mutation( trait_id( "SHELL2" ) ) ) {
-        return c_magenta;
-    }
-    if( is_underwater() ) {
-        return c_blue;
-    }
-    if( has_active_bionic( bio_cloak ) || has_artifact_with( AEP_INVISIBLE ) ||
-        is_wearing_active_optcloak() || has_trait( trait_DEBUG_CLOAK ) ) {
-        return c_dark_gray;
-    }
-    if( move_mode == CMM_RUN ) {
-        return c_yellow;
-    }
-    if( move_mode == CMM_CROUCH ) {
-        return c_light_gray;
-    }
-    return c_white;
-}
-
 void player::mod_stat( const std::string &stat, float modifier )
 {
     if( stat == "thirst" ) {
