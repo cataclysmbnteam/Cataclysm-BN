@@ -87,6 +87,7 @@
 #include "pldata.h"
 #include "point.h"
 #include "recipe.h"
+#include "relic.h"
 #include "requirements.h"
 #include "rng.h"
 #include "sounds.h"
@@ -129,6 +130,7 @@ static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_arm_splint( "arm_splint" );
+static const itype_id itype_battery( "battery" );
 static const itype_id itype_bot_broken_cyborg( "bot_broken_cyborg" );
 static const itype_id itype_bot_prototype_cyborg( "bot_prototype_cyborg" );
 static const itype_id itype_cash_card( "cash_card" );
@@ -1633,22 +1635,47 @@ void iexamine::notify( player &, const tripoint &pos )
 * Transform the examined object into the object specified by its transforms_into property. If the new object has a message property,
 * it is displayed as if the notify examine_action was used.
 */
-void iexamine::transform( player &, const tripoint &pos )
+void iexamine::transform( player &p, const tripoint &pos )
 {
     std::string message;
+    std::string prompt;
 
     if( g->m.has_furn( pos ) ) {
         message = g->m.furn( pos ).obj().message;
-        if( !message.empty() ) {
-            add_msg( _( message ) );
-        }
-        g->m.furn_set( pos, g->m.get_furn_transforms_into( pos ) );
+        prompt = g->m.furn( pos ).obj().prompt;
     } else {
         message = g->m.ter( pos ).obj().message;
-        if( !message.empty() ) {
-            add_msg( _( message ) );
+        prompt = g->m.ter( pos ).obj().prompt;
+    }
+
+    uilist selection_menu;
+    selection_menu.text = _( "Select an action" );
+    selection_menu.addentry( 0, true, 'g', _( "Get items" ) );
+    selection_menu.addentry( 1, true, 't', !prompt.empty() ? _( prompt ) : _( "Transform furniture" ) );
+    selection_menu.query();
+
+    switch( selection_menu.ret ) {
+        case 0:
+            none( p, pos );
+            pickup::pick_up( pos, 0 );
+            return;
+        case 1: {
+            if( g->m.has_furn( pos ) ) {
+                if( !message.empty() ) {
+                    add_msg( _( message ) );
+                }
+                g->m.furn_set( pos, g->m.get_furn_transforms_into( pos ) );
+            } else {
+                if( !message.empty() ) {
+                    add_msg( _( message ) );
+                }
+                g->m.ter_set( pos, g->m.get_ter_transforms_into( pos ) );
+            }
+            return;
         }
-        g->m.ter_set( pos, g->m.get_ter_transforms_into( pos ) );
+        default:
+            none( p, pos );
+            return;
     }
 }
 
@@ -3853,22 +3880,29 @@ void iexamine::clean_water_source( player &, const tripoint &examp )
     liquid_handler::handle_liquid( water, nullptr, 0, &examp );
 }
 
-const itype *furn_t::crafting_pseudo_item_type() const
+std::vector<itype> furn_t::crafting_pseudo_item_types() const
 {
-    if( crafting_pseudo_item.is_empty() ) {
-        return nullptr;
+    std::vector<itype> conversion;
+    for( const itype_id &itid : crafting_pseudo_items ) {
+        conversion.push_back( *itid );
     }
-    return &*crafting_pseudo_item;
+    return conversion;
 }
 
-const itype *furn_t::crafting_ammo_item_type() const
+std::vector<itype> furn_t::crafting_ammo_item_types() const
 {
-    const itype *pseudo = crafting_pseudo_item_type();
-    if( pseudo->tool && !pseudo->tool->ammo_id.empty() ) {
-        const itype_id &iid = ammotype( *pseudo->tool->ammo_id.begin() )->default_ammotype();
-        return &*iid;
+    const std::vector<itype> pseudo_list = crafting_pseudo_item_types();
+
+    std::vector<itype> pseudo_ammo_list;
+    if( !pseudo_list.empty() ) {
+        for( const itype &pseudo : pseudo_list ) {
+            if( pseudo.tool && !pseudo.tool->ammo_id.empty() ) {
+                const itype_id &iid = ammotype( *pseudo.tool->ammo_id.begin() )->default_ammotype();
+                pseudo_ammo_list.push_back( *iid );
+            }
+        }
     }
-    return nullptr;
+    return pseudo_ammo_list;
 }
 
 static int count_charges_in_list( const itype *type, const map_stack &items )
@@ -3885,21 +3919,51 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
 {
     map &here = get_map();
     const furn_t &f = here.furn( examp ).obj();
-    const itype *type = f.crafting_pseudo_item_type();
-    const itype *ammo = f.crafting_ammo_item_type();
-    if( type == nullptr || ammo == nullptr ) {
-        add_msg( m_info, _( "This %s can not be reloaded!" ), f.name() );
+    const std::vector<itype> ammo_types = f.crafting_ammo_item_types();
+
+    // No fake item, no ammo, something is wrong here.
+    if( ammo_types.empty() ) {
+        debugmsg( ( "The %s has no crafting_pseudo_items or no defined ammo!" ), f.name() );
         return;
     }
+
     map_stack items_here = here.i_at( examp );
-    const int amount_in_furn = count_charges_in_list( ammo, items_here );
-    const int amount_in_inv = p.charges_of( ammo->get_id() );
+    std::vector<std::string> ammo_names;
+    std::vector<itype> ammo_filtered;
+    int ammo_index = 0;
+
+    for( const itype &at : ammo_types ) {
+        if( at.get_id() != itype_battery ) {
+            ammo_names.emplace_back( at.nname( 1 ) );
+            ammo_filtered.emplace_back( at );
+        }
+    }
+
+    if( ammo_filtered.empty() ) {
+        debugmsg( "Furniture %s has no valid ammo to reload!", f.name() );
+        return;
+    } else if( ammo_names.size() > 1 ) {
+        ammo_index = uilist( _( "What would you like to change?" ), ammo_names );
+        if( ammo_index < 0 || static_cast<size_t>( ammo_index ) >= ammo_names.size() ) {
+            ammo_index = -1;
+        }
+    }
+    if( ammo_index < 0 ) {
+        return;
+    }
+
+    // HACK: Yes I know I'm converting from itype to itype_id and back again into a pointer.
+    // It seems to be needed to make the appropriate connections?
+    // Otherwise the part where it queries for the amount doesn't seem to work right.
+    const itype *cur_ammo = &*ammo_types.at( ammo_index ).get_id();
+    const int amount_in_furn = count_charges_in_list( cur_ammo, items_here );
+    const int amount_in_inv = p.charges_of( cur_ammo->get_id() );
     if( amount_in_furn > 0 ) {
         if( p.query_yn( _( "The %1$s contains %2$d %3$s.  Unload?" ), f.name(), amount_in_furn,
-                        ammo->nname( amount_in_furn ) ) ) {
+                        cur_ammo->nname( amount_in_furn ) ) ) {
             auto items = here.i_at( examp );
             for( auto &itm : items ) {
-                if( itm.type == ammo ) {
+                if( itm.type == cur_ammo ) {
                     g->u.assign_activity( player_activity( pickup_activity_actor(
                     { { item_location( map_cursor( examp ), &itm ), cata::nullopt, {} } }, g->u.pos() ) ) );
                     return;
@@ -3908,21 +3972,23 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
         }
     }
 
-    const int max_amount_in_furn = ammo->charges_per_volume( f.max_volume );
+    // Note that this can lead to hammerspace as each ammo type doesn't take other items on the tile into account.
+    const int max_amount_in_furn = cur_ammo->charges_per_volume( f.max_volume );
     const int max_reload_amount = max_amount_in_furn - amount_in_furn;
     if( max_reload_amount <= 0 ) {
         return;
     }
     if( amount_in_inv == 0 ) {
         //~ Reloading or restocking a piece of furniture, for example a forge.
-        add_msg( m_info, _( "You need some %1$s to reload this %2$s." ), ammo->nname( 2 ),
+        add_msg( m_info, _( "You need some %1$s to reload this %2$s." ),
+                 cur_ammo->nname( 2 ),
                  f.name() );
         return;
     }
     const int max_amount = std::min( amount_in_inv, max_reload_amount );
     //~ Loading fuel or other items into a piece of furniture.
     const std::string popupmsg = string_format( _( "Put how many of the %1$s into the %2$s?" ),
-                                 ammo->nname( max_amount ), f.name() );
+                                 cur_ammo->nname( max_amount ), f.name() );
     int amount = string_input_popup()
                  .title( popupmsg )
                  .width( 20 )
@@ -3932,24 +3998,25 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
     if( amount <= 0 || amount > max_amount ) {
         return;
     }
-    p.use_charges( ammo->get_id(), amount );
+    p.use_charges( cur_ammo->get_id(), amount );
     auto items = here.i_at( examp );
     for( auto &itm : items ) {
-        if( itm.type == ammo ) {
+        if( itm.type == cur_ammo ) {
             itm.charges += amount;
             amount = 0;
             break;
         }
     }
     if( amount != 0 ) {
-        item it( ammo, calendar::turn, amount );
+        item it( cur_ammo->get_id(), calendar::turn, amount );
         here.add_item( examp, it );
     }
 
-    const int amount_in_furn_after_placing = count_charges_in_list( ammo, items );
+    const int amount_in_furn_after_placing = count_charges_in_list( &ammo_types.at( ammo_index ),
+            items );
     //~ %1$s - furniture, %2$d - number, %3$s items.
     add_msg( _( "The %1$s contains %2$d %3$s." ), f.name(), amount_in_furn_after_placing,
-             ammo->nname( amount_in_furn_after_placing ) );
+             cur_ammo->nname( amount_in_furn_after_placing ) );
 
     add_msg( _( "You reload the %s." ), here.furnname( examp ) );
     p.moves -= to_moves<int>( 5_seconds );
@@ -3966,24 +4033,44 @@ void iexamine::use_furn_fake_item( player &p, const tripoint &examp )
         return;
     }
     const furn_t &furniture = m.furn( examp ).obj();
-    const itype *item_type = furniture.crafting_pseudo_item_type();
-    if( item_type == nullptr ) {
+    const std::vector<itype> item_type_list = furniture.crafting_pseudo_item_types();
+    std::vector<itype> usable_item_types;
+    std::vector<std::string> usable_item_names;
+    if( item_type_list.empty() ) {
         debugmsg(
-            "Got furniture ( %s ) with use_furn_fake_item",
+            "Furniture ( %s ) with use_furn_fake_item does not have fake item to use.",
             furniture.id.c_str()
         );
         return;
     }
-    if( !item_type->has_use() ) {
+    for( const itype &itt : item_type_list ) {
+        if( !itt.has_use() ) {
+            continue;
+        }
+        usable_item_types.push_back( itt );
+        usable_item_names.push_back( itt.nname( 1 ) );
+    }
+    if( usable_item_types.empty() ) {
         debugmsg(
-            "Got furniture ( %s ) with use_furn_fake_item but fake item %s doesn't have uses",
-            furniture.id.c_str(), item_type->get_id().c_str()
-        );
+            "Furniture ( %s ) with use_furn_fake_item has no fake item with uses",
+            furniture.id.c_str() );
         return;
     }
 
-    const itype *ammo = furniture.crafting_ammo_item_type();
-    item fake_item( item_type, calendar::turn, 0 );
+    int tool_index = 0;
+    if( usable_item_types.size() > 1 ) {
+        tool_index = uilist( _( "Which tool do you want to use?" ), usable_item_names );
+        if( tool_index < 0 || static_cast<size_t>( tool_index ) >= usable_item_types.size() ) {
+            tool_index = -1;
+        }
+    }
+    if( tool_index < 0 ) {
+        return;
+    }
+
+    const itype &cur_tool = usable_item_types.at( tool_index );
+    item fake_item( cur_tool.get_id(), calendar::turn, 0 );
+    const itype_id ammo = fake_item.ammo_default();
     fake_item.set_flag( "PSEUDO" );
 
     enum class charges_type {
@@ -3997,8 +4084,8 @@ void iexamine::use_furn_fake_item( player &p, const tripoint &examp )
         const distribution_grid &grid = get_distribution_grid_tracker().grid_at( abspos );
         fake_item.charges = grid.get_resource();
         charge_type = charges_type::grid;
-    } else if( ammo != nullptr ) {
-        fake_item.charges = count_charges_in_list( ammo, m.i_at( examp ) );
+    } else if( ammo != itype_id::NULL_ID() ) {
+        fake_item.charges = count_charges_in_list( &*ammo, m.i_at( examp ) );
         charge_type = charges_type::ammo_from_map;
     }
 
@@ -4006,7 +4093,8 @@ void iexamine::use_furn_fake_item( player &p, const tripoint &examp )
     p.invoke_item( &fake_item );
 
     // HACK: Evil hack incoming
-    activity_handlers::repair_activity_hack::patch_activity_for_furniture( g->u.activity, examp );
+    activity_handlers::repair_activity_hack::patch_activity_for_furniture( g->u.activity, examp,
+            cur_tool.get_id() );
 
     const int discharged_ammo = original_charges - fake_item.charges;
 
@@ -4020,7 +4108,7 @@ void iexamine::use_furn_fake_item( player &p, const tripoint &examp )
             const int remainder = grid.mod_resource( -discharged_ammo );
             if( remainder != 0 ) {
                 debugmsg( "Fake item %s discharged more charges than have in grid at %s.",
-                          item_type->get_id().c_str(), abspos.to_string() );
+                          cur_tool.get_id().c_str(), abspos.to_string() );
             }
             return;
         }
@@ -4029,7 +4117,7 @@ void iexamine::use_furn_fake_item( player &p, const tripoint &examp )
             m.use_charges( examp, 0, ammo->get_id(), by_ref );
             if( by_ref != 0 ) {
                 debugmsg( "Discharged fake item %s more ammo than %s has at %s.",
-                          item_type->get_id().c_str(),
+                          cur_tool.get_id().c_str(),
                           furniture.id.c_str(),
                           examp.to_string()
                         );
@@ -4038,7 +4126,7 @@ void iexamine::use_furn_fake_item( player &p, const tripoint &examp )
         }
         case charges_type::none:
             debugmsg( "Somehow changed charges of fake item %s without ammo type to %d.",
-                      item_type->get_id().c_str(),
+                      cur_tool.get_id().c_str(),
                       fake_item.charges
                     );
             return;

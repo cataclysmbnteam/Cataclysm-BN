@@ -4624,10 +4624,10 @@ void map::process_items_in_submap( submap &current_submap, const tripoint &gridp
         if( ter( map_location ) == t_rootcellar ) {
             flag = temperature_flag::TEMP_ROOT_CELLAR;
         }
-        if( furn( map_location ) == f_fridge_on ) {
+        if( has_flag_furn( TFLAG_FRIDGE, map_location ) ) {
             flag = temperature_flag::TEMP_FRIDGE;
         }
-        if( furn( map_location ) == f_minifreezer_on ) {
+        if( has_flag_furn( TFLAG_FREEZER, map_location ) ) {
             flag = temperature_flag::TEMP_FREEZER;
         }
         map_stack items = i_at( map_location );
@@ -4877,37 +4877,39 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
         }
     }
 
-    const itype *itt = f.crafting_pseudo_item_type();
-    if( itt != nullptr && itt->item_tags.count( flag_USES_GRID_POWER ) > 0 ) {
-        const tripoint_abs_ms abspos( m->getabs( p ) );
-        auto &grid = get_distribution_grid_tracker().grid_at( abspos );
-        item furn_item( itt, calendar::start_of_cataclysm, grid.get_resource() );
-        int initial_quantity = quantity;
-        if( filter( furn_item ) ) {
-            furn_item.use_charges( type, quantity, ret, p );
-            // That quantity math thing is atrocious. Punishment for the int& "argument".
-            grid.mod_resource( quantity - initial_quantity );
-        }
-    } else if( itt != nullptr && itt->tool && !itt->tool->ammo_id.empty() ) {
-        const itype_id ammo = ammotype( *itt->tool->ammo_id.begin() )->default_ammotype();
-        auto stack = m->i_at( p );
-        auto iter = std::find_if( stack.begin(), stack.end(),
-        [ammo]( const item & i ) {
-            return i.typeId() == ammo;
-        } );
-        if( iter != stack.end() ) {
-            item furn_item( itt, calendar::start_of_cataclysm, iter->charges );
-            if( !filter( furn_item ) ) {
-                return;
+    const std::vector<itype> item_list = f.crafting_pseudo_item_types();
+    for( const itype &itt : item_list ) {
+        if( itt.item_tags.count( flag_USES_GRID_POWER ) > 0 ) {
+            const tripoint_abs_ms abspos( m->getabs( p ) );
+            auto &grid = get_distribution_grid_tracker().grid_at( abspos );
+            item furn_item( itt.get_id(), calendar::start_of_cataclysm, grid.get_resource() );
+            int initial_quantity = quantity;
+            if( filter( furn_item ) ) {
+                furn_item.use_charges( type, quantity, ret, p );
+                // That quantity math thing is atrocious. Punishment for the int& "argument".
+                grid.mod_resource( quantity - initial_quantity );
             }
-            // The item constructor limits the charges to the (type specific) maximum.
-            // Setting it separately circumvents that it is synchronized with the code that creates
-            // the pseudo item (and fills its charges) in inventory.cpp
-            furn_item.charges = iter->charges;
-            if( furn_item.use_charges( type, quantity, ret, p ) ) {
-                stack.erase( iter );
-            } else {
-                iter->charges = furn_item.charges;
+        } else if( itt.tool && !itt.tool->ammo_id.empty() ) {
+            const itype_id ammo = ammotype( *itt.tool->ammo_id.begin() )->default_ammotype();
+            auto stack = m->i_at( p );
+            auto iter = std::find_if( stack.begin(), stack.end(),
+            [ammo]( const item & i ) {
+                return i.typeId() == ammo;
+            } );
+            if( iter != stack.end() ) {
+                item furn_item( itt.get_id(), calendar::start_of_cataclysm, iter->charges );
+                if( !filter( furn_item ) ) {
+                    return;
+                }
+                // The item constructor limits the charges to the (type specific) maximum.
+                // Setting it separately circumvents that it is synchronized with the code that creates
+                // the pseudo item (and fills its charges) in inventory.cpp
+                furn_item.charges = iter->charges;
+                if( furn_item.use_charges( type, quantity, ret, p ) ) {
+                    stack.erase( iter );
+                } else {
+                    iter->charges = furn_item.charges;
+                }
             }
         }
     }

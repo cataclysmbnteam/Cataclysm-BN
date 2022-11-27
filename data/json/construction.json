@@ -4204,25 +4204,16 @@
   },
   {
     "type": "construction",
-    "id": "constr_gridfridge_switch_off",
-    "group": "toggle_refrigerator_freezer",
-    "required_skills": [  ],
+    "id": "constr_gridglass_fridge",
+    "group": "install_glass_refrigerator",
     "category": "FURN",
-    "time": "1 m",
-    "dark_craftable": true,
-    "pre_furniture": "f_fridge_on",
-    "post_furniture": "f_fridge_off"
-  },
-  {
-    "type": "construction",
-    "id": "constr_gridfridge_switch_on",
-    "group": "toggle_refrigerator_freezer",
     "required_skills": [  ],
-    "category": "FURN",
-    "time": "1 m",
-    "dark_craftable": true,
-    "pre_furniture": "f_fridge_off",
-    "post_furniture": "f_fridge_on"
+    "time": "10 m",
+    "qualities": [  ],
+    "components": [ [ [ "glass_fridge", 1 ] ] ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_special": "check_empty",
+    "post_furniture": "f_glass_fridge"
   },
   {
     "type": "construction",
@@ -4239,25 +4230,29 @@
   },
   {
     "type": "construction",
-    "id": "constr_gridminifreezer_switch_off",
-    "group": "toggle_refrigerator_freezer",
-    "required_skills": [  ],
+    "id": "constr_gridfreezer",
+    "group": "install_freezer",
     "category": "FURN",
-    "time": "1 m",
-    "dark_craftable": true,
-    "pre_furniture": "f_minifreezer_on",
-    "post_furniture": "f_minifreezer_off"
+    "required_skills": [  ],
+    "time": "10 m",
+    "qualities": [  ],
+    "components": [ [ [ "fridge", 1 ] ] ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_special": "check_empty",
+    "post_furniture": "f_freezer"
   },
   {
     "type": "construction",
-    "id": "constr_gridminifreezer_switch_on",
-    "group": "toggle_refrigerator_freezer",
-    "required_skills": [  ],
+    "id": "constr_gridglass_freezer",
+    "group": "install_glass_freezer",
     "category": "FURN",
-    "time": "1 m",
-    "dark_craftable": true,
-    "pre_furniture": "f_minifreezer_off",
-    "post_furniture": "f_minifreezer_on"
+    "required_skills": [  ],
+    "time": "10 m",
+    "qualities": [  ],
+    "components": [ [ [ "glass_freezer", 1 ] ] ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_special": "check_empty",
+    "post_furniture": "f_glass_freezer"
   },
   {
     "type": "construction",
@@ -4412,6 +4407,20 @@
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_furniture": "f_gridvac_sealer"
+  },
+  {
+    "type": "construction",
+    "id": "constr_gridcraftrig",
+    "group": "place_craftrig",
+    "category": "OTHER",
+    "required_skills": [ [ "electronics", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "components": [ [ [ "craftrig", 1 ] ], [ [ "cable", 5 ] ], [ [ "solder_wire", 10 ] ] ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_special": "check_empty",
+    "post_furniture": "f_craftrig"
   },
   {
     "type": "construction",

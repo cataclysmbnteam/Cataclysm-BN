@@ -1212,6 +1212,7 @@ void deploy_furn_actor::info( const item &, std::vector<iteminfo> &dump ) const
     std::vector<std::string> can_function_as;
     const furn_t &the_furn = furn_type.obj();
     const std::string furn_name = the_furn.name();
+    const std::set<itype_id> &pseudo_list = the_furn.crafting_pseudo_items;
 
     if( the_furn.workbench ) {
         can_function_as.emplace_back( _( "a <info>crafting station</info>" ) );
@@ -1233,7 +1234,7 @@ void deploy_furn_actor::info( const item &, std::vector<iteminfo> &dump ) const
     if( the_furn.has_flag( "FIRE_CONTAINER" ) ) {
         can_function_as.emplace_back( _( "a safe place to <info>contain a fire</info>" ) );
     }
-    if( the_furn.crafting_pseudo_item == itype_char_smoker ) {
+    if( pseudo_list.count( itype_char_smoker ) > 0 ) {
         can_function_as.emplace_back( _( "a place to <info>smoke or dry food</info> for preservation" ) );
     }
 

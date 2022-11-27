@@ -5731,7 +5731,8 @@ void game::examine( const tripoint &examp )
             add_msg( _( "It is empty." ) );
         } else if( ( m.has_flag( TFLAG_FIRE_CONTAINER, examp ) &&
                      xfurn_t.examine == &iexamine::fireplace ) ||
-                   xfurn_t.examine == &iexamine::workbench ) {
+                   xfurn_t.examine == &iexamine::workbench ||
+                   xfurn_t.examine == &iexamine::transform ) {
             return;
         } else {
             sounds::process_sound_markers( &u );
