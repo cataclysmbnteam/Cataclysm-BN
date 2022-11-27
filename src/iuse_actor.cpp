@@ -1232,7 +1232,7 @@ void deploy_furn_actor::info( const item &, std::vector<iteminfo> &dump ) const
     if( the_furn.has_flag( "FIRE_CONTAINER" ) ) {
         can_function_as.emplace_back( _( "a safe place to <info>contain a fire</info>" ) );
     }
-    if( std::count( pseudo_list.begin(), pseudo_list.end(), itype_char_smoker ) > 0 ) {
+    if( pseudo_list.count( itype_char_smoker ) > 0 ) {
         can_function_as.emplace_back( _( "a place to <info>smoke or dry food</info> for preservation" ) );
     }
 
