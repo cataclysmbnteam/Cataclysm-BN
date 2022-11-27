@@ -71,6 +71,29 @@ bool can_see_fine_details( const Character &who );
 bool can_see_fine_details( const Character &who, const tripoint &p );
 /** @} */
 
+enum class comfort_level {
+    impossible = -999,
+    uncomfortable = -7,
+    neutral = 0,
+    slightly_comfortable = 3,
+    comfortable = 5,
+    very_comfortable = 10
+};
+
+struct comfort_response_t {
+    comfort_level level = comfort_level::neutral;
+    const item *aid = nullptr;
+};
+
+/** Rate point's ability to serve as a bed. Only takes certain mutations into account, and not fatigue nor stimulants. */
+comfort_response_t base_comfort_value( const Character &who, const tripoint &p );
+
+/** Rate point's ability to serve as a bed. Takes all mutations, fatigue and stimulants into account. */
+int rate_sleep_spot( const Character &who, const tripoint &p );
+
+/** Checked each turn during "lying_down", returns true if the avatar falls asleep */
+bool roll_can_sleep( Character &who );
+
 } // namespace character_funcs
 
 #endif // CATA_SRC_CHARACTER_FUNCTIONS_H

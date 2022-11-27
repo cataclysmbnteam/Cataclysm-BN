@@ -18,6 +18,7 @@
 #include "bodypart.h"
 #include "cata_algo.h"
 #include "character.h"
+#include "character_functions.h"
 #include "character_id.h"
 #include "clzones.h"
 #include "coordinate_conversions.h"
@@ -1010,7 +1011,7 @@ void npc::execute_action( npc_action action )
         case npc_sleep: {
             // TODO: Allow stims when not too tired
             // Find a nice spot to sleep
-            int best_sleepy = sleep_spot( pos() );
+            int best_sleepy = character_funcs::rate_sleep_spot( *this, pos() );
             tripoint best_spot = pos();
             for( const tripoint &p : closest_points_first( pos(), 6 ) ) {
                 if( !could_move_onto( p ) || !g->is_empty( p ) ) {
@@ -1018,7 +1019,7 @@ void npc::execute_action( npc_action action )
                 }
 
                 // TODO: Blankets when it's cold
-                const int sleepy = sleep_spot( p );
+                const int sleepy = character_funcs::rate_sleep_spot( *this, p );
                 if( sleepy > best_sleepy ) {
                     best_sleepy = sleepy;
                     best_spot = p;

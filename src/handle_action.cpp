@@ -14,6 +14,7 @@
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "avatar_action.h"
+#include "avatar_functions.h"
 #include "bionics.h"
 #include "bionics_ui.h"
 #include "calendar.h"
@@ -1002,7 +1003,7 @@ static void wait()
 
 static void sleep()
 {
-    player &u = g->u;
+    avatar &u = get_avatar();
     if( u.is_mounted() ) {
         u.add_msg_if_player( m_info, _( "You cannot sleep while mounted." ) );
         return;
@@ -1120,7 +1121,7 @@ static void sleep()
     }
 
     u.moves = 0;
-    u.try_to_sleep( try_sleep_dur );
+    avatar_funcs::try_to_sleep( u, try_sleep_dur );
 }
 
 static void loot()

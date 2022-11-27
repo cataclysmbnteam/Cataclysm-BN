@@ -255,15 +255,6 @@ class Character : public Creature, public visitable<Character>
         bool controlling_vehicle = false;
         const std::string &symbol() const override;
 
-        enum class comfort_level {
-            impossible = -999,
-            uncomfortable = -7,
-            neutral = 0,
-            slightly_comfortable = 3,
-            comfortable = 5,
-            very_comfortable = 10
-        };
-
         // Character stats
         // TODO: Make those protected
         int str_max = 0;
@@ -480,13 +471,6 @@ class Character : public Creature, public visitable<Character>
 
         /** Equalizes heat between body parts */
         void temp_equalizer( const bodypart_id &bp1, const bodypart_id &bp2 );
-
-        struct comfort_response_t {
-            comfort_level level = comfort_level::neutral;
-            const item *aid = nullptr;
-        };
-        /** Rate point's ability to serve as a bed. Only takes certain mutations into account, and not fatigue nor stimulants. */
-        comfort_response_t base_comfort_value( const tripoint &p ) const;
 
         /** Define blood loss (in percents) */
         int blood_loss( const bodypart_id &bp ) const;
@@ -2085,9 +2069,6 @@ class Character : public Creature, public visitable<Character>
 
         trap_map known_traps;
         pimpl<char_encumbrance_data> encumbrance_cache;
-        bool bio_soporific_powered_at_last_sleep_check = false;
-        /** last time we checked for sleep */
-        time_point last_sleep_check = calendar::turn_zero;
         /** warnings from a faction about bad behavior */
         std::map<faction_id, std::pair<int, time_point>> warning_record;
     public:
@@ -2098,6 +2079,8 @@ class Character : public Creature, public visitable<Character>
          * contains the entry, the character has the mutation.
          */
         mutation_collection my_mutations;
+        time_point last_sleep_check = calendar::turn_zero;
+        bool bio_soporific_powered_at_last_sleep_check = false;
     protected:
         /**
          * Contains mutation ids of the base traits.

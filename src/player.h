@@ -354,13 +354,6 @@ class player : public Character
         /** Note that we've read a book at least once. **/
         virtual bool has_identified( const itype_id &item_id ) const = 0;
 
-        /** Handles sleep attempts by the player, starts ACT_TRY_SLEEP activity */
-        void try_to_sleep( const time_duration &dur = 30_minutes );
-        /** Rate point's ability to serve as a bed. Takes all mutations, fatigue and stimulants into account. */
-        int sleep_spot( const tripoint &p ) const;
-        /** Checked each turn during "lying_down", returns true if the player falls asleep */
-        bool can_sleep();
-
         /** Uses morale, pain and fatigue to return the player's focus target goto value */
         int calc_focus_equilibrium() const;
         /** Calculates actual focus gain/loss value from focus equilibrium*/
@@ -372,10 +365,6 @@ class player : public Character
 
     private:
         safe_reference_anchor anchor;
-
-        /** last time we checked for sleep */
-        time_point last_sleep_check = calendar::turn_zero;
-        bool bio_soporific_powered_at_last_sleep_check = false;
 
     public:
         safe_reference<player> get_safe_reference();

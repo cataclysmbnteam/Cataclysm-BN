@@ -7,6 +7,7 @@
 #include "activity_handlers.h"
 #include "avatar.h"
 #include "character.h"
+#include "character_functions.h"
 #include "damage.h"
 #include "effect.h"
 #include "enums.h"
@@ -1045,7 +1046,7 @@ void player::hardcoded_effects( effect &it )
         }
     } else if( id == effect_lying_down ) {
         set_moves( 0 );
-        if( can_sleep() ) {
+        if( character_funcs::roll_can_sleep( *this ) ) {
             fall_asleep();
             // Set ourselves up for removal
             it.set_duration( 0_turns );

@@ -7,19 +7,40 @@
 #include "handle_liquid.h"
 #include "itype.h"
 #include "rng.h"
+#include "vpart_position.h"
+#include "submap.h"
 #include "vehicle.h"
+#include "trap.h"
+#include "veh_type.h"
 
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
+static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
+static const trait_id trait_EASYSLEEPER( "EASYSLEEPER" );
+static const trait_id trait_EASYSLEEPER2( "EASYSLEEPER2" );
+static const trait_id trait_INSOMNIA( "INSOMNIA" );
 static const trait_id trait_INT_SLIME( "INT_SLIME" );
 static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
+static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
+static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
+static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
+static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
+static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
+static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
+static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
+
+static const std::string flag_FUNGUS( "FUNGUS" );
+static const std::string flag_SWIMMABLE( "SWIMMABLE" );
 
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_darkness( "darkness" );
+static const efftype_id effect_meth( "meth" );
+
+static const bionic_id bio_soporific( "bio_soporific" );
 
 static const itype_id itype_cookbook_human( "cookbook_human" );
 
@@ -134,6 +155,225 @@ bool can_see_fine_details( const Character &who )
 bool can_see_fine_details( const Character &who, const tripoint &p )
 {
     return fine_detail_vision_mod( who, p ) <= FINE_VISION_THRESHOLD;
+}
+
+comfort_response_t base_comfort_value( const Character &who, const tripoint &p )
+{
+    // Comfort of sleeping spots is "objective", while sleep_spot( p ) is "subjective"
+    // As in the latter also checks for fatigue and other variables while this function
+    // only looks at the base comfyness of something. It's still subjective, in a sense,
+    // as arachnids who sleep in webs will find most places comfortable for instance.
+    int comfort = 0;
+
+    comfort_response_t comfort_response;
+
+    bool plantsleep = who.has_trait( trait_CHLOROMORPH );
+    bool fungaloid_cosplay = who.has_trait( trait_M_SKIN3 );
+    bool websleep = who.has_trait( trait_WEB_WALKER );
+    bool webforce = who.has_trait( trait_THRESH_SPIDER ) && ( who.has_trait( trait_WEB_SPINNER ) ||
+                    ( who.has_trait( trait_WEB_WEAVER ) ) );
+    bool in_shell = who.has_active_mutation( trait_SHELL2 );
+    bool watersleep = who.has_trait( trait_WATERSLEEP );
+
+    map &here = get_map();
+    const optional_vpart_position vp = here.veh_at( p );
+    const maptile tile = here.maptile_at( p );
+    const trap &trap_at_pos = tile.get_trap_t();
+    const ter_id ter_at_pos = tile.get_ter();
+    const furn_id furn_at_pos = tile.get_furn();
+
+    int web = here.get_field_intensity( p, fd_web );
+
+    // Some mutants have different comfort needs
+    if( !plantsleep && !webforce ) {
+        if( in_shell ) {
+            comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
+            // Note: shelled individuals can still use sleeping aids!
+        } else if( vp ) {
+            const cata::optional<vpart_reference> carg = vp.part_with_feature( "CARGO", false );
+            const cata::optional<vpart_reference> board = vp.part_with_feature( "BOARDABLE", true );
+            if( carg ) {
+                const vehicle_stack items = vp->vehicle().get_items( carg->part_index() );
+                for( const item &items_it : items ) {
+                    if( items_it.has_flag( "SLEEP_AID" ) ) {
+                        // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
+                        comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
+                        comfort_response.aid = &items_it;
+                        break; // prevents using more than 1 sleep aid
+                    }
+                }
+            }
+            if( board ) {
+                comfort += board->info().comfort;
+            } else {
+                comfort -= here.move_cost( p );
+            }
+        }
+        // Not in a vehicle, start checking furniture/terrain/traps at this point in decreasing order
+        else if( furn_at_pos != f_null ) {
+            comfort += 0 + furn_at_pos.obj().comfort;
+        }
+        // Web sleepers can use their webs if better furniture isn't available
+        else if( websleep && web >= 3 ) {
+            comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
+        } else if( ter_at_pos == t_improvised_shelter ) {
+            comfort += 0 + static_cast<int>( comfort_level::slightly_comfortable );
+        } else if( ter_at_pos == t_floor || ter_at_pos == t_floor_waxed ||
+                   ter_at_pos == t_carpet_red || ter_at_pos == t_carpet_yellow ||
+                   ter_at_pos == t_carpet_green || ter_at_pos == t_carpet_purple ) {
+            comfort += 1 + static_cast<int>( comfort_level::neutral );
+        } else if( !trap_at_pos.is_null() ) {
+            comfort += 0 + trap_at_pos.comfort;
+        } else {
+            // Not a comfortable sleeping spot
+            comfort -= here.move_cost( p );
+        }
+
+        if( comfort_response.aid == nullptr ) {
+            const map_stack items = here.i_at( p );
+            for( const item &items_it : items ) {
+                if( items_it.has_flag( "SLEEP_AID" ) ) {
+                    // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
+                    comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
+                    comfort_response.aid = &items_it;
+                    break; // prevents using more than 1 sleep aid
+                }
+            }
+        }
+        if( fungaloid_cosplay && here.has_flag_ter_or_furn( flag_FUNGUS, p ) ) {
+            comfort += static_cast<int>( comfort_level::very_comfortable );
+        } else if( watersleep && here.has_flag_ter( flag_SWIMMABLE, p ) ) {
+            comfort += static_cast<int>( comfort_level::very_comfortable );
+        }
+    } else if( plantsleep ) {
+        if( vp || furn_at_pos != f_null ) {
+            // Sleep ain't happening in a vehicle or on furniture
+            comfort = static_cast<int>( comfort_level::impossible );
+        } else {
+            // It's very easy for Chloromorphs to get to sleep on soil!
+            if( ter_at_pos == t_dirt || ter_at_pos == t_pit || ter_at_pos == t_dirtmound ||
+                ter_at_pos == t_pit_shallow ) {
+                comfort += static_cast<int>( comfort_level::very_comfortable );
+            }
+            // Not as much if you have to dig through stuff first
+            else if( ter_at_pos == t_grass ) {
+                comfort += static_cast<int>( comfort_level::comfortable );
+            }
+            // Sleep ain't happening
+            else {
+                comfort = static_cast<int>( comfort_level::impossible );
+            }
+        }
+        // Has webforce
+    } else {
+        if( web >= 3 ) {
+            // Thick Web and you're good to go
+            comfort += static_cast<int>( comfort_level::very_comfortable );
+        } else {
+            comfort = static_cast<int>( comfort_level::impossible );
+        }
+    }
+
+    if( comfort > static_cast<int>( comfort_level::comfortable ) ) {
+        comfort_response.level = comfort_level::very_comfortable;
+    } else if( comfort > static_cast<int>( comfort_level::slightly_comfortable ) ) {
+        comfort_response.level = comfort_level::comfortable;
+    } else if( comfort > static_cast<int>( comfort_level::neutral ) ) {
+        comfort_response.level = comfort_level::slightly_comfortable;
+    } else if( comfort == static_cast<int>( comfort_level::neutral ) ) {
+        comfort_response.level = comfort_level::neutral;
+    } else {
+        comfort_response.level = comfort_level::uncomfortable;
+    }
+    return comfort_response;
+}
+
+int rate_sleep_spot( const Character &who, const tripoint &p )
+{
+    const int current_stim = who.get_stim();
+    const comfort_response_t comfort_info = base_comfort_value( who, p );
+    if( comfort_info.aid != nullptr ) {
+        who.add_msg_if_player( m_info, _( "You use your %s for comfort." ), comfort_info.aid->tname() );
+    }
+
+    int sleepy = static_cast<int>( comfort_info.level );
+    bool watersleep = who.has_trait( trait_WATERSLEEP );
+
+    if( who.has_addiction( add_type::SLEEP ) ) {
+        sleepy -= 4;
+    }
+    if( who.has_trait( trait_INSOMNIA ) ) {
+        // 12.5 points is the difference between "tired" and "dead tired"
+        sleepy -= 12;
+    }
+    if( who.has_trait( trait_EASYSLEEPER ) ) {
+        // Low fatigue (being rested) has a much stronger effect than high fatigue
+        // so it's OK for the value to be that much higher
+        sleepy += 40;
+    }
+    if( who.has_active_bionic( bio_soporific ) ) {
+        sleepy += 30;
+    }
+    if( who.has_trait( trait_EASYSLEEPER2 ) ) {
+        // At this point, the only limit to sleep is tiredness
+        sleepy += 100;
+    }
+    if( watersleep && get_map().has_flag_ter( "SWIMMABLE", p ) ) {
+        sleepy += 10; //comfy water!
+    }
+
+    if( who.get_fatigue() < fatigue_levels::tired + 1 ) {
+        sleepy -= static_cast<int>( ( fatigue_levels::tired + 1 - who.get_fatigue() ) / 4 );
+    } else {
+        sleepy += static_cast<int>( ( who.get_fatigue() - fatigue_levels::tired + 1 ) / 16 );
+    }
+
+    if( current_stim > 0 || !who.has_trait( trait_INSOMNIA ) ) {
+        sleepy -= 2 * current_stim;
+    } else {
+        // Make it harder for insomniac to get around the trait
+        sleepy -= current_stim;
+    }
+
+    return sleepy;
+}
+
+bool roll_can_sleep( Character &who )
+{
+    if( who.has_effect( effect_meth ) ) {
+        // Sleep ain't happening until that meth wears off completely.
+        return false;
+    }
+
+    // Since there's a bit of randomness to falling asleep, we want to
+    // prevent exploiting this if can_sleep() gets called over and over.
+    // Only actually check if we can fall asleep no more frequently than
+    // every 30 minutes.  We're assuming that if we return true, we'll
+    // immediately be falling asleep after that.
+    //
+    // Also if player debug menu'd time backwards this breaks, just do the
+    // check anyway, this will reset the timer if 'dur' is negative.
+    const time_point now = calendar::turn;
+    const time_duration dur = now - who.last_sleep_check;
+    if( dur >= 0_turns && dur < 30_minutes ) {
+        return false;
+    }
+    who.last_sleep_check = now;
+
+    int sleepy = character_funcs::rate_sleep_spot( who, who.pos() );
+    sleepy += rng( -8, 8 );
+    bool result = sleepy > 0;
+
+    if( who.has_active_bionic( bio_soporific ) ) {
+        if( who.bio_soporific_powered_at_last_sleep_check && !who.has_power() ) {
+            who.add_msg_if_player( m_bad, _( "Your soporific inducer runs out of power!" ) );
+        } else if( !who.bio_soporific_powered_at_last_sleep_check && who.has_power() ) {
+            who.add_msg_if_player( m_good, _( "Your soporific inducer starts back up." ) );
+        }
+        who.bio_soporific_powered_at_last_sleep_check = who.has_power();
+    }
+
+    return result;
 }
 
 } // namespace character_funcs
