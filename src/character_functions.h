@@ -6,6 +6,7 @@
 
 #include <string>
 
+enum body_part;
 class Character;
 class Creature;
 class item;
@@ -101,6 +102,14 @@ bool can_interface_armor( const Character &who );
 
 /** Get the formatted name of the currently wielded item (if any) with current gun mode (if gun) */
 std::string fmt_wielded_weapon( const Character &who );
+
+/**
+ * Add message describing how character feels pain.
+ * @param who Character that feels the pain
+ * @param val Amount of pain
+ * @param bp Target body part, use num_bp if no specific body part.
+ */
+void add_pain_msg( const Character &who, int val, body_part bp );
 
 } // namespace character_funcs
 

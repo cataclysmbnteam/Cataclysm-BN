@@ -454,54 +454,6 @@ bool player::immune_to( body_part bp, damage_unit dam ) const
     return dam.amount <= 0;
 }
 
-void player::mod_pain( int npain )
-{
-    if( npain > 0 ) {
-        if( has_trait( trait_NOPAIN ) || has_effect( effect_narcosis ) ) {
-            return;
-        }
-        // always increase pain gained by one from these bad mutations
-        if( has_trait( trait_MOREPAIN ) ) {
-            npain += std::max( 1, roll_remainder( npain * 0.25 ) );
-        } else if( has_trait( trait_MOREPAIN2 ) ) {
-            npain += std::max( 1, roll_remainder( npain * 0.5 ) );
-        } else if( has_trait( trait_MOREPAIN3 ) ) {
-            npain += std::max( 1, roll_remainder( npain * 1.0 ) );
-        }
-
-        if( npain > 1 ) {
-            // if it's 1 it'll just become 0, which is bad
-            if( has_trait( trait_PAINRESIST_TROGLO ) ) {
-                npain = roll_remainder( npain * 0.5 );
-            } else if( has_trait( trait_PAINRESIST ) ) {
-                npain = roll_remainder( npain * 0.67 );
-            }
-        }
-    }
-    Creature::mod_pain( npain );
-}
-
-void player::set_pain( int npain )
-{
-    const int prev_pain = get_perceived_pain();
-    Creature::set_pain( npain );
-    const int cur_pain = get_perceived_pain();
-
-    if( cur_pain != prev_pain ) {
-        react_to_felt_pain( cur_pain - prev_pain );
-        on_stat_change( "perceived_pain", cur_pain );
-    }
-}
-
-int player::get_perceived_pain() const
-{
-    if( get_effect_int( effect_adrenaline ) > 1 ) {
-        return 0;
-    }
-
-    return std::max( get_pain() - get_painkiller(), 0 );
-}
-
 float player::fall_damage_mod() const
 {
     if( has_effect_with_flag( "EFFECT_FEATHER_FALL" ) ) {
@@ -755,43 +707,6 @@ int player::hp_percentage() const
     }
 
     return ( 100 * total_cur ) / total_max;
-}
-
-void player::add_pain_msg( int val, body_part bp ) const
-{
-    if( has_trait( trait_NOPAIN ) ) {
-        return;
-    }
-    if( bp == num_bp ) {
-        if( val > 20 ) {
-            add_msg_if_player( _( "Your body is wracked with excruciating pain!" ) );
-        } else if( val > 10 ) {
-            add_msg_if_player( _( "Your body is wracked with terrible pain!" ) );
-        } else if( val > 5 ) {
-            add_msg_if_player( _( "Your body is wracked with pain!" ) );
-        } else if( val > 1 ) {
-            add_msg_if_player( _( "Your body pains you!" ) );
-        } else {
-            add_msg_if_player( _( "Your body aches." ) );
-        }
-    } else {
-        if( val > 20 ) {
-            add_msg_if_player( _( "Your %s is wracked with excruciating pain!" ),
-                               body_part_name_accusative( bp ) );
-        } else if( val > 10 ) {
-            add_msg_if_player( _( "Your %s is wracked with terrible pain!" ),
-                               body_part_name_accusative( bp ) );
-        } else if( val > 5 ) {
-            add_msg_if_player( _( "Your %s is wracked with pain!" ),
-                               body_part_name_accusative( bp ) );
-        } else if( val > 1 ) {
-            add_msg_if_player( _( "Your %s pains you!" ),
-                               body_part_name_accusative( bp ) );
-        } else {
-            add_msg_if_player( _( "Your %s aches." ),
-                               body_part_name_accusative( bp ) );
-        }
-    }
 }
 
 void player::on_worn_item_transform( const item &old_it, const item &new_it )

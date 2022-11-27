@@ -1765,6 +1765,13 @@ class Character : public Creature, public visitable<Character>
         int get_painkiller() const;
         void react_to_felt_pain( int intensity );
 
+        /** Modifies a pain value by player traits before passing it to Creature::mod_pain() */
+        void mod_pain( int npain ) override;
+        /** Sets new intensity of pain an reacts to it */
+        void set_pain( int npain ) override;
+        /** Returns perceived pain (reduced with painkillers)*/
+        int get_perceived_pain() const override;
+
         void spores();
         void blossoms();
 

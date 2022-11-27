@@ -3,6 +3,7 @@
 #include "bionics.h"
 #include "calendar.h"
 #include "character_effects.h"
+#include "character_functions.h"
 #include "character_stat.h"
 #include "character_martial_arts.h"
 #include "character.h"
@@ -477,7 +478,7 @@ void Character::process_one_effect( effect &it, bool is_new )
             int pain_inc = bound_mod_to_vals( get_pain(), val, it.get_max_val( "PAIN", reduced ), 0 );
             mod_pain( pain_inc );
             if( pain_inc > 0 ) {
-                as_player()->add_pain_msg( val, bp );
+                character_funcs::add_pain_msg( *this, val, bp );
             }
         }
     }

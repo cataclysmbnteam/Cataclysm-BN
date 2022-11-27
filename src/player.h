@@ -171,14 +171,6 @@ class player : public Character
          * @returns true if given damage can not reduce hp of given body part
          */
         bool immune_to( body_part bp, damage_unit dam ) const;
-        /** Modifies a pain value by player traits before passing it to Creature::mod_pain() */
-        void mod_pain( int npain ) override;
-        /** Sets new intensity of pain an reacts to it */
-        void set_pain( int npain ) override;
-        /** Returns perceived pain (reduced with painkillers)*/
-        int get_perceived_pain() const override;
-
-        void add_pain_msg( int val, body_part bp ) const;
 
         /** Knocks the player to a specified tile */
         void knock_back_to( const tripoint &to ) override;

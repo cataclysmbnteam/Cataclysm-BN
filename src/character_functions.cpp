@@ -36,6 +36,7 @@ static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
 static const trait_id trait_LUPINE_FUR( "LUPINE_FUR" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_NAUSEA( "NAUSEA" );
+static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
@@ -448,6 +449,43 @@ std::string fmt_wielded_weapon( const Character &who )
 
     } else {
         return weapon.tname();
+    }
+}
+
+void add_pain_msg( const Character &who, int val, body_part bp )
+{
+    if( who.has_trait( trait_NOPAIN ) ) {
+        return;
+    }
+    if( bp == num_bp ) {
+        if( val > 20 ) {
+            who.add_msg_if_player( _( "Your body is wracked with excruciating pain!" ) );
+        } else if( val > 10 ) {
+            who.add_msg_if_player( _( "Your body is wracked with terrible pain!" ) );
+        } else if( val > 5 ) {
+            who.add_msg_if_player( _( "Your body is wracked with pain!" ) );
+        } else if( val > 1 ) {
+            who.add_msg_if_player( _( "Your body pains you!" ) );
+        } else {
+            who.add_msg_if_player( _( "Your body aches." ) );
+        }
+    } else {
+        if( val > 20 ) {
+            who.add_msg_if_player( _( "Your %s is wracked with excruciating pain!" ),
+                                   body_part_name_accusative( bp ) );
+        } else if( val > 10 ) {
+            who.add_msg_if_player( _( "Your %s is wracked with terrible pain!" ),
+                                   body_part_name_accusative( bp ) );
+        } else if( val > 5 ) {
+            who.add_msg_if_player( _( "Your %s is wracked with pain!" ),
+                                   body_part_name_accusative( bp ) );
+        } else if( val > 1 ) {
+            who.add_msg_if_player( _( "Your %s pains you!" ),
+                                   body_part_name_accusative( bp ) );
+        } else {
+            who.add_msg_if_player( _( "Your %s aches." ),
+                                   body_part_name_accusative( bp ) );
+        }
     }
 }
 
