@@ -1,56 +1,22 @@
 #!/bin/bash
 
 set -e
-
-function just_json
-{
-    for filename in $(./build-scripts/files_changed || echo UNKNOWN)
-    do
-        if [[ ! "$filename" =~ \.(json|md)$ ]]
-        then
-            echo "$filename is not json or markdown, triggering full build."
-            return 1
-        fi
-    done
-    echo "Only json / markdown files changed, skipping full build."
-    return 0
-}
-
-if which travis_retry &>/dev/null
-then
-    travis_retry=travis_retry
-else
-    travis_retry=
-fi
-
-if [ ! -n $ENABLE_DEPLOY ] && just_json; then
-    export JUST_JSON=true
-    export CODE_COVERAGE=""
-fi
-
 set -x
 
-if [ -n "${CODE_COVERAGE}" ]; then
-  $travis_retry pip install --user wheel --upgrade
-  $travis_retry pip install --user pyyaml cpp-coveralls
-  export CXXFLAGS="$CXXFLAGS --coverage"
-  export LDFLAGS="$LDFLAGS --coverage"
-fi
-
 if [ -n "$CATA_CLANG_TIDY" ]; then
-    $travis_retry pip install --user wheel --upgrade
-    $travis_retry pip install --user compiledb 'lit==0.11.1' 'click==7.1.2'
+  pip install --user wheel --upgrade
+  pip install --user compiledb 'lit==0.11.1' 'click==7.1.2'
 fi
 
 if [ -n "$LANGUAGES" ]; then
-    $travis_retry pip install --user polib
+  pip install --user polib
 fi
 
 # Influenced by https://github.com/zer0main/battleship/blob/master/build/windows/requirements.sh
 if [ -n "${MXE_TARGET}" ]; then
   sudo dpkg --add-architecture i386
   sudo apt update
-  $travis_retry sudo apt-get --yes install wine wine32
+  sudo apt-get --yes install wine wine32
 
   set +e
   retry=0
@@ -88,15 +54,6 @@ if [ -n "${MXE_TARGET}" ]; then
     fi
     sudo tar -xzf libbacktrace-i686-w64-mingw32.tar.gz --exclude=LICENSE -C ${MXE_DIR}/usr/${MXE_TARGET}
   fi
-fi
-
-if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-  HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install sdl2 sdl2_image sdl2_ttf sdl2_mixer gettext ncurses ccache python
-  pip install dmgbuild
-fi
-
-if [[ "$NATIVE" == "android" ]]; then
-  yes | sdkmanager "ndk-bundle"
 fi
 
 set +x

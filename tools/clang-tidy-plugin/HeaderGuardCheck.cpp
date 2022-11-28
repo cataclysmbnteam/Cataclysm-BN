@@ -49,7 +49,7 @@ static std::string getHeaderGuard( StringRef Filename )
     bool Found = false;
     while( std::string::npos != ( LastSlash = TopDir.find_last_of( "/\\" ) ) ) {
         TopDir = TopDir.substr( 0, LastSlash );
-        if( pathExists( TopDir + "/.travis.yml" ) ) {
+        if( pathExists( TopDir + "/.astylerc" ) ) {
             Found = true;
             break;
         }

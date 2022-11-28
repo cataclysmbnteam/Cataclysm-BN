@@ -90,7 +90,7 @@ In addition to the usual means of creating a `tags` file via e.g. [`ctags`](http
 
 Cataclysm has a [clang-tidy configuration file](../.clang-tidy) and if you have
 `clang-tidy` available you can run it to perform static analysis of the
-codebase.  We test with `clang-tidy` from LLVM 8.0.1 on Travis, so for the most
+codebase.  We test with `clang-tidy` from LLVM 8.0.1 on Github Actions, so for the most
 consistent results, you might want to use that version.
 
 To run it you have a few options.
@@ -119,7 +119,7 @@ work requires some extra steps.
 #### Ubuntu Xenial
 
 If you are on Ubuntu Xenial then you might be able to get it working the same
-way Travis does.  Add the LLVM 8 Xenial source [listed
+way Github Actions does.  Add the LLVM 8 Xenial source [listed
 here](https://apt.llvm.org/) to your `sources.list`, install the `clang-8
 libclang-8-dev llvm-8-dev llvm-8-tools` packages and build Cataclysm with CMake
 adding `-DCATA_CLANG_TIDY_PLUGIN=ON`.
