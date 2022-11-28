@@ -18,7 +18,7 @@
 #include "colony.h"
 #include "creature.h"
 #include "enums.h"
-#include "explosion.h"
+#include "explosion_queue.h"
 #include "field_type.h"
 #include "fungal_effects.h"
 #include "game.h"
@@ -600,6 +600,7 @@ void mdeath::explode( monster &z )
             break;
     }
     explosion_handler::explosion( z.pos(), &z, size );
+    explosion_handler::get_explosion_queue().execute();
 }
 
 void mdeath::focused_beam( monster &z )
@@ -639,6 +640,7 @@ void mdeath::focused_beam( monster &z )
     z.inv.clear();
 
     explosion_handler::explosion( z.pos(), &z, 8 );
+    explosion_handler::get_explosion_queue().execute();
 }
 
 void mdeath::broken( monster &z )

@@ -515,19 +515,21 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
     for( const tripoint &p : pts ) {
         if( m.has_furn( p ) ) {
             const furn_t &f = m.furn( p ).obj();
-            const itype *type = f.crafting_pseudo_item_type();
-            if( type != nullptr ) {
-                const itype *ammo = f.crafting_ammo_item_type();
-                item furn_item( type, calendar::turn, 0 );
-                furn_item.set_flag( "PSEUDO" );
-                if( furn_item.has_flag( "USES_GRID_POWER" ) ) {
-                    // TODO: The grid tracker should correspond to map!
-                    auto &grid = get_distribution_grid_tracker().grid_at( tripoint_abs_ms( m.getabs( p ) ) );
-                    furn_item.charges = grid.get_resource();
-                } else {
-                    furn_item.charges = ammo ? count_charges_in_list( ammo, m.i_at( p ) ) : 0;
+            const std::vector<itype> tool_list = f.crafting_pseudo_item_types();
+            if( !tool_list.empty() ) {
+                for( const itype &type : tool_list ) {
+                    item furn_item( type.get_id(), calendar::turn, 0 );
+                    furn_item.set_flag( "PSEUDO" );
+                    const itype_id &ammo = furn_item.ammo_default();
+                    if( furn_item.has_flag( "USES_GRID_POWER" ) ) {
+                        // TODO: The grid tracker should correspond to map!
+                        auto &grid = get_distribution_grid_tracker().grid_at( tripoint_abs_ms( m.getabs( p ) ) );
+                        furn_item.charges = grid.get_resource();
+                    } else {
+                        furn_item.charges = ammo ? count_charges_in_list( &*ammo, m.i_at( p ) ) : 0;
+                    }
+                    add_item_by_items_type_cache( furn_item );
                 }
-                add_item_by_items_type_cache( furn_item );
             }
         }
         if( m.has_items( p ) && m.accessible_items( p ) ) {

@@ -1155,12 +1155,14 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint &t ) const
         return 0;
     }
 
-    const std::function<bool( const tripoint & )> f = []( const tripoint & pnt ) {
+    map &here = get_map();
+
+    const std::function<bool( const tripoint & )> f = [&here]( const tripoint & pnt ) {
         if( pnt == g->u.pos() ) {
             return false;
         }
-        const ter_id ter = g->m.ter( pnt );
-        const furn_id furn = g->m.furn( pnt );
+        const ter_id ter = here.ter( pnt );
+        const furn_id furn = here.furn( pnt );
         lockpicking_open_result result = get_lockpicking_open_result( ter, furn );
         const bool is_allowed = result.new_ter_type || result.new_furn_type;
         return is_allowed;
@@ -1172,7 +1174,7 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint &t ) const
         return 0;
     }
     const tripoint &pnt = *pnt_;
-    const ter_id type = g->m.ter( pnt );
+    const ter_id type = here.ter( pnt );
     if( !f( pnt ) ) {
         if( pnt == p.pos() ) {
             p.add_msg_if_player( m_info, _( "You pick your nose and your sinuses swing open." ) );
@@ -1210,6 +1212,7 @@ void deploy_furn_actor::info( const item &, std::vector<iteminfo> &dump ) const
     std::vector<std::string> can_function_as;
     const furn_t &the_furn = furn_type.obj();
     const std::string furn_name = the_furn.name();
+    const std::set<itype_id> &pseudo_list = the_furn.crafting_pseudo_items;
 
     if( the_furn.workbench ) {
         can_function_as.emplace_back( _( "a <info>crafting station</info>" ) );
@@ -1231,7 +1234,7 @@ void deploy_furn_actor::info( const item &, std::vector<iteminfo> &dump ) const
     if( the_furn.has_flag( "FIRE_CONTAINER" ) ) {
         can_function_as.emplace_back( _( "a safe place to <info>contain a fire</info>" ) );
     }
-    if( the_furn.crafting_pseudo_item == itype_char_smoker ) {
+    if( pseudo_list.count( itype_char_smoker ) > 0 ) {
         can_function_as.emplace_back( _( "a place to <info>smoke or dry food</info> for preservation" ) );
     }
 
@@ -2020,7 +2023,7 @@ int enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
         p.add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
-    map_stack items = g->m.i_at( point( p.posx(), p.posy() ) );
+    map_stack items = get_map().i_at( point( p.posx(), p.posy() ) );
     std::vector<const item *> corpses;
 
     for( item &corpse_candidate : items ) {

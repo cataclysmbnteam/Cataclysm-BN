@@ -916,6 +916,16 @@
   },
   {
     "type": "construction_group",
+    "id": "install_freezer",
+    "name": "Install Freezer"
+  },
+  {
+    "type": "construction_group",
+    "id": "install_glass_freezer",
+    "name": "Install Glass Freezer"
+  },
+  {
+    "type": "construction_group",
     "id": "install_minifreezer",
     "name": "Install Minifreezer"
   },
@@ -928,6 +938,21 @@
     "type": "construction_group",
     "id": "install_refrigerator",
     "name": "Install Refrigerator"
+  },
+  {
+    "type": "construction_group",
+    "id": "install_glass_refrigerator",
+    "name": "Install Glass Refrigerator"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_small_space_heater",
+    "name": "Place Small Space Heater"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_large_space_heater",
+    "name": "Place Large Space Heater"
   },
   {
     "type": "construction_group",
@@ -1093,6 +1118,11 @@
     "type": "construction_group",
     "id": "place_vaccuum_sealer",
     "name": "Place Vaccuum Sealer"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_craftrig",
+    "name": "Place FOODCO Kitchen Buddy"
   },
   {
     "type": "construction_group",
@@ -1303,11 +1333,6 @@
     "type": "construction_group",
     "id": "tape_up_window",
     "name": "Tape Up Window"
-  },
-  {
-    "type": "construction_group",
-    "id": "toggle_refrigerator_freezer",
-    "name": "Toggle Refrigerator/Freezer"
   },
   {
     "type": "construction_group",
