@@ -1104,7 +1104,7 @@ struct itype {
             if( tool ) {
                 return tool->max_charges;
             }
-            return 1;
+            return 0;
         }
         bool can_have_charges() const;
 

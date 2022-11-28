@@ -6097,7 +6097,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
             } while( !one_in( 5 ) );
             if( rotate == 0 ) {
                 mremove_trap( m, point( p1.x, p2.y ) );
-                m->furn_set( point( p1.x, p2.y ), f_fridge );
+                m->furn_set( point( p1.x, p2.y ), f_freezer );
                 m->place_items( item_group_id( "goo" ), 60, point( p1.x, p2.y ), point( p1.x, p2.y ), false,
                                 calendar::start_of_cataclysm );
             } else if( rotate == 1 ) {
@@ -6107,7 +6107,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                                 calendar::start_of_cataclysm );
             } else if( rotate == 2 ) {
                 mremove_trap( m, point( p2.x, p1.y ) );
-                m->furn_set( point( p2.x, p1.y ), f_fridge );
+                m->furn_set( point( p2.x, p1.y ), f_freezer );
                 m->place_items( item_group_id( "goo" ), 60, point( p2.x, p1.y ), point( p2.x, p1.y ), false,
                                 calendar::start_of_cataclysm );
             } else {
