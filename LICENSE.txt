@@ -10,6 +10,8 @@ PLF List and PLF Colony (src/list.h, src/colony.h) are licensed under the zLib l
 
 getpost (tools/json_tools/format/getpost.h) is licensed under the MIT license, see file for text of license.
 
+Lua (src/lua/*) is licensed under the MIT license, see src_lua/LICENSE.md for text of license.
+
 
 
 fmtlib (src/fmtlib_*) is licensed under the MIT license (https://github.com/fmtlib/fmt/blob/master/LICENSE.rst). The full license text is as follows:
