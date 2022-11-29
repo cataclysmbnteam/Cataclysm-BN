@@ -50,4 +50,10 @@ the build system, or the command line options of your compiler.
 
 // end of sol/config.hpp
 
+// We compile Lua parts with C++ compiler, so sol doesn't need to use extern "C"
+#define SOL_BUILD_CXX_MODE 1
+
+// Be helpful and verbose, even at the cost of speed
+#define SOL_ALL_SAFETIES_ON 1
+
 #endif // SOL_SINGLE_CONFIG_HPP

@@ -11,6 +11,7 @@
 #   LTO         Set to 1 to enable link-time optimization.
 #   TILES       Set to 1 to enable tiles. Requires SDL.
 #   SOUND       Set to 1 to enable sounds. Requires SDL.
+#   LUA         Set to 1 to enable Lua.
 #
 # Platforms:
 # Linux/Cygwin native
@@ -165,7 +166,10 @@ CHKJSON_BIN = $(BUILD_PREFIX)chkjson
 BINDIST_DIR = $(BUILD_PREFIX)bindist
 BUILD_DIR = $(CURDIR)
 SRC_DIR = src
+LUA_SRC_DIR = $(SRC_DIR)/lua
 ASTYLE_BINARY = astyle
+
+CXXFLAGS += -I$(SRC_DIR) -I$(LUA_SRC_DIR)
 
 # Enable astyle by default
 ifndef ASTYLE
@@ -263,8 +267,10 @@ endif
 # when preprocessor defines change, but the source doesn't
 ODIR = $(BUILD_PREFIX)obj
 ODIRTILES = $(BUILD_PREFIX)obj/tiles
+ODIRLUA = $(BUILD_PREFIX)obj/lua
 W32ODIR = $(BUILD_PREFIX)objwin
 W32ODIRTILES = $(W32ODIR)/tiles
+W32ODIRLUA = $(W32ODIR)/lua
 
 ifdef AUTO_BUILD_PREFIX
   BUILD_PREFIX = $(if $(RELEASE),release-)$(if $(DEBUG_SYMBOLS),symbol-)$(if $(TILES),tiles-)$(if $(SOUND),sound-)$(if $(BACKTRACE),back-$(if $(LIBBACKTRACE),libbacktrace-))$(if $(SANITIZE),sanitize-)$(if $(MAPSIZE),map-$(MAPSIZE)-)$(if $(USE_XDG_DIR),xdg-)$(if $(USE_HOME_DIR),home-)$(if $(DYNAMIC_LINKING),dynamic-)$(if $(MSYS2),msys2-)
@@ -572,6 +578,7 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   BINDIST = $(W32BINDIST)
   BINDIST_CMD = $(W32BINDIST_CMD)
   ODIR = $(W32ODIR)
+  ODIRLUA = $(W32ODIRLUA)
   ifeq ($(DYNAMIC_LINKING), 1)
     # Windows isn't sold with programming support, these are static to remove MinGW dependency.
     LDFLAGS += -static-libgcc -static-libstdc++
@@ -793,6 +800,7 @@ TESTSRC := $(wildcard tests/*.cpp)
 TESTHDR := $(wildcard tests/*.h)
 JSON_FORMATTER_SOURCES := tools/format/format.cpp src/json.cpp
 CHKJSON_SOURCES := src/chkjson/chkjson.cpp src/json.cpp
+LUA_SOURCES := $(wildcard $(LUA_SRC_DIR)/*.c)
 CLANG_TIDY_PLUGIN_SOURCES := \
   $(wildcard tools/clang-tidy-plugin/*.cpp tools/clang-tidy-plugin/*/*.cpp)
 TOOLHDR := $(wildcard tools/*/*.h)
@@ -813,6 +821,13 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   _OBJS += $(RSRC:$(SRC_DIR)/%.rc=%.o)
 endif
 OBJS = $(sort $(patsubst %,$(ODIR)/%,$(_OBJS)))
+
+ifeq ($(LUA), 1)
+  DEFINES += -DLUA
+  LUA_OBJS = $(sort $(LUA_SOURCES:$(LUA_SRC_DIR)/%.c=$(ODIRLUA)/%.o))
+else
+  LUA_OBJS = 
+endif
 
 ifdef LANGUAGES
   L10N = localization
@@ -871,12 +886,12 @@ endif
 all: version $(CHECKS) $(TARGET) $(L10N) $(TESTS)
 	@
 
-$(TARGET): $(OBJS)
+$(TARGET): $(OBJS) $(LUA_OBJS)
 ifeq ($(VERBOSE),1)
-	+$(LD) $(W32FLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
+	+$(LD) $(W32FLAGS) -o $(TARGET) $(OBJS) $(LUA_OBJS) $(LDFLAGS)
 else
 	@echo "Linking $@..."
-	@+$(LD) $(W32FLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
+	@+$(LD) $(W32FLAGS) -o $(TARGET) $(OBJS) $(LUA_OBJS) $(LDFLAGS)
 	@echo Done!
 endif
 
@@ -891,12 +906,12 @@ endif
 $(PCH_P): $(PCH_H)
 	-$(CXX) $(CPPFLAGS) $(DEFINES) $(subst -Werror,,$(CXXFLAGS)) -c $(PCH_H) -o $(PCH_P)
 
-$(BUILD_PREFIX)$(TARGET_NAME).a: $(OBJS)
+$(BUILD_PREFIX)$(TARGET_NAME).a: $(OBJS) $(LUA_OBJS)
 ifeq ($(VERBOSE),1)
-	$(AR) rcs $(BUILD_PREFIX)$(TARGET_NAME).a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS))
+	$(AR) rcs $(BUILD_PREFIX)$(TARGET_NAME).a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS)) $(LUA_OBJS)
 else
 	@echo "Creating $@..."
-	@$(AR) rcs $(BUILD_PREFIX)$(TARGET_NAME).a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS))
+	@$(AR) rcs $(BUILD_PREFIX)$(TARGET_NAME).a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS)) $(LUA_OBJS)
 endif
 
 .PHONY: version
@@ -910,6 +925,7 @@ version:
 
 # Unconditionally create the object dir on every invocation.
 $(shell mkdir -p $(ODIR))
+$(shell mkdir -p $(ODIRLUA))
 
 $(ODIR)/%.o: $(SRC_DIR)/%.cpp $(PCH_P)
 ifeq ($(VERBOSE), 1)
@@ -925,6 +941,14 @@ ifeq ($(VERBOSE), 1)
 else
 	@echo $(@F)
 	@$(RC) $(RFLAGS) $< -o $@
+endif
+
+$(ODIRLUA)/%.o: $(LUA_SRC_DIR)/%.c
+ifeq ($(VERBOSE), 1)
+	$(CXX) -xc -std=c11 -c $< -o $@
+else
+	@echo $(@F)
+	@$(CXX) -xc -std=c11 -c $< -o $@
 endif
 
 src/version.h: version

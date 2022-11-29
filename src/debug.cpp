@@ -678,6 +678,7 @@ std::string enum_to_string<DC>( DC x )
         case DC::MapMem: return "MAPMEM";
         case DC::NPC: return "NPC";
         case DC::SDL: return "SDL";
+        case DC::Lua: return "LUA";
         // *INDENT-ON*
         case DC::Num:
             break;

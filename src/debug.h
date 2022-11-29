@@ -184,6 +184,8 @@ enum class DC : int {
     NPC,
     /** SDL & tiles & anything graphical & sound */
     SDL,
+    /** Output from Lua */
+    Lua,
     /** Unused */
     Num,
 };

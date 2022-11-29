@@ -21,6 +21,7 @@
 #else
 #   include <csignal>
 #endif
+#include "catalua.h"
 #include "color.h"
 #include "crash.h"
 #include "cursesdef.h"
@@ -717,6 +718,9 @@ int main( int argc, char *argv[] )
     sigIntHandler.sa_flags = 0;
     sigaction( SIGINT, &sigIntHandler, nullptr );
 #endif
+
+    DebugLog( DL::Info, DC::Main ) << "Binary has Lua support: " << cata::has_lua();
+    cata::startup_lua_test();
 
     prompt_select_lang_on_startup();
     replay_buffered_debugmsg_prompts();
