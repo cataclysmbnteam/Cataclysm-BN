@@ -12,6 +12,8 @@ getpost (tools/json_tools/format/getpost.h) is licensed under the MIT license, s
 
 Lua (src/lua/*) is licensed under the MIT license, see src_lua/LICENSE.md for text of license.
 
+sol2 (src/sol/*) is licensed under the MIT license, see src/sol/sol.hpp for text of license.
+
 
 
 fmtlib (src/fmtlib_*) is licensed under the MIT license (https://github.com/fmtlib/fmt/blob/master/LICENSE.rst). The full license text is as follows:
