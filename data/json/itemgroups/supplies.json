@@ -547,12 +547,17 @@
     "id": "civilian_helicopter_parts",
     "type": "item_group",
     "//": "Parts for civilian helicopter",
-    "items": [ [ "small_turbine_engine", 50 ], [ "small_helicopter_rotor", 50 ] ]
+    "items": [ [ "small_turbine_engine", 50 ], [ "small_helicopter_rotor", 50 ], [ "plating_steel", 50 ] ]
   },
   {
     "id": "military_helicopter_parts",
     "type": "item_group",
     "//": "GParts for military helicopter",
-    "items": [ [ "medium_turbine_engine", 30 ], [ "large_turbine_engine", 20 ], [ "heavy_duty_military_rotor", 50 ] ]
+    "items": [
+      [ "medium_turbine_engine", 30 ],
+      [ "large_turbine_engine", 20 ],
+      [ "heavy_duty_military_rotor", 50 ],
+      [ "plating_military", 50 ]
+    ]
   }
 ]
