@@ -33,7 +33,7 @@ option(USE_UNITY_BUILD "Use unity build." "OFF")
 option(USE_PCH_HEADER "Use precompiled PCH header." "OFF")
 option(JSON_FORMAT "Build JSON formatter" "OFF")
 option(CATA_CCACHE "Try to find and build with ccache" "ON")
-option(TESTS "Compile Cata's tests" "OFF")
+option(TESTS "Compile Cata's tests" "ON")
 option(CATA_CLANG_TIDY_PLUGIN "Build Cata's custom clang-tidy plugin" "OFF")
 set(CATA_CLANG_TIDY_INCLUDE_DIR
     ""
