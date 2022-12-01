@@ -2739,9 +2739,6 @@ void game::load_world_modfiles( loading_ui &ui )
     // of mods in the correct order.
     load_packs( _( "Loading files" ), mods, ui );
 
-    // Load additional mods from that world-specific folder
-    load_data_from_dir( get_world_base_save_path() + "/mods", "custom", ui );
-
     DynamicDataLoader::get_instance().finalize_loaded_data( ui );
 }
 
