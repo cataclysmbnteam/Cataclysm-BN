@@ -25,10 +25,17 @@ void startup_lua_test()
     // Nothing to do here
 }
 
-void set_mod_list( lua_state &, const std::vector<mod_id> & );
-void run_mod_being_loaded( lua_state &, const mod_id & );
-void run_mod_preload_script( lua_state &, const mod_id & );
-void run_mod_finalize_script( lua_state &, const mod_id & );
+std::unique_ptr<lua_state, lua_state_deleter> make_wrapped_state()
+{
+    return std::unique_ptr<lua_state, lua_state_deleter>(
+               new lua_state{}, lua_state_deleter{}
+           );
+}
+
+void set_mod_list( lua_state &, const std::vector<mod_id> & ) {}
+void set_mod_being_loaded( lua_state &, const mod_id & ) {}
+void run_mod_preload_script( lua_state &, const mod_id & ) {}
+void run_mod_finalize_script( lua_state &, const mod_id & ) {}
 
 } // namespace cata
 
