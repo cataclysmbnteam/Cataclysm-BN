@@ -72,7 +72,6 @@ class DynamicDataLoader
         struct cached_streams;
         std::unique_ptr<cached_streams> stream_cache;
 
-    protected:
         /**
          * Maps the type string (coming from json) to the
          * functor that loads that kind of object from json.
