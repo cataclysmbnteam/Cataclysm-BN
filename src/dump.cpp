@@ -39,9 +39,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
                        const std::vector<std::string> &opts )
 {
     try {
-        loading_ui ui( false );
-        load_packs( _( "Loading content packs" ), { mod_management::get_default_core_content_pack() }, ui );
-        DynamicDataLoader::get_instance().finalize_loaded_data( ui );
+        init::load_core_bn_modfiles();
     } catch( const std::exception &err ) {
         std::cerr << "Error loading data from json: " << err.what() << std::endl;
         return false;
