@@ -21,6 +21,7 @@
 #include "behavior.h"
 #include "bionics.h"
 #include "bodypart.h"
+#include "catalua.h"
 #include "cata_utility.h"
 #include "clothing_mod.h"
 #include "clzones.h"
@@ -538,6 +539,8 @@ void DynamicDataLoader::unload_data()
 {
     finalized = false;
 
+    lua.reset();
+
     achievement::reset();
     activity_type::reset();
     ammo_effects::reset();
@@ -715,9 +718,6 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
         e.second();
         ui.proceed();
     }
-
-    check_consistency( ui );
-    finalized = true;
 }
 
 void DynamicDataLoader::check_consistency( loading_ui &ui )
@@ -811,6 +811,8 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
         e.second();
         ui.proceed();
     }
+
+    finalized = true;
 }
 
 /**
@@ -841,13 +843,48 @@ static void load_and_finalize_packs( loading_ui &ui, const std::string &msg,
 
     DynamicDataLoader &loader = DynamicDataLoader::get_instance();
 
+    loader.lua = cata::make_wrapped_state();
+
+    cata::set_mod_list( *loader.lua, available );
+
     ui.show();
+    for( const mod_id &mod : available ) {
+        if( mod->lua_api_version ) {
+            if( !cata::has_lua() ) {
+                // Skip Lua scripts.
+                debugmsg( "You need game with Lua support to load content pack %s [%s]", mod->name(), mod );
+                continue;
+            }
+            if( cata::get_lua_api_version() != *mod->lua_api_version ) {
+                // The mod may be broken, but let's be user-friendly and try to load it anyway
+                debugmsg(
+                    "Content pack uses outdated Lua API ( current: %d, uses: %d ) %s [%s]",
+                    mod->name(), mod
+                );
+            }
+            cata::set_mod_being_loaded( *loader.lua, mod );
+            cata::run_mod_preload_script( *loader.lua, mod );
+        }
+    }
     for( const mod_id &mod : available ) {
         loader.load_data_from_path( mod->path, mod.str(), ui );
         ui.proceed();
     }
 
     loader.finalize_loaded_data( ui );
+
+    for( const mod_id &mod : available ) {
+        if( mod->lua_api_version ) {
+            if( !cata::has_lua() ) {
+                // We've already warned about this
+                continue;
+            }
+            cata::set_mod_being_loaded( *loader.lua, mod );
+            cata::run_mod_finalize_script( *loader.lua, mod );
+        }
+    }
+
+    loader.check_consistency( ui );
 }
 
 bool init::is_data_loaded()
@@ -924,6 +961,11 @@ bool init::check_mods_for_errors( loading_ui &ui, const std::vector<mod_id> &opt
                           "Missing dependencies: %s %s\n",
                           id, tree.get_node( id )->s_errors()
                       );
+            return false;
+        }
+
+        if( !id->lua_api_version && !cata::has_lua() ) {
+            std::cerr << string_format( "Mod requires Lua support: [%s]\n", id );
             return false;
         }
 

@@ -76,6 +76,9 @@ struct MOD_INFORMATION {
          */
         std::string version;
 
+        /** If mod uses Lua API, specifies version of the API being used. */
+        cata::optional<int> lua_api_version;
+
         /** What other mods must be loaded prior to this one? */
         std::vector<mod_id> dependencies;
 
