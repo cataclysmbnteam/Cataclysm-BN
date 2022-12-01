@@ -27,7 +27,7 @@ class JsonIn;
  * - Call @ref unload_data (to unload data from a
  * previously loaded world, if any)
  * - Call @ref load_data_from_path(...) repeatedly with
- * different paths for the core data and all the mods
+ * different paths for all the mods
  * of the current world.
  * - Call @ref finalize_loaded_data when all mods have been
  * loaded.

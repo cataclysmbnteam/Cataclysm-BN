@@ -158,9 +158,6 @@ class game
         /** Loads static data that does not depend on mods or similar. */
         void load_static_data();
 
-        /** Loads core dynamic data. May throw. */
-        void load_core_data( loading_ui &ui );
-
         /** Returns whether the core data is currently loaded. */
         bool is_core_data_loaded() const;
 
@@ -171,7 +168,7 @@ class game
          */
         bool check_mod_data( const std::vector<mod_id> &opts, loading_ui &ui );
 
-        /** Loads core data and mods from the active world. May throw. */
+        /** Loads list of mods from the active world. May throw. */
         void load_world_modfiles( loading_ui &ui );
         /**
          * Base path for saving player data. Just add a suffix (unique for

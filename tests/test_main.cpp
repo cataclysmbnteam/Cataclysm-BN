@@ -151,7 +151,6 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     calendar::set_season_length( get_option<int>( "SEASON_LENGTH" ) );
 
     loading_ui ui( false );
-    g->load_core_data( ui );
     g->load_world_modfiles( ui );
 
     g->u = avatar();

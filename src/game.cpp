@@ -343,7 +343,7 @@ void game::load_static_data()
     // The content they load/initialize is hardcoded into the program.
     // Therefore they can be loaded here.
     // If this changes (if they load data from json), they have to
-    // be moved to game::load_mod or game::load_core_data
+    // be moved to game::load_mod
 
     get_auto_pickup().load_global();
     get_safemode().load_global();
@@ -375,7 +375,6 @@ bool game::check_mod_data( const std::vector<mod_id> &opts, loading_ui &ui )
 
         // if no loadable mods then test core data only
         try {
-            load_core_data( ui );
             DynamicDataLoader::get_instance().finalize_loaded_data( ui );
         } catch( const std::exception &err ) {
             std::cerr << "Error loading data from json: " << err.what() << std::endl;
@@ -415,8 +414,6 @@ bool game::check_mod_data( const std::vector<mod_id> &opts, loading_ui &ui )
         std::cout << "Checking mod " << mod.name() << " [" << mod.ident.str() << "]" << std::endl;
 
         try {
-            load_core_data( ui );
-
             // Load any dependencies
             for( auto &dep : tree.get_dependencies_of_X_as_strings( mod.ident ) ) {
                 load_data_from_dir( dep->path, dep->ident.str(), ui );
@@ -441,15 +438,6 @@ bool game::check_mod_data( const std::vector<mod_id> &opts, loading_ui &ui )
 bool game::is_core_data_loaded() const
 {
     return DynamicDataLoader::get_instance().is_data_finalized();
-}
-
-void game::load_core_data( loading_ui &ui )
-{
-    // core data can be loaded only once and must be first
-    // anyway.
-    DynamicDataLoader::get_instance().unload_data();
-
-    load_data_from_dir( PATH_INFO::jsondir(), "core", ui );
 }
 
 void game::load_data_from_dir( const std::string &path, const std::string &src, loading_ui &ui )
@@ -577,15 +565,6 @@ void game::reenter_fullscreen()
 void game::setup()
 {
     loading_ui ui( true );
-    {
-        background_pane background;
-        static_popup popup;
-        popup.message( "%s", _( "Please wait while the world data loads…\nLoading core data" ) );
-        ui_manager::redraw();
-        refresh_display();
-
-        load_core_data( ui );
-    }
 
     load_world_modfiles( ui );
 
