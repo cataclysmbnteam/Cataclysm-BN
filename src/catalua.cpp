@@ -13,7 +13,7 @@ namespace cata
 struct lua_state {
     lua_state() = default;
     ~lua_state() = default;
-}
+};
 
 bool has_lua()
 {
