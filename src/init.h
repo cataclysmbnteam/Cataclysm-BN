@@ -151,10 +151,7 @@ class DynamicDataLoader
          * @throw std::exception if the loaded data is not valid. The
          * game should *not* proceed in that case.
          */
-        /*@{*/
         void finalize_loaded_data( loading_ui &ui );
-        void finalize_loaded_data();
-        /*@}*/
 
         /**
          * Loads and then removes entries from @param data

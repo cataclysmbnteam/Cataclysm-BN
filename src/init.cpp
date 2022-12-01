@@ -625,14 +625,6 @@ void DynamicDataLoader::unload_data()
 #endif
 }
 
-void DynamicDataLoader::finalize_loaded_data()
-{
-    // Create a dummy that will not display anything
-    // TODO: Make it print to stdout?
-    loading_ui ui( false );
-    finalize_loaded_data( ui );
-}
-
 void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
 {
     assert( !finalized && "Can't finalize the data twice." );
