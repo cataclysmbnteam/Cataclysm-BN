@@ -964,7 +964,7 @@ bool init::check_mods_for_errors( loading_ui &ui, const std::vector<mod_id> &opt
             return false;
         }
 
-        if( !id->lua_api_version && !cata::has_lua() ) {
+        if( id->lua_api_version && !cata::has_lua() ) {
             std::cerr << string_format( "Mod requires Lua support: [%s]\n", id );
             return false;
         }
