@@ -10,6 +10,24 @@
 #include "player.h"
 #include "point.h"
 
+static int deny_table_readonly( sol::this_state L )
+{
+    return luaL_error( L.lua_state(), "This table is read-only." );
+}
+
+void make_table_readonly( sol::state &lua, sol::table &t )
+{
+    sol::table meta;
+    if( t[sol::metatable_key].valid() ) {
+        meta = t[sol::metatable_key];
+    } else {
+        meta = lua.create_table();
+    }
+    meta[sol::meta_function::new_index] = deny_table_readonly;
+    meta[sol::meta_function::index] = meta;
+    t[sol::metatable_key] = meta;
+}
+
 static std::string fmt_lua_va( sol::variadic_args va )
 {
     lua_State *L = va.lua_state();

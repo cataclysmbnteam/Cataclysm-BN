@@ -90,6 +90,9 @@ void set_mod_list( lua_state &state, const std::vector<mod_id> &modlist )
         mod_runtime[ modlist[i].str() ] = lua.create_table();
     }
 
+    make_table_readonly( lua, active_mods );
+    make_table_readonly( lua, active_mods );
+
     lua.globals()["game"]["active_mods"] = active_mods;
     lua.globals()["game"]["mod_runtime"] = mod_runtime;
 }
