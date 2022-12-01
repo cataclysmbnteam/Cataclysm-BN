@@ -38,6 +38,12 @@ void run_lua_script( sol::state &lua, const std::string &script_name )
 
     sol::protected_function exec = load_res;
 
+    // Sandboxing: create environment that uses globals table as fallback
+    // to prevent script from accidentally (or intentionally) modifying globals table.
+    // All modifications will be stored in an environment which then gets discarded.
+    sol::environment my_env( lua, sol::create, lua.globals() );
+    sol::set_environment( my_env, exec );
+
     sol::protected_function_result exec_res = exec();
 
     if( !exec_res.valid() ) {
