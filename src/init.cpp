@@ -851,9 +851,9 @@ static void load_and_finalize_packs( loading_ui &ui, const std::string &msg,
     for( const mod_id &mod : available ) {
         if( mod->lua_api_version ) {
             if( !cata::has_lua() ) {
-                // Skip Lua scripts.
-                debugmsg( "You need game with Lua support to load content pack %s [%s]", mod->name(), mod );
-                continue;
+                throw std::runtime_error(
+                    string_format( "You need game build with Lua support to load content pack %s [%s]", mod->name(), mod )
+                );
             }
             if( cata::get_lua_api_version() != *mod->lua_api_version ) {
                 // The mod may be broken, but let's be user-friendly and try to load it anyway
