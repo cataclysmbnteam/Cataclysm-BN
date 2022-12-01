@@ -974,9 +974,9 @@ bool init::check_mods_for_errors( loading_ui &ui, const std::vector<mod_id> &opt
 
     // If no specific mods specified check all non-obsolete mods
     if( to_check.empty() ) {
-        for( const mod_id &e : world_generator->get_mod_manager().all_mods() ) {
-            if( !e->obsolete ) {
-                to_check.emplace( e );
+        for( const mod_id &mod : world_generator->get_mod_manager().all_mods() ) {
+            if( !mod->obsolete && !( !cata::has_lua() && mod->lua_api_version ) ) {
+                to_check.emplace( mod );
             }
         }
     }
