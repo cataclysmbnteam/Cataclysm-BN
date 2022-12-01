@@ -852,7 +852,10 @@ static void load_and_finalize_packs( loading_ui &ui, const std::string &msg,
         if( mod->lua_api_version ) {
             if( !cata::has_lua() ) {
                 throw std::runtime_error(
-                    string_format( "You need game build with Lua support to load content pack %s [%s]", mod->name(), mod )
+                    string_format(
+                        "You need game build with Lua support to load content pack %s [%s]",
+                        mod->name(), mod
+                    )
                 );
             }
             if( cata::get_lua_api_version() != *mod->lua_api_version ) {
