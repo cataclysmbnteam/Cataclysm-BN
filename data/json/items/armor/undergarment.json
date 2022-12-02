@@ -25,6 +25,7 @@
     "name": { "str": "camo tank top" },
     "description": "A sleeveless cotton shirt with camouflage dye.  Very easy to move in.",
     "weight": "78 g",
+    "repairs_like": "tank_top",
     "volume": "250 ml",
     "price": 1500,
     "price_postapoc": 50,
