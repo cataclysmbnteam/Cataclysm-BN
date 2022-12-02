@@ -1080,6 +1080,7 @@ void avatar::upgrade_stat( character_stat stat )
             debugmsg( "Tried to use invalid stat" );
             break;
     }
+    recalc_hp();
 }
 
 faction *avatar::get_faction() const
