@@ -965,6 +965,11 @@ bool item::stacks_with( const item &rhs, bool check_components, bool skip_type_c
     if( contents.num_item_stacks() != rhs.contents.num_item_stacks() ) {
         return false;
     }
+
+    if( ammo_current() != rhs.ammo_current() ) {
+        return false;
+    }
+
     return contents.stacks_with( rhs.contents );
 }
 
