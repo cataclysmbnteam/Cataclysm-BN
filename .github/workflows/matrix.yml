@@ -40,10 +40,10 @@ jobs:
             cmake: 1
             tiles: 1
             sound: 1
-            lua: 0
+            lua: 1
             languages: all
             native: linux64
-            title: GCC 12, Ubuntu, Tiles, CMake, Languages
+            title: GCC 12, Ubuntu, Tiles, Sound, Lua, CMake, Languages
           - compiler: g++-12
             os: ubuntu-22.04
             cmake: 0
