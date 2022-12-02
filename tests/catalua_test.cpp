@@ -2,7 +2,9 @@
 #include "catch/catch.hpp"
 
 #include "avatar.h"
+#include "catacharset.h"
 #include "catalua_impl.h"
+#include "catalua_sol.h"
 #include "catalua_sol.h"
 #include "options.h"
 #include "point.h"
@@ -102,6 +104,104 @@ TEST_CASE( "lua_called_from_cpp", "[lua]" )
     CHECK( ret == 2 );
     CHECK( out_data["i"] == 11 );
     CHECK( out_data.get<std::string>( "s" ) == "Bright Nights" );
+}
+
+TEST_CASE( "lua_runtime_error", "[lua]" )
+{
+    sol::state lua = make_lua_state();
+
+    // Running Lua script that has a runtime error
+    // ends up throwing std::runtime_error on C++ side
+
+    const std::string expected =
+        "Script runtime error in tests/lua/runtime_error.lua: "
+        "tests/lua/runtime_error.lua:3: attempt to index a nil value (global 'table_with_typo')\n"
+        "stack traceback:\n"
+        "\ttests/lua/runtime_error.lua:3: in main chunk";
+
+    REQUIRE_THROWS_MATCHES(
+        run_lua_test_script( lua, "runtime_error.lua" ),
+        std::runtime_error,
+        Catch::Message( expected )
+    );
+}
+
+TEST_CASE( "lua_called_error_on_lua_side", "[lua]" )
+{
+    sol::state lua = make_lua_state();
+
+    // Running Lua script that calls error()
+    // ends up throwing std::runtime_error on C++ side
+
+    const std::string expected =
+        "Script runtime error in tests/lua/called_error_on_lua_side.lua: "
+        "tests/lua/called_error_on_lua_side.lua:3: Error called on Lua side!\n"
+        "stack traceback:\n"
+        "\t[C]: in function 'base.error'\n"
+        "\ttests/lua/called_error_on_lua_side.lua:3: in main chunk";
+
+    REQUIRE_THROWS_MATCHES(
+        run_lua_test_script( lua, "called_error_on_lua_side.lua" ),
+        std::runtime_error,
+        Catch::Message( expected )
+    );
+}
+
+static void cpp_call_error( sol::this_state L )
+{
+    luaL_error( L.lua_state(), "Error called on Cpp side!" );
+}
+
+TEST_CASE( "lua_called_error_on_cpp_side", "[lua]" )
+{
+    sol::state lua = make_lua_state();
+
+    lua.globals()["cpp_call_error"] = cpp_call_error;
+
+    // Running Lua script that calls C++ function that calls error()
+    // ends up throwing std::runtime_error on C++ side
+
+    const std::string expected =
+        "Script runtime error in tests/lua/called_error_on_cpp_side.lua: "
+        "tests/lua/called_error_on_cpp_side.lua:3: Error called on Cpp side!\n"
+        "stack traceback:\n"
+        "\t[C]: in function 'base.cpp_call_error'\n"
+        "\ttests/lua/called_error_on_cpp_side.lua:3: in main chunk";
+
+    REQUIRE_THROWS_MATCHES(
+        run_lua_test_script( lua, "called_error_on_cpp_side.lua" ),
+        std::runtime_error,
+        Catch::Message( expected )
+    );
+}
+
+[[ noreturn ]]
+static void cpp_throw_exception()
+{
+    throw std::runtime_error( "Exception thrown on Cpp side!" );
+}
+
+TEST_CASE( "lua_called_cpp_func_throws", "[lua]" )
+{
+    sol::state lua = make_lua_state();
+
+    lua.globals()["cpp_throw_exception"] = cpp_throw_exception;
+
+    // Running Lua script that calls C++ function that throws std::runtime_error
+    // ends up throwing another std::runtime_error
+
+    const std::string expected =
+        "Script runtime error in tests/lua/called_cpp_func_throws.lua: "
+        "Exception thrown on Cpp side!\n"
+        "stack traceback:\n"
+        "\t[C]: in function 'base.cpp_throw_exception'\n"
+        "\ttests/lua/called_cpp_func_throws.lua:3: in main chunk";
+
+    REQUIRE_THROWS_MATCHES(
+        run_lua_test_script( lua, "called_cpp_func_throws.lua" ),
+        std::runtime_error,
+        Catch::Message( expected )
+    );
 }
 
 #endif
