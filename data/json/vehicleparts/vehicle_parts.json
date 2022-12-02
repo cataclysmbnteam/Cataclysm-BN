@@ -867,7 +867,7 @@
     "damage_modifier": 80,
     "durability": 100,
     "description": "This is an autodoc couch.  You can use it to install or uninstall CBMs, splint broken limbs, treat wounds, check radiation level or conduct a blood analysis.  'e'xamine the tile with an autodoc, while on the autodoc couch, to use it.",
-    "size": 700,
+    "size": 252,
     "item": "vh_autodoc_couch",
     "comfort": 4,
     "floor_bedding_warmth": 500,
