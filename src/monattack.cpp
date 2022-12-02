@@ -2605,8 +2605,8 @@ bool mattack::ranged_pull( monster *z )
     for( auto &i : line ) {
         // Player can't be pulled though bars, furniture, cars or creatures
         // TODO: Add bashing? Currently a window is enough to prevent grabbing
-        if( ( !g->is_empty( i ) || here.obstructed_by_vehicle_rotation( prev_point, i ) ) &&
-            i != z->pos() && i != target->pos() ) {
+        if( ( !g->is_empty( i ) && i != z->pos() && i != target->pos() ) ||
+            here.obstructed_by_vehicle_rotation( prev_point, i ) ) {
             return false;
         }
         prev_point = i;
