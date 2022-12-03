@@ -115,7 +115,7 @@ TEST_CASE( "cut_up_yields" )
     cut_up_yields( "plastic_boat_hull" );
     cut_up_yields( "bunker_coat" );
     cut_up_yields( "bunker_pants" );
-    cut_up_yields( "kevlar_armor_small_quadruped" );
+    cut_up_yields( "kevlar" );
     cut_up_yields( "touring_suit" );
     cut_up_yields( "dress_wedding" );
     cut_up_yields( "wetsuit" );
@@ -137,10 +137,10 @@ TEST_CASE( "cut_up_yields" )
     cut_up_yields( "laptop" );
     cut_up_yields( "radio" );
     cut_up_yields( "under_armor" );
-    cut_up_yields( "acidchitin_harness_dog" );
-    cut_up_yields( "chitin_harness_dog" );
-    cut_up_yields( "leather_harness_dog" );
-    cut_up_yields( "leatherbone_harness_dog" );
-    cut_up_yields( "kevlar_harness" );
-    cut_up_yields( "rubber_harness_dog" );
+    cut_up_yields( "acidchitin_armor_small_quadruped" );
+    cut_up_yields( "chitin_armor_small_quadruped" );
+    cut_up_yields( "leather_armor_small_quadruped" );
+    cut_up_yields( "leatherbone_armor_small_quadruped" );
+    cut_up_yields( "kevlar_armor_small_quadruped" );
+    cut_up_yields( "rubber_armor_small_quadruped" );
 }
