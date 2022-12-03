@@ -115,7 +115,7 @@ TEST_CASE( "cut_up_yields" )
     cut_up_yields( "plastic_boat_hull" );
     cut_up_yields( "bunker_coat" );
     cut_up_yields( "bunker_pants" );
-    cut_up_yields( "kevlar_harness" );
+    cut_up_yields( "kevlar_armor_small_quadruped" );
     cut_up_yields( "touring_suit" );
     cut_up_yields( "dress_wedding" );
     cut_up_yields( "wetsuit" );
