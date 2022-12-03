@@ -22,8 +22,7 @@
     "min_cycle_recoil": 2700,
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 4 ] ],
     "barrel_length": "500 ml",
-    "magazines": [ [ "308", [ "falmag", "falbigmag", "fal_makeshiftmag" ] ] ],
-    "weapon_category": [ "AUTOMATIC_RIFLES" ]
+    "magazines": [ [ "308", [ "falmag", "falbigmag", "fal_makeshiftmag" ] ] ]
   },
   {
     "id": "hk_g3",
@@ -47,8 +46,7 @@
     "min_cycle_recoil": 2700,
     "durability": 8,
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "BURST", "burst", 3 ], [ "AUTO", "auto", 4 ] ],
-    "magazines": [ [ "308", [ "g3mag", "g3bigmag", "g3_makeshiftmag" ] ] ],
-    "weapon_category": [ "AUTOMATIC_RIFLES" ]
+    "magazines": [ [ "308", [ "g3mag", "g3bigmag", "g3_makeshiftmag" ] ] ]
   },
   {
     "id": "m134",
@@ -152,8 +150,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "magazines": [ [ "308", [ "m14mag", "m14smallmag", "m14_makeshiftmag" ] ] ],
-    "weapon_category": [ "AUTOMATIC_RIFLES" ]
+    "magazines": [ [ "308", [ "m14mag", "m14smallmag", "m14_makeshiftmag" ] ] ]
   },
   {
     "id": "m240",
@@ -312,8 +309,7 @@
     "ranged_damage": { "damage_type": "bullet", "amount": -3 },
     "min_cycle_recoil": 2700,
     "magazine_well": "250 ml",
-    "magazines": [ [ "308", [ "scarhmag", "scarhbigmag", "scarhmag_30rd", "scarh_makeshiftmag" ] ] ],
-    "weapon_category": [ "AUTOMATIC_RIFLES" ]
+    "magazines": [ [ "308", [ "scarhmag", "scarhbigmag", "scarhmag_30rd", "scarh_makeshiftmag" ] ] ]
   },
   {
     "id": "M24",
@@ -377,8 +373,7 @@
     "min_cycle_recoil": 2700,
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 4 ] ],
     "default_mods": [ "adjustable_stock" ],
-    "magazines": [ [ "308", [ "hk417mag_20rd", "hk417mag_10rd", "hk417_makeshiftmag" ] ] ],
-    "weapon_category": [ "AUTOMATIC_RIFLES" ]
+    "magazines": [ [ "308", [ "hk417mag_20rd", "hk417mag_10rd", "hk417_makeshiftmag" ] ] ]
   },
   {
     "id": "m110a1",
@@ -402,8 +397,7 @@
     "durability": 8,
     "min_cycle_recoil": 2700,
     "default_mods": [ "adjustable_stock", "bipod", "rifle_scope", "suppressor" ],
-    "magazines": [ [ "308", [ "hk417mag_20rd", "hk417mag_10rd", "hk417_makeshiftmag" ] ] ],
-    "weapon_category": [ "AUTOMATIC_RIFLES" ]
+    "magazines": [ [ "308", [ "hk417mag_20rd", "hk417mag_10rd", "hk417_makeshiftmag" ] ] ]
   },
   {
     "id": "ar10",
@@ -426,7 +420,6 @@
     "dispersion": 150,
     "durability": 7,
     "min_cycle_recoil": 2700,
-    "magazines": [ [ "308", [ "ar10mag_20rd", "ar10_makeshiftmag" ] ] ],
-    "weapon_category": [ "AUTOMATIC_RIFLES" ]
+    "magazines": [ [ "308", [ "ar10mag_20rd", "ar10_makeshiftmag" ] ] ]
   }
 ]

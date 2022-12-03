@@ -42,8 +42,7 @@
           "survivor223mag"
         ]
       ]
-    ],
-    "weapon_category": [ "AUTOMATIC_RIFLES" ]
+    ]
   },
   {
     "id": "iwi_tavor_x95_300blk",
@@ -99,8 +98,7 @@
           "survivor223mag"
         ]
       ]
-    ],
-    "weapon_category": [ "AUTOMATIC_RIFLES" ]
+    ]
   },
   {
     "id": "ar15_retool_300blk",

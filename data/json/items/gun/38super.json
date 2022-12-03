@@ -35,8 +35,7 @@
       [ "underbarrel", 1 ]
     ],
     "magazine_well": "500 ml",
-    "magazines": [ [ "38super", [ "af2011a1mag" ] ] ],
-    "weapon_category": [ "AUTOMATIC_PISTOLS" ]
+    "magazines": [ [ "38super", [ "af2011a1mag" ] ] ]
   },
   {
     "id": "m1911a1_38super",
@@ -58,7 +57,6 @@
     "dispersion": 480,
     "durability": 7,
     "magazine_well": "250 ml",
-    "magazines": [ [ "38super", [ "m1911mag_10rd_38super" ] ] ],
-    "weapon_category": [ "AUTOMATIC_PISTOLS" ]
+    "magazines": [ [ "38super", [ "m1911mag_10rd_38super" ] ] ]
   }
 ]

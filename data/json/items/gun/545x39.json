@@ -37,8 +37,7 @@
       [ "underbarrel", 1 ]
     ],
     "magazines": [ [ "545x39", [ "ak74mag", "rpk74mag" ] ] ],
-    "flags": [ "NEVER_JAMS" ],
-    "weapon_category": [ "AUTOMATIC_RIFLES" ]
+    "flags": [ "NEVER_JAMS" ]
   },
   {
     "id": "an94",
@@ -76,7 +75,6 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "545x39", [ "ak74mag", "rpk74mag" ] ] ],
-    "weapon_category": [ "AUTOMATIC_RIFLES" ]
+    "magazines": [ [ "545x39", [ "ak74mag", "rpk74mag" ] ] ]
   }
 ]

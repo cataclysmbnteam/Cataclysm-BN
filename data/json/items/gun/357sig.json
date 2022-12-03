@@ -19,8 +19,7 @@
     "dispersion": 480,
     "durability": 7,
     "magazine_well": "250 ml",
-    "magazines": [ [ "357sig", [ "p226mag_12rd_357sig" ] ] ],
-    "weapon_category": [ "AUTOMATIC_PISTOLS" ]
+    "magazines": [ [ "357sig", [ "p226mag_12rd_357sig" ] ] ]
   },
   {
     "id": "glock_31",
@@ -55,7 +54,6 @@
     "dispersion": 480,
     "durability": 6,
     "magazine_well": "250 ml",
-    "magazines": [ [ "357sig", [ "p320mag_13rd_357sig" ] ] ],
-    "weapon_category": [ "AUTOMATIC_PISTOLS" ]
+    "magazines": [ [ "357sig", [ "p320mag_13rd_357sig" ] ] ]
   }
 ]

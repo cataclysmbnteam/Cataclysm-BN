@@ -46,7 +46,6 @@
     "durability": 6,
     "blackpowder_tolerance": 48,
     "min_cycle_recoil": 425,
-    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -163,8 +162,7 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazine_well": "250 ml",
-    "magazines": [ [ "40", [ "sig40mag" ] ] ],
-    "weapon_category": [ "AUTOMATIC_PISTOLS" ]
+    "magazines": [ [ "40", [ "sig40mag" ] ] ]
   },
   {
     "id": "smg_40",
@@ -299,9 +297,7 @@
     "dispersion": 480,
     "durability": 8,
     "magazine_well": "250 ml",
-    "magazines": [ [ "40", [ "bhp40mag" ] ] ],
-    "min_cycle_recoil": 504,
-    "weapon_category": [ "AUTOMATIC_PISTOLS" ]
+    "magazines": [ [ "40", [ "bhp40mag" ] ] ]
   },
   {
     "id": "walther_ppq_40",
@@ -321,8 +317,7 @@
     "dispersion": 480,
     "durability": 9,
     "magazine_well": "250 ml",
-    "magazines": [ [ "40", [ "ppq40mag_10rd", "ppq40mag_12rd", "ppq40mag_14rd" ] ] ],
-    "weapon_category": [ "AUTOMATIC_PISTOLS" ]
+    "magazines": [ [ "40", [ "ppq40mag_10rd", "ppq40mag_12rd", "ppq40mag_14rd" ] ] ]
   },
   {
     "id": "hptjcp",
@@ -343,7 +338,6 @@
     "dispersion": 480,
     "durability": 7,
     "magazine_well": "250 ml",
-    "magazines": [ [ "40", [ "hptjcpmag" ] ] ],
-    "weapon_category": [ "AUTOMATIC_PISTOLS" ]
+    "magazines": [ [ "40", [ "hptjcpmag" ] ] ]
   }
 ]

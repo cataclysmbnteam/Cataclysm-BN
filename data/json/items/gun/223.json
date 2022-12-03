@@ -42,8 +42,7 @@
           "survivor223mag"
         ]
       ]
-    ],
-    "weapon_category": [ "AUTOMATIC_RIFLES" ]
+    ]
   },
   {
     "id": "ar15",
@@ -189,8 +188,7 @@
           "survivor223mag"
         ]
       ]
-    ],
-    "weapon_category": [ "AUTOMATIC_RIFLES" ]
+    ]
   },
   {
     "id": "hk_g36",
@@ -304,8 +302,7 @@
         ]
       ]
     ],
-    "relative": { "ranged_damage": { "damage_type": "bullet", "amount": 1 }, "durability": 1 },
-    "weapon_category": [ "AUTOMATIC_RIFLES" ]
+    "relative": { "ranged_damage": { "damage_type": "bullet", "amount": 1 }, "durability": 1 }
   },
   {
     "id": "m4a1",
@@ -391,8 +388,7 @@
           "survivor223mag"
         ]
       ]
-    ],
-    "weapon_category": [ "AUTOMATIC_RIFLES" ]
+    ]
   },
   {
     "id": "m16a4_turret_fake",
@@ -504,8 +500,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "magazines": [ [ "223", [ "ruger20", "ruger5", "ruger10", "ruger30", "ruger90", "ruger100", "ruger_makeshiftmag" ] ] ],
-    "weapon_category": [ "AUTOMATIC_RIFLES" ]
+    "magazines": [ [ "223", [ "ruger20", "ruger5", "ruger10", "ruger30", "ruger90", "ruger100", "ruger_makeshiftmag" ] ] ]
   },
   {
     "id": "scar_l",
@@ -685,7 +680,6 @@
           "stanag150"
         ]
       ]
-    ],
-    "weapon_category": [ "AUTOMATIC_RIFLES" ]
+    ]
   }
 ]
