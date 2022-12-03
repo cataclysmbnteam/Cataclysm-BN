@@ -123,8 +123,8 @@
     "price_postapoc": 800,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 10,
-    "//": "Balanced as standard FMJ to allow lower damage but more penetration over shot.",
-    "relative": { "damage": { "damage_type": "bullet", "amount": -10, "armor_penetration": 22 } }
+    "//": "Balanced as standard AP.",
+    "relative": { "damage": { "damage_type": "bullet", "amount": -15, "armor_penetration": 30 } }
   },
   {
     "id": "shot_he",
@@ -169,8 +169,8 @@
     "price_postapoc": 400,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "dispersion": 100,
-    "//": "Balanced as FMJ, half expected arpen",
-    "relative": { "range": 12, "damage": { "damage_type": "bullet", "amount": -10, "armor_penetration": 11 } },
+    "//": "Balanced as FMJ",
+    "relative": { "range": 12, "damage": { "damage_type": "bullet", "amount": -10, "armor_penetration": 18 } },
     "proportional": { "recoil": 1.4 },
     "delete": { "effects": [ "SHOT" ] }
   }

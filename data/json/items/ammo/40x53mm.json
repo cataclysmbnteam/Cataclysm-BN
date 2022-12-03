@@ -26,8 +26,8 @@
     "description": "40x53mm canister shot loaded with 17 grain flechettes.",
     "weight": "340 g",
     "volume": "137 ml",
-    "//": "Balanced as standard FMJ to allow lower damage but more penetration over shot.",
-    "damage": { "damage_type": "bullet", "amount": 104, "armor_penetration": 58 },
+    "//": "Balanced as AP.",
+    "damage": { "damage_type": "bullet", "amount": 91, "armor_penetration": 78 },
     "recoil": 1000,
     "casing": "40x53mm_m169_casing",
     "extend": { "effects": [ "SHOT" ] }
@@ -65,8 +65,8 @@
     "description": "An improvised 40x53mm load resembling an oversized shotgun slug.",
     "weight": "340 g",
     "range": 10,
-    "//": "Balanced as FMJ, with half the expected arpen.",
-    "damage": { "damage_type": "bullet", "amount": 104, "armor_penetration": 29 },
+    "//": "Balanced as FMJ.",
+    "damage": { "damage_type": "bullet", "amount": 104, "armor_penetration": 46 },
     "recoil": 1200,
     "casing": "40x53mm_m169_casing"
   }
