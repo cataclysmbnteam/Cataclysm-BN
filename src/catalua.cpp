@@ -36,6 +36,7 @@ void set_mod_list( lua_state &, const std::vector<mod_id> & ) {}
 void set_mod_being_loaded( lua_state &, const mod_id & ) {}
 void run_mod_preload_script( lua_state &, const mod_id & ) {}
 void run_mod_finalize_script( lua_state &, const mod_id & ) {}
+void run_on_load_hooks( lua_state & ) {}
 
 } // namespace cata
 
@@ -97,8 +98,11 @@ void set_mod_list( lua_state &state, const std::vector<mod_id> &modlist )
     make_table_readonly( lua, active_mods );
     make_table_readonly( lua, active_mods );
 
-    lua.globals()["game"]["active_mods"] = active_mods;
-    lua.globals()["game"]["mod_runtime"] = mod_runtime;
+    sol::table gt = lua.globals()["game"];
+
+    gt["active_mods"] = active_mods;
+    gt["mod_runtime"] = mod_runtime;
+    gt["on_load_hooks"] = lua.create_table();
 }
 
 void set_mod_being_loaded( lua_state &state, const mod_id &mod )
@@ -128,6 +132,22 @@ void run_mod_finalize_script( lua_state &state, const mod_id &mod )
     }
 
     run_lua_script( state.lua, script_path );
+}
+
+void run_on_load_hooks( lua_state &state )
+{
+    sol::state &lua = state.lua;
+
+    sol::table hooks = lua.globals()["game"]["on_load_hooks"];
+
+    for( auto &ref : hooks ) {
+        try {
+            run_lua_func( ref.second );
+        } catch( std::runtime_error &e ) {
+            debugmsg( "Failed to run on_load hook: %s", e.what() );
+            break;
+        }
+    }
 }
 
 } // namespace cata

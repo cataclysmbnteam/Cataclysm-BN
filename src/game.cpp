@@ -2620,6 +2620,8 @@ bool game::load( const save_t &name )
 
     u.reset();
 
+    cata::run_on_load_hooks( *DynamicDataLoader::get_instance().lua );
+
     return true;
 }
 

@@ -54,4 +54,18 @@ void run_lua_script( sol::state &lua, const std::string &script_name )
     }
 }
 
+void run_lua_func( sol::object &obj )
+{
+    sol::protected_function exec = obj;
+
+    sol::protected_function_result exec_res = exec();
+
+    if( !exec_res.valid() ) {
+        sol::error err = exec_res;
+        throw std::runtime_error(
+            string_format( "Script runtime error: %s", err.what() )
+        );
+    }
+}
+
 #endif

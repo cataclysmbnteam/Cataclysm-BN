@@ -23,6 +23,7 @@ void set_mod_list( lua_state &state, const std::vector<mod_id> &modlist );
 void set_mod_being_loaded( lua_state &state, const mod_id &mod );
 void run_mod_preload_script( lua_state &state, const mod_id &mod );
 void run_mod_finalize_script( lua_state &state, const mod_id &mod );
+void run_on_load_hooks( lua_state &state );
 
 } // namespace cata
 
