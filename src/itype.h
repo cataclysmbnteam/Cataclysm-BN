@@ -840,6 +840,15 @@ struct itype {
 
         std::vector<std::pair<itype_id, mod_id>> src;
 
+        /** LUA: We need this operator defined for Lua bindings to compile. */
+        inline bool operator==( const itype &rhs ) const {
+            return this == &rhs;
+        };
+        /** LUA: We need this operator defined for Lua bindings to compile. */
+        inline bool operator<( const itype &rhs ) const {
+            return id < rhs.id;
+        }
+
         /**
          * Slots for various item type properties. Each slot may contain a valid pointer or null, check
          * this before using it.

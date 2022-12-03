@@ -5,10 +5,13 @@
 #include "catalua_sol.h"
 #include "character.h"
 #include "creature.h"
+#include "item.h"
+#include "itype.h"
 #include "monster.h"
 #include "npc.h"
 #include "player.h"
 #include "point.h"
+#include "string_id.h"
 
 static int deny_table_readonly( sol::this_state L )
 {
@@ -79,6 +82,32 @@ void reg_debug_logging( sol::state &lua )
     lua.globals()["log_error"] = lua_log_error_impl;
     // Debug message
     lua.globals()["debugmsg"] = lua_debugmsg_impl;
+}
+
+
+template<typename T>
+void reg_string_id( sol::state &lua, const char *name )
+{
+    // Register string_id class under given name
+    sol::usertype<T> ut =
+        lua.new_usertype<T>(
+            name,
+            sol::constructors <
+            T(),
+            T( const T & ),
+            T( const char * ),
+            T( std::string )
+            > ()
+        );
+
+    ut["is_null"] = &T::is_null;
+    ut["is_empty"] = &T::is_empty;
+    ut["is_valid"] = &T::is_valid;
+    ut["str"] = &T::c_str;
+    ut["NULL_ID"] = &T::NULL_ID;
+    ut[sol::meta_function::to_string] = [name]( const T & id ) -> std::string {
+        return string_format( "%s[%s]", name, id.c_str() );
+    };
 }
 
 void reg_game_bindings( sol::state &lua )
@@ -239,6 +268,34 @@ void reg_game_bindings( sol::state &lua )
         ut[ sol::meta_function::unary_minus ] = sol::resolve< tripoint() const >( &tripoint::operator- );
     }
 
+    // Register 'item' class to be used in Lua
+    {
+        sol::usertype<item> ut =
+            lua.new_usertype<item>(
+                // Class name in Lua
+                "Item",
+                // Constructors
+                sol::no_constructor
+            );
+
+        ut["get_type"] = &item::typeId;
+
+        ut["has_var"] = &item::has_var;
+        ut["erase_var"] = &item::erase_var;
+        ut["clear_vars"] = &item::clear_vars;
+
+        ut["get_var_str"] = sol::resolve<std::string( const std::string &, const std::string & ) const>
+                            ( &item::get_var );
+        ut["get_var_num"] = sol::resolve<double( const std::string &, double ) const>( &item::get_var );
+        ut["get_var_tri"] = sol::resolve<tripoint( const std::string &, const tripoint & ) const>
+                            ( &item::get_var );
+
+        ut["set_var_str"] = sol::resolve<void( const std::string &, const std::string & )>
+                            ( &item::set_var );
+        ut["set_var_num"] = sol::resolve<void( const std::string &, double )>( &item::set_var );
+        ut["set_var_tri"] = sol::resolve<void( const std::string &, const tripoint & )>( &item::set_var );
+    }
+
     // Register some global functions to be used in Lua
     {
         // Global function that returns global avatar instance
@@ -248,6 +305,8 @@ void reg_game_bindings( sol::state &lua )
             return you.name;
         };
     }
+
+    reg_string_id<itype_id>( lua, "ItypeId" );
 }
 
 #endif
