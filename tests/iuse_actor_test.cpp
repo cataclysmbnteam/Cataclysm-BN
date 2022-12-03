@@ -11,6 +11,8 @@
 #include "itype.h"
 #include "iuse_actor.h"
 #include "map.h"
+#include "map_selector.h"
+#include "material.h"
 #include "monster.h"
 #include "mtype.h"
 #include "player.h"
