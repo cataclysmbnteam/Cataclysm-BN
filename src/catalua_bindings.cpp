@@ -7,6 +7,7 @@
 #include "creature.h"
 #include "item.h"
 #include "itype.h"
+#include "map.h"
 #include "monster.h"
 #include "npc.h"
 #include "player.h"
@@ -108,6 +109,73 @@ void reg_string_id( sol::state &lua, const char *name )
     ut[sol::meta_function::to_string] = [name]( const T & id ) -> std::string {
         return string_format( "%s[%s]", name, id.c_str() );
     };
+}
+
+namespace sol
+{
+template <>
+struct is_container<item_stack> : std::false_type {};
+template <>
+struct is_container<map_stack> : std::false_type {};
+}
+
+struct item_stack_lua_it_state {
+    typedef item_stack::iterator it_t;
+    it_t it;
+    it_t last;
+
+    item_stack_lua_it_state( item_stack &stk )
+        : it( stk.begin() ), last( stk.end() ) {
+    }
+};
+
+std::tuple<sol::object, sol::object> item_stack_lua_next(
+    sol::user<item_stack_lua_it_state &> user_it_state,
+    sol::this_state l )
+{
+    // this gets called
+    // to start the first iteration, and every
+    // iteration there after
+
+    // the state you passed in item_stack_lua_pairs is argument 1
+    // the key value is argument 2, but we do not
+    // care about the key value here
+    item_stack_lua_it_state &it_state = user_it_state;
+    auto &it = it_state.it;
+    if( it == it_state.last ) {
+        // return nil to signify that
+        // there's nothing more to work with.
+        return std::make_tuple( sol::object( sol::lua_nil ),
+                                sol::object( sol::lua_nil ) );
+    }
+    item *elem = &*it;
+    // 2 values are returned (pushed onto the stack):
+    // the key and the value
+    // the state is left alone
+    auto r = std::make_tuple(
+                 sol::object( l, sol::in_place, it ),
+                 sol::object( l, sol::in_place, elem ) );
+    // the iterator must be moved forward one before we return
+    std::advance( it, 1 );
+    return r;
+}
+
+auto item_stack_lua_pairs( item_stack &stk )
+{
+    // pairs expects 3 returns:
+    // the "next" function on how to advance,
+    // the "table" itself or some state,
+    // and an initial key value (can be nil)
+
+    // prepare our state
+    item_stack_lua_it_state it_state( stk );
+    // sol::user is a space/time optimization over regular
+    // usertypes, it's incompatible with regular usertypes and
+    // stores the type T directly in lua without any pretty
+    // setup saves space allocation and a single dereference
+    return std::make_tuple( &item_stack_lua_next,
+                            sol::user<item_stack_lua_it_state>( std::move( it_state ) ),
+                            sol::lua_nil );
 }
 
 void reg_game_bindings( sol::state &lua )
@@ -296,10 +364,71 @@ void reg_game_bindings( sol::state &lua )
         ut["set_var_tri"] = sol::resolve<void( const std::string &, const tripoint & )>( &item::set_var );
     }
 
+    // Register 'map' class to be used in Lua
+    {
+        sol::usertype<map> ut =
+            lua.new_usertype<map>(
+                // Class name in Lua
+                "Map",
+                // Constructors
+                sol::no_constructor
+            );
+
+        ut["get_map_size_in_submaps"] = &map::getmapsize;
+        ut["get_map_size"] = []( const map & m ) -> int {
+            return m.getmapsize() * SEEX;
+        };
+
+        ut["has_items_at"] = &map::has_items;
+        ut["get_items_at"] = []( map & m, const tripoint & p ) -> std::unique_ptr<map_stack> {
+            return std::make_unique<map_stack>( m.i_at( p ) );
+        };
+    }
+
+    // Register 'tinymap' class to be used in Lua
+    {
+        // Specifying base classes here allows us to pass derived classes
+        // from Lua to C++ functions that expect base class.
+        lua.new_usertype<tinymap>(
+            "Tinymap",
+            sol::no_constructor,
+            sol::base_classes, sol::bases<map>()
+        );
+    }
+
+    // Register 'item_stack' class to be used in Lua
+    {
+        sol::usertype<item_stack> ut =
+            lua.new_usertype<item_stack>(
+                "ItemStack",
+                sol::no_constructor
+            );
+
+        ut[sol::meta_function::pairs] = item_stack_lua_pairs;
+    }
+
+    // Register 'map_stack' class to be used in Lua
+    {
+        // Specifying base classes here allows us to pass derived classes
+        // from Lua to C++ functions that expect base class.
+        sol::usertype<map_stack> ut =
+            lua.new_usertype<map_stack>(
+                "MapStack",
+                sol::no_constructor,
+                sol::base_classes, sol::bases<item_stack>()
+            );
+
+        ut["as_item_stack"] = []( map_stack & ref ) -> item_stack& {
+            return ref;
+        };
+    }
+
     // Register some global functions to be used in Lua
     {
         // Global function that returns global avatar instance
         lua["get_avatar"] = &get_avatar;
+        // Global function that returns global map instance
+        lua["get_map"] = &get_map;
         // We can use both lambdas and static functions
         lua["get_character_name"] = []( const Character & you ) -> std::string {
             return you.name;
