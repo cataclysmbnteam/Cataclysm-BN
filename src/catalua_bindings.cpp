@@ -174,6 +174,71 @@ void reg_game_bindings( sol::state &lua )
         ut[ sol::meta_function::unary_minus ] = sol::resolve< point() const >( &point::operator- );
     }
 
+    // Register 'tripoint' class to be used in Lua
+    {
+        sol::usertype<tripoint> ut =
+            lua.new_usertype<tripoint>(
+                // Class name in Lua
+                "Tripoint",
+                // Constructors
+                sol::constructors <
+                tripoint(),
+                tripoint( const point &, int ),
+                tripoint( const tripoint & ),
+                tripoint( int, int, int )
+                > ()
+            );
+
+        // Members
+        ut["x"] = &tripoint::x;
+        ut["y"] = &tripoint::y;
+        ut["z"] = &tripoint::z;
+
+        // Methods
+        ut["abs"] = &tripoint::abs;
+        ut["xy"] = &tripoint::xy;
+        ut["rotate_2d"] = &tripoint::rotate_2d;
+
+        // To string
+        // We're using Lua meta function here to make it work seamlessly with native Lua tostring()
+        ut[sol::meta_function::to_string] = &tripoint::to_string;
+
+        // Equality operator
+        // It's defined as inline friend function inside point class, we can't access it and so have to improvise
+        ut[ sol::meta_function::equal_to ] = []( const tripoint & a, const tripoint & b ) {
+            return a == b;
+        };
+
+        // Less-then operator
+        // Same deal as with equality operator
+        ut[sol::meta_function::less_than] = []( const tripoint & a, const tripoint & b ) {
+            return a < b;
+        };
+
+        // Arithmetic operators
+        // tripoint + tripoint (overload 1)
+        // tripoint + point (overload 2)
+        ut[ sol::meta_function::addition ] = sol::overload(
+                sol::resolve< tripoint( const tripoint & ) const > ( &tripoint::operator+ ),
+                sol::resolve< tripoint( const point & ) const > ( &tripoint::operator+ )
+                                             );
+        // tripoint - tripoint (overload 1)
+        // tripoint - point (overload 2)
+        ut[ sol::meta_function::subtraction ] = sol::overload(
+                sol::resolve< tripoint( const tripoint & ) const > ( &tripoint::operator- ),
+                sol::resolve< tripoint( const point & ) const > ( &tripoint::operator- )
+                                                );
+        // tripoint * int
+        ut[ sol::meta_function::multiplication ] = &tripoint::operator*;
+        // tripoint / float
+        ut[ sol::meta_function::division ] = &tripoint::operator/;
+        // tripoint / int
+        ut[ sol::meta_function::floor_division ] = &tripoint::operator/;
+        // -tripoint
+        // sol::resolve here makes it possible to specify which overload to use
+        ut[ sol::meta_function::unary_minus ] = sol::resolve< tripoint() const >( &tripoint::operator- );
+    }
+
     // Register some global functions to be used in Lua
     {
         // Global function that returns global avatar instance
