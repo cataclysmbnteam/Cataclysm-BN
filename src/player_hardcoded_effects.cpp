@@ -559,10 +559,10 @@ void player::hardcoded_effects( effect &it )
         }
     } else if( id == effect_evil ) {
         // Worn or wielded; diminished effects
-        bool lesserEvil = weapon.has_effect_when_wielded( AEP_EVIL ) ||
-                          weapon.has_effect_when_carried( AEP_EVIL );
+        bool lesserEvil = get_weapon().has_effect_when_wielded( AEP_EVIL ) ||
+                          get_weapon().has_effect_when_carried( AEP_EVIL );
         for( auto &w : worn ) {
-            if( w.has_effect_when_worn( AEP_EVIL ) ) {
+            if( w->has_effect_when_worn( AEP_EVIL ) ) {
                 lesserEvil = true;
                 break;
             }

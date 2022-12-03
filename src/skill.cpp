@@ -362,7 +362,7 @@ int SkillLevelMap::get_skill_level( const skill_id &ident, const item &context )
 
 bool SkillLevelMap::meets_skill_requirements( const std::map<skill_id, int> &req ) const
 {
-    return meets_skill_requirements( req, item() );
+    return meets_skill_requirements( req, null_item_reference() );
 }
 
 bool SkillLevelMap::meets_skill_requirements( const std::map<skill_id, int> &req,
@@ -377,7 +377,7 @@ bool SkillLevelMap::meets_skill_requirements( const std::map<skill_id, int> &req
 std::map<skill_id, int> SkillLevelMap::compare_skill_requirements(
     const std::map<skill_id, int> &req ) const
 {
-    return compare_skill_requirements( req, item() );
+    return compare_skill_requirements( req, null_item_reference() );
 }
 
 std::map<skill_id, int> SkillLevelMap::compare_skill_requirements(

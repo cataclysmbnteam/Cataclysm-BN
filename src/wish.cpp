@@ -514,7 +514,7 @@ class wish_item_callback: public uilist_callback
             mvwhline( menu->window, point( startx, 1 ), ' ', menu->pad_right - 1 );
             const int entnum = menu->selected;
             if( entnum >= 0 && static_cast<size_t>( entnum ) < standard_itype_ids.size() ) {
-                item tmp( standard_itype_ids[entnum], calendar::turn );
+                item &tmp = *item_spawn_temporary( standard_itype_ids[entnum], calendar::turn );
                 const std::string header = string_format( "#%d: %s%s%s", entnum,
                                            standard_itype_ids[entnum]->get_id().c_str(),
                                            incontainer ? _( " (contained)" ) : "",
@@ -553,7 +553,8 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
     }
     std::vector<std::pair<std::string, const itype *>> opts;
     for( const itype *i : item_controller->all() ) {
-        opts.emplace_back( item( i, calendar::start_of_cataclysm ).tname( 1, false ), i );
+        //TODO!: push up
+        opts.emplace_back( item_spawn_temporary( i, calendar::start_of_cataclysm )->tname( 1, false ), i );
     }
     std::sort( opts.begin(), opts.end(), localized_compare );
     std::vector<const itype *> itypes;
@@ -577,7 +578,8 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
     wmenu.callback = &cb;
 
     for( size_t i = 0; i < opts.size(); i++ ) {
-        item ity( opts[i].second, calendar::start_of_cataclysm );
+        //TODO!: push up
+        item &ity = *item_spawn_temporary( opts[i].second, calendar::start_of_cataclysm );
         wmenu.addentry( i, true, 0, opts[i].first );
         mvwzstr &entry_extra_text = wmenu.entries[i].extratxt;
         entry_extra_text.txt = ity.symbol();
@@ -591,19 +593,19 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
         }
         bool did_amount_prompt = false;
         while( wmenu.ret >= 0 ) {
-            item granted( opts[wmenu.ret].second );
+            item *granted = item_spawn_temporary( opts[wmenu.ret].second );
             if( cb.incontainer ) {
-                granted = granted.in_its_container();
+                granted = &granted->in_its_container();
             }
             if( cb.has_flag ) {
-                granted.item_tags.insert( cb.flag );
+                granted->item_tags.insert( cb.flag );
             }
             // If the item has an ammunition, this loads it to capacity, including magazines.
-            if( !granted.ammo_default().is_null() ) {
-                granted.ammo_set( granted.ammo_default(), -1 );
+            if( !granted->ammo_default().is_null() ) {
+                granted->ammo_set( granted->ammo_default(), -1 );
             }
 
-            granted.set_birthday( calendar::turn );
+            granted->set_birthday( calendar::turn );
             prev_amount = amount;
             bool canceled = false;
             if( p != nullptr && !did_amount_prompt ) {
@@ -618,7 +620,7 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
                 } else {
                     popup
                     .title( _( "How many?" ) )
-                    .description( granted.tname() );
+                    .description( granted->tname() );
                 }
                 popup.width( 20 )
                 .edit( amount );
@@ -627,19 +629,19 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
             if( !canceled ) {
                 did_amount_prompt = true;
                 if( p != nullptr ) {
-                    if( granted.count_by_charges() ) {
+                    if( granted->count_by_charges() ) {
                         if( amount > 0 ) {
-                            granted.charges = amount;
-                            p->i_add_or_drop( granted );
+                            granted->charges = amount;
+                            p->i_add_or_drop( *item_spawn( *granted ) );
                         }
                     } else {
                         for( int i = 0; i < amount; i++ ) {
-                            p->i_add_or_drop( granted );
+                            p->i_add_or_drop( *item_spawn( *granted ) );
                         }
                     }
                     p->invalidate_crafting_inventory();
                 } else if( pos.x >= 0 && pos.y >= 0 ) {
-                    g->m.add_item_or_charges( pos, granted );
+                    g->m.add_item_or_charges( pos, *item_spawn( *granted ) );
                     wmenu.ret = -1;
                 }
                 if( amount > 0 ) {

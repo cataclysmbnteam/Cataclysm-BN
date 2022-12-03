@@ -26,17 +26,17 @@ class ui_adaptor;
 class item_pricing
 {
     public:
-        item_pricing( Character &c, item &it, int v, int count ) : loc( c, &it ), price( v ) {
+        item_pricing( item &it, int v, int count ) : loc( &it ), price( v ) {
             set_values( count );
         }
 
-        item_pricing( item_location &&l, int v, int count ) : loc( std::move( l ) ), price( v ) {
+        item_pricing( item *l, int v, int count ) : loc( l ), price( v ) {
             set_values( count );
         }
         void set_values( int ip_count );
         void adjust_values( double adjust, const faction *fac );
 
-        item_location loc;
+        item *loc;
         int price;
         // Whether this is selected for trading
         bool selected = false;
@@ -92,7 +92,7 @@ bool pay_npc( npc &np, int cost );
 int cash_to_favor( const npc &, int cash );
 
 void transfer_items( std::vector<item_pricing> &stuff, player &giver, player &receiver,
-                     std::list<item_location *> &from_map, bool npc_gives );
+                     std::list<item *> &from_map, bool npc_gives );
 double net_price_adjustment( const player &buyer, const player &seller );
 bool trade( npc &p, int cost, const std::string &deal );
 std::vector<item_pricing> init_selling( npc &p );

@@ -14,13 +14,15 @@
 #include <vector>
 
 #include "calendar.h"
+#include "cata_arena.h"
 #include "enums.h"
 #include "flat_set.h"
+#include "game_object.h"
 #include "gun_mode.h"
 #include "io_tags.h"
 #include "item_contents.h"
-#include "item_location.h"
 #include "optional.h"
+#include "locations.h"
 #include "pimpl.h"
 #include "safe_reference.h"
 #include "string_id.h"
@@ -173,33 +175,49 @@ inline iteminfo::flags &operator|=( iteminfo::flags &l, iteminfo::flags r )
 
 inline bool is_crafting_component( const item &component );
 
-class item : public visitable<item>
+template<>
+std::vector<item *> cata_arena<item>::pending_deletion;
+
+/**
+ * Returns a reference to a null item (see @ref item::is_null). The reference is always valid
+ * and stays valid until the program ends.
+ */
+item &null_item_reference();
+
+enum class item_location_type : int {
+    invalid = 0,
+    character = 1,
+    map = 2,
+    vehicle = 3,
+    container = 4
+};
+
+class item : public visitable<item>, public game_object<item>
 {
     public:
-        using FlagsSetType = cata::flat_set<std::string>;
-
+        struct default_charges_tag {};
+        struct solitary_tag {};
+    private:
         item();
 
         item( item && );
         item( const item & );
-        item &operator=( item && );
-        item &operator=( const item & );
 
         explicit item( const itype_id &id, time_point turn = calendar::turn, int qty = -1 );
         explicit item( const itype *type, time_point turn = calendar::turn, int qty = -1 );
 
         /** Suppress randomization and always start with default quantity of charges */
-        struct default_charges_tag {};
+
         item( const itype_id &id, time_point turn, default_charges_tag );
         item( const itype *type, time_point turn, default_charges_tag );
 
         /** Default (or randomized) charges except if counted by charges then only one charge */
-        struct solitary_tag {};
+
         item( const itype_id &id, time_point turn, solitary_tag );
         item( const itype *type, time_point turn, solitary_tag );
 
         /** For constructing in-progress crafts */
-        item( const recipe *rec, int qty, std::list<item> items, std::vector<item_comp> selections );
+        item( const recipe *rec, int qty, std::vector<item *> items, std::vector<item_comp> selections );
 
         // Legacy constructor for constructing from string rather than itype_id
         // TODO: remove this and migrate code using it.
@@ -208,12 +226,72 @@ class item : public visitable<item>
             item( itype_id( itype ), std::forward<Args>( args )... )
         {}
 
+
+    public:
+
+        using FlagsSetType = cata::flat_set<std::string>;
+        friend cata_arena<item>;
+        friend item &null_item_reference();
+
         ~item();
 
-        /** Return a pointer-like type that's automatically invalidated if this
-         * item is destroyed or assigned-to */
-        safe_reference<item> get_safe_reference();
+        inline static item *_spawn( JsonIn &jsin ) {
+            item *p = _spawn();
+            p->deserialize( jsin );
+            return p;
+        }
 
+        inline static item *_spawn( const item &source ) {
+            if( source.is_null() ) {
+                return &null_item_reference();
+            }
+            item *p = static_cast<item *>( std::allocator_traits<cata_arena<item>>::allocate( arena,  1 ) );
+            //std::allocator_traits<cata_arena<item>>::construct( arena, p, args... );
+            ::new( static_cast<void *>( p ) ) item( source );
+            return p;
+        }
+
+        template<typename... T>
+        inline static item *_spawn( T... args ) {
+            item *p = static_cast<item *>( std::allocator_traits<cata_arena<item>>::allocate( arena,  1 ) );
+            //std::allocator_traits<cata_arena<item>>::construct( arena, p, args... );
+            ::new( static_cast<void *>( p ) ) item( std::forward<T>( args )... );
+            return p;
+        }
+
+        inline static item *_spawn_temporary( const item &source ) {
+            if( source.is_null() ) {
+                return &null_item_reference();
+            }
+            item *p = item::_spawn( source );
+            p->destroy();
+            p->set_location( new template_item_location() );
+            return p;
+        }
+
+        template<typename... T>
+        inline static item *_spawn_temporary( T... args ) {
+            item *p = item::_spawn( std::forward<T>( args )... );
+            p->destroy();
+            p->set_location( new template_item_location() );
+            return p;
+        }
+
+#if !defined(RELEASE)
+
+        //Sadly these need to go on one line or astyle breaks them
+#define item_spawn(...) (([&](){ typename ::item *p = item::_spawn( __VA_ARGS__ ); cata_arena<typename ::item>::add_debug_entry( p, __FILE__, __LINE__ ); return p; } )() )
+#define item_spawn_temporary(...) (([&](){ typename ::item *p = item::_spawn_temporary( __VA_ARGS__ ); cata_arena<typename ::item>::add_debug_entry( p, __FILE__, __LINE__ ); return p; } )() )
+
+#else
+#define item_spawn(...) item::_spawn(__VA_ARGS__)
+#define item_spawn_temporary(...) item::_spawn_temporary(__VA_ARGS__)
+
+#endif
+
+
+
+        //TODO!: check these "filters" are being used right and at least update the comments, they're not filters anymore
         /**
          * Filter converting this instance to another type preserving all other aspects
          * @param new_type the type id to convert to
@@ -268,11 +346,12 @@ class item : public visitable<item>
         item &set_damage( int qty );
 
         /**
-         * Splits a count-by-charges item always leaving source item with minimum of 1 charge
-         * @param qty number of required charges to split from source
-         * @return new instance containing exactly qty charges or null item if splitting failed
+         * Splits a count-by-charges item, taking qty charges away from it and creating a new (detached) item from them.
+         * If the entire stack is taken, or the item doesn't count by charges then it returns itself detached.
+         * @param qty number of required charges to split from source. 0 means all.
+         * @return new instance containing exactly qty charges or *this after detaching
          */
-        item split( int qty );
+        item &split( int qty );
 
         /**
          * Make a corpse of the given monster type.
@@ -289,8 +368,8 @@ class item : public visitable<item>
          * With the default parameters it makes a human corpse, created at the current turn.
          */
         /*@{*/
-        static item make_corpse( const mtype_id &mt = string_id<mtype>::NULL_ID(),
-                                 time_point turn = calendar::turn, const std::string &name = "", int upgrade_time = -1 );
+        static item &make_corpse( const mtype_id &mt = string_id<mtype>::NULL_ID(),
+                                  time_point turn = calendar::turn, const std::string &name = "", int upgrade_time = -1 );
         /*@}*/
         /**
          * @return The monster type associated with this item (@ref corpse). It is usually the
@@ -476,12 +555,11 @@ class item : public visitable<item>
                 reload_option( const reload_option & );
                 reload_option &operator=( const reload_option & );
 
-                reload_option( const player *who, const item *target, const item *parent,
-                               const item_location &ammo );
+                reload_option( const player *who, item *target, const item *parent, item &ammo );
 
                 const player *who = nullptr;
-                const item *target = nullptr;
-                item_location ammo;
+                item *target = nullptr;
+                item *ammo;
 
                 int qty() const {
                     return qty_;
@@ -506,7 +584,7 @@ class item : public visitable<item>
          * @param loc Location of ammo to be reloaded
          * @param qty caps reloading to this (or fewer) units
          */
-        bool reload( player &u, item_location loc, int qty );
+        bool reload( player &u, item &loc, int qty );
 
         template<typename Archive>
         void io( Archive & );
@@ -534,12 +612,12 @@ class item : public visitable<item>
         bool stacks_with( const item &rhs, bool check_components = false,
                           bool skip_type_check = false ) const;
         /**
-         * Merge charges of the other item into this item.
+         * Merge charges of the other item into this item. Destroying rhs in the process.
          * @return true if the items have been merged, otherwise false.
          * Merging is only done for items counted by charges (@ref count_by_charges) and
          * items that stack together (@ref stacks_with).
          */
-        bool merge_charges( const item &rhs );
+        bool merge_charges( item &rhs );
 
         units::mass weight( bool include_contents = true, bool integral = false ) const;
 
@@ -646,7 +724,7 @@ class item : public visitable<item>
          * @param filter Must return true for use to occur.
          * @return true if this item should be deleted (count-by-charges items with no remaining charges)
          */
-        bool use_charges( const itype_id &what, int &qty, std::list<item> &used, const tripoint &pos,
+        bool use_charges( const itype_id &what, int &qty, ItemList &used, const tripoint &pos,
                           const std::function<bool( const item & )> &filter = return_true<item> );
 
         /**
@@ -675,7 +753,7 @@ class item : public visitable<item>
          * @param used On success all consumed items will be stored here.
          * @param filter Must return true for use to occur.
          */
-        bool use_amount( const itype_id &it, int &quantity, std::list<item> &used,
+        bool use_amount( const itype_id &it, int &quantity, ItemList &used,
                          const std::function<bool( const item & )> &filter = return_true<item> );
 
         /** Permits filthy components, should only be used as a helper in creating filters */
@@ -735,14 +813,14 @@ class item : public visitable<item>
         /**
          * Puts the given item into this one, no checks are performed.
          */
-        void put_in( const item &payload );
+        void put_in( item &payload );
 
         /**
          * Returns this item into its default container. If it does not have a default container,
          * returns this. It's intended to be used like \code newitem = newitem.in_its_container();\endcode
          */
-        item in_its_container() const;
-        item in_container( const itype_id &container_type ) const;
+        item &in_its_container();
+        item &in_container( const itype_id &container_type );
         /*@}*/
 
         bool item_has_uses_recursive() const;
@@ -880,7 +958,7 @@ class item : public visitable<item>
          * potentially destroying other items and invalidating iterators.
          * Should NOT be called on an item on the map, but on a local copy.
          */
-        bool detonate( const tripoint &p, std::vector<item> &drops );
+        bool detonate( const tripoint &p, std::vector<item *> &drops );
 
         bool will_explode_in_fire() const;
 
@@ -1130,7 +1208,7 @@ class item : public visitable<item>
 
         bool destroyed_at_zero_charges() const;
         // Most of the is_whatever() functions call the same function in our itype
-        bool is_null() const; // True if type is NULL, or points to the null item (id == 0)
+        bool is_null() const override; // True if type is NULL, or points to the null item (id == 0)
         bool is_comestible() const;
         bool is_food() const;                // Ignoring the ability to eat batteries, etc.
         bool is_food_container() const;      // Ignoring the ability to eat batteries, etc.
@@ -1953,6 +2031,7 @@ class item : public visitable<item>
          * such type or nullptr if none found.
          */
         item *get_usable_item( const std::string &use_name );
+        const item *get_usable_item( const std::string &use_name ) const;
 
         /**
          * How many units (ammo or charges) are remaining?
@@ -2087,7 +2166,7 @@ class item : public visitable<item>
          *
          * @param parents Items to inherit from
          */
-        void inherit_flags( const std::list<item> &parents, const recipe &making );
+        void inherit_flags( const ItemList &parents, const recipe &making );
 
         void set_tools_to_continue( bool value );
         bool has_tools_to_continue() const;
@@ -2109,8 +2188,30 @@ class item : public visitable<item>
         double bonus_from_enchantments_wielded( double base, enchant_vals::mod value,
                                                 bool round = false ) const;
 
+        /** Returns the type of location where the item is found */
+        item_location_type where() const;
+
+        /** Returns the position where the item is found */
+        tripoint pos() const;
+
+        /** Describes the item location
+         *  @param ch if set description is relative to character location */
+        std::string describe_location( const Character *ch = nullptr ) const;
+
+        /** Move an item from the location to the character inventory
+         *  @param ch Character who's inventory gets the item
+         *  @param qty if specified limits maximum obtained charges */
+        void obtain( Character &ch, int qty = -1, bool costs_moves = true );
+
+        /** Calculate (but do not deduct) number of moves required to obtain an item
+         *  @see item::obtain */
+        int obtain_cost( const Character &ch, int qty = -1 ) const;
+
+        /** returns the parent item, or a null pointer if it has no parent */
+        item *parent_item() const;
+
     private:
-        bool use_amount_internal( const itype_id &it, int &quantity, std::list<item> &used,
+        bool use_amount_internal( const itype_id &it, int &quantity, ItemList &used,
                                   const std::function<bool( const item & )> &filter = return_true<item> );
         const use_function *get_use_internal( const std::string &use_name ) const;
         bool process_internal( player *carrier, const tripoint &pos, bool activate, float insulation = 1,
@@ -2156,14 +2257,13 @@ class item : public visitable<item>
 
         const itype *type;
         item_contents contents;
-        std::list<item> components;
+        ItemList components;
         /** What faults (if any) currently apply to this item */
         std::set<fault_id> faults;
 
         // TODO: Move to private ASAP
         FlagsSetType item_tags; // generic item specific flags
     private:
-        safe_reference_anchor anchor;
         const itype *curammo = nullptr;
         std::map<std::string, std::string> item_vars;
         const mtype *corpse = nullptr;
@@ -2229,10 +2329,12 @@ class item : public visitable<item>
         int damage_ = 0;
         light_emission light = nolight;
 
+        static cata_arena<item> arena;
+
     public:
         char invlet = 0;      // Inventory letter
         bool active = false; // If true, it has active effects to be processed
-        safe_reference<player> activated_by;
+        player *activated_by;
         bool is_favorite = false;
 
         void set_favorite( bool favorite );
@@ -2249,12 +2351,6 @@ class item : public visitable<item>
 
 bool item_compare_by_charges( const item &left, const item &right );
 bool item_ptr_compare_by_charges( const item *left, const item *right );
-
-/**
- * Returns a reference to a null item (see @ref item::is_null). The reference is always valid
- * and stays valid until the program ends.
- */
-item &null_item_reference();
 
 /**
  * Default filter for crafting component searches

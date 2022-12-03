@@ -352,16 +352,16 @@ bool mattack::eat_food( monster *z )
         auto items = g->m.i_at( p );
         for( auto &item : items ) {
             //Fun limit prevents scavengers from eating feces
-            if( !item.is_food() || item.get_comestible_fun() < -20 ) {
+            if( !item->is_food() || item->get_comestible_fun() < -20 ) {
                 continue;
             }
             //Don't eat own eggs
-            if( z->type->baby_egg != item.type->get_id() ) {
+            if( z->type->baby_egg != item->type->get_id() ) {
                 int consumed = 1;
-                if( item.count_by_charges() ) {
-                    g->m.use_charges( p, 0, item.type->get_id(), consumed );
+                if( item->count_by_charges() ) {
+                    g->m.use_charges( p, 0, item->type->get_id(), consumed );
                 } else {
-                    g->m.use_amount( p, 0, item.type->get_id(), consumed );
+                    g->m.use_amount( p, 0, item->type->get_id(), consumed );
                 }
                 return true;
             }
@@ -390,7 +390,7 @@ bool mattack::antqueen( monster *z )
 
         if( g->is_empty( dest ) && g->m.has_items( dest ) ) {
             for( auto &i : g->m.i_at( dest ) ) {
-                if( i.typeId() == itype_ant_egg ) {
+                if( i->typeId() == itype_ant_egg ) {
                     egg_points.push_back( dest );
                     // Done looking at this tile
                     break;
@@ -424,7 +424,7 @@ bool mattack::antqueen( monster *z )
         for( const tripoint &egg_pos : egg_points ) {
             map_stack items = g->m.i_at( egg_pos );
             for( map_stack::iterator it = items.begin(); it != items.end(); ) {
-                if( it->typeId() != itype_ant_egg ) {
+                if( ( *it )->typeId() != itype_ant_egg ) {
                     ++it;
                     continue;
                 }
@@ -809,11 +809,11 @@ bool mattack::pull_metal_weapon( monster *z )
     player *foe = dynamic_cast< player * >( target );
     if( foe != nullptr ) {
         // Wielded steel or iron items except for built-in things like bionic claws or monomolecular blade
-        if( !foe->weapon.has_flag( "NO_UNWIELD" ) &&
-            ( foe->weapon.made_of( material_id( "iron" ) ) ||
-              foe->weapon.made_of( material_id( "hardsteel" ) ) ||
-              foe->weapon.made_of( material_id( "steel" ) ) ||
-              foe->weapon.made_of( material_id( "budget_steel" ) ) ) ) {
+        if( !foe->get_weapon().has_flag( "NO_UNWIELD" ) &&
+            ( foe->get_weapon().made_of( material_id( "iron" ) ) ||
+              foe->get_weapon().made_of( material_id( "hardsteel" ) ) ||
+              foe->get_weapon().made_of( material_id( "steel" ) ) ||
+              foe->get_weapon().made_of( material_id( "budget_steel" ) ) ) ) {
             int wp_skill = foe->get_skill_level( skill_melee );
             // It takes a while
             z->moves -= att_cost_pull;
@@ -826,7 +826,7 @@ bool mattack::pull_metal_weapon( monster *z )
             auto m_type = foe == &g->u ? m_bad : m_neutral;
             if( rng( 1, 100 ) <= success ) {
                 target->add_msg_player_or_npc( m_type, _( "%s is pulled away from your hands!" ),
-                                               _( "%s is pulled away from <npcname>'s hands!" ), foe->weapon.tname() );
+                                               _( "%s is pulled away from <npcname>'s hands!" ), foe->get_weapon().tname() );
                 z->add_item( foe->remove_weapon() );
                 if( foe->has_activity( ACT_RELOAD ) ) {
                     foe->cancel_activity();
@@ -995,8 +995,8 @@ bool mattack::resurrect( monster *z )
         }
 
         for( auto &i : g->m.i_at( p ) ) {
-            const mtype *mt = i.get_mtype();
-            if( !( i.is_corpse() && i.can_revive() && i.active && mt->has_flag( MF_REVIVES ) &&
+            const mtype *mt = i->get_mtype();
+            if( !( i->is_corpse() && i->can_revive() && i->active && mt->has_flag( MF_REVIVES ) &&
                    mt->in_species( ZOMBIE ) && !mt->has_flag( MF_NO_NECRO ) ) ) {
                 continue;
             }
@@ -1013,10 +1013,10 @@ bool mattack::resurrect( monster *z )
                 }
                 return false;
             }
-            int raise_score = ( i.damage_level( 4 ) + 1 ) * mt->hp + i.burnt;
+            int raise_score = ( i->damage_level( 4 ) + 1 ) * mt->hp + i->burnt;
             lowest_raise_score = std::min( lowest_raise_score, raise_score );
             if( raise_score <= raising_level ) {
-                corpses.push_back( std::make_pair( p, &i ) );
+                corpses.push_back( std::make_pair( p, i ) );
             }
         }
     }
@@ -2713,7 +2713,7 @@ bool mattack::grab( monster *z )
         return true;
     }
 
-    item &cur_weapon = pl->weapon;
+    item &cur_weapon = pl->get_weapon();
     ///\EFFECT_DEX increases chance to avoid being grabbed
     if( pl->can_grab_break( cur_weapon ) &&
         rng( 0, pl->get_dex() ) > rng( 0, z->type->melee_sides + z->type->melee_dice ) ) {
@@ -2721,7 +2721,7 @@ bool mattack::grab( monster *z )
             target->add_msg_if_player( m_info, _( "The %s tries to grab you as well, but you bat it away!" ),
                                        z->name() );
         } else if( pl->is_throw_immune() && ( !pl->is_armed() ||
-                                              pl->martial_arts_data->selected_has_weapon( pl->weapon.typeId() ) ) ) {
+                                              pl->martial_arts_data->selected_has_weapon( pl->get_weapon().typeId() ) ) ) {
             target->add_msg_if_player( m_info, _( "The %s tries to grab you…" ), z->name() );
             thrown_by_judo( z );
         } else if( pl->has_grab_break_tec() ) {
@@ -3110,11 +3110,8 @@ bool mattack::check_money_left( monster *z )
             z->has_effect( effect_paid ) ) { // if the pet effect runs out we're no longer friends
             z->friendly = 0;
 
-            if( !z->inv.empty() ) {
-                for( const item &it : z->inv ) {
-                    g->m.add_item_or_charges( z->pos(), it );
-                }
-                z->inv.clear();
+            if( !z->get_items().empty() ) {
+                z->drop_items();
                 z->remove_effect( effect_has_bag );
                 add_msg( m_info,
                          _( "The %s dumps the contents of its bag on the ground and drops the bag on top of it." ),
@@ -3241,7 +3238,7 @@ bool mattack::photograph( monster *z )
         }
     }
 
-    if( z->friendly || g->u.weapon.typeId() == itype_e_handcuffs ) {
+    if( z->friendly || g->u.get_weapon().typeId() == itype_e_handcuffs ) {
         // Friendly (hacked?) bot ignore the player. Arrested suspect ignored too.
         // TODO: might need to be revisited when it can target npcs.
         return false;
@@ -3259,7 +3256,7 @@ bool mattack::photograph( monster *z )
                    string_format( _( "a robotic voice boom, \"Citizen %s!\"" ), cname ), false, "speech",
                    z->type->id.str() );
 
-    if( g->u.weapon.is_gun() ) {
+    if( g->u.get_weapon().is_gun() ) {
         sounds::sound( z->pos(), 15, sounds::sound_t::alert, _( "\"Drop your gun!  Now!\"" ) );
     } else if( g->u.is_armed() ) {
         sounds::sound( z->pos(), 15, sounds::sound_t::alert, _( "\"Drop your weapon!  Now!\"" ) );
@@ -3318,6 +3315,7 @@ void mattack::rifle( monster *z, Creature *target )
         z->ammo[ammo_type] = 3000;
     }
 
+    //TODO!: check alllla this shit
     npc tmp = make_fake_npc( z, 16, 10, 8, 12 );
     tmp.set_skill_level( skill_rifle, 8 );
     tmp.set_skill_level( skill_gun, 6 );
@@ -3346,11 +3344,10 @@ void mattack::rifle( monster *z, Creature *target )
     if( g->u.sees( *z ) ) {
         add_msg( m_warning, _( "The %s opens up with its rifle!" ), z->name() );
     }
+    tmp.set_weapon( item_spawn( "m4a1" )->ammo_set( ammo_type, z->ammo[ ammo_type ] ) );
+    int burst = std::max( tmp.get_weapon().gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
 
-    tmp.weapon = item( "m4a1" ).ammo_set( ammo_type, z->ammo[ ammo_type ] );
-    int burst = std::max( tmp.weapon.gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
-
-    z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * tmp.weapon.ammo_required();
+    z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * tmp.get_weapon().ammo_required();
 
     if( target == &g->u ) {
         z->add_effect( effect_targeted, 3_turns );
@@ -3407,10 +3404,10 @@ void mattack::frag( monster *z, Creature *target ) // This is for the bots, not 
         add_msg( m_warning, _( "The %s's grenade launcher fires!" ), z->name() );
     }
 
-    tmp.weapon = item( "mgl" ).ammo_set( ammo_type, z->ammo[ ammo_type ] );
-    int burst = std::max( tmp.weapon.gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
+    tmp.set_weapon( item_spawn( "mgl" )->ammo_set( ammo_type, z->ammo[ ammo_type ] ) );
+    int burst = std::max( tmp.get_weapon().gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
 
-    z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * tmp.weapon.ammo_required();
+    z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * tmp.get_weapon().ammo_required();
 
     if( target == &g->u ) {
         z->add_effect( effect_targeted, 3_turns );
@@ -3466,10 +3463,10 @@ void mattack::tankgun( monster *z, Creature *target )
     if( g->u.sees( *z ) ) {
         add_msg( m_warning, _( "The %s's 120mm cannon fires!" ), z->name() );
     }
-    tmp.weapon = item( "TANK" ).ammo_set( ammo_type, z->ammo[ ammo_type ] );
-    int burst = std::max( tmp.weapon.gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
+    tmp.set_weapon( item_spawn( "TANK" )->ammo_set( ammo_type, z->ammo[ ammo_type ] ) );
+    int burst = std::max( tmp.get_weapon().gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
 
-    z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * tmp.weapon.ammo_required();
+    z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * tmp.get_weapon().ammo_required();
 }
 
 bool mattack::searchlight( monster *z )
@@ -3487,11 +3484,11 @@ bool mattack::searchlight( monster *z )
     const int zposy = z->posy();
 
     //this searchlight is not initialized
-    if( z->inv.empty() ) {
+    if( z->get_items().empty() ) {
 
         for( int i = 0; i < max_lamp_count; i++ ) {
 
-            item settings( "processor", calendar::start_of_cataclysm );
+            item &settings = *item_spawn( "processor", calendar::start_of_cataclysm );
 
             settings.set_var( "SL_PREFER_UP", "TRUE" );
             settings.set_var( "SL_PREFER_DOWN", "TRUE" );
@@ -3538,8 +3535,8 @@ bool mattack::searchlight( monster *z )
         }
 
         if( !generator_ok ) {
-            for( auto &settings : z->inv ) {
-                settings.set_var( "SL_POWER", "OFF" );
+            for( auto &settings : z->get_items() ) {
+                settings->set_var( "SL_POWER", "OFF" );
             }
 
             return true;
@@ -3548,7 +3545,7 @@ bool mattack::searchlight( monster *z )
 
     for( int i = 0; i < max_lamp_count; i++ ) {
 
-        item &settings = z->inv[i];
+        item &settings = *z->get_items()[i];
 
         if( settings.get_var( "SL_POWER" )  == "OFF" ) {
             return true;
@@ -3785,7 +3782,7 @@ bool mattack::copbot( monster *z )
     // TODO: Make it recognize zeds as human, but ignore animals
     player *foe = dynamic_cast<player *>( target );
     bool sees_u = foe != nullptr && z->sees( *foe );
-    bool cuffed = foe != nullptr && foe->weapon.typeId() == itype_e_handcuffs;
+    bool cuffed = foe != nullptr && foe->get_weapon().typeId() == itype_e_handcuffs;
     // Taze first, then ask questions (simplifies later checks for non-humans)
     if( !cuffed && is_adjacent( z, target, true ) ) {
         taze( z, target );
@@ -4294,35 +4291,35 @@ bool mattack::absorb_meat( monster *z )
     for( const auto &p : g->m.points_in_radius( z->pos(), 1 ) ) {
         auto items = g->m.i_at( p );
         for( auto &current_item : items ) {
-            const material_id current_item_material = current_item.get_base_material().ident();
+            const material_id current_item_material = current_item->get_base_material().ident();
             if( current_item_material == material_id( "flesh" ) ||
                 current_item_material == material_id( "hflesh" ) ) {
                 //We have something meaty! Calculate how much it will heal the monster
-                const int ml_of_meat = units::to_milliliter<int>( current_item.volume() );
-                const int total_charges = current_item.count();
+                const int ml_of_meat = units::to_milliliter<int>( current_item->volume() );
+                const int total_charges = current_item->count();
                 const int ml_per_charge = ml_of_meat / total_charges;
                 //We have a max size of meat here to avoid absorbing whole corpses.
                 if( ml_per_charge > max_meat_absorbed * 1000 ) {
                     add_msg( m_info, _( "The %1$s quivers hungrily in the direction of the %2$s." ), z->name(),
-                             current_item.tname() );
+                             current_item->tname() );
                     return false;
                 }
-                if( current_item.count_by_charges() ) {
+                if( current_item->count_by_charges() ) {
                     //Choose a random amount of meat charges to absorb
                     int meat_absorbed = std::min( max_meat_absorbed, rng( 1, total_charges ) );
                     const int hp_to_heal = meat_absorbed * ml_per_charge * meat_absorption_factor;
                     z->heal( hp_to_heal, true );
-                    g->m.use_charges( p, 0, current_item.type->get_id(), meat_absorbed );
+                    g->m.use_charges( p, 0, current_item->type->get_id(), meat_absorbed );
                 } else {
                     //Only absorb one meaty item
                     int meat_absorbed = 1;
                     const int hp_to_heal = meat_absorbed * ml_per_charge * meat_absorption_factor;
                     z->heal( hp_to_heal, true );
-                    g->m.use_amount( p, 0, current_item.type->get_id(), meat_absorbed );
+                    g->m.use_amount( p, 0, current_item->type->get_id(), meat_absorbed );
                 }
                 if( g->u.sees( *z ) ) {
                     add_msg( m_warning, _( "The %1$s absorbs the %2$s, growing larger." ), z->name(),
-                             current_item.tname() );
+                             current_item->tname() );
                     add_msg( m_debug, "The %1$s now has %2$s out of %3$s hp", z->name(), z->get_hp(),
                              z->get_hp_max() );
                 }
@@ -4745,7 +4742,7 @@ bool mattack::riotbot( monster *z )
     //already arrested?
     //and yes, if the player has no hands, we are not going to arrest him.
     if( foe != nullptr &&
-        ( foe->weapon.typeId() == itype_e_handcuffs || !foe->has_two_arms() ) ) {
+        ( foe->get_weapon().typeId() == itype_e_handcuffs || !foe->has_two_arms() ) ) {
         z->anger = 0;
 
         if( calendar::once_every( 25_turns ) ) {
@@ -4803,7 +4800,7 @@ bool mattack::riotbot( monster *z )
         if( choice == ur_arrest ) {
             z->anger = 0;
 
-            item handcuffs( "e_handcuffs", calendar::start_of_cataclysm );
+            item &handcuffs = *item_spawn( "e_handcuffs", calendar::start_of_cataclysm );
             handcuffs.charges = handcuffs.type->maximum_charges();
             handcuffs.active = true;
             handcuffs.set_var( "HANDCUFFS_X", foe->posx() );
@@ -5272,7 +5269,7 @@ bool mattack::bio_op_takedown( monster *z )
             foe->add_effect( effect_downed, 3_turns );
         }
     } else if( ( !foe->is_armed() ||
-                 foe->martial_arts_data->selected_has_weapon( foe->weapon.typeId() ) ) &&
+                 foe->martial_arts_data->selected_has_weapon( foe->get_weapon().typeId() ) ) &&
                !thrown_by_judo( z ) ) {
         // Saved by the tentacle-bracing! :)
         hit = bodypart_id( "torso" );
@@ -5418,7 +5415,7 @@ bool mattack::bio_op_disarm( monster *z )
     their_roll += dice( 3, foe->get_per() );
     their_roll += dice( 3, foe->get_skill_level( skill_melee ) );
 
-    item &it = foe->weapon;
+    item &it = foe->get_weapon();
 
     target->add_msg_if_player( m_bad, _( "The zombie grabs your %s…" ), it.tname() );
 
@@ -5488,7 +5485,7 @@ bool mattack::kamikaze( monster *z )
         if( z->get_effect( effect_countdown ).get_duration() == 1_turns ) {
             z->die( nullptr );
             // Timer is out, detonate
-            item i_explodes( act_bomb_type, calendar::turn, 0 );
+            item &i_explodes = *item_spawn_temporary( act_bomb_type, calendar::turn, 0 );
             i_explodes.active = true;
             i_explodes.process( nullptr, z->pos(), false );
             return false;

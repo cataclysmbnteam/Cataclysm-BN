@@ -52,7 +52,6 @@ class character_id;
 class computer;
 class field;
 class field_entry;
-class item_location;
 class map_cursor;
 class mapgendata;
 class monster;
@@ -107,9 +106,9 @@ class map_stack : public item_stack
         tripoint location;
         map *myorigin;
     public:
-        map_stack( cata::colony<item> *newstack, tripoint newloc, map *neworigin ) :
+        map_stack( std::vector<item *> *newstack, tripoint newloc, map *neworigin ) :
             item_stack( newstack ), location( newloc ), myorigin( neworigin ) {}
-        void insert( const item &newitem ) override;
+        void insert( item &newitem ) override;
         iterator erase( const_iterator it ) override;
         int count_limit() const override {
             return MAX_ITEM_IN_SQUARE;
@@ -1240,7 +1239,7 @@ class map
         map_stack i_at( const point &p ) {
             return i_at( tripoint( p, abs_sub.z ) );
         }
-        item water_from( const tripoint &p );
+        item &water_from( const tripoint &p );
         void i_clear( const tripoint &p );
         void i_clear( const point &p ) {
             i_clear( tripoint( p, abs_sub.z ) );
@@ -1290,8 +1289,8 @@ class map
          *  @return reference to dropped (and possibly stacked) item or null item on failure
          *  @warning function is relatively expensive and meant for user initiated actions, not mapgen
          */
-        item &add_item_or_charges( const tripoint &pos, item obj, bool overflow = true );
-        item &add_item_or_charges( const point &p, item obj, bool overflow = true ) {
+        item &add_item_or_charges( const tripoint &pos, item &obj, bool overflow = true );
+        item &add_item_or_charges( const point &p, item &obj, bool overflow = true ) {
             return add_item_or_charges( tripoint( p, abs_sub.z ), obj, overflow );
         }
 
@@ -1302,12 +1301,12 @@ class map
          *
          * @returns The item that got added, or nulitem.
          */
-        item &add_item( const tripoint &p, item new_item );
-        void add_item( const point &p, item new_item ) {
+        item &add_item( const tripoint &p, item &new_item );
+        void add_item( const point &p, item &new_item ) {
             add_item( tripoint( p, abs_sub.z ), new_item );
         }
-        item &spawn_an_item( const tripoint &p, item new_item, int charges, int damlevel );
-        void spawn_an_item( const point &p, item new_item, int charges, int damlevel ) {
+        item &spawn_an_item( const tripoint &p, item &new_item, int charges, int damlevel );
+        void spawn_an_item( const point &p, item &new_item, int charges, int damlevel ) {
             spawn_an_item( tripoint( p, abs_sub.z ), new_item, charges, damlevel );
         }
 
@@ -1315,12 +1314,12 @@ class map
          * Update an item's active status, for example when adding
          * hot or perishable liquid to a container.
          */
-        void make_active( item_location &loc );
+        void make_active( item &loc );
 
         /**
          * Update luminosity before and after item's transformation
          */
-        void update_lum( item_location &loc, bool add );
+        void update_lum( item &loc, bool add );
 
         /**
          * @name Consume items on the map
@@ -1335,13 +1334,13 @@ class map
          * somewhere else.
          */
         /*@{*/
-        std::list<item> use_amount_square( const tripoint &p, const itype_id &type,
-                                           int &quantity, const std::function<bool( const item & )> &filter = return_true<item> );
-        std::list<item> use_amount( const tripoint &origin, int range, const itype_id &type,
+        ItemList use_amount_square( const tripoint &p, const itype_id &type,
                                     int &quantity, const std::function<bool( const item & )> &filter = return_true<item> );
-        std::list<item> use_charges( const tripoint &origin, int range, const itype_id &type,
-                                     int &quantity, const std::function<bool( const item & )> &filter = return_true<item>,
-                                     basecamp *bcp = nullptr );
+        ItemList use_amount( const tripoint &origin, int range, const itype_id &type,
+                             int &quantity, const std::function<bool( const item & )> &filter = return_true<item> );
+        ItemList use_charges( const tripoint &origin, int range, const itype_id &type,
+                              int &quantity, const std::function<bool( const item & )> &filter = return_true<item>,
+                              basecamp *bcp = nullptr );
         /*@}*/
 
         /**
@@ -1382,8 +1381,8 @@ class map
                                                 const time_point &turn = calendar::start_of_cataclysm );
 
         // Similar to spawn_an_item, but spawns a list of items, or nothing if the list is empty.
-        std::vector<item *> spawn_items( const tripoint &p, const std::vector<item> &new_items );
-        void spawn_items( const point &p, const std::vector<item> &new_items ) {
+        std::vector<item *> spawn_items( const tripoint &p, std::vector<item *> new_items );
+        void spawn_items( const point &p, std::vector<item *> new_items ) {
             spawn_items( tripoint( p, abs_sub.z ), new_items );
         }
 
@@ -2077,8 +2076,8 @@ class map
         /// returns an empty range.
         tripoint_range<tripoint> points_on_zlevel( int z ) const;
 
-        std::list<item_location> get_active_items_in_radius( const tripoint &center, int radius ) const;
-        std::list<item_location> get_active_items_in_radius( const tripoint &center, int radius,
+        std::vector<item *> get_active_items_in_radius( const tripoint &center, int radius ) const;
+        std::vector<item *> get_active_items_in_radius( const tripoint &center, int radius,
                 special_item_type type ) const;
 
         /**returns positions of furnitures with matching flag in the specified radius*/

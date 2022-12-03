@@ -52,7 +52,7 @@ struct maptile_soa {
     ter_id             ter[sx][sy];  // Terrain on each square
     furn_id            frn[sx][sy];  // Furniture on each square
     std::uint8_t       lum[sx][sy];  // Number of items emitting light on each square
-    cata::colony<item> itm[sx][sy];  // Items on each square
+    cata::colony<item &> itm[sx][sy]; // Items on each square
     field              fld[sx][sy];  // Field on each square
     trap_id            trp[sx][sy];  // Trap on each square
     int                rad[sx][sy];  // Irradiation of each square
@@ -147,7 +147,7 @@ class submap : maptile_soa<SEEX, SEEY>
             // the count below 255.
             int count = 0;
             for( const auto &it : itm[p.x][p.y] ) {
-                if( it.is_emissive() ) {
+                if( it->is_emissive() ) {
                     count++;
                 }
             }
@@ -158,11 +158,11 @@ class submap : maptile_soa<SEEX, SEEY>
         }
 
         // TODO: Replace this as it essentially makes itm public
-        cata::colony<item> &get_items( const point &p ) {
+        cata::colony<item &> &get_items( const point &p ) {
             return itm[p.x][p.y];
         }
 
-        const cata::colony<item> &get_items( const point &p ) const {
+        const cata::colony<item &> &get_items( const point &p ) const {
             return itm[p.x][p.y];
         }
 
@@ -336,7 +336,7 @@ struct maptile {
 
         // Assumes there is at least one item
         const item &get_uppermost_item() const {
-            return *std::prev( sm->get_items( pos() ).cend() );
+            return **std::prev( sm->get_items( pos() ).cend() );
         }
 };
 

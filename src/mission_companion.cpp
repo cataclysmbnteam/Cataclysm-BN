@@ -1065,14 +1065,14 @@ void talk_function::field_plant( npc &p, const std::string &place )
     //Plant the actual seeds
     for( const tripoint &plot : bay.points_on_zlevel() ) {
         if( bay.ter( plot ) == t_dirtmound && limiting_number > 0 ) {
-            std::list<item> used_seed;
+            ItemList used_seed;
             if( item::count_by_charges( seed_id ) ) {
                 used_seed = g->u.use_charges( seed_id, 1 );
             } else {
                 used_seed = g->u.use_amount( seed_id, 1 );
             }
-            used_seed.front().set_age( 0_turns );
-            bay.add_item_or_charges( plot, used_seed.front() );
+            used_seed.front()->set_age( 0_turns );
+            bay.add_item_or_charges( plot, *used_seed.front() );
             bay.set( plot, t_dirt, f_plant_seed );
             limiting_number--;
         }
@@ -1090,7 +1090,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
     const tripoint_abs_omt site = overmap_buffer.find_closest(
                                       player_character.global_omt_location(), place, 20, false );
     tinymap bay;
-    item tmp;
+    item *tmp;
     std::vector<itype_id> seed_types;
     std::vector<itype_id> plant_types;
     std::vector<std::string> plant_names;
@@ -1099,23 +1099,23 @@ void talk_function::field_harvest( npc &p, const std::string &place )
         map_stack items = bay.i_at( plot );
         if( bay.furn( plot ) == furn_str_id( "f_plant_harvest" ) && !items.empty() ) {
             // Can't use item_stack::only_item() since there might be fertilizer
-            map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
-                return it.is_seed();
+            map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item * const & it ) {
+                return it->is_seed();
             } );
 
             if( seed != items.end() ) {
-                const islot_seed &seed_data = *seed->type->seed;
-                tmp = item( seed_data.fruit_id, calendar::turn );
+                const islot_seed &seed_data = *( *seed )->type->seed;
+                tmp = item_spawn_temporary( seed_data.fruit_id, calendar::turn );
                 bool check = false;
                 for( const std::string &elem : plant_names ) {
-                    if( elem == tmp.type_name( 3 ) ) {
+                    if( elem == tmp->type_name( 3 ) ) {
                         check = true;
                     }
                 }
                 if( !check ) {
-                    plant_types.push_back( tmp.typeId() );
-                    plant_names.push_back( tmp.type_name( 3 ) );
-                    seed_types.push_back( seed->typeId() );
+                    plant_types.push_back( tmp->typeId() );
+                    plant_names.push_back( tmp->type_name( 3 ) );
+                    seed_types.push_back( ( *seed )->typeId() );
                 }
             }
         }
@@ -1145,14 +1145,14 @@ void talk_function::field_harvest( npc &p, const std::string &place )
         if( bay.furn( plot ) == furn_str_id( "f_plant_harvest" ) ) {
             // Can't use item_stack::only_item() since there might be fertilizer
             map_stack items = bay.i_at( plot );
-            map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
-                return it.is_seed();
+            map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item * const & it ) {
+                return it->is_seed();
             } );
 
             if( seed != items.end() ) {
-                const islot_seed &seed_data = *seed->type->seed;
-                tmp = item( seed_data.fruit_id, calendar::turn );
-                if( tmp.typeId() == plant_types[plant_index] ) {
+                const islot_seed &seed_data = *( *seed )->type->seed;
+                tmp = item_spawn_temporary( seed_data.fruit_id, calendar::turn );
+                if( tmp->typeId() == plant_types[plant_index] ) {
                     number_plots++;
                     bay.i_clear( plot );
                     bay.furn_set( plot, f_null );
@@ -1170,8 +1170,8 @@ void talk_function::field_harvest( npc &p, const std::string &place )
         }
     }
     bay.save();
-    tmp = item( plant_types[plant_index], calendar::turn );
-    int money = ( number_plants * tmp.price( true ) - number_plots * 2 ) / 100;
+    tmp = item_spawn_temporary( plant_types[plant_index], calendar::turn );
+    int money = ( number_plants * tmp->price( true ) - number_plots * 2 ) / 100;
     bool liquidate = false;
 
     signed int a = number_plots * 2;
@@ -1187,27 +1187,27 @@ void talk_function::field_harvest( npc &p, const std::string &place )
     //Add fruit
     if( liquidate ) {
         add_msg( _( "The %s are sold for $%d…" ), plant_names[plant_index], money );
-        g->u.cash += ( number_plants * tmp.price( true ) - number_plots * 2 ) / 100;
+        g->u.cash += ( number_plants * tmp->price( true ) - number_plots * 2 ) / 100;
     } else {
-        if( tmp.count_by_charges() ) {
-            tmp.charges = 1;
+        if( tmp->count_by_charges() ) {
+            tmp->charges = 1;
         }
         for( int i = 0; i < number_plants; ++i ) {
             //Should be dropped at your feet once greedy companions can be controlled
-            g->u.i_add( tmp );
+            g->u.i_add( *item_spawn( *tmp ) );
         }
         add_msg( _( "You receive %d %s…" ), number_plants, plant_names[plant_index] );
     }
-    tmp = item( seed_types[plant_index], calendar::turn );
-    const islot_seed &seed_data = *tmp.type->seed;
+    tmp = item_spawn_temporary( seed_types[plant_index], calendar::turn );
+    const islot_seed &seed_data = *tmp->type->seed;
     if( seed_data.spawn_seeds ) {
-        if( tmp.count_by_charges() ) {
-            tmp.charges = 1;
+        if( tmp->count_by_charges() ) {
+            tmp->charges = 1;
         }
         for( int i = 0; i < number_seeds; ++i ) {
-            g->u.i_add( tmp );
+            g->u.i_add( *item_spawn( *tmp ) );
         }
-        add_msg( _( "You receive %d %s…" ), number_seeds, tmp.type_name( 3 ) );
+        add_msg( _( "You receive %d %s…" ), number_seeds, tmp->type_name( 3 ) );
     }
 
 }
@@ -1334,9 +1334,9 @@ bool talk_function::scavenging_raid_return( npc &p )
             itemlist = item_group_id( "npc_weapon_random" );
         }
         auto result = item_group::item_from( itemlist );
-        if( !result.is_null() ) {
-            popup( _( "%s returned with a %s for you!" ), comp->name, result.tname() );
-            g->u.i_add( result );
+        if( !result->is_null() ) {
+            popup( _( "%s returned with a %s for you!" ), comp->name, result->tname() );
+            g->u.i_add( *result );
         }
     }
     companion_return( *comp );
@@ -1503,9 +1503,9 @@ bool talk_function::forage_return( npc &p )
             }
         }
         auto result = item_group::item_from( item_group_id( itemlist ) );
-        if( !result.is_null() ) {
-            popup( _( "%s returned with a %s for you!" ), comp->name, result.tname() );
-            g->u.i_add( result );
+        if( !result->is_null() ) {
+            popup( _( "%s returned with a %s for you!" ), comp->name, result->tname() );
+            g->u.i_add( *result );
         }
         if( one_in( 6 ) && !p.has_trait( trait_NPC_MISSION_LEV_1 ) ) {
             p.set_mutation( trait_NPC_MISSION_LEV_1 );
@@ -1760,8 +1760,8 @@ void talk_function::companion_return( npc &comp )
     map &here = get_map();
     for( size_t i = 0; i < comp.companion_mission_inv.size(); i++ ) {
         for( const auto &it : comp.companion_mission_inv.const_stack( i ) ) {
-            if( !it.count_by_charges() || it.charges > 0 ) {
-                here.add_item_or_charges( g->u.pos(), it );
+            if( !it->count_by_charges() || it->charges > 0 ) {
+                here.add_item_or_charges( g->u.pos(), *it );
             }
         }
     }
@@ -2106,13 +2106,14 @@ void talk_function::loot_building( const tripoint_abs_omt &site )
         }
         //Hoover up tasty items!
         map_stack items = bay.i_at( p );
-        for( map_stack::iterator it = items.begin(); it != items.end(); ) {
+        for( map_stack::iterator iter = items.begin(); iter != items.end(); ) {
+            item *it = *iter;
             if( ( ( it->is_food() || it->is_food_container() ) && !one_in( 8 ) ) ||
                 ( it->made_of( LIQUID ) && !one_in( 8 ) ) ||
                 ( it->price( true ) > 1000 && !one_in( 4 ) ) || one_in( 5 ) ) {
-                it = items.erase( it );
+                iter = items.erase( iter );
             } else {
-                ++it;
+                ++iter;
             }
         }
     }

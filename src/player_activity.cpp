@@ -69,11 +69,11 @@ void player_activity::migrate_item_position( Character &guy )
         type == ACT_ATM;
 
     if( simple_action_replace ) {
-        targets.push_back( item_location( guy, &guy.i_at( position ) ) );
+        targets.push_back( &guy.i_at( position ) );
     } else if( type == ACT_GUNMOD_ADD ) {
         // this activity has two indices; "position" = gun and "values[0]" = mod
-        targets.push_back( item_location( guy, &guy.i_at( position ) ) );
-        targets.push_back( item_location( guy, &guy.i_at( values[0] ) ) );
+        targets.push_back( &guy.i_at( position ) );
+        targets.push_back( &guy.i_at( values[0] ) );
     }
 }
 
@@ -120,7 +120,7 @@ std::string player_activity::get_str_value( size_t index, const std::string &def
 
 static std::string craft_progress_message( const avatar &u, const player_activity &act )
 {
-    const item *craft = act.targets.front().get_item();
+    const item *craft = &*act.targets.front();
     if( craft == nullptr ) {
         // Should never happen (?)
         return string_format( _( "%s…" ), act.get_verb().translated() );
@@ -210,7 +210,7 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
     if( type == activity_id( "ACT_CRAFT" ) ) {
         return craft_progress_message( u, *this );
     } else if( type == activity_id( "ACT_READ" ) ) {
-        if( const item *book = targets.front().get_item() ) {
+        if( const item *book = &*targets.front() ) {
             if( const auto &reading = book->type->book ) {
                 const skill_id &skill = reading->skill;
                 if( skill && u.get_skill_level( skill ) < reading->level &&

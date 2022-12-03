@@ -23,7 +23,7 @@ enum liquid_dest : int {
 struct liquid_dest_opt {
     liquid_dest dest_opt = LD_NULL;
     tripoint pos;
-    item_location item_loc;
+    item *it;
     vehicle *veh = nullptr;
 };
 
@@ -42,7 +42,7 @@ namespace liquid_handler
  * charges of the liquid have been transferred.
  * `true` indicates some charges have been transferred (but not necessarily all of them).
  */
-void handle_all_liquid( item liquid, int radius );
+void handle_all_liquid( item &liquid, int radius );
 
 /**
  * Consume / handle as much of the liquid as possible in varying ways. This function can

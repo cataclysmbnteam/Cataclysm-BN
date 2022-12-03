@@ -1125,7 +1125,7 @@ class jmapgen_liquid_item : public jmapgen_piece
         }
         void apply( mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y ) const override {
             if( one_in( chance.get() ) ) {
-                item newliquid( liquid, calendar::start_of_cataclysm );
+                item &newliquid = *item_spawn( liquid, calendar::start_of_cataclysm );
                 if( amount.valmax > 0 ) {
                     newliquid.charges = amount.get();
                 }
@@ -1192,7 +1192,7 @@ class jmapgen_loot : public jmapgen_piece
         void apply( mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y ) const override {
             if( rng( 0, 99 ) < chance ) {
                 const Item_spawn_data *const isd = &result_group;
-                const std::vector<item> spawn = isd->create( calendar::start_of_cataclysm );
+                const std::vector<item *> spawn = isd->create( calendar::start_of_cataclysm );
                 dat.m.spawn_items( tripoint( rng( x.val, x.valmax ), rng( y.val, y.valmax ),
                                              dat.m.get_abs_sub().z ), spawn );
             }
@@ -4160,7 +4160,7 @@ void map::draw_lab( mapgendata &dat )
                             point( marker_x, marker_y ), "mininuke", 1, 1, calendar::start_of_cataclysm, rng( 2, 4 )
                         );
                     } else {
-                        item newliquid( "plut_slurry_dense", calendar::start_of_cataclysm );
+                        item &newliquid = *item_spawn( "plut_slurry_dense", calendar::start_of_cataclysm );
                         newliquid.charges = 1;
                         add_item_or_charges( tripoint( marker_x, marker_y, get_abs_sub().z ),
                                              newliquid );
@@ -5445,7 +5445,7 @@ void map::place_spawns( const mongroup_id &group, const int chance,
 
 void map::place_gas_pump( const point &p, int charges, const std::string &fuel_type )
 {
-    item fuel( fuel_type, calendar::start_of_cataclysm );
+    item &fuel = *item_spawn( fuel_type, calendar::start_of_cataclysm );
     fuel.charges = charges;
     add_item( p, fuel );
     ter_set( p, ter_id( fuel.fuel_pump_terrain() ) );
@@ -5458,7 +5458,7 @@ void map::place_gas_pump( const point &p, int charges )
 
 void map::place_toilet( const point &p, int charges )
 {
-    item water( "water", calendar::start_of_cataclysm );
+    item &water = *item_spawn( "water", calendar::start_of_cataclysm );
     water.charges = charges;
     add_item( p, water );
     furn_set( p, f_toilet );
@@ -5503,8 +5503,8 @@ void map::apply_faction_ownership( const point &p1, const point &p2, const facti
     for( const tripoint &p : points_in_rectangle( tripoint( p1, abs_sub.z ), tripoint( p2,
             abs_sub.z ) ) ) {
         auto items = i_at( p.xy() );
-        for( item &elem : items ) {
-            elem.set_owner( id );
+        for( item * const &elem : items ) {
+            elem->set_owner( id );
         }
         vehicle *source_veh = veh_pointer_or_null( veh_at( p ) );
         if( source_veh ) {
@@ -5565,7 +5565,7 @@ std::vector<item *> map::place_items( const item_group_id &loc, const int chance
     for( auto e : res ) {
         if( e->is_tool() || e->is_gun() || e->is_magazine() ) {
             if( rng( 0, 99 ) < magazine && !e->magazine_integral() && !e->magazine_current() ) {
-                e->put_in( item( e->magazine_default(), e->birthday() ) );
+                e->put_in( *item_spawn( e->magazine_default(), e->birthday() ) );
             }
             if( rng( 0, 99 ) < ammo && e->ammo_remaining() == 0 ) {
                 e->ammo_set( e->ammo_default(), e->ammo_capacity() );

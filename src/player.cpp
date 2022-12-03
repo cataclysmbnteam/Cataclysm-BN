@@ -228,6 +228,7 @@ player::player()
     cash = 0;
     scent = 500;
     male = true;
+    set_weapon( null_item_reference() );
 
     start_location = start_location_id( "sloc_shelter" );
     moves = 100;
@@ -567,24 +568,24 @@ void player::mod_stat( const std::string &stat, float modifier )
     }
 }
 
-std::list<item *> player::get_artifact_items()
+std::vector<item *> player::get_artifact_items()
 {
-    std::list<item *> art_items;
+    std::vector<item *> art_items;
     const invslice &stacks = inv.slice();
     for( auto &stack : stacks ) {
-        item &stack_iter = stack->front();
+        item &stack_iter = *stack->front();
         if( stack_iter.is_artifact() ) {
             art_items.push_back( &stack_iter );
         }
     }
     for( auto &elem : worn ) {
-        if( elem.is_artifact() ) {
-            art_items.push_back( &elem );
+        if( elem->is_artifact() ) {
+            art_items.push_back( elem );
         }
     }
     if( is_armed() ) {
-        if( weapon.is_artifact() ) {
-            art_items.push_back( &weapon );
+        if( get_weapon().is_artifact() ) {
+            art_items.push_back( &get_weapon() );
         }
     }
     return art_items;
@@ -755,12 +756,12 @@ int player::intimidation() const
 {
     /** @EFFECT_STR increases intimidation factor */
     int ret = get_str() * 2;
-    if( weapon.is_gun() ) {
+    if( get_weapon().is_gun() ) {
         ret += 10;
     }
-    if( weapon.damage_melee( DT_BASH ) >= 12 ||
-        weapon.damage_melee( DT_CUT ) >= 12 ||
-        weapon.damage_melee( DT_STAB ) >= 12 ) {
+    if( get_weapon().damage_melee( DT_BASH ) >= 12 ||
+        get_weapon().damage_melee( DT_CUT ) >= 12 ||
+        get_weapon().damage_melee( DT_STAB ) >= 12 ) {
         ret += 5;
     }
 
@@ -789,8 +790,9 @@ void player::on_dodge( Creature *source, float difficulty )
     dodges_left--;
 
     // dodging throws of our aim unless we are either skilled at dodging or using a small weapon
-    if( is_armed() && weapon.is_gun() ) {
-        recoil += std::max( weapon.volume() / 250_ml - get_skill_level( skill_dodge ), 0 ) * rng( 0, 100 );
+    if( is_armed() && get_weapon().is_gun() ) {
+        recoil += std::max( get_weapon().volume() / 250_ml - get_skill_level( skill_dodge ), 0 ) * rng( 0,
+                  100 );
         recoil = std::min( MAX_RECOIL, recoil );
     }
 
@@ -933,9 +935,9 @@ bool player::immune_to( body_part bp, damage_unit dam ) const
 
     passive_absorb_hit( convert_bp( bp ).id(), dam );
 
-    for( const item &cloth : worn ) {
-        if( cloth.get_coverage() == 100 && cloth.covers( bp ) ) {
-            cloth.mitigate_damage( dam );
+    for( const item * const &cloth : worn ) {
+        if( cloth->get_coverage() == 100 && cloth->covers( bp ) ) {
+            cloth->mitigate_damage( dam );
         }
     }
 
@@ -1627,15 +1629,13 @@ void player::update_body_wetness( const w_point &weather )
     // TODO: Make clothing slow down drying
 }
 
-void player::on_worn_item_transform( const item &old_it, const item &new_it )
-{
-    morale->on_worn_item_transform( old_it, new_it );
-}
-
 void player::process_items()
 {
-    if( weapon.needs_processing() && weapon.process( this, pos(), false ) ) {
-        weapon = item();
+    if( get_weapon().needs_processing() && get_weapon().process( this, pos(), false ) ) {
+        item &it = get_weapon();
+        it.detach();
+        it.destroy();
+        set_weapon( null_item_reference() );
     }
 
     std::vector<item *> inv_active = inv.active_items();
@@ -1652,8 +1652,8 @@ void player::process_items()
 
     // Active item processing done, now we're recharging.
     std::vector<item *> active_worn_items;
-    bool weapon_active = weapon.has_flag( "USE_UPS" ) &&
-                         weapon.charges < weapon.type->maximum_charges();
+    bool weapon_active = get_weapon().has_flag( "USE_UPS" ) &&
+                         get_weapon().charges < get_weapon().type->maximum_charges();
     std::vector<size_t> active_held_items;
     int ch_UPS = 0;
     for( size_t index = 0; index < inv.size(); index++ ) {
@@ -1669,22 +1669,22 @@ void player::process_items()
         }
     }
     bool update_required = get_check_encumbrance();
-    for( item &w : worn ) {
-        if( w.has_flag( "USE_UPS" ) &&
-            w.charges < w.type->maximum_charges() ) {
-            active_worn_items.push_back( &w );
+    for( item * const &w : worn ) {
+        if( w->has_flag( "USE_UPS" ) &&
+            w->charges < w->type->maximum_charges() ) {
+            active_worn_items.push_back( w );
         }
         // Necessary for UPS in Aftershock - check worn items for charge
-        const itype_id &identifier = w.typeId();
+        const itype_id &identifier = w->typeId();
         if( identifier == itype_UPS_off ) {
-            ch_UPS += w.ammo_remaining();
+            ch_UPS += w->ammo_remaining();
         } else if( identifier == itype_adv_UPS_off ) {
-            ch_UPS += w.ammo_remaining() / 0.6;
+            ch_UPS += w->ammo_remaining() / 0.6;
         }
-        if( !update_required && w.encumbrance_update_ ) {
+        if( !update_required && w->encumbrance_update_ ) {
             update_required = true;
         }
-        w.encumbrance_update_ = false;
+        w->encumbrance_update_ = false;
     }
     if( update_required ) {
         reset_encumbrance();
@@ -1706,7 +1706,7 @@ void player::process_items()
     }
     if( weapon_active && ch_UPS_used < ch_UPS ) {
         ch_UPS_used++;
-        weapon.charges++;
+        get_weapon().charges++;
     }
     for( item *worn_item : active_worn_items ) {
         if( ch_UPS_used >= ch_UPS ) {
@@ -1720,34 +1720,34 @@ void player::process_items()
     }
 }
 
-item player::reduce_charges( int position, int quantity )
+item *player::reduce_charges( int position, int quantity )
 {
     item &it = i_at( position );
     if( it.is_null() ) {
         debugmsg( "invalid item position %d for reduce_charges", position );
-        return item();
+        return &null_item_reference();
     }
     if( it.charges <= quantity ) {
-        return i_rem( position );
+        return &i_rem( position );
     }
     it.mod_charges( -quantity );
-    item tmp( it );
-    tmp.charges = quantity;
+    item *tmp = item_spawn( it );
+    tmp->charges = quantity;
     return tmp;
 }
 
-item player::reduce_charges( item *it, int quantity )
+item *player::reduce_charges( item *it, int quantity )
 {
     if( !has_item( *it ) ) {
         debugmsg( "invalid item (name %s) for reduce_charges", it->tname() );
-        return item();
+        return &null_item_reference();
     }
     if( it->charges <= quantity ) {
-        return i_rem( it );
+        return &i_rem( it );
     }
     it->mod_charges( -quantity );
-    item result( *it );
-    result.charges = quantity;
+    item *result = item_spawn( *it );
+    result->charges = quantity;
     return result;
 }
 
@@ -1772,10 +1772,10 @@ int player::drink_from_hands( item &water )
     if( query_yn( _( "Drink %s from your hands?" ),
                   colorize( water.type_name(), water.color_in_inventory() ) ) ) {
         // Create a dose of water no greater than the amount of water remaining.
-        item water_temp( water );
+        item *water_temp = item_spawn_temporary( water );
         // If player is slaked water might not get consumed.
-        consume_item( water_temp );
-        charges_consumed = water.charges - water_temp.charges;
+        consume_item( *water_temp );
+        charges_consumed = water.charges - water_temp->charges;
         if( charges_consumed > 0 ) {
             moves -= 350;
         }
@@ -1902,9 +1902,9 @@ bool player::consume_item( item &target )
     return false;
 }
 
-bool player::consume( item_location loc )
+bool player::consume( item &loc )
 {
-    item &target = *loc;
+    item &target = loc;
     const bool wielding = is_wielding( target );
     const bool worn = is_worn( target );
     const bool inv_item = !( wielding || worn );
@@ -1925,7 +1925,7 @@ bool player::consume( item_location loc )
         }
 
         if( was_in_container && wielding ) {
-            add_msg_if_player( _( "You are now wielding an empty %s." ), weapon.tname() );
+            add_msg_if_player( _( "You are now wielding an empty %s." ), get_weapon().tname() );
         } else if( was_in_container && worn ) {
             add_msg_if_player( _( "You are now wearing an empty %s." ), target.tname() );
         } else if( was_in_container && !is_npc() ) {
@@ -1939,7 +1939,7 @@ bool player::consume( item_location loc )
             }
             if( drop_it ) {
                 add_msg( _( "You drop the empty %s." ), target.tname() );
-                put_into_vehicle_or_drop( *this, item_drop_reason::deliberate, { inv.remove_item( &target ) } );
+                put_into_vehicle_or_drop( *this, item_drop_reason::deliberate, { &inv.remove_item( &target ) } );
             } else {
                 int quantity = inv.const_stack( inv.position_by_item( &target ) ).size();
                 char letter = target.invlet ? target.invlet : ' ';
@@ -2040,7 +2040,6 @@ item::reload_option player::select_ammo( const item &base,
             return e.ammo->contents.front().display_name();
 
         } else {
-            const_cast<item_location &>( ammo_location ).make_dirty();
             return ( ammo_location && ammo_location == e.ammo ? "* " : "" ) + e.ammo->display_name();
         }
     } );
@@ -2054,9 +2053,9 @@ item::reload_option player::select_ammo( const item &base,
             if( is_ammo_container && is_worn( *e.ammo ) ) {
                 return e.ammo->type_name();
             }
-            return string_format( _( "%s, %s" ), e.ammo->type_name(), e.ammo.describe( &g->u ) );
+            return string_format( _( "%s, %s" ), e.ammo->type_name(), e.ammo->describe_location( &g->u ) );
         }
-        return e.ammo.describe( &g->u );
+        return e.ammo->describe_location( &g->u );
     } );
 
     // Pads elements to match longest member and return length
@@ -2232,24 +2231,24 @@ item::reload_option player::select_ammo( const item &base,
         return item::reload_option();
     }
 
-    const item_location &sel = opts[ menu.ret ].ammo;
+    item *sel = opts[ menu.ret ].ammo;
     uistate.lastreload[ ammotype( base.ammo_default().str() ) ] = sel->is_ammo_container() ?
             sel->contents.front().typeId() :
             sel->typeId();
     return opts[ menu.ret ];
 }
 
-bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo_list,
+bool player::list_ammo( item &base, std::vector<item::reload_option> &ammo_list,
                         bool include_empty_mags, bool include_potential ) const
 {
-    auto opts = base.gunmods();
+    std::vector<item *> opts = base.gunmods();
     opts.push_back( &base );
 
     if( base.magazine_current() ) {
         opts.push_back( base.magazine_current() );
     }
 
-    for( const auto mod : base.gunmods() ) {
+    for( item *mod : base.gunmods() ) {
         if( mod->magazine_current() ) {
             opts.push_back( mod->magazine_current() );
         }
@@ -2257,8 +2256,8 @@ bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo
 
     bool ammo_match_found = false;
     int ammo_search_range = is_mounted() ? -1 : 1;
-    for( const auto e : opts ) {
-        for( const item_location &ammo : find_ammo( *e, include_empty_mags, ammo_search_range ) ) {
+    for( item *e : opts ) {
+        for( item *ammo : find_ammo( *e, include_empty_mags, ammo_search_range ) ) {
             // don't try to unload frozen liquids
             if( ammo->is_watertight_container() && ammo->contents_made_of( SOLID ) ) {
                 continue;
@@ -2275,14 +2274,14 @@ bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo
             }
             if( ( include_potential && can_reload_with )
                 || can_reload( *e, id ) || e->has_flag( "RELOAD_AND_SHOOT" ) ) {
-                ammo_list.emplace_back( this, e, &base, ammo );
+                ammo_list.emplace_back( this, e, &base, *ammo );
             }
         }
     }
     return ammo_match_found;
 }
 
-item::reload_option player::select_ammo( const item &base, bool prompt,
+item::reload_option player::select_ammo( item &base, bool prompt,
         bool include_empty_mags, bool include_potential ) const
 {
     std::vector<item::reload_option> ammo_list;
@@ -2352,7 +2351,7 @@ ret_val<bool> player::can_wield( const item &it ) const
                    _( "You need at least one arm to even consider wielding something." ) );
     }
 
-    if( is_armed() && weapon.has_flag( "NO_UNWIELD" ) ) {
+    if( is_armed() && get_weapon().has_flag( "NO_UNWIELD" ) ) {
         return ret_val<bool>::make_failure( _( "The %s is preventing you from wielding the %s." ),
                                             weapname(), it.tname() );
     }
@@ -2382,17 +2381,17 @@ ret_val<bool> player::can_wield( const item &it ) const
 
 bool player::unwield()
 {
-    if( weapon.is_null() ) {
+    if( get_weapon().is_null() ) {
         return true;
     }
 
-    if( !can_unwield( weapon ).success() ) {
+    if( !can_unwield( get_weapon() ).success() ) {
         return false;
     }
 
-    const std::string query = string_format( _( "Stop wielding %s?" ), weapon.tname() );
+    const std::string query = string_format( _( "Stop wielding %s?" ), get_weapon().tname() );
 
-    if( !dispose_item( item_location( *this, &weapon ), query ) ) {
+    if( !dispose_item( get_weapon(), query ) ) {
         return false;
     }
 
@@ -2504,28 +2503,28 @@ bool player::can_reload( const item &it, const itype_id &ammo ) const
     return true;
 }
 
-void player::mend_item( item_location &&obj, bool interactive )
+void player::mend_item( item &obj, bool interactive )
 {
     if( has_trait( trait_DEBUG_HS ) ) {
         uilist menu;
         menu.text = _( "Toggle which fault?" );
         std::vector<std::pair<fault_id, bool>> opts;
-        for( const auto &f : obj->faults_potential() ) {
-            opts.emplace_back( f, !!obj->faults.count( f ) );
+        for( const auto &f : obj.faults_potential() ) {
+            opts.emplace_back( f, !!obj.faults.count( f ) );
             menu.addentry( -1, true, -1, string_format(
                                opts.back().second ? pgettext( "fault", "Mend: %s" ) : pgettext( "fault", "Set: %s" ),
                                f.obj().name() ) );
         }
         if( opts.empty() ) {
-            add_msg( m_info, _( "The %s doesn't have any faults to toggle." ), obj->tname() );
+            add_msg( m_info, _( "The %s doesn't have any faults to toggle." ), obj.tname() );
             return;
         }
         menu.query();
         if( menu.ret >= 0 ) {
             if( opts[ menu.ret ].second ) {
-                obj->faults.erase( opts[ menu.ret ].first );
+                obj.faults.erase( opts[ menu.ret ].first );
             } else {
-                obj->faults.insert( opts[ menu.ret ].first );
+                obj.faults.insert( opts[ menu.ret ].first );
             }
         }
         return;
@@ -2540,7 +2539,7 @@ void player::mend_item( item_location &&obj, bool interactive )
     };
 
     std::vector<mending_option> mending_options;
-    for( const fault_id &f : obj->faults ) {
+    for( const fault_id &f : obj.faults ) {
         for( const auto &m : f->mending_methods() ) {
             mending_option opt { f, m.second, true };
             for( const auto &sk : m.second.skills ) {
@@ -2557,9 +2556,9 @@ void player::mend_item( item_location &&obj, bool interactive )
 
     if( mending_options.empty() ) {
         if( interactive ) {
-            add_msg( m_info, _( "The %s doesn't have any faults to mend." ), obj->tname() );
-            if( obj->damage() > 0 ) {
-                const std::set<itype_id> &rep = obj->repaired_with();
+            add_msg( m_info, _( "The %s doesn't have any faults to mend." ), obj.tname() );
+            if( obj.damage() > 0 ) {
+                const std::set<itype_id> &rep = obj.repaired_with();
                 if( !rep.empty() ) {
                     const std::string repair_options =
                     enumerate_as_string( rep.begin(), rep.end(), []( const itype_id & e ) {
@@ -2647,7 +2646,7 @@ void player::mend_item( item_location &&obj, bool interactive )
         const mending_option &opt = mending_options[sel];
         if( !opt.doable ) {
             if( interactive ) {
-                add_msg( m_info, _( "You are currently unable to mend the %s this way." ), obj->tname() );
+                add_msg( m_info, _( "You are currently unable to mend the %s this way." ), obj.tname() );
             }
             return;
         }
@@ -2656,7 +2655,7 @@ void player::mend_item( item_location &&obj, bool interactive )
         assign_activity( activity_id( "ACT_MEND_ITEM" ), to_moves<int>( method.time ) );
         activity.name = opt.fault.str();
         activity.str_values.emplace_back( method.id );
-        activity.targets.push_back( std::move( obj ) );
+        activity.targets.push_back( obj );
     }
 }
 
@@ -2674,14 +2673,15 @@ int player::item_reload_cost( const item &it, const item &ammo, int qty ) const
     }
 
     // If necessary create duplicate with appropriate number of charges
-    item obj = ammo;
-    obj = obj.split( qty );
-    if( obj.is_null() ) {
-        obj = ammo;
+    const item *obj = &ammo;
+    if( ammo.count_by_charges() && qty < ammo.charges && qty > 0 ) {
+        item *temp = item_spawn_temporary( ammo );
+        temp->charges = qty;
+        obj = temp;
     }
     // No base cost for handling ammo - that's already included in obtain cost
     // We have the ammo in our hands right now
-    int mv = item_handling_cost( obj, true, 0 );
+    int mv = item_handling_cost( *obj, true, 0 );
 
     if( ammo.has_flag( "MAG_BULKY" ) ) {
         mv *= 1.5; // bulky magazines take longer to insert
@@ -2711,13 +2711,13 @@ int player::item_reload_cost( const item &it, const item &ammo, int qty ) const
     return std::max( mv, 25 );
 }
 
-cata::optional<std::list<item>::iterator>
+cata::optional<ItemList::iterator>
 player::wear( int pos, bool interactive )
 {
     return wear( i_at( pos ), interactive );
 }
 
-cata::optional<std::list<item>::iterator>
+cata::optional<ItemList::iterator>
 player::wear( item &to_wear, bool interactive )
 {
     if( is_worn( to_wear ) ) {
@@ -2738,23 +2738,14 @@ player::wear( item &to_wear, bool interactive )
         return cata::nullopt;
     }
 
-    bool was_weapon;
-    item to_wear_copy( to_wear );
-    if( &to_wear == &weapon ) {
-        weapon = item();
-        was_weapon = true;
-    } else {
-        inv.remove_item( &to_wear );
-        inv.restack( *this );
-        was_weapon = false;
-    }
-
-    auto result = wear_item( to_wear_copy, interactive );
+    bool was_weapon = ( &to_wear == &get_weapon() );
+    to_wear.detach();
+    auto result = wear_item( to_wear, interactive );
     if( !result ) {
         if( was_weapon ) {
-            weapon = to_wear_copy;
+            set_weapon( to_wear );
         } else {
-            inv.add_item( to_wear_copy, true );
+            inv.add_item( to_wear, true );
         }
         return cata::nullopt;
     }
@@ -2779,10 +2770,10 @@ bool player::can_lift( int lift_strength_required ) const
     return str + npc_str >= lift_strength_required;
 }
 
-ret_val<bool> player::can_takeoff( const item &it, const std::list<item> *res ) const
+ret_val<bool> player::can_takeoff( const item &it, const ItemList *res ) const
 {
-    auto iter = std::find_if( worn.begin(), worn.end(), [ &it ]( const item & wit ) {
-        return &it == &wit;
+    auto iter = std::find_if( worn.begin(), worn.end(), [ &it ]( const item * const & wit ) {
+        return &it == wit;
     } );
 
     if( iter == worn.end() ) {
@@ -2803,7 +2794,7 @@ ret_val<bool> player::can_takeoff( const item &it, const std::list<item> *res ) 
     return ret_val<bool>::make_success();
 }
 
-bool player::takeoff( item &it, std::list<item> *res )
+bool player::takeoff( item &it, ItemList *res )
 {
     const auto ret = can_takeoff( it, res );
     if( !ret.success() ) {
@@ -2811,26 +2802,25 @@ bool player::takeoff( item &it, std::list<item> *res )
         return false;
     }
 
-    auto iter = std::find_if( worn.begin(), worn.end(), [ &it ]( const item & wit ) {
-        return &it == &wit;
+    auto iter = std::find_if( worn.begin(), worn.end(), [ &it ]( const item * const & wit ) {
+        return &it == wit;
     } );
 
     if( res == nullptr ) {
         if( volume_carried() + it.volume() > volume_capacity_reduced_by( it.get_storage() ) ) {
             if( is_npc() || query_yn( _( "No room in inventory for your %s.  Drop it?" ),
                                       colorize( it.tname(), it.color_in_inventory() ) ) ) {
-                item_location loc( *this, &it );
-                drop( loc, pos() );
+                drop( it, pos() );
                 return true; // the drop activity ends up taking off the item anyway so shouldn't try to do it again here
             } else {
                 return false;
             }
         }
-        iter->on_takeoff( *this );
+        ( *iter )->on_takeoff( *this );
         inv.add_item_keep_invlet( it );
     } else {
-        iter->on_takeoff( *this );
-        res->push_back( it );
+        ( *iter )->on_takeoff( *this );
+        res->push_back( &it );
     }
 
     add_msg_player_or_npc( _( "You take off your %s." ),
@@ -2862,9 +2852,9 @@ bool player::add_or_drop_with_msg( item &it, const bool unloading )
     if( it.is_ammo() && it.charges == 0 ) {
         return true;
     } else if( !this->can_pick_volume( it ) ) {
-        put_into_vehicle_or_drop( *this, item_drop_reason::too_large, { it } );
+        put_into_vehicle_or_drop( *this, item_drop_reason::too_large, { &it } );
     } else if( !this->can_pick_weight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
-        put_into_vehicle_or_drop( *this, item_drop_reason::too_heavy, { it } );
+        put_into_vehicle_or_drop( *this, item_drop_reason::too_heavy, { &it } );
     } else {
         auto &ni = this->i_add( it );
         add_msg( _( "You put the %s in your inventory." ), ni.tname() );
@@ -2873,9 +2863,8 @@ bool player::add_or_drop_with_msg( item &it, const bool unloading )
     return true;
 }
 
-bool player::unload( item_location loc )
+bool player::unload( item &it )
 {
-    item &it = *loc.get_item();
     // Unload a container consuming moves per item successfully removed
     if( it.is_container() || it.is_bandolier() ) {
         if( it.contents.empty() ) {
@@ -2978,7 +2967,7 @@ bool player::unload( item_location loc )
         // remove the belt linkage
         if( it.is_ammo_belt() ) {
             if( it.type->magazine->linkage ) {
-                item link( *it.type->magazine->linkage, calendar::turn, qty );
+                item &link = *item_spawn( *it.type->magazine->linkage, calendar::turn, qty );
                 add_or_drop_with_msg( link, true );
             }
             add_msg( _( "You disassemble your %s." ), it.tname() );
@@ -2987,8 +2976,9 @@ bool player::unload( item_location loc )
         }
 
         mod_moves( -std::min( 200, mv ) );
-        if( loc->has_flag( "MAG_DESTROY" ) && loc->ammo_remaining() == 0 ) {
-            loc.remove_item();
+        if( it.has_flag( "MAG_DESTROY" ) && it.ammo_remaining() == 0 ) {
+            it.detach();
+            it.destroy();
         }
         return true;
 
@@ -3017,7 +3007,7 @@ bool player::unload( item_location loc )
         }
 
         // Construct a new ammo item and try to drop it
-        item ammo( target->ammo_current(), calendar::turn, qty );
+        item &ammo = *item_spawn( target->ammo_current(), calendar::turn, qty );
         if( target->is_filthy() ) {
             ammo.set_flag( "FILTHY" );
         }
@@ -3027,10 +3017,12 @@ bool player::unload( item_location loc )
                 qty -= ammo.charges; // only handled part (or none) of the liquid
             }
             if( qty <= 0 ) {
+                ammo.destroy();
                 return false; // no liquid was moved
             }
 
         } else if( !this->add_or_drop_with_msg( ammo, qty > 1 ) ) {
+            ammo.destroy();
             return false;
         }
 
@@ -3063,9 +3055,8 @@ void player::use_wielded()
 void player::use( int inventory_position )
 {
     item &used = i_at( inventory_position );
-    auto loc = item_location( *this, &used );
 
-    use( loc );
+    use( used );
 }
 
 static bool is_pet_food( const item &itm )
@@ -3076,10 +3067,8 @@ static bool is_pet_food( const item &itm )
            itm.type->can_use( "CATTLEFODDER" );
 }
 
-void player::use( item_location loc )
+void player::use( item &used )
 {
-    item &used = *loc.get_item();
-
     if( used.is_null() ) {
         add_msg( m_info, _( "You do not have that item." ) );
         return;
@@ -3092,32 +3081,32 @@ void player::use( item_location loc )
             add_msg_if_player( _( "You can't do anything interesting with your %s." ), used.tname() );
             return;
         }
-        invoke_item( &used, loc.position() );
+        invoke_item( &used, used.position() );
 
     } else if( is_pet_food( used ) ) {
-        invoke_item( &used, loc.position() );
+        invoke_item( &used, used.position() );
 
     } else if( !used.is_container_empty() && is_pet_food( used.get_contained() ) ) {
-        unload( loc );
+        unload( used );
 
     } else if( !used.is_craft() && ( used.is_medication() || ( !used.type->has_use() &&
                                      ( used.is_food() ||
                                        used.get_contained().is_food() ||
                                        used.get_contained().is_medication() ) ) ) ) {
-        consume( loc );
+        consume( used );
 
     } else if( used.is_book() ) {
         // TODO: Handle this with dynamic dispatch.
         if( avatar *u = as_avatar() ) {
-            u->read( loc );
+            u->read( &used );
         }
     } else if( used.type->has_use() ) {
-        invoke_item( &used, loc.position() );
+        invoke_item( &used, used.position() );
     } else if( used.has_flag( flag_SPLINT ) ) {
         ret_val<bool> need_splint = can_wear( used );
         if( need_splint.success() ) {
+            used.detach();
             wear_item( used );
-            loc.remove_item();
         } else {
             add_msg( m_info, need_splint.str() );
         }
@@ -3169,8 +3158,7 @@ bool player::gunmod_remove( item &gun, item &mod )
         return false;
     }
 
-    item_location loc = item_location( *this, &mod );
-    if( mod.ammo_remaining() && !unload( loc ) ) {
+    if( mod.ammo_remaining() && !unload( mod ) ) {
         return false;
     }
 
@@ -3259,7 +3247,7 @@ void player::gunmod_add( item &gun, item &mod )
     }
 
     // first check at least the minimum requirements are met
-    if( !has_trait( trait_DEBUG_HS ) && !can_use( mod, gun ) ) {
+    if( !has_trait( trait_DEBUG_HS ) && !can_use( mod, &gun ) ) {
         return;
     }
 
@@ -3272,9 +3260,9 @@ void player::gunmod_add( item &gun, item &mod )
     int qty = 0;
     bool requery = false;
 
-    item modded = gun;
-    modded.put_in( mod );
-    bool no_magazines = modded.common_ammo_default().is_null();
+    item *modded = item_spawn_temporary( gun );
+    modded->put_in( mod );
+    bool no_magazines = modded->common_ammo_default().is_null();
 
     std::string query_msg = mod.is_irremovable()
                             ? _( "<color_yellow>Permanently</color> install your %1$s in your %2$s?" )
@@ -3325,7 +3313,7 @@ void player::gunmod_add( item &gun, item &mod )
     prompt.addentry( -1, true, 'c', _( "Compare before/after installation" ) );
     actions.emplace_back( [&] {
         requery = true;
-        game_menus::inv::compare( gun, modded );
+        game_menus::inv::compare( gun, *modded );
     } );
 
     do {
@@ -3341,35 +3329,31 @@ void player::gunmod_add( item &gun, item &mod )
     const int moves = !has_trait( trait_DEBUG_HS ) ? mod.type->gunmod->install_time : 0;
 
     assign_activity( activity_id( "ACT_GUNMOD_ADD" ), moves, -1, 0, tool );
-    activity.targets.push_back( item_location( *this, &gun ) );
-    activity.targets.push_back( item_location( *this, &mod ) );
+    activity.targets.push_back( &gun );
+    activity.targets.push_back( &mod );
     activity.values.push_back( 0 ); // dummy value
     activity.values.push_back( roll ); // chance of success (%)
     activity.values.push_back( risk ); // chance of damage (%)
     activity.values.push_back( qty ); // tool charges
 }
 
-void player::toolmod_add( item_location tool, item_location mod )
+void player::toolmod_add( item &tool, item &mod )
 {
-    if( !tool && !mod ) {
-        debugmsg( "Tried toolmod installation but mod/tool not available" );
-        return;
-    }
     // first check at least the minimum requirements are met
-    if( !has_trait( trait_DEBUG_HS ) && !can_use( *mod, *tool ) ) {
+    if( !has_trait( trait_DEBUG_HS ) && !can_use( mod, &tool ) ) {
         return;
     }
 
     if( !query_yn( _( "Permanently install your %1$s in your %2$s?" ),
-                   colorize( mod->tname(), mod->color_in_inventory() ),
-                   colorize( tool->tname(), tool->color_in_inventory() ) ) ) {
+                   colorize( mod.tname(), mod.color_in_inventory() ),
+                   colorize( tool.tname(), tool.color_in_inventory() ) ) ) {
         add_msg_if_player( _( "Never mind." ) );
         return; // player canceled installation
     }
 
     assign_activity( activity_id( "ACT_TOOLMOD_ADD" ), 1, -1 );
-    activity.targets.emplace_back( std::move( tool ) );
-    activity.targets.emplace_back( std::move( mod ) );
+    activity.targets.emplace_back( &tool );
+    activity.targets.emplace_back( &mod );
 }
 
 bool player::studied_all_recipes( const itype &book ) const
@@ -3391,7 +3375,7 @@ recipe_subset player::get_recipes_from_books( const inventory &crafting_inv,
     recipe_subset res;
 
     for( const auto &stack : crafting_inv.const_slice() ) {
-        const item &candidate = stack->front();
+        const item &candidate = *stack->front();
 
         for( std::pair<const recipe *, int> recipe_entry :
              candidate.get_available_recipes( *this ) ) {
@@ -3785,13 +3769,14 @@ bool player::has_magazine_for_ammo( const ammotype &at ) const
 
 std::string player::weapname() const
 {
-    if( weapon.is_gun() ) {
-        std::string str = string_format( "(%d) [%s] %s", weapon.ammo_remaining(),
-                                         weapon.gun_current_mode().tname(), weapon.type_name() );
+    item *weapon = &get_weapon();
+    if( weapon->is_gun() ) {
+        std::string str = string_format( "(%d) [%s] %s", weapon->ammo_remaining(),
+                                         weapon->gun_current_mode().tname(), weapon->type_name() );
         // Is either the base item or at least one auxiliary gunmod loaded (includes empty magazines)
-        bool base = weapon.ammo_capacity() > 0 && !weapon.has_flag( "RELOAD_AND_SHOOT" );
+        bool base = weapon->ammo_capacity() > 0 && !weapon->has_flag( "RELOAD_AND_SHOOT" );
 
-        const auto mods = weapon.gunmods();
+        const auto mods = weapon->gunmods();
         bool aux = std::any_of( mods.begin(), mods.end(), [&]( const item * e ) {
             return e->is_gun() && e->ammo_capacity() > 0 && !e->has_flag( "RELOAD_AND_SHOOT" );
         } );
@@ -3809,15 +3794,15 @@ std::string player::weapname() const
         }
         return str;
 
-    } else if( weapon.is_container() && weapon.contents.num_item_stacks() == 1 ) {
-        return string_format( "%s (%d)", weapon.tname(),
-                              weapon.contents.front().charges );
+    } else if( weapon->is_container() && weapon->contents.num_item_stacks() == 1 ) {
+        return string_format( "%s (%d)", weapon->tname(),
+                              weapon->contents.front().charges );
 
     } else if( !is_armed() ) {
         return _( "fists" );
 
     } else {
-        return weapon.tname();
+        return weapon->tname();
     }
 }
 
@@ -3827,7 +3812,7 @@ bool player::wield_contents( item &container, item *internal_item, bool penaltie
     // if index not specified and container has multiple items then ask the player to choose one
     if( internal_item == nullptr ) {
         std::vector<std::string> opts;
-        std::list<item *> container_contents = container.contents.all_items_top();
+        std::vector<item *> container_contents = container.contents.all_items_top();
         std::transform( container_contents.begin(), container_contents.end(),
         std::back_inserter( opts ), []( const item * elem ) {
             return elem->display_name();
@@ -3863,13 +3848,13 @@ bool player::wield_contents( item &container, item *internal_item, bool penaltie
         inv.unsort();
     }
 
-    weapon = std::move( *internal_item );
     container.remove_item( *internal_item );
+    set_weapon( *internal_item );
     container.on_contents_changed();
 
-    inv.update_invlet( weapon );
-    inv.update_cache_with_item( weapon );
-    last_item = weapon.typeId();
+    inv.update_invlet( *internal_item );
+    inv.update_cache_with_item( *internal_item );
+    last_item = internal_item->typeId();
 
     /**
      * @EFFECT_PISTOL decreases time taken to draw pistols from holsters
@@ -3881,12 +3866,13 @@ bool player::wield_contents( item &container, item *internal_item, bool penaltie
      * @EFFECT_CUTTING decreases time taken to draw cutting weapons from scabbards
      * @EFFECT_BASHING decreases time taken to draw bashing weapons from holsters
      */
-    int lvl = get_skill_level( weapon.is_gun() ? weapon.gun_skill() : weapon.melee_skill() );
-    mv += item_handling_cost( weapon, penalties, base_cost ) / ( ( lvl + 10.0f ) / 10.0f );
+    int lvl = get_skill_level( internal_item->is_gun() ? internal_item->gun_skill() :
+                               internal_item->melee_skill() );
+    mv += item_handling_cost( *internal_item, penalties, base_cost ) / ( ( lvl + 10.0f ) / 10.0f );
 
     moves -= mv;
 
-    weapon.on_wield( *this, mv );
+    internal_item->on_wield( *this, mv );
 
     return true;
 }
@@ -4031,7 +4017,7 @@ int player::calc_focus_equilibrium() const
     int focus_equilibrium = 100;
 
     if( activity.id() == ACT_READ ) {
-        item_location loc = activity.targets[0];
+        item *loc = &*activity.targets[0];
         if( loc && loc->is_book() ) {
             auto &bt = *loc->type->book;
             // apply a penalty when we're actually learning something
@@ -4289,9 +4275,4 @@ void player::reset_stats()
     recalc_sight_limits();
     recalc_speed_bonus();
 
-}
-
-safe_reference<player> player::get_safe_reference()
-{
-    return anchor.reference_to( this );
 }

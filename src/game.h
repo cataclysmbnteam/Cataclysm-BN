@@ -211,7 +211,7 @@ class game
         bool dump_stats( const std::string &what, dump_mode mode, const std::vector<std::string> &opts );
 
         /** Returns false if saving failed. */
-        bool save();
+        bool save( bool quitting );
 
         /** Returns a list of currently active character saves. */
         std::vector<std::string> list_active_characters();
@@ -609,8 +609,8 @@ class game
         void draw_trail_to_square( const tripoint &t, bool bDrawX );
 
         /** Custom-filtered menu for inventory and nearby items and those that within specified radius */
-        item_location inv_map_splice( item_filter filter, const std::string &title, int radius = 0,
-                                      const std::string &none_message = "" );
+        item *inv_map_splice( item_filter filter, const std::string &title, int radius = 0,
+                              const std::string &none_message = "" );
 
         bool has_gametype() const;
         special_game_id gametype() const;

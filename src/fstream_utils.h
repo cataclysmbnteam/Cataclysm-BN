@@ -7,6 +7,8 @@
 #include <memory>
 #include <functional>
 
+#include "cata_arena.h"
+
 #if defined (_WIN32) && !defined (_MSC_VER)
 namespace __gnu_cxx
 {
@@ -219,6 +221,17 @@ inline void deserialize( T &obj, const std::string &data )
 {
     deserialize_wrapper( [&obj]( JsonIn & jsin ) {
         obj.deserialize( jsin );
+    }, data );
+}
+
+template<typename T>
+inline void deserialize( T *&obj, const std::string &data )
+{
+    deserialize_wrapper( [&obj]( JsonIn & jsin ) {
+        obj = T::_spawn( jsin );
+#if !defined(RELEASE)
+        cata_arena<T>::add_debug_entry( obj, __FILE__, __LINE__ );
+#endif
     }, data );
 }
 /**@}*/

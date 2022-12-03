@@ -495,8 +495,8 @@ void Character::activate_mutation( const trait_id &mut )
         add_msg_if_player( _( "You start spinning web with your spinnerets!" ) );
     } else if( mut == trait_BURROW ) {
         tdata.powered = false;
-        item burrowing_item( itype_id( "fake_burrowing" ) );
-        invoke_item( &burrowing_item );
+        item *burrowing_item = item_spawn_temporary( itype_id( "fake_burrowing" ) );
+        invoke_item( burrowing_item );
         return;  // handled when the activity finishes
     } else if( mut == trait_SLIMESPAWNER ) {
         monster *const slime = g->place_critter_around( mtype_id( "mon_player_blob" ), pos(), 1 );
@@ -594,14 +594,15 @@ void Character::activate_mutation( const trait_id &mut )
         }
         return;
     } else if( !mdata.spawn_item.is_empty() ) {
-        item tmpitem( mdata.spawn_item );
-        i_add_or_drop( tmpitem );
+        item *tmpitem = item_spawn( mdata.spawn_item );
+        i_add_or_drop( *tmpitem );
         add_msg_if_player( mdata.spawn_item_message() );
         tdata.powered = false;
         return;
     } else if( !mdata.ranged_mutation.is_empty() ) {
         add_msg_if_player( mdata.ranged_mutation_message() );
-        avatar_action::fire_ranged_mutation( g->u, item( mdata.ranged_mutation ) );
+        //TODO!: checkssss
+        avatar_action::fire_ranged_mutation( g->u, *item_spawn( mdata.ranged_mutation ) );
         tdata.powered = false;
         return;
     }
@@ -1520,7 +1521,7 @@ static mutagen_rejection try_reject_mutagen( Character &guy, const item &it, boo
             "MYCUS", "MARLOSS", "MARLOSS_SEED", "MARLOSS_GEL"
         }
     };
-    if( std::any_of( safe.begin(), safe.end(), [it]( const std::string & flag ) {
+    if( std::any_of( safe.begin(), safe.end(), [&it]( const std::string & flag ) {
     return it.type->can_use( flag );
     } ) ) {
         return mutagen_rejection::accepted;

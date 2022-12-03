@@ -97,8 +97,8 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
         const invslice &stacks = u.inv.slice();
         for( size_t x = 0; x < stacks.size(); ++x ) {
             std::list<item *> item_pointers;
-            for( item &i : *stacks[x] ) {
-                item_pointers.push_back( &i );
+            for( item *&i : *stacks[x] ) {
+                item_pointers.push_back( i );
             }
             advanced_inv_listitem it( item_pointers, x, square.id, false );
             if( is_filtered( *it.items.front() ) ) {
@@ -111,7 +111,7 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
     } else if( square.id == AIM_WORN ) {
         auto iter = u.worn.begin();
         for( size_t i = 0; i < u.worn.size(); ++i, ++iter ) {
-            advanced_inv_listitem it( &*iter, i, 1, square.id, false );
+            advanced_inv_listitem it( *iter, i, 1, square.id, false );
             if( is_filtered( *it.items.front() ) ) {
                 continue;
             }

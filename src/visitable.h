@@ -10,6 +10,7 @@
 
 #include "filter_utils.h"
 #include "type_id.h"
+#include "colony.h"
 
 class item;
 
@@ -63,6 +64,12 @@ class visitable
         /** Returns true if any item (including those within a container) matches the filter */
         bool has_item_with( const std::function<bool( const item & )> &filter ) const;
 
+        /** Returns true if this visitable instance directly contains the item */
+        bool has_item_directly( const item &it ) const;
+
+        /** Returns true if any item directly within the visitable (so excluding those within a container) matches the filter */
+        bool has_item_with_directly( const std::function<bool( const item & )> &filter ) const;
+
         /** Returns true if instance has amount (or more) items of at least quality level */
         bool has_quality( const quality_id &qual, int level = 1, int qty = 1 ) const;
 
@@ -97,8 +104,7 @@ class visitable
                          const std::function<bool( const item & )> &filter = return_true<item> ) const;
 
         /** Returns all items (including those within a container) matching the filter */
-        std::vector<item *> items_with( const std::function<bool( const item & )> &filter );
-        std::vector<const item *> items_with( const std::function<bool( const item & )> &filter ) const;
+        std::vector<item *> items_with( const std::function<bool( const item & )> &filter ) const;
 
         /**
          * Removes items contained by this instance which match the filter
@@ -107,11 +113,11 @@ class visitable
          * @param count maximum number of items to if unspecified unlimited. A count of zero is a no-op
          * @return any items removed (items counted by charges are not guaranteed to be stacked)
          */
-        std::list<item> remove_items_with( const std::function<bool( const item & )> &filter,
-                                           int count = INT_MAX );
+        ItemList remove_items_with( const std::function<bool( const item & )> &filter,
+                                    int count = INT_MAX );
 
         /** Removes and returns the item which must be contained by this instance */
-        item remove_item( item &it );
+        item &remove_item( item &it );
 };
 
 #endif // CATA_SRC_VISITABLE_H

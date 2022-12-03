@@ -219,14 +219,15 @@ bool craft_command::query_continue( const std::vector<comp_selection<item_comp>>
 
     return query_yn( ss );
 }
-
-item craft_command::create_in_progress_craft()
+//TODO!: restore this
+item &craft_command::create_in_progress_craft()
 {
+    /*
     // Use up the components and tools
-    std::list<item> used;
+    ItemList used;
     std::vector<item_comp> comps_used;
     if( crafter->has_trait( trait_DEBUG_HS ) ) {
-        item new_craft( rec, batch_size, used, comps_used );
+        item* new_craft=item::create( rec, batch_size, used, comps_used );
         new_craft.set_tools_to_continue( true );
         return new_craft;
     }
@@ -247,7 +248,7 @@ item craft_command::create_in_progress_craft()
     const auto filter = rec->get_component_filter( flags );
 
     for( const auto &it : item_selections ) {
-        std::list<item> tmp = crafter->consume_items( it, batch_size, filter );
+        ItemList tmp = crafter->consume_items( it, batch_size, filter );
         used.splice( used.end(), tmp );
     }
 
@@ -277,6 +278,8 @@ item craft_command::create_in_progress_craft()
     new_craft.set_next_failure_point( *crafter );
 
     return new_craft;
+    */
+    return *item_spawn();
 }
 
 skill_id craft_command::get_skill_id()

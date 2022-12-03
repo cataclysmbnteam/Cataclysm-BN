@@ -537,16 +537,18 @@ void map::process_fields_in_submap( submap *const current_submap,
                     // without forcing the function to use i_at( p ) for fires without items
                     if( !is_sealed && map_tile.get_item_count() > 0 ) {
                         map_stack items_here = i_at( p );
-                        std::vector<item> new_content;
+                        std::vector<item *> new_content;
                         for( auto explosive = items_here.begin(); explosive != items_here.end(); ) {
-                            if( explosive->will_explode_in_fire() ) {
+                            if( ( *explosive )->will_explode_in_fire() ) {
+                                //TODO!: check becuase this shit is predictable now
                                 // We need to make a copy because the iterator validity is not predictable
-                                item copy = *explosive;
+                                item *copy = *explosive;
                                 explosive = items_here.erase( explosive );
-                                if( copy.detonate( p, new_content ) ) {
+                                if( copy->detonate( p, new_content ) ) {
                                     // Need to restart, iterators may not be valid
                                     explosive = items_here.begin();
                                 }
+                                copy->destroy();
                             } else {
                                 ++explosive;
                             }
@@ -556,7 +558,8 @@ void map::process_fields_in_submap( submap *const current_submap,
                         // The highest # of items this fire can remove in one turn
                         int max_consume = cur.get_field_intensity() * 2;
 
-                        for( auto fuel = items_here.begin(); fuel != items_here.end() && consumed < max_consume; ) {
+                        for( auto fuel_it = items_here.begin(); fuel_it != items_here.end() && consumed < max_consume; ) {
+                            item *fuel = *fuel_it;
                             // `item::burn` modifies the charges in order to simulate some of them getting
                             // destroyed by the fire, this changes the item weight, but may not actually
                             // destroy it. We need to spawn products anyway.
@@ -573,16 +576,16 @@ void map::process_fields_in_submap( submap *const current_submap,
                             if( destroyed ) {
                                 // If we decided the item was destroyed by fire, remove it.
                                 // But remember its contents, except for irremovable mods, if any
-                                const std::list<item *> content_list = fuel->contents.all_items_top();
+                                const std::vector<item *> content_list = fuel->contents.all_items_top();
                                 for( item *it : content_list ) {
                                     if( !it->is_irremovable() ) {
-                                        new_content.push_back( item( *it ) );
+                                        new_content.push_back( it );
                                     }
                                 }
-                                fuel = items_here.erase( fuel );
+                                fuel_it = items_here.erase( fuel_it );
                                 consumed++;
                             } else {
-                                ++fuel;
+                                ++fuel_it;
                             }
                         }
 
@@ -639,7 +642,8 @@ void map::process_fields_in_submap( submap *const current_submap,
                             if( cur.get_field_intensity() > 1 &&
                                 one_in( 200 - cur.get_field_intensity() * 50 ) ) {
                                 furn_set( p, f_ash );
-                                add_item_or_charges( p, item( "ash" ) );
+                                //TODO!: check
+                                add_item_or_charges( p, *item_spawn( "ash" ) );
                             }
 
                         }
@@ -988,11 +992,12 @@ void map::process_fields_in_submap( submap *const current_submap,
                 if( cur_fd_type_id == fd_push_items ) {
                     map_stack items = i_at( p );
                     for( auto pushee = items.begin(); pushee != items.end(); ) {
-                        if( pushee->typeId() != itype_rock ||
-                            pushee->age() < 1_turns ) {
+                        if( ( *pushee )->typeId() != itype_rock ||
+                            ( *pushee )->age() < 1_turns ) {
                             pushee++;
                         } else {
-                            item tmp = *pushee;
+                            //TODO!: check
+                            item &tmp = **pushee;
                             tmp.set_age( 0_turns );
                             pushee = items.erase( pushee );
                             std::vector<tripoint> valid;
@@ -1504,9 +1509,9 @@ void map::player_in_field( player &u )
                 for( int i = 0; i < rng( 1, 7 ); i++ ) {
                     bodypart_id bp = u.get_random_body_part();
                     int sum_cover = 0;
-                    for( const item &i : u.worn ) {
-                        if( i.covers( bp->token ) ) {
-                            sum_cover += i.get_coverage();
+                    for( const item * const &i : u.worn ) {
+                        if( i->covers( bp->token ) ) {
+                            sum_cover += i->get_coverage();
                         }
                     }
                     // Get stung if [clothing on a body part isn't thick enough (like t-shirt) OR clothing covers less than 100% of body part]

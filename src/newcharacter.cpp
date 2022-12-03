@@ -399,7 +399,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
 
 bool avatar::create( character_type type, const std::string &tempname )
 {
-    weapon = item( "null", calendar::start_of_cataclysm );
+    set_weapon( null_item_reference() );
 
     prof = profession::generic();
     g->scen = scenario::generic();
@@ -530,7 +530,7 @@ bool avatar::create( character_type type, const std::string &tempname )
         scent = 300;
     }
 
-    weapon = item( "null", calendar::start_of_cataclysm );
+    set_weapon( null_item_reference() );
 
     // Grab the skills from the profession, if there are any
     // We want to do this before the recipes
@@ -567,32 +567,32 @@ bool avatar::create( character_type type, const std::string &tempname )
         starting_vehicle = prof->vehicle();
     }
 
-    std::list<item> prof_items = prof->items( male, get_mutations() );
+    ItemList prof_items = prof->items( male, get_mutations() );
 
-    for( item &it : prof_items ) {
-        if( it.has_flag( flag_WET ) ) {
-            it.active = true;
-            it.item_counter = 450; // Give it some time to dry off
+    for( item * const &it : prof_items ) {
+        if( it->has_flag( flag_WET ) ) {
+            it->active = true;
+            it->item_counter = 450; // Give it some time to dry off
         }
         // TODO: debugmsg if food that isn't a seed is inedible
-        if( it.has_flag( "no_auto_equip" ) ) {
-            it.unset_flag( "no_auto_equip" );
-            inv.push_back( it );
-        } else if( it.has_flag( "auto_wield" ) ) {
-            it.unset_flag( "auto_wield" );
+        if( it->has_flag( "no_auto_equip" ) ) {
+            it->unset_flag( "no_auto_equip" );
+            inv.push_back( *it );
+        } else if( it->has_flag( "auto_wield" ) ) {
+            it->unset_flag( "auto_wield" );
             if( !is_armed() ) {
-                wield( it );
+                wield( *it );
             } else {
-                inv.push_back( it );
+                inv.push_back( *it );
             }
-        } else if( it.is_armor() ) {
+        } else if( it->is_armor() ) {
             // TODO: debugmsg if wearing fails
-            wear_item( it, false );
+            wear_item( *it, false );
         } else {
-            inv.push_back( it );
+            inv.push_back( *it );
         }
-        if( it.is_book() ) {
-            items_identified.insert( it.typeId() );
+        if( it->is_book() ) {
+            items_identified.insert( it->typeId() );
         }
     }
 
@@ -1542,14 +1542,14 @@ tab_direction set_profession( avatar &u, points_left &points,
                 std::string buffer_worn;
                 std::string buffer_inventory;
                 for( const auto &it : prof_items ) {
-                    if( it.has_flag( "no_auto_equip" ) ) {
-                        buffer_inventory += it.display_name() + "\n";
-                    } else if( it.has_flag( "auto_wield" ) ) {
-                        buffer_wielded += it.display_name() + "\n";
-                    } else if( it.is_armor() ) {
-                        buffer_worn += it.display_name() + "\n";
+                    if( it->has_flag( "no_auto_equip" ) ) {
+                        buffer_inventory += it->display_name() + "\n";
+                    } else if( it->has_flag( "auto_wield" ) ) {
+                        buffer_wielded += it->display_name() + "\n";
+                    } else if( it->is_armor() ) {
+                        buffer_worn += it->display_name() + "\n";
                     } else {
-                        buffer_inventory += it.display_name() + "\n";
+                        buffer_inventory += it->display_name() + "\n";
                     }
                 }
                 buffer += colorize( _( "Wielded:" ), c_cyan ) + "\n";
@@ -2978,7 +2978,7 @@ cata::optional<std::string> query_for_template_name()
         return spop.text();
     }
 }
-
+//TODO!: check the serialization here
 void avatar::save_template( const std::string &name, const points_left &points )
 {
     std::string name_san = ensure_valid_file_name( name );

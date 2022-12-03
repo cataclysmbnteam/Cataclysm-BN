@@ -95,7 +95,7 @@ class selection_column_preset : public inventory_selector_preset
         std::string get_caption( const inventory_entry &entry ) const override {
             std::string res;
             const size_t available_count = entry.get_available_count();
-            const item_location &item = entry.any_item();
+            const item *item = entry.any_item();
 
             if( entry.chosen_count > 0 && entry.chosen_count < available_count ) {
                 //~ %1$d: chosen count, %2$d: available count
@@ -120,7 +120,7 @@ class selection_column_preset : public inventory_selector_preset
 
         nc_color get_color( const inventory_entry &entry ) const override {
             if( entry.is_item() ) {
-                if( &*entry.any_item() == &g->u.weapon ) {
+                if( entry.any_item() == &g->u.get_weapon() ) {
                     return c_light_blue;
                 } else if( g->u.is_worn( *entry.any_item() ) ) {
                     return c_cyan;
@@ -135,7 +135,7 @@ static const selection_column_preset selection_preset{};
 int inventory_entry::get_total_charges() const
 {
     int result = 0;
-    for( const item_location &location : locations ) {
+    for( const item *location : locations ) {
         result += location->charges;
     }
     return result;
@@ -146,7 +146,7 @@ int inventory_entry::get_selected_charges() const
     assert( chosen_count <= locations.size() );
     int result = 0;
     for( size_t i = 0; i < chosen_count; ++i ) {
-        const item_location &location = locations[i];
+        const item *location = locations[i];
         result += location->charges;
     }
     return result;
@@ -310,7 +310,7 @@ bool inventory_selector_preset::is_stub_cell( const inventory_entry &entry,
 }
 
 void inventory_selector_preset::append_cell( const
-        std::function<std::string( const item_location & )> &func,
+        std::function<std::string( const item * )> &func,
         const std::string &title, const std::string &stub )
 {
     // Don't capture by reference here. The func should be able to die earlier than the object itself
@@ -638,12 +638,12 @@ std::vector<inventory_entry *> inventory_column::get_entries(
     return res;
 }
 
-void inventory_column::set_stack_favorite( const item_location &location, bool favorite )
+void inventory_column::set_stack_favorite( const item *location, bool favorite )
 {
-    const item *selected_item = location.get_item();
+    const item *selected_item = location;
     std::list<item *> to_favorite;
 
-    if( location.where() == item_location::type::character ) {
+    if( location->where() == item_location_type::character ) {
         int position = g->u.get_item_position( selected_item );
 
         if( position < 0 ) {
@@ -651,27 +651,27 @@ void inventory_column::set_stack_favorite( const item_location &location, bool f
         } else {
             g->u.inv.set_stack_favorite( position, !selected_item->is_favorite ); // in inventory
         }
-    } else if( location.where() == item_location::type::map ) {
-        auto items = g->m.i_at( location.position() );
+    } else if( location->where() == item_location_type::map ) {
+        auto items = g->m.i_at( location->position() );
 
         for( auto &item : items ) {
-            if( item.stacks_with( *selected_item ) ) {
-                to_favorite.push_back( &item );
+            if( item->stacks_with( *selected_item ) ) {
+                to_favorite.push_back( item );
             }
         }
         for( auto &item : to_favorite ) {
             item->set_favorite( favorite );
         }
-    } else if( location.where() == item_location::type::vehicle ) {
+    } else if( location->where() == item_location_type::vehicle ) {
         const cata::optional<vpart_reference> vp = g->m.veh_at(
-                    location.position() ).part_with_feature( "CARGO", true );
+                    location->position() ).part_with_feature( "CARGO", true );
         assert( vp );
 
         auto items = vp->vehicle().get_items( vp->part_index() );
 
         for( auto &item : items ) {
-            if( item.stacks_with( *selected_item ) ) {
-                to_favorite.push_back( &item );
+            if( item->stacks_with( *selected_item ) ) {
+                to_favorite.push_back( item );
             }
         }
         for( auto *item : to_favorite ) {
@@ -700,7 +700,7 @@ void inventory_column::on_input( const inventory_input &input )
         select( entries.size() - 1, scroll_direction::BACKWARD );
     } else if( input.action == "TOGGLE_FAVORITE" ) {
         if( !get_selected().locations.empty() ) {
-            const item_location &loc = get_selected().any_item();
+            const item *loc = get_selected().any_item();
             set_stack_favorite( loc, !loc->is_favorite );
         }
     }
@@ -819,7 +819,7 @@ void inventory_column::clear()
     paging_is_valid = false;
 }
 
-bool inventory_column::select( const item_location &loc )
+bool inventory_column::select( const item *loc )
 {
     for( size_t index = 0; index < entries.size(); ++index ) {
         if( entries[index].is_selectable() && entries[index].any_item() == loc ) {
@@ -1052,27 +1052,29 @@ void selection_column::on_change( const inventory_entry &entry )
     }
 }
 
+//TODO!: restore/delete if it ends up being the same as the one below
+/*
 // TODO: Move it into some 'item_stack' class.
-static std::vector<std::list<item *>> restack_items( const std::list<item>::const_iterator &from,
-                                   const std::list<item>::const_iterator &to, bool check_components = false )
+static std::vector<std::list<item *>> restack_items( const ItemList::const_iterator &from,
+                                   const ItemList::const_iterator &to, bool check_components = false )
 {
     std::vector<std::list<item *>> res;
 
     for( auto it = from; it != to; ++it ) {
         auto match = std::find_if( res.begin(), res.end(),
         [ &it, check_components ]( const std::list<item *> &e ) {
-            return it->display_stacked_with( *const_cast<item *>( e.back() ), check_components );
+            return ( *it )->display_stacked_with( *const_cast<item *>( e.back() ), check_components );
         } );
 
         if( match != res.end() ) {
-            match->push_back( const_cast<item *>( &*it ) );
+            match->push_back( const_cast<item *>( *it ) );
         } else {
-            res.emplace_back( 1, const_cast<item *>( &*it ) );
+            res.emplace_back( 1, const_cast<item *>( *it ) );
         }
     }
 
     return res;
-}
+}*/
 
 // TODO: Move it into some 'item_stack' class.
 static std::vector<std::list<item *>> restack_items( const item_stack::const_iterator &from,
@@ -1083,13 +1085,13 @@ static std::vector<std::list<item *>> restack_items( const item_stack::const_ite
     for( auto it = from; it != to; ++it ) {
         auto match = std::find_if( res.begin(), res.end(),
         [ &it, check_components ]( const std::list<item *> &e ) {
-            return it->display_stacked_with( *const_cast<item *>( e.back() ), check_components );
+            return ( *it )->display_stacked_with( *const_cast<item *>( e.back() ), check_components );
         } );
 
         if( match != res.end() ) {
-            match->push_back( const_cast<item *>( &*it ) );
+            match->push_back( const_cast<item *>( *it ) );
         } else {
-            res.emplace_back( 1, const_cast<item *>( &*it ) );
+            res.emplace_back( 1, const_cast<item *>( *it ) );
         }
     }
 
@@ -1137,7 +1139,7 @@ const item_category *inventory_selector::naturalize_category( const item_categor
 }
 
 void inventory_selector::add_entry( inventory_column &target_column,
-                                    std::vector<item_location> &&locations,
+                                    std::vector<item *> &&locations,
                                     const item_category *custom_category )
 {
     if( !preset.is_shown( locations.front() ) ) {
@@ -1157,30 +1159,30 @@ void inventory_selector::add_entry( inventory_column &target_column,
 }
 
 void inventory_selector::add_item( inventory_column &target_column,
-                                   item_location &&location,
+                                   item *location,
                                    const item_category *custom_category )
 {
     add_entry( target_column,
-               std::vector<item_location>( 1, location ),
+               std::vector<item *>( 1, location ),
                custom_category );
 }
 
 void inventory_selector::add_items( inventory_column &target_column,
-                                    const std::function<item_location( item * )> &locator,
+                                    const std::function<item*( item * )> &locator,
                                     const std::vector<std::list<item *>> &stacks,
                                     const item_category *custom_category )
 {
     const item_category *nat_category = nullptr;
 
     for( const auto &elem : stacks ) {
-        std::vector<item_location> locations;
+        std::vector<item *> locations;
         std::transform( elem.begin(), elem.end(), std::back_inserter( locations ), locator );
-        item_location const &loc = locations.front();
+        item *const &loc = locations.front();
 
         if( custom_category == nullptr ) {
             nat_category = &loc->get_category();
         } else if( nat_category == nullptr && preset.is_shown( loc ) ) {
-            nat_category = naturalize_category( *custom_category, loc.position() );
+            nat_category = naturalize_category( *custom_category, loc->position() );
         }
 
         add_entry( target_column, std::move( locations ), nat_category );
@@ -1189,20 +1191,20 @@ void inventory_selector::add_items( inventory_column &target_column,
 
 void inventory_selector::add_character_items( Character &character )
 {
-    character.visit_items( [ this, &character ]( item * it ) {
-        if( it == &character.weapon ) {
-            add_item( own_gear_column, item_location( character, it ),
+    character.visit_items( [ this, &character]( item * it ) {
+        if( it == &character.get_weapon() ) {
+            add_item( own_gear_column,  it,
                       &item_category_id( "WEAPON_HELD" ).obj() );
         } else if( character.is_worn( *it ) ) {
-            add_item( own_gear_column, item_location( character, it ),
+            add_item( own_gear_column, it,
                       &item_category_id( "ITEMS_WORN" ).obj() );
         }
         return VisitResponse::NEXT;
     } );
     // Visitable interface does not support stacks so it has to be here
     for( const auto &elem : character.inv.slice() ) {
-        add_items( own_inv_column, [&character]( item * it ) {
-            return item_location( character, it );
+        add_items( own_inv_column, []( item * it ) {
+            return it;
         }, restack_items( ( *elem ).begin(), ( *elem ).end(), preset.get_checking_components() ) );
     }
 }
@@ -1214,8 +1216,8 @@ void inventory_selector::add_map_items( const tripoint &target )
         const std::string name = to_upper_case( g->m.name( target ) );
         const item_category map_cat( name, no_translation( name ), 100 );
 
-        add_items( map_column, [ &target ]( item * it ) {
-            return item_location( target, it );
+        add_items( map_column, []( item * it ) {
+            return it;
         }, restack_items( items.begin(), items.end(), preset.get_checking_components() ), &map_cat );
     }
 }
@@ -1234,8 +1236,8 @@ void inventory_selector::add_vehicle_items( const tripoint &target )
 
     const auto check_components = this->preset.get_checking_components();
 
-    add_items( map_column, [ veh, part ]( item * it ) {
-        return item_location( vehicle_cursor( *veh, part ), it );
+    add_items( map_column, []( item * it ) {
+        return it;
     }, restack_items( items.begin(), items.end(), check_components ), &vehicle_cat );
 }
 
@@ -1264,7 +1266,7 @@ void inventory_selector::clear_items()
     map_column.clear();
 }
 
-bool inventory_selector::select( const item_location &loc )
+bool inventory_selector::select( const item *loc )
 {
     bool res = false;
 
@@ -1901,7 +1903,7 @@ std::vector<char> inventory_selector::all_bound_keys() const
     return retv;
 }
 
-item_location inventory_pick_selector::execute()
+item *inventory_pick_selector::execute()
 {
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
     while( true ) {
@@ -1915,7 +1917,7 @@ item_location inventory_pick_selector::execute()
             }
             return input.entry->any_item();
         } else if( input.action == "QUIT" ) {
-            return item_location();
+            return nullptr;
         } else if( input.action == "CONFIRM" ) {
             const inventory_entry &selected = get_active_column().get_selected();
             if( selected ) {
@@ -1928,7 +1930,7 @@ item_location inventory_pick_selector::execute()
         }
 
         if( input.action == "TOGGLE_FAVORITE" ) {
-            return item_location();
+            return nullptr;
         }
     }
 }
@@ -2115,10 +2117,10 @@ void inventory_iuse_selector::set_chosen_count( inventory_entry &entry, size_t c
                                        entry.get_available_count() );
         to_use[it].clear();
         if( entry.locations.size() == 1 ) {
-            to_use[it].push_back( iuse_location{ entry.locations[0], static_cast<int>( entry.chosen_count ) } );
+            to_use[it].push_back( iuse_location{ *entry.locations[0], static_cast<int>( entry.chosen_count ) } );
         } else {
             for( size_t i = 0; i < entry.chosen_count; i++ ) {
-                to_use[it].push_back( iuse_location{ entry.locations[i], 1 } );
+                to_use[it].push_back( iuse_location{ *entry.locations[i], 1 } );
             }
         }
     }
@@ -2187,7 +2189,7 @@ drop_locations inventory_drop_selector::execute()
     for( const std::pair<const item *const, int> &drop_pair : dropping ) {
         for( auto &col : get_all_columns() ) {
             for( const auto &entry : col->get_entries( always_yes ) ) {
-                if( entry->any_item().get_item() == drop_pair.first ) {
+                if( entry->any_item() == drop_pair.first ) {
                     selected_entries.push_back( std::pair<inventory_entry *, int>( entry, drop_pair.second ) );
                 }
             }
@@ -2287,11 +2289,10 @@ drop_locations inventory_drop_selector::execute()
 
     drop_locations dropped_pos_and_qty;
 
-    for( const std::pair<const item *const, int>  &drop_pair : dropping ) {
-        item_location loc( u, const_cast<item *>( drop_pair.first ) );
+    for( const std::pair<item *, int>  &drop_pair : dropping ) {
         // Note: drop_location here contains location of first item in stack,
         // and amount of items to be dropped from the stack.
-        dropped_pos_and_qty.emplace_back( loc, drop_pair.second );
+        dropped_pos_and_qty.emplace_back( *drop_pair.first, drop_pair.second );
     }
 
     return dropped_pos_and_qty;
@@ -2299,7 +2300,7 @@ drop_locations inventory_drop_selector::execute()
 
 void inventory_drop_selector::set_chosen_count( inventory_entry &entry, size_t count )
 {
-    const item *it = entry.item_stack_on_character();
+    item *it = entry.item_stack_on_character();
 
     if( count == 0 ) {
         entry.chosen_count = 0;

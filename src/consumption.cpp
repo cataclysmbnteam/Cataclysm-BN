@@ -212,14 +212,14 @@ static cata::optional<prepared_item_consumption> find_food_heater( Character &c,
         const inventory &inv, bool has_fire )
 {
     if( has_fire ) {
-        std::vector<const item *> fire_heaters = inv.items_with( []( const item & it ) {
+        std::vector<item *> fire_heaters = inv.items_with( []( const item & it ) {
             return it.has_flag( "HEATS_FOOD_USING_FIRE" );
         } );
         if( !fire_heaters.empty() ) {
             return prepared_item_consumption( item_consumption_t::none, *fire_heaters.front() );
         }
     }
-    std::vector<const item *> charged_heaters = inv.items_with( [&c]( const item & it ) {
+    std::vector<item *> charged_heaters = inv.items_with( [&c]( const item & it ) {
         return it.has_flag( "HEATS_FOOD_USING_CHARGES" ) &&
                it.has_flag( "HEATS_FOOD" ) &&
                c.has_enough_charges( it, false );
@@ -227,7 +227,7 @@ static cata::optional<prepared_item_consumption> find_food_heater( Character &c,
     if( !charged_heaters.empty() ) {
         return prepared_item_consumption( item_consumption_t::tool, *charged_heaters.front() );
     }
-    std::vector<const item *> consumed_heaters = inv.items_with( []( const item & it ) {
+    std::vector<item *> consumed_heaters = inv.items_with( []( const item & it ) {
         return it.has_flag( "HEATS_FOOD_IS_CONSUMED" ) &&
                it.has_flag( "HEATS_FOOD" ) &&
                is_crafting_component( it );
@@ -334,10 +334,10 @@ nutrients Character::compute_effective_nutrients( const item &comest ) const
     // if item has components, will derive calories from that instead.
     if( !comest.components.empty() && !comest.has_flag( flag_NUTRIENT_OVERRIDE ) ) {
         nutrients tally{};
-        for( const item &component : comest.components ) {
+        for( const item * const &component : comest.components ) {
             nutrients component_value =
-                compute_effective_nutrients( component ) * component.charges;
-            if( component.has_flag( flag_BYPRODUCT ) ) {
+                compute_effective_nutrients( *component ) * component->charges;
+            if( component->has_flag( flag_BYPRODUCT ) ) {
                 tally -= component_value;
             } else {
                 tally += component_value;
@@ -403,7 +403,7 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
     }
 
     for( const std::pair<const itype_id, int> &byproduct : rec.byproducts ) {
-        item byproduct_it( byproduct.first, calendar::turn, byproduct.second );
+        item &byproduct_it = *item_spawn_temporary( byproduct.first, calendar::turn, byproduct.second );
         nutrients byproduct_nutr = compute_default_effective_nutrients( byproduct_it, *this );
         tally_min -= byproduct_nutr;
         tally_max -= byproduct_nutr;
@@ -422,8 +422,8 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
     if( !comest->comestible ) {
         return {};
     }
-
-    item comest_it( comest, calendar::turn, 1 );
+    //TODO!: wtf is all this shit
+    item &comest_it = *item_spawn_temporary( comest, calendar::turn, 1 );
     // The default nutrients are always a possibility
     nutrients min_nutr = compute_default_effective_nutrients( comest_it, *this, extra_flags );
 
@@ -438,18 +438,20 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
         nutrients this_min;
         nutrients this_max;
 
-        item result_it = rec->create_result();
-        if( result_it.contents.num_item_stacks() == 1 ) {
-            const item alt_result = result_it.contents.front();
+        item *result_it = &rec->create_result();
+        if( result_it->contents.num_item_stacks() == 1 ) {
+            item &alt_result = result_it->contents.front();
             if( alt_result.typeId() == comest_it.typeId() ) {
-                result_it = alt_result;
+                result_it->contents.remove_top( &alt_result );
+                result_it->destroy();
+                result_it = &alt_result;
             }
         }
-        if( result_it.typeId() != comest_it.typeId() ) {
+        if( result_it->typeId() != comest_it.typeId() ) {
             debugmsg( "When creating recipe result expected %s, got %s\n",
-                      comest_it.typeId().str(), result_it.typeId().str() );
+                      comest_it.typeId().str(), result_it->typeId().str() );
         }
-        std::tie( this_min, this_max ) = compute_nutrient_range( result_it, rec, extra_flags );
+        std::tie( this_min, this_max ) = compute_nutrient_range( *result_it, rec, extra_flags );
         min_nutr.min_in_place( this_min );
         max_nutr.max_in_place( this_max );
     }
@@ -1507,10 +1509,7 @@ item &Character::get_consumable_from( item &it ) const
         return it;
     }
 
-    static item null_comestible;
-    // Since it's not const.
-    null_comestible = item();
-    return null_comestible;
+    return null_item_reference();
 }
 
 consumption_event::consumption_event( const item &food ) : time( calendar::turn )

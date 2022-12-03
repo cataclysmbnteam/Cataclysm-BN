@@ -791,10 +791,11 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         // if its a tameable animal, its a good way to catch them if they are running away, like them ranchers do!
         // we assume immediate success, then certain monster types immediately break free in monster.cpp move_effects()
         if( z ) {
-            const item &drop_item = proj.get_drop();
+            item &drop_item = proj.get_drop();
             if( !drop_item.is_null() ) {
                 z->add_effect( effect_tied, 1_turns, num_bp );
-                z->tied_item = cata::make_value<item>( drop_item );
+                //TODO!: check ownering
+                z->set_tied_item( &drop_item );
             } else {
                 add_msg( m_debug, "projectile with TANGLE effect, but no drop item specified" );
             }
@@ -2017,4 +2018,9 @@ effects_map Creature::get_all_effects() const
         }
     }
     return effects_without_removed;
+}
+
+bool Creature::is_loaded() const
+{
+    return get_map().inbounds( pos() );
 }

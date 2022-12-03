@@ -1109,7 +1109,8 @@ requirement_data requirement_data::disassembly_requirements() const
     []( std::vector<item_comp> &cov ) {
         cov.erase( std::remove_if( cov.begin(), cov.end(),
         []( const item_comp & comp ) {
-            return !comp.recoverable || item( comp.type ).has_flag( "UNRECOVERABLE" );
+            //TODO!: Why are we constructing a fresh item exactly?
+            return !comp.recoverable || item_spawn_temporary( comp.type )->has_flag( "UNRECOVERABLE" );
         } ), cov.end() );
         return cov.empty();
     } ), ret.components.end() );
@@ -1118,7 +1119,7 @@ requirement_data requirement_data::disassembly_requirements() const
 }
 
 requirement_data requirement_data::continue_requirements( const std::vector<item_comp>
-        &required_comps, const std::list<item> &remaining_comps )
+        &required_comps, const ItemList &remaining_comps )
 {
     // Create an empty requirement_data
     requirement_data ret;
@@ -1144,7 +1145,7 @@ requirement_data requirement_data::continue_requirements( const std::vector<item
             // This is terrible but inventory doesn't have a use_charges() function so...
             std::vector<item *> del;
             craft_components.visit_items( [&comp, &qty, &del]( item * e ) {
-                std::list<item> used;
+                ItemList used;
                 if( e->use_charges( comp.type, qty, used, tripoint_zero ) ) {
                     del.push_back( e );
                 }

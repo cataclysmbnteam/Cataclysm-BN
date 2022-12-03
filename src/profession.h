@@ -13,6 +13,7 @@
 #include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
+#include "colony.h"
 
 template<typename T>
 class generic_factory;
@@ -98,7 +99,7 @@ class profession
         std::string gender_appropriate_name( bool male ) const;
         std::string description( bool male ) const;
         signed int point_cost() const;
-        std::list<item> items( bool male, const std::vector<trait_id> &traits ) const;
+        ItemList items( bool male, const std::vector<trait_id> &traits ) const;
         std::vector<addiction> addictions() const;
         vproto_id vehicle() const;
         std::vector<mtype_id> pets() const;

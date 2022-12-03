@@ -123,7 +123,7 @@ bool monexamine::pet_menu( monster &z )
     if( z.has_effect( effect_has_bag ) ) {
         amenu.addentry( give_items, true, 'g', _( "Place items into bag" ) );
         amenu.addentry( remove_bag, true, 'b', _( "Remove bag from %s" ), pet_name );
-        if( !z.inv.empty() ) {
+        if( !z.get_items().empty() ) {
             amenu.addentry( drop_all, true, 'd', _( "Remove all items from bag" ) );
         }
     } else if( !z.has_flag( MF_RIDEABLE_MECH ) ) {
@@ -216,21 +216,21 @@ bool monexamine::pet_menu( monster &z )
         const itype &type = *z.type->mech_battery;
         int max_charge = type.magazine->capacity;
         float charge_percent;
-        if( z.battery_item ) {
-            charge_percent = static_cast<float>( z.battery_item->ammo_remaining() ) / max_charge * 100;
+        if( z.get_battery_item() ) {
+            charge_percent = static_cast<float>( z.get_battery_item()->ammo_remaining() ) / max_charge * 100;
         } else {
             charge_percent = 0.0;
         }
         amenu.addentry( check_bat, false, 'c', _( "%s battery level is %d%%" ), z.get_name(),
                         static_cast<int>( charge_percent ) );
-        if( you.weapon.is_null() && z.battery_item ) {
+        if( you.get_weapon().is_null() && z.get_battery_item() ) {
             amenu.addentry( mount, true, 'r', _( "Climb into the mech and take control" ) );
-        } else if( !you.weapon.is_null() ) {
+        } else if( !you.get_weapon().is_null() ) {
             amenu.addentry( mount, false, 'r', _( "You cannot pilot the mech whilst wielding something" ) );
-        } else if( !z.battery_item ) {
+        } else if( !z.get_battery_item() ) {
             amenu.addentry( mount, false, 'r', _( "This mech has a dead battery and won't turn on" ) );
         }
-        if( z.battery_item ) {
+        if( z.get_battery_item() ) {
             amenu.addentry( remove_bat, true, 'x', _( "Remove the mech's battery pack" ) );
         } else if( you.has_amount( z.type->mech_battery, 1 ) ) {
             amenu.addentry( insert_bat, true, 'x', _( "Insert a new battery pack" ) );
@@ -359,11 +359,11 @@ void monexamine::shear_animal( monster &z )
         z.add_effect( effect_tied, 1_turns );
         you.activity.str_values.push_back( "temp_tie" );
     }
-    you.activity.targets.push_back( item_location( you, you.best_quality_item( qual_shear ) ) );
+    you.activity.targets.push_back( you.best_quality_item( qual_shear ) );
     add_msg( _( "You start shearing the %s." ), z.get_name() );
 }
 
-static item_location pet_armor_loc( monster &z )
+static item *pet_armor_loc( monster &z )
 {
     auto filter = [z]( const item & it ) {
         return z.type->bodytype == it.get_pet_armor_bodytype() &&
@@ -374,7 +374,7 @@ static item_location pet_armor_loc( monster &z )
     return game_menus::inv::titled_filter_menu( filter, get_avatar(), _( "Pet armor" ) );
 }
 
-static item_location tack_loc()
+static item *tack_loc()
 {
     auto filter = []( const item & it ) {
         return it.has_flag( "TACK" );
@@ -385,13 +385,17 @@ static item_location tack_loc()
 
 void monexamine::remove_battery( monster &z )
 {
-    get_map().add_item_or_charges( get_player_character().pos(), *z.battery_item );
-    z.battery_item.reset();
+    //TODO!: standard ownership
+    if( z.get_battery_item() ) {
+        z.get_battery_item()->detach();
+    }
+    get_map().add_item_or_charges( get_player_character().pos(), *z.get_battery_item() );
+
 }
 
 void monexamine::insert_battery( monster &z )
 {
-    if( z.battery_item ) {
+    if( z.get_battery_item() ) {
         // already has a battery, shouldn't be called with one, but just incase.
         return;
     }
@@ -407,7 +411,7 @@ void monexamine::insert_battery( monster &z )
     selection_menu.text = string_format( _( "Select an battery to insert into your %s." ),
                                          z.get_name() );
     selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Cancel" ) );
-    for( auto iter : bat_inv ) {
+    for( auto &iter : bat_inv ) {
         selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Use %s" ), iter->tname() );
     }
     selection_menu.selected = 1;
@@ -420,8 +424,9 @@ void monexamine::insert_battery( monster &z )
     item *bat_item = bat_inv[index - 1];
     int item_pos = you.get_item_position( bat_item );
     if( item_pos != INT_MIN ) {
-        z.battery_item = cata::make_value<item>( *bat_item );
+        //TODO!: check owner here
         you.i_rem( item_pos );
+        z.set_battery_item( bat_item );
     }
 }
 
@@ -545,20 +550,21 @@ bool monexamine::mfriend_menu( monster &z )
 
 void monexamine::attach_or_remove_saddle( monster &z )
 {
+    //TODO!: check ownership/null
     if( z.has_effect( effect_saddled ) ) {
         z.remove_effect( effect_saddled );
-        get_avatar().i_add( *z.tack_item );
-        z.tack_item.reset();
+        z.get_tack_item()->detach();
+        get_avatar().i_add( *z.get_tack_item() );
     } else {
-        item_location loc = tack_loc();
+        item *loc = tack_loc();
 
         if( !loc ) {
             add_msg( _( "Never mind." ) );
             return;
         }
+        loc->detach();
         z.add_effect( effect_saddled, 1_turns, num_bp );
-        z.tack_item = cata::make_value<item>( *loc.get_item() );
-        loc.remove_item();
+        z.set_tack_item( loc );
     }
 }
 
@@ -645,17 +651,18 @@ void monexamine::attach_bag_to( monster &z )
     };
 
     avatar &you = get_avatar();
-    item_location loc = game_menus::inv::titled_filter_menu( filter, you, _( "Bag item" ) );
+    item *loc = game_menus::inv::titled_filter_menu( filter, you, _( "Bag item" ) );
 
     if( !loc ) {
         add_msg( _( "Never mind." ) );
         return;
     }
 
+    //TODO!: check ownership
     item &it = *loc;
-    z.storage_item = cata::make_value<item>( it );
-    add_msg( _( "You mount the %1$s on your %2$s." ), it.display_name(), pet_name );
     you.i_rem( &it );
+    z.set_storage_item( &it );
+    add_msg( _( "You mount the %1$s on your %2$s." ), it.display_name(), pet_name );
     z.add_effect( effect_has_bag, 1_turns, num_bp );
     // Update encumbrance in case we were wearing it
     you.flag_encumbrance();
@@ -665,14 +672,15 @@ void monexamine::attach_bag_to( monster &z )
 void monexamine::remove_bag_from( monster &z )
 {
     std::string pet_name = z.get_name();
-    if( z.storage_item ) {
-        if( !z.inv.empty() ) {
+    if( z.get_storage_item() ) {
+        if( !z.get_items().empty() ) {
             dump_items( z );
         }
         avatar &you = get_avatar();
-        get_map().add_item_or_charges( you.pos(), *z.storage_item );
-        add_msg( _( "You remove the %1$s from %2$s." ), z.storage_item->display_name(), pet_name );
-        z.storage_item.reset();
+        z.get_storage_item()->detach();
+        get_map().add_item_or_charges( you.pos(), *z.get_storage_item() );
+        add_msg( _( "You remove the %1$s from %2$s." ), z.get_storage_item()->display_name(), pet_name );
+        //TODO!: check ownership shit again
         you.moves -= 200;
     } else {
         add_msg( m_bad, _( "Your %1$s doesn't have a bag!" ), pet_name );
@@ -684,11 +692,7 @@ void monexamine::dump_items( monster &z )
 {
     std::string pet_name = z.get_name();
     avatar &you = get_avatar();
-    map &here = get_map();
-    for( auto &it : z.inv ) {
-        here.add_item_or_charges( you.pos(), it );
-    }
-    z.inv.clear();
+    z.drop_items( you.pos() );
     add_msg( _( "You dump the contents of the %s's bag on the ground." ), pet_name );
     you.moves -= 200;
 }
@@ -696,29 +700,33 @@ void monexamine::dump_items( monster &z )
 bool monexamine::give_items_to( monster &z )
 {
     std::string pet_name = z.get_name();
-    if( !z.storage_item ) {
+    if( !z.get_storage_item() ) {
         add_msg( _( "There is no container on your %s to put things in!" ), pet_name );
         return true;
     }
 
-    item &storage = *z.storage_item;
+    item &storage = *z.get_storage_item();
     units::mass max_weight = z.weight_capacity() - z.get_carried_weight();
     units::volume max_volume = storage.get_storage() - z.get_carried_volume();
     avatar &you = get_avatar();
+    //TODO!: check this
     drop_locations items = game_menus::inv::multidrop( you );
     drop_locations to_move;
     for( const drop_location &itq : items ) {
-        item it_copy = *itq.loc;
-        if( it_copy.count_by_charges() ) {
-            it_copy.charges = itq.count;
+        item *it_copy = &*itq.loc;
+        if( it_copy->count_by_charges() ) {
+            //TODO!: check moving this upwards
+            it_copy = item_spawn_temporary( *it_copy );
+            it_copy->charges = itq.count;
         }
-        units::volume item_volume = it_copy.volume();
-        units::mass item_weight = it_copy.weight();
+
+        units::volume item_volume = it_copy->volume();
+        units::mass item_weight = it_copy->weight();
         if( max_weight < item_weight ) {
-            add_msg( _( "The %1$s is too heavy for the %2$s to carry." ), it_copy.tname(), pet_name );
+            add_msg( _( "The %1$s is too heavy for the %2$s to carry." ), it_copy->tname(), pet_name );
             continue;
         } else if( max_volume < item_volume ) {
-            add_msg( _( "The %1$s is too big to fit in the %2$s." ), it_copy.tname(), storage.tname() );
+            add_msg( _( "The %1$s is too big to fit in the %2$s." ), it_copy->tname(), storage.tname() );
             continue;
         } else {
             max_weight -= item_weight;
@@ -735,7 +743,7 @@ bool monexamine::give_items_to( monster &z )
 bool monexamine::add_armor( monster &z )
 {
     std::string pet_name = z.get_name();
-    item_location loc = pet_armor_loc( z );
+    item *loc = pet_armor_loc( z );
 
     if( !loc ) {
         add_msg( _( "Never mind." ) );
@@ -750,11 +758,11 @@ bool monexamine::add_armor( monster &z )
         return true;
     }
 
+    loc->detach();
     armor.set_var( "pet_armor", "true" );
-    z.armor_item = cata::make_value<item>( armor );
+    z.set_armor_item( &armor );
     add_msg( pgettext( "pet armor", "You put the %1$s on your %2$s." ), armor.display_name(),
              pet_name );
-    loc.remove_item();
     z.add_effect( effect_monster_armor, 1_turns, num_bp );
     // TODO: armoring a horse takes a lot longer than 2 seconds. This should be a long action.
     get_avatar().moves -= 200;
@@ -770,12 +778,13 @@ void monexamine::remove_harness( monster &z )
 void monexamine::remove_armor( monster &z )
 {
     std::string pet_name = z.get_name();
-    if( z.armor_item ) {
-        z.armor_item->erase_var( "pet_armor" );
-        get_map().add_item_or_charges( z.pos(), *z.armor_item );
-        add_msg( pgettext( "pet armor", "You remove the %1$s from %2$s." ), z.armor_item->display_name(),
+    if( z.get_armor_item() ) {
+        z.get_armor_item()->erase_var( "pet_armor" );
+        item *armor = z.get_armor_item();
+        armor->detach();
+        get_map().add_item_or_charges( z.pos(), *armor );
+        add_msg( pgettext( "pet armor", "You remove the %1$s from %2$s." ), armor->display_name(),
                  pet_name );
-        z.armor_item.reset();
         // TODO: removing armor from a horse takes a lot longer than 2 seconds. This should be a long action.
         get_avatar().moves -= 200;
     } else {
@@ -802,8 +811,9 @@ void monexamine::kill_zslave( monster &z )
 
     if( !one_in( 3 ) ) {
         you.add_msg_if_player( _( "You tear out the pheromone ball from the zombie slave." ) );
-        item ball( "pheromone", calendar::start_of_cataclysm );
-        iuse::pheromone( &you, &ball, true, you.pos() );
+        //TODO!: is this meant to be temp??
+        item *ball = item_spawn_temporary( "pheromone", calendar::start_of_cataclysm );
+        iuse::pheromone( &you, ball, true, you.pos() );
     }
 }
 
@@ -835,8 +845,9 @@ void monexamine::add_leash( monster &z )
         return;
     }
     item *rope_item = rope_inv[index - 1];
-    z.tied_item = cata::make_value<item>( *rope_item );
+    //TODO!: ownerships again
     player.i_rem( rope_item );
+    z.set_tied_item( rope_item );
     z.add_effect( effect_leashed, 1_turns );
     z.get_effect( effect_leashed ).set_permanent();
     add_msg( _( "You add a leash to your %s." ), z.get_name() );
@@ -850,9 +861,12 @@ void monexamine::remove_leash( monster &z )
     z.remove_effect( effect_led_by_leash );
     z.remove_effect( effect_leashed );
 
-    if( z.tied_item ) {
-        get_player_character().i_add( *z.tied_item );
-        z.tied_item.reset();
+    if( z.get_tied_item() ) {
+        //TODO!: more ownership
+        item *it = z.get_tied_item();
+        it->detach();
+        get_player_character().i_add( *it );
+
     }
     add_msg( _( "You remove the leash from your %s." ), z.get_name() );
 }
@@ -924,7 +938,7 @@ void monexamine::deactivate_pet( monster &z )
         attach_or_remove_saddle( z );
     }
     map &here = get_map();
-    here.add_item_or_charges( z.pos(), z.to_item() );
+    here.add_item_or_charges( z.pos(), *z.to_item() );
     if( !z.has_flag( MF_INTERIOR_AMMO ) ) {
         for( auto &ammodef : z.ammo ) {
             if( ammodef.second > 0 ) {

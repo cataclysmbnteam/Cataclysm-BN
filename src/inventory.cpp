@@ -149,11 +149,11 @@ const_invslice inventory::const_slice() const
     return stacks;
 }
 
-const std::list<item> &inventory::const_stack( int i ) const
+const ItemList &inventory::const_stack( int i ) const
 {
     if( i < 0 || i >= static_cast<int>( items.size() ) ) {
         debugmsg( "Attempted to access stack %d in an inventory (size %d)", i, items.size() );
-        static const std::list<item> nullstack{};
+        static const ItemList nullstack{};
         return nullstack;
     }
 
@@ -176,24 +176,24 @@ inventory &inventory::operator+= ( const inventory &rhs )
     }
     return *this;
 }
-
-inventory &inventory::operator+= ( const std::list<item> &rhs )
+/*
+inventory &inventory::operator+= ( const ItemList &rhs )
 {
     for( const auto &rh : rhs ) {
-        add_item( rh, false, false );
+        add_item( *rh, false, false );
+    }
+    return *this;
+}*/
+
+inventory &inventory::operator+= ( const std::vector<item *> &rhs )
+{
+    for( const auto &rh : rhs ) {
+        add_item( *rh, true );
     }
     return *this;
 }
 
-inventory &inventory::operator+= ( const std::vector<item> &rhs )
-{
-    for( const auto &rh : rhs ) {
-        add_item( rh, true );
-    }
-    return *this;
-}
-
-inventory &inventory::operator+= ( const item &rhs )
+inventory &inventory::operator+= ( item &rhs )
 {
     add_item( rhs );
     return *this;
@@ -202,8 +202,8 @@ inventory &inventory::operator+= ( const item &rhs )
 inventory &inventory::operator+= ( const item_stack &rhs )
 {
     for( const auto &p : rhs ) {
-        if( !p.made_of( LIQUID ) ) {
-            add_item( p, true );
+        if( !p->made_of( LIQUID ) ) {
+            add_item( *p, true );
         }
     }
     return *this;
@@ -214,12 +214,12 @@ inventory inventory::operator+ ( const inventory &rhs )
     return inventory( *this ) += rhs;
 }
 
-inventory inventory::operator+ ( const std::list<item> &rhs )
+inventory inventory::operator+ ( const ItemList &rhs )
 {
     return inventory( *this ) += rhs;
 }
 
-inventory inventory::operator+ ( const item &rhs )
+inventory inventory::operator+ ( item &rhs )
 {
     return inventory( *this ) += rhs;
 }
@@ -230,7 +230,7 @@ void inventory::unsort()
     items_type_cached = false;
 }
 
-static bool stack_compare( const std::list<item> &lhs, const std::list<item> &rhs )
+static bool stack_compare( const ItemList &lhs, const ItemList &rhs )
 {
     return lhs.front() < rhs.front();
 }
@@ -242,10 +242,10 @@ void inventory::clear()
     items_type_cached = false;
 }
 
-void inventory::push_back( const std::list<item> &newits )
+void inventory::push_back( const ItemList &newits )
 {
     for( const auto &newit : newits ) {
-        add_item( newit, true );
+        add_item( *newit, true );
     }
 }
 
@@ -283,7 +283,7 @@ char inventory::find_usable_cached_invlet( const itype_id &item_type )
     return 0;
 }
 
-item &inventory::add_item( item newit, bool keep_invlet, bool assign_invlet, bool should_stack )
+item &inventory::add_item( item &newit, bool keep_invlet, bool assign_invlet, bool should_stack )
 {
     binned = false;
     items_type_cached = false;
@@ -291,26 +291,26 @@ item &inventory::add_item( item newit, bool keep_invlet, bool assign_invlet, boo
     if( should_stack ) {
         // See if we can't stack this item.
         for( auto &elem : items ) {
-            std::list<item>::iterator it_ref = elem.begin();
-            if( it_ref->stacks_with( newit ) ) {
-                if( it_ref->merge_charges( newit ) ) {
-                    return *it_ref;
+            item *&it = *elem.begin();
+            if( it->stacks_with( newit ) ) {
+                if( it->merge_charges( newit ) ) {
+                    return *it;
                 }
-                if( it_ref->invlet == '\0' ) {
+                if( it->invlet == '\0' ) {
                     if( !keep_invlet ) {
                         update_invlet( newit, assign_invlet );
                     }
                     update_cache_with_item( newit );
-                    it_ref->invlet = newit.invlet;
+                    it->invlet = newit.invlet;
                 } else {
-                    newit.invlet = it_ref->invlet;
+                    newit.invlet = it->invlet;
                 }
-                elem.push_back( newit );
-                return elem.back();
-            } else if( keep_invlet && assign_invlet && it_ref->invlet == newit.invlet &&
-                       it_ref->invlet != '\0' ) {
+                elem.push_back( &newit );
+                return *elem.back();
+            } else if( keep_invlet && assign_invlet && it->invlet == newit.invlet &&
+                       it->invlet != '\0' ) {
                 // If keep_invlet is true, we'll be forcing other items out of their current invlet.
-                assign_empty_invlet( *it_ref, g->u );
+                assign_empty_invlet( *it, g->u );
             }
         }
     }
@@ -321,21 +321,21 @@ item &inventory::add_item( item newit, bool keep_invlet, bool assign_invlet, boo
     }
     update_cache_with_item( newit );
 
-    items.push_back( {newit} );
-    return items.back().back();
+    items.push_back( {&newit} );
+    return *items.back().back();
 }
 
 void inventory::build_items_type_cache()
 {
     items_type_cache.clear();
     for( auto &elem : items ) {
-        itype_id type = elem.front().typeId();
+        itype_id type = elem.front()->typeId();
         items_type_cache[type].push_back( &elem );
     }
     items_type_cached = true;
 }
 
-item &inventory::add_item_by_items_type_cache( item newit, bool keep_invlet, bool assign_invlet,
+item &inventory::add_item_by_items_type_cache( item &newit, bool keep_invlet, bool assign_invlet,
         bool should_stack )
 {
     binned = false;
@@ -347,7 +347,7 @@ item &inventory::add_item_by_items_type_cache( item newit, bool keep_invlet, boo
     if( should_stack ) {
         // See if we can't stack this item.
         for( auto &elem : items_type_cache[type] ) {
-            auto it_ref = elem->begin();
+            auto it_ref = *elem->begin();
             if( it_ref->stacks_with( newit, false, true ) ) {
                 if( it_ref->merge_charges( newit ) ) {
                     return *it_ref;
@@ -361,8 +361,8 @@ item &inventory::add_item_by_items_type_cache( item newit, bool keep_invlet, boo
                 } else {
                     newit.invlet = it_ref->invlet;
                 }
-                elem->push_back( newit );
-                return elem->back();
+                elem->push_back( &newit );
+                return *elem->back();
             } else if( keep_invlet && assign_invlet && it_ref->invlet == newit.invlet &&
                        it_ref->invlet != '\0' ) {
                 // If keep_invlet is true, we'll be forcing other items out of their current invlet.
@@ -377,17 +377,17 @@ item &inventory::add_item_by_items_type_cache( item newit, bool keep_invlet, boo
     }
     update_cache_with_item( newit );
 
-    items.push_back( {newit} );
+    items.push_back( {&newit} );
     items_type_cache[type].push_back( &items.back() );
-    return items.back().back();
+    return *items.back().back();
 }
 
-void inventory::add_item_keep_invlet( item newit )
+void inventory::add_item_keep_invlet( item &newit )
 {
     add_item( newit, true );
 }
 
-void inventory::push_back( item newit )
+void inventory::push_back( item &newit )
 {
     add_item( newit );
 }
@@ -405,24 +405,25 @@ void inventory::restack( player &p )
 
     binned = false;
     items_type_cached = false;
-    std::list<item> to_restack;
+    ItemList to_restack;
     int idx = 0;
     for( invstack::iterator iter = items.begin(); iter != items.end(); ++iter, ++idx ) {
-        std::list<item> &stack = *iter;
-        item &topmost = stack.front();
+        std::vector<item *> &stack = *iter;
+        item &topmost = *stack.front();
 
         const item *invlet_item = p.invlet_to_item( topmost.invlet );
         if( !inv_chars.valid( topmost.invlet ) || ( invlet_item != nullptr &&
                 position_by_item( invlet_item ) != idx ) ) {
             assign_empty_invlet( topmost, p );
             for( auto &stack_iter : stack ) {
-                stack_iter.invlet = topmost.invlet;
+                stack_iter->invlet = topmost.invlet;
             }
         }
-
+        //TODO!: check
         // remove non-matching items, stripping off end of stack so the first item keeps the invlet.
-        while( stack.size() > 1 && !topmost.stacks_with( stack.back() ) ) {
-            to_restack.splice( to_restack.begin(), *iter, --stack.end() );
+        while( stack.size() > 1 && !topmost.stacks_with( *stack.back() ) ) {
+            //TODO!: restore next
+            //to_restack.splice( to_restack.begin(), *iter, --stack.end() );
         }
     }
 
@@ -430,11 +431,12 @@ void inventory::restack( player &p )
     // separate loop to ensure that ALL stacks are homogeneous
     for( invstack::iterator iter = items.begin(); iter != items.end(); ++iter ) {
         for( invstack::iterator other = iter; other != items.end(); ++other ) {
-            if( iter != other && iter->front().stacks_with( other->front() ) ) {
-                if( other->front().count_by_charges() ) {
-                    iter->front().charges += other->front().charges;
+            if( iter != other && iter->front()->stacks_with( *other->front() ) ) {
+                if( other->front()->count_by_charges() ) {
+                    iter->front()->charges += other->front()->charges;
                 } else {
-                    iter->splice( iter->begin(), *other );
+                    //TODO!:restore next
+                    //iter->splice( iter->begin(), *other );
                 }
                 other = items.erase( other );
                 --other;
@@ -444,13 +446,13 @@ void inventory::restack( player &p )
 
     //re-add non-matching items
     for( auto &elem : to_restack ) {
-        add_item( elem );
+        add_item( *elem );
     }
 
     //Ensure that all items in the same stack have the same invlet.
-    for( std::list< item > &outer : items ) {
-        for( item &inner : outer ) {
-            inner.invlet = outer.front().invlet;
+    for( std::vector< item * > &outer : items ) {
+        for( item *&inner : outer ) {
+            inner->invlet = outer.front()->invlet;
         }
     }
     items.sort( stack_compare );
@@ -463,8 +465,8 @@ void inventory::restack( player &p )
 static int count_charges_in_list( const itype *type, const map_stack &items )
 {
     for( const auto &candidate : items ) {
-        if( candidate.type == type ) {
-            return candidate.charges;
+        if( candidate->type == type ) {
+            return candidate->charges;
         }
     }
     return 0;
@@ -518,7 +520,8 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             const std::vector<itype> tool_list = f.crafting_pseudo_item_types();
             if( !tool_list.empty() ) {
                 for( const itype &type : tool_list ) {
-                    item furn_item( type.get_id(), calendar::turn, 0 );
+                    //TODO!: check
+                    item &furn_item = *item_spawn_temporary( type.get_id(), calendar::turn, 0 );
                     furn_item.set_flag( "PSEUDO" );
                     const itype_id &ammo = furn_item.ammo_default();
                     if( furn_item.has_flag( "USES_GRID_POWER" ) ) {
@@ -537,38 +540,40 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             for( auto &i : m.i_at( p ) ) {
                 // if it's *the* player requesting this from from map inventory
                 // then don't allow items owned by another faction to be factored into recipe components etc.
-                if( pl && !i.is_owned_by( *pl, true ) ) {
+                if( pl && !i->is_owned_by( *pl, true ) ) {
                     continue;
                 }
-                if( allow_liquids || !i.made_of( LIQUID ) ) {
-                    add_item_by_items_type_cache( i, false, assign_invlet );
+                if( allow_liquids || !i->made_of( LIQUID ) ) {
+                    add_item_by_items_type_cache( *i, false, assign_invlet );
                 }
             }
         }
         // Kludges for now!
         if( m.has_nearby_fire( p, 0 ) ) {
-            item fire( "fire", bday );
+            //TODO!: checkkckc
+            item &fire = *item_spawn_temporary( "fire", bday );
             fire.charges = 1;
             add_item_by_items_type_cache( fire );
         }
         // Handle any water from infinite map sources.
-        item water = m.water_from( p );
-        if( !water.is_null() ) {
-            add_item_by_items_type_cache( water );
+        //TODO!: check
+        item *water = &m.water_from( p );
+        if( !water->is_null() ) {
+            add_item_by_items_type_cache( *water );
         }
         // kludge that can probably be done better to check specifically for toilet water to use in
         // crafting
         if( m.furn( p ).obj().examine == &iexamine::toilet ) {
             // get water charges at location
             auto toilet = m.i_at( p );
-            auto water = toilet.end();
+            water = nullptr;
             for( auto candidate = toilet.begin(); candidate != toilet.end(); ++candidate ) {
-                if( candidate->typeId() == itype_water ) {
-                    water = candidate;
+                if( ( *candidate )->typeId() == itype_water ) {
+                    water = *candidate;
                     break;
                 }
             }
-            if( water != toilet.end() && water->charges > 0 ) {
+            if( water != nullptr && water->charges > 0 ) {
                 add_item_by_items_type_cache( *water );
             }
         }
@@ -598,13 +603,13 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         if( cargo ) {
             const auto items = veh->get_items( cargo->part_index() );
             for( const auto &it : items ) {
-                add_item_by_items_type_cache( it, false, false );
+                add_item_by_items_type_cache( *it, false, false );
             }
         }
 
         if( faupart ) {
             for( const auto &it : veh->fuels_left() ) {
-                item fuel( it.first, bday );
+                item &fuel = *item_spawn_temporary( it.first, bday );
                 if( fuel.made_of( LIQUID ) ) {
                     fuel.charges = it.second;
                     add_item_by_items_type_cache( fuel );
@@ -613,77 +618,77 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         }
 
         if( kpart ) {
-            item hotplate( "hotplate", bday );
+            item &hotplate = *item_spawn_temporary( "hotplate", bday );
             hotplate.charges = veh->fuel_left( itype_battery, true );
             hotplate.item_tags.insert( "PSEUDO" );
             // TODO: Allow disabling
             hotplate.item_tags.insert( "HEATS_FOOD" );
             add_item_by_items_type_cache( hotplate );
 
-            item pot( "pot", bday );
+            item &pot = *item_spawn_temporary( "pot", bday );
             pot.set_flag( "PSEUDO" );
             add_item_by_items_type_cache( pot );
-            item pan( "pan", bday );
+            item &pan = *item_spawn_temporary( "pan", bday );
             pan.set_flag( "PSEUDO" );
             add_item_by_items_type_cache( pan );
         }
         if( weldpart ) {
-            item welder( "welder", bday );
+            item &welder = *item_spawn_temporary( "welder", bday );
             welder.charges = veh->fuel_left( itype_battery, true );
             welder.item_tags.insert( "PSEUDO" );
             add_item_by_items_type_cache( welder );
 
-            item soldering_iron( "soldering_iron", bday );
+            item &soldering_iron = *item_spawn_temporary( "soldering_iron", bday );
             soldering_iron.charges = veh->fuel_left( itype_battery, true );
             soldering_iron.item_tags.insert( "PSEUDO" );
             add_item_by_items_type_cache( soldering_iron );
         }
         if( craftpart ) {
-            item vac_sealer( "vac_sealer", bday );
+            item &vac_sealer = *item_spawn_temporary( "vac_sealer", bday );
             vac_sealer.charges = veh->fuel_left( itype_battery, true );
             vac_sealer.item_tags.insert( "PSEUDO" );
             add_item_by_items_type_cache( vac_sealer );
 
-            item dehydrator( "dehydrator", bday );
+            item &dehydrator = *item_spawn_temporary( "dehydrator", bday );
             dehydrator.charges = veh->fuel_left( itype_battery, true );
             dehydrator.item_tags.insert( "PSEUDO" );
             add_item_by_items_type_cache( dehydrator );
 
-            item food_processor( "food_processor", bday );
+            item &food_processor = *item_spawn_temporary( "food_processor", bday );
             food_processor.charges = veh->fuel_left( itype_battery, true );
             food_processor.item_tags.insert( "PSEUDO" );
             add_item_by_items_type_cache( food_processor );
 
-            item press( "press", bday );
+            item &press = *item_spawn_temporary( "press", bday );
             press.charges = veh->fuel_left( itype_battery, true );
             press.set_flag( "PSEUDO" );
             add_item_by_items_type_cache( press );
         }
         if( forgepart ) {
-            item forge( "forge", bday );
+            item &forge = *item_spawn_temporary( "forge", bday );
             forge.charges = veh->fuel_left( itype_battery, true );
             forge.item_tags.insert( "PSEUDO" );
             add_item_by_items_type_cache( forge );
         }
         if( kilnpart ) {
-            item kiln( "kiln", bday );
+            item &kiln = *item_spawn_temporary( "kiln", bday );
             kiln.charges = veh->fuel_left( itype_battery, true );
             kiln.item_tags.insert( "PSEUDO" );
             add_item_by_items_type_cache( kiln );
         }
         if( chempart ) {
-            item chemistry_set( "chemistry_set", bday );
+            item &chemistry_set = *item_spawn_temporary( "chemistry_set", bday );
             chemistry_set.charges = veh->fuel_left( itype_battery, true );
             chemistry_set.item_tags.insert( "PSEUDO" );
             add_item_by_items_type_cache( chemistry_set );
 
-            item electrolysis_kit( "electrolysis_kit", bday );
+            item &electrolysis_kit = *item_spawn_temporary( "electrolysis_kit", bday );
             electrolysis_kit.charges = veh->fuel_left( itype_battery, true );
             electrolysis_kit.item_tags.insert( "PSEUDO" );
             add_item_by_items_type_cache( electrolysis_kit );
         }
         if( autoclavepart ) {
-            item autoclave( "autoclave", bday );
+            item &autoclave = *item_spawn_temporary( "autoclave", bday );
             autoclave.charges = veh->fuel_left( itype_battery, true );
             autoclave.item_tags.insert( "PSEUDO" );
             add_item_by_items_type_cache( autoclave );
@@ -692,10 +697,10 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
     pts.clear();
 }
 
-std::list<item> inventory::reduce_stack( const int position, const int quantity )
+ItemList inventory::reduce_stack( const int position, const int quantity )
 {
     int pos = 0;
-    std::list<item> ret;
+    ItemList ret;
     for( invstack::iterator iter = items.begin(); iter != items.end(); ++iter ) {
         if( position == pos ) {
             binned = false;
@@ -705,7 +710,8 @@ std::list<item> inventory::reduce_stack( const int position, const int quantity 
                 items.erase( iter );
             } else {
                 for( int i = 0 ; i < quantity ; i++ ) {
-                    ret.push_back( remove_item( &iter->front() ) );
+                    //TODO!: check
+                    ret.push_back( &remove_item( iter->front() ) );
                 }
             }
             break;
@@ -715,7 +721,7 @@ std::list<item> inventory::reduce_stack( const int position, const int quantity 
     return ret;
 }
 
-item inventory::remove_item( const item *it )
+item &inventory::remove_item( const item *it )
 {
     auto tmp = remove_items_with( [&it]( const item & i ) {
         return &i == it;
@@ -723,13 +729,13 @@ item inventory::remove_item( const item *it )
     if( !tmp.empty() ) {
         binned = false;
         items_type_cached = false;
-        return tmp.front();
+        return *tmp.front();
     }
     debugmsg( "Tried to remove a item not in inventory." );
-    return item();
+    return null_item_reference();
 }
 
-item inventory::remove_item( const int position )
+item &inventory::remove_item( const int position )
 {
     int pos = 0;
     for( invstack::iterator iter = items.begin(); iter != items.end(); ++iter ) {
@@ -737,12 +743,12 @@ item inventory::remove_item( const int position )
             binned = false;
             items_type_cached = false;
             if( iter->size() > 1 ) {
-                std::list<item>::iterator stack_member = iter->begin();
-                char invlet = stack_member->invlet;
+                ItemList::iterator stack_member = iter->begin();
+                char invlet = ( *stack_member )->invlet;
                 ++stack_member;
-                stack_member->invlet = invlet;
+                ( *stack_member )->invlet = invlet;
             }
-            item ret = iter->front();
+            item &ret = *iter->front();
             iter->erase( iter->begin() );
             if( iter->empty() ) {
                 items.erase( iter );
@@ -752,12 +758,12 @@ item inventory::remove_item( const int position )
         ++pos;
     }
 
-    return item();
+    return null_item_reference();
 }
 
-std::list<item> inventory::remove_randomly_by_volume( const units::volume &volume )
+ItemList inventory::remove_randomly_by_volume( const units::volume &volume )
 {
-    std::list<item> result;
+    ItemList result;
     units::volume volume_dropped = 0_ml;
     while( volume_dropped < volume ) {
         units::volume cumulative_volume = 0_ml;
@@ -765,19 +771,20 @@ std::list<item> inventory::remove_randomly_by_volume( const units::volume &volum
         auto chosen_item = chosen_stack->begin();
         for( auto stack = items.begin(); stack != items.end(); ++stack ) {
             for( auto stack_it = stack->begin(); stack_it != stack->end(); ++stack_it ) {
-                cumulative_volume += stack_it->volume();
-                if( x_in_y( stack_it->volume().value(), cumulative_volume.value() ) ) {
+                cumulative_volume += ( *stack_it )->volume();
+                if( x_in_y( ( *stack_it )->volume().value(), cumulative_volume.value() ) ) {
                     chosen_item = stack_it;
                     chosen_stack = stack;
                 }
             }
         }
-        volume_dropped += chosen_item->volume();
+        volume_dropped += ( *chosen_item )->volume();
+        //TODO!: check
         result.push_back( std::move( *chosen_item ) );
         chosen_item = chosen_stack->erase( chosen_item );
         if( chosen_item == chosen_stack->begin() && !chosen_stack->empty() ) {
             // preserve the invlet when removing the first item of a stack
-            chosen_item->invlet = result.back().invlet;
+            ( *chosen_item )->invlet = result.back()->invlet;
         }
         if( chosen_stack->empty() ) {
             binned = false;
@@ -792,7 +799,7 @@ void inventory::dump( std::vector<item *> &dest )
 {
     for( auto &elem : items ) {
         for( auto &elem_stack_iter : elem ) {
-            dest.push_back( &elem_stack_iter );
+            dest.push_back( elem_stack_iter );
         }
     }
 }
@@ -806,7 +813,7 @@ const item &inventory::find_item( int position ) const
     for( int j = 0; j < position; ++j ) {
         ++iter;
     }
-    return iter->front();
+    return *iter->front();
 }
 
 item &inventory::find_item( int position )
@@ -818,7 +825,7 @@ int inventory::invlet_to_position( char invlet ) const
 {
     int i = 0;
     for( const auto &elem : items ) {
-        if( elem.begin()->invlet == invlet ) {
+        if( ( *elem.begin() )->invlet == invlet ) {
             return i;
         }
         ++i;
@@ -831,7 +838,7 @@ int inventory::position_by_item( const item *it ) const
     int p = 0;
     for( const auto &stack : items ) {
         for( const auto &e : stack ) {
-            if( e.has_item( *it ) ) {
+            if( e->has_item( *it ) ) {
                 return p;
             }
         }
@@ -844,7 +851,7 @@ int inventory::position_by_type( const itype_id &type ) const
 {
     int i = 0;
     for( auto &elem : items ) {
-        if( elem.front().typeId() == type ) {
+        if( elem.front()->typeId() == type ) {
             return i;
         }
         ++i;
@@ -852,16 +859,16 @@ int inventory::position_by_type( const itype_id &type ) const
     return INT_MIN;
 }
 
-std::list<item> inventory::use_amount( itype_id it, int quantity,
-                                       const std::function<bool( const item & )> &filter )
+ItemList inventory::use_amount( itype_id it, int quantity,
+                                const std::function<bool( const item & )> &filter )
 {
     items.sort( stack_compare );
-    std::list<item> ret;
+    ItemList ret;
     for( invstack::iterator iter = items.begin(); iter != items.end() && quantity > 0; /* noop */ ) {
-        for( std::list<item>::iterator stack_iter = iter->begin();
+        for( ItemList::iterator stack_iter = iter->begin();
              stack_iter != iter->end() && quantity > 0;
              /* noop */ ) {
-            if( stack_iter->use_amount( it, quantity, ret, filter ) ) {
+            if( ( *stack_iter )->use_amount( it, quantity, ret, filter ) ) {
                 stack_iter = iter->erase( stack_iter );
             } else {
                 ++stack_iter;
@@ -902,11 +909,11 @@ int inventory::leak_level( const std::string &flag ) const
 
     for( const auto &elem : items ) {
         for( const auto &elem_stack_iter : elem ) {
-            if( elem_stack_iter.has_flag( flag ) ) {
-                if( elem_stack_iter.has_flag( flag_LEAK_ALWAYS ) ) {
-                    ret += elem_stack_iter.volume() / units::legacy_volume_factor;
-                } else if( elem_stack_iter.has_flag( flag_LEAK_DAM ) && elem_stack_iter.damage() > 0 ) {
-                    ret += elem_stack_iter.damage_level( 4 );
+            if( elem_stack_iter->has_flag( flag ) ) {
+                if( elem_stack_iter->has_flag( flag_LEAK_ALWAYS ) ) {
+                    ret += elem_stack_iter->volume() / units::legacy_volume_factor;
+                } else if( elem_stack_iter->has_flag( flag_LEAK_DAM ) && elem_stack_iter->damage() > 0 ) {
+                    ret += elem_stack_iter->damage_level( 4 );
                 }
             }
         }
@@ -918,7 +925,7 @@ int inventory::worst_item_value( npc *p ) const
 {
     int worst = 99999;
     for( const auto &elem : items ) {
-        const item &it = elem.front();
+        const item &it = *elem.front();
         int val = p->value( it );
         if( val < worst ) {
             worst = val;
@@ -930,7 +937,7 @@ int inventory::worst_item_value( npc *p ) const
 bool inventory::has_enough_painkiller( int pain ) const
 {
     for( const auto &elem : items ) {
-        const item &it = elem.front();
+        const item &it = *elem.front();
         if( ( pain <= 35 && it.typeId() == itype_aspirin ) ||
             ( pain >= 50 && it.typeId() == itype_oxycodone ) ||
             it.typeId() == itype_tramadol || it.typeId() == itype_codeine ) {
@@ -946,7 +953,7 @@ item *inventory::most_appropriate_painkiller( int pain )
     item *ret = &null_item_reference();
     for( auto &elem : items ) {
         int diff = 9999;
-        itype_id type = elem.front().typeId();
+        itype_id type = elem.front()->typeId();
         if( type == itype_aspirin ) {
             diff = std::abs( pain - 15 );
         } else if( type == itype_codeine ) {
@@ -961,7 +968,7 @@ item *inventory::most_appropriate_painkiller( int pain )
 
         if( diff < difference ) {
             difference = diff;
-            ret = &elem.front();
+            ret = elem.front();
         }
     }
     return ret;
@@ -971,10 +978,10 @@ void inventory::rust_iron_items()
 {
     for( auto &elem : items ) {
         for( auto &elem_stack_iter : elem ) {
-            if( elem_stack_iter.made_of( material_id( "iron" ) ) &&
-                !elem_stack_iter.has_flag( flag_WATERPROOF_GUN ) &&
-                !elem_stack_iter.has_flag( flag_WATERPROOF ) &&
-                elem_stack_iter.damage() < elem_stack_iter.max_damage() / 2 &&
+            if( elem_stack_iter->made_of( material_id( "iron" ) ) &&
+                !elem_stack_iter->has_flag( flag_WATERPROOF_GUN ) &&
+                !elem_stack_iter->has_flag( flag_WATERPROOF ) &&
+                elem_stack_iter->damage() < elem_stack_iter->max_damage() / 2 &&
                 //Passivation layer prevents further rusting
                 one_in( 500 ) &&
                 //Scale with volume, bigger = slower (see #24204)
@@ -983,12 +990,12 @@ void inventory::rust_iron_items()
                         14 * std::cbrt(
                             0.5 * std::max(
                                 0.05, static_cast<double>(
-                                    elem_stack_iter.base_volume().value() ) / 250 ) ) ) ) &&
+                                    elem_stack_iter->base_volume().value() ) / 250 ) ) ) ) &&
                 //                       ^season length   ^14/5*0.75/pi (from volume of sphere)
                 //Freshwater without oxygen rusts slower than air
                 g->m.water_from( g->u.pos() ).typeId() == itype_salt_water ) {
-                elem_stack_iter.inc_damage( DT_ACID ); // rusting never completely destroys an item
-                add_msg( m_bad, _( "Your %s is damaged by rust." ), elem_stack_iter.tname() );
+                elem_stack_iter->inc_damage( DT_ACID ); // rusting never completely destroys an item
+                add_msg( m_bad, _( "Your %s is damaged by rust." ), elem_stack_iter->tname() );
             }
         }
     }
@@ -999,7 +1006,7 @@ units::mass inventory::weight() const
     units::mass ret = 0_gram;
     for( const auto &elem : items ) {
         for( const auto &elem_stack_iter : elem ) {
-            ret += elem_stack_iter.weight();
+            ret += elem_stack_iter->weight();
         }
     }
     return ret;
@@ -1009,7 +1016,7 @@ units::mass inventory::weight() const
 // of items given
 template<typename F>
 void for_each_item_in_both(
-    const invstack &items, const std::map<const item *, int> &other, const F &f )
+    const invstack &items, const std::map<item *, int> &other, const F &f )
 {
     // Shortcut the logic in the common case where other is empty
     if( other.empty() ) {
@@ -1017,7 +1024,7 @@ void for_each_item_in_both(
     }
 
     for( const auto &elem : items ) {
-        const item &representative = elem.front();
+        item &representative = *elem.front();
         auto other_it = other.find( &representative );
         if( other_it == other.end() ) {
             continue;
@@ -1025,12 +1032,13 @@ void for_each_item_in_both(
 
         int num_to_count = other_it->second;
         if( representative.count_by_charges() ) {
-            item copy = representative;
+            //TODO!: what the shit is this used for
+            item &copy = *item_spawn_temporary( representative );
             copy.charges = std::min( copy.charges, num_to_count );
             f( copy );
         } else {
             for( const auto &elem_stack_iter : elem ) {
-                f( elem_stack_iter );
+                f( *elem_stack_iter );
                 if( --num_to_count <= 0 ) {
                     break;
                 }
@@ -1062,7 +1070,7 @@ units::volume inventory::volume() const
     units::volume ret = 0_ml;
     for( const auto &elem : items ) {
         for( const auto &elem_stack_iter : elem ) {
-            ret += elem_stack_iter.volume();
+            ret += elem_stack_iter->volume();
         }
     }
     return ret;
@@ -1089,10 +1097,10 @@ units::volume inventory::volume_without( const excluded_stacks &without ) const
 std::vector<item *> inventory::active_items()
 {
     std::vector<item *> ret;
-    for( std::list<item> &elem : items ) {
-        for( item &elem_stack_iter : elem ) {
-            if( elem_stack_iter.needs_processing() ) {
-                ret.push_back( &elem_stack_iter );
+    for( ItemList &elem : items ) {
+        for( item * const &elem_stack_iter : elem ) {
+            if( elem_stack_iter->needs_processing() ) {
+                ret.push_back( elem_stack_iter );
             }
         }
     }
@@ -1102,10 +1110,10 @@ std::vector<item *> inventory::active_items()
 enchantment inventory::get_active_enchantment_cache( const Character &owner ) const
 {
     enchantment temp_cache;
-    for( const std::list<item> &elem : items ) {
-        for( const item &check_item : elem ) {
-            for( const enchantment &ench : check_item.get_enchantments() ) {
-                if( ench.is_active( owner, check_item ) ) {
+    for( const ItemList &elem : items ) {
+        for( const item * const &check_item : elem ) {
+            for( const enchantment &ench : check_item->get_enchantments() ) {
+                if( ench.is_active( owner, *check_item ) ) {
                     temp_cache.force_add( ench );
                 }
             }
@@ -1192,7 +1200,7 @@ void inventory::assign_empty_invlet( item &it, const Character &p, const bool fo
     }
     // No free hotkey exist, re-use some of the existing ones
     for( auto &elem : items ) {
-        item &o = elem.front();
+        item &o = *elem.front();
         if( o.invlet != 0 ) {
             it.invlet = o.invlet;
             o.invlet = 0;
@@ -1254,7 +1262,7 @@ void inventory::update_invlet( item &newit, bool assign_invlet )
 void inventory::set_stack_favorite( const int position, const bool favorite )
 {
     for( auto &e : *std::next( items.begin(), position ) ) {
-        e.set_favorite( favorite );
+        e->set_favorite( favorite );
     }
 }
 
@@ -1263,7 +1271,7 @@ invlets_bitset inventory::allocated_invlets() const
     invlets_bitset invlets;
 
     for( const auto &stack : items ) {
-        const char invlet = stack.front().invlet;
+        const char invlet = stack.front()->invlet;
         invlets.set( invlet );
     }
     invlets[0] = false;

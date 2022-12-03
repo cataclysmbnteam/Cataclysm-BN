@@ -232,9 +232,9 @@ static item *pick_usb()
         return it.typeId() == itype_usb_drive;
     };
 
-    item_location loc = game_menus::inv::titled_filter_menu( filter, g->u, _( "Choose drive:" ) );
+    item *loc = game_menus::inv::titled_filter_menu( filter, g->u, _( "Choose drive:" ) );
     if( loc ) {
-        return &*loc;
+        return loc;
     }
     return nullptr;
 }
@@ -370,24 +370,26 @@ void computer_session::action_sample()
                 continue;
             }
             bool found_item = false;
-            item sewage( itype_sewage, calendar::turn );
-            for( item &elem : here.i_at( n ) ) {
-                int capa = elem.get_remaining_capacity_for_liquid( sewage );
+            item *sewage = item_spawn( itype_sewage, calendar::turn );
+            for( item * const &elem : here.i_at( n ) ) {
+                int capa = elem->get_remaining_capacity_for_liquid( *sewage );
                 if( capa <= 0 ) {
                     continue;
                 }
-                capa = std::min( sewage.charges, capa );
-                if( elem.contents.empty() ) {
-                    elem.put_in( sewage );
-                    elem.contents.front().charges = capa;
+                capa = std::min( sewage->charges, capa );
+                if( elem->contents.empty() ) {
+                    elem->put_in( *sewage );
+                    elem->contents.front().charges = capa;
                 } else {
-                    elem.contents.front().charges += capa;
+                    //TODO!: Is this a bug? it feels wrong
+                    sewage->destroy();
+                    elem->contents.front().charges += capa;
                 }
                 found_item = true;
                 break;
             }
             if( !found_item ) {
-                here.add_item_or_charges( n, sewage );
+                here.add_item_or_charges( n, *sewage );
             }
         }
     }
@@ -586,10 +588,10 @@ void computer_session::action_list_bionics()
     int more = 0;
     map &here = get_map();
     for( const tripoint &p : here.points_on_zlevel() ) {
-        for( item &elem : here.i_at( p ) ) {
-            if( elem.is_bionic() ) {
+        for( item * const &elem : here.i_at( p ) ) {
+            if( elem->is_bionic() ) {
                 if( static_cast<int>( names.size() ) < TERMY - 8 ) {
-                    names.push_back( elem.type_name() );
+                    names.push_back( elem->type_name() );
                 } else {
                     more++;
                 }
@@ -737,7 +739,7 @@ void computer_session::action_download_software()
             return;
         }
         g->u.moves -= 30;
-        item software( miss->get_item_id(), calendar::start_of_cataclysm );
+        item &software = *item_spawn( miss->get_item_id(), calendar::start_of_cataclysm );
         software.mission_id = comp.mission_id;
         usb->contents.clear_items();
         usb->put_in( software );
@@ -777,7 +779,7 @@ void computer_session::action_blood_anal()
                     print_line( _( "Pathogen bonded to erythrocytes and leukocytes." ) );
                     if( query_bool( _( "Download data?" ) ) ) {
                         if( item *const usb = pick_usb() ) {
-                            item software( "software_blood_data", calendar::start_of_cataclysm );
+                            item &software = *item_spawn( "software_blood_data", calendar::start_of_cataclysm );
                             usb->contents.clear_items();
                             usb->put_in( software );
                             print_line( _( "Software downloaded." ) );
@@ -815,7 +817,7 @@ void computer_session::action_data_anal()
             } else { // Success!
                 if( items.only_item().typeId() == itype_black_box ) {
                     print_line( _( "Memory Bank: Military Hexron Encryption\nPrinting Transcript\n" ) );
-                    item transcript( "black_box_transcript", calendar::turn );
+                    item &transcript = *item_spawn( "black_box_transcript", calendar::turn );
                     here.add_item_or_charges( g->u.pos(), transcript );
                 } else {
                     print_line( _( "Memory Bank: Unencrypted\nNothing of interest.\n" ) );
@@ -1033,8 +1035,9 @@ void computer_session::action_irradiator()
                 print_error( _( "ERROR: Processing platform empty." ) );
             } else {
                 g->u.moves -= 300;
-                for( auto it = here.i_at( dest ).begin(); it != here.i_at( dest ).end(); ++it ) {
+                for( auto iter = here.i_at( dest ).begin(); iter != here.i_at( dest ).end(); ++iter ) {
                     // actual food processing
+                    item *it = *iter;
                     itype_id irradiated_type( "irradiated_" + it->typeId().str() );
                     if( !it->rotten() && irradiated_type.is_valid() ) {
                         it->convert( irradiated_type );
@@ -1173,7 +1176,8 @@ void computer_session::action_conveyor()
         print_line( _( "No items detected at: PLATFORM." ) );
     }
     for( const auto &it : items ) {
-        here.add_item_or_charges( unloading, it );
+        it->remove_location();
+        here.add_item_or_charges( unloading, *it );
     }
     here.i_clear( platform );
     items = here.i_at( loading );
@@ -1183,8 +1187,11 @@ void computer_session::action_conveyor()
         print_line( _( "No items detected at: LOADING BAY." ) );
     }
     for( const auto &it : items ) {
-        if( !it.made_of( LIQUID ) ) {
-            here.add_item_or_charges( platform, it );
+        it->remove_location();
+        if( !it->made_of( LIQUID ) ) {
+            here.add_item_or_charges( platform, *it );
+        } else {
+            it->destroy();
         }
     }
     here.i_clear( loading );

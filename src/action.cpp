@@ -555,12 +555,12 @@ bool can_butcher_at( const tripoint &p )
     bool has_corpse = false;
 
     const inventory &crafting_inv = you.crafting_inventory();
-    for( item &items_it : items ) {
-        if( items_it.is_corpse() ) {
+    for( item *&items_it : items ) {
+        if( items_it->is_corpse() ) {
             if( factor != INT_MIN  || factorD != INT_MIN ) {
                 has_corpse = true;
             }
-        } else if( crafting::can_disassemble( you, items_it, crafting_inv ).success() ) {
+        } else if( crafting::can_disassemble( you, *items_it, crafting_inv ).success() ) {
             has_item = true;
         }
     }
@@ -681,7 +681,7 @@ action_id handle_action_menu()
             action_weightings[ACTION_CYCLE_MOVE] = 400;
         }
         // Only prioritize fire weapon options if we're wielding a ranged weapon.
-        if( g->u.weapon.is_gun() || g->u.weapon.has_flag( flag_REACH_ATTACK ) ) {
+        if( g->u.get_weapon().is_gun() || g->u.get_weapon().has_flag( flag_REACH_ATTACK ) ) {
             action_weightings[ACTION_FIRE] = 350;
         }
     }

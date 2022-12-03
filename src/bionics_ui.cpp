@@ -195,7 +195,8 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
     for( const bionic &bio : *p->my_bionics ) {
         for( const itype_id &fuel : p->get_fuel_available( bio.id ) ) {
             found_fuel = true;
-            const item temp_fuel( fuel );
+            //TODO!: figure out tname so we don't need this
+            const item &temp_fuel = *item_spawn_temporary( fuel );
             if( temp_fuel.has_flag( flag_PERPETUAL ) ) {
                 if( fuel == itype_id( "sunlight" ) && !g->is_in_sunlight( p->pos() ) ) {
                     continue;
@@ -209,7 +210,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
         if( bio.info().is_remote_fueled && p->has_active_bionic( bio.id ) ) {
             const itype_id rem_fuel = p->find_remote_fuel( true );
             if( !rem_fuel.is_empty() ) {
-                const item tmp_rem_fuel( rem_fuel );
+                const item &tmp_rem_fuel = *item_spawn_temporary( rem_fuel );
                 if( tmp_rem_fuel.has_flag( flag_PERPETUAL ) ) {
                     fuel_string += colorize( tmp_rem_fuel.tname(), c_green ) + " ";
                 } else {

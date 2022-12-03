@@ -166,6 +166,8 @@ static std::vector<player *> find_targets_to_ungrab( const tripoint &pos )
     return result;
 }
 
+//TODO!: make sure all the uses of tack_item etc are properly locationd
+
 monster::monster()
 {
     position.x = 20;
@@ -217,9 +219,9 @@ monster::monster( const mtype_id &id ) : monster()
     if( monster::has_flag( MF_RIDEABLE_MECH ) ) {
         itype_id mech_bat = itype_id( type->mech_battery );
         int max_charge = mech_bat->magazine->capacity;
-        item mech_bat_item = item( mech_bat, calendar::start_of_cataclysm );
-        mech_bat_item.ammo_consume( rng( 0, max_charge ), tripoint_zero );
-        battery_item = cata::make_value<item>( mech_bat_item );
+        item *mech_bat_item = item_spawn( mech_bat, calendar::start_of_cataclysm );
+        mech_bat_item->ammo_consume( rng( 0, max_charge ), tripoint_zero );
+        set_battery_item( mech_bat_item );
     }
 }
 
@@ -439,7 +441,7 @@ void monster::try_reproduce()
             if( type->baby_monster ) {
                 g->m.add_spawn( type->baby_monster, spawn_cnt, pos() );
             } else {
-                g->m.add_item_or_charges( pos(), item( type->baby_egg, *baby_timer, spawn_cnt ), true );
+                g->m.add_item_or_charges( pos(), *item_spawn( type->baby_egg, *baby_timer, spawn_cnt ), true );
             }
         }
 
@@ -523,9 +525,9 @@ std::string monster::name_with_armor() const
         ret = _( "armor" );
     }
     if( has_effect( effect_monster_armor ) && !inv.empty() ) {
-        for( const item &armor : inv ) {
-            if( armor.is_pet_armor( true ) ) {
-                ret += string_format( _( "wearing %1$s" ), armor.tname( 1 ) );
+        for( const item * const &armor : inv ) {
+            if( armor->is_pet_armor( true ) ) {
+                ret += string_format( _( "wearing %1$s" ), armor->tname( 1 ) );
                 break;
             }
         }
@@ -808,7 +810,7 @@ std::string monster::extended_description() const
     ss += "--\n";
     ss += std::string( _( "In melee, you can expect to:" ) ) + "\n";
     ss += string_format( _( "Deal average damage per second: <stat>%.1f</stat>" ),
-                         g->u.weapon.effective_dps( g->u, *this ) );
+                         g->u.get_weapon().effective_dps( g->u, *this ) );
     ss += "\n";
 
     if( debug_mode ) {
@@ -1003,6 +1005,71 @@ void monster::shift( const point &sm_shift )
     if( wandf > 0 ) {
         wander_pos -= ms_shift;
     }
+}
+
+void monster::set_tack_item( item *it )
+{
+    if( it ) {
+        it->set_location( new monster_tack_item_location( this ) );
+    }
+    tack_item = it;
+}
+
+item *monster::get_tack_item() const
+{
+    return tack_item;
+}
+
+void monster::set_tied_item( item *it )
+{
+    if( it ) {
+        it->set_location( new monster_tied_item_location( this ) );
+    }
+    tied_item = it;
+}
+
+item *monster::get_tied_item() const
+{
+    return tied_item;
+}
+
+void monster::set_armor_item( item *it )
+{
+    if( it ) {
+        it->set_location( new monster_armor_item_location( this ) );
+    }
+    armor_item = it;
+}
+
+item *monster::get_armor_item() const
+{
+    return armor_item;
+}
+
+void monster::set_storage_item( item *it )
+{
+    if( it ) {
+        it->set_location( new monster_storage_item_location( this ) );
+    }
+    storage_item = it;
+}
+
+item *monster::get_storage_item() const
+{
+    return storage_item;
+}
+
+void monster::set_battery_item( item *it )
+{
+    if( it ) {
+        it->set_location( new monster_battery_item_location( this ) );
+    }
+    battery_item = it;
+}
+
+item *monster::get_battery_item() const
+{
+    return battery_item;
 }
 
 tripoint monster::move_target()
@@ -1711,17 +1778,23 @@ bool monster::move_effects( bool )
                 if( u_see_me ) {
                     add_msg( _( "The %s easily slips out of its bonds." ), name() );
                 }
-                g->m.add_item_or_charges( pos(), *tied_item );
-                tied_item.reset();
+                //TODO!: ownerships
+                item *it = get_tied_item();
+                it->detach();
+                g->m.add_item_or_charges( pos(), *it );
             }
         } else {
             if( tied_item ) {
+                item *it = get_tied_item();
+
                 const bool broken = rng( type->melee_dice * type->melee_sides, std::min( 10000,
                                          type->melee_dice * type->melee_sides * 250 ) ) > 800;
+                it->detach();
                 if( !broken ) {
-                    g->m.add_item_or_charges( pos(), *tied_item );
+                    g->m.add_item_or_charges( pos(), *it );
+                } else {
+                    it->destroy();
                 }
-                tied_item.reset();
                 if( u_see_me ) {
                     if( broken ) {
                         add_msg( _( "The %s snaps the bindings holding it down." ), name() );
@@ -2216,7 +2289,7 @@ void monster::process_turn()
                 const bool player_sees = g->u.sees( zap );
                 const auto items = g->m.i_at( zap );
                 for( const auto &item : items ) {
-                    if( item.made_of( LIQUID ) && item.flammable() ) { // start a fire!
+                    if( item->made_of( LIQUID ) && item->flammable() ) { // start a fire!
                         g->m.add_field( zap, fd_fire, 2, 1_minutes );
                         sounds::sound( pos(), 30, sounds::sound_t::combat,  _( "fwoosh!" ), false, "fire", "ignition" );
                         break;
@@ -2309,15 +2382,15 @@ void monster::die( Creature *nkiller )
     move_special_item_to_inv( tied_item );
 
     if( has_effect( effect_lightsnare ) ) {
-        add_item( item( "string_36", calendar::start_of_cataclysm ) );
-        add_item( item( "snare_trigger", calendar::start_of_cataclysm ) );
+        add_item( *item_spawn( "string_36", calendar::start_of_cataclysm ) );
+        add_item( *item_spawn( "snare_trigger", calendar::start_of_cataclysm ) );
     }
     if( has_effect( effect_heavysnare ) ) {
-        add_item( item( "rope_6", calendar::start_of_cataclysm ) );
-        add_item( item( "snare_trigger", calendar::start_of_cataclysm ) );
+        add_item( *item_spawn( "rope_6", calendar::start_of_cataclysm ) );
+        add_item( *item_spawn( "snare_trigger", calendar::start_of_cataclysm ) );
     }
     if( has_effect( effect_beartrap ) ) {
-        add_item( item( "beartrap", calendar::start_of_cataclysm ) );
+        add_item( *item_spawn( "beartrap", calendar::start_of_cataclysm ) );
     }
     if( has_effect( effect_grabbing ) ) {
         remove_effect( effect_grabbing );
@@ -2329,7 +2402,7 @@ void monster::die( Creature *nkiller )
     }
     if( !is_hallucination() ) {
         for( const auto &it : inv ) {
-            g->m.add_item_or_charges( pos(), it );
+            g->m.add_item_or_charges( pos(), *it );
         }
     }
 
@@ -2420,18 +2493,19 @@ bool monster::check_mech_powered() const
     return true;
 }
 
-static void process_item_valptr( cata::value_ptr<item> &ptr, monster &mon )
+static void process_item_valptr( item *ptr, monster &mon )
 {
     if( ptr && ptr->needs_processing() && ptr->process( nullptr, mon.pos(), false ) ) {
-        ptr.reset();
+        ptr->detach();
+        ptr->destroy();
     }
 }
 
 void monster::process_items()
 {
     for( auto iter = inv.begin(); iter != inv.end(); ) {
-        if( iter->needs_processing() &&
-            iter->process( nullptr, pos(), false )
+        if( ( *iter )->needs_processing() &&
+            ( *iter )->process( nullptr, pos(), false )
           ) {
             iter = inv.erase( iter );
             continue;
@@ -2454,14 +2528,15 @@ void monster::drop_items_on_death()
         return;
     }
 
-    std::vector<item> items = item_group::items_from( type->death_drops, calendar::start_of_cataclysm );
+    std::vector<item *> items = item_group::items_from( type->death_drops,
+                                calendar::start_of_cataclysm );
 
     // This block removes some items, according to item spawn scaling factor
     const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
     if( spawn_rate < 1 ) {
         // Temporary vector, to remember which items will be dropped
-        std::vector<item> remaining;
-        for( const item &it : items ) {
+        std::vector<item *> remaining;
+        for( item *&it : items ) {
             if( rng_float( 0, 1 ) < spawn_rate ) {
                 remaining.push_back( it );
             }
@@ -2664,9 +2739,9 @@ void monster::make_ally( const monster &z )
     faction = z.faction;
 }
 
-void monster::add_item( const item &it )
+void monster::add_item( item &it )
 {
-    inv.push_back( it );
+    inv.push_back( &it );
 }
 
 bool monster::is_hallucination() const
@@ -2751,8 +2826,8 @@ units::mass monster::get_carried_weight()
     if( armor_item ) {
         total_weight += armor_item->weight();
     }
-    for( const item &it : inv ) {
-        total_weight += it.weight();
+    for( const item * const &it : inv ) {
+        total_weight += it->weight();
     }
     return total_weight;
 }
@@ -2760,17 +2835,17 @@ units::mass monster::get_carried_weight()
 units::volume monster::get_carried_volume()
 {
     units::volume total_volume = 0_ml;
-    for( const item &it : inv ) {
-        total_volume += it.volume();
+    for( const item * const &it : inv ) {
+        total_volume += it->volume();
     }
     return total_volume;
 }
 
-void monster::move_special_item_to_inv( cata::value_ptr<item> &it )
+void monster::move_special_item_to_inv( item *it )
 {
     if( it ) {
+        it->detach();
         add_item( *it );
-        it.reset();
     }
 }
 
@@ -2809,15 +2884,15 @@ void monster::init_from_item( const item &itm )
     }
 }
 
-item monster::to_item() const
+item *monster::to_item() const
 {
     if( type->revert_to_itype.is_empty() ) {
-        return item();
+        return &null_item_reference();
     }
     // Birthday is wrong, but the item created here does not use it anyway (I hope).
-    item result( type->revert_to_itype, calendar::turn );
-    const int damfac = std::max( 1, ( result.max_damage() + 1 ) * hp / type->hp );
-    result.set_damage( std::max( 0, ( result.max_damage() + 1 ) - damfac ) );
+    item *result = item_spawn( type->revert_to_itype, calendar::turn );
+    const int damfac = std::max( 1, ( result->max_damage() + 1 ) * hp / type->hp );
+    result->set_damage( std::max( 0, ( result->max_damage() + 1 ) - damfac ) );
     return result;
 }
 
@@ -3050,4 +3125,50 @@ const pathfinding_settings &monster::get_pathfinding_settings() const
 std::set<tripoint> monster::get_path_avoid() const
 {
     return std::set<tripoint>();
+}
+
+std::vector<item *> &monster::get_items()
+{
+    return inv;
+}
+
+void monster::add_item( item *it )
+{
+    it->set_location( new monster_item_location( this ) );
+    inv.push_back( it );
+}
+
+void monster::remove_item( item *it )
+{
+    it->remove_location();
+    std::remove( inv.begin(), inv.end(), it );
+}
+
+std::vector<item *>::iterator monster::remove_item( std::vector<item *>::iterator &it )
+{
+    ( *it )->remove_location();
+    return inv.erase( it );
+}
+
+void monster::clear_items()
+{
+    for( item *&it : inv ) {
+        it->remove_location();
+        it->destroy();
+    }
+    inv.clear();
+}
+
+void monster::drop_items( const tripoint &p )
+{
+    for( item *&it : inv ) {
+        it->remove_location();
+        g->m.add_item_or_charges( p, *it );
+    }
+    inv.clear();
+}
+
+void monster::drop_items()
+{
+    drop_items( pos() );
 }

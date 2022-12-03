@@ -2052,8 +2052,8 @@ void basecamp::start_relay_hide_site()
         tinymap target_bay;
         target_bay.load( project_to<coords::sm>( forest ), false );
         std::vector<item *> hide_inv;
-        for( item &i : target_bay.i_at( point( 11, 10 ) ) ) {
-            hide_inv.push_back( &i );
+        for( item * const &i : target_bay.i_at( point( 11, 10 ) ) ) {
+            hide_inv.push_back( i );
         }
         std::vector<item *> gaining_equipment;
         if( !hide_inv.empty() ) {
@@ -2265,8 +2265,8 @@ void basecamp::start_crafting( const std::string &cur_id, const point &cur_dir,
                                       making.required_skills );
         if( comp != nullptr ) {
             components.consume_components();
-            for( const item &results : making.create_results( batch_size ) ) {
-                comp->companion_mission_inv.add_item( results );
+            for( item *&results : making.create_results( batch_size ) ) {
+                comp->companion_mission_inv.add_item( *results );
             }
         }
         return;
@@ -2333,16 +2333,16 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
                         }
                         item *tmp_seed = seed_inv.back();
                         seed_inv.pop_back();
-                        std::list<item> used_seed;
+                        ItemList used_seed;
                         if( tmp_seed->count_by_charges() ) {
-                            used_seed.push_back( *tmp_seed );
+                            used_seed.push_back( tmp_seed );
                             tmp_seed->charges -= 1;
                             if( tmp_seed->charges > 0 ) {
                                 seed_inv.push_back( tmp_seed );
                             }
                         }
-                        used_seed.front().set_age( 0_turns );
-                        farm_map.add_item_or_charges( pos, used_seed.front() );
+                        used_seed.front()->set_age( 0_turns );
+                        farm_map.add_item_or_charges( pos, *used_seed.front() );
                         farm_map.set( pos, t_dirt, f_plant_seed );
                     }
                 }
@@ -2351,10 +2351,11 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
                 if( farm_map.furn( pos ) == f_plant_harvest ) {
                     // Can't use item_stack::only_item() since there might be fertilizer
                     map_stack items = farm_map.i_at( pos );
-                    const map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
-                        return it.is_seed();
+                    const map_stack::iterator seed = std::find_if( items.begin(),
+                    items.end(), []( const item * const & it ) {
+                        return it->is_seed();
                     } );
-                    if( seed != items.end() && farm_valid_seed( *seed ) ) {
+                    if( seed != items.end() && farm_valid_seed( **seed ) ) {
                         plots_cnt += 1;
                         if( comp ) {
                             int skillLevel = comp->get_skill_level( skill_survival );
@@ -2362,15 +2363,15 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
                             int plant_cnt = rng( skillLevel / 2, skillLevel );
                             plant_cnt = std::min( std::max( plant_cnt, 1 ), 9 );
                             int seed_cnt = std::max( 1, rng( plant_cnt / 4, plant_cnt / 2 ) );
-                            for( auto &i : iexamine::get_harvest_items( *seed->type, plant_cnt,
+                            for( auto &i : iexamine::get_harvest_items( *( *seed )->type, plant_cnt,
                                     seed_cnt, true ) ) {
-                                here.add_item_or_charges( g->u.pos(), i );
+                                here.add_item_or_charges( g->u.pos(), *i );
                             }
                             farm_map.i_clear( pos );
                             farm_map.furn_set( pos, f_null );
                             farm_map.ter_set( pos, t_dirt );
                         } else {
-                            plant_names.insert( item::nname( itype_id( seed->type->seed->fruit_id ) ) );
+                            plant_names.insert( item::nname( itype_id( ( *seed )->type->seed->fruit_id ) ) );
                         }
                     }
                 }
@@ -2471,7 +2472,8 @@ bool basecamp::start_garage_chop( const point &dir, const tripoint_abs_omt &omt_
     for( int prt = 0; prt < car->part_count(); prt++ ) {
         vehicle_stack contents = car->get_items( prt );
         for( auto iter = contents.begin(); iter != contents.end(); ) {
-            comp->companion_mission_inv.add_item( *iter );
+            comp->companion_mission_inv.add_item( **iter );
+            //TODO!: check
             iter = contents.erase( iter );
         }
         bool broken = car->part( prt ).is_broken();
@@ -2504,8 +2506,8 @@ bool basecamp::start_garage_chop( const point &dir, const tripoint_abs_omt &omt_
             }
             comp->companion_mission_inv.add_item( car->part( prt ).properties_to_item() );
         } else if( !skill_destroy ) {
-            for( const item &itm : car->part( prt ).pieces_for_broken_part() ) {
-                comp->companion_mission_inv.add_item( itm );
+            for( item *&itm : car->part( prt ).pieces_for_broken_part() ) {
+                comp->companion_mission_inv.add_item( *itm );
             }
         }
     }
@@ -2550,8 +2552,8 @@ void basecamp::finish_return( npc &comp, const bool fixed_time, const std::strin
     if( !cancel ) {
         for( size_t i = 0; i < comp.companion_mission_inv.size(); i++ ) {
             for( const auto &it : comp.companion_mission_inv.const_stack( i ) ) {
-                if( !it.count_by_charges() || it.charges > 0 ) {
-                    place_results( it );
+                if( !it->count_by_charges() || it->charges > 0 ) {
+                    place_results( *it );
                 }
             }
         }
@@ -2984,8 +2986,8 @@ bool basecamp::farm_return( const std::string &task, const tripoint_abs_omt &omt
     //Give any seeds the NPC didn't use back to you.
     for( size_t i = 0; i < comp->companion_mission_inv.size(); i++ ) {
         for( const auto &it : comp->companion_mission_inv.const_stack( i ) ) {
-            if( it.charges > 0 ) {
-                g->u.i_add( it );
+            if( it->charges > 0 ) {
+                g->u.i_add( *it );
             }
         }
     }
@@ -3066,8 +3068,8 @@ void basecamp::search_results( int skill, const item_group_id &group_id, int att
     for( int i = 0; i < attempts; i++ ) {
         if( skill > rng( 0, difficulty ) ) {
             auto result = item_group::item_from( group_id, calendar::turn );
-            if( !result.is_null() ) {
-                place_results( result );
+            if( result != nullptr ) {
+                place_results( *result );
             }
         }
     }
@@ -3117,7 +3119,7 @@ void basecamp::hunting_results( int skill, const std::string &task, int attempts
     for( int i = 0; i < attempts; i++ ) {
         if( skill > rng( 0, difficulty ) ) {
             const mtype_id *target = hunting_targets.pick();
-            auto result = item::make_corpse( *target, calendar::turn, "" );
+            item &result = item::make_corpse( *target, calendar::turn, "" );
             if( !result.is_null() ) {
                 place_results( result );
             }
@@ -3150,9 +3152,9 @@ int om_harvest_furn( npc &comp, const tripoint &omt_tgt, const furn_id &f, int c
                 continue;
             }
             if( bring_back ) {
-                for( const item &itm : item_group::items_from( furn_tgt.bash.drop_group,
+                for( item *&itm : item_group::items_from( furn_tgt.bash.drop_group,
                         calendar::turn ) ) {
-                    comp.companion_mission_inv.push_back( itm );
+                    comp.companion_mission_inv.push_back( *itm );
                 }
                 harvested++;
             }
@@ -3193,9 +3195,9 @@ int om_harvest_ter( npc &comp, const tripoint_abs_omt &omt_tgt, const ter_id &t,
                 continue;
             }
             if( bring_back ) {
-                for( const item &itm : item_group::items_from( ter_tgt.bash.drop_group,
+                for( item *&itm : item_group::items_from( ter_tgt.bash.drop_group,
                         calendar::turn ) ) {
-                    comp.companion_mission_inv.push_back( itm );
+                    comp.companion_mission_inv.push_back( *itm );
                 }
                 harvested++;
                 target_bay.ter_set( p, ter_tgt.bash.ter_set );
@@ -3283,16 +3285,16 @@ mass_volume om_harvest_itm( npc_ptr comp, const tripoint_abs_omt &omt_tgt, int c
     tripoint mapmin = tripoint( 0, 0, omt_tgt.z() );
     tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z() );
     for( const tripoint &p : target_bay.points_in_rectangle( mapmin, mapmax ) ) {
-        for( const item &i : target_bay.i_at( p ) ) {
-            total_m += i.weight( true );
-            total_v += i.volume( true );
+        for( item *&i : target_bay.i_at( p ) ) {
+            total_m += i->weight( true );
+            total_v += i->volume( true );
             total_num += 1;
             if( take && x_in_y( chance, 100 ) ) {
                 if( comp ) {
-                    comp->companion_mission_inv.push_back( i );
+                    comp->companion_mission_inv.push_back( *i );
                 }
-                harvested_m += i.weight( true );
-                harvested_v += i.volume( true );
+                harvested_m += i->weight( true );
+                harvested_v += i->volume( true );
                 harvested_num += 1;
             }
         }
@@ -3518,7 +3520,7 @@ int om_carry_weight_to_trips( const std::vector<item *> &itms, npc_ptr comp )
     }
     units::mass max_m = comp ? comp->weight_capacity() - comp->weight_carried() : 30_kilogram;
     //Assume an additional pack will be carried in addition to normal gear
-    units::volume sack_v = item( itype_id( "makeshift_sling" ) ).get_storage();
+    units::volume sack_v = item_spawn_temporary( itype_id( "makeshift_sling" ) )->get_storage();
     units::volume max_v = comp ? comp->volume_capacity() - comp->volume_carried() : sack_v;
     max_v += sack_v;
     return om_carry_weight_to_trips( total_m, total_v, max_m, max_v );
@@ -3786,7 +3788,7 @@ std::string basecamp::gathering_description( const std::string &bldg )
     for( size_t a = 0; a < 6; a++ ) {
         const auto items = item_group::items_from( itemlist, calendar::turn );
         for( auto &it : items ) {
-            itemnames[it.display_name()]++;
+            itemnames[it->display_name()]++;
         }
     }
     // Invert the map to get sorting!
@@ -3840,8 +3842,9 @@ std::string camp_car_description( vehicle *car )
     for( auto &fuel : fuels ) {
         std::string fuel_entry = string_format( "%d/%d", car->fuel_left( fuel.first ),
                                                 car->fuel_capacity( fuel.first ) );
-        entry += string_format( ">%s:%s\n", item( fuel.first ).tname(),
-                                right_justify( fuel_entry, 33 - utf8_width( item( fuel.first ).tname() ) ) );
+        item *fuel_it = item_spawn_temporary( fuel.first );
+        entry += string_format( ">%s:%s\n", fuel_it->tname(),
+                                right_justify( fuel_entry, 33 - utf8_width( fuel_it->tname() ) ) );
     }
     for( const vpart_reference &vpr : car->get_all_parts() ) {
         if( vpr.part().is_battery() ) {
@@ -3916,20 +3919,20 @@ bool basecamp::distribute_food()
     const double slow_rot_coeff = 0.8 + ( has_provides( "pantry" ) ? 0.05 : 0 );
 
     int total = 0;
-    std::vector<item> keep_me;
+    std::vector<item *> keep_me;
     for( const tripoint &p_food_stock_abs : z_food ) {
         const tripoint p_food_stock = here.getlocal( p_food_stock_abs );
         map_stack initial_items = here.i_at( p_food_stock );
-        for( item &i : initial_items ) {
-            const bool is_contained_food = i.is_container() && i.get_contained().is_food();
-            const item &innermost_item = is_contained_food ? i.get_contained() : i;
+        for( item * const &i : initial_items ) {
+            const bool is_contained_food = i->is_container() && i->get_contained().is_food();
+            const item &innermost_item = is_contained_food ? i->get_contained() : *i;
 
             const bool would_npcs_eat = innermost_item.is_food()
                                         && !innermost_item.rotten()
                                         && innermost_item.get_comestible_fun() >= -6;
 
             if( !would_npcs_eat ) {
-                keep_me.push_back( std::move( i ) );
+                keep_me.push_back( i );
                 continue;
             }
 
@@ -3937,7 +3940,7 @@ bool basecamp::distribute_food()
             constexpr time_duration slow_rot_threshold = 2_days;
             // Containers handle spoilage logic internally.
             // so we would get very large time duration for canned or unspoilable foods.
-            const time_duration rots_in = time_duration::from_turns( i.spoilage_sort_order() );
+            const time_duration rots_in = time_duration::from_turns( i->spoilage_sort_order() );
             const double rot_multiplier = ( rots_in >= full_calories_threshold ) ?
                                           1.0 :
                                           ( ( rots_in >= slow_rot_threshold ) ? slow_rot_coeff : quick_rot_coeff );
@@ -3953,15 +3956,15 @@ bool basecamp::distribute_food()
 
             // Leave empty container.
             // TODO: make NPCs leave empty food containers elsewhere?
-            if( i.is_container() ) {
-                i.contents.clear_items();
-                i.on_contents_changed();
-                keep_me.push_back( std::move( i ) );
+            if( i->is_container() ) {
+                i->contents.clear_items();
+                i->on_contents_changed();
+                keep_me.push_back( i );
             }
         }
         here.i_clear( p_food_stock );
-        for( item &i : keep_me ) {
-            here.add_item_or_charges( p_food_stock, std::move( i ), false );
+        for( item * const &i : keep_me ) {
+            here.add_item_or_charges( p_food_stock, *i, false );
         }
         keep_me.clear();
     }
@@ -3986,7 +3989,7 @@ int camp_morale( int change )
     return yours->likes_u;
 }
 
-void basecamp::place_results( item result )
+void basecamp::place_results( item &result )
 {
     if( by_radio ) {
         tinymap target_bay;
@@ -4026,8 +4029,8 @@ void apply_camp_ownership( const tripoint &camp_pos, int radius )
     for( const tripoint &p : here.points_in_rectangle( camp_pos + point( -radius, -radius ),
             camp_pos + point( radius, radius ) ) ) {
         auto items = here.i_at( p.xy() );
-        for( item &elem : items ) {
-            elem.set_owner( g->u );
+        for( item * const &elem : items ) {
+            elem->set_owner( g->u );
         }
     }
 }

@@ -2009,14 +2009,14 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
                 col = t.color;
             }
         } else if( category == C_ITEM ) {
-            item tmp;
+            item *tmp;
             if( string_starts_with( found_id, "corpse_" ) ) {
-                tmp = item( itype_corpse, calendar::start_of_cataclysm );
+                tmp = item_spawn_temporary( itype_corpse, calendar::start_of_cataclysm );
             } else {
-                tmp = item( found_id, calendar::start_of_cataclysm );
+                tmp = item_spawn_temporary( found_id, calendar::start_of_cataclysm );
             }
-            sym = tmp.symbol().empty() ? ' ' : tmp.symbol().front();
-            col = tmp.color();
+            sym = tmp->symbol().empty() ? ' ' : tmp->symbol().front();
+            col = tmp->color();
         } else if( category == C_OVERMAP_TERRAIN ) {
             const oter_type_str_id tmp( id );
             if( tmp.is_valid() ) {
@@ -3164,7 +3164,7 @@ bool cata_tiles::draw_zombie_revival_indicators( const tripoint &pos, const lit_
     if( tileset_ptr->find_tile_type( ZOMBIE_REVIVAL_INDICATOR ) && !invisible[0] &&
         item_override.find( pos ) == item_override.end() && here.could_see_items( pos, g->u ) ) {
         for( auto &i : here.i_at( pos ) ) {
-            if( i.can_revive() ) {
+            if( i->can_revive() ) {
                 return draw_from_id_string( ZOMBIE_REVIVAL_INDICATOR, C_NONE, empty_string, pos, 0, 0,
                                             lit_level::LIT, false, z_drop );
             }

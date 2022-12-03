@@ -9,7 +9,6 @@
 class avatar;
 class Character;
 class item;
-class item_location;
 class map;
 class turret_data;
 
@@ -18,7 +17,7 @@ namespace avatar_action
 
 /** Eat food or fuel  'E' (or 'a') */
 void eat( avatar &you );
-void eat( avatar &you, item_location loc );
+void eat( avatar &you, item *loc );
 // special rules for eating: grazing etc
 // returns false if no rules are needed
 bool eat_here( avatar &you );
@@ -39,15 +38,15 @@ void swim( map &m, avatar &you, const tripoint &p );
 
 void autoattack( avatar &you, map &m );
 
-void mend( avatar &you, item_location loc );
+void mend( avatar &you, item *loc );
 
 /** Prompt to wield some item. */
 void wield();
 /** Wield specified item. */
-void wield( item_location &loc );
+void wield( item &loc );
 
 /** Reload specified item. */
-void reload( item_location &loc, bool prompt = false, bool empty = true );
+void reload( item &loc, bool prompt = false, bool empty = true );
 /** Prompt to reload some item. */
 void reload_item();
 /** Reload wielded item. */
@@ -74,10 +73,10 @@ bool can_fire_weapon( avatar &you, const map &m, const item &weapon );
 void fire_wielded_weapon( avatar &you );
 
 /** Stores fake gun specified by the mutation and starts interactive aiming */
-void fire_ranged_mutation( avatar &you, const item &fake_gun );
+void fire_ranged_mutation( avatar &you, item &fake_gun );
 
 /** Stores fake gun specified by the bionic and starts interactive aiming */
-void fire_ranged_bionic( avatar &you, const item &fake_gun, const units::energy &cost_per_shot );
+void fire_ranged_bionic( avatar &you, item &fake_gun, const units::energy &cost_per_shot );
 
 /**
  * Checks if the player can manually (with their 2 hands, not via vehicle controls)
@@ -87,12 +86,11 @@ void fire_ranged_bionic( avatar &you, const item &fake_gun, const units::energy 
 void fire_turret_manual( avatar &you, map &m, turret_data &turret );
 
 // Throw an item  't'
-void plthrow( avatar &you, item_location loc,
+void plthrow( avatar &you, item *loc,
               const cata::optional<tripoint> &blind_throw_from_pos = cata::nullopt );
 
 // Use item; also tries E,R,W  'a'
-void use_item( avatar &you, item_location &loc );
-void use_item( avatar &you );
+void use_item( avatar &you, item *loc = nullptr );
 } // namespace avatar_action
 
 #endif // CATA_SRC_AVATAR_ACTION_H

@@ -12,6 +12,7 @@
 #include "optional.h"
 #include "ret_val.h"
 #include "type_id.h"
+#include "colony.h"
 
 class item;
 class player;
@@ -122,8 +123,8 @@ cata::optional<tripoint> getNearFilledGasTank( const tripoint &center, int &gas_
 
 bool has_keg( const tripoint &pos );
 
-std::list<item> get_harvest_items( const itype &type, int plant_count,
-                                   int seed_count, bool byproducts );
+ItemList get_harvest_items( const itype &type, int plant_count,
+                            int seed_count, bool byproducts );
 
 // Planting functions
 std::vector<seed_tuple> get_seed_entries( const std::vector<item *> &seed_inv );

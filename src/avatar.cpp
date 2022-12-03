@@ -383,7 +383,7 @@ diary *avatar::get_avatar_diary()
  * str_values: Parallel to values, these contain the learning penalties (as doubles in string form) as follows:
  *             Experience gained = Experience normally gained * penalty
  */
-bool avatar::read( item_location loc, const bool continuous )
+bool avatar::read( item *loc, const bool continuous )
 {
     if( !loc ) {
         add_msg( m_info, _( "Never mind." ) );
@@ -738,7 +738,7 @@ static void skim_book_msg( const item &book, avatar &u )
     add_msg( _( "You note that you have a copy of %s in your possession." ), book.type_name() );
 }
 
-void avatar::do_read( item_location loc )
+void avatar::do_read( item *loc )
 {
     if( !loc ) {
         activity.set_to_null();
@@ -1231,18 +1231,18 @@ bool avatar::wield( item &target )
     moves -= mv;
 
     if( has_item( target ) ) {
-        weapon = i_rem( &target );
+        set_weapon( i_rem( &target ) );
     } else {
-        weapon = target;
+        set_weapon( target );
     }
 
-    last_item = weapon.typeId();
+    last_item = target.typeId();
     recoil = MAX_RECOIL;
 
-    weapon.on_wield( *this, mv );
+    target.on_wield( *this, mv );
 
-    inv.update_invlet( weapon );
-    inv.update_cache_with_item( weapon );
+    inv.update_invlet( target );
+    inv.update_cache_with_item( target );
 
     return true;
 }

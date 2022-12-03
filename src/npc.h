@@ -28,7 +28,6 @@
 #include "int_id.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_location.h"
 #include "line.h"
 #include "lru_cache.h"
 #include "optional.h"
@@ -935,9 +934,9 @@ class npc : public player
         void update_worst_item_value();
         int value( const item &it ) const;
         int value( const item &it, int market_price ) const;
-        bool wear_if_wanted( const item &it, std::string &reason );
-        void start_read( item_location loc, player *pl );
-        void finish_read( item_location loc );
+        bool wear_if_wanted( item &it, std::string &reason );
+        void start_read( item &it, player *pl );
+        void finish_read( item *it );
         bool can_read( const item &book, std::vector<std::string> &fail_reasons );
         int time_to_read( const item &book, const player &reader ) const;
         void do_npc_read();
@@ -1103,13 +1102,13 @@ class npc : public player
         const item &find_reloadable() const;
         item &find_reloadable();
         /** Finds ammo the NPC could use to reload a given object */
-        item_location find_usable_ammo( const item &weap );
-        item_location find_usable_ammo( const item &weap ) const;
+        item *find_usable_ammo( item &weap );
+        item *find_usable_ammo( item &weap ) const;
 
-        bool dispose_item( item_location &&obj, const std::string &prompt = std::string() ) override;
+        bool dispose_item( item &obj, const std::string &prompt = std::string() ) override;
 
         void aim();
-        void do_reload( const item &it );
+        void do_reload( item &it );
 
         // Physical movement from one tile to the next
         /**
@@ -1157,8 +1156,8 @@ class npc : public player
         // Drop wgt and vol, including all items with less value than min_val
         void drop_items( units::mass drop_weight, units::volume drop_volume, int min_val = 0 );
         /** Picks up items and returns a list of them. */
-        std::list<item> pick_up_item_map( const tripoint &where );
-        std::list<item> pick_up_item_vehicle( vehicle &veh, int part_index );
+        ItemList pick_up_item_map( const tripoint &where );
+        ItemList pick_up_item_vehicle( vehicle &veh, int part_index );
 
         bool has_item_whitelist() const;
         bool item_name_whitelisted( const std::string &to_match );
@@ -1176,7 +1175,7 @@ class npc : public player
         bool alt_attack();
         void heal_player( player &patient );
         void heal_self();
-        void pretend_heal( player &patient, item used ); // healing action of hallucinations
+        void pretend_heal( player &patient, item &used ); // healing action of hallucinations
         void mug_player( Character &mark );
         void look_for_player( const Character &sought );
         // Do we have an idea of where u are?
@@ -1375,7 +1374,7 @@ class npc : public player
 
     private:
         // the weapon we're actually holding when using bionic fake guns
-        item real_weapon;
+        item *real_weapon;
         // the index of the bionics for the fake gun;
         int cbm_weapon_index = -1;
 

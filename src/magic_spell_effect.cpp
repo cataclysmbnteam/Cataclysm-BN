@@ -665,8 +665,9 @@ static void spell_move( const spell &sp, const Creature &caster,
     if( sp.is_valid_effect_target( target_item ) ) {
         auto src_items = here.i_at( from );
         auto dst_items = here.i_at( to );
-        for( const item &item : src_items ) {
-            dst_items.insert( item );
+        //TODO!: check
+        for( item *&item : src_items ) {
+            dst_items.insert( *item );
         }
         src_items.clear();
     }
@@ -727,7 +728,7 @@ void spell_effect::area_push( const spell &sp, Creature &caster, const tripoint 
 
 void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const tripoint & )
 {
-    item granted( sp.effect_data(), calendar::turn );
+    item &granted = *item_spawn( sp.effect_data(), calendar::turn );
     if( !granted.is_comestible() && !( sp.has_flag( spell_flag::PERMANENT ) && sp.is_max_level() ) ) {
         granted.set_var( "ethereal", to_turns<int>( sp.duration_turns() ) );
         granted.set_flag( "ETHEREAL_ITEM" );
@@ -740,7 +741,7 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const
         granted.set_flag( "FIT" );
         you.wear_item( granted, false );
     } else if( !you.is_armed() ) {
-        you.weapon = granted;
+        you.set_weapon( granted );
     } else {
         you.i_add( granted );
     }

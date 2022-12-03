@@ -455,7 +455,7 @@ void npc::discharge_cbm_weapon()
     }
     const bionic &bio = ( *my_bionics )[cbm_weapon_index];
     mod_power_level( -bio.info().power_activate );
-    weapon = real_weapon;
+    set_weapon( *real_weapon );
     cbm_weapon_index = -1;
 }
 
@@ -486,36 +486,38 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
     bionic &bio = ( *my_bionics )[index];
 
     if( bio.info().has_flag( flag_BIONIC_GUN ) ) {
-        const item cbm_weapon = item( bio.info().fake_item );
+        //TODO!: restore next
+        item *cbm_weapon = nullptr;//item( bio.info().fake_item );
         bool not_allowed = !rules.has_flag( ally_rule::use_guns ) ||
-                           ( rules.has_flag( ally_rule::use_silent ) && !cbm_weapon.is_silent() );
+                           ( rules.has_flag( ally_rule::use_silent ) && !cbm_weapon->is_silent() );
         if( is_player_ally() && not_allowed ) {
             return;
         }
 
         const int ups_charges = charges_of( itype_UPS );
-        int ammo_count = weapon.ammo_remaining();
-        const int ups_drain = weapon.get_gun_ups_drain();
+        int ammo_count = get_weapon().ammo_remaining();
+        const int ups_drain = get_weapon().get_gun_ups_drain();
         if( ups_drain > 0 ) {
             ammo_count = std::min( ammo_count, ups_charges / ups_drain );
         }
         const int cbm_ammo = free_power /  bio.info().power_activate;
 
-        if( weapon_value( weapon, ammo_count ) < weapon_value( cbm_weapon, cbm_ammo ) ) {
-            real_weapon = weapon;
-            weapon = cbm_weapon;
+        if( weapon_value( get_weapon(), ammo_count ) < weapon_value( *cbm_weapon, cbm_ammo ) ) {
+            real_weapon = &get_weapon();
+            set_weapon( *cbm_weapon );
             cbm_weapon_index = index;
         }
-    } else if( bio.info().has_flag( flag_BIONIC_WEAPON ) && !weapon.has_flag( flag_NO_UNWIELD ) &&
+    } else if( bio.info().has_flag( flag_BIONIC_WEAPON ) && !get_weapon().has_flag( flag_NO_UNWIELD ) &&
                free_power > bio.info().power_activate ) {
         if( is_armed() ) {
-            stow_item( weapon );
+            stow_item( get_weapon() );
         }
         if( get_player_character().sees( pos() ) ) {
             add_msg( m_info, _( "%s activates their %s." ), disp_name(), bio.info().name );
         }
 
-        weapon = item( bio.info().fake_item );
+        //TODO!: restore next
+        //weapon = item( bio.info().fake_item );
         mod_power_level( -bio.info().power_activate );
         bio.powered = true;
         cbm_weapon_index = index;
@@ -581,7 +583,6 @@ bool Character::activate_bionic( int b, bool eff_only )
         }
     };
 
-    item tmp_item;
     const w_point &weatherPoint = get_weather().get_precise();
 
     map &here = get_map();
@@ -589,19 +590,20 @@ bool Character::activate_bionic( int b, bool eff_only )
     if( bio.info().has_flag( flag_BIONIC_GUN ) ) {
         add_msg_activate();
         refund_power(); // Power usage calculated later, in avatar_action::fire
-        avatar_action::fire_ranged_bionic( *this->as_avatar(), item( bio.info().fake_item ),
+        //TODO!: check lifetime
+        avatar_action::fire_ranged_bionic( *this->as_avatar(), *item_spawn( bio.info().fake_item ),
                                            bio.info().power_activate );
     } else if( bio.info().has_flag( flag_BIONIC_WEAPON ) ) {
-        if( weapon.has_flag( flag_NO_UNWIELD ) ) {
-            add_msg_if_player( m_info, _( "Deactivate your %s first!" ), weapon.tname() );
+        if( weapon->has_flag( flag_NO_UNWIELD ) ) {
+            add_msg_if_player( m_info, _( "Deactivate your %s first!" ), weapon->tname() );
             refund_power();
             bio.powered = false;
             return false;
         }
 
-        if( !weapon.is_null() ) {
-            const std::string query = string_format( _( "Stop wielding %s?" ), weapon.tname() );
-            if( !dispose_item( item_location( *this, &weapon ), query ) ) {
+        if( !weapon->is_null() ) {
+            const std::string query = string_format( _( "Stop wielding %s?" ), weapon->tname() );
+            if( !dispose_item( *weapon, query ) ) {
                 refund_power();
                 bio.powered = false;
                 return false;
@@ -609,10 +611,11 @@ bool Character::activate_bionic( int b, bool eff_only )
         }
 
         add_msg_activate();
-        weapon = item( bio.info().fake_item );
-        weapon.invlet = '#';
+        //TODO!: restore next
+        //weapon = item( bio.info().fake_item );
+        weapon->invlet = '#';
         if( bio.ammo_count > 0 ) {
-            weapon.ammo_set( bio.ammo_loaded, bio.ammo_count );
+            weapon->ammo_set( bio.ammo_loaded, bio.ammo_count );
             avatar_action::fire_wielded_weapon( g->u );
         }
     } else if( bio.id == bio_ears && has_active_bionic( bio_earplugs ) ) {
@@ -787,19 +790,19 @@ bool Character::activate_bionic( int b, bool eff_only )
     } else if( bio.id == bio_water_extractor ) {
         bool no_target = true;
         bool extracted = false;
-        for( item &it : here.i_at( pos() ) ) {
+        for( item *&it : here.i_at( pos() ) ) {
             static const auto volume_per_water_charge = 500_ml;
-            if( it.is_corpse() ) {
-                const int avail = it.get_var( "remaining_water", it.volume() / volume_per_water_charge );
+            if( it->is_corpse() ) {
+                const int avail = it->get_var( "remaining_water", it->volume() / volume_per_water_charge );
                 if( avail > 0 ) {
                     no_target = false;
                     if( query_yn( _( "Extract water from the %s" ),
-                                  colorize( it.tname(), it.color_in_inventory() ) ) ) {
-                        item water( itype_water_clean, calendar::turn, avail );
+                                  colorize( it->tname(), it->color_in_inventory() ) ) ) {
+                        item &water = *item_spawn( itype_water_clean, calendar::turn, avail );
                         if( liquid_handler::consume_liquid( water ) ) {
                             add_msg_activate();
                             extracted = true;
-                            it.set_var( "remaining_water", static_cast<int>( water.charges ) );
+                            it->set_var( "remaining_water", static_cast<int>( water.charges ) );
                         }
                         break;
                     }
@@ -819,7 +822,7 @@ bool Character::activate_bionic( int b, bool eff_only )
         { material_id( "iron" ), material_id( "steel" ) };
         // Remember all items that will be affected, then affect them
         // Don't "snowball" by affecting some items multiple times
-        std::vector<std::pair<item, tripoint>> affected;
+        std::vector<std::pair<item *, tripoint>> affected;
         const units::mass weight_cap = weight_capacity();
         for( const tripoint &p : here.points_in_radius( pos(), 10 ) ) {
             if( p == pos() || !here.has_items( p ) || here.has_flag( flag_SEALED, p ) ) {
@@ -828,8 +831,8 @@ bool Character::activate_bionic( int b, bool eff_only )
 
             map_stack stack = here.i_at( p );
             for( auto it = stack.begin(); it != stack.end(); it++ ) {
-                if( it->weight() < weight_cap &&
-                    it->made_of_any( affected_materials ) ) {
+                if( ( *it )->weight() < weight_cap &&
+                    ( *it )->made_of_any( affected_materials ) ) {
                     affected.emplace_back( std::make_pair( *it, p ) );
                     stack.erase( it );
                     break;
@@ -837,10 +840,10 @@ bool Character::activate_bionic( int b, bool eff_only )
             }
         }
 
-        for( const std::pair<item, tripoint> &pr : affected ) {
+        for( const std::pair<item *, tripoint> &pr : affected ) {
             projectile proj;
             proj.speed  = 50;
-            proj.impact = damage_instance::physical( pr.first.weight() / 250_gram, 0, 0, 0 );
+            proj.impact = damage_instance::physical( pr.first->weight() / 250_gram, 0, 0, 0 );
             // make the projectile stop one tile short to prevent hitting the player
             proj.range = rl_dist( pr.second, pos() ) - 1;
             static const std::set<ammo_effect_str_id> ammo_effects = {{
@@ -856,7 +859,7 @@ bool Character::activate_bionic( int b, bool eff_only )
 
             dealt_projectile_attack dealt = projectile_attack(
                                                 proj, pr.second, pos(), dispersion_sources{ 0 }, this );
-            here.add_item_or_charges( dealt.end_point, pr.first );
+            here.add_item_or_charges( dealt.end_point, *pr.first );
         }
 
         mod_moves( -100 );
@@ -948,16 +951,16 @@ bool Character::activate_bionic( int b, bool eff_only )
             _( "Control vehicle" ), _( "RC radio" )
         } );
         if( choice >= 0 && choice <= 1 ) {
-            item ctr;
+            item *ctr;
             if( choice == 0 ) {
-                ctr = item( "remotevehcontrol", calendar::start_of_cataclysm );
+                ctr = item_spawn_temporary( "remotevehcontrol", calendar::start_of_cataclysm );
             } else {
-                ctr = item( "radiocontrol", calendar::start_of_cataclysm );
+                ctr = item_spawn_temporary( "radiocontrol", calendar::start_of_cataclysm );
             }
-            ctr.charges = units::to_kilojoule( get_power_level() );
-            int power_use = invoke_item( &ctr );
+            ctr->charges = units::to_kilojoule( get_power_level() );
+            int power_use = invoke_item( ctr );
             mod_power_level( units::from_kilojoule( -power_use ) );
-            bio.powered = ctr.active;
+            bio.powered = ctr->active;
         } else {
             bio.powered = g->remoteveh() != nullptr || !get_value( "remote_controlling" ).empty();
         }
@@ -1102,16 +1105,16 @@ bool Character::deactivate_bionic( int b, bool eff_only )
 
     // Deactivation effects go here
     if( bio.info().has_flag( flag_BIONIC_WEAPON ) ) {
-        if( weapon.typeId() == bio.info().fake_item ) {
-            add_msg_if_player( _( "You withdraw your %s." ), weapon.tname() );
+        if( weapon->typeId() == bio.info().fake_item ) {
+            add_msg_if_player( _( "You withdraw your %s." ), weapon->tname() );
             if( g->u.sees( pos() ) ) {
                 add_msg_if_npc( m_info, _( "<npcname> withdraws %s %s." ), disp_name( true ),
-                                weapon.tname() );
+                                weapon->tname() );
             }
             bio.ammo_loaded =
-                weapon.ammo_data() != nullptr ? weapon.ammo_data()->get_id() : itype_id::NULL_ID();
-            bio.ammo_count = static_cast<unsigned int>( weapon.ammo_remaining() );
-            weapon = item();
+                weapon->ammo_data() != nullptr ? weapon->ammo_data()->get_id() : itype_id::NULL_ID();
+            bio.ammo_count = static_cast<unsigned int>( weapon->ammo_remaining() );
+            weapon = nullptr;
             invalidate_crafting_inventory();
         }
     } else if( bio.id == bio_cqb ) {
@@ -1194,7 +1197,7 @@ bool Character::burn_fuel( int b, bool start )
     //in the menu
     if( !start ) {
         for( const itype_id &fuel : fuel_available ) {
-            const item &tmp_fuel = item( fuel );
+            const item &tmp_fuel = *item_spawn_temporary( fuel );
             const int fuel_energy = tmp_fuel.fuel_energy();
             const bool is_perpetual_fuel = tmp_fuel.has_flag( flag_PERPETUAL );
 
@@ -1321,9 +1324,8 @@ void Character::passive_power_gen( int b )
     map &here = get_map();
 
     for( const itype_id &fuel : fuel_available ) {
-        const item &tmp_fuel = item( fuel );
-        const int fuel_energy = tmp_fuel.fuel_energy();
-        if( !tmp_fuel.has_flag( flag_PERPETUAL ) ) {
+        const int fuel_energy = fuel->fuel ? fuel->fuel->energy : 0.0f;
+        if( !fuel->has_flag( flag_PERPETUAL ) ) {
             continue;
         }
 
@@ -1444,7 +1446,8 @@ int Character::consume_remote_fuel( int amount )
 
 void Character::reset_remote_fuel()
 {
-    if( get_bionic_fueled_with( item( fuel_type_sun_light ) ).empty() ) {
+    //TOOD!: check what the shit
+    if( get_bionic_fueled_with( *item_spawn_temporary( fuel_type_sun_light ) ).empty() ) {
         remove_value( "sunlight" );
     }
     remove_value( "rem_battery" );
@@ -1480,11 +1483,11 @@ float Character::get_effective_efficiency( int b, float fuel_efficiency )
         int coverage = 0;
         const std::map< bodypart_str_id, int > &occupied_bodyparts = bio.info().occupied_bodyparts;
         for( const std::pair< const bodypart_str_id, int > &elem : occupied_bodyparts ) {
-            for( const item &i : worn ) {
-                if( i.covers( elem.first->token ) && !i.has_flag( flag_ALLOWS_NATURAL_ATTACKS ) &&
-                    !i.has_flag( flag_SEMITANGIBLE ) &&
-                    !i.has_flag( flag_PERSONAL ) && !i.has_flag( flag_AURA ) ) {
-                    coverage += i.get_coverage();
+            for( item * const &i : worn ) {
+                if( i->covers( elem.first->token ) && !i->has_flag( flag_ALLOWS_NATURAL_ATTACKS ) &&
+                    !i->has_flag( flag_SEMITANGIBLE ) &&
+                    !i->has_flag( flag_PERSONAL ) && !i->has_flag( flag_AURA ) ) {
+                    coverage += i->get_coverage();
                 }
             }
         }
@@ -1536,8 +1539,7 @@ void Character::process_bionic( int b )
             if( !rem_amount.empty() ) {
                 rem_fuel_stock = std::stoi( rem_amount );
             }
-            if( !rem_fuel.is_empty() && ( rem_fuel_stock > 0 ||
-                                          item( rem_fuel ).has_flag( flag_PERPETUAL ) ) ) {
+            if( !rem_fuel.is_empty() && ( rem_fuel_stock > 0 || rem_fuel->has_flag( flag_PERPETUAL ) ) ) {
                 fuel_available.emplace_back( rem_fuel );
             }
         }
@@ -2061,12 +2063,14 @@ void Character::perform_uninstall( bionic_id bid, int difficulty, int success,
         // remove power bank provided by bionic
         mod_max_power_level( -power_lvl );
 
-        item cbm( itype_burnt_out_bionic );
+        item *cbm;
         if( bid->itype().is_valid() ) {
-            cbm = item( bid.c_str() );
+            cbm = item_spawn( bid.c_str() );
+        } else {
+            cbm = item_spawn( itype_burnt_out_bionic );
         }
-        cbm.faults.emplace( fault_bionic_nonsterile );
-        here.add_item( pos(), cbm );
+        cbm->faults.emplace( fault_bionic_nonsterile );
+        here.add_item( pos(), *cbm );
     } else {
         g->events().send<event_type::fails_to_remove_cbm>( getID(), bid );
         // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
@@ -2136,7 +2140,7 @@ bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, 
         patient.mod_max_power_level( -target_cbm.info().capacity );
         patient.remove_bionic( target_cbm.id );
         const itype_id iid = itemtype.is_valid() ? itemtype : itype_burnt_out_bionic;
-        item cbm( iid, calendar::start_of_cataclysm );
+        item &cbm = *item_spawn( iid, calendar::start_of_cataclysm );
         cbm.faults.emplace( fault_bionic_nonsterile );
         get_map().add_item( patient.pos(), cbm );
     } else {
@@ -2681,7 +2685,8 @@ int bionic::get_quality( const quality_id &quality ) const
         return INT_MIN;
     }
 
-    return item( i.fake_item ).get_quality( quality );
+    //TODO!: move some logic up to item type
+    return item_spawn_temporary( i.fake_item )->get_quality( quality );
 }
 
 bool bionic::is_this_fuel_powered( const itype_id &this_fuel ) const

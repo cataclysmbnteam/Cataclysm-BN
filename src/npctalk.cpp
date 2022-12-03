@@ -1594,18 +1594,18 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
 
         // Special, dynamic tags go here
         if( tag == "<yrwp>" ) {
-            phrase.replace( fa, l, remove_color_tags( u.weapon.tname() ) );
+            phrase.replace( fa, l, remove_color_tags( u.get_weapon().tname() ) );
         } else if( tag == "<mywp>" ) {
             if( !me.is_armed() ) {
                 phrase.replace( fa, l, _( "fists" ) );
             } else {
-                phrase.replace( fa, l, remove_color_tags( me.weapon.tname() ) );
+                phrase.replace( fa, l, remove_color_tags( me.get_weapon().tname() ) );
             }
         } else if( tag == "<ammo>" ) {
-            if( !me.weapon.is_gun() ) {
+            if( !me.get_weapon().is_gun() ) {
                 phrase.replace( fa, l, _( "BADAMMO" ) );
             } else {
-                phrase.replace( fa, l, me.weapon.ammo_current()->nname( 1 ) );
+                phrase.replace( fa, l, me.get_weapon().ammo_current()->nname( 1 ) );
             }
         } else if( tag == "<current_activity>" ) {
             std::string activity_name;
@@ -1634,16 +1634,17 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
         } else if( tag == "<topic_item>" ) {
             phrase.replace( fa, l, item::nname( item_type, 2 ) );
         } else if( tag == "<topic_item_price>" ) {
-            item tmp( item_type );
-            phrase.replace( fa, l, format_money( tmp.price( true ) ) );
+            //TODO!: check these temps
+            item *tmp = item_spawn_temporary( item_type );
+            phrase.replace( fa, l, format_money( tmp->price( true ) ) );
         } else if( tag == "<topic_item_my_total_price>" ) {
-            item tmp( item_type );
-            tmp.charges = me.charges_of( item_type );
-            phrase.replace( fa, l, format_money( tmp.price( true ) ) );
+            item *tmp = item_spawn_temporary( item_type );
+            tmp->charges = me.charges_of( item_type );
+            phrase.replace( fa, l, format_money( tmp->price( true ) ) );
         } else if( tag == "<topic_item_your_total_price>" ) {
-            item tmp( item_type );
-            tmp.charges = u.charges_of( item_type );
-            phrase.replace( fa, l, format_money( tmp.price( true ) ) );
+            item *tmp = item_spawn_temporary( item_type );
+            tmp->charges = u.charges_of( item_type );
+            phrase.replace( fa, l, format_money( tmp->price( true ) ) );
         } else if( !tag.empty() ) {
             debugmsg( "Bad tag.  '%s' (%d - %d)", tag.c_str(), fa, fb );
             phrase.replace( fa, fb - fa + 1, "????" );
@@ -2059,28 +2060,30 @@ void talk_effect_fun_t::set_u_buy_item( const itype_id &item_name, int cost, int
             return;
         }
         if( container_name.empty() ) {
-            item new_item = item( item_name, calendar::turn );
-            if( new_item.count_by_charges() ) {
-                new_item.mod_charges( count - 1 );
-                u.i_add( new_item );
+            item *new_item = item_spawn( item_name, calendar::turn );
+            if( new_item->count_by_charges() ) {
+                new_item->mod_charges( count - 1 );
+                u.i_add( *new_item );
             } else {
                 for( int i_cnt = 0; i_cnt < count; i_cnt++ ) {
-                    u.i_add( new_item );
+                    u.i_add( *item_spawn( *new_item ) );
                 }
+                new_item->destroy();
             }
             if( count == 1 ) {
                 //~ %1%s is the NPC name, %2$s is an item
-                popup( _( "%1$s gives you a %2$s." ), p.name, new_item.tname() );
+                popup( _( "%1$s gives you a %2$s." ), p.name, new_item->tname() );
             } else {
                 //~ %1%s is the NPC name, %2$d is a number of items, %3$s are items
-                popup( _( "%1$s gives you %2$d %3$s." ), p.name, count, new_item.tname() );
+                popup( _( "%1$s gives you %2$d %3$s." ), p.name, count, new_item->tname() );
             }
         } else {
-            item container( container_name, calendar::turn );
-            container.put_in( item( item_name, calendar::turn, count ) );
-            u.i_add( container );
+            //TODO!: check
+            item *container = item_spawn( container_name, calendar::turn );
+            container->put_in( *item_spawn( item_name, calendar::turn, count ) );
+            u.i_add( *container );
             //~ %1%s is the NPC name, %2$s is an item
-            popup( _( "%1$s gives you a %2$s." ), p.name, container.tname() );
+            popup( _( "%1$s gives you a %2$s." ), p.name, container->tname() );
         }
     };
 
@@ -2096,12 +2099,12 @@ void talk_effect_fun_t::set_u_sell_item( const itype_id &item_name, int cost, in
         npc &p = *d.beta;
         player &u = *d.alpha;
         if( item::count_by_charges( item_name ) && u.has_charges( item_name, count ) ) {
-            for( const item &it : u.use_charges( item_name, count ) ) {
-                p.i_add( it );
+            for( item *&it : u.use_charges( item_name, count ) ) {
+                p.i_add( *it );
             }
         } else if( u.has_amount( item_name, count ) ) {
-            for( const item &it : u.use_amount( item_name, count ) ) {
-                p.i_add( it );
+            for( item *&it : u.use_amount( item_name, count ) ) {
+                p.i_add( *it );
             }
         } else {
             //~ %1$s is a translated item name
@@ -2127,15 +2130,17 @@ void talk_effect_fun_t::set_consume_item( const JsonObject &jo, const std::strin
     jo.read( member, item_name, true );
     function = [is_npc, item_name, count]( const dialogue & d ) {
         // this is stupid, but I couldn't get the assignment to work
+        //TODO!: You can say that again brother
         const auto consume_item = [&]( player & p, const itype_id & item_name, int count ) {
-            item old_item( item_name );
             if( p.has_charges( item_name, count ) ) {
                 p.use_charges( item_name, count );
             } else if( p.has_amount( item_name, count ) ) {
                 p.use_amount( item_name, count );
             } else {
                 //~ %1%s is the "You" or the NPC name, %2$s are a translated item name
-                popup( _( "%1$s doesn't have a %2$s!" ), p.disp_name(), old_item.tname() );
+                //TODO!: Push this up? Hard but valuable
+                item *old_item = item_spawn_temporary( item_name );
+                popup( _( "%1$s doesn't have a %2$s!" ), p.disp_name(), old_item->tname() );
             }
         };
         if( is_npc ) {
@@ -2322,15 +2327,16 @@ void talk_effect_fun_t::set_bulk_trade_accept( bool is_trade, bool is_npc )
             buyer = d.alpha;
         }
         int seller_has = seller->charges_of( d.cur_item );
-        item tmp( d.cur_item );
-        tmp.charges = seller_has;
+        //TODO!: check this, I don't think we should be spawning here, just moving
+        item *tmp = item_spawn( d.cur_item );
+        tmp->charges = seller_has;
         if( is_trade ) {
-            int price = tmp.price( true ) * ( is_npc ? -1 : 1 ) + d.beta->op_of_u.owed;
+            int price = tmp->price( true ) * ( is_npc ? -1 : 1 ) + d.beta->op_of_u.owed;
             if( d.beta->get_faction() && !d.beta->get_faction()->currency.is_empty() ) {
                 const itype_id &pay_in = d.beta->get_faction()->currency;
-                item pay( pay_in );
-                if( d.beta->value( pay ) > 0 ) {
-                    int required = price / d.beta->value( pay );
+                item *pay = item_spawn_temporary( pay_in );
+                if( d.beta->value( *pay ) > 0 ) {
+                    int required = price / d.beta->value( *pay );
                     int buyer_has = required;
                     if( is_npc ) {
                         buyer_has = std::min( buyer_has, buyer->charges_of( pay_in ) );
@@ -2339,23 +2345,23 @@ void talk_effect_fun_t::set_bulk_trade_accept( bool is_trade, bool is_npc )
                         if( buyer_has == 1 ) {
                             //~ %1%s is the NPC name, %2$s is an item
                             popup( _( "%1$s gives you a %2$s." ), d.beta->disp_name(),
-                                   pay.tname() );
+                                   pay->tname() );
                         } else if( buyer_has > 1 ) {
                             //~ %1%s is the NPC name, %2$d is a number of items, %3$s are items
                             popup( _( "%1$s gives you %2$d %3$s." ), d.beta->disp_name(), buyer_has,
-                                   pay.tname() );
+                                   pay->tname() );
                         }
                     }
                     for( int i = 0; i < buyer_has; i++ ) {
-                        seller->i_add( pay );
-                        price -= d.beta->value( pay );
+                        seller->i_add( *item_spawn( *pay ) );
+                        price -= d.beta->value( *pay );
                     }
                 }
                 d.beta->op_of_u.owed = price;
             }
         }
         seller->use_charges( d.cur_item, seller_has );
-        buyer->i_add( tmp );
+        buyer->i_add( *tmp );
     };
 }
 
@@ -3337,14 +3343,14 @@ std::string give_item_to( npc &p, bool allow_use )
         return _( "No thanks, I'm good." );
     }
     avatar &you = get_avatar();
-    item_location loc = game_menus::inv::titled_menu( you, _( "Offer what?" ),
-                        _( "You have no items to offer." ) );
+    item *loc = game_menus::inv::titled_menu( you, _( "Offer what?" ),
+                _( "You have no items to offer." ) );
     if( !loc ) {
         return _( "Changed your mind?" );
     }
     item &given = *loc;
 
-    if( ( &given == &you.weapon && given.has_flag( "NO_UNWIELD" ) ) || ( you.is_worn( given ) &&
+    if( ( &given == &you.get_weapon() && given.has_flag( "NO_UNWIELD" ) ) || ( you.is_worn( given ) &&
             given.has_flag( "NO_TAKEOFF" ) ) ) {
         // Bionic weapon or shackles
         return _( "How?" );
@@ -3356,12 +3362,12 @@ std::string give_item_to( npc &p, bool allow_use )
 
     bool taken = false;
     std::string reason = _( "Nope." );
-    int our_ammo = p.ammo_count_for( p.weapon );
+    int our_ammo = p.ammo_count_for( p.get_weapon() );
     int new_ammo = p.ammo_count_for( given );
     const double new_weapon_value = p.weapon_value( given, new_ammo );
-    const double cur_weapon_value = p.weapon_value( p.weapon, our_ammo );
+    const double cur_weapon_value = p.weapon_value( p.get_weapon(), our_ammo );
     add_msg( m_debug, "NPC evaluates own %s (%d ammo): %0.1f",
-             p.weapon.typeId().str(), our_ammo, cur_weapon_value );
+             p.get_weapon().typeId().str(), our_ammo, cur_weapon_value );
     add_msg( m_debug, "NPC evaluates your %s (%d ammo): %0.1f",
              given.typeId().str(), new_ammo, new_weapon_value );
     if( allow_use ) {
@@ -3370,6 +3376,7 @@ std::string give_item_to( npc &p, bool allow_use )
         if( consume_res != REFUSED ) {
             if( consume_res == CONSUMED_ALL ) {
                 you.i_rem( &given );
+                given.destroy();
             }
             you.moves -= 100;
             if( given.is_container() ) {

@@ -19,6 +19,8 @@ class JsonOut;
  * Provides a generic interface of querying, obtaining and removing an item
  * Is invalidated by many operations (including copying of the item)
  */
+//TODO!: remove this class entirely
+#ifdef THIS_IS_DISABLED_NOW
 class item_location
 {
     public:
@@ -97,5 +99,5 @@ class item_location
 
         std::shared_ptr<impl> ptr;
 };
-
+#endif
 #endif // CATA_SRC_ITEM_LOCATION_H

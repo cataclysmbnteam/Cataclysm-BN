@@ -117,7 +117,7 @@ void print_dmg_msg( Creature &target, Creature *source, const dealt_damage_insta
 /**
  * Prompts to select default ammo compatible with provided gun.
  */
-void prompt_select_default_ammo_for( avatar &u, const item &w );
+void prompt_select_default_ammo_for( avatar &u, item &w );
 
 /** Returns true if a gun misfires, jams, or has other problems, else returns false. */
 bool handle_gun_damage( Character &shooter, item &it );

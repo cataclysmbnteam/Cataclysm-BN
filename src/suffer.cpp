@@ -432,10 +432,10 @@ void Character::suffer_from_chemimbalance()
 void Character::suffer_from_schizophrenia()
 {
     std::string i_name_w;
-    if( !weapon.is_null() ) {
-        i_name_w = weapon.has_var( "item_label" ) ? weapon.get_var( "item_label" ) :
+    if( !weapon->is_null() ) {
+        i_name_w = weapon->has_var( "item_label" ) ? weapon->get_var( "item_label" ) :
                    //~ %1$s: weapon name
-                   string_format( _( "your %1$s" ), weapon.type_name() );
+                   string_format( _( "your %1$s" ), weapon->type_name() );
     }
     // Start with the effects that both NPCs and avatars can suffer from
     // Delusions
@@ -491,15 +491,14 @@ void Character::suffer_from_schizophrenia()
         return;
     }
     // Drop weapon
-    if( one_turn_in( 2_days ) && !weapon.is_null() ) {
+    if( one_turn_in( 2_days ) && !weapon->is_null() ) {
         const translation snip = SNIPPET.random_from_category( "schizo_weapon_drop" ).value_or(
                                      translation() );
         std::string str = string_format( snip, i_name_w );
         str[0] = toupper( str[0] );
 
         add_msg_if_player( m_bad, "%s", str );
-        item_location loc( *this, &weapon );
-        drop( loc, pos() );
+        drop( get_weapon(), pos() );
         return;
     }
     // Talk to self
@@ -569,7 +568,7 @@ void Character::suffer_from_schizophrenia()
     }
 
     // Talking weapon
-    if( !weapon.is_null() ) {
+    if( !weapon->is_null() ) {
         // If player has a weapon, picks a message from said weapon
         // Weapon tells player to kill a monster if any are nearby
         // Weapon is concerned for player if bleeding
@@ -597,7 +596,7 @@ void Character::suffer_from_schizophrenia()
             i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_bleeding" ).value_or(
                            translation() ).translated();
             does_talk = true;
-        } else if( weapon.damage() >= weapon.max_damage() / 3 && one_turn_in( 1_hours ) ) {
+        } else if( weapon->damage() >= weapon->max_damage() / 3 && one_turn_in( 1_hours ) ) {
             i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_damaged" ).value_or(
                            translation() ).translated();
             does_talk = true;
@@ -791,15 +790,15 @@ std::map<bodypart_id, float> Character::bodypart_exposure()
         bp_exposure[bp] = 1.0;
     }
     // For every item worn, for every body part, adjust coverage
-    for( const item &it : worn ) {
+    for( const item * const &it : worn ) {
         // What body parts does this item cover?
-        body_part_set covered = it.get_covered_body_parts();
+        body_part_set covered = it->get_covered_body_parts();
         for( const bodypart_id &bp : all_body_parts )  {
             if( bp->token != num_bp && !covered.test( bp->token ) ) {
                 continue;
             }
             // How much exposure does this item leave on this part? (1.0 == naked)
-            float part_exposure = 1.0 - it.get_coverage() / 100.0f;
+            float part_exposure = 1.0 - it->get_coverage() / 100.0f;
             // Coverage multiplies, so two layers with 50% coverage will together give 75%
             bp_exposure[bp] = bp_exposure[bp] * part_exposure;
         }
@@ -841,7 +840,7 @@ void Character::suffer_from_sunburn()
         }
     }
     // Umbrellas can keep the sun off the skin
-    if( weapon.has_flag( "RAIN_PROTECT" ) ) {
+    if( weapon->has_flag( "RAIN_PROTECT" ) ) {
         return;
     }
 
@@ -1235,14 +1234,14 @@ void Character::suffer_from_bad_bionics()
         moves -= 150;
         mod_power_level( -10_kJ );
 
-        if( weapon.typeId() == itype_e_handcuffs && weapon.charges > 0 ) {
-            weapon.charges -= rng( 1, 3 ) * 50;
-            if( weapon.charges < 1 ) {
-                weapon.charges = 1;
+        if( weapon->typeId() == itype_e_handcuffs && weapon->charges > 0 ) {
+            weapon->charges -= rng( 1, 3 ) * 50;
+            if( weapon->charges < 1 ) {
+                weapon->charges = 1;
             }
 
             add_msg_if_player( m_good, _( "The %s seems to be affected by the discharge." ),
-                               weapon.tname() );
+                               weapon->tname() );
         }
         sfx::play_variant_sound( "bionics", "elec_discharge", 100 );
     }

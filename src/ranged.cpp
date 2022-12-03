@@ -456,7 +456,7 @@ target_handler::trajectory target_handler::mode_turret_manual( avatar &you, turr
     ui.you = &you;
     ui.mode = target_ui::TargetMode::TurretManual;
     ui.turret = &turret;
-    ui.relevant = &*turret.base();
+    ui.relevant = &turret.base();
 
     return ui.run();
 }
@@ -805,7 +805,7 @@ dispersion_sources calculate_dispersion( const map &m, const player &p, const it
 
 int player::fire_gun( const tripoint &target, int shots )
 {
-    return fire_gun( target, shots, weapon );
+    return fire_gun( target, shots, get_weapon() );
 }
 
 int player::fire_gun( const tripoint &target, const int max_shots, item &gun )
@@ -1108,11 +1108,12 @@ int throwing_dispersion( const Character &c, const item &to_throw, Creature *cri
 
 } // namespace ranged
 
-dealt_projectile_attack player::throw_item( const tripoint &target, const item &to_throw,
+dealt_projectile_attack player::throw_item( const tripoint &target, item &to_throw,
         const cata::optional<tripoint> &blind_throw_from_pos )
 {
     // Copy the item, we may alter it before throwing
-    item thrown = to_throw;
+    //TODO!: noooope
+    item &thrown = to_throw;
 
     const int move_cost = ranged::throw_cost( *this, to_throw );
     mod_moves( -move_cost );
@@ -1235,7 +1236,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     const itype *thrown_type = thrown.type;
 
     // Put the item into the projectile
-    proj.set_drop( std::move( thrown ) );
+    proj.set_drop( thrown );
     if( thrown_type->has_flag( "CUSTOM_EXPLOSION" ) ) {
         proj.set_custom_explosion( thrown_type->explosion );
     }
@@ -1552,7 +1553,7 @@ static int print_aim( const player &p, const catacurses::window &w, int line_num
     dispersion.add_range( p.recoil_vehicle() );
 
     const double min_recoil = calculate_aim_cap( p, pos );
-    const double effective_recoil = p.effective_dispersion( p.weapon.sight_dispersion() );
+    const double effective_recoil = p.effective_dispersion( p.get_weapon().sight_dispersion() );
     const double min_dispersion = std::max( min_recoil, effective_recoil );
     const double steadiness_range = MAX_RECOIL - min_dispersion;
     // This is a relative measure of how steady the player's aim is,
@@ -1621,7 +1622,7 @@ static int draw_throw_aim( const player &p, const catacurses::window &w, int lin
     const auto cost_fun = [&]( const aim_type & ) {
         return ranged::throw_cost( p, weapon );
     };
-    return print_ranged_chance( p, w, line_number, ctxt,  weapon, get_default_aim_type(),
+    return print_ranged_chance( p, w, line_number, ctxt, weapon, get_default_aim_type(),
                                 dispersion_fun, cost_fun,
                                 confidence_config,
                                 range, target_size );
@@ -1690,13 +1691,13 @@ static projectile make_gun_projectile( const item &gun )
         bool recover = !one_in( ammo.dont_recover_one_in );
 
         if( recover && !fx.has_effect( ammo_effect_IGNITE ) && !fx.has_effect( ammo_effect_EXPLOSIVE ) ) {
-            item drop( gun.ammo_current(), calendar::turn, 1 );
+            item &drop = *item_spawn( gun.ammo_current(), calendar::turn, 1 );
             drop.active = fx.has_effect( ammo_effect_ACT_ON_RANGED_HIT );
             proj.set_drop( drop );
         }
 
         if( ammo.drop ) {
-            item drop( ammo.drop );
+            item &drop = *item_spawn( ammo.drop );
             if( ammo.drop_active ) {
                 drop.activate();
             }
@@ -1740,12 +1741,12 @@ static void cycle_action( item &weap, const tripoint &pos )
     if( weap.ammo_data() && weap.ammo_data()->ammo->casing ) {
         const itype_id casing = *weap.ammo_data()->ammo->casing;
         if( weap.has_flag( "RELOAD_EJECT" ) || weap.gunmod_find( itype_brass_catcher ) ) {
-            weap.put_in( item( casing ).set_flag( "CASING" ) );
+            weap.put_in( item_spawn( casing )->set_flag( "CASING" ) );
         } else {
             if( cargo.empty() ) {
-                here.add_item_or_charges( eject, item( casing ) );
+                here.add_item_or_charges( eject, *item_spawn( casing ) );
             } else {
-                vp->vehicle().add_item( *cargo.front(), item( casing ) );
+                vp->vehicle().add_item( *cargo.front(), *item_spawn( casing ) );
             }
 
             sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume( eject ),
@@ -1756,7 +1757,7 @@ static void cycle_action( item &weap, const tripoint &pos )
     // some magazines also eject disintegrating linkages
     const auto mag = weap.magazine_current();
     if( mag && mag->type->magazine->linkage ) {
-        item linkage( *mag->type->magazine->linkage, calendar::turn, 1 );
+        item &linkage = *item_spawn( *mag->type->magazine->linkage, calendar::turn, 1 );
         if( weap.gunmod_find( itype_brass_catcher ) ) {
             linkage.set_flag( "CASING" );
             weap.put_in( linkage );
@@ -1956,7 +1957,7 @@ double player::gun_value( const item &weap, int ammo ) const
     const itype *def_ammo_i = ammo_type.is_null() ? nullptr : &*ammo_type;
 
     damage_instance gun_damage = weap.gun_damage();
-    item tmp = weap;
+    item &tmp = *item_spawn_temporary( weap );
     tmp.ammo_set( ammo_type );
     int total_dispersion = get_weapon_dispersion( tmp ).max() +
                            effective_dispersion( tmp.sight_dispersion() );
@@ -2015,7 +2016,7 @@ double player::gun_value( const item &weap, int ammo ) const
 
     // Penalty for dodging in melee makes the gun unusable in melee
     // Until NPCs get proper kiting, at least
-    int melee_penalty = weapon.volume() / 250_ml - get_skill_level( skill_dodge );
+    int melee_penalty = get_weapon().volume() / 250_ml - get_skill_level( skill_dodge );
     if( melee_penalty <= 0 ) {
         // Dispersion matters less if you can just use the gun in melee
         total_dispersion = std::min<int>( total_dispersion / move_cost_factor, total_dispersion );
@@ -3753,13 +3754,13 @@ bool ranged::gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::
     return result;
 }
 
-void ranged::prompt_select_default_ammo_for( avatar &u, const item &w )
+void ranged::prompt_select_default_ammo_for( avatar &u, item &w )
 {
     item::reload_option opt = u.select_ammo( w, false, true, true );
     if( opt ) {
-        if( u.ammo_location && opt.ammo == u.ammo_location ) {
+        if( u.ammo_location && opt.ammo == &*u.ammo_location ) {
             u.add_msg_if_player( _( "Cleared ammo preferences for %s." ), w.tname() );
-            u.ammo_location = item_location();
+            u.ammo_location = nullptr;
         } else if( u.has_item( *opt.ammo ) ) {
             u.add_msg_if_player( _( "Selected %s as default ammo for %s." ), opt.ammo->tname(), w.tname() );
             u.ammo_location = opt.ammo;

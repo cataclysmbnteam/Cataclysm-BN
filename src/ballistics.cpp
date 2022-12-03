@@ -59,7 +59,7 @@ static const std::string flag_LIQUID( "LIQUID" );
 static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
 {
     const auto &proj = attack.proj;
-    const item &drop_item = proj.get_drop();
+    item &drop_item = proj.get_drop();
     if( drop_item.is_null() ) {
         return;
     }
@@ -73,7 +73,8 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         }
 
         // copies the drop item to spill the contents
-        item( drop_item ).spill_contents( pt );
+        //TODO!: check why, cos we ain't doing that no more I guess
+        drop_item.spill_contents( pt );
 
         // TODO: Non-glass breaking
         // TODO: Wine glass breaking vs. entire sheet of glass breaking
@@ -89,14 +90,16 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         }
 
         // copies the drop item to spill the contents
-        item( drop_item ).spill_contents( pt );
+        //TODO!: again check why, cos we ain't doing that no more I guess
+        drop_item.spill_contents( pt );
 
         // TODO: Sound
         return;
     }
 
     // Copy the item
-    item dropped_item = drop_item;
+    //TODO!: whyyyy check alla this
+    item &dropped_item = drop_item;
 
     monster *mon = dynamic_cast<monster *>( attack.hit_critter );
 

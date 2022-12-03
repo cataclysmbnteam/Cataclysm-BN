@@ -68,7 +68,7 @@ void map::add_light_from_items( const tripoint &p, item_stack::iterator begin,
         float ilum = 0.0f; // brightness
         units::angle iwidth = 0_degrees; // 0-360 degrees. 0 is a circular light_source
         units::angle idir = 0_degrees;   // otherwise, it's a light_arc pointed in this direction
-        if( itm_it->getlight( ilum, iwidth, idir ) ) {
+        if( ( *itm_it )->getlight( ilum, iwidth, idir ) ) {
             if( iwidth > 0_degrees ) {
                 apply_light_arc( p, idir, ilum, iwidth );
             } else {

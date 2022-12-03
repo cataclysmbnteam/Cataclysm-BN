@@ -16,6 +16,7 @@
 template<int sx, int sy>
 void maptile_soa<sx, sy>::swap_soa_tile( const point &p1, const point &p2 )
 {
+    //TODO!: update location here
     std::swap( ter[p1.x][p1.y], ter[p2.x][p2.y] );
     std::swap( frn[p1.x][p1.y], frn[p2.x][p2.y] );
     std::swap( lum[p1.x][p1.y], lum[p2.x][p2.y] );
@@ -28,6 +29,7 @@ void maptile_soa<sx, sy>::swap_soa_tile( const point &p1, const point &p2 )
 template<int sx, int sy>
 void maptile_soa<sx, sy>::swap_soa_tile( const point &p, maptile_soa<1, 1> &other )
 {
+    //TODO!: update location here
     std::swap( ter[p.x][p.y], **other.ter );
     std::swap( frn[p.x][p.y], **other.frn );
     std::swap( lum[p.x][p.y], **other.lum );
@@ -269,8 +271,6 @@ void submap::rotate( int turns )
             }
         }
     }
-
-    active_items.rotate_locations( turns, { SEEX, SEEY } );
 
     for( auto &elem : cosmetics ) {
         elem.pos = rotate_point( elem.pos );

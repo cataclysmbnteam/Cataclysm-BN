@@ -19,30 +19,33 @@
 class item_stack
 {
     protected:
-        cata::colony<item> *items;
+        std::vector<item *> *items;
 
     public:
-        using iterator = cata::colony<item>::iterator;
-        using const_iterator = cata::colony<item>::const_iterator;
-        using reverse_iterator = cata::colony<item>::reverse_iterator;
-        using const_reverse_iterator = cata::colony<item>::const_reverse_iterator;
+        using iterator = std::vector<item *>::iterator;
+        using const_iterator = std::vector<item *>::const_iterator;
+        using reverse_iterator = std::vector<item *>::reverse_iterator;
+        using const_reverse_iterator = std::vector<item *>::const_reverse_iterator;
 
-        item_stack( cata::colony<item> *items ) : items( items ) { }
+        item_stack( std::vector<item *> *items ) : items( items ) { }
         virtual ~item_stack() = default;
 
         size_t size() const;
         bool empty() const;
-        virtual void insert( const item &newitem ) = 0;
+        virtual void insert( item &newitem ) = 0;
         virtual iterator erase( const_iterator it ) = 0;
         virtual void clear();
         // Will cause a debugmsg if there is not exactly one item at the location
         item &only_item();
 
+        // Moves all of the items from this stack to the destination stack;
+        void move_all_to( item_stack *destination );
+
         // While iterators to colonies are stable, indexes are not.
         // These functions should only be used for serialization/deserialization
+        //TODO!: delete these entirly, they're not being used for serialization anyway
         iterator get_iterator_from_pointer( item *it );
         iterator get_iterator_from_index( size_t idx );
-        size_t get_index_from_iterator( const const_iterator &it );
 
         iterator begin();
         iterator end();

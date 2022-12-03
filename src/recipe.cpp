@@ -450,73 +450,75 @@ std::string recipe::get_consistency_error() const
     return std::string();
 }
 
-item recipe::create_result() const
+item &recipe::create_result() const
 {
-    item newit( result_, calendar::turn, item::default_charges_tag{} );
+    //TODO!: check
+    item *newit = item_spawn( result_, calendar::turn, item::default_charges_tag{} );
     if( charges ) {
-        newit.charges = *charges;
+        newit->charges = *charges;
     }
 
-    if( !newit.craft_has_charges() ) {
-        newit.charges = 0;
+    if( !newit->craft_has_charges() ) {
+        newit->charges = 0;
     } else if( result_mult != 1 ) {
         // TODO: Make it work for charge-less items (update makes amount)
-        newit.charges *= result_mult;
+        newit->charges *= result_mult;
     }
 
     // Show crafted items as fitting
     // They might end up not fitting, but it's rare
-    if( newit.has_flag( flag_VARSIZE ) ) {
-        newit.item_tags.insert( flag_FIT );
+    if( newit->has_flag( flag_VARSIZE ) ) {
+        newit->item_tags.insert( flag_FIT );
     }
 
     if( contained ) {
-        newit = newit.in_container( container );
+        newit = &newit->in_container( container );
     }
 
-    return newit;
+    return *newit;
 }
 
-std::vector<item> recipe::create_results( int batch ) const
+std::vector<item *> recipe::create_results( int batch ) const
 {
-    std::vector<item> items;
+    std::vector<item *> items;
 
     const bool by_charges = item::count_by_charges( result_ );
     if( contained || !by_charges ) {
         // by_charges items get their charges multiplied in create_result
         const int num_results = by_charges ? batch : batch * result_mult;
         for( int i = 0; i < num_results; i++ ) {
-            item newit = create_result();
-            items.push_back( newit );
+            item &newit = create_result();
+            items.push_back( &newit );
         }
     } else {
-        item newit = create_result();
+        item &newit = create_result();
         newit.charges *= batch;
-        items.push_back( newit );
+        items.push_back( &newit );
     }
 
     return items;
 }
 
-std::vector<item> recipe::create_byproducts( int batch ) const
+std::vector<item *> recipe::create_byproducts( int batch ) const
 {
-    std::vector<item> bps;
+    std::vector<item *> bps;
     for( const auto &e : byproducts ) {
-        item obj( e.first, calendar::turn, item::default_charges_tag{} );
+        item &obj = *item_spawn( e.first, calendar::turn, item::default_charges_tag{} );
         if( obj.has_flag( "VARSIZE" ) ) {
             obj.set_flag( "FIT" );
         }
 
         if( obj.count_by_charges() ) {
             obj.charges *= e.second * batch;
-            bps.push_back( obj );
+            bps.push_back( &obj );
 
         } else {
             if( !obj.craft_has_charges() ) {
                 obj.charges = 0;
             }
             for( int i = 0; i < e.second * batch; ++i ) {
-                bps.push_back( obj );
+                //TODO!:check
+                bps.push_back( i == 0 ? &obj : item_spawn( obj ) );
             }
         }
     }
@@ -636,7 +638,10 @@ bool recipe::will_be_blacklisted() const
 std::function<bool( const item & )> recipe::get_component_filter(
     const recipe_filter_flags flags ) const
 {
-    const item result = create_result();
+    item &result = create_result();
+
+    //TODO!: check this
+    result.destroy();
 
     // Disallow crafting of non-perishables with rotten components
     // Make an exception for items with the ALLOW_ROTTEN flag such as seeds

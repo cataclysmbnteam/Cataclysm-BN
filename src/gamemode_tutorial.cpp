@@ -145,7 +145,7 @@ bool tutorial_game::init()
     starting_om.clear_mon_groups();
 
     g->u.toggle_trait( trait_QUICK );
-    item lighter( "lighter", calendar::start_of_cataclysm );
+    item &lighter = *item_spawn( "lighter", calendar::start_of_cataclysm );
     lighter.invlet = 'e';
     player_character.inv.add_item( lighter, true, false );
     player_character.set_skill_level( skill_gun, 5 );
@@ -184,8 +184,8 @@ void tutorial_game::per_turn()
 
     map &here = get_map();
     if( !tutorials_seen[tut_lesson::LESSON_BUTCHER] ) {
-        for( const item &it : here.i_at( point( g->u.posx(), g->u.posy() ) ) ) {
-            if( it.is_corpse() ) {
+        for( const item * const &it : here.i_at( point( g->u.posx(), g->u.posy() ) ) ) {
+            if( it->is_corpse() ) {
                 add_message( tut_lesson::LESSON_BUTCHER );
                 break;
             }
@@ -237,7 +237,7 @@ void tutorial_game::post_action( action_id act )
 {
     switch( act ) {
         case ACTION_RELOAD_WEAPON:
-            if( g->u.weapon.is_gun() && !tutorials_seen[tut_lesson::LESSON_GUN_FIRE] ) {
+            if( g->u.get_weapon().is_gun() && !tutorials_seen[tut_lesson::LESSON_GUN_FIRE] ) {
                 g->place_critter_at( mon_zombie, tripoint( g->u.posx(), g->u.posy() - 6, g->u.posz() ) );
                 g->place_critter_at( mon_zombie, tripoint( g->u.posx() + 2, g->u.posy() - 5, g->u.posz() ) );
                 g->place_critter_at( mon_zombie, tripoint( g->u.posx() - 2, g->u.posy() - 5, g->u.posz() ) );
@@ -277,7 +277,7 @@ void tutorial_game::post_action( action_id act )
             break;
 
         case ACTION_WEAR: {
-            item it( g->u.last_item, calendar::start_of_cataclysm );
+            item &it = *item_spawn_temporary( g->u.last_item, calendar::start_of_cataclysm );
             if( it.is_armor() ) {
                 if( it.get_coverage() >= 2 || it.get_thickness() >= 2 ) {
                     add_message( tut_lesson::LESSON_WORE_ARMOR );
@@ -293,7 +293,7 @@ void tutorial_game::post_action( action_id act )
         break;
 
         case ACTION_WIELD:
-            if( g->u.weapon.is_gun() ) {
+            if( g->u.get_weapon().is_gun() ) {
                 add_message( tut_lesson::LESSON_GUN_LOAD );
             }
             break;
@@ -302,7 +302,7 @@ void tutorial_game::post_action( action_id act )
             add_message( tut_lesson::LESSON_INTERACT );
         /* fallthrough */
         case ACTION_PICKUP: {
-            item it( g->u.last_item, calendar::start_of_cataclysm );
+            item &it = *item_spawn_temporary( g->u.last_item, calendar::start_of_cataclysm );
             if( it.is_armor() ) {
                 add_message( tut_lesson::LESSON_GOT_ARMOR );
             } else if( it.is_gun() ) {

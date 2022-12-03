@@ -108,6 +108,24 @@ bool visitable<T>::has_item_with( const std::function<bool( const item & )> &fil
     } ) == VisitResponse::ABORT;
 }
 
+/** @relates visitable */
+template <typename T>
+bool visitable<T>::has_item_directly( const item &it ) const
+{
+    return visit_items( [&it]( const item * node ) {
+        return node == &it ? VisitResponse::ABORT : VisitResponse::SKIP;
+    } ) == VisitResponse::ABORT;
+}
+
+/** @relates visitable */
+template <typename T>
+bool visitable<T>::has_item_with_directly( const std::function<bool( const item & )> &filter ) const
+{
+    return visit_items( [&filter]( const item * node ) {
+        return filter( *node ) ? VisitResponse::ABORT : VisitResponse::SKIP;
+    } ) == VisitResponse::ABORT;
+}
+
 /** Sums the two terms, being careful to not trigger overflow.
  * Doesn't handle underflow.
  *
@@ -190,7 +208,7 @@ bool visitable<inventory>::has_quality( const quality_id &qual, int level, int q
         return res >= qty;
     }
     for( const auto &stack : inv->items ) {
-        res += stack.size() * has_quality_internal( stack.front(), qual, level, qty );
+        res += stack.size() * has_quality_internal( *stack.front(), qual, level, qty );
         if( res >= qty ) {
             return true;
         }
@@ -322,26 +340,12 @@ int visitable<vehicle_selector>::max_quality( const quality_id &qual ) const
 /** @relates visitable */
 template <typename T>
 std::vector<item *> visitable<T>::items_with( const std::function<bool( const item & )> &filter )
+const
 {
     std::vector<item *> res;
-    visit_items( [&res, &filter]( item * node, item * ) {
-        if( filter( *node ) ) {
-            res.push_back( node );
-        }
-        return VisitResponse::NEXT;
-    } );
-    return res;
-}
-
-/** @relates visitable */
-template <typename T>
-std::vector<const item *>
-visitable<T>::items_with( const std::function<bool( const item & )> &filter ) const
-{
-    std::vector<const item *> res;
     visit_items( [&res, &filter]( const item * node, const item * ) {
         if( filter( *node ) ) {
-            res.push_back( node );
+            res.push_back( const_cast<item *>( node ) );
         }
         return VisitResponse::NEXT;
     } );
@@ -359,11 +363,13 @@ visitable<T>::visit_items( const std::function<VisitResponse( const item *,
 }
 
 /** @relates visitable */
-template <typename T> VisitResponse
-visitable<T>::visit_items( const std::function<VisitResponse( const item * )> &func ) const
+template <typename T>
+VisitResponse visitable<T>::visit_items( const std::function<VisitResponse( const item * )> &func )
+const
 {
-    return const_cast<visitable<T> *>( this )->visit_items(
-               static_cast<const std::function<VisitResponse( item * )>&>( func ) );
+    return visit_items( [&func]( const item * it, const item * ) {
+        return func( it );
+    } );
 }
 
 /** @relates visitable */
@@ -374,6 +380,7 @@ VisitResponse visitable<T>::visit_items( const std::function<VisitResponse( item
         return func( it );
     } );
 }
+
 
 // Specialize visitable<T>::visit_items() for each class that will implement the visitable interface
 
@@ -403,11 +410,19 @@ static VisitResponse visit_internal( const std::function<VisitResponse( item *, 
     return VisitResponse::ABORT;
 }
 
+/*static VisitResponse visit_internal( std::function<VisitResponse( const item *, const item * )>
+                                     &func,
+                                     item *node, item *parent = nullptr )
+{
+    return visit_internal( static_cast<std::function<VisitResponse( item *, item * )>&>( func ), node,
+                           parent );
+}*/
+
 VisitResponse item_contents::visit_contents( const std::function<VisitResponse( item *, item * )>
         &func, item *parent )
 {
-    for( item &e : items ) {
-        switch( visit_internal( func, &e, parent ) ) {
+    for( item *&e : items ) {
+        switch( visit_internal( func, e, parent ) ) {
             case VisitResponse::ABORT:
                 return VisitResponse::ABORT;
             default:
@@ -431,10 +446,10 @@ template <>
 VisitResponse visitable<inventory>::visit_items(
     const std::function<VisitResponse( item *, item * )> &func )
 {
-    auto inv = static_cast<inventory *>( this );
+    auto inv = static_cast<const inventory *>( this );
     for( auto &stack : inv->items ) {
         for( auto &it : stack ) {
-            if( visit_internal( func, &it ) == VisitResponse::ABORT ) {
+            if( visit_internal( func, it ) == VisitResponse::ABORT ) {
                 return VisitResponse::ABORT;
             }
         }
@@ -449,13 +464,13 @@ VisitResponse visitable<Character>::visit_items(
 {
     auto ch = static_cast<Character *>( this );
 
-    if( !ch->weapon.is_null() &&
-        visit_internal( func, &ch->weapon ) == VisitResponse::ABORT ) {
+    if( !ch->get_weapon().is_null() &&
+        visit_internal( func, &ch->get_weapon() ) == VisitResponse::ABORT ) {
         return VisitResponse::ABORT;
     }
 
     for( auto &e : ch->worn ) {
-        if( visit_internal( func, &e ) == VisitResponse::ABORT ) {
+        if( visit_internal( func, e ) == VisitResponse::ABORT ) {
             return VisitResponse::ABORT;
         }
     }
@@ -475,8 +490,8 @@ VisitResponse visitable<map_cursor>::visit_items(
         return VisitResponse::NEXT;
     }
 
-    for( item &e : here.i_at( *cur ) ) {
-        if( visit_internal( func, &e ) == VisitResponse::ABORT ) {
+    for( item *&e : here.i_at( *cur ) ) {
+        if( visit_internal( func, e ) == VisitResponse::ABORT ) {
             return VisitResponse::ABORT;
         }
     }
@@ -505,8 +520,8 @@ VisitResponse visitable<vehicle_cursor>::visit_items(
 
     int idx = self->veh.part_with_feature( self->part, "CARGO", true );
     if( idx >= 0 ) {
-        for( auto &e : self->veh.get_items( idx ) ) {
-            if( visit_internal( func, &e ) == VisitResponse::ABORT ) {
+        for( auto *&e : self->veh.get_items( idx ) ) {
+            if( visit_internal( func, e ) == VisitResponse::ABORT ) {
                 return VisitResponse::ABORT;
             }
         }
@@ -534,22 +549,26 @@ VisitResponse visitable<monster>::visit_items(
 {
     monster *mon = static_cast<monster *>( this );
 
-    for( item &it : mon->inv ) {
-        if( visit_internal( func, &it ) == VisitResponse::ABORT ) {
+    for( item * const &it : mon->get_items() ) {
+        if( visit_internal( func, it ) == VisitResponse::ABORT ) {
             return VisitResponse::ABORT;
         }
     }
 
-    if( mon->storage_item && visit_internal( func, &*mon->storage_item ) == VisitResponse::ABORT ) {
+    if( mon->get_storage_item() &&
+        visit_internal( func, mon->get_storage_item() ) == VisitResponse::ABORT ) {
         return VisitResponse::ABORT;
     }
-    if( mon->armor_item && visit_internal( func, &*mon->armor_item ) == VisitResponse::ABORT ) {
+    if( mon->get_armor_item() &&
+        visit_internal( func, mon->get_armor_item() ) == VisitResponse::ABORT ) {
         return VisitResponse::ABORT;
     }
-    if( mon->tack_item && visit_internal( func, &*mon->tack_item ) == VisitResponse::ABORT ) {
+    if( mon->get_tack_item() &&
+        visit_internal( func, mon->get_tack_item() ) == VisitResponse::ABORT ) {
         return VisitResponse::ABORT;
     }
-    if( mon->tied_item && visit_internal( func, &*mon->tied_item ) == VisitResponse::ABORT ) {
+    if( mon->get_tied_item() &&
+        visit_internal( func, mon->get_tied_item() ) == VisitResponse::ABORT ) {
         return VisitResponse::ABORT;
     }
 
@@ -558,33 +577,36 @@ VisitResponse visitable<monster>::visit_items(
 
 // Specialize visitable<T>::remove_items_with() for each class that will implement the visitable interface
 
+//TODO!: locations on all the removals, also have it pass the vector rather than compose it
+
 /** @relates visitable */
 template <typename T>
-item visitable<T>::remove_item( item &it )
+item &visitable<T>::remove_item( item &it )
 {
     auto obj = remove_items_with( [&it]( const item & e ) {
         return &e == &it;
     }, 1 );
     if( !obj.empty() ) {
-        return obj.front();
+        return *obj.front();
 
     } else {
         debugmsg( "Tried removing item from object which did not contain it" );
-        return item();
+        return null_item_reference();
     }
 }
 
 bool item_contents::remove_internal( const std::function<bool( item & )> &filter,
-                                     int &count, std::list<item> &res )
+                                     int &count, ItemList &res )
 {
     for( auto it = items.begin(); it != items.end(); ) {
-        if( filter( *it ) ) {
-            res.splice( res.end(), items, it++ );
+        if( filter( **it ) ) {
+            res.push_back( *it );
+            it = items.erase( it );
             if( --count == 0 ) {
                 return true;
             }
         } else {
-            it->contents.remove_internal( filter, count, res );
+            ( *it )->contents.remove_internal( filter, count, res );
             ++it;
         }
     }
@@ -593,11 +615,11 @@ bool item_contents::remove_internal( const std::function<bool( item & )> &filter
 
 /** @relates visitable */
 template <>
-std::list<item> visitable<item>::remove_items_with( const std::function<bool( const item &e )>
+ItemList visitable<item>::remove_items_with( const std::function<bool( const item &e )>
         &filter, int count )
 {
     item *it = static_cast<item *>( this );
-    std::list<item> res;
+    ItemList res;
 
     if( count <= 0 ) {
         // nothing to do
@@ -610,11 +632,11 @@ std::list<item> visitable<item>::remove_items_with( const std::function<bool( co
 
 /** @relates visitable */
 template <>
-std::list<item> visitable<inventory>::remove_items_with( const
+ItemList visitable<inventory>::remove_items_with( const
         std::function<bool( const item &e )> &filter, int count )
 {
     auto inv = static_cast<inventory *>( this );
-    std::list<item> res;
+    ItemList res;
 
     if( count <= 0 ) {
         // nothing to do
@@ -622,23 +644,24 @@ std::list<item> visitable<inventory>::remove_items_with( const
     }
 
     for( auto stack = inv->items.begin(); stack != inv->items.end() && count > 0; ) {
-        std::list<item> &istack = *stack;
-        const auto original_invlet = istack.front().invlet;
+        ItemList &istack = *stack;
+        const auto original_invlet = istack.front()->invlet;
 
         for( auto istack_iter = istack.begin(); istack_iter != istack.end() && count > 0; ) {
-            if( filter( *istack_iter ) ) {
+            if( filter( **istack_iter ) ) {
                 count--;
-                res.splice( res.end(), istack, istack_iter++ );
+                res.push_back( *istack_iter );
+                istack_iter = istack.erase( istack_iter );
                 // The non-first items of a stack may have different invlets, the code
                 // in inventory only ever checks the invlet of the first item. This
                 // ensures that the first item of a stack always has the same invlet, even
                 // after the original first item was removed.
                 if( istack_iter == istack.begin() && istack_iter != istack.end() ) {
-                    istack_iter->invlet = original_invlet;
+                    ( *istack_iter )->invlet = original_invlet;
                 }
 
             } else {
-                istack_iter->contents.remove_internal( filter, count, res );
+                ( *istack_iter )->contents.remove_internal( filter, count, res );
                 ++istack_iter;
             }
         }
@@ -659,11 +682,11 @@ std::list<item> visitable<inventory>::remove_items_with( const
 
 /** @relates visitable */
 template <>
-std::list<item> visitable<Character>::remove_items_with( const
+ItemList visitable<Character>::remove_items_with( const
         std::function<bool( const item &e )> &filter, int count )
 {
     auto ch = static_cast<Character *>( this );
-    std::list<item> res;
+    ItemList res;
 
     if( count <= 0 ) {
         // nothing to do
@@ -679,14 +702,15 @@ std::list<item> visitable<Character>::remove_items_with( const
 
     // then try any worn items
     for( auto iter = ch->worn.begin(); iter != ch->worn.end(); ) {
-        if( filter( *iter ) ) {
-            iter->on_takeoff( *ch );
-            res.splice( res.end(), ch->worn, iter++ );
+        if( filter( **iter ) ) {
+            ( *iter )->on_takeoff( *ch );
+            res.push_back( *iter );
+            iter = ch->worn.erase( iter );
             if( --count == 0 ) {
                 return res;
             }
         } else {
-            iter->contents.remove_internal( filter, count, res );
+            ( *iter )->contents.remove_internal( filter, count, res );
             if( count == 0 ) {
                 return res;
             }
@@ -695,11 +719,11 @@ std::list<item> visitable<Character>::remove_items_with( const
     }
 
     // finally try the currently wielded item (if any)
-    if( filter( ch->weapon ) ) {
-        res.push_back( ch->remove_weapon() );
+    if( filter( ch->get_weapon() ) ) {
+        res.push_back( &ch->remove_weapon() );
         count--;
     } else {
-        ch->weapon.contents.remove_internal( filter, count, res );
+        ch->get_weapon().contents.remove_internal( filter, count, res );
     }
 
     return res;
@@ -707,11 +731,11 @@ std::list<item> visitable<Character>::remove_items_with( const
 
 /** @relates visitable */
 template <>
-std::list<item> visitable<map_cursor>::remove_items_with( const
+ItemList visitable<map_cursor>::remove_items_with( const
         std::function<bool( const item &e )> &filter, int count )
 {
     auto cur = static_cast<map_cursor *>( this );
-    std::list<item> res;
+    ItemList res;
 
     if( count <= 0 ) {
         // nothing to do
@@ -727,15 +751,15 @@ std::list<item> visitable<map_cursor>::remove_items_with( const
     // fetch the appropriate item stack
     point offset;
     submap *sub = here.get_submap_at( *cur, offset );
-    cata::colony<item> &stack = sub->get_items( offset );
+    std::vector<item *> &stack = sub->get_items( offset );
 
     for( auto iter = stack.begin(); iter != stack.end(); ) {
-        if( filter( *iter ) ) {
+        if( filter( **iter ) ) {
             // remove from the active items cache (if it isn't there does nothing)
-            sub->active_items.remove( &*iter );
+            sub->active_items.remove( *iter );
 
             // if necessary remove item from the luminosity map
-            sub->update_lum_rem( offset, *iter );
+            sub->update_lum_rem( offset, **iter );
 
             // finally remove the item
             res.push_back( *iter );
@@ -745,7 +769,7 @@ std::list<item> visitable<map_cursor>::remove_items_with( const
                 return res;
             }
         } else {
-            iter->contents.remove_internal( filter, count, res );
+            ( *iter )->contents.remove_internal( filter, count, res );
             if( count == 0 ) {
                 return res;
             }
@@ -758,15 +782,15 @@ std::list<item> visitable<map_cursor>::remove_items_with( const
 
 /** @relates visitable */
 template <>
-std::list<item> visitable<map_selector>::remove_items_with( const
+ItemList visitable<map_selector>::remove_items_with( const
         std::function<bool( const item &e )> &filter, int count )
 {
-    std::list<item> res;
+    ItemList res;
 
     for( auto &cursor : static_cast<map_selector &>( *this ) ) {
-        std::list<item> out = cursor.remove_items_with( filter, count );
+        std::vector<item *> out = cursor.remove_items_with( filter, count );
         count -= out.size();
-        res.splice( res.end(), out );
+        res.insert( res.end(), out.begin(), out.end() );
     }
 
     return res;
@@ -774,11 +798,11 @@ std::list<item> visitable<map_selector>::remove_items_with( const
 
 /** @relates visitable */
 template <>
-std::list<item> visitable<vehicle_cursor>::remove_items_with( const
+ItemList visitable<vehicle_cursor>::remove_items_with( const
         std::function<bool( const item &e )> &filter, int count )
 {
     auto cur = static_cast<vehicle_cursor *>( this );
-    std::list<item> res;
+    ItemList res;
 
     if( count <= 0 ) {
         // nothing to do
@@ -792,9 +816,9 @@ std::list<item> visitable<vehicle_cursor>::remove_items_with( const
 
     vehicle_part &part = cur->veh.part( idx );
     for( auto iter = part.items.begin(); iter != part.items.end(); ) {
-        if( filter( *iter ) ) {
+        if( filter( **iter ) ) {
             // remove from the active items cache (if it isn't there does nothing)
-            cur->veh.active_items.remove( &*iter );
+            cur->veh.active_items.remove( *iter );
 
             res.push_back( *iter );
             iter = part.items.erase( iter );
@@ -803,7 +827,7 @@ std::list<item> visitable<vehicle_cursor>::remove_items_with( const
                 return res;
             }
         } else {
-            iter->contents.remove_internal( filter, count, res );
+            ( *iter )->contents.remove_internal( filter, count, res );
             if( count == 0 ) {
                 return res;
             }
@@ -821,56 +845,40 @@ std::list<item> visitable<vehicle_cursor>::remove_items_with( const
 
 /** @relates visitable */
 template <>
-std::list<item> visitable<vehicle_selector>::remove_items_with( const
+ItemList visitable<vehicle_selector>::remove_items_with( const
         std::function<bool( const item &e )> &filter, int count )
 {
-    std::list<item> res;
+    ItemList res;
 
     for( auto &cursor : static_cast<vehicle_selector &>( *this ) ) {
-        std::list<item> out = cursor.remove_items_with( filter, count );
+        std::vector<item *> out = cursor.remove_items_with( filter, count );
         count -= out.size();
-        res.splice( res.end(), out );
+        res.insert( res.end(), out.begin(), out.end() );
     }
 
     return res;
 }
 
-static void remove_from_item_valptr(
-    cata::value_ptr<item> &ptr,
-    const std::function<bool( const item &e )> &filter,
-    int &count, std::list<item> &res )
-{
-    if( ptr ) {
-        if( filter( *ptr ) ) {
-            res.push_back( *ptr );
-            ptr.reset();
-            count -= 1;
-        } else {
-            ptr->contents.remove_internal( filter, count, res );
-        }
-    }
-}
-
 /** @relates visitable */
 template <>
-std::list<item> visitable<monster>::remove_items_with( const
+ItemList visitable<monster>::remove_items_with( const
         std::function<bool( const item &e )> &filter, int count )
 {
-    std::list<item> res;
+    ItemList res;
 
     monster *mon = static_cast<monster *>( this );
 
-    for( auto iter = mon->inv.begin(); iter != mon->inv.end(); ) {
-        if( filter( *iter ) ) {
+    for( auto iter = mon->get_items().begin(); iter != mon->get_items().end(); ) {
+        if( filter( **iter ) ) {
             res.push_back( *iter );
-            iter = mon->inv.erase( iter );
+            iter = mon->remove_item( iter );
 
             count -= 1;
             if( count == 0 ) {
                 return res;
             }
         } else {
-            iter->contents.remove_internal( filter, count, res );
+            ( *iter )->contents.remove_internal( filter, count, res );
 
             if( count == 0 ) {
                 return res;
@@ -878,21 +886,67 @@ std::list<item> visitable<monster>::remove_items_with( const
             iter++;
         }
     }
-
-    remove_from_item_valptr( mon->storage_item, filter, count, res );
-    if( count == 0 ) {
-        return res;
+    //TODO!: clean these up
+    if( mon->get_storage_item() ) {
+        if( filter( *mon->get_storage_item() ) ) {
+            res.push_back( mon->get_storage_item() );
+            mon->set_storage_item( nullptr );
+            count--;
+            if( count == 0 ) {
+                return res;
+            }
+        } else {
+            mon->get_storage_item()->contents.remove_internal( filter, count, res );
+            if( count == 0 ) {
+                return res;
+            }
+        }
     }
-    remove_from_item_valptr( mon->armor_item, filter, count, res );
-    if( count == 0 ) {
-        return res;
+    if( mon->get_armor_item() ) {
+        if( filter( *mon->get_armor_item() ) ) {
+            res.push_back( mon->get_armor_item() );
+            mon->set_armor_item( nullptr );
+            count--;
+            if( count == 0 ) {
+                return res;
+            }
+        } else {
+            mon->get_armor_item()->contents.remove_internal( filter, count, res );
+            if( count == 0 ) {
+                return res;
+            }
+        }
     }
-    remove_from_item_valptr( mon->tack_item, filter, count, res );
-    if( count == 0 ) {
-        return res;
+    if( mon->get_tack_item() ) {
+        if( filter( *mon->get_tack_item() ) ) {
+            res.push_back( mon->get_tack_item() );
+            mon->set_tack_item( nullptr );
+            count--;
+            if( count == 0 ) {
+                return res;
+            }
+        } else {
+            mon->get_tack_item()->contents.remove_internal( filter, count, res );
+            if( count == 0 ) {
+                return res;
+            }
+        }
     }
-    remove_from_item_valptr( mon->tied_item, filter, count, res );
-
+    if( mon->get_tied_item() ) {
+        if( filter( *mon->get_tied_item() ) ) {
+            res.push_back( mon->get_tied_item() );
+            mon->set_tied_item( nullptr );
+            count--;
+            if( count == 0 ) {
+                return res;
+            }
+        } else {
+            mon->get_tied_item()->contents.remove_internal( filter, count, res );
+            if( count == 0 ) {
+                return res;
+            }
+        }
+    }
     return res;
 }
 
@@ -1018,8 +1072,8 @@ int visitable<Character>::charges_of( const itype_id &what, int limit,
         }
         if( p && p->is_mounted() ) {
             auto mons = p->mounted_creature.get();
-            if( mons->has_flag( MF_RIDEABLE_MECH ) && mons->battery_item ) {
-                qty = sum_no_wrap( qty, mons->battery_item->ammo_remaining() );
+            if( mons->has_flag( MF_RIDEABLE_MECH ) && mons->get_battery_item() ) {
+                qty = sum_no_wrap( qty, mons->get_battery_item()->ammo_remaining() );
             }
         }
         return std::min( qty, limit );

@@ -315,12 +315,12 @@ void doors::close_door( map &m, Character &who, const tripoint &closep )
             const units::volume max_nudge = 25_liter;
 
             const auto toobig = std::find_if( items_in_way.begin(), items_in_way.end(),
-            [&max_nudge]( const item & it ) {
-                return it.volume() > max_nudge;
+            [&max_nudge]( const item * const & it ) {
+                return it->volume() > max_nudge;
             } );
             if( toobig != items_in_way.end() ) {
                 who.add_msg_if_player( m_info, _( "The %s is too big to just nudge out of the way." ),
-                                       toobig->tname() );
+                                       ( *toobig )->tname() );
             } else if( items_in_way.stored_volume() > max_nudge ) {
                 who.add_msg_if_player( m_info, _( "There is too much stuff in the way." ) );
             } else {
@@ -334,7 +334,7 @@ void doors::close_door( map &m, Character &who, const tripoint &closep )
                     // Just plopping items back on their origin square will displace them to adjacent squares
                     // since the door is closed now.
                     for( auto &elem : items_in_way ) {
-                        m.add_item_or_charges( closep, elem );
+                        m.add_item_or_charges( closep, *elem );
                     }
                     m.i_clear( closep );
                 }

@@ -119,9 +119,7 @@ void edit_json( SAVEOBJ &it )
         }
         if( tmret == 0 ) {
             try {
-                SAVEOBJ tmp;
-                deserialize( tmp, save1 );
-                it = std::move( tmp );
+                deserialize( it, save1 );
             } catch( const std::exception &err ) {
                 popup( "Error on deserialization: %s", err.what() );
             }
@@ -806,7 +804,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     if( !here.has_flag( "CONTAINER", target ) && target_stack_size > 0 ) {
         trim_and_print( w_info, point( 1, off ), getmaxx( w_info ), c_light_gray,
                         _( "There is a %s there." ),
-                        target_stack.begin()->tname() );
+                        ( *target_stack.begin() )->tname() );
         off++;
         if( target_stack_size > 1 ) {
             mvwprintw( w_info, point( 1, off ), vgettext( "There is %d other item there as well.",
@@ -1401,8 +1399,8 @@ void editmap::edit_itm()
     auto items = get_map().i_at( target );
     int i = 0;
     for( auto &an_item : items ) {
-        ilmenu.addentry( i++, true, 0, "%s%s", an_item.tname(),
-                         an_item.is_emissive() ? " L" : "" );
+        ilmenu.addentry( i++, true, 0, "%s%s", an_item->tname(),
+                         an_item->is_emissive() ? " L" : "" );
     }
     ilmenu.addentry( items.size(), true, 'a', _( "Add item" ) );
     ilmenu.input_category = "EDIT_ITEMS";
@@ -1428,7 +1426,7 @@ void editmap::edit_itm()
 
         ilmenu.query();
         if( ilmenu.ret >= 0 && ilmenu.ret < static_cast<int>( items.size() ) ) {
-            item &it = *items.get_iterator_from_index( ilmenu.ret );
+            item &it = **items.get_iterator_from_index( ilmenu.ret );
             uilist imenu;
             imenu.w_x_setup = offsetX;
             imenu.w_y_setup = [this]( int ) -> int {
@@ -1502,8 +1500,8 @@ void editmap::edit_itm()
             ilmenu.entries.clear();
             i = 0;
             for( auto &an_item : items ) {
-                ilmenu.addentry( i++, true, 0, "%s%s", an_item.tname(),
-                                 an_item.is_emissive() ? " L" : "" );
+                ilmenu.addentry( i++, true, 0, "%s%s", an_item->tname(),
+                                 an_item->is_emissive() ? " L" : "" );
             }
             ilmenu.addentry( items.size(), true, 'a',
                              pgettext( "item manipulation debug menu entry for adding an item on a tile", "Add item" ) );

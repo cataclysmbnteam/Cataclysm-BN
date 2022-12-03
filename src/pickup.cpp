@@ -60,7 +60,7 @@
 #include "vehicle_selector.h"
 #include "vpart_position.h"
 
-using item_count = std::pair<item, int>;
+using item_count = std::pair<item *, int>;
 using pickup_map = std::map<std::string, item_count>;
 
 static void show_pickup_message( const pickup_map &mapPickup );
@@ -85,10 +85,10 @@ static bool select_autopickup_items( const std::vector<std::list<item_stack::ite
     for( size_t rounded_volume = 0, num_checked = 0; num_checked < here.size(); rounded_volume++ ) {
         for( size_t i = 0; i < here.size(); i++ ) {
             do_pickup = false;
-            item_stack::const_iterator begin_iterator = here[i].front();
-            if( begin_iterator->volume() / units::legacy_volume_factor == static_cast<int>( rounded_volume ) ) {
+            item *begin = *here[i].front();
+            if( begin->volume() / units::legacy_volume_factor == static_cast<int>( rounded_volume ) ) {
                 num_checked++;
-                const std::string item_name = begin_iterator->tname( 1, false );
+                const std::string item_name = begin->tname( 1, false );
 
                 //Check the Pickup Rules
                 if( get_auto_pickup().check_item( item_name ) == RULE_WHITELISTED ) {
@@ -96,7 +96,7 @@ static bool select_autopickup_items( const std::vector<std::list<item_stack::ite
                 } else if( get_auto_pickup().check_item( item_name ) != RULE_BLACKLISTED ) {
                     //No prematched pickup rule found
                     //check rules in more detail
-                    get_auto_pickup().create_rule( &*begin_iterator );
+                    get_auto_pickup().create_rule( begin );
 
                     if( get_auto_pickup().check_item( item_name ) == RULE_WHITELISTED ) {
                         do_pickup = true;
@@ -109,8 +109,8 @@ static bool select_autopickup_items( const std::vector<std::list<item_stack::ite
                     int weight_limit = get_option<int>( "AUTO_PICKUP_WEIGHT_LIMIT" );
                     int volume_limit = get_option<int>( "AUTO_PICKUP_VOL_LIMIT" );
                     if( weight_limit && volume_limit ) {
-                        if( begin_iterator->volume() <= units::from_milliliter( volume_limit * 50 ) &&
-                            begin_iterator->weight() <= weight_limit * 50_gram &&
+                        if( begin->volume() <= units::from_milliliter( volume_limit * 50 ) &&
+                            begin->weight() <= weight_limit * 50_gram &&
                             get_auto_pickup().check_item( item_name ) != RULE_BLACKLISTED ) {
                             do_pickup = true;
                         }
@@ -153,8 +153,8 @@ static pickup_answer handle_problematic_pickup( const item &it, bool &offered_sw
     offered_swap = true;
     // TODO: Gray out if not enough hands
     if( u.is_armed() ) {
-        amenu.addentry( WIELD, !u.weapon.has_flag( "NO_UNWIELD" ), 'w',
-                        _( "Dispose of %s and wield %s" ), u.weapon.display_name(),
+        amenu.addentry( WIELD, !u.get_weapon().has_flag( "NO_UNWIELD" ), 'w',
+                        _( "Dispose of %s and wield %s" ), u.get_weapon().display_name(),
                         it.display_name() );
     } else {
         amenu.addentry( WIELD, true, 'w', _( "Wield %s" ), it.display_name() );
@@ -234,18 +234,18 @@ static bool pick_one_up( pickup::pick_drop_selection &selection, bool &got_water
     int moves_taken = 100;
     bool picked_up = false;
     pickup_answer option = CANCEL;
-
-    item_location &loc = selection.target;
+    //TODO!: check all these weird copies
+    item *loc = &*selection.target;
     // We already checked in do_pickup if this was a nullptr
     // Make copies so the original remains untouched if we bail out
-    item_location newloc = loc;
+    item *newloc = loc;
     //original item reference
-    item &it = *newloc.get_item();
+    item &it = *newloc;
     //new item (copy)
-    item newit = it;
-    item leftovers = newit;
+    item &newit = it;
+    item &leftovers = newit;
     const cata::optional<int> &quantity = selection.quantity;
-    std::vector<item_location> &children = selection.children;
+    std::vector<safe_reference<item>> &children = selection.children;
 
     if( !newit.is_owned_by( g->u, true ) ) {
         // Has the player given input on if stealing is ok?
@@ -279,11 +279,11 @@ static bool pick_one_up( pickup::pick_drop_selection &selection, bool &got_water
     newit.charges = u.i_add_to_container( newit, false );
 
     units::volume children_volume = std::accumulate( children.begin(), children.end(), 0_ml,
-    []( units::volume acc, const item_location & c ) {
+    []( units::volume acc, const safe_reference<item> &c ) {
         return acc + c->volume();
     } );
     units::mass children_weight = std::accumulate( children.begin(), children.end(), 0_gram,
-    []( units::mass acc, const item_location & c ) {
+    []( units::mass acc, const safe_reference<item> &c ) {
         return acc + c->weight();
     } );
 
@@ -338,13 +338,13 @@ static bool pick_one_up( pickup::pick_drop_selection &selection, bool &got_water
                 //using original item, possibly modifying it
                 picked_up = u.wield( it );
                 if( picked_up ) {
-                    u.weapon.charges = newit.charges;
+                    u.get_weapon().charges = newit.charges;
                 }
-                if( u.weapon.invlet ) {
-                    add_msg( m_info, _( "Wielding %c - %s" ), u.weapon.invlet,
-                             u.weapon.display_name() );
+                if( u.get_weapon().invlet ) {
+                    add_msg( m_info, _( "Wielding %c - %s" ), u.get_weapon().invlet,
+                             u.get_weapon().display_name() );
                 } else {
-                    add_msg( m_info, _( "Wielding - %s" ), u.weapon.display_name() );
+                    add_msg( m_info, _( "Wielding - %s" ), u.get_weapon().display_name() );
                 }
             } else {
                 add_msg( m_neutral, "%s", wield_check.c_str() );
@@ -366,7 +366,7 @@ static bool pick_one_up( pickup::pick_drop_selection &selection, bool &got_water
         case STASH:
             auto &entry = map_pickup[newit.tname()];
             entry.second += newit.count();
-            entry.first = u.i_add( newit );
+            entry.first = &u.i_add( newit );
             picked_up = true;
             break;
     }
@@ -374,22 +374,23 @@ static bool pick_one_up( pickup::pick_drop_selection &selection, bool &got_water
     if( picked_up ) {
         // Children have to be picked up first, since removing parent would re-index the stack
         if( option != EMPTY ) {
-            for( item_location &child_loc : children ) {
+            for( safe_reference<item> &child_loc : children ) {
                 item &added = u.i_add( *child_loc );
                 auto &pickup_entry = map_pickup[added.tname()];
-                pickup_entry.first = added;
+                pickup_entry.first = &added;
                 pickup_entry.second += added.count();
 
-                child_loc.remove_item();
+                child_loc->detach();
             }
         }
 
         // If we picked up a whole stack, remove the original item
         // Otherwise, replace the item with the leftovers
         if( leftovers.charges > 0 ) {
-            *loc.get_item() = std::move( leftovers );
+            //TODO!: restore next, need to work out what's actually changed here, it's probably just charges
+            //*loc.get_item() = std::move( leftovers );
         } else {
-            loc.remove_item();
+            loc->detach();
         }
 
         u.moves -= moves_taken;
@@ -451,9 +452,9 @@ static std::vector<cata::optional<size_t>> calculate_parents(
     std::vector<cata::optional<size_t>> parents( stacked_here.size() );
     if( !stacked_here.empty() ) {
         size_t last_parent_index = 0;
-        item_drop_token last_parent_token = *stacked_here.front().front()->drop_token;
+        item_drop_token last_parent_token = *( *stacked_here.front().front() )->drop_token;
         for( size_t i = 1; i < stacked_here.size(); i++ ) {
-            auto item_iter = stacked_here[i].front();
+            auto item_iter = *stacked_here[i].front();
             const item_drop_token &this_token = *item_iter->drop_token;
             if( this_token.is_child_of( last_parent_token ) ) {
                 parents[i] = last_parent_index;
@@ -485,7 +486,7 @@ std::vector<stacked_items> stack_for_pickup_ui( const
     std::map<std::pair<time_point, int>, parent_child_check_t> parent_child_check;
     // First, we need to check which parent-child groups exist
     for( item_stack::iterator it : unstacked ) {
-        const auto &token = *it->drop_token;
+        const auto &token = *( *it )->drop_token;
         if( token.drop_number > 0 ) {
             std::pair<time_point, int> turn_and_drop = std::make_pair( token.turn, token.drop_number );
             parent_child_check[turn_and_drop].parent_exists = true;
@@ -499,7 +500,7 @@ std::vector<stacked_items> stack_for_pickup_ui( const
     // Second pass: we group children and parents together, but only if both sides are known to exist
     std::map<std::pair<time_point, int>, unstacked_items> children_by_parent;
     for( item_stack::iterator it : unstacked ) {
-        const auto &token = *it->drop_token;
+        const auto &token = *( *it )->drop_token;
         std::pair<time_point, int> turn_and_drop = std::make_pair( token.turn, token.drop_number );
         if( token.drop_number > 0 && parent_child_check[turn_and_drop].child_exists ) {
             children_by_parent[turn_and_drop].parent = it;
@@ -521,8 +522,8 @@ std::vector<stacked_items> stack_for_pickup_ui( const
         for( item_stack::iterator it : pr.second.unstacked_children ) {
             bool found_stack = false;
             for( std::list<item_stack::iterator> &stack : restacked_children ) {
-                const item &stack_top = *stack.front();
-                if( stack_top.display_stacked_with( *it ) ) {
+                const item &stack_top = **stack.front();
+                if( stack_top.display_stacked_with( **it ) ) {
                     stack.push_back( it );
                     found_stack = true;
                     break;
@@ -610,8 +611,8 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         // but non-frozen water.
         if( ( !isEmpty ) && g->m.furn( p ) == f_toilet ) {
             isEmpty = true;
-            for( const item &maybe_water : g->m.i_at( p ) ) {
-                if( maybe_water.typeId() != itype_id( "water" ) ) {
+            for( const item * const &maybe_water : g->m.i_at( p ) ) {
+                if( maybe_water->typeId() != itype_id( "water" ) ) {
                     isEmpty = false;
                     break;
                 }
@@ -663,12 +664,12 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
     if( static_cast<int>( here.size() ) <= min && min != -1 ) {
         if( from_vehicle ) {
             g->u.assign_activity( player_activity( pickup_activity_actor(
-            { { item_location( vehicle_cursor( *veh, cargo_part ), &*here.front() ), cata::nullopt, {} } },
+            { { *here.front(), cata::nullopt, {} } },
             cata::nullopt
                                                    ) ) );
         } else {
             g->u.assign_activity( player_activity( pickup_activity_actor(
-            { { item_location( map_cursor( p ), &*here.front() ), cata::nullopt, {} } },
+            { { *here.front(), cata::nullopt, {} } },
             g->u.pos()
                                                    ) ) );
         }
@@ -723,7 +724,7 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
 
             //find max length of item name and resize pickup window width
             for( const std::list<item_stack::iterator> &cur_list : stacked_here ) {
-                const item &this_item = *cur_list.front();
+                const item &this_item = **cur_list.front();
                 const int item_len = utf8_width( remove_color_tags( this_item.display_name() ) ) + 10;
                 if( item_len > pickupW && item_len < TERMX ) {
                     pickupW = item_len;
@@ -788,7 +789,7 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         const std::string all_pickup_chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:;";
 
         ui.on_redraw( [&]( const ui_adaptor & ) {
-            const item &selected_item = *stacked_here[matches[selected]].front();
+            const item &selected_item = **stacked_here[matches[selected]].front();
 
             if( selected >= 0 && selected <= static_cast<int>( stacked_here.size() ) - 1 ) {
                 std::vector<iteminfo> vThisItem;
@@ -818,7 +819,7 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             for( int cur_it = start; cur_it < start + maxitems; cur_it++ ) {
                 if( cur_it < static_cast<int>( matches.size() ) ) {
                     int true_it = matches[cur_it];
-                    const item &this_item = *stacked_here[true_it].front();
+                    const item &this_item = **stacked_here[true_it].front();
                     nc_color icolor = this_item.color_in_inventory();
                     if( cur_it == selected ) {
                         icolor = hilite( c_white );
@@ -858,16 +859,16 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                         wprintw( w_pickup, "- " );
                     }
                     std::string item_name;
-                    if( stacked_here[true_it].front()->is_money() ) {
+                    if( ( *stacked_here[true_it].front() )->is_money() ) {
                         //Count charges
                         // TODO: transition to the item_location system used for the inventory
                         unsigned int charges_total = 0;
                         for( const item_stack::iterator &it : stacked_here[true_it] ) {
-                            charges_total += it->charges;
+                            charges_total += ( *it )->charges;
                         }
                         //Picking up none or all the cards in a stack
                         if( !getitem[true_it].pick || !getitem[true_it].count ) {
-                            item_name = stacked_here[true_it].front()->display_money( stacked_here[true_it].size(),
+                            item_name = ( *stacked_here[true_it].front() )->display_money( stacked_here[true_it].size(),
                                         charges_total );
                         } else {
                             unsigned int charges = 0;
@@ -875,10 +876,10 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                             int c = item_count;
                             for( std::list<item_stack::iterator>::const_iterator it = stacked_here[true_it].begin();
                                  it != stacked_here[true_it].end() && c > 0; ++it, --c ) {
-                                charges += ( *it )->charges;
+                                charges += ( **it )->charges;
                             }
 
-                            item_name = stacked_here[true_it].front()->display_money( item_count, charges_total, charges );
+                            item_name = ( *stacked_here[true_it].front() )->display_money( item_count, charges_total, charges );
                         }
                     } else {
                         item_name = this_item.display_name( stacked_here[true_it].size() );
@@ -1051,7 +1052,7 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                 size_t true_idx = matches[idx];
                 pickup_count &selected_stack = getitem[true_idx];
                 if( itemcount || selected_stack.count ) {
-                    const item &temp = *stacked_here[true_idx].front();
+                    const item &temp = **stacked_here[true_idx].front();
                     int amount_available = temp.count_by_charges() ? temp.charges : stacked_here[true_idx].size();
                     if( itemcount && *itemcount >= amount_available ) {
                         itemcount.reset();
@@ -1098,7 +1099,7 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                 while( matches.empty() ) {
                     auto filter_func = item_filter_from_string( new_filter );
                     for( size_t index = 0; index < stacked_here.size(); index++ ) {
-                        if( filter_func( *stacked_here[index].front() ) ) {
+                        if( filter_func( **stacked_here[index].front() ) ) {
                             matches.push_back( index );
                         }
                     }
@@ -1134,7 +1135,7 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                 for( size_t i = 0; i < getitem.size(); i++ ) {
                     if( getitem[i].pick ) {
                         // Make a copy for calculating weight/volume
-                        item temp = *stacked_here[i].front();
+                        item &temp = **stacked_here[i].front();
                         if( temp.count_by_charges() && getitem[i].count && *getitem[i].count < temp.charges ) {
                             temp.charges = *getitem[i].count;
                         }
@@ -1186,8 +1187,8 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                 break;
             }
 
-            if( it->count_by_charges() ) {
-                int num_picked = std::min( it->charges, count );
+            if( ( *it )->count_by_charges() ) {
+                int num_picked = std::min( ( *it )->charges, count );
                 pick_values.emplace_back( it, num_picked );
                 count -= num_picked;
             } else {
@@ -1197,16 +1198,11 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         }
     }
 
-    std::vector<item_location> locations;
+    std::vector<item *> locations;
     std::vector<int> quantities;
 
     for( std::pair<item_stack::iterator, int> &iter_qty : pick_values ) {
-        item_location loc;
-        if( from_vehicle ) {
-            loc = item_location( vehicle_cursor( *veh, cargo_part ), &*iter_qty.first );
-        } else {
-            loc = item_location( map_cursor( p ), &*iter_qty.first );
-        }
+        item *loc = *iter_qty.first;
         locations.push_back( loc );
         quantities.push_back( iter_qty.second );
     }
@@ -1225,12 +1221,12 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
 void show_pickup_message( const pickup_map &mapPickup )
 {
     for( auto &entry : mapPickup ) {
-        if( entry.second.first.invlet != 0 ) {
+        if( entry.second.first->invlet != 0 ) {
             add_msg( _( "You pick up: %d %s [%c]" ), entry.second.second,
-                     entry.second.first.display_name( entry.second.second ), entry.second.first.invlet );
+                     entry.second.first->display_name( entry.second.second ), entry.second.first->invlet );
         } else {
             add_msg( _( "You pick up: %d %s" ), entry.second.second,
-                     entry.second.first.display_name( entry.second.second ) );
+                     entry.second.first->display_name( entry.second.second ) );
         }
     }
 }
@@ -1302,7 +1298,7 @@ void pick_drop_selection::deserialize( JsonIn &jin )
     jo.read( "children", children );
 }
 
-std::vector<pick_drop_selection> optimize_pickup( const std::vector<item_location> &targets,
+std::vector<pick_drop_selection> optimize_pickup( const std::vector<item *> &targets,
         const std::vector<int> &quantities )
 {
     // This is essentially legacy code handling, so checks are good design
@@ -1314,7 +1310,7 @@ std::vector<pick_drop_selection> optimize_pickup( const std::vector<item_locatio
     item_drop_token last_token;
     std::vector<pick_drop_selection> optimized;
     for( size_t i = 0; i < targets.size(); i++ ) {
-        const item_location &loc = targets[i];
+        item *loc = targets[i];
         // If it was possible, the two locations should be required to be consecutive
         if( loc->drop_token->is_child_of( last_token ) ) {
             optimized.back().children.emplace_back( loc );

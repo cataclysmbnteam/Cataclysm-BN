@@ -1145,7 +1145,7 @@ static bool mx_minefield( map &m_orig, const tripoint &abs_sub )
         //50% chance to spawn a dead soldier with a trail of blood
         if( one_in( 2 ) ) {
             m.add_splatter_trail( fd_blood, { 17, 6, abs_sub.z }, { 19, 3, abs_sub.z } );
-            item body = item::make_corpse();
+            item &body = item::make_corpse();
             m.put_items_from_loc( item_group_id( "mon_zombie_soldier_death_drops" ), { 17, 5, abs_sub.z } );
             m.add_item_or_charges( { 17, 5, abs_sub.z }, body );
         }
@@ -1241,7 +1241,7 @@ static bool mx_minefield( map &m_orig, const tripoint &abs_sub )
                     m.add_field( { loc.xy(), abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
                 }
             }
-            item body = item::make_corpse();
+            item &body = item::make_corpse();
             m.put_items_from_loc( item_group_id( "mon_zombie_soldier_death_drops" ), { 11, 21, abs_sub.z } );
             m.add_item_or_charges( { 11, 21, abs_sub.z }, body );
         }
@@ -1477,7 +1477,7 @@ static bool mx_minefield( map &m_orig, const tripoint &abs_sub )
         //50% chance to spawn a soldier killed by gunfire, and a trail of blood
         if( one_in( 2 ) ) {
             m.add_splatter_trail( fd_blood, { 14, 5, abs_sub.z }, { 17, 5, abs_sub.z } );
-            item body = item::make_corpse();
+            item &body = item::make_corpse();
             m.put_items_from_loc( item_group_id( "mon_zombie_soldier_death_drops" ), { 15, 5, abs_sub.z } );
             m.add_item_or_charges( { 15, 5, abs_sub.z }, body );
         }
@@ -1521,7 +1521,7 @@ static bool mx_minefield( map &m_orig, const tripoint &abs_sub )
             m.spawn_item( { 23, 11, abs_sub.z }, itype_hatchet );
 
             //Spawn chopped soldier corpse
-            item body = item::make_corpse();
+            item &body = item::make_corpse();
             m.put_items_from_loc( item_group_id( "mon_zombie_soldier_death_drops" ), { 23, 12, abs_sub.z } );
             m.add_item_or_charges( { 23, 12, abs_sub.z }, body );
             m.add_field( { 23, 12, abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
@@ -2162,8 +2162,8 @@ static void burned_ground_parser( map &m, const tripoint &loc )
     while( m.flammable_items_at( loc ) ) {
         map_stack stack = m.i_at( loc );
         for( auto it = stack.begin(); it != stack.end(); ) {
-            if( it->flammable() ) {
-                m.create_burnproducts( loc, *it, it->weight() );
+            if( ( *it )->flammable() ) {
+                m.create_burnproducts( loc, **it, ( *it )->weight() );
                 it = stack.erase( it );
             } else {
                 it++;
@@ -2595,11 +2595,11 @@ static bool mx_mayhem( map &m, const tripoint &abs_sub )
                 }
 
                 const int max_wolves = rng( 1, 3 );
-                item body = item::make_corpse( mon_wolf );
                 if( one_in( 2 ) ) { //...from the north
                     for( int i = 0; i < max_wolves; i++ ) {
                         const auto &loc = m.points_in_radius( { 12, 12, abs_sub.z }, 3 );
                         const tripoint where = random_entry( loc );
+                        item &body = item::make_corpse( mon_wolf );
                         m.add_item_or_charges( where, body );
                         m.add_field( where, fd_blood, rng( 1, 3 ) );
                     }
@@ -2607,6 +2607,7 @@ static bool mx_mayhem( map &m, const tripoint &abs_sub )
                     for( int i = 0; i < max_wolves; i++ ) {
                         const auto &loc = m.points_in_radius( { 12, 18, abs_sub.z }, 3 );
                         const tripoint where = random_entry( loc );
+                        item &body = item::make_corpse( mon_wolf );
                         m.add_item_or_charges( where, body );
                         m.add_field( where, fd_blood, rng( 1, 3 ) );
                     }
@@ -2844,7 +2845,7 @@ static bool mx_grave( map &m, const tripoint &abs_sub )
             //Pets' corpses
             const std::vector<mtype_id> pets = MonsterGroupManager::GetMonstersFromGroup( GROUP_PETS );
             const mtype_id &pet = random_entry_ref( pets );
-            item body = item::make_corpse( pet, calendar::start_of_cataclysm );
+            item &body = item::make_corpse( pet, calendar::start_of_cataclysm );
             m.add_item_or_charges( corpse_location, body );
         }
         //5% chance to spawn easter egg grave(s)

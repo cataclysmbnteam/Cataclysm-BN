@@ -3234,7 +3234,7 @@ void item_group::debug_spawn()
         for( size_t a = 0; a < 100; a++ ) {
             const auto items = items_from( groups[index], calendar::turn );
             for( auto &it : items ) {
-                itemnames[it.display_name()]++;
+                itemnames[it->display_name()]++;
             }
         }
         // Invert the map to get sorting!

@@ -59,7 +59,7 @@ class veh_interact
         veh_interact( vehicle &veh, const point &p = point_zero );
         ~veh_interact();
 
-        item_location target;
+        item *target;
 
         point dd = point_zero;
         /* starting offset for vehicle parts description display and max offset for scrolling */

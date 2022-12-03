@@ -423,13 +423,21 @@ class monster : public Creature, public visitable<monster>
         /** Makes this monster an ally of the given monster. */
         void make_ally( const monster &z );
         // Add an item to inventory
-        void add_item( const item &it );
+        void add_item( item &it );
         // check mech power levels and modify it.
         bool use_mech_power( int amt );
         bool check_mech_powered() const;
         int mech_str_addition() const;
 
         void process_items();
+
+        std::vector<item *> &get_items();
+        void add_item( item *it );
+        void remove_item( item *it );
+        std::vector<item *>::iterator remove_item( std::vector<item *>::iterator &it );
+        void clear_items();
+        void drop_items();
+        void drop_items( const tripoint &p );
 
         /**
          * Makes monster react to heard sound
@@ -456,19 +464,14 @@ class monster : public Creature, public visitable<monster>
         // TEMP VALUES
         tripoint wander_pos; // Wander destination - Just try to move in that direction
         int wandf;           // Urge to wander - Increased by sound, decrements each move
-        std::vector<item> inv; // Inventory
-        std::vector<item> corpse_components; // Hack to make bionic corpses generate CBMs on death
+
+        std::vector<item *> corpse_components; // Hack to make bionic corpses generate CBMs on death
         Character *mounted_player = nullptr; // player that is mounting this creature
         character_id mounted_player_id; // id of player that is mounting this creature ( for save/load )
         character_id dragged_foe_id; // id of character being dragged by the monster
-        cata::value_ptr<item> tied_item; // item used to tie the monster
-        cata::value_ptr<item> tack_item; // item representing saddle and reins and such
-        cata::value_ptr<item> armor_item; // item of armor the monster may be wearing
-        cata::value_ptr<item> storage_item; // storage item for monster carrying items
-        cata::value_ptr<item> battery_item; // item to power mechs
         units::mass get_carried_weight();
         units::volume get_carried_volume();
-        void move_special_item_to_inv( cata::value_ptr<item> &it );
+        void move_special_item_to_inv( item *it );
 
         // DEFINING VALUES
         int friendly;
@@ -519,7 +522,7 @@ class monster : public Creature, public visitable<monster>
          * Only useful for robots and the like, the monster must have at least
          * a non-empty item id as revert_to_itype.
          */
-        item to_item() const;
+        item *to_item() const;
         /**
          * Initialize values like speed / hp from data of an item.
          * This applies to robotic monsters that are spawned by invoking an item (e.g. turret),
@@ -546,6 +549,21 @@ class monster : public Creature, public visitable<monster>
         void set_summon_time( const time_duration &length );
         // handles removing the monster if the timer runs out
         void decrement_summon_timer();
+
+        item *get_tack_item() const;
+        void set_tack_item( item *to );
+
+        item *get_tied_item() const;
+        void set_tied_item( item *to );
+
+        item *get_armor_item() const;
+        void set_armor_item( item *to );
+
+        item *get_storage_item() const;
+        void set_storage_item( item *to );
+
+        item *get_battery_item() const;
+        void set_battery_item( item *to );
     private:
         void process_trigger( mon_trigger trig, int amount );
         void process_trigger( mon_trigger trig, const std::function<int()> &amount_func );
@@ -575,6 +593,12 @@ class monster : public Creature, public visitable<monster>
         void nursebot_operate( player *dragged_foe );
 
     protected:
+        item *tied_item = nullptr; // item used to tie the monster
+        item *tack_item = nullptr; // item representing saddle and reins and such
+        item *armor_item = nullptr; // item of armor the monster may be wearing
+        item *storage_item = nullptr; // storage item for monster carrying items
+        item *battery_item = nullptr; // item to power mechs
+        std::vector<item *> inv; // Inventory
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
 

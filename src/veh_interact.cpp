@@ -127,8 +127,8 @@ player_activity veh_interact::serialize_activity()
             if( pt != nullptr ) {
                 if( pt->is_broken() ) {
                     time = vp->install_time( g->u );
-                } else if( pt->base.max_damage() > 0 ) {
-                    time = vp->repair_time( g->u ) * pt->base.damage() / pt->base.max_damage();
+                } else if( pt->base->max_damage() > 0 ) {
+                    time = vp->repair_time( g->u ) * pt->base->damage() / pt->base->max_damage();
                 }
             }
             break;
@@ -603,7 +603,7 @@ task_reason veh_interact::cant_do( char mode )
             // siphon mode
             valid_target = false;
             for( const vpart_reference &vp : veh->get_any_parts( VPFLAG_FLUIDTANK ) ) {
-                if( vp.part().base.contents_made_of( LIQUID ) ) {
+                if( vp.part().base->contents_made_of( LIQUID ) ) {
                     valid_target = true;
                     break;
                 }
@@ -696,7 +696,7 @@ bool veh_interact::can_self_jack()
     int lvl = jack_quality( *veh );
 
     for( const vpart_reference &vp : veh->get_avail_parts( "SELF_JACK" ) ) {
-        if( vp.part().base.has_quality( qual_SELF_JACK, lvl ) ) {
+        if( vp.part().base->has_quality( qual_SELF_JACK, lvl ) ) {
             return true;
         }
     }
@@ -813,7 +813,8 @@ bool veh_interact::update_part_requirements()
     quality_id qual;
     bool use_aid = false;
     bool use_str = false;
-    item base( sel_vpart_info->item );
+    //TODO!: push this up?
+    item &base = *item_spawn_temporary( sel_vpart_info->item );
     if( sel_vpart_info->has_flag( "NEEDS_JACKING" ) ) {
         lifting_or_jacking_required = true;
         qual = qual_JACK;
@@ -1227,9 +1228,9 @@ void veh_interact::do_repair()
         if( pt.is_broken() ) {
             ok = format_reqs( nmsg, vp.install_requirements(), vp.install_skills, vp.install_time( g->u ) );
         } else {
-            if( !vp.repair_requirements().is_empty() && pt.base.max_damage() > 0 ) {
-                ok = format_reqs( nmsg, vp.repair_requirements() * pt.base.damage_level( 4 ), vp.repair_skills,
-                                  vp.repair_time( g->u ) * pt.base.damage() / pt.base.max_damage() );
+            if( !vp.repair_requirements().is_empty() && pt.base->max_damage() > 0 ) {
+                ok = format_reqs( nmsg, vp.repair_requirements() * pt.base->damage_level( 4 ), vp.repair_skills,
+                                  vp.repair_time( g->u ) * pt.base->damage() / pt.base->max_damage() );
             } else {
                 nmsg += colorize( _( "This part cannot be repaired" ), c_light_red );
                 ok = false;
@@ -1331,10 +1332,10 @@ void veh_interact::do_refill()
         auto validate = [&]( const item & obj ) {
             if( pt.is_tank() ) {
                 if( obj.is_container() && !obj.contents.empty() ) {
-                    return pt.can_reload( obj.contents.front() );
+                    return pt.can_reload( &obj.contents.front() );
                 }
             } else if( pt.is_fuel_store() ) {
-                bool can_reload = pt.can_reload( obj );
+                bool can_reload = pt.can_reload( &obj );
                 if( obj.typeId() == fuel_type_battery && can_reload ) {
                     msg = _( "You cannot recharge a vehicle battery with handheld batteries" );
                     return false;
@@ -1479,7 +1480,7 @@ void veh_interact::calc_overview()
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 if( !pt.ammo_current().is_null() ) {
                     std::string specials;
-                    const item &it = pt.base.contents.front();
+                    const item &it = pt.base->contents.front();
                     // a space isn't actually needed in front of the tags here,
                     // but item::display_name tags use a space so this prevents
                     // needing *second* translation for the same thing with a
@@ -1733,7 +1734,7 @@ void veh_interact::move_overview_line( int amount )
 vehicle_part *veh_interact::get_most_damaged_part() const
 {
     auto part_damage_comparison = []( const vpart_reference & a, const vpart_reference & b ) {
-        return !b.part().removed && b.part().base.damage() > a.part().base.damage();
+        return !b.part().removed && b.part().base->damage() > a.part().base->damage();
     };
     const vehicle_part_range vpr = veh->get_all_parts();
     auto high_damage_iterator = std::max_element( vpr.begin(),
@@ -1764,10 +1765,12 @@ bool veh_interact::can_remove_part( int idx, const player &p )
                     _( "<color_white>Removing the broken %1$s may yield some fragments.</color>\n" ),
                     sel_vehicle_part->name() );
     } else {
-        item result_of_removal = sel_vehicle_part->properties_to_item();
+        //TODO!: push up
+        item &result_of_removal = sel_vehicle_part->properties_to_item();
         nmsg += string_format(
                     _( "<color_white>Removing the %1$s will yield:</color>\n> %2$s\n" ),
                     sel_vehicle_part->name(), result_of_removal.display_name() );
+        result_of_removal.destroy();
     }
 
     const auto reqs = sel_vpart_info->removal_requirements();
@@ -1781,7 +1784,6 @@ bool veh_interact::can_remove_part( int idx, const player &p )
     quality_id qual;
     bool use_aid = false;
     bool use_str = false;
-    item base( sel_vpart_info->item );
     if( sel_vpart_info->has_flag( "NEEDS_JACKING" ) ) {
         lifting_or_jacking_required = true;
         qual = qual_JACK;
@@ -1795,6 +1797,9 @@ bool veh_interact::can_remove_part( int idx, const player &p )
     } else  {
         lifting_or_jacking_required = true;
         qual = qual_LIFT;
+
+        //TODO!: push up
+        item &base = *item_spawn_temporary( sel_vpart_info->item );
         lvl = std::ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) /
                          TOOL_LIFT_FACTOR );
         str = base.lift_strength();
@@ -1940,7 +1945,7 @@ void veh_interact::do_siphon()
     title = _( "Select part to siphon:" );
 
     auto sel = [&]( const vehicle_part & pt ) {
-        return( pt.is_tank() && pt.base.contents_made_of( LIQUID ) );
+        return( pt.is_tank() && pt.base->contents_made_of( LIQUID ) );
     };
 
     auto act = [&]( const vehicle_part & pt ) {
@@ -1950,10 +1955,11 @@ void veh_interact::do_siphon()
         hide_ui( true );
         const item &base = pt.get_base();
         const int idx = veh->find_part( base );
-        item liquid( base.contents.back() );
-        const int liq_charges = liquid.charges;
-        if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, veh, idx ) ) {
-            veh->drain( idx, liq_charges - liquid.charges );
+        //TODO!: check
+        item *liquid = item_spawn( base.contents.back() );
+        const int liq_charges = liquid->charges;
+        if( liquid_handler::handle_liquid( *liquid, nullptr, 1, nullptr, veh, idx ) ) {
+            veh->drain( idx, liq_charges - liquid->charges );
         }
     };
 
@@ -2173,7 +2179,7 @@ void veh_interact::move_cursor( const point &d, int dstart_at )
         for( size_t i = 0; i < parts_here.size(); i++ ) {
             auto &pt = veh->part( parts_here[i] );
 
-            if( pt.base.damage() > 0 && pt.info().is_repairable() ) {
+            if( pt.base->damage() > 0 && pt.info().is_repairable() ) {
                 need_repair.push_back( i );
             }
             if( pt.info().has_flag( "WHEEL" ) ) {
@@ -2848,7 +2854,8 @@ void veh_interact::display_details( const vpart_info *part )
     } else {
         int part_power = part->power;
         if( part_power == 0 ) {
-            part_power = item( part->item ).engine_displacement();
+            //TODO!: push up
+            part_power = item_spawn_temporary( part->item )->engine_displacement();
         }
         if( part_power != 0 ) {
             fold_and_print( w_details, point( col_2, line + 5 ), column_width, c_white,
@@ -2864,12 +2871,12 @@ void veh_interact::count_durability()
     const vehicle_part_range vpr = veh->get_all_parts();
     int qty = std::accumulate( vpr.begin(), vpr.end(), 0,
     []( int lhs, const vpart_reference & rhs ) {
-        return lhs + std::max( rhs.part().base.damage(), 0 );
+        return lhs + std::max( rhs.part().base->damage(), 0 );
     } );
 
     int total = std::accumulate( vpr.begin(), vpr.end(), 0,
     []( int lhs, const vpart_reference & rhs ) {
-        return lhs + rhs.part().base.max_damage();
+        return lhs + rhs.part().base->max_damage();
     } );
 
     int pct = total ? 100 * qty / total : 0;
@@ -2919,10 +2926,10 @@ void act_vehicle_siphon( vehicle *veh )
     if( tank ) {
         const item &base = tank.get_base();
         const int idx = veh->find_part( base );
-        item liquid( base.contents.back() );
-        const int liq_charges = liquid.charges;
-        if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, veh, idx ) ) {
-            veh->drain( idx, liq_charges - liquid.charges );
+        item *liquid = item_spawn( base.contents.back() );
+        const int liq_charges = liquid->charges;
+        if( liquid_handler::handle_liquid( *liquid, nullptr, 1, nullptr, veh, idx ) ) {
+            veh->drain( idx, liq_charges - liquid->charges );
             veh->invalidate_mass();
         }
     }
@@ -2970,12 +2977,12 @@ void act_vehicle_unload_fuel( vehicle *veh )
             add_msg( m_info, _( "The vehicle has no fully charged plutonium cells." ) );
             return;
         }
-        item plutonium( fuel, calendar::turn, qty / PLUTONIUM_CHARGES );
+        item &plutonium = *item_spawn( fuel, calendar::turn, qty / PLUTONIUM_CHARGES );
         add_msg( m_info, _( "You unload %s from the vehicle." ), plutonium.display_name() );
         veh->drain( fuel, qty - ( qty % PLUTONIUM_CHARGES ) );
         g->u.i_add_or_drop( plutonium );
     } else {
-        item solid_fuel( fuel, calendar::turn, qty );
+        item &solid_fuel = *item_spawn( fuel, calendar::turn, qty );
         add_msg( m_info, _( "You unload %s from the vehicle." ), solid_fuel.display_name() );
         veh->drain( fuel, qty );
         g->u.i_add_or_drop( solid_fuel );
@@ -3031,22 +3038,22 @@ void veh_interact::complete_vehicle( player &p )
                 add_msg( m_info, _( "You don't meet the requirements to install the %s." ), vpinfo.name() );
                 break;
             }
-
+            //TODO!: cheeeeck
             // consume items extracting a match for the parts base item
-            item base;
+            item *base = &null_item_reference();
             for( const auto &e : reqs.get_components() ) {
                 for( auto &obj : p.consume_items( e, 1, is_crafting_component ) ) {
-                    if( obj.typeId() == vpinfo.item ) {
+                    if( obj->typeId() == vpinfo.item ) {
                         base = obj;
                     }
                 }
             }
-            if( base.is_null() ) {
+            if( base->is_null() ) {
                 if( !p.has_trait( trait_DEBUG_HS ) ) {
                     add_msg( m_info, _( "Could not find base part in requirements for %s." ), vpinfo.name() );
                     break;
                 } else {
-                    base = item( vpinfo.item );
+                    base = item_spawn( vpinfo.item );
                 }
             }
 
@@ -3056,7 +3063,7 @@ void veh_interact::complete_vehicle( player &p )
 
             p.invalidate_crafting_inventory();
 
-            int partnum = !base.is_null() ? veh->install_part( d, part_id,
+            int partnum = !base->is_null() ? veh->install_part( d, part_id,
                           std::move( base ) ) : -1;
             if( partnum < 0 ) {
                 debugmsg( "complete_vehicle install part fails dx=%d dy=%d id=%s", d.x, d.y, part_id.c_str() );
@@ -3123,11 +3130,11 @@ void veh_interact::complete_vehicle( player &p )
                 break;
             }
 
-            item_location &src = p.activity.targets.front();
+            item *src = &*p.activity.targets.front();
             struct vehicle_part &pt = veh->part( vehicle_part );
             if( pt.is_tank() && src->is_container() && !src->contents.empty() ) {
 
-                pt.base.fill_with( src->contents.front() );
+                pt.base->fill_with( src->contents.front() );
                 src->on_contents_changed();
 
                 if( pt.ammo_remaining() != pt.ammo_capacity() ) {
@@ -3146,7 +3153,7 @@ void veh_interact::complete_vehicle( player &p )
 
             } else if( pt.is_fuel_store() ) {
                 auto qty = src->charges;
-                pt.base.reload( p, std::move( src ), qty );
+                pt.base->reload( p, *src, qty );
 
                 //~ 1$s vehicle name, 2$s reactor name
                 p.add_msg_if_player( m_good, _( "You refuel the %1$s's %2$s." ), veh->name, pt.name() );
@@ -3185,7 +3192,7 @@ void veh_interact::complete_vehicle( player &p )
             p.invalidate_crafting_inventory();
 
             // This will be a list of all the items which arise from this removal.
-            std::list<item> resulting_items;
+            ItemList resulting_items;
 
             // First we get all the contents of the part
             vehicle_stack contents = veh->get_items( vehicle_part );
@@ -3218,7 +3225,7 @@ void veh_interact::complete_vehicle( player &p )
             }
 
             if( !broken ) {
-                resulting_items.push_back( veh->part( vehicle_part ).properties_to_item() );
+                resulting_items.push_back( &veh->part( vehicle_part ).properties_to_item() );
                 for( const auto &sk : vpinfo.install_skills ) {
                     // removal is half as educational as installation
                     p.practice( sk.first, veh_utils::calc_xp_gain( vpinfo, sk.first, p ) / 2 );
@@ -3246,8 +3253,8 @@ void veh_interact::complete_vehicle( player &p )
             }
             // This will be part of an NPC "job" where they need to clean up the acitivty items afterwards
             if( p.is_npc() ) {
-                for( item &it : resulting_items ) {
-                    it.set_var( "activity_var", p.name );
+                for( item *&it : resulting_items ) {
+                    it->set_var( "activity_var", p.name );
                 }
             }
             // Finally, put all the results somewhere (we wanted to wait until this

@@ -293,9 +293,9 @@ plot_options::query_seed_result plot_options::query_seed()
             here.getabs( p.pos() ), 60 );
     for( const tripoint &elem : zone_src_set ) {
         tripoint elem_loc = here.getlocal( elem );
-        for( item &it : here.i_at( elem_loc ) ) {
-            if( it.is_seed() ) {
-                seed_inv.push_back( &it );
+        for( item * const &it : here.i_at( elem_loc ) ) {
+            if( it->is_seed() ) {
+                seed_inv.push_back( it );
             }
         }
     }
@@ -309,9 +309,8 @@ plot_options::query_seed_result plot_options::query_seed()
         const itype_id &new_seed = std::get<0>( seed_entry );
         itype_id new_mark;
 
-        item it = item( new_seed );
-        if( it.is_seed() ) {
-            new_mark = it.type->seed->fruit_id;
+        if( new_seed->is_seed() ) {
+            new_mark = new_seed->seed->fruit_id;
         } else {
             new_mark = seed;
         }
@@ -407,9 +406,8 @@ std::string plot_options::get_zone_name_suggestion() const
 {
     if( !seed.is_empty() ) {
         auto type = itype_id( seed );
-        item it = item( type );
-        if( it.is_seed() ) {
-            return it.type->seed->plant_name.translated();
+        if( seed->is_seed() ) {
+            return seed->seed->plant_name.translated();
         } else {
             return item::nname( type );
         }

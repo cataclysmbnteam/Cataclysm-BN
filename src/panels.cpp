@@ -574,10 +574,10 @@ static std::pair<nc_color, std::string> temp_stat( const avatar &u )
 
 static std::string get_armor( const avatar &u, body_part bp, unsigned int truncate = 0 )
 {
-    for( std::list<item>::const_iterator it = u.worn.end(); it != u.worn.begin(); ) {
+    for( ItemList::const_iterator it = u.worn.end(); it != u.worn.begin(); ) {
         --it;
-        if( it->covers( bp ) ) {
-            return it->tname( 1, true, truncate );
+        if( ( *it )->covers( bp ) ) {
+            return ( *it )->tname( 1, true, truncate );
         }
     }
     return "-";

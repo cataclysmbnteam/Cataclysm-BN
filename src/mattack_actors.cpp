@@ -566,7 +566,7 @@ void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mo
 {
     z.moves -= move_cost;
 
-    item gun( gun_type );
+    item &gun = *item_spawn( gun_type );
     gun.gun_set_mode( mode );
 
     itype_id ammo = ammo_type ? ammo_type : gun.ammo_default();
@@ -594,11 +594,11 @@ void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mo
         tmp.set_skill_level( pr.first, pr.second );
     }
 
-    tmp.weapon = gun;
-    tmp.i_add( item( "UPS_off", calendar::turn, 1000 ) );
+    tmp.set_weapon( gun );
+    tmp.i_add( *item_spawn( "UPS_off", calendar::turn, 1000 ) );
 
     if( g->u.sees( z ) ) {
-        add_msg( m_warning, _( description ), z.name(), tmp.weapon.tname() );
+        add_msg( m_warning, _( description ), z.name(), tmp.get_weapon().tname() );
     }
 
     z.ammo[ammo] -= tmp.fire_gun( target, gun.gun_current_mode().qty );

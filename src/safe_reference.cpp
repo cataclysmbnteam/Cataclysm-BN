@@ -1,16 +1,45 @@
 #include "safe_reference.h"
+#include "item.h"
+#include "json.h"
 
-safe_reference_anchor::safe_reference_anchor()
+
+uint64_t save_id_prefix;
+bool save_and_quit;
+
+template<typename T>
+void safe_reference<T>::serialize_global( JsonOut &json )
 {
-    impl = std::make_shared<empty>();
+    json.member( "safe_references" );
+    json.start_array();
+    for( rbi_it &it : records_by_id ) {
+        //TODO!: better format
+        safe_reference<T>::id_type id = it->second->id;
+        uint32_t count = it->second->json_count;
+        json.write( id );
+        json.write( count );
+    }
+    json.end_array();
 }
 
-safe_reference_anchor::safe_reference_anchor( const safe_reference_anchor & ) :
-    safe_reference_anchor()
-{}
-
-safe_reference_anchor &safe_reference_anchor::operator=( const safe_reference_anchor & )
+template<typename T>
+void safe_reference<T>::deserialize_global( JsonIn &jsin )
 {
-    impl = std::make_shared<empty>();
-    return *this;
+    jsin.start_array();
+    while( !jsin.end_array() ) {
+        safe_reference<T>::id_type id;
+        jsin.read( id );
+        uint32_t count;
+        jsin.read( count );
+        record *rec = new record( id );
+        rec->json_count = count;
+        records_by_id.insert( {id, rec} );
+    }
+}
+
+void reset_save_ids( uint32_t prefix, bool quitting )
+{
+    save_id_prefix = prefix;
+    save_id_prefix <<= 32;
+    save_and_quit = quitting;
+    safe_reference<item>::next_id = 1;
 }

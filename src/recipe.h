@@ -135,11 +135,11 @@ class recipe
 
         // Create an item instance as if the recipe was just finished,
         // Contain charges multiplier
-        item create_result() const;
-        std::vector<item> create_results( int batch = 1 ) const;
+        item &create_result() const;
+        std::vector<item *> create_results( int batch = 1 ) const;
 
         // Create byproduct instances as if the recipe was just finished
-        std::vector<item> create_byproducts( int batch = 1 ) const;
+        std::vector<item *> create_byproducts( int batch = 1 ) const;
 
         bool has_byproducts() const;
 

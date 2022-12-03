@@ -34,43 +34,33 @@ projectile &projectile::operator=( const projectile &other )
     speed = other.speed;
     range = other.range;
     proj_effects = other.proj_effects;
+    //TODO!: ownermaship here
     set_drop( other.get_drop() );
     set_custom_explosion( other.get_custom_explosion() );
 
     return *this;
 }
 
-const item &projectile::get_drop() const
+item &projectile::get_drop() const
 {
     if( drop != nullptr ) {
         return *drop;
     }
-
-    static const item null_drop;
-    return null_drop;
+    return null_item_reference();
 }
 
-void projectile::set_drop( const item &it )
+void projectile::set_drop( item &it )
 {
     if( it.is_null() ) {
         unset_drop();
     } else {
-        drop = std::make_unique<item>( it );
-    }
-}
-
-void projectile::set_drop( item &&it )
-{
-    if( it.is_null() ) {
-        unset_drop();
-    } else {
-        drop = std::make_unique<item>( std::move( it ) );
+        drop = &it;
     }
 }
 
 void projectile::unset_drop()
 {
-    drop.reset( nullptr );
+    drop = nullptr;
 }
 
 const explosion_data &projectile::get_custom_explosion() const

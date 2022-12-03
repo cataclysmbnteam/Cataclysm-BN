@@ -32,7 +32,6 @@
 #include "item.h"
 #include "item_category.h"
 #include "item_contents.h"
-#include "item_location.h"
 #include "item_stack.h"
 #include "map.h"
 #include "map_selector.h"
@@ -334,7 +333,6 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
         }
         if( it.is_money() ) {
             //Count charges
-            // TODO: transition to the item_location system used for the normal inventory
             unsigned int charges_total = 0;
             for( const auto item : sitem.items ) {
                 charges_total += item->charges;
@@ -847,21 +845,20 @@ bool advanced_inventory::move_all_items( bool nested_call )
 
         if( spane.get_area() == AIM_INVENTORY ) {
             for( size_t index = 0; index < g->u.inv.size(); ++index ) {
-                const std::list<item> &stack = g->u.inv.const_stack( index );
-                const item &it = stack.front();
-                item_location indexed_item( g->u, const_cast<item *>( &it ) );
+                const ItemList &stack = g->u.inv.const_stack( index );
+                item *const &it = stack.front();
 
-                if( !spane.is_filtered( it ) ) {
+                if( !spane.is_filtered( *it ) ) {
                     int count;
-                    if( it.count_by_charges() )                         {
-                        count = it.charges;
+                    if( it->count_by_charges() )                         {
+                        count = it->charges;
                     } else {
                         count = stack.size();
                     }
-                    if( it.is_favorite ) {
-                        dropped_favorite.emplace_back( indexed_item, count );
+                    if( it->is_favorite ) {
+                        dropped_favorite.emplace_back( *it, count );
                     } else {
-                        dropped.emplace_back( indexed_item, count );
+                        dropped.emplace_back( *it, count );
                     }
                 }
             }
@@ -869,18 +866,17 @@ bool advanced_inventory::move_all_items( bool nested_call )
             // do this in reverse, to account for vector item removal messing with future indices
             auto iter = g->u.worn.rbegin();
             for( size_t idx = 0; idx < g->u.worn.size(); ++idx, ++iter ) {
-                item &it = *iter;
+                item &it = **iter;
 
                 if( !g->u.can_takeoff( it ).success() ) {
                     continue;
                 }
 
                 if( !spane.is_filtered( it ) ) {
-                    item_location loc( g->u, &it );
                     if( it.is_favorite ) {
-                        dropped_favorite.emplace_back( loc, it.count() );
+                        dropped_favorite.emplace_back( it, it.count() );
                     } else {
-                        dropped.emplace_back( loc, it.count() );
+                        dropped.emplace_back( it, it.count() );
                     }
                 }
             }
@@ -909,7 +905,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
             const tripoint relative_destination = darea.off;
 
             // Find target items and quantities thereof for the new activity
-            std::vector<item_location> target_items;
+            std::vector<item *> target_items;
             std::vector<int> quantities;
 
             item_stack::iterator stack_begin, stack_end;
@@ -929,17 +925,17 @@ bool advanced_inventory::move_all_items( bool nested_call )
             bool filtered_any_bucket = false;
             // Push item_locations and item counts for all items at placement
             for( item_stack::iterator it = stack_begin; it != stack_end; ++it ) {
-                if( spane.is_filtered( *it ) ) {
+                if( spane.is_filtered( **it ) ) {
                     continue;
                 }
-                if( filter_buckets && it->is_bucket_nonempty() ) {
+                if( filter_buckets && ( *it )->is_bucket_nonempty() ) {
                     filtered_any_bucket = true;
                     continue;
                 }
                 if( spane.in_vehicle() ) {
-                    target_items.emplace_back( vehicle_cursor( *sarea.veh, sarea.vstor ), &*it );
+                    target_items.emplace_back( *it );
                 } else {
-                    target_items.emplace_back( map_cursor( sarea.pos ), &*it );
+                    target_items.emplace_back( *it );
                 }
                 // quantity of 0 means move all
                 quantities.push_back( 0 );
@@ -1122,7 +1118,7 @@ void advanced_inventory::change_square( const aim_location changeSquare,
     }
 }
 
-void advanced_inventory::start_activity( const aim_location destarea, const aim_location srcarea,
+void advanced_inventory::start_activity( const aim_location destarea,
         advanced_inv_listitem *sitem, int &amount_to_move,
         const bool from_vehicle, const bool to_vehicle ) const
 {
@@ -1133,47 +1129,29 @@ void advanced_inventory::start_activity( const aim_location destarea, const aim_
         g->u.assign_activity( ACT_WEAR );
 
         if( by_charges ) {
-            if( from_vehicle ) {
-                g->u.activity.targets.emplace_back( vehicle_cursor( *squares[srcarea].veh, squares[srcarea].vstor ),
-                                                    sitem->items.front() );
-            } else {
-                g->u.activity.targets.emplace_back( map_cursor( squares[srcarea].pos ), sitem->items.front() );
-            }
+            g->u.activity.targets.emplace_back( sitem->items.front() );
             g->u.activity.values.push_back( amount_to_move );
         } else {
             for( std::list<item *>::iterator it = sitem->items.begin(); amount_to_move > 0 &&
                  it != sitem->items.end(); ++it ) {
-                if( from_vehicle ) {
-                    g->u.activity.targets.emplace_back( vehicle_cursor( *squares[srcarea].veh, squares[srcarea].vstor ),
-                                                        *it );
-                } else {
-                    g->u.activity.targets.emplace_back( map_cursor( squares[srcarea].pos ), *it );
-                }
+                g->u.activity.targets.emplace_back( *it );
+                g->u.activity.targets.emplace_back( *it );
                 g->u.activity.values.push_back( 0 );
                 --amount_to_move;
             }
         }
     } else {
         // Find target items and quantities thereof for the new activity
-        std::vector<item_location> target_items;
+        std::vector<item *> target_items;
         std::vector<int> quantities;
         if( by_charges ) {
-            if( from_vehicle ) {
-                target_items.emplace_back( vehicle_cursor( *squares[srcarea].veh, squares[srcarea].vstor ),
-                                           sitem->items.front() );
-            } else {
-                target_items.emplace_back( map_cursor( squares[srcarea].pos ), sitem->items.front() );
-            }
+            target_items.emplace_back( sitem->items.front() );
+            target_items.emplace_back( sitem->items.front() );
             quantities.push_back( amount_to_move );
         } else {
             for( std::list<item *>::iterator it = sitem->items.begin(); amount_to_move > 0 &&
                  it != sitem->items.end(); ++it ) {
-                if( from_vehicle ) {
-                    target_items.emplace_back( vehicle_cursor( *squares[srcarea].veh, squares[srcarea].vstor ),
-                                               *it );
-                } else {
-                    target_items.emplace_back( map_cursor( squares[srcarea].pos ), *it );
-                }
+                target_items.emplace_back( *it );
                 quantities.push_back( 0 );
                 --amount_to_move;
             }
@@ -1251,12 +1229,12 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
         if( destarea == AIM_WORN ) {
             g->u.assign_activity( ACT_WEAR );
 
-            g->u.activity.targets.emplace_back( g->u, sitem->items.front() );
+            g->u.activity.targets.emplace_back( sitem->items.front() );
             g->u.activity.values.push_back( amount_to_move );
         } else {
             item *itm = &g->u.i_at( sitem->idx );
 
-            drop_locations to_move = { drop_location( item_location( g->u, itm ), amount_to_move ) };
+            drop_locations to_move = { drop_location( *itm, amount_to_move ) };
             g->u.assign_activity( drop_activity_actor( g->u, to_move, !to_vehicle, squares[destarea].off ) );
         }
         // exit so that the activity can be carried out
@@ -1276,7 +1254,7 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
         } else if( destarea == AIM_INVENTORY ) {
             g->u.takeoff( *itm );
         } else {
-            drop_locations to_move = { drop_location( item_location( g->u, itm ), amount_to_move ) };
+            drop_locations to_move = { drop_location( *itm, amount_to_move ) };
             g->u.assign_activity( drop_activity_actor( g->u, to_move, !to_vehicle, squares[destarea].off ) );
         }
         // exit so that the activity can be carried out
@@ -1286,7 +1264,7 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
         // from map/vehicle: start ACT_PICKUP or ACT_MOVE_ITEMS as necessary
         // Make sure advanced inventory is reopened after activity completion.
         do_return_entry();
-        start_activity( destarea, srcarea, sitem, amount_to_move, from_vehicle, to_vehicle );
+        start_activity( destarea, sitem, amount_to_move, from_vehicle, to_vehicle );
 
         // exit so that the activity can be carried out
         exit = true;
@@ -1312,7 +1290,7 @@ void advanced_inventory::action_examine( advanced_inv_listitem *sitem,
     if( spane.get_area() == AIM_INVENTORY || spane.get_area() == AIM_WORN ) {
         int idx = spane.get_area() == AIM_INVENTORY ? sitem->idx :
                   player::worn_position_to_index( sitem->idx );
-        item_location loc( g->u, &g->u.i_at( idx ) );
+        item *loc = &g->u.i_at( idx );
         // Setup a "return to AIM" activity. If examining the item creates a new activity
         // (e.g. reading, reloading, activating), the new activity will be put on top of
         // "return to AIM". Once the new activity is finished, "return to AIM" comes back
@@ -1322,7 +1300,7 @@ void advanced_inventory::action_examine( advanced_inv_listitem *sitem,
         do_return_entry();
         assert( g->u.has_activity( ACT_ADV_INVENTORY ) );
 
-        examine_item_menu::run( loc, info_startx, info_width,
+        examine_item_menu::run( *loc, info_startx, info_width,
                                 src == advanced_inventory::side::left ?
                                 examine_item_menu::menu_pos_t::left :
                                 examine_item_menu::menu_pos_t::right );

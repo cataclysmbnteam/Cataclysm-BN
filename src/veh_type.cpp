@@ -737,7 +737,8 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
         long_descrip += "  " + _( nobelt.info() );
     }
     if( has_flag( "TURRET" ) ) {
-        class::item base( item );
+        //TODO!: push up
+        class::item &base = *item_spawn_temporary( item );
         if( base.ammo_required() && !base.ammo_remaining() ) {
             itype_id default_ammo = base.magazine_current() ? base.common_ammo_default() : base.ammo_default();
             base.ammo_set( default_ammo );

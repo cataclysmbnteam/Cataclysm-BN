@@ -18,6 +18,9 @@
 #include "enum_conversions.h"
 #include "memory_fast.h"
 #include "string_id.h"
+#include "colony.h"
+#include "safe_reference.h"
+#include "cata_arena.h"
 
 /* Cataclysm-DDA homegrown JSON tools
  * copyright CC-BY-SA-3.0 2013 CleverRaven
@@ -43,8 +46,6 @@ namespace cata
 {
 template<typename T>
 class optional;
-template<typename T, typename U, typename V>
-class colony;
 } // namespace cata
 
 class JsonError : public std::runtime_error
@@ -351,6 +352,35 @@ class JsonIn
             return false;
         }
 
+        //TODO!: not sure this is correct, needs a proper check
+        /// Overload for game objects
+        template<typename T>
+        auto read( T *&out, bool throw_on_error = false ) -> decltype( T::_spawn( *this ), true ) {
+            try {
+                out = T::_spawn( *this );
+#if !defined(RELEASE)
+                cata_arena<T>::add_debug_entry( out, __FILE__, __LINE__ );
+#endif
+                return true;
+            } catch( const JsonError & ) {
+                if( throw_on_error ) {
+                    throw;
+                }
+                return false;
+            }
+        }
+
+        /// Overload for safe references
+        template<typename U>
+        bool read( safe_reference<U> &out, bool throw_on_error = false ) {
+            uint64_t id;
+            if( !read( id, throw_on_error ) ) {
+                return false;
+            }
+            out = std::move( safe_reference<U>( id ) );
+            return true;
+        }
+
         /// Overload for std::pair
         template<typename T, typename U>
         bool read( std::pair<T, U> &p, bool throw_on_error = false ) {
@@ -469,8 +499,8 @@ class JsonIn
 
         // special case for colony as it uses `insert()` instead of `push_back()`
         // and therefore doesn't fit with vector/deque/list
-        template <typename T, typename U, typename V>
-        bool read( cata::colony<T, U, V> &v, bool throw_on_error = false ) {
+        /*template <typename T>
+        bool read( cata::colony<T> &v, bool throw_on_error = false ) {
             if( !test_array() ) {
                 return error_or_false( throw_on_error, "Expected json array" );
             }
@@ -493,7 +523,7 @@ class JsonIn
             }
 
             return true;
-        }
+        }*/
 
         // object ~> containers with unmatching key_type and value_type
         // map, unordered_map ~> object
@@ -637,9 +667,28 @@ class JsonOut
             v.serialize( *this );
         }
 
+
+        /// Overload that dereferences before calling a global function, for use with game objects
+        template <typename T>
+        auto write( const T *const &v ) -> decltype( serialize( *v, *this ), void() ) {
+            serialize( *v, *this );
+        }
+
+        /// Overload that dereferences before calling a member function, for use with game objects
+        template <typename T>
+        auto write( const T *const &v ) -> decltype( v->serialize( *this ), void() ) {
+            v->serialize( *this );
+        }
+
+
         template <typename T, typename std::enable_if<std::is_enum<T>::value, int>::type = 0>
         void write( T val ) {
             write( static_cast<typename std::underlying_type<T>::type>( val ) );
+        }
+
+        template <typename T>
+        void write( const safe_reference<T> &val ) {
+            write( val.serialize() );
         }
 
         // strings need escaping and quoting
@@ -720,8 +769,8 @@ class JsonOut
         }
 
         // special case for colony, since it doesn't fit in other categories
-        template <typename T, typename U, typename V>
-        void write( const cata::colony<T, U, V> &container ) {
+        template <typename T>
+        void write( const cata::colony<T> &container ) {
             write_as_array( container );
         }
 

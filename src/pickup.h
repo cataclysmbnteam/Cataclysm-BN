@@ -5,7 +5,6 @@
 #include <vector>
 
 class item;
-class item_location;
 class Character;
 class JsonIn;
 class JsonOut;

@@ -28,15 +28,15 @@ class npc;
 class player;
 struct tripoint;
 
-using invstack = std::list<std::list<item> >;
-using invslice = std::vector<std::list<item> *>;
-using const_invslice = std::vector<const std::list<item> *>;
-using indexed_invslice = std::vector< std::pair<std::list<item>*, int> >;
+using invstack = std::list<ItemList >;
+using invslice = std::vector<ItemList *>;
+using const_invslice = std::vector<const ItemList *>;
+using indexed_invslice = std::vector< std::pair<ItemList *, int> >;
 using itype_bin = std::unordered_map< itype_id, std::list<const item *> >;
 using invlets_bitset = std::bitset<std::numeric_limits<char>::max()>;
 
 /** First element is pointer to item stack (first item), second is amount. */
-using excluded_stacks = std::map<const item *, int>;
+using excluded_stacks = std::map<item *, int>;
 
 /**
  * Wrapper to handled a set of valid "inventory" letters. "inventory" can be any set of
@@ -93,7 +93,7 @@ class inventory : public visitable<inventory>
 
         invslice slice();
         const_invslice const_slice() const;
-        const std::list<item> &const_stack( int i ) const;
+        const ItemList &const_stack( int i ) const;
         size_t size() const;
 
         std::map<char, itype_id> assigned_invlet;
@@ -105,25 +105,26 @@ class inventory : public visitable<inventory>
         inventory &operator=( const inventory & ) = default;
 
         inventory &operator+= ( const inventory &rhs );
-        inventory &operator+= ( const item &rhs );
-        inventory &operator+= ( const std::list<item> &rhs );
-        inventory &operator+= ( const std::vector<item> &rhs );
+        inventory &operator+= ( item &rhs );
+        // inventory &operator+= ( const ItemList &rhs );
+        inventory &operator+= ( const std::vector<item *> &rhs );
         inventory &operator+= ( const item_stack &rhs );
         inventory  operator+ ( const inventory &rhs );
-        inventory  operator+ ( const item &rhs );
-        inventory  operator+ ( const std::list<item> &rhs );
+        inventory  operator+ ( item &rhs );
+        inventory  operator+ ( const ItemList &rhs );
 
         void unsort(); // flags the inventory as unsorted
         void clear();
-        void push_back( const std::list<item> &newits );
+        void push_back( const ItemList &newits );
         // returns a reference to the added item
-        item &add_item( item newit, bool keep_invlet = false, bool assign_invlet = true,
+        item &add_item( item &newit, bool keep_invlet = false, bool assign_invlet = true,
                         bool should_stack = true );
         // use item type cache to speed up, remember to run build_items_type_cache() before using it
-        item &add_item_by_items_type_cache( item newit, bool keep_invlet = false, bool assign_invlet = true,
+        item &add_item_by_items_type_cache( item &newit, bool keep_invlet = false,
+                                            bool assign_invlet = true,
                                             bool should_stack = true );
-        void add_item_keep_invlet( item newit );
-        void push_back( item newit );
+        void add_item_keep_invlet( item &newit );
+        void push_back( item &newit );
 
         /* Check all items for proper stacking, rearranging as needed
          * game pointer is not necessary, but if supplied, will ensure no overlap with
@@ -147,13 +148,13 @@ class inventory : public visitable<inventory>
          * in this inventory.
          * @return A copy of the removed item.
          */
-        item remove_item( const item *it );
-        item remove_item( int position );
+        item &remove_item( const item *it );
+        item &remove_item( int position );
         /**
          * Randomly select items until the volume quota is filled.
          */
-        std::list<item> remove_randomly_by_volume( const units::volume &volume );
-        std::list<item> reduce_stack( int position, int quantity );
+        ItemList remove_randomly_by_volume( const units::volume &volume );
+        ItemList reduce_stack( int position, int quantity );
 
         const item &find_item( int position ) const;
         item &find_item( int position );
@@ -174,8 +175,8 @@ class inventory : public visitable<inventory>
 
         // Below, "amount" refers to quantity
         //        "charges" refers to charges
-        std::list<item> use_amount( itype_id it, int quantity,
-                                    const std::function<bool( const item & )> &filter = return_true<item> );
+        ItemList use_amount( itype_id it, int quantity,
+                             const std::function<bool( const item & )> &filter = return_true<item> );
 
         bool has_tools( const itype_id &it, int quantity,
                         const std::function<bool( const item & )> &filter = return_true<item> ) const;
@@ -248,7 +249,7 @@ class inventory : public visitable<inventory>
         char find_usable_cached_invlet( const itype_id &item_type );
 
         invstack items;
-        std::map<itype_id, std::list<std::list<item>*>> items_type_cache;
+        std::map<itype_id, std::list<ItemList *>> items_type_cache;
         std::map<quality_id, std::map<int, int>> quality_cache;
 
         bool items_type_cached = false;

@@ -1041,7 +1041,7 @@ void place_construction( const construction_group_str_id &group )
                  _( "There is already an unfinished construction there, examine it to continue working on it" ) );
         return;
     }
-    std::list<item> used;
+    ItemList used;
     const construction &con = *valid.find( pnt )->second;
     // create the partial construction struct
     partial_con pc;
@@ -1056,8 +1056,8 @@ void place_construction( const construction_group_str_id &group )
     }
     // Use up the components
     for( const auto &it : con.requirements->get_components() ) {
-        std::list<item> tmp = g->u.consume_items( it, 1, is_crafting_component );
-        used.splice( used.end(), tmp );
+        ItemList tmp = g->u.consume_items( it, 1, is_crafting_component );
+        used.insert( used.end(), tmp.begin(), tmp.end() );
     }
     pc.components = used;
     here.partial_con_set( pnt, pc );
@@ -1133,7 +1133,8 @@ void complete_construction( Character &ch )
             tripoint dump_spot = random_entry( dump_spots );
             map_stack items = here.i_at( terp );
             for( map_stack::iterator it = items.begin(); it != items.end(); ) {
-                here.add_item_or_charges( dump_spot, *it );
+                here.add_item_or_charges( dump_spot, **it );
+                //TODO!: CHECK
                 it = items.erase( it );
             }
         } else {
@@ -1161,7 +1162,9 @@ void complete_construction( Character &ch )
 
     // Spawn byproducts
     if( built.byproduct_item_group ) {
-        here.spawn_items( ch.pos(), item_group::items_from( built.byproduct_item_group, calendar::turn ) );
+        std::vector<item *> items_list = item_group::items_from( built.byproduct_item_group,
+                                         calendar::turn );
+        here.spawn_items( ch.pos(), items_list );
     }
 
     add_msg( m_info, _( "%s finished construction: %s." ), ch.disp_name(), built.group->name() );
@@ -1280,10 +1283,10 @@ void construct::done_grave( const tripoint &p )
 {
     map &here = get_map();
     map_stack its = here.i_at( p );
-    for( item it : its ) {
-        if( it.is_corpse() ) {
-            if( it.get_corpse_name().empty() ) {
-                if( it.get_mtype()->has_flag( MF_HUMAN ) ) {
+    for( item * const &it : its ) {
+        if( it->is_corpse() ) {
+            if( it->get_corpse_name().empty() ) {
+                if( it->get_mtype()->has_flag( MF_HUMAN ) ) {
                     if( g->u.has_trait( trait_SPIRITUAL ) ) {
                         g->u.add_morale( MORALE_FUNERAL, 50, 75, 1_days, 1_hours );
                         add_msg( m_good,
@@ -1297,15 +1300,15 @@ void construct::done_grave( const tripoint &p )
                     g->u.add_morale( MORALE_FUNERAL, 50, 75, 1_days, 1_hours );
                     add_msg( m_good,
                              _( "You feel sadness, but also relief after providing last rites for %s, whose name you will keep in your memory." ),
-                             it.get_corpse_name() );
+                             it->get_corpse_name() );
                 } else {
                     add_msg( m_neutral,
                              _( "You bury remains of %s, who joined uncounted masses perished in the Cataclysm." ),
-                             it.get_corpse_name() );
+                             it->get_corpse_name() );
                 }
             }
             g->events().send<event_type::buries_corpse>(
-                g->u.getID(), it.get_mtype()->id, it.get_corpse_name() );
+                g->u.getID(), it->get_mtype()->id, it->get_corpse_name() );
         }
     }
     if( g->u.has_quality( qual_CUT ) ) {
@@ -1388,7 +1391,8 @@ void construct::done_deconstruct( const tripoint &p )
             here.furn_set( p, f.deconstruct.furn_set );
         }
         add_msg( _( "The %s is disassembled." ), f.name() );
-        here.spawn_items( p, item_group::items_from( f.deconstruct.drop_group, calendar::turn ) );
+        std::vector<item *> items_list = item_group::items_from( f.deconstruct.drop_group, calendar::turn );
+        here.spawn_items( p, items_list );
         // HACK: Hack alert.
         // Signs have cosmetics associated with them on the submap since
         // furniture can't store dynamic data to disk. To prevent writing
@@ -1421,14 +1425,15 @@ void construct::done_deconstruct( const tripoint &p )
         }
         here.ter_set( p, t.deconstruct.ter_set );
         add_msg( _( "The %s is disassembled." ), t.name() );
-        here.spawn_items( p, item_group::items_from( t.deconstruct.drop_group, calendar::turn ) );
+        std::vector<item *> items_list = item_group::items_from( t.deconstruct.drop_group, calendar::turn );
+        here.spawn_items( p, items_list );
     }
 }
 
 static void unroll_digging( const int numer_of_2x4s )
 {
     // refund components!
-    item rope( "rope_30" );
+    item &rope = *item_spawn( "rope_30" );
     map &here = get_map();
     here.add_item_or_charges( g->u.pos(), rope );
     // presuming 2x4 to conserve lumber.

@@ -162,7 +162,7 @@ const recipe *select_crafting_recipe( int &batch_size )
 {
     struct {
         const recipe *last_recipe = nullptr;
-        item dummy;
+        item *dummy = &null_item_reference();
     } item_info_cache;
     int item_info_scroll = 0;
     int item_info_scroll_popup = 0;
@@ -171,15 +171,15 @@ const recipe *select_crafting_recipe( int &batch_size )
     [&]( const recipe * rec, const int count, int &scroll_pos ) {
         if( item_info_cache.last_recipe != rec ) {
             item_info_cache.last_recipe = rec;
-            item_info_cache.dummy = rec->create_result();
-            item_info_cache.dummy.set_var( "recipe_exemplar", rec->ident().str() );
+            item_info_cache.dummy = &rec->create_result();
+            item_info_cache.dummy->set_var( "recipe_exemplar", rec->ident().str() );
             item_info_scroll = 0;
             item_info_scroll_popup = 0;
         }
         std::vector<iteminfo> info;
-        item_info_cache.dummy.info( true, info, count );
-        item_info_data data( item_info_cache.dummy.tname( count ),
-                             item_info_cache.dummy.type_name( count ),
+        item_info_cache.dummy->info( true, info, count );
+        item_info_data data( item_info_cache.dummy->tname( count ),
+                             item_info_cache.dummy->type_name( count ),
                              info, {}, scroll_pos );
         return data;
     };
@@ -967,13 +967,14 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
     std::sort( related_components.begin(), related_components.end(), compare_second );
     // current recipe result
     std::vector<std::pair<itype_id, std::string>> related_results;
-    item tmp = current->create_result();
+    item &tmp = current->create_result();
     itype_id tid;
     if( tmp.contents.empty() ) { // use this item
         tid = tmp.typeId();
     } else { // use the contained item
         tid = tmp.contents.front().typeId();
     }
+    tmp.destroy();
     const std::set<const recipe *> &known_recipes = u.get_learned_recipes().of_component( tid );
     for( const auto *b : known_recipes ) {
         if( available.contains( *b ) ) {

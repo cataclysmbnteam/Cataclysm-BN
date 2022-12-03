@@ -224,7 +224,7 @@ class player : public Character
 
         // ranged.cpp
         /** Execute a throw */
-        dealt_projectile_attack throw_item( const tripoint &target, const item &to_throw,
+        dealt_projectile_attack throw_item( const tripoint &target, item &to_throw,
                                             const cata::optional<tripoint> &blind_throw_from_pos = cata::nullopt );
 
         // Mental skills and stats
@@ -266,12 +266,12 @@ class player : public Character
         int hp_percentage() const override;
 
         /** Returns list of artifacts in player inventory. **/
-        std::list<item *> get_artifact_items();
+        std::vector<item *> get_artifact_items();
 
         /** used for drinking from hands, returns how many charges were consumed */
         int drink_from_hands( item &water );
         /** Used for eating object at pos, returns true if object is removed from inventory (last charge was consumed) */
-        bool consume( item_location loc );
+        bool consume( item &loc );
         /** Used for eating a particular item that doesn't need to be in inventory.
          *  Returns true if the item is to be removed (doesn't remove). */
         bool consume_item( item &target );
@@ -281,7 +281,7 @@ class player : public Character
 
         int get_lift_assist() const;
 
-        bool list_ammo( const item &base, std::vector<item::reload_option> &ammo_list,
+        bool list_ammo( item &base, std::vector<item::reload_option> &ammo_list,
                         bool include_empty_mags = true, bool include_potential = false ) const;
         /**
          * Select suitable ammo with which to reload the item
@@ -290,7 +290,7 @@ class player : public Character
          * @param include_empty_mags Allow selection of empty magazines
          * @param include_potential Include ammo that can potentially be used, but not right now
          */
-        item::reload_option select_ammo( const item &base, bool prompt = false,
+        item::reload_option select_ammo( item &base, bool prompt = false,
                                          bool include_empty_mags = true, bool include_potential = false ) const;
 
         /** Select ammo from the provided options */
@@ -303,7 +303,7 @@ class player : public Character
          * Check player capable of taking off an item.
          * @param it Thing to be taken off
          */
-        ret_val<bool> can_takeoff( const item &it, const std::list<item> *res = nullptr ) const;
+        ret_val<bool> can_takeoff( const item &it, const ItemList *res = nullptr ) const;
 
         /**
          * Check player capable of wielding an item.
@@ -327,7 +327,7 @@ class player : public Character
          * @param obj Object to mend
          * @param interactive if true prompts player when multiple faults, otherwise mends the first
          */
-        void mend_item( item_location &&obj, bool interactive = true );
+        void mend_item( item &obj, bool interactive = true );
 
         /**
          * Calculate (but do not deduct) the number of moves required to reload an item with specified quantity of ammo
@@ -338,19 +338,19 @@ class player : public Character
         int item_reload_cost( const item &it, const item &ammo, int qty ) const;
 
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
-        cata::optional<std::list<item>::iterator>
+        cata::optional<ItemList::iterator>
         wear( int pos, bool interactive = true );
-        cata::optional<std::list<item>::iterator>
+        cata::optional<ItemList::iterator>
         wear( item &to_wear, bool interactive = true );
 
         /** Takes off an item, returning false on fail. The taken off item is processed in the interact */
-        bool takeoff( item &it, std::list<item> *res = nullptr );
+        bool takeoff( item &it, ItemList *res = nullptr );
         bool takeoff( int pos );
 
         /** So far only called by unload() from game.cpp */
         bool add_or_drop_with_msg( item &it, bool unloading = false );
 
-        bool unload( item_location loc );
+        bool unload( item &it );
 
         /**
          * Try to wield a contained item consuming moves proportional to weapon skill and volume.
@@ -375,7 +375,7 @@ class player : public Character
         /** Uses a tool */
         void use( int inventory_position );
         /** Uses a tool at location */
-        void use( item_location loc );
+        void use( item &loc );
         /** Uses the current wielded weapon */
         void use_wielded();
 
@@ -392,7 +392,7 @@ class player : public Character
         std::pair<int, int> gunmod_installation_odds( const item &gun, const item &mod ) const;
 
         /** Starts activity to install toolmod */
-        void toolmod_add( item_location tool, item_location mod );
+        void toolmod_add( item &tool, item &mod );
 
         /** Note that we've read a book at least once. **/
         virtual bool has_identified( const itype_id &item_id ) const = 0;
@@ -414,7 +414,6 @@ class player : public Character
         void reset_stats() override;
 
     private:
-        safe_reference_anchor anchor;
         enum class power_mut_ui_cmd {
             Exit,
             Activate,
@@ -442,8 +441,6 @@ class player : public Character
         /** This handles warning the player that there current activity will not give them xp */
         void handle_skill_warning( const skill_id &id, bool force_warning = false );
 
-        void on_worn_item_transform( const item &old_it, const item &new_it );
-
         /** Get the formatted name of the currently wielded item (if any) with current gun mode (if gun) */
         std::string weapname() const;
 
@@ -457,14 +454,14 @@ class player : public Character
          * @return An item that contains the removed charges, it's effectively a
          * copy of the item with the proper charges.
          */
-        item reduce_charges( int position, int quantity );
+        item *reduce_charges( int position, int quantity );
         /**
          * Remove charges from a specific item (given by a pointer to it).
          * Otherwise identical to @ref reduce_charges(int,int)
          * @param it A pointer to the item, it *must* exist.
          * @param quantity How many charges to remove
          */
-        item reduce_charges( item *it, int quantity );
+        item *reduce_charges( item *it, int quantity );
 
         /**
         * Check whether player has a bionic power armor interface.
@@ -532,7 +529,7 @@ class player : public Character
         void make_craft( const recipe_id &id, int batch_size, const tripoint &loc = tripoint_zero );
         void make_all_craft( const recipe_id &id, int batch_size, const tripoint &loc = tripoint_zero );
         /** consume components and create an active, in progress craft containing them */
-        item_location start_craft( craft_command &command, const tripoint &loc );
+        item *start_craft( craft_command &command, const tripoint &loc );
         /**
          * Calculate a value representing the success of the player at crafting the given recipe,
          * taking player skill, recipe difficulty, npc helpers, and player mutations into account.
@@ -569,13 +566,13 @@ class player : public Character
         select_item_component( const std::vector<item_comp> &components,
                                int batch, inventory &map_inv, bool can_cancel = false,
                                const std::function<bool( const item & )> &filter = return_true<item>, bool player_inv = true );
-        std::list<item> consume_items( const comp_selection<item_comp> &is, int batch,
-                                       const std::function<bool( const item & )> &filter = return_true<item> );
-        std::list<item> consume_items( map &m, const comp_selection<item_comp> &is, int batch,
-                                       const std::function<bool( const item & )> &filter = return_true<item>,
-                                       const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE );
-        std::list<item> consume_items( const std::vector<item_comp> &components, int batch = 1,
-                                       const std::function<bool( const item & )> &filter = return_true<item> );
+        ItemList consume_items( const comp_selection<item_comp> &is, int batch,
+                                const std::function<bool( const item & )> &filter = return_true<item> );
+        ItemList consume_items( map &m, const comp_selection<item_comp> &is, int batch,
+                                const std::function<bool( const item & )> &filter = return_true<item>,
+                                const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE );
+        ItemList consume_items( const std::vector<item_comp> &components, int batch = 1,
+                                const std::function<bool( const item & )> &filter = return_true<item> );
         /** Consume tools for the next multiplier * 5% progress of the craft */
         bool craft_consume_tools( item &craft, int mulitplier, bool start_craft );
         void consume_tools( const comp_selection<tool_comp> &tool, int batch );
@@ -597,7 +594,8 @@ class player : public Character
         weak_ptr_fast<Creature> last_target;
         cata::optional<tripoint> last_target_pos;
         // Save favorite ammo location
-        item_location ammo_location;
+        //TODO!: check this
+        safe_reference<item> ammo_location;
         int scent = 0;
         int cash = 0;
         int movecounter = 0;

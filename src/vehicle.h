@@ -118,7 +118,7 @@ struct veh_collision {
 
     veh_collision() = default;
 };
-
+//TODO!: location stuffs here
 class vehicle_stack : public item_stack
 {
     private:
@@ -126,10 +126,10 @@ class vehicle_stack : public item_stack
         vehicle *myorigin;
         int part_num;
     public:
-        vehicle_stack( cata::colony<item> *newstack, point newloc, vehicle *neworigin, int part ) :
+        vehicle_stack( cata::colony<item &> *newstack, point newloc, vehicle *neworigin, int part ) :
             item_stack( newstack ), location( newloc ), myorigin( neworigin ), part_num( part ) {}
         iterator erase( const_iterator it ) override;
-        void insert( const item &newitem ) override;
+        void insert( item &newitem ) override;
         int count_limit() const override {
             return MAX_ITEM_IN_VEHICLE_STORAGE;
         }
@@ -186,8 +186,8 @@ struct vehicle_part {
         friend vehicle;
         friend class veh_interact;
         friend visitable<vehicle_cursor>;
-        friend item_location;
         friend class turret_data;
+        friend class vehicle_base_item_location;
 
         enum : int { passenger_flag = 1,
                      animal_flag = 2,
@@ -199,7 +199,7 @@ struct vehicle_part {
 
         vehicle_part(); /** DefaultConstructible */
 
-        vehicle_part( const vpart_id &vp, const point &dp, item &&obj );
+        vehicle_part( const vpart_id &vp, const point &dp, item &obj );
 
         /** Check this instance is non-null (not default constructed) */
         explicit operator bool() const;
@@ -266,7 +266,7 @@ struct vehicle_part {
         double consume_energy( const itype_id &ftype, double energy_j );
 
         /* @retun true if part in current state be reloaded optionally with specific itype_id */
-        bool can_reload( const item &obj = item() ) const;
+        bool can_reload( const item *obj = nullptr ) const;
 
         /**
          * If this part is capable of wholly containing something, process the
@@ -437,8 +437,8 @@ struct vehicle_part {
         /** As a performance optimization we cache the part information here on first lookup */
         mutable const vpart_info *info_cache = nullptr;
 
-        item base;
-        cata::colony<item> items; // inventory
+        item *base = nullptr;
+        std::vector<item *> items; // inventory
 
         /** Preferred ammo type when multiple are available */
         itype_id ammo_pref = itype_id::NULL_ID();
@@ -456,13 +456,13 @@ struct vehicle_part {
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
 
-        const item &get_base() const;
-        void set_base( const item &new_base );
+        item &get_base() const;
+        void set_base( item &new_base );
         /**
          * Generate the corresponding item from this vehicle part. It includes
          * the hp (item damage), fuel charges (battery or liquids), aspect, ...
          */
-        item properties_to_item() const;
+        item &properties_to_item() const;
         /**
          * Returns an ItemList of the pieces that should arise from breaking
          * this part.
@@ -489,8 +489,8 @@ class turret_data
         std::string name() const;
 
         /** Get base item location */
-        item_location base();
-        item_location base() const;
+        item &base();
+        item &base() const;
 
         const vehicle *get_veh() const {
             return veh;
@@ -769,6 +769,8 @@ class vehicle
             attached = false;
         }
 
+        bool is_loaded() const;
+
         /**
          * Set stat for part constrained by range [0,durability]
          * @note does not invoke base @ref item::on_damage callback
@@ -897,7 +899,7 @@ class vehicle
         int install_part( const point &dp, const vehicle_part &part );
 
         /** install item specified item to vehicle as a vehicle part */
-        int install_part( const point &dp, const vpart_id &id, item &&obj, bool force = false );
+        int install_part( const point &dp, const vpart_id &id, item &obj, bool force = false );
 
         // find a single tile wide vehicle adjacent to a list of part indices
         bool try_to_rack_nearby_vehicle( const std::vector<std::vector<int>> &list_of_racks );
@@ -934,7 +936,7 @@ class vehicle
         bool split_vehicles( const std::vector<std::vector <int>> &new_veh );
 
         /** Get handle for base item of part */
-        item_location part_base( int p );
+        item &part_base( int p );
 
         /** Get index of part with matching base item or INT_MIN if not found */
         int find_part( const item &it ) const;
@@ -1502,7 +1504,7 @@ class vehicle
          * Update an item's active status, for example when adding
          * hot or perishable liquid to a container.
          */
-        void make_active( item_location &loc );
+        void make_active( item &loc );
         /**
          * Try to add an item to part's cargo.
          *
@@ -1510,9 +1512,9 @@ class vehicle
          * the volume limit or item count limit, not all charges can fit, etc.)
          * Otherwise, returns an iterator to the added item in the vehicle stack
          */
-        cata::optional<vehicle_stack::iterator> add_item( int part, const item &itm );
+        cata::optional<vehicle_stack::iterator> add_item( int part, item &itm );
         /** Like the above */
-        cata::optional<vehicle_stack::iterator> add_item( vehicle_part &pt, const item &obj );
+        cata::optional<vehicle_stack::iterator> add_item( vehicle_part &pt, item &obj );
         /**
          * Add an item counted by charges to the part's cargo.
          *

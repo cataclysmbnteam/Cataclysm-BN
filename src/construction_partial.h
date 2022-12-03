@@ -9,7 +9,7 @@
 
 struct partial_con {
     int counter = 0;
-    std::list<item> components = {};
+    ItemList components = {};
     construction_id id = construction_id( -1 );
 };
 

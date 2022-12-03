@@ -1072,7 +1072,7 @@ void emp_blast( const tripoint &p )
                 if( sight ) {
                     add_msg( _( "The %s beeps erratically and deactivates!" ), critter.name() );
                 }
-                here.add_item_or_charges( p, critter.to_item() );
+                here.add_item_or_charges( p, *critter.to_item() );
                 for( auto &ammodef : critter.ammo ) {
                     if( ammodef.second > 0 ) {
                         here.spawn_item( p, ammodef.first, 1, ammodef.second, calendar::turn );
@@ -1120,18 +1120,18 @@ void emp_blast( const tripoint &p )
         }
         // TODO: More effects?
         //e-handcuffs effects
-        if( u.weapon.typeId() == itype_e_handcuffs && u.weapon.charges > 0 ) {
-            u.weapon.unset_flag( "NO_UNWIELD" );
-            u.weapon.charges = 0;
-            u.weapon.active = false;
+        if( u.get_weapon().typeId() == itype_e_handcuffs && u.get_weapon().charges > 0 ) {
+            u.get_weapon().unset_flag( "NO_UNWIELD" );
+            u.get_weapon().charges = 0;
+            u.get_weapon().active = false;
             add_msg( m_good, _( "The %s on your wrists spark briefly, then release your hands!" ),
-                     u.weapon.tname() );
+                     u.get_weapon().tname() );
         }
     }
     // Drain any items of their battery charge
     for( auto &it : here.i_at( p ) ) {
-        if( it.is_tool() && it.ammo_current() == itype_battery ) {
-            it.charges = 0;
+        if( it->is_tool() && it->ammo_current() == itype_battery ) {
+            it->charges = 0;
         }
     }
     // TODO: Drain NPC energy reserves

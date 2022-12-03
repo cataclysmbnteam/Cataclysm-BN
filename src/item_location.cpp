@@ -33,6 +33,8 @@
 #include "visitable.h"
 #include "vpart_position.h"
 
+//TODO!: blah blah blah
+/*
 template <typename T>
 static int find_index( const T &sel, const item *obj )
 {
@@ -202,9 +204,10 @@ class item_location::impl::item_on_map : public item_location::impl
         }
 
         item_location obtain( Character &ch, int qty ) override {
+            //TODO!: cheeeck
             ch.moves -= obtain_cost( ch, qty );
 
-            item obj = target()->split( qty );
+            item& obj = target()->split( qty );
             if( !obj.is_null() ) {
                 return item_location( ch, &ch.i_add( obj, should_stack ) );
             } else {
@@ -355,7 +358,7 @@ class item_location::impl::item_on_person : public item_location::impl
                 obj = *target();
             }
 
-            if( who->is_armed() && &who->weapon == target() ) {
+            if( who->is_armed() && who->weapon == target() ) {
                 // no penalties because we already have this item in our hands
                 mv += dynamic_cast<player *>( who )->item_handling_cost( obj, false, 0 );
             } else {
@@ -428,14 +431,14 @@ class item_location::impl::item_on_vehicle : public item_location::impl
             js.member( "type", "vehicle" );
             js.member( "pos", position() );
             js.member( "part", cur.part );
-            if( target() != &cur.veh.part( cur.part ).base ) {
+            if( target() != cur.veh.part( cur.part ).base ) {
                 js.member( "idx", find_index( cur, target() ) );
             }
             js.end_object();
         }
 
         item *unpack( int idx ) const override {
-            return idx >= 0 ? retrieve_index( cur, idx ) : &cur.veh.part( cur.part ).base;
+            return idx >= 0 ? retrieve_index( cur, idx ) : cur.veh.part( cur.part ).base;
         }
 
         type where() const override {
@@ -497,7 +500,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
         }
 
         void remove_item() override {
-            item &base = cur.veh.part( cur.part ).base;
+            item &base = *cur.veh.part( cur.part ).base;
             if( &base == target() ) {
                 cur.veh.remove_part( cur.part ); // vehicle_part::base
             } else {
@@ -507,7 +510,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
         }
 
         void make_dirty() override {
-            if( what.get() != &cur.veh.part( cur.part ).base ) {
+            if( what.get() != cur.veh.part( cur.part ).base ) {
                 idx = find_index( cur, what.get() );
             }
             needs_unpacking = true;
@@ -554,7 +557,7 @@ class item_location::impl::item_in_container : public item_location::impl
             if( idx < 0 || static_cast<size_t>( idx ) >= target()->contents.num_item_stacks() ) {
                 return nullptr;
             }
-            std::list<const item *> all_items = container->contents.all_items_ptr();
+            std::vector<const item *> all_items = container->contents.all_items_ptr();
             auto iter = all_items.begin();
             std::advance( iter, idx );
             if( iter != all_items.end() ) {
@@ -710,7 +713,7 @@ void item_location::deserialize( JsonIn &js )
     } else if( type == "in_container" ) {
         item_location parent;
         obj.read( "parent", parent );
-        const std::list<item *> parent_contents = parent->contents.all_items_top();
+        const std::vector<item *> parent_contents = parent->contents.all_items_top();
         auto iter = parent_contents.begin();
         std::advance( iter, idx );
         ptr.reset( new impl::item_in_container( parent, *iter ) );
@@ -784,3 +787,4 @@ void item_location::make_dirty()
 {
     ptr->make_dirty();
 }
+*/

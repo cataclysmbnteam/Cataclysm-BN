@@ -682,7 +682,7 @@ static void smash()
             }
         }
     }
-    const int move_cost = !u.is_armed() ? 80 : u.weapon.attack_cost() * 0.8;
+    const int move_cost = !u.is_armed() ? 80 : u.get_weapon().attack_cost() * 0.8;
     bool didit = false;
     bool mech_smash = false;
     int smashskill;
@@ -693,7 +693,8 @@ static void smash()
                      mon->type->melee_sides;
         mech_smash = true;
     } else {
-        smashskill = u.str_cur + u.weapon.damage_melee( DT_BASH );
+        //TODO!: nullptr check
+        smashskill = u.str_cur + u.get_weapon().damage_melee( DT_BASH );
     }
 
     const bool allow_floor_bash = here.has_zlevels();
@@ -743,9 +744,9 @@ static void smash()
     }
 
     bool should_pulp = false;
-    for( const item &it : here.i_at( smashp ) ) {
-        if( it.is_corpse() && it.damage() < it.max_damage() && it.can_revive() ) {
-            if( it.get_mtype()->bloodType()->has_acid ) {
+    for( const item * const &it : here.i_at( smashp ) ) {
+        if( it->is_corpse() && it->damage() < it->max_damage() && it->can_revive() ) {
+            if( it->get_mtype()->bloodType()->has_acid ) {
                 if( query_yn( _( "Are you sure you want to pulp an acid filled corpse?" ) ) ) {
                     should_pulp = true;
                     break; // Don't prompt for the same thing multiple times
@@ -773,18 +774,19 @@ static void smash()
     didit = here.bash( smashp, smashskill, false, false, smash_floor ).did_bash;
     if( didit ) {
         if( !mech_smash ) {
-            u.handle_melee_wear( u.weapon );
-            const int mod_sta = ( ( u.weapon.weight() / 10_gram ) + 200 + static_cast<int>
+            item &weapon = u.get_weapon();
+            u.handle_melee_wear( weapon );
+            const int mod_sta = ( ( weapon.weight() / 10_gram ) + 200 + static_cast<int>
                                   ( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) ) ) * -1;
             u.mod_stamina( mod_sta );
             if( u.get_skill_level( skill_melee ) == 0 ) {
                 u.practice( skill_melee, rng( 0, 1 ) * rng( 0, 1 ) );
             }
-            const int vol = u.weapon.volume() / units::legacy_volume_factor;
-            if( u.weapon.made_of( material_id( "glass" ) ) &&
+            const int vol = weapon.volume() / units::legacy_volume_factor;
+            if( weapon.made_of( material_id( "glass" ) ) &&
                 rng( 0, vol + 3 ) < vol ) {
-                add_msg( m_bad, _( "Your %s shatters!" ), u.weapon.tname() );
-                u.weapon.spill_contents( u.pos() );
+                add_msg( m_bad, _( "Your %s shatters!" ), weapon.tname() );
+                weapon.spill_contents( u.pos() );
                 sounds::sound( u.pos(), 24, sounds::sound_t::combat, "CRACK!", true, "smash", "glass" );
                 u.deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( DT_CUT, rng( 0, vol ) ) );
                 if( vol > 20 ) {
@@ -793,6 +795,7 @@ static void smash()
                                    static_cast<int>( vol * .5 ) ) ) );
                 }
                 u.remove_weapon();
+                weapon.destroy();
                 u.check_dead_state();
             }
         }
@@ -1265,10 +1268,13 @@ static void loot()
 static void wear()
 {
     avatar &u = g->u;
-    item_location loc = game_menus::inv::wear( u );
+    item *loc = game_menus::inv::wear( u );
 
     if( loc ) {
-        u.wear( *loc.obtain( u ) );
+        //TODO!: bit weird but I guess this is ok
+        loc->obtain( u );
+        loc->detach();
+        u.wear( *loc );
     } else {
         add_msg( _( "Never mind." ) );
     }
@@ -1277,10 +1283,12 @@ static void wear()
 static void takeoff()
 {
     avatar &u = g->u;
-    item_location loc = game_menus::inv::take_off( u );
+    item *loc = game_menus::inv::take_off( u );
 
     if( loc ) {
-        u.takeoff( *loc.obtain( u ) );
+        loc->obtain( u );
+        loc->detach();
+        u.takeoff( *loc );
     } else {
         add_msg( _( "Never mind." ) );
     }
@@ -1290,11 +1298,11 @@ static void read()
 {
     avatar &u = g->u;
     // Can read items from inventory or within one tile (including in vehicles)
-    item_location loc = game_menus::inv::read( u );
+    item *loc = game_menus::inv::read( u );
 
     if( loc ) {
         if( loc->type->can_use( "learn_spell" ) ) {
-            item spell_book = *loc.get_item();
+            item &spell_book = *loc;
             spell_book.get_use( "learn_spell" )->call( u, spell_book, spell_book.active, u.pos() );
         } else {
             u.read( loc );
@@ -1309,7 +1317,7 @@ static void reach_attack( avatar &you )
 {
     g->temp_exit_fullscreen();
 
-    target_handler::trajectory traj = target_handler::mode_reach( you, you.weapon );
+    target_handler::trajectory traj = target_handler::mode_reach( you, you.get_weapon() );
 
     if( !traj.empty() ) {
         you.reach_attack( traj.back() );
@@ -1343,21 +1351,21 @@ static void fire()
         std::vector<std::function<void()>> actions;
 
         for( auto &w : u.worn ) {
-            if( w.type->can_use( "holster" ) && !w.has_flag( flag_NO_QUICKDRAW ) &&
-                !w.contents.empty() && w.contents.front().is_gun() ) {
+            if( w->type->can_use( "holster" ) && !w->has_flag( flag_NO_QUICKDRAW ) &&
+                !w->contents.empty() && w->contents.front().is_gun() ) {
                 //~ draw (first) gun contained in holster
                 //~ %1$s: weapon name, %2$s: container name, %3$d: remaining ammo count
                 options.push_back( string_format( pgettext( "holster", "%1$s from %2$s (%3$d)" ),
-                                                  w.contents.front().tname(),
-                                                  w.type_name(),
-                                                  w.contents.front().ammo_remaining() ) );
+                                                  w->contents.front().tname(),
+                                                  w->type_name(),
+                                                  w->contents.front().ammo_remaining() ) );
 
-                actions.emplace_back( [&] { u.invoke_item( &w, "holster" ); } );
+                actions.emplace_back( [&] { u.invoke_item( w, "holster" ); } );
 
-            } else if( w.is_gun() && w.gunmod_find( itype_shoulder_strap ) ) {
+            } else if( w->is_gun() && w->gunmod_find( itype_shoulder_strap ) ) {
                 // wield item currently worn using shoulder strap
-                options.push_back( w.display_name() );
-                actions.emplace_back( [&] { u.wield( w ); } );
+                options.push_back( w->display_name() );
+                actions.emplace_back( [&] { u.wield( *w ); } );
             }
         }
         if( !options.empty() ) {
@@ -1368,9 +1376,9 @@ static void fire()
         }
     }
 
-    if( u.weapon.is_gun() && !u.weapon.gun_current_mode().melee() ) {
+    if( u.get_weapon().is_gun() && !u.get_weapon().gun_current_mode().melee() ) {
         avatar_action::fire_wielded_weapon( u );
-    } else if( u.weapon.reach_range( u ) > 1 ) {
+    } else if( u.get_weapon().reach_range( u ) > 1 ) {
         if( u.has_effect( effect_relax_gas ) ) {
             if( one_in( 8 ) ) {
                 add_msg( m_good, _( "Your willpower asserts itself, and so do you!" ) );
@@ -1441,7 +1449,7 @@ static void cast_spell()
     spell &sp = *u.magic->get_spells()[spell_index];
 
     if( u.is_armed() && !sp.has_flag( spell_flag::NO_HANDS ) &&
-        !u.weapon.has_flag( flag_MAGIC_FOCUS ) ) {
+        !u.get_weapon().has_flag( flag_MAGIC_FOCUS ) ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You need your hands free to cast this spell!" ) );
         return;
@@ -2044,12 +2052,11 @@ bool game::handle_action()
                 break;
 
             case ACTION_MEND:
-                avatar_action::mend( g->u, item_location() );
+                avatar_action::mend( g->u, nullptr );
                 break;
 
             case ACTION_THROW: {
-                item_location loc;
-                avatar_action::plthrow( g->u, loc );
+                avatar_action::plthrow( g->u, nullptr );
                 break;
             }
 
@@ -2062,25 +2069,25 @@ bool game::handle_action()
                 break;
 
             case ACTION_FIRE_BURST: {
-                if( u.weapon.gun_set_mode( gun_mode_id( "AUTO" ) ) ) {
+                if( u.get_weapon().gun_set_mode( gun_mode_id( "AUTO" ) ) ) {
                     avatar_action::fire_wielded_weapon( u );
                 }
                 break;
             }
 
             case ACTION_SELECT_FIRE_MODE:
-                if( u.is_armed() && u.weapon.is_gun() && !u.weapon.is_gunmod() ) {
-                    if( u.weapon.gun_all_modes().size() > 1 ) {
-                        u.weapon.gun_cycle_mode();
+                if( u.is_armed() && u.get_weapon().is_gun() && !u.get_weapon().is_gunmod() ) {
+                    if( u.get_weapon().gun_all_modes().size() > 1 ) {
+                        u.get_weapon().gun_cycle_mode();
                     } else {
-                        add_msg( m_info, _( "Your %s has only one firing mode." ), u.weapon.display_name() );
+                        add_msg( m_info, _( "Your %s has only one firing mode." ), u.get_weapon().display_name() );
                     }
                 }
                 break;
 
             case ACTION_SELECT_DEFAULT_AMMO:
-                if( u.is_armed() && u.weapon.is_gun() && !u.weapon.is_gunmod() ) {
-                    ranged::prompt_select_default_ammo_for( u, u.weapon );
+                if( u.is_armed() && u.get_weapon().is_gun() && !u.get_weapon().is_gunmod() ) {
+                    ranged::prompt_select_default_ammo_for( u, u.get_weapon() );
                 }
                 break;
 
@@ -2256,7 +2263,7 @@ bool game::handle_action()
 
             case ACTION_SAVE:
                 if( query_yn( _( "Save and quit?" ) ) ) {
-                    if( save() ) {
+                    if( save( true ) ) {
                         u.moves = 0;
                         uquit = QUIT_SAVED;
                     }

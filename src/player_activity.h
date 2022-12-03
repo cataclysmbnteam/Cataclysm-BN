@@ -18,6 +18,7 @@
 #include "optional.h"
 #include "point.h"
 #include "type_id.h"
+#include "safe_reference.h"
 
 class activity_actor;
 class Character;
@@ -53,7 +54,7 @@ class player_activity
         */
         int position = 0;
         std::string name;
-        std::vector<item_location> targets;
+        std::vector<safe_reference<item>> targets;
         std::vector<int> values;
         std::vector<std::string> str_values;
         std::vector<tripoint> coords;

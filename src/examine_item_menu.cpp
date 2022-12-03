@@ -27,14 +27,14 @@ namespace examine_item_menu
 {
 
 bool run(
-    item_location loc,
+    item &loc,
     const std::function<int()> &func_pos_x,
     const std::function<int()> &func_width,
     menu_pos_t menu_pos
 )
 {
     avatar &you = get_avatar();
-    item &itm = *loc;
+    item &itm = loc;
 
     // Sanity check
     if( !you.has_item( itm ) ) {
@@ -68,7 +68,7 @@ bool run(
     const bool is_wielded = you.is_wielding( itm );
     const bool cant_unwield_if_weapon = is_wielded && !you.can_unwield( itm ).success();
     const bool cant_unwield_existing_weapon = you.is_armed() &&
-            !you.can_unwield( you.weapon ).success();
+            !you.can_unwield( you.get_weapon() ).success();
     const bool cant_takeoff_if_worn = you.is_wearing( itm ) &&
                                       !you.can_takeoff( itm ).success();
     const bool cant_dispose_of = cant_unwield_if_weapon || cant_takeoff_if_worn;
@@ -111,17 +111,17 @@ bool run(
     };
 
     add_entry( "ACTIVATE", rate_action_use( you, itm ), [&]() {
-        avatar_action::use_item( you, loc );
+        avatar_action::use_item( you, &itm );
         return true;
     } );
 
     add_entry( "READ", rate_action_read( you, itm ), [&]() {
-        you.read( loc );
+        you.read( &itm );
         return true;
     } );
 
     add_entry( "EAT", rate_action_eat( you, itm ), [&]() {
-        avatar_action::eat( you, loc );
+        avatar_action::eat( you, &itm );
         return true;
     } );
 
@@ -132,23 +132,23 @@ bool run(
 
     if( !is_wielded ) {
         add_entry( "WIELD", rate_wield_item, [&]() {
-            avatar_action::wield( loc );
+            avatar_action::wield( itm );
             return true;
         } );
     } else {
         add_entry( "UNWIELD", rate_unwield_item, [&]() {
-            avatar_action::wield( loc );
+            avatar_action::wield( itm );
             return true;
         } );
     }
 
     add_entry( "THROW", rate_drop_item, [&]() {
-        avatar_action::plthrow( you, loc );
+        avatar_action::plthrow( you, &itm );
         return true;
     } );
 
     add_entry( "CHANGE_SIDE", rate_action_change_side( you, itm ), [&]() {
-        you.change_side( loc );
+        you.change_side( itm );
         return true;
     } );
 
@@ -158,32 +158,32 @@ bool run(
     } );
 
     add_entry( "DROP", rate_drop_item, [&]() {
-        you.drop( loc, you.pos() );
+        you.drop( itm, you.pos() );
         return true;
     } );
 
     add_entry( "UNLOAD", rate_action_unload( you, itm ), [&]() {
-        you.unload( loc );
+        you.unload( itm );
         return true;
     } );
 
     add_entry( "RELOAD", rate_action_reload( you, itm ), [&]() {
-        avatar_action::reload( loc );
+        avatar_action::reload( itm );
         return true;
     } );
 
     add_entry( "PART_RELOAD", rate_action_reload( you, itm ), [&]() {
-        avatar_action::reload( loc, true );
+        avatar_action::reload( itm, true );
         return true;
     } );
 
     add_entry( "MEND", rate_action_mend( you, itm ), [&]() {
-        avatar_action::mend( you, loc );
+        avatar_action::mend( you, &itm );
         return true;
     } );
 
     add_entry( "DISASSEMBLE", rate_action_disassemble( you, itm ), [&]() {
-        crafting::disassemble( you, loc );
+        crafting::disassemble( you, itm );
         return true;
     } );
 

@@ -67,17 +67,14 @@ item_stack::const_reverse_iterator item_stack::rend() const
 
 item_stack::iterator item_stack::get_iterator_from_pointer( item *it )
 {
-    return items->get_iterator_from_pointer( it );
+    return std::find_if( items->begin(), items->end(), [it]( item * const & e ) {
+        return e == it;
+    } );
 }
 
 item_stack::iterator item_stack::get_iterator_from_index( size_t idx )
 {
-    return items->get_iterator_from_index( idx );
-}
-
-size_t item_stack::get_index_from_iterator( const item_stack::const_iterator &it )
-{
-    return items->get_index_from_iterator( it );
+    return std::next( items->begin(), idx );
 }
 
 item &item_stack::only_item()
@@ -87,19 +84,19 @@ item &item_stack::only_item()
         return null_item_reference();
     } else if( size() > 1 ) {
         debugmsg( "More than one item at target location: %s", enumerate_as_string( begin(),
-        end(), []( const item & it ) {
-            return it.typeId();
+        end(), []( const item * const & it ) {
+            return it->typeId();
         } ) );
         return null_item_reference();
     }
-    return *items->begin();
+    return **items->begin();
 }
 
 units::volume item_stack::stored_volume() const
 {
     units::volume ret = 0_ml;
-    for( const item &it : *items ) {
-        ret += it.volume();
+    for( const item * const &it : *items ) {
+        ret += it->volume();
     }
     return ret;
 }
@@ -120,9 +117,9 @@ int item_stack::amount_can_fit( const item &it ) const
 
 item *item_stack::stacks_with( const item &it )
 {
-    for( item &here : *items ) {
-        if( here.stacks_with( it ) ) {
-            return &here;
+    for( item *&here : *items ) {
+        if( here->stacks_with( it ) ) {
+            return here;
         }
     }
     return nullptr;
@@ -130,9 +127,9 @@ item *item_stack::stacks_with( const item &it )
 
 const item *item_stack::stacks_with( const item &it ) const
 {
-    for( const item &here : *items ) {
-        if( here.stacks_with( it ) ) {
-            return &here;
+    for( const item * const &here : *items ) {
+        if( here->stacks_with( it ) ) {
+            return here;
         }
     }
     return nullptr;
@@ -141,4 +138,13 @@ const item *item_stack::stacks_with( const item &it ) const
 units::volume item_stack::free_volume() const
 {
     return max_volume() - stored_volume();
+}
+
+void item_stack::move_all_to( item_stack *destination )
+{
+    for( item *&it : *items ) {
+        it->remove_location();
+        destination->insert( *it );
+    }
+    items->clear();
 }

@@ -51,7 +51,7 @@ void siphon( Character &ch, vehicle &veh, const itype_id &desired_liquid )
         return;
     }
 
-    item liquid( desired_liquid, calendar::turn, qty );
+    item &liquid = *item_spawn( desired_liquid, calendar::turn, qty );
     if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, &veh ) ) {
         veh.drain( desired_liquid, qty - liquid.charges );
     }

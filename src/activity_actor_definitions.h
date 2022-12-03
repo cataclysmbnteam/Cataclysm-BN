@@ -6,7 +6,6 @@
 
 #include "coordinates.h"
 #include "item_handling_util.h"
-#include "item_location.h"
 #include "memory_fast.h"
 #include "optional.h"
 #include "pickup_token.h"
@@ -20,7 +19,7 @@ class vehicle;
 class aim_activity_actor : public activity_actor
 {
     private:
-        cata::optional<item> fake_weapon;
+        item *fake_weapon;
         units::energy bp_cost_per_shot = 0_J;
         int stamina_cost_per_shot = 0;
         std::vector<tripoint> fin_trajectory;
@@ -56,10 +55,10 @@ class aim_activity_actor : public activity_actor
         static aim_activity_actor use_wielded();
 
         /** Aiming fake gun provided by a bionic */
-        static aim_activity_actor use_bionic( const item &fake_gun, const units::energy &cost_per_shot );
+        static aim_activity_actor use_bionic( item &fake_gun, const units::energy &cost_per_shot );
 
         /** Aiming fake gun provided by a mutation */
-        static aim_activity_actor use_mutation( const item &fake_gun );
+        static aim_activity_actor use_mutation( item &fake_gun );
 
         activity_id get_type() const override {
             return activity_id( "ACT_AIM" );
@@ -346,16 +345,21 @@ class migration_cancel_activity_actor : public activity_actor
 class move_items_activity_actor : public activity_actor
 {
     private:
-        std::vector<item_location> target_items;
+        std::vector<safe_reference<item>> target_items;
         std::vector<int> quantities;
         bool to_vehicle;
         tripoint relative_destination;
 
     public:
-        move_items_activity_actor( std::vector<item_location> target_items, std::vector<int> quantities,
+        move_items_activity_actor( std::vector<item *> items, std::vector<int> quantities,
                                    bool to_vehicle, tripoint relative_destination ) :
-            target_items( target_items ), quantities( quantities ), to_vehicle( to_vehicle ),
-            relative_destination( relative_destination ) {}
+            quantities( quantities ), to_vehicle( to_vehicle ),
+            relative_destination( relative_destination ) {
+
+            for( item *&it : items ) {
+                target_items.push_back( it );
+            }
+        }
 
         activity_id get_type() const override {
             return activity_id( "ACT_MOVE_ITEMS" );
@@ -473,15 +477,15 @@ class stash_activity_actor : public activity_actor
 class throw_activity_actor : public activity_actor
 {
     private:
-        item_location target_loc;
+        safe_reference<item> target;
         cata::optional<tripoint> blind_throw_from_pos;
 
     public:
         throw_activity_actor() = default;
         throw_activity_actor(
-            item_location target_loc,
+            item &target,
             cata::optional<tripoint> blind_throw_from_pos
-        ) : target_loc( target_loc ),
+        ) : target( &target ),
             blind_throw_from_pos( blind_throw_from_pos ) {}
         ~throw_activity_actor() = default;
 

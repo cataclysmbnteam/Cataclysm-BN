@@ -55,7 +55,7 @@ static class json_item_substitution
         std::vector<std::pair<itype_id, trait_requirements>> bonuses;
     public:
         std::vector<itype_id> get_bonus_items( const std::vector<trait_id> &traits ) const;
-        std::vector<item> get_substitution( const item &it, const std::vector<trait_id> &traits ) const;
+        std::vector<item *> get_substitution( const item &it, const std::vector<trait_id> &traits ) const;
 } item_substitutions;
 
 /** @relates string_id */
@@ -383,16 +383,16 @@ static void clear_faults( item &it )
     }
 }
 
-std::list<item> profession::items( bool male, const std::vector<trait_id> &traits ) const
+ItemList profession::items( bool male, const std::vector<trait_id> &traits ) const
 {
-    std::list<item> result;
+    ItemList result;
     auto add_legacy_items = [&result]( const itypedecvec & vec ) {
         for( const itypedec &elem : vec ) {
-            item it( elem.type_id, advanced_spawn_time(), item::default_charges_tag {} );
+            item *it = item_spawn( elem.type_id, advanced_spawn_time(), item::default_charges_tag {} );
             if( !elem.snip_id.is_null() ) {
-                it.set_snippet( elem.snip_id );
+                it->set_snippet( elem.snip_id );
             }
-            it = it.in_its_container();
+            it = &it->in_its_container();
             result.push_back( it );
         }
     };
@@ -400,21 +400,21 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
     add_legacy_items( legacy_starting_items );
     add_legacy_items( male ? legacy_starting_items_male : legacy_starting_items_female );
 
-    const std::vector<item> group_both = item_group::items_from( _starting_items,
-                                         advanced_spawn_time() );
-    const std::vector<item> group_gender = item_group::items_from( male ? _starting_items_male :
-                                           _starting_items_female, advanced_spawn_time() );
+    const std::vector<item *> group_both = item_group::items_from( _starting_items,
+                                           advanced_spawn_time() );
+    const std::vector<item *> group_gender = item_group::items_from( male ? _starting_items_male :
+            _starting_items_female, advanced_spawn_time() );
     result.insert( result.begin(), group_both.begin(), group_both.end() );
     result.insert( result.begin(), group_gender.begin(), group_gender.end() );
 
     std::vector<itype_id> bonus = item_substitutions.get_bonus_items( traits );
     for( const itype_id &elem : bonus ) {
         if( elem != no_bonus ) {
-            result.push_back( item( elem, advanced_spawn_time(), item::default_charges_tag {} ) );
+            result.push_back( item_spawn( elem, advanced_spawn_time(), item::default_charges_tag {} ) );
         }
     }
     for( auto iter = result.begin(); iter != result.end(); ) {
-        const auto sub = item_substitutions.get_substitution( *iter, traits );
+        const auto sub = item_substitutions.get_substitution( **iter, traits );
         if( !sub.empty() ) {
             result.insert( result.begin(), sub.begin(), sub.end() );
             iter = result.erase( iter );
@@ -422,13 +422,13 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
             ++iter;
         }
     }
-    for( item &it : result ) {
-        clear_faults( it );
-        if( it.is_holster() && it.contents.num_item_stacks() == 1 ) {
-            clear_faults( it.contents.front() );
+    for( item *&it : result ) {
+        clear_faults( *it );
+        if( it->is_holster() && it->contents.num_item_stacks() == 1 ) {
+            clear_faults( it->contents.front() );
         }
-        if( it.has_flag( "VARSIZE" ) ) {
-            it.set_flag( "FIT" );
+        if( it->has_flag( "VARSIZE" ) ) {
+            it->set_flag( "FIT" );
         }
     }
 
@@ -439,12 +439,12 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
 
     // Merge charges for items that stack with each other
     for( auto outer = result.begin(); outer != result.end(); ++outer ) {
-        if( !outer->count_by_charges() ) {
+        if( !( *outer )->count_by_charges() ) {
             continue;
         }
         for( auto inner = std::next( outer ); inner != result.end(); ) {
-            if( outer->stacks_with( *inner ) ) {
-                outer->merge_charges( *inner );
+            if( ( *outer )->stacks_with( **inner ) ) {
+                ( *outer )->merge_charges( **inner );
                 inner = result.erase( inner );
             } else {
                 ++inner;
@@ -452,8 +452,8 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
         }
     }
 
-    result.sort( []( const item & first, const item & second ) {
-        return first.get_layer() < second.get_layer();
+    std::sort( result.begin(), result.end(), []( item * first, item * second ) {
+        return first->get_layer() < second->get_layer();
     } );
     return result;
 }
@@ -645,11 +645,11 @@ bool json_item_substitution::trait_requirements::meets_condition( const std::vec
            std::none_of( absent.begin(), absent.end(), pred );
 }
 
-std::vector<item> json_item_substitution::get_substitution( const item &it,
+std::vector<item *> json_item_substitution::get_substitution( const item &it,
         const std::vector<trait_id> &traits ) const
 {
     auto iter = substitutions.find( it.typeId() );
-    std::vector<item> ret;
+    std::vector<item *> ret;
     if( iter == substitutions.end() ) {
         for( const item *con : it.contents.all_items_top() ) {
             const auto sub = get_substitution( *con, traits );
@@ -668,20 +668,25 @@ std::vector<item> json_item_substitution::get_substitution( const item &it,
 
     const int old_amt = it.count();
     for( const substitution::info &inf : sub->infos ) {
-        item result( inf.new_item, advanced_spawn_time() );
+        item *result = item_spawn( inf.new_item, advanced_spawn_time() );
         const int new_amt = std::max( 1, static_cast<int>( std::round( inf.ratio * old_amt ) ) );
-
-        if( !result.count_by_charges() ) {
+        if( !result->count_by_charges() ) {
             for( int i = 0; i < new_amt; i++ ) {
-                ret.push_back( result.in_its_container() );
+                ret.push_back( &result->in_its_container() );
+                if( i < new_amt ) {
+                    result = item_spawn( inf.new_item, advanced_spawn_time() );
+                }
             }
         } else {
-            result.mod_charges( -result.charges + new_amt );
-            while( result.charges > 0 ) {
-                const item pushed = result.in_its_container();
+            result->mod_charges( -result->charges + new_amt );
+            while( result->charges > 0 ) {
+                item *pushed = &result->in_its_container();
                 ret.push_back( pushed );
-                result.mod_charges( pushed.contents.empty() ? -pushed.charges : -pushed.contents.back().charges );
+                result = item_spawn( *result );
+                result->mod_charges( pushed->contents.empty() ? -pushed->charges :
+                                     -pushed->contents.back().charges );
             }
+            result->destroy();
         }
     }
     return ret;

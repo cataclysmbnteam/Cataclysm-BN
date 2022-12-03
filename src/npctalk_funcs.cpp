@@ -451,13 +451,13 @@ void talk_function::insult_combat( npc &p )
 
 void talk_function::bionic_install( npc &p )
 {
-    item_location bionic = game_menus::inv::install_bionic( g->u, g->u, true );
+    item *bionic = game_menus::inv::install_bionic( g->u, g->u, true );
 
     if( !bionic ) {
         return;
     }
 
-    const item *tmp = bionic.get_item();
+    const item *tmp = bionic;
     const itype &it = *tmp->type;
 
     signed int price = tmp->price( true ) * 2;
@@ -467,7 +467,8 @@ void talk_function::bionic_install( npc &p )
 
     //Makes the doctor awesome at installing but not perfect
     if( g->u.can_install_bionics( it, p, false, 20 ) ) {
-        bionic.remove_item();
+        bionic->detach();
+        bionic->destroy();
         g->u.install_bionics( it, p, false, 20 );
     }
 }
@@ -479,7 +480,7 @@ void talk_function::bionic_remove( npc &p )
         popup( _( "You don't have any bionics installed…" ) );
         return;
     }
-
+    //TODO!: check all the temps in here
     std::vector<itype_id> bionic_types;
     std::vector<std::string> bionic_names;
     for( const bionic &bio : all_bio ) {
@@ -489,8 +490,8 @@ void talk_function::bionic_remove( npc &p )
                 bio.id != bio_power_storage_mkII ) {
                 bionic_types.push_back( bio.info().itype() );
                 if( bio.info().itype().is_valid() ) {
-                    item tmp = item( bio.id.str(), calendar::start_of_cataclysm );
-                    bionic_names.push_back( tmp.tname() + " - " + format_money( 50000 + ( tmp.price( true ) / 4 ) ) );
+                    item *tmp = item_spawn_temporary( bio.id.str(), calendar::start_of_cataclysm );
+                    bionic_names.push_back( tmp->tname() + " - " + format_money( 50000 + ( tmp->price( true ) / 4 ) ) );
                 } else {
                     bionic_names.push_back( bio.id.str() + " - " + format_money( 50000 ) );
                 }
@@ -508,7 +509,8 @@ void talk_function::bionic_remove( npc &p )
 
     int price;
     if( bionic_types[bionic_index].is_valid() ) {
-        int tmp = item( bionic_types[bionic_index], calendar::start_of_cataclysm ).price( true );
+        int tmp = item_spawn_temporary( bionic_types[bionic_index],
+                                        calendar::start_of_cataclysm )->price( true );
         price = 50000 + ( tmp / 4 );
     } else {
         price = 50000;
@@ -545,8 +547,8 @@ void talk_function::give_equipment( npc &p )
         debugmsg( "Chosen index is outside of available item range!" );
         chosen = 0;
     }
-    item it = *giving[chosen].loc.get_item();
-    giving[chosen].loc.remove_item();
+    item &it = *giving[chosen].loc;
+    giving[chosen].loc->detach();
     popup( _( "%1$s gives you a %2$s" ), p.name, it.tname() );
     it.set_owner( g->u );
     g->u.i_add( it );
@@ -833,7 +835,7 @@ void talk_function::drop_stolen_item( npc &p )
     map &here = get_map();
     for( auto &elem : g->u.inv_dump() ) {
         if( elem->is_old_owner( p ) ) {
-            item to_drop = g->u.i_rem( elem );
+            item &to_drop = g->u.i_rem( elem );
             to_drop.remove_old_owner();
             to_drop.set_owner( p );
             here.add_item_or_charges( g->u.pos(), to_drop );

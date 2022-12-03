@@ -531,12 +531,12 @@ void Character::load( const JsonObject &data )
     data.read( "my_bionics", *my_bionics );
 
     for( auto &w : worn ) {
-        w.on_takeoff( *this );
+        w->on_takeoff( *this );
     }
     worn.clear();
     data.read( "worn", worn );
     for( auto &w : worn ) {
-        on_item_wear( w );
+        on_item_wear( *w );
     }
 
     if( data.has_array( "hp_cur" ) ) {
@@ -572,7 +572,8 @@ void Character::load( const JsonObject &data )
         inv.json_load_items( *invin );
     }
 
-    weapon = item( "null", calendar::start_of_cataclysm );
+    //TODO!: CHHHECK
+    weapon = &null_item_reference();//item( "null", calendar::start_of_cataclysm );
     data.read( "weapon", weapon );
 
     data.read( "move_mode", move_mode );
@@ -822,8 +823,8 @@ void player::store( JsonOut &json ) const
     json.member( "inv" );
     inv.json_save_items( json );
 
-    if( !weapon.is_null() ) {
-        json.member( "weapon", weapon ); // also saves contents
+    if( !get_weapon().is_null() ) {
+        json.member( "weapon", &get_weapon() ); // also saves contents
     }
 
     if( const auto lt_ptr = last_target.lock() ) {
@@ -1613,7 +1614,7 @@ void npc::load( const JsonObject &data )
         data.read( "misc_rules", rules );
         data.read( "combat_rules", rules );
     }
-    real_weapon = item( "null", calendar::start_of_cataclysm );
+    real_weapon = &null_item_reference();//item( "null", calendar::start_of_cataclysm );
     data.read( "real_weapon", real_weapon );
     cbm_weapon_index = -1;
     data.read( "cbm_weapon_index", cbm_weapon_index );
@@ -1679,7 +1680,7 @@ void npc::store( JsonOut &json ) const
     json.member( "chatbin", chatbin );
     json.member( "rules", rules );
 
-    if( !real_weapon.is_null() ) {
+    if( !real_weapon->is_null() ) {
         json.member( "real_weapon", real_weapon ); // also saves contents
     }
     json.member( "cbm_weapon_index", cbm_weapon_index );
@@ -1751,7 +1752,7 @@ void inventory::json_save_items( JsonOut &json ) const
     json.start_array();
     for( const auto &elem : items ) {
         for( const auto &elem_stack_iter : elem ) {
-            elem_stack_iter.serialize( json );
+            elem_stack_iter->serialize( json );
         }
     }
     json.end_array();
@@ -1761,9 +1762,7 @@ void inventory::json_load_items( JsonIn &jsin )
 {
     jsin.start_array();
     while( !jsin.end_array() ) {
-        item tmp;
-        tmp.deserialize( jsin );
-        add_item( tmp, true, false );
+        add_item( *item_spawn( jsin ), true, false );
     }
 }
 
@@ -1801,33 +1800,23 @@ void monster::load( const JsonObject &data )
     }
     if( data.has_object( "tied_item" ) ) {
         JsonIn *tied_item_json = data.get_raw( "tied_item" );
-        item newitem;
-        newitem.deserialize( *tied_item_json );
-        tied_item = cata::make_value<item>( newitem );
+        tied_item = item_spawn( *tied_item_json );
     }
     if( data.has_object( "tack_item" ) ) {
         JsonIn *tack_item_json = data.get_raw( "tack_item" );
-        item newitem;
-        newitem.deserialize( *tack_item_json );
-        tack_item = cata::make_value<item>( newitem );
+        tied_item = item_spawn( *tack_item_json );
     }
     if( data.has_object( "armor_item" ) ) {
         JsonIn *armor_item_json = data.get_raw( "armor_item" );
-        item newitem;
-        newitem.deserialize( *armor_item_json );
-        armor_item = cata::make_value<item>( newitem );
+        tied_item = item_spawn( *armor_item_json );
     }
     if( data.has_object( "storage_item" ) ) {
         JsonIn *storage_item_json = data.get_raw( "storage_item" );
-        item newitem;
-        newitem.deserialize( *storage_item_json );
-        storage_item = cata::make_value<item>( newitem );
+        tied_item = item_spawn( *storage_item_json );
     }
     if( data.has_object( "battery_item" ) ) {
         JsonIn *battery_item_json = data.get_raw( "battery_item" );
-        item newitem;
-        newitem.deserialize( *battery_item_json );
-        battery_item = cata::make_value<item>( newitem );
+        tied_item = item_spawn( *battery_item_json );
     }
     data.read( "hp", hp );
 
@@ -2138,10 +2127,11 @@ static bool migration_required( const item &i )
 /**
  * Merge old individual items into new count-by-charges items with same id.
  */
-static void migrate( cata::colony<item> &stack )
+static void migrate( std::vector<item *> &stack )
 {
+    //TODO!: Another stack merge, check
     for( auto it_src = stack.begin(); it_src != stack.end(); ) {
-        if( !migration_required( *it_src ) ) {
+        if( !migration_required( **it_src ) ) {
             it_src++;
             continue;
         }
@@ -2149,8 +2139,8 @@ static void migrate( cata::colony<item> &stack )
         it_dst++;
         bool merged = false;
         for( ; it_dst != stack.end(); it_dst++ ) {
-            const item &src = *it_src;
-            if( it_dst->merge_charges( src ) ) {
+            item &src = **it_src;
+            if( ( *it_dst )->merge_charges( src ) ) {
                 it_src = stack.erase( it_src );
                 merged = true;
                 break;
@@ -2354,12 +2344,16 @@ void item::deserialize( JsonIn &jsin )
         legacy_fast_forward_time();
     }
     if( data.has_array( "contents" ) ) {
-        std::list<item> items;
+        std::vector<item *> items;
         data.read( "contents", items );
         contents = item_contents( items );
     } else {
         data.read( "contents", contents );
     }
+
+    safe_reference<item>::id_type id;
+    data.read( "id", id, safe_reference<item>::ID_NONE );
+    safe_reference<item>::register_load( this, id );
 
     // Sealed item migration: items with "unseals_into" set should always have contents
     if( contents.empty() && is_non_resealable_container() ) {
@@ -2374,6 +2368,12 @@ void item::serialize( JsonOut &json ) const
     if( !contents.empty() ) {
         json.member( "contents", contents );
     }
+
+    safe_reference<item>::id_type id = safe_reference<item>::lookup_id( this );
+    if( id != safe_reference<item>::ID_NONE ) {
+        json.member( "id", id );
+    }
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2453,7 +2453,7 @@ void vehicle_part::deserialize( JsonIn &jsin )
         data.read( "base", base );
     } else {
         // handle legacy format which didn't include the base item
-        base = item( id.obj().item );
+        base = item_spawn( id.obj().item );
     }
 
     data.read( "mount_dx", mount.x );
@@ -2496,7 +2496,7 @@ void vehicle_part::deserialize( JsonIn &jsin )
     }
 
     // with VEHICLE tag migrate fuel tanks only if amount field exists
-    if( base.has_flag( "VEHICLE" ) ) {
+    if( base->has_flag( "VEHICLE" ) ) {
         if( data.has_int( "amount" ) && ammo_capacity() > 0 && legacy_fuel != itype_battery ) {
             ammo_set( legacy_fuel, data.get_int( "amount" ) );
         }
@@ -2506,21 +2506,22 @@ void vehicle_part::deserialize( JsonIn &jsin )
         if( ammo_capacity() > 0 ) {
             ammo_set( legacy_fuel, data.get_int( "amount" ) );
         }
-        base.item_tags.insert( "VEHICLE" );
+        base->item_tags.insert( "VEHICLE" );
     }
 
     if( data.has_int( "hp" ) && id.obj().durability > 0 ) {
         // migrate legacy savegames exploiting that all base items at that time had max_damage() of 4
-        base.set_damage( 4 * itype::damage_scale - 4 * itype::damage_scale * data.get_int( "hp" ) /
-                         id.obj().durability );
+        base->set_damage( 4 * itype::damage_scale - 4 * itype::damage_scale * data.get_int( "hp" ) /
+                          id.obj().durability );
     }
 
     // legacy turrets loaded ammo via a pseudo CARGO space
     if( is_turret() && !items.empty() ) {
-        const int qty = std::accumulate( items.begin(), items.end(), 0, []( int lhs, const item & rhs ) {
-            return lhs + rhs.charges;
+        const int qty = std::accumulate( items.begin(), items.end(), 0, []( int lhs,
+        const item * const & rhs ) {
+            return lhs + rhs->charges;
         } );
-        ammo_set( items.begin()->ammo_current(), qty );
+        ammo_set( ( *items.begin() )->ammo_current(), qty );
         items.clear();
     }
 }
@@ -2650,6 +2651,11 @@ void vehicle::deserialize( JsonIn &jsin )
     data.read( "theft_time", theft_time );
 
     data.read( "parts", parts );
+    int i = 0;
+    for( auto &it : parts ) {
+        it.base->set_location( new vehicle_base_item_location( this, i++ ) );
+    }
+
     // we persist the pivot anchor so that if the rules for finding
     // the pivot change, existing vehicles do not shift around.
     // Loading vehicles that predate the pivot logic is a special
@@ -2674,8 +2680,8 @@ void vehicle::deserialize( JsonIn &jsin )
         auto it = vp.part().items.begin();
         auto end = vp.part().items.end();
         for( ; it != end; ++it ) {
-            if( it->needs_processing() ) {
-                active_items.add( *it, vp.mount() );
+            if( ( *it )->needs_processing() ) {
+                active_items.add( **it );
             }
         }
     }
@@ -4012,20 +4018,20 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
             const point p( i, j );
             jsin.start_array();
             while( !jsin.end_array() ) {
-                item tmp;
+                item *tmp;
                 jsin.read( tmp );
 
-                if( tmp.is_emissive() ) {
-                    update_lum_add( p, tmp );
+                if( tmp->is_emissive() ) {
+                    update_lum_add( p, *tmp );
                 }
 
                 if( savegame_loading_version >= 27 && version < 27 ) {
-                    tmp.legacy_fast_forward_time();
+                    tmp->legacy_fast_forward_time();
                 }
-
-                const cata::colony<item>::iterator it = itm[p.x][p.y].insert( tmp );
-                if( tmp.needs_processing() ) {
-                    active_items.add( *it, p );
+                //TODO!: location
+                itm[p.x][p.y].push_back( tmp );
+                if( tmp->needs_processing() ) {
+                    active_items.add( *tmp );
                 }
             }
         }
@@ -4153,7 +4159,7 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
             }
             jsin.start_array();
             while( !jsin.end_array() ) {
-                item tmp;
+                item *tmp;
                 jsin.read( tmp );
                 pc.components.push_back( tmp );
             }

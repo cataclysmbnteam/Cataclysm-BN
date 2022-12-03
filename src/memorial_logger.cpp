@@ -315,12 +315,12 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
 
     //Equipment
     file << _( "Weapon:" ) << eol;
-    file << indent << u.weapon.invlet << " - " << u.weapon.tname( 1, false ) << eol;
+    file << indent << u.get_weapon().invlet << " - " << u.get_weapon().tname( 1, false ) << eol;
     file << eol;
 
     file << _( "Equipment:" ) << eol;
-    for( const item &elem : u.worn ) {
-        item next_item = elem;
+    for( const item * const &elem : u.worn ) {
+        const item &next_item = *elem;
         file << indent << next_item.invlet << " - " << next_item.tname( 1, false );
         if( next_item.charges > 0 ) {
             file << " (" << next_item.charges << ")";
@@ -335,8 +335,8 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
     file << _( "Inventory:" ) << eol;
     u.inv.restack( u );
     invslice slice = u.inv.slice();
-    for( const std::list<item> *elem : slice ) {
-        const item &next_item = elem->front();
+    for( const ItemList *elem : slice ) {
+        const item &next_item = *elem->front();
         file << indent << next_item.invlet << " - " <<
              next_item.tname( static_cast<unsigned>( elem->size() ), false );
         if( elem->size() > 1 ) {

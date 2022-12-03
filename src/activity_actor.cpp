@@ -73,19 +73,20 @@ aim_activity_actor aim_activity_actor::use_wielded()
     return aim_activity_actor();
 }
 
-aim_activity_actor aim_activity_actor::use_bionic( const item &fake_gun,
+aim_activity_actor aim_activity_actor::use_bionic( item &fake_gun,
         const units::energy &cost_per_shot )
 {
     aim_activity_actor act = aim_activity_actor();
     act.bp_cost_per_shot = cost_per_shot;
-    act.fake_weapon = fake_gun;
+    //TODO!: check ownership shenangans
+    act.fake_weapon = &fake_gun;
     return act;
 }
 
-aim_activity_actor aim_activity_actor::use_mutation( const item &fake_gun )
+aim_activity_actor aim_activity_actor::use_mutation( item &fake_gun )
 {
     aim_activity_actor act = aim_activity_actor();
-    act.fake_weapon = fake_gun;
+    act.fake_weapon = &fake_gun;
     return act;
 }
 
@@ -237,14 +238,13 @@ std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonIn &jsin )
 
 item *aim_activity_actor::get_weapon()
 {
-    if( fake_weapon.has_value() ) {
+    if( fake_weapon ) {
         // TODO: check if the player lost relevant bionic/mutation
-        return &fake_weapon.value();
+        return fake_weapon;
     } else {
         // Check for lost gun (e.g. yanked by zombie technician)
         // TODO: check that this is the same gun that was used to start aiming
-        item *weapon = &get_player_character().weapon;
-        return weapon->is_null() ? nullptr : weapon;
+        return &get_player_character().get_weapon();
     }
 }
 
@@ -278,30 +278,29 @@ bool aim_activity_actor::load_RAS_weapon()
     const int reload_stamina_penalty = ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
 
     const auto ammo_location_is_valid = [&]() -> bool {
-        you.ammo_location.make_dirty();
         if( !you.ammo_location )
         {
-            you.ammo_location = item_location();
             return false;
         }
         if( !gun->can_reload_with( you.ammo_location->typeId() ) )
         {
             return false;
         }
-        if( square_dist( you.pos(), you.ammo_location.position() ) > 1 )
+        if( square_dist( you.pos(), you.ammo_location->position() ) > 1 )
         {
             return false;
         }
         return true;
     };
     item::reload_option opt = ammo_location_is_valid() ? item::reload_option( &you, weapon,
-                              weapon, you.ammo_location ) : you.select_ammo( *gun );
+                              weapon, *you.ammo_location ) : you.select_ammo( *gun );
     if( !opt ) {
         // Menu canceled
         return false;
     }
     const int reload_time = reload_stamina_penalty + opt.moves();
-    if( !gun->reload( you, std::move( opt.ammo ), 1 ) ) {
+    //TOOD!: check this
+    if( !gun->reload( you, *opt.ammo, 1 ) ) {
         // Reload not allowed
         return false;
     }
@@ -325,8 +324,8 @@ void aim_activity_actor::unload_RAS_weapon()
         int moves_before_unload = you.moves;
 
         // Note: this code works only for avatar
-        item_location loc = item_location( you, gun.target );
-        you.unload( loc );
+        //TODO!: check this can't be nullptr here
+        you.unload( *gun.target );
 
         // Give back time for unloading as essentially nothing has been done.
         if( first_turn ) {
@@ -906,49 +905,50 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
     const tripoint dest = relative_destination + who.pos();
 
     while( who.moves > 0 && !target_items.empty() ) {
-        item_location target = std::move( target_items.back() );
+        safe_reference<item> target = std::move( target_items.back() );
         const int quantity = quantities.back();
         target_items.pop_back();
         quantities.pop_back();
 
         if( !target ) {
+            //TODO!: might not be appropriate to debugmsg just because something was destroyed/unloaded
             debugmsg( "Lost target item of ACT_MOVE_ITEMS" );
             continue;
         }
 
-        // Don't need to make a copy here since movement can't be canceled
-        item &leftovers = *target;
-        // Make a copy to be put in the destination location
-        item newit = leftovers;
-
         // Check that we can pick it up.
-        if( !newit.made_of( LIQUID ) ) {
-            // This is for hauling across zlevels, remove when going up and down stairs
-            // is no longer teleportation
-            if( newit.is_owned_by( who, true ) ) {
-                newit.set_owner( who );
-            } else {
-                continue;
-            }
-            // Handle charges, quantity == 0 means move all
-            if( quantity != 0 && newit.count_by_charges() ) {
-                newit.charges = std::min( newit.charges, quantity );
-                leftovers.charges -= quantity;
-            } else {
-                leftovers.charges = 0;
-            }
-            const tripoint src = target.position();
-            const int distance = src.z == dest.z ? std::max( rl_dist( src, dest ), 1 ) : 1;
-            who.mod_moves( -pickup::cost_to_move_item( who, newit ) * distance );
-            if( to_vehicle ) {
-                put_into_vehicle_or_drop( who, item_drop_reason::deliberate, { newit }, dest );
-            } else {
-                drop_on_map( who, item_drop_reason::deliberate, { newit }, dest );
-            }
-            // If we picked up a whole stack, remove the leftover item
-            if( leftovers.charges <= 0 ) {
-                target.remove_item();
-            }
+        if( target->made_of( LIQUID ) ) {
+            continue;
+        }
+
+        // This is for hauling across zlevels, remove when going up and down stairs
+        // is no longer teleportation
+        if( target->is_owned_by( who, true ) ) {
+            target->set_owner( who );
+        } else {
+            continue;
+        }
+
+        item *newit;
+
+        // Handle charges, quantity == 0 means move all
+        if( quantity != 0 && target->count_by_charges() ) {
+            // If it's only a partial stack move, make a copy to be put in the destination location
+            newit = item_spawn( *target );
+            newit->charges = std::min( newit->charges, quantity );
+            target->charges -= quantity;
+        } else {
+            // Otherwise just move the original
+            newit = &( *target );
+        }
+
+        const tripoint src = target->position();
+        const int distance = src.z == dest.z ? std::max( rl_dist( src, dest ), 1 ) : 1;
+        who.mod_moves( -pickup::cost_to_move_item( who, *newit ) * distance );
+        if( to_vehicle ) {
+            put_into_vehicle_or_drop( who, item_drop_reason::deliberate, { newit }, dest );
+        } else {
+            drop_on_map( who, item_drop_reason::deliberate, { newit }, dest );
         }
     }
 
@@ -1170,12 +1170,18 @@ void throw_activity_actor::do_turn( player_activity &act, Character &who )
 {
     // Make copies of relevant values since the class would
     // not be available after act.set_to_null()
-    item_location target = target_loc;
+    if( !target ) {
+        debugmsg( "Lost weapon while throwing" );
+        act.set_to_null();
+        return;
+    }
+
+    item *it = &*target;
+
     cata::optional<tripoint> blind_throw_pos = blind_throw_from_pos;
 
     // Stop the activity. Whether we will or will not throw doesn't matter.
     act.set_to_null();
-
     if( !who.is_avatar() ) {
         // Sanity check
         debugmsg( "ACT_THROW is not applicable for NPCs." );
@@ -1190,7 +1196,7 @@ void throw_activity_actor::do_turn( player_activity &act, Character &who )
         who.setpos( *blind_throw_pos );
     }
 
-    target_handler::trajectory trajectory = target_handler::mode_throw( *who.as_avatar(), *target,
+    target_handler::trajectory trajectory = target_handler::mode_throw( *who.as_avatar(), *it,
                                             blind_throw_pos.has_value() );
 
     // If we previously shifted our position, put ourselves back now that we've picked our target.
@@ -1202,27 +1208,26 @@ void throw_activity_actor::do_turn( player_activity &act, Character &who )
         return;
     }
 
-    if( &*target != &who.weapon ) {
+    if( it != &who.get_weapon() ) {
         // This is to represent "implicit offhand wielding"
-        int extra_cost = who.item_handling_cost( *target, true, INVENTORY_HANDLING_PENALTY / 2 );
+        int extra_cost = who.item_handling_cost( *it, true, INVENTORY_HANDLING_PENALTY / 2 );
         who.mod_moves( -extra_cost );
     }
-
-    item thrown = *target.get_item();
+    //TODO!:check
     if( target->count_by_charges() && target->charges > 1 ) {
         target->mod_charges( -1 );
-        thrown.charges = 1;
+        target->charges = 1;
     } else {
-        target.remove_item();
+        target->detach();
     }
-    who.as_player()->throw_item( trajectory.back(), thrown, blind_throw_pos );
+    who.as_player()->throw_item( trajectory.back(), *target, blind_throw_pos );
 }
 
 void throw_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
-    jsout.member( "target_loc", target_loc );
+    jsout.member( "target_loc", target );
     jsout.member( "blind_throw_from_pos", blind_throw_from_pos );
 
     jsout.end_object();
@@ -1234,7 +1239,7 @@ std::unique_ptr<activity_actor> throw_activity_actor::deserialize( JsonIn &jsin 
 
     JsonObject data = jsin.get_object();
 
-    data.read( "target_loc", actor.target_loc );
+    data.read( "target_loc", actor.target );
     data.read( "blind_throw_from_pos", actor.blind_throw_from_pos );
 
     return actor.clone();

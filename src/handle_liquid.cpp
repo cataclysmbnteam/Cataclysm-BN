@@ -55,8 +55,8 @@ static void serialize_liquid_source( player_activity &act, const tripoint &pos, 
     const auto stack = get_map().i_at( pos );
     // Need to store the *index* of the item on the ground, but it may be a virtual item from
     // an infinite liquid source.
-    const auto iter = std::find_if( stack.begin(), stack.end(), [&]( const item & i ) {
-        return &i == &liquid;
+    const auto iter = std::find_if( stack.begin(), stack.end(), [&]( const item * const & i ) {
+        return i == &liquid;
     } );
     if( iter == stack.end() ) {
         act.values.push_back( LST_INFINITE_MAP );
@@ -92,7 +92,7 @@ static void serialize_liquid_target( player_activity &act, const tripoint &pos )
 
 namespace liquid_handler
 {
-void handle_all_liquid( item liquid, const int radius )
+void handle_all_liquid( item &liquid, const int radius )
 {
     while( liquid.charges > 0 ) {
         // handle_liquid allows to pour onto the ground, which will handle all the liquid and
@@ -116,8 +116,8 @@ bool handle_liquid_from_ground( map_stack::iterator on_ground,
                                 const int radius )
 {
     // TODO: not all code paths on handle_liquid consume move points, fix that.
-    handle_liquid( *on_ground, nullptr, radius, &pos );
-    if( on_ground->charges > 0 ) {
+    handle_liquid( **on_ground, nullptr, radius, &pos );
+    if( ( *on_ground )->charges > 0 ) {
         return false;
     }
     get_map().i_at( pos ).erase( on_ground );
@@ -141,13 +141,13 @@ bool handle_liquid_from_container( item &container, int radius )
 {
     std::vector<item *> remove;
     bool handled = false;
-    for( item *contained : container.contents.all_items_top() ) {
+    for( item *&contained : container.contents.all_items_top() ) {
         if( handle_liquid_from_container( contained, container, radius ) ) {
             remove.push_back( contained );
             handled = true;
         }
     }
-    for( item *contained : remove ) {
+    for( item *&contained : remove ) {
         container.remove_item( *contained );
     }
     return handled;
@@ -201,8 +201,8 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
     // This handles containers found anywhere near the player, including on the map and in vehicle storage.
     menu.addentry( -1, true, 'c', _( "Pour into a container" ) );
     actions.emplace_back( [&]() {
-        target.item_loc = game_menus::inv::container_for( g->u, liquid, radius );
-        item *const cont = target.item_loc.get_item();
+        target.it = game_menus::inv::container_for( g->u, liquid, radius );
+        item *const cont = target.it;
 
         if( cont == nullptr || cont->is_null() ) {
             add_msg( _( "Never mind." ) );
@@ -223,7 +223,7 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
         if( veh ) {
             vehicle_part_range vpr = veh->get_all_parts();
             if( veh && std::any_of( vpr.begin(), vpr.end(), [&liquid]( const vpart_reference & pt ) {
-            return pt.part().can_reload( liquid );
+            return pt.part().can_reload( &liquid );
             } ) ) {
                 opts.insert( veh );
             }
@@ -337,7 +337,7 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
             transfer_ok = true;
             break;
         case LD_ITEM: {
-            item *const cont = target.item_loc.get_item();
+            item *const cont = target.it;
             const int item_index = g->u.get_item_position( cont );
             // Currently activities can only store item position in the players inventory,
             // not on ground or similar. TODO: implement storing arbitrary container locations.
@@ -346,16 +346,16 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
             } else if( g->u.pour_into( *cont, liquid ) ) {
                 if( cont->needs_processing() ) {
                     // Polymorphism fail, have to introspect into the type to set the target container as active.
-                    switch( target.item_loc.where() ) {
-                        case item_location::type::map:
-                            here.make_active( target.item_loc );
+                    switch( target.it->where() ) {
+                        case item_location_type::map:
+                            here.make_active( *target.it );
                             break;
-                        case item_location::type::vehicle:
-                            here.veh_at( target.item_loc.position() )->vehicle().make_active( target.item_loc );
+                        case item_location_type::vehicle:
+                            here.veh_at( target.it->position() )->vehicle().make_active( *target.it );
                             break;
-                        case item_location::type::container:
-                        case item_location::type::character:
-                        case item_location::type::invalid:
+                        case item_location_type::container:
+                        case item_location_type::character:
+                        case item_location_type::invalid:
                             break;
                     }
                 }

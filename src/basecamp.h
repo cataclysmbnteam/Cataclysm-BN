@@ -207,7 +207,7 @@ class basecamp
         int recipe_batch_max( const recipe &making ) const;
         void form_crafting_inventory();
         void form_crafting_inventory( map &target_map );
-        std::list<item> use_charges( const itype_id &fake_id, int &quantity );
+        ItemList use_charges( const itype_id &fake_id, int &quantity );
         item_group_id get_gatherlist() const;
         /**
          * spawn items or corpses based on search attempts
@@ -235,7 +235,7 @@ class basecamp
         inline void set_dumping_spot( const tripoint &spot ) {
             dumping_spot = spot;
         }
-        void place_results( item result );
+        void place_results( item &result );
 
         // mission description functions
         void add_available_recipes( mission_data &mission_key, const point &dir,
