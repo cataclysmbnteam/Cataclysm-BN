@@ -539,8 +539,6 @@ void DynamicDataLoader::unload_data()
 {
     finalized = false;
 
-    lua.reset();
-
     achievement::reset();
     activity_type::reset();
     ammo_effects::reset();
@@ -633,6 +631,10 @@ void DynamicDataLoader::unload_data()
 #if defined(TILES)
     reset_mod_tileset();
 #endif
+
+    // Has to be cleaned last in case one of the above data collections
+    // holds references to Lua functions or tables.
+    lua.reset();
 }
 
 void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
