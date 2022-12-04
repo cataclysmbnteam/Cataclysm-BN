@@ -13,12 +13,12 @@
     "blueprint_provides": [ { "id": "fbmh_northeast" } ],
     "blueprint_excludes": [ { "id": "fbmh_northeast" } ],
     "blueprint_needs": {
-      "time": "13 h 20 m",
-      "skills": [ [ "fabrication", 3 ] ],
+      "time": "6 h 40 m",
+      "skills": [ [ "fabrication", 2 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 64 ] ], [ [ "nail", 320 ] ], [ [ "wood_sheet", 8 ], [ "wood_panel", 16 ] ] ]
+        "components": [ [ [ "2x4", 40 ] ], [ [ "nail", 160 ] ], [ [ "wood_panel", 8 ], [ "wood_sheet", 4 ] ] ]
       }
     }
   },
@@ -36,12 +36,12 @@
     "blueprint_provides": [ { "id": "fbmh_northeast" } ],
     "blueprint_excludes": [ { "id": "fbmh_northeast", "amount": 2 }, { "id": "fbmh_tent_northeast" } ],
     "blueprint_needs": {
-      "time": "15 h 45 m",
+      "time": "7 h 5 m",
       "skills": [ [ "fabrication", 3 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 75 ] ], [ [ "glass_sheet", 1 ] ], [ [ "nail", 350 ] ], [ [ "wood_panel", 16 ], [ "wood_sheet", 8 ] ] ]
+        "components": [ [ [ "2x4", 45 ] ], [ [ "glass_sheet", 1 ] ], [ [ "nail", 150 ] ], [ [ "wood_panel", 6 ], [ "wood_sheet", 3 ] ] ]
       }
     }
   },
@@ -59,12 +59,12 @@
     "blueprint_provides": [ { "id": "fbmh_northeast", "amount": 2 } ],
     "blueprint_excludes": [ { "id": "fbmh_northeast", "amount": 4 }, { "id": "fbmh_tent_northeast" } ],
     "blueprint_needs": {
-      "time": "10 h 50 m",
+      "time": "12 h",
       "skills": [ [ "fabrication", 2 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 84 ] ], [ [ "nail", 316 ] ], [ [ "wood_panel", 15 ] ], [ [ "hinge", 2 ] ] ]
+        "components": [ [ [ "2x4", 84 ] ], [ [ "hinge", 2 ] ], [ [ "nail", 316 ] ], [ [ "wood_panel", 15 ] ] ]
       }
     }
   },
@@ -82,12 +82,12 @@
     "blueprint_provides": [ { "id": "fbmh_east", "amount": 4 } ],
     "blueprint_excludes": [ { "id": "fbmh_east" } ],
     "blueprint_needs": {
-      "time": "2 d 11 h 25 m",
+      "time": "1 d 8 h 55 m",
       "skills": [ [ "fabrication", 3 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 309 ] ], [ [ "nail", 1422 ] ], [ [ "wood_panel", 68 ] ], [ [ "hinge", 4 ] ], [ [ "glass_sheet", 1 ] ] ]
+        "components": [ [ [ "2x4", 213 ] ], [ [ "glass_sheet", 1 ] ], [ [ "hinge", 4 ] ], [ [ "nail", 782 ] ], [ [ "wood_panel", 36 ] ] ]
       }
     }
   },
@@ -105,12 +105,12 @@
     "blueprint_provides": [ { "id": "fbmh_east", "amount": 4 } ],
     "blueprint_excludes": [ { "id": "fbmh_east" }, { "id": "fbmh_tent_northeast" } ],
     "blueprint_needs": {
-      "time": "2 d 15 h 25 m",
+      "time": "1 d 5 h 5 m",
       "skills": [ [ "fabrication", 3 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 303 ] ], [ [ "nail", 1462 ] ], [ [ "wood_panel", 70 ] ], [ [ "hinge", 4 ] ], [ [ "glass_sheet", 1 ] ] ]
+        "components": [ [ [ "2x4", 183 ] ], [ [ "glass_sheet", 1 ] ], [ [ "hinge", 4 ] ], [ [ "nail", 662 ] ], [ [ "wood_panel", 30 ] ] ]
       }
     }
   },
@@ -128,12 +128,12 @@
     "blueprint_provides": [ { "id": "fbmh_southeast", "amount": 4 } ],
     "blueprint_excludes": [ { "id": "fbmh_southeast" } ],
     "blueprint_needs": {
-      "time": "2 d 11 h 25 m",
+      "time": "1 d 8 h 55 m",
       "skills": [ [ "fabrication", 3 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 309 ] ], [ [ "nail", 1422 ] ], [ [ "wood_panel", 68 ] ], [ [ "hinge", 4 ] ], [ [ "glass_sheet", 1 ] ] ]
+        "components": [ [ [ "2x4", 213 ] ], [ [ "glass_sheet", 1 ] ], [ [ "hinge", 4 ] ], [ [ "nail", 782 ] ], [ [ "wood_panel", 36 ] ] ]
       }
     }
   },
@@ -151,12 +151,12 @@
     "blueprint_provides": [ { "id": "fbmh_southeast", "amount": 4 } ],
     "blueprint_excludes": [ { "id": "fbmh_southeast" }, { "id": "fbmh_tent_east" } ],
     "blueprint_needs": {
-      "time": "2 d 14 h 5 m",
+      "time": "1 d 3 h 35 m",
       "skills": [ [ "fabrication", 3 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 293 ] ], [ [ "nail", 1422 ] ], [ [ "wood_panel", 68 ] ], [ [ "hinge", 4 ] ], [ [ "glass_sheet", 1 ] ] ]
+        "components": [ [ [ "2x4", 173 ] ], [ [ "glass_sheet", 1 ] ], [ [ "hinge", 4 ] ], [ [ "nail", 622 ] ], [ [ "wood_panel", 28 ] ] ]
       }
     }
   },
@@ -174,12 +174,12 @@
     "blueprint_provides": [ { "id": "fbmh_northwest", "amount": 4 } ],
     "blueprint_excludes": [ { "id": "fbmh_northwest" } ],
     "blueprint_needs": {
-      "time": "1 d 15 h 55 m",
+      "time": "1 d 1 h 45 m",
       "skills": [ [ "fabrication", 3 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 223 ] ], [ [ "nail", 986 ] ], [ [ "wood_panel", 47 ] ], [ [ "hinge", 2 ] ], [ [ "glass_sheet", 1 ] ] ]
+        "components": [ [ [ "2x4", 169 ] ], [ [ "glass_sheet", 1 ] ], [ [ "hinge", 2 ] ], [ [ "nail", 626 ] ], [ [ "wood_panel", 29 ] ] ]
       }
     }
   },
@@ -197,12 +197,12 @@
     "blueprint_provides": [ { "id": "fbmh_west", "amount": 4 } ],
     "blueprint_excludes": [ { "id": "fbmh_west" } ],
     "blueprint_needs": {
-      "time": "2 d 11 h 25 m",
+      "time": "1 d 8 h 55 m",
       "skills": [ [ "fabrication", 3 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 309 ] ], [ [ "nail", 1422 ] ], [ [ "wood_panel", 68 ] ], [ [ "hinge", 4 ] ], [ [ "glass_sheet", 1 ] ] ]
+        "components": [ [ [ "2x4", 213 ] ], [ [ "glass_sheet", 1 ] ], [ [ "hinge", 4 ] ], [ [ "nail", 782 ] ], [ [ "wood_panel", 36 ] ] ]
       }
     }
   },
@@ -220,12 +220,12 @@
     "blueprint_provides": [ { "id": "fbmh_west", "amount": 4 } ],
     "blueprint_excludes": [ { "id": "fbmh_west" }, { "id": "fbmh_tent_northwest" } ],
     "blueprint_needs": {
-      "time": "2 d 15 h 25 m",
+      "time": "1 d 5 h 5 m",
       "skills": [ [ "fabrication", 3 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 303 ] ], [ [ "nail", 1462 ] ], [ [ "wood_panel", 70 ] ], [ [ "hinge", 4 ] ], [ [ "glass_sheet", 1 ] ] ]
+        "components": [ [ [ "2x4", 183 ] ], [ [ "glass_sheet", 1 ] ], [ [ "hinge", 4 ] ], [ [ "nail", 662 ] ], [ [ "wood_panel", 30 ] ] ]
       }
     }
   },
@@ -243,12 +243,12 @@
     "blueprint_provides": [ { "id": "fbmh_southwest", "amount": 4 } ],
     "blueprint_excludes": [ { "id": "fbmh_southwest" } ],
     "blueprint_needs": {
-      "time": "2 d 11 h 25 m",
+      "time": "1 d 8 h 55 m",
       "skills": [ [ "fabrication", 3 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 309 ] ], [ [ "nail", 1422 ] ], [ [ "wood_panel", 68 ] ], [ [ "hinge", 4 ] ], [ [ "glass_sheet", 1 ] ] ]
+        "components": [ [ [ "2x4", 213 ] ], [ [ "glass_sheet", 1 ] ], [ [ "hinge", 4 ] ], [ [ "nail", 782 ] ], [ [ "wood_panel", 36 ] ] ]
       }
     }
   },
@@ -266,12 +266,12 @@
     "blueprint_provides": [ { "id": "fbmh_southwest", "amount": 4 } ],
     "blueprint_excludes": [ { "id": "fbmh_southwest" }, { "id": "fbmh_tent_west" } ],
     "blueprint_needs": {
-      "time": "2 d 14 h 5 m",
+      "time": "1 d 3 h 35 m",
       "skills": [ [ "fabrication", 3 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 293 ] ], [ [ "nail", 1422 ] ], [ [ "wood_panel", 68 ] ], [ [ "hinge", 4 ] ], [ [ "glass_sheet", 1 ] ] ]
+        "components": [ [ [ "2x4", 173 ] ], [ [ "glass_sheet", 1 ] ], [ [ "hinge", 4 ] ], [ [ "nail", 622 ] ], [ [ "wood_panel", 28 ] ] ]
       }
     }
   },
@@ -289,12 +289,12 @@
     "blueprint_provides": [ { "id": "fbmh_center", "amount": 2 }, { "id": "fbmh_ne_center" } ],
     "blueprint_excludes": [ { "id": "fbmh_ne_center" } ],
     "blueprint_needs": {
-      "time": "1 d 6 h 50 m",
-      "skills": [ [ "fabrication", 3 ] ],
+      "time": "13 h 40 m",
+      "skills": [ [ "fabrication", 2 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 144 ] ], [ [ "nail", 716 ] ], [ [ "wood_panel", 35 ] ], [ [ "hinge", 2 ] ] ]
+        "components": [ [ [ "2x4", 84 ] ], [ [ "hinge", 2 ] ], [ [ "nail", 316 ] ], [ [ "wood_panel", 15 ] ] ]
       }
     }
   },
@@ -312,12 +312,12 @@
     "blueprint_provides": [ { "id": "fbmh_center", "amount": 2 }, { "id": "fbmh_ne_center" } ],
     "blueprint_excludes": [ { "id": "fbmh_ne_center" }, { "id": "fbmh_tent_east" } ],
     "blueprint_needs": {
-      "time": "1 d 10 h",
-      "skills": [ [ "fabrication", 3 ] ],
+      "time": "7 h",
+      "skills": [ [ "fabrication", 2 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 120 ] ], [ [ "nail", 720 ] ], [ [ "wood_sheet", 18 ], [ "wood_panel", 36 ] ] ]
+        "components": [ [ [ "2x4", 30 ] ], [ [ "nail", 120 ] ], [ [ "wood_panel", 6 ], [ "wood_sheet", 3 ] ] ]
       }
     }
   },
@@ -335,12 +335,12 @@
     "blueprint_provides": [ { "id": "fbmh_center", "amount": 2 }, { "id": "fbmh_nw_center" } ],
     "blueprint_excludes": [ { "id": "fbmh_nw_center" } ],
     "blueprint_needs": {
-      "time": "1 d 7 h",
-      "skills": [ [ "fabrication", 3 ] ],
+      "time": "13 h 40 m",
+      "skills": [ [ "fabrication", 2 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 148 ] ], [ [ "nail", 712 ] ], [ [ "wood_panel", 34 ] ], [ [ "hinge", 4 ] ] ]
+        "components": [ [ [ "2x4", 88 ] ], [ [ "hinge", 4 ] ], [ [ "nail", 312 ] ], [ [ "wood_panel", 14 ] ] ]
       }
     }
   },
@@ -358,12 +358,12 @@
     "blueprint_provides": [ { "id": "fbmh_center", "amount": 2 }, { "id": "fbmh_nw_center" } ],
     "blueprint_excludes": [ { "id": "fbmh_nw_center" }, { "id": "fbmh_tent_west" } ],
     "blueprint_needs": {
-      "time": "1 d 10 h 10 m",
-      "skills": [ [ "fabrication", 3 ] ],
+      "time": "7 h",
+      "skills": [ [ "fabrication", 2 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 124 ] ], [ [ "nail", 716 ] ], [ [ "wood_panel", 35 ] ], [ [ "hinge", 2 ] ] ]
+        "components": [ [ [ "2x4", 34 ] ], [ [ "hinge", 2 ] ], [ [ "nail", 116 ] ], [ [ "wood_panel", 5 ] ] ]
       }
     }
   },
@@ -381,12 +381,12 @@
     "blueprint_provides": [ { "id": "fbmh_center", "amount": 4 }, { "id": "fbmh_ne_center" }, { "id": "fbmh_nw_center" } ],
     "blueprint_excludes": [ { "id": "fbmh_ne_center" }, { "id": "fbmh_nw_center" }, { "id": "fbmh_tent_east" }, { "id": "fbmh_tent_west" } ],
     "blueprint_needs": {
-      "time": "2 d 20 h 10 m",
-      "skills": [ [ "fabrication", 3 ] ],
+      "time": "14 h",
+      "skills": [ [ "fabrication", 2 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 244 ] ], [ [ "nail", 1436 ] ], [ [ "wood_panel", 71 ] ], [ [ "hinge", 2 ] ] ]
+        "components": [ [ [ "2x4", 64 ] ], [ [ "hinge", 2 ] ], [ [ "nail", 236 ] ], [ [ "wood_panel", 11 ] ] ]
       }
     }
   },
@@ -404,12 +404,12 @@
     "blueprint_provides": [ { "id": "fbmh_south", "amount": 2 }, { "id": "fbmh_se_south" } ],
     "blueprint_excludes": [ { "id": "fbmh_se_south" } ],
     "blueprint_needs": {
-      "time": "1 d 7 h",
-      "skills": [ [ "fabrication", 3 ] ],
+      "time": "13 h 40 m",
+      "skills": [ [ "fabrication", 2 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 148 ] ], [ [ "nail", 712 ] ], [ [ "wood_panel", 34 ] ], [ [ "hinge", 4 ] ] ]
+        "components": [ [ [ "2x4", 88 ] ], [ [ "hinge", 4 ] ], [ [ "nail", 312 ] ], [ [ "wood_panel", 14 ] ] ]
       }
     }
   },
@@ -427,12 +427,12 @@
     "blueprint_provides": [ { "id": "fbmh_south", "amount": 2 }, { "id": "fbmh_se_south" } ],
     "blueprint_excludes": [ { "id": "fbmh_se_south" }, { "id": "fbmh_tent_southeast" } ],
     "blueprint_needs": {
-      "time": "1 d 10 h 10 m",
-      "skills": [ [ "fabrication", 3 ] ],
+      "time": "7 h",
+      "skills": [ [ "fabrication", 2 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 124 ] ], [ [ "nail", 716 ] ], [ [ "wood_panel", 35 ] ], [ [ "hinge", 2 ] ] ]
+        "components": [ [ [ "2x4", 34 ] ], [ [ "hinge", 2 ] ], [ [ "nail", 116 ] ], [ [ "wood_panel", 5 ] ] ]
       }
     }
   },
@@ -450,12 +450,12 @@
     "blueprint_provides": [ { "id": "fbmh_south", "amount": 2 }, { "id": "fbmh_sw_south" } ],
     "blueprint_excludes": [ { "id": "fbmh_sw_south" } ],
     "blueprint_needs": {
-      "time": "1 d 6 h 50 m",
-      "skills": [ [ "fabrication", 3 ] ],
+      "time": "13 h 40 m",
+      "skills": [ [ "fabrication", 2 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 144 ] ], [ [ "nail", 716 ] ], [ [ "wood_panel", 35 ] ], [ [ "hinge", 2 ] ] ]
+        "components": [ [ [ "2x4", 84 ] ], [ [ "hinge", 2 ] ], [ [ "nail", 316 ] ], [ [ "wood_panel", 15 ] ] ]
       }
     }
   },
@@ -473,12 +473,12 @@
     "blueprint_provides": [ { "id": "fbmh_south", "amount": 2 }, { "id": "fbmh_sw_south" } ],
     "blueprint_excludes": [ { "id": "fbmh_sw_south" }, { "id": "fbmh_tent_southwest" } ],
     "blueprint_needs": {
-      "time": "1 d 10 h",
-      "skills": [ [ "fabrication", 3 ] ],
+      "time": "7 h",
+      "skills": [ [ "fabrication", 2 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 120 ] ], [ [ "nail", 720 ] ], [ [ "wood_sheet", 18 ], [ "wood_panel", 36 ] ] ]
+        "components": [ [ [ "2x4", 30 ] ], [ [ "nail", 120 ] ], [ [ "wood_panel", 6 ], [ "wood_sheet", 3 ] ] ]
       }
     }
   },
@@ -501,12 +501,12 @@
       { "id": "fbmh_tent_southwest" }
     ],
     "blueprint_needs": {
-      "time": "2 d 20 h 10 m",
-      "skills": [ [ "fabrication", 3 ] ],
+      "time": "14 h",
+      "skills": [ [ "fabrication", 2 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 244 ] ], [ [ "nail", 1436 ] ], [ [ "wood_panel", 71 ] ], [ [ "hinge", 2 ] ] ]
+        "components": [ [ [ "2x4", 64 ] ], [ [ "hinge", 2 ] ], [ [ "nail", 236 ] ], [ [ "wood_panel", 11 ] ] ]
       }
     }
   }

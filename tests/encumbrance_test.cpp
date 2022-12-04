@@ -10,11 +10,13 @@
 #include "avatar.h"
 #include "bodypart.h"
 #include "character.h"
+#include "character_encumbrance.h"
 #include "game.h"
 #include "item.h"
 #include "material.h"
 #include "npc.h"
 #include "player.h"
+#include "state_helpers.h"
 #include "type_id.h"
 
 static void test_encumbrance_on(
@@ -36,7 +38,7 @@ static void test_encumbrance_on(
         p.worn.push_back( i );
     }
     p.reset_encumbrance();
-    encumbrance_data enc = p.get_encumbrance()[ get_body_part_token( body_part ) ];
+    encumbrance_data enc = p.get_encumbrance().elems[ get_body_part_token( body_part ) ];
     CHECK( enc.encumbrance == expected_encumbrance );
 }
 
@@ -89,6 +91,7 @@ static constexpr int jacket_jean_e = 11;
 
 TEST_CASE( "regular_clothing_encumbrance", "[encumbrance]" )
 {
+    clear_all_state();
     test_encumbrance( { "postman_shirt" }, "TORSO", postman_shirt_e );
     test_encumbrance( { "longshirt" }, "TORSO", longshirt_e );
     test_encumbrance( { "jacket_jean" }, "TORSO", jacket_jean_e );
@@ -96,16 +99,19 @@ TEST_CASE( "regular_clothing_encumbrance", "[encumbrance]" )
 
 TEST_CASE( "separate_layer_encumbrance", "[encumbrance]" )
 {
+    clear_all_state();
     test_encumbrance( { "longshirt", "jacket_jean" }, "TORSO", longshirt_e + jacket_jean_e );
 }
 
 TEST_CASE( "out_of_order_encumbrance", "[encumbrance]" )
 {
+    clear_all_state();
     test_encumbrance( { "jacket_jean", "longshirt" }, "TORSO", longshirt_e * 2 + jacket_jean_e );
 }
 
 TEST_CASE( "same_layer_encumbrance", "[encumbrance]" )
 {
+    clear_all_state();
     // When stacking within a layer, encumbrance for additional items is
     // counted twice
     test_encumbrance( { "longshirt", "longshirt" }, "TORSO", longshirt_e * 2 + longshirt_e );
@@ -117,6 +123,7 @@ TEST_CASE( "same_layer_encumbrance", "[encumbrance]" )
 
 TEST_CASE( "tiny_clothing", "[encumbrance]" )
 {
+    clear_all_state();
     item i( "longshirt" );
     i.set_flag( "UNDERSIZE" );
     test_encumbrance_items( { i }, "TORSO", longshirt_e * 3 );
@@ -124,6 +131,7 @@ TEST_CASE( "tiny_clothing", "[encumbrance]" )
 
 TEST_CASE( "tiny_character", "[encumbrance]" )
 {
+    clear_all_state();
     item i( "longshirt" );
     SECTION( "regular shirt" ) {
         test_encumbrance_items( { i }, "TORSO", longshirt_e * 2, add_trait( "SMALL2" ) );

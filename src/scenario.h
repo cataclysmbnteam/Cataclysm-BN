@@ -30,13 +30,13 @@ class scenario
 
         bool blacklist = false; // If true, professions is a blacklist.
         bool extra_professions = false; // If true, professions add to default professions.
-        std::vector<string_id<profession>> professions; // as specified in JSON, verbatim
+        std::vector<profession_id> professions; // as specified in JSON, verbatim
 
         /**
          * @ref permitted_professions populates this vector on the first call, which takes
          * a bit of work. On subsequent calls, this vector is returned.
         */
-        mutable std::vector<string_id<profession>> cached_permitted_professions;
+        mutable std::vector<profession_id> cached_permitted_professions;
 
         std::set<trait_id> _allowed_traits;
         std::set<trait_id> _forced_traits;
@@ -81,8 +81,8 @@ class scenario
 
         vproto_id vehicle() const;
 
-        const profession *weighted_random_profession() const;
-        std::vector<string_id<profession>> permitted_professions() const;
+        const profession_id &weighted_random_profession() const;
+        std::vector<profession_id> permitted_professions() const;
 
         bool traitquery( const trait_id &trait ) const;
         std::set<trait_id> get_locked_traits() const;

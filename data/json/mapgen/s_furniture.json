@@ -9,7 +9,7 @@
       "rows": [
         "                        ",
         " |ggggggggg++ggggggggg| ",
-        " |.CphpH.c....O.O.&.&.| ",
+        " |.CphpH.c....O.O.&F&.| ",
         " |B.....kc...........y| ",
         " |B....ccc...........f| ",
         " |v..........#.m..e..B| ",
@@ -60,6 +60,7 @@
         "h": "f_chair",
         "m": "f_sofa",
         "f": "f_filing_cabinet",
+        "F": "f_freezer",
         "o": "f_toilet",
         "p": "f_rack_coat",
         "q": "f_displaycase",

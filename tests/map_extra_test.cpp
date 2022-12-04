@@ -15,6 +15,7 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "point.h"
+#include "state_helpers.h"
 #include "string_id.h"
 #include "type_id.h"
 
@@ -23,6 +24,7 @@
 
 TEST_CASE( "mx_minefield real spawn", "[.][map_extra][overmap]" )
 {
+    clear_all_state();
     // Pick a point in the middle of the overmap so we don't generate quite so
     // many overmaps when searching.
     const tripoint_abs_omt origin( 90, 90, 0 );
@@ -59,6 +61,7 @@ TEST_CASE( "mx_minefield real spawn", "[.][map_extra][overmap]" )
 
 TEST_CASE( "mx_minefield theoretical spawn", "[map_extra][overmap]" )
 {
+    clear_all_state();
     overmap &om = overmap_buffer.get( point_abs_om() );
 
     const oter_id road( "road_ns" );

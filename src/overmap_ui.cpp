@@ -55,6 +55,7 @@
 #include "overmap.h"
 #include "overmap_types.h"
 #include "overmapbuffer.h"
+#include "overmap_special.h"
 #include "regional_settings.h"
 #include "rng.h"
 #include "sdltiles.h"
@@ -1470,7 +1471,7 @@ static void draw(
 static void create_note( const tripoint_abs_omt &curs )
 {
     std::string color_notes = _( "Color codes: " );
-    for( const std::pair<std::string, std::string> &color_pair : get_note_color_names() ) {
+    for( const auto &color_pair : get_note_color_names() ) {
         // The color index is not translatable, but the name is.
         color_notes += string_format( "%1$s:<color_%3$s>%2$s</color>, ", color_pair.first.c_str(),
                                       _( color_pair.second ), replace_all( color_pair.second, " ", "_" ) );
@@ -1669,7 +1670,7 @@ static bool search( const ui_adaptor &om_ui, tripoint_abs_omt &curs, const tripo
         curs.y() = locations[i].y();
         om_ui.invalidate_ui();
         ui_manager::redraw();
-        action = ctxt.handle_input( BLINK_SPEED );
+        action = ctxt.handle_input( get_option<int>( "BLINK_SPEED" ) );
         if( uistate.overmap_blinking ) {
             uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
         }
@@ -1794,7 +1795,7 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
             om_ui.invalidate_ui();
             ui_manager::redraw();
 
-            action = ctxt.handle_input( BLINK_SPEED );
+            action = ctxt.handle_input( get_option<int>( "BLINK_SPEED" ) );
 
             if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
                 curs += vec->xy();
@@ -1980,11 +1981,11 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
         // If EDGE_SCROLL is disabled, it will have a value of -1.
         // blinking won't work if handle_input() is passed a negative integer.
         if( scroll_timeout < 0 ) {
-            scroll_timeout = BLINK_SPEED;
+            scroll_timeout = get_option<int>( "BLINK_SPEED" );
         }
         action = ictxt.handle_input( scroll_timeout );
 #else
-        action = ictxt.handle_input( BLINK_SPEED );
+        action = ictxt.handle_input( get_option<int>( "BLINK_SPEED" ) );
 #endif
         if( const cata::optional<tripoint> vec = ictxt.get_direction( action ) ) {
             int scroll_d = fast_scroll ? fast_scroll_offset : 1;
@@ -2102,7 +2103,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
         }
 
         std::chrono::time_point<std::chrono::steady_clock> now = std::chrono::steady_clock::now();
-        if( now > last_blink + std::chrono::milliseconds( BLINK_SPEED ) ) {
+        if( now > last_blink + std::chrono::milliseconds( get_option<int>( "BLINK_SPEED" ) ) ) {
             if( uistate.overmap_blinking ) {
                 uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
             }

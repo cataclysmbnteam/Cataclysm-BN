@@ -1,0 +1,72 @@
+[
+  {
+    "result": "acidchitin_armor_medium_quadruped",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "10 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "acidchitin_piece", 42 ] ] ]
+  },
+  {
+    "result": "chitin_armor_medium_quadruped",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "10 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "chitin_piece", 42 ] ] ]
+  },
+  {
+    "result": "chainmail_armor_medium_quadruped",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "100 s",
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
+    "components": [ [ [ "link_sheet", 18 ] ], [ [ "leather", 3 ] ], [ [ "chain_link", 458 ] ] ]
+  },
+  {
+    "result": "leather_armor_medium_quadruped",
+    "type": "uncraft",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "10 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "leather", 10 ] ] ]
+  },
+  {
+    "result": "leatherbone_armor_medium_quadruped",
+    "type": "uncraft",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "leather", 52 ] ], [ [ "bone", 19 ] ] ]
+  },
+  {
+    "result": "kevlar_armor_medium_quadruped",
+    "type": "uncraft",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "10 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "kevlar_plate", 28 ] ] ]
+  },
+  {
+    "result": "rubber_armor_medium_quadruped",
+    "type": "uncraft",
+    "time": "10 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "rag", 30 ] ], [ [ "plastic_chunk", 20 ] ] ]
+  },
+  {
+    "result": "superalloy_armor_medium_quadruped",
+    "type": "uncraft",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "10 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "alloy_sheet", 10 ] ] ]
+  }
+]

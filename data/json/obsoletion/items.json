@@ -375,7 +375,6 @@
     "material": "steel",
     "range": -2,
     "dispersion": 300,
-    "durability": 8,
     "clip_size": 100,
     "valid_mod_locations": [ [ "sling", 1 ], [ "stock", 1 ], [ "rail mount", 1 ] ],
     "relative": { "reload": 4 }
@@ -386,15 +385,6 @@
     "name": [ "Magnesium Supplements" ],
     "desc": [ "You took some magnesium supplements.  These will help with sleep deprivation." ],
     "rating": "good"
-  },
-  {
-    "id": "bio_blaster",
-    "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
-    "name": { "str": "Fusion Blaster Arm CBM" },
-    "description": "Your left arm has been replaced by a heavy-duty fusion blaster!  You may use your energy banks to fire a damaging heat ray.  However, you are unable to use or carry two-handed items, and your strength limits what you can use with your one hand.",
-    "price": 220000,
-    "difficulty": 3
   },
   {
     "id": "bio_furnace",
@@ -423,7 +413,6 @@
     "weight": "907 g",
     "volume": "5 L",
     "price": 20000,
-    "to_hit": -1,
     "bashing": 8,
     "material": [ "steel", "plastic" ],
     "range": 4,
@@ -1686,7 +1675,6 @@
     "range": -6,
     "ranged_damage": { "damage_type": "bullet", "amount": -16 },
     "dispersion": 380,
-    "durability": 8,
     "blackpowder_tolerance": 32,
     "loudness": 30,
     "clip_size": 5,
@@ -3199,7 +3187,7 @@
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [ [ [ "lead", 2 ] ], [ [ "22_casing_new", 1 ] ], [ [ "gunpowder_pistol", 1 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "charges": 1
   },
   {
     "type": "AMMO",
@@ -4333,5 +4321,20 @@
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "flu_shot",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": "flu shot",
+    "description": "Pharmaceutical flu shot designed for mass vaccinations, still in the packaging.  Purported to provide immunity to influenza.",
+    "weight": "12 g",
+    "volume": "10ml",
+    "price": 5000,
+    "price_postapoc": 1500,
+    "material": "plastic",
+    "symbol": "!",
+    "color": "magenta",
+    "flags": [ "NO_INGEST", "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE" ]
   }
 ]

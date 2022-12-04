@@ -386,11 +386,10 @@
     "id": "GOURMAND",
     "name": { "str": "Gourmand" },
     "points": 2,
-    "description": "You eat faster, and can eat and drink more, than anyone else!  You also enjoy food more; delicious food is better for your morale, and you don't mind unsavory meals as much.  Activate to skip prompt for overeating.",
+    "description": "You eat faster, and can eat and drink more, than anyone else!  You also enjoy food more; delicious food is better for your morale, and you don't mind unsavory meals as much.",
     "starting_trait": true,
     "category": [ "MOUSE", "LUPINE" ],
-    "valid": false,
-    "active": true
+    "valid": false
   },
   {
     "type": "mutation",
@@ -620,9 +619,10 @@
     "id": "MARTIAL_ARTS5",
     "name": { "str": "Melee Weapon Training" },
     "points": 3,
-    "description": "You have practiced fighting with weapons.  You start with your choice of Eskrima, Fencing, Fior Di Battaglia, Medieval Swordsmanship, Niten Ichi-Ryu, Pentjak Silat, or Sōjutsu.",
+    "description": "You have practiced fighting with weapons.  You start with your choice of Barbaran Montante, Eskrima, Fencing, Fior Di Battaglia, Medieval Swordsmanship, Niten Ichi-Ryu, Pentjak Silat, or Sōjutsu.",
     "starting_trait": true,
     "initial_ma_styles": [
+      "style_barbaran",
       "style_eskrima",
       "style_fencing",
       "style_silat",
@@ -3203,6 +3203,16 @@
   },
   {
     "type": "mutation",
+    "id": "PAINREC1",
+    "name": { "str": "Pain Recovery" },
+    "points": 1,
+    "description": "You recover from pain slightly faster than normal.",
+    "starting_trait": true,
+    "changes_to": [ "NOPAIN" ],
+    "pain_recovery": 1.0
+  },
+  {
+    "type": "mutation",
     "id": "MUT_TOUGH2",
     "name": { "str": "Solidly Built" },
     "points": 3,
@@ -3240,7 +3250,7 @@
     "description": "You've developed a serious appetite for pain, and take pride in your scars.",
     "valid": false,
     "prereqs": [ "MASOCHIST", "PAINRESIST", "ADDICTIVE" ],
-    "prereqs2": [ "PAINREC2", "PAINREC3" ],
+    "prereqs2": [ "PAINREC1", "ADDICTIVE" ],
     "threshreq": [ "THRESH_MEDICAL" ],
     "leads_to": [ "MUT_TOUGH" ],
     "changes_to": [ "CENOBITE" ],
@@ -3258,7 +3268,6 @@
     "valid": false,
     "purifiable": false,
     "prereqs": [ "MASOCHIST_MED" ],
-    "prereqs2": [ "PAINREC3", "ADDICTIVE" ],
     "threshreq": [ "THRESH_MEDICAL" ],
     "category": [ "MEDICAL" ]
   },
@@ -3271,7 +3280,7 @@
     "valid": false,
     "purifiable": false,
     "prereqs": [ "MASOCHIST", "PAINRESIST" ],
-    "prereqs2": [ "PAINREC3" ],
+    "prereqs2": [ "PAINREC1" ],
     "cancels": [ "MORE_PAIN", "MORE_PAIN2", "MORE_PAIN3" ],
     "threshreq": [ "THRESH_MEDICAL" ],
     "category": [ "MEDICAL" ]

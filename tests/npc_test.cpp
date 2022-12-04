@@ -25,6 +25,7 @@
 #include "pimpl.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "state_helpers.h"
 #include "text_snippets.h"
 #include "type_id.h"
 #include "veh_type.h"
@@ -85,6 +86,7 @@ static std::string get_list_of_npcs( const std::string &title )
 
 TEST_CASE( "on_load-sane-values", "[.]" )
 {
+    clear_all_state();
     SECTION( "Awake for 10 minutes, gaining hunger/thirst/fatigue" ) {
         npc test_npc = create_model();
         const int five_min_ticks = 2;
@@ -138,6 +140,7 @@ TEST_CASE( "on_load-sane-values", "[.]" )
 
 TEST_CASE( "on_load-similar-to-per-turn", "[.]" )
 {
+    clear_all_state();
     SECTION( "Awake for 10 minutes, gaining hunger/thirst/fatigue" ) {
         npc on_load_npc = create_model();
         npc iterated_npc = create_model();
@@ -179,6 +182,7 @@ TEST_CASE( "on_load-similar-to-per-turn", "[.]" )
 
 TEST_CASE( "snippet-tag-test" )
 {
+    clear_all_state();
     // Actually used tags
     static const std::set<std::string> npc_talk_tags = {
         {
@@ -309,6 +313,7 @@ static void check_npc_movement( const tripoint &origin )
 
 TEST_CASE( "npc-movement" )
 {
+    clear_all_state();
     const ter_id t_reinforced_glass( "t_reinforced_glass" );
     const ter_id t_floor( "t_floor" );
     const furn_id f_rubble( "f_rubble" );
@@ -317,8 +322,6 @@ TEST_CASE( "npc-movement" )
     const vpart_id vpart_seat( "seat" );
 
     g->place_player( tripoint( 60, 60, 0 ) );
-
-    clear_map();
 
     Character &player_character = get_player_character();
     map &here = get_map();
@@ -372,6 +375,10 @@ TEST_CASE( "npc-movement" )
                 // the NPC deems themselves to be guarding and stops them
                 // wandering off in search of distant ammo caches, etc.
                 guy->mission = NPC_MISSION_SHOPKEEP;
+                // This prevents npcs occasionally teleporting away
+                guy->assign_activity( activity_id( "ACT_MEDITATE" ) );
+                //Sometimes they spawn with sledge hammers and bash down the walls
+                guy->weapon = item( "null", calendar::start_of_cataclysm );;
                 overmap_buffer.insert_npc( guy );
                 g->load_npcs();
                 guy->set_attitude( ( type == 'M' || type == 'C' ) ? NPCATT_NULL : NPCATT_FOLLOW );
@@ -433,6 +440,7 @@ TEST_CASE( "npc-movement" )
 
 TEST_CASE( "npc_can_target_player" )
 {
+    clear_all_state();
     // Set to daytime for visibiliity
     calendar::turn = calendar::turn_zero + 12_hours;
 
@@ -454,4 +462,33 @@ TEST_CASE( "npc_can_target_player" )
     hostile.regen_ai_cache();
     REQUIRE( hostile.current_target() != nullptr );
     CHECK( hostile.current_target() == static_cast<Creature *>( &player_character ) );
+}
+
+TEST_CASE( "npc_move_through_vehicle_holes" )
+{
+    clear_all_state();
+    g->place_player( tripoint( 65, 55, 0 ) );
+    tripoint origin( 60, 60, 0 );
+
+    get_map().add_vehicle( vproto_id( "apc" ), origin, -45_degrees, 0, 0 );
+    get_map().build_map_cache( 0 );
+
+    tripoint mon_origin = origin + tripoint( -2, 1, 0 );
+
+    shared_ptr_fast<npc> guy = make_shared_fast<npc>();
+    guy->normalize();
+    guy->randomize();
+    guy->spawn_at_precise( {g->get_levx(), g->get_levy()}, mon_origin );
+
+    overmap_buffer.insert_npc( guy );
+    g->load_npcs();
+
+    guy->move_to( mon_origin + tripoint_north_west, true, nullptr );
+
+    const npc *m = g->critter_at<npc>( mon_origin );
+    CHECK( m != nullptr );
+
+    const npc *m2 = g->critter_at<npc>( mon_origin + tripoint_north_west );
+    CHECK( m2 == nullptr );
+
 }

@@ -10,7 +10,7 @@
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
-#include "game.h"
+#include "character_functions.h"
 #include "item.h"
 #include "itype.h"
 #include "map.h"
@@ -22,6 +22,7 @@
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "skill.h"
+#include "state_helpers.h"
 #include "type_id.h"
 #include "value_ptr.h"
 #include "vehicle.h"
@@ -36,6 +37,7 @@ static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 
 TEST_CASE( "identifying unread books", "[reading][book][identify]" )
 {
+    clear_all_state();
     avatar dummy;
 
     GIVEN( "player has some unidentified books" ) {
@@ -59,6 +61,7 @@ TEST_CASE( "identifying unread books", "[reading][book][identify]" )
 
 TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
 {
+    clear_all_state();
     avatar dummy;
 
     GIVEN( "a fun book" ) {
@@ -71,8 +74,8 @@ TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
             REQUIRE_FALSE( dummy.has_trait( trait_LOVES_BOOKS ) );
 
             THEN( "the book is a normal amount of fun" ) {
-                CHECK( dummy.fun_to_read( book ) == true );
-                CHECK( dummy.book_fun_for( book, dummy ) == book_fun );
+                CHECK( character_funcs::is_fun_to_read( dummy, book ) == true );
+                CHECK( character_funcs::get_book_fun_for( dummy, book ) == book_fun );
             }
         }
 
@@ -81,8 +84,8 @@ TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
             REQUIRE( dummy.has_trait( trait_LOVES_BOOKS ) );
 
             THEN( "the book is extra fun" ) {
-                CHECK( dummy.fun_to_read( book ) == true );
-                CHECK( dummy.book_fun_for( book, dummy ) == book_fun + 1 );
+                CHECK( character_funcs::is_fun_to_read( dummy, book ) == true );
+                CHECK( character_funcs::get_book_fun_for( dummy, book ) == book_fun + 1 );
             }
         }
     }
@@ -98,8 +101,8 @@ TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
             REQUIRE_FALSE( dummy.has_trait( trait_SPIRITUAL ) );
 
             THEN( "the book is a normal amount of fun" ) {
-                CHECK( dummy.fun_to_read( book ) == true );
-                CHECK( dummy.book_fun_for( book, dummy ) == book_fun );
+                CHECK( character_funcs::is_fun_to_read( dummy, book ) == true );
+                CHECK( character_funcs::get_book_fun_for( dummy, book ) == book_fun );
             }
         }
 
@@ -108,8 +111,8 @@ TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
             REQUIRE( dummy.has_trait( trait_SPIRITUAL ) );
 
             THEN( "the book is thrice the fun" ) {
-                CHECK( dummy.fun_to_read( book ) == true );
-                CHECK( dummy.book_fun_for( book, dummy ) == book_fun * 3 );
+                CHECK( character_funcs::is_fun_to_read( dummy, book ) == true );
+                CHECK( character_funcs::get_book_fun_for( dummy, book ) == book_fun * 3 );
             }
         }
     }
@@ -117,6 +120,7 @@ TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
 
 TEST_CASE( "character reading speed", "[reading][character][speed]" )
 {
+    clear_all_state();
     avatar dummy;
 
     // Note: read_speed() returns number of moves;
@@ -161,6 +165,7 @@ TEST_CASE( "character reading speed", "[reading][character][speed]" )
 
 TEST_CASE( "estimated reading time for a book", "[reading][book][time]" )
 {
+    clear_all_state();
     avatar dummy;
 
     // Easy, medium, and hard books
@@ -189,7 +194,7 @@ TEST_CASE( "estimated reading time for a book", "[reading][book][time]" )
 
         // Get some light
         dummy.i_add( item( "atomic_lamp" ) );
-        REQUIRE( dummy.fine_detail_vision_mod() == 1 );
+        REQUIRE( character_funcs::fine_detail_vision_mod( dummy ) == character_funcs::FINE_VISION_PERFECT );
 
         WHEN( "player has average intelligence" ) {
             dummy.int_max = 8;
@@ -233,6 +238,7 @@ TEST_CASE( "estimated reading time for a book", "[reading][book][time]" )
 
 TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
 {
+    clear_all_state();
     avatar dummy;
     std::vector<std::string> reasons;
     std::vector<std::string> expect_reasons;
@@ -252,7 +258,7 @@ TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
 
     SECTION( "you cannot read in darkness" ) {
         dummy.add_env_effect( efftype_id( "darkness" ), bp_eyes, 3, 1_hours );
-        REQUIRE( dummy.fine_detail_vision_mod() > 4 );
+        REQUIRE( !character_funcs::can_see_fine_details( dummy ) );
 
         CHECK( dummy.get_book_reader( child, reasons ) == nullptr );
         expect_reasons = { "It's too dark to read!" };
@@ -267,7 +273,7 @@ TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
 
         // Get some light
         dummy.i_add( item( "atomic_lamp" ) );
-        REQUIRE( dummy.fine_detail_vision_mod() == 1 );
+        REQUIRE( character_funcs::fine_detail_vision_mod( dummy ) == character_funcs::FINE_VISION_PERFECT );
 
         THEN( "you cannot read while illiterate" ) {
             dummy.toggle_trait( trait_ILLITERATE );
@@ -322,6 +328,7 @@ TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
 // Now that's an ugly test
 TEST_CASE( "Learning recipes from books", "[reading][book][recipe]" )
 {
+    clear_all_state();
     avatar dummy;
     item &alpha = dummy.i_add( item( "recipe_alpha" ) );
     auto mutagen_iter = std::find_if( recipe_dict.begin(),
@@ -398,10 +405,9 @@ static void destroyed_book_test_helper( avatar &u, item_location loc )
 
 TEST_CASE( "Losing book during reading", "[reading][book]" )
 {
-    clear_map();
-    clear_avatar();
+    clear_all_state();
     set_time( calendar::turn_zero + 12_hours );
-    avatar &u = g->u;
+    avatar &u = get_avatar();
     SECTION( "Book in inventory" ) {
         item &alpha = u.i_add( item( "novel_western" ) );
         item_location loc( u, &alpha );
@@ -409,14 +415,14 @@ TEST_CASE( "Losing book during reading", "[reading][book]" )
     }
 
     SECTION( "Book below player" ) {
-        item &alpha = g->m.add_item( u.pos(), item( "novel_western" ) );
+        item &alpha = get_map().add_item( u.pos(), item( "novel_western" ) );
         REQUIRE( !alpha.is_null() );
         item_location loc( map_cursor( u.pos() ), &alpha );
         destroyed_book_test_helper( u, loc );
     }
 
     SECTION( "Book in car" ) {
-        vehicle *veh = g->m.add_vehicle( vproto_id( "car" ), u.pos(), 0_degrees, 0, 0 );
+        vehicle *veh = get_map().add_vehicle( vproto_id( "car" ), u.pos(), 0_degrees, 0, 0 );
         REQUIRE( veh != nullptr );
         int part = veh->part_with_feature( point_zero, "CARGO", true );
         REQUIRE( part >= 0 );

@@ -90,7 +90,7 @@ void kiln_empty( player &p, const tripoint &examp );
 void kiln_full( player &p, const tripoint &examp );
 void arcfurnace_empty( player &p, const tripoint &examp );
 void arcfurnace_full( player &p, const tripoint &examp );
-void autoclave_empty( player &p, const tripoint &examp );
+void autoclave_empty( player &p, const tripoint & );
 void autoclave_full( player &, const tripoint &examp );
 void fireplace( player &p, const tripoint &examp );
 void fvat_empty( player &p, const tripoint &examp );
@@ -113,6 +113,7 @@ void open_safe( player &p, const tripoint &examp );
 void workbench( player &p, const tripoint &examp );
 void dimensional_portal( player &p, const tripoint &examp );
 void check_power( player &p, const tripoint &examp );
+void migo_nerve_cluster( player &p, const tripoint &examp );
 
 bool pour_into_keg( const tripoint &pos, item &liquid );
 cata::optional<tripoint> getGasPumpByNumber( const tripoint &p, int number );

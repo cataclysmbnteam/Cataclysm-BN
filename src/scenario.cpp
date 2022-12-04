@@ -298,14 +298,14 @@ void reset_scenarios_blacklist()
     sc_blacklist = scen_blacklist();
 }
 
-std::vector<string_id<profession>> scenario::permitted_professions() const
+std::vector<profession_id> scenario::permitted_professions() const
 {
     if( !cached_permitted_professions.empty() ) {
         return cached_permitted_professions;
     }
 
     const auto all = profession::get_all();
-    std::vector<string_id<profession>> &res = cached_permitted_professions;
+    std::vector<profession_id> &res = cached_permitted_professions;
     for( const profession &p : all ) {
         const bool present = std::find( professions.begin(), professions.end(),
                                         p.ident() ) != professions.end();
@@ -331,8 +331,8 @@ std::vector<string_id<profession>> scenario::permitted_professions() const
     }
 
     if( res.empty() ) {
-        debugmsg( "Why would you blacklist every profession?" );
-        res.push_back( profession::generic()->ident() );
+        debugmsg( "Scenario %s blacklists all professions.", id );
+        res.push_back( profession::generic() );
     }
     return res;
 }
@@ -364,7 +364,7 @@ bool scenario::scenario_traits_conflict_with_profession_traits( const profession
     return false;
 }
 
-const profession *scenario::weighted_random_profession() const
+const profession_id &scenario::weighted_random_profession() const
 {
     // Strategy: 1/3 of the time, return the generic profession (if it's permitted).
     // Otherwise, the weight of each permitted profession is 2 / ( |point cost| + 2 )
@@ -374,9 +374,9 @@ const profession *scenario::weighted_random_profession() const
     }
 
     while( true ) {
-        const string_id<profession> &candidate = random_entry_ref( choices );
+        const profession_id &candidate = random_entry_ref( choices );
         if( x_in_y( 2, 2 + std::abs( candidate->point_cost() ) ) ) {
-            return &candidate.obj();
+            return candidate->ident();
         }
     }
     return profession::generic(); // Suppress warnings

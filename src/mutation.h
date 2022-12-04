@@ -28,30 +28,11 @@ class JsonObject;
 class Trait_group;
 class item;
 class nc_color;
-struct dream;
 template <typename E> struct enum_traits;
 template <typename T> class string_id;
 class JsonArray;
 
-extern std::vector<dream> dreams;
 extern std::map<std::string, std::vector<trait_id> > mutations_category;
-
-struct dream {
-    private:
-        std::vector<std::string> raw_messages; // The messages that the dream will give
-
-    public:
-        std::vector<std::string> messages() const;
-
-        std::string category; // The category that will trigger the dream
-        int strength; // The category strength required for the dream
-
-        dream() {
-            strength = 0;
-        }
-
-        static void load( const JsonObject &jsobj );
-};
 
 struct mut_attack {
     /** Text printed when the attack is proced by you */
@@ -129,6 +110,8 @@ struct mutation_branch {
         int bodytemp_min = 0;
         int bodytemp_max = 0;
         int bodytemp_sleep = 0;
+        // Pain Recovery per turn:
+        float pain_recovery = 0.0f;
         // Healing per turn
         float healing_awake = 0.0f;
         float healing_resting = 0.0f;

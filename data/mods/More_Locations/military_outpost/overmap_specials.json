@@ -77,7 +77,7 @@
       { "point": [ 2, 3, -4 ], "overmap": "mil_outpost_ubeb_north" },
       { "point": [ 3, 3, -4 ], "overmap": "mil_outpost_ubrc_north" }
     ],
-    "connections": [ { "point": [ 2, 5, 0 ], "terrain": "road" } ],
+    "connections": [ { "point": [ 2, 5, 0 ], "connection": "local_road" } ],
     "locations": [ "wilderness" ],
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 1, 12 ],

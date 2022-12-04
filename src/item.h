@@ -33,6 +33,7 @@ class Character;
 class JsonIn;
 class JsonObject;
 class JsonOut;
+class Creature;
 class faction;
 class gun_type_type;
 class gunmod_location;
@@ -1658,12 +1659,12 @@ class item : public visitable<item>
          * This is a per-character setting, different characters may have different number of
          * unread chapters.
          */
-        int get_remaining_chapters( const player &u ) const;
+        int get_remaining_chapters( const Character &ch ) const;
         /**
          * Mark one chapter of the book as read by the given player. May do nothing if the book has
          * no unread chapters. This is a per-character setting, see @ref get_remaining_chapters.
          */
-        void mark_chapter_as_read( const player &u );
+        void mark_chapter_as_read( const Character &ch );
         /**
          * Enumerates recipes available from this book and the skill level required to use them.
          */
@@ -2231,6 +2232,7 @@ class item : public visitable<item>
     public:
         char invlet = 0;      // Inventory letter
         bool active = false; // If true, it has active effects to be processed
+        safe_reference<player> activated_by;
         bool is_favorite = false;
 
         void set_favorite( bool favorite );
@@ -2247,21 +2249,6 @@ class item : public visitable<item>
 
 bool item_compare_by_charges( const item &left, const item &right );
 bool item_ptr_compare_by_charges( const item *left, const item *right );
-
-/**
- *  Hint value used in a hack to decide text color.
- *
- *  This is assigned as a result of some legacy logic in @ref draw_item_info().  This
- *  will eventually be rewritten to eliminate the need for this hack.
- */
-enum class hint_rating : int {
-    /** Item should display as gray */
-    cant = 0,
-    /** Item should display as red */
-    iffy = 1,
-    /** Item should display as green */
-    good = -999
-};
 
 /**
  * Returns a reference to a null item (see @ref item::is_null). The reference is always valid

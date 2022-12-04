@@ -412,7 +412,7 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "48 m",
-    "autolearn": true,
+    "autolearn": [ [ "tailor", 4 ] ],
     "book_learn": [ [ "textbook_tailor", 2 ], [ "manual_tailor", 2 ] ],
     "using": [ [ "sewing_standard", 16 ] ],
     "components": [ [ [ "rag", 8 ] ] ]

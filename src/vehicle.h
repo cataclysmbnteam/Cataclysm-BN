@@ -761,6 +761,14 @@ class vehicle
         void suspend_refresh();
         void enable_refresh();
 
+        inline void attach() {
+            attached = true;
+        }
+
+        inline void detach() {
+            attached = false;
+        }
+
         /**
          * Set stat for part constrained by range [0,durability]
          * @note does not invoke base @ref item::on_damage callback
@@ -993,6 +1001,9 @@ class vehicle
         int avail_part_with_feature( const point &pt, const std::string &f, bool unbroken ) const;
         int avail_part_with_feature( int p, vpart_bitflags f, bool unbroken ) const;
 
+        int obstacle_at_position( const point &pos ) const;
+        int opaque_at_position( const point &pos ) const;
+
         /**
          *  Check if vehicle has at least one unbroken part with specified flag
          *  @param flag Specified flag to search parts for
@@ -1065,12 +1076,16 @@ class vehicle
         // Translate mount coordinates "p" into tile coordinates "q" using given pivot direction and anchor
         void coord_translate( units::angle dir, const point &pivot, const point &p,
                               tripoint &q ) const;
-        // Translate mount coordinates "p" into tile coordinates "q" using given tileray and anchor
-        // should be faster than previous call for repeated translations
-        void coord_translate( tileray tdir, const point &pivot, const point &p, tripoint &q ) const;
+
+        // Translate rotated tile coordinates "p" into mount coordinates "q" using given pivot direction and anchor
+        void coord_translate_reverse( units::angle dir, const point &pivot, const tripoint &p,
+                                      point &q ) const;
 
         tripoint mount_to_tripoint( const point &mount ) const;
         tripoint mount_to_tripoint( const point &mount, const point &offset ) const;
+
+        //Translate tile coordinates into mount coordinates
+        point tripoint_to_mount( const tripoint &p ) const;
 
         // Seek a vehicle part which obstructs tile with given coordinates relative to vehicle position
         int part_at( const point &dp ) const;
@@ -1082,7 +1097,7 @@ class vehicle
 
         // get symbol for map
         char part_sym( int p, bool exact = false ) const;
-        vpart_id part_id_string( int p, char &part_mod ) const;
+        vpart_id part_id_string( int p, bool roof, char &part_mod ) const;
 
         // get color for map
         nc_color part_color( int p, bool exact = false ) const;
@@ -1095,6 +1110,9 @@ class vehicle
             const catacurses::window &win, const point &, int start_index = 0,
             bool fullsize = false, bool verbose = false, bool desc = false,
             bool isHorizontal = false );
+
+        //Refresh part locations
+        void refresh_position();
 
         // Pre-calculate mount points for (idir=0) - current direction or (idir=1) - next turn direction
         void precalc_mounts( int idir, units::angle dir, const point &pivot );
@@ -1205,6 +1223,9 @@ class vehicle
          * Mark mass caches and pivot cache as dirty
          */
         void invalidate_mass();
+
+        //Converts angles into turning increments
+        static int angle_to_increment( units::angle dir );
 
         // get the total mass of vehicle, including cargo and passengers
         units::mass total_mass() const;
@@ -1395,6 +1416,12 @@ class vehicle
         // leak from broken tanks
         void slow_leak();
 
+        //checks if we are, or will be after movement, on a ramp
+        bool check_on_ramp( int idir = 0, const tripoint &offset = tripoint_zero ) const;
+
+        //calculates the precalc zlevels wrt ramps
+        void adjust_zlevel( int idir = 0, const tripoint &offset = tripoint_zero );
+
         // thrust (1) or brake (-1) vehicle
         // @param z = z thrust for helicopters etc
         void thrust( int thd, int z = 0 );
@@ -1413,6 +1440,28 @@ class vehicle
 
         // turn vehicle left (negative) or right (positive), degrees
         void turn( units::angle deg );
+
+        inline void set_facing( units::angle deg, bool refresh = true ) {
+            turn_dir = deg;
+            face.init( deg );
+            pivot_rotation[0] = deg;
+            if( refresh ) {
+                refresh_position();
+            }
+        }
+
+        inline void set_pivot( const point &pivot, bool refresh = true ) {
+            pivot_cache = pivot;
+            pivot_anchor[0] = pivot;
+            if( refresh ) {
+                refresh_position();
+            }
+        }
+
+        inline void set_facing_and_pivot( units::angle deg, const point &pivot, bool refresh = true ) {
+            set_facing( deg, false );
+            set_pivot( pivot, refresh );
+        }
 
         // Returns if any collision occurred
         bool collision( std::vector<veh_collision> &colls,
@@ -1691,7 +1740,6 @@ class vehicle
          * the map is just shifted (in the later case simply set smx/smy directly).
          */
         void set_submap_moved( const tripoint &p );
-        void use_autoclave( int p );
         void use_washing_machine( int p );
         void use_dishwasher( int p );
         void use_monster_capture( int part, const tripoint &pos );
@@ -1699,6 +1747,16 @@ class vehicle
         void use_harness( int part, const tripoint &pos );
 
         void interact_with( const tripoint &pos, int interact_part );
+
+        //Check if a movement is blocked, must be adjacent points
+        bool allowed_move( const point &from, const point &to ) const;
+
+        //Check if light is blocked, must be adjacent points
+        bool allowed_light( const point &from, const point &to ) const;
+
+        //Checks if the conditional holds for tiles that can be skipped due to rotation
+        bool check_rotated_intervening( const point &from, const point &to, bool( *check )( const vehicle *,
+                                        const point & ) ) const;
 
         std::string disp_name() const;
 
@@ -1708,6 +1766,7 @@ class vehicle
         // Called by map.cpp to make sure the real position of each zone_data is accurate
         bool refresh_zones();
 
+        //Gets the vehicle space xy bounding box for a vehicle in its current rotation.
         bounding_box get_bounding_box();
         // Retroactively pass time spent outside bubble
         // Funnels, solar panels
@@ -1742,11 +1801,9 @@ class vehicle
         bool valid_part( int part_num ) const;
         // Updates the internal precalculated mount offsets after the vehicle has been displaced
         // used in map::displace_vehicle()
-        std::set<int> advance_precalc_mounts( const point &new_pos, const tripoint &src,
-                                              const tripoint &dp, int ramp_offset,
-                                              bool adjust_pos, std::set<int> parts_to_move );
-        // make sure the vehicle is supported across z-levels or on the same z-level
-        bool level_vehicle();
+        std::set<int> advance_precalc_mounts( const point &new_pos, const tripoint &src );
+        // Adjust the vehicle's global z-level to match its center
+        void shift_zlevel();
 
         std::vector<int> alternators;      // List of alternator indices
         std::vector<int> engines;          // List of engine indices
@@ -1917,8 +1974,10 @@ class vehicle
         mutable bool is_flying = false;
         int requested_z_change = 0;
 
+        // is the vehicle currently placed on the map
+        bool attached = false;
+
     public:
-        bool is_on_ramp = false;
         // vehicle being driven by player/npc automatically
         bool is_autodriving = false;
         bool is_following = false;

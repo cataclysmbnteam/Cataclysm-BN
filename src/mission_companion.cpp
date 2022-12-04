@@ -732,7 +732,7 @@ npc_ptr talk_function::individual_mission( const tripoint_abs_omt &omt_pos,
         }
     }
     if( comp->in_vehicle ) {
-        g->m.unboard_vehicle( comp->pos() );
+        get_map().unboard_vehicle( comp->pos() );
     }
     popup( "%s %s", comp->name, desc );
     comp->set_companion_mission( omt_pos, role_id, miss_id );
@@ -1757,10 +1757,11 @@ void talk_function::companion_return( npc &comp )
     comp.reset_companion_mission();
     comp.companion_mission_time = calendar::before_time_starts;
     comp.companion_mission_time_ret = calendar::before_time_starts;
+    map &here = get_map();
     for( size_t i = 0; i < comp.companion_mission_inv.size(); i++ ) {
         for( const auto &it : comp.companion_mission_inv.const_stack( i ) ) {
             if( !it.count_by_charges() || it.charges > 0 ) {
-                g->m.add_item_or_charges( g->u.pos(), it );
+                here.add_item_or_charges( g->u.pos(), it );
             }
         }
     }
@@ -1900,13 +1901,16 @@ npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required
         if( !guy ) {
             continue;
         }
-        npc_companion_mission c_mission = guy->get_companion_mission();
-        // get non-assigned visible followers
-        if( g->u.posz() == guy->posz() && !guy->has_companion_mission() &&
-            !guy->is_travelling() &&
+        if( guy->has_companion_mission() ) {
+            // Already assigned on a task
+            continue;
+        }
+        // Try nearby visible followers
+        if( g->u.posz() == guy->posz() && !guy->is_travelling() &&
             ( rl_dist( g->u.pos(), guy->pos() ) <= SEEX * 2 ) && g->u.sees( guy->pos() ) ) {
             available.push_back( guy );
         } else if( bcp ) {
+            // Try NPCs assigned to this camp
             basecamp *player_camp = *bcp;
             std::vector<npc_ptr> camp_npcs = player_camp->get_npcs_assigned();
             if( std::any_of( camp_npcs.begin(), camp_npcs.end(),

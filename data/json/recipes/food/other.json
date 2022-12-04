@@ -330,7 +330,7 @@
         [ "irradiated_lemon", 1 ],
         [ "rennet", 1 ],
         [ "stomach_large", 1 ],
-        [ "stomach", 2 ],
+        [ "stomach", 1 ],
         [ "wild_herbs", 40 ]
       ],
       [ [ "salt_water", 1 ], [ "saline", 1 ], [ "salt", 1 ], [ "seasoning_salt", 1 ] ],
@@ -1088,7 +1088,7 @@
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
     "difficulty": 1,
-    "charges": 14,
+    "charges": 7,
     "time": "20 m",
     "batch_time_factors": [ 50, 3 ],
     "autolearn": true,

@@ -194,9 +194,9 @@ struct pry_result {
     // sound message made on breakage, if breakable is true
     translation break_sound;
     // Messages for succeeding or failing pry attempt, and breakage
-    std::string success_message;
-    std::string fail_message;
-    std::string break_message;
+    translation success_message;
+    translation fail_message;
+    translation break_message;
     pry_result();
     enum map_object_type {
         furniture = 0,
@@ -321,6 +321,8 @@ enum ter_bitflags : int {
     TFLAG_Z_TRANSPARENT,
     TFLAG_SUN_ROOF_ABOVE,
     TFLAG_SUSPENDED,
+    TFLAG_FRIDGE,
+    TFLAG_FREEZER,
 
     NUM_TERFLAGS
 };
@@ -394,6 +396,8 @@ struct map_data_common_t {
 
         // Message text for notify and transform examine actions
         std::string message;
+        // Prompt text for transform_examine actions
+        std::string prompt;
 
         iexamine_function examine; // What happens when the terrain/furniture is examined
 
@@ -455,6 +459,9 @@ struct map_data_common_t {
 * Short for terrain type. This struct defines all of the metadata for a given terrain id (an enum below).
 */
 struct ter_t : map_data_common_t {
+
+    std::vector<std::pair<ter_str_id, mod_id>> src;
+
     ter_str_id id;    // The terrain's ID. Must be set, must be unique.
     ter_str_id open;  // Open action: transform into terrain with matching id
     ter_str_id close; // Close action: transform into terrain with matching id
@@ -487,12 +494,15 @@ lockpicking_open_result get_lockpicking_open_result( ter_id ter_type, furn_id fu
  */
 
 struct furn_t : map_data_common_t {
+
+    std::vector<std::pair<furn_str_id, mod_id>> src;
+
     furn_str_id id;
     furn_str_id open;  // Open action: transform into furniture with matching id
     furn_str_id close; // Close action: transform into furniture with matching id
     furn_str_id transforms_into; // Transform into what furniture?
 
-    itype_id crafting_pseudo_item;
+    std::set<itype_id> crafting_pseudo_items;
     units::volume keg_capacity = 0_ml;
     int comfort = 0;
     int floor_bedding_warmth = 0;
@@ -512,10 +522,8 @@ struct furn_t : map_data_common_t {
 
     cata::poly_serialized<active_tile_data> active;
 
-    // May return NULL
-    const itype *crafting_pseudo_item_type() const;
-    // May return NULL
-    const itype *crafting_ammo_item_type() const;
+    std::vector<itype> crafting_pseudo_item_types() const;
+    std::vector<itype> crafting_ammo_item_types() const;
 
     furn_t();
 
@@ -673,7 +681,7 @@ extern furn_id f_null,
        f_chair, f_armchair, f_sofa, f_cupboard, f_trashcan, f_desk, f_exercise,
        f_bench, f_table, f_pool_table,
        f_counter,
-       f_fridge, f_fridge_on, f_minifreezer_on, f_glass_fridge, f_dresser, f_locker,
+       f_fridge, f_fridge_on, f_minifreezer_on, f_glass_fridge, f_freezer, f_dresser, f_locker,
        f_rack, f_bookcase,
        f_washer, f_dryer,
        f_vending_c, f_vending_o, f_dumpster, f_dive_block,

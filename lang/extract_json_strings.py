@@ -75,6 +75,7 @@ ignorable = {
     "charge_removal_blacklist",
     "city_building",
     "colordef",
+    "construction_sequence",
     "disease_type",
     "emit",
     "enchantment",
@@ -122,6 +123,7 @@ ignorable = {
 #   "description" member
 #   "text" member
 #   "sound" member
+#   "prompt" member
 #   "messages" member containing an array of translatable strings
 automatically_convertible = {
     "achievement",
@@ -135,6 +137,7 @@ automatically_convertible = {
     "BOOK",
     "COMESTIBLE",
     "construction_category",
+    "construction_group",
     "CONTAINER",
     "dream",
     "ENGINE",
@@ -236,7 +239,6 @@ def extract_clothing_mod(state, item):
 
 
 def extract_construction(state, item):
-    writestr(state, item["description"])
     if "pre_note" in item:
         writestr(state, item["pre_note"])
 
@@ -1064,6 +1066,23 @@ def extract(state, item):
         if "sound_fail" in bash:
             writestr(state, bash["sound_fail"])
             wrote = True
+    if "pry" in item:
+        pry = item["pry"]
+        if "sound" in pry:
+            writestr(state, pry["sound"])
+            wrote = True
+        if "break_sound" in pry:
+            writestr(state, pry["break_sound"])
+            wrote = True
+        if "success_message" in pry:
+            writestr(state, pry["success_message"])
+            wrote = True
+        if "fail_message" in pry:
+            writestr(state, pry["fail_message"])
+            wrote = True
+        if "break_message" in pry:
+            writestr(state, pry["break_message"])
+            wrote = True
     if "seed_data" in item:
         seed_data = item["seed_data"]
         writestr(state, seed_data["plant_name"])
@@ -1073,6 +1092,9 @@ def extract(state, item):
         wrote = True
     if "text" in item:
         writestr(state, item["text"])
+        wrote = True
+    if "prompt" in item:
+        writestr(state, item["prompt"])
         wrote = True
     if "message" in item:
         writestr(state, item["message"], format_strings=True,

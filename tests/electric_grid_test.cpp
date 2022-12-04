@@ -13,6 +13,7 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "submap.h"
+#include "state_helpers.h"
 #include "stringmaker.h"
 #include "vehicle.h"
 
@@ -145,7 +146,8 @@ static grid_setup set_up_grid( map &m )
 
 TEST_CASE( "grid_and_vehicle_in_bubble", "[grids][vehicle]" )
 {
-    clear_map_and_put_player_underground();
+    clear_all_state();
+    put_player_underground();
     GIVEN( "vehicle and battery are on one grid" ) {
         auto setup = set_up_grid( get_map() );
         test_grid_veh( setup.grid, setup.veh, setup.battery );
@@ -154,7 +156,8 @@ TEST_CASE( "grid_and_vehicle_in_bubble", "[grids][vehicle]" )
 
 TEST_CASE( "grid_and_vehicle_outside_bubble", "[grids][vehicle]" )
 {
-    clear_map_and_put_player_underground();
+    clear_all_state();
+    put_player_underground();
     map &m = get_map();
     const tripoint old_abs_sub = m.get_abs_sub();
     // Ugly: we move the real map instead of the tinymap to reuse clear_map() results
@@ -357,8 +360,9 @@ static void test_charge_watcher( grid_setup_watcher &setup )
 
 TEST_CASE( "steady_consumer_in_bubble", "[grids]" )
 {
+    clear_all_state();
     calendar::turn = calendar::turn_zero;
-    clear_map_and_put_player_underground();
+    put_player_underground();
 
     GIVEN( "consumer and battery are on one grid" ) {
         grid_setup_consumer setup = set_up_grid_with_consumer<steady_consumer_tile, grid_setup_consumer>
@@ -369,8 +373,9 @@ TEST_CASE( "steady_consumer_in_bubble", "[grids]" )
 
 TEST_CASE( "charge_watcher_in_bubble", "[grids]" )
 {
+    clear_all_state();
     calendar::turn = calendar::turn_zero;
-    clear_map_and_put_player_underground();
+    put_player_underground();
 
     GIVEN( "watcher and battery are on one grid" ) {
         grid_setup_watcher setup = set_up_grid_with_consumer<charge_watcher_tile, grid_setup_watcher>
@@ -381,8 +386,9 @@ TEST_CASE( "charge_watcher_in_bubble", "[grids]" )
 
 TEST_CASE( "grid_furn_transform_queue_in_bubble", "[grids]" )
 {
+    clear_all_state();
     calendar::turn = calendar::turn_zero;
-    clear_map_and_put_player_underground();
+    put_player_underground();
 
     tripoint pos_local( 22, 7, 0 );
     tripoint_abs_ms pos_abs( get_map().getabs( pos_local ) );
@@ -402,8 +408,9 @@ TEST_CASE( "grid_furn_transform_queue_in_bubble", "[grids]" )
 
 TEST_CASE( "grid_furn_transform_queue_outside_bubble", "[grids]" )
 {
+    clear_all_state();
     calendar::turn = calendar::turn_zero;
-    clear_map_and_put_player_underground();
+    put_player_underground();
 
     tripoint pos_local( 22, 7, 0 );
     tripoint_abs_ms pos_abs( get_map().getabs( pos_local ) );

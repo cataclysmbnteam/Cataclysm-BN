@@ -9,6 +9,7 @@
 #include "mapdata.h"
 #include "monster.h"
 #include "options_helpers.h"
+#include "state_helpers.h"
 
 struct tripoint;
 
@@ -24,12 +25,12 @@ static const time_point midday = calendar::turn_zero + 12_hours;
 
 TEST_CASE( "monsters shouldn't see through floors", "[vision]" )
 {
+    clear_all_state();
     override_option opt( "ZLEVELS", "true" );
     override_option opt2( "FOV_3D", "true" );
     bool old_fov_3d = fov_3d;
     fov_3d = true;
     calendar::turn = midday;
-    clear_map();
     monster &upper = spawn_and_clear( { 5, 5, 0 }, true );
     monster &adjacent = spawn_and_clear( { 5, 6, 0 }, true );
     monster &distant = spawn_and_clear( { 5, 3, 0 }, true );
@@ -77,4 +78,27 @@ TEST_CASE( "monsters shouldn't see through floors", "[vision]" )
     CHECK( sky.sees( distant ) );
     CHECK( distant.sees( sky ) );
     fov_3d = old_fov_3d;
+}
+
+TEST_CASE( "monsters_dont_see_through_vehicle_holes", "[vision]" )
+{
+    clear_all_state();
+    calendar::turn = midday;
+    put_player_underground();
+    tripoint origin( 60, 60, 0 );
+
+    get_map().add_vehicle( vproto_id( "apc" ), origin, -45_degrees, 0, 0 );
+    get_map().build_map_cache( 0 );
+
+    tripoint mon_origin = origin + tripoint( -2, 1, 0 );
+
+    monster &inside = spawn_test_monster( "mon_zombie", mon_origin );
+
+    tripoint second_origin = mon_origin + tripoint_north_west;
+
+    monster &outside = spawn_test_monster( "mon_zombie", second_origin );
+
+    CHECK( !inside.sees( outside ) );
+    CHECK( !outside.sees( inside ) );
+
 }

@@ -22,6 +22,7 @@
 #include "pickup.h"
 #include "pickup_token.h"
 #include "player_helpers.h"
+#include "state_helpers.h"
 #include "units_mass.h"
 #include "units_volume.h"
 
@@ -52,6 +53,7 @@ class testing_stack : public item_stack
 
 TEST_CASE( "full backpack drop", "[activity][drop_token]" )
 {
+    clear_all_state();
     avatar dummy;
     item an_item( "bottle_glass" );
     item backpack( "backpack" );
@@ -263,13 +265,12 @@ TEST_CASE( "full backpack drop", "[activity][drop_token]" )
 
 TEST_CASE( "full backpack pickup", "[drop_token]" )
 {
+    clear_all_state();
     constexpr tripoint pos = tripoint( 60, 60, 0 );
     avatar &dummy = get_avatar();
     item an_item( "bottle_glass" );
     item backpack( "backpack" );
     item duffel_bag( "duffelbag" );
-    clear_avatar();
-    clear_map();
     dummy.set_moves( 100 );
 
     dummy.worn.emplace_back( duffel_bag );
@@ -352,6 +353,7 @@ static std::vector<item_stack::iterator> iterators_in_vector( item_stack &the_st
 
 TEST_CASE( "pickup_ui_stacking", "[activity][drop_token]" )
 {
+    clear_all_state();
     item an_item( "bottle_glass" );
     item backpack( "backpack" );
     item duffel_bag( "duffelbag" );

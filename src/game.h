@@ -574,7 +574,7 @@ class game
         void zones_manager();
 
         // Look at nearby terrain ';', or select zone points
-        cata::optional<tripoint> look_around();
+        cata::optional<tripoint> look_around( bool force_3d = false );
         /**
          * @brief
          *
@@ -590,7 +590,7 @@ class game
          */
         look_around_result look_around( bool show_window, tripoint &center,
                                         const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking,
-                                        bool is_moving_zone = false, const tripoint &end_point = tripoint_zero );
+                                        bool is_moving_zone = false, const tripoint &end_point = tripoint_zero, bool force_3d = false );
 
         // Shared method to print "look around" info
         void pre_print_all_tile_info( const tripoint &lp, const catacurses::window &w_info,
@@ -607,21 +607,6 @@ class game
         void extended_description( const tripoint &p );
 
         void draw_trail_to_square( const tripoint &t, bool bDrawX );
-
-        enum inventory_item_menu_positon {
-            RIGHT_TERMINAL_EDGE,
-            LEFT_OF_INFO,
-            RIGHT_OF_INFO,
-            LEFT_TERMINAL_EDGE,
-        };
-        int inventory_item_menu( item_location locThisItem,
-        const std::function<int()> &startx = []() {
-            return 0;
-        },
-        const std::function<int()> &width = []() {
-            return 50;
-        },
-        inventory_item_menu_positon position = RIGHT_OF_INFO );
 
         /** Custom-filtered menu for inventory and nearby items and those that within specified radius */
         item_location inv_map_splice( item_filter filter, const std::string &title, int radius = 0,
@@ -665,9 +650,13 @@ class game
         /**
          * Load the main map at given location, see @ref map::load, in global, absolute submap
          * coordinates.
+         * @param pump_events If true, handle window events during loading. If
+         * you set this to true, do ensure that the map is not accessed before
+         * this function returns (for example, UIs that draw the map should be
+         * disabled).
          */
-        void load_map( const tripoint &pos_sm );
-        void load_map( const tripoint_abs_sm &pos_sm );
+        void load_map( const tripoint &pos_sm, bool pump_events = false );
+        void load_map( const tripoint_abs_sm &pos_sm, bool pump_events = false );
         /**
          * The overmap which contains the center submap of the reality bubble.
          */
@@ -685,7 +674,7 @@ class game
 
         /**@}*/
 
-        void open_gate( const tripoint &p );
+        void toggle_gate( const tripoint &p );
 
         // Knockback functions: knock target at t along a line, either calculated
         // from source position s using force parameter or passed as an argument;
@@ -693,8 +682,9 @@ class game
         // force also determines damage along with dam_mult;
         // stun determines base number of turns target is stunned regardless of impact
         // stun == 0 means no stun, stun == -1 indicates only impact stun (wall or npc/monster)
-        void knockback( const tripoint &s, const tripoint &t, int force, int stun, int dam_mult );
-        void knockback( std::vector<tripoint> &traj, int stun, int dam_mult );
+        void knockback( const tripoint &s, const tripoint &t, int force, int stun, int dam_mult,
+                        Creature *source );
+        void knockback( std::vector<tripoint> &traj, int stun, int dam_mult, Creature *source );
 
         // Animation related functions
         void draw_bullet( const tripoint &t, int i, const std::vector<tripoint> &trajectory,
@@ -833,19 +823,10 @@ class game
         void drop_in_direction(); // Drop w/ direction  'D'
 
         void butcher(); // Butcher a corpse  'B'
-
-        // TODO: Remove this public, it's only for debug...
     public:
-        void reload( item_location &loc, bool prompt = false, bool empty = true );
-    public:
-        void reload_item(); // Reload an item
-        void reload_wielded( bool prompt = false );
-        void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
         // Places the player at the specified point; hurts feet, lists items etc.
         point place_player( const tripoint &dest );
         void place_player_overmap( const tripoint_abs_omt &om_dest );
-
-        bool unload( item_location loc ); // Unload a gun/tool  'U'
 
         unsigned int get_seed() const;
 
@@ -861,9 +842,6 @@ class game
         std::vector<std::string> get_dangerous_tile( const tripoint &dest_loc ) const;
         bool prompt_dangerous_tile( const tripoint &dest_loc ) const;
     private:
-        void wield();
-        void wield( item_location &loc );
-
         void chat(); // Talk to a nearby NPC  'C'
 
         // Internal methods to show "look around" info

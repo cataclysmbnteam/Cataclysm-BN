@@ -102,6 +102,10 @@ class texture
             return SDL_RenderCopyEx( renderer.get(), sdl_texture_ptr.get(), &srcrect, dstrect, angle, center,
                                      flip );
         }
+
+        int set_alpha_mod( int mod ) const {
+            return SDL_SetTextureAlphaMod( sdl_texture_ptr.get(), mod );
+        }
 };
 
 class tileset
@@ -125,6 +129,7 @@ class tileset
         std::vector<texture> night_tile_values;
         std::vector<texture> overexposed_tile_values;
         std::vector<texture> memory_tile_values;
+        std::vector<texture> z_overlay_values;
 
         std::unordered_map<std::string, tile_type> tile_ids;
         // caches both "default" and "_season_XXX" tile variants (to reduce the number of lookups)
@@ -166,6 +171,9 @@ class tileset
         }
         const texture *get_memory_tile( const size_t index ) const {
             return get_if_available( index, memory_tile_values );
+        }
+        const texture *get_z_overlay( const size_t index ) const {
+            return get_if_available( index, z_overlay_values );
         }
 
         tile_type &create_tile_type( const std::string &id, tile_type &&new_tile_type );
@@ -233,9 +241,12 @@ class tileset_loader
         void load_ascii( const JsonObject &config );
         /** Load tileset, R,G,B, are the color components of the transparent color
          * Returns the number of tiles that have been loaded from this tileset image
+         * @param pump_events Handle window events and refresh the screen when necessary.
+         *        Please ensure that the tileset is not accessed when this method is
+         *        executing if you set it to true.
          * @throw std::exception If the image can not be loaded.
          */
-        void load_tileset( const std::string &path );
+        void load_tileset( const std::string &path, bool pump_events );
         /**
          * Load tiles from json data.This expects a "tiles" array in
          * <B>config</B>. That array should contain all the tile definition that
@@ -250,10 +261,13 @@ class tileset_loader
         void load_tilejson_from_file( const JsonObject &config );
         /**
          * Helper function called by load.
+         * @param pump_events Handle window events and refresh the screen when necessary.
+         *        Please ensure that the tileset is not accessed when this method is
+         *        executing if you set it to true.
          * @throw std::exception On any error.
          */
         void load_internal( const JsonObject &config, const std::string &tileset_root,
-                            const std::string &img_path );
+                            const std::string &img_path, bool pump_events );
     public:
         tileset_loader( tileset &ts, const SDL_Renderer_Ptr &r ) : ts( ts ), renderer( r ) {
         }
@@ -261,8 +275,11 @@ class tileset_loader
          * @throw std::exception On any error.
          * @param tileset_id Ident of the tileset, as it appears in the options.
          * @param precheck If tue, only loads the meta data of the tileset (tile dimensions).
+         * @param pump_events Handle window events and refresh the screen when necessary.
+         *        Please ensure that the tileset is not accessed when this method is
+         *        executing if you set it to true.
          */
-        void load( const std::string &tileset_id, bool precheck );
+        void load( const std::string &tileset_id, bool precheck, bool pump_events = false );
 };
 
 enum class text_alignment : int {
@@ -328,6 +345,8 @@ class idle_animation_manager
  */
 using color_block_overlay_container = std::pair<SDL_BlendMode, std::multimap<point, SDL_Color>>;
 
+struct tile_render_info;
+
 class cata_tiles
 {
     public:
@@ -371,28 +390,88 @@ class cata_tiles
 
         bool find_overlay_looks_like( bool male, const std::string &overlay, std::string &draw_id );
 
+        /**
+         * @brief draw_from_id_string() without category, subcategory and height_3d
+         *
+         * @param category C_NONE
+         * @param subcategory empty_string
+         * @param height_3d nullint
+         */
         bool draw_from_id_string( const std::string &id, const tripoint &pos, int subtile, int rota,
-                                  lit_level ll, bool apply_night_vision_goggles );
+                                  lit_level ll, bool apply_night_vision_goggles, int overlay_count );
+        /**
+         * @brief * @brief draw_from_id_string() without height_3d
+         *
+         * @param height_3d nullint
+         */
         bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
                                   const std::string &subcategory, const tripoint &pos, int subtile, int rota,
-                                  lit_level ll, bool apply_night_vision_goggles );
+                                  lit_level ll, bool apply_night_vision_goggles, int overlay_count );
+        /**
+         * @brief draw_from_id_string() without height_3d
+         *
+         * @param category C_NONE
+         * @param subcategory empty_string
+         */
         bool draw_from_id_string( const std::string &id, const tripoint &pos, int subtile, int rota,
-                                  lit_level ll, bool apply_night_vision_goggles, int &height_3d );
+                                  lit_level ll, bool apply_night_vision_goggles, int &height_3d, int overlay_count );
+        /**
+         * @brief Try to draw a tile using the given id. calls draw_tile_at() at the end.
+         *
+         * @param id String id of the tile to draw.
+         * @param category Category of the tile to draw.
+         * @param subcategory if id is not found, try to find a tile for the category+subcategory combination
+         * @param pos Tripoint of the tile to draw.
+         * @param subtile variant of the tile
+         * @param rota rotation: { UP = 0, LEFT = 1, DOWN = 2, RIGHT = 3 }
+         * @param ll light level
+         * @param apply_night_vision_goggles use night vision colors?
+         * @param height_3d return parameter for height of the sprite
+         * @param overlay_count how blue the tile looks for lower z levels
+         * @return always true
+         */
         bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
                                   const std::string &subcategory, const tripoint &pos, int subtile, int rota,
-                                  lit_level ll, bool apply_night_vision_goggles, int &height_3d );
-        bool draw_sprite_at(
-            const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
-            const point &, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
-            bool apply_night_vision_goggles );
-        bool draw_sprite_at(
-            const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
-            const point &, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
-            bool apply_night_vision_goggles, int &height_3d );
-        bool draw_tile_at( const tile_type &tile, const point &, unsigned int loc_rand, int rota,
-                           lit_level ll, bool apply_night_vision_goggles, int &height_3d );
+                                  lit_level ll, bool apply_night_vision_goggles, int &height_3d, int overlay_count );
 
-        /* Tile Picking */
+        /**
+         * @brief draw_sprite_at() without height_3d
+         */
+        bool draw_sprite_at(
+            const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
+            const point &, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
+            bool apply_night_vision_goggles, int overlay_count );
+
+        /**
+         * @brief Try to draw either forground or background using the given reference.
+         *
+         * @param svlist list of weighted subtile variants
+         * @param rota_fg is it foreground (true) or background?
+         * @return always true.
+         */
+        bool draw_sprite_at(
+            const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
+            const point &, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
+            bool apply_night_vision_goggles, int &height_3d, int overlay_count );
+
+        /**
+         * @brief Calls draw_sprite_at() twice each for foreground and background.
+         *
+         * @param tile Tile to draw.
+         * @param p Point to draw the tile at.
+         * @param loc_rand picked random int
+         * @param rota_fg rotate foreground: { UP = 0, LEFT = 1, DOWN = 2, RIGHT = 3 }
+         * @param rota rotation: { UP = 0, LEFT = 1, DOWN = 2, RIGHT = 3 }
+         * @param ll light level
+         * @param apply_night_vision_goggles use night vision colors?
+         * @param height_3d return parameter for height of the sprite
+         * @param overlay_count how blue the tile looks for lower z levels
+         * @return always true.
+         */
+        bool draw_tile_at( const tile_type &tile, const point &, unsigned int loc_rand, int rota,
+                           lit_level ll, bool apply_night_vision_goggles, int &height_3d, int overlay_count );
+
+        /** Tile Picking */
         void get_tile_values( int t, const int *tn, int &subtile, int &rotation );
         void get_connect_values( const tripoint &p, int &subtile, int &rotation, int connect_group,
                                  const std::map<tripoint, ter_id> &ter_override );
@@ -415,32 +494,30 @@ class cata_tiles
         /** Drawing Layers */
         bool would_apply_vision_effects( visibility_type visibility ) const;
         bool apply_vision_effects( const tripoint &pos, visibility_type visibility );
+
+        bool draw_block( const tripoint &p, SDL_Color color, int scale );
+
         bool draw_terrain( const tripoint &p, lit_level ll, int &height_3d,
-                           const bool ( &invisible )[5] );
-        bool draw_terrain_below( const tripoint &p, lit_level ll, int &height_3d,
-                                 const bool ( &invisible )[5] );
+                           const bool ( &invisible )[5], int z_drop );
         bool draw_furniture( const tripoint &p, lit_level ll, int &height_3d,
-                             const bool ( &invisible )[5] );
+                             const bool ( &invisible )[5], int z_drop );
         bool draw_graffiti( const tripoint &p, lit_level ll, int &height_3d,
-                            const bool ( &invisible )[5] );
+                            const bool ( &invisible )[5], int z_drop );
         bool draw_trap( const tripoint &p, lit_level ll, int &height_3d,
-                        const bool ( &invisible )[5] );
+                        const bool ( &invisible )[5], int z_drop );
         bool draw_field_or_item( const tripoint &p, lit_level ll, int &height_3d,
-                                 const bool ( &invisible )[5] );
+                                 const bool ( &invisible )[5], int z_drop );
         bool draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
-                         const bool ( &invisible )[5] );
-        bool draw_vpart_below( const tripoint &p, lit_level ll, int &height_3d,
-                               const bool ( &invisible )[5] );
+                         const bool ( &invisible )[5], int z_drop );
         bool draw_critter_at( const tripoint &p, lit_level ll, int &height_3d,
-                              const bool ( &invisible )[5] );
-        bool draw_critter_at_below( const tripoint &p, lit_level ll, int &height_3d,
-                                    const bool ( &invisible )[5] );
+                              const bool ( &invisible )[5], int z_drop );
         bool draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d,
-                             const bool ( &invisible )[5] );
+                             const bool ( &invisible )[5], int z_drop );
         bool draw_zombie_revival_indicators( const tripoint &pos, lit_level ll, int &height_3d,
-                                             const bool ( &invisible )[5] );
+                                             const bool ( &invisible )[5], int z_drop );
         void draw_entity_with_overlays( const Character &ch, const tripoint &p, lit_level ll,
                                         int &height_3d );
+
 
         bool draw_item_highlight( const tripoint &pos );
 
@@ -534,11 +611,21 @@ class cata_tiles
          * Initialize the current tileset (load tile images, load mapping), using the current
          * tileset as it is set in the options.
          * @param tileset_id Ident of the tileset, as it appears in the options.
+         * @param mod_list List of active world mods, for correct caching behavior.
          * @param precheck If true, only loads the meta data of the tileset (tile dimensions).
          * @param force If true, forces loading the tileset even if it is already loaded.
+         * @param pump_events Handle window events and refresh the screen when necessary.
+         *        Please ensure that the tileset is not accessed when this method is
+         *        executing if you set it to true.
          * @throw std::exception On any error.
          */
-        void load_tileset( const std::string &tileset_id, bool precheck = false, bool force = false );
+        void load_tileset(
+            const std::string &tileset_id,
+            const std::vector<mod_id> &mod_list,
+            bool precheck = false,
+            bool force = false,
+            bool pump_events = false
+        );
         /**
          * Reinitializes the current tileset, like @ref init, but using the original screen information.
          * @throw std::exception On any error.
@@ -586,7 +673,10 @@ class cata_tiles
         /** Variables */
         const SDL_Renderer_Ptr &renderer;
         const GeometryRenderer_Ptr &geometry;
+        /** Currently loaded tileset. */
         std::unique_ptr<tileset> tileset_ptr;
+        /** List of mods with which @ref tileset_ptr was loaded. */
+        std::vector<mod_id> tileset_mod_list_stamp;
 
         int tile_height = 0;
         int tile_width = 0;
@@ -662,6 +752,7 @@ class cata_tiles
         std::map<tripoint, bool> draw_below_override;
         // int represents spawn count
         std::map<tripoint, std::tuple<mtype_id, int, bool, Creature::Attitude>> monster_override;
+        pimpl<std::vector<tile_render_info>> draw_points_cache;
 
     private:
         /**

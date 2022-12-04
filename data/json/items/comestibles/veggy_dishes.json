@@ -28,6 +28,7 @@
     "price_postapoc": 10,
     "material": "veggy",
     "volume": "250 ml",
+    "milling": { "into": "flour", "conversion_rate": 15 },
     "fun": -14,
     "vitamins": [  ],
     "flags": [ "EDIBLE_FROZEN" ]
@@ -261,6 +262,7 @@
     "volume": "250 ml",
     "cooks_like": "rice_cooked",
     "flags": [ "EDIBLE_FROZEN" ],
+    "milling": { "into": "flour", "conversion_rate": 3 },
     "charges": 3,
     "vitamins": [ [ "iron", 3 ] ],
     "fun": -15

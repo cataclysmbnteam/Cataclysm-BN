@@ -229,5 +229,15 @@
     "type": "MONSTER_FACTION",
     "name": "fox",
     "base_faction": "small_predator"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "mutant",
+    "friendly": [ "vortex" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "vortex",
+    "friendly": [ "mutant" ]
   }
 ]

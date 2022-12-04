@@ -827,7 +827,7 @@
     "blueprint_provides": [ { "id": "water_well" } ],
     "blueprint_requires": [ { "id": "fbmh_northeast", "amount": 4 }, { "id": "fbmh_fire_northeast" }, { "id": "fbmh_bed2_northeast" } ],
     "blueprint_needs": {
-      "time": "11 h",
+      "time": "13 h 30 m",
       "skills": [ [ "fabrication", 4 ], [ "mechanics", 2 ] ],
       "inline": {
         "tools": [  ],

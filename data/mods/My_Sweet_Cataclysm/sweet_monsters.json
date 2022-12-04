@@ -6,7 +6,7 @@
     "copy-from": "mon_cat",
     "description": "A giant necco wafer happily jaunting around.",
     "default_faction": "cat",
-    "bodytype": "dog",
+    "bodytype": "quadruped",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
     "weight": "2 kg",

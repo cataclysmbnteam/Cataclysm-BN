@@ -1,8 +1,7 @@
 [
   {
     "id": "atgm_launcher",
-    "copy-from": "gun_base",
-    "looks_like": "m79",
+    "copy-from": "launcher_base",
     "type": "GUN",
     "name": { "str_sp": "BGM-71F TOW" },
     "description": "A launcher for anti-tank guided missiles, capable of being deployed as a crew-served weapon or mounted on vehicles.  While fairly accurate, it isn't fire-and-forget.",
@@ -11,10 +10,8 @@
     "price": 8500000,
     "price_postapoc": 5000,
     "to_hit": -6,
-    "bashing": 12,
     "material": "steel",
     "ammo": "atgm",
-    "skill": "launcher",
     "range": 15,
     "dispersion": 50,
     "sight_dispersion": 10,

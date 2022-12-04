@@ -75,12 +75,12 @@
     "blueprint_provides": [ { "id": "fbmc_shelter_1_bedroom3" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_1_bedroom3" } ],
     "blueprint_needs": {
-      "time": "9 h 30 m",
+      "time": "11 h 30 m",
       "skills": [ [ "fabrication", 3 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 62 ] ], [ [ "nail", 36 ] ], [ [ "wood_panel", 1 ] ], [ [ "hinge", 2 ] ], [ [ "log", 16 ] ] ]
+        "components": [ [ [ "2x4", 62 ] ], [ [ "hinge", 2 ] ], [ [ "log", 16 ] ], [ [ "nail", 36 ] ], [ [ "wood_panel", 1 ] ] ]
       }
     }
   },
@@ -98,20 +98,19 @@
     "blueprint_provides": [ { "id": "fbmc_shelter_1_bedroom5" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_1_bedroom5" } ],
     "blueprint_needs": {
-      "time": "13 h 30 m",
-      "skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
+      "time": "11 h 40 m",
+      "skills": [ [ "survival", 3 ], [ "fabrication", 3 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 84 ] ],
-          [ [ "nail", 64 ] ],
-          [ [ "material_quicklime", 48 ], [ "material_limestone", 48 ], [ "clay_lump", 48 ] ],
-          [ [ "pebble", 120 ], [ "material_sand", 120 ] ],
-          [ [ "straw_pile", 48 ], [ "cattail_stalk", 48 ], [ "dogbane", 48 ], [ "pine_bough", 48 ] ],
-          [ [ "water", 60 ], [ "water_clean", 60 ] ],
-          [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ] ],
-          [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ]
+          [ [ "2x4", 78 ] ],
+          [ [ "cattail_stalk", 48 ], [ "dogbane", 48 ], [ "pine_bough", 48 ], [ "straw_pile", 48 ] ],
+          [ [ "clay_lump", 48 ], [ "material_limestone", 48 ], [ "material_quicklime", 48 ] ],
+          [ [ "material_sand", 120 ], [ "pebble", 120 ] ],
+          [ [ "nail", 24 ] ],
+          [ [ "rope_6", 2 ], [ "rope_makeshift_6", 2 ] ],
+          [ [ "water", 60 ], [ "water_clean", 60 ] ]
         ]
       }
     }

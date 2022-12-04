@@ -12,7 +12,6 @@
 #include "enums.h"
 #include "mapdata.h"
 #include "memory_fast.h"
-#include "omdata.h"
 #include "string_id.h"
 #include "type_id.h"
 #include "weather_gen.h"
@@ -49,17 +48,9 @@ struct city_settings {
     building_bin shops;
     building_bin parks;
 
-    overmap_special_id pick_house() const {
-        return houses.pick()->id;
-    }
-
-    overmap_special_id pick_shop() const {
-        return shops.pick()->id;
-    }
-
-    overmap_special_id pick_park() const {
-        return parks.pick()->id;
-    }
+    overmap_special_id pick_house() const;
+    overmap_special_id pick_shop() const;
+    overmap_special_id pick_park() const;
 
     void finalize();
 };

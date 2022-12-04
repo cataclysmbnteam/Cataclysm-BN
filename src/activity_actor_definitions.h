@@ -4,6 +4,7 @@
 
 #include "activity_actor.h"
 
+#include "coordinates.h"
 #include "item_handling_util.h"
 #include "item_location.h"
 #include "memory_fast.h"
@@ -21,6 +22,7 @@ class aim_activity_actor : public activity_actor
     private:
         cata::optional<item> fake_weapon;
         units::energy bp_cost_per_shot = 0_J;
+        int stamina_cost_per_shot = 0;
         std::vector<tripoint> fin_trajectory;
 
     public:
@@ -33,6 +35,8 @@ class aim_activity_actor : public activity_actor
         tripoint initial_view_offset;
         /** Target UI requested to abort aiming */
         bool aborted = false;
+        /** RELOAD_AND_SHOOT weapon is kept loaded by the activity */
+        bool loaded_RAS_weapon = false;
         /**
          * Target UI requested to abort aiming and reload weapon
          * Implies aborted = true
@@ -224,6 +228,45 @@ class dig_channel_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 };
 
+class disassemble_activity_actor : public activity_actor
+{
+    private:
+        std::vector<iuse_location> targets;
+        tripoint_abs_ms pos;
+        bool recursive = false;
+        int initial_num_targets = 0;
+
+    public:
+        disassemble_activity_actor() = default;
+        disassemble_activity_actor(
+            std::vector<iuse_location> &&targets,
+            tripoint_abs_ms pos,
+            bool recursive
+        ) : targets( std::move( targets ) ), pos( pos ), recursive( recursive ) {}
+        ~disassemble_activity_actor() = default;
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_DISASSEMBLE" );
+        }
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &, Character & ) override {};
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<disassemble_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+
+        act_progress_message get_progress_message(
+            const player_activity &, const Character & ) const override;
+
+        bool try_start_single( player_activity &act, Character &who );
+        int calc_num_targets() const;
+};
+
 class drop_activity_actor : public activity_actor
 {
     private:
@@ -330,26 +373,27 @@ class move_items_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 };
 
-class open_gate_activity_actor : public activity_actor
+class toggle_gate_activity_actor : public activity_actor
 {
     private:
         int moves_total;
         tripoint placement;
 
         /**
-         * @pre @p other is a open_gate_activity_actor
+         * @pre @p other is a toggle_gate_activity_actor
          */
         bool can_resume_with_internal( const activity_actor &other, const Character & ) const override {
-            const open_gate_activity_actor &og_actor = static_cast<const open_gate_activity_actor &>( other );
+            const toggle_gate_activity_actor &og_actor = static_cast<const toggle_gate_activity_actor &>
+                    ( other );
             return placement == og_actor.placement;
         }
 
     public:
-        open_gate_activity_actor( int gate_moves, const tripoint &gate_placement ) :
+        toggle_gate_activity_actor( int gate_moves, const tripoint &gate_placement ) :
             moves_total( gate_moves ), placement( gate_placement ) {}
 
         activity_id get_type() const override {
-            return activity_id( "ACT_OPEN_GATE" );
+            return activity_id( "ACT_TOGGLE_GATE" );
         }
 
         void start( player_activity &act, Character & ) override;
@@ -357,7 +401,7 @@ class open_gate_activity_actor : public activity_actor
         void finish( player_activity &act, Character & ) override;
 
         std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<open_gate_activity_actor>( *this );
+            return std::make_unique<toggle_gate_activity_actor>( *this );
         }
 
         void serialize( JsonOut &jsout ) const override;
@@ -420,6 +464,37 @@ class stash_activity_actor : public activity_actor
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<stash_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
+
+class throw_activity_actor : public activity_actor
+{
+    private:
+        item_location target_loc;
+        cata::optional<tripoint> blind_throw_from_pos;
+
+    public:
+        throw_activity_actor() = default;
+        throw_activity_actor(
+            item_location target_loc,
+            cata::optional<tripoint> blind_throw_from_pos
+        ) : target_loc( target_loc ),
+            blind_throw_from_pos( blind_throw_from_pos ) {}
+        ~throw_activity_actor() = default;
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_THROW" );
+        }
+
+        void start( player_activity &, Character & ) override {};
+        void do_turn( player_activity &act, Character &who ) override;
+        void finish( player_activity &, Character & ) override {};
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<throw_activity_actor>( *this );
         }
 
         void serialize( JsonOut &jsout ) const override;

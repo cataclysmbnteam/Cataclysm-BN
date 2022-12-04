@@ -32,7 +32,7 @@
       { "point": [ 0, 1, -6 ], "overmap": "silo_fblc_north" },
       { "point": [ 1, 1, -6 ], "overmap": "silo_fbrc_north" }
     ],
-    "connections": [ { "point": [ -1, 0, 0 ], "terrain": "road" } ],
+    "connections": [ { "point": [ -1, 0, 0 ], "connection": "local_road" } ],
     "locations": [ "wilderness" ],
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 1, 12 ],

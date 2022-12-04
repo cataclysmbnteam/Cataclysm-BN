@@ -1,0 +1,17 @@
+name: Label Pull Requests
+
+on:
+  - pull_request_target
+
+jobs:
+  triage:
+    runs-on: ubuntu-22.04
+
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - uses: actions/labeler@v4
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}

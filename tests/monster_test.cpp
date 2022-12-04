@@ -23,6 +23,7 @@
 #include "item.h"
 #include "line.h"
 #include "point.h"
+#include "state_helpers.h"
 
 using move_statistics = statistics<int>;
 
@@ -87,7 +88,7 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
 {
     clear_map();
     REQUIRE( g->num_creatures() == 1 ); // the player
-    player &test_player = g->u;
+    player &test_player = get_avatar();
     // Strip off any potentially encumbering clothing.
     std::list<item> temp;
     while( test_player.takeoff( test_player.i_at( -2 ), &temp ) );
@@ -121,14 +122,14 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
                 // Verify that only the player and one monster are present.
                 REQUIRE( g->num_creatures() == 2 );
             }
-            const int move_cost = g->m.combined_movecost(
+            const int move_cost = get_map().combined_movecost(
                                       test_player.pos(), test_player.pos() + direction_of_flight, nullptr, 0 );
             tracker.push_back( {'p', move_cost, rl_dist( test_monster.pos(), test_player.pos() ),
                                 test_player.pos()
                                } );
             test_player.mod_moves( -move_cost );
         }
-        g->m.clear_traps();
+        get_map().clear_traps();
         test_monster.set_dest( test_player.pos() );
         test_monster.mod_moves( monster_speed );
         while( test_monster.moves >= 0 ) {
@@ -295,7 +296,8 @@ static void monster_check()
 // Write out a map of slope at which monster is moving to time required to reach their destination.
 TEST_CASE( "write_slope_to_speed_map_trig", "[.]" )
 {
-    clear_map_and_put_player_underground();
+    clear_all_state();
+    put_player_underground();
     override_option opt( "CIRCLEDIST", "true" );
     trigdist = true;
     test_moves_to_squares( "mon_zombie_dog", true );
@@ -304,7 +306,8 @@ TEST_CASE( "write_slope_to_speed_map_trig", "[.]" )
 
 TEST_CASE( "write_slope_to_speed_map_square", "[.]" )
 {
-    clear_map_and_put_player_underground();
+    clear_all_state();
+    put_player_underground();
     override_option opt( "CIRCLEDIST", "false" );
     trigdist = false;
     test_moves_to_squares( "mon_zombie_dog", true );
@@ -315,7 +318,8 @@ TEST_CASE( "write_slope_to_speed_map_square", "[.]" )
 // It's not necessarally the one true speed for monsters, we just want notice if it changes.
 TEST_CASE( "monster_speed_square", "[speed]" )
 {
-    clear_map_and_put_player_underground();
+    clear_all_state();
+    put_player_underground();
     override_option opt( "CIRCLEDIST", "false" );
     trigdist = false;
     monster_check();
@@ -323,8 +327,29 @@ TEST_CASE( "monster_speed_square", "[speed]" )
 
 TEST_CASE( "monster_speed_trig", "[speed]" )
 {
-    clear_map_and_put_player_underground();
+    clear_all_state();
+    put_player_underground();
     override_option opt( "CIRCLEDIST", "true" );
     trigdist = true;
     monster_check();
+}
+
+TEST_CASE( "monster_move_through_vehicle_holes" )
+{
+    clear_all_state();
+    put_player_underground();
+    tripoint origin( 60, 60, 0 );
+
+    get_map().add_vehicle( vproto_id( "apc" ), origin, -45_degrees, 0, 0 );
+
+    tripoint mon_origin = origin + tripoint( -2, 1, 0 );
+    monster &zombie = spawn_test_monster( "mon_zombie", mon_origin );
+    zombie.move_to( mon_origin + tripoint_north_west, false, false, 0.0f );
+
+    const monster *m = g->critter_at<monster>( mon_origin );
+    CHECK( m != nullptr );
+
+    const monster *m2 = g->critter_at<monster>( mon_origin + tripoint_north_west );
+    CHECK( m2 == nullptr );
+
 }

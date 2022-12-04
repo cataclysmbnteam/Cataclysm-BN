@@ -21,6 +21,7 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "character_functions.h"
 #include "character_id.h"
 #include "clzones.h"
 #include "color.h"
@@ -136,7 +137,7 @@ std::string talk_trial::name() const
 /** Time (in turns) and cost (in cent) for training: */
 time_duration calc_skill_training_time( const npc &p, const skill_id &skill )
 {
-    return 1_minutes + 30_seconds * g->u.get_skill_level( skill ) -
+    return 1_minutes + 30_seconds * get_avatar().get_skill_level( skill ) -
            1_seconds * p.get_skill_level( skill );
 }
 
@@ -145,8 +146,8 @@ int calc_skill_training_cost( const npc &p, const skill_id &skill )
     if( p.is_player_ally() ) {
         return 0;
     }
-
-    return 1000 * ( 1 + g->u.get_skill_level( skill ) ) * ( 1 + g->u.get_skill_level( skill ) );
+    avatar &you = get_avatar();
+    return 1000 * ( 1 + you.get_skill_level( skill ) ) * ( 1 + you.get_skill_level( skill ) );
 }
 
 // TODO: all styles cost the same and take the same time to train,
@@ -280,7 +281,7 @@ static void npc_temp_orders_menu( const std::vector<npc *> &npc_list )
         nmenu.reset();
         nmenu.text = _( "Issue what temporary order?" );
         nmenu.desc_enabled = true;
-        parse_tags( output_string, g->u, *guy );
+        parse_tags( output_string, get_avatar(), *guy );
         nmenu.footer_text = output_string;
         nmenu.addentry( NPC_CHAT_DONE, true, 'd', _( "Done issuing orders" ) );
         nmenu.addentry( NPC_CHAT_FORBID_ENGAGE, true, 'f',
@@ -338,9 +339,9 @@ static void npc_temp_orders_menu( const std::vector<npc *> &npc_list )
 
 static void tell_veh_stop_following()
 {
-    for( wrapped_vehicle &veh : g->m.get_vehicles() ) {
+    for( wrapped_vehicle &veh : get_map().get_vehicles() ) {
         vehicle *v = veh.v;
-        if( v->has_engine_type( fuel_type_animal, false ) && v->is_owned_by( g->u ) ) {
+        if( v->has_engine_type( fuel_type_animal, false ) && v->is_owned_by( get_avatar() ) ) {
             v->is_following = false;
             v->engine_on = false;
         }
@@ -349,9 +350,9 @@ static void tell_veh_stop_following()
 
 static void assign_veh_to_follow()
 {
-    for( wrapped_vehicle &veh : g->m.get_vehicles() ) {
+    for( wrapped_vehicle &veh : get_map().get_vehicles() ) {
         vehicle *v = veh.v;
-        if( v->has_engine_type( fuel_type_animal, false ) && v->is_owned_by( g->u ) ) {
+        if( v->has_engine_type( fuel_type_animal, false ) && v->is_owned_by( get_avatar() ) ) {
             v->activate_animal_follow();
         }
     }
@@ -359,12 +360,12 @@ static void assign_veh_to_follow()
 
 static void tell_magic_veh_to_follow()
 {
-    for( wrapped_vehicle &veh : g->m.get_vehicles() ) {
+    for( wrapped_vehicle &veh : get_map().get_vehicles() ) {
         vehicle *v = veh.v;
         if( v->magic ) {
             for( const vpart_reference &vp : v->get_all_parts() ) {
                 const vpart_info &vpi = vp.info();
-                if( vpi.has_flag( "MAGIC_FOLLOW" ) && v->is_owned_by( g->u ) ) {
+                if( vpi.has_flag( "MAGIC_FOLLOW" ) && v->is_owned_by( get_avatar() ) ) {
                     v->activate_magical_follow();
                     break;
                 }
@@ -375,7 +376,7 @@ static void tell_magic_veh_to_follow()
 
 static void tell_magic_veh_stop_following()
 {
-    for( wrapped_vehicle &veh : g->m.get_vehicles() ) {
+    for( wrapped_vehicle &veh : get_map().get_vehicles() ) {
         vehicle *v = veh.v;
         if( v->magic ) {
             for( const vpart_reference &vp : v->get_all_parts() ) {
@@ -392,7 +393,7 @@ static void tell_magic_veh_stop_following()
 
 void game::chat()
 {
-    int volume = g->u.get_shout_volume();
+    int volume = u.get_shout_volume();
 
     const std::vector<npc *> available = get_npcs_if( [&]( const npc & guy ) {
         // TODO: Get rid of the z-level check when z-level vision gets "better"
@@ -411,18 +412,18 @@ void game::chat()
     } );
     const int guard_count = guards.size();
 
-    if( g->u.has_trait( trait_PROF_FOODP ) && !( g->u.is_wearing( itype_id( "foodperson_mask" ) ) ||
-            g->u.is_wearing( itype_id( "foodperson_mask_on" ) ) ) ) {
-        g->u.add_msg_if_player( m_warning, _( "You can't speak without your face!" ) );
+    if( u.has_trait( trait_PROF_FOODP ) && !( u.is_wearing( itype_id( "foodperson_mask" ) ) ||
+            u.is_wearing( itype_id( "foodperson_mask_on" ) ) ) ) {
+        u.add_msg_if_player( m_warning, _( "You can't speak without your face!" ) );
         return;
     }
     std::vector<vehicle *> animal_vehicles;
     std::vector<vehicle *> following_vehicles;
     std::vector<vehicle *> magic_vehicles;
     std::vector<vehicle *> magic_following_vehicles;
-    for( auto &veh : g->m.get_vehicles() ) {
+    for( auto &veh : m.get_vehicles() ) {
         auto &v = veh.v;
-        if( v->has_engine_type( fuel_type_animal, false ) && v->is_owned_by( g->u ) ) {
+        if( v->has_engine_type( fuel_type_animal, false ) && v->is_owned_by( u ) ) {
             animal_vehicles.push_back( v );
             if( v->is_following ) {
                 following_vehicles.push_back( v );
@@ -625,14 +626,15 @@ void game::chat()
 void npc::handle_sound( const sounds::sound_t spriority, const std::string &description,
                         int heard_volume, const tripoint &spos )
 {
-    const tripoint s_abs_pos = g->m.getabs( spos );
-    const tripoint my_abs_pos = g->m.getabs( pos() );
+    map &here = get_map();
+    const tripoint s_abs_pos = here.getabs( spos );
+    const tripoint my_abs_pos = here.getabs( pos() );
 
     add_msg( m_debug, "%s heard '%s', priority %d at volume %d from %d:%d, my pos %d:%d",
              disp_name(), description, static_cast<int>( spriority ), heard_volume,
              s_abs_pos.x, s_abs_pos.y, my_abs_pos.x, my_abs_pos.y );
 
-    bool player_ally = g->u.pos() == spos && is_player_ally();
+    bool player_ally = get_player_character().pos() == spos && is_player_ally();
     player *const sound_source = g->critter_at<player>( spos );
     bool npc_ally = sound_source && sound_source->is_npc() && is_ally( *sound_source );
 
@@ -658,7 +660,7 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
     }
     // discount if sound source is player, or seen by player,
     // and listener is friendly and sound source is combat or alert only.
-    if( spriority < sounds::sound_t::alarm && g->u.sees( spos ) ) {
+    if( spriority < sounds::sound_t::alarm && get_avatar().sees( spos ) ) {
         if( is_player_ally() ) {
             add_msg( m_debug, "NPC %s ignored low priority noise that player can see", name );
             return;
@@ -729,11 +731,12 @@ void npc_chatbin::check_missions()
 
 void npc::talk_to_u( bool radio_contact )
 {
-    if( g->u.is_dead_state() ) {
+    avatar &you = get_avatar();
+    if( you.is_dead_state() ) {
         set_attitude( NPCATT_NULL );
         return;
     }
-    const bool has_mind_control = g->u.has_trait( trait_DEBUG_MIND_CONTROL );
+    const bool has_mind_control = you.has_trait( trait_DEBUG_MIND_CONTROL );
     // This is necessary so that we don't bug the player over and over
     if( get_attitude() == NPCATT_TALK ) {
         set_attitude( NPCATT_NULL );
@@ -750,18 +753,18 @@ void npc::talk_to_u( bool radio_contact )
     }
     set_known_to_u( true );
     dialogue d;
-    d.alpha = &g->u;
+    d.alpha = &you;
     d.beta = this;
 
     chatbin.check_missions();
 
     // For each active mission we have, let the mission know we talked to this NPC.
-    for( auto &mission : g->u.get_active_missions() ) {
+    for( auto &mission : you.get_active_missions() ) {
         mission->on_talk_with_npc( this->getID() );
     }
 
     for( auto &mission : chatbin.missions_assigned ) {
-        if( mission->get_assigned_player_id() == g->u.getID() ) {
+        if( mission->get_assigned_player_id() == you.getID() ) {
             d.missions_assigned.push_back( mission );
         }
     }
@@ -776,7 +779,7 @@ void npc::talk_to_u( bool radio_contact )
     } else if( get_attitude() == NPCATT_RECOVER_GOODS ) {
         d.add_topic( "TALK_STOLE_ITEM" );
     }
-    g->u.dialogue_by_radio = d.by_radio;
+    you.dialogue_by_radio = d.by_radio;
     int most_difficult_mission = 0;
     for( auto &mission : chatbin.missions ) {
         const auto &type = mission->get_type();
@@ -789,7 +792,7 @@ void npc::talk_to_u( bool radio_contact )
     most_difficult_mission = 0;
     bool chosen_urgent = false;
     for( auto &mission : chatbin.missions_assigned ) {
-        if( mission->get_assigned_player_id() != g->u.getID() ) {
+        if( mission->get_assigned_player_id() != you.getID() ) {
             // Not assigned to the player that is currently talking to the npc
             continue;
         }
@@ -816,12 +819,12 @@ void npc::talk_to_u( bool radio_contact )
     }
 
     if( d.topic_stack.back().id == "TALK_NONE" ) {
-        d.topic_stack.back() = talk_topic( pick_talk_topic( g->u ) );
+        d.topic_stack.back() = talk_topic( pick_talk_topic( you ) );
     }
 
     moves -= 100;
 
-    if( g->u.is_deaf() ) {
+    if( you.is_deaf() ) {
         if( d.topic_stack.back().id == "TALK_MUG" ||
             d.topic_stack.back().id == "TALK_STRANGER_AGGRESSIVE" ) {
             make_angry();
@@ -831,8 +834,8 @@ void npc::talk_to_u( bool radio_contact )
         }
     }
 
-    if( g->u.has_trait( trait_PROF_FOODP ) && !( g->u.is_wearing( itype_id( "foodperson_mask" ) ) ||
-            g->u.is_wearing( itype_id( "foodperson_mask_on" ) ) ) ) {
+    if( you.has_trait( trait_PROF_FOODP ) && !( you.is_wearing( itype_id( "foodperson_mask" ) ) ||
+            you.is_wearing( itype_id( "foodperson_mask_on" ) ) ) ) {
         d.add_topic( "TALK_NOFACE" );
     }
 
@@ -847,7 +850,7 @@ void npc::talk_to_u( bool radio_contact )
     // Main dialogue loop
     do {
         if( chatbin.mission_selected != nullptr ) {
-            if( chatbin.mission_selected->get_assigned_player_id() != g->u.getID() ) {
+            if( chatbin.mission_selected->get_assigned_player_id() != you.getID() ) {
                 // Don't talk about a mission that is assigned to someone else.
                 chatbin.mission_selected = nullptr;
             }
@@ -875,17 +878,17 @@ void npc::talk_to_u( bool radio_contact )
         }
     } while( !d.done );
 
-    if( g->u.activity.id() == ACT_AIM && !g->u.has_weapon() ) {
-        g->u.cancel_activity();
+    if( you.activity.id() == ACT_AIM && !you.has_weapon() ) {
+        you.cancel_activity();
         // don't query certain activities that are started from dialogue
-    } else if( g->u.activity.id() == ACT_TRAIN ||
-               g->u.activity.id() == ACT_WAIT_NPC ||
-               g->u.activity.id() == ACT_SOCIALIZE ||
-               g->u.activity.index == getID().get_value() ) {
+    } else if( you.activity.id() == ACT_TRAIN ||
+               you.activity.id() == ACT_WAIT_NPC ||
+               you.activity.id() == ACT_SOCIALIZE ||
+               you.activity.index == getID().get_value() ) {
         return;
     }
 
-    if( !g->u.has_effect( effect_under_op ) ) {
+    if( !you.has_effect( effect_under_op ) ) {
         g->cancel_activity_or_ignore_query( distraction_type::talked_to,
                                             string_format( _( "%s talked to you." ), name ) );
     }
@@ -922,10 +925,12 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
                    beta->name );
     }
     if( topic == "TALK_SEDATED" ) {
+        int firstaid_lvl = get_player_character().get_skill_level( skill_id( "firstaid" ) );
+        time_duration dur = character_funcs::estimate_effect_dur( firstaid_lvl, effect_narcosis, 15_minutes,
+                            6, *beta );
         return string_format(
                    _( "%1$s is sedated and can't be moved or woken up until the medication or sedation wears off.\nYou estimate it will wear off in %2$s." ),
-                   beta->name, to_string_approx( g->u.estimate_effect_dur( skill_id( "firstaid" ), effect_narcosis,
-                           15_minutes, 6, *beta ) ) );
+                   beta->name, to_string_approx( dur ) );
     }
 
     const auto &p = beta; // for compatibility, later replace it in the code below
@@ -965,18 +970,19 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         return ret;
     }
 
+    avatar &you = get_avatar();
     if( topic == "TALK_NONE" || topic == "TALK_DONE" ) {
         return _( "Bye." );
     } else if( topic == "TALK_TRAIN" ) {
-        if( !g->u.backlog.empty() && g->u.backlog.front().id() == ACT_TRAIN ) {
+        if( !you.backlog.empty() && you.backlog.front().id() == ACT_TRAIN ) {
             return _( "Shall we resume?" );
         }
-        std::vector<skill_id> trainable = p->skills_offered_to( g->u );
-        std::vector<matype_id> styles = p->styles_offered_to( g->u );
+        std::vector<skill_id> trainable = p->skills_offered_to( you );
+        std::vector<matype_id> styles = p->styles_offered_to( you );
         const std::vector<spell_id> spells = p->magic->spells();
         std::vector<spell_id> teachable_spells;
         for( const spell_id &sp : spells ) {
-            if( g->u.magic->can_learn_spell( g->u, sp ) ) {
+            if( you.magic->can_learn_spell( you, sp ) ) {
                 teachable_spells.emplace_back( sp );
             }
         }
@@ -1036,7 +1042,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         ///\EFFECT_PER affects whether player can size up NPCs
 
         ///\EFFECT_INT slightly affects whether player can size up NPCs
-        int ability = g->u.per_cur * 3 + g->u.int_cur;
+        int ability = you.per_cur * 3 + you.int_cur;
         if( ability <= 10 ) {
             return _( "&You can't make anything out." );
         }
@@ -1244,7 +1250,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             return;
         }
     }
-
+    avatar &you = get_avatar();
     if( topic == "TALK_MISSION_LIST" ) {
         if( p->chatbin.missions.size() == 1 ) {
             add_response( _( "Tell me about it." ), "TALK_MISSION_OFFER",
@@ -1263,9 +1269,9 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             }
         }
     } else if( topic == "TALK_TRAIN" ) {
-        if( !g->u.backlog.empty() && g->u.backlog.front().id() == ACT_TRAIN &&
-            g->u.backlog.front().index == p->getID().get_value() ) {
-            player_activity &backlog = g->u.backlog.front();
+        if( !you.backlog.empty() && you.backlog.front().id() == ACT_TRAIN &&
+            you.backlog.front().index == p->getID().get_value() ) {
+            player_activity &backlog = you.backlog.front();
             const skill_id skillt( backlog.name );
             // TODO: This is potentially dangerous. A skill and a martial art
             // could have the same ident!
@@ -1287,15 +1293,15 @@ void dialogue::gen_responses( const talk_topic &the_topic )
                               "TALK_TRAIN_START", skillt );
             }
         }
-        std::vector<matype_id> styles = p->styles_offered_to( g->u );
-        std::vector<skill_id> trainable = p->skills_offered_to( g->u );
+        std::vector<matype_id> styles = p->styles_offered_to( you );
+        std::vector<skill_id> trainable = p->skills_offered_to( you );
         const std::vector<spell_id> spells = p->magic->spells();
         std::vector<spell_id> teachable_spells;
         for( const spell_id &sp : spells ) {
             const spell &temp_spell = p->magic->get_spell( sp );
-            if( g->u.magic->can_learn_spell( g->u, sp ) ) {
-                if( g->u.magic->knows_spell( sp ) ) {
-                    const spell &player_spell = g->u.magic->get_spell( sp );
+            if( you.magic->can_learn_spell( you, sp ) ) {
+                if( you.magic->knows_spell( sp ) ) {
+                    const spell &player_spell = you.magic->get_spell( sp );
                     if( player_spell.is_max_level() || player_spell.get_level() >= temp_spell.get_level() ) {
                         continue;
                     }
@@ -1309,7 +1315,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         }
         for( const spell_id &sp : teachable_spells ) {
             const spell &temp_spell = p->magic->get_spell( sp );
-            const bool knows = g->u.magic->knows_spell( sp );
+            const bool knows = you.magic->knows_spell( sp );
             const int cost = p->calc_spell_training_cost( knows, temp_spell.get_difficulty(),
                              temp_spell.get_level() );
             std::string text;
@@ -1332,7 +1338,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         }
         for( auto &trained : trainable ) {
             const int cost = calc_skill_training_cost( *p, trained );
-            SkillLevel skill_level_obj = g->u.get_skill_level_object( trained );
+            SkillLevel skill_level_obj = you.get_skill_level_object( trained );
             const int cur_level = skill_level_obj.level();
             const int cur_level_exercise = skill_level_obj.exercise();
             skill_level_obj.train( 100, true );
@@ -1352,7 +1358,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         add_response_done( _( "Let's keep moving." ) );
     }
 
-    if( g->u.has_trait( trait_DEBUG_MIND_CONTROL ) && !p->is_player_ally() ) {
+    if( you.has_trait( trait_DEBUG_MIND_CONTROL ) && !p->is_player_ally() ) {
         add_response( _( "OBEY ME!" ), "TALK_MIND_CONTROL" );
         add_response_done( _( "Bye." ) );
     }
@@ -2365,7 +2371,7 @@ void talk_effect_fun_t::set_add_mission( const std::string &mission_id )
     function = [mission_id]( const dialogue & d ) {
         npc &p = *d.beta;
         mission *miss = mission::reserve_new( mission_type_id( mission_id ), p.getID() );
-        miss->assign( g->u );
+        miss->assign( get_avatar() );
         p.chatbin.missions_assigned.push_back( miss );
     };
 }
@@ -3330,20 +3336,21 @@ std::string give_item_to( npc &p, bool allow_use )
     if( p.is_hallucination() ) {
         return _( "No thanks, I'm good." );
     }
-    item_location loc = game_menus::inv::titled_menu( g->u, _( "Offer what?" ),
+    avatar &you = get_avatar();
+    item_location loc = game_menus::inv::titled_menu( you, _( "Offer what?" ),
                         _( "You have no items to offer." ) );
     if( !loc ) {
         return _( "Changed your mind?" );
     }
     item &given = *loc;
 
-    if( ( &given == &g->u.weapon && given.has_flag( "NO_UNWIELD" ) ) || ( g->u.is_worn( given ) &&
+    if( ( &given == &you.weapon && given.has_flag( "NO_UNWIELD" ) ) || ( you.is_worn( given ) &&
             given.has_flag( "NO_TAKEOFF" ) ) ) {
         // Bionic weapon or shackles
         return _( "How?" );
     }
 
-    if( given.is_dangerous() && !g->u.has_trait( trait_DEBUG_MIND_CONTROL ) ) {
+    if( given.is_dangerous() && !you.has_trait( trait_DEBUG_MIND_CONTROL ) ) {
         return _( "Are you <swear> insane!?" );
     }
 
@@ -3362,9 +3369,9 @@ std::string give_item_to( npc &p, bool allow_use )
         const auto consume_res = try_consume( p, given, reason );
         if( consume_res != REFUSED ) {
             if( consume_res == CONSUMED_ALL ) {
-                g->u.i_rem( &given );
+                you.i_rem( &given );
             }
-            g->u.moves -= 100;
+            you.moves -= 100;
             if( given.is_container() ) {
                 given.on_contents_changed();
             }
@@ -3418,8 +3425,8 @@ std::string give_item_to( npc &p, bool allow_use )
     }
 
     if( taken ) {
-        g->u.i_rem( &given );
-        g->u.moves -= 100;
+        you.i_rem( &given );
+        you.moves -= 100;
         p.has_new_items = true;
     }
 

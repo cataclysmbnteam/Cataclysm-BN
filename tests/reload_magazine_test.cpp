@@ -13,11 +13,13 @@
 #include "item.h"
 #include "item_location.h"
 #include "player.h"
+#include "state_helpers.h"
 #include "type_id.h"
 #include "visitable.h"
 
 TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
 {
+    clear_all_state();
     const itype_id gun_id( "m4a1" );
     const ammotype gun_ammo( "223" );
     const itype_id ammo_id( "556" ); // any type of compatible ammo

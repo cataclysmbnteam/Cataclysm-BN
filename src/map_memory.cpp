@@ -8,8 +8,8 @@
 #include "game.h"
 #include "line.h"
 #include "translations.h"
-
-const memorized_terrain_tile mm_submap::default_tile{ "", 0, 0 };
+#include "map.h"
+const memorized_terrain_tile mm_submap::default_tile { "", 0, 0 };
 const int mm_submap::default_symbol = 0;
 
 #define MM_SIZE (MAPSIZE * 2)
@@ -45,7 +45,6 @@ struct reg_coord_pair {
 };
 
 mm_submap::mm_submap() = default;
-mm_submap::mm_submap( bool make_valid ) : valid( make_valid ) {}
 
 mm_region::mm_region() : submaps {{ nullptr }} {}
 
@@ -71,11 +70,26 @@ map_memory::map_memory()
     clear_cache();
 }
 
-const memorized_terrain_tile &map_memory::get_tile( const tripoint &pos ) const
+const memorized_terrain_tile &map_memory::get_tile( const tripoint &pos )
 {
     coord_pair p( pos );
     const mm_submap &sm = get_submap( p.sm );
     return sm.tile( p.loc );
+}
+
+bool map_memory::has_memory_for_autodrive( const tripoint &pos )
+{
+    // HACK: Map memory is not supposed to be used by ingame mechanics.
+    //       It's just a graphical overlay, it memorizes tileset tiles and text symbols.
+    //       Problem is, many cars' headlights won't cover every ground tile in front of them at night,
+    //       and these dark tiles would be considered as possible obstacles.
+    //       To work around it, we check for whether map memory has any data associated with the tile
+    //       and then assume it's up to date, which works in 99% cases.
+    //       Oh, and we don't want to use get_tile() and get_symbol() to avoid looking up the mm_submap twice.
+    coord_pair p( pos );
+    shared_ptr_fast<mm_submap> sm = fetch_submap( p.sm );
+    return sm->tile( p.loc ) != mm_submap::default_tile ||
+           sm->symbol( p.loc ) != mm_submap::default_symbol;
 }
 
 void map_memory::memorize_tile( const tripoint &pos, const std::string &ter,
@@ -83,13 +97,10 @@ void map_memory::memorize_tile( const tripoint &pos, const std::string &ter,
 {
     coord_pair p( pos );
     mm_submap &sm = get_submap( p.sm );
-    if( !sm.is_valid() ) {
-        return;
-    }
     sm.set_tile( p.loc, memorized_terrain_tile{ ter, subtile, rotation } );
 }
 
-int map_memory::get_symbol( const tripoint &pos ) const
+int map_memory::get_symbol( const tripoint &pos )
 {
     coord_pair p( pos );
     const mm_submap &sm = get_submap( p.sm );
@@ -100,9 +111,6 @@ void map_memory::memorize_symbol( const tripoint &pos, const int symbol )
 {
     coord_pair p( pos );
     mm_submap &sm = get_submap( p.sm );
-    if( !sm.is_valid() ) {
-        return;
-    }
     sm.set_symbol( p.loc, symbol );
 }
 
@@ -110,9 +118,6 @@ void map_memory::clear_memorized_tile( const tripoint &pos )
 {
     coord_pair p( pos );
     mm_submap &sm = get_submap( p.sm );
-    if( !sm.is_valid() ) {
-        return;
-    }
     sm.set_symbol( p.loc, mm_submap::default_symbol );
     sm.set_tile( p.loc, mm_submap::default_tile );
 }
@@ -128,7 +133,9 @@ bool map_memory::prepare_region( const tripoint &p1, const tripoint &p2 )
     tripoint sm_pos = sm_p1;
     point sm_size = sm_p2.xy() - sm_p1.xy();
 
-    if( sm_pos.z == cache_pos.z ) {
+    bool z_levels = get_map().has_zlevels();
+
+    if( sm_pos.z == cache_pos.z || z_levels ) {
         inclusive_rectangle<point> rect( cache_pos.xy(), cache_pos.xy() + cache_size );
         if( rect.contains( sm_p1.xy() ) && rect.contains( sm_p2.xy() ) ) {
             return false;
@@ -137,13 +144,21 @@ bool map_memory::prepare_region( const tripoint &p1, const tripoint &p2 )
 
     dbg( DL::Info ) << "Preparing memory map for area: pos: " << sm_pos << " size: " << sm_size;
 
+
+    int minz = z_levels ? -OVERMAP_DEPTH : p1.z;
+    int maxz = z_levels ? OVERMAP_HEIGHT : p1.z;
+
     cache_pos = sm_pos;
     cache_size = sm_size;
+
     cached.clear();
-    cached.reserve( cache_size.x * cache_size.y );
-    for( int dy = 0; dy < cache_size.y; dy++ ) {
-        for( int dx = 0; dx < cache_size.x; dx++ ) {
-            cached.push_back( fetch_submap( cache_pos + point( dx, dy ) ) );
+    cached.reserve( cache_size.x * cache_size.y * ( maxz - minz + 1 ) );
+
+    for( int z = minz; z <= maxz; z++ ) {
+        for( int dy = 0; dy < cache_size.y; dy++ ) {
+            for( int dx = 0; dx < cache_size.x; dx++ ) {
+                cached.push_back( fetch_submap( tripoint( cache_pos.xy(), z ) + point( dx, dy ) ) );
+            }
         }
     }
     return true;
@@ -195,6 +210,25 @@ shared_ptr_fast<mm_submap> map_memory::find_submap( const tripoint &sm_pos )
     }
 }
 
+//FIXME: This is to fix old (mid 2022) saves. It can be removed at some point.
+static void temp_remove_open_air( shared_ptr_fast<mm_submap> sm )
+{
+
+    if( sm->is_empty() ) {
+        return;
+    }
+    for( int x = 0; x < SEEX; x++ ) {
+        for( int y = 0; y < SEEY; y++ ) {
+            const memorized_terrain_tile &t = sm->tile( {x, y} );
+
+            if( !t.tile.empty() && t.tile == "t_open_air" ) {
+                sm->set_tile( {x, y}, mm_submap::default_tile );
+            }
+        }
+    }
+
+}
+
 shared_ptr_fast<mm_submap> map_memory::load_submap( const tripoint &sm_pos )
 {
     if( test_mode ) {
@@ -237,6 +271,9 @@ shared_ptr_fast<mm_submap> map_memory::load_submap( const tripoint &sm_pos )
             if( pos == sm_pos ) {
                 ret = sm;
             }
+
+            temp_remove_open_air( mmr.submaps[x][y] );
+
             submaps.insert( std::make_pair( pos, sm ) );
         }
     }
@@ -244,34 +281,20 @@ shared_ptr_fast<mm_submap> map_memory::load_submap( const tripoint &sm_pos )
     return ret;
 }
 
-static mm_submap null_mz_submap;
-static mm_submap invalid_mz_submap{ false };
-
-const mm_submap &map_memory::get_submap( const tripoint &sm_pos ) const
-{
-    if( cache_pos == tripoint_min ) {
-        debugmsg( "Called map_memory::get_submap() before initializing map memory region." );
-        return invalid_mz_submap;
-    }
-    const point idx = ( sm_pos - cache_pos ).xy();
-    if( idx.x > 0 && idx.y > 0 && idx.x < cache_size.x && idx.y < cache_size.y ) {
-        return *cached[idx.y * cache_size.x + idx.x];
-    } else {
-        return null_mz_submap;
-    }
-}
-
 mm_submap &map_memory::get_submap( const tripoint &sm_pos )
 {
-    if( cache_pos == tripoint_min ) {
-        return invalid_mz_submap;
+    // First, try fetching from cache.
+    // If it's not in cache (or cache is absent), go the long way.
+    if( cache_pos != tripoint_min ) {
+        int zoffset = get_map().has_zlevels()
+                      ? ( sm_pos.z + OVERMAP_DEPTH ) * cache_size.y * cache_size.x
+                      : 0;
+        const point idx = ( sm_pos - cache_pos ).xy();
+        if( idx.x > 0 && idx.y > 0 && idx.x < cache_size.x && idx.y < cache_size.y ) {
+            return *cached[idx.y * cache_size.x + idx.x + zoffset];
+        }
     }
-    const point idx = ( sm_pos - cache_pos ).xy();
-    if( idx.x > 0 && idx.y > 0 && idx.x < cache_size.x && idx.y < cache_size.y ) {
-        return *cached[idx.y * cache_size.x + idx.x];
-    } else {
-        return null_mz_submap;
-    }
+    return *fetch_submap( sm_pos );
 }
 
 void map_memory::load( const tripoint &pos )

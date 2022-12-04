@@ -1292,8 +1292,14 @@ void options_manager::add_options_general()
 
     add( "DANGEROUS_TERRAIN_WARNING_PROMPT", "general",
          translate_marker( "Dangerous terrain warning prompt" ),
-         translate_marker( "Always: You will be prompted to move onto dangerous tiles.  Running: You will only be able to move onto dangerous tiles while running and will be prompted.  Crouching: You will only be able to move onto a dangerous tile while crouching and will be prompted.  Never:  You will not be able to move onto a dangerous tile unless running and will not be warned or prompted." ),
-    { { "ALWAYS", to_translation( "Always" ) }, { "RUNNING", translate_marker( "Running" ) }, { "CROUCHING", translate_marker( "Crouching" ) }, { "NEVER", translate_marker( "Never" ) } },
+         translate_marker( "Always: You will be prompted to move onto dangerous tiles.  Running: You will only be able to move onto dangerous tiles while running and will be prompted.  Crouching: You will only be able to move onto a dangerous tile while crouching and will be prompted.  Never:  You will not be able to move onto a dangerous tile unless running and will not be warned or prompted.  Ignore:  You will be able to move onto a dangerous tile without any warnings or prompts." ),
+    {
+        { "ALWAYS", to_translation( "Always" ) },
+        { "RUNNING", translate_marker( "Running" ) },
+        { "CROUCHING", translate_marker( "Crouching" ) },
+        { "NEVER", translate_marker( "Never" ) },
+        { "IGNORE", translate_marker( "Ignore" ) }
+    },
     "ALWAYS"
        );
 
@@ -1799,6 +1805,11 @@ void options_manager::add_options_graphics()
 
     get_option( "ANIMATION_DELAY" ).setPrerequisite( "ANIMATIONS" );
 
+    add( "BLINK_SPEED", "graphics", translate_marker( "Blinking effects speed" ),
+         translate_marker( "The speed of every blinking effects in ms." ),
+         100, 5000, 800
+       );
+
     add( "FORCE_REDRAW", "graphics", translate_marker( "Force redraw" ),
          translate_marker( "If true, forces the game to redraw at least once per turn." ),
          true
@@ -1909,10 +1920,15 @@ void options_manager::add_options_graphics()
     add_empty_line();
 
     add( "MEMORY_MAP_MODE", "graphics", translate_marker( "Memory map drawing mode" ),
-    translate_marker( "Specified the mode in which the memory map is drawn.  Requires restart." ), {
+    translate_marker( "Specified the mode in which the memory map is drawn." ), {
         { "color_pixel_darken", translate_marker( "Darkened" ) },
         { "color_pixel_sepia", translate_marker( "Sepia" ) }
     }, "color_pixel_sepia", COPT_CURSES_HIDE
+       );
+
+    add( "STATICZEFFECT", "graphics", translate_marker( "Static z level effect" ),
+         translate_marker( "If true, lower z levels will look the same no matter how far down they are.  Increases rendering performance." ),
+         false, COPT_CURSES_HIDE
        );
 
     add_empty_line();
@@ -1991,6 +2007,10 @@ void options_manager::add_options_graphics()
     { { "no", translate_marker( "No" ) }, { "maximized", translate_marker( "Maximized" ) }, { "fullscreen", translate_marker( "Fullscreen" ) }, { "windowedbl", translate_marker( "Windowed borderless" ) } },
     "windowedbl", COPT_CURSES_HIDE
        );
+
+    add( "MINIMIZE_ON_FOCUS_LOSS", "graphics",
+         translate_marker( "Minimize on focus loss.  Requires restart." ),
+         translate_marker( "Minimize fullscreen window when it loses focus." ), false );
 #endif
 
 #if !defined(__ANDROID__)
@@ -2080,6 +2100,18 @@ void options_manager::add_options_debug()
          false
        );
 
+    add( "FORCE_TILESET_RELOAD", "debug", translate_marker( "Force tileset reload" ),
+         translate_marker( "If false, the game will keep tileset in memory after first load to speed up subsequent loadings of game data.  Enable this if you're working on a tileset for the game or a mod." ),
+         false
+       );
+
+    add_empty_line();
+
+    add( "MOD_SOURCE", "debug", translate_marker( "Display Mod Source" ),
+         translate_marker( "Displays what content pack a piece of furniture, terrain, item or monster comes from or is affected by.  Disable if it's annoying." ),
+         true
+       );
+
     add_empty_line();
 
     add_option_group( "debug", Group( "debug_log", to_translation( "Logging" ),
@@ -2130,8 +2162,6 @@ void options_manager::add_options_debug()
          translate_marker( "Scales experience gained from practicing skills and reading books.  0.5 is half as fast as default, 2.0 is twice as fast, 0.0 disables skill training except for NPC training." ),
          0.0, 100.0, 1.0, 0.1
        );
-
-    add_empty_line();
 
     add( "SKILL_RUST", "debug", translate_marker( "Skill rust" ),
          translate_marker( "Set the level of skill rust.  Vanilla: Vanilla Cataclysm - Capped: Capped at skill levels 2 - Int: Intelligence dependent - IntCap: Intelligence dependent, capped - Off: None at all." ),
@@ -2610,13 +2640,24 @@ void options_manager::add_options_android()
 
 #if defined(TILES)
 // Helper method to isolate #ifdeffed tiles code.
-static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_changed, bool ingame )
+static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_changed, bool ingame,
+                           bool force_tile_change )
 {
     if( used_tiles_changed ) {
+        // Disable UIs below to avoid accessing the tile context during loading.
+        ui_adaptor dummy( ui_adaptor::disable_uis_below {} );
         //try and keep SDL calls limited to source files that deal specifically with them
         try {
             tilecontext->reinit();
-            tilecontext->load_tileset( get_option<std::string>( "TILES" ) );
+            std::vector<mod_id> dummy;
+
+            tilecontext->load_tileset(
+                get_option<std::string>( "TILES" ),
+                ingame ? world_generator->active_world->active_mod_order : dummy,
+                /*precheck=*/false,
+                /*force=*/force_tile_change,
+                /*pump_events=*/true
+            );
             //game_ui::init_ui is called when zoom is changed
             g->reset_zoom();
             g->mark_main_ui_adaptor_resize();
@@ -2631,7 +2672,7 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
     }
 }
 #else
-static void refresh_tiles( bool, bool, bool )
+static void refresh_tiles( bool, bool, bool, bool )
 {
 }
 #endif // TILES
@@ -3125,6 +3166,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
     bool used_tiles_changed = false;
     bool pixel_minimap_changed = false;
     bool terminal_size_changed = false;
+    bool force_tile_change = false;
 
     for( auto &iter : OPTIONS_OLD ) {
         if( iter.second != OPTIONS[iter.first] ) {
@@ -3140,9 +3182,12 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
                 || iter.first == "PIXEL_MINIMAP_SCALE_TO_FIT" ) {
                 pixel_minimap_changed = true;
 
-            } else if( iter.first == "TILES" || iter.first == "USE_TILES" ) {
+            } else if( iter.first == "TILES" || iter.first == "USE_TILES" || iter.first == "STATICZEFFECT" ||
+                       iter.first == "MEMORY_MAP_MODE" ) {
                 used_tiles_changed = true;
-
+                if( iter.first == "STATICZEFFECT" || iter.first == "MEMORY_MAP_MODE" ) {
+                    force_tile_change = true;
+                }
             } else if( iter.first == "USE_LANG" ) {
                 lang_changed = true;
 
@@ -3206,7 +3251,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
     ( void ) terminal_size_changed;
 #endif
 
-    refresh_tiles( used_tiles_changed, pixel_minimap_changed, ingame );
+    refresh_tiles( used_tiles_changed, pixel_minimap_changed, ingame, force_tile_change );
 
     return "";
 }
@@ -3290,6 +3335,7 @@ void options_manager::cache_to_globals()
 
     json_report_unused_fields = ::get_option<bool>( "REPORT_UNUSED_JSON_FIELDS" );
     json_report_strict = test_mode || json_report_unused_fields;
+    display_mod_source = ::get_option<bool>( "MOD_SOURCE" );
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
     use_tiles = ::get_option<bool>( "USE_TILES" );
     use_tiles_overmap = ::get_option<bool>( "USE_TILES_OVERMAP" );
@@ -3298,6 +3344,7 @@ void options_manager::cache_to_globals()
     message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );
     fov_3d = ::get_option<bool>( "FOV_3D" );
     fov_3d_z_range = ::get_option<int>( "FOV_3D_Z_RANGE" );
+    static_z_effect = ::get_option<bool>( "STATICZEFFECT" );
     PICKUP_RANGE = ::get_option<int>( "PICKUP_RANGE" );
 #if defined(SDL_SOUND)
     sounds::sound_enabled = ::get_option<bool>( "SOUND_ENABLED" );
@@ -3308,7 +3355,7 @@ bool options_manager::save()
 {
     const auto savefile = PATH_INFO::options();
     cache_to_globals();
-    update_music_volume();
+    update_volumes();
 
     return write_to_file( savefile, [&]( std::ostream & fout ) {
         JsonOut jout( fout, true );

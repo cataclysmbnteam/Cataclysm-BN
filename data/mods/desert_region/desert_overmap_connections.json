@@ -2,6 +2,7 @@
   {
     "type": "overmap_connection",
     "id": "local_road",
+    "default_terrain": "road",
     "subtypes": [
       { "terrain": "road", "locations": [ "field", "road", "desert" ] },
       { "terrain": "road", "locations": [ "forest_without_trail" ], "basic_cost": 20 },

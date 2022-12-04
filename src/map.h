@@ -92,6 +92,10 @@ template<typename T>
 struct weighted_int_list;
 struct rl_vec2d;
 
+
+/** Causes all generated maps to be empty grass and prevents saved maps from being loaded, used by the test suite */
+extern bool disable_mapgen;
+
 namespace cata
 {
 template <class T> class poly_serialized;
@@ -288,6 +292,12 @@ struct drawsq_params {
         //@}
 };
 
+//This is included in the global namespace rather than within level_cache as c++ doesn't allow forward declarations within a namespace
+struct diagonal_blocks {
+    bool nw;
+    bool ne;
+};
+
 struct level_cache {
     // Zeros all relevant values
     level_cache();
@@ -321,10 +331,12 @@ struct level_cache {
     // units: "transparency" (see LIGHT_TRANSPARENCY_OPEN_AIR)
     float transparency_cache[MAPSIZE_X][MAPSIZE_Y];
 
-    // stores "adjusted transparency" of the tiles
-    // initial values derived from transparency_cache, uses same units
-    // examples of adjustment: changed transparency on player's tile and special case for crouching
-    float vision_transparency_cache[MAPSIZE_X][MAPSIZE_Y];
+    // true when light entering a tile diagonally is blocked by the walls of a turned vehicle. The direction is the direction that the light must be travelling.
+    // check the nw value of x+1, y+1 to find the se value of a tile and the ne of x-1, y+1 for sw
+    diagonal_blocks vehicle_obscured_cache[MAPSIZE_X][MAPSIZE_Y];
+
+    // same as above but for obstruction rather than light
+    diagonal_blocks vehicle_obstructed_cache[MAPSIZE_X][MAPSIZE_Y];
 
     // stores "visibility" of the tiles to the player
     // values range from 1 (fully visible to player) to 0 (not visible)
@@ -551,9 +563,13 @@ class map
          * @param w global coordinates of the submap at grid[0]. This
          * is in submap coordinates.
          * @param update_vehicles If true, add vehicles to the vehicle cache.
+         * @param pump_events If true, handle window events during loading. If
+         * you set this to true, do ensure that the map is not accessed before
+         * this function returns (for example, UIs that draw the map should be
+         * disabled).
          */
-        void load( const tripoint &w, bool update_vehicles );
-        void load( const tripoint_abs_sm &w, bool update_vehicles );
+        void load( const tripoint &w, bool update_vehicles, bool pump_events = false );
+        void load( const tripoint_abs_sm &w, bool update_vehicles, bool pump_events = false );
         /**
          * Shift the map along the vector s.
          * This is like loading the map with coordinates derived from the current
@@ -583,7 +599,7 @@ class map
         void spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
                          const time_duration &outdoor_age_speedup, scent_block &sblk );
         void create_hot_air( const tripoint &p, int intensity );
-        bool gas_can_spread_to( field_entry &cur, const maptile &dst );
+        bool gas_can_spread_to( field_entry &cur, const tripoint &src, const tripoint &dst );
         void gas_spread_to( field_entry &cur, maptile &dst, const tripoint &p );
         int burn_body_part( player &u, field_entry &cur, body_part bp, int scale );
     public:
@@ -692,6 +708,16 @@ class map
                          int cost_min, int cost_max ) const;
 
         /**
+         * Checks if a rotated vehicle is blocking diagonal movement, tripoints must be adjacent
+         */
+        bool obstructed_by_vehicle_rotation( const tripoint &from, const tripoint &to ) const;
+
+        /**
+         * Checks if a rotated vehicle is blocking diagonal vision, tripoints must be adjacent
+         */
+        bool obscured_by_vehicle_rotation( const tripoint &from, const tripoint &to ) const;
+
+        /**
          * Populates a vector of points that are reachable within a number of steps from a
          * point. It could be generalized to take advantage of z levels, but would need some
          * additional code to detect whether a valid transition was on a tile.
@@ -740,8 +766,8 @@ class map
         void add_vehicle_to_cache( vehicle * );
         void clear_vehicle_point_from_cache( vehicle *veh, const tripoint &pt );
         void update_vehicle_cache( vehicle *, int old_zlevel );
-        void reset_vehicle_cache( int zlev );
-        void clear_vehicle_cache( int zlev );
+        void reset_vehicle_cache( );
+        void clear_vehicle_cache( );
         void clear_vehicle_list( int zlev );
         void update_vehicle_list( const submap *to, int zlev );
         //Returns true if vehicle zones are dirty and need to be recached
@@ -778,12 +804,10 @@ class map
         void unboard_vehicle( const tripoint &p, bool dead_passenger = false );
         // Change vehicle coordinates and move vehicle's driver along.
         // WARNING: not checking collisions!
-        // optionally: include a list of parts to displace instead of the entire vehicle
-        bool displace_vehicle( vehicle &veh, const tripoint &dp, bool adjust_pos = true,
-                               const std::set<int> &parts_to_move = {} );
-        // make sure a vehicle that is split across z-levels is properly supported
-        // calls displace_vehicle() and shouldn't be called from displace_vehicle
-        void level_vehicle( vehicle &veh );
+        bool displace_vehicle( vehicle &veh, const tripoint &dp );
+
+        // Shift the vehicle's z-level without moving any parts
+        void shift_vehicle_z( vehicle &veh, int z_shift );
         // move water under wheels. true if moved
         bool displace_water( const tripoint &dp );
 
@@ -960,6 +984,10 @@ class map
         bool has_flag_furn( const std::string &flag, const point &p ) const {
             return has_flag_furn( flag, tripoint( p, abs_sub.z ) );
         }
+        // Checks vehicle part flag
+        bool has_flag_vpart( const std::string &flag, const tripoint &p ) const;
+        // Checks vehicle part or furniture
+        bool has_flag_furn_or_vpart( const std::string &flag, const tripoint &p ) const;
         // Checks terrain or furniture
         bool has_flag_ter_or_furn( const std::string &flag, const tripoint &p ) const;
         bool has_flag_ter_or_furn( const std::string &flag, const point &p ) const {
@@ -1493,8 +1521,7 @@ class map
          * Build the map of scent-resistant tiles.
          * Should be way faster than if done in `game.cpp` using public map functions.
          */
-        void scent_blockers( std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &blocks_scent,
-                             std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &reduces_scent,
+        void scent_blockers( std::array<std::array<char, MAPSIZE_X>, MAPSIZE_Y> &scent_transfer,
                              const point &min, const point &max );
 
         // Computers
@@ -1776,7 +1803,7 @@ class map
         // Builds a transparency cache and returns true if the cache was invalidated.
         // Used to determine if seen cache should be rebuilt.
         bool build_transparency_cache( int zlev );
-        bool build_vision_transparency_cache( int zlev );
+        bool build_vision_transparency_cache( const Character &player );
         // fills lm with sunlight. pzlev is current player's zlevel
         void build_sunlight_cache( int pzlev );
     public:
@@ -1793,8 +1820,18 @@ class map
         void build_seen_cache( const tripoint &origin, int target_z );
         void apply_character_light( Character &p );
 
+        //Adds/removes player specific transparencies
+        void apply_vision_transparency_cache( const tripoint &center, int target_z,
+                                              float ( &vision_restore_cache )[9], bool ( &blocked_restore_cache )[8] );
+        void restore_vision_transparency_cache( const tripoint &center, int target_z,
+                                                float ( &vision_restore_cache )[9], bool ( &blocked_restore_cache )[8] );
+
         int my_MAPSIZE;
         bool zlevels;
+
+        // stores vision adjustment for the tiles immediately surrounding the player, the order is given by eight_adjacent_offsets in point.h
+        // examples of adjustment: crouching
+        vision_adjustment vision_transparency_cache[8] = { VISION_ADJUST_NONE };
 
         /**
          * Absolute coordinates of first submap (get_submap_at(0,0))
@@ -2048,6 +2085,10 @@ class map
         std::list<tripoint> find_furnitures_with_flag_in_radius( const tripoint &center, size_t radius,
                 const std::string &flag,
                 size_t radiusz = 0 );
+        /**returns positions of furnitures or vehicle parts with matching flag in the specified radius*/
+        std::list<tripoint> find_furnitures_or_vparts_with_flag_in_radius( const tripoint &center,
+                size_t radius,
+                const std::string &flag, size_t radiusz = 0 );
         /**returns creatures in specified radius*/
         std::list<Creature *> get_creatures_in_radius( const tripoint &center, size_t radius,
                 size_t radiusz = 0 );

@@ -957,5 +957,24 @@
     "price": 4550,
     "looks_like": "tall_tales",
     "fun": 3
+  },
+  {
+    "id": "sa_cryptology_key",
+    "type": "BOOK",
+    "name": { "str_sp": "High Level Commercial and Military Cryptology" },
+    "description": "An incredibly dense volume describing different advanced cryptographical methods, their strenghts, and weaknesses.  This text would probably be easier to digest with an added decade in Computer Science Academia.",
+    "weight": 3000,
+    "volume": "2 L",
+    "price": "450 USD",
+    "bashing": 5,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "blue",
+    "skill": "computer",
+    "required_level": 7,
+    "max_level": 10,
+    "intelligence": 12,
+    "time": 40,
+    "fun": -5
   }
 ]

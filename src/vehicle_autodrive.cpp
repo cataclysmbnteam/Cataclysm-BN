@@ -24,7 +24,6 @@
 #include "hash_utils.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "map_memory.h"
 #include "mapdata.h"
 #include "messages.h"
 #include "optional.h"
@@ -577,7 +576,9 @@ void vehicle::autodrive_controller::compute_coordinates()
 vehicle_profile vehicle::autodrive_controller::compute_profile( orientation facing ) const
 {
     vehicle_profile ret;
-    tileray tdir( to_angle( facing ) );
+
+    auto angle = to_angle( facing );
+    tileray tdir( angle );
     ret.tdir = tdir;
     std::map<int, std::pair<int, int>> extent_map;
     const point pivot = driven_veh.pivot_point();
@@ -586,7 +587,7 @@ vehicle_profile vehicle::autodrive_controller::compute_profile( orientation faci
             continue;
         }
         tripoint pos;
-        driven_veh.coord_translate( tdir, pivot, part.mount, pos );
+        driven_veh.coord_translate( angle, pivot, part.mount, pos );
         if( extent_map.find( pos.y ) == extent_map.end() ) {
             extent_map[pos.y] = { pos.x, pos.x };
         } else {
@@ -609,7 +610,7 @@ vehicle_profile vehicle::autodrive_controller::compute_profile( orientation faci
         const int radius = ( diameter + 1 ) / 2;
         if( radius > 0 ) {
             tripoint pos;
-            driven_veh.coord_translate( tdir, pivot, part.mount, pos );
+            driven_veh.coord_translate( angle, pivot, part.mount, pos );
             for( tripoint pt : points_in_radius( pos, radius ) ) {
                 ret.occupied_zone.emplace_back( pt.xy() );
             }
@@ -661,7 +662,7 @@ bool vehicle::autodrive_controller::check_drivable( tripoint pt ) const
         if( !driver.sees( pt ) ) {
             if( !driver.is_avatar() ) {
                 return false;
-            } else if( driver.as_avatar()->get_memorized_tile( pt_abs.raw() ) == mm_submap::default_tile ) {
+            } else if( !driver.as_avatar()->has_memorized_tile_for_autodrive( pt_abs.raw() ) ) {
                 // apparently open air doesn't get memorized, so pretend it is or else
                 // we can't fly helicopters due to the many unseen tiles behind the driver
                 if( !( data.air_ok && here.ter( pt ) == t_open_air ) ) {
@@ -959,12 +960,10 @@ cata::optional<std::vector<navigation_step>> vehicle::autodrive_controller::comp
                                    veh_pos.raw().xy(), to_orientation( driven_veh.face.dir() ) );
     known_nodes.emplace( start, make_start_node( start, driven_veh ) );
     open_set.push( scored_address{ start, 0 } );
-    int search_count = 0;
     std::vector<std::pair<node_address, navigation_node>> next_nodes;
     while( !open_set.empty() ) {
         const node_address cur_addr = open_set.top().addr;
         open_set.pop();
-        search_count++;
         const navigation_node &cur_node = known_nodes[cur_addr];
         if( cur_node.is_goal ) {
             node_address addr = cur_addr;

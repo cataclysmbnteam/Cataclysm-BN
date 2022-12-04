@@ -570,6 +570,13 @@ void requirement_data::finalize()
                 }
                 const std::list<itype_id> replacements = item_controller->subtype_replacement( comp.type );
                 for( const itype_id &replacing_type : replacements ) {
+                    // Don't replace if replacement is already in list (e.g. it was explicitly specified)
+                    bool exists = std::any_of( new_list.begin(), new_list.end(), [&]( const tool_comp & elem ) {
+                        return elem.type == replacing_type;
+                    } );
+                    if( exists ) {
+                        continue;
+                    }
                     // One of the replacements is the type itself
                     const int charge_factor = replacing_type != comp.type
                                               ? replacing_type->charge_factor()

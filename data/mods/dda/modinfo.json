@@ -2,10 +2,13 @@
   {
     "type": "MOD_INFO",
     "id": "dda",
-    "name": "Bright Nights",
-    "description": "Core content for Cataclysm-BN",
-    "category": "core",
-    "core": true,
-    "path": "../../json"
+    "//1": "This is for mods that use old core content pack id 'dda'.",
+    "//2": "Don't use it, use 'bn' instead.",
+    "//3": "TODO: remove this wrapper once BN 0.2 rolls out and add 'dda'->'bn' migration to replacements.json",
+    "name": "Bright Nights (wrapper)",
+    "description": "Compatibility wrapper for mods and saves that use old core content id format.  If you're a player, ignore this.",
+    "dependencies": [ "bn" ],
+    "obsolete": true,
+    "category": "content"
   }
 ]

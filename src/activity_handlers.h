@@ -242,7 +242,6 @@ void wait_stamina_finish( player_activity *act, player *p );
 void socialize_finish( player_activity *act, player *p );
 void try_sleep_finish( player_activity *act, player *p );
 void operation_finish( player_activity *act, player *p );
-void disassemble_finish( player_activity *act, player *p );
 void vibe_finish( player_activity *act, player *p );
 void hand_crank_finish( player_activity *act, player *p );
 void atm_finish( player_activity *act, player *p );
@@ -286,7 +285,8 @@ void patch_activity_for_vehicle_welder(
     int interact_part_idx
 );
 void patch_activity_for_furniture( player_activity &activity,
-                                   const tripoint &furniture_position );
+                                   const tripoint &furniture_position,
+                                   const itype_id &itt );
 
 } // namespace repair_activity_hack
 

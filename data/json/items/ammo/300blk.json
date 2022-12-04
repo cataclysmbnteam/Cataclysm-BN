@@ -17,7 +17,7 @@
     "ammo_type": "300blk",
     "casing": "300blk_casing",
     "range": 45,
-    "damage": { "damage_type": "bullet", "amount": 43, "armor_penetration": 5 },
+    "damage": { "damage_type": "bullet", "amount": 43, "armor_penetration": 24 },
     "dispersion": 30,
     "recoil": 2000,
     "effects": [ "COOKOFF" ]

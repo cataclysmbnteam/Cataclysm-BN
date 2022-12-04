@@ -7,5 +7,14 @@
     "description": "An 8 round magazine for use with semi-automatic magnum pistols.",
     "delete": { "ammo_type": "44" },
     "ammo_type": [ "ammo_pistol", "ammo_pistol_magnum" ]
+  },
+  {
+    "id": "pistol_magnum_mag_hc",
+    "copy-from": "pistol_magnum_mag",
+    "looks_like": "deaglemag",
+    "type": "MAGAZINE",
+    "name": { "str": "high capacity magnum pistol magazine" },
+    "description": "An 16 round magazine for use with semi-automatic magnum pistols.",
+    "proportional": { "weight": 1.5, "volume": 1.7, "price": 1.8, "price_postapoc": 2.2, "capacity": 2.0 }
   }
 ]

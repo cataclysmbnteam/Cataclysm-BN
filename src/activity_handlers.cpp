@@ -23,11 +23,13 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "character_functions.h"
 #include "character_martial_arts.h"
 #include "clzones.h"
 #include "colony.h"
 #include "color.h"
 #include "construction.h"
+#include "construction_partial.h"
 #include "coordinate_conversions.h"
 #include "craft_command.h"
 #include "crafting.h"
@@ -119,7 +121,6 @@ static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 static const activity_id ACT_CRACKING( "ACT_CRACKING" );
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
-static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
 static const activity_id ACT_DISMEMBER( "ACT_DISMEMBER" );
 static const activity_id ACT_DISSECT( "ACT_DISSECT" );
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
@@ -389,7 +390,6 @@ activity_handlers::finish_functions = {
     { ACT_SOCIALIZE, socialize_finish },
     { ACT_TRY_SLEEP, try_sleep_finish },
     { ACT_OPERATION, operation_finish },
-    { ACT_DISASSEMBLE, disassemble_finish },
     { ACT_VIBE, vibe_finish },
     { ACT_ATM, atm_finish },
     { ACT_EAT_MENU, eat_menu_finish },
@@ -440,24 +440,25 @@ void activity_handlers::burrow_do_turn( player_activity *act, player * )
 void activity_handlers::burrow_finish( player_activity *act, player *p )
 {
     tripoint pos = act->placement; // make a copy to avoid use-after-free
+    map &here = get_map();
     act->set_to_null(); // kill activity before inflicting pain
-    if( g->m.is_bashable( pos ) && g->m.has_flag( flag_SUPPORTS_ROOF, pos ) &&
-        g->m.ter( pos ) != t_tree ) {
+    if( here.is_bashable( pos ) && here.has_flag( flag_SUPPORTS_ROOF, pos ) &&
+        here.ter( pos ) != t_tree ) {
         // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
         // Not quite as bad as the pickaxe, though
         p->mod_stored_nutr( 10 );
         p->mod_thirst( 10 );
         p->mod_fatigue( 15 );
         p->mod_pain( 3 * rng( 1, 3 ) );
-    } else if( g->m.move_cost( pos ) == 2 && g->get_levz() == 0 &&
-               g->m.ter( pos ) != t_dirt && g->m.ter( pos ) != t_grass ) {
+    } else if( here.move_cost( pos ) == 2 && g->get_levz() == 0 &&
+               here.ter( pos ) != t_dirt && here.ter( pos ) != t_grass ) {
         //Breaking up concrete on the surface? not nearly as bad
         p->mod_stored_nutr( 5 );
         p->mod_thirst( 5 );
         p->mod_fatigue( 10 );
     }
     p->add_msg_if_player( m_good, _( "You finish burrowing." ) );
-    g->m.destroy( pos, true );
+    here.destroy( pos, true );
 }
 
 static bool check_butcher_cbm( const int roll )
@@ -530,6 +531,7 @@ enum class butcherable_rating : int {
 
 butchery_setup consider_butchery( const item &corpse_item, player &u, butcher_type action )
 {
+    map &here = get_map();
     butchery_setup setup;
     setup.can_do = butchery_possibility::yes;
     setup.type = action;
@@ -587,15 +589,15 @@ butchery_setup consider_butchery( const item &corpse_item, player &u, butcher_ty
     }
 
     bool has_tree_nearby = false;
-    for( const tripoint &pt : g->m.points_in_radius( u.pos(), PICKUP_RANGE ) ) {
-        if( g->m.has_flag( flag_TREE, pt ) ) {
+    for( const tripoint &pt : here.points_in_radius( u.pos(), PICKUP_RANGE ) ) {
+        if( here.has_flag( flag_TREE, pt ) ) {
             has_tree_nearby = true;
             break;
         }
     }
     bool b_rack_present = false;
-    for( const tripoint &pt : g->m.points_in_radius( u.pos(), PICKUP_RANGE ) ) {
-        if( g->m.has_flag_furn( flag_BUTCHER_EQ, pt ) ) {
+    for( const tripoint &pt : here.points_in_radius( u.pos(), PICKUP_RANGE ) ) {
+        if( here.has_flag_furn( flag_BUTCHER_EQ, pt ) ) {
             b_rack_present = true;
             break;
         }
@@ -625,7 +627,7 @@ butchery_setup consider_butchery( const item &corpse_item, player &u, butcher_ty
                     _( "To perform a full butchery on a corpse this big, you need either a butchering rack, a nearby hanging meathook, or both a long rope in your inventory and a nearby tree to hang the corpse from." ),
                     butcherable_rating::no_tree_rope_rack );
             }
-            if( !( g->m.has_nearby_table( u.pos(), PICKUP_RANGE ) || inv.has_item_with( []( const item & it ) {
+            if( !( here.has_nearby_table( u.pos(), PICKUP_RANGE ) || inv.has_item_with( []( const item & it ) {
             return it.has_flag( "FLAT_SURFACE" );
             } ) ) ) {
                 not_this_one(
@@ -890,6 +892,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
         return;
     }
 
+    map &here = get_map();
     for( const harvest_entry &entry : *mt.harvest ) {
         const int butchery = roll_butchery();
         const float min_num = entry.base_num.first + butchery * entry.scale_num.first;
@@ -1080,7 +1083,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 if( !p.backlog.empty() && p.backlog.front().id() == ACT_MULTIPLE_BUTCHER ) {
                     obj.set_var( "activity_var", p.name );
                 }
-                g->m.add_item_or_charges( p.pos(), obj );
+                here.add_item_or_charges( p.pos(), obj );
             } else {
                 item obj( drop, calendar::turn );
                 obj.set_mtype( &mt );
@@ -1097,7 +1100,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                     obj.set_var( "activity_var", p.name );
                 }
                 for( int i = 0; i != roll; ++i ) {
-                    g->m.add_item_or_charges( p.pos(), obj );
+                    here.add_item_or_charges( p.pos(), obj );
                 }
             }
             p.add_msg_if_player( m_good, _( "You harvest: %s" ), drop->nname( roll ) );
@@ -1117,9 +1120,10 @@ static void butchery_quarter( item *corpse_item, const player &p )
     p.add_msg_if_player( m_good,
                          _( "You roughly slice the corpse of %s into four parts and set them aside." ),
                          corpse_item->get_mtype()->nname() );
+    map &here = get_map();
     // 4 quarters (one exists, add 3, flag does the rest)
     for( int i = 1; i <= 3; i++ ) {
-        g->m.add_item_or_charges( p.pos(), *corpse_item, true );
+        here.add_item_or_charges( p.pos(), *corpse_item, true );
     }
 }
 
@@ -1132,6 +1136,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         return;
     }
 
+    map &here = get_map();
     item_location target = act->targets.back();
     const inventory &inv = p->crafting_inventory();
 
@@ -1204,7 +1209,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     };
 
     if( action == DISMEMBER ) {
-        g->m.add_splatter( type_gib, p->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
+        here.add_splatter( type_gib, p->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
     }
 
     //all BUTCHERY types - FATAL FAILURE
@@ -1228,12 +1233,12 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         target.remove_item();
         act->targets.pop_back();
 
-        g->m.add_splatter( type_gib, p->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
-        g->m.add_splatter( type_blood, p->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
+        here.add_splatter( type_gib, p->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
+        here.add_splatter( type_blood, p->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
         for( int i = 1; i <= corpse->size; i++ ) {
-            g->m.add_splatter_trail( type_gib, p->pos(), random_entry( g->m.points_in_radius( p->pos(),
+            here.add_splatter_trail( type_gib, p->pos(), random_entry( here.points_in_radius( p->pos(),
                                      corpse->size + 1 ) ) );
-            g->m.add_splatter_trail( type_blood, p->pos(), random_entry( g->m.points_in_radius( p->pos(),
+            here.add_splatter_trail( type_blood, p->pos(), random_entry( here.points_in_radius( p->pos(),
                                      corpse->size + 1 ) ) );
         }
 
@@ -1315,12 +1320,12 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                 }
                 corpse_item.set_flag( "FIELD_DRESS_FAILED" );
 
-                g->m.add_splatter( type_gib, p->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
-                g->m.add_splatter( type_blood, p->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
+                here.add_splatter( type_gib, p->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
+                here.add_splatter( type_blood, p->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
                 for( int i = 1; i <= corpse->size; i++ ) {
-                    g->m.add_splatter_trail( type_gib, p->pos(), random_entry( g->m.points_in_radius( p->pos(),
+                    here.add_splatter_trail( type_gib, p->pos(), random_entry( here.points_in_radius( p->pos(),
                                              corpse->size + 1 ) ) );
-                    g->m.add_splatter_trail( type_blood, p->pos(), random_entry( g->m.points_in_radius( p->pos(),
+                    here.add_splatter_trail( type_blood, p->pos(), random_entry( here.points_in_radius( p->pos(),
                                              corpse->size + 1 ) ) );
                 }
 
@@ -1341,12 +1346,12 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                 }
                 corpse_item.set_flag( flag_FIELD_DRESS );
 
-                g->m.add_splatter( type_gib, p->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
-                g->m.add_splatter( type_blood, p->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
+                here.add_splatter( type_gib, p->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
+                here.add_splatter( type_blood, p->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
                 for( int i = 1; i <= corpse->size; i++ ) {
-                    g->m.add_splatter_trail( type_gib, p->pos(), random_entry( g->m.points_in_radius( p->pos(),
+                    here.add_splatter_trail( type_gib, p->pos(), random_entry( here.points_in_radius( p->pos(),
                                              corpse->size + 1 ) ) );
-                    g->m.add_splatter_trail( type_blood, p->pos(), random_entry( g->m.points_in_radius( p->pos(),
+                    here.add_splatter_trail( type_blood, p->pos(), random_entry( here.points_in_radius( p->pos(),
                                              corpse->size + 1 ) ) );
                 }
 
@@ -1426,7 +1431,8 @@ void activity_handlers::shear_finish( player_activity *act, player *p )
         debugmsg( "shearing item location lost" );
         return;
     }
-    const tripoint source_pos = g->m.getlocal( act->coords.at( 0 ) );
+    map &here = get_map();
+    const tripoint source_pos = here.getlocal( act->coords.at( 0 ) );
     monster *source_mon = g->critter_at<monster>( source_pos );
     if( source_mon == nullptr ) {
         debugmsg( "could not find source creature for shearing" );
@@ -1435,7 +1441,7 @@ void activity_handlers::shear_finish( player_activity *act, player *p )
     // 22 wool staples corresponds to an average wool-producing sheep yield of 10 lbs or so
     for( int i = 0; i != 22; ++i ) {
         item wool_staple( itype_wool_staple, calendar::turn );
-        g->m.add_item_or_charges( p->pos(), wool_staple );
+        here.add_item_or_charges( p->pos(), wool_staple );
     }
     source_mon->add_effect( effect_sheared, calendar::season_length() );
     if( !act->str_values.empty() && act->str_values[0] == "temp_tie" ) {
@@ -1453,7 +1459,8 @@ void activity_handlers::milk_finish( player_activity *act, player *p )
         debugmsg( "milking activity with no position of monster stored" );
         return;
     }
-    const tripoint source_pos = g->m.getlocal( act->coords.at( 0 ) );
+    map &here = get_map();
+    const tripoint source_pos = here.getlocal( act->coords.at( 0 ) );
     monster *source_mon = g->critter_at<monster>( source_pos );
     if( source_mon == nullptr ) {
         debugmsg( "could not find source creature for liquid transfer" );
@@ -1492,7 +1499,8 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
         // 1. Gather the source item.
         vehicle *source_veh = nullptr;
         const tripoint source_pos = act_ref.coords.at( 0 );
-        map_stack source_stack = g->m.i_at( source_pos );
+        map &here = get_map();
+        map_stack source_stack = here.i_at( source_pos );
         map_stack::iterator on_ground;
         monster *source_mon = nullptr;
         item liquid;
@@ -1501,7 +1509,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
         int veh_charges = 0;
         switch( source_type ) {
             case LST_VEHICLE:
-                source_veh = veh_pointer_or_null( g->m.veh_at( source_pos ) );
+                source_veh = veh_pointer_or_null( here.veh_at( source_pos ) );
                 if( source_veh == nullptr ) {
                     throw std::runtime_error( "could not find source vehicle for liquid transfer" );
                 }
@@ -1541,7 +1549,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
         // 2. Transfer charges.
         switch( static_cast<liquid_target_type>( act_ref.values.at( 2 ) ) ) {
             case LTT_VEHICLE:
-                if( const optional_vpart_position vp = g->m.veh_at( act_ref.coords.at( 1 ) ) ) {
+                if( const optional_vpart_position vp = here.veh_at( act_ref.coords.at( 1 ) ) ) {
                     p->pour_into( vp->vehicle(), liquid );
                 } else {
                     throw std::runtime_error( "could not find target vehicle for liquid transfer" );
@@ -1554,7 +1562,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
                 if( iexamine::has_keg( act_ref.coords.at( 1 ) ) ) {
                     iexamine::pour_into_keg( act_ref.coords.at( 1 ), liquid );
                 } else {
-                    g->m.add_item_or_charges( act_ref.coords.at( 1 ), liquid );
+                    here.add_item_or_charges( act_ref.coords.at( 1 ), liquid );
                     p->add_msg_if_player( _( "You pour %1$s onto the ground." ), liquid.tname() );
                     liquid.charges = 0;
                 }
@@ -1600,15 +1608,15 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
                 on_ground->charges -= removed_charges;
                 if( on_ground->charges <= 0 ) {
                     source_stack.erase( on_ground );
-                    if( g->m.ter( source_pos ).obj().examine == &iexamine::gaspump ) {
+                    if( here.ter( source_pos ).obj().examine == &iexamine::gaspump ) {
                         add_msg( _( "With a clang and a shudder, the %s pump goes silent." ),
                                  liquid.type_name( 1 ) );
-                    } else if( g->m.furn( source_pos ).obj().examine == &iexamine::fvat_full ) {
+                    } else if( here.furn( source_pos ).obj().examine == &iexamine::fvat_full ) {
                         add_msg( _( "You squeeze the last drops of %s from the vat." ),
                                  liquid.type_name( 1 ) );
-                        map_stack items_here = g->m.i_at( source_pos );
+                        map_stack items_here = here.i_at( source_pos );
                         if( items_here.empty() ) {
-                            g->m.furn_set( source_pos, f_fvat_empty );
+                            here.furn_set( source_pos, f_fvat_empty );
                         }
                     }
                     act_ref.set_to_null();
@@ -1672,8 +1680,9 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
 {
     // Don't forage if we aren't next to the bush - otherwise we get weird bugs
     bool next_to_bush = false;
-    for( const tripoint &pnt : g->m.points_in_radius( p->pos(), 1 ) ) {
-        if( g->m.getabs( pnt ) == act->placement ) {
+    map &here = get_map();
+    for( const tripoint &pnt : here.points_in_radius( p->pos(), 1 ) ) {
+        if( here.getabs( pnt ) == act->placement ) {
             next_to_bush = true;
             break;
         }
@@ -1711,7 +1720,7 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
             debugmsg( "Invalid season" );
     }
 
-    g->m.ter_set( g->m.getlocal( act->placement ), next_ter );
+    here.ter_set( here.getlocal( act->placement ), next_ter );
 
     // Survival gives a bigger boost, and Perception is leveled a bit.
     // Both survival and perception affect time to forage
@@ -1719,7 +1728,7 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
     ///\EFFECT_PER slightly increases forage success chance
     ///\EFFECT_SURVIVAL increases forage success chance
     if( veggy_chance < p->get_skill_level( skill_survival ) * 3 + p->per_cur - 2 ) {
-        const std::vector<item *> dropped = g->m.put_items_from_loc( loc, p->pos(), calendar::turn );
+        const std::vector<item *> dropped = here.put_items_from_loc( loc, p->pos(), calendar::turn );
         for( item *it : dropped ) {
             add_msg( m_good, _( "You found: %s!" ), it->tname() );
             found_something = true;
@@ -1734,7 +1743,7 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
     }
     // 10% to drop a item/items from this group.
     if( one_in( 10 ) ) {
-        const std::vector<item *> dropped = g->m.put_items_from_loc( item_group_id( "trash_forest" ),
+        const std::vector<item *> dropped = here.put_items_from_loc( item_group_id( "trash_forest" ),
                                             p->pos(),
                                             calendar::turn );
         for( item * const &it : dropped ) {
@@ -1755,7 +1764,9 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
 void activity_handlers::generic_game_do_turn( player_activity * /*act*/, player *p )
 {
     if( calendar::once_every( 1_minutes ) ) {
-        p->add_morale( MORALE_GAME, 4, 60 );
+        // So 30 points per play
+        p->add_morale( MORALE_GAME, 2, 60, 2_hours, 30_minutes, true );
+        return;
     }
 }
 
@@ -1765,18 +1776,15 @@ void activity_handlers::game_do_turn( player_activity *act, player *p )
 
     // Consume battery charges for every minute spent playing
     if( calendar::once_every( 1_minutes ) ) {
-        bool fail = false;
-        int const ammo_required = game_item.ammo_required();
-        if( game_item.has_flag( flag_USE_UPS ) ) {
-            fail = !p->use_charges_if_avail( itype_UPS, ammo_required );
-        } else {
-            fail = game_item.ammo_consume( ammo_required, p->pos() ) == 0;
+        int energy = game_item.ammo_required();
+        energy -= game_item.ammo_consume( energy, p->pos() );
+        if( energy > 0 && game_item.has_flag( flag_USE_UPS ) ) {
+            if( p->use_charges_if_avail( itype_UPS, energy ) ) {
+                energy = 0;
+            }
         }
-
-        if( !fail ) {
-            //1 points/min, almost 2 hours to fill
-            p->add_morale( MORALE_GAME, 1, 100 );
-        } else {
+        // Morale boost from game is handled in iuse::portable_game
+        if( energy ) {
             act->moves_left = 0;
             add_msg( m_info, _( "The %s runs out of batteries." ), game_item.tname() );
         }
@@ -1818,7 +1826,8 @@ void activity_handlers::longsalvage_finish( player_activity *act, player *p )
 {
     static const std::string salvage_string = "salvage";
     item &main_tool = p->i_at( act->index );
-    map_stack items = g->m.i_at( p->pos() );
+    map &here = get_map();
+    map_stack items = here.i_at( p->pos() );
     item *salvage_tool = main_tool.get_usable_item( salvage_string );
     if( salvage_tool == nullptr ) {
         debugmsg( "Lost tool used for long salvage" );
@@ -1971,7 +1980,8 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
 
 void activity_handlers::pulp_do_turn( player_activity *act, player *p )
 {
-    const tripoint &pos = g->m.getlocal( act->placement );
+    map &here = get_map();
+    const tripoint &pos = here.getlocal( act->placement );
 
     // Stabbing weapons are a lot less effective at pulping
     const int cut_power = std::max( p->weapon.damage_melee( DT_CUT ),
@@ -1989,7 +1999,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
     int moves = 0;
     // use this to collect how many corpse are pulped
     int &num_corpses = act->index;
-    map_stack corpse_pile = g->m.i_at( pos );
+    map_stack corpse_pile = here.i_at( pos );
     for( item &corpse : corpse_pile ) {
         const mtype *corpse_mtype = corpse.get_mtype();
         if( !corpse.is_corpse() || !corpse_mtype->has_flag( MF_REVIVES ) ||
@@ -2016,7 +2026,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
                 const field_type_id type_blood = ( mess_radius > 1 && x_in_y( pulp_power, 10000 ) ) ?
                                                  corpse.get_mtype()->gibType() :
                                                  corpse.get_mtype()->bloodType();
-                g->m.add_splatter_trail( type_blood, pos, dest );
+                here.add_splatter_trail( type_blood, pos, dest );
             }
 
             p->mod_stamina( -pulp_effort );
@@ -2158,9 +2168,10 @@ void activity_handlers::start_fire_finish( player_activity *act, player *p )
 
 void activity_handlers::start_fire_do_turn( player_activity *act, player *p )
 {
-    if( !g->m.is_flammable( act->placement ) ) {
+    map &here = get_map();
+    if( !here.is_flammable( act->placement ) ) {
         try_fuel_fire( *act, *p, true );
-        if( !g->m.is_flammable( act->placement ) ) {
+        if( !here.is_flammable( act->placement ) ) {
             p->add_msg_if_player( m_info, _( "There's nothing to light there." ) );
             p->cancel_activity();
             return;
@@ -2169,7 +2180,7 @@ void activity_handlers::start_fire_do_turn( player_activity *act, player *p )
 
     item &firestarter = *act->targets.front();
     if( firestarter.has_flag( flag_REQUIRES_TINDER ) ) {
-        if( !g->m.tinder_at( act->placement ) ) {
+        if( !here.tinder_at( act->placement ) ) {
             p->add_msg_if_player( m_info, _( "This item requires tinder to light." ) );
             p->cancel_activity();
             return;
@@ -2258,10 +2269,11 @@ void activity_handlers::train_finish( player_activity *act, player *p )
 
 void activity_handlers::vehicle_finish( player_activity *act, player *p )
 {
+    map &here = get_map();
     //Grab this now, in case the vehicle gets shifted
-    const optional_vpart_position vp = g->m.veh_at( g->m.getlocal( tripoint( act->values[0],
+    const optional_vpart_position vp = here.veh_at( here.getlocal( tripoint( act->values[0],
                                        act->values[1],
-                                       p->posz() ) ) );
+                                       act->values[7] ) ) );
     veh_interact::complete_vehicle( *p );
     // complete_vehicle set activity type to NULL if the vehicle
     // was completely dismantled, otherwise the vehicle still exist and
@@ -2275,12 +2287,12 @@ void activity_handlers::vehicle_finish( player_activity *act, player *p )
     }
     act->set_to_null();
     if( !p->is_npc() ) {
-        if( act->values.size() < 7 ) {
+        if( act->values.size() < 8 ) {
             debugmsg( "process_activity invalid ACT_VEHICLE values:%d",
                       act->values.size() );
         } else {
             if( vp ) {
-                g->m.invalidate_map_cache( g->get_levz() );
+                here.invalidate_map_cache( g->get_levz() );
                 // TODO: Z (and also where the activity is queued)
                 // Or not, because the vehicle coordinates are dropped anyway
                 if( !resume_for_multi_activities( *p ) ) {
@@ -2358,9 +2370,10 @@ void activity_handlers::start_engines_finish( player_activity *act, player *p )
     act->set_to_null();
     // Find the vehicle by looking for a remote vehicle first, then by player relative coordinates
     vehicle *veh = g->remoteveh();
+    map &here = get_map();
     if( !veh ) {
         const tripoint pos = act->placement + g->u.pos();
-        veh = veh_pointer_or_null( g->m.veh_at( pos ) );
+        veh = veh_pointer_or_null( here.veh_at( pos ) );
         if( !veh ) {
             return;
         }
@@ -2447,59 +2460,60 @@ void activity_handlers::oxytorch_do_turn( player_activity *act, player *p )
 void activity_handlers::oxytorch_finish( player_activity *act, player *p )
 {
     act->set_to_null();
+    map &here = get_map();
     const tripoint &pos = act->placement;
-    const ter_id ter = g->m.ter( pos );
+    const ter_id ter = here.ter( pos );
 
     // fast players might still have some charges left to be consumed
     act->targets.front()->ammo_consume( act->values[0], p->pos() );
 
-    if( g->m.furn( pos ) == f_rack ) {
-        g->m.furn_set( pos, f_null );
-        g->m.spawn_item( p->pos(), itype_steel_chunk, rng( 2, 6 ) );
+    if( here.furn( pos ) == f_rack ) {
+        here.furn_set( pos, f_null );
+        here.spawn_item( p->pos(), itype_steel_chunk, rng( 2, 6 ) );
     } else if( ter == t_chainfence || ter == t_chaingate_c || ter == t_chaingate_l ) {
-        g->m.ter_set( pos, t_dirt );
-        g->m.spawn_item( pos, itype_pipe, rng( 1, 4 ) );
-        g->m.spawn_item( pos, itype_wire, rng( 4, 16 ) );
+        here.ter_set( pos, t_dirt );
+        here.spawn_item( pos, itype_pipe, rng( 1, 4 ) );
+        here.spawn_item( pos, itype_wire, rng( 4, 16 ) );
     } else if( ter == t_chainfence_posts ) {
-        g->m.ter_set( pos, t_dirt );
-        g->m.spawn_item( pos, itype_pipe, rng( 1, 4 ) );
+        here.ter_set( pos, t_dirt );
+        here.spawn_item( pos, itype_pipe, rng( 1, 4 ) );
     } else if( ter == t_door_metal_locked || ter == t_door_metal_c || ter == t_door_bar_c ||
                ter == t_door_bar_locked || ter == t_door_metal_pickable ) {
-        g->m.ter_set( pos, t_mdoor_frame );
-        g->m.spawn_item( pos, itype_steel_plate, rng( 0, 1 ) );
-        g->m.spawn_item( pos, itype_steel_chunk, rng( 3, 8 ) );
+        here.ter_set( pos, t_mdoor_frame );
+        here.spawn_item( pos, itype_steel_plate, rng( 0, 1 ) );
+        here.spawn_item( pos, itype_steel_chunk, rng( 3, 8 ) );
     } else if( ter == t_window_enhanced || ter == t_window_enhanced_noglass ) {
-        g->m.ter_set( pos, t_window_empty );
-        g->m.spawn_item( pos, itype_steel_plate, rng( 0, 1 ) );
-        g->m.spawn_item( pos, itype_sheet_metal, rng( 1, 3 ) );
+        here.ter_set( pos, t_window_empty );
+        here.spawn_item( pos, itype_steel_plate, rng( 0, 1 ) );
+        here.spawn_item( pos, itype_sheet_metal, rng( 1, 3 ) );
     } else if( ter == t_reb_cage ) {
-        g->m.ter_set( pos, t_pit );
-        g->m.spawn_item( pos, itype_spike, rng( 1, 19 ) );
-        g->m.spawn_item( pos, itype_scrap, rng( 1, 8 ) );
+        here.ter_set( pos, t_pit );
+        here.spawn_item( pos, itype_spike, rng( 1, 19 ) );
+        here.spawn_item( pos, itype_scrap, rng( 1, 8 ) );
     } else if( ter == t_bars ) {
-        if( g->m.ter( pos + point_east ) == t_sewage || g->m.ter( pos + point_south ) ==
+        if( here.ter( pos + point_east ) == t_sewage || here.ter( pos + point_south ) ==
             t_sewage ||
-            g->m.ter( pos + point_west ) == t_sewage || g->m.ter( pos + point_north ) ==
+            here.ter( pos + point_west ) == t_sewage || here.ter( pos + point_north ) ==
             t_sewage ) {
-            g->m.ter_set( pos, t_sewage );
-            g->m.spawn_item( p->pos(), itype_pipe, rng( 1, 2 ) );
+            here.ter_set( pos, t_sewage );
+            here.spawn_item( p->pos(), itype_pipe, rng( 1, 2 ) );
         } else {
-            g->m.ter_set( pos, t_floor );
-            g->m.spawn_item( p->pos(), itype_pipe, rng( 1, 2 ) );
+            here.ter_set( pos, t_floor );
+            here.spawn_item( p->pos(), itype_pipe, rng( 1, 2 ) );
         }
     } else if( ter == t_window_bars_alarm ) {
-        g->m.ter_set( pos, t_window_alarm );
-        g->m.spawn_item( p->pos(), itype_pipe, rng( 1, 2 ) );
+        here.ter_set( pos, t_window_alarm );
+        here.spawn_item( p->pos(), itype_pipe, rng( 1, 2 ) );
     } else if( ter == t_window_bars ) {
-        g->m.ter_set( pos, t_window_empty );
-        g->m.spawn_item( p->pos(), itype_pipe, rng( 1, 2 ) );
+        here.ter_set( pos, t_window_empty );
+        here.spawn_item( p->pos(), itype_pipe, rng( 1, 2 ) );
     }
 }
 
 void activity_handlers::cracking_finish( player_activity *act, player *p )
 {
     p->add_msg_if_player( m_good, _( "With a satisfying click, the lock on the safe opens!" ) );
-    g->m.furn_set( act->placement, f_safe_c );
+    get_map().furn_set( act->placement, f_safe_c );
     act->set_to_null();
 }
 
@@ -2670,20 +2684,25 @@ item get_fake_tool( hack_type_t hack_type, const player_activity &activity )
                 return fake_item;
             }
             const furn_t &furniture = m.furn( position ).obj();
-            const itype *item_type = furniture.crafting_pseudo_item_type();
-            if( item_type == nullptr ) {
-                return fake_item;
-            }
-            if( !item_type->has_flag( "USES_GRID_POWER" ) ) {
-                debugmsg( "Non grid powered furniture for long repairs is not supported yet." );
+            const std::vector<itype> item_type_list = furniture.crafting_pseudo_item_types();
+
+            if( item_type_list.empty() ) {
                 return fake_item;
             }
 
-            const tripoint_abs_ms abspos( m.getabs( position ) );
-            const distribution_grid &grid = get_distribution_grid_tracker().grid_at( abspos );
-
-            fake_item = item( item_type, calendar::turn, 0 );
-            fake_item.charges = grid.get_resource( true );
+            for( const itype &item_type : item_type_list ) {
+                if( item_type.get_id() == static_cast<itype_id>( activity.str_values[1] ) ) {
+                    if( !item_type.has_flag( "USES_GRID_POWER" ) ) {
+                        debugmsg( "Non grid powered furniture for long repairs is not supported yet." );
+                        return fake_item;
+                    }
+                    const tripoint_abs_ms abspos( m.getabs( position ) );
+                    const distribution_grid &grid = get_distribution_grid_tracker().grid_at( abspos );
+                    fake_item = item( item_type.get_id(), calendar::turn, 0 );
+                    fake_item.charges = grid.get_resource( true );
+                    break;
+                }
+            }
             break;
         }
     }
@@ -2763,7 +2782,8 @@ void patch_activity_for_vehicle_welder(
 }
 
 void patch_activity_for_furniture( player_activity &activity,
-                                   const tripoint &furniture_position )
+                                   const tripoint &furniture_position,
+                                   const itype_id &itt )
 {
     // Player may start another activity on welder/soldering iron
     // Check it here instead of furniture interaction code
@@ -2782,6 +2802,7 @@ void patch_activity_for_furniture( player_activity &activity,
         0, // Useless for us, set only to be compatible with vehicle
         static_cast<int>( hack_type_t::furniture )
     };
+    activity.str_values.emplace_back( static_cast<std::string>( itt ) );
 }
 
 } // namespace repair_activity_hack
@@ -3100,9 +3121,10 @@ void activity_handlers::toolmod_add_finish( player_activity *act, player *p )
 void activity_handlers::clear_rubble_finish( player_activity *act, player *p )
 {
     const tripoint &pos = act->placement;
+    map &here = get_map();
     p->add_msg_if_player( m_info, _( "You clear up the %s." ),
-                          g->m.furnname( pos ) );
-    g->m.furn_set( pos, f_null );
+                          here.furnname( pos ) );
+    here.furn_set( pos, f_null );
 
     act->set_to_null();
 }
@@ -3177,13 +3199,13 @@ void activity_handlers::travel_do_turn( player_activity *act, player *p )
         if( !here.passable( centre_sub ) ) {
             tripoint_range<tripoint> candidates = here.points_in_radius( centre_sub, 2 );
             for( const tripoint &elem : candidates ) {
-                if( g->m.passable( elem ) ) {
+                if( here.passable( elem ) ) {
                     centre_sub = elem;
                     break;
                 }
             }
         }
-        const std::vector<tripoint> route_to = g->m.route( p->pos(), centre_sub,
+        const std::vector<tripoint> route_to = here.route( p->pos(), centre_sub,
                                                p->get_pathfinding_settings(),
                                                p->get_path_avoid() );
         if( !route_to.empty() ) {
@@ -3212,12 +3234,13 @@ void activity_handlers::atm_do_turn( player_activity *, player *p )
 // fish-with-rod fish catching function.
 static void rod_fish( player *p, const std::vector<monster *> &fishables )
 {
+    map &here = get_map();
     //if the vector is empty (no fish around) the player is still given a small chance to get a (let us say it was hidden) fish
     if( fishables.empty() ) {
         const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup(
                     mongroup_id( "GROUP_FISH" ) );
         const mtype_id fish_mon = random_entry_ref( fish_group );
-        g->m.add_item_or_charges( p->pos(), item::make_corpse( fish_mon, calendar::turn + rng( 0_turns,
+        here.add_item_or_charges( p->pos(), item::make_corpse( fish_mon, calendar::turn + rng( 0_turns,
                                   3_hours ) ) );
         p->add_msg_if_player( m_good, _( "You caught a %s." ), fish_mon.obj().nname() );
     } else {
@@ -3226,13 +3249,13 @@ static void rod_fish( player *p, const std::vector<monster *> &fishables )
         if( chosen_fish->fish_population <= 0 ) {
             g->catch_a_monster( chosen_fish, p->pos(), p, 50_hours );
         } else {
-            g->m.add_item_or_charges( p->pos(), item::make_corpse( chosen_fish->type->id,
+            here.add_item_or_charges( p->pos(), item::make_corpse( chosen_fish->type->id,
                                       calendar::turn + rng( 0_turns,
                                               3_hours ) ) );
             p->add_msg_if_player( m_good, _( "You caught a %s." ), chosen_fish->type->nname() );
         }
     }
-    for( item &elem : g->m.i_at( p->pos() ) ) {
+    for( item &elem : here.i_at( p->pos() ) ) {
         if( elem.is_corpse() && !elem.has_var( "activity_var" ) ) {
             elem.set_var( "activity_var", p->name );
         }
@@ -3300,12 +3323,13 @@ void activity_handlers::cracking_do_turn( player_activity *act, player *p )
 void activity_handlers::repair_item_do_turn( player_activity *act, player *p )
 {
     // Moves are decremented based on a combination of speed and good vision (not in the dark, farsighted, etc)
-    const int effective_moves = p->moves / p->fine_detail_vision_mod();
+    const float vision_mod = character_funcs::fine_detail_vision_mod( *p );
+    const int effective_moves = p->moves / vision_mod;
     if( effective_moves <= act->moves_left ) {
         act->moves_left -= effective_moves;
         p->moves = 0;
     } else {
-        p->moves -= act->moves_left * p->fine_detail_vision_mod();
+        p->moves -= act->moves_left * vision_mod;
         act->moves_left = 0;
     }
 }
@@ -3532,11 +3556,15 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
     const time_duration message_freq = difficulty * 2_minutes;
     time_duration time_left = time_duration::from_turns( act->moves_left / 100 );
 
-    if( autodoc && g->m.inbounds( p->pos() ) ) {
-        const std::list<tripoint> autodocs = g->m.find_furnitures_with_flag_in_radius( p->pos(), 1,
-                                             flag_AUTODOC );
+    map &here = get_map();
 
-        if( !g->m.has_flag_furn( flag_AUTODOC_COUCH, p->pos() ) || autodocs.empty() ) {
+    // check if player is on an autodoc couch
+    if( autodoc && here.inbounds( p->pos() ) ) {
+        // this checks if there's an autodoc in a 3D radius around the player (during the operation), excluding just above/below him
+        const std::list<tripoint> autodocs = here.find_furnitures_or_vparts_with_flag_in_radius( p->pos(),
+                                             1,
+                                             flag_AUTODOC );
+        if( !here.has_flag_furn_or_vpart( flag_AUTODOC_COUCH, p->pos() ) || autodocs.empty() ) {
             p->remove_effect( effect_under_op );
             act->set_to_null();
 
@@ -3662,11 +3690,13 @@ void activity_handlers::try_sleep_finish( player_activity *act, player *p )
 
 void activity_handlers::operation_finish( player_activity *act, player *p )
 {
+    map &here = get_map();
     if( act->str_values[3] == "true" ) {
         if( act->values[1] > 0 ) {
             add_msg( m_good,
                      _( "The Autodoc returns to its resting position after successfully performing the operation." ) );
-            const std::list<tripoint> autodocs = g->m.find_furnitures_with_flag_in_radius( p->pos(), 1,
+            const std::list<tripoint> autodocs = here.find_furnitures_or_vparts_with_flag_in_radius( p->pos(),
+                                                 1,
                                                  flag_AUTODOC );
             sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
                            _( "a short upbeat jingle: \"Operation successful\"" ), true,
@@ -3676,7 +3706,8 @@ void activity_handlers::operation_finish( player_activity *act, player *p )
             if( act->str_values[0] == "install" ) {
                 add_msg( m_warning,
                          _( "The Autodoc completes installation and activates bionic but reports about complications during operation." ) );
-                const std::list<tripoint> autodocs = g->m.find_furnitures_with_flag_in_radius( p->pos(), 1,
+                const std::list<tripoint> autodocs = here.find_furnitures_or_vparts_with_flag_in_radius( p->pos(),
+                                                     1,
                                                      flag_AUTODOC );
                 sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
                                _( "a sad beeping noise: \"Complications detected!  Report to medical personnel immediately!\"" ),
@@ -3686,7 +3717,8 @@ void activity_handlers::operation_finish( player_activity *act, player *p )
             } else {
                 add_msg( m_bad,
                          _( "The Autodoc jerks back to its resting position after failing the operation." ) );
-                const std::list<tripoint> autodocs = g->m.find_furnitures_with_flag_in_radius( p->pos(), 1,
+                const std::list<tripoint> autodocs = here.find_furnitures_or_vparts_with_flag_in_radius( p->pos(),
+                                                     1,
                                                      flag_AUTODOC );
                 sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
                                _( "a sad beeping noise: \"Operation failed\"" ), true,
@@ -3716,8 +3748,9 @@ void activity_handlers::operation_finish( player_activity *act, player *p )
 
 void activity_handlers::churn_finish( player_activity *act, player *p )
 {
+    map &here = get_map();
     p->add_msg_if_player( _( "You finish churning up the earth here." ) );
-    g->m.ter_set( g->m.getlocal( act->placement ), t_dirtmound );
+    here.ter_set( here.getlocal( act->placement ), t_dirtmound );
     // Go back to what we were doing before
     // could be player zone activity, or could be NPC multi-farming
     act->set_to_null();
@@ -3726,7 +3759,8 @@ void activity_handlers::churn_finish( player_activity *act, player *p )
 
 void activity_handlers::plant_seed_finish( player_activity *act, player *p )
 {
-    tripoint examp = g->m.getlocal( act->placement );
+    map &here = get_map();
+    tripoint examp = here.getlocal( act->placement );
     const itype_id seed_id( act->str_values[0] );
     std::list<item> used_seed;
     if( item::count_by_charges( seed_id ) ) {
@@ -3740,11 +3774,11 @@ void activity_handlers::plant_seed_finish( player_activity *act, player *p )
             used_seed.front().erase_var( "activity_var" );
         }
         used_seed.front().set_flag( flag_HIDDEN_ITEM );
-        g->m.add_item_or_charges( examp, used_seed.front() );
-        if( g->m.has_flag_furn( flag_PLANTABLE, examp ) ) {
-            g->m.furn_set( examp, furn_str_id( g->m.furn( examp )->plant->transform ) );
+        here.add_item_or_charges( examp, used_seed.front() );
+        if( here.has_flag_furn( flag_PLANTABLE, examp ) ) {
+            here.furn_set( examp, furn_str_id( here.furn( examp )->plant->transform ) );
         } else {
-            g->m.set( examp, t_dirt, f_plant_seed );
+            here.set( examp, t_dirt, f_plant_seed );
         }
         p->add_msg_player_or_npc( _( "You plant some %s." ), _( "<npcname> plants some %s." ),
                                   item::nname( seed_id ) );
@@ -3757,7 +3791,8 @@ void activity_handlers::plant_seed_finish( player_activity *act, player *p )
 
 void activity_handlers::build_do_turn( player_activity *act, player *p )
 {
-    partial_con *pc = g->m.partial_con_at( g->m.getlocal( act->placement ) );
+    map &here = get_map();
+    partial_con *pc = here.partial_con_at( here.getlocal( act->placement ) );
     // Maybe the player and the NPC are working on the same construction at the same time
     if( !pc ) {
         if( p->is_npc() ) {
@@ -3788,7 +3823,7 @@ void activity_handlers::build_do_turn( player_activity *act, player *p )
 
     // Base moves for construction with no speed modifier or assistants
     // Must ensure >= 1 so we don't divide by 0;
-    const double base_total_moves = std::max( 1, built.time );
+    const double base_total_moves = std::max( 1, to_moves<int>( built.time ) );
     // Current expected total moves, includes construction speed modifiers and assistants
     const double cur_total_moves = std::max( 1, built.adjusted_time() );
     // Delta progress in moves adjusted for current crafting speed
@@ -3805,7 +3840,7 @@ void activity_handlers::build_do_turn( player_activity *act, player *p )
     // If construction_progress has reached 100% or more
     if( pc->counter >= 10000000 ) {
         // Activity is canceled in complete_construction()
-        complete_construction( p );
+        complete_construction( *p );
     }
 }
 
@@ -3969,11 +4004,6 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
     }
 }
 
-void activity_handlers::disassemble_finish( player_activity *, player *p )
-{
-    p->complete_disassemble();
-}
-
 void activity_handlers::vibe_finish( player_activity *act, player *p )
 {
     p->add_msg_if_player( m_good, _( "You feel much better." ) );
@@ -4007,49 +4037,50 @@ void activity_handlers::hacksaw_do_turn( player_activity *act, player * )
 void activity_handlers::hacksaw_finish( player_activity *act, player *p )
 {
     const tripoint &pos = act->placement;
-    const ter_id ter = g->m.ter( pos );
+    map &here = get_map();
+    const ter_id ter = here.ter( pos );
 
-    if( g->m.furn( pos ) == f_rack ) {
-        g->m.furn_set( pos, f_null );
-        g->m.spawn_item( p->pos(), itype_pipe, rng( 1, 3 ) );
-        g->m.spawn_item( p->pos(), itype_steel_chunk );
+    if( here.furn( pos ) == f_rack ) {
+        here.furn_set( pos, f_null );
+        here.spawn_item( p->pos(), itype_pipe, rng( 1, 3 ) );
+        here.spawn_item( p->pos(), itype_steel_chunk );
     } else if( ter == t_chainfence || ter == t_chaingate_c || ter == t_chaingate_l ) {
-        g->m.ter_set( pos, t_dirt );
-        g->m.spawn_item( p->pos(), itype_pipe, 6 );
-        g->m.spawn_item( p->pos(), itype_wire, 20 );
+        here.ter_set( pos, t_dirt );
+        here.spawn_item( p->pos(), itype_pipe, 6 );
+        here.spawn_item( p->pos(), itype_wire, 20 );
     } else if( ter == t_chainfence_posts ) {
-        g->m.ter_set( pos, t_dirt );
-        g->m.spawn_item( p->pos(), itype_pipe, 6 );
+        here.ter_set( pos, t_dirt );
+        here.spawn_item( p->pos(), itype_pipe, 6 );
     } else if( ter == t_window_bars_alarm ) {
-        g->m.ter_set( pos, t_window_alarm );
-        g->m.spawn_item( p->pos(), itype_pipe, 6 );
+        here.ter_set( pos, t_window_alarm );
+        here.spawn_item( p->pos(), itype_pipe, 6 );
     } else if( ter == t_window_bars ) {
-        g->m.ter_set( pos, t_window_empty );
-        g->m.spawn_item( p->pos(), itype_pipe, 6 );
+        here.ter_set( pos, t_window_empty );
+        here.spawn_item( p->pos(), itype_pipe, 6 );
     } else if( ter == t_window_enhanced ) {
-        g->m.ter_set( pos, t_window_reinforced );
-        g->m.spawn_item( p->pos(), itype_spike, rng( 1, 4 ) );
+        here.ter_set( pos, t_window_reinforced );
+        here.spawn_item( p->pos(), itype_spike, rng( 1, 4 ) );
     } else if( ter == t_window_enhanced_noglass ) {
-        g->m.ter_set( pos, t_window_reinforced_noglass );
-        g->m.spawn_item( p->pos(), itype_spike, rng( 1, 4 ) );
+        here.ter_set( pos, t_window_reinforced_noglass );
+        here.spawn_item( p->pos(), itype_spike, rng( 1, 4 ) );
     } else if( ter == t_reb_cage ) {
-        g->m.ter_set( pos, t_pit );
-        g->m.spawn_item( p->pos(), itype_spike, 19 );
-        g->m.spawn_item( p->pos(), itype_scrap, 8 );
+        here.ter_set( pos, t_pit );
+        here.spawn_item( p->pos(), itype_spike, 19 );
+        here.spawn_item( p->pos(), itype_scrap, 8 );
     } else if( ter == t_bars ) {
-        if( g->m.ter( pos + point_east ) == t_sewage || g->m.ter( pos + point_south )
+        if( here.ter( pos + point_east ) == t_sewage || here.ter( pos + point_south )
             == t_sewage ||
-            g->m.ter( pos + point_west ) == t_sewage || g->m.ter( pos + point_north ) ==
+            here.ter( pos + point_west ) == t_sewage || here.ter( pos + point_north ) ==
             t_sewage ) {
-            g->m.ter_set( pos, t_sewage );
-            g->m.spawn_item( p->pos(), itype_pipe, 3 );
+            here.ter_set( pos, t_sewage );
+            here.spawn_item( p->pos(), itype_pipe, 3 );
         } else {
-            g->m.ter_set( pos, t_floor );
-            g->m.spawn_item( p->pos(), itype_pipe, 3 );
+            here.ter_set( pos, t_floor );
+            here.spawn_item( p->pos(), itype_pipe, 3 );
         }
     } else if( ter == t_door_bar_c || ter == t_door_bar_locked ) {
-        g->m.ter_set( pos, t_mdoor_frame );
-        g->m.spawn_item( p->pos(), itype_pipe, 12 );
+        here.ter_set( pos, t_mdoor_frame );
+        here.spawn_item( p->pos(), itype_pipe, 12 );
     }
 
     p->mod_stored_nutr( 5 );
@@ -4068,7 +4099,8 @@ void activity_handlers::pry_nails_do_turn( player_activity *act, player * )
 void activity_handlers::pry_nails_finish( player_activity *act, player *p )
 {
     const tripoint &pnt = act->placement;
-    const ter_id type = g->m.ter( pnt );
+    map &here = get_map();
+    const ter_id type = here.ter( pnt );
 
     int nails = 0;
     int boards = 0;
@@ -4109,18 +4141,19 @@ void activity_handlers::pry_nails_finish( player_activity *act, player *p )
         p->add_msg_if_player( _( "You pry the boards from the door." ) );
     }
     p->practice( skill_fabrication, 1, 1 );
-    g->m.spawn_item( p->pos(), itype_nail, 0, nails );
-    g->m.spawn_item( p->pos(), itype_2x4, boards );
-    g->m.ter_set( pnt, newter );
+    here.spawn_item( p->pos(), itype_nail, 0, nails );
+    here.spawn_item( p->pos(), itype_2x4, boards );
+    here.ter_set( pnt, newter );
     act->set_to_null();
 }
 
 void activity_handlers::chop_tree_do_turn( player_activity *act, player *p )
 {
-    sfx::play_activity_sound( "tool", "axe", sfx::get_heard_volume( g->m.getlocal( act->placement ) ) );
+    map &here = get_map();
+    sfx::play_activity_sound( "tool", "axe", sfx::get_heard_volume( here.getlocal( act->placement ) ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a wood chopping tool at work!
-        sounds::sound( g->m.getlocal( act->placement ), 15, sounds::sound_t::activity, _( "CHK!" ) );
+        sounds::sound( here.getlocal( act->placement ), 15, sounds::sound_t::activity, _( "CHK!" ) );
     }
     if( calendar::once_every( 6_minutes ) ) {
         p->mod_fatigue( 1 );
@@ -4133,7 +4166,8 @@ void activity_handlers::chop_tree_do_turn( player_activity *act, player *p )
 
 void activity_handlers::chop_tree_finish( player_activity *act, player *p )
 {
-    const tripoint &pos = g->m.getlocal( act->placement );
+    map &here = get_map();
+    const tripoint &pos = here.getlocal( act->placement );
 
     tripoint direction;
     if( !p->is_npc() ) {
@@ -4148,7 +4182,7 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
             }
         }
     } else {
-        for( const tripoint &elem : g->m.points_in_radius( pos, 1 ) ) {
+        for( const tripoint &elem : here.points_in_radius( pos, 1 ) ) {
             bool cantuse = false;
             tripoint direc = elem - pos;
             tripoint proposed_to = pos + point( 3 * direction.x, 3 * direction.y );
@@ -4168,30 +4202,31 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     const tripoint to = pos + 3 * direction.xy() + point( rng( -1, 1 ), rng( -1, 1 ) );
     std::vector<tripoint> tree = line_to( pos, to, rng( 1, 8 ) );
     for( const tripoint &elem : tree ) {
-        g->m.batter( elem, 300, 5 );
-        g->m.ter_set( elem, t_trunk );
+        here.batter( elem, 300, 5 );
+        here.ter_set( elem, t_trunk );
     }
 
-    g->m.ter_set( pos, t_stump );
+    here.ter_set( pos, t_stump );
     p->add_msg_if_player( m_good, _( "You finish chopping down a tree." ) );
     // sound of falling tree
     sfx::play_variant_sound( "misc", "timber",
-                             sfx::get_heard_volume( g->m.getlocal( act->placement ) ) );
+                             sfx::get_heard_volume( here.getlocal( act->placement ) ) );
     act->set_to_null();
     resume_for_multi_activities( *p );
 }
 
 void activity_handlers::chop_logs_finish( player_activity *act, player *p )
 {
-    const tripoint &pos = g->m.getlocal( act->placement );
+    map &here = get_map();
+    const tripoint &pos = here.getlocal( act->placement );
     int log_quan;
     int stick_quan;
     int splint_quan;
-    if( g->m.ter( pos ) == t_trunk ) {
+    if( here.ter( pos ) == t_trunk ) {
         log_quan = rng( 2, 3 );
         stick_quan = rng( 0, 1 );
         splint_quan = 0;
-    } else if( g->m.ter( pos ) == t_stump ) {
+    } else if( here.ter( pos ) == t_stump ) {
         log_quan = rng( 0, 2 );
         stick_quan = 0;
         splint_quan = rng( 5, 15 );
@@ -4203,19 +4238,19 @@ void activity_handlers::chop_logs_finish( player_activity *act, player *p )
     for( int i = 0; i != log_quan; ++i ) {
         item obj( itype_log, calendar::turn );
         obj.set_var( "activity_var", p->name );
-        g->m.add_item_or_charges( pos, obj );
+        here.add_item_or_charges( pos, obj );
     }
     for( int i = 0; i != stick_quan; ++i ) {
         item obj( itype_stick_long, calendar::turn );
         obj.set_var( "activity_var", p->name );
-        g->m.add_item_or_charges( pos, obj );
+        here.add_item_or_charges( pos, obj );
     }
     for( int i = 0; i != splint_quan; ++i ) {
         item obj( itype_splinter, calendar::turn );
         obj.set_var( "activity_var", p->name );
-        g->m.add_item_or_charges( pos, obj );
+        here.add_item_or_charges( pos, obj );
     }
-    g->m.ter_set( pos, t_dirt );
+    here.ter_set( pos, t_dirt );
     const int helpersize = p->get_crafting_helpers( 3 ).size();
     p->mod_stored_nutr( 5 - helpersize );
     p->mod_thirst( 5 - helpersize );
@@ -4235,12 +4270,13 @@ void activity_handlers::chop_planks_finish( player_activity *act, player *p )
     int scraps = rng( wasted_planks, wasted_planks * 3 );
     planks = std::min( planks, max_planks );
 
+    map &here = get_map();
     if( planks > 0 ) {
-        g->m.spawn_item( g->m.getlocal( act->placement ), itype_2x4, planks, 0, calendar::turn );
+        here.spawn_item( here.getlocal( act->placement ), itype_2x4, planks, 0, calendar::turn );
         p->add_msg_if_player( m_good, _( "You produce %d planks." ), planks );
     }
     if( scraps > 0 ) {
-        g->m.spawn_item( g->m.getlocal( act->placement ), itype_splinter, scraps, 0, calendar::turn );
+        here.spawn_item( here.getlocal( act->placement ), itype_splinter, scraps, 0, calendar::turn );
         p->add_msg_if_player( m_good, _( "You produce %d splinters." ), scraps );
     }
     if( planks < max_planks / 2 ) {
@@ -4252,10 +4288,11 @@ void activity_handlers::chop_planks_finish( player_activity *act, player *p )
 
 void activity_handlers::jackhammer_do_turn( player_activity *act, player * )
 {
+    map &here = get_map();
     sfx::play_activity_sound( "tool", "jackhammer",
-                              sfx::get_heard_volume( g->m.getlocal( act->placement ) ) );
+                              sfx::get_heard_volume( here.getlocal( act->placement ) ) );
     if( calendar::once_every( 1_minutes ) ) {
-        sounds::sound( g->m.getlocal( act->placement ), 15, sounds::sound_t::destructive_activity,
+        sounds::sound( here.getlocal( act->placement ), 15, sounds::sound_t::destructive_activity,
                        //~ Sound of a jackhammer at work!
                        _( "TATATATATATATAT!" ) );
     }
@@ -4263,9 +4300,10 @@ void activity_handlers::jackhammer_do_turn( player_activity *act, player * )
 
 void activity_handlers::jackhammer_finish( player_activity *act, player *p )
 {
-    const tripoint &pos = g->m.getlocal( act->placement );
+    map &here = get_map();
+    const tripoint &pos = here.getlocal( act->placement );
 
-    g->m.destroy( pos, true );
+    here.destroy( pos, true );
 
     if( p->is_avatar() ) {
         const int helpersize = g->u.get_crafting_helpers( 3 ).size();
@@ -4284,7 +4322,7 @@ void activity_handlers::jackhammer_finish( player_activity *act, player *p )
         debugmsg( "jackhammer activity targets empty" );
     }
     if( resume_for_multi_activities( *p ) ) {
-        for( item &elem : g->m.i_at( pos ) ) {
+        for( item &elem : here.i_at( pos ) ) {
             elem.set_var( "activity_var", p->name );
         }
     }
@@ -4302,14 +4340,15 @@ void activity_handlers::fill_pit_do_turn( player_activity *act, player * )
 void activity_handlers::fill_pit_finish( player_activity *act, player *p )
 {
     const tripoint &pos = act->placement;
-    const ter_id ter = g->m.ter( pos );
+    map &here = get_map();
+    const ter_id ter = here.ter( pos );
     const ter_id old_ter = ter;
 
     if( ter == t_pit || ter == t_pit_spiked || ter == t_pit_glass ||
         ter == t_pit_corpsed ) {
-        g->m.ter_set( pos, t_pit_shallow );
+        here.ter_set( pos, t_pit_shallow );
     } else {
-        g->m.ter_set( pos, t_dirt );
+        here.ter_set( pos, t_dirt );
     }
     const int helpersize = g->u.get_crafting_helpers( 3 ).size();
     p->mod_stored_nutr( 5 - helpersize );
@@ -4362,10 +4401,11 @@ template<typename fn>
 static void cleanup_tiles( std::unordered_set<tripoint> &tiles, fn &cleanup )
 {
     auto it = tiles.begin();
+    map &here = get_map();
     while( it != tiles.end() ) {
         auto current = it++;
 
-        const tripoint &tile_loc = g->m.getlocal( *current );
+        const tripoint &tile_loc = here.getlocal( *current );
 
         if( cleanup( tile_loc ) ) {
             tiles.erase( current );
@@ -4380,7 +4420,8 @@ static void perform_zone_activity_turn( player *p,
                                         const std::string &finished_msg )
 {
     const zone_manager &mgr = zone_manager::get_manager();
-    const tripoint abspos = g->m.getabs( p->pos() );
+    map &here = get_map();
+    const tripoint abspos = here.getabs( p->pos() );
     std::unordered_set<tripoint> unsorted_tiles = mgr.get_near( ztype, abspos );
 
     cleanup_tiles( unsorted_tiles, tile_filter );
@@ -4389,9 +4430,9 @@ static void perform_zone_activity_turn( player *p,
     const std::vector<tripoint> &tiles = get_sorted_tiles_by_distance( abspos, unsorted_tiles );
 
     for( const tripoint &tile : tiles ) {
-        const tripoint &tile_loc = g->m.getlocal( tile );
+        const tripoint &tile_loc = here.getlocal( tile );
 
-        std::vector<tripoint> route = g->m.route( p->pos(), tile_loc, p->get_pathfinding_settings(),
+        std::vector<tripoint> route = here.route( p->pos(), tile_loc, p->get_pathfinding_settings(),
                                       p->get_path_avoid() );
         if( route.size() > 1 ) {
             route.pop_back();
@@ -4751,7 +4792,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
 
 void activity_handlers::study_spell_do_turn( player_activity *act, player *p )
 {
-    if( p->fine_detail_vision_mod() > 4 ) {
+    if( !character_funcs::can_see_fine_details( *p ) ) {
         act->values[2] = -1;
         act->moves_left = 0;
         return;

@@ -20,6 +20,7 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
+#include "character_functions.h"
 #include "character_martial_arts.h"
 #include "character_oracle.h"
 #include "color.h"
@@ -42,6 +43,7 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "path_info.h"
+#include "panels_utility.h"
 #include "player.h"
 #include "pldata.h"
 #include "point.h"
@@ -83,14 +85,6 @@ window_panel::window_panel( std::function<void( avatar &, const catacurses::wind
 // panels prettify and helper functions
 // ====================================
 
-static std::string trunc_ellipse( const std::string &input, unsigned int trunc )
-{
-    if( utf8_width( input ) > static_cast<int>( trunc ) ) {
-        return utf8_truncate( input, trunc - 1 ) + "…";
-    }
-    return input;
-}
-
 static void draw_rectangle( const catacurses::window &w, nc_color, point top_left,
                             point bottom_right )
 {
@@ -111,95 +105,41 @@ static void draw_rectangle( const catacurses::window &w, nc_color, point top_lef
     }
 }
 
+
 static std::pair<nc_color, std::string> str_string( const avatar &p )
 {
-    nc_color clr;
-
-    if( p.get_str() == p.get_str_base() ) {
-        clr = c_white;
-    } else if( p.get_str() > p.get_str_base() ) {
-        clr = c_green;
-    } else if( p.get_str() < p.get_str_base() ) {
-        clr = c_red;
-    }
-    return std::make_pair( clr, _( "Str " ) + ( p.get_str() < 100 ? std::to_string(
-                               p.get_str() ) : "++" ) );
+    const nc_color clr = color_compare_base( p.get_str_base(), p.get_str() );
+    return std::make_pair( clr, _( "Str " ) + value_trimmed( p.get_str() ) );
 }
 
 static std::pair<nc_color, std::string> dex_string( const avatar &p )
 {
-    nc_color clr;
-
-    if( p.get_dex() == p.get_dex_base() ) {
-        clr = c_white;
-    } else if( p.get_dex() > p.get_dex_base() ) {
-        clr = c_green;
-    } else if( p.get_dex() < p.get_dex_base() ) {
-        clr = c_red;
-    }
-    return std::make_pair( clr, _( "Dex " ) + ( p.get_dex() < 100 ? std::to_string(
-                               p.get_dex() ) : "++" ) );
+    const nc_color clr = color_compare_base( p.get_dex_base(), p.get_dex() );
+    return std::make_pair( clr, _( "Dex " ) + value_trimmed( p.get_dex() ) );
 }
 
 static std::pair<nc_color, std::string> int_string( const avatar &p )
 {
-    nc_color clr;
-
-    if( p.get_int() == p.get_int_base() ) {
-        clr = c_white;
-    } else if( p.get_int() > p.get_int_base() ) {
-        clr = c_green;
-    } else if( p.get_int() < p.get_int_base() ) {
-        clr = c_red;
-    }
-    return std::make_pair( clr, _( "Int " ) + ( p.get_int() < 100 ? std::to_string(
-                               p.get_int() ) : "++" ) );
+    const nc_color clr = color_compare_base( p.get_int_base(), p.get_int() );
+    return std::make_pair( clr, _( "Int " ) + value_trimmed( p.get_int() ) );
 }
 
 static std::pair<nc_color, std::string> per_string( const avatar &p )
 {
-    nc_color clr;
-
-    if( p.get_per() == p.get_per_base() ) {
-        clr = c_white;
-    } else if( p.get_per() > p.get_per_base() ) {
-        clr = c_green;
-    } else if( p.get_per() < p.get_per_base() ) {
-        clr = c_red;
-    }
-    return std::make_pair( clr, _( "Per " ) + ( p.get_per() < 100 ? std::to_string(
-                               p.get_per() ) : "++" ) );
-}
-
-static nc_color focus_color( int focus )
-{
-    if( focus < 25 ) {
-        return c_red;
-    } else if( focus < 50 ) {
-        return c_light_red;
-    } else if( focus < 75 ) {
-        return c_yellow;
-    } else if( focus < 100 ) {
-        return c_light_gray;
-    } else if( focus < 125 ) {
-        return c_white;
-    } else {
-        return c_green;
-    }
+    const nc_color clr = color_compare_base( p.get_per_base(), p.get_per() );
+    return std::make_pair( clr, _( "Per " ) + value_trimmed( p.get_per() ) );
 }
 
 int window_panel::get_height() const
 {
-    if( height == -1 ) {
-        if( pixel_minimap_option ) {
-            return  get_option<int>( "PIXEL_MINIMAP_HEIGHT" ) > 0 ?
-                    get_option<int>( "PIXEL_MINIMAP_HEIGHT" ) :
-                    width / 2;
-        } else {
-            return 0;
-        }
+    if( height != -1 ) {
+        return height;
+    } else if( pixel_minimap_option ) {
+        const int minimap_height = get_option<int>( "PIXEL_MINIMAP_HEIGHT" );
+        return minimap_height > 0 ? minimap_height : width / 2;
+    } else {
+        return 0;
     }
-    return height;
 }
 
 int window_panel::get_width() const
@@ -239,7 +179,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
                 int symbolIndex = note_text.find( ':' );
                 int colorIndex = note_text.find( ';' );
 
-                bool symbolFirst = symbolIndex < colorIndex;
+                const bool symbolFirst = symbolIndex < colorIndex;
 
                 if( colorIndex > -1 && symbolIndex > -1 ) {
                     if( symbolFirst ) {
@@ -273,49 +213,14 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
                 }
 
                 if( colorIndex > -1 ) {
-
                     int colorStart = 0;
-
                     if( symbolIndex > -1 && symbolFirst ) {
                         colorStart = symbolIndex + 1;
                     }
 
                     std::string sym = note_text.substr( colorStart, colorIndex - colorStart );
 
-                    if( sym.length() == 2 ) {
-                        if( sym == "br" ) {
-                            ter_color = c_brown;
-                        } else if( sym == "lg" ) {
-                            ter_color = c_light_gray;
-                        } else if( sym == "dg" ) {
-                            ter_color = c_dark_gray;
-                        }
-                    } else {
-                        char colorID = sym.c_str()[0];
-                        if( colorID == 'r' ) {
-                            ter_color = c_light_red;
-                        } else if( colorID == 'R' ) {
-                            ter_color = c_red;
-                        } else if( colorID == 'g' ) {
-                            ter_color = c_light_green;
-                        } else if( colorID == 'G' ) {
-                            ter_color = c_green;
-                        } else if( colorID == 'b' ) {
-                            ter_color = c_light_blue;
-                        } else if( colorID == 'B' ) {
-                            ter_color = c_blue;
-                        } else if( colorID == 'W' ) {
-                            ter_color = c_white;
-                        } else if( colorID == 'C' ) {
-                            ter_color = c_cyan;
-                        } else if( colorID == 'c' ) {
-                            ter_color = c_light_cyan;
-                        } else if( colorID == 'P' ) {
-                            ter_color = c_pink;
-                        } else if( colorID == 'm' ) {
-                            ter_color = c_magenta;
-                        }
-                    }
+                    ter_color = get_note_color( sym );
                 }
             } else if( !seen ) {
                 ter_sym = " ";
@@ -355,32 +260,20 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
                        static_cast<double>( targ.y() - curs.y() ) / ( targ.x() - curs.x() ) : 4;
 
         if( curs.x() == targ.x() || std::fabs( slope ) > 3.5 ) {  // Vertical slope
-            if( targ.y() > curs.y() ) {
-                mvwputch( w_minimap, point( 3 + start_x, 6 + start_y ), c_red, '*' );
-            } else {
-                mvwputch( w_minimap, point( 3 + start_x, 0 + start_y ), c_red, '*' );
-            }
+            const int arrowy = targ.y() > curs.y() ? 6 : 0;
+
+            mvwputch( w_minimap, point( 3 + start_x, arrowy + start_y ), c_red, '*' );
         } else {
             int arrowx = -1;
             int arrowy = -1;
-            if( std::fabs( slope ) >= 1. ) {  // y diff is bigger!
+            if( std::fabs( slope ) >= 1.0 ) {  // y diff is bigger!
                 arrowy = ( targ.y() > curs.y() ? 6 : 0 );
                 arrowx = static_cast<int>( 3 + 3 * ( targ.y() > curs.y() ? slope : ( 0 - slope ) ) );
-                if( arrowx < 0 ) {
-                    arrowx = 0;
-                }
-                if( arrowx > 6 ) {
-                    arrowx = 6;
-                }
+                arrowx = clamp( arrowx, 0, 6 );
             } else {
                 arrowx = ( targ.x() > curs.x() ? 6 : 0 );
                 arrowy = static_cast<int>( 3 + 3 * ( targ.x() > curs.x() ? slope : ( 0 - slope ) ) );
-                if( arrowy < 0 ) {
-                    arrowy = 0;
-                }
-                if( arrowy > 6 ) {
-                    arrowy = 6;
-                }
+                arrowy = clamp( arrowy, 0, 6 );
             }
             char glyph = '*';
             if( targ.z() > you.posz() ) {
@@ -392,8 +285,9 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
             mvwputch( w_minimap, point( arrowx + start_x, arrowy + start_y ), c_red, glyph );
         }
     }
-
-    const int sight_points = g->u.overmap_sight_range( g->light_level( g->u.posz() ) );
+    avatar &player_character = get_avatar();
+    const int sight_points = player_character.overmap_sight_range( g->light_level(
+                                 player_character.posz() ) );
     for( int i = -3; i <= 3; i++ ) {
         for( int j = -3; j <= 3; j++ ) {
             if( i > -3 && i < 3 && j > -3 && j < 3 ) {
@@ -403,7 +297,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
             int horde_size = overmap_buffer.get_horde_size( omp );
             if( horde_size >= HORDE_VISIBILITY_SIZE ) {
                 if( overmap_buffer.seen( omp )
-                    && g->u.overmap_los( omp, sight_points ) ) {
+                    && player_character.overmap_los( omp, sight_points ) ) {
                     mvwputch( w_minimap, point( i + 3, j + 3 ), c_green,
                               horde_size > HORDE_VISIBILITY_SIZE * 2 ? 'Z' : 'z' );
                 }
@@ -1140,29 +1034,54 @@ static std::string carry_volume_string( const avatar &u )
     return string_format( "%.2f/%.2f", volume_carried, volume_capacity );
 }
 
+
+static auto get_weight_color( const avatar &u ) -> nc_color
+{
+    if( u.weight_carried() > u.weight_capacity() ) {
+        return c_red;
+    } else if( u.weight_carried() > u.weight_capacity() * 0.75 ) {
+        return c_yellow;
+    } else {
+        return c_light_gray;
+    }
+}
+
+static auto get_volume_color( const avatar &u ) -> nc_color
+{
+    if( u.volume_carried() > u.volume_capacity() * 0.85 ) {
+        return c_red;
+    } else if( u.volume_carried() > u.volume_capacity() * 0.65 ) {
+        return c_yellow;
+    } else {
+        return c_light_gray;
+    }
+}
+
+static void draw_weightvolume_classic( const avatar &u, const catacurses::window &w )
+{
+    werase( w );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point_zero, c_light_gray, _( "Weight:" ) );
+    mvwprintz( w, point( 8, 0 ), get_weight_color( u ), carry_weight_string( u ) );
+
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 23, 0 ), c_light_gray, _( "Volume:" ) );
+    mvwprintz( w, point( 30, 0 ), get_volume_color( u ), carry_volume_string( u ) );
+
+    wnoutrefresh( w );
+}
+
+
 static void draw_weightvolume_compact( const avatar &u, const catacurses::window &w )
 {
     werase( w );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point_zero, c_light_gray, _( "Weight:" ) );
-    std::string weight_string = carry_weight_string( u );
-    if( u.weight_carried() > u.weight_capacity() ) {
-        mvwprintz( w, point( 8, 0 ), c_red, weight_string );
-    } else if( u.weight_carried() > u.weight_capacity() * 0.75 ) {
-        mvwprintz( w, point( 8, 0 ), c_yellow, weight_string );
-    } else {
-        mvwprintz( w, point( 8, 0 ), c_light_gray, weight_string );
-    }
+    mvwprintz( w, point( 8, 0 ), get_weight_color( u ), carry_weight_string( u ) );
+
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 0, 1 ), c_light_gray, _( "Volume:" ) );
-    std::string volume_string = carry_volume_string( u );
-    if( u.volume_carried() > u.volume_capacity() * 0.85 ) {
-        mvwprintz( w, point( 8, 1 ), c_red, volume_string );
-    } else if( u.volume_carried() > u.volume_capacity() * 0.65 ) {
-        mvwprintz( w, point( 8, 1 ), c_yellow, volume_string );
-    } else {
-        mvwprintz( w, point( 8, 1 ), c_light_gray, volume_string );
-    }
+    mvwprintz( w, point( 8, 1 ), get_volume_color( u ), carry_volume_string( u ) );
 
     wnoutrefresh( w );
 }
@@ -1172,24 +1091,11 @@ static void draw_weightvolume_narrow( const avatar &u, const catacurses::window 
     werase( w );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Wgt  :" ) );
-    std::string weight_string = carry_weight_string( u );
-    if( u.weight_carried() > u.weight_capacity() ) {
-        mvwprintz( w, point( 8, 0 ), c_red, weight_string );
-    } else if( u.weight_carried() > u.weight_capacity() * 0.75 ) {
-        mvwprintz( w, point( 8, 0 ), c_yellow, weight_string );
-    } else {
-        mvwprintz( w, point( 8, 0 ), c_light_gray, weight_string );
-    }
+    mvwprintz( w, point( 8, 0 ), get_weight_color( u ), carry_weight_string( u ) );
+
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Vol  :" ) );
-    std::string volume_string = carry_volume_string( u );
-    if( u.volume_carried() > u.volume_capacity() * 0.85 ) {
-        mvwprintz( w, point( 8, 1 ), c_red, volume_string );
-    } else if( u.volume_carried() > u.volume_capacity() * 0.65 ) {
-        mvwprintz( w, point( 8, 1 ), c_yellow, volume_string );
-    } else {
-        mvwprintz( w, point( 8, 1 ), c_light_gray, volume_string );
-    }
+    mvwprintz( w, point( 8, 1 ), get_volume_color( u ), carry_volume_string( u ) );
 
     wnoutrefresh( w );
 }
@@ -1411,7 +1317,8 @@ static void draw_loc_labels( const avatar &u, const catacurses::window &w, bool 
         wprintz( w, get_weather().weather_id->color, " %s", get_weather().weather_id->name.translated() );
     }
     // display lighting
-    const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
+    const std::pair<std::string, nc_color> ll = get_light_level(
+                character_funcs::fine_detail_vision_mod( get_avatar() ) );
     mvwprintz( w, point( 1, 2 ), c_light_gray, "%s ", _( "Light:" ) );
     wprintz( w, ll.second, ll.first );
 
@@ -1606,7 +1513,8 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
                    get_weather().weather_id->name.translated() );
     }
     // display lighting
-    const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
+    const std::pair<std::string, nc_color> ll = get_light_level(
+                character_funcs::fine_detail_vision_mod( get_avatar() ) );
     mvwprintz( w, point( 8, 4 ), ll.second, ll.first );
     // wind
     const oter_id &cur_om_ter = overmap_buffer.ter( u.global_omt_location() );
@@ -1657,7 +1565,7 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
 
     vehicle *veh = g->remoteveh();
     if( veh == nullptr && u.in_vehicle ) {
-        veh = veh_pointer_or_null( g->m.veh_at( u.pos() ) );
+        veh = veh_pointer_or_null( get_map().veh_at( u.pos() ) );
     }
 
     werase( w );
@@ -1852,7 +1760,7 @@ static void draw_veh_compact( const avatar &u, const catacurses::window &w )
     // vehicle display
     vehicle *veh = g->remoteveh();
     if( veh == nullptr && u.in_vehicle ) {
-        veh = veh_pointer_or_null( g->m.veh_at( u.pos() ) );
+        veh = veh_pointer_or_null( get_map().veh_at( u.pos() ) );
     }
     if( veh ) {
         veh->print_fuel_indicators( w, point_zero );
@@ -1884,7 +1792,7 @@ static void draw_veh_padding( const avatar &u, const catacurses::window &w )
     // vehicle display
     vehicle *veh = g->remoteveh();
     if( veh == nullptr && u.in_vehicle ) {
-        veh = veh_pointer_or_null( g->m.veh_at( u.pos() ) );
+        veh = veh_pointer_or_null( get_map().veh_at( u.pos() ) );
     }
     if( veh ) {
         veh->print_fuel_indicators( w, point_east );
@@ -1954,7 +1862,8 @@ static void draw_lighting_classic( const avatar &u, const catacurses::window &w 
 {
     werase( w );
 
-    const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
+    const std::pair<std::string, nc_color> ll = get_light_level(
+                character_funcs::fine_detail_vision_mod( get_avatar() ) );
     mvwprintz( w, point_zero, c_light_gray, _( "Lighting:" ) );
     mvwprintz( w, point( 10, 0 ), ll.second, ll.first );
 
@@ -2002,34 +1911,6 @@ static void draw_weapon_classic_alt( const avatar &u, const catacurses::window &
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         mvwprintz( w, point( 0, 1 ), c_light_gray, _( "Style :" ) );
         mvwprintz( w, point( 8, 1 ), style_color, style );
-    }
-
-    wnoutrefresh( w );
-}
-
-
-static void draw_weightvolume_classic( const avatar &u, const catacurses::window &w )
-{
-    werase( w );
-    // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w, point_zero, c_light_gray, _( "Weight:" ) );
-    std::string weight_string = carry_weight_string( u );
-    if( u.weight_carried() > u.weight_capacity() ) {
-        mvwprintz( w, point( 8, 0 ), c_red, weight_string );
-    } else if( u.weight_carried() > u.weight_capacity() * 0.75 ) {
-        mvwprintz( w, point( 8, 0 ), c_yellow, weight_string );
-    } else {
-        mvwprintz( w, point( 8, 0 ), c_light_gray, weight_string );
-    }
-    // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w, point( 23, 0 ), c_light_gray, _( "Volume:" ) );
-    std::string volume_string = carry_volume_string( u );
-    if( u.volume_carried() > u.volume_capacity() * 0.85 ) {
-        mvwprintz( w, point( 30, 0 ), c_red, volume_string );
-    } else if( u.volume_carried() > u.volume_capacity() * 0.65 ) {
-        mvwprintz( w, point( 30, 0 ), c_yellow, volume_string );
-    } else {
-        mvwprintz( w, point( 30, 0 ), c_light_gray, volume_string );
     }
 
     wnoutrefresh( w );
@@ -2119,7 +2000,7 @@ static void draw_mana_wide( const player &u, const catacurses::window &w )
 
 static bool spell_panel()
 {
-    return g->u.magic->knows_spell();
+    return get_avatar().magic->knows_spell();
 }
 
 bool default_render()

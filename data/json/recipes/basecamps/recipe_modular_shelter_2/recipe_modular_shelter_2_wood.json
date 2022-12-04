@@ -13,12 +13,12 @@
     "blueprint_provides": [ { "id": "fbmc_shelter_2_bedroom1" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom1" } ],
     "blueprint_needs": {
-      "time": "6 h 50 m",
+      "time": "7 h 30 m",
       "skills": [ [ "fabrication", 2 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 54 ] ], [ [ "nail", 196 ] ], [ [ "wood_panel", 9 ] ], [ [ "hinge", 2 ] ] ]
+        "components": [ [ [ "2x4", 54 ] ], [ [ "hinge", 2 ] ], [ [ "nail", 196 ] ], [ [ "wood_panel", 9 ] ] ]
       }
     }
   },
@@ -36,12 +36,12 @@
     "blueprint_provides": [ { "id": "fbmc_shelter_2_bedroom2" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom2" } ],
     "blueprint_needs": {
-      "time": "6 h 50 m",
+      "time": "7 h 30 m",
       "skills": [ [ "fabrication", 2 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 54 ] ], [ [ "nail", 196 ] ], [ [ "wood_panel", 9 ] ], [ [ "hinge", 2 ] ] ]
+        "components": [ [ [ "2x4", 54 ] ], [ [ "hinge", 2 ] ], [ [ "nail", 196 ] ], [ [ "wood_panel", 9 ] ] ]
       }
     }
   },
@@ -59,7 +59,7 @@
     "blueprint_provides": [ { "id": "fbmc_shelter_2_bedroom3" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom3" } ],
     "blueprint_needs": {
-      "time": "5 h 30 m",
+      "time": "6 h",
       "skills": [ [ "fabrication", 2 ] ],
       "inline": {
         "tools": [  ],
@@ -82,7 +82,7 @@
     "blueprint_provides": [ { "id": "fbmc_shelter_2_bedroom4" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom4" } ],
     "blueprint_needs": {
-      "time": "13 h 30 m",
+      "time": "15 h",
       "skills": [ [ "fabrication", 2 ] ],
       "inline": {
         "tools": [  ],
@@ -105,7 +105,7 @@
     "blueprint_provides": [ { "id": "fbmc_shelter_2_bedroom5" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom5" } ],
     "blueprint_needs": {
-      "time": "8 h 10 m",
+      "time": "9 h",
       "skills": [ [ "fabrication", 2 ] ],
       "inline": {
         "tools": [  ],
@@ -128,7 +128,7 @@
     "blueprint_provides": [ { "id": "fbmc_shelter_2_bedroom6" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom6" } ],
     "blueprint_needs": {
-      "time": "13 h 40 m",
+      "time": "15 h",
       "skills": [ [ "fabrication", 2 ] ],
       "inline": {
         "tools": [  ],
@@ -151,7 +151,7 @@
     "blueprint_provides": [ { "id": "fbmc_shelter_2_bedroom7" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom7" } ],
     "blueprint_needs": {
-      "time": "16 h 30 m",
+      "time": "18 h",
       "skills": [ [ "fabrication", 2 ] ],
       "inline": {
         "tools": [  ],
@@ -174,7 +174,7 @@
     "blueprint_provides": [ { "id": "fbmc_shelter_2_bedroom8" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom8" } ],
     "blueprint_needs": {
-      "time": "8 h 10 m",
+      "time": "9 h",
       "skills": [ [ "fabrication", 2 ] ],
       "inline": {
         "tools": [  ],
@@ -197,12 +197,12 @@
     "blueprint_provides": [ { "id": "fbmc_shelter_2_bedroom9" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom9" } ],
     "blueprint_needs": {
-      "time": "6 h 50 m",
+      "time": "7 h 30 m",
       "skills": [ [ "fabrication", 2 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 54 ] ], [ [ "nail", 196 ] ], [ [ "wood_panel", 9 ] ], [ [ "hinge", 2 ] ] ]
+        "components": [ [ [ "2x4", 54 ] ], [ [ "hinge", 2 ] ], [ [ "nail", 196 ] ], [ [ "wood_panel", 9 ] ] ]
       }
     }
   },
@@ -220,7 +220,7 @@
     "blueprint_provides": [ { "id": "fbmc_shelter_2_bedroom10" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom10" } ],
     "blueprint_needs": {
-      "time": "5 h 30 m",
+      "time": "6 h",
       "skills": [ [ "fabrication", 2 ] ],
       "inline": {
         "tools": [  ],

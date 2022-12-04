@@ -87,6 +87,7 @@ static const ammo_effect_str_id ammo_effect_APPLY_SAP( "APPLY_SAP" );
 
 static const efftype_id effect_ai_controlled( "ai_controlled" );
 static const efftype_id effect_assisted( "assisted" );
+static const efftype_id effect_attention( "attention" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
@@ -120,7 +121,6 @@ static const efftype_id effect_shrieking( "shrieking" );
 static const efftype_id effect_slimed( "slimed" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_targeted( "targeted" );
-static const efftype_id effect_teleglow( "teleglow" );
 static const efftype_id effect_under_op( "under_operation" );
 
 static const itype_id itype_ant_egg( "ant_egg" );
@@ -279,6 +279,10 @@ static bool is_adjacent( const monster *z, const Creature *target, const bool al
     }
 
     if( rl_dist( z->pos(), target->pos() ) != 1 ) {
+        return false;
+    }
+
+    if( !z->can_squeeze_to( target->pos() ) ) {
         return false;
     }
 
@@ -849,24 +853,39 @@ bool mattack::boomer( monster *z )
         return false;
     }
 
-    std::vector<tripoint> line = g->m.find_clear_path( z->pos(), target->pos() );
+    map &here = get_map();
+
+    std::vector<tripoint> line = here.find_clear_path( z->pos(), target->pos() );
     // It takes a while
     z->moves -= 250;
     bool u_see = g->u.sees( *z );
     if( u_see ) {
         add_msg( m_warning, _( "The %s spews bile!" ), z->name() );
     }
+    tripoint prev_point = z->pos();
+    bool obstructed = false;
     for( auto &i : line ) {
-        g->m.add_field( i, fd_bile, 1 );
+        if( here.obstructed_by_vehicle_rotation( prev_point, i ) ) {
+            if( one_in( 2 ) ) {
+                i.x = prev_point.x;
+            } else {
+                i.y = prev_point.y;
+            }
+            obstructed = true;
+        }
+
+        here.add_field( i, fd_bile, 1 );
+
         // If bile hit a solid tile, return.
-        if( g->m.impassable( i ) ) {
-            g->m.add_field( i, fd_bile, 3 );
+        if( obstructed || here.impassable( i ) ) {
+            here.add_field( i, fd_bile, 3 );
             if( g->u.sees( i ) ) {
                 add_msg( _( "Bile splatters on the %s!" ),
-                         g->m.tername( i ) );
+                         here.tername( i ) );
             }
             return true;
         }
+        prev_point = i;
     }
     if( !target->uncanny_dodge() ) {
         ///\EFFECT_DODGE increases chance to avoid boomer effect
@@ -893,22 +912,35 @@ bool mattack::boomer_glow( monster *z )
         return false;
     }
 
-    std::vector<tripoint> line = g->m.find_clear_path( z->pos(), target->pos() );
+    map &here = get_map();
+
+    std::vector<tripoint> line = here.find_clear_path( z->pos(), target->pos() );
     // It takes a while
     z->moves -= 250;
     bool u_see = g->u.sees( *z );
     if( u_see ) {
         add_msg( m_warning, _( "The %s spews bile!" ), z->name() );
     }
+    tripoint prev_point = z->pos();
+    bool obstructed = false;
     for( auto &i : line ) {
-        g->m.add_field( i, fd_bile, 1 );
-        if( g->m.impassable( i ) ) {
-            g->m.add_field( i, fd_bile, 3 );
+        if( here.obstructed_by_vehicle_rotation( prev_point, i ) ) {
+            if( one_in( 2 ) ) {
+                i.x = prev_point.x;
+            } else {
+                i.y = prev_point.y;
+            }
+            obstructed = true;
+        }
+        here.add_field( i, fd_bile, 1 );
+        if( obstructed || here.impassable( i ) ) {
+            here.add_field( i, fd_bile, 3 );
             if( g->u.sees( i ) ) {
-                add_msg( _( "Bile splatters on the %s!" ), g->m.tername( i ) );
+                add_msg( _( "Bile splatters on the %s!" ), here.tername( i ) );
             }
             return true;
         }
+        prev_point = i;
     }
     if( !target->uncanny_dodge() ) {
         ///\EFFECT_DODGE increases chance to avoid glowing boomer effect
@@ -2221,6 +2253,9 @@ bool mattack::plant( monster *z )
 
 bool mattack::disappear( monster *z )
 {
+    // No death drops or corpse, just in case a vanishing monster is set to have that when killed normally
+    z->no_corpse_quiet = true;
+    z->no_extra_death_drops = true;
     z->set_hp( 0 );
     return true;
 }
@@ -2561,16 +2596,20 @@ bool mattack::ranged_pull( monster *z )
         return false;
     }
 
-    player *foe = dynamic_cast< player * >( target );
-    std::vector<tripoint> line = g->m.find_clear_path( z->pos(), target->pos() );
-    bool seen = g->u.sees( *z );
+    map &here = get_map();
 
+    player *foe = dynamic_cast< player * >( target );
+    std::vector<tripoint> line = here.find_clear_path( z->pos(), target->pos() );
+    bool seen = g->u.sees( *z );
+    tripoint prev_point = z->pos();
     for( auto &i : line ) {
         // Player can't be pulled though bars, furniture, cars or creatures
         // TODO: Add bashing? Currently a window is enough to prevent grabbing
-        if( !g->is_empty( i ) && i != z->pos() && i != target->pos() ) {
+        if( ( !g->is_empty( i ) && i != z->pos() && i != target->pos() ) ||
+            here.obstructed_by_vehicle_rotation( prev_point, i ) ) {
             return false;
         }
+        prev_point = i;
     }
 
     z->moves -= 150;
@@ -2609,7 +2648,7 @@ bool mattack::ranged_pull( monster *z )
 
         if( foe != nullptr ) {
             if( foe->in_vehicle ) {
-                g->m.unboard_vehicle( foe->pos() );
+                here.unboard_vehicle( foe->pos() );
             }
 
             if( target->is_player() && ( pt.x < HALF_MAPSIZE_X || pt.y < HALF_MAPSIZE_Y ||
@@ -2622,13 +2661,14 @@ bool mattack::ranged_pull( monster *z )
         range--;
         if( target->is_player() && seen ) {
             g->invalidate_main_ui_adaptor();
+            inp_mngr.pump_events();
             ui_manager::redraw_invalidated();
             refresh_display();
         }
     }
     // The monster might drag a target that's not on it's z level
     // So if they leave them on open air, make them fall
-    g->m.creature_on_trap( *target );
+    here.creature_on_trap( *target );
     if( seen ) {
         if( z->type->bodytype == "human" || z->type->bodytype == "angel" ) {
             add_msg( _( "The %1$s's arms fly out and pull and grab %2$s!" ), z->name(),
@@ -2845,7 +2885,7 @@ bool mattack::stare( monster *z )
         } else {
             add_msg( m_bad, _( "You feel like you're being watched, it makes you sick." ) );
         }
-        g->u.add_effect( effect_teleglow, 80_minutes );
+        g->u.add_effect( effect_attention, 80_minutes );
     }
 
     return true;
@@ -2863,8 +2903,7 @@ bool mattack::fear_paralyze( monster *z )
     }
 
     if( g->u.sees( *z ) && !g->u.has_effect( effect_fearparalyze ) ) {
-        if( g->u.has_artifact_with( AEP_PSYSHIELD ) || ( g->u.worn_with_flag( "PSYSHIELD_PARTIAL" ) &&
-                one_in( 4 ) ) ) {
+        if( has_psy_protection( get_player_character(), 4 ) ) {
             add_msg( _( "The %s probes your mind, but is rebuffed!" ), z->name() );
             ///\EFFECT_INT decreases chance of being paralyzed by fear attack
         } else if( rng( 0, 20 ) > g->u.get_int() ) {
@@ -3018,7 +3057,7 @@ bool mattack::nurse_operate( monster *z )
 
         z->friendly = 0;
         z->anger = 100;
-        std::list<tripoint> couch_pos = g->m.find_furnitures_with_flag_in_radius( z->pos(), 10,
+        std::list<tripoint> couch_pos = g->m.find_furnitures_or_vparts_with_flag_in_radius( z->pos(), 10,
                                         flag_AUTODOC_COUCH );
 
         if( couch_pos.empty() ) {
@@ -3658,27 +3697,38 @@ bool mattack::flamethrower( monster *z )
 void mattack::flame( monster *z, Creature *target )
 {
     int dist = rl_dist( z->pos(), target->pos() );
+
+    map &here = get_map();
     if( target != &g->u ) {
         // friendly
         // It takes a while
         z->moves -= 500;
-        if( !g->m.sees( z->pos(), target->pos(), dist ) ) {
+        if( !here.sees( z->pos(), target->pos(), dist ) ) {
             // shouldn't happen
             debugmsg( "mattack::flame invoked on invisible target" );
         }
-        std::vector<tripoint> traj = g->m.find_clear_path( z->pos(), target->pos() );
-
+        std::vector<tripoint> traj = here.find_clear_path( z->pos(), target->pos() );
+        tripoint prev_point = z->pos();
         for( auto &i : traj ) {
+            if( here.obstructed_by_vehicle_rotation( prev_point, i ) ) {
+                if( one_in( 2 ) ) {
+                    i.x = prev_point.x;
+                } else {
+                    i.y = prev_point.y;
+                }
+            }
+
             // break out of attack if flame hits a wall
             // TODO: Z
-            if( g->m.hit_with_fire( tripoint( i.xy(), z->posz() ) ) ) {
+            if( here.hit_with_fire( tripoint( i.xy(), z->posz() ) ) ) {
                 if( g->u.sees( i ) ) {
                     add_msg( _( "The tongue of flame hits the %s!" ),
-                             g->m.tername( i.xy() ) );
+                             here.tername( i.xy() ) );
                 }
                 return;
             }
-            g->m.add_field( i, fd_fire, 1 );
+            here.add_field( i, fd_fire, 1 );
+            prev_point = i;
         }
         target->add_effect( effect_onfire, 8_turns, bp_torso );
 
@@ -3687,22 +3737,38 @@ void mattack::flame( monster *z, Creature *target )
 
     // It takes a while
     z->moves -= 500;
-    if( !g->m.sees( z->pos(), target->pos(), dist + 1 ) ) {
+    if( !here.sees( z->pos(), target->pos(), dist + 1 ) ) {
         // shouldn't happen
         debugmsg( "mattack::flame invoked on invisible target" );
     }
-    std::vector<tripoint> traj = g->m.find_clear_path( z->pos(), target->pos() );
-
+    std::vector<tripoint> traj = here.find_clear_path( z->pos(), target->pos() );
+    tripoint prev_point = z->pos();
     for( auto &i : traj ) {
+        if( here.obstructed_by_vehicle_rotation( prev_point, i ) ) {
+            tripoint intervening = i;
+            if( one_in( 2 ) ) {
+                intervening.x = prev_point.x;
+            } else {
+                intervening.y = prev_point.y;
+            }
+            if( here.hit_with_fire( tripoint( intervening.xy(), z->posz() ) ) ) {
+                if( g->u.sees( i ) ) {
+                    add_msg( _( "The tongue of flame hits the %s!" ),
+                             here.tername( intervening.xy() ) );
+                }
+                return;
+            }
+        }
         // break out of attack if flame hits a wall
-        if( g->m.hit_with_fire( tripoint( i.xy(), z->posz() ) ) ) {
+        if( here.hit_with_fire( tripoint( i.xy(), z->posz() ) ) ) {
             if( g->u.sees( i ) ) {
                 add_msg( _( "The tongue of flame hits the %s!" ),
-                         g->m.tername( i.xy() ) );
+                         here.tername( i.xy() ) );
             }
             return;
         }
-        g->m.add_field( i, fd_fire, 1 );
+        here.add_field( i, fd_fire, 1 );
+        prev_point = i;
     }
     if( !target->uncanny_dodge() ) {
         target->add_effect( effect_onfire, 8_turns, bp_torso );
@@ -4060,14 +4126,27 @@ bool mattack::stretch_bite( monster *z )
 
     z->moves -= 150;
 
+    tripoint prev_point = z->pos();
+    bool obstructed = false;
     for( auto &pnt : g->m.find_clear_path( z->pos(), target->pos() ) ) {
-        if( g->m.impassable( pnt ) ) {
+
+        if( get_map().obstructed_by_vehicle_rotation( prev_point, pnt ) ) {
+            if( one_in( 2 ) ) {
+                pnt.x = prev_point.x;
+            } else {
+                pnt.y = prev_point.y;
+            }
+            obstructed = true;
+        }
+
+        if( obstructed || g->m.impassable( pnt ) ) {
             z->add_effect( effect_stunned, 6_turns );
             target->add_msg_player_or_npc( _( "The %1$s stretches its head at you, but bounces off the %2$s" ),
                                            _( "The %1$s stretches its head at <npcname>, but bounces off the %2$s" ),
                                            z->name(), g->m.obstacle_name( pnt ) );
             return true;
         }
+        prev_point = pnt;
     }
     bool uncanny = target->uncanny_dodge();
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
@@ -4343,19 +4422,33 @@ bool mattack::longswipe( monster *z )
     if( rl_dist( z->pos(), target->pos() ) > 3 || !z->sees( *target ) ) {
         return false;
     }
+    map &here = get_map();
     //Is there something impassable blocking the claw?
-    for( const auto &pnt : g->m.find_clear_path( z->pos(), target->pos() ) ) {
-        if( g->m.impassable( pnt ) ) {
+    tripoint prev_point = z->pos();
+    bool obstructed = false;
+    for( tripoint &pnt : g->m.find_clear_path( z->pos(), target->pos() ) ) {
+
+        if( here.obstructed_by_vehicle_rotation( prev_point, pnt ) ) {
+            if( one_in( 2 ) ) {
+                pnt.x = prev_point.x;
+            } else {
+                pnt.y = prev_point.y;
+            }
+            obstructed = true;
+        }
+
+        if( obstructed || here.impassable( pnt ) ) {
             //If we're here, it's an nonadjacent attack, which is only attempted 1/5 of the time.
             if( !one_in( 5 ) ) {
                 return false;
             }
             target->add_msg_player_or_npc( _( "The %1$s thrusts a claw at you, but it bounces off the %2$s!" ),
                                            _( "The %1$s thrusts a claw at <npcname>, but it bounces off the %2$s!" ),
-                                           z->name(), g->m.obstacle_name( pnt ) );
+                                           z->name(), here.obstacle_name( pnt ) );
             z->mod_moves( -150 );
             return true;
         }
+        prev_point = pnt;
     }
 
     if( !is_adjacent( z, target, true ) ) {
@@ -4435,8 +4528,6 @@ bool mattack::longswipe( monster *z )
 
 static void parrot_common( monster *parrot )
 {
-    // It takes a while
-    parrot->moves -= 100;
     const SpeechBubble &speech = get_speech( parrot->type->id.str() );
     sounds::sound( parrot->pos(), speech.volume, sounds::sound_t::speech, speech.text.translated(),
                    false, "speech", parrot->type->id.str() );
@@ -4478,8 +4569,12 @@ bool mattack::darkman( monster *z )
         // TODO: handle friendly monsters
         return false;
     }
+    // Wont do stuff unless it can see you and is in range
     if( rl_dist( z->pos(), g->u.pos() ) > 40 ) {
         return false;
+    }
+    if( !z->sees( g->u ) ) {
+        return true;
     }
     if( monster *const shadow = g->place_critter_around( mon_shadow, z->pos(), 1 ) ) {
         z->moves -= 10;
@@ -4488,10 +4583,6 @@ bool mattack::darkman( monster *z )
             add_msg( m_warning, _( "A shadow splits from the %s!" ),
                      z->name() );
         }
-    }
-    // Wont do the combat stuff unless it can see you
-    if( !z->sees( g->u ) ) {
-        return true;
     }
     // What do we say?
     switch( rng( 1, 7 ) ) {
@@ -4638,13 +4729,15 @@ bool mattack::riotbot( monster *z )
         return false;
     }
 
+    map &here = get_map();
+
     player *foe = dynamic_cast<player *>( target );
 
     if( calendar::once_every( 1_minutes ) ) {
-        for( const tripoint &dest : g->m.points_in_radius( z->pos(), 4 ) ) {
-            if( g->m.passable( dest ) &&
-                g->m.clear_path( z->pos(), dest, 3, 1, 100 ) ) {
-                g->m.add_field( dest, fd_relax_gas, rng( 1, 3 ) );
+        for( const tripoint &dest : here.points_in_radius( z->pos(), 4 ) ) {
+            if( here.passable( dest ) &&
+                here.clear_path( z->pos(), dest, 3, 1, 100 ) ) {
+                here.add_field( dest, fd_relax_gas, rng( 1, 3 ) );
             }
         }
     }
@@ -4778,10 +4871,10 @@ bool mattack::riotbot( monster *z )
             add_msg( m_bad, _( "The robot sprays tear gas!" ) );
             z->moves -= 200;
 
-            for( const tripoint &dest : g->m.points_in_radius( z->pos(), 2 ) ) {
-                if( g->m.passable( dest ) &&
-                    g->m.clear_path( z->pos(), dest, 3, 1, 100 ) ) {
-                    g->m.add_field( dest, fd_tear_gas, rng( 1, 3 ) );
+            for( const tripoint &dest : here.points_in_radius( z->pos(), 2 ) ) {
+                if( here.passable( dest ) &&
+                    here.clear_path( z->pos(), dest, 3, 1, 100 ) ) {
+                    here.add_field( dest, fd_tear_gas, rng( 1, 3 ) );
                 }
             }
 
@@ -4815,11 +4908,13 @@ bool mattack::riotbot( monster *z )
         sounds::sound( z->pos(), 3, sounds::sound_t::combat, _( "fzzzzzt" ), false, "misc", "flash" );
 
         std::vector<tripoint> traj = line_to( z->pos(), dest, 0, 0 );
+        tripoint prev_point = z->pos();
         for( auto &elem : traj ) {
-            if( !g->m.is_transparent( elem ) ) {
+            if( !here.is_transparent( elem ) || here.obscured_by_vehicle_rotation( prev_point, elem ) ) {
                 break;
             }
-            g->m.add_field( elem, fd_dazzling, 1 );
+            here.add_field( elem, fd_dazzling, 1 );
+            prev_point = elem;
         }
         return true;
 
@@ -5656,13 +5751,27 @@ bool mattack::stretch_attack( monster *z )
 
     int dam = rng( 5, 10 );
     z->moves -= 100;
+    tripoint prev_point = z->pos();
+    bool bounce = false;
     for( auto &pnt : g->m.find_clear_path( z->pos(), target->pos() ) ) {
-        if( g->m.impassable( pnt ) ) {
+        if( g->m.obstructed_by_vehicle_rotation( prev_point, pnt ) ) {
+            bounce = true;
+            //50% chance of bouncing off each intervening tile
+            if( one_in( 2 ) ) {
+                pnt.x = prev_point.x;
+            } else {
+                pnt.y = prev_point.y;
+            }
+        }
+        if( bounce || g->m.impassable( pnt ) ) {
             target->add_msg_player_or_npc( _( "The %1$s thrusts its arm at you, but bounces off the %2$s." ),
                                            _( "The %1$s thrusts its arm at <npcname>, but bounces off the %2$s." ),
                                            z->name(), g->m.obstacle_name( pnt ) );
             return true;
         }
+
+        prev_point = pnt;
+
     }
 
     auto msg_type = target == &g->u ? m_warning : m_info;

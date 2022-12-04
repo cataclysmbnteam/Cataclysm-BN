@@ -28,6 +28,7 @@
 #include "pimpl.h"
 #include "point.h"
 #include "ret_val.h"
+#include "safe_reference.h"
 #include "string_id.h"
 #include "type_id.h"
 
@@ -78,15 +79,6 @@ struct ret_val<edible_rating>::default_success : public
 template<>
 struct ret_val<edible_rating>::default_failure : public
     std::integral_constant<edible_rating, edible_rating::inedible> {};
-
-struct stat_mod {
-    int strength = 0;
-    int dexterity = 0;
-    int intelligence = 0;
-    int perception = 0;
-
-    int speed = 0;
-};
 
 struct needs_rates {
     float thirst = 0.0f;
@@ -141,14 +133,6 @@ class player : public Character
         // by default save all contained info
         virtual void serialize( JsonOut &jsout ) const = 0;
 
-        /** Handles and displays detailed character info for the '@' screen */
-        void disp_info();
-
-        /**Estimate effect duration based on player relevant skill*/
-        time_duration estimate_effect_dur( const skill_id &relevant_skill, const efftype_id &effect,
-                                           const time_duration &error_magnitude,
-                                           int threshold, const Creature &target ) const;
-
         /** Resets movement points and applies other non-idempotent changes */
         void process_turn() override;
         /** Calculates the various speed bonuses we will get from mutations, etc. */
@@ -156,23 +140,6 @@ class player : public Character
 
         /** Maintains body wetness and handles the rate at which the player dries */
         void update_body_wetness( const w_point &weather );
-
-        /** Returns true if the player has a conflicting trait to the entered trait
-         *  Uses has_opposite_trait(), has_lower_trait(), and has_higher_trait() to determine conflicts.
-         */
-        bool has_conflicting_trait( const trait_id &flag ) const;
-        /** Returns true if the player has a trait which upgrades into the entered trait */
-        bool has_lower_trait( const trait_id &flag ) const;
-        /** Returns true if the player has a trait which is an upgrade of the entered trait */
-        bool has_higher_trait( const trait_id &flag ) const;
-        /** Returns true if the player has a trait that shares a type with the entered trait */
-        bool has_same_type_trait( const trait_id &flag ) const;
-        /** Returns true if the entered trait may be purified away
-         *  Defaults to true
-         */
-        bool purifiable( const trait_id &flag ) const;
-        /** Returns a dream's description selected randomly from the player's highest mutation category */
-        std::string get_category_dream( const std::string &cat, int strength ) const;
 
         /** Generates and handles the UI for player interaction with installed bionics */
         void power_bionics();
@@ -209,9 +176,6 @@ class player : public Character
          * @param obj Weapon to check dispersion on
          */
         dispersion_sources get_weapon_dispersion( const item &obj ) const;
-
-        /** Returns true if a gun misfires, jams, or has other problems, else returns false */
-        bool handle_gun_damage( item &it );
 
         /** How many moves does it take to aim gun to the target accuracy. */
         int gun_engagement_moves( const item &gun, int target = 0, int start = MAX_RECOIL ) const;
@@ -257,14 +221,6 @@ class player : public Character
 
         /** Handles the uncanny dodge bionic and effects, returns true if the player successfully dodges */
         bool uncanny_dodge() override;
-
-        /**
-         * Checks both the neighborhoods of from and to for climbable surfaces,
-         * returns move cost of climbing from `from` to `to`.
-         * 0 means climbing is not possible.
-         * Return value can depend on the orientation of the terrain.
-         */
-        int climbing_cost( const tripoint &from, const tripoint &to ) const;
 
         // ranged.cpp
         /** Execute a throw */
@@ -312,11 +268,6 @@ class player : public Character
         /** Returns list of artifacts in player inventory. **/
         std::list<item *> get_artifact_items();
 
-        /** Siphons fuel (if available) from the specified vehicle into container or
-         * similar via @ref game::handle_liquid. May start a player activity.
-         */
-        void siphon( vehicle &veh, const itype_id &desired_liquid );
-
         /** used for drinking from hands, returns how many charges were consumed */
         int drink_from_hands( item &water );
         /** Used for eating object at pos, returns true if object is removed from inventory (last charge was consumed) */
@@ -327,8 +278,6 @@ class player : public Character
 
         /** Used for eating entered comestible, returns true if comestible is successfully eaten */
         bool eat( item &food, bool force = false );
-        /** Handles the enjoyability value for a book. **/
-        int book_fun_for( const item &book, const player &p ) const;
 
         int get_lift_assist() const;
 
@@ -354,7 +303,7 @@ class player : public Character
          * Check player capable of taking off an item.
          * @param it Thing to be taken off
          */
-        ret_val<bool> can_takeoff( const item &it, const std::list<item> *res = nullptr );
+        ret_val<bool> can_takeoff( const item &it, const std::list<item> *res = nullptr ) const;
 
         /**
          * Check player capable of wielding an item.
@@ -445,7 +394,6 @@ class player : public Character
         /** Starts activity to install toolmod */
         void toolmod_add( item_location tool, item_location mod );
 
-        bool fun_to_read( const item &book ) const;
         /** Note that we've read a book at least once. **/
         virtual bool has_identified( const itype_id &item_id ) const = 0;
 
@@ -456,8 +404,8 @@ class player : public Character
         /** Checked each turn during "lying_down", returns true if the player falls asleep */
         bool can_sleep();
 
-        /** Uses morale and other factors to return the player's focus target goto value */
-        int calc_focus_equilibrium( bool ignore_pain = false ) const;
+        /** Uses morale, pain and fatigue to return the player's focus target goto value */
+        int calc_focus_equilibrium() const;
         /** Calculates actual focus gain/loss value from focus equilibrium*/
         int calc_focus_change() const;
         /** Uses calc_focus_change to update the player's current focus */
@@ -466,6 +414,7 @@ class player : public Character
         void reset_stats() override;
 
     private:
+        safe_reference_anchor anchor;
         enum class power_mut_ui_cmd {
             Exit,
             Activate,
@@ -482,32 +431,12 @@ class player : public Character
         bool bio_soporific_powered_at_last_sleep_check = false;
 
     public:
-        /** Returns a value from 1.0 to 5.0 that acts as a multiplier
-         * for the time taken to perform tasks that require detail vision,
-         * above 4.0 means these activities cannot be performed.
-         * takes pos as a parameter so that remote spots can be judged
-         * if they will potentially have enough light when player gets there */
-        float fine_detail_vision_mod( const tripoint &p = tripoint_zero ) const;
-
-        /** Used to determine player feedback on item use for the inventory code.
-         *  rates usability lower for non-tools (books, etc.) */
-        hint_rating rate_action_use( const item &it ) const;
-        hint_rating rate_action_wear( const item &it ) const;
-        hint_rating rate_action_takeoff( const item &it ) const;
-        hint_rating rate_action_reload( const item &it ) const;
-        hint_rating rate_action_unload( const item &it ) const;
-        hint_rating rate_action_mend( const item &it ) const;
-        hint_rating rate_action_disassemble( const item &it );
-
+        safe_reference<player> get_safe_reference();
         //returns true if the warning is now beyond final and results in hostility.
         bool add_faction_warning( const faction_id &id );
         int current_warnings_fac( const faction_id &id );
         bool beyond_final_warning( const faction_id &id );
-        /** Returns the effect of pain on stats */
-        stat_mod get_pain_penalty() const;
-        int kcal_speed_penalty() const;
-        /** Returns the penalty to speed from thirst */
-        static int thirst_speed_penalty( int thirst );
+
         /** This handles giving xp for a skill */
         void practice( const skill_id &id, int amount, int cap = 99, bool suppress_warning = false );
         /** This handles warning the player that there current activity will not give them xp */
@@ -555,16 +484,10 @@ class player : public Character
         // Returns -1 to indicate recipe not found, otherwise difficulty to learn.
         int has_recipe( const recipe *r, const inventory &crafting_inv,
                         const std::vector<npc *> &helpers ) const;
-        bool knows_recipe( const recipe *rec ) const;
-        void learn_recipe( const recipe *rec );
-        int exceeds_recipe_requirements( const recipe &rec ) const;
         bool has_recipe_requirements( const recipe &rec ) const;
-        bool can_decomp_learn( const recipe &rec ) const;
 
         bool studied_all_recipes( const itype &book ) const;
 
-        /** Returns all known recipes. */
-        const recipe_subset &get_learned_recipes() const;
         /** Returns all recipes that are known from the books (either in inventory or nearby). */
         recipe_subset get_recipes_from_books( const inventory &crafting_inv,
                                               recipe_filter filter = nullptr ) const;
@@ -578,9 +501,6 @@ class player : public Character
                                              const std::vector<npc *> *helpers = nullptr,
                                              recipe_filter filter = nullptr ) const;
 
-        // crafting.cpp
-        float morale_crafting_speed_multiplier( const recipe &rec ) const;
-        float lighting_craft_speed_multiplier( const recipe &rec ) const;
         /** For use with in progress crafts */
         int available_assistant_count( const recipe &rec ) const;
         /**
@@ -641,18 +561,6 @@ class player : public Character
          * multiple steps of incremental skill gain simultaneously if needed.
          */
         void craft_skill_gain( const item &craft, const int &multiplier );
-        /**
-         * Check if the player can disassemble an item using the current crafting inventory
-         * @param obj Object to check for disassembly
-         * @param inv current crafting inventory
-         */
-        ret_val<bool> can_disassemble( const item &obj, const inventory &inv ) const;
-
-        bool disassemble();
-        bool disassemble( item_location target, bool interactive = true );
-        void disassemble_all( bool one_pass ); // Disassemble all items on the tile
-        void complete_disassemble();
-        void complete_disassemble( item_location &target, const recipe &dis );
 
         const requirement_data *select_requirements(
             const std::vector<const requirement_data *> &, int batch, const inventory &,
@@ -682,7 +590,6 @@ class player : public Character
         // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
         tripoint grab_point;
         int volume = 0;
-        const profession *prof = nullptr;
 
         bool random_start_location = false;
         start_location_id start_location;
@@ -731,9 +638,6 @@ class player : public Character
 
         /** Search surrounding squares for traps (and maybe other things in the future). */
         void search_surroundings();
-        // formats and prints encumbrance info to specified window
-        void print_encumbrance( const catacurses::window &win, int line = -1,
-                                const item *selected_clothing = nullptr ) const;
 
         using Character::query_yn;
         bool query_yn( const std::string &mes ) const override;
@@ -767,14 +671,9 @@ class player : public Character
 
         /** warnings from a faction about bad behavior */
         std::map<faction_id, std::pair<int, time_point>> warning_record;
-
-    protected:
-
-        /** Subset of learned recipes. Needs to be mutable for lazy initialization. */
-        mutable pimpl<recipe_subset> learned_recipes;
-
-        /** Stamp of skills. @ref learned_recipes are valid only with this set of skills. */
-        mutable decltype( _skills ) valid_autolearn_skills;
 };
+
+/** Calculates the player's morale cap due to fatigue */
+int calc_fatigue_cap( int fatigue );
 
 #endif // CATA_SRC_PLAYER_H

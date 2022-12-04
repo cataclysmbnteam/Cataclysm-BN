@@ -23,6 +23,7 @@
 #include "map_helpers.h"
 #include "point.h"
 #include "player_helpers.h"
+#include "state_helpers.h"
 #include "string_formatter.h"
 #include "test_statistics.h"
 #include "type_id.h"
@@ -225,18 +226,18 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
     CHECK( veh.safe_velocity() > 0 );
     while( veh.engine_on && veh.safe_velocity() > 0 && cycles_left > 0 ) {
         cycles_left--;
-        g->m.vehmove();
+        here.vehmove();
         veh.idle( true );
         // If the vehicle starts skidding, the effects become random and test is RUINED
         REQUIRE( !veh.skidding );
         for( const tripoint &pos : veh.get_points() ) {
-            REQUIRE( g->m.ter( pos ) );
+            REQUIRE( here.ter( pos ) );
         }
         // How much it moved
         tiles_travelled += square_dist( starting_point, veh.global_pos3() );
         // Bring it back to starting point to prevent it from leaving the map
         const tripoint displacement = starting_point - veh.global_pos3();
-        g->m.displace_vehicle( veh, displacement );
+        here.displace_vehicle( veh, displacement );
         if( reset_velocity_turn < 0 ) {
             continue;
         }
@@ -402,6 +403,7 @@ std::vector<std::string> vehs_to_test = {{
  **/
 TEST_CASE( "vehicle_find_efficiency", "[.]" )
 {
+    clear_all_state();
     for( const std::string &veh : vehs_to_test ) {
         find_efficiency( veh );
     }
@@ -410,6 +412,7 @@ TEST_CASE( "vehicle_find_efficiency", "[.]" )
 /** This is even less of a test. It generates C++ lines for the actual test below */
 TEST_CASE( "make_vehicle_efficiency_case", "[.]" )
 {
+    clear_all_state();
     const float acceptable = 1.25;
     std::map<std::string, int> forward_distance;
     for( const std::string &veh : vehs_to_test ) {
@@ -429,6 +432,7 @@ TEST_CASE( "make_vehicle_efficiency_case", "[.]" )
 // Fix test for electric vehicles
 TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
 {
+    clear_all_state();
     test_vehicle( "beetle", 815669, 431300, 338700, 95610, 68060 );
     test_vehicle( "car", 1120618, 617500, 386100, 52730, 25170 );
     test_vehicle( "car_sports", 1154214, 352600, 267600, 36790, 22350 );

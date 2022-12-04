@@ -7,7 +7,7 @@
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 2 } ],
     "components": [ [ [ "lead", 4 ] ], [ [ "762_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "gunpowder", 8 ] ], [ [ "copper", 1 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "charges": 1
   },
   {
     "result": "762_m87",
@@ -17,6 +17,6 @@
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 2 } ],
     "components": [ [ [ "lead", 4 ] ], [ [ "762_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "gunpowder", 8 ] ], [ [ "copper", 1 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "charges": 1
   }
 ]

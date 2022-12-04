@@ -69,8 +69,10 @@
     "tools": [
       [
         [ "rifle_ball", -1 ],
+        [ "rifle_jhp", -1 ],
         [ "rifle_AP", -1 ],
         [ "bp_rifle_ball", -1 ],
+        [ "bp_rifle_jhp", -1 ],
         [ "bp_rifle_AP", -1 ],
         [ "reloaded_rifle_ball", -1 ],
         [ "reloaded_rifle_AP", -1 ],
@@ -98,17 +100,19 @@
         [ "shot_fowl", -1 ],
         [ "shot_foster", -1 ],
         [ "shot_pyro", -1 ],
-        [ "bp_shot_junk", -1 ],
+        [ "shot_junk", -1 ],
+        [ "shot_dart", -1 ],
         [ "bp_shot_buck", -1 ],
         [ "bp_shot_fowl", -1 ],
         [ "bp_shot_foster", -1 ],
         [ "bp_shot_pyro", -1 ],
+        [ "bp_shot_junk", -1 ],
         [ "bp_shot_dart", -1 ],
-        [ "reloaded_shot_junk", -1 ],
         [ "reloaded_shot_buck", -1 ],
         [ "reloaded_shot_fowl", -1 ],
         [ "reloaded_shot_foster", -1 ],
         [ "reloaded_shot_pyro", -1 ],
+        [ "reloaded_shot_junk", -1 ],
         [ "reloaded_shot_dart", -1 ],
         [ "shot_casing", -1 ]
       ]

@@ -2,6 +2,7 @@
   {
     "type": "overmap_connection",
     "id": "local_road",
+    "default_terrain": "road",
     "subtypes": [
       { "terrain": "road", "locations": [ "field", "road" ] },
       { "terrain": "road", "locations": [ "forest_without_trail" ], "basic_cost": 20 },
@@ -14,16 +15,19 @@
   {
     "type": "overmap_connection",
     "id": "sewer_tunnel",
+    "default_terrain": "sewer",
     "subtypes": [ { "terrain": "sewer", "locations": [ "subterranean" ], "flags": [ "ORTHOGONAL" ] } ]
   },
   {
     "type": "overmap_connection",
     "id": "subway_tunnel",
+    "default_terrain": "subway",
     "subtypes": [ { "terrain": "subway", "locations": [ "subterranean_subway" ], "flags": [ "ORTHOGONAL" ] } ]
   },
   {
     "type": "overmap_connection",
     "id": "forest_trail",
+    "default_terrain": "forest_trail",
     "subtypes": [
       { "terrain": "forest_trail", "locations": [ "forest_trail" ], "basic_cost": 0 },
       { "terrain": "forest_trail", "locations": [ "forest_edge" ], "basic_cost": 100 },
@@ -34,6 +38,7 @@
   {
     "type": "overmap_connection",
     "id": "local_railroad",
+    "default_terrain": "railroad",
     "subtypes": [
       { "terrain": "railroad", "locations": [ "railroad" ], "basic_cost": 1, "flags": [ "ORTHOGONAL" ] },
       { "terrain": "railroad", "locations": [ "wilderness" ], "basic_cost": 1, "flags": [ "ORTHOGONAL" ] },

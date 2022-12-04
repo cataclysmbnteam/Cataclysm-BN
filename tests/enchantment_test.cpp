@@ -8,6 +8,7 @@
 #include "options.h"
 #include "player.h"
 #include "player_helpers.h"
+#include "state_helpers.h"
 
 static trait_id trait_CARNIVORE( "CARNIVORE" );
 static efftype_id effect_debug_clairvoyance( "debug_clairvoyance" );
@@ -32,7 +33,7 @@ static void clear_items( Character &guy )
 
 TEST_CASE( "Enchantments grant mutations", "[magic][enchantment][trait][mutation]" )
 {
-    clear_map();
+    clear_all_state();
     Character &guy = get_player_character();
     clear_character( *guy.as_player(), true );
 
@@ -101,7 +102,7 @@ TEST_CASE( "Enchantments grant mutations", "[magic][enchantment][trait][mutation
 
 TEST_CASE( "Enchantments apply effects", "[magic][enchantment][effect]" )
 {
-    clear_map();
+    clear_all_state();
     Character &guy = get_player_character();
     clear_character( *guy.as_player(), true );
 
@@ -207,7 +208,7 @@ static void tests_stats( Character &guy, int s_base, int d_base, int p_base, int
 
 TEST_CASE( "Enchantments modify stats", "[magic][enchantment][character]" )
 {
-    clear_map();
+    clear_all_state();
     Character &guy = get_player_character();
     clear_character( *guy.as_player(), true );
 
@@ -292,7 +293,7 @@ static void tests_speed( Character &guy, int sp_base, int sp_exp )
 
 TEST_CASE( "Enchantments modify speed", "[magic][enchantment][speed]" )
 {
-    clear_map();
+    clear_all_state();
     Character &guy = get_player_character();
     clear_character( *guy.as_player(), true );
 
@@ -342,7 +343,7 @@ static void tests_attack_cost( Character &guy, const item &weap, int item_atk_co
 
 TEST_CASE( "Enchantments modify attack cost", "[magic][enchantment][melee]" )
 {
-    clear_map();
+    clear_all_state();
     Character &guy = get_player_character();
     clear_character( *guy.as_player(), true );
 
@@ -387,7 +388,7 @@ static void tests_move_cost( Character &guy, int tile_move_cost, int move_cost, 
 
 TEST_CASE( "Enchantments modify move cost", "[magic][enchantment][move]" )
 {
-    clear_map();
+    clear_all_state();
     Character &guy = get_player_character();
     clear_character( *guy.as_player(), true );
 
@@ -446,7 +447,7 @@ static void tests_metabolic_rate( Character &guy, float norm, float exp )
 
 TEST_CASE( "Enchantments modify metabolic rate", "[magic][enchantment][metabolism]" )
 {
-    clear_map();
+    clear_all_state();
     Character &guy = get_player_character();
     clear_character( *guy.as_player(), true );
 
@@ -541,7 +542,6 @@ static void tests_mana_pool_section( const mana_test_case &t )
 {
     CAPTURE( t.idx );
 
-    clear_map();
     Character &guy = get_player_character();
     clear_character( *guy.as_player(), true );
 
@@ -550,6 +550,7 @@ static void tests_mana_pool_section( const mana_test_case &t )
 
 TEST_CASE( "Mana pool", "[magic][enchantment][mana][bionic]" )
 {
+    clear_all_state();
     for( const mana_test_case &it : mana_test_data ) {
         tests_mana_pool_section( it );
     }

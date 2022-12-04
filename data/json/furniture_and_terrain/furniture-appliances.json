@@ -166,29 +166,101 @@
   },
   {
     "type": "furniture",
-    "id": "f_glass_fridge",
-    "name": "glass door fridge",
+    "abstract": "f_floor_lamp_base",
+    "symbol": "T",
+    "color": "light_gray",
+    "name": "abstract floor lamp",
+    "description": "Abstract furniture.  If you see this, something went wrong.",
+    "move_cost_mod": 2,
+    "required_str": 1,
+    "flags": [ "TRANSPARENT", "PLACE_ITEM", "EASY_DECONSTRUCT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": 2 },
+        { "item": "power_supply", "count": 1 },
+        { "item": "light_bulb", "count": 1 },
+        { "item": "steel_lump", "count": 1 },
+        { "item": "pipe", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "bonk!",
+      "items": [
+        { "item": "scrap", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 0, 1 ] },
+        { "item": "e_scrap", "count": [ 0, 1 ] },
+        { "item": "glass_shard", "count": [ 0, 2 ] },
+        { "item": "pipe", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_floor_lamp_off",
+    "symbol": "T",
+    "color": "light_gray",
+    "copy-from": "f_floor_lamp_base",
+    "looks_like": "f_floor_lamp",
+    "name": "floor lamp (off)",
+    "description": "A tall standing lamp, meant to plug into a wall and light up a room.",
+    "examine_action": "transform",
+    "transforms_into": "f_floor_lamp",
+    "prompt": "Switch on the floor lamp.",
+    "message": "You switch on the floor lamp."
+  },
+  {
+    "type": "furniture",
+    "id": "f_floor_lamp",
+    "symbol": "T",
+    "color": "light_gray",
+    "copy-from": "f_floor_lamp_base",
+    "name": "floor lamp (no power)",
+    "description": "A tall standing lamp, plugged into a wall.  This one has no power.",
+    "examine_action": "transform",
+    "transforms_into": "f_floor_lamp_off",
+    "prompt": "Switch off the floor lamp.",
+    "message": "You switch off the floor lamp.",
+    "active": [ "charge_watcher", { "min_power": 5, "transform": { "id": "f_floor_lamp_on", "msg": "The lamp lights up." } } ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_floor_lamp_on",
+    "symbol": "T",
+    "color": "yellow",
+    "copy-from": "f_floor_lamp_base",
+    "looks_like": "f_floor_lamp",
+    "name": "floor lamp (on)",
+    "description": "A tall standing lamp, plugged into a wall.",
+    "examine_action": "transform",
+    "transforms_into": "f_floor_lamp_off",
+    "prompt": "Switch off the floor lamp.",
+    "message": "You switch off the floor lamp.",
+    "light_emitted": 160,
+    "active": [
+      "steady_consumer",
+      {
+        "power": 1,
+        "consume_every": "100 s",
+        "transform": { "id": "f_floor_lamp", "msg": "The lamp flickers and dies." }
+      }
+    ]
+  },
+  {
+    "type": "furniture",
+    "abstract": "f_glass_fridge_base",
+    "name": "abstract glass fridge",
+    "looks_like": "f_glass_fridge",
     "symbol": "{",
     "color": "light_cyan",
-    "description": "Wow!  See INTO your fridge before you open it and discover it's not working!",
+    "description": "Abstract furniture.  If you see this, something went wrong.",
     "move_cost_mod": -1,
     "coverage": 90,
     "required_str": 10,
-    "flags": [ "PLACE_ITEM", "BLOCKSDOOR" ],
-    "deconstruct": {
-      "items": [
-        { "item": "sheet_metal", "count": [ 2, 5 ] },
-        { "item": "sheet_metal_small", "count": [ 0, 3 ] },
-        { "item": "steel_chunk", "count": [ 2, 3 ] },
-        { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "cable", "charges": [ 1, 3 ] },
-        { "item": "hose", "count": 1 },
-        { "item": "glass_sheet", "count": 1 },
-        { "item": "cu_pipe", "count": [ 3, 6 ] },
-        { "item": "refrigerant_tank", "count": 1 },
-        { "item": "motor_tiny", "count": 1 }
-      ]
-    },
+    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "glass_fridge", "count": 1 } ] },
     "max_volume": "250 L",
     "bash": {
       "str_min": 12,
@@ -208,6 +280,109 @@
         { "item": "motor_tiny", "prob": 25 }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_glass_fridge_off",
+    "copy-from": "f_glass_fridge_base",
+    "name": "glass door fridge (off)",
+    "symbol": "{",
+    "description": "There's something tantalizing about seeing the contents of a glass fridge on display.  It is switched off.",
+    "examine_action": "transform",
+    "transforms_into": "f_glass_fridge",
+    "prompt": "Switch on the glass fridge.",
+    "message": "You switch on the glass fridge.",
+    "color": "light_cyan"
+  },
+  {
+    "type": "furniture",
+    "id": "f_glass_fridge",
+    "name": "glass door fridge",
+    "copy-from": "f_glass_fridge_base",
+    "symbol": "{",
+    "description": "There's something tantalizing about seeing the contents of a glass fridge on display.  It has no power.",
+    "examine_action": "transform",
+    "transforms_into": "f_glass_fridge_off",
+    "prompt": "Switch off the glass fridge.",
+    "message": "You switch off the glass fridge.",
+    "active": [ "charge_watcher", { "min_power": 40, "transform": { "id": "f_glass_fridge_on", "msg": "The fridge starts up." } } ],
+    "color": "light_cyan"
+  },
+  {
+    "type": "furniture",
+    "id": "f_glass_fridge_on",
+    "name": "glass door fridge (on)",
+    "copy-from": "f_glass_fridge_base",
+    "symbol": "{",
+    "description": "There's something tantalizing about seeing the contents of a glass fridge on display.  It is switched on.",
+    "examine_action": "transform",
+    "transforms_into": "f_glass_fridge_off",
+    "prompt": "Switch off the glass fridge.",
+    "message": "You switch off the glass fridge.",
+    "color": "light_cyan",
+    "extend": { "flags": [ "FRIDGE" ] },
+    "//": "Consumes more power due to worse insulation.",
+    "active": [
+      "steady_consumer",
+      {
+        "power": 25,
+        "consume_every": "600 s",
+        "transform": { "id": "f_glass_fridge", "msg": "The fridge shuts down." }
+      }
+    ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_glass_freezer_off",
+    "name": "glass door freezer (off)",
+    "copy-from": "f_glass_fridge_base",
+    "symbol": "{",
+    "description": "A glass door freezer!  Maybe there's some ice cream inside.  It is switched off.",
+    "examine_action": "transform",
+    "transforms_into": "f_glass_freezer",
+    "prompt": "Switch on the glass freezer.",
+    "message": "You switch on the glass freezer.",
+    "color": "blue",
+    "deconstruct": { "items": [ { "item": "glass_freezer", "count": 1 } ] }
+  },
+  {
+    "type": "furniture",
+    "id": "f_glass_freezer",
+    "name": "glass door freezer",
+    "copy-from": "f_glass_fridge_base",
+    "symbol": "{",
+    "description": "A glass door freezer!  Maybe there's some ice cream inside.  It has no power.",
+    "examine_action": "transform",
+    "transforms_into": "f_glass_freezer_off",
+    "prompt": "Switch off the glass freezer.",
+    "message": "You switch off the glass freezer.",
+    "active": [ "charge_watcher", { "min_power": 50, "transform": { "id": "f_glass_freezer_on", "msg": "The freezer starts up." } } ],
+    "color": "blue",
+    "deconstruct": { "items": [ { "item": "glass_freezer", "count": 1 } ] }
+  },
+  {
+    "type": "furniture",
+    "id": "f_glass_freezer_on",
+    "name": "glass freezer (on)",
+    "copy-from": "f_glass_fridge_base",
+    "symbol": "{",
+    "description": "A glass door freezer!  Maybe there's some ice cream inside.  It is switched on.",
+    "examine_action": "transform",
+    "transforms_into": "f_glass_freezer_off",
+    "prompt": "Switch off the glass freezer.",
+    "message": "You switch off the glass freezer.",
+    "color": "blue",
+    "extend": { "flags": [ "FREEZER" ] },
+    "//": "Consumes more power due to worse insulation.",
+    "deconstruct": { "items": [ { "item": "glass_freezer", "count": 1 } ] },
+    "active": [
+      "steady_consumer",
+      {
+        "power": 30,
+        "consume_every": "600 s",
+        "transform": { "id": "f_glass_freezer", "msg": "The freezer shuts down." }
+      }
+    ]
   },
   {
     "type": "furniture",
@@ -824,17 +999,13 @@
   {
     "type": "furniture",
     "id": "f_welderrig",
+    "copy-from": "f_gridwelder",
     "looks_like": "weldrig",
     "name": "grid welder rig",
     "symbol": "#",
-    "description": "A vehicle welding rig connected to a electrical grid.",
     "color": "red",
-    "move_cost_mod": -1,
-    "coverage": 10,
-    "required_str": -1,
-    "crafting_pseudo_item": "fake_gridwelder",
-    "examine_action": "use_furn_fake_item",
-    "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
+    "description": "A vehicle welding rig connected to a electrical grid.  Has a soldering iron attached.",
+    "extend": { "crafting_pseudo_item": [ "fake_gridsolderingiron" ] },
     "deconstruct": {
       "items": [ { "item": "weldrig", "count": 1 }, { "item": "cable", "charges": 5 }, { "item": "power_supply", "count": 1 } ]
     },
@@ -1002,6 +1173,37 @@
   },
   {
     "type": "furniture",
+    "id": "f_craftrig",
+    "looks_like": "craftrig",
+    "name": "grid FOODCO kitchen buddy",
+    "symbol": "&",
+    "description": "A multi-function crafting station, with a water purifier, food processor, food dehydrator, vacuum sealer, and hand press for making ammo.  Draws power from the electrical grid.  If you attempt to craft an item that needs one of the kitchen buddy's functions, it will automatically be selected as a tool.",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "coverage": 80,
+    "required_str": 10,
+    "crafting_pseudo_item": [ "fake_gridfood_processor", "fake_griddehydrator", "fake_gridvac_sealer", "fake_gridwater_purifier", "press" ],
+    "flags": [ "BLOCKSDOOR", "MINEABLE", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "craftrig", "count": 1 }, { "item": "cable", "charges": 5 } ] },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "count": [ 4, 7 ], "item": "steel_lump" },
+        { "count": [ 4, 7 ], "item": "steel_chunk" },
+        { "count": [ 4, 7 ], "item": "scrap" },
+        { "charges": 0, "item": "water_purifier", "prob": 50 },
+        { "charges": 0, "item": "vac_sealer", "prob": 50 },
+        { "charges": 0, "item": "dehydrator", "prob": 50 },
+        { "charges": 0, "item": "food_processor", "prob": 50 },
+        { "charges": 0, "item": "press", "prob": 50 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_gridelectrolysis_kit",
     "looks_like": "electrolysis_kit",
     "name": "grid electrolysis kit",
@@ -1056,10 +1258,10 @@
   {
     "type": "furniture",
     "abstract": "f_fridge_base",
-    "name": "-",
+    "name": "abstract fridge",
     "looks_like": "f_fridge",
     "symbol": "{",
-    "description": "-",
+    "description": "Abstract furniture.  If you see this, something went wrong.",
     "color": "light_cyan",
     "move_cost_mod": -1,
     "coverage": 90,
@@ -1092,6 +1294,10 @@
     "name": "refrigerator (off)",
     "symbol": "{",
     "description": "Refrigerate your food with the amazing science of electricity!  It is switched off.",
+    "examine_action": "transform",
+    "transforms_into": "f_fridge",
+    "prompt": "Switch on the fridge.",
+    "message": "You switch on the fridge.",
     "color": "light_cyan"
   },
   {
@@ -1101,6 +1307,10 @@
     "copy-from": "f_fridge_base",
     "symbol": "{",
     "description": "Refrigerate your food with the amazing science of electricity!  It has no power.",
+    "examine_action": "transform",
+    "transforms_into": "f_fridge_off",
+    "prompt": "Switch off the fridge.",
+    "message": "You switch off the fridge.",
     "active": [ "charge_watcher", { "min_power": 30, "transform": { "id": "f_fridge_on", "msg": "The fridge starts up." } } ],
     "color": "light_cyan"
   },
@@ -1111,7 +1321,12 @@
     "copy-from": "f_fridge_base",
     "symbol": "{",
     "description": "Refrigerate your food with the amazing science of electricity!  It is switched on.",
+    "examine_action": "transform",
+    "transforms_into": "f_fridge_off",
+    "prompt": "Switch off the fridge.",
+    "message": "You switch off the fridge.",
     "color": "light_cyan",
+    "extend": { "flags": [ "FRIDGE" ] },
     "active": [
       "steady_consumer",
       { "power": 20, "consume_every": "600 s", "transform": { "id": "f_fridge", "msg": "The fridge shuts down." } }
@@ -1119,11 +1334,59 @@
   },
   {
     "type": "furniture",
+    "id": "f_freezer_off",
+    "name": "freezer (off)",
+    "copy-from": "f_fridge_base",
+    "symbol": "{",
+    "description": "Freeze your food with the amazing science of electricity!  It is switched off.",
+    "examine_action": "transform",
+    "transforms_into": "f_freezer",
+    "prompt": "Switch on the freezer.",
+    "message": "You switch on the freezer.",
+    "color": "blue",
+    "deconstruct": { "items": [ { "item": "freezer", "count": 1 } ] }
+  },
+  {
+    "type": "furniture",
+    "id": "f_freezer",
+    "name": "freezer",
+    "copy-from": "f_fridge_base",
+    "symbol": "{",
+    "description": "Freeze your food with the amazing science of electricity!  It has no power.",
+    "examine_action": "transform",
+    "transforms_into": "f_freezer_off",
+    "prompt": "Switch off the freezer.",
+    "message": "You switch off the freezer.",
+    "active": [ "charge_watcher", { "min_power": 40, "transform": { "id": "f_freezer_on", "msg": "The freezer starts up." } } ],
+    "color": "blue",
+    "deconstruct": { "items": [ { "item": "freezer", "count": 1 } ] }
+  },
+  {
+    "type": "furniture",
+    "id": "f_freezer_on",
+    "name": "freezer (on)",
+    "copy-from": "f_fridge_base",
+    "symbol": "{",
+    "description": "Freeze your food with the amazing science of electricity!  It is switched on.",
+    "examine_action": "transform",
+    "transforms_into": "f_freezer_off",
+    "prompt": "Switch off the freezer.",
+    "message": "You switch off the freezer.",
+    "color": "blue",
+    "extend": { "flags": [ "FREEZER" ] },
+    "deconstruct": { "items": [ { "item": "freezer", "count": 1 } ] },
+    "active": [
+      "steady_consumer",
+      { "power": 25, "consume_every": "600 s", "transform": { "id": "f_freezer", "msg": "The freezer shuts down." } }
+    ]
+  },
+  {
+    "type": "furniture",
     "abstract": "f_minifreezer_base",
-    "name": "-",
+    "name": "abstract minifreezer",
     "looks_like": "minifreezer",
     "symbol": "H",
-    "description": "-",
+    "description": "Abstract furniture.  If you see this, something went wrong.",
     "color": "blue",
     "move_cost_mod": -1,
     "coverage": 50,
@@ -1152,6 +1415,10 @@
     "name": "minifreezer (off)",
     "symbol": "H",
     "description": "Freeze your food with the amazing science of electricity!  It is switched off.",
+    "examine_action": "transform",
+    "transforms_into": "f_minifreezer",
+    "prompt": "Switch on the minfreezer.",
+    "message": "You switch on the minifreezer.",
     "color": "blue"
   },
   {
@@ -1161,6 +1428,10 @@
     "copy-from": "f_minifreezer_base",
     "symbol": "H",
     "description": "Freeze your food with the amazing science of electricity!  It has no power.",
+    "examine_action": "transform",
+    "transforms_into": "f_minifreezer_off",
+    "prompt": "Switch off the minifreezer.",
+    "message": "You switch off the minifreezer.",
     "active": [
       "charge_watcher",
       { "min_power": 60, "transform": { "id": "f_minifreezer_on", "msg": "The minifreezer starts up." } }
@@ -1174,7 +1445,12 @@
     "copy-from": "f_minifreezer_base",
     "symbol": "H",
     "description": "Freeze your food with the amazing science of electricity!  It is switched on.",
+    "examine_action": "transform",
+    "transforms_into": "f_minifreezer_off",
+    "prompt": "Switch off the minifreezer.",
+    "message": "You switch off the minifreezer.",
     "color": "blue",
+    "extend": { "flags": [ "FREEZER" ] },
     "active": [
       "steady_consumer",
       {
@@ -1183,5 +1459,192 @@
         "transform": { "id": "f_minifreezer", "msg": "The minifreezer shuts down." }
       }
     ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_gridautoclave",
+    "name": "grid autoclave",
+    "description": "This thing is basically an extremely high tech laundry machine or dishwasher.  It steams things at temperatures that will kill almost anything.  It could be used to mend faulty bionics that need sterilization.",
+    "symbol": "0",
+    "color": "light_blue_white",
+    "move_cost_mod": 3,
+    "coverage": 60,
+    "crafting_pseudo_item": "gridautoclave",
+    "required_str": -1,
+    "looks_like": "f_autoclave",
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "EASY_DECONSTRUCT" ],
+    "examine_action": "autoclave_empty",
+    "deconstruct": {
+      "items": [ { "item": "autoclave", "count": 1 }, { "item": "cable", "charges": 5 }, { "item": "power_supply", "count": 1 } ]
+    },
+    "bash": {
+      "str_min": 40,
+      "str_max": 80,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "abstract": "f_space_heater_base",
+    "looks_like": "small_space_heater",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "abstract space heater",
+    "description": "Abstract furniture.  If you see this, something went wrong.",
+    "move_cost_mod": 2,
+    "required_str": 1,
+    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "small_space_heater", "count": 1 },
+        { "item": "cable", "charges": 5 },
+        { "item": "power_supply", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "power_supply", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 0, 2 ] },
+        { "item": "cable", "charges": [ 1, 4 ] },
+        { "item": "element", "count": [ 2, 6 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_space_heater",
+    "copy-from": "f_space_heater_base",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "space heater (no power)",
+    "description": "A small portable electric heater, plugged into a wall.  This one has no power.",
+    "examine_action": "transform",
+    "transforms_into": "f_space_heater_off",
+    "message": "You turn the heater off.",
+    "active": [
+      "charge_watcher",
+      { "min_power": 5, "transform": { "id": "f_space_heater_on", "msg": "The space heater warms up." } }
+    ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_space_heater_off",
+    "copy-from": "f_space_heater_base",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "space heater (off)",
+    "description": "A small portable electric heater, plugged into a wall.  This one is currently turned off.",
+    "examine_action": "transform",
+    "transforms_into": "f_space_heater",
+    "message": "You turn the heater on."
+  },
+  {
+    "type": "furniture",
+    "id": "f_space_heater_on",
+    "copy-from": "f_space_heater_base",
+    "looks_like": "small_space_heater_on",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "space heater (on)",
+    "description": "A small portable electric heater, plugged into a wall.  This one is running and providing warmth.",
+    "examine_action": "transform",
+    "transforms_into": "f_space_heater_off",
+    "message": "You turn the heater off.",
+    "light_emitted": 2,
+    "active": [
+      "steady_consumer",
+      {
+        "power": 1,
+        "consume_every": "2 s",
+        "transform": { "id": "f_space_heater", "msg": "The heater runs out of power and cools off." }
+      }
+    ],
+    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "EMITTER" ],
+    "emissions": [ "emit_hot_air2_stream" ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_space_heater_large",
+    "copy-from": "f_space_heater_base",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "large space heater (no power)",
+    "description": "A large portable electric heater, plugged into a wall.  This one has no power.",
+    "examine_action": "transform",
+    "transforms_into": "f_space_heater_large_off",
+    "message": "You turn the heater off.",
+    "active": [
+      "charge_watcher",
+      { "min_power": 5, "transform": { "id": "f_space_heater_large_on", "msg": "The space heater warms up." } }
+    ],
+    "deconstruct": {
+      "items": [
+        { "item": "large_space_heater", "count": 1 },
+        { "item": "cable", "charges": 5 },
+        { "item": "power_supply", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_space_heater_large_off",
+    "copy-from": "f_space_heater_base",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "large space heater (off)",
+    "description": "A large portable electric heater, plugged into a wall.  This one is currently turned off.",
+    "examine_action": "transform",
+    "transforms_into": "f_space_heater_large",
+    "message": "You turn the heater on.",
+    "deconstruct": {
+      "items": [
+        { "item": "large_space_heater", "count": 1 },
+        { "item": "cable", "charges": 5 },
+        { "item": "power_supply", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_space_heater_large_on",
+    "copy-from": "f_space_heater_base",
+    "looks_like": "large_space_heater_on",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "large space heater (on)",
+    "description": "A large portable electric heater, plugged into a wall.  This one is running and providing warmth.",
+    "examine_action": "transform",
+    "transforms_into": "f_space_heater_large_off",
+    "message": "You turn the heater off.",
+    "light_emitted": 2,
+    "active": [
+      "steady_consumer",
+      {
+        "power": 1,
+        "consume_every": "2 s",
+        "transform": { "id": "f_space_heater_large", "msg": "The heater runs out of power and cools off." }
+      }
+    ],
+    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "EMITTER" ],
+    "emissions": [ "emit_hot_air2_blast" ],
+    "deconstruct": {
+      "items": [
+        { "item": "large_space_heater", "count": 1 },
+        { "item": "cable", "charges": 5 },
+        { "item": "power_supply", "count": 1 }
+      ]
+    }
   }
 ]

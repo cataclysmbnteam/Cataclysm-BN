@@ -363,7 +363,7 @@ static void melee_train( Character &p, int lo, int hi, const item &weap )
 
     // allocate XP proportional to damage stats
     // Pure unarmed needs a special case because it has 0 weapon damage
-    int cut  = weap.damage_melee( DT_CUT );
+    int cut = weap.damage_melee( DT_CUT );
     int stab = weap.damage_melee( DT_STAB );
     int bash = weap.damage_melee( DT_BASH ) + ( weap.is_null() ? 1 : 0 );
 
@@ -373,7 +373,7 @@ static void melee_train( Character &p, int lo, int hi, const item &weap )
     if( weap.is_unarmed_weapon() ) {
         u.practice( skill_unarmed, std::ceil( 1 * rng( lo, hi ) ), hi );
     } else {
-        u.practice( skill_cutting,  std::ceil( cut  / total * rng( lo, hi ) ), hi );
+        u.practice( skill_cutting, std::ceil( cut / total * rng( lo, hi ) ), hi );
         u.practice( skill_stabbing, std::ceil( stab / total * rng( lo, hi ) ), hi );
         u.practice( skill_bashing, std::ceil( bash / total * rng( lo, hi ) ), hi );
     }
@@ -603,8 +603,9 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
     const int encumbrance_cost = roll_remainder( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) *
                                  2.0f );
     const int deft_bonus = hit_spread < 0 && has_trait( trait_DEFT ) ? 50 : 0;
+    const float skill_cost = std::max( 0.667f, static_cast<float>( ( 30.0f - melee ) / 30.0f ) );
     /** @EFFECT_MELEE reduces stamina cost of melee attacks */
-    const int mod_sta = ( weight_cost + encumbrance_cost - melee - deft_bonus + 50 ) * -1;
+    const int mod_sta = ( weight_cost + encumbrance_cost - deft_bonus + 50 ) * -1 * skill_cost;
     mod_stamina( std::min( -50, mod_sta ) );
     add_msg( m_debug, "Stamina burn: %d", std::min( -50, mod_sta ) );
     mod_moves( -move_cost );
@@ -627,6 +628,7 @@ void player::reach_attack( const tripoint &p )
         force_technique = matec_id( "WHIP_DISARM" );
     }
 
+    map &here = get_map();
     Creature *critter = g->critter_at( p );
     // Original target size, used when there are monsters in front of our target
     int target_size = critter != nullptr ? ( critter->get_size() + 1 ) : 2;
@@ -639,6 +641,7 @@ void player::reach_attack( const tripoint &p )
     int skill = std::min( 10, get_skill_level( skill_stabbing ) );
     int t = 0;
     std::vector<tripoint> path = line_to( pos(), p, t, 0 );
+    tripoint last_point = pos();
     path.pop_back(); // Last point is our critter
     for( const tripoint &path_point : path ) {
         // Possibly hit some unintended target instead
@@ -651,18 +654,45 @@ void player::reach_attack( const tripoint &p )
             // Even if we miss here, low roll means weapon is pushed away or something like that
             critter = inter;
             break;
+        } else if( here.obstructed_by_vehicle_rotation( last_point, path_point ) ) {
+            tripoint rand = path_point;
+            if( one_in( 2 ) ) {
+                rand.x = last_point.x;
+            } else {
+                rand.y = last_point.y;
+            }
+
+            here.bash( rand, str_cur + weapon.damage_melee( DT_BASH ) );
+            handle_melee_wear( weapon );
+            mod_moves( -move_cost );
+            return;
             /** @EFFECT_STABBING increases ability to reach attack through fences */
-        } else if( g->m.impassable( path_point ) &&
+        } else if( here.impassable( path_point ) &&
                    // Fences etc. Spears can stab through those
                    !( weapon.has_flag( "SPEAR" ) &&
                       g->m.has_flag( "THIN_OBSTACLE", path_point ) &&
                       x_in_y( skill, 10 ) ) ) {
             /** @EFFECT_STR increases bash effects when reach attacking past something */
-            g->m.bash( path_point, str_cur + weapon.damage_melee( DT_BASH ) );
+            here.bash( path_point, str_cur + weapon.damage_melee( DT_BASH ) );
             handle_melee_wear( weapon );
             mod_moves( -move_cost );
             return;
         }
+        last_point = path_point;
+    }
+
+    if( here.obstructed_by_vehicle_rotation( last_point, p ) ) {
+        tripoint rand = p;
+        if( one_in( 2 ) ) {
+            rand.x = last_point.x;
+        } else {
+            rand.y = last_point.y;
+        }
+
+        here.bash( rand, str_cur + weapon.damage_melee( DT_BASH ) );
+        handle_melee_wear( weapon );
+        mod_moves( -move_cost );
+        return;
     }
 
     if( critter == nullptr ) {
@@ -1199,8 +1229,8 @@ bool Character::valid_aoe_technique( Creature &t, const ma_technique &technique,
     }
 
     // pre-computed matrix of adjacent squares
-    std::array<int, 9> offset_a = {{0, -1, -1, 1, 0, -1, 1, 1, 0 }};
-    std::array<int, 9> offset_b = {{-1, -1, 0, -1, 0, 1, 0, 1, 1 }};
+    std::array<int, 9> offset_a = { {0, -1, -1, 1, 0, -1, 1, 1, 0 } };
+    std::array<int, 9> offset_b = { {-1, -1, 0, -1, 0, 1, 0, 1, 1 } };
 
     // filter the values to be between -1 and 1 to avoid indexing the array out of bounds
     int dy = std::max( -1, std::min( 1, t.posy() - posy() ) );
@@ -1520,7 +1550,21 @@ item &Character::best_shield()
     item *best = best_value > 0 ? &weapon : &null_item_reference();
     for( item &shield : worn ) {
         if( shield.has_flag( "BLOCK_WHILE_WORN" ) && blocking_ability( shield ) >= best_value ) {
-            best = &shield;
+            // in case a mod adds a shield that protects only one arm, the corresponding arm needs to be working
+            if( shield.covers( bp_arm_l ) || shield.covers( bp_arm_r ) ) {
+                if( shield.covers( bp_arm_l ) && !is_limb_disabled( bodypart_id( "arm_l" ) ) ) {
+                    best = &shield;
+                } else if( shield.covers( bp_arm_r ) && !is_limb_disabled( bodypart_id( "arm_r" ) ) ) {
+                    best = &shield;
+                }
+                // leg guards
+            } else if( ( shield.covers( bp_leg_l ) || shield.covers( bp_leg_r ) ) &&
+                       get_working_leg_count() >= 1 ) {
+                best = &shield;
+                // in case a mod adds an unusual worn blocking item, like a magic bracelet/crown, it's handled here
+            } else {
+                best = &shield;
+            }
         }
     }
 
@@ -1552,7 +1596,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     item &shield = best_shield();
     block_bonus = blocking_ability( shield );
     bool conductive_shield = shield.conductive();
-    bool unarmed = weapon.has_flag( "UNARMED_WEAPON" );
+    bool unarmed = weapon.has_flag( "UNARMED_WEAPON" ) || weapon.is_null();
     bool force_unarmed = martial_arts_data->is_force_unarmed();
 
     int melee_skill = get_skill_level( skill_melee );
@@ -1596,7 +1640,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
 
         handle_melee_wear( shield, wear_modifier );
     } else {
-        //Choose which body part to block with, assume left side first
+        // Choose which body part to block with, assume left side first
         if( martial_arts_data->can_leg_block( *this ) && martial_arts_data->can_arm_block( *this ) ) {
             bp_hit = one_in( 2 ) ? bodypart_id( "leg_l" ) : bodypart_id( "arm_l" );
         } else if( martial_arts_data->can_leg_block( *this ) ) {
@@ -1614,6 +1658,13 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
             if( get_part_hp_cur( bodypart_id( "arm_r" ) ) > get_part_hp_cur( bodypart_id( "arm_l" ) ) ) {
                 bp_hit = bodypart_id( "arm_r" );
             }
+        }
+
+        // At this point, we know we won't try blocking with items, only with limbs.
+        // But there are no limbs left, so we can disable further attempts at blocking.
+        if( get_part_hp_cur( bp_hit ) <= 0 ) {
+            blocks_left = 0;
+            return false;
         }
 
         thing_blocked_with = body_part_name( bp_hit->token );
@@ -1987,7 +2038,7 @@ std::string melee_message( const ma_technique &tec, Character &p, const dealt_da
     // Those could be extracted to a json
 
     // Three last values are for low damage
-    static const std::array<std::string, 6> player_stab = {{
+    static const std::array<std::string, 6> player_stab = { {
             translate_marker( "You impale %s" ),
             translate_marker( "You gouge %s" ),
             translate_marker( "You run %s through" ),
@@ -1996,7 +2047,7 @@ std::string melee_message( const ma_technique &tec, Character &p, const dealt_da
             translate_marker( "You poke %s" )
         }
     };
-    static const std::array<std::string, 6> npc_stab = {{
+    static const std::array<std::string, 6> npc_stab = { {
             translate_marker( "<npcname> impales %s" ),
             translate_marker( "<npcname> gouges %s" ),
             translate_marker( "<npcname> runs %s through" ),
@@ -2006,7 +2057,7 @@ std::string melee_message( const ma_technique &tec, Character &p, const dealt_da
         }
     };
     // First 5 are for high damage, next 2 for medium, then for low and then for v. low
-    static const std::array<std::string, 9> player_cut = {{
+    static const std::array<std::string, 9> player_cut = { {
             translate_marker( "You gut %s" ),
             translate_marker( "You chop %s" ),
             translate_marker( "You slash %s" ),
@@ -2018,7 +2069,7 @@ std::string melee_message( const ma_technique &tec, Character &p, const dealt_da
             translate_marker( "You nick %s" )
         }
     };
-    static const std::array<std::string, 9> npc_cut = {{
+    static const std::array<std::string, 9> npc_cut = { {
             translate_marker( "<npcname> guts %s" ),
             translate_marker( "<npcname> chops %s" ),
             translate_marker( "<npcname> slashes %s" ),
@@ -2032,7 +2083,7 @@ std::string melee_message( const ma_technique &tec, Character &p, const dealt_da
     };
 
     // Three last values are for low damage
-    static const std::array<std::string, 6> player_bash = {{
+    static const std::array<std::string, 6> player_bash = { {
             translate_marker( "You clobber %s" ),
             translate_marker( "You smash %s" ),
             translate_marker( "You thrash %s" ),
@@ -2041,7 +2092,7 @@ std::string melee_message( const ma_technique &tec, Character &p, const dealt_da
             translate_marker( "You hit %s" )
         }
     };
-    static const std::array<std::string, 6> npc_bash = {{
+    static const std::array<std::string, 6> npc_bash = { {
             translate_marker( "<npcname> clobbers %s" ),
             translate_marker( "<npcname> smashes %s" ),
             translate_marker( "<npcname> thrashes %s" ),
@@ -2052,7 +2103,7 @@ std::string melee_message( const ma_technique &tec, Character &p, const dealt_da
     };
 
     const int bash_dam = ddi.type_damage( DT_BASH );
-    const int cut_dam  = ddi.type_damage( DT_CUT );
+    const int cut_dam = ddi.type_damage( DT_CUT );
     const int stab_dam = ddi.type_damage( DT_STAB );
 
     if( tec.id != tec_none ) {
@@ -2370,7 +2421,7 @@ void avatar::steal( npc &target )
     } else if( my_roll >= their_roll / 2 ) {
         add_msg( _( "You failed to steal %1$s from %2$s, but did not attract attention." ),
                  it->tname(), target.name );
-    } else  {
+    } else {
         add_msg( _( "You failed to steal %1$s from %2$s." ),
                  it->tname(), target.name );
         target.on_attacked( *this );

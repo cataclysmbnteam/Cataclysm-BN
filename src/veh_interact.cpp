@@ -21,6 +21,7 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "character_functions.h"
 #include "character_id.h"
 #include "clzones.h"
 #include "debug.h"
@@ -144,18 +145,19 @@ player_activity veh_interact::serialize_activity()
 
     // if we're working on an existing part, use that part as the reference point
     // otherwise (e.g. installing a new frame), just use part 0
-    const point q = veh->coord_translate( pt ? pt->mount : veh->part( 0 ).mount );
+    const tripoint q = g->m.getabs( veh->global_part_pos3( pt ? *pt : veh->part( 0 ) ) );
     const vehicle_part *vpt = pt ? pt : &veh->part( 0 );
     for( const tripoint &p : veh->get_points( true ) ) {
         res.coord_set.insert( g->m.getabs( p ) );
     }
-    res.values.push_back( g->m.getabs( veh->global_pos3() ).x + q.x );    // values[0]
-    res.values.push_back( g->m.getabs( veh->global_pos3() ).y + q.y );    // values[1]
+    res.values.push_back( q.x );   // values[0]
+    res.values.push_back( q.y );   // values[1]
     res.values.push_back( dd.x );   // values[2]
     res.values.push_back( dd.y );   // values[3]
     res.values.push_back( -dd.x );   // values[4]
     res.values.push_back( -dd.y );   // values[5]
     res.values.push_back( veh->index_of_part( vpt ) ); // values[6]
+    res.values.push_back( q.z );   // values[7]
     res.str_values.push_back( vp->get_id().str() );
     res.targets.emplace_back( std::move( target ) );
 
@@ -535,6 +537,7 @@ void veh_interact::cache_tool_availability_update_lifting( const tripoint &world
  */
 task_reason veh_interact::cant_do( char mode )
 {
+    const avatar &you = get_avatar();
     bool enough_morale = true;
     bool valid_target = false;
     bool has_tools = false;
@@ -545,26 +548,26 @@ task_reason veh_interact::cant_do( char mode )
     switch( mode ) {
         case 'i':
             // install mode
-            enough_morale = g->u.has_morale_to_craft();
+            enough_morale = you.has_morale_to_craft();
             valid_target = !can_mount.empty() && 0 == veh->tags.count( "convertible" );
             //tool checks processed later
-            enough_light = g->u.fine_detail_vision_mod() <= 4;
+            enough_light = character_funcs::can_see_fine_details( you );
             has_tools = true;
             break;
 
         case 'r':
             // repair mode
-            enough_morale = g->u.has_morale_to_craft();
+            enough_morale = you.has_morale_to_craft();
             valid_target = !need_repair.empty() && cpart >= 0;
             // checked later
             has_tools = true;
-            enough_light = g->u.fine_detail_vision_mod() <= 4;
+            enough_light = character_funcs::can_see_fine_details( you );
             break;
 
         case 'm': {
             // mend mode
-            enough_morale = g->u.has_morale_to_craft();
-            const bool toggling = g->u.has_trait( trait_DEBUG_HS );
+            enough_morale = you.has_morale_to_craft();
+            const bool toggling = you.has_trait( trait_DEBUG_HS );
             valid_target = std::any_of( vpr.begin(), vpr.end(), [toggling]( const vpart_reference & pt ) {
                 if( toggling ) {
                     return pt.part().is_available() && !pt.part().faults_potential().empty();
@@ -572,7 +575,7 @@ task_reason veh_interact::cant_do( char mode )
                     return pt.part().is_available() && !pt.part().faults().empty();
                 }
             } );
-            enough_light = g->u.fine_detail_vision_mod() <= 4;
+            enough_light = character_funcs::can_see_fine_details( you );
             // checked later
             has_tools = true;
         }
@@ -587,13 +590,13 @@ task_reason veh_interact::cant_do( char mode )
 
         case 'o':
             // remove mode
-            enough_morale = g->u.has_morale_to_craft();
+            enough_morale = you.has_morale_to_craft();
             valid_target = cpart >= 0 && 0 == veh->tags.count( "convertible" );
             part_free = parts_here.size() > 1 || ( cpart >= 0 && veh->can_unmount( cpart ) );
             //tool and skill checks processed later
             has_tools = true;
             has_skill = true;
-            enough_light = g->u.fine_detail_vision_mod() <= 4;
+            enough_light = character_funcs::can_see_fine_details( you );
             break;
 
         case 's':
@@ -605,7 +608,7 @@ task_reason veh_interact::cant_do( char mode )
                     break;
                 }
             }
-            has_tools = g->u.has_quality( qual_HOSE );
+            has_tools = you.has_quality( qual_HOSE );
             break;
 
         case 'd':
@@ -650,7 +653,7 @@ task_reason veh_interact::cant_do( char mode )
             return UNKNOWN_TASK;
     }
 
-    if( std::abs( veh->velocity ) > 100 || g->u.controlling_vehicle ) {
+    if( std::abs( veh->velocity ) > 100 || you.controlling_vehicle ) {
         return MOVING_VEHICLE;
     }
     if( !valid_target ) {
@@ -2992,7 +2995,7 @@ void veh_interact::complete_vehicle( player &p )
 
     map &here = get_map();
     optional_vpart_position vp = here.veh_at( here.getlocal( tripoint( p.activity.values[0],
-                                 p.activity.values[1], p.posz() ) ) );
+                                 p.activity.values[1], p.activity.values[7] ) ) );
     if( !vp ) {
         // so the vehicle could have lost some of its parts from other NPCS works during this player/NPCs activity.
         // check the vehicle points that were stored at beginning of activity.
@@ -3229,9 +3232,8 @@ void veh_interact::complete_vehicle( player &p )
             if( veh->part_count() < 2 ) {
                 p.add_msg_if_player( _( "You completely dismantle the %s." ), veh->name );
                 p.activity.set_to_null();
-                int veh_z = veh->sm_pos.z;
                 here.destroy_vehicle( veh );
-                here.reset_vehicle_cache( veh_z );
+                here.reset_vehicle_cache( );
             } else {
                 point mount = veh->part( vehicle_part ).mount;
                 const tripoint &part_pos = veh->global_part_pos3( vehicle_part );

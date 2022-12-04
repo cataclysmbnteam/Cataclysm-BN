@@ -1,3 +1,4 @@
+#include "mutation_data.h" // IWYU pragma: associated
 #include "mutation.h" // IWYU pragma: associated
 
 #include <array>
@@ -15,6 +16,7 @@
 #include "json.h"
 #include "magic_enchantment.h"
 #include "memory_fast.h"
+#include "rng.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "trait_group.h"
@@ -58,7 +60,7 @@ namespace
 generic_factory<mutation_branch> trait_factory( "trait" );
 } // namespace
 
-std::vector<dream> dreams;
+static std::vector<dream> all_dreams;
 std::map<std::string, std::vector<trait_id> > mutations_category;
 std::map<std::string, mutation_category_trait> mutation_category_traits;
 
@@ -372,6 +374,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
         vitamin_absorb_multi.emplace( material_id( pair.get_string( 0 ) ), vit );
     }
 
+    optional( jo, was_loaded, "pain_recovery", pain_recovery, 0.0f );
     optional( jo, was_loaded, "healing_awake", healing_awake, 0.0f );
     optional( jo, was_loaded, "healing_resting", healing_resting, 0.0f );
     optional( jo, was_loaded, "mending_modifier", mending_modifier, 1.0f );
@@ -652,27 +655,35 @@ void mutation_branch::reset_all()
                           make_shared_fast<Trait_group_collection>( 100 ) );
 }
 
-std::vector<std::string> dream::messages() const
-{
-    std::vector<std::string> ret;
-    for( const auto &msg : raw_messages ) {
-        ret.push_back( _( msg ) );
-    }
-    return ret;
-}
-
-void dream::load( const JsonObject &jsobj )
+void dreams::load( const JsonObject &jo )
 {
     dream newdream;
 
-    newdream.strength = jsobj.get_int( "strength" );
-    newdream.category = jsobj.get_string( "category" );
+    jo.read( "strength", newdream.strength );
+    jo.read( "category", newdream.category );
+    jo.read( "messages", newdream.messages );
 
-    for( const std::string line : jsobj.get_array( "messages" ) ) {
-        newdream.raw_messages.push_back( line );
+    all_dreams.push_back( newdream );
+}
+
+void dreams::clear()
+{
+    all_dreams.clear();
+}
+
+std::string dreams::get_random_for_category( const std::string &cat, int strength )
+{
+    std::vector<const dream *> valid_dreams;
+    for( const dream &d : all_dreams ) {
+        if( ( d.category == cat ) && ( d.strength == strength ) ) {
+            valid_dreams.push_back( &d );
+        }
     }
-
-    dreams.push_back( newdream );
+    if( valid_dreams.empty() ) {
+        return "";
+    }
+    const dream *selected_dream = random_entry( valid_dreams );
+    return random_entry( selected_dream->messages ).translated();
 }
 
 bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept

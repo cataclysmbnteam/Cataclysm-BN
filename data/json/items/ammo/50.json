@@ -27,7 +27,8 @@
     "ammo_type": "50",
     "casing": "50_casing",
     "range": 110,
-    "damage": { "damage_type": "bullet", "amount": 131, "armor_penetration": 28 },
+    "//": "Base damage of 131, balance reduction to roughly 75%.",
+    "damage": { "damage_type": "bullet", "amount": 100, "armor_penetration": 56 },
     "dispersion": 150,
     "recoil": 5000,
     "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
@@ -49,7 +50,8 @@
     "name": { "str": ".50 BMG M2 AP" },
     "description": "Variant of the .50 BMG round that uses a core of very dense, hardened tungsten steel.  Penetration is increased, but damage is reduced.",
     "count": 10,
-    "relative": { "damage": { "damage_type": "bullet", "amount": -10, "armor_penetration": 20 } },
+    "//": "Balanced as AP, 7/8 damage, arpen matches damage.",
+    "relative": { "damage": { "damage_type": "bullet", "amount": -12, "armor_penetration": 32 } },
     "dispersion": 600
   },
   {

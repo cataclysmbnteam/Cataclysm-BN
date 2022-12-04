@@ -7,9 +7,11 @@
 #include "magic_spell_effect_helpers.h"
 #include "npc.h"
 #include "player_helpers.h"
+#include "state_helpers.h"
 
 TEST_CASE( "line_attack", "[magic]" )
 {
+    clear_all_state();
     // manually construct a testable spell
     std::istringstream str(
         "  {\n"

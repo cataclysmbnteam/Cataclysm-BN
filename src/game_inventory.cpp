@@ -14,13 +14,16 @@
 #include "bionics.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "crafting.h"
 #include "character.h"
+#include "character_functions.h"
 #include "character_martial_arts.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
 #include "enums.h"
+#include "examine_item_menu.h"
 #include "game.h"
 #include "input.h"
 #include "inventory.h"
@@ -59,7 +62,7 @@ static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 
-static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
+static const fault_id fault_bionic_nonsterile( "fault_bionic_nonsterile" );
 
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_electronics( "electronics" );
@@ -68,6 +71,7 @@ static const skill_id skill_firstaid( "firstaid" );
 static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 
 static const bionic_id bio_painkiller( "bio_painkiller" );
+static const bionic_id bio_taste_blocker( "bio_taste_blocker" );
 
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
@@ -79,8 +83,6 @@ static const std::string flag_FILTHY( "FILTHY" );
 static const std::string flag_IN_CBM( "IN_CBM" );
 static const std::string flag_MUSHY( "MUSHY" );
 static const std::string flag_LIQUIDCONT( "LIQUIDCONT" );
-static const std::string flag_NO_PACKED( "NO_PACKED" );
-static const std::string flag_NO_STERILE( "NO_STERILE" );
 static const std::string flag_USE_EAT_VERB( "USE_EAT_VERB" );
 
 static const flag_str_id flag_BIONIC_NPC_USABLE( "BIONIC_NPC_USABLE" );
@@ -230,9 +232,6 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
 
 void game_menus::inv::common( avatar &you )
 {
-    // Return to inventory menu on those inputs
-    static const std::set<int> loop_options = { { '\0', '=', 'f' } };
-
     inventory_pick_selector inv_s( you );
 
     inv_s.set_title( _( "Inventory" ) );
@@ -240,8 +239,7 @@ void game_menus::inv::common( avatar &you )
                         _( "Item hotkeys assigned: <color_light_gray>%d</color>/<color_light_gray>%d</color>" ),
                         you.allocated_invlets().count(), inv_chars.size() ) );
 
-    int res = 0;
-
+    bool started_action = false;
     do {
         you.inv.restack( you );
         inv_s.clear_items();
@@ -258,8 +256,15 @@ void game_menus::inv::common( avatar &you )
             }
         }
 
-        res = g->inventory_item_menu( location );
-    } while( loop_options.count( res ) != 0 );
+        const auto func_pos_x = []() {
+            return 0;
+        };
+        const auto func_width = []() {
+            return 50;
+        };
+        started_action = examine_item_menu::run( location, func_pos_x, func_width,
+                         examine_item_menu::menu_pos_t::right );
+    } while( !started_action );
 }
 
 item_location game_menus::inv::titled_filter_menu( item_filter filter, avatar &you,
@@ -472,7 +477,7 @@ class disassemble_inventory_preset : public pickup_inventory_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
-            const auto ret = p.can_disassemble( *loc, inv );
+            const ret_val<bool> ret = crafting::can_disassemble( p, *loc, inv );
             if( !ret.success() ) {
                 return ret.str();
             }
@@ -512,10 +517,14 @@ class comestible_inventory_preset : public inventory_selector_preset
 
             append_cell( [ &p, this ]( const item_location & loc ) {
                 const item &it = get_consumable_item( loc );
-                if( it.has_flag( flag_MUSHY ) ) {
-                    return highlight_good_bad_none( p.fun_for( get_consumable_item( loc ) ).first );
+                const int consume_fun = p.fun_for( get_consumable_item( loc ) ).first;
+                if( consume_fun < 0 && p.has_active_bionic( bio_taste_blocker ) &&
+                    p.get_power_level() > units::from_kilojoule( -consume_fun ) ) {
+                    return string_format( "<color_light_gray>[%d]</color>", consume_fun );
+                } else if( it.has_flag( flag_MUSHY ) ) {
+                    return highlight_good_bad_none( consume_fun );
                 } else {
-                    return good_bad_none( p.fun_for( get_consumable_item( loc ) ).first );
+                    return good_bad_none( consume_fun );
                 }
             }, _( "JOY" ) );
 
@@ -1002,7 +1011,7 @@ class read_inventory_preset final: public inventory_selector_preset
                 return unlearned > 0 ? std::to_string( unlearned ) : std::string();
             }, _( "RECIPES" ), unknown );
             append_cell( [ &p ]( const item_location & loc ) -> std::string {
-                return good_bad_none( p.book_fun_for( *loc, p ) );
+                return good_bad_none( character_funcs::get_book_fun_for( p, *loc ) );
             }, _( "FUN" ), unknown );
 
             append_cell( [ this, &p, unknown ]( const item_location & loc ) -> std::string {
@@ -1473,7 +1482,14 @@ drop_locations game_menus::inv::multidrop( player &p )
     p.inv.restack( p );
 
     const inventory_filter_preset preset( [ &p ]( const item_location & location ) {
-        return p.can_unwield( *location ).success();
+        const item &itm = *location;
+        if( p.is_wielding( itm ) ) {
+            return p.can_unwield( itm ).success();
+        } else if( p.is_wearing( itm ) ) {
+            return p.can_takeoff( itm ).success();
+        } else {
+            return true;
+        }
     } );
 
     inventory_drop_selector inv_s( p, preset );
@@ -1482,12 +1498,24 @@ drop_locations game_menus::inv::multidrop( player &p )
     inv_s.set_title( _( "Multidrop" ) );
     inv_s.set_hint( _( "To drop x items, type a number before selecting." ) );
 
-    if( inv_s.empty() ) {
-        popup( std::string( _( "You have nothing to drop." ) ), PF_GET_KEY );
-        return drop_locations();
-    }
+    while( true ) {
+        p.inv.restack( p );
+        inv_s.clear_items();
+        inv_s.add_character_items( p );
 
-    return inv_s.execute();
+        if( inv_s.empty() ) {
+            popup( std::string( _( "You have nothing to drop." ) ), PF_GET_KEY );
+            return drop_locations();
+        }
+
+        drop_locations result = inv_s.execute();
+        // an item has been favorited, reopen the UI
+        if( inv_s.keep_open ) {
+            continue;
+        } else {
+            return result;
+        }
+    }
 }
 
 iuse_locations game_menus::inv::multiwash( Character &ch, int water, int cleanser, bool do_soft,
@@ -1790,14 +1818,9 @@ class bionic_install_preset: public inventory_selector_preset
             const itype *itemtype = it->type;
             const bionic_id &bid = itemtype->bionic->id;
 
-            if( it->has_flag( flag_FILTHY ) ) {
+            if( it->has_fault( fault_bionic_nonsterile ) ) {
                 // NOLINTNEXTLINE(cata-text-style): single space after the period for symmetry
-                return _( "/!\\ CBM is highly contaminated. /!\\" );
-            } else if( it->has_flag( flag_NO_STERILE ) ) {
-                // NOLINTNEXTLINE(cata-text-style): single space after the period for symmetry
-                return _( "/!\\ CBM is not sterile. /!\\ Please use autoclave to sterilize." );
-            } else if( it->has_fault( fault_id( "fault_bionic_salvaged" ) ) ) {
-                return _( "CBM already deployed.  Please reset to factory state." );
+                return _( "/!\\ CBM is not sterile. /!\\ Please use autoclave or other methods to sterilize." );
             } else if( pa.has_bionic( bid ) ) {
                 return _( "CBM already installed" );
             } else if( !pa.can_install_cbm_on_bp( get_occupied_bodyparts( bid ) ) ) {
@@ -1899,12 +1922,8 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
             const itype *itemtype = it->type;
             const bionic_id &bid = itemtype->bionic->id;
 
-            if( it->has_flag( flag_FILTHY ) ) {
-                return _( "CBM is filthy." );
-            } else if( it->has_flag( flag_NO_STERILE ) ) {
+            if( it->has_fault( fault_bionic_nonsterile ) ) {
                 return _( "CBM is not sterile." );
-            } else if( it->has_fault( fault_bionic_salvaged ) ) {
-                return _( "CBM is already deployed." );
             } else if( pa.has_bionic( bid ) ) {
                 return _( "CBM is already installed." );
             } else if( bid->upgraded_bionic &&
@@ -2059,30 +2078,15 @@ class bionic_sterilize_preset : public inventory_selector_preset
     public:
         bionic_sterilize_preset( player &pl ) :
             p( pl ) {
-
-            append_cell( []( const item_location & ) {
-                return to_string( 90_minutes );
-            }, _( "CYCLE DURATION" ) );
-
-            append_cell( []( const item_location & ) {
-                return pgettext( "volume of water", "2 L" );
-            }, _( "WATER REQUIRED" ) );
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return loc->has_flag( flag_NO_STERILE ) && loc->is_bionic();
+            return loc->has_fault( fault_bionic_nonsterile ) && loc->is_bionic();
         }
 
         std::string get_denial( const item_location &loc ) const override {
-            auto reqs = *requirement_id( "autoclave_item" );
             if( loc.get_item()->has_flag( flag_FILTHY ) ) {
                 return  _( "CBM is filthy.  Wash it first." );
-            }
-            if( loc.get_item()->has_flag( flag_NO_PACKED ) ) {
-                return  _( "You should put this CBM in an autoclave pouch to keep it sterile." );
-            }
-            if( !reqs.can_make_with_inventory( p.crafting_inventory(), is_crafting_component ) ) {
-                return _( "You need at least 2L of water." );
             }
 
             return std::string();

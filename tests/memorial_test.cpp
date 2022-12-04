@@ -14,6 +14,7 @@
 #include "mutation.h"
 #include "player_helpers.h"
 #include "pldata.h"
+#include "state_helpers.h"
 #include "string_utils.h"
 #include "type_id.h"
 
@@ -51,10 +52,9 @@ void check_memorial( memorial_logger &m, event_bus &b, const std::string &ref, A
 
 TEST_CASE( "memorials" )
 {
+    clear_all_state();
     memorial_logger &m = g->memorial();
     m.clear();
-    clear_avatar();
-
     event_bus &b = g->events();
 
     character_id ch = g->u.getID();

@@ -19,6 +19,7 @@
 class JsonIn;
 class JsonObject;
 class JsonOut;
+class diary;
 class faction;
 class mission;
 class monster;
@@ -44,7 +45,7 @@ struct monster_visible_info {
     // 6 8 2    0-7 are provide by direction_from()
     // 5 4 3    8 is used for local monsters (for when we explain them below)
     std::vector<npc *> unique_types[9];
-    std::vector<const mtype *> unique_mons[9];
+    std::vector<std::pair<const mtype *, int>> unique_mons[9];
 
     // If the moster visible in this direction is dangerous
     bool dangerous[8] = {};
@@ -96,6 +97,8 @@ class avatar : public player
         /** Returns last stored map tile in given location in curses mode */
         int get_memorized_symbol( const tripoint &p ) const;
         void clear_memorized_tile( const tripoint &pos );
+        /** Returns last stored map tile in given location in tiles mode */
+        bool has_memorized_tile_for_autodrive( const tripoint &p ) const;
 
         /** Provides the window and detailed morale data */
         void disp_morale();
@@ -128,6 +131,9 @@ class avatar : public player
          */
         void on_mission_finished( mission &cur_mission );
 
+        // return avatar diary
+        diary *get_avatar_diary();
+
         /**
          * Helper function for player::read.
          *
@@ -153,8 +159,6 @@ class avatar : public player
         /** Note that we've read a book at least once. **/
         bool has_identified( const itype_id &item_id ) const override;
 
-        hint_rating rate_action_read( const item &it ) const;
-
         void wake_up();
         // Grab furniture / vehicle
         void grab( object_type grab_type, const tripoint &grab_point = tripoint_zero );
@@ -176,11 +180,14 @@ class avatar : public player
         int get_int_base() const override;
         int get_per_base() const override;
 
-        void upgrade_stat_prompt( const character_stat &stat_name );
         // how many points are available to upgrade via STK
         int free_upgrade_points() const;
         // how much "kill xp" you have
         int kill_xp() const;
+        // how much "kill xp" needed for next point (empty if reached max level)
+        cata::optional<int> kill_xp_for_next_point() const;
+        // upgrade stat from kills
+        void upgrade_stat( character_stat stat );
 
         faction *get_faction() const override;
         // Set in npc::talk_to_you for use in further NPC interactions
@@ -222,6 +229,10 @@ class avatar : public player
          */
         std::vector<mission *> active_missions;
         /**
+        * Diary to track player progression and to write the player's story
+        */
+        std::unique_ptr <diary> a_diary;
+        /**
          * Missions that the player has successfully completed.
          */
         std::vector<mission *> completed_missions;
@@ -250,30 +261,5 @@ class avatar : public player
 };
 
 avatar &get_avatar();
-
-struct points_left {
-    int stat_points = 0;
-    int trait_points = 0;
-    int skill_points = 0;
-
-    enum point_limit : int {
-        FREEFORM = 0,
-        ONE_POOL,
-        MULTI_POOL,
-        TRANSFER,
-    };
-    point_limit limit = point_limit::FREEFORM;
-
-    points_left();
-    void init_from_options();
-    // Highest amount of points to spend on stats without points going invalid
-    int stat_points_left() const;
-    int trait_points_left() const;
-    int skill_points_left() const;
-    bool is_freeform();
-    bool is_valid();
-    bool has_spare();
-    std::string to_string();
-};
 
 #endif // CATA_SRC_AVATAR_H

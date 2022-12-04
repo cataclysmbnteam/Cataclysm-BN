@@ -17,7 +17,7 @@
     "ammo_type": "3006",
     "casing": "3006_casing",
     "range": 61,
-    "damage": { "damage_type": "bullet", "amount": 62, "armor_penetration": 10 },
+    "damage": { "damage_type": "bullet", "amount": 62, "armor_penetration": 35 },
     "dispersion": 20,
     "recoil": 3800,
     "effects": [ "COOKOFF" ]
@@ -36,7 +36,7 @@
     "type": "AMMO",
     "name": { "str": ".30-06 M2 AP" },
     "description": "Armor piercing .30-06 M2 ammunition with 168gr FMJ bullets.  It is an extremely powerful and accurate cartridge but pays for its armor penetration abilities with lowered damage.",
-    "relative": { "damage": { "damage_type": "bullet", "amount": -4, "armor_penetration": 8 } }
+    "relative": { "damage": { "damage_type": "bullet", "amount": -8, "armor_penetration": 19 } }
   },
   {
     "id": "bp_3006",

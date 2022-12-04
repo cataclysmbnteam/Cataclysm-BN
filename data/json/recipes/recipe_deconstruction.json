@@ -130,7 +130,7 @@
     "type": "uncraft",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "silver_small", 3 ] ] ]
+    "components": [ [ [ "silver_small", 12 ] ], [ [ "clockworks", 1 ] ] ]
   },
   {
     "result": "holy_symbol_wood",
@@ -1065,6 +1065,32 @@
     ]
   },
   {
+    "result": "broken_haulerbot",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 4,
+    "time": "45 m",
+    "using": [ [ "soldering_standard", 15 ], [ "welding_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "motor_tiny", 6 ] ],
+      [ [ "motor_micro", 15 ] ],
+      [ [ "power_supply", 8 ] ],
+      [ [ "cable", 20 ] ],
+      [ [ "steel_chunk", 8 ] ],
+      [ [ "plastic_chunk", 8 ] ],
+      [ [ "scrap", 10 ] ],
+      [ [ "copbot_chassis", 1 ] ],
+      [ [ "omnicamera", 1 ] ],
+      [ [ "medium_storage_battery", 1 ] ]
+    ]
+  },
+  {
     "result": "broken_dispatch",
     "type": "uncraft",
     "skill_used": "electronics",
@@ -1363,7 +1389,7 @@
     "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "copper", 1 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "charges": 1
   },
   {
     "result": "camera",

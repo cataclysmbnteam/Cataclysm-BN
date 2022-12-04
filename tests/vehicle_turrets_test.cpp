@@ -14,6 +14,7 @@
 #include "itype.h"
 #include "map.h"
 #include "point.h"
+#include "state_helpers.h"
 #include "string_id.h"
 #include "type_id.h"
 #include "units.h"
@@ -62,9 +63,12 @@ static const vpart_info *biggest_tank( const ammotype &ammo )
 
 TEST_CASE( "vehicle_turret", "[vehicle] [gun] [magazine] [.]" )
 {
+    clear_all_state();
+    map &here = get_map();
+    avatar &player_character = get_avatar();
     for( auto e : turret_types() ) {
         SECTION( e->name() ) {
-            vehicle *veh = g->m.add_vehicle( vproto_id( "none" ), point( 65, 65 ), 270_degrees, 0, 0 );
+            vehicle *veh = here.add_vehicle( vproto_id( "none" ), point( 65, 65 ), 270_degrees, 0, 0 );
             REQUIRE( veh );
 
             const int idx = veh->install_part( point_zero, e->get_id(), true );
@@ -95,10 +99,10 @@ TEST_CASE( "vehicle_turret", "[vehicle] [gun] [magazine] [.]" )
             REQUIRE( qry.query() == turret_data::status::ready );
             REQUIRE( qry.range() > 0 );
 
-            g->u.setpos( veh->global_part_pos3( idx ) );
-            REQUIRE( qry.fire( g->u, g->u.pos() + point( qry.range(), 0 ) ) > 0 );
+            player_character.setpos( veh->global_part_pos3( idx ) );
+            REQUIRE( qry.fire( player_character, player_character.pos() + point( qry.range(), 0 ) ) > 0 );
 
-            g->m.destroy_vehicle( veh );
+            here.destroy_vehicle( veh );
         }
     }
 }

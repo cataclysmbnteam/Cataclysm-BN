@@ -22,8 +22,12 @@
 #include "player_helpers.h"
 #include "point.h"
 #include "shadowcasting.h"
+#include "state_helpers.h"
 #include "type_id.h"
 #include "weather.h"
+#include "vehicle.h"
+#include "vpart_position.h"
+#include "vpart_range.h"
 
 enum class vision_test_flags {
     none = 0,
@@ -45,7 +49,9 @@ static bool operator!( vision_test_flags f )
 static void full_map_test( const std::vector<std::string> &setup,
                            const std::vector<std::string> &expected_results,
                            const time_point &time,
-                           const vision_test_flags flags )
+                           const vision_test_flags flags,
+                           const std::string vehicle_id,
+                           const units::angle vehicle_rotation )
 {
     const ter_id t_brick_wall( "t_brick_wall" );
     const ter_id t_window_frame( "t_window_frame" );
@@ -57,8 +63,6 @@ static void full_map_test( const std::vector<std::string> &setup,
 
     Character &player_character = get_player_character();
     g->place_player( tripoint( 60, 60, 0 ) );
-    clear_avatar();
-    clear_map();
     get_weather().weather_id = weather_type_id( "clear" );
     g->reset_light_level();
 
@@ -120,6 +124,7 @@ static void full_map_test( const std::vector<std::string> &setup,
     }
 
     map &here = get_map();
+    vehicle *veh = nullptr;
     for( int y = 0; y < height; ++y ) {
         for( int x = 0; x < width; ++x ) {
             const tripoint p = origin + point( x, y );
@@ -148,6 +153,12 @@ static void full_map_test( const std::vector<std::string> &setup,
                 case 'U':
                 case 'V':
                     // Already handled above
+                    break;
+                case 'C':
+                    veh = here.add_vehicle( vproto_id( vehicle_id ), p, vehicle_rotation, 0, 0 );
+                    for( const vpart_reference &vp : veh->get_avail_parts( "OPENABLE" ) ) {
+                        veh->close( vp.part_index() );
+                    }
                     break;
                 default:
                     FAIL( "unexpected setup char '" << setup[y][x] << "'" );
@@ -257,6 +268,8 @@ struct vision_test_case {
     std::vector<std::string> expected_results;
     time_point time;
     vision_test_flags flags;
+    std::string vehicle_id = "";
+    units::angle vehicle_rotation = 0_degrees;
 
     static void transpose( std::vector<std::string> &v ) {
         if( v.empty() ) {
@@ -293,7 +306,7 @@ struct vision_test_case {
     }
 
     void test() const {
-        full_map_test( setup, expected_results, time, flags );
+        full_map_test( setup, expected_results, time, flags, vehicle_id, vehicle_rotation );
     }
 
     void test_all_transformations() const {
@@ -345,9 +358,11 @@ static const time_point midday = calendar::turn_zero + 12_hours;
 // 'L' - light, indoors
 // '#' - wall
 // '=' - window frame
+// 'C' - The origin of the vehicle
 
 TEST_CASE( "vision_daylight", "[shadowcasting][vision]" )
 {
+    clear_all_state();
     vision_test_case t {
         {
             "   ",
@@ -368,6 +383,7 @@ TEST_CASE( "vision_daylight", "[shadowcasting][vision]" )
 
 TEST_CASE( "vision_day_indoors", "[shadowcasting][vision]" )
 {
+    clear_all_state();
     vision_test_case t {
         {
             "###",
@@ -388,6 +404,7 @@ TEST_CASE( "vision_day_indoors", "[shadowcasting][vision]" )
 
 TEST_CASE( "vision_light_shining_in", "[shadowcasting][vision]" )
 {
+    clear_all_state();
     vision_test_case t {
         {
             "##########",
@@ -413,6 +430,7 @@ TEST_CASE( "vision_light_shining_in", "[shadowcasting][vision]" )
 
 TEST_CASE( "vision_no_lights", "[shadowcasting][vision]" )
 {
+    clear_all_state();
     vision_test_case t {
         {
             "   ",
@@ -431,6 +449,7 @@ TEST_CASE( "vision_no_lights", "[shadowcasting][vision]" )
 
 TEST_CASE( "vision_utility_light", "[shadowcasting][vision]" )
 {
+    clear_all_state();
     vision_test_case t {
         {
             " L ",
@@ -451,6 +470,7 @@ TEST_CASE( "vision_utility_light", "[shadowcasting][vision]" )
 
 TEST_CASE( "vision_wall_obstructs_light", "[shadowcasting][vision]" )
 {
+    clear_all_state();
     vision_test_case t {
         {
             " L ",
@@ -471,6 +491,7 @@ TEST_CASE( "vision_wall_obstructs_light", "[shadowcasting][vision]" )
 
 TEST_CASE( "vision_wall_can_be_lit_by_player", "[shadowcasting][vision]" )
 {
+    clear_all_state();
     vision_test_case t {
         {
             " V",
@@ -495,6 +516,7 @@ TEST_CASE( "vision_wall_can_be_lit_by_player", "[shadowcasting][vision]" )
 
 TEST_CASE( "vision_crouching_blocks_vision_but_not_light", "[shadowcasting][vision]" )
 {
+    clear_all_state();
     vision_test_case t {
         {
             "###",
@@ -517,6 +539,7 @@ TEST_CASE( "vision_crouching_blocks_vision_but_not_light", "[shadowcasting][visi
 
 TEST_CASE( "vision_see_wall_in_moonlight", "[shadowcasting][vision][.]" )
 {
+    clear_all_state();
     const time_point full_moon = calendar::turn_zero + calendar::season_length() / 6;
     // Verify that I've picked the full_moon time correctly.
     CHECK( get_moon_phase( full_moon ) == MOON_FULL );
@@ -546,6 +569,7 @@ TEST_CASE( "vision_see_wall_in_moonlight", "[shadowcasting][vision][.]" )
 
 TEST_CASE( "nv_range_math_correct", "[vision]" )
 {
+    clear_all_state();
     for( int i = 0; i < 80; i++ ) {
         float threshold = vision::threshold_for_nv_range( i );
         // minus, because LIGHT_RANGE is for luminosity at a distance
@@ -557,6 +581,7 @@ TEST_CASE( "nv_range_math_correct", "[vision]" )
 
 TEST_CASE( "vision_single_tile_skylight", "[shadowcasting][vision]" )
 {
+    clear_all_state();
     /**
      * Light shines through the single-tile hole in the roof. Apparent light should be symmetrical.
      */
@@ -596,6 +621,7 @@ TEST_CASE( "vision_single_tile_skylight", "[shadowcasting][vision]" )
 
 TEST_CASE( "vision_player_opaque_neighbors_still_visible_night", "[shadowcasting][vision]" )
 {
+    clear_all_state();
     /**
      *  Even when stating inside the opaque wall and surrounded by opaque walls,
      *  you should see yourself and immediate surrounding.
@@ -621,4 +647,72 @@ TEST_CASE( "vision_player_opaque_neighbors_still_visible_night", "[shadowcasting
     };
 
     t.test_all();
+}
+
+TEST_CASE( "vision_see_out_of_vehicle", "[shadowcasting][vision]" )
+{
+
+    clear_all_state();
+    vision_test_case t {
+        {
+            "                 ",
+            "            C    ",
+            "                 ",
+            "                 ",
+            "         U       ",
+            "                 ",
+            "                 ",
+            "                 ",
+        },
+        {
+            "66666666666666666",
+            "66666666666666666",
+            "66666666664111666",
+            "66666666641114666",
+            "66666666411146666",
+            "66666664111466666",
+            "66666661114666666",
+            "66666666666666666",
+        },
+        midday,
+        vision_test_flags::none,
+        "cube_van",
+        -45_degrees
+    };
+
+    t.test();
+}
+
+TEST_CASE( "vision_see_into_vehicle", "[shadowcasting][vision]" )
+{
+
+    clear_all_state();
+    vision_test_case t {
+        {
+            "                 ",
+            "            C    ",
+            "                 ",
+            "                 ",
+            "                 ",
+            "            U    ",
+            "                 ",
+            "                 ",
+        },
+        {
+            "66666666666666664",
+            "66666666666666644",
+            "66666666666666444",
+            "66666666666664444",
+            "66666666666644444",
+            "66666666666444444",
+            "66666666664444444",
+            "66666666644444444",
+        },
+        midday,
+        vision_test_flags::none,
+        "cube_van",
+        -45_degrees
+    };
+
+    t.test();
 }

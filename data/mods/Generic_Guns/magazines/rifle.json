@@ -14,7 +14,7 @@
   },
   {
     "id": "rifle_mag",
-    "copy-from": "falbigmag",
+    "copy-from": "stanag30",
     "type": "MAGAZINE",
     "material": "aluminum",
     "name": "standard rifle magazine",
@@ -23,12 +23,12 @@
     "ammo_type": "ammo_rifle"
   },
   {
-    "id": "rifle_sniper_mag",
-    "copy-from": "m2010mag",
+    "id": "rifle_mag_hc",
+    "copy-from": "rifle_mag",
     "type": "MAGAZINE",
-    "name": { "str": "compact rifle magazine" },
-    "description": "A short 5 round steel magazine compatible with nearly every common rifle.  Although it has a low capacity it is easy to store and quick to reload.",
-    "delete": { "ammo_type": "308" },
-    "ammo_type": "ammo_rifle"
+    "material": "aluminum",
+    "name": "high capacity standard rifle magazine",
+    "description": "A 60 round standard capacity magazine for service rifles, cheaper than the cost of a meal due to its adoption by nearly every other common rifle.  They're made of aluminum and were originally meant to be dispsoable, so they're not the most durable; don't let them get damaged.",
+    "proportional": { "weight": 1.5, "volume": 1.7, "price": 1.8, "price_postapoc": 2.2, "capacity": 2.0 }
   }
 ]

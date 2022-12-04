@@ -10,6 +10,6 @@
       { "point": [ 0, 0, 0 ], "overmap": "robot_dispatch_first_north" },
       { "point": [ 0, 0, 1 ], "overmap": "robot_dispatch_second_north" }
     ],
-    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ]
+    "connections": [ { "point": [ 0, -1, 0 ], "connection": "local_road" } ]
   }
 ]

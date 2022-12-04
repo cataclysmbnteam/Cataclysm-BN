@@ -437,6 +437,7 @@
       [ "atomic_lamp", 1 ],
       [ "smart_lamp", 2 ],
       [ "control_laptop", 1 ],
+      [ "bot_haulerbot", 3 ],
       [ "bot_manhack", 2 ],
       [ "teleporter", 1 ],
       [ "laptop", 4 ],
@@ -521,6 +522,6 @@
     "id": "used_UPS",
     "type": "item_group",
     "//": "A standard civilian UPS, with 0-100% charge.  Use for spawns where the item may have seen heavy use before being dropped.",
-    "items": [ { "item": "heavy_battery_cell", "charges": [ 800, 1000 ], "container-item": "UPS_off" } ]
+    "items": [ { "item": "heavy_battery_cell", "charges": [ 0, 1000 ], "container-item": "UPS_off" } ]
   }
 ]

@@ -155,6 +155,8 @@ bool game::grabbed_veh_move( const tripoint &dp )
         const tripoint expected_pos = u.pos() + dp + from;
         const tripoint actual_dir = expected_pos - new_part_pos;
 
+        grabbed_vehicle->adjust_zlevel( 1, dp );
+
         // Set player location to illegal value so it can't collide with vehicle.
         const tripoint player_prev = u.pos();
         u.setpos( tripoint_zero );
@@ -187,7 +189,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
     m.displace_vehicle( *grabbed_vehicle, final_dp_veh );
 
     if( grabbed_vehicle ) {
-        m.level_vehicle( *grabbed_vehicle );
+        grabbed_vehicle->shift_zlevel();
         grabbed_vehicle->check_falling_or_floating();
     } else {
         debugmsg( "Grabbed vehicle disappeared" );

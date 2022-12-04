@@ -9,9 +9,11 @@
 #include "vehicle.h"
 #include "type_id.h"
 #include "point.h"
+#include "state_helpers.h"
 
 TEST_CASE( "vehicle_split_section" )
 {
+    clear_all_state();
     map &here = get_map();
     Character &player_character = get_player_character();
     for( units::angle dir = 0_degrees; dir < 360_degrees; dir += 15_degrees ) {

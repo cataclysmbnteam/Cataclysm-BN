@@ -92,6 +92,7 @@
     "name": { "str": "everburning torch", "str_pl": "everburning torches" },
     "copy-from": "mtorch_everburning",
     "revert_to": "mtorch_everburning",
+    "sub": "torch_lit",
     "use_action": [
       { "type": "firestarter", "moves": 30 },
       {

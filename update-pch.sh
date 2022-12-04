@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 suffix=`date|md5sum|awk '{print $1}'`
 tpchr=/tmp/_pchr_$suffix.hpp
@@ -15,5 +15,7 @@ if [[ `diff $tpch $pch` != '' ]]; then
 else
  echo pch up to date
 fi
+
+echo '#include "../src/colony.h"' >> $pch
 
 rm $tpch $tpchr

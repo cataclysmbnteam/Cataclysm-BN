@@ -826,10 +826,19 @@ struct conditional_name {
     translation name;
 };
 
+class islot_milling
+{
+    public:
+        itype_id into_;
+        int conversion_rate_;
+};
+
 struct itype {
         friend class Item_factory;
 
         using FlagsSetType = std::set<std::string>;
+
+        std::vector<std::pair<itype_id, mod_id>> src;
 
         /**
          * Slots for various item type properties. Each slot may contain a valid pointer or null, check
@@ -856,6 +865,7 @@ struct itype {
         cata::value_ptr<islot_seed> seed;
         cata::value_ptr<islot_artifact> artifact;
         cata::value_ptr<relic> relic_data;
+        cata::value_ptr<islot_milling> milling_data;
         /*@}*/
 
     private:
@@ -1096,7 +1106,7 @@ struct itype {
             if( tool ) {
                 return tool->max_charges;
             }
-            return 1;
+            return 0;
         }
         bool can_have_charges() const;
 

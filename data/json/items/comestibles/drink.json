@@ -719,7 +719,7 @@
   {
     "type": "COMESTIBLE",
     "id": "milk_atomic_coffee",
-    "name": { "str": "sweet atomic coffee" },
+    "name": { "str_sp": "sweet atomic coffee" },
     "copy-from": "milk_coffee",
     "addiction_type": "caffeine",
     "fatigue_mod": 45,
@@ -1036,6 +1036,25 @@
     "flags": [ "EATEN_COLD" ],
     "fun": 1,
     "vitamins": [ [ "vitA", 60 ], [ "vitC", 180 ], [ "calcium", 4 ], [ "iron", 4 ] ]
+  },
+  {
+    "id": "water",
+    "type": "COMESTIBLE",
+    "comestible_type": "DRINK",
+    "category": "food",
+    "name": { "str_sp": "water" },
+    "description": "Water, the stuff of life, the best thirst-quencher available.  It would be safer to drink once purified.",
+    "weight": 250,
+    "volume": 1,
+    "price": 50,
+    "symbol": "~",
+    "color": "light_blue",
+    "phase": "liquid",
+    "container": "bottle_plastic",
+    "quench": 50,
+    "ammo_data": { "ammo_type": "water", "effects": [ "RECOVER_10" ] },
+    "flags": [ "EATEN_COLD", "UNSAFE_CONSUME" ],
+    "use_action": "BLECH_BECAUSE_UNCLEAN"
   },
   {
     "id": "water_clean",
