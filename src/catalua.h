@@ -7,6 +7,9 @@
 #include <memory>
 
 class Item_factory;
+class map;
+class time_point;
+struct tripoint;
 
 namespace cata
 {
@@ -26,6 +29,8 @@ void set_mod_being_loaded( lua_state &state, const mod_id &mod );
 void run_mod_preload_script( lua_state &state, const mod_id &mod );
 void run_mod_finalize_script( lua_state &state, const mod_id &mod );
 void run_on_load_hooks( lua_state &state );
+void run_on_mapgen_postprocess_hooks( lua_state &state, map &m, const tripoint &p,
+                                      const time_point &when );
 void reg_lua_iuse_actors( lua_state &state, Item_factory &ifactory );
 
 } // namespace cata
