@@ -79,9 +79,6 @@ std::unique_ptr<lua_state, lua_state_deleter> make_wrapped_state()
     sol::table game_table = lua.create_table();
     lua.globals()["game"] = game_table;
 
-    reg_debug_logging( lua );
-    reg_game_bindings( lua );
-
     return ret;
 }
 
