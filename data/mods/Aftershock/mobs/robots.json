@@ -218,16 +218,7 @@
     ],
     "death_function": [ "BROKEN" ],
     "death_drops": { "groups": [ [ "mon_afs_sentinel_lx_drops", 1 ] ] },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "BASHES",
-      "ELECTRONIC",
-      "NO_BREATHE",
-      "PRIORITIZE_TARGETS",
-      "GOODHEARING",
-      "PATH_AVOID_DANGER_2"
-    ]
+    "flags": [ "SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "GOODHEARING", "PATH_AVOID_DANGER_2" ]
   },
   {
     "id": "mon_bloodhound_drone",
