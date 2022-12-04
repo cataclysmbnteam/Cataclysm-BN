@@ -37,6 +37,7 @@ void set_mod_being_loaded( lua_state &, const mod_id & ) {}
 void run_mod_preload_script( lua_state &, const mod_id & ) {}
 void run_mod_finalize_script( lua_state &, const mod_id & ) {}
 void run_on_load_hooks( lua_state & ) {}
+void reg_lua_iuse_actors( lua_state &, Item_factory & ) {}
 
 } // namespace cata
 
@@ -45,9 +46,11 @@ void run_on_load_hooks( lua_state & ) {}
 #include "catalua_sol.h"
 
 #include "avatar.h"
-#include "catalua_impl.h"
 #include "catalua_bindings.h"
+#include "catalua_iuse_actor.h"
+#include "catalua_impl.h"
 #include "filesystem.h"
+#include "item_factory.h"
 #include "mod_manager.h"
 #include "path_info.h"
 
@@ -102,7 +105,9 @@ void set_mod_list( lua_state &state, const std::vector<mod_id> &modlist )
 
     gt["active_mods"] = active_mods;
     gt["mod_runtime"] = mod_runtime;
+
     gt["on_load_hooks"] = lua.create_table();
+    gt["iuse_functions"] = lua.create_table();
 }
 
 void set_mod_being_loaded( lua_state &state, const mod_id &mod )
@@ -141,10 +146,33 @@ void run_on_load_hooks( lua_state &state )
     sol::table hooks = lua.globals()["game"]["on_load_hooks"];
 
     for( auto &ref : hooks ) {
+        int idx = -1;
         try {
-            run_lua_func( ref.second );
+            idx = ref.first.as<int>();
+            sol::protected_function func = ref.second;
+            sol::protected_function_result res = func();
+            check_func_result( res );
         } catch( std::runtime_error &e ) {
-            debugmsg( "Failed to run on_load hook: %s", e.what() );
+            debugmsg( "Failed to run on_load_hook[%d]: %s", idx, e.what() );
+            break;
+        }
+    }
+}
+
+void reg_lua_iuse_actors( lua_state &state, Item_factory &ifactory )
+{
+    sol::state &lua = state.lua;
+
+    sol::table funcs = lua.globals()["game"]["iuse_functions"];
+
+    for( auto &ref : funcs ) {
+        std::string key;
+        try {
+            key = ref.first.as<std::string>();
+            sol::protected_function func = ref.second;
+            ifactory.add_actor( std::make_unique<lua_iuse_actor>( key, std::move( func ) ) );
+        } catch( std::runtime_error &e ) {
+            debugmsg( "Failed to extract iuse_functions k='%s': %s", key, e.what() );
             break;
         }
     }

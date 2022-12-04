@@ -22,6 +22,6 @@ struct lua_state {
 
 sol::state make_lua_state();
 void run_lua_script( sol::state &lua, const std::string &script_name );
-void run_lua_func( sol::object &func );
+void check_func_result( sol::protected_function_result &res );
 
 #endif // CATA_SRC_CATALUA_IMPL_H

@@ -6,6 +6,8 @@
 
 #include <memory>
 
+class Item_factory;
+
 namespace cata
 {
 struct lua_state;
@@ -24,6 +26,7 @@ void set_mod_being_loaded( lua_state &state, const mod_id &mod );
 void run_mod_preload_script( lua_state &state, const mod_id &mod );
 void run_mod_finalize_script( lua_state &state, const mod_id &mod );
 void run_on_load_hooks( lua_state &state );
+void reg_lua_iuse_actors( lua_state &state, Item_factory &ifactory );
 
 } // namespace cata
 
