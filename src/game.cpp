@@ -526,7 +526,7 @@ void game::toggle_pixel_minimap()
 #endif // TILES
 }
 
-void game::reload_tileset()
+void game::reload_tileset( std::function<std::ostream&()> out )
 {
 #if defined(TILES)
     // Disable UIs below to avoid accessing the tile context during loading.
@@ -541,7 +541,7 @@ void game::reload_tileset()
             /*force=*/true,
             /*pump_events=*/true
         );
-        tilecontext->do_tile_loading_report();
+        tilecontext->do_tile_loading_report( out );
     } catch( const std::exception &err ) {
         popup( _( "Loading the tileset failed: %s" ), err.what() );
     }

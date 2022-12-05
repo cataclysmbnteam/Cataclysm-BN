@@ -2363,7 +2363,9 @@ bool game::handle_action()
                 break;
 
             case ACTION_RELOAD_TILESET:
-                reload_tileset();
+                reload_tileset( []() -> std::ostream& {
+                    return DebugLog( DL::Info, DC::Main );
+                } );
                 break;
 
             case ACTION_TOGGLE_AUTO_FEATURES:
