@@ -3,6 +3,7 @@
 
 #include "avatar.h"
 #include "catalua_sol.h"
+#include "catalua_log.h"
 #include "character.h"
 #include "creature.h"
 #include "item.h"
@@ -50,6 +51,7 @@ static void lua_log_info_impl( sol::variadic_args va )
     std::string msg = fmt_lua_va( va );
 
     DebugLog( DL::Info, DC::Lua ) << msg;
+    cata::get_lua_log_instance().add( cata::LuaLogLevel::Info, std::move( msg ) );
 }
 
 static void lua_log_warn_impl( sol::variadic_args va )
@@ -57,6 +59,7 @@ static void lua_log_warn_impl( sol::variadic_args va )
     std::string msg = fmt_lua_va( va );
 
     DebugLog( DL::Warn, DC::Lua ) << msg;
+    cata::get_lua_log_instance().add( cata::LuaLogLevel::Warn, std::move( msg ) );
 }
 
 static void lua_log_error_impl( sol::variadic_args va )
@@ -64,6 +67,7 @@ static void lua_log_error_impl( sol::variadic_args va )
     std::string msg = fmt_lua_va( va );
 
     DebugLog( DL::Error, DC::Lua ) << msg;
+    cata::get_lua_log_instance().add( cata::LuaLogLevel::Error, std::move( msg ) );
 }
 
 static void lua_debugmsg_impl( sol::variadic_args va )
@@ -71,6 +75,7 @@ static void lua_debugmsg_impl( sol::variadic_args va )
     std::string msg = fmt_lua_va( va );
 
     debugmsg( "%s", msg );
+    cata::get_lua_log_instance().add( cata::LuaLogLevel::DebugMsg, std::move( msg ) );
 }
 
 void reg_debug_logging( sol::state &lua )
@@ -83,6 +88,13 @@ void reg_debug_logging( sol::state &lua )
     lua.globals()["log_error"] = lua_log_error_impl;
     // Debug message
     lua.globals()["debugmsg"] = lua_debugmsg_impl;
+    // Log manipulation
+    lua.globals()["clear_lua_log"] = []() {
+        cata::get_lua_log_instance().clear();
+    };
+    lua.globals()["set_log_capacity"] = []( int v ) {
+        cata::get_lua_log_instance().set_log_capacity( v );
+    };
 }
 
 
