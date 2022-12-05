@@ -23,18 +23,30 @@ static int deny_table_readonly( sol::this_state L )
     return luaL_error( L.lua_state(), "This table is read-only." );
 }
 
-void make_table_readonly( sol::state &lua, sol::table &t )
+sol::table make_readonly_table( sol::state &lua, sol::table read_from )
 {
-    // TODO: this doesn't work!
-    sol::table meta;
-    if( t[sol::metatable_key].valid() ) {
-        meta = t[sol::metatable_key];
-    } else {
-        meta = lua.create_table();
-    }
-    meta[sol::meta_function::new_index] = deny_table_readonly;
-    meta[sol::meta_function::index] = meta;
-    t[sol::metatable_key] = meta;
+    sol::table ret = lua.create_table();
+
+    read_from[sol::meta_function::index] = read_from;
+    read_from[sol::meta_function::new_index] = deny_table_readonly;
+
+    ret[sol::metatable_key] = read_from;
+    return ret;
+}
+
+sol::table make_readonly_table( sol::state &lua, sol::table read_from,
+                                const std::string &error_msg )
+{
+    sol::table ret = lua.create_table();
+
+    std::string copy = error_msg;
+    read_from[sol::meta_function::index] = read_from;
+    read_from[sol::meta_function::new_index] = [copy]( sol::this_state L ) {
+        return luaL_error( L.lua_state(), copy.c_str() );
+    };
+
+    ret[sol::metatable_key] = read_from;
+    return ret;
 }
 
 static std::string fmt_lua_va( sol::variadic_args va )
@@ -136,7 +148,6 @@ void reg_enum( sol::state &lua, const std::string &name )
     //
     // As such, hack it by creating read-only table.
 
-    sol::table et_obj = lua.create_named_table( name );
     sol::table et = lua.create_table();
 
     using Int = std::underlying_type_t<E>;
@@ -148,13 +159,8 @@ void reg_enum( sol::state &lua, const std::string &name )
         et[key] = e;
     }
 
-    et[sol::meta_function::index] = et;
-    et[sol::meta_function::new_index] = [name]( sol::this_state L ) {
-        std::string emsg = string_format( "Tried to modify enum %s.", name );
-        luaL_error( L.lua_state(), emsg.c_str() );
-    };
-
-    et_obj[sol::metatable_key] = et;
+    et = make_readonly_table( lua, et, string_format( "Tried to modify enum %s.", name ) );
+    lua.globals()[name] = et;
 }
 
 namespace sol
