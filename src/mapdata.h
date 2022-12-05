@@ -481,6 +481,15 @@ struct ter_t : map_data_common_t {
     void load( const JsonObject &jo, const std::string &src ) override;
     void check() const override;
     static const std::vector<ter_t> &get_all();
+
+    /** LUA: We need this operator defined for Lua bindings to compile. */
+    inline bool operator==( const ter_t &rhs ) const {
+        return this == &rhs;
+    };
+    /** LUA: We need this operator defined for Lua bindings to compile. */
+    inline bool operator<( const ter_t &rhs ) const {
+        return id < rhs.id;
+    }
 };
 
 void set_ter_ids();
@@ -534,6 +543,15 @@ struct furn_t : map_data_common_t {
     void load( const JsonObject &jo, const std::string &src ) override;
     void check() const override;
     static const std::vector<furn_t> &get_all();
+
+    /** LUA: We need this operator defined for Lua bindings to compile. */
+    inline bool operator==( const furn_t &rhs ) const {
+        return this == &rhs;
+    };
+    /** LUA: We need this operator defined for Lua bindings to compile. */
+    inline bool operator<( const furn_t &rhs ) const {
+        return id < rhs.id;
+    }
 };
 
 void load_furniture( const JsonObject &jo, const std::string &src );

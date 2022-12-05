@@ -397,6 +397,21 @@ void reg_game_bindings( sol::state &lua )
         ut["get_items_at"] = []( map & m, const tripoint & p ) -> std::unique_ptr<map_stack> {
             return std::make_unique<map_stack>( m.i_at( p ) );
         };
+
+        // TODO: make it work with int_ids
+        ut["get_ter_at"] = []( const map & m, const tripoint & p ) {
+            return m.ter( p ).id();
+        };
+        ut["set_ter_at"] = []( map & m, const tripoint & p, const ter_str_id & id ) {
+            m.ter_set( p, id.id() );
+        };
+
+        ut["get_furn_at"] = []( const map & m, const tripoint & p ) {
+            return m.furn( p ).id();
+        };
+        ut["set_furn_at"] = []( map & m, const tripoint & p, const furn_str_id & id ) {
+            m.furn_set( p, id.id() );
+        };
     }
 
     // Register 'tinymap' class to be used in Lua
@@ -450,6 +465,8 @@ void reg_game_bindings( sol::state &lua )
     }
 
     reg_string_id<itype_id>( lua, "ItypeId" );
+    reg_string_id<ter_str_id>( lua, "TerId" );
+    reg_string_id<furn_str_id>( lua, "FurnId" );
 }
 
 #endif
