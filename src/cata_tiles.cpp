@@ -3850,7 +3850,7 @@ void cata_tiles::get_tile_values( const int t, const int *tn, int &subtile, int 
     get_rotation_and_subtile( val, rotation, subtile );
 }
 
-void cata_tiles::do_tile_loading_report( std::function<void( std::string & )> out )
+void cata_tiles::do_tile_loading_report( std::function<void( std::string )> out )
 {
     out( "Loaded tileset: " + get_option<std::string>( "TILES" ) );
 
@@ -3897,7 +3897,7 @@ point cata_tiles::player_to_screen( const point &p ) const
 
 template<typename Iter, typename Func>
 void cata_tiles::lr_generic( Iter begin, Iter end, Func id_func, TILE_CATEGORY category,
-                             std::function<void( std::string & )> out, const std::string &prefix )
+                             std::function<void( std::string )> out, const std::string &prefix )
 {
     std::string missing_list;
     std::string missing_with_looks_like_list;
@@ -3918,7 +3918,7 @@ void cata_tiles::lr_generic( Iter begin, Iter end, Func id_func, TILE_CATEGORY c
 
 template <typename maptype>
 void cata_tiles::tile_loading_report( const maptype &tiletypemap, TILE_CATEGORY category,
-                                      std::function<void( std::string & )> out, const std::string &prefix )
+                                      std::function<void( std::string )> out, const std::string &prefix )
 {
     lr_generic( tiletypemap.begin(), tiletypemap.end(),
     []( const decltype( tiletypemap.begin() ) & v ) {
@@ -3929,7 +3929,7 @@ void cata_tiles::tile_loading_report( const maptype &tiletypemap, TILE_CATEGORY 
 
 template <typename base_type>
 void cata_tiles::tile_loading_report( const size_t count, TILE_CATEGORY category,
-                                      std::function<void( std::string & )> out, const std::string &prefix )
+                                      std::function<void( std::string )> out, const std::string &prefix )
 {
     lr_generic( static_cast<size_t>( 0 ), count,
     []( const size_t i ) {
@@ -3939,7 +3939,7 @@ void cata_tiles::tile_loading_report( const size_t count, TILE_CATEGORY category
 
 template <typename arraytype>
 void cata_tiles::tile_loading_report( const arraytype &array, int array_length,
-                                      TILE_CATEGORY category, std::function<void( std::string & )> out, const std::string &prefix )
+                                      TILE_CATEGORY category, std::function<void( std::string )> out, const std::string &prefix )
 {
     const auto begin = &( array[0] );
     lr_generic( begin, begin + array_length,
