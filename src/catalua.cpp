@@ -6,6 +6,8 @@ constexpr int LUA_API_VERSION = 1;
 
 #ifndef LUA
 
+#include "popup.h"
+
 namespace cata
 {
 
@@ -23,6 +25,15 @@ bool has_lua()
 void startup_lua_test()
 {
     // Nothing to do here
+}
+
+void show_lua_console()
+{
+    query_popup()
+    .default_color( c_red )
+    .allow_anykey( true )
+    .message( "%s", "Can't open Lua console:\nthe game was compiled without Lua support." )
+    .query();
 }
 
 std::unique_ptr<lua_state, lua_state_deleter> make_wrapped_state()
@@ -49,8 +60,9 @@ void reg_lua_iuse_actors( lua_state &, Item_factory & ) {}
 
 #include "avatar.h"
 #include "catalua_bindings.h"
-#include "catalua_iuse_actor.h"
+#include "catalua_console.h"
 #include "catalua_impl.h"
+#include "catalua_iuse_actor.h"
 #include "filesystem.h"
 #include "item_factory.h"
 #include "map.h"
@@ -75,6 +87,11 @@ void startup_lua_test()
     } catch( std::runtime_error &e ) {
         debugmsg( "%s", e.what() );
     }
+}
+
+void show_lua_console()
+{
+    cata::show_lua_console_impl();
 }
 
 std::unique_ptr<lua_state, lua_state_deleter> make_wrapped_state()

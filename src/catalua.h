@@ -21,6 +21,7 @@ struct lua_state_deleter {
 bool has_lua();
 int get_lua_api_version();
 void startup_lua_test();
+void show_lua_console();
 
 std::unique_ptr<lua_state, lua_state_deleter> make_wrapped_state();
 

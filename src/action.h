@@ -275,6 +275,8 @@ enum action_id : int {
     ACTION_TOGGLE_FULLSCREEN,
     /** Open debug menu */
     ACTION_DEBUG,
+    /** Open Lua console */
+    ACTION_LUA_CONSOLE,
     /** Toggle scent map */
     ACTION_DISPLAY_SCENT,
     /** Toggle scent type map */

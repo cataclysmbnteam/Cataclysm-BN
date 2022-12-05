@@ -266,6 +266,8 @@ std::string action_ident( action_id act )
             return "help";
         case ACTION_DEBUG:
             return "debug";
+        case ACTION_LUA_CONSOLE:
+            return "lua_console";
         case ACTION_DISPLAY_SCENT:
             return "debug_scent";
         case ACTION_DISPLAY_SCENT_TYPE:
@@ -394,6 +396,7 @@ bool can_action_change_worldstate( const action_id act )
         // Debug Functions
         case ACTION_TOGGLE_FULLSCREEN:
         case ACTION_DEBUG:
+        case ACTION_LUA_CONSOLE:
         case ACTION_DISPLAY_SCENT:
         case ACTION_DISPLAY_SCENT_TYPE:
         case ACTION_DISPLAY_TEMPERATURE:
@@ -967,6 +970,7 @@ action_id handle_main_menu()
     REGISTER_ACTION( ACTION_QUICKSAVE );
     REGISTER_ACTION( ACTION_SAVE );
     REGISTER_ACTION( ACTION_DEBUG );
+    REGISTER_ACTION( ACTION_LUA_CONSOLE );
 
     uilist smenu;
     smenu.settext( _( "MAIN MENU" ) );

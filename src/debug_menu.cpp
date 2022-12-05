@@ -30,6 +30,7 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "catalua.h"
 #include "character.h"
 #include "character_display.h"
 #include "character_id.h"
@@ -163,6 +164,7 @@ enum debug_menu_index {
     DEBUG_PRINT_FACTION_INFO,
     DEBUG_PRINT_NPC_MAGIC,
     DEBUG_QUIT_NOSAVE,
+    DEBUG_LUA_CONSOLE,
     DEBUG_TEST_WEATHER,
     DEBUG_SAVE_SCREENSHOT,
     DEBUG_BUG_REPORT,
@@ -330,6 +332,10 @@ static int debug_menu_uilist( bool display_all_entries = true )
 
         // insert debug-only menu right after "Info".
         menu.insert( menu.begin() + 1, debug_menu.begin(), debug_menu.end() );
+
+        if( cata::has_lua() ) {
+            menu.push_back( uilist_entry( 7, true, 'l', _( "Lua console" ) ) );
+        }
     }
 
     std::string msg;
@@ -367,7 +373,9 @@ static int debug_menu_uilist( bool display_all_entries = true )
             case 6:
                 action = vehicle_uilist();
                 break;
-
+            case 7:
+                action = DEBUG_LUA_CONSOLE;
+                break;
             default:
                 return group;
         }
@@ -1999,6 +2007,10 @@ void debug()
                 g->uquit = QUIT_NOSAVED;
             }
             break;
+        case DEBUG_LUA_CONSOLE: {
+            cata::show_lua_console();
+            break;
+        }
         case DEBUG_TEST_WEATHER: {
             get_weather().get_cur_weather_gen().test_weather( g->get_seed() );
         }

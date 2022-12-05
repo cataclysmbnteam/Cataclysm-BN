@@ -19,6 +19,7 @@
 #include "bionics.h"
 #include "bionics_ui.h"
 #include "calendar.h"
+#include "catalua.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_display.h"
@@ -2352,6 +2353,10 @@ bool game::handle_action()
                     break;    //don't do anything when sharing and not debugger
                 }
                 debug_menu::debug();
+                break;
+
+            case ACTION_LUA_CONSOLE:
+                cata::show_lua_console();
                 break;
 
             case ACTION_TOGGLE_FULLSCREEN:

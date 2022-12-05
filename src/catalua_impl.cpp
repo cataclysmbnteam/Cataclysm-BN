@@ -2,7 +2,9 @@
 #include "catalua_impl.h"
 
 #include "catalua_bindings.h"
+#include "catalua_log.h"
 #include "catalua_sol.h"
+#include "debug.h"
 #include "string_formatter.h"
 
 sol::state make_lua_state()
@@ -50,6 +52,61 @@ void run_lua_script( sol::state &lua, const std::string &script_name )
         sol::error err = exec_res;
         throw std::runtime_error(
             string_format( "Script runtime error in %s: %s", script_name, err.what() )
+        );
+    }
+}
+
+void run_console_input( sol::state &lua, const std::string &chunk )
+{
+    DebugLog( DL::Info, DC::Lua ) << "CONSOLE: " << chunk;
+    cata::get_lua_log_instance().add(
+        cata::LuaLogLevel::Input,
+        std::string( chunk )
+    );
+
+    sol::load_result load_res = lua.load( chunk, "console input" );
+
+    if( !load_res.valid() ) {
+        // No need to use obnoxious debugmsgs, user will see the error in log
+        sol::error err = load_res;
+        cata::get_lua_log_instance().add(
+            cata::LuaLogLevel::Error,
+            string_format( "Failed to load: %s", err.what() )
+        );
+        return;
+    }
+
+    sol::protected_function exec = load_res;
+
+    // No sandboxing here, we trust console user :)
+
+    sol::protected_function_result exec_res = exec();
+
+    if( !exec_res.valid() ) {
+        // No need to use obnoxious debugmsgs, user will see the error in log
+        sol::error err = exec_res;
+        cata::get_lua_log_instance().add(
+            cata::LuaLogLevel::Error,
+            string_format( "Runtime error: %s", err.what() )
+        );
+        return;
+    }
+
+    try {
+        sol::object retval = exec_res;
+        if( retval == sol::nil ) {
+            // No return - don't spam
+            return;
+        }
+        std::string val = lua["tostring"]( retval );
+        cata::get_lua_log_instance().add(
+            cata::LuaLogLevel::Info,
+            string_format( "# %s", val )
+        );
+    } catch( std::runtime_error &e ) {
+        cata::get_lua_log_instance().add(
+            cata::LuaLogLevel::Info,
+            string_format( "# ??? %s", e.what() )
         );
     }
 }
