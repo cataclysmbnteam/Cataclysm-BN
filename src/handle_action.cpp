@@ -2363,8 +2363,8 @@ bool game::handle_action()
                 break;
 
             case ACTION_RELOAD_TILESET:
-                reload_tileset( []() -> std::ostream& {
-                    return DebugLog( DL::Info, DC::Main );
+                reload_tileset( []( std::string & str ) {
+                    DebugLog( DL::Info, DC::Main ) << str;
                 } );
                 break;
 
