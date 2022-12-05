@@ -6,7 +6,9 @@
 #include "catalua_sol.h"
 #include "catalua.h"
 #include "character.h"
+#include "color.h"
 #include "creature.h"
+#include "distribution_grid.h"
 #include "enum_conversions.h"
 #include "item.h"
 #include "itype.h"
@@ -16,7 +18,9 @@
 #include "npc.h"
 #include "player.h"
 #include "point.h"
+#include "popup.h"
 #include "string_id.h"
+#include "ui.h"
 
 static int deny_table_readonly( sol::this_state L )
 {
@@ -171,6 +175,24 @@ void reg_enum( sol::state &lua, const std::string &name )
     }
 
     et = make_readonly_table( lua, et, string_format( "Tried to modify enum %s.", name ) );
+    lua.globals()[name] = et;
+}
+
+void reg_colors( sol::state &lua, const std::string &name )
+{
+    // Colors are not enums, we have to do them manually
+    sol::table et = lua.create_table();
+
+    using Int = std::underlying_type_t<color_id>;
+    constexpr Int max = static_cast<Int>( color_id::num_colors );
+
+    for( Int i = 0; i < max; ++i ) {
+        color_id e = static_cast<color_id>( i );
+        std::string key = get_all_colors().id_to_name( e );
+        et[key] = e;
+    }
+
+    et = make_readonly_table( lua, et, "Tried to modify color table." );
     lua.globals()[name] = et;
 }
 
@@ -522,12 +544,38 @@ void reg_game_bindings( sol::state &lua )
         };
     }
 
+    {
+        sol::usertype<distribution_grid> ut =
+            lua.new_usertype<distribution_grid>(
+                "DistributionGrid",
+                sol::no_constructor
+            );
+
+        ut["get_resource"] = &distribution_grid::get_resource;
+        ut["mod_resource"] = &distribution_grid::mod_resource;
+    }
+
+    {
+        sol::usertype<distribution_grid_tracker> ut =
+            lua.new_usertype<distribution_grid_tracker>(
+                "DistributionGridTracker",
+                sol::no_constructor
+            );
+
+        ut["get_grid_at_abs_ms"] = []( distribution_grid_tracker & tr, const tripoint & p )
+        -> distribution_grid& {
+            return tr.grid_at( tripoint_abs_ms( p ) );
+        };
+    }
+
     // Register some global functions to be used in Lua
     {
         // Global function that returns global avatar instance
         lua["get_avatar"] = &get_avatar;
         // Global function that returns global map instance
         lua["get_map"] = &get_map;
+        // Global function that returns global grid tracker
+        lua["get_distribution_grid_tracker"] = &get_distribution_grid_tracker;
         // We can use both lambdas and static functions
         lua["get_character_name"] = []( const Character & you ) -> std::string {
             return you.name;
@@ -591,6 +639,19 @@ void reg_game_bindings( sol::state &lua )
             tripoint_rel_ms fine = coords::project_combine( rough, remain );
             return fine.raw();
         };
+
+        t["rl_dist"] = sol::overload(
+                           sol::resolve<int( const tripoint &, const tripoint & )>( rl_dist ),
+                           sol::resolve<int( const point &, const point & )>( rl_dist )
+                       );
+        t["trig_dist"] = sol::overload(
+                             sol::resolve<float( const tripoint &, const tripoint & )>( trig_dist ),
+                             sol::resolve<float( const point &, const point & )>( trig_dist )
+                         );
+        t["square_dist"] = sol::overload(
+                               sol::resolve<int( const tripoint &, const tripoint & )>( square_dist ),
+                               sol::resolve<int( const point &, const point & )>( square_dist )
+                           );
     }
 
     reg_string_id<itype_id>( lua, "ItypeId" );
@@ -598,6 +659,8 @@ void reg_game_bindings( sol::state &lua )
     reg_string_id<furn_str_id>( lua, "FurnId" );
 
     reg_enum<game_message_type>( lua, "MsgType" );
+
+    reg_colors( lua, "Color" );
 
     // Register constants
     {
@@ -610,6 +673,54 @@ void reg_game_bindings( sol::state &lua )
         t["OMT_SM_SIZE"] = 2;
         t["OMT_MS_SIZE"] = SEEX * 2;
         t["SM_MS_SIZE"] = SEEX;
+    }
+
+    // Register uilist
+    {
+        sol::usertype<uilist> ut =
+            lua.new_usertype<uilist>(
+                // Class name in Lua
+                "UiList",
+                // Constructors
+                sol::constructors <
+                uilist()
+                > ()
+            );
+        ut["title"] = []( uilist & ui, const std::string & text ) {
+            ui.title = text;
+        };
+        ut["add"] = []( uilist & ui, int retval, const std::string & text ) {
+            ui.addentry( retval, true, MENU_AUTOASSIGN, text );
+        };
+        ut["query"] = []( uilist & ui ) {
+            ui.query();
+            return ui.ret;
+        };
+    }
+
+    // Register popup
+    {
+        sol::usertype<query_popup> ut =
+            lua.new_usertype<query_popup>(
+                // Class name in Lua
+                "QueryPopup",
+                // Constructors
+                sol::constructors <
+                query_popup()
+                > ()
+            );
+        ut["message"] = []( query_popup & popup, sol::variadic_args va ) {
+            popup.message( "%s", fmt_lua_va( va ) );
+        };
+        ut["message_color"] = []( query_popup & popup, color_id col ) {
+            popup.default_color( get_all_colors().get( col ) );
+        };
+        ut["allow_any_key"] = []( query_popup & popup, bool val ) {
+            popup.allow_anykey( val );
+        };
+        ut["query"] = []( query_popup & popup ) {
+            return popup.query().action;
+        };
     }
 }
 
