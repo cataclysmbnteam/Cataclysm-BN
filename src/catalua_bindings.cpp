@@ -2,14 +2,16 @@
 #include "catalua_bindings.h"
 
 #include "avatar.h"
-#include "catalua.h"
-#include "catalua_sol.h"
 #include "catalua_log.h"
+#include "catalua_sol.h"
+#include "catalua.h"
 #include "character.h"
 #include "creature.h"
+#include "enum_conversions.h"
 #include "item.h"
 #include "itype.h"
 #include "map.h"
+#include "messages.h"
 #include "monster.h"
 #include "npc.h"
 #include "player.h"
@@ -23,6 +25,7 @@ static int deny_table_readonly( sol::this_state L )
 
 void make_table_readonly( sol::state &lua, sol::table &t )
 {
+    // TODO: this doesn't work!
     sol::table meta;
     if( t[sol::metatable_key].valid() ) {
         meta = t[sol::metatable_key];
@@ -125,6 +128,35 @@ void reg_string_id( sol::state &lua, const char *name )
     };
 }
 
+template<typename E>
+void reg_enum( sol::state &lua, const std::string &name )
+{
+    // Sol2 has new_enum<E>(...) function, but it needs to know all value-string
+    // pairs at compile time, so we can't use it with io::enum_to_string.
+    //
+    // As such, hack it by creating read-only table.
+
+    sol::table et_obj = lua.create_named_table( name );
+    sol::table et = lua.create_table();
+
+    using Int = std::underlying_type_t<E>;
+    constexpr Int max = static_cast<Int>( enum_traits<E>::last );
+
+    for( Int i = 0; i < max; ++i ) {
+        E e = static_cast<E>( i );
+        std::string key = io::enum_to_string<E>( e );
+        et[key] = e;
+    }
+
+    et[sol::meta_function::index] = et;
+    et[sol::meta_function::new_index] = [name]( sol::this_state L ) {
+        std::string emsg = string_format( "Tried to modify enum %s.", name );
+        luaL_error( L.lua_state(), emsg.c_str() );
+    };
+
+    et_obj[sol::metatable_key] = et;
+}
+
 namespace sol
 {
 template <>
@@ -192,16 +224,34 @@ auto item_stack_lua_pairs( item_stack &stk )
                             sol::lua_nil );
 }
 
+void add_msg_lua( game_message_type t, sol::variadic_args va )
+{
+    if( va.size() == 0 ) {
+        // Nothing to print
+        return;
+    }
+
+    std::string msg = fmt_lua_va( va );
+    add_msg( t, msg );
+}
+
 void reg_game_bindings( sol::state &lua )
 {
     // Register creature class family to be used in Lua.
     {
         // Specifying base classes here allows us to pass derived classes
         // from Lua to C++ functions that expect base class.
-        lua.new_usertype<Creature>(
-            "Creature",
-            sol::no_constructor
-        );
+        sol::usertype<Creature> ut =
+            lua.new_usertype<Creature>(
+                "Creature",
+                sol::no_constructor
+            );
+
+        // TODO: typesafe coords
+        ut["get_pos_ms"] = &Creature::pos;
+    }
+
+    {
         lua.new_usertype<monster>(
             "Monster",
             sol::no_constructor,
@@ -388,6 +438,9 @@ void reg_game_bindings( sol::state &lua )
                 sol::no_constructor
             );
 
+        ut["get_abs_ms"] = sol::resolve<tripoint( const tripoint & ) const>( &map::getabs );
+        ut["get_local_ms"] = sol::resolve<tripoint( const tripoint & ) const>( &map::getlocal );
+
         ut["get_map_size_in_submaps"] = &map::getmapsize;
         ut["get_map_size"] = []( const map & m ) -> int {
             return m.getmapsize() * SEEX;
@@ -462,11 +515,85 @@ void reg_game_bindings( sol::state &lua )
         lua["get_character_name"] = []( const Character & you ) -> std::string {
             return you.name;
         };
+        lua["add_msg"] = sol::overload(
+                             add_msg_lua,
+        []( sol::variadic_args va ) {
+            add_msg_lua( game_message_type::m_neutral, va );
+        }
+                         );
+    }
+
+    // Register coord manipulation funcs
+    // TODO: typesafe coords API
+    {
+        sol::table t = lua.create_table();
+        lua.globals()["coords"] = t;
+
+        t["ms_to_sm"] = []( const tripoint & raw ) -> std::tuple<tripoint, point> {
+            tripoint_rel_ms fine( raw );
+            tripoint_rel_sm rough;
+            point_sm_ms remain;
+            std::tie( rough, remain ) = coords::project_remain<coords::sm>( fine );
+            return std::make_pair( rough.raw(), remain.raw() );
+        };
+        t["ms_to_omt"] = []( const tripoint & raw ) -> std::tuple<tripoint, point> {
+            tripoint_rel_ms fine( raw );
+            tripoint_rel_omt rough;
+            point_omt_ms remain;
+            std::tie( rough, remain ) = coords::project_remain<coords::omt>( fine );
+            return std::make_pair( rough.raw(), remain.raw() );
+        };
+        t["ms_to_om"] = []( const tripoint & raw ) -> std::tuple<point, tripoint> {
+            tripoint_rel_ms fine( raw );
+            point_rel_om rough;
+            coords::coord_point<tripoint, coords::origin::overmap, coords::ms> remain;
+            std::tie( rough, remain ) = coords::project_remain<coords::om>( fine );
+            return std::make_pair( rough.raw(), remain.raw() );
+        };
+
+        t["sm_to_ms"] = []( const tripoint & raw_rough,
+        sol::optional<const point &> raw_remain ) -> tripoint {
+            tripoint_rel_sm rough( raw_rough );
+            point_sm_ms remain( raw_remain ? *raw_remain : point_zero );
+            tripoint_rel_ms fine = coords::project_combine( rough, remain );
+            return fine.raw();
+        };
+        t["omt_to_ms"] = []( const tripoint & raw_rough,
+        sol::optional<const point &> raw_remain ) -> tripoint {
+            tripoint_rel_omt rough( raw_rough );
+            point_omt_ms remain( raw_remain ? *raw_remain : point_zero );
+            tripoint_rel_ms fine = coords::project_combine( rough, remain );
+            return fine.raw();
+        };
+        t["om_to_ms"] = []( const point & raw_rough,
+        sol::optional<const tripoint &> raw_remain ) -> tripoint {
+            point_rel_om rough( raw_rough );
+            coords::coord_point<tripoint, coords::origin::overmap, coords::ms> remain(
+                raw_remain ? *raw_remain : tripoint_zero
+            );
+            tripoint_rel_ms fine = coords::project_combine( rough, remain );
+            return fine.raw();
+        };
     }
 
     reg_string_id<itype_id>( lua, "ItypeId" );
     reg_string_id<ter_str_id>( lua, "TerId" );
     reg_string_id<furn_str_id>( lua, "FurnId" );
+
+    reg_enum<game_message_type>( lua, "MsgType" );
+
+    // Register constants
+    {
+        sol::table t = lua.create_table();
+        lua.globals()["const"] = t;
+
+        t["OM_OMT_SIZE"] = OMAPX;
+        t["OM_SM_SIZE"] = OMAPX * 2;
+        t["OM_MS_SIZE"] = OMAPX * 2 * SEEX;
+        t["OMT_SM_SIZE"] = 2;
+        t["OMT_MS_SIZE"] = SEEX * 2;
+        t["SM_MS_SIZE"] = SEEX;
+    }
 }
 
 #endif
