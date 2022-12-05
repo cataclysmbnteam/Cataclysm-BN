@@ -2661,7 +2661,7 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
             //game_ui::init_ui is called when zoom is changed
             g->reset_zoom();
             g->mark_main_ui_adaptor_resize();
-            tilecontext->do_tile_loading_report( []( std::string & str ) {
+            tilecontext->do_tile_loading_report( []( std::string str ) {
                 DebugLog( DL::Info, DC::Main ) << str;
             } );
         } catch( const std::exception &err ) {

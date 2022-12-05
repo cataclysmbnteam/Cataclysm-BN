@@ -3597,8 +3597,8 @@ void load_tileset()
         /*force=*/false,
         /*pump_events=*/true
     );
-    tilecontext->do_tile_loading_report( []() -> std::ostream& {
-        return DebugLog( DL::Info, DC::Main );
+    tilecontext->do_tile_loading_report( []( std::string str ) {
+        DebugLog( DL::Info, DC::Main ) << str;
     } );
 }
 
