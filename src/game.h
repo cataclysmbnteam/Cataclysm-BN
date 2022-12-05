@@ -617,7 +617,7 @@ class game
 
         void toggle_fullscreen();
         void toggle_pixel_minimap();
-        void reload_tileset( std::function<void( std::string & )> out );
+        void reload_tileset( std::function<void( std::string )> out );
         void temp_exit_fullscreen();
         void reenter_fullscreen();
         void zoom_in();

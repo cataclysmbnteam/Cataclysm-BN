@@ -2051,7 +2051,7 @@ void debug()
             break;
         case DEBUG_RELOAD_TILES:
             std::ostringstream ss;
-            g->reload_tileset( [&ss]( std::string & str ) {
+            g->reload_tileset( [&ss]( std::string str ) {
                 ss << str << std::endl;
             } );
             add_msg( ss.str() );
