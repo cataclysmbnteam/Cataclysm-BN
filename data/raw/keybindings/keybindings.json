@@ -2046,6 +2046,12 @@
   },
   {
     "type": "keybinding",
+    "name": "Reload Lua Code",
+    "category": "DEFAULTMODE",
+    "id": "lua_reload"
+  },
+  {
+    "type": "keybinding",
     "name": "View Scentmap",
     "category": "DEFAULTMODE",
     "id": "debug_scent"
@@ -3278,6 +3284,13 @@
     "name": "Edit command",
     "category": "LUA_CONSOLE",
     "bindings": [ { "input_method": "keyboard", "key": "RETURN" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Reload Lua Code",
+    "category": "LUA_CONSOLE",
+    "id": "RELOAD",
+    "bindings": [ { "input_method": "keyboard", "key": "F4" } ]
   },
   {
     "type": "keybinding",

@@ -2,6 +2,7 @@
 #include "catalua_bindings.h"
 
 #include "avatar.h"
+#include "catalua.h"
 #include "catalua_sol.h"
 #include "catalua_log.h"
 #include "character.h"
@@ -95,6 +96,7 @@ void reg_debug_logging( sol::state &lua )
     lua.globals()["set_log_capacity"] = []( int v ) {
         cata::get_lua_log_instance().set_log_capacity( v );
     };
+    lua.globals()["reload_lua_code"] = &cata::reload_lua_code;
 }
 
 

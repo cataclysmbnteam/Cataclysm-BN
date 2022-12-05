@@ -36,6 +36,15 @@ void show_lua_console()
     .query();
 }
 
+void reload_lua_code()
+{
+    query_popup()
+    .default_color( c_red )
+    .allow_anykey( true )
+    .message( "%s", "Can't reload Lua code:\nthe game was compiled without Lua support." )
+    .query();
+}
+
 std::unique_ptr<lua_state, lua_state_deleter> make_wrapped_state()
 {
     return std::unique_ptr<lua_state, lua_state_deleter>(
@@ -64,11 +73,13 @@ void reg_lua_iuse_actors( lua_state &, Item_factory & ) {}
 #include "catalua_impl.h"
 #include "catalua_iuse_actor.h"
 #include "filesystem.h"
+#include "init.h"
 #include "item_factory.h"
 #include "map.h"
 #include "mod_manager.h"
 #include "path_info.h"
 #include "point.h"
+#include "worldfactory.h"
 
 namespace cata
 {
@@ -92,6 +103,18 @@ void startup_lua_test()
 void show_lua_console()
 {
     cata::show_lua_console_impl();
+}
+
+void reload_lua_code()
+{
+    cata::lua_state &state = *DynamicDataLoader::get_instance().lua;
+    const auto &packs = world_generator->active_world->active_mod_order;
+    try {
+        init::load_main_lua_sciprs( state, packs );
+    } catch( std::runtime_error &e ) {
+        debugmsg( "%s", e.what() );
+    }
+    clear_mod_being_loaded( state );
 }
 
 std::unique_ptr<lua_state, lua_state_deleter> make_wrapped_state()
@@ -135,8 +158,13 @@ void set_mod_list( lua_state &state, const std::vector<mod_id> &modlist )
 void set_mod_being_loaded( lua_state &state, const mod_id &mod )
 {
     sol::state &lua = state.lua;
-
     lua.globals()["game"]["current_mod"] = mod.str();
+}
+
+void clear_mod_being_loaded( lua_state &state )
+{
+    sol::state &lua = state.lua;
+    lua.globals()["game"]["current_mod"] = sol::nil;
 }
 
 void run_mod_preload_script( lua_state &state, const mod_id &mod )
@@ -153,6 +181,17 @@ void run_mod_preload_script( lua_state &state, const mod_id &mod )
 void run_mod_finalize_script( lua_state &state, const mod_id &mod )
 {
     std::string script_path = mod->path + "/" + "finalize.lua";
+
+    if( !file_exist( script_path ) ) {
+        return;
+    }
+
+    run_lua_script( state.lua, script_path );
+}
+
+void run_mod_main_script( lua_state &state, const mod_id &mod )
+{
+    std::string script_path = mod->path + "/" + "main.lua";
 
     if( !file_exist( script_path ) ) {
         return;

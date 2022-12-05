@@ -881,18 +881,31 @@ static void load_and_finalize_packs( loading_ui &ui, const std::string &msg,
 
     loader.finalize_loaded_data( ui );
 
-    for( const mod_id &mod : available ) {
-        if( mod->lua_api_version ) {
-            if( !cata::has_lua() ) {
-                // We've already warned about this
-                continue;
+    if( cata::has_lua() ) {
+        for( const mod_id &mod : available ) {
+            if( mod->lua_api_version ) {
+                cata::set_mod_being_loaded( *loader.lua, mod );
+                cata::run_mod_finalize_script( *loader.lua, mod );
             }
-            cata::set_mod_being_loaded( *loader.lua, mod );
-            cata::run_mod_finalize_script( *loader.lua, mod );
         }
     }
 
     loader.check_consistency( ui );
+
+    if( cata::has_lua() ) {
+        init::load_main_lua_sciprs( *loader.lua, packs );
+        cata::clear_mod_being_loaded( *loader.lua );
+    }
+}
+
+void init::load_main_lua_sciprs( cata::lua_state &state, const std::vector<mod_id> &packs )
+{
+    for( const mod_id &mod : packs ) {
+        if( mod.is_valid() && mod->lua_api_version ) {
+            cata::set_mod_being_loaded( state, mod );
+            cata::run_mod_main_script( state, mod );
+        }
+    }
 }
 
 bool init::is_data_loaded()

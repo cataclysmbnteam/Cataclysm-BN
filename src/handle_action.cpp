@@ -2359,6 +2359,10 @@ bool game::handle_action()
                 cata::show_lua_console();
                 break;
 
+            case ACTION_LUA_RELOAD:
+                cata::reload_lua_code();
+                break;
+
             case ACTION_TOGGLE_FULLSCREEN:
                 toggle_fullscreen();
                 break;
