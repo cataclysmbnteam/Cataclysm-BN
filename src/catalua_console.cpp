@@ -23,7 +23,7 @@ struct folded_log_msg {
     std::string text;
 };
 
-std::vector<folded_log_msg> build_folded_log( int width )
+static std::vector<folded_log_msg> build_folded_log( int width )
 {
     std::vector<folded_log_msg> ret;
     for( const lua_log_msg &msg : get_lua_log_instance().get_entries() ) {
@@ -35,7 +35,7 @@ std::vector<folded_log_msg> build_folded_log( int width )
     return ret;
 }
 
-nc_color get_log_level_color( LuaLogLevel level )
+static nc_color get_log_level_color( LuaLogLevel level )
 {
     switch( level ) {
         case LuaLogLevel::Input:

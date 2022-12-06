@@ -27,7 +27,7 @@ static int deny_table_readonly( sol::this_state L )
     return luaL_error( L.lua_state(), "This table is read-only." );
 }
 
-std::tuple<sol::object, sol::object, sol::nil_t>
+static std::tuple<sol::object, sol::object, sol::nil_t>
 reimpl_default_pairs( sol::this_state L, sol::table t )
 {
     // TODO: check how broken this HACK is
@@ -178,7 +178,7 @@ void reg_enum( sol::state &lua, const std::string &name )
     lua.globals()[name] = et;
 }
 
-void reg_colors( sol::state &lua, const std::string &name )
+static void reg_colors( sol::state &lua, const std::string &name )
 {
     // Colors are not enums, we have to do them manually
     sol::table et = lua.create_table();
@@ -214,7 +214,8 @@ struct item_stack_lua_it_state {
     }
 };
 
-std::tuple<sol::object, sol::object> item_stack_lua_next(
+static std::tuple<sol::object, sol::object>
+item_stack_lua_next(
     sol::user<item_stack_lua_it_state &> user_it_state,
     sol::this_state l )
 {
@@ -245,7 +246,7 @@ std::tuple<sol::object, sol::object> item_stack_lua_next(
     return r;
 }
 
-auto item_stack_lua_pairs( item_stack &stk )
+static auto item_stack_lua_pairs( item_stack &stk )
 {
     // pairs expects 3 returns:
     // the "next" function on how to advance,
@@ -263,7 +264,7 @@ auto item_stack_lua_pairs( item_stack &stk )
                             sol::lua_nil );
 }
 
-void add_msg_lua( game_message_type t, sol::variadic_args va )
+static void add_msg_lua( game_message_type t, sol::variadic_args va )
 {
     if( va.size() == 0 ) {
         // Nothing to print
