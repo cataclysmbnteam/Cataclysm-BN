@@ -54,8 +54,10 @@ std::unique_ptr<lua_state, lua_state_deleter> make_wrapped_state()
 
 void set_mod_list( lua_state &, const std::vector<mod_id> & ) {}
 void set_mod_being_loaded( lua_state &, const mod_id & ) {}
+void clear_mod_being_loaded( lua_state & ) {}
 void run_mod_preload_script( lua_state &, const mod_id & ) {}
 void run_mod_finalize_script( lua_state &, const mod_id & ) {}
+void run_mod_main_script( lua_state &, const mod_id & ) {}
 void run_on_load_hooks( lua_state & ) {}
 void run_on_mapgen_postprocess_hooks( lua_state &, map &, const tripoint &,
                                       const time_point & ) {}
@@ -110,7 +112,7 @@ void reload_lua_code()
     cata::lua_state &state = *DynamicDataLoader::get_instance().lua;
     const auto &packs = world_generator->active_world->active_mod_order;
     try {
-        init::load_main_lua_sciprs( state, packs );
+        init::load_main_lua_scripts( state, packs );
     } catch( std::runtime_error &e ) {
         debugmsg( "%s", e.what() );
     }

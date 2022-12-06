@@ -893,12 +893,12 @@ static void load_and_finalize_packs( loading_ui &ui, const std::string &msg,
     loader.check_consistency( ui );
 
     if( cata::has_lua() ) {
-        init::load_main_lua_sciprs( *loader.lua, packs );
+        init::load_main_lua_scripts( *loader.lua, packs );
         cata::clear_mod_being_loaded( *loader.lua );
     }
 }
 
-void init::load_main_lua_sciprs( cata::lua_state &state, const std::vector<mod_id> &packs )
+void init::load_main_lua_scripts( cata::lua_state &state, const std::vector<mod_id> &packs )
 {
     for( const mod_id &mod : packs ) {
         if( mod.is_valid() && mod->lua_api_version ) {
