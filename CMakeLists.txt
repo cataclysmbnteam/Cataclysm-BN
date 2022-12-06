@@ -271,13 +271,7 @@ endif ()
 
 message(STATUS "See CMake compiling guide for details and more info --\n")
 
-if (MSVC)
-    if ("${CMAKE_SIZEOF_VOID_P}" EQUAL "8")
-        add_definitions(-D_AMD64_)
-    else ()
-        add_definitions(-D_X86_)
-    endif ()
-else ()
+if (NOT MSVC)
     set(CATA_WARNINGS
         "-Werror -Wall -Wextra \
        -Wformat-signedness \
