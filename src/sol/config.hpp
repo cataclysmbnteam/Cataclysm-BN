@@ -56,4 +56,12 @@ the build system, or the command line options of your compiler.
 // Be helpful and verbose, even at the cost of speed
 #define SOL_ALL_SAFETIES_ON 1
 
+// According to a comment in Sol2, nil is an Objective C/C++ Keyword that's found in OSX SDK.
+// We're not using Objective C/C++, so we should be okay.
+// Still, Sol2 disables it by default on OSX, so here we forcefully re-enable it back.
+#if defined(nil)
+     static_assert(false, "Sol's nil conflicts with existing nil define in some C++ include!")
+#endif
+#define SOL_NO_NIL 0
+
 #endif // SOL_SINGLE_CONFIG_HPP
