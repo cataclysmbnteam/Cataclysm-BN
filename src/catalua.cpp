@@ -49,7 +49,11 @@ bool save_world_lua_state( const std::string & )
 {
     return true;
 }
-void load_world_lua_state( const std::string & ) {}
+
+bool load_world_lua_state( const std::string & )
+{
+    return true;
+}
 
 std::unique_ptr<lua_state, lua_state_deleter> make_wrapped_state()
 {
