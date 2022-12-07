@@ -45,6 +45,12 @@ void reload_lua_code()
     .query();
 }
 
+bool save_world_lua_state( const std::string & )
+{
+    return true;
+}
+void load_world_lua_state( const std::string & ) {}
+
 std::unique_ptr<lua_state, lua_state_deleter> make_wrapped_state()
 {
     return std::unique_ptr<lua_state, lua_state_deleter>(
@@ -74,7 +80,9 @@ void run_hooks( Args &&... ) {}
 #include "catalua_console.h"
 #include "catalua_impl.h"
 #include "catalua_iuse_actor.h"
+#include "catalua_serde.h"
 #include "filesystem.h"
+#include "fstream_utils.h"
 #include "init.h"
 #include "item_factory.h"
 #include "map.h"
@@ -119,6 +127,54 @@ void reload_lua_code()
     clear_mod_being_loaded( state );
 }
 
+static sol::table get_mod_storage_table( lua_state &state )
+{
+    return state.lua.globals()["game"]["cata_internal"]["mod_storage"];
+}
+
+bool save_world_lua_state( const std::string &path )
+{
+    lua_state &state = *DynamicDataLoader::get_instance().lua;
+
+    const mod_management::t_mod_list &mods = world_generator->active_world->active_mod_order;
+    sol::table t = get_mod_storage_table( state );
+    run_on_game_save_hooks( state );
+    bool ret = write_to_file( path, [&]( std::ostream & stream ) {
+        JsonOut jsout( stream );
+        jsout.start_object();
+        for( const mod_id &mod : mods ) {
+            jsout.member( mod.str() );
+            serialize_lua_table( t[mod.str()], jsout );
+        }
+        jsout.end_object();
+    }, "world_lua_state" );
+    return ret;
+}
+
+bool load_world_lua_state( const std::string &path )
+{
+    lua_state &state = *DynamicDataLoader::get_instance().lua;
+    const mod_management::t_mod_list &mods = world_generator->active_world->active_mod_order;
+    sol::table t = get_mod_storage_table( state );
+
+    bool ret = read_from_file_optional( path, [&]( std::istream & stream ) {
+        JsonIn jsin( stream );
+        JsonObject jsobj = jsin.get_object();
+
+        for( const mod_id &mod : mods ) {
+            if( !jsobj.has_object( mod.str() ) ) {
+                // Mod could have been added to existing save
+                continue;
+            }
+            JsonObject mod_obj = jsobj.get_object( mod.str() );
+            deserialize_lua_table( t[mod.str()], mod_obj );
+        }
+    } );
+
+    run_on_game_load_hooks( state );
+    return ret;
+}
+
 std::unique_ptr<lua_state, lua_state_deleter> make_wrapped_state()
 {
     std::unique_ptr<lua_state, lua_state_deleter> ret( new lua_state{ make_lua_state() },
@@ -138,22 +194,35 @@ void set_mod_list( lua_state &state, const std::vector<mod_id> &modlist )
 
     sol::table active_mods = lua.create_table();
     sol::table mod_runtime = lua.create_table();
+    sol::table mod_storage = lua.create_table();
 
     for( size_t i = 0; i < modlist.size(); i++ ) {
         active_mods[ i + 1 ] = modlist[i].str();
         mod_runtime[ modlist[i].str() ] = lua.create_table();
+        mod_storage[ modlist[i].str() ] = lua.create_table();
     }
 
-    active_mods = make_readonly_table( lua, active_mods );
-    mod_runtime = make_readonly_table( lua, mod_runtime );
-
+    // Main game data table
     sol::table gt = lua.globals()["game"];
 
-    gt["active_mods"] = active_mods;
-    gt["mod_runtime"] = mod_runtime;
+    // Internal table that bypasses read-only facades
+    sol::table it = lua.create_table();
+    gt["cata_internal"] = it;
+    it["active_mods"] = active_mods;
+    it["mod_runtime"] = mod_runtime;
+    it["mod_storage"] = mod_storage;
 
-    gt["on_load_hooks"] = lua.create_table();
+    // Runtime infrastructure
+    gt["active_mods"] = make_readonly_table( lua, active_mods );
+    gt["mod_runtime"] = make_readonly_table( lua, mod_runtime );
+    gt["mod_storage"] = make_readonly_table( lua, mod_storage );
+
+    // iuse functions
     gt["iuse_functions"] = lua.create_table();
+
+    // Hooks
+    gt["on_game_load_hooks"] = lua.create_table();
+    gt["on_game_save_hooks"] = lua.create_table();
     gt["on_mapgen_postprocess_hooks"] = lua.create_table();
 }
 
@@ -257,9 +326,14 @@ void lua_state_deleter::operator()( lua_state *state ) const
     delete state;
 }
 
-void run_on_load_hooks( lua_state &state )
+void run_on_game_save_hooks( lua_state &state )
 {
-    run_hooks( state, "on_load_hooks" );
+    run_hooks( state, "on_game_save_hooks" );
+}
+
+void run_on_game_load_hooks( lua_state &state )
+{
+    run_hooks( state, "on_game_load_hooks" );
 }
 
 void run_on_mapgen_postprocess_hooks( lua_state &state, map &m, const tripoint &p,

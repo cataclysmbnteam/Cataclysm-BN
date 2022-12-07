@@ -2622,7 +2622,7 @@ bool game::load( const save_t &name )
 
     u.reset();
 
-    cata::run_on_load_hooks( *DynamicDataLoader::get_instance().lua );
+    cata::load_world_lua_state( get_world_base_save_path() + "/lua_state.json" );
 
     return true;
 }
@@ -2728,6 +2728,14 @@ spell_events &game::spell_events_subscriber()
     return *spell_events_ptr;
 }
 
+static bool save_uistate_data( const game &g )
+{
+    return write_to_file( g.get_world_base_save_path() + "/uistate.json", [&]( std::ostream & fout ) {
+        JsonOut jsout( fout );
+        uistate.serialize( jsout );
+    }, _( "uistate data" ) );
+}
+
 bool game::save()
 {
     try {
@@ -2738,10 +2746,9 @@ bool game::save()
             !get_auto_pickup().save_character() ||
             !get_auto_notes_settings().save() ||
             !get_safemode().save_character() ||
-        !write_to_file( get_world_base_save_path() + "/uistate.json", [&]( std::ostream & fout ) {
-        JsonOut jsout( fout );
-            uistate.serialize( jsout );
-        }, _( "uistate data" ) ) ) {
+            !cata::save_world_lua_state( g->get_world_base_save_path() + "/lua_state.json" ) ||
+            !save_uistate_data( *this )
+          ) {
             return false;
         } else {
             world_generator->active_world->add_save( save_t::from_save_id( u.get_save_id() ) );

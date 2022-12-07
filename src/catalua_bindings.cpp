@@ -10,6 +10,7 @@
 #include "creature.h"
 #include "distribution_grid.h"
 #include "enum_conversions.h"
+#include "game.h"
 #include "item.h"
 #include "itype.h"
 #include "map.h"
@@ -127,6 +128,9 @@ void reg_debug_logging( sol::state &lua )
         cata::get_lua_log_instance().set_log_capacity( v );
     };
     lua.globals()["reload_lua_code"] = &cata::reload_lua_code;
+    lua.globals()["save_game"] = []() -> bool {
+        return g->save();
+    };
 }
 
 
