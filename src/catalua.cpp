@@ -58,10 +58,10 @@ void clear_mod_being_loaded( lua_state & ) {}
 void run_mod_preload_script( lua_state &, const mod_id & ) {}
 void run_mod_finalize_script( lua_state &, const mod_id & ) {}
 void run_mod_main_script( lua_state &, const mod_id & ) {}
-void run_on_load_hooks( lua_state & ) {}
-void run_on_mapgen_postprocess_hooks( lua_state &, map &, const tripoint &,
-                                      const time_point & ) {}
 void reg_lua_iuse_actors( lua_state &, Item_factory & ) {}
+
+template<typename... Args>
+void run_hooks( Args &&... ) {}
 
 } // namespace cata
 
@@ -202,42 +202,20 @@ void run_mod_main_script( lua_state &state, const mod_id &mod )
     run_lua_script( state.lua, script_path );
 }
 
-void run_on_load_hooks( lua_state &state )
+template<typename... Args>
+void run_hooks( lua_state &state, std::string_view hooks_table, Args &&...args )
 {
     sol::state &lua = state.lua;
-
-    sol::table hooks = lua.globals()["game"]["on_load_hooks"];
-
+    sol::table hooks = lua.globals()["game"][hooks_table];
     for( auto &ref : hooks ) {
         int idx = -1;
         try {
             idx = ref.first.as<int>();
             sol::protected_function func = ref.second;
-            sol::protected_function_result res = func();
+            sol::protected_function_result res = func( std::forward<Args>( args )... );
             check_func_result( res );
         } catch( std::runtime_error &e ) {
-            debugmsg( "Failed to run on_load_hook[%d]: %s", idx, e.what() );
-            break;
-        }
-    }
-}
-
-void run_on_mapgen_postprocess_hooks( lua_state &state, map &m, const tripoint &p,
-                                      const time_point &when )
-{
-    sol::state &lua = state.lua;
-
-    sol::table hooks = lua.globals()["game"]["on_mapgen_postprocess_hooks"];
-
-    for( auto &ref : hooks ) {
-        int idx = -1;
-        try {
-            idx = ref.first.as<int>();
-            sol::protected_function func = ref.second;
-            sol::protected_function_result res = func( m, p, when );
-            check_func_result( res );
-        } catch( std::runtime_error &e ) {
-            debugmsg( "Failed to run on_mapgen_postprocess_hook[%d]: %s", idx, e.what() );
+            debugmsg( "Failed to run %s[%d]: %s", hooks_table, idx, e.what() );
             break;
         }
     }
@@ -277,6 +255,17 @@ int get_lua_api_version()
 void lua_state_deleter::operator()( lua_state *state ) const
 {
     delete state;
+}
+
+void run_on_load_hooks( lua_state &state )
+{
+    run_hooks( state, "on_load_hooks" );
+}
+
+void run_on_mapgen_postprocess_hooks( lua_state &state, map &m, const tripoint &p,
+                                      const time_point &when )
+{
+    run_hooks( state, "on_mapgen_postprocess_hooks", m, p, when );
 }
 
 } // namespace cata
