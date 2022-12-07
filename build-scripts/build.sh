@@ -176,7 +176,13 @@ else
         # Use a blacklist of mods that currently fail to load cleanly.  Hopefully this list will
         # shrink over time.
         blacklist=build-scripts/mod_test_blacklist
-        mods="$(./build-scripts/get_all_mods.py $blacklist)"
+        if [ "$LUA" == "1" ]
+        then
+            do_lua="1"
+        else
+            do_lua="0"
+        fi
+        mods="$(./build-scripts/get_all_mods.py $blacklist $do_lua)"
         run_tests ./tests/cata_test --user-dir=all_modded --mods="$mods" '~*'
     fi
 fi
