@@ -1,30 +1,6 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_SUBWAY_CITY",
-    "//": "Normal subway, extra spawns underneath a city",
-    "default": "mon_chud",
-    "monsters": [
-      { "monster": "mon_zilophosaurus", "freq": 2, "cost_multiplier": 10, "pack_size": [ 1, 2 ], "starts": 72 },
-      { "monster": "mon_zilophosaurus", "freq": 2, "cost_multiplier": 10, "pack_size": [ 1, 2 ], "starts": 168 },
-      { "monster": "mon_zilophosaurus", "freq": 2, "cost_multiplier": 10, "pack_size": [ 1, 2 ], "starts": 672 },
-      { "monster": "mon_zilophosaurus", "freq": 2, "cost_multiplier": 10, "pack_size": [ 1, 2 ], "starts": 2160 },
-      { "monster": "mon_zeratosaurus", "freq": 2, "cost_multiplier": 35, "starts": 72 },
-      { "monster": "mon_zeratosaurus", "freq": 2, "cost_multiplier": 35, "starts": 168 },
-      { "monster": "mon_zeratosaurus", "freq": 2, "cost_multiplier": 35, "starts": 672 },
-      { "monster": "mon_zeratosaurus", "freq": 2, "cost_multiplier": 35, "starts": 2160 },
-      { "monster": "mon_zeinonychus", "freq": 25, "cost_multiplier": 30, "starts": 72, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_zeinonychus", "freq": 25, "cost_multiplier": 30, "starts": 168, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_zeinonychus", "freq": 25, "cost_multiplier": 30, "starts": 672, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_zeinonychus", "freq": 25, "cost_multiplier": 30, "starts": 2160, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_zutahraptor", "freq": 25, "cost_multiplier": 30, "starts": 72 },
-      { "monster": "mon_zutahraptor", "freq": 25, "cost_multiplier": 30, "starts": 168 },
-      { "monster": "mon_zutahraptor", "freq": 25, "cost_multiplier": 30, "starts": 672 },
-      { "monster": "mon_zutahraptor", "freq": 25, "cost_multiplier": 30, "starts": 2160 }
-    ]
-  },
-  {
-    "type": "monstergroup",
     "name": "GROUP_SUBWAY_LAB",
     "//": "Lower subway with eldritch nasties and lab escapees",
     "default": "mon_kreck",
