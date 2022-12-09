@@ -965,6 +965,11 @@ bool item::stacks_with( const item &rhs, bool check_components, bool skip_type_c
     if( contents.num_item_stacks() != rhs.contents.num_item_stacks() ) {
         return false;
     }
+
+    if( ammo_current() != rhs.ammo_current() ) {
+        return false;
+    }
+
     return contents.stacks_with( rhs.contents );
 }
 
@@ -4783,7 +4788,7 @@ std::string item::display_name( unsigned int quantity ) const
     std::string ammotext;
     if( ( ( is_gun() && ammo_required() ) || is_magazine() ) && get_option<bool>( "AMMO_IN_NAMES" ) ) {
         if( !ammo_current().is_null() ) {
-            ammotext = ammo_current()->ammo->type->name();
+            ammotext = ammo_current()->nname( 1 );
         } else {
             ammotext = ammotype( *ammo_types().begin() )->name();
         }
