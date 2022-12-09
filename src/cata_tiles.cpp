@@ -1378,6 +1378,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             }
 
             lit_level ll = lit_level::BLANK;
+            int last_vis = center.z + 1;
             for( int z = center.z; z >= -OVERMAP_DEPTH; z-- ) {
                 const auto &ch = here.access_cache( z );
 
@@ -1392,6 +1393,9 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
                 if( ( fov_3d || z == center.z ) && in_map_bounds ) {
                     ll = ch.visibility_cache[x][y];
+                    if( !would_apply_vision_effects( here.get_visibility( ch.visibility_cache[x][y], cache ) ) ) {
+                        last_vis = z;
+                    }
                 }
 
                 const auto low_override = draw_below_override.find( pos );
@@ -1439,6 +1443,9 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                         if( invisible[0] ) {
                             min_z = std::min( pos.z, min_z );
                             draw_points.emplace_back( pos, height_3d, ll, invisible );
+                        } else if( last_vis != center.z + 1 ) {
+                            min_z = std::min( last_vis, min_z );
+                            draw_points.emplace_back( tripoint( pos.xy(), last_vis ), height_3d, ll, invisible );
                         }
 
                     } else {
