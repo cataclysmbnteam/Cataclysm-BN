@@ -24,6 +24,7 @@
 #include <utility>
 #include <vector>
 
+#include "catalua.h"
 #include "cata_utility.h"
 #include "cached_options.h"
 #include "color.h"
@@ -1546,11 +1547,14 @@ std::string game_info::game_report()
         }
     }
 
+    // Note: We shorten 'Lua API' to 'LAPI' so that 'Lua' word does not show up
+    //       in every issue out there and pollute GitHub issue search results.
     report <<
            "- OS: " << operating_system() << "\n" <<
            "    - OS Version: " << os_version << "\n" <<
            "- Game Version: " << game_version() << " [" << bitness() << "]\n" <<
            "- Graphics Version: " << graphics_version() << "\n" <<
+           "- LAPI Version: " << cata::get_lapi_version_string() << "\n" <<
            "- Game Language: " << lang_translated << " [" << lang << "]\n" <<
            "- Mods loaded: [\n    " << mods_loaded() << "\n]\n";
 

@@ -719,7 +719,7 @@ int main( int argc, char *argv[] )
     sigaction( SIGINT, &sigIntHandler, nullptr );
 #endif
 
-    DebugLog( DL::Info, DC::Main ) << "Binary has Lua support: " << cata::has_lua();
+    DebugLog( DL::Info, DC::Main ) << "LAPI version: " << cata::get_lapi_version_string();
     cata::startup_lua_test();
 
     prompt_select_lang_on_startup();

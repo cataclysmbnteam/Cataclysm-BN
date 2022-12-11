@@ -22,6 +22,11 @@ bool has_lua()
     return false;
 }
 
+std::string get_lapi_version_string()
+{
+    return "<none>";
+}
+
 void startup_lua_test()
 {
     // Nothing to do here
@@ -101,6 +106,11 @@ namespace cata
 bool has_lua()
 {
     return true;
+}
+
+std::string get_lapi_version_string()
+{
+    return string_format( "%d", get_lua_api_version() );
 }
 
 void startup_lua_test()
