@@ -13,6 +13,7 @@
 
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "catalua.h"
 #include "char_validity_check.h"
 #include "color.h"
 #include "cursesdef.h"
@@ -84,6 +85,16 @@ void WORLD::COPY_WORLD( const WORLD *world_to_copy )
     world_name = world_to_copy->world_name + "_copy";
     WORLD_OPTIONS = world_to_copy->WORLD_OPTIONS;
     active_mod_order = world_to_copy->active_mod_order;
+}
+
+bool WORLD::needs_lua() const
+{
+    for( const mod_id &mod : active_mod_order ) {
+        if( mod.is_valid() && mod->lua_api_version ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 std::string WORLD::folder_path() const
@@ -468,7 +479,17 @@ WORLDPTR worldfactory::pick_world( bool show_prompt, bool empty_only )
             wmove( w_worlds, point( 4, static_cast<int>( i ) ) );
 
             std::string world_name = ( world_pages[selpage] )[i];
-            size_t saves_num = get_world( world_name )->world_saves.size();
+            WORLDPTR world = get_world( world_name );
+            size_t saves_num = world->world_saves.size();
+
+            std::string text = string_format( "%s (%d)", world_name, saves_num );
+            nc_color col = c_white;
+            if( world->needs_lua() && !cata::has_lua() ) {
+                col = c_light_red;
+                text += " - ";
+                //~ Marker for worlds that need Lua in game builds without Lua
+                text += _( "Needs Lua!" );
+            }
 
             if( i == sel ) {
                 wprintz( w_worlds, c_yellow, ">> " );
@@ -476,7 +497,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt, bool empty_only )
                 wprintz( w_worlds, c_yellow, "   " );
             }
 
-            wprintz( w_worlds, c_white, "%s (%lu)", world_name, saves_num );
+            wprintz( w_worlds, col, text );
         }
 
         //Draw Tabs
@@ -548,7 +569,10 @@ WORLDPTR worldfactory::pick_world( bool show_prompt, bool empty_only )
                 }
             } while( world_pages[selpage].empty() );
         } else if( action == "CONFIRM" ) {
-            return get_world( world_pages[selpage][sel] );
+            WORLDPTR world = get_world( world_pages[selpage][sel] );
+            if( !( world->needs_lua() && !cata::has_lua() ) ) {
+                return world;
+            }
         }
     }
 
@@ -681,7 +705,6 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
 
                 } else {
                     if( iNum == iActive ) {
-                        //mvwprintw( w, iNum - start + iCatSortOffset, 1, "   " );
                         if( is_active_list ) {
                             mvwprintz( w, point( 1, iNum - start ), c_yellow, ">> " );
                         } else {
@@ -695,9 +718,14 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
                     if( mod_entry_id.is_valid() ) {
                         const MOD_INFORMATION &mod = *mod_entry_id;
                         mod_entry_name = mod.name() + mod_entry_name;
+                        if( mod.lua_api_version && !cata::has_lua() ) {
+                            mod_entry_color = c_light_red;
+                            //~ Tag for mods that use Lua in game builds without Lua.
+                            mod_entry_name = _( "(Needs Lua) " ) + remove_color_tags( mod_entry_name );
+                        }
                         if( mod.obsolete ) {
                             mod_entry_color = c_dark_gray;
-                            mod_entry_name += "*";
+                            mod_entry_name = remove_color_tags( mod_entry_name ) + "*";
                         }
                     } else {
                         mod_entry_color = c_light_red;

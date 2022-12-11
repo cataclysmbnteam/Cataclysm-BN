@@ -863,7 +863,8 @@ static void load_and_finalize_packs( loading_ui &ui, const std::string &msg,
             if( cata::get_lua_api_version() != *mod->lua_api_version ) {
                 // The mod may be broken, but let's be user-friendly and try to load it anyway
                 debugmsg(
-                    "Content pack uses outdated Lua API ( current: %d, uses: %d ) %s [%s]",
+                    "Content pack uses outdated Lua API (current: %d, uses: %d) %s [%s]",
+                    cata::get_lua_api_version(), *mod->lua_api_version,
                     mod->name(), mod
                 );
             }

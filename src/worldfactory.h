@@ -69,6 +69,8 @@ struct WORLD {
         WORLD();
         void COPY_WORLD( const WORLD *world_to_copy );
 
+        bool needs_lua() const;
+
         bool save_exists( const save_t &name ) const;
         void add_save( const save_t &name );
 
