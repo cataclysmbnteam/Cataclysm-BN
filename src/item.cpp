@@ -12,6 +12,7 @@
 #include <locale>
 #include <memory>
 #include <set>
+#include <string>
 #include <sstream>
 #include <tuple>
 #include <unordered_set>
@@ -6986,17 +6987,19 @@ void item::mark_chapter_as_read( const Character &ch )
     set_var( var, remain );
 }
 
-std::vector<std::pair<const recipe *, int>> item::get_available_recipes( const player &u ) const
+std::vector<std::pair<const recipe *, int>> item::get_available_recipes( const player &u,
+        bool bypass_skill_requirement ) const
 {
     std::vector<std::pair<const recipe *, int>> recipe_entries;
     if( is_book() ) {
         for( const islot_book::recipe_with_description_t &elem : type->book->recipes ) {
-            if( u.get_skill_level( elem.recipe->skill_used ) >= elem.skill_level ) {
+            if( u.get_skill_level( elem.recipe->skill_used ) >= elem.skill_level ||
+                bypass_skill_requirement ) {
                 recipe_entries.push_back( std::make_pair( elem.recipe, elem.skill_level ) );
             }
         }
     } else if( has_var( "EIPC_RECIPES" ) ) {
-        // See einkpc_download_memory_card() in iuse.cpp where this is set.
+        // See eipc_recipe_add() in item.cpp where this is set.
         const std::string recipes = get_var( "EIPC_RECIPES" );
         // Capture the index one past the delimiter, i.e. start of target string.
         size_t first_string_index = recipes.find_first_of( ',' ) + 1;
@@ -7008,13 +7011,30 @@ std::vector<std::pair<const recipe *, int>> item::get_available_recipes( const p
             std::string new_recipe = recipes.substr( first_string_index,
                                      next_string_index - first_string_index );
             const recipe *r = &recipe_id( new_recipe ).obj();
-            if( u.get_skill_level( r->skill_used ) >= r->difficulty ) {
+
+            if( u.get_skill_level( r->skill_used ) >= r->difficulty || bypass_skill_requirement ) {
                 recipe_entries.push_back( std::make_pair( r, r->difficulty ) );
             }
             first_string_index = next_string_index + 1;
         }
     }
     return recipe_entries;
+}
+
+bool item::eipc_recipe_add( const recipe_id &recipe_id )
+{
+    bool recipe_success = false;
+
+    const std::string old_recipes = this->get_var( "EIPC_RECIPES" );
+    if( old_recipes.empty() ) {
+        recipe_success = true;
+        this->set_var( "EIPC_RECIPES", "," + recipe_id.str() + "," );
+    } else if( old_recipes.find( "," + recipe_id.str() + "," ) == std::string::npos ) {
+        recipe_success = true;
+        this->set_var( "EIPC_RECIPES", old_recipes + recipe_id.str() + "," );
+    }
+
+    return recipe_success;
 }
 
 const material_type &item::get_random_material() const
@@ -7260,6 +7280,7 @@ units::energy item::energy_remaining() const
 
 int item::ammo_remaining() const
 {
+    // Magazine in the item
     const item *mag = magazine_current();
     if( mag ) {
         return mag->ammo_remaining();

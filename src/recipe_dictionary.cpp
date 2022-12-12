@@ -245,6 +245,12 @@ std::vector<const recipe *> recipe_subset::search_result( const itype_id &item )
     return res;
 }
 
+std::vector<const recipe *> recipe_subset::get_recipes()
+{
+    std::vector<const recipe *> ret( recipes.begin(), recipes.end() );
+    return ret;
+}
+
 bool recipe_subset::empty_category( const std::string &cat, const std::string &subcat ) const
 {
     if( subcat == "CSC_*_FAVORITE" ) {

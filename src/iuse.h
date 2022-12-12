@@ -172,6 +172,7 @@ int toolmod_attach( player *, item *, bool, const tripoint & );
 int rm13armor_off( player *, item *, bool, const tripoint & );
 int rm13armor_on( player *, item *, bool, const tripoint & );
 int unpack_item( player *, item *, bool, const tripoint & );
+int binder_add_recipe( player *, item *, bool, const tripoint & );
 int pack_cbm( player *p, item *it, bool, const tripoint & );
 int pack_item( player *, item *, bool, const tripoint & );
 int radglove( player *, item *, bool, const tripoint & );

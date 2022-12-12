@@ -1668,8 +1668,16 @@ class item : public visitable<item>
         /**
          * Enumerates recipes available from this book and the skill level required to use them.
          */
-        std::vector<std::pair<const recipe *, int>> get_available_recipes( const player &u ) const;
+        std::vector<std::pair<const recipe *, int>> get_available_recipes( const player &u,
+                bool bypass_skill_requirement = false ) const;
         /*@}*/
+
+        /**
+         * Add a recipe to the EIPC_RECIPES variable.
+         *
+         * @return true if the recipe was added, false if it is a duplicate
+         */
+        bool eipc_recipe_add( const recipe_id &recipe_id );
 
         /**
          * @name Martial art techniques

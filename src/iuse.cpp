@@ -266,6 +266,7 @@ static const itype_id itype_radio( "radio" );
 static const itype_id itype_radio_car( "radio_car" );
 static const itype_id itype_radio_car_on( "radio_car_on" );
 static const itype_id itype_radio_on( "radio_on" );
+static const itype_id itype_paper( "paper" );
 static const itype_id itype_rebreather_on( "rebreather_on" );
 static const itype_id itype_rebreather_xl_on( "rebreather_xl_on" );
 static const itype_id itype_rmi2_corpse( "rmi2_corpse" );
@@ -355,6 +356,7 @@ static const std::string flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
 static const std::string flag_HEATS_FOOD( "HEATS_FOOD" );
 static const std::string flag_PLANT( "PLANT" );
 static const std::string flag_PLOWABLE( "PLOWABLE" );
+static const std::string flag_WRITE_MESSAGE( "WRITE_MESSAGE" );
 
 // how many characters per turn of radio
 static constexpr int RADIO_PER_TURN = 25;
@@ -6259,26 +6261,16 @@ static bool einkpc_download_memory_card( player &p, item &eink, item &mc )
         if( !candidates.empty() ) {
 
             const recipe *r = random_entry( candidates );
-            const recipe_id &rident = r->ident();
 
-            const auto old_recipes = eink.get_var( "EIPC_RECIPES" );
-            if( old_recipes.empty() ) {
+            bool rec_added = eink.eipc_recipe_add( r->ident() );
+
+            if( rec_added ) {
                 something_downloaded = true;
-                eink.set_var( "EIPC_RECIPES", "," + rident.str() + "," );
-
                 p.add_msg_if_player( m_good, _( "You download a recipe for %s into the tablet's memory." ),
                                      r->result_name() );
             } else {
-                if( old_recipes.find( "," + rident.str() + "," ) == std::string::npos ) {
-                    something_downloaded = true;
-                    eink.set_var( "EIPC_RECIPES", old_recipes + rident.str() + "," );
-
-                    p.add_msg_if_player( m_good, _( "You download a recipe for %s into the tablet's memory." ),
-                                         r->result_name() );
-                } else {
-                    p.add_msg_if_player( m_good, _( "Your tablet already has a recipe for %s." ),
-                                         r->result_name() );
-                }
+                p.add_msg_if_player( m_good, _( "Your tablet already has a recipe for %s." ),
+                                     r->result_name() );
             }
         }
     }
@@ -9756,4 +9748,212 @@ ret_val<bool> use_function::can_call( const Character &p, const item &it, bool t
 int use_function::call( player &p, item &it, bool active, const tripoint &pos ) const
 {
     return actor->use( p, it, active, pos );
+}
+
+/**
+ * Remove a recipe from the EIPC_RECIPES variable.
+ *
+ * @return true if the recipe was deleted
+ */
+bool static eipc_recipe_remove( item &it, const recipe_id &recipe_id )
+{
+    bool recipe_success = false;
+
+    std::string current_recipes = it.get_var( "EIPC_RECIPES" );
+    if( current_recipes.empty() ) {
+        return false;
+    } else if( current_recipes.find( "," + recipe_id.str() + "," ) != std::string::npos ) {
+        recipe_success = true;
+        current_recipes.replace( current_recipes.find( recipe_id.str() ), recipe_id.str().length() + 1,
+                                 "" );
+        it.set_var( "EIPC_RECIPES", current_recipes );
+    }
+
+    return recipe_success;
+}
+
+int iuse::binder_add_recipe( player *p, item *binder, bool, const tripoint & )
+{
+    if( p->is_underwater() ) {
+        p->add_msg_if_player( m_info, _( "You rethink trying to write underwater." ) );
+        return 0;
+    }
+
+    uilist amenu;
+    amenu.text = _( "Choose menu option:" );
+
+    if( !binder->get_var( "EIPC_RECIPES" ).empty() ) {
+        amenu.addentry( 0, true, 'r', _( "View recipes" ) );
+    }
+    amenu.addentry( 1, true, 'w', _( "Copy a recipe from a book" ) );
+
+    amenu.query();
+    if( amenu.ret < 0 ) {
+        return 0;
+    } else if( amenu.ret == 0 ) {
+        uilist rmenu;
+        rmenu.text = _( "List recipes:" );
+
+        std::vector<recipe_id> candidate_recipes;
+        std::istringstream f( binder->get_var( "EIPC_RECIPES" ) );
+        std::string s;
+        int k = 0;
+        while( getline( f, s, ',' ) ) {
+
+            if( s.empty() ) {
+                continue;
+            }
+
+            candidate_recipes.emplace_back( s );
+
+            const recipe &rec = *candidate_recipes.back();
+            const int pages = 1 + rec.difficulty / 2;
+            if( rec ) {
+                rmenu.addentry_col( k++, true, -1, rec.result_name(),
+                                    string_format( vgettext( "%1$d page", "%1$d pages", pages ), pages ) );
+            }
+        }
+
+        rmenu.query();
+
+        return 0;
+    }
+
+    const inventory crafting_inv = p->crafting_inventory();
+    const std::vector<const item *> writing_tools = crafting_inv.items_with( [&]( const item & it ) {
+        return it.has_flag( flag_WRITE_MESSAGE ) && it.ammo_remaining() >= it.ammo_required();
+    } );
+
+    if( writing_tools.empty() ) {
+        p->add_msg_if_player( m_info, _( "You do not have anything to write with." ) );
+        return 0;
+    }
+    const std::vector<npc *> helpers = p->get_crafting_helpers();
+
+    // get recipes no matter the skill requirement
+    recipe_subset available_recipes;
+    for( const auto &stack : crafting_inv.const_slice() ) {
+        const item &candidate = stack->front();
+
+        for( std::pair<const recipe *, int> recipe_entry :
+             candidate.get_available_recipes( *p, true ) ) {
+            available_recipes.include( recipe_entry.first, recipe_entry.second );
+        }
+    }
+
+
+    std::vector<const recipe *> not_learnt_recipes;
+    std::string old_recipes = binder->get_var( "EIPC_RECIPES" );
+    recipe_subset learnt_recipes = p->get_learned_recipes();
+    // automatically remove already learnt recipes from the book binder, and free book space
+    int total_pages_removed = 0;
+    for( const recipe *rec : available_recipes.get_recipes() ) {
+        if( p->knows_recipe( rec ) ) {
+            // remove the recipe
+            if( eipc_recipe_remove( *binder, rec->ident() ) ) {
+                // remove the pages from the book
+                int pages_removed = 1 + rec->difficulty / 2;
+                binder->charges -= pages_removed;
+                total_pages_removed += pages_removed;
+            }
+        }
+    }
+
+    if( total_pages_removed != 0 ) {
+        p->add_msg_if_player( m_info, _
+                              ( string_format( "You already know some recipes.  You remove %d pages from the book binder.",
+                                               total_pages_removed ) ) );
+    }
+
+    // only keep not learnt recipes and those that are not already in the book
+    old_recipes = binder->get_var( "EIPC_RECIPES" );
+    for( const recipe *rec : available_recipes.get_recipes() ) {
+        bool add_recipe = true;
+        for( const recipe *rec_l : learnt_recipes.get_recipes() ) {
+            // if it's an available recipe, and it's learned, change the flag so it's not added
+            if( rec == rec_l ) {
+                add_recipe = false;
+                break;
+            }
+        }
+        // already in book binder?
+        if( old_recipes.find( "," + rec->ident().str() + "," ) != std::string::npos ) {
+            add_recipe = false;
+        }
+
+        if( add_recipe ) {
+            not_learnt_recipes.emplace_back( rec );
+        }
+    }
+
+    if( not_learnt_recipes.empty() ) {
+        p->add_msg_if_player( m_info, _( "You do not have any recipes you can copy." ) );
+        return 0;
+    }
+
+    // if player doesn't have at least 1 paper on him, add an early warning message
+    const int papers_on_player = p->charges_of( itype_paper );
+    if( papers_on_player <= 0 ) {
+        p->add_msg_if_player( m_info, _( "You do not have paper to copy a recipe." ) );
+        return 0;
+    }
+
+
+    const int charges_left = binder->type->maximum_charges() - binder->charges;
+    if( charges_left == 0 ) {
+        p->add_msg_if_player( m_info, _( "Your book binder is full." ) );
+        return 0;
+    }
+
+    if( character_funcs::fine_detail_vision_mod( *p ) > 4.0f ) {
+        p->add_msg_if_player( m_info, _( "It's too dark to write!" ) );
+        return 0;
+    }
+
+    uilist menu;
+    menu.text = _( "Choose recipe to copy" );
+
+    for( const recipe *rec : not_learnt_recipes ) {
+
+        const int pages = 1 + rec->difficulty / 2;
+        // greyed out row if there's not enough space in the book, or if there's not enough paper on the player to write the recipe
+        menu.addentry_col( -1, ( charges_left >= pages ) && ( papers_on_player >= pages ), ' ',
+                           rec->result_name(),
+                           string_format( vgettext( "%1$d page", "%1$d pages", pages ), pages ) );
+    }
+
+    menu.query();
+    if( menu.ret < 0 ) {
+        return 0;
+    }
+
+    const int pages = 1 + not_learnt_recipes[menu.ret]->difficulty / 2;
+    bool has_enough_charges = false;
+
+    // one charge per page
+    int max_charges = 0;
+    for( const item *it : writing_tools ) {
+        if( it->ammo_required() == 0 ) {
+            has_enough_charges = true;
+            break;
+        }
+
+        max_charges += it->ammo_remaining() / it->ammo_required();
+        if( max_charges >= pages ) {
+            has_enough_charges = true;
+            break;
+        }
+    }
+
+    if( !has_enough_charges ) {
+        p->add_msg_if_player( m_info, _( "Your writing tool does not have enough charges." ) );
+        return 0;
+    }
+
+    p->assign_activity( player_activity(
+                            bookbinder_copy_activity_actor(
+                                item_location( *p, binder ),
+                                not_learnt_recipes[menu.ret]->ident() ) ) );
+
+    return 0;
 }

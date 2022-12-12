@@ -163,6 +163,11 @@
   },
   {
     "type": "tool_quality",
+    "id": "WRITE",
+    "name": { "str": "writing" }
+  },
+  {
+    "type": "tool_quality",
     "id": "LIFT",
     "name": { "str": "lifting" }
   },
