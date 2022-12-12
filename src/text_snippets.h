@@ -114,4 +114,7 @@ class snippet_library
 
 extern snippet_library SNIPPET;
 
+/** Get random pre-translated tip of the day for the main menu. */
+std::string get_random_tip_of_the_day();
+
 #endif // CATA_SRC_TEXT_SNIPPETS_H

@@ -24,7 +24,6 @@
 #include "debug.h"
 #include "init.h"
 #include "json.h"
-#include "loading_ui.h"
 #include "messages.h"
 #include "options.h"
 #include "path_info.h"
@@ -673,8 +672,7 @@ void load_soundset()
 
     current_soundpack_path = soundpack_path;
     try {
-        loading_ui ui( false );
-        DynamicDataLoader::get_instance().load_data_from_path( soundpack_path, "core", ui );
+        init::load_soundpack_files( soundpack_path );
     } catch( const std::exception &err ) {
         dbg( DL::Error ) << "failed to load sounds: " << err.what();
     }

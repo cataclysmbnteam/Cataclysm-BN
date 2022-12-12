@@ -69,6 +69,11 @@ struct MOD_INFORMATION {
          */
         std::set<std::string> maintainers;
 
+        /**
+         * Arbitrary string that should help maintainers in figuring out
+         * what version of the mod the error in a bugreport comes from.
+         * Recommended use is to set latest mod update date here.
+         */
         std::string version;
 
         /** What other mods must be loaded prior to this one? */

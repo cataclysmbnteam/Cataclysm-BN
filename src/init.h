@@ -11,6 +11,7 @@
 
 #include "json.h"
 #include "memory_fast.h"
+#include "type_id.h"
 
 class loading_ui;
 class JsonObject;
@@ -27,7 +28,7 @@ class JsonIn;
  * - Call @ref unload_data (to unload data from a
  * previously loaded world, if any)
  * - Call @ref load_data_from_path(...) repeatedly with
- * different paths for the core data and all the mods
+ * different paths for all the mods
  * of the current world.
  * - Call @ref finalize_loaded_data when all mods have been
  * loaded.
@@ -72,7 +73,6 @@ class DynamicDataLoader
         struct cached_streams;
         std::unique_ptr<cached_streams> stream_cache;
 
-    protected:
         /**
          * Maps the type string (coming from json) to the
          * functor that loads that kind of object from json.
@@ -151,10 +151,7 @@ class DynamicDataLoader
          * @throw std::exception if the loaded data is not valid. The
          * game should *not* proceed in that case.
          */
-        /*@{*/
         void finalize_loaded_data( loading_ui &ui );
-        void finalize_loaded_data();
-        /*@}*/
 
         /**
          * Loads and then removes entries from @param data
@@ -176,5 +173,44 @@ class DynamicDataLoader
          */
         shared_ptr_fast<std::istream> get_cached_stream( const std::string &path );
 };
+
+namespace init
+{
+
+/** Returns whether the game data is currently loaded. */
+bool is_data_loaded();
+
+/**
+ * Load & finalize modlist that consists of single vanilla BN core "mod".
+ * @throw std::exception if the loaded data is not valid.
+ */
+void load_core_bn_modfiles();
+
+/**
+ * Load & finalize modlist needed for the current world.
+ * @param ui structure for load progress display
+ * @param artifact_file file with per-world artifact definitions
+ * @throw std::exception if the loaded data is not valid.
+ */
+void load_world_modfiles( loading_ui &ui, const std::string &artifacts_file );
+
+/**
+ * Load soundpack.
+ * @param soundpack_path path to soundpack directory.
+ * @throw std::exception if the loaded data is not valid.
+ */
+void load_soundpack_files( const std::string &soundpack_path );
+
+/**
+ * Check mods for errors.
+ *
+ * Does so by individually loading & finalizing each mod with all its dependencies.
+ * @param ui structure for load progress display
+ * @param opts check specific mods (or all if empty)
+ * @return whether all mods were successfully loaded and had no errors
+ */
+bool check_mods_for_errors( loading_ui &ui, const std::vector<mod_id> &opts );
+
+} // namespace init
 
 #endif // CATA_SRC_INIT_H

@@ -35,6 +35,7 @@
 #include "game_constants.h"
 #include "input.h"
 #include "int_id.h"
+#include "init.h"
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
@@ -3861,7 +3862,7 @@ void cata_tiles::do_tile_loading_report()
 {
     DebugLog( DL::Info, DC::Main ) << "Loaded tileset: " << get_option<std::string>( "TILES" );
 
-    if( !g->is_core_data_loaded() ) {
+    if( !init::is_data_loaded() ) {
         // There's nothing to do anymore without the core data.
         return;
     }
