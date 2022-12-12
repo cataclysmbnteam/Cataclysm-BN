@@ -3858,31 +3858,31 @@ void cata_tiles::get_tile_values( const int t, const int *tn, int &subtile, int 
     get_rotation_and_subtile( val, rotation, subtile );
 }
 
-void cata_tiles::do_tile_loading_report()
+void cata_tiles::do_tile_loading_report( std::function<void( std::string )> out )
 {
-    DebugLog( DL::Info, DC::Main ) << "Loaded tileset: " << get_option<std::string>( "TILES" );
+    out( "Loaded tileset: " + get_option<std::string>( "TILES" ) );
 
     if( !init::is_data_loaded() ) {
         // There's nothing to do anymore without the core data.
         return;
     }
 
-    tile_loading_report<ter_t>( ter_t::count(), C_TERRAIN, "" );
-    tile_loading_report<furn_t>( furn_t::count(), C_FURNITURE, "" );
+    tile_loading_report<ter_t>( ter_t::count(), C_TERRAIN, out, "" );
+    tile_loading_report<furn_t>( furn_t::count(), C_FURNITURE, out, "" );
 
     std::map<itype_id, const itype *> items;
     for( const itype *e : item_controller->all() ) {
         items.emplace( e->get_id(), e );
     }
-    tile_loading_report( items, C_ITEM, "" );
+    tile_loading_report( items, C_ITEM, out, "" );
 
     auto mtypes = MonsterGenerator::generator().get_all_mtypes();
     lr_generic( mtypes.begin(), mtypes.end(), []( const std::vector<mtype>::iterator & m ) {
         return ( *m ).id.str();
-    }, C_MONSTER, "" );
-    tile_loading_report( vpart_info::all(), C_VEHICLE_PART, "vp_" );
-    tile_loading_report<trap>( trap::count(), C_TRAP, "" );
-    tile_loading_report<field_type>( field_type::count(), C_FIELD, "" );
+    }, C_MONSTER, out, "" );
+    tile_loading_report( vpart_info::all(), C_VEHICLE_PART, out, "vp_" );
+    tile_loading_report<trap>( trap::count(), C_TRAP, out, "" );
+    tile_loading_report<field_type>( field_type::count(), C_FIELD, out, "" );
 }
 
 point cata_tiles::player_to_screen( const point &p ) const
@@ -3905,7 +3905,7 @@ point cata_tiles::player_to_screen( const point &p ) const
 
 template<typename Iter, typename Func>
 void cata_tiles::lr_generic( Iter begin, Iter end, Func id_func, TILE_CATEGORY category,
-                             const std::string &prefix )
+                             std::function<void( std::string )> out, const std::string &prefix )
 {
     std::string missing_list;
     std::string missing_with_looks_like_list;
@@ -3919,41 +3919,41 @@ void cata_tiles::lr_generic( Iter begin, Iter end, Func id_func, TILE_CATEGORY c
             missing_with_looks_like_list.append( id_string + " " );
         }
     }
-    DebugLog( DL::Info, DC::Main ) << "Missing " << TILE_CATEGORY_IDS[category] << ": " << missing_list;
-    DebugLog( DL::Info, DC::Main ) << "Missing " << TILE_CATEGORY_IDS[category] <<
-                                   " (but looks_like tile exists): " << missing_with_looks_like_list;
+    out( "Missing " + TILE_CATEGORY_IDS[category] + ": " + missing_list );
+    out( "Missing " + TILE_CATEGORY_IDS[category] + " (but looks_like tile exists): " +
+         missing_with_looks_like_list );
 }
 
 template <typename maptype>
 void cata_tiles::tile_loading_report( const maptype &tiletypemap, TILE_CATEGORY category,
-                                      const std::string &prefix )
+                                      std::function<void( std::string )> out, const std::string &prefix )
 {
     lr_generic( tiletypemap.begin(), tiletypemap.end(),
     []( const decltype( tiletypemap.begin() ) & v ) {
         // c_str works for std::string and for string_id!
         return v->first.c_str();
-    }, category, prefix );
+    }, category, out, prefix );
 }
 
 template <typename base_type>
 void cata_tiles::tile_loading_report( const size_t count, TILE_CATEGORY category,
-                                      const std::string &prefix )
+                                      std::function<void( std::string )> out, const std::string &prefix )
 {
     lr_generic( static_cast<size_t>( 0 ), count,
     []( const size_t i ) {
         return int_id<base_type>( i ).id().str();
-    }, category, prefix );
+    }, category, out, prefix );
 }
 
 template <typename arraytype>
 void cata_tiles::tile_loading_report( const arraytype &array, int array_length,
-                                      TILE_CATEGORY category, const std::string &prefix )
+                                      TILE_CATEGORY category, std::function<void( std::string )> out, const std::string &prefix )
 {
     const auto begin = &( array[0] );
     lr_generic( begin, begin + array_length,
     []( decltype( begin ) const v ) {
         return v->id;
-    }, category, prefix );
+    }, category, out, prefix );
 }
 
 std::vector<options_manager::id_and_option> cata_tiles::build_renderer_list()

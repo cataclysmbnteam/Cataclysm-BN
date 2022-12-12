@@ -3597,7 +3597,9 @@ void load_tileset()
         /*force=*/false,
         /*pump_events=*/true
     );
-    tilecontext->do_tile_loading_report();
+    tilecontext->do_tile_loading_report( []( std::string str ) {
+        DebugLog( DL::Info, DC::Main ) << str;
+    } );
 }
 
 //Ends the terminal, destroy everything
