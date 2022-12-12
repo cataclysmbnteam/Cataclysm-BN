@@ -6,10 +6,10 @@ Steps from current guide were tested on Windows 10 and 11 (64 bit), Visual Studi
 
 ## Prerequisites:
 
-* Computer with modern Windows operating system installed (Windows 11, 10, 8.1 or 7);
+* Computer with modern Windows operating system installed (Windows 10 or 11), Windows 7 and 8.1 are not guaranteed to work;
 * NTFS partition with ~15 Gb free space (~10 Gb for Visual Studio, ~1 Gb for vcpkg installation, ~3 Gb for repository and ~1 Gb for build cache);
 * Git for Windows (installer can be downloaded from [Git homepage](https://git-scm.com/));
-* Visual Studio 2019 (or 2015 Visual Studio Update 3 and above);
+* Visual Studio 2019 or 2022
   * **Note**: If you are using Visual Studio 2022, you must install the Visual Studio 2019 compilers to work around a vcpkg bug. In the Visual Studio Installer, select the 'Individual components' tab and search for / select the component that looks like 'MSVC v142 - VS 2019 C++ x64/x86 Build Tools'. See https://github.com/microsoft/vcpkg/issues/22287.
 * Latest version of vcpkg (see instructions on [vcpkg homepage](https://github.com/Microsoft/vcpkg)).
 * If you plan on contributing your changes to Bright Nights, you'll also have to install a code formatter, see [Code style](#code-style) section for more info.
@@ -31,8 +31,8 @@ Steps from current guide were tested on Windows 10 and 11 (64 bit), Visual Studi
 ```cmd
 git clone https://github.com/Microsoft/vcpkg.git
 cd vcpkg
-.\bootstrap-vcpkg.bat -disableMetrics
-.\vcpkg integrate install
+bootstrap-vcpkg.bat -disableMetrics
+vcpkg integrate install
 ```
 
 ## Cloning and compilation:
