@@ -54,7 +54,7 @@ sol::table make_readonly_table( sol::state &lua, sol::table read_from,
 {
     sol::table ret = lua.create_table();
 
-    std::string copy = error_msg;
+    const std::string &copy = error_msg;
     read_from[sol::meta_function::index] = read_from;
     read_from[sol::meta_function::new_index] = [copy]( sol::this_state L ) {
         return luaL_error( L.lua_state(), copy.c_str() );
@@ -206,10 +206,10 @@ template <>
 struct is_container<item_stack> : std::false_type {};
 template <>
 struct is_container<map_stack> : std::false_type {};
-}
+} // namespace sol
 
 struct item_stack_lua_it_state {
-    typedef item_stack::iterator it_t;
+    using it_t = item_stack::iterator;
     it_t it;
     it_t last;
 
