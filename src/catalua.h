@@ -22,6 +22,7 @@ bool has_lua();
 int get_lua_api_version();
 std::string get_lapi_version_string();
 void startup_lua_test();
+bool generate_lua_docs();
 void show_lua_console();
 void reload_lua_code();
 

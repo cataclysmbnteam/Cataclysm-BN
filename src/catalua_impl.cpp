@@ -7,7 +7,7 @@
 #include "debug.h"
 #include "string_formatter.h"
 
-sol::state make_lua_state()
+sol::state make_lua_state( bool doc_mode )
 {
     sol::state lua;
 
@@ -22,7 +22,11 @@ sol::state make_lua_state()
     );
 
     reg_debug_logging( lua );
-    reg_game_bindings( lua );
+    if( doc_mode ) {
+        reg_docced_bindings( lua );
+    } else {
+        reg_game_bindings( lua );
+    }
 
     return lua;
 }

@@ -10,5 +10,6 @@ sol::table make_readonly_table( sol::state &lua, sol::table read_from,
 
 void reg_debug_logging( sol::state &lua );
 void reg_game_bindings( sol::state &lua );
+void reg_docced_bindings( sol::state &lua );
 
 #endif // CATA_SRC_CATALUA_BINDINGS_H

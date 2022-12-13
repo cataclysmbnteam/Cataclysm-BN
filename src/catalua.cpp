@@ -32,6 +32,11 @@ void startup_lua_test()
     // Nothing to do here
 }
 
+bool generate_lua_docs()
+{
+    // Nothing to do here
+}
+
 void show_lua_console()
 {
     query_popup()
@@ -115,13 +120,34 @@ std::string get_lapi_version_string()
 
 void startup_lua_test()
 {
-    sol::state lua = make_lua_state();
+    sol::state lua = make_lua_state( false );
     std::string lua_startup_script = PATH_INFO::datadir() + "raw/on_game_start.lua";
     try {
         run_lua_script( lua, lua_startup_script );
     } catch( std::runtime_error &e ) {
         debugmsg( "%s", e.what() );
     }
+}
+
+bool generate_lua_docs()
+{
+    sol::state lua = make_lua_state( true );
+    lua.globals()["doc_gen_func"] = lua.create_table();
+    std::string lua_doc_script = PATH_INFO::datadir() + "raw/generate_docs.lua";
+    try {
+        run_lua_script( lua, lua_doc_script );
+        sol::protected_function doc_gen_func = lua["doc_gen_func"]["impl"];
+        sol::protected_function_result res = doc_gen_func();
+        check_func_result( res );
+        std::string ret = res;
+        write_to_file( "config/lua_doc.md", [&]( std::ostream & s ) {
+            s << ret;
+        } );
+    } catch( std::runtime_error &e ) {
+        cata_printf( "%s\n", e.what() );
+        return false;
+    }
+    return true;
 }
 
 void show_lua_console()
@@ -191,8 +217,10 @@ bool load_world_lua_state( const std::string &path )
 
 std::unique_ptr<lua_state, lua_state_deleter> make_wrapped_state()
 {
-    std::unique_ptr<lua_state, lua_state_deleter> ret( new lua_state{ make_lua_state() },
-            lua_state_deleter{} );
+    std::unique_ptr<lua_state, lua_state_deleter> ret(
+        new lua_state{ make_lua_state( false ) },
+        lua_state_deleter{}
+    );
 
     sol::state &lua = ret->lua;
 
