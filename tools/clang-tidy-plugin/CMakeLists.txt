@@ -47,7 +47,7 @@ if ("${CATA_CLANG_TIDY_INCLUDE_DIR}" STREQUAL "")
 
     add_dependencies(CataAnalyzerPlugin clang-tidy-plugin-support)
     target_include_directories(
-        CataAnalyzerPlugin SYSTEM PRIVATE ${ctps_src}/include)
+        CataAnalyzerPlugin SYSTEM PRIVATE ${CTPS_SRC}/include)
 else()
     target_include_directories(
         CataAnalyzerPlugin SYSTEM PRIVATE ${CATA_CLANG_TIDY_INCLUDE_DIR})
