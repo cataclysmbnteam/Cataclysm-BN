@@ -2620,7 +2620,7 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
     }
     if( obj.magazine_integral() ) {
         // find suitable ammo excluding that already loaded in magazines
-        std::set<ammotype> ammo = obj.ammo_types();
+        const std::set<ammotype> &ammo = obj.ammo_types();
         const auto mags = obj.magazine_compatible();
 
         src.visit_items( [&src, &nested, &out, &mags, ammo]( item * node ) {
