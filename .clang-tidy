@@ -55,6 +55,10 @@ Checks: >
   -modernize-use-emplace,
   -modernize-use-transparent-functors,
   -modernize-use-override,
+  -modernize-use-nodiscard,
+  -modernize-concat-nested-namespaces,
+  -modernize-loop-convert,
+  -modernize-unary-static-assert,
   -performance-no-automatic-move,
   -performance-trivially-destructible,
   -performance-for-range-copy,
@@ -77,19 +81,11 @@ Checks: >
   -readability-make-member-function-const,
   -readability-named-parameter,
   -readability-redundant-control-flow,
+  -readability-redundant-declaration,
   -readability-identifier-length,
   -readability-qualified-auto,
   -readability-redundant-access-specifiers,
   -readability-use-anyofallof,
-
-WarningsAsErrors: >
-  *,
-  -modernize-use-nodiscard,
-  -modernize-concat-nested-namespaces,
-  -modernize-loop-convert,
-  -modernize-unary-static-assert,
-  -readability-redundant-declaration,
-# C++17 changes that clang-tidy does not likes
 
 HeaderFilterRegex: "(src|(test(?!.*catch.*catch.h))|tools).*"
 FormatStyle: none
