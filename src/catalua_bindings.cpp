@@ -659,6 +659,7 @@ void reg_game_bindings( sol::state &lua )
                            );
     }
 
+    reg_string_id<faction_id>( lua, "FactionId" );
     reg_string_id<itype_id>( lua, "ItypeId" );
     reg_string_id<ter_str_id>( lua, "TerId" );
     reg_string_id<furn_str_id>( lua, "FurnId" );
