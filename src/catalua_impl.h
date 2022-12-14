@@ -20,9 +20,11 @@ struct lua_state {
 
 } // namespace cata
 
-sol::state make_lua_state( bool doc_mode );
+sol::state make_lua_state();
 void run_lua_script( sol::state &lua, const std::string &script_name );
 void run_console_input( sol::state &lua, const std::string &chunk );
 void check_func_result( sol::protected_function_result &res );
+
+void reg_all_bindings( sol::state &lua );
 
 #endif // CATA_SRC_CATALUA_IMPL_H

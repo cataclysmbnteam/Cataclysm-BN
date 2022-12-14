@@ -90,10 +90,10 @@ void run_hooks( Args &&... ) {}
 #include "catalua_sol.h"
 
 #include "avatar.h"
-#include "catalua_bindings.h"
 #include "catalua_console.h"
 #include "catalua_impl.h"
 #include "catalua_iuse_actor.h"
+#include "catalua_readonly.h"
 #include "catalua_serde.h"
 #include "filesystem.h"
 #include "fstream_utils.h"
@@ -120,7 +120,7 @@ std::string get_lapi_version_string()
 
 void startup_lua_test()
 {
-    sol::state lua = make_lua_state( false );
+    sol::state lua = make_lua_state();
     std::string lua_startup_script = PATH_INFO::datadir() + "raw/on_game_start.lua";
     try {
         run_lua_script( lua, lua_startup_script );
@@ -131,7 +131,7 @@ void startup_lua_test()
 
 bool generate_lua_docs()
 {
-    sol::state lua = make_lua_state( true );
+    sol::state lua = make_lua_state();
     lua.globals()["doc_gen_func"] = lua.create_table();
     std::string lua_doc_script = PATH_INFO::datadir() + "raw/generate_docs.lua";
     try {
@@ -218,7 +218,7 @@ bool load_world_lua_state( const std::string &path )
 std::unique_ptr<lua_state, lua_state_deleter> make_wrapped_state()
 {
     std::unique_ptr<lua_state, lua_state_deleter> ret(
-        new lua_state{ make_lua_state( false ) },
+        new lua_state{ make_lua_state() },
         lua_state_deleter{}
     );
 

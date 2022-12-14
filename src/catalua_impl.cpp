@@ -1,13 +1,12 @@
 #ifdef LUA
 #include "catalua_impl.h"
 
-#include "catalua_bindings.h"
 #include "catalua_log.h"
 #include "catalua_sol.h"
 #include "debug.h"
 #include "string_formatter.h"
 
-sol::state make_lua_state( bool doc_mode )
+sol::state make_lua_state()
 {
     sol::state lua;
 
@@ -21,12 +20,7 @@ sol::state make_lua_state( bool doc_mode )
         sol::lib::table
     );
 
-    reg_debug_logging( lua );
-    if( doc_mode ) {
-        reg_docced_bindings( lua );
-    } else {
-        reg_game_bindings( lua );
-    }
+    reg_all_bindings( lua );
 
     return lua;
 }
