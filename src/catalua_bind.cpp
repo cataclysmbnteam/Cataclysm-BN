@@ -477,6 +477,72 @@ static void reg_ui_elements( sol::state &lua )
     }
 }
 
+static void reg_coords_library( sol::state &lua )
+{
+    luna::userlib lib = luna::begin_lib( lua, "coords" );
+
+    luna::set_fx( lib, "ms_to_sm", []( const tripoint & raw ) -> std::tuple<tripoint, point> {
+        tripoint_rel_ms fine( raw );
+        tripoint_rel_sm rough;
+        point_sm_ms remain;
+        std::tie( rough, remain ) = coords::project_remain<coords::sm>( fine );
+        return std::make_pair( rough.raw(), remain.raw() );
+    } );
+    luna::set_fx( lib, "ms_to_omt", []( const tripoint & raw ) -> std::tuple<tripoint, point> {
+        tripoint_rel_ms fine( raw );
+        tripoint_rel_omt rough;
+        point_omt_ms remain;
+        std::tie( rough, remain ) = coords::project_remain<coords::omt>( fine );
+        return std::make_pair( rough.raw(), remain.raw() );
+    } );
+    luna::set_fx( lib, "ms_to_om", []( const tripoint & raw ) -> std::tuple<point, tripoint> {
+        tripoint_rel_ms fine( raw );
+        point_rel_om rough;
+        coords::coord_point<tripoint, coords::origin::overmap, coords::ms> remain;
+        std::tie( rough, remain ) = coords::project_remain<coords::om>( fine );
+        return std::make_pair( rough.raw(), remain.raw() );
+    } );
+
+    luna::set_fx( lib, "sm_to_ms", []( const tripoint & raw_rough,
+    sol::optional<const point &> raw_remain ) -> tripoint {
+        tripoint_rel_sm rough( raw_rough );
+        point_sm_ms remain( raw_remain ? *raw_remain : point_zero );
+        tripoint_rel_ms fine = coords::project_combine( rough, remain );
+        return fine.raw();
+    } );
+    luna::set_fx( lib, "omt_to_ms", []( const tripoint & raw_rough,
+    sol::optional<const point &> raw_remain ) -> tripoint {
+        tripoint_rel_omt rough( raw_rough );
+        point_omt_ms remain( raw_remain ? *raw_remain : point_zero );
+        tripoint_rel_ms fine = coords::project_combine( rough, remain );
+        return fine.raw();
+    } );
+    luna::set_fx( lib, "om_to_ms", []( const point & raw_rough,
+    sol::optional<const tripoint &> raw_remain ) -> tripoint {
+        point_rel_om rough( raw_rough );
+        coords::coord_point<tripoint, coords::origin::overmap, coords::ms> remain(
+            raw_remain ? *raw_remain : tripoint_zero
+        );
+        tripoint_rel_ms fine = coords::project_combine( rough, remain );
+        return fine.raw();
+    } );
+
+    luna::set_fx( lib, "rl_dist", sol::overload(
+                      sol::resolve<int( const tripoint &, const tripoint & )>( rl_dist ),
+                      sol::resolve<int( const point &, const point & )>( rl_dist )
+                  ) );
+    luna::set_fx( lib, "trig_dist", sol::overload(
+                      sol::resolve<float( const tripoint &, const tripoint & )>( trig_dist ),
+                      sol::resolve<float( const point &, const point & )>( trig_dist )
+                  ) );
+    luna::set_fx( lib, "square_dist", sol::overload(
+                      sol::resolve<int( const tripoint &, const tripoint & )>( square_dist ),
+                      sol::resolve<int( const point &, const point & )>( square_dist )
+                  ) );
+
+    luna::finalize_lib( lib );
+}
+
 template<typename T>
 void reg_id( sol::state &lua )
 {
@@ -563,6 +629,7 @@ void reg_docced_bindings( sol::state &lua )
     reg_colors( lua );
     reg_enums( lua );
     reg_string_ids( lua );
+    reg_coords_library( lua );
 }
 
 #endif

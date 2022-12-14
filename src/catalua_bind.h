@@ -49,6 +49,8 @@ namespace detail
 
 constexpr std::string_view KEY_TYPES = "#types";
 constexpr std::string_view KEY_ENUMS = "#enums";
+constexpr std::string_view KEY_LIBS = "#libs";
+constexpr std::string_view KEY_LIB_IMPL = "#lib_impl";
 constexpr std::string_view KEY_ENUM_ENTRIES = "entries";
 constexpr std::string_view KEY_TYPE_IMPL = "#type_impl";
 constexpr std::string_view KEY_DOCTABLE = "catadoc";
@@ -192,6 +194,7 @@ inline sol::table get_global_doctable( sol::state_view &lua )
         sol::table dt = lua.create_table();
         dt[detail::KEY_TYPES] = lua.create_table();
         dt[detail::KEY_ENUMS] = lua.create_table();
+        dt[detail::KEY_LIBS] = lua.create_table();
         lua[detail::KEY_DOCTABLE] = dt;
         return dt;
     }
@@ -262,6 +265,43 @@ template<typename Class, typename Func>
 void doc_member_fx( sol::table &dt, types<Func> && )
 {
     doc_member_fx_impl<Class>( dt, types<Func>() );
+}
+
+template<typename RetVal, typename ...Args>
+void doc_free_fx_impl2( sol::table &dt, types<RetVal> &&,
+                        types<sol::types<Args...>> && )
+{
+    dt[KEY_MEMBER_RETVAL] = doc_value( types<RetVal>() );
+    dt[KEY_MEMBER_ARGS] = doc_arg_list<Args...>();
+}
+
+template<typename ...Functions>
+void doc_free_fx_impl( sol::table &dt, types<Functions...> && )
+{
+    dt[KEY_MEMBER_TYPE] = MEMBER_IS_FUNC;
+    std::vector<sol::table> overloads;
+    sol::state_view lua( dt.lua_state() );
+    ( [&]() {
+        sol::table overload = lua.create_table();
+        overloads.push_back( overload );
+        using RetVal = typename fx_traits<Functions>::return_type;
+        using Args = typename fx_traits<Functions>::args_list;
+        doc_free_fx_impl2( overload, types<RetVal>(), types<Args>() );
+    }
+    (), ... );
+    dt[KEY_MEMBER_OVERLOADS] = overloads;
+}
+
+template<typename ...Functions>
+void doc_free_fx( sol::table &dt, types<sol::overload_set<Functions...>> && )
+{
+    doc_free_fx_impl( dt, types<Functions...>() );
+}
+
+template<typename Func>
+void doc_free_fx( sol::table &dt, types<Func> && )
+{
+    doc_free_fx_impl( dt, types<Func>() );
 }
 
 template<typename Key>
@@ -402,6 +442,62 @@ void finalize_enum(
     sol::table et = make_readonly_table( lua, e.t, string_format( "Tried to modify enum table %s.",
                                          name ) );
     lua.globals()[name] = et;
+}
+
+struct userlib {
+    sol::table t;
+    std::string_view name;
+    sol::table dt;
+};
+
+inline userlib begin_lib(
+    sol::state_view &lua,
+    std::string_view name
+)
+{
+    // Ensure global doctable exists
+    sol::table global_dt = detail::get_global_doctable( lua );
+
+    // Create doctable for this lib
+    sol::table lib_dt = lua.create_table();
+    global_dt[detail::KEY_LIBS][name] = lib_dt;
+
+    // Init members table
+    lib_dt[detail::KEY_MEMBER] = std::vector<sol::object>();
+
+    // Create library itself
+    sol::table t = lua.create_table();
+
+    // Link to original library from docs
+    lib_dt[detail::KEY_LIB_IMPL] = t;
+
+    return userlib { t, name, lib_dt };
+}
+
+template<typename Key, typename Func >
+void set_fx(
+    userlib &lib,
+    Key &&key,
+    Func value
+)
+{
+    lib.t.set( key, std::forward<Func>( value ) );
+
+    sol::state_view lua( lib.t.lua_state() );
+    sol::table member_dt = detail::make_type_member_doctable( lib.dt, key );
+    detail::doc_free_fx( member_dt, detail::types<Func>() );
+}
+
+inline void finalize_lib(
+    userlib &lib
+)
+{
+    sol::state_view lua( lib.t.lua_state() );
+
+    // Make read-only so Lua code doesn't mess with it
+    sol::table et = make_readonly_table( lua, lib.t, string_format( "Tried to modify library %s.",
+                                         lib.name ) );
+    lua.globals()[lib.name] = et;
 }
 
 } // namespace luna

@@ -167,5 +167,23 @@ doc_gen_func.impl = function()
         .."\n"
     end
 
+    ret = ret.."# Libraries\n\n"
+
+    local libs_table = dt["#libs"]
+
+    local libs_sorted = sorted_by( libs_table )
+    for _,it in pairs(libs_sorted) do
+        local typename = it.k
+        local dt_lib = it.v 
+        ret = ret.."## "..typename.."\n"
+
+        local members = dt_lib["#member"]
+
+        ret = ret
+        .."### Members\n"
+        ..fmt_members( nil, members )
+        .."\n"
+    end
+
     return ret
 end
