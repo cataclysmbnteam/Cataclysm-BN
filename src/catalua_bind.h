@@ -63,17 +63,8 @@ struct luna_traits {
 template<typename ...Args>
 using types = sol::types<Args...>;
 
-// TODO: these were copied from string_formatter.h, find a way to share between files
-// Checks whether T is instance of TMPL
-template <typename, template <typename> class>
-struct is_instance_of : std::false_type {};
-template <typename T, template <typename> class TMPL>
-struct is_instance_of<TMPL<T>, TMPL> : std::true_type {};
-// Checks whether T is instance of std::function<T2>
 template<typename T>
-using is_std_function = typename std::conditional <
-                        is_instance_of<typename std::decay<T>::type, std::function>::value,
-                        std::true_type, std::false_type >::type;
+using remove_cv_ref_t = typename std::remove_cv<typename std::remove_reference<T>::type>::type;
 
 template<typename Signature>
 using fx_traits = sol::meta::meta_detail::fx_traits<Signature>;
@@ -82,7 +73,8 @@ template<typename Val>
 std::string doc_value_impl()
 {
     //static_assert(luna_traits<Val>::impl, "Type must inplement luna_traits" );
-    return std::string( luna_traits<Val>::name );
+    using ValBare = remove_cv_ref_t<Val>;
+    return std::string( luna_traits<ValBare>::name );
 }
 
 template<typename ...Args>
@@ -119,7 +111,7 @@ std::vector<std::string> doc_arg_list()
 
     ( (
           ret.push_back(
-              doc_value( types<typename std::remove_cv<typename std::remove_reference<Args>::type>::type>() ) )
+              doc_value( types<Args>() ) )
       ), ... );
 
     return ret;
@@ -256,7 +248,7 @@ sol::usertype<Class> new_usertype(
 
     // Register Sol usertype
     sol::usertype<Class> ut;
-    using BasesBare = typename std::remove_cv<typename std::remove_reference<Bases>::type>::type;
+    using BasesBare = detail::remove_cv_ref_t<Bases>;
     if constexpr( std::is_same_v<BasesBare, no_bases_t> ) {
         ut = lua.new_usertype<Class>( name, constructor );
     } else {
