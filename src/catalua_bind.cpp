@@ -24,6 +24,7 @@ LUNA_VAL( float, "double" );
 LUNA_VAL( double, "double" );
 LUNA_VAL( void, "nil" );
 LUNA_VAL( std::string, "string" );
+LUNA_VAL( std::string_view, "string" );
 LUNA_VAL( sol::lua_nil_t, "nil" );
 LUNA_VAL( sol::variadic_args, "..." );
 
