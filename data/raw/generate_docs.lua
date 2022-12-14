@@ -1,19 +1,21 @@
-local fmt_one_constructor = function(typename, ctor)
-    local ret = typename.."("
-    if #ctor == 0 then
-        ret=ret..")"
-    else
-        local is_first = true
-        for _,arg in pairs(ctor) do
-            if not is_first then
-                ret=ret..","
-            end
-            ret=ret.." "..arg
-            is_first = false
-        end
-        ret=ret.." )"
+local fmt_arg_list = function(arg_list)
+    local ret = ""
+    if #arg_list == 0 then
+        return ret
     end
-    return ret
+    local is_first = true
+    for _, arg in pairs(arg_list) do
+        if not is_first then
+            ret=ret..","
+        end
+        ret=ret.." "..arg
+        is_first = false
+    end
+    return ret.." "
+end
+
+local fmt_one_constructor = function(typename, ctor)
+    return typename..".new("..fmt_arg_list(ctor)..")"
 end
 
 local fmt_constructors = function(typename, ctors)
@@ -23,6 +25,34 @@ local fmt_constructors = function(typename, ctors)
         local ret = ""
         for k,v in pairs(ctors) do
             ret=ret..tostring(k).." : "..fmt_one_constructor(typename, v).."\n"
+        end
+        return ret
+    end
+end
+
+local fmt_one_member = function(typename, member)
+    local ret = tostring(member.name).."\n  ";
+    
+    if member.type == "var" then
+        ret=ret.."Variable of type "..member.vartype
+    elseif member.type == "func" then
+        ret=ret.."Function ("..fmt_arg_list(member.args)..") -> "..member.retval
+    elseif member.type == "const_func" then
+        ret=ret.."Const function ("..fmt_arg_list(member.args)..") -> "..member.retval
+    else
+        error("Unknown member type "..tostring(member.type))
+    end
+
+    return ret.."\n"
+end
+
+local fmt_members = function(typename, members)
+    if #members == 0 then
+        return "No members.\n"
+    else
+        local ret = ""
+        for k,v in pairs(members) do
+            ret=ret..tostring(k).." : "..fmt_one_member(typename, v).."\n"
         end
         return ret
     end
@@ -41,8 +71,15 @@ doc_gen_func.impl = function()
         ret = ret.."### "..typename.."\n"
 
         local ctors = dt_type["#construct"]
+        local members = dt_type["#member"]
 
-        ret = ret.."#### Constructors\n"..fmt_constructors( typename, ctors ).."\n"
+        ret = ret
+        .."#### Constructors\n"
+        ..fmt_constructors( typename, ctors )
+        .."\n"
+        .."#### Members\n"
+        ..fmt_members( typename, members )
+        .."\n"
     end
 
     return ret

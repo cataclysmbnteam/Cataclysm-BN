@@ -657,19 +657,6 @@ int main( int argc, char *argv[] )
                                    << static_cast<int>( linked.patch );
 #endif
 
-    DebugLog( DL::Info, DC::Main ) << "LAPI version: " << cata::get_lapi_version_string();
-    cata::startup_lua_test();
-
-    if( lua_doc_mode ) {
-        if( cata::generate_lua_docs() ) {
-            cata_printf( "Lua doc: Done!\n" );
-            return 0;
-        } else {
-            cata_printf( "Lua doc: Failed.\n" );
-            return 1;
-        }
-    }
-
 #if !defined(TILES)
     get_options().init();
     get_options().load();
@@ -741,6 +728,19 @@ int main( int argc, char *argv[] )
     sigIntHandler.sa_flags = 0;
     sigaction( SIGINT, &sigIntHandler, nullptr );
 #endif
+
+    DebugLog( DL::Info, DC::Main ) << "LAPI version: " << cata::get_lapi_version_string();
+    cata::startup_lua_test();
+
+    if( lua_doc_mode ) {
+        if( cata::generate_lua_docs() ) {
+            cata_printf( "Lua doc: Done!\n" );
+            return 0;
+        } else {
+            cata_printf( "Lua doc: Failed.\n" );
+            return 1;
+        }
+    }
 
     prompt_select_lang_on_startup();
     replay_buffered_debugmsg_prompts();
