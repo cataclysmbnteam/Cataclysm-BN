@@ -1,3 +1,14 @@
+-- Received a table with string keys,
+-- Returns sorted array where each value is table of type { k=k, v=v }
+local sorted_by_key = function(t)
+    local sorted = {}
+    for k, v in pairs(t) do
+        sorted[#sorted + 1] = {k=k, v=v}
+    end
+    table.sort( sorted, function(a,b) return (a.k < b.k) end )
+    return sorted
+end
+
 local fmt_arg_list = function(arg_list)
     local ret = ""
     if #arg_list == 0 then
@@ -20,24 +31,24 @@ end
 
 local fmt_constructors = function(typename, ctors)
     if #ctors == 0 then
-        return "No constructors.\n"
+        return "  No constructors.\n"
     else
         local ret = ""
         for k,v in pairs(ctors) do
-            ret=ret..tostring(k).." : "..fmt_one_constructor(typename, v).."\n"
+            ret=ret.."- `"..fmt_one_constructor(typename, v).."`\n"
         end
         return ret
     end
 end
 
 local fmt_one_member = function(typename, member)
-    local ret = tostring(member.name).."\n";
+    local ret = "#### "..tostring(member.name).."\n";
     
     if member.type == "var" then
-        ret=ret.."  Variable of type "..member.vartype.."\n"
+        ret=ret.."  Variable of type `"..member.vartype.."`\n"
     elseif member.type == "func" then
         for _,overload in pairs(member.overloads) do
-            ret=ret.."  Function ("..fmt_arg_list(overload.args)..") -> "..overload.retval.."\n"
+            ret=ret.."  Function `("..fmt_arg_list(overload.args)..") -> "..overload.retval.."`\n"
         end
     else
         error("Unknown member type "..tostring(member.type))
@@ -48,11 +59,14 @@ end
 
 local fmt_members = function(typename, members)
     if #members == 0 then
-        return "No members.\n"
+        return "  No members.\n"
     else
         local ret = ""
-        for k,v in pairs(members) do
-            ret=ret..tostring(k).." : "..fmt_one_member(typename, v).."\n"
+
+        local members_sorted = sorted_by_key( members )
+
+        for _,it in pairs(members_sorted) do
+            ret=ret..fmt_one_member(typename, it.v).."\n"
         end
         return ret
     end
@@ -60,11 +74,11 @@ end
 
 local fmt_bases = function(typename, bases)
     if #bases == 0 then
-        return "No base classes.\n"
+        return "  No base classes.\n"
     else
         local ret = ""
         for k,v in pairs(bases) do
-            ret=ret..tostring(k).." : "..v.."\n"
+            ret=ret.."- `"..v.."`\n"
         end
         return ret
     end
@@ -75,25 +89,28 @@ doc_gen_func.impl = function()
 
     local dt = catadoc
 
-    ret = ret.."## Types\n\n"
+    ret = ret.."# Types\n\n"
 
     local types_table = dt["#types"]
 
-    for typename,dt_type in pairs(types_table) do
-        ret = ret.."### "..typename.."\n"
+    local types_sorted = sorted_by_key(types_table)
+    for _,it in pairs(types_sorted) do
+        local typename = it.k
+        local dt_type = it.v 
+        ret = ret.."## "..typename.."\n"
 
         local bases = dt_type["#bases"]
         local ctors = dt_type["#construct"]
         local members = dt_type["#member"]
 
         ret = ret
-        .."#### Bases\n"
+        .."### Bases\n"
         ..fmt_bases( typename, bases )
         .."\n"
-        .."#### Constructors\n"
+        .."### Constructors\n"
         ..fmt_constructors( typename, ctors )
         .."\n"
-        .."#### Members\n"
+        .."### Members\n"
         ..fmt_members( typename, members )
         .."\n"
     end

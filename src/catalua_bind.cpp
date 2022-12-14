@@ -7,6 +7,7 @@
 #include "creature.h"
 #include "item.h"
 #include "itype.h"
+#include "map.h"
 #include "monster.h"
 #include "npc.h"
 #include "player.h"
@@ -28,6 +29,8 @@ LUNA_VAL( avatar, "Avatar" );
 LUNA_VAL( point, "Point" );
 LUNA_VAL( tripoint, "Tripoint" );
 LUNA_VAL( item, "Item" );
+LUNA_VAL( map, "Map" );
+LUNA_VAL( tinymap, "Tinymap" );
 
 void reg_docced_bindings( sol::state &lua )
 {
@@ -220,6 +223,45 @@ void reg_docced_bindings( sol::state &lua )
                       sol::resolve<void( const std::string &, double )>( &item::set_var ) );
         luna::set_fx( ut, "set_var_tri",
                       sol::resolve<void( const std::string &, const tripoint & )>( &item::set_var ) );
+    }
+
+    // Register 'map' class to be used in Lua
+    {
+        sol::usertype<map> ut = luna::new_usertype<map>( lua, luna::no_bases, luna::no_constructor );
+
+        luna::set_fx( ut, "get_abs_ms", sol::resolve<tripoint( const tripoint & ) const>( &map::getabs ) );
+        luna::set_fx( ut, "get_local_ms",
+                      sol::resolve<tripoint( const tripoint & ) const>( &map::getlocal ) );
+
+        luna::set_fx( ut, "get_map_size_in_submaps", &map::getmapsize );
+        luna::set_fx( ut, "get_map_size", []( const map & m ) -> int {
+            return m.getmapsize() * SEEX;
+        } );
+
+        luna::set_fx( ut, "has_items_at", &map::has_items );
+        luna::set_fx( ut, "get_items_at", []( map & m, const tripoint & p ) -> std::unique_ptr<map_stack> {
+            return std::make_unique<map_stack>( m.i_at( p ) );
+        } );
+
+        // TODO: make it work with int_ids
+        luna::set_fx( ut, "get_ter_at", []( const map & m, const tripoint & p ) {
+            return m.ter( p ).id();
+        } );
+        luna::set_fx( ut, "set_ter_at", []( map & m, const tripoint & p, const ter_str_id & id ) {
+            m.ter_set( p, id.id() );
+        } );
+
+        luna::set_fx( ut, "get_furn_at", []( const map & m, const tripoint & p ) {
+            return m.furn( p ).id();
+        } );
+        luna::set_fx( ut, "set_furn_at", []( map & m, const tripoint & p, const furn_str_id & id ) {
+            m.furn_set( p, id.id() );
+        } );
+    }
+
+    // Register 'tinymap' class to be used in Lua
+    {
+        luna::new_usertype<tinymap>( lua, luna::bases<map>(), luna::no_constructor );
     }
 }
 
