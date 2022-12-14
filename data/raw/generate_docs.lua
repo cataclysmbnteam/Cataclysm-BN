@@ -48,7 +48,11 @@ local fmt_one_member = function(typename, member)
         ret=ret.."  Variable of type `"..member.vartype.."`\n"
     elseif member.type == "func" then
         for _,overload in pairs(member.overloads) do
-            ret=ret.."  Function `("..fmt_arg_list(overload.args)..") -> "..overload.retval.."`\n"
+            ret=ret.."  Function `("..fmt_arg_list(overload.args)..")"
+            if overload.retval ~= "nil" then
+                ret=ret.." -> "..overload.retval
+            end
+            ret=ret.."`\n"
         end
     else
         error("Unknown member type "..tostring(member.type))
