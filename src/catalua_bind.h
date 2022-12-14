@@ -79,10 +79,37 @@ template<typename Signature>
 using fx_traits = sol::meta::meta_detail::fx_traits<Signature>;
 
 template<typename Val>
-std::string doc_value()
+std::string doc_value_impl()
 {
     //static_assert(luna_traits<Val>::impl, "Type must inplement luna_traits" );
     return std::string( luna_traits<Val>::name );
+}
+
+template<typename ...Args>
+std::string doc_value( types<std::tuple<Args...>> )
+{
+    std::string ret = "(";
+    bool is_first = true;
+    ( [&]() {
+        if( is_first ) {
+            is_first = false;
+        } else {
+            ret += ",";
+        }
+        ret += " ";
+        ret += doc_value_impl<Args>();
+    }
+    (), ... );
+    if( !is_first ) {
+        ret += " ";
+    }
+    return ret + ")";
+}
+
+template<typename Val>
+std::string doc_value( types<Val> )
+{
+    return doc_value_impl<Val>();
 }
 
 template<typename ...Args>
@@ -92,7 +119,7 @@ std::vector<std::string> doc_arg_list()
 
     ( (
           ret.push_back(
-              doc_value<typename std::remove_cv<typename std::remove_reference<Args>::type>::type>() )
+              doc_value( types<typename std::remove_cv<typename std::remove_reference<Args>::type>::type>() ) )
       ), ... );
 
     return ret;
@@ -128,7 +155,7 @@ void doc_bases( sol::table &dt, const sol::bases<Args...> & )
     std::vector<std::string> bases;
 
     ( (
-          bases.push_back( doc_value<Args>() )
+          bases.push_back( doc_value( types<Args>() ) )
       ), ... );
 
     dt[KEY_BASES] = bases;
@@ -166,14 +193,14 @@ template<typename Class, typename Value>
 void doc_member( sol::table &dt, types<Value Class::*> && )
 {
     dt[KEY_MEMBER_TYPE] = MEMBER_IS_VAR;
-    dt[KEY_MEMBER_VARIABLE_TYPE] = doc_value<Value>();
+    dt[KEY_MEMBER_VARIABLE_TYPE] = doc_value( types<Value>() );
 }
 
 template<typename Class, bool add_self_arg, typename RetVal, typename ...Args>
 void doc_member_fx_impl2( sol::table &dt, types<RetVal> &&,
                           types<sol::types<Args...>> && )
 {
-    dt[KEY_MEMBER_RETVAL] = doc_value<RetVal>();
+    dt[KEY_MEMBER_RETVAL] = doc_value( types<RetVal>() );
     if constexpr( add_self_arg ) {
         dt[KEY_MEMBER_ARGS] = doc_arg_list<Class, Args...>();
     } else {
