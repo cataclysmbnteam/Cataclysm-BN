@@ -5,6 +5,7 @@
 #include "avatar.h"
 #include "character.h"
 #include "creature.h"
+#include "distribution_grid.h"
 #include "item.h"
 #include "itype.h"
 #include "map.h"
@@ -12,12 +13,14 @@
 #include "npc.h"
 #include "player.h"
 #include "point.h"
+#include "popup.h"
+#include "ui.h"
 
 LUNA_VAL( bool, "bool" );
 LUNA_VAL( int, "int" );
 LUNA_VAL( float, "double" );
 LUNA_VAL( double, "double" );
-LUNA_VAL( void, "void" );
+LUNA_VAL( void, "nil" );
 LUNA_VAL( std::string, "string" );
 LUNA_VAL( sol::lua_nil_t, "nil" );
 
@@ -34,7 +37,24 @@ LUNA_VAL( map, "Map" );
 LUNA_VAL( tinymap, "Tinymap" );
 LUNA_VAL( item_stack, "ItemStack" );
 LUNA_VAL( map_stack, "MapStack" );
+LUNA_VAL( distribution_grid, "DistributionGrid" );
+LUNA_VAL( distribution_grid_tracker, "DistributionGridTracker" );
+LUNA_VAL( uilist, "UiList" );
+LUNA_VAL( query_popup, "QueryPopup" );
 
+
+static std::string fmt_lua_va( sol::variadic_args va )
+{
+    lua_State *L = va.lua_state();
+    sol::state_view lua( L );
+
+    std::string msg;
+    for( auto it : va ) {
+        msg += lua["tostring"]( it );
+    }
+
+    return msg;
+}
 
 namespace sol
 {
@@ -346,18 +366,82 @@ void reg_docced_bindings( sol::state &lua )
 
     // Register 'map_stack' class to be used in Lua
     {
-        // Specifying base classes here allows us to pass derived classes
-        // from Lua to C++ functions that expect base class.
-        sol::usertype<map_stack> ut =
-            lua.new_usertype<map_stack>(
-                "MapStack",
-                sol::no_constructor,
-                sol::base_classes, sol::bases<item_stack>()
+        sol::usertype<map_stack> ut = luna::new_usertype<map_stack>( lua, luna::bases<item_stack>(),
+                                      luna::no_constructor );
+
+        luna::set_fx( ut, "as_item_stack", []( map_stack & ref ) -> item_stack& {
+            return ref;
+        } );
+    }
+
+    {
+        sol::usertype<distribution_grid> ut =
+            luna::new_usertype<distribution_grid>(
+                lua,
+                luna::no_bases,
+                luna::no_constructor
             );
 
-        ut["as_item_stack"] = []( map_stack & ref ) -> item_stack& {
-            return ref;
-        };
+        luna::set_fx( ut, "get_resource", &distribution_grid::get_resource );
+        luna::set_fx( ut, "mod_resource", &distribution_grid::mod_resource );
+    }
+
+    {
+        sol::usertype<distribution_grid_tracker> ut =
+            luna::new_usertype<distribution_grid_tracker>(
+                lua,
+                luna::no_bases,
+                luna::no_constructor
+            );
+
+        luna::set_fx( ut, "get_grid_at_abs_ms", []( distribution_grid_tracker & tr, const tripoint & p )
+        -> distribution_grid& {
+            return tr.grid_at( tripoint_abs_ms( p ) );
+        } );
+    }
+
+    {
+        sol::usertype<uilist> ut =
+            luna::new_usertype<uilist>(
+                lua,
+                luna::no_bases,
+                luna::constructors <
+                uilist()
+                > ()
+            );
+        luna::set_fx( ut, "title", []( uilist & ui, const std::string & text ) {
+            ui.title = text;
+        } );
+        luna::set_fx( ut, "add", []( uilist & ui, int retval, const std::string & text ) {
+            ui.addentry( retval, true, MENU_AUTOASSIGN, text );
+        } );
+        luna::set_fx( ut, "query", []( uilist & ui ) {
+            ui.query();
+            return ui.ret;
+        } );
+    }
+
+    {
+        sol::usertype<query_popup> ut =
+            luna::new_usertype<query_popup>(
+                lua,
+                luna::no_bases,
+                luna::constructors <
+                query_popup()
+                > ()
+            );
+        luna::set_fx( ut, "message", []( query_popup & popup, sol::variadic_args va ) {
+            popup.message( "%s", fmt_lua_va( va ) );
+        } );
+        luna::set_fx( ut, "message_color", []( query_popup & popup, color_id col ) {
+            popup.default_color( get_all_colors().get( col ) );
+        } );
+        luna::set_fx( ut, "allow_any_key", []( query_popup & popup, bool val ) {
+            popup.allow_anykey( val );
+        } );
+        luna::set_fx( ut, "query", []( query_popup & popup ) {
+            return popup.query().action;
+        } );
     }
 }
 
