@@ -90,6 +90,9 @@ std::string doc_value_impl()
     return std::string( luna_traits<ValBare>::name );
 }
 
+template<typename Val>
+std::string doc_value( types<Val> );
+
 template<typename ...Args>
 std::string doc_value( types<std::tuple<Args...>> )
 {
@@ -108,6 +111,14 @@ std::string doc_value( types<std::tuple<Args...>> )
     if( !is_first ) {
         ret += " ";
     }
+    return ret + ")";
+}
+
+template<typename Val>
+std::string doc_value( types<sol::optional<Val>> )
+{
+    std::string ret = "Opt(";
+    ret += doc_value( types<Val>() );
     return ret + ")";
 }
 
