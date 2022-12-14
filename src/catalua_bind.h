@@ -19,6 +19,8 @@
     };                                                  \
     } // namespace luna::detail
 
+#define LUNA_DOC( Class, Name ) LUNA_VAL( Class, Name )
+
 namespace luna
 {
 

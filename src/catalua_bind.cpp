@@ -17,17 +17,19 @@
 #include "ui.h"
 
 // These definitions help the doc generator
+LUNA_DOC( bool, "bool" );
+LUNA_DOC( int, "int" );
+LUNA_DOC( float, "double" );
+LUNA_DOC( double, "double" );
+LUNA_DOC( void, "nil" );
+LUNA_DOC( char, "char" );
+LUNA_DOC( const char *, "string" );
+LUNA_DOC( std::string, "string" );
+LUNA_DOC( std::string_view, "string" );
+LUNA_DOC( sol::lua_nil_t, "nil" );
+LUNA_DOC( sol::variadic_args, "..." );
 
-LUNA_VAL( bool, "bool" );
-LUNA_VAL( int, "int" );
-LUNA_VAL( float, "double" );
-LUNA_VAL( double, "double" );
-LUNA_VAL( void, "nil" );
-LUNA_VAL( std::string, "string" );
-LUNA_VAL( std::string_view, "string" );
-LUNA_VAL( sol::lua_nil_t, "nil" );
-LUNA_VAL( sol::variadic_args, "..." );
-
+// These definitions are for the bindings generator
 LUNA_VAL( Creature, "Creature" );
 LUNA_VAL( Character, "Character" );
 LUNA_VAL( monster, "Monster" );
