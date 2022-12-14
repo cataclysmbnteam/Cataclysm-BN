@@ -10,6 +10,7 @@
 
 #include "catalua_sol.h"
 #include "catalua_bindings.h"
+#include "debug.h"
 #include "string_formatter.h"
 
 #define LUNA_VAL( Class, Name )                         \
@@ -397,6 +398,14 @@ void set(
 template<typename E>
 struct userenum {
     sol::table t;
+    bool finalized = false;
+
+    inline ~userenum() {
+        if( !finalized ) {
+            debugmsg( "Userenum<%s> has not been finalized!", detail::luna_traits<E>::name );
+            std::abort();
+        }
+    }
 };
 
 template<typename Enum>
@@ -442,12 +451,21 @@ void finalize_enum(
     sol::table et = make_readonly_table( lua, e.t, string_format( "Tried to modify enum table %s.",
                                          name ) );
     lua.globals()[name] = et;
+    e.finalized = true;
 }
 
 struct userlib {
     sol::table t;
     std::string_view name;
     sol::table dt;
+    bool finalized = false;
+
+    inline ~userlib() {
+        if( !finalized ) {
+            debugmsg( "Userlib has not been finalized!" );
+            std::abort();
+        }
+    }
 };
 
 inline userlib begin_lib(
@@ -498,6 +516,7 @@ inline void finalize_lib(
     sol::table et = make_readonly_table( lua, lib.t, string_format( "Tried to modify library %s.",
                                          lib.name ) );
     lua.globals()[lib.name] = et;
+    lib.finalized = true;
 }
 
 } // namespace luna
