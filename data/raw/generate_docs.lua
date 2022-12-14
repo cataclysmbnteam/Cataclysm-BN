@@ -58,6 +58,18 @@ local fmt_members = function(typename, members)
     end
 end
 
+local fmt_bases = function(typename, bases)
+    if #bases == 0 then
+        return "No base classes.\n"
+    else
+        local ret = ""
+        for k,v in pairs(bases) do
+            ret=ret..tostring(k).." : "..v.."\n"
+        end
+        return ret
+    end
+end
+
 doc_gen_func.impl = function()
     local ret = "# Lua documentation\n\n"
 
@@ -70,10 +82,14 @@ doc_gen_func.impl = function()
     for typename,dt_type in pairs(types_table) do
         ret = ret.."### "..typename.."\n"
 
+        local bases = dt_type["#bases"]
         local ctors = dt_type["#construct"]
         local members = dt_type["#member"]
 
         ret = ret
+        .."#### Bases\n"
+        ..fmt_bases( typename, bases )
+        .."\n"
         .."#### Constructors\n"
         ..fmt_constructors( typename, ctors )
         .."\n"

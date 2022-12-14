@@ -22,12 +22,24 @@
 namespace luna
 {
 
+struct no_bases_t {};
+constexpr static no_bases_t no_bases;
+
+template<typename ...Args>
+using bases = sol::bases<Args...>;
+
+constexpr sol::no_construction no_constructor;
+
+template<typename ...Args>
+using constructors = sol::constructors<Args...>;
+
 namespace detail
 {
 
 constexpr std::string_view KEY_TYPES = "#types";
 constexpr std::string_view KEY_TYPE_IMPL = "#type_impl";
 constexpr std::string_view KEY_DOCTABLE = "catadoc";
+constexpr std::string_view KEY_BASES = "#bases";
 constexpr std::string_view KEY_CONSTRUCT = "#construct";
 constexpr std::string_view KEY_MEMBER = "#member";
 constexpr std::string_view KEY_MEMBER_TYPE = "type";
@@ -104,6 +116,24 @@ inline void doc_constructors( sol::table &dt, const sol::no_construction & )
 {
     std::vector<std::vector<std::string>> ctors;
     dt[KEY_CONSTRUCT] = ctors;
+}
+
+template<typename ...Args>
+void doc_bases( sol::table &dt, const sol::bases<Args...> & )
+{
+    std::vector<std::string> bases;
+
+    ( (
+          bases.push_back( doc_value<Args>() )
+      ), ... );
+
+    dt[KEY_BASES] = bases;
+}
+
+inline void doc_bases( sol::table &dt, const no_bases_t & )
+{
+    std::vector<std::string> ctors;
+    dt[KEY_BASES] = ctors;
 }
 
 inline sol::table get_global_doctable( sol::state_view &lua )
@@ -208,9 +238,10 @@ void doc_member( sol::table &dt, member_type<Value Class::*> && )
 
 } // namespace detail
 
-template<typename Class, typename ConstructorScheme>
+template<typename Class, typename ConstructorScheme, typename Bases>
 sol::usertype<Class> new_usertype(
     sol::state_view &lua,
+    Bases &&bases,
     ConstructorScheme &&constructor
 )
 {
@@ -222,7 +253,13 @@ sol::usertype<Class> new_usertype(
     constexpr std::string_view name = detail::luna_traits<Class>::name;
 
     // Register Sol usertype
-    sol::usertype<Class> ut = lua.new_usertype<Class>( name, constructor );
+    sol::usertype<Class> ut;
+    using BasesBare = typename std::remove_cv<typename std::remove_reference<Bases>::type>::type;
+    if constexpr( std::is_same_v<BasesBare, no_bases_t> ) {
+        ut = lua.new_usertype<Class>( name, constructor );
+    } else {
+        ut = lua.new_usertype<Class>( name, constructor, sol::base_classes, bases );
+    }
 
     // Create doctable for this type
     sol::table type_dt = lua.create_table();
@@ -236,6 +273,9 @@ sol::usertype<Class> new_usertype(
 
     // Document constructors (or lack thereof)
     detail::doc_constructors( type_dt, constructor );
+
+    // Document bases (or lack thereof)
+    detail::doc_bases( type_dt, bases );
 
     // Add helper method to get name under which usertype is bound in Lua
     ut[detail::KEY_GET_TYPE] = []() -> std::string_view {

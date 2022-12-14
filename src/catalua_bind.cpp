@@ -2,8 +2,14 @@
 #include "catalua_bind.h"
 #include "catalua_bindings.h"
 
+#include "avatar.h"
+#include "character.h"
+#include "creature.h"
 #include "item.h"
 #include "itype.h"
+#include "monster.h"
+#include "npc.h"
+#include "player.h"
 #include "point.h"
 
 LUNA_VAL( bool, "bool" );
@@ -13,18 +19,68 @@ LUNA_VAL( double, "double" );
 LUNA_VAL( void, "void" );
 LUNA_VAL( std::string, "string" );
 
+LUNA_VAL( Creature, "Creature" );
+LUNA_VAL( Character, "Character" );
+LUNA_VAL( monster, "Monster" );
+LUNA_VAL( npc, "Npc" );
+LUNA_VAL( player, "Player" );
+LUNA_VAL( avatar, "Avatar" );
 LUNA_VAL( point, "Point" );
 LUNA_VAL( tripoint, "Tripoint" );
 LUNA_VAL( item, "Item" );
 
 void reg_docced_bindings( sol::state &lua )
 {
+    // Register creature class family to be used in Lua.
+    {
+        // Specifying base classes here allows us to pass derived classes
+        // from Lua to C++ functions that expect base class.
+        sol::usertype<Creature> ut =
+            luna::new_usertype<Creature>(
+                lua,
+                luna::no_bases,
+                luna::no_constructor
+            );
+
+        // TODO: typesafe coords
+        ut["get_pos_ms"] = &Creature::pos;
+    }
+
+    {
+        luna::new_usertype<monster>(
+            lua,
+            luna::bases<Creature>(),
+            luna::no_constructor
+        );
+        luna::new_usertype<Character>(
+            lua,
+            luna::bases<Creature>(),
+            luna::no_constructor
+        );
+        luna::new_usertype<player>(
+            lua,
+            luna::bases<Character, Creature>(),
+            luna::no_constructor
+        );
+        luna::new_usertype<npc>(
+            lua,
+            luna::bases<player, Character, Creature>(),
+            luna::no_constructor
+        );
+        luna::new_usertype<avatar>(
+            lua,
+            luna::bases<player, Character, Creature>(),
+            luna::no_constructor
+        );
+    }
+
     // Register 'point' class to be used in Lua
     {
         sol::usertype<point> ut =
             luna::new_usertype<point>(
                 lua,
-                sol::constructors <
+                luna::no_bases,
+                luna::constructors <
                 point(),
                 point( const point & ),
                 point( int, int )
@@ -76,7 +132,7 @@ void reg_docced_bindings( sol::state &lua )
 
     // Register 'item' class to be used in Lua
     {
-        sol::usertype<item> ut = luna::new_usertype<item>( lua, sol::no_constructor );
+        sol::usertype<item> ut = luna::new_usertype<item>( lua, luna::no_bases, luna::no_constructor );
 
         luna::set_fx( ut, "get_type", &item::typeId );
 
