@@ -102,7 +102,7 @@ void doc_constructors( sol::table &dt, const sol::constructor_list<Args...> & )
 
 inline void doc_constructors( sol::table &dt, const sol::no_construction & )
 {
-    std::vector<std::string> ctors;
+    std::vector<std::vector<std::string>> ctors;
     dt[KEY_CONSTRUCT] = ctors;
 }
 
