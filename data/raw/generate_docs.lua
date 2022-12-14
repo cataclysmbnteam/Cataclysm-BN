@@ -1,11 +1,19 @@
--- Received a table with string keys,
--- Returns sorted array where each value is table of type { k=k, v=v }
-local sorted_by_key = function(t)
+--[[
+    Receives a table and returns sorted array where each value is table of type { k=k, v=v }.
+
+    Sort by key by default, but may also use provided sort function f(a, b)
+    where a and b - tables of type {k=k, v=v}
+    (the function must return whether a is less than b).
+]]--
+local sorted_by = function(t, f)
+    if not f then
+        f = function(a,b) return (a.k < b.k) end
+    end
     local sorted = {}
     for k, v in pairs(t) do
         sorted[#sorted + 1] = {k=k, v=v}
     end
-    table.sort( sorted, function(a,b) return (a.k < b.k) end )
+    table.sort( sorted, f )
     return sorted
 end
 
@@ -67,7 +75,7 @@ local fmt_members = function(typename, members)
     else
         local ret = ""
 
-        local members_sorted = sorted_by_key( members )
+        local members_sorted = sorted_by( members )
 
         for _,it in pairs(members_sorted) do
             ret=ret..fmt_one_member(typename, it.v).."\n"
@@ -88,6 +96,28 @@ local fmt_bases = function(typename, bases)
     end
 end
 
+local fmt_enum_entries = function(typename, entries)
+    if next(entries) == nil then
+        return "  No entries.\n"
+    else
+        local ret = ""
+
+        local entries_filtered = {}
+        for k,v in pairs(entries) do
+            -- TODO: this should not be needed
+            if type(v) ~= "table" and type(v) ~= "function" then
+                entries_filtered[k] = v;
+            end
+        end
+
+        local entries_sorted = sorted_by(entries_filtered, function(a,b) return a.v < b.v end)
+        for _,it in pairs(entries_sorted) do
+            ret=ret.."- `"..tostring(it.k).."` = `"..tostring(it.v).."`\n"
+        end
+        return ret
+    end
+end
+
 doc_gen_func.impl = function()
     local ret = "# Lua documentation\n\n"
 
@@ -97,7 +127,7 @@ doc_gen_func.impl = function()
 
     local types_table = dt["#types"]
 
-    local types_sorted = sorted_by_key(types_table)
+    local types_sorted = sorted_by(types_table)
     for _,it in pairs(types_sorted) do
         local typename = it.k
         local dt_type = it.v 
@@ -116,6 +146,24 @@ doc_gen_func.impl = function()
         .."\n"
         .."### Members\n"
         ..fmt_members( typename, members )
+        .."\n"
+    end
+
+    ret = ret.."# Enums\n\n"
+
+    local enums_table = dt["#enums"]
+
+    local enums_sorted = sorted_by(enums_table)
+    for _,it in pairs(enums_sorted) do
+        local typename = it.k
+        local dt_type = it.v 
+        ret = ret.."## "..typename.."\n"
+
+        local entries = dt_type["entries"]
+
+        ret = ret
+        .."### Entries\n"
+        ..fmt_enum_entries( typename, entries )
         .."\n"
     end
 

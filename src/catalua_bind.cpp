@@ -5,10 +5,13 @@
 #include "avatar.h"
 #include "character.h"
 #include "creature.h"
+#include "enum_conversions.h"
+#include "faction.h"
 #include "distribution_grid.h"
 #include "item.h"
 #include "itype.h"
 #include "map.h"
+#include "mapdata.h"
 #include "monster.h"
 #include "npc.h"
 #include "player.h"
@@ -30,6 +33,7 @@ LUNA_DOC( sol::lua_nil_t, "nil" );
 LUNA_DOC( sol::variadic_args, "..." );
 
 // These definitions are for the bindings generator
+LUNA_VAL( color_id, "Color" );
 LUNA_VAL( Creature, "Creature" );
 LUNA_VAL( Character, "Character" );
 LUNA_VAL( monster, "Monster" );
@@ -48,6 +52,14 @@ LUNA_VAL( distribution_grid_tracker, "DistributionGridTracker" );
 LUNA_VAL( uilist, "UiList" );
 LUNA_VAL( query_popup, "QueryPopup" );
 
+// Ids for in-game objects
+LUNA_ID( faction, "Faction" )
+LUNA_ID( itype, "Itype" )
+LUNA_ID( ter_t, "Ter" )
+LUNA_ID( furn_t, "Furn" )
+
+// Enums
+LUNA_ENUM( game_message_type, "MsgType" )
 
 static std::string fmt_lua_va( sol::variadic_args va )
 {
@@ -465,6 +477,81 @@ static void reg_ui_elements( sol::state &lua )
     }
 }
 
+template<typename T>
+void reg_id( sol::state &lua )
+{
+    using SID = string_id<T>;
+
+    // Register string_id class under given name
+    sol::usertype<SID> ut = luna::new_usertype<SID>( lua, luna::no_bases, luna::constructors <
+                            SID(),
+                            SID( const SID & ),
+                            SID( const char * ),
+                            SID( std::string )
+                            > ()
+                                                   );
+
+    luna::set_fx( ut, "is_null", &SID::is_null );
+    luna::set_fx( ut, "is_valid", &SID::is_valid );
+    luna::set_fx( ut, "str", &SID::c_str );
+    luna::set_fx( ut, "NULL_ID", &SID::NULL_ID );
+    luna::set_fx( ut, sol::meta_function::to_string, []( const SID & id ) -> std::string {
+        return string_format( "%s[%s]", luna::detail::luna_traits<SID>::name, id.c_str() );
+    } );
+}
+
+template<typename E>
+void reg_enum( sol::state &lua )
+{
+    // Sol2 has new_enum<E>(...) function, but it needs to know all value-string
+    // pairs at compile time, so we can't use it with io::enum_to_string.
+    //
+    // As such, hack it by creating read-only table.
+
+    luna::userenum<E> et = luna::begin_enum<E>( lua );
+
+    using Int = std::underlying_type_t<E>;
+    constexpr Int max = static_cast<Int>( enum_traits<E>::last );
+
+    for( Int i = 0; i < max; ++i ) {
+        E e = static_cast<E>( i );
+        std::string key = io::enum_to_string<E>( e );
+        luna::add_val( et, key, e );
+    }
+
+    luna::finalize_enum( et );
+}
+
+static void reg_colors( sol::state &lua )
+{
+    // Colors are not enums, we have to do them manually
+    luna::userenum<color_id> et = luna::begin_enum<color_id>( lua );
+
+    using Int = std::underlying_type_t<color_id>;
+    constexpr Int max = static_cast<Int>( color_id::num_colors );
+
+    for( Int i = 0; i < max; ++i ) {
+        color_id e = static_cast<color_id>( i );
+        std::string key = get_all_colors().id_to_name( e );
+        luna::add_val( et, key, e );
+    }
+
+    luna::finalize_enum( et );
+}
+
+static void reg_enums( sol::state &lua )
+{
+    reg_enum<game_message_type>( lua );
+}
+
+static void reg_string_ids( sol::state &lua )
+{
+    reg_id<faction>( lua );
+    reg_id<itype>( lua );
+    reg_id<ter_t>( lua );
+    reg_id<furn_t>( lua );
+}
+
 void reg_docced_bindings( sol::state &lua )
 {
     reg_creature_family( lua );
@@ -473,6 +560,9 @@ void reg_docced_bindings( sol::state &lua )
     reg_map( lua );
     reg_distribution_grid( lua );
     reg_ui_elements( lua );
+    reg_colors( lua );
+    reg_enums( lua );
+    reg_string_ids( lua );
 }
 
 #endif

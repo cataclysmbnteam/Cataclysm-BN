@@ -9,6 +9,8 @@
 #include <vector>
 
 #include "catalua_sol.h"
+#include "catalua_bindings.h"
+#include "string_formatter.h"
 
 #define LUNA_VAL( Class, Name )                         \
     namespace luna::detail {                            \
@@ -20,6 +22,13 @@
     } // namespace luna::detail
 
 #define LUNA_DOC( Class, Name ) LUNA_VAL( Class, Name )
+
+#define LUNA_ID( Class, Name )                  \
+    LUNA_DOC( Class, Name "Raw" )               \
+    LUNA_VAL( string_id<Class>, Name "Id" )     \
+    LUNA_DOC( int_id<Class>, Name "IntId" )
+
+#define LUNA_ENUM( Class, Name ) LUNA_VAL( Class, Name )
 
 namespace luna
 {
@@ -39,6 +48,8 @@ namespace detail
 {
 
 constexpr std::string_view KEY_TYPES = "#types";
+constexpr std::string_view KEY_ENUMS = "#enums";
+constexpr std::string_view KEY_ENUM_ENTRIES = "entries";
 constexpr std::string_view KEY_TYPE_IMPL = "#type_impl";
 constexpr std::string_view KEY_DOCTABLE = "catadoc";
 constexpr std::string_view KEY_BASES = "#bases";
@@ -169,6 +180,7 @@ inline sol::table get_global_doctable( sol::state_view &lua )
     } else {
         sol::table dt = lua.create_table();
         dt[detail::KEY_TYPES] = lua.create_table();
+        dt[detail::KEY_ENUMS] = lua.create_table();
         lua[detail::KEY_DOCTABLE] = dt;
         return dt;
     }
@@ -181,6 +193,15 @@ inline sol::table get_type_doctable( sol::state_view &lua )
 
     sol::table gdt = get_global_doctable( lua );
     return gdt[detail::KEY_TYPES][detail::luna_traits<Class>::name];
+}
+
+template<typename Class>
+inline sol::table get_enum_doctable( sol::state_view &lua )
+{
+    static_assert( detail::luna_traits<Class>::impl, "Type must implement luna_traits<T>" );
+
+    sol::table gdt = get_global_doctable( lua );
+    return gdt[detail::KEY_ENUMS][detail::luna_traits<Class>::name];
 }
 
 template<typename Class, typename Value>
@@ -320,6 +341,56 @@ void set(
     sol::table type_dt = detail::get_type_doctable<Class>( lua );
     sol::table member_dt = detail::make_type_member_doctable( type_dt, key );
     detail::doc_member<Class>( member_dt, detail::types<Value>() );
+}
+
+template<typename E>
+struct userenum {
+    sol::table t;
+};
+
+template<typename Enum>
+userenum<Enum> begin_enum(
+    sol::state_view &lua
+)
+{
+    static_assert( detail::luna_traits<Enum>::impl, "Type must implement luna_traits<T>" );
+
+    sol::table ut = lua.create_table();
+    return userenum<Enum> { ut };
+}
+
+template<typename Enum, typename Key>
+void add_val(
+    userenum<Enum> &e,
+    const Key &key,
+    const Enum &value
+)
+{
+    e.t[key] = value;
+}
+
+template<typename Enum>
+void finalize_enum(
+    userenum<Enum> &e
+)
+{
+    sol::state_view lua( e.t.lua_state() );
+    constexpr std::string_view name = detail::luna_traits<Enum>::name;
+
+    // Ensure global doctable exists
+    sol::table global_dt = detail::get_global_doctable( lua );
+
+    // Create doctable for this enum
+    sol::table enum_dt = lua.create_table();
+    global_dt[detail::KEY_ENUMS][name] = enum_dt;
+
+    // Link to original list of entries
+    enum_dt[detail::KEY_ENUM_ENTRIES] = e.t;
+
+    // Make read-only so Lua code doesn't mess with it
+    sol::table et = make_readonly_table( lua, e.t, string_format( "Tried to modify enum table %s.",
+                                         name ) );
+    lua.globals()[name] = et;
 }
 
 } // namespace luna
