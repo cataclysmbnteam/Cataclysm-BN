@@ -3,15 +3,19 @@
 #include "catalua_bindings.h"
 
 #include "avatar.h"
+#include "catalua_log.h"
+#include "catalua.h"
 #include "character.h"
 #include "creature.h"
+#include "distribution_grid.h"
 #include "enum_conversions.h"
 #include "faction.h"
-#include "distribution_grid.h"
+#include "game.h"
 #include "item.h"
 #include "itype.h"
 #include "map.h"
 #include "mapdata.h"
+#include "messages.h"
 #include "monster.h"
 #include "npc.h"
 #include "player.h"
@@ -557,6 +561,91 @@ static void reg_constants( sol::state &lua )
     luna::finalize_lib( lib );
 }
 
+static void lua_log_info_impl( sol::variadic_args va )
+{
+    std::string msg = fmt_lua_va( va );
+
+    DebugLog( DL::Info, DC::Lua ) << msg;
+    cata::get_lua_log_instance().add( cata::LuaLogLevel::Info, std::move( msg ) );
+}
+
+static void lua_log_warn_impl( sol::variadic_args va )
+{
+    std::string msg = fmt_lua_va( va );
+
+    DebugLog( DL::Warn, DC::Lua ) << msg;
+    cata::get_lua_log_instance().add( cata::LuaLogLevel::Warn, std::move( msg ) );
+}
+
+static void lua_log_error_impl( sol::variadic_args va )
+{
+    std::string msg = fmt_lua_va( va );
+
+    DebugLog( DL::Error, DC::Lua ) << msg;
+    cata::get_lua_log_instance().add( cata::LuaLogLevel::Error, std::move( msg ) );
+}
+
+static void lua_debugmsg_impl( sol::variadic_args va )
+{
+    std::string msg = fmt_lua_va( va );
+
+    debugmsg( "%s", msg );
+    cata::get_lua_log_instance().add( cata::LuaLogLevel::DebugMsg, std::move( msg ) );
+}
+
+static void reg_debug_api( sol::state &lua )
+{
+    luna::userlib lib = luna::begin_lib( lua, "gdebug" );
+
+    luna::set_fx( lib, "log_info", &lua_log_info_impl );
+    luna::set_fx( lib, "log_warn", &lua_log_warn_impl );
+    luna::set_fx( lib, "log_error", &lua_log_error_impl );
+    luna::set_fx( lib, "debugmsg", &lua_debugmsg_impl );
+    luna::set_fx( lib, "clear_lua_log", []() {
+        cata::get_lua_log_instance().clear();
+    } );
+    luna::set_fx( lib, "set_log_capacity", []( int v ) {
+        cata::get_lua_log_instance().set_log_capacity( v );
+    } );
+    luna::set_fx( lib, "reload_lua_code", &cata::reload_lua_code );
+    luna::set_fx( lib, "save_game", []() -> bool {
+        return g->save();
+    } );
+
+    luna::finalize_lib( lib );
+}
+
+static void add_msg_lua( game_message_type t, sol::variadic_args va )
+{
+    if( va.size() == 0 ) {
+        // Nothing to print
+        return;
+    }
+
+    std::string msg = fmt_lua_va( va );
+    add_msg( t, msg );
+}
+
+static void reg_game_api( sol::state &lua )
+{
+    luna::userlib lib = luna::begin_lib( lua, "gapi" );
+
+    luna::set_fx( lib, "get_avatar", &get_avatar );
+    luna::set_fx( lib, "get_map", &get_map );
+    luna::set_fx( lib, "get_distribution_grid_tracker", &get_distribution_grid_tracker );
+    luna::set_fx( lib, "get_character_name", []( const Character & you ) -> std::string {
+        return you.name;
+    } );
+    luna::set_fx( lib, "add_msg", sol::overload(
+                      add_msg_lua,
+    []( sol::variadic_args va ) {
+        add_msg_lua( game_message_type::m_neutral, va );
+    }
+                  ) );
+
+    luna::finalize_lib( lib );
+}
+
 template<typename T>
 void reg_id( sol::state &lua )
 {
@@ -634,6 +723,8 @@ static void reg_string_ids( sol::state &lua )
 
 void reg_docced_bindings( sol::state &lua )
 {
+    reg_debug_api( lua );
+    reg_game_api( lua );
     reg_creature_family( lua );
     reg_point_tripoint( lua );
     reg_item( lua );
