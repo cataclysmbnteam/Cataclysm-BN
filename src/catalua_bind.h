@@ -60,6 +60,8 @@ constexpr std::string_view KEY_CONSTRUCT = "#construct";
 constexpr std::string_view KEY_MEMBER = "#member";
 constexpr std::string_view KEY_MEMBER_TYPE = "type";
 constexpr std::string_view KEY_MEMBER_VARIABLE_TYPE = "vartype";
+constexpr std::string_view KEY_MEMBER_VARIABLE_HAS_VALUE = "hasval";
+constexpr std::string_view KEY_MEMBER_VARIABLE_VALUE = "varval";
 constexpr std::string_view KEY_MEMBER_ARGS = "args";
 constexpr std::string_view KEY_MEMBER_OVERLOADS = "overloads";
 constexpr std::string_view KEY_MEMBER_RETVAL = "retval";
@@ -266,6 +268,15 @@ template<typename Class, typename Func>
 void doc_member_fx( sol::table &dt, types<Func> && )
 {
     doc_member_fx_impl<Class>( dt, types<Func>() );
+}
+
+template<typename Value>
+void doc_free( sol::table &dt, Value val )
+{
+    dt[KEY_MEMBER_TYPE] = MEMBER_IS_VAR;
+    dt[KEY_MEMBER_VARIABLE_TYPE] = doc_value( types<Value>() );
+    dt[KEY_MEMBER_VARIABLE_HAS_VALUE] = true;
+    dt[KEY_MEMBER_VARIABLE_VALUE] = val;
 }
 
 template<typename RetVal, typename ...Args>
@@ -504,6 +515,20 @@ void set_fx(
     sol::state_view lua( lib.t.lua_state() );
     sol::table member_dt = detail::make_type_member_doctable( lib.dt, key );
     detail::doc_free_fx( member_dt, detail::types<Func>() );
+}
+
+template<typename Key, typename Value>
+void set(
+    userlib &lib,
+    Key &&key,
+    Value &&value
+)
+{
+    lib.t.set( key, value );
+
+    sol::state_view lua( lib.t.lua_state() );
+    sol::table member_dt = detail::make_type_member_doctable( lib.dt, key );
+    detail::doc_free( member_dt, value );
 }
 
 inline void finalize_lib(

@@ -53,7 +53,11 @@ local fmt_one_member = function(typename, member)
     local ret = "#### "..tostring(member.name).."\n";
     
     if member.type == "var" then
-        ret=ret.."  Variable of type `"..member.vartype.."`\n"
+        ret=ret.."  Variable of type `"..member.vartype.."`"
+        if member.hasval then
+            ret=ret.." value: `"..tostring(member.varval).."`"
+        end
+        ret=ret.."\n"
     elseif member.type == "func" then
         for _,overload in pairs(member.overloads) do
             ret=ret.."  Function `("..fmt_arg_list(overload.args)..")"

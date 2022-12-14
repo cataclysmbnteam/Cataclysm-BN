@@ -543,6 +543,20 @@ static void reg_coords_library( sol::state &lua )
     luna::finalize_lib( lib );
 }
 
+static void reg_constants( sol::state &lua )
+{
+    luna::userlib lib = luna::begin_lib( lua, "const" );
+
+    luna::set( lib, "OM_OMT_SIZE", OMAPX );
+    luna::set( lib, "OM_SM_SIZE", OMAPX * 2 );
+    luna::set( lib, "OM_MS_SIZE", OMAPX * 2 * SEEX );
+    luna::set( lib, "OMT_SM_SIZE", 2 );
+    luna::set( lib, "OMT_MS_SIZE", SEEX * 2 );
+    luna::set( lib, "SM_MS_SIZE", SEEX );
+
+    luna::finalize_lib( lib );
+}
+
 template<typename T>
 void reg_id( sol::state &lua )
 {
@@ -630,6 +644,7 @@ void reg_docced_bindings( sol::state &lua )
     reg_enums( lua );
     reg_string_ids( lua );
     reg_coords_library( lua );
+    reg_constants( lua );
 }
 
 #endif
