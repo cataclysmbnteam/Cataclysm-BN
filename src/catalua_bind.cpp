@@ -16,6 +16,8 @@
 #include "popup.h"
 #include "ui.h"
 
+// These definitions help the doc generator
+
 LUNA_VAL( bool, "bool" );
 LUNA_VAL( int, "int" );
 LUNA_VAL( float, "double" );
@@ -23,6 +25,7 @@ LUNA_VAL( double, "double" );
 LUNA_VAL( void, "nil" );
 LUNA_VAL( std::string, "string" );
 LUNA_VAL( sol::lua_nil_t, "nil" );
+LUNA_VAL( sol::variadic_args, "..." );
 
 LUNA_VAL( Creature, "Creature" );
 LUNA_VAL( Character, "Character" );
@@ -124,9 +127,8 @@ static auto item_stack_lua_pairs( item_stack &stk )
                             sol::lua_nil );
 }
 
-void reg_docced_bindings( sol::state &lua )
+static void reg_creature_family( sol::state &lua )
 {
-    // Register creature class family to be used in Lua.
     {
         // Specifying base classes here allows us to pass derived classes
         // from Lua to C++ functions that expect base class.
@@ -168,7 +170,10 @@ void reg_docced_bindings( sol::state &lua )
             luna::no_constructor
         );
     }
+}
 
+static void reg_point_tripoint( sol::state &lua )
+{
     // Register 'point' class to be used in Lua
     {
         sol::usertype<point> ut =
@@ -289,8 +294,10 @@ void reg_docced_bindings( sol::state &lua )
         luna::set_fx( ut, sol::meta_function::unary_minus,
                       sol::resolve< tripoint() const >( &tripoint::operator- ) );
     }
+}
 
-    // Register 'item' class to be used in Lua
+static void reg_item( sol::state &lua )
+{
     {
         sol::usertype<item> ut = luna::new_usertype<item>( lua, luna::no_bases, luna::no_constructor );
 
@@ -316,7 +323,10 @@ void reg_docced_bindings( sol::state &lua )
         luna::set_fx( ut, "set_var_tri",
                       sol::resolve<void( const std::string &, const tripoint & )>( &item::set_var ) );
     }
+}
 
+static void reg_map( sol::state &lua )
+{
     // Register 'map' class to be used in Lua
     {
         sol::usertype<map> ut = luna::new_usertype<map>( lua, luna::no_bases, luna::no_constructor );
@@ -373,7 +383,10 @@ void reg_docced_bindings( sol::state &lua )
             return ref;
         } );
     }
+}
 
+static void reg_distribution_grid( sol::state &lua )
+{
     {
         sol::usertype<distribution_grid> ut =
             luna::new_usertype<distribution_grid>(
@@ -400,6 +413,10 @@ void reg_docced_bindings( sol::state &lua )
         } );
     }
 
+}
+
+static void reg_ui_elements( sol::state &lua )
+{
     {
         sol::usertype<uilist> ut =
             luna::new_usertype<uilist>(
@@ -443,6 +460,16 @@ void reg_docced_bindings( sol::state &lua )
             return popup.query().action;
         } );
     }
+}
+
+void reg_docced_bindings( sol::state &lua )
+{
+    reg_creature_family( lua );
+    reg_point_tripoint( lua );
+    reg_item( lua );
+    reg_map( lua );
+    reg_distribution_grid( lua );
+    reg_ui_elements( lua );
 }
 
 #endif
