@@ -45,6 +45,7 @@ constexpr std::string_view KEY_MEMBER = "#member";
 constexpr std::string_view KEY_MEMBER_TYPE = "type";
 constexpr std::string_view KEY_MEMBER_VARIABLE_TYPE = "vartype";
 constexpr std::string_view KEY_MEMBER_ARGS = "args";
+constexpr std::string_view KEY_MEMBER_OVERLOADS = "overloads";
 constexpr std::string_view KEY_MEMBER_RETVAL = "retval";
 constexpr std::string_view KEY_MEMBER_NAME = "name";
 constexpr std::string_view KEY_GET_TYPE = "get_luna_type";
@@ -59,8 +60,8 @@ struct luna_traits {
     constexpr static std::string_view name = "<value>";
 };
 
-template<typename T>
-struct member_type { };
+template<typename ...Args>
+using types = sol::types<Args...>;
 
 // TODO: these were copied from string_formatter.h, find a way to share between files
 // Checks whether T is instance of TMPL
@@ -73,6 +74,9 @@ template<typename T>
 using is_std_function = typename std::conditional <
                         is_instance_of<typename std::decay<T>::type, std::function>::value,
                         std::true_type, std::false_type >::type;
+
+template<typename Signature>
+using fx_traits = sol::meta::meta_detail::fx_traits<Signature>;
 
 template<typename Val>
 std::string doc_value()
@@ -159,24 +163,16 @@ inline sol::table get_type_doctable( sol::state_view &lua )
 }
 
 template<typename Class, typename Value>
-void doc_member( sol::table &dt, member_type<Value Class::*> && )
+void doc_member( sol::table &dt, types<Value Class::*> && )
 {
     dt[KEY_MEMBER_TYPE] = MEMBER_IS_VAR;
     dt[KEY_MEMBER_VARIABLE_TYPE] = doc_value<Value>();
 }
 
-template<typename Class, typename RetVal, typename ...Args>
-void doc_member( sol::table &dt, member_type<std::function<RetVal( Args... )>> && )
-{
-    dt[KEY_MEMBER_TYPE] = MEMBER_IS_FUNC;
-    dt[KEY_MEMBER_RETVAL] = doc_value<RetVal>();
-    dt[KEY_MEMBER_ARGS] = doc_arg_list<Args...>();
-}
-
 template<typename Class, bool add_self_arg, typename RetVal, typename ...Args>
-void doc_member_fx( sol::table &dt, member_type<RetVal> &&, member_type<sol::types<Args...>> && )
+void doc_member_fx_impl2( sol::table &dt, types<RetVal> &&,
+                         types<sol::types<Args...>> && )
 {
-    dt[KEY_MEMBER_TYPE] = MEMBER_IS_FUNC;
     dt[KEY_MEMBER_RETVAL] = doc_value<RetVal>();
     if constexpr( add_self_arg ) {
         dt[KEY_MEMBER_ARGS] = doc_arg_list<Class, Args...>();
@@ -185,56 +181,35 @@ void doc_member_fx( sol::table &dt, member_type<RetVal> &&, member_type<sol::typ
     }
 }
 
-/*
-template<typename Class, typename Value>
-void doc_member( sol::table &dt, member_type<Value> && )
-{
-    dt[KEY_MEMBER_TYPE] = MEMBER_IS_VAR;
-    dt[KEY_MEMBER_VARIABLE_TYPE] = "<lambda>";
-
-    auto f = std::function<Value>( nullptr );
-}
-*/
-
-/*
-template<typename Class, typename Value >
-inline typename std::enable_if < !is_std_function<Value>::value, void >::type
-doc_member( sol::table &dt, member_type<Value> && )
-{
-    doc_member<Class>( dt, member_type<std::function<Value>>() );
-}
-
-template<typename Class, typename RetVal, typename ...Args>
-void doc_member( sol::table &dt, member_type<RetVal( Class::* )( Args... )> && )
+template<typename Class, typename ...Functions>
+void doc_member_fx_impl( sol::table &dt, types<Functions...> && )
 {
     dt[KEY_MEMBER_TYPE] = MEMBER_IS_FUNC;
-    dt[KEY_MEMBER_RETVAL] = doc_value<RetVal>();
-    dt[KEY_MEMBER_ARGS] = doc_arg_list<Args...>();
+    std::vector<sol::table> overloads;
+    sol::state_view lua( dt.lua_state() );
+    ( [&]() {
+        sol::table overload = lua.create_table();
+        overloads.push_back( overload );
+        using RetVal = typename fx_traits<Functions>::return_type;
+        using Args = typename fx_traits<Functions>::args_list;
+        constexpr bool add_self_arg = !fx_traits<Functions>::is_member_function;
+        doc_member_fx_impl2<Class, add_self_arg>( overload, types<RetVal>(), types<Args>() );
+    }
+    (), ... );
+    dt[KEY_MEMBER_OVERLOADS] = overloads;
 }
 
-template<typename Class, typename RetVal, typename ...Args>
-void doc_member( sol::table &dt, member_type<RetVal( Class::* )( Args... ) const> && )
+template<typename Class, typename ...Functions>
+void doc_member_fx( sol::table &dt, types<sol::overload_set<Functions...>> && )
 {
-    dt[KEY_MEMBER_TYPE] = MEMBER_IS_CONST_FUNC;
-    dt[KEY_MEMBER_RETVAL] = doc_value<RetVal>();
-    dt[KEY_MEMBER_ARGS] = doc_arg_list<Args...>();
+    doc_member_fx_impl<Class>( dt, types<Functions...>() );
 }
 
-template<typename Class, typename RetVal, typename ...Args>
-void doc_member( sol::table &dt, member_type<std::function<RetVal( Args... )>> && )
+template<typename Class, typename Func>
+void doc_member_fx( sol::table &dt, types<Func> && )
 {
-    dt[KEY_MEMBER_TYPE] = MEMBER_IS_FUNC;
-    dt[KEY_MEMBER_RETVAL] = doc_value<RetVal>();
-    dt[KEY_MEMBER_ARGS] = doc_arg_list<Args...>();
+    doc_member_fx_impl<Class>( dt, types<Func>() );
 }
-
-template<typename Class, typename Value>
-void doc_member( sol::table &dt, member_type<Value Class::*> && )
-{
-    dt[KEY_MEMBER_TYPE] = MEMBER_IS_VAR;
-    dt[KEY_MEMBER_VARIABLE_TYPE] = doc_value<Value>();
-}
-*/
 
 } // namespace detail
 
@@ -285,9 +260,6 @@ sol::usertype<Class> new_usertype(
     return ut;
 }
 
-template<typename Signature>
-using fx_traits = sol::meta::meta_detail::fx_traits<Signature>;
-
 template<typename Class, typename Key, typename Func >
 void set_fx(
     sol::usertype<Class> &ut,
@@ -306,11 +278,7 @@ void set_fx(
     member_dt[detail::KEY_MEMBER_NAME] = key;
     members.push_back( member_dt );
 
-    using RetVal = typename fx_traits<Func>::return_type;
-    using Args = typename fx_traits<Func>::args_list;
-    constexpr bool add_self_arg = !fx_traits<Func>::is_member_function;
-    detail::doc_member_fx<Class, add_self_arg>( member_dt, detail::member_type<RetVal>(),
-            detail::member_type<Args>() );
+    detail::doc_member_fx<Class>( member_dt, detail::types<Func>() );
 }
 
 template<typename Class, typename Key, typename Value>
@@ -331,7 +299,7 @@ void set(
     member_dt[detail::KEY_MEMBER_NAME] = key;
     members.push_back( member_dt );
 
-    detail::doc_member<Class>( member_dt, detail::member_type<Value>() );
+    detail::doc_member<Class>( member_dt, detail::types<Value>() );
 }
 
 } // namespace luna

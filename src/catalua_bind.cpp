@@ -130,6 +130,71 @@ void reg_docced_bindings( sol::state &lua )
                       sol::resolve< point() const >( &point::operator- ) );
     }
 
+    // Register 'tripoint' class to be used in Lua
+    {
+        sol::usertype<tripoint> ut =
+            luna::new_usertype<tripoint>(
+                lua,
+                luna::no_bases,
+                luna::constructors <
+                tripoint(),
+                tripoint( const point &, int ),
+                tripoint( const tripoint & ),
+                tripoint( int, int, int )
+                > ()
+            );
+
+        // Members
+        luna::set( ut, "x", &tripoint::x );
+        luna::set( ut, "y", &tripoint::y );
+        luna::set( ut, "z", &tripoint::z );
+
+        // Methods
+        luna::set_fx( ut, "abs", &tripoint::abs );
+        luna::set_fx( ut, "xy", &tripoint::xy );
+        luna::set_fx( ut, "rotate_2d", &tripoint::rotate_2d );
+
+        // To string
+        // We're using Lua meta function here to make it work seamlessly with native Lua tostring()
+        luna::set_fx( ut, sol::meta_function::to_string, &tripoint::to_string );
+
+        // Equality operator
+        // It's defined as inline friend function inside point class, we can't access it and so have to improvise
+        luna::set_fx( ut, sol::meta_function::equal_to, []( const tripoint & a, const tripoint & b ) {
+            return a == b;
+        } );
+
+        // Less-then operator
+        // Same deal as with equality operator
+        luna::set_fx( ut, sol::meta_function::less_than, []( const tripoint & a, const tripoint & b ) {
+            return a < b;
+        } );
+
+        // Arithmetic operators
+        // tripoint + tripoint (overload 1)
+        // tripoint + point (overload 2)
+        luna::set_fx( ut, sol::meta_function::addition, sol::overload(
+                          sol::resolve< tripoint( const tripoint & ) const > ( &tripoint::operator+ ),
+                          sol::resolve< tripoint( const point & ) const > ( &tripoint::operator+ )
+                      ) );
+        // tripoint - tripoint (overload 1)
+        // tripoint - point (overload 2)
+        luna::set_fx( ut, sol::meta_function::subtraction, sol::overload(
+                          sol::resolve< tripoint( const tripoint & ) const > ( &tripoint::operator- ),
+                          sol::resolve< tripoint( const point & ) const > ( &tripoint::operator- )
+                      ) );
+        // tripoint * int
+        luna::set_fx( ut, sol::meta_function::multiplication, &tripoint::operator* );
+        // tripoint / float
+        luna::set_fx( ut, sol::meta_function::division, &tripoint::operator/ );
+        // tripoint / int
+        luna::set_fx( ut, sol::meta_function::floor_division, &tripoint::operator/ );
+        // -tripoint
+        // sol::resolve here makes it possible to specify which overload to use
+        luna::set_fx( ut, sol::meta_function::unary_minus,
+                      sol::resolve< tripoint() const >( &tripoint::operator- ) );
+    }
+
     // Register 'item' class to be used in Lua
     {
         sol::usertype<item> ut = luna::new_usertype<item>( lua, luna::no_bases, luna::no_constructor );

@@ -31,19 +31,19 @@ local fmt_constructors = function(typename, ctors)
 end
 
 local fmt_one_member = function(typename, member)
-    local ret = tostring(member.name).."\n  ";
+    local ret = tostring(member.name).."\n";
     
     if member.type == "var" then
-        ret=ret.."Variable of type "..member.vartype
+        ret=ret.."  Variable of type "..member.vartype.."\n"
     elseif member.type == "func" then
-        ret=ret.."Function ("..fmt_arg_list(member.args)..") -> "..member.retval
-    elseif member.type == "const_func" then
-        ret=ret.."Const function ("..fmt_arg_list(member.args)..") -> "..member.retval
+        for _,overload in pairs(member.overloads) do
+            ret=ret.."  Function ("..fmt_arg_list(overload.args)..") -> "..overload.retval.."\n"
+        end
     else
         error("Unknown member type "..tostring(member.type))
     end
 
-    return ret.."\n"
+    return ret
 end
 
 local fmt_members = function(typename, members)
