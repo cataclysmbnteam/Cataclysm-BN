@@ -230,6 +230,17 @@ void doc_member_fx( sol::table &dt, types<Func> && )
     doc_member_fx_impl<Class>( dt, types<Func>() );
 }
 
+template<typename Key>
+sol::table make_type_member_doctable( sol::table type_dt, const Key &key )
+{
+    sol::state_view lua( type_dt.lua_state() );
+    std::vector<sol::object> &members = type_dt[ detail::KEY_MEMBER ];
+    sol::table member_dt = lua.create_table();
+    member_dt[detail::KEY_MEMBER_NAME] = key;
+    members.push_back( member_dt );
+    return member_dt;
+}
+
 } // namespace detail
 
 template<typename Class, typename ConstructorScheme, typename Bases>
@@ -290,13 +301,7 @@ void set_fx(
 
     sol::state_view lua( ut.lua_state() );
     sol::table type_dt = detail::get_type_doctable<Class>( lua );
-
-    std::vector<sol::object> &members = type_dt[ detail::KEY_MEMBER ];
-
-    sol::table member_dt = lua.create_table();
-    member_dt[detail::KEY_MEMBER_NAME] = key;
-    members.push_back( member_dt );
-
+    sol::table member_dt = detail::make_type_member_doctable( type_dt, key );
     detail::doc_member_fx<Class>( member_dt, detail::types<Func>() );
 }
 
@@ -311,13 +316,7 @@ void set(
 
     sol::state_view lua( ut.lua_state() );
     sol::table type_dt = detail::get_type_doctable<Class>( lua );
-
-    std::vector<sol::object> &members = type_dt[ detail::KEY_MEMBER ];
-
-    sol::table member_dt = lua.create_table();
-    member_dt[detail::KEY_MEMBER_NAME] = key;
-    members.push_back( member_dt );
-
+    sol::table member_dt = detail::make_type_member_doctable( type_dt, key );
     detail::doc_member<Class>( member_dt, detail::types<Value>() );
 }
 
