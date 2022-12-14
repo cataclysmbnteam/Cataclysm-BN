@@ -4,8 +4,8 @@
 
 #include "catalua_sol_fwd.h"
 
-sol::table make_readonly_table( sol::state &lua, sol::table read_from );
-sol::table make_readonly_table( sol::state &lua, sol::table read_from,
+sol::table make_readonly_table( sol::state_view &lua, sol::table read_from );
+sol::table make_readonly_table( sol::state_view &lua, sol::table read_from,
                                 const std::string &error_msg );
 
 void reg_debug_logging( sol::state &lua );

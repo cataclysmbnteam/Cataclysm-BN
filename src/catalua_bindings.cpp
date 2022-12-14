@@ -37,7 +37,7 @@ reimpl_default_pairs( sol::this_state L, sol::table t )
     return std::make_tuple( lua["next"], t[sol::meta_function::index], sol::nil );
 }
 
-sol::table make_readonly_table( sol::state &lua, sol::table read_from )
+sol::table make_readonly_table( sol::state_view &lua, sol::table read_from )
 {
     sol::table ret = lua.create_table();
 
@@ -49,7 +49,7 @@ sol::table make_readonly_table( sol::state &lua, sol::table read_from )
     return ret;
 }
 
-sol::table make_readonly_table( sol::state &lua, sol::table read_from,
+sol::table make_readonly_table( sol::state_view &lua, sol::table read_from,
                                 const std::string &error_msg )
 {
     sol::table ret = lua.create_table();
