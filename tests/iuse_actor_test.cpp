@@ -122,7 +122,6 @@ TEST_CASE( "cut_up_yields" )
     cut_up_yields( "wetsuit_booties" );
     cut_up_yields( "wetsuit_hood" );
     cut_up_yields( "wetsuit_spring" );
-    cut_up_yields( "wetsuit_gloves" );
     cut_up_yields( "peacoat" );
     cut_up_yields( "log" );
     cut_up_yields( "stick" );
@@ -130,7 +129,6 @@ TEST_CASE( "cut_up_yields" )
     cut_up_yields( "tazer" );
     cut_up_yields( "control_laptop" );
     cut_up_yields( "voltmeter" );
-    cut_up_yields( "burette" );
     cut_up_yields( "eink_tablet_pc" );
     cut_up_yields( "camera" );
     cut_up_yields( "cell_phone" );

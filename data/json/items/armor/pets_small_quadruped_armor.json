@@ -113,7 +113,7 @@
     "price": 5000,
     "price_postapoc": 500,
     "material": [ "neoprene", "plastic" ],
-    "weight": "2500 mg",
+    "weight": "50 g",
     "volume": "4500 ml",
     "material_thickness": 3
   },

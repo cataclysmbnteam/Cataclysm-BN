@@ -1082,7 +1082,8 @@
     "material": [ "glass", "plastic" ],
     "looks_like": "glass_tube_small",
     "symbol": "|",
-    "color": "light_blue"
+    "color": "light_blue",
+    "flags": [ "NO_SALVAGE" ]
   },
   {
     "id": "rotovap",
