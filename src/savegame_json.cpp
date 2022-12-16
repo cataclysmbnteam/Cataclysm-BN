@@ -332,7 +332,7 @@ void character_id::deserialize( JsonIn &jsin )
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// Character.h, avatar + npc
 
-void Character::trait_data::serialize( JsonOut &json ) const
+void char_trait_data::serialize( JsonOut &json ) const
 {
     json.start_object();
     json.member( "key", key );
@@ -341,7 +341,7 @@ void Character::trait_data::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-void Character::trait_data::deserialize( JsonIn &jsin )
+void char_trait_data::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
     data.allow_omitted_members();
@@ -500,8 +500,6 @@ void Character::load( const JsonObject &data )
     data.read( "damage_disinfected", damage_disinfected );
     data.read( "magic", magic );
     JsonArray parray;
-
-    data.read( "underwater", underwater );
 
     data.read( "traits", my_traits );
     for( auto it = my_traits.begin(); it != my_traits.end(); ) {
@@ -721,7 +719,6 @@ void Character::store( JsonOut &json ) const
     json.member( "type_of_scent", type_of_scent );
 
     // breathing
-    json.member( "underwater", underwater );
     json.member( "oxygen", oxygen );
 
     // traits: permanent 'mutations' more or less
@@ -1989,7 +1986,6 @@ void monster::store( JsonOut &json ) const
     // Store the relative position of the goal so it loads correctly after a map shift.
     json.member( "destination", goal - pos() );
     json.member( "ammo", ammo );
-    json.member( "underwater", underwater );
     json.member( "upgrades", upgrades );
     json.member( "upgrade_time", upgrade_time );
     json.member( "last_updated", last_updated );
@@ -3048,6 +3044,8 @@ void Creature::store( JsonOut &jsout ) const
     jsout.member( "dodge_bonus", dodge_bonus );
     jsout.member( "block_bonus", block_bonus );
     jsout.member( "hit_bonus", hit_bonus );
+
+    jsout.member( "underwater", underwater );
 
     jsout.member( "body", body );
 

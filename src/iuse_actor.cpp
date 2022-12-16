@@ -227,7 +227,7 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
         return 0;
     }
     if( need_charges ) {
-        if( it.has_flag( flag_POWERARMOR_MOD ) && p.can_interface_armor() ) {
+        if( it.has_flag( flag_POWERARMOR_MOD ) && character_funcs::can_interface_armor( p ) ) {
             if( !p.has_power() ) {
                 if( possess ) {
                     p.add_msg_if_player( m_info, need_charges_msg, it.tname() );
@@ -921,7 +921,7 @@ int set_transform_iuse::use( player &p, item &it, bool t, const tripoint &pos ) 
                          ( it.has_flag( "ALLOWS_REMOTE_USE" ) && square_dist( p.pos(), pos ) == 1 );
 
     if( set_charges ) {
-        if( it.is_power_armor() && p.can_interface_armor() ) {
+        if( it.is_power_armor() && character_funcs::can_interface_armor( p ) ) {
             if( !p.has_power() ) {
                 if( possess ) {
                     p.add_msg_if_player( m_info, set_charges_msg, it.tname() );

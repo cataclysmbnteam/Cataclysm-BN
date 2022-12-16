@@ -3485,7 +3485,7 @@ void activity_handlers::socialize_finish( player_activity *act, player *p )
 void activity_handlers::try_sleep_do_turn( player_activity *act, player *p )
 {
     if( !p->has_effect( effect_sleep ) ) {
-        if( p->can_sleep() ) {
+        if( character_funcs::roll_can_sleep( *p ) ) {
             act->set_to_null();
             p->fall_asleep();
             p->remove_value( "sleep_query" );

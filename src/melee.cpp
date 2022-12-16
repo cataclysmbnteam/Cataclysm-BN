@@ -379,15 +379,9 @@ static void melee_train( Character &p, int lo, int hi, const item &weap )
     }
 }
 
-void Character::melee_attack( Creature &t, bool allow_special )
-{
-    static const matec_id no_technique_id( "" );
-    melee_attack( t, allow_special, no_technique_id );
-}
-
 // Melee calculation is in parts. This sets up the attack, then in deal_melee_attack,
 // we calculate if we would hit. In Creature::deal_melee_hit, we calculate if the target dodges.
-void Character::melee_attack( Creature &t, bool allow_special, const matec_id &force_technique,
+void Character::melee_attack( Creature &t, bool allow_special, const matec_id *force_technique,
                               bool allow_unarmed )
 {
     melee::melee_stats.attack_count += 1;
@@ -482,14 +476,14 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
         damage_instance d;
         roll_all_damage( critical_hit, d, false, cur_weapon );
 
-        const bool has_force_technique = !force_technique.str().empty();
+        const bool has_force_technique = force_technique;
 
         // Pick one or more special attacks
         matec_id technique_id;
         if( allow_special && !has_force_technique ) {
             technique_id = pick_technique( t, cur_weapon, critical_hit, false, false );
         } else if( has_force_technique ) {
-            technique_id = force_technique;
+            technique_id = *force_technique;
         } else {
             technique_id = tec_none;
         }
@@ -620,7 +614,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
     return;
 }
 
-void player::reach_attack( const tripoint &p )
+void Character::reach_attack( const tripoint &p )
 {
     matec_id force_technique = tec_none;
     /** @EFFECT_MELEE >5 allows WHIP_DISARM technique */
@@ -706,7 +700,7 @@ void player::reach_attack( const tripoint &p )
     }
 
     reach_attacking = true;
-    melee_attack( *critter, false, force_technique, false );
+    melee_attack( *critter, false, &force_technique, false );
     reach_attacking = false;
 }
 
@@ -852,7 +846,7 @@ float Character::get_dodge() const
     return std::max( 0.0f, ret );
 }
 
-float player::dodge_roll()
+float Character::dodge_roll()
 {
     return get_dodge() * 5;
 }
@@ -1778,7 +1772,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
         } else if( weapon.made_of( material_id( "glass" ) ) ) {
             add_msg( m_bad, _( "The item you are wielding is too fragile to counterattack with!" ) );
         } else {
-            melee_attack( *source, false, tec );
+            melee_attack( *source, false, &tec );
         }
     }
 
@@ -2253,16 +2247,16 @@ int Character::attack_cost( const item &weap ) const
     return move_cost;
 }
 
-double player::weapon_value( const item &weap, int ammo ) const
+double npc_ai::weapon_value( const Character &who, const item &weap, int ammo )
 {
-    if( is_wielding( weap ) ) {
-        auto cached_value = cached_info.find( "weapon_value" );
-        if( cached_value != cached_info.end() ) {
-            return cached_value->second;
+    if( who.is_wielding( weap ) ) {
+        auto cached = who.get_npc_ai_info_cache( "weapon_value" );
+        if( cached ) {
+            return *cached;
         }
     }
-    const double val_gun = gun_value( weap, ammo );
-    const double val_melee = melee_value( weap );
+    const double val_gun = gun_value( who, weap, ammo );
+    const double val_melee = melee_value( who, weap );
     const double more = std::max( val_gun, val_melee );
     const double less = std::min( val_gun, val_melee );
 
@@ -2275,29 +2269,29 @@ double player::weapon_value( const item &weap, int ammo ) const
     // A small bonus for guns you can also use to hit stuff with (bayonets etc.)
     const double my_val = ( more + ( less / 2.0 ) ) * armor_penalty;
     add_msg( m_debug, "%s (%ld ammo) sum value: %.1f", weap.type->get_id().str(), ammo, my_val );
-    if( is_wielding( weap ) ) {
-        cached_info.emplace( "weapon_value", my_val );
+    if( who.is_wielding( weap ) ) {
+        who.set_npc_ai_info_cache( "weapon_value", my_val );
     }
     return my_val;
 }
 
-double player::melee_value( const item &weap ) const
+double npc_ai::melee_value( const Character &who, const item &weap )
 {
     // start with average effective dps against a range of enemies
-    double my_value = weap.average_dps( *this );
+    double my_value = weap.average_dps( *who.as_player() );
 
-    float reach = weap.reach_range( *this );
+    float reach = weap.reach_range( who );
     // value reach weapons more
     if( reach > 1.0f ) {
         my_value *= 1.0f + 0.5f * ( std::sqrt( reach ) - 1.0f );
     }
     // value polearms less to account for the trickiness of keeping the right range
-    if( weapon.has_flag( "POLEARM" ) ) {
+    if( weap.has_flag( "POLEARM" ) ) {
         my_value *= 0.8;
     }
 
     // value style weapons more
-    if( !martial_arts_data->enumerate_known_styles( weap.type->get_id() ).empty() ) {
+    if( !who.martial_arts_data->enumerate_known_styles( weap.type->get_id() ).empty() ) {
         my_value *= 1.5;
     }
 
@@ -2306,10 +2300,10 @@ double player::melee_value( const item &weap ) const
     return std::max( 0.0, my_value );
 }
 
-double player::unarmed_value() const
+double npc_ai::unarmed_value( const Character &who )
 {
     // TODO: Martial arts
-    return melee_value( item() );
+    return melee_value( who, item() );
 }
 
 void player::disarm( npc &target )

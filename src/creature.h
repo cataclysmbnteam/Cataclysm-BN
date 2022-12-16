@@ -301,6 +301,7 @@ class Creature
         virtual bool digging() const;
         virtual bool is_on_ground() const = 0;
         virtual bool is_underwater() const;
+        virtual void set_underwater( bool x );
         virtual bool is_warm() const; // is this creature warm, for IR vision, heat drain, etc
         virtual bool in_species( const species_id & ) const;
 
@@ -567,7 +568,6 @@ class Creature
         virtual std::set<tripoint> get_path_avoid() const = 0;
 
         int moves = 0;
-        bool underwater = false;
         void draw( const catacurses::window &w, const point &origin, bool inverted ) const;
         void draw( const catacurses::window &w, const tripoint &origin, bool inverted ) const;
         /**
@@ -886,6 +886,7 @@ class Creature
 
     private:
         int pain = 0;
+        bool underwater = false;
 };
 
 #endif // CATA_SRC_CREATURE_H

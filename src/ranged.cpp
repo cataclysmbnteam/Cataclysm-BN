@@ -1853,7 +1853,7 @@ item::sound_data item::gun_noise( const bool burst ) const
     return { 0, "" }; // silent weapons
 }
 
-static bool is_driving( const player &p )
+static bool is_driving( const Character &p )
 {
     const optional_vpart_position vp = get_map().veh_at( p.pos() );
     return vp && vp->vehicle().is_moving() && vp->vehicle().player_in_control( p );
@@ -1882,7 +1882,7 @@ static double dispersion_from_skill( double skill, double weapon_dispersion )
 }
 
 // utility functions for projectile_attack
-dispersion_sources player::get_weapon_dispersion( const item &obj ) const
+dispersion_sources Character::get_weapon_dispersion( const item &obj ) const
 {
     int weapon_dispersion = obj.gun_dispersion();
     dispersion_sources dispersion( weapon_dispersion );
@@ -1932,7 +1932,7 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
     return dispersion;
 }
 
-double player::gun_value( const item &weap, int ammo ) const
+double npc_ai::gun_value( const Character &who, const item &weap, int ammo )
 {
     // TODO: Mods
     // TODO: Allow using a specified type of ammo rather than default or current
@@ -1958,8 +1958,8 @@ double player::gun_value( const item &weap, int ammo ) const
     damage_instance gun_damage = weap.gun_damage();
     item tmp = weap;
     tmp.ammo_set( ammo_type );
-    int total_dispersion = get_weapon_dispersion( tmp ).max() +
-                           effective_dispersion( tmp.sight_dispersion() );
+    int total_dispersion = who.get_weapon_dispersion( tmp ).max() +
+                           who.effective_dispersion( tmp.sight_dispersion() );
 
     if( def_ammo_i != nullptr && def_ammo_i->ammo ) {
         const islot_ammo &def_ammo = *def_ammo_i->ammo;
@@ -1973,10 +1973,10 @@ double player::gun_value( const item &weap, int ammo ) const
         damage_factor += 0.5f * gun_damage.damage_units.front().res_pen;
     }
 
-    int move_cost = time_to_attack( *this, *weap.type );
+    int move_cost = time_to_attack( who, *weap.type );
     if( gun.clip != 0 && gun.clip < 10 ) {
         // TODO: RELOAD_ONE should get a penalty here
-        int reload_cost = gun.reload_time + encumb( bp_hand_l ) + encumb( bp_hand_r );
+        int reload_cost = gun.reload_time + who.encumb( bp_hand_l ) + who.encumb( bp_hand_r );
         reload_cost /= gun.clip;
         move_cost += reload_cost;
     }
@@ -2015,7 +2015,7 @@ double player::gun_value( const item &weap, int ammo ) const
 
     // Penalty for dodging in melee makes the gun unusable in melee
     // Until NPCs get proper kiting, at least
-    int melee_penalty = weapon.volume() / 250_ml - get_skill_level( skill_dodge );
+    int melee_penalty = who.weapon.volume() / 250_ml - who.get_skill_level( skill_dodge );
     if( melee_penalty <= 0 ) {
         // Dispersion matters less if you can just use the gun in melee
         total_dispersion = std::min<int>( total_dispersion / move_cost_factor, total_dispersion );

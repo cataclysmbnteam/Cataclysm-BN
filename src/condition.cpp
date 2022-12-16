@@ -326,7 +326,7 @@ void conditional_t<T>::set_has_bionics( const JsonObject &jo, const std::string 
             actor = dynamic_cast<player *>( d.beta );
         }
         if( bionics_id == "ANY" ) {
-            return actor->num_bionics() > 0 || actor->has_max_power();
+            return actor->has_bionics();
         }
         return actor->has_bionic( bionic_id( bionics_id ) );
     };

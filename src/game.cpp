@@ -50,6 +50,7 @@
 #include "character_display.h"
 #include "character_functions.h"
 #include "character_martial_arts.h"
+#include "character_turn.h"
 #include "clzones.h"
 #include "colony.h"
 #include "color.h"
@@ -1566,7 +1567,7 @@ bool game::do_turn()
     }
 
     u.update_bodytemp( m, weather );
-    u.update_body_wetness( get_weather().get_precise() );
+    character_funcs::update_body_wetness( u, get_weather().get_precise() );
     u.apply_wetness_morale( weather.temperature );
 
     if( calendar::once_every( 1_minutes ) ) {
@@ -9259,7 +9260,7 @@ point game::place_player( const tripoint &dest_loc )
 
     // Traps!
     // Try to detect.
-    u.search_surroundings();
+    character_funcs::search_surroundings( u );
     if( u.is_mounted() ) {
         m.creature_on_trap( *u.mounted_creature );
     } else {
@@ -9741,7 +9742,7 @@ void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
     bool force_next = false;
     tripoint next_forced;
     while( range > 0 ) {
-        c->underwater = false;
+        c->set_underwater( false );
         // TODO: Check whenever it is actually in the viewport
         // or maybe even just redraw the changed tiles
         bool seen = is_u || u.sees( *c ); // To avoid redrawing when not seen
@@ -9864,7 +9865,7 @@ void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
             m.creature_on_trap( *c, false );
         }
     } else {
-        c->underwater = true;
+        c->set_underwater( true );
         if( is_u ) {
             if( controlled ) {
                 add_msg( _( "You dive into water." ) );
@@ -11778,7 +11779,9 @@ void game::add_artifact_dreams( )
 {
     //If player is sleeping, get a dream from a carried artifact
     //Don't need to check that player is sleeping here, that's done before calling
-    std::list<item *> art_items = g->u.get_artifact_items();
+    std::vector<item *> art_items = u.items_with( []( const item & it ) -> bool {
+        return it.is_artifact();
+    } );
     std::vector<item *>      valid_arts;
     std::vector<std::vector<std::string>>
                                        valid_dreams; // Tracking separately so we only need to check its req once
