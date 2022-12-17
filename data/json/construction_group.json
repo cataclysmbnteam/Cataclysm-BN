@@ -1066,6 +1066,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_forge_rig",
+    "name": "Place Forge Rig"
+  },
+  {
+    "type": "construction_group",
     "id": "place_electric_kiln",
     "name": "Place Electric Kiln"
   },
@@ -1073,6 +1078,16 @@
     "type": "construction_group",
     "id": "place_electrolysis_kit",
     "name": "Place Electrolysis Kit"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_chemisitry_set",
+    "name": "Place Chemistry Set"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_chemlab",
+    "name": "Place Chemistry Lab"
   },
   {
     "type": "construction_group",
