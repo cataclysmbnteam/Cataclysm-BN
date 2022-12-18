@@ -2095,9 +2095,9 @@ void options_manager::add_options_debug()
         this->add_empty_line( "debug" );
     };
 
-    add( "REPORT_UNUSED_JSON_FIELDS", "debug", translate_marker( "Report unused JSON fields" ),
-         translate_marker( "If false, unused JSON fields are silently ignored.  Enabling this will make it easier to spot mistakes or typos during modding." ),
-         false
+    add( "STRICT_JSON_CHECKS", "debug", translate_marker( "Strict JSON checks" ),
+         translate_marker( "If true, will show additional warnings for JSON data correctness." ),
+         true
        );
 
     add( "FORCE_TILESET_RELOAD", "debug", translate_marker( "Force tileset reload" ),
@@ -3335,8 +3335,7 @@ void options_manager::cache_to_globals()
     setDebugLogLevels( levels );
     setDebugLogClasses( classes );
 
-    json_report_unused_fields = ::get_option<bool>( "REPORT_UNUSED_JSON_FIELDS" );
-    json_report_strict = test_mode || json_report_unused_fields;
+    json_report_strict = test_mode || ::get_option<bool>( "STRICT_JSON_CHECKS" );
     display_mod_source = ::get_option<bool>( "MOD_SOURCE" );
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
     use_tiles = ::get_option<bool>( "USE_TILES" );
