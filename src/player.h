@@ -319,8 +319,6 @@ class player : public Character
         /** This handles warning the player that there current activity will not give them xp */
         void handle_skill_warning( const skill_id &id, bool force_warning = false );
 
-        void on_worn_item_transform( const item &old_it, const item &new_it );
-
         /**
          * Remove charges from a specific item (given by its item position).
          * The item must exist and it must be counted by charges.

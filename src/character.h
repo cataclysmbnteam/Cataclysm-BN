@@ -1727,6 +1727,9 @@ class Character : public Creature, public visitable<Character>
         void on_mutation_loss( const trait_id &mid );
         /** Called when a stat is changed */
         void on_stat_change( const std::string &stat, int value ) override;
+        /** Called when a worn item is transformed */
+        void on_worn_item_transform( const item &old_it, const item &new_it );
+
         /** Returns an unoccupied, safe adjacent point. If none exists, returns player position. */
         tripoint adjacent_tile() const;
         /** Removes "sleep" and "lying_down" */

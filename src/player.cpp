@@ -608,11 +608,6 @@ int player::hp_percentage() const
     return ( 100 * total_cur ) / total_max;
 }
 
-void player::on_worn_item_transform( const item &old_it, const item &new_it )
-{
-    morale->on_worn_item_transform( old_it, new_it );
-}
-
 item player::reduce_charges( int position, int quantity )
 {
     item &it = i_at( position );

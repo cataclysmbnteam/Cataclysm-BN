@@ -9807,6 +9807,11 @@ void Character::on_stat_change( const std::string &stat, int value )
     morale->on_stat_change( stat, value );
 }
 
+void Character::on_worn_item_transform( const item &old_it, const item &new_it )
+{
+    morale->on_worn_item_transform( old_it, new_it );
+}
+
 bool Character::has_opposite_trait( const trait_id &flag ) const
 {
     for( const trait_id &i : flag->cancels ) {
