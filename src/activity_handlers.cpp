@@ -16,6 +16,7 @@
 
 #include "action.h"
 #include "advanced_inv.h"
+#include "armor_layers.h"
 #include "avatar.h"
 #include "avatar_action.h"
 #include "bionics.h"
@@ -3223,7 +3224,7 @@ void activity_handlers::travel_do_turn( player_activity *act, player *p )
 void activity_handlers::armor_layers_do_turn( player_activity *, player *p )
 {
     p->cancel_activity();
-    p->sort_armor();
+    show_armor_layers_ui( *p );
 }
 
 void activity_handlers::atm_do_turn( player_activity *, player *p )

@@ -10,6 +10,7 @@
 #include "action.h"
 #include "advanced_inv.h"
 #include "animation.h"
+#include "armor_layers.h"
 #include "auto_note.h"
 #include "auto_pickup.h"
 #include "avatar.h"
@@ -2107,7 +2108,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_SORT_ARMOR:
-                u.sort_armor();
+                show_armor_layers_ui( u );
                 break;
 
             case ACTION_WAIT:

@@ -279,8 +279,6 @@ class player : public Character
          */
         void store( item &container, item &put, bool penalties = true,
                     int base_cost = INVENTORY_HANDLING_PENALTY );
-        /** Draws the UI and handles player input for the armor re-ordering window */
-        void sort_armor();
         /** Uses a tool */
         void use( int inventory_position );
         /** Uses a tool at location */
