@@ -185,9 +185,6 @@ class player : public Character
          *  Returns true if the item is to be removed (doesn't remove). */
         bool consume_item( item &target );
 
-        /** Used for eating entered comestible, returns true if comestible is successfully eaten */
-        bool eat( item &food, bool force = false );
-
         int get_lift_assist() const;
 
         bool list_ammo( const item &base, std::vector<item::reload_option> &ammo_list,

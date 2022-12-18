@@ -1931,6 +1931,9 @@ class Character : public Creature, public visitable<Character>
          */
         item &get_consumable_from( item &it ) const;
 
+        /** Used for eating entered comestible, returns true if comestible is successfully eaten */
+        bool eat( item &food, bool force = false );
+
         /** Get calorie & vitamin contents for a comestible, taking into
          * account character traits */
         /** Get range of possible nutrient content, for a particular recipe,

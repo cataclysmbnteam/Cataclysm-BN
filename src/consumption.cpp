@@ -818,7 +818,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
     return ret_val<edible_rating>::make_success();
 }
 
-bool player::eat( item &food, bool force )
+bool Character::eat( item &food, bool force )
 {
     if( !food.is_food() ) {
         return false;
@@ -842,7 +842,7 @@ bool player::eat( item &food, bool force )
             !food.type->can_use( "CATFOOD" ) &&
             !food.type->can_use( "BIRDFOOD" ) &&
             !food.type->can_use( "CATTLEFODDER" ) ) {
-            charges_used = food.type->invoke( *this, food, pos() );
+            charges_used = food.type->invoke( *this->as_player(), food, pos() );
             if( charges_used <= 0 ) {
                 return false;
             }
