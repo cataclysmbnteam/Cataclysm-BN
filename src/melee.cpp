@@ -15,6 +15,7 @@
 #include <vector>
 
 #include "avatar.h"
+#include "avatar_functions.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -2306,23 +2307,23 @@ double npc_ai::unarmed_value( const Character &who )
     return melee_value( who, item() );
 }
 
-void player::disarm( npc &target )
+void avatar_funcs::try_disarm_npc( avatar &you, npc &target )
 {
     if( !target.is_armed() ) {
         return;
     }
 
     if( target.is_hallucination() ) {
-        target.on_attacked( *this );
+        target.on_attacked( you );
         return;
     }
 
     /** @EFFECT_STR increases chance to disarm, primary stat */
     /** @EFFECT_DEX increases chance to disarm, secondary stat */
-    int my_roll = dice( 3, 2 * get_str() + get_dex() );
+    int my_roll = dice( 3, 2 * you.get_str() + you.get_dex() );
 
     /** @EFFECT_MELEE increases chance to disarm */
-    my_roll += dice( 3, get_skill_level( skill_melee ) );
+    my_roll += dice( 3, you.get_skill_level( skill_melee ) );
 
     int their_roll = dice( 3, 2 * target.get_str() + target.get_dex() );
     their_roll += dice( 3, target.get_per() );
@@ -2331,18 +2332,18 @@ void player::disarm( npc &target )
     item &it = target.weapon;
 
     // roll your melee and target's dodge skills to check if grab/smash attack succeeds
-    int hitspread = target.deal_melee_attack( this, hit_roll() );
+    int hitspread = target.deal_melee_attack( &you, you.hit_roll() );
     if( hitspread < 0 ) {
         add_msg( _( "You lunge for the %s, but miss!" ), it.tname() );
-        mod_moves( -100 - stumble( *this, weapon ) - attack_cost( weapon ) );
-        target.on_attacked( *this );
+        you.mod_moves( -100 - stumble( you, you.weapon ) - you.attack_cost( you.weapon ) );
+        target.on_attacked( you );
         return;
     }
 
     // hitspread >= 0, which means we are going to disarm by grabbing target by their weapon
-    if( !is_armed() ) {
+    if( !you.is_armed() ) {
         /** @EFFECT_UNARMED increases chance to disarm, bonus when nothing wielded */
-        my_roll += dice( 3, get_skill_level( skill_unarmed ) );
+        my_roll += dice( 3, you.get_skill_level( skill_unarmed ) );
 
         if( my_roll >= their_roll ) {
             //~ %s: weapon name
@@ -2351,24 +2352,24 @@ void player::disarm( npc &target )
             add_msg( _( "You forcefully take %1$s from %2$s!" ), it.tname(), target.name );
             // wield() will deduce our moves, consider to deduce more/less moves for balance
             item rem_it = target.i_rem( &it );
-            wield( rem_it );
+            you.wield( rem_it );
         } else if( my_roll >= their_roll / 2 ) {
             add_msg( _( "You grab at %s and pull with all your force, but it drops nearby!" ),
                      it.tname() );
             const tripoint tp = target.pos() + tripoint( rng( -1, 1 ), rng( -1, 1 ), 0 );
             g->m.add_item_or_charges( tp, target.i_rem( &it ) );
-            mod_moves( -100 );
+            you.mod_moves( -100 );
         } else {
             add_msg( _( "You grab at %s and pull with all your force, but in vain!" ), it.tname() );
-            mod_moves( -100 );
+            you.mod_moves( -100 );
         }
 
-        target.on_attacked( *this );
+        target.on_attacked( you );
         return;
     }
 
     // Make their weapon fall on floor if we've rolled enough.
-    mod_moves( -100 - attack_cost( weapon ) );
+    you.mod_moves( -100 - you.attack_cost( you.weapon ) );
     if( my_roll >= their_roll ) {
         add_msg( _( "You smash %s with all your might forcing their %s to drop down nearby!" ),
                  target.name, it.tname() );
@@ -2379,29 +2380,29 @@ void player::disarm( npc &target )
                  target.name, it.tname() );
     }
 
-    target.on_attacked( *this );
+    target.on_attacked( you );
 }
 
-void avatar::steal( npc &target )
+void avatar_funcs::try_steal_from_npc( avatar &you, npc &target )
 {
     if( target.is_enemy() ) {
         add_msg( _( "%s is hostile!" ), target.name );
         return;
     }
 
-    item_location loc = game_menus::inv::steal( *this, target );
+    item_location loc = game_menus::inv::steal( you, target );
     if( !loc ) {
         return;
     }
 
     /** @EFFECT_DEX defines the chance to steal */
-    int my_roll = dice( 3, get_dex() );
+    int my_roll = dice( 3, you.get_dex() );
 
     /** @EFFECT_UNARMED adds bonus to stealing when wielding nothing */
-    if( !is_armed() ) {
+    if( !you.is_armed() ) {
         my_roll += dice( 4, 3 );
     }
-    if( has_trait( trait_DEFT ) ) {
+    if( you.has_trait( trait_DEFT ) ) {
         my_roll += dice( 2, 6 );
     }
 
@@ -2411,18 +2412,18 @@ void avatar::steal( npc &target )
     if( my_roll >= their_roll ) {
         add_msg( _( "You sneakily steal %1$s from %2$s!" ),
                  it->tname(), target.name );
-        i_add( target.i_rem( it ) );
+        you.i_add( target.i_rem( it ) );
     } else if( my_roll >= their_roll / 2 ) {
         add_msg( _( "You failed to steal %1$s from %2$s, but did not attract attention." ),
                  it->tname(), target.name );
     } else {
         add_msg( _( "You failed to steal %1$s from %2$s." ),
                  it->tname(), target.name );
-        target.on_attacked( *this );
+        target.on_attacked( you );
     }
 
     // consider to deduce less/more moves for balance
-    mod_moves( -200 );
+    you.mod_moves( -200 );
 }
 
 /**

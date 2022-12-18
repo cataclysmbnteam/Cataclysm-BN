@@ -41,6 +41,7 @@
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "avatar_action.h"
+#include "avatar_functions.h"
 #include "basecamp.h"
 #include "bionics.h"
 #include "bodypart.h"
@@ -5332,10 +5333,10 @@ bool game::npc_menu( npc &who )
         }
     } else if( choice == disarm ) {
         if( who.is_enemy() || query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
-            u.disarm( who );
+            avatar_funcs::try_disarm_npc( u, who );
         }
     } else if( choice == steal && query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
-        u.steal( who );
+        avatar_funcs::try_steal_from_npc( u, who );
     }
 
     return true;

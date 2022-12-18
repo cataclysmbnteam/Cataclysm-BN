@@ -166,13 +166,6 @@ class avatar : public player
         /** Handles player vomiting effects */
         void vomit();
 
-        /**
-         * Try to steal an item from the NPC's inventory. May result in fail attempt, when NPC not notices you,
-         * notices your steal attempt and getting angry with you, and you successfully stealing the item.
-         * @param target Target NPC to steal from
-         */
-        void steal( npc &target );
-
         bool is_hallucination() const override;
 
         pimpl<teleporter_list> translocators;
