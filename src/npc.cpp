@@ -1784,12 +1784,18 @@ int npc::value( const item &it, int market_price ) const
     }
 
     if( it.is_ammo() ) {
-        if( weapon.is_gun() && weapon.ammo_types().count( it.ammo_type() ) ) {
+        const ammotype &at = it.ammo_type();
+        if( weapon.is_gun() && weapon.ammo_types().count( at ) ) {
             // TODO: magazines - don't count ammo as usable if the weapon isn't.
             ret += 14;
         }
 
-        if( has_gun_for_ammo( it.ammo_type() ) ) {
+        bool has_gun_for_ammo = has_item_with( [at]( const item & itm ) {
+            // item::ammo_type considers the active gunmod.
+            return itm.is_gun() && itm.ammo_types().count( at );
+        } );
+
+        if( has_gun_for_ammo ) {
             // TODO: consider making this cumulative (once was)
             ret += 14;
         }

@@ -2432,14 +2432,6 @@ int player::has_recipe( const recipe *r, const inventory &crafting_inv,
     return available.contains( *r ) ? available.get_custom_difficulty( r ) : -1;
 }
 
-bool player::has_gun_for_ammo( const ammotype &at ) const
-{
-    return has_item_with( [at]( const item & it ) {
-        // item::ammo_type considers the active gunmod.
-        return it.is_gun() && it.ammo_types().count( at );
-    } );
-}
-
 bool player::has_magazine_for_ammo( const ammotype &at ) const
 {
     return has_item_with( [&at]( const item & it ) {
