@@ -177,12 +177,6 @@ class player : public Character
         /** Returns overall % of HP remaining */
         int hp_percentage() const override;
 
-        /** Used for eating object at pos, returns true if object is removed from inventory (last charge was consumed) */
-        bool consume( item_location loc );
-        /** Used for eating a particular item that doesn't need to be in inventory.
-         *  Returns true if the item is to be removed (doesn't remove). */
-        bool consume_item( item &target );
-
         int get_lift_assist() const;
 
         bool list_ammo( const item &base, std::vector<item::reload_option> &ammo_list,
@@ -471,15 +465,6 @@ class player : public Character
 
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
-
-    private:
-
-        /**
-         * Consumes an item as medication.
-         * @param target Item consumed. Must be a medication or a container of medication.
-         * @return Whether the target was fully consumed.
-         */
-        bool consume_med( item &target );
 
     private:
 

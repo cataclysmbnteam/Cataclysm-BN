@@ -1658,7 +1658,9 @@ bool npc::consume_cbm_items( const std::function<bool( const item & )> &filter )
     }
     int old_moves = moves;
     item_location loc = item_location( *this, &i_at( index ) );
-    return consume( loc ) && old_moves != moves;
+    consume( loc );
+    // TODO: a more reliable check for whether item has been consumed
+    return old_moves != moves;
 }
 
 bool npc::recharge_cbm()
@@ -3900,7 +3902,9 @@ bool npc::consume_food()
     // TODO: Make player::consume return false if it fails to consume
     int old_moves = moves;
     item_location loc = item_location( *this, &i_at( index ) );
-    bool consumed = consume( loc ) && old_moves != moves;
+    consume( loc );
+    // TODO: a more reliable check for whether item has been consumed
+    bool consumed = old_moves != moves;
     if( !consumed ) {
         debugmsg( "%s failed to consume %s", name, i_at( index ).tname() );
     }

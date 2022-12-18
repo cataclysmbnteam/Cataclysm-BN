@@ -1931,6 +1931,24 @@ class Character : public Creature, public visitable<Character>
          */
         item &get_consumable_from( item &it ) const;
 
+        /**
+         * Consume item (food, fuel, medicine, ...) at given location @p loc .
+         */
+        void consume( item_location loc );
+
+        /**
+         * Consume given item (food, fuel, medicine, ...).
+         * @returns true if item should be destroyed (last charge was consumed)
+         */
+        bool consume_item( item &target );
+
+        /**
+         * Consume an item as medication.
+         * @param target Item consumed. Must be a medication or a container of medication.
+         * @returns true if item should be destroyed (last charge was consumed)
+         */
+        bool consume_med( item &target );
+
         /** Used for eating entered comestible, returns true if comestible is successfully eaten */
         bool eat( item &food, bool force = false );
 
