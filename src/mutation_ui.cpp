@@ -242,10 +242,10 @@ detail::mutations_ui_result detail::show_mutations_ui_internal( Character &who )
     ctxt.register_action( "QUIT" );
 #if defined(__ANDROID__)
     for( const auto &p : passive ) {
-        ctxt.register_manual_key( my_mutations[p].key, p.obj().name() );
+        ctxt.register_manual_key( who.my_mutations[p].key, p.obj().name() );
     }
     for( const auto &a : active ) {
-        ctxt.register_manual_key( my_mutations[a].key, a.obj().name() );
+        ctxt.register_manual_key( who.my_mutations[a].key, a.obj().name() );
     }
 #endif
 
