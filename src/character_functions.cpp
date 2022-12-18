@@ -479,4 +479,83 @@ void normalize( Character &who )
     who.set_stamina( who.get_stamina_max() );
 }
 
+void store_in_container( Character &who, item &container, item &put, bool penalties, int base_cost )
+{
+    who.moves -= who.item_store_cost( put, container, penalties, base_cost );
+    container.put_in( who.i_rem( &put ) );
+    who.reset_encumbrance();
+}
+
+bool try_wield_contents( Character &who, item &container, item *internal_item, bool penalties,
+                         int base_cost )
+{
+    // if index not specified and container has multiple items then ask the player to choose one
+    if( internal_item == nullptr ) {
+        std::vector<std::string> opts;
+        std::list<item *> container_contents = container.contents.all_items_top();
+        std::transform( container_contents.begin(), container_contents.end(),
+        std::back_inserter( opts ), []( const item * elem ) {
+            return elem->display_name();
+        } );
+        if( opts.size() > 1 ) {
+            int pos = uilist( _( "Wield what?" ), opts );
+            if( pos < 0 ) {
+                return false;
+            }
+            internal_item = *std::next( container_contents.begin(), pos );
+        } else {
+            internal_item = &container.contents.front();
+        }
+    }
+
+    if( !container.has_item( *internal_item ) ) {
+        debugmsg( "Tried to wield non-existent item from container (player::wield_contents)" );
+        return false;
+    }
+
+    const ret_val<bool> ret = who.as_player()->can_wield( *internal_item );
+    if( !ret.success() ) {
+        who.add_msg_if_player( m_info, "%s", ret.c_str() );
+        return false;
+    }
+
+    int mv = 0;
+
+    if( who.is_armed() ) {
+        if( !who.as_player()->unwield() ) {
+            return false;
+        }
+        who.inv.unsort();
+    }
+
+    who.weapon = std::move( *internal_item );
+    container.remove_item( *internal_item );
+    container.on_contents_changed();
+
+    item &weapon = who.weapon;
+
+    who.inv.update_invlet( weapon );
+    who.inv.update_cache_with_item( weapon );
+    who.last_item = weapon.typeId();
+
+    /**
+     * @EFFECT_PISTOL decreases time taken to draw pistols from holsters
+     * @EFFECT_SMG decreases time taken to draw smgs from holsters
+     * @EFFECT_RIFLE decreases time taken to draw rifles from holsters
+     * @EFFECT_SHOTGUN decreases time taken to draw shotguns from holsters
+     * @EFFECT_LAUNCHER decreases time taken to draw launchers from holsters
+     * @EFFECT_STABBING decreases time taken to draw stabbing weapons from sheathes
+     * @EFFECT_CUTTING decreases time taken to draw cutting weapons from scabbards
+     * @EFFECT_BASHING decreases time taken to draw bashing weapons from holsters
+     */
+    int lvl = who.get_skill_level( weapon.is_gun() ? weapon.gun_skill() : weapon.melee_skill() );
+    mv += who.item_handling_cost( weapon, penalties, base_cost ) / ( ( lvl + 10.0f ) / 10.0f );
+
+    who.moves -= mv;
+
+    weapon.on_wield( *who.as_player(), mv );
+
+    return true;
+}
+
 } // namespace character_funcs

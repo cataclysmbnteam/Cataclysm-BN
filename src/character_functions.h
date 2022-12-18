@@ -114,6 +114,28 @@ void add_pain_msg( const Character &who, int val, body_part bp );
 /** Reset Character's weapon and body state (limb hp, stamina, active martial art) */
 void normalize( Character &who );
 
+/**
+ * Stores an item inside another consuming moves proportional to weapon skill and volume
+ * @param you Avatar doing the storing
+ * @param container Container in which to store the item
+ * @param put Item to add to the container
+ * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered
+ * @param base_cost Cost due to storage type
+ */
+void store_in_container( Character &who, item &container, item &put, bool penalties,
+                         int base_cost );
+
+/**
+ * Try to wield a contained item consuming moves proportional to weapon skill and volume.
+ * @param you Avatar doing the wielding
+ * @param container Container containing the item to be wielded
+ * @param internal_item Reference to contained item to wield
+ * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered
+ * @param base_cost Cost due to storage type
+ */
+bool try_wield_contents( Character &who, item &container, item *internal_item, bool penalties,
+                         int base_cost );
+
 } // namespace character_funcs
 
 #endif // CATA_SRC_CHARACTER_FUNCTIONS_H

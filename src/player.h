@@ -261,24 +261,6 @@ class player : public Character
 
         bool unload( item_location loc );
 
-        /**
-         * Try to wield a contained item consuming moves proportional to weapon skill and volume.
-         * @param container Container containing the item to be wielded
-         * @param internal_item reference to contained item to wield.
-         * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
-         * @param base_cost Cost due to storage type.
-         */
-        bool wield_contents( item &container, item *internal_item = nullptr, bool penalties = true,
-                             int base_cost = INVENTORY_HANDLING_PENALTY );
-        /**
-         * Stores an item inside another consuming moves proportional to weapon skill and volume
-         * @param container Container in which to store the item
-         * @param put Item to add to the container
-         * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
-         * @param base_cost Cost due to storage type.
-         */
-        void store( item &container, item &put, bool penalties = true,
-                    int base_cost = INVENTORY_HANDLING_PENALTY );
         /** Uses a tool */
         void use( int inventory_position );
         /** Uses a tool at location */
