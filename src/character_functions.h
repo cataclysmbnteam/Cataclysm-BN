@@ -111,6 +111,9 @@ std::string fmt_wielded_weapon( const Character &who );
  */
 void add_pain_msg( const Character &who, int val, body_part bp );
 
+/** Reset Character's weapon and body state (limb hp, stamina, active martial art) */
+void normalize( Character &who );
+
 } // namespace character_funcs
 
 #endif // CATA_SRC_CHARACTER_FUNCTIONS_H

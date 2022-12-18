@@ -1374,7 +1374,6 @@ void debug()
 
         case DEBUG_SPAWN_NPC: {
             shared_ptr_fast<npc> temp = make_shared_fast<npc>();
-            temp->normalize();
             temp->randomize();
             temp->spawn_at_precise( { g->get_levx(), g->get_levy() }, u.pos() + point( -4, -4 ) );
             overmap_buffer.insert_npc( temp );

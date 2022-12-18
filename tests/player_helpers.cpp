@@ -11,6 +11,7 @@
 #include "bionics.h"
 #include "character.h"
 #include "character_id.h"
+#include "character_functions.h"
 #include "consumption.h"
 #include "game.h"
 #include "inventory.h"
@@ -54,8 +55,7 @@ bool player_has_item_of_type( const std::string &type )
 
 void clear_character( player &dummy, bool debug_storage )
 {
-    dummy.set_body();
-    dummy.normalize(); // In particular this clears martial arts style
+    character_funcs::normalize( dummy );
 
     // Remove first worn item until there are none left.
     std::list<item> temp;

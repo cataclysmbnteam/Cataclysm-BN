@@ -165,6 +165,12 @@ npc::npc()
     for( direction threat_dir : npc_threat_dir ) {
         ai_cache.threat_map[ threat_dir ] = 0.0f;
     }
+
+    // This should be in Character constructor, but because global avatar
+    // gets instantiated on game launch and not after data loading stage
+    // (normalize() depends on game data), we must normalize avatar in a separate call.
+    // FIXME: move normalization to Character constructor
+    character_funcs::normalize( *this );
 }
 
 standard_npc::standard_npc( const std::string &name, const tripoint &pos,

@@ -3524,17 +3524,6 @@ bool Character::meets_requirements( const item &it, const item &context ) const
     return meets_stat_requirements( it ) && meets_skill_requirements( it.type->min_skills, ctx );
 }
 
-void Character::normalize()
-{
-    Creature::normalize();
-
-    martial_arts_data->reset_style();
-    weapon = item( "null", calendar::start_of_cataclysm );
-
-    set_body();
-    recalc_hp();
-}
-
 // Actual player death is mostly handled in game::is_game_over
 void Character::die( Creature *nkiller )
 {

@@ -115,7 +115,6 @@ bool tutorial_game::init()
     get_weather().temperature = 65;
     // We use a Z-factor of 10 so that we don't plop down tutorial rooms in the
     // middle of the "real" game world
-    g->u.normalize();
     g->u.str_cur = g->u.str_max;
     g->u.per_cur = g->u.per_max;
     g->u.int_cur = g->u.int_max;

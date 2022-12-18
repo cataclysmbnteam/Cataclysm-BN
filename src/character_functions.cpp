@@ -466,4 +466,17 @@ void add_pain_msg( const Character &who, int val, body_part bp )
     }
 }
 
+void normalize( Character &who )
+{
+    who.martial_arts_data->reset_style();
+    who.weapon = item();
+
+    who.set_body();
+    who.recalc_hp();
+
+    who.temp_cur.fill( BODYTEMP_NORM );
+    who.temp_conv.fill( BODYTEMP_NORM );
+    who.set_stamina( who.get_stamina_max() );
+}
+
 } // namespace character_funcs

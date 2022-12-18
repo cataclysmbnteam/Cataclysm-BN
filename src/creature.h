@@ -138,8 +138,6 @@ class Creature
         /** Sets a Creature's fake boolean. */
         virtual void set_fake( bool fake_value );
 
-        /** Recreates the Creature from scratch. */
-        virtual void normalize();
         /** Processes effects and bonuses and allocates move points based on speed. */
         virtual void process_turn();
         /** Resets the value of all bonus fields to 0. */

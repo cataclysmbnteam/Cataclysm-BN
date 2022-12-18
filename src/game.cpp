@@ -889,7 +889,6 @@ void game::create_starting_npcs()
     }
 
     shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
-    tmp->normalize();
     tmp->randomize( one_in( 2 ) ? NC_DOCTOR : NC_NONE );
     tmp->spawn_at_precise( { get_levx(), get_levy() }, u.pos() - point_south_east );
     overmap_buffer.insert_npc( tmp );
@@ -4702,7 +4701,6 @@ bool game::spawn_hallucination( const tripoint &p )
 {
     if( one_in( 100 ) ) {
         shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
-        tmp->normalize();
         tmp->randomize( NC_HALLU );
         tmp->spawn_at_precise( { get_levx(), get_levy() }, p );
         if( !critter_at( p, true ) ) {
@@ -4913,7 +4911,6 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &install
 
         const string_id<npc_template> npc_cyborg( "cyborg_rescued" );
         shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
-        tmp->normalize();
         tmp->load_npc_template( npc_cyborg );
         tmp->spawn_at_precise( { get_levx(), get_levy() }, couch_pos );
         overmap_buffer.insert_npc( tmp );
@@ -11042,7 +11039,6 @@ void game::perhaps_add_random_npc()
         counter += 1;
     }
     shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
-    tmp->normalize();
     tmp->randomize();
     std::string new_fac_id = "solo_";
     new_fac_id += tmp->name;

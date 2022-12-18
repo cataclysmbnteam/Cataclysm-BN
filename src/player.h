@@ -90,12 +90,6 @@ class player : public Character
         player &operator=( const player & ) = delete;
         player &operator=( player && );
 
-        /** Calls Character::normalize()
-         *  normalizes HP and body temperature
-         */
-
-        void normalize() override;
-
         bool is_player() const override {
             return true;
         }

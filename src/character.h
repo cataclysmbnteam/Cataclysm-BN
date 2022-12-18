@@ -1449,11 +1449,6 @@ class Character : public Creature, public visitable<Character>
         // magic mod
         pimpl<known_magic> magic;
 
-        /** Calls Creature::normalize()
-         *  nulls out the player's weapon
-         *  Should only be called through player::normalize(), not on it's own!
-         */
-        void normalize() override;
         void die( Creature *nkiller ) override;
 
         std::string get_name() const override;
