@@ -177,8 +177,6 @@ class player : public Character
         /** Returns overall % of HP remaining */
         int hp_percentage() const override;
 
-        /** used for drinking from hands, returns how many charges were consumed */
-        int drink_from_hands( item &water );
         /** Used for eating object at pos, returns true if object is removed from inventory (last charge was consumed) */
         bool consume( item_location loc );
         /** Used for eating a particular item that doesn't need to be in inventory.

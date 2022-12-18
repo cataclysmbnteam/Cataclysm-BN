@@ -639,25 +639,6 @@ item player::reduce_charges( item *it, int quantity )
     return result;
 }
 
-//Returns the amount of charges that were consumed by the player
-int player::drink_from_hands( item &water )
-{
-    int charges_consumed = 0;
-    if( query_yn( _( "Drink %s from your hands?" ),
-                  colorize( water.type_name(), water.color_in_inventory() ) ) ) {
-        // Create a dose of water no greater than the amount of water remaining.
-        item water_temp( water );
-        // If player is slaked water might not get consumed.
-        consume_item( water_temp );
-        charges_consumed = water.charges - water_temp.charges;
-        if( charges_consumed > 0 ) {
-            moves -= 350;
-        }
-    }
-
-    return charges_consumed;
-}
-
 // TODO: Properly split medications and food instead of hacking around
 bool player::consume_med( item &target )
 {
