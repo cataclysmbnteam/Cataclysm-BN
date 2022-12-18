@@ -301,9 +301,6 @@ class player : public Character
         /** Starts activity to install toolmod */
         void toolmod_add( item_location tool, item_location mod );
 
-        /** Note that we've read a book at least once. **/
-        virtual bool has_identified( const itype_id &item_id ) const = 0;
-
     private:
         safe_reference_anchor anchor;
 

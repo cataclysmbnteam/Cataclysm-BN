@@ -157,7 +157,7 @@ class avatar : public player
         /** Completes book reading action. **/
         void do_read( item_location loc );
         /** Note that we've read a book at least once. **/
-        bool has_identified( const itype_id &item_id ) const override;
+        bool has_identified( const itype_id &item_id ) const;
 
         void wake_up();
         // Grab furniture / vehicle
