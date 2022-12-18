@@ -341,8 +341,6 @@ class player : public Character
          */
         item reduce_charges( item *it, int quantity );
 
-        bool has_magazine_for_ammo( const ammotype &at ) const;
-
         // Checks crafting inventory for books providing the requested recipe.
         // Then checks nearby NPCs who could provide it too.
         // Returns -1 to indicate recipe not found, otherwise difficulty to learn.

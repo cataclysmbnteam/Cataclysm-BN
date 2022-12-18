@@ -2432,17 +2432,6 @@ int player::has_recipe( const recipe *r, const inventory &crafting_inv,
     return available.contains( *r ) ? available.get_custom_difficulty( r ) : -1;
 }
 
-bool player::has_magazine_for_ammo( const ammotype &at ) const
-{
-    return has_item_with( [&at]( const item & it ) {
-        return !it.has_flag( "NO_RELOAD" ) &&
-               ( ( it.is_magazine() && it.ammo_types().count( at ) ) ||
-                 ( it.is_gun() && it.magazine_integral() && it.ammo_types().count( at ) ) ||
-                 ( it.is_gun() && it.magazine_current() != nullptr &&
-                   it.magazine_current()->ammo_types().count( at ) ) );
-    } );
-}
-
 bool player::wield_contents( item &container, item *internal_item, bool penalties,
                              int base_cost )
 {
