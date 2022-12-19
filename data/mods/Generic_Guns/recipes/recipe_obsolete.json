@@ -366,7 +366,7 @@
   },
   {
     "type": "recipe",
-    "result": "40x46mm_buckshot_m199",
+    "result": "40x46mm_m576",
     "obsolete": true
   },
   {
@@ -397,11 +397,6 @@
   {
     "type": "recipe",
     "result": "40x53mm_slug_m169",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "40x53mm_flechette_m169",
     "obsolete": true
   },
   {

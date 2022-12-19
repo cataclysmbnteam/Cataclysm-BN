@@ -7,7 +7,7 @@
     "maintainers": [ "Theundyingcode" ],
     "description": "Removes all special zombies from the game.",
     "category": "monster_exclude",
-    "dependencies": [ "dda" ],
+    "dependencies": [ "bn" ],
     "obsolete": true
   },
   {

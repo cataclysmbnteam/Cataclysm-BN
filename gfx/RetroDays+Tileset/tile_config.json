@@ -1454,7 +1454,7 @@
         { "id": "t_machinery_old", "fg": 565, "rotates": false },
         { "id": [ "t_machinery_heavy", "t_sewage_pump" ], "fg": 566, "rotates": false },
         { "id": "t_machinery_electronic", "fg": 567, "rotates": false },
-        { "id": "f_autodoc", "fg": 568, "rotates": false },
+        { "id": [ "f_autodoc", "vp_autodoc" ], "fg": 568, "rotates": false },
         { "id": "f_robotic_arm", "fg": 569, "rotates": false },
         { "id": "t_ind_assembler", "fg": 570, "rotates": false },
         { "id": "t_ind_drill", "fg": 571, "rotates": false },
@@ -1671,7 +1671,7 @@
             { "id": "unconnected", "fg": 689 }
           ]
         },
-        { "id": [ "f_autodoc_couch", "f_sofa" ], "fg": 695, "rotates": false },
+        { "id": [ "f_autodoc_couch", "vp_autodoc_couch", "f_sofa" ], "fg": 695, "rotates": false },
         {
           "id": "f_table",
           "fg": 696,

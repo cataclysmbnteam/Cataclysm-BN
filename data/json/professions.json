@@ -45,8 +45,8 @@
     "subtype": "collection",
     "id": "army_mags_rm11b",
     "entries": [
-      { "item": "8x40_10_mag", "ammo-item": "8mm_fmj", "charges": 10 },
-      { "item": "8x40_10_mag", "ammo-item": "8mm_fmj", "charges": 10 }
+      { "item": "8x40_10_mag", "ammo-item": "8mm_caseless", "charges": 10 },
+      { "item": "8x40_10_mag", "ammo-item": "8mm_caseless", "charges": 10 }
     ]
   },
   {

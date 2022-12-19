@@ -54,7 +54,15 @@ Checks: >
   -readability-redundant-control-flow,
   -readability-identifier-length,
 
-WarningsAsErrors: "*"
+WarningsAsErrors: >
+  *,
+  -modernize-use-nodiscard,
+  -modernize-concat-nested-namespaces,
+  -modernize-loop-convert,
+  -modernize-unary-static-assert,
+  -readability-redundant-declaration,
+# C++17 changes that clang-tidy does not likes
+
 HeaderFilterRegex: "(src|(test(?!.*catch.*catch.h))|tools).*"
 FormatStyle: none
 CheckOptions:

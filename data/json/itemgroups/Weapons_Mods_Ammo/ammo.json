@@ -246,7 +246,6 @@
       { "item": "762_51_incendiary", "prob": 10 },
       { "item": "762_51", "prob": 40 },
       { "item": "8mm_caseless", "prob": 30 },
-      { "item": "8mm_fmj", "prob": 30 },
       { "item": "8mm_hvp", "prob": 10 },
       { "item": "8mm_inc", "prob": 20 },
       { "item": "8mm_jhp", "prob": 10 },

@@ -2,14 +2,17 @@
 #ifndef CATA_SRC_CHARACTER_FUNCTIONS_H
 #define CATA_SRC_CHARACTER_FUNCTIONS_H
 
-#include "point.h"
 #include "type_id.h"
 
+#include <string>
+
+enum body_part : int;
 class Character;
 class Creature;
 class item;
 class time_duration;
 class vehicle;
+struct tripoint;
 
 namespace character_funcs
 {
@@ -70,6 +73,43 @@ float fine_detail_vision_mod( const Character &who, const tripoint &p );
 bool can_see_fine_details( const Character &who );
 bool can_see_fine_details( const Character &who, const tripoint &p );
 /** @} */
+
+enum class comfort_level {
+    impossible = -999,
+    uncomfortable = -7,
+    neutral = 0,
+    slightly_comfortable = 3,
+    comfortable = 5,
+    very_comfortable = 10
+};
+
+struct comfort_response_t {
+    comfort_level level = comfort_level::neutral;
+    const item *aid = nullptr;
+};
+
+/** Rate point's ability to serve as a bed. Only takes certain mutations into account, and not fatigue nor stimulants. */
+comfort_response_t base_comfort_value( const Character &who, const tripoint &p );
+
+/** Rate point's ability to serve as a bed. Takes all mutations, fatigue and stimulants into account. */
+int rate_sleep_spot( const Character &who, const tripoint &p );
+
+/** Checked each turn during "lying_down", returns true if the avatar falls asleep */
+bool roll_can_sleep( Character &who );
+
+/** Check whether character has an active bionic capable of interfacing with power armor. */
+bool can_interface_armor( const Character &who );
+
+/** Get the formatted name of the currently wielded item (if any) with current gun mode (if gun) */
+std::string fmt_wielded_weapon( const Character &who );
+
+/**
+ * Add message describing how character feels pain.
+ * @param who Character that feels the pain
+ * @param val Amount of pain
+ * @param bp Target body part, use num_bp if no specific body part.
+ */
+void add_pain_msg( const Character &who, int val, body_part bp );
 
 } // namespace character_funcs
 

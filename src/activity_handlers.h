@@ -285,7 +285,8 @@ void patch_activity_for_vehicle_welder(
     int interact_part_idx
 );
 void patch_activity_for_furniture( player_activity &activity,
-                                   const tripoint &furniture_position );
+                                   const tripoint &furniture_position,
+                                   const itype_id &itt );
 
 } // namespace repair_activity_hack
 

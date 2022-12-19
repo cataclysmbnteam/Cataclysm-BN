@@ -1105,9 +1105,8 @@ void vehicle_prototype::finalize()
                 }
 
             } else {
-                for( const auto &e : pt.ammo_types ) {
-                    const itype *ammo = &*e;
-                    if( !ammo->ammo && base->gun->ammo.count( ammo->ammo->type ) ) {
+                for( const itype_id &e : pt.ammo_types ) {
+                    if( !e->ammo && base->gun->ammo.count( e->ammo->type ) ) {
                         debugmsg( "init_vehicles: turret %s has invalid ammo_type %s in %s",
                                   pt.part.c_str(), e.c_str(), id.c_str() );
                     }

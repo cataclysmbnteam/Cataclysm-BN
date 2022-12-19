@@ -136,7 +136,6 @@ class monster : public Creature, public visitable<monster>
         std::pair<std::string, nc_color> get_attitude() const;
         int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
 
-        // Information on how our symbol should appear
         nc_color basic_symbol_color() const override;
         nc_color symbol_color() const override;
         const std::string &symbol() const override;

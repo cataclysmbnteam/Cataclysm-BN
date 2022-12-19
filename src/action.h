@@ -253,6 +253,8 @@ enum action_id : int {
     ACTION_HELP,
     /** Display main menu */
     ACTION_MAIN_MENU,
+    /** Display diary window */
+    ACTION_DIARY,
     /** Display keybindings list */
     ACTION_KEYBINDINGS,
     /** Display options window */

@@ -7,7 +7,7 @@ on:
 jobs:
   release:
     name: Create Release
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
       timestamp: ${{ steps.get-timestamp.outputs.time }}
@@ -18,7 +18,7 @@ jobs:
         uses: nanzm/get-time-action@v1.1
         with:
           timeZone: 0
-          format: 'YYYY-MM-DD-HHmm'
+          format: "YYYY-MM-DD-HHmm"
       - name: Generate environmental variables
         id: generate_env_vars
         run: |
@@ -88,14 +88,14 @@ jobs:
             mxe: x86_64
             mxe_apt: x86-64
             artifact: windows-tiles-x64
-            os: ubuntu-latest
+            os: ubuntu-20.04
             ext: zip
             content: application/zip
           - name: Windows Tiles x32
             mxe: i686
             mxe_apt: i686
             artifact: windows-tiles-x32
-            os: ubuntu-latest
+            os: ubuntu-20.04
             ext: zip
             content: application/zip
           - name: Linux Tiles x64
@@ -129,21 +129,21 @@ jobs:
             ext: dmg
             content: application/x-apple-diskimage
           - name: Android x64
-            os: ubuntu-latest
+            os: ubuntu-22.04
             mxe: none
             android: arm64
             artifact: android-x64
             ext: apk
             content: application/apk
           - name: Android x32
-            os: ubuntu-latest
+            os: ubuntu-22.04
             mxe: none
             android: arm32
             artifact: android-x32
             ext: apk
             content: application/apk
           - name: Android Bundle
-            os: ubuntu-latest
+            os: ubuntu-22.04
             mxe: none
             android: bundle
             artifact: android-bundle
@@ -152,7 +152,7 @@ jobs:
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
     env:
-        ZSTD_CLEVEL: 17
+      ZSTD_CLEVEL: 17
     steps:
       - uses: actions/checkout@v2
       - name: Create VERSION.TXT
@@ -172,15 +172,15 @@ jobs:
         uses: lukka/run-vcpkg@main
         id: runvcpkg
         with:
-          additionalCachedPaths: '${{ runner.workspace }}/Cataclysm-BN/msvc-full-features/vcpkg_installed'
+          additionalCachedPaths: "${{ runner.workspace }}/Cataclysm-BN/msvc-full-features/vcpkg_installed"
           appendedCacheKey: ${{ hashFiles( 'msvc-full-features/vcpkg.json', '.github/vcpkg_triplets/**' ) }}-${{ matrix.arch }}-1
           setupOnly: true
-          vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
-          # We have to use at least this version of vcpkg to include fixes for 
+          vcpkgDirectory: "${{ runner.workspace }}/b/vcpkg"
+          # We have to use at least this version of vcpkg to include fixes for
           # various issues we've encountered over time. Keep it in sync with the builtin-baseline
           # field in vcpkg.json. Caching happens as a post-action which runs at the end of
           # the whole workflow, after vcpkg install happens during msbuild run.
-          vcpkgGitCommitId: 'f4b262b259145adb2ab0116a390b08642489d32b'
+          vcpkgGitCommitId: "f4b262b259145adb2ab0116a390b08642489d32b"
       - name: Install dependencies (windows msvc) (3/3)
         if: runner.os == 'Windows'
         run: |
@@ -195,17 +195,13 @@ jobs:
       - name: Install MXE
         if: matrix.mxe != 'none'
         run: |
-          sudo apt install software-properties-common lsb-release
-          sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 86B72ED9
-          sudo add-apt-repository "deb [arch=amd64] https://pkg.mxe.cc/repos/apt `lsb_release -sc` main"
-          sudo apt update
-          sudo apt install mxe-${{ matrix.mxe_apt }}-w64-mingw32.static-{sdl2,sdl2-ttf,sdl2-image,sdl2-mixer,gettext}
+          curl -L -o mxe-${{ matrix.mxe }}.tar.xz https://github.com/BrettDong/MXE-GCC/releases/download/mxe-gcc-11.2/mxe-${{ matrix.mxe }}.tar.xz
+          curl -L -o mxe-${{ matrix.mxe }}.tar.xz.sha256 https://github.com/BrettDong/MXE-GCC/releases/download/mxe-gcc-11.2/mxe-${{ matrix.mxe }}.tar.xz.sha256
+          shasum -a 256 -c ./mxe-${{ matrix.mxe }}.tar.xz.sha256
+          sudo tar xJf mxe-${{ matrix.mxe }}.tar.xz -C /opt
           curl -L -o libbacktrace-${{ matrix.mxe }}-w64-mingw32.tar.gz https://github.com/Qrox/libbacktrace/releases/download/2020-01-03/libbacktrace-${{ matrix.mxe }}-w64-mingw32.tar.gz
-          if ! shasum -a 256 -c ./build-scripts/libbacktrace-${{ matrix.mxe }}-w64-mingw32-sha256; then
-            echo "Checksum failed for libbacktrace-${{ matrix.mxe }}-w64-mingw32.tar.gz"
-            exit 1
-          fi
-          sudo tar -xzf libbacktrace-${{ matrix.mxe }}-w64-mingw32.tar.gz --exclude=LICENSE -C /usr/lib/mxe/usr/${{ matrix.mxe }}-w64-mingw32.static
+          shasum -a 256 -c ./build-scripts/libbacktrace-${{ matrix.mxe }}-w64-mingw32-sha256
+          sudo tar -xzf libbacktrace-${{ matrix.mxe }}-w64-mingw32.tar.gz --exclude=LICENSE -C /opt/mxe/usr/${{ matrix.mxe }}-w64-mingw32.static.gcc11
       - name: Install dependencies (Linux)
         if: runner.os == 'Linux' && matrix.mxe == 'none' && matrix.android == 'none'
         run: |
@@ -216,7 +212,7 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install sdl2 sdl2_image sdl2_ttf sdl2_mixer gettext ccache parallel
-          pip3 install dmgbuild==1.4.2 biplist
+          pip3 install mac_alias==2.2.0 dmgbuild==1.4.2 biplist
       - name: Compile translations (windows)
         if: runner.os == 'Windows'
         shell: bash
@@ -230,7 +226,7 @@ jobs:
       - name: Build CBN (windows)
         if: matrix.mxe != 'none'
         env:
-          PLATFORM: /usr/lib/mxe/usr/bin/${{ matrix.mxe }}-w64-mingw32.static-
+          PLATFORM: /opt/mxe/usr/bin/${{ matrix.mxe }}-w64-mingw32.static.gcc11-
         run: |
           make -j$((`nproc`+0)) CROSS="${PLATFORM}" TILES=1 SOUND=1 RELEASE=1 LANGUAGES=all PCH=0 bindist
           mv cataclysmbn-unstable.zip cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.zip
@@ -251,8 +247,8 @@ jobs:
         if: runner.os == 'Linux' && matrix.android != 'none' && matrix.mxe == 'none'
         uses: actions/setup-java@v2
         with:
-          java-version: '8'
-          distribution: 'adopt'
+          java-version: "8"
+          distribution: "adopt"
       - name: Setup Build and Dependencies (android)
         if: runner.os == 'Linux' && matrix.android != 'none' && matrix.mxe == 'none'
         run: |

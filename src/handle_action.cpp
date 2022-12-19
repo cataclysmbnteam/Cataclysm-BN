@@ -14,12 +14,15 @@
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "avatar_action.h"
+#include "avatar_functions.h"
 #include "bionics.h"
+#include "bionics_ui.h"
 #include "calendar.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_display.h"
 #include "character_martial_arts.h"
+#include "character_turn.h"
 #include "clzones.h"
 #include "color.h"
 #include "construction.h"
@@ -28,6 +31,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "debug_menu.h"
+#include "diary.h"
 #include "distraction_manager.h"
 #include "faction.h"
 #include "field.h"
@@ -58,6 +62,7 @@
 #include "monster.h"
 #include "mtype.h"
 #include "mutation.h"
+#include "mutation_ui.h"
 #include "options.h"
 #include "output.h"
 #include "overmap_ui.h"
@@ -999,7 +1004,7 @@ static void wait()
 
 static void sleep()
 {
-    player &u = g->u;
+    avatar &u = get_avatar();
     if( u.is_mounted() ) {
         u.add_msg_if_player( m_info, _( "You cannot sleep while mounted." ) );
         return;
@@ -1026,8 +1031,7 @@ static void sleep()
             active.push_back( it->tname() );
         }
     }
-    for( int i = 0; i < g->u.num_bionics(); i++ ) {
-        const bionic &bio = u.bionic_at_index( i );
+    for( const bionic &bio : *u.my_bionics ) {
         if( !bio.powered ) {
             continue;
         }
@@ -1118,7 +1122,7 @@ static void sleep()
     }
 
     u.moves = 0;
-    u.try_to_sleep( try_sleep_dur );
+    avatar_funcs::try_to_sleep( u, try_sleep_dur );
 }
 
 static void loot()
@@ -1731,13 +1735,13 @@ bool game::handle_action()
 
             case ACTION_TIMEOUT:
                 if( check_safe_mode_allowed( false ) ) {
-                    u.pause();
+                    character_funcs::do_pause( u );
                 }
                 break;
 
             case ACTION_PAUSE:
                 if( check_safe_mode_allowed() ) {
-                    u.pause();
+                    character_funcs::do_pause( u );
                 }
                 break;
 
@@ -2096,10 +2100,10 @@ bool game::handle_action()
                 }
                 break;
             case ACTION_BIONICS:
-                u.power_bionics();
+                show_bionics_ui( u );
                 break;
             case ACTION_MUTATIONS:
-                u.power_mutations();
+                show_mutations_ui( u );
                 break;
 
             case ACTION_SORT_ARMOR:
@@ -2245,6 +2249,7 @@ bool game::handle_action()
             case ACTION_SUICIDE:
                 if( query_yn( _( "Commit suicide?" ) ) ) {
                     if( query_yn( _( "REALLY commit suicide?" ) ) ) {
+                        u.apply_damage( &u, body_part_head, 99999 );
                         u.moves = 0;
                         u.place_corpse();
                         uquit = QUIT_SUICIDE;
@@ -2291,6 +2296,10 @@ bool game::handle_action()
 
             case ACTION_SCORES:
                 show_scores_ui( *achievements_tracker_ptr, stats(), get_kill_tracker() );
+                break;
+
+            case ACTION_DIARY:
+                diary::show_diary_ui( u.get_avatar_diary() );
                 break;
 
             case ACTION_FACTIONS:
@@ -2357,7 +2366,9 @@ bool game::handle_action()
                 break;
 
             case ACTION_RELOAD_TILESET:
-                reload_tileset();
+                reload_tileset( []( std::string str ) {
+                    DebugLog( DL::Info, DC::Main ) << str;
+                } );
                 break;
 
             case ACTION_TOGGLE_AUTO_FEATURES:

@@ -147,7 +147,6 @@
       "556_incendiary",
       "762_m43",
       "8mm_caseless",
-      "8mm_fmj",
       "8mm_hvp",
       "8mm_inc",
       "reloaded_556",
@@ -260,11 +259,9 @@
     "id": [
       "40x46mm_m576",
       "40x46mm_buckshot_m118",
-      "40x46mm_buckshot_m199",
       "40x46mm_flechette_m118",
       "40x46mm_flechette_m199",
       "40x53mm_m1001",
-      "40x53mm_flechette_m169",
       "40x53mm_buckshot_m169"
     ],
     "type": "MIGRATION",

@@ -18,6 +18,7 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
+#include "character_effects.h"
 #include "character_id.h"
 #include "character_functions.h"
 #include "character_martial_arts.h"
@@ -25,6 +26,7 @@
 #include "clzones.h"
 #include "color.h"
 #include "debug.h"
+#include "diary.h"
 #include "effect.h"
 #include "enums.h"
 #include "event.h"
@@ -110,6 +112,7 @@ avatar::avatar()
     show_map_memory = true;
     active_mission = nullptr;
     grab_type = OBJECT_NONE;
+    a_diary = nullptr;
 }
 
 avatar::~avatar() = default;
@@ -361,6 +364,14 @@ int avatar::time_to_read( const item &book, const player &reader, const player *
         retval += type->time * ( type->intel - effective_int ) * 100;
     }
     return retval;
+}
+
+diary *avatar::get_avatar_diary()
+{
+    if( a_diary == nullptr ) {
+        a_diary = std::make_unique<diary>();
+    }
+    return a_diary.get();
 }
 
 /**
@@ -982,11 +993,16 @@ void avatar::vomit()
     Character::vomit();
 }
 
+bool avatar::is_hallucination() const
+{
+    return false;
+}
+
 void avatar::disp_morale()
 {
-    int equilibrium = calc_focus_equilibrium();
+    int equilibrium = character_effects::calc_focus_equilibrium( *this );
 
-    int fatigue_cap = calc_fatigue_cap( this->get_fatigue() );
+    int fatigue_cap = character_effects::calc_morale_fatigue_cap( this->get_fatigue() );
 
     int pain_penalty = has_trait( trait_CENOBITE ) ? 0 : get_perceived_pain();
 
@@ -1070,6 +1086,7 @@ void avatar::upgrade_stat( character_stat stat )
             debugmsg( "Tried to use invalid stat" );
             break;
     }
+    recalc_hp();
 }
 
 faction *avatar::get_faction() const
@@ -1192,7 +1209,7 @@ bool avatar::wield( item &target )
     if( !unwield() ) {
         return false;
     }
-    cached_info.erase( "weapon_value" );
+    clear_npc_ai_info_cache( "weapon_value" );
     if( target.is_null() ) {
         return true;
     }

@@ -882,7 +882,7 @@ void vehicle::handle_trap( const tripoint &p, int part )
                            veh_data.sound_type, veh_data.sound_variant );
         }
         if( veh_data.do_explosion ) {
-            explosion_handler::explosion( p, veh_data.damage, 0.5f, false, veh_data.shrapnel );
+            explosion_handler::explosion( p, nullptr, veh_data.damage, 0.5f, false, veh_data.shrapnel );
         } else {
             // Hit the wheel directly since it ran right over the trap.
             damage_direct( pwh, veh_data.damage );
@@ -1750,6 +1750,20 @@ static bool scan_rails_from_veh_internal(
     return true;
 }
 
+// Get number of rotations of identity vector
+static inline int get_num_cw_rots_of_ray_delta( const point &v )
+{
+    if( v == point_north_east ) {
+        return 0;
+    } else if( v == point_south_east ) {
+        return 1;
+    } else if( v == point_south_west ) {
+        return 2;
+    } else {
+        return 3;
+    }
+}
+
 static bool scan_rails_at_shift(
     const map &m,
     const vehicle &veh,
@@ -1768,26 +1782,26 @@ static bool scan_rails_at_shift(
     if( ray_delta.x != 0 && ray_delta.y != 0 ) {
         // We can't cleanly map diagonally oriented vehicles to rail turns.
         // As such, treat the vehicle as if it can have either skew at the same time.
-        point rd_x = point( ray_delta.x, 0 );
-        point rd_y = point( 0, ray_delta.y );
+        int num_cw_rots = get_num_cw_rots_of_ray_delta( ray_delta );
+        point rd_l = point_north.rotate( num_cw_rots );
+        point rd_r = point_east.rotate( num_cw_rots );
+
+        point vyp_l = point_east.rotate( num_cw_rots );
+        point vyp_r = point_south.rotate( num_cw_rots );
+
+        tripoint scan_start = veh.global_pos3();
+        if( shift_sign > 0 ) {
+            scan_start += rd_r * velocity_sign;
+        } else if( shift_sign < 0 ) {
+            scan_start += rd_l * velocity_sign;
+        }
 
         point scan_vec = ray_delta * velocity_sign;
 
-        point veh_plus_y_vec_x = rd_x.rotate( 1 );
-        point veh_plus_y_vec_y = rd_y.rotate( 1 );
+        bool scan_res_l = scan_rails_from_veh_internal( m, veh, scan_start, vyp_l, scan_vec );
+        bool scan_res_r = scan_rails_from_veh_internal( m, veh, scan_start, vyp_r, scan_vec );
 
-        tripoint scan_start = veh.global_pos3();
-
-        if( shift_sign > 0 ) {
-            scan_start -= veh_plus_y_vec_x * velocity_sign;
-        } else if( shift_sign < 0 ) {
-            scan_start -= veh_plus_y_vec_y * velocity_sign;
-        }
-
-        bool scan_res_x = scan_rails_from_veh_internal( m, veh, scan_start, veh_plus_y_vec_x, scan_vec );
-        bool scan_res_y = scan_rails_from_veh_internal( m, veh, scan_start, veh_plus_y_vec_y, scan_vec );
-
-        if( scan_res_x || scan_res_y ) {
+        if( scan_res_l || scan_res_r ) {
             if( shift_amt ) {
                 *shift_amt = scan_start - veh.global_pos3();
             }

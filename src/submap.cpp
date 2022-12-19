@@ -284,7 +284,7 @@ void submap::rotate( int turns )
         const auto new_pos = rotate_point( elem->pos );
 
         elem->pos = new_pos;
-        elem->set_facing( turns * 90_degrees );
+        elem->set_facing( elem->turn_dir + turns * 90_degrees );
     }
 
     std::map<point, computer> rot_comp;

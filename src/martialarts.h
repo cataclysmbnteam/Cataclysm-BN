@@ -163,7 +163,6 @@ class ma_buff
         // returns various boolean flags
         bool is_throw_immune() const;
         bool is_quiet() const;
-        bool can_melee() const;
         bool is_stealthy() const;
 
         // The ID of the effect that is used to store this buff
@@ -191,7 +190,6 @@ class ma_buff
         bonus_container bonuses;
 
         bool quiet = false;
-        bool melee_allowed = false;
         bool throw_immune = false; // are we immune to throws/grabs?
         bool strictly_melee = false; // can we only use it with weapons?
         bool stealthy = false; // do we make less noise when moving?
@@ -296,5 +294,8 @@ std::string martialart_difficulty( const matype_id &mstyle );
 
 std::vector<matype_id> all_martialart_types();
 std::vector<matype_id> autolearn_martialart_types();
+
+/** Returns true if the character can learn the entered martial art */
+bool can_autolearn_martial_art( const Character &who, const matype_id &ma_id );
 
 #endif // CATA_SRC_MARTIALARTS_H

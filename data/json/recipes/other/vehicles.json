@@ -347,6 +347,34 @@
     "components": [ [ [ "autoclave", 1 ] ], [ [ "cable", 2 ] ], [ [ "power_supply", 2 ] ] ]
   },
   {
+    "result": "vh_autodoc",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "skills_required": [ "electronics", 5 ],
+    "difficulty": 5,
+    "time": "35 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "soldering_standard", 10 ] ],
+    "components": [ [ [ "autodoc", 1 ] ], [ [ "cable", 2 ] ], [ [ "power_supply", 4 ] ] ]
+  },
+  {
+    "result": "vh_autodoc_couch",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "skills_required": [ "electronics", 4 ],
+    "difficulty": 4,
+    "time": "30 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "soldering_standard", 5 ] ],
+    "components": [ [ [ "autodoc_couch", 1 ] ], [ [ "cable", 2 ] ], [ [ "power_supply", 2 ] ] ]
+  },
+  {
     "result": "washing_machine",
     "type": "recipe",
     "category": "CC_OTHER",

@@ -14,8 +14,8 @@
     "count": 25,
     "ammo_type": "44paper",
     "range": 18,
-    "//": "Base damage of 27, balance increase of two-nineths, plus 25% hollowpoint bonus.",
-    "damage": { "damage_type": "bullet", "amount": 41 },
+    "//": "Base damage of 27, balance increase of two-nineths, half the expected armor penetration.",
+    "damage": { "damage_type": "bullet", "amount": 33, "armor_penetration": 9 },
     "dispersion": 70,
     "recoil": 580,
     "effects": [ "COOKOFF", "MUZZLE_SMOKE", "BLACKPOWDER" ]

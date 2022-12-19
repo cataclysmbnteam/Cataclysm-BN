@@ -2348,6 +2348,17 @@ bool map::has_flag_furn( const ter_bitflags flag, const tripoint &p ) const
     return furn( p ).obj().has_flag( flag );
 }
 
+bool map::has_flag_vpart( const std::string &flag, const tripoint &p ) const
+{
+    const optional_vpart_position vp = veh_at( p );
+    return static_cast<bool>( vp.part_with_feature( flag, true ) );
+}
+
+bool map::has_flag_furn_or_vpart( const std::string &flag, const tripoint &p ) const
+{
+    return has_flag_furn( flag, p ) || has_flag_vpart( flag, p );
+}
+
 bool map::has_flag_ter_or_furn( const ter_bitflags flag, const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
@@ -3282,7 +3293,8 @@ bash_results map::bash_ter_success( const tripoint &p, const bash_params &params
     }
 
     if( bash.explosive > 0 ) {
-        explosion_handler::explosion( p, bash.explosive, 0.8, false );
+        // TODO Implement if the player triggered the explosive terrain
+        explosion_handler::explosion( p, nullptr, bash.explosive, 0.8, false );
     }
 
     return result;
@@ -3381,7 +3393,8 @@ bash_results map::bash_furn_success( const tripoint &p, const bash_params &param
     }
 
     if( bash.explosive > 0 ) {
-        explosion_handler::explosion( p, bash.explosive, 0.8, false );
+        // TODO implement if the player triggered the explosive furniture
+        explosion_handler::explosion( p, nullptr, bash.explosive, 0.8, false );
     }
 
     return result;
@@ -4611,10 +4624,10 @@ void map::process_items_in_submap( submap &current_submap, const tripoint &gridp
         if( ter( map_location ) == t_rootcellar ) {
             flag = temperature_flag::TEMP_ROOT_CELLAR;
         }
-        if( furn( map_location ) == f_fridge_on ) {
+        if( has_flag_furn( TFLAG_FRIDGE, map_location ) ) {
             flag = temperature_flag::TEMP_FRIDGE;
         }
-        if( furn( map_location ) == f_minifreezer_on ) {
+        if( has_flag_furn( TFLAG_FREEZER, map_location ) ) {
             flag = temperature_flag::TEMP_FREEZER;
         }
         map_stack items = i_at( map_location );
@@ -4864,37 +4877,39 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
         }
     }
 
-    const itype *itt = f.crafting_pseudo_item_type();
-    if( itt != nullptr && itt->item_tags.count( flag_USES_GRID_POWER ) > 0 ) {
-        const tripoint_abs_ms abspos( m->getabs( p ) );
-        auto &grid = get_distribution_grid_tracker().grid_at( abspos );
-        item furn_item( itt, calendar::start_of_cataclysm, grid.get_resource() );
-        int initial_quantity = quantity;
-        if( filter( furn_item ) ) {
-            furn_item.use_charges( type, quantity, ret, p );
-            // That quantity math thing is atrocious. Punishment for the int& "argument".
-            grid.mod_resource( quantity - initial_quantity );
-        }
-    } else if( itt != nullptr && itt->tool && !itt->tool->ammo_id.empty() ) {
-        const itype_id ammo = ammotype( *itt->tool->ammo_id.begin() )->default_ammotype();
-        auto stack = m->i_at( p );
-        auto iter = std::find_if( stack.begin(), stack.end(),
-        [ammo]( const item & i ) {
-            return i.typeId() == ammo;
-        } );
-        if( iter != stack.end() ) {
-            item furn_item( itt, calendar::start_of_cataclysm, iter->charges );
-            if( !filter( furn_item ) ) {
-                return;
+    const std::vector<itype> item_list = f.crafting_pseudo_item_types();
+    for( const itype &itt : item_list ) {
+        if( itt.item_tags.count( flag_USES_GRID_POWER ) > 0 ) {
+            const tripoint_abs_ms abspos( m->getabs( p ) );
+            auto &grid = get_distribution_grid_tracker().grid_at( abspos );
+            item furn_item( itt.get_id(), calendar::start_of_cataclysm, grid.get_resource() );
+            int initial_quantity = quantity;
+            if( filter( furn_item ) ) {
+                furn_item.use_charges( type, quantity, ret, p );
+                // That quantity math thing is atrocious. Punishment for the int& "argument".
+                grid.mod_resource( quantity - initial_quantity );
             }
-            // The item constructor limits the charges to the (type specific) maximum.
-            // Setting it separately circumvents that it is synchronized with the code that creates
-            // the pseudo item (and fills its charges) in inventory.cpp
-            furn_item.charges = iter->charges;
-            if( furn_item.use_charges( type, quantity, ret, p ) ) {
-                stack.erase( iter );
-            } else {
-                iter->charges = furn_item.charges;
+        } else if( itt.tool && !itt.tool->ammo_id.empty() ) {
+            const itype_id ammo = ammotype( *itt.tool->ammo_id.begin() )->default_ammotype();
+            auto stack = m->i_at( p );
+            auto iter = std::find_if( stack.begin(), stack.end(),
+            [ammo]( const item & i ) {
+                return i.typeId() == ammo;
+            } );
+            if( iter != stack.end() ) {
+                item furn_item( itt.get_id(), calendar::start_of_cataclysm, iter->charges );
+                if( !filter( furn_item ) ) {
+                    return;
+                }
+                // The item constructor limits the charges to the (type specific) maximum.
+                // Setting it separately circumvents that it is synchronized with the code that creates
+                // the pseudo item (and fills its charges) in inventory.cpp
+                furn_item.charges = iter->charges;
+                if( furn_item.use_charges( type, quantity, ret, p ) ) {
+                    stack.erase( iter );
+                } else {
+                    iter->charges = furn_item.charges;
+                }
             }
         }
     }
@@ -4958,6 +4973,7 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
         const cata::optional<vpart_reference> kilnpart = vp.part_with_feature( "KILN", true );
         const cata::optional<vpart_reference> chempart = vp.part_with_feature( "CHEMLAB", true );
         const cata::optional<vpart_reference> autoclavepart = vp.part_with_feature( "AUTOCLAVE", true );
+        const cata::optional<vpart_reference> autodocpart = vp.part_with_feature( "AUTODOC", true );
         const cata::optional<vpart_reference> cargo = vp.part_with_feature( "CARGO", true );
 
         if( kpart ) { // we have a faucet, now to see what to drain
@@ -6247,7 +6263,8 @@ int map::coverage( const tripoint &p ) const
     if( const auto vp = veh_at( p ) ) {
         if( vp->obstacle_at_part() ) {
             return 60;
-        } else if( !vp->part_with_feature( VPFLAG_AISLE, true ) ) {
+        } else if( !vp->part_with_feature( VPFLAG_AISLE, true ) &&
+                   !vp->part_with_feature( "PROTRUSION", true ) ) {
             return 45;
         }
     }
@@ -8234,9 +8251,8 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
     for( int z = minz; z <= maxz; z++ ) {
         do_vehicle_caching( z );
     }
-    for( int z = minz; z <= maxz; z++ ) {
-        seen_cache_dirty |= build_vision_transparency_cache( z );
-    }
+
+    seen_cache_dirty |= build_vision_transparency_cache( get_player_character() );
 
     if( seen_cache_dirty ) {
         skew_vision_cache.clear();
@@ -8686,6 +8702,34 @@ std::list<tripoint> map::find_furnitures_with_flag_in_radius( const tripoint &ce
     return furn_locs;
 }
 
+std::list<tripoint> map::find_furnitures_or_vparts_with_flag_in_radius( const tripoint &center,
+        size_t radius, const std::string &flag, size_t radiusz )
+{
+    std::list<tripoint> locs;
+    for( const auto &loc : points_in_radius( center, radius, radiusz ) ) {
+        // workaround for ramp bridges
+        int dz = 0;
+        if( has_flag( TFLAG_RAMP_UP, loc ) ) {
+            dz = 1;
+        } else if( has_flag( TFLAG_RAMP_DOWN, loc ) ) {
+            dz = -1;
+        }
+
+        if( dz == 0 ) {
+            if( has_flag_furn_or_vpart( flag, loc ) ) {
+                locs.push_back( loc );
+            }
+        } else {
+            const tripoint newloc( loc + tripoint( 0, 0, dz ) );
+            if( has_flag_furn_or_vpart( flag, newloc ) ) {
+                locs.push_back( newloc );
+            }
+        }
+    }
+
+    return locs;
+}
+
 std::list<Creature *> map::get_creatures_in_radius( const tripoint &center, size_t radius,
         size_t radiusz )
 {
@@ -8736,7 +8780,6 @@ level_cache::level_cache()
     diagonal_blocks fill = {false, false};
     std::fill_n( &vehicle_obscured_cache[0][0], map_dimensions, fill );
     std::fill_n( &vehicle_obstructed_cache[0][0], map_dimensions, fill );
-    std::fill_n( &vision_transparency_cache[0][0], map_dimensions, 0.0f );
     std::fill_n( &seen_cache[0][0], map_dimensions, 0.0f );
     std::fill_n( &camera_cache[0][0], map_dimensions, 0.0f );
     std::fill_n( &visibility_cache[0][0], map_dimensions, lit_level::DARK );

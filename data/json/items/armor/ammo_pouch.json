@@ -279,7 +279,7 @@
     "id": "modularvestceramic",
     "type": "ARMOR",
     "name": { "str": "MBR vest (ceramic plates)", "str_pl": "MBR vests (ceramic plates)" },
-    "description": "A Modular Bullet Resistant Vest.  Ceramic plates have been inserted to improve its protection.  The ceramic plates cannot be repaired, only replaced.  It has four pouches capable of carrying magazines.",
+    "description": "A Modular Bullet Resistant Vest.  Ceramic plates have been inserted to improve its protection, offering good resistance to bullets at the expense of being less durable than other plate options.  It has four pouches capable of carrying magazines.",
     "weight": "4308 g",
     "volume": "6 L",
     "price": 39900,
@@ -306,7 +306,7 @@
       "draw_cost": 60,
       "flags": [ "MAG_COMPACT" ]
     },
-    "flags": [ "STURDY", "OUTER" ]
+    "flags": [ "OUTER" ]
   },
   {
     "id": "modularvesthard",
@@ -361,7 +361,7 @@
     "encumbrance": 20,
     "storage": "1 L",
     "warmth": 15,
-    "material_thickness": 7,
+    "material_thickness": 8,
     "use_action": {
       "type": "holster",
       "holster_prompt": "Stash ammo",
@@ -394,7 +394,7 @@
     "encumbrance": 15,
     "storage": "1 L",
     "warmth": 15,
-    "material_thickness": 6,
+    "material_thickness": 8,
     "use_action": {
       "type": "holster",
       "holster_prompt": "Stash ammo",

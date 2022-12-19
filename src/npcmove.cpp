@@ -18,6 +18,8 @@
 #include "bodypart.h"
 #include "cata_algo.h"
 #include "character.h"
+#include "character_functions.h"
+#include "character_turn.h"
 #include "character_id.h"
 #include "clzones.h"
 #include "coordinate_conversions.h"
@@ -634,14 +636,12 @@ void npc::assess_danger()
     ai_cache.danger_assessment = assessment;
 }
 
-float npc::character_danger( const Character &uc ) const
+float npc::character_danger( const Character &u ) const
 {
-    // TODO: Remove this when possible
-    const player &u = dynamic_cast<const player &>( uc );
     float ret = 0.0;
     bool u_gun = u.weapon.is_gun();
     bool my_gun = weapon.is_gun();
-    double u_weap_val = u.weapon_value( u.weapon );
+    double u_weap_val = npc_ai::weapon_value( u, u.weapon );
     const double &my_weap_val = ai_cache.my_weapon_value;
     if( u_gun && !my_gun ) {
         u_weap_val *= 1.5f;
@@ -679,7 +679,7 @@ void npc::regen_ai_cache()
     ai_cache.can_heal.clear_all();
     ai_cache.danger = 0.0f;
     ai_cache.total_danger = 0.0f;
-    ai_cache.my_weapon_value = weapon_value( weapon );
+    ai_cache.my_weapon_value = npc_ai::weapon_value( *this, weapon );
     ai_cache.dangerous_explosives = find_dangerous_explosives();
 
     assess_danger();
@@ -1012,7 +1012,7 @@ void npc::execute_action( npc_action action )
         case npc_sleep: {
             // TODO: Allow stims when not too tired
             // Find a nice spot to sleep
-            int best_sleepy = sleep_spot( pos() );
+            int best_sleepy = character_funcs::rate_sleep_spot( *this, pos() );
             tripoint best_spot = pos();
             for( const tripoint &p : closest_points_first( pos(), 6 ) ) {
                 if( !could_move_onto( p ) || !g->is_empty( p ) ) {
@@ -1020,7 +1020,7 @@ void npc::execute_action( npc_action action )
                 }
 
                 // TODO: Blankets when it's cold
-                const int sleepy = sleep_spot( p );
+                const int sleepy = character_funcs::rate_sleep_spot( *this, p );
                 if( sleepy > best_sleepy ) {
                     best_sleepy = sleepy;
                     best_spot = p;
@@ -1485,8 +1485,7 @@ static bool wants_to_reload_with( const item &weap, const item &ammo )
 
 item &npc::find_reloadable()
 {
-    auto cached_value = cached_info.find( "reloadables" );
-    if( cached_value != cached_info.end() ) {
+    if( get_npc_ai_info_cache( "reloadables" ) ) {
         return null_item_reference();
     }
     // Check wielded gun, non-wielded guns, mags and tools
@@ -1513,7 +1512,7 @@ item &npc::find_reloadable()
         return *reloadable;
     }
 
-    cached_info.emplace( "reloadables", 0.0 );
+    set_npc_ai_info_cache( "reloadables", 0.0 );
     return null_item_reference();
 }
 
@@ -1586,48 +1585,35 @@ void npc::deactivate_combat_cbms()
 
 bool npc::activate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
 {
-    int index = 0;
-    for( const bionic &i : *my_bionics ) {
-        if( i.id == cbm_id ) {
-            if( !i.powered ) {
-                return activate_bionic( index, eff_only );
-            } else {
-                return false;
-            }
+    if( has_bionic( cbm_id ) ) {
+        bionic &bio = get_bionic_state( cbm_id );
+        if( !bio.powered ) {
+            return activate_bionic( bio, eff_only );
         }
-        index += 1;
     }
     return false;
 }
 
 bool npc::use_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
 {
-    int index = 0;
-    for( const bionic &i : *my_bionics ) {
-        if( i.id == cbm_id ) {
-            if( !i.powered ) {
-                return activate_bionic( index, eff_only );
-            } else {
-                return true;
-            }
+    if( has_bionic( cbm_id ) ) {
+        bionic &bio = get_bionic_state( cbm_id );
+        if( bio.powered ) {
+            return true;
+        } else {
+            return activate_bionic( bio, eff_only );
         }
-        index += 1;
     }
     return false;
 }
 
 bool npc::deactivate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
 {
-    int index = 0;
-    for( const bionic &i : *my_bionics ) {
-        if( i.id == cbm_id ) {
-            if( i.powered ) {
-                return deactivate_bionic( index, eff_only );
-            } else {
-                return false;
-            }
+    if( has_bionic( cbm_id ) ) {
+        bionic &bio = get_bionic_state( cbm_id );
+        if( bio.powered ) {
+            return deactivate_bionic( bio, eff_only );
         }
-        index += 1;
     }
     return false;
 }
@@ -2682,13 +2668,13 @@ void npc::move_pause()
     // NPCs currently always aim when using a gun, even with no target
     // This simulates them aiming at stuff just at the edge of their range
     if( !weapon.is_gun() ) {
-        pause();
+        character_funcs::do_pause( *this );
         return;
     }
 
     // Stop, drop, and roll
     if( has_effect( effect_onfire ) ) {
-        pause();
+        character_funcs::do_pause( *this );
     } else {
         aim();
         moves = std::min( moves, 0 );
@@ -3418,7 +3404,7 @@ bool npc::wield_better_weapon()
         bool allowed = can_use_gun && it.is_gun() && ( !use_silent || it.is_silent() );
         double val;
         if( !allowed ) {
-            val = weapon_value( it, 0 );
+            val = npc_ai::weapon_value( *this, it, 0 );
         } else {
             int ammo_count = it.ammo_remaining();
             int ups_drain = it.get_gun_ups_drain();
@@ -3426,7 +3412,7 @@ bool npc::wield_better_weapon()
                 ammo_count = std::min( ammo_count, ups_charges / ups_drain );
             }
 
-            val = weapon_value( it, ammo_count );
+            val = npc_ai::weapon_value( *this, it, ammo_count );
         }
 
         if( val > best_value ) {

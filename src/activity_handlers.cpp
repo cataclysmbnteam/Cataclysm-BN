@@ -2684,20 +2684,25 @@ item get_fake_tool( hack_type_t hack_type, const player_activity &activity )
                 return fake_item;
             }
             const furn_t &furniture = m.furn( position ).obj();
-            const itype *item_type = furniture.crafting_pseudo_item_type();
-            if( item_type == nullptr ) {
-                return fake_item;
-            }
-            if( !item_type->has_flag( "USES_GRID_POWER" ) ) {
-                debugmsg( "Non grid powered furniture for long repairs is not supported yet." );
+            const std::vector<itype> item_type_list = furniture.crafting_pseudo_item_types();
+
+            if( item_type_list.empty() ) {
                 return fake_item;
             }
 
-            const tripoint_abs_ms abspos( m.getabs( position ) );
-            const distribution_grid &grid = get_distribution_grid_tracker().grid_at( abspos );
-
-            fake_item = item( item_type, calendar::turn, 0 );
-            fake_item.charges = grid.get_resource( true );
+            for( const itype &item_type : item_type_list ) {
+                if( item_type.get_id() == static_cast<itype_id>( activity.str_values[1] ) ) {
+                    if( !item_type.has_flag( "USES_GRID_POWER" ) ) {
+                        debugmsg( "Non grid powered furniture for long repairs is not supported yet." );
+                        return fake_item;
+                    }
+                    const tripoint_abs_ms abspos( m.getabs( position ) );
+                    const distribution_grid &grid = get_distribution_grid_tracker().grid_at( abspos );
+                    fake_item = item( item_type.get_id(), calendar::turn, 0 );
+                    fake_item.charges = grid.get_resource( true );
+                    break;
+                }
+            }
             break;
         }
     }
@@ -2777,7 +2782,8 @@ void patch_activity_for_vehicle_welder(
 }
 
 void patch_activity_for_furniture( player_activity &activity,
-                                   const tripoint &furniture_position )
+                                   const tripoint &furniture_position,
+                                   const itype_id &itt )
 {
     // Player may start another activity on welder/soldering iron
     // Check it here instead of furniture interaction code
@@ -2796,6 +2802,7 @@ void patch_activity_for_furniture( player_activity &activity,
         0, // Useless for us, set only to be compatible with vehicle
         static_cast<int>( hack_type_t::furniture )
     };
+    activity.str_values.emplace_back( static_cast<std::string>( itt ) );
 }
 
 } // namespace repair_activity_hack
@@ -3478,7 +3485,7 @@ void activity_handlers::socialize_finish( player_activity *act, player *p )
 void activity_handlers::try_sleep_do_turn( player_activity *act, player *p )
 {
     if( !p->has_effect( effect_sleep ) ) {
-        if( p->can_sleep() ) {
+        if( character_funcs::roll_can_sleep( *p ) ) {
             act->set_to_null();
             p->fall_asleep();
             p->remove_value( "sleep_query" );
@@ -3550,11 +3557,14 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
     time_duration time_left = time_duration::from_turns( act->moves_left / 100 );
 
     map &here = get_map();
-    if( autodoc && here.inbounds( p->pos() ) ) {
-        const std::list<tripoint> autodocs = here.find_furnitures_with_flag_in_radius( p->pos(), 1,
-                                             flag_AUTODOC );
 
-        if( !here.has_flag_furn( flag_AUTODOC_COUCH, p->pos() ) || autodocs.empty() ) {
+    // check if player is on an autodoc couch
+    if( autodoc && here.inbounds( p->pos() ) ) {
+        // this checks if there's an autodoc in a 3D radius around the player (during the operation), excluding just above/below him
+        const std::list<tripoint> autodocs = here.find_furnitures_or_vparts_with_flag_in_radius( p->pos(),
+                                             1,
+                                             flag_AUTODOC );
+        if( !here.has_flag_furn_or_vpart( flag_AUTODOC_COUCH, p->pos() ) || autodocs.empty() ) {
             p->remove_effect( effect_under_op );
             act->set_to_null();
 
@@ -3685,7 +3695,8 @@ void activity_handlers::operation_finish( player_activity *act, player *p )
         if( act->values[1] > 0 ) {
             add_msg( m_good,
                      _( "The Autodoc returns to its resting position after successfully performing the operation." ) );
-            const std::list<tripoint> autodocs = here.find_furnitures_with_flag_in_radius( p->pos(), 1,
+            const std::list<tripoint> autodocs = here.find_furnitures_or_vparts_with_flag_in_radius( p->pos(),
+                                                 1,
                                                  flag_AUTODOC );
             sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
                            _( "a short upbeat jingle: \"Operation successful\"" ), true,
@@ -3695,7 +3706,8 @@ void activity_handlers::operation_finish( player_activity *act, player *p )
             if( act->str_values[0] == "install" ) {
                 add_msg( m_warning,
                          _( "The Autodoc completes installation and activates bionic but reports about complications during operation." ) );
-                const std::list<tripoint> autodocs = here.find_furnitures_with_flag_in_radius( p->pos(), 1,
+                const std::list<tripoint> autodocs = here.find_furnitures_or_vparts_with_flag_in_radius( p->pos(),
+                                                     1,
                                                      flag_AUTODOC );
                 sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
                                _( "a sad beeping noise: \"Complications detected!  Report to medical personnel immediately!\"" ),
@@ -3705,7 +3717,8 @@ void activity_handlers::operation_finish( player_activity *act, player *p )
             } else {
                 add_msg( m_bad,
                          _( "The Autodoc jerks back to its resting position after failing the operation." ) );
-                const std::list<tripoint> autodocs = here.find_furnitures_with_flag_in_radius( p->pos(), 1,
+                const std::list<tripoint> autodocs = here.find_furnitures_or_vparts_with_flag_in_radius( p->pos(),
+                                                     1,
                                                      flag_AUTODOC );
                 sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
                                _( "a sad beeping noise: \"Operation failed\"" ), true,

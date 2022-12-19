@@ -158,21 +158,6 @@ class game
         /** Loads static data that does not depend on mods or similar. */
         void load_static_data();
 
-        /** Loads core dynamic data. May throw. */
-        void load_core_data( loading_ui &ui );
-
-        /** Returns whether the core data is currently loaded. */
-        bool is_core_data_loaded() const;
-
-        /**
-         *  Check if mods can be successfully loaded
-         *  @param opts check specific mods (or all if unspecified)
-         *  @return whether all mods were successfully loaded
-         */
-        bool check_mod_data( const std::vector<mod_id> &opts, loading_ui &ui );
-
-        /** Loads core data and mods from the active world. May throw. */
-        void load_world_modfiles( loading_ui &ui );
         /**
          * Base path for saving player data. Just add a suffix (unique for
          * the thing you want to save) and use the resulting path.
@@ -183,23 +168,12 @@ class game
          * Base path for saving world data. This yields a path to a folder.
          */
         std::string get_world_base_save_path() const;
-        /**
-         *  Load content packs
-         *  @param msg string to display whilst loading prompt
-         *  @param packs content packs to load in correct dependent order
-         *  @param ui structure for load progress display
-         *  @return true if all packs were found, false if any were missing
-         */
-        bool load_packs( const std::string &msg, const std::vector<mod_id> &packs, loading_ui &ui );
 
         /**
          * @brief Should be invoked whenever options change.
          */
         void on_options_changed();
 
-    protected:
-        /** Loads dynamic data from the given directory. May throw. */
-        void load_data_from_dir( const std::string &path, const std::string &src, loading_ui &ui );
     public:
         void setup();
         /** Saving and loading functions. */
@@ -617,7 +591,7 @@ class game
 
         void toggle_fullscreen();
         void toggle_pixel_minimap();
-        void reload_tileset();
+        void reload_tileset( std::function<void( std::string )> out );
         void temp_exit_fullscreen();
         void reenter_fullscreen();
         void zoom_in();
@@ -682,8 +656,9 @@ class game
         // force also determines damage along with dam_mult;
         // stun determines base number of turns target is stunned regardless of impact
         // stun == 0 means no stun, stun == -1 indicates only impact stun (wall or npc/monster)
-        void knockback( const tripoint &s, const tripoint &t, int force, int stun, int dam_mult );
-        void knockback( std::vector<tripoint> &traj, int stun, int dam_mult );
+        void knockback( const tripoint &s, const tripoint &t, int force, int stun, int dam_mult,
+                        Creature *source );
+        void knockback( std::vector<tripoint> &traj, int stun, int dam_mult, Creature *source );
 
         // Animation related functions
         void draw_bullet( const tripoint &t, int i, const std::vector<tripoint> &trajectory,

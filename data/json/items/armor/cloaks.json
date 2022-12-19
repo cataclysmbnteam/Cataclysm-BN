@@ -157,7 +157,7 @@
   },
   {
     "id": "optical_cloak",
-    "type": "ARMOR",
+    "type": "TOOL_ARMOR",
     "name": { "str": "FB51 optical cloak" },
     "description": "A plastic cloak embedded with cameras and LEDs that will render you fully invisible to normal vision when powered and worn.  You must be carrying a unified power supply, or UPS, to use it.  Activate to toggle visibility.",
     "weight": "1552 g",

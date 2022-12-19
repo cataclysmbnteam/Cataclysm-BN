@@ -18,6 +18,7 @@
 #include "itype.h"
 #include "loading_ui.h"
 #include "material.h"
+#include "mod_manager.h"
 #include "npc.h"
 #include "output.h"
 #include "recipe.h"
@@ -38,10 +39,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
                        const std::vector<std::string> &opts )
 {
     try {
-        loading_ui ui( false );
-        load_core_data( ui );
-        load_packs( _( "Loading content packs" ), { mod_id( "dda" ) }, ui );
-        DynamicDataLoader::get_instance().finalize_loaded_data( ui );
+        init::load_core_bn_modfiles();
     } catch( const std::exception &err ) {
         std::cerr << "Error loading data from json: " << err.what() << std::endl;
         return false;

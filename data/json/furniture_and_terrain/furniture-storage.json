@@ -66,6 +66,7 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 14,
+    "examine_action": "locked_object",
     "flags": [
       "TRANSPARENT",
       "CONTAINER",

@@ -544,7 +544,7 @@ void monster::plan()
             bool found_path_to_couch = false;
             tripoint tmp( pos() + point( 12, 12 ) );
             tripoint couch_loc;
-            for( const auto &couch_pos : g->m.find_furnitures_with_flag_in_radius( pos(), 10,
+            for( const auto &couch_pos : g->m.find_furnitures_or_vparts_with_flag_in_radius( pos(), 10,
                     flag_AUTODOC_COUCH ) ) {
                 if( g->m.clear_path( pos(), couch_pos, 10, 0, 100 ) ) {
                     if( rl_dist( pos(), couch_pos ) < rl_dist( pos(), tmp ) ) {
@@ -581,11 +581,32 @@ void monster::plan()
     } else if( friendly > 0 && one_in( 3 ) ) {
         // Grow restless with no targets
         friendly--;
-    } else if( friendly < 0 && sees( g->u ) && !has_flag( MF_PET_WONT_FOLLOW ) ) {
-        if( rl_dist( pos(), g->u.pos() ) > 2 ) {
-            set_dest( g->u.pos() );
+        // if no target, and friendly pet sees the player
+    } else if( friendly < 0 && sees( g->u ) ) {
+        // eg dogs
+        if( !has_flag( MF_PET_WONT_FOLLOW ) ) {
+            // if too far from the player, go to him
+            if( rl_dist( pos(), g->u.pos() ) > 2 ) {
+                set_dest( g->u.pos() );
+            } else {
+                unset_dest();
+            }
+            // eg cows, horses
         } else {
             unset_dest();
+        }
+        // when the players is close to their pet, it calms them
+        // it helps them reach an homeostatic state, for morale and anger
+        const int distance_from_friend = rl_dist( pos(), get_avatar().pos() );
+        if( distance_from_friend < 12 ) {
+            if( one_in( distance_from_friend * 3 ) ) {
+                if( morale != type->morale ) {
+                    morale += ( morale < type->morale ) ? 1 : -1;
+                }
+                if( anger != type->agro ) {
+                    anger += ( anger < type->agro ) ? 1 : -1;
+                }
+            }
         }
     }
 
@@ -1099,7 +1120,7 @@ void monster::nursebot_operate( player *dragged_foe )
         return;
     }
 
-    if( rl_dist( pos(), goal ) == 1 && !g->m.has_flag_furn( flag_AUTODOC_COUCH, goal ) &&
+    if( rl_dist( pos(), goal ) == 1 && !g->m.has_flag_furn_or_vpart( flag_AUTODOC_COUCH, goal ) &&
         !has_effect( effect_operating ) ) {
         if( dragged_foe->has_effect( effect_grabbed ) && !has_effect( effect_countdown ) &&
             ( g->critter_at( goal ) == nullptr || g->critter_at( goal ) == dragged_foe ) ) {
@@ -1625,7 +1646,7 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
 
     setpos( destination );
     footsteps( destination );
-    underwater = will_be_water;
+    set_underwater( will_be_water );
     if( is_hallucination() ) {
         //Hallucinations don't do any of the stuff after this point
         return true;
@@ -1661,7 +1682,7 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
         return true;
     }
     if( !will_be_water && ( digs() || can_dig() ) ) {
-        underwater = g->m.has_flag( "DIGGABLE", pos() );
+        set_underwater( g->m.has_flag( "DIGGABLE", pos() ) );
     }
     // Diggers turn the dirt into dirtmound
     if( digging() && g->m.has_flag( "DIGGABLE", pos() ) ) {

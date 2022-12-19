@@ -1805,6 +1805,11 @@ void options_manager::add_options_graphics()
 
     get_option( "ANIMATION_DELAY" ).setPrerequisite( "ANIMATIONS" );
 
+    add( "BLINK_SPEED", "graphics", translate_marker( "Blinking effects speed" ),
+         translate_marker( "The speed of every blinking effects in ms." ),
+         100, 5000, 800
+       );
+
     add( "FORCE_REDRAW", "graphics", translate_marker( "Force redraw" ),
          translate_marker( "If true, forces the game to redraw at least once per turn." ),
          true
@@ -2002,6 +2007,10 @@ void options_manager::add_options_graphics()
     { { "no", translate_marker( "No" ) }, { "maximized", translate_marker( "Maximized" ) }, { "fullscreen", translate_marker( "Fullscreen" ) }, { "windowedbl", translate_marker( "Windowed borderless" ) } },
     "windowedbl", COPT_CURSES_HIDE
        );
+
+    add( "MINIMIZE_ON_FOCUS_LOSS", "graphics",
+         translate_marker( "Minimize on focus loss.  Requires restart." ),
+         translate_marker( "Minimize fullscreen window when it loses focus." ), false );
 #endif
 
 #if !defined(__ANDROID__)
@@ -2652,7 +2661,9 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
             //game_ui::init_ui is called when zoom is changed
             g->reset_zoom();
             g->mark_main_ui_adaptor_resize();
-            tilecontext->do_tile_loading_report();
+            tilecontext->do_tile_loading_report( []( std::string str ) {
+                DebugLog( DL::Info, DC::Main ) << str;
+            } );
         } catch( const std::exception &err ) {
             popup( _( "Loading the tileset failed: %s" ), err.what() );
             use_tiles = false;
@@ -3346,7 +3357,7 @@ bool options_manager::save()
 {
     const auto savefile = PATH_INFO::options();
     cache_to_globals();
-    update_music_volume();
+    update_volumes();
 
     return write_to_file( savefile, [&]( std::ostream & fout ) {
         JsonOut jout( fout, true );

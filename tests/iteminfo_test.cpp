@@ -470,7 +470,7 @@ TEST_CASE( "repairable and with what tools", "[item][iteminfo][repair]" )
 
     test_info_contains(
         item( "test_halligan" ), q,
-        "<color_c_white>Repair</color> using grid welder, extended toolset, arc welder, or makeshift arc welder.\n" );
+        "<color_c_white>Repair</color> using charcoal forge, grid forge, grid welder, electric forge, extended toolset, arc welder, or makeshift arc welder.\n" );
 
     test_info_contains(
         item( "test_hazmat_suit" ), q,

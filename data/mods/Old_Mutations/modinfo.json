@@ -6,7 +6,7 @@
     "authors": [ "Coolthulhu" ],
     "description": "Makes mutations work like before, without balancing changes and mutagen accumulation.",
     "category": "rebalance",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "bn" ]
   },
   {
     "type": "EXTERNAL_OPTION",

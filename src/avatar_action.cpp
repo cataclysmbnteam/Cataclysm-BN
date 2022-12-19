@@ -18,6 +18,7 @@
 #include "calendar.h"
 #include "character.h"
 #include "character_martial_arts.h"
+#include "character_turn.h"
 #include "creature.h"
 #include "cursesdef.h"
 #include "debug.h"
@@ -235,10 +236,6 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     }
 
     dbg( DL::Debug ) << "game:plmove: From " << you.pos() << " to " << dest_loc;
-
-    if( g->disable_robot( dest_loc ) ) {
-        return false;
-    }
 
     // Check if our movement is actually an attack on a monster or npc
     // Are we displacing a monster?
@@ -577,7 +574,7 @@ static float rate_critter( const Creature &c )
 {
     const npc *np = dynamic_cast<const npc *>( &c );
     if( np != nullptr ) {
-        return np->weapon_value( np->weapon );
+        return npc_ai::weapon_value( *np, np->weapon );
     }
 
     const monster *m = dynamic_cast<const monster *>( &c );
@@ -597,7 +594,7 @@ void avatar_action::autoattack( avatar &you, map &m )
     if( critters.empty() ) {
         add_msg( m_info, _( "No hostile creature in reach.  Waiting a turn." ) );
         if( g->check_safe_mode_allowed() ) {
-            you.pause();
+            character_funcs::do_pause( you );
         }
         return;
     }

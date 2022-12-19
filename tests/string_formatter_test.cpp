@@ -6,6 +6,7 @@
 #include <utility>
 
 #include "string_formatter.h"
+#include "type_id.h"
 
 // Same as @ref string_format, but does not swallow errors and throws them instead.
 template<typename ...Args>
@@ -127,6 +128,12 @@ TEST_CASE( "string_formatter" )
     importet_test( 429, "100.4400000", "%3$-*1$.*2$f", 4, 7, 100.44 );
     importet_test( 430, "100.4400000", "%1$-*2$.*3$f", 100.44, 4, 7 );
     importet_test( 431, "100.4400000", "%2$-*3$.*1$f", 7, 100.44, 4 );
+
+    // test string-like arguments
+    importet_test( 432, "abcde", "%s", "abcde" );
+    importet_test( 433, "abcde", "%s", std::string_view( "abcde" ) );
+    importet_test( 434, "abcde", "%s", std::string( "abcde" ) );
+    importet_test( 435, "abcde", "%s", itype_id( "abcde" ) );
 
     // These calls should cause *compile* errors. Try it out.
 #if 0
