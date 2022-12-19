@@ -96,7 +96,6 @@ static const itype_id itype_brass_catcher( "brass_catcher" );
 static const itype_id itype_large_repairkit( "large_repairkit" );
 static const itype_id itype_plut_cell( "plut_cell" );
 static const itype_id itype_small_repairkit( "small_repairkit" );
-static const itype_id itype_syringe( "syringe" );
 
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 
@@ -110,7 +109,6 @@ static const trait_id trait_QUILLS( "QUILLS" );
 static const trait_id trait_SAVANT( "SAVANT" );
 static const trait_id trait_SPINES( "SPINES" );
 static const trait_id trait_THORNS( "THORNS" );
-static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 
 static const std::string flag_SPLINT( "SPLINT" );
 static const std::string flag_RESTRICT_HAND( "RESTRICT_HANDS" );
@@ -120,7 +118,6 @@ static const skill_id skill_gun( "gun" );
 static const skill_id skill_weapon( "weapon" );
 
 static const bionic_id bio_cqb( "bio_cqb" );
-static const bionic_id bio_syringe( "bio_syringe" );
 static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 
 player::player()
