@@ -1,4 +1,4 @@
-#include "player.h" // IWYU pragma: associated
+#include "armor_layers.h"
 
 #include <algorithm>
 #include <array>
