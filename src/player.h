@@ -441,7 +441,6 @@ class player : public Character
         itype_id lastconsumed;        //used in crafting.cpp and construction.cpp
 
         std::set<character_id> follower_ids;
-        void mod_stat( const std::string &stat, float modifier ) override;
 
         //message related stuff
         using Character::add_msg_if_player;

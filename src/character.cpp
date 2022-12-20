@@ -540,6 +540,14 @@ void Character::mod_stat( const std::string &stat, float modifier )
         mod_stored_kcal( modifier );
     } else if( stat == "hunger" ) {
         mod_stored_kcal( -10 * modifier );
+    } else if( stat == "thirst" ) {
+        mod_thirst( modifier );
+    } else if( stat == "fatigue" ) {
+        mod_fatigue( modifier );
+    } else if( stat == "oxygen" ) {
+        oxygen += modifier;
+    } else if( stat == "stamina" ) {
+        mod_stamina( modifier );
     } else {
         Creature::mod_stat( stat, modifier );
     }

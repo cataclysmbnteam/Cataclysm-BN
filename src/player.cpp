@@ -172,22 +172,6 @@ player::~player() = default;
 player::player( player && ) = default;
 player &player::operator=( player && ) = default;
 
-void player::mod_stat( const std::string &stat, float modifier )
-{
-    if( stat == "thirst" ) {
-        mod_thirst( modifier );
-    } else if( stat == "fatigue" ) {
-        mod_fatigue( modifier );
-    } else if( stat == "oxygen" ) {
-        oxygen += modifier;
-    } else if( stat == "stamina" ) {
-        mod_stamina( modifier );
-    } else {
-        // Fall through to the creature method.
-        Character::mod_stat( stat, modifier );
-    }
-}
-
 void player::on_dodge( Creature *source, float difficulty )
 {
     static const matec_id tec_none( "tec_none" );
