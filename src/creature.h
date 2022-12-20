@@ -458,6 +458,7 @@ class Creature
         virtual int get_armor_type( damage_type dt, bodypart_id bp ) const = 0;
 
         virtual float get_dodge() const;
+        /** Returns melee skill level, to be used to throttle dodge practice. **/
         virtual float get_melee() const = 0;
         virtual float get_hit() const;
 

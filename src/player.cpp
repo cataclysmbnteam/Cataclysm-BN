@@ -2233,11 +2233,6 @@ nc_color encumb_color( int level )
     return c_red;
 }
 
-float player::get_melee() const
-{
-    return get_skill_level( skill_id( "melee" ) );
-}
-
 bool player::uncanny_dodge()
 {
     bool is_u = this == &g->u;

@@ -852,6 +852,11 @@ float Character::dodge_roll()
     return get_dodge() * 5;
 }
 
+float Character::get_melee() const
+{
+    return get_skill_level( skill_id( "melee" ) );
+}
+
 float Character::bonus_damage( bool random ) const
 {
     /** @EFFECT_STR increases bashing damage */

@@ -142,9 +142,6 @@ class player : public Character
         void on_hit( Creature *source, bodypart_id bp_hit,
                      float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) override;
 
-        /** Returns melee skill level, to be used to throttle dodge practice. **/
-        float get_melee() const override;
-
         /** Handles the uncanny dodge bionic and effects, returns true if the player successfully dodges */
         bool uncanny_dodge() override;
 
