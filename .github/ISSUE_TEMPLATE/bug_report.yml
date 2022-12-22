@@ -14,7 +14,7 @@ body:
         - `Main menu (ESC)` > `Debug Menu` > `Info` > `Submit a bug report on github`
         - it fills out necessary information automatically for you
 
-        please check [README](../../README.md#ive-found-a-bug-what-should-i-do) for more information.
+        please check [README](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/README.md#ive-found-a-bug-what-should-i-do) for more information.
 
   - type: textarea
     id: describe-bug
