@@ -604,6 +604,8 @@ class Character : public Creature, public visitable<Character>
         /** Returns true if the player has stealthy movement */
         bool is_stealthy() const;
 
+        bool uncanny_dodge() override;
+
         // melee.cpp
         /** Checks for valid block abilities and reduces damage accordingly. Returns true if the player blocks */
         bool block_hit( Creature *source, bodypart_id &bp_hit, damage_instance &dam ) override;
@@ -1733,8 +1735,6 @@ class Character : public Creature, public visitable<Character>
         /** Called when a worn item is transformed */
         void on_worn_item_transform( const item &old_it, const item &new_it );
 
-        /** Returns an unoccupied, safe adjacent point. If none exists, returns player position. */
-        tripoint adjacent_tile() const;
         /** Removes "sleep" and "lying_down" */
         void wake_up();
         // how loud a character can shout. based on mutations and clothing

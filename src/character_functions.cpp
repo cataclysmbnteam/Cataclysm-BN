@@ -5,10 +5,12 @@
 #include "character_martial_arts.h"
 #include "character.h"
 #include "creature.h"
+#include "game.h"
 #include "handle_liquid.h"
 #include "itype.h"
 #include "make_static.h"
 #include "map_iterator.h"
+#include "messages.h"
 #include "player.h"
 #include "rng.h"
 #include "submap.h"
@@ -47,6 +49,7 @@ static const efftype_id effect_darkness( "darkness" );
 static const efftype_id effect_meth( "meth" );
 
 static const bionic_id bio_soporific( "bio_soporific" );
+static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 
 static const itype_id itype_cookbook_human( "cookbook_human" );
 
@@ -557,6 +560,63 @@ bool try_wield_contents( Character &who, item &container, item *internal_item, b
     weapon.on_wield( *who.as_player(), mv );
 
     return true;
+}
+
+bool try_uncanny_dodge( Character &who )
+{
+    if( who.get_power_level() < 75_kJ || !who.has_active_bionic( bio_uncanny_dodge ) ) {
+        return false;
+    }
+    bool is_u = who.is_avatar();
+    bool seen = is_u || get_player_character().sees( who );
+    cata::optional<tripoint> adjacent = pick_safe_adjacent_tile( who );
+    if( adjacent ) {
+        if( is_u ) {
+            add_msg( _( "Time seems to slow down and you instinctively dodge!" ) );
+        } else if( seen ) {
+            add_msg( _( "%s dodges… so fast!" ), who.disp_name() );
+        }
+        return true;
+    } else {
+        if( is_u ) {
+            add_msg( _( "You try to dodge but there's no room!" ) );
+        } else if( seen ) {
+            add_msg( _( "%s tries to dodge but there's no room!" ), who.disp_name() );
+        }
+        return false;
+    }
+}
+
+cata::optional<tripoint> pick_safe_adjacent_tile( const Character &who )
+{
+    std::vector<tripoint> ret;
+    int dangerous_fields = 0;
+    map &here = get_map();
+    for( const tripoint &p : here.points_in_radius( who.pos(), 1 ) ) {
+        if( p == who.pos() ) {
+            // Don't consider player position
+            continue;
+        }
+        const trap &curtrap = here.tr_at( p );
+        if( g->critter_at( p ) == nullptr && here.passable( p ) &&
+            ( curtrap.is_null() || curtrap.is_benign() ) ) {
+            // Only consider tile if unoccupied, passable and has no traps
+            dangerous_fields = 0;
+            auto &tmpfld = here.field_at( p );
+            for( auto &fld : tmpfld ) {
+                const field_entry &cur = fld.second;
+                if( cur.is_dangerous() ) {
+                    dangerous_fields++;
+                }
+            }
+
+            if( dangerous_fields == 0 && ! get_map().obstructed_by_vehicle_rotation( who.pos(), p ) ) {
+                ret.push_back( p );
+            }
+        }
+    }
+
+    return random_entry( ret );
 }
 
 bool is_bp_immune_to( const Character &who, body_part bp, damage_unit dam )

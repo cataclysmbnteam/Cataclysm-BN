@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_CHARACTER_FUNCTIONS_H
 #define CATA_SRC_CHARACTER_FUNCTIONS_H
 
+#include "optional.h"
 #include "type_id.h"
 
 #include <string>
@@ -136,6 +137,15 @@ void store_in_container( Character &who, item &container, item &put, bool penalt
  */
 bool try_wield_contents( Character &who, item &container, item *internal_item, bool penalties,
                          int base_cost );
+
+/**
+ * Try to execute an uncanny dodge bionic ability.
+ * @param who Character doing the dodging
+ */
+bool try_uncanny_dodge( Character &who );
+
+/** Returns an unoccupied, safe adjacent point. */
+cata::optional<tripoint> pick_safe_adjacent_tile( const Character &who );
 
 /**
  * Check if character's body part is immune to given damage.

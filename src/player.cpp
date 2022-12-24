@@ -116,7 +116,6 @@ static const skill_id skill_gun( "gun" );
 static const skill_id skill_weapon( "weapon" );
 
 static const bionic_id bio_cqb( "bio_cqb" );
-static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 
 player::player()
 {
@@ -2212,34 +2211,6 @@ nc_color encumb_color( int level )
         return c_light_red;
     }
     return c_red;
-}
-
-bool player::uncanny_dodge()
-{
-    bool is_u = this == &g->u;
-    bool seen = g->u.sees( *this );
-    if( this->get_power_level() < 74_kJ || !this->has_active_bionic( bio_uncanny_dodge ) ) {
-        return false;
-    }
-    tripoint adjacent = adjacent_tile();
-    mod_power_level( -75_kJ );
-    if( adjacent.x != posx() || adjacent.y != posy() ) {
-        position.x = adjacent.x;
-        position.y = adjacent.y;
-        if( is_u ) {
-            add_msg( _( "Time seems to slow down and you instinctively dodge!" ) );
-        } else if( seen ) {
-            add_msg( _( "%s dodges… so fast!" ), this->disp_name() );
-
-        }
-        return true;
-    }
-    if( is_u ) {
-        add_msg( _( "You try to dodge but there's no room!" ) );
-    } else if( seen ) {
-        add_msg( _( "%s tries to dodge but there's no room!" ), this->disp_name() );
-    }
-    return false;
 }
 
 //message related stuff

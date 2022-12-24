@@ -482,6 +482,7 @@ class Creature
         virtual bool has_flag( const m_flag ) const {
             return false;
         }
+        /** Handles the uncanny dodge bionic and effects, returns true if the creature successfully dodges */
         virtual bool uncanny_dodge() {
             return false;
         }
