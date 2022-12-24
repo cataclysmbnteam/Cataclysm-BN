@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "game_constants.h"
+#include "optional.h"
 #include "type_id.h"
 
 class aim_activity_actor;
@@ -26,6 +27,7 @@ struct tripoint;
 struct projectile;
 struct vehicle_part;
 struct dealt_damage_instance;
+struct dealt_projectile_attack;
 struct damage_instance;
 
 namespace target_handler
@@ -180,6 +182,15 @@ int fire_gun( Character &who, const tripoint &target, int shots = 1 );
  * @return Number of shots actually fired
  */
 int fire_gun( Character &who, const tripoint &target, int shots, item &gun );
+
+/**
+ * Execute a throw.
+ * @param who Character whose stats to use
+ * @param to_throw Item being thrown
+ * @param blind_throw_from_pos Position of blind throw (if blind throwing)
+ */
+dealt_projectile_attack throw_item( Character &who, const tripoint &target, const item &to_throw,
+                                    cata::optional<tripoint> blind_throw_from_pos );
 
 } // namespace ranged
 

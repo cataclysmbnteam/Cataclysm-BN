@@ -1215,7 +1215,7 @@ void throw_activity_actor::do_turn( player_activity &act, Character &who )
     } else {
         target.remove_item();
     }
-    who.as_player()->throw_item( trajectory.back(), thrown, blind_throw_pos );
+    ranged::throw_item( who, trajectory.back(), thrown, blind_throw_pos );
 }
 
 void throw_activity_actor::serialize( JsonOut &jsout ) const

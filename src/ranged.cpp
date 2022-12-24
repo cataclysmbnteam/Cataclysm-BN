@@ -1111,18 +1111,16 @@ int throwing_dispersion( const Character &c, const item &to_throw, Creature *cri
     return std::max( 0, dispersion );
 }
 
-} // namespace ranged
-
-dealt_projectile_attack player::throw_item( const tripoint &target, const item &to_throw,
-        const cata::optional<tripoint> &blind_throw_from_pos )
+dealt_projectile_attack throw_item( Character &who, const tripoint &target, const item &to_throw,
+                                    cata::optional<tripoint> blind_throw_from_pos )
 {
     // Copy the item, we may alter it before throwing
     item thrown = to_throw;
 
-    const int move_cost = ranged::throw_cost( *this, to_throw );
-    mod_moves( -move_cost );
+    const int move_cost = ranged::throw_cost( who, to_throw );
+    who.mod_moves( -move_cost );
 
-    const int throwing_skill = get_skill_level( skill_throw );
+    const int throwing_skill = who.get_skill_level( skill_throw );
     units::volume volume = to_throw.volume();
     units::mass weight = to_throw.weight();
 
@@ -1130,13 +1128,14 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     // using 16_gram normalizes it to 8 str. Same effort expenditure
     // for being able to throw farther.
     const int weight_cost = weight / ( 16_gram );
-    const int encumbrance_cost = roll_remainder( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) * 2.0f );
+    const int encumbrance_cost = roll_remainder( ( who.encumb( bp_arm_l ) + who.encumb(
+                                     bp_arm_r ) ) * 2.0f );
     const int stamina_cost = ( weight_cost + encumbrance_cost - throwing_skill + 50 ) * -1;
 
     bool throw_assist = false;
     int throw_assist_str = 0;
-    if( is_mounted() ) {
-        auto mons = mounted_creature.get();
+    if( who.is_mounted() ) {
+        monster *mons = who.mounted_creature.get();
         if( mons->mech_str_addition() != 0 ) {
             throw_assist = true;
             throw_assist_str = mons->mech_str_addition();
@@ -1144,13 +1143,13 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         }
     }
     if( !throw_assist ) {
-        mod_stamina( stamina_cost );
+        who.mod_stamina( stamina_cost );
     }
 
     const skill_id &skill_used = skill_throw;
-    int skill_level = std::min( MAX_SKILL, get_skill_level( skill_throw ) );
+    int skill_level = std::min( MAX_SKILL, who.get_skill_level( skill_throw ) );
     // if you are lying on the floor, you can't really throw that well
-    if( has_effect( effect_downed ) ) {
+    if( who.has_effect( effect_downed ) ) {
         skill_level = std::max( 0, skill_level - 5 );
     }
     // We'll be constructing a projectile
@@ -1161,19 +1160,19 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
 
     static const std::set<material_id> ferric = { material_id( "iron" ), material_id( "steel" ) };
 
-    bool do_railgun = has_active_bionic( bio_railgun ) && thrown.made_of_any( ferric ) &&
+    bool do_railgun = who.has_active_bionic( bio_railgun ) && thrown.made_of_any( ferric ) &&
                       !throw_assist;
 
     // The damage dealt due to item's weight, player's strength, and skill level
     // Up to str/2 or weight/100g (lower), so 10 str is 5 damage before multipliers
     // Railgun doubles the effective strength
     ///\EFFECT_STR increases throwing damage
-    double stats_mod = do_railgun ? get_str() : ( get_str() / 2.0 );
+    double stats_mod = do_railgun ? who.get_str() : ( who.get_str() / 2.0 );
     stats_mod = throw_assist ? throw_assist_str / 2.0 : stats_mod;
     // modify strength impact based on skill level, clamped to [0.15 - 1]
     // mod = mod * [ ( ( skill / max_skill ) * 0.85 ) + 0.15 ]
     stats_mod *= ( std::min( MAX_SKILL,
-                             get_skill_level( skill_throw ) ) /
+                             who.get_skill_level( skill_throw ) ) /
                    static_cast<double>( MAX_SKILL ) ) * 0.85 + 0.15;
     impact.add_damage( DT_BASH, std::min( weight / 100.0_gram, stats_mod ) );
 
@@ -1185,7 +1184,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     // Item will shatter upon landing, destroying the item, dealing damage, and making noise
     /** @EFFECT_STR increases chance of shattering thrown glass items (NEGATIVE) */
     const bool shatter = !thrown.active && thrown.made_of( material_id( "glass" ) ) &&
-                         rng( 0, units::to_milliliter( 2_liter - volume ) ) < get_str() * 100;
+                         rng( 0, units::to_milliliter( 2_liter - volume ) ) < who.get_str() * 100;
 
     // Item will burst upon landing, destroying the item, and spilling its contents
     const bool burst = thrown.has_property( "burst_when_filled" ) && thrown.is_container() &&
@@ -1235,7 +1234,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     }
 
     Creature *critter = g->critter_at( target, true );
-    const dispersion_sources dispersion( ranged::throwing_dispersion( *this, thrown, critter,
+    const dispersion_sources dispersion( ranged::throwing_dispersion( who, thrown, critter,
                                          blind_throw_from_pos.has_value() ) );
     const itype *thrown_type = thrown.type;
 
@@ -1247,11 +1246,11 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
 
     // Throw from the player's position, unless we're blind throwing, in which case
     // throw from the the blind throw position instead.
-    const tripoint throw_from = blind_throw_from_pos ? *blind_throw_from_pos : pos();
+    const tripoint throw_from = blind_throw_from_pos ? *blind_throw_from_pos : who.pos();
 
     float range = rl_dist( throw_from, target );
     proj.range = range;
-    int skill_lvl = get_skill_level( skill_used );
+    int skill_lvl = who.get_skill_level( skill_used );
     // Avoid awarding tons of xp for lucky throws against hard to hit targets
     const float range_factor = std::min<float>( range, skill_lvl + 3 );
     // We're aiming to get a damaging hit, not just an accurate one - reward proper weapons
@@ -1259,25 +1258,27 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     // This should generally have values below ~20*sqrt(skill_lvl)
     const float final_xp_mult = range_factor * damage_factor;
 
-    auto dealt_attack = projectile_attack( proj, throw_from, target, dispersion, this );
+    auto dealt_attack = projectile_attack( proj, throw_from, target, dispersion, &who );
 
     const double missed_by = dealt_attack.missed_by;
     if( missed_by <= 0.1 && dealt_attack.hit_critter != nullptr ) {
-        practice( skill_used, final_xp_mult, MAX_SKILL );
+        who.as_player()->practice( skill_used, final_xp_mult, MAX_SKILL );
         // TODO: Check target for existence of head
-        g->events().send<event_type::character_gets_headshot>( getID() );
+        g->events().send<event_type::character_gets_headshot>( who.getID() );
     } else if( dealt_attack.hit_critter != nullptr && missed_by > 0.0f ) {
-        practice( skill_used, final_xp_mult / ( 1.0f + missed_by ), MAX_SKILL );
+        who.as_player()->practice( skill_used, final_xp_mult / ( 1.0f + missed_by ), MAX_SKILL );
     } else {
         // Pure grindy practice - cap gain at lvl 2
-        practice( skill_used, 5, 2 );
+        who.as_player()->practice( skill_used, 5, 2 );
     }
     // Reset last target pos
-    last_target_pos = cata::nullopt;
-    recoil = MAX_RECOIL;
+    who.last_target_pos = cata::nullopt;
+    who.recoil = MAX_RECOIL;
 
     return dealt_attack;
 }
+
+} // namespace ranged
 
 static void do_aim( avatar &you, const item &relevant, const double min_recoil )
 {

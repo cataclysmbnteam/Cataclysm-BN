@@ -116,11 +116,6 @@ class player : public Character
         void on_hit( Creature *source, bodypart_id bp_hit,
                      float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) override;
 
-        // ranged.cpp
-        /** Execute a throw */
-        dealt_projectile_attack throw_item( const tripoint &target, const item &to_throw,
-                                            const cata::optional<tripoint> &blind_throw_from_pos = cata::nullopt );
-
         /** Knocks the player to a specified tile */
         void knock_back_to( const tripoint &to ) override;
 

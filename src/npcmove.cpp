@@ -3487,7 +3487,7 @@ static void npc_throw( npc &np, item &it, int index, const tripoint &pos )
         it.charges = 1;
     }
     if( !np.is_hallucination() ) { // hallucinations only pretend to throw
-        np.throw_item( pos, it );
+        ranged::throw_item( np, pos, it, cata::nullopt );
     }
     // Throw a single charge of a stacking object.
     if( stack_size == -1 || stack_size == 1 ) {
