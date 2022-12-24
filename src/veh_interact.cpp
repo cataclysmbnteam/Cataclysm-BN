@@ -1487,8 +1487,8 @@ void veh_interact::calc_overview()
                     if( it.rotten() ) {
                         specials += _( " (rotten)" );
                     }
+                    units::volume vol = pt.base.contents.front().volume();
                     const itype *pt_ammo_cur = &*pt.ammo_current();
-                    auto stack = units::legacy_volume_factor / pt_ammo_cur->stack_size;
                     int offset = 1;
                     std::string fmtstring = "%s %s  %5.1fL";
                     if( pt.is_leaking() ) {
@@ -1497,7 +1497,7 @@ void veh_interact::calc_overview()
                     }
                     right_print( w, y, offset, pt_ammo_cur->color,
                                  string_format( fmtstring, specials, pt_ammo_cur->nname( 1 ),
-                                                round_up( to_liter( pt.ammo_remaining() * stack ), 1 ) ) );
+                                                round_up( to_liter( vol ), 1 ) ) );
                 } else {
                     if( pt.is_leaking() ) {
                         std::string outputstr = leak_marker + "      " + leak_marker;
