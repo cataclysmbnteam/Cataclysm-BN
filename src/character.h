@@ -595,6 +595,8 @@ class Character : public Creature, public visitable<Character>
         profession_id prof;
         std::string custom_profession;
 
+        /** Returns true if the player is able to use a grab breaking technique */
+        bool can_use_grab_break_tec( const item &weap ) const;
         /** Returns true if the player is able to use a miss recovery technique */
         bool can_miss_recovery( const item &weap ) const;
         /** Returns true if the player has quiet melee attacks */

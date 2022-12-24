@@ -929,7 +929,7 @@ ma_technique character_martial_arts::get_grab_break_tec( const item &weap ) cons
     return tec;
 }
 
-bool player::can_grab_break( const item &weap ) const
+bool Character::can_use_grab_break_tec( const item &weap ) const
 {
     if( !has_grab_break_tec() ) {
         return false;
