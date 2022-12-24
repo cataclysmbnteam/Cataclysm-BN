@@ -163,7 +163,7 @@ static projectile make_gun_projectile( const item &gun );
 int time_to_attack( const Character &p, const itype &firing );
 static void cycle_action( item &weap, const tripoint &pos );
 bool can_use_bipod( const map &m, const tripoint &pos );
-dispersion_sources calculate_dispersion( const map &m, const player &p, const item &gun,
+dispersion_sources calculate_dispersion( const map &m, const Character &who, const item &gun,
         int at_recoil, bool burst );
 
 class target_ui
