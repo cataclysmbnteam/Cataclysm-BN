@@ -56,6 +56,7 @@
 #include "pathfinding.h"
 #include "player_activity.h"
 #include "pldata.h"
+#include "ranged.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "skill.h"
@@ -1210,7 +1211,8 @@ void npc::drop( const drop_locations &what, const tripoint &target,
 void npc::invalidate_range_cache()
 {
     if( weapon.is_gun() ) {
-        confident_range_cache = confident_shoot_range( weapon, get_most_accurate_sight( weapon ) );
+        confident_range_cache =
+            confident_shoot_range( weapon, ranged::get_most_accurate_sight( *this, weapon ) );
     } else {
         confident_range_cache = weapon.reach_range( *this );
     }

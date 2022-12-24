@@ -21,6 +21,7 @@
 #include "mod_manager.h"
 #include "npc.h"
 #include "output.h"
+#include "ranged.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "ret_val.h"
@@ -199,7 +200,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             r.push_back( std::to_string( damage.total_damage() ) );
             r.push_back( std::to_string( damage.empty() ? 0 : ( *damage.begin() ).res_pen ) );
 
-            r.push_back( std::to_string( who.gun_engagement_moves( obj ) ) );
+            r.push_back( std::to_string( ranged::gun_engagement_moves( who, obj ) ) );
 
             for( const auto &e : locations ) {
                 const auto &vml = obj.type->gun->valid_mod_locations;

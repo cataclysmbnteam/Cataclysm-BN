@@ -110,26 +110,6 @@ class player : public Character
         // by default save all contained info
         virtual void serialize( JsonOut &jsout ) const = 0;
 
-        /** How many moves does it take to aim gun to the target accuracy. */
-        int gun_engagement_moves( const item &gun, int target = 0, int start = MAX_RECOIL ) const;
-
-        /**
-         *  Fires a gun or auxiliary gunmod (ignoring any current mode)
-         *  @param target where the first shot is aimed at (may vary for later shots)
-         *  @param shots maximum number of shots to fire (less may be fired in some circumstances)
-         *  @return number of shots actually fired
-         */
-
-        int fire_gun( const tripoint &target, int shots = 1 );
-        /**
-         *  Fires a gun or auxiliary gunmod (ignoring any current mode)
-         *  @param target where the first shot is aimed at (may vary for later shots)
-         *  @param shots maximum number of shots to fire (less may be fired in some circumstances)
-         *  @param gun item to fire (which does not necessary have to be in the players possession)
-         *  @return number of shots actually fired
-         */
-        int fire_gun( const tripoint &target, int shots, item &gun );
-
         /** Called after the player has successfully dodged an attack */
         void on_dodge( Creature *source, float difficulty ) override;
         /** Handles special defenses from an attack that hit us (source can be null) */

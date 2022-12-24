@@ -64,6 +64,7 @@
 #include "player.h"
 #include "point.h"
 #include "projectile.h"
+#include "ranged.h"
 #include "rng.h"
 #include "sounds.h"
 #include "speech.h"
@@ -3350,7 +3351,7 @@ void mattack::rifle( monster *z, Creature *target )
     tmp.weapon = item( "m4a1" ).ammo_set( ammo_type, z->ammo[ ammo_type ] );
     int burst = std::max( tmp.weapon.gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
 
-    z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * tmp.weapon.ammo_required();
+    z->ammo[ ammo_type ] -= ranged::fire_gun( tmp, target->pos(), burst ) * tmp.weapon.ammo_required();
 
     if( target == &g->u ) {
         z->add_effect( effect_targeted, 3_turns );
@@ -3410,7 +3411,7 @@ void mattack::frag( monster *z, Creature *target ) // This is for the bots, not 
     tmp.weapon = item( "mgl" ).ammo_set( ammo_type, z->ammo[ ammo_type ] );
     int burst = std::max( tmp.weapon.gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
 
-    z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * tmp.weapon.ammo_required();
+    z->ammo[ ammo_type ] -= ranged::fire_gun( tmp, target->pos(), burst ) * tmp.weapon.ammo_required();
 
     if( target == &g->u ) {
         z->add_effect( effect_targeted, 3_turns );
@@ -3469,7 +3470,7 @@ void mattack::tankgun( monster *z, Creature *target )
     tmp.weapon = item( "TANK" ).ammo_set( ammo_type, z->ammo[ ammo_type ] );
     int burst = std::max( tmp.weapon.gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
 
-    z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * tmp.weapon.ammo_required();
+    z->ammo[ ammo_type ] -= ranged::fire_gun( tmp, target->pos(), burst ) * tmp.weapon.ammo_required();
 }
 
 bool mattack::searchlight( monster *z )

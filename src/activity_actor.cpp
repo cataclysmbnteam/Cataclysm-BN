@@ -176,7 +176,7 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
 
     // Fire!
     gun_mode gun = weapon->gun_current_mode();
-    int shots_fired = static_cast<player *>( &who )->fire_gun( fin_trajectory.back(), gun.qty, *gun );
+    int shots_fired = ranged::fire_gun( who, fin_trajectory.back(), gun.qty, *gun );
 
     if( shots_fired > 0 ) {
         // TODO: bionic power cost of firing should be derived from a value of the relevant weapon.

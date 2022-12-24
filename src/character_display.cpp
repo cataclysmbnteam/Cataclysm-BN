@@ -251,7 +251,7 @@ static std::string get_encumbrance_description( const Character &p, body_part bp
                                 -( eff_encumbrance / 10.0f ) );
             s += melee_cost_text( eff_encumbrance / 2 );
             s += string_format( _( "Reduced gun aim speed: <color_white>%.1f</color>" ),
-                                p.aim_speed_encumbrance_modifier() );
+                                ranged::aim_speed_encumbrance_modifier( p ) );
             break;
         case bp_leg_l:
         case bp_leg_r:

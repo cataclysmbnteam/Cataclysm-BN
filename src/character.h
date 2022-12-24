@@ -57,7 +57,6 @@ class SkillLevel;
 class SkillLevelMap;
 class bionic_collection;
 class character_martial_arts;
-class dispersion_sources;
 class faction;
 class ma_technique;
 class known_magic;
@@ -184,14 +183,6 @@ enum class rechargeable_cbm {
     reactor,
     furnace,
     other
-};
-
-struct aim_type {
-    std::string name;
-    std::string action;
-    std::string help;
-    bool has_threshold;
-    int threshold;
 };
 
 struct special_attack {
@@ -370,35 +361,6 @@ class Character : public Creature, public visitable<Character>
             return nullptr;
         }
         void set_fac_id( const std::string &my_fac_id );
-
-        /* Adjusts provided sight dispersion to account for player stats */
-        int effective_dispersion( int dispersion ) const;
-
-        /**
-         * Returns a weapon's modified dispersion value.
-         * @param obj Weapon to check dispersion on
-         */
-        dispersion_sources get_weapon_dispersion( const item &obj ) const;
-
-        /* Accessors for aspects of aim speed. */
-        std::vector<aim_type> get_aim_types( const item &gun ) const;
-        std::pair<int, int> get_fastest_sight( const item &gun, double recoil ) const;
-        int get_most_accurate_sight( const item &gun ) const;
-        double aim_speed_skill_modifier( const skill_id &gun_skill ) const;
-        double aim_speed_dex_modifier() const;
-        double aim_speed_encumbrance_modifier() const;
-        double aim_cap_from_volume( const item &gun ) const;
-
-        /* Calculate aim improvement per move spent aiming at a given @ref recoil */
-        double aim_per_move( const item &gun, double recoil ) const;
-
-        /** Get maximum recoil penalty due to vehicle motion */
-        double recoil_vehicle() const;
-
-        double recoil_mode() const;
-
-        /** Current total maximum recoil penalty from all sources */
-        double recoil_total() const;
 
         /** Combat getters */
         float get_dodge_base() const override;
