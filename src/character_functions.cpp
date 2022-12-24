@@ -21,6 +21,7 @@
 
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
+static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 static const trait_id trait_EASYSLEEPER( "EASYSLEEPER" );
 static const trait_id trait_EASYSLEEPER2( "EASYSLEEPER2" );
 static const trait_id trait_INSOMNIA( "INSOMNIA" );
@@ -556,6 +557,23 @@ bool try_wield_contents( Character &who, item &container, item *internal_item, b
     weapon.on_wield( *who.as_player(), mv );
 
     return true;
+}
+
+bool is_bp_immune_to( const Character &who, body_part bp, damage_unit dam )
+{
+    if( who.has_trait( trait_DEBUG_NODMG ) || who.is_immune_damage( dam.type ) ) {
+        return true;
+    }
+
+    who.passive_absorb_hit( convert_bp( bp ).id(), dam );
+
+    for( const item &cloth : who.worn ) {
+        if( cloth.get_coverage() == 100 && cloth.covers( bp ) ) {
+            cloth.mitigate_damage( dam );
+        }
+    }
+
+    return dam.amount <= 0;
 }
 
 } // namespace character_funcs

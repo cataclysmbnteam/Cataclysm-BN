@@ -97,8 +97,6 @@ static const itype_id itype_large_repairkit( "large_repairkit" );
 static const itype_id itype_plut_cell( "plut_cell" );
 static const itype_id itype_small_repairkit( "small_repairkit" );
 
-static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
-
 static const trait_id trait_CF_HAIR( "CF_HAIR" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_DEFT( "DEFT" );
@@ -315,23 +313,6 @@ int player::get_lift_assist() const
         result += np->get_str();
     }
     return result;
-}
-
-bool player::immune_to( body_part bp, damage_unit dam ) const
-{
-    if( has_trait( trait_DEBUG_NODMG ) || is_immune_damage( dam.type ) ) {
-        return true;
-    }
-
-    passive_absorb_hit( convert_bp( bp ).id(), dam );
-
-    for( const item &cloth : worn ) {
-        if( cloth.get_coverage() == 100 && cloth.covers( bp ) ) {
-            cloth.mitigate_damage( dam );
-        }
-    }
-
-    return dam.amount <= 0;
 }
 
 float player::fall_damage_mod() const

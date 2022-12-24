@@ -8697,7 +8697,7 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
         };
 
         const auto sharp_bp_check = [this]( body_part bp ) {
-            return u.immune_to( bp, { DT_CUT, 10 } );
+            return character_funcs::is_bp_immune_to( u, bp, { DT_CUT, 10 } );
         };
 
         if( m.has_flag( "ROUGH", dest_loc ) && !m.has_flag( "ROUGH", u.pos() ) && !boardable &&

@@ -150,19 +150,6 @@ class player : public Character
         dealt_projectile_attack throw_item( const tripoint &target, const item &to_throw,
                                             const cata::optional<tripoint> &blind_throw_from_pos = cata::nullopt );
 
-        /**
-         * Check if a given body part is immune to a given damage type
-         *
-         * This function checks whether a given body part cannot be damaged by a given
-         * damage_unit.  Note that this refers only to reduction of hp on that part. It
-         * does not account for clothing damage, pain, status effects, etc.
-         *
-         * @param bp: Body part to perform the check on
-         * @param dam: Type of damage to check for
-         * @returns true if given damage can not reduce hp of given body part
-         */
-        bool immune_to( body_part bp, damage_unit dam ) const;
-
         /** Knocks the player to a specified tile */
         void knock_back_to( const tripoint &to ) override;
 

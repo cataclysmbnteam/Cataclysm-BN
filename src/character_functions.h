@@ -12,6 +12,7 @@ class Creature;
 class item;
 class time_duration;
 class vehicle;
+struct damage_unit;
 struct tripoint;
 
 namespace character_funcs
@@ -135,6 +136,19 @@ void store_in_container( Character &who, item &container, item &put, bool penalt
  */
 bool try_wield_contents( Character &who, item &container, item *internal_item, bool penalties,
                          int base_cost );
+
+/**
+ * Check if character's body part is immune to given damage.
+ *
+ * Note that this refers only to reduction of hp on the body part,
+ * it does not account for clothing damage, pain, status effects, etc.
+ *
+ * @param who Character to check for
+ * @param bp Body part to perform the check on
+ * @param dam Damage unit to check for
+ * @returns true if given damage can not reduce hp of given body part
+ */
+bool is_bp_immune_to( const Character &who, body_part bp, damage_unit dam );
 
 } // namespace character_funcs
 
