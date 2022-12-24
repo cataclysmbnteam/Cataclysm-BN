@@ -117,7 +117,7 @@ void normalize( Character &who );
 
 /**
  * Stores an item inside another consuming moves proportional to weapon skill and volume
- * @param you Avatar doing the storing
+ * @param who Character doing the storing
  * @param container Container in which to store the item
  * @param put Item to add to the container
  * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered
@@ -128,7 +128,7 @@ void store_in_container( Character &who, item &container, item &put, bool penalt
 
 /**
  * Try to wield a contained item consuming moves proportional to weapon skill and volume.
- * @param you Avatar doing the wielding
+ * @param who Character doing the wielding
  * @param container Container containing the item to be wielded
  * @param internal_item Reference to contained item to wield
  * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered
