@@ -162,7 +162,7 @@ double recoil_total( const Character &who );
 int gun_engagement_moves( const Character &who, const item &gun, int target = 0,
                           int start = MAX_RECOIL );
 
-void make_gun_sound_effect( const Character &who, bool burst, const item &weapon );
+void make_gun_sound_effect( const Character &who, bool burst, const item &gun );
 
 /**
  * Fire wielded gun or auxiliary gunmod (ignoring any current mode)

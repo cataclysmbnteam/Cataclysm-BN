@@ -196,12 +196,7 @@ static const itype_id itype_bio_armor( "bio_armor" );
 
 static const fault_id fault_bionic_nonsterile( "fault_bionic_nonsterile" );
 
-static const skill_id skill_archery( "archery" );
 static const skill_id skill_dodge( "dodge" );
-static const skill_id skill_pistol( "pistol" );
-static const skill_id skill_rifle( "rifle" );
-static const skill_id skill_shotgun( "shotgun" );
-static const skill_id skill_smg( "smg" );
 static const skill_id skill_swimming( "swimming" );
 static const skill_id skill_throw( "throw" );
 
