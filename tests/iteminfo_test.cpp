@@ -19,8 +19,7 @@ static void test_info_equals( const item &i, const iteminfo_query &q,
                               const std::string &reference )
 {
     g->u.clear_mutations();
-    std::vector<iteminfo> info_v;
-    std::string info = i.info( info_v, &q, 1 );
+    std::string info = i.info_string( q, 1 );
     CHECK( info == reference );
 }
 
@@ -28,8 +27,7 @@ static void test_info_contains( const item &i, const iteminfo_query &q,
                                 const std::string &reference )
 {
     g->u.clear_mutations();
-    std::vector<iteminfo> info_v;
-    std::string info = i.info( info_v, &q, 1 );
+    std::string info = i.info_string( q, 1 );
     using Catch::Matchers::Contains;
     REQUIRE_THAT( info, Contains( reference ) );
 }

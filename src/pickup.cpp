@@ -791,10 +791,9 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             const item &selected_item = *stacked_here[matches[selected]].front();
 
             if( selected >= 0 && selected <= static_cast<int>( stacked_here.size() ) - 1 ) {
-                std::vector<iteminfo> vThisItem;
-                selected_item.info( true, vThisItem );
+                std::vector<iteminfo> this_item = selected_item.info();
 
-                item_info_data dummy( {}, {}, vThisItem, {}, iScrollPos );
+                item_info_data dummy( {}, {}, this_item, {}, iScrollPos );
                 dummy.without_getch = true;
                 dummy.without_border = true;
 

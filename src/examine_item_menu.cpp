@@ -55,9 +55,8 @@ bool run(
 
     int info_area_scroll_pos = 0;
     constexpr int info_area_scroll_step = 3;
-    std::vector<iteminfo> item_info_vals;
+    std::vector<iteminfo> item_info_vals = itm.info();
     std::vector<iteminfo> dummy_compare;
-    itm.info( true, item_info_vals );
     item_info_data data( itm.tname(), itm.type_name(), item_info_vals, dummy_compare,
                          info_area_scroll_pos );
 

@@ -362,54 +362,31 @@ class item : public visitable<item>
          * charges at all). Calls @ref tname with given quantity and with_prefix being true.
          */
         std::string display_name( unsigned int quantity = 1 ) const;
-        /**
-         * Return all the information about the item and its type.
-         *
-         * This includes the different
-         * properties of the @ref itype (if they are visible to the player). The returned string
-         * is already translated and can be *very* long.
-         * @param showtext If true, shows the item description, otherwise only the properties item type.
-         */
-        std::string info( bool showtext = false ) const;
 
         /**
-         * Return all the information about the item and its type, and dump to vector.
-         *
-         * This includes the different
-         * properties of the @ref itype (if they are visible to the player). The returned string
-         * is already translated and can be *very* long.
-         * @param showtext If true, shows the item description, otherwise only the properties item type.
-         * @param iteminfo The properties (encapsulated into @ref iteminfo) are added to this vector,
-         * the vector can be used to compare them to properties of another item.
-         */
-        std::string info( bool showtext, std::vector<iteminfo> &iteminfo ) const;
-
-        /**
-        * Return all the information about the item and its type, and dump to vector.
+        * Return all the information about the item and its type as a vector.
         *
         * This includes the different
-        * properties of the @ref itype (if they are visible to the player). The returned string
-        * is already translated and can be *very* long.
-        * @param showtext If true, shows the item description, otherwise only the properties item type.
-        * @param iteminfo The properties (encapsulated into @ref iteminfo) are added to this vector,
-        * the vector can be used to compare them to properties of another item.
-        * @param batch The batch crafting number to multiply data by
-        */
-        std::string info( bool showtext, std::vector<iteminfo> &iteminfo, int batch ) const;
-
-        /**
-        * Return all the information about the item and its type, and dump to vector.
-        *
-        * This includes the different
-        * properties of the @ref itype (if they are visible to the player). The returned string
-        * is already translated and can be *very* long.
+        * properties of the @ref itype (if they are visible to the player).
         * @param parts controls which parts of the iteminfo to return.
-        * @param info The properties (encapsulated into @ref iteminfo) are added to this vector,
-        * the vector can be used to compare them to properties of another item.
         * @param batch The batch crafting number to multiply data by
+        * @returns The properties (encapsulated into @ref iteminfo) are added to this vector,
+        *   the vector can be used to compare them to properties of another item.
         */
-        std::string info( std::vector<iteminfo> &info, const iteminfo_query *parts = nullptr,
-                          int batch = 1 ) const;
+        /*@{*/
+        std::vector<iteminfo> info() const;
+        std::vector<iteminfo> info( bool ) const = delete;
+        std::vector<iteminfo> info( int batch ) const;
+        std::vector<iteminfo> info( const iteminfo_query &parts, int batch = 1 ) const;
+        /*@}*/
+        /**
+         * As @ref info, but as a string rather than a vector of properties.
+         */
+        /*@{*/
+        std::string info_string() const;
+        std::string info_string( const iteminfo_query &parts, int batch = 1 ) const;
+        /*@}*/
+
         /* type specific helper functions for info() that should probably be in itype() */
         void basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                          bool debug ) const;

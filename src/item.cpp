@@ -1106,22 +1106,6 @@ static float get_ranged_armor_mult( const common_ranged_data &ranged )
     return ranged.damage.damage_units.front().res_mult;
 }
 
-std::string item::info( bool showtext ) const
-{
-    std::vector<iteminfo> dummy;
-    return info( showtext, dummy );
-}
-
-std::string item::info( bool showtext, std::vector<iteminfo> &iteminfo ) const
-{
-    return info( showtext, iteminfo, 1 );
-}
-
-std::string item::info( bool showtext, std::vector<iteminfo> &iteminfo, int batch ) const
-{
-    return info( iteminfo, showtext ? &iteminfo_query::all : &iteminfo_query::notext, batch );
-}
-
 // Generates a long-form description of the freshness of the given rottable food item.
 // NB: Doesn't check for non-rottable!
 static std::string get_freshness_description( const item &food_item )
@@ -3920,15 +3904,23 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     }
 }
 
-std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch ) const
+std::vector<iteminfo> item::info() const
+{
+    return info( iteminfo_query::all, 1 );
+}
+
+std::vector<iteminfo> item::info( int batch ) const
+{
+    return info( iteminfo_query::all, batch );
+}
+
+std::vector<iteminfo> item::info( const iteminfo_query &parts_ref, int batch ) const
 {
     const bool debug = g != nullptr && debug_mode;
 
-    if( parts == nullptr ) {
-        parts = &iteminfo_query::all;
-    }
-
-    info.clear();
+    // TODO: Use reference properly
+    const iteminfo_query *parts = &parts_ref;
+    std::vector<iteminfo> info;
 
     if( !is_null() ) {
         basic_info( info, parts, batch, debug );
@@ -3998,7 +3990,18 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.pop_back();
     }
 
-    return format_item_info( info, {} );
+    return info;
+}
+
+std::string item::info_string() const
+{
+    return info_string( iteminfo_query::all, 1 );
+}
+
+std::string item::info_string( const iteminfo_query &parts, int batch ) const
+{
+    std::vector<iteminfo> item_info = info( parts, batch );
+    return format_item_info( item_info, {} );
 }
 
 std::map<gunmod_location, int> item::get_mod_locations() const
