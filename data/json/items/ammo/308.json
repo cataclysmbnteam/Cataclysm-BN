@@ -18,7 +18,7 @@
     "casing": "308_casing",
     "range": 65,
     "//": "Balanced as FMJ rather than JHP.",
-    "damage": { "damage_type": "bullet", "amount": 55, "armor_penetration": 31 },
+    "damage": { "damage_type": "bullet", "amount": 55, "armor_penetration": 24 },
     "dispersion": 15,
     "recoil": 3000,
     "effects": [ "COOKOFF" ]
