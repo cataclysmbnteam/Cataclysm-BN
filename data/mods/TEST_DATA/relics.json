@@ -138,5 +138,14 @@
     "relic_data": {
       "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "FATIGUE", "multiply": -0.1 } ] } ]
     }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_relic_mods_dodges",
+    "copy-from": "test_relic_base",
+    "name": "TEST relic mods dodges",
+    "relic_data": {
+      "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 1 } ] } ]
+    }
   }
 ]

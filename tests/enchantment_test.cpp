@@ -765,3 +765,89 @@ TEST_CASE( "Enchantments modify fatigue rate", "[magic][enchantment][fatigue]" )
         tests_need_rate( guy, s_relic, 0.85f, 0.75f, getter );
     }
 }
+
+static void check_num_dodges( const Character &guy, int num )
+{
+    CHECK( guy.get_num_dodges() == num );
+    CHECK( guy.dodges_left == num );
+}
+
+static void tests_num_dodges( Character &guy )
+{
+    guy.recalculate_enchantment_cache();
+
+    // Must have some moves to gain dodges
+    guy.moves = 1;
+    guy.dodges_left = 0;
+
+    advance_turn( guy );
+
+    REQUIRE( guy.get_num_dodges_base() == 1 );
+    REQUIRE( guy.get_num_dodges_bonus() == 0 );
+    REQUIRE( guy.get_num_dodges() == 1 );
+    REQUIRE( guy.dodges_left == 1 );
+
+    std::string s_relic = "test_relic_mods_dodges";
+
+    WHEN( "Character has no relics" ) {
+        THEN( "Dodges bonus remain unaffected" ) {
+            guy.moves = 1;
+            guy.dodges_left = 0;
+            advance_turn( guy );
+            check_num_dodges( guy, 1 );
+        }
+    }
+    WHEN( "Character receives relic" ) {
+        give_item( guy, s_relic );
+        THEN( "Nothing changes" ) {
+            check_num_dodges( guy, 1 );
+        }
+        AND_WHEN( "Turn passes" ) {
+            guy.moves = 1;
+            guy.dodges_left = 0;
+            advance_turn( guy );
+            THEN( "Dodge bonus changes, dodges increase" ) {
+                check_num_dodges( guy, 2 );
+            }
+            AND_WHEN( "Character loses relic" ) {
+                clear_items( guy );
+                THEN( "Nothing changes" ) {
+                    check_num_dodges( guy, 2 );
+                }
+                AND_WHEN( "Turn passes" ) {
+                    guy.moves = 1;
+                    guy.dodges_left = 0;
+                    advance_turn( guy );
+                    THEN( "Dodge bonus and dodge gain return to normal" ) {
+                        check_num_dodges( guy, 1 );
+                    }
+                }
+            }
+        }
+    }
+    WHEN( "Character receives 10 relics" ) {
+        for( int i = 0; i < 10; i++ ) {
+            give_item( guy, s_relic );
+        }
+        THEN( "Nothing changes" ) {
+            check_num_dodges( guy, 1 );
+        }
+        AND_WHEN( "Turn passes" ) {
+            guy.moves = 1;
+            guy.dodges_left = 0;
+            advance_turn( guy );
+            THEN( "Dodge bonus and dodge gain increase by 10" ) {
+                check_num_dodges( guy, 11 );
+            }
+        }
+    }
+}
+
+TEST_CASE( "Enchantments grant bonus dodges", "[magic][enchantment][dodge]" )
+{
+    clear_all_state();
+    Character &guy = get_player_character();
+    clear_character( *guy.as_player(), true );
+
+    tests_num_dodges( guy );
+}
