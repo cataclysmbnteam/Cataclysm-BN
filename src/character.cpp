@@ -4973,6 +4973,11 @@ needs_rates Character::calc_needs_rates() const
         rates.thirst *= 0.25f;
     }
 
+    rates.thirst = std::max( rates.thirst, 0.0f );
+    rates.hunger = std::max( rates.hunger, 0.0f );
+    rates.fatigue = std::max( rates.fatigue, 0.0f );
+    rates.recovery = std::max( rates.recovery, 0.0f );
+
     return rates;
 }
 

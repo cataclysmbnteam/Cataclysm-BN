@@ -674,3 +674,94 @@ TEST_CASE( "Enchantments modify stamina", "[magic][enchantment][stamina]" )
         tests_stamina( guy, 12500, 11250, 27.0f, 25.0f );
     }
 }
+
+template<typename F>
+static void tests_need_rate( Character &guy, const std::string &s_relic, float norm, float exp,
+                             F getter )
+{
+    guy.recalculate_enchantment_cache();
+    advance_turn( guy );
+
+    REQUIRE( getter( guy ) == Approx( norm ) );
+
+    WHEN( "Character receives relic" ) {
+        give_item( guy, s_relic );
+        THEN( "Need rate changes" ) {
+            CHECK( getter( guy ) == Approx( exp ) );
+            AND_WHEN( "Character loses relic" ) {
+                clear_items( guy );
+                THEN( "Need rate goes back to normal" ) {
+                    CHECK( getter( guy ) == Approx( norm ) );
+                }
+            }
+        }
+    }
+    WHEN( "Character receives 15 relics" ) {
+        for( int i = 0; i < 15; i++ ) {
+            give_item( guy, s_relic );
+        }
+        THEN( "Need rate does not go below 0" ) {
+            CHECK( getter( guy ) == Approx( 0.0f ) );
+        }
+    }
+}
+
+TEST_CASE( "Enchantments modify thirst rate", "[magic][enchantment][thirst]" )
+{
+    clear_all_state();
+    Character &guy = get_player_character();
+    clear_character( *guy.as_player(), true );
+
+    guy.recalculate_enchantment_cache();
+    advance_turn( guy );
+
+    std::string s_relic = "test_relic_mods_thirst";
+    const auto getter = []( const Character & guy ) -> float {
+        return guy.calc_needs_rates().thirst;
+    };
+
+    const float normal_rate = get_option<float>( "PLAYER_THIRST_RATE" );
+    REQUIRE( normal_rate == Approx( 1.0f ) );
+    REQUIRE( getter( guy ) == Approx( normal_rate ) );
+
+    SECTION( "Clean character" ) {
+        tests_need_rate( guy, s_relic, 1.0f, 0.9f, getter );
+    }
+    SECTION( "Character with THIRST trait" ) {
+        trait_id tr( "THIRST" );
+        guy.set_mutation( tr );
+        REQUIRE( guy.has_trait( tr ) );
+
+        tests_need_rate( guy, s_relic, 1.5f, 1.4f, getter );
+    }
+}
+
+TEST_CASE( "Enchantments modify fatigue rate", "[magic][enchantment][fatigue]" )
+{
+    clear_all_state();
+    Character &guy = get_player_character();
+    clear_character( *guy.as_player(), true );
+
+    guy.recalculate_enchantment_cache();
+    advance_turn( guy );
+
+    std::string s_relic = "test_relic_mods_fatigue";
+    const auto getter = []( const Character & guy ) -> float {
+        return guy.calc_needs_rates().fatigue;
+    };
+
+    const float normal_rate = get_option<float>( "PLAYER_THIRST_RATE" );
+    REQUIRE( normal_rate == Approx( 1.0f ) );
+    REQUIRE( getter( guy ) == Approx( normal_rate ) );
+
+    SECTION( "Clean character" ) {
+        tests_need_rate( guy, s_relic, 1.0f, 0.9f, getter );
+    }
+    SECTION( "Character with WAKEFUL trait" ) {
+        trait_id tr( "WAKEFUL" );
+        guy.set_mutation( tr );
+        REQUIRE( guy.has_trait( tr ) );
+
+        tests_need_rate( guy, s_relic, 0.85f, 0.75f, getter );
+    }
+}
