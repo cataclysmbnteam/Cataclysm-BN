@@ -4917,7 +4917,8 @@ needs_rates Character::calc_needs_rates() const
     static const std::string player_thirst_rate( "PLAYER_THIRST_RATE" );
     rates.thirst = get_option< float >( player_thirst_rate );
     static const std::string thirst_modifier( "thirst_modifier" );
-    rates.thirst *= 1.0f + mutation_value( thirst_modifier );
+    rates.thirst *= 1.0f + mutation_value( thirst_modifier ) +
+                    bonus_from_enchantments( 1.0, enchant_vals::mod::THIRST );
     static const std::string slows_thirst( "SLOWS_THIRST" );
     if( worn_with_flag( slows_thirst ) ) {
         rates.thirst *= 0.7f;
@@ -4926,7 +4927,8 @@ needs_rates Character::calc_needs_rates() const
     static const std::string player_fatigue_rate( "PLAYER_FATIGUE_RATE" );
     rates.fatigue = get_option< float >( player_fatigue_rate );
     static const std::string fatigue_modifier( "fatigue_modifier" );
-    rates.fatigue *= 1.0f + mutation_value( fatigue_modifier );
+    rates.fatigue *= 1.0f + mutation_value( fatigue_modifier ) +
+                     bonus_from_enchantments( 1.0, enchant_vals::mod::FATIGUE );
 
     // Note: intentionally not in metabolic rate
     if( has_recycler ) {

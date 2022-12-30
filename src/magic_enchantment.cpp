@@ -430,6 +430,8 @@ double enchantment::calc_bonus( enchant_vals::mod value, double base, bool round
         case enchant_vals::mod::MANA_REGEN:
         case enchant_vals::mod::STAMINA_CAP:
         case enchant_vals::mod::STAMINA_REGEN:
+        case enchant_vals::mod::THIRST:
+        case enchant_vals::mod::FATIGUE:
             use_add = false;
             break;
         default:

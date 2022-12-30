@@ -430,6 +430,18 @@ This modifier ignores `add` field.
 `base_value` here is character's base stamina gain rate modified by mouth encumbrance.
 The final value cannot go below 0.
 
+##### THIRST
+Thirst gain rate.
+This modifier ignores `add` field.
+`base_value` here is character's base thirst gain rate.
+The final value cannot go below 0.
+
+##### FATIGUE
+Fatigue gain rate.
+This modifier ignores `add` field.
+`base_value` here is character's base fatigue gain rate.
+The final value cannot go below 0.
+
 #### Item values
 
 ##### ITEM_ATTACK_COST
@@ -445,8 +457,6 @@ TODO: docs for each
 TODO: some of these are broken/unimplemented
 
 
-* THIRST
-* FATIGUE
 * BONUS_DODGE
 * ARMOR_BASH
 * ARMOR_CUT
