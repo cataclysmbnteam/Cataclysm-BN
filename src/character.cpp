@@ -7112,9 +7112,11 @@ int Character::get_stamina_max() const
 {
     static const std::string player_max_stamina( "PLAYER_MAX_STAMINA" );
     static const std::string max_stamina_modifier( "max_stamina_modifier" );
-    int maxStamina = get_option< int >( player_max_stamina );
+    const int baseMaxStamina = get_option< int >( player_max_stamina );
+    int maxStamina = baseMaxStamina;
     maxStamina *= Character::mutation_value( max_stamina_modifier );
-    return maxStamina;
+    maxStamina += bonus_from_enchantments( maxStamina, enchant_vals::mod::STAMINA_CAP );
+    return std::max( baseMaxStamina / 10, maxStamina );
 }
 
 void Character::set_stamina( int new_stamina )
@@ -7191,7 +7193,8 @@ void Character::update_stamina( int turns )
     // Recover some stamina every turn.
     // max stamina modifers from mutation also affect stamina multi
     float stamina_multiplier = 1.0f + mutation_value( stamina_regen_modifier ) +
-                               ( mutation_value( "max_stamina_modifier" ) - 1.0f );
+                               ( mutation_value( "max_stamina_modifier" ) - 1.0f ) +
+                               bonus_from_enchantments( 1.0, enchant_vals::mod::STAMINA_REGEN );
     // But mouth encumbrance interferes, even with mutated stamina.
     stamina_recovery += stamina_multiplier * std::max( 1.0f,
                         base_regen_rate - ( encumb( bp_mouth ) / 5.0f ) );
@@ -7210,6 +7213,7 @@ void Character::update_stamina( int turns )
         // at 50% stamina its -10 (50%), cuts by 25% at 25% stamina
         stamina_recovery += current_stim / 5.0f * get_stamina() / get_stamina_max();
     }
+    stamina_recovery = std::max( 0.0f, stamina_recovery );
 
     const int max_stam = get_stamina_max();
     if( get_power_level() >= 3_kJ && has_active_bionic( bio_gills ) ) {

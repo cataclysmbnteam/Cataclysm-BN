@@ -418,6 +418,18 @@ This modifier ignores `add` field.
 `base_value` here is character's base mana gain rate modified by traits.
 The final value cannot go below 0.
 
+##### STAMINA_CAP
+Stamina capacity.
+This modifier ignores `add` field.
+`base_value` here is character's base stamina capacity modified by traits.
+The final value cannot go below 10% of `PLAYER_MAX_STAMINA`.
+
+##### STAMINA_REGEN
+Stamina regeneration rate.
+This modifier ignores `add` field.
+`base_value` here is character's base stamina gain rate modified by mouth encumbrance.
+The final value cannot go below 0.
+
 #### Item values
 
 ##### ITEM_ATTACK_COST

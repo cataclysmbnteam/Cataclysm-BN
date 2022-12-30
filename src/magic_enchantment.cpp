@@ -81,8 +81,8 @@ namespace io
             case enchant_vals::mod::METABOLISM: return "METABOLISM";
             case enchant_vals::mod::MANA_CAP: return "MANA_CAP";
             case enchant_vals::mod::MANA_REGEN: return "MANA_REGEN";
-            case enchant_vals::mod::MAX_STAMINA: return "MAX_STAMINA";
-            case enchant_vals::mod::REGEN_STAMINA: return "REGEN_STAMINA";
+            case enchant_vals::mod::STAMINA_CAP: return "STAMINA_CAP";
+            case enchant_vals::mod::STAMINA_REGEN: return "STAMINA_REGEN";
             case enchant_vals::mod::THIRST: return "THIRST";
             case enchant_vals::mod::FATIGUE: return "FATIGUE";
             case enchant_vals::mod::BONUS_DODGE: return "BONUS_DODGE";
@@ -133,6 +133,10 @@ static std::string migrate_ench_vals_enums( const std::string &s )
         return "MANA_CAP";
     } else if( s == "REGEN_MANA" ) {
         return "MANA_REGEN";
+    } else if( s == "MAX_STAMINA" ) {
+        return "STAMINA_CAP";
+    } else if( s == "REGEN_STAMINA" ) {
+        return "STAMINA_REGEN";
     }
     return s;
 }
@@ -424,6 +428,8 @@ double enchantment::calc_bonus( enchant_vals::mod value, double base, bool round
     switch( value ) {
         case enchant_vals::mod::METABOLISM:
         case enchant_vals::mod::MANA_REGEN:
+        case enchant_vals::mod::STAMINA_CAP:
+        case enchant_vals::mod::STAMINA_REGEN:
             use_add = false;
             break;
         default:
