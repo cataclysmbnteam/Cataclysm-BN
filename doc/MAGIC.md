@@ -456,6 +456,21 @@ Ignores condition / location, and is always active.
 `base_value` here is base item attack cost.
 Note that the final value cannot go below 0.
 
+##### ITEM_ARMOR_X
+Incoming damage modifier for this item, applied before the damage is absorbed by the item.
+Note that `base_value` here is incoming damage value of corresponding type,
+so positive `add` and greater than 1 `mul` will **increase** damage received by the character.
+Each damage type has its own enchant value:
+* `ITEM_ARMOR_ACID`
+* `ITEM_ARMOR_BASH`
+* `ITEM_ARMOR_BIO`
+* `ITEM_ARMOR_BULLET`
+* `ITEM_ARMOR_COLD`
+* `ITEM_ARMOR_CUT`
+* `ITEM_ARMOR_ELEC`
+* `ITEM_ARMOR_HEAT`
+* `ITEM_ARMOR_STAB`
+
 ##### TODO
 
 TODO: docs for each
@@ -482,14 +497,6 @@ Effects for the item that has the enchantment:
 * ITEM_DAMAGE_ACID
 * ITEM_DAMAGE_BIO
 * ITEM_DAMAGE_AP
-* ITEM_ARMOR_BASH
-* ITEM_ARMOR_CUT
-* ITEM_ARMOR_STAB
-* ITEM_ARMOR_HEAT
-* ITEM_ARMOR_COLD
-* ITEM_ARMOR_ELEC
-* ITEM_ARMOR_ACID
-* ITEM_ARMOR_BIO
 
 ## Examples
 ```json
