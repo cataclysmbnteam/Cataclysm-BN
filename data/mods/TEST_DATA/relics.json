@@ -147,5 +147,32 @@
     "relic_data": {
       "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 1 } ] } ]
     }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_relic_mods_cut_dmg",
+    "copy-from": "test_balanced_sword",
+    "name": "TEST relic mods cut dmg",
+    "relic_data": {
+      "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_CUT", "multiply": -0.5, "add": 1 } ] } ]
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_relic_mods_stab_dmg",
+    "copy-from": "test_screwdriver",
+    "name": "TEST relic mods stab dmg",
+    "relic_data": {
+      "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_STAB", "multiply": -0.5, "add": 1 } ] } ]
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_relic_mods_bash_dmg",
+    "copy-from": "test_halligan",
+    "name": "TEST relic mods bash dmg",
+    "relic_data": {
+      "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_BASH", "multiply": -0.5, "add": 1 } ] } ]
+    }
   }
 ]

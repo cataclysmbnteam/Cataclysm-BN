@@ -19,10 +19,11 @@ static void advance_turn( Character &guy )
     calendar::turn += 1_turns;
 }
 
-static void give_item( Character &guy, const std::string &item_id )
+static item &give_item( Character &guy, const std::string &item_id )
 {
-    guy.i_add( item( item_id ) );
+    item &ret = guy.i_add( item( item_id ) );
     guy.recalculate_enchantment_cache();
+    return ret;
 }
 
 static void clear_items( Character &guy )
@@ -850,4 +851,33 @@ TEST_CASE( "Enchantments grant bonus dodges", "[magic][enchantment][dodge]" )
     clear_character( *guy.as_player(), true );
 
     tests_num_dodges( guy );
+}
+
+TEST_CASE( "Item enchantments modify item damage", "[magic][enchantment]" )
+{
+    clear_all_state();
+    Character &guy = get_player_character();
+    clear_character( *guy.as_player(), true );
+
+    SECTION( "Cut damage" ) {
+        item &base = give_item( guy, "test_balanced_sword" );
+        item &impr = give_item( guy, "test_relic_mods_cut_dmg" );
+
+        REQUIRE( base.damage_melee( damage_type::DT_CUT ) == 32 );
+        CHECK( impr.damage_melee( damage_type::DT_CUT ) == 17 );
+    }
+    SECTION( "Stab damage" ) {
+        item &base = give_item( guy, "test_screwdriver" );
+        item &impr = give_item( guy, "test_relic_mods_stab_dmg" );
+
+        REQUIRE( base.damage_melee( damage_type::DT_STAB ) == 6 );
+        CHECK( impr.damage_melee( damage_type::DT_STAB ) == 4 );
+    }
+    SECTION( "Bash damage" ) {
+        item &base = give_item( guy, "test_halligan" );
+        item &impr = give_item( guy, "test_relic_mods_bash_dmg" );
+
+        REQUIRE( base.damage_melee( damage_type::DT_BASH ) == 20 );
+        CHECK( impr.damage_melee( damage_type::DT_BASH ) == 11 );
+    }
 }
