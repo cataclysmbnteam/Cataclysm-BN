@@ -555,3 +555,122 @@ TEST_CASE( "Mana pool", "[magic][enchantment][mana][bionic]" )
         tests_mana_pool_section( it );
     }
 }
+
+static float measure_stamina_gain_rate( Character &guy )
+{
+    int gained_total = 0;
+    // Stamina regen rate is supposed to decrease over time as character gains stamina,
+    // so we measure 100 times on same level instead of doing update_stamina( 100 )
+    for( int i = 0; i < 100; i++ ) {
+        guy.set_stamina( 0 );
+        if( guy.get_stamina() != 0 ) {
+            // Hide this behind an if check to avoid spamming check counter
+            REQUIRE( guy.get_stamina() == 0 );
+        }
+        guy.update_stamina( 1 );
+        gained_total += guy.get_stamina();
+    }
+    return gained_total / 100.0f;
+}
+
+static void tests_stamina( Character &guy,
+                           int cap_norm, int cap_exp,
+                           float rate_norm, float rate_exp
+                         )
+{
+    guy.recalculate_enchantment_cache();
+    advance_turn( guy );
+
+    std::string s_relic = "test_relic_mods_stamina";
+
+    REQUIRE( guy.get_stamina_max() == cap_norm );
+    REQUIRE( measure_stamina_gain_rate( guy ) == Approx( rate_norm ) );
+
+    WHEN( "Character receives relic" ) {
+        give_item( guy, s_relic );
+        THEN( "Stamina cap changes" ) {
+            CHECK( guy.get_stamina_max() == cap_exp );
+            AND_WHEN( "Character loses relic" ) {
+                clear_items( guy );
+                THEN( "Stamina cap goes back to normal" ) {
+                    CHECK( guy.get_stamina_max() == cap_norm );
+                }
+            }
+        }
+        THEN( "Stamina gain rate changes" ) {
+            CHECK( measure_stamina_gain_rate( guy ) == Approx( rate_exp ) );
+            AND_WHEN( "Character loses relic" ) {
+                clear_items( guy );
+                THEN( "Stamina gain rate goes back to normal" ) {
+                    CHECK( measure_stamina_gain_rate( guy ) == Approx( rate_norm ) );
+                }
+            }
+        }
+    }
+    WHEN( "Character receives 15 relics" ) {
+        for( int i = 0; i < 15; i++ ) {
+            give_item( guy, s_relic );
+        }
+        THEN( "Stamina cap does not go below 0.1 of PLAYER_MAX_STAMINA" ) {
+            const int base_cap = get_option<int>( "PLAYER_MAX_STAMINA" );
+            CHECK( guy.get_stamina_max() == ( base_cap / 10 ) );
+        }
+        THEN( "Stamina gain rate does not go below 0" ) {
+            CHECK( measure_stamina_gain_rate( guy ) == Approx( 0.0f ) );
+        }
+    }
+}
+
+TEST_CASE( "Enchantments modify stamina", "[magic][enchantment][stamina]" )
+{
+    clear_all_state();
+    Character &guy = get_player_character();
+    clear_character( *guy.as_player(), true );
+
+    guy.recalculate_enchantment_cache();
+    advance_turn( guy );
+
+    REQUIRE( guy.get_stim() == 0 );
+
+    const int normal_cap = get_option<int>( "PLAYER_MAX_STAMINA" );
+    REQUIRE( normal_cap == 10000 );
+    REQUIRE( guy.get_stamina_max() == normal_cap );
+
+    const float normal_rate = get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" );
+    REQUIRE( normal_rate == Approx( 20.0f ) );
+    REQUIRE( measure_stamina_gain_rate( guy ) == Approx( normal_rate ) );
+
+    guy.set_stamina( 0 );
+    REQUIRE( guy.get_stamina() == 0 );
+
+    SECTION( "Clean character" ) {
+        tests_stamina( guy, 10000, 9000, 20.0f, 18.0f );
+    }
+    SECTION( "Character with GOODCARDIO trait" ) {
+        trait_id tr( "GOODCARDIO" );
+        guy.set_mutation( tr );
+        REQUIRE( guy.has_trait( tr ) );
+
+        tests_stamina( guy, 12500, 11250, 25.0f, 23.0f );
+    }
+    SECTION( "Character with PERSISTENCE_HUNTER trait" ) {
+        trait_id tr( "PERSISTENCE_HUNTER" );
+        guy.set_mutation( tr );
+        REQUIRE( guy.has_trait( tr ) );
+
+        tests_stamina( guy, 10000, 9000, 22.0f, 20.0f );
+    }
+    SECTION( "Character with GOODCARDIO and PERSISTENCE_HUNTER traits" ) {
+        {
+            trait_id tr( "GOODCARDIO" );
+            guy.set_mutation( tr );
+            REQUIRE( guy.has_trait( tr ) );
+        }
+        {
+            trait_id tr( "PERSISTENCE_HUNTER" );
+            guy.set_mutation( tr );
+            REQUIRE( guy.has_trait( tr ) );
+        }
+        tests_stamina( guy, 12500, 11250, 27.0f, 25.0f );
+    }
+}

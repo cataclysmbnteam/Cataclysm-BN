@@ -108,5 +108,17 @@
         }
       ]
     }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_relic_mods_stamina",
+    "copy-from": "test_relic_base",
+    "name": "TEST relic mods stamina rate",
+    "relic_data": {
+      "passive_effects": [
+        { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "STAMINA_CAP", "multiply": -0.1 } ] },
+        { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "STAMINA_REGEN", "multiply": -0.1 } ] }
+      ]
+    }
   }
 ]

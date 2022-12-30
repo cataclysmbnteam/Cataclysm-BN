@@ -7213,6 +7213,7 @@ void Character::update_stamina( int turns )
         // At -100 stim it inflicts -20 malus to regen at 100%  stamina,
         // effectivly countering stamina gain of default 20,
         // at 50% stamina its -10 (50%), cuts by 25% at 25% stamina
+        // FIXME: this formula is only suitable for advancing by 1 turn
         stamina_recovery += current_stim / 5.0f * get_stamina() / get_stamina_max();
     }
     stamina_recovery = std::max( 0.0f, stamina_recovery );
