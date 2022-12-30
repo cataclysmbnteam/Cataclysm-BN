@@ -144,17 +144,18 @@ namespace io
     // *INDENT-ON*
 } // namespace io
 
-static void migrate_ench_vals_enums( std::string &s )
+static std::string migrate_ench_vals_enums( const std::string &s )
 {
     if( s == "ITEM_ATTACK_SPEED" ) {
-        s = "ITEM_ATTACK_COST";
+        return "ITEM_ATTACK_COST";
     } else if( s == "ATTACK_SPEED" ) {
-        s = "ATTACK_COST";
+        return "ATTACK_COST";
     } else if( s == "MAX_MANA" ) {
-        s = "MANA_CAP";
+        return "MANA_CAP";
     } else if( s == "REGEN_MANA" ) {
-        s = "MANA_REGEN";
+        return "MANA_REGEN";
     }
+    return s;
 }
 
 namespace
@@ -267,8 +268,15 @@ void enchantment::load( const JsonObject &jo, const std::string & )
     if( jo.has_array( "values" ) ) {
         for( const JsonObject value_obj : jo.get_array( "values" ) ) {
             std::string value_raw = value_obj.get_string( "value" );
-            migrate_ench_vals_enums( value_raw );
-            const enchant_vals::mod value = io::string_to_enum<enchant_vals::mod>( value_raw );
+            std::string value_new = migrate_ench_vals_enums( value_raw );
+            if( json_report_strict && value_new != value_raw ) {
+                try {
+                    value_obj.throw_error( string_format( "%s has been renamed to %s", value_raw, value_new ) );
+                } catch( const std::exception &e ) {
+                    debugmsg( "%s", e.what() );
+                }
+            }
+            const enchant_vals::mod value = io::string_to_enum<enchant_vals::mod>( value_new );
 
             const int add = value_obj.get_int( "add", 0 );
             const double mult = value_obj.get_float( "multiply", 0.0 );
