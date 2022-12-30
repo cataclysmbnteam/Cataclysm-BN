@@ -7993,7 +7993,9 @@ static void destroyed_armor_msg( Character &who, const std::string &pre_damage_n
                                pre_damage_name );
 }
 
-static void item_armor_enchantment_adjust( Character &guy, damage_unit &du, item &armor )
+static void item_armor_enchantment_adjust(
+    const Character &guy, damage_unit &du, const item &armor
+)
 {
     switch( du.type ) {
         case DT_ACID:
@@ -8031,7 +8033,7 @@ static void item_armor_enchantment_adjust( Character &guy, damage_unit &du, item
 
 // adjusts damage unit depending on type by enchantments.
 // the ITEM_ enchantments only affect the damage resistance for that one item, while the others affect all of them
-static void armor_enchantment_adjust( Character &guy, damage_unit &du )
+static void armor_enchantment_adjust( const Character &guy, damage_unit &du )
 {
     switch( du.type ) {
         case DT_ACID:
