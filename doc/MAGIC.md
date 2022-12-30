@@ -442,6 +442,12 @@ This modifier ignores `add` field.
 `base_value` here is character's base fatigue gain rate.
 The final value cannot go below 0.
 
+##### BONUS_DODGE
+Dodges per turn.
+`base_value` here is character's base dodges per turn.
+The final value can go below 0, which results in penalty to dodge roll.
+
+
 #### Item values
 
 ##### ITEM_ATTACK_COST
@@ -457,7 +463,6 @@ TODO: docs for each
 TODO: some of these are broken/unimplemented
 
 
-* BONUS_DODGE
 * ARMOR_BASH
 * ARMOR_CUT
 * ARMOR_STAB
