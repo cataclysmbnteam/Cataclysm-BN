@@ -174,5 +174,29 @@
     "relic_data": {
       "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_BASH", "multiply": -0.5, "add": 1 } ] } ]
     }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_relic_item_armor_mod",
+    "copy-from": "test_hazmat_suit",
+    "name": "TEST relic item armor mod",
+    "relic_data": {
+      "passive_effects": [
+        { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ITEM_ARMOR_CUT", "multiply": -0.5, "add": 3 } ] },
+        { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ITEM_ARMOR_BASH", "multiply": 0.5, "add": -3 } ] }
+      ]
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_relic_char_armor_mod",
+    "copy-from": "test_socks",
+    "name": "TEST relic character armor mod",
+    "relic_data": {
+      "passive_effects": [
+        { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_CUT", "multiply": -0.5, "add": -2 } ] },
+        { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_STAB", "multiply": -0.1, "add": -3 } ] }
+      ]
+    }
   }
 ]
