@@ -447,6 +447,21 @@ Dodges per turn.
 `base_value` here is character's base dodges per turn.
 The final value can go below 0, which results in penalty to dodge roll.
 
+##### ARMOR_X
+Incoming damage modifier.
+Applied after Active Defense System bionic but before the damage is absorbed by items.
+Note that `base_value` here is incoming damage value of corresponding type,
+so positive `add` and greater than 1 `mul` will **increase** damage received by the character.
+Each damage type has its own enchant value:
+* `ARMOR_ACID`
+* `ARMOR_BASH`
+* `ARMOR_BIO`
+* `ARMOR_BULLET`
+* `ARMOR_COLD`
+* `ARMOR_CUT`
+* `ARMOR_ELEC`
+* `ARMOR_HEAT`
+* `ARMOR_STAB`
 
 #### Item values
 
@@ -477,15 +492,6 @@ TODO: docs for each
 
 TODO: some of these are broken/unimplemented
 
-
-* ARMOR_BASH
-* ARMOR_CUT
-* ARMOR_STAB
-* ARMOR_HEAT
-* ARMOR_COLD
-* ARMOR_ELEC
-* ARMOR_ACID
-* ARMOR_BIO
 
 Effects for the item that has the enchantment:
 * ITEM_DAMAGE_BASH
