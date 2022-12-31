@@ -46,7 +46,6 @@ TEST_CASE( "Enchantments grant mutations", "[magic][enchantment][trait][mutation
     Character &guy = get_player_character();
     clear_character( *guy.as_player(), true );
 
-    guy.recalculate_enchantment_cache();
     advance_turn( guy );
 
     std::string s_relic = "test_relic_gives_trait";
@@ -115,7 +114,6 @@ TEST_CASE( "Enchantments apply effects", "[magic][enchantment][effect]" )
     Character &guy = get_player_character();
     clear_character( *guy.as_player(), true );
 
-    guy.recalculate_enchantment_cache();
     advance_turn( guy );
 
     std::string s_relic = "architect_cube";
@@ -167,7 +165,6 @@ static void tests_stats( Character &guy, int s_base, int d_base, int p_base, int
     guy.per_max = p_base;
     guy.int_max = i_base;
 
-    guy.recalculate_enchantment_cache();
     advance_turn( guy );
 
     auto check_stats = [&]( int s, int d, int p, int i ) {
@@ -234,7 +231,6 @@ TEST_CASE( "Enchantments modify stats", "[magic][enchantment][character]" )
 
 static void tests_speed( Character &guy, int sp_base, int sp_exp )
 {
-    guy.recalculate_enchantment_cache();
     guy.set_speed_base( sp_base );
     guy.set_speed_bonus( 0 );
 
@@ -320,7 +316,6 @@ TEST_CASE( "Enchantments modify speed", "[magic][enchantment][speed]" )
 static void tests_attack_cost( Character &guy, const item &weap, int item_atk_cost,
                                int guy_atk_cost, int exp_guy_atk_cost )
 {
-    guy.recalculate_enchantment_cache();
     advance_turn( guy );
 
     REQUIRE( weap.attack_cost() == item_atk_cost );
@@ -366,7 +361,6 @@ TEST_CASE( "Enchantments modify attack cost", "[magic][enchantment][melee]" )
 
 static void tests_move_cost( Character &guy, int tile_move_cost, int move_cost, int exp_move_cost )
 {
-    guy.recalculate_enchantment_cache();
     advance_turn( guy );
 
     std::string s_relic = "test_relic_mods_mv_cost";
@@ -425,7 +419,6 @@ TEST_CASE( "Enchantments modify move cost", "[magic][enchantment][move]" )
 
 static void tests_metabolic_rate( Character &guy, float norm, float exp )
 {
-    guy.recalculate_enchantment_cache();
     advance_turn( guy );
 
     std::string s_relic = "test_relic_mods_metabolism";
@@ -460,7 +453,6 @@ TEST_CASE( "Enchantments modify metabolic rate", "[magic][enchantment][metabolis
     Character &guy = get_player_character();
     clear_character( *guy.as_player(), true );
 
-    guy.recalculate_enchantment_cache();
     advance_turn( guy );
 
     const float normal_mr = get_option<float>( "PLAYER_HUNGER_RATE" );
@@ -504,7 +496,6 @@ static void tests_mana_pool( Character &guy, const mana_test_case &t )
     double norm_regen_rate = t.norm_regen_amt_8h / to_turns<double>( time_duration::from_hours( 8 ) );
     double exp_regen_rate = t.exp_regen_amt_8h / to_turns<double>( time_duration::from_hours( 8 ) );
 
-    guy.recalculate_enchantment_cache();
     advance_turn( guy );
 
     guy.set_max_power_level( 2000_kJ );
@@ -587,7 +578,6 @@ static void tests_stamina( Character &guy,
                            float rate_norm, float rate_exp
                          )
 {
-    guy.recalculate_enchantment_cache();
     advance_turn( guy );
 
     std::string s_relic = "test_relic_mods_stamina";
@@ -636,7 +626,6 @@ TEST_CASE( "Enchantments modify stamina", "[magic][enchantment][stamina]" )
     Character &guy = get_player_character();
     clear_character( *guy.as_player(), true );
 
-    guy.recalculate_enchantment_cache();
     advance_turn( guy );
 
     REQUIRE( guy.get_stim() == 0 );
@@ -688,7 +677,6 @@ template<typename F>
 static void tests_need_rate( Character &guy, const std::string &s_relic, float norm, float exp,
                              F getter )
 {
-    guy.recalculate_enchantment_cache();
     advance_turn( guy );
 
     REQUIRE( getter( guy ) == Approx( norm ) );
@@ -721,7 +709,6 @@ TEST_CASE( "Enchantments modify thirst rate", "[magic][enchantment][thirst]" )
     Character &guy = get_player_character();
     clear_character( *guy.as_player(), true );
 
-    guy.recalculate_enchantment_cache();
     advance_turn( guy );
 
     std::string s_relic = "test_relic_mods_thirst";
@@ -751,7 +738,6 @@ TEST_CASE( "Enchantments modify fatigue rate", "[magic][enchantment][fatigue]" )
     Character &guy = get_player_character();
     clear_character( *guy.as_player(), true );
 
-    guy.recalculate_enchantment_cache();
     advance_turn( guy );
 
     std::string s_relic = "test_relic_mods_fatigue";
@@ -783,8 +769,6 @@ static void check_num_dodges( const Character &guy, int num )
 
 static void tests_num_dodges( Character &guy )
 {
-    guy.recalculate_enchantment_cache();
-
     // Must have some moves to gain dodges
     guy.moves = 1;
     guy.dodges_left = 0;
