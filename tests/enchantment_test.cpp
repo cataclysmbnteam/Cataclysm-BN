@@ -896,23 +896,35 @@ TEST_CASE( "Armor enchantments", "[magic][enchantment][armor]" )
     SECTION( "Armor item with no enchantments" ) {
         wear_item( guy, "test_hazmat_suit" );
 
-        // 10 (incoming) - 4 (base item cut armor) = 6 (4 absorbed)
-        CHECK( calc_damage_absorb( guy, damage_type::DT_CUT, 10 ) == 4 );
-        // 10 (incoming) - 4 (base item bash armor) = 6 (4 absorbed)
-        CHECK( calc_damage_absorb( guy, damage_type::DT_BASH, 10 ) == 4 );
-        // 10 (incoming) - 3 (base item stab armor) = 7 (3 absorbed)
-        CHECK( calc_damage_absorb( guy, damage_type::DT_STAB, 10 ) == 3 );
+        SECTION( "Cut" ) {
+            // 10 (incoming) - 4 (base item cut armor) = 6 (4 absorbed)
+            CHECK( calc_damage_absorb( guy, damage_type::DT_CUT, 10 ) == 4 );
+        }
+        SECTION( "Bash" ) {
+            // 10 (incoming) - 4 (base item bash armor) = 6 (4 absorbed)
+            CHECK( calc_damage_absorb( guy, damage_type::DT_BASH, 10 ) == 4 );
+        }
+        SECTION( "Stab" ) {
+            // 10 (incoming) - 3 (base item stab armor) = 7 (3 absorbed)
+            CHECK( calc_damage_absorb( guy, damage_type::DT_STAB, 10 ) == 3 );
+        }
     }
 
     SECTION( "Armor item with enchantment that trades bash armor for cut armor" ) {
         wear_item( guy, "test_relic_item_armor_mod" );
 
-        // 10 (incoming) + (10 * -0.5 + 3) (enchantment) - 4 (base item cut armor) = 4 (6 absorbed)
-        CHECK( calc_damage_absorb( guy, damage_type::DT_CUT, 10 ) == 6 );
-        // 10 (incoming) + (10 * 0.5 - 3) (enchantment) - 4 (base item bash armor) = 8 (2 absorbed)
-        CHECK( calc_damage_absorb( guy, damage_type::DT_BASH, 10 ) == 2 );
-        // 10 (incoming) - 3 (base item stab armor) = 7 (3 absorbed)
-        CHECK( calc_damage_absorb( guy, damage_type::DT_STAB, 10 ) == 3 );
+        SECTION( "Cut" ) {
+            // 10 (incoming) + (10 * -0.5 + 3) (enchantment) - 4 (base item cut armor) = 4 (6 absorbed)
+            CHECK( calc_damage_absorb( guy, damage_type::DT_CUT, 10 ) == 6 );
+        }
+        SECTION( "Bash" ) {
+            // 10 (incoming) + (10 * 0.5 - 3) (enchantment) - 4 (base item bash armor) = 8 (2 absorbed)
+            CHECK( calc_damage_absorb( guy, damage_type::DT_BASH, 10 ) == 2 );
+        }
+        SECTION( "Stab" ) {
+            // 10 (incoming) - 3 (base item stab armor) = 7 (3 absorbed)
+            CHECK( calc_damage_absorb( guy, damage_type::DT_STAB, 10 ) == 3 );
+        }
     }
 
     SECTION( "Armor item with no enchantments + socks of protection" ) {
@@ -920,11 +932,17 @@ TEST_CASE( "Armor enchantments", "[magic][enchantment][armor]" )
         // The socks provide character-wide protection regardless of what body parts they cover
         wear_item( guy, "test_relic_char_armor_mod" );
 
-        // 10 (incoming) + (10 * -0.5 - 2) (enchantment) - 4 (base item cut armor) = -1 (10 absorbed)
-        CHECK( calc_damage_absorb( guy, damage_type::DT_CUT, 10 ) == 10 );
-        // 10 (incoming) - 4 (base item bash armor) = 6 (4 absorbed)
-        CHECK( calc_damage_absorb( guy, damage_type::DT_BASH, 10 ) == 4 );
-        // 10 (incoming) + (10 * -0.1 - 3) (enchantment) - 3 (base item stab armor) = 3 (7 absorbed)
-        CHECK( calc_damage_absorb( guy, damage_type::DT_STAB, 10 ) == 7 );
+        SECTION( "Cut" ) {
+            // 10 (incoming) + (10 * -0.5 - 2) (enchantment) - 4 (base item cut armor) = -1 (10 absorbed)
+            CHECK( calc_damage_absorb( guy, damage_type::DT_CUT, 10 ) == 10 );
+        }
+        SECTION( "Bash" ) {
+            // 10 (incoming) - 4 (base item bash armor) = 6 (4 absorbed)
+            CHECK( calc_damage_absorb( guy, damage_type::DT_BASH, 10 ) == 4 );
+        }
+        SECTION( "Stab" ) {
+            // 10 (incoming) + (10 * -0.1 - 3) (enchantment) - 3 (base item stab armor) = 3 (7 absorbed)
+            CHECK( calc_damage_absorb( guy, damage_type::DT_STAB, 10 ) == 7 );
+        }
     }
 }
