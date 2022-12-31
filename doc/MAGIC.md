@@ -475,8 +475,8 @@ This modifier ignores `add` field.
 The final value cannot go below 0.
 
 ##### BONUS_DODGE
-Dodges per turn.
-`base_value` here is character's base dodges per turn.
+Additional dodges per turn before dodge penalty kicks in.
+`base_value` here is character's base dodges per turn before penalty (usually 1).
 The final value can go below 0, which results in penalty to dodge roll.
 
 ##### ARMOR_X
