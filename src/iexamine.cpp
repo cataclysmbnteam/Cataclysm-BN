@@ -5486,7 +5486,7 @@ void iexamine::mill_finalize( player &, const tripoint &examp, const time_point 
 
     for( item &it : items ) {
         if( it.type->milling_data ) {
-            it.calc_rot_while_processing( milling_time );
+            it.mod_last_rot_check( milling_time );
             const islot_milling &mdata = *it.type->milling_data;
             item result( mdata.into_, start_time + milling_time, it.count() * mdata.conversion_rate_ );
             result.components.push_back( it );
@@ -5533,7 +5533,7 @@ static void smoker_finalize( player &, const tripoint &examp, const time_point &
             if( it.get_comestible()->smoking_result.is_empty() ) {
                 it.unset_flag( flag_PROCESSING );
             } else {
-                it.calc_rot_while_processing( 6_hours );
+                it.mod_last_rot_check( 6_hours );
 
                 item result( it.get_comestible()->smoking_result, start_time + 6_hours, it.charges );
 

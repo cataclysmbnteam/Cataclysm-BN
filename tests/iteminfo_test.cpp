@@ -15,11 +15,30 @@
 #include "type_id.h"
 #include "value_ptr.h"
 
+std::string escape_newlines( const std::string &input )
+{
+    std::string output;
+    std::size_t pos = 0;
+    while( pos != std::string::npos ) {
+        std::size_t newlinePos = input.find( '\n', pos );
+        if( newlinePos != std::string::npos ) {
+            output += input.substr( pos, newlinePos - pos ) + "\\n\n";
+            pos = newlinePos + 1;
+        } else {
+            output += input.substr( pos );
+            pos = newlinePos;
+        }
+    }
+    return output;
+}
+
 static void test_info_equals( const item &i, const iteminfo_query &q,
                               const std::string &reference )
 {
     g->u.clear_mutations();
     std::string info = i.info_string( q, 1 );
+    CAPTURE( escape_newlines( info ) );
+    CAPTURE( escape_newlines( reference ) );
     CHECK( info == reference );
 }
 
@@ -374,6 +393,9 @@ TEST_CASE( "nutrients in food", "[item][iteminfo][food]" )
     }
 }
 
+// TODO: Clean up before merging
+#include "output.h"
+
 TEST_CASE( "food freshness and lifetime", "[item][iteminfo][food]" )
 {
     iteminfo_query q = q_vec( { iteminfo_parts::FOOD_ROT } );
@@ -388,6 +410,8 @@ TEST_CASE( "food freshness and lifetime", "[item][iteminfo][food]" )
             "--\n"
             "* This food is <color_c_yellow>perishable</color>, and at room temperature has"
             " an estimated nominal shelf life of <color_c_cyan>3 seasons</color>.\n"
+            "* Current storage conditions <color_c_red>do not</color> protect this item"
+            " from rot.  It will stay fresh at least <color_c_cyan>14 hours</color>.\n"
             "* This food looks as <color_c_green>fresh</color> as it can be.\n" );
     }
 
@@ -399,8 +423,29 @@ TEST_CASE( "food freshness and lifetime", "[item][iteminfo][food]" )
             "--\n"
             "* This food is <color_c_yellow>perishable</color>, and at room temperature has"
             " an estimated nominal shelf life of <color_c_cyan>3 seasons</color>.\n"
-            "* This food looks <color_c_red>old</color>.  It's on the brink of becoming inedible.\n" );
+            "* Current storage conditions <color_c_red>do not</color> protect this item"
+            " from rot.  It will stay fresh at least <color_c_cyan>0 seconds</color>.\n"
+            "* This food looks <color_c_red>old</color>.  It's on the brink of becoming inedible.\n"
+        );
     }
+
+    /*
+        SECTION( "food is stored in a fridge" ) {
+            item nuts( "test_pine_nuts" );
+            get_avatar().clear_mutations();
+            std::string reference = "--\n"
+                                    "* This food is <color_c_yellow>perishable</color>, and at room temperature has"
+                                    " an estimated nominal shelf life of <color_c_cyan>3 seasons</color>.\n"
+                                    "* This food looks <color_c_red>old</color>.  It's on the brink of becoming inedible.\n"
+                                    "* Current storage conditions <color_c_red>do not</color> protect this item"
+                                    " from rot.  It will stay fresh at least <color_c_cyan>0 seconds</color>.\n"
+                                    "* This food looks <color_c_red>old</color>.  It's on the brink of becoming"
+                                    " inedible.";
+            std::vector<iteminfo> item_info = nuts.info( q, 1, temperature_flag::TEMP_FRIDGE );
+            std::string info = format_item_info( item_info, {} );
+            CHECK( info == reference );
+        }
+        */
 }
 
 TEST_CASE( "item conductivity", "[item][iteminfo][conductivity]" )

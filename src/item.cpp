@@ -1656,7 +1656,8 @@ void item::med_info( const item *med_item, std::vector<iteminfo> &info, const it
 }
 
 void item::food_info( const item *food_item, std::vector<iteminfo> &info,
-                      const iteminfo_query *parts, int batch, bool debug ) const
+                      const iteminfo_query *parts, int batch, bool debug,
+                      temperature_flag temperature ) const
 {
     nutrients min_nutr;
     nutrients max_nutr;
@@ -1798,11 +1799,42 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
                                              "and at room temperature has an estimated nominal "
                                              "shelf life of <info>%s</info>." ), rot_time ) );
 
+
+        std::string temperature_description;
+        // There should be a better way to do this...
+        switch( temperature ) {
+            case temperature_flag::TEMP_NORMAL:
+            case temperature_flag::TEMP_HEATER: {
+                temperature_description = _( "* Current storage conditions <bad>do not</bad> "
+                                             "protect this item from rot.  It will stay fresh at least <info>%s</info>." );
+            }
+            break;
+            case temperature_flag::TEMP_FRIDGE:
+            case temperature_flag::TEMP_ROOT_CELLAR: {
+                temperature_description = _( "* Current storage conditions <neutral>partially</neutral> "
+                                             "protect this item from rot.  It will stay fresh at least <info>%s</info>." );
+            }
+            break;
+            case temperature_flag::TEMP_FREEZER: {
+                temperature_description = _( "* Current storage conditions <good>fully</good> "
+                                             "protect this item from rot.  It will stay fresh indefinitely." );
+            }
+            break;
+        }
+
+        if( temperature != temperature_flag::TEMP_FREEZER ) {
+            time_duration remaining_fresh = minimum_freshness_duration( temperature );
+            std::string time_string = to_string_clipped( remaining_fresh );
+            info.emplace_back( "DESCRIPTION", string_format( temperature_description, time_string ) );
+        } else {
+            info.emplace_back( "DESCRIPTION", temperature_description );
+        }
+
         if( !food_item->rotten() ) {
             info.emplace_back( "DESCRIPTION", get_freshness_description( *food_item ) );
         }
 
-        if( food_item->has_flag( flag_NO_PARASITES ) && you.get_skill_level( skill_cooking ) >= 3 ) {
+        if( food_item->has_flag( flag_NO_PARASITES ) ) {
             info.emplace_back( "DESCRIPTION",
                                _( "* It seems that deep freezing <good>killed all "
                                   "parasites</good>." ) );
@@ -3562,12 +3594,15 @@ void item::contents_info( std::vector<iteminfo> &info, const iteminfo_query *par
     }
 }
 
-void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+void item::final_info( std::vector<iteminfo> &info, const iteminfo_query &parts_ref, int batch,
                        bool debug ) const
 {
     if( is_null() ) {
         return;
     }
+
+    // TODO: Remove
+    const iteminfo_query *parts = &parts_ref;
 
     const std::string space = "  ";
 
@@ -3914,7 +3949,13 @@ std::vector<iteminfo> item::info( int batch ) const
     return info( iteminfo_query::all, batch );
 }
 
-std::vector<iteminfo> item::info( const iteminfo_query &parts_ref, int batch ) const
+std::vector<iteminfo> item::info( temperature_flag temperature ) const
+{
+    return info( iteminfo_query::all, 1, temperature );
+}
+
+std::vector<iteminfo> item::info( const iteminfo_query &parts_ref, int batch,
+                                  temperature_flag temperature ) const
 {
     const bool debug = g != nullptr && debug_mode;
 
@@ -3937,7 +3978,7 @@ std::vector<iteminfo> item::info( const iteminfo_query &parts_ref, int batch ) c
     }
 
     if( const item *food_item = get_food() ) {
-        food_info( food_item, info, parts, batch, debug );
+        food_info( food_item, info, parts, batch, debug, temperature );
     }
 
     container_info( info, parts, batch, debug );
@@ -3984,7 +4025,7 @@ std::vector<iteminfo> item::info( const iteminfo_query &parts_ref, int batch ) c
     repair_info( info, parts, batch, debug );
     disassembly_info( info, parts, batch, debug );
 
-    final_info( info, parts, batch, debug );
+    final_info( info, parts_ref, batch, debug );
 
     if( !info.empty() && info.back().sName == "--" ) {
         info.pop_back();
@@ -5541,15 +5582,15 @@ static int calc_hourly_rotpoints_at_temp( const int temp )
     const int cutoff = 105;     // stop torturing the player at this temperature, which is
     const int cutoffrot = 21240; // ..almost 6 times the base rate. bacteria hate the heat too
 
-    const int dsteps = dropoff - temperatures::freezing;
+    const int dsteps = dropoff - units::to_fahrenheit( temperatures::freezing );
     const int dstep = ( 215.46 * std::pow( 2.0, static_cast<float>( dropoff ) / 16.0 ) / dsteps );
 
-    if( temp < temperatures::freezing ) {
+    if( temp < units::to_fahrenheit( temperatures::freezing ) ) {
         return 0;
     } else if( temp > cutoff ) {
         return cutoffrot;
     } else if( temp < dropoff ) {
-        return ( temp - temperatures::freezing ) * dstep;
+        return ( temp - units::to_fahrenheit( temperatures::freezing ) ) * dstep;
     } else {
         return std::lround( 215.46 * std::pow( 2.0, static_cast<float>( temp ) / 16.0 ) );
     }
@@ -5589,15 +5630,14 @@ int get_hourly_rotpoints_at_temp( const int temp )
     return rot_chart[temp];
 }
 
-void item::calc_rot( time_point time, int temp )
+time_duration item::calc_rot( time_point time, int temp ) const
 {
     // Avoid needlessly calculating already rotten things.  Corpses should
     // always rot away and food rots away at twice the shelf life.  If the food
     // is in a sealed container they won't rot away, this avoids needlessly
     // calculating their rot in that case.
     if( !is_corpse() && get_relative_rot() > 2.0 ) {
-        last_rot_check = time;
-        return;
+        return time_duration::from_seconds( 0 );
     }
 
     // rot modifier
@@ -5606,24 +5646,56 @@ void item::calc_rot( time_point time, int temp )
         factor = 0.75;
     }
 
+    time_duration added_rot = time_duration::from_seconds( 0 );
     // simulation of different age of food at the start of the game and good/bad storage
     // conditions by applying starting variation bonus/penalty of +/- 20% of base shelf-life
     // positive = food was produced some time before calendar::start and/or bad storage
     // negative = food was stored in good conditions before calendar::start
     if( last_rot_check <= calendar::start_of_cataclysm ) {
         time_duration spoil_variation = get_shelf_life() * 0.2f;
-        rot += rng( -spoil_variation, spoil_variation );
+        added_rot += rng( -spoil_variation, spoil_variation );
     }
 
     time_duration time_delta = time - last_rot_check;
-    rot += factor * time_delta / 1_hours * get_hourly_rotpoints_at_temp( temp ) * 1_turns;
-    last_rot_check = time;
+    added_rot += factor * time_delta / 1_hours * get_hourly_rotpoints_at_temp( temp ) * 1_turns;
+    return added_rot;
 }
 
-void item::calc_rot_while_processing( time_duration processing_duration )
+static int temperature_flag_to_highest_temperature( temperature_flag temperature )
+{
+    switch( temperature ) {
+        case temperature_flag::TEMP_NORMAL:
+            return INT_MAX;
+        case temperature_flag::TEMP_HEATER:
+            return INT_MAX;
+        case temperature_flag::TEMP_FRIDGE:
+            return to_fahrenheit( temperatures::fridge );
+        case temperature_flag::TEMP_FREEZER:
+            return to_fahrenheit( temperatures::freezer );
+        case temperature_flag::TEMP_ROOT_CELLAR:
+            return to_fahrenheit( temperatures::root_cellar );
+    }
+
+    return INT_MAX;
+}
+
+time_duration item::minimum_freshness_duration( temperature_flag temperature ) const
+{
+    int temperature_f = temperature_flag_to_highest_temperature( temperature );
+    int rot_per_hour = get_hourly_rotpoints_at_temp( temperature_f );
+
+    if( rot_per_hour <= 0 || !type->comestible ) {
+        return time_duration::from_days( 10000 );
+    }
+
+    time_duration remaining_rot = type->comestible->spoils - rot;
+    return remaining_rot * to_turns<int>( 1_hours ) / rot_per_hour;
+}
+
+void item::mod_last_rot_check( time_duration processing_duration )
 {
     if( !has_own_flag( "PROCESSING" ) ) {
-        debugmsg( "calc_rot_while_processing called on non smoking item: %s", tname() );
+        debugmsg( "mod_last_rot_check called on non smoking item: %s", tname() );
         return;
     }
 
@@ -8853,6 +8925,29 @@ bool item::process_rot( const tripoint &pos )
 bool item::process_rot( const bool seals, const tripoint &pos,
                         player *carrier, const temperature_flag flag,
                         const weather_manager &weather )
+static units::temperature clip_by_temperature_flag( units::temperature temperature,
+        temperature_flag flag )
+{
+    switch( flag ) {
+        case temperature_flag::TEMP_NORMAL:
+            // Just use the temperature normally
+            return temperature;
+        case temperature_flag::TEMP_FRIDGE:
+            return std::min( temperature, temperatures::fridge );
+        case temperature_flag::TEMP_FREEZER:
+            return std::min( temperature, temperatures::freezer );
+        case temperature_flag::TEMP_HEATER:
+            return std::max( temperature, temperatures::normal );
+        case temperature_flag::TEMP_ROOT_CELLAR:
+            return temperatures::root_cellar;
+        default:
+            debugmsg( "Temperature flag enum not valid: %d.  Using current temperature.",
+                      static_cast<int>( flag ) );
+            break;
+    }
+    return temperature;
+}
+
 {
     const time_point now = calendar::turn;
 
@@ -8867,34 +8962,8 @@ bool item::process_rot( const bool seals, const tripoint &pos,
     // note we're also gated by item::processing_speed
     time_duration smallest_interval = 10_minutes;
 
-    // TODO: Make this not check temporary fields!!!
-    int temp = weather.get_temperature( pos );
-
-    switch( flag ) {
-        case TEMP_NORMAL:
-            // Just use the temperature normally
-            break;
-        case TEMP_FRIDGE:
-            temp = std::min( temp, temperatures::fridge );
-            break;
-        case TEMP_FREEZER:
-            temp = std::min( temp, temperatures::freezer );
-            break;
-        case TEMP_HEATER:
-            temp = std::max( temp, temperatures::normal );
-            break;
-        case TEMP_ROOT_CELLAR:
-            temp = AVERAGE_ANNUAL_TEMPERATURE;
-            break;
-        default:
-            debugmsg( "Temperature flag enum not valid.  Using current temperature." );
-    }
-
-    bool carried = carrier != nullptr && carrier->has_item( *this );
-    // body heat increases inventory temperature by 5F
-    if( carried ) {
-        temp += 5;
-    }
+    units::temperature temp = units::from_fahrenheit( get_weather().get_temperature( pos ) );
+    temp = clip_by_temperature_flag( temp, flag );
 
     time_point time = last_rot_check;
     item_internal::scoped_goes_bad_cache _cache( this );
@@ -8904,11 +8973,10 @@ bool item::process_rot( const bool seals, const tripoint &pos,
 
         const weather_generator &wgen = weather.get_cur_weather_gen();
         const unsigned int seed = g->get_seed();
-        int local_mod = g->new_game ? 0 : get_map().get_temperature( pos );
-
-        if( carried ) {
-            local_mod += 5; // body heat increases inventory temperature
-        }
+        // It's a modifier, so we need to subtract 0_f
+        units::temperature local_mod = units::from_fahrenheit( g->new_game
+                                       ? 0
+                                       : get_map().get_temperature( pos ) ) - 0_f;
 
         // Process the past of this item since the last time it was processed
         while( now - time > 1_hours ) {
@@ -8917,38 +8985,25 @@ bool item::process_rot( const bool seals, const tripoint &pos,
             time += time_delta;
 
             //Use weather if above ground, use map temp if below
-            double env_temperature = 0;
+            units::temperature env_temperature_raw;
             if( pos.z >= 0 ) {
                 tripoint_abs_ms location = tripoint_abs_ms( get_map().getabs( pos ) );
                 units::temperature weather_temperature = wgen.get_weather_temperature( location, time,
                         calendar::config, seed );
-                env_temperature = units::to_fahrenheit( weather_temperature ) + local_mod;
+                env_temperature_raw = weather_temperature + local_mod;
             } else {
-                env_temperature = AVERAGE_ANNUAL_TEMPERATURE + local_mod;
+                env_temperature_raw = units::from_fahrenheit( AVERAGE_ANNUAL_TEMPERATURE ) + local_mod;
             }
 
-            switch( flag ) {
-                case TEMP_NORMAL:
-                    // Just use the temperature normally
-                    break;
-                case TEMP_FRIDGE:
-                    env_temperature = std::min( env_temperature, static_cast<double>( temperatures::fridge ) );
-                    break;
-                case TEMP_FREEZER:
-                    env_temperature = std::min( env_temperature, static_cast<double>( temperatures::freezer ) );
-                    break;
-                case TEMP_HEATER:
-                    env_temperature = std::max( env_temperature, static_cast<double>( temperatures::normal ) );
-                    break;
-                case TEMP_ROOT_CELLAR:
-                    env_temperature = AVERAGE_ANNUAL_TEMPERATURE;
-                    break;
-                default:
-                    debugmsg( "Temperature flag enum not valid.  Using normal temperature." );
-            }
+            units::temperature env_temperature_clipped = clip_by_temperature_flag( env_temperature_raw, flag );
+
+            // Lookup table is in F
+            int final_temperature_in_fahrenheit = static_cast<int>( std::round( units::to_fahrenheit<float>
+                                                  ( env_temperature_clipped ) ) );
 
             // Calculate item rot
-            calc_rot( time, env_temperature );
+            rot += calc_rot( time, final_temperature_in_fahrenheit );
+            last_rot_check = time;
 
             if( has_rotten_away() && carrier == nullptr && !seals ) {
                 // No need to track item that will be gone
@@ -8960,7 +9015,11 @@ bool item::process_rot( const bool seals, const tripoint &pos,
     // Remaining <1 h from above
     // and items that are held near the player
     if( now - time > smallest_interval ) {
-        calc_rot( now, temp );
+        int final_temperature_in_fahrenheit = static_cast<int>( std::round( units::to_fahrenheit<float>
+                                              ( temp ) ) );
+
+        rot += calc_rot( now, final_temperature_in_fahrenheit );
+        last_rot_check = now;
 
         return has_rotten_away() && carrier == nullptr && !seals;
     }

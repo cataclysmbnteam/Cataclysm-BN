@@ -2014,4 +2014,9 @@ class vehicle
         std::vector<std::tuple<point, int, std::string>> get_debug_overlay_data() const;
 };
 
+namespace rot
+{
+temperature_flag temperature_flag_for_part( const vehicle &veh, size_t part );
+}
+
 #endif // CATA_SRC_VEHICLE_H

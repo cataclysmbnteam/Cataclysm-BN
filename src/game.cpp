@@ -145,6 +145,7 @@
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "ret_val.h"
+#include "rot.h"
 #include "rng.h"
 #include "safemode_ui.h"
 #include "scenario.h"
@@ -7423,7 +7424,10 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             werase( w_item_info );
 
             if( iItemNum > 0 && activeItem ) {
-                std::vector<iteminfo> this_item = activeItem->example->info();
+                item_location loc( map_cursor( u.pos() + activeItem->example_item_pos ),
+                                   const_cast<item *>( activeItem->example ) );
+                temperature_flag temperature = rot::temperature_flag_for_location( m, loc );
+                std::vector<iteminfo> this_item = activeItem->example->info( temperature );
                 std::vector<iteminfo> item_info_dummy;
 
                 item_info_data dummy( "", "", this_item, item_info_dummy, iScrollPos );
