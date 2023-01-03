@@ -580,6 +580,7 @@
       { "item": "mag_cutting", "prob": 5 },
       { "item": "textbook_weapeast", "prob": 1 },
       { "item": "manual_wingchun", "prob": 3 },
+      { "item": "manual_barbaran", "prob": 1 },
       { "item": "manual_medievalpole", "prob": 1 }
     ]
   },
