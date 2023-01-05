@@ -21,11 +21,6 @@ extern bool test_mode;
 extern bool debug_mode;
 
 /**
- * Report unused JSON fields in regular (non-test) mode.
- */
-extern bool json_report_unused_fields;
-
-/**
  * Report extra problems in JSONs.
  * Because either @ref test_mode or @ref json_report_unused_fields is set.
  */
