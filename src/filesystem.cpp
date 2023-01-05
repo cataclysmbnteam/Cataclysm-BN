@@ -289,6 +289,7 @@ bool name_contains( const dirent &entry, const std::string &match, const bool at
 // Return every file at root_path matching predicate.
 //
 // If root_path is empty, search the current working directory.
+// If root_path does not exist, returns empty list.
 // If recursive_search is true, search breadth-first into the directory hierarchy.
 //
 // Results are ordered depth-first with directories searched in lexically order. Furthermore,
@@ -310,6 +311,9 @@ std::vector<std::string> find_file_if_bfs( const std::string &root_path,
         directories.emplace_back( root_path + "/" );
     }
     std::vector<std::string> results;
+    if( !dir_exist( *directories.begin() ) ) {
+        return results;
+    }
 
     while( !directories.empty() ) {
         const auto path = std::move( directories.front() );
