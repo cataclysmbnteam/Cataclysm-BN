@@ -2066,23 +2066,12 @@ void options_manager::add_options_graphics()
          false, COPT_CURSES_HIDE
        );
 
-    add( "SCALING_MODE", "graphics", translate_marker( "Scaling mode" ),
-         translate_marker( "Sets the scaling mode, 'none' ( default ) displays at the game's native resolution, 'nearest'  uses low-quality but fast scaling, and 'linear' provides high-quality scaling." ),
-         //~ Do not scale the game image to the window size.
-    {   { "none", translate_marker( "No scaling" ) },
-        //~ An algorithm for image scaling.
-        { "nearest", translate_marker( "Nearest neighbor" ) },
-        //~ An algorithm for image scaling.
-        { "linear", translate_marker( "Linear filtering" ) }
-    },
-    "none", COPT_CURSES_HIDE );
-
 #if !defined(__ANDROID__)
-    add( "SCALING_FACTOR", "graphics", translate_marker( "Scaling factor" ),
-    translate_marker( "Factor by which to scale the display.  Requires restart." ), {
+    add( "SCALING_FACTOR", "graphics", translate_marker( "Display scaling factor" ),
+    translate_marker( "Factor by which to scale the game display, 1x means no scaling.  Requires restart." ), {
         { "1", translate_marker( "1x" ) },
-        { "2", translate_marker( "2x" )},
-        { "4", translate_marker( "4x" )}
+        { "2", translate_marker( "2x" ) },
+        { "4", translate_marker( "4x" ) }
     },
     "1", COPT_CURSES_HIDE );
 #endif
