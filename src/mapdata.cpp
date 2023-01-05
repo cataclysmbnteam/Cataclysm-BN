@@ -1503,6 +1503,9 @@ void ter_t::check() const
         debugmsg( "%s deconstructs into \"t_open_air\", but \"t_null\" is preferred",
                   id.str() );
     }
+    if( movecost == 1 || movecost < 0 ) {
+        debugmsg( "%s has move_cost %d, but allowed values for terrain are >=2 and 0", id, movecost );
+    }
 }
 
 const std::vector<ter_t> &ter_t::get_all()
