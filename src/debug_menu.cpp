@@ -754,6 +754,10 @@ void character_edit_menu( Character &c )
         }
         break;
         case edit_character::opinion: {
+            if( np == nullptr ) {
+                // HACK: For some reason, tidy is not satisfied with simple assert(np)
+                std::abort();
+            }
             uilist smenu;
             smenu.addentry( 0, true, 'h', "%s: %d", _( "trust" ), np->op_of_u.trust );
             smenu.addentry( 1, true, 's', "%s: %d", _( "fear" ), np->op_of_u.fear );
