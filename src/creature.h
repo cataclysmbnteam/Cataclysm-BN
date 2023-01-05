@@ -138,8 +138,6 @@ class Creature
         /** Sets a Creature's fake boolean. */
         virtual void set_fake( bool fake_value );
 
-        /** Recreates the Creature from scratch. */
-        virtual void normalize();
         /** Processes effects and bonuses and allocates move points based on speed. */
         virtual void process_turn();
         /** Resets the value of all bonus fields to 0. */
@@ -460,6 +458,7 @@ class Creature
         virtual int get_armor_type( damage_type dt, bodypart_id bp ) const = 0;
 
         virtual float get_dodge() const;
+        /** Returns melee skill level, to be used to throttle dodge practice. **/
         virtual float get_melee() const = 0;
         virtual float get_hit() const;
 
@@ -483,6 +482,7 @@ class Creature
         virtual bool has_flag( const m_flag ) const {
             return false;
         }
+        /** Handles the uncanny dodge bionic and effects, returns true if the creature successfully dodges */
         virtual bool uncanny_dodge() {
             return false;
         }

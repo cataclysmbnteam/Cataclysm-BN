@@ -2709,8 +2709,8 @@ bool holster_actor::store( player &p, item &holster, item &obj ) const
     p.add_msg_if_player( holster_msg.empty() ? _( "You holster your %s" ) : _( holster_msg ),
                          obj.tname(), holster.tname() );
 
-    // holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
-    p.store( holster, obj, false, draw_cost );
+    // Holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
+    character_funcs::store_in_container( p, holster, obj, false, draw_cost );
     return true;
 }
 
@@ -2759,12 +2759,17 @@ int holster_actor::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     if( pos >= 0 ) {
-        // worn holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
+        // Worn holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
+        bool penalties;
+        int cost;
         if( p.is_worn( it ) ) {
-            p.wield_contents( it, internal_item, false, draw_cost );
+            penalties = false;
+            cost = draw_cost;
         } else {
-            p.wield_contents( it, internal_item );
+            penalties = true;
+            cost = INVENTORY_HANDLING_PENALTY;
         }
+        character_funcs::try_wield_contents( *p.as_avatar(), it, internal_item, penalties, cost );
 
     } else {
         item_location loc = game_menus::inv::holster( p, it );

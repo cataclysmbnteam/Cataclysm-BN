@@ -90,12 +90,6 @@ class player : public Character
         player &operator=( const player & ) = delete;
         player &operator=( player && );
 
-        /** Calls Character::normalize()
-         *  normalizes HP and body temperature
-         */
-
-        void normalize() override;
-
         bool is_player() const override {
             return true;
         }
@@ -116,61 +110,11 @@ class player : public Character
         // by default save all contained info
         virtual void serialize( JsonOut &jsout ) const = 0;
 
-        // martialarts.cpp
-
-        /** Returns true if the player is able to use a grab breaking technique */
-        bool can_grab_break( const item &weap ) const;
-        // melee.cpp
-
-        /** How many moves does it take to aim gun to the target accuracy. */
-        int gun_engagement_moves( const item &gun, int target = 0, int start = MAX_RECOIL ) const;
-
-        /**
-         *  Fires a gun or auxiliary gunmod (ignoring any current mode)
-         *  @param target where the first shot is aimed at (may vary for later shots)
-         *  @param shots maximum number of shots to fire (less may be fired in some circumstances)
-         *  @return number of shots actually fired
-         */
-
-        int fire_gun( const tripoint &target, int shots = 1 );
-        /**
-         *  Fires a gun or auxiliary gunmod (ignoring any current mode)
-         *  @param target where the first shot is aimed at (may vary for later shots)
-         *  @param shots maximum number of shots to fire (less may be fired in some circumstances)
-         *  @param gun item to fire (which does not necessary have to be in the players possession)
-         *  @return number of shots actually fired
-         */
-        int fire_gun( const tripoint &target, int shots, item &gun );
-
         /** Called after the player has successfully dodged an attack */
         void on_dodge( Creature *source, float difficulty ) override;
         /** Handles special defenses from an attack that hit us (source can be null) */
         void on_hit( Creature *source, bodypart_id bp_hit,
                      float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) override;
-
-        /** Returns melee skill level, to be used to throttle dodge practice. **/
-        float get_melee() const override;
-
-        /** Handles the uncanny dodge bionic and effects, returns true if the player successfully dodges */
-        bool uncanny_dodge() override;
-
-        // ranged.cpp
-        /** Execute a throw */
-        dealt_projectile_attack throw_item( const tripoint &target, const item &to_throw,
-                                            const cata::optional<tripoint> &blind_throw_from_pos = cata::nullopt );
-
-        /**
-         * Check if a given body part is immune to a given damage type
-         *
-         * This function checks whether a given body part cannot be damaged by a given
-         * damage_unit.  Note that this refers only to reduction of hp on that part. It
-         * does not account for clothing damage, pain, status effects, etc.
-         *
-         * @param bp: Body part to perform the check on
-         * @param dam: Type of damage to check for
-         * @returns true if given damage can not reduce hp of given body part
-         */
-        bool immune_to( body_part bp, damage_unit dam ) const;
 
         /** Knocks the player to a specified tile */
         void knock_back_to( const tripoint &to ) override;
@@ -182,17 +126,6 @@ class player : public Character
 
         /** Returns overall % of HP remaining */
         int hp_percentage() const override;
-
-        /** used for drinking from hands, returns how many charges were consumed */
-        int drink_from_hands( item &water );
-        /** Used for eating object at pos, returns true if object is removed from inventory (last charge was consumed) */
-        bool consume( item_location loc );
-        /** Used for eating a particular item that doesn't need to be in inventory.
-         *  Returns true if the item is to be removed (doesn't remove). */
-        bool consume_item( item &target );
-
-        /** Used for eating entered comestible, returns true if comestible is successfully eaten */
-        bool eat( item &food, bool force = false );
 
         int get_lift_assist() const;
 
@@ -267,26 +200,6 @@ class player : public Character
 
         bool unload( item_location loc );
 
-        /**
-         * Try to wield a contained item consuming moves proportional to weapon skill and volume.
-         * @param container Container containing the item to be wielded
-         * @param internal_item reference to contained item to wield.
-         * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
-         * @param base_cost Cost due to storage type.
-         */
-        bool wield_contents( item &container, item *internal_item = nullptr, bool penalties = true,
-                             int base_cost = INVENTORY_HANDLING_PENALTY );
-        /**
-         * Stores an item inside another consuming moves proportional to weapon skill and volume
-         * @param container Container in which to store the item
-         * @param put Item to add to the container
-         * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
-         * @param base_cost Cost due to storage type.
-         */
-        void store( item &container, item &put, bool penalties = true,
-                    int base_cost = INVENTORY_HANDLING_PENALTY );
-        /** Draws the UI and handles player input for the armor re-ordering window */
-        void sort_armor();
         /** Uses a tool */
         void use( int inventory_position );
         /** Uses a tool at location */
@@ -309,9 +222,6 @@ class player : public Character
         /** Starts activity to install toolmod */
         void toolmod_add( item_location tool, item_location mod );
 
-        /** Note that we've read a book at least once. **/
-        virtual bool has_identified( const itype_id &item_id ) const = 0;
-
     private:
         safe_reference_anchor anchor;
 
@@ -326,8 +236,6 @@ class player : public Character
         void practice( const skill_id &id, int amount, int cap = 99, bool suppress_warning = false );
         /** This handles warning the player that there current activity will not give them xp */
         void handle_skill_warning( const skill_id &id, bool force_warning = false );
-
-        void on_worn_item_transform( const item &old_it, const item &new_it );
 
         /**
          * Remove charges from a specific item (given by its item position).
@@ -346,12 +254,6 @@ class player : public Character
          * @param quantity How many charges to remove
          */
         item reduce_charges( item *it, int quantity );
-
-        /**
-         * Check whether the player has a gun that uses the given type of ammo.
-         */
-        bool has_gun_for_ammo( const ammotype &at ) const;
-        bool has_magazine_for_ammo( const ammotype &at ) const;
 
         // Checks crafting inventory for books providing the requested recipe.
         // Then checks nearby NPCs who could provide it too.
@@ -489,7 +391,6 @@ class player : public Character
         itype_id lastconsumed;        //used in crafting.cpp and construction.cpp
 
         std::set<character_id> follower_ids;
-        void mod_stat( const std::string &stat, float modifier ) override;
 
         //message related stuff
         using Character::add_msg_if_player;
@@ -509,27 +410,10 @@ class player : public Character
         using Character::query_yn;
         bool query_yn( const std::string &mes ) const override;
 
-
-        /**
-         * Try to disarm the NPC. May result in fail attempt, you receiving the wepon and instantly wielding it,
-         * or the weapon falling down on the floor nearby. NPC is always getting angry with you.
-         * @param target Target NPC to disarm
-         */
-        void disarm( npc &target );
-
     protected:
 
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
-
-    private:
-
-        /**
-         * Consumes an item as medication.
-         * @param target Item consumed. Must be a medication or a container of medication.
-         * @return Whether the target was fully consumed.
-         */
-        bool consume_med( item &target );
 
     private:
 

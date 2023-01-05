@@ -2137,14 +2137,14 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                                       loaded_mod->gun_dispersion( true, false ) ) );
             info.push_back( iteminfo( "GUN", "eff_dispersion", _( " (effective: <num>)" ),
                                       iteminfo::lower_is_better | iteminfo::no_name,
-                                      static_cast<int>( you.get_weapon_dispersion( *this ).max() ) ) );
+                                      static_cast<int>( ranged::get_weapon_dispersion( you, *this ).max() ) ) );
         }
     }
     info.back().bNewLine = true;
 
     // if effective sight dispersion differs from actual sight dispersion display both
     int act_disp = mod->sight_dispersion();
-    int eff_disp = you.effective_dispersion( act_disp );
+    int eff_disp = ranged::effective_dispersion( you, act_disp );
     int adj_disp = eff_disp - act_disp;
 
     if( parts->test( iteminfo_parts::GUN_DISPERSION_SIGHT ) ) {
@@ -2258,8 +2258,8 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     if( parts->test( iteminfo_parts::GUN_AIMING_STATS ) ) {
         insert_separation_line( info );
         info.emplace_back( "GUN", _( "<bold>Base aim speed</bold>: " ), "<num>", iteminfo::no_flags,
-                           you.aim_per_move( *mod, MAX_RECOIL ) );
-        for( const aim_type &type : you.get_aim_types( *mod ) ) {
+                           ranged::aim_per_move( you, *mod, MAX_RECOIL ) );
+        for( const ranged::aim_type &type : ranged::get_aim_types( you, *mod ) ) {
             // Nameless aim levels don't get an entry.
             if( type.name.empty() ) {
                 continue;
@@ -2268,11 +2268,11 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
             // distinct tag per aim type.
             const std::string tag = "GUN_" + type.name;
             info.emplace_back( tag, string_format( "<info>%s</info>", type.name ) );
-            int max_dispersion = you.get_weapon_dispersion( *loaded_mod ).max();
+            int max_dispersion = ranged::get_weapon_dispersion( you, *loaded_mod ).max();
             int range = range_with_even_chance_of_good_hit( max_dispersion + type.threshold );
             info.emplace_back( tag, _( "Even chance of good hit at range: " ),
                                _( "<num>" ), iteminfo::no_flags, range );
-            int aim_mv = you.gun_engagement_moves( *mod, type.threshold );
+            int aim_mv = ranged::gun_engagement_moves( you, *mod, type.threshold );
             info.emplace_back( tag, _( "Time to reach aim level: " ), _( "<num> moves " ),
                                iteminfo::lower_is_better, aim_mv );
         }

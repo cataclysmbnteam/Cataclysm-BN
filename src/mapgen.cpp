@@ -5514,7 +5514,6 @@ character_id map::place_npc( const point &p, const string_id<npc_template> &type
         return character_id(); //Do not generate an npc.
     }
     shared_ptr_fast<npc> temp = make_shared_fast<npc>();
-    temp->normalize();
     temp->load_npc_template( type );
     temp->spawn_at_precise( { abs_sub.xy() }, { p, abs_sub.z } );
     temp->toggle_trait( trait_NPC_STATIC_NPC );

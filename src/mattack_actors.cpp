@@ -24,6 +24,7 @@
 #include "npc.h"
 #include "player.h"
 #include "point.h"
+#include "ranged.h"
 #include "rng.h"
 #include "sounds.h"
 #include "translations.h"
@@ -640,6 +641,5 @@ void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mo
         add_msg( m_warning, _( description ), z.name(), tmp.weapon.tname() );
     }
 
-    z.ammo[ammo] -= tmp.fire_gun( target, gun.gun_current_mode().qty );
-
+    z.ammo[ammo] -= ranged::fire_gun( tmp, target, gun.gun_current_mode().qty );
 }

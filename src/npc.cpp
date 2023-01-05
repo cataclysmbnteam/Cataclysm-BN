@@ -56,6 +56,7 @@
 #include "pathfinding.h"
 #include "player_activity.h"
 #include "pldata.h"
+#include "ranged.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "skill.h"
@@ -165,6 +166,12 @@ npc::npc()
     for( direction threat_dir : npc_threat_dir ) {
         ai_cache.threat_map[ threat_dir ] = 0.0f;
     }
+
+    // This should be in Character constructor, but because global avatar
+    // gets instantiated on game launch and not after data loading stage
+    // (normalize() depends on game data), we must normalize avatar in a separate call.
+    // FIXME: move normalization to Character constructor
+    character_funcs::normalize( *this );
 }
 
 standard_npc::standard_npc( const std::string &name, const tripoint &pos,
@@ -1204,7 +1211,8 @@ void npc::drop( const drop_locations &what, const tripoint &target,
 void npc::invalidate_range_cache()
 {
     if( weapon.is_gun() ) {
-        confident_range_cache = confident_shoot_range( weapon, get_most_accurate_sight( weapon ) );
+        confident_range_cache =
+            confident_shoot_range( weapon, ranged::get_most_accurate_sight( *this, weapon ) );
     } else {
         confident_range_cache = weapon.reach_range( *this );
     }
@@ -1778,12 +1786,18 @@ int npc::value( const item &it, int market_price ) const
     }
 
     if( it.is_ammo() ) {
-        if( weapon.is_gun() && weapon.ammo_types().count( it.ammo_type() ) ) {
+        const ammotype &at = it.ammo_type();
+        if( weapon.is_gun() && weapon.ammo_types().count( at ) ) {
             // TODO: magazines - don't count ammo as usable if the weapon isn't.
             ret += 14;
         }
 
-        if( has_gun_for_ammo( it.ammo_type() ) ) {
+        bool has_gun_for_ammo = has_item_with( [at]( const item & itm ) {
+            // item::ammo_type considers the active gunmod.
+            return itm.is_gun() && itm.ammo_types().count( at );
+        } );
+
+        if( has_gun_for_ammo ) {
             // TODO: consider making this cumulative (once was)
             ret += 14;
         }

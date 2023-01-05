@@ -96,9 +96,6 @@ static const itype_id itype_brass_catcher( "brass_catcher" );
 static const itype_id itype_large_repairkit( "large_repairkit" );
 static const itype_id itype_plut_cell( "plut_cell" );
 static const itype_id itype_small_repairkit( "small_repairkit" );
-static const itype_id itype_syringe( "syringe" );
-
-static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 
 static const trait_id trait_CF_HAIR( "CF_HAIR" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
@@ -110,7 +107,6 @@ static const trait_id trait_QUILLS( "QUILLS" );
 static const trait_id trait_SAVANT( "SAVANT" );
 static const trait_id trait_SPINES( "SPINES" );
 static const trait_id trait_THORNS( "THORNS" );
-static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 
 static const std::string flag_SPLINT( "SPLINT" );
 static const std::string flag_RESTRICT_HAND( "RESTRICT_HANDS" );
@@ -120,8 +116,6 @@ static const skill_id skill_gun( "gun" );
 static const skill_id skill_weapon( "weapon" );
 
 static const bionic_id bio_cqb( "bio_cqb" );
-static const bionic_id bio_syringe( "bio_syringe" );
-static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 
 player::player()
 {
@@ -174,33 +168,6 @@ player::player()
 player::~player() = default;
 player::player( player && ) = default;
 player &player::operator=( player && ) = default;
-
-void player::normalize()
-{
-    Character::normalize();
-
-    recalc_hp();
-
-    temp_cur.fill( BODYTEMP_NORM );
-    temp_conv.fill( BODYTEMP_NORM );
-    set_stamina( get_stamina_max() );
-}
-
-void player::mod_stat( const std::string &stat, float modifier )
-{
-    if( stat == "thirst" ) {
-        mod_thirst( modifier );
-    } else if( stat == "fatigue" ) {
-        mod_fatigue( modifier );
-    } else if( stat == "oxygen" ) {
-        oxygen += modifier;
-    } else if( stat == "stamina" ) {
-        mod_stamina( modifier );
-    } else {
-        // Fall through to the creature method.
-        Character::mod_stat( stat, modifier );
-    }
-}
 
 void player::on_dodge( Creature *source, float difficulty )
 {
@@ -345,23 +312,6 @@ int player::get_lift_assist() const
         result += np->get_str();
     }
     return result;
-}
-
-bool player::immune_to( body_part bp, damage_unit dam ) const
-{
-    if( has_trait( trait_DEBUG_NODMG ) || is_immune_damage( dam.type ) ) {
-        return true;
-    }
-
-    passive_absorb_hit( convert_bp( bp ).id(), dam );
-
-    for( const item &cloth : worn ) {
-        if( cloth.get_coverage() == 100 && cloth.covers( bp ) ) {
-            cloth.mitigate_damage( dam );
-        }
-    }
-
-    return dam.amount <= 0;
 }
 
 float player::fall_damage_mod() const
@@ -619,11 +569,6 @@ int player::hp_percentage() const
     return ( 100 * total_cur ) / total_max;
 }
 
-void player::on_worn_item_transform( const item &old_it, const item &new_it )
-{
-    morale->on_worn_item_transform( old_it, new_it );
-}
-
 item player::reduce_charges( int position, int quantity )
 {
     item &it = i_at( position );
@@ -653,198 +598,6 @@ item player::reduce_charges( item *it, int quantity )
     item result( *it );
     result.charges = quantity;
     return result;
-}
-
-//Returns the amount of charges that were consumed by the player
-int player::drink_from_hands( item &water )
-{
-    int charges_consumed = 0;
-    if( query_yn( _( "Drink %s from your hands?" ),
-                  colorize( water.type_name(), water.color_in_inventory() ) ) ) {
-        // Create a dose of water no greater than the amount of water remaining.
-        item water_temp( water );
-        // If player is slaked water might not get consumed.
-        consume_item( water_temp );
-        charges_consumed = water.charges - water_temp.charges;
-        if( charges_consumed > 0 ) {
-            moves -= 350;
-        }
-    }
-
-    return charges_consumed;
-}
-
-// TODO: Properly split medications and food instead of hacking around
-bool player::consume_med( item &target )
-{
-    if( !target.is_medication() ) {
-        return false;
-    }
-
-    const itype_id tool_type = target.get_comestible()->tool;
-    const itype *req_tool = &*tool_type;
-    bool tool_override = false;
-    if( tool_type == itype_syringe && has_bionic( bio_syringe ) ) {
-        tool_override = true;
-    }
-    if( req_tool->tool ) {
-        if( !( has_amount( tool_type, 1 ) && has_charges( tool_type, req_tool->tool->charges_per_use ) ) &&
-            !tool_override ) {
-            add_msg_if_player( m_info, _( "You need a %s to consume that!" ), req_tool->nname( 1 ) );
-            return false;
-        }
-        use_charges( tool_type, req_tool->tool->charges_per_use );
-    }
-
-    int amount_used = 1;
-    if( target.type->has_use() ) {
-        amount_used = target.type->invoke( *this, target, pos() );
-        if( amount_used <= 0 ) {
-            return false;
-        }
-    }
-
-    // TODO: Get the target it was used on
-    // Otherwise injecting someone will give us addictions etc.
-    if( target.has_flag( "NO_INGEST" ) ) {
-        const auto &comest = *target.get_comestible();
-        // Assume that parenteral meds don't spoil, so don't apply rot
-        modify_health( comest );
-        modify_stimulation( comest );
-        modify_fatigue( comest );
-        modify_radiation( comest );
-        modify_addiction( comest );
-        modify_morale( target );
-    } else {
-        // Take by mouth
-        consume_effects( target );
-    }
-
-    mod_moves( -250 );
-    target.charges -= amount_used;
-    return target.charges <= 0;
-}
-
-static bool query_consume_ownership( item &target, player &p )
-{
-    if( !target.is_owned_by( p, true ) ) {
-        bool choice = true;
-        if( p.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
-            choice = pickup::query_thief();
-        }
-        if( p.get_value( "THIEF_MODE" ) == "THIEF_HONEST" || !choice ) {
-            return false;
-        }
-        std::vector<npc *> witnesses;
-        for( npc &elem : g->all_npcs() ) {
-            if( rl_dist( elem.pos(), p.pos() ) < MAX_VIEW_DISTANCE && elem.sees( p.pos() ) ) {
-                witnesses.push_back( &elem );
-            }
-        }
-        for( npc *elem : witnesses ) {
-            elem->say( "<witnessed_thievery>", 7 );
-        }
-        if( !witnesses.empty() && target.is_owned_by( p, true ) ) {
-            if( p.add_faction_warning( target.get_owner() ) ) {
-                for( npc *elem : witnesses ) {
-                    elem->make_angry();
-                }
-            }
-        }
-    }
-    return true;
-}
-
-bool player::consume_item( item &target )
-{
-    if( target.is_null() ) {
-        add_msg_if_player( m_info, _( "You do not have that item." ) );
-        return false;
-    }
-    if( is_underwater() && !has_trait( trait_WATERSLEEP ) ) {
-        add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-        return false;
-    }
-
-    item &comest = get_consumable_from( target );
-
-    if( comest.is_null() || target.is_craft() ) {
-        add_msg_if_player( m_info, _( "You can't eat your %s." ), target.tname() );
-        if( is_npc() ) {
-            debugmsg( "%s tried to eat a %s", name, target.tname() );
-        }
-        return false;
-    }
-    if( is_player() && !query_consume_ownership( target, *this ) ) {
-        return false;
-    }
-    if( consume_med( comest ) ||
-        eat( comest ) || feed_reactor_with( comest ) || feed_furnace_with( comest ) ||
-        fuel_bionic_with( comest ) ) {
-
-        if( target.is_container() ) {
-            target.on_contents_changed();
-        }
-
-        return comest.charges <= 0;
-    }
-
-    return false;
-}
-
-bool player::consume( item_location loc )
-{
-    item &target = *loc;
-    const bool wielding = is_wielding( target );
-    const bool worn = is_worn( target );
-    const bool inv_item = !( wielding || worn );
-
-    if( consume_item( target ) ) {
-
-        const bool was_in_container = !can_consume_as_is( target );
-
-        if( was_in_container ) {
-            i_rem( &target.contents.front() );
-        } else {
-            i_rem( &target );
-        }
-
-        //Restack and sort so that we don't lie about target's invlet
-        if( inv_item ) {
-            inv.restack( *this );
-        }
-
-        if( was_in_container && wielding ) {
-            add_msg_if_player( _( "You are now wielding an empty %s." ), weapon.tname() );
-        } else if( was_in_container && worn ) {
-            add_msg_if_player( _( "You are now wearing an empty %s." ), target.tname() );
-        } else if( was_in_container && !is_npc() ) {
-            bool drop_it = false;
-            if( get_option<std::string>( "DROP_EMPTY" ) == "no" ) {
-                drop_it = false;
-            } else if( get_option<std::string>( "DROP_EMPTY" ) == "watertight" ) {
-                drop_it = !target.is_watertight_container();
-            } else if( get_option<std::string>( "DROP_EMPTY" ) == "all" ) {
-                drop_it = true;
-            }
-            if( drop_it ) {
-                add_msg( _( "You drop the empty %s." ), target.tname() );
-                put_into_vehicle_or_drop( *this, item_drop_reason::deliberate, { inv.remove_item( &target ) } );
-            } else {
-                int quantity = inv.const_stack( inv.position_by_item( &target ) ).size();
-                char letter = target.invlet ? target.invlet : ' ';
-                add_msg( m_info, _( "%c - %d empty %s" ), letter, quantity, target.tname( quantity ) );
-            }
-        }
-    } else if( inv_item ) {
-        if( pickup::handle_spillable_contents( *this, target, g->m ) ) {
-            i_rem( &target );
-        }
-        inv.restack( *this );
-        inv.unsort();
-    }
-
-    return true;
 }
 
 bool player::add_faction_warning( const faction_id &id )
@@ -2443,102 +2196,6 @@ int player::has_recipe( const recipe *r, const inventory &crafting_inv,
     return available.contains( *r ) ? available.get_custom_difficulty( r ) : -1;
 }
 
-bool player::has_gun_for_ammo( const ammotype &at ) const
-{
-    return has_item_with( [at]( const item & it ) {
-        // item::ammo_type considers the active gunmod.
-        return it.is_gun() && it.ammo_types().count( at );
-    } );
-}
-
-bool player::has_magazine_for_ammo( const ammotype &at ) const
-{
-    return has_item_with( [&at]( const item & it ) {
-        return !it.has_flag( "NO_RELOAD" ) &&
-               ( ( it.is_magazine() && it.ammo_types().count( at ) ) ||
-                 ( it.is_gun() && it.magazine_integral() && it.ammo_types().count( at ) ) ||
-                 ( it.is_gun() && it.magazine_current() != nullptr &&
-                   it.magazine_current()->ammo_types().count( at ) ) );
-    } );
-}
-
-bool player::wield_contents( item &container, item *internal_item, bool penalties,
-                             int base_cost )
-{
-    // if index not specified and container has multiple items then ask the player to choose one
-    if( internal_item == nullptr ) {
-        std::vector<std::string> opts;
-        std::list<item *> container_contents = container.contents.all_items_top();
-        std::transform( container_contents.begin(), container_contents.end(),
-        std::back_inserter( opts ), []( const item * elem ) {
-            return elem->display_name();
-        } );
-        if( opts.size() > 1 ) {
-            int pos = uilist( _( "Wield what?" ), opts );
-            if( pos < 0 ) {
-                return false;
-            }
-            internal_item = *std::next( container_contents.begin(), pos );
-        } else {
-            internal_item = &container.contents.front();
-        }
-    }
-
-    if( !container.has_item( *internal_item ) ) {
-        debugmsg( "Tried to wield non-existent item from container (player::wield_contents)" );
-        return false;
-    }
-
-    const ret_val<bool> ret = can_wield( *internal_item );
-    if( !ret.success() ) {
-        add_msg_if_player( m_info, "%s", ret.c_str() );
-        return false;
-    }
-
-    int mv = 0;
-
-    if( is_armed() ) {
-        if( !unwield() ) {
-            return false;
-        }
-        inv.unsort();
-    }
-
-    weapon = std::move( *internal_item );
-    container.remove_item( *internal_item );
-    container.on_contents_changed();
-
-    inv.update_invlet( weapon );
-    inv.update_cache_with_item( weapon );
-    last_item = weapon.typeId();
-
-    /**
-     * @EFFECT_PISTOL decreases time taken to draw pistols from holsters
-     * @EFFECT_SMG decreases time taken to draw smgs from holsters
-     * @EFFECT_RIFLE decreases time taken to draw rifles from holsters
-     * @EFFECT_SHOTGUN decreases time taken to draw shotguns from holsters
-     * @EFFECT_LAUNCHER decreases time taken to draw launchers from holsters
-     * @EFFECT_STABBING decreases time taken to draw stabbing weapons from sheathes
-     * @EFFECT_CUTTING decreases time taken to draw cutting weapons from scabbards
-     * @EFFECT_BASHING decreases time taken to draw bashing weapons from holsters
-     */
-    int lvl = get_skill_level( weapon.is_gun() ? weapon.gun_skill() : weapon.melee_skill() );
-    mv += item_handling_cost( weapon, penalties, base_cost ) / ( ( lvl + 10.0f ) / 10.0f );
-
-    moves -= mv;
-
-    weapon.on_wield( *this, mv );
-
-    return true;
-}
-
-void player::store( item &container, item &put, bool penalties, int base_cost )
-{
-    moves -= item_store_cost( put, container, penalties, base_cost );
-    container.put_in( i_rem( &put ) );
-    reset_encumbrance();
-}
-
 nc_color encumb_color( int level )
 {
     if( level < 0 ) {
@@ -2554,39 +2211,6 @@ nc_color encumb_color( int level )
         return c_light_red;
     }
     return c_red;
-}
-
-float player::get_melee() const
-{
-    return get_skill_level( skill_id( "melee" ) );
-}
-
-bool player::uncanny_dodge()
-{
-    bool is_u = this == &g->u;
-    bool seen = g->u.sees( *this );
-    if( this->get_power_level() < 74_kJ || !this->has_active_bionic( bio_uncanny_dodge ) ) {
-        return false;
-    }
-    tripoint adjacent = adjacent_tile();
-    mod_power_level( -75_kJ );
-    if( adjacent.x != posx() || adjacent.y != posy() ) {
-        position.x = adjacent.x;
-        position.y = adjacent.y;
-        if( is_u ) {
-            add_msg( _( "Time seems to slow down and you instinctively dodge!" ) );
-        } else if( seen ) {
-            add_msg( _( "%s dodges… so fast!" ), this->disp_name() );
-
-        }
-        return true;
-    }
-    if( is_u ) {
-        add_msg( _( "You try to dodge but there's no room!" ) );
-    } else if( seen ) {
-        add_msg( _( "%s tries to dodge but there's no room!" ), this->disp_name() );
-    }
-    return false;
 }
 
 //message related stuff

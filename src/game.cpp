@@ -36,11 +36,13 @@
 #include "activity_actor.h"
 #include "activity_actor_definitions.h"
 #include "activity_handlers.h"
+#include "armor_layers.h"
 #include "artifact.h"
 #include "auto_note.h"
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "avatar_action.h"
+#include "avatar_functions.h"
 #include "basecamp.h"
 #include "bionics.h"
 #include "bodypart.h"
@@ -888,7 +890,6 @@ void game::create_starting_npcs()
     }
 
     shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
-    tmp->normalize();
     tmp->randomize( one_in( 2 ) ? NC_DOCTOR : NC_NONE );
     tmp->spawn_at_precise( { get_levx(), get_levy() }, u.pos() - point_south_east );
     overmap_buffer.insert_npc( tmp );
@@ -4701,7 +4702,6 @@ bool game::spawn_hallucination( const tripoint &p )
 {
     if( one_in( 100 ) ) {
         shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
-        tmp->normalize();
         tmp->randomize( NC_HALLU );
         tmp->spawn_at_precise( { get_levx(), get_levy() }, p );
         if( !critter_at( p, true ) ) {
@@ -4912,7 +4912,6 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &install
 
         const string_id<npc_template> npc_cyborg( "cyborg_rescued" );
         shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
-        tmp->normalize();
         tmp->load_npc_template( npc_cyborg );
         tmp->spawn_at_precise( { get_levx(), get_levy() }, couch_pos );
         overmap_buffer.insert_npc( tmp );
@@ -5323,7 +5322,7 @@ bool game::npc_menu( npc &who )
             u.mod_moves( -300 );
         }
     } else if( choice == sort_armor ) {
-        who.sort_armor();
+        show_armor_layers_ui( who );
         u.mod_moves( -100 );
     } else if( choice == attack ) {
         if( who.is_enemy() || query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
@@ -5332,10 +5331,10 @@ bool game::npc_menu( npc &who )
         }
     } else if( choice == disarm ) {
         if( who.is_enemy() || query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
-            u.disarm( who );
+            avatar_funcs::try_disarm_npc( u, who );
         }
     } else if( choice == steal && query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
-        u.steal( who );
+        avatar_funcs::try_steal_from_npc( u, who );
     }
 
     return true;
@@ -8698,7 +8697,7 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
         };
 
         const auto sharp_bp_check = [this]( body_part bp ) {
-            return u.immune_to( bp, { DT_CUT, 10 } );
+            return character_funcs::is_bp_immune_to( u, bp, { DT_CUT, 10 } );
         };
 
         if( m.has_flag( "ROUGH", dest_loc ) && !m.has_flag( "ROUGH", u.pos() ) && !boardable &&
@@ -11041,7 +11040,6 @@ void game::perhaps_add_random_npc()
         counter += 1;
     }
     shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
-    tmp->normalize();
     tmp->randomize();
     std::string new_fac_id = "solo_";
     new_fac_id += tmp->name;

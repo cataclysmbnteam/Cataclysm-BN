@@ -5,10 +5,12 @@
 #include "character_martial_arts.h"
 #include "character.h"
 #include "creature.h"
+#include "game.h"
 #include "handle_liquid.h"
 #include "itype.h"
 #include "make_static.h"
 #include "map_iterator.h"
+#include "messages.h"
 #include "player.h"
 #include "rng.h"
 #include "submap.h"
@@ -21,6 +23,7 @@
 
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
+static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 static const trait_id trait_EASYSLEEPER( "EASYSLEEPER" );
 static const trait_id trait_EASYSLEEPER2( "EASYSLEEPER2" );
 static const trait_id trait_INSOMNIA( "INSOMNIA" );
@@ -46,6 +49,7 @@ static const efftype_id effect_darkness( "darkness" );
 static const efftype_id effect_meth( "meth" );
 
 static const bionic_id bio_soporific( "bio_soporific" );
+static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 
 static const itype_id itype_cookbook_human( "cookbook_human" );
 
@@ -464,6 +468,172 @@ void add_pain_msg( const Character &who, int val, body_part bp )
                                    body_part_name_accusative( bp ) );
         }
     }
+}
+
+void normalize( Character &who )
+{
+    who.martial_arts_data->reset_style();
+    who.weapon = item();
+
+    who.set_body();
+    who.recalc_hp();
+
+    who.temp_cur.fill( BODYTEMP_NORM );
+    who.temp_conv.fill( BODYTEMP_NORM );
+    who.set_stamina( who.get_stamina_max() );
+}
+
+void store_in_container( Character &who, item &container, item &put, bool penalties, int base_cost )
+{
+    who.moves -= who.item_store_cost( put, container, penalties, base_cost );
+    container.put_in( who.i_rem( &put ) );
+    who.reset_encumbrance();
+}
+
+bool try_wield_contents( Character &who, item &container, item *internal_item, bool penalties,
+                         int base_cost )
+{
+    // if index not specified and container has multiple items then ask the player to choose one
+    if( internal_item == nullptr ) {
+        std::vector<std::string> opts;
+        std::list<item *> container_contents = container.contents.all_items_top();
+        std::transform( container_contents.begin(), container_contents.end(),
+        std::back_inserter( opts ), []( const item * elem ) {
+            return elem->display_name();
+        } );
+        if( opts.size() > 1 ) {
+            int pos = uilist( _( "Wield what?" ), opts );
+            if( pos < 0 ) {
+                return false;
+            }
+            internal_item = *std::next( container_contents.begin(), pos );
+        } else {
+            internal_item = &container.contents.front();
+        }
+    }
+
+    if( !container.has_item( *internal_item ) ) {
+        debugmsg( "Tried to wield non-existent item from container (player::wield_contents)" );
+        return false;
+    }
+
+    const ret_val<bool> ret = who.as_player()->can_wield( *internal_item );
+    if( !ret.success() ) {
+        who.add_msg_if_player( m_info, "%s", ret.c_str() );
+        return false;
+    }
+
+    int mv = 0;
+
+    if( who.is_armed() ) {
+        if( !who.as_player()->unwield() ) {
+            return false;
+        }
+        who.inv.unsort();
+    }
+
+    who.weapon = std::move( *internal_item );
+    container.remove_item( *internal_item );
+    container.on_contents_changed();
+
+    item &weapon = who.weapon;
+
+    who.inv.update_invlet( weapon );
+    who.inv.update_cache_with_item( weapon );
+    who.last_item = weapon.typeId();
+
+    /**
+     * @EFFECT_PISTOL decreases time taken to draw pistols from holsters
+     * @EFFECT_SMG decreases time taken to draw smgs from holsters
+     * @EFFECT_RIFLE decreases time taken to draw rifles from holsters
+     * @EFFECT_SHOTGUN decreases time taken to draw shotguns from holsters
+     * @EFFECT_LAUNCHER decreases time taken to draw launchers from holsters
+     * @EFFECT_STABBING decreases time taken to draw stabbing weapons from sheathes
+     * @EFFECT_CUTTING decreases time taken to draw cutting weapons from scabbards
+     * @EFFECT_BASHING decreases time taken to draw bashing weapons from holsters
+     */
+    int lvl = who.get_skill_level( weapon.is_gun() ? weapon.gun_skill() : weapon.melee_skill() );
+    mv += who.item_handling_cost( weapon, penalties, base_cost ) / ( ( lvl + 10.0f ) / 10.0f );
+
+    who.moves -= mv;
+
+    weapon.on_wield( *who.as_player(), mv );
+
+    return true;
+}
+
+bool try_uncanny_dodge( Character &who )
+{
+    if( who.get_power_level() < 75_kJ || !who.has_active_bionic( bio_uncanny_dodge ) ) {
+        return false;
+    }
+    bool is_u = who.is_avatar();
+    bool seen = is_u || get_player_character().sees( who );
+    cata::optional<tripoint> adjacent = pick_safe_adjacent_tile( who );
+    if( adjacent ) {
+        if( is_u ) {
+            add_msg( _( "Time seems to slow down and you instinctively dodge!" ) );
+        } else if( seen ) {
+            add_msg( _( "%s dodges… so fast!" ), who.disp_name() );
+        }
+        return true;
+    } else {
+        if( is_u ) {
+            add_msg( _( "You try to dodge but there's no room!" ) );
+        } else if( seen ) {
+            add_msg( _( "%s tries to dodge but there's no room!" ), who.disp_name() );
+        }
+        return false;
+    }
+}
+
+cata::optional<tripoint> pick_safe_adjacent_tile( const Character &who )
+{
+    std::vector<tripoint> ret;
+    int dangerous_fields = 0;
+    map &here = get_map();
+    for( const tripoint &p : here.points_in_radius( who.pos(), 1 ) ) {
+        if( p == who.pos() ) {
+            // Don't consider player position
+            continue;
+        }
+        const trap &curtrap = here.tr_at( p );
+        if( g->critter_at( p ) == nullptr && here.passable( p ) &&
+            ( curtrap.is_null() || curtrap.is_benign() ) ) {
+            // Only consider tile if unoccupied, passable and has no traps
+            dangerous_fields = 0;
+            auto &tmpfld = here.field_at( p );
+            for( auto &fld : tmpfld ) {
+                const field_entry &cur = fld.second;
+                if( cur.is_dangerous() ) {
+                    dangerous_fields++;
+                }
+            }
+
+            if( dangerous_fields == 0 && ! get_map().obstructed_by_vehicle_rotation( who.pos(), p ) ) {
+                ret.push_back( p );
+            }
+        }
+    }
+
+    return random_entry( ret );
+}
+
+bool is_bp_immune_to( const Character &who, body_part bp, damage_unit dam )
+{
+    if( who.has_trait( trait_DEBUG_NODMG ) || who.is_immune_damage( dam.type ) ) {
+        return true;
+    }
+
+    who.passive_absorb_hit( convert_bp( bp ).id(), dam );
+
+    for( const item &cloth : who.worn ) {
+        if( cloth.get_coverage() == 100 && cloth.covers( bp ) ) {
+            cloth.mitigate_damage( dam );
+        }
+    }
+
+    return dam.amount <= 0;
 }
 
 } // namespace character_funcs

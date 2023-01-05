@@ -118,10 +118,6 @@ std::vector<std::string> Creature::get_grammatical_genders() const
     return {};
 }
 
-void Creature::normalize()
-{
-}
-
 void Creature::reset()
 {
     reset_bonuses();

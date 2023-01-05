@@ -735,7 +735,7 @@ void npc::move()
     const std::string &target_name = target != nullptr ? target->disp_name() : no_target_str;
     add_msg( m_debug, "NPC %s: target = %s, danger = %.1f, range = %d",
              name, target_name, ai_cache.danger, weapon.is_gun() ? confident_shoot_range( weapon,
-                     recoil_total() ) : weapon.reach_range( *this ) );
+                     ranged::recoil_total( *this ) ) : weapon.reach_range( *this ) );
 
     Character &player_character = get_player_character();
     //faction opinion determines if it should consider you hostile
@@ -1113,7 +1113,7 @@ void npc::execute_action( npc_action action )
                 pretend_fire( this, mode.qty, *mode );
             } else {
                 add_msg( m_debug, "%s recoil on firing: %s", name, recoil );
-                fire_gun( tar, mode.qty, *mode );
+                ranged::fire_gun( *this, tar, mode.qty, *mode );
                 // "discard" the fake bio weapon after shooting it
                 if( cbm_weapon_index >= 0 ) {
                     discharge_cbm_weapon();
@@ -1375,7 +1375,7 @@ npc_action npc::method_of_attack()
                ( rhs.second->gun_damage().total_damage() * rhs.second.qty );
     } );
 
-    const int cur_recoil = recoil_total();
+    const int cur_recoil = ranged::recoil_total( *this );
     // modes outside confident range should always be the last option(s)
     std::stable_sort( modes.begin(),
                       modes.end(), [&]( const std::pair<gun_mode_id, gun_mode> &lhs,
@@ -1445,8 +1445,9 @@ npc_action npc::method_of_attack()
     }
 
     // TODO: Needs a check for transparent but non-passable tiles on the way
-    if( !modes.empty() && sees( *critter ) && aim_per_move( weapon, recoil ) > 0 &&
-        confident_shoot_range( weapon, get_most_accurate_sight( weapon ) ) >= dist ) {
+    if( !modes.empty() && sees( *critter ) &&
+        ranged::aim_per_move( *this, weapon, recoil ) > 0 &&
+        confident_shoot_range( weapon, ranged::get_most_accurate_sight( *this, weapon ) ) >= dist ) {
         add_msg( m_debug, "%s is aiming", disp_name() );
         if( critter->is_player() && player_character.sees( *this ) ) {
             add_msg( m_bad, _( "%s takes aim at you!" ), disp_name() );
@@ -1658,7 +1659,9 @@ bool npc::consume_cbm_items( const std::function<bool( const item & )> &filter )
     }
     int old_moves = moves;
     item_location loc = item_location( *this, &i_at( index ) );
-    return consume( loc ) && old_moves != moves;
+    consume( loc );
+    // TODO: a more reliable check for whether item has been consumed
+    return old_moves != moves;
 }
 
 bool npc::recharge_cbm()
@@ -2046,7 +2049,7 @@ int npc::confident_gun_mode_range( const gun_mode &gun, int at_recoil ) const
 
     // Same calculation as in @ref item::info
     // TODO: Extract into common method
-    double max_dispersion = get_weapon_dispersion( *( gun.target ) ).max() + at_recoil;
+    double max_dispersion = ranged::get_weapon_dispersion( *this, *gun.target ).max() + at_recoil;
     double even_chance_range = range_with_even_chance_of_good_hit( max_dispersion );
     double confident_range = even_chance_range * confidence_mult();
     add_msg( m_debug, "confident_gun (%s<=%.2f) at %.1f", gun.name(), confident_range,
@@ -2070,7 +2073,7 @@ bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) 
     // TODO: Get actual dispersion instead of extracting it (badly) from confident range
     int confident = throwing ?
                     confident_throw_range( it, nullptr ) :
-                    confident_shoot_range( it, recoil_total() );
+                    confident_shoot_range( it, ranged::recoil_total( *this ) );
     // if there is no confidence at using weapon, it's not used at range
     // zero confidence leads to divide by zero otherwise
     if( confident < 1 ) {
@@ -2143,12 +2146,12 @@ bool npc::enough_time_to_reload( const item &gun ) const
 
 void npc::aim()
 {
-    double aim_amount = aim_per_move( weapon, recoil );
+    double aim_amount = ranged::aim_per_move( *this, weapon, recoil );
     while( aim_amount > 0 && recoil > 0 && moves > 0 ) {
         moves--;
         recoil -= aim_amount;
         recoil = std::max( 0.0, recoil );
-        aim_amount = aim_per_move( weapon, recoil );
+        aim_amount = ranged::aim_per_move( *this, weapon, recoil );
     }
 }
 
@@ -3484,7 +3487,7 @@ static void npc_throw( npc &np, item &it, int index, const tripoint &pos )
         it.charges = 1;
     }
     if( !np.is_hallucination() ) { // hallucinations only pretend to throw
-        np.throw_item( pos, it );
+        ranged::throw_item( np, pos, it, cata::nullopt );
     }
     // Throw a single charge of a stacking object.
     if( stack_size == -1 || stack_size == 1 ) {
@@ -3900,7 +3903,9 @@ bool npc::consume_food()
     // TODO: Make player::consume return false if it fails to consume
     int old_moves = moves;
     item_location loc = item_location( *this, &i_at( index ) );
-    bool consumed = consume( loc ) && old_moves != moves;
+    consume( loc );
+    // TODO: a more reliable check for whether item has been consumed
+    bool consumed = old_moves != moves;
     if( !consumed ) {
         debugmsg( "%s failed to consume %s", name, i_at( index ).tname() );
     }

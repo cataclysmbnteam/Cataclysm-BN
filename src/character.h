@@ -57,7 +57,6 @@ class SkillLevel;
 class SkillLevelMap;
 class bionic_collection;
 class character_martial_arts;
-class dispersion_sources;
 class faction;
 class ma_technique;
 class known_magic;
@@ -184,14 +183,6 @@ enum class rechargeable_cbm {
     reactor,
     furnace,
     other
-};
-
-struct aim_type {
-    std::string name;
-    std::string action;
-    std::string help;
-    bool has_threshold;
-    int threshold;
 };
 
 struct special_attack {
@@ -371,40 +362,12 @@ class Character : public Creature, public visitable<Character>
         }
         void set_fac_id( const std::string &my_fac_id );
 
-        /* Adjusts provided sight dispersion to account for player stats */
-        int effective_dispersion( int dispersion ) const;
-
-        /**
-         * Returns a weapon's modified dispersion value.
-         * @param obj Weapon to check dispersion on
-         */
-        dispersion_sources get_weapon_dispersion( const item &obj ) const;
-
-        /* Accessors for aspects of aim speed. */
-        std::vector<aim_type> get_aim_types( const item &gun ) const;
-        std::pair<int, int> get_fastest_sight( const item &gun, double recoil ) const;
-        int get_most_accurate_sight( const item &gun ) const;
-        double aim_speed_skill_modifier( const skill_id &gun_skill ) const;
-        double aim_speed_dex_modifier() const;
-        double aim_speed_encumbrance_modifier() const;
-        double aim_cap_from_volume( const item &gun ) const;
-
-        /* Calculate aim improvement per move spent aiming at a given @ref recoil */
-        double aim_per_move( const item &gun, double recoil ) const;
-
-        /** Get maximum recoil penalty due to vehicle motion */
-        double recoil_vehicle() const;
-
-        double recoil_mode() const;
-
-        /** Current total maximum recoil penalty from all sources */
-        double recoil_total() const;
-
         /** Combat getters */
         float get_dodge_base() const override;
         float get_hit_base() const override;
         float get_dodge() const override;
         float dodge_roll() override;
+        float get_melee() const override;
 
         const tripoint &pos() const override;
         /** Returns the player's sight range */
@@ -594,12 +557,16 @@ class Character : public Creature, public visitable<Character>
         profession_id prof;
         std::string custom_profession;
 
+        /** Returns true if the player is able to use a grab breaking technique */
+        bool can_use_grab_break_tec( const item &weap ) const;
         /** Returns true if the player is able to use a miss recovery technique */
         bool can_miss_recovery( const item &weap ) const;
         /** Returns true if the player has quiet melee attacks */
         bool is_quiet() const;
         /** Returns true if the player has stealthy movement */
         bool is_stealthy() const;
+
+        bool uncanny_dodge() override;
 
         // melee.cpp
         /** Checks for valid block abilities and reduces damage accordingly. Returns true if the player blocks */
@@ -1449,11 +1416,6 @@ class Character : public Creature, public visitable<Character>
         // magic mod
         pimpl<known_magic> magic;
 
-        /** Calls Creature::normalize()
-         *  nulls out the player's weapon
-         *  Should only be called through player::normalize(), not on it's own!
-         */
-        void normalize() override;
         void die( Creature *nkiller ) override;
 
         std::string get_name() const override;
@@ -1732,8 +1694,9 @@ class Character : public Creature, public visitable<Character>
         void on_mutation_loss( const trait_id &mid );
         /** Called when a stat is changed */
         void on_stat_change( const std::string &stat, int value ) override;
-        /** Returns an unoccupied, safe adjacent point. If none exists, returns player position. */
-        tripoint adjacent_tile() const;
+        /** Called when a worn item is transformed */
+        void on_worn_item_transform( const item &old_it, const item &new_it );
+
         /** Removes "sleep" and "lying_down" */
         void wake_up();
         // how loud a character can shout. based on mutations and clothing
@@ -1932,6 +1895,27 @@ class Character : public Creature, public visitable<Character>
          * WARNING: consumable does not necessarily guarantee the comestible type.
          */
         item &get_consumable_from( item &it ) const;
+
+        /**
+         * Consume item (food, fuel, medicine, ...) at given location @p loc .
+         */
+        void consume( item_location loc );
+
+        /**
+         * Consume given item (food, fuel, medicine, ...).
+         * @returns true if item should be destroyed (last charge was consumed)
+         */
+        bool consume_item( item &target );
+
+        /**
+         * Consume an item as medication.
+         * @param target Item consumed. Must be a medication or a container of medication.
+         * @returns true if item should be destroyed (last charge was consumed)
+         */
+        bool consume_med( item &target );
+
+        /** Used for eating entered comestible, returns true if comestible is successfully eaten */
+        bool eat( item &food, bool force = false );
 
         /** Get calorie & vitamin contents for a comestible, taking into
          * account character traits */

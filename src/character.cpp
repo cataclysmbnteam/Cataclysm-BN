@@ -196,12 +196,7 @@ static const itype_id itype_bio_armor( "bio_armor" );
 
 static const fault_id fault_bionic_nonsterile( "fault_bionic_nonsterile" );
 
-static const skill_id skill_archery( "archery" );
 static const skill_id skill_dodge( "dodge" );
-static const skill_id skill_pistol( "pistol" );
-static const skill_id skill_rifle( "rifle" );
-static const skill_id skill_shotgun( "shotgun" );
-static const skill_id skill_smg( "smg" );
 static const skill_id skill_swimming( "swimming" );
 static const skill_id skill_throw( "throw" );
 
@@ -327,7 +322,6 @@ static const std::string flag_BELTED( "BELTED" );
 static const std::string flag_BLIND( "BLIND" );
 static const flag_str_id flag_COLLAR( "COLLAR" );
 static const std::string flag_DEAF( "DEAF" );
-static const std::string flag_DISABLE_SIGHTS( "DISABLE_SIGHTS" );
 static const std::string flag_EFFECT_INVISIBLE( "EFFECT_INVISIBLE" );
 static const std::string flag_EFFECT_NIGHT_VISION( "EFFECT_NIGHT_VISION" );
 static const std::string flag_FIX_NEARSIGHT( "FIX_NEARSIGHT" );
@@ -540,6 +534,14 @@ void Character::mod_stat( const std::string &stat, float modifier )
         mod_stored_kcal( modifier );
     } else if( stat == "hunger" ) {
         mod_stored_kcal( -10 * modifier );
+    } else if( stat == "thirst" ) {
+        mod_thirst( modifier );
+    } else if( stat == "fatigue" ) {
+        mod_fatigue( modifier );
+    } else if( stat == "oxygen" ) {
+        oxygen += modifier;
+    } else if( stat == "stamina" ) {
+        mod_stamina( modifier );
     } else {
         Creature::mod_stat( stat, modifier );
     }
@@ -569,153 +571,6 @@ std::string Character::skin_name() const
 {
     // TODO: Return actual deflecting layer name
     return _( "armor" );
-}
-
-int Character::effective_dispersion( int dispersion ) const
-{
-    /** @EFFECT_PER penalizes sight dispersion when low. */
-    dispersion += ranged_per_mod();
-
-    dispersion += encumb( bp_eyes ) / 2;
-
-    return std::max( dispersion, 0 );
-}
-
-std::pair<int, int> Character::get_fastest_sight( const item &gun, double recoil ) const
-{
-    // Get fastest sight that can be used to improve aim further below @ref recoil.
-    int sight_speed_modifier = INT_MIN;
-    int limit = 0;
-    if( effective_dispersion( gun.type->gun->sight_dispersion ) < recoil ) {
-        sight_speed_modifier = gun.has_flag( flag_DISABLE_SIGHTS ) ? 0 : 6;
-        limit = effective_dispersion( gun.type->gun->sight_dispersion );
-    }
-
-    for( const auto e : gun.gunmods() ) {
-        const islot_gunmod &mod = *e->type->gunmod;
-        if( mod.sight_dispersion < 0 || mod.aim_speed < 0 ) {
-            continue; // skip gunmods which don't provide a sight
-        }
-        if( effective_dispersion( mod.sight_dispersion ) < recoil &&
-            mod.aim_speed > sight_speed_modifier ) {
-            sight_speed_modifier = mod.aim_speed;
-            limit = effective_dispersion( mod.sight_dispersion );
-        }
-    }
-    return std::make_pair( sight_speed_modifier, limit );
-}
-
-int Character::get_most_accurate_sight( const item &gun ) const
-{
-    if( !gun.is_gun() ) {
-        return 0;
-    }
-
-    int limit = effective_dispersion( gun.type->gun->sight_dispersion );
-    for( const auto e : gun.gunmods() ) {
-        const islot_gunmod &mod = *e->type->gunmod;
-        if( mod.aim_speed >= 0 ) {
-            limit = std::min( limit, effective_dispersion( mod.sight_dispersion ) );
-        }
-    }
-
-    return limit;
-}
-
-double Character::aim_speed_skill_modifier( const skill_id &gun_skill ) const
-{
-    double skill_mult = 1.0;
-    if( gun_skill == skill_pistol ) {
-        skill_mult = 2.0;
-    } else if( gun_skill == skill_rifle ) {
-        skill_mult = 0.9;
-    }
-    /** @EFFECT_PISTOL increases aiming speed for pistols */
-    /** @EFFECT_SMG increases aiming speed for SMGs */
-    /** @EFFECT_RIFLE increases aiming speed for rifles */
-    /** @EFFECT_SHOTGUN increases aiming speed for shotguns */
-    /** @EFFECT_LAUNCHER increases aiming speed for launchers */
-    return skill_mult * std::min( MAX_SKILL, get_skill_level( gun_skill ) );
-}
-
-double Character::aim_speed_dex_modifier() const
-{
-    return get_dex() - 8;
-}
-
-double Character::aim_speed_encumbrance_modifier() const
-{
-    return ( encumb( bp_hand_l ) + encumb( bp_hand_r ) ) / 10.0;
-}
-
-double Character::aim_cap_from_volume( const item &gun ) const
-{
-    skill_id gun_skill = gun.gun_skill();
-    double aim_cap = std::min( 49.0, 49.0 - static_cast<float>( gun.volume() / 75_ml ) );
-    // TODO: also scale with skill level.
-    if( gun_skill == skill_smg ) {
-        aim_cap = std::max( 12.0, aim_cap );
-    } else if( gun_skill == skill_shotgun ) {
-        aim_cap = std::max( 12.0, aim_cap );
-    } else if( gun_skill == skill_pistol ) {
-        aim_cap = std::max( 15.0, aim_cap * 1.25 );
-    } else if( gun_skill == skill_rifle ) {
-        aim_cap = std::max( 7.0, aim_cap - 5.0 );
-    } else if( gun_skill == skill_archery ) {
-        aim_cap = std::max( 13.0, aim_cap );
-    } else { // Launchers, etc.
-        aim_cap = std::max( 10.0, aim_cap );
-    }
-    return aim_cap;
-}
-
-double Character::aim_per_move( const item &gun, double recoil ) const
-{
-    if( !gun.is_gun() ) {
-        return 0.0;
-    }
-
-    std::pair<int, int> best_sight = get_fastest_sight( gun, recoil );
-    int sight_speed_modifier = best_sight.first;
-    int limit = best_sight.second;
-    if( sight_speed_modifier == INT_MIN ) {
-        // No suitable sights (already at maximum aim).
-        return 0;
-    }
-
-    // Overall strategy for determining aim speed is to sum the factors that contribute to it,
-    // then scale that speed by current recoil level.
-    // Player capabilities make aiming faster, and aim speed slows down as it approaches 0.
-    // Base speed is non-zero to prevent extreme rate changes as aim speed approaches 0.
-    double aim_speed = 10.0;
-
-    skill_id gun_skill = gun.gun_skill();
-    // Ranges [0 - 10]
-    aim_speed += aim_speed_skill_modifier( gun_skill );
-
-    // Range [0 - 12]
-    /** @EFFECT_DEX increases aiming speed */
-    aim_speed += aim_speed_dex_modifier();
-
-    // Range [0 - 10]
-    aim_speed += sight_speed_modifier;
-
-    // Each 5 points (combined) of hand encumbrance decreases aim speed by one unit.
-    aim_speed -= aim_speed_encumbrance_modifier();
-
-    aim_speed = std::min( aim_speed, aim_cap_from_volume( gun ) );
-
-    // Just a raw scaling factor.
-    aim_speed *= 6.5;
-
-    // Scale rate logistically as recoil goes from MAX_RECOIL to 0.
-    aim_speed *= 1.0 - logarithmic_range( 0, MAX_RECOIL, recoil );
-
-    // Minimum improvement is 5MoA.  This mostly puts a cap on how long aiming for sniping takes.
-    aim_speed = std::max( aim_speed, 5.0 );
-
-    // Never improve by more than the currently used sights permit.
-    return std::min( aim_speed, recoil - limit );
 }
 
 const tripoint &Character::pos() const
@@ -3522,17 +3377,6 @@ bool Character::meets_requirements( const item &it, const item &context ) const
 {
     const auto &ctx = !context.is_null() ? context : it;
     return meets_stat_requirements( it ) && meets_skill_requirements( it.type->min_skills, ctx );
-}
-
-void Character::normalize()
-{
-    Creature::normalize();
-
-    martial_arts_data->reset_style();
-    weapon = item( "null", calendar::start_of_cataclysm );
-
-    set_body();
-    recalc_hp();
 }
 
 // Actual player death is mostly handled in game::is_game_over
@@ -7715,7 +7559,7 @@ void Character::vomit()
         fungal_effects( *g, here ).fungalize( pos(), this );
     } else if( stomach.get_calories() > 0 || get_thirst() < 0 ) {
         add_msg_player_or_npc( m_bad, _( "You throw up heavily!" ), _( "<npcname> throws up heavily!" ) );
-        here.add_field( adjacent_tile(), fd_bile, 1 );
+        here.add_field( character_funcs::pick_safe_adjacent_tile( *this ).value_or( pos() ), fd_bile, 1 );
     } else {
         return;
     }
@@ -7749,39 +7593,6 @@ void Character::vomit()
     remove_effect( effect_pkill3 );
     // Don't wake up when just retching
     wake_up();
-}
-
-// adjacent_tile() returns a safe, unoccupied adjacent tile. If there are no such tiles, returns player position instead.
-tripoint Character::adjacent_tile() const
-{
-    std::vector<tripoint> ret;
-    int dangerous_fields = 0;
-    map &here = get_map();
-    for( const tripoint &p : here.points_in_radius( pos(), 1 ) ) {
-        if( p == pos() ) {
-            // Don't consider player position
-            continue;
-        }
-        const trap &curtrap = here.tr_at( p );
-        if( g->critter_at( p ) == nullptr && here.passable( p ) &&
-            ( curtrap.is_null() || curtrap.is_benign() ) ) {
-            // Only consider tile if unoccupied, passable and has no traps
-            dangerous_fields = 0;
-            auto &tmpfld = here.field_at( p );
-            for( auto &fld : tmpfld ) {
-                const field_entry &cur = fld.second;
-                if( cur.is_dangerous() ) {
-                    dangerous_fields++;
-                }
-            }
-
-            if( dangerous_fields == 0 && ! get_map().obstructed_by_vehicle_rotation( pos(), p ) ) {
-                ret.push_back( p );
-            }
-        }
-    }
-
-    return random_entry( ret, pos() ); // player position if no valid adjacent tiles
 }
 
 void Character::healed_bp( int bp, int amount )
@@ -9818,6 +9629,11 @@ void Character::on_stat_change( const std::string &stat, int value )
     morale->on_stat_change( stat, value );
 }
 
+void Character::on_worn_item_transform( const item &old_it, const item &new_it )
+{
+    morale->on_worn_item_transform( old_it, new_it );
+}
+
 bool Character::has_opposite_trait( const trait_id &flag ) const
 {
     for( const trait_id &i : flag->cancels ) {
@@ -10559,4 +10375,9 @@ float Character::stability_roll() const
 
     /** @EFFECT_MELEE improves player stability roll */
     return get_melee() + get_str() + ( get_per() / 3.0f ) + ( get_dex() / 4.0f );
+}
+
+bool Character::uncanny_dodge()
+{
+    return character_funcs::try_uncanny_dodge( *this );
 }
