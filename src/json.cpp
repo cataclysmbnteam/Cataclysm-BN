@@ -238,6 +238,51 @@ void JsonObject::throw_error( std::string err ) const
     jsin->error( err );
 }
 
+void JsonObject::show_warning( std::string err ) const
+{
+    try {
+        throw_error( err );
+    } catch( const std::exception &e ) {
+        debugmsg( "%s", e.what() );
+    }
+}
+
+void JsonObject::show_warning( std::string err, const std::string &name ) const
+{
+    try {
+        throw_error( err, name );
+    } catch( const std::exception &e ) {
+        debugmsg( "%s", e.what() );
+    }
+}
+
+void JsonArray::show_warning( std::string err )
+{
+    try {
+        throw_error( err );
+    } catch( const std::exception &e ) {
+        debugmsg( "%s", e.what() );
+    }
+}
+
+void JsonArray::show_warning( std::string err, int idx )
+{
+    try {
+        throw_error( err, idx );
+    } catch( const std::exception &e ) {
+        debugmsg( "%s", e.what() );
+    }
+}
+
+void JsonValue::show_warning( std::string err ) const
+{
+    try {
+        throw_error( err );
+    } catch( const std::exception &e ) {
+        debugmsg( "%s", e.what() );
+    }
+}
+
 JsonIn *JsonObject::get_raw( const std::string &name ) const
 {
     int pos = verify_position( name );

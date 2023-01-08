@@ -874,6 +874,8 @@ class JsonObject
         std::string str() const; // copy object json as string
         [[noreturn]] void throw_error( std::string err ) const;
         [[noreturn]] void throw_error( std::string err, const std::string &name ) const;
+        void show_warning( std::string err ) const;
+        void show_warning( std::string err, const std::string &name ) const;
         // seek to a value and return a pointer to the JsonIn (member must exist)
         JsonIn *get_raw( const std::string &name ) const;
         JsonValue get_member( const std::string &name ) const;
@@ -1053,6 +1055,8 @@ class JsonArray
         std::string str(); // copy array json as string
         [[noreturn]] void throw_error( std::string err );
         [[noreturn]] void throw_error( std::string err, int idx );
+        void show_warning( std::string err );
+        void show_warning( std::string err, int idx );
 
         // iterative access
         bool next_bool();
@@ -1179,6 +1183,7 @@ class JsonValue
         [[noreturn]] void throw_error( const std::string &err ) const {
             seek().error( err );
         }
+        void show_warning( std::string err ) const;
 
         std::string get_string() const {
             return seek().get_string();
