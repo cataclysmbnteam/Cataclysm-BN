@@ -19,10 +19,19 @@ static void advance_turn( Character &guy )
     calendar::turn += 1_turns;
 }
 
-static void give_item( Character &guy, const std::string &item_id )
+static item &give_item( Character &guy, const std::string &item_id )
 {
-    guy.i_add( item( item_id ) );
+    item &ret = guy.i_add( item( item_id ) );
     guy.recalculate_enchantment_cache();
+    return ret;
+}
+
+static item &wear_item( Character &guy, const std::string &item_id )
+{
+    item &ret = guy.i_add( item( item_id ) );
+    guy.wear_item( ret, false );
+    guy.recalculate_enchantment_cache();
+    return ret;
 }
 
 static void clear_items( Character &guy )
@@ -37,7 +46,6 @@ TEST_CASE( "Enchantments grant mutations", "[magic][enchantment][trait][mutation
     Character &guy = get_player_character();
     clear_character( *guy.as_player(), true );
 
-    guy.recalculate_enchantment_cache();
     advance_turn( guy );
 
     std::string s_relic = "test_relic_gives_trait";
@@ -106,7 +114,6 @@ TEST_CASE( "Enchantments apply effects", "[magic][enchantment][effect]" )
     Character &guy = get_player_character();
     clear_character( *guy.as_player(), true );
 
-    guy.recalculate_enchantment_cache();
     advance_turn( guy );
 
     std::string s_relic = "architect_cube";
@@ -158,7 +165,6 @@ static void tests_stats( Character &guy, int s_base, int d_base, int p_base, int
     guy.per_max = p_base;
     guy.int_max = i_base;
 
-    guy.recalculate_enchantment_cache();
     advance_turn( guy );
 
     auto check_stats = [&]( int s, int d, int p, int i ) {
@@ -225,7 +231,6 @@ TEST_CASE( "Enchantments modify stats", "[magic][enchantment][character]" )
 
 static void tests_speed( Character &guy, int sp_base, int sp_exp )
 {
-    guy.recalculate_enchantment_cache();
     guy.set_speed_base( sp_base );
     guy.set_speed_bonus( 0 );
 
@@ -311,7 +316,6 @@ TEST_CASE( "Enchantments modify speed", "[magic][enchantment][speed]" )
 static void tests_attack_cost( Character &guy, const item &weap, int item_atk_cost,
                                int guy_atk_cost, int exp_guy_atk_cost )
 {
-    guy.recalculate_enchantment_cache();
     advance_turn( guy );
 
     REQUIRE( weap.attack_cost() == item_atk_cost );
@@ -357,7 +361,6 @@ TEST_CASE( "Enchantments modify attack cost", "[magic][enchantment][melee]" )
 
 static void tests_move_cost( Character &guy, int tile_move_cost, int move_cost, int exp_move_cost )
 {
-    guy.recalculate_enchantment_cache();
     advance_turn( guy );
 
     std::string s_relic = "test_relic_mods_mv_cost";
@@ -416,7 +419,6 @@ TEST_CASE( "Enchantments modify move cost", "[magic][enchantment][move]" )
 
 static void tests_metabolic_rate( Character &guy, float norm, float exp )
 {
-    guy.recalculate_enchantment_cache();
     advance_turn( guy );
 
     std::string s_relic = "test_relic_mods_metabolism";
@@ -451,7 +453,6 @@ TEST_CASE( "Enchantments modify metabolic rate", "[magic][enchantment][metabolis
     Character &guy = get_player_character();
     clear_character( *guy.as_player(), true );
 
-    guy.recalculate_enchantment_cache();
     advance_turn( guy );
 
     const float normal_mr = get_option<float>( "PLAYER_HUNGER_RATE" );
@@ -495,7 +496,6 @@ static void tests_mana_pool( Character &guy, const mana_test_case &t )
     double norm_regen_rate = t.norm_regen_amt_8h / to_turns<double>( time_duration::from_hours( 8 ) );
     double exp_regen_rate = t.exp_regen_amt_8h / to_turns<double>( time_duration::from_hours( 8 ) );
 
-    guy.recalculate_enchantment_cache();
     advance_turn( guy );
 
     guy.set_max_power_level( 2000_kJ );
@@ -553,5 +553,396 @@ TEST_CASE( "Mana pool", "[magic][enchantment][mana][bionic]" )
     clear_all_state();
     for( const mana_test_case &it : mana_test_data ) {
         tests_mana_pool_section( it );
+    }
+}
+
+static float measure_stamina_gain_rate( Character &guy )
+{
+    int gained_total = 0;
+    // Stamina regen rate is supposed to decrease over time as character gains stamina,
+    // so we measure 100 times on same level instead of doing update_stamina( 100 )
+    for( int i = 0; i < 100; i++ ) {
+        guy.set_stamina( 0 );
+        if( guy.get_stamina() != 0 ) {
+            // Hide this behind an if check to avoid spamming check counter
+            REQUIRE( guy.get_stamina() == 0 );
+        }
+        guy.update_stamina( 1 );
+        gained_total += guy.get_stamina();
+    }
+    return gained_total / 100.0f;
+}
+
+static void tests_stamina( Character &guy,
+                           int cap_norm, int cap_exp,
+                           float rate_norm, float rate_exp
+                         )
+{
+    advance_turn( guy );
+
+    std::string s_relic = "test_relic_mods_stamina";
+
+    REQUIRE( guy.get_stamina_max() == cap_norm );
+    REQUIRE( measure_stamina_gain_rate( guy ) == Approx( rate_norm ) );
+
+    WHEN( "Character receives relic" ) {
+        give_item( guy, s_relic );
+        THEN( "Stamina cap changes" ) {
+            CHECK( guy.get_stamina_max() == cap_exp );
+            AND_WHEN( "Character loses relic" ) {
+                clear_items( guy );
+                THEN( "Stamina cap goes back to normal" ) {
+                    CHECK( guy.get_stamina_max() == cap_norm );
+                }
+            }
+        }
+        THEN( "Stamina gain rate changes" ) {
+            CHECK( measure_stamina_gain_rate( guy ) == Approx( rate_exp ) );
+            AND_WHEN( "Character loses relic" ) {
+                clear_items( guy );
+                THEN( "Stamina gain rate goes back to normal" ) {
+                    CHECK( measure_stamina_gain_rate( guy ) == Approx( rate_norm ) );
+                }
+            }
+        }
+    }
+    WHEN( "Character receives 15 relics" ) {
+        for( int i = 0; i < 15; i++ ) {
+            give_item( guy, s_relic );
+        }
+        THEN( "Stamina cap does not go below 0.1 of PLAYER_MAX_STAMINA" ) {
+            const int base_cap = get_option<int>( "PLAYER_MAX_STAMINA" );
+            CHECK( guy.get_stamina_max() == ( base_cap / 10 ) );
+        }
+        THEN( "Stamina gain rate does not go below 0" ) {
+            CHECK( measure_stamina_gain_rate( guy ) == Approx( 0.0f ) );
+        }
+    }
+}
+
+TEST_CASE( "Enchantments modify stamina", "[magic][enchantment][stamina]" )
+{
+    clear_all_state();
+    Character &guy = get_player_character();
+    clear_character( *guy.as_player(), true );
+
+    advance_turn( guy );
+
+    REQUIRE( guy.get_stim() == 0 );
+
+    const int normal_cap = get_option<int>( "PLAYER_MAX_STAMINA" );
+    REQUIRE( normal_cap == 10000 );
+    REQUIRE( guy.get_stamina_max() == normal_cap );
+
+    const float normal_rate = get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" );
+    REQUIRE( normal_rate == Approx( 20.0f ) );
+    REQUIRE( measure_stamina_gain_rate( guy ) == Approx( normal_rate ) );
+
+    guy.set_stamina( 0 );
+    REQUIRE( guy.get_stamina() == 0 );
+
+    SECTION( "Clean character" ) {
+        tests_stamina( guy, 10000, 9000, 20.0f, 18.0f );
+    }
+    SECTION( "Character with GOODCARDIO trait" ) {
+        trait_id tr( "GOODCARDIO" );
+        guy.set_mutation( tr );
+        REQUIRE( guy.has_trait( tr ) );
+
+        tests_stamina( guy, 12500, 11250, 25.0f, 23.0f );
+    }
+    SECTION( "Character with PERSISTENCE_HUNTER trait" ) {
+        trait_id tr( "PERSISTENCE_HUNTER" );
+        guy.set_mutation( tr );
+        REQUIRE( guy.has_trait( tr ) );
+
+        tests_stamina( guy, 10000, 9000, 22.0f, 20.0f );
+    }
+    SECTION( "Character with GOODCARDIO and PERSISTENCE_HUNTER traits" ) {
+        {
+            trait_id tr( "GOODCARDIO" );
+            guy.set_mutation( tr );
+            REQUIRE( guy.has_trait( tr ) );
+        }
+        {
+            trait_id tr( "PERSISTENCE_HUNTER" );
+            guy.set_mutation( tr );
+            REQUIRE( guy.has_trait( tr ) );
+        }
+        tests_stamina( guy, 12500, 11250, 27.0f, 25.0f );
+    }
+}
+
+template<typename F>
+static void tests_need_rate( Character &guy, const std::string &s_relic, float norm, float exp,
+                             F getter )
+{
+    advance_turn( guy );
+
+    REQUIRE( getter( guy ) == Approx( norm ) );
+
+    WHEN( "Character receives relic" ) {
+        give_item( guy, s_relic );
+        THEN( "Need rate changes" ) {
+            CHECK( getter( guy ) == Approx( exp ) );
+            AND_WHEN( "Character loses relic" ) {
+                clear_items( guy );
+                THEN( "Need rate goes back to normal" ) {
+                    CHECK( getter( guy ) == Approx( norm ) );
+                }
+            }
+        }
+    }
+    WHEN( "Character receives 15 relics" ) {
+        for( int i = 0; i < 15; i++ ) {
+            give_item( guy, s_relic );
+        }
+        THEN( "Need rate does not go below 0" ) {
+            CHECK( getter( guy ) == Approx( 0.0f ) );
+        }
+    }
+}
+
+TEST_CASE( "Enchantments modify thirst rate", "[magic][enchantment][thirst]" )
+{
+    clear_all_state();
+    Character &guy = get_player_character();
+    clear_character( *guy.as_player(), true );
+
+    advance_turn( guy );
+
+    std::string s_relic = "test_relic_mods_thirst";
+    const auto getter = []( const Character & guy ) -> float {
+        return guy.calc_needs_rates().thirst;
+    };
+
+    const float normal_rate = get_option<float>( "PLAYER_THIRST_RATE" );
+    REQUIRE( normal_rate == Approx( 1.0f ) );
+    REQUIRE( getter( guy ) == Approx( normal_rate ) );
+
+    SECTION( "Clean character" ) {
+        tests_need_rate( guy, s_relic, 1.0f, 0.9f, getter );
+    }
+    SECTION( "Character with THIRST trait" ) {
+        trait_id tr( "THIRST" );
+        guy.set_mutation( tr );
+        REQUIRE( guy.has_trait( tr ) );
+
+        tests_need_rate( guy, s_relic, 1.5f, 1.4f, getter );
+    }
+}
+
+TEST_CASE( "Enchantments modify fatigue rate", "[magic][enchantment][fatigue]" )
+{
+    clear_all_state();
+    Character &guy = get_player_character();
+    clear_character( *guy.as_player(), true );
+
+    advance_turn( guy );
+
+    std::string s_relic = "test_relic_mods_fatigue";
+    const auto getter = []( const Character & guy ) -> float {
+        return guy.calc_needs_rates().fatigue;
+    };
+
+    const float normal_rate = get_option<float>( "PLAYER_THIRST_RATE" );
+    REQUIRE( normal_rate == Approx( 1.0f ) );
+    REQUIRE( getter( guy ) == Approx( normal_rate ) );
+
+    SECTION( "Clean character" ) {
+        tests_need_rate( guy, s_relic, 1.0f, 0.9f, getter );
+    }
+    SECTION( "Character with WAKEFUL trait" ) {
+        trait_id tr( "WAKEFUL" );
+        guy.set_mutation( tr );
+        REQUIRE( guy.has_trait( tr ) );
+
+        tests_need_rate( guy, s_relic, 0.85f, 0.75f, getter );
+    }
+}
+
+static void check_num_dodges( const Character &guy, int num )
+{
+    CHECK( guy.get_num_dodges() == num );
+    CHECK( guy.dodges_left == num );
+}
+
+static void tests_num_dodges( Character &guy )
+{
+    // Must have some moves to gain dodges
+    guy.moves = 1;
+    guy.dodges_left = 0;
+
+    advance_turn( guy );
+
+    REQUIRE( guy.get_num_dodges_base() == 1 );
+    REQUIRE( guy.get_num_dodges_bonus() == 0 );
+    REQUIRE( guy.get_num_dodges() == 1 );
+    REQUIRE( guy.dodges_left == 1 );
+
+    std::string s_relic = "test_relic_mods_dodges";
+
+    WHEN( "Character has no relics" ) {
+        THEN( "Dodges bonus remain unaffected" ) {
+            guy.moves = 1;
+            guy.dodges_left = 0;
+            advance_turn( guy );
+            check_num_dodges( guy, 1 );
+        }
+    }
+    WHEN( "Character receives relic" ) {
+        give_item( guy, s_relic );
+        THEN( "Nothing changes" ) {
+            check_num_dodges( guy, 1 );
+        }
+        AND_WHEN( "Turn passes" ) {
+            guy.moves = 1;
+            guy.dodges_left = 0;
+            advance_turn( guy );
+            THEN( "Dodge bonus changes, dodges increase" ) {
+                check_num_dodges( guy, 2 );
+            }
+            AND_WHEN( "Character loses relic" ) {
+                clear_items( guy );
+                THEN( "Nothing changes" ) {
+                    check_num_dodges( guy, 2 );
+                }
+                AND_WHEN( "Turn passes" ) {
+                    guy.moves = 1;
+                    guy.dodges_left = 0;
+                    advance_turn( guy );
+                    THEN( "Dodge bonus and dodge gain return to normal" ) {
+                        check_num_dodges( guy, 1 );
+                    }
+                }
+            }
+        }
+    }
+    WHEN( "Character receives 10 relics" ) {
+        for( int i = 0; i < 10; i++ ) {
+            give_item( guy, s_relic );
+        }
+        THEN( "Nothing changes" ) {
+            check_num_dodges( guy, 1 );
+        }
+        AND_WHEN( "Turn passes" ) {
+            guy.moves = 1;
+            guy.dodges_left = 0;
+            advance_turn( guy );
+            THEN( "Dodge bonus and dodge gain increase by 10" ) {
+                check_num_dodges( guy, 11 );
+            }
+        }
+    }
+}
+
+TEST_CASE( "Enchantments grant bonus dodges", "[magic][enchantment][dodge]" )
+{
+    clear_all_state();
+    Character &guy = get_player_character();
+    clear_character( *guy.as_player(), true );
+
+    tests_num_dodges( guy );
+}
+
+TEST_CASE( "Item enchantments modify item damage", "[magic][enchantment]" )
+{
+    clear_all_state();
+    Character &guy = get_player_character();
+    clear_character( *guy.as_player(), true );
+
+    SECTION( "Cut damage" ) {
+        item &base = give_item( guy, "test_balanced_sword" );
+        item &impr = give_item( guy, "test_relic_mods_cut_dmg" );
+
+        REQUIRE( base.damage_melee( damage_type::DT_CUT ) == 32 );
+        CHECK( impr.damage_melee( damage_type::DT_CUT ) == 17 );
+    }
+    SECTION( "Stab damage" ) {
+        item &base = give_item( guy, "test_screwdriver" );
+        item &impr = give_item( guy, "test_relic_mods_stab_dmg" );
+
+        REQUIRE( base.damage_melee( damage_type::DT_STAB ) == 6 );
+        CHECK( impr.damage_melee( damage_type::DT_STAB ) == 4 );
+    }
+    SECTION( "Bash damage" ) {
+        item &base = give_item( guy, "test_halligan" );
+        item &impr = give_item( guy, "test_relic_mods_bash_dmg" );
+
+        REQUIRE( base.damage_melee( damage_type::DT_BASH ) == 20 );
+        CHECK( impr.damage_melee( damage_type::DT_BASH ) == 11 );
+    }
+}
+
+static int calc_damage_absorb( Character &guy, damage_type dt, int amount )
+{
+    static const bodypart_id torso( "torso" );
+    damage_instance dmg( dt, amount );
+    guy.absorb_hit( torso, dmg );
+    assert( dmg.damage_units.size() == 1 );
+    return amount - dmg.damage_units[0].amount;
+}
+
+TEST_CASE( "Armor enchantments", "[magic][enchantment][armor]" )
+{
+    clear_all_state();
+    Character &guy = get_player_character();
+    clear_character( *guy.as_player(), true );
+
+    REQUIRE( calc_damage_absorb( guy, damage_type::DT_CUT, 10 ) == 0 );
+    REQUIRE( calc_damage_absorb( guy, damage_type::DT_BASH, 10 ) == 0 );
+    REQUIRE( calc_damage_absorb( guy, damage_type::DT_STAB, 10 ) == 0 );
+
+    SECTION( "Armor item with no enchantments" ) {
+        wear_item( guy, "test_hazmat_suit" );
+
+        SECTION( "Cut" ) {
+            // 10 (incoming) - 4 (base item cut armor) = 6 (4 absorbed)
+            CHECK( calc_damage_absorb( guy, damage_type::DT_CUT, 10 ) == 4 );
+        }
+        SECTION( "Bash" ) {
+            // 10 (incoming) - 4 (base item bash armor) = 6 (4 absorbed)
+            CHECK( calc_damage_absorb( guy, damage_type::DT_BASH, 10 ) == 4 );
+        }
+        SECTION( "Stab" ) {
+            // 10 (incoming) - 3 (base item stab armor) = 7 (3 absorbed)
+            CHECK( calc_damage_absorb( guy, damage_type::DT_STAB, 10 ) == 3 );
+        }
+    }
+
+    SECTION( "Armor item with enchantment that trades bash armor for cut armor" ) {
+        wear_item( guy, "test_relic_item_armor_mod" );
+
+        SECTION( "Cut" ) {
+            // 10 (incoming) + (10 * -0.5 + 3) (enchantment) - 4 (base item cut armor) = 4 (6 absorbed)
+            CHECK( calc_damage_absorb( guy, damage_type::DT_CUT, 10 ) == 6 );
+        }
+        SECTION( "Bash" ) {
+            // 10 (incoming) + (10 * 0.5 - 3) (enchantment) - 4 (base item bash armor) = 8 (2 absorbed)
+            CHECK( calc_damage_absorb( guy, damage_type::DT_BASH, 10 ) == 2 );
+        }
+        SECTION( "Stab" ) {
+            // 10 (incoming) - 3 (base item stab armor) = 7 (3 absorbed)
+            CHECK( calc_damage_absorb( guy, damage_type::DT_STAB, 10 ) == 3 );
+        }
+    }
+
+    SECTION( "Armor item with no enchantments + socks of protection" ) {
+        wear_item( guy, "test_hazmat_suit" );
+        // The socks provide character-wide protection regardless of what body parts they cover
+        wear_item( guy, "test_relic_char_armor_mod" );
+
+        SECTION( "Cut" ) {
+            // 10 (incoming) + (10 * -0.5 - 2) (enchantment) - 4 (base item cut armor) = -1 (10 absorbed)
+            CHECK( calc_damage_absorb( guy, damage_type::DT_CUT, 10 ) == 10 );
+        }
+        SECTION( "Bash" ) {
+            // 10 (incoming) - 4 (base item bash armor) = 6 (4 absorbed)
+            CHECK( calc_damage_absorb( guy, damage_type::DT_BASH, 10 ) == 4 );
+        }
+        SECTION( "Stab" ) {
+            // 10 (incoming) + (10 * -0.1 - 3) (enchantment) - 3 (base item stab armor) = 3 (7 absorbed)
+            CHECK( calc_damage_absorb( guy, damage_type::DT_STAB, 10 ) == 7 );
+        }
     }
 }

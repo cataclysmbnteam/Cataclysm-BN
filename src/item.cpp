@@ -5162,6 +5162,20 @@ int item::damage_melee( damage_type dt ) const
 
     }
 
+    switch( dt ) {
+        case DT_BASH:
+            res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_BASH, true );
+            break;
+        case DT_CUT:
+            res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_CUT, true );
+            break;
+        case DT_STAB:
+            res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_STAB, true );
+            break;
+        default:
+            break;
+    }
+
     return std::max( res, 0 );
 }
 

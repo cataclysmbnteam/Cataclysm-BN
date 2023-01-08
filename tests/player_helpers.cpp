@@ -73,6 +73,8 @@ void clear_character( player &dummy, bool debug_storage )
     dummy.set_power_level( 0_J );
     dummy.set_max_power_level( 0_J );
 
+    dummy.recalculate_enchantment_cache();
+
     // Clear stomach and then eat a nutritious meal to normalize stomach
     // contents (needs to happen before clear_morale).
     dummy.stomach.empty();
@@ -115,6 +117,7 @@ void clear_character( player &dummy, bool debug_storage )
     dummy.set_all_parts_hp_to_max();
 
     dummy.cash = 0;
+    dummy.dodges_left = 1;
 
     const tripoint spot( 60, 60, 0 );
     dummy.setpos( spot );
