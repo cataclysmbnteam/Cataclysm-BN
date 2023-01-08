@@ -246,13 +246,17 @@ void enchantment::load( const JsonObject &jo, const std::string & )
             std::string value_raw = value_obj.get_string( "value" );
             std::string value_new = migrate_ench_vals_enums( value_raw );
             if( json_report_strict && value_new != value_raw ) {
-                try {
-                    value_obj.throw_error( string_format( "%s has been renamed to %s", value_raw, value_new ) );
-                } catch( const std::exception &e ) {
-                    debugmsg( "%s", e.what() );
-                }
+                value_obj.show_warning(
+                    string_format( "%s has been renamed to %s", value_raw, value_new ), "value" );
             }
-            const enchant_vals::mod value = io::string_to_enum<enchant_vals::mod>( value_new );
+            enchant_vals::mod value;
+            try {
+                value = io::string_to_enum<enchant_vals::mod>( value_new );
+            } catch( const std::exception &e ) {
+                value_obj.show_warning(
+                    string_format( "Unknown enchant_val '%s', ignoring", value_new ), "value" );
+                continue;
+            }
 
             const int add = value_obj.get_int( "add", 0 );
             const double mult = value_obj.get_float( "multiply", 0.0 );
