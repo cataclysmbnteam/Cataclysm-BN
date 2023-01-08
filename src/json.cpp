@@ -248,7 +248,7 @@ void JsonObject::show_warning( std::string err ) const
     }
 #else
     ( void )err;
-#endif CATA_IN_TOOL
+#endif // CATA_IN_TOOL
 }
 
 void JsonObject::show_warning( std::string err, const std::string &name ) const
@@ -262,7 +262,7 @@ void JsonObject::show_warning( std::string err, const std::string &name ) const
 #else
     ( void )err;
     ( void )name;
-#endif CATA_IN_TOOL
+#endif // CATA_IN_TOOL
 }
 
 void JsonArray::show_warning( std::string err )
@@ -275,7 +275,7 @@ void JsonArray::show_warning( std::string err )
     }
 #else
     ( void )err;
-#endif CATA_IN_TOOL
+#endif // CATA_IN_TOOL
 }
 
 void JsonArray::show_warning( std::string err, int idx )
@@ -289,7 +289,7 @@ void JsonArray::show_warning( std::string err, int idx )
 #else
     ( void )err;
     ( void )idx;
-#endif CATA_IN_TOOL
+#endif // CATA_IN_TOOL
 }
 
 void JsonValue::show_warning( std::string err ) const
@@ -302,7 +302,7 @@ void JsonValue::show_warning( std::string err ) const
     }
 #else
     ( void )err;
-#endif CATA_IN_TOOL
+#endif // CATA_IN_TOOL
 }
 
 JsonIn *JsonObject::get_raw( const std::string &name ) const
