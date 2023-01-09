@@ -1,5 +1,4 @@
 #include "vehicle.h" // IWYU pragma: associated
-#include "avatar_functions.h"
 #include "vpart_position.h" // IWYU pragma: associated
 #include "vpart_range.h" // IWYU pragma: associated
 
@@ -21,6 +20,7 @@
 
 #include "active_tile_data_def.h"
 #include "avatar.h"
+#include "avatar_functions.h"
 #include "bionics.h"
 #include "cata_utility.h"
 #include "character.h"

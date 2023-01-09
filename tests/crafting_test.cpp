@@ -1,4 +1,3 @@
-#include "avatar_functions.h"
 #include "catch/catch.hpp"
 
 #include <algorithm>
@@ -12,6 +11,7 @@
 #include <vector>
 
 #include "avatar.h"
+#include "avatar_functions.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character_functions.h"

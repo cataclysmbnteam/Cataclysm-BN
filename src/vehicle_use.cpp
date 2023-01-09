@@ -1,4 +1,3 @@
-#include "avatar_functions.h"
 #include "character.h"
 #include "vehicle.h" // IWYU pragma: associated
 
@@ -15,6 +14,7 @@
 #include "action.h"
 #include "activity_handlers.h"
 #include "avatar.h"
+#include "avatar_functions.h"
 #include "bodypart.h"
 #include "clzones.h"
 #include "character_functions.h"
