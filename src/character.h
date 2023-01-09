@@ -1302,17 +1302,19 @@ class Character : public Creature, public visitable<Character>
          */
         bool is_armed() const;
 
+        /** Check whether character is capable of wielding given item. */
+        ret_val<bool> can_wield( const item &it ) const;
         /**
          * Removes currently wielded item (if any) and replaces it with the target item.
          * @param target replacement item to wield or null item to remove existing weapon without replacing it
          * @return whether both removal and replacement were successful (they are performed atomically)
          */
         virtual bool wield( item &target ) = 0;
-        /**
-         * Check player capable of unwielding an item.
-         * @param it Thing to be unwielded
-         */
+
+        /** Check whether character is capable of unwielding given item. */
         ret_val<bool> can_unwield( const item &it ) const;
+        /** Removes currently wielded item (if any) */
+        bool unwield();
 
         /**
          * Check player capable of swapping the side of a worn item.

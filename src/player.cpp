@@ -104,7 +104,6 @@ static const trait_id trait_SPINES( "SPINES" );
 static const trait_id trait_THORNS( "THORNS" );
 
 static const std::string flag_SPLINT( "SPLINT" );
-static const std::string flag_RESTRICT_HAND( "RESTRICT_HANDS" );
 
 static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_gun( "gun" );
@@ -241,66 +240,6 @@ bool player::beyond_final_warning( const faction_id &id )
         return it->second.first > 3;
     }
     return false;
-}
-
-ret_val<bool> player::can_wield( const item &it ) const
-{
-    if( it.made_of( LIQUID ) ) {
-        return ret_val<bool>::make_failure( _( "Can't wield spilt liquids." ) );
-    }
-
-    if( get_working_arm_count() <= 0 ) {
-        return ret_val<bool>::make_failure(
-                   _( "You need at least one arm to even consider wielding something." ) );
-    }
-
-    if( is_armed() && weapon.has_flag( "NO_UNWIELD" ) ) {
-        return ret_val<bool>::make_failure( _( "The %s is preventing you from wielding the %s." ),
-                                            character_funcs::fmt_wielded_weapon( *this ), it.tname() );
-    }
-
-    monster *mount = mounted_creature.get();
-    if( it.is_two_handed( *this ) && ( !has_two_arms() || worn_with_flag( flag_RESTRICT_HAND ) ) &&
-        !( is_mounted() && mount->has_flag( MF_RIDEABLE_MECH ) &&
-           mount->type->mech_weapon && it.typeId() == mount->type->mech_weapon ) ) {
-        if( worn_with_flag( flag_RESTRICT_HAND ) ) {
-            return ret_val<bool>::make_failure(
-                       _( "Something you are wearing hinders the use of both hands." ) );
-        } else if( it.has_flag( "ALWAYS_TWOHAND" ) ) {
-            return ret_val<bool>::make_failure( _( "The %s can't be wielded with only one arm." ),
-                                                it.tname() );
-        } else {
-            return ret_val<bool>::make_failure( _( "You are too weak to wield %s with only one arm." ),
-                                                it.tname() );
-        }
-    }
-    if( is_mounted() && mount->has_flag( MF_RIDEABLE_MECH ) &&
-        mount->type->mech_weapon && it.typeId() != mount->type->mech_weapon ) {
-        return ret_val<bool>::make_failure( _( "You cannot wield anything while piloting a mech." ) );
-    }
-
-    return ret_val<bool>::make_success();
-}
-
-bool player::unwield()
-{
-    if( weapon.is_null() ) {
-        return true;
-    }
-
-    if( !can_unwield( weapon ).success() ) {
-        return false;
-    }
-
-    const std::string query = string_format( _( "Stop wielding %s?" ), weapon.tname() );
-
-    if( !dispose_item( item_location( *this, &weapon ), query ) ) {
-        return false;
-    }
-
-    inv.unsort();
-
-    return true;
 }
 
 // ids of martial art styles that are available with the bio_cqb bionic.

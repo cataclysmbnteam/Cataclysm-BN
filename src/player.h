@@ -117,14 +117,6 @@ class player : public Character
         ret_val<bool> can_takeoff( const item &it, const std::list<item> *res = nullptr ) const;
 
         /**
-         * Check player capable of wielding an item.
-         * @param it Thing to be wielded
-         */
-        ret_val<bool> can_wield( const item &it ) const;
-
-        bool unwield();
-
-        /**
          * Whether a tool or gun is potentially reloadable (optionally considering a specific ammo)
          * @param it Thing to be reloaded
          * @param ammo if set also check item currently compatible with this specific ammo or magazine
