@@ -156,13 +156,6 @@ class player : public Character
 
         bool unload( item_location loc );
 
-        /** Uses a tool */
-        void use( int inventory_position );
-        /** Uses a tool at location */
-        void use( item_location loc );
-        /** Uses the current wielded weapon */
-        void use_wielded();
-
         /** Removes gunmod after first unloading any contained ammo and returns true on success */
         bool gunmod_remove( item &gun, item &mod );
 

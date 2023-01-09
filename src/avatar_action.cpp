@@ -996,12 +996,12 @@ void avatar_action::use_item( avatar &you, item_location &loc )
 
     if( use_in_place ) {
         update_lum( loc, false );
-        you.use( loc );
+        you.use_item( loc );
         update_lum( loc, true );
 
         make_active( loc );
     } else {
-        you.use( loc );
+        you.use_item( loc );
     }
 
     you.invalidate_crafting_inventory();

@@ -502,7 +502,7 @@ static int resume_craft()
     REQUIRE( crafting_speed_multiplier( g->u, *craft, bench_location{bench_type::hands, g->u.pos()} ) ==
              1.0 );
     REQUIRE( !g->u.activity );
-    g->u.use( g->u.get_item_position( craft ) );
+    g->u.use_item( item_location( g->u, craft ) );
     REQUIRE( g->u.activity );
     REQUIRE( g->u.activity.id() == activity_id( "ACT_CRAFT" ) );
     int turns = 0;
