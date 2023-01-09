@@ -2177,7 +2177,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
             return;
         }
         case RELOAD_TURRET: {
-            item::reload_option opt = character_funcs::select_ammo( you, *turret.base(), true );
+            item_reload_option opt = character_funcs::select_ammo( you, *turret.base(), true );
             if( opt ) {
                 you.assign_activity( ACT_RELOAD, opt.moves(), opt.qty() );
                 you.activity.targets.emplace_back( turret.base() );

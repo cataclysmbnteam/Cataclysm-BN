@@ -3759,7 +3759,7 @@ bool ranged::gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::
 
 void ranged::prompt_select_default_ammo_for( avatar &u, const item &w )
 {
-    item::reload_option opt = character_funcs::select_ammo( u, w, false, true, true );
+    item_reload_option opt = character_funcs::select_ammo( u, w, false, true, true );
     if( opt ) {
         if( u.ammo_location && opt.ammo == u.ammo_location ) {
             u.add_msg_if_player( _( "Cleared ammo preferences for %s." ), w.tname() );

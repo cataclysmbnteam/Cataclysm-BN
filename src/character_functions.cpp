@@ -702,7 +702,7 @@ bool can_lift_with_helpers( const Character &who, int lift_required )
     return get_lift_strength_with_assistants( who ) >= lift_required;
 }
 
-bool list_ammo( const Character &who, const item &base, std::vector<item::reload_option> &ammo_list,
+bool list_ammo( const Character &who, const item &base, std::vector<item_reload_option> &ammo_list,
                 bool include_empty_mags, bool include_potential )
 {
     auto opts = base.gunmods();
@@ -746,12 +746,12 @@ bool list_ammo( const Character &who, const item &base, std::vector<item::reload
     return ammo_match_found;
 }
 
-item::reload_option select_ammo( const Character &who, const item &base,
-                                 std::vector<item::reload_option> opts )
+item_reload_option select_ammo( const Character &who, const item &base,
+                                std::vector<item_reload_option> opts )
 {
     if( opts.empty() ) {
         who.add_msg_if_player( m_info, _( "Never mind." ) );
-        return item::reload_option();
+        return item_reload_option();
     }
 
     if( who.is_npc() ) {
@@ -766,7 +766,7 @@ item::reload_option select_ammo( const Character &who, const item &base,
     // Construct item names
     std::vector<std::string> names;
     std::transform( opts.begin(), opts.end(),
-    std::back_inserter( names ), [&]( const item::reload_option & e ) {
+    std::back_inserter( names ), [&]( const item_reload_option & e ) {
         if( e.ammo->is_magazine() && e.ammo->ammo_data() ) {
             if( e.ammo->ammo_current() == itype_battery ) {
                 // This battery ammo is not a real object that can be recovered but pseudo-object that represents charge
@@ -792,7 +792,7 @@ item::reload_option select_ammo( const Character &who, const item &base,
     // Get location descriptions
     std::vector<std::string> where;
     std::transform( opts.begin(), opts.end(),
-    std::back_inserter( where ), [&]( const item::reload_option & e ) {
+    std::back_inserter( where ), [&]( const item_reload_option & e ) {
         bool is_ammo_container = e.ammo->is_ammo_container();
         if( is_ammo_container || e.ammo->is_container() ) {
             if( is_ammo_container && who.is_worn( *e.ammo ) ) {
@@ -925,13 +925,13 @@ item::reload_option select_ammo( const Character &who, const item &base,
 
     struct reload_callback : public uilist_callback {
         public:
-            std::vector<item::reload_option> &opts;
+            std::vector<item_reload_option> &opts;
             const std::function<std::string( int )> draw_row;
             int last_key;
             const int default_to;
             const bool can_partial_reload;
 
-            reload_callback( std::vector<item::reload_option> &_opts,
+            reload_callback( std::vector<item_reload_option> &_opts,
                              std::function<std::string( int )> _draw_row,
                              int _last_key, int _default_to, bool _can_partial_reload ) :
                 opts( _opts ), draw_row( _draw_row ),
@@ -973,7 +973,7 @@ item::reload_option select_ammo( const Character &who, const item &base,
     menu.query();
     if( menu.ret < 0 || static_cast<size_t>( menu.ret ) >= opts.size() ) {
         who.add_msg_if_player( m_info, _( "Never mind." ) );
-        return item::reload_option();
+        return item_reload_option();
     }
 
     const item_location &sel = opts[ menu.ret ].ammo;
@@ -983,10 +983,10 @@ item::reload_option select_ammo( const Character &who, const item &base,
     return opts[ menu.ret ];
 }
 
-item::reload_option select_ammo( const Character &who, const item &base, bool prompt,
-                                 bool include_empty_mags, bool include_potential )
+item_reload_option select_ammo( const Character &who, const item &base, bool prompt,
+                                bool include_empty_mags, bool include_potential )
 {
-    std::vector<item::reload_option> ammo_list;
+    std::vector<item_reload_option> ammo_list;
     const bool ammo_match_found = list_ammo( who, base, ammo_list, include_empty_mags,
                                   include_potential );
 
@@ -1014,20 +1014,20 @@ item::reload_option select_ammo( const Character &who, const item &base, bool pr
                                        name, base.tname() );
             }
         }
-        return item::reload_option();
+        return item_reload_option();
     }
 
     // sort in order of move cost (ascending), then remaining ammo (descending) with empty magazines always last
-    std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const item::reload_option & lhs,
-    const item::reload_option & rhs ) {
+    std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const item_reload_option & lhs,
+    const item_reload_option & rhs ) {
         return lhs.ammo->ammo_remaining() > rhs.ammo->ammo_remaining();
     } );
-    std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const item::reload_option & lhs,
-    const item::reload_option & rhs ) {
+    std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const item_reload_option & lhs,
+    const item_reload_option & rhs ) {
         return lhs.moves() < rhs.moves();
     } );
-    std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const item::reload_option & lhs,
-    const item::reload_option & rhs ) {
+    std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const item_reload_option & lhs,
+    const item_reload_option & rhs ) {
         return ( lhs.ammo->ammo_remaining() != 0 ) > ( rhs.ammo->ammo_remaining() != 0 );
     } );
 
@@ -1131,8 +1131,8 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
     }
 }
 
-std::vector<item_location> find_ammo_items_or_mags( const Character &who, const item &obj, bool empty,
-        int radius )
+std::vector<item_location> find_ammo_items_or_mags( const Character &who, const item &obj,
+        bool empty, int radius )
 {
     std::vector<item_location> res;
 

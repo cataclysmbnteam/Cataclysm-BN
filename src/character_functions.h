@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_CHARACTER_FUNCTIONS_H
 #define CATA_SRC_CHARACTER_FUNCTIONS_H
 
-#include "item.h"
 #include "optional.h"
 #include "type_id.h"
 
@@ -12,6 +11,8 @@ enum body_part : int;
 class Character;
 class Creature;
 class item;
+class item_reload_option;
+class item_location;
 class npc;
 class time_duration;
 class vehicle;
@@ -186,7 +187,7 @@ bool can_lift_with_helpers( const Character &who, int lift_required );
  * @param include_empty_mags Whether to include empty magazines
  * @param include_potential Include ammo that can potentially be used, but not right now
  */
-bool list_ammo( const Character &who, const item &base, std::vector<item::reload_option> &ammo_list,
+bool list_ammo( const Character &who, const item &base, std::vector<item_reload_option> &ammo_list,
                 bool include_empty_mags, bool include_potential );
 
 /**
@@ -197,12 +198,12 @@ bool list_ammo( const Character &who, const item &base, std::vector<item::reload
  * @param include_empty_mags Allow selection of empty magazines
  * @param include_potential Include ammo that can potentially be used, but not right now
  */
-item::reload_option select_ammo( const Character &who, const item &base, bool prompt = false,
-                                 bool include_empty_mags = true, bool include_potential = false );
+item_reload_option select_ammo( const Character &who, const item &base, bool prompt = false,
+                                bool include_empty_mags = true, bool include_potential = false );
 
 /** Select ammo from the provided options */
-item::reload_option select_ammo( const Character &who, const item &base,
-                                 std::vector<item::reload_option> opts );
+item_reload_option select_ammo( const Character &who, const item &base,
+                                std::vector<item_reload_option> opts );
 
 /** Returns character's items that are ammo and have the matching ammo type. */
 std::vector<const item *> get_ammo_items( const Character &who, const ammotype &at );

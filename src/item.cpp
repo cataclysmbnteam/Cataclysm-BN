@@ -7917,12 +7917,12 @@ bool item::units_sufficient( const Character &ch, int qty ) const
     return units_remaining( ch, qty ) == qty;
 }
 
-item::reload_option::reload_option( const reload_option & ) = default;
+item_reload_option::item_reload_option( const item_reload_option & ) = default;
 
-item::reload_option &item::reload_option::operator=( const reload_option & ) = default;
+item_reload_option &item_reload_option::operator=( const item_reload_option & ) = default;
 
-item::reload_option::reload_option( const player *who, const item *target, const item *parent,
-                                    const item_location &ammo ) :
+item_reload_option::item_reload_option( const player *who, const item *target, const item *parent,
+                                        const item_location &ammo ) :
     who( who ), target( target ), ammo( ammo ), parent( parent )
 {
     if( this->target->is_ammo_belt() && this->target->type->magazine->linkage ) {
@@ -7931,7 +7931,7 @@ item::reload_option::reload_option( const player *who, const item *target, const
     qty( max_qty );
 }
 
-int item::reload_option::moves() const
+int item_reload_option::moves() const
 {
     int mv = ammo.obtain_cost( *who, qty() ) + who->item_reload_cost( *target, *ammo, qty() );
     if( parent != target ) {
@@ -7944,7 +7944,7 @@ int item::reload_option::moves() const
     return mv;
 }
 
-void item::reload_option::qty( int val )
+void item_reload_option::qty( int val )
 {
     bool ammo_in_container = ammo->is_ammo_container();
     bool ammo_in_liquid_container = ammo->is_watertight_container();

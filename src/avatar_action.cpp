@@ -1107,14 +1107,14 @@ void avatar_action::wield( item_location &loc )
     }
 }
 
-static item::reload_option favorite_ammo_or_select(
+static item_reload_option favorite_ammo_or_select(
     const player &u, const item &it, bool empty, bool prompt )
 {
     const_cast<item_location &>( u.ammo_location ).make_dirty();
     if( u.ammo_location ) {
-        std::vector<item::reload_option> ammo_list;
+        std::vector<item_reload_option> ammo_list;
         if( character_funcs::list_ammo( u, it, ammo_list, empty, false ) ) {
-            const auto is_favorite_and_compatible = [&it, &u]( const item::reload_option & opt ) {
+            const auto is_favorite_and_compatible = [&it, &u]( const item_reload_option & opt ) {
                 return opt.ammo == u.ammo_location && it.can_reload_with( opt.ammo->typeId() );
             };
             auto iter = std::find_if( ammo_list.begin(), ammo_list.end(), is_favorite_and_compatible );
@@ -1192,7 +1192,7 @@ void avatar_action::reload( item_location &loc, bool prompt, bool empty )
         return;
     }
 
-    item::reload_option opt = favorite_ammo_or_select( u, *it, empty, prompt );
+    item_reload_option opt = favorite_ammo_or_select( u, *it, empty, prompt );
 
     if( opt.ammo.get_item() == nullptr ) {
         return;
@@ -1279,7 +1279,7 @@ void avatar_action::reload_weapon( bool try_everything )
                ( bp->get_reload_time() * ( bp->ammo_capacity() - bp->ammo_remaining() ) );
     } );
     for( item_location &candidate : reloadables ) {
-        std::vector<item::reload_option> ammo_list;
+        std::vector<item_reload_option> ammo_list;
         character_funcs::list_ammo( u, *candidate.get_item(), ammo_list, false, false );
         if( !ammo_list.empty() ) {
             reload( candidate, false, false );
@@ -1294,7 +1294,7 @@ void avatar_action::reload_weapon( bool try_everything )
     vehicle *veh = veh_pointer_or_null( here.veh_at( u.pos() ) );
     turret_data turret;
     if( veh && ( turret = veh->turret_query( u.pos() ) ) && turret.can_reload() ) {
-        item::reload_option opt = character_funcs::select_ammo( u, *turret.base(), true );
+        item_reload_option opt = character_funcs::select_ammo( u, *turret.base(), true );
         if( opt ) {
             u.assign_activity( activity_id( "ACT_RELOAD" ), opt.moves(), opt.qty() );
             u.activity.targets.emplace_back( turret.base() );

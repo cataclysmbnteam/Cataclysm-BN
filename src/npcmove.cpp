@@ -4559,7 +4559,7 @@ bool npc::complain()
 
 void npc::do_reload( const item &it )
 {
-    item::reload_option reload_opt = character_funcs::select_ammo( *this, it );
+    item_reload_option reload_opt = character_funcs::select_ammo( *this, it );
 
     if( !reload_opt ) {
         debugmsg( "do_reload failed: no usable ammo for %s", it.tname() );
