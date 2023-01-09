@@ -51,6 +51,9 @@ void toolmod_add( avatar &you, item_location tool, item_location mod );
 /** Use a tool at given location */
 void use_item( avatar &you, item_location loc );
 
+/** Unload an item at given location */
+bool unload_item( avatar &you, item_location loc );
+
 } // namespace avatar_funcs
 
 #endif // CATA_SRC_AVATAR_FUNCTIONS_H

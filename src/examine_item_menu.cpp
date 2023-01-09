@@ -6,6 +6,7 @@
 #include "auto_pickup.h"
 #include "avatar_action.h"
 #include "avatar.h"
+#include "avatar_functions.h"
 #include "crafting.h"
 #include "game_inventory.h"
 #include "input.h"
@@ -163,7 +164,7 @@ bool run(
     } );
 
     add_entry( "UNLOAD", rate_action_unload( you, itm ), [&]() {
-        you.unload( loc );
+        avatar_funcs::unload_item( you, loc );
         return true;
     } );
 

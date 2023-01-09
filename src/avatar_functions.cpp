@@ -1,14 +1,17 @@
 #include "avatar_functions.h"
 
+#include "activity_handlers.h"
 #include "avatar.h"
 #include "character_functions.h"
 #include "fault.h"
 #include "field_type.h"
 #include "game_inventory.h"
+#include "handle_liquid.h"
 #include "itype.h"
 #include "map.h"
 #include "mapdata.h"
 #include "messages.h"
+#include "options.h"
 #include "output.h"
 #include "skill.h"
 #include "trap.h"
@@ -30,6 +33,7 @@ static const bionic_id bio_soporific( "bio_soporific" );
 
 static const itype_id itype_brass_catcher( "brass_catcher" );
 static const itype_id itype_large_repairkit( "large_repairkit" );
+static const itype_id itype_plut_cell( "plut_cell" );
 static const itype_id itype_small_repairkit( "small_repairkit" );
 
 static const skill_id skill_weapon( "weapon" );
@@ -442,7 +446,7 @@ bool gunmod_remove( avatar &you, item &gun, item &mod )
     }
 
     item_location loc = item_location( you, &mod );
-    if( mod.ammo_remaining() && !you.unload( loc ) ) {
+    if( mod.ammo_remaining() && !avatar_funcs::unload_item( you, loc ) ) {
         return false;
     }
 
@@ -574,7 +578,7 @@ void use_item( avatar &you, item_location loc )
         you.invoke_item( &used, loc.position() );
 
     } else if( !used.is_container_empty() && is_pet_food( used.get_contained() ) ) {
-        you.unload( loc );
+        unload_item( you, loc );
 
     } else if( !used.is_craft() && ( used.is_medication() || ( !used.type->has_use() &&
                                      ( used.is_food() ||
@@ -599,6 +603,208 @@ void use_item( avatar &you, item_location loc )
                  used.tname() );
     }
     you.recalculate_enchantment_cache();
+}
+
+static bool add_or_drop_with_msg( avatar &you, item &it, bool unloading )
+{
+    if( it.made_of( LIQUID ) ) {
+        liquid_handler::consume_liquid( it, 1 );
+        return it.charges <= 0;
+    }
+    it.charges = you.i_add_to_container( it, unloading );
+    if( it.is_ammo() && it.charges == 0 ) {
+        return true;
+    } else if( !you.can_pick_volume( it ) ) {
+        put_into_vehicle_or_drop( you, item_drop_reason::too_large, { it } );
+    } else if( !you.can_pick_weight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
+        put_into_vehicle_or_drop( you, item_drop_reason::too_heavy, { it } );
+    } else {
+        auto &ni = you.i_add( it );
+        add_msg( _( "You put the %s in your inventory." ), ni.tname() );
+        add_msg( m_info, "%c - %s", ni.invlet == 0 ? ' ' : ni.invlet, ni.tname() );
+    }
+    return true;
+}
+
+bool unload_item( avatar &you, item_location loc )
+{
+    item &it = *loc.get_item();
+    // Unload a container consuming moves per item successfully removed
+    if( it.is_container() || it.is_bandolier() ) {
+        if( it.contents.empty() ) {
+            add_msg( m_info, _( "The %s is already empty!" ), it.tname() );
+            return false;
+        }
+        if( !it.can_unload_liquid() ) {
+            add_msg( m_info, _( "The liquid can't be unloaded in its current state!" ) );
+            return false;
+        }
+
+        bool changed = false;
+        for( item *contained : it.contents.all_items_top() ) {
+            int old_charges = contained->charges;
+            const bool consumed = add_or_drop_with_msg( you, *contained, true );
+            changed = changed || consumed || contained->charges != old_charges;
+            if( consumed ) {
+                you.mod_moves( -you.item_handling_cost( *contained ) );
+                it.remove_item( *contained );
+            }
+        }
+
+        if( changed ) {
+            it.on_contents_changed();
+        }
+        return true;
+    }
+
+    // If item can be unloaded more than once (currently only guns) prompt user to choose
+    std::vector<std::string> msgs( 1, it.tname() );
+    std::vector<item *> opts( 1, &it );
+
+    for( auto e : it.gunmods() ) {
+        if( e->is_gun() && !e->has_flag( "NO_UNLOAD" ) &&
+            ( e->magazine_current() || e->ammo_remaining() > 0 || e->casings_count() > 0 ) ) {
+            msgs.emplace_back( e->tname() );
+            opts.emplace_back( e );
+        }
+    }
+
+    item *target = nullptr;
+    if( opts.size() > 1 ) {
+        const int ret = uilist( _( "Unload what?" ), msgs );
+        if( ret >= 0 ) {
+            target = opts[ret];
+        }
+    } else {
+        target = &it;
+    }
+
+    if( target == nullptr ) {
+        return false;
+    }
+
+    // Next check for any reasons why the item cannot be unloaded
+    if( target->ammo_types().empty() || target->ammo_capacity() <= 0 ) {
+        add_msg( m_info, _( "You can't unload a %s!" ), target->tname() );
+        return false;
+    }
+
+    if( target->has_flag( "NO_UNLOAD" ) ) {
+        if( target->has_flag( "RECHARGE" ) || target->has_flag( "USE_UPS" ) ) {
+            add_msg( m_info, _( "You can't unload a rechargeable %s!" ), target->tname() );
+        } else {
+            add_msg( m_info, _( "You can't unload a %s!" ), target->tname() );
+        }
+        return false;
+    }
+
+    if( !target->magazine_current() && target->ammo_remaining() <= 0 && target->casings_count() <= 0 ) {
+        if( target->is_tool() ) {
+            add_msg( m_info, _( "Your %s isn't charged." ), target->tname() );
+        } else {
+            add_msg( m_info, _( "Your %s isn't loaded." ), target->tname() );
+        }
+        return false;
+    }
+
+    target->casings_handle( [&]( item & e ) {
+        return you.i_add_or_drop( e );
+    } );
+
+    if( target->is_magazine() ) {
+        // Calculate the time to remove the contained ammo (consuming half as much time as required to load the magazine)
+        int mv = 0;
+        int qty = 0;
+        std::vector<item *> remove_contained;
+        for( item *contained : it.contents.all_items_top() ) {
+            mv += you.item_reload_cost( it, *contained, contained->charges ) / 2;
+            if( add_or_drop_with_msg( you, *contained, true ) ) {
+                qty += contained->charges;
+                remove_contained.push_back( contained );
+            }
+        }
+        // remove the ammo leads in the belt
+        for( item *remove : remove_contained ) {
+            it.remove_item( *remove );
+        }
+
+        // remove the belt linkage
+        if( it.is_ammo_belt() ) {
+            if( it.type->magazine->linkage ) {
+                item link( *it.type->magazine->linkage, calendar::turn, qty );
+                add_or_drop_with_msg( you, link, true );
+            }
+            add_msg( _( "You disassemble your %s." ), it.tname() );
+        } else {
+            add_msg( _( "You unload your %s." ), it.tname() );
+        }
+
+        you.mod_moves( -std::min( 200, mv ) );
+        if( loc->has_flag( "MAG_DESTROY" ) && loc->ammo_remaining() == 0 ) {
+            loc.remove_item();
+        }
+        return true;
+
+    } else if( target->magazine_current() ) {
+        if( !add_or_drop_with_msg( you, *target->magazine_current(), true ) ) {
+            return false;
+        }
+        // Eject magazine consuming half as much time as required to insert it
+        you.moves -= you.item_reload_cost( *target, *target->magazine_current(), -1 ) / 2;
+
+        target->remove_items_with( [&target]( const item & e ) {
+            return target->magazine_current() == &e;
+        } );
+
+    } else if( target->ammo_remaining() ) {
+        int qty = target->ammo_remaining();
+
+        if( target->ammo_current() == itype_plut_cell ) {
+            qty = target->ammo_remaining() / PLUTONIUM_CHARGES;
+            if( qty > 0 ) {
+                add_msg( _( "You recover %i unused plutonium." ), qty );
+            } else {
+                add_msg( m_info, _( "You can't remove partially depleted plutonium!" ) );
+                return false;
+            }
+        }
+
+        // Construct a new ammo item and try to drop it
+        item ammo( target->ammo_current(), calendar::turn, qty );
+        if( target->is_filthy() ) {
+            ammo.set_flag( "FILTHY" );
+        }
+
+        if( ammo.made_of( LIQUID ) ) {
+            if( !add_or_drop_with_msg( you, ammo, false ) ) {
+                qty -= ammo.charges; // only handled part (or none) of the liquid
+            }
+            if( qty <= 0 ) {
+                return false; // no liquid was moved
+            }
+
+        } else if( !add_or_drop_with_msg( you, ammo, qty > 1 ) ) {
+            return false;
+        }
+
+        // If successful remove appropriate qty of ammo consuming half as much time as required to load it
+        you.moves -= you.item_reload_cost( *target, ammo, qty ) / 2;
+
+        if( target->ammo_current() == itype_plut_cell ) {
+            qty *= PLUTONIUM_CHARGES;
+        }
+
+        target->ammo_set( target->ammo_current(), target->ammo_remaining() - qty );
+    }
+
+    // Turn off any active tools
+    if( target->is_tool() && target->active && target->ammo_remaining() == 0 ) {
+        target->type->invoke( you, *target, you.pos() );
+    }
+
+    add_msg( _( "You unload your %s." ), target->tname() );
+    return true;
+
 }
 
 } // namespace avatar_funcs

@@ -11,6 +11,7 @@
 #include "activity_handlers.h" // put_into_vehicle_or_drop and drop_on_map
 #include "advanced_inv.h"
 #include "avatar.h"
+#include "avatar_functions.h"
 #include "calendar.h"
 #include "character.h"
 #include "character_functions.h"
@@ -327,7 +328,7 @@ void aim_activity_actor::unload_RAS_weapon()
 
         // Note: this code works only for avatar
         item_location loc = item_location( you, gun.target );
-        you.unload( loc );
+        avatar_funcs::unload_item( you, loc );
 
         // Give back time for unloading as essentially nothing has been done.
         if( first_turn ) {

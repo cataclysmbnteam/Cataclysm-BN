@@ -1318,5 +1318,5 @@ void avatar_action::unload( avatar &you )
         return;
     }
 
-    you.unload( loc );
+    avatar_funcs::unload_item( you, loc );
 }

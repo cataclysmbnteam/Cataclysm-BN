@@ -1,3 +1,4 @@
+#include "avatar_functions.h"
 #include "character.h"
 #include "vehicle.h" // IWYU pragma: associated
 
@@ -2172,8 +2173,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
             return;
         }
         case UNLOAD_TURRET: {
-            item_location loc = turret.base();
-            you.unload( loc );
+            avatar_funcs::unload_item( you, turret.base() );
             return;
         }
         case RELOAD_TURRET: {
