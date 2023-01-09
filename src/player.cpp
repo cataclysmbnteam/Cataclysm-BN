@@ -106,7 +106,6 @@ static const trait_id trait_THORNS( "THORNS" );
 static const std::string flag_SPLINT( "SPLINT" );
 
 static const skill_id skill_dodge( "dodge" );
-static const skill_id skill_gun( "gun" );
 
 static const bionic_id bio_cqb( "bio_cqb" );
 
@@ -327,73 +326,6 @@ bool character_martial_arts::pick_style( const avatar &you )    // Style selecti
     }
 
     return true;
-}
-
-bool player::can_reload( const item &it, const itype_id &ammo ) const
-{
-    if( !it.is_reloadable_with( ammo ) ) {
-        return false;
-    }
-
-    if( it.is_ammo_belt() ) {
-        const auto &linkage = it.type->magazine->linkage;
-        if( linkage && !has_charges( *linkage, 1 ) ) {
-            return false;
-        }
-    }
-
-    return true;
-}
-
-int player::item_reload_cost( const item &it, const item &ammo, int qty ) const
-{
-    if( ammo.is_ammo() ) {
-        qty = std::max( std::min( ammo.charges, qty ), 1 );
-    } else if( ammo.is_ammo_container() || ammo.is_container() ) {
-        qty = clamp( qty, ammo.contents.front().charges, 1 );
-    } else if( ammo.is_magazine() ) {
-        qty = 1;
-    } else {
-        debugmsg( "cannot determine reload cost as %s is neither ammo or magazine", ammo.tname() );
-        return 0;
-    }
-
-    // If necessary create duplicate with appropriate number of charges
-    item obj = ammo;
-    obj = obj.split( qty );
-    if( obj.is_null() ) {
-        obj = ammo;
-    }
-    // No base cost for handling ammo - that's already included in obtain cost
-    // We have the ammo in our hands right now
-    int mv = item_handling_cost( obj, true, 0 );
-
-    if( ammo.has_flag( "MAG_BULKY" ) ) {
-        mv *= 1.5; // bulky magazines take longer to insert
-    }
-
-    if( !it.is_gun() && !it.is_magazine() ) {
-        return mv + 100; // reload a tool or sealable container
-    }
-
-    /** @EFFECT_GUN decreases the time taken to reload a magazine */
-    /** @EFFECT_PISTOL decreases time taken to reload a pistol */
-    /** @EFFECT_SMG decreases time taken to reload an SMG */
-    /** @EFFECT_RIFLE decreases time taken to reload a rifle */
-    /** @EFFECT_SHOTGUN decreases time taken to reload a shotgun */
-    /** @EFFECT_LAUNCHER decreases time taken to reload a launcher */
-
-    int cost = ( it.is_gun() ? it.get_reload_time() : it.type->magazine->reload_time ) * qty;
-
-    skill_id sk = it.is_gun() ? it.type->gun->skill_used : skill_gun;
-    mv += cost / ( 1.0f + std::min( get_skill_level( sk ) * 0.1f, 1.0f ) );
-
-    if( it.has_flag( "STR_RELOAD" ) ) {
-        /** @EFFECT_STR reduces reload time of some weapons */
-        mv -= get_str() * 20;
-    }
-
-    return std::max( mv, 25 );
 }
 
 cata::optional<std::list<item>::iterator>
