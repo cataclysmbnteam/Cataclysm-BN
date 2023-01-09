@@ -18,6 +18,7 @@
 #include "output.h"
 #include "player.h"
 #include "rng.h"
+#include "skill.h"
 #include "submap.h"
 #include "trap.h"
 #include "uistate.h"
@@ -1215,6 +1216,21 @@ int ammo_count_for( const Character &who, const item &gun )
     }
 
     return ret;
+}
+
+void show_skill_capped_notice( const Character &who, const skill_id &id )
+{
+    if( !who.is_avatar() ) {
+        return;
+    }
+    const SkillLevel &level = who.get_skill_level_object( id );
+
+    const Skill &skill = id.obj();
+    std::string skill_name = skill.name();
+    int curLevel = level.level();
+
+    add_msg( m_info, _( "This task is too simple to train your %s beyond %d." ),
+             skill_name, curLevel );
 }
 
 } // namespace character_funcs

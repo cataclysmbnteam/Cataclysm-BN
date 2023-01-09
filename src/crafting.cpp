@@ -735,7 +735,7 @@ item_location player::start_craft( craft_command &command, const tripoint & )
     item craft = command.create_in_progress_craft();
     const recipe &making = craft.get_making();
     if( get_skill_level( command.get_skill_id() ) > making.difficulty * 1.25 ) {
-        handle_skill_warning( command.get_skill_id(), true );
+        character_funcs::show_skill_capped_notice( *this, command.get_skill_id() );
     }
 
     // In case we were wearing something just consumed

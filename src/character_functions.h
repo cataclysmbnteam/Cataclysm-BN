@@ -224,6 +224,9 @@ std::vector<item_location> find_reloadables( const Character &who );
 /** Counts ammo and UPS charges (lower of) for a given gun on the character. */
 int ammo_count_for( const Character &who, const item &gun );
 
+/** This shows warning to the player that their current activity will not give them xp */
+void show_skill_capped_notice( const Character &who, const skill_id &id );
+
 } // namespace character_funcs
 
 #endif // CATA_SRC_CHARACTER_FUNCTIONS_H

@@ -1425,6 +1425,9 @@ class Character : public Creature, public visitable<Character>
         /** Returns the player's skill rust rate */
         int rust_rate() const;
 
+        /** This handles giving xp for a skill */
+        void practice( const skill_id &id, int amount, int cap = 99, bool suppress_warning = false );
+
         // Mental skills and stats
         /** Returns the player's reading speed */
         int read_speed( bool return_stat_effect = true ) const;

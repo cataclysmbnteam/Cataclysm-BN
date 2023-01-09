@@ -94,10 +94,8 @@ static const efftype_id effect_stunned( "stunned" );
 static const trait_id trait_CF_HAIR( "CF_HAIR" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_DEFT( "DEFT" );
-static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
 static const trait_id trait_QUILLS( "QUILLS" );
-static const trait_id trait_SAVANT( "SAVANT" );
 static const trait_id trait_SPINES( "SPINES" );
 static const trait_id trait_THORNS( "THORNS" );
 
@@ -339,103 +337,6 @@ recipe_subset player::get_available_recipes( const inventory &crafting_inv,
     }
 
     return res;
-}
-
-void player::practice( const skill_id &id, int amount, int cap, bool suppress_warning )
-{
-    SkillLevel &level = get_skill_level_object( id );
-    const Skill &skill = id.obj();
-    std::string skill_name = skill.name();
-
-    if( !level.can_train() && !in_sleep_state() ) {
-        // If leveling is disabled, don't train, don't drain focus, don't print anything
-        // Leaving as a skill method rather than global for possible future skill cap setting
-        return;
-    }
-
-    const auto highest_skill = [&]() {
-        std::pair<skill_id, int> result( skill_id::NULL_ID(), -1 );
-        for( const auto &pair : *_skills ) {
-            const SkillLevel &lobj = pair.second;
-            if( lobj.level() > result.second ) {
-                result = std::make_pair( pair.first, lobj.level() );
-            }
-        }
-        return result.first;
-    };
-
-    const bool isSavant = has_trait( trait_SAVANT );
-    const skill_id savantSkill = isSavant ? highest_skill() : skill_id::NULL_ID();
-
-    amount = adjust_for_focus( amount );
-
-    if( has_trait( trait_PACIFIST ) && skill.is_combat_skill() ) {
-        if( !one_in( 3 ) ) {
-            amount = 0;
-        }
-    }
-    if( has_trait_flag( "PRED2" ) && skill.is_combat_skill() ) {
-        if( one_in( 3 ) ) {
-            amount *= 2;
-        }
-    }
-    if( has_trait_flag( "PRED3" ) && skill.is_combat_skill() ) {
-        amount *= 2;
-    }
-
-    if( has_trait_flag( "PRED4" ) && skill.is_combat_skill() ) {
-        amount *= 3;
-    }
-
-    if( isSavant && id != savantSkill ) {
-        amount /= 2;
-    }
-
-    if( amount > 0 && get_skill_level( id ) > cap ) { //blunt grinding cap implementation for crafting
-        amount = 0;
-        if( !suppress_warning ) {
-            handle_skill_warning( id, false );
-        }
-    }
-    if( amount > 0 && level.isTraining() ) {
-        int oldLevel = get_skill_level( id );
-        get_skill_level_object( id ).train( amount );
-        int newLevel = get_skill_level( id );
-        if( is_player() && newLevel > oldLevel ) {
-            add_msg( m_good, _( "Your skill in %s has increased to %d!" ), skill_name, newLevel );
-        }
-        if( is_player() && newLevel > cap ) {
-            //inform player immediately that the current recipe can't be used to train further
-            add_msg( m_info, _( "You feel that %s tasks of this level are becoming trivial." ),
-                     skill_name );
-        }
-
-        int chance_to_drop = focus_pool;
-        focus_pool -= chance_to_drop / 100;
-        // Apex Predators don't think about much other than killing.
-        // They don't lose Focus when practicing combat skills.
-        if( ( rng( 1, 100 ) <= ( chance_to_drop % 100 ) ) && ( !( has_trait_flag( "PRED4" ) &&
-                skill.is_combat_skill() ) ) ) {
-            focus_pool--;
-        }
-    }
-
-    get_skill_level_object( id ).practice();
-}
-
-void player::handle_skill_warning( const skill_id &id, bool force_warning )
-{
-    //remind the player intermittently that no skill gain takes place
-    if( is_player() && ( force_warning || one_in( 5 ) ) ) {
-        SkillLevel &level = get_skill_level_object( id );
-
-        const Skill &skill = id.obj();
-        std::string skill_name = skill.name();
-        int curLevel = level.level();
-
-        add_msg( m_info, _( "This task is too simple to train your %s beyond %d." ),
-                 skill_name, curLevel );
-    }
 }
 
 bool player::has_recipe_requirements( const recipe &rec ) const

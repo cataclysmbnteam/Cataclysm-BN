@@ -110,11 +110,6 @@ class player : public Character
         // by default save all contained info
         virtual void serialize( JsonOut &jsout ) const = 0;
 
-        /** This handles giving xp for a skill */
-        void practice( const skill_id &id, int amount, int cap = 99, bool suppress_warning = false );
-        /** This handles warning the player that there current activity will not give them xp */
-        void handle_skill_warning( const skill_id &id, bool force_warning = false );
-
         /**
          * Remove charges from a specific item (given by its item position).
          * The item must exist and it must be counted by charges.
