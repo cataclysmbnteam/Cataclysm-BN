@@ -112,8 +112,6 @@ class player : public Character
 
         //returns true if the warning is now beyond final and results in hostility.
         bool add_faction_warning( const faction_id &id );
-        int current_warnings_fac( const faction_id &id );
-        bool beyond_final_warning( const faction_id &id );
 
         /** This handles giving xp for a skill */
         void practice( const skill_id &id, int amount, int cap = 99, bool suppress_warning = false );

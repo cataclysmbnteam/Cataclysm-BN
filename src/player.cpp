@@ -213,32 +213,6 @@ bool player::add_faction_warning( const faction_id &id )
     return false;
 }
 
-int player::current_warnings_fac( const faction_id &id )
-{
-    const auto it = warning_record.find( id );
-    if( it != warning_record.end() ) {
-        if( it->second.second - calendar::turn > 5_minutes ) {
-            it->second.first = std::max( 0,
-                                         it->second.first - 1 );
-        }
-        return it->second.first;
-    }
-    return 0;
-}
-
-bool player::beyond_final_warning( const faction_id &id )
-{
-    const auto it = warning_record.find( id );
-    if( it != warning_record.end() ) {
-        if( it->second.second - calendar::turn > 5_minutes ) {
-            it->second.first = std::max( 0,
-                                         it->second.first - 1 );
-        }
-        return it->second.first > 3;
-    }
-    return false;
-}
-
 // ids of martial art styles that are available with the bio_cqb bionic.
 static const std::vector<matype_id> bio_cqb_styles{ {
         matype_id{ "style_aikido" },
