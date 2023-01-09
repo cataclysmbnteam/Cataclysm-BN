@@ -17,6 +17,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
+#include "character_functions.h"
 #include "character_martial_arts.h"
 #include "character_turn.h"
 #include "creature.h"
@@ -1112,7 +1113,7 @@ static item::reload_option favorite_ammo_or_select(
     const_cast<item_location &>( u.ammo_location ).make_dirty();
     if( u.ammo_location ) {
         std::vector<item::reload_option> ammo_list;
-        if( u.list_ammo( it, ammo_list, empty ) ) {
+        if( character_funcs::list_ammo( u, it, ammo_list, empty, false ) ) {
             const auto is_favorite_and_compatible = [&it, &u]( const item::reload_option & opt ) {
                 return opt.ammo == u.ammo_location && it.can_reload_with( opt.ammo->typeId() );
             };
@@ -1124,7 +1125,7 @@ static item::reload_option favorite_ammo_or_select(
     } else {
         const_cast<item_location &>( u.ammo_location ) = item_location();
     }
-    return u.select_ammo( it, prompt, empty );
+    return character_funcs::select_ammo( u, it, prompt, empty );
 }
 
 static bool can_reload_item_or_mods( const avatar &you, const item &itm )
@@ -1279,7 +1280,7 @@ void avatar_action::reload_weapon( bool try_everything )
     } );
     for( item_location &candidate : reloadables ) {
         std::vector<item::reload_option> ammo_list;
-        u.list_ammo( *candidate.get_item(), ammo_list, false );
+        character_funcs::list_ammo( u, *candidate.get_item(), ammo_list, false, false );
         if( !ammo_list.empty() ) {
             reload( candidate, false, false );
             return;
@@ -1293,7 +1294,7 @@ void avatar_action::reload_weapon( bool try_everything )
     vehicle *veh = veh_pointer_or_null( here.veh_at( u.pos() ) );
     turret_data turret;
     if( veh && ( turret = veh->turret_query( u.pos() ) ) && turret.can_reload() ) {
-        item::reload_option opt = u.select_ammo( *turret.base(), true );
+        item::reload_option opt = character_funcs::select_ammo( u, *turret.base(), true );
         if( opt ) {
             u.assign_activity( activity_id( "ACT_RELOAD" ), opt.moves(), opt.qty() );
             u.activity.targets.emplace_back( turret.base() );

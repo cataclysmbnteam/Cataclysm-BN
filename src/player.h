@@ -110,21 +110,6 @@ class player : public Character
         // by default save all contained info
         virtual void serialize( JsonOut &jsout ) const = 0;
 
-        bool list_ammo( const item &base, std::vector<item::reload_option> &ammo_list,
-                        bool include_empty_mags = true, bool include_potential = false ) const;
-        /**
-         * Select suitable ammo with which to reload the item
-         * @param base Item to select ammo for
-         * @param prompt Force display of the menu even if only one choice
-         * @param include_empty_mags Allow selection of empty magazines
-         * @param include_potential Include ammo that can potentially be used, but not right now
-         */
-        item::reload_option select_ammo( const item &base, bool prompt = false,
-                                         bool include_empty_mags = true, bool include_potential = false ) const;
-
-        /** Select ammo from the provided options */
-        item::reload_option select_ammo( const item &base, std::vector<item::reload_option> opts ) const;
-
         /**
          * Check player capable of taking off an item.
          * @param it Thing to be taken off

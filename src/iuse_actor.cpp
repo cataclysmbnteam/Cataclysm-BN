@@ -2887,7 +2887,7 @@ bool bandolier_actor::reload( player &p, item &obj ) const
         return item::reload_option( &p, &obj, &obj, e );
     } );
 
-    item::reload_option sel = p.select_ammo( obj, std::move( opts ) );
+    item::reload_option sel = character_funcs::select_ammo( p, obj, std::move( opts ) );
     if( !sel ) {
         return false; // canceled menu
     }
@@ -2999,7 +2999,7 @@ int ammobelt_actor::use( player &p, item &, bool, const tripoint & ) const
         return 0;
     }
 
-    item::reload_option opt = p.select_ammo( mag, true );
+    item::reload_option opt = character_funcs::select_ammo( p, mag, true );
     if( opt ) {
         p.assign_activity( ACT_RELOAD, opt.moves(), opt.qty() );
         p.activity.targets.emplace_back( p, &p.i_add( mag ) );

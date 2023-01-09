@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_CHARACTER_FUNCTIONS_H
 #define CATA_SRC_CHARACTER_FUNCTIONS_H
 
+#include "item.h"
 #include "optional.h"
 #include "type_id.h"
 
@@ -176,6 +177,32 @@ int get_lift_strength_with_helpers( const Character &who );
 
 /** Returns whether character can lift given value (includes bonus from helpers). */
 bool can_lift_with_helpers( const Character &who, int lift_required );
+
+/**
+ * List ammo suitable for given item.
+ * @param who Character who looks for ammo
+ * @param base Item to select ammo for
+ * @param[out] ammo_list Output
+ * @param include_empty_mags Whether to include empty magazines
+ * @param include_potential Include ammo that can potentially be used, but not right now
+ */
+bool list_ammo( const Character &who, const item &base, std::vector<item::reload_option> &ammo_list,
+                bool include_empty_mags, bool include_potential );
+
+/**
+ * Select suitable ammo with which to reload the item
+ * @param who Character who looks for ammo
+ * @param base Item to select ammo for
+ * @param prompt Force display of the menu even if only one choice
+ * @param include_empty_mags Allow selection of empty magazines
+ * @param include_potential Include ammo that can potentially be used, but not right now
+ */
+item::reload_option select_ammo( const Character &who, const item &base, bool prompt = false,
+                                 bool include_empty_mags = true, bool include_potential = false );
+
+/** Select ammo from the provided options */
+item::reload_option select_ammo( const Character &who, const item &base,
+                                 std::vector<item::reload_option> opts );
 
 } // namespace character_funcs
 

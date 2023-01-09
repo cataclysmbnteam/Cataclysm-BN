@@ -296,7 +296,7 @@ bool aim_activity_actor::load_RAS_weapon()
         return true;
     };
     item::reload_option opt = ammo_location_is_valid() ? item::reload_option( &you, weapon,
-                              weapon, you.ammo_location ) : you.select_ammo( *gun );
+                              weapon, you.ammo_location ) : character_funcs::select_ammo( you, *gun );
     if( !opt ) {
         // Menu canceled
         return false;
