@@ -332,7 +332,8 @@ static int actually_test_craft( const recipe_id &rid, const std::vector<item> &t
 
     // This really shouldn't be needed, but for some reason the tests fail for mingw builds without it
     you.learn_recipe( &rec );
-    REQUIRE( you.has_recipe( &rec, you.crafting_inventory(), character_funcs::get_crafting_helpers( you ) ) != -1 );
+    REQUIRE( you.has_recipe( &rec, you.crafting_inventory(),
+                             character_funcs::get_crafting_helpers( you ) ) != -1 );
 
     you.make_craft( rid, 1 );
     REQUIRE( you.activity );
