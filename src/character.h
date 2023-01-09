@@ -1293,6 +1293,21 @@ class Character : public Creature, public visitable<Character>
          * @param with_equip_change If true returns if it could be worn if things were taken off
          */
         ret_val<bool> can_wear( const item &it, bool with_equip_change = false ) const;
+
+        /**
+         * Check if character is capable of taking off given item.
+         * @param it Item to be taken off
+         * @param res If set, will expect to move item into the list.
+         */
+        ret_val<bool> can_takeoff( const item &it, const std::list<item> *res = nullptr ) const;
+        /**
+         * Take off an item. May start an activity.
+         * @param it Item to take off
+         * @param[out] res If set, moves resulting item into the list.
+         * @return true on success
+         */
+        bool takeoff( item &it, std::list<item> *res = nullptr );
+
         /**
          * Returns true if the character is wielding something.
          * Note: this item may not actually be used to attack.

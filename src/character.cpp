@@ -2938,6 +2938,74 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
     return ret_val<bool>::make_success();
 }
 
+ret_val<bool> Character::can_takeoff( const item &it, const std::list<item> *res ) const
+{
+    auto iter = std::find_if( worn.begin(), worn.end(), [ &it ]( const item & wit ) {
+        return &it == &wit;
+    } );
+
+    if( iter == worn.end() ) {
+        return ret_val<bool>::make_failure( !is_npc() ? _( "You are not wearing that item." ) :
+                                            _( "<npcname> is not wearing that item." ) );
+    }
+
+    if( res == nullptr && !get_dependent_worn_items( it ).empty() ) {
+        return ret_val<bool>::make_failure( !is_npc() ?
+                                            _( "You can't take off power armor while wearing other power armor components." ) :
+                                            _( "<npcname> can't take off power armor while wearing other power armor components." ) );
+    }
+    if( it.has_flag( "NO_TAKEOFF" ) ) {
+        return ret_val<bool>::make_failure( !is_npc() ?
+                                            _( "You can't take that item off." ) :
+                                            _( "<npcname> can't take that item off." ) );
+    }
+    return ret_val<bool>::make_success();
+}
+
+bool Character::takeoff( item &it, std::list<item> *res )
+{
+    const auto ret = can_takeoff( it, res );
+    if( !ret.success() ) {
+        add_msg( m_info, "%s", ret.c_str() );
+        return false;
+    }
+
+    auto iter = std::find_if( worn.begin(), worn.end(), [ &it ]( const item & wit ) {
+        return &it == &wit;
+    } );
+
+    if( res == nullptr ) {
+        if( volume_carried() + it.volume() > volume_capacity_reduced_by( it.get_storage() ) ) {
+            if( is_npc() || query_yn( _( "No room in inventory for your %s.  Drop it?" ),
+                                      colorize( it.tname(), it.color_in_inventory() ) ) ) {
+                item_location loc( *this, &it );
+                drop( loc, pos() );
+                return true; // the drop activity ends up taking off the item anyway so shouldn't try to do it again here
+            } else {
+                return false;
+            }
+        }
+        iter->on_takeoff( *this );
+        inv.add_item_keep_invlet( it );
+    } else {
+        iter->on_takeoff( *this );
+        res->push_back( it );
+    }
+
+    add_msg_player_or_npc( _( "You take off your %s." ),
+                           _( "<npcname> takes off their %s." ),
+                           it.tname() );
+
+    // TODO: Make this variable
+    mod_moves( -250 );
+    worn.erase( iter );
+
+    recalc_sight_limits();
+    reset_encumbrance();
+
+    return true;
+}
+
 ret_val<bool> Character::can_wield( const item &it ) const
 {
     if( it.made_of( LIQUID ) ) {
