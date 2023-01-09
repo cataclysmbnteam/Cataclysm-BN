@@ -209,8 +209,14 @@ static const trait_id trait_ADRENALINE( "ADRENALINE" );
 static const trait_id trait_ANTENNAE( "ANTENNAE" );
 static const trait_id trait_ANTLERS( "ANTLERS" );
 static const trait_id trait_BADBACK( "BADBACK" );
+static const trait_id trait_CF_HAIR( "CF_HAIR" );
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
+static const trait_id trait_DEFT( "DEFT" );
+static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
+static const trait_id trait_QUILLS( "QUILLS" );
+static const trait_id trait_SPINES( "SPINES" );
 static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
+static const trait_id trait_THORNS( "THORNS" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
 static const bionic_id bio_ads( "bio_ads" );
@@ -232,6 +238,7 @@ static const bionic_id bio_lighter( "bio_lighter" );
 static const bionic_id bio_membrane( "bio_membrane" );
 static const bionic_id bio_memory( "bio_memory" );
 static const bionic_id bio_night_vision( "bio_night_vision" );
+static const bionic_id bio_ods( "bio_ods" );
 static const bionic_id bio_railgun( "bio_railgun" );
 static const bionic_id bio_recycler( "bio_recycler" );
 static const bionic_id bio_shock_absorber( "bio_shock_absorber" );
@@ -8125,9 +8132,105 @@ void Character::did_hit( Creature &target )
     enchantment_cache->cast_hit_you( *this, target );
 }
 
-void Character::on_hit( Creature *source, bodypart_id /*bp_hit*/,
-                        float /*difficulty*/, dealt_projectile_attack const *const /*proj*/ )
+void Character::on_hit( Creature *source, bodypart_id bp_hit,
+                        dealt_projectile_attack const *const proj )
 {
+    check_dead_state();
+    if( source == nullptr || proj != nullptr ) {
+        return;
+    }
+
+    bool u_see = g->u.sees( *this );
+    units::energy trigger_cost_base = bio_ods->power_trigger;
+    if( has_active_bionic( bio_ods ) && get_power_level() >= trigger_cost_base * 4 ) {
+        if( is_player() ) {
+            add_msg( m_good, _( "Your offensive defense system shocks %s in mid-attack!" ),
+                     source->disp_name() );
+        } else if( u_see ) {
+            add_msg( _( "%1$s's offensive defense system shocks %2$s in mid-attack!" ),
+                     disp_name(),
+                     source->disp_name() );
+        }
+        int shock = rng( 1, 4 );
+        mod_power_level( -shock * trigger_cost_base );
+        damage_instance ods_shock_damage;
+        ods_shock_damage.add_damage( DT_ELECTRIC, shock * 5 );
+        // Should hit body part used for attack
+        source->deal_damage( this, bodypart_id( "torso" ), ods_shock_damage );
+    }
+    if( !wearing_something_on( bp_hit ) &&
+        ( has_trait( trait_SPINES ) || has_trait( trait_QUILLS ) ) ) {
+        int spine = rng( 1, has_trait( trait_QUILLS ) ? 20 : 8 );
+        if( !is_player() ) {
+            if( u_see ) {
+                add_msg( _( "%1$s's %2$s puncture %3$s in mid-attack!" ), name,
+                         ( has_trait( trait_QUILLS ) ? _( "quills" ) : _( "spines" ) ),
+                         source->disp_name() );
+            }
+        } else {
+            add_msg( m_good, _( "Your %1$s puncture %2$s in mid-attack!" ),
+                     ( has_trait( trait_QUILLS ) ? _( "quills" ) : _( "spines" ) ),
+                     source->disp_name() );
+        }
+        damage_instance spine_damage;
+        spine_damage.add_damage( DT_STAB, spine );
+        source->deal_damage( this, bodypart_id( "torso" ), spine_damage );
+    }
+    if( ( !( wearing_something_on( bp_hit ) ) ) && ( has_trait( trait_THORNS ) ) &&
+        ( !( source->has_weapon() ) ) ) {
+        if( !is_player() ) {
+            if( u_see ) {
+                add_msg( _( "%1$s's %2$s scrape %3$s in mid-attack!" ), name,
+                         _( "thorns" ), source->disp_name() );
+            }
+        } else {
+            add_msg( m_good, _( "Your thorns scrape %s in mid-attack!" ), source->disp_name() );
+        }
+        int thorn = rng( 1, 4 );
+        damage_instance thorn_damage;
+        thorn_damage.add_damage( DT_CUT, thorn );
+        // In general, critters don't have separate limbs
+        // so safer to target the torso
+        source->deal_damage( this, bodypart_id( "torso" ), thorn_damage );
+    }
+    if( ( !( wearing_something_on( bp_hit ) ) ) && ( has_trait( trait_CF_HAIR ) ) ) {
+        if( !is_player() ) {
+            if( u_see ) {
+                add_msg( _( "%1$s gets a load of %2$s's %3$s stuck in!" ), source->disp_name(),
+                         name, ( _( "hair" ) ) );
+            }
+        } else {
+            add_msg( m_good, _( "Your hairs detach into %s!" ), source->disp_name() );
+        }
+        source->add_effect( effect_stunned, 2_turns );
+        if( one_in( 3 ) ) { // In the eyes!
+            source->add_effect( effect_blind, 2_turns );
+        }
+    }
+    if( worn_with_flag( "REQUIRES_BALANCE" ) && !has_effect( effect_downed ) ) {
+        int rolls = 4;
+        if( worn_with_flag( "ROLLER_ONE" ) ) {
+            rolls += 2;
+        }
+        if( has_trait( trait_PROF_SKATER ) ) {
+            rolls--;
+        }
+        if( has_trait( trait_DEFT ) ) {
+            rolls--;
+        }
+
+        if( stability_roll() < dice( rolls, 10 ) ) {
+            if( !is_player() ) {
+                if( u_see ) {
+                    add_msg( _( "%1$s loses their balance while being hit!" ), name );
+                }
+            } else {
+                add_msg( m_bad, _( "You lose your balance while being hit!" ) );
+            }
+            // This kind of downing is not subject to immunity.
+            add_effect( effect_downed, 2_turns, num_bp, 0, true );
+        }
+    }
     enchantment_cache->cast_hit_me( *this, source );
 }
 

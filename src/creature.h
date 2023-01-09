@@ -291,10 +291,12 @@ class Creature
         virtual void on_dodge( Creature *source, float difficulty ) = 0;
         /**
          * This creature just got hit by an attack - possibly special/ranged attack - from source.
+         * @param source Source creature, can be nullptr
+         * @param proj Source projectile, can be nullptr
          * Players should train dodge, possibly counter-attack somehow.
          */
         virtual void on_hit( Creature *source, bodypart_id bp_hit,
-                             float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) = 0;
+                             dealt_projectile_attack const *proj = nullptr ) = 0;
 
         virtual bool digging() const;
         virtual bool is_on_ground() const = 0;

@@ -637,11 +637,8 @@ class Character : public Creature, public visitable<Character>
         bool valid_aoe_technique( Creature &t, const ma_technique &technique,
                                   std::vector<Creature *> &targets );
     public:
-
-        // any side effects that might happen when the Character is hit
-        void on_hit( Creature *source, bodypart_id /*bp_hit*/,
-                     float /*difficulty*/, dealt_projectile_attack const * /*proj*/ ) override;
-        // any side effects that might happen when the Character hits a Creature
+        void on_hit( Creature *source, bodypart_id bp_hit, dealt_projectile_attack const *proj ) override;
+        /** Handles special effects when the Character hits a Creature */
         void did_hit( Creature &target );
 
         /** Actually hurt the player, hurts a body_part directly, no armor reduction */

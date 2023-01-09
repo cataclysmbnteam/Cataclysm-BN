@@ -112,9 +112,6 @@ class player : public Character
 
         /** Called after the player has successfully dodged an attack */
         void on_dodge( Creature *source, float difficulty ) override;
-        /** Handles special defenses from an attack that hit us (source can be null) */
-        void on_hit( Creature *source, bodypart_id bp_hit,
-                     float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) override;
 
         /** Knocks the player to a specified tile */
         void knock_back_to( const tripoint &to ) override;

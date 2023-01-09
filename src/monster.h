@@ -386,9 +386,8 @@ class monster : public Creature, public visitable<monster>
         float stability_roll() const override;
         // We just dodged an attack from something
         void on_dodge( Creature *source, float difficulty ) override;
-        // Something hit us (possibly null source)
         void on_hit( Creature *source, bodypart_id bp_hit,
-                     float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) override;
+                     dealt_projectile_attack const *proj = nullptr ) override;
         void on_damage_of_type( int amt, damage_type dt, const bodypart_id &bp ) override;
 
         /** Resets a given special to its monster type cooldown value */
