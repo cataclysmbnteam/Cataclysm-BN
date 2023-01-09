@@ -5927,7 +5927,7 @@ int iuse::gunmod_attach( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    p->gunmod_add( *loc, *it );
+    avatar_funcs::gunmod_add( *p->as_avatar(), *loc, *it );
 
     return 0;
 }
@@ -5974,7 +5974,7 @@ int iuse::toolmod_attach( player *p, item *it, bool, const tripoint & )
         }
     }
 
-    p->toolmod_add( std::move( loc ), item_location( *p, it ) );
+    avatar_funcs::toolmod_add( *p->as_avatar(), std::move( loc ), item_location( *p, it ) );
     return 0;
 }
 

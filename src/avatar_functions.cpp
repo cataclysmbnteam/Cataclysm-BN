@@ -4,15 +4,17 @@
 #include "character_functions.h"
 #include "fault.h"
 #include "field_type.h"
+#include "game_inventory.h"
+#include "itype.h"
 #include "map.h"
 #include "mapdata.h"
 #include "messages.h"
 #include "output.h"
 #include "skill.h"
 #include "trap.h"
-#include "vpart_position.h"
-#include "vehicle.h"
 #include "veh_type.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
@@ -26,6 +28,11 @@ static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 
 static const bionic_id bio_soporific( "bio_soporific" );
 
+static const itype_id itype_brass_catcher( "brass_catcher" );
+static const itype_id itype_large_repairkit( "large_repairkit" );
+static const itype_id itype_small_repairkit( "small_repairkit" );
+
+static const skill_id skill_weapon( "weapon" );
 namespace avatar_funcs
 {
 
@@ -308,6 +315,230 @@ void mend_item( avatar &you, item_location &&obj, bool interactive )
         you.activity.str_values.emplace_back( method.id );
         you.activity.targets.push_back( std::move( obj ) );
     }
+}
+
+
+static bool has_mod( const item &gun, const item &mod )
+{
+    for( const item *toolmod : gun.gunmods() ) {
+        if( &mod == toolmod ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void gunmod_add( avatar &you, item &gun, item &mod )
+{
+    if( !gun.is_gunmod_compatible( mod ).success() ) {
+        debugmsg( "Tried to add incompatible gunmod" );
+        return;
+    }
+
+    if( !you.has_item( gun ) && !you.has_item( mod ) ) {
+        debugmsg( "Tried gunmod installation but mod/gun not in player possession" );
+        return;
+    }
+
+    // first check at least the minimum requirements are met
+    if( !you.has_trait( trait_DEBUG_HS ) && !you.can_use( mod, gun ) ) {
+        return;
+    }
+
+    // any (optional) tool charges that are used during installation
+    auto odds = gunmod_installation_odds( you, gun, mod );
+    int roll = odds.first;
+    int risk = odds.second;
+
+    std::string tool;
+    int qty = 0;
+    bool requery = false;
+
+    item modded = gun;
+    modded.put_in( mod );
+    bool no_magazines = modded.common_ammo_default().is_null();
+
+    std::string query_msg = mod.is_irremovable()
+                            ? _( "<color_yellow>Permanently</color> install your %1$s in your %2$s?" )
+                            : _( "Attach your %1$s to your %2$s?" );
+    if( no_magazines ) {
+        query_msg += "\n";
+        query_msg += colorize(
+                         _( "Warning: after installing this mod, a magazine adapter mod will be required to load it!" ),
+                         c_red );
+    }
+
+    uilist prompt;
+    prompt.text = string_format( query_msg,
+                                 colorize( mod.tname(), mod.color_in_inventory() ),
+                                 colorize( gun.tname(), gun.color_in_inventory() ) );
+
+    std::vector<std::function<void()>> actions;
+
+    if( roll < 100 ) {
+        prompt.addentry( -1, true, 'w',
+                         string_format( _( "Try without tools (%i%%) risking damage (%i%%)" ), roll, risk ) );
+        actions.emplace_back( [&] {} );
+
+        prompt.addentry( -1, you.has_charges( itype_small_repairkit, 100 ), 'f',
+                         string_format( _( "Use 100 charges of firearm repair kit (%i%%)" ), std::min( roll * 2, 100 ) ) );
+
+        actions.emplace_back( [&] {
+            tool = "small_repairkit";
+            qty = 100;
+            roll *= 2; // firearm repair kit improves success...
+            risk /= 2; // ...and reduces the risk of damage upon failure
+        } );
+
+        prompt.addentry( -1, you.has_charges( itype_large_repairkit, 25 ), 'g',
+                         string_format( _( "Use 25 charges of gunsmith repair kit (%i%%)" ), std::min( roll * 3, 100 ) ) );
+
+        actions.emplace_back( [&] {
+            tool = "large_repairkit";
+            qty = 25;
+            roll *= 3; // gunsmith repair kit improves success markedly...
+            risk = 0;  // ...and entirely prevents damage upon failure
+        } );
+    } else {
+        prompt.addentry( -1, true, 'w', _( "Install without tools" ) );
+        actions.emplace_back( [&] {} );
+    }
+
+    prompt.addentry( -1, true, 'c', _( "Compare before/after installation" ) );
+    actions.emplace_back( [&] {
+        requery = true;
+        game_menus::inv::compare( gun, modded );
+    } );
+
+    do {
+        requery = false;
+        prompt.query();
+        if( prompt.ret < 0 ) {
+            you.add_msg_if_player( _( "Never mind." ) );
+            return; // player canceled installation
+        }
+        actions[ prompt.ret ]();
+    } while( requery );
+
+    const int moves = !you.has_trait( trait_DEBUG_HS ) ? mod.type->gunmod->install_time : 0;
+
+    you.assign_activity( activity_id( "ACT_GUNMOD_ADD" ), moves, -1, 0, tool );
+    you.activity.targets.push_back( item_location( you, &gun ) );
+    you.activity.targets.push_back( item_location( you, &mod ) );
+    you.activity.values.push_back( 0 ); // dummy value
+    you.activity.values.push_back( roll ); // chance of success (%)
+    you.activity.values.push_back( risk ); // chance of damage (%)
+    you.activity.values.push_back( qty ); // tool charges
+}
+
+bool gunmod_remove( avatar &you, item &gun, item &mod )
+{
+    if( !has_mod( gun, mod ) ) {
+        debugmsg( "Cannot remove non-existent gunmod" );
+        return false;
+    }
+
+    item_location loc = item_location( you, &mod );
+    if( mod.ammo_remaining() && !you.unload( loc ) ) {
+        return false;
+    }
+
+    gun.gun_set_mode( gun_mode_id( "DEFAULT" ) );
+    //TODO: add activity for removing gunmods
+
+    if( mod.typeId() == itype_brass_catcher ) {
+        gun.casings_handle( [&]( item & e ) {
+            return you.i_add_or_drop( e );
+        } );
+    }
+
+    const itype *modtype = mod.type;
+
+    you.i_add_or_drop( mod );
+    gun.remove_item( mod );
+
+    //If the removed gunmod added mod locations, check to see if any mods are in invalid locations
+    if( !modtype->gunmod->add_mod.empty() ) {
+        std::map<gunmod_location, int> mod_locations = gun.get_mod_locations();
+        for( const auto &slot : mod_locations ) {
+            int free_slots = gun.get_free_mod_locations( slot.first );
+
+            for( auto the_mod : gun.gunmods() ) {
+                if( the_mod->type->gunmod->location == slot.first && free_slots < 0 ) {
+                    gunmod_remove( you, gun, *the_mod );
+                    free_slots++;
+                } else if( mod_locations.find( the_mod->type->gunmod->location ) ==
+                           mod_locations.end() ) {
+                    gunmod_remove( you, gun, *the_mod );
+                }
+            }
+        }
+    }
+
+    you.add_msg_if_player(
+        //~ %1$s - gunmod, %2$s - gun.
+        _( "You remove your %1$s from your %2$s." ),
+        modtype->nname( 1 ), gun.tname()
+    );
+
+    return true;
+}
+
+std::pair<int, int> gunmod_installation_odds( const avatar &you, const item &gun,
+        const item &mod )
+{
+    // Mods with INSTALL_DIFFICULT have a chance to fail, potentially damaging the gun
+    if( !mod.has_flag( "INSTALL_DIFFICULT" ) || you.has_trait( trait_DEBUG_HS ) ) {
+        return std::make_pair( 100, 0 );
+    }
+
+    int roll = 100; // chance of success (%)
+    int risk = 0;   // chance of failure (%)
+    int chances = 1; // start with 1 in 6 (~17% chance)
+
+    for( const auto &e : mod.type->min_skills ) {
+        // gain an additional chance for every level above the minimum requirement
+        skill_id sk = e.first == skill_weapon ? gun.gun_skill() : e.first;
+        chances += std::max( you.get_skill_level( sk ) - e.second, 0 );
+    }
+    // cap success from skill alone to 1 in 5 (~83% chance)
+    roll = std::min( static_cast<double>( chances ), 5.0 ) / 6.0 * 100;
+    // focus is either a penalty or bonus of at most +/-10%
+    roll += ( std::min( std::max( you.focus_pool, 140 ), 60 ) - 100 ) / 4;
+    // dexterity and intelligence give +/-2% for each point above or below 12
+    roll += ( you.get_dex() - 12 ) * 2;
+    roll += ( you.get_int() - 12 ) * 2;
+    // each level of damage to the base gun reduces success by 10%
+    roll -= std::max( gun.damage_level( 4 ), 0 ) * 10;
+    roll = std::min( std::max( roll, 0 ), 100 );
+
+    // risk of causing damage on failure increases with less durable guns
+    risk = ( 100 - roll ) * ( ( 10.0 - std::min( gun.type->gun->durability, 9 ) ) / 10.0 );
+
+    return std::make_pair( roll, risk );
+}
+
+void toolmod_add( avatar &you, item_location tool, item_location mod )
+{
+    if( !tool && !mod ) {
+        debugmsg( "Tried toolmod installation but mod/tool not available" );
+        return;
+    }
+    // first check at least the minimum requirements are met
+    if( !you.has_trait( trait_DEBUG_HS ) && !you.can_use( *mod, *tool ) ) {
+        return;
+    }
+
+    if( !query_yn( _( "Permanently install your %1$s in your %2$s?" ),
+                   colorize( mod->tname(), mod->color_in_inventory() ),
+                   colorize( tool->tname(), tool->color_in_inventory() ) ) ) {
+        you.add_msg_if_player( _( "Never mind." ) );
+        return; // player canceled installation
+    }
+
+    you.assign_activity( activity_id( "ACT_TOOLMOD_ADD" ), 1, -1 );
+    you.activity.targets.emplace_back( std::move( tool ) );
+    you.activity.targets.emplace_back( std::move( mod ) );
 }
 
 } // namespace avatar_funcs

@@ -6,6 +6,7 @@
 
 class avatar;
 class npc;
+class item;
 class item_location;
 
 namespace avatar_funcs
@@ -34,6 +35,18 @@ void try_steal_from_npc( avatar &you, npc &target );
  * @param interactive If true prompts player when there are multiple faults, otherwise mends the first
  */
 void mend_item( avatar &you, item_location &&obj, bool interactive = true );
+
+/** Starts activity to install gunmod having warned user about any risk of failure or irremovable mods */
+void gunmod_add( avatar &you, item &gun, item &mod );
+
+/** Removes gunmod after first unloading any contained ammo and returns true on success */
+bool gunmod_remove( avatar &you, item &gun, item &mod );
+
+/** Returns odds for success (pair.first) and gunmod damage (pair.second) */
+std::pair<int, int> gunmod_installation_odds( const avatar &you, const item &gun, const item &mod );
+
+/** Starts activity to install toolmod */
+void toolmod_add( avatar &you, item_location tool, item_location mod );
 
 } // namespace avatar_funcs
 

@@ -156,18 +156,6 @@ class player : public Character
 
         bool unload( item_location loc );
 
-        /** Removes gunmod after first unloading any contained ammo and returns true on success */
-        bool gunmod_remove( item &gun, item &mod );
-
-        /** Starts activity to install gunmod having warned user about any risk of failure or irremovable mods s*/
-        void gunmod_add( item &gun, item &mod );
-
-        /** @return Odds for success (pair.first) and gunmod damage (pair.second) */
-        std::pair<int, int> gunmod_installation_odds( const item &gun, const item &mod ) const;
-
-        /** Starts activity to install toolmod */
-        void toolmod_add( item_location tool, item_location mod );
-
     private:
         safe_reference_anchor anchor;
 
