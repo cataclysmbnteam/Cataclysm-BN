@@ -202,7 +202,7 @@ bool run(
     }
 
     add_entry( "REASSIGN", hint_rating::good, [&]() {
-        game_menus::inv::reassign_letter( you, itm );
+        game_menus::inv::prompt_reassign_letter( you, itm );
         return false;
     } );
 

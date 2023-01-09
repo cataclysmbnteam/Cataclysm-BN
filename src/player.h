@@ -163,9 +163,6 @@ class player : public Character
         /** Uses the current wielded weapon */
         void use_wielded();
 
-        /** Reassign letter. */
-        void reassign_item( item &it, int invlet );
-
         /** Removes gunmod after first unloading any contained ammo and returns true on success */
         bool gunmod_remove( item &gun, item &mod );
 

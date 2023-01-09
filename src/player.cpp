@@ -861,30 +861,6 @@ void player::use( item_location loc )
     recalculate_enchantment_cache();
 }
 
-void player::reassign_item( item &it, int invlet )
-{
-    bool remove_old = true;
-    if( invlet ) {
-        item *prev = invlet_to_item( invlet );
-        if( prev != nullptr ) {
-            remove_old = it.typeId() != prev->typeId();
-            inv.reassign_item( *prev, it.invlet, remove_old );
-        }
-    }
-
-    if( !invlet || inv_chars.valid( invlet ) ) {
-        const auto iter = inv.assigned_invlet.find( it.invlet );
-        bool found = iter != inv.assigned_invlet.end();
-        if( found ) {
-            inv.assigned_invlet.erase( iter );
-        }
-        if( invlet && ( !found || it.invlet != invlet ) ) {
-            inv.assigned_invlet[invlet] = it.typeId();
-        }
-        inv.reassign_item( it, invlet, remove_old );
-    }
-}
-
 static bool has_mod( const item &gun, const item &mod )
 {
     for( const item *toolmod : gun.gunmods() ) {
