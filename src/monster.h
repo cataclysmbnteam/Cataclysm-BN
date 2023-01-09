@@ -384,8 +384,6 @@ class monster : public Creature, public visitable<monster>
         bool has_grab_break_tec() const override;
 
         float stability_roll() const override;
-        // We just dodged an attack from something
-        void on_dodge( Creature *source, float difficulty ) override;
         void on_hit( Creature *source, bodypart_id bp_hit,
                      dealt_projectile_attack const *proj = nullptr ) override;
         void on_damage_of_type( int amt, damage_type dt, const bodypart_id &bp ) override;

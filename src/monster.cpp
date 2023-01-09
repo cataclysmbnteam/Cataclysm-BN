@@ -2842,11 +2842,6 @@ float monster::speed_rating() const
     return ret;
 }
 
-void monster::on_dodge( Creature *, float )
-{
-    // Currently does nothing, later should handle faction relations
-}
-
 void monster::on_hit( Creature *source, bodypart_id, dealt_projectile_attack const *const proj )
 {
     if( is_hallucination() ) {

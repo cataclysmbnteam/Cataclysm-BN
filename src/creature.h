@@ -288,7 +288,7 @@ class Creature
          * This creature just dodged an attack - possibly special/ranged attack - from source.
          * Players should train dodge, monsters may use some special defenses.
          */
-        virtual void on_dodge( Creature *source, float difficulty ) = 0;
+        virtual void on_dodge( Creature *source, int difficulty );
         /**
          * This creature just got hit by an attack - possibly special/ranged attack - from source.
          * @param source Source creature, can be nullptr

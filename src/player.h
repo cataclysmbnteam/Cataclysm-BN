@@ -110,9 +110,6 @@ class player : public Character
         // by default save all contained info
         virtual void serialize( JsonOut &jsout ) const = 0;
 
-        /** Called after the player has successfully dodged an attack */
-        void on_dodge( Creature *source, float difficulty ) override;
-
         /** Knocks the player to a specified tile */
         void knock_back_to( const tripoint &to ) override;
 

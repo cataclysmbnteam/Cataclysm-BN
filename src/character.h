@@ -637,6 +637,7 @@ class Character : public Creature, public visitable<Character>
         bool valid_aoe_technique( Creature &t, const ma_technique &technique,
                                   std::vector<Creature *> &targets );
     public:
+        void on_dodge( Creature *source, int difficulty ) override;
         void on_hit( Creature *source, bodypart_id bp_hit, dealt_projectile_attack const *proj ) override;
         /** Handles special effects when the Character hits a Creature */
         void did_hit( Creature &target );
