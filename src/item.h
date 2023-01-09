@@ -2246,7 +2246,7 @@ class item : public visitable<item>
     public:
         char invlet = 0;      // Inventory letter
         bool active = false; // If true, it has active effects to be processed
-        safe_reference<player> activated_by;
+        safe_reference<Character> activated_by;
         bool is_favorite = false;
 
         void set_favorite( bool favorite );

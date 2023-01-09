@@ -2200,6 +2200,8 @@ class Character : public Creature, public visitable<Character>
 
         mutable std::map<std::string, double> npc_ai_info_cache;
 
+        safe_reference_anchor anchor;
+
     protected:
         // a cache of all active enchantment values.
         // is recalculated every turn in Character::recalculate_enchantment_cache
@@ -2222,6 +2224,8 @@ class Character : public Creature, public visitable<Character>
         void clear_npc_ai_info_cache( const std::string &key ) const;
         void set_npc_ai_info_cache( const std::string &key, double val ) const;
         cata::optional<double> get_npc_ai_info_cache( const std::string &key ) const;
+
+        safe_reference<Character> get_safe_reference();
 };
 
 Character &get_player_character();

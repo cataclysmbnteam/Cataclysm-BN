@@ -10673,3 +10673,8 @@ int Character::hp_percentage() const
 
     return ( 100 * total_cur ) / total_max;
 }
+
+safe_reference<Character> Character::get_safe_reference()
+{
+    return anchor.reference_to( this );
+}

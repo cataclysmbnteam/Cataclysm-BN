@@ -148,11 +148,6 @@ class player : public Character
 
         bool unload( item_location loc );
 
-    private:
-        safe_reference_anchor anchor;
-
-    public:
-        safe_reference<player> get_safe_reference();
         //returns true if the warning is now beyond final and results in hostility.
         bool add_faction_warning( const faction_id &id );
         int current_warnings_fac( const faction_id &id );

@@ -962,8 +962,3 @@ bool player::query_yn( const std::string &mes ) const
 {
     return ::query_yn( mes );
 }
-
-safe_reference<player> player::get_safe_reference()
-{
-    return anchor.reference_to( this );
-}
