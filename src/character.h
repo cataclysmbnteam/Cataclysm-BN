@@ -2110,8 +2110,6 @@ class Character : public Creature, public visitable<Character>
 
         trap_map known_traps;
         pimpl<char_encumbrance_data> encumbrance_cache;
-        /** warnings from a faction about bad behavior */
-        std::map<faction_id, std::pair<int, time_point>> warning_record;
     public:
         /**
          * Traits / mutations of the character. Key is the mutation id (it's also a valid

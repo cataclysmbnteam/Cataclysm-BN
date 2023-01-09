@@ -400,8 +400,9 @@ void veh_interact::hide_ui( const bool hide )
 
 void veh_interact::do_main_loop()
 {
+    avatar &you = get_avatar();
     bool finish = false;
-    const bool owned_by_player = veh->handle_potential_theft( dynamic_cast<player &>( g->u ), true );
+    const bool owned_by_player = veh->handle_potential_theft( you, true );
     faction *owner_fac;
     if( veh->has_owner() ) {
         owner_fac = g->faction_manager_ptr->get( veh->get_owner() );
@@ -421,23 +422,23 @@ void veh_interact::do_main_loop()
         } else if( action == "QUIT" ) {
             finish = true;
         } else if( action == "INSTALL" ) {
-            if( veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+            if( veh->handle_potential_theft( you ) ) {
                 do_install();
             }
         } else if( action == "REPAIR" ) {
-            if( veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+            if( veh->handle_potential_theft( you ) ) {
                 do_repair();
             }
         } else if( action == "MEND" ) {
-            if( veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+            if( veh->handle_potential_theft( you ) ) {
                 do_mend();
             }
         } else if( action == "REFILL" ) {
-            if( veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+            if( veh->handle_potential_theft( you ) ) {
                 do_refill();
             }
         } else if( action == "REMOVE" ) {
-            if( veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+            if( veh->handle_potential_theft( you ) ) {
                 do_remove();
             }
         } else if( action == "RENAME" ) {
@@ -449,7 +450,7 @@ void veh_interact::do_main_loop()
                 }
             }
         } else if( action == "SIPHON" ) {
-            if( veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+            if( veh->handle_potential_theft( you ) ) {
                 do_siphon();
                 // Siphoning may have started a player activity. If so, we should close the
                 // vehicle dialog and continue with the activity.
@@ -460,7 +461,7 @@ void veh_interact::do_main_loop()
                 }
             }
         } else if( action == "UNLOAD" ) {
-            if( veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+            if( veh->handle_potential_theft( you ) ) {
                 finish = do_unload();
             }
         } else if( action == "CHANGE_SHAPE" ) {

@@ -5,12 +5,14 @@
 #include "character_functions.h"
 #include "fault.h"
 #include "field_type.h"
+#include "game.h"
 #include "game_inventory.h"
 #include "handle_liquid.h"
 #include "itype.h"
 #include "map.h"
 #include "mapdata.h"
 #include "messages.h"
+#include "npc.h"
 #include "options.h"
 #include "output.h"
 #include "skill.h"
@@ -805,6 +807,40 @@ bool unload_item( avatar &you, item_location loc )
     add_msg( _( "You unload your %s." ), target->tname() );
     return true;
 
+}
+
+std::vector<npc *> list_potential_theft_witnesses( avatar &you, const faction_id &owners )
+{
+    std::vector<npc *> witnesses;
+    for( npc &guy : g->all_npcs() ) {
+        // Only owners care about theft of their property
+        if( guy.get_faction() &&
+            guy.get_faction()->id == owners &&
+            rl_dist( guy.pos(), you.pos() ) < MAX_VIEW_DISTANCE &&
+            guy.sees( you.pos() )
+          ) {
+            witnesses.push_back( &guy );
+        }
+    }
+    return witnesses;
+}
+
+bool handle_theft_witnesses( avatar &you, const faction_id &owners )
+{
+    std::vector<npc *> witnesses = list_potential_theft_witnesses( you, owners );
+    for( npc *guy : witnesses ) {
+        guy->say( "<witnessed_thievery>", 7 );
+    }
+    if( !witnesses.empty() ) {
+        if( you.add_faction_warning( owners ) ) {
+            for( npc *guy : witnesses ) {
+                guy->make_angry();
+            }
+        }
+        return true;
+    } else {
+        return false;
+    }
 }
 
 } // namespace avatar_funcs

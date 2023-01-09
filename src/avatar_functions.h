@@ -3,6 +3,7 @@
 #define CATA_SRC_AVATAR_FUNCTIONS_H
 
 #include "calendar.h"
+#include "type_id.h"
 
 class avatar;
 class npc;
@@ -53,6 +54,17 @@ void use_item( avatar &you, item_location loc );
 
 /** Unload an item at given location */
 bool unload_item( avatar &you, item_location loc );
+
+/** List potential theft witnesses */
+std::vector<npc *> list_potential_theft_witnesses( avatar &you, const faction_id &owners );
+
+/**
+ * Handle NPCs witnessing theft of their stuff.
+ * @param you The dirty thief
+ * @param owners Object owners
+ * @return Whether there were any witnesses
+ */
+bool handle_theft_witnesses( avatar &you, const faction_id &owners );
 
 } // namespace avatar_funcs
 

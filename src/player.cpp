@@ -190,29 +190,6 @@ item player::reduce_charges( item *it, int quantity )
     return result;
 }
 
-bool player::add_faction_warning( const faction_id &id )
-{
-    const auto it = warning_record.find( id );
-    if( it != warning_record.end() ) {
-        it->second.first += 1;
-        if( it->second.second - calendar::turn > 5_minutes ) {
-            it->second.first -= 1;
-        }
-        it->second.second = calendar::turn;
-        if( it->second.first > 3 ) {
-            return true;
-        }
-    } else {
-        warning_record[id] = std::make_pair( 1, calendar::turn );
-    }
-    faction *fac = g->faction_manager_ptr->get( id );
-    if( fac != nullptr && is_player() && fac->id != faction_id( "no_faction" ) ) {
-        fac->likes_u -= 1;
-        fac->respects_u -= 1;
-    }
-    return false;
-}
-
 // ids of martial art styles that are available with the bio_cqb bionic.
 static const std::vector<matype_id> bio_cqb_styles{ {
         matype_id{ "style_aikido" },

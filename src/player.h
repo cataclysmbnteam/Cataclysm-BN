@@ -110,9 +110,6 @@ class player : public Character
         // by default save all contained info
         virtual void serialize( JsonOut &jsout ) const = 0;
 
-        //returns true if the warning is now beyond final and results in hostility.
-        bool add_faction_warning( const faction_id &id );
-
         /** This handles giving xp for a skill */
         void practice( const skill_id &id, int amount, int cap = 99, bool suppress_warning = false );
         /** This handles warning the player that there current activity will not give them xp */
@@ -290,11 +287,6 @@ class player : public Character
 
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
-
-    private:
-
-        /** warnings from a faction about bad behavior */
-        std::map<faction_id, std::pair<int, time_point>> warning_record;
 };
 
 #endif // CATA_SRC_PLAYER_H
