@@ -1251,7 +1251,7 @@ void avatar_action::reload_weapon( bool try_everything )
     // Reload misc magazines in inventory.
     avatar &u = get_avatar();
     map &here = get_map();
-    std::vector<item_location> reloadables = u.find_reloadables();
+    std::vector<item_location> reloadables = character_funcs::find_reloadables( u );
     std::sort( reloadables.begin(), reloadables.end(),
     [&u]( const item_location & a, const item_location & b ) {
         const item *ap = a.get_item();

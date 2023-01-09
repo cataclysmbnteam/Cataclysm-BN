@@ -1249,28 +1249,6 @@ class Character : public Creature, public visitable<Character>
         bool has_mission_item( int mission_id ) const;
         void remove_mission_items( int mission_id );
 
-        /**
-         * Returns the items that are ammo and have the matching ammo type.
-         */
-        std::vector<const item *> get_ammo( const ammotype &at ) const;
-
-        /**
-         * Searches for ammo or magazines that can be used to reload obj
-         * @param obj item to be reloaded. By design any currently loaded ammunition or magazine is ignored
-         * @param empty whether empty magazines should be considered as possible ammo
-         * @param radius adjacent map/vehicle tiles to search. 0 for only player tile, -1 for only inventory
-         */
-        std::vector<item_location> find_ammo( const item &obj, bool empty = true, int radius = 1 ) const;
-
-        /**
-         * Searches for weapons and magazines that can be reloaded.
-         */
-        std::vector<item_location> find_reloadables();
-        /**
-         * Counts ammo and UPS charges (lower of) for a given gun on the character.
-         */
-        int ammo_count_for( const item &gun );
-
         /** Maximum thrown range with a given item, taking all active effects into account. */
         int throw_range( const item & ) const;
 

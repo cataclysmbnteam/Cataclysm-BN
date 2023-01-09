@@ -204,6 +204,25 @@ item::reload_option select_ammo( const Character &who, const item &base, bool pr
 item::reload_option select_ammo( const Character &who, const item &base,
                                  std::vector<item::reload_option> opts );
 
+/** Returns character's items that are ammo and have the matching ammo type. */
+std::vector<const item *> get_ammo_items( const Character &who, const ammotype &at );
+
+/**
+ * Searches for ammo or magazines that can be used to reload given item
+ * @param who Character looking for ammo
+ * @param obj item to be reloaded. By design any currently loaded ammunition or magazine is ignored
+ * @param empty whether empty magazines should be considered as possible ammo
+ * @param radius adjacent map/vehicle tiles to search. 0 for only character tile, -1 for only inventory
+ */
+std::vector<item_location> find_ammo_items_or_mags( const Character &who, const item &obj,
+        bool empty = true, int radius = 1 );
+
+/** Searches for weapons and magazines that can be reloaded. */
+std::vector<item_location> find_reloadables( const Character &who );
+
+/** Counts ammo and UPS charges (lower of) for a given gun on the character. */
+int ammo_count_for( const Character &who, const item &gun );
+
 } // namespace character_funcs
 
 #endif // CATA_SRC_CHARACTER_FUNCTIONS_H
