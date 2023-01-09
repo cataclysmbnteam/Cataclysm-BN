@@ -256,7 +256,7 @@ TEST_CASE( "crafting_with_a_companion", "[.]" )
 
         CHECK( !dummy.in_vehicle );
         dummy.setpos( who.pos() );
-        const auto helpers( dummy.get_crafting_helpers() );
+        const auto helpers( character_funcs::get_crafting_helpers( dummy ) );
 
         REQUIRE( std::find( helpers.begin(), helpers.end(), &who ) != helpers.end() );
         REQUIRE_FALSE( dummy.get_available_recipes( dummy.inv, &helpers ).contains( *r ) );
@@ -332,7 +332,7 @@ static int actually_test_craft( const recipe_id &rid, const std::vector<item> &t
 
     // This really shouldn't be needed, but for some reason the tests fail for mingw builds without it
     you.learn_recipe( &rec );
-    REQUIRE( you.has_recipe( &rec, you.crafting_inventory(), you.get_crafting_helpers() ) != -1 );
+    REQUIRE( you.has_recipe( &rec, you.crafting_inventory(), character_funcs::get_crafting_helpers( you ) ) != -1 );
 
     you.make_craft( rid, 1 );
     REQUIRE( you.activity );

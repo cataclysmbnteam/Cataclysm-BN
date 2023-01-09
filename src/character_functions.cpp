@@ -11,6 +11,8 @@
 #include "make_static.h"
 #include "map_iterator.h"
 #include "messages.h"
+#include "monster.h"
+#include "npc.h"
 #include "player.h"
 #include "rng.h"
 #include "submap.h"
@@ -35,6 +37,8 @@ static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
+static const trait_id trait_STRONGBACK( "STRONGBACK" );
+static const trait_id trait_BADBACK( "BADBACK" );
 static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
@@ -636,6 +640,58 @@ bool is_bp_immune_to( const Character &who, body_part bp, damage_unit dam )
     }
 
     return dam.amount <= 0;
+}
+
+std::vector<npc *> get_crafting_helpers( const Character &who, int max )
+{
+    if( max == 0 || !who.is_avatar() ) {
+        // TODO: NPCs assisting other NPCs
+        return {};
+    }
+    int n = 0;
+    return g->get_npcs_if( [&]( const npc & guy ) {
+        // NPCs can help craft if awake, taking orders, within pickup range and have clear path
+        if( max > 0 && n >= max ) {
+            return false;
+        }
+        bool ok = !guy.in_sleep_state() && guy.is_obeying( who ) &&
+                  rl_dist( guy.pos(), who.pos() ) < PICKUP_RANGE &&
+                  get_map().clear_path( who.pos(), guy.pos(), PICKUP_RANGE, 1, 100 );
+        if( ok ) {
+            n += 1;
+        }
+        return ok;
+    } );
+}
+
+int get_lift_strength( const Character &who )
+{
+    int str = who.get_str();
+    if( who.mounted_creature ) {
+        auto mons = who.mounted_creature.get();
+        str = mons->mech_str_addition() == 0 ? str : mons->mech_str_addition();
+    }
+    if( who.has_trait( trait_STRONGBACK ) ) {
+        str *= 1.35;
+    } else if( who.has_trait( trait_BADBACK ) ) {
+        str /= 1.35;
+    }
+    return str;
+}
+
+int get_lift_strength_with_assistants( const Character &who )
+{
+    int result = get_lift_strength( who );
+    const std::vector<npc *> helpers = get_crafting_helpers( who );
+    for( const npc *np : helpers ) {
+        result += get_lift_strength( *np );
+    }
+    return result;
+}
+
+bool can_lift_with_helpers( const Character &who, int lift_required )
+{
+    return get_lift_strength_with_assistants( who ) >= lift_required;
 }
 
 } // namespace character_funcs

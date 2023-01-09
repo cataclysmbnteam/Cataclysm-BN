@@ -169,16 +169,6 @@ player::~player() = default;
 player::player( player && ) = default;
 player &player::operator=( player && ) = default;
 
-int player::get_lift_assist() const
-{
-    int result = 0;
-    const std::vector<npc *> helpers = get_crafting_helpers();
-    for( const npc *np : helpers ) {
-        result += np->get_str();
-    }
-    return result;
-}
-
 float player::fall_damage_mod() const
 {
     if( has_effect_with_flag( "EFFECT_FEATHER_FALL" ) ) {
@@ -1268,23 +1258,6 @@ player::wear( item &to_wear, bool interactive )
     }
 
     return result;
-}
-
-bool player::can_lift( int lift_strength_required ) const
-{
-    // avoid comparing by weight as different objects use differing scales (grams vs kilograms etc)
-    int str = get_str();
-    if( mounted_creature ) {
-        auto mons = mounted_creature.get();
-        str = mons->mech_str_addition() == 0 ? str : mons->mech_str_addition();
-    }
-    const int npc_str = get_lift_assist();
-    if( has_trait( trait_id( "STRONGBACK" ) ) ) {
-        str *= 1.35;
-    } else if( has_trait( trait_id( "BADBACK" ) ) ) {
-        str /= 1.35;
-    }
-    return str + npc_str >= lift_strength_required;
 }
 
 ret_val<bool> player::can_takeoff( const item &it, const std::list<item> *res ) const

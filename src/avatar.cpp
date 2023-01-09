@@ -303,7 +303,7 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
     }
 
     int time_taken = INT_MAX;
-    auto candidates = get_crafting_helpers();
+    auto candidates = character_funcs::get_crafting_helpers( *this );
 
     for( const npc *elem : candidates ) {
         // Check for disqualifying factors:
@@ -433,7 +433,7 @@ bool avatar::read( item_location loc, const bool continuous )
     //reading only for fun
     std::map<npc *, std::string> fun_learners;
     std::map<npc *, std::string> nonlearners;
-    auto candidates = get_crafting_helpers();
+    auto candidates = character_funcs::get_crafting_helpers( *this );
     for( npc *elem : candidates ) {
         const int lvl = elem->get_skill_level( skill );
         const bool is_fun_to_read = character_funcs::is_fun_to_read( *elem, it );

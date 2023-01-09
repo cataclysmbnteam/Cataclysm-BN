@@ -11,6 +11,7 @@ enum body_part : int;
 class Character;
 class Creature;
 class item;
+class npc;
 class time_duration;
 class vehicle;
 struct damage_unit;
@@ -159,6 +160,22 @@ cata::optional<tripoint> pick_safe_adjacent_tile( const Character &who );
  * @returns true if given damage can not reduce hp of given body part
  */
 bool is_bp_immune_to( const Character &who, body_part bp, damage_unit dam );
+
+/**
+ * Returns nearby NPCs ready and willing to help with crafting or some other manual task.
+ * @param who Character to be assited
+ * @param max If set, limits number of helpers to that value
+ */
+std::vector<npc *> get_crafting_helpers( const Character &who, int max = -1 );
+
+/** Returns Character lift strength unassisted by helpers or equipment. */
+int get_lift_strength( const Character &who );
+
+/** Returns Character lift strength without equipment including bonus from nearby helpers. */
+int get_lift_strength_with_helpers( const Character &who );
+
+/** Returns whether character can lift given value (includes bonus from helpers). */
+bool can_lift_with_helpers( const Character &who, int lift_required );
 
 } // namespace character_funcs
 

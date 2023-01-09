@@ -779,32 +779,33 @@ bool veh_interact::update_part_requirements()
 
     const auto reqs = sel_vpart_info->install_requirements();
 
+    Character &you = get_player_character();
     std::string nmsg;
     bool ok = format_reqs( nmsg, reqs, sel_vpart_info->install_skills,
-                           sel_vpart_info->install_time( g->u ) );
+                           sel_vpart_info->install_time( *you.as_player() ) );
 
     std::string additional_requirements;
     bool lifting_or_jacking_required = false;
 
     if( dif_eng > 0 ) {
-        if( g->u.get_skill_level( skill_mechanics ) < dif_eng ) {
+        if( you.get_skill_level( skill_mechanics ) < dif_eng ) {
             ok = false;
         }
         additional_requirements += string_format(
                                        //~ %1$s represents the internal color name which shouldn't be translated,
                                        //~ %2$s is skill name, and %3$i is skill level
                                        _( "> %1$s%2$s %3$i</color> to install alongside other engines." ),
-                                       status_color( g->u.get_skill_level( skill_mechanics ) >= dif_eng ),
+                                       status_color( you.get_skill_level( skill_mechanics ) >= dif_eng ),
                                        skill_mechanics.obj().name(), dif_eng ) + "\n";
     }
 
     if( dif_steering > 0 ) {
-        if( g->u.get_skill_level( skill_mechanics ) < dif_steering ) {
+        if( you.get_skill_level( skill_mechanics ) < dif_steering ) {
             ok = false;
         }
         //~ %1$s represents the internal color name which shouldn't be translated, %2$s is skill name, and %3$i is skill level
         additional_requirements += string_format( _( "> %1$s%2$s %3$i</color> for extra steering axles." ),
-                                   status_color( g->u.get_skill_level( skill_mechanics ) >= dif_steering ),
+                                   status_color( you.get_skill_level( skill_mechanics ) >= dif_steering ),
                                    skill_mechanics.obj().name(), dif_steering ) + "\n";
     }
 
@@ -820,7 +821,7 @@ bool veh_interact::update_part_requirements()
         lvl = jack_quality( *veh );
         str = veh->lift_strength();
         use_aid = ( max_jack >= lvl ) || can_self_jack();
-        use_str = g->u.can_lift( str );
+        use_str = character_funcs::can_lift_with_helpers( you, str );
     } else if( get_option<bool>( "DISABLE_LIFTING" ) || sel_vpart_info->has_flag( "NO_LIFT_REQ" ) ) {
         use_aid = true;
         use_str = true;
@@ -831,7 +832,7 @@ bool veh_interact::update_part_requirements()
                          TOOL_LIFT_FACTOR );
         str = base.lift_strength();
         use_aid = max_lift >= lvl;
-        use_str = g->u.can_lift( base.lift_strength() );
+        use_str = character_funcs::can_lift_with_helpers( you, base.lift_strength() );
     }
 
     if( !( use_aid || use_str ) ) {
@@ -841,7 +842,7 @@ bool veh_interact::update_part_requirements()
     nc_color aid_color = use_aid ? c_green : ( use_str ? c_dark_gray : c_red );
     nc_color str_color = use_str ? c_green : ( use_aid ? c_dark_gray : c_red );
 
-    const auto helpers = g->u.get_crafting_helpers();
+    const auto helpers = character_funcs::get_crafting_helpers( you );
     std::string str_string;
     if( lifting_or_jacking_required ) {
         if( !helpers.empty() )   {
@@ -865,7 +866,7 @@ bool veh_interact::update_part_requirements()
     sel_vpart_info->format_description( nmsg, c_light_gray, getmaxx( w_msg ) - 4 );
 
     msg = colorize( nmsg, c_light_gray );
-    return ok || g->u.has_trait( trait_DEBUG_HS );
+    return ok || you.has_trait( trait_DEBUG_HS );
 }
 
 /**
@@ -1217,6 +1218,7 @@ void veh_interact::do_repair()
 
     restore_on_out_of_scope<int> prev_hilight_part( highlight_part );
 
+    player &you = *get_player_character().as_player();
     while( true ) {
         vehicle_part &pt = veh->part( parts_here[need_repair[pos]] );
         const vpart_info &vp = pt.info();
@@ -1225,11 +1227,11 @@ void veh_interact::do_repair()
 
         bool ok;
         if( pt.is_broken() ) {
-            ok = format_reqs( nmsg, vp.install_requirements(), vp.install_skills, vp.install_time( g->u ) );
+            ok = format_reqs( nmsg, vp.install_requirements(), vp.install_skills, vp.install_time( you ) );
         } else {
             if( !vp.repair_requirements().is_empty() && pt.base.max_damage() > 0 ) {
                 ok = format_reqs( nmsg, vp.repair_requirements() * pt.base.damage_level( 4 ), vp.repair_skills,
-                                  vp.repair_time( g->u ) * pt.base.damage() / pt.base.max_damage() );
+                                  vp.repair_time( you ) * pt.base.damage() / pt.base.max_damage() );
             } else {
                 nmsg += colorize( _( "This part cannot be repaired" ), c_light_red );
                 ok = false;
@@ -1254,7 +1256,7 @@ void veh_interact::do_repair()
             }
             sel_vehicle_part = &pt;
             sel_vpart_info = &vp;
-            const std::vector<npc *> helpers = g->u.get_crafting_helpers( 3 );
+            const std::vector<npc *> helpers = character_funcs::get_crafting_helpers( you, 3 );
             for( const npc *np : helpers ) {
                 add_msg( m_info, _( "%s helps with this task…" ), np->name );
             }
@@ -1788,7 +1790,7 @@ bool veh_interact::can_remove_part( int idx, const player &p )
         lvl = jack_quality( *veh );
         str = veh->lift_strength();
         use_aid = ( max_jack >= lvl ) || can_self_jack();
-        use_str = g->u.can_lift( str );
+        use_str = character_funcs::can_lift_with_helpers( p, str );
     } else if( get_option<bool>( "DISABLE_LIFTING" ) || sel_vpart_info->has_flag( "NO_LIFT_REQ" ) ) {
         use_aid = true;
         use_str = true;
@@ -1799,7 +1801,7 @@ bool veh_interact::can_remove_part( int idx, const player &p )
                          TOOL_LIFT_FACTOR );
         str = base.lift_strength();
         use_aid = max_lift >= lvl;
-        use_str = g->u.can_lift( base.lift_strength() );
+        use_str = character_funcs::can_lift_with_helpers( p, base.lift_strength() );
     }
 
     if( !( use_aid || use_str ) ) {
@@ -1808,7 +1810,7 @@ bool veh_interact::can_remove_part( int idx, const player &p )
     if( lifting_or_jacking_required ) {
         nc_color aid_color = use_aid ? c_green : ( use_str ? c_dark_gray : c_red );
         nc_color str_color = use_str ? c_green : ( use_aid ? c_dark_gray : c_red );
-        const auto helpers = g->u.get_crafting_helpers();
+        const auto helpers = character_funcs::get_crafting_helpers( p );
         //~ %1$s is quality name, %2$d is quality level
         std::string aid_string = string_format( _( "1 tool with %1$s %2$d" ),
                                                 qual.obj().name, lvl );
@@ -1854,9 +1856,10 @@ void veh_interact::do_remove()
     restore_on_out_of_scope<cata::optional<std::string>> prev_title( title );
     title = _( "Choose a part here to remove:" );
 
+    player &you = *get_player_character().as_player();
     int pos = 0;
     for( size_t i = 0; i < parts_here.size(); i++ ) {
-        if( can_remove_part( parts_here[ i ], g->u ) ) {
+        if( can_remove_part( parts_here[ i ], you ) ) {
             pos = i;
             break;
         }
@@ -1872,7 +1875,7 @@ void veh_interact::do_remove()
     while( true ) {
         int part = parts_here[ pos ];
 
-        bool can_remove = can_remove_part( part, g->u );
+        bool can_remove = can_remove_part( part, you );
 
         overview_enable = [this, part]( const vehicle_part & pt ) {
             return &pt == &veh->part( part );
@@ -1903,7 +1906,7 @@ void veh_interact::do_remove()
                 default:
                     break;
             }
-            const std::vector<npc *> helpers = g->u.get_crafting_helpers( 3 );
+            const std::vector<npc *> helpers = character_funcs::get_crafting_helpers( you, 3 );
             for( const npc *np : helpers ) {
                 add_msg( m_info, _( "%s helps with this task…" ), np->name );
             }

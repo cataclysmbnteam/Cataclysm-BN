@@ -121,8 +121,6 @@ class player : public Character
         /** Returns overall % of HP remaining */
         int hp_percentage() const override;
 
-        int get_lift_assist() const;
-
         bool list_ammo( const item &base, std::vector<item::reload_option> &ammo_list,
                         bool include_empty_mags = true, bool include_potential = false ) const;
         /**
@@ -137,9 +135,6 @@ class player : public Character
 
         /** Select ammo from the provided options */
         item::reload_option select_ammo( const item &base, std::vector<item::reload_option> opts ) const;
-
-        /** Check player strong enough to lift an object unaided by equipment (jacks, levers etc) */
-        bool can_lift( int lift_strength_required ) const;
 
         /**
          * Check player capable of taking off an item.
@@ -319,11 +314,6 @@ class player : public Character
          * @return if the craft can be continued
          */
         bool can_continue_craft( item &craft );
-        /**
-         * Returns nearby NPCs ready and willing to help with crafting or some other manual task.
-         * @param max If set, limits number of helpers to that value
-         */
-        std::vector<npc *> get_crafting_helpers( size_t max = 0 ) const;
         /**
          * Handle skill gain for player and followers during crafting
          * @param craft the currently in progress craft
