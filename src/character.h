@@ -1148,12 +1148,6 @@ class Character : public Creature, public visitable<Character>
         /** Calculate (but do not deduct) the number of moves required to wear an item */
         int item_wear_cost( const item &it ) const;
 
-        /** Wear item; returns nullopt on fail, or pointer to newly worn item on success.
-         * If interactive is false, don't alert the player or drain moves on completion.
-         */
-        cata::optional<std::list<item>::iterator>
-        wear_item( const item &to_wear, bool interactive = true );
-
         /** Returns the amount of item `type' that is currently worn */
         int  amount_worn( const itype_id &id ) const;
 
@@ -1293,6 +1287,22 @@ class Character : public Creature, public visitable<Character>
          * @param with_equip_change If true returns if it could be worn if things were taken off
          */
         ret_val<bool> can_wear( const item &it, bool with_equip_change = false ) const;
+        /**
+         * Wear specified item.  Item must be in characters possession (wielded or stored).
+         * @param to_wear Item to wear
+         * @param interactive If set, won't alert the player or drain moves on completion
+         * @return nullopt on fail, pointer to newly worn item on success
+         */
+        cata::optional<std::list<item>::iterator>
+        wear_possessed( item &to_wear, bool interactive = true );
+        /**
+         * Wear a copy of specified item.
+         * @param to_wear Item to wear
+         * @param interactive If set, won't alert the player or drain moves on completion
+         * @return nullopt on fail, pointer to newly worn item on success.
+         */
+        cata::optional<std::list<item>::iterator>
+        wear_item( const item &to_wear, bool interactive = true );
 
         /**
          * Check if character is capable of taking off given item.

@@ -126,7 +126,7 @@ bool run(
     } );
 
     add_entry( "WEAR", rate_action_wear( you, itm ), [&]() {
-        you.wear( itm );
+        you.wear_possessed( itm );
         return true;
     } );
 

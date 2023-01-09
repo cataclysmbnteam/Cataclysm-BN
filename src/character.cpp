@@ -2094,8 +2094,8 @@ int Character::get_mod_stat_from_bionic( const character_stat &Stat ) const
     return ret;
 }
 
-cata::optional<std::list<item>::iterator> Character::wear_item( const item &to_wear,
-        bool interactive )
+cata::optional<std::list<item>::iterator>
+Character::wear_item( const item &to_wear, bool interactive )
 {
     const auto ret = can_wear( to_wear );
     if( !ret.success() ) {
@@ -2936,6 +2936,51 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
     }
 
     return ret_val<bool>::make_success();
+}
+
+cata::optional<std::list<item>::iterator>
+Character::wear_possessed( item &to_wear, bool interactive )
+{
+    if( is_worn( to_wear ) ) {
+        if( interactive ) {
+            add_msg_player_or_npc( m_info,
+                                   _( "You are already wearing that." ),
+                                   _( "<npcname> is already wearing that." )
+                                 );
+        }
+        return cata::nullopt;
+    }
+    if( to_wear.is_null() ) {
+        if( interactive ) {
+            add_msg_player_or_npc( m_info,
+                                   _( "You don't have that item." ),
+                                   _( "<npcname> doesn't have that item." ) );
+        }
+        return cata::nullopt;
+    }
+
+    bool was_weapon;
+    item to_wear_copy( to_wear );
+    if( &to_wear == &weapon ) {
+        weapon = item();
+        was_weapon = true;
+    } else {
+        inv.remove_item( &to_wear );
+        inv.restack( *this->as_player() );
+        was_weapon = false;
+    }
+
+    auto result = wear_item( to_wear_copy, interactive );
+    if( !result ) {
+        if( was_weapon ) {
+            weapon = to_wear_copy;
+        } else {
+            inv.add_item( to_wear_copy, true );
+        }
+        return cata::nullopt;
+    }
+
+    return result;
 }
 
 ret_val<bool> Character::can_takeoff( const item &it, const std::list<item> *res ) const

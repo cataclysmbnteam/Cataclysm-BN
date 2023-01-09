@@ -385,14 +385,14 @@ static void move_item( player &p, const int id, const inventory_location from,
                     FAIL( "unimplemented" );
                     break;
                 case WORN:
-                    p.wear( item_at( p, id, from ), false );
+                    p.wear_possessed( item_at( p, id, from ), false );
                     break;
                 case WIELDED_OR_WORN:
                     if( p.weapon.is_null() ) {
                         p.wield( item_at( p, id, from ) );
                     } else {
                         // since we can only wield one item, wear the item instead
-                        p.wear( item_at( p, id, from ), false );
+                        p.wear_possessed( item_at( p, id, from ), false );
                     }
                     break;
             }

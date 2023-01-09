@@ -328,57 +328,6 @@ bool character_martial_arts::pick_style( const avatar &you )    // Style selecti
     return true;
 }
 
-cata::optional<std::list<item>::iterator>
-player::wear( int pos, bool interactive )
-{
-    return wear( i_at( pos ), interactive );
-}
-
-cata::optional<std::list<item>::iterator>
-player::wear( item &to_wear, bool interactive )
-{
-    if( is_worn( to_wear ) ) {
-        if( interactive ) {
-            add_msg_player_or_npc( m_info,
-                                   _( "You are already wearing that." ),
-                                   _( "<npcname> is already wearing that." )
-                                 );
-        }
-        return cata::nullopt;
-    }
-    if( to_wear.is_null() ) {
-        if( interactive ) {
-            add_msg_player_or_npc( m_info,
-                                   _( "You don't have that item." ),
-                                   _( "<npcname> doesn't have that item." ) );
-        }
-        return cata::nullopt;
-    }
-
-    bool was_weapon;
-    item to_wear_copy( to_wear );
-    if( &to_wear == &weapon ) {
-        weapon = item();
-        was_weapon = true;
-    } else {
-        inv.remove_item( &to_wear );
-        inv.restack( *this );
-        was_weapon = false;
-    }
-
-    auto result = wear_item( to_wear_copy, interactive );
-    if( !result ) {
-        if( was_weapon ) {
-            weapon = to_wear_copy;
-        } else {
-            inv.add_item( to_wear_copy, true );
-        }
-        return cata::nullopt;
-    }
-
-    return result;
-}
-
 bool player::add_or_drop_with_msg( item &it, const bool unloading )
 {
     if( it.made_of( LIQUID ) ) {

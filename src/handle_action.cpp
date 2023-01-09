@@ -1272,7 +1272,7 @@ static void wear()
     item_location loc = game_menus::inv::wear( u );
 
     if( loc ) {
-        u.wear( *loc.obtain( u ) );
+        u.wear_possessed( *loc.obtain( u ) );
     } else {
         add_msg( _( "Never mind." ) );
     }

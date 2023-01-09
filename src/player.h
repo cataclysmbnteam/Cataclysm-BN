@@ -110,12 +110,6 @@ class player : public Character
         // by default save all contained info
         virtual void serialize( JsonOut &jsout ) const = 0;
 
-        /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
-        cata::optional<std::list<item>::iterator>
-        wear( int pos, bool interactive = true );
-        cata::optional<std::list<item>::iterator>
-        wear( item &to_wear, bool interactive = true );
-
         /** So far only called by unload() from game.cpp */
         bool add_or_drop_with_msg( item &it, bool unloading = false );
 
