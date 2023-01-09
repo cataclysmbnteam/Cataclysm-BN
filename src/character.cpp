@@ -7024,66 +7024,6 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
     return false;
 }
 
-static bool is_pet_food( const item &itm )
-{
-    return itm.type->can_use( "DOGFOOD" ) ||
-           itm.type->can_use( "CATFOOD" ) ||
-           itm.type->can_use( "BIRDFOOD" ) ||
-           itm.type->can_use( "CATTLEFODDER" );
-}
-
-void Character::use_item( item_location loc )
-{
-    item &used = *loc.get_item();
-
-    if( used.is_null() ) {
-        add_msg( m_info, _( "You do not have that item." ) );
-        return;
-    }
-
-    last_item = used.typeId();
-
-    if( used.is_tool() ) {
-        if( !used.type->has_use() ) {
-            add_msg_if_player( _( "You can't do anything interesting with your %s." ), used.tname() );
-            return;
-        }
-        invoke_item( &used, loc.position() );
-
-    } else if( is_pet_food( used ) ) {
-        invoke_item( &used, loc.position() );
-
-    } else if( !used.is_container_empty() && is_pet_food( used.get_contained() ) ) {
-        as_player()->unload( loc );
-
-    } else if( !used.is_craft() && ( used.is_medication() || ( !used.type->has_use() &&
-                                     ( used.is_food() ||
-                                       used.get_contained().is_food() ||
-                                       used.get_contained().is_medication() ) ) ) ) {
-        consume( loc );
-
-    } else if( used.is_book() ) {
-        // TODO: Handle this with dynamic dispatch.
-        if( avatar *u = as_avatar() ) {
-            u->read( loc );
-        }
-    } else if( used.type->has_use() ) {
-        invoke_item( &used, loc.position() );
-    } else if( used.has_flag( flag_SPLINT ) ) {
-        ret_val<bool> need_splint = can_wear( used );
-        if( need_splint.success() ) {
-            wear_item( used );
-            loc.remove_item();
-        } else {
-            add_msg( m_info, need_splint.str() );
-        }
-    } else {
-        add_msg( m_info, _( "You can't do anything interesting with your %s." ),
-                 used.tname() );
-    }
-    recalculate_enchantment_cache();
-}
-
 bool Character::dispose_item( item_location &&obj, const std::string &prompt )
 {
     uilist menu;

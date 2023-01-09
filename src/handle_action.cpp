@@ -1995,7 +1995,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_USE_WIELDED:
-                u.use_item( item_location( u, &u.weapon ) );
+                avatar_funcs::use_item( u, item_location( u, &u.weapon ) );
                 break;
 
             case ACTION_WEAR:

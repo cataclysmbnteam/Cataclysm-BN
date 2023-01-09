@@ -1104,9 +1104,6 @@ class Character : public Creature, public visitable<Character>
         virtual bool invoke_item( item * );
         virtual bool invoke_item( item *, const std::string & );
 
-        /** Uses a tool at location */
-        void use_item( item_location loc );
-
         /**
          * Drop, wear, stash or otherwise try to dispose of an item consuming appropriate moves
          * @param obj item to dispose of

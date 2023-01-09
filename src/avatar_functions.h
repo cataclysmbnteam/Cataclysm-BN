@@ -48,6 +48,9 @@ std::pair<int, int> gunmod_installation_odds( const avatar &you, const item &gun
 /** Starts activity to install toolmod */
 void toolmod_add( avatar &you, item_location tool, item_location mod );
 
+/** Use a tool at given location */
+void use_item( avatar &you, item_location loc );
+
 } // namespace avatar_funcs
 
 #endif // CATA_SRC_AVATAR_FUNCTIONS_H

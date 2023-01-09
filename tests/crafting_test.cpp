@@ -1,3 +1,4 @@
+#include "avatar_functions.h"
 #include "catch/catch.hpp"
 
 #include <algorithm>
@@ -493,23 +494,24 @@ TEST_CASE( "Component same as tool", "[crafting][tool]" )
 // Resume the first in progress craft found in the player's inventory
 static int resume_craft()
 {
-    std::vector<item *> crafts = g->u.items_with( []( const item & itm ) {
+    avatar &you = get_avatar();
+    std::vector<item *> crafts = you.items_with( []( const item & itm ) {
         return itm.is_craft();
     } );
     REQUIRE( crafts.size() == 1 );
     item *craft = crafts.front();
     set_time( midday ); // Ensure light for crafting
-    REQUIRE( crafting_speed_multiplier( g->u, *craft, bench_location{bench_type::hands, g->u.pos()} ) ==
+    REQUIRE( crafting_speed_multiplier( you, *craft, bench_location{bench_type::hands, you.pos()} ) ==
              1.0 );
-    REQUIRE( !g->u.activity );
-    g->u.use_item( item_location( g->u, craft ) );
-    REQUIRE( g->u.activity );
-    REQUIRE( g->u.activity.id() == activity_id( "ACT_CRAFT" ) );
+    REQUIRE( !you.activity );
+    avatar_funcs::use_item( you, item_location( you, craft ) );
+    REQUIRE( you.activity );
+    REQUIRE( you.activity.id() == activity_id( "ACT_CRAFT" ) );
     int turns = 0;
-    while( g->u.activity.id() == activity_id( "ACT_CRAFT" ) ) {
+    while( you.activity.id() == activity_id( "ACT_CRAFT" ) ) {
         ++turns;
-        g->u.moves = 100;
-        g->u.activity.do_turn( g->u );
+        you.moves = 100;
+        you.activity.do_turn( you );
     }
     return turns;
 }
