@@ -18,6 +18,7 @@
 
 #include "activity_handlers.h"
 #include "avatar.h"
+#include "avatar_functions.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -1294,7 +1295,8 @@ void veh_interact::do_mend()
     restore_on_out_of_scope<cata::optional<std::string>> prev_title( title );
     title = _( "Choose a part here to mend:" );
 
-    const bool toggling = g->u.has_trait( trait_DEBUG_HS );
+    avatar &you = get_avatar();
+    const bool toggling = you.has_trait( trait_DEBUG_HS );
     auto sel = [toggling]( const vehicle_part & pt ) {
         if( toggling ) {
             return !pt.faults_potential().empty();
@@ -1304,7 +1306,7 @@ void veh_interact::do_mend()
     };
 
     auto act = [&]( const vehicle_part & pt ) {
-        g->u.mend_item( veh->part_base( veh->index_of_part( &pt ) ) );
+        avatar_funcs::mend_item( you, veh->part_base( veh->index_of_part( &pt ) ) );
         sel_cmd = 'q';
     };
 

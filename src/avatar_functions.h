@@ -6,6 +6,7 @@
 
 class avatar;
 class npc;
+class item_location;
 
 namespace avatar_funcs
 {
@@ -26,6 +27,13 @@ void try_disarm_npc( avatar &you, npc &target );
  * @param target Target NPC to steal from
  */
 void try_steal_from_npc( avatar &you, npc &target );
+
+/**
+ * Attempt to start an activity to mend an item (fix any current faults)
+ * @param obj Object to mend
+ * @param interactive If true prompts player when there are multiple faults, otherwise mends the first
+ */
+void mend_item( avatar &you, item_location &&obj, bool interactive = true );
 
 } // namespace avatar_funcs
 

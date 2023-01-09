@@ -25,6 +25,7 @@
 #include "artifact.h"
 #include "avatar.h"
 #include "avatar_action.h"
+#include "avatar_functions.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -2042,7 +2043,7 @@ int iuse::pack_cbm( player *p, item *it, bool, const tripoint & )
     }
     if( !bionic.get_item()->faults.empty() ) {
         if( p->query_yn( _( "This CBM is faulty.  You should mend it first.  Do you want to try?" ) ) ) {
-            p->mend_item( std::move( bionic ) );
+            avatar_funcs::mend_item( *p->as_avatar(), std::move( bionic ) );
         }
         return 0;
     }

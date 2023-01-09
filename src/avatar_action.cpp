@@ -14,6 +14,7 @@
 #include "action.h"
 #include "activity_actor_definitions.h"
 #include "avatar.h"
+#include "avatar_functions.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
@@ -761,7 +762,7 @@ void avatar_action::mend( avatar &you, item_location loc )
     }
 
     if( you.has_item( *loc ) ) {
-        you.mend_item( item_location( loc ) );
+        avatar_funcs::mend_item( you, item_location( loc ) );
     }
 }
 

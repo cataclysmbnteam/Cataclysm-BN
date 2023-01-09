@@ -134,13 +134,6 @@ class player : public Character
         bool can_reload( const item &it, const itype_id &ammo = itype_id() ) const;
 
         /**
-         * Attempt to mend an item (fix any current faults)
-         * @param obj Object to mend
-         * @param interactive if true prompts player when multiple faults, otherwise mends the first
-         */
-        void mend_item( item_location &&obj, bool interactive = true );
-
-        /**
          * Calculate (but do not deduct) the number of moves required to reload an item with specified quantity of ammo
          * @param it Item to calculate reload cost for
          * @param ammo either ammo or magazine to use when reloading the item
