@@ -688,7 +688,7 @@ int get_lift_strength( const Character &who )
     return str;
 }
 
-int get_lift_strength_with_assistants( const Character &who )
+int get_lift_strength_with_helpers( const Character &who )
 {
     int result = get_lift_strength( who );
     const std::vector<npc *> helpers = get_crafting_helpers( who );
@@ -700,7 +700,7 @@ int get_lift_strength_with_assistants( const Character &who )
 
 bool can_lift_with_helpers( const Character &who, int lift_required )
 {
-    return get_lift_strength_with_assistants( who ) >= lift_required;
+    return get_lift_strength_with_helpers( who ) >= lift_required;
 }
 
 bool list_ammo( const Character &who, const item &base, std::vector<item_reload_option> &ammo_list,
