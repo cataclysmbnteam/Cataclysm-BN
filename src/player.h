@@ -110,17 +110,6 @@ class player : public Character
         // by default save all contained info
         virtual void serialize( JsonOut &jsout ) const = 0;
 
-        /** Knocks the player to a specified tile */
-        void knock_back_to( const tripoint &to ) override;
-
-        /** Returns multiplier on fall damage at low velocity (knockback/pit/1 z-level, not 5 z-levels) */
-        float fall_damage_mod() const override;
-        /** Deals falling/collision damage with terrain/creature at pos */
-        int impact( int force, const tripoint &pos ) override;
-
-        /** Returns overall % of HP remaining */
-        int hp_percentage() const override;
-
         bool list_ammo( const item &base, std::vector<item::reload_option> &ammo_list,
                         bool include_empty_mags = true, bool include_potential = false ) const;
         /**

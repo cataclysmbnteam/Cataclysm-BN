@@ -245,6 +245,7 @@ class Creature
 
         // TODO: this is just a shim so knockbacks work
         void knock_back_from( const tripoint &p );
+        /** Knocks the creature to a specified tile */
         virtual void knock_back_to( const tripoint &to ) = 0;
 
         int size_melee_penalty() const;
@@ -470,6 +471,7 @@ class Creature
         virtual int get_hp() const;
         virtual int get_hp_max( const bodypart_id &bp ) const;
         virtual int get_hp_max() const;
+        /** Returns overall % of HP remaining */
         virtual int hp_percentage() const = 0;
         virtual bool made_of( const material_id &m ) const = 0;
         virtual bool made_of_any( const std::set<material_id> &ms ) const = 0;
