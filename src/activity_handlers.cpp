@@ -4185,7 +4185,7 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     } else {
         // Try to safely fell tree
         std::vector<tripoint> valid_directions;
-        
+
         for( const tripoint &elem : here.points_in_radius( pos, 1 ) ) {
             bool cantuse = false;
             tripoint direc = elem - pos;
@@ -4198,8 +4198,8 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
                     break;
                 }
 
-                ter_t ter = here.ter(elem).obj();
-                furn_t furn = here.furn(elem).obj();
+                ter_t ter = here.ter( elem ).obj();
+                furn_t furn = here.furn( elem ).obj();
                 // Furniture / Terrain test
                 if( elem != pos && ( ter.bash.str_max != -1 || ( furn.id && furn.bash.str_max != -1 ) ) ) {
                     cantuse = true;
