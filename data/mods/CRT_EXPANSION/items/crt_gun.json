@@ -221,7 +221,7 @@
   {
     "id": "ds_plasma_cutter",
     "type": "GUN",
-    "name": "Plasma Cutter",
+    "name": "C.R.I.T. Plasma Cutter",
     "description": "Experimental cutting tool under development in C.R.I.T. R&D.  It fires an extremely hot wave of plasma that slices into materials.",
     "weight": "1650 g",
     "volume": "750 ml",
@@ -248,7 +248,7 @@
   {
     "id": "ds_rivet_gun",
     "type": "GUN",
-    "name": "Rivet Driver",
+    "name": "C.R.I.T. Rivet Driver",
     "description": "Experimental double purpose tool under development in C.R.I.T. R&D.  It takes a regular nail and then enlongates it within a fraction of a second before firing it out, upon reaching a target, the fragile stake explodes into shards.",
     "weight": "1650 g",
     "volume": "750 ml",
@@ -274,7 +274,7 @@
   {
     "id": "ds_line_gun",
     "type": "GUN",
-    "name": "Line Gun",
+    "name": "C.R.I.T. Line Gun",
     "description": "Experimental high power cutting tool under development in C.R.I.T. R&D.  It fires plasma in a wide line for slicing into dense materials.",
     "weight": "2650 g",
     "volume": "1500 ml",
@@ -302,7 +302,7 @@
   {
     "id": "ds_pulse_rifle",
     "type": "GUN",
-    "name": "Pulse Rifle",
+    "name": "C.R.I.T. Pulse Rifle",
     "description": "Experimental tri-barrel sub-sonic rifle under development in C.R.I.T. R&D.  Great for enclosed spaces and mobs of enemies.  Shoots alloy rounds which instantly mushroom out upon impact.",
     "weight": "2250 g",
     "volume": "1 L",
@@ -329,7 +329,7 @@
   {
     "id": "ds_ripper",
     "type": "GUN",
-    "name": "Ripper",
+    "name": "C.R.I.T. Ripper",
     "description": "Experimental EM saw under development in C.R.I.T. R&D.  Great for distance cutting of material.",
     "weight": "2250 g",
     "volume": "1 L",
