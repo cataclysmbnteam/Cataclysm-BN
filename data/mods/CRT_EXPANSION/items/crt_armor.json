@@ -92,7 +92,7 @@
     "color": "dark_gray",
     "storage": "9 L",
     "encumbrance": 3,
-	"max_encumbrance": 7,
+    "max_encumbrance": 7,
     "material_thickness": 2,
     "material": [ "leather", "kevlar" ],
     "use_action": { "type": "holster", "max_volume": 13, "draw_cost": 150, "skills": [ "smg", "shotgun", "rifle" ] },
