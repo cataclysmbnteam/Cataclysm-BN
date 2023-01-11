@@ -374,12 +374,10 @@ class item : public visitable<item>
         *   the vector can be used to compare them to properties of another item.
         */
         /*@{*/
-        //std::vector<iteminfo> info() const;
-        //std::vector<iteminfo> info( int batch ) const;
+        std::vector<iteminfo> info() const;
+        std::vector<iteminfo> info( int batch ) const;
         std::vector<iteminfo> info( const iteminfo_query &parts, int batch,
                                     temperature_flag temperature ) const;
-        //std::vector<iteminfo> info( const iteminfo_query &parts, int batch = 1,
-        //                            temperature_flag temperature = temperature_flag::TEMP_NORMAL ) const;
         std::vector<iteminfo> info( temperature_flag temperature ) const;
         /*@}*/
         /**

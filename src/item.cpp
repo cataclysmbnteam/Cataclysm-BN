@@ -1800,34 +1800,36 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
                                              "shelf life of <info>%s</info>." ), rot_time ) );
 
 
-        std::string temperature_description;
-        // There should be a better way to do this...
-        switch( temperature ) {
-            case temperature_flag::TEMP_NORMAL:
-            case temperature_flag::TEMP_HEATER: {
-                temperature_description = _( "* Current storage conditions <bad>do not</bad> "
-                                             "protect this item from rot.  It will stay fresh at least <info>%s</info>." );
+        if( parts->test( iteminfo_parts::FOOD_ROT_STORAGE ) ) {
+            std::string temperature_description;
+            // There should be a better way to do this...
+            switch( temperature ) {
+                case temperature_flag::TEMP_NORMAL:
+                case temperature_flag::TEMP_HEATER: {
+                    temperature_description = _( "* Current storage conditions <bad>do not</bad> "
+                                                 "protect this item from rot.  It will stay fresh at least <info>%s</info>." );
+                }
+                break;
+                case temperature_flag::TEMP_FRIDGE:
+                case temperature_flag::TEMP_ROOT_CELLAR: {
+                    temperature_description = _( "* Current storage conditions <neutral>partially</neutral> "
+                                                 "protect this item from rot.  It will stay fresh at least <info>%s</info>." );
+                }
+                break;
+                case temperature_flag::TEMP_FREEZER: {
+                    temperature_description = _( "* Current storage conditions <good>fully</good> "
+                                                 "protect this item from rot.  It will stay fresh indefinitely." );
+                }
+                break;
             }
-            break;
-            case temperature_flag::TEMP_FRIDGE:
-            case temperature_flag::TEMP_ROOT_CELLAR: {
-                temperature_description = _( "* Current storage conditions <neutral>partially</neutral> "
-                                             "protect this item from rot.  It will stay fresh at least <info>%s</info>." );
-            }
-            break;
-            case temperature_flag::TEMP_FREEZER: {
-                temperature_description = _( "* Current storage conditions <good>fully</good> "
-                                             "protect this item from rot.  It will stay fresh indefinitely." );
-            }
-            break;
-        }
 
-        if( temperature != temperature_flag::TEMP_FREEZER ) {
-            time_duration remaining_fresh = minimum_freshness_duration( temperature );
-            std::string time_string = to_string_clipped( remaining_fresh );
-            info.emplace_back( "DESCRIPTION", string_format( temperature_description, time_string ) );
-        } else {
-            info.emplace_back( "DESCRIPTION", temperature_description );
+            if( temperature != temperature_flag::TEMP_FREEZER ) {
+                time_duration remaining_fresh = minimum_freshness_duration( temperature );
+                std::string time_string = to_string_clipped( remaining_fresh );
+                info.emplace_back( "DESCRIPTION", string_format( temperature_description, time_string ) );
+            } else {
+                info.emplace_back( "DESCRIPTION", temperature_description );
+            }
         }
 
         if( !food_item->rotten() ) {
@@ -3941,12 +3943,12 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query &parts_
 
 std::vector<iteminfo> item::info() const
 {
-    return info( iteminfo_query::all, 1 );
+    return info( iteminfo_query::no_conditions, 1, temperature_flag::TEMP_NORMAL );
 }
 
 std::vector<iteminfo> item::info( int batch ) const
 {
-    return info( iteminfo_query::all, batch );
+    return info( iteminfo_query::no_conditions, batch, temperature_flag::TEMP_NORMAL );
 }
 
 std::vector<iteminfo> item::info( temperature_flag temperature ) const
@@ -4041,7 +4043,7 @@ std::string item::info_string() const
 
 std::string item::info_string( const iteminfo_query &parts, int batch ) const
 {
-    std::vector<iteminfo> item_info = info( parts, batch );
+    std::vector<iteminfo> item_info = info( parts, batch, temperature_flag::TEMP_NORMAL );
     return format_item_info( item_info, {} );
 }
 

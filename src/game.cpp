@@ -7491,10 +7491,13 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             addcategory = !sort_radius;
         } else if( action == "EXAMINE" && !filtered_items.empty() && activeItem ) {
             std::vector<iteminfo> dummy;
-            std::vector<iteminfo> this_item = activeItem->example->info();
+            const item *example_item = activeItem->example;
+            // TODO: const_item_location
+            item_location loc = item_location( u, const_cast<item *>( example_item ) );
+            temperature_flag temperature = rot::temperature_flag_for_location( m, loc );
+            std::vector<iteminfo> this_item = example_item->info( temperature );
 
-            item_info_data info_data( activeItem->example->tname(), activeItem->example->type_name(), this_item,
-                                      dummy );
+            item_info_data info_data( example_item->tname(), example_item->type_name(), this_item, dummy );
             info_data.handle_scrolling = true;
 
             draw_item_info( [&]() -> catacurses::window {

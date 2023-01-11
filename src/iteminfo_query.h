@@ -41,6 +41,7 @@ enum class iteminfo_parts : size_t {
     FOOD_POISON,
     FOOD_HALLUCINOGENIC,
     FOOD_ROT,
+    FOOD_ROT_STORAGE,
 
     MAGAZINE_CAPACITY,
     MAGAZINE_RELOAD,
@@ -233,8 +234,9 @@ class iteminfo_query
         bool test( const iteminfo_parts &value ) const;
 
         static const iteminfo_query all;
-        static const iteminfo_query notext;
-        static const iteminfo_query anyflags;
+        static const iteminfo_query no_text;
+        static const iteminfo_query any_flags;
+        static const iteminfo_query no_conditions;
 };
 
 #endif // CATA_SRC_ITEMINFO_QUERY_H

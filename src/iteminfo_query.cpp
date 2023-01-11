@@ -27,7 +27,7 @@ bool iteminfo_query::test( const iteminfo_parts &value ) const
 const iteminfo_query iteminfo_query::all = iteminfo_query(
             std::string( static_cast<size_t>( iteminfo_parts::NUM_VALUES ), '1' ) );
 
-const iteminfo_query iteminfo_query::notext = iteminfo_query(
+const iteminfo_query iteminfo_query::no_text = iteminfo_query(
             iteminfo_query::all.parts & ~( iteminfo_query(
 std::vector<iteminfo_parts> {
     iteminfo_parts::DESCRIPTION,
@@ -74,7 +74,7 @@ std::vector<iteminfo_parts> {
     iteminfo_parts::DESCRIPTION_MED_ADDICTING
 } ) ).parts );
 
-const iteminfo_query iteminfo_query::anyflags = iteminfo_query(
+const iteminfo_query iteminfo_query::any_flags = iteminfo_query(
 std::vector<iteminfo_parts> {
     iteminfo_parts::DESCRIPTION_FLAGS,
     iteminfo_parts::DESCRIPTION_FLAGS_HELMETCOMPAT,
@@ -85,3 +85,9 @@ std::vector<iteminfo_parts> {
     iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR_RADIATIONHINT,
     iteminfo_parts::DESCRIPTION_IRRADIATION
 } );
+
+const iteminfo_query iteminfo_query::no_conditions = iteminfo_query( iteminfo_query::all.parts &
+        ~( iteminfo_query(
+std::vector<iteminfo_parts> {
+    iteminfo_parts::FOOD_ROT_STORAGE
+} ) ).parts );

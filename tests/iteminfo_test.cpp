@@ -398,7 +398,7 @@ TEST_CASE( "nutrients in food", "[item][iteminfo][food]" )
 
 TEST_CASE( "food freshness and lifetime", "[item][iteminfo][food]" )
 {
-    iteminfo_query q = q_vec( { iteminfo_parts::FOOD_ROT } );
+    iteminfo_query q = q_vec( { iteminfo_parts::FOOD_ROT, iteminfo_parts::FOOD_ROT_STORAGE} );
 
     // Ensure test character has no skill estimating spoilage
     g->u.clear_skills();

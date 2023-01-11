@@ -1248,7 +1248,7 @@ void draw_caravan_items( const catacurses::window &w, std::vector<itype_id> *ite
     // THEN print it--if item_selected is valid
     if( item_selected < static_cast<int>( items->size() ) ) {
         item tmp( ( *items )[item_selected], calendar::start_of_cataclysm );
-        fold_and_print( w, point( 1, 12 ), 38, c_white, tmp.info_string( iteminfo_query::notext ) );
+        fold_and_print( w, point( 1, 12 ), 38, c_white, tmp.info_string( iteminfo_query::no_text ) );
     }
     // Next, clear the item list on the right
     for( int i = 1; i <= FULL_SCREEN_HEIGHT - 2; i++ ) {
