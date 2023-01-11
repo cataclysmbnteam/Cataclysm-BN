@@ -193,7 +193,7 @@ void Character::process_turn()
 
     visit_items( [this]( item * e ) {
         e->process_artifact( as_player(), pos() );
-        e->process_relic( as_player() );
+        e->process_relic( *this );
         return VisitResponse::NEXT;
     } );
 
