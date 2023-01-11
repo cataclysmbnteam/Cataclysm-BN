@@ -49,8 +49,8 @@
     "type": "TOOL",
     "id": "test_relic_recharge_time_none",
     "copy-from": "test_relic_tool",
-    "name": "TEST relic recharge time none",
-    "relic_data": { "recharge_scheme": [ { "type": "time", "req": "none", "interval": "5 s", "rate": 2, "message": "Tick!" } ] }
+    "name": "TEST relic recharge time none (silent)",
+    "relic_data": { "recharge_scheme": [ { "type": "time", "req": "none", "interval": "5 s", "rate": 2 } ] }
   },
   {
     "type": "TOOL",
