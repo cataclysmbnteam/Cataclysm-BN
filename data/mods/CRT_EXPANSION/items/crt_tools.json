@@ -146,7 +146,7 @@
     "description": "An incredibly sharp, heavy duty, full length axe.  Makes a heavy-hitting melee weapon, and is useful both for chopping things and for use as a hammer when extended.",
     "price": 25000,
     "price_postapoc": 5000,
-    "material": [ "qt_steel", "plastic", "rubber" ],
+    "material": [ "hardsteel", "plastic", "rubber" ],
     "techniques": [ "CHOP", "INERTIAL", "SMASH" ],
     "weight": "1807 g",
     "volume": "2500 ml",
