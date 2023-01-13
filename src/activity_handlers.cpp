@@ -16,6 +16,7 @@
 
 #include "action.h"
 #include "advanced_inv.h"
+#include "armor_layers.h"
 #include "avatar.h"
 #include "avatar_action.h"
 #include "bionics.h"
@@ -2684,20 +2685,25 @@ item get_fake_tool( hack_type_t hack_type, const player_activity &activity )
                 return fake_item;
             }
             const furn_t &furniture = m.furn( position ).obj();
-            const itype *item_type = furniture.crafting_pseudo_item_type();
-            if( item_type == nullptr ) {
-                return fake_item;
-            }
-            if( !item_type->has_flag( "USES_GRID_POWER" ) ) {
-                debugmsg( "Non grid powered furniture for long repairs is not supported yet." );
+            const std::vector<itype> item_type_list = furniture.crafting_pseudo_item_types();
+
+            if( item_type_list.empty() ) {
                 return fake_item;
             }
 
-            const tripoint_abs_ms abspos( m.getabs( position ) );
-            const distribution_grid &grid = get_distribution_grid_tracker().grid_at( abspos );
-
-            fake_item = item( item_type, calendar::turn, 0 );
-            fake_item.charges = grid.get_resource( true );
+            for( const itype &item_type : item_type_list ) {
+                if( item_type.get_id() == static_cast<itype_id>( activity.str_values[1] ) ) {
+                    if( !item_type.has_flag( "USES_GRID_POWER" ) ) {
+                        debugmsg( "Non grid powered furniture for long repairs is not supported yet." );
+                        return fake_item;
+                    }
+                    const tripoint_abs_ms abspos( m.getabs( position ) );
+                    const distribution_grid &grid = get_distribution_grid_tracker().grid_at( abspos );
+                    fake_item = item( item_type.get_id(), calendar::turn, 0 );
+                    fake_item.charges = grid.get_resource( true );
+                    break;
+                }
+            }
             break;
         }
     }
@@ -2777,7 +2783,8 @@ void patch_activity_for_vehicle_welder(
 }
 
 void patch_activity_for_furniture( player_activity &activity,
-                                   const tripoint &furniture_position )
+                                   const tripoint &furniture_position,
+                                   const itype_id &itt )
 {
     // Player may start another activity on welder/soldering iron
     // Check it here instead of furniture interaction code
@@ -2796,6 +2803,7 @@ void patch_activity_for_furniture( player_activity &activity,
         0, // Useless for us, set only to be compatible with vehicle
         static_cast<int>( hack_type_t::furniture )
     };
+    activity.str_values.emplace_back( static_cast<std::string>( itt ) );
 }
 
 } // namespace repair_activity_hack
@@ -3216,7 +3224,7 @@ void activity_handlers::travel_do_turn( player_activity *act, player *p )
 void activity_handlers::armor_layers_do_turn( player_activity *, player *p )
 {
     p->cancel_activity();
-    p->sort_armor();
+    show_armor_layers_ui( *p );
 }
 
 void activity_handlers::atm_do_turn( player_activity *, player *p )
@@ -3478,7 +3486,7 @@ void activity_handlers::socialize_finish( player_activity *act, player *p )
 void activity_handlers::try_sleep_do_turn( player_activity *act, player *p )
 {
     if( !p->has_effect( effect_sleep ) ) {
-        if( p->can_sleep() ) {
+        if( character_funcs::roll_can_sleep( *p ) ) {
             act->set_to_null();
             p->fall_asleep();
             p->remove_value( "sleep_query" );

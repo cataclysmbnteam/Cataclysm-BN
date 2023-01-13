@@ -157,7 +157,7 @@ class avatar : public player
         /** Completes book reading action. **/
         void do_read( item_location loc );
         /** Note that we've read a book at least once. **/
-        bool has_identified( const itype_id &item_id ) const override;
+        bool has_identified( const itype_id &item_id ) const;
 
         void wake_up();
         // Grab furniture / vehicle
@@ -166,12 +166,7 @@ class avatar : public player
         /** Handles player vomiting effects */
         void vomit();
 
-        /**
-         * Try to steal an item from the NPC's inventory. May result in fail attempt, when NPC not notices you,
-         * notices your steal attempt and getting angry with you, and you successfully stealing the item.
-         * @param target Target NPC to steal from
-         */
-        void steal( npc &target );
+        bool is_hallucination() const override;
 
         pimpl<teleporter_list> translocators;
 

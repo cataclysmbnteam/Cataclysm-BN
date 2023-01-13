@@ -25,6 +25,7 @@
 #include "player.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "ranged.h"
 #include "state_helpers.h"
 #include "test_statistics.h"
 #include "translations.h"
@@ -126,7 +127,7 @@ static std::vector<firing_statistics> firing_test( const dispersion_sources &dis
 static dispersion_sources get_dispersion( npc &shooter, const int aim_time )
 {
     item &gun = shooter.weapon;
-    dispersion_sources dispersion = shooter.get_weapon_dispersion( gun );
+    dispersion_sources dispersion = ranged::get_weapon_dispersion( shooter, gun );
 
     shooter.moves = aim_time;
     shooter.recoil = MAX_RECOIL;
@@ -151,8 +152,8 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
         } );
         INFO( dispersion );
         INFO( "Range: " << min_quickdraw_range );
-        INFO( "Max aim speed: " << shooter.aim_per_move( shooter.weapon, MAX_RECOIL ) );
-        INFO( "Min aim speed: " << shooter.aim_per_move( shooter.weapon, shooter.recoil ) );
+        INFO( "Max aim speed: " << ranged::aim_per_move( shooter, shooter.weapon, MAX_RECOIL ) );
+        INFO( "Min aim speed: " << ranged::aim_per_move( shooter, shooter.weapon, shooter.recoil ) );
         CAPTURE( minimum_stats[0].n() );
         CAPTURE( minimum_stats[0].margin_of_error() );
         CAPTURE( minimum_stats[1].n() );
@@ -166,8 +167,8 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
                                        0.5 ) );
         INFO( dispersion );
         INFO( "Range: " << min_good_range );
-        INFO( "Max aim speed: " << shooter.aim_per_move( shooter.weapon, MAX_RECOIL ) );
-        INFO( "Min aim speed: " << shooter.aim_per_move( shooter.weapon, shooter.recoil ) );
+        INFO( "Max aim speed: " << ranged::aim_per_move( shooter, shooter.weapon, MAX_RECOIL ) );
+        INFO( "Min aim speed: " << ranged::aim_per_move( shooter, shooter.weapon, shooter.recoil ) );
         CAPTURE( good_stats.n() );
         CAPTURE( good_stats.margin_of_error() );
         CHECK( good_stats.avg() > 0.5 );
@@ -178,8 +179,8 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
                                        0.1 ) );
         INFO( dispersion );
         INFO( "Range: " << max_good_range );
-        INFO( "Max aim speed: " << shooter.aim_per_move( shooter.weapon, MAX_RECOIL ) );
-        INFO( "Min aim speed: " << shooter.aim_per_move( shooter.weapon, shooter.recoil ) );
+        INFO( "Max aim speed: " << ranged::aim_per_move( shooter, shooter.weapon, MAX_RECOIL ) );
+        INFO( "Min aim speed: " << ranged::aim_per_move( shooter, shooter.weapon, shooter.recoil ) );
         CAPTURE( good_stats.n() );
         CAPTURE( good_stats.margin_of_error() );
         CHECK( good_stats.avg() < 0.1 );
@@ -197,8 +198,8 @@ static void test_fast_shooting( npc &shooter, const int moves, float hit_rate )
                                          Threshold( accuracy_standard, hit_rate_cap ) );
     INFO( dispersion );
     INFO( "Range: " << fast_shooting_range );
-    INFO( "Max aim speed: " << shooter.aim_per_move( shooter.weapon, MAX_RECOIL ) );
-    INFO( "Min aim speed: " << shooter.aim_per_move( shooter.weapon, shooter.recoil ) );
+    INFO( "Max aim speed: " << ranged::aim_per_move( shooter, shooter.weapon, MAX_RECOIL ) );
+    INFO( "Min aim speed: " << ranged::aim_per_move( shooter, shooter.weapon, shooter.recoil ) );
     CAPTURE( shooter.weapon.gun_skill().str() );
     CAPTURE( shooter.get_skill_level( shooter.weapon.gun_skill() ) );
     CAPTURE( shooter.get_dex() );

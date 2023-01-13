@@ -138,8 +138,6 @@ class Creature
         /** Sets a Creature's fake boolean. */
         virtual void set_fake( bool fake_value );
 
-        /** Recreates the Creature from scratch. */
-        virtual void normalize();
         /** Processes effects and bonuses and allocates move points based on speed. */
         virtual void process_turn();
         /** Resets the value of all bonus fields to 0. */
@@ -301,6 +299,7 @@ class Creature
         virtual bool digging() const;
         virtual bool is_on_ground() const = 0;
         virtual bool is_underwater() const;
+        virtual void set_underwater( bool x );
         virtual bool is_warm() const; // is this creature warm, for IR vision, heat drain, etc
         virtual bool in_species( const species_id & ) const;
 
@@ -459,6 +458,7 @@ class Creature
         virtual int get_armor_type( damage_type dt, bodypart_id bp ) const = 0;
 
         virtual float get_dodge() const;
+        /** Returns melee skill level, to be used to throttle dodge practice. **/
         virtual float get_melee() const = 0;
         virtual float get_hit() const;
 
@@ -482,6 +482,7 @@ class Creature
         virtual bool has_flag( const m_flag ) const {
             return false;
         }
+        /** Handles the uncanny dodge bionic and effects, returns true if the creature successfully dodges */
         virtual bool uncanny_dodge() {
             return false;
         }
@@ -567,7 +568,6 @@ class Creature
         virtual std::set<tripoint> get_path_avoid() const = 0;
 
         int moves = 0;
-        bool underwater = false;
         void draw( const catacurses::window &w, const point &origin, bool inverted ) const;
         void draw( const catacurses::window &w, const tripoint &origin, bool inverted ) const;
         /**
@@ -886,6 +886,7 @@ class Creature
 
     private:
         int pain = 0;
+        bool underwater = false;
 };
 
 #endif // CATA_SRC_CREATURE_H

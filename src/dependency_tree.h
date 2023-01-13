@@ -38,18 +38,18 @@ class dependency_node
         void add_child( dependency_node *child );
         void add_conflict( const dependency_node *conflict );
 
-        bool is_available();
-        bool has_errors();
+        bool is_available() const;
+        bool has_errors() const;
         std::map<node_error_type, std::vector<std::string > > errors();
         std::string s_errors();
 
         // Tree traversal
         // Upward towards head(s)
-        std::vector<mod_id> get_dependencies_as_strings();
-        std::vector<dependency_node * > get_dependencies_as_nodes();
+        std::vector<mod_id> get_dependencies_as_strings() const;
+        std::vector<dependency_node * > get_dependencies_as_nodes() const;
         // Downward towards leaf(ves)
-        std::vector<mod_id> get_dependents_as_strings();
-        std::vector< dependency_node * > get_dependents_as_nodes();
+        std::vector<mod_id> get_dependents_as_strings() const;
+        std::vector< dependency_node * > get_dependents_as_nodes() const;
 
         void inherit_errors();
 };
@@ -68,14 +68,14 @@ class dependency_tree
 
         // tree traversal
         // Upward by key
-        std::vector<mod_id > get_dependencies_of_X_as_strings( mod_id key );
-        std::vector<dependency_node * > get_dependencies_of_X_as_nodes( mod_id key );
+        std::vector<mod_id> get_dependencies_of_X_as_strings( mod_id key ) const;
+        std::vector<dependency_node * > get_dependencies_of_X_as_nodes( mod_id key ) const;
         // Downward by key
-        std::vector< mod_id > get_dependents_of_X_as_strings( mod_id key );
-        std::vector< dependency_node * > get_dependents_of_X_as_nodes( mod_id key );
+        std::vector< mod_id> get_dependents_of_X_as_strings( mod_id key ) const;
+        std::vector< dependency_node * > get_dependents_of_X_as_nodes( mod_id key ) const;
 
-        bool is_available( mod_id key );
-        dependency_node *get_node( mod_id key );
+        bool is_available( mod_id key ) const;
+        dependency_node *get_node( mod_id key ) const;
 
         std::map<mod_id, dependency_node, mod_id::LexCmp> master_node_map;
     private:

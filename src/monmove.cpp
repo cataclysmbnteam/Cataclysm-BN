@@ -581,11 +581,32 @@ void monster::plan()
     } else if( friendly > 0 && one_in( 3 ) ) {
         // Grow restless with no targets
         friendly--;
-    } else if( friendly < 0 && sees( g->u ) && !has_flag( MF_PET_WONT_FOLLOW ) ) {
-        if( rl_dist( pos(), g->u.pos() ) > 2 ) {
-            set_dest( g->u.pos() );
+        // if no target, and friendly pet sees the player
+    } else if( friendly < 0 && sees( g->u ) ) {
+        // eg dogs
+        if( !has_flag( MF_PET_WONT_FOLLOW ) ) {
+            // if too far from the player, go to him
+            if( rl_dist( pos(), g->u.pos() ) > 2 ) {
+                set_dest( g->u.pos() );
+            } else {
+                unset_dest();
+            }
+            // eg cows, horses
         } else {
             unset_dest();
+        }
+        // when the players is close to their pet, it calms them
+        // it helps them reach an homeostatic state, for morale and anger
+        const int distance_from_friend = rl_dist( pos(), get_avatar().pos() );
+        if( distance_from_friend < 12 ) {
+            if( one_in( distance_from_friend * 3 ) ) {
+                if( morale != type->morale ) {
+                    morale += ( morale < type->morale ) ? 1 : -1;
+                }
+                if( anger != type->agro ) {
+                    anger += ( anger < type->agro ) ? 1 : -1;
+                }
+            }
         }
     }
 
@@ -1625,7 +1646,7 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
 
     setpos( destination );
     footsteps( destination );
-    underwater = will_be_water;
+    set_underwater( will_be_water );
     if( is_hallucination() ) {
         //Hallucinations don't do any of the stuff after this point
         return true;
@@ -1661,7 +1682,7 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
         return true;
     }
     if( !will_be_water && ( digs() || can_dig() ) ) {
-        underwater = g->m.has_flag( "DIGGABLE", pos() );
+        set_underwater( g->m.has_flag( "DIGGABLE", pos() ) );
     }
     // Diggers turn the dirt into dirtmound
     if( digging() && g->m.has_flag( "DIGGABLE", pos() ) ) {

@@ -4,8 +4,8 @@
     "subtype": "collection",
     "id": "army_mags_rm2000",
     "entries": [
-      { "item": "8x40_10_mag", "ammo-item": "8mm_fmj", "charges": 10 },
-      { "item": "8x40_10_mag", "ammo-item": "8mm_fmj", "charges": 10 }
+      { "item": "8x40_10_mag", "ammo-item": "8mm_caseless", "charges": 10 },
+      { "item": "8x40_10_mag", "ammo-item": "8mm_caseless", "charges": 10 }
     ]
   },
   {
@@ -53,7 +53,7 @@
           { "item": "kukri", "container-item": "sheath" },
           {
             "item": "rm2000_smg",
-            "ammo-item": "8mm_fmj",
+            "ammo-item": "8mm_caseless",
             "charges": 25,
             "contents-item": [ "shoulder_strap", "suppressor", "holo_sight" ]
           },

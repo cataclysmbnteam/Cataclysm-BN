@@ -81,27 +81,11 @@ namespace io
             case enchant_vals::mod::METABOLISM: return "METABOLISM";
             case enchant_vals::mod::MANA_CAP: return "MANA_CAP";
             case enchant_vals::mod::MANA_REGEN: return "MANA_REGEN";
-            case enchant_vals::mod::BIONIC_POWER: return "BIONIC_POWER";
-            case enchant_vals::mod::MAX_STAMINA: return "MAX_STAMINA";
-            case enchant_vals::mod::REGEN_STAMINA: return "REGEN_STAMINA";
-            case enchant_vals::mod::MAX_HP: return "MAX_HP";
-            case enchant_vals::mod::REGEN_HP: return "REGEN_HP";
+            case enchant_vals::mod::STAMINA_CAP: return "STAMINA_CAP";
+            case enchant_vals::mod::STAMINA_REGEN: return "STAMINA_REGEN";
             case enchant_vals::mod::THIRST: return "THIRST";
             case enchant_vals::mod::FATIGUE: return "FATIGUE";
-            case enchant_vals::mod::PAIN: return "PAIN";
-            case enchant_vals::mod::BONUS_DAMAGE: return "BONUS_DAMAGE";
-            case enchant_vals::mod::BONUS_BLOCK: return "BONUS_BLOCK";
             case enchant_vals::mod::BONUS_DODGE: return "BONUS_DODGE";
-            case enchant_vals::mod::ATTACK_NOISE: return "ATTACK_NOISE";
-            case enchant_vals::mod::SPELL_NOISE: return "SPELL_NOISE";
-            case enchant_vals::mod::SHOUT_NOISE: return "SHOUT_NOISE";
-            case enchant_vals::mod::FOOTSTEP_NOISE: return "FOOTSTEP_NOISE";
-            case enchant_vals::mod::SIGHT_RANGE: return "SIGHT_RANGE";
-            case enchant_vals::mod::CARRY_WEIGHT: return "CARRY_WEIGHT";
-            case enchant_vals::mod::CARRY_VOLUME: return "CARRY_VOLUME";
-            case enchant_vals::mod::SOCIAL_LIE: return "SOCIAL_LIE";
-            case enchant_vals::mod::SOCIAL_PERSUADE: return "SOCIAL_PERSUADE";
-            case enchant_vals::mod::SOCIAL_INTIMIDATE: return "SOCIAL_INTIMIDATE";
             case enchant_vals::mod::ARMOR_ACID: return "ARMOR_ACID";
             case enchant_vals::mod::ARMOR_BASH: return "ARMOR_BASH";
             case enchant_vals::mod::ARMOR_BIO: return "ARMOR_BIO";
@@ -114,13 +98,6 @@ namespace io
             case enchant_vals::mod::ITEM_DAMAGE_BASH: return "ITEM_DAMAGE_BASH";
             case enchant_vals::mod::ITEM_DAMAGE_CUT: return "ITEM_DAMAGE_CUT";
             case enchant_vals::mod::ITEM_DAMAGE_STAB: return "ITEM_DAMAGE_STAB";
-	    case enchant_vals::mod::ITEM_DAMAGE_BULLET: return "ITEM_DAMAGE_BULLET";
-            case enchant_vals::mod::ITEM_DAMAGE_HEAT: return "ITEM_DAMAGE_HEAT";
-            case enchant_vals::mod::ITEM_DAMAGE_COLD: return "ITEM_DAMAGE_COLD";
-            case enchant_vals::mod::ITEM_DAMAGE_ELEC: return "ITEM_DAMAGE_ELEC";
-            case enchant_vals::mod::ITEM_DAMAGE_ACID: return "ITEM_DAMAGE_ACID";
-            case enchant_vals::mod::ITEM_DAMAGE_BIO: return "ITEM_DAMAGE_BIO";
-            case enchant_vals::mod::ITEM_DAMAGE_AP: return "ITEM_DAMAGE_AP";
             case enchant_vals::mod::ITEM_ARMOR_BASH: return "ITEM_ARMOR_BASH";
             case enchant_vals::mod::ITEM_ARMOR_CUT: return "ITEM_ARMOR_CUT";
             case enchant_vals::mod::ITEM_ARMOR_STAB: return "ITEM_ARMOR_STAB";
@@ -130,12 +107,7 @@ namespace io
             case enchant_vals::mod::ITEM_ARMOR_ELEC: return "ITEM_ARMOR_ELEC";
             case enchant_vals::mod::ITEM_ARMOR_ACID: return "ITEM_ARMOR_ACID";
             case enchant_vals::mod::ITEM_ARMOR_BIO: return "ITEM_ARMOR_BIO";
-            case enchant_vals::mod::ITEM_WEIGHT: return "ITEM_WEIGHT";
-            case enchant_vals::mod::ITEM_ENCUMBRANCE: return "ITEM_ENCUMBRANCE";
-            case enchant_vals::mod::ITEM_VOLUME: return "ITEM_VOLUME";
-            case enchant_vals::mod::ITEM_COVERAGE: return "ITEM_COVERAGE";
             case enchant_vals::mod::ITEM_ATTACK_COST: return "ITEM_ATTACK_COST";
-            case enchant_vals::mod::ITEM_WET_PROTECTION: return "ITEM_WET_PROTECTION";
             case enchant_vals::mod::NUM_MOD: break;
         }
         debugmsg( "Invalid enchant_vals::mod" );
@@ -144,17 +116,22 @@ namespace io
     // *INDENT-ON*
 } // namespace io
 
-static void migrate_ench_vals_enums( std::string &s )
+static std::string migrate_ench_vals_enums( const std::string &s )
 {
     if( s == "ITEM_ATTACK_SPEED" ) {
-        s = "ITEM_ATTACK_COST";
+        return "ITEM_ATTACK_COST";
     } else if( s == "ATTACK_SPEED" ) {
-        s = "ATTACK_COST";
+        return "ATTACK_COST";
     } else if( s == "MAX_MANA" ) {
-        s = "MANA_CAP";
+        return "MANA_CAP";
     } else if( s == "REGEN_MANA" ) {
-        s = "MANA_REGEN";
+        return "MANA_REGEN";
+    } else if( s == "MAX_STAMINA" ) {
+        return "STAMINA_CAP";
+    } else if( s == "REGEN_STAMINA" ) {
+        return "STAMINA_REGEN";
     }
+    return s;
 }
 
 namespace
@@ -267,8 +244,19 @@ void enchantment::load( const JsonObject &jo, const std::string & )
     if( jo.has_array( "values" ) ) {
         for( const JsonObject value_obj : jo.get_array( "values" ) ) {
             std::string value_raw = value_obj.get_string( "value" );
-            migrate_ench_vals_enums( value_raw );
-            const enchant_vals::mod value = io::string_to_enum<enchant_vals::mod>( value_raw );
+            std::string value_new = migrate_ench_vals_enums( value_raw );
+            if( json_report_strict && value_new != value_raw ) {
+                value_obj.show_warning(
+                    string_format( "%s has been renamed to %s", value_raw, value_new ), "value" );
+            }
+            enchant_vals::mod value;
+            try {
+                value = io::string_to_enum<enchant_vals::mod>( value_new );
+            } catch( const std::exception &e ) {
+                value_obj.show_warning(
+                    string_format( "Unknown enchant_val '%s', ignoring", value_new ), "value" );
+                continue;
+            }
 
             const int add = value_obj.get_int( "add", 0 );
             const double mult = value_obj.get_float( "multiply", 0.0 );
@@ -437,6 +425,10 @@ double enchantment::calc_bonus( enchant_vals::mod value, double base, bool round
     switch( value ) {
         case enchant_vals::mod::METABOLISM:
         case enchant_vals::mod::MANA_REGEN:
+        case enchant_vals::mod::STAMINA_CAP:
+        case enchant_vals::mod::STAMINA_REGEN:
+        case enchant_vals::mod::THIRST:
+        case enchant_vals::mod::FATIGUE:
             use_add = false;
             break;
         default:

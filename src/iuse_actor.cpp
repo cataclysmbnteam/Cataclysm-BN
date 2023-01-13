@@ -227,7 +227,7 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
         return 0;
     }
     if( need_charges ) {
-        if( it.has_flag( flag_POWERARMOR_MOD ) && p.can_interface_armor() ) {
+        if( it.has_flag( flag_POWERARMOR_MOD ) && character_funcs::can_interface_armor( p ) ) {
             if( !p.has_power() ) {
                 if( possess ) {
                     p.add_msg_if_player( m_info, need_charges_msg, it.tname() );
@@ -921,7 +921,7 @@ int set_transform_iuse::use( player &p, item &it, bool t, const tripoint &pos ) 
                          ( it.has_flag( "ALLOWS_REMOTE_USE" ) && square_dist( p.pos(), pos ) == 1 );
 
     if( set_charges ) {
-        if( it.is_power_armor() && p.can_interface_armor() ) {
+        if( it.is_power_armor() && character_funcs::can_interface_armor( p ) ) {
             if( !p.has_power() ) {
                 if( possess ) {
                     p.add_msg_if_player( m_info, set_charges_msg, it.tname() );
@@ -1155,12 +1155,14 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint &t ) const
         return 0;
     }
 
-    const std::function<bool( const tripoint & )> f = []( const tripoint & pnt ) {
+    map &here = get_map();
+
+    const std::function<bool( const tripoint & )> f = [&here]( const tripoint & pnt ) {
         if( pnt == g->u.pos() ) {
             return false;
         }
-        const ter_id ter = g->m.ter( pnt );
-        const furn_id furn = g->m.furn( pnt );
+        const ter_id ter = here.ter( pnt );
+        const furn_id furn = here.furn( pnt );
         lockpicking_open_result result = get_lockpicking_open_result( ter, furn );
         const bool is_allowed = result.new_ter_type || result.new_furn_type;
         return is_allowed;
@@ -1172,7 +1174,7 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint &t ) const
         return 0;
     }
     const tripoint &pnt = *pnt_;
-    const ter_id type = g->m.ter( pnt );
+    const ter_id type = here.ter( pnt );
     if( !f( pnt ) ) {
         if( pnt == p.pos() ) {
             p.add_msg_if_player( m_info, _( "You pick your nose and your sinuses swing open." ) );
@@ -1210,6 +1212,7 @@ void deploy_furn_actor::info( const item &, std::vector<iteminfo> &dump ) const
     std::vector<std::string> can_function_as;
     const furn_t &the_furn = furn_type.obj();
     const std::string furn_name = the_furn.name();
+    const std::set<itype_id> &pseudo_list = the_furn.crafting_pseudo_items;
 
     if( the_furn.workbench ) {
         can_function_as.emplace_back( _( "a <info>crafting station</info>" ) );
@@ -1231,7 +1234,7 @@ void deploy_furn_actor::info( const item &, std::vector<iteminfo> &dump ) const
     if( the_furn.has_flag( "FIRE_CONTAINER" ) ) {
         can_function_as.emplace_back( _( "a safe place to <info>contain a fire</info>" ) );
     }
-    if( the_furn.crafting_pseudo_item == itype_char_smoker ) {
+    if( pseudo_list.count( itype_char_smoker ) > 0 ) {
         can_function_as.emplace_back( _( "a place to <info>smoke or dry food</info> for preservation" ) );
     }
 
@@ -2020,7 +2023,7 @@ int enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
         p.add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
-    map_stack items = g->m.i_at( point( p.posx(), p.posy() ) );
+    map_stack items = get_map().i_at( point( p.posx(), p.posy() ) );
     std::vector<const item *> corpses;
 
     for( item &corpse_candidate : items ) {
@@ -2706,8 +2709,8 @@ bool holster_actor::store( player &p, item &holster, item &obj ) const
     p.add_msg_if_player( holster_msg.empty() ? _( "You holster your %s" ) : _( holster_msg ),
                          obj.tname(), holster.tname() );
 
-    // holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
-    p.store( holster, obj, false, draw_cost );
+    // Holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
+    character_funcs::store_in_container( p, holster, obj, false, draw_cost );
     return true;
 }
 
@@ -2756,12 +2759,17 @@ int holster_actor::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     if( pos >= 0 ) {
-        // worn holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
+        // Worn holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
+        bool penalties;
+        int cost;
         if( p.is_worn( it ) ) {
-            p.wield_contents( it, internal_item, false, draw_cost );
+            penalties = false;
+            cost = draw_cost;
         } else {
-            p.wield_contents( it, internal_item );
+            penalties = true;
+            cost = INVENTORY_HANDLING_PENALTY;
         }
+        character_funcs::try_wield_contents( *p.as_avatar(), it, internal_item, penalties, cost );
 
     } else {
         item_location loc = game_menus::inv::holster( p, it );

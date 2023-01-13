@@ -1805,6 +1805,11 @@ void options_manager::add_options_graphics()
 
     get_option( "ANIMATION_DELAY" ).setPrerequisite( "ANIMATIONS" );
 
+    add( "BLINK_SPEED", "graphics", translate_marker( "Blinking effects speed" ),
+         translate_marker( "The speed of every blinking effects in ms." ),
+         100, 5000, 800
+       );
+
     add( "FORCE_REDRAW", "graphics", translate_marker( "Force redraw" ),
          translate_marker( "If true, forces the game to redraw at least once per turn." ),
          true
@@ -1907,7 +1912,7 @@ void options_manager::add_options_graphics()
 
     add( "USE_TILES_OVERMAP", "graphics", translate_marker( "Use tiles to display overmap" ),
          translate_marker( "If true, replaces some TTF-rendered text with tiles for overmap display." ),
-         false, COPT_CURSES_HIDE
+         true, COPT_CURSES_HIDE
        );
 
     get_option( "USE_TILES_OVERMAP" ).setPrerequisite( "USE_TILES" );
@@ -2002,6 +2007,10 @@ void options_manager::add_options_graphics()
     { { "no", translate_marker( "No" ) }, { "maximized", translate_marker( "Maximized" ) }, { "fullscreen", translate_marker( "Fullscreen" ) }, { "windowedbl", translate_marker( "Windowed borderless" ) } },
     "windowedbl", COPT_CURSES_HIDE
        );
+
+    add( "MINIMIZE_ON_FOCUS_LOSS", "graphics",
+         translate_marker( "Minimize on focus loss.  Requires restart." ),
+         translate_marker( "Minimize fullscreen window when it loses focus." ), false );
 #endif
 
 #if !defined(__ANDROID__)
@@ -2057,23 +2066,12 @@ void options_manager::add_options_graphics()
          false, COPT_CURSES_HIDE
        );
 
-    add( "SCALING_MODE", "graphics", translate_marker( "Scaling mode" ),
-         translate_marker( "Sets the scaling mode, 'none' ( default ) displays at the game's native resolution, 'nearest'  uses low-quality but fast scaling, and 'linear' provides high-quality scaling." ),
-         //~ Do not scale the game image to the window size.
-    {   { "none", translate_marker( "No scaling" ) },
-        //~ An algorithm for image scaling.
-        { "nearest", translate_marker( "Nearest neighbor" ) },
-        //~ An algorithm for image scaling.
-        { "linear", translate_marker( "Linear filtering" ) }
-    },
-    "none", COPT_CURSES_HIDE );
-
 #if !defined(__ANDROID__)
-    add( "SCALING_FACTOR", "graphics", translate_marker( "Scaling factor" ),
-    translate_marker( "Factor by which to scale the display.  Requires restart." ), {
+    add( "SCALING_FACTOR", "graphics", translate_marker( "Display scaling factor" ),
+    translate_marker( "Factor by which to scale the game display, 1x means no scaling.  Requires restart." ), {
         { "1", translate_marker( "1x" ) },
-        { "2", translate_marker( "2x" )},
-        { "4", translate_marker( "4x" )}
+        { "2", translate_marker( "2x" ) },
+        { "4", translate_marker( "4x" ) }
     },
     "1", COPT_CURSES_HIDE );
 #endif
@@ -2086,9 +2084,9 @@ void options_manager::add_options_debug()
         this->add_empty_line( "debug" );
     };
 
-    add( "REPORT_UNUSED_JSON_FIELDS", "debug", translate_marker( "Report unused JSON fields" ),
-         translate_marker( "If false, unused JSON fields are silently ignored.  Enabling this will make it easier to spot mistakes or typos during modding." ),
-         false
+    add( "STRICT_JSON_CHECKS", "debug", translate_marker( "Strict JSON checks" ),
+         translate_marker( "If true, will show additional warnings for JSON data correctness." ),
+         true
        );
 
     add( "FORCE_TILESET_RELOAD", "debug", translate_marker( "Force tileset reload" ),
@@ -2652,7 +2650,9 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
             //game_ui::init_ui is called when zoom is changed
             g->reset_zoom();
             g->mark_main_ui_adaptor_resize();
-            tilecontext->do_tile_loading_report();
+            tilecontext->do_tile_loading_report( []( std::string str ) {
+                DebugLog( DL::Info, DC::Main ) << str;
+            } );
         } catch( const std::exception &err ) {
             popup( _( "Loading the tileset failed: %s" ), err.what() );
             use_tiles = false;
@@ -3324,8 +3324,7 @@ void options_manager::cache_to_globals()
     setDebugLogLevels( levels );
     setDebugLogClasses( classes );
 
-    json_report_unused_fields = ::get_option<bool>( "REPORT_UNUSED_JSON_FIELDS" );
-    json_report_strict = test_mode || json_report_unused_fields;
+    json_report_strict = test_mode || ::get_option<bool>( "STRICT_JSON_CHECKS" );
     display_mod_source = ::get_option<bool>( "MOD_SOURCE" );
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
     use_tiles = ::get_option<bool>( "USE_TILES" );

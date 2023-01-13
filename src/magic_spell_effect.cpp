@@ -130,7 +130,7 @@ static void swap_pos( Creature &caster, const tripoint &target )
     critter->setpos( caster.pos() );
     caster.setpos( target );
     //update map in case a monster swapped positions with the player
-    g->update_map( g->u );
+    g->update_map( get_avatar() );
 }
 
 void spell_effect::pain_split( const spell &sp, Creature &caster, const tripoint & )
@@ -164,11 +164,12 @@ static bool in_spell_aoe( const tripoint &start, const tripoint &end, const int 
     if( ignore_walls ) {
         return true;
     }
+    map &here = get_map();
     const std::vector<tripoint> trajectory = line_to( start, end );
     tripoint last_point = start;
     for( const tripoint &pt : trajectory ) {
-        if( ( g->m.impassable( pt ) && !g->m.has_flag( "THIN_OBSTACLE", pt ) ) ||
-            g->m.obstructed_by_vehicle_rotation( pt, last_point ) ) {
+        if( ( here.impassable( pt ) && !here.has_flag( "THIN_OBSTACLE", pt ) ) ||
+            here.obstructed_by_vehicle_rotation( pt, last_point ) ) {
             return false;
         }
         last_point = pt;
@@ -181,7 +182,7 @@ std::set<tripoint> spell_effect::spell_effect_blast( const spell &, const tripoi
 {
     std::set<tripoint> targets;
     // TODO: Make this breadth-first
-    for( const tripoint &potential_target : g->m.points_in_radius( target, aoe_radius ) ) {
+    for( const tripoint &potential_target : get_map().points_in_radius( target, aoe_radius ) ) {
         if( in_spell_aoe( target, potential_target, aoe_radius, ignore_walls ) ) {
             targets.emplace( potential_target );
         }
@@ -205,12 +206,13 @@ std::set<tripoint> spell_effect::spell_effect_cone( const spell &sp, const tripo
         calc_ray_end( angle, range, source, potential );
         end_points.emplace( potential );
     }
+    map &here = get_map();
     for( const tripoint &ep : end_points ) {
         std::vector<tripoint> trajectory = line_to( source, ep );
         tripoint last_point = source;
         for( const tripoint &tp : trajectory ) {
-            if( ignore_walls || ( !g->m.obstructed_by_vehicle_rotation( tp, last_point ) &&
-                                  ( g->m.passable( tp ) || g->m.has_flag( "THIN_OBSTACLE", tp ) ) ) ) {
+            if( ignore_walls || ( !here.obstructed_by_vehicle_rotation( tp, last_point ) &&
+                                  ( here.passable( tp ) || here.has_flag( "THIN_OBSTACLE", tp ) ) ) ) {
                 targets.emplace( tp );
             } else {
                 break;
@@ -229,8 +231,9 @@ static bool test_always_true( const tripoint &, const tripoint & )
 }
 static bool test_passable( const tripoint &p, const tripoint &prev )
 {
-    return ( !g->m.obstructed_by_vehicle_rotation( prev, p ) && ( g->m.passable( p ) ||
-             g->m.has_flag( "THIN_OBSTACLE", p ) ) );
+    map &here = get_map();
+    return ( !here.obstructed_by_vehicle_rotation( prev, p ) && ( here.passable( p ) ||
+             here.has_flag( "THIN_OBSTACLE", p ) ) );
 }
 
 std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoint &source,
@@ -414,9 +417,11 @@ static std::set<tripoint> spell_effect_area( const spell &sp, const tripoint &ta
     }
 
     if( sp.id()->sprite.length() > 0 ) {
-        explosion_handler::draw_custom_explosion( g->u.pos(), explosion_colors, sp.id()->sprite );
+        explosion_handler::draw_custom_explosion( get_player_character().pos(), explosion_colors,
+                sp.id()->sprite );
     } else {
-        explosion_handler::draw_custom_explosion( g->u.pos(), explosion_colors, "explosion" );
+        explosion_handler::draw_custom_explosion( get_player_character().pos(), explosion_colors,
+                "explosion" );
     }
 
     return targets;
@@ -482,7 +487,7 @@ static void damage_targets( const spell &sp, Creature &caster,
             cr->deal_projectile_attack( &caster, atk );
         } else if( sp.damage() < 0 ) {
             sp.heal( target );
-            if( g->u.sees( cr->pos() ) ) {
+            if( get_avatar().sees( cr->pos() ) ) {
                 add_msg( m_good, _( "%s wounds are closing up!" ), cr->disp_name( true ) );
             }
         }
@@ -494,9 +499,10 @@ void spell_effect::projectile_attack( const spell &sp, Creature &caster,
 {
     std::vector<tripoint> trajectory = line_to( caster.pos(), target );
     tripoint prev_point = caster.pos();
+    map &here = get_map();
     for( std::vector<tripoint>::iterator iter = trajectory.begin(); iter != trajectory.end(); iter++ ) {
-        if( ( g->m.impassable( *iter ) && !g->m.has_flag( "THIN_OBSTACLE", *iter ) ) ||
-            g->m.obstructed_by_vehicle_rotation( prev_point, *iter ) ) {
+        if( ( here.impassable( *iter ) && !here.has_flag( "THIN_OBSTACLE", *iter ) ) ||
+            here.obstructed_by_vehicle_rotation( prev_point, *iter ) ) {
             if( iter != trajectory.begin() ) {
                 target_attack( sp, caster, *( iter - 1 ) );
             } else {
@@ -644,7 +650,7 @@ static void spell_move( const spell &sp, const Creature &caster,
 
     if( can_target_creature ) {
         if( Creature *victim = g->critter_at<Creature>( from ) ) {
-            Creature::Attitude cr_att = victim->attitude_to( g->u );
+            Creature::Attitude cr_att = victim->attitude_to( get_avatar() );
             bool valid = cr_att != Creature::A_FRIENDLY && sp.is_valid_effect_target( target_hostile );
             valid |= cr_att == Creature::A_FRIENDLY && sp.is_valid_effect_target( target_ally );
             valid |= victim == &caster && sp.is_valid_effect_target( target_self );
@@ -654,10 +660,11 @@ static void spell_move( const spell &sp, const Creature &caster,
         }
     }
 
+    map &here = get_map();
     // Moving items
     if( sp.is_valid_effect_target( target_item ) ) {
-        auto src_items = g->m.i_at( from );
-        auto dst_items = g->m.i_at( to );
+        auto src_items = here.i_at( from );
+        auto dst_items = here.i_at( to );
         for( const item &item : src_items ) {
             dst_items.insert( item );
         }
@@ -665,15 +672,15 @@ static void spell_move( const spell &sp, const Creature &caster,
     }
 
     // Helper function to move particular field type if corresponding target flag is enabled.
-    auto move_field = [&sp, from, to]( valid_target target, field_type_id fid ) {
+    auto move_field = [&sp, &here, from, to]( valid_target target, field_type_id fid ) {
         if( !sp.is_valid_effect_target( target ) ) {
             return;
         }
-        auto &src_field = g->m.field_at( from );
+        auto &src_field = here.field_at( from );
         if( field_entry *entry = src_field.find_field( fid ) ) {
             int intensity = entry->get_field_intensity();
-            g->m.remove_field( from, fid );
-            g->m.set_field_intensity( to, fid, intensity );
+            here.remove_field( from, fid );
+            here.set_field_intensity( to, fid, intensity );
         }
     };
     // Moving fields.
@@ -728,17 +735,18 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const
     if( granted.count_by_charges() && sp.damage() > 0 ) {
         granted.charges = sp.damage();
     }
-    if( g->u.can_wear( granted ).success() ) {
+    avatar &you = get_avatar();
+    if( you.can_wear( granted ).success() ) {
         granted.set_flag( "FIT" );
-        g->u.wear_item( granted, false );
-    } else if( !g->u.is_armed() ) {
-        g->u.weapon = granted;
+        you.wear_item( granted, false );
+    } else if( !you.is_armed() ) {
+        you.weapon = granted;
     } else {
-        g->u.i_add( granted );
+        you.i_add( granted );
     }
     if( !granted.count_by_charges() ) {
         for( int i = 1; i < sp.damage(); i++ ) {
-            g->u.i_add( granted );
+            you.i_add( granted );
         }
     }
     sp.make_sound( caster.pos() );
@@ -1058,6 +1066,6 @@ void spell_effect::bash( const spell &sp, Creature &caster, const tripoint &targ
             continue;
         }
         // the bash already makes noise, so no need for spell::make_sound()
-        g->m.bash( potential_target, sp.damage(), sp.has_flag( spell_flag::SILENT ) );
+        get_map().bash( potential_target, sp.damage(), sp.has_flag( spell_flag::SILENT ) );
     }
 }

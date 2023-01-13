@@ -847,7 +847,6 @@ class npc : public player
         void deserialize( JsonIn &jsin ) override;
         void serialize( JsonOut &json ) const override;
 
-        // Display
         nc_color basic_symbol_color() const override;
         int print_info( const catacurses::window &w, int line, int vLines, int column ) const override;
         std::string opinion_text() const;
@@ -955,9 +954,6 @@ class npc : public player
         bool took_painkiller() const;
         void use_painkiller();
         void activate_item( int item_index );
-        bool has_identified( const itype_id & ) const override {
-            return true;
-        }
         bool has_artifact_with( const art_effect_passive ) const override {
             return false;
         }
@@ -1424,5 +1420,18 @@ std::ostream &operator<< ( std::ostream &os, const npc_need &need );
 
 /** Opens a menu and allows player to select a friendly NPC. */
 npc *pick_follower();
+
+namespace npc_ai
+{
+/** Evaluate item as weapon (melee or gun) */
+double weapon_value( const Character &who, const item &weap, int ammo = 10 );
+/** Evaluates item as a gun */
+double gun_value( const Character &who, const item &weap, int ammo = 10 );
+/** Evaluate item as a melee weapon */
+double melee_value( const Character &who, const item &weap );
+/** Evaluate unarmed melee value */
+double unarmed_value( const Character &who );
+
+} // namespace npc_ai
 
 #endif // CATA_SRC_NPC_H

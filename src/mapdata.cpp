@@ -190,8 +190,10 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
         { "THIN_OBSTACLE",            TFLAG_THIN_OBSTACLE },  // Passable by players and monsters. Vehicles destroy it.
         { "SMALL_PASSAGE",            TFLAG_SMALL_PASSAGE },   // A small passage, that large or huge things cannot pass through
         { "Z_TRANSPARENT",            TFLAG_Z_TRANSPARENT },  // Doesn't block vision passing through the z-level
-        { "SUN_ROOF_ABOVE",           TFLAG_SUN_ROOF_ABOVE },  // This furniture has a "fake roof" above, that blocks sunlight (see #44421).
-        { "SUSPENDED",                TFLAG_SUSPENDED }       // This furniture is suspended between other terrain, and will cause a cascading failure on break.
+        { "SUN_ROOF_ABOVE",           TFLAG_SUN_ROOF_ABOVE }, // This furniture has a "fake roof" above, that blocks sunlight (see #44421).
+        { "SUSPENDED",                TFLAG_SUSPENDED },      // This furniture is suspended between other terrain, and will cause a cascading failure on break.
+        { "FRIDGE",                   TFLAG_FRIDGE },         // This is an active fridge.
+        { "FREEZER",                  TFLAG_FREEZER },        // This is an active freezer.
     }
 };
 
@@ -1103,7 +1105,7 @@ furn_id f_null,
         f_chair, f_armchair, f_sofa, f_cupboard, f_trashcan, f_desk, f_exercise,
         f_ball_mach, f_bench, f_lane, f_table, f_pool_table,
         f_counter,
-        f_fridge, f_fridge_on, f_minifreezer_on, f_glass_fridge, f_dresser, f_locker,
+        f_fridge, f_fridge_on, f_minifreezer_on, f_glass_fridge, f_freezer, f_dresser, f_locker,
         f_rack, f_bookcase,
         f_washer, f_dryer,
         f_vending_c, f_vending_o, f_dumpster, f_dive_block,
@@ -1176,6 +1178,7 @@ void set_furn_ids()
     f_fridge_on = furn_id( "f_fridge_on" );
     f_minifreezer_on = furn_id( "f_minifreezer_on" );
     f_glass_fridge = furn_id( "f_glass_fridge" );
+    f_freezer = furn_id( "f_freezer" );
     f_dresser = furn_id( "f_dresser" );
     f_locker = furn_id( "f_locker" );
     f_rack = furn_id( "f_rack" );
@@ -1316,6 +1319,7 @@ void map_data_common_t::load( const JsonObject &jo, const std::string &src )
 
     mandatory( jo, was_loaded, "description", description );
     optional( jo, was_loaded, "message", message );
+    optional( jo, was_loaded, "prompt", prompt );
 
     assign( jo, "flags", flags );
     bitflags.reset();
@@ -1499,6 +1503,9 @@ void ter_t::check() const
         debugmsg( "%s deconstructs into \"t_open_air\", but \"t_null\" is preferred",
                   id.str() );
     }
+    if( movecost == 1 || movecost < 0 ) {
+        debugmsg( "%s has move_cost %d, but allowed values for terrain are >=2 and 0", id, movecost );
+    }
 }
 
 const std::vector<ter_t> &ter_t::get_all()
@@ -1531,7 +1538,6 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "keg_capacity", keg_capacity, legacy_volume_reader, 0_ml );
     mandatory( jo, was_loaded, "required_str", move_str_req );
     optional( jo, was_loaded, "max_volume", max_volume, volume_reader(), DEFAULT_MAX_VOLUME_IN_SQUARE );
-    optional( jo, was_loaded, "crafting_pseudo_item", crafting_pseudo_item, itype_id() );
     optional( jo, was_loaded, "deployed_item", deployed_item );
     load_symbol( jo );
 
@@ -1554,6 +1560,9 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
         JsonIn &jsin = *jo.get_raw( "active" );
         active.deserialize( jsin );
     }
+
+    assign( jo, "crafting_pseudo_item", crafting_pseudo_items );
+
 }
 
 void map_data_common_t::check() const

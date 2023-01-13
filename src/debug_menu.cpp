@@ -181,6 +181,7 @@ enum debug_menu_index {
     DEBUG_HOUR_TIMER,
     DEBUG_NESTED_MAPGEN,
     DEBUG_RESET_IGNORED_MESSAGES,
+    DEBUG_RELOAD_TILES,
 };
 
 class mission_debug
@@ -238,6 +239,9 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( DEBUG_TEST_WEATHER, true, 'W', _( "Test weather" ) ) },
             { uilist_entry( DEBUG_TEST_MAP_EXTRA_DISTRIBUTION, true, 'e', _( "Test map extra list" ) ) },
             { uilist_entry( DEBUG_RESET_IGNORED_MESSAGES, true, 'I', _( "Reset ignored debug messages" ) ) },
+#if defined(TILES)
+            { uilist_entry( DEBUG_RELOAD_TILES, true, 'D', _( "Reload tileset and show missing tiles" ) ) },
+#endif
         };
         uilist_initializer.insert( uilist_initializer.begin(), debug_only_options.begin(),
                                    debug_only_options.end() );
@@ -750,6 +754,10 @@ void character_edit_menu( Character &c )
         }
         break;
         case edit_character::opinion: {
+            if( np == nullptr ) {
+                // HACK: For some reason, tidy is not satisfied with simple assert(np)
+                std::abort();
+            }
             uilist smenu;
             smenu.addentry( 0, true, 'h', "%s: %d", _( "trust" ), np->op_of_u.trust );
             smenu.addentry( 1, true, 's', "%s: %d", _( "fear" ), np->op_of_u.fear );
@@ -1370,7 +1378,6 @@ void debug()
 
         case DEBUG_SPAWN_NPC: {
             shared_ptr_fast<npc> temp = make_shared_fast<npc>();
-            temp->normalize();
             temp->randomize();
             temp->spawn_at_precise( { g->get_levx(), g->get_levy() }, u.pos() + point( -4, -4 ) );
             overmap_buffer.insert_npc( temp );
@@ -2044,6 +2051,13 @@ void debug()
             break;
         case DEBUG_RESET_IGNORED_MESSAGES:
             debug_reset_ignored_messages();
+            break;
+        case DEBUG_RELOAD_TILES:
+            std::ostringstream ss;
+            g->reload_tileset( [&ss]( std::string str ) {
+                ss << str << std::endl;
+            } );
+            add_msg( ss.str() );
             break;
     }
     m.invalidate_map_cache( g->get_levz() );

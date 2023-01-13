@@ -18,6 +18,7 @@
 #include "calendar.h"
 #include "character.h"
 #include "character_martial_arts.h"
+#include "character_turn.h"
 #include "creature.h"
 #include "cursesdef.h"
 #include "debug.h"
@@ -573,7 +574,7 @@ static float rate_critter( const Creature &c )
 {
     const npc *np = dynamic_cast<const npc *>( &c );
     if( np != nullptr ) {
-        return np->weapon_value( np->weapon );
+        return npc_ai::weapon_value( *np, np->weapon );
     }
 
     const monster *m = dynamic_cast<const monster *>( &c );
@@ -593,7 +594,7 @@ void avatar_action::autoattack( avatar &you, map &m )
     if( critters.empty() ) {
         add_msg( m_info, _( "No hostile creature in reach.  Waiting a turn." ) );
         if( g->check_safe_mode_allowed() ) {
-            you.pause();
+            character_funcs::do_pause( you );
         }
         return;
     }
@@ -711,7 +712,7 @@ void avatar_action::fire_wielded_weapon( avatar &you )
     } else if( !weapon.is_gun() ) {
         return;
     } else if( weapon.ammo_data() && weapon.type->gun &&
-               !weapon.type->gun->ammo.count( weapon.ammo_data()->ammo->type ) ) {
+               !weapon.ammo_types().count( weapon.ammo_data()->ammo->type ) ) {
         std::string ammoname = weapon.ammo_current()->nname( 1 );
         add_msg( m_info, _( "The %s can't be fired while loaded with incompatible ammunition %s" ),
                  weapon.tname(), ammoname );

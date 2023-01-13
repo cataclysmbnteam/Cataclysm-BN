@@ -74,7 +74,6 @@ struct dealt_projectile_attack;
 struct islot_comestible;
 struct itype;
 struct mutation_branch;
-struct needs_rates;
 struct pathfinding_settings;
 struct points_left;
 struct trap;
@@ -186,18 +185,34 @@ enum class rechargeable_cbm {
     other
 };
 
-struct aim_type {
-    std::string name;
-    std::string action;
-    std::string help;
-    bool has_threshold;
-    int threshold;
-};
-
 struct special_attack {
     std::string text;
     damage_instance damage;
 };
+
+struct needs_rates {
+    float thirst = 0.0f;
+    float hunger = 0.0f;
+    float fatigue = 0.0f;
+    float recovery = 0.0f;
+};
+
+struct char_trait_data {
+    /** Whether the mutation is activated. */
+    bool powered = false;
+    /** Key to select the mutation in the UI. */
+    char key = ' ';
+    /**
+     * Time (in turns) until the mutation increase hunger/thirst/fatigue according
+     * to its cost (@ref mutation_branch::cost). When those costs have been paid, this
+     * is reset to @ref mutation_branch::cooldown.
+     */
+    int charge = 0;
+    void serialize( JsonOut &json ) const;
+    void deserialize( JsonIn &jsin );
+};
+
+struct mutation_collection : std::unordered_map<trait_id, char_trait_data> {};
 
 class Character : public Creature, public visitable<Character>
 {
@@ -218,6 +233,9 @@ class Character : public Creature, public visitable<Character>
         // allows forcing a -1 id which is required for templates to not throw errors
         void setID( character_id i, bool force = false );
 
+        /** Returns true if the character should be dead */
+        bool is_dead_state() const override;
+
         field_type_id bloodType() const override;
         field_type_id gibType() const override;
         bool is_warm() const override;
@@ -227,15 +245,6 @@ class Character : public Creature, public visitable<Character>
         // Is currently in control of a vehicle
         bool controlling_vehicle = false;
         const std::string &symbol() const override;
-
-        enum class comfort_level {
-            impossible = -999,
-            uncomfortable = -7,
-            neutral = 0,
-            slightly_comfortable = 3,
-            comfortable = 5,
-            very_comfortable = 10
-        };
 
         // Character stats
         // TODO: Make those protected
@@ -336,6 +345,9 @@ class Character : public Creature, public visitable<Character>
         /** Recalculate size class of character **/
         void recalculate_size();
 
+        /** Calculates the various speed bonuses we will get from mutations, etc. */
+        void recalc_speed_bonus();
+
         /** Returns either "you" or the player's name. capitalize_first assumes
             that the character's name is already upper case and uses it only for
             possessive "your" and "you"
@@ -350,33 +362,12 @@ class Character : public Creature, public visitable<Character>
         }
         void set_fac_id( const std::string &my_fac_id );
 
-        /* Adjusts provided sight dispersion to account for player stats */
-        int effective_dispersion( int dispersion ) const;
-
-        /* Accessors for aspects of aim speed. */
-        std::vector<aim_type> get_aim_types( const item &gun ) const;
-        std::pair<int, int> get_fastest_sight( const item &gun, double recoil ) const;
-        int get_most_accurate_sight( const item &gun ) const;
-        double aim_speed_skill_modifier( const skill_id &gun_skill ) const;
-        double aim_speed_dex_modifier() const;
-        double aim_speed_encumbrance_modifier() const;
-        double aim_cap_from_volume( const item &gun ) const;
-
-        /* Calculate aim improvement per move spent aiming at a given @ref recoil */
-        double aim_per_move( const item &gun, double recoil ) const;
-
-        /** Get maximum recoil penalty due to vehicle motion */
-        double recoil_vehicle() const;
-
-        double recoil_mode() const;
-
-        /** Current total maximum recoil penalty from all sources */
-        double recoil_total() const;
-
         /** Combat getters */
         float get_dodge_base() const override;
         float get_hit_base() const override;
         float get_dodge() const override;
+        float dodge_roll() override;
+        float get_melee() const override;
 
         const tripoint &pos() const override;
         /** Returns the player's sight range */
@@ -447,13 +438,6 @@ class Character : public Creature, public visitable<Character>
         /** Equalizes heat between body parts */
         void temp_equalizer( const bodypart_id &bp1, const bodypart_id &bp2 );
 
-        struct comfort_response_t {
-            comfort_level level = comfort_level::neutral;
-            const item *aid = nullptr;
-        };
-        /** Rate point's ability to serve as a bed. Only takes certain mutations into account, and not fatigue nor stimulants. */
-        comfort_response_t base_comfort_value( const tripoint &p ) const;
-
         /** Define blood loss (in percents) */
         int blood_loss( const bodypart_id &bp ) const;
 
@@ -463,6 +447,8 @@ class Character : public Creature, public visitable<Character>
         void reset_stats() override;
         /** Handles stat and bonus reset. */
         void reset() override;
+
+        void environmental_revert_effect();
 
         /** Recalculates encumbrance cache. */
         void reset_encumbrance();
@@ -521,6 +507,14 @@ class Character : public Creature, public visitable<Character>
          * Handles end-of-turn processing.
          */
         void process_turn() override;
+        /** Processes human-specific effects of effects before calling Creature::process_effects(). */
+        void process_effects_internal() override;
+        /** Handles the still hard-coded effects. */
+        void hardcoded_effects( effect &it );
+        /** Processes human-specific effects of an effect. */
+        void process_one_effect( effect &it, bool is_new ) override;
+        /** Process active items */
+        void process_items();
 
         /** Recalculates HP after a change to max strength */
         void recalc_hp();
@@ -563,10 +557,16 @@ class Character : public Creature, public visitable<Character>
         profession_id prof;
         std::string custom_profession;
 
+        /** Returns true if the player is able to use a grab breaking technique */
+        bool can_use_grab_break_tec( const item &weap ) const;
         /** Returns true if the player is able to use a miss recovery technique */
         bool can_miss_recovery( const item &weap ) const;
         /** Returns true if the player has quiet melee attacks */
         bool is_quiet() const;
+        /** Returns true if the player has stealthy movement */
+        bool is_stealthy() const;
+
+        bool uncanny_dodge() override;
 
         // melee.cpp
         /** Checks for valid block abilities and reduces damage accordingly. Returns true if the player blocks */
@@ -585,21 +585,24 @@ class Character : public Creature, public visitable<Character>
          * @param t Creature to attack
          * @param allow_special whether non-forced martial art technique or mutation attack should be
          *   possible with this attack.
-         * @param force_technique special technique to use in attack.
+         * @param force_technique special technique to use in attack (leave as nullptr to use random technique).
          * @param allow_unarmed always uses the wielded weapon regardless of martialarts style
          */
-        void melee_attack( Creature &t, bool allow_special, const matec_id &force_technique,
+        void melee_attack( Creature &t, bool allow_special, const matec_id *force_technique = nullptr,
                            bool allow_unarmed = true );
-        /**
-         * Calls the to other melee_attack function with an empty technique id (meaning no specific
-         * technique should be used).
-         */
-        void melee_attack( Creature &t, bool allow_special );
+
         /** Handles combat effects, returns a string of any valid combat effect messages */
         std::string melee_special_effects( Creature &t, damage_instance &d, item &weap );
         /** Performs special attacks and their effects (poisonous, stinger, etc.) */
         void perform_special_attacks( Creature &t, dealt_damage_instance &dealt_dam );
+
+        /** Handles reach melee attack on point p */
+        void reach_attack( const tripoint &p );
+        // HACK for mdefense::zapback
         bool reach_attacking = false;
+
+        /** Returns value of player's stable footing */
+        float stability_roll() const override;
 
         /** Returns a vector of valid mutation attacks */
         std::vector<special_attack> mutation_attacks( Creature &t ) const;
@@ -686,8 +689,6 @@ class Character : public Creature, public visitable<Character>
         bool has_trait_flag( const std::string &b ) const;
         /** Returns true if character has a trait which cancels the entered trait. */
         bool has_opposite_trait( const trait_id &flag ) const;
-        /** Returns the trait id with the given invlet, or an empty string if no trait has that invlet */
-        trait_id trait_by_invlet( int ch ) const;
 
         /** Toggles a trait on the player and in their mutation list */
         void toggle_trait( const trait_id & );
@@ -936,8 +937,10 @@ class Character : public Creature, public visitable<Character>
 
         // --------------- Bionic Stuff ---------------
         /** Handles bionic activation effects of the entered bionic, returns if anything activated */
-        bool activate_bionic( int b, bool eff_only = false );
+        bool activate_bionic( bionic &bio, bool eff_only = false );
         std::vector<bionic_id> get_bionics() const;
+        /** Get state of bionic with given id */
+        bionic &get_bionic_state( const bionic_id &id );
         /** Returns amount of Storage CBMs in the corpse **/
         std::pair<int, int> amount_of_storage_bionics() const;
         /** Returns true if the player has the entered bionic id */
@@ -966,18 +969,13 @@ class Character : public Creature, public visitable<Character>
         void update_fuel_storage( const itype_id &fuel );
         /**Get stat bonus from bionic*/
         int get_mod_stat_from_bionic( const character_stat &Stat ) const;
-        // route for overmap-scale traveling
-        std::vector<tripoint_abs_omt> omt_path;
-
         /** Handles bionic effects over time of the entered bionic */
-        void process_bionic( int b );
+        void process_bionic( bionic &bio );
         /** Handles bionic deactivation effects of the entered bionic, returns if anything
          *  deactivated */
-        bool deactivate_bionic( int b, bool eff_only = false );
-        /** Returns the size of my_bionics[] */
-        int num_bionics() const;
-        /** Returns the bionic at a given index in my_bionics[] */
-        bionic &bionic_at_index( int i );
+        bool deactivate_bionic( bionic &bio, bool eff_only = false );
+        /** Whether character has any bionics installed */
+        bool has_bionics() const;
         /** Remove all bionics */
         void clear_bionics();
         int get_used_bionics_slots( const bodypart_id &bp ) const;
@@ -1040,18 +1038,18 @@ class Character : public Creature, public visitable<Character>
                                         float adjusted_skill );
 
         /**Convert fuel to bionic power*/
-        bool burn_fuel( int b, bool start = false );
+        bool burn_fuel( bionic &bio, bool start = false );
         /**Passively produce power from PERPETUAL fuel*/
-        void passive_power_gen( int b );
+        void passive_power_gen( bionic &bio );
         /**Find fuel used by remote powered bionic*/
         itype_id find_remote_fuel( bool look_only = false );
         /**Consume fuel used by remote powered bionic, return amount of request unfulfilled (0 if totally successful).*/
         int consume_remote_fuel( int amount );
         void reset_remote_fuel();
         /**Handle heat from exothermic power generation*/
-        void heat_emission( int b, int fuel_energy );
+        void heat_emission( bionic &bio, int fuel_energy );
         /**Applies modifier to fuel_efficiency and returns the resulting efficiency*/
-        float get_effective_efficiency( int b, float fuel_efficiency );
+        float get_effective_efficiency( bionic &bio, float fuel_efficiency );
 
         units::energy get_power_level() const;
         units::energy get_max_power_level() const;
@@ -1242,6 +1240,7 @@ class Character : public Creature, public visitable<Character>
          */
         bool has_active_item( const itype_id &id ) const;
         item remove_weapon();
+        bool has_mission_item( int mission_id ) const;
         void remove_mission_items( int mission_id );
 
         /**
@@ -1417,11 +1416,6 @@ class Character : public Creature, public visitable<Character>
         // magic mod
         pimpl<known_magic> magic;
 
-        /** Calls Creature::normalize()
-         *  nulls out the player's weapon
-         *  Should only be called through player::normalize(), not on it's own!
-         */
-        void normalize() override;
         void die( Creature *nkiller ) override;
 
         std::string get_name() const override;
@@ -1477,7 +1471,7 @@ class Character : public Creature, public visitable<Character>
          */
         social_modifiers get_mutation_social_mods() const;
 
-        /** Color's character's tile's background */
+        nc_color basic_symbol_color() const override;
         nc_color symbol_color() const override;
 
         std::string extended_description() const override;
@@ -1700,8 +1694,9 @@ class Character : public Creature, public visitable<Character>
         void on_mutation_loss( const trait_id &mid );
         /** Called when a stat is changed */
         void on_stat_change( const std::string &stat, int value ) override;
-        /** Returns an unoccupied, safe adjacent point. If none exists, returns player position. */
-        tripoint adjacent_tile() const;
+        /** Called when a worn item is transformed */
+        void on_worn_item_transform( const item &old_it, const item &new_it );
+
         /** Removes "sleep" and "lying_down" */
         void wake_up();
         // how loud a character can shout. based on mutations and clothing
@@ -1732,6 +1727,13 @@ class Character : public Creature, public visitable<Character>
         /** Returns intensity of painkillers  */
         int get_painkiller() const;
         void react_to_felt_pain( int intensity );
+
+        /** Modifies a pain value by player traits before passing it to Creature::mod_pain() */
+        void mod_pain( int npain ) override;
+        /** Sets new intensity of pain an reacts to it */
+        void set_pain( int npain ) override;
+        /** Returns perceived pain (reduced with painkillers)*/
+        int get_perceived_pain() const override;
 
         void spores();
         void blossoms();
@@ -1766,6 +1768,8 @@ class Character : public Creature, public visitable<Character>
         int  run_cost( int base_cost, bool diag = false ) const;
         const pathfinding_settings &get_pathfinding_settings() const override;
         std::set<tripoint> get_path_avoid() const override;
+        /** Route for overmap scale traveling */
+        std::vector<tripoint_abs_omt> omt_path;
         /**
          * Get all hostile creatures currently visible to this player.
          */
@@ -1892,6 +1896,27 @@ class Character : public Creature, public visitable<Character>
          */
         item &get_consumable_from( item &it ) const;
 
+        /**
+         * Consume item (food, fuel, medicine, ...) at given location @p loc .
+         */
+        void consume( item_location loc );
+
+        /**
+         * Consume given item (food, fuel, medicine, ...).
+         * @returns true if item should be destroyed (last charge was consumed)
+         */
+        bool consume_item( item &target );
+
+        /**
+         * Consume an item as medication.
+         * @param target Item consumed. Must be a medication or a container of medication.
+         * @returns true if item should be destroyed (last charge was consumed)
+         */
+        bool consume_med( item &target );
+
+        /** Used for eating entered comestible, returns true if comestible is successfully eaten */
+        bool eat( item &food, bool force = false );
+
         /** Get calorie & vitamin contents for a comestible, taking into
          * account character traits */
         /** Get range of possible nutrient content, for a particular recipe,
@@ -1994,6 +2019,10 @@ class Character : public Creature, public visitable<Character>
         using trap_map = std::map<tripoint, std::string>;
         bool knows_trap( const tripoint &pos ) const;
         void add_known_trap( const tripoint &pos, const trap &t );
+
+        /** Called when character triggers a trap, returns true if they don't set it off */
+        bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
+
         /** Define color for displaying the body temperature */
         nc_color bodytemp_color( int bp ) const;
 
@@ -2030,20 +2059,6 @@ class Character : public Creature, public visitable<Character>
         Character();
         Character( Character && );
         Character &operator=( Character && );
-        struct trait_data {
-            /** Whether the mutation is activated. */
-            bool powered = false;
-            /** Key to select the mutation in the UI. */
-            char key = ' ';
-            /**
-             * Time (in turns) until the mutation increase hunger/thirst/fatigue according
-             * to its cost (@ref mutation_branch::cost). When those costs have been paid, this
-             * is reset to @ref mutation_branch::cooldown.
-             */
-            int charge = 0;
-            void serialize( JsonOut &json ) const;
-            void deserialize( JsonIn &jsin );
-        };
 
         // The player's position on the local map.
         tripoint position;
@@ -2067,19 +2082,19 @@ class Character : public Creature, public visitable<Character>
 
         trap_map known_traps;
         pimpl<char_encumbrance_data> encumbrance_cache;
-        mutable std::map<std::string, double> cached_info;
-        bool bio_soporific_powered_at_last_sleep_check = false;
-        /** last time we checked for sleep */
-        time_point last_sleep_check = calendar::turn_zero;
         /** warnings from a faction about bad behavior */
         std::map<faction_id, std::pair<int, time_point>> warning_record;
+    public:
         /**
          * Traits / mutations of the character. Key is the mutation id (it's also a valid
          * key into @ref mutation_data), the value describes the status of the mutation.
          * If there is not entry for a mutation, the character does not have it. If the map
          * contains the entry, the character has the mutation.
          */
-        std::unordered_map<trait_id, trait_data> my_mutations;
+        mutation_collection my_mutations;
+        time_point last_sleep_check = calendar::turn_zero;
+        bool bio_soporific_powered_at_last_sleep_check = false;
+    protected:
         /**
          * Contains mutation ids of the base traits.
          */
@@ -2141,7 +2156,7 @@ class Character : public Creature, public visitable<Character>
     private:
         /** suffer() subcalls */
         void suffer_water_damage( const mutation_branch &mdata );
-        void suffer_mutation_power( const mutation_branch &mdata, Character::trait_data &tdata );
+        void suffer_mutation_power( const mutation_branch &mdata, char_trait_data &tdata );
         void suffer_while_underwater();
         void suffer_from_addictions();
         void suffer_while_awake( int current_stim );
@@ -2197,6 +2212,8 @@ class Character : public Creature, public visitable<Character>
         tripoint cached_position;
         inventory cached_crafting_inventory;
 
+        mutable std::map<std::string, double> npc_ai_info_cache;
+
     protected:
         // a cache of all active enchantment values.
         // is recalculated every turn in Character::recalculate_enchantment_cache
@@ -2213,6 +2230,12 @@ class Character : public Creature, public visitable<Character>
 
         time_point next_climate_control_check;
         bool last_climate_control_ret = false;
+
+        void set_underwater( bool x ) override;
+
+        void clear_npc_ai_info_cache( const std::string &key ) const;
+        void set_npc_ai_info_cache( const std::string &key, double val ) const;
+        cata::optional<double> get_npc_ai_info_cache( const std::string &key ) const;
 };
 
 Character &get_player_character();

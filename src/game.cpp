@@ -36,11 +36,13 @@
 #include "activity_actor.h"
 #include "activity_actor_definitions.h"
 #include "activity_handlers.h"
+#include "armor_layers.h"
 #include "artifact.h"
 #include "auto_note.h"
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "avatar_action.h"
+#include "avatar_functions.h"
 #include "basecamp.h"
 #include "bionics.h"
 #include "bodypart.h"
@@ -50,6 +52,7 @@
 #include "character_display.h"
 #include "character_functions.h"
 #include "character_martial_arts.h"
+#include "character_turn.h"
 #include "clzones.h"
 #include "colony.h"
 #include "color.h"
@@ -343,118 +346,11 @@ void game::load_static_data()
     // The content they load/initialize is hardcoded into the program.
     // Therefore they can be loaded here.
     // If this changes (if they load data from json), they have to
-    // be moved to game::load_mod or game::load_core_data
+    // be moved to game::load_mod
 
     get_auto_pickup().load_global();
     get_safemode().load_global();
     get_distraction_manager().load();
-}
-
-bool game::check_mod_data( const std::vector<mod_id> &opts, loading_ui &ui )
-{
-    auto &tree = world_generator->get_mod_manager().get_tree();
-
-    // deduplicated list of mods to check
-    std::set<mod_id> check( opts.begin(), opts.end() );
-
-    // if no specific mods specified check all non-obsolete mods
-    if( check.empty() ) {
-        for( const mod_id &e : world_generator->get_mod_manager().all_mods() ) {
-            if( !e->obsolete ) {
-                check.emplace( e );
-            }
-        }
-    }
-
-    if( check.empty() ) {
-        world_generator->set_active_world( nullptr );
-        world_generator->init();
-        const std::vector<mod_id> mods_empty;
-        WORLDPTR test_world = world_generator->make_new_world( mods_empty );
-        world_generator->set_active_world( test_world );
-
-        // if no loadable mods then test core data only
-        try {
-            load_core_data( ui );
-            DynamicDataLoader::get_instance().finalize_loaded_data( ui );
-        } catch( const std::exception &err ) {
-            std::cerr << "Error loading data from json: " << err.what() << std::endl;
-        }
-
-        std::string world_name = world_generator->active_world->world_name;
-        world_generator->delete_world( world_name, true );
-
-        MAPBUFFER.reset();
-        overmap_buffer.clear();
-    }
-
-    for( const auto &e : check ) {
-        world_generator->set_active_world( nullptr );
-        world_generator->init();
-        const std::vector<mod_id> mods_empty;
-        WORLDPTR test_world = world_generator->make_new_world( mods_empty );
-        if( !test_world ) {
-            std::cerr << "Failed to generate test world." << std::endl;
-            return false;
-        }
-        world_generator->set_active_world( test_world );
-
-        if( !e.is_valid() ) {
-            std::cerr << "Unknown mod: " << e.str() << std::endl;
-            return false;
-        }
-
-        const MOD_INFORMATION &mod = *e;
-
-        if( !tree.is_available( mod.ident ) ) {
-            std::cerr << "Missing dependencies: " << mod.name() << "\n"
-                      << tree.get_node( mod.ident )->s_errors() << std::endl;
-            return false;
-        }
-
-        std::cout << "Checking mod " << mod.name() << " [" << mod.ident.str() << "]" << std::endl;
-
-        try {
-            load_core_data( ui );
-
-            // Load any dependencies
-            for( auto &dep : tree.get_dependencies_of_X_as_strings( mod.ident ) ) {
-                load_data_from_dir( dep->path, dep->ident.str(), ui );
-            }
-
-            // Load mod itself
-            load_data_from_dir( mod.path, mod.ident.str(), ui );
-            DynamicDataLoader::get_instance().finalize_loaded_data( ui );
-        } catch( const std::exception &err ) {
-            std::cerr << "Error loading data: " << err.what() << std::endl;
-        }
-
-        std::string world_name = world_generator->active_world->world_name;
-        world_generator->delete_world( world_name, true );
-
-        MAPBUFFER.reset();
-        overmap_buffer.clear();
-    }
-    return true;
-}
-
-bool game::is_core_data_loaded() const
-{
-    return DynamicDataLoader::get_instance().is_data_finalized();
-}
-
-void game::load_core_data( loading_ui &ui )
-{
-    // core data can be loaded only once and must be first
-    // anyway.
-    DynamicDataLoader::get_instance().unload_data();
-
-    load_data_from_dir( PATH_INFO::jsondir(), "core", ui );
-}
-
-void game::load_data_from_dir( const std::string &path, const std::string &src, loading_ui &ui )
-{
-    DynamicDataLoader::get_instance().load_data_from_path( path, src, ui );
 }
 
 #if !(defined(_WIN32) || defined(TILES))
@@ -526,7 +422,7 @@ void game::toggle_pixel_minimap()
 #endif // TILES
 }
 
-void game::reload_tileset()
+void game::reload_tileset( [[maybe_unused]] std::function<void( std::string )> out )
 {
 #if defined(TILES)
     // Disable UIs below to avoid accessing the tile context during loading.
@@ -541,7 +437,7 @@ void game::reload_tileset()
             /*force=*/true,
             /*pump_events=*/true
         );
-        tilecontext->do_tile_loading_report();
+        tilecontext->do_tile_loading_report( out );
     } catch( const std::exception &err ) {
         popup( _( "Loading the tileset failed: %s" ), err.what() );
     }
@@ -577,17 +473,8 @@ void game::reenter_fullscreen()
 void game::setup()
 {
     loading_ui ui( true );
-    {
-        background_pane background;
-        static_popup popup;
-        popup.message( "%s", _( "Please wait while the world data loads…\nLoading core data" ) );
-        ui_manager::redraw();
-        refresh_display();
 
-        load_core_data( ui );
-    }
-
-    load_world_modfiles( ui );
+    init::load_world_modfiles( ui, get_world_base_save_path() + "/" + SAVE_ARTIFACTS );
 
     if( get_option<bool>( "ELEVATED_BRIDGES" ) && !get_option<bool>( "ZLEVELS" ) ) {
         debugmsg( "\"Elevated bridges\" mod requires z-levels to be ENABLED to work properly!" );
@@ -1003,7 +890,6 @@ void game::create_starting_npcs()
     }
 
     shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
-    tmp->normalize();
     tmp->randomize( one_in( 2 ) ? NC_DOCTOR : NC_NONE );
     tmp->spawn_at_precise( { get_levx(), get_levy() }, u.pos() - point_south_east );
     overmap_buffer.insert_npc( tmp );
@@ -1682,7 +1568,7 @@ bool game::do_turn()
     }
 
     u.update_bodytemp( m, weather );
-    u.update_body_wetness( get_weather().get_precise() );
+    character_funcs::update_body_wetness( u, get_weather().get_precise() );
     u.apply_wetness_morale( weather.temperature );
 
     if( calendar::once_every( 1_minutes ) ) {
@@ -2728,71 +2614,6 @@ bool game::load( const save_t &name )
     u.reset();
 
     return true;
-}
-
-void game::load_world_modfiles( loading_ui &ui )
-{
-    auto &mods = world_generator->active_world->active_mod_order;
-
-    // remove any duplicates whilst preserving order (fixes #19385)
-    std::set<mod_id> found;
-    mods.erase( std::remove_if( mods.begin(), mods.end(), [&found]( const mod_id & e ) {
-        if( found.count( e ) ) {
-            return true;
-        } else {
-            found.insert( e );
-            return false;
-        }
-    } ), mods.end() );
-
-    // require at least one core mod (saves before version 6 may implicitly require dda pack)
-    if( std::none_of( mods.begin(), mods.end(), []( const mod_id & e ) {
-    return e->core;
-} ) ) {
-        mods.insert( mods.begin(), mod_management::get_default_core_content_pack() );
-    }
-
-    load_artifacts( get_world_base_save_path() + "/" + SAVE_ARTIFACTS );
-    // this code does not care about mod dependencies,
-    // it assumes that those dependencies are static and
-    // are resolved during the creation of the world.
-    // That means world->active_mod_order contains a list
-    // of mods in the correct order.
-    load_packs( _( "Loading files" ), mods, ui );
-
-    // Load additional mods from that world-specific folder
-    load_data_from_dir( get_world_base_save_path() + "/mods", "custom", ui );
-
-    DynamicDataLoader::get_instance().finalize_loaded_data( ui );
-}
-
-bool game::load_packs( const std::string &msg, const std::vector<mod_id> &packs, loading_ui &ui )
-{
-    ui.new_context( msg );
-    std::vector<mod_id> missing;
-    std::vector<mod_id> available;
-
-    for( const mod_id &e : packs ) {
-        if( e.is_valid() ) {
-            available.emplace_back( e );
-            ui.add_entry( e->name() );
-        } else {
-            missing.push_back( e );
-        }
-    }
-
-    ui.show();
-    for( const auto &e : available ) {
-        const MOD_INFORMATION &mod = *e;
-        load_data_from_dir( mod.path, mod.ident.str(), ui );
-        ui.proceed();
-    }
-
-    for( const auto &e : missing ) {
-        debugmsg( "unknown content %s", e.c_str() );
-    }
-
-    return missing.empty();
 }
 
 void game::reset_npc_dispositions()
@@ -4881,7 +4702,6 @@ bool game::spawn_hallucination( const tripoint &p )
 {
     if( one_in( 100 ) ) {
         shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
-        tmp->normalize();
         tmp->randomize( NC_HALLU );
         tmp->spawn_at_precise( { get_levx(), get_levy() }, p );
         if( !critter_at( p, true ) ) {
@@ -5092,7 +4912,6 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &install
 
         const string_id<npc_template> npc_cyborg( "cyborg_rescued" );
         shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
-        tmp->normalize();
         tmp->load_npc_template( npc_cyborg );
         tmp->spawn_at_precise( { get_levx(), get_levy() }, couch_pos );
         overmap_buffer.insert_npc( tmp );
@@ -5503,7 +5322,7 @@ bool game::npc_menu( npc &who )
             u.mod_moves( -300 );
         }
     } else if( choice == sort_armor ) {
-        who.sort_armor();
+        show_armor_layers_ui( who );
         u.mod_moves( -100 );
     } else if( choice == attack ) {
         if( who.is_enemy() || query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
@@ -5512,10 +5331,10 @@ bool game::npc_menu( npc &who )
         }
     } else if( choice == disarm ) {
         if( who.is_enemy() || query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
-            u.disarm( who );
+            avatar_funcs::try_disarm_npc( u, who );
         }
     } else if( choice == steal && query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
-        u.steal( who );
+        avatar_funcs::try_steal_from_npc( u, who );
     }
 
     return true;
@@ -5731,7 +5550,8 @@ void game::examine( const tripoint &examp )
             add_msg( _( "It is empty." ) );
         } else if( ( m.has_flag( TFLAG_FIRE_CONTAINER, examp ) &&
                      xfurn_t.examine == &iexamine::fireplace ) ||
-                   xfurn_t.examine == &iexamine::workbench ) {
+                   xfurn_t.examine == &iexamine::workbench ||
+                   xfurn_t.examine == &iexamine::transform ) {
             return;
         } else {
             sounds::process_sound_markers( &u );
@@ -6660,7 +6480,7 @@ void game::zones_manager()
             const auto &zone = zones[active_index].get();
             zone_start = m.getlocal( zone.get_start_point() );
             zone_end = m.getlocal( zone.get_end_point() );
-            ctxt.set_timeout( BLINK_SPEED );
+            ctxt.set_timeout( get_option<int>( "BLINK_SPEED" ) );
         } else {
             blink = false;
             zone_start = zone_end = cata::nullopt;
@@ -6905,7 +6725,7 @@ look_around_result game::look_around( bool show_window, tripoint &center,
         invalidate_main_ui_adaptor();
         ui_manager::redraw();
         if( ( select_zone && has_first_point ) || is_moving_zone ) {
-            ctxt.set_timeout( BLINK_SPEED );
+            ctxt.set_timeout( get_option<int>( "BLINK_SPEED" ) );
         }
 
         //Wait for input
@@ -8877,7 +8697,7 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
         };
 
         const auto sharp_bp_check = [this]( body_part bp ) {
-            return u.immune_to( bp, { DT_CUT, 10 } );
+            return character_funcs::is_bp_immune_to( u, bp, { DT_CUT, 10 } );
         };
 
         if( m.has_flag( "ROUGH", dest_loc ) && !m.has_flag( "ROUGH", u.pos() ) && !boardable &&
@@ -9439,7 +9259,7 @@ point game::place_player( const tripoint &dest_loc )
 
     // Traps!
     // Try to detect.
-    u.search_surroundings();
+    character_funcs::search_surroundings( u );
     if( u.is_mounted() ) {
         m.creature_on_trap( *u.mounted_creature );
     } else {
@@ -9921,7 +9741,7 @@ void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
     bool force_next = false;
     tripoint next_forced;
     while( range > 0 ) {
-        c->underwater = false;
+        c->set_underwater( false );
         // TODO: Check whenever it is actually in the viewport
         // or maybe even just redraw the changed tiles
         bool seen = is_u || u.sees( *c ); // To avoid redrawing when not seen
@@ -10044,7 +9864,7 @@ void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
             m.creature_on_trap( *c, false );
         }
     } else {
-        c->underwater = true;
+        c->set_underwater( true );
         if( is_u ) {
             if( controlled ) {
                 add_msg( _( "You dive into water." ) );
@@ -10171,14 +9991,14 @@ void game::vertical_move( int movez, bool force, bool peeking )
                 if( pts.empty() ) {
                     add_msg( m_info, _( "There is nothing above you that you can attach a web to." ) );
                 } else if( can_use_mutation_warn( trait_WEB_ROPE, u ) ) {
-                    if( g->m.move_cost( u.pos() ) != 2 && g->m.move_cost( u.pos() ) != 3 ) {
+                    if( m.move_cost( u.pos() ) != 2 && m.move_cost( u.pos() ) != 3 ) {
                         add_msg( m_info, _( "You can't spin a web rope there." ) );
-                    } else if( g->m.has_furn( u.pos() ) ) {
+                    } else if( m.has_furn( u.pos() ) ) {
                         add_msg( m_info, _( "There is already furniture at that location." ) );
                     } else {
                         if( query_yn( "Spin a rope and climb?" ) ) {
                             add_msg( m_good, _( "You spin a rope of web." ) );
-                            g->m.furn_set( u.pos(), furn_str_id( "f_rope_up_web" ) );
+                            m.furn_set( u.pos(), furn_str_id( "f_rope_up_web" ) );
                             u.mod_moves( to_turns<int>( 2_seconds ) );
                             u.mutation_spend_resources( trait_WEB_ROPE );
                             vertical_move( movez, force, peeking );
@@ -11220,7 +11040,6 @@ void game::perhaps_add_random_npc()
         counter += 1;
     }
     shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
-    tmp->normalize();
     tmp->randomize();
     std::string new_fac_id = "solo_";
     new_fac_id += tmp->name;
@@ -11958,7 +11777,9 @@ void game::add_artifact_dreams( )
 {
     //If player is sleeping, get a dream from a carried artifact
     //Don't need to check that player is sleeping here, that's done before calling
-    std::list<item *> art_items = g->u.get_artifact_items();
+    std::vector<item *> art_items = u.items_with( []( const item & it ) -> bool {
+        return it.is_artifact();
+    } );
     std::vector<item *>      valid_arts;
     std::vector<std::vector<std::string>>
                                        valid_dreams; // Tracking separately so we only need to check its req once

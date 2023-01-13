@@ -1740,5 +1740,20 @@
     "id": "rubber_armor_horse",
     "type": "MIGRATION",
     "replace": "rubber_armor_medium_quadruped"
+  },
+  {
+    "id": "40x46mm_buckshot_m199",
+    "type": "MIGRATION",
+    "replace": "40x46mm_m576"
+  },
+  {
+    "id": "40x53mm_flechette_m169",
+    "type": "MIGRATION",
+    "replace": "40x53mm_m1001"
+  },
+  {
+    "id": "8mm_fmj",
+    "type": "MIGRATION",
+    "replace": "8mm_caseless"
   }
 ]

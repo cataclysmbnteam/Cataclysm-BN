@@ -475,11 +475,7 @@ class wish_item_callback: public uilist_callback
             if( menu->selected < 0 ) {
                 return;
             }
-            if( standard_itype_ids[menu->selected]->phase == phase_id::LIQUID ) {
-                incontainer = true;
-            } else {
-                incontainer = false;
-            }
+            incontainer = standard_itype_ids[menu->selected]->phase == phase_id::LIQUID;
         }
 
         bool key( const input_context &, const input_event &event, int /*entnum*/,

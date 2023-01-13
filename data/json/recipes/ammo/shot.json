@@ -149,7 +149,7 @@
     ]
   },
   {
-    "result": "40x53mm_flechette_m169",
+    "result": "40x53mm_m1001",
     "type": "recipe",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_SHOT",
@@ -197,7 +197,7 @@
     ]
   },
   {
-    "result": "40x46mm_buckshot_m199",
+    "result": "40x46mm_m576",
     "type": "recipe",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_SHOT",

@@ -64,6 +64,7 @@
 #include "player.h"
 #include "point.h"
 #include "projectile.h"
+#include "ranged.h"
 #include "rng.h"
 #include "sounds.h"
 #include "speech.h"
@@ -2605,8 +2606,8 @@ bool mattack::ranged_pull( monster *z )
     for( auto &i : line ) {
         // Player can't be pulled though bars, furniture, cars or creatures
         // TODO: Add bashing? Currently a window is enough to prevent grabbing
-        if( ( !g->is_empty( i ) || here.obstructed_by_vehicle_rotation( prev_point, i ) ) &&
-            i != z->pos() && i != target->pos() ) {
+        if( ( !g->is_empty( i ) && i != z->pos() && i != target->pos() ) ||
+            here.obstructed_by_vehicle_rotation( prev_point, i ) ) {
             return false;
         }
         prev_point = i;
@@ -2715,7 +2716,7 @@ bool mattack::grab( monster *z )
 
     item &cur_weapon = pl->weapon;
     ///\EFFECT_DEX increases chance to avoid being grabbed
-    if( pl->can_grab_break( cur_weapon ) &&
+    if( pl->can_use_grab_break_tec( cur_weapon ) &&
         rng( 0, pl->get_dex() ) > rng( 0, z->type->melee_sides + z->type->melee_dice ) ) {
         if( target->has_effect( effect_grabbed ) ) {
             target->add_msg_if_player( m_info, _( "The %s tries to grab you as well, but you bat it away!" ),
@@ -3350,7 +3351,7 @@ void mattack::rifle( monster *z, Creature *target )
     tmp.weapon = item( "m4a1" ).ammo_set( ammo_type, z->ammo[ ammo_type ] );
     int burst = std::max( tmp.weapon.gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
 
-    z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * tmp.weapon.ammo_required();
+    z->ammo[ ammo_type ] -= ranged::fire_gun( tmp, target->pos(), burst ) * tmp.weapon.ammo_required();
 
     if( target == &g->u ) {
         z->add_effect( effect_targeted, 3_turns );
@@ -3410,7 +3411,7 @@ void mattack::frag( monster *z, Creature *target ) // This is for the bots, not 
     tmp.weapon = item( "mgl" ).ammo_set( ammo_type, z->ammo[ ammo_type ] );
     int burst = std::max( tmp.weapon.gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
 
-    z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * tmp.weapon.ammo_required();
+    z->ammo[ ammo_type ] -= ranged::fire_gun( tmp, target->pos(), burst ) * tmp.weapon.ammo_required();
 
     if( target == &g->u ) {
         z->add_effect( effect_targeted, 3_turns );
@@ -3469,7 +3470,7 @@ void mattack::tankgun( monster *z, Creature *target )
     tmp.weapon = item( "TANK" ).ammo_set( ammo_type, z->ammo[ ammo_type ] );
     int burst = std::max( tmp.weapon.gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
 
-    z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * tmp.weapon.ammo_required();
+    z->ammo[ ammo_type ] -= ranged::fire_gun( tmp, target->pos(), burst ) * tmp.weapon.ammo_required();
 }
 
 bool mattack::searchlight( monster *z )

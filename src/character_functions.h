@@ -2,14 +2,19 @@
 #ifndef CATA_SRC_CHARACTER_FUNCTIONS_H
 #define CATA_SRC_CHARACTER_FUNCTIONS_H
 
-#include "point.h"
+#include "optional.h"
 #include "type_id.h"
 
+#include <string>
+
+enum body_part : int;
 class Character;
 class Creature;
 class item;
 class time_duration;
 class vehicle;
+struct damage_unit;
+struct tripoint;
 
 namespace character_funcs
 {
@@ -70,6 +75,90 @@ float fine_detail_vision_mod( const Character &who, const tripoint &p );
 bool can_see_fine_details( const Character &who );
 bool can_see_fine_details( const Character &who, const tripoint &p );
 /** @} */
+
+enum class comfort_level {
+    impossible = -999,
+    uncomfortable = -7,
+    neutral = 0,
+    slightly_comfortable = 3,
+    comfortable = 5,
+    very_comfortable = 10
+};
+
+struct comfort_response_t {
+    comfort_level level = comfort_level::neutral;
+    const item *aid = nullptr;
+};
+
+/** Rate point's ability to serve as a bed. Only takes certain mutations into account, and not fatigue nor stimulants. */
+comfort_response_t base_comfort_value( const Character &who, const tripoint &p );
+
+/** Rate point's ability to serve as a bed. Takes all mutations, fatigue and stimulants into account. */
+int rate_sleep_spot( const Character &who, const tripoint &p );
+
+/** Checked each turn during "lying_down", returns true if the avatar falls asleep */
+bool roll_can_sleep( Character &who );
+
+/** Check whether character has an active bionic capable of interfacing with power armor. */
+bool can_interface_armor( const Character &who );
+
+/** Get the formatted name of the currently wielded item (if any) with current gun mode (if gun) */
+std::string fmt_wielded_weapon( const Character &who );
+
+/**
+ * Add message describing how character feels pain.
+ * @param who Character that feels the pain
+ * @param val Amount of pain
+ * @param bp Target body part, use num_bp if no specific body part.
+ */
+void add_pain_msg( const Character &who, int val, body_part bp );
+
+/** Reset Character's weapon and body state (limb hp, stamina, active martial art) */
+void normalize( Character &who );
+
+/**
+ * Stores an item inside another consuming moves proportional to weapon skill and volume
+ * @param who Character doing the storing
+ * @param container Container in which to store the item
+ * @param put Item to add to the container
+ * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered
+ * @param base_cost Cost due to storage type
+ */
+void store_in_container( Character &who, item &container, item &put, bool penalties,
+                         int base_cost );
+
+/**
+ * Try to wield a contained item consuming moves proportional to weapon skill and volume.
+ * @param who Character doing the wielding
+ * @param container Container containing the item to be wielded
+ * @param internal_item Reference to contained item to wield
+ * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered
+ * @param base_cost Cost due to storage type
+ */
+bool try_wield_contents( Character &who, item &container, item *internal_item, bool penalties,
+                         int base_cost );
+
+/**
+ * Try to execute an uncanny dodge bionic ability.
+ * @param who Character doing the dodging
+ */
+bool try_uncanny_dodge( Character &who );
+
+/** Returns an unoccupied, safe adjacent point. */
+cata::optional<tripoint> pick_safe_adjacent_tile( const Character &who );
+
+/**
+ * Check if character's body part is immune to given damage.
+ *
+ * Note that this refers only to reduction of hp on the body part,
+ * it does not account for clothing damage, pain, status effects, etc.
+ *
+ * @param who Character to check for
+ * @param bp Body part to perform the check on
+ * @param dam Damage unit to check for
+ * @returns true if given damage can not reduce hp of given body part
+ */
+bool is_bp_immune_to( const Character &who, body_part bp, damage_unit dam );
 
 } // namespace character_funcs
 

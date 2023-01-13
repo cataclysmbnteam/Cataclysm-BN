@@ -920,7 +920,7 @@ bool monster::can_climb() const
 
 bool monster::digging() const
 {
-    return digs() || ( can_dig() && underwater );
+    return digs() || ( can_dig() && is_underwater() );
 }
 
 bool monster::can_dig() const
@@ -959,7 +959,7 @@ int monster::sight_range( const int light_level ) const
 {
     // Non-aquatic monsters can't see much when submerged
     if( !can_see() || effect_cache[VISION_IMPAIRED] ||
-        ( underwater && !swims() && !has_flag( MF_AQUATIC ) && !digging() ) ) {
+        ( is_underwater() && !swims() && !has_flag( MF_AQUATIC ) && !digging() ) ) {
         return 1;
     }
     static const int default_daylight = default_daylight_level();
@@ -1190,7 +1190,7 @@ monster_attitude monster::attitude( const Character *u ) const
     }
 
     if( effective_anger <= 0 ) {
-        if( get_hp() != get_hp_max() ) {
+        if( get_hp() <= 0.6 * get_hp_max() ) {
             return MATT_FLEE;
         } else {
             return MATT_IGNORE;
@@ -1277,7 +1277,7 @@ void monster::process_trigger( mon_trigger trig, const std::function<int()> &amo
 
 bool monster::is_underwater() const
 {
-    return underwater && can_submerge();
+    return Creature::is_underwater() && can_submerge();
 }
 
 bool monster::is_on_ground() const
@@ -2587,8 +2587,8 @@ void monster::process_effects_internal()
         }
     }
 
-    //Monster will regen morale and aggression if it is on max HP
-    //It regens more morale and aggression if is currently fleeing.
+    // Monster will regen morale and aggression if it is on max HP
+    // It regens more morale and aggression if is currently fleeing.
     if( type->regen_morale && hp >= type->hp ) {
         if( is_fleeing( g->u ) ) {
             morale = type->morale;
@@ -2959,6 +2959,7 @@ void monster::hear_sound( const tripoint &source, const int vol, const int dist 
     // target_z will require some special check due to soil muffling sounds
 
     int wander_turns = volume * ( goodhearing ? 6 : 1 );
+
     process_trigger( mon_trigger::SOUND, volume );
     if( morale >= 0 && anger >= 10 ) {
         // TODO: Add a proper check for fleeing attitude

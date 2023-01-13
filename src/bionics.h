@@ -201,7 +201,7 @@ class bionic_collection : public std::vector<bionic>
 /**List of bodyparts occupied by a bionic*/
 std::vector<bodypart_id> get_occupied_bodyparts( const bionic_id &bid );
 
-char get_free_invlet( player &p );
+char get_free_invlet( bionic_collection &bionics );
 std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro,
                                bool each_bp_on_new_line = true );
 

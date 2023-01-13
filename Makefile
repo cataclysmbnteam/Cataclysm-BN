@@ -866,7 +866,7 @@ ifeq ($(LTO), 1)
   endif
 endif
 
-all: version $(CHECKS) $(TARGET) $(L10N) $(TESTS) validate-pr
+all: version $(CHECKS) $(TARGET) $(L10N) $(TESTS)
 	@
 
 $(TARGET): $(OBJS)
@@ -967,7 +967,6 @@ install: version $(TARGET)
 	mkdir -p $(DATA_PREFIX)
 	mkdir -p $(BIN_PREFIX)
 	install --mode=755 $(TARGET) $(BIN_PREFIX)
-	cp -R --no-preserve=ownership data/core $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/font $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/json $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/mods $(DATA_PREFIX)
@@ -999,7 +998,6 @@ install: version $(TARGET)
 	mkdir -p $(DATA_PREFIX)
 	mkdir -p $(BIN_PREFIX)
 	install --mode=755 $(TARGET) $(BIN_PREFIX)
-	cp -R --no-preserve=ownership data/core $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/font $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/json $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/mods $(DATA_PREFIX)
@@ -1055,7 +1053,6 @@ endif
 	cp $(APPTARGET) $(APPRESOURCESDIR)/
 	cp build-data/osx/AppIcon.icns $(APPRESOURCESDIR)/
 	mkdir -p $(APPDATADIR)
-	cp -R data/core $(APPDATADIR)
 	cp -R data/font $(APPDATADIR)
 	cp -R data/json $(APPDATADIR)
 	cp -R data/mods $(APPDATADIR)
@@ -1174,12 +1171,7 @@ check: version $(BUILD_PREFIX)cataclysm.a
 clean-tests:
 	$(MAKE) -C tests clean
 
-validate-pr:
-ifneq ($(CYGWIN),1)
-	@build-scripts/validate_pr_in_jenkins
-endif
-
-.PHONY: tests check ctags etags clean-tests install lint validate-pr
+.PHONY: tests check ctags etags clean-tests install lint
 
 -include $(SOURCES:$(SRC_DIR)/%.cpp=$(DEPDIR)/%.P)
 -include ${OBJS:.o=.d}

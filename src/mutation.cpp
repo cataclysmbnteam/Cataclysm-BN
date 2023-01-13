@@ -157,7 +157,7 @@ void Character::set_mutation( const trait_id &trait )
     if( iter != my_mutations.end() ) {
         return;
     }
-    my_mutations.emplace( trait, trait_data{} );
+    my_mutations.emplace( trait, char_trait_data{} );
     rebuild_mutation_cache();
     mutation_effect( trait );
     recalc_sight_limits();
@@ -470,7 +470,7 @@ bool Character::can_install_cbm_on_bp( const std::vector<bodypart_id> &bps ) con
 void Character::activate_mutation( const trait_id &mut )
 {
     const mutation_branch &mdata = mut.obj();
-    trait_data &tdata = my_mutations[mut];
+    char_trait_data &tdata = my_mutations[mut];
     // You can take yourself halfway to Near Death levels of hunger/thirst.
     // Fatigue can go to Exhausted.
     if( !can_use_mutation_warn( mut, *this ) ) {
@@ -624,16 +624,6 @@ void Character::deactivate_mutation( const trait_id &mut )
     if( !mut->enchantments.empty() ) {
         recalculate_enchantment_cache();
     }
-}
-
-trait_id Character::trait_by_invlet( const int ch ) const
-{
-    for( const std::pair<const trait_id, trait_data> &mut : my_mutations ) {
-        if( mut.second.key == ch ) {
-            return mut.first;
-        }
-    }
-    return trait_id::NULL_ID();
 }
 
 bool Character::mutation_ok( const trait_id &mutation, bool force_good, bool force_bad ) const
@@ -1723,7 +1713,7 @@ bool can_use_mutation_warn( const trait_id &mut, const Character &character )
 void Character::mutation_spend_resources( const trait_id &mut )
 {
     const mutation_branch &mdata = mut.obj();
-    trait_data &tdata = my_mutations[mut];
+    char_trait_data &tdata = my_mutations[mut];
     int cost = mdata.cost;
     if( tdata.powered && tdata.charge > 0 ) {
         // Already-on units just lose a bit of charge

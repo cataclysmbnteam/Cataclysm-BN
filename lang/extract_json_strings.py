@@ -123,6 +123,7 @@ ignorable = {
 #   "description" member
 #   "text" member
 #   "sound" member
+#   "prompt" member
 #   "messages" member containing an array of translatable strings
 automatically_convertible = {
     "achievement",
@@ -1091,6 +1092,9 @@ def extract(state, item):
         wrote = True
     if "text" in item:
         writestr(state, item["text"])
+        wrote = True
+    if "prompt" in item:
+        writestr(state, item["prompt"])
         wrote = True
     if "message" in item:
         writestr(state, item["message"], format_strings=True,

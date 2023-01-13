@@ -236,23 +236,22 @@ static void WinCreate()
     WindowHeight = TERMINAL_HEIGHT * fontheight * scaling_factor;
     window_flags |= SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI;
 
-    if( get_option<std::string>( "SCALING_MODE" ) != "none" ) {
-        SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, get_option<std::string>( "SCALING_MODE" ).c_str() );
-    }
+    // We want our textures clean and sharp when zooming in.
+    SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "nearest" );
 
 #if !defined(__ANDROID__)
-    if( get_option<std::string>( "FULLSCREEN" ) == "fullscreen" ) {
+    const auto screen_mode = get_option<std::string>( "FULLSCREEN" );
+    const auto minimize = get_option<bool>( "MINIMIZE_ON_FOCUS_LOSS" );
+
+    SDL_SetHint( SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, minimize ? "1" : "0" );
+
+    if( screen_mode == "fullscreen" ) {
         window_flags |= SDL_WINDOW_FULLSCREEN;
         fullscreen = true;
-        // It still minimizes, but the screen size is not set to 0 to cause
-        // division by zero
-        SDL_SetHint( SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0" );
-    } else if( get_option<std::string>( "FULLSCREEN" ) == "windowedbl" ) {
+    } else if( screen_mode == "windowedbl" ) {
         window_flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
         fullscreen = true;
-        // So you can switch to desktop without the game window obscuring it.
-        SDL_SetHint( SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "1" );
-    } else if( get_option<std::string>( "FULLSCREEN" ) == "maximized" ) {
+    } else if( screen_mode == "maximized" ) {
         window_flags |= SDL_WINDOW_MAXIMIZED;
     }
 #endif
@@ -3597,7 +3596,9 @@ void load_tileset()
         /*force=*/false,
         /*pump_events=*/true
     );
-    tilecontext->do_tile_loading_report();
+    tilecontext->do_tile_loading_report( []( std::string str ) {
+        DebugLog( DL::Info, DC::Main ) << str;
+    } );
 }
 
 //Ends the terminal, destroy everything

@@ -124,7 +124,7 @@ TEST_CASE( "character using birdshot against another character", "[shape][ranged
     const int target_hp_total_before = target->get_hp();
     REQUIRE( target->get_hp() >= 100 );
     shooter.wield( gun );
-    int shots_fired = shooter.fire_gun( target_pos, 1, shooter.weapon );
+    int shots_fired = ranged::fire_gun( shooter, target_pos, 1, shooter.weapon );
 
     REQUIRE( shots_fired > 0 );
     CHECK( target->get_hp() < target_hp_total_before );

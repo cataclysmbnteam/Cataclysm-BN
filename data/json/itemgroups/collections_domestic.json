@@ -732,6 +732,32 @@
   },
   {
     "type": "item_group",
+    "id": "kitchen_freezer",
+    "ammo": 75,
+    "magazine": 100,
+    "subtype": "distribution",
+    "entries": [
+      { "item": "sweet_sausage", "prob": 2 },
+      { "item": "bacon", "prob": 25 },
+      { "item": "fchicken", "prob": 25 },
+      { "item": "lunchmeat", "prob": 10 },
+      { "item": "bologna", "prob": 10 },
+      { "item": "pizza_veggy", "prob": 8 },
+      { "item": "pizza_meat", "prob": 8 },
+      { "item": "pizza_cheese", "prob": 8 },
+      { "item": "hotdogs_frozen", "prob": 8 },
+      { "item": "corndogs_frozen", "prob": 8 },
+      { "item": "meat_smoked", "prob": 8 },
+      { "item": "fish_smoked", "prob": 8 },
+      { "item": "bologna", "prob": 6 },
+      { "item": "sausage", "prob": 6 },
+      { "item": "bratwurst_sausage", "prob": 5 },
+      { "item": "lunchmeat", "prob": 10 },
+      { "item": "meat", "prob": 15 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "bedroom",
     "ammo": 50,
     "magazine": 100,

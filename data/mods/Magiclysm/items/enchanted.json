@@ -26,7 +26,7 @@
     "material": "wood",
     "flags": [ "SHEATH_SPEAR", "ALWAYS_TWOHAND", "FRAGILE_MELEE", "MAGIC_FOCUS" ],
     "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "multiply": 0.2, "add": 750 } ] } ]
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "MANA_CAP", "multiply": 0.2, "add": 750 } ] } ]
     },
     "weight": "1400 g",
     "volume": "3 L",
@@ -52,7 +52,7 @@
     "material_thickness": 2,
     "environmental_protection": 2,
     "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "REGEN_MANA", "multiply": 1 } ] } ]
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MANA_REGEN", "multiply": 1 } ] } ]
     },
     "flags": [ "VARSIZE" ]
   },
