@@ -5345,7 +5345,7 @@ static void mill_activate( player &p, const tripoint &examp )
     for( auto &it : here.i_at( examp ) ) {
         if( it.type->milling_data ) {
             // Do one final rot check before milling, then apply the PROCESSING flag to prevent further checks.
-            it.process_rot( 1, false, examp, nullptr );
+            it.process_rot( examp );
             it.set_flag( flag_PROCESSING );
         }
     }
@@ -5446,7 +5446,7 @@ static void smoker_activate( player &p, const tripoint &examp )
     p.use_charges( itype_fire, 1 );
     for( auto &it : here.i_at( examp ) ) {
         if( it.has_flag( flag_SMOKABLE ) ) {
-            it.process_rot( 1, false, examp, nullptr );
+            it.process_rot( examp );
             it.set_flag( flag_PROCESSING );
         }
     }

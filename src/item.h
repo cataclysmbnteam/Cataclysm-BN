@@ -78,6 +78,7 @@ class map;
 struct damage_instance;
 struct damage_unit;
 struct fire_data;
+class weather_manager;
 
 enum damage_type : int;
 enum clothing_mod_type : int;
@@ -774,11 +775,13 @@ class item : public visitable<item>
         void mod_charges( int mod );
         /**
          * Whether the item has to be removed as it has rotten away completely. May change the item as it calls process_rot()
-         * @param pnt The *absolute* position of the item in the world (see @ref map::getabs),
-         * used for rot calculation.
+         * @param pnt The position of the item on the current map.
+         * @param temperature Flag for special locations that affect temperature.
+         * @param weather Weather manager to supply temperature.
          * @return true if the item has rotten away and should be removed, false otherwise.
          */
-        bool has_rotten_away( const tripoint &pnt );
+        bool actualize_rot( const tripoint &pnt, temperature_flag temperature,
+                            const weather_manager &weather );
 
         /**
          * Accumulate rot of the item since last rot calculation.
@@ -800,15 +803,19 @@ class item : public visitable<item>
          * Update temperature for things like food
          * Update rot for things that perish
          * All items that rot also have temperature
-         * @param insulation Amount of insulation item has from surroundings
          * @param seals Wether the item is in sealed  container
          * @param pos The current position
          * @param carrier The current carrier
          * @param flag to specify special temperature situations
+         * @param weather_generator weather manager, mostly for testing
          * @return true if the item is fully rotten and is ready to be removed
          */
-        bool process_rot( float insulation, bool seals, const tripoint &pos,
-                          player *carrier, temperature_flag flag = temperature_flag::TEMP_NORMAL );
+        /*@{*/
+        bool process_rot( const tripoint &pos );
+        bool process_rot( bool seals, const tripoint &pos,
+                          player *carrier, temperature_flag flag,
+                          const weather_manager &weather_generator );
+        /*@}*/
 
         int get_comestible_fun() const;
 
@@ -1098,8 +1105,12 @@ class item : public visitable<item>
          * should than delete the item wherever it was stored.
          * Returns false if the item is not destroyed.
          */
-        bool process( player *carrier, const tripoint &pos, bool activate, float insulation = 1,
+        /*@{*/
+        bool process( player *carrier, const tripoint &pos, bool activate,
                       temperature_flag flag = temperature_flag::TEMP_NORMAL );
+        bool process( player *carrier, const tripoint &pos, bool activate,
+                      temperature_flag flag, const weather_manager &weather_generator );
+        /*@}*/
 
         /**
          * Gets the point (vehicle tile) the cable is connected to.
@@ -2113,8 +2124,8 @@ class item : public visitable<item>
         bool use_amount_internal( const itype_id &it, int &quantity, std::list<item> &used,
                                   const std::function<bool( const item & )> &filter = return_true<item> );
         const use_function *get_use_internal( const std::string &use_name ) const;
-        bool process_internal( player *carrier, const tripoint &pos, bool activate, float insulation = 1,
-                               bool seals = false, temperature_flag flag = temperature_flag::TEMP_NORMAL );
+        bool process_internal( player *carrier, const tripoint &pos, bool activate,
+                               bool seals, temperature_flag flag, const weather_manager &weather_generator );
 
         /** Helper for checking reloadability. **/
         bool is_reloadable_helper( const itype_id &ammo, bool now ) const;

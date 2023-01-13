@@ -8689,10 +8689,11 @@ bool item::has_rotten_away() const
     }
 }
 
-bool item::has_rotten_away( const tripoint &pnt )
+bool item::actualize_rot( const tripoint &pnt, temperature_flag temperature,
+                          const weather_manager &weather )
 {
     if( goes_bad() ) {
-        return process_rot( 1, false, pnt, nullptr );
+        return process_rot( false, pnt, nullptr, temperature, weather );
     } else if( type->container && type->container->preserves ) {
         // Containers like tin cans preserves all items inside, they do not rot at all.
         return false;
@@ -8700,7 +8701,7 @@ bool item::has_rotten_away( const tripoint &pnt )
         // Items inside rot but do not vanish as the container seals them in.
         for( item *c : contents.all_items_top() ) {
             if( c->goes_bad() ) {
-                c->process_rot( 1, true, pnt, nullptr );
+                c->process_rot( true, pnt, nullptr, temperature, weather );
             }
         }
         return false;
@@ -8708,7 +8709,7 @@ bool item::has_rotten_away( const tripoint &pnt )
         std::vector<item *> removed_items;
         // Check and remove rotten contents, but always keep the container.
         for( item *it : contents.all_items_top() ) {
-            if( it->has_rotten_away( pnt ) ) {
+            if( it->actualize_rot( pnt, temperature, weather ) ) {
                 removed_items.push_back( it );
             }
         }
@@ -8835,9 +8836,14 @@ int item::processing_speed() const
     return 1;
 }
 
-bool item::process_rot( float /*insulation*/, const bool seals,
-                        const tripoint &pos,
-                        player *carrier, const temperature_flag flag )
+bool item::process_rot( const tripoint &pos )
+{
+    return process_rot( false, pos, nullptr, temperature_flag::TEMP_NORMAL, get_weather() );
+}
+
+bool item::process_rot( const bool seals, const tripoint &pos,
+                        player *carrier, const temperature_flag flag,
+                        const weather_manager &weather )
 {
     const time_point now = calendar::turn;
 
@@ -8852,7 +8858,8 @@ bool item::process_rot( float /*insulation*/, const bool seals,
     // note we're also gated by item::processing_speed
     time_duration smallest_interval = 10_minutes;
 
-    int temp = get_weather().get_temperature( pos );
+    // TODO: Make this not check temporary fields!!!
+    int temp = weather.get_temperature( pos );
 
     switch( flag ) {
         case TEMP_NORMAL:
@@ -8886,7 +8893,7 @@ bool item::process_rot( float /*insulation*/, const bool seals,
     if( now - time > 1_hours ) {
         // This code is for items that were left out of reality bubble for long time
 
-        const weather_generator &wgen = get_weather().get_cur_weather_gen();
+        const weather_generator &wgen = weather.get_cur_weather_gen();
         const unsigned int seed = g->get_seed();
         int local_mod = g->new_game ? 0 : get_map().get_temperature( pos );
 
@@ -9480,8 +9487,14 @@ bool item::process_blackpowder_fouling( player *carrier )
     return false;
 }
 
-bool item::process( player *carrier, const tripoint &pos, bool activate, float insulation,
+bool item::process( player *carrier, const tripoint &pos, bool activate,
                     temperature_flag flag )
+{
+    return process( carrier, pos, activate, flag, get_weather() );
+}
+
+bool item::process( player *carrier, const tripoint &pos, bool activate,
+                    temperature_flag flag, const weather_manager &weather_generator )
 {
     const bool preserves = type->container && type->container->preserves;
     const bool seals = type->container && type->container->seals;
@@ -9492,8 +9505,7 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, float i
             // is not changed, the item is still fresh.
             it->last_rot_check = calendar::turn;
         }
-        if( it->process_internal( carrier, pos, activate, type->insulation_factor * insulation, seals,
-                                  flag ) ) {
+        if( it->process_internal( carrier, pos, activate, seals, flag, weather_generator ) ) {
             removed_items.push_back( it );
         }
         return VisitResponse::NEXT;
@@ -9510,7 +9522,8 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, float i
 }
 
 bool item::process_internal( player *carrier, const tripoint &pos, bool activate,
-                             float insulation, const bool seals, const temperature_flag flag )
+                             const bool seals, const temperature_flag flag,
+                             const weather_manager &weather_generator )
 {
     if( has_flag( flag_ETHEREAL_ITEM ) ) {
         if( !has_var( "ethereal" ) ) {
@@ -9594,7 +9607,7 @@ bool item::process_internal( player *carrier, const tripoint &pos, bool activate
     }
     // All foods that go bad have temperature
     if( ( is_food() || is_corpse() ) &&
-        process_rot( insulation, seals, pos, carrier, flag ) ) {
+        process_rot( seals, pos, carrier, flag, weather_generator ) ) {
         if( is_comestible() ) {
             here.rotten_item_spawn( *this, pos );
         }

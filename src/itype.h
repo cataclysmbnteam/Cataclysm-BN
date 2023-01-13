@@ -1030,13 +1030,6 @@ struct itype {
         layer_level layer = layer_level::MAX_CLOTHING_LAYER;
 
         /**
-         * How much insulation this item provides, either as a container, or as
-         * a vehicle base part.  Larger means more insulation, less than 1 but
-         * greater than zero, transfers faster, cannot be less than zero.
-         */
-        float insulation_factor = 1;
-
-        /**
          * Efficiency of solar energy conversion for solarpacks.
          */
         float solar_efficiency = 0;

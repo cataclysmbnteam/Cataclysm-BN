@@ -1,0 +1,12 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_atomic_freezer",
+    "name": "atomic freezer",
+    "copy-from": "f_glass_fridge_base",
+    "symbol": "{",
+    "description": "A freezer that never runs out of juice!  Will preserve your bugs during tests.",
+    "color": "blue",
+    "extend": { "flags": [ "FREEZER" ] }
+  }
+]
