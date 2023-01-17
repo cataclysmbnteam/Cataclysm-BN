@@ -564,9 +564,11 @@ bool try_wield_contents( Character &who, item &container, item *internal_item, b
 
 bool try_uncanny_dodge( Character &who )
 {
-    if( who.get_power_level() < 75_kJ || !who.has_active_bionic( bio_uncanny_dodge ) ) {
+    const units::energy trigger_cost = bio_uncanny_dodge->power_trigger;
+    if( who.get_power_level() < trigger_cost || !who.has_active_bionic( bio_uncanny_dodge ) ) {
         return false;
     }
+    who.mod_power_level( -trigger_cost );
     bool is_u = who.is_avatar();
     bool seen = is_u || get_player_character().sees( who );
     cata::optional<tripoint> adjacent = pick_safe_adjacent_tile( who );
