@@ -1748,9 +1748,10 @@ class map
          * that have rotten away completely.
          * @param items items to remove
          * @param p The point on this map where the items are, used for rot calculation.
+         * @param temperature flag that overrides temperature processing at certain locations
          */
         template <typename Container>
-        void remove_rotten_items( Container &items, const tripoint &p );
+        void remove_rotten_items( Container &items, const tripoint &p, temperature_flag temperature );
         /**
          * Try to fill funnel based items here. Simulates rain from @p since till now.
          * @param p The location in this map where to fill funnels.
