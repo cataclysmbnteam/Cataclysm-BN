@@ -16,6 +16,7 @@
 #include <vector>
 
 #include "enum_conversions.h"
+#include "json_source_location.h"
 #include "memory_fast.h"
 #include "string_id.h"
 
@@ -86,11 +87,6 @@ struct number_sci_notation {
     uint64_t number = 0;
     // AKA the order of magnitude
     int64_t exp = 0;
-};
-
-struct json_source_location {
-    shared_ptr_fast<std::string> path;
-    int offset = 0;
 };
 
 /* JsonIn

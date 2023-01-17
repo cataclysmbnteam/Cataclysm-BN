@@ -45,6 +45,7 @@ class nc_color;
 class player;
 class recipe;
 class relic;
+class relic_recharge;
 struct islot_comestible;
 struct itype;
 struct item_comp;
@@ -1137,7 +1138,7 @@ class item : public visitable<item>
          * @param pos The location of the artifact (should be the player location if carried).
          */
         void process_artifact( player *carrier, const tripoint &pos );
-        void process_relic( Character *carrier );
+        void process_relic( Character &carrier );
 
         bool destroyed_at_zero_charges() const;
         // Most of the is_whatever() functions call the same function in our itype
@@ -2105,7 +2106,7 @@ class item : public visitable<item>
         void set_cached_tool_selections( const std::vector<comp_selection<tool_comp>> &selections );
         const std::vector<comp_selection<tool_comp>> &get_cached_tool_selections() const;
 
-        std::vector<enchantment> get_enchantments() const;
+        const std::vector<enchantment> &get_enchantments() const;
 
         /**
          * Calculate bonus from enchantments that affect this item only.
@@ -2119,6 +2120,8 @@ class item : public visitable<item>
          */
         double bonus_from_enchantments_wielded( double base, enchant_vals::mod value,
                                                 bool round = false ) const;
+
+        const std::vector<relic_recharge> &get_relic_recharge_scheme() const;
 
     private:
         bool use_amount_internal( const itype_id &it, int &quantity, std::list<item> &used,

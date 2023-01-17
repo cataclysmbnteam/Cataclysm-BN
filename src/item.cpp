@@ -6869,10 +6869,11 @@ bool item::is_relic() const
     return !!relic_data;
 }
 
-std::vector<enchantment> item::get_enchantments() const
+const std::vector<enchantment> &item::get_enchantments() const
 {
     if( !is_relic() ) {
-        return std::vector<enchantment> {};
+        static const std::vector<enchantment> fallback;
+        return fallback;
     }
     return relic_data->get_enchantments();
 }
@@ -6913,6 +6914,11 @@ double item::bonus_from_enchantments_wielded( double base, enchant_vals::mod val
         ret = trunc( ret );
     }
     return ret;
+}
+
+const std::vector<relic_recharge> &item::get_relic_recharge_scheme() const
+{
+    return relic_data->get_recharge_scheme();
 }
 
 bool item::can_contain( const item &it ) const
@@ -9001,7 +9007,7 @@ std::vector<trait_id> item::mutations_from_wearing( const Character &guy ) const
     return muts;
 }
 
-void item::process_relic( Character *carrier )
+void item::process_relic( Character &carrier )
 {
     if( !is_relic() ) {
         return;
@@ -9009,10 +9015,12 @@ void item::process_relic( Character *carrier )
     std::vector<enchantment> active_enchantments;
 
     for( const enchantment &ench : get_enchantments() ) {
-        if( ench.is_active( *carrier, *this ) ) {
+        if( ench.is_active( carrier, *this ) ) {
             active_enchantments.emplace_back( ench );
         }
     }
+
+    relic_funcs::process_recharge( *this, carrier );
 }
 
 bool item::process_corpse( player *carrier, const tripoint &pos )
