@@ -48,7 +48,7 @@ TEST_CASE( "Rate of rotting" )
 
         set_map_temperature( weather, 65 ); // 18,3 C
         ensure_no_temperature_mods( tripoint_zero );
-        REQUIRE( get_weather().get_temperature( tripoint_zero ) == Approx( 65 ) );
+        REQUIRE( weather.get_temperature( tripoint_zero ) == Approx( 65 ) );
 
         normal_item.process( nullptr, tripoint_zero, false, temperature_flag::TEMP_NORMAL, weather );
         sealed_item.process( nullptr, tripoint_zero, false, temperature_flag::TEMP_NORMAL, weather );

@@ -8924,9 +8924,6 @@ bool item::process_rot( const tripoint &pos )
     return process_rot( false, pos, nullptr, temperature_flag::TEMP_NORMAL, get_weather() );
 }
 
-bool item::process_rot( const bool seals, const tripoint &pos,
-                        player *carrier, const temperature_flag flag,
-                        const weather_manager &weather )
 static units::temperature clip_by_temperature_flag( units::temperature temperature,
         temperature_flag flag )
 {
@@ -8950,6 +8947,9 @@ static units::temperature clip_by_temperature_flag( units::temperature temperatu
     return temperature;
 }
 
+bool item::process_rot( const bool seals, const tripoint &pos,
+                        player *carrier, const temperature_flag flag,
+                        const weather_manager &weather )
 {
     const time_point now = calendar::turn;
 
@@ -8964,7 +8964,7 @@ static units::temperature clip_by_temperature_flag( units::temperature temperatu
     // note we're also gated by item::processing_speed
     time_duration smallest_interval = 10_minutes;
 
-    units::temperature temp = units::from_fahrenheit( get_weather().get_temperature( pos ) );
+    units::temperature temp = units::from_fahrenheit( weather.get_temperature( pos ) );
     temp = clip_by_temperature_flag( temp, flag );
 
     time_point time = last_rot_check;
