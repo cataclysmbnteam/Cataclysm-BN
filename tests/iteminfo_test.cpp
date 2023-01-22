@@ -15,7 +15,7 @@
 #include "type_id.h"
 #include "value_ptr.h"
 
-std::string escape_newlines( const std::string &input )
+static std::string escape_newlines( const std::string &input )
 {
     std::string output;
     std::size_t pos = 0;

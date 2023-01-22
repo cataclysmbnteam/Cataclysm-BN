@@ -11,8 +11,6 @@ namespace rot
 {
 temperature_flag temperature_flag_for_location( const map &m, const item_location &loc )
 {
-    printf( "Pos: %d, %d, %d, Where: %d\n", loc.position().x, loc.position().y, loc.position().z,
-            static_cast<int>( loc.where() ) );
     switch( loc.where() ) {
         case item_location::type::invalid:
             return temperature_flag::TEMP_NORMAL;
