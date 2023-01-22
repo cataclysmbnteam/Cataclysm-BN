@@ -56,9 +56,8 @@ if (TILES)
 
     add_dependencies(cataclysm-tiles-common get_version)
 
-    target_link_libraries(cataclysm-tiles cataclysm-tiles-common)
-    target_compile_definitions(cataclysm-tiles-common PUBLIC TILES)
-
+    target_link_libraries(cataclysm-tiles PRIVATE cataclysm-tiles-common)
+    target_compile_definitions(cataclysm-tiles-common PUBLIC TILES )
     if(NOT "${CMAKE_EXPORT_COMPILE_COMMANDS}")
         target_precompile_headers(cataclysm-tiles-common PUBLIC
             ${CMAKE_SOURCE_DIR}/pch/main-pch.hpp)
@@ -172,35 +171,34 @@ if (CURSES)
     endif ()
 
     add_dependencies(cataclysm-common get_version)
-    target_link_libraries(cataclysm cataclysm-common)
+    target_link_libraries(cataclysm PRIVATE cataclysm-common)
 
     target_include_directories(cataclysm-common PUBLIC ${CURSES_INCLUDE_DIR})
-    target_link_libraries(cataclysm-common ${CURSES_LIBRARIES})
+    target_link_libraries(cataclysm-common PUBLIC ${CURSES_LIBRARIES})
 
     if (CMAKE_USE_PTHREADS_INIT)
         target_compile_options(cataclysm-common PUBLIC "-pthread")
     endif ()
 
     if (CMAKE_THREAD_LIBS_INIT)
-        target_link_libraries(cataclysm-common ${CMAKE_THREAD_LIBS_INIT})
+        target_link_libraries(cataclysm-common PUBLIC ${CMAKE_THREAD_LIBS_INIT})
     endif ()
 
     if (WIN32)
         # Global settings for Windows targets (at end)
-        target_link_libraries(cataclysm-common gdi32.lib)
-        target_link_libraries(cataclysm-common winmm.lib)
-        target_link_libraries(cataclysm-common imm32.lib)
-        target_link_libraries(cataclysm-common ole32.lib)
-        target_link_libraries(cataclysm-common oleaut32.lib)
-        target_link_libraries(cataclysm-common version.lib)
-
+        target_link_libraries(cataclysm-common PUBLIC gdi32.lib)
+        target_link_libraries(cataclysm-common PUBLIC winmm.lib)
+        target_link_libraries(cataclysm-common PUBLIC imm32.lib)
+        target_link_libraries(cataclysm-common PUBLIC ole32.lib)
+        target_link_libraries(cataclysm-common PUBLIC oleaut32.lib)
+        target_link_libraries(cataclysm-common PUBLIC version.lib)
         if (BACKTRACE)
-            target_link_libraries(cataclysm-common dbghelp.lib)
+            target_link_libraries(cataclysm-common PUBLIC dbghelp.lib)
         endif ()
     endif ()
 
     if (LIBBACKTRACE)
-        target_link_libraries(cataclysm-common backtrace)
+        target_link_libraries(cataclysm-common PUBLIC backtrace)
     endif ()
 
     if (RELEASE)
