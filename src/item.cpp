@@ -5687,7 +5687,7 @@ time_duration item::minimum_freshness_duration( temperature_flag temperature ) c
     int rot_per_hour = get_hourly_rotpoints_at_temp( temperature_f );
 
     if( rot_per_hour <= 0 || !type->comestible ) {
-        return time_duration::from_days( 10000 );
+        return calendar::INDEFINITELY_LONG_DURATION;
     }
 
     time_duration remaining_rot = type->comestible->spoils - rot;
