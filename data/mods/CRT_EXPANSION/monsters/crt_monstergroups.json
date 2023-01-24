@@ -54,8 +54,6 @@
     "type": "monstergroup",
     "name": "GROUP_LAB_CYBORG",
     "default": "mon_broken_cyborg",
-    "monsters": [
-      { "monster": "mon_twitcher", "freq": 10, "cost_multiplier": 5 }
-    ]
+    "monsters": [ { "monster": "mon_twitcher", "freq": 10, "cost_multiplier": 5 } ]
   }
 ]
