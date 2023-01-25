@@ -5684,14 +5684,22 @@ static int temperature_flag_to_highest_temperature( temperature_flag temperature
 time_duration item::minimum_freshness_duration( temperature_flag temperature ) const
 {
     int temperature_f = temperature_flag_to_highest_temperature( temperature );
-    int rot_per_hour = get_hourly_rotpoints_at_temp( temperature_f );
+    unsigned long long rot_per_hour = get_hourly_rotpoints_at_temp( temperature_f );
 
     if( rot_per_hour <= 0 || !type->comestible ) {
         return calendar::INDEFINITELY_LONG_DURATION;
     }
 
     time_duration remaining_rot = type->comestible->spoils - rot;
-    return remaining_rot * to_turns<int>( 1_hours ) / rot_per_hour;
+    // Has to be in int64 or it will overflow for long lasting food
+    unsigned long long duration = to_turns<unsigned long long>( remaining_rot )
+                                  * to_turns<unsigned long long>( 1_hours )
+                                  / rot_per_hour;
+    if( duration > to_turns<unsigned long long>( calendar::INDEFINITELY_LONG_DURATION ) ) {
+        return calendar::INDEFINITELY_LONG_DURATION;
+    }
+
+    return time_duration::from_turns( static_cast<int>( duration ) );
 }
 
 void item::mod_last_rot_check( time_duration processing_duration )

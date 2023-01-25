@@ -411,7 +411,7 @@ TEST_CASE( "food freshness and lifetime", "[item][iteminfo][food]" )
             "* This food is <color_c_yellow>perishable</color>, and at room temperature has"
             " an estimated nominal shelf life of <color_c_cyan>3 seasons</color>.\n"
             "* Current storage conditions <color_c_red>do not</color> protect this item"
-            " from rot.  It will stay fresh at least <color_c_cyan>14 hours</color>.\n"
+            " from rot.  It will stay fresh at least <color_c_cyan>1 week</color>.\n"
             "* This food looks as <color_c_green>fresh</color> as it can be.\n" );
     }
 
