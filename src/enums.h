@@ -39,7 +39,7 @@ struct enum_traits<holiday> {
     static constexpr holiday last = holiday::num_holiday;
 };
 
-enum temperature_flag : int {
+enum class temperature_flag : int {
     TEMP_NORMAL = 0,
     TEMP_HEATER,
     TEMP_FRIDGE,

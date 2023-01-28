@@ -48,6 +48,7 @@
 #include "point.h"
 #include "popup.h"
 #include "ret_val.h"
+#include "rot.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
@@ -791,10 +792,14 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             const item &selected_item = *stacked_here[matches[selected]].front();
 
             if( selected >= 0 && selected <= static_cast<int>( stacked_here.size() ) - 1 ) {
-                std::vector<iteminfo> vThisItem;
-                selected_item.info( true, vThisItem );
+                item_location loc = from_vehicle
+                                    ? item_location( vehicle_cursor( *veh, cargo_part ), &*stacked_here[matches[selected]].front() )
+                                    : item_location( map_cursor( p ), &*stacked_here[matches[selected]].front() );
+                temperature_flag temperature = rot::temperature_flag_for_location( get_map(), loc );
 
-                item_info_data dummy( {}, {}, vThisItem, {}, iScrollPos );
+                std::vector<iteminfo> this_item = selected_item.info( temperature );
+
+                item_info_data dummy( {}, {}, this_item, {}, iScrollPos );
                 dummy.without_getch = true;
                 dummy.without_border = true;
 

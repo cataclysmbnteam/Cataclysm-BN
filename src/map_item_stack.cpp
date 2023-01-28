@@ -28,6 +28,7 @@ map_item_stack::map_item_stack( const item *const it, const tripoint &pos ) : ex
     totalcount( it->count() )
 {
     vIG.emplace_back( pos, totalcount );
+    example_item_pos = pos;
 }
 
 void map_item_stack::add_at_pos( const item *const it, const tripoint &pos )

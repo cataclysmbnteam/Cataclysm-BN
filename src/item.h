@@ -362,61 +362,39 @@ class item : public visitable<item>
          * charges at all). Calls @ref tname with given quantity and with_prefix being true.
          */
         std::string display_name( unsigned int quantity = 1 ) const;
-        /**
-         * Return all the information about the item and its type.
-         *
-         * This includes the different
-         * properties of the @ref itype (if they are visible to the player). The returned string
-         * is already translated and can be *very* long.
-         * @param showtext If true, shows the item description, otherwise only the properties item type.
-         */
-        std::string info( bool showtext = false ) const;
 
         /**
-         * Return all the information about the item and its type, and dump to vector.
-         *
-         * This includes the different
-         * properties of the @ref itype (if they are visible to the player). The returned string
-         * is already translated and can be *very* long.
-         * @param showtext If true, shows the item description, otherwise only the properties item type.
-         * @param iteminfo The properties (encapsulated into @ref iteminfo) are added to this vector,
-         * the vector can be used to compare them to properties of another item.
-         */
-        std::string info( bool showtext, std::vector<iteminfo> &iteminfo ) const;
-
-        /**
-        * Return all the information about the item and its type, and dump to vector.
+        * Return all the information about the item and its type as a vector.
         *
         * This includes the different
-        * properties of the @ref itype (if they are visible to the player). The returned string
-        * is already translated and can be *very* long.
-        * @param showtext If true, shows the item description, otherwise only the properties item type.
-        * @param iteminfo The properties (encapsulated into @ref iteminfo) are added to this vector,
-        * the vector can be used to compare them to properties of another item.
-        * @param batch The batch crafting number to multiply data by
-        */
-        std::string info( bool showtext, std::vector<iteminfo> &iteminfo, int batch ) const;
-
-        /**
-        * Return all the information about the item and its type, and dump to vector.
-        *
-        * This includes the different
-        * properties of the @ref itype (if they are visible to the player). The returned string
-        * is already translated and can be *very* long.
+        * properties of the @ref itype (if they are visible to the player).
         * @param parts controls which parts of the iteminfo to return.
-        * @param info The properties (encapsulated into @ref iteminfo) are added to this vector,
-        * the vector can be used to compare them to properties of another item.
         * @param batch The batch crafting number to multiply data by
+        * @returns The properties (encapsulated into @ref iteminfo) are added to this vector,
+        *   the vector can be used to compare them to properties of another item.
         */
-        std::string info( std::vector<iteminfo> &info, const iteminfo_query *parts = nullptr,
-                          int batch = 1 ) const;
+        /*@{*/
+        std::vector<iteminfo> info() const;
+        std::vector<iteminfo> info( int batch ) const;
+        std::vector<iteminfo> info( const iteminfo_query &parts, int batch,
+                                    temperature_flag temperature ) const;
+        std::vector<iteminfo> info( temperature_flag temperature ) const;
+        /*@}*/
+        /**
+         * As @ref info, but as a string rather than a vector of properties.
+         */
+        /*@{*/
+        std::string info_string() const;
+        std::string info_string( const iteminfo_query &parts, int batch = 1 ) const;
+        /*@}*/
+
         /* type specific helper functions for info() that should probably be in itype() */
         void basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                          bool debug ) const;
         void med_info( const item *med_item, std::vector<iteminfo> &info, const iteminfo_query *parts,
                        int batch, bool debug ) const;
         void food_info( const item *food_item, std::vector<iteminfo> &info, const iteminfo_query *parts,
-                        int batch, bool debug ) const;
+                        int batch, bool debug, temperature_flag temperature ) const;
         void magazine_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                             bool debug ) const;
         void ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
@@ -455,7 +433,7 @@ class item : public visitable<item>
                           bool debug ) const;
         void contents_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                             bool debug ) const;
-        void final_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+        void final_info( std::vector<iteminfo> &info, const iteminfo_query &parts, int batch,
                          bool debug ) const;
 
         /**
@@ -785,20 +763,27 @@ class item : public visitable<item>
                             const weather_manager &weather );
 
         /**
-         * Accumulate rot of the item since last rot calculation.
+         * Returns rot of the item since last rot calculation.
          * This function should not be called directly. since it does not have all the needed checks or temperature calculations.
          * If you need to calc rot of item call process_rot instead.
          * @param time Time point to which rot is calculated
          * @param temp Temperature at which the rot is calculated
          */
-        void calc_rot( time_point time, int temp );
+        time_duration calc_rot( time_point time, int temp ) const;
+
+        /**
+         * Time that this item is guaranteed to stay fresh.
+         * @param temperature Temperature flag used to cap the duration.
+         * @returns Remaining guaranteed freshness duration, assuming current storage conditions.
+         */
+        time_duration minimum_freshness_duration( temperature_flag temperature ) const;
 
         /**
          * This is part of a workaround so that items don't rot away to nothing if the smoking rack
          * is outside the reality bubble.
          * @param processing_duration
          */
-        void calc_rot_while_processing( time_duration processing_duration );
+        void mod_last_rot_check( time_duration processing_duration );
 
         /**
          * Update temperature for things like food

@@ -176,8 +176,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             item_info_scroll = 0;
             item_info_scroll_popup = 0;
         }
-        std::vector<iteminfo> info;
-        item_info_cache.dummy.info( true, info, count );
+        std::vector<iteminfo> info = item_info_cache.dummy.info( count );
         item_info_data data( item_info_cache.dummy.tname( count ),
                              item_info_cache.dummy.type_name( count ),
                              info, {}, scroll_pos );

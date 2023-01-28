@@ -145,6 +145,7 @@
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "ret_val.h"
+#include "rot.h"
 #include "rng.h"
 #include "safemode_ui.h"
 #include "scenario.h"
@@ -7423,11 +7424,13 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             werase( w_item_info );
 
             if( iItemNum > 0 && activeItem ) {
-                std::vector<iteminfo> vThisItem;
-                std::vector<iteminfo> vDummy;
-                activeItem->example->info( true, vThisItem );
+                item_location loc( map_cursor( u.pos() + activeItem->example_item_pos ),
+                                   const_cast<item *>( activeItem->example ) );
+                temperature_flag temperature = rot::temperature_flag_for_location( m, loc );
+                std::vector<iteminfo> this_item = activeItem->example->info( temperature );
+                std::vector<iteminfo> item_info_dummy;
 
-                item_info_data dummy( "", "", vThisItem, vDummy, iScrollPos );
+                item_info_data dummy( "", "", this_item, item_info_dummy, iScrollPos );
                 dummy.without_getch = true;
                 dummy.without_border = true;
 
@@ -7487,12 +7490,14 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             uistate.list_item_filter_active = false;
             addcategory = !sort_radius;
         } else if( action == "EXAMINE" && !filtered_items.empty() && activeItem ) {
-            std::vector<iteminfo> vThisItem;
-            std::vector<iteminfo> vDummy;
-            activeItem->example->info( true, vThisItem );
+            std::vector<iteminfo> dummy;
+            const item *example_item = activeItem->example;
+            // TODO: const_item_location
+            item_location loc = item_location( u, const_cast<item *>( example_item ) );
+            temperature_flag temperature = rot::temperature_flag_for_location( m, loc );
+            std::vector<iteminfo> this_item = example_item->info( temperature );
 
-            item_info_data info_data( activeItem->example->tname(), activeItem->example->type_name(), vThisItem,
-                                      vDummy );
+            item_info_data info_data( example_item->tname(), example_item->type_name(), this_item, dummy );
             info_data.handle_scrolling = true;
 
             draw_item_info( [&]() -> catacurses::window {

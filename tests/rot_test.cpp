@@ -7,6 +7,7 @@
 #include "item.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "game.h" // Just for get_convection_temperature(), TODO: Remove
 #include "point.h"
 #include "weather.h"
 
@@ -16,6 +17,13 @@ static void set_map_temperature( weather_manager &weather, int new_temperature )
 {
     weather.temperature = new_temperature;
     weather.clear_temp_cache();
+}
+
+static void ensure_no_temperature_mods( tripoint location )
+{
+    REQUIRE( get_heat_radiation( location, false ) == 0 );
+    REQUIRE( get_convection_temperature( location ) == 0 );
+    REQUIRE( get_map().get_temperature( location ) == 0 );
 }
 
 TEST_CASE( "Rate of rotting" )
@@ -39,6 +47,8 @@ TEST_CASE( "Rate of rotting" )
         sealed_item = sealed_item.in_its_container();
 
         set_map_temperature( weather, 65 ); // 18,3 C
+        ensure_no_temperature_mods( tripoint_zero );
+        REQUIRE( weather.get_temperature( tripoint_zero ) == Approx( 65 ) );
 
         normal_item.process( nullptr, tripoint_zero, false, temperature_flag::TEMP_NORMAL, weather );
         sealed_item.process( nullptr, tripoint_zero, false, temperature_flag::TEMP_NORMAL, weather );
@@ -65,6 +75,7 @@ TEST_CASE( "Rate of rotting" )
 
         // Move time 110 minutes
         calendar::turn += 110_minutes;
+        // TODO: Check >1 hour normal processing as well - can't be "simply done" because of weather globals
         sealed_item.process( nullptr, tripoint_zero, false, temperature_flag::TEMP_NORMAL, weather );
         freeze_item.process( nullptr, tripoint_zero, false, temperature_flag::TEMP_FREEZER, weather );
         // In freezer and in preserving container still should be no rot
