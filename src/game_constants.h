@@ -79,22 +79,26 @@ static constexpr int PLUTONIUM_CHARGES = 500;
 namespace temperatures
 {
 // temperature at which something starts is considered HOT.
-constexpr int hot = 100; // ~ 38 Celsius
+constexpr units::temperature hot = 100_f; // ~ 38 Celsius
 
 // the "normal" temperature midpoint between cold and hot.
-constexpr int normal = 70; // ~ 21 Celsius
+constexpr units::temperature normal = 70_f; // ~ 21 Celsius
 
 // Temperature inside an active fridge in Fahrenheit.
-constexpr int fridge = 37; // ~ 2.7 Celsius
+constexpr units::temperature fridge = 37_f; // ~ 2.7 Celsius
 
 // Temperature at which things are considered "cold".
-constexpr int cold = 40; // ~4.4 C
+constexpr units::temperature cold = 40_f; // ~4.4 C
 
 // Temperature inside an active freezer in Fahrenheit.
-constexpr int freezer = 23; // -5 Celsius
+constexpr units::temperature freezer = 23_f; // -5 Celsius
 
 // Temperature in which water freezes in Fahrenheit.
-constexpr int freezing = 32; // 0 Celsius
+constexpr units::temperature freezing = 32_f; // 0 Celsius
+
+// Arbitrary constant for root cellar temperature
+// Should be equal to AVERAGE_ANNUAL_TEMPERATURE, but is declared before it...
+constexpr units::temperature root_cellar = 43_f;
 } // namespace temperatures
 
 // Weight per level of LIFT/JACK tool quality.

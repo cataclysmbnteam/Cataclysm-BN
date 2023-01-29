@@ -4464,9 +4464,9 @@ void map::update_lum( item_location &loc, bool add )
 }
 
 static bool process_map_items( item_stack &items, safe_reference<item> &item_ref,
-                               const tripoint &location, const float insulation, const temperature_flag flag )
+                               const tripoint &location, const temperature_flag flag )
 {
-    if( item_ref->process( nullptr, location, false, insulation, flag ) ) {
+    if( item_ref->process( nullptr, location, false, flag ) ) {
         // Item is to be destroyed so erase it from the map stack
         // unless it was already destroyed by processing.
         if( item_ref ) {
@@ -4605,6 +4605,21 @@ void map::process_items()
     }
 }
 
+static temperature_flag temperature_flag_at_point( const map &m, const tripoint &p )
+{
+    if( m.ter( p ) == t_rootcellar ) {
+        return temperature_flag::TEMP_ROOT_CELLAR;
+    }
+    if( m.has_flag_furn( TFLAG_FRIDGE, p ) ) {
+        return temperature_flag::TEMP_FRIDGE;
+    }
+    if( m.has_flag_furn( TFLAG_FREEZER, p ) ) {
+        return temperature_flag::TEMP_FREEZER;
+    }
+
+    return temperature_flag::TEMP_NORMAL;
+}
+
 void map::process_items_in_submap( submap &current_submap, const tripoint &gridp )
 {
     // Get a COPY of the active item list for this submap.
@@ -4619,19 +4634,9 @@ void map::process_items_in_submap( submap &current_submap, const tripoint &gridp
         }
 
         const tripoint map_location = tripoint( grid_offset + active_item_ref.location, gridp.z );
-        // root cellars are special
-        temperature_flag flag = temperature_flag::TEMP_NORMAL;
-        if( ter( map_location ) == t_rootcellar ) {
-            flag = temperature_flag::TEMP_ROOT_CELLAR;
-        }
-        if( has_flag_furn( TFLAG_FRIDGE, map_location ) ) {
-            flag = temperature_flag::TEMP_FRIDGE;
-        }
-        if( has_flag_furn( TFLAG_FREEZER, map_location ) ) {
-            flag = temperature_flag::TEMP_FREEZER;
-        }
+        temperature_flag flag = temperature_flag_at_point( *this, map_location );
         map_stack items = i_at( map_location );
-        process_map_items( items, active_item_ref.item_ref, map_location, 1, flag );
+        process_map_items( items, active_item_ref.item_ref, map_location, flag );
     }
 }
 
@@ -4688,25 +4693,20 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap )
         const vehicle_part &pt = it->part();
         const tripoint item_loc = it->pos();
         auto items = cur_veh.get_items( static_cast<int>( it->part_index() ) );
-        float it_insulation = 1.0;
         temperature_flag flag = temperature_flag::TEMP_NORMAL;
         if( target.is_food() || target.is_food_container() || target.is_corpse() ) {
             const vpart_info &pti = pt.info();
             if( engine_heater_is_on ) {
                 flag = temperature_flag::TEMP_HEATER;
             }
-            // some vehicle parts provide insulation, default is 1
-            it_insulation = pti.item->insulation_factor;
 
             if( pt.enabled && pti.has_flag( VPFLAG_FRIDGE ) ) {
-                it_insulation = 1; // ignore fridge insulation if on
                 flag = temperature_flag::TEMP_FRIDGE;
             } else if( pt.enabled && pti.has_flag( VPFLAG_FREEZER ) ) {
-                it_insulation = 1; // ignore freezer insulation if on
                 flag = temperature_flag::TEMP_FREEZER;
             }
         }
-        if( !process_map_items( items, active_item_ref.item_ref, item_loc, it_insulation, flag ) ) {
+        if( !process_map_items( items, active_item_ref.item_ref, item_loc, flag ) ) {
             // If the item was NOT destroyed, we can skip the remainder,
             // which handles fallout from the vehicle being damaged.
             continue;
@@ -7101,10 +7101,10 @@ void map::loadn( const tripoint &grid, const bool update_vehicles )
 }
 
 template <typename Container>
-void map::remove_rotten_items( Container &items, const tripoint &pnt )
+void map::remove_rotten_items( Container &items, const tripoint &pnt, temperature_flag temperature )
 {
     for( auto it = items.begin(); it != items.end(); ) {
-        if( it->has_rotten_away( pnt ) ) {
+        if( it->actualize_rot( pnt, temperature, get_weather() ) ) {
             if( it->is_comestible() ) {
                 rotten_item_spawn( *it, pnt );
             }
@@ -7440,7 +7440,8 @@ void map::actualize( const tripoint &grid )
             }
             // plants contain a seed item which must not be removed under any circumstances
             if( !furn.has_flag( "DONT_REMOVE_ROTTEN" ) ) {
-                remove_rotten_items( tmpsub->get_items( { x, y } ), pnt );
+                temperature_flag temperature = temperature_flag_at_point( *this, pnt );
+                remove_rotten_items( tmpsub->get_items( { x, y } ), pnt, temperature );
             }
 
             const auto trap_here = tmpsub->get_trap( p );

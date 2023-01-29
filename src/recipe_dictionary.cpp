@@ -13,6 +13,7 @@
 #include "input.h"
 #include "item.h"
 #include "item_factory.h"
+#include "iteminfo_query.h"
 #include "itype.h"
 #include "json.h"
 #include "output.h"
@@ -193,7 +194,7 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt,
 
             case search_type::description_result: {
                 const item result = r->create_result();
-                return lcmatch( remove_color_tags( result.info( true ) ), txt );
+                return lcmatch( remove_color_tags( result.info_string( iteminfo_query::no_text ) ), txt );
             }
 
             default:

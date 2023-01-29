@@ -600,8 +600,7 @@
     "symbol": "I",
     "color": "green",
     "seals": true,
-    "watertight": true,
-    "insulation": 10
+    "watertight": true
   },
   {
     "id": "clay_canister",

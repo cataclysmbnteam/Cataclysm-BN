@@ -163,7 +163,7 @@ struct islot_comestible {
         int radiation = 0;
 
         /** freezing point in degrees Fahrenheit, below this temperature item can freeze */
-        int freeze_point = temperatures::freezing;
+        int freeze_point = units::to_fahrenheit( temperatures::freezing );
 
         /**List of diseases carried by this comestible and their associated probability*/
         std::map<diseasetype_id, int> contamination;
@@ -1028,13 +1028,6 @@ struct itype {
         units::volume magazine_well = 0_ml;
 
         layer_level layer = layer_level::MAX_CLOTHING_LAYER;
-
-        /**
-         * How much insulation this item provides, either as a container, or as
-         * a vehicle base part.  Larger means more insulation, less than 1 but
-         * greater than zero, transfers faster, cannot be less than zero.
-         */
-        float insulation_factor = 1;
 
         /**
          * Efficiency of solar energy conversion for solarpacks.

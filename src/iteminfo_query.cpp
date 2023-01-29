@@ -3,34 +3,32 @@
 #include <string>
 #include <vector>
 
-iteminfo_query::iteminfo_query() = default;
-
-iteminfo_query::iteminfo_query( const std::string &bits ) : iteminfo_query_base( bits )
+iteminfo_query::iteminfo_query( const std::string &bits ) : parts( bits )
 {
 }
 
-iteminfo_query::iteminfo_query( const std::vector<iteminfo_parts> &setBits )
+iteminfo_query::iteminfo_query( const std::vector<iteminfo_parts> &set_bits )
 {
-    for( auto &bit : setBits ) {
-        set( static_cast<size_t>( bit ) );
+    for( auto &bit : set_bits ) {
+        parts.set( static_cast<size_t>( bit ) );
     }
 }
 
 iteminfo_query::iteminfo_query( const iteminfo_query_base &values )
-    : iteminfo_query_base( values )
+    : parts( values )
 {
 }
 
 bool iteminfo_query::test( const iteminfo_parts &value ) const
 {
-    return iteminfo_query_base::test( static_cast<size_t>( value ) );
+    return parts.test( static_cast<size_t>( value ) );
 }
 
 const iteminfo_query iteminfo_query::all = iteminfo_query(
             std::string( static_cast<size_t>( iteminfo_parts::NUM_VALUES ), '1' ) );
 
-const iteminfo_query iteminfo_query::notext = iteminfo_query(
-            iteminfo_query::all & ~iteminfo_query(
+const iteminfo_query iteminfo_query::no_text = iteminfo_query(
+            iteminfo_query::all.parts & ~( iteminfo_query(
 std::vector<iteminfo_parts> {
     iteminfo_parts::DESCRIPTION,
     iteminfo_parts::DESCRIPTION_TECHNIQUES,
@@ -74,9 +72,9 @@ std::vector<iteminfo_parts> {
     iteminfo_parts::DESCRIPTION_CONTENTS,
     iteminfo_parts::DESCRIPTION_APPLICABLE_RECIPES,
     iteminfo_parts::DESCRIPTION_MED_ADDICTING
-} ) );
+} ) ).parts );
 
-const iteminfo_query iteminfo_query::anyflags = iteminfo_query(
+const iteminfo_query iteminfo_query::any_flags = iteminfo_query(
 std::vector<iteminfo_parts> {
     iteminfo_parts::DESCRIPTION_FLAGS,
     iteminfo_parts::DESCRIPTION_FLAGS_HELMETCOMPAT,
@@ -87,3 +85,9 @@ std::vector<iteminfo_parts> {
     iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR_RADIATIONHINT,
     iteminfo_parts::DESCRIPTION_IRRADIATION
 } );
+
+const iteminfo_query iteminfo_query::no_conditions = iteminfo_query( iteminfo_query::all.parts &
+        ~( iteminfo_query(
+std::vector<iteminfo_parts> {
+    iteminfo_parts::FOOD_ROT_STORAGE
+} ) ).parts );

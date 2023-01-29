@@ -1256,8 +1256,12 @@ void deploy_furn_actor::load( const JsonObject &obj )
     furn_type = furn_str_id( obj.get_string( "furn_type" ) );
 }
 
-int deploy_furn_actor::use( player &p, item &it, bool, const tripoint &pos ) const
+int deploy_furn_actor::use( player &p, item &it, bool t, const tripoint &pos ) const
 {
+    if( t ) {
+        return 0;
+    }
+
     if( p.is_mounted() ) {
         p.add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;

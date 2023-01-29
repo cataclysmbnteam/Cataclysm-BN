@@ -519,39 +519,39 @@ inline void full_screen_popup( const char *mes, Args &&... args )
 }
 
 /*@}*/
-std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
-                              const std::vector<iteminfo> &vItemCompare );
+std::string format_item_info( const std::vector<iteminfo> &item_display,
+                              const std::vector<iteminfo> &item_compare );
 
 // the extra data that item_info needs to draw
 struct item_info_data {
     private:
-        std::string sItemName;
-        std::string sTypeName;
-        std::vector<iteminfo> vItemDisplay;
-        std::vector<iteminfo> vItemCompare;
+        std::string item_name;
+        std::string type_name;
+        std::vector<iteminfo> item_display;
+        std::vector<iteminfo> item_compare;
         int selected = 0;
 
     public:
 
         item_info_data();
         ~item_info_data();
-        item_info_data( const std::string &sItemName, const std::string &sTypeName,
-                        const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare );
-        item_info_data( const std::string &sItemName, const std::string &sTypeName,
-                        const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare,
+        item_info_data( const std::string &item_name, const std::string &type_name,
+                        const std::vector<iteminfo> &item_display, const std::vector<iteminfo> &item_compare );
+        item_info_data( const std::string &item_name, const std::string &type_name,
+                        const std::vector<iteminfo> &item_display, const std::vector<iteminfo> &item_compare,
                         int &ptr_selected );
 
         const std::string &get_item_name() const {
-            return sItemName;
+            return item_name;
         }
         const std::string &get_type_name() const {
-            return sTypeName;
+            return type_name;
         }
         const std::vector<iteminfo> &get_item_display() const {
-            return vItemDisplay;
+            return item_display;
         }
         const std::vector<iteminfo> &get_item_compare() const {
-            return vItemCompare;
+            return item_compare;
         }
 
         int *ptr_selected = &selected;

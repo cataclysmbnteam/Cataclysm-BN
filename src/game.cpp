@@ -145,6 +145,7 @@
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "ret_val.h"
+#include "rot.h"
 #include "rng.h"
 #include "safemode_ui.h"
 #include "scenario.h"
@@ -241,6 +242,7 @@ static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tied( "tied" );
 
 static const bionic_id bio_remote( "bio_remote" );
+static const bionic_id bio_probability_travel( "bio_probability_travel" );
 
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_grapnel( "grapnel" );
@@ -4098,12 +4100,13 @@ void game::monmove()
             m.creature_in_field( critter );
         }
 
+        const bionic_id bio_alarm( "bio_alarm" );
         if( !critter.is_dead() &&
-            u.has_active_bionic( bionic_id( "bio_alarm" ) ) &&
-            u.get_power_level() >= 25_kJ &&
+            u.has_active_bionic( bio_alarm ) &&
+            u.get_power_level() >= bio_alarm->power_trigger &&
             rl_dist( u.pos(), critter.pos() ) <= 5 &&
             !critter.is_hallucination() ) {
-            u.mod_power_level( -25_kJ );
+            u.mod_power_level( -bio_alarm->power_trigger );
             add_msg( m_warning, _( "Your motion alarm goes off!" ) );
             cancel_activity_or_ignore_query( distraction_type::alert,
                                              _( "Your motion alarm goes off!" ) );
@@ -7421,11 +7424,13 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             werase( w_item_info );
 
             if( iItemNum > 0 && activeItem ) {
-                std::vector<iteminfo> vThisItem;
-                std::vector<iteminfo> vDummy;
-                activeItem->example->info( true, vThisItem );
+                item_location loc( map_cursor( u.pos() + activeItem->example_item_pos ),
+                                   const_cast<item *>( activeItem->example ) );
+                temperature_flag temperature = rot::temperature_flag_for_location( m, loc );
+                std::vector<iteminfo> this_item = activeItem->example->info( temperature );
+                std::vector<iteminfo> item_info_dummy;
 
-                item_info_data dummy( "", "", vThisItem, vDummy, iScrollPos );
+                item_info_data dummy( "", "", this_item, item_info_dummy, iScrollPos );
                 dummy.without_getch = true;
                 dummy.without_border = true;
 
@@ -7485,12 +7490,14 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             uistate.list_item_filter_active = false;
             addcategory = !sort_radius;
         } else if( action == "EXAMINE" && !filtered_items.empty() && activeItem ) {
-            std::vector<iteminfo> vThisItem;
-            std::vector<iteminfo> vDummy;
-            activeItem->example->info( true, vThisItem );
+            std::vector<iteminfo> dummy;
+            const item *example_item = activeItem->example;
+            // TODO: const_item_location
+            item_location loc = item_location( u, const_cast<item *>( example_item ) );
+            temperature_flag temperature = rot::temperature_flag_for_location( m, loc );
+            std::vector<iteminfo> this_item = example_item->info( temperature );
 
-            item_info_data info_data( activeItem->example->tname(), activeItem->example->type_name(), vThisItem,
-                                      vDummy );
+            item_info_data info_data( example_item->tname(), example_item->type_name(), this_item, dummy );
             info_data.handle_scrolling = true;
 
             draw_item_info( [&]() -> catacurses::window {
@@ -9421,7 +9428,6 @@ bool game::phasing_move( const tripoint &dest_loc, const bool via_ramp )
                                  _( "You try to quantum tunnel through the barrier, but something holds you back!" ) );
             return false;
         }
-
         if( tunneldist > 24 ) {
             add_msg( m_info, _( "It's too dangerous to tunnel that far!" ) );
             return false;
@@ -9431,16 +9437,17 @@ bool game::phasing_move( const tripoint &dest_loc, const bool via_ramp )
         dest.y += d.y;
     }
 
+    units::energy power_cost = bio_probability_travel->power_activate;
+
     if( tunneldist != 0 ) {
-        if( ( tunneldist - 1 ) * 100_kJ
-            > //The first 100 was already taken up by the bionic's activation cost.
-            u.get_power_level() ) { //oops, not enough energy! Tunneling costs 100 bionic power per impassable tile
-            if( tunneldist * 100_kJ >
-                u.get_max_power_level() ) {
+        // -1 because power_cost for the first tile was already taken up by the bionic's activation
+        if( ( tunneldist - 1 ) * power_cost > u.get_power_level() ) {
+            // oops, not enough energy! Tunneling costs set amount of bionic power per impassable tile
+            if( tunneldist * power_cost > u.get_max_power_level() ) {
                 add_msg( _( "You try to quantum tunnel through the barrier but bounce off!  You don't have enough bionic power capacity to travel that far." ) );
             } else {
-                add_msg( _( "You try to quantum tunnel through the barrier but are reflected!  You need %i bionic power to travel that thickness of material." ),
-                         ( 100 * tunneldist ) );
+                add_msg( _( "You try to quantum tunnel through the barrier but are reflected!  You need %s of bionic power to travel that thickness of material." ),
+                         units::display( power_cost * tunneldist ) );
             }
             return false;
         }
@@ -9451,7 +9458,7 @@ bool game::phasing_move( const tripoint &dest_loc, const bool via_ramp )
 
         add_msg( _( "You quantum tunnel through the %d-tile wide barrier!" ), tunneldist );
         //tunneling costs 100 bionic power per impassable tile, but the first 100 was already drained by activation.
-        u.mod_power_level( -( ( tunneldist - 1 ) * 100_kJ ) );
+        u.mod_power_level( -( ( tunneldist - 1 ) * power_cost ) );
         //tunneling costs 100 moves baseline, 50 per extra tile up to a cap of 500 moves
         u.moves -= ( 50 + ( tunneldist * 50 ) );
         u.setpos( dest );
@@ -9679,12 +9686,12 @@ void game::on_move_effects()
                 u.mod_power_level( units::from_kilojoule( muscle.fuel_energy() ) * bid->passive_fuel_efficiency );
             }
         }
-
-        if( u.has_active_bionic( bionic_id( "bio_jointservo" ) ) ) {
+        const bionic_id bio_jointservo( "bio_jointservo" );
+        if( u.has_active_bionic( bio_jointservo ) ) {
             if( u.movement_mode_is( CMM_RUN ) ) {
-                u.mod_power_level( -55_J );
+                u.mod_power_level( -bio_jointservo->power_trigger * 1.55 );
             } else {
-                u.mod_power_level( -35_J );
+                u.mod_power_level( -bio_jointservo->power_trigger );
             }
         }
     }

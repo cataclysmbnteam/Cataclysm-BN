@@ -518,8 +518,10 @@ class wish_item_callback: public uilist_callback
                 mvwprintz( menu->window, point( startx + ( menu->pad_right - 1 - utf8_width( header ) ) / 2, 1 ),
                            c_cyan, header );
 
+                std::vector<iteminfo> info = tmp.info();
+                std::string info_string = format_item_info( info, {} );
                 fold_and_print( menu->window, point( startx, starty ), menu->pad_right - 1, c_light_gray,
-                                tmp.info( true ) );
+                                info_string );
             }
 
             if( spawn_everything ) {

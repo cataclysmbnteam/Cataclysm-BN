@@ -142,7 +142,16 @@
       "hospital_6",
       "hospital_7",
       "hospital_8",
-      "hospital_9"
+      "hospital_9",
+      "hospital_1_roof",
+      "hospital_2_roof",
+      "hospital_3_roof",
+      "hospital_4_roof",
+      "hospital_5_roof",
+      "hospital_6_roof",
+      "hospital_7_roof",
+      "hospital_8_roof",
+      "hospital_9_roof"
     ],
     "copy-from": "generic_hospital"
   },

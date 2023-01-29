@@ -17,6 +17,8 @@
 #include "avatar.h"
 #include "avatar_functions.h"
 #include "bodypart.h"
+#include "bionics.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
@@ -1818,9 +1820,10 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
 
     std::string target = t.disp_name();
 
-    if( has_active_bionic( bionic_id( "bio_shock" ) ) && get_power_level() >= 2_kJ &&
+    const bionic_id bio_shock( "bio_shock" );
+    if( has_active_bionic( bio_shock ) && get_power_level() >= bio_shock->power_trigger &&
         ( !is_armed() || weapon.conductive() ) ) {
-        mod_power_level( -2_kJ );
+        mod_power_level( -bio_shock->power_trigger );
         d.add_damage( DT_ELECTRIC, rng( 2, 10 ) );
 
         if( is_player() ) {
@@ -1830,8 +1833,9 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
         }
     }
 
-    if( has_active_bionic( bionic_id( "bio_heat_absorb" ) ) && !is_armed() && t.is_warm() ) {
-        mod_power_level( 3_kJ );
+    const bionic_id bio_heat_absorb( "bio_heat_absorb" );
+    if( has_active_bionic( bio_heat_absorb ) && !is_armed() && t.is_warm() ) {
+        mod_power_level( bio_heat_absorb->power_trigger );
         d.add_damage( DT_COLD, 3 );
         if( is_player() ) {
             dump += string_format( _( "You drain %s's body heat." ), target ) + "\n";

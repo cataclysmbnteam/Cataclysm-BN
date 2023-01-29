@@ -25,6 +25,7 @@
 #include "artifact.h"
 #include "avatar.h"
 #include "avatar_action.h"
+#include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -6750,14 +6751,13 @@ static std::string colorized_item_name( const item &item )
 
 static std::string colorized_item_description( const item &item )
 {
-    std::vector<iteminfo> dummy;
     iteminfo_query query = iteminfo_query(
     std::vector<iteminfo_parts> {
         iteminfo_parts::DESCRIPTION,
         iteminfo_parts::DESCRIPTION_NOTES,
         iteminfo_parts::DESCRIPTION_CONTENTS
     } );
-    return item.info( dummy, &query, 1 );
+    return item.info_string( query, 1 );
 }
 
 static item get_top_item_at_point( const tripoint &point,
@@ -7802,9 +7802,9 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
         }
 
         if( p->has_item( *it ) ) {
-            if( p->has_active_bionic( bio_shock ) && p->get_power_level() >= 2_kJ &&
+            if( p->has_active_bionic( bio_shock ) && p->get_power_level() >= bio_shock->power_trigger &&
                 one_in( 5 ) ) {
-                p->mod_power_level( -2_kJ );
+                p->mod_power_level( -bio_shock->power_trigger );
 
                 it->unset_flag( "NO_UNWIELD" );
                 it->ammo_unset();
