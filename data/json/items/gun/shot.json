@@ -235,7 +235,7 @@
       [ "sling", 1 ],
       [ "barrel", 1 ],
       [ "grip mount", 1 ],
-      [ "stock mount", 1 ],
+      [ "stock", 1 ],
       [ "rail mount", 1 ],
       [ "loading port", 1 ],
       [ "brass catcher", 1 ],
@@ -446,7 +446,7 @@
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "sling", 1 ],
-      [ "stock mount", 1 ],
+      [ "stock", 1 ],
       [ "mechanism", 4 ],
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
@@ -478,7 +478,7 @@
       [ "sights mount", 1 ],
       [ "sling", 1 ],
       [ "mechanism", 2 ],
-      [ "stock mount", 1 ],
+      [ "stock", 1 ],
       [ "grip mount", 1 ],
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
@@ -508,7 +508,7 @@
       [ "mechanism", 1 ],
       [ "sights mount", 1 ],
       [ "sling", 1 ],
-      [ "stock mount", 1 ],
+      [ "stock", 1 ],
       [ "grip mount", 1 ],
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
@@ -683,7 +683,7 @@
     "copy-from": "shotgun_base",
     "type": "GUN",
     "name": { "str": "M1897 Trench Gun" },
-    "description": "The Winchester 1897 was one of the first commercially successful pump action shotguns.  In its 'trench' configuraton it has become a heavily romanticized American icon of World War 1.  With its barrel shroud, bayonet lug and 17 inch bayonet, this shotgun is undeniably fearsome in appearance.  There aren't any more trenches to clear, so the next zombie infested town will have to suffice.",
+    "description": "The Winchester 1897 was one of the first commercially successful pump action shotguns.  In its 'trench' configuration it has become a heavily romanticized American icon of World War 1.  With its barrel shroud, bayonet lug and 17 inch bayonet, this shotgun is undeniably fearsome in appearance.  There aren't any more trenches to clear, so the next zombie infested town will have to suffice.",
     "weight": "3629 g",
     "volume": "2564 ml",
     "looks_like": "remington_870_express",
@@ -697,7 +697,7 @@
     "modes": [ [ "DEFAULT", "single", 1 ], [ "AUTO", "2 rd.", 2 ] ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
-      [ "stock mount", 1 ],
+      [ "stock", 1 ],
       [ "mechanism", 2 ],
       [ "barrel", 1 ],
       [ "muzzle", 1 ],
