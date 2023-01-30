@@ -39,6 +39,7 @@
     "description": "The 5-shot Smith and Wesson 500 revolver fires the comparably-named .500 S&W Magnum.  It's an impressive weapon.",
     "weight": "1960 g",
     "volume": "750 ml",
+    "barrel_length": "125 ml",
     "price": 90000,
     "price_postapoc": 3500,
     "bashing": 12,

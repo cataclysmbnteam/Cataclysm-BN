@@ -12,13 +12,14 @@
     "ammo": "m235",
     "weight": "5220 g",
     "volume": "6 L",
+    "barrel_length": "500 ml",
     "dispersion": 300,
     "durability": 7,
     "modes": [ [ "DEFAULT", "single shot", 1 ], [ "BURST", "all barrels", 4 ] ],
     "magazines": [ [ "m235", [ "m74_clip" ] ] ],
     "reload": 600,
     "loudness": 200,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "sling", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "grip", 1 ], [ "sling", 1 ] ],
     "flags": [ "BACKBLAST", "NEVER_JAMS", "PYROMANIAC_WEAPON" ],
     "faults": [  ]
   }

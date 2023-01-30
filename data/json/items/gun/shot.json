@@ -7,6 +7,7 @@
     "description": "A single shot pistol that loads 12 gauge shotgun shells, handcrafted from scrap.",
     "weight": "828 g",
     "volume": "500 ml",
+    "barrel_length": "100 ml",
     "price": 100000,
     "price_postapoc": 500,
     "to_hit": -2,
@@ -40,6 +41,7 @@
     "description": "An electrically driven six barrel gatling shotgun, fed from handmade cloth belts.  Even properly mounted, this seems like an unwieldy beast, and the six separate barrels make for difficult zeroing.  The externally driven action means this is much less likely to jam.",
     "weight": "4980 g",
     "volume": "4500 ml",
+    "barrel_length": "500 ml",
     "price": 180000,
     "price_postapoc": 1750,
     "to_hit": -2,
@@ -61,6 +63,7 @@
     "description": "This humble looking shotgun was the earliest successful semi-automatic shotgun, and the second most successful in U.S. history, with over 2.7 million made between 1902 and 1998.  The recoil tuning mechanism under the handguard and long dwell time of the action make for pleasant shooting.",
     "weight": "4100 g",
     "volume": "3525 ml",
+    "barrel_length": "500 ml",
     "price": 80000,
     "price_postapoc": 2000,
     "material": [ "steel", "wood" ],
@@ -175,7 +178,7 @@
     "price_postapoc": 2250,
     "ascii_picture": "mossberg500",
     "relative": { "bashing": 1 },
-    "barrel_length": "186 ml",
+    "barrel_length": "250 ml",
     "material": [ "steel", "aluminum", "plastic" ],
     "dispersion": 325,
     "ranged_damage": { "damage_type": "bullet", "amount": 4 },
@@ -194,7 +197,7 @@
     "price": 53800,
     "price_postapoc": 2250,
     "ascii_picture": "mossberg500_sec",
-    "barrel_length": "28 ml",
+    "barrel_length": "50 ml",
     "dispersion": 375,
     "ranged_damage": { "damage_type": "bullet", "amount": 1 }
   },
@@ -255,7 +258,7 @@
     "ascii_picture": "db_pipe_gun",
     "modes": [ [ "DEFAULT", "single", 1 ], [ "DOUBLE", "double", 2 ] ],
     "relative": { "weight": 500, "volume": 1, "price": 5000 },
-    "barrel_length": "72 ml",
+    "barrel_length": "750 ml",
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "sling", 1 ],
@@ -285,7 +288,7 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 200,
-    "barrel_length": "36 ml",
+    "barrel_length": "500 ml",
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "sling", 1 ],
@@ -316,7 +319,7 @@
     "dispersion": 305,
     "ranged_damage": { "damage_type": "bullet", "amount": 6 },
     "clip_size": 5,
-    "barrel_length": "229 ml"
+    "barrel_length": "250 ml"
   },
   {
     "id": "remington_870_breacher",
@@ -364,14 +367,14 @@
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 345,
     "clip_size": 7,
-    "barrel_length": "20 ml",
+    "barrel_length": "50 ml",
     "price": 33800
   },
   {
     "id": "remington_1100",
     "copy-from": "shotgun_base",
     "type": "GUN",
-    "name": { "str": "Remington 1100 competiton" },
+    "name": { "str": "Remington 1100 competition" },
     "description": "This semi-automatic shotgun features a self compensating gas system that will feed a wide array of shells while also reducing recoil.  Introduced in 1963, it is favored by law enforcement, hunters and competition shooters, and has been the best-selling autoloading shotgun in U.S. history.  This is the nickel finished, teflon coated competition model, with a full length magazine tube and 30 inch barrel.",
     "weight": "3742 g",
     "volume": "2626 ml",
@@ -415,7 +418,7 @@
     "durability": 6,
     "clip_size": 6,
     "reload": 200,
-    "barrel_length": "36 ml",
+    "barrel_length": "250 ml",
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "sling", 1 ],
@@ -441,7 +444,7 @@
     "material": [ "steel", "plastic" ],
     "dispersion": 395,
     "durability": 7,
-    "barrel_length": "81 ml",
+    "barrel_length": "250 ml",
     "magazine_well": "250 ml",
     "valid_mod_locations": [
       [ "accessories", 2 ],
@@ -470,7 +473,7 @@
     "ascii_picture": "2barrel_shotgun",
     "price": 39900,
     "price_postapoc": 2000,
-    "barrel_length": "234 ml",
+    "barrel_length": "500 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -499,7 +502,7 @@
     "dispersion": 210,
     "durability": 9,
     "clip_size": 1,
-    "barrel_length": "117 ml",
+    "barrel_length": "250 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -532,7 +535,7 @@
     "durability": 6,
     "clip_size": 12,
     "reload": 220,
-    "barrel_length": "36 ml",
+    "barrel_length": "50 ml",
     "default_mods": [ "grip" ],
     "built_in_mods": [ "wire_stock" ],
     "modes": [ [ "DEFAULT", "single", 1 ], [ "AUTO", "3 rd.", 3 ] ],
@@ -686,6 +689,7 @@
     "description": "The Winchester 1897 was one of the first commercially successful pump action shotguns.  In its 'trench' configuraton it has become a heavily romanticized American icon of World War 1.  With its barrel shroud, bayonet lug and 17 inch bayonet, this shotgun is undeniably fearsome in appearance.  There aren't any more trenches to clear, so the next zombie infested town will have to suffice.",
     "weight": "3629 g",
     "volume": "2564 ml",
+    "barrel_length": "250 ml",
     "looks_like": "remington_870_express",
     "price": 850000,
     "price_postapoc": 2500,
