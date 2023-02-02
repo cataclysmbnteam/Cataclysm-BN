@@ -117,6 +117,7 @@ static const itype_id itype_barrel_small( "barrel_small" );
 static const itype_id itype_brazier( "brazier" );
 static const itype_id itype_char_smoker( "char_smoker" );
 static const itype_id itype_fire( "fire" );
+static const itype_id itype_stock_small( "stock_small" );
 static const itype_id itype_syringe( "syringe" );
 
 static const skill_id skill_fabrication( "fabrication" );
@@ -4313,6 +4314,83 @@ ret_val<bool> saw_barrel_actor::can_use_on( const player &, const item &, const 
 std::unique_ptr<iuse_actor> saw_barrel_actor::clone() const
 {
     return std::make_unique<saw_barrel_actor>( *this );
+}
+
+void saw_stock_actor::load( const JsonObject &jo )
+{
+    assign( jo, "cost", cost );
+}
+
+int saw_stock_actor::use( player &p, item &it, bool t, const tripoint & ) const
+{
+    if( t ) {
+        return 0;
+    }
+
+    auto loc = game_menus::inv::saw_stock( p, it );
+
+    if( !loc ) {
+        p.add_msg_if_player( _( "Never mind." ) );
+        return 0;
+    }
+
+    item &obj = *loc.obtain( p );
+    p.add_msg_if_player( _( "You saw down the stock of your %s." ), obj.tname() );
+    obj.put_in( item( "stock_small", calendar::turn ) );
+
+    return 0;
+}
+
+ret_val<bool> saw_stock_actor::can_use_on( const player &, const item &, const item &target ) const
+{
+    if( !target.is_gun() ) {
+        return ret_val<bool>::make_failure( _( "It's not a gun." ) );
+    }
+
+    if( target.gunmod_find( itype_stock_small ) ) {
+        return ret_val<bool>::make_failure( _( "The stock is already sawn-off." ) );
+    }
+
+    // Exclude pistols and the like that have had a stock mount bubba'd onto them.
+    const auto gunmods = target.gunmods();
+    const bool external_stock = std::any_of( gunmods.begin(), gunmods.end(),
+    []( const item * mod ) {
+        return mod->type->gunmod->location == gunmod_location( "stock mount" );
+    } );
+
+    if( external_stock ) {
+        return ret_val<bool>::make_failure( _( "You can't saw anything off this." ) );
+    }
+
+    // Don't allow trying to stack stock mods.
+    const bool modified_stock = std::any_of( gunmods.begin(), gunmods.end(),
+    []( const item * mod ) {
+        return mod->type->gunmod->location == gunmod_location( "stock" );
+    } );
+
+    if( modified_stock ) {
+        return ret_val<bool>::make_failure( _( "Can't cut off modified stocks." ) );
+    }
+
+    // Also bail out if there's no unmodified stock to touch at all.
+    if( target.get_free_mod_locations( gunmod_location( "stock" ) ) == 0 ||
+        target.type->gun->skill_used == skill_id( "pistol" ) ) {
+        return ret_val<bool>::make_failure(
+                   _( "This doesn't have a stock." ) );
+    }
+
+    // Stock ideally should be made out of wood.
+    if( !target.made_of( material_id( "wood" ) ) ) {
+        return ret_val<bool>::make_failure(
+                   _( "Can't cut off non-wooden stocks." ) );
+    }
+
+    return ret_val<bool>::make_success();
+}
+
+std::unique_ptr<iuse_actor> saw_stock_actor::clone() const
+{
+    return std::make_unique<saw_stock_actor>( *this );
 }
 
 int install_bionic_actor::use( player &p, item &it, bool, const tripoint & ) const

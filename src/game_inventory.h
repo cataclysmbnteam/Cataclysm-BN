@@ -96,6 +96,8 @@ item_location wield( avatar &you );
 item_location holster( player &p, item &holster );
 /** Choosing a gun to saw down it's barrel. */
 item_location saw_barrel( player &p, item &tool );
+/** Choosing a gun to saw down its barrel. */
+item_location saw_stock( player &p, item &tool );
 /** Choose item to wear. */
 item_location wear( player &p );
 /** Choose item to take off. */
