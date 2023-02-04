@@ -125,7 +125,7 @@
     "location": "stock",
     "mod_targets": [ "smg", "rifle", "shotgun" ],
     "dispersion_modifier": 100,
-    "weight_multiplier": 0.8,
+    "weight_multiplier": 0.75,
     "handling_modifier": -15,
     "flags": [ "COLLAPSIBLE_STOCK", "IRREMOVABLE" ]
   }
