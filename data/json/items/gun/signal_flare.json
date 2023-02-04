@@ -1,7 +1,7 @@
 [
   {
     "id": "flaregun",
-    "copy-from": "pistol_base",
+    "copy-from": "pistol_1shot",
     "type": "GUN",
     "name": { "str": "flaregun" },
     "description": "A plastic single shot pistol that can be loaded with signal flares.",
@@ -25,7 +25,7 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS", "RELOAD_EJECT", "PYROMANIAC_WEAPON" ],
+    "extend": { "flags": [ "WATERPROOF_GUN", "PYROMANIAC_WEAPON" ] },
     "faults": [  ]
   }
 ]

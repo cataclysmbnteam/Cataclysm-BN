@@ -23,7 +23,7 @@
   },
   {
     "id": "m2browning",
-    "copy-from": "rifle_base",
+    "copy-from": "mg_base",
     "type": "GUN",
     "name": { "str_sp": "M2HB Browning HMG" },
     "description": "A heavy machine gun used by the US Military from its inception to the Cataclysm, and even rarely by Cataclysm survivors.",
@@ -35,8 +35,6 @@
     "ammo": "50",
     "range": 110,
     "dispersion": 250,
-    "handling": 40,
-    "reload": 400,
     "barrel_length": "1250 ml",
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 3 ] ],
     "valid_mod_locations": [
@@ -56,13 +54,26 @@
   },
   {
     "id": "m2browning_sawn",
-    "copy-from": "m2browning",
+    "copy-from": "rifle_manual",
     "type": "GUN",
+    "weapon_category": [ "RIFLES", "MANUAL_ACTION" ],
     "name": { "str": ".50 caliber rifle" },
     "description": "Modified from the massive M2 Browning, this pared down rifle has been altered to be fired unmounted.  The burst fire has been disabled, and its belt fed mechanism has been modified into a much smaller single round chamber.",
     "material": [ "steel", "wood" ],
-    "clip_size": 1,
+    "weight": "16500 g",
+    "volume": "3.5 L",
+    "price": 390000,
     "price_postapoc": 6000,
+    "to_hit": -4,
+    "bashing": 18,
+    "reload": 400,
+    "handling": 40
+    "material": "steel",
+    "ammo": "50",
+    "range": 110,
+    "ranged_damage": { "damage_type": "bullet", "amount": -4 },
+    "dispersion": 310,
+    "barrel_length": "1000 ml",
     "modes": [ [ "DEFAULT", "manual", 1 ] ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -78,14 +89,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "magazines": [  ],
-    "relative": {
-      "weight": -21500,
-      "volume": -6,
-      "price": -1210000,
-      "ranged_damage": { "damage_type": "bullet", "amount": -4 },
-      "dispersion": 60,
-      "barrel_length": -1
-    },
+    "clip_size": 1,
     "flags": [ "RELOAD_EJECT" ]
   },
   {
@@ -114,7 +118,7 @@
   },
   {
     "id": "tac50",
-    "copy-from": "rifle_base",
+    "copy-from": "rifle_manual",
     "type": "GUN",
     "name": { "str": "McMillan TAC-50" },
     "description": "A long-range anti-materiel and anti-personnel sniper rifle made by McMillan Firearms, serving the Canadian Army since 2000 as the C15, and the Navy Seals as the Mk 15 Mod 0.  This .50 caliber bolt-action rifle is capable of defeating light vehicles, radar installations and crew served weapons at extreme distances.  It notably holds the longest range confirmed sniper kill, as well as the 4th and 5th longest.",
@@ -136,7 +140,7 @@
   },
   {
     "id": "bfg50",
-    "copy-from": "rifle_base",
+    "copy-from": "rifle_manual",
     "type": "GUN",
     "name": { "str": "Serbu BFG-50" },
     "description": "A single-shot, bolt-action rifle made by Serbu Firearms, the BFG-50 is a very affordable firearm for those wishing to shoot .50 BMG.",

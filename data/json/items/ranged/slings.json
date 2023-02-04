@@ -1,7 +1,7 @@
 [
   {
     "id": "sling",
-    "copy-from": "throwing_weapon_base",
+    "copy-from": "sling_base",
     "looks_like": "slingshot",
     "type": "GUN",
     "color": "brown",
@@ -23,7 +23,7 @@
   },
   {
     "id": "staff_sling",
-    "copy-from": "throwing_weapon_base",
+    "copy-from": "sling_base",
     "looks_like": "slingshot",
     "type": "GUN",
     "color": "brown",

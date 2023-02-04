@@ -71,7 +71,9 @@ Use the `Home` key to return to the top.
     + [Comestibles](#comestibles)
     + [Containers](#containers)
     + [Melee](#melee)
+      - [`Melee Weapon_category`](#melee-weapon_category)
     + [Gun](#gun)
+      - [`Ranged Weapon_category`](#ranged-weapon_category)
     + [Gunmod](#gunmod)
     + [Batteries](#batteries)
     + [Tools](#tools)
@@ -1993,6 +1995,8 @@ It could also be written as a generic item ("type": "GENERIC") with "armor_data"
 "to_hit": 1            // To-hit bonus if using it as a melee weapon
 ```
 
+#### Melee `Weapon_category`
+
 ### Gun
 
 Guns can be defined like this:
@@ -2018,9 +2022,9 @@ Guns can be defined like this:
 "burst": 5,                // Number of shots fired in burst mode
 "clip_size": 100,          // Maximum amount of ammo that can be loaded
 "ups_charges": 0,          // Additionally to the normal ammo (if any), a gun can require some charges from an UPS. This also works on mods. Attaching a mod with ups_charges will add/increase ups drain on the weapon.
-"reload": 450,             // Amount of time to reload, 100 = 1 second = 1 "turn"
-"built_in_mods": ["m203"], //An array of mods that will be integrated in the weapon using the IRREMOVABLE tag.
-"default_mods": ["m203"]   //An array of mods that will be added to a weapon on spawn.
+"reload": 450,             // Amount of time to reload, 100 = 1 second = 1 "turn". Default 100.
+"built_in_mods": ["m203"], // An array of mods that will be integrated in the weapon using the IRREMOVABLE tag.
+"default_mods": ["m203"]   // An array of mods that will be added to a weapon on spawn.
 "barrel_length": "30 mL",  // Amount of volume lost when the barrel is sawn. Approximately 250 ml per inch is a decent approximation.
 "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ] ],  // The valid locations for gunmods and the mount of slots for that location.
 ```
@@ -2034,6 +2038,35 @@ Alternately, every item (book, tool, armor, even food) can be used as gun if it 
     ...
 }
 ```
+
+#### Ranged `Weapon_category`
+
+| Weapon Category       | Description
+| ---                   | ---
+| BOWS                  | Elastic launching device for long-shafted projectiles.
+| CROSSBOWS             | Elastic launching device mounted on a frame to be triggered.
+| SLINGSHOTS            | Elastic, handheld launching device typically used for small round projectiles.
+| SLINGS                | Projectile weapon using a cradle connected to two retention cords, used to fling blunt projectiles.
+| PISTOLS               | Handgun with a chamber integral to the gun barrel. In-game, any handgun that isn't a revolver goes here.
+| REVOLVERS             | Repeating handgun with a revolving cylinder containing multiple chambers.
+| SUBMACHINE_GUNS       | Magazine fed automatic carbine designed to fire handgun cartridges.
+| RIFLES                | Long barrelled firearms designed for more accurate shooting.
+| MACHINE_GUNS          | Fully automatic autoloading firearm designed for sustained fire.
+| GATLING_GUNS          | Rapid firing multi barrel firearm.
+| SHOTGUNS              | Long barreled firearm generally designed to fire shotshells.
+| GRENADE_LAUNCHERS     | Firearm designed to propel large caliber projectile typically loaded with warhead of some kind (smoke, gas, explosive, etc)
+| ROCKET_LAUNCHERS      | Firearm that propels unguided, rocket-propelled projectile.
+| FLAMETHROWERS         | Ranged incendiary device designed to propel a controllable jet of fire.
+| WATER_CANNONS         | It fires water at your enemies.
+| SPRAY_GUNS            | It spews chemicals at your enemies.
+| ---                   | ---
+| 1SHOT                 | Ranged weapon with at least one barrel but no loading system/magazine.
+| AUTOLOADING           | Ranged weapon with autoloading mechanisms like blowback, gas-operated, or recoil operated systems.
+| MANUAL_ACTION         | Ranged weapon using manual actions like bolt/pump/lever.
+| ENERGY_WEAPONS        | Weapon designed to utilize focused energy (sonic, electromagnetic waves, particle beams, etc). Both Ranged/Melee.
+| MAGNETIC              | Weapon that propels payload via electromagnetism.
+| PNEUMATIC             | Ranged weapon that propels payload via compressed air.
+| ELASTIC               | Ranged weapon that propels payload via elastic band.
 
 ### Gunmod
 

@@ -34,7 +34,7 @@
   },
   {
     "id": "pistol_flintlock",
-    "copy-from": "pistol_base",
+    "copy-from": "pistol_1shot",
     "type": "GUN",
     "name": { "str": "flintlock pistol" },
     "description": "A beautifully decorated flintlock pistol.  If using this doesn't make you feel a pirate, nothing will.",
@@ -65,7 +65,7 @@
   },
   {
     "id": "rifle_flintlock",
-    "copy-from": "rifle_base",
+    "copy-from": "rifle_1shot",
     "type": "GUN",
     "name": { "str": "flintlock musket" },
     "description": "For once, something *good* came back from the dead.  This ancient design lacks the fire-rate of modern weapons, but packs as much punch as the best of 'em and rewards the skilled shooter with easily-crafted ammunition.",
@@ -93,7 +93,7 @@
       [ "sights mount", 1 ],
       [ "stock mount", 1 ]
     ],
-    "flags": [ "NEVER_JAMS", "DURABLE_MELEE" ]
+    "extend": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "longrifle_flintlock",

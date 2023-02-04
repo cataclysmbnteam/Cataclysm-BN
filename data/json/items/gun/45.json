@@ -162,7 +162,7 @@
     "type": "GUN",
     "name": { "str": "homemade hand cannon" },
     "//": "On one hand, it's very big for a handgun. On the other, it's still a scrap weapon.",
-    "description": "A large and heavy pistol evidently welded from scrap.  It's not pretty, but the .45 it's chambered with packs a serious punch.  Just watch out for the kick.",
+    "description": "A large and heavy revolver evidently welded from scrap.  It's not pretty, but the .45 it's chambered with packs a serious punch.  Just watch out for the kick.",
     "weight": "1200 g",
     "volume": "1 L",
     "price": 60000,
