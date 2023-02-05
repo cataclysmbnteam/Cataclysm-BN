@@ -1076,6 +1076,38 @@
   },
   {
     "type": "recipe",
+    "result": "blunderbuss",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "blun_slug",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "blun_slug",
+    "id_suffix": "using_lead",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "blun_shot",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "blun_flechette",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "blun_shot",
+    "id_suffix": "using_big_scrap",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "bot_crows_m240",
     "obsolete": true
   }

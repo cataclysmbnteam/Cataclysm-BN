@@ -131,7 +131,7 @@
     "skills_required": [ [ "gun", 2 ], [ "mechanics", 2 ] ],
     "time": "80 m",
     "autolearn": true,
-    "book_learn": [ [ "manual_pistol", 3 ], [ "mag_pistol", 4 ] ],
+    "book_learn": [ [ "manual_pistol", 2 ], [ "mag_pistol", 3 ] ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "using": [ [ "blacksmithing_standard", 1 ], [ "steel_standard", 3 ] ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
@@ -150,6 +150,22 @@
     "book_learn": [ [ "manual_rifle", 3 ], [ "mag_rifle", 4 ] ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "using": [ [ "blacksmithing_standard", 2 ], [ "steel_standard", 1 ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "2x4", 1 ] ], [ [ "pipe", 1 ] ], [ [ "sharp_rock", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "black_powder_shot",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "gun", 1 ], [ "mechanics", 2 ] ],
+    "difficulty": 4,
+    "time": "60 m",
+    "autolearn": true,
+    "book_learn": [ [ "manual_shotgun", 2 ], [ "mag_shotgun", 3 ] ],
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_standard", 3 ] ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
     "components": [ [ [ "2x4", 1 ] ], [ [ "pipe", 1 ] ], [ [ "sharp_rock", 1 ] ] ]
   }

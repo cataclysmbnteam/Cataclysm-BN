@@ -15,6 +15,11 @@
     "replace": "black_powder_rifle"
   },
   {
+    "id": [ "blunderbuss" ],
+    "type": "MIGRATION",
+    "replace": "black_powder_shot"
+  },
+  {
     "id": [ "launcher_simple", "m79" ],
     "type": "MIGRATION",
     "replace": "grenade_blooper"
