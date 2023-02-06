@@ -432,11 +432,11 @@ TEST_CASE( "food freshness and lifetime", "[item][iteminfo][food]" )
         test_info_equals(
             nuts, q,
             "--\n"
-            "* This food is <color_c_yellow>perishable</color>, and at room temperature has"
-            " an estimated nominal shelf life of <color_c_cyan>3 seasons</color>.\n"
+            "* This food is <color_c_yellow>perishable</color>, and at room temperature"
+            " has an estimated nominal shelf life of <color_c_cyan>3 seasons</color>.\n"
             "* Current storage conditions <color_c_yellow>partially</color> protect this"
             " item from rot.  It will stay fresh at least <color_c_cyan>3 years</color>.\n"
-            "* This food looks <color_c_red>old</color>.  It's on the brink of becoming inedible.\n",
+            "* This food looks as <color_c_green>fresh</color> as it can be.\n",
             temperature_flag::TEMP_FRIDGE
         );
     }
