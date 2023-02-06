@@ -1801,19 +1801,21 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
 
 
         if( parts->test( iteminfo_parts::FOOD_ROT_STORAGE ) ) {
-            std::string temperature_description;
+            const char *temperature_description;
+            bool print_freshness_duration = false;
             // There should be a better way to do this...
             switch( temperature ) {
                 case temperature_flag::TEMP_NORMAL:
                 case temperature_flag::TEMP_HEATER: {
                     temperature_description = _( "* Current storage conditions <bad>do not</bad> "
-                                                 "protect this item from rot.  It will stay fresh at least <info>%s</info>." );
+                                                 "protect this item from rot." );
                 }
                 break;
                 case temperature_flag::TEMP_FRIDGE:
                 case temperature_flag::TEMP_ROOT_CELLAR: {
                     temperature_description = _( "* Current storage conditions <neutral>partially</neutral> "
                                                  "protect this item from rot.  It will stay fresh at least <info>%s</info>." );
+                    print_freshness_duration = true;
                 }
                 break;
                 case temperature_flag::TEMP_FREEZER: {
@@ -1821,10 +1823,13 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
                                                  "protect this item from rot.  It will stay fresh indefinitely." );
                 }
                 break;
+                default: {
+                    temperature_description = "BUGGED TEMPERATURE INFO";
+                }
             }
 
-            if( temperature != temperature_flag::TEMP_FREEZER ) {
-                time_duration remaining_fresh = minimum_freshness_duration( temperature );
+            if( print_freshness_duration ) {
+                time_duration remaining_fresh = food_item->minimum_freshness_duration( temperature );
                 std::string time_string = to_string_clipped( remaining_fresh );
                 info.emplace_back( "DESCRIPTION", string_format( temperature_description, time_string ) );
             } else {
@@ -4041,9 +4046,10 @@ std::string item::info_string() const
     return info_string( iteminfo_query::all, 1 );
 }
 
-std::string item::info_string( const iteminfo_query &parts, int batch ) const
+std::string item::info_string( const iteminfo_query &parts, int batch,
+                               temperature_flag temperature ) const
 {
-    std::vector<iteminfo> item_info = info( parts, batch, temperature_flag::TEMP_NORMAL );
+    std::vector<iteminfo> item_info = info( parts, batch, temperature );
     return format_item_info( item_info, {} );
 }
 

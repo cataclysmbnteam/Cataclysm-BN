@@ -385,7 +385,8 @@ class item : public visitable<item>
          */
         /*@{*/
         std::string info_string() const;
-        std::string info_string( const iteminfo_query &parts, int batch = 1 ) const;
+        std::string info_string( const iteminfo_query &parts, int batch = 1,
+                                 temperature_flag temperature = temperature_flag::TEMP_NORMAL ) const;
         /*@}*/
 
         /* type specific helper functions for info() that should probably be in itype() */
