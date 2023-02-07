@@ -58,7 +58,7 @@
     "transforms_into": "t_tree_blackjack_harvested",
     "examine_action": "harvest_ter",
     "harvest_by_season": [
-      { "seasons": [ "spring", "summer", "autumn", "winter" ], "entries": [ { "drop": "tanbark", "base_num": [ 1, 2 ] } ] }
+      { "seasons": [ "spring", "summer", "autumn", "winter" ], "entries": [ { "drop": "tanbark", "base_num": [ 2, 8 ] } ] }
     ],
     "bash": {
       "str_min": 80,
