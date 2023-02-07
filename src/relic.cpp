@@ -434,7 +434,13 @@ bool process_recharge_entry( item &itm, const relic_recharge &rech, Character &c
             std::abort();
         }
     }
-    itm.charges = clamp( itm.charges + rech.rate, 0, itm.ammo_capacity() );
+    // If relic has a valid ammo type, make sure the first charge loaded isn't a "none"
+    if( !itm.ammo_types().empty() && itm.charges == 0 ) {
+        itm.charges = clamp( itm.charges + rech.rate, 0, itm.ammo_capacity() );
+        itm.ammo_set( itm.ammo_default(), itm.charges );
+    } else {
+        itm.charges = clamp( itm.charges + rech.rate, 0, itm.ammo_capacity() );
+    }
     if( rech.message ) {
         carrier.add_msg_if_player( _( *rech.message ) );
     }
