@@ -10,9 +10,14 @@
     "replace": "black_powder_revolver"
   },
   {
-    "id": [ "rifle_flintlock", "carbine_flintlock", "carbine_flintlock_double" ],
+    "id": [ "rifle_flintlock", "carbine_flintlock", "carbine_flintlock_double", "longrifle_flintlock" ],
     "type": "MIGRATION",
     "replace": "black_powder_rifle"
+  },
+  {
+    "id": [ "blunderbuss" ],
+    "type": "MIGRATION",
+    "replace": "black_powder_shot"
   },
   {
     "id": [ "launcher_simple", "m79" ],
@@ -33,11 +38,6 @@
     "id": [ "mgl", "rm802", "triple_launcher_simple", "pseudo_m203" ],
     "type": "MIGRATION",
     "replace": "grenade_revolver"
-  },
-  {
-    "id": [ "colt_lightning" ],
-    "type": "MIGRATION",
-    "replace": "pistol_levergun"
   },
   {
     "id": [
@@ -61,7 +61,7 @@
     "replace": "pistol_magnum_automag"
   },
   {
-    "id": [ "henry_big_boy", "bh_m89" ],
+    "id": [ "henry_big_boy", "bh_m89", "colt_lightning" ],
     "type": "MIGRATION",
     "replace": "pistol_magnum_levergun"
   },
