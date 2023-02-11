@@ -173,5 +173,14 @@
       { "monster": "mon_cat", "freq": 10, "cost_multiplier": 0 },
       { "monster": "mon_dog", "freq": 10, "cost_multiplier": 0 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_LEECH_ROOT_UPGRADE",
+    "default": "mon_leech_radio",
+    "monsters": [
+      { "monster": "mon_leech_stalk", "freq": 333, "cost_multiplier": 10 },
+      { "monster": "mon_leech_pod_cluster", "freq": 333, "cost_multiplier": 5 }
+    ]
   }
 ]

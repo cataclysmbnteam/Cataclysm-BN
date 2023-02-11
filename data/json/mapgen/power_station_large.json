@@ -301,7 +301,16 @@
         "{": "t_current_trans",
         "|": "t_chainfence_v",
         "}": "t_lgtn_arrest"
-      }
+      },
+      "place_monster": [
+        {
+          "monster": [ "mon_leech_blossom", "mon_leech_blossom", "mon_leech_pod_cluster" ],
+          "x": [ 13, 18 ],
+          "y": [ 7, 8 ],
+          "chance": 20,
+          "repeat": [ 1, 2 ]
+        }
+      ]
     }
   }
 ]

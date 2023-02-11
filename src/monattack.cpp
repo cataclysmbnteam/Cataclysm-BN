@@ -5005,11 +5005,11 @@ bool mattack::leech_spawner( monster *z )
         }
     }
     // Only propagate if you see a target or are the current queen
-    if( !z->has_flag( MF_QUEEN ) && !z->sees( *target ) ) {
-        return true;
+    if( !z->has_flag( MF_QUEEN ) && target == nullptr ) {
+        return false;
     }
     if( allies.size() > 30 ) {
-        return true;
+        return false;
     }
     const int monsters_spawned = rng( 1, 4 );
     const mtype_id monster_type = one_in( 3 ) ? mon_leech_root_runner : mon_leech_root_drone;
@@ -5019,15 +5019,13 @@ bool mattack::leech_spawner( monster *z )
                 add_msg( m_warning,
                          _( "An egg pod ruptures and a %s crawls out from the remains!" ), new_mon->name() );
             }
-            if( !z->has_flag( MF_QUEEN ) && !z->sees( *target ) ) {
-                return true;
-            }
-            if( one_in( 25 ) && z->has_flag( MF_QUEEN ) ) {
+            if( one_in( 10 ) && z->has_flag( MF_QUEEN ) ) {
                 z->poly( mon_leech_stalk );
                 if( u_see ) {
                     add_msg( m_warning,
                              _( "Resplendent fronds emerge from the still intact pods!" ) );
                 }
+                return true;
             }
         }
     }

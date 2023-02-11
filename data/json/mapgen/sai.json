@@ -39,7 +39,16 @@
         ".": "t_grass",
         "x": "t_chainfence_posts",
         "|": "t_chainfence_v"
-      }
+      },
+      "place_monster": [
+        {
+          "monster": [ "mon_leech_blossom", "mon_leech_blossom", "mon_leech_pod_cluster" ],
+          "x": [ 7, 13 ],
+          "y": [ 9, 16 ],
+          "chance": 10,
+          "repeat": [ 1, 2 ]
+        }
+      ]
     }
   }
 ]

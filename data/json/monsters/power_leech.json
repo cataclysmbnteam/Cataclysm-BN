@@ -98,6 +98,14 @@
     "vision_day": 30,
     "vision_night": 8,
     "luminance": 200,
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "signal_tree_emission" },
+        "cooldown": 30,
+        "monster_message": "The signal tree's branches flicker and let off a dazzling pulse!"
+      }
+    ],
     "special_when_hit": [ "ZAPBACK", 100 ],
     "death_drops": {  },
     "death_function": [ "NORMAL" ],
@@ -162,7 +170,7 @@
     "vision_day": 30,
     "vision_night": 5,
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
-    "upgrades": { "half_life": 9999, "into": "mon_leech_stalk" },
+    "upgrades": { "half_life": 9999, "into_group": "GROUP_LEECH_ROOT_UPGRADE" },
     "special_attacks": [
       {
         "type": "gun",
