@@ -30,7 +30,7 @@
         "targeting_sound": "a faint buzz",
         "description": "Lightning arcs from the leech blossom!"
       },
-      [ "LEECH_SPAWNER", 25 ],
+      [ "LEECH_SPAWNER", 40 ],
       [ "MON_LEECH_EVOLUTION", 40 ],
       [ "PARROT", 40 ]
     ],
@@ -81,7 +81,7 @@
     "id": "mon_leech_radio",
     "type": "MONSTER",
     "name": "signal tree",
-    "description": "A trunk reaches tall into the sky, its topmost branches glowing with yellow light.  A low drum periodically shakes its vicinities.",
+    "description": "A trunk stretches out into the air, its topmost branches glowing with yellow light.  A low drum periodically shakes the vicinity.",
     "default_faction": "nether",
     "species": [ "LEECH_PLANT" ],
     "volume": "30000 ml",
