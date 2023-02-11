@@ -189,8 +189,8 @@
   {
     "id": "mx_jabberwock",
     "type": "map_extra",
-    "name": "Jabberwock",
-    "description": "Jabberwock is nearby.",
+    "name": "Eater of The Dead",
+    "description": "Something big and nasty is nearby.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_jabberwock" },
     "sym": "J",
     "color": "red",

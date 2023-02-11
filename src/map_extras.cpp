@@ -134,7 +134,7 @@ static const mongroup_id GROUP_PETS( "GROUP_PETS" );
 static const mongroup_id GROUP_STRAY_DOGS( "GROUP_STRAY_DOGS" );
 
 static const mtype_id mon_dispatch( "mon_dispatch" );
-static const mtype_id mon_jabberwock( "mon_jabberwock" );
+static const mtype_id mon_fleshy_shambler( "mon_fleshy_shambler" );
 static const mtype_id mon_marloss_zealot_f( "mon_marloss_zealot_f" );
 static const mtype_id mon_marloss_zealot_m( "mon_marloss_zealot_m" );
 static const mtype_id mon_shia( "mon_shia" );
@@ -1821,17 +1821,9 @@ static bool mx_spider( map &m, const tripoint &abs_sub )
 
 static bool mx_jabberwock( map &m, const tripoint &loc )
 {
-    // A rare chance to spawn a jabberwock. This was extracted from the harcoded forest mapgen
-    // and moved into a map extra. It still has a one_in chance of spawning because otherwise
-    // the rarity skewed the values for all the other extras too much. I considered moving it
-    // into the monster group, but again the hardcoded rarity it had in the forest mapgen was
-    // not easily replicated there.
-    if( one_in( 50 ) ) {
-        m.add_spawn( mon_jabberwock, 1, { SEEX, SEEY, loc.z } );
-        return true;
-    }
-
-    return false;
+    // A rare chance to spawn a fleshy shambler, which can then evolve into a flesh golem/jabberwock.
+    m.add_spawn( mon_fleshy_shambler, 1, { SEEX, SEEY, loc.z } );
+    return true;
 }
 
 static bool mx_grove( map &m, const tripoint &abs_sub )
