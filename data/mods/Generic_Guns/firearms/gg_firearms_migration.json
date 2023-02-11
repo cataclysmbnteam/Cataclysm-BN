@@ -17,7 +17,7 @@
   {
     "id": [ "blunderbuss" ],
     "type": "MIGRATION",
-    "replace": "black_powder_shot"
+    "replace": "black_powder_shotgun"
   },
   {
     "id": [ "launcher_simple", "m79" ],
@@ -179,11 +179,18 @@
       "acr",
       "m4a1",
       "m16a4",
+      "ak74",
+      "ak47",
       "scar_l",
       "scar_h",
       "rm51_assault_rifle",
       "an94",
-      "rm88_battle_rifle"
+      "rm88_battle_rifle",
+      "fn_fal",
+      "hk_g36",
+      "steyr_aug",
+      "sig552",
+      "famas"
     ],
     "type": "MIGRATION",
     "replace": "rifle_assault"
@@ -219,51 +226,43 @@
     "replace": "rifle_pipe_rifle"
   },
   {
+    "id": [ "m110a1", "rm11b_sniper_rifle", "m2010", "browning_blr", "m14ebr" ],
+    "type": "MIGRATION",
+    "replace": "rifle_sniper"
+  },
+  {
     "id": [
-      "survivor_special_700",
-      "m110a1",
+      "mosin44",
+      "mosin91_30",
       "mosin44_ebr",
       "mosin91_30_ebr",
-      "rm11b_sniper_rifle",
       "remington700_270",
-      "m2010",
       "weatherby_5",
       "win70",
-      "browning_blr",
       "remington_700",
       "savage_111f",
       "M24",
       "sharps"
     ],
     "type": "MIGRATION",
-    "replace": "rifle_sniper"
+    "replace": "rifle_sniper_bolt"
   },
   {
     "id": [
-      "hk_g36",
       "garand",
       "m1903",
       "hk_g3",
-      "m14ebr",
       "ar10",
       "1895sbl",
-      "ak74",
-      "ak47",
       "arx160",
-      "mosin91_30",
       "ar15",
       "oa93",
       "ar_pistol",
       "ruger_mini",
-      "sig552",
-      "steyr_aug",
       "iwi_tavor_x95_300blk",
       "ar15_retool_300blk",
-      "fn_fal",
       "m1a",
       "sks",
-      "mosin44",
-      "famas",
       "aksemi"
     ],
     "type": "MIGRATION",

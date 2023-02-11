@@ -6,6 +6,7 @@
     "name": { "str": "double-barrel shotgun" },
     "ammo": "ammo_shot",
     "description": "An old-fashioned double barreled shotgun, with a trigger for each barrel.  Follow up shots are incredibly quick with this, but reloading is a bit slow.  Shotshells come in many varieties, and shotguns are suitable for anything from some large game to small birds.",
+    "built_in_mods": [  ],
     "ranged_damage": { "damage_type": "bullet", "amount": 0 },
     "dispersion": 250
   },
@@ -25,6 +26,7 @@
     "ammo": "ammo_shot",
     "description": "A simple, popular design, sporting shotguns are used by law enforcement, civilians and occasionally militaries.  Its internal magazine is small by modern standards, and reloading can be quite slow.  Shotshells come in many varieties, and shotguns are suitable for anything from some large game to small birds.",
     "clip_size": 5,
+    "built_in_mods": [  ],
     "ranged_damage": { "damage_type": "bullet", "amount": 0 },
     "dispersion": 300
   },
@@ -36,6 +38,7 @@
     "ammo": "ammo_shot",
     "description": "A detachable magazine fed shotgun, mostly oriented towards overly enthusiastic civilians.  Featuring rails and a menacing black appearance, this sort of shotgun doesn't really look like it has a sporting use.  The magazines reduce lengthy reloading times associated with shotguns.  Though known for being somewhat finicky, these can be tuned to run with some reliability.",
     "magazines": [ [ "ammo_shot", [ "shot_mag", "shot_mag_hc" ] ] ],
+    "built_in_mods": [  ],
     "ranged_damage": { "damage_type": "bullet", "amount": 0 },
     "dispersion": 400
   },

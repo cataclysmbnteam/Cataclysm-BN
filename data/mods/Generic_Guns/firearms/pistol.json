@@ -21,6 +21,7 @@
     "ammo": "ammo_pistol",
     "description": "A modern pistol fit for duty, military service, or personal defense, with a detachable box magazine and a reliable action.  Though its chambering is capable of meeting FBI penetration minimums, the lack of a shoulder stock limits its utility.",
     "magazines": [ [ "ammo_pistol", [ "pistol_mag", "pistol_mag_hc" ] ] ],
+    "built_in_mods": [  ],
     "ranged_damage": { "damage_type": "bullet", "amount": 0 },
     "dispersion": 220
   },
@@ -32,6 +33,7 @@
     "ammo": "ammo_pistol",
     "description": "These small carbines share ammunition and magazines with common pistols, offering a more controllable carbine than a normal rifle, while also reducing ammunition costs.  Because of their compatibility, they pair well with duty pistols, allowing one to transition to a more stable weapon without carrying extra ammo or magazines.",
     "magazines": [ [ "ammo_pistol", [ "pistol_mag", "pistol_mag_hc" ] ] ],
+    "built_in_mods": [  ],
     "ranged_damage": { "damage_type": "bullet", "amount": 0 },
     "dispersion": 170
   },
@@ -44,6 +46,7 @@
     "description": "Revolvers like this, chambered for standard defensive calibers, were a favorite of police departments for nearly a century, up until the 1986 Miami shootout.  Afterwards, the slow reloading and shooting of revolvers were considered liabilities; still, this model's accuracy and moderate recoil make for a serviceable sidearm, and there are no magazines for you to lose or damage.",
     "clip_size": 6,
     "magazines": [ [ "ammo_pistol", [ "pistol_speedloader" ] ] ],
+    "built_in_mods": [  ],
     "ranged_damage": { "damage_type": "bullet", "amount": 0 },
     "dispersion": 300
   },
@@ -57,6 +60,7 @@
     "magazines": [ [ "ammo_pistol", [ "pistol_smg_mag", "pistol_smg_mag_hc" ] ] ],
     "dispersion": 240,
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "BURST", "burst", 3 ], [ "AUTO", "auto", 5 ] ],
+    "built_in_mods": [  ],
     "ranged_damage": { "damage_type": "bullet", "amount": 0 }
   },
   {

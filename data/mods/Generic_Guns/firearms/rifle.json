@@ -8,6 +8,7 @@
     "description": "The products of decades of improvement, rifle such as this are handy, reliable, and adaptable.  An 'assault rifle', it is capable of providing both accurate semi-automatic fire and bursts of automatic fire.  Short of large creatures and light vehicles, this should take care of most of your problems out to several hundred meters.",
     "magazines": [ [ "ammo_rifle", [ "rifle_mag", "rifle_mag_hc" ] ] ],
     "dispersion": 200,
+    "built_in_mods": [  ],
     "ranged_damage": { "damage_type": "bullet", "amount": 0 },
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "BURST", "burst", 3 ], [ "AUTO", "auto", 5 ] ]
   },
@@ -20,6 +21,7 @@
     "description": "The light machine gun is a formidable implement for suppressive fire, an important part of squad tactics.  Its belt feed allows for hundreds of rounds to be loaded, and its heavy components can withstand long bursts of fire.  While perhaps not as precise as a service rifle, a light machinegun does allow for a considerable amount of energy to be sent down range.  Slow to reload.",
     "magazines": [ [ "ammo_rifle", [ "rifle_belt" ] ] ],
     "dispersion": 250,
+    "built_in_mods": [  ],
     "ranged_damage": { "damage_type": "bullet", "amount": 0 },
     "modes": [ [ "BURST", "burst", 5 ], [ "AUTO", "auto", 10 ] ]
   },
@@ -44,13 +46,14 @@
   },
   {
     "id": "rifle_sporter",
-    "copy-from": "ar10",
+    "copy-from": "ar15",
     "type": "GUN",
-    "name": "AR-10",
+    "name": "AR-15",
     "ammo": "ammo_rifle",
     "description": "Though often mislabeled an asssault rifle, this common, cheap magazine fed carbine isn't capable of automatic fire.  While almost as effective as a proper rifle, the wider variety of components and varying levels of maintenance make these less reliable than their military brethren.  These rifles are just as adequate for taking on anything smaller than large game, however.",
     "magazines": [ [ "ammo_rifle", [ "rifle_mag", "rifle_mag_hc" ] ] ],
     "dispersion": 150,
+    "built_in_mods": [  ],
     "ranged_damage": { "damage_type": "bullet", "amount": 0 },
     "modes": [ [ "DEFAULT", "semi", 1 ] ]
   }

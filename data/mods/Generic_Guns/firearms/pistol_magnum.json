@@ -11,6 +11,7 @@
       [ "ammo_pistol", [ "pistol_magnum_mag", "pistol_magnum_mag_hc" ] ],
       [ "ammo_pistol_magnum", [ "pistol_magnum_mag", "pistol_magnum_mag_hc" ] ]
     ],
+    "built_in_mods": [  ],
     "ranged_damage": { "damage_type": "bullet", "amount": 0 },
     "dispersion": 280
   },
@@ -22,6 +23,7 @@
     "ammo": [ "ammo_pistol_magnum", "ammo_pistol" ],
     "description": "A modern re-imagining of the classic western lever-action, this larger rifle accepts powerful magnum pistol ammunition as well as weaker pistol ammo.  Carrying this along side a magnum pistol would allow one to reduce the number of calibers carried, and allow you to squeeze more power from ammuntion.",
     "clip_size": 10,
+    "built_in_mods": [  ],
     "ranged_damage": { "damage_type": "bullet", "amount": 0 },
     "dispersion": 180
   },
@@ -37,6 +39,7 @@
     "price": 10000,
     "bashing": 10,
     "color": "brown",
+    "built_in_mods": [  ],
     "ranged_damage": { "damage_type": "bullet", "amount": 0 },
     "dispersion": 550,
     "durability": 6,
@@ -64,6 +67,7 @@
     "type": "GUN",
     "name": { "str": "pipe magnum" },
     "ammo": [ "ammo_pistol_magnum", "ammo_pistol" ],
+    "built_in_mods": [  ],
     "ranged_damage": { "damage_type": "bullet", "amount": -2 },
     "description": "A firearm made from a stout pipe, reinforced at the chamber.  It holds a single a round of standard or magnum pistol ammunition, and has a crude assembly to fire it.  There's no extractor, so it might be slow to reload, and its construction makes for poor reliability and longevity.",
     "dispersion": 440,
@@ -81,6 +85,7 @@
       [ "ammo_pistol", [ "pistol_magnum_mag", "pistol_magnum_mag_hc" ] ],
       [ "ammo_pistol_magnum", [ "pistol_magnum_mag", "pistol_magnum_mag_hc" ] ]
     ],
+    "built_in_mods": [  ],
     "ranged_damage": { "damage_type": "bullet", "amount": 0 },
     "dispersion": 220
   }

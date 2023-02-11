@@ -8,6 +8,7 @@
     "description": "With near non-existent recoil and inexpensive ammunition, rifles like this one are popular introductory firearms.  It has a built in magazine, capable of holding an impressive amount of its small cartridges.  You could take small game with this, but anything bigger might not even notice.",
     "clip_size": 19,
     "magazines": [  ],
+    "built_in_mods": [  ],
     "ranged_damage": { "damage_type": "bullet", "amount": 0 },
     "dispersion": 90
   },
@@ -19,6 +20,7 @@
     "ammo": "ammo_pistol_tiny",
     "description": "This small sized pistol fires cheap and plentiful plinking ammo, and is exceptionally popular for practice or target shooting.  This pistol is unsuited for taking on anything but small game, as it is meant to poke holes in paper.  Accepts box magazines.",
     "magazines": [ [ "ammo_pistol_tiny", [ "pistol_tiny_mag", "pistol_tiny_mag_hc" ] ] ],
+    "built_in_mods": [  ],
     "ranged_damage": { "damage_type": "bullet", "amount": 0 },
     "dispersion": 150
   },
