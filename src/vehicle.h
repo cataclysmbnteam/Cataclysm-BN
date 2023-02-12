@@ -1367,6 +1367,9 @@ class vehicle
          * total area of every rotors in m^2
          */
         double total_rotor_area() const;
+        /**
+         * lift of rotorcraft in newton
+         */
         double lift_thrust_of_rotorcraft( bool fuelled, bool safe = false ) const;
         bool has_sufficient_rotorlift() const;
         int get_z_change() const;
