@@ -2491,6 +2491,14 @@ void veh_interact::display_stats() const
             _( "Maximum Lift: <color_light_blue>%5.0f</color> %s" ),
             convert_weight( lift_as_mass ),
             weight_units() );
+    } else if( is_boat ) {
+        // convert newton to kg.
+        units::mass buoyancy_as_mass = units::from_newton(
+                                           veh->max_buoyancy() );
+        print_stat(
+            _( "Maximum Buoyancy: <color_light_blue>%5.0f</color> %s" ),
+            convert_weight( buoyancy_as_mass ),
+            weight_units() );
     }
     print_stat(
         _( "Cargo Volume: <color_light_blue>%s</color> / <color_light_blue>%s</color> %s" ),
