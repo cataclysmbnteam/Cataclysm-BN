@@ -1788,6 +1788,7 @@ class vehicle
         mutable double coefficient_water_resistance = 1;
         mutable double draft_m = 1;
         mutable double hull_height = 0.3;
+        mutable double hull_area = 0; // total area of hull in m^2
 
         // Cached points occupied by the vehicle
         std::set<tripoint> occupied_points;
