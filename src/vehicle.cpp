@@ -4275,6 +4275,15 @@ double vehicle::coeff_water_drag() const
     return coefficient_water_resistance;
 }
 
+double vehicle::max_buoyancy() const
+{
+    if( coeff_water_dirty ) {
+        coeff_water_drag();
+    }
+    const double total_volume = hull_area * water_hull_height();
+    return total_volume * water_density * GRAVITY_OF_EARTH;
+}
+
 float vehicle::k_traction( float wheel_traction_area ) const
 {
     if( is_floating ) {

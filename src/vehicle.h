@@ -1337,6 +1337,19 @@ class vehicle
         double coeff_water_drag() const;
 
         /**
+         * maximum possible buoyancy in Newtons.
+         *
+         * buoyancy force = V * D * g
+         *
+         * V: total volume of the vehicle (because it's maximally submerged)
+         * D: density of submerged fluid (in our case, water)
+         * g: force of gravity
+         *
+         * @return The max buoyancy in Newtons.
+         */
+        double max_buoyancy() const;
+
+        /**
          * watertight hull height in meters measures distance from bottom of vehicle
          * to the point where the vehicle will start taking on water
          */
