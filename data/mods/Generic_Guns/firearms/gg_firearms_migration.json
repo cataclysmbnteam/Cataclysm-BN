@@ -17,7 +17,7 @@
   {
     "id": [ "blunderbuss" ],
     "type": "MIGRATION",
-    "replace": "black_powder_shot"
+    "replace": "black_powder_shotgun"
   },
   {
     "id": [ "launcher_simple", "m79" ],

@@ -32,7 +32,7 @@
     "ranged_damage": { "damage_type": "bullet", "amount": 0 }
   },
   {
-    "id": "black_powder_shot",
+    "id": "black_powder_shotgun",
     "copy-from": "blunderbuss",
     "type": "GUN",
     "name": { "str": "blunderbuss", "str_pl": "blunderbusses" },

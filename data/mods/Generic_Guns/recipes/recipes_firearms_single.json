@@ -155,7 +155,7 @@
   },
   {
     "type": "recipe",
-    "result": "black_powder_shot",
+    "result": "black_powder_shotgun",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "fabrication",
