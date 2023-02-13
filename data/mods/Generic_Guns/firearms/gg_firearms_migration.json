@@ -10,9 +10,14 @@
     "replace": "black_powder_revolver"
   },
   {
-    "id": [ "rifle_flintlock", "carbine_flintlock", "carbine_flintlock_double" ],
+    "id": [ "rifle_flintlock", "carbine_flintlock", "carbine_flintlock_double", "longrifle_flintlock" ],
     "type": "MIGRATION",
     "replace": "black_powder_rifle"
+  },
+  {
+    "id": [ "blunderbuss" ],
+    "type": "MIGRATION",
+    "replace": "black_powder_shotgun"
   },
   {
     "id": [ "launcher_simple", "m79" ],
