@@ -4,6 +4,7 @@
 
 #include "catalua_luna.h"
 #include "type_id.h"
+#include "concepts_utility.h"
 
 enum Attitude : int;
 enum body_part : int;
@@ -21,7 +22,7 @@ enum npc_need : int;
 namespace sfx
 {
 enum class channel : int;
-}
+} // namespace sfx
 
 class avatar;
 class Character;
@@ -59,7 +60,7 @@ struct species_type;
 struct tripoint;
 namespace units
 {
-template<typename V, typename U>
+template<Arithmetic V, typename U>
 class quantity;
 
 class angle_in_radians_tag;
@@ -73,7 +74,7 @@ using mass = quantity<std::int64_t, mass_in_milligram_tag>;
 
 class volume_in_milliliter_tag;
 using volume = quantity<int, volume_in_milliliter_tag>;
-}
+} // namespace units
 
 
 // These definitions help the doc generator

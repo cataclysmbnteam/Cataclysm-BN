@@ -77,9 +77,10 @@ static units::temperature season_temp( const weather_generator &wg, double year_
     // Scale year_fraction [0, 1) to [0.0, 4.0). So [0.0, 1.0) - spring, [1.0, 2.0) - summer, [2.0, 3.0) - autumn, [3.0, 4.0) - winter.
     const double quadrum = year_fraction * 4;
     const double season_midpoint_quadrum = quadrum - 0.5;
+    constexpr auto num_seasons = static_cast<size_t>( season_type::NUM_SEASONS );
     const size_t current_season = ( static_cast<size_t>( std::floor( season_midpoint_quadrum ) +
-                                    NUM_SEASONS ) ) % NUM_SEASONS;
-    const size_t next_season = ( current_season + 1 ) % NUM_SEASONS;
+                                    num_seasons ) ) % num_seasons;
+    const size_t next_season = ( current_season + 1 ) % num_seasons;
     // 0 - current season just started, 1 - season just ended (shouldn't actually happen)
     const double t = season_midpoint_quadrum - std::floor( season_midpoint_quadrum );
     return units::multiply_any_unit( wg.season_stats[current_season].average_temperature, 1.0 - t )
