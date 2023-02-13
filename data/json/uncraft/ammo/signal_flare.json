@@ -1,0 +1,12 @@
+[
+  {
+    "result": "signal_flare",
+    "type": "uncraft",
+    "skill_used": "gun",
+    "difficulty": 5,
+    "time": "1 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "incendiary", 25 ] ] ],
+    "charges": 1
+  }
+]
