@@ -223,7 +223,7 @@
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
     "difficulty": 6,
-    "time": "6 h",
+    "time": "2 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 80 ] ],
     "components": [ [ [ "felt_patch", 20 ] ], [ [ "bag_plastic", 8 ] ] ]

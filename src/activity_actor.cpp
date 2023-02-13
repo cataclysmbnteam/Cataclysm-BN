@@ -11,8 +11,10 @@
 #include "activity_handlers.h" // put_into_vehicle_or_drop and drop_on_map
 #include "advanced_inv.h"
 #include "avatar.h"
+#include "avatar_functions.h"
 #include "calendar.h"
 #include "character.h"
+#include "character_functions.h"
 #include "crafting.h"
 #include "debug.h"
 #include "enums.h"
@@ -294,8 +296,8 @@ bool aim_activity_actor::load_RAS_weapon()
         }
         return true;
     };
-    item::reload_option opt = ammo_location_is_valid() ? item::reload_option( &you, weapon,
-                              weapon, you.ammo_location ) : you.select_ammo( *gun );
+    item_reload_option opt = ammo_location_is_valid() ? item_reload_option( &you, weapon,
+                             weapon, you.ammo_location ) : character_funcs::select_ammo( you, *gun );
     if( !opt ) {
         // Menu canceled
         return false;
@@ -326,7 +328,7 @@ void aim_activity_actor::unload_RAS_weapon()
 
         // Note: this code works only for avatar
         item_location loc = item_location( you, gun.target );
-        you.unload( loc );
+        avatar_funcs::unload_item( you, loc );
 
         // Give back time for unloading as essentially nothing has been done.
         if( first_turn ) {
@@ -466,7 +468,7 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
                                   calendar::turn ) );
     }
 
-    const int helpersize = g->u.get_crafting_helpers( 3 ).size();
+    const int helpersize = character_funcs::get_crafting_helpers( who, 3 ).size();
     who.mod_stored_nutr( 5 - helpersize );
     who.mod_thirst( 5 - helpersize );
     who.mod_fatigue( 10 - ( helpersize * 2 ) );

@@ -80,7 +80,7 @@ TEST_CASE( "item_in_container", "[item][item_location]" )
 
     backpack.put_in( jeans );
 
-    item_location backpack_loc( dummy, & **dummy.wear( backpack ) );
+    item_location backpack_loc( dummy, & **dummy.wear_possessed( backpack ) );
 
     REQUIRE( dummy.has_item( *backpack_loc ) );
 

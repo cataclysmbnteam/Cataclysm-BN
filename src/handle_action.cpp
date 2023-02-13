@@ -535,7 +535,7 @@ static void open()
             const vehicle *player_veh = veh_pointer_or_null( here.veh_at( u.pos() ) );
             bool outside = !player_veh || player_veh != veh;
             if( !outside ) {
-                if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+                if( !veh->handle_potential_theft( get_avatar() ) ) {
                     u.moves += 100;
                     return;
                 } else {
@@ -552,7 +552,7 @@ static void open()
                     add_msg( m_info, _( "That %s can only opened from the inside." ), name );
                     u.moves += 100;
                 } else {
-                    if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+                    if( !veh->handle_potential_theft( get_avatar() ) ) {
                         u.moves += 100;
                         return;
                     } else {
@@ -630,7 +630,7 @@ static void grab()
         return;
     }
     if( const optional_vpart_position vp = here.veh_at( grabp ) ) {
-        if( !vp->vehicle().handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+        if( !vp->vehicle().handle_potential_theft( get_avatar() ) ) {
             return;
         }
         you.grab( OBJECT_VEHICLE, grabp - you.pos() );
@@ -771,7 +771,7 @@ static void smash()
 
     vehicle *veh = veh_pointer_or_null( g->m.veh_at( smashp ) );
     if( veh != nullptr ) {
-        if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+        if( !veh->handle_potential_theft( get_avatar() ) ) {
             return;
         }
     }
@@ -1272,7 +1272,7 @@ static void wear()
     item_location loc = game_menus::inv::wear( u );
 
     if( loc ) {
-        u.wear( *loc.obtain( u ) );
+        u.wear_possessed( *loc.obtain( u ) );
     } else {
         add_msg( _( "Never mind." ) );
     }
@@ -1995,7 +1995,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_USE_WIELDED:
-                u.use_wielded();
+                avatar_funcs::use_item( u, item_location( u, &u.weapon ) );
                 break;
 
             case ACTION_WEAR:

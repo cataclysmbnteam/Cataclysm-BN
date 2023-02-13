@@ -17,6 +17,7 @@
 #include "animation.h"
 #include "assign.h"
 #include "avatar.h"
+#include "avatar_functions.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -2885,13 +2886,13 @@ bool bandolier_actor::reload( player &p, item &obj ) const
     }
 
     // convert these into reload options and display the selection prompt
-    std::vector<item::reload_option> opts;
+    std::vector<item_reload_option> opts;
     std::transform( std::make_move_iterator( found.begin() ), std::make_move_iterator( found.end() ),
     std::back_inserter( opts ), [&]( item_location && e ) {
-        return item::reload_option( &p, &obj, &obj, e );
+        return item_reload_option( &p, &obj, &obj, e );
     } );
 
-    item::reload_option sel = p.select_ammo( obj, std::move( opts ) );
+    item_reload_option sel = character_funcs::select_ammo( p, obj, std::move( opts ) );
     if( !sel ) {
         return false; // canceled menu
     }
@@ -3003,7 +3004,7 @@ int ammobelt_actor::use( player &p, item &, bool, const tripoint & ) const
         return 0;
     }
 
-    item::reload_option opt = p.select_ammo( mag, true );
+    item_reload_option opt = character_funcs::select_ammo( p, mag, true );
     if( opt ) {
         p.assign_activity( ACT_RELOAD, opt.moves(), opt.qty() );
         p.activity.targets.emplace_back( p, &p.i_add( mag ) );
@@ -4391,7 +4392,7 @@ int detach_gunmods_actor::use( player &p, item &it, bool, const tripoint & ) con
 
     if( prompt.ret >= 0 ) {
         item *gm = mods[ prompt.ret ];
-        p.gunmod_remove( it, *gm );
+        avatar_funcs::gunmod_remove( *p.as_avatar(), it, *gm );
     } else {
         p.add_msg_if_player( _( "Never mind." ) );
     }

@@ -20,6 +20,7 @@
 
 #include "active_tile_data_def.h"
 #include "avatar.h"
+#include "avatar_functions.h"
 #include "bionics.h"
 #include "cata_utility.h"
 #include "character.h"
@@ -4374,15 +4375,14 @@ void vehicle::set_owner( const Character &c )
     owner = c.get_faction()->id;
 }
 
-bool vehicle::handle_potential_theft( player &p, bool check_only, bool prompt )
+bool vehicle::handle_potential_theft( avatar &you, bool check_only, bool prompt )
 {
-    const bool is_owned_by_player = is_owned_by( p );
-    std::vector<npc *> witnesses;
-    for( npc &elem : g->all_npcs() ) {
-        if( rl_dist( elem.pos(), p.pos() ) < MAX_VIEW_DISTANCE && has_owner() &&
-            !is_owned_by_player && elem.sees( p.pos() ) ) {
-            witnesses.push_back( &elem );
-        }
+    const bool is_owned_by_player = is_owned_by( you );
+    bool has_witnesses;
+    if( has_owner() && !is_owned_by_player ) {
+        has_witnesses = !avatar_funcs::list_potential_theft_witnesses( you, get_owner() ).empty();
+    } else {
+        has_witnesses = false;
     }
     // the vehicle is yours, that's fine.
     if( is_owned_by_player ) {
@@ -4390,13 +4390,13 @@ bool vehicle::handle_potential_theft( player &p, bool check_only, bool prompt )
         // if There is no owner
         // handle transfer of ownership
     } else if( !has_owner() ) {
-        set_owner( p.get_faction()->id );
+        set_owner( you.get_faction()->id );
         remove_old_owner();
         return true;
         // if there is a marker for having been stolen, but 15 minutes have passed, then officially transfer ownership
-    } else if( witnesses.empty() && has_old_owner() && !is_old_owner( p ) && theft_time &&
+    } else if( has_witnesses && has_old_owner() && !is_old_owner( you ) && theft_time &&
                calendar::turn - *theft_time > 15_minutes ) {
-        set_owner( p.get_faction()->id );
+        set_owner( you.get_faction()->id );
         remove_old_owner();
         return true;
         // No witnesses? then don't need to prompt, we assume the player is in process of stealing it.
@@ -4404,7 +4404,7 @@ bool vehicle::handle_potential_theft( player &p, bool check_only, bool prompt )
         // This is just to perform interaction with the vehicle without a prompt.
         // It will prompt first-time, even with no witnesses, to inform player it is owned by someone else
         // subsequently, no further prompts, the player should know by then.
-    } else if( witnesses.empty() && old_owner ) {
+    } else if( has_witnesses && old_owner ) {
         return true;
     }
     // if we are just checking if we could continue without problems, then the rest is assumed false
@@ -4421,15 +4421,7 @@ bool vehicle::handle_potential_theft( player &p, bool check_only, bool prompt )
     }
     // set old owner so that we can restore ownership if there are witnesses.
     set_old_owner( get_owner() );
-    for( npc *elem : witnesses ) {
-        elem->say( "<witnessed_thievery>", 7 );
-    }
-    if( !witnesses.empty() ) {
-        if( p.add_faction_warning( get_owner() ) ) {
-            for( npc *elem : witnesses ) {
-                elem->make_angry();
-            }
-        }
+    if( avatar_funcs::handle_theft_witnesses( you, get_owner() ) ) {
         // remove the temporary marker for a successful theft, as it was witnessed.
         remove_old_owner();
     }
