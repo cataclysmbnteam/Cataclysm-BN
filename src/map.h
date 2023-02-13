@@ -129,7 +129,8 @@ struct visibility_variables {
 };
 
 struct bash_params {
-    bash_params() = default;
+    // FIXME: commented due to c++20 error
+    // bash_params() = default;
     // Initial strength
     int strength;
     // Make a sound?
