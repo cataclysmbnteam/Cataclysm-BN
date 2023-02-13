@@ -6,6 +6,7 @@
 #include "auto_pickup.h"
 #include "avatar_action.h"
 #include "avatar.h"
+#include "avatar_functions.h"
 #include "crafting.h"
 #include "game_inventory.h"
 #include "map.h"
@@ -129,7 +130,7 @@ bool run(
     } );
 
     add_entry( "WEAR", rate_action_wear( you, itm ), [&]() {
-        you.wear( itm );
+        you.wear_possessed( itm );
         return true;
     } );
 
@@ -166,7 +167,7 @@ bool run(
     } );
 
     add_entry( "UNLOAD", rate_action_unload( you, itm ), [&]() {
-        you.unload( loc );
+        avatar_funcs::unload_item( you, loc );
         return true;
     } );
 
@@ -205,7 +206,7 @@ bool run(
     }
 
     add_entry( "REASSIGN", hint_rating::good, [&]() {
-        game_menus::inv::reassign_letter( you, itm );
+        game_menus::inv::prompt_reassign_letter( you, itm );
         return false;
     } );
 

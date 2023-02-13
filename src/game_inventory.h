@@ -51,7 +51,10 @@ item_location titled_filter_menu( item_filter filter, avatar &you,
 void common( avatar &you );
 void compare( player &p, const cata::optional<tripoint> &offset );
 void compare( const item &left, const item &right );
-void reassign_letter( player &p, item &it );
+/** Assign (or reassign from existing) letter to item in character's inventory. */
+void reassign_letter( Character &who, item &it, int invlet );
+/** Prompt to assign (or clear) letter to item in character's inventory. */
+void prompt_reassign_letter( Character &who, item &it );
 void swap_letters( player &p );
 
 /**
