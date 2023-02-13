@@ -422,9 +422,9 @@ ifndef RELEASE
 endif
 
 ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
-  OTHERS += -std=gnu++17
+  OTHERS += -std=gnu++20
 else
-  OTHERS += -std=c++17
+  OTHERS += -std=c++20
 endif
 
 ifeq ($(CYGWIN),1)
