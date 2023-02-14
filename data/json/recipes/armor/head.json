@@ -786,8 +786,7 @@
     "time": "40 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "KNIT", "level": 1 } ],
-    "components": [ [ [ "thread", 600 ] ] ]
+    "using": [ [ "tailoring_cotton_knitting", 600 ] ]
   },
   {
     "result": "leather_cat_ears",
@@ -812,8 +811,7 @@
     "time": "1 h",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "KNIT", "level": 1 } ],
-    "components": [ [ [ "thread", 900 ] ] ]
+    "using": [ [ "tailoring_cotton_knitting", 900 ] ]
   },
   {
     "result": "long_patchwork_scarf",

@@ -3174,6 +3174,7 @@
   {
     "result": "bundle_rag",
     "type": "uncraft",
+    "time": "1 s",
     "skill_used": "fabrication",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 10 ] ] ],
@@ -3182,6 +3183,7 @@
   {
     "result": "bundle_leather",
     "type": "uncraft",
+    "time": "1 s",
     "skill_used": "fabrication",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "leather", 10 ] ] ],
@@ -3190,6 +3192,7 @@
   {
     "result": "bundle_wool",
     "type": "uncraft",
+    "time": "1 s",
     "skill_used": "fabrication",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "felt_patch", 10 ] ] ],
