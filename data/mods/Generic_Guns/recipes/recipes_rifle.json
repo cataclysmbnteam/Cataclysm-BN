@@ -14,7 +14,10 @@
     "reversible": true,
     "using": [ [ "ammo_bullet", 10 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "chem_black_powder", 5 ], [ "gunpowder", 5 ] ], [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ] ]
+    "components": [
+      [ [ "chem_black_powder", 5 ], [ "gunpowder", 5 ], [ "chem_match_head_powder", 5 ] ],
+      [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ]
+    ]
   },
   {
     "result": "rifle_ball",
