@@ -17,6 +17,7 @@
 #include "activity_actor_definitions.h"
 #include "activity_handlers.h"
 #include "avatar.h"
+#include "avatar_functions.h"
 #include "bionics.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -390,7 +391,7 @@ int player::available_assistant_count( const recipe &rec ) const
 {
     // NPCs around you should assist in batch production if they have the skills
     // TODO: Cache them in activity, include them in modifier calculations
-    const auto helpers = get_crafting_helpers();
+    const auto helpers = character_funcs::get_crafting_helpers( *this );
     return std::count_if( helpers.begin(), helpers.end(),
     [&]( const npc * np ) {
         return np->get_skill_level( rec.skill_used ) >= rec.difficulty;
@@ -531,7 +532,7 @@ bool player::can_make( const recipe *r, int batch_size )
 {
     const inventory &crafting_inv = crafting_inventory();
 
-    if( has_recipe( r, crafting_inv, get_crafting_helpers() ) < 0 ) {
+    if( has_recipe( r, crafting_inv, character_funcs::get_crafting_helpers( *this ) ) < 0 ) {
         return false;
     }
 
@@ -734,7 +735,7 @@ item_location player::start_craft( craft_command &command, const tripoint & )
     item craft = command.create_in_progress_craft();
     const recipe &making = craft.get_making();
     if( get_skill_level( command.get_skill_id() ) > making.difficulty * 1.25 ) {
-        handle_skill_warning( command.get_skill_id(), true );
+        character_funcs::show_skill_capped_notice( *this, command.get_skill_id() );
     }
 
     // In case we were wearing something just consumed
@@ -778,7 +779,7 @@ void player::craft_skill_gain( const item &craft, const int &multiplier )
     const recipe &making = craft.get_making();
     const int batch_size = craft.charges;
 
-    std::vector<npc *> helpers = get_crafting_helpers();
+    std::vector<npc *> helpers = character_funcs::get_crafting_helpers( *this );
 
     if( making.skill_used ) {
         // Normalize experience gain to crafting time, giving a bonus for longer crafting
@@ -831,7 +832,7 @@ double player::crafting_success_roll( const recipe &making ) const
         skill_dice = get_skill_level( making.skill_used ) * 4;
     }
 
-    for( const npc *np : get_crafting_helpers() ) {
+    for( const npc *np : character_funcs::get_crafting_helpers( *this ) ) {
         if( np->get_skill_level( making.skill_used ) >=
             get_skill_level( making.skill_used ) ) {
             // NPC assistance is worth half a skill level
@@ -1054,7 +1055,8 @@ void complete_craft( player &p, item &craft, const bench_location & )
                 // but also keeps going up as difficulty goes up.
                 // Worst case is lvl 10, which will typically take
                 // 10^4/10 (1,000) minutes, or about 16 hours of crafting it to learn.
-                int difficulty = p.has_recipe( &making, p.crafting_inventory(), p.get_crafting_helpers() );
+                int difficulty = p.has_recipe( &making, p.crafting_inventory(),
+                                               character_funcs::get_crafting_helpers( p ) );
                 ///\EFFECT_INT increases chance to learn recipe when crafting from a book
                 const double learning_speed =
                     std::max( p.get_skill_level( making.skill_used ), 1 ) *
@@ -1971,22 +1973,7 @@ static disass_prompt_result prompt_disassemble_in_seq( avatar &you, const item &
             return res;
         } else {
             if( obj.get_owner() ) {
-                std::vector<npc *> witnesses;
-                for( npc &elem : g->all_npcs() ) {
-                    if( rl_dist( elem.pos(), you.pos() ) < MAX_VIEW_DISTANCE && elem.get_faction() &&
-                        obj.is_owned_by( elem ) && elem.sees( you.pos() ) ) {
-                        elem.say( "<witnessed_thievery>", 7 );
-                        npc *npc_to_add = &elem;
-                        witnesses.push_back( npc_to_add );
-                    }
-                }
-                if( !witnesses.empty() ) {
-                    if( you.add_faction_warning( obj.get_owner() ) ) {
-                        for( npc *elem : witnesses ) {
-                            elem->make_angry();
-                        }
-                    }
-                }
+                avatar_funcs::handle_theft_witnesses( you, obj.get_owner() );
             }
         }
     }
@@ -2303,24 +2290,6 @@ void remove_ammo( item &dis_item, Character &who )
         drop_or_handle( ammodrop, who );
         dis_item.charges = 0;
     }
-}
-
-std::vector<npc *> player::get_crafting_helpers( size_t max ) const
-{
-    size_t n = 0;
-    return g->get_npcs_if( [ &n, max, this]( const npc & guy ) {
-        // NPCs can help craft if awake, taking orders, within pickup range and have clear path
-        if( max != 0 && n >= max ) {
-            return false;
-        }
-        bool ok = !guy.in_sleep_state() && guy.is_obeying( *this ) &&
-                  rl_dist( guy.pos(), pos() ) < PICKUP_RANGE &&
-                  g->m.clear_path( pos(), guy.pos(), PICKUP_RANGE, 1, 100 );
-        if( ok ) {
-            n += 1;
-        }
-        return ok;
-    } );
 }
 
 static std::pair<bench_type, float> best_bench_here( const item &craft, const tripoint &loc,
