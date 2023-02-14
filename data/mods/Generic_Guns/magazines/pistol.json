@@ -36,11 +36,11 @@
   },
   {
     "id": "pistol_speedloader",
-    "copy-from": "44_speedloader6",
+    "copy-from": "38_speedloader6",
     "type": "MAGAZINE",
-    "name": { "str": "revolver speedloader" },
-    "description": "A 'speedloader', a metal block capable of holding and releasing ammunition to aid in loading revolvers.  Accepts 6 standard or magnum pistol cartridges.",
-    "ammo_type": [ "ammo_pistol", "ammo_pistol_magnum" ],
-    "delete": { "ammo_type": "44" }
+    "name": { "str": "9mm revolver speedloader" },
+    "description": "A 'speedloader', a metal block capable of holding and releasing ammunition to aid in loading revolvers.  Accepts 6 standard pistol cartridges.",
+    "ammo_type": "ammo_pistol",
+    "delete": { "ammo_type": [ "357mag", "38" ] }
   }
 ]

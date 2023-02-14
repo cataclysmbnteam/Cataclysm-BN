@@ -1110,5 +1110,15 @@
     "type": "recipe",
     "result": "bot_crows_m240",
     "obsolete": true
+  },
+  {
+    "result": "pistol_magnum_pipe_levergun",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "pistol_pipe_smg",
+    "type": "recipe",
+    "obsolete": true
   }
 ]
