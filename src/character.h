@@ -407,6 +407,14 @@ class Character : public Creature, public visitable<Character>
          * Returns an explanation for why the player would miss a melee attack.
          */
         std::string get_miss_reason();
+        /** Knocks the character to a specified tile */
+        void knock_back_to( const tripoint &to ) override;
+        /** Returns multiplier on fall damage at low velocity (knockback/pit/1 z-level, not 5 z-levels) */
+        float fall_damage_mod() const override;
+        /** Deals falling/collision damage with terrain/creature at pos */
+        int impact( int force, const tripoint &pos ) override;
+        /** Returns overall % of HP remaining */
+        int hp_percentage() const override;
 
         /**
           * Handles passive regeneration of pain and maybe hp.
@@ -637,11 +645,9 @@ class Character : public Creature, public visitable<Character>
         bool valid_aoe_technique( Creature &t, const ma_technique &technique,
                                   std::vector<Creature *> &targets );
     public:
-
-        // any side effects that might happen when the Character is hit
-        void on_hit( Creature *source, bodypart_id /*bp_hit*/,
-                     float /*difficulty*/, dealt_projectile_attack const * /*proj*/ ) override;
-        // any side effects that might happen when the Character hits a Creature
+        void on_dodge( Creature *source, int difficulty ) override;
+        void on_hit( Creature *source, bodypart_id bp_hit, dealt_projectile_attack const *proj ) override;
+        /** Handles special effects when the Character hits a Creature */
         void did_hit( Creature &target );
 
         /** Actually hurt the player, hurts a body_part directly, no armor reduction */
@@ -1142,12 +1148,6 @@ class Character : public Creature, public visitable<Character>
         /** Calculate (but do not deduct) the number of moves required to wear an item */
         int item_wear_cost( const item &it ) const;
 
-        /** Wear item; returns nullopt on fail, or pointer to newly worn item on success.
-         * If interactive is false, don't alert the player or drain moves on completion.
-         */
-        cata::optional<std::list<item>::iterator>
-        wear_item( const item &to_wear, bool interactive = true );
-
         /** Returns the amount of item `type' that is currently worn */
         int  amount_worn( const itype_id &id ) const;
 
@@ -1243,28 +1243,6 @@ class Character : public Creature, public visitable<Character>
         bool has_mission_item( int mission_id ) const;
         void remove_mission_items( int mission_id );
 
-        /**
-         * Returns the items that are ammo and have the matching ammo type.
-         */
-        std::vector<const item *> get_ammo( const ammotype &at ) const;
-
-        /**
-         * Searches for ammo or magazines that can be used to reload obj
-         * @param obj item to be reloaded. By design any currently loaded ammunition or magazine is ignored
-         * @param empty whether empty magazines should be considered as possible ammo
-         * @param radius adjacent map/vehicle tiles to search. 0 for only player tile, -1 for only inventory
-         */
-        std::vector<item_location> find_ammo( const item &obj, bool empty = true, int radius = 1 ) const;
-
-        /**
-         * Searches for weapons and magazines that can be reloaded.
-         */
-        std::vector<item_location> find_reloadables();
-        /**
-         * Counts ammo and UPS charges (lower of) for a given gun on the character.
-         */
-        int ammo_count_for( const item &gun );
-
         /** Maximum thrown range with a given item, taking all active effects into account. */
         int throw_range( const item & ) const;
 
@@ -1310,22 +1288,55 @@ class Character : public Creature, public visitable<Character>
          */
         ret_val<bool> can_wear( const item &it, bool with_equip_change = false ) const;
         /**
+         * Wear specified item.  Item must be in characters possession (wielded or stored).
+         * @param to_wear Item to wear
+         * @param interactive If set, won't alert the player or drain moves on completion
+         * @return nullopt on fail, pointer to newly worn item on success
+         */
+        cata::optional<std::list<item>::iterator>
+        wear_possessed( item &to_wear, bool interactive = true );
+        /**
+         * Wear a copy of specified item.
+         * @param to_wear Item to wear
+         * @param interactive If set, won't alert the player or drain moves on completion
+         * @return nullopt on fail, pointer to newly worn item on success.
+         */
+        cata::optional<std::list<item>::iterator>
+        wear_item( const item &to_wear, bool interactive = true );
+
+        /**
+         * Check if character is capable of taking off given item.
+         * @param it Item to be taken off
+         * @param res If set, will expect to move item into the list.
+         */
+        ret_val<bool> can_takeoff( const item &it, const std::list<item> *res = nullptr ) const;
+        /**
+         * Take off an item. May start an activity.
+         * @param it Item to take off
+         * @param[out] res If set, moves resulting item into the list.
+         * @return true on success
+         */
+        bool takeoff( item &it, std::list<item> *res = nullptr );
+
+        /**
          * Returns true if the character is wielding something.
          * Note: this item may not actually be used to attack.
          */
         bool is_armed() const;
 
+        /** Check whether character is capable of wielding given item. */
+        ret_val<bool> can_wield( const item &it ) const;
         /**
          * Removes currently wielded item (if any) and replaces it with the target item.
          * @param target replacement item to wield or null item to remove existing weapon without replacing it
          * @return whether both removal and replacement were successful (they are performed atomically)
          */
         virtual bool wield( item &target ) = 0;
-        /**
-         * Check player capable of unwielding an item.
-         * @param it Thing to be unwielded
-         */
+
+        /** Check whether character is capable of unwielding given item. */
         ret_val<bool> can_unwield( const item &it ) const;
+        /** Removes currently wielded item (if any) */
+        bool unwield();
 
         /**
          * Check player capable of swapping the side of a worn item.
@@ -1348,6 +1359,23 @@ class Character : public Creature, public visitable<Character>
         bool is_waterproof( const body_part_set &parts ) const;
         // Carried items may leak radiation or chemicals
         int leak_level( const std::string &flag ) const;
+
+        /**
+         * Whether a tool or gun is potentially reloadable (optionally considering a specific ammo)
+         * @param it Thing to be reloaded
+         * @param ammo if set also check item currently compatible with this specific ammo or magazine
+         * @note items currently loaded with a detachable magazine are considered reloadable
+         * @note items with integral magazines are reloadable if free capacity permits (+/- ammo matches)
+         */
+        bool can_reload( const item &it, const itype_id &ammo = itype_id() ) const;
+
+        /**
+         * Calculate (but do not deduct) the number of moves required to reload an item with specified quantity of ammo
+         * @param it Item to calculate reload cost for
+         * @param ammo either ammo or magazine to use when reloading the item
+         * @param qty maximum units of ammo to reload. Capped by remaining capacity and ignored if reloading using a magazine.
+         */
+        int item_reload_cost( const item &it, const item &ammo, int qty ) const;
 
         // --------------- Clothing Stuff ---------------
         /** Returns true if the player is wearing the item. */
@@ -1396,6 +1424,9 @@ class Character : public Creature, public visitable<Character>
 
         /** Returns the player's skill rust rate */
         int rust_rate() const;
+
+        /** This handles giving xp for a skill */
+        void practice( const skill_id &id, int amount, int cap = 99, bool suppress_warning = false );
 
         // Mental skills and stats
         /** Returns the player's reading speed */
@@ -2082,8 +2113,6 @@ class Character : public Creature, public visitable<Character>
 
         trap_map known_traps;
         pimpl<char_encumbrance_data> encumbrance_cache;
-        /** warnings from a faction about bad behavior */
-        std::map<faction_id, std::pair<int, time_point>> warning_record;
     public:
         /**
          * Traits / mutations of the character. Key is the mutation id (it's also a valid
@@ -2214,6 +2243,8 @@ class Character : public Creature, public visitable<Character>
 
         mutable std::map<std::string, double> npc_ai_info_cache;
 
+        safe_reference_anchor anchor;
+
     protected:
         // a cache of all active enchantment values.
         // is recalculated every turn in Character::recalculate_enchantment_cache
@@ -2236,6 +2267,8 @@ class Character : public Creature, public visitable<Character>
         void clear_npc_ai_info_cache( const std::string &key ) const;
         void set_npc_ai_info_cache( const std::string &key, double val ) const;
         cata::optional<double> get_npc_ai_info_cache( const std::string &key ) const;
+
+        safe_reference<Character> get_safe_reference();
 };
 
 Character &get_player_character();

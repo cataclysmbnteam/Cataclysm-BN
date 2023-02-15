@@ -8,6 +8,13 @@
   },
   {
     "type": "ammunition_type",
+    "id": "ammo_black_powder_shot",
+    "//": "shotshells for primitive weapons",
+    "name": "blunderbuss ammo",
+    "default": "bluss_slug"
+  },
+  {
+    "type": "ammunition_type",
     "id": "ammo_pistol_tiny",
     "//": "ammo smaller than .380ACP",
     "name": "tiny pistol ammo",

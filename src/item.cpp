@@ -1801,19 +1801,21 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
 
 
         if( parts->test( iteminfo_parts::FOOD_ROT_STORAGE ) ) {
-            std::string temperature_description;
+            const char *temperature_description;
+            bool print_freshness_duration = false;
             // There should be a better way to do this...
             switch( temperature ) {
                 case temperature_flag::TEMP_NORMAL:
                 case temperature_flag::TEMP_HEATER: {
                     temperature_description = _( "* Current storage conditions <bad>do not</bad> "
-                                                 "protect this item from rot.  It will stay fresh at least <info>%s</info>." );
+                                                 "protect this item from rot." );
                 }
                 break;
                 case temperature_flag::TEMP_FRIDGE:
                 case temperature_flag::TEMP_ROOT_CELLAR: {
                     temperature_description = _( "* Current storage conditions <neutral>partially</neutral> "
                                                  "protect this item from rot.  It will stay fresh at least <info>%s</info>." );
+                    print_freshness_duration = true;
                 }
                 break;
                 case temperature_flag::TEMP_FREEZER: {
@@ -1821,10 +1823,13 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
                                                  "protect this item from rot.  It will stay fresh indefinitely." );
                 }
                 break;
+                default: {
+                    temperature_description = "BUGGED TEMPERATURE INFO";
+                }
             }
 
-            if( temperature != temperature_flag::TEMP_FREEZER ) {
-                time_duration remaining_fresh = minimum_freshness_duration( temperature );
+            if( print_freshness_duration ) {
+                time_duration remaining_fresh = food_item->minimum_freshness_duration( temperature );
                 std::string time_string = to_string_clipped( remaining_fresh );
                 info.emplace_back( "DESCRIPTION", string_format( temperature_description, time_string ) );
             } else {
@@ -4041,9 +4046,10 @@ std::string item::info_string() const
     return info_string( iteminfo_query::all, 1 );
 }
 
-std::string item::info_string( const iteminfo_query &parts, int batch ) const
+std::string item::info_string( const iteminfo_query &parts, int batch,
+                               temperature_flag temperature ) const
 {
-    std::vector<iteminfo> item_info = info( parts, batch, temperature_flag::TEMP_NORMAL );
+    std::vector<iteminfo> item_info = info( parts, batch, temperature );
     return format_item_info( item_info, {} );
 }
 
@@ -4194,8 +4200,10 @@ nc_color item::color_in_inventory( const player &p ) const
         // Gun with integrated mag counts as both
         for( const ammotype &at : ammo_types() ) {
             // get_ammo finds uncontained ammo, find_ammo finds ammo in magazines
-            bool has_ammo = !p.get_ammo( at ).empty() || !p.find_ammo( *this, false, -1 ).empty();
-            bool has_mag = magazine_integral() || !p.find_ammo( *this, true, -1 ).empty();
+            bool has_ammo = !character_funcs::get_ammo_items( p, at ).empty() ||
+                            !character_funcs::find_ammo_items_or_mags( p, *this, false, -1 ).empty();
+            bool has_mag = magazine_integral() ||
+                           !character_funcs::find_ammo_items_or_mags( p, *this, true, -1 ).empty();
             if( has_ammo && has_mag ) {
                 ret = c_green;
                 break;
@@ -4226,7 +4234,7 @@ nc_color item::color_in_inventory( const player &p ) const
         bool has_gun = p.has_item_with( [this]( const item & it ) {
             return it.is_gun() && it.magazine_compatible().count( typeId() ) > 0;
         } );
-        bool has_ammo = !p.find_ammo( *this, false, -1 ).empty();
+        bool has_ammo = !character_funcs::find_ammo_items_or_mags( p, *this, false, -1 ).empty();
         if( has_gun && has_ammo ) {
             ret = c_green;
         } else if( has_gun || has_ammo ) {
@@ -8000,12 +8008,12 @@ bool item::units_sufficient( const Character &ch, int qty ) const
     return units_remaining( ch, qty ) == qty;
 }
 
-item::reload_option::reload_option( const reload_option & ) = default;
+item_reload_option::item_reload_option( const item_reload_option & ) = default;
 
-item::reload_option &item::reload_option::operator=( const reload_option & ) = default;
+item_reload_option &item_reload_option::operator=( const item_reload_option & ) = default;
 
-item::reload_option::reload_option( const player *who, const item *target, const item *parent,
-                                    const item_location &ammo ) :
+item_reload_option::item_reload_option( const player *who, const item *target, const item *parent,
+                                        const item_location &ammo ) :
     who( who ), target( target ), ammo( ammo ), parent( parent )
 {
     if( this->target->is_ammo_belt() && this->target->type->magazine->linkage ) {
@@ -8014,7 +8022,7 @@ item::reload_option::reload_option( const player *who, const item *target, const
     qty( max_qty );
 }
 
-int item::reload_option::moves() const
+int item_reload_option::moves() const
 {
     int mv = ammo.obtain_cost( *who, qty() ) + who->item_reload_cost( *target, *ammo, qty() );
     if( parent != target ) {
@@ -8027,7 +8035,7 @@ int item::reload_option::moves() const
     return mv;
 }
 
-void item::reload_option::qty( int val )
+void item_reload_option::qty( int val )
 {
     bool ammo_in_container = ammo->is_ammo_container();
     bool ammo_in_liquid_container = ammo->is_watertight_container();
