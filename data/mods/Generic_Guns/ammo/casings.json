@@ -31,14 +31,14 @@
     "id": "sniper_casing",
     "copy-from": "308_casing",
     "type": "GENERIC",
-    "name": ".300 casing",
+    "name": "7.62mm casing",
     "description": "An empty casing from a sniper round."
   },
   {
     "id": "rifle_huge_casing",
     "copy-from": "50_casing",
     "type": "GENERIC",
-    "name": ".50 casing",
+    "name": "12.7mm casing",
     "description": "An empty casing from a huge rifle round."
   },
   {
@@ -52,7 +52,7 @@
     "id": "grenade_casing",
     "copy-from": "40x46mm_m199_casing",
     "type": "GENERIC",
-    "name": { "str": "grenade casing" },
+    "name": { "str": "40mm casing" },
     "description": "A large casing from a grenade round."
   },
   {
