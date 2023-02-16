@@ -437,7 +437,7 @@ bool process_recharge_entry( item &itm, const relic_recharge &rech, Character &c
     // If relic has a valid ammo type, make sure the first charge loaded isn't a "none"
     bool was_zero = itm.charges == 0;
     itm.charges = clamp( itm.charges + rech.rate, 0, itm.ammo_capacity() );
-    if( !itm.ammo_types().empty() && was_zero ) {
+    if( was_zero && !itm.ammo_types().empty() ) {
         itm.ammo_set( itm.ammo_default(), itm.charges );
     }
     if( rech.message ) {
