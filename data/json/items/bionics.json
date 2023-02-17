@@ -1266,5 +1266,13 @@
     "description": "Heavy-duty fusion blaster was integrated into your left arm!  You may use your energy banks to fire a damaging heat ray.",
     "price": 220000,
     "difficulty": 3
+  },
+  {
+    "id": "bio_perpetual_test",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Perpetual Generator CBM" },
+    "description": "Installed within you is a perpetual generator powered by nonsensoleum.  When activated it's power gen doubles.  If you are seeing this, you'd better be debugging.",
+    "price": 0
   }
 ]
