@@ -100,7 +100,7 @@
     "description": "A comfortable quick draw holster for small guns.  Activate to holster/draw a gun.",
     "price_postapoc": 500,
     "encumbrance": 1,
-    "use_action": { "type": "holster", "max_volume": "400 ml", "min_volume": "100 ml", "draw_cost": 80, "skills": [ "pistol" ] }
+    "use_action": { "type": "holster", "max_volume": "500 ml", "min_volume": "100 ml", "draw_cost": 80, "skills": [ "pistol" ] }
   },
   {
     "id": "bholster",
