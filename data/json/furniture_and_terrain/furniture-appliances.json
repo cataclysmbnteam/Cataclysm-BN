@@ -945,6 +945,24 @@
   },
   {
     "type": "furniture",
+    "id": "f_recharge_station",
+    "copy-from": "f_charger",
+    "looks_like": "recharge_station",
+    "name": "grid recharging station",
+    "description": "A vehicle recharging station connected to building's electric grid, providing higher output than consumer battery chargers.",
+    "symbol": ":",
+    "color": "blue_white",
+    "active": [ "charger", { "power": 600 } ],
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": [ 2, 5 ] },
+        { "item": "recharge_station", "count": 1 },
+        { "item": "power_supply", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_cable_connector",
     "looks_like": "f_TV_antenna",
     "name": "jumper cable connector",

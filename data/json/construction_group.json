@@ -1061,6 +1061,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_recharge_station",
+    "name": "Place Recharging Station"
+  },
+  {
+    "type": "construction_group",
     "id": "place_electric_forge",
     "name": "Place Electric Forge"
   },
