@@ -7,6 +7,7 @@
 
 #include "avatar.h"
 #include "avatar_action.h"
+#include "avatar_functions.h"
 #include "calendar.h"
 #include "inventory.h"
 #include "item.h"
@@ -107,7 +108,7 @@ TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
     item &glock = dummy.i_at( gun_pos );
     // We're expecting the magazine to end up in the inventory.
     item_location glock_loc( dummy, &glock );
-    REQUIRE( dummy.unload( glock_loc ) );
+    REQUIRE( avatar_funcs::unload_item( dummy, glock_loc ) );
     int magazine_pos = dummy.inv.position_by_type( itype_glockmag );
     REQUIRE( magazine_pos != INT_MIN );
     item &magazine = dummy.inv.find_item( magazine_pos );

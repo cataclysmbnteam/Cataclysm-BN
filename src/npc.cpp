@@ -1504,7 +1504,9 @@ void npc::decide_needs()
                               charges_of( itype_UPS_off, ups_drain );
             needrank[need_ammo] = static_cast<double>( ups_charges ) / ups_drain;
         } else {
-            needrank[need_ammo] = get_ammo( ammotype( *weapon.type->gun->ammo.begin() ) ).size();
+            needrank[need_ammo] = character_funcs::get_ammo_items(
+                                      *this, ammotype( *weapon.type->gun->ammo.begin() )
+                                  ).size();
         }
         needrank[need_ammo] *= 5;
     }

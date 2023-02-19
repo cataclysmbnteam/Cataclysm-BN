@@ -695,7 +695,7 @@ bool mattack::acid_barf( monster *z )
             body_part_name_accusative( hit ) );
     }
 
-    target->on_hit( z, convert_bp( hit ).id(),  z->type->melee_skill );
+    target->on_hit( z, convert_bp( hit ).id() );
 
     return true;
 }
@@ -1848,7 +1848,7 @@ bool mattack::fungus_inject( monster *z )
                  body_part_name_accusative( hit->token ) );
     }
 
-    target->on_hit( z, hit,  z->type->melee_skill );
+    target->on_hit( z, hit );
     g->u.check_dead_state();
 
     return true;
@@ -1906,7 +1906,7 @@ bool mattack::fungus_bristle( monster *z )
                                    body_part_name_accusative( hit->token ) );
     }
 
-    target->on_hit( z, hit,  z->type->melee_skill );
+    target->on_hit( z, hit );
 
     return true;
 }
@@ -2072,7 +2072,7 @@ bool mattack::fungus_fortify( monster *z )
                  body_part_name_accusative( hit->token ) );
     }
 
-    target->on_hit( z, hit,  z->type->melee_skill );
+    target->on_hit( z, hit );
     g->u.check_dead_state();
     return true;
 }
@@ -2113,7 +2113,7 @@ bool mattack::impale( monster *z )
                                        _( "The %1$s impales <npcname>'s torso!" ),
                                        z->name() );
 
-        target->on_hit( z, bodypart_id( "torso" ),  z->type->melee_skill );
+        target->on_hit( z, bodypart_id( "torso" ) );
         if( one_in( 60 / ( dam + 20 ) ) ) {
             target->add_effect( effect_bleed, rng( 75_turns, 125_turns ), bp_torso );
 
@@ -2583,7 +2583,7 @@ bool mattack::tentacle( monster *z )
             body_part_name_accusative( hit_token ) );
     }
 
-    target->on_hit( z, hit,  z->type->melee_skill );
+    target->on_hit( z, hit );
     target->check_dead_state();
 
     return true;
@@ -4198,7 +4198,7 @@ bool mattack::stretch_bite( monster *z )
                                        body_part_name_accusative( hit_token ) );
     }
 
-    target->on_hit( z, hit,  z->type->melee_skill );
+    target->on_hit( z, hit );
 
     return true;
 }
@@ -4278,7 +4278,7 @@ bool mattack::flesh_golem( monster *z )
     //~ 1$s is bodypart name, 2$d is damage value.
     target->add_msg_if_player( m_bad, _( "Your %1$s is battered for %2$d damage!" ),
                                body_part_name( hit->token ), dam );
-    target->on_hit( z, hit,  z->type->melee_skill );
+    target->on_hit( z, hit );
 
     return true;
 }
@@ -4405,7 +4405,7 @@ bool mattack::lunge( monster *z )
     if( one_in( 6 ) ) {
         target->add_effect( effect_downed, 3_turns );
     }
-    target->on_hit( z, hit,  z->type->melee_skill );
+    target->on_hit( z, hit );
     target->check_dead_state();
     return true;
 }
@@ -4487,7 +4487,7 @@ bool mattack::longswipe( monster *z )
                     z->name(),
                     body_part_name_accusative( hit->token ) );
             }
-            target->on_hit( z, hit,  z->type->melee_skill );
+            target->on_hit( z, hit );
             return true;
         }
         return false;
@@ -4522,7 +4522,7 @@ bool mattack::longswipe( monster *z )
                                        z->name(),
                                        body_part_name_accusative( bp_head ) );
     }
-    target->on_hit( z, bodypart_id( "head" ),  z->type->melee_skill );
+    target->on_hit( z, bodypart_id( "head" ) );
     target->check_dead_state();
 
     return true;
@@ -5282,7 +5282,7 @@ bool mattack::bio_op_takedown( monster *z )
         target->add_msg_if_player( m_bad, _( "and slams you for %d damage!" ), dam );
         foe->deal_damage( z, bodypart_id( "torso" ), damage_instance( DT_BASH, dam ) );
     }
-    target->on_hit( z, hit,  z->type->melee_skill );
+    target->on_hit( z, hit );
     foe->check_dead_state();
 
     return true;
@@ -5363,7 +5363,7 @@ bool mattack::bio_op_impale( monster *z )
                                        _( "but fails to penetrate <npcname>'s armor!" ) );
     }
 
-    target->on_hit( z, hit, z->type->melee_skill );
+    target->on_hit( z, hit );
     foe->check_dead_state();
 
     return true;
@@ -5811,7 +5811,7 @@ bool mattack::stretch_attack( monster *z )
                                        body_part_name_accusative( hit->token ) );
     }
 
-    target->on_hit( z, hit,  z->type->melee_skill );
+    target->on_hit( z, hit );
 
     return true;
 }

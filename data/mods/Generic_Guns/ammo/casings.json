@@ -3,42 +3,42 @@
     "id": "pistol_tiny_casing",
     "copy-from": "22_casing",
     "type": "GENERIC",
-    "name": "tiny pistol casing",
+    "name": ".22 casing",
     "description": "An empty casing from a tiny pistol round."
   },
   {
     "id": "pistol_casing",
     "copy-from": "9mm_casing",
     "type": "GENERIC",
-    "name": { "str": "pistol casing" },
+    "name": "9mm casing",
     "description": "An empty casing from a standard pistol round."
   },
   {
     "id": "pistol_magnum_casing",
     "copy-from": "44_casing",
     "type": "GENERIC",
-    "name": { "str": "magnum pistol casing" },
+    "name": ".44 casing",
     "description": "An empty casing from a magnum pistol round."
   },
   {
     "id": "rifle_casing",
     "copy-from": "223_casing",
     "type": "GENERIC",
-    "name": { "str": "rifle casing" },
+    "name": "5.56mm casing",
     "description": "An empty casing from a rifle round."
   },
   {
     "id": "sniper_casing",
     "copy-from": "308_casing",
     "type": "GENERIC",
-    "name": { "str": "sniper casing" },
+    "name": "7.62mm casing",
     "description": "An empty casing from a sniper round."
   },
   {
     "id": "rifle_huge_casing",
     "copy-from": "50_casing",
     "type": "GENERIC",
-    "name": { "str": "huge rifle casing" },
+    "name": "12.7mm casing",
     "description": "An empty casing from a huge rifle round."
   },
   {
@@ -52,7 +52,7 @@
     "id": "grenade_casing",
     "copy-from": "40x46mm_m199_casing",
     "type": "GENERIC",
-    "name": { "str": "grenade casing" },
+    "name": { "str": "40mm casing" },
     "description": "A large casing from a grenade round."
   },
   {

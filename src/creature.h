@@ -245,6 +245,7 @@ class Creature
 
         // TODO: this is just a shim so knockbacks work
         void knock_back_from( const tripoint &p );
+        /** Knocks the creature to a specified tile */
         virtual void knock_back_to( const tripoint &to ) = 0;
 
         int size_melee_penalty() const;
@@ -288,13 +289,15 @@ class Creature
          * This creature just dodged an attack - possibly special/ranged attack - from source.
          * Players should train dodge, monsters may use some special defenses.
          */
-        virtual void on_dodge( Creature *source, float difficulty ) = 0;
+        virtual void on_dodge( Creature *source, int difficulty );
         /**
          * This creature just got hit by an attack - possibly special/ranged attack - from source.
+         * @param source Source creature, can be nullptr
+         * @param proj Source projectile, can be nullptr
          * Players should train dodge, possibly counter-attack somehow.
          */
         virtual void on_hit( Creature *source, bodypart_id bp_hit,
-                             float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) = 0;
+                             dealt_projectile_attack const *proj = nullptr ) = 0;
 
         virtual bool digging() const;
         virtual bool is_on_ground() const = 0;
@@ -468,6 +471,7 @@ class Creature
         virtual int get_hp() const;
         virtual int get_hp_max( const bodypart_id &bp ) const;
         virtual int get_hp_max() const;
+        /** Returns overall % of HP remaining */
         virtual int hp_percentage() const = 0;
         virtual bool made_of( const material_id &m ) const = 0;
         virtual bool made_of_any( const std::set<material_id> &ms ) const = 0;

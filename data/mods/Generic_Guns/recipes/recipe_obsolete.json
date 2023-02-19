@@ -161,6 +161,11 @@
   },
   {
     "type": "recipe",
+    "result": "longrifle_flintlock",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "carbine_flintlock",
     "obsolete": true
   },
@@ -1071,7 +1076,74 @@
   },
   {
     "type": "recipe",
+    "result": "blunderbuss",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "blun_slug",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "blun_slug",
+    "id_suffix": "using_lead",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "blun_shot",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "blun_flechette",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "blun_shot",
+    "id_suffix": "using_big_scrap",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "bot_crows_m240",
+    "obsolete": true
+  },
+  {
+    "result": "pistol_magnum_pipe_levergun",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "pistol_pipe_smg",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "shotgun_primer",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "smpistol_primer",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "lgpistol_primer",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "smrifle_primer",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "lgrifle_primer",
+    "type": "recipe",
     "obsolete": true
   }
 ]

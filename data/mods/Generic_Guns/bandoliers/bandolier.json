@@ -37,7 +37,7 @@
     "copy-from": "flintlock_pouch",
     "type": "ARMOR",
     "name": { "str": "paper cartridge pouch", "str_pl": "paper cartridge pouches" },
-    "use_action": { "type": "bandolier", "capacity": 14, "ammo": [ "ammo_black_powder", "blunderbuss", "shotcanister" ], "draw_cost": 20 }
+    "use_action": { "type": "bandolier", "capacity": 14, "ammo": [ "ammo_black_powder", "ammo_black_powder_shot" ], "draw_cost": 20 }
   },
   {
     "id": "bandolier_wrist",
@@ -74,8 +74,7 @@
         "signal_flare",
         "stimpack_ammo",
         "ampoule",
-        "blunderbuss",
-        "shotcanister",
+        "ammo_black_powder_shot",
         "paintball"
       ],
       "draw_cost": 35
