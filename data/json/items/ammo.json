@@ -1071,5 +1071,21 @@
     "symbol": ",",
     "color": "yellow",
     "ammo_type": "components"
+  },
+  {
+    "type": "AMMO",
+    "id": "paper",
+    "name": "paper",
+    "category": "spare_parts",
+    "weight": "3 g",
+    "color": "white",
+    "symbol": "`",
+    "description": "A piece of paper.  Can be used for fires.",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": "paper",
+    "volume": "250 ml",
+    "count": 50,
+    "ammo_type": "components"
   }
 ]
