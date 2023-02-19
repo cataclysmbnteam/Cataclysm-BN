@@ -118,8 +118,6 @@
     "items": [
       { "item": "crt_legguard" },
       { "item": "crt_armguard" },
-      { "item": "ds_monitor" },
-      { "item": "ds_armor" },
       { "item": "crt_aarmor" },
       { "item": "crt_sarmor" },
       { "item": "crt_warmor" }
