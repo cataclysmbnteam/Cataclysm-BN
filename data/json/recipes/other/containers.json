@@ -187,7 +187,7 @@
     "difficulty": 3,
     "time": "1 h",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
     "components": [ [ [ "2x4", 30 ] ], [ [ "scrap", 6 ] ], [ [ "nail", 60 ] ] ]
   },
   {
@@ -537,7 +537,7 @@
     "time": "30 m",
     "autolearn": true,
     "using": [ [ "adhesive", 1 ], [ "waterproofing", 1 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SAW_W", "level": 2 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "2x4", 2 ] ],
