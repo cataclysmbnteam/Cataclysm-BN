@@ -316,7 +316,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     }
     if( this->reversible && ( time < 1 ) ) {
         jo.throw_error( "Non-zero time mandatory for reversible recipe or uncraft" );
-    } 
+    }
 
     const requirement_id req_id( "inline_" + type + "_" + ident_.str() );
     requirement_data::load_requirement( jo, req_id );
