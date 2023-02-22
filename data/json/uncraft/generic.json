@@ -130,7 +130,7 @@
     "time": "8 m",
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "plastic_chunk", 1 ] ] ]
+    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "amplifier", 1 ] ] ]
   },
   {
     "type": "uncraft",
