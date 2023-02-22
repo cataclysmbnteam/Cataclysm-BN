@@ -18,7 +18,7 @@
     "ammo_type": "545x39",
     "casing": "545_casing",
     "range": 37,
-    "damage": { "damage_type": "bullet", "amount": 40, "armor_penetration": 23 },
+    "damage": { "damage_type": "bullet", "amount": 40, "armor_penetration": 18 },
     "dispersion": 30,
     "recoil": 1400,
     "effects": [ "COOKOFF" ]
@@ -34,7 +34,7 @@
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "symbol": "=",
     "color": "yellow",
-    "//": "Balanced as AP, 7/8 damage, arpen matches damage.",
+    "//": "Balanced as AP, 7/8 damage, arpen 6/7 that value.",
     "relative": { "damage": { "damage_type": "bullet", "amount": -5, "armor_penetration": 12 } }
   }
 ]
