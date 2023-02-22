@@ -74,7 +74,7 @@
     "autolearn": true,
     "using": [ [ "cordage", 1 ] ],
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 30, "LIST" ] ] ],
-    "components": [ [ [ "plastic_chunk", 15 ] ] ]
+    "components": [ [ [ "plastic_chunk", 35 ] ] ]
   },
   {
     "type": "recipe",
