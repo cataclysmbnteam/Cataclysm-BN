@@ -7,7 +7,7 @@
     "gender": "male",
     "class": "NC_ISHERWOOD_JACK",
     "attitude": 0,
-    "mission": 7,
+    "mission": 3,
     "chat": "TALK_ISHERWOOD_JACK",
     "mission_offered": "MISSION_ISHERWOOD_JACK_1",
     "faction": "isherwood_family"
