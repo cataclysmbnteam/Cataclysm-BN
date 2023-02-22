@@ -1503,7 +1503,6 @@
       { "item": "gum", "prob": 10 },
       { "item": "cable", "prob": 5 },
       { "item": "panties", "prob": 2 },
-      { "item": "sharp_toothbrush", "prob": 10 },
       { "item": "razor_blade", "prob": 20 },
       { "item": "soap", "prob": 5 },
       { "item": "detergent", "prob": 5 },
