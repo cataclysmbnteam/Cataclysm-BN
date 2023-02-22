@@ -54,6 +54,7 @@
     "location": "mechanism",
     "mod_targets": [ "ar15" ],
     "install_time": "25 m",
+    "min_skills": [ [ "weapon", 5 ] ],
     "dispersion_modifier": 40,
     "mode_modifier": [ [ "DEFAULT", "auto", 6 ] ],
     "flags": [ "INSTALL_DIFFICULT" ]

@@ -7,7 +7,7 @@
     "gender": "male",
     "class": "NC_ISHERWOOD_EDDIE",
     "attitude": 0,
-    "mission": 7,
+    "mission": 3,
     "chat": "TALK_ISHERWOOD_EDDIE",
     "mission_offered": "MISSION_ISHERWOOD_EDDIE_1",
     "faction": "isherwood_family"

@@ -18,7 +18,7 @@
     "casing": "223_casing",
     "range": 36,
     "//": "Balanced as FMJ rather than JHP, as M855A1 is steel core and would fit better as AP.",
-    "damage": { "damage_type": "bullet", "amount": 42, "armor_penetration": 24 },
+    "damage": { "damage_type": "bullet", "amount": 42, "armor_penetration": 18 },
     "dispersion": 30,
     "recoil": 1500,
     "effects": [ "COOKOFF" ]
@@ -32,8 +32,8 @@
     "price": 290,
     "price_postapoc": 900,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "//": "Balanced as AP, 7/8 damage, arpen matches damage.",
-    "relative": { "damage": { "damage_type": "bullet", "amount": -5, "armor_penetration": 13 }, "dispersion": -10 },
+    "//": "Balanced as AP, 7/8 damage, arpen 6/7 of that value.",
+    "relative": { "damage": { "damage_type": "bullet", "amount": -5, "armor_penetration": 14 }, "dispersion": -10 },
     "proportional": { "recoil": 1.1 },
     "extend": { "effects": [ "NEVER_MISFIRES" ] }
   },

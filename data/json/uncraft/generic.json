@@ -4282,5 +4282,77 @@
     "difficulty": 2,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "2x4", 12 ] ], [ [ "rag", 33 ] ], [ [ "nail", 15 ] ], [ [ "cable", 10 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "cable_xlr",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "cable", 60 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "cable_instrument",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "8 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "cable", 70 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "headphones_circumaural",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "8 m",
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "amplifier", 1 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "microphone_xlr_generic",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "8 m",
+    "using": [ [ "soldering_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "transponder", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "mic_stand_tall",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "12 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "steel_lump", 1 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "guitar_stand",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "12 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "steel_chunk", 3 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "mixer_music",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "30 m",
+    "using": [ [ "soldering_standard", 15 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "e_scrap", 4 ] ],
+      [ [ "circuit", 1 ] ],
+      [ [ "processor", 1 ] ],
+      [ [ "receiver", 1 ] ],
+      [ [ "plastic_chunk", 5 ] ]
+    ]
   }
 ]

@@ -3,7 +3,7 @@
     "id": "pistol_ball",
     "type": "AMMO",
     "copy-from": "9mmfmj",
-    "name": { "str_sp": "pistol ammo, FMJ" },
+    "name": { "str_sp": "9mm, FMJ" },
     "ammo_type": "ammo_pistol",
     "casing": "pistol_casing",
     "description": "Modern ubiquitous medium pistol ammo, popularized by usage in two wars and almost a century of post-war defensive and duty usage.  Full metal jacketed bullets offer reduced fouling, better reliability, and slightly improved penetration compared to plain lead.",
@@ -13,7 +13,7 @@
     "id": "pistol_jhp",
     "type": "AMMO",
     "copy-from": "pistol_ball",
-    "name": { "str_sp": "pistol ammo, JHP" },
+    "name": { "str_sp": "9mm, JHP" },
     "description": "Modern ubiquitous medium pistol ammo, popularized by usage in two wars and almost a century of post-war defensive and duty usage.  Jacketed Hollow Points are defensive/duty projectiles that are more destructive to tissue than plain ball ammunition, and slightly reduce overpenetration concerns.",
     "proportional": { "damage": { "damage_type": "bullet", "amount": 1.25, "armor_penetration": 0.001 } }
   },
@@ -21,7 +21,7 @@
     "id": "bp_pistol_ball",
     "copy-from": "pistol_ball",
     "type": "AMMO",
-    "name": { "str_sp": "pistol ammo, FMJ (black powder)" },
+    "name": { "str_sp": "9mm, FMJ (black powder)" },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] },
     "description": "Modern ubiquitous medium pistol ammo, popularized by usage in two wars and almost a century of post-war defensive and duty usage.  Full metal jacketed bullets offer reduced fouling, better reliability, and slightly improved penetration compared to plain lead.  This was however handloaded with black powder.",
@@ -36,7 +36,7 @@
     "id": "bp_pistol_jhp",
     "copy-from": "bp_pistol_ball",
     "type": "AMMO",
-    "name": { "str_sp": "pistol ammo, JHP (black powder)" },
+    "name": { "str_sp": "9mm, JHP (black powder)" },
     "description": "Modern ubiquitous medium pistol ammo, popularized by usage in two wars and almost a century of post-war defensive and duty usage.  Jacketed Hollow Points are defensive/duty projectiles that are more destructive to tissue than plain ball ammunition, and slightly reduce overpenetration concerns.  This was however handloaded with black powder.",
     "proportional": { "damage": { "damage_type": "bullet", "amount": 1.25, "armor_penetration": 0.001 } }
   }

@@ -115,21 +115,19 @@
     "replace": "pistol_smg_mag_hc"
   },
   {
-    "id": [
-      "22_speedloader8",
-      "38_speedloader",
-      "38_speedloader5",
-      "40_speedloader6",
-      "44_speedloader6",
-      "454_speedloader5",
-      "460_speedloader6",
-      "500_speedloader5",
-      "8x40_speedloader5",
-      "9mm_speedloader7",
-      "marlin_tubeloader"
-    ],
+    "id": [ "22_speedloader8", "marlin_tubeloader" ],
+    "type": "MIGRATION",
+    "replace": "pistol_tiny_speedloader"
+  },
+  {
+    "id": [ "38_speedloader", "38_speedloader5", "9mm_speedloader7", "40_speedloader6" ],
     "type": "MIGRATION",
     "replace": "pistol_speedloader"
+  },
+  {
+    "id": [ "44_speedloader6", "454_speedloader5", "460_speedloader6", "500_speedloader5", "8x40_speedloader5" ],
+    "type": "MIGRATION",
+    "replace": "magnum_speedloader"
   },
   {
     "id": [ "mosquitomag", "ruger1022mag", "sw22mag", "j22mag", "wp22mag", "kp32mag" ],

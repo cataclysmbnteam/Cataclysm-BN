@@ -141,6 +141,7 @@
     "id": "test_relic_armor_recharge_fatigue_cts",
     "copy-from": "test_relic_tool_armor",
     "name": "TEST relic armor recharge fatigue skin",
+    "ammo": [ "thread" ],
     "relic_data": {
       "recharge_scheme": [
         {

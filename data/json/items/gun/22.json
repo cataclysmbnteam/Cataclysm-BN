@@ -191,6 +191,7 @@
     "material": [ "budget_steel" ],
     "color": "dark_gray",
     "ammo": "22",
+    "magazine_well": "55 ml",
     "dispersion": 600,
     "durability": 5,
     "min_cycle_recoil": 39,

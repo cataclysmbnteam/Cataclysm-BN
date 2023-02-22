@@ -5,6 +5,9 @@
     "//": "Pistol ammo commonly owned by citizens and found in many locations.",
     "subtype": "distribution",
     "entries": [
+      { "item": "22_cphp", "prob": 50 },
+      { "item": "22_lr", "prob": 100 },
+      { "item": "22_ratshot", "prob": 30 },
       { "item": "32_acp", "prob": 20 },
       { "item": "380_FMJ", "prob": 25 },
       { "item": "380_JHP", "prob": 20 },
@@ -88,6 +91,8 @@
     "subtype": "distribution",
     "entries": [
       { "item": "10mm_fmj", "prob": 10 },
+      { "item": "22_cphp", "prob": 20 },
+      { "item": "22_lr", "prob": 70 },
       { "item": "32_acp", "prob": 50 },
       { "item": "38_fmj", "prob": 30 },
       { "item": "38_special", "prob": 80 },
@@ -130,6 +135,8 @@
     "subtype": "distribution",
     "entries": [
       { "item": "bp_10mm_fmj", "prob": 10 },
+      { "item": "bp_22_cphp", "prob": 45 },
+      { "item": "bp_22_lr", "prob": 95 },
       { "item": "bp_32_acp", "prob": 50 },
       { "item": "bp_38_fmj", "prob": 55 },
       { "item": "bp_38_special", "prob": 105 },

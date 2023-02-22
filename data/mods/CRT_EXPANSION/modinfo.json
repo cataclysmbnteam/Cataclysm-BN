@@ -2,9 +2,9 @@
   {
     "type": "MOD_INFO",
     "id": "crt_expansion",
-    "name": "C.R.I.T Expansion Mod",
+    "name": "<color_red>C.R.I.T. Expansion</color>",
     "authors": [ "Soupster89" ],
-    "maintainers": [ "Soupster89" ],
+    "maintainers": [ "Zlorthishen" ],
     "description": "Adds a plethora of content: professions, guns/mods, WIP enemies, mutations, martial arts, melee weapons, and some QOL changes such as plants from cutting grass.",
     "category": "content",
     "dependencies": [ "bn" ]
