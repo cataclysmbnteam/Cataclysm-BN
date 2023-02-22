@@ -47,5 +47,85 @@
       [ "crt_backpack", 8 ],
       [ "crt_laser_pistol", 1 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "army_personal_locker",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "crt_la_boots", "prob": 20 },
+      { "item": "crt_chestrig", "prob": 10 },
+      { "item": "crt_iduster", "prob": 10 },
+      { "item": "army_top", "prob": 50 },
+      { "item": "crt_legrig", "prob": 20 },
+      { "item": "crt_earmor", "prob": 5 },
+      { "item": "crt_earmor_boots", "prob": 5 },
+      { "item": "crt_sarmor", "prob": 5 },
+      { "item": "crt_dress_pants", "prob": 30 },
+      { "item": "crt_dress_shoes", "prob": 30 },
+      { "item": "crt_rec_gloves", "prob": 20 },
+      { "item": "crt_rec_duster", "prob": 10 },
+      { "item": "crt_rec_hat", "prob": 30 },
+      { "item": "knife_crt", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "military",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "crt_fire_glove", "prob": 5 },
+      { "item": "ds_ripper", "prob": 10 },
+      { "item": "crt_em_vest", "prob": 50 },
+      { "item": "knife_crt", "prob": 5 },
+      { "item": "crt_knuckledusters", "prob": 5 },
+      { "item": "sword_crt", "prob": 15 },
+      { "item": "blade_crt", "prob": 15 },
+      { "item": "crt_hatchet", "prob": 10 },
+      { "item": "crt_nstick", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_energy",
+    "//": "Assorted factory crafted energy weapons.",
+    "items": [
+      { "item": "ds_pulse_rifle", "prob": 20 },
+      { "item": "ds_line_gun", "prob": 10 },
+      { "item": "v29", "prob": 25 },
+      { "item": "plasma_gun", "prob": 10 },
+      { "item": "crt_laser_gatling", "prob": 5 },
+      { "item": "crt_laser_carbine", "prob": 15 },
+      { "item": "crt_energy_rifle", "prob": 10 },
+      { "item": "ds_plasma_cutter", "prob": 15 },
+      { "item": "ds_rivet_gun", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_milspec",
+    "//": "Military specification rifles only ever found at military sites.",
+    "items": [
+      { "item": "pelletgun", "prob": 5, "charges-min": 0, "charges-max": 10 },
+      { "item": "crt_cqb_si", "prob": 15, "charges-min": 0, "charges-max": 20 }
+    ]
+  },
+  {
+    "id": "clothing_military",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Standard (non-winter) set of clothes worn by soldiers and paramilitary forces.",
+    "items": [
+      { "item": "crt_legguard" },
+      { "item": "crt_armguard" },
+      { "item": "crt_aarmor" },
+      { "item": "crt_sarmor" },
+      { "item": "crt_warmor" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mil_accessories",
+    "items": [ [ "crt_mess_kit", 10 ], [ "crt_etool", 15 ], [ "crt_canteen", 10 ], [ "crt_gasmask", 10 ] ]
   }
 ]
