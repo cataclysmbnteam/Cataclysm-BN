@@ -146,7 +146,7 @@
     "category": "spare_parts",
     "name": { "str_sp": "zinc" },
     "description": "A slightly brittle metal.  Apart from being an essential mineral that the body needs, it reacts readily with acids, alkalis and other non-metals.  It can be crushed to make zinc powder, used in the production of batteries, among other things.",
-    "weight": "7 g",
+    "weight": "70 mg",
     "volume": "50 ml",
     "price": 3000,
     "price_postapoc": 10,

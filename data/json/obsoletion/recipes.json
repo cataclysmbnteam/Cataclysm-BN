@@ -3167,5 +3167,10 @@
     "type": "recipe",
     "result": "sharp_toothbrush",
     "obsolete": true
+  },
+  {
+    "result": "chem_zinc_powder",
+    "type": "recipe",
+    "obsolete": "true"
   }
 ]

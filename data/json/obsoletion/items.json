@@ -4354,5 +4354,24 @@
     "cutting": 3,
     "to_hit": -3,
     "flags": [ "STAB", "SHEATH_KNIFE", "CONDUCTIVE" ]
+  },
+  {
+    "type": "AMMO",
+    "id": "chem_zinc_powder",
+    "category": "chems",
+    "price": 600,
+    "price_postapoc": 250,
+    "name": { "str_sp": "zinc powder" },
+    "symbol": "=",
+    "color": "white",
+    "description": "A handful of zinc powder.  While commercially used mostly in cosmetics and for paints, hobbyists used to mix it with sulfur to make basic rocket fuel / smokescreen.  When treated with a strong acid, it will produce hydrogen.",
+    "material": "powder",
+    "volume": "9 ml",
+    "weight": "654 mg",
+    "//": "density: 7.14 g/cm3",
+    "bashing": 1,
+    "ammo_type": "components",
+    "container": "bottle_plastic_small",
+    "count": 100
   }
 ]

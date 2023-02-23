@@ -1881,7 +1881,7 @@
       { "item": "chem_muriatic_acid", "prob": 5 },
       { "item": "chem_sulphur", "prob": 10, "charges-min": 100 },
       { "item": "chem_aluminium_powder", "prob": 5 },
-      { "item": "chem_zinc_powder", "prob": 10, "charges-min": 100 },
+      { "item": "zinc_metal", "prob": 10, "charges-min": 100 },
       { "item": "chem_zinc", "prob": 5, "charges-min": 100 },
       { "item": "chem_manganese_dioxide", "prob": 10, "charges-min": 100 },
       { "item": "chem_saltpetre", "prob": 10 },

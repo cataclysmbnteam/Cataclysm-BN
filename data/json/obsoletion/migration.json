@@ -1755,5 +1755,10 @@
     "id": "8mm_fmj",
     "type": "MIGRATION",
     "replace": "8mm_caseless"
+  },
+  {
+    "id": "chem_zinc_powder",
+    "type": "MIGRATION",
+    "replace": "zinc_metal"
   }
 ]
