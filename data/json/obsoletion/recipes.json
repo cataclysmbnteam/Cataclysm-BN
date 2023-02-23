@@ -3171,6 +3171,6 @@
   {
     "result": "chem_zinc_powder",
     "type": "recipe",
-    "obsolete": "true"
+    "obsolete": true
   }
 ]
