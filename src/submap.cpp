@@ -16,7 +16,16 @@
 template<int sx, int sy>
 void maptile_soa<sx, sy>::swap_soa_tile( const point &p1, const point &p2 )
 {
-    //TODO!: update location here
+    tripoint offset = tripoint( p2 - p1, 0 );
+
+    for( item *&it : itm[p1.x][p1.y] ) {
+        it->move_by( offset );
+    }
+
+    for( item *&it : itm[p2.x][p2.y] ) {
+        it->move_by( -offset );
+    }
+
     std::swap( ter[p1.x][p1.y], ter[p2.x][p2.y] );
     std::swap( frn[p1.x][p1.y], frn[p2.x][p2.y] );
     std::swap( lum[p1.x][p1.y], lum[p2.x][p2.y] );
@@ -24,19 +33,8 @@ void maptile_soa<sx, sy>::swap_soa_tile( const point &p1, const point &p2 )
     std::swap( fld[p1.x][p1.y], fld[p2.x][p2.y] );
     std::swap( trp[p1.x][p1.y], trp[p2.x][p2.y] );
     std::swap( rad[p1.x][p1.y], rad[p2.x][p2.y] );
-}
 
-template<int sx, int sy>
-void maptile_soa<sx, sy>::swap_soa_tile( const point &p, maptile_soa<1, 1> &other )
-{
-    //TODO!: update location here
-    std::swap( ter[p.x][p.y], **other.ter );
-    std::swap( frn[p.x][p.y], **other.frn );
-    std::swap( lum[p.x][p.y], **other.lum );
-    std::swap( itm[p.x][p.y], **other.itm );
-    std::swap( fld[p.x][p.y], **other.fld );
-    std::swap( trp[p.x][p.y], **other.trp );
-    std::swap( rad[p.x][p.y], **other.rad );
+
 }
 
 submap::submap()
@@ -256,18 +254,37 @@ void submap::rotate( int turns )
             }
         }
     } else {
-        maptile_soa<1, 1> tmp;
+        for( int i = 0; i < SEEX / 2; i++ ) {
+            for( int j = 0; j < SEEY / 2; j++ ) {
 
-        for( int j = 0, je = SEEY / 2; j < je; ++j ) {
-            for( int i = j, ie = SEEX - j - 1; i < ie; ++i ) {
-                auto p = point{ i, j };
+                /* We first number each of the four points as so:
+                 * Clockwise            Anti-clockwise
+                 *   12                     14
+                 *   43                     23
+                 * Then do a series of swaps:
+                 *            Start
+                 *   AB                     AB
+                 *   CD                     CD
+                 *           Swap 1 <-> 2
+                 *   BA                     CB
+                 *   CD                     AD
+                 *           Swap 1 <-> 3
+                 *   DA                     DB
+                 *   CB                     AC
+                 *           Swap 1 <-> 4
+                 *   CA                     BD
+                 *   DB                     AC
+                 *   As you can see, this causes the desired rotation.
+                 */
 
-                swap_soa_tile( p, tmp );
+                point p1 = point( i, j );
+                point p2 = rotate_point( p1 );
+                point p3 = rotate_point( p2 );
+                point p4 = rotate_point( p3 );
 
-                for( int k = 0; k < 4; ++k ) {
-                    p = rotate_point( p );
-                    swap_soa_tile( p, tmp );
-                }
+                swap_soa_tile( p1, p2 );
+                swap_soa_tile( p1, p3 );
+                swap_soa_tile( p1, p4 );
             }
         }
     }

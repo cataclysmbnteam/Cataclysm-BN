@@ -583,7 +583,7 @@ class atm_menu
         bool do_withdraw_money() {
             //We may want to use visit_items here but that's fairly heavy.
             //For now, just check weapon if we didn't find it in the inventory.
-            int pos = u.inv.position_by_type( itype_cash_card );
+            int pos = u.inv_position_by_type( itype_cash_card );
             item *dst;
             if( pos == INT_MIN ) {
                 dst = &u.get_weapon();
@@ -624,7 +624,7 @@ class atm_menu
                     return false;
                 }
             } else {
-                const int pos = u.inv.position_by_type( itype_cash_card );
+                const int pos = u.inv_position_by_type( itype_cash_card );
 
                 if( pos == INT_MIN ) {
                     return false;
@@ -4308,8 +4308,8 @@ static int findBestGasDiscount( player &p )
 {
     int discount = 0;
 
-    for( size_t i = 0; i < p.inv.size(); i++ ) {
-        item &it = p.inv.find_item( i );
+    for( size_t i = 0; i < p.inv_size(); i++ ) {
+        item &it = p.inv_find_item( i );
 
         if( it.has_flag( "GAS_DISCOUNT" ) ) {
 
@@ -4593,7 +4593,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     }
 
     if( refund == choice ) {
-        const int pos = p.inv.position_by_type( itype_id( "cash_card" ) );
+        const int pos = p.inv_position_by_type( itype_id( "cash_card" ) );
 
         if( pos == INT_MIN ) {
             add_msg( _( "Never mind." ) );
@@ -5510,7 +5510,7 @@ void iexamine::mill_finalize( player &, const tripoint &examp, const time_point 
             //TODO!: check
             item &result = *item_spawn( mdata.into_, start_time + milling_time,
                                         it->count() * mdata.conversion_rate_ );
-            result.components.push_back( it );
+            result.add_component( *it );
             // copied from item::inherit_flags, which can not be called here because it requires a recipe.
             for( const std::string &f : it->type->item_tags ) {
                 if( json_flag::get( f ).craft_inherit() ) {
@@ -5574,7 +5574,7 @@ static void smoker_finalize( player &, const tripoint &examp, const time_point &
                         //TODO!: restore next
                         //it = item( it->get_comestible()->cooks_like, it.birthday(), 1 );
                     }
-                    result.components.push_back( it );
+                    result.add_component( *it );
                     // Smoking is always 1:1, so these must be equal for correct kcal/vitamin calculation.
                     result.recipe_charges = it->charges;
                     result.set_flag_recursive( flag_COOKED );

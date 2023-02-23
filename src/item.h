@@ -176,7 +176,7 @@ inline iteminfo::flags &operator|=( iteminfo::flags &l, iteminfo::flags r )
 inline bool is_crafting_component( const item &component );
 
 template<>
-std::vector<item *> cata_arena<item>::pending_deletion;
+std::set<item *> cata_arena<item>::pending_deletion;
 
 /**
  * Returns a reference to a null item (see @ref item::is_null). The reference is always valid
@@ -245,18 +245,12 @@ class item : public visitable<item>, public game_object<item>
             if( source.is_null() ) {
                 return &null_item_reference();
             }
-            item *p = static_cast<item *>( std::allocator_traits<cata_arena<item>>::allocate( arena,  1 ) );
-            //std::allocator_traits<cata_arena<item>>::construct( arena, p, args... );
-            ::new( static_cast<void *>( p ) ) item( source );
-            return p;
+            return new item( source );
         }
 
         template<typename... T>
         inline static item *_spawn( T... args ) {
-            item *p = static_cast<item *>( std::allocator_traits<cata_arena<item>>::allocate( arena,  1 ) );
-            //std::allocator_traits<cata_arena<item>>::construct( arena, p, args... );
-            ::new( static_cast<void *>( p ) ) item( std::forward<T>( args )... );
-            return p;
+            return new item( std::forward<T>( args )... );
         }
 
         inline static item *_spawn_temporary( const item &source ) {
@@ -280,8 +274,8 @@ class item : public visitable<item>, public game_object<item>
 #if !defined(RELEASE)
 
         //Sadly these need to go on one line or astyle breaks them
-#define item_spawn(...) (([&](){ typename ::item *p = item::_spawn( __VA_ARGS__ ); cata_arena<typename ::item>::add_debug_entry( p, __FILE__, __LINE__ ); return p; } )() )
-#define item_spawn_temporary(...) (([&](){ typename ::item *p = item::_spawn_temporary( __VA_ARGS__ ); cata_arena<typename ::item>::add_debug_entry( p, __FILE__, __LINE__ ); return p; } )() )
+#define item_spawn(...) (([&](){ typename ::item *p = item::_spawn( __VA_ARGS__ ); void** buf=static_cast<void**>(malloc(sizeof(void*)*20)); backtrace(buf, 20); cata_arena<typename ::item>::add_debug_entry( p, __FILE__, __LINE__, buf ); return p; } )() )
+#define item_spawn_temporary(...) (([&](){ typename ::item *p = item::_spawn_temporary( __VA_ARGS__ ); void** buf=static_cast<void**>(malloc(sizeof(void*)*20)); backtrace(buf, 20); cata_arena<typename ::item>::add_debug_entry( p, __FILE__, __LINE__, buf ); return p; } )() )
 
 #else
 #define item_spawn(...) item::_spawn(__VA_ARGS__)
@@ -439,6 +433,9 @@ class item : public visitable<item>, public game_object<item>
          * charges at all). Calls @ref tname with given quantity and with_prefix being true.
          */
         std::string display_name( unsigned int quantity = 1 ) const;
+
+        /** Returns the name that will be used when referring to the object in error messages */
+        std::string debug_name() const override;
         /**
          * Return all the information about the item and its type.
          *
@@ -2257,13 +2254,18 @@ class item : public visitable<item>, public game_object<item>
 
         const itype *type;
         item_contents contents;
-        ItemList components;
         /** What faults (if any) currently apply to this item */
         std::set<fault_id> faults;
 
         // TODO: Move to private ASAP
         FlagsSetType item_tags; // generic item specific flags
+
+        ItemList remove_components();
+        void add_component( item &comp );
+        const ItemList &get_components() const;
+        ItemList &get_components();
     private:
+        ItemList components;
         const itype *curammo = nullptr;
         std::map<std::string, std::string> item_vars;
         const mtype *corpse = nullptr;
@@ -2329,7 +2331,7 @@ class item : public visitable<item>, public game_object<item>
         int damage_ = 0;
         light_emission light = nolight;
 
-        static cata_arena<item> arena;
+        inline static cata_arena<item> arena;
 
     public:
         char invlet = 0;      // Inventory letter

@@ -176,7 +176,7 @@ nc_color inventory_entry::get_invlet_color() const
 {
     if( !is_selectable() ) {
         return c_dark_gray;
-    } else if( g->u.inv.assigned_invlet.count( get_invlet() ) ) {
+    } else if( g->u.inv_assigned_invlet().count( get_invlet() ) ) {
         return c_yellow;
     } else {
         return c_white;
@@ -238,8 +238,8 @@ bool inventory_selector_preset::sort_compare( const inventory_entry &lhs,
         const inventory_entry &rhs ) const
 {
     // Place items with an assigned inventory letter first, since the player cared enough to assign them
-    const bool left_fav  = g->u.inv.assigned_invlet.count( lhs.any_item()->invlet );
-    const bool right_fav = g->u.inv.assigned_invlet.count( rhs.any_item()->invlet );
+    const bool left_fav  = g->u.inv_assigned_invlet().count( lhs.any_item()->invlet );
+    const bool right_fav = g->u.inv_assigned_invlet().count( rhs.any_item()->invlet );
     if( left_fav == right_fav ) {
         return lhs.cached_name.compare( rhs.cached_name ) < 0; // Simple alphabetic order
     } else if( left_fav ) {
@@ -649,7 +649,7 @@ void inventory_column::set_stack_favorite( const item *location, bool favorite )
         if( position < 0 ) {
             g->u.i_at( position ).set_favorite( !selected_item->is_favorite ); // worn/wielded
         } else {
-            g->u.inv.set_stack_favorite( position, !selected_item->is_favorite ); // in inventory
+            g->u.inv_set_stack_favorite( position, !selected_item->is_favorite ); // in inventory
         }
     } else if( location->where() == item_location_type::map ) {
         auto items = g->m.i_at( location->position() );
@@ -1052,30 +1052,6 @@ void selection_column::on_change( const inventory_entry &entry )
     }
 }
 
-//TODO!: restore/delete if it ends up being the same as the one below
-/*
-// TODO: Move it into some 'item_stack' class.
-static std::vector<std::list<item *>> restack_items( const ItemList::const_iterator &from,
-                                   const ItemList::const_iterator &to, bool check_components = false )
-{
-    std::vector<std::list<item *>> res;
-
-    for( auto it = from; it != to; ++it ) {
-        auto match = std::find_if( res.begin(), res.end(),
-        [ &it, check_components ]( const std::list<item *> &e ) {
-            return ( *it )->display_stacked_with( *const_cast<item *>( e.back() ), check_components );
-        } );
-
-        if( match != res.end() ) {
-            match->push_back( const_cast<item *>( *it ) );
-        } else {
-            res.emplace_back( 1, const_cast<item *>( *it ) );
-        }
-    }
-
-    return res;
-}*/
-
 // TODO: Move it into some 'item_stack' class.
 static std::vector<std::list<item *>> restack_items( const item_stack::const_iterator &from,
                                    const item_stack::const_iterator &to, bool check_components = false )
@@ -1202,7 +1178,7 @@ void inventory_selector::add_character_items( Character &character )
         return VisitResponse::NEXT;
     } );
     // Visitable interface does not support stacks so it has to be here
-    for( const auto &elem : character.inv.slice() ) {
+    for( const auto &elem : character.inv_slice() ) {
         add_items( own_inv_column, []( item * it ) {
             return it;
         }, restack_items( ( *elem ).begin(), ( *elem ).end(), preset.get_checking_components() ) );

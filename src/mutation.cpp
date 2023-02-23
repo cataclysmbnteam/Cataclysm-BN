@@ -601,7 +601,7 @@ void Character::activate_mutation( const trait_id &mut )
         return;
     } else if( !mdata.ranged_mutation.is_empty() ) {
         add_msg_if_player( mdata.ranged_mutation_message() );
-        //TODO!: checkssss
+        //TODO!: check later
         avatar_action::fire_ranged_mutation( g->u, *item_spawn( mdata.ranged_mutation ) );
         tdata.powered = false;
         return;

@@ -13,6 +13,14 @@
 
 struct tripoint;
 
+item_contents::~item_contents()
+{
+    for( item *&it : items ) {
+        it->remove_location();
+        it->destroy();
+    }
+}
+
 bool item_contents::empty() const
 {
     return items.empty();
@@ -20,7 +28,6 @@ bool item_contents::empty() const
 
 ret_val<bool> item_contents::insert_item( item &it )
 {
-    //TODO!: location
     items.push_back( &it );
     return ret_val<bool>::make_success();
 }
@@ -75,7 +82,10 @@ void item_contents::casings_handle( const std::function<bool( item & )> &func )
 
 void item_contents::clear_items()
 {
-    //TODO!: clear locations
+    for( item *&it : items ) {
+        it->remove_location();
+        it->destroy();
+    }
     items.clear();
 }
 

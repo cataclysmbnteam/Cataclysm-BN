@@ -147,7 +147,7 @@ bool tutorial_game::init()
     g->u.toggle_trait( trait_QUICK );
     item &lighter = *item_spawn( "lighter", calendar::start_of_cataclysm );
     lighter.invlet = 'e';
-    player_character.inv.add_item( lighter, true, false );
+    player_character.i_add( lighter );
     player_character.set_skill_level( skill_gun, 5 );
     player_character.set_skill_level( skill_melee, 5 );
     g->load_map( project_to<coords::sm>( lp_abs ) );

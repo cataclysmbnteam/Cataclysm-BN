@@ -129,6 +129,7 @@ class vehicle_stack : public item_stack
         vehicle_stack( cata::colony<item &> *newstack, point newloc, vehicle *neworigin, int part ) :
             item_stack( newstack ), location( newloc ), myorigin( neworigin ), part_num( part ) {}
         iterator erase( const_iterator it ) override;
+        iterator erase( const_iterator first, const_iterator last ) override;
         void insert( item &newitem ) override;
         int count_limit() const override {
             return MAX_ITEM_IN_VEHICLE_STORAGE;
@@ -183,6 +184,7 @@ int vmiph_to_cmps( int vmiph );
  * Structure, describing vehicle part (i.e., wheel, seat)
  */
 struct vehicle_part {
+    public:
         friend vehicle;
         friend class veh_interact;
         friend visitable<vehicle_cursor>;
@@ -201,6 +203,12 @@ struct vehicle_part {
 
         vehicle_part( const vpart_id &vp, const point &dp, item &obj );
 
+        vehicle_part( const vehicle_part & );
+        vehicle_part &operator=( const vehicle_part & );
+
+        vehicle_part( vehicle_part && );
+        vehicle_part &operator=( vehicle_part && );
+
         /** Check this instance is non-null (not default constructed) */
         explicit operator bool() const;
 
@@ -214,6 +222,9 @@ struct vehicle_part {
         int  remove_flag( const int flag )    noexcept {
             return flags &= ~flag;
         }
+
+        /** Temporary hack until this is made into go's */
+        void destruct_hack();
 
         /**
          * Translated name of a part inclusive of any current status effects
@@ -431,6 +442,10 @@ struct vehicle_part {
         std::pair<tripoint, tripoint> target = { tripoint_min, tripoint_min };
 
     private:
+
+        /** Copies static (i.e. non-item) properties from another part */
+        void copy_static_from( const vehicle_part &source );
+
         /** What type of part is this? */
         vpart_id id;
 
@@ -749,11 +764,11 @@ class vehicle
 
         vehicle( const vproto_id &type_id, int init_veh_fuel = -1, int init_veh_status = -1 );
         vehicle();
-        vehicle( const vehicle & ) = delete;
         ~vehicle();
-        vehicle &operator=( vehicle && ) = default;
 
     private:
+        vehicle( const vehicle & ) = delete;
+        vehicle &operator=( vehicle && ) = default;
         vehicle &operator=( const vehicle & ) = default;
 
     public:
@@ -896,7 +911,7 @@ class vehicle
         int install_part( const point &dp, const vpart_id &id, bool force = false );
 
         // Install a copy of the given part, skips possibility check
-        int install_part( const point &dp, const vehicle_part &part );
+        int install_part( const point &dp, vehicle_part &&part );
 
         /** install item specified item to vehicle as a vehicle part */
         int install_part( const point &dp, const vpart_id &id, item &obj, bool force = false );
@@ -1525,6 +1540,8 @@ class vehicle
         // remove item from part's cargo
         bool remove_item( int part, item *it );
         vehicle_stack::iterator remove_item( int part, vehicle_stack::const_iterator it );
+        vehicle_stack::iterator remove_item( int part, vehicle_stack::const_iterator first,
+                                             vehicle_stack::const_iterator last );
 
         vehicle_stack get_items( int part ) const;
         vehicle_stack get_items( int part );

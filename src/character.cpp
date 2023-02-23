@@ -2195,6 +2195,8 @@ cata::optional<ItemList::iterator> Character::wear_item( item &to_wear,
     ItemList::iterator position = position_to_wear_new_item( to_wear );
     ItemList::iterator new_item_it = worn.insert( position, &to_wear );
 
+    to_wear.set_location( new worn_item_location( this ) );
+
     if( interactive ) {
         add_msg_player_or_npc(
             _( "You put on your %s." ),
@@ -2420,6 +2422,82 @@ int Character::get_item_position( const item *it ) const
 
     return inv.position_by_item( it );
 }
+
+const std::vector<item *> Character::inv_const_stack( int position ) const
+{
+    return inv.const_stack( position );
+}
+
+invslice Character::inv_slice()
+{
+    return inv.slice();
+}
+
+const_invslice Character::inv_const_slice() const
+{
+    return inv.const_slice();
+}
+
+size_t Character::inv_size() const
+{
+    return inv.size();
+}
+
+void Character::inv_restack()
+{
+    inv.restack( *dynamic_cast<player *>( this ) );
+}
+
+void Character::inv_assign_empty_invlet( item &it, bool force )
+{
+    inv.assign_empty_invlet( it, *this, force );
+}
+
+void Character::rust_iron_items()
+{
+    inv.rust_iron_items();
+}
+
+void Character::inv_clear()
+{
+    inv.clear();
+}
+
+std::map<char, itype_id> Character::inv_assigned_invlet() const
+{
+    return inv.assigned_invlet;
+}
+
+int Character::inv_position_by_type( const itype_id &type ) const
+{
+    return inv.position_by_type( type );
+}
+
+item &Character::inv_find_item( int position )
+{
+    return inv.find_item( position );
+}
+
+const item &Character::inv_find_item( int position ) const
+{
+    return inv.find_item( position );
+}
+
+void Character::inv_set_stack_favorite( int position, bool favorite )
+{
+    inv.set_stack_favorite( position, favorite );
+}
+
+units::volume Character::inv_volume() const
+{
+    return inv.volume();
+}
+
+void Character::inv_unsort()
+{
+    inv.unsort();
+}
+
 //TODO!: check these
 item &Character::i_rem( int pos )
 {
@@ -10161,7 +10239,7 @@ void Character::place_corpse()
         if( bio.info().itype().is_valid() ) {
             item &cbm = *item_spawn( bio.id.str(), calendar::turn );
             cbm.faults.emplace( fault_bionic_nonsterile );
-            body.components.push_back( &cbm );
+            body.add_component( cbm );
         }
     }
 
@@ -10170,12 +10248,12 @@ void Character::place_corpse()
     for( int i = 0; i < storage_modules.first; ++i ) {
         item &cbm = *item_spawn( itype_power_storage );
         cbm.faults.emplace( fault_bionic_nonsterile );
-        body.components.push_back( &cbm );
+        body.add_component( cbm );
     }
     for( int i = 0; i < storage_modules.second; ++i ) {
         item &cbm = *item_spawn( itype_power_storage_mkII );
         cbm.faults.emplace( fault_bionic_nonsterile );
-        body.components.push_back( &cbm );
+        body.add_component( cbm );
     }
     here.add_item_or_charges( pos(), body );
 }
@@ -10208,7 +10286,6 @@ void Character::place_corpse( const tripoint_abs_omt &om_target )
     }
     for( const bionic &bio : *my_bionics ) {
         if( bio.info().itype().is_valid() ) {
-            //TODO!: check
             body.put_in( *item_spawn( bio.info().itype(), calendar::turn ) );
         }
     }

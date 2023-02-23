@@ -933,13 +933,13 @@ void make_mon_corpse( monster &z, int damageLvl )
                     : butcher_cbm_group( item_group_id( entry.drop ), calendar::turn, entry.flags, entry.faults );
                 for( item *&it : contained_bionics ) {
                     // Disgusting hack: use components instead of contents to hide stuff
-                    corpse.components.push_back( it );
+                    corpse.add_component( *it );
                 }
             }
         }
     }
-    for( item *&it : z.corpse_components ) {
-        corpse.components.push_back( it );
+    for( item *&it : z.remove_corpse_components() ) {
+        corpse.add_component( *it );
     }
     get_map().add_item_or_charges( z.pos(), corpse );
 }

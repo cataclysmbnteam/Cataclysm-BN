@@ -219,22 +219,21 @@ bool craft_command::query_continue( const std::vector<comp_selection<item_comp>>
 
     return query_yn( ss );
 }
-//TODO!: restore this
+
 item &craft_command::create_in_progress_craft()
 {
-    /*
     // Use up the components and tools
     ItemList used;
     std::vector<item_comp> comps_used;
     if( crafter->has_trait( trait_DEBUG_HS ) ) {
-        item* new_craft=item::create( rec, batch_size, used, comps_used );
-        new_craft.set_tools_to_continue( true );
-        return new_craft;
+        item *new_craft = item_spawn( rec, batch_size, used, comps_used );
+        new_craft->set_tools_to_continue( true );
+        return *new_craft;
     }
 
     if( empty() ) {
         debugmsg( "Warning: attempted to consume items from an empty craft_command" );
-        return item();
+        return null_item_reference();
     }
 
     inventory map_inv;
@@ -242,14 +241,14 @@ item &craft_command::create_in_progress_craft()
 
     if( !check_item_components_missing( map_inv ).empty() ) {
         debugmsg( "Aborting crafting: couldn't find cached components" );
-        return item();
+        return null_item_reference();
     }
 
     const auto filter = rec->get_component_filter( flags );
 
     for( const auto &it : item_selections ) {
         ItemList tmp = crafter->consume_items( it, batch_size, filter );
-        used.splice( used.end(), tmp );
+        used.insert( used.end(), tmp.begin(), tmp.end() );
     }
 
     for( const comp_selection<item_comp> &selection : item_selections ) {
@@ -269,17 +268,15 @@ item &craft_command::create_in_progress_craft()
         }
     }
 
-    item new_craft( rec, batch_size, used, comps_used );
+    item *new_craft = item_spawn( rec, batch_size, used, comps_used );
 
-    new_craft.set_cached_tool_selections( tool_selections );
-    new_craft.set_tools_to_continue( true );
+    new_craft->set_cached_tool_selections( tool_selections );
+    new_craft->set_tools_to_continue( true );
     // Pass true to indicate that we are starting the craft and the remainder should be consumed as well
-    crafter->craft_consume_tools( new_craft, 1, true );
-    new_craft.set_next_failure_point( *crafter );
+    crafter->craft_consume_tools( *new_craft, 1, true );
+    new_craft->set_next_failure_point( *crafter );
 
-    return new_craft;
-    */
-    return *item_spawn();
+    return *new_craft;
 }
 
 skill_id craft_command::get_skill_id()

@@ -283,9 +283,8 @@ static const activity_id ACT_PICKUP( "ACT_PICKUP" );
 static const matec_id rapid_strike( "RAPID" );
 
 template<>
-std::vector<item *> cata_arena<item>::pending_deletion = {};
+std::set<item *> cata_arena<item>::pending_deletion = {};
 
-cata_arena<item> item::arena;
 
 class npc_class;
 
@@ -455,7 +454,7 @@ item::item( const itype_id &id, time_point turn, solitary_tag tag )
 static const item *get_most_rotten_component( const item &craft )
 {
     const item *most_rotten = nullptr;
-    for( const item * const &it : craft.components ) {
+    for( const item * const &it : craft.get_components() ) {
         if( it->goes_bad() ) {
             if( !most_rotten || it->get_relative_rot() > most_rotten->get_relative_rot() ) {
                 most_rotten = it;
@@ -975,6 +974,10 @@ bool item::stacks_with( const item &rhs, bool check_components, bool skip_type_c
 
 bool item::merge_charges( item &rhs )
 {
+    if( this == &rhs ) {
+        debugmsg( "Attempted to merge %s with itself.", debug_name() );
+        return false;
+    }
     if( !count_by_charges() || !stacks_with( rhs ) ) {
         return false;
     }
@@ -997,6 +1000,7 @@ bool item::merge_charges( item &rhs )
 
 void item::put_in( item &payload )
 {
+    payload.set_location( new contents_item_location( this ) );
     contents.insert_item( payload );
 }
 
@@ -4831,6 +4835,11 @@ std::string item::display_name( unsigned int quantity ) const
     return string_format( "%s%s%s", name, sidetxt, amt );
 }
 
+std::string item::debug_name() const
+{
+    return type->nname( charges );
+}
+
 nc_color item::color() const
 {
     if( is_null() ) {
@@ -5697,7 +5706,7 @@ int item::get_encumber( const Character &p ) const
             if( char_storage != 0_ml ) {
                 // Cast up to 64 to prevent overflow. Dividing before would prevent this but lose data.
                 contents_volume += units::from_milliliter( static_cast<int64_t>( t->storage.value() ) *
-                                   p.inv.volume().value() / char_storage.value() );
+                                   p.inv_volume().value() / char_storage.value() );
             }
         }
     }
@@ -7387,6 +7396,7 @@ int item::ammo_consume( int qty, const tripoint &pos )
             if( need >= e.charges ) {
                 need -= e.charges;
                 remove_item( contents.front() );
+                e.destroy();
             } else {
                 e.charges -= need;
                 need = 0;
@@ -8104,7 +8114,7 @@ bool item::reload( player &u, item &loc, int qty )
     if( ammo->charges == 0 && !ammo->has_flag( flag_SPEEDLOADER ) ) {
         if( container != nullptr ) {
             container->remove_item( container->contents.front() );
-            u.inv.restack( u ); // emptied containers do not stack with non-empty ones
+            u.inv_restack( ); // emptied containers do not stack with non-empty ones
         } else {
             //TODO!: check
             loc.detach();
@@ -8364,7 +8374,7 @@ int item::get_remaining_capacity_for_liquid( const item &liquid, const Character
     const bool allow_bucket = ( this == &p.get_weapon() ) || !p.has_item( *this );
     int res = get_remaining_capacity_for_liquid( liquid, allow_bucket, err );
 
-    if( res > 0 && !type->rigid && p.inv.has_item( *this ) ) {
+    if( res > 0 && !type->rigid && p.has_item( *this ) ) {
         const units::volume volume_to_expand = std::max( p.volume_capacity() - p.volume_carried(),
                                                0_ml );
 
@@ -10086,4 +10096,30 @@ item *item::parent_item() const
         return nullptr;
     }
     return cont->parent();
+}
+
+ItemList item::remove_components()
+{
+    ItemList ret = components;
+    for( item *&it : ret ) {
+        it->remove_location();
+    }
+    components.clear();
+    return ret;
+}
+
+void item::add_component( item &comp )
+{
+    components.push_back( &comp );
+    comp.set_location( new component_item_location( this ) );
+}
+
+const ItemList &item::get_components() const
+{
+    return components;
+}
+
+ItemList &item::get_components()
+{
+    return components;
 }

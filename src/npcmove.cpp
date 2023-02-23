@@ -3965,7 +3965,7 @@ void npc::mug_player( Character &mark )
     }
     double best_value = minimum_item_value() * value_mod;
     item *to_steal = nullptr;
-    invslice slice = mark.inv.slice();
+    invslice slice = mark.inv_slice();
     for( ItemList *stack : slice ) {
         item &front_stack = *stack->front();
         if( value( front_stack ) >= best_value &&

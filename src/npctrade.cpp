@@ -97,7 +97,7 @@ void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &give
 std::vector<item_pricing> npc_trading::init_selling( npc &np )
 {
     std::vector<item_pricing> result;
-    invslice slice = np.inv.slice();
+    invslice slice = np.inv_slice();
     for( auto &i : slice ) {
         item &it = *i->front();
 
@@ -179,7 +179,7 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
         }
     };
 
-    invslice slice = seller.inv.slice();
+    invslice slice = seller.inv_slice();
     for( auto &i : slice ) {
         check_item( i->front(), i->size() );
     }

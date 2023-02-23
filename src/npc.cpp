@@ -587,16 +587,17 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
 void starting_inv( npc &who, const npc_class_id &type )
 {
     ItemList res;
-    who.inv.clear();
+    who.inv_clear();
     if( item_group::group_is_defined( type->carry_override ) ) {
-        who.inv += item_group::items_from( type->carry_override );
+        for( item *&it : item_group::items_from( type->carry_override ) ) {
+            who.i_add( *it );
+        }
         return;
     }
 
     res.emplace_back( item_spawn( "lighter" ) );
     // If wielding a gun, get some additional ammo for it
     if( who.get_weapon().is_gun() ) {
-        //TODO!: checks
         item *ammo = item_spawn( who.get_weapon().ammo_default() );
         ammo = &ammo->in_its_container();
         if( ammo->made_of( LIQUID ) ) {
@@ -643,7 +644,9 @@ void starting_inv( npc &who, const npc_class_id &type )
     for( auto &it : res ) {
         it->set_owner( who );
     }
-    who.inv += res;
+    for( item *&it : res ) {
+        who.i_add( *it );
+    }
 }
 
 void npc::revert_after_activity()
@@ -1112,42 +1115,42 @@ bool npc::wear_if_wanted( item &it, std::string &reason )
 
 void npc::stow_item( item &it )
 {
-    //TODO!: check locations
-    if( wear_item( get_weapon(), false ) ) {
+    item &weapon = get_weapon();
+    remove_weapon();
+    if( wear_item( weapon, false ) ) {
         // Wearing the item was successful, remove weapon and post message.
         if( g->u.sees( pos() ) ) {
             add_msg_if_npc( m_info, _( "<npcname> wears the %s." ), get_weapon().tname() );
         }
-        remove_weapon();
         moves -= 15;
         // Weapon cannot be worn or wearing was not successful. Store it in inventory if possible,
         // otherwise drop it.
         return;
     }
+
     for( auto &e : worn ) {
         if( e->can_holster( it ) ) {
             if( g->u.sees( pos() ) ) {
                 //~ %1$s: weapon name, %2$s: holster name
                 add_msg_if_npc( m_info, _( "<npcname> puts away the %1$s in the %2$s." ),
-                                get_weapon().tname(), e->tname() );
+                                weapon.tname(), e->tname() );
             }
-            //TODO!: check
             auto ptr = dynamic_cast<const holster_actor *>( e->type->get_use( "holster" )->get_actor_ptr() );
             ptr->store( *this, *e, it );
             return;
         }
     }
-    if( volume_carried() + get_weapon().volume() <= volume_capacity() ) {
+    if( volume_carried() + weapon.volume() <= volume_capacity() ) {
         if( g->u.sees( pos() ) ) {
-            add_msg_if_npc( m_info, _( "<npcname> puts away the %s." ), get_weapon().tname() );
+            add_msg_if_npc( m_info, _( "<npcname> puts away the %s." ), weapon.tname() );
         }
-        i_add( remove_weapon() );
+        i_add( weapon );
         moves -= 15;
     } else { // No room for weapon, so we drop it
         if( g->u.sees( pos() ) ) {
-            add_msg_if_npc( m_info, _( "<npcname> drops the %s." ), get_weapon().tname() );
+            add_msg_if_npc( m_info, _( "<npcname> drops the %s." ), weapon.tname() );
         }
-        g->m.add_item_or_charges( pos(), remove_weapon() );
+        g->m.add_item_or_charges( pos(), weapon );
     }
 }
 
@@ -1397,12 +1400,12 @@ float npc::vehicle_danger( int radius ) const
             /* This will almost certainly give the wrong size/location on customized
              * vehicles. This should just count frames instead. Or actually find the
              * size. */
-            vehicle_part last_part;
+            vehicle_part *last_part;
             // vehicle_part_range is a forward only iterator, see comment in vpart_range.h
             for( const vpart_reference &vpr : wrapped_veh.v->get_all_parts() ) {
-                last_part = vpr.part();
+                last_part = &vpr.part();
             }
-            int size = std::max( last_part.mount.x, last_part.mount.y );
+            int size = std::max( last_part->mount.x, last_part->mount.y );
 
             double normal = std::sqrt( static_cast<float>( ( b.x - a.x ) * ( b.x - a.x ) + ( b.y - a.y ) *
                                        ( b.y - a.y ) ) );
@@ -1691,7 +1694,6 @@ void npc::shop_restock()
     if( my_fac ) {
         shop_value = my_fac->wealth * 0.0075;
         if( mission == NPC_MISSION_SHOPKEEP && !my_fac->currency.is_empty() ) {
-            //TODO!: check
             item *my_currency = item_spawn( my_fac->currency );
             if( !my_currency->is_null() ) {
                 my_currency->set_owner( *this );

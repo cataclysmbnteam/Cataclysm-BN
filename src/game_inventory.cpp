@@ -176,7 +176,7 @@ static item *inv_internal( player &u, const inventory_selector_preset &preset,
     }
 
     do {
-        u.inv.restack( u );
+        u.inv_restack( );
 
         inv_s.clear_items();
         inv_s.add_character_items( u );
@@ -232,7 +232,7 @@ void game_menus::inv::common( avatar &you )
 
     bool started_action = false;
     do {
-        you.inv.restack( you );
+        you.inv_restack( );
         inv_s.clear_items();
         inv_s.add_character_items( you );
 
@@ -1470,7 +1470,7 @@ item *game_menus::inv::saw_barrel( player &p, item &tool )
 
 drop_locations game_menus::inv::multidrop( player &p )
 {
-    p.inv.restack( p );
+    p.inv_restack( );
 
     const inventory_filter_preset preset( [ &p ]( const item & location ) {
         const item &itm = location;
@@ -1490,7 +1490,7 @@ drop_locations game_menus::inv::multidrop( player &p )
     inv_s.set_hint( _( "To drop x items, type a number before selecting." ) );
 
     while( true ) {
-        p.inv.restack( p );
+        p.inv_restack( );
         inv_s.clear_items();
         inv_s.add_character_items( p );
 
@@ -1551,7 +1551,7 @@ iuse_locations game_menus::inv::multiwash( Character &ch, int water, int cleanse
 
 void game_menus::inv::compare( player &p, const cata::optional<tripoint> &offset )
 {
-    p.inv.restack( p );
+    p.inv_restack( );
 
     inventory_compare_selector inv_s( p );
 
@@ -1676,7 +1676,7 @@ void game_menus::inv::reassign_letter( player &p, item &it )
 
 void game_menus::inv::swap_letters( player &p )
 {
-    p.inv.restack( p );
+    p.inv_restack( );
 
     inventory_pick_selector inv_s( p );
 
@@ -1692,7 +1692,7 @@ void game_menus::inv::swap_letters( player &p )
     while( true ) {
         const std::string invlets = colorize_symbols( inv_chars.get_allowed_chars(),
         [ &p ]( const std::string::value_type & elem ) {
-            if( p.inv.assigned_invlet.count( elem ) ) {
+            if( p.inv_assigned_invlet().count( elem ) ) {
                 return c_yellow;
             } else if( p.invlet_to_item( elem ) != nullptr ) {
                 return c_white;
@@ -1758,7 +1758,7 @@ static item *autodoc_internal( player &u, player &patient,
     inv_s.set_display_stats( false );
 
     do {
-        u.inv.restack( u );
+        u.inv_restack( );
 
         inv_s.clear_items();
         inv_s.add_character_items( u );
@@ -2097,7 +2097,7 @@ static item *autoclave_internal( player &u,
     inv_s.set_display_stats( false );
 
     do {
-        u.inv.restack( u );
+        u.inv_restack( );
 
         inv_s.clear_items();
         inv_s.add_character_items( u );

@@ -536,6 +536,7 @@ void Character::load( const JsonObject &data )
     worn.clear();
     data.read( "worn", worn );
     for( auto &w : worn ) {
+        w->set_location( new worn_item_location( this ) );
         on_item_wear( *w );
     }
 
@@ -570,11 +571,17 @@ void Character::load( const JsonObject &data )
     if( data.has_member( "inv" ) ) {
         JsonIn *invin = data.get_raw( "inv" );
         inv.json_load_items( *invin );
+        for( auto &is : inv.slice() ) {
+            for( item *&it : *is ) {
+                it->set_location( new character_item_location( this ) );
+            }
+        }
     }
 
     //TODO!: CHHHECK
     weapon = &null_item_reference();//item( "null", calendar::start_of_cataclysm );
     data.read( "weapon", weapon );
+    weapon->set_location( new wield_item_location( this ) );
 
     data.read( "move_mode", move_mode );
 
@@ -1680,7 +1687,7 @@ void npc::store( JsonOut &json ) const
     json.member( "chatbin", chatbin );
     json.member( "rules", rules );
 
-    if( !real_weapon->is_null() ) {
+    if( real_weapon && !real_weapon->is_null() ) {
         json.member( "real_weapon", real_weapon ); // also saves contents
     }
     json.member( "cbm_weapon_index", cbm_weapon_index );
@@ -1899,6 +1906,9 @@ void monster::load( const JsonObject &data )
 
     data.read( "inv", inv );
     data.read( "corpse_components", corpse_components );
+    for( item *&it : corpse_components ) {
+        it->set_location( new monster_component_item_location( this ) );
+    }
     data.read( "dragged_foe_id", dragged_foe_id );
 
     if( data.has_int( "ammo" ) && !type->starting_ammo.empty() ) {
@@ -2347,8 +2357,19 @@ void item::deserialize( JsonIn &jsin )
         std::vector<item *> items;
         data.read( "contents", items );
         contents = item_contents( items );
+        for( item *&obj : items ) {
+            obj->set_location( new contents_item_location( this ) );
+        }
     } else {
         data.read( "contents", contents );
+
+        for( item *&obj : contents.all_items_top() ) {
+            obj->set_location( new contents_item_location( this ) );
+        }
+    }
+
+    for( item *&it : components ) {
+        it->set_location( new component_item_location( this ) );
     }
 
     safe_reference<item>::id_type id;
@@ -2522,6 +2543,9 @@ void vehicle_part::deserialize( JsonIn &jsin )
             return lhs + rhs->charges;
         } );
         ammo_set( ( *items.begin() )->ammo_current(), qty );
+        for( item *&it : items ) {
+            it->destroy();
+        }
         items.clear();
     }
 }
@@ -2652,8 +2676,12 @@ void vehicle::deserialize( JsonIn &jsin )
 
     data.read( "parts", parts );
     int i = 0;
-    for( auto &it : parts ) {
-        it.base->set_location( new vehicle_base_item_location( this, i++ ) );
+    for( auto &part : parts ) {
+        part.base->set_location( new vehicle_base_item_location( this, i ) );
+        for( item *&it : part.items ) {
+            it->set_location( new vehicle_item_location( this, i ) );
+        }
+        i++;
     }
 
     // we persist the pivot anchor so that if the rules for finding
@@ -3952,7 +3980,8 @@ void submap::store( JsonOut &jsout ) const
     jsout.end_array();
 }
 
-void submap::load( JsonIn &jsin, const std::string &member_name, int version )
+void submap::load( JsonIn &jsin, const std::string &member_name, int version,
+                   const tripoint offset )
 {
     if( member_name == "turn_last_touched" ) {
         last_touched = calendar::turn_zero + time_duration::from_turns( jsin.get_int() );
@@ -4029,6 +4058,7 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
                     tmp->legacy_fast_forward_time();
                 }
                 //TODO!: location
+                tmp->set_location( new tile_item_location( offset + p ) );
                 itm[p.x][p.y].push_back( tmp );
                 if( tmp->needs_processing() ) {
                     active_items.add( *tmp );

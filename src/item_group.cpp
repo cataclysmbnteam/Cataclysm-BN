@@ -332,8 +332,10 @@ item *Item_modifier::modify( item *new_item ) const
                 new_item->ammo_set( new_item->ammo_default(), ch );
             }
         } else {
-            const item *am = ammo->create_single( new_item->birthday() );
+            //TODO!: push up somehow, this is an awkward one
+            item *am = ammo->create_single( new_item->birthday() );
             new_item->ammo_set( am->typeId(), ch );
+            am->destroy();
         }
         // Make sure the item is in valid state
         if( new_item->ammo_data() && new_item->magazine_integral() ) {
@@ -592,7 +594,7 @@ item *item_group::item_from( const item_group_id &group_id, const time_point &bi
 {
     const auto group = item_controller->get_group( group_id );
     if( group == nullptr ) {
-        return nullptr;
+        return &null_item_reference();
     }
     return group->create_single( birthday );
 }

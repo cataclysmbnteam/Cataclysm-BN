@@ -575,15 +575,13 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
         const bionic_data &bio_data = bio.info();
         if( ( !bio_data.activated || bio.powered ) &&
             !bio_data.fake_item.is_empty() ) {
-            //TODO!: restore next
-            //cached_crafting_inventory += item( bio.info().fake_item,
-            //                                  calendar::turn, units::to_kilojoule( get_power_level() ) );
+            cached_crafting_inventory += *item_spawn_temporary( bio.info().fake_item,
+                                         calendar::turn, units::to_kilojoule( get_power_level() ) );
         }
     }
     if( has_trait( trait_BURROW ) ) {
-        //TODO!: restore next two
-        //cached_crafting_inventory += item( "pickaxe", calendar::turn );
-        //cached_crafting_inventory += item( "shovel", calendar::turn );
+        cached_crafting_inventory += *item_spawn_temporary( "pickaxe", calendar::turn );
+        cached_crafting_inventory += *item_spawn_temporary( "shovel", calendar::turn );
     }
 
     cached_moves = moves;
@@ -625,11 +623,14 @@ void player::make_craft_with_command( const recipe_id &id_to_make, int batch_siz
 
 // @param offset is the index of the created item in the range [0, batch_size-1],
 // it makes sure that the used items are distributed equally among the new items.
-static void set_components( std::vector < item * > &components, const ItemList &used,
+static void set_components( item &of, const ItemList &used,
                             const int batch_size, const size_t offset )
 {
-    //TODO!: check?
+    std::vector < item * > &components = of.get_components();
     if( batch_size <= 1 ) {
+        for( item * const &it : used ) {
+            it->set_location( new component_item_location( &of ) );
+        }
         components.insert( components.begin(), used.begin(), used.end() );
         return;
     }
@@ -637,6 +638,7 @@ static void set_components( std::vector < item * > &components, const ItemList &
     size_t non_charges_counter = 0;
     for( auto &tmp : used ) {
         if( tmp->count_by_charges() ) {
+            tmp->set_location( new component_item_location( &of ) );
             components.push_back( tmp );
             // This assumes all (count-by-charges) items of the same type have been merged into one,
             // which has a charges value that can be evenly divided by batch_size.
@@ -714,7 +716,7 @@ static item *set_item_map_or_vehicle( const player &p, const tripoint &loc, item
 
 static item *set_item_inventory( player &p, item &newit )
 {
-    p.inv.assign_empty_invlet( newit, p );
+    p.inv_assign_empty_invlet( newit );
     // We might not have space for the item
     if( p.can_pick_volume( newit ) &&
         p.can_pick_weight( newit, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
@@ -741,7 +743,7 @@ item *player::start_craft( craft_command &command, const tripoint & )
     }
 
     // In case we were wearing something just consumed
-    if( !craft.components.empty() ) {
+    if( !craft.get_components().empty() ) {
         reset_encumbrance();
     }
 
@@ -916,17 +918,18 @@ void item::set_next_failure_point( const player &crafter )
 
 static void destroy_random_component( item &craft, const player &crafter )
 {
-    if( craft.components.empty() ) {
+    if( craft.get_components().empty() ) {
         debugmsg( "destroy_random_component() called on craft with no components!  Aborting" );
         return;
     }
 
-    item *destroyed = random_entry_removed( craft.components );
+    item *destroyed = random_entry_removed( craft.get_components() );
 
     crafter.add_msg_player_or_npc( _( "You mess up and destroy the %s." ),
                                    _( "<npcname> messes up and destroys the %s" ), destroyed->tname() );
 
-    //TODO!: check, destroy for real
+    destroyed->remove_location();
+    destroyed->destroy();
 }
 
 bool item::handle_craft_failure( player &crafter )
@@ -1027,7 +1030,8 @@ void complete_craft( player &p, item &craft, const bench_location & )
 
     const recipe &making = craft.get_making();
     const int batch_size = craft.charges;
-    ItemList &used = craft.components;
+    //TODO!: Check how this is used
+    ItemList &used = craft.get_components();
     const double relative_rot = craft.get_relative_rot();
 
     // Set up the new item, and assign an inventory letter if available
@@ -1086,15 +1090,17 @@ void complete_craft( player &p, item &craft, const bench_location & )
             // Setting this for items counted by charges gives only problems:
             // those items are automatically merged everywhere (map/vehicle/inventory),
             // which would either lose this information or merge it somehow.
-            set_components( food_contained.components, used, batch_size, newit_counter );
+            set_components( food_contained, used, batch_size, newit_counter );
             newit_counter++;
         } else if( food_contained.is_food() && !food_contained.has_flag( flag_NUTRIENT_OVERRIDE ) ) {
             // if a component item has "cooks_like" it will be replaced by that item as a component
-            for( item * const &comp : used ) {
+            for( item *&comp : used ) {
                 // only comestibles have cooks_like.  any other type of item will throw an exception, so filter those out
                 if( comp->is_comestible() && !comp->get_comestible()->cooks_like.is_empty() ) {
-                    //TODO!: restore next
-                    //comp = item( comp.get_comestible()->cooks_like, comp->birthday(), comp->charges );
+                    comp->remove_location();
+                    comp->destroy();
+                    comp = item_spawn( comp->get_comestible()->cooks_like, comp->birthday(), comp->charges );
+                    comp->set_location( new component_item_location( &craft ) );
                 }
                 // If this recipe is cooked, components are no longer raw.
                 if( should_heat ) {
@@ -1112,7 +1118,7 @@ void complete_craft( player &p, item &craft, const bench_location & )
                 }
             }
             // store components for food recipes that do not have the override flag
-            set_components( food_contained.components, usedbp, batch_size, newit_counter );
+            set_components( food_contained, usedbp, batch_size, newit_counter );
 
             // store the number of charges the recipe would create with batch size 1.
             //TODO!: check what ref level should be compared here
@@ -1158,7 +1164,7 @@ void complete_craft( player &p, item &craft, const bench_location & )
         }
     }
 
-    p.inv.restack( p );
+    p.inv_restack( );
 }
 
 bool player::can_continue_craft( item &craft )
@@ -1224,7 +1230,9 @@ bool player::can_continue_craft( item &craft )
         }
         for( const auto &it : item_selections ) {
             ItemList items = consume_items( it, batch_size, filter );
-            craft.components.insert( craft.components.end(), items.begin(), items.end() );
+            for( item *&it : items ) {
+                craft.add_component( *it );
+            }
         }
     }
 
@@ -2116,11 +2124,10 @@ bool crafting::disassemble_all( avatar &you, bool recursively )
     }
 }
 
-void crafting::complete_disassemble( Character &/*who*/, iuse_location /*target*/,
+void crafting::complete_disassemble( Character &who, iuse_location target,
                                      const tripoint &/*pos*/ )
 {
-    /*
-    //TODO!: NO DON't lol. whole function needs the big restore
+
     item &org_item = *target.loc;
     const recipe &dis = recipe_dictionary::get_uncraft( org_item.typeId() );
 
@@ -2130,152 +2137,153 @@ void crafting::complete_disassemble( Character &/*who*/, iuse_location /*target*
 
     // Make a copy to keep its data (damage/components) even after it
     // has been removed.
-    item dis_item = &org_item;
-        float component_success_chance = std::min( std::pow( 0.8, dis_item.damage_level( 4 ) ), 1.0 );
+    item &dis_item = org_item;
+    float component_success_chance = std::min( std::pow( 0.8, dis_item.damage_level( 4 ) ), 1.0 );
 
-        add_msg( _( "You disassemble the %s into its components." ), dis_item.tname() );
-        // Remove any batteries, ammo and mods first
-        remove_ammo( dis_item, who );
-        remove_radio_mod( dis_item, *who.as_player() );
+    add_msg( _( "You disassemble the %s into its components." ), dis_item.tname() );
+    // Remove any batteries, ammo and mods first
+    remove_ammo( dis_item, who );
+    remove_radio_mod( dis_item, *who.as_player() );
 
-        if( org_item.count_by_charges() ) {
-            int batch_size = dis.disassembly_batch_size();
-            org_item.charges -= batch_size * target.count;
-        }
-        // remove the item, except when it's counted by charges and still has some
-        if( !org_item.count_by_charges() || org_item.charges <= 0 ) {
-            target.loc.remove_item();
-        }
+    if( org_item.count_by_charges() ) {
+        int batch_size = dis.disassembly_batch_size();
+        org_item.charges -= batch_size * target.count;
+    }
+    // remove the item, except when it's counted by charges and still has some
+    if( !org_item.count_by_charges() || org_item.charges <= 0 ) {
+        org_item.detach();
+        org_item.destroy();
+    }
 
-        // Consume tool charges
-        for( const auto &it : dis_requirements.get_tools() ) {
-            who.as_player()->consume_tools( it );
-        }
+    // Consume tool charges
+    for( const auto &it : dis_requirements.get_tools() ) {
+        who.as_player()->consume_tools( it );
+    }
 
-        // add the components to the map
-        // Player skills should determine how many components are returned
+    // add the components to the map
+    // Player skills should determine how many components are returned
 
-        int skill_dice = 2 + who.get_skill_level( dis.skill_used ) * 3;
-        skill_dice += who.get_skill_level( dis.skill_used );
+    int skill_dice = 2 + who.get_skill_level( dis.skill_used ) * 3;
+    skill_dice += who.get_skill_level( dis.skill_used );
 
-        // Sides on dice is 16 plus your current intelligence
-        ///\EFFECT_INT increases success rate for disassembling items
-        int skill_sides = 16 + who.int_cur;
+    // Sides on dice is 16 plus your current intelligence
+    ///\EFFECT_INT increases success rate for disassembling items
+    int skill_sides = 16 + who.int_cur;
 
-        int diff_dice = dis.difficulty;
-        int diff_sides = 24; // 16 + 8 (default intelligence)
+    int diff_dice = dis.difficulty;
+    int diff_sides = 24; // 16 + 8 (default intelligence)
 
-        // disassembly only nets a bit of practice
-        if( dis.skill_used ) {
-            who.as_player()->practice( dis.skill_used, ( dis.difficulty ) * 2, dis.difficulty );
-        }
+    // disassembly only nets a bit of practice
+    if( dis.skill_used ) {
+        who.as_player()->practice( dis.skill_used, ( dis.difficulty ) * 2, dis.difficulty );
+    }
 
-        // If the components aren't empty, we want items exactly identical to them
-        // Even if the best-fit recipe does not involve those items
-        ItemList components = dis_item.components;
+    // If the components aren't empty, we want items exactly identical to them
+    // Even if the best-fit recipe does not involve those items
+    ItemList components = dis_item.get_components();
 
-        // If the components are empty, item is the default kind and made of default components
-        if( components.empty() ) {
-            const bool uncraft_liquids_contained = dis.has_flag( flag_UNCRAFT_LIQUIDS_CONTAINED );
-            for( const auto &altercomps : dis_requirements.get_components() ) {
-                const item_comp &comp = altercomps.front();
-                int compcount = comp.count * target.count;
-                item newit( comp.type, calendar::turn );
-                const bool is_liquid = newit.made_of( LIQUID );
-                if( uncraft_liquids_contained && is_liquid && newit.charges != 0 ) {
-                    // Spawn liquid item in its default container
-                    compcount = compcount / newit.charges;
-                    if( compcount != 0 ) {
-                        newit = newit.in_its_container();
-                    }
-                } else {
-                    // Compress liquids and counted-by-charges items into one item,
-                    // they are added together on the map anyway and handle_liquid
-                    // should only be called once to put it all into a container at once.
-                    if( newit.count_by_charges() || is_liquid ) {
-                        newit.charges = compcount;
-                        compcount = 1;
-                    } else if( !newit.craft_has_charges() && newit.charges > 0 ) {
-                        // tools that can be unloaded should be created unloaded,
-                        // tools that can't be unloaded will keep their default charges.
-                        newit.charges = 0;
-                    }
-                }
-
-                // If the recipe has a `FULL_MAGAZINE` flag, spawn any magazines full of ammo
-                if( newit.is_magazine() && dis.has_flag( flag_FULL_MAGAZINE ) ) {
-                    newit.ammo_set( newit.ammo_default(), newit.ammo_capacity() );
-                }
-
-                for( ; compcount > 0; compcount-- ) {
-                    components.emplace_back( newit );
-                }
-            }
-        }
-
-        ItemList drop_items;
-
-        for( const item * const &newit : components ) {
-            const bool comp_success = ( dice( skill_dice, skill_sides ) > dice( diff_dice,  diff_sides ) );
-            if( dis.difficulty != 0 && !comp_success ) {
-                add_msg( m_bad, _( "You fail to recover %s." ), newit->tname() );
-                continue;
-            }
-            const bool dmg_success = component_success_chance > rng_float( 0, 1 );
-            if( !dmg_success ) {
-                // Show reason for failure (damaged item, tname contains the damage adjective)
-                //~ %1s - material, %2$s - disassembled item
-                add_msg( m_bad, _( "You fail to recover %1$s from the %2$s." ), newit->tname(),
-                         dis_item.tname() );
-                continue;
-            }
-            // Use item from components list, or (if not contained)
-            // use newit, the default constructed.
-             item act_item = newit;
-
-             // Refitted clothing disassembles into refitted components (when applicable)
-             if( dis_item.has_flag( flag_FIT ) && act_item.has_flag( flag_VARSIZE ) ) {
-                 act_item.set_flag( flag_FIT );
-             }
-
-             if( filthy ) {
-                 act_item.set_flag( "FILTHY" );
-             }
-
-             for( ItemList::iterator a = dis_item.components.begin(); a != dis_item.components.end();
-                  ++a ) {
-                 if( a->type == newit.type ) {
-                     act_item = *a;
-                     dis_item.components.erase( a );
-                     break;
-                 }
-             }
-
-             if( act_item.made_of( LIQUID ) ) {
-                 liquid_handler::handle_all_liquid( act_item, PICKUP_RANGE );
-             } else {
-                 drop_items.push_back( act_item );
-             }
-        }
-
-        put_into_vehicle_or_drop( who, item_drop_reason::deliberate, drop_items );
-
-        if( !dis.learn_by_disassembly.empty() && !who.knows_recipe( &dis ) ) {
-            if( who.can_learn_by_disassembly( dis ) ) {
-                // TODO: make this depend on intelligence
-                if( one_in( 4 ) ) {
-                    // TODO: change to forward an id or a reference
-                    who.learn_recipe( &dis.ident().obj() );
-                    add_msg( m_good, _( "You learned a recipe for %s from disassembling it!" ),
-                             dis_item.tname() );
-                } else {
-                    add_msg( m_info, _( "You might be able to learn a recipe for %s if you disassemble another." ),
-                             dis_item.tname() );
+    // If the components are empty, item is the default kind and made of default components
+    if( components.empty() ) {
+        const bool uncraft_liquids_contained = dis.has_flag( flag_UNCRAFT_LIQUIDS_CONTAINED );
+        for( const auto &altercomps : dis_requirements.get_components() ) {
+            const item_comp &comp = altercomps.front();
+            int compcount = comp.count * target.count;
+            item *newit = item_spawn( comp.type, calendar::turn );
+            const bool is_liquid = newit->made_of( LIQUID );
+            if( uncraft_liquids_contained && is_liquid && newit->charges != 0 ) {
+                // Spawn liquid item in its default container
+                compcount = compcount / newit->charges;
+                if( compcount != 0 ) {
+                    newit = &newit->in_its_container();
                 }
             } else {
-                add_msg( m_info, _( "If you had better skills, you might learn a recipe next time." ) );
+                // Compress liquids and counted-by-charges items into one item,
+                // they are added together on the map anyway and handle_liquid
+                // should only be called once to put it all into a container at once.
+                if( newit->count_by_charges() || is_liquid ) {
+                    newit->charges = compcount;
+                    compcount = 1;
+                } else if( !newit->craft_has_charges() && newit->charges > 0 ) {
+                    // tools that can be unloaded should be created unloaded,
+                    // tools that can't be unloaded will keep their default charges.
+                    newit->charges = 0;
+                }
             }
-        }*/
+
+            // If the recipe has a `FULL_MAGAZINE` flag, spawn any magazines full of ammo
+            if( newit->is_magazine() && dis.has_flag( flag_FULL_MAGAZINE ) ) {
+                newit->ammo_set( newit->ammo_default(), newit->ammo_capacity() );
+            }
+
+            for( ; compcount > 0; compcount-- ) {
+                components.emplace_back( newit );
+            }
+        }
+    }
+
+    ItemList drop_items;
+
+    for( item *&newit : components ) {
+        const bool comp_success = ( dice( skill_dice, skill_sides ) > dice( diff_dice,  diff_sides ) );
+        if( dis.difficulty != 0 && !comp_success ) {
+            add_msg( m_bad, _( "You fail to recover %s." ), newit->tname() );
+            continue;
+        }
+        const bool dmg_success = component_success_chance > rng_float( 0, 1 );
+        if( !dmg_success ) {
+            // Show reason for failure (damaged item, tname contains the damage adjective)
+            //~ %1s - material, %2$s - disassembled item
+            add_msg( m_bad, _( "You fail to recover %1$s from the %2$s." ), newit->tname(),
+                     dis_item.tname() );
+            continue;
+        }
+        // Use item from components list, or (if not contained)
+        // use newit, the default constructed.
+        item *act_item = newit;
+
+        // Refitted clothing disassembles into refitted components (when applicable)
+        if( dis_item.has_flag( flag_FIT ) && act_item->has_flag( flag_VARSIZE ) ) {
+            act_item->set_flag( flag_FIT );
+        }
+
+        if( filthy ) {
+            act_item->set_flag( "FILTHY" );
+        }
+        ItemList &components = dis_item.get_components();
+        for( ItemList::iterator a = components.begin(); a != components.end();
+             ++a ) {
+            if( ( *a )->type == newit->type ) {
+                act_item = *a;
+                components.erase( a );
+                break;
+            }
+        }
+
+        if( act_item->made_of( LIQUID ) ) {
+            liquid_handler::handle_all_liquid( *act_item, PICKUP_RANGE );
+        } else {
+            drop_items.push_back( act_item );
+        }
+    }
+
+    put_into_vehicle_or_drop( who, item_drop_reason::deliberate, drop_items );
+
+    if( !dis.learn_by_disassembly.empty() && !who.knows_recipe( &dis ) ) {
+        if( who.can_learn_by_disassembly( dis ) ) {
+            // TODO: make this depend on intelligence
+            if( one_in( 4 ) ) {
+                // TODO: change to forward an id or a reference
+                who.learn_recipe( &dis.ident().obj() );
+                add_msg( m_good, _( "You learned a recipe for %s from disassembling it!" ),
+                         dis_item.tname() );
+            } else {
+                add_msg( m_info, _( "You might be able to learn a recipe for %s if you disassemble another." ),
+                         dis_item.tname() );
+            }
+        } else {
+            add_msg( m_info, _( "If you had better skills, you might learn a recipe next time." ) );
+        }
+    }
 }
 
 void remove_ammo( ItemList &dis_items, Character &who )
@@ -2285,36 +2293,37 @@ void remove_ammo( ItemList &dis_items, Character &who )
     }
 }
 
-void remove_ammo( item &/*dis_item*/, Character &/*who*/ )
+void remove_ammo( item &dis_item, Character &who )
 {
-    //TODO!: check for ownership and restore
-    /*
-    dis_item.remove_items_with( [&who]( item & it ) {
+    std::vector<item *> removed = dis_item.remove_items_with( []( const item & it ) {
         if( it.is_irremovable() ) {
             return false;
         }
-        drop_or_handle( it, who );
         return true;
     } );
+
+    for( item *&it : removed ) {
+        drop_or_handle( *it, who );
+    }
 
     if( dis_item.has_flag( flag_NO_UNLOAD ) ) {
         return;
     }
     if( dis_item.is_gun() && !dis_item.ammo_current().is_null() ) {
-        item ammodrop( dis_item.ammo_current(), calendar::turn );
+        item &ammodrop = *item_spawn( dis_item.ammo_current(), calendar::turn );
         ammodrop.charges = dis_item.charges;
         drop_or_handle( ammodrop, who );
         dis_item.charges = 0;
     }
     if( dis_item.is_tool() && dis_item.charges > 0 && !dis_item.ammo_current().is_null() ) {
-        item ammodrop( dis_item.ammo_current(), calendar::turn );
+        item &ammodrop = *item_spawn( dis_item.ammo_current(), calendar::turn );
         ammodrop.charges = dis_item.charges;
         if( dis_item.ammo_current() == itype_plut_cell ) {
             ammodrop.charges /= PLUTONIUM_CHARGES;
         }
         drop_or_handle( ammodrop, who );
         dis_item.charges = 0;
-    }*/
+    }
 }
 
 std::vector<npc *> player::get_crafting_helpers( size_t max ) const

@@ -3141,7 +3141,7 @@ void monster::add_item( item *it )
 void monster::remove_item( item *it )
 {
     it->remove_location();
-    std::remove( inv.begin(), inv.end(), it );
+    inv.erase( std::remove( inv.begin(), inv.end(), it ), inv.end() );
 }
 
 std::vector<item *>::iterator monster::remove_item( std::vector<item *>::iterator &it )
@@ -3171,4 +3171,30 @@ void monster::drop_items( const tripoint &p )
 void monster::drop_items()
 {
     drop_items( pos() );
+}
+
+void monster::add_corpse_component( item &it )
+{
+    corpse_components.push_back( &it );
+    it.set_location( new monster_component_item_location( this ) );
+}
+
+std::vector<item *> &monster::get_corpse_components()
+{
+    return corpse_components;
+}
+
+const std::vector<item *> &monster::get_corpse_components() const
+{
+    return corpse_components;
+}
+
+std::vector<item *> monster::remove_corpse_components()
+{
+    std::vector<item *> ret = corpse_components;
+    for( item *&it : corpse_components ) {
+        it->remove_location();
+    }
+    corpse_components.clear();
+    return ret;
 }

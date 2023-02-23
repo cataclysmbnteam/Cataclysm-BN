@@ -34,7 +34,7 @@
 int advanced_inv_area::get_item_count() const
 {
     if( id == AIM_INVENTORY ) {
-        return g->u.inv.size();
+        return g->u.inv_size();
     } else if( id == AIM_WORN ) {
         return g->u.worn.size();
     } else if( id == AIM_ALL ) {
@@ -252,7 +252,7 @@ item *advanced_inv_area::get_container( bool in_vehicle )
     if( uistate.adv_inv_container_location != -1 ) {
         // try to find valid container in the area
         if( uistate.adv_inv_container_location == AIM_INVENTORY ) {
-            const invslice &stacks = g->u.inv.slice();
+            const invslice &stacks = g->u.inv_slice();
 
             // check index first
             if( stacks.size() > static_cast<size_t>( uistate.adv_inv_container_index ) ) {

@@ -291,11 +291,15 @@ void mapbuffer::deserialize( JsonIn &jsin )
                 version = jsin.get_int();
             } else if( submap_member_name == "coordinates" ) {
                 jsin.start_array();
-                tripoint loc{ jsin.get_int(), jsin.get_int(), jsin.get_int() };
+                int i = jsin.get_int();
+                int j = jsin.get_int();
+                int k = jsin.get_int();
+                tripoint loc{ i, j, k };
                 jsin.end_array();
                 submap_coordinates = loc;
             } else {
-                sm->load( jsin, submap_member_name, version );
+                //TODO!: use a proper translation here
+                sm->load( jsin, submap_member_name, version, multiply_xy( submap_coordinates, 12 ) );
             }
         }
 

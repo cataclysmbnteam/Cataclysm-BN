@@ -73,7 +73,6 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         }
 
         // copies the drop item to spill the contents
-        //TODO!: check why, cos we ain't doing that no more I guess
         drop_item.spill_contents( pt );
 
         // TODO: Non-glass breaking
@@ -90,16 +89,11 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         }
 
         // copies the drop item to spill the contents
-        //TODO!: again check why, cos we ain't doing that no more I guess
         drop_item.spill_contents( pt );
 
         // TODO: Sound
         return;
     }
-
-    // Copy the item
-    //TODO!: whyyyy check alla this
-    item &dropped_item = drop_item;
 
     monster *mon = dynamic_cast<monster *>( attack.hit_critter );
 
@@ -111,7 +105,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
     // Don't embed in small creatures
     if( embed ) {
         const m_size critter_size = mon->get_size();
-        const units::volume vol = dropped_item.volume();
+        const units::volume vol = drop_item.volume();
         embed = embed && ( critter_size > MS_TINY || vol < 250_ml );
         embed = embed && ( critter_size > MS_SMALL || vol < 500_ml );
         // And if we deal enough damage
@@ -124,9 +118,9 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
     }
 
     if( embed ) {
-        mon->add_item( dropped_item );
+        mon->add_item( drop_item );
         if( g->u.sees( *mon ) ) {
-            add_msg( _( "The %1$s embeds in %2$s!" ), dropped_item.tname(), mon->disp_name() );
+            add_msg( _( "The %1$s embeds in %2$s!" ), drop_item.tname(), mon->disp_name() );
         }
     } else {
         bool do_drop = true;
@@ -140,12 +134,12 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         }
         if( proj.has_effect( ammo_effect_ACT_ON_RANGED_HIT ) ) {
             // Don't drop if it exploded
-            do_drop = !dropped_item.process( nullptr, attack.end_point, true );
+            do_drop = !drop_item.process( nullptr, attack.end_point, true );
         }
 
         map &here = get_map();
         if( do_drop ) {
-            here.add_item_or_charges( attack.end_point, dropped_item );
+            here.add_item_or_charges( attack.end_point, drop_item );
         }
 
         if( proj.has_effect( ammo_effect_HEAVY_HIT ) ) {
@@ -155,8 +149,8 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
                 sounds::sound( pt, 8, sounds::sound_t::combat, _( "thud." ), false, "bullet_hit", "hit_wall" );
             }
             const trap &tr = here.tr_at( pt );
-            if( tr.triggered_by_item( dropped_item ) ) {
-                tr.trigger( pt, nullptr, &dropped_item );
+            if( tr.triggered_by_item( drop_item ) ) {
+                tr.trigger( pt, nullptr, &drop_item );
             }
         }
     }

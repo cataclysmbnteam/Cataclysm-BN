@@ -234,17 +234,22 @@ static bool pick_one_up( pickup::pick_drop_selection &selection, bool &got_water
     int moves_taken = 100;
     bool picked_up = false;
     pickup_answer option = CANCEL;
-    //TODO!: check all these weird copies
-    item *loc = &*selection.target;
+
     // We already checked in do_pickup if this was a nullptr
-    // Make copies so the original remains untouched if we bail out
-    item *newloc = loc;
-    //original item reference
-    item &it = *newloc;
-    //new item (copy)
-    item &newit = it;
-    item &leftovers = newit;
+    item *loc = &*selection.target;
+
     const cata::optional<int> &quantity = selection.quantity;
+    item *newloc;
+    if( quantity && loc->count_by_charges() ) {
+        newloc = &( loc->split( *quantity ) );
+    } else {
+        newloc = loc;
+    }
+
+    //original item reference
+    item &it = *loc;
+    item &newit = *newloc;
+    int leftover_charges;
     std::vector<safe_reference<item>> &children = selection.children;
 
     if( !newit.is_owned_by( g->u, true ) ) {
@@ -264,13 +269,14 @@ static bool pick_one_up( pickup::pick_drop_selection &selection, bool &got_water
     }
 
     // Handle charges, quantity == 0 means move all
+    // TODO!: use the split method on item
     if( quantity && newit.count_by_charges() ) {
-        leftovers.charges = newit.charges - *quantity;
-        if( leftovers.charges > 0 ) {
+        leftover_charges = newit.charges - *quantity;
+        if( leftover_charges > 0 ) {
             newit.charges = *quantity;
         }
     } else {
-        leftovers.charges = 0;
+        leftover_charges = 0;
     }
 
     const auto wield_check = u.can_wield( newit );
@@ -331,10 +337,12 @@ static bool pick_one_up( pickup::pick_drop_selection &selection, bool &got_water
             picked_up = false;
             break;
         case WEAR:
+            newit.detach();
             picked_up = !!u.wear_item( newit );
             break;
         case WIELD:
             if( wield_check.success() ) {
+                it.detach();
                 //using original item, possibly modifying it
                 picked_up = u.wield( it );
                 if( picked_up ) {
@@ -366,6 +374,7 @@ static bool pick_one_up( pickup::pick_drop_selection &selection, bool &got_water
         case STASH:
             auto &entry = map_pickup[newit.tname()];
             entry.second += newit.count();
+            newit.detach();
             entry.first = &u.i_add( newit );
             picked_up = true;
             break;
@@ -375,22 +384,12 @@ static bool pick_one_up( pickup::pick_drop_selection &selection, bool &got_water
         // Children have to be picked up first, since removing parent would re-index the stack
         if( option != EMPTY ) {
             for( safe_reference<item> &child_loc : children ) {
+                child_loc->detach();
                 item &added = u.i_add( *child_loc );
                 auto &pickup_entry = map_pickup[added.tname()];
                 pickup_entry.first = &added;
                 pickup_entry.second += added.count();
-
-                child_loc->detach();
             }
-        }
-
-        // If we picked up a whole stack, remove the original item
-        // Otherwise, replace the item with the leftovers
-        if( leftovers.charges > 0 ) {
-            //TODO!: restore next, need to work out what's actually changed here, it's probably just charges
-            //*loc.get_item() = std::move( leftovers );
-        } else {
-            loc->detach();
         }
 
         u.moves -= moves_taken;
@@ -416,7 +415,7 @@ bool do_pickup( std::vector<pick_drop_selection> &targets, bool autopickup )
 
     bool problem = false;
     while( !problem && u.get_moves() >= 0 && !targets.empty() ) {
-        pick_drop_selection current_target = std::move( targets.back() );
+        pick_drop_selection current_target = targets.back();
         // Whether we pick the item up or not, we're done trying to do so,
         // so remove it from the list.
         targets.pop_back();

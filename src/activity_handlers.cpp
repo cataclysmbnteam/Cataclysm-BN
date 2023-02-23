@@ -1264,7 +1264,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         int roll = roll_butchery() - corpse_item.damage_level( 4 );
         roll = roll < 0 ? 0 : roll;
         add_msg( m_debug, _( "Roll penalty for corpse damage = %s" ), 0 - corpse_item.damage_level( 4 ) );
-        ItemList cbms = corpse_item.components;
+        ItemList cbms = corpse_item.remove_components();
         for( item *it : corpse_item.contents.all_items_top() ) {
             cbms.push_back( it );
         }

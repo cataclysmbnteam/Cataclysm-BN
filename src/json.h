@@ -359,7 +359,9 @@ class JsonIn
             try {
                 out = T::_spawn( *this );
 #if !defined(RELEASE)
-                cata_arena<T>::add_debug_entry( out, __FILE__, __LINE__ );
+                void **buf = static_cast<void **>( malloc( sizeof( void * ) * 20 ) );
+                backtrace( buf, 20 );
+                cata_arena<T>::add_debug_entry( out, __FILE__, __LINE__, buf );
 #endif
                 return true;
             } catch( const JsonError & ) {
@@ -373,7 +375,7 @@ class JsonIn
         /// Overload for safe references
         template<typename U>
         bool read( safe_reference<U> &out, bool throw_on_error = false ) {
-            uint64_t id;
+            uint64_t id = 0;
             if( !read( id, throw_on_error ) ) {
                 return false;
             }

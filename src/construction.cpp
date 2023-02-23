@@ -1133,9 +1133,9 @@ void complete_construction( Character &ch )
             tripoint dump_spot = random_entry( dump_spots );
             map_stack items = here.i_at( terp );
             for( map_stack::iterator it = items.begin(); it != items.end(); ) {
-                here.add_item_or_charges( dump_spot, **it );
-                //TODO!: CHECK
+                item *dumped = *it;
                 it = items.erase( it );
+                here.add_item_or_charges( dump_spot, *dumped );
             }
         } else {
             debugmsg( "No space to displace items from construction finishing" );

@@ -64,7 +64,7 @@ class visitable
         /** Returns true if any item (including those within a container) matches the filter */
         bool has_item_with( const std::function<bool( const item & )> &filter ) const;
 
-        /** Returns true if this visitable instance directly contains the item */
+        /** Returns true if this visitable instance directly contains the item. */
         bool has_item_directly( const item &it ) const;
 
         /** Returns true if any item directly within the visitable (so excluding those within a container) matches the filter */

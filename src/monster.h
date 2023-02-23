@@ -465,7 +465,7 @@ class monster : public Creature, public visitable<monster>
         tripoint wander_pos; // Wander destination - Just try to move in that direction
         int wandf;           // Urge to wander - Increased by sound, decrements each move
 
-        std::vector<item *> corpse_components; // Hack to make bionic corpses generate CBMs on death
+
         Character *mounted_player = nullptr; // player that is mounting this creature
         character_id mounted_player_id; // id of player that is mounting this creature ( for save/load )
         character_id dragged_foe_id; // id of character being dragged by the monster
@@ -564,9 +564,18 @@ class monster : public Creature, public visitable<monster>
 
         item *get_battery_item() const;
         void set_battery_item( item *to );
+
+        void add_corpse_component( item &it );
+        std::vector<item *> &get_corpse_components();
+        const std::vector<item *> &get_corpse_components() const;
+
+        std::vector<item *> remove_corpse_components();
+
     private:
         void process_trigger( mon_trigger trig, int amount );
         void process_trigger( mon_trigger trig, const std::function<int()> &amount_func );
+
+        std::vector<item *> corpse_components; // Hack to make bionic corpses generate CBMs on death
 
     private:
         int hp;

@@ -844,8 +844,8 @@ bool advanced_inventory::move_all_items( bool nested_call )
         drop_locations dropped_favorite;
 
         if( spane.get_area() == AIM_INVENTORY ) {
-            for( size_t index = 0; index < g->u.inv.size(); ++index ) {
-                const ItemList &stack = g->u.inv.const_stack( index );
+            for( size_t index = 0; index < g->u.inv_size(); ++index ) {
+                const ItemList &stack = g->u.inv_const_stack( index );
                 item *const &it = stack.front();
 
                 if( !spane.is_filtered( *it ) ) {
@@ -1311,7 +1311,7 @@ void advanced_inventory::action_examine( advanced_inv_listitem *sitem,
         }
         // Might have changed a stack (activated an item, repaired an item, etc.)
         if( spane.get_area() == AIM_INVENTORY ) {
-            g->u.inv.restack( g->u );
+            g->u.inv_restack( );
         }
         recalc = true;
     } else {
@@ -1338,7 +1338,7 @@ void advanced_inventory::display()
 {
     init();
 
-    g->u.inv.restack( g->u );
+    g->u.inv_restack( );
 
     input_context ctxt{ register_ctxt() };
 

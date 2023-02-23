@@ -1995,8 +1995,7 @@ void basecamp::start_setup_hide_site()
                               omt_pos, true );
     if( forest != tripoint_abs_omt( -999, -999, -999 ) ) {
         int dist = rl_dist( forest.xy(), omt_pos.xy() );
-        inventory tgt_inv = g->u.inv;
-        std::vector<item *> pos_inv = tgt_inv.items_with( []( const item & itm ) {
+        std::vector<item *> pos_inv = g->u.items_with( []( const item & itm ) {
             return !itm.can_revive();
         } );
         if( !pos_inv.empty() ) {
@@ -2038,8 +2037,7 @@ void basecamp::start_relay_hide_site()
                               omt_pos, true );
     if( forest != tripoint_abs_omt( -999, -999, -999 ) ) {
         int dist = rl_dist( forest.xy(), omt_pos.xy() );
-        inventory tgt_inv = g->u.inv;
-        std::vector<item *> pos_inv = tgt_inv.items_with( []( const item & itm ) {
+        std::vector<item *> pos_inv = g->u.items_with( []( const item & itm ) {
             return !itm.can_revive();
         } );
         std::vector<item *> losing_equipment;

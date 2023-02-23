@@ -62,13 +62,22 @@ int template_item_location::obtain_cost( const Character &, int, const item * ) 
 
 std::string template_item_location::describe( const Character *, const item * ) const
 {
-    debugmsg( "Tried to desribe the location of a template item" );
-    return "Nowhere";
+    return "Error: Nowhere";
 }
 
 bool template_item_location::check_for_corruption( const item * ) const
 {
     return true;
+}
+
+void go_tile_location::move_to( const tripoint &p )
+{
+    pos = p;
+}
+
+void go_tile_location::move_by( const tripoint &offset )
+{
+    pos += offset;
 }
 
 void character_item_location::detach( item *it )
@@ -179,7 +188,7 @@ bool worn_item_location::check_for_corruption( const item *it ) const
 
 tile_item_location::tile_item_location( tripoint position )
 {
-    pos = get_map().getabs( position );
+    pos = position;
 }
 
 void tile_item_location::detach( item *it )
@@ -187,7 +196,7 @@ void tile_item_location::detach( item *it )
     map &here = get_map();
     tripoint local = here.getlocal( pos );
     map_stack items = here.i_at( local );//TODO!: is this updating location properly?
-    std::remove( items.begin(), items.end(), it );
+    items.erase( std::remove( items.begin(), items.end(), it ), items.end() );
 }
 
 bool tile_item_location::is_loaded( const item * ) const
@@ -235,7 +244,24 @@ bool tile_item_location::check_for_corruption( const item *it ) const
     }
     map_stack items = here.i_at( local );
     auto iter = std::find( items.begin(), items.end(), it );
-    return iter != items.end();
+    if( iter == items.end() ) {
+        tripoint p( 0, 0, local.z );
+        while( p.x < 11 * 12 ) {
+            p.y = 0;
+            while( p.y < 11 * 12 ) {
+                map_stack si = here.i_at( p );
+                if( std::find( si.begin(), si.end(), it ) != si.end() ) {
+                    debugmsg( "Found upcoming at %d,%d,%d", p.x, p.y, p.z );
+                    return false;
+                }
+                p.y++;
+            }
+            p.x++;
+        }
+        debugmsg( "Couldn't find upcoming at all" );
+        return false;
+    }
+    return true;
 }
 
 bool monster_item_location::is_loaded( const item * ) const
@@ -261,8 +287,7 @@ int monster_item_location::obtain_cost( const Character &, int, const item * ) c
 
 std::string monster_item_location::describe( const Character *, const item * ) const
 {
-    debugmsg( "Tried to describe the location of an item on a monster" );
-    return "Error";
+    return "on monster";
 }
 
 void monster_item_location::detach( item *it )
@@ -275,6 +300,19 @@ bool monster_item_location::check_for_corruption( const item *it ) const
     std::vector<item *> &items = on->get_items();
     auto iter = std::find( items.begin(), items.end(), it );
     return iter != items.end();
+}
+
+void monster_component_item_location::detach( item *it )
+{
+    std::vector<item *> &list = on->get_corpse_components();
+    list.erase( std::remove( list.begin(), list.end(), it ), list.end() );
+}
+
+bool monster_component_item_location::check_for_corruption( const item *it ) const
+{
+    std::vector<item *> &items = on->get_corpse_components();
+    auto search = std::find( items.begin(), items.end(), it );
+    return search != items.end();
 }
 
 void monster_tied_item_location::detach( item * )
@@ -349,7 +387,7 @@ item_location_type vehicle_item_location::where() const
 void vehicle_item_location::detach( item *it )
 {
     vehicle_stack items = veh->get_items( part_id );
-    std::remove( items.begin(), items.end(), it );
+    items.erase( std::remove( items.begin(), items.end(), it ), items.end() );
 }
 
 int vehicle_item_location::obtain_cost( const Character &ch, int qty, const item *it ) const
@@ -371,7 +409,7 @@ std::string vehicle_item_location::describe( const Character *ch, const item * )
     if( auto cargo_part = part_pos.part_with_feature( "CARGO", true ) ) {
         res += cargo_part->part().name();
     } else {
-        debugmsg( "item in vehicle part without cargo storage" );
+        return "Error: vehicle part without storage";
     }
     if( ch ) {
         res += " " + direction_suffix( ch->pos(), part_pos.pos() );
@@ -381,6 +419,9 @@ std::string vehicle_item_location::describe( const Character *ch, const item * )
 
 bool vehicle_item_location::check_for_corruption( const item *it ) const
 {
+    if( !veh->valid_part( part_id ) ) {
+        return false;
+    }
     vehicle_stack items = veh->get_items( part_id );
     auto iter = std::find( items.begin(), items.end(), it );
     return iter != items.end();
@@ -398,8 +439,7 @@ int vehicle_base_item_location::obtain_cost( const Character &, int, const item 
 
 std::string vehicle_base_item_location::describe( const Character *, const item * ) const
 {
-    debugmsg( "Attempted to find the location of an item being used as a base part" );
-    return "Error";
+    return "Error: Vehicle base part";
 }
 
 bool vehicle_base_item_location::check_for_corruption( const item *it ) const
@@ -454,10 +494,25 @@ std::string contents_item_location::describe( const Character *, const item * ) 
 
 bool contents_item_location::check_for_corruption( const item *it ) const
 {
-    return container->has_item_directly( *it );
+    std::vector<item *> &items = container->contents.all_items_top();
+    auto search = std::find( items.begin(), items.end(), it );
+    return search != items.end();
 }
 
 item *contents_item_location::parent() const
 {
     return container;
+}
+
+void component_item_location::detach( item *it )
+{
+    std::vector<item *> &list = container->get_components();
+    list.erase( std::remove( list.begin(), list.end(), it ), list.end() );
+}
+
+bool component_item_location::check_for_corruption( const item *it ) const
+{
+    std::vector<item *> &items = container->get_components();
+    auto search = std::find( items.begin(), items.end(), it );
+    return search != items.end();
 }

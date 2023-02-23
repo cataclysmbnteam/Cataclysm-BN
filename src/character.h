@@ -202,6 +202,9 @@ struct special_attack {
 class Character : public Creature, public visitable<Character>
 {
     public:
+
+        friend visitable;
+
         Character( const Character & ) = delete;
         Character &operator=( const Character & ) = delete;
         ~Character() override;
@@ -1181,6 +1184,34 @@ class Character : public Creature, public visitable<Character>
          */
         int get_item_position( const item *it ) const;
 
+        const std::vector<item *> inv_const_stack( int position ) const;
+
+        invslice inv_slice();
+        const_invslice inv_const_slice() const;
+
+        void inv_assign_empty_invlet( item &it, bool force = false );
+
+        size_t inv_size() const;
+
+        void inv_restack();
+
+        units::volume inv_volume() const;
+
+        void inv_unsort();
+
+        void inv_clear();
+
+        std::map<char, itype_id> inv_assigned_invlet() const;
+
+        void rust_iron_items();
+
+        void inv_set_stack_favorite( int position, bool favorite );
+
+        const item &inv_find_item( int position ) const;
+        item &inv_find_item( int position );
+
+        int inv_position_by_type( const itype_id &type ) const;
+
         /**
          * Returns the character's wielded item.
          */
@@ -1526,7 +1557,6 @@ class Character : public Creature, public visitable<Character>
         player_activity activity;
         std::list<player_activity> backlog;
         cata::optional<tripoint> destination_point;
-        inventory inv;
         itype_id last_item;
 
         int scent = 0;
@@ -1694,6 +1724,7 @@ class Character : public Creature, public visitable<Character>
 
     protected:
         void on_damage_of_type( int adjusted_damage, damage_type type, const bodypart_id &bp ) override;
+        inventory inv;
     public:
         /** Called when an item is worn */
         void on_item_wear( const item &it );

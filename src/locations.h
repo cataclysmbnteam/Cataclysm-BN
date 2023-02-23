@@ -25,6 +25,17 @@ class location
         virtual bool check_for_corruption( const T *it ) const = 0;
 };
 
+//There is already a class in distribution_grid.h called tile_location. This all needs namespacing really.
+//TODO!: namespace all this
+class go_tile_location
+{
+    protected:
+        tripoint pos;//abs coords
+    public:
+        void move_to( const tripoint &p ); //abs coords
+        void move_by( const tripoint &offset ); //relative to current pos
+};
+
 class item_location : public location<item>
 {
     public:
@@ -67,10 +78,8 @@ class worn_item_location :  public character_item_location
         bool check_for_corruption( const item *it ) const override;
 };
 
-class tile_item_location : public item_location
+class tile_item_location : public item_location, public go_tile_location
 {
-    private:
-        tripoint pos;//abs coords
     public:
         tile_item_location( tripoint position );
         void detach( item *it ) override;
@@ -94,6 +103,14 @@ class monster_item_location : public item_location
         item_location_type where() const override;
         int obtain_cost( const Character &ch, int qty, const item *it ) const override;
         std::string describe( const Character *ch, const item *it ) const override;
+        bool check_for_corruption( const item *it ) const override;
+};
+
+class monster_component_item_location : public monster_item_location
+{
+    public:
+        monster_component_item_location( monster *on ) : monster_item_location( on ) { }
+        void detach( item *it ) override;
         bool check_for_corruption( const item *it ) const override;
 };
 
@@ -162,7 +179,7 @@ class vehicle_base_item_location : public vehicle_item_location
 
 class contents_item_location :  public item_location
 {
-    private:
+    protected:
         item *container;
     public:
         contents_item_location( item *cont ) : container( cont ) {}
@@ -175,6 +192,14 @@ class contents_item_location :  public item_location
         bool check_for_corruption( const item *it ) const override;
 
         item *parent() const;
+};
+
+class component_item_location : public contents_item_location
+{
+    public:
+        component_item_location( item *cont ) : contents_item_location( cont ) {}
+        void detach( item *it ) override;
+        bool check_for_corruption( const item *it ) const override;
 };
 
 class template_item_location : public item_location

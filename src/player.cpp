@@ -2807,6 +2807,7 @@ bool player::takeoff( item &it, ItemList *res )
     } );
 
     if( res == nullptr ) {
+        it.remove_location();
         if( volume_carried() + it.volume() > volume_capacity_reduced_by( it.get_storage() ) ) {
             if( is_npc() || query_yn( _( "No room in inventory for your %s.  Drop it?" ),
                                       colorize( it.tname(), it.color_in_inventory() ) ) ) {
@@ -2829,6 +2830,7 @@ bool player::takeoff( item &it, ItemList *res )
 
     // TODO: Make this variable
     mod_moves( -250 );
+    ( *iter )->remove_location();
     worn.erase( iter );
 
     recalc_sight_limits();
@@ -2848,6 +2850,7 @@ bool player::add_or_drop_with_msg( item &it, const bool unloading )
         liquid_handler::consume_liquid( it, 1 );
         return it.charges <= 0;
     }
+    it.remove_location();
     it.charges = this->i_add_to_container( it, unloading );
     if( it.is_ammo() && it.charges == 0 ) {
         return true;

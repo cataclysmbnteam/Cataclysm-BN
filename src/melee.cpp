@@ -190,7 +190,7 @@ bool Character::handle_melee_wear( item &shield, float wear_multiplier )
         // Items that should have no bearing on durability
         const std::set<itype_id> blacklist = { itype_rag, itype_leather, itype_fur };
 
-        for( auto &comp : shield.components ) {
+        for( auto &comp : shield.get_components() ) {
             if( blacklist.count( comp->typeId() ) <= 0 ) {
                 if( weak_chip > comp->chip_resistance() ) {
                     weak_chip = comp->chip_resistance();
@@ -244,12 +244,12 @@ bool Character::handle_melee_wear( item &shield, float wear_multiplier )
     shield.destroy();
 
     // Breakdown fragile weapons into components
-    if( shield.has_flag( "FRAGILE_MELEE" ) && !shield.components.empty() ) {
+    if( shield.has_flag( "FRAGILE_MELEE" ) && !shield.get_components().empty() ) {
         add_msg_player_or_npc( m_bad, _( "Your %s breaks apart!" ),
                                _( "<npcname>'s %s breaks apart!" ),
                                str );
 
-        for( auto &comp : shield.components ) {
+        for( auto &comp : shield.get_components() ) {
             int break_chance = comp->typeId() == weak_comp ? 2 : 8;
 
             if( one_in( break_chance ) ) {

@@ -601,6 +601,7 @@ bool item_contents::remove_internal( const std::function<bool( item & )> &filter
     for( auto it = items.begin(); it != items.end(); ) {
         if( filter( **it ) ) {
             res.push_back( *it );
+            ( *it )->remove_location();
             it = items.erase( it );
             if( --count == 0 ) {
                 return true;
@@ -651,6 +652,7 @@ ItemList visitable<inventory>::remove_items_with( const
             if( filter( **istack_iter ) ) {
                 count--;
                 res.push_back( *istack_iter );
+                ( *istack_iter )->remove_location();
                 istack_iter = istack.erase( istack_iter );
                 // The non-first items of a stack may have different invlets, the code
                 // in inventory only ever checks the invlet of the first item. This
@@ -705,6 +707,7 @@ ItemList visitable<Character>::remove_items_with( const
         if( filter( **iter ) ) {
             ( *iter )->on_takeoff( *ch );
             res.push_back( *iter );
+            ( *iter )->remove_location();
             iter = ch->worn.erase( iter );
             if( --count == 0 ) {
                 return res;
@@ -763,6 +766,7 @@ ItemList visitable<map_cursor>::remove_items_with( const
 
             // finally remove the item
             res.push_back( *iter );
+            ( *iter )->remove_location();
             iter = stack.erase( iter );
 
             if( --count == 0 ) {
@@ -821,6 +825,7 @@ ItemList visitable<vehicle_cursor>::remove_items_with( const
             cur->veh.active_items.remove( *iter );
 
             res.push_back( *iter );
+            ( *iter )->remove_location();
             iter = part.items.erase( iter );
 
             if( --count == 0 ) {
@@ -886,67 +891,26 @@ ItemList visitable<monster>::remove_items_with( const
             iter++;
         }
     }
-    //TODO!: clean these up
-    if( mon->get_storage_item() ) {
-        if( filter( *mon->get_storage_item() ) ) {
-            res.push_back( mon->get_storage_item() );
-            mon->set_storage_item( nullptr );
-            count--;
-            if( count == 0 ) {
-                return res;
-            }
-        } else {
-            mon->get_storage_item()->contents.remove_internal( filter, count, res );
-            if( count == 0 ) {
-                return res;
-            }
+    //TODO!: clean these up, they don't remove location correctly I don't think
+
+    auto check_item = [&]( item * it ) {
+        if( count == 0 ) {
+            return;
         }
-    }
-    if( mon->get_armor_item() ) {
-        if( filter( *mon->get_armor_item() ) ) {
-            res.push_back( mon->get_armor_item() );
-            mon->set_armor_item( nullptr );
+        if( filter( *it ) ) {
+            res.push_back( it );
+            it->detach();
             count--;
-            if( count == 0 ) {
-                return res;
-            }
         } else {
-            mon->get_armor_item()->contents.remove_internal( filter, count, res );
-            if( count == 0 ) {
-                return res;
-            }
+            it->contents.remove_internal( filter, count, res );
         }
-    }
-    if( mon->get_tack_item() ) {
-        if( filter( *mon->get_tack_item() ) ) {
-            res.push_back( mon->get_tack_item() );
-            mon->set_tack_item( nullptr );
-            count--;
-            if( count == 0 ) {
-                return res;
-            }
-        } else {
-            mon->get_tack_item()->contents.remove_internal( filter, count, res );
-            if( count == 0 ) {
-                return res;
-            }
-        }
-    }
-    if( mon->get_tied_item() ) {
-        if( filter( *mon->get_tied_item() ) ) {
-            res.push_back( mon->get_tied_item() );
-            mon->set_tied_item( nullptr );
-            count--;
-            if( count == 0 ) {
-                return res;
-            }
-        } else {
-            mon->get_tied_item()->contents.remove_internal( filter, count, res );
-            if( count == 0 ) {
-                return res;
-            }
-        }
-    }
+    };
+
+    check_item( mon->get_storage_item() );
+    check_item( mon->get_armor_item() );
+    check_item( mon->get_tack_item() );
+    check_item( mon->get_tied_item() );
+
     return res;
 }
 

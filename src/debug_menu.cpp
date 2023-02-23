@@ -643,7 +643,7 @@ void character_edit_menu( Character &c )
                 it->on_takeoff( p );
             }
             p.worn.clear();
-            p.inv.clear();
+            p.inv_clear();
             //TODO!: proper destroy
             p.set_weapon( null_item_reference() );
             break;

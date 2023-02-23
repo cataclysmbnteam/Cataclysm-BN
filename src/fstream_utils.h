@@ -230,7 +230,9 @@ inline void deserialize( T *&obj, const std::string &data )
     deserialize_wrapper( [&obj]( JsonIn & jsin ) {
         obj = T::_spawn( jsin );
 #if !defined(RELEASE)
-        cata_arena<T>::add_debug_entry( obj, __FILE__, __LINE__ );
+        void **buf = static_cast<void **>( malloc( sizeof( void * ) * 20 ) );
+        backtrace( buf, 20 );
+        cata_arena<T>::add_debug_entry( obj, __FILE__, __LINE__, buf );
 #endif
     }, data );
 }

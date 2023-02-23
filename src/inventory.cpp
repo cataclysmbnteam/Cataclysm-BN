@@ -508,6 +508,7 @@ void inventory::form_from_map( map &m, const tripoint &origin, int range, const 
     form_from_map( m, reachable_pts, pl, assign_invlet );
 }
 
+//TODO!: check that not stacking the crafting inventory works ok
 void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Character *pl,
                                bool assign_invlet )
 {
@@ -531,7 +532,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
                     } else {
                         furn_item.charges = ammo ? count_charges_in_list( &*ammo, m.i_at( p ) ) : 0;
                     }
-                    add_item_by_items_type_cache( furn_item );
+                    add_item_by_items_type_cache( furn_item, false, true, false );
                 }
             }
         }
@@ -544,7 +545,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
                     continue;
                 }
                 if( allow_liquids || !i->made_of( LIQUID ) ) {
-                    add_item_by_items_type_cache( *i, false, assign_invlet );
+                    add_item_by_items_type_cache( *i, false, assign_invlet, false );
                 }
             }
         }
@@ -553,13 +554,13 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             //TODO!: checkkckc
             item &fire = *item_spawn_temporary( "fire", bday );
             fire.charges = 1;
-            add_item_by_items_type_cache( fire );
+            add_item_by_items_type_cache( fire, false, true, false );
         }
         // Handle any water from infinite map sources.
         //TODO!: check
         item *water = &m.water_from( p );
         if( !water->is_null() ) {
-            add_item_by_items_type_cache( *water );
+            add_item_by_items_type_cache( *water, false, true, false );
         }
         // kludge that can probably be done better to check specifically for toilet water to use in
         // crafting
@@ -574,7 +575,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
                 }
             }
             if( water != nullptr && water->charges > 0 ) {
-                add_item_by_items_type_cache( *water );
+                add_item_by_items_type_cache( *water, false, true, false );
             }
         }
 
@@ -603,7 +604,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         if( cargo ) {
             const auto items = veh->get_items( cargo->part_index() );
             for( const auto &it : items ) {
-                add_item_by_items_type_cache( *it, false, false );
+                add_item_by_items_type_cache( *it, false, false, false );
             }
         }
 
@@ -612,7 +613,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
                 item &fuel = *item_spawn_temporary( it.first, bday );
                 if( fuel.made_of( LIQUID ) ) {
                     fuel.charges = it.second;
-                    add_item_by_items_type_cache( fuel );
+                    add_item_by_items_type_cache( fuel, false, true, false );
                 }
             }
         }
@@ -623,75 +624,75 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             hotplate.item_tags.insert( "PSEUDO" );
             // TODO: Allow disabling
             hotplate.item_tags.insert( "HEATS_FOOD" );
-            add_item_by_items_type_cache( hotplate );
+            add_item_by_items_type_cache( hotplate, false, true, false );
 
             item &pot = *item_spawn_temporary( "pot", bday );
             pot.set_flag( "PSEUDO" );
-            add_item_by_items_type_cache( pot );
+            add_item_by_items_type_cache( pot, false, true, false );
             item &pan = *item_spawn_temporary( "pan", bday );
             pan.set_flag( "PSEUDO" );
-            add_item_by_items_type_cache( pan );
+            add_item_by_items_type_cache( pan, false, true, false );
         }
         if( weldpart ) {
             item &welder = *item_spawn_temporary( "welder", bday );
             welder.charges = veh->fuel_left( itype_battery, true );
             welder.item_tags.insert( "PSEUDO" );
-            add_item_by_items_type_cache( welder );
+            add_item_by_items_type_cache( welder, false, true, false );
 
             item &soldering_iron = *item_spawn_temporary( "soldering_iron", bday );
             soldering_iron.charges = veh->fuel_left( itype_battery, true );
             soldering_iron.item_tags.insert( "PSEUDO" );
-            add_item_by_items_type_cache( soldering_iron );
+            add_item_by_items_type_cache( soldering_iron, false, true, false );
         }
         if( craftpart ) {
             item &vac_sealer = *item_spawn_temporary( "vac_sealer", bday );
             vac_sealer.charges = veh->fuel_left( itype_battery, true );
             vac_sealer.item_tags.insert( "PSEUDO" );
-            add_item_by_items_type_cache( vac_sealer );
+            add_item_by_items_type_cache( vac_sealer, false, true, false );
 
             item &dehydrator = *item_spawn_temporary( "dehydrator", bday );
             dehydrator.charges = veh->fuel_left( itype_battery, true );
             dehydrator.item_tags.insert( "PSEUDO" );
-            add_item_by_items_type_cache( dehydrator );
+            add_item_by_items_type_cache( dehydrator, false, true, false );
 
             item &food_processor = *item_spawn_temporary( "food_processor", bday );
             food_processor.charges = veh->fuel_left( itype_battery, true );
             food_processor.item_tags.insert( "PSEUDO" );
-            add_item_by_items_type_cache( food_processor );
+            add_item_by_items_type_cache( food_processor, false, true, false );
 
             item &press = *item_spawn_temporary( "press", bday );
             press.charges = veh->fuel_left( itype_battery, true );
             press.set_flag( "PSEUDO" );
-            add_item_by_items_type_cache( press );
+            add_item_by_items_type_cache( press, false, true, false );
         }
         if( forgepart ) {
             item &forge = *item_spawn_temporary( "forge", bday );
             forge.charges = veh->fuel_left( itype_battery, true );
             forge.item_tags.insert( "PSEUDO" );
-            add_item_by_items_type_cache( forge );
+            add_item_by_items_type_cache( forge, false, true, false );
         }
         if( kilnpart ) {
             item &kiln = *item_spawn_temporary( "kiln", bday );
             kiln.charges = veh->fuel_left( itype_battery, true );
             kiln.item_tags.insert( "PSEUDO" );
-            add_item_by_items_type_cache( kiln );
+            add_item_by_items_type_cache( kiln, false, true, false );
         }
         if( chempart ) {
             item &chemistry_set = *item_spawn_temporary( "chemistry_set", bday );
             chemistry_set.charges = veh->fuel_left( itype_battery, true );
             chemistry_set.item_tags.insert( "PSEUDO" );
-            add_item_by_items_type_cache( chemistry_set );
+            add_item_by_items_type_cache( chemistry_set, false, true, false );
 
             item &electrolysis_kit = *item_spawn_temporary( "electrolysis_kit", bday );
             electrolysis_kit.charges = veh->fuel_left( itype_battery, true );
             electrolysis_kit.item_tags.insert( "PSEUDO" );
-            add_item_by_items_type_cache( electrolysis_kit );
+            add_item_by_items_type_cache( electrolysis_kit, false, true, false );
         }
         if( autoclavepart ) {
             item &autoclave = *item_spawn_temporary( "autoclave", bday );
             autoclave.charges = veh->fuel_left( itype_battery, true );
             autoclave.item_tags.insert( "PSEUDO" );
-            add_item_by_items_type_cache( autoclave );
+            add_item_by_items_type_cache( autoclave, false, true, false );
         }
     }
     pts.clear();
@@ -780,6 +781,7 @@ ItemList inventory::remove_randomly_by_volume( const units::volume &volume )
         }
         volume_dropped += ( *chosen_item )->volume();
         //TODO!: check
+        ( *chosen_item )->remove_location();
         result.push_back( std::move( *chosen_item ) );
         chosen_item = chosen_stack->erase( chosen_item );
         if( chosen_item == chosen_stack->begin() && !chosen_stack->empty() ) {

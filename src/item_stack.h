@@ -34,6 +34,7 @@ class item_stack
         bool empty() const;
         virtual void insert( item &newitem ) = 0;
         virtual iterator erase( const_iterator it ) = 0;
+        virtual iterator erase( const_iterator first, const_iterator last ) = 0;
         virtual void clear();
         // Will cause a debugmsg if there is not exactly one item at the location
         item &only_item();

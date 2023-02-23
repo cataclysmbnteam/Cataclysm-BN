@@ -490,7 +490,6 @@ void player::sort_armor()
     int leftListLines = 0;
     int rightListLines = 0;
 
-    //TODO!: this weird bullshit won't be necessary
     std::vector<ItemList::iterator> tmp_worn;
     std::array<std::string, 13> armor_cat = {{
             _( "Torso" ), _( "Head" ), _( "Eyes" ), _( "Mouth" ), _( "L. Arm" ), _( "R. Arm" ),
@@ -752,15 +751,6 @@ void player::sort_armor()
         // Helper function for moving items in the list
         auto shift_selected_item = [&]() {
             if( selected >= 0 ) {
-
-
-                //TODO!: check this
-                //Can't use splice with vector
-                //ItemList::iterator to = tmp_worn[leftListIndex];
-                //if( leftListIndex > selected ) {
-                //    ++to;
-                //}
-                //worn.splice( to, worn, tmp_worn[selected] );
                 item *temp = *tmp_worn[selected];
                 *tmp_worn[selected] = *tmp_worn[leftListIndex];
                 *tmp_worn[leftListIndex] = temp;
@@ -834,7 +824,6 @@ void player::sort_armor()
         } else if( action == "SORT_ARMOR" ) {
             // Copy to a vector because stable_sort requires random-access
             // iterators
-            //TODO!: probably don't need this anymore
             std::vector<item *> worn_copy( worn.begin(), worn.end() );
             std::stable_sort( worn_copy.begin(), worn_copy.end(),
             []( item * const & l, item * const & r ) {
@@ -850,9 +839,8 @@ void player::sort_armor()
             // only equip if something valid selected!
             if( loc ) {
                 // wear the item
-                //TODO!: check, this flow is really weird now
-                loc->obtain( *this );
                 loc->detach();
+                loc->obtain( *this );
                 cata::optional<ItemList::iterator> new_equip_it = wear( *loc );
                 if( new_equip_it ) {
                     body_part bp = static_cast<body_part>( tabindex );
@@ -879,16 +867,18 @@ void player::sort_armor()
             // only equip if something valid selected!
             if( loc ) {
                 // wear the item
-                //TODO!: another weird one
-                loc->obtain( *this );
                 loc->detach();
+                loc->obtain( *this );
 
                 if( cata::optional<ItemList::iterator> new_equip_it = wear( *loc ) ) {
                     // save iterator to cursor's position
-                    // ItemList::iterator cursor_it = tmp_worn[leftListIndex];
+                    ItemList::iterator cursor_it = tmp_worn[leftListIndex];
                     // reorder `worn` vector to place new item at cursor
-                    //TODO!: restore next, can't use splice with vector
-                    //worn.splice( cursor_it, worn, *new_equip_it );
+                    item *&it = **new_equip_it;
+                    worn.erase( *new_equip_it );
+                    worn.insert( cursor_it, it );
+
+
                 } else if( is_npc() ) {
                     // TODO: Pass the reason here
                     popup( _( "Can't put this on!" ) );

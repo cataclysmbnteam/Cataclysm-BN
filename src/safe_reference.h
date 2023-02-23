@@ -45,6 +45,7 @@ class game;
 class JsonIn;
 class JsonOut;
 
+template<typename T> class cata_arena;
 template<typename T> class cache_reference;
 
 void reset_save_ids( uint32_t prefix, bool quitting );
@@ -63,6 +64,7 @@ class safe_reference
         friend void reset_save_ids( uint32_t, bool );
         friend T;
         friend game;
+        friend cata_arena<T>;
 
     protected:
         using rbp_type = std::unordered_map<const T *, record *>;
@@ -71,8 +73,8 @@ class safe_reference
         using rbi_it = typename rbi_type::iterator;
 
         constexpr static id_type ID_NONE = 0;
-        constexpr static id_type DESTROYED_MASK = 1 << ( 31 );
-        constexpr static id_type REDIRECTED_MASK = 1 << ( 30 );
+        constexpr static id_type DESTROYED_MASK  = 0x80000000;
+        constexpr static id_type REDIRECTED_MASK = 0x40000000;
 
         struct record {
             record( T *p ) : id( ID_NONE ), mem_count( 0 ), json_count( 0 ) {
@@ -96,7 +98,7 @@ class safe_reference
 
         inline static rbp_type records_by_pointer;
         inline static rbi_type records_by_id;
-        inline static uint32_t next_id;
+        inline static uint32_t next_id = 1;
 
         inline void fill( T *obj ) {
             rbp_it search = records_by_pointer.find( obj );
@@ -181,13 +183,6 @@ class safe_reference
             }
         }
 
-        static void register_unload( T *obj ) {
-            rbp_it search = records_by_pointer.find( obj );
-            if( search != records_by_pointer.end() ) {
-                search->second->target.p = nullptr;
-            }
-        }
-
         static id_type lookup_id( const T *obj ) {
             rbp_it search = records_by_pointer.find( obj );
             if( search != records_by_pointer.end() ) {
@@ -197,6 +192,23 @@ class safe_reference
                 return search->second->id;
             }
             return ID_NONE;
+        }
+
+        static void mark_destroyed( T *obj ) {
+            rbp_it search = records_by_pointer.find( obj );
+            if( search == records_by_pointer.end() ) {
+                return;
+            }
+            search->second->id |= DESTROYED_MASK;
+        }
+
+        static void mark_deallocated( T *obj ) {
+            rbp_it search = records_by_pointer.find( obj );
+            if( search == records_by_pointer.end() ) {
+                return;
+            }
+            search->second->target.p = nullptr;
+            records_by_pointer.erase( search );
         }
 
         static void serialize_global( JsonOut &json );
@@ -219,8 +231,13 @@ class safe_reference
             rec->mem_count++;
         }
         explicit safe_reference( id_type id ) {
-            fill( id );
-            rec->mem_count++;
+            if( id == ID_NONE || id_is_destroyed( id ) ) {
+                //TODO!: add cannon destroyed record
+                rec = nullptr;
+            } else {
+                fill( id );
+                rec->mem_count++;
+            }
         }
         safe_reference( const safe_reference<T> &source ) {
             rec = source.rec;
@@ -303,7 +320,7 @@ class safe_reference
         inline T *get() const {
             resolve_redirects();
             if( !*this ) {
-                //TODO!: proper error
+                debugmsg( "Attempted to resolve invalid safe reference" );
                 return nullptr;
             }
             return rec->target.p;
@@ -433,7 +450,7 @@ class cache_reference
             ref_map_it search = reference_map.find( p );
             if( search != reference_map.end() ) {
                 ref_list &list = search->second;
-                std::remove( list.begin(), list.end(), this );
+                list.erase( std::remove( list.begin(), list.end(), this ), list.end() );
                 if( list.empty() ) {
                     reference_map.erase( search );
                 }

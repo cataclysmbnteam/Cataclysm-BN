@@ -3,8 +3,8 @@
 #include "json.h"
 
 
-uint64_t save_id_prefix;
-bool save_and_quit;
+uint64_t save_id_prefix = 0;
+bool save_and_quit = false;
 
 template<typename T>
 void safe_reference<T>::serialize_global( JsonOut &json )

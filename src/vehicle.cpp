@@ -232,6 +232,12 @@ vehicle_stack::iterator vehicle_stack::erase( vehicle_stack::const_iterator it )
     return myorigin->remove_item( part_num, it );
 }
 
+vehicle_stack::iterator vehicle_stack::erase( vehicle_stack::const_iterator first,
+        vehicle_stack::const_iterator last )
+{
+    return myorigin->remove_item( part_num, first, last );
+}
+
 void vehicle_stack::insert( item &newitem )
 {
     myorigin->add_item( part_num, newitem );
@@ -272,7 +278,12 @@ vehicle::vehicle() : vehicle( vproto_id() )
     sm_pos = tripoint_zero;
 }
 
-vehicle::~vehicle() = default;
+vehicle::~vehicle()
+{
+    for( vehicle_part &part : parts ) {
+        part.destruct_hack();
+    }
+}
 
 bool vehicle::player_in_control( const Character &p ) const
 {
@@ -1435,7 +1446,7 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
              * still connected. */
 
             //First, find all the squares connected to the one we're removing
-            std::vector<vehicle_part> connected_parts;
+            std::vector<const vehicle_part *> connected_parts;
 
             for( int i = 0; i < 4; i++ ) {
                 const point next = parts[p].mount + point( i < 2 ? ( i == 0 ? -1 : 1 ) : 0,
@@ -1444,7 +1455,7 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
                 //Ignore empty squares
                 if( !parts_over_there.empty() ) {
                     //Just need one part from the square to track the x/y
-                    connected_parts.push_back( parts[parts_over_there[0]] );
+                    connected_parts.push_back( &parts[parts_over_there[0]] );
                 }
             }
 
@@ -1458,7 +1469,7 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
                  * the part about to be removed) to the target part, in order
                  * for the part to be legally removable. */
                 for( const auto &next_part : connected_parts ) {
-                    if( !is_connected( connected_parts[0], next_part, parts[p] ) ) {
+                    if( !is_connected( *connected_parts[0], *next_part, parts[p] ) ) {
                         //Removing that part would break the vehicle in two
                         reason = _( "Removing this part would split the vehicle." );
                         return false;
@@ -1490,14 +1501,14 @@ bool vehicle::is_connected( const vehicle_part &to, const vehicle_part &from,
     const auto excluded = excluded_part.mount;
 
     //Breadth-first-search components
-    std::list<vehicle_part> discovered;
-    std::list<vehicle_part> searched;
+    std::list<const vehicle_part *> discovered;
+    std::list<const vehicle_part *> searched;
 
     //We begin with just the start point
-    discovered.push_back( from );
+    discovered.push_back( &from );
 
     while( !discovered.empty() ) {
-        vehicle_part current_part = discovered.front();
+        const vehicle_part &current_part = *discovered.front();
         discovered.pop_front();
         auto current = current_part.mount;
 
@@ -1520,14 +1531,14 @@ bool vehicle::is_connected( const vehicle_part &to, const vehicle_part &from,
                 //Only add the part if we haven't been here before
                 bool found = false;
                 for( auto &elem : discovered ) {
-                    if( elem.mount == next ) {
+                    if( elem->mount == next ) {
                         found = true;
                         break;
                     }
                 }
                 if( !found ) {
                     for( auto &elem : searched ) {
-                        if( elem.mount == next ) {
+                        if( elem->mount == next ) {
                             found = true;
                             break;
                         }
@@ -1535,12 +1546,12 @@ bool vehicle::is_connected( const vehicle_part &to, const vehicle_part &from,
                 }
                 if( !found ) {
                     vehicle_part next_part = parts[parts_there[0]];
-                    discovered.push_back( next_part );
+                    discovered.push_back( &next_part );
                 }
             }
         }
         //Now that that's done, we've finished exploring here
-        searched.push_back( current_part );
+        searched.push_back( &current_part );
     }
     //If we completely exhaust the discovered list, there's no path
     return false;
@@ -1558,7 +1569,9 @@ int vehicle::install_part( const point &dp, const vpart_id &id, bool force )
     if( !( force || can_mount( dp, id ) ) ) {
         return -1;
     }
-    return install_part( dp, vehicle_part( id, dp, *item_spawn( id.obj().item ) ) );
+    item &obj = *item_spawn( id.obj().item );
+    int ret = install_part( dp, std::move( vehicle_part( id, dp, obj ) ) );
+    return ret;
 }
 
 int vehicle::install_part( const point &dp, const vpart_id &id, item &obj, bool force )
@@ -1566,10 +1579,12 @@ int vehicle::install_part( const point &dp, const vpart_id &id, item &obj, bool 
     if( !( force || can_mount( dp, id ) ) ) {
         return -1;
     }
-    return install_part( dp, vehicle_part( id, dp, obj ) );
+
+    int ret = install_part( dp, std::move( vehicle_part( id, dp, obj ) ) );
+    return ret;
 }
 
-int vehicle::install_part( const point &dp, const vehicle_part &new_part )
+int vehicle::install_part( const point &dp, vehicle_part &&new_part )
 {
     // Should be checked before installing the part
     bool enable = false;
@@ -1609,12 +1624,17 @@ int vehicle::install_part( const point &dp, const vehicle_part &new_part )
         }
     }
 
-    parts.push_back( new_part );
+    parts.push_back( std::move( new_part ) );
     auto &pt = parts.back();
 
     pt.enabled = enable;
 
     pt.mount = dp;
+    pt.base->set_location( new vehicle_base_item_location( this, parts.size() - 1 ) );
+
+    for( item *&it : pt.items ) {
+        it->set_location( new vehicle_item_location( this, parts.size() - 1 ) );
+    }
 
     refresh();
     coeff_air_changed = true;
@@ -1764,8 +1784,15 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
                                                    static_cast<int>( to_degrees( relative_dir ) ),
                                                    carry_veh->name );
             for( int carry_part : carry_map.carry_parts_here ) {
-                parts.push_back( carry_veh->parts[ carry_part ] );
+                //TODO!: check that the carry veh is really destroyed after this
+                parts.push_back( std::move( carry_veh->parts[ carry_part ] ) );
                 vehicle_part &carried_part = parts.back();
+
+                carried_part.base->set_location( new vehicle_base_item_location( this, parts.size() - 1 ) );
+                for( item *&it : carried_part.items ) {
+                    it->set_location( new vehicle_item_location( this, parts.size() - 1 ) );
+                }
+
                 carried_part.mount = carry_map.carry_mount;
                 carried_part.carry_names.push( unique_id );
                 carried_part.enabled = false;
@@ -1931,9 +1958,14 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
             // so we pass true here to cause such points to be clamped to the
             // valid bounds without printing an error (as would normally
             // occur).
+            i->remove_location();
             handler.add_item_or_charges( dest, *i, true );
+        } else {
+            i->remove_location();
+            i->destroy();
         }
     }
+    get_items( p ).clear();
     refresh();
     coeff_air_changed = true;
     return shift_if_needed();
@@ -2307,8 +2339,13 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
                 }
             }
             // transfer the vehicle_part to the new vehicle
-            new_vehicle->parts.emplace_back( parts[ mov_part ] );
-            new_vehicle->parts.back().mount = new_mount;
+            new_vehicle->parts.emplace_back( std::move( parts[ mov_part ] ) );
+            vehicle_part &np = parts.back();
+            np.base->set_location( new vehicle_base_item_location( this, parts.size() - 1 ) );
+            for( item *&it : np.items ) {
+                it->set_location( new vehicle_item_location( this, parts.size() - 1 ) );
+            }
+            np.mount = new_mount;
 
             // remove labels associated with the mov_part
             const auto iter = labels.find( label( cur_mount ) );
@@ -5390,17 +5427,20 @@ cata::optional<vehicle_stack::iterator> vehicle::add_item( int part, item &itm )
 {
     if( part < 0 || part >= static_cast<int>( parts.size() ) ) {
         debugmsg( "int part (%d) is out of range", part );
+        itm.destroy();
         return cata::nullopt;
     }
     // const int max_weight = ?! // TODO: weight limit, calculation per vpart & vehicle stats, not a hard user limit.
     // add creaking sounds and damage to overloaded vpart, outright break it past a certain point, or when hitting bumps etc
     vehicle_part &p = parts[ part ];
     if( p.is_broken() ) {
+        itm.destroy();
         return cata::nullopt;
     }
 
     if( p.base->is_gun() ) {
         if( !itm.is_ammo() || !p.base->ammo_types().count( itm.ammo_type() ) ) {
+            itm.destroy();
             return cata::nullopt;
         }
     }
@@ -5408,6 +5448,7 @@ cata::optional<vehicle_stack::iterator> vehicle::add_item( int part, item &itm )
     vehicle_stack istack = get_items( part );
     const int to_move = istack.amount_can_fit( itm );
     if( to_move == 0 || ( charge && to_move < itm.charges ) ) {
+        itm.destroy();
         return cata::nullopt; // @add_charges should be used in the latter case
     }
     if( charge ) {
@@ -5426,7 +5467,7 @@ cata::optional<vehicle_stack::iterator> vehicle::add_item( int part, item &itm )
     if( itm.is_bucket_nonempty() ) {
         itm.contents.spill_contents( global_part_pos3( part ) );
     }
-
+    itm.set_location( new vehicle_item_location( this, part ) );
     p.items.push_back( &itm );
     if( itm.needs_processing() ) {
         active_items.add( itm );
@@ -5462,6 +5503,23 @@ vehicle_stack::iterator vehicle::remove_item( int part, vehicle_stack::const_ite
 
     invalidate_mass();
     return veh_items.erase( it );
+}
+
+vehicle_stack::iterator vehicle::remove_item( int part, vehicle_stack::const_iterator first,
+        vehicle_stack::const_iterator last )
+{
+    cata::colony<item &> &veh_items = parts[part].items;
+    vehicle_stack::iterator ret = veh_items.end();
+    while( first != last ) {
+
+        // remove from the active items cache (if it isn't there does nothing)
+        active_items.remove( *first );
+
+        invalidate_mass();
+        ret = veh_items.erase( first );
+        first++;
+    }
+    return ret;
 }
 
 vehicle_stack vehicle::get_items( const int part )
@@ -5522,6 +5580,7 @@ void vehicle::place_spawn_items()
                         continue;
                     }
                     if( broken && e->mod_damage( rng( 1, e->max_damage() ) ) ) {
+                        e->destroy();
                         continue; // we destroyed the item
                     }
                     if( e->is_tool() || e->is_gun() || e->is_magazine() ) {
@@ -6877,9 +6936,8 @@ void vehicle::update_time( const time_point &update_to )
     const weather_sum accum_weather = sum_conditions( update_from, update_to,
                                       global_square_location().raw() );
     // make some reference objects to use to check for reload
-    //TODO!: fuuuck no, this needs a looking at
-    const item *water = item_spawn( "water" );
-    const item *water_clean = item_spawn( "water_clean" );
+    const item *water = item_spawn_temporary( "water" );
+    const item *water_clean = item_spawn_temporary( "water_clean" );
 
     for( int idx : funnels ) {
         const auto &pt = parts[idx];

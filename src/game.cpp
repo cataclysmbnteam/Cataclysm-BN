@@ -5017,8 +5017,8 @@ bool game::revive_corpse( const tripoint &p, item &it )
 
     critter.no_extra_death_drops = true;
     critter.add_effect( effect_downed, 5_turns, num_bp );
-    for( item * const &component : it.components ) {
-        critter.corpse_components.push_back( component );
+    for( item * const &component : it.get_components() ) {
+        critter.add_corpse_component( *component );
     }
 
     if( it.get_var( "zlave" ) == "zlave" ) {
@@ -12201,5 +12201,12 @@ distribution_grid_tracker &get_distribution_grid_tracker()
 
 void cleanup_arenas()
 {
-    cata_arena<item>::cleanup();
+    bool cont = true;
+    while( cont ) {
+        cont = false;
+        cont |= cata_arena<item>::cleanup();
+    }
+#if !defined(RELEASE)
+    cata_arena<item>::check_for_leaks();
+#endif
 }

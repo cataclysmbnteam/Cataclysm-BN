@@ -154,6 +154,12 @@ map_stack::iterator map_stack::erase( map_stack::const_iterator it )
     return myorigin->i_rem( location, it );
 }
 
+map_stack::iterator map_stack::erase( map_stack::const_iterator first,
+                                      map_stack::const_iterator last )
+{
+    return myorigin->i_rem( location, first, last );
+}
+
 void map_stack::insert( item &newitem )
 {
     myorigin->add_item_or_charges( location, newitem );
@@ -3374,7 +3380,6 @@ bash_results map::bash_furn_success( const tripoint &p, const bash_params &param
     } else {
         furn_set( p, bash.furn_set );
         for( item * const &it : i_at( p ) )  {
-            //TODO!: check
             it->on_drop( p, *this );
         }
         // HACK: Hack alert.
@@ -4125,6 +4130,30 @@ map_stack::iterator map::i_rem( const tripoint &p, map_stack::const_iterator it 
     return current_submap->get_items( l ).erase( it );
 }
 
+map_stack::iterator map::i_rem( const tripoint &p, map_stack::const_iterator first,
+                                map_stack::const_iterator last )
+{
+    point l;
+    submap *const current_submap = get_submap_at( p, l );
+    map_stack::iterator ret = current_submap->get_items( l ).end();
+    while( first != last ) {
+        // remove from the active items cache (if it isn't there does nothing)
+        current_submap->active_items.remove( *first );
+        if( current_submap->active_items.empty() ) {
+            submaps_with_active_items.erase( tripoint( abs_sub.x + p.x / SEEX, abs_sub.y + p.y / SEEY, p.z ) );
+        }
+
+        current_submap->update_lum_rem( l, **first );
+
+        ( *first )->remove_location();
+
+
+        ret = current_submap->get_items( l ).erase( first );
+        first++;
+    }
+    return ret;
+}
+
 void map::i_rem( const tripoint &p, item *it )
 {
     map_stack map_items = i_at( p );
@@ -4174,12 +4203,16 @@ std::vector<item *> map::spawn_items( const tripoint &p, std::vector<item *> new
 {
     std::vector<item *> ret;
     if( !inbounds( p ) || has_flag( "DESTROY_ITEM", p ) ) {
+        for( item *&new_item : new_items ) {
+            new_item->destroy();
+        }
         return ret;
     }
     const bool swimmable = has_flag( "SWIMMABLE", p );
     for( item *&new_item : new_items ) {
 
         if( new_item->made_of( LIQUID ) && swimmable ) {
+            new_item->destroy();
             continue;
         }
         item &it = add_item_or_charges( p, *new_item );
@@ -4289,11 +4322,13 @@ item &map::add_item_or_charges( const tripoint &pos, item &obj, bool overflow )
 
     // Some items never exist on map as a discrete item (must be contained by another item)
     if( obj.has_flag( "NO_DROP" ) ) {
+        obj.destroy();
         return null_item_reference();
     }
 
     // If intended drop tile destroys the item then we don't attempt to overflow
     if( !valid_tile( pos ) ) {
+        obj.destroy();
         return null_item_reference();
     }
 
@@ -4340,6 +4375,7 @@ item &map::add_item_or_charges( const tripoint &pos, item &obj, bool overflow )
     }
 
     // failed due to lack of space at target tile (+/- overflow tiles)
+    obj.destroy();
     return null_item_reference();
 }
 
@@ -4383,7 +4419,7 @@ item &map::add_item( const tripoint &p, item &new_item )
     invalidate_max_populated_zlev( p.z );
 
     current_submap->update_lum_add( l, new_item );
-    new_item.set_location( new tile_item_location( p ) );
+    new_item.set_location( new tile_item_location( getabs( p ) ) );
     current_submap->get_items( l ).push_back( &new_item );
     if( new_item.needs_processing() ) {
         if( current_submap->active_items.empty() ) {

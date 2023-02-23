@@ -335,8 +335,8 @@ void game::item_action_menu()
 
     u.invoke_item( it, action );
 
-    u.inv.restack( u );
-    u.inv.unsort();
+    u.inv_restack( );
+    u.inv_unsort();
 }
 
 std::string use_function::get_type() const

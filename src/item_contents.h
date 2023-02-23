@@ -26,6 +26,7 @@ class item_contents
         item_contents() = default;
         /** used to aid migration */
         item_contents( const std::vector<item *> &items ) : items( items ) {}
+        ~item_contents();
 
         bool empty() const;
 

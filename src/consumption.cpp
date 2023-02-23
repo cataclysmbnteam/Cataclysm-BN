@@ -332,9 +332,10 @@ nutrients Character::compute_effective_nutrients( const item &comest ) const
     }
 
     // if item has components, will derive calories from that instead.
-    if( !comest.components.empty() && !comest.has_flag( flag_NUTRIENT_OVERRIDE ) ) {
+    const ItemList &components = comest.get_components();
+    if( !components.empty() && !comest.has_flag( flag_NUTRIENT_OVERRIDE ) ) {
         nutrients tally{};
-        for( const item * const &component : comest.components ) {
+        for( const item * const &component : components ) {
             nutrients component_value =
                 compute_effective_nutrients( *component ) * component->charges;
             if( component->has_flag( flag_BYPRODUCT ) ) {

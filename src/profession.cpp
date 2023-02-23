@@ -417,6 +417,7 @@ ItemList profession::items( bool male, const std::vector<trait_id> &traits ) con
         const auto sub = item_substitutions.get_substitution( **iter, traits );
         if( !sub.empty() ) {
             result.insert( result.begin(), sub.begin(), sub.end() );
+            ( *iter )->destroy();
             iter = result.erase( iter );
         } else {
             ++iter;

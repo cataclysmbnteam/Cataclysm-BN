@@ -110,6 +110,7 @@ class map_stack : public item_stack
             item_stack( newstack ), location( newloc ), myorigin( neworigin ) {}
         void insert( item &newitem ) override;
         iterator erase( const_iterator it ) override;
+        iterator erase( const_iterator first, const_iterator last ) override;
         int count_limit() const override {
             return MAX_ITEM_IN_SQUARE;
         }
@@ -1249,6 +1250,12 @@ class map
         map_stack::iterator i_rem( const tripoint &p, map_stack::const_iterator it );
         map_stack::iterator i_rem( const point &location, map_stack::const_iterator it ) {
             return i_rem( tripoint( location, abs_sub.z ), it );
+        }
+        map_stack::iterator i_rem( const tripoint &p, map_stack::const_iterator first,
+                                   map_stack::const_iterator last );
+        map_stack::iterator i_rem( const point &location, map_stack::const_iterator first,
+                                   map_stack::const_iterator last ) {
+            return i_rem( tripoint( location, abs_sub.z ), first, last );
         }
         void i_rem( const tripoint &p, item *it );
         void i_rem( const point &p, item *it ) {

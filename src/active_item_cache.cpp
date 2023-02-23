@@ -9,14 +9,14 @@
 void active_item_cache::remove( const item *it )
 {
     std::vector<cache_reference<item>> &items = active_items[it->processing_speed()];
-    std::remove( items.begin(), items.end(), it );
+    items.erase( std::remove( items.begin(), items.end(), it ), items.end() );
     if( it->can_revive() ) {
         std::vector<cache_reference<item>> &corpse = special_items[ special_item_type::corpse ];
-        std::remove( corpse.begin(), corpse.end(), it );
+        corpse.erase( std::remove( corpse.begin(), corpse.end(), it ), corpse.end() );
     }
     if( it->get_use( "explosion" ) ) {
         std::vector<cache_reference<item>> &explosive = special_items[ special_item_type::explosive ];
-        std::remove( explosive.begin(), explosive.end(), it );
+        explosive.erase( std::remove( explosive.begin(), explosive.end(), it ), explosive.end() );
     }
 }
 

@@ -576,7 +576,7 @@ int iuse::smoking( player *p, item *it, bool, const tripoint & )
     // If we're here, we better have a cig to light.
     p->use_charges_if_avail( itype_fire, 1 );
     cig->active = true;
-    p->inv.add_item( *cig, false, true );
+    p->i_add( *cig );
     p->add_msg_if_player( m_neutral, _( "You light a %s." ), cig->tname() );
 
     // Parting messages
@@ -2301,7 +2301,7 @@ int iuse::note_bionics( player *p, item *it, bool t, const tripoint &pos )
             }
 
             std::vector<const item *> cbms;
-            for( const item * const &maybe_cbm : corpse->components ) {
+            for( const item * const &maybe_cbm : corpse->get_components() ) {
                 if( maybe_cbm->is_bionic() ) {
                     cbms.push_back( maybe_cbm );
                 }
@@ -7960,7 +7960,7 @@ int iuse::radiocar( player *p, item *it, bool, const tripoint & )
         } else { // Disarm the car
             p->moves -= to_moves<int>( 2_seconds );
 
-            p->inv.assign_empty_invlet( *bomb_it, *p, true ); // force getting an invlet.
+            p->inv_assign_empty_invlet( *bomb_it, true ); // force getting an invlet.
             p->i_add( *bomb_it );
             it->remove_item( *bomb_it );
 
@@ -8805,10 +8805,10 @@ int iuse::tow_attach( player *p, item *it, bool, const tripoint & )
             const vpart_id vpid( it->typeId().str() );
             point vcoords = source_vp->mount();
             vehicle_part source_part( vpid, vcoords, *item_spawn( *it ) );
-            source_veh->install_part( vcoords, source_part );
+            source_veh->install_part( vcoords, std::move( source_part ) );
             vcoords = target_vp->mount();
             vehicle_part target_part( vpid, vcoords, *item_spawn( *it ) );
-            target_veh->install_part( vcoords, target_part );
+            target_veh->install_part( vcoords, std::move( target_part ) );
 
             if( p->has_item( *it ) ) {
                 p->add_msg_if_player( m_good, _( "You link up the %1$s and the %2$s." ),
@@ -9041,7 +9041,7 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
                     p->add_msg_if_player( m_good, _( "You connect the %s to the electric grid." ),
                                           source_veh->name );
                     grid_connection->connected_vehicles.emplace_back( g->m.getabs( source_veh->global_pos3() ) );
-                    source_veh->install_part( vcoords, source_part );
+                    source_veh->install_part( vcoords, std::move( source_part ) );
                 }
             } else {
                 vehicle *const target_veh = &target_vp->vehicle();
@@ -9055,14 +9055,14 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
 
                 source_part.target.first = target_global.raw();
                 source_part.target.second = target_veh->global_square_location().raw();
-                source_veh->install_part( vcoords, source_part );
+                source_veh->install_part( vcoords, std::move( source_part ) );
 
                 if( target_vp ) {
                     vcoords = target_vp->mount();
                     vehicle_part target_part( vpid, vcoords, *item_spawn( *it ) );
                     target_part.target.first = source_global;
                     target_part.target.second = source_veh->global_square_location().raw();
-                    target_veh->install_part( vcoords, target_part );
+                    target_veh->install_part( vcoords, std::move( target_part ) );
 
                     if( p != nullptr && p->has_item( *it ) ) {
                         p->add_msg_if_player( m_good, _( "You link up the electric systems of the %1$s and the %2$s." ),
@@ -9461,7 +9461,7 @@ int wash_items( player *p, bool soft_items, bool hard_items )
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
-    p->inv.restack( *p );
+    p->inv_restack( );
     const inventory &crafting_inv = p->crafting_inventory();
 
     auto is_liquid = []( const item & it ) {

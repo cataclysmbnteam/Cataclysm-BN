@@ -49,6 +49,87 @@ vehicle_part::vehicle_part( const vpart_id &vp, const point &dp, item &obj )
     }
 }
 
+void vehicle_part::copy_static_from( const vehicle_part &source )
+{
+    mount = source.mount;
+    precalc = source.precalc;
+    blood = source.blood;
+    inside = source.inside;
+    removed = source.removed;
+    enabled = source.enabled;
+    flags = source.flags;
+    passenger_id = source.passenger_id;
+    open = source.open;
+    direction = source.direction;
+    proxy_part_id = source.proxy_part_id;
+    proxy_sym = source.proxy_sym;
+    target = source.target;
+    id = source.id;
+    info_cache = source.info_cache;
+    ammo_pref = source.ammo_pref;
+    crew_id = source.crew_id;
+}
+
+//TODO!: This is a bit scuffed and will be until vehicles are game objects.
+vehicle_part::vehicle_part( const vehicle_part &source )
+{
+    copy_static_from( source );
+    base = source.base;
+    for( item * const &it : source.items ) {
+        items.push_back( it );
+    }
+}
+
+vehicle_part &vehicle_part::operator=( const vehicle_part &source )
+{
+    copy_static_from( source );
+    base = source.base;
+    for( item * const &it : source.items ) {
+        items.push_back( it );
+    }
+    return *this;
+}
+
+vehicle_part::vehicle_part( vehicle_part &&source )
+{
+    copy_static_from( source );
+    base = source.base;
+    base->remove_location();
+    items = source.items;
+    for( item *&it : items ) {
+        it->remove_location();
+    }
+    source.base = nullptr;
+    source.items.clear();
+}
+
+vehicle_part &vehicle_part::operator=( vehicle_part &&source )
+{
+    copy_static_from( source );
+    base = source.base;
+    base->remove_location();
+    items = source.items;
+    for( item *&it : items ) {
+        it->remove_location();
+    }
+    source.base = nullptr;
+    source.items.clear();
+    return *this;
+}
+
+// This will be made into a real destructor when vehicle parts are made game objects
+void vehicle_part::destruct_hack()
+{
+    if( base ) {
+        base->remove_location();
+        base->destroy();
+    }
+    for( item *&it : items ) {
+        it->remove_location();
+        it->destroy();
+    }
+}
+
 vehicle_part::operator bool() const
 {
     return id != vpart_id::NULL_ID();
@@ -62,6 +143,10 @@ item &vehicle_part::get_base() const
 void vehicle_part::set_base( item &new_base )
 {
     //TODO!:Destroy old
+    if( base ) {
+        base->remove_location();
+        base->destroy();
+    }
     base = &new_base;
 }
 

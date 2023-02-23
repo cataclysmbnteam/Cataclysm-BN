@@ -532,6 +532,9 @@ void DynamicDataLoader::unload_data()
 {
     finalized = false;
 
+    //Moved to the top as a temp hack until vehicles are made into game objects
+    vehicle_prototype::reset();
+
     achievement::reset();
     activity_type::reset();
     ammo_effects::reset();
@@ -611,7 +614,6 @@ void DynamicDataLoader::unload_data()
     to_cbc_migration::reset();
     trap::reset();
     unload_talk_topics();
-    vehicle_prototype::reset();
     VehicleGroup::reset();
     VehiclePlacement::reset();
     VehicleSpawn::reset();

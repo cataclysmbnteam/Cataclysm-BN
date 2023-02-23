@@ -5735,12 +5735,12 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
             for( const vpart_reference &vpr : veh->get_all_parts() ) {
                 const tripoint part_pos = veh->global_part_pos3( vpr.part() ) - global_pos;
                 // TODO: change mount points to be tripoint
-                wreckage->install_part( part_pos.xy(), vpr.part() );
+                wreckage->install_part( part_pos.xy(), std::move( vpr.part() ) );
             }
 
             for( const vpart_reference &vpr : other_veh->get_all_parts() ) {
                 const tripoint part_pos = other_veh->global_part_pos3( vpr.part() ) - global_pos;
-                wreckage->install_part( part_pos.xy(), vpr.part() );
+                wreckage->install_part( part_pos.xy(), std::move( vpr.part() ) );
 
             }
 
@@ -5866,19 +5866,48 @@ void map::rotate( int turns, const bool setpos_safe )
     clear_vehicle_list( abs_sub.z );
 
     // Move the submaps around.
+    // 2,2 <-> 1,1
+    // 1,1
+    //
+    auto swap_submaps = [&]( const point & p1, const point & p2 ) {
+        tripoint offset( p2 - p1, 0 );
+        offset.x *= 12;
+        offset.y *= 12;
+
+        submap *sm1 = get_submap_at_grid( p1 );
+        submap *sm2 = get_submap_at_grid( p2 );
+
+        point c;
+        for( c.x = 0; c.x < SEEX; c.x++ ) {
+            for( c.y = 0; c.y < SEEY; c.y++ ) {
+                for( item *&it : sm1->get_items( c ) ) {
+                    it->move_by( offset );
+                }
+            }
+        }
+        for( c.x = 0; c.x < SEEX; c.x++ ) {
+            for( c.y = 0; c.y < SEEY; c.y++ ) {
+                for( item *&it : sm2->get_items( c ) ) {
+                    it->move_by( -offset );
+                }
+            }
+        }
+
+        std::swap( *sm1, *sm2 );
+    };
+
     if( turns == 2 ) {
-        std::swap( *get_submap_at_grid( point_zero ), *get_submap_at_grid( point_south_east ) );
-        std::swap( *get_submap_at_grid( point_east ), *get_submap_at_grid( point_south ) );
+        swap_submaps( point_zero, point_south_east );
+        swap_submaps( point_south, point_east );
     } else {
         point p;
-        submap tmp;
+        point p2 = p.rotate( turns, {2, 2} );
+        point p3 = p2.rotate( turns, {2, 2} );
+        point p4 = p3.rotate( turns, {2, 2} );
 
-        std::swap( *get_submap_at_grid( point_south_east - p ), tmp );
-
-        for( int k = 0; k < 4; ++k ) {
-            p = p.rotate( turns, { 2, 2 } );
-            std::swap( *get_submap_at_grid( point_south_east - p ), tmp );
-        }
+        swap_submaps( p, p2 );
+        swap_submaps( p, p3 );
+        swap_submaps( p, p4 );
     }
 
     // Then rotate them and recalculate vehicle positions.

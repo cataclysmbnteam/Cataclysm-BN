@@ -2622,7 +2622,20 @@ static bool mx_mayhem( map &m, const tripoint &abs_sub )
 
 static bool mx_casings( map &m, const tripoint &abs_sub )
 {
-    const auto items = item_group::items_from( item_group_id( "ammo_casings" ), calendar::turn );
+    const std::vector<item *> items = item_group::items_from( item_group_id( "ammo_casings" ),
+                                      calendar::turn );
+
+    auto copy_list = []( const std::vector<item *> &old ) {
+        std::vector<item *> n;
+        for( item * const &it : old ) {
+            n.push_back( item_spawn( *it ) );
+        }
+        return n;
+    };
+
+    for( item * const &it : items ) {
+        it->destroy();
+    }
 
     switch( rng( 1, 4 ) ) {
         //Pile of random casings in random place
@@ -2631,7 +2644,7 @@ static bool mx_casings( map &m, const tripoint &abs_sub )
             //Spawn casings
             for( const auto &loc : m.points_in_radius( location, rng( 1, 2 ) ) ) {
                 if( one_in( 2 ) ) {
-                    m.spawn_items( loc, items );
+                    m.spawn_items( loc, copy_list( items ) );
                 }
             }
             //Spawn random trash in random place
@@ -2661,7 +2674,7 @@ static bool mx_casings( map &m, const tripoint &abs_sub )
             for( int i = 0; i < SEEX * 2; i++ ) {
                 for( int j = 0; j < SEEY * 2; j++ ) {
                     if( one_in( 20 ) ) {
-                        m.spawn_items( point( i, j ), items );
+                        m.spawn_items( point( i, j ), copy_list( items ) );
                     }
                 }
             }
@@ -2691,7 +2704,7 @@ static bool mx_casings( map &m, const tripoint &abs_sub )
             std::vector<tripoint> casings = line_to( from, to );
             for( auto &i : casings ) {
                 if( one_in( 2 ) ) {
-                    m.spawn_items( { i.xy(), abs_sub.z }, items );
+                    m.spawn_items( { i.xy(), abs_sub.z }, copy_list( items ) );
                     if( one_in( 2 ) ) {
                         m.add_field( { i.xy(), abs_sub.z }, fd_blood, rng( 1, 3 ) );
                     }
@@ -2720,14 +2733,21 @@ static bool mx_casings( map &m, const tripoint &abs_sub )
             const auto first_items = item_group::items_from( item_group_id( "ammo_casings" ), calendar::turn );
             const auto second_items = item_group::items_from( item_group_id( "ammo_casings" ), calendar::turn );
 
+            for( item * const &it : first_items ) {
+                it->destroy();
+            }
+            for( item * const &it : second_items ) {
+                it->destroy();
+            }
+
             for( const auto &loc : m.points_in_radius( first_loc, rng( 1, 2 ) ) ) {
                 if( one_in( 2 ) ) {
-                    m.spawn_items( loc, first_items );
+                    m.spawn_items( loc, copy_list( first_items ) );
                 }
             }
             for( const auto &loc : m.points_in_radius( second_loc, rng( 1, 2 ) ) ) {
                 if( one_in( 2 ) ) {
-                    m.spawn_items( loc, second_items );
+                    m.spawn_items( loc, copy_list( second_items ) );
                 }
             }
             //Spawn random trash in random place
@@ -2795,8 +2815,6 @@ static bool mx_looters( map &m, const tripoint &abs_sub )
 static bool mx_corpses( map &m, const tripoint &abs_sub )
 {
     const int num_corpses = rng( 1, 5 );
-    const auto gibs = item_group::items_from( item_group_id( "remains_human_generic" ),
-                      calendar::start_of_cataclysm );
     //Spawn up to 5 human corpses in random places
     for( int i = 0; i < num_corpses; i++ ) {
         const tripoint corpse_location = { rng( 1, SEEX * 2 - 1 ), rng( 1, SEEY * 2 - 1 ), abs_sub.z };
@@ -2814,6 +2832,8 @@ static bool mx_corpses( map &m, const tripoint &abs_sub )
     //10% chance to spawn a flock of stray dogs feeding on human flesh
     if( one_in( 10 ) && num_corpses <= 4 ) {
         const tripoint corpse_location = { rng( 1, SEEX * 2 - 1 ), rng( 1, SEEY * 2 - 1 ), abs_sub.z };
+        const auto gibs = item_group::items_from( item_group_id( "remains_human_generic" ),
+                          calendar::start_of_cataclysm );
         m.spawn_items( corpse_location, gibs );
         m.add_field( corpse_location, fd_gibs_flesh, rng( 1, 3 ) );
         //50% chance to spawn gibs and dogs in every tile around what's left of human corpse in 1-tile radius

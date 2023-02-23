@@ -438,7 +438,7 @@ static std::list<pickup::act_item> convert_to_items( Character &p,
                 continue;
             }
             int obtained = 0;
-            for( item * const &it : p.inv.const_stack( p.get_item_position( &*loc ) ) ) {
+            for( item * const &it : p.inv_const_stack( p.get_item_position( &*loc ) ) ) {
                 if( obtained >= count ) {
                     break;
                 }
@@ -519,7 +519,7 @@ std::list<act_item> reorder_for_dropping( Character &p, const drop_locations &dr
     units::volume excessive_volume = p.volume_carried() - dropped_inv_contents
                                      - p.volume_capacity_reduced_by( dropped_worn_storage );
     if( excessive_volume > 0_ml ) {
-        invslice old_inv = p.inv.slice();
+        invslice old_inv = p.inv_slice();
         for( size_t i = 0; i < old_inv.size() && excessive_volume > 0_ml; i++ ) {
             // TODO: Reimplement random dropping?
             if( inv_indices.count( i ) != 0 ) {
@@ -905,7 +905,7 @@ static bool vehicle_activity( player &p, const tripoint &src_loc, int vpindex, c
     }
     const vpart_info &vp = veh->part_info( vpindex );
     if( type == 'r' ) {
-        const vehicle_part part = veh->part( vpindex );
+        const vehicle_part &part = veh->part( vpindex );
         time_to_take = vp.repair_time( p ) * part.damage() / part.max_damage();
     } else if( type == 'o' ) {
         time_to_take = vp.removal_time( p );
