@@ -254,5 +254,14 @@
     "description": "Huge archives of numerous IC circuit datasheets from several major manufacturers.  Probably valuable to the right person, as it would be hard to salvage and reuse these components without them.",
     "price": 40000,
     "price_postapoc": 0
+  },
+  {
+    "id": "software_CAD",
+    "copy-from": "software",
+    "type": "GENERIC",
+    "name": { "str_sp": "autoCAD" },
+    "description": "A piece of computer design software for CNC machines.",
+    "price": 600,
+    "price_postapoc": 2000
   }
 ]

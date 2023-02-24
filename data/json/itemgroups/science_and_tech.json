@@ -103,6 +103,7 @@
       [ "bio_syringe", 8 ],
       [ "software_electronics_reference", 10 ],
       [ "software_useless", 10 ],
+	  [ "software_CAD", 5 ],
       [ "canteen", 15 ],
       [ "2lcanteen", 10 ],
       [ "camelbak", 5 ],

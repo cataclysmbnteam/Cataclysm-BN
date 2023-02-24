@@ -340,5 +340,13 @@
     "sub": "autoclave",
     "max_charges": 1000,
     "flags": [ "USES_GRID_POWER" ]
+  },
+  {
+    "id": "fake_heavylathe",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "heavy lathe" },
+    "max_charges": 2500,
+    "flags": [ "USES_GRID_POWER" ]
   }
 ]

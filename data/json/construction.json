@@ -4602,5 +4602,18 @@
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_furniture": "f_floor_lamp_off"
+  },
+  {
+    "type": "construction",
+    "id": "constr_heavylathe",
+    "group": "install_heavy_lathe",
+    "category": "WORKSHOP",
+    "required_skills": [  ],
+    "time": "10 m",
+    "qualities": [  ],
+    "components": [ [ [ "heavy_lathe", 1 ] ] ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_special": "check_empty",
+    "post_furniture": "f_heavy_lathe"
   }
 ]

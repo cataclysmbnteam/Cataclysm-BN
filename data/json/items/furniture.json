@@ -69,5 +69,19 @@
     "material": "steel",
     "symbol": "#",
     "color": "dark_gray"
-  }
+  },
+  {
+    "id": "heavy_lathe",
+    "type": "TOOL",
+    "looks_like": "f_heavy_lathe",
+    "name": "power lathe",
+    "description": "An industrial-grade lathe, for turning chunks of metal and other hard things into round chunks of metal and other hard things.",
+    "weight": "80 kg",
+    "volume": "210000 ml",
+    "price": 1000,
+    "price_postapoc": 150,
+    "material": "steel",
+    "symbol": "{",
+    "color": "light_cyan"
+  },
 ]

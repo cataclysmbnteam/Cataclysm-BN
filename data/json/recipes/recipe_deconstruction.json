@@ -4177,5 +4177,20 @@
     "difficulty": 2,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "2x4", 12 ] ], [ [ "rag", 33 ] ], [ [ "nail", 15 ] ], [ [ "cable", 10 ] ] ]
+  },
+  {
+    "result": "heavy_lathe",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "time": "1 h",
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [
+      [ [ "steel_chunk", 6 ] ],
+      [ [ "cable", 8 ] ],
+      [ [ "steel_lump", 4 ] ],
+      [ [ "scrap", 16 ] ],
+      [ [ "motor_small", 1 ] ],
+      [ [ "pipe", 4 ] ]
+    ]
   }
 ]
