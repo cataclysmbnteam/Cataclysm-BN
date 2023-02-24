@@ -2197,8 +2197,9 @@ void options_manager::add_options_debug()
          true
        );
 
-    add( "NEW_EXPLOSIONS", "debug", translate_marker( "New explosions" ),
-         translate_marker( "If true, Rule of Cool explosions will be used." ), false );
+    add( "NEW_EXPLOSIONS", "debug", translate_marker( "Rule of Cool explosions" ),
+         translate_marker( "If true, use improved explosive system with raycasting for more strategic play.  Shrapnel shields mobs behind obstacles, while blast wave damages enemies, vehicles, and terrain in a realistic manner." ),
+         false );
 }
 
 void options_manager::add_options_world_default()
