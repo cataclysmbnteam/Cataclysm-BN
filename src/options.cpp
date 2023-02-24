@@ -2198,7 +2198,7 @@ void options_manager::add_options_debug()
        );
 
     add( "NEW_EXPLOSIONS", "debug", translate_marker( "Rule of Cool explosions" ),
-         translate_marker( "If true, utilizes raycasting based explosive system.  Creatures are shielded from shrapnel and blast if behind impassable terrain, furniture, or vehicles.  Note that the blast may destroy cover.  Any creatures caught in the blast are flung outward." ),
+         translate_marker( "If true, utilizes raycasting based explosive system.  Obstacles (impassable terrain, furniture or vehicle parts) will block shrapnel, while blast will bash obstacles and throw creatures outward.  If obstacles are destroyed, blast continues outward." ),
          false );
 }
 
