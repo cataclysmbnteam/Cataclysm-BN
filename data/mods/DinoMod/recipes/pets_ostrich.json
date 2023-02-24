@@ -1,11 +1,11 @@
 [
   {
-    "result": "acidchitin_armor_elephant",
+    "result": "acidchitin_armor_ostrich",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "copy-from": "armor_acidchitin",
     "category": "CC_ANIMALS",
-    "subcategory": "CSC_ANIMALS_ELEPHANT ARMOR",
+    "subcategory": "CSC_ANIMALS_OSTRICH ARMOR",
     "skills_required": [ [ "survival", 4 ], [ "firstaid", 2 ], [ "fabrication", 4 ] ],
     "time": "8 h 30 m",
     "using": [ [ "cordage", 7 ] ],
@@ -17,12 +17,12 @@
     ]
   },
   {
-    "result": "chitin_armor_elephant",
+    "result": "chitin_armor_ostrich",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "copy-from": "armor_chitin",
     "category": "CC_ANIMALS",
-    "subcategory": "CSC_ANIMALS_ELEPHANT ARMOR",
+    "subcategory": "CSC_ANIMALS_OSTRICH ARMOR",
     "time": "8 h 30 m",
     "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
     "skills_required": [ [ "fabrication", 4 ] ],
@@ -35,12 +35,12 @@
     ]
   },
   {
-    "result": "chainmail_armor_elephant",
+    "result": "chainmail_armor_ostrich",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "copy-from": "lc_chainmail_vest",
     "category": "CC_ANIMALS",
-    "subcategory": "CSC_ANIMALS_ELEPHANT ARMOR",
+    "subcategory": "CSC_ANIMALS_OSTRICH ARMOR",
     "time": "6 h 30 m",
     "reversible": true,
     "using": [ [ "chainmail_standard", 7 ], [ "clasps", 4 ] ],
@@ -57,11 +57,11 @@
     ]
   },
   {
-    "result": "kevlar_armor_elephant",
+    "result": "kevlar_armor_ostrich",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ANIMALS",
-    "subcategory": "CSC_ANIMALS_ELEPHANT ARMOR",
+    "subcategory": "CSC_ANIMALS_OSTRICH ARMOR",
     "skill_used": "tailor",
     "difficulty": 6,
     "time": "12 h 30 m",
@@ -72,11 +72,11 @@
     "proficiencies": [ { "proficiency": "prof_polymerworking" }, { "proficiency": "prof_closures" } ]
   },
   {
-    "result": "leather_armor_elephant",
+    "result": "leather_armor_ostrich",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ANIMALS",
-    "subcategory": "CSC_ANIMALS_ELEPHANT ARMOR",
+    "subcategory": "CSC_ANIMALS_OSTRICH ARMOR",
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "4 h 30 m",
@@ -90,12 +90,12 @@
     ]
   },
   {
-    "result": "leather_armor_elephant",
+    "result": "leather_armor_ostrich",
     "type": "recipe",
     "copy-from": "armor_blarmor",
     "id_suffix": "from_scratch",
     "category": "CC_ANIMALS",
-    "subcategory": "CSC_ANIMALS_ELEPHANT ARMOR",
+    "subcategory": "CSC_ANIMALS_OSTRICH ARMOR",
     "activity_level": "LIGHT_EXERCISE",
     "skills_required": [ "tailor", 6 ],
     "time": "10 h 30 m",
@@ -125,9 +125,9 @@
     ]
   },
   {
-    "result": "leatherbone_armor_elephant",
+    "result": "leatherbone_armor_ostrich",
     "type": "recipe",
-    "copy-from": "leather_armor_elephant",
+    "copy-from": "leather_armor_ostrich",
     "activity_level": "LIGHT_EXERCISE",
     "difficulty": 4,
     "time": "6 h 30 m",
@@ -136,19 +136,19 @@
     "extend": { "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_carving" } ] }
   },
   {
-    "result": "leatherbone_armor_elephant",
+    "result": "leatherbone_armor_ostrich",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "id_suffix": "from_leatherarmor",
     "category": "CC_ANIMALS",
-    "subcategory": "CSC_ANIMALS_ELEPHANT ARMOR",
+    "subcategory": "CSC_ANIMALS_OSTRICH ARMOR",
     "skill_used": "tailor",
     "difficulty": 4,
     "time": "6 h 30 m",
     "autolearn": true,
     "byproducts": [ [ "cotton_patchwork", 6 ] ],
     "using": [ [ "sewing_standard", 35 ], [ "clasps", 4 ] ],
-    "components": [ [ [ "bone_sturdy", 39, "LIST" ] ], [ [ "leather_armor_elephant", 1 ] ] ],
+    "components": [ [ [ "bone_sturdy", 39, "LIST" ] ], [ [ "leather_armor_ostrich", 1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_closures" },
@@ -156,12 +156,12 @@
     ]
   },
   {
-    "result": "leatherbone_armor_elephant",
+    "result": "leatherbone_armor_ostrich",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "id_suffix": "from_scratch",
     "category": "CC_ANIMALS",
-    "subcategory": "CSC_ANIMALS_ELEPHANT ARMOR",
+    "subcategory": "CSC_ANIMALS_OSTRICH ARMOR",
     "skill_used": "chemistry",
     "difficulty": 4,
     "skills_required": [ "tailor", 6 ],
@@ -193,11 +193,11 @@
     ]
   },
   {
-    "result": "rubber_armor_elephant",
+    "result": "rubber_armor_ostrich",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ANIMALS",
-    "subcategory": "CSC_ANIMALS_ELEPHANT ARMOR",
+    "subcategory": "CSC_ANIMALS_OSTRICH ARMOR",
     "skill_used": "tailor",
     "difficulty": 4,
     "skills_required": [ "fabrication", 3 ],
@@ -209,12 +209,12 @@
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_closures" } ]
   },
   {
-    "result": "rubber_armor_elephant",
+    "result": "rubber_armor_ostrich",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "id_suffix": "from_scratch",
     "category": "CC_ANIMALS",
-    "subcategory": "CSC_ANIMALS_ELEPHANT ARMOR",
+    "subcategory": "CSC_ANIMALS_OSTRICH ARMOR",
     "skill_used": "tailor",
     "difficulty": 5,
     "skills_required": [ "fabrication", 3 ],
@@ -226,11 +226,11 @@
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_closures" } ]
   },
   {
-    "result": "sweater_armor_elephant",
+    "result": "sweater_armor_ostrich",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "category": "CC_ANIMALS",
-    "subcategory": "CSC_ANIMALS_ELEPHANT ARMOR",
+    "subcategory": "CSC_ANIMALS_OSTRICH ARMOR",
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "50 h",
@@ -240,12 +240,12 @@
     "using": [ [ "tailoring_wool_knitting", 5000 ] ]
   },
   {
-    "result": "iron_armor_elephant",
+    "result": "iron_armor_ostrich",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "copy-from": "armor_plarmor",
     "category": "CC_ANIMALS",
-    "subcategory": "CSC_ANIMALS_ELEPHANT ARMOR",
+    "subcategory": "CSC_ANIMALS_OSTRICH ARMOR",
     "skills_required": [ "tailor", 3 ],
     "time": "24 h",
     "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ], [ "textbook_armwest", 4 ], [ "textbook_armschina", 4 ] ],
@@ -258,20 +258,20 @@
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_articulation" }
     ],
-    "components": [ [ [ "steel_chunk", 60 ], [ "scrap", 180 ] ], [ [ "leather_armor_elephant", 1 ] ] ]
+    "components": [ [ [ "steel_chunk", 60 ], [ "scrap", 180 ] ], [ [ "leather_armor_ostrich", 1 ] ] ]
   },
   {
-    "result": "bronze_armor_elephant",
+    "result": "bronze_armor_ostrich",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "copy-from": "cuirass_bronze",
     "category": "CC_ANIMALS",
-    "subcategory": "CSC_ANIMALS_ELEPHANT ARMOR",
+    "subcategory": "CSC_ANIMALS_OSTRICH ARMOR",
     "skills_required": [ "fabrication", 5 ],
     "time": "24 h",
     "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
     "using": [ [ "forging_standard", 120 ], [ "bronzesmithing_tools", 10 ] ],
-    "components": [ [ [ "scrap_bronze", 60 ] ], [ [ "leather_armor_elephant", 1 ] ] ],
+    "components": [ [ [ "scrap_bronze", 60 ] ], [ [ "leather_armor_ostrich", 1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15, "time_multiplier": 1.1 },
       { "proficiency": "prof_closures", "time_multiplier": 1.1 },
@@ -281,12 +281,12 @@
     ]
   },
   {
-    "result": "steel_armor_elephant",
+    "result": "steel_armor_ostrich",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "copy-from": "armor_lightplate",
     "category": "CC_ANIMALS",
-    "subcategory": "CSC_ANIMALS_ELEPHANT ARMOR",
+    "subcategory": "CSC_ANIMALS_OSTRICH ARMOR",
     "skills_required": [ "fabrication", 8 ],
     "time": "96 h",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
