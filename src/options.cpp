@@ -2198,7 +2198,7 @@ void options_manager::add_options_debug()
        );
 
     add( "NEW_EXPLOSIONS", "debug", translate_marker( "Rule of Cool explosions" ),
-         translate_marker( "If true, use improved explosive system with raycasting for more strategic play.  Shrapnel shields mobs behind obstacles, while blast wave damages enemies, vehicles, and terrain in a realistic manner." ),
+         translate_marker( "If true, utilizes raycasting based explosive system.  Creatures are shielded from shrapnel and blast if behind impassable terrain, furniture, or vehicles.  Note that the blast may destroy cover.  Any creatures caught in the blast are flung outward." ),
          false );
 }
 
