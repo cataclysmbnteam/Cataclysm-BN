@@ -1,7 +1,6 @@
 [
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
     "result": "dino_carrier_wooden",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
