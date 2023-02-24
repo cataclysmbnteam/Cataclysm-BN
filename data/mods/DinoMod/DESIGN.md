@@ -49,3 +49,4 @@ As much as possible, there should be content and feature parity between both (al
 * egg items - BN port removes FREEZERBURN flag
 * monster_factions - copy-from doesn't work for changing vanilla monster factions in BN
 * Overmap folder - CLASSIC and MAN_MADE flags not supported in BN
+* Recipe folder - activity_level and proficiencies not supported in BN
