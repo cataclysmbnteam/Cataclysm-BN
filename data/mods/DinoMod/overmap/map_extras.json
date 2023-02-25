@@ -5,7 +5,6 @@
     "name": { "str": "Mass Grave" },
     "description": "A mass grave.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_mass_grave_dino" },
-    "min_max_zlevel": [ 0, 0 ],
     "sym": "X",
     "color": "yellow",
     "autonote": true
@@ -706,7 +705,6 @@
     "name": { "str": "Portal" },
     "description": "Portal is here.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_portal_dino_south_america" },
-    "min_max_zlevel": [ -5, 5 ],
     "sym": "P",
     "color": "magenta",
     "autonote": true
@@ -717,7 +715,6 @@
     "name": { "str": "Portal" },
     "description": "Portal is here.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_portal_dino_asia" },
-    "min_max_zlevel": [ -5, 5 ],
     "sym": "P",
     "color": "magenta",
     "autonote": true
@@ -728,7 +725,6 @@
     "name": { "str": "Portal" },
     "description": "Portal is here.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_portal_dino_europe" },
-    "min_max_zlevel": [ -5, 5 ],
     "sym": "P",
     "color": "magenta",
     "autonote": true
