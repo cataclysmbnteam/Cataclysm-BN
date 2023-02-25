@@ -12,8 +12,7 @@
     "symbol": "[",
     "color": "dark_gray",
     "material_thickness": 3,
-    "flags": [ "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance_modifiers": [ "IMBALANCED" ], "coverage": 85, "covers": [ "head" ] } ]
+    "flags": [ "WATER_FRIENDLY" ]
   },
   {
     "id": "helmet_ceratopsian",
@@ -29,8 +28,7 @@
     "color": "dark_gray",
     "material_thickness": 3,
     "flags": [ "WATER_FRIENDLY" ],
-    "qualities": [ [ "COOK", 1 ] ],
-    "armor": [ { "encumbrance_modifiers": [ "IMBALANCED" ], "coverage": 85, "covers": [ "head" ] } ]
+    "qualities": [ [ "COOK", 1 ] ]
   },
   {
     "id": "helmet_dino_pred",
@@ -45,7 +43,6 @@
     "symbol": "[",
     "color": "dark_gray",
     "material_thickness": 3,
-    "flags": [ "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance_modifiers": [ "IMBALANCED" ], "coverage": 85, "covers": [ "head" ] } ]
+    "flags": [ "WATER_FRIENDLY" ]
   }
 ]
