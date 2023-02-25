@@ -1051,13 +1051,32 @@ bool vehicle::check_heli_ascend( player &p )
             p.add_msg_if_player( m_bad, _( "It would be unsafe to try and ascend further." ) );
             return false;
         }
-        if( here.has_flag_ter_or_furn( TFLAG_INDOORS, pt )
-            || here.impassable_ter_furn( above )
-            || here.veh_at( above )
-            || g->critter_at( above )
-          ) {
-            p.add_msg_if_player( m_bad,
-                                 _( "It would be unsafe to try and ascend when there are obstacles above you." ) );
+        bool has_ceiling = !here.has_flag_ter( TFLAG_NO_FLOOR, above );
+        bool has_blocking_ter_furn = here.impassable_ter_furn( above );
+        bool has_veh = here.veh_at( above ).has_value();
+        bool has_critter = g->critter_at( above );
+        if( has_ceiling || has_blocking_ter_furn || has_veh || has_critter ) {
+            direction obstacle_direction = direction_from( ( pt - p.pos() ).xy() );
+            const std::string direction_string = direction_name( obstacle_direction );
+            std::string blocker_string;
+            if( has_ceiling ) {
+                blocker_string = _( "ceiling" );
+            } else if( has_blocking_ter_furn ) {
+                blocker_string = here.ter( above )->movecost == 0 ? here.tername( above ) : here.furnname( above );
+            } else if( has_veh ) {
+                blocker_string = here.veh_at( above )->vehicle().disp_name();
+            } else if( has_critter ) {
+                blocker_string = g->critter_at( above )->disp_name();
+            } else {
+                blocker_string = "BUGS";
+            }
+            if( obstacle_direction == direction::CENTER ) {
+                p.add_msg_if_player( m_bad, _( "Your ascent is blocked by %s directly above you." ),
+                                     blocker_string );
+            } else {
+                p.add_msg_if_player( m_bad, _( "Your ascent is blocked by %s to your %s." ), blocker_string,
+                                     direction_string );
+            }
             return false;
         }
     }
