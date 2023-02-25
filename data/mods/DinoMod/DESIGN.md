@@ -44,7 +44,7 @@ As much as possible, there should be content and feature parity between both (al
 * Monstergroups folder - BN groups need  "default" and "cost_multiplier" to be defined, "weight should be "freq" instead
 * Monsters folder - DDA supports bullet armor and biosignature and dissect and melee_damage and aggro_character and "bleeds" (not the flag) and bleed_rate, and not the BLEEDS or the GUILT flag while BN supports BLEEDS and GUILT and melee_cut and not bullet armor or biosignature or dissect or melee damage or the death_guilt death_function or aggro_character or the "bleeds" entry or bleed_rate. DDA's petfood entry is handled by DOGFOOD, CATFOOD, and CATTLEFODDER flags in BN. Death functions for ACID and FIREBALL and SMOKEBURST have different formatting also. RANGED_ATTACKER and WATER_CAMOUFLAGE are flags in DDA but not BN. smash special attack in DDA is SMASH in BN. No vertebrate parts to drop in BN
 * lab locations - lots of content missing or different in BN, science basements still need to be reconstructed from BN originals
-* Items folder - BN port removes pocket_data and amm0_to_fire lines and changes damage_type bullet to stab
+* Items folder - BN port removes pocket_data and amm0_to_fire lines and changes damage_type bullet to stab and removes armor entry
 * egg items - BN port removes FREEZERBURN flag
 * monster_factions - copy-from doesn't work for changing vanilla monster factions in BN
 * Overmap folder - CLASSIC and MAN_MADE flags and min_max_zlevel not supported in BN
