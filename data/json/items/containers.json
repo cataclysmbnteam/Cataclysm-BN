@@ -934,7 +934,7 @@
     "category": "container",
     "name": { "str": "gallon jug" },
     "description": "A standard plastic jug used for milk and household cleaning chemicals.",
-    "weight": "190 g",
+    "weight": "19 g",
     "volume": "3750 ml",
     "price": 0,
     "price_postapoc": 10,

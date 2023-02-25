@@ -840,7 +840,7 @@ void show_armor_layers_ui( Character &who )
             if( loc ) {
                 // wear the item
                 cata::optional<std::list<item>::iterator> new_equip_it =
-                    who.as_player()->wear( *loc.obtain( who ) );
+                    who.as_player()->wear_possessed( *loc.obtain( who ) );
                 if( new_equip_it ) {
                     body_part bp = static_cast<body_part>( tabindex );
                     if( tabindex == num_bp || ( **new_equip_it ).covers( bp ) ) {
@@ -867,7 +867,7 @@ void show_armor_layers_ui( Character &who )
             if( loc ) {
                 // wear the item
                 if( cata::optional<std::list<item>::iterator> new_equip_it =
-                        who.as_player()->wear( *loc.obtain( who ) ) ) {
+                        who.as_player()->wear_possessed( *loc.obtain( who ) ) ) {
                     // save iterator to cursor's position
                     std::list<item>::iterator cursor_it = tmp_worn[leftListIndex];
                     // reorder `worn` vector to place new item at cursor

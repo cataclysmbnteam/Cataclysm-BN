@@ -680,7 +680,7 @@ butchery_setup consider_butchery( const item &corpse_item, player &u, butcher_ty
                       butcherable_rating::warn_cannibalism );
     }
 
-    setup.move_cost = butcher_time_to_cut( inv, corpse_item, action );
+    setup.move_cost = butcher_time_to_cut( u, inv, corpse_item, action );
 
     return setup;
 }
@@ -762,7 +762,8 @@ static int size_factor_in_time_to_cut( m_size size )
     return 0;
 }
 
-int butcher_time_to_cut( const inventory &inv, const item &corpse_item, const butcher_type action )
+int butcher_time_to_cut( const Character &who, const inventory &inv, const item &corpse_item,
+                         const butcher_type action )
 {
     const mtype &corpse = *corpse_item.get_mtype();
     const int initial_factor = inv.max_quality( action == DISSECT ? qual_CUT_FINE : qual_BUTCHER );
@@ -804,7 +805,7 @@ int butcher_time_to_cut( const inventory &inv, const item &corpse_item, const bu
     if( corpse_item.has_flag( flag_QUARTERED ) ) {
         time_to_cut /= 4;
     }
-    time_to_cut = time_to_cut * ( 10 - g->u.get_crafting_helpers( 3 ).size() ) / 10;
+    time_to_cut = time_to_cut * ( 10 - character_funcs::get_crafting_helpers( who, 3 ).size() ) / 10;
     return time_to_cut;
 }
 
@@ -1940,7 +1941,7 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
     // Invalidate the activity early to prevent a query from mod_pain()
     act->set_to_null();
     if( p->is_avatar() ) {
-        const int helpersize = g->u.get_crafting_helpers( 3 ).size();
+        const int helpersize = character_funcs::get_crafting_helpers( *p, 3 ).size();
         if( here.is_bashable( pos ) && here.has_flag( flag_SUPPORTS_ROOF, pos ) &&
             here.ter( pos ) != t_tree ) {
             // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
@@ -4183,21 +4184,41 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
             }
         }
     } else {
+        // Try to safely fell tree
+        std::vector<tripoint> valid_directions;
+
         for( const tripoint &elem : here.points_in_radius( pos, 1 ) ) {
             bool cantuse = false;
             tripoint direc = elem - pos;
             tripoint proposed_to = pos + point( 3 * direction.x, 3 * direction.y );
             std::vector<tripoint> rough_tree_line = line_to( pos, proposed_to );
             for( const tripoint &elem : rough_tree_line ) {
+                // Try not to drop onto a critter
                 if( g->critter_at( elem ) ) {
+                    cantuse = true;
+                    break;
+                }
+
+                ter_t ter = here.ter( elem ).obj();
+                furn_t furn = here.furn( elem ).obj();
+                // Furniture / Terrain test
+                if( elem != pos && ( ter.bash.str_max != -1 || ( furn.id && furn.bash.str_max != -1 ) ) ) {
+                    cantuse = true;
+                    break;
+                }
+                // Vehicle check
+                if( veh_pointer_or_null( here.veh_at( elem ) ) ) {
                     cantuse = true;
                     break;
                 }
             }
             if( !cantuse ) {
-                direction = direc;
+                // Passed all tests for safe direction, add to the possible routes
+                valid_directions.push_back( direc );
             }
         }
+        // Select a random valid direction, or none if empty
+        direction = random_entry( valid_directions, direction );
     }
 
     const tripoint to = pos + 3 * direction.xy() + point( rng( -1, 1 ), rng( -1, 1 ) );
@@ -4252,7 +4273,7 @@ void activity_handlers::chop_logs_finish( player_activity *act, player *p )
         here.add_item_or_charges( pos, obj );
     }
     here.ter_set( pos, t_dirt );
-    const int helpersize = p->get_crafting_helpers( 3 ).size();
+    const int helpersize = character_funcs::get_crafting_helpers( *p, 3 ).size();
     p->mod_stored_nutr( 5 - helpersize );
     p->mod_thirst( 5 - helpersize );
     p->mod_fatigue( 10 - ( helpersize * 2 ) );
@@ -4307,7 +4328,7 @@ void activity_handlers::jackhammer_finish( player_activity *act, player *p )
     here.destroy( pos, true );
 
     if( p->is_avatar() ) {
-        const int helpersize = g->u.get_crafting_helpers( 3 ).size();
+        const int helpersize = character_funcs::get_crafting_helpers( *p, 3 ).size();
         p->mod_stored_nutr( 5 - helpersize );
         p->mod_thirst( 5 - helpersize );
         p->mod_fatigue( 10 - ( helpersize * 2 ) );
@@ -4351,7 +4372,7 @@ void activity_handlers::fill_pit_finish( player_activity *act, player *p )
     } else {
         here.ter_set( pos, t_dirt );
     }
-    const int helpersize = g->u.get_crafting_helpers( 3 ).size();
+    const int helpersize = character_funcs::get_crafting_helpers( *p, 3 ).size();
     p->mod_stored_nutr( 5 - helpersize );
     p->mod_thirst( 5 - helpersize );
     p->mod_fatigue( 10 - ( helpersize * 2 ) );

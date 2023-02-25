@@ -238,7 +238,7 @@
   {
     "id": [ "flintlock_shot" ],
     "type": "MIGRATION",
-    "replace": "black_powder_shot"
+    "replace": "bluss_shot"
   },
   {
     "id": [ "40x46mm_m1006" ],
@@ -368,5 +368,20 @@
     "id": [ "84x246mm_smoke" ],
     "type": "MIGRATION",
     "replace": "rocket_smoke"
+  },
+  {
+    "id": [ "blun_slug" ],
+    "type": "MIGRATION",
+    "replace": "bluss_slug"
+  },
+  {
+    "id": [ "blun_slug" ],
+    "type": "MIGRATION",
+    "replace": "bluss_shot"
+  },
+  {
+    "id": [ "blun_flechette" ],
+    "type": "MIGRATION",
+    "replace": "bluss_flechette"
   }
 ]

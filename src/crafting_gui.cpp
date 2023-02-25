@@ -16,6 +16,7 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
+#include "character_functions.h"
 #include "crafting.h"
 #include "cursesdef.h"
 #include "game.h"
@@ -315,7 +316,7 @@ const recipe *select_crafting_recipe( int &batch_size )
     ctxt.register_action( "TOGGLE_UNAVAILABLE" );
 
     const inventory &crafting_inv = u.crafting_inventory();
-    const std::vector<npc *> helpers = u.get_crafting_helpers();
+    const std::vector<npc *> helpers = character_funcs::get_crafting_helpers( u );
     std::string filterstring;
 
     const auto &available_recipes = u.get_available_recipes( crafting_inv, &helpers );

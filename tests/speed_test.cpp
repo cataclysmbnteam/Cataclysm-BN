@@ -109,8 +109,7 @@ TEST_CASE( "Character is slowed down while overburdened", "[speed]" )
     REQUIRE( backpack.weight() == 633_gram );
 
     guy.clear_mutations();
-    guy.weapon = backpack;
-    guy.wear( guy.weapon, false );
+    guy.wear_item( backpack, false );
     REQUIRE( guy.weight_capacity() == 45_kilogram );
     REQUIRE( guy.volume_capacity() == 15_liter );
 

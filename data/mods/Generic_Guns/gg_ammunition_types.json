@@ -8,51 +8,58 @@
   },
   {
     "type": "ammunition_type",
+    "id": "ammo_black_powder_shot",
+    "//": "shotshells for primitive weapons",
+    "name": "blunderbuss ammo",
+    "default": "bluss_slug"
+  },
+  {
+    "type": "ammunition_type",
     "id": "ammo_pistol_tiny",
     "//": "ammo smaller than .380ACP",
-    "name": "tiny pistol ammo",
+    "name": ".22",
     "default": "tiny_pistol_jhp"
   },
   {
     "type": "ammunition_type",
     "id": "ammo_pistol",
     "//": ".380 to .357sig",
-    "name": "standard pistol ammo",
+    "name": "9mm",
     "default": "pistol_ball"
   },
   {
     "type": "ammunition_type",
     "id": "ammo_pistol_magnum",
     "//": ".357mag and up.",
-    "name": "magnum pistol ammo",
+    "name": ".44",
     "default": "pistol_magnum_ball"
   },
   {
     "type": "ammunition_type",
     "id": "ammo_rifle",
     "//": "any rifle ammo less powerful than .375 H&H.",
-    "name": "rifle ammo",
+    "name": "5.56mm",
     "default": "rifle_ball"
   },
   {
     "type": "ammunition_type",
     "id": "ammo_sniper",
     "//": "any rifle ammo with range over 45.",
-    "name": "sniper ammo",
+    "name": "7.62mm",
     "default": "sniper_ball"
   },
   {
     "type": "ammunition_type",
     "id": "ammo_rifle_huge",
-    "//": "ammo from .375 H&H to .50BMG. Migrate anything stronger to as-yet unimplemented light cannon ammo",
-    "name": "huge rifle ammo",
+    "//": "ammo from .375 H&H to 12.7mm. Migrate anything stronger to as-yet unimplemented light cannon ammo",
+    "name": "12.7mm",
     "default": "rifle_huge_ball"
   },
   {
     "type": "ammunition_type",
     "id": "ammo_grenade",
     "//": "20mm or greater ammo containing explosive material, usually 40mm.",
-    "name": "grenade ammo",
+    "name": "40mm",
     "default": "grenade_ammo_hedp"
   },
   {

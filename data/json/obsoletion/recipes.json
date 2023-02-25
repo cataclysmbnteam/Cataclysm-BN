@@ -3162,5 +3162,10 @@
     "type": "recipe",
     "result": "noodles_fast",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sharp_toothbrush",
+    "obsolete": true
   }
 ]

@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "avatar.h"
+#include "avatar_functions.h"
 #include "bionics.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -957,7 +958,7 @@ class gunmod_inventory_preset : public inventory_selector_preset
     protected:
         /** @return Odds for successful installation (pair.first) and gunmod damage (pair.second) */
         std::pair<int, int> get_odds( const item_location &gun ) const {
-            return p.gunmod_installation_odds( *gun, gunmod );
+            return avatar_funcs::gunmod_installation_odds( *p.as_avatar(), *gun, gunmod );
         }
 
     private:
@@ -1651,7 +1652,31 @@ void game_menus::inv::compare( const item &l, const item &r )
     } while( action != "QUIT" );
 }
 
-void game_menus::inv::reassign_letter( player &p, item &it )
+void game_menus::inv::reassign_letter( Character &who, item &it, int invlet )
+{
+    bool remove_old = true;
+    if( invlet ) {
+        item *prev = who.invlet_to_item( invlet );
+        if( prev != nullptr ) {
+            remove_old = it.typeId() != prev->typeId();
+            who.inv.reassign_item( *prev, it.invlet, remove_old );
+        }
+    }
+
+    if( !invlet || inv_chars.valid( invlet ) ) {
+        const auto iter = who.inv.assigned_invlet.find( it.invlet );
+        bool found = iter != who.inv.assigned_invlet.end();
+        if( found ) {
+            who.inv.assigned_invlet.erase( iter );
+        }
+        if( invlet && ( !found || it.invlet != invlet ) ) {
+            who.inv.assigned_invlet[invlet] = it.typeId();
+        }
+        who.inv.reassign_item( it, invlet, remove_old );
+    }
+}
+
+void game_menus::inv::prompt_reassign_letter( Character &who, item &it )
 {
     while( true ) {
         const int invlet = popup_getkey(
@@ -1660,7 +1685,7 @@ void game_menus::inv::reassign_letter( player &p, item &it )
         if( invlet == KEY_ESCAPE ) {
             break;
         } else if( invlet == ' ' ) {
-            p.reassign_item( it, 0 );
+            reassign_letter( who, it, 0 );
             const std::string auto_setting = get_option<std::string>( "AUTO_INV_ASSIGN" );
             if( auto_setting == "enabled" || ( auto_setting == "favorites" && it.is_favorite ) ) {
                 popup_getkey(
@@ -1669,7 +1694,7 @@ void game_menus::inv::reassign_letter( player &p, item &it )
             }
             break;
         } else if( inv_chars.valid( invlet ) ) {
-            p.reassign_item( it, invlet );
+            reassign_letter( who, it, invlet );
             break;
         }
     }
@@ -1710,7 +1735,7 @@ void game_menus::inv::swap_letters( player &p )
             break;
         }
 
-        reassign_letter( p, *loc );
+        prompt_reassign_letter( p, *loc );
     }
 }
 
