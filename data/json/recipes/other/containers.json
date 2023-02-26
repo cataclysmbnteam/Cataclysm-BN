@@ -188,7 +188,7 @@
     "time": "1 h",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
-    "components": [ [ [ "2x4", 30 ] ], [ [ "scrap", 6 ] ], [ [ "nail", 60 ] ] ]
+    "components": [ [ [ "2x4", 30 ] ], [ [ "scrap", 6 ] ] ]
   },
   {
     "type": "recipe",
