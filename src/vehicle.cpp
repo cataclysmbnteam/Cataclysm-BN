@@ -4225,6 +4225,8 @@ bool vehicle::is_in_water( bool deep_water ) const
     return deep_water ? is_floating : in_water;
 }
 
+static constexpr double water_density = 1000.0; // kg/m^3
+
 double vehicle::coeff_water_drag() const
 {
     if( !coeff_water_dirty ) {
@@ -4254,7 +4256,7 @@ double vehicle::coeff_water_drag() const
     double actual_area_m = width_m * structure_indices.size() / tile_width;
 
     // effective hull area is actual hull area * hull coverage
-    double hull_area_m   = actual_area_m * std::max( 0.1, hull_coverage );
+    hull_area = actual_area_m * std::max( 0.1, hull_coverage );
     // Treat the hullform as a simple cuboid to calculate displaced depth of
     // water.
     // Apply Archimedes' principle (mass of water displaced is mass of vehicle).
@@ -4262,8 +4264,7 @@ double vehicle::coeff_water_drag() const
     // water_mass = vehicle_mass
     // area * depth = vehicle_mass / water_density
     // depth = vehicle_mass / water_density / area
-    constexpr double water_density = 1000.0; // kg/m^3
-    draft_m = to_kilogram( total_mass() ) / water_density / hull_area_m;
+    draft_m = to_kilogram( total_mass() ) / water_density / hull_area;
     // increase the streamlining as more of the boat is covered in boat boards
     double c_water_drag = 1.25 - hull_coverage;
     // hull height starts at 0.3m and goes up as you add more boat boards
@@ -4273,6 +4274,15 @@ double vehicle::coeff_water_drag() const
     coefficient_water_resistance = c_water_drag * width_m * draft_m * 0.5 * water_density;
     coeff_water_dirty = false;
     return coefficient_water_resistance;
+}
+
+double vehicle::max_buoyancy() const
+{
+    if( coeff_water_dirty ) {
+        coeff_water_drag();
+    }
+    const double total_volume = hull_area * water_hull_height();
+    return total_volume * water_density * GRAVITY_OF_EARTH;
 }
 
 float vehicle::k_traction( float wheel_traction_area ) const
