@@ -432,7 +432,7 @@
       [ "sling", 1 ],
       [ "grip mount", 1 ],
       [ "rail mount", 1 ],
-      [ "stock mount", 1 ],
+      [ "stock", 1 ],
       [ "underbarrel mount", 1 ]
     ],
     "magazines": [ [ "223", [ "ruger20", "ruger5", "ruger10", "ruger30", "ruger90", "ruger100", "ruger_makeshiftmag" ] ] ]

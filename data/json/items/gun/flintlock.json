@@ -12,7 +12,7 @@
       [ "grip mount", 1 ],
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
-      [ "stock mount", 1 ],
+      [ "stock", 1 ],
       [ "underbarrel mount", 1 ]
     ],
     "volume": "2250 ml",
@@ -91,7 +91,7 @@
       [ "grip mount", 1 ],
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
-      [ "stock mount", 1 ]
+      [ "stock", 1 ]
     ],
     "flags": [ "NEVER_JAMS", "DURABLE_MELEE" ]
   },
