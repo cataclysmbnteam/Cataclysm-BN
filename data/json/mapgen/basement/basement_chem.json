@@ -53,7 +53,7 @@
         "T": "t_linoleum_gray",
         "F": "t_linoleum_gray"
       },
-      "liquids": { "E": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+      "liquids": { "E": { "liquid": "water", "amount": [ 0, 100 ] } },
       "furniture": {
         "T": "f_workbench",
         "c": "f_counter",
@@ -149,7 +149,7 @@
         "T": "t_linoleum_white",
         "8": "t_console_broken"
       },
-      "liquids": { "E": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+      "liquids": { "E": { "liquid": "water", "amount": [ 0, 100 ] } },
       "furniture": {
         "T": "f_workbench",
         "G": "f_glass_cabinet",

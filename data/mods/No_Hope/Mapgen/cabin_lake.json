@@ -71,7 +71,7 @@
         "k": "f_water_purifier"
       },
       "toilets": { "&": {  } },
-      "liquids": { "l": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+      "liquids": { "l": { "liquid": "water", "amount": [ 0, 100 ] } },
       "items": {
         "b": { "item": "homebooks", "chance": 20, "repeat": [ 2, 4 ] },
         "@": { "item": "bed", "chance": 30, "repeat": [ 2, 4 ] },

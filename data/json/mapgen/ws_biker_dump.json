@@ -206,7 +206,7 @@
         "P": "f_shower"
       },
       "toilets": { "&": {  } },
-      "liquids": { "K": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+      "liquids": { "K": { "liquid": "water", "amount": [ 0, 100 ] } },
       "place_loot": [
         { "item": "television", "x": 68, "y": 7, "chance": 100 },
         { "item": "stepladder", "x": 68, "y": 17, "chance": 100 },

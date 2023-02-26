@@ -96,7 +96,7 @@
       "<": "t_wood_stairs_up",
       ">": "t_wood_stairs_down"
     },
-    "liquids": { "g": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+    "liquids": { "g": { "liquid": "water", "amount": [ 0, 100 ] } },
     "items": {
       "a": { "item": "stash_wood", "chance": 30, "repeat": [ 2, 5 ] },
       "d": [
