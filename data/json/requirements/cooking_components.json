@@ -761,5 +761,54 @@
     "type": "requirement",
     "//": "Renamed to offal_raw, because that's more specific.  Requirements don't support aliases yet, so done using nesting.",
     "components": [ [ [ "offal_raw", 1, "LIST" ] ] ]
+  },
+  {
+    "id": "condiment",
+    "type": "requirement",
+    "//": " Should be about a teaspoon, or smallest serving",
+    "components": [
+      [
+        [ "mayonnaise", 1 ],
+        [ "mustard", 1 ],
+        [ "soysauce", 1 ],
+        [ "hot_sauce", 1 ],
+        [ "ketchup", 1 ],
+        [ "barbecue_sauce", 1 ],
+        [ "honey_mustard", 1 ],
+        [ "horseradish", 1 ],
+        [ "sauerkraut", 1 ],
+        [ "butter", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "bread_sandwich",
+    "type": "requirement",
+    "//": "Bread appropriate for sandwiches.",
+    "components": [
+      [
+        [ "flatbread", 1 ],
+        [ "bread", 1 ],
+        [ "wastebread", 1 ],
+        [ "sourdough_bread", 1 ],
+        [ "biscuit", 1 ],
+        [ "brioche", 1 ],
+        [ "crackers", 1 ],
+        [ "brown_bread", 1 ],
+        [ "hallula", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "bread_sandwich_wheat_free",
+    "type": "requirement",
+    "//": "Wheat free bread appropriate for sandwiches.",
+    "components": [ [ [ "cornbread", 1 ], [ "bread_wheat_free", 1 ], [ "flatbread_wheat_free", 1 ], [ "brown_bread_wheat_free", 1 ] ] ]
+  },
+  {
+    "id": "flour_any",
+    "type": "requirement",
+    "//": "Flour, irrespective of whether it's wheat-free or wheat-full.",
+    "components": [ [ [ "flour", 1 ], [ "flour_wheat_free", 1 ], [ "bread_flour", 1 ] ] ]
   }
 ]
