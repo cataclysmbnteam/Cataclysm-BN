@@ -219,21 +219,12 @@
     "id": "fabric_leather_fur_hide",
     "type": "requirement",
     "//": "Materials used for crafting leather clothing where fur is or should be an option (can be scraped off with a cutting tool for example), when tanned hides/pelts are available it seems to roughly be a 1:8 ratio",
-    "components": [
-      [
-        [ "leather", 8 ],
-        [ "fur", 8 ],
-        [ "tanned_hide", 1 ],
-        [ "tanned_pelt", 1 ],
-        [ "sheet_leather_patchwork", 1 ],
-        [ "sheet_fur_patchwork", 1 ]
-      ]
-    ]
+    "components": [ [ [ "leather", 8 ], [ "fur", 8 ], [ "tanned_hide", 1 ], [ "tanned_pelt", 1 ] ] ]
   },
   {
     "id": "bone_sturdy",
     "type": "requirement",
     "//": "Any kind of bones, human or not.  Tainted bones are too brittle and won't work for this purpose.",
-    "components": [ [ [ "bone", 1 ], [ "bone_human", 1 ], [ "bone_demihuman", 1 ] ] ]
+    "components": [ [ [ "bone", 1 ], [ "bone_human", 1 ] ] ]
   }
 ]
