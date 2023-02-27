@@ -49,3 +49,4 @@ As much as possible, there should be content and feature parity between both (al
 * monster_factions - copy-from doesn't work for changing vanilla monster factions in BN
 * Overmap folder - CLASSIC and MAN_MADE flags and min_max_zlevel and terrain not supported in BN
 * Recipe folder - activity_level and proficiencies not supported in BN
+* Requirements folder - extend not supported in BN
