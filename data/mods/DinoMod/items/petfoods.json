@@ -14,24 +14,10 @@
     "extend": { "petfood": [ "DINOFOOD_A" ] }
   },
   {
-    "id": "dogfood_dry",
-    "copy-from": "dogfood_dry",
-    "type": "COMESTIBLE",
-    "name": { "str_sp": "dry dog food" },
-    "extend": { "petfood": [ "DINOFOOD_A" ] }
-  },
-  {
     "id": "catfood",
     "copy-from": "catfood",
     "type": "COMESTIBLE",
     "name": { "str_sp": "wet cat food" },
-    "extend": { "petfood": [ "DINOFOOD_B" ] }
-  },
-  {
-    "id": "catfood_dry",
-    "copy-from": "catfood_dry",
-    "type": "COMESTIBLE",
-    "name": { "str_sp": "dry cat food" },
     "extend": { "petfood": [ "DINOFOOD_B" ] }
   }
 ]
