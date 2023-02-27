@@ -214,5 +214,20 @@
     "type": "requirement",
     "//": "Planks or sticks used in recipes, roughly 1:1 basis by weight.",
     "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
+  },
+  {
+    "id": "fabric_leather_fur_hide",
+    "type": "requirement",
+    "//": "Materials used for crafting leather clothing where fur is or should be an option (can be scraped off with a cutting tool for example), when tanned hides/pelts are available it seems to roughly be a 1:8 ratio",
+    "components": [
+      [
+        [ "leather", 8 ],
+        [ "fur", 8 ],
+        [ "tanned_hide", 1 ],
+        [ "tanned_pelt", 1 ],
+        [ "sheet_leather_patchwork", 1 ],
+        [ "sheet_fur_patchwork", 1 ]
+      ]
+    ]
   }
 ]
