@@ -33,7 +33,7 @@
         "............ ...........",
         "............>..........."
       ],
-      "terrain": { ".": "t_soil", " ": "t_dirt_underground", ">": "t_slope_up" },
+      "terrain": { ".": "t_rock", " ": "t_rock_floor", ">": "t_slope_up" },
       "furniture": {  },
       "monster": { "M": { "monster": "mon_oryctodromeus" }, " ": { "monster": "mon_oryctodromeus", "chance": 2 } },
       "place_item": [
@@ -89,7 +89,7 @@
         "............ ...........",
         "............>..........."
       ],
-      "terrain": { ".": "t_soil", " ": "t_dirt_underground", ">": "t_slope_up" },
+      "terrain": { ".": "t_rock", " ": "t_rock_floor", ">": "t_slope_up" },
       "furniture": {  },
       "monster": { "M": { "monster": "mon_leptoceratops" }, " ": { "monster": "mon_leptoceratops", "chance": 2 } },
       "place_item": [
