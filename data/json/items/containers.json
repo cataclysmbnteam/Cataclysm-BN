@@ -1158,7 +1158,7 @@
     "category": "container",
     "name": { "str": "wooden barrel" },
     "description": "Traditionally made of white oak; these vessels are known for delivering delicious whiskey to the future.  It has a capacity of 100 liters.",
-    "weight": "42408 g",
+    "weight": "60000 g",
     "volume": "100 L",
     "price": 12000,
     "price_postapoc": 250,
