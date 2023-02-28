@@ -14,7 +14,7 @@
     "volume": "1250 ml",
     "weight": "3200 g",
     "ammo_type": "84x246mm",
-    "damage": { "damage_type": "bullet", "amount": 60, "armor_penetration": 10 },
+    "damage": { "damage_type": "bullet", "amount": 600, "armor_penetration": 10 },
     "range": 120,
     "dispersion": 60,
     "recoil": 45,
@@ -32,11 +32,11 @@
     "description": "A 84x246mm High Explosive Dual Purpose anti-materiel round for the Carl Gustav M3 recoilless rifle.  Designed to be highly effective against vehicles and structures.",
     "volume": "1500 ml",
     "weight": "3300 g",
-    "damage": { "damage_type": "bullet", "amount": 30, "armor_multiplier": 0.1 },
+    "damage": { "damage_type": "bullet", "amount": 1000, "armor_penetration": 255 },
     "range": 100,
     "dispersion": 75,
     "recoil": 60,
-    "effects": [ "COOKOFF", "EXPLOSIVE_HUGE", "NEVER_MISFIRES" ]
+    "effects": [ "COOKOFF", "EXPLOSIVE_TINY", "NEVER_MISFIRES" ]
   },
   {
     "type": "AMMO",
