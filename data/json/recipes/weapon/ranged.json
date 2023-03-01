@@ -297,6 +297,7 @@
     "time": "15 m",
     "reversible": true,
     "decomp_learn": 2,
+    "autolearn": [ [ "mechanics", 2 ], [ "fabrication", 5 ] ],
     "book_learn": [
       [ "recipe_bows", 2 ],
       [ "manual_archery", 4 ],
