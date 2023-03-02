@@ -97,8 +97,7 @@
       ],
       "place_monsters": [
         { "monster": "GROUP_DINOSAUR_ZOMBIE", "density": 1, "x": [ 1, 22 ], "y": [ 1, 22 ] },
-        { "monster": "GROUP_DINOSAUR_ZOMBIE_SCORCHED", "chance": 35, "density": 1, "x": [ 1, 22 ], "y": [ 1, 22 ] },
-        { "monster": "GROUP_MIL_MASS_GRAVE", "density": 0.25, "x": [ 1, 22 ], "y": [ 1, 22 ] }
+        { "monster": "GROUP_DINOSAUR_ZOMBIE_SCORCHED", "chance": 35, "density": 1, "x": [ 1, 22 ], "y": [ 1, 22 ] }
       ],
       "place_fields": [
         { "field": "fd_blood", "x": [ 2, 22 ], "y": [ 18, 23 ], "repeat": [ 8, 12 ] },
