@@ -37,16 +37,7 @@
         "-": [ "t_fern", "t_grass", "t_grass", "t_region_groundcover_forest" ],
         ".": [ "t_dirt", "t_dirt", "t_grass", "t_grass", "t_region_groundcover_forest" ]
       },
-      "place_monster": [
-        {
-          "monster": "mon_achelousaurus",
-          "x": [ 0, 23 ],
-          "y": [ 0, 23 ],
-          "repeat": [ 2, 10 ],
-          "chance": 50,
-          "spawn_data": { "patrol": [ { "x": [ 0, 23 ], "y": [ 0, 23 ] } ] }
-        }
-      ],
+      "place_monster": [ { "monster": "mon_achelousaurus", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 2, 10 ], "chance": 50 } ],
       "place_item": [
         { "item": "egg_achelousaurus", "x": 10, "y": 10, "amount": [ 3, 15 ] },
         { "item": "egg_achelousaurus", "x": 14, "y": 9, "amount": [ 3, 15 ] },
