@@ -43,8 +43,7 @@
           "x": [ 0, 23 ],
           "y": [ 0, 23 ],
           "repeat": [ 2, 10 ],
-          "chance": 50,
-          "spawn_data": { "patrol": [ { "x": [ 0, 23 ], "y": [ 0, 23 ] } ] }
+          "chance": 50
         }
       ],
       "place_item": [
