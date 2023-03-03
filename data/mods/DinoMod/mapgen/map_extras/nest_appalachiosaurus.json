@@ -37,7 +37,7 @@
         "-": [ "t_fern" ],
         ".": [ "t_dirt" ]
       },
-      "place_monster": [ { "monster": "mon_appalachiosaurus", "x": 9, "y": 11, "spawn_data": { "patrol": [ { "x": 4, "y": 11 } ] } } ],
+      "place_monster": [ { "monster": "mon_appalachiosaurus", "x": 9, "y": 11 } ],
       "place_item": [
         { "item": "egg_appalachiosaurus", "x": 10, "y": 10, "amount": [ 3, 16 ] },
         { "item": "straw_pile", "x": 10, "y": 10, "amount": [ 1, 2 ] },
