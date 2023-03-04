@@ -4273,10 +4273,6 @@ void activity_handlers::chop_logs_finish( player_activity *act, player *p )
         here.add_item_or_charges( pos, obj );
     }
     here.ter_set( pos, t_dirt );
-    const int helpersize = character_funcs::get_crafting_helpers( *p, 3 ).size();
-    p->mod_stored_nutr( 5 - helpersize );
-    p->mod_thirst( 5 - helpersize );
-    p->mod_fatigue( 10 - ( helpersize * 2 ) );
     p->add_msg_if_player( m_good, _( "You finish chopping wood." ) );
 
     act->set_to_null();
