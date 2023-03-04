@@ -30,13 +30,13 @@
         "                        ",
         "               t        "
       ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": {
         "t": [ "t_region_tree", "t_region_groundcover_forest" ],
         ",": [ "t_pit_shallow" ],
         "-": [ "t_fern", "t_grass", "t_grass", "t_region_groundcover_forest" ],
         ".": [ "t_dirt", "t_dirt", "t_grass", "t_grass", "t_region_groundcover_forest" ]
       },
+      "place_monster": [ { "monster": "mon_scolosaurus", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 2, 10 ], "chance": 50 } ],
       "place_item": [
         { "item": "egg_scolosaurus", "x": 10, "y": 10, "amount": [ 3, 15 ] },
         { "item": "egg_scolosaurus", "x": 14, "y": 9, "amount": [ 3, 15 ] },
