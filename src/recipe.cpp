@@ -314,7 +314,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     } else {
         jo.throw_error( "unknown recipe type", "type" );
     }
-    if( this->reversible && ( time < 1 ) ) {
+    if( reversible && time < 1 ) {
         jo.throw_error( "Non-zero time mandatory for reversible recipe or uncraft" );
     }
 
