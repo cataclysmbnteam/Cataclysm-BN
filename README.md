@@ -19,10 +19,10 @@ Find a way to stop the Cataclysm ... or become one of its strongest monsters.
 
 [![Stable][stable-releases-badge]][stable-releases] [![Recent][all-releases-badge]][all-releases]
 
-[stable-releases]: https://github.com/cataclysmbnteam/Cataclysm-BN/releases/tag/cbn-0.1
-[stable-releases-badge]: <https://img.shields.io/badge/Stable Release-0.1-success?style=for-the-badge>
-[all-releases]: https://github.com/cataclysmbnteam/Cataclysm-BN/releases
-[all-releases-badge]: https://img.shields.io/github/v/release/cataclysmbnteam/Cataclysm-BN?color=important&include_prereleases&label=Latest%20Release&sort=date&style=for-the-badge
+[stable-releases]: https://github.com/cataclysmbnteam/Cataclysm-BN/releases/tag/cbn-0.2
+[stable-releases-badge]: <https://img.shields.io/github/v/release/cataclysmbnteam/Cataclysm-BN?style=for-the-badge&color=success&label=stable>
+[all-releases]: https://github.com/cataclysmbnteam/Cataclysm-BN/releases/latest
+[all-releases-badge]: https://img.shields.io/github/v/release/cataclysmbnteam/Cataclysm-BN?style=for-the-badge&color=important&label=Latest%20Release&include_prereleases&sort=date
 
 | [Source Code][source-zip-archive] | [Clone From Repo][clone] |
 | :-------------------------------: | :----------------------: |

@@ -909,24 +909,6 @@
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
-    "type": "GENERIC",
-    "category": "weapons",
-    "id": "sharp_toothbrush",
-    "symbol": ",",
-    "color": "light_blue",
-    "name": { "str": "plastic shank" },
-    "description": "An oblong plastic trinket with the far end ground down into a stabbing point.",
-    "price": 400,
-    "price_postapoc": 0,
-    "material": [ "plastic" ],
-    "weight": "49 g",
-    "volume": "250 ml",
-    "bashing": 1,
-    "cutting": 3,
-    "to_hit": -3,
-    "flags": [ "STAB", "SHEATH_KNIFE", "CONDUCTIVE" ]
-  },
-  {
     "id": "shillelagh",
     "type": "GENERIC",
     "category": "weapons",

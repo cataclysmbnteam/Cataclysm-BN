@@ -1264,5 +1264,16 @@
     "act_cost": 50,
     "fake_item": "bio_blaster_gun",
     "flags": [ "BIONIC_GUN" ]
+  },
+  {
+    "id": "bio_perpetual_test",
+    "type": "bionic",
+    "name": { "str": "Perpetual Generator" },
+    "description": "Installed within you is a perpetual generator powered by nonsensoleum.  When activated it's power gen doubles.  If you are seeing this, you'd better be debugging.",
+    "fuel_options": [ "nonsensoleum" ],
+    "passive_fuel_efficiency": 1.0,
+    "fuel_efficiency": 2.0,
+    "time": 1,
+    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED" ]
   }
 ]

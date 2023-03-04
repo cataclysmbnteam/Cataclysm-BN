@@ -44,8 +44,21 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
     "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "40 m",
+    "autolearn": true,
+    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 30, "LIST" ] ] ],
+    "components": [ [ [ "plastic_chunk", 15 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "jug_plastic",
+    "id_suffix": "ducted",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "fabrication",
     "difficulty": 1,
-    "time": "30 m",
+    "time": "20 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "duct_tape", 10 ] ], [ [ "bottle_plastic", 8 ], [ "bottle_plastic_small", 16 ] ] ]
@@ -56,8 +69,22 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
     "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "50 m",
+    "autolearn": true,
+    "using": [ [ "cordage", 1 ] ],
+    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 30, "LIST" ] ] ],
+    "components": [ [ [ "plastic_chunk", 40 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "jerrycan",
+    "id_suffix": "ducted",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "fabrication",
     "difficulty": 1,
-    "time": "30 m",
+    "time": "15 m",
     "autolearn": true,
     "using": [ [ "cordage", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
@@ -123,9 +150,9 @@
     "subcategory": "CSC_OTHER_CONTAINERS",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "30 m",
+    "time": "20 m",
     "autolearn": true,
-    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
+    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 4, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 2 ] ] ]
   },
   {
@@ -135,9 +162,9 @@
     "subcategory": "CSC_OTHER_CONTAINERS",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "20 m",
+    "time": "15 m",
     "autolearn": true,
-    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 3, "LIST" ] ] ],
+    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 2, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 1 ] ] ]
   },
   {
@@ -147,9 +174,9 @@
     "subcategory": "CSC_OTHER_CONTAINERS",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "1 h",
+    "time": "30 m",
     "autolearn": true,
-    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
+    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 16, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 8 ] ] ]
   },
   {
@@ -187,8 +214,8 @@
     "difficulty": 3,
     "time": "1 h",
     "autolearn": true,
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
-    "components": [ [ [ "2x4", 30 ] ], [ [ "scrap", 6 ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
+    "components": [ [ [ "2x4", 30 ] ], [ [ "wire", 6 ] ] ]
   },
   {
     "type": "recipe",
@@ -485,9 +512,9 @@
     "subcategory": "CSC_OTHER_CONTAINERS",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "time": "2 h",
+    "time": "90 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 52 ], [ "steel_standard", 13 ] ],
+    "using": [ [ "blacksmithing_standard", 30 ], [ "steel_standard", 8 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
@@ -537,7 +564,7 @@
     "time": "30 m",
     "autolearn": true,
     "using": [ [ "adhesive", 1 ], [ "waterproofing", 1 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SAW_W", "level": 2 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "2x4", 2 ] ],

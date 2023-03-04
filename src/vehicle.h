@@ -1345,6 +1345,19 @@ class vehicle
         double coeff_water_drag() const;
 
         /**
+         * maximum possible buoyancy in Newtons.
+         *
+         * buoyancy force = V * D * g
+         *
+         * V: total volume of the vehicle (because it's maximally submerged)
+         * D: density of submerged fluid (in our case, water)
+         * g: force of gravity
+         *
+         * @return The max buoyancy in Newtons.
+         */
+        double max_buoyancy() const;
+
+        /**
          * watertight hull height in meters measures distance from bottom of vehicle
          * to the point where the vehicle will start taking on water
          */
@@ -1375,6 +1388,9 @@ class vehicle
          * total area of every rotors in m^2
          */
         double total_rotor_area() const;
+        /**
+         * lift of rotorcraft in newton
+         */
         double lift_thrust_of_rotorcraft( bool fuelled, bool safe = false ) const;
         bool has_sufficient_rotorlift() const;
         int get_z_change() const;
@@ -1793,6 +1809,7 @@ class vehicle
         mutable double coefficient_water_resistance = 1;
         mutable double draft_m = 1;
         mutable double hull_height = 0.3;
+        mutable double hull_area = 0; // total area of hull in m^2
 
         // Cached points occupied by the vehicle
         std::set<tripoint> occupied_points;

@@ -240,7 +240,7 @@
         "|----------------------------------------------------------------------3"
       ],
       "palettes": [ "roof_palette" ],
-      "liquids": { "6": { "liquid": "water_clean", "amount": [ 0, 100 ] }, "Y": { "liquid": "water_clean", "amount": [ 100, 1000 ] } },
+      "liquids": { "6": { "liquid": "water", "amount": [ 0, 100 ] }, "Y": { "liquid": "water_clean", "amount": [ 100, 1000 ] } },
       "terrain": {
         ">": "t_ladder_down",
         "_": "t_thconc_floor",

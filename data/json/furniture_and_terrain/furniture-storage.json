@@ -103,8 +103,7 @@
     "pry": {
       "success_message": "You wedge open the coffin.",
       "fail_message": "You pry, but the coffin remains closed.",
-      "pry_quality": 2,
-      "pry_bonus_mult": 3,
+      "pry_quality": 1,
       "noise": 12,
       "difficulty": 7,
       "new_furn_type": "f_coffin_o"

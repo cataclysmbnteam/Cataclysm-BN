@@ -122,7 +122,7 @@
       [ "mechanism", 4 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
-      [ "stock", 1 ],
+      [ "stock mount", 1 ],
       [ "underbarrel", 1 ]
     ]
   },
@@ -154,7 +154,7 @@
       [ "mechanism", 4 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
-      [ "stock", 1 ],
+      [ "stock mount", 1 ],
       [ "underbarrel", 1 ]
     ]
   }
