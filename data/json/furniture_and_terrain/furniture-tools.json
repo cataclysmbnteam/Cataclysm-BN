@@ -704,7 +704,7 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 16,
-	"crafting_pseudo_item": "fake_heavylathe",
+    "crafting_pseudo_item": "fake_heavylathe",
     "flags": [ "BLOCKSDOOR" ],
     "bash": {
       "str_min": 40,
