@@ -325,8 +325,12 @@ static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 static const trait_id trait_WAYFARER( "WAYFARER" );
+
 static const quality_id qual_AXE( "AXE" );
 static const quality_id qual_DIG( "DIG" );
+
+static const requirement_id requirement_add_grid_connection =
+    requirement_id( "add_grid_connection" );
 
 static const species_id FUNGUS( "FUNGUS" );
 static const species_id HALLUCINATION( "HALLUCINATION" );
@@ -9733,6 +9737,102 @@ int iuse::report_grid_connections( player *p, item *, bool, const tripoint &pos 
                              enumerate_as_string( connection_names ) );
     }
     p->add_msg_if_player( msg );
+
+    return 0;
+}
+
+int iuse::modify_grid_connections( player *p, item *it, bool, const tripoint &pos )
+{
+    tripoint_abs_omt pos_abs = project_to<coords::omt>( tripoint_abs_ms( get_map().getabs( pos ) ) );
+    std::vector<tripoint_rel_omt> connections = overmap_buffer.electric_grid_connectivity_at( pos_abs );
+
+    uilist ui;
+
+    std::bitset<six_cardinal_directions.size()> connection_present;
+    for( size_t i = 0; i < six_cardinal_directions.size(); i++ ) {
+        const tripoint &delta = six_cardinal_directions[i];
+        connection_present[i] = std::count( connections.begin(), connections.end(),
+                                            tripoint_rel_omt( delta ) );
+        std::string name = direction_name( direction_from( delta ) );
+        int i_int = static_cast<int>( i );
+        const char *format = connection_present[i]
+                             ? _( "Remove connection in direction: %s" )
+                             : _( "Add connection in direction: %s" );
+        int new_z = pos.z + delta.z;
+        bool enabled = new_z >= -10 && new_z <= 10;
+        ui.addentry( i_int, enabled, i_int, format, name.c_str() );
+    }
+
+    ui.query();
+    if( ui.ret < 0 ) {
+        return 0;
+    }
+
+    size_t ret = static_cast<size_t>( ui.ret );
+    tripoint_abs_omt destination_pos_abs = pos_abs + tripoint_rel_omt( six_cardinal_directions[ret] );
+    if( connection_present[ret] ) {
+        overmap_buffer.remove_grid_connection( pos_abs, destination_pos_abs );
+    } else {
+        std::set<tripoint_abs_omt> lhs_locations = overmap_buffer.electric_grid_at( pos_abs );
+        std::set<tripoint_abs_omt> rhs_locations = overmap_buffer.electric_grid_at( destination_pos_abs );
+        int cost_mult;
+        if( lhs_locations == rhs_locations ) {
+            cost_mult = 0;
+        } else {
+            cost_mult = lhs_locations.size() + rhs_locations.size();
+        }
+        const requirement_data &reqs = *requirement_add_grid_connection * cost_mult;
+        const inventory &crafting_inv = p->crafting_inventory();
+        std::string grid_connection_string;
+        if( cost_mult == 0 ) {
+            grid_connection_string = string_format(
+                                         _( "You are connecting two locations in the same grid, with %lu elements." ),
+                                         std::max( lhs_locations.size(), rhs_locations.size() ) );
+        } else if( lhs_locations.size() == 1 || rhs_locations.size() == 1 ) {
+            grid_connection_string = string_format(
+                                         _( "You are extending a grid with %lu elements." ),
+                                         std::max( lhs_locations.size(), rhs_locations.size() ) );
+        } else {
+            grid_connection_string = string_format(
+                                         _( "You are connecting a grid with %lu elements to a grid with %lu elements." ),
+                                         lhs_locations.size(),
+                                         rhs_locations.size() );
+        }
+
+        if( !requirement_add_grid_connection->can_make_with_inventory( crafting_inv,
+                is_crafting_component ) ) {
+            popup( string_format( _( "%s\n%s\n%s" ),
+                                  grid_connection_string,
+                                  reqs.list_missing(),
+                                  reqs.list_all() ) );
+            return 0;
+        }
+
+        // TODO: Long action
+        if( ( cost_mult == 0 &&
+              query_yn( string_format( _( "%s\nThis action will not consume any resources.\nAre you sure?" ),
+                                       grid_connection_string ) ) ) ||
+            query_yn( string_format( std::string( "%s\n%s\n" ) + _( "Are you sure?" ),
+                                     grid_connection_string,
+                                     reqs.list_all() ) ) )
+        {} else {
+            return 0;
+        }
+
+
+        for( const auto &e : reqs.get_components() ) {
+            p->consume_items( e );
+        }
+        for( const auto &e : reqs.get_tools() ) {
+            p->consume_tools( e );
+        }
+        p->invalidate_crafting_inventory();
+
+        bool success = overmap_buffer.add_grid_connection( pos_abs, destination_pos_abs );
+        if( success ) {
+            return it->type->charges_to_use();
+        }
+    }
 
     return 0;
 }

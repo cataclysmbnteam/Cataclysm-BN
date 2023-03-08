@@ -906,6 +906,11 @@
   },
   {
     "type": "item_action",
+    "id": "MODIFY_GRID_CONNECTIONS",
+    "name": { "str": "Modify grid connections" }
+  },
+  {
+    "type": "item_action",
     "id": "TOWEL",
     "name": { "str": "Dry/clean yourself" }
   },
