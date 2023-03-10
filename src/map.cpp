@@ -7156,7 +7156,9 @@ void map::remove_rotten_items( Container &items, const tripoint &pnt )
             if( ( *it )->is_comestible() ) {
                 rotten_item_spawn( **it, pnt );
             }
+            item *gone = *it;
             it = i_rem( pnt, it );
+            gone->destroy();
         } else {
             ++it;
         }

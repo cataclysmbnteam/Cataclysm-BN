@@ -206,8 +206,8 @@ struct vehicle_part {
         vehicle_part( const vehicle_part & );
         vehicle_part &operator=( const vehicle_part & );
 
-        vehicle_part( vehicle_part && );
-        vehicle_part &operator=( vehicle_part && );
+        vehicle_part( vehicle_part && ) noexcept;
+        vehicle_part &operator=( vehicle_part && ) noexcept;
 
         /** Check this instance is non-null (not default constructed) */
         explicit operator bool() const;
@@ -225,6 +225,9 @@ struct vehicle_part {
 
         /** Temporary hack until this is made into go's */
         void destruct_hack();
+        void remove_location_hack();
+        void clone_hack( const vehicle_part &source );
+        void set_location_hack( vehicle *on, int part_num );
 
         /**
          * Translated name of a part inclusive of any current status effects
@@ -770,6 +773,9 @@ class vehicle
         vehicle( const vehicle & ) = delete;
         vehicle &operator=( vehicle && ) = default;
         vehicle &operator=( const vehicle & ) = default;
+
+        /** Temporary hack until vehicles are gos */
+        void clone_hack( const vehicle & );
 
     public:
         /** Disable or enable refresh() ; used to speed up performance when creating a vehicle */

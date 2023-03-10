@@ -274,8 +274,8 @@ class item : public visitable<item>, public game_object<item>
 #if !defined(RELEASE)
 
         //Sadly these need to go on one line or astyle breaks them
-#define item_spawn(...) (([&](){ typename ::item *p = item::_spawn( __VA_ARGS__ ); void** buf=static_cast<void**>(malloc(sizeof(void*)*20)); backtrace(buf, 20); cata_arena<typename ::item>::add_debug_entry( p, __FILE__, __LINE__, buf ); return p; } )() )
-#define item_spawn_temporary(...) (([&](){ typename ::item *p = item::_spawn_temporary( __VA_ARGS__ ); void** buf=static_cast<void**>(malloc(sizeof(void*)*20)); backtrace(buf, 20); cata_arena<typename ::item>::add_debug_entry( p, __FILE__, __LINE__, buf ); return p; } )() )
+#define item_spawn(...) (([&](){ typename ::item *p = item::_spawn( __VA_ARGS__ ); void** buf=static_cast<void**>(malloc(sizeof(void*)*GO_BACKTRACE)); backtrace(buf, GO_BACKTRACE); cata_arena<typename ::item>::add_debug_entry( p, __FILE__, __LINE__, buf ); return p; } )() )
+#define item_spawn_temporary(...) (([&](){ typename ::item *p = item::_spawn_temporary( __VA_ARGS__ ); void** buf=static_cast<void**>(malloc(sizeof(void*)*GO_BACKTRACE)); backtrace(buf, GO_BACKTRACE); cata_arena<typename ::item>::add_debug_entry( p, __FILE__, __LINE__, buf ); return p; } )() )
 
 #else
 #define item_spawn(...) item::_spawn(__VA_ARGS__)

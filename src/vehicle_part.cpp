@@ -90,28 +90,20 @@ vehicle_part &vehicle_part::operator=( const vehicle_part &source )
     return *this;
 }
 
-vehicle_part::vehicle_part( vehicle_part &&source )
+vehicle_part::vehicle_part( vehicle_part &&source ) noexcept
 {
     copy_static_from( source );
     base = source.base;
-    base->remove_location();
     items = source.items;
-    for( item *&it : items ) {
-        it->remove_location();
-    }
     source.base = nullptr;
     source.items.clear();
 }
 
-vehicle_part &vehicle_part::operator=( vehicle_part &&source )
+vehicle_part &vehicle_part::operator=( vehicle_part &&source ) noexcept
 {
     copy_static_from( source );
     base = source.base;
-    base->remove_location();
     items = source.items;
-    for( item *&it : items ) {
-        it->remove_location();
-    }
     source.base = nullptr;
     source.items.clear();
     return *this;
@@ -130,6 +122,35 @@ void vehicle_part::destruct_hack()
     }
 }
 
+void vehicle_part::remove_location_hack()
+{
+    if( base ) {
+        base->remove_location();
+    }
+    for( item *&it : items ) {
+        it->remove_location();
+    }
+}
+
+void vehicle_part::clone_hack( const vehicle_part &source )
+{
+    copy_static_from( source );
+    base = item_spawn( *source.base );
+    for( item * const &it : source.items ) {
+        items.push_back( item_spawn( *it ) );
+    }
+}
+
+void vehicle_part::set_location_hack( vehicle *on, int part_num )
+{
+    if( base ) {
+        base->set_location( new vehicle_base_item_location( on, part_num ) );
+    }
+    for( item *&it : items ) {
+        it->set_location( new vehicle_item_location( on, part_num ) );
+    }
+}
+
 vehicle_part::operator bool() const
 {
     return id != vpart_id::NULL_ID();
@@ -142,7 +163,9 @@ item &vehicle_part::get_base() const
 
 void vehicle_part::set_base( item &new_base )
 {
-    //TODO!:Destroy old
+    if( base == &new_base ) {
+        return;
+    }
     if( base ) {
         base->remove_location();
         base->destroy();

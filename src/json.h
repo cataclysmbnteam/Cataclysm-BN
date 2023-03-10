@@ -359,8 +359,8 @@ class JsonIn
             try {
                 out = T::_spawn( *this );
 #if !defined(RELEASE)
-                void **buf = static_cast<void **>( malloc( sizeof( void * ) * 20 ) );
-                backtrace( buf, 20 );
+                void **buf = static_cast<void **>( malloc( sizeof( void * ) * 40 ) );
+                backtrace( buf, 40 );
                 cata_arena<T>::add_debug_entry( out, __FILE__, __LINE__, buf );
 #endif
                 return true;

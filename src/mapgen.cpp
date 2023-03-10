@@ -5732,25 +5732,24 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
             //Where are we on the global scale?
             const tripoint global_pos = wreckage->global_pos3();
 
+            // We must remove the vehicle from the map before we move away its parts
+            std::unique_ptr<vehicle> old_veh = detach_vehicle( other_veh );
+
             for( const vpart_reference &vpr : veh->get_all_parts() ) {
                 const tripoint part_pos = veh->global_part_pos3( vpr.part() ) - global_pos;
                 // TODO: change mount points to be tripoint
+                vpr.part().remove_location_hack();
                 wreckage->install_part( part_pos.xy(), std::move( vpr.part() ) );
             }
 
-            for( const vpart_reference &vpr : other_veh->get_all_parts() ) {
-                const tripoint part_pos = other_veh->global_part_pos3( vpr.part() ) - global_pos;
+            for( const vpart_reference &vpr : old_veh->get_all_parts() ) {
+                const tripoint part_pos = old_veh->global_part_pos3( vpr.part() ) - global_pos;
+                vpr.part().remove_location_hack();
                 wreckage->install_part( part_pos.xy(), std::move( vpr.part() ) );
-
             }
 
             wreckage->name = _( "Wreckage" );
 
-            // Now get rid of the old vehicles
-            std::unique_ptr<vehicle> old_veh = detach_vehicle( other_veh );
-            // Failure has happened here when caches are corrupted due to bugs.
-            // Add an assertion to avoid null-pointer dereference later.
-            assert( old_veh );
 
             // Try again with the wreckage
             std::unique_ptr<vehicle> new_veh = add_vehicle_to_map( std::move( wreckage ), true );
@@ -5760,7 +5759,11 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
             }
 
             // If adding the wreck failed, we want to restore the vehicle we tried to merge with
-            add_vehicle_to_map( std::move( old_veh ), false );
+            //add_vehicle_to_map( std::move( old_veh ), false );
+
+            //We can't restore the vehicle like that anymore, it's been moved from now, just debugmsg instead
+            //I might come back to this and not move, but for now fuck it
+            debugmsg( "Failed to add wreck to map" );
             return nullptr;
 
         } else if( impassable( p ) ) {

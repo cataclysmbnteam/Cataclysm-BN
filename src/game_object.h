@@ -8,6 +8,8 @@
 #include "locations.h"
 #include "safe_reference.h"
 
+#define GO_BACKTRACE (40)
+
 template<typename T>
 class game_object
 {
@@ -30,8 +32,8 @@ class game_object
                 loc->detach_for_destroy( static_cast<T *>( this ) );
             }
 #if !defined(RELEASE)
-            void **buf = static_cast<void **>( malloc( sizeof( void * ) * 20 ) );
-            backtrace( buf, 20 );
+            void **buf = static_cast<void **>( malloc( sizeof( void * ) * GO_BACKTRACE ) );
+            backtrace( buf, GO_BACKTRACE );
             cata_arena<T>::add_destroy_trace( static_cast<T *>( this ), buf );
 #endif
             cata_arena<T>::mark_for_destruction( static_cast<T *>( this ) );
@@ -65,22 +67,22 @@ class game_object
             }
             if( !loc ) {
                 if( backtrace ) {
-                    char **funcs = backtrace_symbols( backtrace, 20 );
-                    for( int i = 0; i < 20 && funcs[i]; i++ ) {
+                    char **funcs = backtrace_symbols( backtrace, GO_BACKTRACE );
+                    for( int i = 0; i < GO_BACKTRACE && funcs[i]; i++ ) {
                         DebugLog( DL::Error, DC::Main ) << funcs[i];
                     }
                     free( funcs );
                 }
                 if( remove_trace ) {
-                    char **funcs = backtrace_symbols( remove_trace, 20 );
-                    for( int i = 0; i < 20 && funcs[i]; i++ ) {
+                    char **funcs = backtrace_symbols( remove_trace, GO_BACKTRACE );
+                    for( int i = 0; i < GO_BACKTRACE && funcs[i]; i++ ) {
                         DebugLog( DL::Error, DC::Main ) << funcs[i];
                     }
                     free( funcs );
                 }
                 if( destroy_trace ) {
-                    char **funcs = backtrace_symbols( destroy_trace, 20 );
-                    for( int i = 0; i < 20 && funcs[i]; i++ ) {
+                    char **funcs = backtrace_symbols( destroy_trace, GO_BACKTRACE );
+                    for( int i = 0; i < GO_BACKTRACE && funcs[i]; i++ ) {
                         DebugLog( DL::Error, DC::Main ) << funcs[i];
                     }
                     free( funcs );
@@ -90,22 +92,22 @@ class game_object
             }
             if( !loc->check_for_corruption( static_cast<const item *>( this ) ) ) {
                 if( backtrace ) {
-                    char **funcs = backtrace_symbols( backtrace, 20 );
-                    for( int i = 0; i < 20 && funcs[i]; i++ ) {
+                    char **funcs = backtrace_symbols( backtrace, GO_BACKTRACE );
+                    for( int i = 0; i < GO_BACKTRACE && funcs[i]; i++ ) {
                         DebugLog( DL::Error, DC::Main ) << funcs[i];
                     }
                     free( funcs );
                 }
                 if( remove_trace ) {
-                    char **funcs = backtrace_symbols( remove_trace, 20 );
-                    for( int i = 0; i < 20 && funcs[i]; i++ ) {
+                    char **funcs = backtrace_symbols( remove_trace, GO_BACKTRACE );
+                    for( int i = 0; i < GO_BACKTRACE && funcs[i]; i++ ) {
                         DebugLog( DL::Error, DC::Main ) << funcs[i];
                     }
                     free( funcs );
                 }
                 if( destroy_trace ) {
-                    char **funcs = backtrace_symbols( destroy_trace, 20 );
-                    for( int i = 0; i < 20 && funcs[i]; i++ ) {
+                    char **funcs = backtrace_symbols( destroy_trace, GO_BACKTRACE );
+                    for( int i = 0; i < GO_BACKTRACE && funcs[i]; i++ ) {
                         DebugLog( DL::Error, DC::Main ) << funcs[i];
                     }
                     free( funcs );
@@ -130,8 +132,8 @@ class game_object
                 return;
             }
 #if !defined(RELEASE)
-            void **buf = static_cast<void **>( malloc( sizeof( void * ) * 20 ) );
-            backtrace( buf, 20 );
+            void **buf = static_cast<void **>( malloc( sizeof( void * ) * GO_BACKTRACE ) );
+            backtrace( buf, GO_BACKTRACE );
             cata_arena<T>::add_removed_trace( static_cast<T *>( this ), buf );
 #endif
             loc.reset( nullptr );
