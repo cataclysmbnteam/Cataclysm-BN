@@ -69,7 +69,7 @@
         "W": "f_woodstove",
         "v": "f_workbench"
       },
-      "liquids": { "l": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+      "liquids": { "l": { "liquid": "water", "amount": [ 0, 100 ] } },
       "items": {
         "7": { "item": "fishing_items", "chance": 20, "repeat": [ 2, 4 ] },
         "b": { "item": "homebooks", "chance": 20, "repeat": [ 2, 4 ] },

@@ -875,6 +875,7 @@ ifeq ($(VERBOSE),1)
 else
 	@echo "Linking $@..."
 	@+$(LD) $(W32FLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
+	@echo Done!
 endif
 
 ifeq ($(RELEASE), 1)
