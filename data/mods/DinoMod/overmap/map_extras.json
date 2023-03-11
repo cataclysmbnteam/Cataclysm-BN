@@ -190,16 +190,6 @@
     "autonote": true
   },
   {
-    "id": "mx_nest_kosmoceratops",
-    "type": "map_extra",
-    "name": { "str": "kosmoceratops nest" },
-    "description": "A kosmoceratops nest.",
-    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_kosmoceratops" },
-    "sym": "D",
-    "color": "light_green",
-    "autonote": true
-  },
-  {
     "id": "mx_nest_lambeosaurus",
     "type": "map_extra",
     "name": { "str": "lambeosaurus nest" },
