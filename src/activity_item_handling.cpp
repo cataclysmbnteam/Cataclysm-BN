@@ -3181,6 +3181,11 @@ bool find_auto_consume( player &p, const bool food )
                 items_here.push_back( &it );
             }
         }
+        std::stable_sort( items_here.begin(), items_here.end(),
+        []( item * l, item * r ) {
+            return l->spoilage_sort_order() < r->spoilage_sort_order();
+        }
+                        );
 
         for( item *it : items_here ) {
             item &comest = p.get_consumable_from( *it );
@@ -3194,6 +3199,8 @@ bool find_auto_consume( player &p, const bool food )
             }
             if( !p.will_eat( comest, false ).success() ) {
                 // wont like it, cannibal meat etc
+                // Delete this add_mgs before merging!
+                add_msg( _( "%s skipped over because can't/won't eat." ),  it->display_name() );
                 continue;
             }
             if( !it->is_owned_by( p, true ) ) {
