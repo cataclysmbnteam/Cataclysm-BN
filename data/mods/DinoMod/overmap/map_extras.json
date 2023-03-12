@@ -250,16 +250,6 @@
     "autonote": true
   },
   {
-    "id": "mx_nest_prosaurolophus",
-    "type": "map_extra",
-    "name": { "str": "prosaurolophus nest" },
-    "description": "A prosaurolophus nest.",
-    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_prosaurolophus" },
-    "sym": "D",
-    "color": "light_green",
-    "autonote": true
-  },
-  {
     "id": "mx_nest_sarahsaurus",
     "type": "map_extra",
     "name": { "str": "sarahsaurus nest" },
