@@ -2009,8 +2009,8 @@ void options_manager::add_options_graphics()
        );
 
     add( "MINIMIZE_ON_FOCUS_LOSS", "graphics",
-         translate_marker( "Minimize on focus loss.  Requires restart." ),
-         translate_marker( "Minimize fullscreen window when it loses focus." ), false );
+         translate_marker( "Minimize on focus loss" ),
+         translate_marker( "Minimize fullscreen window when it loses focus.  Requires restart." ), false );
 #endif
 
 #if !defined(__ANDROID__)
