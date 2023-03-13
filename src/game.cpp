@@ -5808,16 +5808,14 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
             ret += lp.to_string();
             ret += "\n";
         }
+        ret += here.tername( lp );
         if( debug_mode || display_object_ids ) {
-            ret += string_format( "%s [%s]", here.tername( lp ), here.ter( lp )->id );
-        } else {
-            ret += here.tername( lp );
+            ret += colorize( string_format( " [%s]", here.ter( lp )->id ), c_light_blue );
         }
         if( here.has_furn( lp ) ) {
+            ret += string_format( "; %s", here.furnname( lp ) );
             if( debug_mode || display_object_ids ) {
-                ret += string_format( "; %s [%s]", here.furnname( lp ), here.furn( lp )->id );
-            } else {
-                ret += string_format( "; %s", here.furnname( lp ) );
+                ret += colorize( string_format( " [%s]", here.furn( lp )->id ), c_light_blue );
             }
         }
         return ret;
