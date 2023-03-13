@@ -2101,6 +2101,11 @@ void options_manager::add_options_debug()
          true
        );
 
+    add( "SHOW_IDS", "debug", translate_marker( "Display Object IDs" ),
+         translate_marker( "Displays internal IDs of game objects and creatures.  Warning: IDs may contain spoilers." ),
+         false
+       );
+
     add_empty_line();
 
     add_option_group( "debug", Group( "debug_log", to_translation( "Logging" ),
@@ -3327,6 +3332,7 @@ void options_manager::cache_to_globals()
 
     json_report_strict = test_mode || ::get_option<bool>( "STRICT_JSON_CHECKS" );
     display_mod_source = ::get_option<bool>( "MOD_SOURCE" );
+    display_object_ids = ::get_option<bool>( "SHOW_IDS" );
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
 #if defined(TILES)
     use_tiles = ::get_option<bool>( "USE_TILES" );

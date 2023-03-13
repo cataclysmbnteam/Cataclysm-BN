@@ -2260,6 +2260,10 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     mvwprintz( w, point( column, line++ ), c_white, _( "NPC: " ) );
     wprintz( w, basic_symbol_color(), name );
 
+    if( display_object_ids ) {
+        mvwprintz( w, point( column, line++ ), c_light_blue, string_format( "[%s]", myclass ) );
+    }
+
     if( sees( g->u ) ) {
         mvwprintz( w, point( column, line++ ), c_yellow, _( "Aware of your presence!" ) );
     }
@@ -3016,8 +3020,13 @@ std::string npc::extended_description() const
         ss += _( "Is neutral." );
     }
 
+    if( display_object_ids ) {
+        ss += "\n--\n";
+        ss += colorize( string_format( "[%s]", myclass ), c_light_blue );
+    }
+
     if( hit_by_player ) {
-        ss += "--\n";
+        ss += "\n--\n";
         ss += _( "Is still innocent and killing them will be considered murder." );
         // TODO: "But you don't care because you're an edgy psycho"
     }
