@@ -458,13 +458,13 @@ void gun_actor::load_internal( const JsonObject &obj, const std::string & )
 
     obj.read( "targeting_volume", targeting_volume );
 
-    obj.get_bool( "laser_lock", laser_lock );
+    obj.read( "laser_lock", laser_lock );
 
     obj.read( "target_moving_vehicles", target_moving_vehicles );
 
     obj.read( "require_sunlight", require_sunlight );
 
-    no_crits = obj.get_bool( "no_crits", no_crits );
+    obj.read( "no_crits", no_crits );
 }
 
 std::unique_ptr<mattack_actor> gun_actor::clone() const
