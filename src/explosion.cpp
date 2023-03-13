@@ -730,7 +730,7 @@ static std::map<const Creature *, int> shrapnel( const tripoint &src, const proj
 
     std::stable_sort( blast_map.begin(), blast_map.end(), []( dist_point_pair pair1,
     dist_point_pair pair2 ) {
-        return pair1.first <= pair2.first;
+        return pair1.first < pair2.first;
     } );
 
     int animated_explosion_range = 0.0f;
