@@ -3328,8 +3328,13 @@ void options_manager::cache_to_globals()
     json_report_strict = test_mode || ::get_option<bool>( "STRICT_JSON_CHECKS" );
     display_mod_source = ::get_option<bool>( "MOD_SOURCE" );
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
+#if defined(TILES)
     use_tiles = ::get_option<bool>( "USE_TILES" );
     use_tiles_overmap = ::get_option<bool>( "USE_TILES_OVERMAP" );
+#else
+    use_tiles = false;
+    use_tiles_overmap = false;
+#endif
     log_from_top = ::get_option<std::string>( "LOG_FLOW" ) == "new_top";
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
     message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );
