@@ -62,7 +62,7 @@
         "Q": "t_linoleum_white",
         "T": "t_linoleum_white"
       },
-      "liquids": { "H": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+      "liquids": { "H": { "liquid": "water", "amount": [ 0, 100 ] } },
       "sealed_item": { "Q": { "item": { "item": "seed_weed" }, "furniture": "f_planter_mature" } },
       "furniture": {
         "T": "f_workbench",

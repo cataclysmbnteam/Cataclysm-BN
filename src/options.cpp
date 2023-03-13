@@ -2009,8 +2009,8 @@ void options_manager::add_options_graphics()
        );
 
     add( "MINIMIZE_ON_FOCUS_LOSS", "graphics",
-         translate_marker( "Minimize on focus loss.  Requires restart." ),
-         translate_marker( "Minimize fullscreen window when it loses focus." ), false );
+         translate_marker( "Minimize on focus loss" ),
+         translate_marker( "Minimize fullscreen window when it loses focus.  Requires restart." ), false );
 #endif
 
 #if !defined(__ANDROID__)
@@ -2197,8 +2197,9 @@ void options_manager::add_options_debug()
          true
        );
 
-    add( "NEW_EXPLOSIONS", "debug", translate_marker( "New explosions" ),
-         translate_marker( "If true, Rule of Cool explosions will be used." ), false );
+    add( "NEW_EXPLOSIONS", "debug", translate_marker( "Rule of Cool explosions" ),
+         translate_marker( "If true, utilizes raycasting based explosive system.  Obstacles (impassable terrain, furniture or vehicle parts) will block shrapnel, while blast will bash obstacles and throw creatures outward.  If obstacles are destroyed, blast continues outward." ),
+         false );
 }
 
 void options_manager::add_options_world_default()

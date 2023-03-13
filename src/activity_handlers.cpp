@@ -4184,21 +4184,41 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
             }
         }
     } else {
+        // Try to safely fell tree
+        std::vector<tripoint> valid_directions;
+
         for( const tripoint &elem : here.points_in_radius( pos, 1 ) ) {
             bool cantuse = false;
             tripoint direc = elem - pos;
             tripoint proposed_to = pos + point( 3 * direction.x, 3 * direction.y );
             std::vector<tripoint> rough_tree_line = line_to( pos, proposed_to );
             for( const tripoint &elem : rough_tree_line ) {
+                // Try not to drop onto a critter
                 if( g->critter_at( elem ) ) {
+                    cantuse = true;
+                    break;
+                }
+
+                ter_t ter = here.ter( elem ).obj();
+                furn_t furn = here.furn( elem ).obj();
+                // Furniture / Terrain test
+                if( elem != pos && ( ter.bash.str_max != -1 || ( furn.id && furn.bash.str_max != -1 ) ) ) {
+                    cantuse = true;
+                    break;
+                }
+                // Vehicle check
+                if( veh_pointer_or_null( here.veh_at( elem ) ) ) {
                     cantuse = true;
                     break;
                 }
             }
             if( !cantuse ) {
-                direction = direc;
+                // Passed all tests for safe direction, add to the possible routes
+                valid_directions.push_back( direc );
             }
         }
+        // Select a random valid direction, or none if empty
+        direction = random_entry( valid_directions, direction );
     }
 
     const tripoint to = pos + 3 * direction.xy() + point( rng( -1, 1 ), rng( -1, 1 ) );
@@ -4253,10 +4273,6 @@ void activity_handlers::chop_logs_finish( player_activity *act, player *p )
         here.add_item_or_charges( pos, obj );
     }
     here.ter_set( pos, t_dirt );
-    const int helpersize = character_funcs::get_crafting_helpers( *p, 3 ).size();
-    p->mod_stored_nutr( 5 - helpersize );
-    p->mod_thirst( 5 - helpersize );
-    p->mod_fatigue( 10 - ( helpersize * 2 ) );
     p->add_msg_if_player( m_good, _( "You finish chopping wood." ) );
 
     act->set_to_null();

@@ -17,7 +17,7 @@
     "ammo_type": "762",
     "casing": "762_casing",
     "range": 30,
-    "damage": { "damage_type": "bullet", "amount": 45, "armor_penetration": 25 },
+    "damage": { "damage_type": "bullet", "amount": 45, "armor_penetration": 20 },
     "dispersion": 35,
     "recoil": 2036,
     "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
