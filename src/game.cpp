@@ -5805,14 +5805,19 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
         map &here = get_map();
         std::string ret;
         if( debug_mode ) {
-            ret = string_format( "%s %s", lp.to_string(), here.ter( lp )->id );
-            if( here.has_furn( lp ) ) {
-                ret += "; " + here.furn( lp )->id.str();
-            }
+            ret += lp.to_string();
+            ret += "\n";
+        }
+        if( debug_mode || display_object_ids ) {
+            ret += string_format( "%s [%s]", here.tername( lp ), here.ter( lp )->id );
         } else {
-            ret = here.tername( lp );
-            if( here.has_furn( lp ) ) {
-                ret += "; " + here.furnname( lp );
+            ret += here.tername( lp );
+        }
+        if( here.has_furn( lp ) ) {
+            if( debug_mode || display_object_ids ) {
+                ret += string_format( "; %s [%s]", here.furnname( lp ), here.furn( lp )->id );
+            } else {
+                ret += string_format( "; %s", here.furnname( lp ) );
             }
         }
         return ret;
