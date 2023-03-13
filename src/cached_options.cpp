@@ -9,6 +9,7 @@ bool log_from_top;
 int message_ttl;
 int message_cooldown;
 bool display_mod_source;
+bool display_object_ids;
 bool trigdist;
 bool fov_3d;
 bool static_z_effect = false;
