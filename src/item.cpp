@@ -4962,7 +4962,7 @@ units::mass item::weight( bool include_contents, bool integral ) const
     }
 
     // if this is a gun apply all of its gunmods' weight multipliers
-    if( type->gun ) {
+    if( is_gun() ) {
         for( const item *mod : gunmods() ) {
             ret *= mod->type->gunmod->weight_multiplier;
         }
@@ -5003,10 +5003,6 @@ units::mass item::weight( bool include_contents, bool integral ) const
         ret += links.weight();
     }
 
-    if( magazine_current() != nullptr ) {
-        ret += std::max( magazine_current()->weight(), 0_gram );
-    }
-
     // reduce weight for sawn-off weapons capped to the apportioned weight of the barrel
     if( gunmod_find( itype_barrel_small ) ) {
         const units::volume b = type->gun->barrel_length;
@@ -5019,6 +5015,9 @@ units::mass item::weight( bool include_contents, bool integral ) const
     if( is_gun() ) {
         for( const item *elem : gunmods() ) {
             ret += elem->weight( true, true );
+        }
+        if( !magazine_integral() && magazine_current() ) {
+            ret += std::max( magazine_current()->weight(), 0_gram );
         }
     } else if( include_contents ) {
         ret += contents.item_weight_modifier();
