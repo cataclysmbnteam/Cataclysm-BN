@@ -31,8 +31,8 @@ TEST_CASE( "spawn with default charges and with ammo", "[item_group]" )
 TEST_CASE( "Item_modifier damages item", "[item_group]" )
 {
     Item_modifier damaged;
-    damaged.damage.first = 1;
-    damaged.damage.second = 1;
+    damaged.damage.first = 1000;
+    damaged.damage.second = 1000;
     SECTION( "except when it's an ammunition" ) {
         item rock( "rock" );
         REQUIRE( rock.damage() == 0 );
@@ -43,9 +43,9 @@ TEST_CASE( "Item_modifier damages item", "[item_group]" )
     SECTION( "when it can be damaged" ) {
         item glock( "glock_19" );
         REQUIRE( glock.damage() == 0 );
-        REQUIRE( glock.max_damage() > 0 );
+        REQUIRE( glock.max_damage() > 1000 );
         damaged.modify( glock );
-        CHECK( glock.damage() == 1 );
+        CHECK( glock.damage() == 1000 );
     }
 }
 
