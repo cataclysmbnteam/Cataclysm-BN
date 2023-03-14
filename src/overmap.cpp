@@ -3426,7 +3426,7 @@ bool overmap::build_lab( const tripoint_om_omt &p, lab &l, int s,
 
     ter_set( p, labt_core );
     int numstairs = 0;
-    if( s > 0 ) { // Build stairs going down
+    if( s > 0 && p.z() != -OVERMAP_DEPTH ) { // Build stairs going down
         while( !one_in( 6 ) ) {
             tripoint_om_omt stair;
             int tries = 0;
