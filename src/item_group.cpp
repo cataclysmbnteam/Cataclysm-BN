@@ -242,7 +242,10 @@ void Item_modifier::modify( item &new_item ) const
         return;
     }
 
-    new_item.set_damage( rng( damage.first, damage.second ) );
+    int final_damage = rng( damage.first, damage.second );
+    // Round final_damage to the closest thousandth
+    final_damage = std::lround( static_cast<float>( final_damage ) / 1000 ) * 1000;
+    new_item.set_damage( final_damage );
     // no need for dirt if it's a bow
     if( new_item.is_gun() && !new_item.has_flag( flag_PRIMITIVE_RANGED_WEAPON ) &&
         !new_item.has_flag( flag_NON_FOULING ) ) {
