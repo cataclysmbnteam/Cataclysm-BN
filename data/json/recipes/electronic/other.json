@@ -797,9 +797,7 @@
     "autolearn": true,
     "contained": true,
     "using": [ [ "coding_standard", 500 ] ],
-    "components": [
-      [ [ "usb_drive", 1 ] ]
-    ]
+    "components": [ [ [ "usb_drive", 1 ] ] ]
   },
   {
     "type": "recipe",
