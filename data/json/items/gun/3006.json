@@ -69,7 +69,7 @@
     "dispersion": 120,
     "blackpowder_tolerance": 60,
     "clip_size": 5,
-    "barrel_length": "250 ml",
+    "barrel_length": "1000 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
