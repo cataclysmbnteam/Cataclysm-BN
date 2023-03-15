@@ -31,8 +31,8 @@ TEST_CASE( "spawn with default charges and with ammo", "[item_group]" )
 TEST_CASE( "Item_modifier damages item", "[item_group]" )
 {
     Item_modifier damaged;
-    damaged.damage.first = 1000;
-    damaged.damage.second = 1000;
+    damaged.damage.first = 1;
+    damaged.damage.second = 1;
     SECTION( "except when it's an ammunition" ) {
         item rock( "rock" );
         REQUIRE( rock.damage() == 0 );
