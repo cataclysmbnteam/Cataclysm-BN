@@ -3199,8 +3199,6 @@ bool find_auto_consume( player &p, const bool food )
             }
             if( !p.will_eat( comest, false ).success() ) {
                 // wont like it, cannibal meat etc
-                // Delete this add_mgs before merging!
-                add_msg( _( "%s skipped over because can't/won't eat." ),  it->display_name() );
                 continue;
             }
             if( !it->is_owned_by( p, true ) ) {
