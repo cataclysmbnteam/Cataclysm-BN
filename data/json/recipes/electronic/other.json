@@ -793,7 +793,7 @@
     "skill_used": "computer",
     "skills_required": [ [ "computer", 8 ] ],
     "difficulty": 8,
-    "time": "12 h",
+    "time": "6 h",
     "autolearn": true,
     "contained": true,
     "using": [ [ "coding_standard", 500 ] ],
