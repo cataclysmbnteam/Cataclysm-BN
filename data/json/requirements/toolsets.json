@@ -77,6 +77,12 @@
     "components": [ [ [ "solder_wire", 1 ] ] ]
   },
   {
+    "id": "coding_standard",
+    "type": "requirement",
+    "//": "For writing software",
+    "tools": [ [ [ "laptop", 1 ] ] ]
+  },
+  {
     "id": "anesthetic",
     "type": "requirement",
     "//": "Rate of anesthetic used for a surgery in 1E-2 mL/kg/min.  Autodoc's interface only supports charges of anesthetic_kit, any other requirement will have unexpected results.",
