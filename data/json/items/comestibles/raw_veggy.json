@@ -715,7 +715,7 @@
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN", "RAW", "IRREPLACEABLE_CONSUMABLE" ],
     "charges": 20,
-    "fun": -1
+    "fun": -6
   },
   {
     "type": "COMESTIBLE",
