@@ -332,7 +332,7 @@ void character_id::deserialize( JsonIn &jsin )
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// Character.h, avatar + npc
 
-void Character::trait_data::serialize( JsonOut &json ) const
+void char_trait_data::serialize( JsonOut &json ) const
 {
     json.start_object();
     json.member( "key", key );
@@ -341,7 +341,7 @@ void Character::trait_data::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-void Character::trait_data::deserialize( JsonIn &jsin )
+void char_trait_data::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
     data.allow_omitted_members();
@@ -500,8 +500,6 @@ void Character::load( const JsonObject &data )
     data.read( "damage_disinfected", damage_disinfected );
     data.read( "magic", magic );
     JsonArray parray;
-
-    data.read( "underwater", underwater );
 
     data.read( "traits", my_traits );
     for( auto it = my_traits.begin(); it != my_traits.end(); ) {
@@ -721,7 +719,6 @@ void Character::store( JsonOut &json ) const
     json.member( "type_of_scent", type_of_scent );
 
     // breathing
-    json.member( "underwater", underwater );
     json.member( "oxygen", oxygen );
 
     // traits: permanent 'mutations' more or less
@@ -840,19 +837,6 @@ void player::store( JsonOut &json ) const
     }
 
     json.member( "destination_point", destination_point );
-
-    // faction warnings
-    json.member( "faction_warnings" );
-    json.start_array();
-    for( const auto &elem : warning_record ) {
-        json.start_object();
-        json.member( "fac_warning_id", elem.first );
-        json.member( "fac_warning_num", elem.second.first );
-        json.member( "fac_warning_time", elem.second.second );
-        json.end_object();
-    }
-    json.end_array();
-
     json.member( "ammo_location", ammo_location );
 
     // TODO: move to Character
@@ -911,17 +895,6 @@ void player::load( const JsonObject &data )
             if( has_trait( mid ) ) {
                 remove_mutation( mid );
             }
-        }
-    }
-
-    if( data.has_array( "faction_warnings" ) ) {
-        for( JsonObject warning_data : data.get_array( "faction_warnings" ) ) {
-            warning_data.allow_omitted_members();
-            std::string fac_id = warning_data.get_string( "fac_warning_id" );
-            int warning_num = warning_data.get_int( "fac_warning_num" );
-            time_point warning_time = calendar::before_time_starts;
-            warning_data.read( "fac_warning_time", warning_time );
-            warning_record[faction_id( fac_id )] = std::make_pair( warning_num, warning_time );
         }
     }
 
@@ -1013,6 +986,17 @@ void avatar::store( JsonOut &json ) const
     inv.json_save_invcache( json );
 
     json.member( "preferred_aiming_mode", preferred_aiming_mode );
+
+    json.member( "faction_warnings" );
+    json.start_array();
+    for( const auto &elem : warning_record ) {
+        json.start_object();
+        json.member( "fac_warning_id", elem.first );
+        json.member( "fac_warning_num", elem.second.first );
+        json.member( "fac_warning_time", elem.second.second );
+        json.end_object();
+    }
+    json.end_array();
 }
 
 void avatar::deserialize( JsonIn &jsin )
@@ -1150,6 +1134,17 @@ void avatar::load( const JsonObject &data )
     }
 
     data.read( "preferred_aiming_mode", preferred_aiming_mode );
+
+    if( data.has_array( "faction_warnings" ) ) {
+        for( JsonObject warning_data : data.get_array( "faction_warnings" ) ) {
+            warning_data.allow_omitted_members();
+            std::string fac_id = warning_data.get_string( "fac_warning_id" );
+            int warning_num = warning_data.get_int( "fac_warning_num" );
+            time_point warning_time = calendar::before_time_starts;
+            warning_data.read( "fac_warning_time", warning_time );
+            warning_record[faction_id( fac_id )] = std::make_pair( warning_num, warning_time );
+        }
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1989,7 +1984,6 @@ void monster::store( JsonOut &json ) const
     // Store the relative position of the goal so it loads correctly after a map shift.
     json.member( "destination", goal - pos() );
     json.member( "ammo", ammo );
-    json.member( "underwater", underwater );
     json.member( "upgrades", upgrades );
     json.member( "upgrade_time", upgrade_time );
     json.member( "last_updated", last_updated );
@@ -3048,6 +3042,8 @@ void Creature::store( JsonOut &jsout ) const
     jsout.member( "dodge_bonus", dodge_bonus );
     jsout.member( "block_bonus", block_bonus );
     jsout.member( "hit_bonus", hit_bonus );
+
+    jsout.member( "underwater", underwater );
 
     jsout.member( "body", body );
 

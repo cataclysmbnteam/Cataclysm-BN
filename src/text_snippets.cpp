@@ -5,8 +5,10 @@
 #include <utility>
 
 #include "debug.h"
+#include "fstream_utils.h"
 #include "generic_factory.h"
 #include "json.h"
+#include "path_info.h"
 #include "rng.h"
 
 snippet_library SNIPPET;
@@ -199,4 +201,51 @@ template<> const translation &snippet_id::obj() const
 template<> bool snippet_id::is_valid() const
 {
     return SNIPPET.has_snippet_with_id( *this );
+}
+
+std::string get_random_tip_of_the_day()
+{
+    static bool did_load = false;
+    static std::vector<std::string> all_tips;
+
+    if( !did_load ) {
+        did_load = true;
+        bool success = read_from_file_json( PATH_INFO::main_menu_tips(), [&]( JsonIn & jsin ) {
+            JsonArray jarr = jsin.get_array();
+            if( jarr.size() != 1 ) {
+                jarr.throw_error( "expected 1 element in main array" );
+            }
+            all_tips.reserve( jarr.size() );
+            for( JsonValue jval : jarr ) {
+                JsonObject jobj = jval.get_object();
+                if( jobj.get_string( "type" ) != "snippet" ) {
+                    jobj.throw_error( "expected 'snippet' type", "type" );
+                }
+                if( jobj.get_string( "category" ) != "tip" ) {
+                    jobj.throw_error( "expected 'tip' category", "category" );
+                }
+                JsonArray text = jobj.get_array( "text" );
+                for( JsonValue entry : text ) {
+                    all_tips.push_back( entry.get_string() );
+                }
+            }
+        } );
+        if( !success ) {
+            all_tips.clear();
+        }
+    }
+
+    if( all_tips.empty() ) {
+        return _( "Failed to load tip of the day.  You'll have to figure things out on your own :(" );
+    } else {
+        // uniform_int_distribution always returns zero when the random engine is
+        // cata_default_random_engine aka std::minstd_rand0 and the seed is small,
+        // so std::mt19937 is used instead. This engine is deterministcally seeded,
+        // so acceptable.
+        // NOLINTNEXTLINE(cata-determinism)
+        std::mt19937 generator( rng_bits() );
+        std::uniform_int_distribution<size_t> dis( 0, all_tips.size() - 1 );
+        const size_t index = dis( generator );
+        return _( all_tips[ index ] );
+    }
 }

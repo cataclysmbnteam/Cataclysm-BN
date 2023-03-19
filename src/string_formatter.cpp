@@ -105,8 +105,16 @@ cata::optional<int> cata::string_formatter::read_precision()
 
 void cata::string_formatter::throw_error( const std::string &msg ) const
 {
-    throw std::runtime_error( msg + " at: \"" + format.substr( 0,
-                              current_index_in_format ) + "|" + format.substr( current_index_in_format ) + "\"" );
+    // C++ standard wouldn't be C++ standard if they didn't implement a cool feature,
+    // but then fuck it up in the worst possible way.
+    // Behold: you can't concatenate std::string and std::string_view with operator+
+    std::string err = msg;
+    err += " at: \"";
+    err += format.substr( 0, current_index_in_format );
+    err += "|";
+    err += format.substr( current_index_in_format );
+    err += "\"";
+    throw std::runtime_error( err );
 }
 
 std::string cata::handle_string_format_error()
@@ -157,7 +165,7 @@ void string_formatter::do_formating( void *value )
     output.append( fmt::sprintf( current_format, value ) );
 }
 
-void string_formatter::do_formating( const char *value )
+void string_formatter::do_formating( std::string_view value )
 {
     output.append( fmt::sprintf( current_format, value ) );
 }

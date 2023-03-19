@@ -25,7 +25,7 @@ static void test_repair( const std::vector<item> &tools, bool expect_craftable )
     const tripoint test_origin( 60, 60, 0 );
     g->u.setpos( test_origin );
     const item backpack( "backpack" );
-    g->u.wear( g->u.i_add( backpack ), false );
+    g->u.wear_item( backpack, false );
     for( const item &gear : tools ) {
         g->u.i_add( gear );
     }

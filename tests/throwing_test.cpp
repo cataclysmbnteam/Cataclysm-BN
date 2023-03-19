@@ -123,7 +123,7 @@ static void test_throwing_player_versus(
             return;
         }
 
-        auto atk = p.throw_item( mon.pos(), it );
+        dealt_projectile_attack atk = ranged::throw_item( p, mon.pos(), it, cata::nullopt );
         data.hits.add( atk.hit_critter != nullptr );
         data.dmg.add( atk.dealt_dam.total_damage() );
 

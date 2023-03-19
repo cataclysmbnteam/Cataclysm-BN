@@ -20,6 +20,7 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
+#include "character_effects.h"
 #include "character_functions.h"
 #include "character_martial_arts.h"
 #include "character_oracle.h"
@@ -1197,9 +1198,9 @@ static void draw_char_narrow( avatar &u, const catacurses::window &w )
     }
 
     mvwprintz( w, point( 8, 2 ), focus_color( u.focus_pool ), "%s", u.focus_pool );
-    if( u.focus_pool < u.calc_focus_equilibrium() ) {
+    if( u.focus_pool < character_effects::calc_focus_equilibrium( u ) ) {
         mvwprintz( w, point( 11, 2 ), c_light_green, "↥" );
-    } else if( u.focus_pool > u.calc_focus_equilibrium() ) {
+    } else if( u.focus_pool > character_effects::calc_focus_equilibrium( u ) ) {
         mvwprintz( w, point( 11, 2 ), c_light_red, "↧" );
     }
     mvwprintz( w, point( 26, 0 ), morale_pair.first, "%s", smiley );
@@ -1386,7 +1387,8 @@ static void draw_weapon_labels( const avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Wield:" ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Style:" ) );
-    trim_and_print( w, point( 8, 0 ), getmaxx( w ) - 8, c_light_gray, u.weapname() );
+    trim_and_print( w, point( 8, 0 ), getmaxx( w ) - 8, c_light_gray,
+                    character_funcs::fmt_wielded_weapon( u ) );
     mvwprintz( w, point( 8, 1 ), c_light_gray, "%s", u.martial_arts_data->selected_style_name( u ) );
     wnoutrefresh( w );
 }
@@ -1498,7 +1500,8 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
 
     draw_minimap( u, w );
     // wielded item
-    trim_and_print( w, point( 8, 0 ), getmaxx( w ) - 8, c_light_gray, u.weapname() );
+    trim_and_print( w, point( 8, 0 ), getmaxx( w ) - 8, c_light_gray,
+                    character_funcs::fmt_wielded_weapon( u ) );
     // style
     mvwprintz( w, point( 8, 1 ), c_light_gray, "%s", u.martial_arts_data->selected_style_name( u ) );
     // location
@@ -1882,7 +1885,8 @@ static void draw_weapon_classic( const avatar &u, const catacurses::window &w )
     werase( w );
 
     mvwprintz( w, point_zero, c_light_gray, _( "Weapon  :" ) );
-    trim_and_print( w, point( 10, 0 ), getmaxx( w ) - 24, c_light_gray, u.weapname() );
+    trim_and_print( w, point( 10, 0 ), getmaxx( w ) - 24, c_light_gray,
+                    character_funcs::fmt_wielded_weapon( u ) );
 
     // Print in sidebar currently used martial style.
     const std::string style = u.martial_arts_data->selected_style_name( u );
@@ -1901,7 +1905,8 @@ static void draw_weapon_classic_alt( const avatar &u, const catacurses::window &
     werase( w );
 
     mvwprintz( w, point_zero, c_light_gray, _( "Weapon:" ) );
-    trim_and_print( w, point( 8, 0 ), getmaxx( w ) - 2, c_light_gray, u.weapname() );
+    trim_and_print( w, point( 8, 0 ), getmaxx( w ) - 2, c_light_gray,
+                    character_funcs::fmt_wielded_weapon( u ) );
 
     // Print in sidebar currently used martial style.
     const std::string style = u.martial_arts_data->selected_style_name( u );

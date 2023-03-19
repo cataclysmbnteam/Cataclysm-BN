@@ -147,7 +147,6 @@
       "556_incendiary",
       "762_m43",
       "8mm_caseless",
-      "8mm_fmj",
       "8mm_hvp",
       "8mm_inc",
       "reloaded_556",
@@ -239,7 +238,7 @@
   {
     "id": [ "flintlock_shot" ],
     "type": "MIGRATION",
-    "replace": "black_powder_shot"
+    "replace": "bluss_shot"
   },
   {
     "id": [ "40x46mm_m1006" ],
@@ -260,11 +259,9 @@
     "id": [
       "40x46mm_m576",
       "40x46mm_buckshot_m118",
-      "40x46mm_buckshot_m199",
       "40x46mm_flechette_m118",
       "40x46mm_flechette_m199",
       "40x53mm_m1001",
-      "40x53mm_flechette_m169",
       "40x53mm_buckshot_m169"
     ],
     "type": "MIGRATION",
@@ -371,5 +368,20 @@
     "id": [ "84x246mm_smoke" ],
     "type": "MIGRATION",
     "replace": "rocket_smoke"
+  },
+  {
+    "id": [ "blun_slug" ],
+    "type": "MIGRATION",
+    "replace": "bluss_slug"
+  },
+  {
+    "id": [ "blun_slug" ],
+    "type": "MIGRATION",
+    "replace": "bluss_shot"
+  },
+  {
+    "id": [ "blun_flechette" ],
+    "type": "MIGRATION",
+    "replace": "bluss_flechette"
   }
 ]

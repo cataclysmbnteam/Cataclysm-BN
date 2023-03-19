@@ -731,7 +731,6 @@
       { "x": 1, "y": 3, "part": "reinforced_windshield" },
       { "x": 1, "y": 0, "part": "hdframe_horizontal" },
       { "x": 1, "y": 0, "part": "reinforced_windshield" },
-      { "x": 1, "y": 0, "part": "headlight_reinforced" },
       { "x": 1, "y": -1, "part": "hdframe_vertical" },
       { "x": 1, "y": -1, "part": "reinforced_windshield" },
       { "x": 2, "y": 1, "part": "hdframe_horizontal" },
@@ -775,7 +774,7 @@
         "y": 1,
         "part": "mounted_mk19",
         "ammo": 60,
-        "ammo_types": [ "40x46mm_m433", "40mm_emp" ],
+        "ammo_types": [ "40x53mm_m430a1" ],
         "ammo_qty": [ 1, 25 ]
       },
       { "x": -1, "y": 2, "part": "hdframe_horizontal_2" },

@@ -630,7 +630,8 @@ static void load_overmap_terrain_mapgens( const JsonObject &jo, const std::strin
     register_mapgen_function( fmapkey );
     if( jo.has_array( jsonkey ) ) {
         for( JsonObject jio : jo.get_array( jsonkey ) ) {
-            load_mapgen_function( jio, fmapkey, point_zero );
+            // NOLINTNEXTLINE(cata-use-named-point-constants)
+            load_and_add_mapgen_function( jio, fmapkey, point_zero, point( 1, 1 ) );
         }
     }
 }
@@ -3425,7 +3426,7 @@ bool overmap::build_lab( const tripoint_om_omt &p, lab &l, int s,
 
     ter_set( p, labt_core );
     int numstairs = 0;
-    if( s > 0 ) { // Build stairs going down
+    if( s > 0 && p.z() != -OVERMAP_DEPTH ) { // Build stairs going down
         while( !one_in( 6 ) ) {
             tripoint_om_omt stair;
             int tries = 0;

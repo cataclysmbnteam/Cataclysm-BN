@@ -21,6 +21,7 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "character_effects.h"
 #include "character_functions.h"
 #include "character_id.h"
 #include "clzones.h"
@@ -1394,9 +1395,9 @@ static int parse_mod( const dialogue &d, const std::string &attribute, const int
     } else if( attribute == "MISSIONS" ) {
         modifier = p.assigned_missions_value() / OWED_VAL;
     } else if( attribute == "U_INTIMIDATE" ) {
-        modifier = u.intimidation();
+        modifier = character_effects::intimidation( u );
     } else if( attribute == "NPC_INTIMIDATE" ) {
-        modifier = p.intimidation();
+        modifier = character_effects::intimidation( u );
     }
     modifier *= factor;
     return modifier;
@@ -1417,7 +1418,9 @@ int talk_trial::calc_chance( const dialogue &d ) const
             debugmsg( "Called calc_chance with invalid talk_trial value %d", type );
             break;
         case TALK_TRIAL_LIE:
-            chance += u.talk_skill() - p.talk_skill() + p.op_of_u.trust * 3;
+            chance += character_effects::talk_skill( u ) -
+                      character_effects::talk_skill( p ) +
+                      p.op_of_u.trust * 3;
             chance += u_mods.lie;
 
             //come on, who would suspect a robot of lying?
@@ -1429,7 +1432,8 @@ int talk_trial::calc_chance( const dialogue &d ) const
             }
             break;
         case TALK_TRIAL_PERSUADE:
-            chance += u.talk_skill() - static_cast<int>( p.talk_skill() / 2 ) +
+            chance += character_effects::talk_skill( u ) -
+                      character_effects::talk_skill( p ) / 2 +
                       p.op_of_u.trust * 2 + p.op_of_u.value;
             chance += u_mods.persuade;
 
@@ -1444,8 +1448,9 @@ int talk_trial::calc_chance( const dialogue &d ) const
             }
             break;
         case TALK_TRIAL_INTIMIDATE:
-            chance += u.intimidation() - p.intimidation() + p.op_of_u.fear * 2 -
-                      p.personality.bravery * 2;
+            chance += character_effects::intimidation( u ) -
+                      character_effects::intimidation( p ) +
+                      p.op_of_u.fear * 2 - p.personality.bravery * 2;
             chance += u_mods.intimidate;
 
             if( u.has_bionic( bio_face_mask ) ) {
@@ -3356,10 +3361,10 @@ std::string give_item_to( npc &p, bool allow_use )
 
     bool taken = false;
     std::string reason = _( "Nope." );
-    int our_ammo = p.ammo_count_for( p.weapon );
-    int new_ammo = p.ammo_count_for( given );
-    const double new_weapon_value = p.weapon_value( given, new_ammo );
-    const double cur_weapon_value = p.weapon_value( p.weapon, our_ammo );
+    int our_ammo = character_funcs::ammo_count_for( p, p.weapon );
+    int new_ammo = character_funcs::ammo_count_for( p, given );
+    const double new_weapon_value = npc_ai::weapon_value( p, given, new_ammo );
+    const double cur_weapon_value = npc_ai::weapon_value( p, p.weapon, our_ammo );
     add_msg( m_debug, "NPC evaluates own %s (%d ammo): %0.1f",
              p.weapon.typeId().str(), our_ammo, cur_weapon_value );
     add_msg( m_debug, "NPC evaluates your %s (%d ammo): %0.1f",

@@ -452,9 +452,9 @@ void trading_window::show_item_data( size_t offset,
 
             help += offset;
             if( help < target_list.size() ) {
-                std::vector<iteminfo> info;
                 const item &itm = *target_list[help].loc.get_item();
-                itm.info( true, info );
+                std::vector<iteminfo> info = itm.info();
+
                 item_info_data data( itm.tname(),
                                      itm.type_name(),
                                      info, {} );

@@ -1105,7 +1105,7 @@ void complete_construction( Character &ch )
     // Friendly NPCs gain exp from assisting or watching...
     // TODO: NPCs watching other NPCs do stuff and learning from it
     if( ch.is_avatar() ) {
-        for( auto &elem : ch.as_avatar()->get_crafting_helpers() ) {
+        for( auto &elem : character_funcs::get_crafting_helpers( ch ) ) {
             if( elem->meets_skill_requirements( built ) ) {
                 add_msg( m_info, _( "%s assists you with the work…" ), elem->name );
             } else {
@@ -1818,7 +1818,7 @@ int construction::adjusted_time() const
     int final_time = to_moves<int>( time );
     int assistants = 0;
 
-    for( auto &elem : g->u.get_crafting_helpers() ) {
+    for( auto &elem : character_funcs::get_crafting_helpers( get_player_character() ) ) {
         if( elem->meets_skill_requirements( *this ) ) {
             assistants++;
         }

@@ -32,6 +32,7 @@
 #include "type_id.h"
 #include "units.h"
 
+class avatar;
 class Character;
 class Creature;
 class JsonIn;
@@ -847,7 +848,14 @@ class vehicle
         bool has_old_owner() const {
             return !old_owner.is_null();
         }
-        bool handle_potential_theft( player &p, bool check_only = false, bool prompt = true );
+        /**
+         * Handle potential vehicle theft.
+         * @param you Avatar to check against
+         * @param check_only If true, won't prompt to steal and instead will refure to interact
+         * @param prompt Whether to prompt confirmation or proceed with the theft without prompt
+         * @return whether the avatar is willing to interact with the vehicle
+         */
+        bool handle_potential_theft( avatar &you, bool check_only = false, bool prompt = true );
         // project a tileray forward to predict obstacles
         std::set<point> immediate_path( units::angle rotate = 0_degrees );
         std::set<point> collision_check_points;
@@ -1337,6 +1345,19 @@ class vehicle
         double coeff_water_drag() const;
 
         /**
+         * maximum possible buoyancy in Newtons.
+         *
+         * buoyancy force = V * D * g
+         *
+         * V: total volume of the vehicle (because it's maximally submerged)
+         * D: density of submerged fluid (in our case, water)
+         * g: force of gravity
+         *
+         * @return The max buoyancy in Newtons.
+         */
+        double max_buoyancy() const;
+
+        /**
          * watertight hull height in meters measures distance from bottom of vehicle
          * to the point where the vehicle will start taking on water
          */
@@ -1367,6 +1388,9 @@ class vehicle
          * total area of every rotors in m^2
          */
         double total_rotor_area() const;
+        /**
+         * lift of rotorcraft in newton
+         */
         double lift_thrust_of_rotorcraft( bool fuelled, bool safe = false ) const;
         bool has_sufficient_rotorlift() const;
         int get_z_change() const;
@@ -1785,6 +1809,7 @@ class vehicle
         mutable double coefficient_water_resistance = 1;
         mutable double draft_m = 1;
         mutable double hull_height = 0.3;
+        mutable double hull_area = 0; // total area of hull in m^2
 
         // Cached points occupied by the vehicle
         std::set<tripoint> occupied_points;
@@ -2013,5 +2038,10 @@ class vehicle
         // relative to vehicle pos, color and text}.
         std::vector<std::tuple<point, int, std::string>> get_debug_overlay_data() const;
 };
+
+namespace rot
+{
+temperature_flag temperature_flag_for_part( const vehicle &veh, size_t part );
+}
 
 #endif // CATA_SRC_VEHICLE_H

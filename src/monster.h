@@ -136,7 +136,6 @@ class monster : public Creature, public visitable<monster>
         std::pair<std::string, nc_color> get_attitude() const;
         int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
 
-        // Information on how our symbol should appear
         nc_color basic_symbol_color() const override;
         nc_color symbol_color() const override;
         const std::string &symbol() const override;
@@ -367,7 +366,7 @@ class monster : public Creature, public visitable<monster>
         float get_dodge_base() const override;
 
         float  get_dodge() const override;       // Natural dodge, or 0 if we're occupied
-        float  get_melee() const override; // For determining attack skill when awarding dodge practice.
+        float  get_melee() const override;
         float  hit_roll() const override;  // For the purposes of comparing to player::dodge_roll()
         float  dodge_roll() override;  // For the purposes of comparing to player::hit_roll()
 
@@ -385,11 +384,8 @@ class monster : public Creature, public visitable<monster>
         bool has_grab_break_tec() const override;
 
         float stability_roll() const override;
-        // We just dodged an attack from something
-        void on_dodge( Creature *source, float difficulty ) override;
-        // Something hit us (possibly null source)
         void on_hit( Creature *source, bodypart_id bp_hit,
-                     float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) override;
+                     dealt_projectile_attack const *proj = nullptr ) override;
         void on_damage_of_type( int amt, damage_type dt, const bodypart_id &bp ) override;
 
         /** Resets a given special to its monster type cooldown value */

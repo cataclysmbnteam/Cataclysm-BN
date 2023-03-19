@@ -157,7 +157,7 @@ class avatar : public player
         /** Completes book reading action. **/
         void do_read( item_location loc );
         /** Note that we've read a book at least once. **/
-        bool has_identified( const itype_id &item_id ) const override;
+        bool has_identified( const itype_id &item_id ) const;
 
         void wake_up();
         // Grab furniture / vehicle
@@ -166,12 +166,7 @@ class avatar : public player
         /** Handles player vomiting effects */
         void vomit();
 
-        /**
-         * Try to steal an item from the NPC's inventory. May result in fail attempt, when NPC not notices you,
-         * notices your steal attempt and getting angry with you, and you successfully stealing the item.
-         * @param target Target NPC to steal from
-         */
-        void steal( npc &target );
+        bool is_hallucination() const override;
 
         pimpl<teleporter_list> translocators;
 
@@ -207,6 +202,12 @@ class avatar : public player
         void toggle_crouch_mode();
 
         bool wield( item &target ) override;
+
+        /**
+         * Add warning from faction.
+         * @returns true if the warning is now beyond final and results in hostility
+         */
+        bool add_faction_warning( const faction_id &id );
 
         using Character::invoke_item;
         bool invoke_item( item *, const tripoint &pt ) override;
@@ -258,6 +259,9 @@ class avatar : public player
         int per_upgrade = 0;
 
         monster_visible_info mon_visible;
+
+        /** Warnings from factions about bad behavior */
+        std::map<faction_id, std::pair<int, time_point>> warning_record;
 };
 
 avatar &get_avatar();

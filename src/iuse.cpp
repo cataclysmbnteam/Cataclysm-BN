@@ -25,6 +25,8 @@
 #include "artifact.h"
 #include "avatar.h"
 #include "avatar_action.h"
+#include "avatar_functions.h"
+#include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -1728,7 +1730,7 @@ int iuse::remove_all_mods( player *p, item *, bool, const tripoint & )
         return 0;
     }
 
-    if( !loc->ammo_remaining() || p->unload( loc ) ) {
+    if( !loc->ammo_remaining() || avatar_funcs::unload_item( *p->as_avatar(), loc ) ) {
         item *mod = loc->contents.get_item_with(
         []( const item & e ) {
             return e.is_toolmod() && !e.is_irremovable();
@@ -2041,7 +2043,7 @@ int iuse::pack_cbm( player *p, item *it, bool, const tripoint & )
     }
     if( !bionic.get_item()->faults.empty() ) {
         if( p->query_yn( _( "This CBM is faulty.  You should mend it first.  Do you want to try?" ) ) ) {
-            p->mend_item( std::move( bionic ) );
+            avatar_funcs::mend_item( *p->as_avatar(), std::move( bionic ) );
         }
         return 0;
     }
@@ -2782,7 +2784,7 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
     digging_moves_and_byproducts moves_and_byproducts = dig_pit_moves_and_byproducts( p, it,
             can_deepen, false );
 
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers( 3 );
+    const std::vector<npc *> helpers = character_funcs::get_crafting_helpers( *p, 3 );
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task…" ), np->name );
     }
@@ -2849,7 +2851,7 @@ int iuse::dig_channel( player *p, item *it, bool t, const tripoint & )
     digging_moves_and_byproducts moves_and_byproducts = dig_pit_moves_and_byproducts( p, it, false,
             true );
 
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers( 3 );
+    const std::vector<npc *> helpers = character_funcs::get_crafting_helpers( *p, 3 );
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task…" ), np->name );
     }
@@ -2920,7 +2922,7 @@ int iuse::fill_pit( player *p, item *it, bool t, const tripoint & )
         return 0;
     }
 
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers( 3 );
+    const std::vector<npc *> helpers = character_funcs::get_crafting_helpers( *p, 3 );
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task…" ), np->name );
     }
@@ -2963,7 +2965,7 @@ int iuse::clear_rubble( player *p, item *it, bool, const tripoint & )
     int moves = to_moves<int>( 30_seconds );
     int bonus = std::max( it->get_quality( quality_id( "DIG" ) ) - 1, 1 );
 
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers( 3 );
+    const std::vector<npc *> helpers = character_funcs::get_crafting_helpers( *p, 3 );
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task…" ), np->name );
     }
@@ -3271,7 +3273,7 @@ int iuse::jackhammer( player *p, item *it, bool, const tripoint &pos )
         moves /= 2;
     }
 
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers( 3 );
+    const std::vector<npc *> helpers = character_funcs::get_crafting_helpers( *p, 3 );
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task…" ), np->name );
     }
@@ -3326,7 +3328,7 @@ int iuse::pickaxe( player *p, item *it, bool, const tripoint &pos )
         moves /= 2;
     }
 
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers( 3 );
+    const std::vector<npc *> helpers = character_funcs::get_crafting_helpers( *p, 3 );
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task…" ), np->name );
     }
@@ -4796,7 +4798,7 @@ int iuse::chop_tree( player *p, item *it, bool t, const tripoint & )
     }
     int moves = chop_moves( *p, *it );
 
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers( 3 );
+    const std::vector<npc *> helpers = character_funcs::get_crafting_helpers( *p, 3 );
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task…" ), np->name );
     }
@@ -4841,7 +4843,7 @@ int iuse::chop_logs( player *p, item *it, bool t, const tripoint & )
 
     int moves = chop_moves( *p, *it );
 
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers( 3 );
+    const std::vector<npc *> helpers = character_funcs::get_crafting_helpers( *p, 3 );
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task…" ), np->name );
     }
@@ -5925,7 +5927,7 @@ int iuse::gunmod_attach( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    p->gunmod_add( *loc, *it );
+    avatar_funcs::gunmod_add( *p->as_avatar(), *loc, *it );
 
     return 0;
 }
@@ -5966,13 +5968,13 @@ int iuse::toolmod_attach( player *p, item *it, bool, const tripoint & )
     }
 
     if( loc->ammo_remaining() ) {
-        if( !p->unload( loc ) ) {
+        if( !avatar_funcs::unload_item( *p->as_avatar(), loc ) ) {
             p->add_msg_if_player( m_info, _( "You cancel unloading the tool." ) );
             return 0;
         }
     }
 
-    p->toolmod_add( std::move( loc ), item_location( *p, it ) );
+    avatar_funcs::toolmod_add( *p->as_avatar(), std::move( loc ), item_location( *p, it ) );
     return 0;
 }
 
@@ -6750,14 +6752,13 @@ static std::string colorized_item_name( const item &item )
 
 static std::string colorized_item_description( const item &item )
 {
-    std::vector<iteminfo> dummy;
     iteminfo_query query = iteminfo_query(
     std::vector<iteminfo_parts> {
         iteminfo_parts::DESCRIPTION,
         iteminfo_parts::DESCRIPTION_NOTES,
         iteminfo_parts::DESCRIPTION_CONTENTS
     } );
-    return item.info( dummy, &query, 1 );
+    return item.info_string( query, 1 );
 }
 
 static item get_top_item_at_point( const tripoint &point,
@@ -7802,9 +7803,9 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
         }
 
         if( p->has_item( *it ) ) {
-            if( p->has_active_bionic( bio_shock ) && p->get_power_level() >= 2_kJ &&
+            if( p->has_active_bionic( bio_shock ) && p->get_power_level() >= bio_shock->power_trigger &&
                 one_in( 5 ) ) {
-                p->mod_power_level( -2_kJ );
+                p->mod_power_level( -bio_shock->power_trigger );
 
                 it->unset_flag( "NO_UNWIELD" );
                 it->ammo_unset();
@@ -9500,7 +9501,7 @@ int wash_items( player *p, bool soft_items, bool hard_items )
         return 0;
     }
 
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers( 3 );
+    const std::vector<npc *> helpers = character_funcs::get_crafting_helpers( *p, 3 );
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task…" ), np->name );
     }
@@ -9554,7 +9555,8 @@ int iuse::craft( player *p, item *it, bool, const tripoint &pos )
         return 0;
     }
     const recipe &rec = it->get_making();
-    if( p->has_recipe( &rec, p->crafting_inventory(), p->get_crafting_helpers() ) == -1 ) {
+    if( p->has_recipe( &rec, p->crafting_inventory(),
+                       character_funcs::get_crafting_helpers( *p ) ) == -1 ) {
         p->add_msg_player_or_npc(
             _( "You don't know the recipe for the %s and can't continue crafting." ),
             _( "<npcname> doesn't know the recipe for the %s and can't continue crafting." ),

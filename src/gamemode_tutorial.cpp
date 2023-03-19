@@ -8,6 +8,7 @@
 #include "action.h"
 #include "avatar.h"
 #include "calendar.h"
+#include "character_functions.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "game.h"
@@ -106,7 +107,7 @@ std::string enum_to_string<tut_lesson>( tut_lesson data )
 bool tutorial_game::init()
 {
     // TODO: clean up old tutorial
-    Character &player_character = get_player_character();
+    avatar &you = get_avatar();
 
     // Start at noon
     calendar::turn = calendar::turn_zero + 12_hours;
@@ -115,18 +116,18 @@ bool tutorial_game::init()
     get_weather().temperature = 65;
     // We use a Z-factor of 10 so that we don't plop down tutorial rooms in the
     // middle of the "real" game world
-    g->u.normalize();
-    g->u.str_cur = g->u.str_max;
-    g->u.per_cur = g->u.per_max;
-    g->u.int_cur = g->u.int_max;
-    g->u.dex_cur = g->u.dex_max;
+    character_funcs::normalize( you );
+    you.str_cur = you.str_max;
+    you.per_cur = you.per_max;
+    you.int_cur = you.int_max;
+    you.dex_cur = you.dex_max;
 
-    g->u.set_all_parts_hp_to_max();
+    you.set_all_parts_hp_to_max();
 
     const oter_id rock( "rock" );
     //~ default name for the tutorial
-    g->u.name = _( "John Smith" );
-    g->u.prof = profession::generic();
+    you.name = _( "John Smith" );
+    you.prof = profession::generic();
     // overmap terrain coordinates
     const tripoint_om_omt lp( 50, 50, 0 );
     // Assume overmap zero
@@ -144,18 +145,18 @@ bool tutorial_game::init()
     starting_om.ter_set( lp + tripoint_below, oter_id( "tutorial" ) );
     starting_om.clear_mon_groups();
 
-    g->u.toggle_trait( trait_QUICK );
+    you.toggle_trait( trait_QUICK );
     item lighter( "lighter", calendar::start_of_cataclysm );
     lighter.invlet = 'e';
-    player_character.inv.add_item( lighter, true, false );
-    player_character.set_skill_level( skill_gun, 5 );
-    player_character.set_skill_level( skill_melee, 5 );
+    you.inv.add_item( lighter, true, false );
+    you.set_skill_level( skill_gun, 5 );
+    you.set_skill_level( skill_melee, 5 );
     g->load_map( project_to<coords::sm>( lp_abs ) );
-    player_character.setx( 2 );
-    player_character.sety( 4 );
+    you.setx( 2 );
+    you.sety( 4 );
 
     // This shifts the view to center the players pos
-    g->update_map( g->u );
+    g->update_map( you );
     return true;
 }
 

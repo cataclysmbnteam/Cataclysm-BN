@@ -6,6 +6,7 @@
 #include "avatar.h"
 #include "damage.h"
 #include "enums.h"
+#include "game.h"
 #include "item.h"
 #include "map.h"
 #include "map_helpers.h"
@@ -14,6 +15,8 @@
 #include "state_helpers.h"
 #include "type_id.h"
 #include "vehicle.h"
+#include "vpart_position.h"
+#include "veh_type.h"
 
 TEST_CASE( "detaching_vehicle_unboards_passengers" )
 {
@@ -77,6 +80,40 @@ TEST_CASE( "add_item_to_broken_vehicle_part" )
     //Now part is really broken, adding an item should fail
     const item itm2 = item( "jeans" );
     REQUIRE( !veh_ptr->add_item( *cargo_part, itm2 ) );
+}
+
+TEST_CASE( "damage_vehicle_oob" )
+{
+    clear_all_state();
+    const tripoint test_origin( 60, 60, 0 );
+    g->place_player( test_origin );
+    const tripoint vehicle_origin( SEEX, 0, 0 );
+    vehicle *veh_ptr = get_map().add_vehicle( vproto_id( "bicycle" ), vehicle_origin, 0_degrees, 0, 0 );
+    REQUIRE( veh_ptr != nullptr );
+
+    //Put an item in the vehicle
+    const tripoint cargo_pos = vehicle_origin + tripoint_west;
+    auto cargo_parts = veh_ptr->get_parts_at( cargo_pos, "CARGO", part_status_flag::any );
+    REQUIRE( !cargo_parts.empty( ) );
+    vehicle_part *cargo_part = cargo_parts.front();
+    REQUIRE( cargo_part != nullptr );
+    const item itm = item( "jeans" );
+    REQUIRE( veh_ptr->add_item( *cargo_part, itm ) );
+
+    //Shift the vehicle half off the map
+    g->place_player( test_origin + tripoint_east * SEEX );
+
+    //Check the vehicle is still there.
+    optional_vpart_position part_pos = get_map().veh_at( tripoint_zero );
+    REQUIRE( part_pos );
+
+    auto parts = veh_ptr->parts_at_relative( veh_ptr->tripoint_to_mount( tripoint_west ), true );
+    REQUIRE( !parts.empty( ) );
+    for( int part : parts ) {
+        //We aren't actually smashing each chosen part in turn here
+        //it's picking a random one each time, hence why we smash them all
+        veh_ptr->damage( part, 10000 );
+    }
 }
 
 static void check_wreckage( int zlevel )

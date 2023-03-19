@@ -2,25 +2,25 @@
   {
     "id": "308",
     "type": "AMMO",
-    "name": { "str_sp": "rifle ammo, ball" },
+    "name": { "str_sp": "5.56mm, FMJ" },
     "copy-from": "rifle_ball"
   },
   {
     "id": "762_51",
     "type": "AMMO",
-    "name": { "str_sp": "rifle ammo, ball" },
+    "name": { "str_sp": "5.56mm, FMJ" },
     "copy-from": "rifle_ball"
   },
   {
     "id": "556",
     "type": "AMMO",
-    "name": { "str_sp": "rifle ammo, ball" },
+    "name": { "str_sp": "5.56mm, FMJ" },
     "copy-from": "rifle_ball"
   },
   {
     "id": "40x53mm_m430a1",
     "type": "AMMO",
-    "name": { "str": "HEDP grenade cartridge" },
+    "name": { "str": "40mm HEDP grenade" },
     "copy-from": "grenade_ammo_hedp"
   }
 ]

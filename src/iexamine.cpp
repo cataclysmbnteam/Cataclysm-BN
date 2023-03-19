@@ -21,6 +21,7 @@
 #include "ammo.h"
 #include "avatar.h"
 #include "avatar_action.h"
+#include "avatar_functions.h"
 #include "basecamp.h"
 #include "bionics.h"
 #include "bodypart.h"
@@ -786,7 +787,7 @@ void iexamine::vending( player &p, const tripoint &examp )
         werase( w_item_info );
         // | {line}|
         // 12      3
-        fold_and_print( w_item_info, point( 2, 1 ), w_info_w - 3, c_light_gray, cur_item->info( true ) );
+        fold_and_print( w_item_info, point( 2, 1 ), w_info_w - 3, c_light_gray, cur_item->info_string() );
         wborder( w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                  LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
@@ -2848,7 +2849,7 @@ void iexamine::autoclave_empty( player &p, const tripoint & )
 {
     item_location bionic = game_menus::inv::sterilize_cbm( p );
     if( bionic ) {
-        p.mend_item( item_location( bionic ) );
+        avatar_funcs::mend_item( *p.as_avatar(), item_location( bionic ) );
     } else {
         add_msg( _( "Never mind." ) );
     }
@@ -5345,7 +5346,7 @@ static void mill_activate( player &p, const tripoint &examp )
     for( auto &it : here.i_at( examp ) ) {
         if( it.type->milling_data ) {
             // Do one final rot check before milling, then apply the PROCESSING flag to prevent further checks.
-            it.process_rot( 1, false, examp, nullptr );
+            it.process_rot( examp );
             it.set_flag( flag_PROCESSING );
         }
     }
@@ -5446,7 +5447,7 @@ static void smoker_activate( player &p, const tripoint &examp )
     p.use_charges( itype_fire, 1 );
     for( auto &it : here.i_at( examp ) ) {
         if( it.has_flag( flag_SMOKABLE ) ) {
-            it.process_rot( 1, false, examp, nullptr );
+            it.process_rot( examp );
             it.set_flag( flag_PROCESSING );
         }
     }
@@ -5486,7 +5487,7 @@ void iexamine::mill_finalize( player &, const tripoint &examp, const time_point 
 
     for( item &it : items ) {
         if( it.type->milling_data ) {
-            it.calc_rot_while_processing( milling_time );
+            it.mod_last_rot_check( milling_time );
             const islot_milling &mdata = *it.type->milling_data;
             item result( mdata.into_, start_time + milling_time, it.count() * mdata.conversion_rate_ );
             result.components.push_back( it );
@@ -5533,7 +5534,7 @@ static void smoker_finalize( player &, const tripoint &examp, const time_point &
             if( it.get_comestible()->smoking_result.is_empty() ) {
                 it.unset_flag( flag_PROCESSING );
             } else {
-                it.calc_rot_while_processing( 6_hours );
+                it.mod_last_rot_check( 6_hours );
 
                 item result( it.get_comestible()->smoking_result, start_time + 6_hours, it.charges );
 

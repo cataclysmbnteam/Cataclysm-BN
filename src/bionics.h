@@ -39,6 +39,8 @@ struct bionic_data {
     units::energy power_deactivate = 0_kJ;
     /** Power cost over time, does nothing without a non-zero charge_time */
     units::energy power_over_time = 0_kJ;
+    /** Power cost when the bionic's special effect is triggered */
+    units::energy power_trigger = 0_kJ;
     /** How often a bionic draws or produces power while active in turns */
     int charge_time = 0;
     /** Power bank size **/
@@ -201,7 +203,7 @@ class bionic_collection : public std::vector<bionic>
 /**List of bodyparts occupied by a bionic*/
 std::vector<bodypart_id> get_occupied_bodyparts( const bionic_id &bid );
 
-char get_free_invlet( player &p );
+char get_free_invlet( bionic_collection &bionics );
 std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro,
                                bool each_bp_on_new_line = true );
 

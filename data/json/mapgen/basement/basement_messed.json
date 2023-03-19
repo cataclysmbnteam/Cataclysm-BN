@@ -47,7 +47,7 @@
         "<": "t_stairs_up",
         "|": "t_wall"
       },
-      "liquids": { "E": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+      "liquids": { "E": { "liquid": "water", "amount": [ 0, 100 ] } },
       "furniture": {
         "c": "f_counter",
         "r": "f_rack",

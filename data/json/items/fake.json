@@ -240,6 +240,32 @@
     "name": { "str": "grid forge" },
     "sub": "forge",
     "max_charges": 2500,
+    "charges_per_use": 4,
+    "use_action": [
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_metal",
+        "materials": [
+          "iron",
+          "steel",
+          "hardsteel",
+          "aluminum",
+          "copper",
+          "bronze",
+          "silver",
+          "gold",
+          "platinum",
+          "superalloy",
+          "lead",
+          "tin",
+          "zinc"
+        ],
+        "skill": "fabrication",
+        "tool_quality": 8,
+        "cost_scaling": 0.1,
+        "move_cost": 500
+      }
+    ],
     "flags": [ "USES_GRID_POWER" ]
   },
   {
@@ -293,6 +319,16 @@
     "type": "TOOL",
     "name": { "str": "grid electrolysis kit" },
     "sub": "electrolysis_kit",
+    "max_charges": 2500,
+    "flags": [ "USES_GRID_POWER" ]
+  },
+  {
+    "id": "fake_chemistry_set",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "grid chemistry set" },
+    "sub": "chemistry_set_basic",
+    "qualities": [ [ "DISTILL", 1 ], [ "CHEM", 3 ], [ "BOIL", 1 ] ],
     "max_charges": 2500,
     "flags": [ "USES_GRID_POWER" ]
   },

@@ -121,10 +121,12 @@ void game::extended_description( const tripoint &p )
                         fid->src.end(), []( const std::pair<furn_str_id, mod_id> &source ) {
                             return string_format( "'%s'", source.second->name() );
                         }, enumeration_conjunction::arrow );
-                        desc = string_format( _( "Origin: %s\n%s" ), mod_src, fid->extended_description() );
-                    } else {
-                        desc = fid.obj().extended_description();
+                        desc = string_format( _( "Origin: %s\n" ), mod_src );
                     }
+                    if( display_object_ids ) {
+                        desc += colorize( string_format( "[%s]\n", fid.id() ), c_light_blue );
+                    }
+                    desc += fid.obj().extended_description();
                 }
                 break;
             case description_target::terrain:
@@ -137,10 +139,12 @@ void game::extended_description( const tripoint &p )
                         tid->src.end(), []( const std::pair<ter_str_id, mod_id> &source ) {
                             return string_format( "'%s'", source.second->name() );
                         }, enumeration_conjunction::arrow );
-                        desc = string_format( _( "Origin: %s\n%s" ), mod_src, tid->extended_description() );
-                    } else {
-                        desc = tid.obj().extended_description();
+                        desc = string_format( _( "Origin: %s\n" ), mod_src );
                     }
+                    if( display_object_ids ) {
+                        desc += colorize( string_format( "[%s]\n", tid.id() ), c_light_blue );
+                    }
+                    desc += tid.obj().extended_description();
                 }
                 break;
         }

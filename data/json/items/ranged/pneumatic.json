@@ -15,6 +15,7 @@
     "ammo": "BB",
     "weight": "1723 g",
     "volume": "1500 ml",
+    "barrel_length": "150 ml",
     "range": 12,
     "ranged_damage": { "damage_type": "bullet", "amount": 2 },
     "dispersion": 150,
@@ -23,6 +24,7 @@
     "reload": 500,
     "valid_mod_locations": [
       [ "accessories", 4 ],
+      [ "barrel", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
@@ -70,6 +72,7 @@
     "ammo": [ "pebble" ],
     "weight": "4211 g",
     "volume": "2750 ml",
+    "barrel_length": "250 ml",
     "ranged_damage": { "damage_type": "bash", "amount": 15, "armor_penetration": 4 },
     "range": 15,
     "durability": 7,

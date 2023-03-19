@@ -20,6 +20,7 @@
 
 #include "active_tile_data_def.h"
 #include "avatar.h"
+#include "avatar_functions.h"
 #include "bionics.h"
 #include "cata_utility.h"
 #include "character.h"
@@ -4224,6 +4225,8 @@ bool vehicle::is_in_water( bool deep_water ) const
     return deep_water ? is_floating : in_water;
 }
 
+static constexpr double water_density = 1000.0; // kg/m^3
+
 double vehicle::coeff_water_drag() const
 {
     if( !coeff_water_dirty ) {
@@ -4253,7 +4256,7 @@ double vehicle::coeff_water_drag() const
     double actual_area_m = width_m * structure_indices.size() / tile_width;
 
     // effective hull area is actual hull area * hull coverage
-    double hull_area_m   = actual_area_m * std::max( 0.1, hull_coverage );
+    hull_area = actual_area_m * std::max( 0.1, hull_coverage );
     // Treat the hullform as a simple cuboid to calculate displaced depth of
     // water.
     // Apply Archimedes' principle (mass of water displaced is mass of vehicle).
@@ -4261,8 +4264,7 @@ double vehicle::coeff_water_drag() const
     // water_mass = vehicle_mass
     // area * depth = vehicle_mass / water_density
     // depth = vehicle_mass / water_density / area
-    constexpr double water_density = 1000.0; // kg/m^3
-    draft_m = to_kilogram( total_mass() ) / water_density / hull_area_m;
+    draft_m = to_kilogram( total_mass() ) / water_density / hull_area;
     // increase the streamlining as more of the boat is covered in boat boards
     double c_water_drag = 1.25 - hull_coverage;
     // hull height starts at 0.3m and goes up as you add more boat boards
@@ -4272,6 +4274,15 @@ double vehicle::coeff_water_drag() const
     coefficient_water_resistance = c_water_drag * width_m * draft_m * 0.5 * water_density;
     coeff_water_dirty = false;
     return coefficient_water_resistance;
+}
+
+double vehicle::max_buoyancy() const
+{
+    if( coeff_water_dirty ) {
+        coeff_water_drag();
+    }
+    const double total_volume = hull_area * water_hull_height();
+    return total_volume * water_density * GRAVITY_OF_EARTH;
 }
 
 float vehicle::k_traction( float wheel_traction_area ) const
@@ -4374,15 +4385,14 @@ void vehicle::set_owner( const Character &c )
     owner = c.get_faction()->id;
 }
 
-bool vehicle::handle_potential_theft( player &p, bool check_only, bool prompt )
+bool vehicle::handle_potential_theft( avatar &you, bool check_only, bool prompt )
 {
-    const bool is_owned_by_player = is_owned_by( p );
-    std::vector<npc *> witnesses;
-    for( npc &elem : g->all_npcs() ) {
-        if( rl_dist( elem.pos(), p.pos() ) < MAX_VIEW_DISTANCE && has_owner() &&
-            !is_owned_by_player && elem.sees( p.pos() ) ) {
-            witnesses.push_back( &elem );
-        }
+    const bool is_owned_by_player = is_owned_by( you );
+    bool has_witnesses;
+    if( has_owner() && !is_owned_by_player ) {
+        has_witnesses = !avatar_funcs::list_potential_theft_witnesses( you, get_owner() ).empty();
+    } else {
+        has_witnesses = false;
     }
     // the vehicle is yours, that's fine.
     if( is_owned_by_player ) {
@@ -4390,13 +4400,13 @@ bool vehicle::handle_potential_theft( player &p, bool check_only, bool prompt )
         // if There is no owner
         // handle transfer of ownership
     } else if( !has_owner() ) {
-        set_owner( p.get_faction()->id );
+        set_owner( you.get_faction()->id );
         remove_old_owner();
         return true;
         // if there is a marker for having been stolen, but 15 minutes have passed, then officially transfer ownership
-    } else if( witnesses.empty() && has_old_owner() && !is_old_owner( p ) && theft_time &&
+    } else if( has_witnesses && has_old_owner() && !is_old_owner( you ) && theft_time &&
                calendar::turn - *theft_time > 15_minutes ) {
-        set_owner( p.get_faction()->id );
+        set_owner( you.get_faction()->id );
         remove_old_owner();
         return true;
         // No witnesses? then don't need to prompt, we assume the player is in process of stealing it.
@@ -4404,7 +4414,7 @@ bool vehicle::handle_potential_theft( player &p, bool check_only, bool prompt )
         // This is just to perform interaction with the vehicle without a prompt.
         // It will prompt first-time, even with no witnesses, to inform player it is owned by someone else
         // subsequently, no further prompts, the player should know by then.
-    } else if( witnesses.empty() && old_owner ) {
+    } else if( has_witnesses && old_owner ) {
         return true;
     }
     // if we are just checking if we could continue without problems, then the rest is assumed false
@@ -4421,15 +4431,7 @@ bool vehicle::handle_potential_theft( player &p, bool check_only, bool prompt )
     }
     // set old owner so that we can restore ownership if there are witnesses.
     set_old_owner( get_owner() );
-    for( npc *elem : witnesses ) {
-        elem->say( "<witnessed_thievery>", 7 );
-    }
-    if( !witnesses.empty() ) {
-        if( p.add_faction_warning( get_owner() ) ) {
-            for( npc *elem : witnesses ) {
-                elem->make_angry();
-            }
-        }
+    if( avatar_funcs::handle_theft_witnesses( you, get_owner() ) ) {
         // remove the temporary marker for a successful theft, as it was witnessed.
         remove_old_owner();
     }
@@ -6626,15 +6628,17 @@ bool vehicle::explode_fuel( int p, damage_type type )
 
 int vehicle::damage_direct( int p, int dmg, damage_type type )
 {
+    map &here = get_map();
     // Make sure p is within range and hasn't been removed already
-    if( ( static_cast<size_t>( p ) >= parts.size() ) || parts[p].removed ) {
+    if( ( static_cast<size_t>( p ) >= parts.size() ) || parts[p].removed ||
+        !here.inbounds( global_part_pos3( p ) ) ) {
         return dmg;
     }
     // If auto-driving and damage happens, bail out
     if( is_autodriving ) {
         stop_autodriving();
     }
-    g->m.set_memory_seen_cache_dirty( global_part_pos3( p ) );
+    here.set_memory_seen_cache_dirty( global_part_pos3( p ) );
     if( parts[p].is_broken() ) {
         return break_off( p, dmg );
     }
@@ -6658,7 +6662,7 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
         leak_fuel( parts [ p ] );
 
         for( const auto &e : parts[p].items ) {
-            g->m.add_item_or_charges( global_part_pos3( p ), e );
+            here.add_item_or_charges( global_part_pos3( p ), e );
         }
         parts[p].items.clear();
 
@@ -6672,7 +6676,7 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
     if( parts[p].is_fuel_store() ) {
         explode_fuel( p, type );
     } else if( parts[ p ].is_broken() && part_flag( p, "UNMOUNT_ON_DAMAGE" ) ) {
-        g->m.spawn_item( global_part_pos3( p ), part_info( p ).item, 1, 0, calendar::turn );
+        here.spawn_item( global_part_pos3( p ), part_info( p ).item, 1, 0, calendar::turn );
         monster *mon = get_pet( p );
         if( mon != nullptr && mon->has_effect( effect_harnessed ) ) {
             mon->remove_effect( effect_harnessed );

@@ -7,6 +7,8 @@
 #include "activity_handlers.h"
 #include "avatar.h"
 #include "character.h"
+#include "character_effects.h"
+#include "character_functions.h"
 #include "damage.h"
 #include "effect.h"
 #include "enums.h"
@@ -155,7 +157,8 @@ static void eff_fun_fungus( player &u, effect &it )
                 u.moves -= 100;
                 u.apply_damage( nullptr, bodypart_id( "torso" ), 5 );
             }
-            if( x_in_y( u.vomit_mod(), ( 4800 + bonus * 24 ) ) || one_in( 12000 + bonus * 60 ) ) {
+            if( x_in_y( character_effects::vomit_mod( u ), ( 4800 + bonus * 24 ) ) ||
+                one_in( 12000 + bonus * 60 ) ) {
                 u.add_msg_player_or_npc( m_bad, _( "You vomit a thick, gray goop." ),
                                          _( "<npcname> vomits a thick, gray goop." ) );
 
@@ -243,7 +246,8 @@ static void eff_fun_hallu( player &u, effect &it )
             u.add_msg_if_player( m_warning, _( "Something feels very, very wrong." ) );
         }
     } else if( dur > peakTime && dur < comeupTime ) {
-        if( u.stomach.get_calories() > 0 && ( one_in( 1200 ) || x_in_y( u.vomit_mod(), 300 ) ) ) {
+        if( u.stomach.get_calories() > 0 &&
+            ( one_in( 1200 ) || x_in_y( character_effects::vomit_mod( u ), 300 ) ) ) {
             u.add_msg_if_player( m_bad, _( "You feel sick to your stomach." ) );
             u.mod_stored_kcal( 20 );
             if( one_in( 6 ) ) {
@@ -465,7 +469,7 @@ static void eff_fun_mutating( player &u, effect &it )
     }
 }
 
-void player::hardcoded_effects( effect &it )
+void Character::hardcoded_effects( effect &it )
 {
     if( auto buff = ma_buff::from_effect( it ) ) {
         if( buff->is_valid_character( *this ) ) {
@@ -494,7 +498,7 @@ void player::hardcoded_effects( effect &it )
     const efftype_id &id = it.get_id();
     const auto &iter = hc_effect_map.find( id );
     if( iter != hc_effect_map.end() ) {
-        iter->second( *this, it );
+        iter->second( *as_player(), it );
         return;
     }
 
@@ -858,7 +862,7 @@ void player::hardcoded_effects( effect &it )
                                    _( "You're experiencing loss of basic motor skills and blurred vision.  Your mind recoils in horror, unable to communicate with your spinal column." ) );
                 add_msg_if_player( m_bad, _( "You stagger and fall!" ) );
                 add_effect( effect_downed, rng( 1_turns, 4_turns ), num_bp, 0, true );
-                if( one_in( 8 ) || x_in_y( vomit_mod(), 10 ) ) {
+                if( one_in( 8 ) || x_in_y( character_effects::vomit_mod( *this ), 10 ) ) {
                     vomit();
                 }
             }
@@ -886,7 +890,7 @@ void player::hardcoded_effects( effect &it )
             if( one_in( 8 ) ) {
                 add_msg_if_player( m_bad,
                                    _( "The possibility of physical and mental collapse is now very real." ) );
-                if( one_in( 2 ) || x_in_y( vomit_mod(), 10 ) ) {
+                if( one_in( 2 ) || x_in_y( character_effects::vomit_mod( *this ), 10 ) ) {
                     add_msg_if_player( m_bad, _( "No one should be asked to handle this trip." ) );
                     vomit();
                     mod_pain( rng( 8, 40 ) );
@@ -1045,7 +1049,7 @@ void player::hardcoded_effects( effect &it )
         }
     } else if( id == effect_lying_down ) {
         set_moves( 0 );
-        if( can_sleep() ) {
+        if( character_funcs::roll_can_sleep( *this ) ) {
             fall_asleep();
             // Set ourselves up for removal
             it.set_duration( 0_turns );

@@ -176,7 +176,7 @@
     "price_postapoc": 40000,
     "to_hit": 1,
     "bashing": 1,
-    "material": [ "superalloy", "plastic" ],
+    "material": [ "superalloy", "carbide" ],
     "symbol": "[",
     "looks_like": "depowered_armor",
     "color": "dark_gray",

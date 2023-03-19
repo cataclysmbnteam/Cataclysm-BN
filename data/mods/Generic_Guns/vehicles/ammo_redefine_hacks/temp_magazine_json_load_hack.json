@@ -144,7 +144,7 @@
     "copy-from": "belt223",
     "type": "MAGAZINE",
     "ammo_type": [ "ammo_rifle", "223", "300blk" ],
-    "name": { "str": "5.56x45mm ammo belt" }
+    "name": { "str": "5.56mm ammo belt" }
   },
   {
     "id": "ruger5",

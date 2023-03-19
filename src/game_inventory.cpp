@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "avatar.h"
+#include "avatar_functions.h"
 #include "bionics.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -957,7 +958,7 @@ class gunmod_inventory_preset : public inventory_selector_preset
     protected:
         /** @return Odds for successful installation (pair.first) and gunmod damage (pair.second) */
         std::pair<int, int> get_odds( const item_location &gun ) const {
-            return p.gunmod_installation_odds( *gun, gunmod );
+            return avatar_funcs::gunmod_installation_odds( *p.as_avatar(), *gun, gunmod );
         }
 
     private:
@@ -1602,45 +1603,37 @@ void game_menus::inv::compare( const item &l, const item &r )
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "PAGE_DOWN" );
 
-    std::vector<iteminfo> vItemLastCh;
-    std::vector<iteminfo> vItemCh;
-    std::string sItemLastCh;
-    std::string sItemCh;
-    std::string sItemLastTn;
-    std::string sItemTn;
+    std::vector<iteminfo> lhs_info = l.info();
+    std::vector<iteminfo> rhs_info = r.info();
+    std::string lhs_tname = l.tname();
+    std::string rhs_tname = r.tname();
+    std::string lhs_type_name = l.type_name();
+    std::string rhs_type_name = r.type_name();
 
-    l.info( true, vItemLastCh );
-    sItemLastCh = l.tname();
-    sItemLastTn = l.type_name();
+    int lhs_scroll_pos = 0;
+    int rhs_scroll_pos = 0;
 
-    r.info( true, vItemCh );
-    sItemCh = r.tname();
-    sItemTn = r.type_name();
+    item_info_data lhs_item_info( lhs_tname, lhs_type_name, lhs_info, rhs_info, rhs_scroll_pos );
+    lhs_item_info.without_getch = true;
 
-    int iScrollPos = 0;
-    int iScrollPosLast = 0;
+    item_info_data rhs_item_info( rhs_tname, rhs_type_name, rhs_info, lhs_info, lhs_scroll_pos );
+    rhs_item_info.without_getch = true;
 
-    item_info_data last_item_info( sItemLastCh, sItemLastTn, vItemLastCh, vItemCh, iScrollPosLast );
-    last_item_info.without_getch = true;
-
-    item_info_data cur_item_info( sItemCh, sItemTn, vItemCh, vItemLastCh, iScrollPos );
-    cur_item_info.without_getch = true;
-
-    catacurses::window w_last_item_info;
-    catacurses::window w_cur_item_info;
+    catacurses::window w_lhs_item_info;
+    catacurses::window w_rhs_item_info;
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
         const int half_width = TERMX / 2;
         const int height = TERMY;
-        w_last_item_info = catacurses::newwin( height, half_width, point_zero );
-        w_cur_item_info = catacurses::newwin( height, half_width, point( half_width, 0 ) );
+        w_lhs_item_info = catacurses::newwin( height, half_width, point_zero );
+        w_rhs_item_info = catacurses::newwin( height, half_width, point( half_width, 0 ) );
         ui.position( point_zero, point( half_width * 2, height ) );
     } );
     ui.mark_resize();
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
-        draw_item_info( w_last_item_info, last_item_info );
-        draw_item_info( w_cur_item_info, cur_item_info );
+        draw_item_info( w_lhs_item_info, lhs_item_info );
+        draw_item_info( w_rhs_item_info, rhs_item_info );
     } );
 
     do {
@@ -1649,17 +1642,41 @@ void game_menus::inv::compare( const item &l, const item &r )
         action = ctxt.handle_input();
 
         if( action == "UP" || action == "PAGE_UP" ) {
-            iScrollPos--;
-            iScrollPosLast--;
+            lhs_scroll_pos--;
+            rhs_scroll_pos--;
         } else if( action == "DOWN" || action == "PAGE_DOWN" ) {
-            iScrollPos++;
-            iScrollPosLast++;
+            lhs_scroll_pos++;
+            rhs_scroll_pos++;
         }
 
     } while( action != "QUIT" );
 }
 
-void game_menus::inv::reassign_letter( player &p, item &it )
+void game_menus::inv::reassign_letter( Character &who, item &it, int invlet )
+{
+    bool remove_old = true;
+    if( invlet ) {
+        item *prev = who.invlet_to_item( invlet );
+        if( prev != nullptr ) {
+            remove_old = it.typeId() != prev->typeId();
+            who.inv.reassign_item( *prev, it.invlet, remove_old );
+        }
+    }
+
+    if( !invlet || inv_chars.valid( invlet ) ) {
+        const auto iter = who.inv.assigned_invlet.find( it.invlet );
+        bool found = iter != who.inv.assigned_invlet.end();
+        if( found ) {
+            who.inv.assigned_invlet.erase( iter );
+        }
+        if( invlet && ( !found || it.invlet != invlet ) ) {
+            who.inv.assigned_invlet[invlet] = it.typeId();
+        }
+        who.inv.reassign_item( it, invlet, remove_old );
+    }
+}
+
+void game_menus::inv::prompt_reassign_letter( Character &who, item &it )
 {
     while( true ) {
         const int invlet = popup_getkey(
@@ -1668,7 +1685,7 @@ void game_menus::inv::reassign_letter( player &p, item &it )
         if( invlet == KEY_ESCAPE ) {
             break;
         } else if( invlet == ' ' ) {
-            p.reassign_item( it, 0 );
+            reassign_letter( who, it, 0 );
             const std::string auto_setting = get_option<std::string>( "AUTO_INV_ASSIGN" );
             if( auto_setting == "enabled" || ( auto_setting == "favorites" && it.is_favorite ) ) {
                 popup_getkey(
@@ -1677,7 +1694,7 @@ void game_menus::inv::reassign_letter( player &p, item &it )
             }
             break;
         } else if( inv_chars.valid( invlet ) ) {
-            p.reassign_item( it, invlet );
+            reassign_letter( who, it, invlet );
             break;
         }
     }
@@ -1718,7 +1735,7 @@ void game_menus::inv::swap_letters( player &p )
             break;
         }
 
-        reassign_letter( p, *loc );
+        prompt_reassign_letter( p, *loc );
     }
 }
 

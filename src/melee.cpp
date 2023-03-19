@@ -15,7 +15,10 @@
 #include <vector>
 
 #include "avatar.h"
+#include "avatar_functions.h"
 #include "bodypart.h"
+#include "bionics.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
@@ -379,15 +382,9 @@ static void melee_train( Character &p, int lo, int hi, const item &weap )
     }
 }
 
-void Character::melee_attack( Creature &t, bool allow_special )
-{
-    static const matec_id no_technique_id( "" );
-    melee_attack( t, allow_special, no_technique_id );
-}
-
 // Melee calculation is in parts. This sets up the attack, then in deal_melee_attack,
 // we calculate if we would hit. In Creature::deal_melee_hit, we calculate if the target dodges.
-void Character::melee_attack( Creature &t, bool allow_special, const matec_id &force_technique,
+void Character::melee_attack( Creature &t, bool allow_special, const matec_id *force_technique,
                               bool allow_unarmed )
 {
     melee::melee_stats.attack_count += 1;
@@ -482,14 +479,14 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
         damage_instance d;
         roll_all_damage( critical_hit, d, false, cur_weapon );
 
-        const bool has_force_technique = !force_technique.str().empty();
+        const bool has_force_technique = force_technique;
 
         // Pick one or more special attacks
         matec_id technique_id;
         if( allow_special && !has_force_technique ) {
             technique_id = pick_technique( t, cur_weapon, critical_hit, false, false );
         } else if( has_force_technique ) {
-            technique_id = force_technique;
+            technique_id = *force_technique;
         } else {
             technique_id = tec_none;
         }
@@ -615,12 +612,12 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
     check_dead_state();
     if( t.as_character() ) {
         dealt_projectile_attack dp = dealt_projectile_attack();
-        t.as_character()->on_hit( this, bodypart_id( "num_bp" ), 0.0f, &dp );
+        t.as_character()->on_hit( this, bodypart_id( "num_bp" ), &dp );
     }
     return;
 }
 
-void player::reach_attack( const tripoint &p )
+void Character::reach_attack( const tripoint &p )
 {
     matec_id force_technique = tec_none;
     /** @EFFECT_MELEE >5 allows WHIP_DISARM technique */
@@ -706,7 +703,7 @@ void player::reach_attack( const tripoint &p )
     }
 
     reach_attacking = true;
-    melee_attack( *critter, false, force_technique, false );
+    melee_attack( *critter, false, &force_technique, false );
     reach_attacking = false;
 }
 
@@ -852,9 +849,14 @@ float Character::get_dodge() const
     return std::max( 0.0f, ret );
 }
 
-float player::dodge_roll()
+float Character::dodge_roll()
 {
     return get_dodge() * 5;
+}
+
+float Character::get_melee() const
+{
+    return get_skill_level( skill_id( "melee" ) );
 }
 
 float Character::bonus_damage( bool random ) const
@@ -1778,7 +1780,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
         } else if( weapon.made_of( material_id( "glass" ) ) ) {
             add_msg( m_bad, _( "The item you are wielding is too fragile to counterattack with!" ) );
         } else {
-            melee_attack( *source, false, tec );
+            melee_attack( *source, false, &tec );
         }
     }
 
@@ -1818,9 +1820,10 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
 
     std::string target = t.disp_name();
 
-    if( has_active_bionic( bionic_id( "bio_shock" ) ) && get_power_level() >= 2_kJ &&
+    const bionic_id bio_shock( "bio_shock" );
+    if( has_active_bionic( bio_shock ) && get_power_level() >= bio_shock->power_trigger &&
         ( !is_armed() || weapon.conductive() ) ) {
-        mod_power_level( -2_kJ );
+        mod_power_level( -bio_shock->power_trigger );
         d.add_damage( DT_ELECTRIC, rng( 2, 10 ) );
 
         if( is_player() ) {
@@ -1830,8 +1833,9 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
         }
     }
 
-    if( has_active_bionic( bionic_id( "bio_heat_absorb" ) ) && !is_armed() && t.is_warm() ) {
-        mod_power_level( 3_kJ );
+    const bionic_id bio_heat_absorb( "bio_heat_absorb" );
+    if( has_active_bionic( bio_heat_absorb ) && !is_armed() && t.is_warm() ) {
+        mod_power_level( bio_heat_absorb->power_trigger );
         d.add_damage( DT_COLD, 3 );
         if( is_player() ) {
             dump += string_format( _( "You drain %s's body heat." ), target ) + "\n";
@@ -2253,16 +2257,16 @@ int Character::attack_cost( const item &weap ) const
     return move_cost;
 }
 
-double player::weapon_value( const item &weap, int ammo ) const
+double npc_ai::weapon_value( const Character &who, const item &weap, int ammo )
 {
-    if( is_wielding( weap ) ) {
-        auto cached_value = cached_info.find( "weapon_value" );
-        if( cached_value != cached_info.end() ) {
-            return cached_value->second;
+    if( who.is_wielding( weap ) ) {
+        auto cached = who.get_npc_ai_info_cache( "weapon_value" );
+        if( cached ) {
+            return *cached;
         }
     }
-    const double val_gun = gun_value( weap, ammo );
-    const double val_melee = melee_value( weap );
+    const double val_gun = gun_value( who, weap, ammo );
+    const double val_melee = melee_value( who, weap );
     const double more = std::max( val_gun, val_melee );
     const double less = std::min( val_gun, val_melee );
 
@@ -2275,29 +2279,29 @@ double player::weapon_value( const item &weap, int ammo ) const
     // A small bonus for guns you can also use to hit stuff with (bayonets etc.)
     const double my_val = ( more + ( less / 2.0 ) ) * armor_penalty;
     add_msg( m_debug, "%s (%ld ammo) sum value: %.1f", weap.type->get_id().str(), ammo, my_val );
-    if( is_wielding( weap ) ) {
-        cached_info.emplace( "weapon_value", my_val );
+    if( who.is_wielding( weap ) ) {
+        who.set_npc_ai_info_cache( "weapon_value", my_val );
     }
     return my_val;
 }
 
-double player::melee_value( const item &weap ) const
+double npc_ai::melee_value( const Character &who, const item &weap )
 {
     // start with average effective dps against a range of enemies
-    double my_value = weap.average_dps( *this );
+    double my_value = weap.average_dps( *who.as_player() );
 
-    float reach = weap.reach_range( *this );
+    float reach = weap.reach_range( who );
     // value reach weapons more
     if( reach > 1.0f ) {
         my_value *= 1.0f + 0.5f * ( std::sqrt( reach ) - 1.0f );
     }
     // value polearms less to account for the trickiness of keeping the right range
-    if( weapon.has_flag( "POLEARM" ) ) {
+    if( weap.has_flag( "POLEARM" ) ) {
         my_value *= 0.8;
     }
 
     // value style weapons more
-    if( !martial_arts_data->enumerate_known_styles( weap.type->get_id() ).empty() ) {
+    if( !who.martial_arts_data->enumerate_known_styles( weap.type->get_id() ).empty() ) {
         my_value *= 1.5;
     }
 
@@ -2306,29 +2310,29 @@ double player::melee_value( const item &weap ) const
     return std::max( 0.0, my_value );
 }
 
-double player::unarmed_value() const
+double npc_ai::unarmed_value( const Character &who )
 {
     // TODO: Martial arts
-    return melee_value( item() );
+    return melee_value( who, item() );
 }
 
-void player::disarm( npc &target )
+void avatar_funcs::try_disarm_npc( avatar &you, npc &target )
 {
     if( !target.is_armed() ) {
         return;
     }
 
     if( target.is_hallucination() ) {
-        target.on_attacked( *this );
+        target.on_attacked( you );
         return;
     }
 
     /** @EFFECT_STR increases chance to disarm, primary stat */
     /** @EFFECT_DEX increases chance to disarm, secondary stat */
-    int my_roll = dice( 3, 2 * get_str() + get_dex() );
+    int my_roll = dice( 3, 2 * you.get_str() + you.get_dex() );
 
     /** @EFFECT_MELEE increases chance to disarm */
-    my_roll += dice( 3, get_skill_level( skill_melee ) );
+    my_roll += dice( 3, you.get_skill_level( skill_melee ) );
 
     int their_roll = dice( 3, 2 * target.get_str() + target.get_dex() );
     their_roll += dice( 3, target.get_per() );
@@ -2337,18 +2341,18 @@ void player::disarm( npc &target )
     item &it = target.weapon;
 
     // roll your melee and target's dodge skills to check if grab/smash attack succeeds
-    int hitspread = target.deal_melee_attack( this, hit_roll() );
+    int hitspread = target.deal_melee_attack( &you, you.hit_roll() );
     if( hitspread < 0 ) {
         add_msg( _( "You lunge for the %s, but miss!" ), it.tname() );
-        mod_moves( -100 - stumble( *this, weapon ) - attack_cost( weapon ) );
-        target.on_attacked( *this );
+        you.mod_moves( -100 - stumble( you, you.weapon ) - you.attack_cost( you.weapon ) );
+        target.on_attacked( you );
         return;
     }
 
     // hitspread >= 0, which means we are going to disarm by grabbing target by their weapon
-    if( !is_armed() ) {
+    if( !you.is_armed() ) {
         /** @EFFECT_UNARMED increases chance to disarm, bonus when nothing wielded */
-        my_roll += dice( 3, get_skill_level( skill_unarmed ) );
+        my_roll += dice( 3, you.get_skill_level( skill_unarmed ) );
 
         if( my_roll >= their_roll ) {
             //~ %s: weapon name
@@ -2357,24 +2361,24 @@ void player::disarm( npc &target )
             add_msg( _( "You forcefully take %1$s from %2$s!" ), it.tname(), target.name );
             // wield() will deduce our moves, consider to deduce more/less moves for balance
             item rem_it = target.i_rem( &it );
-            wield( rem_it );
+            you.wield( rem_it );
         } else if( my_roll >= their_roll / 2 ) {
             add_msg( _( "You grab at %s and pull with all your force, but it drops nearby!" ),
                      it.tname() );
             const tripoint tp = target.pos() + tripoint( rng( -1, 1 ), rng( -1, 1 ), 0 );
             g->m.add_item_or_charges( tp, target.i_rem( &it ) );
-            mod_moves( -100 );
+            you.mod_moves( -100 );
         } else {
             add_msg( _( "You grab at %s and pull with all your force, but in vain!" ), it.tname() );
-            mod_moves( -100 );
+            you.mod_moves( -100 );
         }
 
-        target.on_attacked( *this );
+        target.on_attacked( you );
         return;
     }
 
     // Make their weapon fall on floor if we've rolled enough.
-    mod_moves( -100 - attack_cost( weapon ) );
+    you.mod_moves( -100 - you.attack_cost( you.weapon ) );
     if( my_roll >= their_roll ) {
         add_msg( _( "You smash %s with all your might forcing their %s to drop down nearby!" ),
                  target.name, it.tname() );
@@ -2385,29 +2389,29 @@ void player::disarm( npc &target )
                  target.name, it.tname() );
     }
 
-    target.on_attacked( *this );
+    target.on_attacked( you );
 }
 
-void avatar::steal( npc &target )
+void avatar_funcs::try_steal_from_npc( avatar &you, npc &target )
 {
     if( target.is_enemy() ) {
         add_msg( _( "%s is hostile!" ), target.name );
         return;
     }
 
-    item_location loc = game_menus::inv::steal( *this, target );
+    item_location loc = game_menus::inv::steal( you, target );
     if( !loc ) {
         return;
     }
 
     /** @EFFECT_DEX defines the chance to steal */
-    int my_roll = dice( 3, get_dex() );
+    int my_roll = dice( 3, you.get_dex() );
 
     /** @EFFECT_UNARMED adds bonus to stealing when wielding nothing */
-    if( !is_armed() ) {
+    if( !you.is_armed() ) {
         my_roll += dice( 4, 3 );
     }
-    if( has_trait( trait_DEFT ) ) {
+    if( you.has_trait( trait_DEFT ) ) {
         my_roll += dice( 2, 6 );
     }
 
@@ -2417,18 +2421,18 @@ void avatar::steal( npc &target )
     if( my_roll >= their_roll ) {
         add_msg( _( "You sneakily steal %1$s from %2$s!" ),
                  it->tname(), target.name );
-        i_add( target.i_rem( it ) );
+        you.i_add( target.i_rem( it ) );
     } else if( my_roll >= their_roll / 2 ) {
         add_msg( _( "You failed to steal %1$s from %2$s, but did not attract attention." ),
                  it->tname(), target.name );
     } else {
         add_msg( _( "You failed to steal %1$s from %2$s." ),
                  it->tname(), target.name );
-        target.on_attacked( *this );
+        target.on_attacked( you );
     }
 
     // consider to deduce less/more moves for balance
-    mod_moves( -200 );
+    you.mod_moves( -200 );
 }
 
 /**

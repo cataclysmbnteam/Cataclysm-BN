@@ -45,6 +45,7 @@ class nc_color;
 class player;
 class recipe;
 class relic;
+class relic_recharge;
 struct islot_comestible;
 struct itype;
 struct item_comp;
@@ -78,6 +79,7 @@ class map;
 struct damage_instance;
 struct damage_unit;
 struct fire_data;
+class weather_manager;
 
 enum damage_type : int;
 enum clothing_mod_type : int;
@@ -170,6 +172,38 @@ inline iteminfo::flags &operator|=( iteminfo::flags &l, iteminfo::flags r )
 {
     return l = l | r;
 }
+
+class item_reload_option
+{
+    public:
+        item_reload_option() = default;
+
+        item_reload_option( const item_reload_option & );
+        item_reload_option &operator=( const item_reload_option & );
+
+        item_reload_option( const player *who, const item *target, const item *parent,
+                            const item_location &ammo );
+
+        const player *who = nullptr;
+        const item *target = nullptr;
+        item_location ammo;
+
+        int qty() const {
+            return qty_;
+        }
+        void qty( int val );
+
+        int moves() const;
+
+        explicit operator bool() const {
+            return who && target && ammo && qty_ > 0;
+        }
+
+    private:
+        int qty_ = 0;
+        int max_qty = INT_MAX;
+        const item *parent = nullptr;
+};
 
 inline bool is_crafting_component( const item &component );
 
@@ -360,61 +394,40 @@ class item : public visitable<item>
          * charges at all). Calls @ref tname with given quantity and with_prefix being true.
          */
         std::string display_name( unsigned int quantity = 1 ) const;
-        /**
-         * Return all the information about the item and its type.
-         *
-         * This includes the different
-         * properties of the @ref itype (if they are visible to the player). The returned string
-         * is already translated and can be *very* long.
-         * @param showtext If true, shows the item description, otherwise only the properties item type.
-         */
-        std::string info( bool showtext = false ) const;
 
         /**
-         * Return all the information about the item and its type, and dump to vector.
-         *
-         * This includes the different
-         * properties of the @ref itype (if they are visible to the player). The returned string
-         * is already translated and can be *very* long.
-         * @param showtext If true, shows the item description, otherwise only the properties item type.
-         * @param iteminfo The properties (encapsulated into @ref iteminfo) are added to this vector,
-         * the vector can be used to compare them to properties of another item.
-         */
-        std::string info( bool showtext, std::vector<iteminfo> &iteminfo ) const;
-
-        /**
-        * Return all the information about the item and its type, and dump to vector.
+        * Return all the information about the item and its type as a vector.
         *
         * This includes the different
-        * properties of the @ref itype (if they are visible to the player). The returned string
-        * is already translated and can be *very* long.
-        * @param showtext If true, shows the item description, otherwise only the properties item type.
-        * @param iteminfo The properties (encapsulated into @ref iteminfo) are added to this vector,
-        * the vector can be used to compare them to properties of another item.
-        * @param batch The batch crafting number to multiply data by
-        */
-        std::string info( bool showtext, std::vector<iteminfo> &iteminfo, int batch ) const;
-
-        /**
-        * Return all the information about the item and its type, and dump to vector.
-        *
-        * This includes the different
-        * properties of the @ref itype (if they are visible to the player). The returned string
-        * is already translated and can be *very* long.
+        * properties of the @ref itype (if they are visible to the player).
         * @param parts controls which parts of the iteminfo to return.
-        * @param info The properties (encapsulated into @ref iteminfo) are added to this vector,
-        * the vector can be used to compare them to properties of another item.
         * @param batch The batch crafting number to multiply data by
+        * @returns The properties (encapsulated into @ref iteminfo) are added to this vector,
+        *   the vector can be used to compare them to properties of another item.
         */
-        std::string info( std::vector<iteminfo> &info, const iteminfo_query *parts = nullptr,
-                          int batch = 1 ) const;
+        /*@{*/
+        std::vector<iteminfo> info() const;
+        std::vector<iteminfo> info( int batch ) const;
+        std::vector<iteminfo> info( const iteminfo_query &parts, int batch,
+                                    temperature_flag temperature ) const;
+        std::vector<iteminfo> info( temperature_flag temperature ) const;
+        /*@}*/
+        /**
+         * As @ref info, but as a string rather than a vector of properties.
+         */
+        /*@{*/
+        std::string info_string() const;
+        std::string info_string( const iteminfo_query &parts, int batch = 1,
+                                 temperature_flag temperature = temperature_flag::TEMP_NORMAL ) const;
+        /*@}*/
+
         /* type specific helper functions for info() that should probably be in itype() */
         void basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                          bool debug ) const;
         void med_info( const item *med_item, std::vector<iteminfo> &info, const iteminfo_query *parts,
                        int batch, bool debug ) const;
         void food_info( const item *food_item, std::vector<iteminfo> &info, const iteminfo_query *parts,
-                        int batch, bool debug ) const;
+                        int batch, bool debug, temperature_flag temperature ) const;
         void magazine_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                             bool debug ) const;
         void ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
@@ -453,7 +466,7 @@ class item : public visitable<item>
                           bool debug ) const;
         void contents_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                             bool debug ) const;
-        void final_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+        void final_info( std::vector<iteminfo> &info, const iteminfo_query &parts, int batch,
                          bool debug ) const;
 
         /**
@@ -467,38 +480,6 @@ class item : public visitable<item>
 
         // Returns the category of this item.
         const item_category &get_category() const;
-
-        class reload_option
-        {
-            public:
-                reload_option() = default;
-
-                reload_option( const reload_option & );
-                reload_option &operator=( const reload_option & );
-
-                reload_option( const player *who, const item *target, const item *parent,
-                               const item_location &ammo );
-
-                const player *who = nullptr;
-                const item *target = nullptr;
-                item_location ammo;
-
-                int qty() const {
-                    return qty_;
-                }
-                void qty( int val );
-
-                int moves() const;
-
-                explicit operator bool() const {
-                    return who && target && ammo && qty_ > 0;
-                }
-
-            private:
-                int qty_ = 0;
-                int max_qty = INT_MAX;
-                const item *parent = nullptr;
-        };
 
         /**
          * Reload item using ammo from location returning true if successful
@@ -774,41 +755,54 @@ class item : public visitable<item>
         void mod_charges( int mod );
         /**
          * Whether the item has to be removed as it has rotten away completely. May change the item as it calls process_rot()
-         * @param pnt The *absolute* position of the item in the world (see @ref map::getabs),
-         * used for rot calculation.
+         * @param pnt The position of the item on the current map.
+         * @param temperature Flag for special locations that affect temperature.
+         * @param weather Weather manager to supply temperature.
          * @return true if the item has rotten away and should be removed, false otherwise.
          */
-        bool has_rotten_away( const tripoint &pnt );
+        bool actualize_rot( const tripoint &pnt, temperature_flag temperature,
+                            const weather_manager &weather );
 
         /**
-         * Accumulate rot of the item since last rot calculation.
+         * Returns rot of the item since last rot calculation.
          * This function should not be called directly. since it does not have all the needed checks or temperature calculations.
          * If you need to calc rot of item call process_rot instead.
          * @param time Time point to which rot is calculated
          * @param temp Temperature at which the rot is calculated
          */
-        void calc_rot( time_point time, int temp );
+        time_duration calc_rot( time_point time, int temp ) const;
+
+        /**
+         * Time that this item is guaranteed to stay fresh.
+         * @param temperature Temperature flag used to cap the duration.
+         * @returns Remaining guaranteed freshness duration, assuming current storage conditions.
+         */
+        time_duration minimum_freshness_duration( temperature_flag temperature ) const;
 
         /**
          * This is part of a workaround so that items don't rot away to nothing if the smoking rack
          * is outside the reality bubble.
          * @param processing_duration
          */
-        void calc_rot_while_processing( time_duration processing_duration );
+        void mod_last_rot_check( time_duration processing_duration );
 
         /**
          * Update temperature for things like food
          * Update rot for things that perish
          * All items that rot also have temperature
-         * @param insulation Amount of insulation item has from surroundings
          * @param seals Wether the item is in sealed  container
          * @param pos The current position
          * @param carrier The current carrier
          * @param flag to specify special temperature situations
+         * @param weather_generator weather manager, mostly for testing
          * @return true if the item is fully rotten and is ready to be removed
          */
-        bool process_rot( float insulation, bool seals, const tripoint &pos,
-                          player *carrier, temperature_flag flag = temperature_flag::TEMP_NORMAL );
+        /*@{*/
+        bool process_rot( const tripoint &pos );
+        bool process_rot( bool seals, const tripoint &pos,
+                          player *carrier, temperature_flag flag,
+                          const weather_manager &weather_generator );
+        /*@}*/
 
         int get_comestible_fun() const;
 
@@ -1098,8 +1092,12 @@ class item : public visitable<item>
          * should than delete the item wherever it was stored.
          * Returns false if the item is not destroyed.
          */
-        bool process( player *carrier, const tripoint &pos, bool activate, float insulation = 1,
+        /*@{*/
+        bool process( player *carrier, const tripoint &pos, bool activate,
                       temperature_flag flag = temperature_flag::TEMP_NORMAL );
+        bool process( player *carrier, const tripoint &pos, bool activate,
+                      temperature_flag flag, const weather_manager &weather_generator );
+        /*@}*/
 
         /**
          * Gets the point (vehicle tile) the cable is connected to.
@@ -1126,7 +1124,7 @@ class item : public visitable<item>
          * @param pos The location of the artifact (should be the player location if carried).
          */
         void process_artifact( player *carrier, const tripoint &pos );
-        void process_relic( Character *carrier );
+        void process_relic( Character &carrier );
 
         bool destroyed_at_zero_charges() const;
         // Most of the is_whatever() functions call the same function in our itype
@@ -2094,7 +2092,7 @@ class item : public visitable<item>
         void set_cached_tool_selections( const std::vector<comp_selection<tool_comp>> &selections );
         const std::vector<comp_selection<tool_comp>> &get_cached_tool_selections() const;
 
-        std::vector<enchantment> get_enchantments() const;
+        const std::vector<enchantment> &get_enchantments() const;
 
         /**
          * Calculate bonus from enchantments that affect this item only.
@@ -2109,12 +2107,14 @@ class item : public visitable<item>
         double bonus_from_enchantments_wielded( double base, enchant_vals::mod value,
                                                 bool round = false ) const;
 
+        const std::vector<relic_recharge> &get_relic_recharge_scheme() const;
+
     private:
         bool use_amount_internal( const itype_id &it, int &quantity, std::list<item> &used,
                                   const std::function<bool( const item & )> &filter = return_true<item> );
         const use_function *get_use_internal( const std::string &use_name ) const;
-        bool process_internal( player *carrier, const tripoint &pos, bool activate, float insulation = 1,
-                               bool seals = false, temperature_flag flag = temperature_flag::TEMP_NORMAL );
+        bool process_internal( player *carrier, const tripoint &pos, bool activate,
+                               bool seals, temperature_flag flag, const weather_manager &weather_generator );
 
         /** Helper for checking reloadability. **/
         bool is_reloadable_helper( const itype_id &ammo, bool now ) const;
@@ -2232,7 +2232,7 @@ class item : public visitable<item>
     public:
         char invlet = 0;      // Inventory letter
         bool active = false; // If true, it has active effects to be processed
-        safe_reference<player> activated_by;
+        safe_reference<Character> activated_by;
         bool is_favorite = false;
 
         void set_favorite( bool favorite );
