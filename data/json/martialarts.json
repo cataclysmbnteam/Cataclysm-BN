@@ -141,7 +141,7 @@
       }
     ],
     "techniques": [ "tec_barbaran_impale", "tec_barbaran_disarm" ],
-    "weapon_category": [ "CLUBS", "FLAILS", "MORNINGSTARS", "MEDIEVAL_SWORDS", "1H_HAMMERS", "2H_HAMMERS", "1H_AXES" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS" ]
   },
   {
     "type": "martial_art",
