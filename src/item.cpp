@@ -1516,8 +1516,10 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                   "<header>" + get_category().name() + "</header>" ) );
     }
     if( !type->weapon_category.empty() && parts->test( iteminfo_parts::WEAPON_CATEGORY ) ) {
-        const std::string weapon_categories = enumerate_as_string( type->weapon_category,
-                                              enumeration_conjunction::none );
+        const std::string weapon_categories = enumerate_as_string( type->weapon_category.begin(),
+        type->weapon_category.end(), [&]( const weapon_category_id & elem ) {
+            return elem->name().translated();
+        }, enumeration_conjunction::none );
         info.push_back( iteminfo( "BASE", _( "Weapon Categories: " ),
                                   "<header>" + weapon_categories + "</header>" ) );
     }

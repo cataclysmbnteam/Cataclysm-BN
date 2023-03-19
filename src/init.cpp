@@ -383,6 +383,7 @@ void DynamicDataLoader::initialize()
 
     add( "tool_quality", &quality::load_static );
     add( "technique", &load_technique );
+    add( "weapon_category", &weapon_category::load_weapon_categories );
     add( "martial_art", &load_martial_art );
     add( "effect_type", &load_effect_type );
     add( "obsolete_terrain", &overmap::load_obsolete_terrains );
@@ -542,6 +543,7 @@ void DynamicDataLoader::unload_data()
     bionic_data::reset();
     body_part_type::reset();
     charge_removal_blacklist::reset();
+    weapon_category::reset();
     clear_techniques_and_martial_arts();
     clothing_mods::reset();
     construction_categories::reset();

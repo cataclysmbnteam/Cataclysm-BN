@@ -48,10 +48,44 @@ static const std::string flag_UNARMED_WEAPON( "UNARMED_WEAPON" );
 
 namespace
 {
+generic_factory<weapon_category> weapon_category_factory( "weapon category" );
 generic_factory<ma_technique> ma_techniques( "martial art technique" );
 generic_factory<martialart> martialarts( "martial art style" );
 generic_factory<ma_buff> ma_buffs( "martial art buff" );
 } // namespace
+
+template<>
+const weapon_category &weapon_category_id::obj() const
+{
+    return weapon_category_factory.obj( *this );
+}
+
+/** @relates string_id */
+template<>
+bool weapon_category_id::is_valid() const
+{
+    return weapon_category_factory.is_valid( *this );
+}
+
+void weapon_category::load_weapon_categories( const JsonObject &jo, const std::string &src )
+{
+    weapon_category_factory.load( jo, src );
+}
+
+void weapon_category::reset()
+{
+    weapon_category_factory.reset();
+}
+
+void weapon_category::load( const JsonObject &jo, const std::string & )
+{
+    mandatory( jo, was_loaded, "name", name_ );
+}
+
+const std::vector<weapon_category> &weapon_category::get_all()
+{
+    return weapon_category_factory.get_all();
+}
 
 matype_id martial_art_learned_from( const itype &type )
 {
@@ -288,7 +322,7 @@ void martialart::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "techniques", techniques, auto_flags_reader<matec_id> {} );
     optional( jo, was_loaded, "weapons", weapons, auto_flags_reader<itype_id> {} );
-    optional( jo, was_loaded, "weapon_category", weapon_category, auto_flags_reader<std::string> {} );
+    optional( jo, was_loaded, "weapon_category", weapon_category, auto_flags_reader<weapon_category_id> {} );
 
     optional( jo, was_loaded, "strictly_melee", strictly_melee, false );
     optional( jo, was_loaded, "strictly_unarmed", strictly_unarmed, false );
@@ -842,7 +876,7 @@ bool martialart::has_weapon( const itype_id &itt ) const
 {
     return weapons.count( itt ) > 0 ||
            std::any_of( itt->weapon_category.begin(), itt->weapon_category.end(),
-    [&]( const std::string & weap ) {
+    [&]( const weapon_category_id & weap ) {
         return weapon_category.count( weap ) > 0;
     } );
 }
@@ -1416,8 +1450,8 @@ std::string ma_technique::get_description() const
 }
 
 struct cat_order {
-    bool operator()( const std::string &lhs, const std::string &rhs ) const {
-        return localized_compare( lhs, rhs );
+    bool operator()( const weapon_category_id &lhs, const weapon_category_id &rhs ) const {
+        return localized_compare( lhs->name().translated(), rhs->name().translated() );
     }
 };
 
@@ -1509,7 +1543,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
 
         if( !ma.weapon_category.empty() ) {
             Character &player = get_player_character();
-            std::map< std::string, std::vector<std::string>, cat_order > weapons_by_category;
+            std::map< weapon_category_id, std::vector<std::string>, cat_order > weapons_by_category;
             // Iterate over every item in the game.
             for( const itype *itp : item_controller->all() ) {
                 const itype_id &weap_id = itp->get_id();
@@ -1518,8 +1552,8 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
                     return it.typeId() == weap_id;
                 } );
                 // Check if the item has any one of the weapon categories listed in the MA.
-                for( const std::string &cat : ma.weapon_category ) {
-                    auto cat_check = [cat]( const std::string & category ) {
+                for( const weapon_category_id &cat : ma.weapon_category ) {
+                    auto cat_check = [cat]( const weapon_category_id & category ) {
                         return category == cat;
                     };
                     if( std::any_of( itp->weapon_category.begin(),
@@ -1540,8 +1574,11 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
                 list.second.erase( std::unique( list.second.begin(), list.second.end() ), list.second.end() );
                 // then sort weapons within alphabetically.
                 std::sort( list.second.begin(), list.second.end(), localized_compare );
-                buffer += std::string( "<header>" ) + std::string( list.first + ":" ) +
-                          std::string( "</header> " );
+                // If item factory somehow manages to crap out and it has no translation/name, use the ID.
+                std::string cat_name = list.first.is_valid() ? list.first->name().translated()
+                                       : colorize( "ID: " + std::string( list.first ), c_red );
+                buffer += std::string( "<header>" ) + cat_name + ": " +
+                          std::string( "</header>" );
                 buffer += enumerate_as_string( list.second ) + std::string( "\n" );
             }
         }
@@ -1565,7 +1602,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
             // This removes duplicate names (e.g. a real weapon and a replica sharing the same name) from the weapon list.
             auto last = std::unique( weapons.begin(), weapons.end() );
             weapons.erase( last, weapons.end() );
-            buffer += std::string( "<header>Special:</header> " );
+            buffer += std::string( "<header>Special: </header>" );
             buffer += enumerate_as_string( weapons );
         }
 

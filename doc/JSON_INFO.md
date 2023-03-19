@@ -2002,11 +2002,11 @@ It could also be written as a generic item ("type": "GENERIC") with "armor_data"
 | FIST_WEAPONS          | Handheld weapons used to supplement fists in martial arts.
 | ---                   | ---
 | KNIVES                | Short blade fixed onto a handle, for cutting or as weapon.
-| SHORT_SWORDS          | One handed sword of length between a large knife and a "proper" sword.
+| SHORT_SWORDS          | One handed sword of length between a large knife and a 'proper' sword.
 | 1H_SWORDS             | Sword meant to be wielded with one hand.
 | 2H_SWORDS             | Sword meant to be wielded with both hands.
 | DUELING_SWORDS        | Swords with thin profiles typically meant for stabbing.
-| BIONIC_SWORDS         |
+| BIONIC_SWORDS         | Swords integrated into the body via bionics.
 | ---                   | ---
 | SAPS                  | Very short length of typically flexible material, with a weighted tip.
 | BATONS                | Thin, balanced rod of strong material.
@@ -2020,17 +2020,20 @@ It could also be written as a generic item ("type": "GENERIC") with "armor_data"
 | ---                   | ---
 | HAND_AXES             | Axe with a short handle, typically wielded in one hand, ocassionally thrown.
 | 1H_AXES               | Axes meant to be wielded with one hand, typically with a handle longer than the handaxe.
+| 2H_AXES               | Axes meant to be wielded with two hands.
 | ---                   | ---
 | WHIPS                 | Flexible tool used to strike at range.
 | ---                   | ---
-| HOOKED_POLES          | Polearm with hooked end (Like a shepherd's crook)"
-| SPEARS                |
-| PIKES                 | 
-| GLAIVES               |
+| HOOKED_POLES          | Polearm with hooked end (Like a shepherd's crook)
+| SPEARS                | Polearm with a long shaft and a sharp tip made of hard material.
+| PIKES                 | Very long spear that can only be wielded in two hands, very unwieldy.
+| GLAIVES               | Polearm with a single-edged blade mounted on the end.
+
+| Weapon Styles         | Description
 | ---                   | ---
-| MEDIEVAL_SWORDS
-| JAPANESE_SWORDS
-| BIONIC_WEAPONRY
+| MEDIEVAL_SWORDS       | Swords associated with European culture.
+| JAPANESE_SWORDS       | Swords associated with Japanese culture.
+| BIONIC_WEAPONRY       | Weapons integrated into the body via bionics.
 
 ### Gun
 
@@ -2602,7 +2605,7 @@ The contents of use_action fields can either be a string indicating a built-in f
 }
 ```
 
-###random Descriptions
+### Random Descriptions
 
 Any item with a "snippet_category" entry will have random descriptions, based on that snippet category:
 ```
@@ -2730,6 +2733,18 @@ For every `type` other then `bionic` and `bionic_group` following entries scale 
 
 For `type`s: `bionic` and `bionic_group` following enrties can scale the results:
     `max` this value (in contrary to `max` for other `type`s) corresponds to maximum butchery roll that will be passed to check_butcher_cbm() in activity_handlers.cpp; view check_butcher_cbm() to see corresponding distribution chances for roll values passed to that function
+
+### Weapon Category
+
+```c++
+{
+    "type": "weapon_category",
+    "id": "WEAP_CAT"
+    "name": "Weapon Category"
+}
+```
+
+`"name"` is a translatable string used for UI display in martial arts UI, while ID is used for JSON entries.
 
 ### Furniture
 
