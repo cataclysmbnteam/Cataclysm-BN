@@ -779,12 +779,7 @@
       }
     ],
     "techniques": [ "tec_ninjutsu_swift", "tec_ninjutsu_takedown", "tec_ninjutsu_precise" ],
-    "weapon_category": [ "1H_SWORDS", "BATONS", "QUARTERSTAVES", "BIONIC_WEAPONRY" ],
-    "weapons": [
-      "nodachi",
-      "nodachi_inferior",
-      "nodachi_fake"
-    ]
+    "weapon_category": [ "1H_SWORDS", "JAPANESE_SWORDS", "BATONS", "QUARTERSTAVES", "BIONIC_WEAPONRY" ]
   },
   {
     "type": "martial_art",
@@ -939,7 +934,7 @@
       }
     ],
     "techniques": [ "tec_silat_hamstring", "tec_silat_precise", "tec_silat_brutal", "tec_silat_dirty" ],
-    "weapon_category": [ "KNIVES", "BATONS", "QUARTERSTAVES", "HOOKED_POLES", "SPEARS", "GLAIVES" ]
+    "weapon_category": [ "KNIVES", "BATONS", "QUARTERSTAVES", "SPEARS", "GLAIVES" ]
   },
   {
     "type": "martial_art",

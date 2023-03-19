@@ -1525,7 +1525,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
                     if( std::any_of( itp->weapon_category.begin(),
                                      itp->weapon_category.end(), cat_check ) ) {
                         // If so, add it to the categories it applies to.
-                        std::string weaponname = wielded ? colorize( item::nname( weap_id ) + _( "(wielded)" ),
+                        std::string weaponname = wielded ? colorize( item::nname( weap_id ) + _( " [wielded]" ),
                                                  c_light_cyan ) :
                                                  carried ? colorize( item::nname( weap_id ), c_yellow ) : item::nname( weap_id );
                         weapons_by_category[cat].push_back( weaponname );
@@ -1535,7 +1535,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
 
             buffer += _( "<bold>Weapons:</bold>" ) + std::string( "\n" );
 
-            for( std::pair< std::string, std::vector<std::string> > list : weapons_by_category ) {
+            for( std::pair< const weapon_category_id, std::vector<std::string> > &list : weapons_by_category ) {
                 // This removes duplicate names (e.g. a real weapon and a replica sharing the same name) from the weapon list.
                 list.second.erase( std::unique( list.second.begin(), list.second.end() ), list.second.end() );
                 // then sort weapons within alphabetically.
@@ -1555,7 +1555,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
                 bool carried = player.has_item_with( [weap_id]( const item & it ) {
                     return it.typeId() == weap_id;
                 } );
-                std::string weaponname = wielded ? colorize( item::nname( wid ) + _( "(wielded)" ),
+                std::string weaponname = wielded ? colorize( item::nname( wid ) + _( " [wielded]" ),
                                          c_light_cyan ) :
                                          carried ? colorize( item::nname( wid ), c_yellow ) : item::nname( wid );
                 weapons.push_back( weaponname );
