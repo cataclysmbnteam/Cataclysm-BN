@@ -373,7 +373,7 @@
     "cutting": 2,
     "material": "aluminum",
     "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
-    "qualities": [ ]
+    "qualities": [  ]
   },
   {
     "id": "kris",
@@ -408,7 +408,7 @@
     "bashing": 2,
     "cutting": 2,
     "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
-    "qualities": [ ]
+    "qualities": [  ]
   },
   {
     "id": "kukri",
@@ -475,7 +475,7 @@
     "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
     "weight": "414 g",
     "cutting": 2,
-    "qualities": [ ]
+    "qualities": [  ]
   },
   {
     "id": "scimitar",
@@ -523,7 +523,7 @@
     "weight": "586 g",
     "volume": "2 L",
     "cutting": 2,
-    "qualities": [ ]
+    "qualities": [  ]
   },
   {
     "id": "estoc",
@@ -619,7 +619,7 @@
     "bashing": 15,
     "cutting": 2,
     "to_hit": 1,
-    "qualities": [ ]
+    "qualities": [  ]
   },
   {
     "id": "arming_sword",
@@ -670,7 +670,7 @@
     "weight": "704 g",
     "cutting": 2,
     "to_hit": 2,
-    "qualities": [ ]
+    "qualities": [  ]
   },
   {
     "id": "sword_xiphos",
@@ -888,7 +888,7 @@
     "weight": "557 g",
     "bashing": 8,
     "cutting": 2,
-    "qualities": [ ]
+    "qualities": [  ]
   },
   {
     "id": "zweihander",
@@ -936,7 +936,7 @@
     "bashing": 19,
     "cutting": 3,
     "to_hit": 1,
-    "qualities": [ ]
+    "qualities": [  ]
   },
   {
     "id": "kirpan",
@@ -1024,7 +1024,7 @@
     "to_hit": 1,
     "bashing": 15,
     "cutting": 3,
-    "qualities": [ ]
+    "qualities": [  ]
   },
   {
     "id": "fencing_foil",
@@ -1305,7 +1305,7 @@
     "bashing": 11,
     "cutting": 2,
     "to_hit": 1,
-    "qualities": [ ]
+    "qualities": [  ]
   },
   {
     "id": "butterfly_swords",
@@ -1458,7 +1458,7 @@
     "bashing": 12,
     "cutting": 1,
     "to_hit": 1,
-    "qualities": [ ]
+    "qualities": [  ]
   },
   {
     "//": "Id retained to avoid breaking anything, same reason as with the makeshift glaive.",

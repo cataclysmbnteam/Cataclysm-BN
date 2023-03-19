@@ -355,14 +355,7 @@
     "flags": [ "NEVER_JAMS", "NON-FOULING", "NEEDS_NO_LUBE" ],
     "dispersion": 350,
     "reload": 600,
-    "valid_mod_locations": [
-      [ "accessories", 3 ],
-      [ "sling", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "stock", 1 ],
-      [ "rail mount", 1 ]
-    ],
+    "valid_mod_locations": [ [ "accessories", 3 ], [ "sling", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "stock", 1 ], [ "rail mount", 1 ] ],
     "faults": [  ]
   },
   {
@@ -502,7 +495,7 @@
     "copy-from": "gun_base",
     "type": "GUN",
     "weapon_category": [ "SPRAY_GUNS" ],
-    "name": { "str": "base chemical sprayer" }, 
+    "name": { "str": "base chemical sprayer" },
     "looks_like": "m79",
     "bashing": 9,
     "skill": "launcher",

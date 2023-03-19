@@ -367,7 +367,7 @@
     "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND", "FRAGILE_MELEE" ],
     "price": 8000,
     "price_postapoc": 500,
-    "qualities": [ ]
+    "qualities": [  ]
   },
   {
     "id": "spear_survivor",

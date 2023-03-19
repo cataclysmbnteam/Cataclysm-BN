@@ -42,7 +42,7 @@
     "price": 1050,
     "price_postapoc": 500,
     "material": [ "aluminum", "wood" ],
-    "qualities": [ ],
+    "qualities": [  ],
     "flags": [ "NONCONDUCTIVE", "SHEATH_AXE", "FRAGILE_MELEE" ],
     "weight": "2068 g",
     "volume": "3250 ml",
@@ -84,7 +84,7 @@
     "cutting": 4,
     "to_hit": 1,
     "price_postapoc": 500,
-    "qualities": [ ]
+    "qualities": [  ]
   },
   {
     "id": "bowling_axe",

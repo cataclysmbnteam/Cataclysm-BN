@@ -77,7 +77,7 @@
     "color": "yellow",
     "price_postapoc": "50 cent",
     "material": [ "plastic" ],
-    "techniques": [ ],
+    "techniques": [  ],
     "flags": [ "FRAGILE_MELEE" ],
     "volume": "2250 ml",
     "price": "25 USD"
@@ -576,7 +576,7 @@
     "bashing": 15,
     "price": 10000,
     "price_postapoc": 500,
-    "qualities": [ ]
+    "qualities": [  ]
   },
   {
     "id": "makeshift_sap",
@@ -666,7 +666,7 @@
     "flags": [ "SPEAR", "NONCONDUCTIVE", "FRAGILE_MELEE" ],
     "price": 12000,
     "price_postapoc": 500,
-    "qualities": [ ]
+    "qualities": [  ]
   },
   {
     "id": "nailboard",

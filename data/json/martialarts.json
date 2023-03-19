@@ -417,13 +417,7 @@
     ],
     "techniques": [ "tec_fencing_feint", "tec_fencing_lunge", "tec_fencing_riposte", "tec_fencing_compound" ],
     "weapon_category": [ "BATONS", "DUELING_SWORDS" ],
-    "weapons": [
-      "broadsword",
-      "broadsword_inferior",
-      "broadsword_fake",
-      "cavalry_sabre",
-      "cavalry_sabre_fake"
-    ]
+    "weapons": [ "broadsword", "broadsword_inferior", "broadsword_fake", "cavalry_sabre", "cavalry_sabre_fake" ]
   },
   {
     "type": "martial_art",
