@@ -1529,7 +1529,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
             buffer += tech.obj().get_description() + "--\n";
         }
 
-        if( !ma.weapon_category.empty() ) {
+        if( !( ma.weapons.empty() && ma.weapon_category.empty() ) ) {
             Character &player = get_player_character();
             std::map< weapon_category_id, std::vector<std::string>, cat_order > weapons_by_category;
             // Iterate over every item in the game.
@@ -1569,29 +1569,28 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
                           std::string( "</header>" );
                 buffer += enumerate_as_string( list.second ) + std::string( "\n" );
             }
-        }
 
-        if( !ma.weapons.empty() ) {
-            Character &player = get_player_character();
-            std::vector<std::string> weapons;
-            for( const itype_id wid : ma.weapons ) {
-                const itype_id &weap_id = wid->get_id();
-                bool wielded = player.weapon.typeId() == weap_id;
-                bool carried = player.has_item_with( [weap_id]( const item & it ) {
-                    return it.typeId() == weap_id;
-                } );
-                std::string weaponname = wielded ? colorize( item::nname( wid ) + _( " [wielded]" ),
-                                         c_light_cyan ) :
-                                         carried ? colorize( item::nname( wid ), c_yellow ) : item::nname( wid );
-                weapons.push_back( weaponname );
+            if( !ma.weapons.empty() ) {
+                std::vector<std::string> weapons;
+                for( const itype_id wid : ma.weapons ) {
+                    const itype_id &weap_id = wid->get_id();
+                    bool wielded = player.weapon.typeId() == weap_id;
+                    bool carried = player.has_item_with( [weap_id]( const item & it ) {
+                        return it.typeId() == weap_id;
+                    } );
+                    std::string weaponname = wielded ? colorize( item::nname( wid ) + _( " [wielded]" ),
+                                             c_light_cyan ) :
+                                             carried ? colorize( item::nname( wid ), c_yellow ) : item::nname( wid );
+                    weapons.push_back( weaponname );
+                }
+                // Sorting alphabetically makes it easier to find a specific weapon
+                std::sort( weapons.begin(), weapons.end(), localized_compare );
+                // This removes duplicate names (e.g. a real weapon and a replica sharing the same name) from the weapon list.
+                auto last = std::unique( weapons.begin(), weapons.end() );
+                weapons.erase( last, weapons.end() );
+                buffer += std::string( "<header>Special: </header>" );
+                buffer += enumerate_as_string( weapons );
             }
-            // Sorting alphabetically makes it easier to find a specific weapon
-            std::sort( weapons.begin(), weapons.end(), localized_compare );
-            // This removes duplicate names (e.g. a real weapon and a replica sharing the same name) from the weapon list.
-            auto last = std::unique( weapons.begin(), weapons.end() );
-            weapons.erase( last, weapons.end() );
-            buffer += std::string( "<header>Special: </header>" );
-            buffer += enumerate_as_string( weapons );
         }
 
         catacurses::window w;
