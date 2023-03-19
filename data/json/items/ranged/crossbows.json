@@ -288,7 +288,6 @@
     "range": 10,
     "dispersion": 55,
     "durability": 6,
-    "clip_size": 1,
     "reload": 400,
     "loudness": 3,
     "valid_mod_locations": [
@@ -319,7 +318,6 @@
     "range": 6,
     "dispersion": 400,
     "durability": 6,
-    "clip_size": 1,
     "reload": 1200,
     "valid_mod_locations": [
       [ "accessories", 2 ],
@@ -352,7 +350,6 @@
     "range": 9,
     "dispersion": 375,
     "durability": 6,
-    "clip_size": 1,
     "reload": 800,
     "valid_mod_locations": [ [ "dampening", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "underbarrel mount", 1 ] ]
   },
@@ -375,7 +372,6 @@
     "loudness": 8,
     "dispersion": 350,
     "durability": 6,
-    "clip_size": 1,
     "reload": 1200
   },
   {
@@ -397,7 +393,6 @@
     "loudness": 12,
     "dispersion": 325,
     "durability": 6,
-    "clip_size": 1,
     "reload": 1000
   },
   {
@@ -419,7 +414,6 @@
     "dispersion": 300,
     "recoil": 30,
     "durability": 6,
-    "clip_size": 1,
     "reload": 6000,
     "valid_mod_locations": [ [ "dampening", 1 ] ]
   },

@@ -102,7 +102,6 @@
     "id": "minispeargun",
     "copy-from": "pistol_elastic",
     "type": "GUN",
-    "reload_noise_volume": 10,
     "color": "yellow",
     "name": { "str": "mini speargun" },
     "description": "A small underwater fishing implement designed to fire a specialized type of spear using tension in a rubber band.  While highly effective when used underwater, it is nearly useless on dry land.",
@@ -112,16 +111,13 @@
     "ammo": "fishspear",
     "weight": "840 g",
     "volume": "1 L",
-    "dispersion": 120,
-    "durability": 8,
-    "clip_size": 1,
+    "clip_size": 1
   },
   {
     "id": "speargun",
     "copy-from": "rifle_elastic",
     "looks_like": "ar15",
     "type": "GUN",
-    "reload_noise_volume": 10,
     "color": "brown",
     "name": { "str": "speargun" },
     "description": "An underwater fishing implement designed to fire a specialized type of spear using tension in a rubber band.  While highly effective when used underwater, it is nearly useless on dry land.",
@@ -133,15 +129,13 @@
     "volume": "1750 ml",
     "ranged_damage": { "damage_type": "stab", "amount": 6 },
     "range": 4,
-    "durability": 8,
-    "clip_size": 1,
+    "clip_size": 1
   },
   {
     "id": "doublespeargun",
     "copy-from": "rifle_elastic",
     "looks_like": "ar15",
     "type": "GUN",
-    "reload_noise_volume": 10,
     "color": "brown",
     "name": { "str": "double speargun" },
     "description": "A double-loading underwater fishing implement designed to fire a specialized type of spear using tension in a rubber band.  While highly effective when used underwater, it is nearly useless on dry land.",
@@ -155,6 +149,6 @@
     "range": 4,
     "dispersion": 120,
     "durability": 7,
-    "clip_size": 2,
+    "clip_size": 2
   }
 ]

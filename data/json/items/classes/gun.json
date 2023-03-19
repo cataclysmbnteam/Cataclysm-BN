@@ -351,7 +351,6 @@
     "weapon_category": [ "RIFLES", "PNEUMATIC" ],
     "name": { "str": "pneumatic rifle" },
     "bashing": 8,
-    "to_hit": -1,
     "//": "No conventional faults because it uses non-conventional systems.",
     "flags": [ "NEVER_JAMS", "NON-FOULING", "NEEDS_NO_LUBE" ],
     "dispersion": 350,
@@ -499,7 +498,7 @@
     "faults": [  ]
   },
   {
-    "abstract": "chemical_sprayer_base"
+    "abstract": "chemical_sprayer_base",
     "copy-from": "gun_base",
     "type": "GUN",
     "weapon_category": [ "SPRAY_GUNS" ],
