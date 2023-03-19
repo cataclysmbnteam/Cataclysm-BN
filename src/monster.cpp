@@ -656,6 +656,9 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
         vStart += fold_and_print( w, point( column, vStart + 1 ), getmaxx( w ) - 2, c_cyan,
                                   string_format( _( "Origin: %s" ), mod_src ) );
     }
+    if( display_object_ids ) {
+        mvwprintz( w, point( column, ++vStart ), c_light_blue, string_format( "[%s]", type->id.str() ) );
+    }
 
     if( sees( g->u ) ) {
         mvwprintz( w, point( column, ++vStart ), c_yellow, _( "Aware of your presence!" ) );
@@ -714,6 +717,12 @@ std::string monster::extended_description() const
         type->src.end(), []( const std::pair<mtype_id, mod_id> &source ) {
             return string_format( "'%s'", source.second->name() );
         }, enumeration_conjunction::arrow );
+    }
+    if( display_object_ids ) {
+        if( display_mod_source ) {
+            ss += "\n";
+        }
+        ss += colorize( string_format( "[%s]", type->id.str() ), c_light_blue );
     }
 
     ss += "\n--\n";

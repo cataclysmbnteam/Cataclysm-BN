@@ -334,7 +334,7 @@ static int debug_menu_uilist( bool display_all_entries = true )
 
     std::string msg;
     if( display_all_entries ) {
-        msg = _( "Debug Functions - Using these will cheat not only the game, but yourself.\nYou won't grow.  You won't improve.\nTaking this shortcut will gain you nothing.  Your victory will be hollow.\nNothing will be risked and nothing will be gained." );
+        msg = _( "Debug Functions - Manipulate the fabric of reality!\nYou can use them to fix a bug or test something.\nBe careful, as some of them may potentially break things." );
     } else {
         msg = _( "Debug Functions" );
     }

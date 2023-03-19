@@ -2498,6 +2498,15 @@ void veh_interact::display_stats() const
             convert_weight( lift_as_mass ),
             weight_units() );
     }
+    if( is_boat ) {
+        // convert newton to kg.
+        units::mass buoyancy_as_mass = units::from_newton(
+                                           veh->max_buoyancy() );
+        print_stat(
+            _( "Maximum Buoyancy: <color_light_blue>%5.0f</color> %s" ),
+            convert_weight( buoyancy_as_mass ),
+            weight_units() );
+    }
     print_stat(
         _( "Cargo Volume: <color_light_blue>%s</color> / <color_light_blue>%s</color> %s" ),
         format_volume( total_cargo - free_cargo ),
@@ -2573,8 +2582,17 @@ void veh_interact::display_stats() const
 
     i = std::max( i, 2 * stats_h );
 
+    int fuel_gauge_start_y = y[i];
+    if( display_object_ids ) {
+        // Print vehicle type id over above gauges
+        mvwprintz( w_stats, point( x[i], fuel_gauge_start_y ), c_light_blue,
+                   string_format( "[%s]", veh->type )
+                 );
+        fuel_gauge_start_y++;
+    }
+
     // Print fuel percentage & type name only if it fits in the window, 10 is width of "E...F 100%"
-    veh->print_fuel_indicators( w_stats, point( x[i], y[i] ), fuel_index, true,
+    veh->print_fuel_indicators( w_stats, point( x[i], fuel_gauge_start_y ), fuel_index, true,
                                 ( x[ i ] + 10 < getmaxx( w_stats ) ),
                                 ( x[ i ] + 10 < getmaxx( w_stats ) ) );
 

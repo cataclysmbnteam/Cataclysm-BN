@@ -213,7 +213,7 @@
         "Q": "t_linoleum_gray",
         "T": "t_linoleum_gray"
       },
-      "liquids": { "H": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+      "liquids": { "H": { "liquid": "water", "amount": [ 0, 100 ] } },
       "sealed_item": { "Q": { "items": { "item": "exoticplants", "chance": 100 }, "furniture": "f_planter_harvest" } },
       "furniture": {
         "T": "f_workbench",
@@ -272,7 +272,7 @@
         "Q": "t_linoleum_gray",
         "T": "t_linoleum_gray"
       },
-      "liquids": { "H": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+      "liquids": { "H": { "liquid": "water", "amount": [ 0, 100 ] } },
       "sealed_item": { "Q": { "items": { "item": "exoticplants", "chance": 100 }, "furniture": "f_planter_harvest" } },
       "furniture": {
         "T": "f_workbench",
@@ -331,7 +331,7 @@
         "Q": "t_linoleum_gray",
         "T": "t_linoleum_gray"
       },
-      "liquids": { "H": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+      "liquids": { "H": { "liquid": "water", "amount": [ 0, 100 ] } },
       "sealed_item": { "Q": { "items": { "item": "exoticplants", "chance": 100 }, "furniture": "f_planter_harvest" } },
       "furniture": {
         "T": "f_workbench",
@@ -390,7 +390,7 @@
         "Q": "t_linoleum_gray",
         "T": "t_linoleum_gray"
       },
-      "liquids": { "H": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+      "liquids": { "H": { "liquid": "water", "amount": [ 0, 100 ] } },
       "sealed_item": { "Q": { "items": { "item": "exoticplants", "chance": 100 }, "furniture": "f_planter_harvest" } },
       "furniture": {
         "T": "f_workbench",

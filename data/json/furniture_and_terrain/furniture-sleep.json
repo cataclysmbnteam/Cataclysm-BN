@@ -103,7 +103,7 @@
       "str_max": 30,
       "sound": "rrrrip!",
       "sound_fail": "whump.",
-      "items": [ { "item": "rag", "count": [ 40, 55 ] } ]
+      "items": [ { "item": "rag", "count": [ 40, 55 ] }, { "item": "scrap", "count": [ 10, 20 ] } ]
     }
   },
   {
@@ -127,7 +127,11 @@
       "str_max": 30,
       "sound": "rrrrip!",
       "sound_fail": "whump.",
-      "items": [ { "item": "rag", "count": [ 40, 55 ] }, { "item": "down_feather", "count": [ 900, 1100 ] } ]
+      "items": [
+        { "item": "rag", "count": [ 40, 55 ] },
+        { "item": "down_feather", "count": [ 900, 1100 ] },
+        { "item": "scrap", "count": [ 10, 20 ] }
+      ]
     }
   },
   {
