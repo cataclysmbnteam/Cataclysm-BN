@@ -479,7 +479,7 @@
       "tec_medievalpole_execute",
       "tec_medievalpole_break"
     ],
-    "weapon_category": [ "HOOKED_POLES", "1H_AXES", "1H_HAMMERS", "2H_HAMMERS", "GLAIVES" ]
+    "weapon_category": [ "HOOKED_POLES", "1H_AXES", "2H_AXES", "1H_HAMMERS", "2H_HAMMERS", "GLAIVES" ]
   },
   {
     "type": "martial_art",
@@ -1002,7 +1002,7 @@
       }
     ],
     "techniques": [ "tec_sojutsu_push", "tec_sojutsu_shove", "tec_sojutsu_trip" ],
-    "weapon_category": [ "SPEARS", "PIKES", "GLAIVES" ]
+    "weapon_category": [ "SPEARS", "PIKES", "GLAIVES", "2H_AXES" ]
   },
   {
     "type": "martial_art",

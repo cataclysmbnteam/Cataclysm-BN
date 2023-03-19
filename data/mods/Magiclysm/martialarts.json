@@ -1,47 +1,11 @@
 [
   {
-    "id": "style_aikido",
-    "copy-from": "style_aikido",
-    "type": "martial_art",
-    "name": { "str": "Aikido" },
-    "extend": {
-      "weapons": [
-        "cestus_plus_one",
-        "cestus_plus_two",
-        "flaming_fist",
-        "flaming_fist_plus_one",
-        "flaming_fist_plus_one",
-        "gauntlet_pounding",
-        "stonefist",
-        "stormglove",
-        "rune_earthshaper_weapon",
-        "shotcestus"
-      ]
-    }
-  },
-  {
     "id": "style_eskrima",
     "copy-from": "style_eskrima",
     "type": "martial_art",
     "name": "Eskrima",
     "extend": {
       "weapons": [
-        "cudgel_plus_one",
-        "cudgel_plus_two",
-        "knife_combat_plus_one",
-        "knife_combat_plus_two",
-        "knife_hunting_plus_one",
-        "knife_hunting_plus_two",
-        "knife_rambo_plus_one",
-        "knife_rambo_plus_two",
-        "knife_trench_plus_one",
-        "knife_trench_plus_two",
-        "kukri_plus_one",
-        "kukri_plus_two",
-        "tanto_plus_one",
-        "tanto_plus_two",
-        "rune_animist_weapon",
-        "springstaff-retracted",
         "mjolnir",
         "gram"
       ]
@@ -54,15 +18,10 @@
     "name": "Fencing",
     "extend": {
       "weapons": [
-        "cudgel_plus_one",
-        "cudgel_plus_two",
-        "rapier_plus_one",
-        "rapier_plus_two",
         "cavalry_sabre_plus_one",
         "cavalry_sabre_plus_two",
         "broadsword_plus_one",
-        "broadsword_plus_two",
-        "springstaff-retracted"
+        "broadsword_plus_two"
       ]
     }
   },
@@ -73,41 +32,7 @@
     "name": "Fior Di Battaglia",
     "extend": {
       "weapons": [
-        "sledge_plus_one",
-        "sledge_plus_two",
-        "halberd_plus_one",
-        "halberd_plus_two",
-        "glaive_plus_one",
-        "glaive_plus_two",
-        "battleaxe_plus_one",
-        "battleaxe_plus_two",
-        "fire_ax_plus_one",
-        "fire_ax_plus_two",
-        "pickaxe_plus_one",
-        "pickaxe_plus_two",
-        "stormhammer",
-        "rune_stormshaper_weapon",
         "rune_technomancer_weapon"
-      ]
-    }
-  },
-  {
-    "id": "style_judo",
-    "copy-from": "style_judo",
-    "type": "martial_art",
-    "name": "Judo",
-    "extend": {
-      "weapons": [
-        "cestus_plus_one",
-        "cestus_plus_two",
-        "flaming_fist",
-        "flaming_fist_plus_one",
-        "flaming_fist_plus_one",
-        "gauntlet_pounding",
-        "stonefist",
-        "stormglove",
-        "rune_earthshaper_weapon",
-        "shotcestus"
       ]
     }
   },
@@ -118,23 +43,6 @@
     "name": "Krav Maga",
     "extend": {
       "weapons": [
-        "cudgel_plus_one",
-        "cudgel_plus_two",
-        "knife_combat_plus_one",
-        "knife_combat_plus_two",
-        "knife_hunting_plus_one",
-        "knife_hunting_plus_two",
-        "knife_rambo_plus_one",
-        "knife_rambo_plus_two",
-        "knife_trench_plus_one",
-        "knife_trench_plus_two",
-        "kukri_plus_one",
-        "kukri_plus_two",
-        "tanto_plus_one",
-        "tanto_plus_two",
-        "rune_animist_weapon",
-        "m47a1",
-        "springstaff-retracted",
         "gram"
       ]
     }
@@ -146,16 +54,6 @@
     "name": "Medieval Swordsmanship",
     "extend": {
       "weapons": [
-        "arming_sword_plus_one",
-        "arming_sword_plus_two",
-        "broadsword_plus_one",
-        "broadsword_plus_two",
-        "estoc_plus_one",
-        "estoc_plus_two",
-        "longsword_plus_one",
-        "longsword_plus_two",
-        "zweihander_plus_one",
-        "zweihander_plus_two",
         "rune_kelvinist_weapon",
         "gunblade",
         "gram"
@@ -169,71 +67,9 @@
     "name": "Ninjutsu",
     "extend": {
       "weapons": [
-        "arming_sword_plus_one",
-        "arming_sword_plus_two",
-        "broadsword_plus_one",
-        "broadsword_plus_two",
-        "cavalry_sabre_plus_one",
-        "cavalry_sabre_plus_two",
-        "cutlass_plus_one",
-        "cutlass_plus_two",
-        "dao_plus_one",
-        "dao_plus_two",
-        "i_staff_plus_one",
-        "i_staff_plus_two",
-        "q_staff_plus_one",
-        "q_staff_plus_two",
-        "jian_plus_one",
-        "jian_plus_two",
-        "katana_plus_one",
-        "katana_plus_two",
-        "khopesh_plus_one",
-        "khopesh_plus_two",
-        "kris_plus_one",
-        "kris_plus_two",
-        "kukri_plus_one",
-        "kukri_plus_two",
-        "knife_combat_plus_one",
-        "knife_combat_plus_two",
-        "knife_hunting_plus_one",
-        "knife_hunting_plus_two",
-        "knife_rambo_plus_one",
-        "knife_rambo_plus_two",
-        "knife_trench_plus_one",
-        "knife_trench_plus_two",
-        "longsword_plus_one",
-        "longsword_plus_two",
         "nodachi_plus_one",
         "nodachi_plus_two",
-        "scimitar_plus_one",
-        "scimitar_plus_two",
-        "sword_xiphos_plus_one",
-        "sword_xiphos_plus_two",
-        "tanto_plus_one",
-        "tanto_plus_two",
-        "wakizashi_plus_one",
-        "wakizashi_plus_two",
-        "rune_animist_weapon",
-        "rune_kelvinist_weapon",
-        "rune_magus_weapon",
-        "springstaff-extended",
         "gunblade"
-      ]
-    }
-  },
-  {
-    "id": "style_niten",
-    "copy-from": "style_niten",
-    "type": "martial_art",
-    "name": "Niten Ichi-Ryu",
-    "extend": {
-      "weapons": [
-        "katana_plus_one",
-        "katana_plus_two",
-        "nodachi_plus_one",
-        "nodachi_plus_two",
-        "wakizashi_plus_one",
-        "wakizashi_plus_two"
       ]
     }
   },
@@ -244,61 +80,9 @@
     "name": "Silat",
     "extend": {
       "weapons": [
-        "cudgel_plus_one",
-        "cudgel_plus_two",
-        "glaive_plus_one",
-        "glaive_plus_two",
-        "i_staff_plus_one",
-        "i_staff_plus_two",
-        "q_staff_plus_one",
-        "q_staff_plus_two",
-        "kris_plus_one",
-        "kris_plus_two",
-        "knife_combat_plus_one",
-        "knife_combat_plus_two",
-        "knife_hunting_plus_one",
-        "knife_hunting_plus_two",
-        "knife_rambo_plus_one",
-        "knife_rambo_plus_two",
-        "knife_trench_plus_one",
-        "knife_trench_plus_two",
-        "naginata_plus_one",
-        "naginata_plus_two",
+        "scimitar",
         "scimitar_plus_one",
-        "scimitar_plus_two",
-        "tanto_plus_one",
-        "tanto_plus_two",
-        "rune_animist_weapon",
-        "rune_biomancer_weapon",
-        "rune_magus_weapon",
-        "bonespear",
-        "springstaff-retracted",
-        "springstaff-extended",
-        "gungnir",
-        "laevateinn"
-      ]
-    }
-  },
-  {
-    "id": "style_sojutsu",
-    "copy-from": "style_sojutsu",
-    "type": "martial_art",
-    "name": "Sojutsu",
-    "extend": {
-      "weapons": [
-        "glaive_plus_one",
-        "glaive_plus_two",
-        "halberd_plus_one",
-        "halberd_plus_two",
-        "naginata_plus_one",
-        "naginata_plus_two",
-        "pike_plus_one",
-        "pike_plus_two",
-        "qiang_plus_one",
-        "qiang_plus_two",
-        "rune_biomancer_weapon",
-        "bonespear",
-        "gungnir"
+        "scimitar_plus_two"
       ]
     }
   }

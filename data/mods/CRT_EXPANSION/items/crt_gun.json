@@ -2,6 +2,7 @@
   {
     "id": "crt_laser_pistol",
     "type": "GUN",
+    "copy-from": "pistol_energy",
     "name": "C.R.I.T. .5 LP",
     "description": "Experimental low power sidearm under development in C.R.I.T. R&D, the .5 LP is a relatively weak but accurate laser pistol.  The double-barrel design compensates for the lack of raw power and yet the gun manages to be relatively easy to aim and lightweight due to the superalloy construction.",
     "weight": "650 g",
@@ -37,6 +38,7 @@
   {
     "id": "crt_laser_gatling",
     "type": "GUN",
+    "copy-from": "gatling_energy",
     "name": "C.R.I.T. Chain Laser",
     "description": "A tried and true favorite from the bowels of R&D hell.  Based off of a researcher's video on three taped-together .5 LPs on a hand held power drill, this gun is a relatively light weapon for the amount of UPS it eats and destruction it can cause.",
     "weight": "2650 g",
@@ -63,6 +65,7 @@
   {
     "id": "crt_laser_carbine",
     "type": "GUN",
+    "weapon_category": [ "SUBMACHINE_GUNS", "ENERGY_WEAPONS" ],
     "name": "C.R.I.T. Laser Carbine",
     "description": "A short-barrel lightweight laser gun developed by C.R.I.T. R&D.  Mainly developed to test out a new breakthrough in laser weapons.",
     "weight": "2150 g",
@@ -98,6 +101,7 @@
   {
     "id": "crt_energy_rifle",
     "type": "GUN",
+    "copy-from": "rifle_energy",
     "name": "C.R.I.T. Energy Rifle",
     "description": "A heavy energy gun developed by C.R.I.T. R&D.  Mainly developed to test out a new breakthrough in hybrid weaponry.",
     "weight": "5150 g",
@@ -133,6 +137,7 @@
   {
     "id": "crt_cqb_si",
     "type": "GUN",
+    "weapon_category": [ "SUBMACHINE_GUNS", "AUTOLOADING" ],
     "name": "C.R.I.T. CQB Standard Issue",
     "description": "A simple combination gun.  This military-grade semi-auto carbine couples the mid-range versatility of the 9mm with the power of the 12 gauge shotgun.  To further compliment the CQB aspect, the stock is built to amplify the user's force and the rugged construction with tonfa-like grip can handle bashing in enemy heads.  An integrated magazine makes it a pain to reload, but keeps your clip from ejecting accidently.",
     "weight": "1650 g",
@@ -159,6 +164,7 @@
   {
     "id": "crt_fire_glove",
     "type": "GUN",
+    "copy-from": "pistol_energy",
     "name": "C.R.I.T. Fire Glove",
     "description": "Experimental CQB weapon system under development in C.R.I.T. R&D.",
     "weight": "650 g",
@@ -193,6 +199,7 @@
   {
     "id": "pelletgun",
     "type": "GUN",
+    "copy-from": "rifle_pneumatic",
     "reload_noise_volume": 7,
     "symbol": "(",
     "color": "light_gray",
@@ -222,6 +229,7 @@
     "id": "ds_plasma_cutter",
     "type": "GUN",
     "name": "C.R.I.T. Plasma Cutter",
+    "copy-from": "pistol_energy",
     "description": "Experimental cutting tool under development in C.R.I.T. R&D.  It fires an extremely hot wave of plasma that slices into materials.",
     "weight": "1650 g",
     "volume": "750 ml",
@@ -249,6 +257,7 @@
     "id": "ds_rivet_gun",
     "type": "GUN",
     "name": "C.R.I.T. Rivet Driver",
+    "weapon_category": [ "PISTOLS" ],
     "description": "Experimental double purpose tool under development in C.R.I.T. R&D.  It takes a regular nail and then enlongates it within a fraction of a second before firing it out, upon reaching a target, the fragile stake explodes into shards.",
     "weight": "1650 g",
     "volume": "750 ml",
@@ -275,6 +284,7 @@
     "id": "ds_line_gun",
     "type": "GUN",
     "name": "C.R.I.T. Line Gun",
+    "copy-from": "rifle_energy",
     "description": "Experimental high power cutting tool under development in C.R.I.T. R&D.  It fires plasma in a wide line for slicing into dense materials.",
     "weight": "2650 g",
     "volume": "1500 ml",
@@ -303,6 +313,7 @@
     "id": "ds_pulse_rifle",
     "type": "GUN",
     "name": "C.R.I.T. Pulse Rifle",
+    "copy-from": "rifle_energy",
     "description": "Experimental tri-barrel sub-sonic rifle under development in C.R.I.T. R&D.  Great for enclosed spaces and mobs of enemies.  Shoots alloy rounds which instantly mushroom out upon impact.",
     "weight": "2250 g",
     "volume": "1 L",
@@ -330,6 +341,7 @@
     "id": "ds_ripper",
     "type": "GUN",
     "name": "C.R.I.T. Ripper",
+    "copy-from": "rifle_energy",
     "description": "Experimental EM saw under development in C.R.I.T. R&D.  Great for distance cutting of material.",
     "weight": "2250 g",
     "volume": "1 L",
