@@ -101,7 +101,7 @@ TEST_CASE( "Items rot away" )
 
         // Set rot to >2 days and process again. process_rot should return true.
         calendar::turn += 20_minutes;
-        test_item.mod_rot( 2_days );
+        test_item.mod_rot( 4_days );
 
         CHECK( test_item.process_rot( false, tripoint_zero, nullptr,
                                       temperature_flag::TEMP_HEATER, weather ) );

@@ -1466,6 +1466,10 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }, enumeration_conjunction::arrow ) ) );
         insert_separation_line( info );
     }
+    if( display_object_ids && parts->test( iteminfo_parts::BASE_ID ) ) {
+        info.emplace_back( "BASE", colorize( string_format( "[%s]", type->get_id() ), c_light_blue ) );
+        insert_separation_line( info );
+    }
 
     const std::string space = "  ";
     if( parts->test( iteminfo_parts::BASE_MATERIAL ) ) {
@@ -3580,6 +3584,11 @@ void item::contents_info( std::vector<iteminfo> &info, const iteminfo_query *par
                         return string_format( "'%s'", content_source.second->name() );
                     }, enumeration_conjunction::arrow ) ) );
                 }
+                if( display_object_ids ) {
+                    info.emplace_back( "DESCRIPTION", colorize(
+                                           string_format( "[%s]", contents_item->type->get_id() ),
+                                           c_light_blue ) );
+                }
                 if( converted_volume_scale != 0 ) {
                     f |= iteminfo::is_decimal;
                 }
@@ -3594,6 +3603,11 @@ void item::contents_info( std::vector<iteminfo> &info, const iteminfo_query *par
                     contents_item->type->src.end(), []( const std::pair<itype_id, mod_id> &content_source ) {
                         return string_format( "'%s'", content_source.second->name() );
                     }, enumeration_conjunction::arrow ) ) );
+                }
+                if( display_object_ids ) {
+                    info.emplace_back( "DESCRIPTION", colorize(
+                                           string_format( "[%s]", contents_item->type->get_id() ),
+                                           c_light_blue ) );
                 }
                 info.emplace_back( "DESCRIPTION", description.translated() );
             }
@@ -4962,7 +4976,7 @@ units::mass item::weight( bool include_contents, bool integral ) const
     }
 
     // if this is a gun apply all of its gunmods' weight multipliers
-    if( type->gun ) {
+    if( is_gun() ) {
         for( const item *mod : gunmods() ) {
             ret *= mod->type->gunmod->weight_multiplier;
         }
@@ -5003,10 +5017,6 @@ units::mass item::weight( bool include_contents, bool integral ) const
         ret += links.weight();
     }
 
-    if( magazine_current() != nullptr ) {
-        ret += std::max( magazine_current()->weight(), 0_gram );
-    }
-
     // reduce weight for sawn-off weapons capped to the apportioned weight of the barrel
     if( gunmod_find( itype_barrel_small ) ) {
         const units::volume b = type->gun->barrel_length;
@@ -5019,6 +5029,9 @@ units::mass item::weight( bool include_contents, bool integral ) const
     if( is_gun() ) {
         for( const item *elem : gunmods() ) {
             ret += elem->weight( true, true );
+        }
+        if( !magazine_integral() && magazine_current() ) {
+            ret += std::max( magazine_current()->weight(), 0_gram );
         }
     } else if( include_contents ) {
         ret += contents.item_weight_modifier();

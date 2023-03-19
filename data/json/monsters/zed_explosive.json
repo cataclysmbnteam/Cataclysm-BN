@@ -27,7 +27,7 @@
     "death_drops": "default_zombie_items",
     "death_function": [ "BOOMER" ],
     "fungalize_into": "mon_boomer_fungus",
-    "upgrades": { "half_life": 14, "into": "mon_boomer_huge" },
+    "upgrades": { "half_life": 14, "into_group": "GROUP_BOOMER_UPGRADE" },
     "flags": [
       "SEES",
       "HEARS",

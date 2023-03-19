@@ -25,7 +25,7 @@ jobs:
         uses: fkirc/skip-duplicate-actions@master
         with:
           cancel_others: "true"
-          paths: '[ "**.cpp", "**.h", "**.c", "**/CMakeLists.txt", "**/Makefile", "**.hpp", "**.cmake" ]'
+          paths: '[ "**.cpp", "**.h", "**.c", "**/CMakeLists.txt", "**/Makefile", "**.hpp", "**.cmake", "tools/clang-tidy-plugin/**" ]'
   build:
     needs: skip-duplicates
     if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' }}

@@ -178,7 +178,8 @@
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 16,
-    "fun": -4,
+    "calories": 3,
+    "fun": -10,
     "freezing_point": 28
   },
   {

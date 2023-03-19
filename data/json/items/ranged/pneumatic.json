@@ -17,6 +17,7 @@
     "ammo": "BB",
     "weight": "1723 g",
     "volume": "1500 ml",
+    "barrel_length": "150 ml",
     "bashing": 9,
     "to_hit": -1,
     "range": 12,
@@ -27,6 +28,7 @@
     "reload": 500,
     "valid_mod_locations": [
       [ "accessories", 4 ],
+      [ "barrel", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
@@ -81,6 +83,7 @@
     "ammo": [ "pebble" ],
     "weight": "4211 g",
     "volume": "2750 ml",
+    "barrel_length": "250 ml",
     "bashing": 8,
     "to_hit": -1,
     "ranged_damage": { "damage_type": "bash", "amount": 15, "armor_penetration": 4 },
@@ -92,6 +95,6 @@
     "reload": 600,
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 3 ] ],
     "loudness": 14,
-    "valid_mod_locations": [ [ "accessories", 3 ], [ "sling", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "stock", 1 ] ]
+    "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "sling", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "stock", 1 ] ]
   }
 ]
