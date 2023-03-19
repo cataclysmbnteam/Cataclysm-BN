@@ -55,6 +55,12 @@
   },
   {
     "type": "weapon_category",
+    "id": "TONFAS",
+    "name": "Tonfas",
+    "//": "Unique looking T-shaped baton believed to originate from China."
+  },
+  {
+    "type": "weapon_category",
     "id": "CLUBS",
     "name": "Clubs",
     "//": "Rod with a thicker striking head. May be one or two-handed."

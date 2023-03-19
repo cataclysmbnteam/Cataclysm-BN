@@ -860,7 +860,7 @@
     "id": "tonfa",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "BATONS" ],
+    "weapon_category": [ "TONFAS" ],
     "name": { "str": "tonfa" },
     "description": "A hard plastic truncheon commonly employed by police.  Originally an Okinawan weapon, it consists of a stick with a perpendicular handle attached a third of the way down its length.",
     "weight": "575 g",

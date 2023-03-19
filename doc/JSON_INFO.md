@@ -2010,6 +2010,7 @@ It could also be written as a generic item ("type": "GENERIC") with "armor_data"
 | ---                   | ---
 | SAPS                  | Very short length of typically flexible material, with a weighted tip.
 | BATONS                | Thin, balanced rod of strong material.
+| TONFAS                | Unique looking T-shaped baton believed to originate from China.
 | CLUBS                 | Rod with a thicker striking head. May be one or two-handed.
 | QUARTERSTAVES         | Long pole wielded with both hands.
 | MACES                 | Short one-handed weapon with a striking head firmly attached to a short handle.

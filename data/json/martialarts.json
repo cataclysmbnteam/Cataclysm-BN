@@ -373,7 +373,7 @@
       "tec_eskrima_low",
       "tec_eskrima_combination"
     ],
-    "weapon_category": [ "KNIVES", "BATONS", "QUARTERSTAVES", "FIST_WEAPONS" ]
+    "weapon_category": [ "KNIVES", "BATONS", "TONFAS, "QUARTERSTAVES", "FIST_WEAPONS" ]
   },
   {
     "type": "martial_art",
@@ -568,7 +568,7 @@
       "tec_krav_maga_break",
       "tec_krav_maga_counter"
     ],
-    "weapon_category": [ "PISTOLS", "REVOLVERS", "RIFLES", "SHOTGUNS", "KNIVES", "BATONS" ]
+    "weapon_category": [ "PISTOLS", "REVOLVERS", "RIFLES", "SHOTGUNS", "KNIVES", "BATONS", "TONFAS" ]
   },
   {
     "type": "martial_art",
@@ -934,7 +934,7 @@
       }
     ],
     "techniques": [ "tec_silat_hamstring", "tec_silat_precise", "tec_silat_brutal", "tec_silat_dirty" ],
-    "weapon_category": [ "KNIVES", "BATONS", "QUARTERSTAVES", "SPEARS", "GLAIVES" ]
+    "weapon_category": [ "KNIVES", "BATONS", "TONFAS", "QUARTERSTAVES", "SPEARS", "GLAIVES" ]
   },
   {
     "type": "martial_art",
