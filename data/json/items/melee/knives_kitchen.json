@@ -5,6 +5,7 @@
     "description": "generic item template",
     "type": "TOOL",
     "category": "tools",
+    "weapon_category": [ "KNIVES" ],
     "material": "steel",
     "symbol": ";",
     "color": "light_gray"
@@ -22,8 +23,7 @@
     "bashing": 2,
     "cutting": 10,
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 25 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE" ],
-    "weapon_category": [ "KNIVES" ]
+    "flags": [ "STAB", "SHEATH_KNIFE" ]
   },
   {
     "id": "knife_steak",
@@ -39,8 +39,7 @@
     "bashing": 2,
     "cutting": 7,
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 15 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE" ],
-    "weapon_category": [ "KNIVES" ]
+    "flags": [ "STAB", "SHEATH_KNIFE" ]
   },
   {
     "id": "knife_paring",
@@ -73,8 +72,7 @@
     "bashing": 1,
     "cutting": 10,
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 10 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE" ],
-    "weapon_category": [ "KNIVES" ]
+    "flags": [ "STAB", "SHEATH_KNIFE" ]
   },
   {
     "id": "knife_carving",
@@ -90,13 +88,13 @@
     "bashing": 1,
     "cutting": 8,
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 22 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE" ],
-    "weapon_category": [ "KNIVES" ]
+    "flags": [ "STAB", "SHEATH_KNIFE" ]
   },
   {
     "id": "knife_bread",
     "name": { "str": "bread knife", "str_pl": "bread knives" },
     "type": "TOOL",
+    "weapon_category": [ ],
     "description": "This knife has quite a long blade with a scalloped edge for cutting bread.  It's not that sharp, but its length and heft mean it could do a bit of damage and cause some nasty tearing.",
     "copy-from": "base_kitchen_knife",
     "looks_like": "knife_butcher",

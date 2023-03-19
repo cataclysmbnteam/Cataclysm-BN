@@ -59,6 +59,7 @@
     "id": "mop",
     "type": "GENERIC",
     "category": "tools",
+    "weapon_category": [ "QUARTERSTAVES" ],
     "name": { "str": "mop" },
     "description": "This is an unwieldy mop.  Good for cleaning up spills.  Use to mop up any 'mess' you may have made.",
     "weight": "929 g",
@@ -71,8 +72,7 @@
     "symbol": "/",
     "color": "light_gray",
     "techniques": "WBLOCK_1",
-    "use_action": "MOP",
-    "weapon_category": [ "QUARTERSTAVES" ]
+    "use_action": "MOP"
   },
   {
     "id": "rag",

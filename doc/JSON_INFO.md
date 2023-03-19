@@ -1997,6 +1997,40 @@ It could also be written as a generic item ("type": "GENERIC") with "armor_data"
 
 #### Melee `Weapon_category`
 
+| Weapon Category       | Description
+| ---                   | ---
+| FIST_WEAPONS          | Handheld weapons used to supplement fists in martial arts.
+| ---                   | ---
+| KNIVES                | Short blade fixed onto a handle, for cutting or as weapon.
+| SHORT_SWORDS          | One handed sword of length between a large knife and a "proper" sword.
+| 1H_SWORDS             | Sword meant to be wielded with one hand.
+| 2H_SWORDS             | Sword meant to be wielded with both hands.
+| DUELING_SWORDS        | Swords with thin profiles typically meant for stabbing.
+| ---                   | ---
+| SAPS                  | Very short length of typically flexible material, with a weighted tip.
+| BATONS                | Thin, balanced rod of strong material.
+| CLUBS                 | Rod with a thicker striking head. May be one or two-handed.
+| QUARTERSTAVES         | Long pole wielded with both hands.
+| MACES                 | Short one-handed weapon with a striking head firmly attached to a short handle.
+| MORNINGSTARS          | Typically two-handed weapon with a striking head firmly attached to a long handle.
+| FLAILS                | Striking head attached to handle by flexible rope/chain.
+| 1H_HAMMERS            | Hammers meant to be wielded with a single hand.
+| 2H_HAMMERS            | Hammers meant to be wielded with both hands.
+| ---                   | ---
+| HAND_AXES             | Axe with a short handle, typically wielded in one hand, ocassionally thrown.
+| 1H_AXES               | Axes meant to be wielded with one hand, typically with a handle longer than the handaxe.
+| ---                   | ---
+| WHIPS                 | Flexible tool used to strike at range.
+| ---                   | ---
+| HOOKED_POLES          | Polearm with hooked end (Like a shepherd's crook)"
+| SPEARS                |
+| PIKES                 | 
+| GLAIVES               |
+| ---                   | ---
+| MEDIEVAL_SWORDS
+| JAPANESE_SWORDS
+| BIONIC_WEAPONRY
+
 ### Gun
 
 Guns can be defined like this:
@@ -2047,6 +2081,7 @@ Alternately, every item (book, tool, armor, even food) can be used as gun if it 
 | CROSSBOWS             | Elastic launching device mounted on a frame to be triggered.
 | SLINGSHOTS            | Elastic, handheld launching device typically used for small round projectiles.
 | SLINGS                | Projectile weapon using a cradle connected to two retention cords, used to fling blunt projectiles.
+| ---                   | ---
 | PISTOLS               | Handgun with a chamber integral to the gun barrel. In-game, any handgun that isn't a revolver goes here.
 | REVOLVERS             | Repeating handgun with a revolving cylinder containing multiple chambers.
 | SUBMACHINE_GUNS       | Magazine fed automatic carbine designed to fire handgun cartridges.
@@ -2054,11 +2089,15 @@ Alternately, every item (book, tool, armor, even food) can be used as gun if it 
 | MACHINE_GUNS          | Fully automatic autoloading firearm designed for sustained fire.
 | GATLING_GUNS          | Rapid firing multi barrel firearm.
 | SHOTGUNS              | Long barreled firearm generally designed to fire shotshells.
+| ---                   | ---
 | GRENADE_LAUNCHERS     | Firearm designed to propel large caliber projectile typically loaded with warhead of some kind (smoke, gas, explosive, etc)
 | ROCKET_LAUNCHERS      | Firearm that propels unguided, rocket-propelled projectile.
+| ---                   | ---
 | FLAMETHROWERS         | Ranged incendiary device designed to propel a controllable jet of fire.
 | WATER_CANNONS         | It fires water at your enemies.
 | SPRAY_GUNS            | It spews chemicals at your enemies.
+
+| Action category       | Description
 | ---                   | ---
 | 1SHOT                 | Ranged weapon with at least one barrel but no loading system/magazine.
 | AUTOLOADING           | Ranged weapon with autoloading mechanisms like blowback, gas-operated, or recoil operated systems.

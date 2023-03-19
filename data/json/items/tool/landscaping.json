@@ -39,6 +39,7 @@
     "id": "hoe",
     "type": "GENERIC",
     "category": "tools",
+    "weapon_category": [ "HOOKED_POLES" ],
     "name": { "str": "hoe" },
     "description": "This is a farming implement.  You can use it to turn tillable land into a slow-to-cross pile of dirt, or dig a shallow pit.",
     "weight": "1088 g",
@@ -53,7 +54,6 @@
     "color": "brown",
     "qualities": [ [ "DIG", 1 ] ],
     "techniques": "WBLOCK_1",
-    "weapon_category": [ "BLADED_FARMING", "HOOKING_WEAPONRY" ],
     "use_action": "MAKEMOUND"
   },
   {
@@ -91,8 +91,7 @@
     "color": "light_gray",
     "techniques": [ "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -22 ] ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
-    "weapon_category": [ "BLADED_FARMING", "HOOKING_WEAPONRY", "POLEARMS" ]
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ]
   },
   {
     "id": "shovel",
@@ -132,8 +131,7 @@
     "color": "light_gray",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 7 ] ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "DURABLE_MELEE" ],
-    "weapon_category": [ "BLADED_FARMING" ]
+    "flags": [ "DURABLE_MELEE" ]
   },
   {
     "id": "trimmer_off",

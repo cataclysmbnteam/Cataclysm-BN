@@ -62,7 +62,7 @@
       "tec_aikido_dodgethrow",
       "tec_aikido_blockthrow"
     ],
-    "weapon_category": [ "CLAWS" ]
+    "weapon_category": [ "FIST_WEAPONS" ]
   },
   {
     "type": "martial_art",
@@ -951,7 +951,7 @@
       }
     ],
     "techniques": [ "tec_silat_hamstring", "tec_silat_precise", "tec_silat_brutal", "tec_silat_dirty" ],
-    "weapon_category": [ "KNIVES", "BATONS", "QUARTERSTAVES", "BLADED_FARMING", "POLEARMS" ]
+    "weapon_category": [ "KNIVES", "BATONS", "QUARTERSTAVES", "POLEARMS" ]
   },
   {
     "type": "martial_art",

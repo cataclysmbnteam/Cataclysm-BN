@@ -294,6 +294,7 @@
     "id": "hammer",
     "type": "GENERIC",
     "category": "tools",
+    "weapon_category": [ "1H_HAMMERS" ],
     "name": { "str": "hammer" },
     "description": "This is a demagnetized steel claw hammer with a wooden grip.  With a hammer, nails, and two by fours in your inventory, you could board up adjacent doors and windows.  It has myriad other uses as well.",
     "weight": "566 g",
@@ -307,8 +308,7 @@
     "color": "brown",
     "qualities": [ [ "HAMMER", 3 ], [ "PRY", 1 ], [ "HAMMER_FINE", 1 ] ],
     "use_action": [ "HAMMER", "CROWBAR" ],
-    "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ],
-    "weapon_category": [ "BATONS" ]
+    "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ]
   },
   {
     "id": "hand_drill",
@@ -663,6 +663,7 @@
     "id": "pickaxe",
     "type": "GENERIC",
     "category": "tools",
+    "weapon_category": [ "HOOKED_POLES" ],
     "name": { "str": "pickaxe" },
     "description": "This is a large steel pickaxe, suitable for breaking up hard things or (with enough skill) hard targets.  Strike the earth!",
     "weight": "4535 g",
@@ -677,8 +678,7 @@
     "color": "dark_gray",
     "use_action": "PICKAXE",
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "SPEAR", "DURABLE_MELEE", "NONCONDUCTIVE", "DIG_TOOL", "SHEATH_AXE" ],
-    "weapon_category": [ "HOOKING_WEAPONRY" ]
+    "flags": [ "SPEAR", "DURABLE_MELEE", "NONCONDUCTIVE", "DIG_TOOL", "SHEATH_AXE" ]
   },
   {
     "id": "pin_reamer",
@@ -785,8 +785,7 @@
     "symbol": ";",
     "color": "yellow",
     "qualities": [ [ "SCREW", 1 ] ],
-    "flags": [ "SPEAR", "BELT_CLIP" ],
-    "weapon_category": [ "SHIVS" ]
+    "flags": [ "SPEAR", "BELT_CLIP" ]
   },
   {
     "id": "screwdriver_set",
@@ -1137,6 +1136,7 @@
     "id": "wrench",
     "type": "GENERIC",
     "category": "tools",
+    "weapon_category": [ "BATONS" ],
     "name": { "str": "wrench", "str_pl": "wrenches" },
     "description": "This is an adjustable crescent wrench.  It could be a decent melee weapon, and is used in many mechanics crafting recipes.",
     "weight": "907 g",
@@ -1148,8 +1148,7 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "WRENCH", 2 ], [ "WRENCH_FINE", 1 ] ],
-    "flags": [ "BELT_CLIP" ],
-    "weapon_category": [ "BATONS" ]
+    "flags": [ "BELT_CLIP" ]
   },
   {
     "id": "makeshift_hose",

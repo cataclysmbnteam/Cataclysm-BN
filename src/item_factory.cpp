@@ -2555,9 +2555,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         set_properties_from_json( jo, "properties", def );
     }
 
-    for( auto &s : jo.get_tags( "techniques" ) ) {
-        def.techniques.insert( matec_id( s ) );
-    }
+    assign( jo, "techniques", def.techniques );
 
     set_use_methods_from_json( jo, "use_action", def.use_methods );
 

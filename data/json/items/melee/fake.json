@@ -1,8 +1,9 @@
 [
   {
+    "id": "bio_claws_weapon",
     "type": "GENERIC",
     "category": "weapons",
-    "id": "bio_claws_weapon",
+    "weapon_category": [ "BIONIC_WEAPONRY", "FIST_WEAPONS" ],
     "name": { "str_sp": "bionic claws" },
     "description": "Short and sharp claws made from a high-tech metal.",
     "to_hit": -1,
@@ -13,13 +14,13 @@
     "bashing": 8,
     "cutting": 16,
     "flags": [ "STAB", "UNARMED_WEAPON", "NO_DROP", "NO_UNWIELD", "UNBREAKABLE_MELEE", "TRADER_AVOID" ],
-    "weapon_category": [ "BIONIC_WEAPONRY", "CLAWS" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ]
   },
   {
+    "id": "bio_blade_weapon",
     "type": "GENERIC",
     "category": "weapons",
-    "id": "bio_blade_weapon",
+    "weapon_category": [ "BIONIC_WEAPONRY", "BIONIC_SWORDS" ],
     "name": { "str": "monomolecular blade" },
     "description": "A foot-long blade made from high-tech alloy and edged with bonded nanocrystals.",
     "weight": "100 g",
@@ -31,7 +32,6 @@
     "volume": "750 ml",
     "cutting": 36,
     "flags": [ "UNARMED_WEAPON", "NO_DROP", "NO_UNWIELD", "UNBREAKABLE_MELEE", "TRADER_AVOID" ],
-    "weapon_category": [ "BIONIC_WEAPONRY", "BIONIC_SWORDS" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 22 ] ]
   }
 ]
