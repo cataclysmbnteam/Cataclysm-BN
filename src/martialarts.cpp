@@ -1572,7 +1572,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
 
             if( !ma.weapons.empty() ) {
                 std::vector<std::string> weapons;
-                for( const itype_id wid : ma.weapons ) {
+                for( const itype_id &wid : ma.weapons ) {
                     const itype_id &weap_id = wid->get_id();
                     bool wielded = player.weapon.typeId() == weap_id;
                     bool carried = player.has_item_with( [weap_id]( const item & it ) {
