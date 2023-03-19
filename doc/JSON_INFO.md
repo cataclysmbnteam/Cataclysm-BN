@@ -2006,6 +2006,7 @@ It could also be written as a generic item ("type": "GENERIC") with "armor_data"
 | 1H_SWORDS             | Sword meant to be wielded with one hand.
 | 2H_SWORDS             | Sword meant to be wielded with both hands.
 | DUELING_SWORDS        | Swords with thin profiles typically meant for stabbing.
+| BIONIC_SWORDS         |
 | ---                   | ---
 | SAPS                  | Very short length of typically flexible material, with a weighted tip.
 | BATONS                | Thin, balanced rod of strong material.

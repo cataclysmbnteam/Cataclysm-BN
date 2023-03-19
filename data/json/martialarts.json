@@ -141,32 +141,7 @@
       }
     ],
     "techniques": [ "tec_barbaran_impale", "tec_barbaran_disarm" ],
-    "weapons": [
-      "2h_flail_steel",
-      "2h_flail_wood",
-      "battleaxe",
-      "battleaxe_inferior",
-      "battleaxe_fake",
-      "hammer_sledge",
-      "hammer_sledge_heavy",
-      "longsword",
-      "longsword_inferior",
-      "longsword_fake",
-      "mace",
-      "mace_inferior",
-      "mace_fake",
-      "morningstar",
-      "morningstar_inferior",
-      "morningstar_fake",
-      "sword_nail",
-      "sword_crude",
-      "sword_metal",
-      "sword_wood",
-      "warhammer",
-      "zweihander",
-      "zweihander_inferior",
-      "zweihander_fake"
-    ]
+    "weapon_category": [ "CLUBS", "FLAILS", "MORNINGSTARS", "MEDIEVAL_SWORDS", "1H_HAMMERS", "2H_HAMMERS", "1H_AXES" ]
   },
   {
     "type": "martial_art",
@@ -398,7 +373,7 @@
       "tec_eskrima_low",
       "tec_eskrima_combination"
     ],
-    "weapon_category": [ "KNIVES", "BATONS", "BLADED_FARMING", "CLAWS", "SHIVS" ]
+    "weapon_category": [ "KNIVES", "BATONS", "QUARTERSTAVES", "FIST_WEAPONS" ]
   },
   {
     "type": "martial_art",
@@ -441,7 +416,14 @@
       }
     ],
     "techniques": [ "tec_fencing_feint", "tec_fencing_lunge", "tec_fencing_riposte", "tec_fencing_compound" ],
-    "weapon_category": [ "FENCING_WEAPONRY" ]
+    "weapon_category": [ "BATONS", "DUELING_SWORDS" ],
+    "weapons": [
+      "broadsword",
+      "broadsword_inferior",
+      "broadsword_fake",
+      "cavalry_sabre",
+      "cavalry_sabre_fake"
+    ]
   },
   {
     "type": "martial_art",
@@ -503,7 +485,7 @@
       "tec_medievalpole_execute",
       "tec_medievalpole_break"
     ],
-    "weapon_category": [ "HOOKING_WEAPONRY" ]
+    "weapon_category": [ "HOOKED_POLES", "1H_AXES", "1H_HAMMERS", "2H_HAMMERS", "GLAIVES" ]
   },
   {
     "type": "martial_art",
@@ -524,7 +506,7 @@
       }
     ],
     "techniques": [ "tec_judo_backthrow", "tec_judo_counter", "tec_judo_disarm", "tec_judo_break", "tec_judo_throw" ],
-    "weapon_category": [ "CLAWS" ]
+    "weapon_category": [ "FIST_WEAPONS" ]
   },
   {
     "type": "martial_art",
@@ -586,7 +568,7 @@
       "tec_krav_maga_break",
       "tec_krav_maga_counter"
     ],
-    "weapon_category": [ "AUTOMATIC_RIFLES", "AUTOMATIC_PISTOLS", "KNIVES", "BATONS", "SHIVS" ]
+    "weapon_category": [ "PISTOLS", "REVOLVERS", "RIFLES", "SHOTGUNS", "KNIVES", "BATONS" ]
   },
   {
     "type": "martial_art",
@@ -688,7 +670,8 @@
       "tec_swordsmanship_unterhau",
       "tec_swordsmanship_mordhau"
     ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "CONSTRUCTED_SWORDS" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS" ],
+    "weapons": [ "glass_macuahuitl" ]
   },
   {
     "type": "martial_art",
@@ -796,7 +779,12 @@
       }
     ],
     "techniques": [ "tec_ninjutsu_swift", "tec_ninjutsu_takedown", "tec_ninjutsu_precise" ],
-    "weapon_category": [ "MEDIUM_SWORDS", "LONG_SWORDS", "SHORT_SWORDS", "KNIVES", "QUARTERSTAVES", "BLADED_FARMING", "CLAWS" ]
+    "weapon_category": [ "1H_SWORDS", "BATONS", "QUARTERSTAVES", "BIONIC_WEAPONRY" ],
+    "weapons": [
+      "nodachi",
+      "nodachi_inferior",
+      "nodachi_fake"
+    ]
   },
   {
     "type": "martial_art",
@@ -866,7 +854,7 @@
       }
     ],
     "techniques": [ "niten_water_cut", "niten_red_leaf", "niten_stone_cut", "niten_timing_attack", "niten_feint" ],
-    "weapon_category": [ "JAPANESE_SWORDS", "BIONIC_SWORDS" ]
+    "weapon_category": [ "JAPANESE_SWORDS", "BIONIC_WEAPONRY" ]
   },
   {
     "type": "martial_art",
@@ -951,7 +939,7 @@
       }
     ],
     "techniques": [ "tec_silat_hamstring", "tec_silat_precise", "tec_silat_brutal", "tec_silat_dirty" ],
-    "weapon_category": [ "KNIVES", "BATONS", "QUARTERSTAVES", "POLEARMS" ]
+    "weapon_category": [ "KNIVES", "BATONS", "QUARTERSTAVES", "HOOKED_POLES", "SPEARS", "GLAIVES" ]
   },
   {
     "type": "martial_art",
@@ -1023,7 +1011,7 @@
       }
     ],
     "techniques": [ "tec_sojutsu_push", "tec_sojutsu_shove", "tec_sojutsu_trip" ],
-    "weapon_category": [ "POLEARMS" ]
+    "weapon_category": [ "SPEARS", "PIKES", "GLAIVES" ]
   },
   {
     "type": "martial_art",
