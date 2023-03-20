@@ -55,11 +55,7 @@
     ],
     "techniques": [ "tec_crt_blade_normal", "tec_crt_blade_rapid", "tec_crt_blade_precise", "tec_crt_blade_arpen", "tec_feint" ],
     "weapon_category": [ "KNIVES", "1H_SWORDS" ],
-    "weapons": [
-      "crt_hatchet",
-      "crt_etool",
-      "xacto"
-    ]
+    "weapons": [ "crt_hatchet", "crt_etool", "xacto" ]
   },
   {
     "type": "technique",
