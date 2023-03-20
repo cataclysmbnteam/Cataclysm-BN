@@ -306,6 +306,7 @@ class safe_reference
             }
             return rec->id;
         }
+
         void deserialize( id_type id ) {
             fill( id );
             if( rec == nullptr ) {

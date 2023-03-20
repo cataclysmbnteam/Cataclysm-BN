@@ -5503,7 +5503,7 @@ void iexamine::mill_finalize( player &, const tripoint &examp, const time_point 
         return;
     }
 
-    for( item * const &it : items ) {
+    for( item *&it : items ) {
         if( it->type->milling_data ) {
             it->calc_rot_while_processing( milling_time );
             const islot_milling &mdata = *it->type->milling_data;
@@ -5522,8 +5522,9 @@ void iexamine::mill_finalize( player &, const tripoint &examp, const time_point 
             result.set_flag( flag_PROCESSING_RESULT );
             result.set_relative_rot( it->get_relative_rot() );
             result.unset_flag( flag_PROCESSING_RESULT );
-            //TODO!: restore next
-            //it = result;
+            it->remove_location();
+            it->destroy();
+            it = &result;
         }
     }
     here.furn_set( examp, next_mill_type );
@@ -5571,16 +5572,18 @@ static void smoker_finalize( player &, const tripoint &examp, const time_point &
                     // If the item has "cooks_like" it will be replaced by that item as a component.
                     if( !it->get_comestible()->cooks_like.is_empty() ) {
                         // Set charges to 1 for stacking purposes.
-                        //TODO!: restore next
-                        //it = item( it->get_comestible()->cooks_like, it.birthday(), 1 );
+                        it->remove_location();
+                        it->destroy();
+                        it = item_spawn( it->get_comestible()->cooks_like, it->birthday(), 1 );
                     }
                     result.add_component( *it );
                     // Smoking is always 1:1, so these must be equal for correct kcal/vitamin calculation.
                     result.recipe_charges = it->charges;
                     result.set_flag_recursive( flag_COOKED );
                 }
-                //TODO!: restore next
-                // it = result;
+                it->remove_location();
+                it->destroy();
+                it = &result;
             }
         }
     }

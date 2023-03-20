@@ -534,6 +534,7 @@ void DynamicDataLoader::unload_data()
 
     //Moved to the top as a temp hack until vehicles are made into game objects
     vehicle_prototype::reset();
+    cleanup_arenas();
 
     achievement::reset();
     activity_type::reset();

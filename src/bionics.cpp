@@ -486,8 +486,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
     bionic &bio = ( *my_bionics )[index];
 
     if( bio.info().has_flag( flag_BIONIC_GUN ) ) {
-        //TODO!: restore next
-        item *cbm_weapon = nullptr;//item( bio.info().fake_item );
+        item *cbm_weapon = item_spawn( bio.info().fake_item );
         bool not_allowed = !rules.has_flag( ally_rule::use_guns ) ||
                            ( rules.has_flag( ally_rule::use_silent ) && !cbm_weapon->is_silent() );
         if( is_player_ally() && not_allowed ) {
@@ -506,6 +505,8 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
             real_weapon = &get_weapon();
             set_weapon( *cbm_weapon );
             cbm_weapon_index = index;
+        } else {
+            cbm_weapon->destroy();
         }
     } else if( bio.info().has_flag( flag_BIONIC_WEAPON ) && !get_weapon().has_flag( flag_NO_UNWIELD ) &&
                free_power > bio.info().power_activate ) {
@@ -516,8 +517,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
             add_msg( m_info, _( "%s activates their %s." ), disp_name(), bio.info().name );
         }
 
-        //TODO!: restore next
-        //weapon = item( bio.info().fake_item );
+        set_weapon( *item_spawn( bio.info().fake_item ) );
         mod_power_level( -bio.info().power_activate );
         bio.powered = true;
         cbm_weapon_index = index;
@@ -611,9 +611,8 @@ bool Character::activate_bionic( int b, bool eff_only )
         }
 
         add_msg_activate();
-        //TODO!: restore next
-        //weapon = item( bio.info().fake_item );
-        weapon->invlet = '#';
+        set_weapon( *item_spawn( bio.info().fake_item ) );
+        get_weapon().invlet = '#';
         if( bio.ammo_count > 0 ) {
             weapon->ammo_set( bio.ammo_loaded, bio.ammo_count );
             avatar_action::fire_wielded_weapon( g->u );

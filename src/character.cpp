@@ -459,9 +459,22 @@ Character::Character() :
 }
 // *INDENT-ON*
 
-Character::~Character() = default;
+Character::~Character()
+{
+    destruct_hack();
+}
 Character::Character( Character && ) = default;
 Character &Character::operator=( Character && ) = default;
+
+
+void Character::destruct_hack()
+{
+    visit_items( []( item * it ) {
+        it->remove_location();
+        it->destroy();
+        return VisitResponse::SKIP;
+    } );
+}
 
 void Character::setID( character_id i, bool force )
 {
@@ -3567,17 +3580,16 @@ void Character::die( Creature *nkiller )
     g->set_critter_died();
     set_killer( nkiller );
     set_time_died( calendar::turn );
-    //TODO!: restore these
     if( has_effect( effect_lightsnare ) ) {
-        //inv.add_item( item( itype_string_36, calendar::start_of_cataclysm ) );
-        //inv.add_item( item( itype_snare_trigger, calendar::start_of_cataclysm ) );
+        inv.add_item( *item_spawn( itype_string_36, calendar::start_of_cataclysm ) );
+        inv.add_item( *item_spawn( itype_snare_trigger, calendar::start_of_cataclysm ) );
     }
     if( has_effect( effect_heavysnare ) ) {
-        //inv.add_item( item( itype_rope_6, calendar::start_of_cataclysm ) );
-        //inv.add_item( item( itype_snare_trigger, calendar::start_of_cataclysm ) );
+        inv.add_item( *item_spawn( itype_rope_6, calendar::start_of_cataclysm ) );
+        inv.add_item( *item_spawn( itype_snare_trigger, calendar::start_of_cataclysm ) );
     }
     if( has_effect( effect_beartrap ) ) {
-        //inv.add_item( item( itype_beartrap, calendar::start_of_cataclysm ) );
+        inv.add_item( *item_spawn( itype_beartrap, calendar::start_of_cataclysm ) );
     }
     mission::on_creature_death( *this );
 }

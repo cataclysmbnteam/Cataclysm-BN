@@ -422,8 +422,9 @@ void inventory::restack( player &p )
         //TODO!: check
         // remove non-matching items, stripping off end of stack so the first item keeps the invlet.
         while( stack.size() > 1 && !topmost.stacks_with( *stack.back() ) ) {
-            //TODO!: restore next
-            //to_restack.splice( to_restack.begin(), *iter, --stack.end() );
+            //TODO!: check since the order has been reversed here but I don't think it matters
+            to_restack.push_back( iter->back() );
+            iter->pop_back();
         }
     }
 
@@ -435,8 +436,10 @@ void inventory::restack( player &p )
                 if( other->front()->count_by_charges() ) {
                     iter->front()->charges += other->front()->charges;
                 } else {
-                    //TODO!:restore next
-                    //iter->splice( iter->begin(), *other );
+                    //TODO!: check, ordering also reversed
+                    for( auto &elem : *other ) {
+                        iter->push_back( elem );
+                    }
                 }
                 other = items.erase( other );
                 --other;

@@ -1726,6 +1726,9 @@ class Character : public Creature, public visitable<Character>
         void on_damage_of_type( int adjusted_damage, damage_type type, const bodypart_id &bp ) override;
         inventory inv;
     public:
+        /** temporary hack until creatures are made into GOs */
+        void destruct_hack();
+
         /** Called when an item is worn */
         void on_item_wear( const item &it );
         /** Called when an item is taken off */

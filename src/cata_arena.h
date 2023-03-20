@@ -14,8 +14,7 @@ class cata_arena
     private:
         inline static std::set<T *> pending_deletion;
 
-        //TODO!: enable this stuff in debug mode only
-
+#if !defined(RELEASE)
         struct alloc_entry {
             const char *file;
             int line;
@@ -23,7 +22,6 @@ class cata_arena
             void **destroy_trace;
             void **remove_trace;
         };
-#if !defined(RELEASE)
         inline static std::unordered_map<T *, alloc_entry> full_list;
 #endif
     public:
@@ -80,10 +78,20 @@ class cata_arena
                                           it.second.destroy_trace, it.second.remove_trace );
             }
         }
+
+        static void check_clear() {
+            if( !full_list.empty() ) {
+                debugmsg( "Some objects were not destroyed before quitting" );
+            }
+        }
 #endif
 };
 
 
 void cleanup_arenas();
+
+#if !defined(RELEASE)
+void check_arenas_clear();
+#endif
 
 #endif

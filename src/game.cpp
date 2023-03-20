@@ -1326,6 +1326,15 @@ bool game::cleanup_at_end()
     MAPBUFFER.reset();
     overmap_buffer.clear();
 
+    g->u.destruct_hack();
+
+    cleanup_arenas();
+    DynamicDataLoader::get_instance().unload_data();
+
+#if !defined(RELEASE)
+    check_arenas_clear();
+#endif
+
 #if defined(__ANDROID__)
     quick_shortcuts_map.clear();
 #endif
@@ -1784,12 +1793,12 @@ void game::autopilot_vehicles()
 }
 
 void game::catch_a_monster( monster *fish, const tripoint &pos, player *p,
-                            const time_duration &/*catch_duration*/ ) // catching function
+                            const time_duration &catch_duration ) // catching function
 {
     //spawn the corpse, rotten by a part of the duration
     //TODO!:restore next
-    //m.add_item_or_charges( pos, item::make_corpse( fish->type->id, calendar::turn + rng( 0_turns,
-    //                      catch_duration ) ) );
+    m.add_item_or_charges( pos, item::make_corpse( fish->type->id, calendar::turn + rng( 0_turns,
+                           catch_duration ) ) );
     if( u.sees( pos ) ) {
         u.add_msg_if_player( m_good, _( "You caught a %s." ), fish->type->nname() );
     }
@@ -12210,3 +12219,10 @@ void cleanup_arenas()
     cata_arena<item>::check_for_leaks();
 #endif
 }
+
+#if !defined(RELEASE)
+void check_arenas_clear()
+{
+    cata_arena<item>::check_clear();
+}
+#endif

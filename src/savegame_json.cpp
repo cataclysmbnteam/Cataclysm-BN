@@ -1807,23 +1807,23 @@ void monster::load( const JsonObject &data )
     }
     if( data.has_object( "tied_item" ) ) {
         JsonIn *tied_item_json = data.get_raw( "tied_item" );
-        tied_item = item_spawn( *tied_item_json );
+        set_tied_item( item_spawn( *tied_item_json ) );
     }
     if( data.has_object( "tack_item" ) ) {
         JsonIn *tack_item_json = data.get_raw( "tack_item" );
-        tied_item = item_spawn( *tack_item_json );
+        set_tack_item( item_spawn( *tack_item_json ) );
     }
     if( data.has_object( "armor_item" ) ) {
         JsonIn *armor_item_json = data.get_raw( "armor_item" );
-        tied_item = item_spawn( *armor_item_json );
+        set_armor_item( item_spawn( *armor_item_json ) );
     }
     if( data.has_object( "storage_item" ) ) {
         JsonIn *storage_item_json = data.get_raw( "storage_item" );
-        tied_item = item_spawn( *storage_item_json );
+        set_storage_item( item_spawn( *storage_item_json ) );
     }
     if( data.has_object( "battery_item" ) ) {
         JsonIn *battery_item_json = data.get_raw( "battery_item" );
-        tied_item = item_spawn( *battery_item_json );
+        set_battery_item( item_spawn( *battery_item_json ) );
     }
     data.read( "hp", hp );
 
@@ -2371,10 +2371,11 @@ void item::deserialize( JsonIn &jsin )
     for( item *&it : components ) {
         it->set_location( new component_item_location( this ) );
     }
-
-    safe_reference<item>::id_type id;
-    data.read( "id", id, safe_reference<item>::ID_NONE );
-    safe_reference<item>::register_load( this, id );
+    if( data.has_member( "id" ) ) {
+        safe_reference<item>::id_type id;
+        data.read( "id", id );
+        safe_reference<item>::register_load( this, id );
+    }
 
     // Sealed item migration: items with "unseals_into" set should always have contents
     if( contents.empty() && is_non_resealable_container() ) {
@@ -2392,6 +2393,7 @@ void item::serialize( JsonOut &json ) const
 
     safe_reference<item>::id_type id = safe_reference<item>::lookup_id( this );
     if( id != safe_reference<item>::ID_NONE ) {
+        debugmsg( "Saving item with id of %d", id );
         json.member( "id", id );
     }
 

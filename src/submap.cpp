@@ -49,7 +49,17 @@ submap::submap()
 }
 
 submap::submap( submap && ) = default;
-submap::~submap() = default;
+submap::~submap()
+{
+    for( auto &row : itm ) {
+        for( auto &tile : row ) {
+            for( item *&it : tile ) {
+                it->remove_location();
+                it->destroy();
+            }
+        }
+    }
+}
 
 submap &submap::operator=( submap && ) = default;
 

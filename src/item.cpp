@@ -326,7 +326,6 @@ static const itype *nullitem()
 item &null_item_reference()
 {
     static item result{};
-    //TODO!: restore
     // reset it, in case a previous caller has changed it
     //result = item();
     return result;
@@ -8528,8 +8527,8 @@ bool item::use_charges( const itype_id &what, int &qty, ItemList &used,
                 int n = std::min( e->ammo_remaining(), qty );
                 qty -= n;
 
-                //TODO!: restore next
-                //used.push_back( item( *e ).ammo_set( e->ammo_current(), n ) );
+                //TODO!: check
+                used.push_back( &item_spawn_temporary( *e )->ammo_set( e->ammo_current(), n ) );
                 e->ammo_consume( n, pos );
             }
             return VisitResponse::SKIP;
@@ -8720,6 +8719,7 @@ bool item::has_rotten_away( const tripoint &pnt )
         }
         for( item *it : removed_items ) {
             remove_item( *it );
+            it->destroy();
         }
 
         return false;
