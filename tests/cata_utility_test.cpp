@@ -161,3 +161,102 @@ TEST_CASE( "trim_whitespaces", "[utility]" )
     // NOLINTNEXTLINE(readability-container-size-empty)
     CHECK( trim_whitespaces( "" ) == "" );
 }
+
+struct split_test_data {
+    size_t serial;
+    std::string input;
+    char delim;
+    std::vector<std::string> expected;
+};
+
+TEST_CASE( "string_split", "[utility]" )
+{
+    static const std::vector<split_test_data> test_data = {{
+            { 0, "", ' ', {} },
+            { 1, "a", ' ', {"a"} },
+            { 2, "ab", ' ', {"ab"} },
+            { 3, "a b", ' ', {"a", "b"} },
+            { 4, "a b c", ' ', {"a", "b", "c"} },
+            { 5, " a", ' ', { "", "a"} },
+            { 6, "a ", ' ', { "a", ""} },
+            { 7, " a ", ' ', { "", "a", ""} },
+            { 8, " ", ' ', { "", ""} },
+            { 9, "  ", ' ', {"", "", ""} },
+            {
+                10,
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                ' ', {
+                    "Lorem", "ipsum", "dolor", "sit",
+                    "amet,", "consectetur", "adipiscing", "elit,",
+                    "sed", "do", "eiusmod", "tempor",
+                    "incididunt", "ut", "labore", "et",
+                    "dolore", "magna", "aliqua."
+                }
+            },
+        }
+    };
+
+    SECTION( "std::string" ) {
+        for( const split_test_data &it : test_data ) {
+            CAPTURE( it.serial );
+            std::vector<std::string> got = string_split( it.input, it.delim );
+            CHECK( got == it.expected );
+        }
+    }
+
+    SECTION( "std::string_view" ) {
+        for( const split_test_data &it : test_data ) {
+            CAPTURE( it.serial );
+            std::vector<std::string_view> got = string_split_sv( it.input, it.delim );
+            std::vector<std::string> got_s;
+            for( std::string_view sv : got ) {
+                got_s.emplace_back( sv );
+            }
+            CHECK( got_s == it.expected );
+        }
+    }
+}
+
+struct kb_test_data {
+    size_t serial;
+    std::string input;
+    std::string expected;
+};
+
+TEST_CASE( "replace_keybind_tags", "[utility]" )
+{
+    static const std::vector<kb_test_data> test_data = {{
+            {
+                0,
+                "Press <key:DEFAULTMODE:messages> to view message log.",
+                "Press [<color_c_yellow>P</color>] to view message log."
+            },
+            {
+                1,
+                "Press <key::HELP_KEYBINDINGS> to view keybindings.",
+                "Press [<color_c_yellow>?</color>] to view keybindings."
+            },
+            {
+                2,
+                "Press <key:DEFAULT:BROKEN_TAG:YELLOW> to use broken key.",
+                "Press <key:DEFAULT:BROKEN_TAG:YELLOW> to use broken key.",
+            },
+            {
+                3,
+                "Press <color_c_yellow>KEY</color> to use broken key.",
+                "Press <color_c_yellow>KEY</color> to use broken key.",
+            },
+            {
+                4,
+                "Press <key:DEFAULTMODE:messages to use broken key.",
+                "Press <key:DEFAULTMODE:messages to use broken key.",
+            }
+        }
+    };
+
+    for( const kb_test_data &it : test_data ) {
+        CAPTURE( it.serial );
+        std::string got = replace_keybind_tags( it.input );
+        CHECK( got == it.expected );
+    }
+}
