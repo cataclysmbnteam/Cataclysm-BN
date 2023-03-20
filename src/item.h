@@ -1723,6 +1723,8 @@ class item : public visitable<item>
         int ammo_capacity( bool potential_capacity ) const;
         /** Quantity of ammunition consumed per usage of tool or with each shot of gun */
         int ammo_required() const;
+        /** Number of shots left, considers if a gun uses ups, ammo, or both */
+        int shots_remaining( units::energy power = 0_J ) const;
 
         /**
          * Check if sufficient ammo is loaded for given number of uses.

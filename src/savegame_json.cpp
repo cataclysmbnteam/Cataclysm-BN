@@ -1608,10 +1608,13 @@ void npc::load( const JsonObject &data )
         data.read( "misc_rules", rules );
         data.read( "combat_rules", rules );
     }
-    real_weapon = item( "null", calendar::start_of_cataclysm );
-    data.read( "real_weapon", real_weapon );
+
     cbm_weapon_index = -1;
     data.read( "cbm_weapon_index", cbm_weapon_index );
+    cbm_active_index = -1;
+    data.read( "cbm_active_index", cbm_active_index );
+    cbm_fake_active = null_item_reference();
+    data.read( "cbm_fake_active", cbm_fake_active );
 
     if( !data.read( "last_updated", last_updated ) ) {
         last_updated = calendar::turn;
@@ -1674,10 +1677,11 @@ void npc::store( JsonOut &json ) const
     json.member( "chatbin", chatbin );
     json.member( "rules", rules );
 
-    if( !real_weapon.is_null() ) {
-        json.member( "real_weapon", real_weapon ); // also saves contents
-    }
     json.member( "cbm_weapon_index", cbm_weapon_index );
+    json.member( "cbm_active_index", cbm_active_index );
+    if( !cbm_fake_active.is_null() ) {
+        json.member( "cbm_fake_active", cbm_fake_active );
+    }
 
     json.member( "comp_mission_id", comp_mission.mission_id );
     json.member( "comp_mission_pt", comp_mission.position );

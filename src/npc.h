@@ -1023,7 +1023,9 @@ class npc : public player
         // can't use bionics::activate because it calls plfire directly
         void discharge_cbm_weapon();
         // check if an NPC has a bionic weapon and activate it if possible
-        void check_or_use_weapon_cbm( const bionic_id &cbm_id );
+        void check_or_use_weapon_cbm();
+        // disable toggled weapon cbms
+        void deactivate_weapon_cbm();
 
         // complain about a specific issue if enough time has passed
         // @param issue string identifier of the issue
@@ -1370,9 +1372,11 @@ class npc : public player
         void load( const JsonObject &data );
 
     private:
-        // the weapon we're actually holding when using bionic fake guns
-        item real_weapon;
-        // the index of the bionics for the fake gun;
+        // index for chosen activated cbm weapon;
+        int cbm_active_index = -1;
+        // REALLY fake item temporarily created to prevent segfaults;
+        item cbm_fake_active = null_item_reference();
+        // index for chosen toggled cbm weapon;
         int cbm_weapon_index = -1;
 
         bool dead = false;  // If true, we need to be cleaned up
