@@ -2109,7 +2109,6 @@ Character::wear_item( const item &to_wear, bool interactive )
 
     const bool was_deaf = is_deaf();
     const bool supertinymouse = get_size() == MS_TINY;
-    last_item = to_wear.typeId();
 
     std::list<item>::iterator position = position_to_wear_new_item( to_wear );
     std::list<item>::iterator new_item_it = worn.insert( position, to_wear );
@@ -2239,7 +2238,6 @@ int Character::i_add_to_container( const item &it, const bool unloading )
 item &Character::i_add( item it, bool should_stack )
 {
     itype_id item_type_id = it.typeId();
-    last_item = item_type_id;
 
     if( it.is_food() || it.is_ammo() || it.is_gun() || it.is_armor() ||
         it.is_book() || it.is_tool() || it.is_melee() || it.is_food_container() ) {

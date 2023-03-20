@@ -5,55 +5,13 @@
 #include <functional>
 #include <iosfwd>
 #include <map>
+#include <unordered_set>
 
 #include "enums.h"
 #include "gamemode.h"
-
-template <typename E> struct enum_traits;
+#include "type_id.h"
 
 enum action_id : int;
-
-enum class tut_lesson : int {
-    LESSON_INTRO = 0,
-    LESSON_MOVE, LESSON_LOOK, LESSON_OPEN, LESSON_CLOSE, LESSON_SMASH,
-    LESSON_WINDOW, LESSON_PICKUP, LESSON_EXAMINE, LESSON_INTERACT,
-
-    LESSON_FULL_INV, LESSON_WIELD_NO_SPACE, LESSON_AUTOWIELD, LESSON_ITEM_INTO_INV,
-    LESSON_GOT_ARMOR, LESSON_GOT_WEAPON, LESSON_GOT_FOOD, LESSON_GOT_TOOL,
-    LESSON_GOT_GUN, LESSON_GOT_AMMO, LESSON_WORE_ARMOR, LESSON_WORE_STORAGE,
-    LESSON_WORE_MASK,
-
-    LESSON_WEAPON_INFO, LESSON_HIT_MONSTER, LESSON_PAIN, LESSON_BUTCHER,
-
-    LESSON_TOOK_PAINKILLER, LESSON_TOOK_CIG, LESSON_DRANK_WATER,
-
-    LESSON_ACT_GRENADE, LESSON_ACT_BUBBLEWRAP,
-
-    LESSON_OVERLOADED,
-
-    LESSON_GUN_LOAD, LESSON_GUN_FIRE, LESSON_RECOIL,
-
-    LESSON_STAIRS, LESSON_DARK_NO_FLASH, LESSON_DARK, LESSON_PICKUP_WATER,
-
-    NUM_LESSONS
-};
-
-template<>
-struct enum_traits<tut_lesson> {
-    static constexpr tut_lesson last = tut_lesson::NUM_LESSONS;
-};
-
-namespace std
-{
-
-template<>
-struct hash<tut_lesson> {
-    size_t operator()( const tut_lesson v ) const noexcept {
-        return static_cast<size_t>( v );
-    }
-};
-
-} // namespace std
 
 struct tutorial_game : public special_game {
         special_game_type id() override {
@@ -66,9 +24,10 @@ struct tutorial_game : public special_game {
         void game_over() override { }
 
     private:
-        void add_message( tut_lesson lesson );
+        void update_tutorial_msg();
+        void add_message( const snippet_id &lesson_id );
 
-        std::map<tut_lesson, bool> tutorials_seen;
+        std::unordered_set<snippet_id> tutorials_seen_new;
 };
 
 #endif // CATA_SRC_GAMEMODE_TUTORIAL_H

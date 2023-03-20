@@ -183,8 +183,6 @@ void Character::process_turn()
         drop_invalid_inventory();
     }
     process_items();
-    // Didn't just pick something up
-    last_item = itype_id( "null" );
 
     visit_items( [this]( item * e ) {
         e->process_artifact( as_player(), pos() );

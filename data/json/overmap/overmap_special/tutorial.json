@@ -1,0 +1,9 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "tutorial_complex",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "tutorial_0" }, { "point": [ 1, 0, 0 ], "overmap": "tutorial_1" } ],
+    "locations": [ "wilderness" ],
+    "occurrences": [ 0, 0 ]
+  }
+]

@@ -1542,7 +1542,6 @@ class Character : public Creature, public visitable<Character>
         std::list<player_activity> backlog;
         std::optional<tripoint> destination_point;
         inventory inv;
-        itype_id last_item;
         item weapon;
 
         int scent = 0;

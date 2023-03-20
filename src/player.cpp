@@ -132,7 +132,6 @@ player::player()
     grab_point = tripoint_zero;
     hauling = false;
     focus_pool = 100;
-    last_item = itype_id( "null" );
     sight_max = 9999;
     last_batch = 0;
     lastconsumed = itype_id( "null" );

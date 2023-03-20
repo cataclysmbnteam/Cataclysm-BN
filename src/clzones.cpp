@@ -75,6 +75,9 @@ zone_manager::zone_manager()
     types.emplace( zone_type_id( "NPC_INVESTIGATE_ONLY" ),
                    zone_type( translate_marker( "NPC Investigation Area" ),
                               translate_marker( "Friendly NPCs will investigate unseen sounds only if they come from inside this area." ) ) );
+    types.emplace( zone_type_id( "TUT_MARKER" ),
+                   zone_type( translate_marker( "Tutorial Marker" ),
+                              translate_marker( "Tutorial Marker Zone." ) ) );
 
     for( const zone_type &zone : zone_type::get_all() ) {
         types.emplace( zone.id, zone );
