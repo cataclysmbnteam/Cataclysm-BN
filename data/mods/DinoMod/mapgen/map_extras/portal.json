@@ -2,6 +2,23 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "portal_location",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "   ",
+        "   ",
+        "   "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { " ": "t_region_groundcover" },
+      "furniture": { " ": "f_rubble_rock" },
+      "place_traps": [ { "trap": "tr_portal", "x": 1, "y": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "update_mapgen_id": "mx_portal_dino_south_america",
     "object": {
       "rows": [
