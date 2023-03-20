@@ -1056,13 +1056,13 @@ class map
         // Rubble
         /** Generates rubble at the given location, if overwrite is true it just writes on top of what currently exists
          *  floor_type is only used if there is a non-bashable wall at the location or with overwrite = true */
-        void make_rubble( const tripoint &p, const furn_id &rubble_type, bool items,
+        void make_rubble( const tripoint &p, const furn_id &rubble_type,
                           const ter_id &floor_type, bool overwrite = false );
-        void make_rubble( const tripoint &p, const furn_id &rubble_type, bool items ) {
-            make_rubble( p, rubble_type, items, t_dirt, false );
+        void make_rubble( const tripoint &p, const furn_id &rubble_type ) {
+            make_rubble( p, rubble_type, t_dirt, false );
         }
         void make_rubble( const tripoint &p ) {
-            make_rubble( p, f_rubble, false, t_dirt, false );
+            make_rubble( p, f_rubble, t_dirt, false );
         }
 
         bool is_outside( const tripoint &p ) const;
