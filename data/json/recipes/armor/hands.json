@@ -166,6 +166,33 @@
       ]
     ]
   },
+   {
+    "result": "gloves_sasurvivor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HANDS",
+    "skill_used": "tailor",
+    "difficulty": 7,
+    "skills_required": [ "fabrication", 7 ],
+    "time": "1 h",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 40 ] ],
+    "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
+    "components": [
+      [ [ "rag", 2 ] ],
+      [ [ "leather", 2 ] ],
+      [ [ "alloy_sheet", 1 ] ],
+      [ [ "duct_tape", 50 ] ],
+      [ [ "gloves_tactical", 1 ], [ "kevlar_plate", 4 ] ],
+      [
+        [ "gloves_leather", 1 ],
+        [ "gloves_light", 1 ],
+        [ "gloves_liner", 1 ],
+        [ "wetsuit_gloves", 1 ],
+        [ "fire_gauntlets", 1 ]
+      ]
+    ]
+  },
   {
     "result": "gloves_leather",
     "type": "recipe",
