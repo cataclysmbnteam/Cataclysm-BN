@@ -201,7 +201,7 @@
   {
     "result": "bronze_armor_ostrich",
     "type": "recipe",
-    "copy-from": "cuirass_bronze",
+    "copy-from": "armor_cuirass",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_OSTRICH ARMOR",
     "skills_required": [ "fabrication", 5 ],
