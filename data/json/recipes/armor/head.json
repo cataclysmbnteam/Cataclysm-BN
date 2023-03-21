@@ -1044,6 +1044,26 @@
     ]
   },
   {
+    "result": "mask_sasurvivor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "skills_required": [ "tailor", 7 ],
+    "time": "20 m",
+    "autolearn": true,
+    "using": [ [ "adhesive", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "components": [
+      [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
+      [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
+      [ [ "alloy_sheet", 1 ] ],
+      [ [ "mask_bal", 1 ], [ "kevlar_plate", 4 ] ]
+    ]
+  },
+  {
     "result": "mask_lsurvivor",
     "type": "recipe",
     "category": "CC_ARMOR",
