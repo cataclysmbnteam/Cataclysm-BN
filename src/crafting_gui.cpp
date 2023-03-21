@@ -473,17 +473,17 @@ const recipe *select_crafting_recipe( int &batch_size )
 
             if( display_mode == 0 ) {
                 if( display_mod_source ) {
-                    std::string source = enumerate_as_string( current[line]->src.begin(),
+                    const std::string source = enumerate_as_string( current[line]->src.begin(),
                     current[line]->src.end(), []( const std::pair<recipe_id, mod_id> &content_source ) {
                         return string_format( "'%s'", content_source.second->name() );
                     }, enumeration_conjunction::arrow );
 
-                    std::string text = string_format( _( "Origin: %s" ), colorize( source, c_light_blue ) );
+                    const std::string text = string_format( _( "Origin: %s" ), colorize( source, c_light_blue ) );
                     print_colored_text( w_data, point( xpos, ypos++ ), col, col, text );
                 }
                 if( display_object_ids ) {
-                    std::string ident = string_format( "[%s]", current[line]->ident() );
-                    std::string text = string_format( _( "ID: %s" ), colorize( ident, c_light_blue ) );
+                    const std::string ident = string_format( "[%s]", current[line]->ident() );
+                    const std::string text = string_format( _( "ID: %s" ), colorize( ident, c_light_blue ) );
                     print_colored_text( w_data, point( xpos, ypos++ ), col, col, text );
                 }
 
