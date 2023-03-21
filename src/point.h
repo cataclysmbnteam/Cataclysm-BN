@@ -86,21 +86,7 @@ struct point {
      * by @param dim
      * By default rotates around the origin (0, 0).
      * NOLINTNEXTLINE(cata-use-named-point-constants) */
-    point rotate( int turns, const point &dim = { 1, 1 } ) const {
-        assert( turns >= 0 );
-        assert( turns <= 4 );
-
-        switch( turns ) {
-            case 1:
-                return { dim.y - y - 1, x };
-            case 2:
-                return { dim.x - x - 1, dim.y - y - 1 };
-            case 3:
-                return { y, dim.x - x - 1 };
-        }
-
-        return *this;
-    }
+    point rotate( int turns, const point &dim = { 1, 1 } ) const;
 
     std::string to_string() const;
 

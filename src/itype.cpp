@@ -43,6 +43,38 @@ itype::itype()
 
 itype::~itype() = default;
 
+int itype::damage_min() const
+{
+    return count_by_charges() ? 0 : damage_min_;
+}
+
+int itype::damage_max() const
+{
+    return count_by_charges() ? 0 : damage_max_;
+}
+
+std::string itype::get_item_type_string() const
+{
+    if( tool ) {
+        return "TOOL";
+    } else if( comestible ) {
+        return "FOOD";
+    } else if( container ) {
+        return "CONTAINER";
+    } else if( armor ) {
+        return "ARMOR";
+    } else if( book ) {
+        return "BOOK";
+    } else if( gun ) {
+        return "GUN";
+    } else if( bionic ) {
+        return "BIONIC";
+    } else if( ammo ) {
+        return "AMMO";
+    }
+    return "misc";
+}
+
 std::string itype::nname( unsigned int quantity ) const
 {
     // Always use singular form for liquids.
@@ -51,6 +83,49 @@ std::string itype::nname( unsigned int quantity ) const
         quantity = 1;
     }
     return name.translated( quantity );
+}
+
+const itype_id &itype::get_id() const
+{
+    return id;
+}
+
+bool itype::count_by_charges() const
+{
+    return stackable_ || ammo || comestible;
+}
+
+int itype::charges_default() const
+{
+    if( tool ) {
+        return tool->def_charges;
+    } else if( comestible ) {
+        return comestible->def_charges;
+    } else if( ammo ) {
+        return ammo->def_charges;
+    }
+    return count_by_charges() ? 1 : 0;
+}
+
+int itype::charges_to_use() const
+{
+    if( tool ) {
+        return static_cast<int>( tool->charges_per_use );
+    }
+    return 1;
+}
+
+int itype::charge_factor() const
+{
+    return tool ? tool->charge_factor : 1;
+}
+
+int itype::maximum_charges() const
+{
+    if( tool ) {
+        return tool->max_charges;
+    }
+    return 0;
 }
 
 int itype::charges_per_volume( const units::volume &vol ) const
