@@ -93,7 +93,6 @@
         "|  1||",
         "|||||;"
       ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "mi-go_palette" ],
       "place_monsters": [ { "monster": "GROUP_zallosaurus_BRUTE", "x": [ 1, 3 ], "y": [ 3, 4 ], "repeat": [ 1, 2 ] } ]
     }
@@ -114,7 +113,6 @@
         "|  1||",
         "|||||v"
       ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "mi-go_palette" ],
       "place_monsters": [ { "monster": "GROUP_zyrannosaurus_BRUTE", "x": [ 1, 3 ], "y": [ 3, 4 ], "repeat": [ 1, 2 ] } ]
     }
