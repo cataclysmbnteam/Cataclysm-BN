@@ -267,7 +267,7 @@ inline cata_cursesport::cursecell *cur_cell( cata_cursesport::WINDOW *win )
 }
 
 //The core printing function, prints characters to the array, and sets colors
-inline void printstring( cata_cursesport::WINDOW *win, const std::string &text )
+inline void printstring( cata_cursesport::WINDOW *win, std::string_view text )
 {
     using cata_cursesport::cursecell;
     win->draw = true;
@@ -275,7 +275,7 @@ inline void printstring( cata_cursesport::WINDOW *win, const std::string &text )
     if( len == 0 ) {
         return;
     }
-    const char *fmt = text.c_str();
+    const char *fmt = text.data();
     // avoid having an invalid cursorx, so that cur_cell will only return nullptr
     // when the bottom of the window has been reached.
     if( win->cursor.x >= win->width ) {
@@ -352,7 +352,7 @@ inline void printstring( cata_cursesport::WINDOW *win, const std::string &text )
 }
 
 //Prints a formatted string to a window at the current cursor, base function
-void catacurses::wprintw( const window &win, const std::string &text )
+void catacurses::wprintw( const window &win, std::string_view text )
 {
     if( !win ) {
         // TODO: log this
@@ -363,7 +363,7 @@ void catacurses::wprintw( const window &win, const std::string &text )
 }
 
 //Prints a formatted string to a window, moves the cursor
-void catacurses::mvwprintw( const window &win, const point &p, const std::string &text )
+void catacurses::mvwprintw( const window &win, const point &p, std::string_view text )
 {
     if( !wmove_internal( win, p ) ) {
         return;

@@ -100,15 +100,15 @@ void catacurses::wmove( const window &win, const point &p )
     return curses_check_result( ::wmove( win.get<::WINDOW>(), p.y, p.x ), OK, "wmove" );
 }
 
-void catacurses::mvwprintw( const window &win, const point &p, const std::string &text )
+void catacurses::mvwprintw( const window &win, const point &p, std::string_view text )
 {
-    return curses_check_result( ::mvwprintw( win.get<::WINDOW>(), p.y, p.x, "%s", text.c_str() ),
+    return curses_check_result( ::mvwprintw( win.get<::WINDOW>(), p.y, p.x, "%s", text.data() ),
                                 OK, "mvwprintw" );
 }
 
-void catacurses::wprintw( const window &win, const std::string &text )
+void catacurses::wprintw( const window &win, std::string_view text )
 {
-    return curses_check_result( ::wprintw( win.get<::WINDOW>(), "%s", text.c_str() ),
+    return curses_check_result( ::wprintw( win.get<::WINDOW>(), "%s", text.data() ),
                                 OK, "wprintw" );
 }
 

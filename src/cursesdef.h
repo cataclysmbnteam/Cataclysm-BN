@@ -101,17 +101,19 @@ void wrefresh( const window &win );
 void refresh();
 void doupdate();
 void wredrawln( const window &win, int beg_line, int num_lines );
-void mvwprintw( const window &win, const point &p, const std::string &text );
+void mvwprintw( const window &win, const point &p, std::string_view text );
+
 template<typename ...Args>
-inline void mvwprintw( const window &win, const point &p, const char *const fmt,
+inline void mvwprintw( const window &win, const point &p, std::string_view fmt,
                        Args &&... args )
 {
     return mvwprintw( win, p, string_format( fmt, std::forward<Args>( args )... ) );
 }
 
-void wprintw( const window &win, const std::string &text );
+void wprintw( const window &win, std::string_view text );
+
 template<typename ...Args>
-inline void wprintw( const window &win, const char *const fmt, Args &&... args )
+inline void wprintw( const window &win, std::string_view fmt, Args &&... args )
 {
     return wprintw( win, string_format( fmt, std::forward<Args>( args )... ) );
 }
