@@ -524,6 +524,38 @@
     ]
   },
   {
+    "result": "sasurvivor_suit",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "difficulty": 7,
+    "skills_required": [ "fabrication", 9 ],
+    "time": "6 h",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 200 ] ],
+    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "components": [
+      [ [ "rag", 20 ] ],
+      [ [ "leather", 20 ] ],
+      [ [ "vp_superalloy_plate", 2 ], [ "alloy_sheet", 9 ] ],
+      [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
+      [
+        [ "tacvest", 1 ],
+        [ "legrig", 1 ],
+        [ "vest", 1 ],
+        [ "tool_belt", 1 ],
+        [ "ragpouch", 6 ],
+        [ "leather_pouch", 4 ],
+        [ "dump_pouch", 1 ],
+        [ "purse", 2 ],
+        [ "fanny", 2 ]
+      ],
+      [ [ "duct_tape", 300 ] ],
+      [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 24 ] ]
+    ]
+  },
+  {
     "result": "jumpsuit",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -864,6 +896,38 @@
       ],
       [ [ "duct_tape", 400 ] ],
       [ [ "kevlar", 2 ], [ "modularvest", 2 ], [ "swat_armor", 2 ], [ "kevlar_plate", 42 ] ]
+    ]
+  },
+  {
+    "result": "xlsasurvivor_suit",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "difficulty": 8,
+    "skills_required": [ "fabrication", 10 ],
+    "time": "9 h",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 200 ] ],
+    "tools": [ [ [ "welder", 112 ], [ "welder_crude", 168 ], [ "soldering_iron", 168 ], [ "toolset", 168 ] ] ],
+    "components": [
+      [ [ "rag", 30 ] ],
+      [ [ "leather", 40 ] ],
+      [ [ "vp_superalloy_plate", 3 ], [ "alloy_sheet", 12 ] ],
+      [ [ "coat_rain", 2 ], [ "jacket_windbreaker", 2 ], [ "jacket_evac", 2 ], [ "coat_gut", 2 ] ],
+      [
+        [ "tacvest", 1 ],
+        [ "legrig", 1 ],
+        [ "vest", 1 ],
+        [ "tool_belt", 1 ],
+        [ "ragpouch", 6 ],
+        [ "leather_pouch", 4 ],
+        [ "dump_pouch", 1 ],
+        [ "purse", 2 ],
+        [ "fanny", 2 ]
+      ],
+      [ [ "duct_tape", 400 ] ],
+      [ [ "kevlar", 2 ], [ "modularvest", 2 ], [ "swat_armor", 2 ], [ "kevlar_plate", 48 ] ]
     ]
   },
   {
