@@ -1451,9 +1451,10 @@ npc_action npc::method_of_attack()
     }
 
     // TODO: Needs a check for transparent but non-passable tiles on the way
-    if( !modes.empty() && sees( *critter ) &&
-        ranged::aim_per_move( *this, r_weapon, recoil ) > 0 &&
-        confident_shoot_range( r_weapon, ranged::get_most_accurate_sight( *this, r_weapon ) ) >= dist ) {
+    int effective_range = modes.empty() ? 0 :
+                          confident_gun_mode_range( modes[0].second, ranged::get_most_accurate_sight( *this, r_weapon ) );
+    if( !modes.empty() && sees( *critter ) && ranged::aim_per_move( *this, r_weapon, recoil ) > 0 &&
+        effective_range >= dist ) {
         add_msg( m_debug, "%s is aiming", disp_name() );
         if( critter->is_player() && player_character.sees( *this ) ) {
             add_msg( m_bad, _( "%s takes aim at you!" ), disp_name() );
@@ -2035,9 +2036,6 @@ int npc::confident_shoot_range( const item &it, int recoil ) const
     int res = 0;
     if( !it.is_gun() ) {
         return res;
-    }
-    if( confident_range_cache ) {
-        return *confident_range_cache;
     }
     for( const auto &m : it.gun_all_modes() ) {
         res = std::max( res, confident_gun_mode_range( m.second, recoil ) );
