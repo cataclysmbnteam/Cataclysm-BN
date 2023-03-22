@@ -859,7 +859,7 @@
     "environmental_protection": 3,
     "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
   },
-   {
+  {
     "id": "xlsasurvivor_suit",
     "type": "ARMOR",
     "name": { "str": "XL superalloy survivor suit" },
