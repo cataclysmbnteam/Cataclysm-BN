@@ -7345,8 +7345,9 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
         } else {
             photo_text += _( "It is day. " );
         }
-        photo_text += string_format( _( "The weather is %s." ), colorize( get_weather().weather_id->name,
-                                     get_weather().weather_id->color ) );
+        photo_text += string_format( _( "The weather is %s." ),
+                                     colorize( get_weather().weather_id->name,
+                                               get_weather().weather_id->color ) );
     }
 
     for( const auto &figure : description_figures_appearance ) {

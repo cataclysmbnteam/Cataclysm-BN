@@ -162,6 +162,11 @@ int utf8_width( const std::string &str, const bool ignore_tags )
     return utf8_width( str.c_str(), ignore_tags );
 }
 
+int utf8_width( std::string_view str, const bool ignore_tags )
+{
+    return utf8_width( str.data(), ignore_tags );
+}
+
 int utf8_width( const utf8_wrapper &str, const bool ignore_tags )
 {
     return utf8_width( str.c_str(), ignore_tags );

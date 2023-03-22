@@ -99,7 +99,7 @@ void color_manager::finalize()
     }
 }
 
-nc_color color_manager::name_to_color( const std::string &name,
+nc_color color_manager::name_to_color( std::string_view name,
                                        const report_color_error color_error ) const
 {
     const color_id id = name_to_id( name, color_error );
@@ -108,10 +108,10 @@ nc_color color_manager::name_to_color( const std::string &name,
     return entry.custom > 0 ? entry.custom : entry.color;
 }
 
-color_id color_manager::name_to_id( const std::string &name,
+color_id color_manager::name_to_id( std::string_view name,
                                     const report_color_error color_error ) const
 {
-    auto iter = name_map.find( name );
+    auto iter = name_map.find( std::string( name ) );
     if( iter == name_map.end() ) {
         if( color_error == report_color_error::yes ) {
             debugmsg( "couldn't parse color: %s", name );
@@ -194,8 +194,8 @@ nc_color color_manager::get_highlight( const nc_color &color, const hl_enum bg )
     return hl[bg];
 }
 
-nc_color color_manager::highlight_from_names( const std::string &name,
-        const std::string &bg_name ) const
+nc_color color_manager::highlight_from_names( std::string_view name,
+        std::string_view bg_name ) const
 {
     /*
     //             Base Name      Highlight      Red BG              White BG            Green BG            Yellow BG
@@ -207,9 +207,9 @@ nc_color color_manager::highlight_from_names( const std::string &name,
     std::string hi_name;
 
     if( bg_name.empty() ) {  //c_black -> h_black
-        hi_name = "h_" + name.substr( 2, name.length() - 2 );
+        hi_name =  "h_"  + std::string( name.substr( 2, name.length() - 2 ) );
     } else {
-        hi_name = name + "_" + bg_name;
+        hi_name = std::string( name ) +  "_"  + std::string( bg_name );
     }
 
     color_id id = name_to_id( hi_name );
@@ -559,13 +559,13 @@ nc_color cyan_background( const nc_color &c )
  * @param color The color to get, as a std::string.
  * @return The nc_color constant that matches the input.
  */
-nc_color color_from_string( const std::string &color,
+nc_color color_from_string( std::string_view color,
                             const report_color_error color_error )
 {
     if( color.empty() ) {
         return c_unset;
     }
-    std::string new_color = color;
+    std::string new_color{color};
     if( new_color.substr( 1, 1 ) != "_" ) { //c_  //i_  //h_
         new_color = "c_" + new_color;
     }
@@ -612,10 +612,10 @@ std::string string_from_color( const nc_color &color )
  * @param color The color to get, as a std::string.
  * @return The nc_color constant that matches the input.
  */
-nc_color bgcolor_from_string( const std::string &color )
+nc_color bgcolor_from_string( std::string_view color )
 {
 
-    std::string new_color = "i_" + color;
+    std::string new_color =  "i_"  + std::string( color );
 
     const std::pair<std::string, std::string> pSearch[2] = { { "light_", "lt" }, { "dark_", "dk" } };
     for( const auto &i : pSearch ) {
@@ -636,7 +636,7 @@ nc_color bgcolor_from_string( const std::string &color )
     return i_white;
 }
 
-color_tag_parse_result get_color_from_tag( const std::string &s,
+color_tag_parse_result get_color_from_tag( std::string_view s,
         const report_color_error color_error )
 {
     if( s.empty() || s[0] != '<' ) {
@@ -649,10 +649,10 @@ color_tag_parse_result get_color_from_tag( const std::string &s,
         return { color_tag_parse_result::non_color_tag, {} };
     }
     size_t tag_close = s.find( '>' );
-    if( tag_close == std::string::npos ) {
+    if( tag_close == std::string_view::npos ) {
         return { color_tag_parse_result::non_color_tag, {} };
     }
-    std::string color_name = s.substr( 7, tag_close - 7 );
+    std::string_view color_name = s.substr( 7, tag_close - 7 );
     const nc_color color = color_from_string( color_name, color_error );
     if( color != c_unset ) {
         return { color_tag_parse_result::open_color_tag, color };
@@ -671,6 +671,16 @@ std::string colorize( const std::string &text, const nc_color &color )
     return get_tag_from_color( color ) + text + "</color>";
 }
 
+std::string colorize( std::string_view text, const nc_color &color )
+{
+    return colorize( std::string( text ), color );
+}
+
+std::string colorize( const char *text, const nc_color &color )
+{
+    return colorize( std::string( text ), color );
+}
+
 std::string colorize( const translation &text, const nc_color &color )
 {
     return colorize( text.translated(), color );
@@ -687,9 +697,9 @@ std::string get_note_string_from_color( const nc_color &color )
     return "Y";
 }
 
-nc_color get_note_color( const std::string &note_id )
+nc_color get_note_color( std::string_view note_id )
 {
-    const auto candidate_color = color_by_string_map.find( note_id );
+    const auto candidate_color = color_by_string_map.find( std::string( note_id ) );
     if( candidate_color != std::end( color_by_string_map ) ) {
         return candidate_color->second.color;
     }
@@ -1036,9 +1046,9 @@ bool color_manager::save_custom()
     }, _( "custom colors" ) );
 }
 
-void color_manager::load_custom( const std::string &sPath )
+void color_manager::load_custom( std::string_view sPath )
 {
-    const auto file = sPath.empty() ? PATH_INFO::custom_colors() : sPath;
+    const auto file = sPath.empty() ? PATH_INFO::custom_colors() : std::string( sPath );
 
     read_from_file_optional_json( file, [this]( JsonIn & jsonin ) {
         deserialize( jsonin );
