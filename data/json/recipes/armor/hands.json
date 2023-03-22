@@ -181,7 +181,7 @@
     "components": [
       [ [ "rag", 2 ] ],
       [ [ "leather", 2 ] ],
-      [ [ "alloy_sheet", 1 ] ],
+      [ [ "alloy_sheet", 2 ] ],
       [ [ "duct_tape", 50 ] ],
       [ [ "gloves_tactical", 1 ], [ "kevlar_plate", 4 ] ],
       [
