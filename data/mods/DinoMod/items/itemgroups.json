@@ -6,7 +6,6 @@
       [ "kiernans_notes", 1 ],
       [ "iv_mutagen_tyrant", 3 ],
       [ "iv_mutagen_stego", 3 ],
-      [ "iv_mutagen_horns", 3 ],
       [ "mutagen_tyrant", 5 ],
       [ "mutagen_stego", 5 ],
       [ "mutagen_horns", 5 ]
@@ -24,7 +23,6 @@
       [ "egg_dino_theropod", 75 ],
       [ "mutagen_tyrant", 30 ],
       [ "mutagen_stego", 30 ],
-      [ "mutagen_horns", 30 ],
       [ "kiernans_notes", 10 ],
       { "item": "kevlar_armor_elephant", "prob": 10 },
       { "item": "acidchitin_armor_elephant", "prob": 10 },
