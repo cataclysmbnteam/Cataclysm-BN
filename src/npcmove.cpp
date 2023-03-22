@@ -4590,8 +4590,11 @@ void npc::do_reload( const item &it )
     item &target = const_cast<item &>( *reload_opt.target );
     item_location &usable_ammo = reload_opt.ammo;
 
-    int qty = std::max( 1, std::min( usable_ammo->charges,
-                                     it.ammo_capacity() - it.ammo_remaining() ) );
+    // If in danger, don't spend multiple turns reloading a weapon to full one by one.
+    // Get enough to shoot the enemy once, then unload it on them.
+    int qty = ai_cache.danger > 0 ? std::max( 1, std::min( usable_ammo->charges,
+              it.ammo_required() - it.ammo_remaining() ) ) :
+              std::max( 1, std::min( usable_ammo->charges, it.ammo_capacity() - it.ammo_remaining() ) );
     int reload_time = item_reload_cost( it, *usable_ammo, qty );
     // TODO: Consider printing this info to player too
     const std::string ammo_name = usable_ammo->tname();
