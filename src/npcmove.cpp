@@ -1122,6 +1122,9 @@ void npc::execute_action( npc_action action )
                     discharge_cbm_weapon();
                 }
             }
+            // Important, if firing the gun drops ammo below ammo_required(), value must be recalculated
+            // or NPCs will think the gun is better than their sword.
+            clear_npc_ai_info_cache( "weapon_value" );
             break;
         }
 
@@ -1491,9 +1494,36 @@ static bool wants_to_reload_with( const item &weap, const item &ammo )
     return !ammo.is_magazine() || ammo.ammo_remaining() > weap.ammo_remaining();
 }
 
+void npc::check_or_reload_cbm()
+{
+    if( get_npc_ai_info_cache( "reloadable cbms" ) ) {
+        add_msg( m_debug, "Cancelling cbm reload check as cache is not empty." );
+        return;
+    }
+
+    std::vector<std::pair<int, item>> checklist = find_reloadable_cbms();
+
+    if( !checklist.empty() ) {
+        for( std::pair<int, item> itp : checklist ) {
+            const item_location it_loc = character_funcs::select_ammo( *this, itp.second ).ammo;
+            if( it_loc && wants_to_reload_with( itp.second, *it_loc ) ) {
+                do_reload( itp.second );
+                ( *my_bionics )[itp.first].ammo_loaded =
+                    itp.second.ammo_data() != nullptr ? itp.second.ammo_data()->get_id() : itype_id::NULL_ID();
+                ( *my_bionics )[itp.first].ammo_count = static_cast<unsigned int>( itp.second.ammo_remaining() );
+                return;
+            }
+        }
+    }
+
+    set_npc_ai_info_cache( "reloadable cbms", 0.0 );
+    return;
+}
+
 item &npc::find_reloadable()
 {
     if( get_npc_ai_info_cache( "reloadables" ) ) {
+        add_msg( m_debug, "Cancelling reload check as cache is not empty." );
         return null_item_reference();
     }
     // Check wielded gun, non-wielded guns, mags and tools
@@ -1842,6 +1872,8 @@ npc_action npc::address_needs( float danger )
     if( one_in( 3 ) && can_reload_current() ) {
         return npc_reload;
     }
+
+    check_or_reload_cbm();
 
     item &reloadable = find_reloadable();
     if( !reloadable.is_null() ) {
@@ -3456,21 +3488,21 @@ bool npc::wield_better_weapon()
         add_msg( m_debug, "Wielded %s is best at %.1f, not switching", best->type->get_id().str(),
                  best_value );
         return false;
-    }
+    } else {
+        if( cbm_weapon_index >= 0 ) {
+            deactivate_bionic( ( *my_bionics )[cbm_weapon_index] );
+            cbm_weapon_index = -1;
+        }
 
-    if( cbm_weapon_index >= 0 ) {
-        deactivate_bionic( ( *my_bionics )[ cbm_weapon_index ] );
-        cbm_weapon_index = -1;
-    }
-
-    if( !cbm_fake_active.is_null() ) {
-        const float allowed_ratio = static_cast<int>( rules.cbm_reserve ) / 100.0f;
-        const units::energy free_power = get_power_level() - get_max_power_level() * allowed_ratio;
-        if( npc_ai::weapon_value( *this, *best, best->shots_remaining() ) >
-            npc_ai::weapon_value( *this, cbm_fake_active,
-                                  free_power / ( *my_bionics )[ cbm_active_index ].info().power_activate ) ) {
-            cbm_fake_active = null_item_reference();
-            cbm_active_index = -1;
+        if( !cbm_fake_active.is_null() ) {
+            const float allowed_ratio = static_cast<int>( rules.cbm_reserve ) / 100.0f;
+            const units::energy free_power = get_power_level() - get_max_power_level() * allowed_ratio;
+            if( npc_ai::weapon_value( *this, *best, best->shots_remaining() ) >
+                npc_ai::weapon_value( *this, cbm_fake_active,
+                                      free_power / ( *my_bionics )[cbm_active_index].info().power_activate ) ) {
+                cbm_fake_active = null_item_reference();
+                cbm_active_index = -1;
+            }
         }
     }
 
@@ -4611,6 +4643,10 @@ void npc::do_reload( const item &it )
         add_msg( _( "%1$s reloads their %2$s." ), name, it.tname() );
         sfx::play_variant_sound( "reload", it.typeId().str(), sfx::get_heard_volume( pos() ),
                                  sfx::get_heard_angle( pos() ) );
+    }
+
+    if( is_wielding( it ) ) {
+        clear_npc_ai_info_cache( "weapon_value" );
     }
 
     // Otherwise the NPC may not equip the weapon until they see danger

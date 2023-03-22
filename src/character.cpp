@@ -2259,6 +2259,7 @@ item &Character::i_add( item it, bool should_stack )
     auto &item_in_inv = inv.add_item( it, keep_invlet, true, should_stack );
     item_in_inv.on_pickup( *this );
     clear_npc_ai_info_cache( "reloadables" );
+    clear_npc_ai_info_cache( "reloadable cbms" );
     return item_in_inv;
 }
 

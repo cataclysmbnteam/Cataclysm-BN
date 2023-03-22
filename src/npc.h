@@ -1026,6 +1026,8 @@ class npc : public player
         void check_or_use_weapon_cbm();
         // disable toggled weapon cbms
         void deactivate_weapon_cbm();
+        // returns list of reloadable cbms.
+        std::vector<std::pair<int, item>> find_reloadable_cbms();
 
         // complain about a specific issue if enough time has passed
         // @param issue string identifier of the issue
@@ -1100,6 +1102,8 @@ class npc : public player
         /** Has a gun or magazine that can be reloaded */
         const item &find_reloadable() const;
         item &find_reloadable();
+        /* Checks and reloads any possible CBM toggled weapons.*/
+        void check_or_reload_cbm();
         /** Finds ammo the NPC could use to reload a given object */
         item_location find_usable_ammo( const item &weap );
         item_location find_usable_ammo( const item &weap ) const;

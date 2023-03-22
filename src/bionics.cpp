@@ -466,6 +466,29 @@ void npc::deactivate_weapon_cbm()
             deactivate_bionic( i );
         }
     }
+    clear_npc_ai_info_cache( "weapon_value" );
+}
+
+std::vector<std::pair<int, item>> npc::find_reloadable_cbms()
+{
+    std::vector<std::pair<int, item>> cbm_list;
+    // Runs down full list of CBMs that qualify as weapons.
+    // Need a way to make this less costly.
+    int cbm_index = 0;
+    for( bionic bio : *my_bionics ) {
+        if( bio.info().has_flag( flag_BIONIC_WEAPON ) ) {
+            item cbm_fake = item( bio.info().fake_item );
+            if( cbm_fake.ammo_required() > 0  &&
+                static_cast<int>( bio.ammo_count ) < cbm_fake.ammo_capacity() ) {
+                if( bio.ammo_count > 0 ) {
+                    cbm_fake.ammo_set( bio.ammo_loaded, bio.ammo_count );
+                }
+                cbm_list.push_back( std::make_pair( cbm_index, cbm_fake ) );
+            }
+        }
+        cbm_index++;
+    }
+    return cbm_list;
 }
 
 void npc::check_or_use_weapon_cbm()
@@ -527,7 +550,7 @@ void npc::check_or_use_weapon_cbm()
                         const units::energy ups_charges = units::from_kilojoule( charges_of( itype_UPS ) );
 
                         if( npc_ai::weapon_value( *this, weapon, weapon.shots_remaining( ups_charges ) ) <
-                            npc_ai::weapon_value( *this, cbm_fake, cbm_fake.shots_remaining() ) ) {
+                            npc_ai::weapon_value( *this, cbm_fake, cbm_fake.shots_remaining( free_power ) ) ) {
                             melee_index = i;
                         }
                     }
@@ -544,6 +567,7 @@ void npc::check_or_use_weapon_cbm()
                     add_msg( m_info, _( "%s activates their %s." ), disp_name(),
                              ( *my_bionics )[ melee_index ].info().name );
                 }
+                clear_npc_ai_info_cache( "weapon_value" );
                 cbm_weapon_index = melee_index;
             }
         }
