@@ -45,17 +45,17 @@ void lightson_game::reset_level()
     position = point_zero;
 }
 
-bool lightson_game::get_value_at( const point &pt )
+bool lightson_game::get_value_at( point pt )
 {
     return level[pt.y * level_size.x + pt.x];
 }
 
-void lightson_game::set_value_at( const point &pt, bool value )
+void lightson_game::set_value_at( point pt, bool value )
 {
     level[pt.y * level_size.x + pt.x] = value;
 }
 
-void lightson_game::toggle_value_at( const point &pt )
+void lightson_game::toggle_value_at( point pt )
 {
     set_value_at( pt, !get_value_at( pt ) );
 }
@@ -108,7 +108,7 @@ void lightson_game::toggle_lights()
     toggle_lights_at( position );
 }
 
-void lightson_game::toggle_lights_at( const point &pt )
+void lightson_game::toggle_lights_at( point pt )
 {
     toggle_value_at( pt );
 

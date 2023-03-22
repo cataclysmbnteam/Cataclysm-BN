@@ -572,7 +572,7 @@ class Creature
         virtual std::set<tripoint> get_path_avoid() const = 0;
 
         int moves = 0;
-        void draw( const catacurses::window &w, const point &origin, bool inverted ) const;
+        void draw( const catacurses::window &w, point origin, bool inverted ) const;
         void draw( const catacurses::window &w, const tripoint &origin, bool inverted ) const;
         /**
          * Write information about this creature.

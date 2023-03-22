@@ -1,6 +1,6 @@
 #include "coordinates.h"
 
-void real_coords::fromabs( const point &abs )
+void real_coords::fromabs( point abs )
 {
     const point norm( std::abs( abs.x ), std::abs( abs.y ) );
     abs_pos = abs;

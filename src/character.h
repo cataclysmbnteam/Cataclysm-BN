@@ -2066,7 +2066,7 @@ class Character : public Creature, public visitable<Character>
         // used in debugging all health
         int get_lowest_hp() const;
         bool has_weapon() const override;
-        void shift_destination( const point &shift );
+        void shift_destination( point shift );
         // Auto move methods
         void set_destination( const std::vector<tripoint> &route,
                               const player_activity &new_destination_activity = player_activity() );

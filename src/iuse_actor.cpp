@@ -4091,7 +4091,7 @@ std::unique_ptr<iuse_actor> place_trap_actor::clone() const
     return std::make_unique<place_trap_actor>( *this );
 }
 
-static bool is_solid_neighbor( const tripoint &pos, const point &offset )
+static bool is_solid_neighbor( const tripoint &pos, point offset )
 {
     map &here = get_map();
     const tripoint a = pos + offset;
