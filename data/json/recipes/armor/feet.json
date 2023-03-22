@@ -140,7 +140,7 @@
     "components": [
       [ [ "rag", 4 ] ],
       [ [ "leather", 4 ] ],
-      [ [ "alloy_sheet", 2 ] ],
+      [ [ "alloy_sheet", 3 ] ],
       [ [ "kevlar_plate", 4 ] ],
       [ [ "duct_tape", 100 ] ],
       [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ]
