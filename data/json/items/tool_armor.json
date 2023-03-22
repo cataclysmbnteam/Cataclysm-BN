@@ -1278,7 +1278,7 @@
     "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE" ]
   },
-   {
+  {
     "id": "mask_sasurvivor",
     "type": "TOOL_ARMOR",
     "category": "clothing",
