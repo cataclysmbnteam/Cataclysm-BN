@@ -575,7 +575,7 @@
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
   },
-   {
+  {
     "id": "sasurvivor_suit",
     "type": "ARMOR",
     "name": { "str": "superalloy survivor suit" },
