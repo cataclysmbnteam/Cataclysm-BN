@@ -1072,7 +1072,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "permanent_marker", "prob": 50, "count": [ 1, 2 ] },
-      { "item": "paper", "prob": 75 },
+      { "item": "paper", "prob": 75, "charges": [ 40, 60 ] },
       { "item": "string_36", "prob": 75, "count": [ 1, 4 ] },
       { "item": "string_6", "prob": 50, "count": [ 1, 4 ] },
       { "item": "superglue", "prob": 40 },
