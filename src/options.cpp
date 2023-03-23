@@ -1521,8 +1521,8 @@ void options_manager::add_options_interface()
          true
        );
 
-    add( "AIM_AFTER_FIRING", "interface", to_translation( "Reaim after firing" ),
-         to_translation( "If true, after firing automatically aim again if targets are available." ),
+    add( "AIM_AFTER_FIRING", "interface", translate_marker( "Reaim after firing" ),
+         translate_marker( "If true, after firing automatically aim again if targets are available." ),
          true
        );
 
