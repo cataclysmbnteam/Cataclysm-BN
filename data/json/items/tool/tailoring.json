@@ -152,7 +152,7 @@
     "color": "red",
     "ammo": "thread",
     "initial_charges": 50,
-    "max_charges": 200,
+    "max_charges": 400,
     "charges_per_use": 1,
     "qualities": [ [ "SEW", 3 ] ],
     "use_action": {
@@ -197,7 +197,7 @@
     "ammo": "thread",
     "sub": "sewing_kit",
     "initial_charges": 50,
-    "max_charges": 400,
+    "max_charges": 600,
     "charges_per_use": 1,
     "qualities": [ [ "SEW", 4 ], [ "SEW_CURVED", 1 ], [ "KNIT", 1 ], [ "LEATHER_AWL", 2 ], [ "CUT", 1 ] ],
     "use_action": [

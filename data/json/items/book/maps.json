@@ -53,6 +53,7 @@
         "bridge",
         "fema_entrance",
         "bunker",
+        "helipad",
         "outpost",
         { "om_terrain": "silo", "om_terrain_match_type": "TYPE" },
         { "om_terrain": "shelter", "om_terrain_match_type": "TYPE" },
