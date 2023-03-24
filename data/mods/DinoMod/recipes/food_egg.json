@@ -185,7 +185,7 @@
       [ [ "milk_standard_raw", 40, "LIST" ], [ "milk_powder", 40 ] ],
       [ [ "eggs_dino", 1, "LIST" ] ],
       [ [ "syrup", 40 ] ],
-      [ [ "sugar", 80 ], [ "artificial_sweetener", 80 ] ],
+      [ [ "sugar", 80 ] ],
       [ [ "any_butter_or_oil", 40, "LIST" ] ],
       [ [ "water", 40 ], [ "water_clean", 40 ] ]
     ]
@@ -206,7 +206,7 @@
       [ [ "milk_standard_raw", 40, "LIST" ], [ "milk_powder", 40 ] ],
       [ [ "eggs_dino", 1, "LIST" ] ],
       [ [ "syrup", 40 ] ],
-      [ [ "sugar", 80 ], [ "artificial_sweetener", 80 ] ],
+      [ [ "sugar", 80 ] ],
       [ [ "any_butter_or_oil", 40, "LIST" ] ],
       [ [ "water", 40 ], [ "water_clean", 40 ] ],
       [ [ "sweet_fruit_like", 40, "LIST" ], [ "jam_fruit", 40 ] ]
@@ -228,7 +228,7 @@
       [ [ "milk_standard_raw", 40, "LIST" ], [ "milk_powder", 40 ] ],
       [ [ "eggs_dino", 1, "LIST" ] ],
       [ [ "syrup", 40 ] ],
-      [ [ "sugar", 80 ], [ "artificial_sweetener", 80 ] ],
+      [ [ "sugar", 80 ] ],
       [ [ "any_butter_or_oil", 40, "LIST" ] ],
       [ [ "water", 40 ], [ "water_clean", 40 ] ],
       [ [ "chocolate", 40 ], [ "choc_drink", 80 ] ]
