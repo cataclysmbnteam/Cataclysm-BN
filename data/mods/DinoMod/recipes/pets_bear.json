@@ -121,7 +121,7 @@
     "id_suffix": "from_scratch",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_BEAR ARMOR",
-    "skill_used": "chemistry",
+    "skill_used": "tailor",
     "difficulty": 4,
     "skills_required": [ "tailor", 6 ],
     "time": "12 h 30 m",
