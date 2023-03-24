@@ -192,5 +192,5 @@ TEST_CASE( "Items don't rot away on map load if in a freezer" )
     auto sealed_stack_after = m.i_at( sealed_pnt );
     REQUIRE( sealed_stack_after.size() == 1 );
     auto normal_stack_after = m.i_at( normal_pnt );
-    REQUIRE( normal_stack_after.size() == 0 );
+    REQUIRE( normal_stack_after.empty() );
 }
