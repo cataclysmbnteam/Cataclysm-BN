@@ -3962,14 +3962,6 @@
     "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "thread", 25 ] ] ]
   },
   {
-    "result": "plunger_toilet",
-    "type": "uncraft",
-    "skill_used": "fabrication",
-    "time": "6 s",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "plastic_chunk", 2 ] ], [ [ "splinter", 3 ] ] ]
-  },
-  {
     "result": "stopcock",
     "type": "uncraft",
     "skill_used": "fabrication",
