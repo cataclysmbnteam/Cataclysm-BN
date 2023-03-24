@@ -1306,6 +1306,21 @@ struct confidence_rating {
     std::string label;
 };
 
+static int print_load_cost( const catacurses::window &w, int line_number, int reload_moves,
+                            int unload_moves )
+{
+    nc_color col = c_white;
+    if( reload_moves > 0 ) {
+        std::string load_cost = string_format( _( "Loading Cost: %d" ), reload_moves );
+        print_colored_text( w, point( 1, line_number++ ), col, col, load_cost );
+    }
+    if( unload_moves > 0 ) {
+        std::string unload_cost = string_format( _( "Unloading Cost: %d" ), unload_moves );
+        print_colored_text( w, point( 1, line_number++ ), col, col, unload_cost );
+    }
+    return line_number;
+}
+
 static int print_steadiness( const catacurses::window &w, int line_number, double steadiness )
 {
     const int window_width = getmaxx( w ) - 2; // Window width minus borders.
@@ -1553,7 +1568,8 @@ static double calculate_aim_cap( const Character &p, const tripoint &target )
 
 static int print_aim( const Character &p, const catacurses::window &w, int line_number,
                       input_context &ctxt, const item &weapon,
-                      const double target_size, const tripoint &pos, double predicted_recoil )
+                      const double target_size, const tripoint &pos, double predicted_recoil,
+                      int reload_moves, int unload_moves )
 {
     // This is absolute accuracy for the player.
     // TODO: push the calculations duplicated from Creature::deal_projectile_attack() and
@@ -1592,6 +1608,7 @@ static int print_aim( const Character &p, const catacurses::window &w, int line_
                time_to_attack( p, *weapon.type );
     };
     const double range = rl_dist( p.pos(), pos );
+    line_number = print_load_cost( w, line_number, reload_moves, unload_moves );
     line_number = print_steadiness( w, line_number, steadiness );
     return print_ranged_chance( w, line_number, ctxt, weapon, ranged::get_aim_types( p, weapon ),
                                 dispersion_fun, cost_fun, confidence_config, range, target_size );
@@ -3110,6 +3127,11 @@ bool target_ui::action_aim()
         do_aim( *you, *relevant, min_recoil );
     }
 
+    if( activity->first_turn && activity->reload_time > 0 ) {
+        you->moves -= activity->reload_time;
+        activity->first_turn = false;
+    }
+
     // We've changed pc.recoil, update penalty
     recalc_aim_turning_penalty();
 
@@ -3132,6 +3154,11 @@ bool target_ui::action_aim_and_shoot( const std::string &action )
     set_last_target();
     apply_aim_turning_penalty();
     const double min_recoil = calculate_aim_cap( *you, dst );
+    // We've already decided to fire, so apply the loading cost.
+    if( activity->first_turn && activity->reload_time > 0 ) {
+        you->moves -= activity->reload_time;
+        activity->first_turn = false;
+    }
     do {
         do_aim( *you, relevant ? *relevant : null_item_reference(), min_recoil );
     } while( you->moves > 0 && you->recoil > aim_threshold &&
@@ -3616,6 +3643,8 @@ void target_ui::panel_fire_mode_aim( int &text_y )
     double saved_pc_recoil = you->recoil;
     you->recoil = predicted_recoil;
 
+    int reload_moves = activity->first_turn ? activity->reload_time : 0;
+    int unload_moves = activity->first_turn ? 0 : activity->unload_time;
     double predicted_recoil = you->recoil;
     int predicted_delay = 0;
     if( aim_mode->has_threshold && aim_mode->threshold < you->recoil ) {
@@ -3635,7 +3664,7 @@ void target_ui::panel_fire_mode_aim( int &text_y )
                                occupied_tile_fraction( m_size::MS_MEDIUM );
 
     text_y = print_aim( *you, w_target, text_y, ctxt, *relevant->gun_current_mode(),
-                        target_size, dst, predicted_recoil );
+                        target_size, dst, predicted_recoil, reload_moves, unload_moves );
 
     if( aim_mode->has_threshold ) {
         mvwprintw( w_target, point( 1, text_y++ ), _( "%s Delay: %i" ), aim_mode->name,

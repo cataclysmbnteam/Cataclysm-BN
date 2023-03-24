@@ -145,10 +145,6 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
             fin_trajectory = trajectory;
             act.moves_left = 0;
         }
-        // If aborting on the first turn, keep 'first_turn' as 'true'.
-        // This allows refunding moves spent on unloading RELOAD_AND_SHOOT weapons
-        // to simulate avatar not loading them in the first place
-        first_turn = false;
 
         // Allow interrupting activity only during 'aim and fire'.
         // Prevents '.' key for 'aim for 10 turns' from conflicting with '.' key for 'interrupt activity'
@@ -178,6 +174,9 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
     }
 
     // Fire!
+    if( first_turn && reload_time > 0 ) {
+        get_avatar().moves -= reload_time;
+    }
     gun_mode gun = weapon->gun_current_mode();
     int shots_fired = ranged::fire_gun( who, fin_trajectory.back(), gun.qty, *gun );
 
@@ -189,13 +188,6 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
         if( stamina_cost_per_shot > 0 ) {
             who.mod_stamina( -stamina_cost_per_shot * shots_fired );
         }
-    }
-
-    if( weapon && weapon->gun_current_mode()->has_flag( flag_RELOAD_AND_SHOOT ) ) {
-        // RAS weapons are currently bugged, this is a workaround so bug impact
-        // isn't amplified, once #54997 and #50571 are fixed this can be removed.
-        restore_view();
-        return;
     }
 
     if( !get_option<bool>( "AIM_AFTER_FIRING" ) ) {
@@ -332,13 +324,15 @@ bool aim_activity_actor::load_RAS_weapon()
         // Menu canceled
         return false;
     }
-    const int reload_time = reload_stamina_penalty + opt.moves();
+    reload_time = reload_stamina_penalty + opt.moves();
+    // If the ratio is changed, or if the formula is changed. This becomes a display error.
+    // Better that than an actual move cost bug though.
+    unload_time = opt.moves() / 2;
     if( !gun->reload( you, std::move( opt.ammo ), 1 ) ) {
         // Reload not allowed
         return false;
     }
 
-    you.moves -= reload_time;
     loaded_RAS_weapon = true;
     return true;
 }

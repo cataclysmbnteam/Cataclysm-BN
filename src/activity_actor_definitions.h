@@ -37,6 +37,10 @@ class aim_activity_actor : public activity_actor
         bool aborted = false;
         /** RELOAD_AND_SHOOT weapon is kept loaded by the activity */
         bool loaded_RAS_weapon = false;
+        /* Moves needed to load weapon */
+        int reload_time = 0;
+        /* Moves needed to unload weapon. Will be wrong if the formula is changed in unload_item() */
+        int unload_time = 0;
         /** if true abort if no targets are available when re-entering aiming ui after shooting */
         bool abort_if_no_targets = false;
         /**
