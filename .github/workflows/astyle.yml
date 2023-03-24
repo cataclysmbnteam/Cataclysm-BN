@@ -1,6 +1,8 @@
 name: astyle
 
-on: pull_request
+on:
+  pull_request_target:
+    paths: ["**.cpp", "**.hpp", "**.h", "**.c"]
 
 jobs:
   skip-duplicates:

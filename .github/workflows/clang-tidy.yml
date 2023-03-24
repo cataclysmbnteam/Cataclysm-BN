@@ -2,11 +2,11 @@ name: Clang-tidy (clang-12, tiles)
 
 on:
   push:
-    branches:
-      - upload
+    branches: [upload]
+    paths: ["**.cpp", "**.hpp", "**.h", "**.c"]
   pull_request:
-    branches:
-      - upload
+    branches: [upload]
+    paths: ["**.cpp", "**.hpp", "**.h", "**.c"]
 
 # We only care about the latest revision of a PR, so cancel all previous instances.
 concurrency:
