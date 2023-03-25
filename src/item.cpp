@@ -1513,7 +1513,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         type->weapon_category.end(), [&]( const weapon_category_id & elem ) {
             return elem->name().translated();
         }, enumeration_conjunction::none );
-        info.push_back( iteminfo( "BASE", _( "Weapon Categories: " ),
+        info.push_back( iteminfo( "BASE", _( "Weapon Category: " ),
                                   "<header>" + weapon_categories + "</header>" ) );
     }
 
