@@ -3944,6 +3944,7 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
             int damage = 0;
             if( ( !patient.has_effect( effect_bandaged, elem.first->token ) && bandages_power > 0 ) ||
                 ( !patient.has_effect( effect_disinfected, elem.first->token ) && disinfectant_power > 0 ) ) {
+                damage += part.get_id()->essential * 10;
                 damage += part.get_hp_max() - part.get_hp_cur();
                 damage += bleed * patient.get_effect_dur( effect_bleed, elem.first->token ) / 5_minutes;
                 damage += bite * patient.get_effect_dur( effect_bite, elem.first->token ) / 10_minutes;

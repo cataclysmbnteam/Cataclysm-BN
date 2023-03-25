@@ -487,8 +487,14 @@ character_id Character::getID() const
 
 bool Character::is_dead_state() const
 {
-    return get_part_hp_cur( bodypart_id( "head" ) ) <= 0 ||
-           get_part_hp_cur( bodypart_id( "torso" ) ) <= 0;
+    bool dead = false;
+    for( bodypart_id bp : get_all_body_parts( true ) ) {
+        if( bp->essential && get_part_hp_cur( bp ) <= 0 ) {
+            dead = true;
+            break;
+        }
+    }
+    return dead;
 }
 
 field_type_id Character::bloodType() const

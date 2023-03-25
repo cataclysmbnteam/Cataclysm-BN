@@ -99,6 +99,7 @@ static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_heating_bionic( "heating_bionic" );
 static const efftype_id effect_iodine( "iodine" );
+static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_operating( "operating" );
@@ -189,6 +190,7 @@ static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
 static const trait_id trait_PROF_MED( "PROF_MED" );
+static const trait_id trait_REGEN_LIZ( "REGEN_LIZ" );
 static const trait_id trait_THRESH_MEDICAL( "THRESH_MEDICAL" );
 
 static const std::string flag_ALLOWS_NATURAL_ATTACKS( "ALLOWS_NATURAL_ATTACKS" );
@@ -1597,50 +1599,69 @@ void Character::process_bionic( bionic &bio )
         sounds::sound( pos(), 19, sounds::sound_t::activity, _( "HISISSS!" ), false, "bionic",
                        static_cast<std::string>( bio_hydraulics ) );
     } else if( bio.id == bio_nanobots ) {
-        // Total hack, prevents charge_timer reaching 0 thus preventing power draw.
-        // Ideally there would be a value that directly impacts whether a bionic draws power when idle.
-        bio.charge_timer = 2;
-        // The above hack means there's no check for whether the bionic actually has power to run.
-        if( get_power_level() < bio.info().power_over_time ) {
-            bio.powered = false;
-            add_msg_if_player( m_warning, _( "Your %s shut down due to lack of power." ), bio.info().name );
-            deactivate_bionic( bio );
-            return;
-        } else if( get_stored_kcal() < 0.85f * max_stored_kcal() ) {
+        int threshold_kcal = 0.85f * max_stored_kcal();
+        std::vector<bodypart_id> bleeding_bp_parts;
+        std::vector<bodypart_id> damaged_hp_parts;
+        std::vector<bodypart_id> mending_bp_parts;
+        if( get_stored_kcal() < threshold_kcal ) {
             bio.powered = false;
             add_msg_if_player( m_warning, _( "Your %s shut down to conserve calories." ), bio.info().name );
             deactivate_bionic( bio );
             return;
         }
-        if( calendar::once_every( 15_turns ) ) {
-            std::vector<bodypart_id> bleeding_bp_parts;
+        if( calendar::once_every( 30_turns ) ) {
             for( const bodypart_id &bp : get_all_body_parts() ) {
                 if( has_effect( effect_bleed, bp.id() ) ) {
                     bleeding_bp_parts.push_back( bp );
                 }
             }
+            // Essential parts (Head/Torso) first.
+            std::sort( bleeding_bp_parts.begin(), bleeding_bp_parts.end(),
+            []( const bodypart_id & a, const bodypart_id & b ) {
+                return a->essential > b->essential;
+            } );
             if( !bleeding_bp_parts.empty() ) {
-                const bodypart_id part_to_staunch = bleeding_bp_parts[ rng( 0, bleeding_bp_parts.size() - 1 ) ];
-                effect &e = get_effect( effect_bleed, part_to_staunch->token );
+                effect &e = get_effect( effect_bleed, bleeding_bp_parts[0]->token );
                 if( e.get_intensity() > 1 ) {
                     e.mod_intensity( -1, false );
                 } else {
-                    remove_effect( effect_bleed, part_to_staunch->token );
+                    remove_effect( effect_bleed, bleeding_bp_parts[0]->token );
                 }
             }
-            if( rng( 0, 2 ) == 2 ) {
-                std::vector<bodypart_id> damaged_hp_parts;
-                for( const std::pair<const bodypart_str_id, bodypart> &part : get_body() ) {
-                    const int hp_cur = part.second.get_hp_cur();
-                    if( hp_cur > 0 && hp_cur < part.second.get_hp_max() ) {
-                        damaged_hp_parts.push_back( part.first.id() );
+            if( calendar::once_every( 1_minutes ) ) {
+                for( const bodypart_id &bp : get_all_body_parts() ) {
+                    const int hp_cur = get_part_hp_cur( bp );
+                    if( hp_cur > 0 && hp_cur < get_part_hp_max( bp ) ) {
+                        damaged_hp_parts.push_back( bp );
+                    } else if( has_effect( effect_mending, bp.id() ) &&
+                               ( has_trait( trait_REGEN_LIZ ) || worn_with_flag( "SPLINT", bp ) ) ) {
+                        mending_bp_parts.push_back( bp );
                     }
                 }
-                if( get_stored_kcal() >= 5 && !damaged_hp_parts.empty() ) {
-                    const bodypart_id part_to_heal = damaged_hp_parts[ rng( 0, damaged_hp_parts.size() - 1 ) ];
-                    heal( part_to_heal, 1 );
-                    mod_power_level( - bio.info().power_over_time );
-                    mod_stored_kcal( -5 );
+                if( !damaged_hp_parts.empty() ) {
+                    std::sort( damaged_hp_parts.begin(), damaged_hp_parts.end(),
+                    [this]( const bodypart_id & a, const bodypart_id & b ) {
+                        return ( get_part_hp_cur( a ) - a->essential * 10 ) < ( get_part_hp_cur( a ) - a->essential * 10 );
+                    } );
+                    int i = 0;
+                    while( get_stored_kcal() >= 0.85f * max_stored_kcal() + 5 &&
+                           get_power_level() >= bio.info().power_trigger && i < damaged_hp_parts.size() ) {
+                        heal( damaged_hp_parts[i], 1 );
+                        mod_power_level( -bio.info().power_trigger );
+                        mod_stored_kcal( -5 );
+                        i++;
+                    }
+                }
+                if( !mending_bp_parts.empty() ) {
+                    int i = 0;
+                    while( get_stored_kcal() >= 0.85f * max_stored_kcal() + 5 &&
+                           get_power_level() >= bio.info().power_trigger && i < mending_bp_parts.size() ) {
+                        effect &eff = get_effect( effect_mending, mending_bp_parts[i]->token );
+                        eff.mod_duration( eff.get_max_duration() / 100 );
+                        mod_power_level( -bio.info().power_trigger );
+                        mod_stored_kcal( -5 );
+                        i++;
+                    }
                 }
             }
         }
