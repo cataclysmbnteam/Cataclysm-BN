@@ -106,12 +106,6 @@ then
         # And the same for clang-tidy
         "$CATA_CLANG_TIDY" ../src/version.cpp -- -v
 
-        # Run clang-tidy analysis instead of regular build & test
-        # We could use CMake to create compile_commands.json, but that's super
-        # slow, so use compiledb <https://github.com/nickdiego/compiledb>
-        # instead.
-        compiledb -n make
-
         cd ..
         ln -s build/compile_commands.json
 
