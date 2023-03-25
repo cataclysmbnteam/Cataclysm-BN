@@ -1516,13 +1516,13 @@ void options_manager::add_options_interface()
          false
        );
 
-    add( "QUERY_DISASSEMBLE", "interface", translate_marker( "Query on disassembly while butchering" ),
-         translate_marker( "If true, will query before disassembling items while butchering." ),
+    add( "AIM_AFTER_FIRING", "interface", translate_marker( "Reaim after firing" ),
+         translate_marker( "If true, after firing automatically aim again if targets are available." ),
          true
        );
 
-    add( "AIM_AFTER_FIRING", "interface", translate_marker( "Reaim after firing" ),
-         translate_marker( "If true, after firing automatically aim again if targets are available." ),
+    add( "QUERY_DISASSEMBLE", "interface", translate_marker( "Query on disassembly while butchering" ),
+         translate_marker( "If true, will query before disassembling items while butchering." ),
          true
        );
 
