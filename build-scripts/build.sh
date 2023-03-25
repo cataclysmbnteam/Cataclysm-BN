@@ -109,24 +109,18 @@ then
         cd ..
         ln -s build/compile_commands.json
 
-        num_jobs=1
-
         # TODO: first analyze all files that changed in this PR
-        # set +x
+        set +x
         all_cpp_files="$( \
             grep '"file": "' build/compile_commands.json | \
             sed "s+.*$PWD/++;s+\",\?$++")"
-        # set -x
-
-        echo FILE_BEGIN
-        cat build/compile_commands.json
-        echo FILE_END
+        set -x
 
         function analyze_files_in_random_order
         {
             if [ -n "$1" ]
             then
-                echo "$1" | \
+                echo "$1" | shuf | \
                     xargs -P "$num_jobs" -n 1 ./build-scripts/clang-tidy-wrapper.sh -quiet
             else
                 echo "No files to analyze"
