@@ -828,6 +828,7 @@ extract_specials = {
     "harvest" : extract_harvest,
     "mapgen": extract_mapgen,
     "martial_art": extract_martial_art,
+    "weapon_category": extract_weapon_category,
     "material": extract_material,
     "mission_definition": extract_missiondef,
     "monster_attack": extract_monster_attack,

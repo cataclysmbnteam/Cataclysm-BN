@@ -2746,6 +2746,8 @@ For `type`s: `bionic` and `bionic_group` following enrties can scale the results
 
 ### Weapon Category
 
+Used to classify weapons (guns or melee) into groups, mainly for use in martial arts.
+
 ```c++
 {
     "type": "weapon_category",
