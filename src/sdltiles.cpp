@@ -575,7 +575,7 @@ void set_displaybuffer_rendertarget()
     SetRenderTarget( renderer, display_buffer );
 }
 
-static void invalidate_framebuffer( std::vector<curseline> &framebuffer, const point &p, int width,
+static void invalidate_framebuffer( std::vector<curseline> &framebuffer, point p, int width,
                                     int height )
 {
     for( int j = 0, fby = p.y; j < height; j++, fby++ ) {
@@ -827,7 +827,7 @@ static point draw_string( Font &font,
     return p;
 }
 
-void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_omt, bool blink )
+void cata_tiles::draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bool blink )
 {
     if( !g ) {
         return;
@@ -1148,7 +1148,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     if( !notes_window_text.empty() ) {
         constexpr int padding = 2;
 
-        const auto draw_note_text = [&]( const point & draw_pos, const std::string & name,
+        const auto draw_note_text = [&]( point  draw_pos, const std::string & name,
         nc_color & color ) {
             char note_fg_color = color == c_yellow ? 11 :
                                  cata_cursesport::colorpairs[color.to_color_pair_index()].FG;
@@ -1230,7 +1230,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                   "SDL_RenderSetClipRect failed" );
 }
 
-static bool draw_window( Font_Ptr &font, const catacurses::window &w, const point &offset )
+static bool draw_window( Font_Ptr &font, const catacurses::window &w, point offset )
 {
     if( scaling_factor > 1 ) {
         SDL_RenderSetLogicalSize( renderer.get(), WindowWidth / scaling_factor,
@@ -3713,7 +3713,7 @@ void rescale_tileset( int size )
 }
 
 static window_dimensions get_window_dimensions( const catacurses::window &win,
-        const point &pos, const point &size )
+        point pos, point size )
 {
     window_dimensions dim;
     if( use_tiles && g && win == g->w_terrain ) {
@@ -3766,7 +3766,7 @@ window_dimensions get_window_dimensions( const catacurses::window &win )
     return get_window_dimensions( win, point_zero, point_zero );
 }
 
-window_dimensions get_window_dimensions( const point &pos, const point &size )
+window_dimensions get_window_dimensions( point pos, point size )
 {
     return get_window_dimensions( {}, pos, size );
 }
@@ -3782,8 +3782,8 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
 
     const int &fw = dim.scaled_font_size.x;
     const int &fh = dim.scaled_font_size.y;
-    const point &win_min = dim.window_pos_pixel;
-    const point &win_size = dim.window_size_pixel;
+    point win_min = dim.window_pos_pixel;
+    point win_size = dim.window_size_pixel;
     const point win_max = win_min + win_size;
 
     // Translate mouse coordinates to map coordinates based on tile size

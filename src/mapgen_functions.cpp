@@ -228,7 +228,7 @@ void mapgen_crater( mapgendata &dat )
 }
 
 // TODO: make void map::ter_or_furn_set(const int x, const int y, const ter_furn_id & tfid);
-static void ter_or_furn_set( map *m, const point &p, const ter_furn_id &tfid )
+static void ter_or_furn_set( map *m, point p, const ter_furn_id &tfid )
 {
     if( tfid.ter != t_null ) {
         m->ter_set( p, tfid.ter );
@@ -2488,7 +2488,7 @@ void mapgen_forest( mapgendata &dat )
     static constexpr int margin_y = SEEY * 2 / 3;
 
     const auto get_blended_feature = [&no_ter_furn, &max_factor, &factor,
-                  &get_feature_for_neighbor, &dat]( const point & p ) {
+                  &get_feature_for_neighbor, &dat]( point  p ) {
         // Pick one random feature from each biome according to the biome defs and save it into a lookup.
         // We'll blend these features together below based on the current and adjacent terrains.
         std::map<oter_id, ter_furn_id> biome_features;
@@ -2627,7 +2627,7 @@ void mapgen_forest( mapgendata &dat )
 
     // There is a chance of placing terrain dependent furniture, e.g. f_cattails on t_water_sh.
     const auto set_terrain_dependent_furniture = [&current_biome_def, &m]( const ter_id & tid,
-    const point & p ) {
+    point  p ) {
         const auto terrain_dependent_furniture_it = current_biome_def.terrain_dependent_furniture.find(
                     tid );
         if( terrain_dependent_furniture_it == current_biome_def.terrain_dependent_furniture.end() ) {
@@ -3154,10 +3154,10 @@ void mapgen_lake_shore( mapgendata &dat )
     // This will draw our shallow water coastline from the "from" point to the "to" point.
     // It buffers the points a bit for a thicker line. It also clears any furniture that might
     // be in the location as a result of our extending adjacent mapgen.
-    const auto draw_shallow_water = [&]( const point & from, const point & to ) {
+    const auto draw_shallow_water = [&]( point  from, point  to ) {
         std::vector<point> points = line_to( from, to );
         for( auto &p : points ) {
-            for( const point &bp : closest_points_first( p, 1 ) ) {
+            for( point bp : closest_points_first( p, 1 ) ) {
                 if( !map_boundaries.contains( bp ) ) {
                     continue;
                 }
@@ -3171,7 +3171,7 @@ void mapgen_lake_shore( mapgendata &dat )
 
     // Given two points, return a point that is midway between the two points and then
     // jittered by a random amount in proportion to the length of the line segment.
-    const auto jittered_midpoint = [&]( const point & from, const point & to ) {
+    const auto jittered_midpoint = [&]( point  from, point  to ) {
         const int jitter = rl_dist( from, to ) / 4;
         const point midpoint( ( from.x + to.x ) / 2 + rng( -jitter, jitter ),
                               ( from.y + to.y ) / 2 + rng( -jitter, jitter ) );
@@ -3197,14 +3197,14 @@ void mapgen_lake_shore( mapgendata &dat )
     // out any furniture that we placed by the extended mapgen.
     std::unordered_set<point> visited;
 
-    const auto should_fill = [&]( const point & p ) {
+    const auto should_fill = [&]( point  p ) {
         if( !map_boundaries.contains( p ) ) {
             return false;
         }
         return m->ter( p ) != t_null;
     };
 
-    const auto fill_deep_water = [&]( const point & starting_point ) {
+    const auto fill_deep_water = [&]( point  starting_point ) {
         std::vector<point> water_points = ff::point_flood_fill_4_connected( starting_point, visited,
                                           should_fill );
         for( auto &wp : water_points ) {
@@ -3236,19 +3236,19 @@ void mapgen_lake_shore( mapgendata &dat )
     m->translate( t_null, t_water_sh );
 }
 
-void mremove_trap( map *m, const point &p )
+void mremove_trap( map *m, point p )
 {
     tripoint actual_location( p, m->get_abs_sub().z );
     m->remove_trap( actual_location );
 }
 
-void mtrap_set( map *m, const point &p, trap_id type )
+void mtrap_set( map *m, point p, trap_id type )
 {
     tripoint actual_location( p, m->get_abs_sub().z );
     m->trap_set( actual_location, type );
 }
 
-void madd_field( map *m, const point &p, field_type_id type, int intensity )
+void madd_field( map *m, point p, field_type_id type, int intensity )
 {
     tripoint actual_location( p, m->get_abs_sub().z );
     m->add_field( actual_location, type, intensity, 0_turns );

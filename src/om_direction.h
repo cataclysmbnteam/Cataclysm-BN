@@ -72,7 +72,7 @@ const std::string &id( type dir );
 std::string name( type dir );
 
 /** Various rotations. */
-point rotate( const point &p, type dir );
+point rotate( point p, type dir );
 tripoint rotate( const tripoint &p, type dir );
 uint32_t rotate_symbol( uint32_t sym, type dir );
 

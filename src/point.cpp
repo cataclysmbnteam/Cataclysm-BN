@@ -7,7 +7,7 @@
 #include "cata_utility.h"
 
 
-point point::rotate( int turns, const point &dim ) const
+point point::rotate( int turns, point dim ) const
 {
     assert( turns >= 0 );
     assert( turns <= 4 );
@@ -38,7 +38,7 @@ std::string tripoint::to_string() const
     return os.str();
 }
 
-std::ostream &operator<<( std::ostream &os, const point &pos )
+std::ostream &operator<<( std::ostream &os, point pos )
 {
     return os << "(" << pos.x << "," << pos.y << ")";
 }
@@ -60,19 +60,19 @@ std::vector<tripoint> closest_points_first( const tripoint &center, int min_dist
     std::vector<tripoint> result;
     result.reserve( points.size() );
 
-    for( const point &p : points ) {
+    for( point p : points ) {
         result.emplace_back( p, center.z );
     }
 
     return result;
 }
 
-std::vector<point> closest_points_first( const point &center, int max_dist )
+std::vector<point> closest_points_first( point center, int max_dist )
 {
     return closest_points_first( center, 0, max_dist );
 }
 
-std::vector<point> closest_points_first( const point &center, int min_dist, int max_dist )
+std::vector<point> closest_points_first( point center, int min_dist, int max_dist )
 {
     min_dist = std::max( min_dist, 0 );
     max_dist = std::max( max_dist, 0 );
