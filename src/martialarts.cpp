@@ -1588,7 +1588,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
                 // This removes duplicate names (e.g. a real weapon and a replica sharing the same name) from the weapon list.
                 auto last = std::unique( weapons.begin(), weapons.end() );
                 weapons.erase( last, weapons.end() );
-                buffer += std::string( "<header>Special: </header>" );
+                buffer += _( "<header>Special: </header>" );
                 buffer += enumerate_as_string( weapons );
             }
         }
