@@ -2,7 +2,7 @@ name: astyle
 
 on:
   pull_request_target:
-    paths: ["**.cpp", "**.hpp", "**.h", "**.c"]
+    paths: [".github/workflows/astyle.yml", "Makefile", ".astylerc", "**.cpp", "**.h", "**.c"]
 
 jobs:
   skip-duplicates:

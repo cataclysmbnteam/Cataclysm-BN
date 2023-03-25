@@ -3,10 +3,10 @@ name: Clang-tidy (clang-12, tiles)
 on:
   push:
     branches: [upload]
-    paths: ["**.cpp", "**.hpp", "**.h", "**.c"]
+    paths: [ "**.cpp", "**.h", "**.c", "**/CMakeLists.txt", "**/Makefile", "**.hpp", "**.cmake", "tools/clang-tidy-plugin/**" ]
   pull_request:
     branches: [upload]
-    paths: ["**.cpp", "**.hpp", "**.h", "**.c"]
+    paths: [ "**.cpp", "**.h", "**.c", "**/CMakeLists.txt", "**/Makefile", "**.hpp", "**.cmake", "tools/clang-tidy-plugin/**" ]
 
 # We only care about the latest revision of a PR, so cancel all previous instances.
 concurrency:
