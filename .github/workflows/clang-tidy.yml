@@ -38,6 +38,7 @@ jobs:
       CATA_CLANG_TIDY: plugin
       TILES: 1
       SOUND: 1
+
     steps:
       - name: checkout repository
         uses: actions/checkout@v3
@@ -51,6 +52,7 @@ jobs:
           sudo apt-get install libncursesw5-dev clang-12 libclang-12-dev llvm-12-dev llvm-12-tools \
             libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libpulse-dev ccache \
             gettext
+
       - name: prepare
         run: bash ./build-scripts/requirements.sh
       - name: run clang-tidy
