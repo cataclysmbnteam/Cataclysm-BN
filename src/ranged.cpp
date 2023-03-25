@@ -3127,7 +3127,7 @@ bool target_ui::action_aim()
         do_aim( *you, *relevant, min_recoil );
     }
 
-    if( activity->first_turn && activity->reload_time > 0 ) {
+    if( activity->first_turn ) {
         you->moves -= activity->reload_time;
         activity->first_turn = false;
     }
@@ -3155,7 +3155,7 @@ bool target_ui::action_aim_and_shoot( const std::string &action )
     apply_aim_turning_penalty();
     const double min_recoil = calculate_aim_cap( *you, dst );
     // We've already decided to fire, so apply the loading cost.
-    if( activity->first_turn && activity->reload_time > 0 ) {
+    if( activity->first_turn ) {
         you->moves -= activity->reload_time;
         activity->first_turn = false;
     }
