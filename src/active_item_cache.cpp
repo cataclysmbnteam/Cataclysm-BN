@@ -105,7 +105,7 @@ std::vector<item_reference> active_item_cache::get_special( special_item_type ty
     return matching_items;
 }
 
-void active_item_cache::subtract_locations( const point &delta )
+void active_item_cache::subtract_locations( point delta )
 {
     for( std::pair<const int, std::list<item_reference>> &pair : active_items ) {
         for( item_reference &ir : pair.second ) {
@@ -114,7 +114,7 @@ void active_item_cache::subtract_locations( const point &delta )
     }
 }
 
-void active_item_cache::rotate_locations( int turns, const point &dim )
+void active_item_cache::rotate_locations( int turns, point dim )
 {
     for( std::pair<const int, std::list<item_reference>> &pair : active_items ) {
         for( item_reference &ir : pair.second ) {

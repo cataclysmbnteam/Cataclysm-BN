@@ -99,7 +99,7 @@ class main_menu
          * @param iSel which index in vMenuItems is selected
          * @param offset Menu location in window
          */
-        void print_menu( const catacurses::window &w_open, int iSel, const point &offset );
+        void print_menu( const catacurses::window &w_open, int iSel, point offset );
 
         void display_text( const std::string &text, const std::string &title, int &selected );
 

@@ -14,7 +14,7 @@
 #include "vehicle.h"
 
 template<int sx, int sy>
-void maptile_soa<sx, sy>::swap_soa_tile( const point &p1, const point &p2 )
+void maptile_soa<sx, sy>::swap_soa_tile( point p1, point p2 )
 {
     std::swap( ter[p1.x][p1.y], ter[p2.x][p2.y] );
     std::swap( frn[p1.x][p1.y], frn[p2.x][p2.y] );
@@ -26,7 +26,7 @@ void maptile_soa<sx, sy>::swap_soa_tile( const point &p1, const point &p2 )
 }
 
 template<int sx, int sy>
-void maptile_soa<sx, sy>::swap_soa_tile( const point &p, maptile_soa<1, 1> &other )
+void maptile_soa<sx, sy>::swap_soa_tile( point p, maptile_soa<1, 1> &other )
 {
     std::swap( ter[p.x][p.y], **other.ter );
     std::swap( frn[p.x][p.y], **other.frn );
@@ -53,7 +53,7 @@ submap::~submap() = default;
 
 submap &submap::operator=( submap && ) = default;
 
-void submap::update_lum_rem( const point &p, const item &i )
+void submap::update_lum_rem( point p, const item &i )
 {
     is_uniform = false;
     if( !i.is_emissive() ) {
@@ -77,7 +77,7 @@ void submap::update_lum_rem( const point &p, const item &i )
     }
 }
 
-void submap::insert_cosmetic( const point &p, const std::string &type, const std::string &str )
+void submap::insert_cosmetic( point p, const std::string &type, const std::string &str )
 {
     cosmetic_t ins;
 
@@ -105,7 +105,7 @@ static cosmetic_find_result make_result( bool b, int ndx )
     return result;
 }
 static cosmetic_find_result find_cosmetic(
-    const std::vector<submap::cosmetic_t> &cosmetics, const point &p, const std::string &type )
+    const std::vector<submap::cosmetic_t> &cosmetics, point p, const std::string &type )
 {
     for( size_t i = 0; i < cosmetics.size(); ++i ) {
         if( cosmetics[i].pos == p && cosmetics[i].type == type ) {
@@ -115,12 +115,12 @@ static cosmetic_find_result find_cosmetic(
     return make_result( false, -1 );
 }
 
-bool submap::has_graffiti( const point &p ) const
+bool submap::has_graffiti( point p ) const
 {
     return find_cosmetic( cosmetics, p, COSMETICS_GRAFFITI ).result;
 }
 
-const std::string &submap::get_graffiti( const point &p ) const
+const std::string &submap::get_graffiti( point p ) const
 {
     const auto fresult = find_cosmetic( cosmetics, p, COSMETICS_GRAFFITI );
     if( fresult.result ) {
@@ -129,7 +129,7 @@ const std::string &submap::get_graffiti( const point &p ) const
     return STRING_EMPTY;
 }
 
-void submap::set_graffiti( const point &p, const std::string &new_graffiti )
+void submap::set_graffiti( point p, const std::string &new_graffiti )
 {
     is_uniform = false;
     // Find signage at p if available
@@ -141,7 +141,7 @@ void submap::set_graffiti( const point &p, const std::string &new_graffiti )
     }
 }
 
-void submap::delete_graffiti( const point &p )
+void submap::delete_graffiti( point p )
 {
     is_uniform = false;
     const auto fresult = find_cosmetic( cosmetics, p, COSMETICS_GRAFFITI );
@@ -150,7 +150,7 @@ void submap::delete_graffiti( const point &p )
         cosmetics.pop_back();
     }
 }
-bool submap::has_signage( const point &p ) const
+bool submap::has_signage( point p ) const
 {
     if( frn[p.x][p.y].obj().has_flag( "SIGN" ) ) {
         return find_cosmetic( cosmetics, p, COSMETICS_SIGNAGE ).result;
@@ -158,7 +158,7 @@ bool submap::has_signage( const point &p ) const
 
     return false;
 }
-std::string submap::get_signage( const point &p ) const
+std::string submap::get_signage( point p ) const
 {
     if( frn[p.x][p.y].obj().has_flag( "SIGN" ) ) {
         const auto fresult = find_cosmetic( cosmetics, p, COSMETICS_SIGNAGE );
@@ -169,7 +169,7 @@ std::string submap::get_signage( const point &p ) const
 
     return STRING_EMPTY;
 }
-void submap::set_signage( const point &p, const std::string &s )
+void submap::set_signage( point p, const std::string &s )
 {
     is_uniform = false;
     // Find signage at p if available
@@ -180,7 +180,7 @@ void submap::set_signage( const point &p, const std::string &s )
         insert_cosmetic( p, COSMETICS_SIGNAGE, s );
     }
 }
-void submap::delete_signage( const point &p )
+void submap::delete_signage( point p )
 {
     is_uniform = false;
     const auto fresult = find_cosmetic( cosmetics, p, COSMETICS_SIGNAGE );
@@ -204,12 +204,12 @@ void submap::update_legacy_computer()
     }
 }
 
-bool submap::has_computer( const point &p ) const
+bool submap::has_computer( point p ) const
 {
     return computers.find( p ) != computers.end() || ( legacy_computer && ter[p.x][p.y] == t_console );
 }
 
-const computer *submap::get_computer( const point &p ) const
+const computer *submap::get_computer( point p ) const
 {
     // the returned object will not get modified (should not, at least), so we
     // don't yet need to update to std::map
@@ -223,7 +223,7 @@ const computer *submap::get_computer( const point &p ) const
     return nullptr;
 }
 
-computer *submap::get_computer( const point &p )
+computer *submap::get_computer( point p )
 {
     // need to update to std::map first so modifications to the returned object
     // only affects the exact point p
@@ -235,7 +235,7 @@ computer *submap::get_computer( const point &p )
     return nullptr;
 }
 
-void submap::set_computer( const point &p, const computer &c )
+void submap::set_computer( point p, const computer &c )
 {
     update_legacy_computer();
     const auto it = computers.find( p );
@@ -246,7 +246,7 @@ void submap::set_computer( const point &p, const computer &c )
     }
 }
 
-void submap::delete_computer( const point &p )
+void submap::delete_computer( point p )
 {
     update_legacy_computer();
     computers.erase( p );
@@ -270,7 +270,7 @@ void submap::rotate( int turns )
         return;
     }
 
-    const auto rotate_point = [turns]( const point & p ) {
+    const auto rotate_point = [turns]( point  p ) {
         return p.rotate( turns, { SEEX, SEEY } );
     };
 
