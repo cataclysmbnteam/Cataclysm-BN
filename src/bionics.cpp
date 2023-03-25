@@ -1641,11 +1641,11 @@ void Character::process_bionic( bionic &bio )
                 if( !damaged_hp_parts.empty() ) {
                     std::sort( damaged_hp_parts.begin(), damaged_hp_parts.end(),
                     [this]( const bodypart_id & a, const bodypart_id & b ) {
-                        return ( get_part_hp_cur( a ) - a->essential * 10 ) < ( get_part_hp_cur( a ) - a->essential * 10 );
+                        return ( get_part_hp_cur( a ) - a->essential * 10 ) < ( get_part_hp_cur( b ) - b->essential * 10 );
                     } );
                     int i = 0;
                     while( get_stored_kcal() >= 0.85f * max_stored_kcal() + 5 &&
-                           get_power_level() >= bio.info().power_trigger && i < damaged_hp_parts.size() ) {
+                           get_power_level() >= bio.info().power_trigger && i < static_cast<int>( damaged_hp_parts.size() ) ) {
                         heal( damaged_hp_parts[i], 1 );
                         mod_power_level( -bio.info().power_trigger );
                         mod_stored_kcal( -5 );
@@ -1655,7 +1655,7 @@ void Character::process_bionic( bionic &bio )
                 if( !mending_bp_parts.empty() ) {
                     int i = 0;
                     while( get_stored_kcal() >= 0.85f * max_stored_kcal() + 5 &&
-                           get_power_level() >= bio.info().power_trigger && i < mending_bp_parts.size() ) {
+                           get_power_level() >= bio.info().power_trigger && i < static_cast<int>( mending_bp_parts.size() ) ) {
                         effect &eff = get_effect( effect_mending, mending_bp_parts[i]->token );
                         eff.mod_duration( eff.get_max_duration() / 100 );
                         mod_power_level( -bio.info().power_trigger );
