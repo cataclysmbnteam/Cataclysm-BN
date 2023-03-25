@@ -115,7 +115,7 @@ then
         # set +x
         all_cpp_files="$( \
             grep '"file": "' build/compile_commands.json | \
-            sed "s+.*$PWD/++;s+\"$++")"
+            sed "s+.*$PWD/++;s+\",\?$++")"
         # set -x
 
         echo FILE_BEGIN
