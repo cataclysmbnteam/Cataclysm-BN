@@ -110,11 +110,11 @@ then
         ln -s build/compile_commands.json
 
         # TODO: first analyze all files that changed in this PR
-        set +x
+        # set +x
         all_cpp_files="$( \
             grep '"file": "' build/compile_commands.json | \
             sed "s+.*$PWD/++;s+\"$++")"
-        set -x
+        # set -x
 
         function analyze_files_in_random_order
         {
