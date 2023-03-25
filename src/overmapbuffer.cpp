@@ -1781,12 +1781,12 @@ bool overmapbuffer::remove_grid_connection( const tripoint_abs_omt &lhs,
     overmap_with_local_coords lhs_omc = get_om_global( lhs );
     overmap_with_local_coords rhs_omc = get_om_global( rhs );
 
-    const tripoint *lhs_iter = std::find( six_cardinal_directions.begin(),
-                                          six_cardinal_directions.end(),
-                                          tripoint( coord_diff.x(), coord_diff.y(), coord_diff.z() ) );
-    const tripoint *rhs_iter = std::find( six_cardinal_directions.begin(),
-                                          six_cardinal_directions.end(),
-                                          -tripoint( coord_diff.x(), coord_diff.y(), coord_diff.z() ) );
+    const auto lhs_iter = std::find( six_cardinal_directions.begin(),
+                                     six_cardinal_directions.end(),
+                                     coord_diff.raw() );
+    const auto rhs_iter = std::find( six_cardinal_directions.begin(),
+                                     six_cardinal_directions.end(),
+                                     -coord_diff.raw() );
 
     size_t lhs_i = std::distance( six_cardinal_directions.begin(), lhs_iter );
     size_t rhs_i = std::distance( six_cardinal_directions.begin(), rhs_iter );
