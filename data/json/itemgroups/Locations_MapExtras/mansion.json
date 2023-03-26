@@ -848,7 +848,7 @@
       [ "can_drink_unsealed", 30 ],
       [ "bottle_plastic", 30 ],
       [ "bag_plastic", 30 ],
-      [ "paper", 30 ],
+      { "item": "paper", "prob": 30, "charges": [ 1, 50 ] },
       [ "rolling_paper", 20 ],
       [ "rag_bloody", 20 ],
       [ "flashlight", 20 ],
@@ -868,7 +868,7 @@
     "items": [
       [ "string_6", 50 ],
       [ "wrapper", 50 ],
-      [ "paper", 50 ],
+      { "item": "paper", "prob": 50, "charges": [ 1, 50 ] },
       [ "ceramic_shard", 40 ],
       [ "shot_hull", 40 ],
       [ "splinter", 40 ],
