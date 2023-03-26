@@ -1726,7 +1726,7 @@ overmapbuffer::electric_grid_connectivity_at( const tripoint_abs_omt &p )
 
 bool overmapbuffer::add_grid_connection( const tripoint_abs_omt &lhs, const tripoint_abs_omt &rhs )
 {
-    if( project_to<coords::om>( lhs ) != project_to<coords::om>( rhs ) ) {
+    if( project_to<coords::om>( lhs ).xy() != project_to<coords::om>( rhs ).xy() ) {
         debugmsg( "Connecting grids on different overmaps is not supported yet" );
         return false;
     }
