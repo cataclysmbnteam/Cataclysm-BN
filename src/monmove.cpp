@@ -1370,7 +1370,7 @@ static std::vector<tripoint> get_bashing_zone( const tripoint &bashee, const tri
     tripoint previous = bashee;
     for( const tripoint &p : path ) {
         std::vector<point> swath = squares_in_direction( previous.xy(), p.xy() );
-        for( const point &q : swath ) {
+        for( point q : swath ) {
             zone.push_back( tripoint( q, bashee.z ) );
         }
 
@@ -2015,7 +2015,7 @@ void monster::knock_back_to( const tripoint &to )
          Make sure that non-smashing monsters won't "teleport" through windows
          Injure monsters if they're gonna be walking through pits or whatever
  */
-bool monster::will_reach( const point &p )
+bool monster::will_reach( point p )
 {
     monster_attitude att = attitude( &g->u );
     if( att != MATT_FOLLOW && att != MATT_ATTACK && att != MATT_FRIEND && att != MATT_ZLAVE ) {
@@ -2052,7 +2052,7 @@ bool monster::will_reach( const point &p )
     return false;
 }
 
-int monster::turns_to_reach( const point &p )
+int monster::turns_to_reach( point p )
 {
     // HACK: This function is a(n old) temporary hack that should soon be removed
     auto path = g->m.route( pos(), tripoint( p, posz() ), get_pathfinding_settings() );

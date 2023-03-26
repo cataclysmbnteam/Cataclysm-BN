@@ -329,6 +329,11 @@ recipe &recipe_dictionary::load( const JsonObject &jo, const std::string &src,
 
     r.load( jo, src );
 
+    if( !r.src.empty() && r.src.back().first != r.ident() ) {
+        r.src.clear();
+    }
+    r.src.emplace_back( r.ident(), mod_id( src ) );
+
     return out[ r.ident() ] = std::move( r );
 }
 

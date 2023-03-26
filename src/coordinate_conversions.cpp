@@ -17,7 +17,7 @@ static int divide( int v, int m, int &r )
     return result;
 }
 
-point omt_to_om_copy( const point &p )
+point omt_to_om_copy( point p )
 {
     return point( divide( p.x, OMAPX ), divide( p.y, OMAPY ) );
 }
@@ -38,12 +38,12 @@ point omt_to_om_remain( int &x, int &y )
     return point( divide( x, OMAPX, x ), divide( y, OMAPY, y ) );
 }
 
-point om_to_omt_copy( const point &p )
+point om_to_omt_copy( point p )
 {
     return point( p.x * OMAPX, p.y * OMAPY );
 }
 
-point sm_to_omt_copy( const point &p )
+point sm_to_omt_copy( point p )
 {
     return point( divide( p.x, 2 ), divide( p.y, 2 ) );
 }
@@ -64,7 +64,7 @@ point sm_to_omt_remain( int &x, int &y )
     return point( divide( x, 2, x ), divide( y, 2, y ) );
 }
 
-point sm_to_om_copy( const point &p )
+point sm_to_om_copy( point p )
 {
     return point( divide( p.x, 2 * OMAPX ), divide( p.y, 2 * OMAPY ) );
 }
@@ -85,12 +85,12 @@ point sm_to_om_remain( int &x, int &y )
     return point( divide( x, 2 * OMAPX, x ), divide( y, 2 * OMAPY, y ) );
 }
 
-point omt_to_ms_copy( const point &p )
+point omt_to_ms_copy( point p )
 {
     return point( p.x * 2 * SEEX, p.y * 2 * SEEY );
 }
 
-point omt_to_sm_copy( const point &p )
+point omt_to_sm_copy( point p )
 {
     return point( p.x * 2, p.y * 2 );
 }
@@ -106,7 +106,7 @@ void omt_to_sm( int &x, int &y )
     y *= 2;
 }
 
-point om_to_sm_copy( const point &p )
+point om_to_sm_copy( point p )
 {
     return point( p.x * 2 * OMAPX, p.y * 2 * OMAPX );
 }
@@ -122,7 +122,7 @@ void om_to_sm( int &x, int &y )
     y *= 2 * OMAPY;
 }
 
-point ms_to_sm_copy( const point &p )
+point ms_to_sm_copy( point p )
 {
     return point( divide( p.x, SEEX ), divide( p.y, SEEY ) );
 }
@@ -143,7 +143,7 @@ point ms_to_sm_remain( int &x, int &y )
     return point( divide( x, SEEX, x ), divide( y, SEEY, y ) );
 }
 
-point sm_to_ms_copy( const point &p )
+point sm_to_ms_copy( point p )
 {
     return point( p.x * SEEX, p.y * SEEY );
 }
@@ -159,7 +159,7 @@ void sm_to_ms( int &x, int &y )
     y *= SEEY;
 }
 
-point ms_to_omt_copy( const point &p )
+point ms_to_omt_copy( point p )
 {
     return point( divide( p.x, SEEX * 2 ), divide( p.y, SEEY * 2 ) );
 }

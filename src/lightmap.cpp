@@ -115,7 +115,7 @@ bool map::build_transparency_cache( const int zlev )
 
             // calculates transparency of a single tile
             // x,y - coords in map local coords
-            auto calc_transp = [&]( const point & p ) {
+            auto calc_transp = [&]( point  p ) {
                 const point sp = p - sm_offset;
                 float value = LIGHT_TRANSPARENCY_OPEN_AIR;
 
@@ -173,7 +173,7 @@ bool map::build_vision_transparency_cache( const Character &player )
 
     if( player.movement_mode_is( CMM_CROUCH ) ) {
 
-        const auto check_vehicle_coverage = []( const vehicle * veh, const point & p ) -> bool {
+        const auto check_vehicle_coverage = []( const vehicle * veh, point  p ) -> bool {
             return veh->obstacle_at_position( p ) == -1 && ( veh->part_with_feature( p,  "AISLE", true ) != -1 || veh->part_with_feature( p,  "PROTRUSION", true ) != -1 );
         };
 
@@ -185,7 +185,7 @@ bool map::build_vision_transparency_cache( const Character &player )
         }
 
         int i = 0;
-        for( const point &adjacent : eight_adjacent_offsets ) {
+        for( point adjacent : eight_adjacent_offsets ) {
             vision_transparency_cache[i] = VISION_ADJUST_NONE;
 
             // If we're crouching behind an obstacle, we can't see past it.
@@ -670,7 +670,7 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
     const float vis = std::max( map_cache.seen_cache[p.x][p.y], map_cache.camera_cache[p.x][p.y] );
     const bool obstructed = vis <= LIGHT_TRANSPARENCY_SOLID + 0.1;
 
-    auto is_opaque = [&map_cache]( const point & p ) {
+    auto is_opaque = [&map_cache]( point  p ) {
         return map_cache.transparency_cache[p.x][p.y] <= LIGHT_TRANSPARENCY_SOLID &&
                get_player_character().pos().xy() != p;
     };
@@ -1142,7 +1142,7 @@ template<int xx, int xy, int yx, int yy, typename T, typename Out,
 void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
                 const T( &input_array )[MAPSIZE_X][MAPSIZE_Y],
                 const diagonal_blocks( &blocked_array )[MAPSIZE_X][MAPSIZE_Y],
-                const point &offset, int offsetDistance,
+                point offset, int offsetDistance,
                 T numerator = VISIBILITY_FULL,
                 int row = 1, float start = 1.0f, float end = 0.0f,
                 T cumulative_transparency = LIGHT_TRANSPARENCY_OPEN_AIR );
@@ -1155,12 +1155,12 @@ template<int xx, int xy, int yx, int yy, typename T, typename Out,
 void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
                 const T( &input_array )[MAPSIZE_X][MAPSIZE_Y],
                 const diagonal_blocks( &blocked_array )[MAPSIZE_X][MAPSIZE_Y],
-                const point &offset, const int offsetDistance, const T numerator,
+                point offset, const int offsetDistance, const T numerator,
                 const int row, float start, const float end, T cumulative_transparency )
 {
     constexpr quadrant quad = quadrant_from_x_y( -xx - xy, -yx - yy );
 
-    const auto check_blocked = [ =, &blocked_array]( const point & p ) {
+    const auto check_blocked = [ =, &blocked_array]( point  p ) {
         switch( quad ) {
             case quadrant::NW:
                 return blocked_array[p.x][p.y].nw;
@@ -1269,7 +1269,7 @@ template<typename T, typename Out, T( *calc )( const T &, const T &, const int &
 void castLightAll( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
                    const T( &input_array )[MAPSIZE_X][MAPSIZE_Y],
                    const diagonal_blocks( &blocked_array )[MAPSIZE_X][MAPSIZE_Y],
-                   const point &offset, int offsetDistance, T numerator )
+                   point offset, int offsetDistance, T numerator )
 {
     castLight<0, 1, 1, 0, T, Out, calc, check, update_output, accumulate>(
         output_cache, input_array, blocked_array, offset, offsetDistance, numerator );
@@ -1297,7 +1297,7 @@ template void castLightAll<float, four_quadrants, sight_calc, sight_check,
                                four_quadrants( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
                                const float ( &input_array )[MAPSIZE_X][MAPSIZE_Y],
                                const diagonal_blocks( &blocked_array )[MAPSIZE_X][MAPSIZE_Y],
-                               const point &offset, int offsetDistance, float numerator );
+                               point offset, int offsetDistance, float numerator );
 
 template void
 castLightAll<float, float, shrapnel_calc, shrapnel_check,
@@ -1306,7 +1306,7 @@ castLightAll<float, float, shrapnel_calc, shrapnel_check,
     float( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
     const float( &input_array )[MAPSIZE_X][MAPSIZE_Y],
     const diagonal_blocks( &blocked_array )[MAPSIZE_X][MAPSIZE_Y],
-    const point &offset, int offsetDistance, float numerator );
+    point offset, int offsetDistance, float numerator );
 
 
 //Alters the vision caches to the player specific version, the restore caches will be filled so it can be undone with restore_vision_transparency_cache
@@ -1318,7 +1318,7 @@ void map::apply_vision_transparency_cache( const tripoint &center, int target_z,
     diagonal_blocks( &blocked_cache )[MAPSIZE_X][MAPSIZE_Y] = map_cache.vehicle_obscured_cache;
 
     int i = 0;
-    for( const point &adjacent : eight_adjacent_offsets ) {
+    for( point adjacent : eight_adjacent_offsets ) {
         const tripoint p = center + adjacent;
         if( !inbounds( p ) ) {
             continue;
@@ -1357,7 +1357,7 @@ void map::restore_vision_transparency_cache( const tripoint &center, int target_
     diagonal_blocks( &blocked_cache )[MAPSIZE_X][MAPSIZE_Y] = map_cache.vehicle_obscured_cache;
 
     int i = 0;
-    for( const point &adjacent : eight_adjacent_offsets ) {
+    for( point adjacent : eight_adjacent_offsets ) {
         const tripoint p = center + adjacent;
         if( !inbounds( p ) ) {
             continue;

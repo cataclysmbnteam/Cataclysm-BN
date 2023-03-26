@@ -93,7 +93,7 @@ SDL_Texture_Ptr CreateTexture( const SDL_Renderer_Ptr &renderer, Uint32 format, 
 SDL_Texture_Ptr CreateTextureFromSurface( const SDL_Renderer_Ptr &renderer,
         const SDL_Surface_Ptr &surface );
 void SetRenderDrawColor( const SDL_Renderer_Ptr &renderer, Uint8 r, Uint8 g, Uint8 b, Uint8 a );
-void RenderDrawPoint( const SDL_Renderer_Ptr &renderer, const point &p );
+void RenderDrawPoint( const SDL_Renderer_Ptr &renderer, point p );
 void RenderFillRect( const SDL_Renderer_Ptr &renderer, const SDL_Rect *rect );
 void FillRect( const SDL_Surface_Ptr &surface, const SDL_Rect *rect, Uint32 color );
 void SetTextureBlendMode( const SDL_Texture_Ptr &texture, SDL_BlendMode blendMode );

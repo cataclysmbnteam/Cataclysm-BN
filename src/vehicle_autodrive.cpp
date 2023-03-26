@@ -238,10 +238,10 @@ struct coord_transformation {
     quad_rotation rotation;
     point post_offset;
 
-    point transform( const point &p ) const;
-    tripoint transform( const point &p, int z ) const;
+    point transform( point p ) const;
+    tripoint transform( point p, int z ) const;
     orientation transform( orientation dir ) const;
-    node_address transform( const point &p, orientation dir ) const;
+    node_address transform( point p, orientation dir ) const;
     coord_transformation inverse() const;
 };
 
@@ -457,7 +457,7 @@ static int orientation_diff( const orientation &dir1, const orientation &dir2 )
 /*
  * Returns the angle of the given point, which must lie on either axis
  */
-static quad_rotation to_quad_rotation( const point &pt )
+static quad_rotation to_quad_rotation( point pt )
 {
     if( pt.x > 0 ) {
         return quad_rotation::d0;
@@ -526,12 +526,12 @@ static point rotate( point p, quad_rotation rotation )
     return p;
 }
 
-point coord_transformation::transform( const point &p ) const
+point coord_transformation::transform( point p ) const
 {
     return rotate( p - pre_offset, rotation ) + post_offset;
 }
 
-tripoint coord_transformation::transform( const point &p, int z ) const
+tripoint coord_transformation::transform( point p, int z ) const
 {
     return tripoint( transform( p ), z );
 }
@@ -541,7 +541,7 @@ orientation coord_transformation::transform( orientation dir ) const
     return dir + rotation;
 }
 
-node_address coord_transformation::transform( const point &p, orientation dir ) const
+node_address coord_transformation::transform( point p, orientation dir ) const
 {
     return make_node_address( transform( p ), transform( dir ) );
 }
@@ -626,7 +626,7 @@ vehicle_profile vehicle::autodrive_controller::compute_profile( orientation faci
     // (a.k.a. "moving first") when the vehicle moves one step; these are the only points
     // we need to check for collision when the vehicle is moving in this direction
     const std::unordered_set<point> occupied_set( ret.occupied_zone.begin(), ret.occupied_zone.end() );
-    for( const point &pt : ret.occupied_zone ) {
+    for( point pt : ret.occupied_zone ) {
         if( occupied_set.find( pt + increment ) == occupied_set.end() ) {
             ret.collision_points.emplace_back( pt );
         }
@@ -748,7 +748,7 @@ void vehicle::autodrive_controller::compute_valid_positions()
             for( int my = 0; my < NAV_MAP_SIZE_Y; my++ ) {
                 const point nav_pt( mx, my );
                 bool valid = true;
-                for( const point &veh_pt : profile.occupied_zone ) {
+                for( point veh_pt : profile.occupied_zone ) {
                     const point view_pt = data.nav_to_view.transform( nav_pt ) + veh_rot.transform(
                                               veh_pt ) - veh_rot.transform( point_zero );
                     if( !data.view_bounds.contains( view_pt ) || data.is_obstacle[view_pt.x][view_pt.y] ) {
@@ -860,7 +860,7 @@ scored_address vehicle::autodrive_controller::compute_node_score( const node_add
         return ret;
     }
     static const point neighbor_deltas[4] = { point_east, point_south, point_west, point_north };
-    for( const point &neighbor_delta : neighbor_deltas ) {
+    for( point neighbor_delta : neighbor_deltas ) {
         const point p = addr.get_point() + neighbor_delta;
         if( !data.nav_bounds.contains( p ) || !data.valid_position( addr.facing_dir, p ) ) {
             ret.score += nearness_penalty;
@@ -1032,7 +1032,7 @@ collision_check_result vehicle::autodrive_controller::check_collision_zone( orie
     face_dir.advance();
     const point forward_offset( face_dir.dx(), face_dir.dy() );
     bool blind = true;
-    for( const point &p : data.profile( to_orientation( face_dir.dir() ) ).collision_points ) {
+    for( point p : data.profile( to_orientation( face_dir.dir() ) ).collision_points ) {
         if( driver.sees( veh_pos + forward_offset + p ) ) {
             blind = false;
         }
@@ -1054,10 +1054,10 @@ collision_check_result vehicle::autodrive_controller::check_collision_zone( orie
     std::unordered_set<point> collision_zone;
     tdir.advance();
     point offset( tdir.dx(), tdir.dy() );
-    for( const point &p : profile.occupied_zone ) {
+    for( point p : profile.occupied_zone ) {
         collision_zone.insert( p + offset );
     }
-    for( const point &p : collision_zone ) {
+    for( point p : collision_zone ) {
         if( !check_drivable( veh_pos + p ) ) {
             return collision_check_result::close_obstacle;
         }
@@ -1068,11 +1068,11 @@ collision_check_result vehicle::autodrive_controller::check_collision_zone( orie
     for( int i = 1; i < speed_tps; i++ ) {
         tdir.advance();
         offset += point( tdir.dx(), tdir.dy() );
-        for( const point &p : profile.collision_points ) {
+        for( point p : profile.collision_points ) {
             collision_zone.insert( p + offset );
         }
     }
-    for( const point &p : collision_zone ) {
+    for( point p : collision_zone ) {
         if( !driver.sees( veh_pos + p ) ) {
             return collision_check_result::slow_down;
         }
@@ -1128,7 +1128,7 @@ std::vector<std::tuple<point, int, std::string>> vehicle::get_debug_overlay_data
     if( autodrive_local_target != tripoint_zero ) {
         ret.emplace_back( ( autodrive_local_target - veh_pos.raw() ).xy(), catacurses::red, "T" );
     }
-    for( const point &pt_elem : collision_check_points ) {
+    for( point pt_elem : collision_check_points ) {
         ret.emplace_back( pt_elem - veh_pos.raw().xy(), catacurses::yellow, "C" );
     }
 
@@ -1141,14 +1141,14 @@ std::vector<std::tuple<point, int, std::string>> vehicle::get_debug_overlay_data
     for( const std::string &debug_str : debug_what ) {
         if( debug_str == "profiles" ) {
             const vehicle_profile &profile = data.profile( dir );
-            for( const point &p : profile.occupied_zone ) {
+            for( point p : profile.occupied_zone ) {
                 if( p.x == 0 && p.y == 0 ) {
                     ret.emplace_back( p, catacurses::cyan, to_string( dir ) );
                 } else {
                     ret.emplace_back( p, catacurses::green, "x" );
                 }
             }
-            for( const point &p : profile.collision_points ) {
+            for( point p : profile.collision_points ) {
                 ret.emplace_back( p, catacurses::red, "o" );
             }
         } else if( debug_str == "is_obstacle" ) {

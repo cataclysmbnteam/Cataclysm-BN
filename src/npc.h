@@ -129,48 +129,11 @@ class job_data
             { activity_id( "ACT_TIDY_UP" ), 0 },
         };
     public:
-        bool set_task_priority( const activity_id &task, int new_priority ) {
-            auto it = task_priorities.find( task );
-            if( it != task_priorities.end() ) {
-                task_priorities[task] = new_priority;
-                return true;
-            }
-            return false;
-        }
-        void clear_all_priorities() {
-            for( auto &elem : task_priorities ) {
-                elem.second = 0;
-            }
-        }
-        bool has_job() const {
-            for( auto &elem : task_priorities ) {
-                if( elem.second > 0 ) {
-                    return true;
-                }
-            }
-            return false;
-        }
-        int get_priority_of_job( const activity_id &req_job ) const {
-            auto it = task_priorities.find( req_job );
-            if( it != task_priorities.end() ) {
-                return it->second;
-            } else {
-                return 0;
-            }
-        }
-        std::vector<activity_id> get_prioritised_vector() const {
-            std::vector<std::pair<activity_id, int>> pairs( begin( task_priorities ), end( task_priorities ) );
-
-            std::vector<activity_id> ret;
-            sort( begin( pairs ), end( pairs ), []( const std::pair<activity_id, int> &a,
-            const std::pair<activity_id, int> &b ) {
-                return a.second > b.second;
-            } );
-            for( std::pair<activity_id, int> elem : pairs ) {
-                ret.push_back( elem.first );
-            }
-            return ret;
-        }
+        bool set_task_priority( const activity_id &task, int new_priority );
+        void clear_all_priorities();
+        bool has_job() const;
+        int get_priority_of_job( const activity_id &req_job ) const;
+        std::vector<activity_id> get_prioritised_vector() const;
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
 };
@@ -826,7 +789,7 @@ class npc : public player
          * Note: final submap may differ from submap_offset if @ref square has
          * x/y values outside [0, SEEX-1]/[0, SEEY-1] range.
          */
-        void spawn_at_precise( const point &submap_offset, const tripoint &square );
+        void spawn_at_precise( point submap_offset, const tripoint &square );
         /**
          * Places the NPC on the @ref map. This update its
          * pos values to fit the current offset of
@@ -1049,7 +1012,7 @@ class npc : public player
          * from one submap to an adjacent submap.  It updates our position (shifting by
          * 12 tiles), as well as our plans.
          */
-        void shift( const point &s );
+        void shift( point s );
 
         // Movement; the following are defined in npcmove.cpp
         void move(); // Picks an action & a target and calls execute_action

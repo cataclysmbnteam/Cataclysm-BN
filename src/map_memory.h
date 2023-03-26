@@ -40,7 +40,7 @@ struct mm_submap {
             return tiles.empty() && symbols.empty();
         }
 
-        inline const memorized_terrain_tile &tile( const point &p ) const {
+        inline const memorized_terrain_tile &tile( point p ) const {
             if( tiles.empty() ) {
                 return default_tile;
             } else {
@@ -48,7 +48,7 @@ struct mm_submap {
             }
         }
 
-        inline void set_tile( const point &p, const memorized_terrain_tile &value ) {
+        inline void set_tile( point p, const memorized_terrain_tile &value ) {
             if( tiles.empty() ) {
                 // call 'reserve' first to force allocation of exact size
                 tiles.reserve( SEEX * SEEY );
@@ -57,7 +57,7 @@ struct mm_submap {
             tiles[p.y * SEEX + p.x] = value;
         }
 
-        inline int symbol( const point &p ) const {
+        inline int symbol( point p ) const {
             if( symbols.empty() ) {
                 return default_symbol;
             } else {
@@ -65,7 +65,7 @@ struct mm_submap {
             }
         }
 
-        inline void set_symbol( const point &p, int value ) {
+        inline void set_symbol( point p, int value ) {
             if( symbols.empty() ) {
                 // call 'reserve' first to force allocation of exact size
                 symbols.reserve( SEEX * SEEY );

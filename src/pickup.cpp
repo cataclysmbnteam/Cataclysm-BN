@@ -244,7 +244,6 @@ static bool pick_one_up( pickup::pick_drop_selection &selection, bool &got_water
     item &it = *newloc.get_item();
     //new item (copy)
     item newit = it;
-    item leftovers = newit;
     const cata::optional<int> &quantity = selection.quantity;
     std::vector<item_location> &children = selection.children;
 
@@ -264,20 +263,16 @@ static bool pick_one_up( pickup::pick_drop_selection &selection, bool &got_water
         newit.invlet = '\0';
     }
 
-    // Handle charges, quantity == 0 means move all
+    // Handle charges. If quantity is nullopt, we're picking up full stack.
     if( quantity && newit.count_by_charges() ) {
-        leftovers.charges = newit.charges - *quantity;
-        if( leftovers.charges > 0 ) {
-            newit.charges = *quantity;
-        }
-    } else {
-        leftovers.charges = 0;
+        newit.charges = *quantity;
     }
+    // Ammo can sometimes be picked up into containers
+    int charges_picked_to_cont = newit.charges - u.i_add_to_container( newit, false );
+    newit.charges -= charges_picked_to_cont;
 
-    const auto wield_check = u.can_wield( newit );
-
+    const ret_val<bool> wield_check = u.can_wield( newit );
     bool did_prompt = false;
-    newit.charges = u.i_add_to_container( newit, false );
 
     units::volume children_volume = std::accumulate( children.begin(), children.end(), 0_ml,
     []( units::volume acc, const item_location & c ) {
@@ -288,9 +283,10 @@ static bool pick_one_up( pickup::pick_drop_selection &selection, bool &got_water
         return acc + c->weight();
     } );
 
-    if( newit.is_ammo() && newit.charges == 0 ) {
+    if( newit.count_by_charges() && newit.charges == 0 ) {
+        // We've picked up everything into containers, skip the options part
         picked_up = true;
-        option = NUM_ANSWERS; //Skip the options part
+        option = NUM_ANSWERS;
     } else if( newit.made_of( LIQUID ) ) {
         got_water = true;
     } else if( !u.can_pick_weight( newit.weight() + children_weight, false ) ) {
@@ -372,7 +368,7 @@ static bool pick_one_up( pickup::pick_drop_selection &selection, bool &got_water
             break;
     }
 
-    if( picked_up ) {
+    if( picked_up || charges_picked_to_cont > 0 ) {
         // Children have to be picked up first, since removing parent would re-index the stack
         if( option != EMPTY ) {
             for( item_location &child_loc : children ) {
@@ -386,10 +382,16 @@ static bool pick_one_up( pickup::pick_drop_selection &selection, bool &got_water
         }
 
         // If we picked up a whole stack, remove the original item
-        // Otherwise, replace the item with the leftovers
-        if( leftovers.charges > 0 ) {
-            *loc.get_item() = std::move( leftovers );
-        } else {
+        // Otherwise, deduct charges from leftovers
+        bool remove_itm = true;
+        if( it.count_by_charges() ) {
+            it.charges -= charges_picked_to_cont;
+            if( picked_up ) {
+                it.charges -= newit.charges;
+            }
+            remove_itm = it.charges == 0;
+        }
+        if( remove_itm ) {
             loc.remove_item();
         }
 

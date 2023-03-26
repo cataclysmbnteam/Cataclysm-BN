@@ -448,7 +448,7 @@ static bool is_contained( const SDL_Rect &smaller, const SDL_Rect &larger )
            smaller.y + smaller.h <= larger.y + larger.h;
 }
 
-bool tileset_loader::copy_surface_to_texture( const SDL_Surface_Ptr &surf, const point &offset,
+bool tileset_loader::copy_surface_to_texture( const SDL_Surface_Ptr &surf, point offset,
         std::vector<texture> &target )
 {
     assert( surf );
@@ -476,7 +476,7 @@ bool tileset_loader::copy_surface_to_texture( const SDL_Surface_Ptr &surf, const
 }
 
 bool tileset_loader::create_textures_from_tile_atlas( const SDL_Surface_Ptr &tile_atlas,
-        const point &offset )
+        point offset )
 {
     assert( tile_atlas );
 
@@ -1123,7 +1123,7 @@ static int divide_round_down( int a, int b )
     }
 }
 
-void cata_tiles::draw( const point &dest, const tripoint &center, int width, int height,
+void cata_tiles::draw( point dest, const tripoint &center, int width, int height,
                        std::multimap<point, formatted_text> &overlay_strings,
                        color_block_overlay_container &color_blocks )
 {
@@ -1751,7 +1751,7 @@ bool cata_tiles::terrain_requires_animation() const
     return idle_animations.enabled() && idle_animations.present();
 }
 
-void cata_tiles::draw_minimap( const point &dest, const tripoint &center, int width, int height )
+void cata_tiles::draw_minimap( point dest, const tripoint &center, int width, int height )
 {
     minimap->draw( SDL_Rect{ dest.x, dest.y, width, height }, center );
 }
@@ -2190,7 +2190,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
             if( vp_overridden ) {
                 const vpart_id &vp_id = std::get<0>( vp_override->second );
                 if( vp_id ) {
-                    const point &mount = std::get<4>( vp_override->second );
+                    point mount = std::get<4>( vp_override->second );
                     seed = simple_point_hash( mount );
                 }
             } else {
@@ -2316,7 +2316,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
 
 bool cata_tiles::draw_sprite_at(
     const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
-    const point &p, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
+    point p, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
     bool apply_night_vision_goggles, int overlay_count )
 {
     int nullint = 0;
@@ -2326,7 +2326,7 @@ bool cata_tiles::draw_sprite_at(
 
 bool cata_tiles::draw_sprite_at(
     const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
-    const point &p, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
+    point p, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
     bool apply_night_vision_goggles, int &height_3d, int overlay_count )
 {
     auto picked = svlist.pick( loc_rand );
@@ -2460,7 +2460,7 @@ bool cata_tiles::draw_sprite_at(
 }
 
 bool cata_tiles::draw_tile_at(
-    const tile_type &tile, const point &p, unsigned int loc_rand, int rota,
+    const tile_type &tile, point p, unsigned int loc_rand, int rota,
     lit_level ll, bool apply_night_vision_goggles, int &height_3d, int overlay_count )
 {
     draw_sprite_at( tile, tile.bg, p, loc_rand, /*fg:*/ false, rota, ll,
@@ -2556,7 +2556,7 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
     const bool overridden = override != terrain_override.end();
     bool neighborhood_overridden = overridden;
     if( !neighborhood_overridden ) {
-        for( const point &dir : neighborhood ) {
+        for( point dir : neighborhood ) {
             if( terrain_override.find( p + dir ) != terrain_override.end() ) {
                 neighborhood_overridden = true;
                 break;
@@ -2728,7 +2728,7 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
     const bool overridden = override != furniture_override.end();
     bool neighborhood_overridden = overridden;
     if( !neighborhood_overridden ) {
-        for( const point &dir : neighborhood ) {
+        for( point dir : neighborhood ) {
             if( furniture_override.find( p + dir ) != furniture_override.end() ) {
                 neighborhood_overridden = true;
                 break;
@@ -2802,7 +2802,7 @@ bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3
     const bool overridden = override != trap_override.end();
     bool neighborhood_overridden = overridden;
     if( !neighborhood_overridden ) {
-        for( const point &dir : neighborhood ) {
+        for( point dir : neighborhood ) {
             if( trap_override.find( p + dir ) != trap_override.end() ) {
                 neighborhood_overridden = true;
                 break;
@@ -3347,7 +3347,7 @@ void cata_tiles::init_draw_item_override( const tripoint &p, const itype_id &id,
     item_override.emplace( p, std::make_tuple( id, mid, hilite ) );
 }
 void cata_tiles::init_draw_vpart_override( const tripoint &p, const vpart_id &id,
-        const int part_mod, const units::angle veh_dir, const bool hilite, const point &mount )
+        const int part_mod, const units::angle veh_dir, const bool hilite, point mount )
 {
     vpart_override.emplace( p, std::make_tuple( id, part_mod, veh_dir, hilite, mount ) );
 }
@@ -3889,7 +3889,7 @@ void cata_tiles::do_tile_loading_report( std::function<void( std::string )> out 
     tile_loading_report<field_type>( field_type::count(), C_FIELD, out, "" );
 }
 
-point cata_tiles::player_to_screen( const point &p ) const
+point cata_tiles::player_to_screen( point p ) const
 {
     point screen;
     if( tile_iso ) {

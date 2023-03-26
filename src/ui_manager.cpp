@@ -109,7 +109,7 @@ void ui_adaptor::position_from_window( const catacurses::window &win )
     }
 }
 
-void ui_adaptor::position( const point &topleft, const point &size )
+void ui_adaptor::position( point topleft, point size )
 {
     const rectangle<point> old_dimensions = dimensions;
     // ensure position is updated before calling invalidate

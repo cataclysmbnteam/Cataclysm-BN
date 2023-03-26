@@ -920,7 +920,7 @@
     "move_cost_mod": -1,
     "coverage": 90,
     "required_str": -1,
-    "active": [ "charger", { "power": 100 } ],
+    "active": [ "charger", { "power": 15 } ],
     "deconstruct": {
       "items": [
         { "item": "cable", "charges": [ 2, 5 ] },
@@ -940,6 +940,24 @@
         { "item": "pipe", "count": 1 },
         { "item": "cable", "charges": [ 2, 8 ] },
         { "item": "small_storage_battery", "count": [ 5, 10 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_recharge_station",
+    "copy-from": "f_charger",
+    "looks_like": "recharge_station",
+    "name": "grid recharging station",
+    "description": "A vehicle recharging station connected to building's electric grid, providing higher output than consumer battery chargers.",
+    "symbol": ":",
+    "color": "blue_white",
+    "active": [ "charger", { "power": 600 } ],
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": [ 2, 5 ] },
+        { "item": "recharge_station", "count": 1 },
+        { "item": "power_supply", "count": 1 }
       ]
     }
   },
