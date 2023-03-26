@@ -1004,7 +1004,7 @@ void monster::set_goal( const tripoint &p )
     goal = p;
 }
 
-void monster::shift( const point &sm_shift )
+void monster::shift( point sm_shift )
 {
     const point ms_shift = sm_to_ms_copy( sm_shift );
     position -= ms_shift;

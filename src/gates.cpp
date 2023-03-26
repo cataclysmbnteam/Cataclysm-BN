@@ -180,14 +180,14 @@ void gates::toggle_gate( const tripoint &pos )
     bool fail = false;
 
     map &here = get_map();
-    for( const point &wall_offset : four_adjacent_offsets ) {
+    for( point wall_offset : four_adjacent_offsets ) {
         const tripoint wall_pos = pos + wall_offset;
 
         if( !gate.is_suitable_wall( wall_pos ) ) {
             continue;
         }
 
-        for( const point &gate_offset : four_adjacent_offsets ) {
+        for( point gate_offset : four_adjacent_offsets ) {
             const tripoint gate_pos = wall_pos + gate_offset;
 
             if( gate_pos == pos ) {

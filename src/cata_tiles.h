@@ -221,11 +221,11 @@ class tileset_loader
         void ensure_default_item_highlight();
 
         /** Returns false if failed to create texture. */
-        bool copy_surface_to_texture( const SDL_Surface_Ptr &surf, const point &offset,
+        bool copy_surface_to_texture( const SDL_Surface_Ptr &surf, point offset,
                                       std::vector<texture> &target );
 
         /** Returns false if failed to create texture(s). */
-        bool create_textures_from_tile_atlas( const SDL_Surface_Ptr &tile_atlas, const point &offset );
+        bool create_textures_from_tile_atlas( const SDL_Surface_Ptr &tile_atlas, point offset );
 
         void process_variations_after_loading( weighted_int_list<std::vector<int>> &v );
 
@@ -360,15 +360,15 @@ class cata_tiles
         void on_options_changed();
 
         /** Draw to screen */
-        void draw( const point &dest, const tripoint &center, int width, int height,
+        void draw( point dest, const tripoint &center, int width, int height,
                    std::multimap<point, formatted_text> &overlay_strings,
                    color_block_overlay_container &color_blocks );
-        void draw_om( const point &dest, const tripoint_abs_omt &center_abs_omt, bool blink );
+        void draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bool blink );
 
         bool terrain_requires_animation() const;
 
         /** Minimap functionality */
-        void draw_minimap( const point &dest, const tripoint &center, int width, int height );
+        void draw_minimap( point dest, const tripoint &center, int width, int height );
         bool minimap_requires_animation() const;
 
     protected:
@@ -439,7 +439,7 @@ class cata_tiles
          */
         bool draw_sprite_at(
             const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
-            const point &, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
+            point, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
             bool apply_night_vision_goggles, int overlay_count );
 
         /**
@@ -451,7 +451,7 @@ class cata_tiles
          */
         bool draw_sprite_at(
             const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
-            const point &, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
+            point, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
             bool apply_night_vision_goggles, int &height_3d, int overlay_count );
 
         /**
@@ -468,7 +468,7 @@ class cata_tiles
          * @param overlay_count how blue the tile looks for lower z levels
          * @return always true.
          */
-        bool draw_tile_at( const tile_type &tile, const point &, unsigned int loc_rand, int rota,
+        bool draw_tile_at( const tile_type &tile, point, unsigned int loc_rand, int rota,
                            lit_level ll, bool apply_night_vision_goggles, int &height_3d, int overlay_count );
 
         /** Tile Picking */
@@ -595,7 +595,7 @@ class cata_tiles
         void void_item_override();
 
         void init_draw_vpart_override( const tripoint &p, const vpart_id &id, int part_mod,
-                                       units::angle veh_dir, bool hilite, const point &mount );
+                                       units::angle veh_dir, bool hilite, point mount );
         void void_vpart_override();
 
         void init_draw_below_override( const tripoint &p, bool draw );
@@ -645,7 +645,7 @@ class cata_tiles
             return tile_ratioy;
         }
         void do_tile_loading_report( std::function<void( std::string )> out );
-        point player_to_screen( const point & ) const;
+        point player_to_screen( point ) const;
         static std::vector<options_manager::id_and_option> build_renderer_list();
         static std::vector<options_manager::id_and_option> build_display_list();
     private:

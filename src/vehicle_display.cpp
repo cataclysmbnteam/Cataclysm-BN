@@ -348,7 +348,7 @@ std::vector<itype_id> vehicle::get_printable_fuel_types() const
  * @param desc true if the name of the fuel should be at the end
  * @param isHorizontal true if the menu is not vertical
  */
-void vehicle::print_fuel_indicators( const catacurses::window &win, const point &p, int start_index,
+void vehicle::print_fuel_indicators( const catacurses::window &win, point p, int start_index,
                                      bool fullsize, bool verbose, bool desc, bool isHorizontal )
 {
     auto fuels = get_printable_fuel_types();
@@ -396,14 +396,14 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, const point 
  * @param desc true if the name of the fuel should be at the end
  * @param fuel_usages map of fuel types to consumption for verbose
  */
-void vehicle::print_fuel_indicator( const catacurses::window &win, const point &p,
+void vehicle::print_fuel_indicator( const catacurses::window &win, point p,
                                     const itype_id &fuel_type, bool verbose, bool desc )
 {
     std::map<itype_id, float> fuel_usages;
     print_fuel_indicator( win, p, fuel_type, fuel_usages, verbose, desc );
 }
 
-void vehicle::print_fuel_indicator( const catacurses::window &win, const point &p,
+void vehicle::print_fuel_indicator( const catacurses::window &win, point p,
                                     const itype_id &fuel_type,
                                     std::map<itype_id, float> fuel_usages,
                                     bool verbose, bool desc )

@@ -31,7 +31,7 @@ static void curses_check_result( const int result, const int expected, const cha
     }
 }
 
-catacurses::window catacurses::newwin( const int nlines, const int ncols, const point &begin )
+catacurses::window catacurses::newwin( const int nlines, const int ncols, point begin )
 {
     // TODO: check for errors
     const auto w = ::newwin( nlines, ncols, begin.y, begin.x );
@@ -95,12 +95,12 @@ void catacurses::wattron( const window &win, const nc_color &attrs )
     return curses_check_result( ::wattron( win.get<::WINDOW>(), attrs ), OK, "wattron" );
 }
 
-void catacurses::wmove( const window &win, const point &p )
+void catacurses::wmove( const window &win, point p )
 {
     return curses_check_result( ::wmove( win.get<::WINDOW>(), p.y, p.x ), OK, "wmove" );
 }
 
-void catacurses::mvwprintw( const window &win, const point &p, const std::string &text )
+void catacurses::mvwprintw( const window &win, point p, const std::string &text )
 {
     return curses_check_result( ::mvwprintw( win.get<::WINDOW>(), p.y, p.x, "%s", text.c_str() ),
                                 OK, "mvwprintw" );
@@ -149,19 +149,19 @@ void catacurses::wborder( const window &win, const chtype ls, const chtype rs, c
                                 "wborder" );
 }
 
-void catacurses::mvwhline( const window &win, const point &p, const chtype ch, const int n )
+void catacurses::mvwhline( const window &win, point p, const chtype ch, const int n )
 {
     return curses_check_result( ::mvwhline( win.get<::WINDOW>(), p.y, p.x, ch, n ), OK,
                                 "mvwhline" );
 }
 
-void catacurses::mvwvline( const window &win, const point &p, const chtype ch, const int n )
+void catacurses::mvwvline( const window &win, point p, const chtype ch, const int n )
 {
     return curses_check_result( ::mvwvline( win.get<::WINDOW>(), p.y, p.x, ch, n ), OK,
                                 "mvwvline" );
 }
 
-void catacurses::mvwaddch( const window &win, const point &p, const chtype ch )
+void catacurses::mvwaddch( const window &win, point p, const chtype ch )
 {
     return curses_check_result( ::mvwaddch( win.get<::WINDOW>(), p.y, p.x, ch ), OK, "mvwaddch" );
 }

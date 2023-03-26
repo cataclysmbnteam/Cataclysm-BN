@@ -14,7 +14,7 @@ tileray::tileray(): leftover( 0 ), direction( 0_degrees ), steps( 0 ), infinite(
 {
 }
 
-tileray::tileray( const point &ad )
+tileray::tileray( point ad )
 {
     init( ad );
 }
@@ -24,7 +24,7 @@ tileray::tileray( units::angle adir ): direction( adir )
     init( adir );
 }
 
-void tileray::init( const point &ad )
+void tileray::init( point ad )
 {
     delta = ad;
     abs_d = delta.abs();

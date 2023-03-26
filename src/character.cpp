@@ -10311,7 +10311,7 @@ int Character::print_info( const catacurses::window &w, int vStart, int, int col
     return vStart;
 }
 
-void Character::shift_destination( const point &shift )
+void Character::shift_destination( point shift )
 {
     if( next_expected_position ) {
         *next_expected_position += shift;
