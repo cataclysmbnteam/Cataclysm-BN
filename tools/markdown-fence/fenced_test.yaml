@@ -1,0 +1,41 @@
+example usage:
+  input: |
+    Some text
+
+        Indented code
+
+    End of text
+
+  expected: |
+    Some text
+
+    ```sh
+    Indented code
+    ```
+
+    End of text
+
+input with lists:
+  input: |
+    Some text
+
+    - list
+      - another list
+        * totally not suspicious
+
+        Actual Code
+
+    End of text
+
+  expected: |
+    Some text
+
+    - list
+      - another list
+        * totally not suspicious
+
+    ```sh
+    Actual Code
+    ```
+
+    End of text
