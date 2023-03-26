@@ -4284,6 +4284,20 @@
   },
   {
     "type": "construction",
+    "id": "constr_recharge_station",
+    "group": "place_recharge_station",
+    "category": "WORKSHOP",
+    "required_skills": [ [ "electronics", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "components": [ [ [ "cable", 5 ] ], [ [ "recharge_station", 1 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
+    "pre_note": "Will only work if constructed in a building with an electric grid.",
+    "pre_special": "check_empty",
+    "post_furniture": "f_recharge_station"
+  },
+  {
+    "type": "construction",
     "id": "constr_gridwelder",
     "group": "place_arc_welder",
     "category": "WORKSHOP",
