@@ -396,7 +396,7 @@ input_context game::get_player_input( std::string &action )
     return ctxt;
 }
 
-inline static void rcdrive( const point &d )
+inline static void rcdrive( point d )
 {
     player &u = g->u;
     map &here = get_map();

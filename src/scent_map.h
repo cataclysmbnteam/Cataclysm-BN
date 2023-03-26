@@ -63,7 +63,7 @@ class scent_map
         void update( const tripoint &center, map &m );
         void reset();
         void decay();
-        void shift( const point &sm_shift );
+        void shift( point sm_shift );
 
         /**
          * Get the scent value at the given position.
@@ -80,7 +80,7 @@ class scent_map
         scenttype_id get_type( const tripoint &p ) const;
 
         bool inbounds( const tripoint &p ) const;
-        bool inbounds( const point &p ) const {
+        bool inbounds( point p ) const {
             return inbounds( tripoint( p, 0 ) );
         }
 };

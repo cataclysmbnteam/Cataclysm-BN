@@ -43,9 +43,9 @@ TEST_CASE( "Item_modifier damages item", "[item_group]" )
     SECTION( "when it can be damaged" ) {
         item glock( "glock_19" );
         REQUIRE( glock.damage() == 0 );
-        REQUIRE( glock.max_damage() > 0 );
+        REQUIRE( glock.max_damage() > 1000 );
         damaged.modify( glock );
-        CHECK( glock.damage() == 1 );
+        CHECK( glock.damage() == 1000 );
     }
 }
 

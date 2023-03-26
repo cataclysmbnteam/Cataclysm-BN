@@ -5,7 +5,7 @@ set -x
 
 if [ -n "$CATA_CLANG_TIDY" ]; then
   pip install --user wheel --upgrade
-  pip install --user compiledb 'lit==0.11.1' 'click==7.1.2'
+  pip install --user 'lit==0.11.1' 'click==7.1.2'
 fi
 
 if [ -n "$LANGUAGES" ]; then
