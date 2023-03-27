@@ -4852,11 +4852,11 @@ void map::draw_mine( mapgendata &dat )
                     int ly2 = end_location.y + rng( -1, 1 );
                     line( this, t_lava, point( lx1, ly1 ), point( lx2, ly2 ) );
                 }
-                if( one_in( 3 ) ) {
-                    if( const auto ore = random_point( *this, [this]( const tripoint & p ) {
-                    return move_cost( p ) == 2;
-                    } ) ) {
-                        spawn_item( *ore, "chunk_sulfur" );
+                for( const tripoint &ore : points_in_rectangle( tripoint( start_location, abs_sub.z ),
+                        tripoint( end_location,
+                                  abs_sub.z ) ) ) {
+                    if( ter( ore ) == t_rock_floor && one_in( 5 ) ) {
+                        spawn_item( ore, "chunk_sulfur" );
                     }
                 }
             }
