@@ -1181,6 +1181,7 @@
   {
     "type": "item_group",
     "id": "mine_materials",
+    "subtype": "distribution",
     "entries": [
       { "item": "coal_lump", "prob": 20, "count": [ 1, 10 ] },
       { "item": "rock", "prob": 40, "count": [ 1, 10 ] },

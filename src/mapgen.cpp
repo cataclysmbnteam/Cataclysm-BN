@@ -4855,7 +4855,7 @@ void map::draw_mine( mapgendata &dat )
                 for( const tripoint &ore : points_in_rectangle( tripoint( start_location, abs_sub.z ),
                         tripoint( end_location,
                                   abs_sub.z ) ) ) {
-                    if( ter( ore ) == t_rock_floor && one_in( 5 ) ) {
+                    if( ter( ore ) == t_rock_floor && one_in( 10 ) ) {
                         spawn_item( ore, "chunk_sulfur" );
                     }
                 }
