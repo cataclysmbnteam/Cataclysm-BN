@@ -32,9 +32,9 @@
     "reversible": true,
     "using": [ [ "chainmail_standard", 7 ], [ "clasps", 4 ] ],
     "components": [
-      [ [ "lc_link_sheet", 35 ] ],
-      [ [ "lc_chain_link", 917 ] ],
-      [ [ "lc_wire", 7 ] ],
+      [ [ "link_sheet", 35 ] ],
+      [ [ "chain_link", 917 ] ],
+      [ [ "wire", 7 ] ],
       [ [ "fur", 42 ], [ "tanned_pelt", 7 ], [ "leather", 42 ], [ "tanned_hide", 7 ] ]
     ]
   },
@@ -49,7 +49,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "sewing_standard", 190 ], [ "clasps", 4 ] ],
-    "components": [ [ [ "sheet_kevlar_layered", 56 ] ], [ [ "rag", 42 ] ], [ [ "leather", 24 ], [ "tanned_hide", 4 ] ] ]
+    "components": [ [ [ "kevlar_plate", 56 ] ], [ [ "rag", 42 ] ], [ [ "leather", 24 ], [ "tanned_hide", 4 ] ] ]
   },
   {
     "result": "leather_armor_ostrich",
