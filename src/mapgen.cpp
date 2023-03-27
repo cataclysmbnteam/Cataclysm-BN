@@ -4852,6 +4852,13 @@ void map::draw_mine( mapgendata &dat )
                     int ly2 = end_location.y + rng( -1, 1 );
                     line( this, t_lava, point( lx1, ly1 ), point( lx2, ly2 ) );
                 }
+                for( const tripoint &ore : points_in_rectangle( tripoint( start_location, abs_sub.z ),
+                        tripoint( end_location,
+                                  abs_sub.z ) ) ) {
+                    if( ter( ore ) == t_rock_floor && one_in( 10 ) ) {
+                        spawn_item( ore, "chunk_sulfur" );
+                    }
+                }
             }
             break;
 
@@ -4878,7 +4885,7 @@ void map::draw_mine( mapgendata &dat )
                     return move_cost( p ) == 2;
                     } ) ) {
                         add_item( *body, item::make_corpse() );
-                        place_items( item_group_id( "mine_equipment" ), 60, *body, *body,
+                        place_items( item_group_id( "mon_zombie_miner_death_drops" ), 100, *body, *body,
                                      false, calendar::start_of_cataclysm );
                     }
                 }
@@ -5045,7 +5052,7 @@ void map::draw_mine( mapgendata &dat )
         for( int i = 0; i < num_bodies; i++ ) {
             point p3( rng( 4, SEEX * 2 - 5 ), rng( 4, SEEX * 2 - 5 ) );
             add_item( p3, item::make_corpse() );
-            place_items( item_group_id( "mine_equipment" ), 60, p3,
+            place_items( item_group_id( "mon_zombie_miner_death_drops" ), 60, p3,
                          p3, false, calendar::start_of_cataclysm );
         }
         place_spawns( GROUP_DOG_THING, 1, point( SEEX, SEEX ), point( SEEX + 1, SEEX + 1 ), 1, true, true );
