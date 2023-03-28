@@ -319,7 +319,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of superalloy survivor gloves", "str_pl": "pairs of superalloy survivor gloves" },
     "description": "A pair of heavily customized, superalloy-backed armored Kevlar gloves, modified to be easy to wear while providing maximum protection under extreme conditions.",
-    "weight": "810 g",
+    "weight": "800 g",
     "volume": "1 L",
     "price": 20000,
     "price_postapoc": 4000,
