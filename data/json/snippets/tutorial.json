@@ -131,6 +131,18 @@
       {
         "id": "LESSON_MORALE_FOCUS",
         "text": "Eating tasty food may grant a morale bonus, although eating is not the only way to improve your mood.  High morale improves focus regeneration, and the more focused you are the faster you'll learn new skills.  You can see your current mood and focus in the sidebar, and check the details by pressing <key:DEFAULTMODE:morale>."
+      },
+      {
+        "id": "LESSON_RAW_WATER",
+        "text": "Drinking water from questionable sources is a sure way to catch some unpleasant disease.  You may want to make it safe for consumption first, for example by boiling.  First, examine the water tile to fill the empty bottle with water."
+      },
+      {
+        "id": "LESSON_BOILING",
+        "text": "To boil the water, you'll need a source of heat and a tool with <color_cyan>boiling</color> quality of <color_cyan>1 or more</color>.  This pot will do.  You can see what crafting qualities an item has by reading through its description.  Make sure NOT to fill the pot with water, it must be empty to work."
+      },
+      {
+        "id": "LESSON_FIRE",
+        "text": "Fire is a common source of heat.  To make one, you'll need to use a fire starting tool on a pile of kindling and fuel.  To keep the fire from spreading, you may want to start it in a fireplace, a shallow pit or a brazier.  Once you've started the fire, open crafting menu with <key:DEFAULTMODE:craft>, navigate to the \"FOOD\" tab, select the \"clean water\" recipe and hit <key:CRAFTING:CONFIRM>.  Reminder: you can press <key::HELP_KEYBINDINGS> key at any time to view keybinds."
       }
     ]
   }
