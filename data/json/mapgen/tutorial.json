@@ -88,15 +88,15 @@
         "|....,|,.....,|........|",
         "|...|.|.|||||||,......,|",
         "|...|B|D|,...,|J||||||||",
-        "|...|.|.|.....|.||||||||",
-        "|,..|.|.|.....|.,|||||||",
-        "|||||.|.|.....|I||||||||",
-        "|||,.,|,|.....|.||||||||",
-        "|||.|||.|.....|.,|||||||",
-        "|||.|||.|,...,|H||||||||",
-        "|||.|||.|||F|||,||||||||",
-        "|||A|||C|||E|||G||||||||",
-        "|||.|||.|||.|||.||||||||",
+        "|...|.|.|.....|.||,...,|",
+        "|,..|.|.|.....|.,|.....|",
+        "|||||.|.|.....|I||.....|",
+        "|||,.,|,|.....|.||.....|",
+        "|||.|||.|.....|.,|.....|",
+        "|||.|||.|,...,|H||.....|",
+        "|||.|||.|||F|||,||,...,|",
+        "|||A|||C|||E|||G|||K||||",
+        "|||.|||.|||.|||.|||.||||",
         "|||+|||+|||+|||+|||+||||",
         "|,...,...,...,...,...,i|",
         ".......................g",
@@ -118,13 +118,7 @@
         "H": { "type": "TUT_MARKER", "faction": "your_followers", "name": "LESSON_FIREARM_RELOAD_MAGAZINE" },
         "I": { "type": "TUT_MARKER", "faction": "your_followers", "name": "LESSON_FIREARM_RELOAD_GUN" },
         "J": { "type": "TUT_MARKER", "faction": "your_followers", "name": "LESSON_RANGED_ATTACK" },
-        "K": { "type": "TUT_MARKER", "faction": "your_followers", "name": "LESSON_INVENTORY" },
-        "L": { "type": "TUT_MARKER", "faction": "your_followers", "name": "LESSON_INVENTORY_DROP" },
-        "M": { "type": "TUT_MARKER", "faction": "your_followers", "name": "LESSON_RELOAD_ACTIVATE" },
-        "N": { "type": "TUT_MARKER", "faction": "your_followers", "name": "LESSON_ACTIVATE_NOTE" },
-        "O": { "type": "TUT_MARKER", "faction": "your_followers", "name": "LESSON_UNLOAD_DEACTIVATE" },
-        "P": { "type": "TUT_MARKER", "faction": "your_followers", "name": "LESSON_ACTIVATE_WORN" },
-        "R": { "type": "TUT_MARKER", "faction": "your_followers", "name": "LESSON_INTERACT" }
+        "K": { "type": "TUT_MARKER", "faction": "your_followers", "name": "LESSON_INJURIES" }
       },
       "terrain": {
         "+": "t_door_c",
@@ -138,7 +132,7 @@
         { "text": "Lesson: Reach attacks.", "x": 8, "y": 15 },
         { "text": "Lesson: Throwing.", "x": 12, "y": 15 },
         { "text": "Lesson: Ranged attacks.", "x": 16, "y": 15 },
-        { "text": "Lesson: Healing.", "x": 20, "y": 15 }
+        { "text": "Lesson: Injuries.", "x": 20, "y": 15 }
       ],
       "place_loot": [
         { "item": "bat", "x": 5, "y": 7, "chance": 100 },
@@ -147,7 +141,12 @@
         { "item": "powered_earmuffs", "x": 16, "y": 7, "chance": 100, "magazine": 100, "ammo": 100 },
         { "item": "m16a4", "x": 16, "y": 7, "chance": 100 },
         { "item": "stanag30", "x": 16, "y": 10, "chance": 100 },
-        { "item": "556", "x": 16, "y": 10, "chance": 100 }
+        { "item": "556", "x": 16, "y": 10, "chance": 100 },
+        { "item": "1st_aid", "x": 21, "y": 12, "chance": 100 },
+        { "item": "arm_splint", "x": 21, "y": 12, "chance": 100 },
+        { "item": "leg_splint", "x": 21, "y": 12, "chance": 100 },
+        { "item": "morphine", "x": 21, "y": 12, "chance": 100 },
+        { "item": "syringe", "x": 21, "y": 12, "chance": 100 }
       ],
       "place_monster": [
         { "monster": "mon_tutorial", "x": 2, "y": 2 },
@@ -157,7 +156,10 @@
         { "monster": "mon_tutorial", "x": 13, "y": 2 },
         { "monster": "mon_tutorial", "x": 13, "y": 3 },
         { "monster": "mon_tutorial", "x": 10, "y": 6 },
-        { "monster": "mon_tutorial", "x": 12, "y": 6 }
+        { "monster": "mon_tutorial", "x": 12, "y": 6 },
+        { "monster": "mon_tutorial_angry", "x": 19, "y": 6 },
+        { "monster": "mon_tutorial_angry", "x": 20, "y": 6 },
+        { "monster": "mon_tutorial_angry", "x": 21, "y": 6 }
       ]
     }
   }

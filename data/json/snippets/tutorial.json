@@ -111,6 +111,10 @@
       {
         "id": "LESSON_RANGED_ATTACK",
         "text": "Press <key:DEFAULTMODE:fire> to start aiming.  You could either aim with <key:TARGET:AIM> for as long as you like and then shoot with <key:TARGET:FIRE>, or use one of the presets keyed to <key:TARGET:AIMED_SHOT>, <key:TARGET:CAREFUL_SHOT> and <key:TARGET:PRECISE_SHOT> to automatically aim to the stated threshold and shoot."
+      },
+      {
+        "id": "LESSON_INJURIES",
+        "text": "When you get hurt, the pain from the injuries will negatively affect your actions and slow you down.  You can use painkillers to dull the pain, though they may take some time to kick in.  Particularly deep wounds must be disinfected, otherwise you run the risk of infection.  Such wounds will show up in <key:DEFAULTMODE:player_data> screen under the \"Effects\" tab, and the wounded limb will gain blue color in the sidebar.  If you receive too much damage, your limb may break, and you'll have to apply a splint.  Regular damage will heal over time, though applying bandages will speed up the process."
       }
     ]
   }

@@ -46,6 +46,16 @@
     "flags": [ "IMMOBILE", "NOT_HALLUCINATION", "FILTHY" ]
   },
   {
+    "id": "mon_tutorial_angry",
+    "type": "MONSTER",
+    "name": { "str": "angry training dummy", "str_pl": "angry training dummies" },
+    "description": "Training dummy with a living zombie head grafted on top and a pair of rotting arms swinging from the sides.  It's been here for a while, judging from the smell.",
+    "special_attacks": [ { "type": "bite", "cooldown": 2 }, [ "GRAB", 3 ], [ "scratch", 4 ] ],
+    "symbol": "T",
+    "color": "yellow",
+    "copy-from": "mon_tutorial"
+  },
+  {
     "id": "mon_dragon_dummy",
     "type": "MONSTER",
     "name": { "str": "ancient red dragon" },
