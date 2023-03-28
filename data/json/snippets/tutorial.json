@@ -151,6 +151,14 @@
       {
         "id": "LESSON_DRAG_FURNITURE",
         "text": "You can grab onto furniture and vehicles by pressing <key:DEFAULTMODE:grab>.  If you're strong enough, you can shift the grabbed furniture with the directional keys, or drag the vehicle behind you as you move.  To stop grabbing, press <key:DEFAULTMODE:grab> again."
+      },
+      {
+        "id": "LESSON_STAIRS",
+        "text": "To go down the stairs, press <key:DEFAULTMODE:LEVEL_DOWN>.  To return back up, press <key:DEFAULTMODE:LEVEL_UP>."
+      },
+      {
+        "id": "LESSON_TUTORIAL_END",
+        "text": "Congratulations, you have completed the tutorial!  This world is not intended for normal playthroughs, so you may want to head back to the title screen and start a new game in a proper world.  If you still have questions regarding game mechanics, or would like to learn about mechanics not covered by this tutorial, consider watching Dark Days Ahead guides on YouTube (any from before 2019 should work for Bright Nights) or asking around on our Discord server (link available in the \"README.md\")."
       }
     ]
   }
