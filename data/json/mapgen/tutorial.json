@@ -232,7 +232,9 @@
         { "item": "down_blanket", "x": 2, "y": 1, "chance": 100 },
         { "item": "choc_drink", "x": 1, "y": 6, "chance": 100 },
         { "item": "fish_canned", "x": 1, "y": 10, "chance": 100 },
-        { "item": "shavingkit", "x": 8, "y": 2, "chance": 100 }
+        { "item": "bleach", "x": 1, "y": 10, "chance": 100 },
+        { "item": "shavingkit", "x": 8, "y": 2, "chance": 100 },
+        { "item": "candy", "x": 1, "y": 10, "chance": 100 }
       ],
       "place_monster": []
     }
