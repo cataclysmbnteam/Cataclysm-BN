@@ -1284,7 +1284,7 @@
     "category": "clothing",
     "name": { "str": "superalloy survivor mask" },
     "description": "A custom-built, superalloy reinforced gas mask that covers the face and eyes.  Provides excellent protection from smoke, teargas, and shrapnel.  It must be prepared before use.",
-    "weight": "970 g",
+    "weight": "1 kg",
     "volume": "1250 ml",
     "price": 28000,
     "price_postapoc": 3000,
