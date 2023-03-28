@@ -68,6 +68,7 @@
         { "item": "socks", "x": 3, "y": 7, "chance": 100 },
         { "item": "tshirt", "x": 3, "y": 7, "chance": 100 },
         { "item": "sneakers", "x": 3, "y": 7, "chance": 100 },
+        { "item": "wristwatch", "x": 3, "y": 7, "chance": 100 },
         { "item": "light_battery_cell", "x": 3, "y": 21, "ammo": 100, "chance": 100 },
         { "item": "flashlight", "x": 3, "y": 21, "chance": 100 },
         { "item": "wearable_light", "x": 8, "y": 17, "chance": 100 }
