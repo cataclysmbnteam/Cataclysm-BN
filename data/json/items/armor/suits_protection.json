@@ -863,7 +863,7 @@
     "id": "xlsasurvivor_suit",
     "type": "ARMOR",
     "name": { "str": "XL superalloy survivor suit" },
-    "description": "A massive, heavy, hand-built combination armor made from a reinforced bulletproof vest and a superalloy-plated leather jumpsuit. Lighter and easier to move in than an equivalent suit made with steel.  Protects from the elements as well as from harm.",
+    "description": "A massive, heavy, hand-built combination armor made from a reinforced bulletproof vest and a superalloy-plated leather jumpsuit.  Lighter and easier to move in than an equivalent suit made with steel.  Protects from the elements as well as from harm.",
     "weight": "12500 g",
     "volume": "18750 ml",
     "price": 250000,
