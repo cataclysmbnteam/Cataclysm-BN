@@ -249,11 +249,5 @@
     "id": "ants_queen",
     "copy-from": "ants_queen",
     "sym": "\u00F3"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "tutorial",
-    "copy-from": "tutorial",
-    "sym": "\u00D7"
   }
 ]
