@@ -216,9 +216,7 @@
         "i": "t_gates_mech_control",
         "g": "t_door_metal_locked"
       },
-      "furniture": {
-        "b": "f_bed"
-      },
+      "furniture": { "b": "f_bed" },
       "place_graffiti": [
         { "text": "Lesson: Food, Water, Rest.", "x": 4, "y": 15 },
         { "text": "Lesson: Morale and Focus.", "x": 8, "y": 15 },
@@ -236,7 +234,7 @@
         { "item": "shavingkit", "x": 8, "y": 2, "chance": 100 },
         { "item": "candy", "x": 8, "y": 2, "chance": 100 }
       ],
-      "place_monster": []
+      "place_monster": [  ]
     }
   }
 ]
