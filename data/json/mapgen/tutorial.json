@@ -172,20 +172,20 @@
       "fill_ter": "t_thconc_floor",
       "rows": [
         "||||||||||||||||||||||||",
-        "|bb.|,.,.,||,......,||||",
-        "|...|.|...||.......f||||",
-        "|...|.|,.,||,......,||||",
-        "|||C|.||||||G|||||||||||",
-        "|...|.|,..,|.|||||||||||",
-        "|,..|.|.....,|||||||||||",
-        "|...|,|,..,|||||||||||||",
-        "|||B|.|||F||||||||||||||",
-        "|...|.|||.||||||||||||||",
-        "|,..|.|ww.,|||||||||||||",
-        "|...|.|ww..|||||||||||||",
-        "|||A|D|ww.,|||||||||||||",
-        "|||.|,|||E||||||||||||||",
-        "|||.|,..|,..|||.|||.||||",
+        "|bb.|,.,.,||,......,|,.|",
+        "|...|.|...||.......f|..|",
+        "|...|.|,.,||,......,|..|",
+        "|||C|.||||||G||||||||.||",
+        "|...|.|,..,|.|,...,...,|",
+        "|,..|.|.....,|...|.....|",
+        "|...|,|,..,|||||||.....|",
+        "|||B|.|||F||,...,|.....|",
+        "|...|.|||.||.....|.....|",
+        "|,..|.|ww.,|.....|...cc|",
+        "|...|.|ww..|.....|....c|",
+        "|||A|D|ww.,|,...,|,...,|",
+        "|||.|,|||E|||||H|||I|..|",
+        "|||.|,..|,..|||.|||.|..|",
         "|||+|||+|||+|||+|||+||||",
         "|,...,...,...,...,...,i|",
         ".......................g",
@@ -204,10 +204,8 @@
         "E": { "type": "TUT_MARKER", "faction": "your_followers", "name": "LESSON_RAW_WATER" },
         "F": { "type": "TUT_MARKER", "faction": "your_followers", "name": "LESSON_BOILING" },
         "G": { "type": "TUT_MARKER", "faction": "your_followers", "name": "LESSON_FIRE" },
-        "H": { "type": "TUT_MARKER", "faction": "your_followers", "name": "LESSON_FIREARM_RELOAD_MAGAZINE" },
-        "I": { "type": "TUT_MARKER", "faction": "your_followers", "name": "LESSON_FIREARM_RELOAD_GUN" },
-        "J": { "type": "TUT_MARKER", "faction": "your_followers", "name": "LESSON_RANGED_ATTACK" },
-        "K": { "type": "TUT_MARKER", "faction": "your_followers", "name": "LESSON_HEALING" }
+        "H": { "type": "TUT_MARKER", "faction": "your_followers", "name": "LESSON_DRAG_ITEMS" },
+        "I": { "type": "TUT_MARKER", "faction": "your_followers", "name": "LESSON_DRAG_FURNITURE" }
       },
       "terrain": {
         "+": "t_door_c",
@@ -217,7 +215,8 @@
         "w": "t_water_sh_underground",
         "g": "t_door_metal_locked"
       },
-      "furniture": { "b": "f_bed", "f": "f_fireplace" },
+      "furniture": { "b": "f_bed", "f": "f_fireplace", "c": "f_chair" },
+      "place_vehicles": [ { "vehicle": "engine_crane", "chance": 100, "fuel": -1, "rotation": 270, "status": 0, "x": 20, "y": 7 } ],
       "place_graffiti": [
         { "text": "Lesson: Food, Water, Rest.", "x": 4, "y": 15 },
         { "text": "Lesson: Morale and Focus.", "x": 8, "y": 15 },
@@ -239,7 +238,9 @@
         { "item": "splinter", "x": 16, "y": 1, "chance": 100, "repeat": 4 },
         { "item": "2x4", "x": 16, "y": 1, "chance": 100, "repeat": 3 },
         { "item": "lighter", "x": 14, "y": 1, "chance": 100 },
-        { "item": "bottle_glass", "x": 18, "y": 3, "chance": 100 }
+        { "item": "bottle_glass", "x": 18, "y": 3, "chance": 100 },
+        { "item": "v8_combustion", "x": 13, "y": 10, "chance": 100 },
+        { "item": "log", "x": 15, "y": 10, "chance": 100, "repeat": 5 }
       ],
       "place_monster": [  ]
     }

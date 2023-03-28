@@ -143,6 +143,14 @@
       {
         "id": "LESSON_FIRE",
         "text": "Fire is a common source of heat.  To make one, you'll need to use a fire starting tool on a pile of kindling and fuel.  To keep the fire from spreading, you may want to start it in a fireplace, a shallow pit or a brazier.  Once you've started the fire, open crafting menu with <key:DEFAULTMODE:craft>, navigate to the \"FOOD\" tab, select the \"clean water\" recipe and hit <key:CRAFTING:CONFIRM>.  Reminder: you can press <key::HELP_KEYBINDINGS> key at any time to view keybinds."
+      },
+      {
+        "id": "LESSON_DRAG_ITEMS",
+        "text": "Some items are too heavy or unwieldy to carry.  Still, you can haul them along the ground by standing on their tile end pressing <key:DEFAULTMODE:haul>.  Hauling is time-consuming, so for large quantities you may want to consider finding a vehicle.  To stop hauling, press <key:DEFAULTMODE:haul> again."
+      },
+      {
+        "id": "LESSON_DRAG_FURNITURE",
+        "text": "You can grab onto furniture and vehicles by pressing <key:DEFAULTMODE:grab>.  If you're strong enough, you can shift the grabbed furniture with the directional keys, or drag the vehicle behind you as you move.  To stop grabbing, press <key:DEFAULTMODE:grab> again."
       }
     ]
   }
