@@ -343,7 +343,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "tutorial_0", "tutorial_1" ],
+    "id": [ "tutorial_0", "tutorial_1", "tutorial_2" ],
     "name": "tutorial room",
     "sym": "O",
     "color": "cyan",

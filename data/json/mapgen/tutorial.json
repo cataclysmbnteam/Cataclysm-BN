@@ -162,5 +162,79 @@
         { "monster": "mon_tutorial_angry", "x": 21, "y": 6 }
       ]
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "tutorial_2" ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "||||||||||||||||||||||||",
+        "|bb.|,.,.,||||||||||||||",
+        "|...|.|...||||||||||||||",
+        "|...|.|,.,||||||||||||||",
+        "|||C|.||||||||||||||||||",
+        "|...|.||||||||||||||||||",
+        "|,..|.||||||||||||||||||",
+        "|...|,||||||||||||||||||",
+        "|||B|.||||||||||||||||||",
+        "|...|.||||||||||||||||||",
+        "|,..|.||||||||||||||||||",
+        "|...|.||||||||||||||||||",
+        "|||A|D||||||||||||||||||",
+        "|||.|,..||||||||||||||||",
+        "|||.|||.|||.|||.|||.||||",
+        "|||+|||+|||+|||+|||+||||",
+        "|,...,...,...,...,...,i|",
+        ".......................g",
+        ".......................g",
+        ".......................g",
+        ".......................g",
+        "|,...,...,...,...,...,||",
+        "||||||||||||||||||||||||",
+        "||||||||||||||||||||||||"
+      ],
+      "zones": {
+        "A": { "type": "TUT_MARKER", "faction": "your_followers", "name": "LESSON_FOOD" },
+        "B": { "type": "TUT_MARKER", "faction": "your_followers", "name": "LESSON_WATER" },
+        "C": { "type": "TUT_MARKER", "faction": "your_followers", "name": "LESSON_REST" },
+        "D": { "type": "TUT_MARKER", "faction": "your_followers", "name": "LESSON_MORALE_FOCUS" },
+        "E": { "type": "TUT_MARKER", "faction": "your_followers", "name": "LESSON_THROWING_WEAPONS" },
+        "F": { "type": "TUT_MARKER", "faction": "your_followers", "name": "LESSON_THROWING" },
+        "G": { "type": "TUT_MARKER", "faction": "your_followers", "name": "LESSON_RANGED_WEAPONS" },
+        "H": { "type": "TUT_MARKER", "faction": "your_followers", "name": "LESSON_FIREARM_RELOAD_MAGAZINE" },
+        "I": { "type": "TUT_MARKER", "faction": "your_followers", "name": "LESSON_FIREARM_RELOAD_GUN" },
+        "J": { "type": "TUT_MARKER", "faction": "your_followers", "name": "LESSON_RANGED_ATTACK" },
+        "K": { "type": "TUT_MARKER", "faction": "your_followers", "name": "LESSON_HEALING" }
+      },
+      "terrain": {
+        "+": "t_door_c",
+        "|": "t_brick_wall",
+        ",": "t_thconc_floor_olight",
+        "i": "t_gates_mech_control",
+        "g": "t_door_metal_locked"
+      },
+      "furniture": {
+        "b": "f_bed"
+      },
+      "place_graffiti": [
+        { "text": "Lesson: Food, Water, Rest.", "x": 4, "y": 15 },
+        { "text": "Lesson: Morale and Focus.", "x": 8, "y": 15 },
+        { "text": "Lesson: Crafting and Cooking.", "x": 12, "y": 15 },
+        { "text": "Lesson: Dragging items.", "x": 16, "y": 15 },
+        { "text": "Lesson: Moving furniture.", "x": 20, "y": 15 }
+      ],
+      "place_loot": [
+        { "item": "pillow", "x": 1, "y": 1, "chance": 100 },
+        { "item": "blanket", "x": 1, "y": 1, "chance": 100 },
+        { "item": "down_blanket", "x": 2, "y": 1, "chance": 100 },
+        { "item": "choc_drink", "x": 1, "y": 6, "chance": 100 },
+        { "item": "fish_canned", "x": 1, "y": 10, "chance": 100 },
+        { "item": "shavingkit", "x": 8, "y": 2, "chance": 100 }
+      ],
+      "place_monster": []
+    }
   }
 ]

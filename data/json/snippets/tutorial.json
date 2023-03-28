@@ -115,6 +115,22 @@
       {
         "id": "LESSON_INJURIES",
         "text": "When you get hurt, the pain from the injuries will negatively affect your actions and slow you down.  You can use painkillers to dull the pain, though they may take some time to kick in.  Particularly deep wounds must be disinfected, otherwise you run the risk of infection.  Such wounds will show up in <key:DEFAULTMODE:player_data> screen under the \"Effects\" tab, and the wounded limb will gain blue color in the sidebar.  If you receive too much damage, your limb may break, and you'll have to apply a splint.  Regular damage will heal over time, though applying bandages will speed up the process."
+      },
+      {
+        "id": "LESSON_FOOD",
+        "text": "You have three basic needs: food, water and rest.  To eat an item, either activate it or open the dedicated \"Consume\" menu by pressing <key:DEFAULTMODE:eat> and choosing what to consume."
+      },
+      {
+        "id": "LESSON_WATER",
+        "text": "Water, as well as other liquids, must be contained and can't be picked up once spilled.  Consuming a drink works the same way as consuming a solid item.  Be aware: you can only eat so much before your body can't take it anymore."
+      },
+      {
+        "id": "LESSON_REST",
+        "text": "Press <key:DEFAULTMODE:sleep> to lay down and try falling asleep.  Sleeping is better done on a proper bed, but you may pile on clothes and blankets for comfort almost anywhere.  You will heal faster while asleep, and consistent lack of rest may lead to sleep deprivation."
+      },
+      {
+        "id": "LESSON_MORALE_FOCUS",
+        "text": "Eating tasty food may grant a morale bonus, although eating is not the only way to improve your mood.  High morale improves focus regeneration, and the more focused you are the faster you'll learn new skills.  You can see your current mood and focus in the sidebar, and check the details by pressing <key:DEFAULTMODE:morale>."
       }
     ]
   }
