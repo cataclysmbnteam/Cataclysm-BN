@@ -671,7 +671,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
                 continue;
             }
 
-            const point &collision_point = veh.part( coll.part ).mount;
+            point collision_point = veh.part( coll.part ).mount;
             const int coll_dmg = coll.imp;
             // Shock damage, if the target part is a rotor treat as an aimed hit.
             if( veh.part_info( coll.part ).rotor_diameter() > 0 ) {
@@ -2641,8 +2641,8 @@ bool map::is_outside( const tripoint &p ) const
     return outside_cache[p.x][p.y];
 }
 
-bool map::is_last_ter_wall( const bool no_furn, const point &p,
-                            const point &max, const direction dir ) const
+bool map::is_last_ter_wall( const bool no_furn, point p,
+                            point max, const direction dir ) const
 {
     point mov;
     switch( dir ) {
@@ -6284,7 +6284,7 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range,
 
         point last_point = F.xy();
         bresenham( F.xy(), T.xy(), bresenham_slope,
-        [this, &visible, &T, &last_point]( const point & new_point ) {
+        [this, &visible, &T, &last_point]( point  new_point ) {
             // Exit before checking the last square, it's still visible even if opaque.
             if( new_point.x == T.x && new_point.y == T.y ) {
                 return false;
@@ -6528,7 +6528,7 @@ bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
         bool is_clear = true;
         point last_point = f.xy();
         bresenham( f.xy(), t.xy(), 0,
-        [this, &is_clear, cost_min, cost_max, &t, &last_point]( const point & new_point ) {
+        [this, &is_clear, cost_min, cost_max, &t, &last_point]( point  new_point ) {
             // Exit before checking the last square, it's still reachable even if it is an obstacle.
             if( new_point.x == t.x && new_point.y == t.y ) {
                 return false;
@@ -6782,7 +6782,7 @@ void map::shift_traps( const tripoint &shift )
 }
 
 template<int SIZE, int MULTIPLIER>
-void shift_bitset_cache( std::bitset<SIZE *SIZE> &cache, const point &s )
+void shift_bitset_cache( std::bitset<SIZE *SIZE> &cache, point s )
 {
     // sx shifts by MULTIPLIER rows, sy shifts by MULTIPLIER columns.
     int shift_amount = s.x * MULTIPLIER + s.y * SIZE * MULTIPLIER;
@@ -6807,11 +6807,11 @@ void shift_bitset_cache( std::bitset<SIZE *SIZE> &cache, const point &s )
 
 template void
 shift_bitset_cache<MAPSIZE_X, SEEX>( std::bitset<MAPSIZE_X *MAPSIZE_X> &cache,
-                                     const point &s );
+                                     point s );
 template void
-shift_bitset_cache<MAPSIZE, 1>( std::bitset<MAPSIZE *MAPSIZE> &cache, const point &s );
+shift_bitset_cache<MAPSIZE, 1>( std::bitset<MAPSIZE *MAPSIZE> &cache, point s );
 
-static inline void shift_tripoint_set( std::set<tripoint> &set, const point &offset,
+static inline void shift_tripoint_set( std::set<tripoint> &set, point offset,
                                        const half_open_rectangle<point> &boundaries )
 {
     std::set<tripoint> old_set = std::move( set );
@@ -6825,7 +6825,7 @@ static inline void shift_tripoint_set( std::set<tripoint> &set, const point &off
 }
 
 template <typename T>
-static inline void shift_tripoint_map( std::map<tripoint, T> &map, const point &offset,
+static inline void shift_tripoint_map( std::map<tripoint, T> &map, point offset,
                                        const half_open_rectangle<point> &boundaries )
 {
     std::map<tripoint, T> old_map = std::move( map );
@@ -6884,7 +6884,7 @@ void map::shift_vehicle_z( vehicle &veh, int z_shift )
 
 }
 
-void map::shift( const point &sp )
+void map::shift( point sp )
 {
     // Special case of 0-shift; refresh the map
     if( sp == point_zero ) {
@@ -8468,16 +8468,16 @@ tinymap::tinymap( int mapsize, bool zlevels )
 {
 }
 
-void map::draw_line_ter( const ter_id &type, const point &p1, const point &p2 )
+void map::draw_line_ter( const ter_id &type, point p1, point p2 )
 {
-    draw_line( [this, type]( const point & p ) {
+    draw_line( [this, type]( point  p ) {
         this->ter_set( p, type );
     }, p1, p2 );
 }
 
-void map::draw_line_furn( const furn_id &type, const point &p1, const point &p2 )
+void map::draw_line_furn( const furn_id &type, point p1, point p2 )
 {
-    draw_line( [this, type]( const point & p ) {
+    draw_line( [this, type]( point  p ) {
         this->furn_set( p, type );
     }, p1, p2 );
 }
@@ -8509,67 +8509,67 @@ void map::draw_fill_background( const weighted_int_list<ter_id> &f )
     draw_square_ter( f, point_zero, point( SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1 ) );
 }
 
-void map::draw_square_ter( const ter_id &type, const point &p1, const point &p2 )
+void map::draw_square_ter( const ter_id &type, point p1, point p2 )
 {
-    draw_square( [this, type]( const point & p ) {
+    draw_square( [this, type]( point  p ) {
         this->ter_set( p, type );
     }, p1, p2 );
 }
 
-void map::draw_square_furn( const furn_id &type, const point &p1, const point &p2 )
+void map::draw_square_furn( const furn_id &type, point p1, point p2 )
 {
-    draw_square( [this, type]( const point & p ) {
+    draw_square( [this, type]( point  p ) {
         this->furn_set( p, type );
     }, p1, p2 );
 }
 
-void map::draw_square_ter( ter_id( *f )(), const point &p1, const point &p2 )
+void map::draw_square_ter( ter_id( *f )(), point p1, point p2 )
 {
-    draw_square( [this, f]( const point & p ) {
+    draw_square( [this, f]( point  p ) {
         this->ter_set( p, f() );
     }, p1, p2 );
 }
 
-void map::draw_square_ter( const weighted_int_list<ter_id> &f, const point &p1,
-                           const point &p2 )
+void map::draw_square_ter( const weighted_int_list<ter_id> &f, point p1,
+                           point p2 )
 {
-    draw_square( [this, f]( const point & p ) {
+    draw_square( [this, f]( point  p ) {
         const ter_id *tid = f.pick();
         this->ter_set( p, tid != nullptr ? *tid : t_null );
     }, p1, p2 );
 }
 
-void map::draw_rough_circle_ter( const ter_id &type, const point &p, int rad )
+void map::draw_rough_circle_ter( const ter_id &type, point p, int rad )
 {
-    draw_rough_circle( [this, type]( const point & q ) {
+    draw_rough_circle( [this, type]( point  q ) {
         this->ter_set( q, type );
     }, p, rad );
 }
 
-void map::draw_rough_circle_furn( const furn_id &type, const point &p, int rad )
+void map::draw_rough_circle_furn( const furn_id &type, point p, int rad )
 {
-    draw_rough_circle( [this, type]( const point & q ) {
+    draw_rough_circle( [this, type]( point  q ) {
         this->furn_set( q, type );
     }, p, rad );
 }
 
 void map::draw_circle_ter( const ter_id &type, const rl_vec2d &p, double rad )
 {
-    draw_circle( [this, type]( const point & q ) {
+    draw_circle( [this, type]( point  q ) {
         this->ter_set( q, type );
     }, p, rad );
 }
 
-void map::draw_circle_ter( const ter_id &type, const point &p, int rad )
+void map::draw_circle_ter( const ter_id &type, point p, int rad )
 {
-    draw_circle( [this, type]( const point & q ) {
+    draw_circle( [this, type]( point  q ) {
         this->ter_set( q, type );
     }, p, rad );
 }
 
-void map::draw_circle_furn( const furn_id &type, const point &p, int rad )
+void map::draw_circle_furn( const furn_id &type, point p, int rad )
 {
-    draw_circle( [this, type]( const point & q ) {
+    draw_circle( [this, type]( point  q ) {
         this->furn_set( q, type );
     }, p, rad );
 }
@@ -8674,11 +8674,11 @@ void map::function_over( const tripoint &start, const tripoint &end, Functor fun
 }
 
 void map::scent_blockers( std::array<std::array<char, MAPSIZE_X>, MAPSIZE_Y> &scent_transfer,
-                          const point &min, const point &max )
+                          point min, point max )
 {
     auto reduce = TFLAG_REDUCE_SCENT;
     auto block = TFLAG_NO_SCENT;
-    auto fill_values = [&]( const tripoint & gp, const submap * sm, const point & lp ) {
+    auto fill_values = [&]( const tripoint & gp, const submap * sm, point  lp ) {
         // We need to generate the x/y coordinates, because we can't get them "for free"
         const point p = lp + sm_to_ms_copy( gp.xy() );
         if( sm->get_ter( lp ).obj().has_flag( block ) ) {

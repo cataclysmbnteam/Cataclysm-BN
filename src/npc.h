@@ -788,7 +788,7 @@ class npc : public player
          * Note: final submap may differ from submap_offset if @ref square has
          * x/y values outside [0, SEEX-1]/[0, SEEY-1] range.
          */
-        void spawn_at_precise( const point &submap_offset, const tripoint &square );
+        void spawn_at_precise( point submap_offset, const tripoint &square );
         /**
          * Places the NPC on the @ref map. This update its
          * pos values to fit the current offset of
@@ -1011,7 +1011,7 @@ class npc : public player
          * from one submap to an adjacent submap.  It updates our position (shifting by
          * 12 tiles), as well as our plans.
          */
-        void shift( const point &s );
+        void shift( point s );
 
         // Movement; the following are defined in npcmove.cpp
         void move(); // Picks an action & a target and calls execute_action

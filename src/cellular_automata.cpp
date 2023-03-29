@@ -1,8 +1,8 @@
 #include "cellular_automata.h"
 
 int CellularAutomata::neighbor_count( const std::vector<std::vector<int>> &cells,
-                                      const point &size,
-                                      const point &p )
+                                      point size,
+                                      point p )
 {
     int neighbors = 0;
     for( int ni = -1; ni <= 1; ni++ ) {
@@ -23,7 +23,7 @@ int CellularAutomata::neighbor_count( const std::vector<std::vector<int>> &cells
     return neighbors;
 }
 std::vector<std::vector<int>> CellularAutomata::generate_cellular_automaton(
-                               const point &size,
+                               point size,
                                const int alive,
                                const int iterations,
                                const int birth_limit,

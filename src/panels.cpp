@@ -154,7 +154,7 @@ std::string window_panel::get_name() const
 }
 
 void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const avatar &you,
-                                     const tripoint_abs_omt &global_omt, const point &start_input,
+                                     const tripoint_abs_omt &global_omt, point start_input,
                                      const int width, const int height )
 {
     const point_abs_omt curs = global_omt.xy();

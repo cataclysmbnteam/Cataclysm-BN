@@ -387,7 +387,7 @@ static void draw_description( const catacurses::window &win, const bionic &bio )
     wnoutrefresh( win );
 }
 
-static void draw_connectors( const catacurses::window &win, const point &start,
+static void draw_connectors( const catacurses::window &win, point start,
                              int last_x, const bionic_id &bio_id, const std::map<bodypart_str_id, size_t> &bp_to_pos )
 {
     const int LIST_START_Y = 7;

@@ -737,7 +737,7 @@ void npc::spawn_at_sm( const tripoint &p )
     spawn_at_precise( p.xy(), tripoint( rng( 0, SEEX - 1 ), rng( 0, SEEY - 1 ), p.z ) );
 }
 
-void npc::spawn_at_precise( const point &submap_offset, const tripoint &square )
+void npc::spawn_at_precise( point submap_offset, const tripoint &square )
 {
     submap_coords = submap_offset;
     submap_coords.x += square.x / SEEX;
@@ -2400,21 +2400,21 @@ std::string npc::opinion_text() const
     return ret;
 }
 
-static void maybe_shift( cata::optional<tripoint> &pos, const point &d )
+static void maybe_shift( cata::optional<tripoint> &pos, point d )
 {
     if( pos ) {
         *pos += d;
     }
 }
 
-static void maybe_shift( tripoint &pos, const point &d )
+static void maybe_shift( tripoint &pos, point d )
 {
     if( pos != tripoint_min ) {
         pos += d;
     }
 }
 
-void npc::shift( const point &s )
+void npc::shift( point s )
 {
     const point shift = sm_to_ms_copy( s );
 

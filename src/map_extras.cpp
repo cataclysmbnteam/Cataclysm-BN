@@ -615,7 +615,7 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
     const bool road_at_west = is_ot_match( "road", west, ot_match_type::type );
     const bool road_at_east = is_ot_match( "road", east, ot_match_type::type );
 
-    const auto spawn_turret = [&]( const point & p ) {
+    const auto spawn_turret = [&]( point  p ) {
         if( one_in( 3 ) ) {
             m.add_spawn( mon_turret_longrange, 1, { p, abs_sub.z } );
         } else if( one_in( 2 ) ) {
@@ -1624,7 +1624,7 @@ static bool mx_crater( map &m, const tripoint &abs_sub )
     return true;
 }
 
-static void place_fumarole( map &m, const point &p1, const point &p2, std::set<point> &ignited )
+static void place_fumarole( map &m, point p1, point p2, std::set<point> &ignited )
 {
     // Tracks points nearby for ignition after the lava is placed
     //std::set<point> ignited;

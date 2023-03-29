@@ -148,7 +148,6 @@ static const itype_id itype_water( "water" );
 static const itype_id itype_water_acid( "water_acid" );
 static const itype_id itype_water_acid_weak( "water_acid_weak" );
 
-static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_survival( "survival" );
 static const skill_id skill_unarmed( "unarmed" );
 static const skill_id skill_weapon( "weapon" );

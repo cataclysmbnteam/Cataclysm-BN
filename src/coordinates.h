@@ -158,12 +158,12 @@ class coord_point
             return *this;
         }
 
-        coord_point &operator+=( const point &r ) {
+        coord_point &operator+=( point r ) {
             raw_ += r;
             return *this;
         }
 
-        coord_point &operator-=( const point &r ) {
+        coord_point &operator-=( point r ) {
             raw_ -= r;
             return *this;
         }
@@ -178,7 +178,7 @@ class coord_point
             return *this;
         }
 
-        friend inline coord_point operator+( const coord_point &l, const point &r ) {
+        friend inline coord_point operator+( const coord_point &l, point r ) {
             return coord_point( l.raw() + r );
         }
 
@@ -186,7 +186,7 @@ class coord_point
             return coord_point( l.raw() + r );
         }
 
-        friend inline coord_point operator-( const coord_point &l, const point &r ) {
+        friend inline coord_point operator-( const coord_point &l, point r ) {
             return coord_point( l.raw() - r );
         }
 
@@ -643,10 +643,10 @@ struct real_coords {
         fromabs( ap );
     }
 
-    void fromabs( const point &abs );
+    void fromabs( point abs );
 
     // specifically for the subjective position returned by overmap::draw
-    void fromomap( const point &rel_om, const point &rel_om_pos ) {
+    void fromomap( point rel_om, point rel_om_pos ) {
         const point a = om_to_omt_copy( rel_om ) + rel_om_pos;
         fromabs( omt_to_ms_copy( a ) );
     }

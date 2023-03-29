@@ -70,4 +70,4 @@ temperature_flag temperature_flag_for_part( const vehicle &veh, size_t part_inde
     return temperature_flag::TEMP_NORMAL;
 }
 
-}
+} // namespace rot

@@ -46,7 +46,7 @@ int advanced_inv_area::get_item_count() const
     }
 }
 
-advanced_inv_area::advanced_inv_area( aim_location id, const point &h, tripoint off,
+advanced_inv_area::advanced_inv_area( aim_location id, point h, tripoint off,
                                       const std::string &name, const std::string &shortname,
                                       std::string minimapname, std::string actionname,
                                       aim_location relative_location ) :

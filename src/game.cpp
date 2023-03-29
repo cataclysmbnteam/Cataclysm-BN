@@ -283,7 +283,7 @@ std::unique_ptr<game> g;
 //The one and only uistate instance
 uistatedata uistate;
 
-bool is_valid_in_w_terrain( const point &p )
+bool is_valid_in_w_terrain( point p )
 {
     return p.x >= 0 && p.x < TERRAIN_WINDOW_WIDTH && p.y >= 0 && p.y < TERRAIN_WINDOW_HEIGHT;
 }
@@ -1605,7 +1605,7 @@ bool game::do_turn()
     return false;
 }
 
-void game::set_driving_view_offset( const point &p )
+void game::set_driving_view_offset( point p )
 {
     // remove the previous driving offset,
     // store the new offset and apply the new offset.
@@ -4964,7 +4964,7 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &install
 
 }
 
-void game::exam_vehicle( vehicle &veh, const point &c )
+void game::exam_vehicle( vehicle &veh, point c )
 {
     if( veh.magic ) {
         add_msg( m_info, _( "This is your %s" ), veh.name );
@@ -11990,7 +11990,7 @@ std::string game::get_world_base_save_path() const
     return world_generator->active_world->folder_path();
 }
 
-void game::shift_destination_preview( const point &delta )
+void game::shift_destination_preview( point delta )
 {
     for( tripoint &p : destination_preview ) {
         p += delta;

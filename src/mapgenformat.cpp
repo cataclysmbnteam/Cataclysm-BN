@@ -11,7 +11,7 @@
 namespace mapf
 {
 
-void formatted_set_simple( map *m, const point &start, const char *cstr,
+void formatted_set_simple( map *m, point start, const char *cstr,
                            const format_effect<ter_id> &ter_b, const format_effect<furn_id> &furn_b )
 {
     const char *p = cstr;

@@ -173,7 +173,7 @@ class monster : public Creature, public visitable<monster>
         Creature *attack_target(); // Returns the creature at the end of plans (if hostile)
 
         // Movement
-        void shift( const point &sm_shift ); // Shifts the monster to the appropriate submap
+        void shift( point sm_shift ); // Shifts the monster to the appropriate submap
         void set_goal( const tripoint &p );
         // Updates current pos AND our plans
         bool wander(); // Returns true if we have no plans
@@ -193,8 +193,8 @@ class monster : public Creature, public visitable<monster>
         bool will_move_to( const tripoint &p ) const;
         bool can_squeeze_to( const tripoint &p ) const;
 
-        bool will_reach( const point &p ); // Do we have plans to get to (x, y)?
-        int  turns_to_reach( const point &p ); // How long will it take?
+        bool will_reach( point p ); // Do we have plans to get to (x, y)?
+        int  turns_to_reach( point p ); // How long will it take?
 
         // Go in a straight line to p
         void set_dest( const tripoint &p );
