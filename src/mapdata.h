@@ -49,13 +49,7 @@ struct ranged_bash_info {
             return std::tie( reduction, reduction_laser, destroy_threshold, flammable, block_unaimed_chance );
         }
     public:
-
-        // In C++20, this would be = default
-        bool operator==( const ranged_bash_info &rhs ) const {
-            return tie() == rhs.tie();
-        }
-
-
+        bool operator==( const ranged_bash_info &rhs ) const = default;
 };
 
 struct map_bash_info {
@@ -135,11 +129,7 @@ struct furn_workbench_info {
     furn_workbench_info();
     void deserialize( JsonIn &jsin );
 
-    // In C++20, this would be = default
-    bool operator==( const furn_workbench_info &rhs ) const {
-        return std::tie( multiplier, allowed_mass, allowed_volume )
-               == std::tie( rhs.multiplier, rhs.allowed_mass, rhs.allowed_volume );
-    }
+    bool operator==( const furn_workbench_info &rhs ) const = default;
 };
 struct plant_data {
     // What the furniture turns into when it grows or you plant seeds in it
@@ -154,11 +144,7 @@ struct plant_data {
 
     void deserialize( JsonIn &jsin );
 
-    // In C++20, this would be = default
-    bool operator==( const plant_data &rhs ) const {
-        return std::tie( transform, base, growth_multiplier, harvest_multiplier )
-               == std::tie( rhs.transform, rhs.base, rhs.growth_multiplier, rhs.harvest_multiplier );
-    }
+    bool operator==( const plant_data &rhs ) const = default;
 };
 
 struct pry_result {
