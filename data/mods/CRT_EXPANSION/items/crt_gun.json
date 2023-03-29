@@ -18,7 +18,7 @@
     "dispersion": 150,
     "durability": 9,
     "loudness": 14,
-    "ups_charges": 11,
+    "ups_charges": 8,
     "reload": 220,
     "modes": [ [ "DEFAULT", "double", 2 ] ],
     "valid_mod_locations": [
@@ -209,14 +209,14 @@
     "bashing": 10,
     "to_hit": -1,
     "range": 17,
-    "ranged_damage": { "damage_type": "stab", "amount": 5 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 5 },
     "dispersion": 120,
     "durability": 8,
     "loudness": 18,
     "clip_size": 1,
     "reload": 300,
     "modes": [ [ "DEFAULT", "single", 1 ] ],
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "sights", 1 ], [ "stock", 1 ] ]
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "sling", 1 ], [ "sights", 1 ], [ "stock", 1 ] ]
   },
   {
     "id": "ds_plasma_cutter",
@@ -249,7 +249,7 @@
     "id": "ds_rivet_gun",
     "type": "GUN",
     "name": "C.R.I.T. Rivet Driver",
-    "description": "Experimental double purpose tool under development in C.R.I.T. R&D.  It takes a regular nail and then enlongates it within a fraction of a second before firing it out, upon reaching a target, the fragile stake explodes into shards.",
+    "description": "Experimental double purpose tool under development in C.R.I.T. R&D.  It takes a regular nail and then elongates it within a fraction of a second before firing it out, upon reaching a target, the fragile stake explodes into shards.",
     "weight": "1650 g",
     "volume": "750 ml",
     "price": 1000000,
