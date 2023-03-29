@@ -14,6 +14,7 @@
 /app/jni/libintl-lite
 /app/jni/lua
 /app/jni/mpg-123
+/app/jni/libhidapi
 /app/build
 /build
 /captures
