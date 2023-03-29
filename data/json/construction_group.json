@@ -1236,11 +1236,6 @@
   },
   {
     "type": "construction_group",
-    "id": "remove_carpet",
-    "name": "Remove Carpet"
-  },
-  {
-    "type": "construction_group",
     "id": "remove_concrete_column",
     "name": "Remove concrete column"
   },
