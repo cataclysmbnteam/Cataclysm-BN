@@ -161,7 +161,7 @@ static const trait_id trait_NORANGEDCRIT( "NO_RANGED_CRIT" );
 static constexpr int AIF_DURATION_LIMIT = 10;
 
 static projectile make_gun_projectile( const item &gun );
-int time_to_attack( const Character &p, const itype &firing );
+int time_to_attack( const Character &p, const item &firing, const item_location &loc );
 static void cycle_action( item &weap, const tripoint &pos );
 bool can_use_bipod( const map &m, const tripoint &pos );
 dispersion_sources calculate_dispersion( const map &m, const Character &who, const item &gun,
@@ -816,15 +816,24 @@ dispersion_sources calculate_dispersion( const map &m, const Character &who, con
 
 int ranged::fire_gun( Character &who, const tripoint &target, int shots )
 {
-    return fire_gun( who, target, shots, who.weapon );
+    return fire_gun( who, target, shots, who.weapon, item_location() );
 }
 
-int ranged::fire_gun( Character &who, const tripoint &target, const int max_shots, item &gun )
+int ranged::fire_gun( Character &who, const tripoint &target, int max_shots, item &gun,
+                      item_location ammo )
 {
+    int attack_moves = time_to_attack( who, gun, ammo );
+
     if( !gun.is_gun() ) {
         debugmsg( "%s tried to fire non-gun (%s).", who.name, gun.tname() );
         return 0;
     }
+
+    if( gun.ammo_required() > 0 && !gun.ammo_remaining() && !ammo ) {
+        debugmsg( "%s's gun %s is empty and has no ammo for reloading.", gun.tname() );
+        return 0;
+    }
+
     bool is_mech_weapon = false;
     if( who.is_mounted() && who.mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
         is_mech_weapon = true;
@@ -832,8 +841,10 @@ int ranged::fire_gun( Character &who, const tripoint &target, const int max_shot
 
     int shots = max_shots;
     // Number of shots to fire is limited by the amount of remaining ammo
-    if( gun.ammo_required() ) {
+    if( gun.ammo_required() && !ammo ) {
         shots = std::min( shots, static_cast<int>( gun.ammo_remaining() / gun.ammo_required() ) );
+    } else {
+        shots = std::min( shots, ammo.get_item()->count() / gun.ammo_required() );
     }
 
     // cap our maximum burst size by the amount of UPS power left
@@ -863,6 +874,9 @@ int ranged::fire_gun( Character &who, const tripoint &target, const int max_shot
     int curshot = 0;
     int hits = 0; // total shots on target
     while( curshot != shots ) {
+        if( !!ammo && !gun.ammo_remaining() ) {
+            gun.reload( get_avatar(), std::move( ammo ), 1 );
+        }
         if( gun.faults.count( fault_gun_chamber_spent ) && curshot == 0 ) {
             who.moves -= 50;
             gun.faults.erase( fault_gun_chamber_spent );
@@ -963,7 +977,7 @@ int ranged::fire_gun( Character &who, const tripoint &target, const int max_shot
     }
 
     // Use different amounts of time depending on the type of gun and our skill
-    who.moves -= time_to_attack( who, *gun.type );
+    who.moves -= attack_moves;
 
     // Practice the base gun skill proportionally to number of hits, but always by one.
     who.as_player()->practice( skill_gun, ( hits + 1 ) * 5 );
@@ -1306,21 +1320,6 @@ struct confidence_rating {
     std::string label;
 };
 
-static int print_load_cost( const catacurses::window &w, int line_number, int reload_moves,
-                            int unload_moves )
-{
-    nc_color col = c_white;
-    if( reload_moves > 0 ) {
-        std::string load_cost = string_format( _( "Loading Cost: %d" ), reload_moves );
-        print_colored_text( w, point( 1, line_number++ ), col, col, load_cost );
-    }
-    if( unload_moves > 0 ) {
-        std::string unload_cost = string_format( _( "Unloading Cost: %d" ), unload_moves );
-        print_colored_text( w, point( 1, line_number++ ), col, col, unload_cost );
-    }
-    return line_number;
-}
-
 static int print_steadiness( const catacurses::window &w, int line_number, double steadiness )
 {
     const int window_width = getmaxx( w ) - 2; // Window width minus borders.
@@ -1569,7 +1568,7 @@ static double calculate_aim_cap( const Character &p, const tripoint &target )
 static int print_aim( const Character &p, const catacurses::window &w, int line_number,
                       input_context &ctxt, const item &weapon,
                       const double target_size, const tripoint &pos, double predicted_recoil,
-                      int reload_moves, int unload_moves )
+                      item_location load_loc )
 {
     // This is absolute accuracy for the player.
     // TODO: push the calculations duplicated from Creature::deal_projectile_attack() and
@@ -1605,10 +1604,9 @@ static int print_aim( const Character &p, const catacurses::window &w, int line_
     const auto cost_fun = [&]( const ranged::aim_type & at ) {
         int at_recoil = at.has_threshold ? at.threshold : static_cast<int>( predicted_recoil );
         return ranged::gun_engagement_moves( p, weapon, at_recoil, p.recoil ) +
-               time_to_attack( p, *weapon.type );
+               time_to_attack( p, weapon, load_loc );
     };
     const double range = rl_dist( p.pos(), pos );
-    line_number = print_load_cost( w, line_number, reload_moves, unload_moves );
     line_number = print_steadiness( w, line_number, steadiness );
     return print_ranged_chance( w, line_number, ctxt, weapon, ranged::get_aim_types( p, weapon ),
                                 dispersion_fun, cost_fun, confidence_config, range, target_size );
@@ -1736,12 +1734,23 @@ static projectile make_gun_projectile( const item &gun )
     return proj;
 }
 
-int time_to_attack( const Character &p, const itype &firing )
+int time_to_attack( const Character &p, const item &firing, const item_location &loc )
 {
-    const skill_id &skill_used = firing.gun->skill_used;
+    const skill_id &skill_used = firing.type->gun->skill_used;
     const time_info_t &info = skill_used->time_to_attack();
+    int RAS_time = 0;
+    if( !loc ) {
+        RAS_time = 0;
+    } else {
+        // RAS Weapon, calculate move cost.
+        // At low stamina levels, firing starts getting slow.
+        const int sta_percent = ( 100 * p.get_stamina() ) / p.get_stamina_max();
+        const int reload_stamina_penalty = ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
+        item_reload_option opt = item_reload_option( p.as_player(), &firing, &firing, loc );
+        RAS_time = opt.moves() + reload_stamina_penalty;
+    }
     return std::max( info.min_time,
-                     info.base_time - info.time_reduction_per_level * p.get_skill_level( skill_used ) );
+                     info.base_time - info.time_reduction_per_level * p.get_skill_level( skill_used ) + RAS_time );
 }
 
 static void cycle_action( item &weap, const tripoint &pos )
@@ -1999,7 +2008,7 @@ double npc_ai::gun_value( const Character &who, const item &weap, int ammo )
         damage_factor += 0.5f * gun_damage.damage_units.front().res_pen;
     }
 
-    int move_cost = time_to_attack( who, *weap.type );
+    int move_cost = time_to_attack( who, weap, item_location() );
     if( gun.clip != 0 && gun.clip < 10 ) {
         // TODO: RELOAD_ONE should get a penalty here
         int reload_cost = gun.reload_time + who.encumb( bp_hand_l ) + who.encumb( bp_hand_r );
@@ -2227,7 +2236,7 @@ target_handler::trajectory target_ui::run()
     bool attack_was_confirmed = false;
     bool reentered = false;
     bool resume_critter = false;
-    if( mode == TargetMode::Fire && !activity->first_turn ) {
+    if( mode == TargetMode::Fire && !activity->action.empty() ) {
         // We were in this UI during previous turn...
         reentered = true;
         std::string act_data = activity->action;
@@ -2281,7 +2290,7 @@ target_handler::trajectory target_ui::run()
             action.clear();
             attack_was_confirmed = false;
         }
-        if( !activity->first_turn && !action.empty() && !prompt_friendlies_in_lof() ) {
+        if( !action.empty() && !prompt_friendlies_in_lof() ) {
             // A friendly creature moved into line of fire during aim-and-shoot,
             // and player decided to stop aiming
             action.clear();
@@ -3127,11 +3136,6 @@ bool target_ui::action_aim()
         do_aim( *you, *relevant, min_recoil );
     }
 
-    if( activity->first_turn ) {
-        you->moves -= activity->reload_time;
-        activity->first_turn = false;
-    }
-
     // We've changed pc.recoil, update penalty
     recalc_aim_turning_penalty();
 
@@ -3154,11 +3158,6 @@ bool target_ui::action_aim_and_shoot( const std::string &action )
     set_last_target();
     apply_aim_turning_penalty();
     const double min_recoil = calculate_aim_cap( *you, dst );
-    // We've already decided to fire, so apply the loading cost.
-    if( activity->first_turn ) {
-        you->moves -= activity->reload_time;
-        activity->first_turn = false;
-    }
     do {
         do_aim( *you, relevant ? *relevant : null_item_reference(), min_recoil );
     } while( you->moves > 0 && you->recoil > aim_threshold &&
@@ -3642,9 +3641,6 @@ void target_ui::panel_fire_mode_aim( int &text_y )
     // TODO: saving & restoring pc.recoil may actually be unnecessary
     double saved_pc_recoil = you->recoil;
     you->recoil = predicted_recoil;
-
-    int reload_moves = activity->first_turn ? activity->reload_time : 0;
-    int unload_moves = activity->first_turn ? 0 : activity->unload_time;
     double predicted_recoil = you->recoil;
     int predicted_delay = 0;
     if( aim_mode->has_threshold && aim_mode->threshold < you->recoil ) {
@@ -3663,8 +3659,9 @@ void target_ui::panel_fire_mode_aim( int &text_y )
     const double target_size = dst_critter ? dst_critter->ranged_target_size() :
                                occupied_tile_fraction( m_size::MS_MEDIUM );
 
+    item_location load_loc = activity->reload_loc;
     text_y = print_aim( *you, w_target, text_y, ctxt, *relevant->gun_current_mode(),
-                        target_size, dst, predicted_recoil, reload_moves, unload_moves );
+                        target_size, dst, predicted_recoil, load_loc );
 
     if( aim_mode->has_threshold ) {
         mvwprintw( w_target, point( 1, text_y++ ), _( "%s Delay: %i" ), aim_mode->name,

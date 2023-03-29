@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "game_constants.h"
+#include "item_location.h"
 #include "optional.h"
 #include "type_id.h"
 
@@ -181,7 +182,8 @@ int fire_gun( Character &who, const tripoint &target, int shots = 1 );
  * @param gun Item to fire (which does not necessary have to be in the characters possession)
  * @return Number of shots actually fired
  */
-int fire_gun( Character &who, const tripoint &target, int shots, item &gun );
+int fire_gun( Character &who, const tripoint &target, int shots, item &gun,
+              item_location ammo );
 
 /**
  * Execute a throw.
