@@ -161,7 +161,7 @@ static const trait_id trait_NORANGEDCRIT( "NO_RANGED_CRIT" );
 static constexpr int AIF_DURATION_LIMIT = 10;
 
 static projectile make_gun_projectile( const item &gun );
-int time_to_attack( const Character &p, const item &firing, const item_location &loc );
+int time_to_attack( const Character &p, const item &firing, const item_location loc );
 static void cycle_action( item &weap, const tripoint &pos );
 bool can_use_bipod( const map &m, const tripoint &pos );
 dispersion_sources calculate_dispersion( const map &m, const Character &who, const item &gun,
@@ -1734,7 +1734,7 @@ static projectile make_gun_projectile( const item &gun )
     return proj;
 }
 
-int time_to_attack( const Character &p, const item &firing, const item_location &loc )
+int time_to_attack( const Character &p, const item &firing, const item_location loc )
 {
     const skill_id &skill_used = firing.type->gun->skill_used;
     const time_info_t &info = skill_used->time_to_attack();

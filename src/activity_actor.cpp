@@ -116,7 +116,7 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
     }
 
     gun_mode gun = weapon->gun_current_mode();
-    if( !gun->ammo_remaining() && gun->has_flag( flag_RELOAD_AND_SHOOT ) ) {
+    if( !gun->ammo_remaining() && !reload_loc && gun->has_flag( flag_RELOAD_AND_SHOOT ) ) {
         if( !load_RAS_weapon() ) {
             aborted = true;
             act.moves_left = 0;
