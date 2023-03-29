@@ -12,6 +12,7 @@
 #include "activity_actor.h"
 #include "activity_actor_definitions.h"
 #include "avatar.h"
+#include "game_inventory.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
@@ -206,19 +207,20 @@ static std::string test_action_desc(
     return ss.str();
 }
 
-static void assign_invlet( player &p, item &it, const char invlet, const invlet_state invstate )
+static void assign_invlet( Character &p, item &it, const char invlet, const invlet_state invstate )
 {
-    p.reassign_item( it, '\0' );
+    using game_menus::inv::reassign_letter;
+    reassign_letter( p, it, '\0' );
     switch( invstate ) {
         case NONE:
             break;
         case CACHED:
             // assigning it twice makes it a cached but non-player-assigned invlet
-            p.reassign_item( it, invlet );
-            p.reassign_item( it, invlet );
+            reassign_letter( p, it, invlet );
+            reassign_letter( p, it, invlet );
             break;
         case ASSIGNED:
-            p.reassign_item( it, invlet );
+            reassign_letter( p, it, invlet );
             break;
         default:
             FAIL( "unimplemented" );
@@ -383,14 +385,14 @@ static void move_item( player &p, const int id, const inventory_location from,
                     FAIL( "unimplemented" );
                     break;
                 case WORN:
-                    p.wear( item_at( p, id, from ), false );
+                    p.wear_possessed( item_at( p, id, from ), false );
                     break;
                 case WIELDED_OR_WORN:
                     if( p.weapon.is_null() ) {
                         p.wield( item_at( p, id, from ) );
                     } else {
                         // since we can only wield one item, wear the item instead
-                        p.wear( item_at( p, id, from ), false );
+                        p.wear_possessed( item_at( p, id, from ), false );
                     }
                     break;
             }
@@ -617,8 +619,8 @@ static void swap_invlet_test( player &dummy, inventory_location loc )
     assign_invlet( dummy, item_at( dummy, 2, loc ), invlet_2, CACHED );
 
     // swap the invlets (invoking twice to make the invlet non-player-assigned)
-    dummy.reassign_item( item_at( dummy, 1, loc ), invlet_2 );
-    dummy.reassign_item( item_at( dummy, 1, loc ), invlet_2 );
+    game_menus::inv::reassign_letter( dummy, item_at( dummy, 1, loc ), invlet_2 );
+    game_menus::inv::reassign_letter( dummy, item_at( dummy, 1, loc ), invlet_2 );
 
     // drop the items
     move_item( dummy, 1, loc, GROUND );

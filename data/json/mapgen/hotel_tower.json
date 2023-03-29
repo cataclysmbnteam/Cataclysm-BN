@@ -364,7 +364,7 @@
         "******%c..BB|h..BB|o..BB|o..BB|c..BB|BB..h|BB..c|BB..c|BB..h|BB..c%*****",
         "******%....d|th..d|....d|....d|....d|d..ht|d....|dL...|d..ht|d....%*****",
         "******%%www%%%www%%%www%%%www%%%www%%%www%%%www%%%www%%%www%%%www%%*****",
-        "*************************************************************************"
+        "************************************************************************"
       ],
       "palettes": [ "hotel_tower_palette.json" ],
       "terrain": { "+": [ "t_door_c", "t_door_c", "t_door_o" ], "w": "t_window_domestic" },
@@ -415,7 +415,7 @@
         "******%c..BB|h..BB|o..BB|o..BB|c..BB|BB..h|BB..c|BB..c|BB..h|BB..c%*****",
         "******%....d|th..d|....d|....d|....d|d..ht|d....|dL...|d..ht|d....%*****",
         "******%%www%%%www%%%www%%%www%%%www%%%www%%%www%%%www%%%www%%%www%%*****",
-        "*************************************************************************"
+        "************************************************************************"
       ],
       "palettes": [ "hotel_tower_palette.json" ],
       "terrain": { "+": [ "t_door_c", "t_door_c", "t_door_o" ], "w": "t_window_domestic" },
@@ -466,7 +466,7 @@
         "******%c..BB|h..BB|o..BB|o..BB|c..BB|BB..h|BB..c|BB..c|BB..h|BB..c%*****",
         "******%....d|th..d|....d|....d|....d|d..ht|d....|dL...|d..ht|d....%*****",
         "******%%www%%%www%%%www%%%www%%%www%%%www%%%www%%%www%%%www%%%www%%*****",
-        "*************************************************************************"
+        "************************************************************************"
       ],
       "palettes": [ "hotel_tower_palette.json" ],
       "terrain": { "+": [ "t_door_c", "t_door_c", "t_door_o" ], "w": "t_window_domestic" },
@@ -530,7 +530,7 @@
         "H": "t_generator_broken"
       },
       "furniture": { "Y": "f_standing_tank", "6": "f_water_heater", "7": "f_roof_turbine_vent" },
-      "liquids": { "6": { "liquid": "water_clean", "amount": [ 0, 100 ] }, "Y": { "liquid": "water_clean", "amount": [ 100, 1000 ] } },
+      "liquids": { "6": { "liquid": "water", "amount": [ 0, 100 ] }, "Y": { "liquid": "water_clean", "amount": [ 100, 1000 ] } },
       "place_monsters": [
         { "monster": "GROUP_ROOF_ZOMBIE", "x": [ 7, 23 ], "y": [ 0, 22 ], "repeat": 2 },
         { "monster": "GROUP_ROOF_ZOMBIE", "x": [ 24, 47 ], "y": [ 23, 3 ], "repeat": 2 },

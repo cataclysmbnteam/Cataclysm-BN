@@ -63,6 +63,41 @@ submap::~submap()
 
 submap &submap::operator=( submap && ) = default;
 
+void submap::update_lum_rem( const point &p, const item &i )
+{
+    is_uniform = false;
+    if( !i.is_emissive() ) {
+        return;
+    } else if( lum[p.x][p.y] && lum[p.x][p.y] < 255 ) {
+        lum[p.x][p.y]--;
+        return;
+    }
+
+    // Have to scan through all items to be sure removing i will actually lower
+    // the count below 255.
+    int count = 0;
+    for( const auto &it : itm[p.x][p.y] ) {
+        if( it->is_emissive() ) {
+            count++;
+        }
+    }
+
+    if( count <= 256 ) {
+        lum[p.x][p.y] = static_cast<uint8_t>( count - 1 );
+    }
+}
+
+void submap::insert_cosmetic( const point &p, const std::string &type, const std::string &str )
+{
+    cosmetic_t ins;
+
+    ins.pos = p;
+    ins.type = type;
+    ins.str = str;
+
+    cosmetics.push_back( ins );
+}
+
 static const std::string COSMETICS_GRAFFITI( "GRAFFITI" );
 static const std::string COSMETICS_SIGNAGE( "SIGNAGE" );
 // Handle GCC warning: 'warning: returning reference to temporary'

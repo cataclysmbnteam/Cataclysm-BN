@@ -202,6 +202,64 @@ map::map( int mapsize, bool zlev )
 map::~map() = default;
 map &map::operator=( map && ) = default;
 
+void map::set_transparency_cache_dirty( const int zlev )
+{
+    if( inbounds_z( zlev ) ) {
+        get_cache( zlev ).transparency_cache_dirty.set();
+    }
+}
+
+void map::set_seen_cache_dirty( const tripoint change_location )
+{
+    if( inbounds( change_location ) ) {
+        level_cache &cache = get_cache( change_location.z );
+        if( cache.seen_cache_dirty ) {
+            return;
+        }
+        if( cache.seen_cache[change_location.x][change_location.y] != 0.0 ||
+            cache.camera_cache[change_location.x][change_location.y] != 0.0 ) {
+            cache.seen_cache_dirty = true;
+        }
+    }
+}
+
+void map::set_outside_cache_dirty( const int zlev )
+{
+    if( inbounds_z( zlev ) ) {
+        get_cache( zlev ).outside_cache_dirty = true;
+    }
+}
+
+void map::set_suspension_cache_dirty( const int zlev )
+{
+    if( inbounds_z( zlev ) ) {
+        get_cache( zlev ).suspension_cache_dirty = true;
+    }
+}
+
+void map::set_floor_cache_dirty( const int zlev )
+{
+    if( inbounds_z( zlev ) ) {
+        get_cache( zlev ).floor_cache_dirty = true;
+    }
+}
+
+void map::set_seen_cache_dirty( const int zlevel )
+{
+    if( inbounds_z( zlevel ) ) {
+        level_cache &cache = get_cache( zlevel );
+        cache.seen_cache_dirty = true;
+    }
+}
+
+void map::set_transparency_cache_dirty( const tripoint &p )
+{
+    if( inbounds( p ) ) {
+        const tripoint smp = ms_to_sm_copy( p );
+        get_cache( smp.z ).transparency_cache_dirty.set( smp.x * MAPSIZE + smp.y );
+    }
+}
+
 static submap null_submap;
 
 maptile map::maptile_at( const tripoint &p ) const
@@ -3891,6 +3949,7 @@ bool map::hit_with_fire( const tripoint &p )
 
 bool map::open_door( const tripoint &p, const bool inside, const bool check_only )
 {
+    avatar &you = get_avatar();
     const auto &ter = this->ter( p ).obj();
     const auto &furn = this->furn( p ).obj();
     if( ter.open ) {
@@ -3903,9 +3962,9 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
                            "open_door", ter.id.str() );
             ter_set( p, ter.open );
 
-            if( ( g->u.has_trait( trait_id( "SCHIZOPHRENIC" ) ) || g->u.has_artifact_with( AEP_SCHIZO ) )
+            if( ( you.has_trait( trait_id( "SCHIZOPHRENIC" ) ) || you.has_artifact_with( AEP_SCHIZO ) )
                 && one_in( 50 ) && !ter.has_flag( "TRANSPARENT" ) ) {
-                tripoint mp = p + -2 * g->u.pos().xy() + tripoint( 2 * p.x, 2 * p.y, p.z );
+                tripoint mp = p + -2 * you.pos().xy() + tripoint( 2 * p.x, 2 * p.y, p.z );
                 g->spawn_hallucination( mp );
             }
         }
@@ -3927,7 +3986,7 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
         int openable = vp->vehicle().next_part_to_open( vp->part_index(), true );
         if( openable >= 0 ) {
             if( !check_only ) {
-                if( !vp->vehicle().handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+                if( !vp->vehicle().handle_potential_theft( you ) ) {
                     return false;
                 }
                 vp->vehicle().open_all_at( openable );
@@ -4511,10 +4570,10 @@ void map::update_lum( item &loc, bool add )
     }
 }
 
-static bool process_map_items( item *item_ref, const tripoint &location, const float insulation,
+static bool process_map_items( item *item_ref, const tripoint &location,
                                const temperature_flag flag )
 {
-    if( item_ref->process( nullptr, location, false, insulation, flag ) ) {
+    if( item_ref->process( nullptr, location, false, flag ) ) {
         // Item is to be destroyed so erase it from the map stack
         // unless it was already destroyed by processing.
         item_ref->detach();
@@ -4652,6 +4711,21 @@ void map::process_items()
     }
 }
 
+static temperature_flag temperature_flag_at_point( const map &m, const tripoint &p )
+{
+    if( m.ter( p ) == t_rootcellar ) {
+        return temperature_flag::TEMP_ROOT_CELLAR;
+    }
+    if( m.has_flag_furn( TFLAG_FRIDGE, p ) ) {
+        return temperature_flag::TEMP_FRIDGE;
+    }
+    if( m.has_flag_furn( TFLAG_FREEZER, p ) ) {
+        return temperature_flag::TEMP_FREEZER;
+    }
+
+    return temperature_flag::TEMP_NORMAL;
+}
+
 void map::process_items_in_submap( submap &current_submap, const tripoint &gridp )
 {
     // Get a COPY of the active item list for this submap.
@@ -4666,19 +4740,8 @@ void map::process_items_in_submap( submap &current_submap, const tripoint &gridp
         }
 
         const tripoint map_location = active_item_ref->position();
-        // root cellars are special
-        temperature_flag flag = temperature_flag::TEMP_NORMAL;
-        if( ter( map_location ) == t_rootcellar ) {
-            flag = temperature_flag::TEMP_ROOT_CELLAR;
-        }
-        if( has_flag_furn( TFLAG_FRIDGE, map_location ) ) {
-            flag = temperature_flag::TEMP_FRIDGE;
-        }
-        if( has_flag_furn( TFLAG_FREEZER, map_location ) ) {
-            flag = temperature_flag::TEMP_FREEZER;
-        }
-        map_stack items = i_at( map_location );
-        process_map_items( active_item_ref, map_location, 1, flag );
+        temperature_flag flag = temperature_flag_at_point( *this, map_location );
+        process_map_items( active_item_ref, map_location, flag );
     }
 }
 
@@ -4732,25 +4795,20 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap )
         const vehicle_part &pt = it->part();
         const tripoint item_loc = it->pos();
         auto items = cur_veh.get_items( static_cast<int>( it->part_index() ) );
-        float it_insulation = 1.0;
         temperature_flag flag = temperature_flag::TEMP_NORMAL;
         if( target.is_food() || target.is_food_container() || target.is_corpse() ) {
             const vpart_info &pti = pt.info();
             if( engine_heater_is_on ) {
                 flag = temperature_flag::TEMP_HEATER;
             }
-            // some vehicle parts provide insulation, default is 1
-            it_insulation = pti.item->insulation_factor;
 
             if( pt.enabled && pti.has_flag( VPFLAG_FRIDGE ) ) {
-                it_insulation = 1; // ignore fridge insulation if on
                 flag = temperature_flag::TEMP_FRIDGE;
             } else if( pt.enabled && pti.has_flag( VPFLAG_FREEZER ) ) {
-                it_insulation = 1; // ignore freezer insulation if on
                 flag = temperature_flag::TEMP_FREEZER;
             }
         }
-        if( !process_map_items( active_item_ref, item_loc, it_insulation, flag ) ) {
+        if( !process_map_items( active_item_ref, item_loc, flag ) ) {
             // If the item was NOT destroyed, we can skip the remainder,
             // which handles fallout from the vehicle being damaged.
             continue;
@@ -7149,10 +7207,10 @@ void map::loadn( const tripoint &grid, const bool update_vehicles )
 }
 
 template <typename Container>
-void map::remove_rotten_items( Container &items, const tripoint &pnt )
+void map::remove_rotten_items( Container &items, const tripoint &pnt, temperature_flag temperature )
 {
     for( auto it = items.begin(); it != items.end(); ) {
-        if( ( *it )->has_rotten_away( pnt ) ) {
+        if( ( *it )->actualize_rot( pnt, temperature, get_weather() ) ) {
             if( ( *it )->is_comestible() ) {
                 rotten_item_spawn( **it, pnt );
             }
@@ -7498,7 +7556,8 @@ void map::actualize( const tripoint &grid )
             }
             // plants contain a seed item which must not be removed under any circumstances
             if( !furn.has_flag( "DONT_REMOVE_ROTTEN" ) ) {
-                remove_rotten_items( tmpsub->get_items( { x, y } ), pnt );
+                temperature_flag temperature = temperature_flag_at_point( *this, pnt );
+                remove_rotten_items( tmpsub->get_items( { x, y } ), pnt, temperature );
             }
 
             const auto trap_here = tmpsub->get_trap( p );
@@ -8859,6 +8918,44 @@ void map::set_pathfinding_cache_dirty( const int zlev )
 {
     if( inbounds_z( zlev ) ) {
         get_pathfinding_cache( zlev ).dirty = true;
+    }
+}
+
+bool map::check_seen_cache( const tripoint &p ) const
+{
+    std::bitset<MAPSIZE_X *MAPSIZE_Y> &memory_seen_cache =
+        get_cache( p.z ).map_memory_seen_cache;
+    return !memory_seen_cache[ static_cast<size_t>( p.x + p.y * MAPSIZE_Y ) ];
+}
+
+bool map::check_and_set_seen_cache( const tripoint &p ) const
+{
+    std::bitset<MAPSIZE_X *MAPSIZE_Y> &memory_seen_cache =
+        get_cache( p.z ).map_memory_seen_cache;
+    if( !memory_seen_cache[ static_cast<size_t>( p.x + p.y * MAPSIZE_Y ) ] ) {
+        memory_seen_cache.set( static_cast<size_t>( p.x + p.y * MAPSIZE_Y ) );
+        return true;
+    }
+    return false;
+}
+
+void map::invalidate_map_cache( const int zlev )
+{
+    if( inbounds_z( zlev ) ) {
+        level_cache &ch = get_cache( zlev );
+        ch.floor_cache_dirty = true;
+        ch.transparency_cache_dirty.set();
+        ch.seen_cache_dirty = true;
+        ch.outside_cache_dirty = true;
+        ch.suspension_cache_dirty = true;
+    }
+}
+
+void map::set_memory_seen_cache_dirty( const tripoint &p )
+{
+    const int offset = p.x + p.y * MAPSIZE_Y;
+    if( offset >= 0 && offset < MAPSIZE_X * MAPSIZE_Y ) {
+        get_cache( p.z ).map_memory_seen_cache.reset( offset );
     }
 }
 

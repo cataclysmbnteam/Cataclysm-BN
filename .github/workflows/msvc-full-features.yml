@@ -1,4 +1,4 @@
-name: Cataclysm Windows build
+name: Cataclysm Windows build (MSVC)
 
 on:
   push:

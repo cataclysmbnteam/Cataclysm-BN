@@ -402,96 +402,35 @@ class map
          * doesn't need to be updated.
          */
         /*@{*/
-        void set_transparency_cache_dirty( const int zlev ) {
-            if( inbounds_z( zlev ) ) {
-                get_cache( zlev ).transparency_cache_dirty.set();
-            }
-        }
 
         // more granular version of the transparency cache invalidation
         // preferred over map::set_transparency_cache_dirty( const int zlev )
         // p is in local coords ("ms")
-        void set_transparency_cache_dirty( const tripoint &p ) {
-            if( inbounds( p ) ) {
-                const tripoint smp = ms_to_sm_copy( p );
-                get_cache( smp.z ).transparency_cache_dirty.set( smp.x * MAPSIZE + smp.y );
-            }
-        }
+        void set_transparency_cache_dirty( const int zlev );
 
-        void set_seen_cache_dirty( const tripoint change_location ) {
-            if( inbounds( change_location ) ) {
-                level_cache &cache = get_cache( change_location.z );
-                if( cache.seen_cache_dirty ) {
-                    return;
-                }
-                if( cache.seen_cache[change_location.x][change_location.y] != 0.0 ||
-                    cache.camera_cache[change_location.x][change_location.y] != 0.0 ) {
-                    cache.seen_cache_dirty = true;
-                }
-            }
-        }
+        void set_transparency_cache_dirty( const tripoint &p );
 
         // invalidates seen cache for the whole zlevel unconditionally
-        void set_seen_cache_dirty( const int zlevel ) {
-            if( inbounds_z( zlevel ) ) {
-                level_cache &cache = get_cache( zlevel );
-                cache.seen_cache_dirty = true;
-            }
-        }
 
-        void set_outside_cache_dirty( const int zlev ) {
-            if( inbounds_z( zlev ) ) {
-                get_cache( zlev ).outside_cache_dirty = true;
-            }
-        }
+        void set_seen_cache_dirty( const tripoint change_location );
 
-        void set_floor_cache_dirty( const int zlev ) {
-            if( inbounds_z( zlev ) ) {
-                get_cache( zlev ).floor_cache_dirty = true;
-            }
-        }
+        void set_seen_cache_dirty( const int zlevel );
 
-        void set_suspension_cache_dirty( const int zlev ) {
-            if( inbounds_z( zlev ) ) {
-                get_cache( zlev ).suspension_cache_dirty = true;
-            }
-        }
+        void set_outside_cache_dirty( const int zlev );
+
+        void set_floor_cache_dirty( const int zlev );
+
+        void set_suspension_cache_dirty( const int zlev );
 
         void set_pathfinding_cache_dirty( int zlev );
         /*@}*/
 
-        void set_memory_seen_cache_dirty( const tripoint &p ) {
-            const int offset = p.x + p.y * MAPSIZE_Y;
-            if( offset >= 0 && offset < MAPSIZE_X * MAPSIZE_Y ) {
-                get_cache( p.z ).map_memory_seen_cache.reset( offset );
-            }
-        }
+        void set_memory_seen_cache_dirty( const tripoint &p );
 
-        void invalidate_map_cache( const int zlev ) {
-            if( inbounds_z( zlev ) ) {
-                level_cache &ch = get_cache( zlev );
-                ch.floor_cache_dirty = true;
-                ch.transparency_cache_dirty.set();
-                ch.seen_cache_dirty = true;
-                ch.outside_cache_dirty = true;
-                ch.suspension_cache_dirty = true;
-            }
-        }
+        void invalidate_map_cache( const int zlev );
 
-        bool check_seen_cache( const tripoint &p ) const {
-            std::bitset<MAPSIZE_X *MAPSIZE_Y> &memory_seen_cache =
-                get_cache( p.z ).map_memory_seen_cache;
-            return !memory_seen_cache[ static_cast<size_t>( p.x + p.y * MAPSIZE_Y ) ];
-        }
-        bool check_and_set_seen_cache( const tripoint &p ) const {
-            std::bitset<MAPSIZE_X *MAPSIZE_Y> &memory_seen_cache =
-                get_cache( p.z ).map_memory_seen_cache;
-            if( !memory_seen_cache[ static_cast<size_t>( p.x + p.y * MAPSIZE_Y ) ] ) {
-                memory_seen_cache.set( static_cast<size_t>( p.x + p.y * MAPSIZE_Y ) );
-                return true;
-            }
-            return false;
-        }
+        bool check_seen_cache( const tripoint &p ) const;
+        bool check_and_set_seen_cache( const tripoint &p ) const;
 
         /**
          * Callback invoked when a vehicle has moved.
@@ -1754,9 +1693,10 @@ class map
          * that have rotten away completely.
          * @param items items to remove
          * @param p The point on this map where the items are, used for rot calculation.
+         * @param temperature flag that overrides temperature processing at certain locations
          */
         template <typename Container>
-        void remove_rotten_items( Container &items, const tripoint &p );
+        void remove_rotten_items( Container &items, const tripoint &p, temperature_flag temperature );
         /**
          * Try to fill funnel based items here. Simulates rain from @p since till now.
          * @param p The location in this map where to fill funnels.

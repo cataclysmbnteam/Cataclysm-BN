@@ -76,9 +76,9 @@ Use the `Home` key to return to the top.
     + [Batteries](#batteries)
     + [Tools](#tools)
     + [Seed Data](#seed-data)
-    + [Artifact Data](#artifact-data)
     + [Brewing Data](#brewing-data)
-      - [`Charge_type`](#charge-type)
+    + [Relic Data](#relic-data)
+    + [Artifact Data](#artifact-data)
       - [`Effects_carried`](#effects-carried)
       - [`effects_worn`](#effects-worn)
       - [`effects_wielded`](#effects-wielded)
@@ -2138,6 +2138,15 @@ Currently only vats can only accept and produce liquid items.
     "result": "beer" // The id of the result of the fermentation.
 }
 ```
+
+### Relic Data
+
+Defines various (semi-)magical properties of items.
+See RELICS.md for
+
+### Artifact Data
+
+Artifacts are getting deprecated in favor of relic, avoid using them.
 
 #### `Effects_carried`
 

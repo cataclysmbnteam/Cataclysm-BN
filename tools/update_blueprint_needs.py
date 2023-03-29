@@ -56,7 +56,6 @@ def main(argv):
         return
 
     json_dirs = {
-        "data/core",
         "data/json",
         "data/mods",
     };

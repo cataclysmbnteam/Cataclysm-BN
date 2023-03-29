@@ -268,6 +268,7 @@ struct vision_test_case {
     std::vector<std::string> expected_results;
     time_point time;
     vision_test_flags flags;
+    // NOLINTNEXTLINE(readability-redundant-string-init)
     std::string vehicle_id = "";
     units::angle vehicle_rotation = 0_degrees;
 

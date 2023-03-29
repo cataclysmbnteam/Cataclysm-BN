@@ -56,6 +56,7 @@
 #include "pathfinding.h"
 #include "player_activity.h"
 #include "pldata.h"
+#include "ranged.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "skill.h"
@@ -165,6 +166,12 @@ npc::npc()
     for( direction threat_dir : npc_threat_dir ) {
         ai_cache.threat_map[ threat_dir ] = 0.0f;
     }
+
+    // This should be in Character constructor, but because global avatar
+    // gets instantiated on game launch and not after data loading stage
+    // (normalize() depends on game data), we must normalize avatar in a separate call.
+    // FIXME: move normalization to Character constructor
+    character_funcs::normalize( *this );
 }
 
 standard_npc::standard_npc( const std::string &name, const tripoint &pos,
@@ -1156,7 +1163,7 @@ void npc::stow_item( item &it )
 
 bool npc::wield( item &it )
 {
-    cached_info.erase( "weapon_value" );
+    clear_npc_ai_info_cache( "weapon_value" );
     if( is_armed() ) {
         stow_item( get_weapon() );
     }
@@ -1210,8 +1217,8 @@ void npc::drop( const drop_locations &what, const tripoint &target,
 void npc::invalidate_range_cache()
 {
     if( get_weapon().is_gun() ) {
-        confident_range_cache = confident_shoot_range( get_weapon(),
-                                get_most_accurate_sight( get_weapon() ) );
+        confident_range_cache =
+            confident_shoot_range( get_weapon(), ranged::get_most_accurate_sight( *this, get_weapon() ) );
     } else {
         confident_range_cache = get_weapon().reach_range( *this );
     }
@@ -1227,7 +1234,7 @@ void npc::form_opinion( const player &u )
         } else {
             op_of_u.fear += 6;
         }
-    } else if( u.weapon_value( u.get_weapon() ) > 20 ) {
+    } else if( npc_ai::weapon_value( u, u.get_weapon() ) > 20 ) {
         op_of_u.fear += 2;
     } else if( !u.is_armed() ) {
         // Unarmed, but actually unarmed ("unarmed weapons" are not unarmed)
@@ -1503,7 +1510,9 @@ void npc::decide_needs()
                               charges_of( itype_UPS_off, ups_drain );
             needrank[need_ammo] = static_cast<double>( ups_charges ) / ups_drain;
         } else {
-            needrank[need_ammo] = get_ammo( ammotype( *get_weapon().type->gun->ammo.begin() ) ).size();
+            needrank[need_ammo] = character_funcs::get_ammo_items(
+                                      *this, ammotype( *get_weapon().type->gun->ammo.begin() )
+                                  ).size();
         }
         needrank[need_ammo] *= 5;
     }
@@ -1511,7 +1520,7 @@ void npc::decide_needs()
         needrank[need_safety] = 1;
     }
 
-    needrank[need_weapon] = weapon_value( get_weapon() );
+    needrank[need_weapon] = npc_ai::weapon_value( *this, get_weapon() );
     needrank[need_food] = 15.0f - ( max_stored_kcal() - get_stored_kcal() ) / 10.0f;
     needrank[need_drink] = 15 - get_thirst();
     invslice slice = inv.slice();
@@ -1762,7 +1771,7 @@ int npc::value( const item &it, int market_price ) const
 
     int ret = 0;
     // TODO: Cache own weapon value (it can be a bit expensive to compute 50 times/turn)
-    double weapon_val = weapon_value( it ) - weapon_value( get_weapon() );
+    double weapon_val = npc_ai::weapon_value( *this, it ) - npc_ai::weapon_value( *this, get_weapon() );
     if( weapon_val > 0 ) {
         ret += weapon_val;
     }
@@ -1785,12 +1794,18 @@ int npc::value( const item &it, int market_price ) const
     }
 
     if( it.is_ammo() ) {
-        if( get_weapon().is_gun() && get_weapon().ammo_types().count( it.ammo_type() ) ) {
+        const ammotype &at = it.ammo_type();
+        if( get_weapon().is_gun() && get_weapon().ammo_types().count( at ) ) {
             // TODO: magazines - don't count ammo as usable if the weapon isn't.
             ret += 14;
         }
 
-        if( has_gun_for_ammo( it.ammo_type() ) ) {
+        bool has_gun_for_ammo = has_item_with( [at]( const item & itm ) {
+            // item::ammo_type considers the active gunmod.
+            return itm.is_gun() && itm.ammo_types().count( at );
+        } );
+
+        if( has_gun_for_ammo ) {
             // TODO: consider making this cumulative (once was)
             ret += 14;
         }
@@ -2181,7 +2196,7 @@ float npc::danger_assessment()
 
 float npc::average_damage_dealt()
 {
-    return static_cast<float>( melee_value( get_weapon() ) );
+    return static_cast<float>( npc_ai::melee_value( *this, get_weapon() ) );
 }
 
 bool npc::bravery_check( int diff )
@@ -2252,6 +2267,10 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     // w is also 48 characters wide - 2 characters for border = 46 characters for us
     mvwprintz( w, point( column, line++ ), c_white, _( "NPC: " ) );
     wprintz( w, basic_symbol_color(), name );
+
+    if( display_object_ids ) {
+        mvwprintz( w, point( column, line++ ), c_light_blue, string_format( "[%s]", myclass ) );
+    }
 
     if( sees( g->u ) ) {
         mvwprintz( w, point( column, line++ ), c_yellow, _( "Aware of your presence!" ) );
@@ -3012,8 +3031,13 @@ std::string npc::extended_description() const
         ss += _( "Is neutral." );
     }
 
+    if( display_object_ids ) {
+        ss += "\n--\n";
+        ss += colorize( string_format( "[%s]", myclass ), c_light_blue );
+    }
+
     if( hit_by_player ) {
-        ss += "--\n";
+        ss += "\n--\n";
         ss += _( "Is still innocent and killing them will be considered murder." );
         // TODO: "But you don't care because you're an edgy psycho"
     }
@@ -3325,4 +3349,56 @@ void npc_follower_rules::clear_overrides()
 {
     overrides = ally_rule::DEFAULT;
     override_enable = ally_rule::DEFAULT;
+}
+
+bool job_data::set_task_priority( const activity_id &task, int new_priority )
+{
+    auto it = task_priorities.find( task );
+    if( it != task_priorities.end() ) {
+        task_priorities[task] = new_priority;
+        return true;
+    }
+    return false;
+}
+
+void job_data::clear_all_priorities()
+{
+    for( auto &elem : task_priorities ) {
+        elem.second = 0;
+    }
+}
+
+std::vector<activity_id> job_data::get_prioritised_vector() const
+{
+    std::vector<std::pair<activity_id, int>> pairs( begin( task_priorities ), end( task_priorities ) );
+
+    std::vector<activity_id> ret;
+    sort( begin( pairs ), end( pairs ), []( const std::pair<activity_id, int> &a,
+    const std::pair<activity_id, int> &b ) {
+        return a.second > b.second;
+    } );
+    for( std::pair<activity_id, int> elem : pairs ) {
+        ret.push_back( elem.first );
+    }
+    return ret;
+}
+
+int job_data::get_priority_of_job( const activity_id &req_job ) const
+{
+    auto it = task_priorities.find( req_job );
+    if( it != task_priorities.end() ) {
+        return it->second;
+    } else {
+        return 0;
+    }
+}
+
+bool job_data::has_job() const
+{
+    for( auto &elem : task_priorities ) {
+        if( elem.second > 0 ) {
+            return true;
+        }
+    }
+    return false;
 }

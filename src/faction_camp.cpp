@@ -2779,7 +2779,6 @@ void basecamp::recruit_return( const std::string &task, int score )
     int skill = comp->get_skill_level( skill_survival );
     if( rng( 1, 20 ) + skill > 17 ) {
         recruit = make_shared_fast<npc>();
-        recruit->normalize();
         recruit->randomize();
         popup( _( "%s encountered %s…" ), comp->name, recruit->name );
     } else {

@@ -85,51 +85,8 @@ using chtype = int;
 #define LINE_XXXX_UNICODE 0x253C
 
 // Supports line drawing
-inline std::string string_from_int( const catacurses::chtype ch )
-{
-    catacurses::chtype charcode = ch;
-    // LINE_NESW  - X for on, O for off
-    switch( ch ) {
-        case LINE_XOXO:
-            charcode = LINE_XOXO_C;
-            break;
-        case LINE_OXOX:
-            charcode = LINE_OXOX_C;
-            break;
-        case LINE_XXOO:
-            charcode = LINE_XXOO_C;
-            break;
-        case LINE_OXXO:
-            charcode = LINE_OXXO_C;
-            break;
-        case LINE_OOXX:
-            charcode = LINE_OOXX_C;
-            break;
-        case LINE_XOOX:
-            charcode = LINE_XOOX_C;
-            break;
-        case LINE_XXOX:
-            charcode = LINE_XXOX_C;
-            break;
-        case LINE_XXXO:
-            charcode = LINE_XXXO_C;
-            break;
-        case LINE_XOXX:
-            charcode = LINE_XOXX_C;
-            break;
-        case LINE_OXXX:
-            charcode = LINE_OXXX_C;
-            break;
-        case LINE_XXXX:
-            charcode = LINE_XXXX_C;
-            break;
-        default:
-            charcode = ch;
-            break;
-    }
-    char buffer[2] = { static_cast<char>( charcode ), '\0' };
-    return buffer;
-}
+
+std::string string_from_int( const catacurses::chtype ch );
 
 // a consistent border color
 #define BORDER_COLOR c_light_gray
@@ -519,39 +476,39 @@ inline void full_screen_popup( const char *mes, Args &&... args )
 }
 
 /*@}*/
-std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
-                              const std::vector<iteminfo> &vItemCompare );
+std::string format_item_info( const std::vector<iteminfo> &item_display,
+                              const std::vector<iteminfo> &item_compare );
 
 // the extra data that item_info needs to draw
 struct item_info_data {
     private:
-        std::string sItemName;
-        std::string sTypeName;
-        std::vector<iteminfo> vItemDisplay;
-        std::vector<iteminfo> vItemCompare;
+        std::string item_name;
+        std::string type_name;
+        std::vector<iteminfo> item_display;
+        std::vector<iteminfo> item_compare;
         int selected = 0;
 
     public:
 
         item_info_data();
         ~item_info_data();
-        item_info_data( const std::string &sItemName, const std::string &sTypeName,
-                        const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare );
-        item_info_data( const std::string &sItemName, const std::string &sTypeName,
-                        const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare,
+        item_info_data( const std::string &item_name, const std::string &type_name,
+                        const std::vector<iteminfo> &item_display, const std::vector<iteminfo> &item_compare );
+        item_info_data( const std::string &item_name, const std::string &type_name,
+                        const std::vector<iteminfo> &item_display, const std::vector<iteminfo> &item_compare,
                         int &ptr_selected );
 
         const std::string &get_item_name() const {
-            return sItemName;
+            return item_name;
         }
         const std::string &get_type_name() const {
-            return sTypeName;
+            return type_name;
         }
         const std::vector<iteminfo> &get_item_display() const {
-            return vItemDisplay;
+            return item_display;
         }
         const std::vector<iteminfo> &get_item_compare() const {
-            return vItemCompare;
+            return item_compare;
         }
 
         int *ptr_selected = &selected;

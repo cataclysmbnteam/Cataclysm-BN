@@ -128,48 +128,11 @@ class job_data
             { activity_id( "ACT_TIDY_UP" ), 0 },
         };
     public:
-        bool set_task_priority( const activity_id &task, int new_priority ) {
-            auto it = task_priorities.find( task );
-            if( it != task_priorities.end() ) {
-                task_priorities[task] = new_priority;
-                return true;
-            }
-            return false;
-        }
-        void clear_all_priorities() {
-            for( auto &elem : task_priorities ) {
-                elem.second = 0;
-            }
-        }
-        bool has_job() const {
-            for( auto &elem : task_priorities ) {
-                if( elem.second > 0 ) {
-                    return true;
-                }
-            }
-            return false;
-        }
-        int get_priority_of_job( const activity_id &req_job ) const {
-            auto it = task_priorities.find( req_job );
-            if( it != task_priorities.end() ) {
-                return it->second;
-            } else {
-                return 0;
-            }
-        }
-        std::vector<activity_id> get_prioritised_vector() const {
-            std::vector<std::pair<activity_id, int>> pairs( begin( task_priorities ), end( task_priorities ) );
-
-            std::vector<activity_id> ret;
-            sort( begin( pairs ), end( pairs ), []( const std::pair<activity_id, int> &a,
-            const std::pair<activity_id, int> &b ) {
-                return a.second > b.second;
-            } );
-            for( std::pair<activity_id, int> elem : pairs ) {
-                ret.push_back( elem.first );
-            }
-            return ret;
-        }
+        bool set_task_priority( const activity_id &task, int new_priority );
+        void clear_all_priorities();
+        bool has_job() const;
+        int get_priority_of_job( const activity_id &req_job ) const;
+        std::vector<activity_id> get_prioritised_vector() const;
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
 };
@@ -846,7 +809,6 @@ class npc : public player
         void deserialize( JsonIn &jsin ) override;
         void serialize( JsonOut &json ) const override;
 
-        // Display
         nc_color basic_symbol_color() const override;
         int print_info( const catacurses::window &w, int line, int vLines, int column ) const override;
         std::string opinion_text() const;
@@ -954,9 +916,6 @@ class npc : public player
         bool took_painkiller() const;
         void use_painkiller();
         void activate_item( int item_index );
-        bool has_identified( const itype_id & ) const override {
-            return true;
-        }
         bool has_artifact_with( const art_effect_passive ) const override {
             return false;
         }
@@ -1423,5 +1382,18 @@ std::ostream &operator<< ( std::ostream &os, const npc_need &need );
 
 /** Opens a menu and allows player to select a friendly NPC. */
 npc *pick_follower();
+
+namespace npc_ai
+{
+/** Evaluate item as weapon (melee or gun) */
+double weapon_value( const Character &who, const item &weap, int ammo = 10 );
+/** Evaluates item as a gun */
+double gun_value( const Character &who, const item &weap, int ammo = 10 );
+/** Evaluate item as a melee weapon */
+double melee_value( const Character &who, const item &weap );
+/** Evaluate unarmed melee value */
+double unarmed_value( const Character &who );
+
+} // namespace npc_ai
 
 #endif // CATA_SRC_NPC_H

@@ -41,10 +41,12 @@ class cata_arena
             for( T * const &p : dcopy ) {
 #if !defined(RELEASE)
                 auto it = full_list.find( p );
-                free( it->second.backtrace );
-                free( it->second.destroy_trace );
-                free( it->second.remove_trace );
-                full_list.erase( it );
+                if( it != full_list.end() ) {
+                    free( it->second.backtrace );
+                    free( it->second.destroy_trace );
+                    free( it->second.remove_trace );
+                    full_list.erase( it );
+                }
 #endif
                 safe_reference<T>::mark_deallocated( p );
                 delete p;

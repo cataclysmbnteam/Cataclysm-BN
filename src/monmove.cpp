@@ -1646,7 +1646,7 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
 
     setpos( destination );
     footsteps( destination );
-    underwater = will_be_water;
+    set_underwater( will_be_water );
     if( is_hallucination() ) {
         //Hallucinations don't do any of the stuff after this point
         return true;
@@ -1682,7 +1682,7 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
         return true;
     }
     if( !will_be_water && ( digs() || can_dig() ) ) {
-        underwater = g->m.has_flag( "DIGGABLE", pos() );
+        set_underwater( g->m.has_flag( "DIGGABLE", pos() ) );
     }
     // Diggers turn the dirt into dirtmound
     if( digging() && g->m.has_flag( "DIGGABLE", pos() ) ) {

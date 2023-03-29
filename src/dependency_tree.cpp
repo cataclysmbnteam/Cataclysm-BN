@@ -46,7 +46,7 @@ void dependency_node::add_conflict( const dependency_node *conflict )
     }
 }
 
-bool dependency_node::is_available()
+bool dependency_node::is_available() const
 {
     return all_errors.empty();
 }
@@ -69,10 +69,10 @@ std::string dependency_node::s_errors()
     return ret;
 }
 
-bool dependency_node::has_errors()
+bool dependency_node::has_errors() const
 {
     bool ret = false;
-    for( auto &elem : all_errors ) {
+    for( const auto &elem : all_errors ) {
         if( !elem.second.empty() ) {
             ret = true;
             break;
@@ -123,7 +123,7 @@ void dependency_node::inherit_errors()
     }
 }
 
-std::vector<mod_id> dependency_node::get_dependencies_as_strings()
+std::vector<mod_id> dependency_node::get_dependencies_as_strings() const
 {
     std::vector<mod_id> ret;
 
@@ -139,7 +139,7 @@ std::vector<mod_id> dependency_node::get_dependencies_as_strings()
     return ret;
 }
 
-std::vector<dependency_node *> dependency_node::get_dependencies_as_nodes()
+std::vector<dependency_node *> dependency_node::get_dependencies_as_nodes() const
 {
     std::vector<dependency_node *> dependencies;
     std::vector<dependency_node *> ret;
@@ -184,7 +184,7 @@ std::vector<dependency_node *> dependency_node::get_dependencies_as_nodes()
     return ret;
 }
 
-std::vector<mod_id> dependency_node::get_dependents_as_strings()
+std::vector<mod_id> dependency_node::get_dependents_as_strings() const
 {
     std::vector<mod_id> ret;
 
@@ -200,7 +200,7 @@ std::vector<mod_id> dependency_node::get_dependents_as_strings()
     return ret;
 }
 
-std::vector<dependency_node *> dependency_node::get_dependents_as_nodes()
+std::vector<dependency_node *> dependency_node::get_dependents_as_nodes() const
 {
     std::vector<dependency_node *> dependents;
     std::vector<dependency_node *> ret;
@@ -318,7 +318,7 @@ void dependency_tree::build_connections(
     check_for_conflicting_dependencies();
 }
 
-std::vector<mod_id> dependency_tree::get_dependencies_of_X_as_strings( mod_id key )
+std::vector<mod_id> dependency_tree::get_dependencies_of_X_as_strings( mod_id key ) const
 {
     const auto iter = master_node_map.find( key );
     if( iter != master_node_map.end() ) {
@@ -327,7 +327,7 @@ std::vector<mod_id> dependency_tree::get_dependencies_of_X_as_strings( mod_id ke
     return std::vector<mod_id>();
 }
 
-std::vector<dependency_node *> dependency_tree::get_dependencies_of_X_as_nodes( mod_id key )
+std::vector<dependency_node *> dependency_tree::get_dependencies_of_X_as_nodes( mod_id key ) const
 {
     const auto iter = master_node_map.find( key );
     if( iter != master_node_map.end() ) {
@@ -336,7 +336,7 @@ std::vector<dependency_node *> dependency_tree::get_dependencies_of_X_as_nodes( 
     return std::vector<dependency_node *>();
 }
 
-std::vector<mod_id> dependency_tree::get_dependents_of_X_as_strings( mod_id key )
+std::vector<mod_id> dependency_tree::get_dependents_of_X_as_strings( mod_id key ) const
 {
     const auto iter = master_node_map.find( key );
     if( iter != master_node_map.end() ) {
@@ -345,7 +345,7 @@ std::vector<mod_id> dependency_tree::get_dependents_of_X_as_strings( mod_id key 
     return std::vector<mod_id>();
 }
 
-std::vector<dependency_node *> dependency_tree::get_dependents_of_X_as_nodes( mod_id key )
+std::vector<dependency_node *> dependency_tree::get_dependents_of_X_as_nodes( mod_id key ) const
 {
     const auto iter = master_node_map.find( key );
     if( iter != master_node_map.end() ) {
@@ -354,7 +354,7 @@ std::vector<dependency_node *> dependency_tree::get_dependents_of_X_as_nodes( mo
     return std::vector<dependency_node *>();
 }
 
-bool dependency_tree::is_available( mod_id key )
+bool dependency_tree::is_available( mod_id key ) const
 {
     const auto iter = master_node_map.find( key );
     if( iter != master_node_map.end() ) {
@@ -369,11 +369,11 @@ void dependency_tree::clear()
     master_node_map.clear();
 }
 
-dependency_node *dependency_tree::get_node( mod_id key )
+dependency_node *dependency_tree::get_node( mod_id key ) const
 {
     const auto iter = master_node_map.find( key );
     if( iter != master_node_map.end() ) {
-        return &iter->second;
+        return const_cast<dependency_node *>( &iter->second );
     }
     return nullptr;
 }

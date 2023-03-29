@@ -1001,7 +1001,7 @@
     "id": "f_welderrig",
     "copy-from": "f_gridwelder",
     "looks_like": "weldrig",
-    "name": "grid welder rig",
+    "name": "grid welding rig",
     "symbol": "#",
     "color": "red",
     "description": "A vehicle welding rig connected to a electrical grid.  Has a soldering iron attached.",
@@ -1035,9 +1035,35 @@
     "coverage": 10,
     "required_str": -1,
     "crafting_pseudo_item": "fake_gridforge",
+    "examine_action": "use_furn_fake_item",
     "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
     "deconstruct": {
       "items": [ { "item": "forge", "count": 1 }, { "item": "cable", "charges": 5 }, { "item": "power_supply", "count": 1 } ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "power_supply", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 0, 2 ] },
+        { "item": "cable", "charges": [ 1, 4 ] },
+        { "item": "element", "count": [ 2, 6 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_forgerig",
+    "copy-from": "f_gridforge",
+    "looks_like": "forgerig",
+    "name": "grid forge rig",
+    "symbol": "U",
+    "description": "A vehicle forge rig connected to a electrical grid.",
+    "color": "red",
+    "deconstruct": {
+      "items": [ { "item": "forgerig", "count": 1 }, { "item": "cable", "charges": 5 }, { "item": "power_supply", "count": 1 } ]
     },
     "bash": {
       "str_min": 8,
@@ -1228,6 +1254,60 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [ { "item": "scrap", "count": [ 0, 2 ] }, { "item": "cable", "charges": [ 1, 4 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_chemistry_set",
+    "looks_like": "chemistry_set",
+    "name": "grid chemistry set",
+    "symbol": "=",
+    "description": "A chemistry set connected to a electrical grid, providing the functions of a hotplate and chemistry tools.",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "coverage": 10,
+    "required_str": -1,
+    "crafting_pseudo_item": [ "fake_oven", "fake_chemistry_set" ],
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
+    "deconstruct": {
+      "items": [ { "item": "chemistry_set", "count": 1 }, { "item": "cable", "charges": 5 }, { "item": "power_supply", "count": 1 } ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 0, 2 ] },
+        { "item": "glass_shard", "count": [ 0, 2 ] },
+        { "item": "cable", "charges": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_chemlab",
+    "copy-from": "f_chemistry_set",
+    "looks_like": "chemlab",
+    "name": "grid chemistry lab",
+    "symbol": "=",
+    "description": "A vehicle chemistry lab connected to a electrical grid, combining the functions of a hotplate, electrolysis kit, and chemistry tools.",
+    "color": "blue",
+    "crafting_pseudo_item": [ "fake_oven", "fake_chemistry_set", "fake_gridelectrolysis_kit" ],
+    "deconstruct": {
+      "items": [ { "item": "chemlab", "count": 1 }, { "item": "cable", "charges": 5 }, { "item": "power_supply", "count": 1 } ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 0, 4 ] },
+        { "item": "glass_shard", "count": [ 0, 2 ] },
+        { "item": "cable", "charges": [ 2, 8 ] },
+        { "item": "frame", "count": [ 0, 1 ] }
+      ]
     }
   },
   {

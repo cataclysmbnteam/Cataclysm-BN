@@ -17,6 +17,7 @@
 #include "animation.h"
 #include "assign.h"
 #include "avatar.h"
+#include "avatar_functions.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -117,6 +118,7 @@ static const itype_id itype_barrel_small( "barrel_small" );
 static const itype_id itype_brazier( "brazier" );
 static const itype_id itype_char_smoker( "char_smoker" );
 static const itype_id itype_fire( "fire" );
+static const itype_id itype_stock_small( "stock_small" );
 static const itype_id itype_syringe( "syringe" );
 
 static const skill_id skill_fabrication( "fabrication" );
@@ -227,7 +229,7 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
         return 0;
     }
     if( need_charges ) {
-        if( it.has_flag( flag_POWERARMOR_MOD ) && p.can_interface_armor() ) {
+        if( it.has_flag( flag_POWERARMOR_MOD ) && character_funcs::can_interface_armor( p ) ) {
             if( !p.has_power() ) {
                 if( possess ) {
                     p.add_msg_if_player( m_info, need_charges_msg, it.tname() );
@@ -923,7 +925,7 @@ int set_transform_iuse::use( player &p, item &it, bool t, const tripoint &pos ) 
                          ( it.has_flag( "ALLOWS_REMOTE_USE" ) && square_dist( p.pos(), pos ) == 1 );
 
     if( set_charges ) {
-        if( it.is_power_armor() && p.can_interface_armor() ) {
+        if( it.is_power_armor() && character_funcs::can_interface_armor( p ) ) {
             if( !p.has_power() ) {
                 if( possess ) {
                     p.add_msg_if_player( m_info, set_charges_msg, it.tname() );
@@ -1259,8 +1261,12 @@ void deploy_furn_actor::load( const JsonObject &obj )
     furn_type = furn_str_id( obj.get_string( "furn_type" ) );
 }
 
-int deploy_furn_actor::use( player &p, item &it, bool, const tripoint &pos ) const
+int deploy_furn_actor::use( player &p, item &it, bool t, const tripoint &pos ) const
 {
+    if( t ) {
+        return 0;
+    }
+
     if( p.is_mounted() ) {
         p.add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
@@ -2715,8 +2721,8 @@ bool holster_actor::store( player &p, item &holster, item &obj ) const
     p.add_msg_if_player( holster_msg.empty() ? _( "You holster your %s" ) : _( holster_msg ),
                          obj.tname(), holster.tname() );
 
-    // holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
-    p.store( holster, obj, false, draw_cost );
+    // Holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
+    character_funcs::store_in_container( p, holster, obj, false, draw_cost );
     return true;
 }
 
@@ -2765,12 +2771,17 @@ int holster_actor::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     if( pos >= 0 ) {
-        // worn holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
+        // Worn holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
+        bool penalties;
+        int cost;
         if( p.is_worn( it ) ) {
-            p.wield_contents( it, internal_item, false, draw_cost );
+            penalties = false;
+            cost = draw_cost;
         } else {
-            p.wield_contents( it, internal_item );
+            penalties = true;
+            cost = INVENTORY_HANDLING_PENALTY;
         }
+        character_funcs::try_wield_contents( *p.as_avatar(), it, internal_item, penalties, cost );
 
     } else {
         item *loc = game_menus::inv::holster( p, it );
@@ -2883,13 +2894,13 @@ bool bandolier_actor::reload( player &p, item &obj ) const
     }
 
     // convert these into reload options and display the selection prompt
-    std::vector<item::reload_option> opts;
+    std::vector<item_reload_option> opts;
     std::transform( std::make_move_iterator( found.begin() ), std::make_move_iterator( found.end() ),
     std::back_inserter( opts ), [&]( item * e ) {
-        return item::reload_option( &p, &obj, &obj, *e );
+        return item_reload_option( &p, &obj, &obj, *e );
     } );
 
-    item::reload_option sel = p.select_ammo( obj, std::move( opts ) );
+    item_reload_option sel = character_funcs::select_ammo( p, obj, std::move( opts ) );
     if( !sel ) {
         return false; // canceled menu
     }
@@ -3004,7 +3015,7 @@ int ammobelt_actor::use( player &p, item &, bool, const tripoint & ) const
         return 0;
     }
 
-    item::reload_option opt = p.select_ammo( mag, true );
+    item_reload_option opt = character_funcs::select_ammo( p, mag, true );
     if( opt ) {
         p.assign_activity( ACT_RELOAD, opt.moves(), opt.qty() );
         p.i_add( mag );
@@ -4320,6 +4331,83 @@ std::unique_ptr<iuse_actor> saw_barrel_actor::clone() const
     return std::make_unique<saw_barrel_actor>( *this );
 }
 
+void saw_stock_actor::load( const JsonObject &jo )
+{
+    assign( jo, "cost", cost );
+}
+
+int saw_stock_actor::use( player &p, item &it, bool t, const tripoint & ) const
+{
+    if( t ) {
+        return 0;
+    }
+
+    auto loc = game_menus::inv::saw_stock( p, it );
+
+    if( !loc ) {
+        p.add_msg_if_player( _( "Never mind." ) );
+        return 0;
+    }
+
+    loc->obtain( p );
+    p.add_msg_if_player( _( "You saw down the stock of your %s." ), loc->tname() );
+    loc->put_in( *item_spawn( "stock_small", calendar::turn ) );
+
+    return 0;
+}
+
+ret_val<bool> saw_stock_actor::can_use_on( const player &, const item &, const item &target ) const
+{
+    if( !target.is_gun() ) {
+        return ret_val<bool>::make_failure( _( "It's not a gun." ) );
+    }
+
+    if( target.gunmod_find( itype_stock_small ) ) {
+        return ret_val<bool>::make_failure( _( "The stock is already sawn-off." ) );
+    }
+
+    // Exclude pistols and the like that have had a stock mount bubba'd onto them.
+    const auto gunmods = target.gunmods();
+    const bool external_stock = std::any_of( gunmods.begin(), gunmods.end(),
+    []( const item * mod ) {
+        return mod->type->gunmod->location == gunmod_location( "stock mount" );
+    } );
+
+    if( external_stock ) {
+        return ret_val<bool>::make_failure( _( "You can't saw anything off this." ) );
+    }
+
+    // Don't allow trying to stack stock mods.
+    const bool modified_stock = std::any_of( gunmods.begin(), gunmods.end(),
+    []( const item * mod ) {
+        return mod->type->gunmod->location == gunmod_location( "stock" );
+    } );
+
+    if( modified_stock ) {
+        return ret_val<bool>::make_failure( _( "Can't cut off modified stocks." ) );
+    }
+
+    // Also bail out if there's no unmodified stock to touch at all.
+    if( target.get_free_mod_locations( gunmod_location( "stock" ) ) == 0 ||
+        target.type->gun->skill_used == skill_id( "pistol" ) ) {
+        return ret_val<bool>::make_failure(
+                   _( "This doesn't have a stock." ) );
+    }
+
+    // Stock ideally should be made out of wood.
+    if( !target.made_of( material_id( "wood" ) ) ) {
+        return ret_val<bool>::make_failure(
+                   _( "Can't cut off non-wooden stocks." ) );
+    }
+
+    return ret_val<bool>::make_success();
+}
+
+std::unique_ptr<iuse_actor> saw_stock_actor::clone() const
+{
+    return std::make_unique<saw_stock_actor>( *this );
+}
+
 int install_bionic_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
     if( p.can_install_bionics( *it.type, p, false ) ) {
@@ -4396,7 +4484,7 @@ int detach_gunmods_actor::use( player &p, item &it, bool, const tripoint & ) con
 
     if( prompt.ret >= 0 ) {
         item *gm = mods[ prompt.ret ];
-        p.gunmod_remove( it, *gm );
+        avatar_funcs::gunmod_remove( *p.as_avatar(), it, *gm );
     } else {
         p.add_msg_if_player( _( "Never mind." ) );
     }

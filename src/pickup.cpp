@@ -48,6 +48,7 @@
 #include "point.h"
 #include "popup.h"
 #include "ret_val.h"
+#include "rot.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
@@ -249,7 +250,6 @@ static bool pick_one_up( pickup::pick_drop_selection &selection, bool &got_water
     //original item reference
     item &it = *loc;
     item &newit = *newloc;
-    int leftover_charges;
     std::vector<safe_reference<item>> &children = selection.children;
 
     if( !newit.is_owned_by( g->u, true ) ) {
@@ -268,21 +268,16 @@ static bool pick_one_up( pickup::pick_drop_selection &selection, bool &got_water
         newit.invlet = '\0';
     }
 
-    // Handle charges, quantity == 0 means move all
-    // TODO!: use the split method on item
+    // Handle charges. If quantity is nullopt, we're picking up full stack.
     if( quantity && newit.count_by_charges() ) {
-        leftover_charges = newit.charges - *quantity;
-        if( leftover_charges > 0 ) {
-            newit.charges = *quantity;
-        }
-    } else {
-        leftover_charges = 0;
+        newit.charges = *quantity;
     }
+    // Ammo can sometimes be picked up into containers
+    int charges_picked_to_cont = newit.charges - u.i_add_to_container( newit, false );
+    newit.charges -= charges_picked_to_cont;
 
-    const auto wield_check = u.can_wield( newit );
-
+    const ret_val<bool> wield_check = u.can_wield( newit );
     bool did_prompt = false;
-    newit.charges = u.i_add_to_container( newit, false );
 
     units::volume children_volume = std::accumulate( children.begin(), children.end(), 0_ml,
     []( units::volume acc, const safe_reference<item> &c ) {
@@ -293,9 +288,10 @@ static bool pick_one_up( pickup::pick_drop_selection &selection, bool &got_water
         return acc + c->weight();
     } );
 
-    if( newit.is_ammo() && newit.charges == 0 ) {
+    if( newit.count_by_charges() && newit.charges == 0 ) {
+        // We've picked up everything into containers, skip the options part
         picked_up = true;
-        option = NUM_ANSWERS; //Skip the options part
+        option = NUM_ANSWERS;
     } else if( newit.made_of( LIQUID ) ) {
         got_water = true;
     } else if( !u.can_pick_weight( newit.weight() + children_weight, false ) ) {
@@ -380,7 +376,7 @@ static bool pick_one_up( pickup::pick_drop_selection &selection, bool &got_water
             break;
     }
 
-    if( picked_up ) {
+    if( picked_up || charges_picked_to_cont > 0 ) {
         // Children have to be picked up first, since removing parent would re-index the stack
         if( option != EMPTY ) {
             for( safe_reference<item> &child_loc : children ) {
@@ -791,10 +787,12 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             const item &selected_item = **stacked_here[matches[selected]].front();
 
             if( selected >= 0 && selected <= static_cast<int>( stacked_here.size() ) - 1 ) {
-                std::vector<iteminfo> vThisItem;
-                selected_item.info( true, vThisItem );
+                item *loc = *stacked_here[matches[selected]].front();
+                temperature_flag temperature = rot::temperature_flag_for_location( get_map(), *loc );
 
-                item_info_data dummy( {}, {}, vThisItem, {}, iScrollPos );
+                std::vector<iteminfo> this_item = selected_item.info( temperature );
+
+                item_info_data dummy( {}, {}, this_item, {}, iScrollPos );
                 dummy.without_getch = true;
                 dummy.without_border = true;
 

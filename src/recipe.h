@@ -49,6 +49,8 @@ class recipe
             return result_;
         }
 
+        std::vector<std::pair<recipe_id, mod_id>> src;
+
         bool obsolete = false;
 
         std::string category;

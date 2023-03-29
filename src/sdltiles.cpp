@@ -236,9 +236,8 @@ static void WinCreate()
     WindowHeight = TERMINAL_HEIGHT * fontheight * scaling_factor;
     window_flags |= SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI;
 
-    if( get_option<std::string>( "SCALING_MODE" ) != "none" ) {
-        SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, get_option<std::string>( "SCALING_MODE" ).c_str() );
-    }
+    // We want our textures clean and sharp when zooming in.
+    SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "nearest" );
 
 #if !defined(__ANDROID__)
     const auto screen_mode = get_option<std::string>( "FULLSCREEN" );
@@ -3597,7 +3596,9 @@ void load_tileset()
         /*force=*/false,
         /*pump_events=*/true
     );
-    tilecontext->do_tile_loading_report();
+    tilecontext->do_tile_loading_report( []( std::string str ) {
+        DebugLog( DL::Info, DC::Main ) << str;
+    } );
 }
 
 //Ends the terminal, destroy everything

@@ -332,6 +332,7 @@ issues reported by the `translation` class.
 | Template NPC names and name suffixes
 | NPC talk response text
 | Relic name overrides
+| Relic recharge messages
 | Speech text
 | Tutorial messages
 | Vitamin names

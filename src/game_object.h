@@ -28,6 +28,9 @@ class game_object
         virtual bool is_null() const = 0;
 
         void destroy() {
+            if( is_null() ) {
+                return;
+            }
             if( loc != nullptr ) {
                 loc->detach_for_destroy( static_cast<T *>( this ) );
             }
@@ -40,6 +43,9 @@ class game_object
         }
 
         void detach() {
+            if( is_null() ) {
+                return;
+            }
             if( loc == nullptr ) {
                 debugmsg( "Attempted to remove the location of [%s] that doesn't have one.", debug_name() );
                 return;

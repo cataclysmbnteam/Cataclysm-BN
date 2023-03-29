@@ -10,16 +10,20 @@
 #include "action.h"
 #include "advanced_inv.h"
 #include "animation.h"
+#include "armor_layers.h"
 #include "auto_note.h"
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "avatar_action.h"
+#include "avatar_functions.h"
 #include "bionics.h"
+#include "bionics_ui.h"
 #include "calendar.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_display.h"
 #include "character_martial_arts.h"
+#include "character_turn.h"
 #include "clzones.h"
 #include "color.h"
 #include "construction.h"
@@ -59,6 +63,7 @@
 #include "monster.h"
 #include "mtype.h"
 #include "mutation.h"
+#include "mutation_ui.h"
 #include "options.h"
 #include "output.h"
 #include "overmap_ui.h"
@@ -530,7 +535,7 @@ static void open()
             const vehicle *player_veh = veh_pointer_or_null( here.veh_at( u.pos() ) );
             bool outside = !player_veh || player_veh != veh;
             if( !outside ) {
-                if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+                if( !veh->handle_potential_theft( get_avatar() ) ) {
                     u.moves += 100;
                     return;
                 } else {
@@ -547,7 +552,7 @@ static void open()
                     add_msg( m_info, _( "That %s can only opened from the inside." ), name );
                     u.moves += 100;
                 } else {
-                    if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+                    if( !veh->handle_potential_theft( get_avatar() ) ) {
                         u.moves += 100;
                         return;
                     } else {
@@ -625,7 +630,7 @@ static void grab()
         return;
     }
     if( const optional_vpart_position vp = here.veh_at( grabp ) ) {
-        if( !vp->vehicle().handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+        if( !vp->vehicle().handle_potential_theft( get_avatar() ) ) {
             return;
         }
         you.grab( OBJECT_VEHICLE, grabp - you.pos() );
@@ -767,7 +772,7 @@ static void smash()
 
     vehicle *veh = veh_pointer_or_null( g->m.veh_at( smashp ) );
     if( veh != nullptr ) {
-        if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+        if( !veh->handle_potential_theft( get_avatar() ) ) {
             return;
         }
     }
@@ -1003,7 +1008,7 @@ static void wait()
 
 static void sleep()
 {
-    player &u = g->u;
+    avatar &u = get_avatar();
     if( u.is_mounted() ) {
         u.add_msg_if_player( m_info, _( "You cannot sleep while mounted." ) );
         return;
@@ -1030,8 +1035,7 @@ static void sleep()
             active.push_back( it->tname() );
         }
     }
-    for( int i = 0; i < g->u.num_bionics(); i++ ) {
-        const bionic &bio = u.bionic_at_index( i );
+    for( const bionic &bio : *u.my_bionics ) {
         if( !bio.powered ) {
             continue;
         }
@@ -1122,7 +1126,7 @@ static void sleep()
     }
 
     u.moves = 0;
-    u.try_to_sleep( try_sleep_dur );
+    avatar_funcs::try_to_sleep( u, try_sleep_dur );
 }
 
 static void loot()
@@ -1271,10 +1275,9 @@ static void wear()
     item *loc = game_menus::inv::wear( u );
 
     if( loc ) {
-        //TODO!: bit weird but I guess this is ok
-        loc->obtain( u );
         loc->detach();
-        u.wear( *loc );
+        loc->obtain( u );
+        u.wear_possessed( *loc );
     } else {
         add_msg( _( "Never mind." ) );
     }
@@ -1740,13 +1743,13 @@ bool game::handle_action()
 
             case ACTION_TIMEOUT:
                 if( check_safe_mode_allowed( false ) ) {
-                    u.pause();
+                    character_funcs::do_pause( u );
                 }
                 break;
 
             case ACTION_PAUSE:
                 if( check_safe_mode_allowed() ) {
-                    u.pause();
+                    character_funcs::do_pause( u );
                 }
                 break;
 
@@ -1999,7 +2002,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_USE_WIELDED:
-                u.use_wielded();
+                avatar_funcs::use_item( u, u.get_weapon() );
                 break;
 
             case ACTION_WEAR:
@@ -2104,14 +2107,14 @@ bool game::handle_action()
                 }
                 break;
             case ACTION_BIONICS:
-                u.power_bionics();
+                show_bionics_ui( u );
                 break;
             case ACTION_MUTATIONS:
-                u.power_mutations();
+                show_mutations_ui( u );
                 break;
 
             case ACTION_SORT_ARMOR:
-                u.sort_armor();
+                show_armor_layers_ui( u );
                 break;
 
             case ACTION_WAIT:
@@ -2370,7 +2373,9 @@ bool game::handle_action()
                 break;
 
             case ACTION_RELOAD_TILESET:
-                reload_tileset();
+                reload_tileset( []( std::string str ) {
+                    DebugLog( DL::Info, DC::Main ) << str;
+                } );
                 break;
 
             case ACTION_TOGGLE_AUTO_FEATURES:

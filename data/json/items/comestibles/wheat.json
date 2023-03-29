@@ -481,7 +481,7 @@
     "price": 200,
     "price_postapoc": 100,
     "material": "wheat",
-    "volume": "500 ml",
+    "volume": "250 ml",
     "vitamins": [ [ "calcium", 1 ], [ "iron", 18 ] ],
     "flags": [ "EDIBLE_FROZEN" ]
   },

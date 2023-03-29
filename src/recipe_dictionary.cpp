@@ -13,6 +13,7 @@
 #include "input.h"
 #include "item.h"
 #include "item_factory.h"
+#include "iteminfo_query.h"
 #include "itype.h"
 #include "json.h"
 #include "output.h"
@@ -192,9 +193,10 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt,
             }
 
             case search_type::description_result: {
+                //TODO!: push this up, it's a potentially infinite one I think
                 item &result = r->create_result();
                 result.destroy();
-                return lcmatch( remove_color_tags( result.info( true ) ), txt );
+                return lcmatch( remove_color_tags( result.info_string( iteminfo_query::no_text ) ), txt );
             }
 
             default:
@@ -328,6 +330,11 @@ recipe &recipe_dictionary::load( const JsonObject &jo, const std::string &src,
     }
 
     r.load( jo, src );
+
+    if( !r.src.empty() && r.src.back().first != r.ident() ) {
+        r.src.clear();
+    }
+    r.src.emplace_back( r.ident(), mod_id( src ) );
 
     return out[ r.ident() ] = std::move( r );
 }

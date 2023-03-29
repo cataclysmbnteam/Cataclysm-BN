@@ -123,13 +123,19 @@ TEST_CASE( "translations_macro_char_address_translated", "[.][translations][i18n
     CHECK( translated != test_string );
 }
 
+struct trans_test_case {
+    std::string id;
+    std::string str;
+    bool must_have_files = false;
+};
+
 // requires .mo files for languages listed below
 TEST_CASE( "translations_actually_translate", "[translations][i18n]" )
 {
-    const std::vector<std::pair<std::string, std::string>> test_cases = {{
-            { "en_US", "Play <N|n>ow!" },
-            { "fr_FR", "Jouer <M|m>aintenant!" },
-            { "ru_RU", "Сразу в игру!" },
+    const std::vector<trans_test_case> test_cases = {{
+            { "en_US", "Play <N|n>ow!", false },
+            { "fr_FR", "Jouer <M|m>aintenant!", true },
+            { "ru_RU", "Сразу в игру!", true },
         }
     };
 
@@ -153,10 +159,10 @@ TEST_CASE( "translations_actually_translate", "[translations][i18n]" )
     };
 
     for( const auto &test : test_cases ) {
-        const std::string &lang = test.first;
+        const std::string &lang = test.id;
         CAPTURE( lang );
         REQUIRE( has_lang( lang ) );
-        if( !translations_exists_for_lang( lang ) ) {
+        if( test.must_have_files && !translations_exists_for_lang( lang ) ) {
             WARN( string_format( "Skipped (translation files not found for lang '%s')", lang ) );
             return;
         }
@@ -167,17 +173,17 @@ TEST_CASE( "translations_actually_translate", "[translations][i18n]" )
     std::string lang_default = get_option<std::string>( USE_LANG );
 
     for( const auto &test : test_cases ) {
-        CAPTURE( test.first );
+        CAPTURE( test.id );
 
-        get_options().get_option( USE_LANG ).setValue( test.first );
+        get_options().get_option( USE_LANG ).setValue( test.id );
         get_options().save();
-        CHECK( get_option<std::string>( USE_LANG ) == test.first );
+        CHECK( get_option<std::string>( USE_LANG ) == test.id );
 
         set_language();
 
         // Should return translated string (or original/same string for English)
         const char *translated = pgettext( test_msgctx, test_msgid );
-        CHECK( test.second == translated );
+        CHECK( test.str == translated );
     }
 
     // Restore language

@@ -1074,6 +1074,7 @@ void Item_factory::init()
     add_actor( std::make_unique<place_trap_actor>() );
     add_actor( std::make_unique<emit_actor>() );
     add_actor( std::make_unique<saw_barrel_actor>() );
+    add_actor( std::make_unique<saw_stock_actor>() );
     add_actor( std::make_unique<install_bionic_actor>() );
     add_actor( std::make_unique<detach_gunmods_actor>() );
     add_actor( std::make_unique<mutagen_actor>() );
@@ -2421,7 +2422,6 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "emits", def.emits );
     assign( jo, "magazine_well", def.magazine_well );
     assign( jo, "explode_in_fire", def.explode_in_fire );
-    assign( jo, "insulation", def.insulation_factor );
     assign( jo, "solar_efficiency", def.solar_efficiency );
     assign( jo, "ascii_picture", def.picture_id );
 
@@ -2946,8 +2946,6 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj )
     bool use_modifier = false;
     use_modifier |= load_min_max( modifier.damage, obj, "damage" );
     use_modifier |= load_min_max( modifier.dirt, obj, "dirt" );
-    modifier.damage.first *= itype::damage_scale;
-    modifier.damage.second *= itype::damage_scale;
     use_modifier |= load_min_max( modifier.charges, obj, "charges" );
     use_modifier |= load_min_max( modifier.count, obj, "count" );
     use_modifier |= load_sub_ref( modifier.ammo, obj, "ammo", ig );

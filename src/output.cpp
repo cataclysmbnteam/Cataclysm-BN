@@ -851,13 +851,13 @@ void draw_item_filter_rules( const catacurses::window &win, int starty, int heig
     wnoutrefresh( win );
 }
 
-std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
-                              const std::vector<iteminfo> &vItemCompare )
+std::string format_item_info( const std::vector<iteminfo> &item_display,
+                              const std::vector<iteminfo> &item_compare )
 {
     std::string buffer;
     bool bIsNewLine = true;
 
-    for( const auto &i : vItemDisplay ) {
+    for( const auto &i : item_display ) {
         if( i.sType == "DESCRIPTION" ) {
             // Always start a new line for sType == "DESCRIPTION"
             if( !bIsNewLine ) {
@@ -888,7 +888,7 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
 
             if( i.sValue != "-999" ) {
                 nc_color thisColor = c_yellow;
-                for( auto &k : vItemCompare ) {
+                for( auto &k : item_compare ) {
                     if( k.sValue != "-999" ) {
                         if( i.sName == k.sName && i.sType == k.sType ) {
                             if( i.dValue > k.dValue - .1 &&
@@ -928,17 +928,17 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
 item_info_data::item_info_data() = default;
 item_info_data::~item_info_data() = default;
 
-item_info_data::item_info_data( const std::string &sItemName, const std::string &sTypeName,
-                                const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare )
-    : sItemName( sItemName ), sTypeName( sTypeName ),
-      vItemDisplay( vItemDisplay ), vItemCompare( vItemCompare ),
+item_info_data::item_info_data( const std::string &item_name, const std::string &type_name,
+                                const std::vector<iteminfo> &item_display, const std::vector<iteminfo> &item_compare )
+    : item_name( item_name ), type_name( type_name ),
+      item_display( item_display ), item_compare( item_compare ),
       selected( 0 ), ptr_selected( &selected ) {}
 
-item_info_data::item_info_data( const std::string &sItemName, const std::string &sTypeName,
-                                const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare,
+item_info_data::item_info_data( const std::string &item_name, const std::string &type_name,
+                                const std::vector<iteminfo> &item_display, const std::vector<iteminfo> &item_compare,
                                 int &ptr_selected )
-    : sItemName( sItemName ), sTypeName( sTypeName ),
-      vItemDisplay( vItemDisplay ), vItemCompare( vItemCompare ),
+    : item_name( item_name ), type_name( type_name ),
+      item_display( item_display ), item_compare( item_compare ),
       ptr_selected( &ptr_selected ) {}
 
 input_event draw_item_info( const catacurses::window &win, item_info_data &data )
@@ -1943,6 +1943,52 @@ void scrollingcombattext::removeCreatureHP()
             break;
         }
     }
+}
+
+std::string string_from_int( const catacurses::chtype ch )
+{
+    catacurses::chtype charcode = ch;
+    // LINE_NESW  - X for on, O for off
+    switch( ch ) {
+        case LINE_XOXO:
+            charcode = LINE_XOXO_C;
+            break;
+        case LINE_OXOX:
+            charcode = LINE_OXOX_C;
+            break;
+        case LINE_XXOO:
+            charcode = LINE_XXOO_C;
+            break;
+        case LINE_OXXO:
+            charcode = LINE_OXXO_C;
+            break;
+        case LINE_OOXX:
+            charcode = LINE_OOXX_C;
+            break;
+        case LINE_XOOX:
+            charcode = LINE_XOOX_C;
+            break;
+        case LINE_XXOX:
+            charcode = LINE_XXOX_C;
+            break;
+        case LINE_XXXO:
+            charcode = LINE_XXXO_C;
+            break;
+        case LINE_XOXX:
+            charcode = LINE_XOXX_C;
+            break;
+        case LINE_OXXX:
+            charcode = LINE_OXXX_C;
+            break;
+        case LINE_XXXX:
+            charcode = LINE_XXXX_C;
+            break;
+        default:
+            charcode = ch;
+            break;
+    }
+    char buffer[2] = { static_cast<char>( charcode ), '\0' };
+    return buffer;
 }
 
 nc_color msgtype_to_color( const game_message_type type, const bool bOldMsg )
