@@ -15,6 +15,7 @@ class Creature;
 class dispersion_sources;
 class gun_mode;
 class item;
+class item_location;
 class map;
 class player;
 class spell;
@@ -181,7 +182,8 @@ int fire_gun( Character &who, const tripoint &target, int shots = 1 );
  * @param gun Item to fire (which does not necessary have to be in the characters possession)
  * @return Number of shots actually fired
  */
-int fire_gun( Character &who, const tripoint &target, int shots, item &gun );
+int fire_gun( Character &who, const tripoint &target, int shots, item &gun,
+              item_location ammo );
 
 /**
  * Execute a throw.
