@@ -398,6 +398,11 @@ void check_martialarts()
                 debugmsg( "Weapon %s in style %s doesn't exist.", weapon, ma.name );
             }
         }
+        for( const weapon_category_id &weap_cat : ma.weapon_category ) {
+            if( !weap_cat.is_valid() ) {
+                debugmsg( "Weapon category %s in style %s is invalid.", weap_cat.c_str(), ma.name );
+            }
+        }
     }
     for( const auto &t : ma_techniques.get_all() ) {
         ::check( t.reqs, string_format( "technique %s", t.id.c_str() ) );
