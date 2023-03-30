@@ -584,24 +584,24 @@ static std::string get_armor( const avatar &u, body_part bp, unsigned int trunca
     return "-";
 }
 
-static face_type get_face_type( const avatar &u )
+static Face get_face_type( const avatar &u )
 {
-    face_type fc = face_human;
+    Face fc = Face::human;
     if( u.has_trait( trait_THRESH_FELINE ) ) {
-        fc = face_cat;
+        fc = Face::cat;
     } else if( u.has_trait( trait_THRESH_URSINE ) ) {
-        fc = face_bear;
+        fc = Face::bear;
     } else if( u.has_trait( trait_THRESH_BIRD ) ) {
-        fc = face_bird;
+        fc = Face::bird;
     }
     return fc;
 }
 
-static std::string morale_emotion( const int morale_cur, const face_type face,
+static std::string morale_emotion( const int morale_cur, const Face face,
                                    const bool horizontal_style )
 {
     if( horizontal_style ) {
-        if( face == face_bear || face == face_cat ) {
+        if( face == Face::bear || face == Face::cat ) {
             if( morale_cur >= 200 ) {
                 return "@W@";
             } else if( morale_cur >= 100 ) {
@@ -621,7 +621,7 @@ static std::string morale_emotion( const int morale_cur, const face_type face,
             } else {
                 return "@m@";
             }
-        } else if( face == face_bird ) {
+        } else if( face == Face::bird ) {
             if( morale_cur >= 200 ) {
                 return "@v@";
             } else if( morale_cur >= 100 ) {
@@ -664,9 +664,9 @@ static std::string morale_emotion( const int morale_cur, const face_type face,
         return "8D";
     } else if( morale_cur >= 50 ) {
         return ":D";
-    } else if( face == face_cat && morale_cur >= 10 ) {
+    } else if( face == Face::cat && morale_cur >= 10 ) {
         return ":3";
-    } else if( face != face_cat && morale_cur >= 10 ) {
+    } else if( face != Face::cat && morale_cur >= 10 ) {
         return ":)";
     } else if( morale_cur >= -10 ) {
         return ":|";

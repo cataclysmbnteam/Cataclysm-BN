@@ -19,13 +19,7 @@ namespace catacurses
 {
 class window;
 } // namespace catacurses
-enum face_type : int {
-    face_human = 0,
-    face_bird,
-    face_bear,
-    face_cat,
-    num_face_types
-};
+enum class Face : int { human = 0, bird, bear, cat, num };
 
 namespace overmap_ui
 {
