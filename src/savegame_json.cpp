@@ -1608,7 +1608,6 @@ void npc::load( const JsonObject &data )
         data.read( "misc_rules", rules );
         data.read( "combat_rules", rules );
     }
-
     cbm_weapon_index = -1;
     data.read( "cbm_weapon_index", cbm_weapon_index );
     cbm_active_index = -1;

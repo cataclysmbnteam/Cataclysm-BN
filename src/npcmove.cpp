@@ -1107,7 +1107,7 @@ void npc::execute_action( npc_action action )
 
             if( !mode ) {
                 std::string error_weapon = cbm_active_index < 0 ? weapon.tname() :
-                                           ( *my_bionics )[ cbm_active_index ].info().name.translated();
+                                           cbm_fake_active.tname();
                 debugmsg( "NPC tried to shoot %s without valid mode.", error_weapon );
             }
 
@@ -1399,6 +1399,7 @@ npc_action npc::method_of_attack()
     } );
 
     // This will either return the weapon wielded or the fake_weapon from cbm_active_index.
+    // If modes empty, means no ranged weapon, so null reference.
     item r_weapon = modes.empty() ? null_item_reference() : *modes[0].second;
 
     if( emergency() && alt_attack() ) {
@@ -2180,8 +2181,7 @@ bool npc::enough_time_to_reload( const item &gun ) const
 
 void npc::aim()
 {
-    item r_weapon = cbm_active_index < 0 ? weapon : item( (
-                        *my_bionics )[ cbm_active_index ].info().fake_item );
+    item r_weapon = cbm_active_index < 0 ? weapon : cbm_fake_active;
     double aim_amount = ranged::aim_per_move( *this, r_weapon, recoil );
     while( aim_amount > 0 && recoil > 0 && moves > 0 ) {
         moves--;
@@ -3494,15 +3494,10 @@ bool npc::wield_better_weapon()
             cbm_weapon_index = -1;
         }
 
-        if( !cbm_fake_active.is_null() ) {
-            const float allowed_ratio = static_cast<int>( rules.cbm_reserve ) / 100.0f;
-            const units::energy free_power = get_power_level() - get_max_power_level() * allowed_ratio;
-            if( npc_ai::weapon_value( *this, *best, best->shots_remaining() ) >
-                npc_ai::weapon_value( *this, cbm_fake_active,
-                                      free_power / ( *my_bionics )[cbm_active_index].info().power_activate ) ) {
-                cbm_fake_active = null_item_reference();
-                cbm_active_index = -1;
-            }
+        if( !cbm_fake_active.is_null() && best->is_gun() ) {
+            // They'll need time to swap weapons anyway, consolidates the comparisons into check_or_use_bionics.
+            cbm_fake_active = null_item_reference();
+            cbm_active_index = -1;
         }
     }
 
