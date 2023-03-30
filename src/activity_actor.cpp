@@ -251,6 +251,9 @@ std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonIn &jsin )
     data.read( "initial_view_offset", actor.initial_view_offset );
     data.read( "loaded_RAS_weapon", actor.loaded_RAS_weapon );
     data.read( "reload_loc", actor.reload_loc );
+    data.read( "aborted", actor.aborted );
+    data.read( "reload_requested", actor.reload_requested );
+    data.read( "abort_if_no_targets", actor.abort_if_no_targets );
 
     return actor.clone();
 }

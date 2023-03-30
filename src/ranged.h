@@ -5,7 +5,6 @@
 #include <vector>
 
 #include "game_constants.h"
-#include "item_location.h"
 #include "optional.h"
 #include "type_id.h"
 
@@ -16,6 +15,7 @@ class Creature;
 class dispersion_sources;
 class gun_mode;
 class item;
+class item_location;
 class map;
 class player;
 class spell;
