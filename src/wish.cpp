@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 
+#include "bionics.h"
 #include "calendar.h"
 #include "catacharset.h"
 #include "color.h"
@@ -35,7 +36,10 @@
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
+#include "ui_manager.h"
 #include "uistate.h"
+#include "units.h"
+#include "units_energy.h"
 
 class wish_mutate_callback: public uilist_callback
 {
@@ -313,6 +317,140 @@ void debug_menu::wishmutate( player *p )
             }
         }
     } while( wmenu.ret >= 0 );
+}
+
+void debug_menu::wishbionics( Character &c )
+{
+    std::vector<const itype *> cbm_items = item_controller->find( []( const itype & itm ) -> bool {
+        return itm.can_use( "install_bionic" );
+    } );
+    std::sort( cbm_items.begin(), cbm_items.end(), []( const itype * a, const itype * b ) {
+        return localized_compare( a->nname( 1 ), b->nname( 1 ) );
+    } );
+
+    while( true ) {
+        units::energy power_level = c.get_power_level();
+        units::energy power_max = c.get_max_power_level();
+        size_t num_installed = c.get_bionics().size();
+
+        bool can_uninstall = num_installed > 0;
+        bool can_uninstall_all = can_uninstall || power_max > 0_J;
+
+        uilist smenu;
+        smenu.text += string_format(
+                          _( "Current power level: %s\nMax power: %s\nBionics installed: %d" ),
+                          units::display( power_level ),
+                          units::display( power_max ),
+                          num_installed
+                      );
+        smenu.addentry( 0, true, 'i', _( "Install from CBM…" ) );
+        smenu.addentry( 1, can_uninstall, 'u', _( "Uninstall…" ) );
+        smenu.addentry( 2, can_uninstall_all, 'U', _( "Uninstall all" ) );
+        smenu.addentry( 3, true, 'c', _( "Edit power capacity (kJ)" ) );
+        smenu.addentry( 4, true, 'C', _( "Edit power capacity (J)" ) );
+        smenu.addentry( 5, true, 'p', _( "Edit power level (kJ)" ) );
+        smenu.addentry( 6, true, 'P', _( "Edit power level (J)" ) );
+        smenu.query();
+        switch( smenu.ret ) {
+            case 0: {
+                uilist scbms;
+                for( size_t i = 0; i < cbm_items.size(); i++ ) {
+                    bool enabled = !c.has_bionic( cbm_items[i]->bionic->id );
+                    scbms.addentry( i, enabled, MENU_AUTOASSIGN, "%s", cbm_items[i]->nname( 1 ) );
+                }
+                scbms.query();
+                if( scbms.ret >= 0 ) {
+                    const itype &cbm = *cbm_items[scbms.ret];
+                    const bionic_id &bio = cbm.bionic->id;
+                    constexpr int difficulty = 0;
+                    constexpr int success = 1;
+                    constexpr int level = 99;
+                    c.perform_install( bio, bio->upgraded_bionic, difficulty, success, level, "DEBUG",
+                                       bio->canceled_mutations );
+                }
+                break;
+            }
+            case 1: {
+                std::vector<bionic_id> bionics = c.get_bionics();
+                uilist sbionics;
+                for( size_t i = 0; i < bionics.size(); i++ ) {
+                    sbionics.addentry( i, true, MENU_AUTOASSIGN, "%s", bionics[i]->name.translated() );
+                }
+                sbionics.query();
+                if( sbionics.ret >= 0 ) {
+                    c.remove_bionic( bionics[sbionics.ret] );
+                }
+                break;
+            }
+            case 2: {
+                c.clear_bionics();
+                c.set_power_level( units::from_kilojoule( 0 ) );
+                c.set_max_power_level( units::from_kilojoule( 0 ) );
+                break;
+            }
+            case 3: {
+                int new_value = 0;
+                if( query_int( new_value, _( "Set the value to (in kJ)?  Currently: %s" ),
+                               units::display( power_max ) ) ) {
+                    c.set_max_power_level( units::from_kilojoule( new_value ) );
+                    c.set_power_level( c.get_power_level() );
+                }
+                break;
+            }
+            case 4: {
+                int new_value = 0;
+                if( query_int( new_value, _( "Set the value to (in J)?  Currently: %s" ),
+                               units::display( power_max ) ) ) {
+                    c.set_max_power_level( units::from_joule( new_value ) );
+                    c.set_power_level( c.get_power_level() );
+                }
+                break;
+            }
+            case 5: {
+                int new_value = 0;
+                if( query_int( new_value, _( "Set the value to (in kJ)?  Currently: %s" ),
+                               units::display( power_level ) ) ) {
+                    c.set_power_level( units::from_kilojoule( new_value ) );
+                }
+                break;
+            }
+            case 6: {
+                int new_value = 0;
+                if( query_int( new_value, _( "Set the value to (in J)?  Currently: %s" ),
+                               units::display( power_level ) ) ) {
+                    c.set_power_level( units::from_joule( new_value ) );
+                }
+                break;
+            }
+            default: {
+                return;
+            }
+        }
+    }
+
+    /*
+    ui_adaptor ui;
+    catacurses::window w;
+
+    ui.on_screen_resize([&](ui_adaptor& ui) {
+        constexpr int height = 23;
+        constexpr int width = 40;
+
+        w = catacurses::newwin( height, width, point_zero );
+        ui.position( point_zero, point( TERMX - width, TERMY - height ) / 2 );
+    });
+
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        draw_border( w );
+
+        units::energy max_power = c.get_max_power_level();
+
+        wnoutrefresh( w );
+    } );
+
+    input_context ctxt = input_context( "WISHBIONIC" );
+    ctxt.register_action()
+    */
 }
 
 class wish_monster_callback: public uilist_callback

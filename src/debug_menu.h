@@ -32,6 +32,7 @@ void wishitem( player *p = nullptr );
 void wishitem( player *p, const tripoint & );
 void wishmonster( const cata::optional<tripoint> &p );
 void wishmutate( player *p );
+void wishbionics( Character &c );
 void wishskill( player *p );
 void mutation_wish();
 void benchmark( int max_difference, bench_kind kind );
