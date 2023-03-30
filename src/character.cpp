@@ -7359,19 +7359,20 @@ bool Character::dispose_item( item &obj, const std::string &prompt )
             {
                 return false;
             }
+            obj.detach();
 
             moves -= item_handling_cost( obj );
+            obj.set_location( new character_item_location( this ) );
             inv.add_item_keep_invlet( obj );
             inv.unsort();
-            obj.detach();
             return true;
         }
     } );
 
     opts.emplace_back( dispose_option{
         _( "Drop item" ), true, '2', 0, [this, &obj] {
-            put_into_vehicle_or_drop( *this, item_drop_reason::deliberate, { &obj } );
             obj.detach();
+            put_into_vehicle_or_drop( *this, item_drop_reason::deliberate, { &obj } );
             return true;
         }
     } );
@@ -7398,6 +7399,7 @@ bool Character::dispose_item( item &obj, const std::string &prompt )
                 string_format( _( "Store in %s" ), e->tname() ), true, e->invlet,
                 item_store_cost( obj, *e, false, ptr->draw_cost ),
                 [this, ptr, &e, &obj] {
+                    obj.detach();
                     return ptr->store( *this->as_player(), *e, obj );
                 }
             } );

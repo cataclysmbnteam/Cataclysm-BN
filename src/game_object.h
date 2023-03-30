@@ -51,6 +51,11 @@ class game_object
                 return;
             }
             loc->detach( static_cast<T *>( this ) );
+#if !defined(RELEASE)
+            void **buf = static_cast<void **>( malloc( sizeof( void * ) * GO_BACKTRACE ) );
+            backtrace( buf, GO_BACKTRACE );
+            cata_arena<T>::add_removed_trace( static_cast<T *>( this ), buf );
+#endif
             loc.reset( nullptr );
         }
 
@@ -74,21 +79,21 @@ class game_object
             if( !loc ) {
                 if( backtrace ) {
                     char **funcs = backtrace_symbols( backtrace, GO_BACKTRACE );
-                    for( int i = 0; i < GO_BACKTRACE && funcs[i]; i++ ) {
+                    for( int i = 0; i < GO_BACKTRACE && backtrace[i]; i++ ) {
                         DebugLog( DL::Error, DC::Main ) << funcs[i];
                     }
                     free( funcs );
                 }
                 if( remove_trace ) {
                     char **funcs = backtrace_symbols( remove_trace, GO_BACKTRACE );
-                    for( int i = 0; i < GO_BACKTRACE && funcs[i]; i++ ) {
+                    for( int i = 0; i < GO_BACKTRACE && remove_trace[i]; i++ ) {
                         DebugLog( DL::Error, DC::Main ) << funcs[i];
                     }
                     free( funcs );
                 }
                 if( destroy_trace ) {
                     char **funcs = backtrace_symbols( destroy_trace, GO_BACKTRACE );
-                    for( int i = 0; i < GO_BACKTRACE && funcs[i]; i++ ) {
+                    for( int i = 0; i < GO_BACKTRACE && destroy_trace[i]; i++ ) {
                         DebugLog( DL::Error, DC::Main ) << funcs[i];
                     }
                     free( funcs );
@@ -99,21 +104,21 @@ class game_object
             if( !loc->check_for_corruption( static_cast<const item *>( this ) ) ) {
                 if( backtrace ) {
                     char **funcs = backtrace_symbols( backtrace, GO_BACKTRACE );
-                    for( int i = 0; i < GO_BACKTRACE && funcs[i]; i++ ) {
+                    for( int i = 0; i < GO_BACKTRACE && backtrace[i]; i++ ) {
                         DebugLog( DL::Error, DC::Main ) << funcs[i];
                     }
                     free( funcs );
                 }
                 if( remove_trace ) {
                     char **funcs = backtrace_symbols( remove_trace, GO_BACKTRACE );
-                    for( int i = 0; i < GO_BACKTRACE && funcs[i]; i++ ) {
+                    for( int i = 0; i < GO_BACKTRACE && remove_trace[i]; i++ ) {
                         DebugLog( DL::Error, DC::Main ) << funcs[i];
                     }
                     free( funcs );
                 }
                 if( destroy_trace ) {
                     char **funcs = backtrace_symbols( destroy_trace, GO_BACKTRACE );
-                    for( int i = 0; i < GO_BACKTRACE && funcs[i]; i++ ) {
+                    for( int i = 0; i < GO_BACKTRACE && destroy_trace[i]; i++ ) {
                         DebugLog( DL::Error, DC::Main ) << funcs[i];
                     }
                     free( funcs );
@@ -163,6 +168,10 @@ class game_object
          *  It's an optimization to prevent excessive reallocation, it's not for normal use.
          **/
         void move_to( const tripoint &p ) {
+            if( !loc ) {
+                debugmsg( "Tried to move_to on [%s] without a location", debug_name() );
+                return;
+            }
             go_tile_location *l = dynamic_cast<go_tile_location *>( &*loc );
             if( !l ) {
                 debugmsg( "Tried to move_to on [%s] not in a tile", debug_name() );
@@ -175,6 +184,10 @@ class game_object
          *  See moves_to for further details.
          **/
         void move_by( const tripoint &offset ) {
+            if( !loc ) {
+                debugmsg( "Tried to move_by on [%s] without a location", debug_name() );
+                return;
+            }
             go_tile_location *l = dynamic_cast<go_tile_location *>( &*loc );
             if( !l ) {
                 debugmsg( "Tried to move_by on [%s] not in a tile", debug_name() );

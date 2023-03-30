@@ -4339,6 +4339,11 @@ units::volume map::free_volume( const tripoint &p )
 
 item &map::add_item_or_charges( const tripoint &pos, item &obj, bool overflow )
 {
+    if( obj.is_null() ) {
+        debugmsg( "Tried to add a null item to the map" );
+        return obj;
+    }
+
     // Checks if item would not be destroyed if added to this tile
     auto valid_tile = [&]( const tripoint & e ) {
         if( !inbounds( e ) ) {

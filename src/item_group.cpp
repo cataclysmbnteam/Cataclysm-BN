@@ -97,7 +97,7 @@ Item_spawn_data::ItemList Single_item_creator::create( const time_point &birthda
     for( ; cnt > 0; cnt-- ) {
         if( type == S_ITEM ) {
             const auto itm = create_single( birthday, rec );
-            if( itm != nullptr ) {
+            if( itm != nullptr && !itm->is_null() ) {
                 result.push_back( itm );
             }
         } else {
@@ -263,7 +263,7 @@ item *Item_modifier::modify( item *new_item ) const
     if( container != nullptr ) {
         cont = container->create_single( new_item->birthday() );
     }
-    if( cont == nullptr && new_item->type->default_container.has_value() ) {
+    if( ( cont == nullptr || cont->is_null() ) && new_item->type->default_container.has_value() ) {
         const itype_id &cont_value = new_item->type->default_container.value_or( "null" );
         if( !cont_value.is_null() ) {
             cont = item_spawn( cont_value, new_item->birthday() );
@@ -278,7 +278,7 @@ item *Item_modifier::modify( item *new_item ) const
         }
     }
 
-    if( max_capacity == -1 && cont != nullptr && ( new_item->made_of( LIQUID ) ||
+    if( max_capacity == -1 && cont != nullptr && !cont->is_null() && ( new_item->made_of( LIQUID ) ||
             ( !new_item->is_tool() && !new_item->is_gun() && !new_item->is_magazine() ) ) ) {
         max_capacity = new_item->charges_per_volume( cont->get_container_capacity() );
     }
@@ -304,7 +304,7 @@ item *Item_modifier::modify( item *new_item ) const
 
         ch = charges_min == charges_max ? charges_min : rng( charges_min,
                 charges_max );
-    } else if( cont != nullptr && new_item->made_of( LIQUID ) ) {
+    } else if( cont != nullptr && !cont->is_null() && new_item->made_of( LIQUID ) ) {
         new_item->charges = std::max( 1, max_capacity );
     }
 
@@ -365,7 +365,7 @@ item *Item_modifier::modify( item *new_item ) const
         }
     }
 
-    if( cont != nullptr ) {
+    if( cont != nullptr && !cont->is_null() ) {
         cont->put_in( *new_item );
         new_item = cont;
     }

@@ -502,7 +502,13 @@ item::item( const recipe *rec, int qty, ItemList items, std::vector<item_comp> s
 
 item::item( const item & ) = default;
 item::item( item && ) = default;
-item::~item() = default;
+item::~item()
+{
+    for( item *comp : components ) {
+        comp->remove_location();
+        comp->destroy();
+    }
+}
 
 item &item::make_corpse( const mtype_id &mt, time_point turn, const std::string &name,
                          const int upgrade_time )

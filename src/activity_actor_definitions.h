@@ -19,7 +19,7 @@ class vehicle;
 class aim_activity_actor : public activity_actor
 {
     private:
-        item *fake_weapon;
+        item *fake_weapon = nullptr;
         units::energy bp_cost_per_shot = 0_J;
         int stamina_cost_per_shot = 0;
         std::vector<tripoint> fin_trajectory;
