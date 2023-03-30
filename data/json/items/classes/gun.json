@@ -250,7 +250,7 @@
     "copy-from": "rifle_base",
     "type": "GUN",
     "weapon_category": [ "RIFLES", "1SHOT" ],
-    "name": { "str": "fully automatic rifle" },
+    "name": { "str": "single shot rifle" },
     "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ]
   },
   {
