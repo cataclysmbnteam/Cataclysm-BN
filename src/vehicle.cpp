@@ -294,7 +294,7 @@ void vehicle::clone_hack( const vehicle &source )
     for( const vehicle_part &part : source.parts ) {
         parts[i].clone_hack( part );
 
-        parts[i].set_location_hack( this, i );
+        parts[i].set_location_hack( this );
         i++;
     }
 }
@@ -1644,10 +1644,10 @@ int vehicle::install_part( point dp, vehicle_part &&new_part )
     pt.enabled = enable;
 
     pt.mount = dp;
-    pt.base->set_location( new vehicle_base_item_location( this, parts.size() - 1 ) );
+    pt.base->set_location( new vehicle_base_item_location( this ) );
 
     for( item *&it : pt.items ) {
-        it->set_location( new vehicle_item_location( this, parts.size() - 1 ) );
+        it->set_location( new vehicle_item_location( this ) );
     }
 
     refresh();
@@ -1802,9 +1802,9 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
                 parts.push_back( std::move( carry_veh->parts[ carry_part ] ) );
                 vehicle_part &carried_part = parts.back();
 
-                carried_part.base->set_location( new vehicle_base_item_location( this, parts.size() - 1 ) );
+                carried_part.base->set_location( new vehicle_base_item_location( this ) );
                 for( item *&it : carried_part.items ) {
-                    it->set_location( new vehicle_item_location( this, parts.size() - 1 ) );
+                    it->set_location( new vehicle_item_location( this ) );
                 }
 
                 carried_part.mount = carry_map.carry_mount;
@@ -2355,9 +2355,9 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
             // transfer the vehicle_part to the new vehicle
             new_vehicle->parts.emplace_back( std::move( parts[ mov_part ] ) );
             vehicle_part &np = parts.back();
-            np.base->set_location( new vehicle_base_item_location( this, parts.size() - 1 ) );
+            np.base->set_location( new vehicle_base_item_location( this ) );
             for( item *&it : np.items ) {
-                it->set_location( new vehicle_item_location( this, parts.size() - 1 ) );
+                it->set_location( new vehicle_item_location( this ) );
             }
             np.mount = new_mount;
 
@@ -5482,7 +5482,7 @@ cata::optional<vehicle_stack::iterator> vehicle::add_item( int part, item &itm )
     if( itm.is_bucket_nonempty() ) {
         itm.contents.spill_contents( global_part_pos3( part ) );
     }
-    itm.set_location( new vehicle_item_location( this, part ) );
+    itm.set_location( new vehicle_item_location( this ) );
     p.items.push_back( &itm );
     if( itm.needs_processing() ) {
         active_items.add( itm );

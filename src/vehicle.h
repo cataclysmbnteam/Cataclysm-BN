@@ -228,7 +228,7 @@ struct vehicle_part {
         void destruct_hack();
         void remove_location_hack();
         void clone_hack( const vehicle_part &source );
-        void set_location_hack( vehicle *on, int part_num );
+        void set_location_hack( vehicle *on );
 
         /**
          * Translated name of a part inclusive of any current status effects
@@ -477,6 +477,11 @@ struct vehicle_part {
 
         item &get_base() const;
         void set_base( item &new_base );
+
+        const std::vector<item *> &get_items() const {
+            return items;
+        }
+
         /**
          * Generate the corresponding item from this vehicle part. It includes
          * the hp (item damage), fuel charges (battery or liquids), aspect, ...

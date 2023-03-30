@@ -3,6 +3,7 @@
 #define CATA_SRC_LOCATIONS_H
 
 #include "point.h"
+#include "type_id.h"
 
 class item;
 enum class item_location_type : int;
@@ -154,10 +155,9 @@ class monster_battery_item_location :  public monster_item_location
 class vehicle_item_location : public item_location
 {
     protected:
-        vehicle *veh;
-        int part_id;//TODO!: check how this works
+        vehicle *veh;// This is woefully inefficient and inprecise, but it's necessary until vehicles are made into game objects
     public:
-        vehicle_item_location( vehicle *veh, int part_id ) : veh( veh ), part_id( part_id ) {}
+        vehicle_item_location( vehicle *veh ) : veh( veh ) {}
         void detach( item *it ) override;
         bool is_loaded( const item *it ) const override;
         tripoint position( const item *it ) const override;
@@ -170,7 +170,7 @@ class vehicle_item_location : public item_location
 class vehicle_base_item_location : public vehicle_item_location
 {
     public:
-        vehicle_base_item_location( vehicle *veh, int part_id ) : vehicle_item_location( veh, part_id ) {}
+        vehicle_base_item_location( vehicle *veh ) : vehicle_item_location( veh ) {}
         void detach( item *it ) override;
         int obtain_cost( const Character &ch, int qty, const item *it ) const override;
         std::string describe( const Character *ch, const item *it ) const override;

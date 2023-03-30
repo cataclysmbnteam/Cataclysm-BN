@@ -2750,7 +2750,7 @@ void monster::make_ally( const monster &z )
 
 void monster::add_item( item &it )
 {
-    inv.push_back( &it );
+    add_item( &it );
 }
 
 bool monster::is_hallucination() const

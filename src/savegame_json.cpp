@@ -2671,13 +2671,11 @@ void vehicle::deserialize( JsonIn &jsin )
     data.read( "theft_time", theft_time );
 
     data.read( "parts", parts );
-    int i = 0;
     for( auto &part : parts ) {
-        part.base->set_location( new vehicle_base_item_location( this, i ) );
+        part.base->set_location( new vehicle_base_item_location( this ) );
         for( item *&it : part.items ) {
-            it->set_location( new vehicle_item_location( this, i ) );
+            it->set_location( new vehicle_item_location( this ) );
         }
-        i++;
     }
 
     // we persist the pivot anchor so that if the rules for finding

@@ -141,13 +141,13 @@ void vehicle_part::clone_hack( const vehicle_part &source )
     }
 }
 
-void vehicle_part::set_location_hack( vehicle *on, int part_num )
+void vehicle_part::set_location_hack( vehicle *on )
 {
     if( base ) {
-        base->set_location( new vehicle_base_item_location( on, part_num ) );
+        base->set_location( new vehicle_base_item_location( on ) );
     }
     for( item *&it : items ) {
-        it->set_location( new vehicle_item_location( on, part_num ) );
+        it->set_location( new vehicle_item_location( on ) );
     }
 }
 

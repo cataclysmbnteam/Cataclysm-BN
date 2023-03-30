@@ -89,6 +89,14 @@ void item_contents::clear_items()
     items.clear();
 }
 
+void item_contents::empty_items()
+{
+    for( item *&it : items ) {
+        it->remove_location();
+    }
+    items.clear();
+}
+
 void item_contents::set_item_defaults()
 {
     /* For Items with a magazine or battery in its contents */

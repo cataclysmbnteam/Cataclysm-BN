@@ -2241,6 +2241,7 @@ void crafting::complete_disassemble( Character &who, iuse_location target,
              ++a ) {
             if( ( *a )->type == newit->type ) {
                 act_item = *a;
+                act_item->remove_location();
                 components.erase( a );
                 break;
             }

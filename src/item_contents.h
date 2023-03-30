@@ -80,6 +80,7 @@ class item_contents
 
         bool spill_contents( const tripoint &pos );
         void clear_items();
+        void empty_items();
 
         /**
          * Sets the items contained to their defaults.

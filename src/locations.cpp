@@ -9,6 +9,8 @@
 #include "submap.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "vpart_range.h"
+#include "veh_type.h"
 
 static const item *cost_split_helper( const item *it, int qty )
 {
@@ -365,18 +367,46 @@ bool monster_battery_item_location::check_for_corruption( const item *it ) const
     return on->get_battery_item() == it;
 }
 
-bool vehicle_item_location::is_loaded( const item * ) const
+
+int find_part_id_contents( vehicle *veh, const item *it )
+{
+    int i = 0;
+    for( const vpart_reference &part : veh->get_all_parts() ) {
+        for( item *check : part.part().get_items() ) {
+            if( check == it ) {
+                return i;
+            }
+        }
+        i++;
+    }
+    return -1;
+}
+
+int find_part_id_base( vehicle *veh, const item *it )
+{
+    int i = 0;
+    for( const vpart_reference &part : veh->get_all_parts() ) {
+        if( &part.part().get_base() == it ) {
+            return i;
+        }
+        i++;
+    }
+    return -1;
+}
+
+bool vehicle_item_location::is_loaded( const item *it ) const
 {
     if( !veh->is_loaded() ) {
         return false;
     }
     //Have to check the bounds, the vehicle might be half outside the bubble
-    return get_map().inbounds( veh->global_part_pos3( part_id ) );
+    return get_map().inbounds( veh->mount_to_tripoint( veh->part( find_part_id_contents( veh,
+                               it ) ).mount ) );
 }
 
-tripoint vehicle_item_location::position( const item * ) const
+tripoint vehicle_item_location::position( const item *it ) const
 {
-    return veh->global_part_pos3( part_id );
+    return veh->mount_to_tripoint( veh->part( find_part_id_contents( veh, it ) ).mount );
 }
 
 item_location_type vehicle_item_location::where() const
@@ -386,7 +416,7 @@ item_location_type vehicle_item_location::where() const
 
 void vehicle_item_location::detach( item *it )
 {
-    vehicle_stack items = veh->get_items( part_id );
+    vehicle_stack items = veh->get_items( find_part_id_contents( veh, it ) );
     items.erase( std::remove( items.begin(), items.end(), it ), items.end() );
 }
 
@@ -395,13 +425,14 @@ int vehicle_item_location::obtain_cost( const Character &ch, int qty, const item
     const item *obj = cost_split_helper( it, qty );
     int mv = dynamic_cast<const player *>( &ch )->item_handling_cost( *obj, true,
              VEHICLE_HANDLING_PENALTY );
-    mv += 100 * rl_dist( ch.pos(), veh->global_part_pos3( part_id ) );
+    mv += 100 * rl_dist( ch.pos(), veh->mount_to_tripoint( veh->part( find_part_id_contents( veh,
+                         it ) ).mount ) );
     return mv;
 }
 
-std::string vehicle_item_location::describe( const Character *ch, const item * ) const
+std::string vehicle_item_location::describe( const Character *ch, const item *it ) const
 {
-    vpart_position part_pos( *veh, part_id );
+    vpart_position part_pos( *veh, find_part_id_contents( veh, it ) );
     std::string res;
     if( auto label = part_pos.get_label() ) {
         res = colorize( *label, c_light_blue ) + " ";
@@ -419,10 +450,14 @@ std::string vehicle_item_location::describe( const Character *ch, const item * )
 
 bool vehicle_item_location::check_for_corruption( const item *it ) const
 {
-    if( !veh->valid_part( part_id ) ) {
+    int id = find_part_id_contents( veh, it );
+    if( id == -1 ) {
         return false;
     }
-    vehicle_stack items = veh->get_items( part_id );
+    if( !veh->valid_part( id ) ) {
+        return false;
+    }
+    vehicle_stack items = veh->get_items( id );
     auto iter = std::find( items.begin(), items.end(), it );
     return iter != items.end();
 }
@@ -444,7 +479,11 @@ std::string vehicle_base_item_location::describe( const Character *, const item 
 
 bool vehicle_base_item_location::check_for_corruption( const item *it ) const
 {
-    return veh->part( part_id ).base == it;
+    int id = find_part_id_base( veh, it );
+    if( id == -1 ) {
+        return false;
+    }
+    return veh->part( id ).base == it;
 }
 
 void contents_item_location::detach( item *it )

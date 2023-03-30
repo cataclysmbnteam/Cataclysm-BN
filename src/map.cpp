@@ -3648,7 +3648,9 @@ bash_results map::bash_items( const tripoint &p, const bash_params &params )
             for( item *bashed_content : ( *bashed_item )->contents.all_items_top() ) {
                 smashed_contents.push_back( bashed_content );
             }
+
             item *it = *bashed_item;
+            it->contents.empty_items();
             bashed_item = bashed_items.erase( bashed_item );
             it->destroy();
         } else {
