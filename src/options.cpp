@@ -2202,9 +2202,9 @@ void options_manager::add_options_debug()
          true
        );
 
-    add( "NEW_EXPLOSIONS", "debug", translate_marker( "Rule of Cool explosions" ),
-         translate_marker( "If true, utilizes raycasting based explosive system.  Obstacles (impassable terrain, furniture or vehicle parts) will block shrapnel, while blast will bash obstacles and throw creatures outward.  If obstacles are destroyed, blast continues outward." ),
-         true );
+    add( "OLD_EXPLOSIONS", "debug", translate_marker( "Old explosion system" ),
+         translate_marker( "If true, it disables new raycasting based explosive system in favor of old flood fill system.  With new system obstacles (impassable terrain, furniture or vehicle parts) will block shrapnel, while blast will bash obstacles and throw creatures outward.  If obstacles are destroyed, blast continues outward." ),
+         false );
 }
 
 void options_manager::add_options_world_default()
