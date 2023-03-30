@@ -548,7 +548,6 @@ void DynamicDataLoader::unload_data()
     bionic_data::reset();
     body_part_type::reset();
     charge_removal_blacklist::reset();
-    weapon_category::reset();
     clear_techniques_and_martial_arts();
     clothing_mods::reset();
     construction_categories::reset();
@@ -624,6 +623,7 @@ void DynamicDataLoader::unload_data()
     VehicleSpawn::reset();
     vitamin::reset();
     vpart_info::reset();
+    weapon_category::reset();
     weather_types::reset();
     zone_type::reset_zones();
     l10n_data::unload_mod_catalogues();
