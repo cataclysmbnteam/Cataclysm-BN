@@ -522,6 +522,7 @@ void npc::check_or_use_weapon_cbm()
     // There's no point in checking the bionics if they can't unwield what they have.
     if( !weapon.has_flag( flag_NO_UNWIELD ) && cbm_weapon_index < 0 && !avail_toggle_cbms.empty() ) {
         int melee_index = -1;
+        item best_cbm_weap = null_item_reference();
         for( int i : avail_toggle_cbms ) {
             bionic &bio = ( *my_bionics )[ i ];
             if( free_power > bio.info().power_activate ) {
@@ -538,12 +539,12 @@ void npc::check_or_use_weapon_cbm()
 
                 if( melee_index >= 0 ) {
                     // Previous iteration chose a CBM. Compare previous and current.
-                    const item cbm_best_fake = item( ( *my_bionics )[ melee_index ].info().fake_item );
 
-                    if( npc_ai::weapon_value( *this, cbm_best_fake, cbm_best_fake.shots_remaining( free_power ) )
+                    if( npc_ai::weapon_value( *this, best_cbm_weap, best_cbm_weap.shots_remaining( free_power ) )
                         < npc_ai::weapon_value( *this, cbm_fake, cbm_fake.shots_remaining( free_power ) ) ) {
                         // Current is better, update index.
                         melee_index = i;
+                        best_cbm_weap = cbm_fake;
                     }
                 } else {
                     const units::energy ups_charges = units::from_kilojoule( charges_of( itype_UPS ) );
@@ -551,6 +552,7 @@ void npc::check_or_use_weapon_cbm()
                     if( npc_ai::weapon_value( *this, weapon, weapon.shots_remaining( ups_charges ) ) <
                         npc_ai::weapon_value( *this, cbm_fake, cbm_fake.shots_remaining( free_power ) ) ) {
                         melee_index = i;
+                        best_cbm_weap = cbm_fake;
                     }
                 }
             }
@@ -574,6 +576,7 @@ void npc::check_or_use_weapon_cbm()
     if( cbm_active_index < 0 && !avail_active_cbms.empty() ) {
         int ranged_index = -1;
         bool wield_gun = weapon.is_gun();
+        item best_cbm_active = null_item_reference();
         for( int i : avail_active_cbms ) {
             bionic &bio = ( *my_bionics )[ i ];
             const item cbm_weapon = item( bio.info().fake_item );
@@ -590,14 +593,13 @@ void npc::check_or_use_weapon_cbm()
 
             if( ranged_index > 0 ) {
                 // Previous iteration chose a CBM, compare them.
-                const item b_cbm_weapon = item( ( *my_bionics )[ ranged_index ].info().fake_item );
-
                 int b_cbm_ammo = free_power / ( *my_bionics )[ranged_index].info().power_activate;
 
-                if( npc_ai::weapon_value( *this, b_cbm_weapon, b_cbm_ammo ) < npc_ai::weapon_value( *this,
+                if( npc_ai::weapon_value( *this, best_cbm_active, b_cbm_ammo ) < npc_ai::weapon_value( *this,
                         cbm_weapon, cbm_ammo ) ) {
                     // New one is better, update.
                     ranged_index = i;
+                    best_cbm_active = cbm_weapon;
                 }
 
             } else if( wield_gun ) {
@@ -608,17 +610,19 @@ void npc::check_or_use_weapon_cbm()
                 if( npc_ai::weapon_value( *this, weapon, weapon.shots_remaining( ups_charges ) ) <
                     npc_ai::weapon_value( *this, cbm_weapon, cbm_ammo ) ) {
                     ranged_index = i;
+                    best_cbm_active = cbm_weapon;
                 }
 
             } else {
                 // If it's not a gun, then we only need to compare the CBMs as
                 // You can fire a activated CBM without the need to equip/unequip anything.
                 ranged_index = i;
+                best_cbm_active = cbm_weapon;
             }
         }
         cbm_active_index = ranged_index;
         if( cbm_active_index >= 0 ) {
-            cbm_fake_active = item( ( *my_bionics )[cbm_active_index].info().fake_item );
+            cbm_fake_active = best_cbm_active;
         }
     }
 }
