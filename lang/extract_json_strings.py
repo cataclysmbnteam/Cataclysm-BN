@@ -808,6 +808,12 @@ def extract_snippet(state, item):
             writestr(state, snip["text"])
 
 
+def extract_weapon_category(state, item):
+    name = item["name"]
+    comment = "weapon category name"
+    writestr(state, name, comment=comment)
+
+
 # these objects need to have their strings specially extracted
 extract_specials = {
     "body_part": extract_bodypart,
@@ -839,6 +845,7 @@ extract_specials = {
     "ter_furn_transform": extract_ter_furn_transform,
     "trap": extract_trap,
     "vehicle_spawn": extract_vehspawn,
+    "weapon_category": extract_weapon_category,
 }
 
 

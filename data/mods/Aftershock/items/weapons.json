@@ -43,6 +43,7 @@
   {
     "id": "afs_energy_saber_on",
     "type": "TOOL",
+    "weapon_category": [ "1H_SWORDS", "DUELING_SWORDS", "ENERGY_WEAPONS" ],
     "name": { "str": "energy saber (active)", "str_pl": "energy sabers (active)" },
     "description": "This glittering blue saber of cyan light hums gently, extending from its superalloy handle.  Its edge is lethally sharp, and being made of light, it's weightless, and immune to being damaged.  It's not white-hot like in pop culture, so it can't cut through anything, but there's not much in the way of flesh that it won't slice through easily.",
     "weight": "240 g",
@@ -70,6 +71,7 @@
   {
     "id": "afs_hardlight_longbow",
     "type": "GUN",
+    "weapon_category": [ "BOWS", "ENERGY_WEAPONS" ],
     "symbol": "(",
     "looks_like": "longbow",
     "color": "white",
@@ -98,6 +100,7 @@
   {
     "id": "afs_hydraulic_gauntlet",
     "type": "GENERIC",
+    "weapon_category": [ "FIST_WEAPONS" ],
     "name": { "str": "hydraulic gauntlet" },
     "description": "A huge, heavy metal gauntlet lined with tubing and gauges.  Slow and unwieldy, it uses internal pressure to deliver devastating blows, but takes tremendous strength to use effectively.  Thanks to an internal microreactor, it doesn't require power of its own.",
     "weight": "3778 g",
@@ -140,6 +143,7 @@
   {
     "id": "afs_bionic_rocket",
     "type": "GUN",
+    "weapon_category": [ "ROCKET_LAUNCHERS" ],
     "name": { "str": "deployed grenade launcher" },
     "description": "A grenade launcher mounted onto your right-hand wrist.  Less powerful than a proper grenade launcher, but infinitely more portable, and quick to reload.",
     "volume": "2250 ml",
@@ -161,6 +165,7 @@
   {
     "id": "laser_rifle_cheap",
     "type": "GUN",
+    "copy-from": "rifle_energy",
     "name": { "str": "shoddy laser rifle" },
     "description": "This is a cheap laser rifle made from common components.  Weak, but can be powered with rechargeable batteries.",
     "weight": "8 kg",
@@ -211,6 +216,7 @@
   {
     "type": "GENERIC",
     "id": "afs_titanium_bat",
+    "weapon_category": [ "CLUBS" ],
     "name": { "str": "titanium bat" },
     "description": "A luxury baseball bat made out of titanium that was banned from competitive sport due to the increased performance that put defenders at risk.",
     "weight": "680 g",
@@ -229,6 +235,7 @@
     "id": "ceramic_knife",
     "type": "TOOL",
     "category": "weapons",
+    "weapon_category": [ "KNIVES" ],
     "name": { "str": "bodyguard knife", "str_pl": "bodyguard knives" },
     "description": "Designed to evade security measures, this knife is a must have for any Cataclysm dinner party.",
     "weight": "390 g",
@@ -246,6 +253,7 @@
     "id": "laser_cannon_xray",
     "looks_like": "ar15",
     "type": "GUN",
+    "copy-from": "rifle_energy",
     "reload_noise_volume": 10,
     "name": { "str": "handheld x-ray cannon" },
     "description": "This is an x-ray laser stripped a TX-5LR Cerberus laser turret that has been modified to use UPS power for firing.  Single shot then requires reloading.  Nicknamed the 'Tin Can Killer' for it's ability to destroy power armor.",

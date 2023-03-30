@@ -2,6 +2,7 @@
   {
     "id": "stonefist",
     "type": "GENERIC",
+    "weapon_category": [ "FIST_WEAPONS" ],
     "name": { "str": "pair of magical armored stone gauntlets", "str_pl": "pairs of magical armored stone gauntlets" },
     "description": "A magical flexible stonelike substance for protection and attack.",
     "weight": "1 g",
@@ -138,6 +139,7 @@
     "type": "GENERIC",
     "id": "stormhammer",
     "name": { "str": "The Stormhammer" },
+    "weapon_category": [ "1H_HAMMERS" ],
     "description": "A crackling magical warhammer full of lightning to smite your foes with, and of course, smash things to bits!",
     "weight": "1337 g",
     "to_hit": 2,
@@ -183,6 +185,7 @@
   {
     "type": "GENERIC",
     "id": "stormglove",
+    "weapon_category": "FIST_WEAPONS",
     "symbol": "3",
     "color": "light_gray",
     "name": { "str": "Stormfist" },
@@ -206,6 +209,7 @@
   {
     "id": "tentacle_whip",
     "type": "GENERIC",
+    "weapon_category": [ "WHIPS" ],
     "symbol": "/",
     "color": "brown",
     "name": "vicious tentacle whip",
@@ -250,6 +254,7 @@
   {
     "id": "bonespear",
     "type": "GENERIC",
+    "weapon_category": [ "SPEARS" ],
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "Wicked Bonespear" },
@@ -277,6 +282,7 @@
     "id": "druid_recurve",
     "//": "Not using copy-from 'reflexbow', since wearability causes druid bow not to be wielded, and ammo / clip type causes it to require real arrows",
     "type": "GUN",
+    "weapon_category": [ "BOWS", "ELASTIC" ],
     "symbol": "(",
     "color": "yellow",
     "looks_like": "longbow",
