@@ -2202,7 +2202,7 @@ void options_manager::add_options_debug()
          true
        );
 
-    add( "OLD_EXPLOSIONS", "debug", translate_marker( "Old explosion system" ),
+    add( "OLD_EXPLOSIONS", "debug", translate_marker( "Old explosions system" ),
          translate_marker( "If true, it disables new raycasting based explosive system in favor of old system.  With new system obstacles (impassable terrain, furniture or vehicle parts) will block shrapnel, while blast will bash obstacles and throw creatures outward.  If obstacles are destroyed, blast continues outward." ),
          false );
 }
