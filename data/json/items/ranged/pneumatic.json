@@ -3,7 +3,6 @@
     "id": "bbgun",
     "copy-from": "rifle_pneumatic",
     "type": "GUN",
-    "looks_like": "ar15",
     "symbol": "(",
     "color": "brown",
     "name": { "str": "BB gun" },
@@ -36,7 +35,6 @@
   {
     "id": "helsing",
     "copy-from": "rifle_pneumatic",
-    "looks_like": "ar15",
     "type": "GUN",
     "color": "dark_gray",
     "name": { "str": "pneumatic bolt driver" },
@@ -60,7 +58,6 @@
   {
     "id": "tihar",
     "copy-from": "rifle_pneumatic",
-    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 8,
     "color": "light_gray",

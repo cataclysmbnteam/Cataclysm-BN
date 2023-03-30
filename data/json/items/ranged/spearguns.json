@@ -116,7 +116,6 @@
   {
     "id": "speargun",
     "copy-from": "rifle_elastic",
-    "looks_like": "ar15",
     "type": "GUN",
     "color": "brown",
     "name": { "str": "speargun" },
@@ -134,7 +133,6 @@
   {
     "id": "doublespeargun",
     "copy-from": "rifle_elastic",
-    "looks_like": "ar15",
     "type": "GUN",
     "color": "brown",
     "name": { "str": "double speargun" },
