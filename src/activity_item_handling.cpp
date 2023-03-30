@@ -3145,12 +3145,7 @@ bool find_auto_consume( player &p, const bool food )
     const tripoint pos = p.pos();
     map &here = get_map();
     zone_manager &mgr = zone_manager::get_manager();
-    zone_type_id consume_type_zone( "" );
-    if( food ) {
-        consume_type_zone = zone_type_id( "AUTO_EAT" );
-    } else {
-        consume_type_zone = zone_type_id( "AUTO_DRINK" );
-    }
+    const zone_type_id consume_type_zone( food ? "AUTO_EAT" : "AUTO_DRINK" );
     if( here.check_vehicle_zones( g->get_levz() ) ) {
         mgr.cache_vzones();
     }
@@ -3159,6 +3154,21 @@ bool find_auto_consume( player &p, const bool food )
     if( dest_set.empty() ) {
         return false;
     }
+
+    const auto ok_to_consume = [&p, food]( item * it ) -> bool {
+        item &comest = p.get_consumable_from( *it );
+        // *INDENT-OFF*
+        /* not food.              */ if( comest.is_null() || comest.is_craft() || !comest.is_food() ) { return false; }
+        /* not enjoyable.         */ if( p.fun_for( comest ).first < -5 ) { return false; }
+        /* cannot consume.        */ if( !p.can_consume( comest ) ) { return false; }
+        /* wont eat, e.g cannibal */ if( !p.will_eat( comest, false ).success() ) { return false; }
+        /* not ours               */ if( !it->is_owned_by( p, true ) ) { return false; }
+        /* not quenching enough   */ if( !food && comest.get_comestible()->quench < 15 ) { return false; }
+        /* Unsafe to drink or eat */ if( comest.has_flag( flag_UNSAFE_CONSUME ) ) { return false; }
+        // *INDENT-ON*
+        return true;
+    };
+
     for( const tripoint loc : dest_set ) {
         if( loc.z != p.pos().z ) {
             continue;
@@ -3189,28 +3199,7 @@ bool find_auto_consume( player &p, const bool food )
 
         for( item *it : items_here ) {
             item &comest = p.get_consumable_from( *it );
-            if( comest.is_null() || comest.is_craft() || !comest.is_food() ||
-                p.fun_for( comest ).first < -5 ) {
-                // not good eatings.
-                continue;
-            }
-            if( !p.can_consume( *it ) ) {
-                continue;
-            }
-            if( !p.will_eat( comest, false ).success() ) {
-                // wont like it, cannibal meat etc
-                continue;
-            }
-            if( !it->is_owned_by( p, true ) ) {
-                // it aint ours.
-                continue;
-            }
-            if( !food && comest.get_comestible()->quench < 15 ) {
-                // not quenching enough
-                continue;
-            }
-            if( comest.has_flag( flag_UNSAFE_CONSUME ) ) {
-                // Unsafe to drink or eat
+            if( !ok_to_consume( it ) ) {
                 continue;
             }
 
