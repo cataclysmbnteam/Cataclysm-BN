@@ -91,7 +91,7 @@
     "to_hit": 2,
     "symbol": ";",
     "qualities": [ [ "BUTCHER", 7 ] ],
-    "flags": [ "UNBREAKABLE_MELEE" ],
+    "flags": [ "UNBREAKABLE_MELEE", "SHEATH_SWORD" ],
     "techniques": [ "WBLOCK_2", "tec_feint", "tec_counter", "BERSERK", "DSINERTIAL" ]
   },
   {
