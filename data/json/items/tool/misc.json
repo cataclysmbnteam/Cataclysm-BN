@@ -906,7 +906,7 @@
     "symbol": "/",
     "color": "magenta",
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STAB", "RAIN_PROTECT", "SHEATH_SWORD", "FRAGILE_MELEE" ]
+    "flags": [ "STAB", "RAIN_PROTECT", "SHEATH_SWORD" ]
   },
   {
     "id": "vortex_stone",
