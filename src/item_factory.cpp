@@ -1191,6 +1191,12 @@ void Item_factory::check_definitions() const
             }
         }
 
+        for( const weapon_category_id &cat_id : type->weapon_category ) {
+            if( !cat_id.is_valid() ) {
+                msg += string_format( "invalid weapon category: %s\n", cat_id.c_str() );
+            }
+        }
+
         if( type->has_flag( "FIRESTARTER" ) &&
             !type->can_have_charges() &&
             !type->get_use( "firestarter" ) ) {
@@ -2440,12 +2446,6 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
 
     if( jo.has_member( "weapon_category" ) ) {
         optional( jo, true, "weapon_category", def.weapon_category, auto_flags_reader<weapon_category_id> {} );
-        for( const weapon_category_id &cat_id : def.weapon_category ) {
-            if( !cat_id.is_valid() ) {
-                jo.throw_error( string_format( "invalid weapon category: %s", std::string( cat_id ) ),
-                                "weapon categories" );
-            }
-        }
     }
 
     if( jo.has_member( "damage_states" ) ) {
