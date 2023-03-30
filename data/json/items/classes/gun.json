@@ -312,9 +312,8 @@
     "flags": [ "NEVER_JAMS", "NON-FOULING", "NEEDS_NO_LUBE" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
-      [ "emitter", 1 ],
       [ "grip", 1 ],
-      [ "lens", 1 ],
+      [ "mechanism", 4 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
