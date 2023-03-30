@@ -8190,10 +8190,10 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
     smenu.addentry_col( BUTCHER_FULL, enough_light, 'b', _( "Full butchery" ),
                         enough_light ? cut_time( BUTCHER_FULL ) : cannot_see,
                         string_format( "%s  %s%s",
-                                       _( "This technique is used to properly butcher a corpse. "
+                                       _( "This technique is used to properly butcher a corpse.  "
                                           "For corpses larger than medium size, you will require "
                                           "a rope & a tree, a butchering rack or a flat surface "
-                                          "(for ex. a table, a leather tarp, etc.). "
+                                          "(for ex. a table, a leather tarp, etc.).  "
                                           "Yields are plentiful and varied, but it is time consuming." ),
                                        msg_inv, info_on_action( BUTCHER_FULL ).c_str() ) );
     smenu.addentry_col( F_DRESS, enough_light &&
