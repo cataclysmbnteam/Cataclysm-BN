@@ -3194,6 +3194,18 @@ bool find_auto_consume( player &p, const bool food )
             if( index < 0 ) {
                 continue;
             }
+            /**
+             * TODO: when we get to use ranges library, current should be replaced with:
+             *
+             * const auto shortest = vehitems | filter_view(ok_to_consume) | max_element(spoilage_sort_order)
+             *
+             * rationale:
+             * 1. much more readable (mandatory FP shilling)
+             * 2. filter_view does not create a new container (it's a view), so it's performant
+             *
+             * @see https://en.cppreference.com/w/cpp/ranges/filter_view
+             * @see https://en.cppreference.com/w/cpp/algorithm/ranges/max_element
+             */
             vehicle_stack vehitems = veh.get_items( index );
             for( item &it : vehitems ) {
                 if( should_skip( it ) ) {

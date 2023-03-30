@@ -124,6 +124,14 @@ void activity_on_turn_move_loot( player_activity &act, player &p );
 bool generic_multi_activity_handler( player_activity &act, player &p, bool check_only = false );
 void activity_on_turn_fetch( player_activity &, player *p );
 void activity_on_turn_wear( player_activity &act, player &p );
+
+/**
+ * @brief Find an item to consume automatically
+ *
+ * @param food if true, search for food, otherwise search for drink
+ * @return true player ate food or was nauseous
+ * @return false player did not find anything suitable or is a npc
+ */
 bool find_auto_consume( player &p, bool food );
 void try_fuel_fire( player_activity &act, player &p, bool starting_fire = false );
 
