@@ -7,6 +7,7 @@
 #include "weather.h"
 #include "game.h"
 #include "map.h"
+#include "name.h"
 
 void clear_all_state( )
 {
@@ -15,4 +16,5 @@ void clear_all_state( )
     clear_map();
     clear_avatar();
     set_time( calendar::turn_zero );
+    Name::clear();
 }

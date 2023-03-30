@@ -298,7 +298,7 @@ int turret_data::fire( player &p, const tripoint &target )
     auto mode = base()->gun_current_mode();
 
     prepare_fire( p );
-    shots = p.fire_gun( target, mode.qty, *mode );
+    shots = ranged::fire_gun( p, target, mode.qty, *mode );
     post_fire( p, shots );
     return shots;
 }

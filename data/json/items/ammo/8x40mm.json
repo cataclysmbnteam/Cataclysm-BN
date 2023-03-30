@@ -27,7 +27,7 @@
     "stack_size": 40,
     "ammo_type": "8x40mm",
     "range": 42,
-    "damage": { "damage_type": "bullet", "amount": 42, "armor_penetration": 18 },
+    "damage": { "damage_type": "bullet", "amount": 45, "armor_penetration": 25 },
     "dispersion": 75,
     "recoil": 2200,
     "effects": [ "NEVER_MISFIRES" ]
@@ -39,15 +39,12 @@
     "name": { "str": "8x40mm sporting" },
     "description": "8x40mm caseless rounds, light sporting load sold for civilian use.  Proprietary ammunition for Rivtech firearms.  Being caseless rounds, these cannot be disassembled or reloaded.",
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] },
-    "proportional": { "price": 0.8, "damage": { "damage_type": "bullet", "amount": 0.5 }, "dispersion": 1.2, "recoil": 0.5 }
-  },
-  {
-    "id": "8mm_fmj",
-    "copy-from": "8mm_caseless",
-    "type": "AMMO",
-    "name": { "str": "8x40mm FMJ" },
-    "description": "8x40mm caseless rounds, full metal jacket.  Military grade ammunition for Rivtech firearms.  Being caseless rounds, these cannot be disassembled or reloaded.",
-    "relative": { "damage": { "damage_type": "bullet", "amount": -5, "armor_penetration": 10 } }
+    "proportional": {
+      "price": 0.8,
+      "damage": { "damage_type": "bullet", "amount": 0.5, "armor_penetration": 0.5 },
+      "dispersion": 1.2,
+      "recoil": 0.5
+    }
   },
   {
     "id": "8mm_hvp",
@@ -58,7 +55,9 @@
     "price": 2500,
     "price_postapoc": 50000,
     "count": 20,
-    "relative": { "damage": { "damage_type": "bullet", "amount": 5, "armor_penetration": 20 } }
+    "//": "Balanced as AP, with 25% higher damage and 50% higher arpen",
+    "relative": { "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": 34 } },
+    "proportional": { "dispersion": 1.5, "recoil": 1.5 }
   },
   {
     "id": "8mm_inc",
@@ -76,6 +75,6 @@
     "type": "AMMO",
     "name": { "str": "8x40mm JHP" },
     "description": "8x40mm caseless rounds, jacketed hollowpoint.  Military grade ammunition for Rivtech firearms.  Being caseless rounds, these cannot be disassembled or reloaded.",
-    "relative": { "damage": { "damage_type": "bullet", "amount": 5, "armor_penetration": -10 } }
+    "relative": { "damage": { "damage_type": "bullet", "amount": 11, "armor_penetration": -22 } }
   }
 ]

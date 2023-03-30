@@ -7,6 +7,6 @@
     "category": "content",
     "//": "Not really obsolete! Marked as such to prevent it from showing in the main list",
     "obsolete": true,
-    "dependencies": [ "dda" ]
+    "dependencies": [ "bn" ]
   }
 ]

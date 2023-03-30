@@ -208,9 +208,10 @@ static void debug_error_prompt(
         );
 #endif
 
-    // temporarily disable redrawing and resizing of previous uis since they
-    // could be in an unknown state.
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+    // Create a special debug message UI that does various things to ensure
+    // the graphics are correct when the debug message is displayed during a
+    // redraw callback.
+    ui_adaptor ui( ui_adaptor::debug_message_ui {} );
     const auto init_window = []( ui_adaptor & ui ) {
         ui.position_from_window( catacurses::stdscr );
     };
@@ -245,7 +246,7 @@ static void debug_error_prompt(
         catacurses::erase();
         fold_and_print( catacurses::stdscr, point_zero, getmaxx( catacurses::stdscr ), c_light_red,
                         "%s", message );
-        catacurses::refresh();
+        wnoutrefresh( catacurses::stdscr );
     } );
 
 #if defined(__ANDROID__)
@@ -480,6 +481,11 @@ static bool checkDebugLevelClass( DL lev, DC cl )
     } else {
         return debugClass.test( cl ) && debugLevel.test( lev );
     }
+}
+
+void debug_reset_ignored_messages()
+{
+    ignored_messages.clear();
 }
 
 // Debug only                                                       {{{1
@@ -944,7 +950,13 @@ void debug_write_backtrace( std::ostream &out )
             out << "\n    (unable to get module base address),";
         }
         if( bt_state ) {
-            bt_syminfo( bt_state, reinterpret_cast<uintptr_t>( bt[i] ),
+#if defined(__MINGW64__)
+            constexpr uint64_t static_image_base = 0x140000000ULL;
+#elif defined(__MINGW32__)
+            constexpr uint64_t static_image_base = 0x400000ULL;
+#endif
+            uint64_t de_aslr_pc = reinterpret_cast<uintptr_t>( bt[i] ) - mod_base + static_image_base;
+            bt_syminfo( bt_state, de_aslr_pc,
                         // syminfo callback
                         [&out]( const uintptr_t pc, const char *const symname,
             const uintptr_t symval, const uintptr_t ) {
@@ -959,7 +971,7 @@ void debug_write_backtrace( std::ostream &out )
                     << ", msg = " << ( msg ? msg : "[no msg]" )
                     << "),";
             } );
-            bt_pcinfo( bt_state, reinterpret_cast<uintptr_t>( bt[i] ),
+            bt_pcinfo( bt_state, de_aslr_pc,
                        // backtrace callback
                        [&out]( const uintptr_t pc, const char *const filename,
             const int lineno, const char *const function ) -> int {

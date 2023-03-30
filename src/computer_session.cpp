@@ -935,7 +935,7 @@ void computer_session::action_srcf_seal()
     for( const tripoint &p : here.points_on_zlevel() ) {
         if( here.ter( p ) == t_elevator || here.ter( p ) == t_vat ) {
             here.make_rubble( p, f_rubble_rock, true );
-            explosion_handler::explosion( p, 40, 0.7, true );
+            explosion_handler::explosion( p, &g->u, 40, 0.7, true );
         }
         if( here.ter( p ) == t_wall_glass ) {
             here.make_rubble( p, f_rubble_rock, true );
@@ -945,7 +945,7 @@ void computer_session::action_srcf_seal()
         }
         if( here.ter( p ) == t_sewage_pump ) {
             here.make_rubble( p, f_rubble_rock, true );
-            explosion_handler::explosion( p, 50, 0.7, true );
+            explosion_handler::explosion( p, &g->u, 50, 0.7, true );
         }
     }
     comp.options.clear(); // Disable the terminal.
@@ -1042,7 +1042,7 @@ void computer_session::action_irradiator()
                     // critical failure - radiation spike sets off electronic detonators
                     if( it->typeId() == itype_mininuke || it->typeId() == itype_mininuke_act ||
                         it->typeId() == itype_c4 ) {
-                        explosion_handler::explosion( dest, 40 );
+                        explosion_handler::explosion( dest, &g->u, 40 );
                         reset_terminal();
                         print_error( _( "WARNING [409]: Primary sensors offline!" ) );
                         print_error( _( "  >> Initialize secondary sensors: Geiger profiling…" ) );
@@ -1367,7 +1367,7 @@ void computer_session::failure_pump_explode()
     for( const tripoint &p : here.points_on_zlevel() ) {
         if( here.ter( p ) == t_sewage_pump ) {
             here.make_rubble( p );
-            explosion_handler::explosion( p, 10 );
+            explosion_handler::explosion( p, nullptr, 10 );
         }
     }
 }
@@ -1408,9 +1408,11 @@ void computer_session::failure_amigara()
     g->timed_events.add( TIMED_EVENT_AMIGARA, calendar::turn + 30_seconds );
     g->u.add_effect( effect_amigara, 2_minutes );
     explosion_handler::explosion( tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ), g->get_levz() ),
+                                  nullptr,
                                   10,
                                   0.7, false, 10 );
     explosion_handler::explosion( tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ), g->get_levz() ),
+                                  nullptr,
                                   10,
                                   0.7, false, 10 );
     comp.remove_option( COMPACT_AMIGARA_START );

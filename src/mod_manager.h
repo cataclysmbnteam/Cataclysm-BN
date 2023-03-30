@@ -69,6 +69,11 @@ struct MOD_INFORMATION {
          */
         std::set<std::string> maintainers;
 
+        /**
+         * Arbitrary string that should help maintainers in figuring out
+         * what version of the mod the error in a bugreport comes from.
+         * Recommended use is to set latest mod update date here.
+         */
         std::string version;
 
         /** What other mods must be loaded prior to this one? */
@@ -119,6 +124,12 @@ bool save_mod_list( const t_mod_list &list, const std::string &path );
  * @returns cata::nullopt on error.
  */
 cata::optional<t_mod_list> load_mod_list( const std::string &path );
+
+/**
+ * Get id of default core content pack.
+ */
+mod_id get_default_core_content_pack();
+
 } // namespace mod_management
 
 class mod_manager

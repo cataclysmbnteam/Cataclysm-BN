@@ -6,6 +6,6 @@
     "authors": [ "Inglonias" ],
     "description": "Removes above-ground rail stations from the game.",
     "category": "buildings",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "bn" ]
   }
 ]

@@ -375,6 +375,72 @@
   },
   {
     "type": "recipe",
+    "result": "freezer",
+    "copy-from": "fridge",
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "sheet_metal", 6 ] ],
+      [ [ "sheet_metal_small", 4 ] ],
+      [ [ "steel_chunk", 4 ] ],
+      [ [ "cable", 3 ] ],
+      [ [ "hose", 1 ] ],
+      [ [ "condensor_coil", 1 ] ],
+      [ [ "evaporator_coil", 1 ] ],
+      [ [ "refrigerant_tank", 1 ] ],
+      [ [ "thermostat", 1 ] ],
+      [ [ "light_bulb", 1 ] ],
+      [ [ "motor_tiny", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "glass_fridge",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "40 m",
+    "reversible": true,
+    "decomp_learn": 5,
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "sheet_metal", 4 ] ],
+      [ [ "sheet_metal_small", 3 ] ],
+      [ [ "steel_chunk", 3 ] ],
+      [ [ "cable", 3 ] ],
+      [ [ "hose", 1 ] ],
+      [ [ "reinforced_glass_pane", 1 ] ],
+      [ [ "condensor_coil", 1 ] ],
+      [ [ "evaporator_coil", 1 ] ],
+      [ [ "refrigerant_tank", 1 ] ],
+      [ [ "thermostat", 1 ] ],
+      [ [ "light_bulb", 1 ] ],
+      [ [ "motor_tiny", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "glass_freezer",
+    "copy-from": "glass_fridge",
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "sheet_metal", 4 ] ],
+      [ [ "sheet_metal_small", 3 ] ],
+      [ [ "steel_chunk", 3 ] ],
+      [ [ "cable", 3 ] ],
+      [ [ "hose", 1 ] ],
+      [ [ "reinforced_glass_pane", 1 ] ],
+      [ [ "condensor_coil", 1 ] ],
+      [ [ "evaporator_coil", 1 ] ],
+      [ [ "refrigerant_tank", 1 ] ],
+      [ [ "thermostat", 1 ] ],
+      [ [ "light_bulb", 1 ] ],
+      [ [ "motor_tiny", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "oven",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",

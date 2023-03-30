@@ -21,7 +21,7 @@
         "..|cc-ff+___tt__tt__v|..",
         "..|ffcff+___##__##__v|..",
         "..|efcff||||||||||||||..",
-        "..|ff-ff-T&-j{{{c&ccc|..",
+        "..|ff-ff-T&-j{{[c&ccc|..",
         "..|ff-ffgfc-fffffffff|..",
         "..|ff-k-----offfffffh|..",
         "..|fffffffffffffffffh|..",
@@ -62,6 +62,7 @@
         "v": "t_sidewalk",
         "w": "t_window",
         "{": "t_floor",
+        "[": "t_floor",
         "|": "t_brick_wall",
         "4": "t_gutter_downspout"
       },
@@ -83,7 +84,8 @@
         "o": "f_oven",
         "t": "f_table",
         "v": "f_vending_c",
-        "{": "f_fridge"
+        "{": "f_fridge",
+        "[": "f_freezer"
       },
       "toilets": { "T": {  } },
       "place_items": [

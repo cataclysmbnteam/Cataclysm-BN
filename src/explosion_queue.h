@@ -20,7 +20,8 @@ enum class ExplosionType {
 
 struct queued_explosion {
     queued_explosion() = default;
-    queued_explosion( const tripoint &pos, ExplosionType type ) : pos( pos ), type( type ) {}
+    queued_explosion( const tripoint &pos, ExplosionType type,
+                      Creature *source ) : pos( pos ), type( type ), source( source ) {}
 
     /** Origin */
     tripoint pos;
@@ -34,6 +35,8 @@ struct queued_explosion {
     std::string graphics_name;
     /** Whether it affects player */
     bool affects_player = false;
+    /** Who's responsible of the explosion */
+    Creature *source;
 };
 
 namespace explosion_funcs

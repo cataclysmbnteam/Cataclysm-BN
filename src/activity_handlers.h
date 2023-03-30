@@ -114,7 +114,8 @@ struct butchery_setup {
 };
 
 butchery_setup consider_butchery( const item &corpse_item, player &u, butcher_type action );
-int butcher_time_to_cut( const inventory &inv, const item &corpse_item, butcher_type action );
+int butcher_time_to_cut( const Character &who, const inventory &inv, const item &corpse_item,
+                         butcher_type action );
 
 // activity_item_handling.cpp
 void activity_on_turn_drop();
@@ -285,7 +286,8 @@ void patch_activity_for_vehicle_welder(
     int interact_part_idx
 );
 void patch_activity_for_furniture( player_activity &activity,
-                                   const tripoint &furniture_position );
+                                   const tripoint &furniture_position,
+                                   const itype_id &itt );
 
 } // namespace repair_activity_hack
 

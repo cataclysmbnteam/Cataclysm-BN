@@ -51,7 +51,10 @@ item_location titled_filter_menu( item_filter filter, avatar &you,
 void common( avatar &you );
 void compare( player &p, const cata::optional<tripoint> &offset );
 void compare( const item &left, const item &right );
-void reassign_letter( player &p, item &it );
+/** Assign (or reassign from existing) letter to item in character's inventory. */
+void reassign_letter( Character &who, item &it, int invlet );
+/** Prompt to assign (or clear) letter to item in character's inventory. */
+void prompt_reassign_letter( Character &who, item &it );
 void swap_letters( player &p );
 
 /**
@@ -96,6 +99,8 @@ item_location wield( avatar &you );
 item_location holster( player &p, item &holster );
 /** Choosing a gun to saw down it's barrel. */
 item_location saw_barrel( player &p, item &tool );
+/** Choosing a gun to saw down its barrel. */
+item_location saw_stock( player &p, item &tool );
 /** Choose item to wear. */
 item_location wear( player &p );
 /** Choose item to take off. */

@@ -17,10 +17,10 @@ void load( const JsonObject &jo, const std::string &src );
 void check();
 void reset();
 
-/** opens the gate via player's activity */
-void open_gate( const tripoint &pos, player &p );
-/** opens the gate immediately */
-void open_gate( const tripoint &pos );
+/** opens/closes the gate via player's activity */
+void toggle_gate( const tripoint &pos, player &p );
+/** opens/closes the gate immediately */
+void toggle_gate( const tripoint &pos );
 
 } // namespace gates
 

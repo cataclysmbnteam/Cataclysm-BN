@@ -4,8 +4,34 @@
 
 #include <map>
 #include <vector>
+#include "cata_void.h"
 #include "json.h"
 #include "units.h"
+
+/*
+ * Template vodoo:
+ * The compiler will construct the appropriate one of these based on if the
+ * type can support the operations being done.
+ * So, it defaults to the false_type, but if it can use the *= operator
+ * against a float, it then supports proportional, and the handle_proportional
+ * template that isn't just a dummy is constructed.
+ * Similarly, if it can use a += operator against it's own type, the non-dummy
+ * handle_relative template is constructed.
+ */
+template<typename T, typename = cata::void_t<>>
+struct supports_relative : std::false_type { };
+
+template<typename T>
+struct supports_relative < T, cata::void_t < decltype( std::declval<T &>() += std::declval<T &>() )
+>> : std::true_type {};
+
+// Explicitly specialize these templates for a couple types
+// So the compiler does not attempt to use a template that it should not
+template<>
+struct supports_relative<bool> : std::false_type {};
+
+template<>
+struct supports_relative<std::string> : std::false_type {};
 
 namespace reader_detail
 {
@@ -205,6 +231,58 @@ class generic_typed_reader
             }
         }
 
+        /*
+         * These two functions are effectively handle_relative but they need to
+         * use the reader, so they must be here.
+         * proportional does not need these, because it's only reading a float
+         * whereas these are reading values of the same type.
+         */
+        // Type does not support relative
+        template < typename C, typename std::enable_if < !reader_detail::handler<C>::is_container,
+                   int >::type = 0,
+                   std::enable_if_t < !supports_relative<C>::value > * = nullptr
+                   >
+        bool do_relative( const JsonObject &jo, const std::string &name, C & ) const {
+            if( jo.has_object( "relative" ) ) {
+                JsonObject relative = jo.get_object( "relative" );
+                relative.allow_omitted_members();
+                if( !relative.has_member( name ) ) {
+                    return false;
+                }
+                debugmsg( "Member %s of type %s does not support relative", name, typeid( C ).name() );
+            }
+            return false;
+        }
+
+        // Type supports relative
+        template < typename C, typename std::enable_if < !reader_detail::handler<C>::is_container,
+                   int >::type = 0, std::enable_if_t<supports_relative<C>::value> * = nullptr >
+        bool do_relative( const JsonObject &jo, const std::string &name, C &member ) const {
+            if( jo.has_object( "relative" ) ) {
+                JsonObject relative = jo.get_object( "relative" );
+                relative.allow_omitted_members();
+                const Derived &derived = static_cast<const Derived &>( *this );
+                // This needs to happen here, otherwise we get unvisited members
+                if( !relative.has_member( name ) ) {
+                    return false;
+                }
+                C adder = derived.get_next( *relative.get_raw( name ) );
+                member += adder;
+                return true;
+            }
+            return false;
+        }
+
+        template<typename C>
+        bool read_normal( const JsonObject &jo, const std::string &name, C &member ) const {
+            if( jo.has_member( name ) ) {
+                const Derived &derived = static_cast<const Derived &>( *this );
+                member = derived.get_next( *jo.get_raw( name ) );
+                return true;
+            }
+            return false;
+        }
+
         /**
          * Implements the reader interface, handles a simple data member.
          */
@@ -214,12 +292,9 @@ class generic_typed_reader
                    int >::type = 0 >
         bool operator()( const JsonObject &jo, const std::string &member_name,
                          C &member, bool /*was_loaded*/ ) const {
-            const Derived &derived = static_cast<const Derived &>( *this );
-            if( !jo.has_member( member_name ) ) {
-                return false;
-            }
-            member = derived.get_next( *jo.get_raw( member_name ) );
-            return true;
+            return read_normal( jo, member_name, member ) ||
+                   handle_proportional( jo, member_name, member ) ||
+                   do_relative( jo, member_name, member );
         }
 };
 

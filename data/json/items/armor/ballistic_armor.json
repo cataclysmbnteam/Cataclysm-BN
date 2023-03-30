@@ -16,11 +16,11 @@
     "color": "light_red",
     "covers": [ "torso" ],
     "coverage": 95,
-    "encumbrance": 8,
+    "encumbrance": 12,
     "warmth": 12,
-    "material_thickness": 3,
+    "material_thickness": 5,
     "//": "Ceramic disks inside block addition of steel plating modification",
-    "flags": [ "STURDY", "OUTER", "NO_REPAIR" ]
+    "flags": [ "OUTER", "NO_REPAIR" ]
   },
   {
     "id": "dragonskinempty",

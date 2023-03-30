@@ -6,6 +6,7 @@
 #include <functional>
 #include <string>
 #include <utility>
+#include <limits>
 
 #include "optional.h"
 
@@ -37,7 +38,8 @@ class vpart_position
 {
     private:
         std::reference_wrapper<::vehicle> vehicle_;
-        size_t part_index_;
+        // silence GCC maybe-uninitialized warning by giving it a default value
+        size_t part_index_ = std::numeric_limits<size_t>::max();
 
     public:
         vpart_position( ::vehicle &v, const size_t part ) : vehicle_( v ), part_index_( part ) { }

@@ -358,7 +358,17 @@ cata::optional<t_mod_list> load_mod_list( const std::string &path )
     }
 }
 
+mod_id get_default_core_content_pack()
+{
+    return mod_id( "bn" );
+}
+
 } // namespace mod_management
+
+bool is_strict_enabled( const std::string &src )
+{
+    return src == mod_management::get_default_core_content_pack().str();
+}
 
 void mod_manager::add_mods( std::vector<MOD_INFORMATION> &&list )
 {

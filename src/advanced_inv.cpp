@@ -1338,11 +1338,10 @@ void advanced_inventory::action_examine( advanced_inv_listitem *sitem,
         recalc = true;
     } else {
         item &it = *sitem->items.front();
-        std::vector<iteminfo> vThisItem;
-        std::vector<iteminfo> vDummy;
-        it.info( true, vThisItem );
+        std::vector<iteminfo> dummy;
+        std::vector<iteminfo> item_info = it.info();
 
-        item_info_data data( it.tname(), it.type_name(), vThisItem, vDummy );
+        item_info_data data( it.tname(), it.type_name(), item_info, dummy );
         data.handle_scrolling = true;
 
         ret = draw_item_info( [&]() -> catacurses::window {

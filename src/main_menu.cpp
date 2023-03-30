@@ -18,6 +18,7 @@
 #include "character_id.h"
 #include "color.h"
 #include "debug.h"
+#include "distraction_manager.h"
 #include "enums.h"
 #include "filesystem.h"
 #include "fstream_utils.h"
@@ -118,7 +119,7 @@ void main_menu::print_menu_items( const catacurses::window &w_in,
     fold_and_print( w_in, offset, getmaxx( w_in ), c_light_gray, text, ']' );
 }
 
-void main_menu::print_menu( const catacurses::window &w_open, int iSel, const point &offset )
+void main_menu::print_menu( const catacurses::window &w_open, int iSel, point offset )
 {
     // Clear Lines
     werase( w_open );
@@ -386,6 +387,7 @@ void main_menu::init_strings()
     vSettingsSubItems.push_back( pgettext( "Main Menu|Settings", "K<e|E>ybindings" ) );
     vSettingsSubItems.push_back( pgettext( "Main Menu|Settings", "<A|a>utopickup" ) );
     vSettingsSubItems.push_back( pgettext( "Main Menu|Settings", "<S|s>afemode" ) );
+    vSettingsSubItems.push_back( pgettext( "Main Menu|Settings", "<D|d>istractions" ) );
     vSettingsSubItems.push_back( pgettext( "Main Menu|Settings", "<C|c>olors" ) );
 
     vSettingsHotkeys.clear();
@@ -393,9 +395,7 @@ void main_menu::init_strings()
         vSettingsHotkeys.push_back( get_hotkeys( item ) );
     }
 
-    loading_ui ui( false );
-    g->load_core_data( ui );
-    vdaytip = SNIPPET.random_from_category( "tip" ).value_or( translation() ).translated();
+    vdaytip = get_random_tip_of_the_day();
 }
 
 void main_menu::display_text( const std::string &text, const std::string &title, int &selected )
@@ -740,6 +740,8 @@ bool main_menu::opening_screen()
                     } else if( sel2 == 3 ) {
                         get_safemode().show();
                     } else if( sel2 == 4 ) {
+                        get_distraction_manager().show();
+                    } else if( sel2 == 5 ) {
                         all_colors.show_gui();
                     }
                 }

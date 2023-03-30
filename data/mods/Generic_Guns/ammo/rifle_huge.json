@@ -3,7 +3,7 @@
     "id": "rifle_huge_ball",
     "type": "AMMO",
     "copy-from": "50bmg",
-    "name": { "str_sp": "huge rifle ammo, FMJ" },
+    "name": { "str_sp": "12.7mm, FMJ" },
     "ammo_type": "ammo_rifle_huge",
     "casing": "rifle_huge_casing",
     "description": "Huge rifle ammunition like this bridges the gap between light cannons and big game rifles.  It's suitable for taking on light vehicles and other materiel, or hunting extremely large game.  Full metal jacketed bullets offer reduced fouling, better reliability, and slightly improved penetration compared to plain lead.",
@@ -13,7 +13,7 @@
     "id": "rifle_huge_jhp",
     "type": "AMMO",
     "copy-from": "rifle_huge_ball",
-    "name": { "str_sp": "huge rifle ammo, JHP" },
+    "name": { "str_sp": "12.7mm, JHP" },
     "description": "Huge rifle ammunition like this bridges the gap between light cannons and big game rifles.  It's suitable for taking on light vehicles and other materiel, or hunting extremely large game.  Jacketed Hollow Points are defensive/duty projectiles that are more destructive to tissue than plain ball ammunition, and slightly reduce overpenetration concerns.",
     "proportional": { "damage": { "damage_type": "bullet", "amount": 1.25, "armor_penetration": 0.001 } }
   },
@@ -21,7 +21,7 @@
     "id": "bp_rifle_huge_ball",
     "copy-from": "rifle_huge_ball",
     "type": "AMMO",
-    "name": { "str_sp": "rifle ammo, FMJ (black powder)" },
+    "name": { "str_sp": "12.7mm, FMJ (black powder)" },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] },
     "description": "Huge rifle ammunition like this bridges the gap between light cannons and big game rifles.  It's suitable for taking on light vehicles and other materiel, or hunting extremely large game.  Full metal jacketed bullets offer reduced fouling, better reliability, and slightly improved penetration compared to plain lead.  This was however handloaded with black powder.",
@@ -36,7 +36,7 @@
     "id": "bp_rifle_huge_jhp",
     "copy-from": "bp_rifle_huge_ball",
     "type": "AMMO",
-    "name": { "str_sp": "rifle ammo, JHP (black powder)" },
+    "name": { "str_sp": "12.7mm, JHP (black powder)" },
     "description": "Huge rifle ammunition like this bridges the gap between light cannons and big game rifles.  It's suitable for taking on light vehicles and other materiel, or hunting extremely large game.  Full metal jacketed bullets offer reduced fouling, better reliability, and slightly improved penetration compared to plain lead.  This was however handloaded with black powder.",
     "proportional": { "damage": { "damage_type": "bullet", "amount": 1.25, "armor_penetration": 0.001 } }
   }

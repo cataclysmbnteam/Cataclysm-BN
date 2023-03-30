@@ -30,6 +30,7 @@
 #include "game_constants.h"
 #include "generic_factory.h"
 #include "init.h"
+#include "input.h"
 #include "item.h"
 #include "item_contents.h"
 #include "item_group.h"
@@ -994,6 +995,7 @@ void Item_factory::init()
     add_iuse( "REMOVE_ALL_MODS", &iuse::remove_all_mods );
     add_iuse( "REPORT_GRID_CHARGE", &iuse::report_grid_charge );
     add_iuse( "REPORT_GRID_CONNECTIONS", &iuse::report_grid_connections );
+    add_iuse( "MODIFY_GRID_CONNECTIONS", &iuse::modify_grid_connections );
     add_iuse( "RM13ARMOR_OFF", &iuse::rm13armor_off );
     add_iuse( "RM13ARMOR_ON", &iuse::rm13armor_on );
     add_iuse( "ROBOTCONTROL", &iuse::robotcontrol );
@@ -1073,6 +1075,7 @@ void Item_factory::init()
     add_actor( std::make_unique<place_trap_actor>() );
     add_actor( std::make_unique<emit_actor>() );
     add_actor( std::make_unique<saw_barrel_actor>() );
+    add_actor( std::make_unique<saw_stock_actor>() );
     add_actor( std::make_unique<install_bionic_actor>() );
     add_actor( std::make_unique<detach_gunmods_actor>() );
     add_actor( std::make_unique<mutagen_actor>() );
@@ -1515,6 +1518,7 @@ void Item_factory::check_definitions() const
     }
     for( const auto &elem : m_template_groups ) {
         elem.second->check_consistency( elem.first.str() );
+        inp_mngr.pump_events();
     }
 }
 
@@ -1696,7 +1700,7 @@ void Item_factory::load_ammo( const JsonObject &jo, const std::string &src )
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
-        assign( jo, "stack_size", def.stack_size, src == "dda", 1 );
+        assign( jo, "stack_size", def.stack_size, is_strict_enabled( src ), 1 );
         if( def.was_loaded ) {
             if( def.ammo ) {
                 def.ammo->was_loaded = true;
@@ -1743,7 +1747,7 @@ void Item_factory::load_wheel( const JsonObject &jo, const std::string &src )
 
 void Item_factory::load( islot_fuel &slot, const JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "dda";
+    const bool strict = is_strict_enabled( src );
 
     assign( jo, "energy", slot.energy, strict, 0.001f );
     if( jo.has_member( "pump_terrain" ) ) {
@@ -1771,7 +1775,7 @@ void Item_factory::load_fuel( const JsonObject &jo, const std::string &src )
 
 void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "dda";
+    const bool strict = is_strict_enabled( src );
 
     if( jo.has_member( "burst" ) && jo.has_member( "modes" ) ) {
         jo.throw_error( "cannot specify both burst and modes", "burst" );
@@ -1848,7 +1852,7 @@ void Item_factory::load_pet_armor( const JsonObject &jo, const std::string &src 
 
 void Item_factory::load( islot_armor &slot, const JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "dda";
+    const bool strict = is_strict_enabled( src );
 
     assign( jo, "encumbrance", slot.encumber, strict, 0 );
     assign( jo, "max_encumbrance", slot.max_encumber, strict, slot.encumber );
@@ -1867,7 +1871,7 @@ void Item_factory::load( islot_armor &slot, const JsonObject &jo, const std::str
 
 void Item_factory::load( islot_pet_armor &slot, const JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "dda";
+    const bool strict = is_strict_enabled( src );
 
     assign( jo, "material_thickness", slot.thickness, strict, 0 );
     assign( jo, "max_pet_vol", slot.max_vol, strict, 0_ml );
@@ -1880,7 +1884,7 @@ void Item_factory::load( islot_pet_armor &slot, const JsonObject &jo, const std:
 
 void Item_factory::load( islot_tool &slot, const JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "dda";
+    const bool strict = is_strict_enabled( src );
 
     if( jo.has_array( "ammo" ) ) {
         for( const std::string id : jo.get_array( "ammo" ) ) {
@@ -1931,7 +1935,7 @@ void Item_factory::load( relic &slot, const JsonObject &jo, const std::string & 
 
 void Item_factory::load( islot_mod &slot, const JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "dda";
+    const bool strict = is_strict_enabled( src );
 
     if( jo.has_array( "ammo_modifier" ) ) {
         for( const std::string id : jo.get_array( "ammo_modifier" ) ) {
@@ -1983,7 +1987,7 @@ void Item_factory::load_tool_armor( const JsonObject &jo, const std::string &src
 
 void Item_factory::load( islot_book &slot, const JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "dda";
+    const bool strict = is_strict_enabled( src );
 
     assign( jo, "max_level", slot.level, strict, 0, MAX_SKILL );
     assign( jo, "required_level", slot.req, strict, 0, MAX_SKILL );
@@ -2011,7 +2015,7 @@ void Item_factory::load_book( const JsonObject &jo, const std::string &src )
 
 void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "dda";
+    const bool strict = is_strict_enabled( src );
 
     JsonObject relative = jo.get_object( "relative" );
     JsonObject proportional = jo.get_object( "proportional" );
@@ -2141,7 +2145,7 @@ void Item_factory::load_comestible( const JsonObject &jo, const std::string &src
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
-        assign( jo, "stack_size", def.stack_size, src == "dda", 1 );
+        assign( jo, "stack_size", def.stack_size, is_strict_enabled( src ), 1 );
         load_slot( def.comestible, jo, src );
         load_basic_info( jo, def, src );
     }
@@ -2177,7 +2181,7 @@ void Item_factory::load( islot_container &slot, const JsonObject &jo, const std:
 
 void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "dda";
+    const bool strict = is_strict_enabled( src );
 
     assign( jo, "damage_modifier", slot.damage, strict, damage_instance( DT_NULL, -20, -20, -20,
             -20 ) );
@@ -2233,7 +2237,7 @@ void Item_factory::load_gunmod( const JsonObject &jo, const std::string &src )
 
 void Item_factory::load( islot_magazine &slot, const JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "dda";
+    const bool strict = is_strict_enabled( src );
     if( jo.has_array( "ammo_type" ) ) {
         slot.type.clear();
         for( const std::string &id : jo.get_array( "ammo_type" ) ) {
@@ -2277,7 +2281,7 @@ void Item_factory::load_battery( const JsonObject &jo, const std::string &src )
 
 void Item_factory::load( islot_bionic &slot, const JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "dda";
+    const bool strict = is_strict_enabled( src );
 
     if( jo.has_member( "bionic_id" ) ) {
         assign( jo, "bionic_id", slot.id, strict );
@@ -2397,7 +2401,7 @@ void Item_factory::npc_implied_flags( itype &item_template )
 
 void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std::string &src )
 {
-    bool strict = src == "dda";
+    const bool strict = is_strict_enabled( src );
 
     assign( jo, "category", def.category_force, strict );
     assign( jo, "weight", def.weight, strict, 0_gram );
@@ -2419,7 +2423,6 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "emits", def.emits );
     assign( jo, "magazine_well", def.magazine_well );
     assign( jo, "explode_in_fire", def.explode_in_fire );
-    assign( jo, "insulation", def.insulation_factor );
     assign( jo, "solar_efficiency", def.solar_efficiency );
     assign( jo, "ascii_picture", def.picture_id );
 
@@ -2604,7 +2607,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     load_slot_optional( def.book, jo, "book_data", src );
     load_slot_optional( def.gun, jo, "gun_data", src );
     load_slot_optional( def.bionic, jo, "bionic_data", src );
-    assign( jo, "ammo_data", def.ammo, src == "dda" );
+    assign( jo, "ammo_data", def.ammo, is_strict_enabled( src ) );
     load_slot_optional( def.seed, jo, "seed_data", src );
     load_slot_optional( def.artifact, jo, "artifact_data", src );
     load_slot_optional( def.brewable, jo, "brewable", src );
@@ -2626,6 +2629,11 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     } else {
         jo.read( "id", def.id, true );
     }
+
+    if( !def.src.empty() && def.src.back().first != def.id ) {
+        def.src.clear();
+    }
+    def.src.emplace_back( def.id, mod_id( src ) );
 
     // snippet_category should be loaded after def.id is determined
     if( jo.has_array( "snippet_category" ) ) {
@@ -2939,8 +2947,6 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj )
     bool use_modifier = false;
     use_modifier |= load_min_max( modifier.damage, obj, "damage" );
     use_modifier |= load_min_max( modifier.dirt, obj, "dirt" );
-    modifier.damage.first *= itype::damage_scale;
-    modifier.damage.second *= itype::damage_scale;
     use_modifier |= load_min_max( modifier.charges, obj, "charges" );
     use_modifier |= load_min_max( modifier.count, obj, "count" );
     use_modifier |= load_sub_ref( modifier.ammo, obj, "ammo", ig );

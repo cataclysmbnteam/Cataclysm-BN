@@ -663,6 +663,19 @@ static uint64_t GetPerfCount()
     return Count;
 }
 
+void input_manager::pump_events()
+{
+    if( test_mode ) {
+        return;
+    }
+
+    // Handle all events, but ignore any keypress
+    CheckMessages();
+
+    lastchar = ERR;
+    previously_pressed_key = 0;
+}
+
 input_event input_manager::get_input_event()
 {
     // standards note: getch is sometimes required to call refresh

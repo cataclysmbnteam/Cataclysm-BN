@@ -16,7 +16,7 @@
 #include "debug.h"
 #include "dispersion.h"
 #include "enums.h"
-#include "explosion.h"
+#include "explosion_queue.h"
 #include "game.h"
 #include "item.h"
 #include "line.h"
@@ -25,7 +25,6 @@
 #include "monster.h"
 #include "optional.h"
 #include "options.h"
-#include "point.h"
 #include "projectile.h"
 #include "rng.h"
 #include "sounds.h"
@@ -473,10 +472,10 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
 
     drop_or_embed_projectile( attack );
 
-    apply_ammo_effects( tp, proj.get_ammo_effects() );
+    apply_ammo_effects( tp, proj.get_ammo_effects(), origin );
     const auto &expl = proj.get_custom_explosion();
     if( expl ) {
-        explosion_handler::explosion( tp, expl );
+        explosion_handler::explosion( tp, expl, origin );
     }
 
     // TODO: Move this outside now that we have hit point in return values?
@@ -505,7 +504,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
                                      sfx::get_heard_volume( z.pos() ), sfx::get_heard_angle( z.pos() ) );
         }
     }
-
+    explosion_handler::get_explosion_queue().execute();
     return attack;
 }
 

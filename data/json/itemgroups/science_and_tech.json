@@ -141,6 +141,7 @@
       [ "schematics_secubot", 50 ],
       [ "schematics_skitterbot", 50 ],
       [ "schematics_hazmatbot", 50 ],
+      [ "schematics_haulerbot", 25 ],
       [ "schematics_riotbot", 50 ],
       [ "schematics_sciencebot", 10 ],
       [ "schematics_molebot", 20 ],
@@ -210,7 +211,7 @@
       { "item": "chem_potassium_hydroxide", "prob": 10, "charges-min": 100 },
       { "item": "chem_zinc", "prob": 10, "charges-min": 100 },
       { "item": "chem_chromium_oxide", "prob": 10, "charges-min": 100 },
-      { "item": "chem_zinc_powder", "prob": 10, "charges-min": 100 },
+      { "item": "zinc_metal", "prob": 10, "charges-min": 100 },
       { "item": "chem_manganese_dioxide", "prob": 5, "charges-min": 100 },
       [ "denat_alcohol", 10 ]
     ]

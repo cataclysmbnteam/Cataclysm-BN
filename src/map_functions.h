@@ -16,6 +16,8 @@ namespace map_funcs
  */
 int climbing_cost( const map &m, const tripoint &from, const tripoint &to );
 
+void migo_nerve_cage_removal( map &m, const tripoint &p, bool spawn_damaged );
+
 } // namespace map_funcs
 
 #endif // CATA_SRC_MAP_FUNCTIONS_H

@@ -20,6 +20,7 @@
     "armor_bash": 8,
     "armor_cut": 10,
     "armor_bullet": 8,
+    "armor_fire": 4,
     "revert_to_itype": "bot_eyebot",
     "special_attacks": [ [ "PHOTOGRAPH", 30 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "eyebot", 1 ] ] },
@@ -55,7 +56,6 @@
       "ELECTRONIC",
       "COLDPROOF",
       "NO_BREATHE",
-      "FIREPROOF",
       "PUSH_MON",
       "HEARS",
       "PACIFIST",
@@ -88,7 +88,7 @@
     "special_attacks": [ [ "PAID_BOT", 1 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ] ] },
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "FIREPROOF", "PUSH_MON", "HEARS", "PACIFIST", "PAY_BOT" ]
+    "flags": [ "SEES", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PUSH_MON", "HEARS", "PACIFIST", "PAY_BOT" ]
   },
   {
     "id": "mon_hazmatbot",
@@ -118,13 +118,13 @@
   {
     "id": "mon_haulerbot",
     "type": "MONSTER",
-    "name": { "str": "debug hauler bot" },
-    "description": "A dog-sized, quadrupedal robot designed for testing pet-creating monster spawners.  Capable of carrying fairly heavy loads for its size, autonomously stumbling about and surveying the terrain with its various cameras.  Not very useful after the apocalypse, unless it has been reprogrammed to receive commands from a new user.",
+    "name": { "str": "hauler bot" },
+    "description": "A mule-sized, quadrupedal robot designed for commercial and military use.  Capable of carrying fairly heavy loads for its size, autonomously stumbling about and surveying the terrain with its various cameras.  Not very useful after the apocalypse, unless it has been reprogrammed to receive commands from a new user.",
     "default_faction": "utility_bot",
     "species": [ "ROBOT" ],
-    "volume": "25 L",
-    "weight": "30 kg",
-    "mountable_weight_ratio": 0.5,
+    "volume": "65 L",
+    "weight": "100 kg",
+    "mountable_weight_ratio": 0.75,
     "hp": 75,
     "speed": 120,
     "material": [ "steel" ],
@@ -135,20 +135,11 @@
     "armor_bash": 8,
     "armor_cut": 10,
     "armor_bullet": 8,
+    "armor_fire": 10,
     "vision_day": 50,
     "revert_to_itype": "bot_haulerbot",
     "death_function": [ "BROKEN" ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "ELECTRONIC",
-      "COLDPROOF",
-      "NO_BREATHE",
-      "PATH_AVOID_DANGER_2",
-      "PACIFIST",
-      "CANPLAY",
-      "PET_HARNESSABLE"
-    ]
+    "flags": [ "SEES", "HEARS", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER_2", "PACIFIST", "PET_HARNESSABLE" ]
   },
   {
     "id": "mon_molebot",
@@ -173,6 +164,7 @@
     "melee_cut": 10,
     "armor_cut": 12,
     "armor_bullet": 30,
+    "armor_fire": 15,
     "revert_to_itype": "bot_molebot",
     "death_drops": { "groups": [ [ "robots", 4 ], [ "molebot", 1 ] ] },
     "death_function": [ "BROKEN" ],
@@ -206,10 +198,10 @@
     "special_attacks": [ [ "ASSIST", 30 ], [ "CHECK_UP", 120 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ] ] },
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "FIREPROOF", "PUSH_MON", "HEARS", "PACIFIST" ]
+    "flags": [ "SEES", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PUSH_MON", "HEARS", "PACIFIST" ]
   },
   {
-    "//": "nurse_bot and nurse_bot_defective look very similar, part of the trick is figuring out which one is the good one.  So the sprites should probably look pretty similar to not give it away immediatly",
+    "//": "nurse_bot and nurse_bot_defective look very similar, part of the trick is figuring out which one is the good one.  So the sprites should probably look pretty similar to not give it away immediately",
     "id": "mon_nursebot_defective",
     "type": "MONSTER",
     "name": { "str": "nurse bot" },
@@ -239,17 +231,6 @@
     "special_attacks": [ [ "OPERATE", 30 ], [ "PARROT", 20 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ] ] },
     "death_function": [ "BROKEN" ],
-    "flags": [
-      "SEES",
-      "ELECTRONIC",
-      "COLDPROOF",
-      "NO_BREATHE",
-      "FIREPROOF",
-      "PUSH_MON",
-      "HEARS",
-      "PACIFIST",
-      "GRABS",
-      "INTERIOR_AMMO"
-    ]
+    "flags": [ "SEES", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PUSH_MON", "HEARS", "PACIFIST", "GRABS", "INTERIOR_AMMO" ]
   }
 ]

@@ -31,6 +31,7 @@
       { "item": "bot_grenade_hack", "prob": 2 },
       { "item": "bot_flashbang_hack", "prob": 2 },
       { "item": "bot_gasbomb_hack", "prob": 2 },
+      { "item": "bot_haulerbot", "prob": 2 },
       { "item": "bot_rifleturret", "prob": 2 },
       { "item": "bot_antimateriel", "prob": 2 }
     ]

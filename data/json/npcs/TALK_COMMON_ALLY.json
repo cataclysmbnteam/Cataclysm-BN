@@ -310,8 +310,8 @@
       {
         "truefalsetext": {
           "condition": { "npc_rule": "follow_distance_2" },
-          "false": "<ally_rule_follow_distance_2_true_text>",
-          "true": "<ally_rule_follow_distance_2_false_text>"
+          "false": "Follow me about two paces away.",
+          "true": "Follow me about four paces away."
         },
         "topic": "TALK_COMBAT_COMMANDS",
         "effect": { "toggle_npc_rule": "follow_distance_2" }
@@ -594,7 +594,8 @@
         "topic": "TALK_NONE",
         "condition": { "not": { "npc_aim_rule": "AIM_STRICTLY_PRECISE" } },
         "effect": { "set_npc_aim_rule": "AIM_STRICTLY_PRECISE" }
-      }
+      },
+      { "text": "Never mind.", "topic": "TALK_NONE" }
     ]
   },
   {

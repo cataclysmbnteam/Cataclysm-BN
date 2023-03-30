@@ -6,6 +6,7 @@
     "default": "mon_null",
     "monsters": [
       { "monster": "mon_zombie_soldier", "freq": 35, "cost_multiplier": 1 },
+      { "monster": "mon_haulerbot", "freq": 5, "cost_multiplier": 0 },
       { "monster": "mon_dispatch", "freq": 10, "cost_multiplier": 50 },
       { "monster": "mon_dispatch_military", "freq": 5, "cost_multiplier": 80 },
       { "monster": "mon_talon_m202a1", "freq": 15, "cost_multiplier": 50 },

@@ -18,6 +18,7 @@
 #include "cata_utility.h"
 #include "creature_tracker.h"
 #include "debug.h"
+#include "effect.h"
 #include "field.h"
 #include "field_type.h"
 #include "game.h"
@@ -60,6 +61,7 @@ static const efftype_id effect_operating( "operating" );
 static const efftype_id effect_pacified( "pacified" );
 static const efftype_id effect_pushed( "pushed" );
 static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_led_by_leash( "led_by_leash" );
 
 static const itype_id itype_pressurized_tank( "pressurized_tank" );
 
@@ -336,7 +338,7 @@ void monster::plan()
     auto mood = attitude();
 
     // If we can see the player, move toward them or flee, simpleminded animals are too dumb to follow the player.
-    if( friendly == 0 && sees( g->u ) && !has_flag( MF_PET_WONT_FOLLOW ) && !waiting ) {
+    if( friendly == 0 && sees( g->u ) && !waiting ) {
         dist = rate_target( g->u, dist, smart_planning );
         fleeing = fleeing || is_fleeing( g->u );
         target = &g->u;
@@ -542,7 +544,7 @@ void monster::plan()
             bool found_path_to_couch = false;
             tripoint tmp( pos() + point( 12, 12 ) );
             tripoint couch_loc;
-            for( const auto &couch_pos : g->m.find_furnitures_with_flag_in_radius( pos(), 10,
+            for( const auto &couch_pos : g->m.find_furnitures_or_vparts_with_flag_in_radius( pos(), 10,
                     flag_AUTODOC_COUCH ) ) {
                 if( g->m.clear_path( pos(), couch_pos, 10, 0, 100 ) ) {
                     if( rl_dist( pos(), couch_pos ) < rl_dist( pos(), tmp ) ) {
@@ -579,8 +581,45 @@ void monster::plan()
     } else if( friendly > 0 && one_in( 3 ) ) {
         // Grow restless with no targets
         friendly--;
+        // if no target, and friendly pet sees the player
     } else if( friendly < 0 && sees( g->u ) ) {
-        if( rl_dist( pos(), g->u.pos() ) > 2 ) {
+        // eg dogs
+        if( !has_flag( MF_PET_WONT_FOLLOW ) ) {
+            // if too far from the player, go to him
+            if( rl_dist( pos(), g->u.pos() ) > 2 ) {
+                set_dest( g->u.pos() );
+            } else {
+                unset_dest();
+            }
+            // eg cows, horses
+        } else {
+            unset_dest();
+        }
+        // when the players is close to their pet, it calms them
+        // it helps them reach an homeostatic state, for morale and anger
+        const int distance_from_friend = rl_dist( pos(), get_avatar().pos() );
+        if( distance_from_friend < 12 ) {
+            if( one_in( distance_from_friend * 3 ) ) {
+                if( morale != type->morale ) {
+                    morale += ( morale < type->morale ) ? 1 : -1;
+                }
+                if( anger != type->agro ) {
+                    anger += ( anger < type->agro ) ? 1 : -1;
+                }
+            }
+        }
+    }
+
+    // being led by a leash override other movements decisions
+    if( has_effect( effect_led_by_leash ) && friendly != 0 ) {
+        // if we have an hostile target adjacent to the payer, and we're not fleeing, we can potentially attack it
+        if( target != nullptr && rl_dist( g->u.pos(), target->pos() ) < 2 &&
+            target->attitude_to( g->u ) == Attitude::A_HOSTILE && !fleeing ) {
+            // if we're too far from the player, go back to it
+            if( rl_dist( pos(), g->u.pos() ) > 5 ) {
+                set_dest( g->u.pos() );
+            }
+        } else if( rl_dist( pos(), g->u.pos() ) > 1 ) {
             set_dest( g->u.pos() );
         } else {
             unset_dest();
@@ -1036,6 +1075,14 @@ void monster::move()
         stumble();
         path.clear();
     }
+
+    if( has_effect( effect_led_by_leash ) ) {
+        if( rl_dist( pos(), g->u.pos() ) > 8 ) {
+            // Either failed to keep up with the player or moved away
+            remove_effect( effect_led_by_leash );
+            add_msg( m_info, _( "You lose hold of a leash." ) );
+        }
+    }
 }
 
 player *monster::find_dragged_foe()
@@ -1073,7 +1120,7 @@ void monster::nursebot_operate( player *dragged_foe )
         return;
     }
 
-    if( rl_dist( pos(), goal ) == 1 && !g->m.has_flag_furn( flag_AUTODOC_COUCH, goal ) &&
+    if( rl_dist( pos(), goal ) == 1 && !g->m.has_flag_furn_or_vpart( flag_AUTODOC_COUCH, goal ) &&
         !has_effect( effect_operating ) ) {
         if( dragged_foe->has_effect( effect_grabbed ) && !has_effect( effect_countdown ) &&
             ( g->critter_at( goal ) == nullptr || g->critter_at( goal ) == dragged_foe ) ) {
@@ -1323,7 +1370,7 @@ static std::vector<tripoint> get_bashing_zone( const tripoint &bashee, const tri
     tripoint previous = bashee;
     for( const tripoint &p : path ) {
         std::vector<point> swath = squares_in_direction( previous.xy(), p.xy() );
-        for( const point &q : swath ) {
+        for( point q : swath ) {
             zone.push_back( tripoint( q, bashee.z ) );
         }
 
@@ -1361,7 +1408,7 @@ bool monster::bash_at( const tripoint &p )
     }
 
     bool flat_ground = g->m.has_flag( "ROAD", p ) || g->m.has_flag( "FLAT", p );
-    if( flat_ground ) {
+    if( flat_ground && !g->m.is_bashable_furn( p ) ) {
         bool can_bash_ter = g->m.is_bashable_ter( p );
         bool try_bash_ter = one_in( 50 );
         if( !( can_bash_ter && try_bash_ter ) ) {
@@ -1599,7 +1646,7 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
 
     setpos( destination );
     footsteps( destination );
-    underwater = will_be_water;
+    set_underwater( will_be_water );
     if( is_hallucination() ) {
         //Hallucinations don't do any of the stuff after this point
         return true;
@@ -1635,7 +1682,7 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
         return true;
     }
     if( !will_be_water && ( digs() || can_dig() ) ) {
-        underwater = g->m.has_flag( "DIGGABLE", pos() );
+        set_underwater( g->m.has_flag( "DIGGABLE", pos() ) );
     }
     // Diggers turn the dirt into dirtmound
     if( digging() && g->m.has_flag( "DIGGABLE", pos() ) ) {
@@ -1968,7 +2015,7 @@ void monster::knock_back_to( const tripoint &to )
          Make sure that non-smashing monsters won't "teleport" through windows
          Injure monsters if they're gonna be walking through pits or whatever
  */
-bool monster::will_reach( const point &p )
+bool monster::will_reach( point p )
 {
     monster_attitude att = attitude( &g->u );
     if( att != MATT_FOLLOW && att != MATT_ATTACK && att != MATT_FRIEND && att != MATT_ZLAVE ) {
@@ -2005,7 +2052,7 @@ bool monster::will_reach( const point &p )
     return false;
 }
 
-int monster::turns_to_reach( const point &p )
+int monster::turns_to_reach( point p )
 {
     // HACK: This function is a(n old) temporary hack that should soon be removed
     auto path = g->m.route( pos(), tripoint( p, posz() ), get_pathfinding_settings() );

@@ -28,7 +28,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
     }
     vehicle *grabbed_vehicle = &grabbed_vehicle_vp->vehicle();
     if( !grabbed_vehicle ||
-        !grabbed_vehicle->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+        !grabbed_vehicle->handle_potential_theft( u ) ) {
         return false;
     }
     const int grabbed_part = grabbed_vehicle_vp->part_index();
@@ -147,7 +147,6 @@ bool game::grabbed_veh_move( const tripoint &dp )
         grabbed_vehicle->turn( mdir.dir() - grabbed_vehicle->face.dir() );
         grabbed_vehicle->face = grabbed_vehicle->turn_dir;
         grabbed_vehicle->precalc_mounts( 1, mdir.dir(), grabbed_vehicle->pivot_point() );
-        grabbed_vehicle->adjust_zlevel( 1, dp );
 
         // Grabbed part has to stay at distance 1 to the player
         // and in roughly the same direction.
@@ -155,6 +154,8 @@ bool game::grabbed_veh_move( const tripoint &dp )
                                       grabbed_vehicle->part( grabbed_part ).precalc[ 1 ];
         const tripoint expected_pos = u.pos() + dp + from;
         const tripoint actual_dir = expected_pos - new_part_pos;
+
+        grabbed_vehicle->adjust_zlevel( 1, dp );
 
         // Set player location to illegal value so it can't collide with vehicle.
         const tripoint player_prev = u.pos();

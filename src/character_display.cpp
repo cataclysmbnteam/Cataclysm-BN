@@ -251,7 +251,7 @@ static std::string get_encumbrance_description( const Character &p, body_part bp
                                 -( eff_encumbrance / 10.0f ) );
             s += melee_cost_text( eff_encumbrance / 2 );
             s += string_format( _( "Reduced gun aim speed: <color_white>%.1f</color>" ),
-                                p.aim_speed_encumbrance_modifier() );
+                                ranged::aim_speed_encumbrance_modifier( p ) );
             break;
         case bp_leg_l:
         case bp_leg_r:
@@ -411,7 +411,7 @@ static void draw_stats_info( const catacurses::window &w_info,
         print_colored_text( w_info, point( 1, 4 ), col_temp, c_light_gray,
                             string_format( _( "Read times: <color_white>%d%%</color>" ), you.read_speed( false ) ) );
         print_colored_text( w_info, point( 1, 5 ), col_temp, c_light_gray,
-                            string_format( _( "Crafting bonus: <color_white>%d%%</color>" ), you.get_int() ) );
+                            string_format( _( "Crafting bonus: <color_white>+%d%%</color>" ), you.get_int() ) );
     } else if( line == 3 ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,

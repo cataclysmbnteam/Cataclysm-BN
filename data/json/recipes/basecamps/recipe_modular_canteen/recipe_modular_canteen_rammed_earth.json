@@ -149,14 +149,10 @@
     "blueprint_provides": [ { "id": "fbmk_canteen_dining_west" } ],
     "blueprint_excludes": [ { "id": "fbmk_canteen_dining_west" } ],
     "blueprint_needs": {
-      "time": "2 d 6 h 6 m",
-      "skills": [ [ "survival", 0 ], [ "fabrication", 3 ] ],
+      "time": "2 d 6 h",
+      "skills": [ [ "fabrication", 3 ] ],
       "inline": {
-        "tools": [
-          [ [ "machete", -1 ], [ "makeshift_machete", -1 ], [ "scythe", -1 ], [ "sickle", -1 ], [ "survivor_machete", -1 ] ],
-          [ [ "frame_wood_light", -1 ] ],
-          [ [ "log", -1 ] ]
-        ],
+        "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [
           [ { "id": "CUT" } ],
           [ { "id": "DIG", "level": 2 } ],
@@ -165,12 +161,12 @@
         ],
         "components": [
           [ [ "2x4", 148 ] ],
+          [ [ "concrete", 6 ], [ "material_quicklime", 120 ], [ "material_sand", 120 ] ],
+          [ [ "material_soil", 1440 ] ],
           [ [ "nail", 334 ] ],
           [ [ "pointy_stick", 12 ], [ "spear_wood", 12 ] ],
-          [ [ "material_soil", 1440 ] ],
+          [ [ "rope_6", 2 ], [ "rope_makeshift_6", 2 ] ],
           [ [ "water", 600 ], [ "water_clean", 600 ] ],
-          [ [ "material_sand", 120 ], [ "material_quicklime", 120 ], [ "concrete", 6 ] ],
-          [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ] ],
           [ [ "wood_panel", 11 ] ]
         ]
       }

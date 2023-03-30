@@ -18,6 +18,7 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
+#include "character_effects.h"
 #include "character_id.h"
 #include "character_functions.h"
 #include "character_martial_arts.h"
@@ -25,6 +26,7 @@
 #include "clzones.h"
 #include "color.h"
 #include "debug.h"
+#include "diary.h"
 #include "effect.h"
 #include "enums.h"
 #include "event.h"
@@ -110,6 +112,7 @@ avatar::avatar()
     show_map_memory = true;
     active_mission = nullptr;
     grab_type = OBJECT_NONE;
+    a_diary = nullptr;
 }
 
 avatar::~avatar() = default;
@@ -165,6 +168,11 @@ int avatar::get_memorized_symbol( const tripoint &p ) const
 void avatar::clear_memorized_tile( const tripoint &pos )
 {
     player_map_memory->clear_memorized_tile( pos );
+}
+
+bool avatar::has_memorized_tile_for_autodrive( const tripoint &p ) const
+{
+    return player_map_memory->has_memory_for_autodrive( p );
 }
 
 std::vector<mission *> avatar::get_active_missions() const
@@ -295,7 +303,7 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
     }
 
     int time_taken = INT_MAX;
-    auto candidates = get_crafting_helpers();
+    auto candidates = character_funcs::get_crafting_helpers( *this );
 
     for( const npc *elem : candidates ) {
         // Check for disqualifying factors:
@@ -358,6 +366,14 @@ int avatar::time_to_read( const item &book, const player &reader, const player *
     return retval;
 }
 
+diary *avatar::get_avatar_diary()
+{
+    if( a_diary == nullptr ) {
+        a_diary = std::make_unique<diary>();
+    }
+    return a_diary.get();
+}
+
 /**
  * Explanation of ACT_READ activity values:
  *
@@ -417,7 +433,7 @@ bool avatar::read( item_location loc, const bool continuous )
     //reading only for fun
     std::map<npc *, std::string> fun_learners;
     std::map<npc *, std::string> nonlearners;
-    auto candidates = get_crafting_helpers();
+    auto candidates = character_funcs::get_crafting_helpers( *this );
     for( npc *elem : candidates ) {
         const int lvl = elem->get_skill_level( skill );
         const bool is_fun_to_read = character_funcs::is_fun_to_read( *elem, it );
@@ -977,11 +993,16 @@ void avatar::vomit()
     Character::vomit();
 }
 
+bool avatar::is_hallucination() const
+{
+    return false;
+}
+
 void avatar::disp_morale()
 {
-    int equilibrium = calc_focus_equilibrium();
+    int equilibrium = character_effects::calc_focus_equilibrium( *this );
 
-    int fatigue_cap = calc_fatigue_cap( this->get_fatigue() );
+    int fatigue_cap = character_effects::calc_morale_fatigue_cap( this->get_fatigue() );
 
     int pain_penalty = has_trait( trait_CENOBITE ) ? 0 : get_perceived_pain();
 
@@ -1065,6 +1086,7 @@ void avatar::upgrade_stat( character_stat stat )
             debugmsg( "Tried to use invalid stat" );
             break;
     }
+    recalc_hp();
 }
 
 faction *avatar::get_faction() const
@@ -1187,7 +1209,7 @@ bool avatar::wield( item &target )
     if( !unwield() ) {
         return false;
     }
-    cached_info.erase( "weapon_value" );
+    clear_npc_ai_info_cache( "weapon_value" );
     if( target.is_null() ) {
         return true;
     }
@@ -1282,4 +1304,27 @@ bool avatar::invoke_item( item *used, const std::string &method, const tripoint 
 bool avatar::invoke_item( item *used, const std::string &method )
 {
     return Character::invoke_item( used, method );
+}
+
+bool avatar::add_faction_warning( const faction_id &id )
+{
+    const auto it = warning_record.find( id );
+    if( it != warning_record.end() ) {
+        it->second.first += 1;
+        if( it->second.second - calendar::turn > 5_minutes ) {
+            it->second.first -= 1;
+        }
+        it->second.second = calendar::turn;
+        if( it->second.first > 3 ) {
+            return true;
+        }
+    } else {
+        warning_record[id] = std::make_pair( 1, calendar::turn );
+    }
+    faction *fac = g->faction_manager_ptr->get( id );
+    if( fac != nullptr && is_player() && fac->id != faction_id( "no_faction" ) ) {
+        fac->likes_u -= 1;
+        fac->respects_u -= 1;
+    }
+    return false;
 }

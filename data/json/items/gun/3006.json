@@ -69,7 +69,7 @@
     "dispersion": 120,
     "blackpowder_tolerance": 60,
     "clip_size": 5,
-    "barrel_length": "250 ml",
+    "barrel_length": "1000 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -81,7 +81,7 @@
       [ "sling", 1 ],
       [ "grip mount", 1 ],
       [ "rail mount", 1 ],
-      [ "stock mount", 1 ],
+      [ "stock", 1 ],
       [ "underbarrel mount", 1 ]
     ],
     "magazines": [ [ "3006", [ "3006_clip" ] ] ],

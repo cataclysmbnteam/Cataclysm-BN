@@ -203,7 +203,10 @@ void game::unserialize( std::istream &fin )
         data.read( "om_x", com.x );
         data.read( "om_y", com.y );
 
-        load_map( tripoint( lev.x + com.x * OMAPX * 2, lev.y + com.y * OMAPY * 2, lev.z ) );
+        load_map(
+            tripoint( lev.x + com.x * OMAPX * 2, lev.y + com.y * OMAPY * 2, lev.z ),
+            /*pump_events=*/true
+        );
 
         safe_mode = static_cast<safe_mode_type>( tmprun );
         if( get_option<bool>( "SAFEMODE" ) && safe_mode == SAFE_MODE_OFF ) {
@@ -245,9 +248,11 @@ void game::unserialize( std::istream &fin )
         }
 
         data.read( "player", u );
+        inp_mngr.pump_events();
         data.read( "stats_tracker", *stats_tracker_ptr );
         data.read( "achievements_tracker", *achievements_tracker_ptr );
         data.read( "token_provider", token_provider_ptr );
+        inp_mngr.pump_events();
         Messages::deserialize( data );
 
     } catch( const JsonError &jsonerr ) {

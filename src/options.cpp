@@ -1292,8 +1292,14 @@ void options_manager::add_options_general()
 
     add( "DANGEROUS_TERRAIN_WARNING_PROMPT", "general",
          translate_marker( "Dangerous terrain warning prompt" ),
-         translate_marker( "Always: You will be prompted to move onto dangerous tiles.  Running: You will only be able to move onto dangerous tiles while running and will be prompted.  Crouching: You will only be able to move onto a dangerous tile while crouching and will be prompted.  Never:  You will not be able to move onto a dangerous tile unless running and will not be warned or prompted." ),
-    { { "ALWAYS", to_translation( "Always" ) }, { "RUNNING", translate_marker( "Running" ) }, { "CROUCHING", translate_marker( "Crouching" ) }, { "NEVER", translate_marker( "Never" ) } },
+         translate_marker( "Always: You will be prompted to move onto dangerous tiles.  Running: You will only be able to move onto dangerous tiles while running and will be prompted.  Crouching: You will only be able to move onto a dangerous tile while crouching and will be prompted.  Never:  You will not be able to move onto a dangerous tile unless running and will not be warned or prompted.  Ignore:  You will be able to move onto a dangerous tile without any warnings or prompts." ),
+    {
+        { "ALWAYS", to_translation( "Always" ) },
+        { "RUNNING", translate_marker( "Running" ) },
+        { "CROUCHING", translate_marker( "Crouching" ) },
+        { "NEVER", translate_marker( "Never" ) },
+        { "IGNORE", translate_marker( "Ignore" ) }
+    },
     "ALWAYS"
        );
 
@@ -1799,6 +1805,11 @@ void options_manager::add_options_graphics()
 
     get_option( "ANIMATION_DELAY" ).setPrerequisite( "ANIMATIONS" );
 
+    add( "BLINK_SPEED", "graphics", translate_marker( "Blinking effects speed" ),
+         translate_marker( "The speed of every blinking effects in ms." ),
+         100, 5000, 800
+       );
+
     add( "FORCE_REDRAW", "graphics", translate_marker( "Force redraw" ),
          translate_marker( "If true, forces the game to redraw at least once per turn." ),
          true
@@ -1901,7 +1912,7 @@ void options_manager::add_options_graphics()
 
     add( "USE_TILES_OVERMAP", "graphics", translate_marker( "Use tiles to display overmap" ),
          translate_marker( "If true, replaces some TTF-rendered text with tiles for overmap display." ),
-         false, COPT_CURSES_HIDE
+         true, COPT_CURSES_HIDE
        );
 
     get_option( "USE_TILES_OVERMAP" ).setPrerequisite( "USE_TILES" );
@@ -1996,6 +2007,10 @@ void options_manager::add_options_graphics()
     { { "no", translate_marker( "No" ) }, { "maximized", translate_marker( "Maximized" ) }, { "fullscreen", translate_marker( "Fullscreen" ) }, { "windowedbl", translate_marker( "Windowed borderless" ) } },
     "windowedbl", COPT_CURSES_HIDE
        );
+
+    add( "MINIMIZE_ON_FOCUS_LOSS", "graphics",
+         translate_marker( "Minimize on focus loss" ),
+         translate_marker( "Minimize fullscreen window when it loses focus.  Requires restart." ), false );
 #endif
 
 #if !defined(__ANDROID__)
@@ -2051,23 +2066,12 @@ void options_manager::add_options_graphics()
          false, COPT_CURSES_HIDE
        );
 
-    add( "SCALING_MODE", "graphics", translate_marker( "Scaling mode" ),
-         translate_marker( "Sets the scaling mode, 'none' ( default ) displays at the game's native resolution, 'nearest'  uses low-quality but fast scaling, and 'linear' provides high-quality scaling." ),
-         //~ Do not scale the game image to the window size.
-    {   { "none", translate_marker( "No scaling" ) },
-        //~ An algorithm for image scaling.
-        { "nearest", translate_marker( "Nearest neighbor" ) },
-        //~ An algorithm for image scaling.
-        { "linear", translate_marker( "Linear filtering" ) }
-    },
-    "none", COPT_CURSES_HIDE );
-
 #if !defined(__ANDROID__)
-    add( "SCALING_FACTOR", "graphics", translate_marker( "Scaling factor" ),
-    translate_marker( "Factor by which to scale the display.  Requires restart." ), {
+    add( "SCALING_FACTOR", "graphics", translate_marker( "Display scaling factor" ),
+    translate_marker( "Factor by which to scale the game display, 1x means no scaling.  Requires restart." ), {
         { "1", translate_marker( "1x" ) },
-        { "2", translate_marker( "2x" )},
-        { "4", translate_marker( "4x" )}
+        { "2", translate_marker( "2x" ) },
+        { "4", translate_marker( "4x" ) }
     },
     "1", COPT_CURSES_HIDE );
 #endif
@@ -2080,13 +2084,25 @@ void options_manager::add_options_debug()
         this->add_empty_line( "debug" );
     };
 
-    add( "REPORT_UNUSED_JSON_FIELDS", "debug", translate_marker( "Report unused JSON fields" ),
-         translate_marker( "If false, unused JSON fields are silently ignored.  Enabling this will make it easier to spot mistakes or typos during modding." ),
-         false
+    add( "STRICT_JSON_CHECKS", "debug", translate_marker( "Strict JSON checks" ),
+         translate_marker( "If true, will show additional warnings for JSON data correctness." ),
+         true
        );
 
     add( "FORCE_TILESET_RELOAD", "debug", translate_marker( "Force tileset reload" ),
          translate_marker( "If false, the game will keep tileset in memory after first load to speed up subsequent loadings of game data.  Enable this if you're working on a tileset for the game or a mod." ),
+         false
+       );
+
+    add_empty_line();
+
+    add( "MOD_SOURCE", "debug", translate_marker( "Display Mod Source" ),
+         translate_marker( "Displays what content pack a piece of furniture, terrain, item or monster comes from or is affected by.  Disable if it's annoying." ),
+         true
+       );
+
+    add( "SHOW_IDS", "debug", translate_marker( "Display Object IDs" ),
+         translate_marker( "Displays internal IDs of game objects and creatures.  Warning: IDs may contain spoilers." ),
          false
        );
 
@@ -2141,8 +2157,6 @@ void options_manager::add_options_debug()
          0.0, 100.0, 1.0, 0.1
        );
 
-    add_empty_line();
-
     add( "SKILL_RUST", "debug", translate_marker( "Skill rust" ),
          translate_marker( "Set the level of skill rust.  Vanilla: Vanilla Cataclysm - Capped: Capped at skill levels 2 - Int: Intelligence dependent - IntCap: Intelligence dependent, capped - Off: None at all." ),
          //~ plain, default, normal
@@ -2188,8 +2202,9 @@ void options_manager::add_options_debug()
          true
        );
 
-    add( "NEW_EXPLOSIONS", "debug", translate_marker( "New explosions" ),
-         translate_marker( "If true, Rule of Cool explosions will be used." ), false );
+    add( "NEW_EXPLOSIONS", "debug", translate_marker( "Rule of Cool explosions" ),
+         translate_marker( "If true, utilizes raycasting based explosive system.  Obstacles (impassable terrain, furniture or vehicle parts) will block shrapnel, while blast will bash obstacles and throw creatures outward.  If obstacles are destroyed, blast continues outward." ),
+         false );
 }
 
 void options_manager::add_options_world_default()
@@ -2624,6 +2639,8 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
                            bool force_tile_change )
 {
     if( used_tiles_changed ) {
+        // Disable UIs below to avoid accessing the tile context during loading.
+        ui_adaptor dummy( ui_adaptor::disable_uis_below {} );
         //try and keep SDL calls limited to source files that deal specifically with them
         try {
             tilecontext->reinit();
@@ -2632,13 +2649,16 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
             tilecontext->load_tileset(
                 get_option<std::string>( "TILES" ),
                 ingame ? world_generator->active_world->active_mod_order : dummy,
-                false,
-                force_tile_change
+                /*precheck=*/false,
+                /*force=*/force_tile_change,
+                /*pump_events=*/true
             );
             //game_ui::init_ui is called when zoom is changed
             g->reset_zoom();
             g->mark_main_ui_adaptor_resize();
-            tilecontext->do_tile_loading_report();
+            tilecontext->do_tile_loading_report( []( std::string str ) {
+                DebugLog( DL::Info, DC::Main ) << str;
+            } );
         } catch( const std::exception &err ) {
             popup( _( "Loading the tileset failed: %s" ), err.what() );
             use_tiles = false;
@@ -3310,11 +3330,17 @@ void options_manager::cache_to_globals()
     setDebugLogLevels( levels );
     setDebugLogClasses( classes );
 
-    json_report_unused_fields = ::get_option<bool>( "REPORT_UNUSED_JSON_FIELDS" );
-    json_report_strict = test_mode || json_report_unused_fields;
+    json_report_strict = test_mode || ::get_option<bool>( "STRICT_JSON_CHECKS" );
+    display_mod_source = ::get_option<bool>( "MOD_SOURCE" );
+    display_object_ids = ::get_option<bool>( "SHOW_IDS" );
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
+#if defined(TILES)
     use_tiles = ::get_option<bool>( "USE_TILES" );
     use_tiles_overmap = ::get_option<bool>( "USE_TILES_OVERMAP" );
+#else
+    use_tiles = false;
+    use_tiles_overmap = false;
+#endif
     log_from_top = ::get_option<std::string>( "LOG_FLOW" ) == "new_top";
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
     message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );
@@ -3331,7 +3357,7 @@ bool options_manager::save()
 {
     const auto savefile = PATH_INFO::options();
     cache_to_globals();
-    update_music_volume();
+    update_volumes();
 
     return write_to_file( savefile, [&]( std::ostream & fout ) {
         JsonOut jout( fout, true );

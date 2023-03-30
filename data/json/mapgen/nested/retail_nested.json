@@ -1247,7 +1247,7 @@
         "JJiRiJJ| ||   ",
         "F     n| |t   ",
         "F RRR l| *    ",
-        "F      * |    ",
+        "f      * |    ",
         "YPPQQSY| |j   "
       ],
       "terrain": { "?": "t_console_broken", "|": "t_brick_wall", "*": "t_door_c" },
@@ -1263,6 +1263,7 @@
         "Y": "f_trashcan",
         "A": "f_stool",
         "i": "f_oven",
+        "f": "f_freezer",
         "F": "f_fridge",
         "n": "f_sink",
         "l": "f_dishwasher",

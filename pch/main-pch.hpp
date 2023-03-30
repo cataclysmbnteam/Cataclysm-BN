@@ -1,3 +1,4 @@
+ 
 #include <algorithm>
 #include <array>
 #include <bitset>
@@ -45,13 +46,13 @@
 #include <stack>
 #include <stdexcept>
 #include <string>
+#include <string_view>
 #include <system_error>
 #include <tuple>
-#include <typeinfo>
 #include <type_traits>
+#include <typeinfo>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
 #include <vector>
-
 #include "../src/colony.h"

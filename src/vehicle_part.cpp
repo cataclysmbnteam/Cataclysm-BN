@@ -37,7 +37,7 @@ static const itype_id itype_muscle( "muscle" );
 vehicle_part::vehicle_part()
     : id( vpart_id::NULL_ID() ) {}
 
-vehicle_part::vehicle_part( const vpart_id &vp, const point &dp, item &&obj )
+vehicle_part::vehicle_part( const vpart_id &vp, point dp, item &&obj )
     : mount( dp ), id( vp ), base( std::move( obj ) )
 {
     // Mark base item as being installed as a vehicle part
@@ -376,7 +376,7 @@ void vehicle_part::process_contents( const tripoint &pos, const bool e_heater )
         if( e_heater ) {
             flag = temperature_flag::TEMP_HEATER;
         }
-        base.process( nullptr, pos, false, 1, flag );
+        base.process( nullptr, pos, false, flag );
     }
 }
 

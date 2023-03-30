@@ -96,7 +96,7 @@ bool recipe::has_flag( const std::string &flag_name ) const
 
 void recipe::load( const JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "dda";
+    const bool strict = is_strict_enabled( src );
 
     abstract = jo.has_string( "abstract" );
 
@@ -313,6 +313,9 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         reversible = true;
     } else {
         jo.throw_error( "unknown recipe type", "type" );
+    }
+    if( reversible && time < 1 ) {
+        jo.throw_error( "Non-zero time mandatory for reversible recipe or uncraft" );
     }
 
     const requirement_id req_id( "inline_" + type + "_" + ident_.str() );
@@ -758,7 +761,8 @@ void recipe::check_blueprint_requirements()
     build_reqs total_reqs;
     const std::pair<std::map<ter_id, int>, std::map<furn_id, int>> &changed_ids
             = get_changed_ids_from_update( blueprint );
-    get_build_reqs_for_furn_ter_ids( changed_ids, total_reqs );
+    get_build_reqs_for_furn_ter_ids( ident(), changed_ids, total_reqs );
+
     requirement_data req_data_blueprint = std::accumulate(
             reqs_blueprint.begin(), reqs_blueprint.end(), requirement_data(),
     []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
@@ -775,8 +779,7 @@ void recipe::check_blueprint_requirements()
     if( time_blueprint != total_reqs.time || skills_blueprint != total_reqs.skills
         || !req_data_blueprint.has_same_requirements_as( req_data_calc ) ) {
         std::string calc_req_str = dump_requirements( req_data_calc, total_reqs.time, total_reqs.skills );
-        std::string got_req_str = dump_requirements( req_data_blueprint, total_reqs.time,
-                                  total_reqs.skills );
+        std::string got_req_str = dump_requirements( req_data_blueprint, time_blueprint, skills_blueprint );
 
         std::stringstream ss;
         for( auto &id_count : changed_ids.first ) {

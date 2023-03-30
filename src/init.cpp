@@ -17,6 +17,7 @@
 #include "ammo_effect.h"
 #include "anatomy.h"
 #include "ascii_art.h"
+#include "artifact.h"
 #include "behavior.h"
 #include "bionics.h"
 #include "bodypart.h"
@@ -25,10 +26,13 @@
 #include "clzones.h"
 #include "construction.h"
 #include "construction_category.h"
+#include "construction_group.h"
+#include "construction_sequence.h"
 #include "crafting_gui.h"
 #include "creature.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "dependency_tree.h"
 #include "dialogue.h"
 #include "disease.h"
 #include "effect.h"
@@ -53,11 +57,13 @@
 #include "magic_enchantment.h"
 #include "magic_ter_furn_transform.h"
 #include "map_extras.h"
+#include "mapbuffer.h"
 #include "mapdata.h"
 #include "mapgen.h"
 #include "martialarts.h"
 #include "material.h"
 #include "mission.h"
+#include "mod_manager.h"
 #include "monfaction.h"
 #include "mongroup.h"
 #include "monstergenerator.h"
@@ -69,6 +75,7 @@
 #include "omdata.h"
 #include "overlay_ordering.h"
 #include "overmap.h"
+#include "overmapbuffer.h"
 #include "overmap_connection.h"
 #include "overmap_location.h"
 #include "overmap_special.h"
@@ -167,6 +174,7 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
                 }
             }
             ++it;
+            inp_mngr.pump_events();
         }
         data.erase( data.begin(), it );
         if( data.size() == n ) {
@@ -182,6 +190,7 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
                         debugmsg( "(json-error)\n%s", err.what() );
                     }
                 }
+                inp_mngr.pump_events();
             }
             data.clear();
             return; // made no progress on this cycle so abort
@@ -384,7 +393,9 @@ void DynamicDataLoader::initialize()
     add( "obsolete_terrain", &overmap::load_obsolete_terrains );
     add( "overmap_terrain", &overmap_terrains::load );
     add( "construction_category", &construction_categories::load );
-    add( "construction", &load_construction );
+    add( "construction_group", &construction_groups::load );
+    add( "construction_sequence", &construction_sequences::load );
+    add( "construction", &constructions::load );
     add( "mapgen", &load_mapgen );
     add( "overmap_land_use_code", &overmap_land_use_codes::load );
     add( "overmap_connection", &overmap_connections::load );
@@ -519,6 +530,7 @@ void DynamicDataLoader::load_all_from_json( JsonIn &jsin, const std::string &src
         // not an object or an array?
         jsin.error( "expected object or array" );
     }
+    inp_mngr.pump_events();
 }
 
 void DynamicDataLoader::unload_data()
@@ -538,6 +550,9 @@ void DynamicDataLoader::unload_data()
     clear_techniques_and_martial_arts();
     clothing_mods::reset();
     construction_categories::reset();
+    construction_groups::reset();
+    construction_sequences::reset();
+    constructions::reset();
     Creature::reset_hit_range();
     disease_type::reset();
     dreams::clear();
@@ -577,7 +592,6 @@ void DynamicDataLoader::unload_data()
     recipe_dictionary::reset();
     recipe_group::reset();
     requirement_data::reset();
-    reset_constructions();
     reset_effect_types();
     reset_furn_ter();
     reset_mapgens();
@@ -614,14 +628,6 @@ void DynamicDataLoader::unload_data()
 #if defined(TILES)
     reset_mod_tileset();
 #endif
-}
-
-void DynamicDataLoader::finalize_loaded_data()
-{
-    // Create a dummy that will not display anything
-    // TODO: Make it print to stdout?
-    loading_ui ui( false );
-    finalize_loaded_data( ui );
 }
 
 void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
@@ -679,7 +685,8 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Monster groups" ), &MonsterGroupManager::FinalizeMonsterGroups },
             { _( "Monster factions" ), &monfactions::finalize },
             { _( "Factions" ), &npc_factions::finalize },
-            { _( "Constructions" ), &finalize_constructions },
+            { _( "Constructions" ), &constructions::finalize },
+            { _( "Construction sequences" ), &construction_sequences::finalize },
             { _( "Crafting recipes" ), &recipe_dictionary::finalize },
             { _( "Recipe groups" ), &recipe_group::check },
             { _( "Martial arts" ), &finialize_martial_arts },
@@ -749,7 +756,8 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             },
             { _( "Monster groups" ), &MonsterGroupManager::check_group_definitions },
             { _( "Furniture and terrain" ), &check_furniture_and_terrain },
-            { _( "Constructions" ), &check_constructions },
+            { _( "Constructions" ), &constructions::check_consistency },
+            { _( "Construction sequences" ), &constructions::check_consistency },
             { _( "Professions" ), &profession::check_definitions },
             { _( "Scenarios" ), &scenario::check_definitions },
             { _( "Martial arts" ), &check_martialarts },
@@ -801,4 +809,180 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
         e.second();
         ui.proceed();
     }
+}
+
+/**
+ * Load & finalize specified content packs.
+ * @param ui structure for load progress display
+ * @param msg string to display whilst loading prompt
+ * @param packs content packs to load in correct dependent order
+ */
+static void load_and_finalize_packs( loading_ui &ui, const std::string &msg,
+                                     const std::vector<mod_id> &packs )
+{
+    ui.new_context( msg );
+    std::vector<mod_id> missing;
+    std::vector<mod_id> available;
+
+    for( const mod_id &e : packs ) {
+        if( e.is_valid() ) {
+            available.emplace_back( e );
+            ui.add_entry( e->name() );
+        } else {
+            missing.push_back( e );
+        }
+    }
+
+    for( const mod_id &e : missing ) {
+        debugmsg( "unknown content pack [%s]", e );
+    }
+
+    DynamicDataLoader &loader = DynamicDataLoader::get_instance();
+
+    ui.show();
+    for( const mod_id &mod : available ) {
+        loader.load_data_from_path( mod->path, mod.str(), ui );
+        ui.proceed();
+    }
+
+    loader.finalize_loaded_data( ui );
+}
+
+bool init::is_data_loaded()
+{
+    return DynamicDataLoader::get_instance().is_data_finalized();
+}
+
+static void clear_loaded_data()
+{
+    return DynamicDataLoader::get_instance().unload_data();
+}
+
+void init::load_core_bn_modfiles()
+{
+    clear_loaded_data();
+
+    loading_ui ui( false );
+    load_and_finalize_packs(
+        ui, _( "Loading content packs" ),
+    { mod_management::get_default_core_content_pack() }
+    );
+}
+
+void init::load_world_modfiles( loading_ui &ui, const std::string &artifacts_file )
+{
+    clear_loaded_data();
+
+    mod_management::t_mod_list &mods = world_generator->active_world->active_mod_order;
+
+    // remove any duplicates whilst preserving order (fixes #19385)
+    std::set<mod_id> found;
+    mods.erase( std::remove_if( mods.begin(), mods.end(), [&found]( const mod_id & e ) {
+        if( found.count( e ) ) {
+            return true;
+        } else {
+            found.insert( e );
+            return false;
+        }
+    } ), mods.end() );
+
+    // require at least one core mod (saves before version 6 may implicitly require dda pack)
+    if( std::none_of( mods.begin(), mods.end(), []( const mod_id & e ) {
+    return e->core;
+} ) ) {
+        mods.insert( mods.begin(), mod_management::get_default_core_content_pack() );
+    }
+
+    // TODO: get rid of artifacts
+    load_artifacts( artifacts_file );
+
+    // this code does not care about mod dependencies,
+    // it assumes that those dependencies are static and
+    // are resolved during the creation of the world.
+    // That means world->active_mod_order contains a list
+    // of mods in the correct order.
+    load_and_finalize_packs( ui, _( "Loading files" ), mods );
+}
+
+bool init::check_mods_for_errors( loading_ui &ui, const std::vector<mod_id> &opts )
+{
+    const dependency_tree &tree = world_generator->get_mod_manager().get_tree();
+
+    // Deduplicated list of mods to check
+    std::set<mod_id> to_check;
+
+    for( const mod_id &id : opts ) {
+        if( !id.is_valid() ) {
+            std::cerr << string_format( "Unknown mod: [%s]\n", id );
+            return false;
+        }
+
+        if( !tree.is_available( id ) ) {
+            std::cerr << string_format(
+                          "Missing dependencies: %s %s\n",
+                          id, tree.get_node( id )->s_errors()
+                      );
+            return false;
+        }
+
+        to_check.emplace( id );
+    }
+
+    // If no specific mods specified check all non-obsolete mods
+    if( to_check.empty() ) {
+        for( const mod_id &e : world_generator->get_mod_manager().all_mods() ) {
+            if( !e->obsolete ) {
+                to_check.emplace( e );
+            }
+        }
+    }
+    // If no mods are available then test core data only
+    if( to_check.empty() ) {
+        to_check.emplace( mod_management::get_default_core_content_pack() );
+    }
+
+    for( const mod_id &id : to_check ) {
+        clear_loaded_data();
+
+        world_generator->set_active_world( nullptr );
+        world_generator->init();
+        const std::vector<mod_id> mods_empty;
+        WORLDPTR test_world = world_generator->make_new_world( mods_empty );
+        if( !test_world ) {
+            std::cerr << "Failed to generate test world." << std::endl;
+            return false;
+        }
+        world_generator->set_active_world( test_world );
+
+        std::cout << string_format( "Checking mod %s [%s]\n", id->name(), id );
+
+        // Load all dependencies first
+        std::vector<mod_id> mods_list = tree.get_dependencies_of_X_as_strings( id );
+        // Load the mod itself
+        mods_list.push_back( id );
+
+        try {
+            load_and_finalize_packs( ui, _( "Checking mods" ), mods_list );
+        } catch( const std::exception &err ) {
+            std::cerr << "Error loading data: " << err.what() << std::endl;
+        }
+
+        std::string world_name = world_generator->active_world->world_name;
+        world_generator->delete_world( world_name, true );
+
+        // TODO: Why would we need these calls?
+        MAPBUFFER.reset();
+        overmap_buffer.clear();
+    }
+
+    return !debug_has_error_been_observed();
+}
+
+void init::load_soundpack_files( const std::string &soundpack_path )
+{
+    // Leverage DynamicDataLoader to load a soundpack.
+    // It's not a mod, so we avoid the regular mod loading routines.
+    // clear_loaded_data() is not needed here, tileset gets loaded on game init before any mods
+    loading_ui ui( false );
+    DynamicDataLoader::get_instance().load_data_from_path( soundpack_path, "sound_core", ui );
 }

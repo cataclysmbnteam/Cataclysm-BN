@@ -1,5 +1,5 @@
 # Main project build script
-cmake_minimum_required(VERSION 3.1.4)
+cmake_minimum_required(VERSION 3.16)
 
 PROJECT(CataclysmBN)
 
@@ -21,6 +21,8 @@ option(LIBBACKTRACE "Print backtrace with libbacktrace."    "OFF")
 option(USE_HOME_DIR "Use user's home directory for save files."   "ON")
 set(LANGUAGES "" CACHE STRING "Compile localization files for specified languages. List of language ids separated by semicolon. Set to 'all' or leave empty to compile all, set to 'none' to compile none.")
 option(DYNAMIC_LINKING "Use dynamic linking. Or use static to remove MinGW dependency instead."   "ON")
+option(USE_UNITY_BUILD "Use unity build." "OFF")
+option(USE_PCH_HEADER "Use precompiled PCH header." "OFF")
 option(JSON_FORMAT  "Build JSON formatter" "OFF")
 option(CATA_CCACHE  "Try to find and build with ccache" "ON")
 option(CATA_CLANG_TIDY_PLUGIN "Build Cata's custom clang-tidy plugin" "OFF")
@@ -111,7 +113,7 @@ ENDIF (NOT DYNAMIC_LINKING)
 # System specific actions
 IF (${CMAKE_SYSTEM_NAME} MATCHES Linux OR ${CMAKE_SYSTEM_NAME} MATCHES FreeBSD)
     IF(NOT DATA_PREFIX)
-      SET( DATA_PREFIX ${CMAKE_INSTALL_PREFIX}/share/cataclysm-dda)
+      SET( DATA_PREFIX ${CMAKE_INSTALL_PREFIX}/share/cataclysm-bn)
     ENDIF(NOT DATA_PREFIX)
     IF(NOT BIN_PREFIX)
       SET( BIN_PREFIX ${CMAKE_INSTALL_PREFIX}/bin)
@@ -193,14 +195,17 @@ ELSE (CMAKE_BUILD_TYPE STREQUAL Debug)
       ADD_DEFINITIONS(-DDATA_DIR_PREFIX)
     ENDIF (PREFIX AND NOT WIN32)
 ENDIF (CMAKE_BUILD_TYPE STREQUAL Debug)
-
     MESSAGE(STATUS "GIT_BINARY                    : ${GIT_EXECUTABLE}")
     MESSAGE(STATUS "DYNAMIC_LINKING               : ${DYNAMIC_LINKING}")
+
     MESSAGE(STATUS "TILES                         : ${TILES}")
     MESSAGE(STATUS "CURSES                        : ${CURSES}")
     MESSAGE(STATUS "SOUND                         : ${SOUND}")
     MESSAGE(STATUS "BACKTRACE                     : ${BACKTRACE}")
     MESSAGE(STATUS "USE_HOME_DIR                  : ${USE_HOME_DIR}\n")
+
+    MESSAGE(STATUS "UNITY_BUILD                   : ${USE_UNITY_BUILD}")
+    MESSAGE(STATUS "PCH_HEADER                    : ${USE_PCH_HEADER}")
 
     MESSAGE(STATUS "LANGUAGES                     : ${LANGUAGES}\n")
 
@@ -214,7 +219,7 @@ IF(MSVC)
     endif()
 ELSE()
     SET(CATA_WARNINGS
-      "-Werror -Wall -Wextra \
+        "-Werror -Wall -Wextra \
        -Wformat-signedness \
        -Wlogical-op \
        -Wmissing-declarations \
@@ -226,7 +231,8 @@ ELSE()
        -Wsuggest-override \
        -Wunused-macros \
        -Wzero-as-null-pointer-constant \
-       -Wno-unknown-warning-option")
+       -Wno-unknown-warning-option \
+       -Wno-range-loop-analysis")
     IF (NOT ${CMAKE_SYSTEM_NAME} MATCHES Windows)
         SET(CATA_WARNINGS "${CATA_WARNINGS} -Wredundant-decls")
     ENDIF()
@@ -237,7 +243,7 @@ ELSE()
     SET(CMAKE_CXX_FLAGS_DEBUG "-Og -g")
 ENDIF()
 
-SET(CMAKE_CXX_STANDARD 14)
+SET(CMAKE_CXX_STANDARD 17)
 
 # Force out-of-source build
 IF(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
@@ -258,7 +264,7 @@ IF(TILES)
     FIND_PACKAGE(SDL2)
     IF(NOT SDL2_FOUND)
       MESSAGE(FATAL_ERROR
-          "This project requires SDL2 to be installed to be compiled in graphical mode. Please install the SDL2 development libraries, or try compiling 
+          "This project requires SDL2 to be installed to be compiled in graphical mode. Please install the SDL2 development libraries, or try compiling
            without the -DTILES=1 for a text only compilation.\nSee INSTALL file for details and more info\n"
       )
     ENDIF(NOT SDL2_FOUND)
@@ -368,4 +374,7 @@ if(CCACHE_FOUND AND CATA_CCACHE)
     set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK ccache)
 endif()
 
+if(USE_UNITY_BUILD)
+    set_property(GLOBAL PROPERTY UNITY_BUILD ON)
+endif()
 # vim:noet

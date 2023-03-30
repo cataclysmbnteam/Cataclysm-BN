@@ -1128,7 +1128,7 @@ void map::process_fields_in_submap( submap *const current_submap,
 
                             std::vector<point> candidate_positions =
                                 squares_in_direction( p.xy(), point( g->u.posx(), g->u.posy() ) );
-                            for( const point &candidate_position : candidate_positions ) {
+                            for( point candidate_position : candidate_positions ) {
                                 field &target_field = get_field( tripoint( candidate_position, p.z ) );
                                 // Only shift if there are no bees already there.
                                 // TODO: Figure out a way to merge bee fields without allowing

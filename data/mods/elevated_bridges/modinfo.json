@@ -6,7 +6,7 @@
     "authors": [ "olanti-p" ],
     "description": "Enables generation of elevated bridges and construction of ramps.  Requires z-levels to be ON to properly work.  Elevated bridges do not block river tiles and allow boats to pass underneath.",
     "category": "content",
-    "dependencies": [ "dda" ],
+    "dependencies": [ "bn" ],
     "path": ""
   }
 ]

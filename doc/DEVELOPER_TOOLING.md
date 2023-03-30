@@ -1,4 +1,26 @@
-## Pre-commit hook
+## Code style (astyle)
+
+Automatic formatting of the source code is performed by [Artistic Style](http://astyle.sourceforge.net/), or `astyle` for short.
+
+There are multiple ways to invoke it on the codebase, depending on your system or personal preferences.
+
+### Invoking astyle directly
+
+If you only have `astyle` installed, use:
+
+```BASH
+astyle --options=.astylerc --recursive src/*.cpp,*.h tests/*.cpp,*.h tools/*.cpp,*.h
+```
+
+### Invoking astyle through make
+
+If you have both `make` and `astyle` installed, use:
+
+```BASH
+make astyle
+```
+
+### Invoking astyle via pre-commit hook
 
 If you have all the relevant tools installed, you can have git automatically
 check the style of code and json by adding these commands to your git
@@ -11,49 +33,49 @@ git diff --cached --name-only -z HEAD | grep -z 'data/.*\.json' | \
 make astyle-check || exit 1
 ```
 
-More details below on how to make these work and other ways to invoke these tools.
+### Astyle extensions for Visual Studio
 
-## Code style (astyle)
+There are astyle extensions in the Visual Studio Marketplace, but none of them have been confirmed (yet) to correctly work for our purposes on VS2019 or VS2022.
 
-Automatic formatting of source code is performed by [Artistic Style](http://astyle.sourceforge.net/).
+#### Visual Studio 2022
 
-If you have both `make` and `astyle` installed then this can be done with:
+Head over to https://github.com/olanti-p/BN_Astyle and follow instructions in the [README.md](https://github.com/olanti-p/BN_Astyle/blob/master/README.md). You may compile and install the extension from source, or take advantage of the pre-built version in [releases section](https://github.com/olanti-p/BN_Astyle/releases).
 
-```BASH
-make astyle
-```
+#### Visual Studio 2019
 
-If you have only `astyle` then use:
+Extensions's source code lives over at https://github.com/lukamicoder/astyle-extension.
+To install and compile it:
+1. Add the `Visual Studio extension development` workload through Visual Studio installer to your VS2019
+2. Download and extract the source code, or clone the repository (a simple `git clone --depth 1 https://github.com/lukamicoder/astyle-extension.git` should do).
+3. From the root folder, open `astyle-extension/AStyleExtension2017.sln`
+4. Select `Release` build configuration (most likely VS will select `Debug` configuration by default)
+5. Build the solution
+6. If the build succeeded, you'll see the compiled extension in `AStyleExtension\bin\Release`. Double click it to install.
+7. Configure the extension according to [Configuration instructions (Visual Studio 2019 or older)](#configuration-instructions-visual-studio-2019-or-older) section.
 
-```BASH
-astyle --options=.astylerc --recursive src/*.cpp,*.h tests/*.cpp,*.h`
-```
+#### Visual Studio 2017 or earlier
 
-On Windows, there is an [AStyle extension for Visual Studio](https://github.com/lukamicoder/astyle-extension).
+You may follow the steps for VS2019 to compile from source, but there are pre-built versions [available](https://marketplace.visualstudio.com/items?itemName=Lukamicoder.AStyleExtension2017) on Visual Studio Marketplace, you should be able to install the extension through VS's extension manager and then configure it the same way.
 
-It does not support Visual Studio 2022 yet, but there is [an alternative](https://github.com/olanti-p/BN_Astyle) available.
+#### Configuration instructions (Visual Studio 2019 or older):
 
-#### Instruction (Visual Studio 2019 or older):
+1. Go to `Tools` - `Options` - `AStyle Formatter` - `General`.
 
-1. Install aforementioned extension to Visual Studio IDE.
+2. Import `https://github.com/CleverRaven/Cataclysm-DDA/blob/master/msvc-full-features/AStyleExtension-Cataclysm-DDA.cfg` on `Export/Import` tab using `Import` button:
 
-2. Go to `Tools` - `Options` - `AStyle Formatter` - `General`.
+![image](img/VS_Astyle_Step_1.png)
 
-3. Import `https://github.com/CleverRaven/Cataclysm-DDA/blob/master/msvc-full-features/AStyleExtension-Cataclysm-DDA.cfg` on `Export/Import` tab using `Import` button:
+3. After import is successful you can see imported rules on `C/C++` tab:
 
-![image](https://user-images.githubusercontent.com/16213433/54817923-1d85c200-4ca9-11e9-95ac-e1f84394429b.png)
+![image](img/VS_Astyle_Step_2.png)
 
-4. After import is successful you can see imported rules on `C/C++` tab:
+4. Close `Options` menu, open file to be astyled and use `Format Document (Astyle)` or `Format Selection (Astyle)` commands from `Edit` - `Advanced` menu.
 
-![image](https://user-images.githubusercontent.com/16213433/54817974-427a3500-4ca9-11e9-8179-84b19cc25c0f.png)
-
-5. Close `Options` menu, open file to be astyled and use `Format Document (Astyle)` or `Format Selection (Astyle)` commands from `Edit` - `Advanced` menu.
-
-![image](https://user-images.githubusercontent.com/16213433/54818041-68073e80-4ca9-11e9-8e1f-a1996fd4ee75.png)
+![image](img/VS_Astyle_Step_3.png)
 
 *Note:* You can also configure keybindings for aforementioned commands in `Tools` - `Options` - `Environment` - `Keybindings` menu:
 
-![image](https://user-images.githubusercontent.com/16213433/54818153-aac91680-4ca9-11e9-80e6-51e243b2b33b.png)
+![image](img/VS_Astyle_Step_4.png)
 
 ## JSON style
 
@@ -68,10 +90,10 @@ In addition to the usual means of creating a `tags` file via e.g. [`ctags`](http
 
 Cataclysm has a [clang-tidy configuration file](../.clang-tidy) and if you have
 `clang-tidy` available you can run it to perform static analysis of the
-codebase.  We test with `clang-tidy` from LLVM 8.0.1 on Travis, so for the most
+codebase.  We test with `clang-tidy` from LLVM 12.0.0 with CI, so for the most
 consistent results, you might want to use that version.
 
-To run it you have a few options.
+To run it, you have a few options.
 
 * `clang-tidy` ships with a wrapper script `run-clang-tidy.py`.
 
@@ -94,12 +116,12 @@ We have written our own clang-tidy checks in a custom plugin.  Unfortunately,
 `clang-tidy` as distributed by LLVM doesn't support plugins, so making this
 work requires some extra steps.
 
-#### Ubuntu Xenial
+#### Ubuntu Focal
 
-If you are on Ubuntu Xenial then you might be able to get it working the same
-way Travis does.  Add the LLVM 8 Xenial source [listed
-here](https://apt.llvm.org/) to your `sources.list`, install the `clang-8
-libclang-8-dev llvm-8-dev llvm-8-tools` packages and build Cataclysm with CMake
+If you are on Ubuntu Focal then you might be able to get it working the same
+way our CI does.  Add the LLVM 12 Focal source [listed
+here](https://apt.llvm.org/) to your `sources.list`, install the needed packages (`clang-12
+libclang-12-dev llvm-12-dev llvm-12-tools`), and build Cataclysm with CMake,
 adding `-DCATA_CLANG_TIDY_PLUGIN=ON`.
 
 On other distributions you will probably need to build `clang-tidy` yourself.
@@ -128,7 +150,7 @@ To run `clang-tidy` with this plugin enabled add the
 to your `clang-tidy` command line.
 
 If you wish to run the tests for the custom clang-tidy plugin you will also
-need `lit`.  This will be built as part of `llvm`, or you can install it via
+need `lit`.  This will be built as part of LLVM, or you can install it via
 `pip` or your local package manager if you prefer.
 
 Then, assuming `build` is your Cataclysm build directory, you can run the tests
@@ -141,34 +163,32 @@ lit -v build/tools/clang-tidy-plugin/test
 
 ##### Build LLVM
 
-To build llvm on Windows, you'll first need to get some tools installed.
+To build LLVM on Windows, you'll first need to get some tools installed.
 - Cmake
-- Python 3 (Python 2 may not work for building llvm, but it's still required to run
-the lit test, which will be discussed in the next section.)
+- Python 3
 - MinGW-w64 (other compilers may or may not work. Clang itself does not seem to be
-building llvm on Windows correctly.)
+building LLVM on Windows correctly.)
 - A shell environment
 
 After the tools are installed, a patch still needs to be applied before building
-llvm, since `clang-tidy` as distributed by LLVM doesn't support plugins.
+LLVM, since `clang-tidy` as distributed by LLVM doesn't support plugins.
 
-First, clone the llvm repo from for example [the official github repo](https://github.com/llvm/llvm-project.git).
-Checkout the `release/8.x` branch, since that's where our patch was based on.
+First, clone the LLVM repo from, for example, [the official github repo](https://github.com/llvm/llvm-project.git).
+Checkout the `release/12.x` branch, since that's what our patch was based on.
 
-On windows, instead of applying the patch mentioned in the previous section, you
-shoud apply `plugin-support.patch` from [this PR](https://github.com/jbytheway/clang-tidy-plugin-support/pull/1)
-instead, if it's not merged yet. This is because the `-rdynamic` option is not
-supported on Windows, so clang-tidy needs to be built as a static library instead.
-(If you cloned the repo from the official github repo, replace `tools/extra` with
-`clang-tools-extra` in the patch before applying it.)
+On Windows, in addition to applying `plugin-support.patch` mentioned in the previous section, you
+should also apply
+[`clang-tidy-scripts.patch`](https://github.com/jbytheway/clang-tidy-plugin-support/blob/master/clang-tidy-scripts.patch)
+so you can run the lit test with the custom clang-tidy executable and let
+clang-tidy apply suggestions automatically.
 
-After the patch is applied, you can then build the llvm code. Unfortunately, it
-seems that clang itself cannot correctly compile the llvm code on Windows (gives
+After the patch is applied, you can then build the LLVM code. Unfortunately, it
+seems that clang itself cannot correctly compile the LLVM code on Windows (gives
 some sort of relocation error). Luckily, MinGW-w64 can be used instead to compile
 the code.
 
 The first step to build the code is to run CMake to generate the makefile. On
-the root dir of llvm, run the following script (substitute values inside `<>`
+the root dir of LLVM, run the following script (substitute values inside `<>`
 with the actual paths). Make sure CMake, python, and MinGW-w64 are on the path.
 
 ```sh
@@ -187,7 +207,7 @@ cmake \
 The next step is to call `make` to actually build clang-tidy as a library.
 When using MinGW-w64 to build, you should call `mingw32-make` instead.
 Also, because `FileCheck` is not shipped with Windows, you'll also need to build
-it youself using llvm sources by adding the `FileCheck` target to the make command.
+it yourself using LLVM sources by adding the `FileCheck` target to the make command.
 
 ```sh
 mkdir -p build
@@ -200,15 +220,14 @@ are needed to build our custom clang-tidy executable later.
 
 ##### Build clang-tidy with custom checks
 
-After building clang-tidy as a library from the llvm source, the next step is to
+After building clang-tidy as a library from the LLVM source, the next step is to
 build clang-tidy as an executable, with the custom checks from the CDDA source.
 
 In this step, the following tools are required.
-- Python 2 (used to run the lit test for the custom checks)
-- Python 3 (used to run other python scripts)
+- Python 3
 - CMake
 - MinGW-w64
-- FileCheck (built from the llvm source)
+- FileCheck (built from the LLVM source)
 - A shell environment
 
 You also need to install yaml for python 3 to work. Download the `.whl` installer
@@ -224,34 +243,53 @@ be applied before the custom checks can be built as an executable.
 
 ```patch
 diff --git a/tools/clang-tidy-plugin/CMakeLists.txt b/tools/clang-tidy-plugin/CMakeLists.txt
-index 553ef0ebe0..f591bc80d1 100644
+index cf0c237645..540d3e29a5 100644
 --- a/tools/clang-tidy-plugin/CMakeLists.txt
 +++ b/tools/clang-tidy-plugin/CMakeLists.txt
-@@ -3,8 +3,8 @@ include(ExternalProject)
+@@ -4,7 +4,7 @@ include(ExternalProject)
  find_package(LLVM REQUIRED CONFIG)
  find_package(Clang REQUIRED CONFIG)
  
--add_library(
--    CataAnalyzerPlugin MODULE
-+add_executable(
-+    CataAnalyzerPlugin
-     CataTidyModule.cpp
-     JsonTranslationInputCheck.cpp
-     NoLongCheck.cpp
-@@ -51,6 +51,11 @@ else()
-         CataAnalyzerPlugin SYSTEM PRIVATE ${CATA_CLANG_TIDY_INCLUDE_DIR})
- endif()
+-add_library(CataAnalyzerPlugin MODULE
++add_executable(CataAnalyzerPlugin
+         AlmostNeverAutoCheck.cpp
+         AssertCheck.cpp
+         CataTidyModule.cpp
+@@ -56,6 +56,11 @@ else ()
+     target_include_directories(CataAnalyzerPlugin SYSTEM PRIVATE ${CATA_CLANG_TIDY_INCLUDE_DIR})
+ endif ()
  
 +target_link_libraries(
 +    CataAnalyzerPlugin
 +    clangTidyMain
 +    )
 +
- target_compile_definitions(
-     CataAnalyzerPlugin PRIVATE ${LLVM_DEFINITIONS})
+ target_compile_definitions(CataAnalyzerPlugin PRIVATE ${LLVM_DEFINITIONS})
  
+ # We need to turn off exceptions and RTTI to match the LLVM build.
+diff --git a/tools/clang-tidy-plugin/CataTidyModule.cpp b/tools/clang-tidy-plugin/CataTidyModule.cpp
+index b7cb4df22c..a83db0c60e 100644
+--- a/tools/clang-tidy-plugin/CataTidyModule.cpp
++++ b/tools/clang-tidy-plugin/CataTidyModule.cpp
+@@ -18,6 +18,7 @@
+ #include "TestFilenameCheck.h"
+ #include "TestsMustRestoreGlobalStateCheck.h"
+ #include "TextStyleCheck.h"
++#include "tool/ClangTidyMain.h"
+ #include "TranslatorCommentsCheck.h"
+ #include "UnsequencedCallsCheck.h"
+ #include "UnusedStaticsCheck.h"
+@@ -80,3 +81,8 @@ X( "cata-module", "Adds Cataclysm-DDA checks." );
+ 
+ } // namespace tidy
+ } // namespace clang
++
++int main( int argc, const char **argv )
++{
++    return clang::tidy::clangTidyMain( argc, argv );
++}
 diff --git a/tools/clang-tidy-plugin/test/lit.cfg b/tools/clang-tidy-plugin/test/lit.cfg
-index 4ab6e913a7..d1a4418ba6 100644
+index 496804316a..43beb49653 100644
 --- a/tools/clang-tidy-plugin/test/lit.cfg
 +++ b/tools/clang-tidy-plugin/test/lit.cfg
 @@ -17,11 +17,13 @@ else:
@@ -274,12 +312,10 @@ index 4ab6e913a7..d1a4418ba6 100644
 The next step is to run CMake to generate the compilation database. The compilation
 database contains compiler flags that clang-tidy uses to check the source files.
 
-Make sure Python 2, Python 3, CMake, MinGW-w64, and FileCheck are on the path.
+Make sure Python 3, CMake, MinGW-w64, and FileCheck are on the path.
 Note that two `bin` directories of MinGW-w64 should be on the path: `<mingw-w64-root>/bin`,
 and `<mingw-w64-root>/x86_64-w64-mingw32/bin`. FileCheck's path is `<llvm-source-root>/build/bin`,
-if you built it with the instructions in the previous section. Python 2 should
-precede Python 3 in the path, otherwise scripts that are intended to run with
-Python 2 might not work.
+if you built it with the instructions in the previous section.
 
 Then add the following CMake options to generate the compilation database
 (substitute values inside `<>` with the actual paths), and build the CDDA source
@@ -302,10 +338,10 @@ with Python 3 to fix some errors in the compilation database. Then the compilati
 database should be usable by clang-tidy.
 
 If you want to check if the custom checks are working correctly, run the following
-script. Note that `python` here is the executable from Python 2.
+script.
 
 ```sh
-python <llvm-source-root>/llvm/utils/lit/lit.py -v build/tools/clang-tidy-plugin/test
+python3 <llvm-source-root>/llvm/utils/lit/lit.py -v build/tools/clang-tidy-plugin/test
 ```
 
 Finally, use the following command to run clang-tidy with the custom checks.

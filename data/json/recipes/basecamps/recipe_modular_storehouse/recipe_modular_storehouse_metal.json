@@ -13,11 +13,13 @@
     "blueprint_provides": [ { "id": "fbms_east" } ],
     "blueprint_excludes": [ { "id": "fbms_east" } ],
     "blueprint_needs": {
-      "time": "2 d 6 h",
+      "time": "2 d 12 h",
       "skills": [ [ "fabrication", 5 ] ],
       "inline": {
-        "tools": [ [ [ "oxy_torch", 360 ], [ "welder", 1800 ], [ "welder_crude", 2700 ], [ "toolset", 2700 ] ] ],
-        "qualities": [ [ { "id": "GLARE", "level": 2 } ] ],
+        "tools": [
+          [ [ "fake_gridwelder", 1800 ], [ "oxy_torch", 360 ], [ "toolset", 2700 ], [ "welder", 1800 ], [ "welder_crude", 2700 ] ]
+        ],
+        "qualities": [ [ { "id": "DIG" } ], [ { "id": "GLARE", "level": 2 } ] ],
         "components": [ [ [ "steel_plate", 72 ] ] ]
       }
     }
@@ -36,11 +38,13 @@
     "blueprint_provides": [ { "id": "fbms_west" } ],
     "blueprint_excludes": [ { "id": "fbms_west" } ],
     "blueprint_needs": {
-      "time": "2 d 6 h",
+      "time": "2 d 12 h",
       "skills": [ [ "fabrication", 5 ] ],
       "inline": {
-        "tools": [ [ [ "oxy_torch", 360 ], [ "welder", 1800 ], [ "welder_crude", 2700 ], [ "toolset", 2700 ] ] ],
-        "qualities": [ [ { "id": "GLARE", "level": 2 } ] ],
+        "tools": [
+          [ [ "fake_gridwelder", 1800 ], [ "oxy_torch", 360 ], [ "toolset", 2700 ], [ "welder", 1800 ], [ "welder_crude", 2700 ] ]
+        ],
+        "qualities": [ [ { "id": "DIG" } ], [ { "id": "GLARE", "level": 2 } ] ],
         "components": [ [ [ "steel_plate", 72 ] ] ]
       }
     }
@@ -59,12 +63,12 @@
     "blueprint_provides": [ { "id": "fbms_northwest" } ],
     "blueprint_excludes": [ { "id": "fbms_northwest" } ],
     "blueprint_needs": {
-      "time": "19 h 45 m",
+      "time": "21 h 45 m",
       "skills": [ [ "fabrication", 5 ] ],
       "inline": {
-        "tools": [ [ [ "oxy_torch", 120 ], [ "welder", 600 ], [ "welder_crude", 900 ], [ "toolset", 900 ] ] ],
-        "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 15 ], [ "log", 2 ] ], [ [ "nail", 30 ] ], [ [ "glass_sheet", 1 ] ], [ [ "steel_plate", 24 ] ] ]
+        "tools": [ [ [ "fake_gridwelder", 600 ], [ "oxy_torch", 120 ], [ "toolset", 900 ], [ "welder", 600 ], [ "welder_crude", 900 ] ] ],
+        "qualities": [ [ { "id": "DIG" } ], [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "components": [ [ [ "2x4", 15 ], [ "log", 2 ] ], [ [ "glass_sheet", 1 ] ], [ [ "nail", 30 ] ], [ [ "steel_plate", 24 ] ] ]
       }
     }
   },
@@ -82,12 +86,12 @@
     "blueprint_provides": [ { "id": "fbms_southwest" } ],
     "blueprint_excludes": [ { "id": "fbms_southwest" } ],
     "blueprint_needs": {
-      "time": "19 h 45 m",
+      "time": "21 h 45 m",
       "skills": [ [ "fabrication", 5 ] ],
       "inline": {
-        "tools": [ [ [ "oxy_torch", 120 ], [ "welder", 600 ], [ "welder_crude", 900 ], [ "toolset", 900 ] ] ],
-        "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 15 ], [ "log", 2 ] ], [ [ "nail", 30 ] ], [ [ "glass_sheet", 1 ] ], [ [ "steel_plate", 24 ] ] ]
+        "tools": [ [ [ "fake_gridwelder", 600 ], [ "oxy_torch", 120 ], [ "toolset", 900 ], [ "welder", 600 ], [ "welder_crude", 900 ] ] ],
+        "qualities": [ [ { "id": "DIG" } ], [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "components": [ [ [ "2x4", 15 ], [ "log", 2 ] ], [ [ "glass_sheet", 1 ] ], [ [ "nail", 30 ] ], [ [ "steel_plate", 24 ] ] ]
       }
     }
   },
@@ -105,12 +109,12 @@
     "blueprint_provides": [ { "id": "fbms_northeast" } ],
     "blueprint_excludes": [ { "id": "fbms_northeast" } ],
     "blueprint_needs": {
-      "time": "19 h 45 m",
+      "time": "21 h 45 m",
       "skills": [ [ "fabrication", 5 ] ],
       "inline": {
-        "tools": [ [ [ "oxy_torch", 120 ], [ "welder", 600 ], [ "welder_crude", 900 ], [ "toolset", 900 ] ] ],
-        "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 15 ], [ "log", 2 ] ], [ [ "nail", 30 ] ], [ [ "glass_sheet", 1 ] ], [ [ "steel_plate", 24 ] ] ]
+        "tools": [ [ [ "fake_gridwelder", 600 ], [ "oxy_torch", 120 ], [ "toolset", 900 ], [ "welder", 600 ], [ "welder_crude", 900 ] ] ],
+        "qualities": [ [ { "id": "DIG" } ], [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "components": [ [ [ "2x4", 15 ], [ "log", 2 ] ], [ [ "glass_sheet", 1 ] ], [ [ "nail", 30 ] ], [ [ "steel_plate", 24 ] ] ]
       }
     }
   },
@@ -128,12 +132,12 @@
     "blueprint_provides": [ { "id": "fbms_southeast" } ],
     "blueprint_excludes": [ { "id": "fbms_southeast" } ],
     "blueprint_needs": {
-      "time": "19 h 45 m",
+      "time": "21 h 45 m",
       "skills": [ [ "fabrication", 5 ] ],
       "inline": {
-        "tools": [ [ [ "oxy_torch", 120 ], [ "welder", 600 ], [ "welder_crude", 900 ], [ "toolset", 900 ] ] ],
-        "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 15 ], [ "log", 2 ] ], [ [ "nail", 30 ] ], [ [ "glass_sheet", 1 ] ], [ [ "steel_plate", 24 ] ] ]
+        "tools": [ [ [ "fake_gridwelder", 600 ], [ "oxy_torch", 120 ], [ "toolset", 900 ], [ "welder", 600 ], [ "welder_crude", 900 ] ] ],
+        "qualities": [ [ { "id": "DIG" } ], [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "components": [ [ [ "2x4", 15 ], [ "log", 2 ] ], [ [ "glass_sheet", 1 ] ], [ [ "nail", 30 ] ], [ [ "steel_plate", 24 ] ] ]
       }
     }
   },
@@ -151,11 +155,19 @@
     "blueprint_provides": [ { "id": "fbms_south" } ],
     "blueprint_excludes": [ { "id": "fbms_south" } ],
     "blueprint_needs": {
-      "time": "2 d 10 h 30 m",
+      "time": "2 d 12 h 30 m",
       "skills": [ [ "fabrication", 7 ] ],
       "inline": {
-        "tools": [ [ [ "oxy_torch", 320 ], [ "toolset", 2400 ], [ "welder", 1600 ], [ "welder_crude", 2400 ] ] ],
-        "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
+        "tools": [
+          [ [ "fake_gridwelder", 1600 ], [ "oxy_torch", 320 ], [ "toolset", 2400 ], [ "welder", 1600 ], [ "welder_crude", 2400 ] ]
+        ],
+        "qualities": [
+          [ { "id": "DIG" } ],
+          [ { "id": "GLARE", "level": 2 } ],
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_M" } ],
+          [ { "id": "WRENCH" } ]
+        ],
         "components": [
           [ [ "2x4", 30 ], [ "log", 4 ] ],
           [ [ "glass_sheet", 2 ] ],
@@ -182,11 +194,19 @@
     "blueprint_provides": [ { "id": "fbms_north" } ],
     "blueprint_excludes": [ { "id": "fbms_north" } ],
     "blueprint_needs": {
-      "time": "2 d 10 h 30 m",
+      "time": "2 d 12 h 30 m",
       "skills": [ [ "fabrication", 7 ] ],
       "inline": {
-        "tools": [ [ [ "oxy_torch", 320 ], [ "toolset", 2400 ], [ "welder", 1600 ], [ "welder_crude", 2400 ] ] ],
-        "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
+        "tools": [
+          [ [ "fake_gridwelder", 1600 ], [ "oxy_torch", 320 ], [ "toolset", 2400 ], [ "welder", 1600 ], [ "welder_crude", 2400 ] ]
+        ],
+        "qualities": [
+          [ { "id": "DIG" } ],
+          [ { "id": "GLARE", "level": 2 } ],
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_M" } ],
+          [ { "id": "WRENCH" } ]
+        ],
         "components": [
           [ [ "2x4", 30 ], [ "log", 4 ] ],
           [ [ "glass_sheet", 2 ] ],

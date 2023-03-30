@@ -111,7 +111,7 @@ template<typename T, typename Out, T( *calc )( const T &, const T &, const int &
 void castLightAll( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
                    const T( &input_array )[MAPSIZE_X][MAPSIZE_Y],
                    const diagonal_blocks( &blocked_array )[MAPSIZE_X][MAPSIZE_Y],
-                   const point &offset, int offsetDistance = 0,
+                   point offset, int offsetDistance = 0,
                    T numerator = 1.0 );
 
 template<typename T>

@@ -15,12 +15,31 @@
 #include "type_id.h"
 #include "value_ptr.h"
 
+static std::string escape_newlines( const std::string &input )
+{
+    std::string output;
+    std::size_t pos = 0;
+    while( pos != std::string::npos ) {
+        std::size_t newlinePos = input.find( '\n', pos );
+        if( newlinePos != std::string::npos ) {
+            output += input.substr( pos, newlinePos - pos ) + "\\n\n";
+            pos = newlinePos + 1;
+        } else {
+            output += input.substr( pos );
+            pos = newlinePos;
+        }
+    }
+    return output;
+}
+
 static void test_info_equals( const item &i, const iteminfo_query &q,
-                              const std::string &reference )
+                              const std::string &reference,
+                              temperature_flag temperature = temperature_flag::TEMP_NORMAL )
 {
     g->u.clear_mutations();
-    std::vector<iteminfo> info_v;
-    std::string info = i.info( info_v, &q, 1 );
+    std::string info = i.info_string( q, 1, temperature );
+    CAPTURE( escape_newlines( info ) );
+    CAPTURE( escape_newlines( reference ) );
     CHECK( info == reference );
 }
 
@@ -28,8 +47,7 @@ static void test_info_contains( const item &i, const iteminfo_query &q,
                                 const std::string &reference )
 {
     g->u.clear_mutations();
-    std::vector<iteminfo> info_v;
-    std::string info = i.info( info_v, &q, 1 );
+    std::string info = i.info_string( q, 1 );
     using Catch::Matchers::Contains;
     REQUIRE_THAT( info, Contains( reference ) );
 }
@@ -378,7 +396,7 @@ TEST_CASE( "nutrients in food", "[item][iteminfo][food]" )
 
 TEST_CASE( "food freshness and lifetime", "[item][iteminfo][food]" )
 {
-    iteminfo_query q = q_vec( { iteminfo_parts::FOOD_ROT } );
+    iteminfo_query q = q_vec( { iteminfo_parts::FOOD_ROT, iteminfo_parts::FOOD_ROT_STORAGE} );
 
     // Ensure test character has no skill estimating spoilage
     g->u.clear_skills();
@@ -390,6 +408,8 @@ TEST_CASE( "food freshness and lifetime", "[item][iteminfo][food]" )
             "--\n"
             "* This food is <color_c_yellow>perishable</color>, and at room temperature has"
             " an estimated nominal shelf life of <color_c_cyan>3 seasons</color>.\n"
+            "* Current storage conditions <color_c_red>do not</color> protect this item"
+            " from rot.\n"
             "* This food looks as <color_c_green>fresh</color> as it can be.\n" );
     }
 
@@ -401,7 +421,38 @@ TEST_CASE( "food freshness and lifetime", "[item][iteminfo][food]" )
             "--\n"
             "* This food is <color_c_yellow>perishable</color>, and at room temperature has"
             " an estimated nominal shelf life of <color_c_cyan>3 seasons</color>.\n"
-            "* This food looks <color_c_red>old</color>.  It's on the brink of becoming inedible.\n" );
+            "* Current storage conditions <color_c_red>do not</color> protect this item"
+            " from rot.\n"
+            "* This food looks <color_c_red>old</color>.  It's on the brink of becoming inedible.\n"
+        );
+    }
+
+    SECTION( "food is stored in a fridge" ) {
+        item nuts( "test_pine_nuts" );
+        test_info_equals(
+            nuts, q,
+            "--\n"
+            "* This food is <color_c_yellow>perishable</color>, and at room temperature"
+            " has an estimated nominal shelf life of <color_c_cyan>3 seasons</color>.\n"
+            "* Current storage conditions <color_c_yellow>partially</color> protect this"
+            " item from rot.  It will stay fresh at least <color_c_cyan>3 years</color>.\n"
+            "* This food looks as <color_c_green>fresh</color> as it can be.\n",
+            temperature_flag::TEMP_FRIDGE
+        );
+    }
+
+    SECTION( "liquid food is stored in a container in a fridge" ) {
+        item food_item = item( itype_id( "milk" ) ).in_container( itype_id( "glass" ) );
+        test_info_equals(
+            food_item, q,
+            "--\n"
+            "* This food is <color_c_yellow>perishable</color>, and at room temperature"
+            " has an estimated nominal shelf life of <color_c_cyan>1 day</color>.\n"
+            "* Current storage conditions <color_c_yellow>partially</color> protect this"
+            " item from rot.  It will stay fresh at least <color_c_cyan>4 days</color>.\n"
+            "* This food looks as <color_c_green>fresh</color> as it can be.\n",
+            temperature_flag::TEMP_FRIDGE
+        );
     }
 }
 
@@ -470,7 +521,7 @@ TEST_CASE( "repairable and with what tools", "[item][iteminfo][repair]" )
 
     test_info_contains(
         item( "test_halligan" ), q,
-        "<color_c_white>Repair</color> using grid welder, extended toolset, arc welder, or makeshift arc welder.\n" );
+        "<color_c_white>Repair</color> using charcoal forge, grid forge, grid welder, electric forge, extended toolset, arc welder, or makeshift arc welder.\n" );
 
     test_info_contains(
         item( "test_hazmat_suit" ), q,

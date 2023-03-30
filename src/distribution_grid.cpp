@@ -305,11 +305,15 @@ void grid_furn_transform_queue::apply( mapbuffer &mb, distribution_grid_tracker 
 
         const furn_t &old_t = sm->get_furn( p_within_sm.raw() ).obj();
         const furn_t &new_t = qt.id.obj();
+        const tripoint pos_local = m.getlocal( qt.p.raw() );
 
-        sm->set_furn( p_within_sm.raw(), qt.id );
+        if( m.inbounds( pos_local ) ) {
+            m.furn_set( pos_local, qt.id );
+        } else {
+            sm->set_furn( p_within_sm.raw(), qt.id );
+        }
 
         if( !qt.msg.empty() ) {
-            const tripoint pos_local = m.getlocal( qt.p.raw() );
             if( u.sees( pos_local ) ) {
                 add_msg( "%s", _( qt.msg ) );
             }

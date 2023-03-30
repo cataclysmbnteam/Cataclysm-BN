@@ -13,9 +13,9 @@
     "blueprint_provides": [ { "id": "fbmk_center" } ],
     "blueprint_excludes": [ { "id": "fbmk_center" } ],
     "blueprint_needs": {
-      "time": "1 d 1 h 30 m",
+      "time": "1 d 3 h 30 m",
       "skills": [ [ "fabrication", 2 ] ],
-      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 37 ] ] ] }
+      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 39 ] ] ] }
     }
   },
   {
@@ -32,9 +32,9 @@
     "blueprint_provides": [ { "id": "fbmk_center2" } ],
     "blueprint_excludes": [ { "id": "fbmk_center2" } ],
     "blueprint_needs": {
-      "time": "1 d 6 h 30 m",
+      "time": "1 d 10 h 30 m",
       "skills": [ [ "fabrication", 2 ] ],
-      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 51 ] ] ] }
+      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 55 ] ] ] }
     }
   },
   {
@@ -93,12 +93,12 @@
     "blueprint_provides": [ { "id": "fbmk_canteen_dining_west" } ],
     "blueprint_excludes": [ { "id": "fbmk_canteen_dining_west" } ],
     "blueprint_needs": {
-      "time": "1 d 1 h 6 m",
-      "skills": [ [ "fabrication", 2 ], [ "survival", 0 ] ],
+      "time": "1 d 3 h",
+      "skills": [ [ "fabrication", 2 ] ],
       "inline": {
-        "tools": [ [ [ "machete", -1 ], [ "makeshift_machete", -1 ], [ "scythe", -1 ], [ "sickle", -1 ], [ "survivor_machete", -1 ] ] ],
+        "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SMOOTH" } ] ],
-        "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 30 ] ], [ [ "alien_pod_resin", 36 ] ] ]
+        "components": [ [ [ "2x4", 12 ] ], [ [ "alien_pod_resin", 38 ] ], [ [ "nail", 30 ] ] ]
       }
     }
   },
@@ -139,9 +139,9 @@
     "blueprint_provides": [ { "id": "fbmk_canteen_dining_center" } ],
     "blueprint_excludes": [ { "id": "fbmk_canteen_dining_center" } ],
     "blueprint_needs": {
-      "time": "1 d 15 h",
+      "time": "1 d 17 h",
       "skills": [ [ "fabrication", 2 ] ],
-      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 53 ] ] ] }
+      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 55 ] ] ] }
     }
   }
 ]

@@ -21,11 +21,6 @@ extern bool test_mode;
 extern bool debug_mode;
 
 /**
- * Report unused JSON fields in regular (non-test) mode.
- */
-extern bool json_report_unused_fields;
-
-/**
  * Report extra problems in JSONs.
  * Because either @ref test_mode or @ref json_report_unused_fields is set.
  */
@@ -47,6 +42,11 @@ extern bool use_tiles_overmap;
 extern bool log_from_top;
 extern int message_ttl;
 extern int message_cooldown;
+
+/** Display mod source for items, furniture, terrain and monsters.*/
+extern bool display_mod_source;
+/** Display internal IDs for items, furniture, terrain and monsters.*/
+extern bool display_object_ids;
 
 /**
  * Circular distances.

@@ -12,6 +12,7 @@
 #include "input.h"
 #include "map.h"
 #include "mapdata.h"
+#include "mod_manager.h"
 #include "output.h"
 #include "string_formatter.h"
 #include "string_id.h"
@@ -115,7 +116,17 @@ void game::extended_description( const tripoint &p )
                     desc = _( "You do not see any furniture here." );
                 } else {
                     const furn_id fid = m.furn( p );
-                    desc = fid.obj().extended_description();
+                    if( display_mod_source ) {
+                        const std::string mod_src = enumerate_as_string( fid->src.begin(),
+                        fid->src.end(), []( const std::pair<furn_str_id, mod_id> &source ) {
+                            return string_format( "'%s'", source.second->name() );
+                        }, enumeration_conjunction::arrow );
+                        desc = string_format( _( "Origin: %s\n" ), mod_src );
+                    }
+                    if( display_object_ids ) {
+                        desc += colorize( string_format( "[%s]\n", fid.id() ), c_light_blue );
+                    }
+                    desc += fid.obj().extended_description();
                 }
                 break;
             case description_target::terrain:
@@ -123,7 +134,17 @@ void game::extended_description( const tripoint &p )
                     desc = _( "You can't see the terrain here." );
                 } else {
                     const ter_id tid = m.ter( p );
-                    desc = tid.obj().extended_description();
+                    if( display_mod_source ) {
+                        const std::string mod_src = enumerate_as_string( tid->src.begin(),
+                        tid->src.end(), []( const std::pair<ter_str_id, mod_id> &source ) {
+                            return string_format( "'%s'", source.second->name() );
+                        }, enumeration_conjunction::arrow );
+                        desc = string_format( _( "Origin: %s\n" ), mod_src );
+                    }
+                    if( display_object_ids ) {
+                        desc += colorize( string_format( "[%s]\n", tid.id() ), c_light_blue );
+                    }
+                    desc += tid.obj().extended_description();
                 }
                 break;
         }

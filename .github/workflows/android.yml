@@ -1,0 +1,52 @@
+name: Cataclysm Android build
+
+on:
+  pull_request:
+    branches:
+    - upload
+    paths-ignore:
+    - 'build-data/osx/**'
+    - 'doc/**'
+    - 'doxygen_doc/**'
+    - 'gfx/**'
+    - 'lang/**'
+    - 'lgtm/**'
+    - 'msvc-object_creator/**'
+    - 'object_creator/**'
+    - 'tools/**'
+    - '!tools/format/**'
+    - 'utilities/**'
+
+# We only care about the latest revision of a PR, so cancel previous instances.
+concurrency:
+  group: android-build-${{ github.event.pull_request.number || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  build_catatclysm:
+    name: Build
+    runs-on: ubuntu-22.04
+    if: github.event.pull_request.draft == false
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 1
+
+    - name: Set up JDK 8 (android)
+      uses: actions/setup-java@v2
+      with:
+        java-version: "8"
+        distribution: "adopt"
+    
+    - name: Setup build and dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install gettext
+
+    - name: Build
+      working-directory: ./android
+      run: |
+        chmod +x gradlew
+        ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_32=false assembleExperimentalRelease

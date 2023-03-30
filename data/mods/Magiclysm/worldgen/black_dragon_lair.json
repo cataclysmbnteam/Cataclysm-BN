@@ -407,7 +407,7 @@
       "items": {
         ".": [ { "item": "lair_black_dragon", "chance": 15, "repeat": [ 0, 2 ] } ],
         " ": [
-          { "item": "lair_black_dragon", "chance": 10, "repeat": [ 0, 2 ] },
+          { "item": "lair_black_dragon_treasure", "chance": 10, "repeat": [ 0, 2 ] },
           { "item": "enchanted_small_items", "chance": 10, "repeat": [ 0, 2 ] },
           { "item": "enchanted_combat_items", "chance": 10, "repeat": [ 0, 2 ] },
           { "item": "enchanted_melee_weapons_plus2", "chance": 5 },
@@ -437,7 +437,7 @@
         "X    XXXXX XXX  XXXXXX <<       XXXXXXX <<  XXXX",
         "X   XXXXX  XXX  XXXXXXXXXXXXXX  XX  XXX <<  XXXX",
         "X  XXXX     XX  XXX XXXXXXXXX   XX   XXXXX   XXX",
-        "X  XXX  <<  XX  XXX                  XXXXXX  XXXX",
+        "X  XXX  <<  XX  XXX                  XXXXXX  XXX",
         "X  XXX  <<  XX  XX               XX  XXXX    XXX",
         "X   XXX    XXX  XX   XX    XXX  XXXXXXX       XX",
         "X    XXXX  XXX   X  XXXX  XXX   XXXXXX   XXX   X",

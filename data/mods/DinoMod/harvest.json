@@ -1,7 +1,7 @@
 [
   {
     "id": "dino_feather_leather",
-    "//": "drops regular stomach",
+    "//": "drops regular stomach and small skull",
     "type": "harvest",
     "entries": [
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.3 },
@@ -16,12 +16,34 @@
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
       { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 },
-      { "drop": "feather", "type": "skin", "mass_ratio": 0.0001 }
+      { "drop": "feather", "type": "skin", "mass_ratio": 0.002 },
+      { "drop": "down_feather", "type": "skin", "mass_ratio": 0.001 }
+    ]
+  },
+  {
+    "id": "dino_pred_feather_leather",
+    "//": "drops regular stomach and small skull",
+    "type": "harvest",
+    "entries": [
+      { "drop": "meat", "type": "flesh", "mass_ratio": 0.3 },
+      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
+      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
+      { "drop": "sweetbread", "type": "flesh", "mass_ratio": 0.002 },
+      { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "stomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 },
+      { "drop": "feather", "type": "skin", "mass_ratio": 0.002 },
+      { "drop": "down_feather", "type": "skin", "mass_ratio": 0.001 }
     ]
   },
   {
     "id": "dino_large_feather",
-    "//": "drops large stomach",
+    "//": "drops large stomach and regular skull",
     "type": "harvest",
     "entries": [
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.32 },
@@ -36,12 +58,51 @@
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
       { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 },
-      { "drop": "feather", "type": "skin", "mass_ratio": 0.0001 }
+      { "drop": "feather", "type": "skin", "mass_ratio": 0.002 },
+      { "drop": "down_feather", "type": "skin", "mass_ratio": 0.001 }
+    ]
+  },
+  {
+    "id": "dino_sauropod",
+    "//": "drops sauropod stomach and medium skull",
+    "type": "harvest",
+    "entries": [
+      { "drop": "meat", "type": "flesh", "mass_ratio": 0.32 },
+      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
+      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
+      { "drop": "sweetbread", "type": "flesh", "mass_ratio": 0.002 },
+      { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 }
     ]
   },
   {
     "id": "dino_large_pred",
-    "//": "drops large stomach",
+    "//": "drops large stomach and skull",
+    "type": "harvest",
+    "entries": [
+      { "drop": "meat", "type": "flesh", "mass_ratio": 0.32 },
+      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
+      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
+      { "drop": "sweetbread", "type": "flesh", "mass_ratio": 0.002 },
+      { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 }
+    ]
+  },
+  {
+    "id": "dino_med_feather_pred",
+    "//": "drops large stomach and medium skull",
     "type": "harvest",
     "entries": [
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.32 },
@@ -56,14 +117,13 @@
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
       { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 },
-      { "drop": "spider", "type": "bionic_group" },
-      { "drop": "science", "type": "bionic_group" },
-      { "drop": "corpses", "type": "bionic_group" }
+      { "drop": "feather", "type": "skin", "mass_ratio": 0.002 },
+      { "drop": "down_feather", "type": "skin", "mass_ratio": 0.001 }
     ]
   },
   {
     "id": "dino_large_feather_pred",
-    "//": "drops large stomach",
+    "//": "drops large stomach and skull",
     "type": "harvest",
     "entries": [
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.32 },
@@ -78,157 +138,30 @@
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
       { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 },
-      { "drop": "feather", "type": "skin", "mass_ratio": 0.0001 },
-      { "drop": "feather", "type": "skin", "mass_ratio": 0.0001 },
-      { "drop": "spider", "type": "bionic_group" },
-      { "drop": "science", "type": "bionic_group" },
-      { "drop": "corpses", "type": "bionic_group" }
-    ]
-  },
-  {
-    "id": "CBM_DINO",
-    "type": "harvest",
-    "entries": [
-      { "drop": "meat", "type": "flesh", "mass_ratio": 0.3 },
-      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
-      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
-      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
-      { "drop": "sweetbread", "type": "flesh", "mass_ratio": 0.002 },
-      { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
-      { "drop": "stomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
-      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
-      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
-      { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
-      { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 },
-      { "drop": "bionic_power_storage_mil", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
-      { "drop": "bionics_op", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] }
-    ]
-  },
-  {
-    "id": "CBM_DINO_FEATHER",
-    "type": "harvest",
-    "entries": [
-      { "drop": "meat", "type": "flesh", "mass_ratio": 0.3 },
-      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
-      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
-      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
-      { "drop": "sweetbread", "type": "flesh", "mass_ratio": 0.002 },
-      { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
-      { "drop": "stomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
-      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
-      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
-      { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
-      { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 },
-      { "drop": "feather", "type": "skin", "mass_ratio": 0.0001 },
-      { "drop": "bionic_power_storage_mil", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
-      { "drop": "bionics_op", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] }
-    ]
-  },
-  {
-    "id": "CBM_DINO_LARGE",
-    "//": "drops large stomach",
-    "type": "harvest",
-    "entries": [
-      { "drop": "meat", "type": "flesh", "mass_ratio": 0.32 },
-      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
-      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
-      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
-      { "drop": "sweetbread", "type": "flesh", "mass_ratio": 0.002 },
-      { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
-      { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
-      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
-      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
-      { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
-      { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 },
-      { "drop": "bionic_power_storage_mil", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
-      { "drop": "bionics_op", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] }
-    ]
-  },
-  {
-    "id": "CBM_DINO_LARGE_FEATHER",
-    "//": "drops large stomach",
-    "type": "harvest",
-    "entries": [
-      { "drop": "meat", "type": "flesh", "mass_ratio": 0.32 },
-      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
-      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
-      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
-      { "drop": "sweetbread", "type": "flesh", "mass_ratio": 0.002 },
-      { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
-      { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
-      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
-      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
-      { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
-      { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 },
-      { "drop": "bionic_power_storage_mil", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
-      { "drop": "bionics_op", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
-      { "drop": "feather", "type": "skin", "mass_ratio": 0.0001 }
+      { "drop": "feather", "type": "skin", "mass_ratio": 0.002 },
+      { "drop": "down_feather", "type": "skin", "mass_ratio": 0.001 }
     ]
   },
   {
     "id": "zed_dino_leather",
     "type": "harvest",
     "entries": [
-      { "drop": "spider", "type": "bionic_group", "flags": [ "FILTHY" ] },
-      { "drop": "science", "type": "bionic_group", "flags": [ "FILTHY" ] },
-      { "drop": "corpses", "type": "bionic_group", "flags": [ "FILTHY" ] },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
-      { "drop": "raw_tainted_leather", "type": "skin", "mass_ratio": 0.02 },
-      { "drop": "pheromone", "type": "bionic", "max": 1 }
+      { "drop": "raw_tainted_leather", "type": "skin", "mass_ratio": 0.02 }
     ]
   },
   {
     "id": "zed_dino_feather",
     "type": "harvest",
     "entries": [
-      { "drop": "spider", "type": "bionic_group", "flags": [ "FILTHY" ] },
-      { "drop": "science", "type": "bionic_group", "flags": [ "FILTHY" ] },
-      { "drop": "corpses", "type": "bionic_group", "flags": [ "FILTHY" ] },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
       { "drop": "raw_tainted_leather", "type": "skin", "mass_ratio": 0.02 },
-      { "drop": "pheromone", "type": "bionic", "max": 1 },
-      { "drop": "feather", "type": "skin", "mass_ratio": 0.0001 }
-    ]
-  },
-  {
-    "id": "CBM_ZINO",
-    "type": "harvest",
-    "entries": [
-      { "drop": "spider", "type": "bionic_group", "flags": [ "FILTHY" ] },
-      { "drop": "science", "type": "bionic_group", "flags": [ "FILTHY" ] },
-      { "drop": "corpses", "type": "bionic_group", "flags": [ "FILTHY" ] },
-      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
-      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
-      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
-      { "drop": "raw_tainted_leather", "type": "skin", "mass_ratio": 0.02 },
-      { "drop": "pheromone", "type": "bionic", "max": 1 },
-      { "drop": "bionic_power_storage_mil", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
-      { "drop": "bionics_op", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] }
-    ]
-  },
-  {
-    "id": "CBM_ZINO_FEATHER",
-    "type": "harvest",
-    "entries": [
-      { "drop": "spider", "type": "bionic_group", "flags": [ "FILTHY" ] },
-      { "drop": "science", "type": "bionic_group", "flags": [ "FILTHY" ] },
-      { "drop": "corpses", "type": "bionic_group", "flags": [ "FILTHY" ] },
-      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
-      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
-      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
-      { "drop": "raw_tainted_leather", "type": "skin", "mass_ratio": 0.02 },
-      { "drop": "pheromone", "type": "bionic", "max": 1 },
-      { "drop": "bionic_power_storage_mil", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
-      { "drop": "bionics_op", "type": "bionic_group", "faults": [ "fault_bionic_nonsterile" ] },
-      { "drop": "feather", "type": "skin", "mass_ratio": 0.0001 }
+      { "drop": "feather", "type": "skin", "mass_ratio": 0.002 },
+      { "drop": "down_feather", "type": "skin", "mass_ratio": 0.001 }
     ]
   }
 ]

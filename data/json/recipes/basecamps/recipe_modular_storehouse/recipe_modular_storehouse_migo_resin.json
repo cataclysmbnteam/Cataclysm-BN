@@ -127,9 +127,9 @@
     "blueprint_provides": [ { "id": "fbms_south" } ],
     "blueprint_excludes": [ { "id": "fbms_south" } ],
     "blueprint_needs": {
-      "time": "1 d 18 h",
+      "time": "1 d 22 h",
       "skills": [ [ "fabrication", 2 ] ],
-      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 58 ] ] ] }
+      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 62 ] ] ] }
     }
   },
   {
@@ -146,9 +146,9 @@
     "blueprint_provides": [ { "id": "fbms_north" } ],
     "blueprint_excludes": [ { "id": "fbms_north" } ],
     "blueprint_needs": {
-      "time": "1 d 18 h",
+      "time": "1 d 22 h",
       "skills": [ [ "fabrication", 2 ] ],
-      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 58 ] ] ] }
+      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 62 ] ] ] }
     }
   },
   {

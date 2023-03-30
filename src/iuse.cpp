@@ -25,6 +25,8 @@
 #include "artifact.h"
 #include "avatar.h"
 #include "avatar_action.h"
+#include "avatar_functions.h"
+#include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -323,8 +325,12 @@ static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 static const trait_id trait_WAYFARER( "WAYFARER" );
+
 static const quality_id qual_AXE( "AXE" );
 static const quality_id qual_DIG( "DIG" );
+
+static const requirement_id requirement_add_grid_connection =
+    requirement_id( "add_grid_connection" );
 
 static const species_id FUNGUS( "FUNGUS" );
 static const species_id HALLUCINATION( "HALLUCINATION" );
@@ -1546,8 +1552,9 @@ static int feedpet( player &p, monster &mon, item &it, m_flag food_flag, const c
 
 static int petfood( player &p, item &it, Petfood animal_food_type )
 {
-    const cata::optional<tripoint> pnt_ = choose_adjacent( string_format( _( "Put the %s where?" ),
-                                          it.tname() ) );
+    const cata::optional<tripoint> pnt_ = choose_adjacent( string_format(
+            _( "Tame which animal with the %s?" ),
+            it.tname() ) );
     if( !pnt_ ) {
         return 0;
     }
@@ -1727,7 +1734,7 @@ int iuse::remove_all_mods( player *p, item *, bool, const tripoint & )
         return 0;
     }
 
-    if( !loc->ammo_remaining() || p->unload( loc ) ) {
+    if( !loc->ammo_remaining() || avatar_funcs::unload_item( *p->as_avatar(), loc ) ) {
         item *mod = loc->contents.get_item_with(
         []( const item & e ) {
             return e.is_toolmod() && !e.is_irremovable();
@@ -2040,7 +2047,7 @@ int iuse::pack_cbm( player *p, item *it, bool, const tripoint & )
     }
     if( !bionic.get_item()->faults.empty() ) {
         if( p->query_yn( _( "This CBM is faulty.  You should mend it first.  Do you want to try?" ) ) ) {
-            p->mend_item( std::move( bionic ) );
+            avatar_funcs::mend_item( *p->as_avatar(), std::move( bionic ) );
         }
         return 0;
     }
@@ -2781,7 +2788,7 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
     digging_moves_and_byproducts moves_and_byproducts = dig_pit_moves_and_byproducts( p, it,
             can_deepen, false );
 
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers( 3 );
+    const std::vector<npc *> helpers = character_funcs::get_crafting_helpers( *p, 3 );
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task…" ), np->name );
     }
@@ -2848,7 +2855,7 @@ int iuse::dig_channel( player *p, item *it, bool t, const tripoint & )
     digging_moves_and_byproducts moves_and_byproducts = dig_pit_moves_and_byproducts( p, it, false,
             true );
 
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers( 3 );
+    const std::vector<npc *> helpers = character_funcs::get_crafting_helpers( *p, 3 );
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task…" ), np->name );
     }
@@ -2919,7 +2926,7 @@ int iuse::fill_pit( player *p, item *it, bool t, const tripoint & )
         return 0;
     }
 
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers( 3 );
+    const std::vector<npc *> helpers = character_funcs::get_crafting_helpers( *p, 3 );
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task…" ), np->name );
     }
@@ -2962,7 +2969,7 @@ int iuse::clear_rubble( player *p, item *it, bool, const tripoint & )
     int moves = to_moves<int>( 30_seconds );
     int bonus = std::max( it->get_quality( quality_id( "DIG" ) ) - 1, 1 );
 
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers( 3 );
+    const std::vector<npc *> helpers = character_funcs::get_crafting_helpers( *p, 3 );
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task…" ), np->name );
     }
@@ -3270,7 +3277,7 @@ int iuse::jackhammer( player *p, item *it, bool, const tripoint &pos )
         moves /= 2;
     }
 
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers( 3 );
+    const std::vector<npc *> helpers = character_funcs::get_crafting_helpers( *p, 3 );
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task…" ), np->name );
     }
@@ -3325,7 +3332,7 @@ int iuse::pickaxe( player *p, item *it, bool, const tripoint &pos )
         moves /= 2;
     }
 
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers( 3 );
+    const std::vector<npc *> helpers = character_funcs::get_crafting_helpers( *p, 3 );
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task…" ), np->name );
     }
@@ -3765,7 +3772,7 @@ int iuse::grenade_inc_act( player *p, item *it, bool t, const tripoint &pos )
                 g->m.add_field( flame, fd_fire, rng( 0, 2 ) );
             }
         }
-        explosion_handler::explosion( pos, 8, 0.8, true );
+        explosion_handler::explosion( pos, p, 8, 0.8, true );
         for( const tripoint &dest : g->m.points_in_radius( pos, 2 ) ) {
             g->m.add_field( dest, fd_incendiary, 3 );
         }
@@ -4795,7 +4802,7 @@ int iuse::chop_tree( player *p, item *it, bool t, const tripoint & )
     }
     int moves = chop_moves( *p, *it );
 
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers( 3 );
+    const std::vector<npc *> helpers = character_funcs::get_crafting_helpers( *p, 3 );
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task…" ), np->name );
     }
@@ -4840,7 +4847,7 @@ int iuse::chop_logs( player *p, item *it, bool t, const tripoint & )
 
     int moves = chop_moves( *p, *it );
 
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers( 3 );
+    const std::vector<npc *> helpers = character_funcs::get_crafting_helpers( *p, 3 );
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task…" ), np->name );
     }
@@ -5234,7 +5241,8 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
 
             case AEA_FIREBALL: {
                 if( const cata::optional<tripoint> fireball = g->look_around() ) {
-                    explosion_handler::explosion( *fireball, 180, 0.5, true );
+                    // only the player can trigger artifact
+                    explosion_handler::explosion( *fireball, p, 180, 0.5, true );
                 }
             }
             break;
@@ -5517,7 +5525,7 @@ int iuse::handle_ground_graffiti( player &p, item *it, const std::string &prefix
 {
     string_input_popup popup;
     std::string message = popup
-                          .title( prefix + " " + _( "(To delete, clear the text and confirm)" ) )
+                          .description( prefix + " " + _( "(To delete, clear the text and confirm)" ) )
                           .text( g->m.has_graffiti_at( where ) ? g->m.graffiti_at( where ) : std::string() )
                           .identifier( "graffiti" )
                           .query_string();
@@ -5923,7 +5931,7 @@ int iuse::gunmod_attach( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    p->gunmod_add( *loc, *it );
+    avatar_funcs::gunmod_add( *p->as_avatar(), *loc, *it );
 
     return 0;
 }
@@ -5964,13 +5972,13 @@ int iuse::toolmod_attach( player *p, item *it, bool, const tripoint & )
     }
 
     if( loc->ammo_remaining() ) {
-        if( !p->unload( loc ) ) {
+        if( !avatar_funcs::unload_item( *p->as_avatar(), loc ) ) {
             p->add_msg_if_player( m_info, _( "You cancel unloading the tool." ) );
             return 0;
         }
     }
 
-    p->toolmod_add( std::move( loc ), item_location( *p, it ) );
+    avatar_funcs::toolmod_add( *p->as_avatar(), std::move( loc ), item_location( *p, it ) );
     return 0;
 }
 
@@ -6748,14 +6756,13 @@ static std::string colorized_item_name( const item &item )
 
 static std::string colorized_item_description( const item &item )
 {
-    std::vector<iteminfo> dummy;
     iteminfo_query query = iteminfo_query(
     std::vector<iteminfo_parts> {
         iteminfo_parts::DESCRIPTION,
         iteminfo_parts::DESCRIPTION_NOTES,
         iteminfo_parts::DESCRIPTION_CONTENTS
     } );
-    return item.info( dummy, &query, 1 );
+    return item.info_string( query, 1 );
 }
 
 static item get_top_item_at_point( const tripoint &point,
@@ -7800,9 +7807,9 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
         }
 
         if( p->has_item( *it ) ) {
-            if( p->has_active_bionic( bio_shock ) && p->get_power_level() >= 2_kJ &&
+            if( p->has_active_bionic( bio_shock ) && p->get_power_level() >= bio_shock->power_trigger &&
                 one_in( 5 ) ) {
-                p->mod_power_level( -2_kJ );
+                p->mod_power_level( -bio_shock->power_trigger );
 
                 it->unset_flag( "NO_UNWIELD" );
                 it->ammo_unset();
@@ -9498,7 +9505,7 @@ int wash_items( player *p, bool soft_items, bool hard_items )
         return 0;
     }
 
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers( 3 );
+    const std::vector<npc *> helpers = character_funcs::get_crafting_helpers( *p, 3 );
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task…" ), np->name );
     }
@@ -9552,7 +9559,8 @@ int iuse::craft( player *p, item *it, bool, const tripoint &pos )
         return 0;
     }
     const recipe &rec = it->get_making();
-    if( p->has_recipe( &rec, p->crafting_inventory(), p->get_crafting_helpers() ) == -1 ) {
+    if( p->has_recipe( &rec, p->crafting_inventory(),
+                       character_funcs::get_crafting_helpers( *p ) ) == -1 ) {
         p->add_msg_player_or_npc(
             _( "You don't know the recipe for the %s and can't continue crafting." ),
             _( "<npcname> doesn't know the recipe for the %s and can't continue crafting." ),
@@ -9729,6 +9737,102 @@ int iuse::report_grid_connections( player *p, item *, bool, const tripoint &pos 
                              enumerate_as_string( connection_names ) );
     }
     p->add_msg_if_player( msg );
+
+    return 0;
+}
+
+int iuse::modify_grid_connections( player *p, item *it, bool, const tripoint &pos )
+{
+    tripoint_abs_omt pos_abs = project_to<coords::omt>( tripoint_abs_ms( get_map().getabs( pos ) ) );
+    std::vector<tripoint_rel_omt> connections = overmap_buffer.electric_grid_connectivity_at( pos_abs );
+
+    uilist ui;
+
+    std::bitset<six_cardinal_directions.size()> connection_present;
+    for( size_t i = 0; i < six_cardinal_directions.size(); i++ ) {
+        const tripoint &delta = six_cardinal_directions[i];
+        connection_present[i] = std::count( connections.begin(), connections.end(),
+                                            tripoint_rel_omt( delta ) );
+        std::string name = direction_name( direction_from( delta ) );
+        int i_int = static_cast<int>( i );
+        const char *format = connection_present[i]
+                             ? _( "Remove connection in direction: %s" )
+                             : _( "Add connection in direction: %s" );
+        int new_z = pos.z + delta.z;
+        bool enabled = new_z >= -10 && new_z <= 10;
+        ui.addentry( i_int, enabled, i_int, format, name.c_str() );
+    }
+
+    ui.query();
+    if( ui.ret < 0 ) {
+        return 0;
+    }
+
+    size_t ret = static_cast<size_t>( ui.ret );
+    tripoint_abs_omt destination_pos_abs = pos_abs + tripoint_rel_omt( six_cardinal_directions[ret] );
+    if( connection_present[ret] ) {
+        overmap_buffer.remove_grid_connection( pos_abs, destination_pos_abs );
+    } else {
+        std::set<tripoint_abs_omt> lhs_locations = overmap_buffer.electric_grid_at( pos_abs );
+        std::set<tripoint_abs_omt> rhs_locations = overmap_buffer.electric_grid_at( destination_pos_abs );
+        int cost_mult;
+        if( lhs_locations == rhs_locations ) {
+            cost_mult = 0;
+        } else {
+            cost_mult = lhs_locations.size() + rhs_locations.size();
+        }
+        const requirement_data &reqs = *requirement_add_grid_connection * cost_mult;
+        const inventory &crafting_inv = p->crafting_inventory();
+        std::string grid_connection_string;
+        if( cost_mult == 0 ) {
+            grid_connection_string = string_format(
+                                         _( "You are connecting two locations in the same grid, with %lu elements." ),
+                                         std::max( lhs_locations.size(), rhs_locations.size() ) );
+        } else if( lhs_locations.size() == 1 || rhs_locations.size() == 1 ) {
+            grid_connection_string = string_format(
+                                         _( "You are extending a grid with %lu elements." ),
+                                         std::max( lhs_locations.size(), rhs_locations.size() ) );
+        } else {
+            grid_connection_string = string_format(
+                                         _( "You are connecting a grid with %lu elements to a grid with %lu elements." ),
+                                         lhs_locations.size(),
+                                         rhs_locations.size() );
+        }
+
+        if( !requirement_add_grid_connection->can_make_with_inventory( crafting_inv,
+                is_crafting_component ) ) {
+            popup( string_format( _( "%s\n%s\n%s" ),
+                                  grid_connection_string,
+                                  reqs.list_missing(),
+                                  reqs.list_all() ) );
+            return 0;
+        }
+
+        // TODO: Long action
+        if( ( cost_mult == 0 &&
+              query_yn( string_format( _( "%s\nThis action will not consume any resources.\nAre you sure?" ),
+                                       grid_connection_string ) ) ) ||
+            query_yn( string_format( std::string( "%s\n%s\n" ) + _( "Are you sure?" ),
+                                     grid_connection_string,
+                                     reqs.list_all() ) ) )
+        {} else {
+            return 0;
+        }
+
+
+        for( const auto &e : reqs.get_components() ) {
+            p->consume_items( e );
+        }
+        for( const auto &e : reqs.get_tools() ) {
+            p->consume_tools( e );
+        }
+        p->invalidate_crafting_inventory();
+
+        bool success = overmap_buffer.add_grid_connection( pos_abs, destination_pos_abs );
+        if( success ) {
+            return it->type->charges_to_use();
+        }
+    }
 
     return 0;
 }

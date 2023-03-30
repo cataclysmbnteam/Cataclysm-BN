@@ -673,7 +673,7 @@ void talk_function::basecamp_mission( npc &p )
     }
 }
 
-void basecamp::add_available_recipes( mission_data &mission_key, const point &dir,
+void basecamp::add_available_recipes( mission_data &mission_key, point dir,
                                       const std::map<recipe_id, translation> &craft_recipes )
 {
     const std::string dir_id = base_camps::all_directions.at( dir ).id;
@@ -689,7 +689,7 @@ void basecamp::add_available_recipes( mission_data &mission_key, const point &di
     }
 }
 
-void basecamp::get_available_missions_by_dir( mission_data &mission_key, const point &dir )
+void basecamp::get_available_missions_by_dir( mission_data &mission_key, point dir )
 {
     std::string entry;
     std::string gather_bldg = "null";
@@ -1211,7 +1211,7 @@ void basecamp::get_available_missions( mission_data &mission_key )
 {
     std::string entry;
 
-    const point &base_dir = base_camps::base_dir;
+    point base_dir = base_camps::base_dir;
     const base_camps::direction_data &base_data = base_camps::all_directions.at( base_dir );
     const std::string base_dir_id = base_data.id;
     const std::string base_dir_abbr = base_data.bracket_abbr.translated();
@@ -1327,7 +1327,7 @@ void basecamp::get_available_missions( mission_data &mission_key )
     get_available_missions_by_dir( mission_key, base_camps::base_dir );
 
     // Loop over expansions
-    for( const point &dir : directions ) {
+    for( point dir : directions ) {
         get_available_missions_by_dir( mission_key, dir );
     }
 
@@ -1351,7 +1351,7 @@ void basecamp::get_available_missions( mission_data &mission_key )
 bool basecamp::handle_mission( const std::string &miss_id,
                                const cata::optional<point> &opt_miss_dir )
 {
-    const point &miss_dir = opt_miss_dir ? *opt_miss_dir : base_camps::base_dir;
+    point miss_dir = opt_miss_dir ? *opt_miss_dir : base_camps::base_dir;
 
     if( miss_id == "Distribute Food" ) {
         distribute_food();
@@ -1587,7 +1587,7 @@ npc_ptr basecamp::start_mission( const std::string &miss_id, time_duration durat
     return comp;
 }
 
-void basecamp::start_upgrade( const std::string &bldg, const point &dir,
+void basecamp::start_upgrade( const std::string &bldg, point dir,
                               const std::string &key )
 {
     const recipe &making = recipe_id( bldg ).obj();
@@ -2220,7 +2220,7 @@ void basecamp::start_combat_mission( const std::string &miss )
 // it first checks whether the mission id starts with the correct direction prefix,
 // and then search for the mission id without direction prefix in the recipes
 // if there's a match, the player has selected a crafting mission
-void basecamp::start_crafting( const std::string &cur_id, const point &cur_dir,
+void basecamp::start_crafting( const std::string &cur_id, point cur_dir,
                                const std::string &type, const std::string &miss_id )
 {
     const std::string cur_dir_id = base_camps::all_directions.at( cur_dir ).id;
@@ -2398,7 +2398,7 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
     return std::make_pair( plots_cnt, crops );
 }
 
-void basecamp::start_farm_op( const point &dir, const tripoint_abs_omt &omt_tgt, farm_ops op )
+void basecamp::start_farm_op( point dir, const tripoint_abs_omt &omt_tgt, farm_ops op )
 {
     const std::string &dir_id = base_camps::all_directions.at( dir ).id;
     std::pair<size_t, std::string> farm_data = farm_action( omt_tgt, op );
@@ -2446,7 +2446,7 @@ void basecamp::start_farm_op( const point &dir, const tripoint_abs_omt &omt_tgt,
     }
 }
 
-bool basecamp::start_garage_chop( const point &dir, const tripoint_abs_omt &omt_tgt )
+bool basecamp::start_garage_chop( point dir, const tripoint_abs_omt &omt_tgt )
 {
     editmap edit;
     vehicle *car = edit.mapgen_veh_query( omt_tgt );
@@ -2594,7 +2594,7 @@ npc_ptr basecamp::emergency_recall()
 
 }
 
-bool basecamp::upgrade_return( const point &dir, const std::string &miss )
+bool basecamp::upgrade_return( point dir, const std::string &miss )
 {
     const std::string bldg = next_upgrade( dir, 1 );
     if( bldg == "null" ) {
@@ -2603,7 +2603,7 @@ bool basecamp::upgrade_return( const point &dir, const std::string &miss )
     return upgrade_return( dir, miss, bldg );
 }
 
-bool basecamp::upgrade_return( const point &dir, const std::string &miss,
+bool basecamp::upgrade_return( point dir, const std::string &miss,
                                const std::string &bldg )
 {
     auto e = expansions.find( dir );
@@ -2779,7 +2779,6 @@ void basecamp::recruit_return( const std::string &task, int score )
     int skill = comp->get_skill_level( skill_survival );
     if( rng( 1, 20 ) + skill > 17 ) {
         recruit = make_shared_fast<npc>();
-        recruit->normalize();
         recruit->randomize();
         popup( _( "%s encountered %s…" ), comp->name, recruit->name );
     } else {
@@ -3709,7 +3708,7 @@ int basecamp::recruit_evaluation( int &sbase, int &sexpansions, int &sfaction, i
     //How could we ever starve?
     //More than 5 farms at recruiting base
     int farm = 0;
-    for( const point &dir : directions ) {
+    for( point dir : directions ) {
         if( has_provides( "farming", dir ) ) {
             farm++;
         }

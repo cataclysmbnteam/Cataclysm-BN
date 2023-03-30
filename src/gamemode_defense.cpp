@@ -19,6 +19,7 @@
 #include "input.h"
 #include "item.h"
 #include "item_group.h"
+#include "iteminfo_query.h"
 #include "map.h"
 #include "messages.h"
 #include "mongroup.h"
@@ -216,7 +217,8 @@ void defense_game::init_mtypes()
 
 void defense_game::init_constructions()
 {
-    standardize_construction_times( 1 ); // Everything takes 1 minute
+    // Everything takes 1 minute
+    constructions::override_build_times( 1_minutes );
 }
 
 void defense_game::init_map()
@@ -279,6 +281,7 @@ void defense_game::init_map()
                 popup.message( _( "Please wait as the map generates [%2d%%]" ), percent );
                 ui_manager::redraw();
                 refresh_display();
+                inp_mngr.pump_events();
                 old_percent = percent;
             }
             // Round down to the nearest even number
@@ -1245,7 +1248,7 @@ void draw_caravan_items( const catacurses::window &w, std::vector<itype_id> *ite
     // THEN print it--if item_selected is valid
     if( item_selected < static_cast<int>( items->size() ) ) {
         item tmp( ( *items )[item_selected], calendar::start_of_cataclysm );
-        fold_and_print( w, point( 1, 12 ), 38, c_white, tmp.info() );
+        fold_and_print( w, point( 1, 12 ), 38, c_white, tmp.info_string( iteminfo_query::no_text ) );
     }
     // Next, clear the item list on the right
     for( int i = 1; i <= FULL_SCREEN_HEIGHT - 2; i++ ) {

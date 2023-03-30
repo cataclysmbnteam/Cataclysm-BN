@@ -266,5 +266,18 @@
     "type": "recipe",
     "result": "bp_rifle_huge_AP",
     "obsolete": true
+  },
+  {
+    "id": "black_powder_shot",
+    "type": "AMMO",
+    "copy-from": "flintlock_shot",
+    "name": { "str": "paper shot cartridge" },
+    "description": "A paper cartridge containing black powder and metallic shot.  Historically used to reload muzzleloaders in a more reasonable time.",
+    "ammo_type": "ammo_black_powder"
+  },
+  {
+    "type": "recipe",
+    "result": "black_powder_shot",
+    "obsolete": true
   }
 ]

@@ -658,14 +658,11 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
         const int wwidth = getmaxx( w ) - 1 - 3; // border (1) + ">> " (3)
 
         unsigned int iNum = 0;
-        int index = 0;
         bool bKeepIter = false;
-        int iCatBeforeCursor = 0;
 
         for( size_t i = 0; i <= iActive; i++ ) {
             if( !mSortCategory[i].empty() ) {
                 iActive++;
-                iCatBeforeCursor++;
             }
         }
 
@@ -678,7 +675,7 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
         }
 
         int larger = ( iMaxRows > static_cast<int>( iModNum ) ) ? static_cast<int>( iModNum ) : iMaxRows;
-        for( auto iter = mods.begin(); iter != mods.end(); ++index ) {
+        for( auto iter = mods.begin(); iter != mods.end(); ) {
             if( iNum >= static_cast<size_t>( start ) && iNum < static_cast<size_t>( start + larger ) ) {
                 if( !mSortCategory[iNum].empty() ) {
                     bKeepIter = true;

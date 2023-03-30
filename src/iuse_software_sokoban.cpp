@@ -101,7 +101,7 @@ void sokoban_game::parse_level( std::istream &fin )
     }
 }
 
-int sokoban_game::get_wall_connection( const point &i )
+int sokoban_game::get_wall_connection( point i )
 {
     bool bTop = false;
     bool bRight = false;

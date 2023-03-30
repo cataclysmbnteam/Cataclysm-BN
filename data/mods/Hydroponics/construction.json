@@ -2,7 +2,7 @@
   {
     "type": "construction",
     "id": "constr_hydroponics",
-    "description": "Build Hydroponics",
+    "group": "build_hydroponics",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ], [ "survival", 2 ], [ "electronics", 2 ] ],
     "time": "3 h",
@@ -26,7 +26,7 @@
   {
     "type": "construction",
     "id": "constr_hydro_heater",
-    "description": "Build Hydroponics Heater",
+    "group": "build_hydroponics_heater",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ], [ "electronics", 3 ] ],
     "time": "45 m",

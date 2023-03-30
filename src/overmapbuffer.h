@@ -601,6 +601,18 @@ class overmapbuffer
          * Returned vector may be empty.
          */
         std::vector<tripoint_rel_omt> electric_grid_connectivity_at( const tripoint_abs_omt &p );
+
+        /**
+         * Adds a grid connection between two points. The points must be adjacent.
+        */
+        bool add_grid_connection( const tripoint_abs_omt &lhs, const tripoint_abs_omt &rhs );
+
+        /**
+         * Removes a grid connection between two points. The points must be adjacent.
+         * Does not fully isolate the points, they can still be in the same grid
+         * after this operation.
+        */
+        bool remove_grid_connection( const tripoint_abs_omt &lhs, const tripoint_abs_omt &rhs );
 };
 
 extern overmapbuffer overmap_buffer;

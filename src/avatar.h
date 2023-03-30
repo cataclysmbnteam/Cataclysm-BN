@@ -19,6 +19,7 @@
 class JsonIn;
 class JsonObject;
 class JsonOut;
+class diary;
 class faction;
 class mission;
 class monster;
@@ -96,6 +97,8 @@ class avatar : public player
         /** Returns last stored map tile in given location in curses mode */
         int get_memorized_symbol( const tripoint &p ) const;
         void clear_memorized_tile( const tripoint &pos );
+        /** Returns last stored map tile in given location in tiles mode */
+        bool has_memorized_tile_for_autodrive( const tripoint &p ) const;
 
         /** Provides the window and detailed morale data */
         void disp_morale();
@@ -128,6 +131,9 @@ class avatar : public player
          */
         void on_mission_finished( mission &cur_mission );
 
+        // return avatar diary
+        diary *get_avatar_diary();
+
         /**
          * Helper function for player::read.
          *
@@ -151,7 +157,7 @@ class avatar : public player
         /** Completes book reading action. **/
         void do_read( item_location loc );
         /** Note that we've read a book at least once. **/
-        bool has_identified( const itype_id &item_id ) const override;
+        bool has_identified( const itype_id &item_id ) const;
 
         void wake_up();
         // Grab furniture / vehicle
@@ -160,12 +166,7 @@ class avatar : public player
         /** Handles player vomiting effects */
         void vomit();
 
-        /**
-         * Try to steal an item from the NPC's inventory. May result in fail attempt, when NPC not notices you,
-         * notices your steal attempt and getting angry with you, and you successfully stealing the item.
-         * @param target Target NPC to steal from
-         */
-        void steal( npc &target );
+        bool is_hallucination() const override;
 
         pimpl<teleporter_list> translocators;
 
@@ -202,6 +203,12 @@ class avatar : public player
 
         bool wield( item &target ) override;
 
+        /**
+         * Add warning from faction.
+         * @returns true if the warning is now beyond final and results in hostility
+         */
+        bool add_faction_warning( const faction_id &id );
+
         using Character::invoke_item;
         bool invoke_item( item *, const tripoint &pt ) override;
         bool invoke_item( item * ) override;
@@ -222,6 +229,10 @@ class avatar : public player
          * way or the other).
          */
         std::vector<mission *> active_missions;
+        /**
+        * Diary to track player progression and to write the player's story
+        */
+        std::unique_ptr <diary> a_diary;
         /**
          * Missions that the player has successfully completed.
          */
@@ -248,6 +259,9 @@ class avatar : public player
         int per_upgrade = 0;
 
         monster_visible_info mon_visible;
+
+        /** Warnings from factions about bad behavior */
+        std::map<faction_id, std::pair<int, time_point>> warning_record;
 };
 
 avatar &get_avatar();

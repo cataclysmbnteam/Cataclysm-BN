@@ -53,12 +53,12 @@
     "blueprint_provides": [ { "id": "fbmc_firestation1_well" }, { "id": "relaying" }, { "id": "scouting" }, { "id": "patrolling" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_well" } ],
     "blueprint_needs": {
-      "time": "11 h",
+      "time": "13 h 30 m",
       "skills": [ [ "fabrication", 4 ], [ "mechanics", 2 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH" } ] ],
-        "components": [ [ [ "rock", 40 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ], [ [ "well_pump", 1 ] ], [ [ "pipe", 6 ] ] ]
+        "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ], [ [ "pipe", 6 ] ], [ [ "rock", 40 ] ], [ [ "well_pump", 1 ] ] ]
       }
     }
   },
@@ -368,12 +368,12 @@
     "blueprint_provides": [ { "id": "fbmc_firestation1_quarters" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_quarters" } ],
     "blueprint_needs": {
-      "time": "15 h 54 m",
+      "time": "7 h 30 m",
       "skills": [ [ "fabrication", 2 ] ],
       "inline": {
-        "tools": [ [ [ "paint_brush", -1 ] ], [ [ "chipper", -1 ] ] ],
+        "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 70 ] ], [ [ "nail", 180 ] ], [ [ "wood_panel", 5 ] ], [ [ "hinge", 10 ] ], [ [ "w_paint", 900 ] ] ]
+        "components": [ [ [ "2x4", 70 ] ], [ [ "hinge", 10 ] ], [ [ "nail", 180 ] ], [ [ "wood_panel", 5 ] ] ]
       }
     }
   },

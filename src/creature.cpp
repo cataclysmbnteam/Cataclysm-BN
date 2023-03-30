@@ -118,10 +118,6 @@ std::vector<std::string> Creature::get_grammatical_genders() const
     return {};
 }
 
-void Creature::normalize()
-{
-}
-
 void Creature::reset()
 {
     reset_bonuses();
@@ -174,6 +170,11 @@ void Creature::process_turn()
 bool Creature::is_underwater() const
 {
     return underwater;
+}
+
+void Creature::set_underwater( bool x )
+{
+    underwater = x;
 }
 
 bool Creature::digging() const
@@ -951,6 +952,11 @@ void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, i
 
     damage += adjusted_damage;
     pain += roll_remainder( adjusted_damage / div );
+}
+
+void Creature::on_dodge( Creature */*source*/, int /*difficulty*/ )
+{
+
 }
 
 /*
@@ -1798,7 +1804,7 @@ units::mass Creature::weight_capacity() const
 /*
  * Drawing-related functions
  */
-void Creature::draw( const catacurses::window &w, const point &origin, bool inverted ) const
+void Creature::draw( const catacurses::window &w, point origin, bool inverted ) const
 {
     draw( w, tripoint( origin, posz() ), inverted );
 }

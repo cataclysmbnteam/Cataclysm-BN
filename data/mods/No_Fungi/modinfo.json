@@ -6,7 +6,7 @@
     "authors": [ "Chaosvolt" ],
     "description": "Removes fungal monsters and regions from the game.",
     "category": "monster_exclude",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "bn" ]
   },
   {
     "type": "MONSTER_BLACKLIST",

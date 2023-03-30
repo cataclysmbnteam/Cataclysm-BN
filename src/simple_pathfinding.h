@@ -67,7 +67,7 @@ using two_node_scoring_fn =
     std::function<node_score( directed_node<Point>, cata::optional<directed_node<Point>> )>;
 
 // non-templated implementation
-directed_path<point> greedy_path( const point &source, const point &dest, const point &max,
+directed_path<point> greedy_path( point source, point dest, point max,
                                   two_node_scoring_fn<point> scorer );
 
 /**

@@ -11,6 +11,7 @@
 #include "ammo.h"
 #include "assign.h"
 #include "cata_utility.h"
+#include "character_functions.h"
 #include "color.h"
 #include "debug.h"
 #include "flag.h"
@@ -817,7 +818,7 @@ static int scale_time( const std::map<skill_id, int> &sk, int mv, const player &
     // 10% per excess level (reduced proportionally if >1 skill required) with max 50% reduction
     // 10% reduction per assisting NPC
     return mv * ( 1.0 - std::min( static_cast<double>( lvl ) / sk.size() / 10.0, 0.5 ) )
-           * ( 10 - p.get_crafting_helpers( 3 ).size() ) / 10;
+           * ( 10 - character_funcs::get_crafting_helpers( p, 3 ).size() ) / 10;
 }
 
 int vpart_info::install_time( const player &p ) const
@@ -1105,9 +1106,8 @@ void vehicle_prototype::finalize()
                 }
 
             } else {
-                for( const auto &e : pt.ammo_types ) {
-                    const itype *ammo = &*e;
-                    if( !ammo->ammo && base->gun->ammo.count( ammo->ammo->type ) ) {
+                for( const itype_id &e : pt.ammo_types ) {
+                    if( !e->ammo && base->gun->ammo.count( e->ammo->type ) ) {
                         debugmsg( "init_vehicles: turret %s has invalid ammo_type %s in %s",
                                   pt.part.c_str(), e.c_str(), id.c_str() );
                     }

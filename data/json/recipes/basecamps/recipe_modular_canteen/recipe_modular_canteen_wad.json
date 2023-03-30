@@ -139,19 +139,19 @@
     "blueprint_provides": [ { "id": "fbmk_canteen_dining_west" } ],
     "blueprint_excludes": [ { "id": "fbmk_canteen_dining_west" } ],
     "blueprint_needs": {
-      "time": "1 d 1 h 46 m",
-      "skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
+      "time": "1 d 1 h 40 m",
+      "skills": [ [ "survival", 3 ], [ "fabrication", 3 ] ],
       "inline": {
-        "tools": [ [ [ "machete", -1 ], [ "makeshift_machete", -1 ], [ "scythe", -1 ], [ "sickle", -1 ], [ "survivor_machete", -1 ] ] ],
+        "tools": [  ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 188 ] ],
+          [ [ "cattail_stalk", 56 ], [ "dogbane", 56 ], [ "pine_bough", 56 ], [ "straw_pile", 56 ] ],
+          [ [ "clay_lump", 56 ], [ "material_limestone", 56 ], [ "material_quicklime", 56 ] ],
+          [ [ "material_sand", 140 ], [ "pebble", 140 ] ],
           [ [ "nail", 274 ] ],
-          [ [ "material_quicklime", 56 ], [ "material_limestone", 56 ], [ "clay_lump", 56 ] ],
-          [ [ "pebble", 140 ], [ "material_sand", 140 ] ],
-          [ [ "straw_pile", 56 ], [ "cattail_stalk", 56 ], [ "dogbane", 56 ], [ "pine_bough", 56 ] ],
+          [ [ "rope_6", 2 ], [ "rope_makeshift_6", 2 ] ],
           [ [ "water", 70 ], [ "water_clean", 70 ] ],
-          [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ] ],
           [ [ "wood_panel", 11 ] ]
         ]
       }

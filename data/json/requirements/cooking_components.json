@@ -754,7 +754,7 @@
   {
     "id": "offal_raw",
     "type": "requirement",
-    "components": [ [ [ "offal", 1 ], [ "mutant_offal", 1 ], [ "liver", 2 ], [ "lung", 2 ], [ "kidney", 2 ] ] ]
+    "components": [ [ [ "offal", 1 ], [ "mutant_offal", 1 ], [ "sweetbread", 2 ], [ "liver", 2 ], [ "lung", 2 ], [ "kidney", 2 ] ] ]
   },
   {
     "id": "meat_offal",

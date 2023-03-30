@@ -42,8 +42,8 @@ namespace
 class basic_animation
 {
     public:
-        basic_animation( const int scale ) :
-            delay{ 0, get_option<int>( "ANIMATION_DELAY" ) * scale * 1000000L } {
+        explicit basic_animation( const int scale ) :
+            delay( get_option<int>( "ANIMATION_DELAY" ) * scale * 1000000L ) {
         }
 
         void draw() const {
@@ -60,13 +60,21 @@ class basic_animation
         void progress() const {
             draw();
 
-            if( delay.tv_nsec > 0 ) {
-                nanosleep( &delay, nullptr );
+            // NOLINTNEXTLINE(cata-no-long): timespec uses long int
+            long int remain = delay;
+            while( remain > 0 ) {
+                // NOLINTNEXTLINE(cata-no-long): timespec uses long int
+                long int do_sleep = std::min( remain, 100'000'000L );
+                timespec to_sleep = timespec { 0, do_sleep };
+                nanosleep( &to_sleep, nullptr );
+                inp_mngr.pump_events();
+                remain -= do_sleep;
             }
         }
 
     private:
-        timespec delay;
+        // NOLINTNEXTLINE(cata-no-long): timespec uses long int
+        long int delay;
 };
 
 class explosion_animation : public basic_animation
@@ -931,7 +939,7 @@ void game::draw_item_override( const tripoint &, const itype_id &, const mtype_i
 #if defined(TILES)
 void game::draw_vpart_override(
     const tripoint &p, const vpart_id &id, const int part_mod, const units::angle veh_dir,
-    const bool hilite, const point &mount )
+    const bool hilite, point mount )
 {
     if( use_tiles ) {
         tilecontext->init_draw_vpart_override( p, id, part_mod, veh_dir, hilite, mount );
@@ -939,7 +947,7 @@ void game::draw_vpart_override(
 }
 #else
 void game::draw_vpart_override( const tripoint &, const vpart_id &, const int,
-                                const units::angle, const bool, const point & )
+                                const units::angle, const bool, point )
 {
 }
 #endif

@@ -32,7 +32,7 @@ Bonus points for:
 - Checking if the bug exists under latest experimental build
 - Checking if it is OS specific
 
-The OS and CDDA version are very important - with the pace of changes here it is possible the bug you have encountered has already been fixed. After that reproducibility is the key, so write your report with all the necessary details.
+The OS and BN version are very important - with the pace of changes here it is possible the bug you have encountered has already been fixed. After that reproducibility is the key, so write your report with all the necessary details.
 
 ### Enhancements and addition ideas
 

@@ -52,7 +52,7 @@
     "byproducts": [ { "item": "2x4", "count": [ 7, 15 ] }, { "item": "nail", "charges": [ 15, 30 ] } ],
     "pre_terrain": "t_window_empty",
     "post_terrain": "t_floor",
-    "description": "Remove an empty window frame"
+    "group": "remove_an_empty_window_frame"
   },
   {
     "type": "construction",
@@ -65,7 +65,7 @@
     "byproducts": [ { "item": "spike", "count": [ 3, 6 ] }, { "item": "scrap", "charges": [ 6, 8 ] } ],
     "pre_terrain": "t_m_frame",
     "post_terrain": "t_floor",
-    "description": "Remove an empty window frame"
+    "group": "remove_an_empty_window_frame"
   },
   {
     "type": "construction",
@@ -78,7 +78,7 @@
     "byproducts": "concrete_deconstruction_results",
     "pre_terrain": "t_concrete",
     "post_terrain": "t_dirt",
-    "description": "Remove a concrete floor"
+    "group": "remove_a_concrete_floor"
   },
   {
     "type": "construction",
@@ -91,7 +91,7 @@
     "byproducts": "concrete_deconstruction_results",
     "pre_terrain": "t_thconc_floor",
     "post_terrain": "t_dirt",
-    "description": "Remove a concrete floor"
+    "group": "remove_a_concrete_floor"
   },
   {
     "type": "construction",
@@ -104,7 +104,7 @@
     "byproducts": "concrete_deconstruction_results",
     "pre_terrain": "t_thconc_y",
     "post_terrain": "t_dirt",
-    "description": "Remove a concrete floor"
+    "group": "remove_a_concrete_floor"
   },
   {
     "type": "construction",
@@ -117,7 +117,7 @@
     "byproducts": "concrete_deconstruction_results",
     "pre_terrain": "t_strconc_floor",
     "post_terrain": "t_dirt",
-    "description": "Remove a reinforced concrete floor"
+    "group": "remove_a_reinforced_concrete_floor"
   },
   {
     "type": "construction",
@@ -130,7 +130,7 @@
     "byproducts": "concrete_deconstruction_results",
     "pre_terrain": "t_strconc_floor_halfway",
     "post_terrain": "t_dirt",
-    "description": "Remove a reinforced concrete floor"
+    "group": "remove_a_reinforced_concrete_floor"
   },
   {
     "type": "construction",
@@ -143,7 +143,7 @@
     "byproducts": [ { "item": "splinter", "count": [ 0, 3 ] }, { "item": "nail", "count": [ 8, 15 ] } ],
     "pre_terrain": "t_linoleum_white",
     "post_terrain": "t_thconc_floor",
-    "description": "Remove linoleum tiles"
+    "group": "remove_linoleum_tiles"
   },
   {
     "type": "construction",
@@ -156,7 +156,7 @@
     "byproducts": [ { "item": "splinter", "count": [ 0, 3 ] }, { "item": "nail", "count": [ 8, 15 ] } ],
     "pre_terrain": "t_linoleum_gray",
     "post_terrain": "t_thconc_floor",
-    "description": "Remove linoleum tiles"
+    "group": "remove_linoleum_tiles"
   },
   {
     "type": "construction",
@@ -169,7 +169,7 @@
     "byproducts": [ { "item": "2x4", "count": [ 5, 10 ] }, { "item": "splinter", "count": [ 10, 20 ] } ],
     "pre_terrain": "t_floor",
     "post_terrain": "t_dirt",
-    "description": "Remove a wooden floor"
+    "group": "remove_a_wooden_floor"
   },
   {
     "type": "construction",
@@ -182,7 +182,7 @@
     "byproducts": [ { "item": "2x4", "count": [ 5, 10 ] }, { "item": "splinter", "count": [ 10, 20 ] } ],
     "pre_terrain": "t_floor_waxed_y",
     "post_terrain": "t_dirt",
-    "description": "Remove a wooden floor"
+    "group": "remove_a_wooden_floor"
   },
   {
     "type": "construction",
@@ -195,7 +195,7 @@
     "byproducts": [ { "item": "2x4", "count": [ 5, 10 ] }, { "item": "splinter", "count": [ 10, 20 ] } ],
     "pre_terrain": "t_floor_waxed",
     "post_terrain": "t_dirt",
-    "description": "Remove a wooden floor"
+    "group": "remove_a_wooden_floor"
   },
   {
     "type": "construction",
@@ -208,7 +208,7 @@
     "byproducts": [ { "item": "rock", "count": [ 20, 44 ] } ],
     "pre_terrain": "t_concrete_wall",
     "post_terrain": "t_thconc_floor",
-    "description": "Remove a concrete wall"
+    "group": "remove_a_concrete_wall"
   },
   {
     "type": "construction",
@@ -221,7 +221,7 @@
     "byproducts": [ { "item": "rock", "count": [ 20, 44 ] } ],
     "pre_terrain": "t_sconc_wall",
     "post_terrain": "t_thconc_floor",
-    "description": "Remove a concrete wall"
+    "group": "remove_a_concrete_wall"
   },
   {
     "type": "construction",
@@ -234,7 +234,7 @@
     "byproducts": [ { "item": "rock", "count": [ 15, 30 ] } ],
     "pre_terrain": "t_sconc_wall_halfway",
     "post_terrain": "t_thconc_floor",
-    "description": "Remove a concrete wall"
+    "group": "remove_a_concrete_wall"
   },
   {
     "type": "construction",
@@ -251,7 +251,7 @@
     ],
     "pre_terrain": "t_strconc_wall_halfway",
     "post_terrain": "t_thconc_floor",
-    "description": "Remove reinforced concrete wall"
+    "group": "remove_reinforced_concrete_wall"
   },
   {
     "type": "construction",
@@ -268,7 +268,7 @@
     ],
     "pre_terrain": "t_strconc_wall",
     "post_terrain": "t_thconc_floor",
-    "description": "Remove reinforced concrete wall"
+    "group": "remove_reinforced_concrete_wall"
   },
   {
     "type": "construction",
@@ -281,7 +281,7 @@
     "byproducts": "wall_deconstruction_results",
     "pre_terrain": "t_wall_r",
     "post_terrain": "t_floor",
-    "description": "Remove a wall"
+    "group": "remove_a_wall"
   },
   {
     "type": "construction",
@@ -294,7 +294,7 @@
     "byproducts": "wall_deconstruction_results",
     "pre_terrain": "t_wall_w",
     "post_terrain": "t_floor",
-    "description": "Remove a wall"
+    "group": "remove_a_wall"
   },
   {
     "type": "construction",
@@ -307,7 +307,7 @@
     "byproducts": "wall_deconstruction_results",
     "pre_terrain": "t_wall_b",
     "post_terrain": "t_floor",
-    "description": "Remove a wall"
+    "group": "remove_a_wall"
   },
   {
     "type": "construction",
@@ -320,7 +320,7 @@
     "byproducts": "wall_deconstruction_results",
     "pre_terrain": "t_wall_g",
     "post_terrain": "t_floor",
-    "description": "Remove a wall"
+    "group": "remove_a_wall"
   },
   {
     "type": "construction",
@@ -333,7 +333,7 @@
     "byproducts": "wall_deconstruction_results",
     "pre_terrain": "t_wall_y",
     "post_terrain": "t_floor",
-    "description": "Remove a wall"
+    "group": "remove_a_wall"
   },
   {
     "type": "construction",
@@ -346,7 +346,7 @@
     "byproducts": "wall_deconstruction_results",
     "pre_terrain": "t_wall_P",
     "post_terrain": "t_floor",
-    "description": "Remove a wall"
+    "group": "remove_a_wall"
   },
   {
     "type": "construction",
@@ -359,7 +359,7 @@
     "byproducts": "wall_deconstruction_results",
     "pre_terrain": "t_wall_p",
     "post_terrain": "t_floor",
-    "description": "Remove a wall"
+    "group": "remove_a_wall"
   },
   {
     "type": "construction",
@@ -372,7 +372,7 @@
     "byproducts": [ { "item": "rock", "count": [ 15, 20 ] }, { "item": "pebble", "count": [ 20, 30 ] } ],
     "pre_terrain": "t_rock_wall",
     "post_terrain": "t_dirt",
-    "description": "Remove a rock wall"
+    "group": "remove_a_rock_wall"
   },
   {
     "type": "construction",
@@ -385,7 +385,7 @@
     "byproducts": [ { "item": "rock", "count": [ 6, 10 ] }, { "item": "pebble", "count": [ 20, 30 ] } ],
     "pre_terrain": "t_rock_wall_half",
     "post_terrain": "t_dirt",
-    "description": "Remove a rock wall"
+    "group": "remove_a_rock_wall"
   },
   {
     "type": "construction",
@@ -398,7 +398,7 @@
     "byproducts": [ { "item": "rock", "count": [ 4, 8 ] }, { "item": "brick", "count": [ 4, 12 ] } ],
     "pre_terrain": "t_brick_wall",
     "post_terrain": "t_thconc_floor",
-    "description": "Remove a brick wall"
+    "group": "remove_a_brick_wall"
   },
   {
     "type": "construction",
@@ -411,7 +411,7 @@
     "byproducts": [ { "item": "rock", "count": [ 4, 8 ] }, { "item": "brick", "count": [ 4, 8 ] } ],
     "pre_terrain": "t_brick_wall_halfway",
     "post_terrain": "t_thconc_floor",
-    "description": "Remove a brick wall"
+    "group": "remove_a_brick_wall"
   },
   {
     "type": "construction",
@@ -424,7 +424,7 @@
     "byproducts": [ { "item": "material_soil", "count": [ 8, 20 ] }, { "item": "adobe_brick", "count": [ 4, 12 ] } ],
     "pre_terrain": "t_adobe_brick_wall",
     "post_terrain": "t_thconc_floor",
-    "description": "Remove a brick wall"
+    "group": "remove_a_brick_wall"
   },
   {
     "type": "construction",
@@ -437,7 +437,7 @@
     "byproducts": [ { "item": "material_soil", "count": [ 8, 20 ] }, { "item": "adobe_brick", "count": [ 4, 8 ] } ],
     "pre_terrain": "t_adobe_brick_wall_halfway",
     "post_terrain": "t_thconc_floor",
-    "description": "Remove a brick wall"
+    "group": "remove_a_brick_wall"
   },
   {
     "type": "construction",
@@ -450,7 +450,7 @@
     "byproducts": "wall_deconstruction_results",
     "pre_terrain": "t_wall_wood",
     "post_terrain": "t_floor",
-    "description": "Remove a wooden wall"
+    "group": "remove_a_wooden_wall"
   },
   {
     "type": "construction",
@@ -467,7 +467,7 @@
     ],
     "pre_terrain": "t_wall_half",
     "post_terrain": "t_floor",
-    "description": "Remove a wooden wall"
+    "group": "remove_a_wooden_wall"
   },
   {
     "type": "construction",
@@ -480,7 +480,7 @@
     "byproducts": [ { "item": "nail", "charges": [ 5, 10 ] }, { "item": "splinter", "count": [ 20, 40 ] } ],
     "pre_terrain": "t_wall_log",
     "post_terrain": "t_dirt",
-    "description": "Remove a wooden wall"
+    "group": "remove_a_wooden_wall"
   },
   {
     "type": "construction",
@@ -493,7 +493,7 @@
     "byproducts": [ { "item": "nail", "charges": [ 5, 10 ] }, { "item": "splinter", "count": [ 20, 40 ] } ],
     "pre_terrain": "t_wall_log_half",
     "post_terrain": "t_dirt",
-    "description": "Remove a wooden wall"
+    "group": "remove_a_wooden_wall"
   },
   {
     "type": "construction",
@@ -506,7 +506,7 @@
     "byproducts": "wall_deconstruction_results",
     "pre_terrain": "t_wall",
     "post_terrain": "t_floor",
-    "description": "Remove a wall"
+    "group": "remove_a_wall"
   },
   {
     "type": "construction",
@@ -519,7 +519,7 @@
     "byproducts": "road_deconstruction_results",
     "pre_terrain": "t_sidewalk",
     "post_terrain": "t_dirt",
-    "description": "Remove a segment of the road/sidewalk"
+    "group": "remove_a_segment_of_the_road_sidewalk"
   },
   {
     "type": "construction",
@@ -532,7 +532,7 @@
     "byproducts": "road_deconstruction_results",
     "pre_terrain": "t_pavement",
     "post_terrain": "t_dirt",
-    "description": "Remove a segment of the road/sidewalk"
+    "group": "remove_a_segment_of_the_road_sidewalk"
   },
   {
     "type": "construction",
@@ -545,7 +545,7 @@
     "byproducts": "road_deconstruction_results",
     "pre_terrain": "t_pavement_y",
     "post_terrain": "t_dirt",
-    "description": "Remove a segment of the road/sidewalk"
+    "group": "remove_a_segment_of_the_road_sidewalk"
   },
   {
     "type": "construction",
@@ -558,7 +558,7 @@
     "byproducts": "metal_door_deconstruction_results",
     "pre_terrain": "t_mdoor_frame",
     "post_terrain": "t_floor",
-    "description": "Remove metal door"
+    "group": "remove_metal_door"
   },
   {
     "type": "construction",
@@ -571,7 +571,7 @@
     "byproducts": "metal_door_deconstruction_results",
     "pre_terrain": "t_door_metal_c",
     "post_terrain": "t_mdoor_frame",
-    "description": "Remove metal door"
+    "group": "remove_metal_door"
   },
   {
     "type": "construction",
@@ -589,7 +589,7 @@
     ],
     "pre_terrain": "t_door_metal_c_peep",
     "post_terrain": "t_mdoor_frame",
-    "description": "Remove metal door"
+    "group": "remove_metal_door"
   },
   {
     "type": "construction",
@@ -602,7 +602,7 @@
     "byproducts": "metal_door_deconstruction_results",
     "pre_terrain": "t_door_metal_locked",
     "post_terrain": "t_mdoor_frame",
-    "description": "Remove metal door"
+    "group": "remove_metal_door"
   },
   {
     "type": "construction",
@@ -615,7 +615,7 @@
     "byproducts": "metal_door_deconstruction_results",
     "pre_terrain": "t_door_metal_lab_c",
     "post_terrain": "t_mdoor_frame",
-    "description": "Remove metal door"
+    "group": "remove_metal_door"
   },
   {
     "type": "construction",
@@ -628,7 +628,7 @@
     "byproducts": [ { "item": "rebar", "count": [ 8, 16 ] } ],
     "pre_terrain": "t_reb_cage",
     "post_terrain": "t_dirt",
-    "description": "Remove rebar cage"
+    "group": "remove_rebar_cage"
   },
   {
     "type": "construction",
@@ -646,7 +646,7 @@
     ],
     "pre_terrain": "t_ov_reb_cage",
     "post_terrain": "t_dirt",
-    "description": "Remove rebar cage"
+    "group": "remove_rebar_cage"
   },
   {
     "type": "construction",
@@ -659,7 +659,7 @@
     "byproducts": [ { "item": "rebar", "count": [ 8, 16 ] }, { "item": "rock", "count": [ 5, 10 ] } ],
     "pre_terrain": "t_column_halfway",
     "post_terrain": "t_thconc_floor",
-    "description": "Remove concrete column"
+    "group": "remove_concrete_column"
   },
   {
     "type": "construction",
@@ -672,7 +672,7 @@
     "byproducts": [ { "item": "rebar", "count": [ 8, 16 ] }, { "item": "rock", "count": [ 15, 30 ] } ],
     "pre_terrain": "t_column",
     "post_terrain": "t_thconc_floor",
-    "description": "Remove concrete column"
+    "group": "remove_concrete_column"
   },
   {
     "type": "construction",
@@ -685,7 +685,7 @@
     "byproducts": [ { "item": "reinforced_glass_sheet", "count": [ 1, 1 ] } ],
     "pre_terrain": "t_reinforced_glass",
     "post_terrain": "t_m_frame",
-    "description": "Remove glass wall"
+    "group": "remove_glass_wall"
   },
   {
     "type": "construction",
@@ -698,7 +698,7 @@
     "byproducts": [ { "item": "glass_sheet", "count": [ 1, 1 ] } ],
     "pre_terrain": "t_wall_glass",
     "post_terrain": "t_floor",
-    "description": "Remove glass wall"
+    "group": "remove_glass_wall"
   },
   {
     "type": "construction",
@@ -711,7 +711,7 @@
     "byproducts": [ { "item": "glass_sheet", "count": [ 1, 2 ] } ],
     "pre_terrain": "t_door_glass_c",
     "post_terrain": "t_floor",
-    "description": "Remove glass door"
+    "group": "remove_glass_door"
   },
   {
     "type": "construction",
@@ -724,7 +724,7 @@
     "byproducts": [ { "item": "glass_sheet", "count": [ 1, 2 ] } ],
     "pre_terrain": "t_door_glass_frosted_c",
     "post_terrain": "t_floor",
-    "description": "Remove glass door"
+    "group": "remove_glass_door"
   },
   {
     "type": "construction",
@@ -737,7 +737,7 @@
     "byproducts": [ { "item": "glass_sheet", "count": [ 1, 2 ] } ],
     "pre_terrain": "t_door_glass_lab_c",
     "post_terrain": "t_floor",
-    "description": "Remove glass door"
+    "group": "remove_glass_door"
   },
   {
     "type": "construction",
@@ -750,7 +750,7 @@
     "byproducts": [ { "item": "glass_sheet", "count": [ 1, 2 ] } ],
     "pre_terrain": "t_door_glass_frosted_lab_c",
     "post_terrain": "t_floor",
-    "description": "Remove glass door"
+    "group": "remove_glass_door"
   },
   {
     "type": "construction",
@@ -763,7 +763,7 @@
     "byproducts": [ { "item": "reinforced_glass_sheet", "count": [ 1, 2 ] } ],
     "pre_terrain": "t_reinforced_door_glass_c",
     "post_terrain": "t_floor",
-    "description": "Remove glass door"
+    "group": "remove_glass_door"
   },
   {
     "type": "construction",
@@ -776,7 +776,7 @@
     "byproducts": [ { "item": "reinforced_glass_sheet", "count": [ 1, 2 ] } ],
     "pre_terrain": "t_reinforced_door_glass_lab_c",
     "post_terrain": "t_floor",
-    "description": "Remove glass door"
+    "group": "remove_glass_door"
   },
   {
     "type": "construction",
@@ -787,8 +787,8 @@
     "time": "90 m",
     "using": [ [ "object_deconstruction_advanced", 1 ] ],
     "byproducts": [ { "item": "rock", "count": [ 35, 40 ] } ],
-    "pre_terrain": "f_fireplace",
-    "post_terrain": "f_null",
-    "description": "Advanced Object Deconstruction"
+    "pre_furniture": "f_fireplace",
+    "post_furniture": "f_null",
+    "group": "advanced_object_deconstruction"
   }
 ]

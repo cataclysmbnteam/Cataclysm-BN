@@ -112,7 +112,7 @@ void JsonObject::report_unvisited() const
         json_report_strict
         && report_unvisited_members
         && !reported_unvisited_members
-        && !std::uncaught_exception()
+        && !std::uncaught_exceptions()
     ) {
         reported_unvisited_members = true;
         for( const std::pair<const std::string, int> &p : positions ) {
@@ -236,6 +236,73 @@ void JsonObject::throw_error( std::string err ) const
         throw JsonError( err );
     }
     jsin->error( err );
+}
+
+void JsonObject::show_warning( std::string err ) const
+{
+#ifndef CATA_IN_TOOL
+    try {
+        throw_error( err );
+    } catch( const std::exception &e ) {
+        debugmsg( "%s", e.what() );
+    }
+#else
+    ( void )err;
+#endif // CATA_IN_TOOL
+}
+
+void JsonObject::show_warning( std::string err, const std::string &name ) const
+{
+#ifndef CATA_IN_TOOL
+    try {
+        throw_error( err, name );
+    } catch( const std::exception &e ) {
+        debugmsg( "%s", e.what() );
+    }
+#else
+    ( void )err;
+    ( void )name;
+#endif // CATA_IN_TOOL
+}
+
+void JsonArray::show_warning( std::string err )
+{
+#ifndef CATA_IN_TOOL
+    try {
+        throw_error( err );
+    } catch( const std::exception &e ) {
+        debugmsg( "%s", e.what() );
+    }
+#else
+    ( void )err;
+#endif // CATA_IN_TOOL
+}
+
+void JsonArray::show_warning( std::string err, int idx )
+{
+#ifndef CATA_IN_TOOL
+    try {
+        throw_error( err, idx );
+    } catch( const std::exception &e ) {
+        debugmsg( "%s", e.what() );
+    }
+#else
+    ( void )err;
+    ( void )idx;
+#endif // CATA_IN_TOOL
+}
+
+void JsonValue::show_warning( std::string err ) const
+{
+#ifndef CATA_IN_TOOL
+    try {
+        throw_error( err );
+    } catch( const std::exception &e ) {
+        debugmsg( "%s", e.what() );
+    }
+#else
+    ( void )err;
+#endif // CATA_IN_TOOL
 }
 
 JsonIn *JsonObject::get_raw( const std::string &name ) const

@@ -1185,7 +1185,6 @@
       {
         "name": "foul-smelling air",
         "sym": "8",
-        "dangerous": true,
         "effects": [
           {
             "effect_id": "migo_atmosphere",
@@ -1230,7 +1229,7 @@
     "dirty_transparency_cache": true,
     "has_fume": true,
     "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
-    "priority": 8,
+    "priority": -1,
     "half_life": "10 minutes",
     "phase": "gas"
   },

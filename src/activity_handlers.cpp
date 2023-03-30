@@ -16,6 +16,7 @@
 
 #include "action.h"
 #include "advanced_inv.h"
+#include "armor_layers.h"
 #include "avatar.h"
 #include "avatar_action.h"
 #include "bionics.h"
@@ -29,6 +30,7 @@
 #include "colony.h"
 #include "color.h"
 #include "construction.h"
+#include "construction_partial.h"
 #include "coordinate_conversions.h"
 #include "craft_command.h"
 #include "crafting.h"
@@ -678,7 +680,7 @@ butchery_setup consider_butchery( const item &corpse_item, player &u, butcher_ty
                       butcherable_rating::warn_cannibalism );
     }
 
-    setup.move_cost = butcher_time_to_cut( inv, corpse_item, action );
+    setup.move_cost = butcher_time_to_cut( u, inv, corpse_item, action );
 
     return setup;
 }
@@ -760,7 +762,8 @@ static int size_factor_in_time_to_cut( m_size size )
     return 0;
 }
 
-int butcher_time_to_cut( const inventory &inv, const item &corpse_item, const butcher_type action )
+int butcher_time_to_cut( const Character &who, const inventory &inv, const item &corpse_item,
+                         const butcher_type action )
 {
     const mtype &corpse = *corpse_item.get_mtype();
     const int initial_factor = inv.max_quality( action == DISSECT ? qual_CUT_FINE : qual_BUTCHER );
@@ -802,7 +805,7 @@ int butcher_time_to_cut( const inventory &inv, const item &corpse_item, const bu
     if( corpse_item.has_flag( flag_QUARTERED ) ) {
         time_to_cut /= 4;
     }
-    time_to_cut = time_to_cut * ( 10 - g->u.get_crafting_helpers( 3 ).size() ) / 10;
+    time_to_cut = time_to_cut * ( 10 - character_funcs::get_crafting_helpers( who, 3 ).size() ) / 10;
     return time_to_cut;
 }
 
@@ -1938,7 +1941,7 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
     // Invalidate the activity early to prevent a query from mod_pain()
     act->set_to_null();
     if( p->is_avatar() ) {
-        const int helpersize = g->u.get_crafting_helpers( 3 ).size();
+        const int helpersize = character_funcs::get_crafting_helpers( *p, 3 ).size();
         if( here.is_bashable( pos ) && here.has_flag( flag_SUPPORTS_ROOF, pos ) &&
             here.ter( pos ) != t_tree ) {
             // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
@@ -2683,20 +2686,25 @@ item get_fake_tool( hack_type_t hack_type, const player_activity &activity )
                 return fake_item;
             }
             const furn_t &furniture = m.furn( position ).obj();
-            const itype *item_type = furniture.crafting_pseudo_item_type();
-            if( item_type == nullptr ) {
-                return fake_item;
-            }
-            if( !item_type->has_flag( "USES_GRID_POWER" ) ) {
-                debugmsg( "Non grid powered furniture for long repairs is not supported yet." );
+            const std::vector<itype> item_type_list = furniture.crafting_pseudo_item_types();
+
+            if( item_type_list.empty() ) {
                 return fake_item;
             }
 
-            const tripoint_abs_ms abspos( m.getabs( position ) );
-            const distribution_grid &grid = get_distribution_grid_tracker().grid_at( abspos );
-
-            fake_item = item( item_type, calendar::turn, 0 );
-            fake_item.charges = grid.get_resource( true );
+            for( const itype &item_type : item_type_list ) {
+                if( item_type.get_id() == static_cast<itype_id>( activity.str_values[1] ) ) {
+                    if( !item_type.has_flag( "USES_GRID_POWER" ) ) {
+                        debugmsg( "Non grid powered furniture for long repairs is not supported yet." );
+                        return fake_item;
+                    }
+                    const tripoint_abs_ms abspos( m.getabs( position ) );
+                    const distribution_grid &grid = get_distribution_grid_tracker().grid_at( abspos );
+                    fake_item = item( item_type.get_id(), calendar::turn, 0 );
+                    fake_item.charges = grid.get_resource( true );
+                    break;
+                }
+            }
             break;
         }
     }
@@ -2776,7 +2784,8 @@ void patch_activity_for_vehicle_welder(
 }
 
 void patch_activity_for_furniture( player_activity &activity,
-                                   const tripoint &furniture_position )
+                                   const tripoint &furniture_position,
+                                   const itype_id &itt )
 {
     // Player may start another activity on welder/soldering iron
     // Check it here instead of furniture interaction code
@@ -2795,6 +2804,7 @@ void patch_activity_for_furniture( player_activity &activity,
         0, // Useless for us, set only to be compatible with vehicle
         static_cast<int>( hack_type_t::furniture )
     };
+    activity.str_values.emplace_back( static_cast<std::string>( itt ) );
 }
 
 } // namespace repair_activity_hack
@@ -3215,7 +3225,7 @@ void activity_handlers::travel_do_turn( player_activity *act, player *p )
 void activity_handlers::armor_layers_do_turn( player_activity *, player *p )
 {
     p->cancel_activity();
-    p->sort_armor();
+    show_armor_layers_ui( *p );
 }
 
 void activity_handlers::atm_do_turn( player_activity *, player *p )
@@ -3477,7 +3487,7 @@ void activity_handlers::socialize_finish( player_activity *act, player *p )
 void activity_handlers::try_sleep_do_turn( player_activity *act, player *p )
 {
     if( !p->has_effect( effect_sleep ) ) {
-        if( p->can_sleep() ) {
+        if( character_funcs::roll_can_sleep( *p ) ) {
             act->set_to_null();
             p->fall_asleep();
             p->remove_value( "sleep_query" );
@@ -3549,11 +3559,14 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
     time_duration time_left = time_duration::from_turns( act->moves_left / 100 );
 
     map &here = get_map();
-    if( autodoc && here.inbounds( p->pos() ) ) {
-        const std::list<tripoint> autodocs = here.find_furnitures_with_flag_in_radius( p->pos(), 1,
-                                             flag_AUTODOC );
 
-        if( !here.has_flag_furn( flag_AUTODOC_COUCH, p->pos() ) || autodocs.empty() ) {
+    // check if player is on an autodoc couch
+    if( autodoc && here.inbounds( p->pos() ) ) {
+        // this checks if there's an autodoc in a 3D radius around the player (during the operation), excluding just above/below him
+        const std::list<tripoint> autodocs = here.find_furnitures_or_vparts_with_flag_in_radius( p->pos(),
+                                             1,
+                                             flag_AUTODOC );
+        if( !here.has_flag_furn_or_vpart( flag_AUTODOC_COUCH, p->pos() ) || autodocs.empty() ) {
             p->remove_effect( effect_under_op );
             act->set_to_null();
 
@@ -3684,7 +3697,8 @@ void activity_handlers::operation_finish( player_activity *act, player *p )
         if( act->values[1] > 0 ) {
             add_msg( m_good,
                      _( "The Autodoc returns to its resting position after successfully performing the operation." ) );
-            const std::list<tripoint> autodocs = here.find_furnitures_with_flag_in_radius( p->pos(), 1,
+            const std::list<tripoint> autodocs = here.find_furnitures_or_vparts_with_flag_in_radius( p->pos(),
+                                                 1,
                                                  flag_AUTODOC );
             sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
                            _( "a short upbeat jingle: \"Operation successful\"" ), true,
@@ -3694,7 +3708,8 @@ void activity_handlers::operation_finish( player_activity *act, player *p )
             if( act->str_values[0] == "install" ) {
                 add_msg( m_warning,
                          _( "The Autodoc completes installation and activates bionic but reports about complications during operation." ) );
-                const std::list<tripoint> autodocs = here.find_furnitures_with_flag_in_radius( p->pos(), 1,
+                const std::list<tripoint> autodocs = here.find_furnitures_or_vparts_with_flag_in_radius( p->pos(),
+                                                     1,
                                                      flag_AUTODOC );
                 sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
                                _( "a sad beeping noise: \"Complications detected!  Report to medical personnel immediately!\"" ),
@@ -3704,7 +3719,8 @@ void activity_handlers::operation_finish( player_activity *act, player *p )
             } else {
                 add_msg( m_bad,
                          _( "The Autodoc jerks back to its resting position after failing the operation." ) );
-                const std::list<tripoint> autodocs = here.find_furnitures_with_flag_in_radius( p->pos(), 1,
+                const std::list<tripoint> autodocs = here.find_furnitures_or_vparts_with_flag_in_radius( p->pos(),
+                                                     1,
                                                      flag_AUTODOC );
                 sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
                                _( "a sad beeping noise: \"Operation failed\"" ), true,
@@ -3809,7 +3825,7 @@ void activity_handlers::build_do_turn( player_activity *act, player *p )
 
     // Base moves for construction with no speed modifier or assistants
     // Must ensure >= 1 so we don't divide by 0;
-    const double base_total_moves = std::max( 1, built.time );
+    const double base_total_moves = std::max( 1, to_moves<int>( built.time ) );
     // Current expected total moves, includes construction speed modifiers and assistants
     const double cur_total_moves = std::max( 1, built.adjusted_time() );
     // Delta progress in moves adjusted for current crafting speed
@@ -3826,7 +3842,7 @@ void activity_handlers::build_do_turn( player_activity *act, player *p )
     // If construction_progress has reached 100% or more
     if( pc->counter >= 10000000 ) {
         // Activity is canceled in complete_construction()
-        complete_construction( p );
+        complete_construction( *p );
     }
 }
 
@@ -4168,21 +4184,41 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
             }
         }
     } else {
+        // Try to safely fell tree
+        std::vector<tripoint> valid_directions;
+
         for( const tripoint &elem : here.points_in_radius( pos, 1 ) ) {
             bool cantuse = false;
             tripoint direc = elem - pos;
             tripoint proposed_to = pos + point( 3 * direction.x, 3 * direction.y );
             std::vector<tripoint> rough_tree_line = line_to( pos, proposed_to );
             for( const tripoint &elem : rough_tree_line ) {
+                // Try not to drop onto a critter
                 if( g->critter_at( elem ) ) {
+                    cantuse = true;
+                    break;
+                }
+
+                ter_t ter = here.ter( elem ).obj();
+                furn_t furn = here.furn( elem ).obj();
+                // Furniture / Terrain test
+                if( elem != pos && ( ter.bash.str_max != -1 || ( furn.id && furn.bash.str_max != -1 ) ) ) {
+                    cantuse = true;
+                    break;
+                }
+                // Vehicle check
+                if( veh_pointer_or_null( here.veh_at( elem ) ) ) {
                     cantuse = true;
                     break;
                 }
             }
             if( !cantuse ) {
-                direction = direc;
+                // Passed all tests for safe direction, add to the possible routes
+                valid_directions.push_back( direc );
             }
         }
+        // Select a random valid direction, or none if empty
+        direction = random_entry( valid_directions, direction );
     }
 
     const tripoint to = pos + 3 * direction.xy() + point( rng( -1, 1 ), rng( -1, 1 ) );
@@ -4237,10 +4273,6 @@ void activity_handlers::chop_logs_finish( player_activity *act, player *p )
         here.add_item_or_charges( pos, obj );
     }
     here.ter_set( pos, t_dirt );
-    const int helpersize = p->get_crafting_helpers( 3 ).size();
-    p->mod_stored_nutr( 5 - helpersize );
-    p->mod_thirst( 5 - helpersize );
-    p->mod_fatigue( 10 - ( helpersize * 2 ) );
     p->add_msg_if_player( m_good, _( "You finish chopping wood." ) );
 
     act->set_to_null();
@@ -4292,7 +4324,7 @@ void activity_handlers::jackhammer_finish( player_activity *act, player *p )
     here.destroy( pos, true );
 
     if( p->is_avatar() ) {
-        const int helpersize = g->u.get_crafting_helpers( 3 ).size();
+        const int helpersize = character_funcs::get_crafting_helpers( *p, 3 ).size();
         p->mod_stored_nutr( 5 - helpersize );
         p->mod_thirst( 5 - helpersize );
         p->mod_fatigue( 10 - ( helpersize * 2 ) );
@@ -4336,7 +4368,7 @@ void activity_handlers::fill_pit_finish( player_activity *act, player *p )
     } else {
         here.ter_set( pos, t_dirt );
     }
-    const int helpersize = g->u.get_crafting_helpers( 3 ).size();
+    const int helpersize = character_funcs::get_crafting_helpers( *p, 3 ).size();
     p->mod_stored_nutr( 5 - helpersize );
     p->mod_thirst( 5 - helpersize );
     p->mod_fatigue( 10 - ( helpersize * 2 ) );

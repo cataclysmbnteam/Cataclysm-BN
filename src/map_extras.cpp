@@ -134,7 +134,7 @@ static const mongroup_id GROUP_PETS( "GROUP_PETS" );
 static const mongroup_id GROUP_STRAY_DOGS( "GROUP_STRAY_DOGS" );
 
 static const mtype_id mon_dispatch( "mon_dispatch" );
-static const mtype_id mon_jabberwock( "mon_jabberwock" );
+static const mtype_id mon_fleshy_shambler( "mon_fleshy_shambler" );
 static const mtype_id mon_marloss_zealot_f( "mon_marloss_zealot_f" );
 static const mtype_id mon_marloss_zealot_m( "mon_marloss_zealot_m" );
 static const mtype_id mon_shia( "mon_shia" );
@@ -615,7 +615,7 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
     const bool road_at_west = is_ot_match( "road", west, ot_match_type::type );
     const bool road_at_east = is_ot_match( "road", east, ot_match_type::type );
 
-    const auto spawn_turret = [&]( const point & p ) {
+    const auto spawn_turret = [&]( point  p ) {
         if( one_in( 3 ) ) {
             m.add_spawn( mon_turret_longrange, 1, { p, abs_sub.z } );
         } else if( one_in( 2 ) ) {
@@ -1624,7 +1624,7 @@ static bool mx_crater( map &m, const tripoint &abs_sub )
     return true;
 }
 
-static void place_fumarole( map &m, const point &p1, const point &p2, std::set<point> &ignited )
+static void place_fumarole( map &m, point p1, point p2, std::set<point> &ignited )
 {
     // Tracks points nearby for ignition after the lava is placed
     //std::set<point> ignited;
@@ -1821,17 +1821,9 @@ static bool mx_spider( map &m, const tripoint &abs_sub )
 
 static bool mx_jabberwock( map &m, const tripoint &loc )
 {
-    // A rare chance to spawn a jabberwock. This was extracted from the harcoded forest mapgen
-    // and moved into a map extra. It still has a one_in chance of spawning because otherwise
-    // the rarity skewed the values for all the other extras too much. I considered moving it
-    // into the monster group, but again the hardcoded rarity it had in the forest mapgen was
-    // not easily replicated there.
-    if( one_in( 50 ) ) {
-        m.add_spawn( mon_jabberwock, 1, { SEEX, SEEY, loc.z } );
-        return true;
-    }
-
-    return false;
+    // A rare chance to spawn a fleshy shambler, which can then evolve into a flesh golem/jabberwock.
+    m.add_spawn( mon_fleshy_shambler, 1, { SEEX, SEEY, loc.z } );
+    return true;
 }
 
 static bool mx_grove( map &m, const tripoint &abs_sub )

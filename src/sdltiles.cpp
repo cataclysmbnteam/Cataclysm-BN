@@ -236,20 +236,22 @@ static void WinCreate()
     WindowHeight = TERMINAL_HEIGHT * fontheight * scaling_factor;
     window_flags |= SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI;
 
-    if( get_option<std::string>( "SCALING_MODE" ) != "none" ) {
-        SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, get_option<std::string>( "SCALING_MODE" ).c_str() );
-    }
+    // We want our textures clean and sharp when zooming in.
+    SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "nearest" );
 
 #if !defined(__ANDROID__)
-    if( get_option<std::string>( "FULLSCREEN" ) == "fullscreen" ) {
+    const auto screen_mode = get_option<std::string>( "FULLSCREEN" );
+    const auto minimize = get_option<bool>( "MINIMIZE_ON_FOCUS_LOSS" );
+
+    SDL_SetHint( SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, minimize ? "1" : "0" );
+
+    if( screen_mode == "fullscreen" ) {
         window_flags |= SDL_WINDOW_FULLSCREEN;
         fullscreen = true;
-        SDL_SetHint( SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0" );
-    } else if( get_option<std::string>( "FULLSCREEN" ) == "windowedbl" ) {
+    } else if( screen_mode == "windowedbl" ) {
         window_flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
         fullscreen = true;
-        SDL_SetHint( SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0" );
-    } else if( get_option<std::string>( "FULLSCREEN" ) == "maximized" ) {
+    } else if( screen_mode == "maximized" ) {
         window_flags |= SDL_WINDOW_MAXIMIZED;
     }
 #endif
@@ -539,11 +541,10 @@ void refresh_display()
     // Select default target (the window), copy rendered buffer
     // there, present it, select the buffer as target again.
     SetRenderTarget( renderer, nullptr );
+    ClearScreen();
 #if defined(__ANDROID__)
     SDL_Rect dstrect = get_android_render_rect( TERMINAL_WIDTH * fontwidth,
                        TERMINAL_HEIGHT * fontheight );
-    SetRenderDrawColor( renderer, 0, 0, 0, 255 );
-    RenderClear( renderer );
     RenderCopy( renderer, display_buffer, NULL, &dstrect );
 #else
     RenderCopy( renderer, display_buffer, nullptr, nullptr );
@@ -574,7 +575,7 @@ void set_displaybuffer_rendertarget()
     SetRenderTarget( renderer, display_buffer );
 }
 
-static void invalidate_framebuffer( std::vector<curseline> &framebuffer, const point &p, int width,
+static void invalidate_framebuffer( std::vector<curseline> &framebuffer, point p, int width,
                                     int height )
 {
     for( int j = 0, fby = p.y; j < height; j++, fby++ ) {
@@ -589,7 +590,7 @@ static void invalidate_framebuffer( std::vector<curseline> &framebuffer )
     }
 }
 
-void reinitialize_framebuffer()
+void reinitialize_framebuffer( const bool force_invalidate )
 {
     static int prev_height = -1;
     static int prev_width = -1;
@@ -607,7 +608,7 @@ void reinitialize_framebuffer()
         for( int i = 0; i < new_height; i++ ) {
             terminal_framebuffer[i].chars.assign( new_width, cursecell( "" ) );
         }
-    } else if( need_invalidate_framebuffers ) {
+    } else if( force_invalidate || need_invalidate_framebuffers ) {
         need_invalidate_framebuffers = false;
         invalidate_framebuffer( oversized_framebuffer );
         invalidate_framebuffer( terminal_framebuffer );
@@ -826,7 +827,7 @@ static point draw_string( Font &font,
     return p;
 }
 
-void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_omt, bool blink )
+void cata_tiles::draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bool blink )
 {
     if( !g ) {
         return;
@@ -1147,7 +1148,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     if( !notes_window_text.empty() ) {
         constexpr int padding = 2;
 
-        const auto draw_note_text = [&]( const point & draw_pos, const std::string & name,
+        const auto draw_note_text = [&]( point  draw_pos, const std::string & name,
         nc_color & color ) {
             char note_fg_color = color == c_yellow ? 11 :
                                  cata_cursesport::colorpairs[color.to_color_pair_index()].FG;
@@ -1229,7 +1230,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                   "SDL_RenderSetClipRect failed" );
 }
 
-static bool draw_window( Font_Ptr &font, const catacurses::window &w, const point &offset )
+static bool draw_window( Font_Ptr &font, const catacurses::window &w, point offset )
 {
     if( scaling_factor > 1 ) {
         SDL_RenderSetLogicalSize( renderer.get(), WindowWidth / scaling_factor,
@@ -1895,7 +1896,7 @@ bool handle_resize( int w, int h )
         TERMINAL_HEIGHT = WindowHeight / fontheight / scaling_factor;
         need_invalidate_framebuffers = true;
         catacurses::stdscr = catacurses::newwin( TERMINAL_HEIGHT, TERMINAL_WIDTH, point_zero );
-        SetupRenderTarget();
+        throwErrorIf( !SetupRenderTarget(), "SetupRenderTarget failed" );
         game_ui::init_ui();
         ui_manager::screen_resized();
         return true;
@@ -2987,7 +2988,8 @@ static void CheckMessages()
 
     last_input = input_event();
 
-    bool need_redraw = false;
+    cata::optional<point> resize_dims;
+    bool render_target_reset = false;
 
     while( SDL_PollEvent( &ev ) ) {
         switch( ev.type ) {
@@ -3004,7 +3006,7 @@ static void CheckMessages()
                             world_generator->active_world &&
                             g && g->uquit == QUIT_NO &&
                             get_option<bool>( "ANDROID_QUICKSAVE" ) &&
-                            !std::uncaught_exception() ) {
+                            !std::uncaught_exceptions() ) {
                             g->quicksave();
                         }
                         break;
@@ -3023,7 +3025,6 @@ static void CheckMessages()
                     case SDL_WINDOWEVENT_FOCUS_GAINED:
                         break;
                     case SDL_WINDOWEVENT_EXPOSED:
-                        need_redraw = true;
                         needupdate = true;
                         break;
                     case SDL_WINDOWEVENT_RESTORED:
@@ -3035,18 +3036,15 @@ static void CheckMessages()
                         }
 #endif
                         break;
-                    case SDL_WINDOWEVENT_RESIZED: {
-                        restore_on_out_of_scope<input_event> prev_last_input( last_input );
-                        needupdate = handle_resize( ev.window.data1, ev.window.data2 );
+                    case SDL_WINDOWEVENT_RESIZED:
+                        resize_dims = point( ev.window.data1, ev.window.data2 );
                         break;
-                    }
                     default:
                         break;
                 }
                 break;
             case SDL_RENDER_TARGETS_RESET:
-                need_redraw = true;
-                needupdate = true;
+                render_target_reset = true;
                 break;
             case SDL_KEYDOWN: {
 #if defined(__ANDROID__)
@@ -3372,16 +3370,24 @@ static void CheckMessages()
             break;
         }
     }
-    if( need_redraw ) {
+    bool resized = false;
+    if( resize_dims.has_value() ) {
+        restore_on_out_of_scope<input_event> prev_last_input( last_input );
+        needupdate = resized = handle_resize( resize_dims.value().x, resize_dims.value().y );
+    }
+    // resizing already reinitializes the render target
+    if( !resized && render_target_reset ) {
+        throwErrorIf( !SetupRenderTarget(), "SetupRenderTarget failed" );
+        reinitialize_framebuffer( true );
+        needupdate = true;
         restore_on_out_of_scope<input_event> prev_last_input( last_input );
         // FIXME: SDL_RENDER_TARGETS_RESET only seems to be fired after the first redraw
         // when restoring the window after system sleep, rather than immediately
         // on focus gain. This seems to mess up the first redraw and
         // causes black screen that lasts ~0.5 seconds before the screen
         // contents are redrawn in the following code.
-        window_dimensions dim = get_window_dimensions( catacurses::stdscr );
-        ui_manager::invalidate( rectangle<point>( point_zero, dim.window_size_pixel ), false );
-        ui_manager::redraw();
+        ui_manager::invalidate( rectangle<point>( point_zero, point( WindowWidth, WindowHeight ) ), false );
+        ui_manager::redraw_invalidated();
     }
     if( needupdate ) {
         try_sdl_update();
@@ -3538,7 +3544,13 @@ void catacurses::init_interface()
     tilecontext = std::make_unique<cata_tiles>( renderer, geometry );
     try {
         std::vector<mod_id> dummy;
-        tilecontext->load_tileset( get_option<std::string>( "TILES" ), dummy, true );
+        tilecontext->load_tileset(
+            get_option<std::string>( "TILES" ),
+            dummy,
+            /*precheck=*/true,
+            /*force=*/false,
+            /*pump_events=*/true
+        );
     } catch( const std::exception &err ) {
         dbg( DL::Error ) << "failed to check for tileset: " << err.what();
         // use_tiles is the cached value of the USE_TILES option.
@@ -3579,9 +3591,14 @@ void load_tileset()
     }
     tilecontext->load_tileset(
         get_option<std::string>( "TILES" ),
-        world_generator->active_world->active_mod_order
+        world_generator->active_world->active_mod_order,
+        /*precheck=*/false,
+        /*force=*/false,
+        /*pump_events=*/true
     );
-    tilecontext->do_tile_loading_report();
+    tilecontext->do_tile_loading_report( []( std::string str ) {
+        DebugLog( DL::Info, DC::Main ) << str;
+    } );
 }
 
 //Ends the terminal, destroy everything
@@ -3609,6 +3626,19 @@ void input_manager::set_timeout( const int t )
 {
     input_timeout = t;
     inputdelay = t;
+}
+
+void input_manager::pump_events()
+{
+    if( test_mode ) {
+        return;
+    }
+
+    // Handle all events, but ignore any keypress
+    CheckMessages();
+
+    last_input = input_event();
+    previously_pressed_key = 0;
 }
 
 // This is how we're actually going to handle input events, SDL getch
@@ -3683,7 +3713,7 @@ void rescale_tileset( int size )
 }
 
 static window_dimensions get_window_dimensions( const catacurses::window &win,
-        const point &pos, const point &size )
+        point pos, point size )
 {
     window_dimensions dim;
     if( use_tiles && g && win == g->w_terrain ) {
@@ -3736,7 +3766,7 @@ window_dimensions get_window_dimensions( const catacurses::window &win )
     return get_window_dimensions( win, point_zero, point_zero );
 }
 
-window_dimensions get_window_dimensions( const point &pos, const point &size )
+window_dimensions get_window_dimensions( point pos, point size )
 {
     return get_window_dimensions( {}, pos, size );
 }
@@ -3752,8 +3782,8 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
 
     const int &fw = dim.scaled_font_size.x;
     const int &fh = dim.scaled_font_size.y;
-    const point &win_min = dim.window_pos_pixel;
-    const point &win_size = dim.window_size_pixel;
+    point win_min = dim.window_pos_pixel;
+    point win_size = dim.window_size_pixel;
     const point win_max = win_min + win_size;
 
     // Translate mouse coordinates to map coordinates based on tile size
@@ -3905,5 +3935,11 @@ HWND getWindowHandle()
     return info.info.win.window;
 }
 #endif
+
+const SDL_Renderer_Ptr &get_sdl_renderer()
+{
+    return renderer;
+}
+
 
 #endif // TILES

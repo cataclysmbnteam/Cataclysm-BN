@@ -112,7 +112,7 @@
       [ [ "e_scrap", 2 ], [ "glowplug", 1 ] ],
       [ [ "copper", 1 ], [ "nail", 1 ], [ "wire", 1 ] ],
       [ [ "scrap", 1 ] ],
-      [ [ "duct_tape", 10 ] ],
+      [ [ "adhesive", 1, "LIST" ] ],
       [ [ "cable", 5 ] ]
     ]
   },

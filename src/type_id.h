@@ -25,6 +25,13 @@ using bodypart_str_id = string_id<body_part_type>;
 struct construction_category;
 using construction_category_id = string_id<construction_category>;
 
+struct construction_group;
+using construction_group_str_id = string_id<construction_group>;
+
+struct construction_sequence;
+using construction_sequence_int_id = int_id<construction_sequence>;
+using construction_sequence_id = string_id<construction_sequence>;
+
 struct clothing_mod;
 using clothing_mod_id = string_id<clothing_mod>;
 

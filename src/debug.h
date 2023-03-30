@@ -221,6 +221,11 @@ void setDebugLogClasses( const enum_bitset<DC> &mask, bool silent = false );
 bool debug_has_error_been_observed();
 
 /**
+ * Reset any ignored debug messages
+ */
+void debug_reset_ignored_messages();
+
+/**
  * Capturing debug messages during func execution,
  * used to test debugmsg calls in the unit tests
  * @return std::string debugmsg

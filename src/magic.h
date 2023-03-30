@@ -547,7 +547,7 @@ void timed_event( const spell &sp, Creature &caster, const tripoint & );
 void transform_blast( const spell &sp, Creature &caster, const tripoint &target );
 void noise( const spell &sp, Creature &, const tripoint &target );
 void vomit( const spell &sp, Creature &caster, const tripoint &target );
-void explosion( const spell &sp, Creature &, const tripoint &target );
+void explosion( const spell &sp, Creature &caster, const tripoint &target );
 void flashbang( const spell &sp, Creature &caster, const tripoint &target );
 void mod_moves( const spell &sp, Creature &caster, const tripoint &target );
 void map_area( const spell &sp, Creature &caster, const tripoint & );

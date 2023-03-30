@@ -10,8 +10,10 @@
 #include "cata_utility.h"
 #include "debug.h"
 #include "init.h"
+#include "input.h"
 #include "item.h"
 #include "item_factory.h"
+#include "iteminfo_query.h"
 #include "itype.h"
 #include "json.h"
 #include "output.h"
@@ -192,7 +194,7 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt,
 
             case search_type::description_result: {
                 const item result = r->create_result();
-                return lcmatch( remove_color_tags( result.info( true ) ), txt );
+                return lcmatch( remove_color_tags( result.info_string( iteminfo_query::no_text ) ), txt );
             }
 
             default:
@@ -327,6 +329,11 @@ recipe &recipe_dictionary::load( const JsonObject &jo, const std::string &src,
 
     r.load( jo, src );
 
+    if( !r.src.empty() && r.src.back().first != r.ident() ) {
+        r.src.clear();
+    }
+    r.src.emplace_back( r.ident(), mod_id( src ) );
+
     return out[ r.ident() ] = std::move( r );
 }
 
@@ -354,6 +361,7 @@ void recipe_dictionary::finalize_internal( std::map<recipe_id, recipe> &obj )
 {
     for( auto &elem : obj ) {
         elem.second.finalize();
+        inp_mngr.pump_events();
     }
     // remove any blacklisted or invalid recipes...
     delete_if( []( const recipe & elem ) {

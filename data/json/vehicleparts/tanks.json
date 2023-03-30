@@ -42,7 +42,7 @@
       "install": {
         "skills": [ [ "mechanics", 1 ] ],
         "time": "20 m",
-        "qualities": [ { "id": "WRENCH", "level": 1 }, { "id": "DRILL", "level": 2 } ]
+        "qualities": [ { "id": "WRENCH", "level": 1 }, { "id": "DRILL", "level": 1 } ]
       },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "soldering_standard", 5 ] ] }
