@@ -116,7 +116,7 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
     }
 
     gun_mode gun = weapon->gun_current_mode();
-    if( first_turn && gun->has_flag( flag_RELOAD_AND_SHOOT ) && !gun->ammo_remaining() ) {
+    if( !gun->ammo_remaining() && !reload_loc && gun->has_flag( flag_RELOAD_AND_SHOOT ) ) {
         if( !load_RAS_weapon() ) {
             aborted = true;
             act.moves_left = 0;
@@ -145,10 +145,6 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
             fin_trajectory = trajectory;
             act.moves_left = 0;
         }
-        // If aborting on the first turn, keep 'first_turn' as 'true'.
-        // This allows refunding moves spent on unloading RELOAD_AND_SHOOT weapons
-        // to simulate avatar not loading them in the first place
-        first_turn = false;
 
         // Allow interrupting activity only during 'aim and fire'.
         // Prevents '.' key for 'aim for 10 turns' from conflicting with '.' key for 'interrupt activity'
@@ -161,24 +157,25 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
 void aim_activity_actor::finish( player_activity &act, Character &who )
 {
     act.set_to_null();
-    restore_view();
     item *weapon = get_weapon();
     if( !weapon ) {
+        restore_view();
         return;
     }
     if( aborted ) {
-        unload_RAS_weapon();
         if( reload_requested ) {
             // Reload the gun / select different arrows
             // May assign ACT_RELOAD
             avatar_action::reload_wielded( true );
         }
+        restore_view();
         return;
     }
 
     // Fire!
     gun_mode gun = weapon->gun_current_mode();
-    int shots_fired = ranged::fire_gun( who, fin_trajectory.back(), gun.qty, *gun );
+
+    int shots_fired = ranged::fire_gun( who, fin_trajectory.back(), gun.qty, *gun, reload_loc );
 
     if( shots_fired > 0 ) {
         // TODO: bionic power cost of firing should be derived from a value of the relevant weapon.
@@ -189,12 +186,30 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
             who.mod_stamina( -stamina_cost_per_shot * shots_fired );
         }
     }
+
+    if( !get_option<bool>( "AIM_AFTER_FIRING" ) ) {
+        restore_view();
+        return;
+    }
+
+    // re-enter aiming UI with same parameters
+    aim_activity_actor aim_actor;
+    aim_actor.abort_if_no_targets = true;
+    aim_actor.fake_weapon = this->fake_weapon;
+    aim_actor.bp_cost_per_shot = this->bp_cost_per_shot;
+    aim_actor.initial_view_offset = this->initial_view_offset;
+
+    // if invalid target or it's dead - reset it so a new one is acquired
+    shared_ptr_fast<Creature> last_target = who.last_target.lock();
+    if( !last_target || last_target->is_dead_state() ) {
+        who.last_target.reset();
+    }
+    who.assign_activity( player_activity( aim_actor ), false );
 }
 
 void aim_activity_actor::canceled( player_activity &/*act*/, Character &/*who*/ )
 {
     restore_view();
-    unload_RAS_weapon();
 }
 
 void aim_activity_actor::serialize( JsonOut &jsout ) const
@@ -204,7 +219,6 @@ void aim_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "fake_weapon", fake_weapon );
     jsout.member( "bp_cost_per_shot", bp_cost_per_shot );
     jsout.member( "stamina_cost_per_shot", stamina_cost_per_shot );
-    jsout.member( "first_turn", first_turn );
     jsout.member( "action", action );
     jsout.member( "aif_duration", aif_duration );
     jsout.member( "aiming_at_critter", aiming_at_critter );
@@ -212,6 +226,10 @@ void aim_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "shifting_view", shifting_view );
     jsout.member( "initial_view_offset", initial_view_offset );
     jsout.member( "loaded_RAS_weapon", loaded_RAS_weapon );
+    jsout.member( "reload_loc", reload_loc );
+    jsout.member( "aborted", aborted );
+    jsout.member( "reload_requested", reload_requested );
+    jsout.member( "abort_if_no_targets", abort_if_no_targets );
 
     jsout.end_object();
 }
@@ -225,7 +243,6 @@ std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonIn &jsin )
     data.read( "fake_weapon", actor.fake_weapon );
     data.read( "bp_cost_per_shot", actor.bp_cost_per_shot );
     data.read( "stamina_cost_per_shot", actor.stamina_cost_per_shot );
-    data.read( "first_turn", actor.first_turn );
     data.read( "action", actor.action );
     data.read( "aif_duration", actor.aif_duration );
     data.read( "aiming_at_critter", actor.aiming_at_critter );
@@ -233,6 +250,10 @@ std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonIn &jsin )
     data.read( "shifting_view", actor.shifting_view );
     data.read( "initial_view_offset", actor.initial_view_offset );
     data.read( "loaded_RAS_weapon", actor.loaded_RAS_weapon );
+    data.read( "reload_loc", actor.reload_loc );
+    data.read( "aborted", actor.aborted );
+    data.read( "reload_requested", actor.reload_requested );
+    data.read( "abort_if_no_targets", actor.abort_if_no_targets );
 
     return actor.clone();
 }
@@ -271,13 +292,10 @@ bool aim_activity_actor::load_RAS_weapon()
     // Will burn (0.2% max base stamina * the strength required to fire)
     stamina_cost_per_shot = gun->get_min_str() * static_cast<int>
                             ( 0.002f * get_option<int>( "PLAYER_MAX_STAMINA" ) );
-    const int sta_percent = ( 100 * you.get_stamina() ) / you.get_stamina_max();
     if( you.get_stamina() < stamina_cost_per_shot ) {
         you.add_msg_if_player( m_bad, _( "You're too tired to draw your %s." ), weapon->tname() );
         return false;
     }
-    // At low stamina levels, firing starts getting slow.
-    const int reload_stamina_penalty = ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
 
     const auto ammo_location_is_valid = [&]() -> bool {
         you.ammo_location.make_dirty();
@@ -302,41 +320,10 @@ bool aim_activity_actor::load_RAS_weapon()
         // Menu canceled
         return false;
     }
-    const int reload_time = reload_stamina_penalty + opt.moves();
-    if( !gun->reload( you, std::move( opt.ammo ), 1 ) ) {
-        // Reload not allowed
-        return false;
-    }
 
-    you.moves -= reload_time;
+    reload_loc = opt.ammo;
     loaded_RAS_weapon = true;
     return true;
-}
-
-void aim_activity_actor::unload_RAS_weapon()
-{
-    // Unload reload-and-shoot weapons to avoid leaving bows pre-loaded with arrows
-    avatar &you = get_avatar();
-    item *weapon = get_weapon();
-    if( !weapon || !loaded_RAS_weapon ) {
-        return;
-    }
-
-    gun_mode gun = weapon->gun_current_mode();
-    if( gun->has_flag( flag_RELOAD_AND_SHOOT ) ) {
-        int moves_before_unload = you.moves;
-
-        // Note: this code works only for avatar
-        item_location loc = item_location( you, gun.target );
-        avatar_funcs::unload_item( you, loc );
-
-        // Give back time for unloading as essentially nothing has been done.
-        if( first_turn ) {
-            you.moves = moves_before_unload;
-        }
-    }
-
-    loaded_RAS_weapon = false;
 }
 
 void autodrive_activity_actor::start( player_activity &act, Character &who )

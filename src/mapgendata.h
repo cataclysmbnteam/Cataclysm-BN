@@ -136,7 +136,7 @@ class mapgendata
         }
         const oter_id &neighbor_at( om_direction::type dir ) const;
         void fill_groundcover();
-        void square_groundcover( const point &p1, const point &p2 );
+        void square_groundcover( point p1, point p2 );
         ter_id groundcover();
         bool is_groundcover( const ter_id &iid ) const;
 };

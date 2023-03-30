@@ -343,7 +343,6 @@
       { "item": "comb_pocket", "count": [ 1, 2 ], "prob": 75 },
       { "item": "scissors", "count": [ 1, 2 ], "prob": 60 },
       { "item": "hair_dryer", "prob": 60 },
-      { "collection": [ { "item": "curling_iron", "count": [ 1, 2 ] }, { "item": "curler_hair" } ], "prob": 25 },
       { "item": "elec_hairtrimmer", "prob": 30 }
     ]
   },
@@ -353,15 +352,7 @@
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
     "//2": "This group is for things you often find stored on or next to a toilet.",
     "subtype": "collection",
-    "entries": [
-      {
-        "distribution": [ { "item": "plunger_toilet", "prob": 90 }, { "item": "plunger_futuristic", "prob": 10 } ],
-        "prob": 90
-      },
-      { "item": "brush_toilet", "prob": 75 },
-      { "item": "toilet_paper", "prob": 95 },
-      { "item": "bathroom_scale", "prob": 50 }
-    ]
+    "entries": [ { "item": "bathroom_scale", "prob": 50 } ]
   },
   {
     "id": "SUS_bathroom_cabinet",
@@ -384,7 +375,6 @@
       { "item": "mirror", "prob": 25 },
       { "item": "sponge", "count": [ 1, 3 ], "prob": 75 },
       { "collection": [ { "item": "candle", "count": [ 1, 2 ] }, { "item": "matches" } ], "prob": 20 },
-      { "item": "toilet_paper", "prob": 80 },
       { "item": "towel", "count": [ 1, 2 ], "prob": 75 }
     ]
   },

@@ -1253,7 +1253,7 @@ bool construct::check_no_trap( const tripoint &p )
 bool construct::check_ramp_high( const tripoint &p )
 {
     if( check_up_OK( p ) && check_up_OK( p + tripoint_above ) ) {
-        for( const point &car_d : four_cardinal_directions ) {
+        for( point car_d : four_cardinal_directions ) {
             // check adjacent points on the z-level above for a completed down ramp
             if( get_map().has_flag( TFLAG_RAMP_DOWN, p + car_d + tripoint_above ) ) {
                 return true;
@@ -1791,7 +1791,7 @@ void construction::finalize()
     reqs_using.clear();
 }
 
-int construction::print_time( const catacurses::window &w, const point &p, int width,
+int construction::print_time( const catacurses::window &w, point p, int width,
                               nc_color col ) const
 {
     std::string text = get_time_string();

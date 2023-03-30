@@ -37,7 +37,6 @@ static const trait_id trait_CHITIN2( "CHITIN2" );
 static const trait_id trait_CHITIN3( "CHITIN3" );
 static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 static const trait_id trait_COMPOUND_EYES( "COMPOUND_EYES" );
-static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
 static const trait_id trait_EATHEALTH( "EATHEALTH" );
 static const trait_id trait_FAT( "FAT" );
 static const trait_id trait_FELINE_FUR( "FELINE_FUR" );
@@ -186,10 +185,6 @@ void Character::process_turn()
     process_items();
     // Didn't just pick something up
     last_item = itype_id( "null" );
-
-    if( !is_npc() && has_trait( trait_DEBUG_BIONIC_POWER ) ) {
-        mod_power_level( get_max_power_level() );
-    }
 
     visit_items( [this]( item * e ) {
         e->process_artifact( as_player(), pos() );

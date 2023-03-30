@@ -1,0 +1,9 @@
+[
+  {
+    "id": "add_grid_connection",
+    "type": "requirement",
+    "//": "Connect two grid tiles. Cost is multiplied by number of elements in resulting grid.",
+    "components": [ [ [ "cable", 2 ] ] ],
+    "tools": [ [ [ "soldering_iron", 3 ], [ "toolset", 1 ] ] ]
+  }
+]

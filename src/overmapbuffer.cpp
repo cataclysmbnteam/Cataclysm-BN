@@ -18,6 +18,7 @@
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "debug.h"
+#include "distribution_grid.h"
 #include "filesystem.h"
 #include "game.h"
 #include "game_constants.h"
@@ -510,7 +511,7 @@ std::vector<mongroup *> overmapbuffer::monsters_at( const tripoint_abs_omt &p )
     // but monster groups are defined with submap coordinates.
     tripoint_abs_sm p_sm = project_to<coords::sm>( p );
     std::vector<mongroup *> result;
-    for( const point &offset : std::array<point, 4> { { { point_zero }, { point_south }, { point_east }, { point_south_east } } } ) {
+    for( point offset : std::array<point, 4> { { { point_zero }, { point_south }, { point_east }, { point_south_east } } } ) {
         std::vector<mongroup *> tmp = groups_at( p_sm + offset );
         result.insert( result.end(), tmp.begin(), tmp.end() );
     }
@@ -1721,4 +1722,89 @@ overmapbuffer::electric_grid_connectivity_at( const tripoint_abs_omt &p )
     }
 
     return ret;
+}
+
+bool overmapbuffer::add_grid_connection( const tripoint_abs_omt &lhs, const tripoint_abs_omt &rhs )
+{
+    if( project_to<coords::om>( lhs ).xy() != project_to<coords::om>( rhs ).xy() ) {
+        debugmsg( "Connecting grids on different overmaps is not supported yet" );
+        return false;
+    }
+
+    const tripoint_rel_omt coord_diff = rhs - lhs;
+    if( std::abs( coord_diff.x() ) + std::abs( coord_diff.y() ) + std::abs( coord_diff.z() ) != 1 ) {
+        debugmsg( "Tried to connect non-orthogonally adjacent points" );
+        return false;
+    }
+
+    overmap_with_local_coords lhs_omc = get_om_global( lhs );
+    overmap_with_local_coords rhs_omc = get_om_global( rhs );
+
+    const auto lhs_iter = std::find( six_cardinal_directions.begin(),
+                                     six_cardinal_directions.end(),
+                                     coord_diff.raw() );
+    const auto rhs_iter = std::find( six_cardinal_directions.begin(),
+                                     six_cardinal_directions.end(),
+                                     -coord_diff.raw() );
+
+    size_t lhs_i = std::distance( six_cardinal_directions.begin(), lhs_iter );
+    size_t rhs_i = std::distance( six_cardinal_directions.begin(), rhs_iter );
+
+    std::bitset<six_cardinal_directions.size()> &lhs_bitset =
+        lhs_omc.om->electric_grid_connections[lhs_omc.local];
+    std::bitset<six_cardinal_directions.size()> &rhs_bitset =
+        rhs_omc.om->electric_grid_connections[rhs_omc.local];
+
+    if( lhs_bitset[lhs_i] && rhs_bitset[rhs_i] ) {
+        debugmsg( "Tried to connect to grid two points that are connected to each other" );
+        return false;
+    }
+
+    lhs_bitset[lhs_i] = true;
+    rhs_bitset[rhs_i] = true;
+    distribution_grid_tracker &tracker = get_distribution_grid_tracker();
+    tracker.on_changed( project_to<coords::ms>( lhs ) );
+    tracker.on_changed( project_to<coords::ms>( rhs ) );
+    return true;
+}
+
+// TODO: Deduplicate with add_grid_connection
+bool overmapbuffer::remove_grid_connection( const tripoint_abs_omt &lhs,
+        const tripoint_abs_omt &rhs )
+{
+    const tripoint_rel_omt coord_diff = rhs - lhs;
+    if( std::abs( coord_diff.x() ) + std::abs( coord_diff.y() ) + std::abs( coord_diff.z() ) != 1 ) {
+        debugmsg( "Tried to disconnect non-orthogonally adjacent points" );
+        return false;
+    }
+
+    overmap_with_local_coords lhs_omc = get_om_global( lhs );
+    overmap_with_local_coords rhs_omc = get_om_global( rhs );
+
+    const auto lhs_iter = std::find( six_cardinal_directions.begin(),
+                                     six_cardinal_directions.end(),
+                                     coord_diff.raw() );
+    const auto rhs_iter = std::find( six_cardinal_directions.begin(),
+                                     six_cardinal_directions.end(),
+                                     -coord_diff.raw() );
+
+    size_t lhs_i = std::distance( six_cardinal_directions.begin(), lhs_iter );
+    size_t rhs_i = std::distance( six_cardinal_directions.begin(), rhs_iter );
+
+    std::bitset<six_cardinal_directions.size()> &lhs_bitset =
+        lhs_omc.om->electric_grid_connections[lhs_omc.local];
+    std::bitset<six_cardinal_directions.size()> &rhs_bitset =
+        rhs_omc.om->electric_grid_connections[rhs_omc.local];
+
+    if( !lhs_bitset[lhs_i] && !rhs_bitset[rhs_i] ) {
+        debugmsg( "Tried to disconnect from grid two points with no connection to each other" );
+        return false;
+    }
+
+    lhs_bitset[lhs_i] = false;
+    rhs_bitset[rhs_i] = false;
+    distribution_grid_tracker &tracker = get_distribution_grid_tracker();
+    tracker.on_changed( project_to<coords::ms>( lhs ) );
+    tracker.on_changed( project_to<coords::ms>( rhs ) );
+    return true;
 }

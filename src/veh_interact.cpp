@@ -165,7 +165,7 @@ player_activity veh_interact::serialize_activity()
     return res;
 }
 
-player_activity veh_interact::run( vehicle &veh, const point &p )
+player_activity veh_interact::run( vehicle &veh, point p )
 {
     veh_interact vehint( veh, p );
     vehint.do_main_loop();
@@ -203,7 +203,7 @@ vehicle_part &veh_interact::select_part( const vehicle &veh, const part_selector
 /**
  * Creates a blank veh_interact window.
  */
-veh_interact::veh_interact( vehicle &veh, const point &p )
+veh_interact::veh_interact( vehicle &veh, point p )
     : dd( p ), veh( &veh ), main_context( "VEH_INTERACT" )
 {
     // Only build the shapes map and the wheel list once
@@ -2106,7 +2106,7 @@ void veh_interact::do_relabel()
  * @param d The coordinates, relative to the viewport's 0-point (?)
  * @return The first vehicle part at the specified coordinates.
  */
-int veh_interact::part_at( const point &d )
+int veh_interact::part_at( point d )
 {
     const point vd = -dd + d.rotate( 1 );
     return veh->part_displayed_at( vd );
@@ -2128,7 +2128,7 @@ bool veh_interact::can_potentially_install( const vpart_info &vpart )
  * @param d How far to move the cursor.
  * @param dstart_at How far to change the start position for vehicle part descriptions
  */
-void veh_interact::move_cursor( const point &d, int dstart_at )
+void veh_interact::move_cursor( point d, int dstart_at )
 {
     dd += d.rotate( 3 );
     if( d != point_zero ) {
@@ -2253,8 +2253,8 @@ void veh_interact::display_veh()
     if( debug_mode ) {
         // show CoM, pivot in debug mode
 
-        const point &pivot = veh->pivot_point();
-        const point &com = veh->local_center_of_mass();
+        point pivot = veh->pivot_point();
+        point com = veh->local_center_of_mass();
         const point cur = -dd;
 
         mvwprintz( w_disp, point_zero, c_green, "CoM   %d,%d", com.x, com.y );

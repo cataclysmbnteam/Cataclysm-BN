@@ -1,8 +1,18 @@
 # Cataclysm: Bright Nights
 
-<a align="center">
-<img src="doc/img/readme-title.png" title="screenshots of (clockwise from upper-right: Chaosvolt (x2), ExecutorBill, scarf005">
-</a>
+<header align="center">
+  <a><img src="doc/img/readme-title.png" title="screenshots of (clockwise from upper-right: Chaosvolt (x2), ExecutorBill, scarf005"></a>
+
+  [![en][icon-en]][en]
+  [![ko][icon-ko]][ko]
+
+</header>
+
+[en]: ./README.md
+[icon-en]: https://img.shields.io/badge/lang-en-red?style=flat-square
+[ko]: ./README.ko.md
+[icon-ko]: https://img.shields.io/badge/lang-ko-orange?style=flat-square
+
 
 Cataclysm: Bright Nights is a roguelike with sci-fi elements set in a post-apocalyptic world.
 

@@ -37,6 +37,6 @@
       }
     ],
     "techniques": [ "mma_tec_panzer_counter", "mma_tec_panzer_somersault", "mma_tec_panzer_precise", "mma_tec_panzer_rapid" ],
-    "weapons": [ "bio_claws_weapon", "bio_blade_weapon" ]
+    "weapon_category": [ "BIONIC_WEAPONRY" ]
   }
 ]

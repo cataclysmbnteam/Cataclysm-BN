@@ -619,6 +619,38 @@
     ]
   },
   {
+    "result": "helmet_sasurvivor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 7,
+    "skills_required": [ "fabrication", 7 ],
+    "time": "45 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 10 ] ],
+    "tools": [ [ [ "welder", 42 ], [ "welder_crude", 63 ], [ "soldering_iron", 63 ], [ "toolset", 63 ] ] ],
+    "components": [
+      [ [ "helmet_liner", 1 ], [ "hat_cotton", 1 ], [ "rag", 3 ] ],
+      [ [ "helmet_army", 1 ] ],
+      [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ] ],
+      [ [ "alloy_sheet", 4 ] ],
+      [ [ "duct_tape", 75 ] ],
+      [
+        [ "helmet_riot", 1 ],
+        [ "helmet_motor", 1 ],
+        [ "helmet_football", 1 ],
+        [ "helmet_ball", 1 ],
+        [ "helmet_skid", 1 ],
+        [ "helmet_bike", 1 ],
+        [ "hat_hard", 1 ],
+        [ "firehelmet", 1 ],
+        [ "pickelhaube", 1 ],
+        [ "plastic_chunk", 8 ]
+      ]
+    ]
+  },
+  {
     "result": "helmet_scrap",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -786,8 +818,7 @@
     "time": "40 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "KNIT", "level": 1 } ],
-    "components": [ [ [ "thread", 600 ] ] ]
+    "using": [ [ "tailoring_cotton_knitting", 600 ] ]
   },
   {
     "result": "leather_cat_ears",
@@ -812,8 +843,7 @@
     "time": "1 h",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "KNIT", "level": 1 } ],
-    "components": [ [ [ "thread", 900 ] ] ]
+    "using": [ [ "tailoring_cotton_knitting", 900 ] ]
   },
   {
     "result": "long_patchwork_scarf",
@@ -1008,6 +1038,26 @@
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
       [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
       [ [ "scrap", 3 ] ],
+      [ [ "mask_bal", 1 ], [ "kevlar_plate", 4 ] ]
+    ]
+  },
+  {
+    "result": "mask_sasurvivor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "skills_required": [ "tailor", 7 ],
+    "time": "20 m",
+    "autolearn": true,
+    "using": [ [ "adhesive", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "components": [
+      [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
+      [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
+      [ [ "alloy_sheet", 2 ] ],
       [ [ "mask_bal", 1 ], [ "kevlar_plate", 4 ] ]
     ]
   },

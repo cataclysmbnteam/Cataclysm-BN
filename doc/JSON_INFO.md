@@ -71,7 +71,9 @@ Use the `Home` key to return to the top.
     + [Comestibles](#comestibles)
     + [Containers](#containers)
     + [Melee](#melee)
+      - [`Melee Weapon_category`](#melee-weapon_category)
     + [Gun](#gun)
+      - [`Ranged Weapon_category`](#ranged-weapon_category)
     + [Gunmod](#gunmod)
     + [Batteries](#batteries)
     + [Tools](#tools)
@@ -1681,6 +1683,7 @@ See also VEHICLE_JSON.md
 "price": 100,                                // Used when bartering with NPCs. For stackable items (ammo, comestibles) this is the price for stack_size charges. Can use string "cent" "USD" or "kUSD".
 "price_post": "1 USD",                       // Same as price but represent value post cataclysm. Can use string "cent" "USD" or "kUSD".
 "material": ["COTTON"],                      // Material types, can be as many as you want.  See materials.json for possible options
+"weapon_category": [ "WEAPON_CAT1" ],        // (Optional) Weapon categories this item is in for martial arts.
 "cutting": 0,                                // (Optional, default = 0) Cutting damage caused by using it as a melee weapon.  This value cannot be negative.
 "bashing": 0,                                // (Optional, default = 0) Bashing damage caused by using it as a melee weapon.  This value cannot be negative.
 "to_hit": 0,                                 // (Optional, default = 0) To-hit bonus if using it as a melee weapon (whatever for?)
@@ -1992,6 +1995,47 @@ It could also be written as a generic item ("type": "GENERIC") with "armor_data"
 "to_hit": 1            // To-hit bonus if using it as a melee weapon
 ```
 
+#### Melee `Weapon_category`
+
+| Weapon Category       | Description
+| ---                   | ---
+| FIST_WEAPONS          | Handheld weapons used to supplement fists in martial arts.
+| ---                   | ---
+| KNIVES                | Short blade fixed onto a handle, for cutting or as weapon.
+| SHORT_SWORDS          | One handed sword of length between a large knife and a 'proper' sword.
+| 1H_SWORDS             | Sword meant to be wielded with one hand.
+| 2H_SWORDS             | Sword meant to be wielded with both hands.
+| DUELING_SWORDS        | Swords with thin profiles typically meant for stabbing.
+| BIONIC_SWORDS         | Swords integrated into the body via bionics.
+| ---                   | ---
+| SAPS                  | Very short length of typically flexible material, with a weighted tip.
+| BATONS                | Thin, balanced rod of strong material.
+| TONFAS                | Unique looking T-shaped baton believed to originate from China.
+| CLUBS                 | Rod with a thicker striking head. May be one or two-handed.
+| QUARTERSTAVES         | Long pole wielded with both hands.
+| MACES                 | Short one-handed weapon with a striking head firmly attached to a short handle.
+| MORNINGSTARS          | Typically two-handed weapon with a striking head firmly attached to a long handle.
+| FLAILS                | Striking head attached to handle by flexible rope/chain.
+| 1H_HAMMERS            | Hammers meant to be wielded with a single hand.
+| 2H_HAMMERS            | Hammers meant to be wielded with both hands.
+| ---                   | ---
+| HAND_AXES             | Axe with a short handle, typically wielded in one hand, ocassionally thrown.
+| 1H_AXES               | Axes meant to be wielded with one hand, typically with a handle longer than the handaxe.
+| 2H_AXES               | Axes meant to be wielded with two hands.
+| ---                   | ---
+| WHIPS                 | Flexible tool used to strike at range.
+| ---                   | ---
+| HOOKED_POLES          | Polearm with hooked end (Like a shepherd's crook)
+| SPEARS                | Polearm with a long shaft and a sharp tip made of hard material.
+| PIKES                 | Very long spear that can only be wielded in two hands, very unwieldy.
+| GLAIVES               | Polearm with a single-edged blade mounted on the end.
+
+| Weapon Styles         | Description
+| ---                   | ---
+| MEDIEVAL_SWORDS       | Swords associated with European culture.
+| JAPANESE_SWORDS       | Swords associated with Japanese culture.
+| BIONIC_WEAPONRY       | Weapons integrated into the body via bionics.
+
 ### Gun
 
 Guns can be defined like this:
@@ -2017,9 +2061,9 @@ Guns can be defined like this:
 "burst": 5,                // Number of shots fired in burst mode
 "clip_size": 100,          // Maximum amount of ammo that can be loaded
 "ups_charges": 0,          // Additionally to the normal ammo (if any), a gun can require some charges from an UPS. This also works on mods. Attaching a mod with ups_charges will add/increase ups drain on the weapon.
-"reload": 450,             // Amount of time to reload, 100 = 1 second = 1 "turn"
-"built_in_mods": ["m203"], //An array of mods that will be integrated in the weapon using the IRREMOVABLE tag.
-"default_mods": ["m203"]   //An array of mods that will be added to a weapon on spawn.
+"reload": 450,             // Amount of time to reload, 100 = 1 second = 1 "turn". Default 100.
+"built_in_mods": ["m203"], // An array of mods that will be integrated in the weapon using the IRREMOVABLE tag.
+"default_mods": ["m203"]   // An array of mods that will be added to a weapon on spawn.
 "barrel_length": "30 mL",  // Amount of volume lost when the barrel is sawn. Approximately 250 ml per inch is a decent approximation.
 "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ] ],  // The valid locations for gunmods and the mount of slots for that location.
 ```
@@ -2033,6 +2077,40 @@ Alternately, every item (book, tool, armor, even food) can be used as gun if it 
     ...
 }
 ```
+
+#### Ranged `Weapon_category`
+
+| Weapon Category       | Description
+| ---                   | ---
+| BOWS                  | Elastic launching device for long-shafted projectiles.
+| CROSSBOWS             | Elastic launching device mounted on a frame to be triggered.
+| SLINGSHOTS            | Elastic, handheld launching device typically used for small round projectiles.
+| SLINGS                | Projectile weapon using a cradle connected to two retention cords, used to fling blunt projectiles.
+| ---                   | ---
+| PISTOLS               | Handgun with a chamber integral to the gun barrel. In-game, any handgun that isn't a revolver goes here.
+| REVOLVERS             | Repeating handgun with a revolving cylinder containing multiple chambers.
+| SUBMACHINE_GUNS       | Magazine fed automatic carbine designed to fire handgun cartridges.
+| RIFLES                | Long barrelled firearms designed for more accurate shooting.
+| MACHINE_GUNS          | Fully automatic autoloading firearm designed for sustained fire.
+| GATLING_GUNS          | Rapid firing multi barrel firearm.
+| SHOTGUNS              | Long barreled firearm generally designed to fire shotshells.
+| ---                   | ---
+| GRENADE_LAUNCHERS     | Firearm designed to propel large caliber projectile typically loaded with warhead of some kind (smoke, gas, explosive, etc)
+| ROCKET_LAUNCHERS      | Firearm that propels unguided, rocket-propelled projectile.
+| ---                   | ---
+| FLAMETHROWERS         | Ranged incendiary device designed to propel a controllable jet of fire.
+| WATER_CANNONS         | It fires water at your enemies.
+| SPRAY_GUNS            | It spews chemicals at your enemies.
+
+| Action category       | Description
+| ---                   | ---
+| 1SHOT                 | Ranged weapon with at least one barrel but no loading system/magazine.
+| AUTOLOADING           | Ranged weapon with autoloading mechanisms like blowback, gas-operated, or recoil operated systems.
+| MANUAL_ACTION         | Ranged weapon using manual actions like bolt/pump/lever.
+| ENERGY_WEAPONS        | Weapon designed to utilize focused energy (sonic, electromagnetic waves, particle beams, etc). Both Ranged/Melee.
+| MAGNETIC              | Weapon that propels payload via electromagnetism.
+| PNEUMATIC             | Ranged weapon that propels payload via compressed air.
+| ELASTIC               | Ranged weapon that propels payload via elastic band.
 
 ### Gunmod
 
@@ -2537,7 +2615,7 @@ The contents of use_action fields can either be a string indicating a built-in f
 }
 ```
 
-###random Descriptions
+### Random Descriptions
 
 Any item with a "snippet_category" entry will have random descriptions, based on that snippet category:
 ```
@@ -2665,6 +2743,20 @@ For every `type` other then `bionic` and `bionic_group` following entries scale 
 
 For `type`s: `bionic` and `bionic_group` following enrties can scale the results:
     `max` this value (in contrary to `max` for other `type`s) corresponds to maximum butchery roll that will be passed to check_butcher_cbm() in activity_handlers.cpp; view check_butcher_cbm() to see corresponding distribution chances for roll values passed to that function
+
+### Weapon Category
+
+Used to classify weapons (guns or melee) into groups, mainly for use in martial arts.
+
+```c++
+{
+    "type": "weapon_category",
+    "id": "WEAP_CAT"
+    "name": "Weapon Category"
+}
+```
+
+`"name"` is a translatable string used for UI display in martial arts UI, while ID is used for JSON entries.
 
 ### Furniture
 

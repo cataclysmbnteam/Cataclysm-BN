@@ -315,6 +315,28 @@
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
   {
+    "id": "gloves_sasurvivor",
+    "type": "ARMOR",
+    "name": { "str": "pair of superalloy survivor gloves", "str_pl": "pairs of superalloy survivor gloves" },
+    "description": "A pair of heavily customized, superalloy-backed armored Kevlar gloves, modified to be easy to wear while providing maximum protection under extreme conditions.",
+    "weight": "800 g",
+    "volume": "1 L",
+    "price": 20000,
+    "price_postapoc": 4000,
+    "to_hit": 2,
+    "material": [ "kevlar", "superalloy" ],
+    "symbol": "[",
+    "looks_like": "fire_gauntlets",
+    "color": "light_cyan",
+    "covers": [ "hands" ],
+    "coverage": 100,
+    "encumbrance": 25,
+    "warmth": 15,
+    "material_thickness": 4,
+    "environmental_protection": 5,
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
+  },
+  {
     "id": "glove_jackson",
     "repairs_like": "gloves_light",
     "type": "ARMOR",

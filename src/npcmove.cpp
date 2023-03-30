@@ -1116,7 +1116,7 @@ void npc::execute_action( npc_action action )
                 pretend_fire( this, mode.qty, *mode );
             } else {
                 add_msg( m_debug, "%s recoil on firing: %s", name, recoil );
-                ranged::fire_gun( *this, tar, mode.qty, *mode );
+                ranged::fire_gun( *this, tar, mode.qty, *mode, item_location() );
                 // Clear the ranged cbm entry and item so next turn a new comparison is made.
                 if( cbm_active_index >= 0 ) {
                     discharge_cbm_weapon();

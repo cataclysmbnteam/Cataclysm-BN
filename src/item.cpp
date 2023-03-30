@@ -140,6 +140,7 @@ static const itype_id itype_joint_roach( "joint_roach" );
 static const itype_id itype_plut_cell( "plut_cell" );
 static const itype_id itype_rad_badge( "rad_badge" );
 static const itype_id itype_tuned_mechanism( "tuned_mechanism" );
+static const itype_id itype_stock_small( "stock_small" );
 static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_bio_armor( "bio_armor" );
 static const itype_id itype_waterproof_gunmod( "waterproof_gunmod" );
@@ -147,7 +148,6 @@ static const itype_id itype_water( "water" );
 static const itype_id itype_water_acid( "water_acid" );
 static const itype_id itype_water_acid_weak( "water_acid_weak" );
 
-static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_survival( "survival" );
 static const skill_id skill_unarmed( "unarmed" );
 static const skill_id skill_weapon( "weapon" );
@@ -1507,6 +1507,14 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     if( parts->test( iteminfo_parts::BASE_CATEGORY ) ) {
         info.push_back( iteminfo( "BASE", _( "Category: " ),
                                   "<header>" + get_category().name() + "</header>" ) );
+    }
+    if( !type->weapon_category.empty() && parts->test( iteminfo_parts::WEAPON_CATEGORY ) ) {
+        const std::string weapon_categories = enumerate_as_string( type->weapon_category.begin(),
+        type->weapon_category.end(), [&]( const weapon_category_id & elem ) {
+            return elem->name().translated();
+        }, enumeration_conjunction::none );
+        info.push_back( iteminfo( "BASE", _( "Weapon Category: " ),
+                                  "<header>" + weapon_categories + "</header>" ) );
     }
 
     if( parts->test( iteminfo_parts::DESCRIPTION ) ) {
@@ -4765,6 +4773,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     if( gunmod_find( itype_barrel_small ) ) {
         modtext += _( "sawn-off " );
     }
+    if( gunmod_find( itype_stock_small ) ) {
+        modtext += _( "pistol " );
+    }
     if( has_flag( flag_DIAMOND ) ) {
         modtext += std::string( pgettext( "Adjective, as in diamond katana", "diamond" ) ) + " ";
     }
@@ -5150,23 +5161,7 @@ units::volume item::volume( bool integral ) const
         // TODO: implement stock_length property for guns
         if( has_flag( flag_COLLAPSIBLE_STOCK ) ) {
             // consider only the base size of the gun (without mods)
-            int tmpvol = get_var( "volume",
-                                  ( type->volume - type->gun->barrel_length ) / units::legacy_volume_factor );
-            if( tmpvol <= 3 ) {
-                // intentional NOP
-            } else if( tmpvol <= 5 ) {
-                ret -= 250_ml;
-            } else if( tmpvol <= 6 ) {
-                ret -= 500_ml;
-            } else if( tmpvol <= 9 ) {
-                ret -= 750_ml;
-            } else if( tmpvol <= 12 ) {
-                ret -= 1000_ml;
-            } else if( tmpvol <= 15 ) {
-                ret -= 1250_ml;
-            } else {
-                ret -= 1500_ml;
-            }
+            ret -= ( type->volume / 3 );
         }
 
         if( gunmod_find( itype_barrel_small ) ) {

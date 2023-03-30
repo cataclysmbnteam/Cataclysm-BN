@@ -283,7 +283,7 @@ std::unique_ptr<game> g;
 //The one and only uistate instance
 uistatedata uistate;
 
-bool is_valid_in_w_terrain( const point &p )
+bool is_valid_in_w_terrain( point p )
 {
     return p.x >= 0 && p.x < TERRAIN_WINDOW_WIDTH && p.y >= 0 && p.y < TERRAIN_WINDOW_HEIGHT;
 }
@@ -1595,7 +1595,7 @@ bool game::do_turn()
     return false;
 }
 
-void game::set_driving_view_offset( const point &p )
+void game::set_driving_view_offset( point p )
 {
     // remove the previous driving offset,
     // store the new offset and apply the new offset.
@@ -4952,7 +4952,7 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &install
 
 }
 
-void game::exam_vehicle( vehicle &veh, const point &c )
+void game::exam_vehicle( vehicle &veh, point c )
 {
     if( veh.magic ) {
         add_msg( m_info, _( "This is your %s" ), veh.name );
@@ -8190,11 +8190,11 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
     smenu.addentry_col( BUTCHER_FULL, enough_light, 'b', _( "Full butchery" ),
                         enough_light ? cut_time( BUTCHER_FULL ) : cannot_see,
                         string_format( "%s  %s%s",
-                                       _( "This technique is used to properly butcher a corpse, "
-                                          "and requires a rope & a tree or a butchering rack, "
-                                          "a flat surface (for ex. a table, a leather tarp, etc.) "
-                                          "and good tools.  Yields are plentiful and varied, "
-                                          "but it is time consuming." ),
+                                       _( "This technique is used to properly butcher a corpse.  "
+                                          "For corpses larger than medium size, you will require "
+                                          "a rope & a tree, a butchering rack or a flat surface "
+                                          "(for ex. a table, a leather tarp, etc.).  "
+                                          "Yields are plentiful and varied, but it is time consuming." ),
                                        msg_inv, info_on_action( BUTCHER_FULL ).c_str() ) );
     smenu.addentry_col( F_DRESS, enough_light &&
                         has_organs, 'f', _( "Field dress corpse" ),
@@ -11979,7 +11979,7 @@ std::string game::get_world_base_save_path() const
     return world_generator->active_world->folder_path();
 }
 
-void game::shift_destination_preview( const point &delta )
+void game::shift_destination_preview( point delta )
 {
     for( tripoint &p : destination_preview ) {
         p += delta;

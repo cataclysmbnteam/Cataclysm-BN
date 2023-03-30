@@ -931,7 +931,7 @@ bool vehicle::has_harnessed_animal() const
     return false;
 }
 
-void vehicle::selfdrive( const point &p )
+void vehicle::selfdrive( point p )
 {
     if( !is_towed() && !magic ) {
         for( size_t e = 0; e < parts.size(); e++ ) {
@@ -1083,7 +1083,7 @@ bool vehicle::check_heli_ascend( player &p )
     return true;
 }
 
-void vehicle::pldrive( Character &driver, const point &p, int z )
+void vehicle::pldrive( Character &driver, point p, int z )
 {
     if( z != 0 && is_rotorcraft() ) {
         driver.moves = std::min( driver.moves, 0 );
@@ -1770,7 +1770,7 @@ static bool scan_rails_from_veh_internal(
 }
 
 // Get number of rotations of identity vector
-static inline int get_num_cw_rots_of_ray_delta( const point &v )
+static inline int get_num_cw_rots_of_ray_delta( point v )
 {
     if( v == point_north_east ) {
         return 0;
