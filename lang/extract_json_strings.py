@@ -807,11 +807,11 @@ def extract_snippet(state, item):
         else:
             writestr(state, snip["text"])
 
-def extract_weapon_category(item):
-    outfile = get_outfile("weapon_category")
-    name = item.get("name")
+
+def extract_weapon_category(state, item):
+    name = item["name"]
     comment = "weapon category name"
-    writestr(outfile, name, comment=comment)
+    writestr(state, name, comment=comment)
 
 
 # these objects need to have their strings specially extracted
