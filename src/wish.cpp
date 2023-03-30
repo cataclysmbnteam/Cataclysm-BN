@@ -427,30 +427,6 @@ void debug_menu::wishbionics( Character &c )
             }
         }
     }
-
-    /*
-    ui_adaptor ui;
-    catacurses::window w;
-
-    ui.on_screen_resize([&](ui_adaptor& ui) {
-        constexpr int height = 23;
-        constexpr int width = 40;
-
-        w = catacurses::newwin( height, width, point_zero );
-        ui.position( point_zero, point( TERMX - width, TERMY - height ) / 2 );
-    });
-
-    ui.on_redraw( [&]( const ui_adaptor & ) {
-        draw_border( w );
-
-        units::energy max_power = c.get_max_power_level();
-
-        wnoutrefresh( w );
-    } );
-
-    input_context ctxt = input_context( "WISHBIONIC" );
-    ctxt.register_action()
-    */
 }
 
 class wish_monster_callback: public uilist_callback
