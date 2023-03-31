@@ -901,21 +901,22 @@ static void draw_stealth( avatar &u, const catacurses::window &w )
 
 static void draw_time_graphic( const catacurses::window &w )
 {
-    std::vector<std::pair<char, nc_color> > vGlyphs;
-    vGlyphs.push_back( std::make_pair( '_', c_red ) );
-    vGlyphs.push_back( std::make_pair( '_', c_cyan ) );
-    vGlyphs.push_back( std::make_pair( '.', c_brown ) );
-    vGlyphs.push_back( std::make_pair( ',', c_blue ) );
-    vGlyphs.push_back( std::make_pair( '+', c_yellow ) );
-    vGlyphs.push_back( std::make_pair( 'c', c_light_blue ) );
-    vGlyphs.push_back( std::make_pair( '*', c_yellow ) );
-    vGlyphs.push_back( std::make_pair( 'C', c_white ) );
-    vGlyphs.push_back( std::make_pair( '+', c_yellow ) );
-    vGlyphs.push_back( std::make_pair( 'c', c_light_blue ) );
-    vGlyphs.push_back( std::make_pair( '.', c_brown ) );
-    vGlyphs.push_back( std::make_pair( ',', c_blue ) );
-    vGlyphs.push_back( std::make_pair( '_', c_red ) );
-    vGlyphs.push_back( std::make_pair( '_', c_cyan ) );
+    static const std::vector<std::pair<char, nc_color> > vGlyphs = {
+        { '_', c_red },
+        { '_', c_cyan },
+        { '.', c_brown },
+        { ',', c_blue },
+        { '+', c_yellow },
+        { 'c', c_light_blue },
+        { '*', c_yellow },
+        { 'C', c_white },
+        { '+', c_yellow },
+        { 'c', c_light_blue },
+        { '.', c_brown },
+        { ',', c_blue },
+        { '_', c_red },
+        { '_', c_cyan },
+    };
 
     const int iHour = hour_of_day<int>( calendar::turn );
     wprintz( w, c_white, "[" );
