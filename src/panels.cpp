@@ -663,11 +663,13 @@ static nc_color safe_color()
 
 static int get_int_digits( const int &digits )
 {
-    int temp = std::abs( digits );
+    const int temp = std::abs( digits );
+    const int digits_count = static_cast<int>( std::log10( static_cast<double>( temp ) ) );
+
     if( digits > 0 ) {
-        return static_cast<int>( std::log10( static_cast<double>( temp ) ) ) + 1;
+        return digits_count + 1;
     } else if( digits < 0 ) {
-        return static_cast<int>( std::log10( static_cast<double>( temp ) ) ) + 2;
+        return digits_count + 2;
     }
     return 1;
 }
