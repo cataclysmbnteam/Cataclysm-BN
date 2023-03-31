@@ -625,20 +625,23 @@ static std::pair<nc_color, std::string> power_stat( const avatar &u )
 
 static std::pair<nc_color, std::string> mana_stat( const player &u )
 {
-    nc_color c_mana = c_red;
-    std::string s_mana;
     if( u.magic->max_mana( u ) <= 0 ) {
-        s_mana = "--";
-        c_mana = c_light_gray;
-    } else {
-        if( u.magic->available_mana() >= u.magic->max_mana( u ) / 2 ) {
-            c_mana = c_light_blue;
-        } else if( u.magic->available_mana() >= u.magic->max_mana( u ) / 3 ) {
-            c_mana = c_yellow;
-        }
-        s_mana = std::to_string( u.magic->available_mana() );
+        return { c_light_gray, "--" };
     }
-    return std::make_pair( c_mana, s_mana );
+
+    const int mana = u.magic->available_mana();
+    const int max_mana = u.magic->max_mana( u );
+    const nc_color mana_color = ( [mana, max_mana]() {
+        if( mana >= max_mana / 2 ) {
+            return c_light_blue;
+        }
+        if( mana >= max_mana / 3 ) {
+            return c_yellow;
+        }
+        return c_red;
+    } )();
+
+    return { mana_color, std::to_string( mana ) };
 }
 
 static nc_color safe_color()
