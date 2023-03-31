@@ -163,10 +163,10 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, point of
     }
 
     if( mmenu_title.size() > 1 ) {
-        for( const std::string &line : mmenu_title ) {
+        for( const std::string &i_title : mmenu_title ) {
             nc_color cur_color = c_white;
             nc_color base_color = c_white;
-            print_colored_text( w_open, point( iOffsetX, iLine++ ), cur_color, base_color, line );
+            print_colored_text( w_open, point( iOffsetX, iLine++ ), cur_color, base_color, i_title );
         }
     } else {
         center_print( w_open, iLine++, c_light_cyan, mmenu_title[0] );
