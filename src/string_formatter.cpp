@@ -41,7 +41,7 @@ bool cata::string_formatter::has_digit() const
     return c >= '0' && c <= '9';
 }
 
-cata::optional<int> cata::string_formatter::read_argument_index()
+std::optional<int> cata::string_formatter::read_argument_index()
 {
     const char c = get_current_input();
     // can't use has_digit because '0' is not allowed as first character
@@ -71,7 +71,7 @@ int cata::string_formatter::parse_integer( )
     return result;
 }
 
-cata::optional<int> cata::string_formatter::read_number_or_argument_index()
+std::optional<int> cata::string_formatter::read_number_or_argument_index()
 {
     if( consume_next_input_if( '*' ) ) {
         if( !has_digit() ) {
@@ -89,12 +89,12 @@ cata::optional<int> cata::string_formatter::read_number_or_argument_index()
     return cata::nullopt;
 }
 
-cata::optional<int> cata::string_formatter::read_width()
+std::optional<int> cata::string_formatter::read_width()
 {
     return read_number_or_argument_index();
 }
 
-cata::optional<int> cata::string_formatter::read_precision()
+std::optional<int> cata::string_formatter::read_precision()
 {
     if( !consume_next_input_if( '.' ) ) {
         return cata::nullopt;

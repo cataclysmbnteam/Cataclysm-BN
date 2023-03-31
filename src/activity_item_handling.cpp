@@ -400,7 +400,7 @@ void put_into_vehicle_or_drop( Character &c, item_drop_reason reason, const std:
                                const tripoint &where, bool force_ground )
 {
     map &here = get_map();
-    const cata::optional<vpart_reference> vp = here.veh_at( where ).part_with_feature( "CARGO", false );
+    const std::optional<vpart_reference> vp = here.veh_at( where ).part_with_feature( "CARGO", false );
     if( vp && !force_ground ) {
         put_into_vehicle( c, reason, items, vp->vehicle(), vp->part_index() );
         return;
@@ -901,7 +901,7 @@ static int move_cost( const item &it, const tripoint &src, const tripoint &dest 
     if( g->u.get_grab_type() == OBJECT_VEHICLE ) {
         tripoint cart_position = g->u.pos() + g->u.grab_point;
 
-        if( const cata::optional<vpart_reference> vp = get_map().veh_at(
+        if( const std::optional<vpart_reference> vp = get_map().veh_at(
                     cart_position ).part_with_feature( "CARGO", false ) ) {
             const vehicle &veh = vp->vehicle();
             size_t vstor = vp->part_index();
@@ -1051,7 +1051,7 @@ static activity_reason_info find_base_construction(
     player &p,
     const inventory &inv,
     const tripoint &loc,
-    const cata::optional<construction_id> &part_con_id,
+    const std::optional<construction_id> &part_con_id,
     const construction_id id,
     std::set<construction_id> &used )
 {
@@ -1112,7 +1112,7 @@ static activity_reason_info find_base_construction(
 
     //we can't immediately build it, looking for pre-req
     used.insert( id );
-    cata::optional<do_activity_reason> reason;
+    std::optional<do_activity_reason> reason;
     construction_id pre_req_idx( -1 );
     //first step: try only constructions with the same group
     //second step: try all constructions
@@ -1243,7 +1243,7 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
             temp_inv += elem2;
         }
         if( !in_loot_zones ) {
-            if( const cata::optional<vpart_reference> vp = here.veh_at( elem ).part_with_feature( "CARGO",
+            if( const std::optional<vpart_reference> vp = here.veh_at( elem ).part_with_feature( "CARGO",
                     false ) ) {
                 vehicle &src_veh = vp->vehicle();
                 int src_part = vp->part_index();
@@ -1259,7 +1259,7 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
             const optional_vpart_position vp = here.veh_at( elem );
             if( vp ) {
                 vehicle &veh = vp->vehicle();
-                const cata::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG", true );
+                const std::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG", true );
                 if( weldpart ) {
                     item welder( itype_welder, calendar::start_of_cataclysm );
                     welder.charges = veh.fuel_left( itype_battery, true );
@@ -1527,7 +1527,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
         zones = mgr.get_zones( zone_type_CONSTRUCTION_BLUEPRINT,
                                here.getabs( src_loc ) );
         const partial_con *part_con = here.partial_con_at( src_loc );
-        cata::optional<construction_id> part_con_idx;
+        std::optional<construction_id> part_con_idx;
         if( part_con ) {
             part_con_idx = part_con->id;
         }
@@ -1967,7 +1967,7 @@ static bool tidy_activity( player &p, const tripoint &src_loc,
     auto items_there = here.i_at( src_loc );
     vehicle *dest_veh;
     int dest_part;
-    if( const cata::optional<vpart_reference> vp = here.veh_at(
+    if( const std::optional<vpart_reference> vp = here.veh_at(
                 loot_src_lot ).part_with_feature( "CARGO",
                         false ) ) {
         dest_veh = &vp->vehicle();
@@ -2009,7 +2009,7 @@ static bool fetch_activity( player &p, const tripoint &src_loc,
     auto items_there = here.i_at( src_loc );
     vehicle *src_veh = nullptr;
     int src_part = 0;
-    if( const cata::optional<vpart_reference> vp = here.veh_at( src_loc ).part_with_feature( "CARGO",
+    if( const std::optional<vpart_reference> vp = here.veh_at( src_loc ).part_with_feature( "CARGO",
             false ) ) {
         src_veh = &vp->vehicle();
         src_part = vp->part_index();
@@ -2211,7 +2211,7 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
             }
 
             //nothing to sort?
-            const cata::optional<vpart_reference> vp = here.veh_at( src_loc ).part_with_feature( "CARGO",
+            const std::optional<vpart_reference> vp = here.veh_at( src_loc ).part_with_feature( "CARGO",
                     false );
             if( ( !vp || vp->vehicle().get_items( vp->part_index() ).empty() )
                 && here.i_at( src_loc ).empty() ) {
@@ -2282,7 +2282,7 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
         //Check source for cargo part
         //map_stack and vehicle_stack are different types but inherit from item_stack
         // TODO: use one for loop
-        if( const cata::optional<vpart_reference> vp = here.veh_at( src_loc ).part_with_feature( "CARGO",
+        if( const std::optional<vpart_reference> vp = here.veh_at( src_loc ).part_with_feature( "CARGO",
                 false ) ) {
             src_veh = &vp->vehicle();
             src_part = vp->part_index();
@@ -2340,7 +2340,7 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
                 const tripoint &dest_loc = here.getlocal( dest );
 
                 //Check destination for cargo part
-                if( const cata::optional<vpart_reference> vp = here.veh_at( dest_loc ).part_with_feature( "CARGO",
+                if( const std::optional<vpart_reference> vp = here.veh_at( dest_loc ).part_with_feature( "CARGO",
                         false ) ) {
                     dest_veh = &vp->vehicle();
                     dest_part = vp->part_index();
@@ -3061,10 +3061,10 @@ bool generic_multi_activity_handler( player_activity &act, player &p, bool check
     return false;
 }
 
-static cata::optional<tripoint> find_best_fire( const std::vector<tripoint> &from,
+static std::optional<tripoint> find_best_fire( const std::vector<tripoint> &from,
         const tripoint &center )
 {
-    cata::optional<tripoint> best_fire;
+    std::optional<tripoint> best_fire;
     time_duration best_fire_age = 1_days;
     map &here = get_map();
     for( const tripoint &pt : from ) {
@@ -3096,7 +3096,7 @@ static inline bool has_clear_path_to_pickup_items( const tripoint &from, const t
            here.clear_path( from, to, PICKUP_RANGE, 1, 100 );
 }
 
-static cata::optional<tripoint> find_refuel_spot_zone( const tripoint &center )
+static std::optional<tripoint> find_refuel_spot_zone( const tripoint &center )
 {
     const zone_manager &mgr = zone_manager::get_manager();
     map &here = get_map();
@@ -3117,7 +3117,7 @@ static cata::optional<tripoint> find_refuel_spot_zone( const tripoint &center )
     return {};
 }
 
-static cata::optional<tripoint> find_refuel_spot_trap( const std::vector<tripoint> &from,
+static std::optional<tripoint> find_refuel_spot_trap( const std::vector<tripoint> &from,
         const tripoint &center )
 {
     const auto tile = std::find_if( from.begin(), from.end(), [center]( const tripoint & pt ) {
@@ -3234,15 +3234,15 @@ void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
     std::vector<tripoint> adjacent = closest_points_first( pos, PICKUP_RANGE );
     adjacent.erase( adjacent.begin() );
 
-    cata::optional<tripoint> best_fire = starting_fire ? act.placement : find_best_fire( adjacent,
-                                         pos );
+    std::optional<tripoint> best_fire = starting_fire ? act.placement : find_best_fire( adjacent,
+                                        pos );
 
     map &here = get_map();
     if( !best_fire || !here.accessible_items( *best_fire ) ) {
         return;
     }
 
-    cata::optional<tripoint> refuel_spot = find_refuel_spot_zone( pos );
+    std::optional<tripoint> refuel_spot = find_refuel_spot_zone( pos );
     if( !refuel_spot ) {
         refuel_spot = find_refuel_spot_trap( adjacent, pos );
         if( !refuel_spot ) {

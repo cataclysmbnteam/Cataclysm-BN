@@ -143,7 +143,7 @@ struct omt_find_params {
     bool must_see = false;
     bool cant_see = false;
     bool existing_only = false;
-    cata::optional<overmap_special_id> om_special = cata::nullopt;
+    std::optional<overmap_special_id> om_special = cata::nullopt;
     shared_ptr_fast<throbber_popup> popup = nullptr;
 };
 
@@ -197,7 +197,7 @@ class overmapbuffer
          * Check whether the tile has a note that's marked as dangerous.
          * If such note exists, returns danger radius (may be 0).
          */
-        cata::optional<int> has_note_with_danger_radius( const tripoint_abs_omt &p );
+        std::optional<int> has_note_with_danger_radius( const tripoint_abs_omt &p );
         bool is_marked_dangerous( const tripoint_abs_omt &p );
         const std::string &note( const tripoint_abs_omt &p );
         void add_note( const tripoint_abs_omt &, const std::string &message );
@@ -269,7 +269,7 @@ class overmapbuffer
          */
         void add_camp( const basecamp &camp );
 
-        cata::optional<basecamp *> find_camp( const point_abs_omt &p );
+        std::optional<basecamp *> find_camp( const point_abs_omt &p );
         /**
          * Get all npcs in a area with given radius around given central point.
          * Only npcs on the given z-level are considered.
@@ -334,7 +334,7 @@ class overmapbuffer
             const tripoint_abs_omt &origin, const std::string &type,
             int dist, bool must_be_seen, ot_match_type match_type = ot_match_type::type,
             bool existing_overmaps_only = false,
-            const cata::optional<overmap_special_id> &om_special = cata::nullopt );
+            const std::optional<overmap_special_id> &om_special = cata::nullopt );
 
         /**
          * Returns a random point of specific terrain type among those found in certain search
@@ -349,7 +349,7 @@ class overmapbuffer
             const tripoint_abs_omt &origin, const std::string &type, int dist,
             bool must_be_seen, ot_match_type match_type = ot_match_type::type,
             bool existing_overmaps_only = false,
-            const cata::optional<overmap_special_id> &om_special = cata::nullopt );
+            const std::optional<overmap_special_id> &om_special = cata::nullopt );
         /**
          * Mark a square area around center on Z-level z
          * as seen.
@@ -378,7 +378,7 @@ class overmapbuffer
         tripoint_abs_omt find_closest(
             const tripoint_abs_omt &origin, const std::string &type, int radius, bool must_be_seen,
             ot_match_type match_type = ot_match_type::type, bool existing_overmaps_only = false,
-            const cata::optional<overmap_special_id> &om_special = cata::nullopt );
+            const std::optional<overmap_special_id> &om_special = cata::nullopt );
 
         /* These functions return the overmap that contains the given
          * overmap terrain coordinate, and the local coordinates of that point

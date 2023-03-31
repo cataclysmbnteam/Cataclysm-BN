@@ -82,12 +82,12 @@ item_category_id item_category::get_id() const
     return id;
 }
 
-cata::optional<zone_type_id> item_category::zone() const
+std::optional<zone_type_id> item_category::zone() const
 {
     return zone_;
 }
 
-cata::optional<zone_type_id> item_category::priority_zone( const item &it ) const
+std::optional<zone_type_id> item_category::priority_zone( const item &it ) const
 {
     for( const zone_priority_data &zone_dat : zone_priority_ ) {
         if( zone_dat.filthy ) {

@@ -36,7 +36,7 @@ struct act_item {
 
 struct pick_drop_selection {
     item_location target;
-    cata::optional<int> quantity;
+    std::optional<int> quantity;
     std::vector<item_location> children;
 
     void serialize( JsonOut &jsout ) const;
@@ -44,7 +44,7 @@ struct pick_drop_selection {
 };
 
 struct stacked_items {
-    cata::optional<item_stack::iterator> parent;
+    std::optional<item_stack::iterator> parent;
     std::vector<std::list<item_stack::iterator>> stacked_children;
 };
 

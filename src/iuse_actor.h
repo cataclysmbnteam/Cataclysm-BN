@@ -1211,11 +1211,11 @@ class deploy_tent_actor : public iuse_actor
     public:
         string_id<furn_t> wall;
         string_id<furn_t> floor;
-        cata::optional<string_id<furn_t>> floor_center;
+        std::optional<string_id<furn_t>> floor_center;
         string_id<furn_t> door_opened;
         string_id<furn_t> door_closed;
         int radius = 1;
-        cata::optional<itype_id> broken_type;
+        std::optional<itype_id> broken_type;
 
         deploy_tent_actor() : iuse_actor( "deploy_tent" ) {}
 

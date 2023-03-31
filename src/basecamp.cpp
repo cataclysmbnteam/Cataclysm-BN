@@ -266,7 +266,7 @@ bool basecamp::has_provides( const std::string &req, const expansion_data &e_dat
     return false;
 }
 
-bool basecamp::has_provides( const std::string &req, const cata::optional<point> &dir,
+bool basecamp::has_provides( const std::string &req, const std::optional<point> &dir,
                              int level ) const
 {
     if( !dir ) {

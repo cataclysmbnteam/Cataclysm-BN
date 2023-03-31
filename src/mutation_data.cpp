@@ -580,7 +580,7 @@ void mutation_branch::check_consistency()
 {
     for( const auto &mdata : get_all() ) {
         const auto &mid = mdata.id;
-        const cata::optional<scenttype_id> &s_id = mdata.scent_typeid;
+        const std::optional<scenttype_id> &s_id = mdata.scent_typeid;
         const std::map<species_id, int> &an_id = mdata.anger_relations;
         for( const auto &style : mdata.initial_ma_styles ) {
             if( !style.is_valid() ) {

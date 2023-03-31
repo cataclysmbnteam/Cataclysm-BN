@@ -192,7 +192,7 @@ int fire_gun( Character &who, const tripoint &target, int shots, item &gun,
  * @param blind_throw_from_pos Position of blind throw (if blind throwing)
  */
 dealt_projectile_attack throw_item( Character &who, const tripoint &target, const item &to_throw,
-                                    cata::optional<tripoint> blind_throw_from_pos );
+                                    std::optional<tripoint> blind_throw_from_pos );
 
 } // namespace ranged
 

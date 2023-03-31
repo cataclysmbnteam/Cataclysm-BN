@@ -148,7 +148,7 @@ void mod_manager::refresh_mod_list()
     add_mods( mod_management::load_mods_from( PATH_INFO::moddir() ) );
     add_mods( mod_management::load_mods_from( PATH_INFO::user_moddir() ) );
 
-    cata::optional<t_mod_list> default_list = mod_management::load_mod_list(
+    std::optional<t_mod_list> default_list = mod_management::load_mod_list(
                 PATH_INFO::mods_user_default()
             );
     if( !default_list ) {
@@ -232,7 +232,7 @@ std::vector<MOD_INFORMATION> load_mods_from( const std::string &path )
     return out;
 }
 
-cata::optional<MOD_INFORMATION> load_modfile( const JsonObject &jo, const std::string &path )
+std::optional<MOD_INFORMATION> load_modfile( const JsonObject &jo, const std::string &path )
 {
     if( !jo.has_string( "type" ) || jo.get_string( "type" ) != "MOD_INFO" ) {
         // Ignore anything that is not a mod-info
@@ -310,7 +310,7 @@ void load_mod_info( const std::string &info_file_path, std::vector<MOD_INFORMATI
         if( jsin.test_object() ) {
             // find type and dispatch single object
             JsonObject jo = jsin.get_object();
-            cata::optional<MOD_INFORMATION> mf = load_modfile( jo, main_path );
+            std::optional<MOD_INFORMATION> mf = load_modfile( jo, main_path );
             if( mf ) {
                 mf->path_full = info_file_path;
                 out.push_back( std::move( *mf ) );
@@ -321,7 +321,7 @@ void load_mod_info( const std::string &info_file_path, std::vector<MOD_INFORMATI
             // find type and dispatch each object until array close
             while( !jsin.end_array() ) {
                 JsonObject jo = jsin.get_object();
-                cata::optional<MOD_INFORMATION> mf = load_modfile( jo, main_path );
+                std::optional<MOD_INFORMATION> mf = load_modfile( jo, main_path );
                 if( mf ) {
                     mf->path_full = info_file_path;
                     out.push_back( std::move( *mf ) );
@@ -343,7 +343,7 @@ bool save_mod_list( const t_mod_list &list, const std::string &path )
     }, _( "list of default mods" ) );
 }
 
-cata::optional<t_mod_list> load_mod_list( const std::string &path )
+std::optional<t_mod_list> load_mod_list( const std::string &path )
 {
     t_mod_list res;
 

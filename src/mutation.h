@@ -145,8 +145,8 @@ struct mutation_branch {
         float noise_modifier = 1.0f;
         float scent_modifier = 1.0f;
         float bleed_resist = 0;
-        cata::optional<int> scent_intensity;
-        cata::optional<int> scent_mask;
+        std::optional<int> scent_intensity;
+        std::optional<int> scent_mask;
 
         int butchering_quality = 0;
 
@@ -156,7 +156,7 @@ struct mutation_branch {
         std::map<skill_id, int> craft_skill_bonus;
 
         /**What do you smell like*/
-        cata::optional<scenttype_id> scent_typeid;
+        std::optional<scenttype_id> scent_typeid;
 
         /**Map of glowing body parts and their glow intensity*/
         std::map<body_part, float> lumination;
@@ -224,7 +224,7 @@ struct mutation_branch {
         std::set<bodypart_str_id> no_cbm_on_bp;
 
         // Body size from mutations, e.g. large, small, etc.
-        cata::optional<m_size> body_size;
+        std::optional<m_size> body_size;
 
         // amount of mana added or subtracted from max
         float mana_modifier = 0.0f;

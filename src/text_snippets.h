@@ -43,7 +43,7 @@ class snippet_library
          * The tags in the snippet are not automatically expanded - you need to
          * call `expand()` to do that.
          */
-        cata::optional<translation> get_snippet_by_id( const snippet_id &id ) const;
+        std::optional<translation> get_snippet_by_id( const snippet_id &id ) const;
         /**
          * Returns a reference to the snippet with the id, or a reference to an
          * empty translation object if no such snippet exist.
@@ -79,7 +79,7 @@ class snippet_library
          * The tags in the snippet are not automatically expanded - you need to
          * call `expand()` to do that.
          */
-        cata::optional<translation> random_from_category( const std::string &cat ) const;
+        std::optional<translation> random_from_category( const std::string &cat ) const;
         /**
          * Use the given seed to select a random snippet from the category.
          * For the same seed, the returned snippet stays the same *in a single
@@ -91,7 +91,7 @@ class snippet_library
          *
          * TODO: make the result stay the same through different game sessions
          */
-        cata::optional<translation> random_from_category( const std::string &cat, unsigned int seed ) const;
+        std::optional<translation> random_from_category( const std::string &cat, unsigned int seed ) const;
         /**
          * Used only for legacy compatibility. `hash_to_id_migration` will be
          * initialized if it hasn't been yet, and the snippet with the given
@@ -109,7 +109,7 @@ class snippet_library
         };
         std::unordered_map<std::string, category_snippets> snippets_by_category;
 
-        cata::optional<std::map<int, snippet_id>> hash_to_id_migration;
+        std::optional<std::map<int, snippet_id>> hash_to_id_migration;
 };
 
 extern snippet_library SNIPPET;

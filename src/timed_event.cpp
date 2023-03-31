@@ -96,7 +96,7 @@ void timed_event::actualize()
         case TIMED_EVENT_AMIGARA: {
             g->events().send<event_type::angers_amigara_horrors>();
             int num_horrors = rng( 3, 5 );
-            cata::optional<tripoint> fault_point;
+            std::optional<tripoint> fault_point;
             bool horizontal = false;
             for( const tripoint &p : g->m.points_on_zlevel() ) {
                 if( g->m.ter( p ) == t_fault ) {

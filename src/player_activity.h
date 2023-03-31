@@ -111,7 +111,7 @@ class player_activity
         /**
          * Helper that returns an activity specific progress message.
          */
-        cata::optional<std::string> get_progress_message( const avatar &u ) const;
+        std::optional<std::string> get_progress_message( const avatar &u ) const;
 
         /**
          * If this returns true, the action can be continued without

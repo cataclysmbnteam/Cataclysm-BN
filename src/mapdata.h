@@ -35,7 +35,7 @@ using iexamine_function = void ( * )( player &, const tripoint & );
 struct ranged_bash_info {
         numeric_interval<int> reduction; // Damage reduction when shot. Rolled like rng(min, max).
         // As above, but for lasers. If set, lasers won't destroy us.
-        cata::optional<numeric_interval<int>> reduction_laser;
+        std::optional<numeric_interval<int>> reduction_laser;
         int destroy_threshold = 0; // If reduced dmg is still above this value, destroy us.
         bool flammable = false; // If true, getting hit with any heat damage creates a fire.
         units::probability block_unaimed_chance =
@@ -71,9 +71,9 @@ struct map_bash_info {
     // (DEPRECATED! TODO: explosion struct) Explosion on destruction
     int explosive = -1;
     // sound volume of breaking terrain/furniture
-    cata::optional<int> sound_vol = cata::nullopt;
+    std::optional<int> sound_vol = cata::nullopt;
     // sound volume on fail
-    cata::optional<int> sound_fail_vol = cata::nullopt;
+    std::optional<int> sound_fail_vol = cata::nullopt;
     // Radius of the tent supported by this tile
     int collapse_radius = 1;
     // cost to bash a field
@@ -99,7 +99,7 @@ struct map_bash_info {
     // ids used for the special handling of tents
     std::vector<furn_str_id> tent_centers;
     // Ranged-specific data, for map::shoot
-    cata::optional<ranged_bash_info> ranged;
+    std::optional<ranged_bash_info> ranged;
     enum class map_object_type {
         furniture = 0,
         terrain,
@@ -518,7 +518,7 @@ struct furn_t : map_data_common_t {
 
     cata::value_ptr<plant_data> plant;
 
-    cata::optional<float> surgery_skill_multiplier;
+    std::optional<float> surgery_skill_multiplier;
 
     cata::poly_serialized<active_tile_data> active;
 

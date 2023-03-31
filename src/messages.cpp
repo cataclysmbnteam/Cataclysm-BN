@@ -461,7 +461,7 @@ class dialog
         bool canceled = false;
         bool errored = false;
 
-        cata::optional<ime_sentry> filter_sentry;
+        std::optional<ime_sentry> filter_sentry;
 
         bool first_init = true;
 };

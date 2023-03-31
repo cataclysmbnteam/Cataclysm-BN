@@ -404,8 +404,8 @@ class zone_manager
         bool custom_loot_has( const tripoint &where, const item *it ) const;
         std::unordered_set<tripoint> get_near( const zone_type_id &type, const tripoint &where,
                                                int range = MAX_DISTANCE, const item *it = nullptr, const faction_id &fac = your_fac ) const;
-        cata::optional<tripoint> get_nearest( const zone_type_id &type, const tripoint &where,
-                                              int range = MAX_DISTANCE, const faction_id &fac = your_fac ) const;
+        std::optional<tripoint> get_nearest( const zone_type_id &type, const tripoint &where,
+                                             int range = MAX_DISTANCE, const faction_id &fac = your_fac ) const;
         zone_type_id get_near_zone_type_for_item( const item &it, const tripoint &where,
                 int range = MAX_DISTANCE ) const;
         std::vector<zone_data> get_zones( const zone_type_id &type, const tripoint &where,
@@ -413,8 +413,8 @@ class zone_manager
         const zone_data *get_zone_at( const tripoint &where ) const;
         const zone_data *get_bottom_zone( const tripoint &where,
                                           const faction_id &fac = your_fac ) const;
-        cata::optional<std::string> query_name( const std::string &default_name = "" ) const;
-        cata::optional<zone_type_id> query_type() const;
+        std::optional<std::string> query_name( const std::string &default_name = "" ) const;
+        std::optional<zone_type_id> query_type() const;
         void swap( zone_data &a, zone_data &b );
         void rotate_zones( map &target_map, int turns );
         // list of tripoints of zones that are loot zones only

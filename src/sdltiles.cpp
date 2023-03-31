@@ -681,7 +681,7 @@ void clear_window_area( const catacurses::window &win_ )
                     win->width * fontwidth, win->height * fontheight, color_as_sdl( catacurses::black ) );
 }
 
-static cata::optional<std::pair<tripoint_abs_omt, std::string>> get_mission_arrow(
+static std::optional<std::pair<tripoint_abs_omt, std::string>> get_mission_arrow(
             const inclusive_cuboid<tripoint> &overmap_area, const tripoint_abs_omt &center )
 {
     if( get_avatar().get_active_mission() == nullptr ) {
@@ -1062,7 +1062,7 @@ void cata_tiles::draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bo
         // reduce the area where the map cursor is drawn so it doesn't get cut off
         inclusive_cuboid<tripoint> map_cursor_area = overmap_area;
         map_cursor_area.p_max.y--;
-        const cata::optional<std::pair<tripoint_abs_omt, std::string>> mission_arrow =
+        const std::optional<std::pair<tripoint_abs_omt, std::string>> mission_arrow =
                     get_mission_arrow( map_cursor_area, center_abs_omt );
         if( mission_arrow ) {
             draw_from_id_string( mission_arrow->second, global_omt_to_draw_position( mission_arrow->first ), 0,
@@ -2988,7 +2988,7 @@ static void CheckMessages()
 
     last_input = input_event();
 
-    cata::optional<point> resize_dims;
+    std::optional<point> resize_dims;
     bool render_target_reset = false;
 
     while( SDL_PollEvent( &ev ) ) {
@@ -3771,7 +3771,7 @@ window_dimensions get_window_dimensions( point pos, point size )
     return get_window_dimensions( {}, pos, size );
 }
 
-cata::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win_ )
+std::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win_ )
 {
     if( !coordinate_input_received ) {
         return cata::nullopt;

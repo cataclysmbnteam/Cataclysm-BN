@@ -471,7 +471,7 @@ std::string press_x( action_id act, const std::string &key_bound_pre,
     input_context ctxt = get_default_mode_input_context();
     return ctxt.press_x( action_ident( act ), key_bound_pre, key_bound_suf, key_unbound );
 }
-cata::optional<std::string> press_x_if_bound( action_id act )
+std::optional<std::string> press_x_if_bound( action_id act )
 {
     input_context ctxt = get_default_mode_input_context();
     std::string description = action_ident( act );
@@ -981,7 +981,7 @@ action_id handle_main_menu()
     }
 }
 
-cata::optional<tripoint> choose_direction( const std::string &message, const bool allow_vertical )
+std::optional<tripoint> choose_direction( const std::string &message, const bool allow_vertical )
 {
     input_context ctxt( "DEFAULTMODE" );
     ctxt.set_iso( true );
@@ -1002,7 +1002,7 @@ cata::optional<tripoint> choose_direction( const std::string &message, const boo
     do {
         ui_manager::redraw();
         action = ctxt.handle_input();
-        if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+        if( const std::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             // Make player's sprite face left/right if interacting with something to the left or right
             if( vec->x > 0 ) {
                 g->u.facing = FD_RIGHT;
@@ -1023,9 +1023,9 @@ cata::optional<tripoint> choose_direction( const std::string &message, const boo
     return cata::nullopt;
 }
 
-cata::optional<tripoint> choose_adjacent( const std::string &message, const bool allow_vertical )
+std::optional<tripoint> choose_adjacent( const std::string &message, const bool allow_vertical )
 {
-    const cata::optional<tripoint> dir = choose_direction( message, allow_vertical );
+    const std::optional<tripoint> dir = choose_direction( message, allow_vertical );
 
     if( !dir ) {
         return cata::nullopt;
@@ -1039,7 +1039,7 @@ cata::optional<tripoint> choose_adjacent( const std::string &message, const bool
     return *dir + g->u.pos();
 }
 
-cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
+std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
         const std::string &failure_message, const action_id action, bool allow_vertical )
 {
     const std::function<bool( const tripoint & )> f = [&action]( const tripoint & p ) {
@@ -1048,7 +1048,7 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
     return choose_adjacent_highlight( message, failure_message, f, allow_vertical );
 }
 
-cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
+std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
         const std::string &failure_message, const std::function<bool ( const tripoint & )> &allowed,
         const bool allow_vertical )
 {

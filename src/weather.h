@@ -194,8 +194,8 @@ class weather_manager
         int winddirection = 0;
         int windspeed = 0;
 
-        cata::optional<int> wind_direction_override;
-        cata::optional<int> windspeed_override;
+        std::optional<int> wind_direction_override;
+        std::optional<int> windspeed_override;
         weather_type_id weather_override;
         bool eternal_seasons = false;
 

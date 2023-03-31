@@ -301,7 +301,7 @@ int sokoban_game::start_game()
         }
 
         bMoved = false;
-        if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+        if( const std::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             dir = vec->xy();
             bMoved = true;
         } else if( action == "QUIT" ) {

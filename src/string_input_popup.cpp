@@ -298,7 +298,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         create_context();
     }
 
-    cata::optional<ime_sentry> sentry;
+    std::optional<ime_sentry> sentry;
     if( !draw_only && loop ) {
         sentry.emplace();
     }

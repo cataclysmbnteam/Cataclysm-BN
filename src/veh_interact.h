@@ -93,8 +93,8 @@ class veh_interact
         bool ui_hidden = false;
         weak_ptr_fast<ui_adaptor> ui;
 
-        cata::optional<std::string> title;
-        cata::optional<std::string> msg;
+        std::optional<std::string> title;
+        std::optional<std::string> msg;
 
         int highlight_part = -1;
 

@@ -85,7 +85,7 @@ struct canvas {
 
         std::vector<tripoint> replace( char32_t what, char32_t with );
         tripoint replace_unique( char32_t what, char32_t with );
-        cata::optional<tripoint> replace_opt( char32_t what, char32_t with );
+        std::optional<tripoint> replace_opt( char32_t what, char32_t with );
 
         canvas rotated( int turns ) const;
 };

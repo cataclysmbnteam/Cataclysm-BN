@@ -101,7 +101,7 @@ tripoint canvas::replace_unique( char32_t what, char32_t with )
     return candidates.front();
 }
 
-cata::optional<tripoint> canvas::replace_opt( char32_t what, char32_t with )
+std::optional<tripoint> canvas::replace_opt( char32_t what, char32_t with )
 {
     std::vector<tripoint> candidates = replace( what, with );
     cata_assert( candidates.size() <= 1 );

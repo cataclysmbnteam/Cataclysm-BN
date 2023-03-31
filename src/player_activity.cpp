@@ -177,10 +177,10 @@ static std::string craft_progress_message( const avatar &u, const player_activit
                           mults_desc );
 }
 
-cata::optional<std::string> player_activity::get_progress_message( const avatar &u ) const
+std::optional<std::string> player_activity::get_progress_message( const avatar &u ) const
 {
     if( !type || get_verb().empty() ) {
-        return cata::optional<std::string>();
+        return std::optional<std::string>();
     }
 
     if( actor ) {

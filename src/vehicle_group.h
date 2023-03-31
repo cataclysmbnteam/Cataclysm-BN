@@ -146,7 +146,7 @@ class VehicleFunction_json : public VehicleFunction
         int status;
 
         std::string placement;
-        cata::optional<VehicleLocation> location;
+        std::optional<VehicleLocation> location;
 };
 
 /**

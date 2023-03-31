@@ -266,7 +266,7 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
 
         const std::string liqstr = string_format( _( "Pour %s where?" ), liquid_name );
 
-        const cata::optional<tripoint> target_pos_ = choose_adjacent( liqstr );
+        const std::optional<tripoint> target_pos_ = choose_adjacent( liqstr );
         if( !target_pos_ ) {
             return;
         }

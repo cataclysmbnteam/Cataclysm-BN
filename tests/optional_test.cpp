@@ -6,12 +6,12 @@
 
 TEST_CASE( "optional_assignment_works", "[optional]" )
 {
-    cata::optional<int> a( 1 );
+    std::optional<int> a( 1 );
     REQUIRE( a );
     CHECK( *a == 1 );
 
-    cata::optional<int> b( 2 );
-    cata::optional<int> unset;
+    std::optional<int> b( 2 );
+    std::optional<int> unset;
     a = b;
     REQUIRE( a );
     CHECK( *a == 2 );
@@ -23,7 +23,7 @@ TEST_CASE( "optional_assignment_works", "[optional]" )
     a = std::move( unset );
     CHECK( !a );
 
-    const cata::optional<int> c( 3 );
+    const std::optional<int> c( 3 );
     a = c;
     REQUIRE( a );
     CHECK( *a == 3 );

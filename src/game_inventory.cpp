@@ -1605,7 +1605,7 @@ iuse_locations game_menus::inv::multiwash( Character &ch, int water, int cleanse
     return inv_s.execute();
 }
 
-void game_menus::inv::compare( player &p, const cata::optional<tripoint> &offset )
+void game_menus::inv::compare( player &p, const std::optional<tripoint> &offset )
 {
     p.inv.restack( p );
 

@@ -346,7 +346,7 @@ bool overmapbuffer::has_note( const tripoint_abs_omt &p )
     return false;
 }
 
-cata::optional<int> overmapbuffer::has_note_with_danger_radius( const tripoint_abs_omt &p )
+std::optional<int> overmapbuffer::has_note_with_danger_radius( const tripoint_abs_omt &p )
 {
     if( const overmap_with_local_coords om_loc = get_existing_om_global( p ) ) {
         return om_loc.om->has_note_with_danger_radius( om_loc.local );
@@ -873,7 +873,7 @@ bool overmapbuffer::reveal_route( const tripoint_abs_omt &source, const tripoint
     }
 
     const pf::two_node_scoring_fn<point_rel_omt> estimate =
-    [&]( pf::directed_node<point_rel_omt> cur, cata::optional<pf::directed_node<point_rel_omt>> ) {
+    [&]( pf::directed_node<point_rel_omt> cur, std::optional<pf::directed_node<point_rel_omt>> ) {
         int cost = 0;
         const oter_id oter = get_ter_at( cur.pos );
         if( !connection->has( oter ) ) {
@@ -937,7 +937,7 @@ bool overmapbuffer::check_overmap_special_type( const overmap_special_id &id,
 static omt_find_params assign_params(
     const std::string &type, int const radius, bool must_be_seen,
     ot_match_type match_type, bool existing_overmaps_only,
-    const cata::optional<overmap_special_id> &om_special )
+    const std::optional<overmap_special_id> &om_special )
 {
     omt_find_params params;
     std::vector<std::pair<std::string, ot_match_type>> temp_types;
@@ -1001,7 +1001,7 @@ bool overmapbuffer::is_findable_location( const tripoint_abs_omt &location,
 tripoint_abs_omt overmapbuffer::find_closest(
     const tripoint_abs_omt &origin, const std::string &type, int const radius, bool must_be_seen,
     ot_match_type match_type, bool existing_overmaps_only,
-    const cata::optional<overmap_special_id> &om_special )
+    const std::optional<overmap_special_id> &om_special )
 {
     const omt_find_params params = assign_params( type, radius, must_be_seen, match_type,
                                    existing_overmaps_only, om_special );
@@ -1035,7 +1035,7 @@ tripoint_abs_omt overmapbuffer::find_closest( const tripoint_abs_omt &origin,
     const int max_dist = params.search_range ? params.search_range : OMAPX * 5;
 
     std::vector<tripoint_abs_omt> result;
-    cata::optional<int> found_dist;
+    std::optional<int> found_dist;
 
     size_t num_overmaps = overmaps.size();
     size_t counter = 0;
@@ -1102,7 +1102,7 @@ std::vector<tripoint_abs_omt> overmapbuffer::find_all( const tripoint_abs_omt &o
 std::vector<tripoint_abs_omt> overmapbuffer::find_all(
     const tripoint_abs_omt &origin, const std::string &type, int dist, bool must_be_seen,
     ot_match_type match_type, bool existing_overmaps_only,
-    const cata::optional<overmap_special_id> &om_special )
+    const std::optional<overmap_special_id> &om_special )
 {
     const omt_find_params params = assign_params( type, dist, must_be_seen, match_type,
                                    existing_overmaps_only, om_special );
@@ -1118,7 +1118,7 @@ tripoint_abs_omt overmapbuffer::find_random( const tripoint_abs_omt &origin,
 tripoint_abs_omt overmapbuffer::find_random(
     const tripoint_abs_omt &origin, const std::string &type, int dist, bool must_be_seen,
     ot_match_type match_type, bool existing_overmaps_only,
-    const cata::optional<overmap_special_id> &om_special )
+    const std::optional<overmap_special_id> &om_special )
 {
     const omt_find_params params = assign_params( type, dist, must_be_seen, match_type,
                                    existing_overmaps_only, om_special );
@@ -1135,13 +1135,13 @@ shared_ptr_fast<npc> overmapbuffer::find_npc( character_id id )
     return nullptr;
 }
 
-cata::optional<basecamp *> overmapbuffer::find_camp( const point_abs_omt &p )
+std::optional<basecamp *> overmapbuffer::find_camp( const point_abs_omt &p )
 {
     for( auto &it : overmaps ) {
         const point_abs_omt p2( p );
         for( int x2 = p2.x() - 3; x2 < p2.x() + 3; x2++ ) {
             for( int y2 = p2.y() - 3; y2 < p2.y() + 3; y2++ ) {
-                if( cata::optional<basecamp *> camp = it.second->find_camp( point_abs_omt( x2, y2 ) ) ) {
+                if( std::optional<basecamp *> camp = it.second->find_camp( point_abs_omt( x2, y2 ) ) ) {
                     return camp;
                 }
             }

@@ -21,8 +21,8 @@ struct mending_method {
     time_duration time;
     std::map<skill_id, int> skills;
     requirement_id requirements;
-    cata::optional<fault_id> turns_into;
-    cata::optional<fault_id> also_mends;
+    std::optional<fault_id> turns_into;
+    std::optional<fault_id> also_mends;
 };
 
 class fault

@@ -30,7 +30,7 @@ void character_edit_menu( Character &c );
 void effect_edit_menu( Creature &c );
 void wishitem( player *p = nullptr );
 void wishitem( player *p, const tripoint & );
-void wishmonster( const cata::optional<tripoint> &p );
+void wishmonster( const std::optional<tripoint> &p );
 void wishmutate( player *p );
 void wishbionics( Character &c );
 void wishskill( player *p );

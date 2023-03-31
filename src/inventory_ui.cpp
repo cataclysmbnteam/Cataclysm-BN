@@ -663,7 +663,7 @@ void inventory_column::set_stack_favorite( const item_location &location, bool f
             item->set_favorite( favorite );
         }
     } else if( location.where() == item_location::type::vehicle ) {
-        const cata::optional<vpart_reference> vp = g->m.veh_at(
+        const std::optional<vpart_reference> vp = g->m.veh_at(
                     location.position() ).part_with_feature( "CARGO", true );
         assert( vp );
 
@@ -1222,7 +1222,7 @@ void inventory_selector::add_map_items( const tripoint &target )
 
 void inventory_selector::add_vehicle_items( const tripoint &target )
 {
-    const cata::optional<vpart_reference> vp = g->m.veh_at( target ).part_with_feature( "CARGO", true );
+    const std::optional<vpart_reference> vp = g->m.veh_at( target ).part_with_feature( "CARGO", true );
     if( !vp ) {
         return;
     }

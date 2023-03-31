@@ -1057,7 +1057,7 @@ int avatar::free_upgrade_points() const
     return lvl - str_upgrade - dex_upgrade - int_upgrade - per_upgrade;
 }
 
-cata::optional<int> avatar::kill_xp_for_next_point() const
+std::optional<int> avatar::kill_xp_for_next_point() const
 {
     auto it = std::lower_bound( xp_cutoffs.begin(), xp_cutoffs.end(), kill_xp() );
     if( it == xp_cutoffs.end() ) {

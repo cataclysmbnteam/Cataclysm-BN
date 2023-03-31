@@ -229,7 +229,7 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
     }
 
     // print the label for this location
-    const cata::optional<std::string> label = vpart_position( const_cast<vehicle &>( *this ),
+    const std::optional<std::string> label = vpart_position( const_cast<vehicle &>( *this ),
             p ).get_label();
     if( label && y <= max_y ) {
         mvwprintz( win, point( 1, y++ ), c_light_red, _( "Label: %s" ), label->c_str() );

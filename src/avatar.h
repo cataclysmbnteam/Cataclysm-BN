@@ -180,7 +180,7 @@ class avatar : public player
         // how much "kill xp" you have
         int kill_xp() const;
         // how much "kill xp" needed for next point (empty if reached max level)
-        cata::optional<int> kill_xp_for_next_point() const;
+        std::optional<int> kill_xp_for_next_point() const;
         // upgrade stat from kills
         void upgrade_stat( character_stat stat );
 

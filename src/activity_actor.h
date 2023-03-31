@@ -22,8 +22,8 @@ struct act_progress_message {
      */
     bool implemented = true;
 
-    cata::optional<std::string> msg_extra_info;
-    cata::optional<std::string> msg_full;
+    std::optional<std::string> msg_extra_info;
+    std::optional<std::string> msg_full;
 
     /**
      * The text will completely overwrite default message.

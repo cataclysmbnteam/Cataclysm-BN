@@ -332,7 +332,7 @@ class vehicle::autodrive_controller
             return data;
         }
         void check_safe_speed();
-        cata::optional<navigation_step> compute_next_step();
+        std::optional<navigation_step> compute_next_step();
         collision_check_result check_collision_zone( orientation turn_dir );
         void reduce_speed();
 
@@ -352,7 +352,7 @@ class vehicle::autodrive_controller
         void compute_next_nodes( const node_address &addr, const navigation_node &node,
                                  int target_speed_tps,
                                  std::vector<std::pair<node_address, navigation_node>> &next_nodes ) const;
-        cata::optional<std::vector<navigation_step>> compute_path( int speed_tps ) const;
+        std::optional<std::vector<navigation_step>> compute_path( int speed_tps ) const;
 };
 
 
@@ -942,7 +942,7 @@ const
     }
 }
 
-cata::optional<std::vector<navigation_step>> vehicle::autodrive_controller::compute_path(
+std::optional<std::vector<navigation_step>> vehicle::autodrive_controller::compute_path(
             int speed_tps ) const
 {
     if( speed_tps == 0 || speed_tps < -1 ) {
@@ -1088,7 +1088,7 @@ void vehicle::autodrive_controller::reduce_speed()
     data.max_speed_tps = MIN_SPEED_TPS;
 }
 
-cata::optional<navigation_step> vehicle::autodrive_controller::compute_next_step()
+std::optional<navigation_step> vehicle::autodrive_controller::compute_next_step()
 {
     precompute_data();
     const tripoint_abs_ms veh_pos = driven_veh.global_square_location();
@@ -1231,7 +1231,7 @@ autodrive_result vehicle::do_autodrive( Character &driver )
         return autodrive_result::abort;
     }
     active_autodrive_controller->check_safe_speed();
-    cata::optional<navigation_step> next_step = active_autodrive_controller->compute_next_step();
+    std::optional<navigation_step> next_step = active_autodrive_controller->compute_next_step();
     if( !next_step ) {
         // message handles pathfinding failure either due to obstacles or inability to see
         driver.add_msg_if_player( _( "Can't see a path forward." ) );

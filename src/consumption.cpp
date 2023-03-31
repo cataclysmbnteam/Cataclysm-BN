@@ -215,7 +215,7 @@ struct prepared_item_consumption {
 };
 
 // Should return item_location instead, but it's really hard to get it from inventory
-static cata::optional<prepared_item_consumption> find_food_heater( Character &c,
+static std::optional<prepared_item_consumption> find_food_heater( Character &c,
         const inventory &inv, bool has_fire )
 {
     if( has_fire ) {

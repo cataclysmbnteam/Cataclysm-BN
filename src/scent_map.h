@@ -47,7 +47,7 @@ class scent_map
 
         scent_array<int> grscent;
         scenttype_id typescent;
-        cata::optional<tripoint> player_last_position;
+        std::optional<tripoint> player_last_position;
         time_point player_last_moved = calendar::before_time_starts;
 
         const game &gm;

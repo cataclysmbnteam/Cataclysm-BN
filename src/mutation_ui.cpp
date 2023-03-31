@@ -87,7 +87,7 @@ static void show_mutations_titlebar( const catacurses::window &window,
     wnoutrefresh( window );
 }
 
-static cata::optional<trait_id> trait_by_invlet( const mutation_collection &mutations, int ch )
+static std::optional<trait_id> trait_by_invlet( const mutation_collection &mutations, int ch )
 {
     for( const std::pair<const trait_id, char_trait_data> &mut : mutations ) {
         if( mut.second.key == ch ) {
@@ -249,7 +249,7 @@ detail::mutations_ui_result detail::show_mutations_ui_internal( Character &who )
     }
 #endif
 
-    cata::optional<trait_id> examine_id;
+    std::optional<trait_id> examine_id;
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( wBio );
@@ -359,7 +359,7 @@ detail::mutations_ui_result detail::show_mutations_ui_internal( Character &who )
             if( ch == ' ' ) { //skip if space is pressed (space is used as an empty hotkey)
                 continue;
             }
-            cata::optional<trait_id> mut_id = trait_by_invlet( who.my_mutations, ch );
+            std::optional<trait_id> mut_id = trait_by_invlet( who.my_mutations, ch );
             if( mut_id ) {
                 const mutation_branch &mut_data = mut_id->obj();
                 switch( menu_mode ) {
@@ -378,7 +378,7 @@ detail::mutations_ui_result detail::show_mutations_ui_internal( Character &who )
                             if( ret.evt.type == CATA_INPUT_KEYBOARD && !ret.evt.sequence.empty() ) {
                                 const int newch = ret.evt.get_first_input();
                                 if( mutation_chars.valid( newch ) ) {
-                                    const cata::optional<trait_id> other_mut_id = trait_by_invlet( who.my_mutations, newch );
+                                    const std::optional<trait_id> other_mut_id = trait_by_invlet( who.my_mutations, newch );
                                     if( other_mut_id ) {
                                         std::swap( who.my_mutations[*mut_id].key, who.my_mutations[*other_mut_id].key );
                                     } else {
@@ -542,7 +542,7 @@ detail::mutations_ui_result detail::show_mutations_ui_internal( Character &who )
                                 if( ret.evt.type == CATA_INPUT_KEYBOARD && !ret.evt.sequence.empty() ) {
                                     const int newch = ret.evt.get_first_input();
                                     if( mutation_chars.valid( newch ) ) {
-                                        const cata::optional<trait_id> other_mut_id = trait_by_invlet( who.my_mutations, newch );
+                                        const std::optional<trait_id> other_mut_id = trait_by_invlet( who.my_mutations, newch );
                                         if( other_mut_id ) {
                                             std::swap( who.my_mutations[mut_id].key, who.my_mutations[*other_mut_id].key );
                                         } else {

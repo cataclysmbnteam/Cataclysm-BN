@@ -148,7 +148,7 @@ bool try_wield_contents( Character &who, item &container, item *internal_item, b
 bool try_uncanny_dodge( Character &who );
 
 /** Returns an unoccupied, safe adjacent point. */
-cata::optional<tripoint> pick_safe_adjacent_tile( const Character &who );
+std::optional<tripoint> pick_safe_adjacent_tile( const Character &who );
 
 /**
  * Check if character's body part is immune to given damage.

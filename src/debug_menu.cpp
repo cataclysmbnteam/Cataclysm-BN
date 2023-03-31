@@ -379,7 +379,7 @@ static int debug_menu_uilist( bool display_all_entries = true )
 
 void teleport_short()
 {
-    const cata::optional<tripoint> where = g->look_around( true );
+    const std::optional<tripoint> where = g->look_around( true );
     if( !where || *where == g->u.pos() ) {
         return;
     }
@@ -416,7 +416,7 @@ void teleport_overmap( bool specific_coordinates )
         coord.z = coord_strings.size() >= 3 ? std::atoi( coord_strings[2].c_str() ) : 0;
         where = tripoint_abs_omt( OMAPX * coord.x, OMAPY * coord.y, coord.z );
     } else {
-        const cata::optional<tripoint> dir_ = choose_direction( _( "Where is the desired overmap?" ) );
+        const std::optional<tripoint> dir_ = choose_direction( _( "Where is the desired overmap?" ) );
         if( !dir_ ) {
             return;
         }
@@ -441,7 +441,7 @@ void spawn_nested_mapgen()
     nest_menu.query();
     const int nest_choice = nest_menu.ret;
     if( nest_choice >= 0 && nest_choice < static_cast<int>( nest_str.size() ) ) {
-        const cata::optional<tripoint> where = g->look_around( true );
+        const std::optional<tripoint> where = g->look_around( true );
         if( !where ) {
             return;
         }
@@ -971,7 +971,7 @@ void character_edit_menu( Character &c )
             mission_debug::edit( p );
             break;
         case edit_character::tele: {
-            if( const cata::optional<tripoint> newpos = g->look_around( true ) ) {
+            if( const std::optional<tripoint> newpos = g->look_around( true ) ) {
                 p.setpos( *newpos );
                 if( p.is_player() ) {
                     if( p.is_mounted() ) {
@@ -1546,7 +1546,7 @@ void debug()
             break;
 
         case DEBUG_SPAWN_ARTIFACT:
-            if( const cata::optional<tripoint> center = g->look_around( true ) ) {
+            if( const std::optional<tripoint> center = g->look_around( true ) ) {
                 artifact_natural_property prop = static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1,
                                                  ARTPROP_MAX - 1 ) );
                 m.create_anomaly( *center, prop );
@@ -1629,7 +1629,7 @@ void debug()
         break;
 
         case DEBUG_GEN_SOUND: {
-            const cata::optional<tripoint> where = g->look_around( true );
+            const std::optional<tripoint> where = g->look_around( true );
             if( !where ) {
                 return;
             }

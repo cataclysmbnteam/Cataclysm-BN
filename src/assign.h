@@ -29,7 +29,7 @@ class is_optional_helper : public std::false_type
 {
 };
 template<typename T>
-class is_optional_helper<cata::optional<T>> : public std::true_type
+class is_optional_helper<std::optional<T>> : public std::true_type
 {
 };
 } // namespace detail
@@ -134,7 +134,7 @@ bool assign( const JsonObject &jo, const std::string &name, std::pair<T, T> &val
     return true;
 }
 
-// Note: is_optional excludes any types based on cata::optional, which is
+// Note: is_optional excludes any types based on std::optional, which is
 // handled below in a separate function.
 template < typename T, typename std::enable_if < std::is_class<T>::value &&!is_optional<T>::value,
            int >::type = 0 >
@@ -438,7 +438,7 @@ std::enable_if<std::is_same<typename std::decay<T>::type, time_duration>::value,
 }
 
 template<typename T>
-inline bool assign( const JsonObject &jo, const std::string &name, cata::optional<T> &val,
+inline bool assign( const JsonObject &jo, const std::string &name, std::optional<T> &val,
                     const bool strict = false )
 {
     if( !jo.has_member( name ) ) {

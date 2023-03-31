@@ -203,7 +203,7 @@ static void parse_vp_reqs( const JsonObject &obj, const std::string &id, const s
 /**
  * Reads engine info from a JsonObject.
  */
-void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, const JsonObject &jo,
+void vpart_info::load_engine( std::optional<vpslot_engine> &eptr, const JsonObject &jo,
                               const itype_id &fuel_type )
 {
     vpslot_engine e_info{};
@@ -236,7 +236,7 @@ void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, const JsonObj
     assert( eptr );
 }
 
-void vpart_info::load_rotor( cata::optional<vpslot_rotor> &roptr, const JsonObject &jo )
+void vpart_info::load_rotor( std::optional<vpslot_rotor> &roptr, const JsonObject &jo )
 {
     vpslot_rotor rotor_info{};
     if( roptr ) {
@@ -247,7 +247,7 @@ void vpart_info::load_rotor( cata::optional<vpslot_rotor> &roptr, const JsonObje
     assert( roptr );
 }
 
-void vpart_info::load_wheel( cata::optional<vpslot_wheel> &whptr, const JsonObject &jo )
+void vpart_info::load_wheel( std::optional<vpslot_wheel> &whptr, const JsonObject &jo )
 {
     vpslot_wheel wh_info{};
     if( whptr ) {
@@ -289,7 +289,7 @@ void vpart_info::load_wheel( cata::optional<vpslot_wheel> &whptr, const JsonObje
     assert( whptr );
 }
 
-void vpart_info::load_workbench( cata::optional<vpslot_workbench> &wbptr, const JsonObject &jo )
+void vpart_info::load_workbench( std::optional<vpslot_workbench> &wbptr, const JsonObject &jo )
 {
     vpslot_workbench wb_info{};
     if( wbptr ) {
@@ -911,7 +911,7 @@ int vpart_info::rotor_diameter() const
     return has_flag( VPFLAG_ROTOR ) ? rotor_info->rotor_diameter : 0;
 }
 
-const cata::optional<vpslot_workbench> &vpart_info::get_workbench_info() const
+const std::optional<vpslot_workbench> &vpart_info::get_workbench_info() const
 {
     return workbench_info;
 }

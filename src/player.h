@@ -239,7 +239,7 @@ class player : public Character
         start_location_id start_location;
 
         weak_ptr_fast<Creature> last_target;
-        cata::optional<tripoint> last_target_pos;
+        std::optional<tripoint> last_target_pos;
         // Save favorite ammo location
         item_location ammo_location;
         int scent = 0;
