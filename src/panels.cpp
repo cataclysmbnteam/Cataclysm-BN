@@ -399,18 +399,13 @@ static std::string time_approx()
 
 static nc_color value_color( int stat )
 {
-    nc_color valuecolor = c_light_gray;
+    static auto table = decision_table<int, nc_color>( {{
+            { 75, c_green },
+            { 50, c_yellow },
+            { 25, c_red },
+        }}, c_magenta );
 
-    if( stat >= 75 ) {
-        valuecolor = c_green;
-    } else if( stat >= 50 ) {
-        valuecolor = c_yellow;
-    } else if( stat >= 25 ) {
-        valuecolor = c_red;
-    } else {
-        valuecolor = c_magenta;
-    }
-    return valuecolor;
+    return table( stat );
 }
 
 static std::pair<nc_color, int> morale_stat( const avatar &u )
