@@ -451,70 +451,54 @@ static int define_temp_level( const int lvl )
     return table( lvl );
 }
 
-static std::string temp_delta_string( const avatar &u )
+static int temp_delta_compare( const avatar &u )
 {
-    std::string temp_message;
-    std::pair<int, int> temp_pair = temp_delta( u );
+    const auto [current_temp, conv_temp] = temp_delta( u );
+
     // Assign zones for comparisons
-    const int cur_zone = define_temp_level( u.temp_cur[temp_pair.first] );
-    const int conv_zone = define_temp_level( u.temp_conv[temp_pair.second] );
+    const int cur_zone = define_temp_level( u.temp_cur[current_temp] );
+    const int conv_zone = define_temp_level( u.temp_conv[conv_temp] );
 
     // delta will be positive if temp_cur is rising
     const int delta = conv_zone - cur_zone;
+
+    return delta;
+}
+
+static std::string temp_delta_string( const avatar &u )
+{
+    // delta will be positive if temp_cur is rising
+    const int delta = temp_delta_compare( u );
+
     // Decide if temp_cur is rising or falling
-    if( delta > 2 ) {
-        temp_message = _( " (Rising!!)" );
-    } else if( delta == 2 ) {
-        temp_message = _( " (Rising!)" );
-    } else if( delta == 1 ) {
-        temp_message = _( " (Rising)" );
-    } else if( delta == 0 ) {
-        temp_message.clear();
-    } else if( delta == -1 ) {
-        temp_message = _( " (Falling)" );
-    } else if( delta == -2 ) {
-        temp_message = _( " (Falling!)" );
-    } else {
-        temp_message = _( " (Falling!!)" );
-    }
-    return temp_message;
+    static const auto table = decision_table<int, std::string>( {{
+            { 3, _( " (Rising!!)" ) },
+            { 2, _( " (Rising!)" ) },
+            { 1, _( " (Rising)" ) },
+            { 0, "" },
+            { -1, _( " (Falling)" ) },
+            { -2, _( " (Falling!)" ) },
+        }}, _( " (Falling!!)" ) );
+
+    return table( delta );
 }
 
 static std::pair<nc_color, std::string> temp_delta_arrows( const avatar &u )
 {
-    std::string temp_message;
-    nc_color temp_color = c_white;
-    std::pair<int, int> temp_pair = temp_delta( u );
-    // Assign zones for comparisons
-    const int cur_zone = define_temp_level( u.temp_cur[temp_pair.first] );
-    const int conv_zone = define_temp_level( u.temp_conv[temp_pair.second] );
-
     // delta will be positive if temp_cur is rising
-    const int delta = conv_zone - cur_zone;
+    const int delta = temp_delta_compare( u );
+
     // Decide if temp_cur is rising or falling
-    if( delta > 2 ) {
-        temp_message = " ↑↑↑";
-        temp_color = c_red;
-    } else if( delta == 2 ) {
-        temp_message = " ↑↑";
-        temp_color = c_light_red;
-    } else if( delta == 1 ) {
-        temp_message = " ↑";
-        temp_color = c_yellow;
-    } else if( delta == 0 ) {
-        temp_message = "-";
-        temp_color = c_green;
-    } else if( delta == -1 ) {
-        temp_message = " ↓";
-        temp_color = c_light_blue;
-    } else if( delta == -2 ) {
-        temp_message = " ↓↓";
-        temp_color = c_cyan;
-    } else {
-        temp_message = " ↓↓↓";
-        temp_color = c_blue;
-    }
-    return std::make_pair( temp_color, temp_message );
+    static const auto table = decision_table<int, std::pair<nc_color, std::string>>( {{
+            {  3, { c_red,        " ↑↑↑" } },
+            {  2, { c_light_red,  " ↑↑" } },
+            {  1, { c_yellow,     " ↑" } },
+            {  0, { c_green,      "-" } },
+            { -1, { c_light_blue, " ↓" } },
+            { -2, { c_cyan,       " ↓↓" } },
+        }}, { c_blue, " ↓↓↓"} );
+
+    return table( delta );
 }
 
 static std::pair<nc_color, std::string> temp_stat( const avatar &u )
