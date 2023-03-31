@@ -111,25 +111,25 @@ static void draw_rectangle( const catacurses::window &w, nc_color, point top_lef
 static std::pair<nc_color, std::string> str_string( const avatar &p )
 {
     const nc_color clr = color_compare_base( p.get_str_base(), p.get_str() );
-    return std::make_pair( clr, _( "Str " ) + value_trimmed( p.get_str() ) );
+    return { clr, _( "Str " ) + value_trimmed( p.get_str() ) };
 }
 
 static std::pair<nc_color, std::string> dex_string( const avatar &p )
 {
     const nc_color clr = color_compare_base( p.get_dex_base(), p.get_dex() );
-    return std::make_pair( clr, _( "Dex " ) + value_trimmed( p.get_dex() ) );
+    return { clr, _( "Dex " ) + value_trimmed( p.get_dex() ) };
 }
 
 static std::pair<nc_color, std::string> int_string( const avatar &p )
 {
     const nc_color clr = color_compare_base( p.get_int_base(), p.get_int() );
-    return std::make_pair( clr, _( "Int " ) + value_trimmed( p.get_int() ) );
+    return { clr, _( "Int " ) + value_trimmed( p.get_int() ) };
 }
 
 static std::pair<nc_color, std::string> per_string( const avatar &p )
 {
     const nc_color clr = color_compare_base( p.get_per_base(), p.get_per() );
-    return std::make_pair( clr, _( "Per " ) + value_trimmed( p.get_per() ) );
+    return { clr, _( "Per " ) + value_trimmed( p.get_per() ) };
 }
 
 int window_panel::get_height() const
