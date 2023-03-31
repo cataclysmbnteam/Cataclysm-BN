@@ -439,20 +439,16 @@ static std::pair<int, int> temp_delta( const avatar &u )
 
 static int define_temp_level( const int lvl )
 {
-    if( lvl > BODYTEMP_SCORCHING ) {
-        return 7;
-    } else if( lvl > BODYTEMP_VERY_HOT ) {
-        return 6;
-    } else if( lvl > BODYTEMP_HOT ) {
-        return 5;
-    } else if( lvl > BODYTEMP_COLD ) {
-        return 4;
-    } else if( lvl > BODYTEMP_VERY_COLD ) {
-        return 3;
-    } else if( lvl > BODYTEMP_FREEZING ) {
-        return 2;
-    }
-    return 1;
+    static const auto table = decision_table<int, int>( {{
+            { BODYTEMP_SCORCHING, 7 },
+            { BODYTEMP_VERY_HOT, 6 },
+            { BODYTEMP_HOT, 5 },
+            { BODYTEMP_COLD, 4 },
+            { BODYTEMP_VERY_COLD, 3 },
+            { BODYTEMP_FREEZING, 2 },
+        }}, 1 );
+
+    return table( lvl );
 }
 
 static std::string temp_delta_string( const avatar &u )
