@@ -542,42 +542,34 @@ static Face get_face_type( const avatar &u )
 
 enum class Morale : int {
     extremely_happy = 200, very_happy = 100, happy = 50, content = 10,
-    neutral = -10, sad = -50, very_sad = -100, extremely_sad = -200, overwhemingly_sad = std::numeric_limits<int>::min(),
+    neutral = -10, sad = -50, very_sad = -100, extremely_sad = -200,
 };
 
-using MoraleMap = std::map<Morale, std::map<Face, std::string_view>>;
-static const MoraleMap morale_map = {
-    { Morale::extremely_happy,   { {Face::human, "@U@" }, { Face::bird, "@v@" }, { Face::cat, "@W@" } } },
-    { Morale::very_happy,        { {Face::human, "OuO" }, { Face::bird, "OvO" }, { Face::cat, "OWO" } } },
-    { Morale::happy,             { {Face::human, "^u^" }, { Face::bird, "ovo" }, { Face::cat, "owo" } } },
-    { Morale::content,           { {Face::human, "n_n" }, { Face::bird, "^v^" }, { Face::cat, "^w^" } } },
-    { Morale::neutral,           { {Face::human, "-_-" }, { Face::bird, "-v-" }, { Face::cat, "-w-" } } },
-    { Morale::sad,               { {Face::human, "-n-" }, { Face::bird, ".v." }, { Face::cat, "-m-" } } },
-    { Morale::very_sad,          { {Face::human, "TnT" }, { Face::bird, "TvT" }, { Face::cat, "TmT" } } },
-    { Morale::extremely_sad,     { {Face::human, "XnX" }, { Face::bird, "XvX" }, { Face::cat, "XmX" } } },
-    { Morale::overwhemingly_sad, { {Face::human, "@n@" }, { Face::bird, "@v@" }, { Face::cat, "@m@" } } },
-};
 
-static std::string_view get_morale_face( const int morale_cur, Face face )
+static std::string_view get_horizontal_morale_face( const int morale_cur, Face face )
 {
+    static const auto table = decision_table<Morale, std::map<Face, std::string_view>> ( {
+        { Morale::extremely_happy,   { {Face::human, "@U@" }, { Face::bird, "@v@" }, { Face::cat, "@W@" } } },
+        { Morale::very_happy,        { {Face::human, "OuO" }, { Face::bird, "OvO" }, { Face::cat, "OWO" } } },
+        { Morale::happy,             { {Face::human, "^u^" }, { Face::bird, "ovo" }, { Face::cat, "owo" } } },
+        { Morale::content,           { {Face::human, "n_n" }, { Face::bird, "^v^" }, { Face::cat, "^w^" } } },
+        { Morale::neutral,           { {Face::human, "-_-" }, { Face::bird, "-v-" }, { Face::cat, "-w-" } } },
+        { Morale::sad,               { {Face::human, "-n-" }, { Face::bird, ".v." }, { Face::cat, "-m-" } } },
+        { Morale::very_sad,          { {Face::human, "TnT" }, { Face::bird, "TvT" }, { Face::cat, "TmT" } } },
+        { Morale::extremely_sad,     { {Face::human, "XnX" }, { Face::bird, "XvX" }, { Face::cat, "XmX" } } },
+    }, { {Face::human, "@n@" }, { Face::bird, "@v@" }, { Face::cat, "@m@" } } );
+
     face = face == Face::bear ? Face::cat : face;
-    const auto is_happier = [morale_cur]( const auto & m ) {
-        return morale_cur >= static_cast<int>( m.first );
-    };
-    for( auto it : morale_map ) {
-        if( is_happier( it ) ) {
-            return it.second.at( face );
-        }
-    }
-    debugmsg( "No morale face found for morale %d", morale_cur );
-    return "@n@";
+
+    auto faces = table( static_cast<Morale>( morale_cur ) );
+    return faces.at( face );
 }
 
 static std::string morale_emotion( const int morale_cur, const Face face,
                                    const bool horizontal_style )
 {
     if( horizontal_style ) {
-        return std::string( get_morale_face( morale_cur, face ) );
+        return std::string( get_horizontal_morale_face( morale_cur, face ) );
     } else if( morale_cur >= 100 ) {
         return "8D";
     } else if( morale_cur >= 50 ) {
