@@ -589,31 +589,38 @@ static std::string morale_emotion( const int morale_cur, const Face face,
     }
 }
 
+static std::string as_joule( const units::energy &energy )
+{
+    return std::to_string( units::to_joule( energy ) ) + pgettext( "energy unit: joule", "J" );
+};
+static std::string as_kilojoule( const units::energy &energy )
+{
+    return std::to_string( units::to_kilojoule( energy ) ) + pgettext( "energy unit: kilojoule", "kJ" );
+};
+
 static std::pair<nc_color, std::string> power_stat( const avatar &u )
 {
-    nc_color c_pwr = c_red;
-    std::string s_pwr;
     if( !u.has_max_power() ) {
-        s_pwr = "--";
-        c_pwr = c_light_gray;
-    } else {
-        if( u.get_power_level() >= u.get_max_power_level() / 2 ) {
-            c_pwr = c_light_blue;
-        } else if( u.get_power_level() >= u.get_max_power_level() / 3 ) {
-            c_pwr = c_yellow;
-        } else if( u.get_power_level() >= u.get_max_power_level() / 4 ) {
-            c_pwr = c_red;
-        }
-
-        if( u.get_power_level() < 1_kJ ) {
-            s_pwr = std::to_string( units::to_joule( u.get_power_level() ) ) +
-                    pgettext( "energy unit: joule", "J" );
-        } else {
-            s_pwr = std::to_string( units::to_kilojoule( u.get_power_level() ) ) +
-                    pgettext( "energy unit: kilojoule", "kJ" );
-        }
+        return { c_light_gray, "--" };
     }
-    return std::make_pair( c_pwr, s_pwr );
+
+    const units::energy power = u.get_power_level();
+    const units::energy max_power = u.get_max_power_level();
+    const nc_color power_color = ( [power, max_power]() {
+        if( power >= max_power / 2 ) {
+            return c_light_blue;
+        }
+        if( power >= max_power / 3 ) {
+            return c_yellow;
+        }
+        return c_red;
+    } )();
+
+    const bool is_kilojoule = u.get_power_level() >= 1_kJ;
+    std::string power_string = ( is_kilojoule ? as_kilojoule : as_joule )( power );
+
+    return { power_color, power_string };
+
 }
 
 static std::pair<nc_color, std::string> mana_stat( const player &u )
