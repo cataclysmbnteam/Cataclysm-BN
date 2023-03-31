@@ -58,6 +58,7 @@ Checks: >
   -modernize-concat-nested-namespaces,
   -modernize-loop-convert,
   -modernize-unary-static-assert,
+  -modernize-use-nullptr,
   -performance-no-automatic-move,
   -performance-trivially-destructible,
   -performance-for-range-copy,
