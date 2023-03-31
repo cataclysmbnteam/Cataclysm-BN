@@ -38,7 +38,7 @@ class snippet_library
 
         bool has_category( const std::string &category ) const;
         /**
-         * Returns the snippet referenced by the id, or cata::nullopt if there
+         * Returns the snippet referenced by the id, or std::nullopt if there
          * is no snippet with such id.
          * The tags in the snippet are not automatically expanded - you need to
          * call `expand()` to do that.
@@ -75,7 +75,7 @@ class snippet_library
         /**
          * Returns a random snippet out of the given category. Both snippets with
          * or without an id may be returned.
-         * If there isn't any snippet in the category, cata::nullopt is returned.
+         * If there isn't any snippet in the category, std::nullopt is returned.
          * The tags in the snippet are not automatically expanded - you need to
          * call `expand()` to do that.
          */
@@ -85,7 +85,7 @@ class snippet_library
          * For the same seed, the returned snippet stays the same *in a single
          * game session*, but may change after reloading or restarting a game,
          * due to layout changes in the JSON files, for example. If there isn't
-         * any snippet in the category, cata::nullopt is returned.
+         * any snippet in the category, std::nullopt is returned.
          * The tags in the snippet are not automatically expanded - you need to
          * call `expand()` to do that.
          *

@@ -106,7 +106,7 @@ struct grids_draw_data {
             // TODO: fix point types
             uintptr_t id = get_distribution_grid_tracker().debug_grid_id( omp );
             if( id == 0 ) {
-                return cata::nullopt;
+                return std::nullopt;
             }
 
             auto it = list_active.find( id );
@@ -131,7 +131,7 @@ struct grids_draw_data {
         std::optional<char> get_inactive( const tripoint_abs_omt &omp ) {
             std::set<tripoint_abs_omt> grid = overmap_buffer.electric_grid_at( omp );
             if( grid.size() <= 1 ) {
-                return cata::nullopt;
+                return std::nullopt;
             }
             std::vector<tripoint_abs_omt> sorted( grid.begin(), grid.end() );
             std::sort( sorted.begin(), sorted.end() );
@@ -176,7 +176,7 @@ struct grids_draw_data {
                     return c;
                 }
             }
-            return cata::nullopt;
+            return std::nullopt;
         }
 
         std::unordered_map<std::uintptr_t, char> list_active;

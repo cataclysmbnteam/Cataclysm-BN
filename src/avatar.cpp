@@ -1061,7 +1061,7 @@ std::optional<int> avatar::kill_xp_for_next_point() const
 {
     auto it = std::lower_bound( xp_cutoffs.begin(), xp_cutoffs.end(), kill_xp() );
     if( it == xp_cutoffs.end() ) {
-        return cata::nullopt;
+        return std::nullopt;
     } else {
         return *it - kill_xp();
     }

@@ -351,7 +351,7 @@ std::optional<int> overmapbuffer::has_note_with_danger_radius( const tripoint_ab
     if( const overmap_with_local_coords om_loc = get_existing_om_global( p ) ) {
         return om_loc.om->has_note_with_danger_radius( om_loc.local );
     }
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 bool overmapbuffer::is_marked_dangerous( const tripoint_abs_omt &p )
@@ -1147,7 +1147,7 @@ std::optional<basecamp *> overmapbuffer::find_camp( const point_abs_omt &p )
             }
         }
     }
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 void overmapbuffer::insert_npc( const shared_ptr_fast<npc> &who )

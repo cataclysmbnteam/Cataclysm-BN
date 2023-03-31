@@ -986,7 +986,7 @@ std::optional<tripoint> input_context::get_direction( const std::string &action 
     } else if( action == "RIGHTDOWN" ) {
         return transform( tripoint_south_east );
     } else {
-        return cata::nullopt;
+        return std::nullopt;
     }
 }
 
@@ -1338,14 +1338,14 @@ bool gamepad_available()
 std::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win )
 {
     if( !coordinate_input_received ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     const point view_size( getmaxx( capture_win ), getmaxy( capture_win ) );
     const point win_min( getbegx( capture_win ),
                          getbegy( capture_win ) );
     const half_open_rectangle<point> win_bounds( win_min, win_min + view_size );
     if( !win_bounds.contains( coordinate ) ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     point view_offset;

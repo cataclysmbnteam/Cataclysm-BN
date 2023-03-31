@@ -1240,7 +1240,7 @@ std::optional<tripoint> spell::random_valid_target( const Creature &caster,
         }
     }
     if( valid_area.empty() ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     return random_entry( valid_area );
 }
@@ -2030,7 +2030,7 @@ void fake_spell::load( const JsonObject &jo )
     int max_level_int;
     optional( jo, false, "max_level", max_level_int, -1 );
     if( max_level_int == -1 ) {
-        max_level = cata::nullopt;
+        max_level = std::nullopt;
     } else {
         max_level = max_level_int;
     }

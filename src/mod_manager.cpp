@@ -237,7 +237,7 @@ std::optional<MOD_INFORMATION> load_modfile( const JsonObject &jo, const std::st
     if( !jo.has_string( "type" ) || jo.get_string( "type" ) != "MOD_INFO" ) {
         // Ignore anything that is not a mod-info
         jo.allow_omitted_members();
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     // TEMPORARY until 0.G: Remove "ident" support
@@ -354,7 +354,7 @@ std::optional<t_mod_list> load_mod_list( const std::string &path )
     if( read_from_file_optional_json( path, reader ) ) {
         return { std::move( res ) };
     } else {
-        return cata::nullopt;
+        return std::nullopt;
     }
 }
 

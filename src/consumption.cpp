@@ -243,7 +243,7 @@ static std::optional<prepared_item_consumption> find_food_heater( Character &c,
         return prepared_item_consumption( item_consumption_t::component, *consumed_heaters.front() );
 
     }
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 static int compute_default_effective_kcal( const item &comest, const Character &you,

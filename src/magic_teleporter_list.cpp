@@ -72,7 +72,7 @@ static std::optional<tripoint> find_valid_teleporters_omt( const tripoint_abs_om
             return checker.getabs( p );
         }
     }
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 bool teleporter_list::place_avatar_overmap( Character &you, const tripoint_abs_omt &omt_pt ) const
@@ -190,7 +190,7 @@ class teleporter_callback : public uilist_callback
 
 std::optional<tripoint_abs_omt> teleporter_list::choose_teleport_location()
 {
-    std::optional<tripoint_abs_omt> ret = cata::nullopt;
+    std::optional<tripoint_abs_omt> ret = std::nullopt;
 
     uilist teleport_selector;
     teleport_selector.w_height_setup = 24;

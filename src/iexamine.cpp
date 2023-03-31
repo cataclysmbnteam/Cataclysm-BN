@@ -3634,7 +3634,7 @@ void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
 
         case REMOVE_CONTAINER: {
             g->u.assign_activity( player_activity( pickup_activity_actor(
-            { { item_location( map_cursor( examp ), container ), cata::nullopt, {} } }, g->u.pos() ) ) );
+            { { item_location( map_cursor( examp ), container ), std::nullopt, {} } }, g->u.pos() ) ) );
             return;
         }
 
@@ -3966,7 +3966,7 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
             for( auto &itm : items ) {
                 if( itm.type == cur_ammo ) {
                     g->u.assign_activity( player_activity( pickup_activity_actor(
-                    { { item_location( map_cursor( examp ), &itm ), cata::nullopt, {} } }, g->u.pos() ) ) );
+                    { { item_location( map_cursor( examp ), &itm ), std::nullopt, {} } }, g->u.pos() ) ) );
                     return;
                 }
             }
@@ -4361,7 +4361,7 @@ std::optional<tripoint> iexamine::getGasPumpByNumber( const tripoint &p, int num
             return tmp;
         }
     }
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 bool iexamine::toPumpFuel( const tripoint &src, const tripoint &dst, int units )

@@ -113,7 +113,7 @@ class tileset
     private:
         struct season_tile_value {
             tile_type *default_tile = nullptr;
-            std::optional<tile_lookup_res> season_tile = cata::nullopt;
+            std::optional<tile_lookup_res> season_tile = std::nullopt;
         };
 
         std::string tileset_id;
@@ -183,10 +183,10 @@ class tileset
          * Example: if id == "t_tree_apple" and season == SPRING
          *    will first look up "t_tree_apple_season_spring"
          *    if not found, will look up "t_tree_apple"
-         *    if still nothing is found, will return cata::nullopt
+         *    if still nothing is found, will return std::nullopt
          * @param id : "raw" tile id (without season suffix)
          * @param season : season suffix encoded as season_type enum
-         * @return cata::nullopt if no tile is found,
+         * @return std::nullopt if no tile is found,
          *    std::optional with found id (e.g. "t_tree_apple_season_spring" or "t_tree_apple) and found tile.
          *
          * Note: this method is guaranteed to return pointers to the keys and values stored inside the

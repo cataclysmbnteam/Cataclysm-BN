@@ -126,7 +126,7 @@ std::optional<ter_furn_data<T>> ter_furn_transform::find_transform( const
 {
     const auto result_iter = list.find( key );
     if( result_iter == list.cend() ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     return result_iter->second;
 }
@@ -139,7 +139,7 @@ std::optional<T> ter_furn_transform::next( const std::map<K, ter_furn_data<T>> &
     if( result ) {
         return result->pick();
     }
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 std::optional<ter_str_id> ter_furn_transform::next_ter( const ter_str_id &ter ) const
@@ -254,7 +254,7 @@ std::optional<T> ter_furn_data<T>::pick() const
 {
     const T *picked = list.pick();
     if( picked == nullptr ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     return *picked;
 }

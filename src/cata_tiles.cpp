@@ -283,7 +283,7 @@ tileset::find_tile_type_by_season( const std::string &id, season_type season ) c
     const auto iter = tile_ids_by_season[season].find( id );
 
     if( iter == tile_ids_by_season[season].end() ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     auto &res = iter->second;
     if( res.season_tile ) {
@@ -292,7 +292,7 @@ tileset::find_tile_type_by_season( const std::string &id, season_type season ) c
         return tile_lookup_res( iter->first, *res.default_tile );
     }
     debugmsg( "empty record found in `tile_ids_by_season` for key: %s", id );
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 tile_type &tileset::create_tile_type( const std::string &id, tile_type &&new_tile_type )
@@ -1811,7 +1811,7 @@ cata_tiles::find_tile_looks_like_by_string_id( const std::string &id, TILE_CATEG
 {
     const string_id<T> s_id( id );
     if( !s_id.is_valid() ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     const T &obj = s_id.obj();
     return find_tile_looks_like( obj.looks_like, category, looks_like_jumps_limit - 1 );
@@ -1822,7 +1822,7 @@ cata_tiles::find_tile_looks_like( const std::string &id, TILE_CATEGORY category,
                                   const int looks_like_jumps_limit ) const
 {
     if( id.empty() || looks_like_jumps_limit <= 0 ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     // Note on memory management:
@@ -1874,7 +1874,7 @@ cata_tiles::find_tile_looks_like( const std::string &id, TILE_CATEGORY category,
             // vehicle parts start with vp_ for their tiles, but not their IDs
             const vpart_id base_vpid( id.substr( 3 ) );
             if( !base_vpid.is_valid() ) {
-                return cata::nullopt;
+                return std::nullopt;
             }
             return find_tile_looks_like( "vp_" + base_vpid.obj().looks_like, category,
                                          looks_like_jumps_limit - 1 );
@@ -1887,13 +1887,13 @@ cata_tiles::find_tile_looks_like( const std::string &id, TILE_CATEGORY category,
                                itype_corpse.str(), category, looks_like_jumps_limit - 1
                            );
                 }
-                return cata::nullopt;
+                return std::nullopt;
             }
             return find_tile_looks_like( iid->looks_like.str(), category, looks_like_jumps_limit - 1 );
         }
 
         default:
-            return cata::nullopt;
+            return std::nullopt;
     }
 }
 

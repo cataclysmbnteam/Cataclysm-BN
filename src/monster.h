@@ -565,7 +565,7 @@ class monster : public Creature, public visitable<monster>
         /** Found path. Note: Not used by monsters that don't pathfind! **/
         std::vector<tripoint> path;
         std::bitset<NUM_MEFF> effect_cache;
-        std::optional<time_duration> summon_time_limit = cata::nullopt;
+        std::optional<time_duration> summon_time_limit = std::nullopt;
 
         player *find_dragged_foe();
         void nursebot_operate( player *dragged_foe );

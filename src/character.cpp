@@ -443,7 +443,7 @@ Character::Character() :
     *path_settings = pathfinding_settings{ 0, 1000, 1000, 0, true, true, true, false, true };
 
     move_mode = CMM_WALK;
-    next_expected_position = cata::nullopt;
+    next_expected_position = std::nullopt;
     temp_cur.fill( BODYTEMP_NORM );
     frostbite_timer.fill( 0 );
     temp_conv.fill( BODYTEMP_NORM );
@@ -2104,7 +2104,7 @@ Character::wear_item( const item &to_wear, bool interactive )
         if( interactive ) {
             add_msg_if_player( m_info, "%s", ret.c_str() );
         }
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     const bool was_deaf = is_deaf();
@@ -2950,7 +2950,7 @@ Character::wear_possessed( item &to_wear, bool interactive )
                                    _( "<npcname> is already wearing that." )
                                  );
         }
-        return cata::nullopt;
+        return std::nullopt;
     }
     if( to_wear.is_null() ) {
         if( interactive ) {
@@ -2958,7 +2958,7 @@ Character::wear_possessed( item &to_wear, bool interactive )
                                    _( "You don't have that item." ),
                                    _( "<npcname> doesn't have that item." ) );
         }
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     bool was_weapon;
@@ -2979,7 +2979,7 @@ Character::wear_possessed( item &to_wear, bool interactive )
         } else {
             inv.add_item( to_wear_copy, true );
         }
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     return result;
@@ -10448,8 +10448,8 @@ void Character::clear_destination()
 {
     auto_move_route.clear();
     clear_destination_activity();
-    destination_point = cata::nullopt;
-    next_expected_position = cata::nullopt;
+    destination_point = std::nullopt;
+    next_expected_position = std::nullopt;
 }
 
 bool Character::has_distant_destination() const
@@ -10594,7 +10594,7 @@ std::optional<double> Character::get_npc_ai_info_cache( const std::string &key )
 {
     auto it = npc_ai_info_cache.find( key );
     if( it == npc_ai_info_cache.end() ) {
-        return cata::nullopt;
+        return std::nullopt;
     } else {
         return it->second;
     }

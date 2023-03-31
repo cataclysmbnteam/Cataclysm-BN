@@ -89,7 +89,7 @@ void fire_turret_manual( avatar &you, map &m, turret_data &turret );
 
 // Throw an item  't'
 void plthrow( avatar &you, item_location loc,
-              const std::optional<tripoint> &blind_throw_from_pos = cata::nullopt );
+              const std::optional<tripoint> &blind_throw_from_pos = std::nullopt );
 
 // Use item; also tries E,R,W  'a'
 void use_item( avatar &you, item_location &loc );

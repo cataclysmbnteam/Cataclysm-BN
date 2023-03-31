@@ -78,7 +78,7 @@ struct activity_reason_info {
     std::optional<construction_id> con_idx;
 
     activity_reason_info( do_activity_reason reason_, bool can_do_,
-                          const std::optional<construction_id> &con_idx_ = cata::nullopt ) :
+                          const std::optional<construction_id> &con_idx_ = std::nullopt ) :
         reason( reason_ ),
         can_do( can_do_ ),
         con_idx( con_idx_ )

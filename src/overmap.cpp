@@ -1373,7 +1373,7 @@ bool overmap::has_note( const tripoint_om_omt &p ) const
 std::optional<int> overmap::has_note_with_danger_radius( const tripoint_om_omt &p ) const
 {
     if( p.z() < -OVERMAP_DEPTH || p.z() > OVERMAP_HEIGHT ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     for( const om_note &i : layer[p.z() + OVERMAP_DEPTH].notes ) {
@@ -1385,7 +1385,7 @@ std::optional<int> overmap::has_note_with_danger_radius( const tripoint_om_omt &
             }
         }
     }
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 bool overmap::is_marked_dangerous( const tripoint_om_omt &p ) const
@@ -4931,7 +4931,7 @@ std::optional<basecamp *> overmap::find_camp( const point_abs_omt &p )
             return &v;
         }
     }
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 bool overmap::is_omt_generated( const tripoint_om_omt &loc ) const

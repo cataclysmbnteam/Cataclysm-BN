@@ -109,7 +109,7 @@ struct fake_spell {
 
     fake_spell() = default;
     fake_spell( const spell_id &sp_id, bool hit_self = false,
-                const std::optional<int> &max_level = cata::nullopt ) : id( sp_id ),
+                const std::optional<int> &max_level = std::nullopt ) : id( sp_id ),
         max_level( max_level ), self( hit_self ) {}
 
     // gets the spell with an additional override for minimum level (default 0)

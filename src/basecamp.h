@@ -168,7 +168,7 @@ class basecamp
         std::string expansion_tab( point dir ) const;
         // upgrade levels
         bool has_provides( const std::string &req, const expansion_data &e_data, int level = 0 ) const;
-        bool has_provides( const std::string &req, const std::optional<point> &dir = cata::nullopt,
+        bool has_provides( const std::string &req, const std::optional<point> &dir = std::nullopt,
                            int level = 0 ) const;
         void update_resources( const std::string &bldg );
         void update_provides( const std::string &bldg, expansion_data &e_data );

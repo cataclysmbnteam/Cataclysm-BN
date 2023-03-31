@@ -107,7 +107,7 @@ class optional_vpart_position : public std::optional<vpart_position>
             ( std::move( p ) ) { }
 
         std::optional<std::string> get_label() const {
-            return has_value() ? value().get_label() : cata::nullopt;
+            return has_value() ? value().get_label() : std::nullopt;
         }
         std::optional<vpart_reference> part_with_feature( const std::string &f, bool unbroken ) const;
         std::optional<vpart_reference> part_with_feature( vpart_bitflags f, bool unbroken ) const;

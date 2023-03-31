@@ -18,7 +18,7 @@ void snippet_library::load_snippet( const JsonObject &jsobj )
     if( hash_to_id_migration.has_value() ) {
         debugmsg( "snippet_library::load_snippet called after snippet_library::migrate_hash_to_id." );
     }
-    hash_to_id_migration = cata::nullopt;
+    hash_to_id_migration = std::nullopt;
     const std::string category = jsobj.get_string( "category" );
     if( jsobj.has_array( "text" ) ) {
         add_snippets_from_json( category, jsobj.get_array( "text" ) );
@@ -32,7 +32,7 @@ void snippet_library::add_snippets_from_json( const std::string &category, const
     if( hash_to_id_migration.has_value() ) {
         debugmsg( "snippet_library::add_snippets_from_json called after snippet_library::migrate_hash_to_id." );
     }
-    hash_to_id_migration = cata::nullopt;
+    hash_to_id_migration = std::nullopt;
     for( const JsonValue entry : jarr ) {
         if( entry.test_string() ) {
             translation text;
@@ -52,7 +52,7 @@ void snippet_library::add_snippet_from_json( const std::string &category, const 
     if( hash_to_id_migration.has_value() ) {
         debugmsg( "snippet_library::add_snippet_from_json called after snippet_library::migrate_hash_to_id." );
     }
-    hash_to_id_migration = cata::nullopt;
+    hash_to_id_migration = std::nullopt;
     translation text;
     mandatory( jo, false, "text", text );
     if( jo.has_member( "id" ) ) {
@@ -73,7 +73,7 @@ void snippet_library::add_snippet_from_json( const std::string &category, const 
 
 void snippet_library::clear_snippets()
 {
-    hash_to_id_migration = cata::nullopt;
+    hash_to_id_migration = std::nullopt;
     snippets_by_category.clear();
     snippets_by_id.clear();
 }
@@ -87,7 +87,7 @@ std::optional<translation> snippet_library::get_snippet_by_id( const snippet_id 
 {
     const auto it = snippets_by_id.find( id );
     if( it == snippets_by_id.end() ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     return it->second;
 }
@@ -154,10 +154,10 @@ std::optional<translation> snippet_library::random_from_category( const std::str
 {
     const auto it = snippets_by_category.find( cat );
     if( it == snippets_by_category.end() ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     if( it->second.ids.empty() && it->second.no_id.empty() ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     const size_t count = it->second.ids.size() + it->second.no_id.size();
     // uniform_int_distribution always returns zero when the random engine is

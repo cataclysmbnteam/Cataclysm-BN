@@ -81,7 +81,7 @@ std::optional<bodypart_str_id> query_body_part( Creature &c )
     if( menu.ret >= 0 && menu.ret < static_cast<int>( all_bps.size() ) ) {
         last_val.bodypart = all_bps[static_cast<size_t>( menu.ret )].id();
     } else {
-        return cata::nullopt;
+        return std::nullopt;
     }
     return last_val.bodypart;
 }
@@ -94,7 +94,7 @@ std::optional<int> query_intensity()
                              .only_digits( true )
                              .query_int();
     } catch( std::exception & ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     return last_val.intensity;
 }
@@ -114,7 +114,7 @@ std::optional<time_duration> try_read_time_string( const std::string &ts )
         } catch( std::exception & ) {
         }
         popup( e.c_str() );
-        return cata::nullopt;
+        return std::nullopt;
     }
 }
 std::optional<time_duration> query_duration()
@@ -124,14 +124,14 @@ std::optional<time_duration> query_duration()
     popup.title( _( "Input new duration followed by unit (s, m, h, d)" ) );
     std::string dur_string = popup.query_string();
     if( !popup.confirmed() ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     std::optional<time_duration> dur = try_read_time_string( dur_string );
     if( dur ) {
         last_val.duration = *dur;
         return dur;
     } else {
-        return cata::nullopt;
+        return std::nullopt;
     }
 }
 bool toggle_effect_force()

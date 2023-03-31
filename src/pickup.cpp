@@ -666,12 +666,12 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
     if( static_cast<int>( here.size() ) <= min && min != -1 ) {
         if( from_vehicle ) {
             g->u.assign_activity( player_activity( pickup_activity_actor(
-            { { item_location( vehicle_cursor( *veh, cargo_part ), &*here.front() ), cata::nullopt, {} } },
-            cata::nullopt
+            { { item_location( vehicle_cursor( *veh, cargo_part ), &*here.front() ), std::nullopt, {} } },
+            std::nullopt
                                                    ) ) );
         } else {
             g->u.assign_activity( player_activity( pickup_activity_actor(
-            { { item_location( map_cursor( p ), &*here.front() ), cata::nullopt, {} } },
+            { { item_location( map_cursor( p ), &*here.front() ), std::nullopt, {} } },
             g->u.pos()
                                                    ) ) );
         }

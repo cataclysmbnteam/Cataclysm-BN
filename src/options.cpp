@@ -847,7 +847,7 @@ std::optional< std::tuple<int, std::string> > options_manager::cOpt::findInt(
 {
     int i = static_cast<int>( getIntPos( iSearch ) );
     if( i == -1 ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     return mIntValues[i];
 }

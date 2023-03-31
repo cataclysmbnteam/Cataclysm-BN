@@ -1042,7 +1042,7 @@ void pickup_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> pickup_activity_actor::deserialize( JsonIn &jsin )
 {
-    pickup_activity_actor actor( {}, cata::nullopt );
+    pickup_activity_actor actor( {}, std::nullopt );
 
     JsonObject data = jsin.get_object();
 

@@ -1981,7 +1981,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_COMPARE:
-                game_menus::inv::compare( u, cata::nullopt );
+                game_menus::inv::compare( u, std::nullopt );
                 break;
 
             case ACTION_ORGANIZE:

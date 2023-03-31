@@ -934,7 +934,7 @@ class game
                 void print_time();
             private:
                 bool enabled = false;
-                std::optional<IRLTimeMs> start_time = cata::nullopt;
+                std::optional<IRLTimeMs> start_time = std::nullopt;
         } debug_hour_timer;
 
         Creature *is_hostile_within( int distance );

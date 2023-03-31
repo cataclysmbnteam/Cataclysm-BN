@@ -685,10 +685,10 @@ static std::optional<std::pair<tripoint_abs_omt, std::string>> get_mission_arrow
             const inclusive_cuboid<tripoint> &overmap_area, const tripoint_abs_omt &center )
 {
     if( get_avatar().get_active_mission() == nullptr ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     if( !get_avatar().get_active_mission()->has_target() ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     const tripoint_abs_omt mission_target = get_avatar().get_active_mission_target();
 
@@ -715,7 +715,7 @@ static std::optional<std::pair<tripoint_abs_omt, std::string>> get_mission_arrow
     if( traj.empty() ) {
         debugmsg( "Failed to gen overmap mission trajectory %s %s",
                   center.to_string(), mission_target.to_string() );
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     tripoint arr_pos = traj[0];
@@ -3774,7 +3774,7 @@ window_dimensions get_window_dimensions( point pos, point size )
 std::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win_ )
 {
     if( !coordinate_input_received ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     const catacurses::window &capture_win = capture_win_ ? capture_win_ : g->w_terrain;
@@ -3790,7 +3790,7 @@ std::optional<tripoint> input_context::get_coordinates( const catacurses::window
     // Check if click is within bounds of the window we care about
     const inclusive_rectangle<point> win_bounds( win_min, win_max );
     if( !win_bounds.contains( coordinate ) ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     point view_offset;

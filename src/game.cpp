@@ -3252,11 +3252,11 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
 std::optional<tripoint> game::get_veh_dir_indicator_location( bool next ) const
 {
     if( !get_option<bool>( "VEHICLE_DIR_INDICATOR" ) ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     const optional_vpart_position vp = m.veh_at( u.pos() );
     if( !vp ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     vehicle *const veh = &vp->vehicle();
     rl_vec2d face = next ? veh->dir_vec() : veh->face_vec();
@@ -6193,8 +6193,8 @@ void game::zones_manager()
         restore_on_out_of_scope<std::optional<tripoint>> zone_start_prev( zone_start );
         restore_on_out_of_scope<std::optional<tripoint>> zone_end_prev( zone_end );
         show = false;
-        zone_start = cata::nullopt;
-        zone_end = cata::nullopt;
+        zone_start = std::nullopt;
+        zone_end = std::nullopt;
         ui.mark_resize();
 
         static_popup popup;
@@ -6226,7 +6226,7 @@ void game::zones_manager()
             }
         }
 
-        return cata::nullopt;
+        return std::nullopt;
     };
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
@@ -6413,8 +6413,8 @@ void game::zones_manager()
                         restore_on_out_of_scope<std::optional<tripoint>> zone_start_prev( zone_start );
                         restore_on_out_of_scope<std::optional<tripoint>> zone_end_prev( zone_end );
                         show = false;
-                        zone_start = cata::nullopt;
-                        zone_end = cata::nullopt;
+                        zone_start = std::nullopt;
+                        zone_end = std::nullopt;
                         ui.mark_resize();
                         static_popup message_pop;
                         message_pop.on_top( true );
@@ -6489,7 +6489,7 @@ void game::zones_manager()
             ctxt.set_timeout( get_option<int>( "BLINK_SPEED" ) );
         } else {
             blink = false;
-            zone_start = zone_end = cata::nullopt;
+            zone_start = zone_end = std::nullopt;
             ctxt.reset_timeout();
         }
 
@@ -6712,7 +6712,7 @@ look_around_result game::look_around( bool show_window, tripoint &center,
                 zone_end = lp;
             } else {
                 zone_start = lp;
-                zone_end = cata::nullopt;
+                zone_end = std::nullopt;
             }
             // Actually accessed from the terrain overlay callback `zone_cb` in the
             // call to `ui_manager::redraw`.
@@ -7485,7 +7485,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             refilter = true;
             addcategory = !sort_radius;
             uistate.list_item_filter_active = !sFilter.empty();
-            filter_type = cata::nullopt;
+            filter_type = std::nullopt;
         } else if( action == "RESET_FILTER" ) {
             sFilter.clear();
             filtered_items = ground_items;
@@ -7520,7 +7520,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             refilter = true;
             addcategory = !sort_radius;
             uistate.list_item_priority_active = !list_item_upvote.empty();
-            filter_type = cata::nullopt;
+            filter_type = std::nullopt;
         } else if( action == "PRIORITY_DECREASE" ) {
             filter_type = item_filter_type::LOW_PRIORITY;
             ui.invalidate_ui();
@@ -7535,7 +7535,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             refilter = true;
             addcategory = !sort_radius;
             uistate.list_item_downvote_active = !list_item_downvote.empty();
-            filter_type = cata::nullopt;
+            filter_type = std::nullopt;
         } else if( action == "SORT" ) {
             if( sort_radius ) {
                 sort_radius = false;
@@ -7670,7 +7670,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             trail_end_x = true;
         } else {
             u.view_offset = stored_view_offset;
-            trail_start = trail_end = cata::nullopt;
+            trail_start = trail_end = std::nullopt;
         }
         invalidate_main_ui_adaptor();
 
@@ -7992,7 +7992,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
             cCurMon = nullptr;
             iActivePos = tripoint_zero;
             u.view_offset = stored_view_offset;
-            trail_start = trail_end = cata::nullopt;
+            trail_start = trail_end = std::nullopt;
         }
         invalidate_main_ui_adaptor();
 
@@ -8916,7 +8916,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
     }
     // Max out recoil & reset aim point
     u.recoil = MAX_RECOIL;
-    u.last_target_pos = cata::nullopt;
+    u.last_target_pos = std::nullopt;
 
     // Print a message if movement is slow
     const int mcost_to = m.move_cost( dest_loc ); //calculate this _after_ calling grabbed_move
@@ -9889,7 +9889,7 @@ static std::optional<tripoint> point_selection_menu( const std::vector<tripoint>
 {
     if( pts.empty() ) {
         debugmsg( "point_selection_menu called with empty point set" );
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     if( pts.size() == 1 ) {
@@ -9911,7 +9911,7 @@ static std::optional<tripoint> point_selection_menu( const std::vector<tripoint>
     pmenu.query();
     const int ret = pmenu.ret;
     if( ret < 0 || ret >= num ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     return pts[ret];
@@ -9932,7 +9932,7 @@ static std::optional<tripoint> find_empty_spot_nearby( const tripoint &pos )
         }
         return p;
     }
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 void game::vertical_move( int movez, bool force, bool peeking )
@@ -10436,7 +10436,7 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
                         //~ %s is a warning about monster/hostile NPC in the way, e.g. "There's a zombie in the way!"
                         _( "%s  Attempt to push past?  You may have to fight your way back up." ), msg ) ) ) {
                 add_msg( msg );
-                return cata::nullopt;
+                return std::nullopt;
             }
         }
         return stairs;
@@ -10451,11 +10451,11 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
         if( movez < 0 &&
             !query_yn(
                 _( "There is a LOT of heat coming out of there, even the stairs have melted away.  Jump down?  You won't be able to get back up." ) ) ) {
-            return cata::nullopt;
+            return std::nullopt;
         } else if( movez > 0 &&
                    !query_yn(
                        _( "There is a LOT of heat coming out of there.  Push through the half-molten rocks and ascend?  You will not be able to get back down." ) ) ) {
-            return cata::nullopt;
+            return std::nullopt;
         }
 
         return stairs;
@@ -10464,7 +10464,7 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
     if( movez > 0 ) {
         if( !mp.has_flag( "GOES_DOWN", *stairs ) ) {
             if( !query_yn( _( "You may be unable to return back down these stairs.  Continue up?" ) ) ) {
-                return cata::nullopt;
+                return std::nullopt;
             }
         }
         // Manhole covers need this to work
@@ -10474,7 +10474,7 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
 
     if( mp.impassable( *stairs ) ) {
         popup( _( "Halfway down, the way down becomes blocked off." ) );
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     if( u.has_trait( trait_id( "WEB_RAPPEL" ) ) ) {
@@ -10486,7 +10486,7 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
                 add_msg( _( "You securely web up and work your way down, lowering yourself safely." ) );
             }
         } else {
-            return cata::nullopt;
+            return std::nullopt;
         }
     } else if( u.has_trait( trait_VINES2 ) || u.has_trait( trait_VINES3 ) ) {
         if( query_yn( _( "There is a sheer drop halfway down.  Use your vines to descend?" ) ) ) {
@@ -10508,24 +10508,24 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
                 u.mod_thirst( 10 );
             }
         } else {
-            return cata::nullopt;
+            return std::nullopt;
         }
     } else if( u.has_amount( itype_grapnel, 1 ) ) {
         if( query_yn( _( "There is a sheer drop halfway down.  Climb your grappling hook down?" ) ) ) {
             rope_ladder = true;
             u.use_amount( itype_grapnel, 1 );
         } else {
-            return cata::nullopt;
+            return std::nullopt;
         }
     } else if( u.has_amount( itype_rope_30, 1 ) ) {
         if( query_yn( _( "There is a sheer drop halfway down.  Climb your rope down?" ) ) ) {
             rope_ladder = true;
             u.use_amount( itype_rope_30, 1 );
         } else {
-            return cata::nullopt;
+            return std::nullopt;
         }
     } else if( !query_yn( _( "There is a sheer drop halfway down.  Jump?" ) ) ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     return stairs;
@@ -11161,7 +11161,7 @@ void game::toggle_debug_hour_timer()
 void game::debug_hour_timer::toggle()
 {
     enabled = !enabled;
-    start_time = cata::nullopt;
+    start_time = std::nullopt;
     add_msg( string_format( "debug timer %s", enabled ? "enabled" : "disabled" ) );
 }
 

@@ -811,7 +811,7 @@ std::optional<tripoint> zone_manager::get_nearest( const zone_type_id &type, con
         int range, const faction_id &fac ) const
 {
     if( range < 0 ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     tripoint nearest_pos = tripoint( INT_MIN, INT_MIN, INT_MIN );
@@ -840,7 +840,7 @@ std::optional<tripoint> zone_manager::get_nearest( const zone_type_id &type, con
         }
     }
     if( nearest_dist > range ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     return nearest_pos;
 }

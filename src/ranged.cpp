@@ -1291,7 +1291,7 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target, cons
         who.as_player()->practice( skill_used, 5, 2 );
     }
     // Reset last target pos
-    who.last_target_pos = cata::nullopt;
+    who.last_target_pos = std::nullopt;
     who.recoil = MAX_RECOIL;
 
     return dealt_attack;

@@ -946,7 +946,7 @@ std::optional<std::vector<navigation_step>> vehicle::autodrive_controller::compu
             int speed_tps ) const
 {
     if( speed_tps == 0 || speed_tps < -1 ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     // TODO: tweak this
     constexpr size_t max_search_count = 10000;
@@ -1002,7 +1002,7 @@ std::optional<std::vector<navigation_step>> vehicle::autodrive_controller::compu
             }
         }
     }
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 vehicle::autodrive_controller::autodrive_controller( const vehicle &driven_veh,
@@ -1111,7 +1111,7 @@ std::optional<navigation_step> vehicle::autodrive_controller::compute_next_step(
             new_path = compute_path( data.max_speed_tps );
         }
         if( !new_path ) {
-            return cata::nullopt;
+            return std::nullopt;
         }
         data.path.swap( *new_path );
     }

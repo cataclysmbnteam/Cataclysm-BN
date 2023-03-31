@@ -1211,7 +1211,7 @@ class npc : public player
         std::string idz;
         // A temp variable used to link to the correct mission
         std::vector<mission_type_id> miss_ids;
-        std::optional<tripoint_abs_omt> assigned_camp = cata::nullopt;
+        std::optional<tripoint_abs_omt> assigned_camp = std::nullopt;
 
     private:
         npc_attitude attitude = NPCATT_NULL; // What we want to do to the player

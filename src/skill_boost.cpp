@@ -24,7 +24,7 @@ std::optional<skill_boost> skill_boost::get( const std::string &stat_str )
             return std::optional<skill_boost>( boost );
         }
     }
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 void skill_boost::load_boost( const JsonObject &jo, const std::string &src )

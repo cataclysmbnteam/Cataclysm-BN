@@ -2643,7 +2643,7 @@ std::optional<hack_type_t> get_hack_type( const player_activity &activity )
 {
     // Uses real tool
     if( activity.values.size() < 2 ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     assert( !activity.coords.empty() );
     // Old save data, probably
@@ -2823,7 +2823,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
     // nullopt if used real tool
     std::optional<hack::hack_type_t> hack_type = hack::get_hack_type( *act );
-    std::optional<item> fake_tool = cata::nullopt;
+    std::optional<item> fake_tool = std::nullopt;
     if( hack_type ) {
         fake_tool = hack::get_fake_tool( hack_type.value(), *act );
     }

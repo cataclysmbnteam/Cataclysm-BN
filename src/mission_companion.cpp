@@ -2122,7 +2122,7 @@ void talk_function::loot_building( const tripoint_abs_omt &site )
 void mission_data::add( const std::string &id, const std::string &name_display,
                         const std::string &text )
 {
-    add( id, name_display, cata::nullopt, text, false, true );
+    add( id, name_display, std::nullopt, text, false, true );
 }
 void mission_data::add_return( const std::string &id, const std::string &name_display,
                                const std::optional<point> &dir, const std::string &text, bool possible )

@@ -476,7 +476,7 @@ std::optional<std::string> press_x_if_bound( action_id act )
     input_context ctxt = get_default_mode_input_context();
     std::string description = action_ident( act );
     if( ctxt.keys_bound_to( description ).empty() ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     return press_x( act );
 }
@@ -1020,7 +1020,7 @@ std::optional<tripoint> choose_direction( const std::string &message, const bool
     } while( action != "QUIT" );
 
     add_msg( _( "Never mind." ) );
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 std::optional<tripoint> choose_adjacent( const std::string &message, const bool allow_vertical )
@@ -1028,12 +1028,12 @@ std::optional<tripoint> choose_adjacent( const std::string &message, const bool 
     const std::optional<tripoint> dir = choose_direction( message, allow_vertical );
 
     if( !dir ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     if( get_map().obstructed_by_vehicle_rotation( g->u.pos(), *dir + g->u.pos() ) ) {
         add_msg( _( "You can't reach through that vehicle's wall." ) );
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     return *dir + g->u.pos();
@@ -1065,7 +1065,7 @@ std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
     const bool auto_select = get_option<bool>( "AUTOSELECT_SINGLE_VALID_TARGET" );
     if( valid.empty() && auto_select ) {
         add_msg( failure_message );
-        return cata::nullopt;
+        return std::nullopt;
     } else if( valid.size() == 1 && auto_select ) {
         return valid.back();
     }

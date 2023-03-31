@@ -416,7 +416,7 @@ void talk_function::stop_guard( npc &p )
             ( *bcp )->remove_assignee( p.getID() );
             ( *bcp )->validate_assignees();
         }
-        p.assigned_camp = cata::nullopt;
+        p.assigned_camp = std::nullopt;
     }
 }
 

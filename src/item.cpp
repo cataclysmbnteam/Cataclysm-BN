@@ -9338,7 +9338,7 @@ std::optional<tripoint> item::get_cable_target( Character *p, const tripoint &po
 {
     const std::string &state = get_var( "state" );
     if( state != "pay_out_cable" && state != "cable_charger_link" ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     map &here = get_map();
     const optional_vpart_position vp_pos = here.veh_at( pos );

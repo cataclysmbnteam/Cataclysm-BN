@@ -121,7 +121,7 @@ bool save_mod_list( const t_mod_list &list, const std::string &path );
 
 /**
  * Load mod list from file.
- * @returns cata::nullopt on error.
+ * @returns std::nullopt on error.
  */
 std::optional<t_mod_list> load_mod_list( const std::string &path );
 

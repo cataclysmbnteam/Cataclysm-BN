@@ -438,7 +438,7 @@ std::optional<tripoint> editmap::edit()
     if( action == "CONFIRM" ) {
         return target;
     }
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 /*

@@ -409,9 +409,9 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "reading_speed_multiplier", reading_speed_multiplier, 1.0f );
     optional( jo, was_loaded, "skill_rust_multiplier", skill_rust_multiplier, 1.0f );
     optional( jo, was_loaded, "scent_modifier", scent_modifier, 1.0f );
-    optional( jo, was_loaded, "scent_intensity", scent_intensity, cata::nullopt );
-    optional( jo, was_loaded, "scent_mask", scent_mask, cata::nullopt );
-    optional( jo, was_loaded, "scent_type", scent_typeid, cata::nullopt );
+    optional( jo, was_loaded, "scent_intensity", scent_intensity, std::nullopt );
+    optional( jo, was_loaded, "scent_mask", scent_mask, std::nullopt );
+    optional( jo, was_loaded, "scent_type", scent_typeid, std::nullopt );
     optional( jo, was_loaded, "bleed_resist", bleed_resist, 0 );
     optional( jo, was_loaded, "healthy_rate", healthy_rate, 1.0f );
     optional( jo, was_loaded, "weakness_to_water", weakness_to_water, 0 );
