@@ -1,7 +1,7 @@
 [
   {
     "id": "bond_410",
-    "copy-from": "pistol_base",
+    "copy-from": "pistol_1shot",
     "type": "GUN",
     "name": { "str": "Bond Arms Derringer" },
     "description": "The Bond Arms Derringer is a series of multi-barrel compact pistols.  Most commonly chambered for .45 Colt, with chambers long enough to accept .410 shotgun shells.",
@@ -26,9 +26,7 @@
       [ "sights mount", 1 ],
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
-    ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ],
-    "delete": { "faults": "fault_gun_chamber_spent" }
+    ]
   },
   {
     "id": "colt_lightning",
@@ -59,6 +57,7 @@
     "description": "This 7.5\" barreled Uberti Cattleman is a modern reproduction of the legendary Colt Single Action Army, or Colt Peacemaker, one of the first revolvers to use a modern self-contained cartridge.  Made famous by westerns, it is still in demand for Cowboy Action Shooting, reenactors and collectors.  Unlike modern revolvers, the cylinder cannot swing out for loading, and spent brass must be ejected one at a time.",
     "weight": "1048 g",
     "volume": "324 ml",
+    "barrel_length": "50 ml",
     "price": 47900,
     "price_postapoc": 2500,
     "to_hit": -1,

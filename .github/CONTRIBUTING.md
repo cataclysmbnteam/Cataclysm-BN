@@ -1,5 +1,13 @@
 # Contribute
 
+[![en][icon-en]][en]
+[![ko][icon-ko]][ko]
+
+[en]: ./CONTRIBUTING.md
+[icon-en]: https://img.shields.io/badge/lang-en-red?style=flat-square
+[ko]: ./CONTRIBUTING.ko.md
+[icon-ko]: https://img.shields.io/badge/lang-ko-orange?style=flat-square
+
 - [Contribute](#contribute)
   - [Guidelines](#guidelines)
   - [Code Style](#code-style)
@@ -9,30 +17,30 @@
     - [Guidelines for adding documentation](#guidelines-for-adding-documentation)
     - [Building the documentation for viewing it locally](#building-the-documentation-for-viewing-it-locally)
   - [Example Workflow](#example-workflow)
-      - [Setup your environment](#setup-your-environment)
-      - [Update your `upload` branch](#update-your-upload-branch)
-      - [Make your changes](#make-your-changes)
+    - [Setup your environment](#setup-your-environment)
+    - [Update your `upload` branch](#update-your-upload-branch)
+    - [Make your changes](#make-your-changes)
   - [Pull Request Notes](#pull-request-notes)
     - [All PRs should have a `"Summary"` line](#all-prs-should-have-a-summary-line)
     - [Closing issues using keywords](#closing-issues-using-keywords)
-      - [keyword](#keyword)
-      - [issue](#issue)
-      - [closing multiple issues at once](#closing-multiple-issues-at-once)
+    - [keyword](#keyword)
+    - [issue](#issue)
+    - [closing multiple issues at once](#closing-multiple-issues-at-once)
   - [Tooling support](#tooling-support)
   - [Advanced Techniques](#advanced-techniques)
-      - [Using remote tracking branches](#using-remote-tracking-branches)
+    - [Using remote tracking branches](#using-remote-tracking-branches)
   - [Unit tests](#unit-tests)
   - [In-game testing, test environment and the debug menu](#in-game-testing-test-environment-and-the-debug-menu)
   - [Frequently Asked Questions](#frequently-asked-questions)
-      - [Why does `git pull --ff-only` result in an error?](#why-does-git-pull---ff-only-result-in-an-error)
+    - [Why does `git pull --ff-only` result in an error?](#why-does-git-pull---ff-only-result-in-an-error)
 
 **Opening new issue?** Please read [ISSUES.md](../ISSUES.md) first.
 
 Contributing to Cataclysm: Bright Nights is easy:
 
-1.  Fork the repository here on GitHub.
-2.  Make your changes.
-3.  Send us a pull request.
+1. Fork the repository here on GitHub.
+1. Make your changes.
+1. Send us a pull request.
 
 > Cataclysm: Bright Nights is released under the Creative Commons Attribution ShareAlike 3.0 license. The code and content of the game is free to use, modify, and redistribute for any purpose whatsoever. See http://creativecommons.org/licenses/by-sa/3.0/ for details.
 > This means any contribution you make to the project will also be covered by the same license, and this license is irrevocable.
@@ -41,10 +49,10 @@ Contributing to Cataclysm: Bright Nights is easy:
 
 There are a couple of guidelines we suggest sticking to:
 
--   Add this repository as an `upstream` remote.
--   Keep your `upload` branch clean. This means you can easily pull changes made to this repository into yours.
--   Create a new branch for each new feature or set of related bug fixes.
--   Never merge from your local branches into your `upload` branch. Only update that by pulling from `upstream/upload`.
+- Add this repository as an `upstream` remote.
+- Keep your `upload` branch clean. This means you can easily pull changes made to this repository into yours.
+- Create a new branch for each new feature or set of related bug fixes.
+- Never merge from your local branches into your `upload` branch. Only update that by pulling from `upstream/upload`.
 
 ## Code Style
 
@@ -58,9 +66,9 @@ Look at the [translation project](https://www.transifex.com/bn-team/cataclysm-br
 
 See [TRANSLATING](../doc/TRANSLATING.md) for more information:
 
--   [For translators](../doc/TRANSLATING.md#translators)
--   [For developers](../doc/TRANSLATING.md#developers)
--   [For maintainers](../doc/TRANSLATING.md#maintainers)
+- [For translators](../doc/TRANSLATING.md#translators)
+- [For developers](../doc/TRANSLATING.md#developers)
+- [For maintainers](../doc/TRANSLATING.md#maintainers)
 
 ## Documentation
 
@@ -108,39 +116,39 @@ int foo;
 
 ### Guidelines for adding documentation
 
--   Doxygen comments should describe behavior towards the outside, not implementation, but since many classes in Cataclysm are intertwined, it's often necessary to describe implementation.
--   Describe things that aren't obvious to newcomers just from the name.
--   Don't describe redundantly: `/** Map **/; map* map;` is not a helpful comment.
--   When documenting X, describe how X interacts with other components, not just what X itself does.
+- Doxygen comments should describe behavior towards the outside, not implementation, but since many classes in Cataclysm are intertwined, it's often necessary to describe implementation.
+- Describe things that aren't obvious to newcomers just from the name.
+- Don't describe redundantly: `/** Map **/; map* map;` is not a helpful comment.
+- When documenting X, describe how X interacts with other components, not just what X itself does.
 
 ### Building the documentation for viewing it locally
 
--   Install doxygen
--   `doxygen doxygen_doc/doxygen_conf.txt `
--   `firefox doxygen_doc/html/index.html` (replace firefox with your browser of choice)
+- Install doxygen
+- `doxygen doxygen_doc/doxygen_conf.txt `
+- `firefox doxygen_doc/html/index.html` (replace firefox with your browser of choice)
 
 ## Example Workflow
 
-#### Setup your environment
+### Setup your environment
 
 _(This only needs to be done once.)_
 
-1.  Fork this repository here on GitHub.
+1. Fork this repository here on GitHub.
 
-2.  Clone your fork locally.
+1. Clone your fork locally.
 
 ```sh
 $ git clone https://github.com/YOUR_USERNAME/Cataclysm-BN.git
 # Clones your fork of the repository into the current directory in terminal
 ```
 
-3.  Set commit message template.
+3. Set commit message template.
 
 ```sh
  $ git config --local commit.template .gitmessage
 ```
 
-4.  Add this repository as a remote.
+4. Add this repository as a remote.
 
 ```sh
 $ cd Cataclysm-BN
@@ -151,32 +159,32 @@ $ git remote add -f upstream https://github.com/cataclysmbnteam/Cataclysm-BN.git
 
 For further details about commit message guidelines please visit:
 
--   [codeinthehole.com](https://codeinthehole.com/tips/a-useful-template-for-commit-messages/)
--   [chris.beams.io](https://chris.beams.io/posts/git-commit/)
--   [help.github.com](https://help.github.com/articles/closing-issues-using-keywords/)
+- [codeinthehole.com](https://codeinthehole.com/tips/a-useful-template-for-commit-messages/)
+- [chris.beams.io](https://chris.beams.io/posts/git-commit/)
+- [help.github.com](https://help.github.com/articles/closing-issues-using-keywords/)
 
-#### Update your `upload` branch
+### Update your `upload` branch
 
-1.  Make sure you have your `upload` branch checked out.
+1. Make sure you have your `upload` branch checked out.
 
 ```sh
 $ git checkout upload
 ```
 
-2.  Pull the changes from the `upstream/upload` branch.
+2. Pull the changes from the `upstream/upload` branch.
 
 ```sh
 $ git pull --ff-only upstream upload
 # gets changes from "upload" branch on the "upstream" remote
 ```
 
--   Note: If this gives you an error, it means you have committed directly to your local `upload` branch. [Click here for instructions on how to fix this issue](#why-does-git-pull---ff-only-result-in-an-error).
+> **Note** If this gives you an error, it means you have committed directly to your local `upload` branch. [Click here for instructions on how to fix this issue](#why-does-git-pull---ff-only-result-in-an-error).
 
-#### Make your changes
+### Make your changes
 
-0.  Update your `upload` branch, if you haven't already.
+0. Update your `upload` branch, if you haven't already.
 
-1.  For each new feature or bug fix, create a new branch.
+1. For each new feature or bug fix, create a new branch.
 
 ```sh
 $ git branch new_feature
@@ -185,24 +193,20 @@ $ git checkout new_feature
 # Makes "new_feature" the active branch
 ```
 
-2.  Once you've committed some changes locally, you need to push them to your fork here on GitHub.
+2. Once you've committed some changes locally, you need to push them to your fork here on GitHub.
 
 ```sh
 $ git push origin new_feature
 # origin was automatically set to point to your fork when you cloned it
 ```
 
-3.  Once you're finished working on your branch, and have committed and pushed all your changes, submit a pull request from your `new_feature` branch to this repository's `upload` branch.
+3. Once you're finished working on your branch, and have committed and pushed all your changes, submit a pull request from your `new_feature` branch to this repository's `upload` branch.
 
--   Note: any new commits to the `new_feature` branch on GitHub will automatically be included in the pull request, so make sure to only commit related changes to the same branch.
+> **Note** any new commits to the `new_feature` branch on GitHub will automatically be included in the pull request, so make sure to only commit related changes to the same branch.
 
 ## Pull Request Notes
 
-If you file a PR but you're still working on it, please add a `[WIP]` before the title text. This will tell the reviewers that you still intend to add more to the PR and we don't need to review it yet. When it's ready to be reviewed by a merger just edit the title text to remove the `[WIP]`.
-
-If you are also looking for suggestions then mark it with `[CR]` — "comments requested". You can use both `[WIP]` and `[CR]` to indicated that you need opinion/code review/suggestions to continue working (e.g. "`[WIP]` `[CR]` Super awesome big feature"). Feel free to remove `[CR]` when you feel you got enough information to proceed.
-
-This can help speed up our review process by allowing us to only review the things that are ready for it, and will prevent anything that isn't completely ready from being merged in.
+If you file a PR but you're still working on it, please mark it as [draft](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests#draft-pull-requests). This can help speed up our review process by allowing us to only review the things that are ready for it, and will prevent anything that isn't completely ready from being merged in.
 
 It is not required to solve or reference an open issue to file a PR, however, if you do so, you need to explain the problem your PR is solving in full detail.
 
@@ -228,21 +232,21 @@ One more thing: when marking your PR as closing, fixing, or resolving issues, pl
 
 for example: `- fixed #12345`
 
-#### keyword
+### keyword
 
 `{keyword}` must be one of the following:
 
--   `close`, `closes`, `closed`
--   `fix`, `fixes`, `fixed`
--   `resolve`, `resolves`, `resolved`
+- `close`, `closes`, `closed`
+- `fix`, `fixes`, `fixed`
+- `resolve`, `resolves`, `resolved`
 
-#### issue
+### issue
 
 and `{issue}` is the number of the issue you're closing after PR gets merged.
 
 This would automatically close the issue when the PR is pulled in, and allows merges to work slightly faster.
 
-#### closing multiple issues at once
+### closing multiple issues at once
 
 ```
 - {keyword} #{issue}, {keyword} #{issue}
@@ -258,7 +262,7 @@ Various tools are available to help you keep your contributions conforming to th
 
 These guidelines aren't essential, but they can make keeping things in order much easier.
 
-#### Using remote tracking branches
+### Using remote tracking branches
 
 Remote tracking branches allow you to easily stay in touch with this repository's `upload` branch, as they automatically know which remote branch to get changes from.
 
@@ -295,7 +299,7 @@ $ git branch new_feature_2 --track upstream/upload
 Branch new_feature_2 set up to track remote branch upload from upstream.
 ```
 
--   Note: Although this makes it easier to pull from `upstream/upload`, it doesn't change anything with regards to pushing. `git push` fails because you don't have permission to push to `upstream/upload`.
+> **Note**: Although this makes it easier to pull from `upstream/upload`, it doesn't change anything with regards to pushing. `git push` fails because you don't have permission to push to `upstream/upload`.
 
 ```sh
 $ git push
@@ -335,23 +339,23 @@ Whether you are implementing a new feature or whether you are fixing a bug, it i
 Bring up the keybindings menu (press `Escape` then `1`), scroll down almost to the bottom and press `+` to add a new key binding. Press the letter that corresponds to the _Debug menu_ item, then press the key you want to use to bring up the debug menu. To test your changes, create a new world with a new character. Once you are in that world, press the key you just assigned for the debug menu and you should see something like this:
 
 ```
-┌───────────────────────────────────────────────────────────────────────────┐
-│ Debug Functions - Using these will cheat not only the game, but yourself. │
-├───────────────────────────────────────────────────────────────────────────┤
-│ i Info                                                                    │
-│ Q Quit to main menu                                                       │
-│ s Spawning…                                                               │
-│ p Player…                                                                 │
-│ t Teleport…                                                               │
-│ m Map…                                                                    │
-└───────────────────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────┐
+│ Debug Functions - Manipulate the fabric of reality! │
+├─────────────────────────────────────────────────────┤
+│ i Info                                              │
+│ Q Quit to main menu                                 │
+│ s Spawning...                                       │
+│ p Player...                                         │
+│ t Teleport...                                       │
+│ m Map...                                            │
+└─────────────────────────────────────────────────────┘
 ```
 
 With these commands, you should be able to recreate the proper conditions to test your changes. The [DDA wiki](http://cddawiki.chezzo.com/cdda_wiki/index.php) may have useful informations regarding debug menu.
 
 ## Frequently Asked Questions
 
-#### Why does `git pull --ff-only` result in an error?
+### Why does `git pull --ff-only` result in an error?
 
 If `git pull --ff-only` shows an error, it means that you've committed directly to your local `upload` branch. To fix this, we create a new branch with these commits, find the point at which we diverged from `upstream/upload`, and then reset `upload` to that point.
 

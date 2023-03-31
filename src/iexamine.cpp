@@ -21,6 +21,7 @@
 #include "ammo.h"
 #include "avatar.h"
 #include "avatar_action.h"
+#include "avatar_functions.h"
 #include "basecamp.h"
 #include "bionics.h"
 #include "bodypart.h"
@@ -2848,7 +2849,7 @@ void iexamine::autoclave_empty( player &p, const tripoint & )
 {
     item_location bionic = game_menus::inv::sterilize_cbm( p );
     if( bionic ) {
-        p.mend_item( item_location( bionic ) );
+        avatar_funcs::mend_item( *p.as_avatar(), item_location( bionic ) );
     } else {
         add_msg( _( "Never mind." ) );
     }

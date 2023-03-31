@@ -20,6 +20,7 @@
 
 #include "active_tile_data_def.h"
 #include "avatar.h"
+#include "avatar_functions.h"
 #include "bionics.h"
 #include "cata_utility.h"
 #include "character.h"
@@ -779,7 +780,7 @@ std::set<point> vehicle::immediate_path( units::angle rotate )
     point top_right_actual = global_pos3().xy() + coord_translate( front_right );
     std::vector<point> front_row = line_to( g->m.getabs( top_left_actual ),
                                             g->m.getabs( top_right_actual ) );
-    for( const point &elem : front_row ) {
+    for( point elem : front_row ) {
         for( int i = 0; i < distance_to_check; ++i ) {
             collision_vector.advance( i );
             point point_to_add = elem + point( collision_vector.dx(), collision_vector.dy() );
@@ -826,7 +827,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
     // Check the tileray in the direction we need to head towards.
     std::set<point> points_to_check = immediate_path( angle );
     bool stop = false;
-    for( const point &pt_elem : points_to_check ) {
+    for( point pt_elem : points_to_check ) {
         point elem = g->m.getlocal( pt_elem );
         if( stop ) {
             break;
@@ -1236,7 +1237,7 @@ int vehicle::vhp_to_watts( const int power_vhp )
     return power_vhp * conversion_factor;
 }
 
-bool vehicle::has_structural_part( const point &dp ) const
+bool vehicle::has_structural_part( point dp ) const
 {
     for( const int elem : parts_at_relative( dp, false ) ) {
         if( part_info( elem ).location == part_location_structure &&
@@ -1268,7 +1269,7 @@ bool vehicle::is_structural_part_removed() const
  * @param id The id of the part to install.
  * @return true if the part can be mounted, false if not.
  */
-bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
+bool vehicle::can_mount( point dp, const vpart_id &id ) const
 {
     //The part has to actually exist.
     if( !id.is_valid() ) {
@@ -1499,7 +1500,7 @@ bool vehicle::is_connected( const vehicle_part &to, const vehicle_part &from,
         discovered.pop_front();
         auto current = current_part.mount;
 
-        for( const point &offset : four_adjacent_offsets ) {
+        for( point offset : four_adjacent_offsets ) {
             point next = current + offset;
 
             if( next == target ) {
@@ -1551,7 +1552,7 @@ bool vehicle::is_connected( const vehicle_part &to, const vehicle_part &from,
  * @param force Skip check of whether we can mount the part here.
  * @return false if the part could not be installed, true otherwise.
  */
-int vehicle::install_part( const point &dp, const vpart_id &id, bool force )
+int vehicle::install_part( point dp, const vpart_id &id, bool force )
 {
     if( !( force || can_mount( dp, id ) ) ) {
         return -1;
@@ -1559,7 +1560,7 @@ int vehicle::install_part( const point &dp, const vpart_id &id, bool force )
     return install_part( dp, vehicle_part( id, dp, item( id.obj().item ) ) );
 }
 
-int vehicle::install_part( const point &dp, const vpart_id &id, item &&obj, bool force )
+int vehicle::install_part( point dp, const vpart_id &id, item &&obj, bool force )
 {
     if( !( force || can_mount( dp, id ) ) ) {
         return -1;
@@ -1567,7 +1568,7 @@ int vehicle::install_part( const point &dp, const vpart_id &id, item &&obj, bool
     return install_part( dp, vehicle_part( id, dp, std::move( obj ) ) );
 }
 
-int vehicle::install_part( const point &dp, const vehicle_part &new_part )
+int vehicle::install_part( point dp, const vehicle_part &new_part )
 {
     // Should be checked before installing the part
     bool enable = false;
@@ -1631,7 +1632,7 @@ bool vehicle::try_to_rack_nearby_vehicle( const std::vector<std::vector<int>> &l
         for( auto rack_part : this_bike_rack ) {
             tripoint rack_pos = global_part_pos3( rack_part );
             int i = 0;
-            for( const point &offset : four_cardinal_directions ) {
+            for( point offset : four_cardinal_directions ) {
                 tripoint search_pos( rack_pos + offset );
                 test_veh = veh_pointer_or_null( g->m.veh_at( search_pos ) );
                 if( test_veh == nullptr || test_veh == this ) {
@@ -1717,7 +1718,7 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
             // There's no mathematical transform from global pos3 to vehicle mount, so search for the
             // carry part in global pos3 after translating
             point carry_mount;
-            for( const point &offset : four_cardinal_directions ) {
+            for( point offset : four_cardinal_directions ) {
                 carry_mount = parts[ rack_part ].mount + offset;
                 tripoint possible_pos = mount_to_tripoint( carry_mount );
                 if( possible_pos == carry_pos ) {
@@ -1913,7 +1914,7 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
 
     handler.removed( *this, p );
 
-    const point &vp_mount = parts[p].mount;
+    point vp_mount = parts[p].mount;
     const auto iter = labels.find( label( vp_mount ) );
     if( iter != labels.end() && parts_at_relative( vp_mount, false ).empty() ) {
         labels.erase( iter );
@@ -2161,7 +2162,7 @@ bool vehicle::find_and_split_vehicles( int exclude )
                 veh_parts.push_back( p );
             }
             checked_parts.insert( test_part );
-            for( const point &offset : four_adjacent_offsets ) {
+            for( point offset : four_adjacent_offsets ) {
                 const point dp = parts[test_part].mount + offset;
                 std::vector<int> all_neighbor_parts = parts_at_relative( dp, true );
                 int neighbor_struct_part = -1;
@@ -2413,7 +2414,7 @@ item_group::ItemList vehicle_part::pieces_for_broken_part() const
     return item_group::items_from( group, calendar::turn );
 }
 
-std::vector<int> vehicle::parts_at_relative( const point &dp,
+std::vector<int> vehicle::parts_at_relative( point dp,
         const bool use_cache ) const
 {
     if( !use_cache ) {
@@ -2522,7 +2523,7 @@ int vehicle::part_with_feature( int part, const std::string &flag, bool unbroken
     return part_with_feature( parts[part].mount, flag, unbroken );
 }
 
-int vehicle::part_with_feature( const point &pt, const std::string &flag, bool unbroken ) const
+int vehicle::part_with_feature( point pt, const std::string &flag, bool unbroken ) const
 {
     std::vector<int> parts_here = parts_at_relative( pt, false );
     for( auto &elem : parts_here ) {
@@ -2547,7 +2548,7 @@ int vehicle::avail_part_with_feature( int part, const std::string &flag, bool un
     return avail_part_with_feature( parts[ part ].mount, flag, unbroken );
 }
 
-int vehicle::avail_part_with_feature( const point &pt, const std::string &flag,
+int vehicle::avail_part_with_feature( point pt, const std::string &flag,
                                       bool unbroken ) const
 {
     int part_a = part_with_feature( pt, flag, unbroken );
@@ -2579,7 +2580,7 @@ bool vehicle::has_part( const tripoint &pos, const std::string &flag, bool enabl
     return false;
 }
 
-int vehicle::obstacle_at_position( const point &pos ) const
+int vehicle::obstacle_at_position( point pos ) const
 {
     int i = part_with_feature( pos, "OBSTACLE", true );
 
@@ -2596,7 +2597,7 @@ int vehicle::obstacle_at_position( const point &pos ) const
     return i;
 }
 
-int vehicle::opaque_at_position( const point &pos ) const
+int vehicle::opaque_at_position( point pos ) const
 {
     int i = part_with_feature( pos, "OPAQUE", true );
 
@@ -2926,7 +2927,7 @@ bool vehicle::part_flag( int part, const vpart_bitflags flag ) const
     }
 }
 
-int vehicle::part_at( const point &dp ) const
+int vehicle::part_at( point dp ) const
 {
     for( const vpart_reference &vp : get_all_parts() ) {
         if( vp.part().precalc[0].xy() == dp && !vp.part().removed ) {
@@ -2967,7 +2968,7 @@ int vehicle::index_of_part( const vehicle_part *const part, const bool check_rem
  * @param dp The local coordinate.
  * @return The index of the part that will be displayed.
  */
-int vehicle::part_displayed_at( const point &dp ) const
+int vehicle::part_displayed_at( point dp ) const
 {
     // Z-order is implicitly defined in game::load_vehiclepart, but as
     // numbers directly set on parts rather than constants that can be
@@ -3021,7 +3022,7 @@ int vehicle::roof_at_part( const int part ) const
     return -1;
 }
 
-point vehicle::coord_translate( const point &p ) const
+point vehicle::coord_translate( point p ) const
 {
     tripoint q;
     coord_translate( pivot_rotation[0], pivot_anchor[0], p, q );
@@ -3060,7 +3061,7 @@ const struct {
     {static_cast<float>( -tan( units::to_radians( 15_degrees ) ) ), false,  false, false},
 };
 
-void vehicle::coord_translate( units::angle dir, const point &pivot, const point &p,
+void vehicle::coord_translate( units::angle dir, point pivot, point p,
                                tripoint &q ) const
 {
 
@@ -3084,7 +3085,7 @@ void vehicle::coord_translate( units::angle dir, const point &pivot, const point
     }
 }
 
-void vehicle::coord_translate_reverse( units::angle dir, const point &pivot, const tripoint &p,
+void vehicle::coord_translate_reverse( units::angle dir, point pivot, const tripoint &p,
                                        point &q ) const
 {
     int increment = angle_to_increment( dir );
@@ -3115,12 +3116,12 @@ void vehicle::coord_translate_reverse( units::angle dir, const point &pivot, con
 
 }
 
-tripoint vehicle::mount_to_tripoint( const point &mount ) const
+tripoint vehicle::mount_to_tripoint( point mount ) const
 {
     return mount_to_tripoint( mount, point_zero );
 }
 
-tripoint vehicle::mount_to_tripoint( const point &mount, const point &offset ) const
+tripoint vehicle::mount_to_tripoint( point mount, point offset ) const
 {
     tripoint mnt_translated;
     coord_translate( pivot_rotation[0], pivot_anchor[ 0 ], mount + offset, mnt_translated );
@@ -3147,7 +3148,7 @@ int vehicle::angle_to_increment( units::angle dir )
 }
 
 
-void vehicle::precalc_mounts( int idir, units::angle dir, const point &pivot )
+void vehicle::precalc_mounts( int idir, units::angle dir, point pivot )
 {
     if( idir < 0 || idir > 1 ) {
         idir = 0;
@@ -3170,8 +3171,8 @@ void vehicle::precalc_mounts( int idir, units::angle dir, const point &pivot )
     pivot_rotation[idir] = dir;
 }
 
-bool vehicle::check_rotated_intervening( const point &from, const point &to,
-        bool( *check )( const vehicle *, const point & ) ) const
+bool vehicle::check_rotated_intervening( point from, point to,
+        bool( *check )( const vehicle *, point ) ) const
 {
     point delta = to - from;
     if( abs( delta.x ) <= 1 && abs( delta.y ) <= 1 ) { //Just a normal move
@@ -3210,16 +3211,16 @@ bool vehicle::check_rotated_intervening( const point &from, const point &to,
     return false;
 }
 
-bool vehicle::allowed_light( const point &from, const point &to ) const
+bool vehicle::allowed_light( point from, point to ) const
 {
-    return check_rotated_intervening( from, to, []( const vehicle * veh, const point & p ) {
+    return check_rotated_intervening( from, to, []( const vehicle * veh, point  p ) {
         return ( veh->opaque_at_position( p ) == -1 );
     } );
 }
 
-bool vehicle::allowed_move( const point &from, const point &to ) const
+bool vehicle::allowed_move( point from, point to ) const
 {
-    return check_rotated_intervening( from, to, []( const vehicle * veh, const point & p ) {
+    return check_rotated_intervening( from, to, []( const vehicle * veh, point  p ) {
         return ( veh->obstacle_at_position( p ) == -1 );
     } );
 }
@@ -3324,7 +3325,7 @@ units::volume vehicle::total_folded_volume() const
     return m;
 }
 
-const point &vehicle::rotated_center_of_mass() const
+point vehicle::rotated_center_of_mass() const
 {
     // TODO: Bring back caching of this point
     calc_mass_center( true );
@@ -3332,7 +3333,7 @@ const point &vehicle::rotated_center_of_mass() const
     return mass_center_precalc;
 }
 
-const point &vehicle::local_center_of_mass() const
+point vehicle::local_center_of_mass() const
 {
     if( mass_center_no_precalc_dirty ) {
         calc_mass_center( false );
@@ -4224,6 +4225,8 @@ bool vehicle::is_in_water( bool deep_water ) const
     return deep_water ? is_floating : in_water;
 }
 
+static constexpr double water_density = 1000.0; // kg/m^3
+
 double vehicle::coeff_water_drag() const
 {
     if( !coeff_water_dirty ) {
@@ -4253,7 +4256,7 @@ double vehicle::coeff_water_drag() const
     double actual_area_m = width_m * structure_indices.size() / tile_width;
 
     // effective hull area is actual hull area * hull coverage
-    double hull_area_m   = actual_area_m * std::max( 0.1, hull_coverage );
+    hull_area = actual_area_m * std::max( 0.1, hull_coverage );
     // Treat the hullform as a simple cuboid to calculate displaced depth of
     // water.
     // Apply Archimedes' principle (mass of water displaced is mass of vehicle).
@@ -4261,8 +4264,7 @@ double vehicle::coeff_water_drag() const
     // water_mass = vehicle_mass
     // area * depth = vehicle_mass / water_density
     // depth = vehicle_mass / water_density / area
-    constexpr double water_density = 1000.0; // kg/m^3
-    draft_m = to_kilogram( total_mass() ) / water_density / hull_area_m;
+    draft_m = to_kilogram( total_mass() ) / water_density / hull_area;
     // increase the streamlining as more of the boat is covered in boat boards
     double c_water_drag = 1.25 - hull_coverage;
     // hull height starts at 0.3m and goes up as you add more boat boards
@@ -4272,6 +4274,15 @@ double vehicle::coeff_water_drag() const
     coefficient_water_resistance = c_water_drag * width_m * draft_m * 0.5 * water_density;
     coeff_water_dirty = false;
     return coefficient_water_resistance;
+}
+
+double vehicle::max_buoyancy() const
+{
+    if( coeff_water_dirty ) {
+        coeff_water_drag();
+    }
+    const double total_volume = hull_area * water_hull_height();
+    return total_volume * water_density * GRAVITY_OF_EARTH;
 }
 
 float vehicle::k_traction( float wheel_traction_area ) const
@@ -4374,15 +4385,14 @@ void vehicle::set_owner( const Character &c )
     owner = c.get_faction()->id;
 }
 
-bool vehicle::handle_potential_theft( player &p, bool check_only, bool prompt )
+bool vehicle::handle_potential_theft( avatar &you, bool check_only, bool prompt )
 {
-    const bool is_owned_by_player = is_owned_by( p );
-    std::vector<npc *> witnesses;
-    for( npc &elem : g->all_npcs() ) {
-        if( rl_dist( elem.pos(), p.pos() ) < MAX_VIEW_DISTANCE && has_owner() &&
-            !is_owned_by_player && elem.sees( p.pos() ) ) {
-            witnesses.push_back( &elem );
-        }
+    const bool is_owned_by_player = is_owned_by( you );
+    bool has_witnesses;
+    if( has_owner() && !is_owned_by_player ) {
+        has_witnesses = !avatar_funcs::list_potential_theft_witnesses( you, get_owner() ).empty();
+    } else {
+        has_witnesses = false;
     }
     // the vehicle is yours, that's fine.
     if( is_owned_by_player ) {
@@ -4390,13 +4400,13 @@ bool vehicle::handle_potential_theft( player &p, bool check_only, bool prompt )
         // if There is no owner
         // handle transfer of ownership
     } else if( !has_owner() ) {
-        set_owner( p.get_faction()->id );
+        set_owner( you.get_faction()->id );
         remove_old_owner();
         return true;
         // if there is a marker for having been stolen, but 15 minutes have passed, then officially transfer ownership
-    } else if( witnesses.empty() && has_old_owner() && !is_old_owner( p ) && theft_time &&
+    } else if( has_witnesses && has_old_owner() && !is_old_owner( you ) && theft_time &&
                calendar::turn - *theft_time > 15_minutes ) {
-        set_owner( p.get_faction()->id );
+        set_owner( you.get_faction()->id );
         remove_old_owner();
         return true;
         // No witnesses? then don't need to prompt, we assume the player is in process of stealing it.
@@ -4404,7 +4414,7 @@ bool vehicle::handle_potential_theft( player &p, bool check_only, bool prompt )
         // This is just to perform interaction with the vehicle without a prompt.
         // It will prompt first-time, even with no witnesses, to inform player it is owned by someone else
         // subsequently, no further prompts, the player should know by then.
-    } else if( witnesses.empty() && old_owner ) {
+    } else if( has_witnesses && old_owner ) {
         return true;
     }
     // if we are just checking if we could continue without problems, then the rest is assumed false
@@ -4421,15 +4431,7 @@ bool vehicle::handle_potential_theft( player &p, bool check_only, bool prompt )
     }
     // set old owner so that we can restore ownership if there are witnesses.
     set_old_owner( get_owner() );
-    for( npc *elem : witnesses ) {
-        elem->say( "<witnessed_thievery>", 7 );
-    }
-    if( !witnesses.empty() ) {
-        if( p.add_faction_warning( get_owner() ) ) {
-            for( npc *elem : witnesses ) {
-                elem->make_angry();
-            }
-        }
+    if( avatar_funcs::handle_theft_witnesses( you, get_owner() ) ) {
         // remove the temporary marker for a successful theft, as it was witnessed.
         remove_old_owner();
     }
@@ -4451,7 +4453,7 @@ bool vehicle::balanced_wheel_config() const
     }
 
     // Check center of mass inside support of wheels (roughly)
-    const point &com = local_center_of_mass();
+    point com = local_center_of_mass();
     const inclusive_rectangle<point> support( min, max );
     return support.contains( com );
 }
@@ -5823,7 +5825,7 @@ void vehicle::refresh_position()
     }
 }
 
-const point &vehicle::pivot_point() const
+point vehicle::pivot_point() const
 {
     if( pivot_dirty ) {
         refresh_pivot();
@@ -6314,7 +6316,7 @@ void vehicle::refresh_insides()
         // inside if not otherwise
         parts[p].inside = true;
         // let's check four neighbor parts
-        for( const point &offset : four_adjacent_offsets ) {
+        for( point offset : four_adjacent_offsets ) {
             point near_mount = parts[ p ].mount + offset;
             std::vector<int> parts_n3ar = parts_at_relative( near_mount, true );
             // if we aren't covered from sides, the roof at p won't save us
@@ -6439,7 +6441,7 @@ int vehicle::damage( int p, int dmg, damage_type type, bool aimed )
     return damage_dealt;
 }
 
-void vehicle::damage_all( int dmg1, int dmg2, damage_type type, const point &impact )
+void vehicle::damage_all( int dmg1, int dmg2, damage_type type, point impact )
 {
     if( dmg2 < dmg1 ) {
         std::swap( dmg1, dmg2 );
@@ -6466,7 +6468,7 @@ void vehicle::damage_all( int dmg1, int dmg2, damage_type type, const point &imp
  * (0, 0) part is always present.
  * @param delta How much to shift along each axis
  */
-void vehicle::shift_parts( const point &delta )
+void vehicle::shift_parts( point delta )
 {
     // Don't invalidate the active item cache's location!
     active_items.subtract_locations( delta );
@@ -7094,7 +7096,7 @@ bool vehicle::valid_part( int part_num ) const
     return part_num >= 0 && part_num < static_cast<int>( parts.size() );
 }
 
-std::set<int> vehicle::advance_precalc_mounts( const point &new_pos, const tripoint &src )
+std::set<int> vehicle::advance_precalc_mounts( point new_pos, const tripoint &src )
 {
     map &here = get_map();
     std::set<int> smzs;

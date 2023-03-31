@@ -203,6 +203,12 @@ class avatar : public player
 
         bool wield( item &target ) override;
 
+        /**
+         * Add warning from faction.
+         * @returns true if the warning is now beyond final and results in hostility
+         */
+        bool add_faction_warning( const faction_id &id );
+
         using Character::invoke_item;
         bool invoke_item( item *, const tripoint &pt ) override;
         bool invoke_item( item * ) override;
@@ -253,6 +259,9 @@ class avatar : public player
         int per_upgrade = 0;
 
         monster_visible_info mon_visible;
+
+        /** Warnings from factions about bad behavior */
+        std::map<faction_id, std::pair<int, time_point>> warning_record;
 };
 
 avatar &get_avatar();

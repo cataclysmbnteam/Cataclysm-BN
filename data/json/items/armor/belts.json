@@ -1,6 +1,7 @@
 [
   {
     "id": "fireman_belt",
+    "repairs_like": "tool_belt",
     "type": "ARMOR",
     "name": { "str": "firefighter belt" },
     "description": "A stout firefighter's belt.  Useful for keeping your bunker gear up, it also doubles as an equipment belt with a reinforced loop for holding a large tool.",
@@ -29,6 +30,7 @@
   },
   {
     "abstract": "judo_belt_abstract",
+    "repairs_like": "leather_belt",
     "type": "ARMOR",
     "name": { "str": "judo belt template" },
     "description": "This is a template for judo belts.  If found in a game, it is a bug.",
@@ -130,6 +132,7 @@
   },
   {
     "id": "obi_gi",
+    "repairs_like": "leather_belt",
     "type": "ARMOR",
     "name": { "str": "obi" },
     "description": "A broad, black obi gi.",
@@ -144,6 +147,7 @@
   },
   {
     "id": "police_belt",
+    "repairs_like": "tool_belt",
     "type": "ARMOR",
     "name": { "str": "police duty belt" },
     "description": "Black leather belt used by police officers.  It has several pouches and a holder for a baton.",
@@ -234,6 +238,7 @@
   },
   {
     "id": "webbing_belt",
+    "repairs_like": "tool_belt",
     "type": "ARMOR",
     "name": { "str": "webbing belt" },
     "description": "A 2-inch nylon webbing belt commonly used by military forces.",

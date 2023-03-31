@@ -1,3 +1,4 @@
+#include "avatar_functions.h"
 #include "npc.h"
 #include "pickup.h"
 #include "player.h" // IWYU pragma: associated
@@ -1529,22 +1530,7 @@ static bool query_consume_ownership( item &target, avatar &you )
         if( you.get_value( "THIEF_MODE" ) == "THIEF_HONEST" || !choice ) {
             return false;
         }
-        std::vector<npc *> witnesses;
-        for( npc &elem : g->all_npcs() ) {
-            if( rl_dist( elem.pos(), you.pos() ) < MAX_VIEW_DISTANCE && elem.sees( you.pos() ) ) {
-                witnesses.push_back( &elem );
-            }
-        }
-        for( npc *elem : witnesses ) {
-            elem->say( "<witnessed_thievery>", 7 );
-        }
-        if( !witnesses.empty() && target.is_owned_by( you, true ) ) {
-            if( you.add_faction_warning( target.get_owner() ) ) {
-                for( npc *elem : witnesses ) {
-                    elem->make_angry();
-                }
-            }
-        }
+        avatar_funcs::handle_theft_witnesses( you, target.get_owner() );
     }
     return true;
 }

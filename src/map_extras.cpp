@@ -134,7 +134,7 @@ static const mongroup_id GROUP_PETS( "GROUP_PETS" );
 static const mongroup_id GROUP_STRAY_DOGS( "GROUP_STRAY_DOGS" );
 
 static const mtype_id mon_dispatch( "mon_dispatch" );
-static const mtype_id mon_jabberwock( "mon_jabberwock" );
+static const mtype_id mon_fleshy_shambler( "mon_fleshy_shambler" );
 static const mtype_id mon_marloss_zealot_f( "mon_marloss_zealot_f" );
 static const mtype_id mon_marloss_zealot_m( "mon_marloss_zealot_m" );
 static const mtype_id mon_shia( "mon_shia" );
@@ -352,7 +352,7 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
                 if( x >= c.x - dice( 1, 6 ) && x <= c.x + dice( 1, 6 ) && y >= c.y - dice( 1, 6 ) &&
                     y <= c.y + dice( 1, 6 ) ) {
                     if( !one_in( 5 ) ) {
-                        m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true );
+                        m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage );
                         if( m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( TFLAG_DIGGABLE ) ) {
                             m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
                         }
@@ -365,7 +365,7 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
 
                 } else if( one_in( 4 + ( std::abs( x - c.x ) + ( std::abs( y -
                                          c.y ) ) ) ) ) { // 1 in 10 chance of being wreckage anyway
-                    m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true );
+                    m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage );
                     if( !one_in( 3 ) ) {
                         if( m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( TFLAG_DIGGABLE ) ) {
                             m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
@@ -615,7 +615,7 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
     const bool road_at_west = is_ot_match( "road", west, ot_match_type::type );
     const bool road_at_east = is_ot_match( "road", east, ot_match_type::type );
 
-    const auto spawn_turret = [&]( const point & p ) {
+    const auto spawn_turret = [&]( point  p ) {
         if( one_in( 3 ) ) {
             m.add_spawn( mon_turret_longrange, 1, { p, abs_sub.z } );
         } else if( one_in( 2 ) ) {
@@ -1031,7 +1031,7 @@ static bool mx_portal( map &m, const tripoint &abs_sub )
     // For our portal point and every adjacent location, make rubble if it doesn't have the NO_FLOOR flag.
     for( const tripoint &p : m.points_in_radius( *portal_pos, 1 ) ) {
         if( !m.has_flag_ter( TFLAG_NO_FLOOR, p ) ) {
-            m.make_rubble( p, f_rubble_rock, true );
+            m.make_rubble( p, f_rubble_rock );
         }
     }
 
@@ -1054,7 +1054,7 @@ static bool mx_portal( map &m, const tripoint &abs_sub )
         }
 
         // Make rubble here--it's not necessarily a location that is directly adjacent to the portal.
-        m.make_rubble( *mon_pos, f_rubble_rock, true );
+        m.make_rubble( *mon_pos, f_rubble_rock );
 
         // Spawn a single monster from our group here.
         m.place_spawns( GROUP_NETHER_PORTAL, 1, mon_pos->xy(), mon_pos->xy(), 1, true );
@@ -1624,7 +1624,7 @@ static bool mx_crater( map &m, const tripoint &abs_sub )
     return true;
 }
 
-static void place_fumarole( map &m, const point &p1, const point &p2, std::set<point> &ignited )
+static void place_fumarole( map &m, point p1, point p2, std::set<point> &ignited )
 {
     // Tracks points nearby for ignition after the lava is placed
     //std::set<point> ignited;
@@ -1821,17 +1821,9 @@ static bool mx_spider( map &m, const tripoint &abs_sub )
 
 static bool mx_jabberwock( map &m, const tripoint &loc )
 {
-    // A rare chance to spawn a jabberwock. This was extracted from the harcoded forest mapgen
-    // and moved into a map extra. It still has a one_in chance of spawning because otherwise
-    // the rarity skewed the values for all the other extras too much. I considered moving it
-    // into the monster group, but again the hardcoded rarity it had in the forest mapgen was
-    // not easily replicated there.
-    if( one_in( 50 ) ) {
-        m.add_spawn( mon_jabberwock, 1, { SEEX, SEEY, loc.z } );
-        return true;
-    }
-
-    return false;
+    // A rare chance to spawn a fleshy shambler, which can then evolve into a flesh golem/jabberwock.
+    m.add_spawn( mon_fleshy_shambler, 1, { SEEX, SEEY, loc.z } );
+    return true;
 }
 
 static bool mx_grove( map &m, const tripoint &abs_sub )
@@ -2137,7 +2129,6 @@ static void burned_ground_parser( map &m, const tripoint &loc )
         } else {
             m.ter_set( loc, ter_dirt );
             m.furn_set( loc, f_ash );
-            m.spawn_item( loc, itype_ash, 1, rng( 1, 100 ) );
         }
         // everything else is destroyed, ash is added
     } else if( ter_furn_has_flag( tr, fid, TFLAG_FLAMMABLE ) ||
@@ -2153,9 +2144,6 @@ static void burned_ground_parser( map &m, const tripoint &loc )
             m.destroy( loc, true );
         }
         m.furn_set( loc, f_ash );
-        if( !tr.has_flag( flag_LIQUID ) ) {
-            m.spawn_item( loc, itype_ash, 1, rng( 1, 100 ) );
-        }
     }
 
     // burn-away flammable items

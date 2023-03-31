@@ -83,6 +83,20 @@
   },
   {
     "type": "GENERIC",
+    "//": "pseudo item, used as fuel type for CBMs that are bug powered.",
+    "id": "nonsensoleum",
+    "symbol": "?",
+    "color": "white",
+    "name": { "str": "nonsensoleum" },
+    "description": "seeing this is a bug",
+    "stackable": true,
+    "price": 0,
+    "volume": "0 ml",
+    "flags": [ "PERPETUAL" ],
+    "fuel": { "energy": 1 }
+  },
+  {
+    "type": "GENERIC",
     "//": "pseudo item, only used for as a required tool, checked for in player::amount_of",
     "id": "apparatus",
     "symbol": "$",
@@ -497,6 +511,20 @@
     "material": "plastic",
     "weight": "18 g",
     "volume": "1 ml",
+    "to_hit": -3
+  },
+  {
+    "type": "GENERIC",
+    "id": "fema_data",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str_sp": "FEMA data" },
+    "description": "Evacuation plans, disaster risk projections, personnel lists and last minute communications from just before the end, all scrubbed from FEMA servers and stored in an external hdd.",
+    "price": 10000,
+    "price_postapoc": 50,
+    "material": [ "plastic" ],
+    "weight": "30 g",
+    "volume": "250 ml",
     "to_hit": -3
   },
   {

@@ -140,6 +140,7 @@ static const itype_id itype_joint_roach( "joint_roach" );
 static const itype_id itype_plut_cell( "plut_cell" );
 static const itype_id itype_rad_badge( "rad_badge" );
 static const itype_id itype_tuned_mechanism( "tuned_mechanism" );
+static const itype_id itype_stock_small( "stock_small" );
 static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_bio_armor( "bio_armor" );
 static const itype_id itype_waterproof_gunmod( "waterproof_gunmod" );
@@ -147,7 +148,6 @@ static const itype_id itype_water( "water" );
 static const itype_id itype_water_acid( "water_acid" );
 static const itype_id itype_water_acid_weak( "water_acid_weak" );
 
-static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_survival( "survival" );
 static const skill_id skill_unarmed( "unarmed" );
 static const skill_id skill_weapon( "weapon" );
@@ -1466,6 +1466,10 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }, enumeration_conjunction::arrow ) ) );
         insert_separation_line( info );
     }
+    if( display_object_ids && parts->test( iteminfo_parts::BASE_ID ) ) {
+        info.emplace_back( "BASE", colorize( string_format( "[%s]", type->get_id() ), c_light_blue ) );
+        insert_separation_line( info );
+    }
 
     const std::string space = "  ";
     if( parts->test( iteminfo_parts::BASE_MATERIAL ) ) {
@@ -1503,6 +1507,14 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     if( parts->test( iteminfo_parts::BASE_CATEGORY ) ) {
         info.push_back( iteminfo( "BASE", _( "Category: " ),
                                   "<header>" + get_category().name() + "</header>" ) );
+    }
+    if( !type->weapon_category.empty() && parts->test( iteminfo_parts::WEAPON_CATEGORY ) ) {
+        const std::string weapon_categories = enumerate_as_string( type->weapon_category.begin(),
+        type->weapon_category.end(), [&]( const weapon_category_id & elem ) {
+            return elem->name().translated();
+        }, enumeration_conjunction::none );
+        info.push_back( iteminfo( "BASE", _( "Weapon Category: " ),
+                                  "<header>" + weapon_categories + "</header>" ) );
     }
 
     if( parts->test( iteminfo_parts::DESCRIPTION ) ) {
@@ -3580,6 +3592,11 @@ void item::contents_info( std::vector<iteminfo> &info, const iteminfo_query *par
                         return string_format( "'%s'", content_source.second->name() );
                     }, enumeration_conjunction::arrow ) ) );
                 }
+                if( display_object_ids ) {
+                    info.emplace_back( "DESCRIPTION", colorize(
+                                           string_format( "[%s]", contents_item->type->get_id() ),
+                                           c_light_blue ) );
+                }
                 if( converted_volume_scale != 0 ) {
                     f |= iteminfo::is_decimal;
                 }
@@ -3594,6 +3611,11 @@ void item::contents_info( std::vector<iteminfo> &info, const iteminfo_query *par
                     contents_item->type->src.end(), []( const std::pair<itype_id, mod_id> &content_source ) {
                         return string_format( "'%s'", content_source.second->name() );
                     }, enumeration_conjunction::arrow ) ) );
+                }
+                if( display_object_ids ) {
+                    info.emplace_back( "DESCRIPTION", colorize(
+                                           string_format( "[%s]", contents_item->type->get_id() ),
+                                           c_light_blue ) );
                 }
                 info.emplace_back( "DESCRIPTION", description.translated() );
             }
@@ -4200,8 +4222,10 @@ nc_color item::color_in_inventory( const player &p ) const
         // Gun with integrated mag counts as both
         for( const ammotype &at : ammo_types() ) {
             // get_ammo finds uncontained ammo, find_ammo finds ammo in magazines
-            bool has_ammo = !p.get_ammo( at ).empty() || !p.find_ammo( *this, false, -1 ).empty();
-            bool has_mag = magazine_integral() || !p.find_ammo( *this, true, -1 ).empty();
+            bool has_ammo = !character_funcs::get_ammo_items( p, at ).empty() ||
+                            !character_funcs::find_ammo_items_or_mags( p, *this, false, -1 ).empty();
+            bool has_mag = magazine_integral() ||
+                           !character_funcs::find_ammo_items_or_mags( p, *this, true, -1 ).empty();
             if( has_ammo && has_mag ) {
                 ret = c_green;
                 break;
@@ -4232,7 +4256,7 @@ nc_color item::color_in_inventory( const player &p ) const
         bool has_gun = p.has_item_with( [this]( const item & it ) {
             return it.is_gun() && it.magazine_compatible().count( typeId() ) > 0;
         } );
-        bool has_ammo = !p.find_ammo( *this, false, -1 ).empty();
+        bool has_ammo = !character_funcs::find_ammo_items_or_mags( p, *this, false, -1 ).empty();
         if( has_gun && has_ammo ) {
             ret = c_green;
         } else if( has_gun || has_ammo ) {
@@ -4749,6 +4773,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     if( gunmod_find( itype_barrel_small ) ) {
         modtext += _( "sawn-off " );
     }
+    if( gunmod_find( itype_stock_small ) ) {
+        modtext += _( "pistol " );
+    }
     if( has_flag( flag_DIAMOND ) ) {
         modtext += std::string( pgettext( "Adjective, as in diamond katana", "diamond" ) ) + " ";
     }
@@ -4960,7 +4987,7 @@ units::mass item::weight( bool include_contents, bool integral ) const
     }
 
     // if this is a gun apply all of its gunmods' weight multipliers
-    if( type->gun ) {
+    if( is_gun() ) {
         for( const item *mod : gunmods() ) {
             ret *= mod->type->gunmod->weight_multiplier;
         }
@@ -5001,10 +5028,6 @@ units::mass item::weight( bool include_contents, bool integral ) const
         ret += links.weight();
     }
 
-    if( magazine_current() != nullptr ) {
-        ret += std::max( magazine_current()->weight(), 0_gram );
-    }
-
     // reduce weight for sawn-off weapons capped to the apportioned weight of the barrel
     if( gunmod_find( itype_barrel_small ) ) {
         const units::volume b = type->gun->barrel_length;
@@ -5017,6 +5040,9 @@ units::mass item::weight( bool include_contents, bool integral ) const
     if( is_gun() ) {
         for( const item *elem : gunmods() ) {
             ret += elem->weight( true, true );
+        }
+        if( !magazine_integral() && magazine_current() ) {
+            ret += std::max( magazine_current()->weight(), 0_gram );
         }
     } else if( include_contents ) {
         ret += contents.item_weight_modifier();
@@ -5135,23 +5161,7 @@ units::volume item::volume( bool integral ) const
         // TODO: implement stock_length property for guns
         if( has_flag( flag_COLLAPSIBLE_STOCK ) ) {
             // consider only the base size of the gun (without mods)
-            int tmpvol = get_var( "volume",
-                                  ( type->volume - type->gun->barrel_length ) / units::legacy_volume_factor );
-            if( tmpvol <= 3 ) {
-                // intentional NOP
-            } else if( tmpvol <= 5 ) {
-                ret -= 250_ml;
-            } else if( tmpvol <= 6 ) {
-                ret -= 500_ml;
-            } else if( tmpvol <= 9 ) {
-                ret -= 750_ml;
-            } else if( tmpvol <= 12 ) {
-                ret -= 1000_ml;
-            } else if( tmpvol <= 15 ) {
-                ret -= 1250_ml;
-            } else {
-                ret -= 1500_ml;
-            }
+            ret -= ( type->volume / 3 );
         }
 
         if( gunmod_find( itype_barrel_small ) ) {
@@ -8006,12 +8016,12 @@ bool item::units_sufficient( const Character &ch, int qty ) const
     return units_remaining( ch, qty ) == qty;
 }
 
-item::reload_option::reload_option( const reload_option & ) = default;
+item_reload_option::item_reload_option( const item_reload_option & ) = default;
 
-item::reload_option &item::reload_option::operator=( const reload_option & ) = default;
+item_reload_option &item_reload_option::operator=( const item_reload_option & ) = default;
 
-item::reload_option::reload_option( const player *who, const item *target, const item *parent,
-                                    const item_location &ammo ) :
+item_reload_option::item_reload_option( const player *who, const item *target, const item *parent,
+                                        const item_location &ammo ) :
     who( who ), target( target ), ammo( ammo ), parent( parent )
 {
     if( this->target->is_ammo_belt() && this->target->type->magazine->linkage ) {
@@ -8020,7 +8030,7 @@ item::reload_option::reload_option( const player *who, const item *target, const
     qty( max_qty );
 }
 
-int item::reload_option::moves() const
+int item_reload_option::moves() const
 {
     int mv = ammo.obtain_cost( *who, qty() ) + who->item_reload_cost( *target, *ammo, qty() );
     if( parent != target ) {
@@ -8033,7 +8043,7 @@ int item::reload_option::moves() const
     return mv;
 }
 
-void item::reload_option::qty( int val )
+void item_reload_option::qty( int val )
 {
     bool ammo_in_container = ammo->is_ammo_container();
     bool ammo_in_liquid_container = ammo->is_watertight_container();

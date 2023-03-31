@@ -1,14 +1,47 @@
 [
   {
     "type": "monstergroup",
+    "name": "GROUP_BOOMER_UPGRADE",
+    "default": "mon_boomer_huge",
+    "monsters": [ { "monster": "mon_gas_zombie", "freq": 50, "cost_multiplier": 10 } ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_SOLDIER_UPGRADE",
     "default": "mon_zombie_kevlar_1",
     "//": "Masters pick from here when upgrading.",
     "monsters": [
-      { "monster": "mon_zombie_soldier_blackops_1", "freq": 20, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_soldier_acid_1", "freq": 10, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_soldier_acid_2", "freq": 15, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_kevlar_1", "freq": 25, "cost_multiplier": 2 }
+      { "monster": "mon_zombie_soldier_blackops_1", "freq": 100, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_soldier_acid_1", "freq": 100, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_soldier_acid_2", "freq": 150, "cost_multiplier": 2 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_BURNER_UPGRADE",
+    "default": "mon_zombie_kevlar_1",
+    "monsters": [
+      { "monster": "mon_zombie_soldier_blackops_1", "freq": 100, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_soldier_acid_1", "freq": 100, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_soldier_acid_2", "freq": 150, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_smoker", "freq": 100, "cost_multiplier": 5 },
+      { "monster": "mon_gas_zombie", "freq": 50, "cost_multiplier": 10 },
+      { "monster": "mon_zombie_fiend", "freq": 50, "cost_multiplier": 10 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_DOG_UPGRADE",
+    "default": "mon_dog_skeleton",
+    "monsters": [ { "monster": "mon_dog_zombie_rot", "freq": 100, "cost_multiplier": 2 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_SWAT_UPGRADE",
+    "default": "mon_zombie_kevlar_1",
+    "monsters": [
+      { "monster": "mon_zombie_tough", "freq": 250, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_hunter", "freq": 100, "cost_multiplier": 2 }
     ]
   }
 ]

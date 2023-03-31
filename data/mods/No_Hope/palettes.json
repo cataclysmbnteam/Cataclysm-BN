@@ -108,7 +108,7 @@
       "<": "t_wood_stairs_up",
       ">": "t_wood_stairs_down"
     },
-    "liquids": { "g": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+    "liquids": { "g": { "liquid": "water", "amount": [ 0, 100 ] } },
     "items": {
       "a": { "item": "fireplace_fill", "chance": 30, "repeat": [ 2, 5 ] },
       "d": [
@@ -304,7 +304,7 @@
       "$": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ]
     },
     "toilets": { "t": {  } },
-    "liquids": { "g": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+    "liquids": { "g": { "liquid": "water", "amount": [ 0, 100 ] } },
     "items": {
       "O": [ { "item": "SUS_wardrobe_mens", "chance": 20 }, { "item": "SUS_wardrobe_womens", "chance": 20, "repeat": [ 1, 2 ] } ],
       "Q": [

@@ -16,6 +16,7 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
+#include "character_functions.h"
 #include "crafting.h"
 #include "cursesdef.h"
 #include "game.h"
@@ -25,6 +26,7 @@
 #include "item_contents.h"
 #include "itype.h"
 #include "json.h"
+#include "mod_manager.h"
 #include "optional.h"
 #include "output.h"
 #include "point.h"
@@ -315,7 +317,7 @@ const recipe *select_crafting_recipe( int &batch_size )
     ctxt.register_action( "TOGGLE_UNAVAILABLE" );
 
     const inventory &crafting_inv = u.crafting_inventory();
-    const std::vector<npc *> helpers = u.get_crafting_helpers();
+    const std::vector<npc *> helpers = character_funcs::get_crafting_helpers( u );
     std::string filterstring;
 
     const auto &available_recipes = u.get_available_recipes( crafting_inv, &helpers );
@@ -470,6 +472,21 @@ const recipe *select_crafting_recipe( int &batch_size )
             const int xpos = 30;
 
             if( display_mode == 0 ) {
+                if( display_mod_source ) {
+                    const std::string source = enumerate_as_string( current[line]->src.begin(),
+                    current[line]->src.end(), []( const std::pair<recipe_id, mod_id> &content_source ) {
+                        return string_format( "'%s'", content_source.second->name() );
+                    }, enumeration_conjunction::arrow );
+
+                    const std::string text = string_format( _( "Origin: %s" ), colorize( source, c_light_blue ) );
+                    print_colored_text( w_data, point( xpos, ypos++ ), col, col, text );
+                }
+                if( display_object_ids ) {
+                    const std::string ident = string_format( "[%s]", current[line]->ident() );
+                    const std::string text = string_format( _( "ID: %s" ), colorize( ident, c_light_blue ) );
+                    print_colored_text( w_data, point( xpos, ypos++ ), col, col, text );
+                }
+
                 print_colored_text(
                     w_data, point( xpos, ypos++ ), col, col,
                     string_format( _( "Primary skill: %s" ),

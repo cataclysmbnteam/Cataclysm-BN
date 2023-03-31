@@ -323,6 +323,7 @@
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
     "death_drops": "mon_zombie_military_pilot_death_drops",
     "death_function": [ "NORMAL" ],
+    "upgrades": { "half_life": 28, "into_group": "GROUP_SOLDIER_UPGRADE" },
     "burn_into": "mon_zombie_scorched",
     "flags": [
       "SEES",
@@ -372,6 +373,7 @@
     "starting_ammo": { "pressurized_tank": 1000 },
     "death_drops": { "subtype": "collection", "groups": [ [ "mon_zombie_soldier_death_drops", 100 ], [ "mon_zombie_flamer", 100 ] ] },
     "death_function": [ "FIREBALL" ],
+    "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_BURNER_UPGRADE" },
     "burn_into": "mon_zombie_scorched",
     "flags": [
       "SEES",

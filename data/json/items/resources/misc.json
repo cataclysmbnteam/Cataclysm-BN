@@ -1,7 +1,8 @@
 [
   {
-    "type": "GENERIC",
     "id": "bee_sting",
+    "type": "GENERIC",
+    "weapon_category": [ "KNIVES" ],
     "name": { "str": "bee sting" },
     "description": "A six-inch stinger from a giant bee.  Makes a mediocre melee weapon.",
     "weight": "540 g",
@@ -11,13 +12,14 @@
     "material": [ "flesh" ],
     "volume": "250 ml",
     "cutting": 10,
-    "flags": [ "SPEAR" ],
+    "flags": [ "STAB" ],
     "price": 3000,
     "price_postapoc": 0
   },
   {
-    "type": "GENERIC",
     "id": "broom",
+    "type": "GENERIC",
+    "weapon_category": [ "QUARTERSTAVES" ],
     "name": { "str": "broom" },
     "description": "A long-handled broom.  Makes a terrible weapon unless you're chasing cats.",
     "weight": "929 g",
@@ -48,8 +50,9 @@
     "qualities": [ [ "BUTCHER", -66 ] ]
   },
   {
-    "type": "GENERIC",
     "id": "fighter_sting",
+    "type": "GENERIC",
+    "weapon_category": [ "KNIVES" ],
     "name": { "str": "fungal fighter sting" },
     "description": "A short dart from a fungal fighter.  Makes a poor melee weapon.",
     "weight": "270 g",
@@ -59,7 +62,7 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "cutting": 8,
-    "flags": [ "SPEAR", "SHEATH_KNIFE" ],
+    "flags": [ "STAB", "SHEATH_KNIFE" ],
     "price": 500,
     "price_postapoc": 0
   },
@@ -161,8 +164,9 @@
     "to_hit": 1
   },
   {
-    "type": "GENERIC",
     "id": "wasp_sting",
+    "type": "GENERIC",
+    "weapon_category": [ "KNIVES" ],
     "name": { "str": "wasp sting" },
     "description": "A six-inch stinger from a giant wasp.  Makes a poor melee weapon.",
     "weight": "540 g",
@@ -172,7 +176,7 @@
     "material": [ "flesh" ],
     "volume": "250 ml",
     "cutting": 8,
-    "flags": [ "SPEAR", "SHEATH_KNIFE" ],
+    "flags": [ "STAB", "SHEATH_KNIFE" ],
     "price": 1000,
     "price_postapoc": 0
   }

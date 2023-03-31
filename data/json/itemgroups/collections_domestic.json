@@ -178,7 +178,7 @@
       { "item": "tin", "prob": 15 },
       { "item": "chem_hydrogen_peroxide", "prob": 15 },
       { "item": "chem_carbide", "prob": 10, "charges-min": 100 },
-      { "item": "chem_zinc_powder", "prob": 10, "charges-min": 100 },
+      { "item": "zinc_metal", "prob": 10, "charges-min": 100 },
       { "item": "chem_manganese_dioxide", "prob": 5, "charges-min": 100 },
       { "item": "chem_potassium_chloride", "prob": 5, "charges-min": 100 },
       { "item": "chem_muriatic_acid", "prob": 15 },
@@ -230,7 +230,6 @@
       { "group": "mansion_guns", "prob": 3 },
       { "group": "harddrugs", "prob": 1 },
       [ "joint", 1 ],
-      [ "curler_hair", 10 ],
       [ "hairbrush", 5 ]
     ]
   },
@@ -989,10 +988,7 @@
       { "item": "insecticide", "prob": 2 },
       { "item": "soap", "prob": 80 },
       { "item": "detergent", "prob": 80 },
-      { "item": "chem_hydrogen_peroxide", "prob": 20 },
-      { "item": "plunger_toilet", "prob": 30 },
-      { "item": "plunger_futuristic", "prob": 15 },
-      { "item": "toilet_paper", "prob": 10 }
+      { "item": "chem_hydrogen_peroxide", "prob": 20 }
     ]
   },
   {
@@ -1072,7 +1068,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "permanent_marker", "prob": 50, "count": [ 1, 2 ] },
-      { "item": "paper", "prob": 75 },
+      { "item": "paper", "prob": 75, "charges": [ 40, 60 ] },
       { "item": "string_36", "prob": 75, "count": [ 1, 4 ] },
       { "item": "string_6", "prob": 50, "count": [ 1, 4 ] },
       { "item": "superglue", "prob": 40 },

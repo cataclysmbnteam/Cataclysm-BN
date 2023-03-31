@@ -1256,6 +1256,8 @@ bool Character::burn_fuel( bionic &bio, bool start )
                                                      overmap_buffer.ter( global_omt_location() ), pos(), wm.winddirection,
                                                      g->is_sheltered( pos() ) );
                             mod_power_level( units::from_kilojoule( fuel_energy ) * windpower * effective_efficiency );
+                        } else {
+                            mod_power_level( units::from_kilojoule( fuel_energy ) * effective_efficiency );
                         }
                     } else if( is_cable_powered ) {
                         int to_consume = 1;
@@ -1562,8 +1564,8 @@ void Character::process_bionic( bionic &bio )
             if( bio.info().has_flag( STATIC( flag_str_id( "BIONIC_POWER_SOURCE" ) ) ) ) {
                 // Convert fuel to bionic power
                 burn_fuel( bio );
-                // Reset timer
-                bio.charge_timer = bio.info().charge_time;
+                // This is our first turn of charging, so subtract a turn from the recharge delay.
+                bio.charge_timer = std::max( 0, bio.info().charge_time - 1 );
             } else {
                 // Try to recharge our bionic if it is made for it
                 units::energy cost = 0_J;

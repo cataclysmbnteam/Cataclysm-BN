@@ -1105,7 +1105,7 @@ void complete_construction( Character &ch )
     // Friendly NPCs gain exp from assisting or watching...
     // TODO: NPCs watching other NPCs do stuff and learning from it
     if( ch.is_avatar() ) {
-        for( auto &elem : ch.as_avatar()->get_crafting_helpers() ) {
+        for( auto &elem : character_funcs::get_crafting_helpers( ch ) ) {
             if( elem->meets_skill_requirements( built ) ) {
                 add_msg( m_info, _( "%s assists you with the work…" ), elem->name );
             } else {
@@ -1253,7 +1253,7 @@ bool construct::check_no_trap( const tripoint &p )
 bool construct::check_ramp_high( const tripoint &p )
 {
     if( check_up_OK( p ) && check_up_OK( p + tripoint_above ) ) {
-        for( const point &car_d : four_cardinal_directions ) {
+        for( point car_d : four_cardinal_directions ) {
             // check adjacent points on the z-level above for a completed down ramp
             if( get_map().has_flag( TFLAG_RAMP_DOWN, p + car_d + tripoint_above ) ) {
                 return true;
@@ -1791,7 +1791,7 @@ void construction::finalize()
     reqs_using.clear();
 }
 
-int construction::print_time( const catacurses::window &w, const point &p, int width,
+int construction::print_time( const catacurses::window &w, point p, int width,
                               nc_color col ) const
 {
     std::string text = get_time_string();
@@ -1818,7 +1818,7 @@ int construction::adjusted_time() const
     int final_time = to_moves<int>( time );
     int assistants = 0;
 
-    for( auto &elem : g->u.get_crafting_helpers() ) {
+    for( auto &elem : character_funcs::get_crafting_helpers( get_player_character() ) ) {
         if( elem->meets_skill_requirements( *this ) ) {
             assistants++;
         }

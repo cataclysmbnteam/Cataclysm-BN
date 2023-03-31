@@ -1360,7 +1360,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                 const int lvl = std::ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) /
                                            TOOL_LIFT_FACTOR );
                 const bool use_aid = max_lift >= lvl;
-                const bool use_str = p.can_lift( base.lift_strength() );
+                const bool use_str = character_funcs::can_lift_with_helpers( p, base.lift_strength() );
                 if( !( use_aid || use_str ) ) {
                     continue;
                 }
@@ -3142,8 +3142,6 @@ bool find_auto_consume( player &p, const bool food )
     if( p.has_effect( effect_nausea ) ) {
         return true;
     }
-    static const std::string flag_MELTS( "MELTS" );
-    static const std::string flag_EDIBLE_FROZEN( "EDIBLE_FROZEN" );
     const tripoint pos = p.pos();
     map &here = get_map();
     zone_manager &mgr = zone_manager::get_manager();
@@ -3194,10 +3192,6 @@ bool find_auto_consume( player &p, const bool food )
             if( !p.can_consume( *it ) ) {
                 continue;
             }
-            if( food && p.compute_effective_nutrients( comest ).kcal < 50 ) {
-                // not filling enough
-                continue;
-            }
             if( !p.will_eat( comest, false ).success() ) {
                 // wont like it, cannibal meat etc
                 continue;
@@ -3212,10 +3206,6 @@ bool find_auto_consume( player &p, const bool food )
             }
             if( comest.has_flag( flag_UNSAFE_CONSUME ) ) {
                 // Unsafe to drink or eat
-                continue;
-            }
-            if( !food && it->is_watertight_container() && it->contents_made_of( SOLID ) ) {
-                // its frozen
                 continue;
             }
 

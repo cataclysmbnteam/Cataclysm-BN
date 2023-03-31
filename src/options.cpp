@@ -1516,6 +1516,11 @@ void options_manager::add_options_interface()
          false
        );
 
+    add( "AIM_AFTER_FIRING", "interface", translate_marker( "Reaim after firing" ),
+         translate_marker( "If true, after firing automatically aim again if targets are available." ),
+         true
+       );
+
     add( "QUERY_DISASSEMBLE", "interface", translate_marker( "Query on disassembly while butchering" ),
          translate_marker( "If true, will query before disassembling items while butchering." ),
          true
@@ -2009,8 +2014,8 @@ void options_manager::add_options_graphics()
        );
 
     add( "MINIMIZE_ON_FOCUS_LOSS", "graphics",
-         translate_marker( "Minimize on focus loss.  Requires restart." ),
-         translate_marker( "Minimize fullscreen window when it loses focus." ), false );
+         translate_marker( "Minimize on focus loss" ),
+         translate_marker( "Minimize fullscreen window when it loses focus.  Requires restart." ), false );
 #endif
 
 #if !defined(__ANDROID__)
@@ -2099,6 +2104,11 @@ void options_manager::add_options_debug()
     add( "MOD_SOURCE", "debug", translate_marker( "Display Mod Source" ),
          translate_marker( "Displays what content pack a piece of furniture, terrain, item or monster comes from or is affected by.  Disable if it's annoying." ),
          true
+       );
+
+    add( "SHOW_IDS", "debug", translate_marker( "Display Object IDs" ),
+         translate_marker( "Displays internal IDs of game objects and creatures.  Warning: IDs may contain spoilers." ),
+         false
        );
 
     add_empty_line();
@@ -2197,8 +2207,9 @@ void options_manager::add_options_debug()
          true
        );
 
-    add( "NEW_EXPLOSIONS", "debug", translate_marker( "New explosions" ),
-         translate_marker( "If true, Rule of Cool explosions will be used." ), false );
+    add( "OLD_EXPLOSIONS", "debug", translate_marker( "Old explosions system" ),
+         translate_marker( "If true, disables new raycasting based explosive system in favor of old system.  With new system obstacles (impassable terrain, furniture or vehicle parts) will block shrapnel, while blast will bash obstacles and throw creatures outward.  If obstacles are destroyed, blast continues outward." ),
+         false );
 }
 
 void options_manager::add_options_world_default()
@@ -3326,9 +3337,15 @@ void options_manager::cache_to_globals()
 
     json_report_strict = test_mode || ::get_option<bool>( "STRICT_JSON_CHECKS" );
     display_mod_source = ::get_option<bool>( "MOD_SOURCE" );
+    display_object_ids = ::get_option<bool>( "SHOW_IDS" );
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
+#if defined(TILES)
     use_tiles = ::get_option<bool>( "USE_TILES" );
     use_tiles_overmap = ::get_option<bool>( "USE_TILES_OVERMAP" );
+#else
+    use_tiles = false;
+    use_tiles_overmap = false;
+#endif
     log_from_top = ::get_option<std::string>( "LOG_FLOW" ) == "new_top";
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
     message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );

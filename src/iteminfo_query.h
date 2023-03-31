@@ -10,6 +10,7 @@
 enum class iteminfo_parts : size_t {
     BASE_CATEGORY = 0,
     BASE_MOD_SRC,
+    BASE_ID,
     BASE_PRICE,
     BASE_BARTER,
     BASE_VOLUME,
@@ -23,6 +24,8 @@ enum class iteminfo_parts : size_t {
     BASE_CONTENTS,
     BASE_AMOUNT,
     BASE_DEBUG,
+
+    WEAPON_CATEGORY,
 
     MED_JOY,
     MED_PORTIONS,

@@ -2,11 +2,11 @@ name: Clang-tidy (clang-12, tiles)
 
 on:
   push:
-    branches:
-      - upload
+    branches: [upload]
+    paths: [ "**.cpp", "**.h", "**.c", "**/CMakeLists.txt", "**/Makefile", "**.hpp", "**.cmake", "build-scripts/**","tools/clang-tidy-plugin/**", ".github/workflows/clang-tidy.yml", "**/.clang-tidy" ]
   pull_request:
-    branches:
-      - upload
+    branches: [upload]
+    paths: [ "**.cpp", "**.h", "**.c", "**/CMakeLists.txt", "**/Makefile", "**.hpp", "**.cmake", "build-scripts/**", "tools/clang-tidy-plugin/**", ".github/workflows/clang-tidy.yml", "**/.clang-tidy" ]
 
 # We only care about the latest revision of a PR, so cancel all previous instances.
 concurrency:
@@ -25,12 +25,12 @@ jobs:
         uses: fkirc/skip-duplicate-actions@master
         with:
           cancel_others: "true"
-          paths: '[ "**.cpp", "**.h", "**.c", "**/CMakeLists.txt", "**/Makefile", "**.hpp", "**.cmake" ]'
+          paths: '[ "**.cpp", "**.h", "**.c", "**/CMakeLists.txt", "**/Makefile", "**.hpp", "**.cmake", "build-scripts/**", "tools/clang-tidy-plugin/**", ".github/workflows/clang-tidy.yml", "**/.clang-tidy" ]'
   build:
     needs: skip-duplicates
     if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' }}
 
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     env:
       CMAKE: 1
       CLANG: clang++-12
@@ -38,9 +38,10 @@ jobs:
       CATA_CLANG_TIDY: plugin
       TILES: 1
       SOUND: 1
+
     steps:
       - name: checkout repository
-        uses: actions/checkout@v1
+        uses: actions/checkout@v3
         with:
           fetch-depth: 1
       - name: install dependencies
@@ -51,7 +52,9 @@ jobs:
           sudo apt-get install libncursesw5-dev clang-12 libclang-12-dev llvm-12-dev llvm-12-tools \
             libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libpulse-dev ccache \
             gettext
+
       - name: prepare
         run: bash ./build-scripts/requirements.sh
+      - uses: ammaraskar/gcc-problem-matcher@master
       - name: run clang-tidy
         run: bash ./build-scripts/build.sh

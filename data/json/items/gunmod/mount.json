@@ -15,6 +15,7 @@
     "location": "grip mount",
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
     "install_time": "20 m",
+    "min_skills": [ [ "weapon", 3 ] ],
     "add_mod": [ [ "grip", 1 ] ],
     "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
   },
@@ -33,6 +34,7 @@
     "location": "rail mount",
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
     "install_time": "5 m",
+    "min_skills": [ [ "weapon", 3 ] ],
     "add_mod": [ [ "rail", 1 ] ],
     "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
   },
@@ -51,6 +53,7 @@
     "location": "sights mount",
     "mod_targets": [ "smg", "rifle", "shotgun", "crossbow" ],
     "install_time": "5 m",
+    "min_skills": [ [ "weapon", 3 ] ],
     "add_mod": [ [ "sights", 1 ] ],
     "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
   },
@@ -69,6 +72,7 @@
     "location": "sights mount",
     "mod_targets": [ "launcher" ],
     "install_time": "5 m",
+    "min_skills": [ [ "weapon", 3 ] ],
     "add_mod": [ [ "sights", 1 ] ],
     "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
   },
@@ -87,6 +91,7 @@
     "location": "sights mount",
     "mod_targets": [ "pistol" ],
     "install_time": "5 m",
+    "min_skills": [ [ "weapon", 3 ] ],
     "add_mod": [ [ "sights", 1 ] ],
     "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
   },
@@ -106,6 +111,7 @@
     "location": "stock mount",
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
     "install_time": "20 m",
+    "min_skills": [ [ "weapon", 3 ] ],
     "add_mod": [ [ "stock", 1 ] ],
     "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
   },
@@ -124,6 +130,7 @@
     "location": "underbarrel mount",
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher", "archery" ],
     "install_time": "5 m",
+    "min_skills": [ [ "weapon", 3 ] ],
     "add_mod": [ [ "underbarrel", 1 ] ],
     "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
   }

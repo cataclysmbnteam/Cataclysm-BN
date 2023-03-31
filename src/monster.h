@@ -173,7 +173,7 @@ class monster : public Creature, public visitable<monster>
         Creature *attack_target(); // Returns the creature at the end of plans (if hostile)
 
         // Movement
-        void shift( const point &sm_shift ); // Shifts the monster to the appropriate submap
+        void shift( point sm_shift ); // Shifts the monster to the appropriate submap
         void set_goal( const tripoint &p );
         // Updates current pos AND our plans
         bool wander(); // Returns true if we have no plans
@@ -193,8 +193,8 @@ class monster : public Creature, public visitable<monster>
         bool will_move_to( const tripoint &p ) const;
         bool can_squeeze_to( const tripoint &p ) const;
 
-        bool will_reach( const point &p ); // Do we have plans to get to (x, y)?
-        int  turns_to_reach( const point &p ); // How long will it take?
+        bool will_reach( point p ); // Do we have plans to get to (x, y)?
+        int  turns_to_reach( point p ); // How long will it take?
 
         // Go in a straight line to p
         void set_dest( const tripoint &p );
@@ -384,11 +384,8 @@ class monster : public Creature, public visitable<monster>
         bool has_grab_break_tec() const override;
 
         float stability_roll() const override;
-        // We just dodged an attack from something
-        void on_dodge( Creature *source, float difficulty ) override;
-        // Something hit us (possibly null source)
         void on_hit( Creature *source, bodypart_id bp_hit,
-                     float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) override;
+                     dealt_projectile_attack const *proj = nullptr ) override;
         void on_damage_of_type( int amt, damage_type dt, const bodypart_id &bp ) override;
 
         /** Resets a given special to its monster type cooldown value */

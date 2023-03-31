@@ -1,7 +1,8 @@
 [
   {
-    "type": "GENERIC",
     "id": "pipe",
+    "type": "GENERIC",
+    "weapon_category": [ "BATONS" ],
     "name": { "str": "pipe" },
     "description": "A steel pipe, makes a good melee weapon.  Useful in a few crafting recipes.",
     "category": "spare_parts",
@@ -36,8 +37,8 @@
     "ammo_type": "components"
   },
   {
-    "type": "GENERIC",
     "id": "spike",
+    "type": "GENERIC",
     "name": { "str": "spike" },
     "description": "A large and slightly misshapen spike, could do some damage mounted on a vehicle.",
     "category": "spare_parts",
@@ -54,8 +55,9 @@
     "price_postapoc": 10
   },
   {
-    "type": "GENERIC",
     "id": "cu_pipe",
+    "type": "GENERIC",
+    "weapon_category": [ "BATONS" ],
     "name": { "str": "copper tubing" },
     "description": "A copper tube, too thin to be much use as a melee weapon, but will do if nothing else is available.  Useful in a few crafting recipes.",
     "category": "spare_parts",
@@ -146,7 +148,7 @@
     "category": "spare_parts",
     "name": { "str_sp": "zinc" },
     "description": "A slightly brittle metal.  Apart from being an essential mineral that the body needs, it reacts readily with acids, alkalis and other non-metals.  It can be crushed to make zinc powder, used in the production of batteries, among other things.",
-    "weight": "7 g",
+    "weight": "70 mg",
     "volume": "50 ml",
     "price": 3000,
     "price_postapoc": 10,
@@ -308,15 +310,15 @@
     "to_hit": -2
   },
   {
-    "type": "AMMO",
     "id": "tin",
+    "type": "AMMO",
     "category": "spare_parts",
     "price": 750,
     "price_postapoc": 10,
-    "name": { "str_sp": "tin powder" },
+    "name": { "str_sp": "tin" },
     "symbol": "=",
     "color": "light_gray",
-    "description": "A fine gray powder composed of tin, usable for making solder and lining containers to prevent corrosion.",
+    "description": "Tin can be used to make solder and for lining containers to prevent corrosion.",
     "material": "tin",
     "volume": "50 ml",
     "weight": "2 g",
@@ -326,8 +328,8 @@
     "stack_size": 200
   },
   {
-    "type": "AMMO",
     "id": "solder_wire",
+    "type": "AMMO",
     "category": "spare_parts",
     "price": 5000,
     "price_postapoc": 50,

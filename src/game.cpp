@@ -283,7 +283,7 @@ std::unique_ptr<game> g;
 //The one and only uistate instance
 uistatedata uistate;
 
-bool is_valid_in_w_terrain( const point &p )
+bool is_valid_in_w_terrain( point p )
 {
     return p.x >= 0 && p.x < TERRAIN_WINDOW_WIDTH && p.y >= 0 && p.y < TERRAIN_WINDOW_HEIGHT;
 }
@@ -1366,8 +1366,8 @@ bool game::do_turn()
     // If controlling a vehicle that is owned by someone else
     if( u.in_vehicle && u.controlling_vehicle ) {
         vehicle *veh = veh_pointer_or_null( m.veh_at( u.pos() ) );
-        if( veh && !veh->handle_potential_theft( dynamic_cast<player &>( u ), true ) ) {
-            veh->handle_potential_theft( dynamic_cast<player &>( u ), false, false );
+        if( veh && !veh->handle_potential_theft( u, true ) ) {
+            veh->handle_potential_theft( u, false, false );
         }
     }
     // If riding a horse - chance to spook
@@ -1595,7 +1595,7 @@ bool game::do_turn()
     return false;
 }
 
-void game::set_driving_view_offset( const point &p )
+void game::set_driving_view_offset( point p )
 {
     // remove the previous driving offset,
     // store the new offset and apply the new offset.
@@ -4952,7 +4952,7 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &install
 
 }
 
-void game::exam_vehicle( vehicle &veh, const point &c )
+void game::exam_vehicle( vehicle &veh, point c )
 {
     if( veh.magic ) {
         add_msg( m_info, _( "This is your %s" ), veh.name );
@@ -5161,17 +5161,17 @@ void game::control_vehicle()
             return;
         }
         if( !veh->interact_vehicle_locked() ) {
-            veh->handle_potential_theft( dynamic_cast<player &>( u ) );
+            veh->handle_potential_theft( u );
             return;
         }
         if( veh->engine_on ) {
-            if( !veh->handle_potential_theft( dynamic_cast<player &>( u ) ) ) {
+            if( !veh->handle_potential_theft( u ) ) {
                 return;
             }
             u.controlling_vehicle = true;
             add_msg( _( "You take control of the %s." ), veh->name );
         } else {
-            if( !veh->handle_potential_theft( dynamic_cast<player &>( u ) ) ) {
+            if( !veh->handle_potential_theft( u ) ) {
                 return;
             }
             veh->start_engines( true );
@@ -5213,7 +5213,7 @@ void game::control_vehicle()
         // If we hit neither of those, there's only one set of vehicle controls, which should already have been found.
         if( vehicle_controls ) {
             veh = &vehicle_controls->vehicle();
-            if( !veh->handle_potential_theft( dynamic_cast<player &>( u ) ) ) {
+            if( !veh->handle_potential_theft( u ) ) {
                 return;
             }
             veh->use_controls( *vehicle_position );
@@ -5805,14 +5805,17 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
         map &here = get_map();
         std::string ret;
         if( debug_mode ) {
-            ret = string_format( "%s %s", lp.to_string(), here.ter( lp )->id );
-            if( here.has_furn( lp ) ) {
-                ret += "; " + here.furn( lp )->id.str();
-            }
-        } else {
-            ret = here.tername( lp );
-            if( here.has_furn( lp ) ) {
-                ret += "; " + here.furnname( lp );
+            ret += lp.to_string();
+            ret += "\n";
+        }
+        ret += here.tername( lp );
+        if( debug_mode || display_object_ids ) {
+            ret += colorize( string_format( " [%s]", here.ter( lp )->id ), c_light_blue );
+        }
+        if( here.has_furn( lp ) ) {
+            ret += string_format( "; %s", here.furnname( lp ) );
+            if( debug_mode || display_object_ids ) {
+                ret += colorize( string_format( " [%s]", here.furn( lp )->id ), c_light_blue );
             }
         }
         return ret;
@@ -8133,10 +8136,10 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
     auto cut_time = [&]( enum butcher_type bt ) {
         int time_to_cut = 0;
         if( corpse != -1 ) {
-            time_to_cut = butcher_time_to_cut( inv, *corpses[corpse], bt );
+            time_to_cut = butcher_time_to_cut( you, inv, *corpses[corpse], bt );
         } else {
             for( const map_stack::iterator &it : corpses ) {
-                time_to_cut += butcher_time_to_cut( inv, *it, bt );
+                time_to_cut += butcher_time_to_cut( you, inv, *it, bt );
             }
         }
         return to_string_clipped( time_duration::from_turns( time_to_cut / 100 ) );
@@ -8187,11 +8190,11 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
     smenu.addentry_col( BUTCHER_FULL, enough_light, 'b', _( "Full butchery" ),
                         enough_light ? cut_time( BUTCHER_FULL ) : cannot_see,
                         string_format( "%s  %s%s",
-                                       _( "This technique is used to properly butcher a corpse, "
-                                          "and requires a rope & a tree or a butchering rack, "
-                                          "a flat surface (for ex. a table, a leather tarp, etc.) "
-                                          "and good tools.  Yields are plentiful and varied, "
-                                          "but it is time consuming." ),
+                                       _( "This technique is used to properly butcher a corpse.  "
+                                          "For corpses larger than medium size, you will require "
+                                          "a rope & a tree, a butchering rack or a flat surface "
+                                          "(for ex. a table, a leather tarp, etc.).  "
+                                          "Yields are plentiful and varied, but it is time consuming." ),
                                        msg_inv, info_on_action( BUTCHER_FULL ).c_str() ) );
     smenu.addentry_col( F_DRESS, enough_light &&
                         has_organs, 'f', _( "Field dress corpse" ),
@@ -8469,7 +8472,7 @@ void game::butcher()
         }
         return;
     }
-    const auto helpers = u.get_crafting_helpers( 3 );
+    const auto helpers = character_funcs::get_crafting_helpers( u );
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task…" ), np->name );
     }
@@ -8801,7 +8804,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
 
     if( m.impassable( dest_loc ) && !pushing && !shifting_furniture ) {
         if( vp_there && u.mounted_creature && u.mounted_creature->has_flag( MF_RIDEABLE_MECH ) &&
-            vp_there->vehicle().handle_potential_theft( dynamic_cast<player &>( u ) ) ) {
+            vp_there->vehicle().handle_potential_theft( u ) ) {
             tripoint diff = dest_loc - u.pos();
             if( diff.x < 0 ) {
                 diff.x -= 2;
@@ -8818,7 +8821,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
         }
         return false;
     }
-    if( vp_there && !vp_there->vehicle().handle_potential_theft( dynamic_cast<player &>( u ) ) ) {
+    if( vp_there && !vp_there->vehicle().handle_potential_theft( u ) ) {
         return false;
     }
     if( u.is_mounted() && !pushing && vp_there ) {
@@ -11976,7 +11979,7 @@ std::string game::get_world_base_save_path() const
     return world_generator->active_world->folder_path();
 }
 
-void game::shift_destination_preview( const point &delta )
+void game::shift_destination_preview( point delta )
 {
     for( tripoint &p : destination_preview ) {
         p += delta;

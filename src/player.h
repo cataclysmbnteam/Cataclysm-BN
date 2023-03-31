@@ -110,133 +110,6 @@ class player : public Character
         // by default save all contained info
         virtual void serialize( JsonOut &jsout ) const = 0;
 
-        /** Called after the player has successfully dodged an attack */
-        void on_dodge( Creature *source, float difficulty ) override;
-        /** Handles special defenses from an attack that hit us (source can be null) */
-        void on_hit( Creature *source, bodypart_id bp_hit,
-                     float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) override;
-
-        /** Knocks the player to a specified tile */
-        void knock_back_to( const tripoint &to ) override;
-
-        /** Returns multiplier on fall damage at low velocity (knockback/pit/1 z-level, not 5 z-levels) */
-        float fall_damage_mod() const override;
-        /** Deals falling/collision damage with terrain/creature at pos */
-        int impact( int force, const tripoint &pos ) override;
-
-        /** Returns overall % of HP remaining */
-        int hp_percentage() const override;
-
-        int get_lift_assist() const;
-
-        bool list_ammo( const item &base, std::vector<item::reload_option> &ammo_list,
-                        bool include_empty_mags = true, bool include_potential = false ) const;
-        /**
-         * Select suitable ammo with which to reload the item
-         * @param base Item to select ammo for
-         * @param prompt Force display of the menu even if only one choice
-         * @param include_empty_mags Allow selection of empty magazines
-         * @param include_potential Include ammo that can potentially be used, but not right now
-         */
-        item::reload_option select_ammo( const item &base, bool prompt = false,
-                                         bool include_empty_mags = true, bool include_potential = false ) const;
-
-        /** Select ammo from the provided options */
-        item::reload_option select_ammo( const item &base, std::vector<item::reload_option> opts ) const;
-
-        /** Check player strong enough to lift an object unaided by equipment (jacks, levers etc) */
-        bool can_lift( int lift_strength_required ) const;
-
-        /**
-         * Check player capable of taking off an item.
-         * @param it Thing to be taken off
-         */
-        ret_val<bool> can_takeoff( const item &it, const std::list<item> *res = nullptr ) const;
-
-        /**
-         * Check player capable of wielding an item.
-         * @param it Thing to be wielded
-         */
-        ret_val<bool> can_wield( const item &it ) const;
-
-        bool unwield();
-
-        /**
-         * Whether a tool or gun is potentially reloadable (optionally considering a specific ammo)
-         * @param it Thing to be reloaded
-         * @param ammo if set also check item currently compatible with this specific ammo or magazine
-         * @note items currently loaded with a detachable magazine are considered reloadable
-         * @note items with integral magazines are reloadable if free capacity permits (+/- ammo matches)
-         */
-        bool can_reload( const item &it, const itype_id &ammo = itype_id() ) const;
-
-        /**
-         * Attempt to mend an item (fix any current faults)
-         * @param obj Object to mend
-         * @param interactive if true prompts player when multiple faults, otherwise mends the first
-         */
-        void mend_item( item_location &&obj, bool interactive = true );
-
-        /**
-         * Calculate (but do not deduct) the number of moves required to reload an item with specified quantity of ammo
-         * @param it Item to calculate reload cost for
-         * @param ammo either ammo or magazine to use when reloading the item
-         * @param qty maximum units of ammo to reload. Capped by remaining capacity and ignored if reloading using a magazine.
-         */
-        int item_reload_cost( const item &it, const item &ammo, int qty ) const;
-
-        /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
-        cata::optional<std::list<item>::iterator>
-        wear( int pos, bool interactive = true );
-        cata::optional<std::list<item>::iterator>
-        wear( item &to_wear, bool interactive = true );
-
-        /** Takes off an item, returning false on fail. The taken off item is processed in the interact */
-        bool takeoff( item &it, std::list<item> *res = nullptr );
-        bool takeoff( int pos );
-
-        /** So far only called by unload() from game.cpp */
-        bool add_or_drop_with_msg( item &it, bool unloading = false );
-
-        bool unload( item_location loc );
-
-        /** Uses a tool */
-        void use( int inventory_position );
-        /** Uses a tool at location */
-        void use( item_location loc );
-        /** Uses the current wielded weapon */
-        void use_wielded();
-
-        /** Reassign letter. */
-        void reassign_item( item &it, int invlet );
-
-        /** Removes gunmod after first unloading any contained ammo and returns true on success */
-        bool gunmod_remove( item &gun, item &mod );
-
-        /** Starts activity to install gunmod having warned user about any risk of failure or irremovable mods s*/
-        void gunmod_add( item &gun, item &mod );
-
-        /** @return Odds for success (pair.first) and gunmod damage (pair.second) */
-        std::pair<int, int> gunmod_installation_odds( const item &gun, const item &mod ) const;
-
-        /** Starts activity to install toolmod */
-        void toolmod_add( item_location tool, item_location mod );
-
-    private:
-        safe_reference_anchor anchor;
-
-    public:
-        safe_reference<player> get_safe_reference();
-        //returns true if the warning is now beyond final and results in hostility.
-        bool add_faction_warning( const faction_id &id );
-        int current_warnings_fac( const faction_id &id );
-        bool beyond_final_warning( const faction_id &id );
-
-        /** This handles giving xp for a skill */
-        void practice( const skill_id &id, int amount, int cap = 99, bool suppress_warning = false );
-        /** This handles warning the player that there current activity will not give them xp */
-        void handle_skill_warning( const skill_id &id, bool force_warning = false );
-
         /**
          * Remove charges from a specific item (given by its item position).
          * The item must exist and it must be counted by charges.
@@ -326,11 +199,6 @@ class player : public Character
          */
         bool can_continue_craft( item &craft );
         /**
-         * Returns nearby NPCs ready and willing to help with crafting or some other manual task.
-         * @param max If set, limits number of helpers to that value
-         */
-        std::vector<npc *> get_crafting_helpers( size_t max = 0 ) const;
-        /**
          * Handle skill gain for player and followers during crafting
          * @param craft the currently in progress craft
          * @param multiplier what factor to multiply the base skill gain by.  This is used to apply
@@ -414,11 +282,6 @@ class player : public Character
 
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
-
-    private:
-
-        /** warnings from a faction about bad behavior */
-        std::map<faction_id, std::pair<int, time_point>> warning_record;
 };
 
 #endif // CATA_SRC_PLAYER_H

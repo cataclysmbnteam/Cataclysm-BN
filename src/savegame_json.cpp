@@ -837,19 +837,6 @@ void player::store( JsonOut &json ) const
     }
 
     json.member( "destination_point", destination_point );
-
-    // faction warnings
-    json.member( "faction_warnings" );
-    json.start_array();
-    for( const auto &elem : warning_record ) {
-        json.start_object();
-        json.member( "fac_warning_id", elem.first );
-        json.member( "fac_warning_num", elem.second.first );
-        json.member( "fac_warning_time", elem.second.second );
-        json.end_object();
-    }
-    json.end_array();
-
     json.member( "ammo_location", ammo_location );
 
     // TODO: move to Character
@@ -908,17 +895,6 @@ void player::load( const JsonObject &data )
             if( has_trait( mid ) ) {
                 remove_mutation( mid );
             }
-        }
-    }
-
-    if( data.has_array( "faction_warnings" ) ) {
-        for( JsonObject warning_data : data.get_array( "faction_warnings" ) ) {
-            warning_data.allow_omitted_members();
-            std::string fac_id = warning_data.get_string( "fac_warning_id" );
-            int warning_num = warning_data.get_int( "fac_warning_num" );
-            time_point warning_time = calendar::before_time_starts;
-            warning_data.read( "fac_warning_time", warning_time );
-            warning_record[faction_id( fac_id )] = std::make_pair( warning_num, warning_time );
         }
     }
 
@@ -1010,6 +986,17 @@ void avatar::store( JsonOut &json ) const
     inv.json_save_invcache( json );
 
     json.member( "preferred_aiming_mode", preferred_aiming_mode );
+
+    json.member( "faction_warnings" );
+    json.start_array();
+    for( const auto &elem : warning_record ) {
+        json.start_object();
+        json.member( "fac_warning_id", elem.first );
+        json.member( "fac_warning_num", elem.second.first );
+        json.member( "fac_warning_time", elem.second.second );
+        json.end_object();
+    }
+    json.end_array();
 }
 
 void avatar::deserialize( JsonIn &jsin )
@@ -1147,6 +1134,17 @@ void avatar::load( const JsonObject &data )
     }
 
     data.read( "preferred_aiming_mode", preferred_aiming_mode );
+
+    if( data.has_array( "faction_warnings" ) ) {
+        for( JsonObject warning_data : data.get_array( "faction_warnings" ) ) {
+            warning_data.allow_omitted_members();
+            std::string fac_id = warning_data.get_string( "fac_warning_id" );
+            int warning_num = warning_data.get_int( "fac_warning_num" );
+            time_point warning_time = calendar::before_time_starts;
+            warning_data.read( "fac_warning_time", warning_time );
+            warning_record[faction_id( fac_id )] = std::make_pair( warning_num, warning_time );
+        }
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

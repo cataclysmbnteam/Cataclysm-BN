@@ -656,6 +656,9 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
         vStart += fold_and_print( w, point( column, vStart + 1 ), getmaxx( w ) - 2, c_cyan,
                                   string_format( _( "Origin: %s" ), mod_src ) );
     }
+    if( display_object_ids ) {
+        mvwprintz( w, point( column, ++vStart ), c_light_blue, string_format( "[%s]", type->id.str() ) );
+    }
 
     if( sees( g->u ) ) {
         mvwprintz( w, point( column, ++vStart ), c_yellow, _( "Aware of your presence!" ) );
@@ -714,6 +717,12 @@ std::string monster::extended_description() const
         type->src.end(), []( const std::pair<mtype_id, mod_id> &source ) {
             return string_format( "'%s'", source.second->name() );
         }, enumeration_conjunction::arrow );
+    }
+    if( display_object_ids ) {
+        if( display_mod_source ) {
+            ss += "\n";
+        }
+        ss += colorize( string_format( "[%s]", type->id.str() ), c_light_blue );
     }
 
     ss += "\n--\n";
@@ -995,7 +1004,7 @@ void monster::set_goal( const tripoint &p )
     goal = p;
 }
 
-void monster::shift( const point &sm_shift )
+void monster::shift( point sm_shift )
 {
     const point ms_shift = sm_to_ms_copy( sm_shift );
     position -= ms_shift;
@@ -1589,7 +1598,7 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
 
     if( !is_hallucination() && attack.hit_critter == this ) {
         // Maybe TODO: Get difficulty from projectile speed/size/missed_by
-        on_hit( source, bodypart_id( "torso" ), INT_MIN, &attack );
+        on_hit( source, bodypart_id( "torso" ), &attack );
     }
 }
 
@@ -2842,13 +2851,7 @@ float monster::speed_rating() const
     return ret;
 }
 
-void monster::on_dodge( Creature *, float )
-{
-    // Currently does nothing, later should handle faction relations
-}
-
-void monster::on_hit( Creature *source, bodypart_id,
-                      float, dealt_projectile_attack const *const proj )
+void monster::on_hit( Creature *source, bodypart_id, dealt_projectile_attack const *const proj )
 {
     if( is_hallucination() ) {
         return;

@@ -1,8 +1,9 @@
 [
   {
+    "id": "bagh_nakha",
     "type": "GENERIC",
     "category": "weapons",
-    "id": "bagh_nakha",
+    "weapon_category": [ "FIST_WEAPONS" ],
     "name": { "str_sp": "tiger claws" },
     "description": "Also called bagh nakha or iron paw, this is a small claw-like bladed weapon from India designed to be concealed under and against the palm.",
     "weight": "92 g",
@@ -17,9 +18,10 @@
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 14 ] ]
   },
   {
+    "id": "cestus",
     "type": "GENERIC",
     "category": "weapons",
-    "id": "cestus",
+    "weapon_category": [ "FIST_WEAPONS" ],
     "symbol": "3",
     "color": "light_gray",
     "name": { "str": "cestus", "str_pl": "cestuses" },
@@ -32,9 +34,10 @@
     "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE" ]
   },
   {
+    "id": "knuckle_brass",
     "type": "GENERIC",
     "category": "weapons",
-    "id": "knuckle_brass",
+    "weapon_category": [ "FIST_WEAPONS" ],
     "symbol": "3",
     "color": "yellow",
     "name": { "str": "pair of brass knuckles", "str_pl": "pairs of brass knuckles" },
@@ -46,9 +49,10 @@
     "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE" ]
   },
   {
+    "id": "knuckle_katar",
     "type": "GENERIC",
     "category": "weapons",
-    "id": "knuckle_katar",
+    "weapon_category": [ "FIST_WEAPONS" ],
     "symbol": "!",
     "color": "dark_gray",
     "name": { "str": "razorbar katar" },
@@ -64,9 +68,10 @@
     "techniques": [ "WBLOCK_1" ]
   },
   {
+    "id": "knuckle_nail",
     "type": "GENERIC",
     "category": "weapons",
-    "id": "knuckle_nail",
+    "weapon_category": [ "FIST_WEAPONS" ],
     "symbol": "]",
     "color": "brown",
     "name": { "str": "pair of nail knuckles", "str_pl": "pairs of nail knuckles" },
@@ -80,9 +85,10 @@
     "flags": [ "UNARMED_WEAPON" ]
   },
   {
+    "id": "knuckle_steel",
     "type": "GENERIC",
     "category": "weapons",
-    "id": "knuckle_steel",
+    "weapon_category": [ "FIST_WEAPONS" ],
     "symbol": "3",
     "color": "dark_gray",
     "name": { "str": "pair of steel knuckles", "str_pl": "pairs of steel knuckles" },
@@ -96,9 +102,10 @@
     "flags": [ "UNARMED_WEAPON" ]
   },
   {
+    "id": "punch_dagger",
     "type": "GENERIC",
     "category": "weapons",
-    "id": "punch_dagger",
+    "weapon_category": [ "FIST_WEAPONS" ],
     "name": { "str": "punch dagger" },
     "description": "A short and sharp double-edged dagger made to be gripped in the palm, with the blade protruding between the fingers.",
     "weight": "168 g",

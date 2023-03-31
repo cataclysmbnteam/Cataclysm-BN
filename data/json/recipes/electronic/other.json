@@ -787,6 +787,20 @@
   },
   {
     "type": "recipe",
+    "result": "software_hacking",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_OTHER",
+    "skill_used": "computer",
+    "skills_required": [ [ "computer", 8 ] ],
+    "difficulty": 8,
+    "time": "6 h",
+    "autolearn": true,
+    "contained": true,
+    "using": [ [ "coding_standard", 500 ] ],
+    "components": [ [ [ "usb_drive", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "bionic_scanner",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_OTHER",

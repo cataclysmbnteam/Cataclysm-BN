@@ -14,9 +14,11 @@
 #include "action.h"
 #include "activity_actor_definitions.h"
 #include "avatar.h"
+#include "avatar_functions.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
+#include "character_functions.h"
 #include "character_martial_arts.h"
 #include "character_turn.h"
 #include "creature.h"
@@ -391,7 +393,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         return true;
     }
     if( veh_closed_door ) {
-        if( !veh1->handle_potential_theft( dynamic_cast<player &>( you ) ) ) {
+        if( !veh1->handle_potential_theft( you ) ) {
             return true;
         } else {
             if( outside_vehicle ) {
@@ -539,7 +541,7 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
         return;
     }
     if( const auto vp = m.veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
-        if( !vp->vehicle().handle_potential_theft( dynamic_cast<player &>( you ) ) ) {
+        if( !vp->vehicle().handle_potential_theft( you ) ) {
             return;
         }
     }
@@ -760,7 +762,7 @@ void avatar_action::mend( avatar &you, item_location loc )
     }
 
     if( you.has_item( *loc ) ) {
-        you.mend_item( item_location( loc ) );
+        avatar_funcs::mend_item( you, item_location( loc ) );
     }
 }
 
@@ -994,12 +996,12 @@ void avatar_action::use_item( avatar &you, item_location &loc )
 
     if( use_in_place ) {
         update_lum( loc, false );
-        you.use( loc );
+        avatar_funcs::use_item( you, loc );
         update_lum( loc, true );
 
         make_active( loc );
     } else {
-        you.use( loc );
+        avatar_funcs::use_item( you, loc );
     }
 
     you.invalidate_crafting_inventory();
@@ -1106,14 +1108,14 @@ void avatar_action::wield( item_location &loc )
     }
 }
 
-static item::reload_option favorite_ammo_or_select(
+static item_reload_option favorite_ammo_or_select(
     const player &u, const item &it, bool empty, bool prompt )
 {
     const_cast<item_location &>( u.ammo_location ).make_dirty();
     if( u.ammo_location ) {
-        std::vector<item::reload_option> ammo_list;
-        if( u.list_ammo( it, ammo_list, empty ) ) {
-            const auto is_favorite_and_compatible = [&it, &u]( const item::reload_option & opt ) {
+        std::vector<item_reload_option> ammo_list;
+        if( character_funcs::list_ammo( u, it, ammo_list, empty, false ) ) {
+            const auto is_favorite_and_compatible = [&it, &u]( const item_reload_option & opt ) {
                 return opt.ammo == u.ammo_location && it.can_reload_with( opt.ammo->typeId() );
             };
             auto iter = std::find_if( ammo_list.begin(), ammo_list.end(), is_favorite_and_compatible );
@@ -1124,7 +1126,7 @@ static item::reload_option favorite_ammo_or_select(
     } else {
         const_cast<item_location &>( u.ammo_location ) = item_location();
     }
-    return u.select_ammo( it, prompt, empty );
+    return character_funcs::select_ammo( u, it, prompt, empty );
 }
 
 static bool can_reload_item_or_mods( const avatar &you, const item &itm )
@@ -1191,7 +1193,7 @@ void avatar_action::reload( item_location &loc, bool prompt, bool empty )
         return;
     }
 
-    item::reload_option opt = favorite_ammo_or_select( u, *it, empty, prompt );
+    item_reload_option opt = favorite_ammo_or_select( u, *it, empty, prompt );
 
     if( opt.ammo.get_item() == nullptr ) {
         return;
@@ -1250,7 +1252,7 @@ void avatar_action::reload_weapon( bool try_everything )
     // Reload misc magazines in inventory.
     avatar &u = get_avatar();
     map &here = get_map();
-    std::vector<item_location> reloadables = u.find_reloadables();
+    std::vector<item_location> reloadables = character_funcs::find_reloadables( u );
     std::sort( reloadables.begin(), reloadables.end(),
     [&u]( const item_location & a, const item_location & b ) {
         const item *ap = a.get_item();
@@ -1278,8 +1280,8 @@ void avatar_action::reload_weapon( bool try_everything )
                ( bp->get_reload_time() * ( bp->ammo_capacity() - bp->ammo_remaining() ) );
     } );
     for( item_location &candidate : reloadables ) {
-        std::vector<item::reload_option> ammo_list;
-        u.list_ammo( *candidate.get_item(), ammo_list, false );
+        std::vector<item_reload_option> ammo_list;
+        character_funcs::list_ammo( u, *candidate.get_item(), ammo_list, false, false );
         if( !ammo_list.empty() ) {
             reload( candidate, false, false );
             return;
@@ -1293,7 +1295,7 @@ void avatar_action::reload_weapon( bool try_everything )
     vehicle *veh = veh_pointer_or_null( here.veh_at( u.pos() ) );
     turret_data turret;
     if( veh && ( turret = veh->turret_query( u.pos() ) ) && turret.can_reload() ) {
-        item::reload_option opt = u.select_ammo( *turret.base(), true );
+        item_reload_option opt = character_funcs::select_ammo( u, *turret.base(), true );
         if( opt ) {
             u.assign_activity( activity_id( "ACT_RELOAD" ), opt.moves(), opt.qty() );
             u.activity.targets.emplace_back( turret.base() );
@@ -1316,5 +1318,5 @@ void avatar_action::unload( avatar &you )
         return;
     }
 
-    you.unload( loc );
+    avatar_funcs::unload_item( you, loc );
 }

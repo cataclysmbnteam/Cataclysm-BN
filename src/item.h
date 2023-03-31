@@ -173,6 +173,38 @@ inline iteminfo::flags &operator|=( iteminfo::flags &l, iteminfo::flags r )
     return l = l | r;
 }
 
+class item_reload_option
+{
+    public:
+        item_reload_option() = default;
+
+        item_reload_option( const item_reload_option & );
+        item_reload_option &operator=( const item_reload_option & );
+
+        item_reload_option( const player *who, const item *target, const item *parent,
+                            const item_location &ammo );
+
+        const player *who = nullptr;
+        const item *target = nullptr;
+        item_location ammo;
+
+        int qty() const {
+            return qty_;
+        }
+        void qty( int val );
+
+        int moves() const;
+
+        explicit operator bool() const {
+            return who && target && ammo && qty_ > 0;
+        }
+
+    private:
+        int qty_ = 0;
+        int max_qty = INT_MAX;
+        const item *parent = nullptr;
+};
+
 inline bool is_crafting_component( const item &component );
 
 class item : public visitable<item>
@@ -448,38 +480,6 @@ class item : public visitable<item>
 
         // Returns the category of this item.
         const item_category &get_category() const;
-
-        class reload_option
-        {
-            public:
-                reload_option() = default;
-
-                reload_option( const reload_option & );
-                reload_option &operator=( const reload_option & );
-
-                reload_option( const player *who, const item *target, const item *parent,
-                               const item_location &ammo );
-
-                const player *who = nullptr;
-                const item *target = nullptr;
-                item_location ammo;
-
-                int qty() const {
-                    return qty_;
-                }
-                void qty( int val );
-
-                int moves() const;
-
-                explicit operator bool() const {
-                    return who && target && ammo && qty_ > 0;
-                }
-
-            private:
-                int qty_ = 0;
-                int max_qty = INT_MAX;
-                const item *parent = nullptr;
-        };
 
         /**
          * Reload item using ammo from location returning true if successful
@@ -2232,7 +2232,7 @@ class item : public visitable<item>
     public:
         char invlet = 0;      // Inventory letter
         bool active = false; // If true, it has active effects to be processed
-        safe_reference<player> activated_by;
+        safe_reference<Character> activated_by;
         bool is_favorite = false;
 
         void set_favorite( bool favorite );

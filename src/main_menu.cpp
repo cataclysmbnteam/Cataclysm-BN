@@ -119,7 +119,7 @@ void main_menu::print_menu_items( const catacurses::window &w_in,
     fold_and_print( w_in, offset, getmaxx( w_in ), c_light_gray, text, ']' );
 }
 
-void main_menu::print_menu( const catacurses::window &w_open, int iSel, const point &offset )
+void main_menu::print_menu( const catacurses::window &w_open, int iSel, point offset )
 {
     // Clear Lines
     werase( w_open );

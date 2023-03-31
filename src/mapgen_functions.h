@@ -78,9 +78,9 @@ void mapgen_tutorial( mapgendata &dat );
 void mapgen_lake_shore( mapgendata &dat );
 
 // Temporary wrappers
-void mremove_trap( map *m, const point & );
-void mtrap_set( map *m, const point &, trap_id type );
-void madd_field( map *m, const point &, field_type_id type, int intensity );
+void mremove_trap( map *m, point );
+void mtrap_set( map *m, point, trap_id type );
+void madd_field( map *m, point, field_type_id type, int intensity );
 
 mapgen_update_func add_mapgen_update_func( const JsonObject &jo, bool &defer );
 bool run_mapgen_update_func( const std::string &update_mapgen_id, const tripoint_abs_omt &omt_pos,

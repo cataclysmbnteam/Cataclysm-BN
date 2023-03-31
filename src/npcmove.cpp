@@ -1113,7 +1113,7 @@ void npc::execute_action( npc_action action )
                 pretend_fire( this, mode.qty, *mode );
             } else {
                 add_msg( m_debug, "%s recoil on firing: %s", name, recoil );
-                ranged::fire_gun( *this, tar, mode.qty, *mode );
+                ranged::fire_gun( *this, tar, mode.qty, *mode, item_location() );
                 // "discard" the fake bio weapon after shooting it
                 if( cbm_weapon_index >= 0 ) {
                     discharge_cbm_weapon();
@@ -1500,7 +1500,7 @@ item &npc::find_reloadable()
         if( !wants_to_reload( *this, *node ) ) {
             return VisitResponse::NEXT;
         }
-        const auto it_loc = select_ammo( *node ).ammo;
+        const auto it_loc = character_funcs::select_ammo( *this, *node ).ammo;
         if( it_loc && wants_to_reload_with( *node, *it_loc ) ) {
             reloadable = node;
             return VisitResponse::ABORT;
@@ -1537,7 +1537,7 @@ item_location npc::find_usable_ammo( const item &weap )
         return item_location();
     }
 
-    auto loc = select_ammo( weap ).ammo;
+    auto loc = character_funcs::select_ammo( *this, weap ).ammo;
     if( !loc || !wants_to_reload_with( weap, *loc ) ) {
         return item_location();
     }
@@ -4559,7 +4559,7 @@ bool npc::complain()
 
 void npc::do_reload( const item &it )
 {
-    item::reload_option reload_opt = select_ammo( it );
+    item_reload_option reload_opt = character_funcs::select_ammo( *this, it );
 
     if( !reload_opt ) {
         debugmsg( "do_reload failed: no usable ammo for %s", it.tname() );

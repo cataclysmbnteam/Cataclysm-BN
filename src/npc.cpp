@@ -733,7 +733,7 @@ void npc::spawn_at_sm( const tripoint &p )
     spawn_at_precise( p.xy(), tripoint( rng( 0, SEEX - 1 ), rng( 0, SEEY - 1 ), p.z ) );
 }
 
-void npc::spawn_at_precise( const point &submap_offset, const tripoint &square )
+void npc::spawn_at_precise( point submap_offset, const tripoint &square )
 {
     submap_coords = submap_offset;
     submap_coords.x += square.x / SEEX;
@@ -1504,7 +1504,9 @@ void npc::decide_needs()
                               charges_of( itype_UPS_off, ups_drain );
             needrank[need_ammo] = static_cast<double>( ups_charges ) / ups_drain;
         } else {
-            needrank[need_ammo] = get_ammo( ammotype( *weapon.type->gun->ammo.begin() ) ).size();
+            needrank[need_ammo] = character_funcs::get_ammo_items(
+                                      *this, ammotype( *weapon.type->gun->ammo.begin() )
+                                  ).size();
         }
         needrank[need_ammo] *= 5;
     }
@@ -2258,6 +2260,10 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     mvwprintz( w, point( column, line++ ), c_white, _( "NPC: " ) );
     wprintz( w, basic_symbol_color(), name );
 
+    if( display_object_ids ) {
+        mvwprintz( w, point( column, line++ ), c_light_blue, string_format( "[%s]", myclass ) );
+    }
+
     if( sees( g->u ) ) {
         mvwprintz( w, point( column, line++ ), c_yellow, _( "Aware of your presence!" ) );
     }
@@ -2384,21 +2390,21 @@ std::string npc::opinion_text() const
     return ret;
 }
 
-static void maybe_shift( cata::optional<tripoint> &pos, const point &d )
+static void maybe_shift( cata::optional<tripoint> &pos, point d )
 {
     if( pos ) {
         *pos += d;
     }
 }
 
-static void maybe_shift( tripoint &pos, const point &d )
+static void maybe_shift( tripoint &pos, point d )
 {
     if( pos != tripoint_min ) {
         pos += d;
     }
 }
 
-void npc::shift( const point &s )
+void npc::shift( point s )
 {
     const point shift = sm_to_ms_copy( s );
 
@@ -3014,8 +3020,13 @@ std::string npc::extended_description() const
         ss += _( "Is neutral." );
     }
 
+    if( display_object_ids ) {
+        ss += "\n--\n";
+        ss += colorize( string_format( "[%s]", myclass ), c_light_blue );
+    }
+
     if( hit_by_player ) {
-        ss += "--\n";
+        ss += "\n--\n";
         ss += _( "Is still innocent and killing them will be considered murder." );
         // TODO: "But you don't care because you're an edgy psycho"
     }
@@ -3327,4 +3338,56 @@ void npc_follower_rules::clear_overrides()
 {
     overrides = ally_rule::DEFAULT;
     override_enable = ally_rule::DEFAULT;
+}
+
+bool job_data::set_task_priority( const activity_id &task, int new_priority )
+{
+    auto it = task_priorities.find( task );
+    if( it != task_priorities.end() ) {
+        task_priorities[task] = new_priority;
+        return true;
+    }
+    return false;
+}
+
+void job_data::clear_all_priorities()
+{
+    for( auto &elem : task_priorities ) {
+        elem.second = 0;
+    }
+}
+
+std::vector<activity_id> job_data::get_prioritised_vector() const
+{
+    std::vector<std::pair<activity_id, int>> pairs( begin( task_priorities ), end( task_priorities ) );
+
+    std::vector<activity_id> ret;
+    sort( begin( pairs ), end( pairs ), []( const std::pair<activity_id, int> &a,
+    const std::pair<activity_id, int> &b ) {
+        return a.second > b.second;
+    } );
+    for( std::pair<activity_id, int> elem : pairs ) {
+        ret.push_back( elem.first );
+    }
+    return ret;
+}
+
+int job_data::get_priority_of_job( const activity_id &req_job ) const
+{
+    auto it = task_priorities.find( req_job );
+    if( it != task_priorities.end() ) {
+        return it->second;
+    } else {
+        return 0;
+    }
+}
+
+bool job_data::has_job() const
+{
+    for( auto &elem : task_priorities ) {
+        if( elem.second > 0 ) {
+            return true;
+        }
+    }
+    return false;
 }
