@@ -141,15 +141,23 @@ void tutorial_game::per_turn()
 
 void tutorial_game::pre_action( action_id &act )
 {
+    std::string action_error_message;
     switch( act ) {
         case ACTION_SAVE:
         case ACTION_QUICKSAVE:
-            popup( _( "You're saving a tutorial - the tutorial world lacks certain features of normal worlds.  "
-                      "Weird things might happen when you load this save.  You have been warned." ) );
+            if( query_yn( _( "You cannot save in tutorial!  Quit game?" ) ) ) {
+                get_avatar().moves = 0;
+                g->uquit = QUIT_NOSAVED;
+            }
+            act = ACTION_NULL;
             break;
         default:
             // Other actions are fine.
             break;
+    }
+    if( !action_error_message.empty() ) {
+        add_msg( m_info, action_error_message );
+        act = ACTION_NULL;
     }
 }
 

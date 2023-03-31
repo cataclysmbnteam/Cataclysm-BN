@@ -120,9 +120,6 @@ struct defense_game : public special_game {
         // Do caravans offer the option of hiring a mercenary?
         bool mercenaries = false;
 
-        // Allow save
-        bool allow_save = false;
-
         // Start defence location position on overmap
         tripoint_om_omt defloc_pos;
 

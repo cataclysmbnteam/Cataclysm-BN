@@ -219,9 +219,6 @@ void main_menu::display_sub_menu( int sel, const point &bottom_left, int sel_lin
             for( int i = 0; static_cast<size_t>( i ) < all_worldnames.size(); i++ ) {
                 int savegames_count = world_generator->get_world( all_worldnames[i] )->world_saves.size();
                 nc_color clr = c_white;
-                if( all_worldnames[i] == "TUTORIAL" || all_worldnames[i] == "DEFENSE" ) {
-                    clr = c_light_cyan;
-                }
                 sub_opts.push_back( colorize( string_format( "%s (%d)", all_worldnames[i], savegames_count ),
                                               ( sel2 == i + ( extra_opt ? 1 : 0 ) ) ? hilite( clr ) : clr ) );
                 int len = utf8_width( sub_opts.back(), true );

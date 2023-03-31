@@ -119,7 +119,6 @@ bool defense_game::init()
     robots = false;
     subspace = false;
     mercenaries = false;
-    allow_save = false;
     init_to_style( DEFENSE_EASY );
     setup();
     g->u.cash = initial_cash;
@@ -162,9 +161,11 @@ void defense_game::pre_action( action_id &act )
             break;
         case ACTION_SAVE:
         case ACTION_QUICKSAVE:
-            if( !allow_save ) {
-                action_error_message = _( "You cannot save in defense mode!" );
+            if( query_yn( _( "You cannot save in defense mode!  Quit game?" ) ) ) {
+                get_avatar().moves = 0;
+                g->uquit = QUIT_NOSAVED;
             }
+            act = ACTION_NULL;
             break;
         case ACTION_MOVE_FORTH:
         case ACTION_MOVE_FORTH_RIGHT:
@@ -482,7 +483,7 @@ void defense_game::setup()
     ui.mark_resize();
 
     int selection = 1;
-    int selection_max = 20;
+    int selection_max = 19;
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         refresh_setup( w, selection );
@@ -688,12 +689,6 @@ void defense_game::setup()
                         mercenaries = !mercenaries;
                     }
                     break;
-
-                case 20:
-                    if( action == "CONFIRM" ) {
-                        allow_save = !allow_save;
-                    }
-                    break;
             }
         }
     }
@@ -751,7 +746,6 @@ void defense_game::refresh_setup( const catacurses::window &w, int selection )
     mvwprintz( w, point( 14, 21 ), TOGCOL( 17, thirst ), _( "Water" ) );
     mvwprintz( w, point( 34, 21 ), TOGCOL( 18, sleep ), _( "Sleep" ) );
     mvwprintz( w, point( 46, 21 ), TOGCOL( 19, mercenaries ), _( "Mercenaries" ) );
-    mvwprintz( w, point( 59, 21 ), TOGCOL( 20, allow_save ), _( "Allow save" ) );
     wnoutrefresh( w );
 }
 
