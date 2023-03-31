@@ -505,34 +505,20 @@ static std::pair<nc_color, std::string> temp_stat( const avatar &u )
 {
     /// Find hottest/coldest bodypart
     // Calculate the most extreme body temperatures
-    int current_bp_extreme = temp_delta( u ).first;
+    const auto [current_bp_extreme, _] = temp_delta( u );
+    const int temp = u.temp_cur[current_bp_extreme] - 1; // decision_table is inclusive
 
     // printCur the hottest/coldest bodypart
-    std::string temp_string;
-    nc_color temp_color = c_yellow;
-    if( u.temp_cur[current_bp_extreme] > BODYTEMP_SCORCHING ) {
-        temp_color = c_red;
-        temp_string = _( "Scorching!" );
-    } else if( u.temp_cur[current_bp_extreme] > BODYTEMP_VERY_HOT ) {
-        temp_color = c_light_red;
-        temp_string = _( "Very hot!" );
-    } else if( u.temp_cur[current_bp_extreme] > BODYTEMP_HOT ) {
-        temp_color = c_yellow;
-        temp_string = _( "Warm" );
-    } else if( u.temp_cur[current_bp_extreme] > BODYTEMP_COLD ) {
-        temp_color = c_green;
-        temp_string = _( "Comfortable" );
-    } else if( u.temp_cur[current_bp_extreme] > BODYTEMP_VERY_COLD ) {
-        temp_color = c_light_blue;
-        temp_string = _( "Chilly" );
-    } else if( u.temp_cur[current_bp_extreme] > BODYTEMP_FREEZING ) {
-        temp_color = c_cyan;
-        temp_string = _( "Very cold!" );
-    } else if( u.temp_cur[current_bp_extreme] <= BODYTEMP_FREEZING ) {
-        temp_color = c_blue;
-        temp_string = _( "Freezing!" );
-    }
-    return std::make_pair( temp_color, temp_string );
+    static const auto table = decision_table<int, std::pair<nc_color, std::string>>( {{
+            { BODYTEMP_SCORCHING, { c_red,        _( "Scorching!" ) } },
+            { BODYTEMP_VERY_HOT,  { c_light_red,  _( "Very hot!" ) } },
+            { BODYTEMP_HOT,       { c_yellow,     _( "Warm" ) } },
+            { BODYTEMP_COLD,      { c_green,      _( "Comfortable" ) } },
+            { BODYTEMP_VERY_COLD, { c_light_blue, _( "Chilly" ) } },
+            { BODYTEMP_FREEZING,  { c_cyan,       _( "Very cold!" ) } },
+        }}, { c_blue, _( "Freezing!" ) } );
+
+    return table( temp );
 }
 
 static std::string get_armor( const avatar &u, body_part bp, unsigned int truncate = 0 )
