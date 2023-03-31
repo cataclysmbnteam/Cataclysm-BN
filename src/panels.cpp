@@ -362,28 +362,19 @@ static std::string get_moon_graphic()
 static std::string get_moon()
 {
     const int iPhase = static_cast<int>( get_moon_phase( calendar::turn ) );
-    switch( iPhase ) {
-        case 0:
-            return _( "New moon" );
-        case 1:
-            return _( "Waxing crescent" );
-        case 2:
-            return _( "Half moon" );
-        case 3:
-            return _( "Waxing gibbous" );
-        case 4:
-            return _( "Full moon" );
-        case 5:
-            return _( "Waning gibbous" );
-        case 6:
-            return _( "Half moon" );
-        case 7:
-            return _( "Waning crescent" );
-        case 8:
-            return _( "Dark moon" );
-        default:
-            return "";
-    }
+    static const std::map<int, std::string> moon_names {{
+            { 0, _( "New moon" ) },
+            { 1, _( "Waxing crescent" ) },
+            { 2, _( "Half moon" ) },
+            { 3, _( "Waxing gibbous" ) },
+            { 4, _( "Full moon" ) },
+            { 5, _( "Waning gibbous" ) },
+            { 6, _( "Half moon" ) },
+            { 7, _( "Waning crescent" ) },
+            { 8, _( "Dark moon" ) },
+        }};
+
+    return moon_names.at( iPhase );
 }
 
 static std::string time_approx()
