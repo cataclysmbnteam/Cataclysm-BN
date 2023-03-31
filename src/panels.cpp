@@ -523,13 +523,10 @@ static std::pair<nc_color, std::string> temp_stat( const avatar &u )
 
 static std::string get_armor( const avatar &u, body_part bp, unsigned int truncate = 0 )
 {
-    for( std::list<item>::const_iterator it = u.worn.end(); it != u.worn.begin(); ) {
-        --it;
-        if( it->covers( bp ) ) {
-            return it->tname( 1, true, truncate );
-        }
-    }
-    return "-";
+    const auto it = std::find_if( u.worn.rbegin(), u.worn.rend(), [&bp]( const item & it ) {
+        return it.covers( bp );
+    } );
+    return it != u.worn.rend() ? it->tname( 1, true, truncate ) : "-";
 }
 
 // TODO(C++20): change to `using enum Face;`
