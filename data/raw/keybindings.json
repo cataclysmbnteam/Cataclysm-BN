@@ -2928,7 +2928,7 @@
     "category": "LOAD_DELETE_CANCEL",
     "name": "Load",
     "bindings": [
-      { "input_method": "keyboard", "key": "L" },
+      { "input_method": "keyboard", "key": "L" }
     ]
   },
   {
@@ -2937,7 +2937,7 @@
     "category": "LOAD_DELETE_CANCEL",
     "name": "Delete",
     "bindings": [
-      { "input_method": "keyboard", "key": "D" },
+      { "input_method": "keyboard", "key": "D" }
     ]
   },
   {
@@ -2946,7 +2946,7 @@
     "category": "LOAD_DELETE_CANCEL",
     "name": "Cancel",
     "bindings": [
-      { "input_method": "keyboard", "key": "C" },
+      { "input_method": "keyboard", "key": "C" }
     ]
   },
   {
