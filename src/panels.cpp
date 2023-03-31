@@ -646,21 +646,19 @@ static std::pair<nc_color, std::string> mana_stat( const player &u )
 
 static nc_color safe_color()
 {
-    nc_color s_color = g->safe_mode ? c_green : c_red;
-    if( g->safe_mode == SAFE_MODE_OFF && get_option<bool>( "AUTOSAFEMODE" ) ) {
-        int s_return = get_option<int>( "AUTOSAFEMODETURNS" );
-        int iPercent = g->turnssincelastmon * 100 / s_return;
-        if( iPercent >= 100 ) {
-            s_color = c_green;
-        } else if( iPercent >= 75 ) {
-            s_color = c_yellow;
-        } else if( iPercent >= 50 ) {
-            s_color = c_light_red;
-        } else if( iPercent >= 25 ) {
-            s_color = c_red;
-        }
+    if( g->safe_mode != SAFE_MODE_OFF || !get_option<bool>( "AUTOSAFEMODE" ) ) {
+        return g->safe_mode ? c_green : c_red;
     }
-    return s_color;
+
+    const int s_return = get_option<int>( "AUTOSAFEMODETURNS" );
+    const int iPercent = g->turnssincelastmon * 100 / s_return;
+    static const auto table = decision_table<int, nc_color>( {
+        { 100, c_green },
+        { 75, c_yellow },
+        { 50, c_light_red },
+    }, c_red );
+
+    return table( iPercent );
 }
 
 static int get_int_digits( const int &digits )
