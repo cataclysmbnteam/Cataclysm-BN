@@ -1679,8 +1679,8 @@ void options_manager::add_options_interface()
 
     add( "MORALE_STYLE", "interface", translate_marker( "Morale style" ),
          translate_marker( "Morale display style in sidebar." ),
-    { { "vertical", translate_marker( "Vertical" ) }, { "horizontal", translate_marker( "Horizontal" ) } },
-    "Vertical"
+    { { "horizontal", translate_marker( "Horizontal" ) }, { "vertical", translate_marker( "Vertical" ) } },
+    "horizontal"
        );
 
     add( "AIM_WIDTH", "interface", translate_marker( "Full screen Advanced Inventory Manager" ),
