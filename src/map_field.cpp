@@ -639,7 +639,6 @@ void map::process_fields_in_submap( submap *const current_submap,
                             if( cur.get_field_intensity() > 1 &&
                                 one_in( 200 - cur.get_field_intensity() * 50 ) ) {
                                 furn_set( p, f_ash );
-                                add_item_or_charges( p, item( "ash" ) );
                             }
 
                         }

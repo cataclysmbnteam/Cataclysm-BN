@@ -3124,8 +3124,10 @@ void activity_handlers::clear_rubble_finish( player_activity *act, player *p )
 {
     const tripoint &pos = act->placement;
     map &here = get_map();
+    const map_bash_info &bash = here.furn( pos ).obj().bash;
     p->add_msg_if_player( m_info, _( "You clear up the %s." ),
                           here.furnname( pos ) );
+    here.spawn_items( pos, item_group::items_from( bash.drop_group, calendar::turn ) );
     here.furn_set( pos, f_null );
 
     act->set_to_null();
