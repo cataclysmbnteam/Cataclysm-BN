@@ -6,17 +6,13 @@
 #include <list>
 #include <string>
 #include <utility>
+#include <optional>
 
 #include "item_handling_util.h"
 #include "item_location.h"
 
 struct tripoint;
 
-namespace cata
-{
-template<typename T>
-class optional;
-} // namespace cata
 class avatar;
 class item;
 class player;

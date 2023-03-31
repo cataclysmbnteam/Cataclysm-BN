@@ -14,6 +14,7 @@
 #include <type_traits>
 #include <utility>
 #include <vector>
+#include <optional>
 
 #include "enum_conversions.h"
 #include "json_source_location.h"
@@ -42,8 +43,6 @@ class JsonValue;
 
 namespace cata
 {
-template<typename T>
-class optional;
 template<typename T, typename U, typename V>
 class colony;
 } // namespace cata

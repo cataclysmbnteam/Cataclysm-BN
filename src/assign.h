@@ -8,6 +8,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <optional>
 
 #include "calendar.h"
 #include "color.h"
@@ -17,11 +18,6 @@
 #include "units.h"
 #include "units_serde.h"
 
-namespace cata
-{
-template<typename T>
-class optional;
-} // namespace cata
 namespace detail
 {
 template<typename ...T>

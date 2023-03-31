@@ -2,13 +2,9 @@
 #ifndef CATA_SRC_DEBUG_MENU_H
 #define CATA_SRC_DEBUG_MENU_H
 
-struct tripoint;
+#include <optional>
 
-namespace cata
-{
-template<typename T>
-class optional;
-} // namespace cata
+struct tripoint;
 
 class Character;
 class Creature;

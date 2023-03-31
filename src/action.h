@@ -7,12 +7,8 @@
 #include <set>
 #include <string>
 #include <vector>
+#include <optional>
 
-namespace cata
-{
-template<typename T>
-class optional;
-} // namespace cata
 struct tripoint;
 struct point;
 

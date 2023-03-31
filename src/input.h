@@ -8,6 +8,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <optional>
 
 #if defined(__ANDROID__)
 #include <algorithm>
@@ -19,11 +20,6 @@
 
 enum action_id : int;
 
-namespace cata
-{
-template<typename T>
-class optional;
-} // namespace cata
 namespace catacurses
 {
 class window;
