@@ -476,7 +476,7 @@ Messages::dialog::dialog()
 
 void Messages::dialog::init( ui_adaptor &ui )
 {
-    w_width = std::min( TERMX, FULL_SCREEN_WIDTH );
+    w_width = std::min( TERMX, static_cast<int>( FULL_SCREEN_WIDTH * 1.5 ) );
     w_height = TERMY;
     w_x = ( TERMX - w_width ) / 2;
     w_y = ( TERMY - w_height ) / 2;
@@ -512,7 +512,7 @@ void Messages::dialog::init( ui_adaptor &ui )
     w_fh_width = w_width;
     w_fh_x = w_x;
     help_text = filter_help_text( w_fh_width - border_width * 2 );
-    w_fh_height = help_text.size() + border_width * 2;
+    w_fh_height = help_text.size() + static_cast<unsigned long>( border_width ) * 2;
     w_fh_y = w_y + w_height - w_fh_height;
     w_filter_help = catacurses::newwin( w_fh_height, w_fh_width, point( w_fh_x, w_fh_y ) );
 
