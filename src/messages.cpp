@@ -477,7 +477,7 @@ Messages::dialog::dialog()
 void Messages::dialog::init( ui_adaptor &ui )
 {
     w_width = std::min( TERMX, FULL_SCREEN_WIDTH );
-    w_height = std::min( TERMY, FULL_SCREEN_HEIGHT );
+    w_height = TERMY;
     w_x = ( TERMX - w_width ) / 2;
     w_y = ( TERMY - w_height ) / 2;
 
