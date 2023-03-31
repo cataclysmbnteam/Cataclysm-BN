@@ -1621,16 +1621,14 @@ std::pair<std::string, nc_color> get_stamina_bar( int cur_stam, int max_stam )
 std::pair<std::string, nc_color> get_light_level( const float light )
 {
     using pair_t = std::pair<std::string, nc_color>;
-    static const std::array<pair_t, 6> strings {
-        {
-            pair_t {translate_marker( "unknown" ), c_pink},
-            pair_t {translate_marker( "bright" ), c_yellow},
-            pair_t {translate_marker( "cloudy" ), c_white},
-            pair_t {translate_marker( "shady" ), c_light_gray},
-            pair_t {translate_marker( "dark" ), c_dark_gray},
-            pair_t {translate_marker( "very dark" ), c_black_white}
-        }
-    };
+    static const std::array<pair_t, 6> strings {{
+            { translate_marker( "unknown" ), c_pink },
+            { translate_marker( "bright" ), c_yellow },
+            { translate_marker( "cloudy" ), c_white },
+            { translate_marker( "shady" ), c_light_gray },
+            { translate_marker( "dark" ), c_dark_gray },
+            { translate_marker( "very dark" ), c_black_white },
+        }};
     // Avoid magic number
     static const int maximum_light_level = static_cast< int >( strings.size() ) - 1;
     const int light_level = clamp( static_cast< int >( std::ceil( light ) ), 0, maximum_light_level );
