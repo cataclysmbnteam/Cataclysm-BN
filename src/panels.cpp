@@ -28,6 +28,7 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "decision_table_utils.h"
 #include "effect.h"
 #include "fstream_utils.h"
 #include "game.h"
@@ -380,26 +381,20 @@ static std::string get_moon()
 static std::string time_approx()
 {
     const int iHour = hour_of_day<int>( calendar::turn );
-    if( iHour >= 23 || iHour <= 1 ) {
-        return _( "Around midnight" );
-    } else if( iHour <= 4 ) {
-        return _( "Dead of night" );
-    } else if( iHour <= 6 ) {
-        return _( "Around dawn" );
-    } else if( iHour <= 8 ) {
-        return _( "Early morning" );
-    } else if( iHour <= 10 ) {
-        return _( "Morning" );
-    } else if( iHour <= 13 ) {
-        return _( "Around noon" );
-    } else if( iHour <= 16 ) {
-        return _( "Afternoon" );
-    } else if( iHour <= 18 ) {
-        return _( "Early evening" );
-    } else if( iHour <= 20 ) {
-        return _( "Around dusk" );
-    }
-    return _( "Night" );
+    static const auto table = decision_table<int, std::string>( {{
+            { 23, _( "Around midnight" ) },
+            { 21, _( "Night" ) },
+            { 19, _( "Around dusk" ) },
+            { 17, _( "Early evening" ) },
+            { 14, _( "Afternoon" ) },
+            { 11, _( "Around noon" ) },
+            { 9, _( "Morning" ) },
+            { 7, _( "Early morning" ) },
+            { 5, _( "Around dawn" ) },
+            { 1, _( "Dead of night" ) },
+        }}, _( "Around midnight" ) );
+
+    return table( iHour );
 }
 
 static nc_color value_color( int stat )
