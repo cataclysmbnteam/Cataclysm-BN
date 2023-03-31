@@ -10,7 +10,7 @@
  * for example, it could be used to create a lambda that returns a color based on a stat value:
  * { ~ 25: magenta, 25 ~ 50: red, 50 ~ 75: yellow, 75 ~ 100: green }
  *
- * @param table keys are the lower bound, inclusive. passed as an rvalue reference to avoid unnecessary copying.
+ * @param table keys are the upper bound, inclusive. passed as an rvalue reference to avoid unnecessary copying.
  * @param min the smallest value.
  *
  * @return A decision table lambda
