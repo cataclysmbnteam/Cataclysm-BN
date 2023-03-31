@@ -841,10 +841,9 @@ int ranged::fire_gun( Character &who, const tripoint &target, int max_shots, ite
 
     int shots = max_shots;
     // Number of shots to fire is limited by the amount of remaining ammo
-    if( gun.ammo_required() && !ammo ) {
-        shots = std::min( shots, static_cast<int>( gun.ammo_remaining() / gun.ammo_required() ) );
-    } else {
-        shots = std::min( shots, ammo.get_item()->count() / gun.ammo_required() );
+    if( gun.ammo_required() ) {
+        const int ammo_left = ammo ? ammo.get_item()->count() : gun.ammo_remaining();
+        shots = std::min( shots, ammo_left / gun.ammo_required() );
     }
 
     // cap our maximum burst size by the amount of UPS power left
