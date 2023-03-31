@@ -6,6 +6,7 @@
 #include <iosfwd>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <unordered_set>
@@ -19,7 +20,6 @@
 #include "explosion.h"
 #include "game_constants.h"
 #include "iuse.h" // use_function
-#include "optional.h"
 #include "pldata.h" // add_type
 #include "shape.h"
 #include "stomach.h"

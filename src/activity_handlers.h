@@ -5,11 +5,11 @@
 #include <functional>
 #include <list>
 #include <map>
+#include <optional>
 #include <string>
 #include <unordered_set>
 #include <vector>
 
-#include "optional.h"
 #include "type_id.h"
 
 class Character;

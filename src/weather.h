@@ -5,13 +5,13 @@
 #include "calendar.h"
 #include "color.h"
 #include "coordinates.h"
-#include "optional.h"
 #include "pimpl.h"
 #include "point.h"
 #include "type_id.h"
 #include "units_temperature.h"
 #include "weather_gen.h"
 
+#include <optional>
 #include <string>
 #include <vector>
 #include <unordered_map>

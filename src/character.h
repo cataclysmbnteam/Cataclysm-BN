@@ -12,6 +12,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -37,7 +38,6 @@
 #include "item.h"
 #include "item_location.h"
 #include "memory_fast.h"
-#include "optional.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "pldata.h"

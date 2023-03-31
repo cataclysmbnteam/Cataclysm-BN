@@ -5,6 +5,7 @@
 #include <climits>
 #include <cstddef>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <unordered_set>
@@ -15,7 +16,6 @@
 #include "enums.h"
 #include "item_location.h"
 #include "memory_fast.h"
-#include "optional.h"
 #include "point.h"
 #include "type_id.h"
 

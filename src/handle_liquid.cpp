@@ -7,6 +7,7 @@
 #include <iterator>
 #include <list>
 #include <memory>
+#include <optional>
 #include <ostream>
 #include <set>
 #include <string>
@@ -29,7 +30,6 @@
 #include "map_iterator.h"
 #include "messages.h"
 #include "monster.h"
-#include "optional.h"
 #include "player_activity.h"
 #include "string_formatter.h"
 #include "translations.h"

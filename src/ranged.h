@@ -2,10 +2,10 @@
 #define CATA_SRC_RANGED_H
 
 #include <map>
+#include <optional>
 #include <vector>
 
 #include "game_constants.h"
-#include "optional.h"
 #include "type_id.h"
 
 class aim_activity_actor;

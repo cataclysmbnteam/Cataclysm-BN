@@ -16,7 +16,6 @@
 #include "line.h"
 #include "map.h"
 #include "map_selector.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "player.h"
@@ -42,6 +41,7 @@
 #include <limits>
 #include <map>
 #include <numeric>
+#include <optional>
 #include <set>
 #include <string>
 #include <type_traits>

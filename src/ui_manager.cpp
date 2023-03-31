@@ -3,12 +3,12 @@
 #include <algorithm>
 #include <iterator>
 #include <memory>
+#include <optional>
 #include <vector>
 
 #include "cached_options.h"
 #include "cursesdef.h"
 #include "game_ui.h"
-#include "optional.h"
 #include "point.h"
 #include "sdltiles.h"
 

@@ -10,6 +10,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -31,7 +32,6 @@
 #include "item_location.h"
 #include "line.h"
 #include "lru_cache.h"
-#include "optional.h"
 #include "pimpl.h"
 #include "player.h"
 #include "point.h"

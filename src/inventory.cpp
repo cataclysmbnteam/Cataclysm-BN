@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <iterator>
 #include <memory>
+#include <optional>
 
 #include "avatar.h"
 #include "debug.h"
@@ -28,7 +29,6 @@
 #include "character.h"
 #include "damage.h"
 #include "enums.h"
-#include "optional.h"
 #include "player.h"
 #include "rng.h"
 #include "material.h"

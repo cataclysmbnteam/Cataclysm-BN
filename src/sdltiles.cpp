@@ -16,6 +16,7 @@
 #include <limits>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <stack>
 #include <stdexcept>
@@ -53,7 +54,6 @@
 #include "mapbuffer.h"
 #include "mission.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmap_location.h"

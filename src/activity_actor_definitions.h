@@ -8,7 +8,6 @@
 #include "item_handling_util.h"
 #include "item_location.h"
 #include "memory_fast.h"
-#include "optional.h"
 #include "pickup_token.h"
 #include "point.h"
 #include "type_id.h"

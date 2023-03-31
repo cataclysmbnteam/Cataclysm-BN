@@ -5,6 +5,7 @@
 #include <array>
 #include <functional>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -14,7 +15,6 @@
 #include "coordinates.h"
 #include "enums.h"
 #include "memory_fast.h"
-#include "optional.h"
 #include "overmap_types.h"
 #include "point.h"
 #include "string_id.h"

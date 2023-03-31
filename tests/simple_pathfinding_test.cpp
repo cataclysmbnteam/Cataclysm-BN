@@ -5,7 +5,6 @@
 #include "coordinates.h"
 #include "cuboid_rectangle.h"
 #include "line.h"
-#include "optional.h"
 #include "point.h"
 #include "state_helpers.h"
 

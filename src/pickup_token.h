@@ -3,11 +3,11 @@
 #define CATA_SRC_PICKUP_TOKEN_H
 
 #include <list>
+#include <optional>
 #include <vector>
 #include "item_handling_util.h"
 #include "item_location.h"
 #include "item_stack.h"
-#include "optional.h"
 
 class JsonIn;
 class JsonOut;

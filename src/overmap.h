@@ -11,6 +11,7 @@
 #include <iterator>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -24,7 +25,6 @@
 #include "memory_fast.h"
 #include "mongroup.h"
 #include "omdata.h"
-#include "optional.h"
 #include "overmap_types.h" // IWYU pragma: keep
 #include "pimpl.h"
 #include "point.h"

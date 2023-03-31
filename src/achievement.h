@@ -4,6 +4,7 @@
 #include <array>
 #include <functional>
 #include <memory>
+#include <optional>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
@@ -12,7 +13,6 @@
 #include "calendar.h"
 #include "cata_variant.h"
 #include "event_bus.h"
-#include "optional.h"
 #include "string_id.h"
 #include "translations.h"
 

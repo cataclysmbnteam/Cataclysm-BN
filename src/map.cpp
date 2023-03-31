@@ -7,6 +7,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <limits>
+#include <optional>
 #include <ostream>
 #include <queue>
 #include <type_traits>
@@ -70,7 +71,6 @@
 #include "monster.h"
 #include "morale_types.h"
 #include "mtype.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"

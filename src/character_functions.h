@@ -2,9 +2,9 @@
 #ifndef CATA_SRC_CHARACTER_FUNCTIONS_H
 #define CATA_SRC_CHARACTER_FUNCTIONS_H
 
-#include "optional.h"
 #include "type_id.h"
 
+#include <optional>
 #include <string>
 
 enum body_part : int;

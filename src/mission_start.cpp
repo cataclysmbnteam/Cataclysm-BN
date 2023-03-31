@@ -3,6 +3,7 @@
 
 #include <algorithm>
 #include <memory>
+#include <optional>
 #include <vector>
 
 #include "avatar.h"
@@ -21,7 +22,6 @@
 #include "npc.h"
 #include "npc_class.h"
 #include "omdata.h"
-#include "optional.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "popup.h"

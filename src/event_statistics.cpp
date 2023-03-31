@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <unordered_map>
 #include <utility>
@@ -15,7 +16,6 @@
 #include "event_field_transformations.h"
 #include "generic_factory.h"
 #include "json.h"
-#include "optional.h"
 #include "stats_tracker.h"
 #include "string_formatter.h"
 

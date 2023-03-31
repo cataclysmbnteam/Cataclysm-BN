@@ -3,11 +3,11 @@
 #define CATA_SRC_MAGIC_TELEPORTER_LIST_H
 
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
 
 #include "coordinates.h"
-#include "optional.h"
 #include "point.h"
 
 class Character;

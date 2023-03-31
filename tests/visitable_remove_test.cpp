@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <list>
 #include <memory>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -16,7 +17,6 @@
 #include "itype.h"
 #include "map.h"
 #include "map_selector.h"
-#include "optional.h"
 #include "player.h"
 #include "point.h"
 #include "rng.h"

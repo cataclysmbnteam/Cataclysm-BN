@@ -5,6 +5,7 @@
 #include <iterator>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <vector>
@@ -26,7 +27,6 @@
 #include "monstergenerator.h"
 #include "mtype.h"
 #include "mutation.h"
-#include "optional.h"
 #include "output.h"
 #include "player.h"
 #include "point.h"

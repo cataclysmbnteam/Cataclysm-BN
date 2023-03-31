@@ -2,6 +2,7 @@
 #include <cassert>
 #include <functional>
 #include <memory>
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
@@ -21,7 +22,6 @@
 #include "mission.h"
 #include "npc.h"
 #include "omdata.h"
-#include "optional.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "point.h"

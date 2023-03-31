@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <functional>
 #include <memory>
+#include <optional>
 #include <string>
 #include <utility>
 
@@ -36,7 +37,6 @@
 #include "mission.h"
 #include "monster.h"
 #include "mtype.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"

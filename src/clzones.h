@@ -6,6 +6,7 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -14,7 +15,6 @@
 #include <vector>
 
 #include "memory_fast.h"
-#include "optional.h"
 #include "point.h"
 #include "string_id.h"
 #include "type_id.h"

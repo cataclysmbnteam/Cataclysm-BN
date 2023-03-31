@@ -6,6 +6,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <vector>
@@ -14,7 +15,6 @@
 #include "coordinates.h"
 #include "inventory.h"
 #include "memory_fast.h"
-#include "optional.h"
 #include "point.h"
 #include "requirements.h"
 #include "translations.h"

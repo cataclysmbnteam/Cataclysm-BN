@@ -1,5 +1,6 @@
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -12,7 +13,6 @@
 #include "magic_ter_furn_transform.h"
 #include "map.h"
 #include "mapdata.h"
-#include "optional.h"
 #include "string_id.h"
 #include "type_id.h"
 

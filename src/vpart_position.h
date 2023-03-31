@@ -4,11 +4,11 @@
 
 #include <cstddef>
 #include <functional>
+#include <optional>
 #include <string>
 #include <utility>
 #include <limits>
 
-#include "optional.h"
 
 class vehicle;
 struct vehicle_part;

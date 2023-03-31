@@ -3,12 +3,12 @@
 #define CATA_SRC_STRING_FORMATTER_H
 
 #include <cstddef>
+#include <optional>
 #include <string>
 #include <type_traits>
 #include <typeinfo>
 #include <utility>
 
-#include "optional.h"
 
 class translation;
 

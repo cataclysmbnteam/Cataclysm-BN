@@ -3,12 +3,12 @@
 #define CATA_TESTS_MAP_SETUP_HELPERS_H
 
 #include <functional>
+#include <optional>
 #include <string>
 #include <unordered_map>
 #include <vector>
 
 #include "point.h"
-#include "optional.h"
 
 namespace map_helpers
 {

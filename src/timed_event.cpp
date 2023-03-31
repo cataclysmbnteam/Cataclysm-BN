@@ -2,6 +2,7 @@
 
 #include <array>
 #include <memory>
+#include <optional>
 
 #include "avatar.h"
 #include "avatar_action.h"
@@ -20,7 +21,6 @@
 #include "messages.h"
 #include "monster.h"
 #include "morale_types.h"
-#include "optional.h"
 #include "options.h"
 #include "rng.h"
 #include "sounds.h"

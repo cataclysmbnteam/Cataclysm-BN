@@ -3,12 +3,12 @@
 #define CATA_SRC_SIMPLE_PATHFINDING_H
 
 #include <functional>
+#include <optional>
 #include <vector>
 
 #include "coordinates.h"
 #include "enums.h"
 #include "om_direction.h"
-#include "optional.h"
 #include "point.h"
 
 namespace pf

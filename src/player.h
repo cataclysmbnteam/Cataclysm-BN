@@ -7,6 +7,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <type_traits>
@@ -24,7 +25,6 @@
 #include "game_constants.h"
 #include "item.h"
 #include "item_location.h"
-#include "optional.h"
 #include "pimpl.h"
 #include "point.h"
 #include "ret_val.h"

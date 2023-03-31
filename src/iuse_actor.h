@@ -5,6 +5,7 @@
 #include <climits>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -17,7 +18,6 @@
 #include "explosion.h"
 #include "game_constants.h"
 #include "iuse.h"
-#include "optional.h"
 #include "ret_val.h"
 #include "string_id.h"
 #include "translations.h"

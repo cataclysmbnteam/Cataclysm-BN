@@ -3,13 +3,13 @@
 #include <algorithm>
 #include <functional>
 #include <memory>
+#include <optional>
 #include <vector>
 
 #include "game.h"
 #include "game_constants.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "optional.h"
 #include "rng.h"
 
 map_selector::map_selector( const tripoint &pos, int radius, bool accessible )

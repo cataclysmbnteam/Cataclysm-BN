@@ -4,6 +4,7 @@
 
 #include <functional>
 #include <map>
+#include <optional>
 #include <string>
 #include <unordered_map>
 #include <utility>
@@ -11,7 +12,6 @@
 #include <tuple>
 
 #include "translations.h"
-#include "optional.h"
 
 class JsonIn;
 class JsonOut;

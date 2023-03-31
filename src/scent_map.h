@@ -3,6 +3,7 @@
 #define CATA_SRC_SCENT_MAP_H
 
 #include <array>
+#include <optional>
 #include <set>
 #include <string>
 #include <vector>
@@ -10,7 +11,6 @@
 #include "calendar.h"
 #include "enums.h" // IWYU pragma: keep
 #include "game_constants.h"
-#include "optional.h"
 #include "point.h"
 #include "type_id.h"
 

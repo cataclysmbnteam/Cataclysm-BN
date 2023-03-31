@@ -2,7 +2,8 @@
 #ifndef CATA_SRC_AVATAR_ACTION_H
 #define CATA_SRC_AVATAR_ACTION_H
 
-#include "optional.h"
+#include <optional>
+
 #include "point.h"
 #include "units.h"
 

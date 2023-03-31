@@ -10,6 +10,7 @@
 #include <istream>
 #include <memory>
 #include <ctime>
+#include <optional>
 
 #include "auto_pickup.h"
 #include "avatar.h"
@@ -31,7 +32,6 @@
 #include "mapbuffer.h"
 #include "mapsharing.h"
 #include "newcharacter.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"

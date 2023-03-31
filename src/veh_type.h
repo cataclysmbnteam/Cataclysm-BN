@@ -6,6 +6,7 @@
 #include <bitset>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -14,7 +15,6 @@
 #include "calendar.h"
 #include "color.h"
 #include "damage.h"
-#include "optional.h"
 #include "point.h"
 #include "requirements.h"
 #include "string_id.h"

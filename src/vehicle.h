@@ -7,6 +7,7 @@
 #include <cstddef>
 #include <functional>
 #include <map>
+#include <optional>
 #include <set>
 #include <stack>
 #include <string>
@@ -26,7 +27,6 @@
 #include "item_group.h"
 #include "item_location.h"
 #include "item_stack.h"
-#include "optional.h"
 #include "point.h"
 #include "tileray.h"
 #include "type_id.h"

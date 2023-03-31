@@ -3,13 +3,13 @@
 #define CATA_SRC_MAGIC_ENCHANTMENT_H
 
 #include <map>
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
 
 #include "calendar.h"
 #include "magic.h"
-#include "optional.h"
 #include "type_id.h"
 
 class Character;

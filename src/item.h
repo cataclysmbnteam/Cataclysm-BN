@@ -7,6 +7,7 @@
 #include <functional>
 #include <list>
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
 #include <type_traits>
@@ -20,7 +21,6 @@
 #include "io_tags.h"
 #include "item_contents.h"
 #include "item_location.h"
-#include "optional.h"
 #include "pimpl.h"
 #include "safe_reference.h"
 #include "string_id.h"

@@ -6,6 +6,7 @@
 #include <iterator>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -27,7 +28,6 @@
 #include "itype.h"
 #include "json.h"
 #include "mod_manager.h"
-#include "optional.h"
 #include "output.h"
 #include "point.h"
 #include "recipe.h"

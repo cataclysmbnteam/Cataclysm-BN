@@ -3,12 +3,12 @@
 #define CATA_SRC_ITEM_GROUP_H
 
 #include <memory>
+#include <optional>
 #include <string>
 #include <vector>
 #include <utility>
 #include <set>
 
-#include "optional.h"
 #include "item.h"
 #include "type_id.h"
 

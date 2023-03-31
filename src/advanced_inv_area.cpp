@@ -3,6 +3,7 @@
 #include <cstring>
 #include <iterator>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -22,7 +23,6 @@
 #include "item_contents.h"
 #include "map.h"
 #include "mapdata.h"
-#include "optional.h"
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"

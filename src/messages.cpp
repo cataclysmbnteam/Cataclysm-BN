@@ -10,7 +10,6 @@
 #include "ime.h"
 #include "input.h"
 #include "json.h"
-#include "optional.h"
 #include "output.h"
 #include "point.h"
 #include "string_formatter.h"
@@ -20,6 +19,7 @@
 #include "ui_manager.h"
 
 #if defined(__ANDROID__)
+#include <optional>
 #include <SDL_keyboard.h>
 #endif
 #include "options.h"

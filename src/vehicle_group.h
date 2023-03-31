@@ -3,12 +3,12 @@
 #define CATA_SRC_VEHICLE_GROUP_H
 
 #include <memory>
+#include <optional>
 #include <string>
 #include <unordered_map>
 #include <vector>
 
 #include "mapgen.h"
-#include "optional.h"
 #include "string_id.h"
 #include "type_id.h"
 #include "weighted_list.h"

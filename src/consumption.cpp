@@ -8,6 +8,7 @@
 #include <array>
 #include <cstdlib>
 #include <memory>
+#include <optional>
 #include <string>
 #include <tuple>
 
@@ -32,7 +33,6 @@
 #include "morale_types.h"
 #include "mtype.h"
 #include "mutation.h"
-#include "optional.h"
 #include "options.h"
 #include "pldata.h"
 #include "recipe.h"

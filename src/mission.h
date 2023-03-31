@@ -4,6 +4,7 @@
 
 #include <functional>
 #include <map>
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
@@ -13,7 +14,6 @@
 #include "enums.h"
 #include "game_constants.h"
 #include "npc_favor.h"
-#include "optional.h"
 #include "overmap.h"
 #include "point.h"
 #include "translations.h"

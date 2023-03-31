@@ -5,6 +5,7 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <optional>
 #include <queue>
 #include <set>
 #include <string>
@@ -14,7 +15,6 @@
 #include "damage.h"
 #include "enum_bitset.h"
 #include "event_bus.h"
-#include "optional.h"
 #include "point.h"
 #include "sounds.h"
 #include "translations.h"

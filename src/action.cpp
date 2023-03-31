@@ -5,6 +5,7 @@
 #include <istream>
 #include <iterator>
 #include <memory>
+#include <optional>
 #include <utility>
 
 #include "avatar.h"
@@ -23,7 +24,6 @@
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "messages.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "path_info.h"

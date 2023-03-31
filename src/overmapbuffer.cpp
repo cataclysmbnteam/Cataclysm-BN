@@ -6,6 +6,7 @@
 #include <iterator>
 #include <list>
 #include <map>
+#include <optional>
 #include <queue>
 
 #include "avatar.h"
@@ -29,7 +30,6 @@
 #include "mongroup.h"
 #include "monster.h"
 #include "npc.h"
-#include "optional.h"
 #include "overmap.h"
 #include "overmap_connection.h"
 #include "overmap_special.h"

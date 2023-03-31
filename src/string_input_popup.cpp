@@ -1,11 +1,11 @@
 #include "string_input_popup.h"
 
 #include <cctype>
+#include <optional>
 
 #include "catacharset.h"
 #include "ime.h"
 #include "input.h"
-#include "optional.h"
 #include "output.h"
 #include "point.h"
 #include "translations.h"

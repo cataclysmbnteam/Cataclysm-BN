@@ -3,6 +3,7 @@
 #define CATA_SRC_MTYPE_H
 
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
 #include <vector>
@@ -14,7 +15,6 @@
 #include "enum_bitset.h"
 #include "enums.h"
 #include "mattack_common.h"
-#include "optional.h"
 #include "pathfinding.h"
 #include "translations.h"
 #include "type_id.h"

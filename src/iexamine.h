@@ -3,13 +3,13 @@
 #define CATA_SRC_IEXAMINE_H
 
 #include <list>
+#include <optional>
 #include <string>
 #include <tuple>
 #include <vector>
 
 #include "calendar.h"
 #include "itype.h"
-#include "optional.h"
 #include "ret_val.h"
 #include "type_id.h"
 

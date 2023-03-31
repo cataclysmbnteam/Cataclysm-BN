@@ -2,6 +2,7 @@
 
 #include <cstdlib>
 #include <algorithm>
+#include <optional>
 #include <set>
 #include <memory>
 
@@ -20,7 +21,6 @@
 #include "units.h"
 #include "units_utility.h"
 #include "color.h"
-#include "optional.h"
 
 static const std::string part_location_structure( "structure" );
 static const itype_id itype_battery( "battery" );

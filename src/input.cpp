@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cctype>
 #include <fstream>
+#include <optional>
 #include <sstream>
 #include <stdexcept>
 #include <array>
@@ -22,7 +23,6 @@
 #include "help.h"
 #include "ime.h"
 #include "json.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "path_info.h"

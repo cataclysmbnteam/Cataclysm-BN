@@ -5,6 +5,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <unordered_set>
@@ -49,7 +50,6 @@
 #include "mission_companion.h"
 #include "npc.h"
 #include "npctalk.h"
-#include "optional.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmap_ui.h"

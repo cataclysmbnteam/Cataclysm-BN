@@ -4,11 +4,11 @@
 
 #include <functional>
 #include <map>
+#include <optional>
 #include <vector>
 #include <string>
 
 #include "coordinates.h"
-#include "optional.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "memory_fast.h"

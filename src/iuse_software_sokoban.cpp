@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <functional>
 #include <memory>
+#include <optional>
 #include <stdexcept>
 
 #include "cata_utility.h"
@@ -11,7 +12,6 @@
 #include "cursesdef.h"
 #include "fstream_utils.h"
 #include "input.h"
-#include "optional.h"
 #include "output.h"
 #include "path_info.h"
 #include "point.h"

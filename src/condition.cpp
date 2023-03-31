@@ -5,6 +5,7 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -28,7 +29,6 @@
 #include "mapdata.h"
 #include "mission.h"
 #include "npc.h"
-#include "optional.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"

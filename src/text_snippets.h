@@ -3,11 +3,11 @@
 #define CATA_SRC_TEXT_SNIPPETS_H
 
 #include <map>
+#include <optional>
 #include <string>
 #include <unordered_map>
 #include <vector>
 
-#include "optional.h"
 #include "translations.h"
 #include "type_id.h"
 

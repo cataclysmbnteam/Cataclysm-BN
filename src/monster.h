@@ -7,6 +7,7 @@
 #include <cstddef>
 #include <functional>
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -21,7 +22,6 @@
 #include "damage.h"
 #include "effect.h"
 #include "enums.h"
-#include "optional.h"
 #include "pldata.h"
 #include "point.h"
 #include "type_id.h"

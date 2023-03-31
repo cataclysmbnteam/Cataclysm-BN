@@ -3,9 +3,9 @@
 #define CATA_SRC_MAGIC_TER_FURN_TRANSFORM_H
 
 #include <map>
+#include <optional>
 #include <vector>
 
-#include "optional.h"
 #include "type_id.h"
 #include "weighted_list.h"
 

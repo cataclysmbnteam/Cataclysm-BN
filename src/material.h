@@ -4,13 +4,13 @@
 
 #include <cstddef>
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
 #include <vector>
 
 #include "fire.h"
-#include "optional.h"
 #include "type_id.h"
 
 class material_type;

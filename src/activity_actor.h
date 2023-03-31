@@ -3,12 +3,12 @@
 #define CATA_SRC_ACTIVITY_ACTOR_H
 
 #include <memory>
+#include <optional>
 #include <unordered_map>
 #include <vector>
 
 #include "activity_type.h"
 #include "clone_ptr.h"
-#include "optional.h"
 
 class Character;
 class JsonIn;
