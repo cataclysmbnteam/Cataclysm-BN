@@ -46,6 +46,7 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "ui_manager.h"
+#include "ui.h"
 #include "wcwidth.h"
 #include "worldfactory.h"
 
@@ -664,38 +665,6 @@ bool main_menu::opening_screen()
                         sel2 = i;
                         action = "CONFIRM";
                     }
-                }
-            }
-        }
-
-        // handle mouse click
-        if( action == "SELECT" || action == "MOUSE_MOVE" ) {
-            cata::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
-            for( const auto &it : main_menu_button_map ) {
-                if( coord.has_value() && it.first.contains( coord.value() ) ) {
-                    if( sel1 != it.second ) {
-                        sel1 = it.second;
-                        sel2 = sel1 == getopt( main_menu_opts::LOADCHAR ) ? last_world_pos : 0;
-                        sel_line = 0;
-                    }
-                    if( action == "SELECT" &&
-                        ( sel1 == getopt( main_menu_opts::HELP ) || sel1 == getopt( main_menu_opts::QUIT ) ) ) {
-                        action = "CONFIRM";
-                    }
-                    ui_manager::redraw();
-                    break;
-                }
-            }
-            for( const auto &it : main_menu_sub_button_map ) {
-                if( coord.has_value() && it.first.contains( coord.value() ) ) {
-                    sel1 = it.second.first;
-                    sel2 = it.second.second;
-                    sel_line = 0;
-                    if( action == "SELECT" ) {
-                        action = "CONFIRM";
-                    }
-                    ui_manager::redraw();
-                    break;
                 }
             }
         }
