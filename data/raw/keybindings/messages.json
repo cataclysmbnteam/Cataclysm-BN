@@ -1,0 +1,9 @@
+[
+  {
+    "id": "TOGGLE_WIDE_DISPLAY",
+    "type": "keybinding",
+    "category": "MESSAGE_LOG",
+    "name": "Toggle wide display for messages",
+    "bindings": [ { "input_method": "keyboard", "key": "p" } ]
+  }
+]
