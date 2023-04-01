@@ -1649,6 +1649,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
         }
         // If you have no martial arts you can still try to block with your arms.
         // But martial arts with leg blocks only don't magically get arm blocks.
+        // Edge case: Leg block only martial arts gain arm blocks if both legs broken.
         if( martial_arts_data->can_arm_block( *this ) || block_parts.empty() ) {
             block_parts.push_back( bodypart_id( "arm_l" ) );
             block_parts.push_back( bodypart_id( "arm_r" ) );
