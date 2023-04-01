@@ -1158,11 +1158,12 @@ else
 	@echo Cannot run json formatter in cross compiles.
 endif
 
+# /data/names work really terribly with the formatter, so we skip them
 style-all-json: $(JSON_FORMATTER_BIN)
-	find data -name "*.json" -print0 | xargs -0 -L 1 $(JSON_FORMATTER_BIN)
+	find data -name "*.json" -print0 | grep -z -v '^data/names/' | xargs -0 -L 1 $(JSON_FORMATTER_BIN)
 
 style-all-json-parallel: $(JSON_FORMATTER_BIN)
-	find data -name "*.json" -print0 | xargs -0 -L 1 -P $$(nproc) $(JSON_FORMATTER_BIN)
+	find data -name "*.json" -print0 | grep -z -v '^data/names/' | xargs -0 -L 1 -P $$(nproc) $(JSON_FORMATTER_BIN)
 
 $(JSON_FORMATTER_BIN): $(JSON_FORMATTER_SOURCES)
 	$(CXX) $(CXXFLAGS) $(TOOL_CXXFLAGS) -Itools/format -Isrc \
