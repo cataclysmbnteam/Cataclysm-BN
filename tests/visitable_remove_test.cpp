@@ -79,7 +79,8 @@ TEST_CASE( "visitable_remove", "[visitable]" )
     }
 
     item temp_liquid( liquid_id );
-    item obj = temp_liquid.in_container( temp_liquid.type->default_container.value_or( "null" ) );
+    item obj =
+        temp_liquid.in_container( temp_liquid.type->default_container.value_or( itype_id::NULL_ID() ) );
     REQUIRE( obj.contents.num_item_stacks() == 1 );
     REQUIRE( obj.contents.front().typeId() == liquid_id );
 
