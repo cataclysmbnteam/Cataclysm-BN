@@ -1,5 +1,4 @@
 #include "messages.h"
-
 #include "calendar.h"
 #include "catacharset.h"
 #include "color.h"
@@ -396,6 +395,25 @@ static bool msg_type_from_name( game_message_type &type, const std::string &name
     return false;
 }
 
+/// simple struct to hold suitable window size.
+///
+/// for future contributor who may want to add customizable window size:
+/// remove anything related to window_size since it's designed only to be toggleable.
+struct window_size {
+    int w;
+    int h;
+    window_size( int w, int h ) : w( std::min( TERMX, w ) ), h( std::min( TERMY, h ) ) { }
+};
+static window_size wide_size()
+{
+    return { static_cast<int>( FULL_SCREEN_WIDTH * 1.5 ), TERMY };
+}
+
+static window_size narrow_size()
+{
+    return { FULL_SCREEN_WIDTH, FULL_SCREEN_HEIGHT };
+}
+
 namespace Messages
 {
 // NOLINTNEXTLINE(cata-xy)
@@ -405,10 +423,13 @@ class dialog
         dialog();
         void run();
     private:
+        void init_first_time();
         void init( ui_adaptor &ui );
         void show();
-        void input();
+        void input( const ui_adaptor &ui );
         void do_filter( const std::string &filter_str );
+        void toggle_wide_display( const ui_adaptor &ui );
+        void set_size();
         static std::vector<std::string> filter_help_text( int width );
 
         const nc_color border_color;
@@ -464,6 +485,8 @@ class dialog
         std::optional<ime_sentry> filter_sentry;
 
         bool first_init = true;
+        bool wide_display = false;
+
 };
 } // namespace Messages
 
@@ -474,29 +497,42 @@ Messages::dialog::dialog()
 {
 }
 
-void Messages::dialog::init( ui_adaptor &ui )
+inline void Messages::dialog::set_size()
 {
-    w_width = std::min( TERMX, static_cast<int>( FULL_SCREEN_WIDTH * 1.5 ) );
-    w_height = TERMY;
+    auto [w, h] = wide_display ? wide_size() : narrow_size();
+    w_width = w;
+    w_height = h;
     w_x = ( TERMX - w_width ) / 2;
     w_y = ( TERMY - w_height ) / 2;
+}
+
+void Messages::dialog::init_first_time()
+{
+    ctxt = input_context( "MESSAGE_LOG" );
+    ctxt.register_action( "UP", to_translation( "Scroll up" ) );
+    ctxt.register_action( "DOWN", to_translation( "Scroll down" ) );
+
+    static auto actionnames = {
+        "PAGE_UP", "PAGE_DOWN", "FILTER", "RESET_FILTER",
+        "QUIT", "HELP_KEYBINDINGS", "TOGGLE_WIDE_DISPLAY"
+    };
+    for( const auto &actionname : actionnames ) {
+        ctxt.register_action( actionname );
+    }
+
+    // Calculate time string display width. The translated strings are expected to
+    // be aligned, so we choose an arbitrary duration here to calculate the width.
+    time_width = utf8_width( to_string_clipped( 1_turns, clipped_align::right ) );
+}
+
+void Messages::dialog::init( ui_adaptor &ui )
+{
+    set_size();
 
     w = catacurses::newwin( w_height, w_width, point( w_x, w_y ) );
 
     if( first_init ) {
-        ctxt = input_context( "MESSAGE_LOG" );
-        ctxt.register_action( "UP", to_translation( "Scroll up" ) );
-        ctxt.register_action( "DOWN", to_translation( "Scroll down" ) );
-        ctxt.register_action( "PAGE_UP" );
-        ctxt.register_action( "PAGE_DOWN" );
-        ctxt.register_action( "FILTER" );
-        ctxt.register_action( "RESET_FILTER" );
-        ctxt.register_action( "QUIT" );
-        ctxt.register_action( "HELP_KEYBINDINGS" );
-
-        // Calculate time string display width. The translated strings are expected to
-        // be aligned, so we choose an arbitrary duration here to calculate the width.
-        time_width = utf8_width( to_string_clipped( 1_turns, clipped_align::right ) );
+        init_first_time();
     }
 
     if( border_width * 2 + time_width + padding_width >= w_width ||
@@ -536,6 +572,7 @@ void Messages::dialog::init( ui_adaptor &ui )
 
     do_filter( filter_str );
 
+    ui.mark_resize();
     ui.position_from_window( w );
 
     first_init = false;
@@ -683,7 +720,13 @@ void Messages::dialog::do_filter( const std::string &filter_str )
     }
 }
 
-void Messages::dialog::input()
+inline void Messages::dialog::toggle_wide_display( const ui_adaptor &ui )
+{
+    wide_display = !wide_display;
+    ui.mark_resize();
+}
+
+void Messages::dialog::input( const ui_adaptor &ui )
 {
     canceled = false;
     if( filtering ) {
@@ -739,6 +782,8 @@ void Messages::dialog::input()
             do_filter( filter_str );
         } else if( action == "QUIT" ) {
             canceled = true;
+        } else if( action == "TOGGLE_WIDE_DISPLAY" ) {
+            toggle_wide_display( ui );
         }
     }
 }
@@ -747,6 +792,7 @@ void Messages::dialog::run()
 {
     ui_adaptor ui;
     ui.on_screen_resize( [this]( ui_adaptor & ui ) {
+        set_size();
         init( ui );
     } );
     ui.mark_resize();
@@ -756,7 +802,7 @@ void Messages::dialog::run()
 
     while( !errored && !canceled ) {
         ui_manager::redraw();
-        input();
+        input( ui );
     }
 }
 
