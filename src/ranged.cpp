@@ -3093,12 +3093,9 @@ void target_ui::update_ammo_range_from_gun_mode()
     if( mode == TargetMode::TurretManual ) {
         itype_id ammo_current = turret->ammo_current();
         // Test no-ammo and not a UPS weapon
-        if( !ammo_current && !activity->reload_loc && ( relevant->get_gun_ups_drain() == 0 ) ) {
+        if( !ammo_current && ( relevant->get_gun_ups_drain() == 0 ) ) {
             ammo = nullptr;
             range = 0;
-        } else if( !!activity->reload_loc ) {
-            ammo = activity->reload_loc.get_item()->type;
-            range = turret->range();
         } else {
             ammo = &*ammo_current;
             range = turret->range();
