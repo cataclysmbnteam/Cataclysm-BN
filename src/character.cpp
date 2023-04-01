@@ -5207,7 +5207,6 @@ void Character::update_bodytemp( const map &m, const weather_manager &weather )
                               has_trait( trait_M_SKIN2 ) || has_trait( trait_M_SKIN3 );
     const bool has_climate_control = in_climate_control();
     const bool use_floor_warmth = can_use_floor_warmth();
-    const std::optional<vpart_reference> boardable = vp.part_with_feature( "BOARDABLE", true );
     // In bodytemp units
     const int ambient_norm = 1900 - BODYTEMP_NORM;
 

@@ -12,6 +12,7 @@
 
 #include "avatar.h"
 #include "basecamp.h"
+#include "character.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "faction_camp.h"
@@ -564,8 +565,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
             // if camp that player is at, has a radio tower
             std::optional<basecamp *> player_camp =
                 overmap_buffer.find_camp( g->u.global_omt_location().xy() );
-            if( const std::optional<basecamp *> player_camp = overmap_buffer.find_camp(
-                        g->u.global_omt_location().xy() ) ) {
+            if( player_camp ) {
                 if( ( *player_camp )->has_provides( "radio_tower" ) ) {
                     max_range *= 5;
                 }

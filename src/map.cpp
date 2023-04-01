@@ -5001,7 +5001,6 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
         const std::optional<vpart_reference> kilnpart = vp.part_with_feature( "KILN", true );
         const std::optional<vpart_reference> chempart = vp.part_with_feature( "CHEMLAB", true );
         const std::optional<vpart_reference> autoclavepart = vp.part_with_feature( "AUTOCLAVE", true );
-        const std::optional<vpart_reference> autodocpart = vp.part_with_feature( "AUTODOC", true );
         const std::optional<vpart_reference> cargo = vp.part_with_feature( "CARGO", true );
 
         if( kpart ) { // we have a faucet, now to see what to drain
