@@ -1140,12 +1140,12 @@ static activity_reason_info find_base_construction(
             }
             activity_reason_info act_info_pre = find_base_construction( list_constructions,
                                                 p, inv, loc, part_con_id, pre_build, used );
-            if( act_info_pre.can_do ) {
+            if( act_info_pre.can_do && act_info_pre.con_idx ) {
                 return activity_reason_info::build( do_activity_reason::CAN_DO_PREREQ, true,
                                                     *act_info_pre.con_idx );
             }
             //find first pre-req failed reason
-            if( !reason ) {
+            if( !reason && act_info_pre.con_idx ) {
                 reason = act_info_pre.reason;
                 pre_req_idx = *act_info_pre.con_idx;
             }
