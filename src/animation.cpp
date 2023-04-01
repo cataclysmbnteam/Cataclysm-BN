@@ -496,7 +496,6 @@ void game::draw_bullet( const tripoint &t, const int i,
     }
 
     static const std::string bullet_unknown  {};
-    // static const std::string bullet_normal   {"animation_bullet_normal"};
     static const std::string bullet_normal_0deg {"animation_bullet_normal_0deg"};
     static const std::string bullet_normal_45deg {"animation_bullet_normal_45deg"};
     static const std::string bullet_flame    {"animation_bullet_flame"};

@@ -2260,7 +2260,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
 
     // make sure we aren't going to rotate the tile if it shouldn't be rotated
     if( !display_tile.rotates
-        && !( category == C_NONE || category == C_MONSTER || category == C_BULLET ) ) {
+        && category != C_NONE && category != C_MONSTER && category != C_BULLET ) {
         rota = 0;
     }
 
@@ -3599,7 +3599,11 @@ void cata_tiles::void_cone_aoe()
 
 void cata_tiles::draw_bullet_frame()
 {
-    draw_from_id_string( bul_id, C_BULLET, empty_string, bul_pos, 0, bul_rotation,
+    static const std::string bullet_fallback {"animation_bullet_normal"};
+    const auto supports_directional = find_tile_looks_like( bul_id, C_BULLET );
+
+    draw_from_id_string( supports_directional ? bul_id : bullet_fallback, C_BULLET, empty_string,
+                         bul_pos, 0, bul_rotation,
                          lit_level::LIT, false, 0 );
 }
 void cata_tiles::draw_hit_frame()
