@@ -1656,10 +1656,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
         }
         block_parts.erase( std::remove_if( block_parts.begin(),
         block_parts.end(), [this]( bodypart_id & bpid ) {
-            if( get_part_hp_cur( bpid ) <= 0 ) {
-                return true;
-            }
-            return false;
+            return get_part_hp_cur( bpid ) <= 0;
         } ), block_parts.end() );
 
         if( block_parts.empty() ) {
