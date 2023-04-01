@@ -1112,7 +1112,7 @@ static activity_reason_info find_base_construction(
 
     //we can't immediately build it, looking for pre-req
     used.insert( id );
-    std::optional<do_activity_reason> reason;
+    auto reason = do_activity_reason::UNKNOWN_ACTIVITY;
     construction_id pre_req_idx( -1 );
     //first step: try only constructions with the same group
     //second step: try all constructions
@@ -1145,13 +1145,13 @@ static activity_reason_info find_base_construction(
                                                     *act_info_pre.con_idx );
             }
             //find first pre-req failed reason
-            if( !reason && act_info_pre.con_idx ) {
+            if( reason == do_activity_reason::UNKNOWN_ACTIVITY && act_info_pre.con_idx ) {
                 reason = act_info_pre.reason;
                 pre_req_idx = *act_info_pre.con_idx;
             }
             if( act_info_pre.reason == do_activity_reason::ALREADY_DONE ) {
                 //pre-req is already here, but we still can't build over it
-                reason.reset();
+                reason = do_activity_reason::UNKNOWN_ACTIVITY;
                 break;
             }
         }
@@ -1161,11 +1161,11 @@ static activity_reason_info find_base_construction(
         return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, id );
     }
     //pre-req failed?
-    if( reason ) {
-        if( *reason == do_activity_reason::NO_COMPONENTS ) {
+    if( reason != do_activity_reason::UNKNOWN_ACTIVITY ) {
+        if( reason == do_activity_reason::NO_COMPONENTS ) {
             return activity_reason_info::build( do_activity_reason::NO_COMPONENTS_PREREQ, false, pre_req_idx );
         }
-        return activity_reason_info::build( *reason, false, pre_req_idx );
+        return activity_reason_info::build( reason, false, pre_req_idx );
     }
     if( !pcb ) {
         return activity_reason_info::build( do_activity_reason::NO_COMPONENTS, false, id );
