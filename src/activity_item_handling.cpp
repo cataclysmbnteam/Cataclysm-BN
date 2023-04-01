@@ -3133,7 +3133,7 @@ static std::optional<tripoint> find_refuel_spot_trap( const std::vector<tripoint
     return {};
 }
 
-bool find_auto_consume( player &p, const bool food )
+bool find_auto_consume( player &p, const consume_type type )
 {
     // return false if there is no point searching again while the activity is still happening.
     if( p.is_npc() ) {
@@ -3145,7 +3145,7 @@ bool find_auto_consume( player &p, const bool food )
     const tripoint pos = p.pos();
     map &here = get_map();
     zone_manager &mgr = zone_manager::get_manager();
-    const zone_type_id consume_type_zone( food ? "AUTO_EAT" : "AUTO_DRINK" );
+    const zone_type_id consume_type_zone( type == consume_type::FOOD ? "AUTO_EAT" : "AUTO_DRINK" );
     if( here.check_vehicle_zones( g->get_levz() ) ) {
         mgr.cache_vzones();
     }
@@ -3155,17 +3155,43 @@ bool find_auto_consume( player &p, const bool food )
         return false;
     }
 
-    const auto ok_to_consume = [&p, food]( item & it ) -> bool {
+    const auto ok_to_consume = [&p, type]( item & it ) -> bool {
         item &comest = p.get_consumable_from( it );
-        // *INDENT-OFF*
-        /* not food.              */ if( comest.is_null() || comest.is_craft() || !comest.is_food() ) { return false; }
-        /* not enjoyable.         */ if( p.fun_for( comest ).first < -5 ) { return false; }
-        /* cannot consume.        */ if( !p.can_consume( comest ) ) { return false; }
-        /* wont eat, e.g cannibal */ if( !p.will_eat( comest, false ).success() ) { return false; }
-        /* not ours               */ if( !it.is_owned_by( p, true ) ) { return false; }
-        /* not quenching enough   */ if( !food && comest.get_comestible()->quench < 15 ) { return false; }
-        /* Unsafe to drink or eat */ if( comest.has_flag( flag_UNSAFE_CONSUME ) ) { return false; }
-        // *INDENT-ON*
+        /* not food.              */
+        if( comest.is_null() || comest.is_craft() || !comest.is_food() )
+        {
+            return false;
+        }
+        /* not enjoyable.         */
+        if( p.fun_for( comest ).first < -5 )
+        {
+            return false;
+        }
+        /* cannot consume.        */
+        if( !p.can_consume( comest ) )
+        {
+            return false;
+        }
+        /* wont eat, e.g cannibal */
+        if( !p.will_eat( comest, false ).success() )
+        {
+            return false;
+        }
+        /* not ours               */
+        if( !it.is_owned_by( p, true ) )
+        {
+            return false;
+        }
+        /* not quenching enough   */
+        if( type == consume_type::DRINK && comest.get_comestible()->quench < 15 )
+        {
+            return false;
+        }
+        /* Unsafe to drink or eat */
+        if( comest.has_flag( flag_UNSAFE_CONSUME ) )
+        {
+            return false;
+        }
         return true;
     };
 

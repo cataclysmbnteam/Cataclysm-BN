@@ -125,14 +125,16 @@ bool generic_multi_activity_handler( player_activity &act, player &p, bool check
 void activity_on_turn_fetch( player_activity &, player *p );
 void activity_on_turn_wear( player_activity &act, player &p );
 
+enum class consume_type : bool { FOOD, DRINK };
+
 /**
  * @brief Find an item to consume automatically
  *
- * @param food if true, search for food, otherwise search for drink
+ * @param consume_type type of item to consume
  * @return true player ate food or was nauseous
  * @return false player did not find anything suitable or is a npc
  */
-bool find_auto_consume( player &p, bool food );
+bool find_auto_consume( player &p, const consume_type type );
 void try_fuel_fire( player_activity &act, player &p, bool starting_fire = false );
 
 enum class item_drop_reason {
