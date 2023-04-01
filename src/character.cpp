@@ -1,4 +1,5 @@
 #include "character.h"
+#include "bodypart.h"
 #include "character_encumbrance.h"
 
 #include <algorithm>
@@ -89,6 +90,7 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
+#include "type_id.h"
 #include "ui.h"
 #include "ui_manager.h"
 #include "units_utility.h"
@@ -8367,6 +8369,28 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
     if( hurt == bodypart_id( "num_bp" ) ) {
         debugmsg( "Wacky body part hurt!" );
         hurt = bodypart_id( "torso" );
+    }
+
+    if( hurt != bodypart_id( "torso" ) ) {
+        const std::string hurt_name = body_part_name_accusative( hurt );
+        if( is_limb_broken( hurt ) ) {
+            // if body part is already broken, redirect half the damage to torso
+            dam /= 2;
+            hurt = bodypart_id( "torso" );
+            add_msg_player_or_npc( m_bad,
+                                   _( "Your %s is broken and %d damage is redirected to your torso!" ),
+                                   _( "<npcname>'s %s is broken and %d damage is redirected to their torso!" ),
+                                   hurt_name, dam );
+        } else if( is_limb_disabled( hurt ) ) {
+            // send some of the damage to torso
+            const int redirected_damage = dam / 4;
+            apply_damage( source, bodypart_id( "torso" ), redirected_damage, bypass_med );
+            add_msg_player_or_npc( m_bad,
+                                   _( "Your %s is disabled and %d damage is redirected to your torso!" ),
+                                   _( "<npcname>'s %s is disabled and %d damage is redirected to their torso!" ),
+                                   hurt_name, redirected_damage );
+            dam -= redirected_damage;
+        }
     }
 
     mod_pain( dam / 2 );
