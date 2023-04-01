@@ -116,25 +116,20 @@ void input_manager::init()
     init_keycode_mapping();
     reset_timeout();
 
-    try {
-        load( PATH_INFO::keybindings(), false );
-    } catch( const JsonError &err ) {
-        throw std::runtime_error( err.what() );
-    }
-    try {
-        load( PATH_INFO::keybindings_vehicle(), false );
-    } catch( const JsonError &err ) {
-        throw std::runtime_error( err.what() );
-    }
-    try {
-        load( PATH_INFO::keybindings_edit_creature(), false );
-    } catch( const JsonError &err ) {
-        throw std::runtime_error( err.what() );
-    }
-    try {
-        load( PATH_INFO::user_keybindings(), true );
-    } catch( const JsonError &err ) {
-        throw std::runtime_error( err.what() );
+    using is_user_preference = bool;
+    auto bindings = std::vector<std::pair<std::string, is_user_preference>> {
+        { PATH_INFO::keybindings(),               false },
+        { PATH_INFO::keybindings_vehicle(),       false },
+        { PATH_INFO::keybindings_edit_creature(), false },
+        { PATH_INFO::keybindings_messages(),      false },
+        { PATH_INFO::user_keybindings(),          true  },
+    };
+    for( const auto &[filepath, is_user_preference] : bindings ) {
+        try {
+            load( filepath, is_user_preference );
+        } catch( const JsonError &err ) {
+            throw std::runtime_error( err.what() );
+        }
     }
 
     if( keymap_file_loaded_from.empty() || ( keymap.empty() && unbound_keymap.empty() ) ) {
@@ -464,8 +459,9 @@ std::string input_manager::get_keyname( int ch, input_event_t inp_type, bool por
 const std::vector<input_event> &input_manager::get_input_for_action( const std::string
         &action_descriptor, const std::string &context, bool *overwrites_default )
 {
-    const action_attributes &attributes = get_action_attributes( action_descriptor, context,
-                                          overwrites_default );
+    const action_attributes &attributes =
+        get_action_attributes( action_descriptor, context, overwrites_default );
+
     return attributes.input_events;
 }
 
@@ -720,12 +716,10 @@ std::string input_context::key_bound_to( const std::string &action_descriptor, c
 
 std::string input_context::get_available_single_char_hotkeys( std::string requested_keys )
 {
-    for( std::vector<std::string>::const_iterator registered_action = registered_actions.begin();
-         registered_action != registered_actions.end();
-         ++registered_action ) {
+    for( const auto &registered_action : registered_actions ) {
+        const std::vector<input_event> &events =
+            inp_mngr.get_input_for_action( registered_action, category );
 
-        const std::vector<input_event> &events = inp_mngr.get_input_for_action( *registered_action,
-                category );
         for( const auto &events_event : events ) {
             // Only consider keyboard events without modifiers
             if( events_event.type == CATA_INPUT_KEYBOARD && events_event.modifiers.empty() ) {
