@@ -34,6 +34,7 @@ std::string help();
 std::string keybindings();
 std::string keybindings_vehicle();
 std::string keybindings_edit_creature();
+std::string keybindings_messages();
 std::string main_menu_tips();
 std::string lastworld();
 std::string memorialdir();

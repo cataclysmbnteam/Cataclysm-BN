@@ -219,6 +219,10 @@ std::string PATH_INFO::keybindings_edit_creature()
 {
     return datadir_value + "raw/" + "keybindings/edit_creature_effects.json";
 }
+std::string PATH_INFO::keybindings_messages()
+{
+    return datadir_value + "raw/" + "keybindings/messages.json";
+}
 std::string PATH_INFO::main_menu_tips()
 {
     return datadir_value + "raw/" + "tips.json";
