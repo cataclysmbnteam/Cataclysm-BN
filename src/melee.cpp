@@ -1642,31 +1642,33 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
 
         handle_melee_wear( shield, wear_modifier );
     } else {
-        // Choose which body part to block with, assume left side first
-        if( martial_arts_data->can_leg_block( *this ) && martial_arts_data->can_arm_block( *this ) ) {
-            bp_hit = one_in( 2 ) ? bodypart_id( "leg_l" ) : bodypart_id( "arm_l" );
-        } else if( martial_arts_data->can_leg_block( *this ) ) {
-            bp_hit = bodypart_id( "leg_l" );
-        } else {
-            bp_hit = bodypart_id( "arm_l" );
+        std::vector<bodypart_id> block_parts;
+        if( martial_arts_data->can_leg_block( *this ) ) {
+            block_parts.push_back( bodypart_id( "leg_l" ) );
+            block_parts.push_back( bodypart_id( "leg_r" ) );
         }
-
-        // Check if we should actually use the right side to block
-        if( bp_hit == bodypart_id( "leg_l" ) ) {
-            if( get_part_hp_cur( bodypart_id( "leg_r" ) ) > get_part_hp_cur( bodypart_id( "leg_l" ) ) ) {
-                bp_hit = bodypart_id( "leg_r" );
-            }
-        } else {
-            if( get_part_hp_cur( bodypart_id( "arm_r" ) ) > get_part_hp_cur( bodypart_id( "arm_l" ) ) ) {
-                bp_hit = bodypart_id( "arm_r" );
-            }
+        // If you have no martial arts you can still try to block with your arms.
+        // But martial arts with leg blocks only don't magically get arm blocks.
+        if( martial_arts_data->can_arm_block( *this ) || block_parts.empty() ) {
+            block_parts.push_back( bodypart_id( "arm_l" ) );
+            block_parts.push_back( bodypart_id( "arm_r" ) );
         }
-
-        // At this point, we know we won't try blocking with items, only with limbs.
-        // But there are no limbs left, so we can disable further attempts at blocking.
-        if( get_part_hp_cur( bp_hit ) <= 0 ) {
-            blocks_left = 0;
+        block_parts.erase( std::remove_if( block_parts.begin(),
+        block_parts.end(), [this]( bodypart_id & bpid ) {
+            if( get_part_hp_cur( bpid ) <= 0 ) {
+                return true;
+            }
             return false;
+        } ), block_parts.end() );
+
+        if( block_parts.empty() ) {
+            // We have no parts with HP to block with.
+            return false;
+        } else {
+            std::sort( block_parts.begin(), block_parts.end(), [this]( bodypart_id & lhs, bodypart_id & rhs ) {
+                return get_part_hp_cur( lhs ) > get_part_hp_cur( rhs );
+            } );
+            bp_hit = block_parts[0];
         }
 
         thing_blocked_with = body_part_name( bp_hit->token );
