@@ -1651,8 +1651,8 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
         // But martial arts with leg blocks only don't magically get arm blocks.
         // Edge case: Leg block only martial arts gain arm blocks if both legs broken.
         if( martial_arts_data->can_arm_block( *this ) || block_parts.empty() ) {
-            block_parts.push_back( bodypart_id( "arm_l" ) );
-            block_parts.push_back( bodypart_id( "arm_r" ) );
+            block_parts.emplace_back( bodypart_id( "arm_l" ) );
+            block_parts.emplace_back( bodypart_id( "arm_r" ) );
         }
         block_parts.erase( std::remove_if( block_parts.begin(),
         block_parts.end(), [this]( bodypart_id & bpid ) {
