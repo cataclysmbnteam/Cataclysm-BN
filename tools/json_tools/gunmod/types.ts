@@ -6,9 +6,10 @@ export const legacyGunMod = z.object({
   mod_targets: z.array(z.string()),
 }).passthrough()
 export type LegacyGunMod = Readonly<z.infer<typeof legacyGunMod>>
+export type LegacyModTargets = LegacyGunMod["mod_targets"]
 
 /** item should satisfy all the following categories to be able to accept this gunmod. */
-type RequiredCategory = Uppercase<string>[]
+export type RequiredCategory = string[]
 
 /** gunmod with categories extracted from `mod_targets`. */
 export type NewGunMod = Readonly<{
