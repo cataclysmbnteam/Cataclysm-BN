@@ -343,7 +343,7 @@
     "id": "cavalry_sabre",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "1H_SWORDS", "MEDIEVAL_SWORDS" ],
+    "weapon_category": [ "1H_SWORDS", "MEDIEVAL_SWORDS", "DUELING_SWORDS" ],
     "name": { "str": "cavalry saber" },
     "description": "This is a curved sword associated with cavalry from the Early Modern period onwards.  Lightweight but a deadly slashing weapon.",
     "weight": "910 g",
