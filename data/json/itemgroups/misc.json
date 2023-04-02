@@ -206,7 +206,7 @@
     "subtype": "collection",
     "entries": [
       { "item": "file", "prob": 50, "count": [ 1, 15 ] },
-      { "item": "paper", "prob": 60, "count": [ 10, 125 ] },
+      { "item": "paper", "prob": 60, "charges": [ 10, 125 ] },
       { "item": "candle", "prob": 3, "charges": 100 },
       { "item": "holybook_bible1", "prob": 3 },
       { "item": "candlestick", "prob": 2 }

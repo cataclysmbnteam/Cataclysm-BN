@@ -2564,7 +2564,7 @@ int map::bash_rating( const int str, const tripoint &p, const bool allow_floor )
 
 // End of 3D bashable
 
-void map::make_rubble( const tripoint &p, const furn_id &rubble_type, const bool items,
+void map::make_rubble( const tripoint &p, const furn_id &rubble_type,
                        const ter_id &floor_type, bool overwrite )
 {
     if( overwrite ) {
@@ -2585,37 +2585,6 @@ void map::make_rubble( const tripoint &p, const furn_id &rubble_type, const bool
         }
 
         furn_set( p, rubble_type );
-    }
-
-    if( !items ) {
-        return;
-    }
-
-    //Still hardcoded, but a step up from the old stuff due to being in only one place
-    if( rubble_type == f_wreckage ) {
-        item chunk( "steel_chunk", calendar::turn );
-        item scrap( "scrap", calendar::turn );
-        add_item_or_charges( p, chunk );
-        add_item_or_charges( p, scrap );
-        if( one_in( 5 ) ) {
-            item pipe( "pipe", calendar::turn );
-            item wire( "wire", calendar::turn );
-            add_item_or_charges( p, pipe );
-            add_item_or_charges( p, wire );
-        }
-    } else if( rubble_type == f_rubble_rock ) {
-        item rock( "rock", calendar::turn );
-        int rock_count = rng( 1, 3 );
-        for( int i = 0; i < rock_count; i++ ) {
-            add_item_or_charges( p, rock );
-        }
-    } else if( rubble_type == f_rubble ) {
-        item splinter( "splinter", calendar::turn );
-        int splinter_count = rng( 2, 8 );
-        for( int i = 0; i < splinter_count; i++ ) {
-            add_item_or_charges( p, splinter );
-        }
-        spawn_item( p, itype_nail, 1, rng( 20, 50 ) );
     }
 }
 

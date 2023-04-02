@@ -1,7 +1,7 @@
 [
   {
     "id": "sling",
-    "copy-from": "throwing_weapon_base",
+    "copy-from": "sling_base",
     "looks_like": "slingshot",
     "type": "GUN",
     "color": "brown",
@@ -23,7 +23,7 @@
   },
   {
     "id": "staff_sling",
-    "copy-from": "throwing_weapon_base",
+    "copy-from": "sling_base",
     "looks_like": "slingshot",
     "type": "GUN",
     "color": "brown",
@@ -32,6 +32,7 @@
     "price": 150,
     "//": "The staff sling,consists of a staff with a short sling at one end. ",
     "material": [ "wood", "leather" ],
+    "weapon_category": [ "QUARTERSTAVES" ],
     "extend": { "flags": [ "BELTED", "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ] },
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "ammo": "rock",
