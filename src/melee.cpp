@@ -1661,6 +1661,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
 
         if( block_parts.empty() ) {
             // We have no parts with HP to block with.
+            blocks_left = 0;
             return false;
         } else {
             std::sort( block_parts.begin(), block_parts.end(), [this]( bodypart_id & lhs, bodypart_id & rhs ) {
