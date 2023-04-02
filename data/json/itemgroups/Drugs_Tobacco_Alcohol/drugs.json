@@ -28,7 +28,7 @@
     "type": "item_group",
     "//": "antibiotics used for the MISSION_GET_ANTIBIOTICS quest",
     "items": [ [ "antibiotics", 100 ], [ "strong_antibiotic", 75 ], [ "panacea", 50 ] ]
-  },   
+  },
   {
     "id": "drugs_emergency",
     "type": "item_group",
