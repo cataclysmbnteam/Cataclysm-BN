@@ -12,6 +12,6 @@
     "symbol": ":",
     "color": "light_gray",
     "location": "brass catcher",
-    "mod_target_categories": [ ["SUBMACHINE_GUNS"], ["RIFLES"], ["SHOTGUNS"], ["PISTOLS"], ["ROCKET_LAUNCHERS"], ["GRENADE_LAUNCHERS"] ]
+    "mod_target_categories": [ [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "SHOTGUNS" ], [ "PISTOLS" ], [ "ROCKET_LAUNCHERS" ], [ "GRENADE_LAUNCHERS" ] ]
   }
 ]

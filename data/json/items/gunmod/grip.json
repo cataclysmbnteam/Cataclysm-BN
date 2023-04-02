@@ -13,7 +13,15 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "grip",
-    "mod_target_categories": [ ["PISTOLS"], ["SUBMACHINE_GUNS"], ["RIFLES"], ["SHOTGUNS"], ["CROSSBOWS"], ["GRENADE_LAUNCHERS"], ["ROCKET_LAUNCHERS"] ],
+    "mod_target_categories": [
+      [ "PISTOLS" ],
+      [ "SUBMACHINE_GUNS" ],
+      [ "RIFLES" ],
+      [ "SHOTGUNS" ],
+      [ "CROSSBOWS" ],
+      [ "GRENADE_LAUNCHERS" ],
+      [ "ROCKET_LAUNCHERS" ]
+    ],
     "handling_modifier": -5,
     "weight_multiplier": 0.75,
     "flags": [ "REDUCED_BASHING" ]
@@ -33,7 +41,15 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "grip",
-    "mod_target_categories": [ ["PISTOLS"], ["SUBMACHINE_GUNS"], ["RIFLES"], ["BOWS"], ["CROSSBOWS"], ["GRENADE_LAUNCHERS"], ["ROCKET_LAUNCHERS"] ],
+    "mod_target_categories": [
+      [ "PISTOLS" ],
+      [ "SUBMACHINE_GUNS" ],
+      [ "RIFLES" ],
+      [ "BOWS" ],
+      [ "CROSSBOWS" ],
+      [ "GRENADE_LAUNCHERS" ],
+      [ "ROCKET_LAUNCHERS" ]
+    ],
     "handling_modifier": 4
   },
   {
@@ -51,7 +67,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "grip",
-    "mod_target_categories": [ ["PISTOLS"] ],
+    "mod_target_categories": [ [ "PISTOLS" ] ],
     "handling_modifier": -10
   }
 ]

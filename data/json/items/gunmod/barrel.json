@@ -11,7 +11,7 @@
     "symbol": ":",
     "color": "light_gray",
     "location": "barrel",
-    "mod_target_categories": [ ["SUBMACHINE_GUNS"], [ "RIFLES"], ["SHOTGUNS"] ],
+    "mod_target_categories": [ [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "SHOTGUNS" ] ],
     "dispersion_modifier": 75,
     "loudness_modifier": 5,
     "flags": [ "IRREMOVABLE" ]
@@ -30,7 +30,7 @@
     "symbol": ":",
     "color": "light_gray",
     "location": "barrel",
-    "mod_target_categories": [ ["SUBMACHINE_GUNS"], ["RIFLES"], ["SHOTGUNS"], ["PISTOLS"] ],
+    "mod_target_categories": [ [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "SHOTGUNS" ], [ "PISTOLS" ] ],
     "damage_modifier": { "damage_type": "stab", "amount": 500 },
     "dispersion_modifier": 500,
     "ups_charges_multiplier": 50.0
