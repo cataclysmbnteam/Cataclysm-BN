@@ -1333,45 +1333,38 @@ void Item_factory::check_definitions() const
             if( ( type->gunmod->sight_dispersion < 0 ) != ( type->gunmod->aim_speed < 0 ) ) {
                 msg += "gunmod must have both sight_dispersion and aim_speed set or neither of them set\n";
             }
-            for( const gun_type_type &t : type->gunmod->usable ) {
-                // TODO: Make gun_type_type not require horrid checks like this one
-                const skill_id gun_skill = skill_id( t.name_ );
-                bool is_skill = ( gun_skill.is_valid() && gun_skill->is_combat_skill() )
-                                || t.name_ == "bow"
-                                || t.name_ == "crossbow";
-                itype_id item_type( t.name_ );
-                bool is_item = item_type.is_valid();
-                if( !is_skill && !is_item ) {
-                    msg += string_format( "gunmod is usable for invalid item/gun type %s\n", t.name_ );
+            for( const itype_id &t : type->gunmod->usable ) {
+                if( !t.is_valid() ) {
+                    msg += string_format( "gunmod is usable for invalid item %s\n", t.c_str() );
                     continue;
                 }
 
-                if( json_report_strict && t.name_ == "bow" ) {
-                    msg += string_format( "'bow' location is deprecated, use 'archery' instead" );
+                const itype *target = &*t;
+                if( target->gun->valid_mod_locations.count( type->gunmod->location ) == 0 ) {
+                    msg += string_format( "gunmod is usable for gun %s which doesn't have a slot of type %s\n",
+                                          t.c_str(), type->gunmod->location.str() );
                 }
 
-                // We need to check is_skill because something can be both an item and a skill
-                if( !is_skill && is_item ) {
-                    const itype *target = &*item_type;
-                    if( target->gun->valid_mod_locations.count( type->gunmod->location ) == 0 ) {
-                        msg += string_format( "gunmod is usable for gun %s which doesn't have a slot of type %s\n",
-                                              t.name_, type->gunmod->location.str() );
+                if( type->mod != nullptr && !type->mod->ammo_modifier.empty() ) {
+                    auto acceptable_ammo = type->mod->ammo_modifier;
+                    for( const auto &pr : type->mod->magazine_adaptor ) {
+                        acceptable_ammo.insert( pr.first );
                     }
-
-                    if( type->mod != nullptr && !type->mod->ammo_modifier.empty() ) {
-                        auto acceptable_ammo = type->mod->ammo_modifier;
-                        for( const auto &pr : type->mod->magazine_adaptor ) {
-                            acceptable_ammo.insert( pr.first );
+                    auto acceptable_magazines = !type->mod->magazine_adaptor.empty()
+                                                ? type->mod->magazine_adaptor
+                                                : target->magazines;
+                    for( const ammotype &ammo : acceptable_ammo ) {
+                        if( acceptable_magazines.find( ammo ) == acceptable_magazines.end() ) {
+                            msg += string_format( "gunmod can be applied to %s, which has no magazines for ammo %s\n",
+                                                  t.c_str(), ammo.str() );
                         }
-                        auto acceptable_magazines = !type->mod->magazine_adaptor.empty()
-                                                    ? type->mod->magazine_adaptor
-                                                    : target->magazines;
-                        for( const ammotype &ammo : acceptable_ammo ) {
-                            if( acceptable_magazines.find( ammo ) == acceptable_magazines.end() ) {
-                                msg += string_format( "gunmod can be applied to %s, which has no magazines for ammo %s\n",
-                                                      t.name_, ammo.str() );
-                            }
-                        }
+                    }
+                }
+            }
+            for( const std::unordered_set<weapon_category_id> &wv : type->gunmod->usable_category ) {
+                for( const weapon_category_id &wid : wv ) {
+                    if( !wid.is_valid() ) {
+                        msg += string_format( "gunmod is usable for invalid weapon category %s\n", wid.c_str() );
                     }
                 }
             }
@@ -2212,12 +2205,8 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
                                              time_duration::units ) );
     }
 
-    if( jo.has_member( "mod_targets" ) ) {
-        slot.usable.clear();
-        for( const auto &t : jo.get_tags( "mod_targets" ) ) {
-            slot.usable.insert( gun_type_type( t ) );
-        }
-    }
+    assign( jo, "mod_targets", slot.usable );
+    assign( jo, "mod_target_categories", slot.usable_category );
 
     assign( jo, "mode_modifier", slot.mode_modifier );
     assign( jo, "reload_modifier", slot.reload_modifier );

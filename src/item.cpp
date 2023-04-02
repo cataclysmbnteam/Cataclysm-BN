@@ -2458,10 +2458,25 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     insert_separation_line( info );
 
     if( parts->test( iteminfo_parts::GUNMOD_USEDON ) ) {
-        std::string used_on_str = _( "Used on: " ) +
-        enumerate_as_string( mod.usable.begin(), mod.usable.end(), []( const gun_type_type & used_on ) {
-            return string_format( "<info>%s</info>", used_on.name() );
-        } );
+        std::string used_on_str = _( "Used on:" );
+
+        if( !mod.usable.empty() ) {
+            used_on_str += _( "\n  Specific: " ) + enumerate_as_string( mod.usable.begin(),
+            mod.usable.end(), []( const itype_id & used_on ) {
+                return string_format( "<info>%s</info>", used_on->nname( 1 ) );
+            } );
+        }
+
+        if( !mod.usable_category.empty() ) {
+            used_on_str += _( "\n  Category:" );
+            for( const std::unordered_set<weapon_category_id> &catgroup : mod.usable_category ) {
+                used_on_str += ( " [ " ) + enumerate_as_string( mod.usable_category.begin(),
+                mod.usable_category.end(), []( const weapon_category_id & wcid ) {
+                    return string_format( "<info>%s</info>", wcid->name().translated() );
+                } ) + ( " ]" );
+            }
+        }
+
         info.push_back( iteminfo( "GUNMOD", used_on_str ) );
     }
 
@@ -7187,19 +7202,6 @@ skill_id item::gun_skill() const
     return type->gun->skill_used;
 }
 
-gun_type_type item::gun_type() const
-{
-    if( !is_gun() ) {
-        return gun_type_type( std::string() );
-    }
-    if( has_flag( flag_CROSSBOW ) ) {
-        return gun_type_type( translate_marker_context( "gun_type_type", "crossbow" ) );
-    }
-    // TODO: move to JSON and remove extraction of this from "GUN" (via skill id)
-    //and from "GUNMOD" (via "mod_targets") in lang/extract_json_strings.py
-    return gun_type_type( gun_skill().str() );
-}
-
 skill_id item::melee_skill() const
 {
     if( !is_melee() ) {
@@ -7762,9 +7764,7 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
         debugmsg( "Tried checking compatibility of non-gunmod" );
         return ret_val<bool>::make_failure();
     }
-    static const gun_type_type pistol_gun_type( translate_marker_context( "gun_type_type", "pistol" ) );
-    static const skill_id skill_archery( "archery" );
-    static const std::string bow_hack_str( "bow" );
+    const islot_gunmod &g_mod = *mod.type->gunmod;
 
     if( !is_gun() ) {
         return ret_val<bool>::make_failure( _( "isn't a weapon" ) );
@@ -7775,24 +7775,30 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
     } else if( gunmod_find( mod.typeId() ) ) {
         return ret_val<bool>::make_failure( _( "already has a %s" ), mod.tname( 1 ) );
 
-    } else if( !get_mod_locations().count( mod.type->gunmod->location ) ) {
+    } else if( !get_mod_locations().count( g_mod.location ) ) {
         return ret_val<bool>::make_failure( _( "doesn't have a slot for this mod" ) );
 
-    } else if( get_free_mod_locations( mod.type->gunmod->location ) <= 0 ) {
+    } else if( get_free_mod_locations( g_mod.location ) <= 0 ) {
         return ret_val<bool>::make_failure( _( "doesn't have enough room for another %s mod" ),
                                             mod.type->gunmod->location.name() );
 
-        // TODO: Get rid of the "archery"->"bow" hack
-    } else if( !mod.type->gunmod->usable.count( gun_type() ) &&
-               !mod.type->gunmod->usable.count( typeId().str() ) &&
-               !( gun_skill() == skill_archery && mod.type->gunmod->usable.count( bow_hack_str ) > 0 ) ) {
-        return ret_val<bool>::make_failure( _( "cannot have a %s" ), mod.tname() );
+    } else if( !g_mod.usable.empty() || !g_mod.usable_category.empty() ) {
+        bool usable = g_mod.usable.count( this->typeId() );
+        for( const std::unordered_set<weapon_category_id> &mod_cat : g_mod.usable_category ) {
+            if( usable ) {
+                break;
+            }
+            if( std::all_of( mod_cat.begin(), mod_cat.end(), [this]( weapon_category_id & wcid ) {
+            return this->type->weapon_category.count( wcid );
+            } ) ) {
+                usable = true;
+            }
+        }
+        if( !usable ) {
+            return ret_val<bool>::make_failure( _( "cannot have a %s" ), mod.tname() );
+        }
 
-    } else if( typeId() == itype_hand_crossbow &&
-               !mod.type->gunmod->usable.count( pistol_gun_type ) ) {
-        return ret_val<bool>::make_failure( _( "isn't big enough to use that mod" ) );
-
-    } else if( mod.type->gunmod->location.str() == "underbarrel" &&
+    } else if( g_mod.location.str() == "underbarrel" &&
                !mod.has_flag( flag_PUMP_RAIL_COMPATIBLE ) && has_flag( flag_PUMP_ACTION ) ) {
         return ret_val<bool>::make_failure( _( "can only accept small mods on that slot" ) );
 

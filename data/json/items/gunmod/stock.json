@@ -16,7 +16,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "stock",
-    "mod_targets": [ "smg", "rifle", "shotgun", "crossbow", "launcher" ],
+    "mod_target_categories": [ ["SUBMACHINE_GUNS"], ["RIFLES"], ["SHOTGUNS"], ["CROSSBOWS","LONG_GUNS"], ["GRENADE_LAUNCHERS"], ["ROCKET_LAUNCHERS"] ],
     "dispersion_modifier": -1,
     "handling_modifier": 3
   },
@@ -35,7 +35,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "stock",
-    "mod_targets": [ "smg", "rifle", "shotgun", "launcher" ],
+    "mod_target_categories": [ ["SUBMACHINE_GUNS"], ["RIFLES"], ["SHOTGUNS"], ["GRENADE_LAUNCHERS"], ["ROCKET_LAUNCHERS"] ],
     "flags": [ "NEEDS_UNFOLD", "COLLAPSIBLE_STOCK" ]
   },
   {
@@ -54,7 +54,7 @@
     "color": "dark_gray",
     "location": "stock",
     "handling_modifier": 5,
-    "mod_targets": [ "pistol", "smg", "rifle", "shotgun" ],
+    "mod_target_categories": [ ["PISTOLS"], ["SUBMACHINE_GUNS"], ["RIFLES"], ["SHOTGUNS"] ],
     "flags": [ "NEEDS_UNFOLD" ]
   },
   {
@@ -70,7 +70,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "stock",
-    "mod_targets": [ "pistol", "crossbow" ],
+    "mod_target_categories": [ ["PISTOLS"], ["CROSSBOWS"] ],
     "handling_modifier": 15
   },
   {
@@ -90,7 +90,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "stock",
-    "mod_targets": [ "smg", "rifle", "shotgun", "launcher" ],
+    "mod_target_categories": [ ["SUBMACHINE_GUNS"], ["RIFLES"], ["SHOTGUNS"], ["GRENADE_LAUNCHERS"], ["ROCKET_LAUNCHERS"] ],
     "handling_modifier": 10
   },
   {
@@ -109,7 +109,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "stock",
-    "mod_targets": [ "rifle" ],
+    "mod_target_categories": [ ["RIFLES"] ],
     "dispersion_modifier": -1,
     "handling_modifier": 5
   },
@@ -123,7 +123,7 @@
     "symbol": ":",
     "color": "light_gray",
     "location": "stock",
-    "mod_targets": [ "smg", "rifle", "shotgun" ],
+    "mod_target_categories": [ ["SUBMACHINE_GUNS"], ["RIFLES"], ["SHOTGUNS"] ],
     "dispersion_modifier": 100,
     "weight_multiplier": 0.75,
     "handling_modifier": -15,

@@ -13,7 +13,7 @@
     "symbol": ":",
     "color": "light_gray",
     "location": "muzzle",
-    "mod_targets": [ "smg", "rifle", "pistol", "shotgun" ],
+    "mod_target_categories": [ ["PISTOLS"], ["SUBMACHINE_GUNS"], ["RIFLES"], ["SHOTGUNS"] ],
     "dispersion_modifier": 15,
     "handling_modifier": 10,
     "loudness_modifier": 8
@@ -31,7 +31,7 @@
     "symbol": ":",
     "color": "light_gray",
     "location": "muzzle",
-    "mod_targets": [ "rifle", "shotgun" ],
+    "mod_target_categories": [ ["RIFLES"], ["SHOTGUNS"] ],
     "dispersion_modifier": 15,
     "handling_modifier": 12,
     "loudness_modifier": 14
@@ -42,7 +42,7 @@
     "type": "GUNMOD",
     "name": { "str": "modified muzzle brake" },
     "description": "A muzzle brake redirects exhaust gases to compensate for muzzle climb, improving recoil but increasing bulk, noise, and reducing accuracy slightly.  This one was modified and customized to mount on pretty much any firearm other than launchers, if you so want.",
-    "mod_targets": [ "pistol", "smg", "rifle", "shotgun" ]
+    "mod_target_categories": [ ["PISTOLS"], ["SUBMACHINE_GUNS"], ["RIFLES"], ["SHOTGUNS"] ],
   },
   {
     "id": "crafted_suppressor",
@@ -59,7 +59,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "muzzle",
-    "mod_targets": [ "pistol", "smg", "rifle" ],
+    "mod_target_categories": [ ["PISTOLS"], ["SUBMACHINE_GUNS"], ["RIFLES"] ],
     "consume_chance": 20,
     "consume_divisor": 110,
     "damage_modifier": { "damage_type": "bullet", "amount": -5 },
@@ -83,7 +83,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "muzzle",
-    "mod_targets": [ "pistol", "smg", "rifle" ],
+    "mod_target_categories": [ ["PISTOLS"], ["SUBMACHINE_GUNS"], ["RIFLES"] ],
     "consume_chance": 100,
     "consume_divisor": 40,
     "dispersion_modifier": 10,
@@ -104,7 +104,7 @@
     "symbol": ":",
     "color": "cyan",
     "location": "muzzle",
-    "mod_targets": [ "pistol", "smg", "rifle" ],
+    "mod_target_categories": [ ["PISTOLS"], ["SUBMACHINE_GUNS"], ["RIFLES"] ],
     "consume_chance": 1,
     "consume_divisor": 1,
     "damage_modifier": { "damage_type": "bullet", "amount": -5 },
@@ -123,7 +123,7 @@
     "price": 0,
     "price_postapoc": 1500,
     "material": [ "superalloy", "ceramic" ],
-    "mod_targets": [ "rifle" ],
+    "mod_target_categories": [ ["RIFLES"] ],
     "handling_modifier": 0,
     "proportional": { "loudness_modifier": 2 },
     "flags": [ "IRREMOVABLE" ]
@@ -144,7 +144,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "muzzle",
-    "mod_targets": [ "shotgun" ],
+    "mod_target_categories": [ ["SHOTGUNS"] ],
     "damage_modifier": { "damage_type": "bullet", "amount": -4 },
     "handling_modifier": 6,
     "loudness_modifier": -30
@@ -165,7 +165,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "muzzle",
-    "mod_targets": [ "pistol", "smg", "rifle" ],
+    "mod_target_categories": [ ["PISTOLS"], ["SUBMACHINE_GUNS"], ["RIFLES"] ],
     "install_time": "0 m",
     "handling_modifier": 4,
     "loudness_modifier": -50
@@ -201,7 +201,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "muzzle",
-    "mod_targets": [ "pistol", "smg" ],
+    "mod_target_categories": [ ["PISTOLS"], ["SUBMACHINE_GUNS"] ],
     "install_time": "0 m",
     "handling_modifier": 3,
     "loudness_modifier": -30

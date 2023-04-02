@@ -35,7 +35,6 @@ class JsonObject;
 class JsonOut;
 class Creature;
 class faction;
-class gun_type_type;
 class gunmod_location;
 class item;
 class iteminfo_query;
@@ -1894,9 +1893,6 @@ class item : public visitable<item>
          * The skill used to operate the gun. Can be "null" if this is not a gun.
          */
         skill_id gun_skill() const;
-
-        /** Get the type of a ranged weapon (e.g. "rifle", "crossbow"), or empty string if non-gun */
-        gun_type_type gun_type() const;
 
         /** Get mod locations, including those added by other mods */
         std::map<gunmod_location, int> get_mod_locations() const;
