@@ -1665,6 +1665,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
         auto healthiest = std::max_element( block_parts.begin(), block_parts.end(), part_hp_cmp );
         if( healthiest == block_parts.end() ) {
             // We have no parts with HP to block with.
+            blocks_left = 0;
             return false;
         }
         bp_hit = *healthiest;
