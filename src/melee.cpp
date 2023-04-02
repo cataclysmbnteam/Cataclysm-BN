@@ -1659,16 +1659,15 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
             return get_part_hp_cur( bpid ) <= 0;
         } ), block_parts.end() );
 
-        if( block_parts.empty() ) {
+        const auto part_hp_cmp = [this]( const bodypart_id & lhs, const bodypart_id & rhs ) {
+            return get_part_hp_cur( lhs ) < get_part_hp_cur( rhs );
+        };
+        auto healthiest = std::max_element( block_parts.begin(), block_parts.end(), part_hp_cmp );
+        if( healthiest == block_parts.end() ) {
             // We have no parts with HP to block with.
-            blocks_left = 0;
             return false;
-        } else {
-            std::sort( block_parts.begin(), block_parts.end(), [this]( bodypart_id & lhs, bodypart_id & rhs ) {
-                return get_part_hp_cur( lhs ) > get_part_hp_cur( rhs );
-            } );
-            bp_hit = block_parts[0];
         }
+        bp_hit = *healthiest;
 
         thing_blocked_with = body_part_name( bp_hit->token );
     }
