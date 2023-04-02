@@ -2469,11 +2469,12 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
         if( !mod.usable_category.empty() ) {
             used_on_str += _( "\n  Category:" );
+            std::vector<std::string> combination;
             for( const std::unordered_set<weapon_category_id> &catgroup : mod.usable_category ) {
-                used_on_str += ( " [ " ) + enumerate_as_string( mod.usable_category.begin(),
-                mod.usable_category.end(), []( const weapon_category_id & wcid ) {
+                combination.emplace_back( ( " [ " ) + enumerate_as_string( catgroup.begin(),
+                catgroup.end(), []( const weapon_category_id & wcid ) {
                     return string_format( "<info>%s</info>", wcid->name().translated() );
-                } ) + ( " ]" );
+                }, enumeration_conjunction::none ) + ( " ]" ) );
             }
         }
 
@@ -7788,7 +7789,7 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
             if( usable ) {
                 break;
             }
-            if( std::all_of( mod_cat.begin(), mod_cat.end(), [this]( weapon_category_id & wcid ) {
+            if( std::all_of( mod_cat.begin(), mod_cat.end(), [this]( const weapon_category_id & wcid ) {
             return this->type->weapon_category.count( wcid );
             } ) ) {
                 usable = true;

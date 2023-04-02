@@ -92,7 +92,7 @@
     "color": "dark_gray",
     "gunmod_data": {
       "location": "underbarrel",
-      "mod_targets": [ "shotgun", "rifle", "smg", "crossbow" ],
+      "mod_target_category": [ [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "SHOTGUNS" ], [ "XBOWS" ] ],
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
@@ -109,7 +109,7 @@
     "description": "This is a military combat knife.  It is light and extremely sharp, and could be deadly in either the right hands or when attached as a bayonet.  This one was modified and customized to mount on pretty much any weapon other than pistols, if you so want.",
     "gunmod_data": {
       "location": "underbarrel",
-      "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ],
+      "mod_target_category": [ [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "SHOTGUNS" ], [ "XBOWS" ], [ "GRENADE_LAUNCHERS" ], [ "ROCKET_LAUNCHERS" ] ],
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
     },
     "extend": { "flags": [ "PUMP_RAIL_COMPATIBLE" ] }
@@ -173,7 +173,7 @@
     "color": "dark_gray",
     "gunmod_data": {
       "location": "underbarrel",
-      "mod_targets": [ "shotgun", "rifle" ],
+      "mod_target_category": [ [ "SHOTGUNS" ], [ "RIFLES" ] ],
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
@@ -774,7 +774,7 @@
     "color": "light_gray",
     "gunmod_data": {
       "location": "underbarrel",
-      "mod_targets": [ "shotgun", "rifle", "crossbow", "launcher" ],
+      "mod_target_category": [ [ "RIFLES" ], [ "SHOTGUNS" ], [ "XBOWS" ], [ "GRENADE_LAUNCHERS" ], [ "ROCKET_LAUNCHERS" ] ],
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 2 ] ],

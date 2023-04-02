@@ -13,7 +13,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "accessories",
-    "mod_target_categories": [ "BOWS" ],
+    "mod_target_category": [ [ "BOWS" ] ],
     "dispersion_modifier": -100
   },
   {
@@ -29,7 +29,7 @@
     "symbol": ":",
     "color": "brown",
     "location": "stabilizer",
-    "mod_target_categories": [ "BOWS" ],
+    "mod_target_category": [ [ "BOWS" ] ],
     "dispersion_modifier": -100
   },
   {
@@ -45,7 +45,7 @@
     "symbol": ":",
     "color": "brown",
     "location": "stabilizer",
-    "mod_target_categories": [ "BOWS" ],
+    "mod_target_category": [ [ "BOWS" ] ],
     "dispersion_modifier": -150,
     "flags": [ "NEEDS_UNFOLD" ]
   },
@@ -62,7 +62,7 @@
     "symbol": ":",
     "color": "brown",
     "location": "dampening",
-    "mod_target_categories": [ [ "BOWS" ], [ "CROSSBOWS" ] ],
+    "mod_target_category": [ [ "BOWS" ], [ "H_XBOWS" ], [ "XBOWS" ] ],
     "dispersion_modifier": -50,
     "loudness_modifier": -8
   },

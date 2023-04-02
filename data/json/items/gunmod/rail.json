@@ -12,7 +12,7 @@
     "symbol": ":",
     "color": "light_red",
     "location": "rail",
-    "mod_target_categories": [ [ "RIFLES" ], [ "SHOTGUNS" ], [ "CROSSBOWS", "LONG_GUNS" ] ],
+    "mod_target_category": [ [ "RIFLES" ], [ "SHOTGUNS" ], [ "XBOWS" ] ],
     "gun_data": {
       "ammo": "bolt",
       "skill": "rifle",
@@ -31,7 +31,7 @@
     "type": "GUNMOD",
     "name": { "str": "modified rail-mounted crossbow" },
     "description": "A kit to attach a pair of crossbow arms and a firing rail to the barrel of a long firearm.  It allows crossbow bolts to be fired.  This one was modified and customized to mount on pretty much any weapon other than pistols and SMGs, if you so want.",
-    "mod_target_categories": [ [ "RIFLES" ], [ "SHOTGUNS" ], [ "CROSSBOWS", "LONG_GUNS" ], [ "GRENADE_LAUNCHERS" ], [ "ROCKET_LAUNCHERS" ] ]
+    "mod_target_category": [ [ "RIFLES" ], [ "SHOTGUNS" ], [ "XBOWS" ], [ "GRENADE_LAUNCHERS" ], [ "ROCKET_LAUNCHERS" ] ]
   },
   {
     "id": "offset_sights",
@@ -40,7 +40,7 @@
     "name": { "str_sp": "offset iron sights" },
     "description": "An alternative set of iron sights mounted at 45° for use when a scope or other modification prevents use of the primary sights.",
     "location": "rail",
-    "mod_target_categories": [ [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "SHOTGUNS" ] ],
+    "mod_target_category": [ [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "SHOTGUNS" ] ],
     "proportional": { "sight_dispersion": 1.25 },
     "delete": { "flags": [ "DISABLE_SIGHTS" ] }
   },
@@ -50,12 +50,13 @@
     "type": "GUNMOD",
     "name": { "str_sp": "modified offset iron sights" },
     "description": "An alternative set of iron sights mounted at 45° for use when a scope or other modification prevents use of the primary sights.  This one was modified and customized to mount on pretty much any weapon, if you so want.",
-    "mod_target_categories": [
+    "mod_target_category": [
       [ "PISTOLS" ],
       [ "SUBMACHINE_GUNS" ],
       [ "RIFLES" ],
       [ "SHOTGUNS" ],
-      [ "CROSSBOWS" ],
+      [ "H_XBOWS" ],
+      [ "XBOWS" ],
       [ "GRENADE_LAUNCHERS" ],
       [ "ROCKET_LAUNCHERS" ]
     ]
@@ -73,7 +74,7 @@
     "symbol": ":",
     "color": "light_gray",
     "location": "rail",
-    "mod_target_categories": [ [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "SHOTGUNS" ] ],
+    "mod_target_category": [ [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "SHOTGUNS" ] ],
     "add_mod": [ [ "sights", 1 ] ]
   },
   {
@@ -82,12 +83,13 @@
     "type": "GUNMOD",
     "name": { "str": "modified offset sight rail" },
     "description": "An additional rail set at 45° for attaching a secondary optic.  This one was modified and customized to mount on pretty much any weapon, if you so want.",
-    "mod_target_categories": [
+    "mod_target_category": [
       [ "PISTOLS" ],
       [ "SUBMACHINE_GUNS" ],
       [ "RIFLES" ],
       [ "SHOTGUNS" ],
-      [ "CROSSBOWS" ],
+      [ "H_XBOWS" ],
+      [ "XBOWS" ],
       [ "GRENADE_LAUNCHERS" ],
       [ "ROCKET_LAUNCHERS" ]
     ]
@@ -106,12 +108,13 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "rail",
-    "mod_target_categories": [
+    "mod_target_category": [
       [ "PISTOLS" ],
       [ "SUBMACHINE_GUNS" ],
       [ "RIFLES" ],
       [ "SHOTGUNS" ],
-      [ "CROSSBOWS" ],
+      [ "H_XBOWS" ],
+      [ "XBOWS" ],
       [ "GRENADE_LAUNCHERS" ],
       [ "ROCKET_LAUNCHERS" ]
     ],
@@ -132,7 +135,7 @@
     "symbol": ":",
     "color": "blue",
     "location": "rail",
-    "mod_target_categories": [ [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "CROSSBOWS", "LONG_GUNS" ] ],
+    "mod_target_category": [ [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "XBOWS" ] ],
     "dispersion_modifier": -1,
     "handling_modifier": 10
   },
@@ -142,11 +145,11 @@
     "type": "GUNMOD",
     "name": { "str": "modified gyroscopic stabilizer" },
     "description": "An advanced unit that straps onto the side of your firearm and reduces vibration, greatly reducing recoil and slightly increasing accuracy.  This one was modified and customized to mount on pretty much any weapon other than pistols, if you so want.",
-    "mod_target_categories": [
+    "mod_target_category": [
       [ "SUBMACHINE_GUNS" ],
       [ "RIFLES" ],
       [ "SHOTGUNS" ],
-      [ "CROSSBOWS", "LONG_GUNS" ],
+      [ "XBOWS" ],
       [ "GRENADE_LAUNCHERS" ],
       [ "ROCKET_LAUNCHERS" ]
     ]

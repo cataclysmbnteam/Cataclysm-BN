@@ -14,7 +14,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "mechanism",
-    "mod_target_categories": [ [ "PISTOLS" ], [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "SHOTGUNS" ], [ "GRENADE_LAUNCHERS" ], [ "ROCKET_LAUNCHERS" ] ],
+    "mod_target_category": [ [ "PISTOLS" ], [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "SHOTGUNS" ], [ "GRENADE_LAUNCHERS" ], [ "ROCKET_LAUNCHERS" ] ],
     "install_time": "30 m",
     "dispersion_modifier": -1
   },
@@ -73,7 +73,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "mechanism",
-    "mod_target_categories": [ [ "PISTOLS" ], [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "SHOTGUNS" ], [ "GRENADE_LAUNCHERS" ], [ "ROCKET_LAUNCHERS" ] ],
+    "mod_target_category": [ [ "PISTOLS" ], [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "SHOTGUNS" ], [ "GRENADE_LAUNCHERS" ], [ "ROCKET_LAUNCHERS" ] ],
     "install_time": "10 m",
     "flags": [ "WATERPROOF_GUN" ]
   }

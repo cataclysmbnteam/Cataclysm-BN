@@ -2206,7 +2206,7 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
     }
 
     assign( jo, "mod_targets", slot.usable );
-    assign( jo, "mod_target_categories", slot.usable_category );
+    assign( jo, "mod_target_category", slot.usable_category );
 
     assign( jo, "mode_modifier", slot.mode_modifier );
     assign( jo, "reload_modifier", slot.reload_modifier );
@@ -2433,9 +2433,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         jo.read( "repairs_like", def.repairs_like );
     }
 
-    if( jo.has_member( "weapon_category" ) ) {
-        optional( jo, true, "weapon_category", def.weapon_category, auto_flags_reader<weapon_category_id> {} );
-    }
+    assign( jo, "weapon_category", def.weapon_category );
 
     if( jo.has_member( "damage_states" ) ) {
         auto arr = jo.get_array( "damage_states" );
