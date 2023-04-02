@@ -1,8 +1,8 @@
 import { assertEquals } from "https://deno.land/std@0.182.0/testing/asserts.ts"
-import { migrations } from "./gunmod.ts"
+import { migrateCategories } from "./migrate_categories.ts"
 
 Deno.test("crossbow category conversion", async (t) => {
-  const { crossbow } = migrations
+  const { crossbow } = migrateCategories
 
   await t.step("[pistol, crossbow] -> [[ H_XBOWS ], [ XBOWS ]]", () => {
     assertEquals(crossbow(["pistol", "crossbow"]), [["H_XBOWS"], ["XBOWS"]])
