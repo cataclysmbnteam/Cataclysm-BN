@@ -145,13 +145,6 @@
     "type": "GUNMOD",
     "name": { "str": "modified gyroscopic stabilizer" },
     "description": "An advanced unit that straps onto the side of your firearm and reduces vibration, greatly reducing recoil and slightly increasing accuracy.  This one was modified and customized to mount on pretty much any weapon other than pistols, if you so want.",
-    "mod_target_category": [
-      [ "SUBMACHINE_GUNS" ],
-      [ "RIFLES" ],
-      [ "SHOTGUNS" ],
-      [ "XBOWS" ],
-      [ "GRENADE_LAUNCHERS" ],
-      [ "ROCKET_LAUNCHERS" ]
-    ]
+    "mod_target_category": [ [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "SHOTGUNS" ], [ "XBOWS" ], [ "GRENADE_LAUNCHERS" ], [ "ROCKET_LAUNCHERS" ] ]
   }
 ]
