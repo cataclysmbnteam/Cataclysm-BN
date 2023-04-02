@@ -6,6 +6,6 @@
     "lint": { "files": { "include": ["./tools"] } },
     "fmt": {
         "files": { "include": ["./tools"] },
-        "options": { "semiColons": false }
+        "options": { "semiColons": false, "lineWidth": 100 }
     }
 }
