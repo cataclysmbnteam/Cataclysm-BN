@@ -304,7 +304,7 @@ void mission::wrap_up()
             std::map<itype_id, int> matches = std::map<itype_id, int>();
             get_all_item_group_matches(
                 items, grp_type, matches,
-                container, itype_id( "null" ), specific_container_required );
+                container, itype_id::NULL_ID(), specific_container_required );
 
             for( std::pair<const itype_id, int> &cnt : matches ) {
                 comps.push_back( item_comp( cnt.first, cnt.second ) );
@@ -370,7 +370,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
             std::map<itype_id, int> matches = std::map<itype_id, int>();
             get_all_item_group_matches(
                 items, grp_type, matches,
-                container, itype_id( "null" ), specific_container_required );
+                container, itype_id::NULL_ID(), specific_container_required );
 
             int total_match = std::accumulate( matches.begin(), matches.end(), 0,
             []( const std::size_t previous, const std::pair<const itype_id, std::size_t> &p ) {
@@ -410,13 +410,13 @@ bool mission::is_complete( const character_id &_npc_id ) const
 
         case MGOAL_RECRUIT_NPC: {
             npc *p = g->find_npc( target_npc_id );
-            return p != nullptr && p->get_attitude() == NPCATT_FOLLOW;
+            return p != nullptr && p->is_player_ally();
         }
 
         case MGOAL_RECRUIT_NPC_CLASS: {
             const auto npcs = overmap_buffer.get_npcs_near_player( 100 );
             for( auto &npc : npcs ) {
-                if( npc->myclass == recruit_class && npc->get_attitude() == NPCATT_FOLLOW ) {
+                if( npc->myclass == recruit_class && npc->is_player_ally() ) {
                     return true;
                 }
             }
@@ -480,12 +480,7 @@ void mission::get_all_item_group_matches( std::vector<item *> &items,
 
         //check whether item itself is target
         if( item_in_group && correct_container ) {
-            std::map<itype_id, int>::iterator it = matches.find( itm->typeId() );
-            if( it != matches.end() ) {
-                it->second = ( it->second ) + 1;
-            } else {
-                matches.insert( std::make_pair( itm->typeId(), 1 ) );
-            }
+            matches[ itm->typeId() ]++;
         }
 
         //recursivly check item contents for target
@@ -691,7 +686,7 @@ mission::mission()
     target = tripoint_abs_omt( tripoint_min );
     item_id = itype_id::NULL_ID();
     item_count = 1;
-    recruit_class = NC_NONE;
+    recruit_class = npc_class_id::NULL_ID();
     target_npc_id = character_id();
     monster_type = mtype_id::NULL_ID();
     monster_kill_goal = -1;
