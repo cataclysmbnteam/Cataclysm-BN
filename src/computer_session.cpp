@@ -934,17 +934,17 @@ void computer_session::action_srcf_seal()
     map &here = get_map();
     for( const tripoint &p : here.points_on_zlevel() ) {
         if( here.ter( p ) == t_elevator || here.ter( p ) == t_vat ) {
-            here.make_rubble( p, f_rubble_rock, true );
+            here.make_rubble( p, f_rubble_rock );
             explosion_handler::explosion( p, &g->u, 40, 0.7, true );
         }
         if( here.ter( p ) == t_wall_glass ) {
-            here.make_rubble( p, f_rubble_rock, true );
+            here.make_rubble( p, f_rubble_rock );
         }
         if( here.ter( p ) == t_sewage_pipe || here.ter( p ) == t_sewage || here.ter( p ) == t_grate ) {
-            here.make_rubble( p, f_rubble_rock, true );
+            here.make_rubble( p, f_rubble_rock );
         }
         if( here.ter( p ) == t_sewage_pump ) {
-            here.make_rubble( p, f_rubble_rock, true );
+            here.make_rubble( p, f_rubble_rock );
             explosion_handler::explosion( p, &g->u, 50, 0.7, true );
         }
     }

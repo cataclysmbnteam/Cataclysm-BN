@@ -1244,7 +1244,7 @@ bool Character::is_limb_disabled( const bodypart_id &limb ) const
 // if a limb is broken should point here to make any future changes to breaking easier
 bool Character::is_limb_broken( const bodypart_id &limb ) const
 {
-    return get_part_hp_cur( limb ) == 0;
+    return get_part_hp_cur( limb ) <= 0;
 }
 
 bool Character::can_run()

@@ -1,7 +1,7 @@
 [
   {
     "id": "emp_gun",
-    "copy-from": "rifle_base",
+    "copy-from": "rifle_energy",
     "type": "GUN",
     "name": { "str": "XM34 EMP projector" },
     "description": "A powerful electrolaser developed by the R&D outfit \"Aerial Labs\".  Especially effective against electronic targets.",
@@ -18,7 +18,6 @@
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 3 ] ],
     "loudness": 23,
     "ups_charges": 60,
-    "reload": 0,
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "emitter", 1 ],
@@ -29,13 +28,11 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "ammo_effects": [ "DRAW_LASER_BEAM", "EMP" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ],
-    "faults": [  ]
+    "ammo_effects": [ "DRAW_LASER_BEAM", "EMP" ]
   },
   {
     "id": "gatling_mech_laser",
-    "copy-from": "rifle_base",
+    "copy-from": "gatling_energy",
     "type": "GUN",
     "reload_noise_volume": 20,
     "name": { "str": "CMES laser cannon" },
@@ -44,8 +41,6 @@
     "volume": "11 L",
     "price": 9500000,
     "price_postapoc": 8000,
-    "to_hit": -4,
-    "bashing": 8,
     "material": [ "superalloy", "plastic" ],
     "color": "blue",
     "range": 30,
@@ -53,16 +48,13 @@
     "dispersion": 100,
     "loudness": 12,
     "ups_charges": 20,
-    "reload": 0,
-    "handling": 40,
     "modes": [ [ "DEFAULT", "3 rd.", 3 ], [ "BURST", "5 rd.", 5 ], [ "AUTO", "high auto", 15 ] ],
     "ammo_effects": [ "LASER", "PLASMA_BUBBLE", "INCENDIARY" ],
-    "flags": [ "NO_UNLOAD", "NEVER_JAMS", "NO_UNWIELD", "NO_SALVAGE", "NO_REPAIR", "UNBREAKABLE_MELEE", "NON-FOULING" ],
-    "faults": [  ]
+    "extend": { "flags": [ "NO_UNWIELD", "NO_SALVAGE", "NO_REPAIR", "UNBREAKABLE_MELEE" ] }
   },
   {
     "id": "recon_mech_laser",
-    "copy-from": "rifle_base",
+    "copy-from": "rifle_energy",
     "type": "GUN",
     "reload_noise_volume": 2,
     "name": { "str": "RMES marksman system" },
@@ -80,23 +72,12 @@
     "dispersion": 15,
     "loudness": 1,
     "ups_charges": 50,
-    "reload": 0,
     "ammo_effects": [ "LASER", "PLASMA_BUBBLE", "INCENDIARY" ],
-    "flags": [
-      "NO_UNLOAD",
-      "NEVER_JAMS",
-      "NO_UNWIELD",
-      "NO_SALVAGE",
-      "NO_REPAIR",
-      "UNBREAKABLE_MELEE",
-      "NON-FOULING",
-      "NEEDS_NO_LUBE"
-    ],
-    "faults": [  ]
+    "extend": { "flags": [ "NO_UNWIELD", "NO_REPAIR", "NO_SALVAGE", "UNBREAKABLE_MELEE" ] }
   },
   {
     "id": "laser_cannon",
-    "copy-from": "rifle_base",
+    "copy-from": "rifle_energy",
     "type": "GUN",
     "name": { "str": "handheld laser cannon" },
     "description": "This is a laser cannon stripped from the barrel of a TX-5LR Cerberus laser turret that has been modified to use UPS power for firing.",
@@ -113,7 +94,6 @@
     "durability": 7,
     "loudness": 8,
     "ups_charges": 25,
-    "reload": 200,
     "valid_mod_locations": [
       [ "emitter", 1 ],
       [ "lens", 1 ],
@@ -124,9 +104,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ],
-    "faults": [  ]
+    "ammo_effects": [ "LASER", "INCENDIARY" ]
   },
   {
     "id": "laser_cannon_turret_fake",
@@ -137,7 +115,7 @@
   },
   {
     "id": "laser_rifle",
-    "copy-from": "rifle_base",
+    "copy-from": "rifle_energy",
     "type": "GUN",
     "name": { "str": "A7 laser rifle" },
     "description": "A state-of-the-art laser rifle developed by the R&D outfit \"Aerial Labs\".  Initial performance rivaled Rivtech's finest, with rumors flying about corporate skulduggery.  Though the Cataclysm put that on the ash heap of history, this weapon can still do the same to your foes.",
@@ -153,21 +131,7 @@
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 4 ] ],
     "loudness": 12,
     "ups_charges": 40,
-    "reload": 0,
-    "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "emitter", 1 ],
-      [ "grip", 1 ],
-      [ "lens", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
-    ],
-    "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ],
-    "faults": [  ]
+    "ammo_effects": [ "LASER", "INCENDIARY" ]
   },
   {
     "id": "v29",
@@ -179,8 +143,6 @@
     "volume": "1 L",
     "price": 720000,
     "price_postapoc": 5500,
-    "to_hit": -2,
-    "bashing": 5,
     "material": [ "steel", "plastic" ],
     "color": "magenta",
     "range": 30,
@@ -188,19 +150,6 @@
     "dispersion": 180,
     "loudness": 7,
     "ups_charges": 10,
-    "reload": 200,
-    "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "emitter", 1 ],
-      [ "grip", 1 ],
-      [ "lens", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
-    ],
-    "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ],
-    "faults": [  ]
+    "ammo_effects": [ "LASER", "INCENDIARY" ]
   }
 ]

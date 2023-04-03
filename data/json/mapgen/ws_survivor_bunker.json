@@ -99,11 +99,6 @@
   },
   {
     "type": "item_group",
-    "id": "oa_ig_sb_rubble",
-    "items": [ [ "rock", 20 ], [ "sharp_rock", 10 ] ]
-  },
-  {
-    "type": "item_group",
     "id": "oa_ig_sb_water",
     "items": [ { "item": "water", "prob": 30, "charges-min": 0, "charges-max": 200, "container-item": "keg" } ]
   },
@@ -223,7 +218,6 @@
         "C": { "item": "oa_ig_sb_rare", "chance": 40 },
         "B": { "item": "bed", "chance": 80 },
         "k": { "item": "oa_ig_sb_water", "chance": 60 },
-        "r": { "item": "oa_ig_sb_rubble", "chance": 80 },
         "W": { "item": "oa_ig_sb_wood", "chance": 70 }
       },
       "add": [

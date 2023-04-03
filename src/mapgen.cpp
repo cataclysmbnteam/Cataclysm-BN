@@ -1528,21 +1528,19 @@ class jmapgen_make_rubble : public jmapgen_piece
 {
     public:
         furn_id rubble_type = f_rubble;
-        bool items = false;
         ter_id floor_type = t_dirt;
         bool overwrite = false;
         jmapgen_make_rubble( const JsonObject &jsi ) {
             if( jsi.has_string( "rubble_type" ) ) {
                 rubble_type = furn_id( jsi.get_string( "rubble_type" ) );
             }
-            jsi.read( "items", items );
             if( jsi.has_string( "floor_type" ) ) {
                 floor_type = ter_id( jsi.get_string( "floor_type" ) );
             }
             jsi.read( "overwrite", overwrite );
         }
         void apply( mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y ) const override {
-            dat.m.make_rubble( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ), rubble_type, items,
+            dat.m.make_rubble( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ), rubble_type,
                                floor_type, overwrite );
         }
 };
@@ -4009,7 +4007,7 @@ void map::draw_lab( mapgendata &dat )
                     if( ( ( j <= tw || i >= rw ) && i >= j && ( EAST_EDGE - i ) <= j ) ||
                         ( ( j >= bw || i <= lw ) && i <= j && ( SOUTH_EDGE - j ) <= i ) ) {
                         if( one_in( 5 ) ) {
-                            make_rubble( tripoint( i,  j, abs_sub.z ), f_rubble_rock, true,
+                            make_rubble( tripoint( i,  j, abs_sub.z ), f_rubble_rock,
                                          t_slime );
                         } else if( !one_in( 5 ) ) {
                             ter_set( point( i, j ), t_slime );
@@ -4852,6 +4850,13 @@ void map::draw_mine( mapgendata &dat )
                     int ly2 = end_location.y + rng( -1, 1 );
                     line( this, t_lava, point( lx1, ly1 ), point( lx2, ly2 ) );
                 }
+                for( const tripoint &ore : points_in_rectangle( tripoint( start_location, abs_sub.z ),
+                        tripoint( end_location,
+                                  abs_sub.z ) ) ) {
+                    if( ter( ore ) == t_rock_floor && one_in( 10 ) ) {
+                        spawn_item( ore, "chunk_sulfur" );
+                    }
+                }
             }
             break;
 
@@ -4861,12 +4866,10 @@ void map::draw_mine( mapgendata &dat )
                 for( int i = wreck_location.x - 3; i < wreck_location.x + 3; i++ ) {
                     for( int j = wreck_location.y - 3; j < wreck_location.y + 3; j++ ) {
                         if( !one_in( 4 ) ) {
-                            make_rubble( tripoint( i, j, abs_sub.z ), f_wreckage, true );
+                            make_rubble( tripoint( i, j, abs_sub.z ), f_wreckage );
                         }
                     }
                 }
-                place_items( item_group_id( "wreckage" ), 70, wreck_location + point( -3, -3 ),
-                             wreck_location + point( 2, 2 ), false, calendar::start_of_cataclysm );
             }
             break;
 
@@ -4878,7 +4881,7 @@ void map::draw_mine( mapgendata &dat )
                     return move_cost( p ) == 2;
                     } ) ) {
                         add_item( *body, item::make_corpse() );
-                        place_items( item_group_id( "mine_equipment" ), 60, *body, *body,
+                        place_items( item_group_id( "mon_zombie_miner_death_drops" ), 100, *body, *body,
                                      false, calendar::start_of_cataclysm );
                     }
                 }
@@ -5045,7 +5048,7 @@ void map::draw_mine( mapgendata &dat )
         for( int i = 0; i < num_bodies; i++ ) {
             point p3( rng( 4, SEEX * 2 - 5 ), rng( 4, SEEX * 2 - 5 ) );
             add_item( p3, item::make_corpse() );
-            place_items( item_group_id( "mine_equipment" ), 60, p3,
+            place_items( item_group_id( "mon_zombie_miner_death_drops" ), 60, p3,
                          p3, false, calendar::start_of_cataclysm );
         }
         place_spawns( GROUP_DOG_THING, 1, point( SEEX, SEEX ), point( SEEX + 1, SEEX + 1 ), 1, true, true );
@@ -6363,9 +6366,6 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
                 for( int j = c.y - 5; j <= c.y + 5; j++ ) {
                     if( furn( point( i, j ) ) == f_rubble ) {
                         add_field( {i, j, abs_sub.z}, fd_push_items, 1 );
-                        if( one_in( 3 ) ) {
-                            spawn_item( point( i, j ), "rock" );
-                        }
                     }
                 }
             }

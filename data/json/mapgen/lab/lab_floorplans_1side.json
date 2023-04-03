@@ -291,7 +291,7 @@
     "nested_mapgen_id": "lab_hulk_smash",
     "object": {
       "mapgensize": [ 24, 24 ],
-      "place_rubble": [ { "x": 11, "y": 4, "items": true }, { "x": 13, "y": 11, "items": true }, { "x": 12, "y": 13, "items": true } ],
+      "place_rubble": [ { "x": 11, "y": 4 }, { "x": 13, "y": 11 }, { "x": 12, "y": 13 } ],
       "place_monster": [
         {
           "monster": [ "mon_zombie_hulk", "mon_skeleton_hulk", "mon_nakedmolerat_giant" ],

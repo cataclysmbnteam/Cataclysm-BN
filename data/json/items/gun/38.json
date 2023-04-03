@@ -1,7 +1,7 @@
 [
   {
     "id": "2_shot_special",
-    "copy-from": "pistol_base",
+    "copy-from": "pistol_1shot",
     "type": "GUN",
     "name": { "str": "2 Shot Special" },
     "//": "It's hard to say just how big this is, although it's (very large) pistol sized. But it is a handmade weapon.",
@@ -29,12 +29,11 @@
       [ "rail mount", 1 ],
       [ "stock mount", 1 ]
     ],
-    "delete": { "faults": "fault_gun_chamber_spent" },
-    "flags": [ "RELOAD_ONE", "RELOAD_EJECT" ]
+    "delete": { "flags": "NEVER_JAMS" }
   },
   {
     "id": "cop_38",
-    "copy-from": "pistol_base",
+    "copy-from": "pistol_1shot",
     "type": "GUN",
     "name": { "str": "COP .357 Derringer" },
     "description": "A small, chubby derringer pistol bearing a slight resemblance to the Mossberg Brownie.  It uses a rotating firing pin to fire the individual hammers of the four barrels arranged in a square formation.",
@@ -59,9 +58,7 @@
       [ "sights mount", 1 ],
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
-    ],
-    "delete": { "faults": "fault_gun_chamber_spent" },
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
+    ]
   },
   {
     "id": "model_10_revolver",

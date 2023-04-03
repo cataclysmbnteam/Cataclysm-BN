@@ -548,7 +548,7 @@ void character_edit_menu( Character &c )
     enum edit_character {
         pick, desc, skills, stats, items, delete_items, item_worn,
         hp, stamina, morale, pain, needs, healthy, status, mission_add, mission_edit,
-        tele, mutate, npc_class, attitude, opinion, effects,
+        tele, mutate, bionics, npc_class, attitude, opinion, effects,
         learn_ma, unlock_recipes, learn_spells, level_spells
     };
 
@@ -568,6 +568,7 @@ void character_edit_menu( Character &c )
             uilist_entry( edit_character::healthy, true, 'a',  _( "Set he[a]lth" ) ),
             uilist_entry( edit_character::needs, true, 'n',  _( "Set [n]eeds" ) ),
             uilist_entry( edit_character::mutate, true, 'u',  _( "M[u]tate" ) ),
+            uilist_entry( edit_character::bionics, true, 'b',  _( "Edit [b]ionics" ) ),
             uilist_entry( edit_character::status, true, '@',  _( "Status Window [@]" ) ),
             uilist_entry( edit_character::tele, true, 'e',  _( "t[e]leport" ) ),
             uilist_entry( edit_character::mission_edit, true, 'M',  _( "Edit [M]issions (WARNING: Unstable!)" ) ),
@@ -915,6 +916,9 @@ void character_edit_menu( Character &c )
         break;
         case edit_character::mutate:
             wishmutate( &p );
+            break;
+        case edit_character::bionics:
+            wishbionics( *p.as_character() );
             break;
         case edit_character::healthy: {
             uilist smenu;

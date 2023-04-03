@@ -44,7 +44,6 @@
       [ "rail mount", 1 ],
       [ "sights mount", 1 ]
     ],
-    "built_in_mods": [ "lemat_revolver_shotgun" ],
-    "extend": { "flags": [ "NO_UNLOAD" ] }
+    "built_in_mods": [ "lemat_revolver_shotgun" ]
   }
 ]
