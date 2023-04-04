@@ -6,6 +6,7 @@
 
 #include "debug.h"
 #include "locations.h"
+#include "detached_ptr.h"
 #include "safe_reference.h"
 
 #define GO_BACKTRACE (40)
@@ -42,21 +43,22 @@ class game_object
             cata_arena<T>::mark_for_destruction( static_cast<T *>( this ) );
         }
 
-        void detach() {
+        detached_ptr<item> detach() {
             if( is_null() ) {
-                return;
+                return detached_ptr<item>();
             }
             if( loc == nullptr ) {
                 debugmsg( "Attempted to remove the location of [%s] that doesn't have one.", debug_name() );
-                return;
+                return detached_ptr<item>();
             }
-            loc->detach( static_cast<T *>( this ) );
+            detached_ptr<item> res = std::move( loc->detach( static_cast<T *>( this ) ) );
 #if !defined(RELEASE)
             void **buf = static_cast<void **>( malloc( sizeof( void * ) * GO_BACKTRACE ) );
             backtrace( buf, GO_BACKTRACE );
             cata_arena<T>::add_removed_trace( static_cast<T *>( this ), buf );
 #endif
             loc.reset( nullptr );
+            return std::move( res );
         }
 
         void set_location( location<T> *own ) {

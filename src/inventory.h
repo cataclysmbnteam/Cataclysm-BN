@@ -100,9 +100,9 @@ class inventory : public visitable<inventory>
 
         inventory();
         inventory( inventory && ) = default;
-        inventory( const inventory & ) = default;
+        inventory( const inventory & ) = delete;
         inventory &operator=( inventory && ) = default;
-        inventory &operator=( const inventory & ) = default;
+        inventory &operator=( const inventory & ) = delete;
 
         inventory &operator+= ( const inventory &rhs );
         inventory &operator+= ( item &rhs );
@@ -248,7 +248,8 @@ class inventory : public visitable<inventory>
         invlet_favorites invlet_cache;
         char find_usable_cached_invlet( const itype_id &item_type );
 
-        invstack items;
+        std::unique_ptr<item_location> loc;
+        std::list<location_vector<item>> items;
         std::map<itype_id, std::list<ItemList *>> items_type_cache;
         std::map<quality_id, std::map<int, int>> quality_cache;
 

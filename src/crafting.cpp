@@ -984,7 +984,7 @@ requirement_data item::get_continue_reqs() const
         debugmsg( "get_continue_reqs() called on non-craft '%s.'  Aborting.", tname() );
         return requirement_data();
     }
-    return requirement_data::continue_requirements( craft_data_->comps_used, components );
+    return requirement_data::continue_requirements( craft_data_->comps_used, components.as_vector() );
 }
 
 void item::inherit_flags( const item &parent, const recipe &making )

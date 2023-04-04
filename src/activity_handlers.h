@@ -135,10 +135,13 @@ enum class item_drop_reason {
     tumbling
 };
 
-void put_into_vehicle_or_drop( Character &c, item_drop_reason, const ItemList &items );
-void put_into_vehicle_or_drop( Character &c, item_drop_reason, const ItemList &items,
+void put_into_vehicle_or_drop( Character &c, item_drop_reason,
+                               const std::vector<location_ptr<item>> &items );
+void put_into_vehicle_or_drop( Character &c, item_drop_reason,
+                               const std::vector<location_ptr<item>> &items,
                                const tripoint &where, bool force_ground = false );
-void drop_on_map( Character &c, item_drop_reason reason, const ItemList &items,
+void drop_on_map( Character &c, item_drop_reason reason,
+                  const std::vector<location_ptr<item>> &items,
                   const tripoint &where );
 
 namespace activity_handlers

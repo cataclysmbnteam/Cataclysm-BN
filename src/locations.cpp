@@ -3,6 +3,7 @@
 #include "character.h"
 #include "coordinates.h"
 #include "item.h"
+#include "location_ptr.h"
 #include "map.h"
 #include "monster.h"
 #include "player.h"
@@ -34,40 +35,40 @@ void template_item_location::detach( item * )
     debugmsg( "Attempted to detach a template item" );
 }
 
-bool template_item_location::is_loaded( const item * ) const
+bool fake_item_location::is_loaded( const item * ) const
 {
     return false; //Loaded means in the reality bubble so no
 }
 
-void template_item_location::detach_for_destroy( item * )
+void fake_item_location::detach_for_destroy( item * )
 {
     //Just suppressing the errors here, there's nothing to do to detach
 }
 
-tripoint template_item_location::position( const item * ) const
+tripoint fake_item_location::position( const item * ) const
 {
     debugmsg( "Attempted to find the position of a template item" );
     return tripoint_zero;
 }
 
-item_location_type template_item_location::where() const
+item_location_type fake_item_location::where() const
 {
     debugmsg( "Attempted to get the where of a template item" );
     return item_location_type::invalid;
 }
 
-int template_item_location::obtain_cost( const Character &, int, const item * ) const
+int fake_item_location::obtain_cost( const Character &, int, const item * ) const
 {
     debugmsg( "Attempted to get the obtain cost of a template item" );
     return 0;
 }
 
-std::string template_item_location::describe( const Character *, const item * ) const
+std::string fake_item_location::describe( const Character *, const item * ) const
 {
     return "Error: Nowhere";
 }
 
-bool template_item_location::check_for_corruption( const item * ) const
+bool fake_item_location::check_for_corruption( const item * ) const
 {
     return true;
 }

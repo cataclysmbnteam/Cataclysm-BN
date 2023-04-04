@@ -12,12 +12,14 @@ class submap;
 class vehicle;
 class monster;
 struct tripoint;
+template<typename T>
+class detached_ptr;
 
 template<class T>
 class location
 {
     public:
-        virtual void detach( T *obj ) = 0;
+        virtual detached_ptr<T> detach( T *obj ) = 0;
         virtual void detach_for_destroy( T *obj );
         virtual bool is_loaded( const T *obj ) const = 0;
         virtual tripoint position( const T *obj ) const = 0;
@@ -50,7 +52,7 @@ class character_item_location : public item_location
         Character *holder;
     public:
         character_item_location( Character *h ): holder( h ) {};
-        void detach( item *it ) override;
+        detached_ptr<item> detach( item *it ) override;
         bool is_loaded( const item *it ) const override;
         tripoint position( const item *it ) const override;
         item_location_type where() const override;
@@ -63,7 +65,7 @@ class wield_item_location :  public character_item_location
 {
     public:
         wield_item_location( Character *h ): character_item_location( h ) {};
-        void detach( item *it ) override;
+        detached_ptr<item> detach( item *it ) override;
         int obtain_cost( const Character &ch, int qty, const item *it ) const override;
         std::string describe( const Character *ch, const item *it ) const override;
         bool check_for_corruption( const item *it ) const override;
@@ -73,7 +75,7 @@ class worn_item_location :  public character_item_location
 {
     public:
         worn_item_location( Character *h ): character_item_location( h ) {};
-        void detach( item *it ) override;
+        detached_ptr<item> detach( item *it ) override;
         int obtain_cost( const Character &ch, int qty, const item *it ) const override;
         std::string describe( const Character *ch, const item *it ) const override;
         bool check_for_corruption( const item *it ) const override;
@@ -83,7 +85,7 @@ class tile_item_location : public item_location, public go_tile_location
 {
     public:
         tile_item_location( tripoint position );
-        void detach( item *it ) override;
+        detached_ptr<item> detach( item *it ) override;
         bool is_loaded( const item *it ) const override;
         tripoint position( const item *it ) const override;
         item_location_type where() const override;
@@ -98,7 +100,7 @@ class monster_item_location : public item_location
         monster *on;
     public:
         monster_item_location( monster *on ) : on( on ) {}
-        void detach( item *it ) override;
+        detached_ptr<item> detach( item *it ) override;
         bool is_loaded( const item *it ) const override;
         tripoint position( const item *it ) const override;
         item_location_type where() const override;
@@ -111,7 +113,7 @@ class monster_component_item_location : public monster_item_location
 {
     public:
         monster_component_item_location( monster *on ) : monster_item_location( on ) { }
-        void detach( item *it ) override;
+        detached_ptr<item> detach( item *it ) override;
         bool check_for_corruption( const item *it ) const override;
 };
 
@@ -119,28 +121,28 @@ class monster_tied_item_location :  public monster_item_location
 {
     public:
         monster_tied_item_location( monster *on ) : monster_item_location( on ) { }
-        void detach( item *it ) override;
+        detached_ptr<item> detach( item *it ) override;
         bool check_for_corruption( const item *it ) const override;
 };
 class monster_tack_item_location :  public monster_item_location
 {
     public:
         monster_tack_item_location( monster *on ) : monster_item_location( on ) { }
-        void detach( item *it ) override;
+        detached_ptr<item> detach( item *it ) override;
         bool check_for_corruption( const item *it ) const override;
 };
 class monster_armor_item_location :  public monster_item_location
 {
     public:
         monster_armor_item_location( monster *on ) : monster_item_location( on ) { }
-        void detach( item *it ) override;
+        detached_ptr<item> detach( item *it ) override;
         bool check_for_corruption( const item *it ) const override;
 };
 class monster_storage_item_location :  public monster_item_location
 {
     public:
         monster_storage_item_location( monster *on ) : monster_item_location( on ) { }
-        void detach( item *it ) override;
+        detached_ptr<item> detach( item *it ) override;
         bool check_for_corruption( const item *it ) const override;
 };
 
@@ -148,7 +150,7 @@ class monster_battery_item_location :  public monster_item_location
 {
     public:
         monster_battery_item_location( monster *on ) : monster_item_location( on ) { }
-        void detach( item *it ) override;
+        detached_ptr<item> detach( item *it ) override;
         bool check_for_corruption( const item *it ) const override;
 };
 
@@ -158,7 +160,7 @@ class vehicle_item_location : public item_location
         vehicle *veh;// This is woefully inefficient and inprecise, but it's necessary until vehicles are made into game objects
     public:
         vehicle_item_location( vehicle *veh ) : veh( veh ) {}
-        void detach( item *it ) override;
+        detached_ptr<item> detach( item *it ) override;
         bool is_loaded( const item *it ) const override;
         tripoint position( const item *it ) const override;
         item_location_type where() const override;
@@ -171,7 +173,7 @@ class vehicle_base_item_location : public vehicle_item_location
 {
     public:
         vehicle_base_item_location( vehicle *veh ) : vehicle_item_location( veh ) {}
-        void detach( item *it ) override;
+        detached_ptr<item> detach( item *it ) override;
         int obtain_cost( const Character &ch, int qty, const item *it ) const override;
         std::string describe( const Character *ch, const item *it ) const override;
         bool check_for_corruption( const item *it ) const override;
@@ -183,7 +185,7 @@ class contents_item_location :  public item_location
         item *container;
     public:
         contents_item_location( item *cont ) : container( cont ) {}
-        void detach( item *it ) override;
+        detached_ptr<item> detach( item *it ) override;
         bool is_loaded( const item *it ) const override;
         tripoint position( const item *it ) const override;
         item_location_type where() const override;
@@ -194,19 +196,19 @@ class contents_item_location :  public item_location
         item *parent() const;
 };
 
-class component_item_location : public contents_item_location
+class component_item_location : public contents_item_location //updated
 {
     public:
         component_item_location( item *cont ) : contents_item_location( cont ) {}
-        void detach( item *it ) override;
+        detached_ptr<item> detach( item *it ) override;
         bool check_for_corruption( const item *it ) const override;
 };
 
-class template_item_location : public item_location
+class fake_item_location : public item_location
 {
     public:
-        template_item_location() {};
-        void detach( item *it ) override;
+        fake_item_location() {};
+        detached_ptr<item> detach( item *it ) override;
         bool is_loaded( const item *it ) const override;
         void detach_for_destroy( item *it ) override;
         tripoint position( const item *it ) const override;

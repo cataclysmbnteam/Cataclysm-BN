@@ -366,13 +366,15 @@ struct scoped_goes_bad_cache {
 
 const int item::INFINITE_CHARGES = INT_MAX;
 
-item::item() : bday( calendar::start_of_cataclysm )
+item::item() : components( std::unique_ptr<location<item>>( new component_item_location( this ) ) ),
+    bday( calendar::start_of_cataclysm )
 {
     type = nullitem();
     charges = 0;
 }
 
-item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( turn )
+item::item( const itype *type, time_point turn, int qty ) : type( type ),
+    components( std::unique_ptr<location<item>>( new component_item_location( this ) ) ), bday( turn )
 {
     corpse = has_flag( flag_CORPSE ) ? &mtype_id::NULL_ID().obj() : nullptr;
     item_counter = type->countdown_interval;
@@ -463,12 +465,15 @@ static const item *get_most_rotten_component( const item &craft )
     return most_rotten;
 }
 
-item::item( const recipe *rec, int qty, ItemList items, std::vector<item_comp> selections )
+item::item( const recipe *rec, int qty, std::vector<location_ptr<item>> items,
+            std::vector<item_comp> selections )
     : item( "craft", calendar::turn, qty )
 {
     craft_data_ = cata::make_value<craft_data>();
     craft_data_->making = rec;
-    components = items;
+    for( auto item &it : items ) {
+        components.push_back( std::move( it ) );
+    }
     craft_data_->comps_used = selections;
 
     if( is_food() ) {
@@ -10242,7 +10247,7 @@ void item::add_component( item &comp )
 
 const ItemList &item::get_components() const
 {
-    return components;
+    return components.as_vector();
 }
 
 ItemList &item::get_components()

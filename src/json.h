@@ -20,6 +20,7 @@
 #include "memory_fast.h"
 #include "string_id.h"
 #include "colony.h"
+#include "detached_ptr.h"
 #include "safe_reference.h"
 #include "cata_arena.h"
 
@@ -351,7 +352,8 @@ class JsonIn
         //TODO!: not sure this is correct, needs a proper check
         /// Overload for game objects
         template<typename T>
-        auto read( T *&out, bool throw_on_error = false ) -> decltype( T::_spawn( *this ), true ) {
+        auto read( detached_ptr<T> &out, bool throw_on_error = false ) -> decltype( T::_spawn( *this ),
+                true ) {
             try {
                 out = T::_spawn( *this );
 #if !defined(RELEASE)
@@ -991,6 +993,17 @@ class JsonObject
         // but the read fails.
         template <typename T>
         bool read( const std::string &name, T &t, bool throw_on_error = true ) const {
+            int pos = verify_position( name, false );
+            if( !pos ) {
+                return false;
+            }
+            mark_visited( name );
+            jsin->seek( pos );
+            return jsin->read( t, throw_on_error );
+        }
+
+        template <typename T>
+        bool read( const std::string &name, detached_ptr<T> &t, bool throw_on_error = true ) const {
             int pos = verify_position( name, false );
             if( !pos ) {
                 return false;

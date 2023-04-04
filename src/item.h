@@ -15,6 +15,7 @@
 
 #include "calendar.h"
 #include "cata_arena.h"
+#include "detached_ptr.h"
 #include "enums.h"
 #include "flat_set.h"
 #include "game_object.h"
@@ -23,6 +24,7 @@
 #include "item_contents.h"
 #include "optional.h"
 #include "locations.h"
+#include "location_vector.h"
 #include "pimpl.h"
 #include "safe_reference.h"
 #include "string_id.h"
@@ -251,7 +253,8 @@ class item : public visitable<item>, public game_object<item>
         item( const itype *type, time_point turn, solitary_tag );
 
         /** For constructing in-progress crafts */
-        item( const recipe *rec, int qty, std::vector<item *> items, std::vector<item_comp> selections );
+        item( const recipe *rec, int qty, std::vector<detached_ptr<item>> items,
+              std::vector<item_comp> selections );
 
         // Legacy constructor for constructing from string rather than itype_id
         // TODO: remove this and migrate code using it.
@@ -269,40 +272,36 @@ class item : public visitable<item>, public game_object<item>
 
         ~item();
 
-        inline static item *_spawn( JsonIn &jsin ) {
-            item *p = _spawn();
+        inline static detached_ptr<item> _spawn( JsonIn &jsin ) {
+            detached_ptr<item> p = _spawn();
             p->deserialize( jsin );
-            return p;
+            return std::move( p );
         }
 
-        inline static item *_spawn( const item &source ) {
+        inline static detached_ptr<item>_spawn( const item &source ) {
             if( source.is_null() ) {
-                return &null_item_reference();
+                return detached_ptr<item>( &null_item_reference() );
             }
             return new item( source );
         }
 
         template<typename... T>
-        inline static item *_spawn( T... args ) {
-            return new item( std::forward<T>( args )... );
+        inline static detached_ptr<item>_spawn( T... args ) {
+            return std::move( detached_ptr<item>( new item( std::forward<T>( args )... ) ) );
         }
 
         inline static item *_spawn_temporary( const item &source ) {
             if( source.is_null() ) {
                 return &null_item_reference();
             }
-            item *p = item::_spawn( source );
-            p->destroy();
-            p->set_location( new template_item_location() );
-            return p;
+            detached_ptr<item> p = item::_spawn( source );
+            return &*p;
         }
 
         template<typename... T>
         inline static item *_spawn_temporary( T... args ) {
-            item *p = item::_spawn( std::forward<T>( args )... );
-            p->destroy();
-            p->set_location( new template_item_location() );
-            return p;
+            detached_ptr<item> p = item::_spawn( std::forward<T>( args )... );
+            return &*p;
         }
 
 #if !defined(RELEASE)
@@ -379,7 +378,7 @@ class item : public visitable<item>, public game_object<item>
          * @param qty number of required charges to split from source. 0 means all.
          * @return new instance containing exactly qty charges or *this after detaching
          */
-        item &split( int qty );
+        detached_ptr<item> split( int qty );
 
         /**
          * Make a corpse of the given monster type.
@@ -2265,7 +2264,7 @@ class item : public visitable<item>, public game_object<item>
         const ItemList &get_components() const;
         ItemList &get_components();
     private:
-        ItemList components;
+        location_vector<item> components;
         const itype *curammo = nullptr;
         std::map<std::string, std::string> item_vars;
         const mtype *corpse = nullptr;

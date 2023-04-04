@@ -68,6 +68,7 @@ static const std::string has_thievery_witness( "has_thievery_witness" );
 aim_activity_actor::aim_activity_actor()
 {
     initial_view_offset = get_avatar().view_offset;
+    fake_weapon.set_location( new fake_item_location() );
 }
 
 aim_activity_actor aim_activity_actor::use_wielded()
@@ -75,20 +76,20 @@ aim_activity_actor aim_activity_actor::use_wielded()
     return aim_activity_actor();
 }
 
-aim_activity_actor aim_activity_actor::use_bionic( item &fake_gun,
+aim_activity_actor aim_activity_actor::use_bionic( detached_ptr<item> &&fake_gun,
         const units::energy &cost_per_shot )
 {
-    aim_activity_actor act = aim_activity_actor();
+    std::unique_ptr<aim_activity_actor> act = aim_activity_actor();
     act.bp_cost_per_shot = cost_per_shot;
     //TODO!: check ownership shenangans
-    act.fake_weapon = &fake_gun;
+    act.fake_weapon = std::move( fake_gun );
     return act;
 }
 
-aim_activity_actor aim_activity_actor::use_mutation( item &fake_gun )
+aim_activity_actor aim_activity_actor::use_mutation( detached_ptr<item> &&fake_gun )
 {
     aim_activity_actor act = aim_activity_actor();
-    act.fake_weapon = &fake_gun;
+    act.fake_weapon = std::move( fake_gun );
     return act;
 }
 
@@ -242,7 +243,7 @@ item *aim_activity_actor::get_weapon()
 {
     if( fake_weapon ) {
         // TODO: check if the player lost relevant bionic/mutation
-        return fake_weapon;
+        return &*fake_weapon;
     } else {
         // Check for lost gun (e.g. yanked by zombie technician)
         // TODO: check that this is the same gun that was used to start aiming
@@ -931,10 +932,10 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
             continue;
         }
 
-        item *newit;
+        location_ptr<item> newit = quantity == 0 ? target->detach() : target->split( quantity );
 
         // Handle charges, quantity == 0 means move all
-        if( quantity != 0 && target->count_by_charges() ) {
+        /*if( quantity != 0 && target->count_by_charges() ) {
             // If it's only a partial stack move, make a copy to be put in the destination location
             newit = item_spawn( *target );
             newit->charges = std::min( newit->charges, quantity );
@@ -942,15 +943,15 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
         } else {
             // Otherwise just move the original
             newit = &( *target );
-        }
+        }*/
 
         const tripoint src = target->position();
         const int distance = src.z == dest.z ? std::max( rl_dist( src, dest ), 1 ) : 1;
         who.mod_moves( -pickup::cost_to_move_item( who, *newit ) * distance );
         if( to_vehicle ) {
-            put_into_vehicle_or_drop( who, item_drop_reason::deliberate, { newit }, dest );
+            put_into_vehicle_or_drop( who, item_drop_reason::deliberate, { std::move( newit ) }, dest );
         } else {
-            drop_on_map( who, item_drop_reason::deliberate, { newit }, dest );
+            drop_on_map( who, item_drop_reason::deliberate, { std::move( newit ) }, dest );
         }
     }
 
