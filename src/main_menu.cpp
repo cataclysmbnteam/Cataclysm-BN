@@ -55,13 +55,12 @@ enum class main_menu_opts : int {
     NEWCHAR = 1,
     LOADCHAR = 2,
     WORLD = 3,
-    SPECIAL = 4,
-    SETTINGS = 5,
-    HELP = 6,
-    CREDITS = 7,
-    QUIT = 8
+    SETTINGS = 4,
+    HELP = 5,
+    CREDITS = 6,
+    QUIT = 7
 };
-static constexpr int max_menu_opts = 8;
+static constexpr int max_menu_opts = 7;
 
 static int getopt( main_menu_opts o )
 {
@@ -178,17 +177,6 @@ void main_menu::display_sub_menu( int sel, const point &bottom_left, int sel_lin
             //~ Message Of The Day
             display_text( mmenu_motd, _( "MOTD" ), sel_line );
             return;
-        case main_menu_opts::SPECIAL:
-            for( int i = 1; i < static_cast<int>( special_game_type::NUM_SPECIAL_GAME_TYPES ); i++ ) {
-                std::string spec_name = special_game_name( static_cast<special_game_type>( i ) );
-                nc_color clr = i == sel2 ? hilite( c_yellow ) : c_yellow;
-                sub_opts.push_back( shortcut_text( clr, spec_name ) );
-                int len = utf8_width( shortcut_text( clr, spec_name ), true );
-                if( len > xlen ) {
-                    xlen = len;
-                }
-            }
-            break;
         case main_menu_opts::SETTINGS:
             for( int i = 0; static_cast<size_t>( i ) < vSettingsSubItems.size(); ++i ) {
                 nc_color clr = i == sel2 ? hilite( c_yellow ) : c_yellow;
@@ -429,7 +417,6 @@ void main_menu::init_strings()
     vMenuItems.emplace_back( pgettext( "Main Menu", "<N|n>ew Game" ) );
     vMenuItems.emplace_back( pgettext( "Main Menu", "Lo<a|A>d" ) );
     vMenuItems.emplace_back( pgettext( "Main Menu", "<W|w>orld" ) );
-    vMenuItems.emplace_back( pgettext( "Main Menu", "<S|s>pecial" ) );
     vMenuItems.emplace_back( pgettext( "Main Menu", "Se<t|T>tings" ) );
     vMenuItems.emplace_back( pgettext( "Main Menu", "H<e|E|?>lp" ) );
     vMenuItems.emplace_back( pgettext( "Main Menu", "<C|c>redits" ) );
@@ -440,10 +427,15 @@ void main_menu::init_strings()
     vNewGameSubItems.emplace_back( pgettext( "Main Menu|New Game", "C<u|U>stom Character" ) );
     vNewGameSubItems.emplace_back( pgettext( "Main Menu|New Game", "<P|p>reset Character" ) );
     vNewGameSubItems.emplace_back( pgettext( "Main Menu|New Game", "<R|r>andom Character" ) );
-    if( !MAP_SHARING::isSharing() ) { // "Play Now" function doesn't play well together with shared maps
+    if( !MAP_SHARING::isSharing() ) {
+        // "Play Now" function doesn't play well together with shared maps
         vNewGameSubItems.emplace_back( pgettext( "Main Menu|New Game",
                                        "Play Now!  (<D|d>efault Scenario)" ) );
         vNewGameSubItems.emplace_back( pgettext( "Main Menu|New Game", "Play N<o|O>w!" ) );
+
+        // Special games don't play well together with shared maps
+        vNewGameSubItems.emplace_back( pgettext( "Main Menu|New Game", "<T|t>utorial" ) );
+        vNewGameSubItems.emplace_back( pgettext( "Main Menu|New Game", "<D|d>efence mode" ) );
     }
     vNewGameHints.clear();
     vNewGameHints.emplace_back(
@@ -455,6 +447,10 @@ void main_menu::init_strings()
         _( "Puts you right in the game, randomly choosing character's traits, profession, skills and other parameters.  Scenario is fixed to Evacuee." ) );
     vNewGameHints.emplace_back(
         _( "Puts you right in the game, randomly choosing scenario and character's traits, profession, skills and other parameters." ) );
+    vNewGameHints.emplace_back(
+        _( "Learn controls and basic game mechanics while exploring a small underground complex." ) );
+    vNewGameHints.emplace_back(
+        _( "Defend against waves of incoming enemies.  This game mode hasn't been updated in a while and may contain bugs." ) );
     vNewGameHotkeys.clear();
     vNewGameHotkeys.reserve( vNewGameSubItems.size() );
     for( const std::string &item : vNewGameSubItems ) {
@@ -723,9 +719,6 @@ bool main_menu::opening_screen()
                 case main_menu_opts::SETTINGS:
                     max_item_count = vSettingsSubItems.size();
                     break;
-                case main_menu_opts::SPECIAL:
-                    max_item_count = static_cast<int>( special_game_type::NUM_SPECIAL_GAME_TYPES ) - 1;
-                    break;
                 case main_menu_opts::HELP:
                 case main_menu_opts::QUIT:
                 default:
@@ -752,37 +745,6 @@ bool main_menu::opening_screen()
                     break;
                 case main_menu_opts::QUIT:
                     return false;
-                case main_menu_opts::SPECIAL:
-                    if( MAP_SHARING::isSharing() ) {
-                        on_error();
-                        popup( _( "Special games don't work with shared maps." ) );
-                        clear_error();
-                    } else if( sel2 >= 0 && sel2 < static_cast<int>( special_game_type::NUM_SPECIAL_GAME_TYPES ) - 1 ) {
-                        on_out_of_scope cleanup( [&player_character]() {
-                            g->gamemode.reset();
-                            player_character = avatar();
-                            world_generator->set_active_world( nullptr );
-                        } );
-                        g->gamemode = get_special_game( static_cast<special_game_type>( sel2 + 1 ) );
-                        // check world
-                        WORLDPTR world = world_generator->make_new_world( static_cast<special_game_type>( sel2 + 1 ) );
-                        if( world == nullptr ) {
-                            break;
-                        }
-                        world_generator->set_active_world( world );
-                        try {
-                            g->setup();
-                        } catch( const std::exception &err ) {
-                            debugmsg( "Error: %s", err.what() );
-                            break;
-                        }
-                        if( !g->gamemode->init() ) {
-                            break;
-                        }
-                        cleanup.cancel();
-                        start = true;
-                    }
-                    break;
                 case main_menu_opts::SETTINGS:
                     if( sel2 == 0 ) {        /// Options
                         get_options().show( false );
@@ -900,14 +862,25 @@ bool main_menu::new_character_tab()
         }
     } else { ///Non-template options
         on_out_of_scope cleanup( [&pc]() {
+            g->gamemode.reset();
             pc = avatar();
             world_generator->set_active_world( nullptr );
         } );
-        g->gamemode = nullptr;
-        // First load the mods, this is done by
-        // loading the world.
-        // Pick a world, suppressing prompts if it's "play now" mode.
-        WORLDPTR world = world_generator->pick_world( true, sel2 == 3 || sel2 == 4 );
+        g->gamemode.reset();
+
+        WORLDPTR world;
+        if( sel2 == 5 ) {
+            g->gamemode = get_special_game( special_game_type::TUTORIAL );
+            world = world_generator->make_new_world( special_game_type::TUTORIAL );
+        } else if( sel2 == 6 ) {
+            g->gamemode = get_special_game( special_game_type::DEFENSE );
+            world = world_generator->make_new_world( special_game_type::DEFENSE );
+        } else {
+            // Pick a world, suppressing prompts if it's "play now" mode.
+            bool suppress_prompt = sel2 == 3 || sel2 == 4;
+            world = world_generator->pick_world( true, suppress_prompt );
+        }
+
         if( world == nullptr ) {
             return false;
         }
@@ -918,6 +891,11 @@ bool main_menu::new_character_tab()
             debugmsg( "Error: %s", err.what() );
             return false;
         }
+
+        if( g->gamemode ) {
+            return g->gamemode->init();
+        }
+
         character_type play_type = character_type::CUSTOM;
         switch( sel2 ) {
             case 0:
