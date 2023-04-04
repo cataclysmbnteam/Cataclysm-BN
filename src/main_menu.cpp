@@ -471,6 +471,7 @@ void main_menu::init_strings()
     vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "<D|d>elete World" ) );
     vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "<R|r>eset World" ) );
     vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Sh<o|O>w World Mods" ) );
+    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "<E|e>dit World Mods" ) );
     vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Copy World Sett<i|I>ngs" ) );
     vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Character to Tem<p|P>late" ) );
 
@@ -484,6 +485,7 @@ void main_menu::init_strings()
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "Ke<y|Y>bindings" ) );
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "A<u|U>topickup" ) );
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "Sa<f|F>emode" ) );
+    vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "<D|d>istractions" ) );
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "Colo<r|R>s" ) );
 
     vSettingsHotkeys.clear();
@@ -1015,7 +1017,7 @@ void main_menu::world_tab( const std::string &worldname )
     uilist mmenu( string_format( _( "Manage world \"%s\"" ), worldname ), {} );
     mmenu.border_color = c_white;
     int opt_val = 0;
-    std::array<char, 5> hotkeys = { 'd', 'r', 'm', 's', 't' };
+    std::array<char, 6> hotkeys = { 'd', 'r', 'm', 'e', 's',  't' };
     for( const std::string &it : vWorldSubItems ) {
         mmenu.entries.emplace_back( opt_val, true, hotkeys[opt_val],
                                     remove_color_tags( shortcut_text( c_white, it ) ) );
@@ -1052,10 +1054,21 @@ void main_menu::world_tab( const std::string &worldname )
             world_generator->show_active_world_mods(
                 world_generator->get_world( worldname )->active_mod_order );
             break;
-        case 3: // Copy World settings
+        case 3: // Edit World Mods
+            if( query_yn( _(
+                              "Editing mod list or mod load order may render the world unstable or completely unplayable.  "
+                              "It is advised to manually back up world files before proceeding.  "
+                              "If you have just started playing, consider creating new world instead.\n"
+                              "Proceed?"
+                          ) ) ) {
+                WORLDPTR world = world_generator->get_world( worldname );
+                world_generator->edit_active_world_mods( world );
+            }
+            break;
+        case 4: // Copy World settings
             world_generator->make_new_world( true, worldname );
             break;
-        case 4: // Character to Template
+        case 5: // Character to Template
             if( load_character_tab( worldname ) ) {
                 avatar &pc = get_avatar();
                 pc.setID( character_id(), true );
