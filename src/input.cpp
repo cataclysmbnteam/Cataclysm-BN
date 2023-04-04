@@ -116,20 +116,25 @@ void input_manager::init()
     init_keycode_mapping();
     reset_timeout();
 
-    using is_user_preference = bool;
-    auto bindings = std::vector<std::pair<std::string, is_user_preference>> {
-        { PATH_INFO::keybindings(),               false },
-        { PATH_INFO::keybindings_vehicle(),       false },
-        { PATH_INFO::keybindings_edit_creature(), false },
-        { PATH_INFO::keybindings_messages(),      false },
-        { PATH_INFO::user_keybindings(),          true  },
+    auto bindings = std::vector<std::string> {
+        { PATH_INFO::keybindings() },
+        { PATH_INFO::keybindings_vehicle() },
+        { PATH_INFO::keybindings_edit_creature() },
+        { PATH_INFO::keybindings_messages() },
     };
-    for( const auto &[filepath, is_user_preference] : bindings ) {
+    for( const auto &filepath : bindings ) {
         try {
-            load( filepath, is_user_preference );
+            load( filepath, false );
         } catch( const JsonError &err ) {
             throw std::runtime_error( err.what() );
         }
+    }
+
+    // user keybindings are searched from separate directory
+    try {
+        load( PATH_INFO::user_keybindings(), true );
+    } catch( const JsonError &err ) {
+        throw std::runtime_error( err.what() );
     }
 
     if( keymap_file_loaded_from.empty() || ( keymap.empty() && unbound_keymap.empty() ) ) {
