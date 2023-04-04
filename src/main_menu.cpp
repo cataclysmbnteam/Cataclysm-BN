@@ -588,12 +588,6 @@ bool main_menu::opening_screen()
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
 
-    // for mouse selection
-    ctxt.register_action( "SELECT" );
-    ctxt.register_action( "MOUSE_MOVE" );
-    ctxt.register_action( "SCROLL_UP" );
-    ctxt.register_action( "SCROLL_DOWN" );
-
     // for the menu shortcuts
     ctxt.register_action( "ANY_INPUT" );
     bool start = false;
