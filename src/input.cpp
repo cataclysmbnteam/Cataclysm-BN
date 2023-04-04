@@ -116,15 +116,10 @@ void input_manager::init()
     init_keycode_mapping();
     reset_timeout();
 
-    auto bindings = std::vector<std::string> {
-        { PATH_INFO::keybindings() },
-        { PATH_INFO::keybindings_vehicle() },
-        { PATH_INFO::keybindings_edit_creature() },
-        { PATH_INFO::keybindings_messages() },
-    };
-    for( const auto &filepath : bindings ) {
+    // recursively load all keybindings from the data/raw directory
+    for( const auto &file : get_files_from_path( ".json", PATH_INFO::keybindingsdir(), true, true ) ) {
         try {
-            load( filepath, false );
+            load( file, false );
         } catch( const JsonError &err ) {
             throw std::runtime_error( err.what() );
         }
