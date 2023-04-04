@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - upload
+
+env:
+  VCPKG_BINARY_SOURCES: 'default'
 jobs:
   release:
     name: Create Release
