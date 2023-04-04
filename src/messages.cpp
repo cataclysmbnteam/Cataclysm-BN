@@ -395,25 +395,6 @@ static bool msg_type_from_name( game_message_type &type, const std::string &name
     return false;
 }
 
-/// simple struct to hold suitable window size.
-///
-/// for future contributor who may want to add customizable window size:
-/// remove anything related to window_size since it's designed only to be toggleable.
-struct window_size {
-    int w;
-    int h;
-    window_size( int w, int h ) : w( std::min( TERMX, w ) ), h( std::min( TERMY, h ) ) { }
-};
-static window_size wide_size()
-{
-    return { static_cast<int>( FULL_SCREEN_WIDTH * 1.5 ), TERMY };
-}
-
-static window_size narrow_size()
-{
-    return { FULL_SCREEN_WIDTH, TERMY };
-}
-
 namespace Messages
 {
 // NOLINTNEXTLINE(cata-xy)
@@ -499,9 +480,10 @@ Messages::dialog::dialog()
 
 inline void Messages::dialog::set_size()
 {
-    auto [w, h] = wide_display ? wide_size() : narrow_size();
-    w_width = w;
-    w_height = h;
+    const int width = FULL_SCREEN_WIDTH * ( wide_display ? 1.5 : 1 );
+
+    w_width = std::min( TERMX, width );
+    w_height = TERMY;
     w_x = ( TERMX - w_width ) / 2;
     w_y = ( TERMY - w_height ) / 2;
 }
