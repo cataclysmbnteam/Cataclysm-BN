@@ -209,7 +209,7 @@ std::string PATH_INFO::help()
 }
 std::string PATH_INFO::keybindings()
 {
-    return datadir_value + "raw/" + "keybindings.json";
+    return datadir_value + "raw/" + "keybindings/keybindings.json";
 }
 std::string PATH_INFO::keybindings_vehicle()
 {
