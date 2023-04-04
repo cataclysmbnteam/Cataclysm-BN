@@ -572,7 +572,6 @@ void Messages::dialog::init( ui_adaptor &ui )
 
     do_filter( filter_str );
 
-    ui.mark_resize();
     ui.position_from_window( w );
 
     first_init = false;
