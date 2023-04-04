@@ -411,7 +411,7 @@ static window_size wide_size()
 
 static window_size narrow_size()
 {
-    return { FULL_SCREEN_WIDTH, FULL_SCREEN_HEIGHT };
+    return { FULL_SCREEN_WIDTH, TERMY };
 }
 
 namespace Messages
@@ -485,7 +485,7 @@ class dialog
         std::optional<ime_sentry> filter_sentry;
 
         bool first_init = true;
-        bool wide_display = false;
+        bool wide_display = true;
 
 };
 } // namespace Messages
