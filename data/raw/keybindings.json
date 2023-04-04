@@ -2927,27 +2927,21 @@
     "id": "LOAD",
     "category": "LOAD_DELETE_CANCEL",
     "name": "Load",
-    "bindings": [
-      { "input_method": "keyboard", "key": "L" }
-    ]
+    "bindings": [ { "input_method": "keyboard", "key": "L" } ]
   },
   {
     "type": "keybinding",
     "id": "DELETE",
     "category": "LOAD_DELETE_CANCEL",
     "name": "Delete",
-    "bindings": [
-      { "input_method": "keyboard", "key": "D" }
-    ]
+    "bindings": [ { "input_method": "keyboard", "key": "D" } ]
   },
   {
     "type": "keybinding",
     "id": "CANCEL",
     "category": "LOAD_DELETE_CANCEL",
     "name": "Cancel",
-    "bindings": [
-      { "input_method": "keyboard", "key": "C" }
-    ]
+    "bindings": [ { "input_method": "keyboard", "key": "C" } ]
   },
   {
     "type": "keybinding",
