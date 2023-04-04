@@ -667,6 +667,7 @@ bool main_menu::opening_screen()
 
         // also check special keys
         if( action == "QUIT" ) {
+            ui_manager::redraw();
             if( query_yn( _( "Really quit?" ) ) ) {
                 return false;
             }
