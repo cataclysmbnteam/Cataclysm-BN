@@ -409,7 +409,6 @@ class dialog
         void show();
         void input( const ui_adaptor &ui );
         void do_filter( const std::string &filter_str );
-        void toggle_wide_display( const ui_adaptor &ui );
         void set_size();
         static std::vector<std::string> filter_help_text( int width );
 
@@ -466,7 +465,8 @@ class dialog
         std::optional<ime_sentry> filter_sentry;
 
         bool first_init = true;
-        bool wide_display = true;
+        bool wide_display = false;
+        bool full_height_display = false;
 
 };
 } // namespace Messages
@@ -480,10 +480,8 @@ Messages::dialog::dialog()
 
 inline void Messages::dialog::set_size()
 {
-    const int width = FULL_SCREEN_WIDTH * ( wide_display ? 1.5 : 1 );
-
-    w_width = std::min( TERMX, width );
-    w_height = TERMY;
+    w_width = std::min( TERMX, static_cast<int>( FULL_SCREEN_WIDTH * ( wide_display ? 1.8 : 1 ) ) );
+    w_height = std::min( TERMY, full_height_display ? TERMY : FULL_SCREEN_HEIGHT );
     w_x = ( TERMX - w_width ) / 2;
     w_y = ( TERMY - w_height ) / 2;
 }
@@ -496,7 +494,7 @@ void Messages::dialog::init_first_time()
 
     static auto actionnames = {
         "PAGE_UP", "PAGE_DOWN", "FILTER", "RESET_FILTER",
-        "QUIT", "HELP_KEYBINDINGS", "TOGGLE_WIDE_DISPLAY"
+        "QUIT", "HELP_KEYBINDINGS", "TOGGLE_WIDE_DISPLAY", "TOGGLE_FULL_HEIGHT_DISPLAY"
     };
     for( const auto &actionname : actionnames ) {
         ctxt.register_action( actionname );
@@ -701,12 +699,6 @@ void Messages::dialog::do_filter( const std::string &filter_str )
     }
 }
 
-inline void Messages::dialog::toggle_wide_display( const ui_adaptor &ui )
-{
-    wide_display = !wide_display;
-    ui.mark_resize();
-}
-
 void Messages::dialog::input( const ui_adaptor &ui )
 {
     canceled = false;
@@ -763,8 +755,13 @@ void Messages::dialog::input( const ui_adaptor &ui )
             do_filter( filter_str );
         } else if( action == "QUIT" ) {
             canceled = true;
-        } else if( action == "TOGGLE_WIDE_DISPLAY" ) {
-            toggle_wide_display( ui );
+        } else if( action == "TOGGLE_WIDE_DISPLAY" || action == "TOGGLE_FULL_HEIGHT_DISPLAY" ) {
+            if ( action == "TOGGLE_WIDE_DISPLAY" ) {
+                wide_display = !wide_display;
+            } else {
+                full_height_display = !full_height_display;
+            }
+            ui.mark_resize();
         }
     }
 }
