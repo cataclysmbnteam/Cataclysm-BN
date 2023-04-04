@@ -48,7 +48,6 @@
 #include <algorithm>
 #include <cstdlib>
 #include <exception>
-#include <locale>
 #include <memory>
 #include <sstream>
 #include <string>
