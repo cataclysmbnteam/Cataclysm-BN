@@ -397,6 +397,10 @@ static bool msg_type_from_name( game_message_type &type, const std::string &name
 
 namespace Messages
 {
+
+bool wide_display = false;
+bool full_height_display = false;
+
 // NOLINTNEXTLINE(cata-xy)
 class dialog
 {
@@ -465,9 +469,6 @@ class dialog
         std::optional<ime_sentry> filter_sentry;
 
         bool first_init = true;
-        bool wide_display = false;
-        bool full_height_display = false;
-
 };
 } // namespace Messages
 
@@ -756,7 +757,7 @@ void Messages::dialog::input( const ui_adaptor &ui )
         } else if( action == "QUIT" ) {
             canceled = true;
         } else if( action == "TOGGLE_WIDE_DISPLAY" || action == "TOGGLE_FULL_HEIGHT_DISPLAY" ) {
-            if ( action == "TOGGLE_WIDE_DISPLAY" ) {
+            if( action == "TOGGLE_WIDE_DISPLAY" ) {
                 wide_display = !wide_display;
             } else {
                 full_height_display = !full_height_display;
