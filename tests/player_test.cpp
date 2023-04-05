@@ -9,6 +9,7 @@
 #include "avatar_action.h"
 #include "catch/catch.hpp"
 #include "player.h"
+#include "units_temperature.h"
 #include "weather.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -407,9 +408,10 @@ static int find_converging_water_temp( player &p, int expected_water, int expect
     int step = 2 * 128;
     do {
         step /= 2;
-        get_weather().water_temperature = actual_water;
+        get_weather().water_temperature = units::from_fahrenheit( actual_water );
         get_weather().clear_temp_cache();
-        const int actual_temperature = get_weather().get_water_temperature( p.pos() );
+        const int actual_temperature = units::celsius_to_fahrenheit( get_weather().get_water_temperature(
+                                           p.pos() ).value() );
         REQUIRE( actual_temperature == actual_water );
 
         int converged_temperature = converge_temperature( p, 10000 )[0];
@@ -480,7 +482,7 @@ TEST_CASE( "Player body temperatures in water.", "[.][bodytemp]" )
 static void hypothermia_check( player &p, int water_temperature, time_duration expected_time,
                                int expected_temperature )
 {
-    get_weather().water_temperature = water_temperature;
+    get_weather().water_temperature = units::from_fahrenheit( water_temperature );
     get_weather().clear_temp_cache();
     int expected_turns = to_turns<int>( expected_time );
     int lower_bound = expected_turns * 0.8f;

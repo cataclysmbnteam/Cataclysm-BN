@@ -5757,7 +5757,7 @@ void Character::update_bodytemp( const map &m, const weather_manager &weather )
 
     const int lying_warmth = use_floor_warmth ? floor_warmth( pos() ) : 0;
     const int water_temperature_raw =
-        100 * units::fahrenheit_to_celsius( weather.get_water_temperature( pos() ) );
+        100 * weather.get_water_temperature( pos() ).value();
     // Rescale so that 0C is 0 (FREEZING) and 30C is 5k (NORM).
     const int water_temperature = water_temperature_raw * 5 / 3;
 

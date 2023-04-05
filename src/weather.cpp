@@ -1100,10 +1100,9 @@ void weather_manager::update_weather()
         get_map().set_seen_cache_dirty( tripoint_zero );
     }
 
-    water_temperature = units::to_fahrenheit(
-                            weather_gen.get_water_temperature(
-                                tripoint_abs_ms( g->u.global_square_location() ),
-                                calendar::turn, calendar::config, g->get_seed() ) );
+    water_temperature = weather_gen.get_water_temperature(
+                            tripoint_abs_ms( g->u.global_square_location() ),
+                            calendar::turn, calendar::config, g->get_seed() ) ;
 }
 
 void weather_manager::set_nextweather( time_point t )
@@ -1148,7 +1147,7 @@ int weather_manager::get_temperature( const tripoint_abs_omt &location )
     return units::to_fahrenheit( w.temperature );
 }
 
-int weather_manager::get_water_temperature( const tripoint & ) const
+units::temperature weather_manager::get_water_temperature( const tripoint & ) const
 {
     return water_temperature;
 }

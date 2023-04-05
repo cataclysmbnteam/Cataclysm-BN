@@ -186,8 +186,7 @@ class weather_manager
         void update_weather();
         // The air temperature in Fahrenheit
         int temperature = 0;
-        // The water temperature in Fahrenheit
-        int water_temperature = 0;
+        units::temperature water_temperature = 0_c;
         bool lightning_active = false;
         // Weather pattern
         weather_type_id weather_id = weather_type_id::NULL_ID();
@@ -210,8 +209,8 @@ class weather_manager
         int get_temperature( const tripoint &location ) const;
         // Returns outdoor or indoor temperature of given location
         int get_temperature( const tripoint_abs_omt &location );
-        // Returns water temperature of given location (in local coords) in Fahrenheit.
-        int get_water_temperature( const tripoint &location ) const;
+        // Returns water temperature of given location (in local coords).
+        units::temperature get_water_temperature( const tripoint &location ) const;
         void clear_temp_cache();
 
         // Get precise weather data
