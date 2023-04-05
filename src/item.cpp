@@ -9040,7 +9040,7 @@ bool item::process_rot( const bool seals, const tripoint &pos,
                         calendar::config, seed );
                 env_temperature_raw = weather_temperature + local_mod;
             } else {
-                env_temperature_raw = units::from_fahrenheit( AVERAGE_ANNUAL_TEMPERATURE ) + local_mod;
+                env_temperature_raw = average_annual_termperature + local_mod;
             }
 
             units::temperature env_temperature_clipped = clip_by_temperature_flag( env_temperature_raw, flag );
