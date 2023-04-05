@@ -555,7 +555,7 @@ std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &t
     const tripoint d( -from + to );
     const point a( std::abs( d.x ), std::abs( d.y ) );
     if( d.z != 0 ) {
-        adjacent_closer_squares.push_back( from + tripoint( sgn( d.x ), sgn( d.y ), sgn( d.z ) ) );
+        adjacent_closer_squares.push_back( from + tripoint( 0, 0, sgn( d.z ) ) );
     }
     if( a.x > a.y ) {
         // X dominant.
