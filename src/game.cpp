@@ -1973,7 +1973,7 @@ void game::handle_key_blocking_activity()
     input_context ctxt = get_default_mode_input_context();
     const std::string action = ctxt.handle_input( 0 );
     bool refresh = true;
-    if( action == "pause" ) {
+    if( action == "pause" || action == "main_menu" ) {
         if( u.activity.interruptable_with_kb ) {
             cancel_activity_query( _( "Confirm:" ) );
         }
