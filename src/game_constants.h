@@ -102,10 +102,10 @@ constexpr units::temperature root_cellar = 43_f;
 } // namespace temperatures
 
 // Weight per level of LIFT/JACK tool quality.
-#define TOOL_LIFT_FACTOR 500_kilogram // 500kg/level
+static constexpr units::mass TOOL_LIFT_FACTOR = 500_kilogram; // 500kg/level
 
 // Cap JACK requirements to support arbitrarily large vehicles.
-#define JACK_LIMIT 8500_kilogram // 8500kg ( 8.5 metric tonnes )
+static constexpr units::mass JACK_LIMIT = 8500_kilogram;
 
 // Slowest speed at which a gun can be aimed.
 static constexpr int MAX_AIM_COST = 10;
