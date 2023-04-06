@@ -98,6 +98,7 @@
 #include "trap.h"
 #include "ui.h"
 #include "ui_manager.h"
+#include "units_temperature.h"
 #include "units_utility.h"
 #include "value_ptr.h"
 #include "veh_interact.h"
@@ -5757,7 +5758,7 @@ void Character::update_bodytemp( const map &m, const weather_manager &weather )
 
     const int lying_warmth = use_floor_warmth ? floor_warmth( pos() ) : 0;
     const int water_temperature_raw =
-        100 * weather.get_water_temperature( pos() ).value();
+        units::to_millidegree_celsius( weather.get_water_temperature( pos() ) ) / 10;
     // Rescale so that 0C is 0 (FREEZING) and 30C is 5k (NORM).
     const int water_temperature = water_temperature_raw * 5 / 3;
 
