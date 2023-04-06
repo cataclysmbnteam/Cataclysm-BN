@@ -66,7 +66,7 @@
 ## 번역
 
 카타클리즘: 밝은 밤의 번역은 Transifex에서 진행중입니다.
-[번역 프로젝트](https://www.transifex.com/bn-team/cataclysm-bright-nights/)에서 지원되는 언어를 실시간으로 확인할 수 있습니다.
+[번역 프로젝트](https://app.transifex.com/bn-team/cataclysm-bright-nights/)에서 지원되는 언어를 실시간으로 확인할 수 있습니다.
 
 [TRANSLATING](../doc/TRANSLATING.md)에서 더 자세한 내용을 확인할 수 있습니다:
 

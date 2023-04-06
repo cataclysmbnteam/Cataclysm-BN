@@ -62,7 +62,7 @@ See [CODE_STYLE](../doc/CODE_STYLE.md) for details.
 ## Translations
 
 The translation of Cataclysm: BN is done using Transifex.
-Look at the [translation project](https://www.transifex.com/bn-team/cataclysm-bright-nights/) for an up-to-date list of supported languages.
+Look at the [translation project](https://app.transifex.com/bn-team/cataclysm-bright-nights/) for an up-to-date list of supported languages.
 
 See [TRANSLATING](../doc/TRANSLATING.md) for more information:
 
