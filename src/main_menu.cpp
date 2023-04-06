@@ -484,14 +484,14 @@ void main_menu::init_strings()
     }
 
     vWorldSubItems.clear();
-    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Delete World" ) );
-    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Reset World" ) );
     vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Show World Mods" ) );
     vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Edit World Mods" ) );
     vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Copy World Settings" ) );
     vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Character to Template" ) );
+    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Reset World" ) );
+    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Delete World" ) );
 
-    vWorldHotkeys = { 'd', 'r', 'm', 'e', 's', 't' };
+    vWorldHotkeys = { 'm', 'e', 's', 't', 'r', 'd' };
 
     vSettingsSubItems.clear();
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "<O|o>ptions" ) );
@@ -1042,21 +1042,21 @@ void main_menu::world_tab( const std::string &worldname )
     };
 
     switch( opt_val ) {
-        case 0: // Delete World
+        case 5: // Delete World
             if( query_yn( _( "Delete the world and all saves within?" ) ) ) {
                 clear_world( true );
             }
             break;
-        case 1: // Reset World
+        case 4: // Reset World
             if( query_yn( _( "Remove all saves and regenerate world?" ) ) ) {
                 clear_world( false );
             }
             break;
-        case 2: // Active World Mods
+        case 0: // Active World Mods
             world_generator->show_active_world_mods(
                 world_generator->get_world( worldname )->active_mod_order );
             break;
-        case 3: // Edit World Mods
+        case 1: // Edit World Mods
             if( query_yn( _(
                               "Editing mod list or mod load order may render the world unstable or completely unplayable.  "
                               "It is advised to manually back up world files before proceeding.  "
@@ -1067,10 +1067,10 @@ void main_menu::world_tab( const std::string &worldname )
                 world_generator->edit_active_world_mods( world );
             }
             break;
-        case 4: // Copy World settings
+        case 2: // Copy World settings
             world_generator->make_new_world( true, worldname );
             break;
-        case 5: // Character to Template
+        case 3: // Character to Template
             if( load_character_tab( worldname ) ) {
                 avatar &pc = get_avatar();
                 pc.setID( character_id(), true );
