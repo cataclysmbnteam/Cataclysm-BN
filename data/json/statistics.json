@@ -228,5 +228,291 @@
     "field": "z",
     "event_transformation": "moves_swam_underwater",
     "description": { "str_sp": "minimum z level reached underwater" }
+  },
+  {
+    "id": "num_avatar_mutation_threshold_alpha",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_mutation_threshold_alpha"
+  },
+  {
+    "id": "avatar_mutation_threshold_alpha",
+    "type": "event_transformation",
+    "event_type": "crosses_mutation_threshold",
+    "value_constraints": { "category": { "equals": "ALPHA" } },
+    "drop_fields": [ "category" ]
+  },
+  {
+    "id": "num_avatar_mutation_threshold_bear",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_mutation_threshold_bear"
+  },
+  {
+    "id": "avatar_mutation_threshold_bear",
+    "type": "event_transformation",
+    "event_type": "crosses_mutation_threshold",
+    "value_constraints": { "category": { "equals": "URSINE" } },
+    "drop_fields": [ "category" ]
+  },
+  {
+    "id": "num_avatar_mutation_threshold_beast",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_mutation_threshold_beast"
+  },
+  {
+    "id": "avatar_mutation_threshold_beast",
+    "type": "event_transformation",
+    "event_type": "crosses_mutation_threshold",
+    "value_constraints": { "category": { "equals": "BEAST" } },
+    "drop_fields": [ "category" ]
+  },
+  {
+    "id": "num_avatar_mutation_threshold_bird",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_mutation_threshold_bird"
+  },
+  {
+    "id": "avatar_mutation_threshold_bird",
+    "type": "event_transformation",
+    "event_type": "crosses_mutation_threshold",
+    "value_constraints": { "category": { "equals": "BIRD" } },
+    "drop_fields": [ "category" ]
+  },
+  {
+    "id": "num_avatar_mutation_threshold_cattle",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_mutation_threshold_cattle"
+  },
+  {
+    "id": "avatar_mutation_threshold_cattle",
+    "type": "event_transformation",
+    "event_type": "crosses_mutation_threshold",
+    "value_constraints": { "category": { "equals": "CATTLE" } },
+    "drop_fields": [ "category" ]
+  },
+  {
+    "id": "num_avatar_mutation_threshold_cephalopod",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_mutation_threshold_cephalopod"
+  },
+  {
+    "id": "avatar_mutation_threshold_cephalopod",
+    "type": "event_transformation",
+    "event_type": "crosses_mutation_threshold",
+    "value_constraints": { "category": { "equals": "CEPHALOPOD" } },
+    "drop_fields": [ "category" ]
+  },
+  {
+    "id": "num_avatar_mutation_threshold_chimera",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_mutation_threshold_chimera"
+  },
+  {
+    "id": "avatar_mutation_threshold_chimera",
+    "type": "event_transformation",
+    "event_type": "crosses_mutation_threshold",
+    "value_constraints": { "category": { "equals": "CHIMERA" } },
+    "drop_fields": [ "category" ]
+  },
+  {
+    "id": "num_avatar_mutation_threshold_feline",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_mutation_threshold_feline"
+  },
+  {
+    "id": "avatar_mutation_threshold_feline",
+    "type": "event_transformation",
+    "event_type": "crosses_mutation_threshold",
+    "value_constraints": { "category": { "equals": "FELINE" } },
+    "drop_fields": [ "category" ]
+  },
+  {
+    "id": "num_avatar_mutation_threshold_fey",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_mutation_threshold_fey"
+  },
+  {
+    "id": "avatar_mutation_threshold_fey",
+    "type": "event_transformation",
+    "event_type": "crosses_mutation_threshold",
+    "value_constraints": { "category": { "equals": "ELFA" } },
+    "drop_fields": [ "category" ]
+  },
+  {
+    "id": "num_avatar_mutation_threshold_fish",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_mutation_threshold_fish"
+  },
+  {
+    "id": "avatar_mutation_threshold_fish",
+    "type": "event_transformation",
+    "event_type": "crosses_mutation_threshold",
+    "value_constraints": { "category": { "equals": "FISH" } },
+    "drop_fields": [ "category" ]
+  },
+  {
+    "id": "num_avatar_mutation_threshold_insect",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_mutation_threshold_insect"
+  },
+  {
+    "id": "avatar_mutation_threshold_insect",
+    "type": "event_transformation",
+    "event_type": "crosses_mutation_threshold",
+    "value_constraints": { "category": { "equals": "INSECT" } },
+    "drop_fields": [ "category" ]
+  },
+  {
+    "id": "num_avatar_mutation_threshold_lizard",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_mutation_threshold_lizard"
+  },
+  {
+    "id": "avatar_mutation_threshold_lizard",
+    "type": "event_transformation",
+    "event_type": "crosses_mutation_threshold",
+    "value_constraints": { "category": { "equals": "LIZARD" } },
+    "drop_fields": [ "category" ]
+  },
+  {
+    "id": "num_avatar_mutation_threshold_medical",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_mutation_threshold_medical"
+  },
+  {
+    "id": "avatar_mutation_threshold_medical",
+    "type": "event_transformation",
+    "event_type": "crosses_mutation_threshold",
+    "value_constraints": { "category": { "equals": "MEDICAL" } },
+    "drop_fields": [ "category" ]
+  },
+  {
+    "id": "num_avatar_mutation_threshold_mouse",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_mutation_threshold_mouse"
+  },
+  {
+    "id": "avatar_mutation_threshold_mouse",
+    "type": "event_transformation",
+    "event_type": "crosses_mutation_threshold",
+    "value_constraints": { "category": { "equals": "MOUSE" } },
+    "drop_fields": [ "category" ]
+  },
+  {
+    "id": "num_avatar_mutation_threshold_mycus",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_mutation_threshold_mycus"
+  },
+  {
+    "id": "avatar_mutation_threshold_mycus",
+    "type": "event_transformation",
+    "event_type": "crosses_mycus_threshold",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
+    "drop_fields": [ "character" ]
+  },
+  {
+    "id": "num_avatar_mutation_threshold_plant",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_mutation_threshold_plant"
+  },
+  {
+    "id": "avatar_mutation_threshold_plant",
+    "type": "event_transformation",
+    "event_type": "crosses_mutation_threshold",
+    "value_constraints": { "category": { "equals": "PLANT" } },
+    "drop_fields": [ "category" ]
+  },
+  {
+    "id": "num_avatar_mutation_threshold_rat",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_mutation_threshold_rat"
+  },
+  {
+    "id": "avatar_mutation_threshold_rat",
+    "type": "event_transformation",
+    "event_type": "crosses_mutation_threshold",
+    "value_constraints": { "category": { "equals": "RAT" } },
+    "drop_fields": [ "category" ]
+  },
+  {
+    "id": "num_avatar_mutation_threshold_raptor",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_mutation_threshold_raptor"
+  },
+  {
+    "id": "avatar_mutation_threshold_raptor",
+    "type": "event_transformation",
+    "event_type": "crosses_mutation_threshold",
+    "value_constraints": { "category": { "equals": "RAPTOR" } },
+    "drop_fields": [ "category" ]
+  },
+  {
+    "id": "num_avatar_mutation_threshold_slime",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_mutation_threshold_slime"
+  },
+  {
+    "id": "avatar_mutation_threshold_slime",
+    "type": "event_transformation",
+    "event_type": "crosses_mutation_threshold",
+    "value_constraints": { "category": { "equals": "SLIME" } },
+    "drop_fields": [ "category" ]
+  },
+  {
+    "id": "num_avatar_mutation_threshold_spider",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_mutation_threshold_spider"
+  },
+  {
+    "id": "avatar_mutation_threshold_spider",
+    "type": "event_transformation",
+    "event_type": "crosses_mutation_threshold",
+    "value_constraints": { "category": { "equals": "SPIDER" } },
+    "drop_fields": [ "category" ]
+  },
+  {
+    "id": "num_avatar_mutation_threshold_troglobite",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_mutation_threshold_troglobite"
+  },
+  {
+    "id": "avatar_mutation_threshold_troglobite",
+    "type": "event_transformation",
+    "event_type": "crosses_mutation_threshold",
+    "value_constraints": { "category": { "equals": "TROGLOBITE" } },
+    "drop_fields": [ "category" ]
+  },
+  {
+    "id": "num_avatar_mutation_threshold_wolf",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_mutation_threshold_wolf"
+  },
+  {
+    "id": "avatar_mutation_threshold_wolf",
+    "type": "event_transformation",
+    "event_type": "crosses_mutation_threshold",
+    "value_constraints": { "category": { "equals": "LUPINE" } },
+    "drop_fields": [ "category" ]
   }
 ]
