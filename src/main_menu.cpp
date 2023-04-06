@@ -811,6 +811,8 @@ bool main_menu::opening_screen()
 
 bool main_menu::new_character_tab()
 {
+    std::string selected_template;
+
     avatar &pc = get_avatar();
     // Preset character templates
     if( sel2 == 1 ) {
@@ -851,104 +853,81 @@ bool main_menu::new_character_tab()
                     templates.erase( templates.begin() + opt_val );
                 }
             } else if( res == "LOAD" ) {
-                on_out_of_scope cleanup( [&pc]() {
-                    pc = avatar();
-                    world_generator->set_active_world( nullptr );
-                } );
-                g->gamemode = nullptr;
-                WORLDPTR world = world_generator->pick_world();
-                if( world == nullptr ) {
-                    continue;
-                }
-                world_generator->set_active_world( world );
-                try {
-                    g->setup();
-                } catch( const std::exception &err ) {
-                    debugmsg( "Error: %s", err.what() );
-                    continue;
-                }
-                if( !pc.create( character_type::TEMPLATE, templates[opt_val] ) ) {
-                    load_char_templates();
-                    MAPBUFFER.clear();
-                    overmap_buffer.clear();
-                    return false;
-                }
-                if( !g->start_game() ) {
-                    return false;
-                }
-                cleanup.cancel();
-                return true;
+                selected_template = templates[opt_val];
+                break;
             }
 
             if( templates.empty() ) {
                 return false;
             }
         }
-    } else { ///Non-template options
-        on_out_of_scope cleanup( [&pc]() {
-            g->gamemode.reset();
-            pc = avatar();
-            world_generator->set_active_world( nullptr );
-        } );
-        g->gamemode.reset();
-
-        WORLDPTR world;
-        if( sel2 == 5 ) {
-            g->gamemode = get_special_game( special_game_type::TUTORIAL );
-            world = world_generator->make_new_world( special_game_type::TUTORIAL );
-        } else if( sel2 == 6 ) {
-            g->gamemode = get_special_game( special_game_type::DEFENSE );
-            world = world_generator->make_new_world( special_game_type::DEFENSE );
-        } else {
-            // Pick a world, suppressing prompts if it's "play now" mode.
-            bool suppress_prompt = sel2 == 3 || sel2 == 4;
-            world = world_generator->pick_world( true, suppress_prompt );
-        }
-
-        if( world == nullptr ) {
-            return false;
-        }
-        world_generator->set_active_world( world );
-        try {
-            g->setup();
-        } catch( const std::exception &err ) {
-            debugmsg( "Error: %s", err.what() );
-            return false;
-        }
-
-        if( g->gamemode ) {
-            return g->gamemode->init();
-        }
-
-        character_type play_type = character_type::CUSTOM;
-        switch( sel2 ) {
-            case 0:
-                play_type = character_type::CUSTOM;
-                break;
-            case 2:
-                play_type = character_type::RANDOM;
-                break;
-            case 3:
-                play_type = character_type::NOW;
-                break;
-            case 4:
-                play_type = character_type::FULL_RANDOM;
-                break;
-        }
-        if( !pc.create( play_type ) ) {
-            load_char_templates();
-            MAPBUFFER.clear();
-            overmap_buffer.clear();
-            return false;
-        }
-
-        if( !g->start_game() ) {
-            return false;
-        }
-        cleanup.cancel();
-        return true;
     }
-    return false;
+
+    on_out_of_scope cleanup( [&pc]() {
+        g->gamemode.reset();
+        pc = avatar();
+        world_generator->set_active_world( nullptr );
+    } );
+    g->gamemode.reset();
+
+    WORLDPTR world;
+    if( sel2 == 5 ) {
+        g->gamemode = get_special_game( special_game_type::TUTORIAL );
+        world = world_generator->make_new_world( special_game_type::TUTORIAL );
+    } else if( sel2 == 6 ) {
+        g->gamemode = get_special_game( special_game_type::DEFENSE );
+        world = world_generator->make_new_world( special_game_type::DEFENSE );
+    } else {
+        // Pick a world, suppressing prompts if it's "play now" mode.
+        bool suppress_prompt = sel2 == 3 || sel2 == 4;
+        world = world_generator->pick_world( true, suppress_prompt );
+    }
+
+    if( world == nullptr ) {
+        return false;
+    }
+    world_generator->set_active_world( world );
+    try {
+        g->setup();
+    } catch( const std::exception &err ) {
+        debugmsg( "Error: %s", err.what() );
+        return false;
+    }
+
+    if( g->gamemode ) {
+        return g->gamemode->init();
+    }
+
+    character_type play_type = character_type::CUSTOM;
+    switch( sel2 ) {
+        case 0:
+            play_type = character_type::CUSTOM;
+            break;
+        case 1:
+            play_type = character_type::TEMPLATE;
+            break;
+        case 2:
+            play_type = character_type::RANDOM;
+            break;
+        case 3:
+            play_type = character_type::NOW;
+            break;
+        case 4:
+            play_type = character_type::FULL_RANDOM;
+            break;
+    }
+    if( !pc.create( play_type, selected_template ) ) {
+        load_char_templates();
+        MAPBUFFER.clear();
+        overmap_buffer.clear();
+        return false;
+    }
+
+    if( !g->start_game() ) {
+        return false;
+    }
+    cleanup.cancel();
+    return true;
 }
 
 bool main_menu::load_character_tab( const std::string &worldname )
