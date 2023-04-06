@@ -74,16 +74,7 @@ void main_menu::on_move() const
 
 void main_menu::on_error()
 {
-    if( errflag ) {
-        return;
-    }
     sfx::play_variant_sound( "menu_error", "default", 100 );
-    errflag = true;
-}
-
-void main_menu::clear_error()
-{
-    errflag = false;
 }
 
 class sound_on_move_uilist_callback : public uilist_callback
@@ -798,6 +789,7 @@ bool main_menu::opening_screen()
                     if( static_cast<std::size_t>( sel2 ) < world_generator->all_worldnames().size() ) {
                         start = load_character_tab( world_generator->all_worldnames().at( sel2 ) );
                     } else {
+                        on_error();
                         popup( _( "No world to load." ) );
                     }
                     break;
@@ -825,7 +817,6 @@ bool main_menu::new_character_tab()
         if( templates.empty() ) {
             on_error();
             popup( _( "No templates found!" ) );
-            clear_error();
             return false;
         }
         while( true ) {
@@ -974,7 +965,6 @@ bool main_menu::load_character_tab( const std::string &worldname )
         on_error();
         //~ %s = world name
         popup( _( "%s has no characters to load!" ), worldname );
-        clear_error();
         return false;
     }
 
