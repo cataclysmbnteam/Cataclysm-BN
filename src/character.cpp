@@ -9395,27 +9395,30 @@ std::map<bodypart_id, int> from_effects( const Character &c )
 
 bool Character::can_use_floor_warmth() const
 {
-    return in_sleep_state() ||
-           has_activity( activity_id( "ACT_WAIT" ) ) ||
-           has_activity( activity_id( "ACT_WAIT_NPC" ) ) ||
-           has_activity( activity_id( "ACT_WAIT_STAMINA" ) ) ||
-           has_activity( activity_id( "ACT_AUTODRIVE" ) ) ||
-           has_activity( activity_id( "ACT_READ" ) ) ||
-           has_activity( activity_id( "ACT_SOCIALIZE" ) ) ||
-           has_activity( activity_id( "ACT_MEDITATE" ) ) ||
-           has_activity( activity_id( "ACT_FISH" ) ) ||
-           has_activity( activity_id( "ACT_GAME" ) ) ||
-           has_activity( activity_id( "ACT_HAND_CRANK" ) ) ||
-           has_activity( activity_id( "ACT_HEATING" ) ) ||
-           has_activity( activity_id( "ACT_VIBE" ) ) ||
-           has_activity( activity_id( "ACT_TRY_SLEEP" ) ) ||
-           has_activity( activity_id( "ACT_OPERATION" ) ) ||
-           has_activity( activity_id( "ACT_TREE_COMMUNION" ) ) ||
-           has_activity( activity_id( "ACT_EAT_MENU" ) ) ||
-           has_activity( activity_id( "ACT_CONSUME_FOOD_MENU" ) ) ||
-           has_activity( activity_id( "ACT_CONSUME_DRINK_MENU" ) ) ||
-           has_activity( activity_id( "ACT_CONSUME_MEDS_MENU" ) ) ||
-           has_activity( activity_id( "ACT_STUDY_SPELL" ) );
+    static const auto allowed_activities = std::vector<activity_id> {
+        activity_id( "ACT_WAIT" ),
+        activity_id( "ACT_WAIT_NPC" ),
+        activity_id( "ACT_WAIT_STAMINA" ),
+        activity_id( "ACT_AUTODRIVE" ),
+        activity_id( "ACT_READ" ),
+        activity_id( "ACT_SOCIALIZE" ),
+        activity_id( "ACT_MEDITATE" ),
+        activity_id( "ACT_FISH" ),
+        activity_id( "ACT_GAME" ),
+        activity_id( "ACT_HAND_CRANK" ),
+        activity_id( "ACT_HEATING" ),
+        activity_id( "ACT_VIBE" ),
+        activity_id( "ACT_TRY_SLEEP" ),
+        activity_id( "ACT_OPERATION" ),
+        activity_id( "ACT_TREE_COMMUNION" ),
+        activity_id( "ACT_EAT_MENU" ),
+        activity_id( "ACT_CONSUME_FOOD_MENU" ),
+        activity_id( "ACT_CONSUME_DRINK_MENU" ),
+        activity_id( "ACT_CONSUME_MEDS_MENU" ),
+        activity_id( "ACT_STUDY_SPELL" ),
+    };
+
+    return in_sleep_state() || has_activity( allowed_activities );
 }
 
 int Character::floor_bedding_warmth( const tripoint &pos )
