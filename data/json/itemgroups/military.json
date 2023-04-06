@@ -97,7 +97,7 @@
       { "item": "suppressor", "prob": 70 }
     ]
   },
-    {
+  {
     "type": "item_group",
     "id": "sopmod_2",
     "subtype": "distribution",
