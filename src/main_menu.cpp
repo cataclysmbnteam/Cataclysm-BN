@@ -879,8 +879,9 @@ bool main_menu::new_character_tab()
         world = world_generator->make_new_world( special_game_type::DEFENSE );
     } else {
         // Pick a world, suppressing prompts if it's "play now" mode.
-        bool suppress_prompt = sel2 == 3 || sel2 == 4;
-        world = world_generator->pick_world( true, suppress_prompt );
+        bool empty_only = sel2 == 3 || sel2 == 4;
+        bool show_prompt = !empty_only;
+        world = world_generator->pick_world( show_prompt, empty_only );
     }
 
     if( world == nullptr ) {
