@@ -973,7 +973,8 @@ bool main_menu::load_character_tab( const std::string &worldname )
     mmenu.callback = &cb;
     int opt_val = 0;
     for( const save_t &s : savegames ) {
-        mmenu.entries.emplace_back( opt_val++, true, MENU_AUTOASSIGN, s.decoded_name() );
+        mmenu.entries.emplace_back( opt_val++, true, MENU_AUTOASSIGN,
+                                    colorize( s.decoded_name(), c_white ) );
     }
     mmenu.query();
     opt_val = mmenu.ret;
