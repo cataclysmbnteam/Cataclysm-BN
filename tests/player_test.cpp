@@ -321,7 +321,7 @@ static std::array<units::temperature, bodytemps.size()> find_temperature_points(
     std::vector<temperatures_wrapper> all_converged_temperatures;
     all_converged_temperatures.resize( max_air_temp - min_air_temp, temperatures_wrapper( {} ) );
     for( int i = min_air_temp; i < max_air_temp; i++ ) {
-        get_weather().temperature = units::from_fahrenheit( i );
+        get_weather().temperature = units::from_millidegree_celsius( i * 500 );
         get_weather().clear_temp_cache();
         all_converged_temperatures[i - min_air_temp] = converge_temperature( p, 10000 );
         int converged_torso_temp = all_converged_temperatures[i - min_air_temp][0];
