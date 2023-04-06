@@ -1757,7 +1757,7 @@ void Character::drench( int saturation, const body_part_set &flags, bool ignore_
     }
 }
 
-void Character::apply_wetness_morale( const units::temperature &celsius_temperature )
+void Character::apply_wetness_morale( const units::temperature &temperature )
 {
     // First, a quick check if we have any wetness to calculate morale from
     // Faster than checking all worn items for friendliness
@@ -1768,11 +1768,11 @@ void Character::apply_wetness_morale( const units::temperature &celsius_temperat
         return;
     }
 
-    int temperature = units::celsius_to_fahrenheit( celsius_temperature.value() );
+    int normalized_temperature = units::to_fahrenheit( temperature );
     // Normalize temperature to [-1.0,1.0]
-    temperature = std::clamp( temperature, 0, 100 );
+    normalized_temperature = std::clamp( normalized_temperature, 0, 100 );
 
-    const double global_temperature_mod = -1.0 + ( 2.0 * temperature / 100.0 );
+    const double global_temperature_mod = -1.0 + ( 2.0 * normalized_temperature / 100.0 );
 
     int total_morale = 0;
     const auto wet_friendliness = exclusive_flag_coverage( flag_WATER_FRIENDLY );
