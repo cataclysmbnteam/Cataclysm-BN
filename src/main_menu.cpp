@@ -280,18 +280,28 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
 
     // Draw horizontal line
     for( int i = 1; i < window_width - 1; ++i ) {
-        mvwputch( w_open, point( i, window_height - 4 ), c_white, LINE_OXOX );
+        mvwputch( w_open, point( i, window_height - 5 ), c_white, LINE_OXOX );
     }
 
     if( iSel == getopt( main_menu_opts::NEWCHAR ) ) {
-        center_print( w_open, window_height - 2, c_yellow, vNewGameHints[sel2] );
+        std::vector<std::string> lines = foldstring( vNewGameHints[sel2], window_width - 2 );
+        center_print( w_open, window_height - 3, c_yellow, lines[0] );
+        if( lines.size() > 1 ) {
+            center_print( w_open, window_height - 2, c_yellow, lines[1] );
+        }
+        if( lines.size() > 2 ) {
+            center_print( w_open, window_height - 1, c_yellow, lines[2] );
+        }
     } else {
-        center_print( w_open, window_height - 2, c_red,
+        center_print( w_open, window_height - 3, c_red,
                       _( "Bugs?  Suggestions?  Use links in MOTD to report them." ) );
+        std::vector<std::string> lines = foldstring( string_format( _( "Tip of the day: %s" ),
+                                         vdaytip ), window_width - 2 );
+        center_print( w_open, window_height - 2, c_light_cyan, lines[0] );
+        if( lines.size() > 1 ) {
+            center_print( w_open, window_height - 1, c_light_cyan, lines[1] );
+        }
     }
-
-    center_print( w_open, window_height - 1, c_light_cyan, string_format( _( "Tip of the day: %s" ),
-                  vdaytip ) );
 
     int iLine = 0;
     const int iOffsetX = ( window_width - FULL_SCREEN_WIDTH ) / 2;
@@ -341,13 +351,13 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
     const int final_offset = offset.x + adj_offset + spacing;
 
     std::vector<int> offsets =
-        print_menu_items( w_open, vMenuItems, iSel, point( final_offset, offset.y ), spacing, true );
+        print_menu_items( w_open, vMenuItems, iSel, point( final_offset, offset.y - 1 ), spacing, true );
 
     wnoutrefresh( w_open );
 
     const point p_offset( catacurses::getbegx( w_open ), catacurses::getbegy( w_open ) );
 
-    display_sub_menu( iSel, p_offset + point( offsets[iSel], offset.y - 2 ), sel_line );
+    display_sub_menu( iSel, p_offset + point( offsets[iSel], offset.y - 3 ), sel_line );
 }
 
 std::vector<std::string> main_menu::load_file( const std::string &path,
