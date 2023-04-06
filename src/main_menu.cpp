@@ -490,8 +490,9 @@ void main_menu::init_strings()
     vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Character to Template" ) );
     vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Reset World" ) );
     vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Delete World" ) );
+    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "<= Return" ) );
 
-    vWorldHotkeys = { 'm', 'e', 's', 't', 'r', 'd' };
+    vWorldHotkeys = { 'm', 'e', 's', 't', 'r', 'd', 'q' };
 
     vSettingsSubItems.clear();
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "<O|o>ptions" ) );
@@ -828,6 +829,7 @@ bool main_menu::new_character_tab()
             for( const std::string &tmpl : templates ) {
                 mmenu.entries.emplace_back( opt_val++, true, MENU_AUTOASSIGN, tmpl );
             }
+            mmenu.entries.emplace_back( opt_val++, true, 'q', "<= Return" );
             mmenu.query();
             opt_val = mmenu.ret;
             if( opt_val < 0 || static_cast<size_t>( opt_val ) >= templates.size() ) {
@@ -976,6 +978,7 @@ bool main_menu::load_character_tab( const std::string &worldname )
         mmenu.entries.emplace_back( opt_val++, true, MENU_AUTOASSIGN,
                                     colorize( s.decoded_name(), c_white ) );
     }
+    mmenu.entries.emplace_back( opt_val++, true, 'q', "<= Return" );
     mmenu.query();
     opt_val = mmenu.ret;
     if( opt_val < 0 || static_cast<size_t>( opt_val ) >= savegames.size() ) {
