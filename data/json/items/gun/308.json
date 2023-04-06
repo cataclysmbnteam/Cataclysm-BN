@@ -351,7 +351,7 @@
   },
   {
     "id": "ar10",
-    "copy-from": "rifle_semi",
+    "copy-from": "rifle_auto",
     "type": "GUN",
     "name": { "str": "AR-10" },
     "description": "Somewhat similar to the later AR-15, the AR-10 is a gas operated, rotating bolt rifle chambered for 7.62x51mm rounds.",
@@ -367,6 +367,7 @@
     "dispersion": 150,
     "durability": 7,
     "min_cycle_recoil": 2700,
+    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 4 ] ],
     "magazines": [ [ "308", [ "ar10mag_20rd", "ar10_makeshiftmag" ] ] ]
   }
 ]
