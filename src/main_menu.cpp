@@ -126,7 +126,8 @@ std::vector<int> main_menu::print_menu_items( const catacurses::window &w_in,
         ret.push_back( utf8_width_notags( text.c_str() ) );
 
         std::string temp = shortcut_text( iSel == i ? hilite( c_yellow ) : c_yellow, vItems[i] );
-        text += string_format( "[%s]", colorize( temp, iSel == i ? hilite( c_white ) : c_white ) );
+        text += string_format( "[%s]", colorize( temp,
+                               iSel == i ? hilite( c_light_gray ) : c_light_gray ) );
     }
 
     int text_width = utf8_width_notags( text.c_str() );
@@ -139,7 +140,7 @@ std::vector<int> main_menu::print_menu_items( const catacurses::window &w_in,
     int y_off = 0;
     int sel_opt = 0;
     for( const std::string &txt : menu_txt ) {
-        trim_and_print( w_in, offset + point( 0, y_off ), getmaxx( w_in ), c_white, txt );
+        trim_and_print( w_in, offset + point( 0, y_off ), getmaxx( w_in ), c_light_gray, txt );
         if( !main ) {
             y_off++;
             continue;
@@ -233,12 +234,12 @@ void main_menu::display_sub_menu( int sel, const point &bottom_left, int sel_lin
     const point top_left( bottom_left + point( 0, -( sub_opts.size() + 1 ) ) );
     catacurses::window w_sub = catacurses::newwin( sub_opts.size() + 2, xlen + 4, top_left );
     werase( w_sub );
-    draw_border( w_sub, c_white );
+    draw_border( w_sub, c_light_gray );
     for( int y = 0; static_cast<size_t>( y ) < sub_opts.size(); y++ ) {
         std::string opt = ( sel2 == y ? "» " : "  " ) + sub_opts[y];
         int padding = ( xlen + 2 ) - utf8_width( opt, true );
         opt.append( padding, ' ' );
-        nc_color clr = sel2 == y ? hilite( c_white ) : c_white;
+        nc_color clr = sel2 == y ? hilite( c_light_gray ) : c_light_gray;
         trim_and_print( w_sub, point( 1, y + 1 ), xlen + 2, clr, opt );
         inclusive_rectangle<point> rec( top_left + point( 1, y + 1 ), top_left + point( xlen + 2, y + 1 ) );
         main_menu_sub_button_map.emplace_back( rec, std::pair<int, int> { sel, y } );
@@ -799,7 +800,8 @@ bool main_menu::new_character_tab()
         }
         while( true ) {
             uilist mmenu( _( "Choose a preset character template" ), {} );
-            mmenu.border_color = c_white;
+            mmenu.border_color = c_light_gray;
+            mmenu.hotkey_color = c_yellow;
             int opt_val = 0;
             for( const std::string &tmpl : templates ) {
                 mmenu.entries.emplace_back( opt_val++, true, MENU_AUTOASSIGN, tmpl );
@@ -811,7 +813,7 @@ bool main_menu::new_character_tab()
             }
 
             std::string res = query_popup()
-                              .context( "LOAD_DELETE_CANCEL" ).default_color( c_white )
+                              .context( "LOAD_DELETE_CANCEL" ).default_color( c_light_gray )
                               .message( _( "What to do with template \"%s\"?" ), templates[opt_val] )
                               .option( "LOAD" ).option( "DELETE" ).option( "CANCEL" ).cursor( 0 )
                               .query().action;
@@ -943,7 +945,8 @@ bool main_menu::load_character_tab( const std::string &worldname )
     }
 
     uilist mmenu( string_format( _( "Load character from \"%s\"" ), worldname ), {} );
-    mmenu.border_color = c_white;
+    mmenu.border_color = c_light_gray;
+    mmenu.hotkey_color = c_yellow;
     int opt_val = 0;
     for( const save_t &s : savegames ) {
         mmenu.entries.emplace_back( opt_val++, true, MENU_AUTOASSIGN, s.decoded_name() );
@@ -991,7 +994,8 @@ void main_menu::world_tab( const std::string &worldname )
     }
 
     uilist mmenu( string_format( _( "Manage world \"%s\"" ), worldname ), {} );
-    mmenu.border_color = c_white;
+    mmenu.border_color = c_light_gray;
+    mmenu.hotkey_color = c_yellow;
     for( size_t i = 0; i < vWorldSubItems.size(); i++ ) {
         mmenu.entries.emplace_back( static_cast<int>( i ), true, vWorldHotkeys[i], vWorldSubItems[i] );
     }
