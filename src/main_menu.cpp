@@ -86,6 +86,25 @@ void main_menu::clear_error()
     errflag = false;
 }
 
+class sound_on_move_uilist_callback : public uilist_callback
+{
+    private:
+        main_menu *mmenu;
+        bool first = true;
+
+    public:
+        sound_on_move_uilist_callback( main_menu *mmenu ) : mmenu( mmenu ) { }
+
+        void select( uilist * ) override {
+            if( first ) {
+                // Don't emit sound when menu is opened
+                first = false;
+                return;
+            }
+            mmenu->on_move();
+        }
+};
+
 //CJK characters have a width of 2, etc
 static int utf8_width_notags( const char *s )
 {
@@ -802,6 +821,9 @@ bool main_menu::new_character_tab()
             uilist mmenu( _( "Choose a preset character template" ), {} );
             mmenu.border_color = c_light_gray;
             mmenu.hotkey_color = c_yellow;
+            sound_on_move_uilist_callback cb( this );
+            mmenu.callback = &cb;
+
             int opt_val = 0;
             for( const std::string &tmpl : templates ) {
                 mmenu.entries.emplace_back( opt_val++, true, MENU_AUTOASSIGN, tmpl );
@@ -947,6 +969,8 @@ bool main_menu::load_character_tab( const std::string &worldname )
     uilist mmenu( string_format( _( "Load character from \"%s\"" ), worldname ), {} );
     mmenu.border_color = c_light_gray;
     mmenu.hotkey_color = c_yellow;
+    sound_on_move_uilist_callback cb( this );
+    mmenu.callback = &cb;
     int opt_val = 0;
     for( const save_t &s : savegames ) {
         mmenu.entries.emplace_back( opt_val++, true, MENU_AUTOASSIGN, s.decoded_name() );
@@ -996,6 +1020,8 @@ void main_menu::world_tab( const std::string &worldname )
     uilist mmenu( string_format( _( "Manage world \"%s\"" ), worldname ), {} );
     mmenu.border_color = c_light_gray;
     mmenu.hotkey_color = c_yellow;
+    sound_on_move_uilist_callback cb( this );
+    mmenu.callback = &cb;
     for( size_t i = 0; i < vWorldSubItems.size(); i++ ) {
         mmenu.entries.emplace_back( static_cast<int>( i ), true, vWorldHotkeys[i], vWorldSubItems[i] );
     }
