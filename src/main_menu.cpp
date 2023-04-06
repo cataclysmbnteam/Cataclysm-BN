@@ -464,17 +464,14 @@ void main_menu::init_strings()
     }
 
     vWorldSubItems.clear();
-    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "<D|d>elete World" ) );
-    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "<R|r>eset World" ) );
-    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Sh<o|O>w World Mods" ) );
-    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "<E|e>dit World Mods" ) );
-    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Copy World Sett<i|I>ngs" ) );
-    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Character to Tem<p|P>late" ) );
+    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Delete World" ) );
+    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Reset World" ) );
+    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Show World Mods" ) );
+    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Edit World Mods" ) );
+    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Copy World Settings" ) );
+    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Character to Template" ) );
 
-    vWorldHotkeys.clear();
-    for( const std::string &item : vWorldSubItems ) {
-        vWorldHotkeys.push_back( get_hotkeys( item ) );
-    }
+    vWorldHotkeys = { 'd', 'r', 'm', 'e', 's', 't' };
 
     vSettingsSubItems.clear();
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "<O|o>ptions" ) );
@@ -995,15 +992,11 @@ void main_menu::world_tab( const std::string &worldname )
 
     uilist mmenu( string_format( _( "Manage world \"%s\"" ), worldname ), {} );
     mmenu.border_color = c_white;
-    int opt_val = 0;
-    std::array<char, 6> hotkeys = { 'd', 'r', 'm', 'e', 's',  't' };
-    for( const std::string &it : vWorldSubItems ) {
-        mmenu.entries.emplace_back( opt_val, true, hotkeys[opt_val],
-                                    remove_color_tags( shortcut_text( c_white, it ) ) );
-        ++opt_val;
+    for( size_t i = 0; i < vWorldSubItems.size(); i++ ) {
+        mmenu.entries.emplace_back( static_cast<int>( i ), true, vWorldHotkeys[i], vWorldSubItems[i] );
     }
     mmenu.query();
-    opt_val = mmenu.ret;
+    int opt_val = mmenu.ret;
     if( opt_val < 0 || static_cast<size_t>( opt_val ) >= vWorldSubItems.size() ) {
         return;
     }

@@ -31,7 +31,7 @@ class main_menu
         std::vector<std::string> vWorldSubItems;
         std::vector<std::string> vNewGameSubItems;
         std::vector<std::string> vNewGameHints;
-        std::vector< std::vector<std::string> > vWorldHotkeys;
+        std::vector<char> vWorldHotkeys;
         std::vector<std::string> vSettingsSubItems;
         std::vector< std::vector<std::string> > vSettingsHotkeys;
         std::vector< std::vector<std::string> > vMenuHotkeys; // hotkeys for the vMenuItems
