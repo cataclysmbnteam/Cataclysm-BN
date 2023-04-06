@@ -979,7 +979,7 @@ class game
         /** True if the game has just started or loaded, else false. */
         bool new_game = false;
 
-        const scenario *scen;
+        const scenario *scen = nullptr;
         std::vector<monster> coming_to_stairs;
         int monstairz = 0;
 
