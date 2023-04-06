@@ -896,7 +896,11 @@ bool main_menu::new_character_tab()
     }
 
     if( g->gamemode ) {
-        return g->gamemode->init();
+        bool success = g->gamemode->init();
+        if( success ) {
+            cleanup.cancel();
+        }
+        return success;
     }
 
     character_type play_type = character_type::CUSTOM;
