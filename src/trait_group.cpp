@@ -274,7 +274,6 @@ void Trait_group_collection::add_entry( std::unique_ptr<Trait_creation_data> ptr
     ptr->probability = std::min( 100, ptr->probability );
 
     creators.push_back( std::move( ptr ) );
-    ptr.release();
 }
 
 void Trait_group_distribution::add_entry( std::unique_ptr<Trait_creation_data> ptr )
@@ -287,7 +286,6 @@ void Trait_group_distribution::add_entry( std::unique_ptr<Trait_creation_data> p
     sum_prob += ptr->probability;
 
     creators.push_back( std::move( ptr ) );
-    ptr.release();
 }
 
 Trait_list Trait_group_distribution::create( RecursionList &rec ) const

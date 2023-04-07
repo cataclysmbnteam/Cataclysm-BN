@@ -803,16 +803,31 @@ void character_edit_menu( Character &c )
         case edit_character::desc: {
             uilist smenu;
             smenu.text = _( "Select a value and press enter to change it." );
-            smenu.addentry( 0, true, 'n', "%s: %s", _( "Current name" ), p.get_name() );
-            smenu.addentry( 1, true, 'a', "%s: %d", _( "Current age" ), p.base_age() );
-            smenu.addentry( 2, true, 'h', "%s: %d", _( "Current height in cm" ), p.base_height() );
+            if( p.is_avatar() ) {
+                smenu.addentry( 0, true, 's', "%s: %s", _( "Current save file name" ), get_avatar().get_save_id() );
+            }
+            smenu.addentry( 1, true, 'n', "%s: %s", _( "Current pre-Cataclysm name" ), p.name );
+            smenu.addentry( 2, true, 'a', "%s: %d", _( "Current age" ), p.base_age() );
+            smenu.addentry( 3, true, 'h', "%s: %d", _( "Current height in cm" ), p.base_height() );
             smenu.query();
             switch( smenu.ret ) {
                 case 0: {
+                    std::string buf = get_avatar().get_save_id();
+                    string_input_popup popup;
+                    popup
+                    .title( _( "Rename save file (WARNING: this will duplicate the save):" ) )
+                    .width( 85 )
+                    .edit( buf );
+                    if( popup.confirmed() ) {
+                        get_avatar().set_save_id( buf );
+                    }
+                }
+                break;
+                case 1: {
                     std::string buf = p.name;
                     string_input_popup popup;
                     popup
-                    .title( _( "Rename:" ) )
+                    .title( _( "Rename character:" ) )
                     .width( 85 )
                     .edit( buf );
                     if( popup.confirmed() ) {
@@ -820,7 +835,7 @@ void character_edit_menu( Character &c )
                     }
                 }
                 break;
-                case 1: {
+                case 2: {
                     string_input_popup popup;
                     popup
                     .title( _( "Enter age in years.  Minimum 16, maximum 55" ) )
@@ -832,7 +847,7 @@ void character_edit_menu( Character &c )
                     }
                 }
                 break;
-                case 2: {
+                case 3: {
                     string_input_popup popup;
                     popup
                     .title( _( "Enter height in centimeters.  Minimum 145, maximum 200" ) )
