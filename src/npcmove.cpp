@@ -821,11 +821,6 @@ void npc::move()
             add_msg( m_debug, "NPC %s: investigating sound at x(%d) y(%d)", name,
                      ai_cache.s_abs_pos.x, ai_cache.s_abs_pos.y );
         }
-    } else if( ai_cache.sound_alerts.empty() && ai_cache.guard_pos ) {
-        tripoint return_guard_pos = *ai_cache.guard_pos;
-        add_msg( m_debug, "NPC %s: returning to guard spot at x(%d) y(%d)", name,
-                 return_guard_pos.x, return_guard_pos.y );
-        action = npc_return_to_guard_pos;
     } else {
         // No present danger
         deactivate_combat_cbms();
@@ -836,6 +831,12 @@ void npc::move()
         if( action == npc_undecided ) {
             action = address_player();
             print_action( "address_player %s", action );
+        }
+        if( ai_cache.sound_alerts.empty() && ai_cache.guard_pos ) {
+            tripoint return_guard_pos = *ai_cache.guard_pos;
+            add_msg( m_debug, "NPC %s: returning to guard spot at x(%d) y(%d)", name,
+                     return_guard_pos.x, return_guard_pos.y );
+            action = npc_return_to_guard_pos;
         }
     }
 
