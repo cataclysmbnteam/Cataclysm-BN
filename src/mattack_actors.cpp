@@ -481,21 +481,42 @@ int gun_actor::get_max_range()  const
     return max_range;
 }
 
-static vehicle *find_target_vehicle( monster &z, int range )
+static bool find_target_vehicle( monster &z, int range, tripoint &aim_at )
 {
     map &here = get_map();
-    vehicle *chosen = nullptr;
+    bool found = false;
     for( wrapped_vehicle &v : here.get_vehicles() ) {
-        if( !fov_3d && v.pos.z != z.pos().z ) {
+        if( ( !fov_3d && v.pos.z != z.pos().z ) || v.v->velocity == 0 ) {
             continue;
         }
-        int new_dist = rl_dist( z.pos(), v.pos );
-        if( v.v->velocity != 0 && new_dist < range ) {
-            chosen = v.v;
-            range = new_dist;
+
+        bool found_controls = false;
+
+        for( const vpart_reference &vp : v.v->get_avail_parts( "CONTROLS" ) ) {
+            if( z.sees( vp.pos() ) ) {
+                int new_dist = rl_dist( z.pos(), vp.pos() );
+                if( new_dist <= range ) {
+
+                    aim_at = vp.pos();
+                    range = new_dist;
+                    found = true;
+                    found_controls = true;
+                }
+            }
+        }
+
+        if( !found_controls ) {
+            if( z.sees( v.v->global_pos3() ) ) {
+                int new_dist = rl_dist( z.pos(), v.v->global_pos3() );
+                if( new_dist <= range ) {
+                    aim_at = v.v->global_pos3();
+                    range = new_dist;
+                    found = true;
+                }
+            }
         }
     }
-    return chosen;
+    return found;
 }
 
 bool gun_actor::call( monster &z ) const
@@ -526,20 +547,10 @@ bool gun_actor::call( monster &z ) const
                 return false;
             }
             //No living targets, try to find a moving car
-            vehicle *veh = find_target_vehicle( z, get_max_range() );
-            if( !veh ) {
+            if( !find_target_vehicle( z, get_max_range(), aim_at ) ) {
                 return false;
             }
-            for( const vpart_reference &vp : veh->get_avail_parts( "CONTROLS" ) ) {
-                if( z.sees( vp.pos() ) ) {
-                    aim_at = vp.pos();
-                    untargeted = true;
-                }
-            }
-            if( !untargeted ) {
-                untargeted = true;
-                aim_at = veh->global_pos3();
-            }
+            untargeted = true;
         } else {
             aim_at = target->pos();
         }
