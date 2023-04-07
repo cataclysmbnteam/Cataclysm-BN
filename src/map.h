@@ -1235,9 +1235,9 @@ class map
          *  @return reference to dropped (and possibly stacked) item or null item on failure
          *  @warning function is relatively expensive and meant for user initiated actions, not mapgen
          */
-        item &add_item_or_charges( const tripoint &pos, item &obj, bool overflow = true );
-        item &add_item_or_charges( point p, item &obj, bool overflow = true ) {
-            return add_item_or_charges( tripoint( p, abs_sub.z ), obj, overflow );
+        item &add_item_or_charges( const tripoint &pos, detached_ptr<item> &&obj, bool overflow = true );
+        item &add_item_or_charges( point p, detached_ptr<item> &&obj, bool overflow = true ) {
+            return add_item_or_charges( tripoint( p, abs_sub.z ), std::move( obj ), overflow );
         }
 
         /**
@@ -1247,13 +1247,13 @@ class map
          *
          * @returns The item that got added, or nulitem.
          */
-        item &add_item( const tripoint &p, item &new_item );
-        void add_item( point p, item &new_item ) {
-            add_item( tripoint( p, abs_sub.z ), new_item );
+        item &add_item( const tripoint &p, detached_ptr<item> &&new_item );
+        void add_item( point p, detached_ptr<item> &&new_item ) {
+            add_item( tripoint( p, abs_sub.z ), std::move( new_item ) );
         }
-        item &spawn_an_item( const tripoint &p, item &new_item, int charges, int damlevel );
-        void spawn_an_item( point p, item &new_item, int charges, int damlevel ) {
-            spawn_an_item( tripoint( p, abs_sub.z ), new_item, charges, damlevel );
+        item &spawn_an_item( const tripoint &p, detached_ptr<item> &&new_item, int charges, int damlevel );
+        void spawn_an_item( point p, detached_ptr<item> &&new_item, int charges, int damlevel ) {
+            spawn_an_item( tripoint( p, abs_sub.z ), std::move( new_item ), charges, damlevel );
         }
 
         /**

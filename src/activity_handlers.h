@@ -23,6 +23,9 @@ struct tripoint;
 // Remove that forward declaration after repair_activity_actor.
 class vehicle;
 
+template<typename T>
+class detached_ptr;
+
 std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint &abspos,
         const std::unordered_set<tripoint> &tiles );
 std::vector<tripoint> route_adjacent( const player &p, const tripoint &dest );
@@ -136,12 +139,20 @@ enum class item_drop_reason {
 };
 
 void put_into_vehicle_or_drop( Character &c, item_drop_reason,
-                               const std::vector<location_ptr<item>> &items );
+                               detached_ptr<item> &&items );
 void put_into_vehicle_or_drop( Character &c, item_drop_reason,
-                               const std::vector<location_ptr<item>> &items,
+                               std::vector<detached_ptr<item>> &items );
+void put_into_vehicle_or_drop( Character &c, item_drop_reason,
+                               std::vector<detached_ptr<item>> &items,
+                               const tripoint &where, bool force_ground = false );
+void put_into_vehicle_or_drop( Character &c, item_drop_reason,
+                               detached_ptr<item> &&it,
                                const tripoint &where, bool force_ground = false );
 void drop_on_map( Character &c, item_drop_reason reason,
-                  const std::vector<location_ptr<item>> &items,
+                  std::vector<detached_ptr<item>> &items,
+                  const tripoint &where );
+void drop_on_map( Character &c, item_drop_reason reason,
+                  detached_ptr<item> &&it,
                   const tripoint &where );
 
 namespace activity_handlers

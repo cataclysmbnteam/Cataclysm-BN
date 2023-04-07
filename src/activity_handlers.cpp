@@ -474,13 +474,13 @@ static bool check_butcher_cbm( const int roll )
     return !failed;
 }
 
-static void extract_or_wreck_cbms( const ItemList &cbms, int roll,
+static void extract_or_wreck_cbms( std::vector<detached_ptr<item>> &cbms, int roll,
                                    player &p )
 {
     if( roll < 0 ) {
         return;
     }
-    for( item * const &it : cbms ) {
+    for( detached_ptr<item> &it : cbms ) {
         // For some stupid reason, zombie pheromones are dropped using bionic type
         // This complicates things
         if( it->is_bionic() ) {
@@ -503,12 +503,12 @@ static void extract_or_wreck_cbms( const ItemList &cbms, int roll,
         if( it->type->phase == LIQUID ) {
             // TODO: smarter NPC liquid handling
             if( p.is_npc() ) {
-                drop_on_map( p, item_drop_reason::deliberate, { it }, p.pos() );
+                drop_on_map( p, item_drop_reason::deliberate, { std::move( it ) }, p.pos() );
             } else {
-                liquid_handler::handle_all_liquid( *it, 1 );
+                liquid_handler::handle_all_liquid( std::move( it ), 1 );
             }
         } else {
-            get_map().add_item( p.pos(), *it );
+            get_map().add_item( p.pos(), std::move( it ) );
         }
     }
 }
@@ -1055,7 +1055,8 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 continue;
             }
             if( drop->phase == LIQUID ) {
-                item &obj = *item_spawn( drop, calendar::turn, roll );
+                detached_ptr<item> it = item::spawn( drop, calendar::turn, roll );
+                item &obj = *it;
                 if( obj.goes_bad() ) {
                     obj.set_rot( corpse_item->get_rot() );
                 }
@@ -1067,12 +1068,13 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 }
                 // TODO: smarter NPC liquid handling
                 if( p.is_npc() ) {
-                    drop_on_map( p, item_drop_reason::deliberate, { &obj }, p.pos() );
+                    drop_on_map( p, item_drop_reason::deliberate, std::move( it ), p.pos() );
                 } else {
-                    liquid_handler::handle_all_liquid( obj, 1 );
+                    liquid_handler::handle_all_liquid( std::move( it ), 1 );
                 }
             } else if( drop->count_by_charges() ) {
-                item &obj = *item_spawn( drop, calendar::turn, roll );
+                detached_ptr<item> it = item::spawn( drop, calendar::turn, roll );
+                item &obj = *it;
                 if( obj.goes_bad() ) {
                     obj.set_rot( corpse_item->get_rot() );
                 }
@@ -1085,9 +1087,9 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 if( !p.backlog.empty() && p.backlog.front().id() == ACT_MULTIPLE_BUTCHER ) {
                     obj.set_var( "activity_var", p.name );
                 }
-                here.add_item_or_charges( p.pos(), obj );
+                here.add_item_or_charges( p.pos(), std::move( it ) );
             } else {
-                item &obj = *item_spawn( drop, calendar::turn );
+                item &obj = *item::spawn_temporary( drop, calendar::turn );
                 obj.set_mtype( &mt );
                 if( obj.goes_bad() ) {
                     obj.set_rot( corpse_item->get_rot() );
@@ -1102,9 +1104,8 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                     obj.set_var( "activity_var", p.name );
                 }
                 for( int i = 0; i != roll; ++i ) {
-                    here.add_item_or_charges( p.pos(), *item_spawn( obj ) );
+                    here.add_item_or_charges( p.pos(), std::move( item::spawn( obj ) ) );
                 }
-                obj.destroy();
             }
             p.add_msg_if_player( m_good, _( "You harvest: %s" ), drop->nname( roll ) );
         }
@@ -1126,7 +1127,7 @@ static void butchery_quarter( item *corpse_item, const player &p )
     map &here = get_map();
     // 4 quarters (one exists, add 3, flag does the rest)
     for( int i = 1; i <= 3; i++ ) {
-        here.add_item_or_charges( p.pos(), *corpse_item, true );
+        here.add_item_or_charges( p.pos(), std::move( item::spawn( corpse_item ) ), true );
     }
 }
 
@@ -1266,9 +1267,10 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         int roll = roll_butchery() - corpse_item.damage_level( 4 );
         roll = roll < 0 ? 0 : roll;
         add_msg( m_debug, _( "Roll penalty for corpse damage = %s" ), 0 - corpse_item.damage_level( 4 ) );
-        ItemList cbms = corpse_item.remove_components();
-        for( item *it : corpse_item.contents.all_items_top() ) {
-            cbms.push_back( it );
+        std::vector<detached_ptr<item>> cbms = corpse_item.remove_components();
+        std::vector<detached_ptr<item>> contents = corpse_item.contents.remove_all();
+        for( detached_ptr<item> &it : contents ) {
+            cbms.push_back( std::move( it ) );
         }
         extract_or_wreck_cbms( cbms, roll, *p );
         // those lines are for XP gain with dissecting. It depends on the size of the corpse, time to dissect the corpse and the amount of bionics you would gather.
@@ -1450,8 +1452,8 @@ void activity_handlers::shear_finish( player_activity *act, player *p )
     }
     // 22 wool staples corresponds to an average wool-producing sheep yield of 10 lbs or so
     for( int i = 0; i != 22; ++i ) {
-        item &wool_staple = *item_spawn( itype_wool_staple, calendar::turn );
-        here.add_item_or_charges( p->pos(), wool_staple );
+        detached_ptr<item> wool_staple = item::spawn( itype_wool_staple, calendar::turn );
+        here.add_item_or_charges( p->pos(), std::move( wool_staple ) );
     }
     source_mon->add_effect( effect_sheared, calendar::season_length() );
     if( !act->str_values.empty() && act->str_values[0] == "temp_tie" ) {
@@ -1485,11 +1487,13 @@ void activity_handlers::milk_finish( player_activity *act, player *p )
         debugmsg( "started milking but udders are now empty before milking finishes" );
         return;
     }
-    item &milk = *item_spawn( milked_item->first, calendar::turn, milked_item->second );
-    if( liquid_handler::handle_liquid( milk, nullptr, 1, nullptr, nullptr, -1, source_mon ) ) {
+    detached_ptr<item> milk = item::spawn( milked_item->first, calendar::turn, milked_item->second );
+    item &milk_it = *milk;
+    if( liquid_handler::handle_liquid( std::move( milk ), nullptr, 1, nullptr, nullptr, -1,
+                                       source_mon ) ) {
         milked_item->second = 0;
-        if( milk.charges > 0 ) {
-            milked_item->second = milk.charges;
+        if( milk_it.charges > 0 ) {
+            milked_item->second = milk_it.charges;
         } else {
             p->add_msg_if_player( _( "The %s's udders run dry." ), source_mon->get_name() );
         }
@@ -1505,146 +1509,58 @@ void activity_handlers::milk_finish( player_activity *act, player *p )
 void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
 {
     player_activity &act_ref = *act;
+    map &here = get_map();
     try {
         // 1. Gather the source item.
-        vehicle *source_veh = nullptr;
-        const tripoint source_pos = act_ref.coords.at( 0 );
-        map &here = get_map();
-        map_stack source_stack = here.i_at( source_pos );
-        map_stack::iterator on_ground;
-        monster *source_mon = nullptr;
-        //TODO!: check what in the fucking fuck is going on here
-        item *liquid;
-        const liquid_source_type source_type = static_cast<liquid_source_type>( act_ref.values.at( 0 ) );
-        int part_num = -1;
-        int veh_charges = 0;
-        switch( source_type ) {
-            case LST_VEHICLE:
-                source_veh = veh_pointer_or_null( here.veh_at( source_pos ) );
-                if( source_veh == nullptr ) {
-                    throw std::runtime_error( "could not find source vehicle for liquid transfer" );
-                }
-                deserialize( liquid, act_ref.str_values.at( 0 ) );
-                part_num = static_cast<int>( act_ref.values.at( 1 ) );
-                veh_charges = liquid->charges;
-                break;
-            case LST_INFINITE_MAP:
-                deserialize( liquid, act_ref.str_values.at( 0 ) );
-                liquid->charges = item::INFINITE_CHARGES;
-                break;
-            case LST_MAP_ITEM:
-                if( static_cast<size_t>( act_ref.values.at( 1 ) ) >= source_stack.size() ) {
-                    throw std::runtime_error( "could not find source item on ground for liquid transfer" );
-                }
-                on_ground = source_stack.begin();
-                std::advance( on_ground, act_ref.values.at( 1 ) );
-                liquid = *on_ground;
-                break;
-            case LST_MONSTER:
-                Creature *c = g->critter_at( source_pos );
-                source_mon = dynamic_cast<monster *>( c );
-                if( source_mon == nullptr ) {
-                    debugmsg( "could not find source creature for liquid transfer" );
-                    act_ref.set_to_null();
-                }
-                deserialize( liquid, act_ref.str_values.at( 0 ) );
-                liquid->charges = 1;
-                break;
+        safe_reference<item> source = act_ref.targets.at( 0 );
+        if( !source ) {
+            //Item has gone missing, abort
+            if( source.is_accessible() ) {
+                p->add_msg_if_player( _( "You lose track of your %1$s." ), source.get_const()->tname() );
+            } else {
+                //Item went missing on a previous turn, something is very wrong.
+                debugmsg( "Lost track of target for fill_liquid activity" );
+            }
+            return;
         }
 
         static const units::volume volume_per_second = units::from_liter( 4.0F / 6.0F );
-        const int charges_per_second = std::max( 1, liquid->charges_per_volume( volume_per_second ) );
-        liquid->charges = std::min( charges_per_second, liquid->charges );
-        const int original_charges = liquid->charges;
-
+        int original_charges = source->charges;
+        int charges = std::max( 1, source->charges_per_volume( volume_per_second ) );
+        bool removed = true;
         // 2. Transfer charges.
         switch( static_cast<liquid_target_type>( act_ref.values.at( 2 ) ) ) {
             case LTT_VEHICLE:
                 if( const optional_vpart_position vp = here.veh_at( act_ref.coords.at( 1 ) ) ) {
-                    p->pour_into( vp->vehicle(), *liquid );
+                    removed = p->pour_into( vp->vehicle(), *source, charges );
                 } else {
                     throw std::runtime_error( "could not find target vehicle for liquid transfer" );
                 }
                 break;
             case LTT_CONTAINER:
-                p->pour_into( p->i_at( act_ref.values.at( 3 ) ), *liquid );
+                removed = p->pour_into( p->i_at( act_ref.values.at( 3 ) ), *source, charges );
                 break;
             case LTT_MAP:
                 if( iexamine::has_keg( act_ref.coords.at( 1 ) ) ) {
-                    iexamine::pour_into_keg( act_ref.coords.at( 1 ), *liquid );
+                    removed = iexamine::pour_into_keg( act_ref.coords.at( 1 ), *source, charges );
                 } else {
-                    here.add_item_or_charges( act_ref.coords.at( 1 ), *liquid );
-                    p->add_msg_if_player( _( "You pour %1$s onto the ground." ), liquid->tname() );
-                    liquid->charges = 0;
+                    detached_ptr<item> poured = std::move( source->split( charges ) );
+                    here.add_item_or_charges( act_ref.coords.at( 1 ), std::move( poured ) );
+                    p->add_msg_if_player( _( "You pour %1$s onto the ground." ), source->tname() );
                 }
                 break;
             case LTT_MONSTER:
-                liquid->charges = 0;
+                //Do nothing here
                 break;
         }
 
-        const int removed_charges = original_charges - liquid->charges;
-        if( removed_charges == 0 ) {
+        if( removed ) {
             // Nothing has been transferred, target must be full.
             act_ref.set_to_null();
             return;
         }
 
-        // 3. Remove charges from source.
-        switch( source_type ) {
-            case LST_VEHICLE:
-                if( part_num != -1 ) {
-                    source_veh->drain( part_num, removed_charges );
-                    liquid->charges = veh_charges - removed_charges;
-                    // If there's no liquid left in this tank we're done, otherwise
-                    // we need to update our liquid serialization to reflect how
-                    // many charges are actually left for the next time we come
-                    // around this loop.
-                    if( !liquid->charges ) {
-                        act_ref.set_to_null();
-                    } else {
-                        if( act_ref.str_values.empty() ) {
-                            act_ref.str_values.push_back( std::string() );
-                        }
-                        act_ref.str_values.at( 0 ) = serialize( *liquid );
-                    }
-                } else {
-                    source_veh->drain( liquid->typeId(), removed_charges );
-                }
-                if( source_veh->fuel_left( liquid->typeId() ) <= 0 ) {
-                    act_ref.set_to_null();
-                }
-                break;
-            case LST_MAP_ITEM:
-                ( *on_ground )->charges -= removed_charges;
-                if( ( *on_ground )->charges <= 0 ) {
-                    source_stack.erase( on_ground );
-                    if( here.ter( source_pos ).obj().examine == &iexamine::gaspump ) {
-                        add_msg( _( "With a clang and a shudder, the %s pump goes silent." ),
-                                 liquid->type_name( 1 ) );
-                    } else if( here.furn( source_pos ).obj().examine == &iexamine::fvat_full ) {
-                        add_msg( _( "You squeeze the last drops of %s from the vat." ),
-                                 liquid->type_name( 1 ) );
-                        map_stack items_here = here.i_at( source_pos );
-                        if( items_here.empty() ) {
-                            here.furn_set( source_pos, f_fvat_empty );
-                        }
-                    }
-                    act_ref.set_to_null();
-                }
-                break;
-            case LST_INFINITE_MAP:
-                // nothing, the liquid source is infinite
-                break;
-            case LST_MONSTER:
-                // liquid source charges handled in monexamine::milk_source
-                if( liquid->charges == 0 ) {
-                    act_ref.set_to_null();
-                }
-                break;
-        }
-
-        if( removed_charges < original_charges ) {
+        if( original_charges - source->charges <= charges ) {
             // Transferred less than the available charges -> target must be full
             act_ref.set_to_null();
         }
@@ -2682,7 +2598,7 @@ item *get_fake_tool( hack_type_t hack_type, const player_activity &activity )
             }
             const vehicle &veh = pos->vehicle();
 
-            fake_item = item_spawn( itype_welder, calendar::turn, 0 );
+            fake_item = item::spawn_temporary( itype_welder, calendar::turn, 0 );
             fake_item->charges = veh.fuel_left( itype_battery );
 
             break;
@@ -2708,7 +2624,7 @@ item *get_fake_tool( hack_type_t hack_type, const player_activity &activity )
                     }
                     const tripoint_abs_ms abspos( m.getabs( position ) );
                     const distribution_grid &grid = get_distribution_grid_tracker().grid_at( abspos );
-                    fake_item = item_spawn( item_type.get_id(), calendar::turn, 0 );
+                    fake_item = item::spawn_temporary( item_type.get_id(), calendar::turn, 0 );
                     fake_item->charges = grid.get_resource( true );
                     break;
                 }

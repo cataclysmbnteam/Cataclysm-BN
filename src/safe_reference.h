@@ -274,6 +274,10 @@ class safe_reference
             return rec == nullptr;
         }
 
+        inline bool is_accessible() const {
+            return rec != nullptr && rec->target.p != nullptr;
+        }
+
         inline bool is_unloaded() const {
             resolve_redirects();
             if( is_unassigned() ) {
@@ -316,6 +320,14 @@ class safe_reference
                 rec->json_count--;
             } // else { this is indicative of save scumming }
             rec->mem_count++;
+        }
+
+        const T *get_const() const {
+            if( !rec || !rec->target.p ) {
+                //TODO! more safety and proper error
+                return nullptr;
+            }
+            return rec->target.p;
         }
 
         inline T *get() const {

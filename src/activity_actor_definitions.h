@@ -56,11 +56,11 @@ class aim_activity_actor : public activity_actor
         static aim_activity_actor use_wielded();
 
         /** Aiming fake gun provided by a bionic */
-        static aim_activity_actor use_bionic( detached_ptr<item> &&fake_gun,
-                                              const units::energy &cost_per_shot );
+        static std::unique_ptr<aim_activity_actor> use_bionic( detached_ptr<item> &&fake_gun,
+                const units::energy &cost_per_shot );
 
         /** Aiming fake gun provided by a mutation */
-        static aim_activity_actor use_mutation( detached_ptr<item> &&fake_gun );
+        static std::unique_ptr<aim_activity_actor> use_mutation( detached_ptr<item> &&fake_gun );
 
         activity_id get_type() const override {
             return activity_id( "ACT_AIM" );
@@ -70,10 +70,6 @@ class aim_activity_actor : public activity_actor
         void do_turn( player_activity &act, Character &who ) override;
         void finish( player_activity &act, Character &who ) override;
         void canceled( player_activity &act, Character &who ) override;
-
-        std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<aim_activity_actor>( *this );
-        }
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
@@ -101,10 +97,6 @@ class autodrive_activity_actor : public activity_actor
         void do_turn( player_activity &, Character & ) override;
         void canceled( player_activity &, Character & ) override;
         void finish( player_activity &act, Character & ) override;
-
-        std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<autodrive_activity_actor>( *this );
-        }
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
@@ -160,10 +152,6 @@ class dig_activity_actor : public activity_actor
         void start( player_activity &act, Character & ) override;
         void do_turn( player_activity &, Character & ) override;
         void finish( player_activity &act, Character &who ) override;
-
-        std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<dig_activity_actor>( *this );
-        }
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
@@ -221,10 +209,6 @@ class dig_channel_activity_actor : public activity_actor
         void do_turn( player_activity &, Character & ) override;
         void finish( player_activity &act, Character &who ) override;
 
-        std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<dig_channel_activity_actor>( *this );
-        }
-
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 };
@@ -253,10 +237,6 @@ class disassemble_activity_actor : public activity_actor
         void start( player_activity &act, Character &who ) override;
         void do_turn( player_activity &, Character & ) override {};
         void finish( player_activity &act, Character &who ) override;
-
-        std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<disassemble_activity_actor>( *this );
-        }
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
@@ -288,10 +268,6 @@ class drop_activity_actor : public activity_actor
         void do_turn( player_activity &, Character &who ) override;
         void finish( player_activity &, Character & ) override {};
 
-        std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<drop_activity_actor>( *this );
-        }
-
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 };
@@ -315,10 +291,6 @@ class hacking_activity_actor : public activity_actor
         void do_turn( player_activity &, Character & ) override {};
         void finish( player_activity &act, Character &who ) override;
 
-        std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<hacking_activity_actor>( *this );
-        }
-
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 };
@@ -335,10 +307,6 @@ class migration_cancel_activity_actor : public activity_actor
         void start( player_activity &, Character & ) override {};
         void do_turn( player_activity &act, Character &who ) override;
         void finish( player_activity &, Character & ) override {};
-
-        std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<migration_cancel_activity_actor>( *this );
-        }
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
@@ -371,9 +339,6 @@ class move_items_activity_actor : public activity_actor
         void do_turn( player_activity &act, Character &who ) override;
         void finish( player_activity &, Character & ) override {};
 
-        std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<move_items_activity_actor>( *this );
-        }
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
@@ -406,9 +371,6 @@ class toggle_gate_activity_actor : public activity_actor
         void do_turn( player_activity &, Character & ) override {};
         void finish( player_activity &act, Character & ) override;
 
-        std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<toggle_gate_activity_actor>( *this );
-        }
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
@@ -442,9 +404,6 @@ class pickup_activity_actor : public activity_actor
         void do_turn( player_activity &act, Character &who ) override;
         void finish( player_activity &, Character & ) override {};
 
-        std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<pickup_activity_actor>( *this );
-        }
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
@@ -467,10 +426,6 @@ class stash_activity_actor : public activity_actor
         void start( player_activity &, Character & ) override;
         void do_turn( player_activity &, Character &who ) override;
         void finish( player_activity &, Character & ) override {};
-
-        std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<stash_activity_actor>( *this );
-        }
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
@@ -499,10 +454,6 @@ class throw_activity_actor : public activity_actor
         void do_turn( player_activity &act, Character &who ) override;
         void finish( player_activity &, Character & ) override {};
 
-        std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<throw_activity_actor>( *this );
-        }
-
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 };
@@ -525,10 +476,6 @@ class wash_activity_actor : public activity_actor
         void start( player_activity &act, Character & ) override;
         void do_turn( player_activity &, Character & ) override {};
         void finish( player_activity &act, Character &who ) override;
-
-        std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<wash_activity_actor>( *this );
-        }
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );

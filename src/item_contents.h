@@ -13,6 +13,7 @@
 #include "type_id.h"
 #include "units.h"
 #include "visitable.h"
+#include "location_vector.h"
 
 class Character;
 class JsonIn;
@@ -23,9 +24,11 @@ struct tripoint;
 class item_contents
 {
     public:
-        item_contents() = default;
+        item_contents( item *container ) : items( new contents_item_location( container ) ) {}
         /** used to aid migration */
-        item_contents( const std::vector<item *> &items ) : items( items ) {}
+        item_contents( item *container,
+                       std::vector<detached_ptr<item>> &items ) : items( new contents_item_location( container ),
+                                   items ) {}
         ~item_contents();
 
         bool empty() const;
@@ -35,9 +38,14 @@ class item_contents
         /** returns a list of pointers to all top-level items */
         const std::vector<item *> &all_items_top() const;
 
+        /** Removes all of the top-level items */
+        std::vector<detached_ptr<item>> remove_all();
+
         /** removes a top-level item */
-        void remove_top( item *it );
+        detached_ptr<item> remove_top( item *it );
         std::vector<item *>::iterator remove_top( std::vector<item *>::iterator &it );
+        std::vector<item *>::iterator remove_top( std::vector<item *>::iterator &it,
+                detached_ptr<item> &removed );
 
         // returns a list of pointers to all items inside recursively
         std::vector<item *> all_items_ptr();
@@ -69,7 +77,7 @@ class item_contents
 
         int best_quality( const quality_id &id ) const;
 
-        ret_val<bool> insert_item( item &it );
+        ret_val<bool> insert_item( detached_ptr<item> it );
 
         /**
          * returns the number of items stacks in contents
@@ -80,7 +88,6 @@ class item_contents
 
         bool spill_contents( const tripoint &pos );
         void clear_items();
-        void empty_items();
 
         /**
          * Sets the items contained to their defaults.
@@ -109,7 +116,7 @@ class item_contents
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
     private:
-        ItemList items;
+        location_vector<item> items;
 };
 
 #endif // CATA_SRC_ITEM_CONTENTS_H

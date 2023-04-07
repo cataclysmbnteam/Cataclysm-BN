@@ -2,6 +2,8 @@
 #ifndef CATA_SRC_LOCATION_PTR_H
 #define CATA_SRC_LOCATION_PTR_H
 
+#include "locations.h"
+
 template<typename T>
 class location_ptr
 {
@@ -22,22 +24,31 @@ class location_ptr
         }
 
     public:
-        location_ptr() = default;
+        location_ptr( location<T> *loc ) : loc( loc ) {};
         location_ptr( location_ptr & ) = delete;
         location_ptr( location_ptr && ) = delete;
-        location_ptr operator=( location_ptr & ) = delete;
-        location_ptr operator=( location_ptr && ) = delete;
+        location_ptr operator=( location_ptr<T> & ) = delete;
 
-        location_ptr( detached_ptr<T> &&source ) {
+        location_ptr<T> &operator=( detached_ptr<T> &&source ) {
+            if( ptr ) {
+                ptr->remove_location();
+                ptr->destroy();
+            }
             ptr = source.ptr;
             update_location();
             source.ptr = nullptr;
+            return  *this;
         }
 
-        location_ptr<T> operator=( detached_ptr<T> &&source ) {
+        location_ptr<T> &operator=( location_ptr<T> &&source ) {
+            if( ptr ) {
+                ptr->remove_location();
+                ptr->destroy();
+            }
             ptr = source.ptr;
             update_location();
             source.ptr = nullptr;
+            return *this;
         }
 
         ~location_ptr() {
@@ -45,7 +56,10 @@ class location_ptr
         }
 
         void set_location( location<T> *l ) {
-            loc.set( l );
+            if( loc ) {
+                debugmsg( "Attempted to set the location of a location_ptr that already has one" );
+            }
+            loc = std::unique_ptr<location<T>>( l );
         }
 
         inline T *get() const {

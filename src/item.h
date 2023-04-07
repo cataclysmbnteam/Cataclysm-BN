@@ -225,7 +225,8 @@ enum class item_location_type : int {
     character = 1,
     map = 2,
     vehicle = 3,
-    container = 4
+    container = 4,
+    monster = 5,
 };
 
 class item : public visitable<item>, public game_object<item>
@@ -272,13 +273,13 @@ class item : public visitable<item>, public game_object<item>
 
         ~item();
 
-        inline static detached_ptr<item> _spawn( JsonIn &jsin ) {
-            detached_ptr<item> p = _spawn();
+        inline static detached_ptr<item> spawn( JsonIn &jsin ) {
+            detached_ptr<item> p = spawn();
             p->deserialize( jsin );
             return std::move( p );
         }
 
-        inline static detached_ptr<item>_spawn( const item &source ) {
+        inline static detached_ptr<item>spawn( const item &source ) {
             if( source.is_null() ) {
                 return detached_ptr<item>( &null_item_reference() );
             }
@@ -286,57 +287,42 @@ class item : public visitable<item>, public game_object<item>
         }
 
         template<typename... T>
-        inline static detached_ptr<item>_spawn( T... args ) {
+        inline static detached_ptr<item>spawn( T... args ) {
             return std::move( detached_ptr<item>( new item( std::forward<T>( args )... ) ) );
         }
 
-        inline static item *_spawn_temporary( const item &source ) {
+        inline static item *spawn_temporary( const item &source ) {
             if( source.is_null() ) {
                 return &null_item_reference();
             }
-            detached_ptr<item> p = item::_spawn( source );
+            detached_ptr<item> p = item::spawn( source );
             return &*p;
         }
 
         template<typename... T>
-        inline static item *_spawn_temporary( T... args ) {
-            detached_ptr<item> p = item::_spawn( std::forward<T>( args )... );
+        inline static item *spawn_temporary( T... args ) {
+            detached_ptr<item> p = item::spawn( std::forward<T>( args )... );
             return &*p;
         }
 
-#if !defined(RELEASE)
-
-        //Sadly these need to go on one line or astyle breaks them
-#define item_spawn(...) (([&](){ typename ::item *p = item::_spawn( __VA_ARGS__ ); void** buf=static_cast<void**>(malloc(sizeof(void*)*GO_BACKTRACE)); backtrace(buf, GO_BACKTRACE); cata_arena<typename ::item>::add_debug_entry( p, __FILE__, __LINE__, buf ); return p; } )() )
-#define item_spawn_temporary(...) (([&](){ typename ::item *p = item::_spawn_temporary( __VA_ARGS__ ); void** buf=static_cast<void**>(malloc(sizeof(void*)*GO_BACKTRACE)); backtrace(buf, GO_BACKTRACE); cata_arena<typename ::item>::add_debug_entry( p, __FILE__, __LINE__, buf ); return p; } )() )
-
-#else
-#define item_spawn(...) item::_spawn(__VA_ARGS__)
-#define item_spawn_temporary(...) item::_spawn_temporary(__VA_ARGS__)
-
-#endif
-
-
-
-        //TODO!: check these "filters" are being used right and at least update the comments, they're not filters anymore
         /**
-         * Filter converting this instance to another type preserving all other aspects
+         * Converts this instance to another type preserving all other aspects
          * @param new_type the type id to convert to
          * @return same instance to allow method chaining
          */
-        item &convert( const itype_id &new_type );
+        void convert( const itype_id &new_type );
 
         /**
-         * Filter converting this instance to the inactive type
+         * Converts this instance to the inactive type
          * If the item is either inactive or cannot be deactivated is a no-op
          * @param ch character currently possessing or acting upon the item (if any)
          * @param alert whether to display any messages
          * @return same instance to allow method chaining
          */
-        item &deactivate( const Character *ch = nullptr, bool alert = true );
+        void deactivate( const Character *ch = nullptr, bool alert = true );
 
-        /** Filter converting instance to active state */
-        item &activate();
+        /** Converts instance to active state */
+        void activate();
 
         /**
          * Add or remove energy from a battery.
@@ -350,27 +336,27 @@ class item : public visitable<item>, public game_object<item>
         units::energy mod_energy( const units::energy &qty );
 
         /**
-         * Filter setting the ammo for this instance
+         * Sets the ammo for this instance
          * Any existing ammo is removed. If necessary a magazine is also added.
          * @param ammo specific type of ammo (must be compatible with item ammo type)
          * @param qty maximum ammo (capped by item capacity) or negative to fill to capacity
          * @return same instance to allow method chaining
          */
-        item &ammo_set( const itype_id &ammo, int qty = -1 );
+        void ammo_set( const itype_id &ammo, int qty = -1 );
 
         /**
-         * Filter removing all ammo from this instance
+         * Removes all ammo from this instance
          * If the item is neither a tool, gun nor magazine is a no-op
          * For items reloading using magazines any empty magazine remains present.
          */
-        item &ammo_unset();
+        detached_ptr<item> ammo_unset();
 
         /**
-         * Filter setting damage constrained by @ref min_damage and @ref max_damage
+         * Sets damage constrained by @ref min_damage and @ref max_damage
          * @note this method does not invoke the @ref on_damage callback
          * @return same instance to allow method chaining
          */
-        item &set_damage( int qty );
+        void set_damage( int qty );
 
         /**
          * Splits a count-by-charges item, taking qty charges away from it and creating a new (detached) item from them.
@@ -791,14 +777,14 @@ class item : public visitable<item>, public game_object<item>
         /**
          * Puts the given item into this one, no checks are performed.
          */
-        void put_in( item &payload );
+        void put_in( detached_ptr<item> payload );
 
         /**
          * Returns this item into its default container. If it does not have a default container,
          * returns this. It's intended to be used like \code newitem = newitem.in_its_container();\endcode
          */
-        item &in_its_container();
-        item &in_container( const itype_id &container_type );
+        detached_ptr<item> in_its_container();
+        detached_ptr<item> in_container( const itype_id &container_type );
         /*@}*/
 
         bool item_has_uses_recursive() const;
@@ -1489,14 +1475,14 @@ class item : public visitable<item>, public game_object<item>
         /** returs read-only set of flags of this item (not including flags from item type or gunmods) */
         const FlagsSetType &get_flags() const;
 
-        /** Idempotent filter setting an item specific flag. */
-        item &set_flag( const std::string &flag );
+        /** Sets an item specific flag. */
+        void set_flag( const std::string &flag );
 
-        /** Idempotent filter removing an item specific flag */
-        item &unset_flag( const std::string &flag );
+        /** Removes an item specific flag */
+        void unset_flag( const std::string &flag );
 
-        /** Idempotent filter recursively setting an item specific flag on this item and its components. */
-        item &set_flag_recursive( const std::string &flag );
+        /** Recursively sets an item specific flag on this item and its components. */
+        void set_flag_recursive( const std::string &flag );
 
         /** Removes all item specific flags. */
         void unset_flags();
@@ -2259,8 +2245,8 @@ class item : public visitable<item>, public game_object<item>
         // TODO: Move to private ASAP
         FlagsSetType item_tags; // generic item specific flags
 
-        ItemList remove_components();
-        void add_component( item &comp );
+        std::vector<detached_ptr<item>> remove_components();
+        void add_component( detached_ptr<item> &&comp );
         const ItemList &get_components() const;
         ItemList &get_components();
     private:

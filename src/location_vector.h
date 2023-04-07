@@ -15,20 +15,17 @@ class location_vector
         std::vector<T *> contents;
     public:
 
-        location_vector( std::unique_ptr<location<T>> &&loc ) {
-            this->loc = std::move( loc );
-        }
-
-        void set_location( std::unique_ptr<location<T>> &&loc ) {
-            if( this->loc ) {
-                debugmsg( "Tried to set the location of a vector that already has one." );
-            } else {
-                this->loc = std::move( loc );
+        location_vector( location<T> *loc ) : loc( loc ) {};
+        location_vector( location<T> *loc, std::vector<detached_ptr<T>> &from ) : loc( loc ) {
+            for( detached_ptr<T> &obj : from ) {
+                obj->set_location( &*loc );
+                contents.push_back( &*obj );
+                obj.ptr = nullptr;
             }
-        }
+            from.clear();
+        };
 
         void push_back( detached_ptr<T> &&obj ) {
-            assert( loc );
             T *raw = obj.ptr;
             obj.ptr = nullptr;
             raw->set_location( &*loc );

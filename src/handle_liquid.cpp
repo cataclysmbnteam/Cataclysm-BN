@@ -52,6 +52,7 @@ static void serialize_liquid_source( player_activity &act, const vehicle &veh, c
 
 static void serialize_liquid_source( player_activity &act, const tripoint &pos, const item &liquid )
 {
+    act.targets.push_bac
     const auto stack = get_map().i_at( pos );
     // Need to store the *index* of the item on the ground, but it may be a virtual item from
     // an infinite liquid source.
@@ -153,11 +154,7 @@ bool handle_liquid_from_container( item &container, int radius )
     return handled;
 }
 
-static bool get_liquid_target( item &liquid, item *const source, const int radius,
-                               const tripoint *const source_pos,
-                               const vehicle *const source_veh,
-                               const monster *const source_mon,
-                               liquid_dest_opt &target )
+static bool get_liquid_target( item &liquid, const int radius, liquid_dest_opt &target )
 {
     if( !liquid.made_of( LIQUID ) ) {
         debugmsg( "Tried to handle_liquid a non-liquid!" );
@@ -169,25 +166,13 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
 
     map &here = get_map();
     const std::string liquid_name = liquid.display_name( liquid.charges );
-    if( source_pos != nullptr ) {
-        //~ %1$s: liquid name, %2$s: terrain name
-        menu.text = string_format( pgettext( "liquid", "What to do with the %1$s from %2$s?" ), liquid_name,
-                                   here.name( *source_pos ) );
-    } else if( source_veh != nullptr ) {
-        //~ %1$s: liquid name, %2$s: vehicle name
-        menu.text = string_format( pgettext( "liquid", "What to do with the %1$s from %2$s?" ), liquid_name,
-                                   source_veh->disp_name() );
-    } else if( source_mon != nullptr ) {
-        //~ %1$s: liquid name, %2$s: monster name
-        menu.text = string_format( pgettext( "liquid", "What to do with the %1$s from the %2$s?" ),
-                                   liquid_name, source_mon->get_name() );
-    } else {
-        //~ %s: liquid name
-        menu.text = string_format( pgettext( "liquid", "What to do with the %s?" ), liquid_name );
-    }
+
+    menu.text = string_format( pgettext( "liquid", "What to do with the %1$s from %2$s?" ), liquid_name,
+                               liquid->describe_location() );
+
     std::vector<std::function<void()>> actions;
 
-    if( g->u.can_consume( liquid ) && !source_mon ) {
+    if( g->u.can_consume( liquid ) && liquid.where() != item_location_type::monster ) {
         if( g->u.can_consume_for_bionic( liquid ) ) {
             menu.addentry( -1, true, 'e', _( "Fuel bionic with it" ) );
         } else {
@@ -397,10 +382,7 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
     return transfer_ok;
 }
 
-bool handle_liquid( item &liquid, item *const source, const int radius,
-                    const tripoint *const source_pos,
-                    const vehicle *const source_veh, const int part_num,
-                    const monster *const source_mon )
+bool handle_liquid( item &liquid, const int radius )
 {
     if( liquid.made_of( SOLID ) ) {
         debugmsg( "Tried to handle_liquid a non-liquid!" );

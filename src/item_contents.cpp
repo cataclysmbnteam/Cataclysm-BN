@@ -82,18 +82,6 @@ void item_contents::casings_handle( const std::function<bool( item & )> &func )
 
 void item_contents::clear_items()
 {
-    for( item *&it : items ) {
-        it->remove_location();
-        it->destroy();
-    }
-    items.clear();
-}
-
-void item_contents::empty_items()
-{
-    for( item *&it : items ) {
-        it->remove_location();
-    }
     items.clear();
 }
 
@@ -157,6 +145,16 @@ const std::vector<item *> &item_contents::all_items_top() const
     return items;
 }
 
+
+std::vector<detached_ptr<item>> item_contents::remove_all()
+{
+    std::vector<detached_ptr<item>> ret;
+    items.clear_with( [&ret]( detached_ptr<item> &&it ) {
+        ret.push_back( std::move( it ) );
+    }
+    return std::move( ret );
+}
+
 void item_contents::remove_top( item *it )
 {
     std::vector<item *>::iterator iter = std::find_if( items.begin(),
@@ -165,6 +163,13 @@ void item_contents::remove_top( item *it )
     } );
     it->remove_location();//TODO!: need to make all the other functions here do locations too
     items.erase( iter );
+}
+
+
+std::vector<item *>::iterator item_contents::remove_top( std::vector<item *>::iterator &it )
+{
+    ( *it )->remove_location();
+    return items.erase( it );
 }
 
 std::vector<item *>::iterator item_contents::remove_top( std::vector<item *>::iterator &it )

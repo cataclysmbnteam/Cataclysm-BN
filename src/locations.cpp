@@ -279,7 +279,7 @@ tripoint monster_item_location::position( const item * ) const
 
 item_location_type monster_item_location::where() const
 {
-    return item_location_type::character;//I guess? Monster is not on the list and I want to delete that list not use it more
+    return item_location_type::monster;
 }
 
 int monster_item_location::obtain_cost( const Character &, int, const item * ) const

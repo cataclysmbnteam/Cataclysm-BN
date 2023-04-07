@@ -1246,15 +1246,15 @@ class Character : public Creature, public visitable<Character>
 
         /**
          * Try to pour the given liquid into the given container/vehicle. The transferred charges are
-         * removed from the liquid item. Check the charges of afterwards to see if anything has
+         * removed from the liquid item. Check the return value to see if anything has
          * been transferred at all.
          * The functions do not consume any move points.
          * @return Whether anything has been moved at all. `false` indicates the transfer is not
          * possible at all. `true` indicates at least some of the liquid has been moved.
          */
         /**@{*/
-        bool pour_into( item &container, item &liquid );
-        bool pour_into( vehicle &veh, item &liquid );
+        bool pour_into( item &container, item &liquid, int limit );
+        bool pour_into( vehicle &veh, item &liquid, int limit );
         /**@}*/
 
         /**

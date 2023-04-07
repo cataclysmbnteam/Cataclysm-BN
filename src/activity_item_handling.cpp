@@ -308,7 +308,16 @@ static void stash_on_pet( const ItemList &items, monster &pet, Character &who )
 }
 
 void drop_on_map( Character &c, item_drop_reason reason,
-                  const std::vector<location_ptr<item>> &items,
+                  detached_ptr<item> &&it,
+                  const tripoint &where )
+{
+    std::vector<detached_ptr<item>> vec;
+    vec.push_back( std::move( it ) );
+    drop_on_map( c, reason, vec, where );
+}
+
+void drop_on_map( Character &c, item_drop_reason reason,
+                  std::vector<detached_ptr<item>> &items,
                   const tripoint &where )
 {
     if( items.empty() ) {
@@ -397,13 +406,31 @@ void drop_on_map( Character &c, item_drop_reason reason,
 }
 
 void put_into_vehicle_or_drop( Character &c, item_drop_reason reason,
-                               const std::vector<location_ptr<item>> &items )
+                               detached_ptr<item> &&it )
+{
+    std::vector<detached_ptr<item>> vec;
+    vec.push_back( std::move( it ) );
+    return put_into_vehicle_or_drop( c, reason, vec, c.pos() );
+}
+
+void put_into_vehicle_or_drop( Character &c, item_drop_reason reason,
+                               std::vector<detached_ptr<item>> &items )
 {
     return put_into_vehicle_or_drop( c, reason, items, c.pos() );
 }
 
 void put_into_vehicle_or_drop( Character &c, item_drop_reason reason,
-                               const std::vector<location_ptr<item>> &items,
+                               detached_ptr<item> it,
+                               const tripoint &where, bool force_ground )
+{
+
+    std::vector<detached_ptr<item>> vec;
+    vec.push_back( std::move( it ) );
+    put_into_vehicle_or_drop( c, reason, vec, where, force_ground );
+}
+
+void put_into_vehicle_or_drop( Character &c, item_drop_reason reason,
+                               std::vector<detached_ptr<item>> &items,
                                const tripoint &where, bool force_ground )
 {
     map &here = get_map();

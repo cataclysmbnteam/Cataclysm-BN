@@ -10,6 +10,9 @@ class game_object;
 template <typename T>
 class location_ptr;
 
+template <typename T>
+class location_vector;
+
 template<typename T>
 class detached_ptr
 {
@@ -17,6 +20,7 @@ class detached_ptr
         friend T;
         friend game_object<T>;
         friend location_ptr<T>;
+        friend location_vector<T>;
         T *ptr = nullptr;
     public:
         detached_ptr() {

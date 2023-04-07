@@ -352,10 +352,10 @@ class JsonIn
         //TODO!: not sure this is correct, needs a proper check
         /// Overload for game objects
         template<typename T>
-        auto read( detached_ptr<T> &out, bool throw_on_error = false ) -> decltype( T::_spawn( *this ),
+        auto read( detached_ptr<T> &out, bool throw_on_error = false ) -> decltype( T::spawn( *this ),
                 true ) {
             try {
-                out = T::_spawn( *this );
+                out = T::spawn( *this );
 #if !defined(RELEASE)
                 void **buf = static_cast<void **>( malloc( sizeof( void * ) * 40 ) );
                 backtrace( buf, 40 );
@@ -379,6 +379,25 @@ class JsonIn
             }
             out = std::move( safe_reference<U>( id ) );
             return true;
+        }
+
+        /// Overload for location pointers
+        template<typename U>
+        bool read( location_ptr<U> &out, bool throw_on_error = false ) {
+            try {
+                out = U::spawn( *this );
+#if !defined(RELEASE)
+                void **buf = static_cast<void **>( malloc( sizeof( void * ) * 40 ) );
+                backtrace( buf, 40 );
+                cata_arena<U>::add_debug_entry( &*out, __FILE__, __LINE__, buf );
+#endif
+                return true;
+            } catch( const JsonError & ) {
+                if( throw_on_error ) {
+                    throw;
+                }
+                return false;
+            }
         }
 
         /// Overload for std::pair
@@ -653,6 +672,11 @@ class JsonOut
             }
             *stream << val;
             need_separator = true;
+        }
+
+        template<typename T>
+        void write( const location_ptr<T> &v ) {
+            write( *v );
         }
 
         /// Overload that calls a global function `serialize(const T&,JsonOut&)`, if available.
