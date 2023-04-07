@@ -11,6 +11,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <tuple>
 #include <unordered_map>
@@ -42,7 +43,6 @@
 #include "monster.h"
 #include "mutation.h"
 #include "name.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
@@ -123,7 +123,7 @@ tab_direction set_profession( avatar &u, points_left &points, tab_direction dire
 tab_direction set_skills( avatar &u, points_left &points );
 tab_direction set_description( avatar &you, bool allow_reroll, points_left &points );
 
-static cata::optional<std::string> query_for_template_name();
+static std::optional<std::string> query_for_template_name();
 void reset_scenario( avatar &u, const scenario *scen );
 
 void Character::pick_name( bool bUseDefault )
@@ -2945,7 +2945,7 @@ trait_id newcharacter::random_bad_trait()
     return random_entry( vTraitsBad );
 }
 
-cata::optional<std::string> query_for_template_name()
+std::optional<std::string> query_for_template_name()
 {
     static const std::set<int> fname_char_blacklist = {
 #if defined(_WIN32)
@@ -2973,7 +2973,7 @@ cata::optional<std::string> query_for_template_name()
 
     spop.query_string( true );
     if( spop.canceled() ) {
-        return cata::nullopt;
+        return std::nullopt;
     } else {
         return spop.text();
     }

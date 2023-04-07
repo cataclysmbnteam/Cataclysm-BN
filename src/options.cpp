@@ -842,12 +842,12 @@ int options_manager::cOpt::getIntPos( const int iSearch ) const
     return -1;
 }
 
-cata::optional< std::tuple<int, std::string> > options_manager::cOpt::findInt(
+std::optional< std::tuple<int, std::string> > options_manager::cOpt::findInt(
     const int iSearch ) const
 {
     int i = static_cast<int>( getIntPos( iSearch ) );
     if( i == -1 ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     return mIntValues[i];
 }

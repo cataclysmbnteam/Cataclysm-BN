@@ -111,7 +111,7 @@ void load_mod_info( const std::string &info_file_path, std::vector<MOD_INFORMATI
  * Load mod info from a json object.
  * @throws JsonError on all kind of errors.
  */
-cata::optional<MOD_INFORMATION> load_modfile( const JsonObject &jo, const std::string &path );
+std::optional<MOD_INFORMATION> load_modfile( const JsonObject &jo, const std::string &path );
 
 /**
  * Save mod list to file.
@@ -121,9 +121,9 @@ bool save_mod_list( const t_mod_list &list, const std::string &path );
 
 /**
  * Load mod list from file.
- * @returns cata::nullopt on error.
+ * @returns std::nullopt on error.
  */
-cata::optional<t_mod_list> load_mod_list( const std::string &path );
+std::optional<t_mod_list> load_mod_list( const std::string &path );
 
 /**
  * Get id of default core content pack.

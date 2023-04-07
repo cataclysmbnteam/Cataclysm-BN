@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <list>
 #include <memory>
+#include <optional>
 #include <ostream>
 #include <set>
 #include <string>
@@ -24,7 +25,6 @@
 #include "item_contents.h"
 #include "map_selector.h"
 #include "npc.h"
-#include "optional.h"
 #include "output.h"
 #include "player.h"
 #include "point.h"

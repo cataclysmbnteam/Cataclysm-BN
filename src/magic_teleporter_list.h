@@ -3,11 +3,11 @@
 #define CATA_SRC_MAGIC_TELEPORTER_LIST_H
 
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
 
 #include "coordinates.h"
-#include "optional.h"
 #include "point.h"
 
 class Character;
@@ -21,7 +21,7 @@ class teleporter_list
         std::map<tripoint_abs_omt, std::string> known_teleporters;
         // ui for selection of desired teleport location.
         // returns overmap tripoint, or nullopt if canceled
-        cata::optional<tripoint_abs_omt> choose_teleport_location();
+        std::optional<tripoint_abs_omt> choose_teleport_location();
         // returns true if a teleport is successful
         // does not do any loading or unloading
         bool place_avatar_overmap( Character &you, const tripoint_abs_omt &omt_pt ) const;

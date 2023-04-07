@@ -1983,7 +1983,7 @@ class map
 
         // caches the highest zlevel above which all zlevels are uniform
         // !value || value->first != map::abs_sub means cache is invalid
-        cata::optional<std::pair<tripoint, int>> max_populated_zlev = cata::nullopt;
+        std::optional<std::pair<tripoint, int>> max_populated_zlev = std::nullopt;
 
     public:
         const level_cache &get_cache_ref( int zlev ) const {

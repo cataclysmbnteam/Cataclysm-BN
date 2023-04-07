@@ -5,6 +5,7 @@
 #include <iterator>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <vector>
@@ -26,7 +27,6 @@
 #include "monstergenerator.h"
 #include "mtype.h"
 #include "mutation.h"
-#include "optional.h"
 #include "output.h"
 #include "player.h"
 #include "point.h"
@@ -515,7 +515,7 @@ class wish_monster_callback: public uilist_callback
         ~wish_monster_callback() override = default;
 };
 
-void debug_menu::wishmonster( const cata::optional<tripoint> &p )
+void debug_menu::wishmonster( const std::optional<tripoint> &p )
 {
     std::vector<const mtype *> mtypes;
 
@@ -545,7 +545,7 @@ void debug_menu::wishmonster( const cata::optional<tripoint> &p )
         wmenu.query();
         if( wmenu.ret >= 0 ) {
             const mtype_id &mon_type = mtypes[ wmenu.ret ]->id;
-            if( cata::optional<tripoint> spawn = p ? p : g->look_around( true ) ) {
+            if( std::optional<tripoint> spawn = p ? p : g->look_around( true ) ) {
                 int num_spawned = 0;
                 for( const tripoint &destination : closest_points_first( *spawn, cb.group ) ) {
                     monster *const mon = g->place_critter_at( mon_type, destination );

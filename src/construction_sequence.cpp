@@ -173,7 +173,7 @@ void finalize()
                 continue;
             }
         }
-        cata::optional<construction_sequence_id> conflict_id;
+        std::optional<construction_sequence_id> conflict_id;
         if( !seq.post_terrain.is_empty() ) {
             auto res = sequences_for_ter.emplace( seq.post_terrain, seq.id.id() );
             if( !res.second ) {

@@ -4,11 +4,11 @@
 
 #include <functional>
 #include <map>
+#include <optional>
 #include <vector>
 #include <string>
 
 #include "coordinates.h"
-#include "optional.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "memory_fast.h"
@@ -50,7 +50,7 @@ class editmap
     public:
         tripoint pos2screen( const tripoint &p );
         bool eget_direction( tripoint &p, const std::string &action ) const;
-        cata::optional<tripoint> edit();
+        std::optional<tripoint> edit();
         void uber_draw_ter( const catacurses::window &w, map *m );
         void update_view_with_help( const std::string &txt, const std::string &title );
 

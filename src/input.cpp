@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cctype>
 #include <fstream>
+#include <optional>
 #include <sstream>
 #include <stdexcept>
 #include <array>
@@ -22,7 +23,6 @@
 #include "help.h"
 #include "ime.h"
 #include "json.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
@@ -414,7 +414,7 @@ int input_manager::get_keycode( const std::string &name ) const
 
 std::string input_manager::get_keyname( int ch, input_event_t inp_type, bool portable ) const
 {
-    cata::optional<std::string> raw;
+    std::optional<std::string> raw;
     if( inp_type == CATA_INPUT_KEYBOARD ) {
         const t_key_to_name_map::const_iterator a = keycode_to_keyname.find( ch );
         if( a != keycode_to_keyname.end() ) {
@@ -958,7 +958,7 @@ void rotate_direction_cw( int &dx, int &dy )
     dy = dir_num / 3 - 1;
 }
 
-cata::optional<tripoint> input_context::get_direction( const std::string &action ) const
+std::optional<tripoint> input_context::get_direction( const std::string &action ) const
 {
     static const auto noop = static_cast<tripoint( * )( tripoint )>( []( tripoint p ) {
         return p;
@@ -986,7 +986,7 @@ cata::optional<tripoint> input_context::get_direction( const std::string &action
     } else if( action == "RIGHTDOWN" ) {
         return transform( tripoint_south_east );
     } else {
-        return cata::nullopt;
+        return std::nullopt;
     }
 }
 
@@ -1335,17 +1335,17 @@ bool gamepad_available()
     return false;
 }
 
-cata::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win )
+std::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win )
 {
     if( !coordinate_input_received ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     const point view_size( getmaxx( capture_win ), getmaxy( capture_win ) );
     const point win_min( getbegx( capture_win ),
                          getbegy( capture_win ) );
     const half_open_rectangle<point> win_bounds( win_min, win_min + view_size );
     if( !win_bounds.contains( coordinate ) ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     point view_offset;

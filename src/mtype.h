@@ -3,6 +3,7 @@
 #define CATA_SRC_MTYPE_H
 
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
 #include <vector>
@@ -14,7 +15,6 @@
 #include "enum_bitset.h"
 #include "enums.h"
 #include "mattack_common.h"
-#include "optional.h"
 #include "pathfinding.h"
 #include "translations.h"
 #include "type_id.h"
@@ -333,7 +333,7 @@ struct mtype {
         mtype_id fungalize_into;
 
         // Monster reproduction variables
-        cata::optional<time_duration> baby_timer;
+        std::optional<time_duration> baby_timer;
         int baby_count;
         mtype_id baby_monster;
         itype_id baby_egg;

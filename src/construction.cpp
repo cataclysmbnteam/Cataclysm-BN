@@ -387,7 +387,7 @@ static void favorite_remove( const construction_group_str_id &c )
     uistate.favorite_construct_recipes.erase( c );
 }
 
-cata::optional<construction_id> construction_menu( const bool blueprint )
+std::optional<construction_id> construction_menu( const bool blueprint )
 {
     if( !all_constructions.is_finalized() ) {
         debugmsg( "construction_menu called before finalization" );
@@ -418,7 +418,7 @@ cata::optional<construction_id> construction_menu( const bool blueprint )
     int available_window_width = 0;
     int available_buffer_height = 0;
 
-    cata::optional<construction_id> ret;
+    std::optional<construction_id> ret;
 
     bool update_info = true;
     bool update_cat = true;
@@ -641,7 +641,7 @@ cata::optional<construction_id> construction_menu( const bool blueprint )
         // Determine where in the master list to start printing
         calcStartPos( offset, select, w_list_height, constructs.size() );
         // Print the constructions between offset and max (or how many will fit)
-        cata::optional<point> cursor_pos;
+        std::optional<point> cursor_pos;
         for( size_t i = 0; static_cast<int>( i ) < w_list_height &&
              ( i + offset ) < constructs.size(); i++ ) {
             int current = i + offset;
@@ -1022,7 +1022,7 @@ void place_construction( const construction_group_str_id &group )
     } );
     g->add_draw_callback( draw_valid );
 
-    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Construct where?" ) );
+    const std::optional<tripoint> pnt_ = choose_adjacent( _( "Construct where?" ) );
     if( !pnt_ ) {
         return;
     }

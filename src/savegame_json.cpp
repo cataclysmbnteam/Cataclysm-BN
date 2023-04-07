@@ -17,6 +17,7 @@
 #include <map>
 #include <memory>
 #include <numeric>
+#include <optional>
 #include <set>
 #include <sstream>
 #include <stack>
@@ -83,7 +84,6 @@
 #include "mtype.h"
 #include "npc.h"
 #include "npc_class.h"
-#include "optional.h"
 #include "options.h"
 #include "overmapbuffer.h"
 #include "pickup_token.h"
@@ -2283,7 +2283,7 @@ void item::io( Archive &archive )
     if( note_read ) {
         snip_id = SNIPPET.migrate_hash_to_id( note );
     } else {
-        cata::optional<std::string> snip;
+        std::optional<std::string> snip;
         if( archive.read( "snippet_id", snip ) && snip ) {
             snip_id = snippet_id( snip.value() );
         }
