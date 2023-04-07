@@ -651,8 +651,10 @@ void Messages::dialog::show()
     } else {
         if( filter_str.empty() ) {
             mvwprintz( w, point( border_width, w_height - 1 ), border_color,
-                       _( "< Press %s to filter, %s to reset >" ),
-                       ctxt.get_desc( "FILTER" ), ctxt.get_desc( "RESET_FILTER" ) );
+                       _( "< Press %s to filter, %s to reset, %s or %s to adjust size >" ),
+                       ctxt.get_desc( "FILTER" ), ctxt.get_desc( "RESET_FILTER" ),
+                       ctxt.get_desc( "TOGGLE_WIDE_DISPLAY" ), ctxt.get_desc( "TOGGLE_FULL_HEIGHT_DISPLAY" )
+                     );
         } else {
             mvwprintz( w, point( border_width, w_height - 1 ), border_color, "< %s >", filter_str );
             mvwprintz( w, point( border_width + 2, w_height - 1 ), filter_color, "%s", filter_str );
