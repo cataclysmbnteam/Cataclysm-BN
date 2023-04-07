@@ -771,7 +771,6 @@ void Messages::dialog::run()
 {
     ui_adaptor ui;
     ui.on_screen_resize( [this]( ui_adaptor & ui ) {
-        set_size();
         init( ui );
     } );
     ui.mark_resize();
