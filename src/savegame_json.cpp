@@ -412,7 +412,13 @@ void Character::load( const JsonObject &data )
     data.read( "int_bonus", int_bonus );
     data.read( "omt_path", omt_path );
 
-    data.read( "name", name );
+    std::string new_name;
+    data.read( "name", new_name );
+    if( !new_name.empty() ) {
+        // Bugfix for name not having been saved properly
+        name = new_name;
+    }
+
     data.read( "base_age", init_age );
     data.read( "base_height", init_height );
 
