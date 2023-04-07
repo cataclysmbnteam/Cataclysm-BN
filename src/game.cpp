@@ -2545,10 +2545,11 @@ bool game::load( const save_t &name )
     // Now load up the master game data; factions (and more?)
     load_master();
     u = avatar();
+    u.set_save_id( name.decoded_name() );
+    u.name = name.decoded_name();
     if( !read_from_file( playerpath + SAVE_EXTENSION, std::bind( &game::unserialize, this, _1 ) ) ) {
         return false;
     }
-    u.set_save_id( name.decoded_name() );
 
     u.load_map_memory();
     u.get_avatar_diary()->load();
