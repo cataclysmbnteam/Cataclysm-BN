@@ -16,6 +16,7 @@
 #include "string_utils.h"
 #include "translations.h"
 #include "ui_manager.h"
+#include "uistate.h"
 
 #if defined(__ANDROID__)
 #include <optional>
@@ -398,9 +399,6 @@ static bool msg_type_from_name( game_message_type &type, const std::string &name
 namespace Messages
 {
 
-bool wide_display = false;
-bool full_height_display = false;
-
 // NOLINTNEXTLINE(cata-xy)
 class dialog
 {
@@ -481,8 +479,9 @@ Messages::dialog::dialog()
 
 inline void Messages::dialog::set_size()
 {
-    w_width = std::min( TERMX, static_cast<int>( FULL_SCREEN_WIDTH * ( wide_display ? 1.8 : 1 ) ) );
-    w_height = std::min( TERMY, full_height_display ? TERMY : FULL_SCREEN_HEIGHT );
+    w_width
+        = std::min( TERMX, static_cast<int>( FULL_SCREEN_WIDTH * ( uistate.wide_display ? 1.8 : 1 ) ) );
+    w_height = std::min( TERMY, uistate.full_height_display ? TERMY : FULL_SCREEN_HEIGHT );
     w_x = ( TERMX - w_width ) / 2;
     w_y = ( TERMY - w_height ) / 2;
 }
@@ -758,9 +757,9 @@ void Messages::dialog::input( const ui_adaptor &ui )
             canceled = true;
         } else if( action == "TOGGLE_WIDE_DISPLAY" || action == "TOGGLE_FULL_HEIGHT_DISPLAY" ) {
             if( action == "TOGGLE_WIDE_DISPLAY" ) {
-                wide_display = !wide_display;
+                uistate.wide_display = !uistate.wide_display;
             } else {
-                full_height_display = !full_height_display;
+                uistate.full_height_display = !uistate.full_height_display;
             }
             ui.mark_resize();
         }
