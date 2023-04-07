@@ -157,6 +157,31 @@
         "text": "To go down the stairs, press <key:DEFAULTMODE:LEVEL_DOWN>.  To return back up, press <key:DEFAULTMODE:LEVEL_UP>."
       },
       {
+        "id": "LESSON_TURN_SPEED",
+        "text": "Each turn equals to 1 second.  Every turn, you gain a set amount of moves (action points) depending on your speed, baseline is 100, that you can spend on actions such as movement, attack or interactions.  You can view your speed in character info screen <key:DEFAULTMODE:player_data>."
+      },
+      { "id": "LESSON_WATCH", "text": "Having a time keeping device on you allows seeing precise time." },
+      {
+        "id": "LESSON_TERRAIN_MOVE_SPEED",
+        "text": "Some terrain is faster to traverse than other.  Movement speed may depend on your traits and status, you can check it in character info screen as well."
+      },
+      {
+        "id": "LESSON_MOVEMENT_MODES",
+        "text": "You can switch between movement modes with <key:DEFAULTMODE:open_movement>.  Walking is the default.  Running lets you move faster, but consumes more stamina.  Crouching makes you less noticable, but you move slower and have trouble seeing over high obstacles such as vehicle boards."
+      },
+      {
+        "id": "LESSON_WARMTH",
+        "text": "Besides armor and storage, clothing also provides warmth.  Not enough warmth, and you'll start to get cold, but too much warmth slows you down.  You can check warmth and its penalties in character info screen <key:DEFAULTMODE:player_data>."
+      },
+      {
+        "id": "LESSON_ENCUMBRANCE",
+        "text": "Another important parameter in encumbrance, which represents how much the clothing interferes with your actions.  You can check the penalties' effect in character info screen <key:DEFAULTMODE:player_data>.  You gain additional encumbrance when you wear too much clothing of similar type, or on same layer, or in wrong order.  You can check for conflicts in armor menu <key:DEFAULTMODE:sort_armor>, they will be highlighted in yellow."
+      },
+      {
+        "id": "LESSON_COMPARE_ITEMS",
+        "text": "Eyeballing differences between items may get tedious.  To quickly compare items, press <key:DEFAULTMODE:compare> key.  Different stats will be highlighted with green or red, depending on which item is better."
+      },
+      {
         "id": "LESSON_TUTORIAL_END",
         "text": "Congratulations, you have completed the tutorial!  This world is not intended for normal playthroughs, so you may want to head back to the title screen and start a new game in a proper world.  If you still have questions regarding game mechanics, or would like to learn about mechanics not covered by this tutorial, consider watching Dark Days Ahead guides on YouTube (any from before 2019 should work for Bright Nights) or asking around on our Discord server (link available in the \"README.md\")."
       }
