@@ -21,6 +21,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "messages.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
