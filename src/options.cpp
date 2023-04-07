@@ -1205,6 +1205,13 @@ void options_manager::add_options_general()
         this->add_empty_line( "general" );
     };
 
+    add( "PROMPT_ON_CHARACTER_DEATH", "general", translate_marker( "Prompt on character death" ),
+         translate_marker( "If false, when your character die, it's unavoidable: savefile is automatically deleted and character is put into the graveyard.  If true, on character death the player is prompted to cancel savefile deletion and return to main menu instead." ),
+         false
+       );
+
+    add_empty_line();
+
     add( "DEF_CHAR_NAME", "general", translate_marker( "Default character name" ),
          translate_marker( "Set a default character name that will be used instead of a random name on character creation." ),
          "", 30

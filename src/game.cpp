@@ -2391,6 +2391,12 @@ bool game::is_game_over()
     }
     // is_dead_state() already checks hp_torso && hp_head, no need to for loop it
     if( u.is_dead_state() ) {
+        if( get_option<bool>( "PROMPT_ON_CHARACTER_DEATH" ) &&
+            !query_yn(
+                _( "Your character is dead, do you accept it?\n\nSelect Yes to abandon the character, select No to return to main menu." ) ) ) {
+            return true;
+        }
+
         Messages::deactivate();
         if( get_option<std::string>( "DEATHCAM" ) == "always" ) {
             uquit = QUIT_WATCH;
