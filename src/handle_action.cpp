@@ -1435,6 +1435,7 @@ static void cast_spell()
     if( !can_cast_spells ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You can't cast any of the spells you know!" ) );
+        return;
     }
 
     const int spell_index = u.magic->select_spell( u );
