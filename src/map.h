@@ -1099,6 +1099,8 @@ class map
         void collapse_invalid_suspension( const tripoint &point );
         /** Checks the four orientations in which a suspended tile could be valid, and returns if the tile is valid*/
         bool is_suspension_valid( const tripoint &point );
+        /** Tries to smash the trap at the given tripoint. */
+        void smash_trap( const tripoint &p, const int power, const std::string &cause_message );
         /** Tries to smash the items at the given tripoint. */
         void smash_items( const tripoint &p, int power, const std::string &cause_message, bool do_destroy );
         /**

@@ -436,8 +436,6 @@ static std::map<const Creature *, int> do_blast_new( const tripoint &blast_cente
     std::map<const Creature *, int> blasted;
     std::set<const Creature *> already_flung;
     player *player_flung = nullptr;
-    const auto explode_threshold = get_option<int>( "MADE_OF_EXPLODIUM" );
-    const bool is_explodium = explode_threshold != 0;
 
     for( const dist_point_pair &pair : blast_map ) {
         float distance;
@@ -477,18 +475,9 @@ static std::map<const Creature *, int> do_blast_new( const tripoint &blast_cente
         const int smash_force = raw_blast_force * item_blast_percentage( raw_blast_radius, distance );
         const std::string cause = _( "The force of the explosion" );
 
-        const trap &tr = get_map().tr_at( position );
-        if( is_explodium && smash_force >= explode_threshold && !tr.is_benign() && !tr.is_null() &&
-            tr.vehicle_data.do_explosion ) {
-            // make a fake NPC to trigger the trap
-            npc dummy;
-            dummy.set_fake( true );
-            dummy.name = cause;
-            dummy.setpos( position );
-            tr.trigger( position, &dummy );
-        }
-
-        get_map().smash_items( position, smash_force, cause, true );
+        auto &here = get_map();
+        here.smash_trap( position, smash_force, cause );
+        here.smash_items( position, smash_force, cause, true );
 
         // Critter damage occurs next to reduce the amount of flung enemies, leading to much less predictable damage output
         if( Creature *critter = g->critter_at( position, true ) ) {

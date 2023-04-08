@@ -71,6 +71,7 @@
 #include "monster.h"
 #include "morale_types.h"
 #include "mtype.h"
+#include "npc.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
@@ -3018,6 +3019,34 @@ bool map::is_suspension_valid( const tripoint &point )
     return false;
 }
 
+static bool will_explode_on_impact( const int power )
+{
+    const auto explode_threshold = get_option<int>( "MADE_OF_EXPLODIUM" );
+    const bool is_explodium = explode_threshold != 0;
+
+    return is_explodium && power >= explode_threshold;
+}
+
+void map::smash_trap( const tripoint &p, const int power, const std::string &cause_message )
+{
+    const trap &tr = get_map().tr_at( p );
+    if( tr.is_null() ) {
+        return;
+    }
+
+    const bool is_explosive_trap = !tr.is_benign() && tr.vehicle_data.do_explosion;
+
+    if( !will_explode_on_impact( power ) || !is_explosive_trap ) {
+        return;
+    }
+    // make a fake NPC to trigger the trap
+    npc dummy;
+    dummy.set_fake( true );
+    dummy.name = cause_message;
+    dummy.setpos( p );
+    tr.trigger( p, &dummy );
+}
+
 void map::smash_items( const tripoint &p, const int power, const std::string &cause_message,
                        bool do_destroy )
 {
@@ -3032,8 +3061,6 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
 
     // TODO: Bullets should be pretty much corpse-only
     constexpr const int min_destroy_threshold = 50;
-    const auto explode_threshold = get_option<int>( "MADE_OF_EXPLODIUM" );
-    const bool is_explodium = explode_threshold != 0;
 
     std::vector<item> contents;
     map_stack items = i_at( p );
@@ -3041,7 +3068,7 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
         // detonate them if they can be exploded
         // We need to make a copy because the iterator validity is not predictable
         // see map_field.cpp process_fields_in_submap
-        if( is_explodium && power >= explode_threshold && it->will_explode_in_fire() ) {
+        if( will_explode_on_impact( power ) && it->will_explode_in_fire() ) {
             item copy = *it;
             it = items.erase( it );
             if( copy.detonate( p, contents ) ) {
