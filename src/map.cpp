@@ -3032,6 +3032,8 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
 
     // TODO: Bullets should be pretty much corpse-only
     constexpr const int min_destroy_threshold = 50;
+    const auto explode_threshold = get_option<int>( "MADE_OF_EXPLODIUM" );
+    const bool is_explodium = explode_threshold != 0;
 
     std::vector<item> contents;
     map_stack items = i_at( p );
@@ -3039,7 +3041,7 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
         // detonate them if they can be exploded
         // We need to make a copy because the iterator validity is not predictable
         // see map_field.cpp process_fields_in_submap
-        if( it->will_explode_in_fire() ) {
+        if( is_explodium && power >= explode_threshold && it->will_explode_in_fire() ) {
             item copy = *it;
             it = items.erase( it );
             if( copy.detonate( p, contents ) ) {

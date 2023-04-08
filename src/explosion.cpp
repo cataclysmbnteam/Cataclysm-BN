@@ -436,6 +436,8 @@ static std::map<const Creature *, int> do_blast_new( const tripoint &blast_cente
     std::map<const Creature *, int> blasted;
     std::set<const Creature *> already_flung;
     player *player_flung = nullptr;
+    const auto explode_threshold = get_option<int>( "MADE_OF_EXPLODIUM" );
+    const bool is_explodium = explode_threshold != 0;
 
     for( const dist_point_pair &pair : blast_map ) {
         float distance;
@@ -476,7 +478,8 @@ static std::map<const Creature *, int> do_blast_new( const tripoint &blast_cente
         const std::string cause = _( "The force of the explosion" );
 
         const trap &tr = get_map().tr_at( position );
-        if( !tr.is_benign() && !tr.is_null() && tr.vehicle_data.do_explosion ) {
+        if( is_explodium && smash_force >= explode_threshold && !tr.is_benign() && !tr.is_null() &&
+            tr.vehicle_data.do_explosion ) {
             // make a fake NPC to trigger the trap
             npc dummy;
             dummy.set_fake( true );
