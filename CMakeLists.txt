@@ -20,7 +20,8 @@ option(SOUND "Support for in-game sounds & music." "OFF")
 option(LUA "Support for in-game scripting with Lua." "OFF")
 option(BACKTRACE "Support for printing stack backtraces on crash" "ON")
 option(LIBBACKTRACE "Print backtrace with libbacktrace." "OFF")
-option(USE_HOME_DIR "Use user's home directory for save files." "ON")
+option(USE_XDG_DIR "Use XDG directories for save and config files." "OFF")
+option(USE_HOME_DIR "Use user's home directory for save and config files." "ON")
 option(USE_PREFIX_DATA_DIR "Use UNIX system directories for game data in release build." "ON")
 set(LANGUAGES
     ""
@@ -213,6 +214,11 @@ if (TILES)
     set(CURSES OFF)
 endif ()
 
+# Can't use both home and xdg directories
+if (USE_XDG_DIR)
+    set(USE_HOME_DIR OFF)
+endif ()
+
 # Set build types and display info
 if ("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
     set(RELEASE 0)
@@ -260,6 +266,7 @@ message(STATUS "LUA                           : ${LUA}")
 message(STATUS "BACKTRACE                     : ${BACKTRACE}")
 message(STATUS "LIBBACKTRACE                  : ${LIBBACKTRACE}")
 message(STATUS "USE_HOME_DIR                  : ${USE_HOME_DIR}\n")
+message(STATUS "USE_XDG_DIR                   : ${USE_XDG_DIR}")
 
 message(STATUS "UNITY_BUILD                   : ${USE_UNITY_BUILD}")
 message(STATUS "PCH_HEADER                    : ${USE_PCH_HEADER}")
@@ -447,6 +454,10 @@ endif()
 # Ok. Now create build and install recipes
 if (USE_HOME_DIR)
     add_definitions(-DUSE_HOME_DIR)
+endif ()
+
+if (USE_XDG_DIR)
+    add_definitions(-DUSE_XDG_DIR)
 endif ()
 
 find_program(CCACHE_FOUND ccache)
