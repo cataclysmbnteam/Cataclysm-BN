@@ -151,9 +151,9 @@ class uistatedata
 
         std::map<ammotype, itype_id> lastreload; // id of ammo last used when reloading ammotype
 
-        // wide and tall display
-        bool wide_display = false;
-        bool full_height_display = false;
+        // Wide and tall display for messages window
+        bool msg_window_wide_display = false;
+        bool msg_window_full_height_display = false;
 
         // internal stuff
         bool _testing_save = true; // internal: whine on json errors. set false if no complaints in 2 weeks.
