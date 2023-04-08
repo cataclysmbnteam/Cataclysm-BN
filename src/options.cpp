@@ -2207,7 +2207,7 @@ void options_manager::add_options_debug()
        );
 
     add( "MADE_OF_EXPLODIUM", "debug", translate_marker( "Made of explodium" ),
-         translate_marker( "If the number is higher than 0, explosive items and traps will detonate when damage exceeds the threshold." ),
+         translate_marker( "If the number is higher than 0, explosive items and traps will detonate when hit by damage exceeding the threshold." ),
          0, 1000, 0 );
 
     add( "OLD_EXPLOSIONS", "debug", translate_marker( "Old explosions system" ),
