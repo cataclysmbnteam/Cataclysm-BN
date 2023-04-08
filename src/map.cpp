@@ -3036,15 +3036,21 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
     std::vector<item> contents;
     map_stack items = i_at( p );
     for( auto it = items.begin(); it != items.end(); ) {
-        // If the power is low or it's not an explosion, only pulp rezing corpses
-        if( ( power < min_destroy_threshold || !do_destroy ) && !it->can_revive() ) {
-            it++;
+        // detonate them if they can be exploded
+        // We need to make a copy because the iterator validity is not predictable
+        // see map_field.cpp process_fields_in_submap
+        if( it->will_explode_in_fire() ) {
+            item copy = *it;
+            it = items.erase( it );
+            if( copy.detonate( p, contents ) ) {
+                // Need to restart, iterators may not be valid
+                it = items.begin();
+            }
             continue;
         }
 
-        // Active explosives arbitrarily get double the destroy threshold
-        bool is_active_explosive = it->active && it->type->get_use( "explosion" ) != nullptr;
-        if( is_active_explosive && it->charges == 0 ) {
+        // If the power is low or it's not an explosion, only pulp rezing corpses
+        if( ( power < min_destroy_threshold || !do_destroy ) && !it->can_revive() ) {
             it++;
             continue;
         }
@@ -3054,8 +3060,7 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
         const float intact_mult = 2.0f -
                                   ( static_cast<float>( it->damage_level( it->max_damage() ) ) / it->max_damage() );
         const float destroy_threshold = min_destroy_threshold
-                                        + material_factor * intact_mult
-                                        + ( is_active_explosive ? min_destroy_threshold : 0 );
+                                        + material_factor * intact_mult;
         // For pulping, only consider material resistance. Non-rezing can only be destroyed.
         const float pulp_threshold = it->can_revive() ? material_factor : destroy_threshold;
         // Active explosives that will explode this turn are indestructible (they are exploding "now")
