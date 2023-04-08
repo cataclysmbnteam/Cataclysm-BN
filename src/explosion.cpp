@@ -21,6 +21,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "color.h"
 #include "creature.h"
 #include "damage.h"
@@ -472,7 +473,19 @@ static std::map<const Creature *, int> do_blast_new( const tripoint &blast_cente
 
         // Item damage comes first in order to prevent dropped loot from being destroyed immediately.
         const int smash_force = raw_blast_force * item_blast_percentage( raw_blast_radius, distance );
-        get_map().smash_items( position, smash_force, _( "force of the explosion" ), true );
+        const std::string cause = _( "The force of the explosion" );
+
+        const trap &tr = get_map().tr_at( position );
+        if( !tr.is_benign() && !tr.is_null() && tr.vehicle_data.do_explosion ) {
+            // make a fake NPC to trigger the trap
+            npc dummy;
+            dummy.set_fake( true );
+            dummy.name = cause;
+            dummy.setpos( position );
+            tr.trigger( position, &dummy );
+        }
+
+        get_map().smash_items( position, smash_force, cause, true );
 
         // Critter damage occurs next to reduce the amount of flung enemies, leading to much less predictable damage output
         if( Creature *critter = g->critter_at( position, true ) ) {
