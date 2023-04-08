@@ -135,7 +135,7 @@ TEST_CASE( "translations_actually_translate", "[translations][i18n]" )
     const std::vector<trans_test_case> test_cases = {{
             { "en_US", "<R|r>andom Character", false },
             { "fr_FR", "Personnage <A|a>léatoire", true },
-            { "ru_RU", "Случайный персонаж", true },
+            { "ru_RU", "<R|r> Случайный персонаж", true },
         }
     };
 
