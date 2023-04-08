@@ -133,13 +133,13 @@ struct trans_test_case {
 TEST_CASE( "translations_actually_translate", "[translations][i18n]" )
 {
     const std::vector<trans_test_case> test_cases = {{
-            { "en_US", "Play <N|n>ow!", false },
-            { "fr_FR", "Jouer <M|m>aintenant!", true },
-            { "ru_RU", "Сразу в игру!", true },
+            { "en_US", "<R|r>andom Character", false },
+            { "fr_FR", "Personnage <A|a>léatoire", true },
+            { "ru_RU", "Случайный персонаж", true },
         }
     };
 
-    const char *test_msgid = "Play <N|n>ow!";
+    const char *test_msgid = "<R|r>andom Character";
     const char *test_msgctx = "Main Menu|New Game";
 
     if( !try_set_utf8_locale() ) {
