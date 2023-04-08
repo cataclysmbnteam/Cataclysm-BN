@@ -59,13 +59,13 @@ jobs:
             native: linux64
             title: Clang 14, Ubuntu, Tiles, NoSound, ASan, UBSan
           - compiler: clang++
-            os: macos-11
+            os: macos-12
             cmake: 0
             tiles: 1
             sound: 1
             native: osx
-            grep_clang_version_rxp: "13\\.[0-9]+\\.[0-9]+"
-            title: Clang 13, macOS 11, Tiles, Localize
+            grep_clang_version_rxp: "14\\.[0-9]+\\.[0-9]+"
+            title: Clang 14, macOS 12, Tiles, Localize
     name: ${{ matrix.title }}
     runs-on: ${{ matrix.os }}
     env:
