@@ -3885,6 +3885,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         damage_message = _( "flying projectile" );
     }
 
+    smash_trap( p, dam, damage_message );
     smash_items( p, dam, damage_message, false );
 }
 
