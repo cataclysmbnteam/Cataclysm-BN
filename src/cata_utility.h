@@ -2,13 +2,17 @@
 #ifndef CATA_SRC_CATA_UTILITY_H
 #define CATA_SRC_CATA_UTILITY_H
 
+#include <algorithm>
+#include <cstddef>
+#include <ctime>
 #include <functional>
 #include <string>
 #include <utility>
 #include <vector>
-#include <algorithm>
 #include <memory>
 #include <type_traits>
+
+#include "enums.h"
 
 /**
  * Greater-than comparison operator; required by the sort interface
@@ -284,5 +288,12 @@ class restore_on_out_of_scope
         }
         // *INDENT-ON*
 };
+
+/**
+ * Get the current holiday based on the given time, or based on current time if time = 0
+ * @param time The timestampt to assess
+ * @param force_refresh Force recalculation of current holiday, otherwise use cached value
+*/
+holiday get_holiday_from_time( std::time_t time = 0, bool force_refresh = false );
 
 #endif // CATA_SRC_CATA_UTILITY_H

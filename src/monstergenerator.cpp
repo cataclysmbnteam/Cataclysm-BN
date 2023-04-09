@@ -3,6 +3,7 @@
 
 #include <algorithm>
 #include <cstdlib>
+#include <optional>
 #include <set>
 #include <utility>
 
@@ -24,7 +25,6 @@
 #include "mondeath.h"
 #include "mondefense.h"
 #include "monfaction.h"
-#include "optional.h"
 #include "options.h"
 #include "pathfinding.h"
 #include "rng.h"

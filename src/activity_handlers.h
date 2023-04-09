@@ -5,11 +5,11 @@
 #include <functional>
 #include <list>
 #include <map>
+#include <optional>
 #include <string>
 #include <unordered_set>
 #include <vector>
 
-#include "optional.h"
 #include "type_id.h"
 
 class Character;
@@ -75,10 +75,10 @@ struct activity_reason_info {
     //is it possible to do this
     bool can_do;
     //construction index
-    cata::optional<construction_id> con_idx;
+    std::optional<construction_id> con_idx;
 
     activity_reason_info( do_activity_reason reason_, bool can_do_,
-                          const cata::optional<construction_id> &con_idx_ = cata::nullopt ) :
+                          const std::optional<construction_id> &con_idx_ = std::nullopt ) :
         reason( reason_ ),
         can_do( can_do_ ),
         con_idx( con_idx_ )

@@ -17,6 +17,7 @@
 #include <map>
 #include <memory>
 #include <numeric>
+#include <optional>
 #include <set>
 #include <sstream>
 #include <stack>
@@ -83,7 +84,6 @@
 #include "mtype.h"
 #include "npc.h"
 #include "npc_class.h"
-#include "optional.h"
 #include "options.h"
 #include "overmapbuffer.h"
 #include "pickup_token.h"
@@ -412,6 +412,13 @@ void Character::load( const JsonObject &data )
     data.read( "int_bonus", int_bonus );
     data.read( "omt_path", omt_path );
 
+    std::string new_name;
+    data.read( "name", new_name );
+    if( !new_name.empty() ) {
+        // Bugfix for name not having been saved properly
+        name = new_name;
+    }
+
     data.read( "base_age", init_age );
     data.read( "base_height", init_height );
 
@@ -667,6 +674,8 @@ void Character::store( JsonOut &json ) const
     json.member( "dex_bonus", dex_bonus );
     json.member( "per_bonus", per_bonus );
     json.member( "int_bonus", int_bonus );
+
+    json.member( "name", name );
 
     json.member( "base_age", init_age );
     json.member( "base_height", init_height );
@@ -1423,7 +1432,6 @@ void npc::load( const JsonObject &data )
     time_point companion_mission_t_r = calendar::start_of_cataclysm;
     std::string act_id;
 
-    data.read( "name", name );
     data.read( "marked_for_death", marked_for_death );
     data.read( "dead", dead );
     data.read( "patience", patience );
@@ -1638,7 +1646,6 @@ void npc::store( JsonOut &json ) const
 {
     player::store( json );
 
-    json.member( "name", name );
     json.member( "marked_for_death", marked_for_death );
     json.member( "dead", dead );
     json.member( "patience", patience );
@@ -2279,7 +2286,7 @@ void item::io( Archive &archive )
     if( note_read ) {
         snip_id = SNIPPET.migrate_hash_to_id( note );
     } else {
-        cata::optional<std::string> snip;
+        std::optional<std::string> snip;
         if( archive.read( "snippet_id", snip ) && snip ) {
             snip_id = snippet_id( snip.value() );
         }
@@ -4291,6 +4298,8 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "bionic_ui_sort_mode", bionic_sort_mode );
     json.member( "overmap_debug_weather", overmap_debug_weather );
     json.member( "overmap_visible_weather", overmap_visible_weather );
+    json.member( "msg_window_wide_display", msg_window_wide_display );
+    json.member( "msg_window_full_height_display", msg_window_full_height_display );
 
     json.member( "input_history" );
     json.start_object();
@@ -4339,6 +4348,8 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "bionic_ui_sort_mode", bionic_sort_mode );
     jo.read( "overmap_debug_weather", overmap_debug_weather );
     jo.read( "overmap_visible_weather", overmap_visible_weather );
+    jo.read( "msg_window_wide_display", msg_window_wide_display );
+    jo.read( "msg_window_full_height_display", msg_window_full_height_display );
 
     if( !jo.read( "vmenu_show_items", vmenu_show_items ) ) {
         // This is an old save: 1 means view items, 2 means view monsters,

@@ -3,12 +3,12 @@
 #define CATA_SRC_ITEM_GROUP_H
 
 #include <memory>
+#include <optional>
 #include <string>
 #include <vector>
 #include <utility>
 #include <set>
 
-#include "optional.h"
 #include "item.h"
 #include "type_id.h"
 
@@ -229,7 +229,7 @@ class Single_item_creator : public Item_spawn_data
          */
         std::string id;
         Type type;
-        cata::optional<Item_modifier> modifier;
+        std::optional<Item_modifier> modifier;
 
         void inherit_ammo_mag_chances( int ammo, int mag );
 

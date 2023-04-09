@@ -2,10 +2,10 @@
 #ifndef CATA_SRC_SKILL_BOOST_H
 #define CATA_SRC_SKILL_BOOST_H
 
+#include <optional>
 #include <string>
 #include <vector>
 
-#include "optional.h"
 #include "string_id.h"
 
 class JsonObject;
@@ -25,7 +25,7 @@ class skill_boost
         static void reset();
 
         static const std::vector<skill_boost> &get_all();
-        static cata::optional<skill_boost> get( const std::string &stat_str );
+        static std::optional<skill_boost> get( const std::string &stat_str );
 
     private:
         friend class generic_factory<skill_boost>;

@@ -4,7 +4,6 @@
 
 #include <map>
 #include <vector>
-#include "cata_void.h"
 #include "json.h"
 #include "units.h"
 
@@ -18,11 +17,11 @@
  * Similarly, if it can use a += operator against it's own type, the non-dummy
  * handle_relative template is constructed.
  */
-template<typename T, typename = cata::void_t<>>
+template<typename T, typename = std::void_t<>>
 struct supports_relative : std::false_type { };
 
 template<typename T>
-struct supports_relative < T, cata::void_t < decltype( std::declval<T &>() += std::declval<T &>() )
+struct supports_relative < T, std::void_t < decltype( std::declval<T &>() += std::declval<T &>() )
 >> : std::true_type {};
 
 // Explicitly specialize these templates for a couple types

@@ -9,6 +9,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <stdexcept>
 #include <unordered_map>
@@ -51,7 +52,6 @@
 #include "mongroup.h"
 #include "npc.h"
 #include "omdata.h"
-#include "optional.h"
 #include "options.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
@@ -183,7 +183,7 @@ void map::generate( const tripoint &p, const time_point &when )
             if( !spawn_details.name ) {
                 continue;
             }
-            if( const cata::optional<tripoint> pt =
+            if( const std::optional<tripoint> pt =
             random_point( *this, [this]( const tripoint & n ) {
             return passable( n );
             } ) ) {
@@ -1528,21 +1528,19 @@ class jmapgen_make_rubble : public jmapgen_piece
 {
     public:
         furn_id rubble_type = f_rubble;
-        bool items = false;
         ter_id floor_type = t_dirt;
         bool overwrite = false;
         jmapgen_make_rubble( const JsonObject &jsi ) {
             if( jsi.has_string( "rubble_type" ) ) {
                 rubble_type = furn_id( jsi.get_string( "rubble_type" ) );
             }
-            jsi.read( "items", items );
             if( jsi.has_string( "floor_type" ) ) {
                 floor_type = ter_id( jsi.get_string( "floor_type" ) );
             }
             jsi.read( "overwrite", overwrite );
         }
         void apply( mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y ) const override {
-            dat.m.make_rubble( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ), rubble_type, items,
+            dat.m.make_rubble( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ), rubble_type,
                                floor_type, overwrite );
         }
 };
@@ -1614,8 +1612,8 @@ class jmapgen_sealed_item : public jmapgen_piece
     public:
         furn_id furniture;
         jmapgen_int chance;
-        cata::optional<jmapgen_spawn_item> item_spawner;
-        cata::optional<jmapgen_item_group> item_group_spawner;
+        std::optional<jmapgen_spawn_item> item_spawner;
+        std::optional<jmapgen_item_group> item_group_spawner;
         jmapgen_sealed_item( const JsonObject &jsi )
             : furniture( jsi.get_string( "furniture" ) )
             , chance( jsi, "chance", 100, 100 ) {
@@ -4009,7 +4007,7 @@ void map::draw_lab( mapgendata &dat )
                     if( ( ( j <= tw || i >= rw ) && i >= j && ( EAST_EDGE - i ) <= j ) ||
                         ( ( j >= bw || i <= lw ) && i <= j && ( SOUTH_EDGE - j ) <= i ) ) {
                         if( one_in( 5 ) ) {
-                            make_rubble( tripoint( i,  j, abs_sub.z ), f_rubble_rock, true,
+                            make_rubble( tripoint( i,  j, abs_sub.z ), f_rubble_rock,
                                          t_slime );
                         } else if( !one_in( 5 ) ) {
                             ter_set( point( i, j ), t_slime );
@@ -4868,12 +4866,10 @@ void map::draw_mine( mapgendata &dat )
                 for( int i = wreck_location.x - 3; i < wreck_location.x + 3; i++ ) {
                     for( int j = wreck_location.y - 3; j < wreck_location.y + 3; j++ ) {
                         if( !one_in( 4 ) ) {
-                            make_rubble( tripoint( i, j, abs_sub.z ), f_wreckage, true );
+                            make_rubble( tripoint( i, j, abs_sub.z ), f_wreckage );
                         }
                     }
                 }
-                place_items( item_group_id( "wreckage" ), 70, wreck_location + point( -3, -3 ),
-                             wreck_location + point( 2, 2 ), false, calendar::start_of_cataclysm );
             }
             break;
 
@@ -6370,9 +6366,6 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
                 for( int j = c.y - 5; j <= c.y + 5; j++ ) {
                     if( furn( point( i, j ) ) == f_rubble ) {
                         add_field( {i, j, abs_sub.z}, fd_push_items, 1 );
-                        if( one_in( 3 ) ) {
-                            spawn_item( point( i, j ), "rock" );
-                        }
                     }
                 }
             }
