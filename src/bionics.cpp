@@ -1633,7 +1633,7 @@ void Character::process_bionic( bionic &bio )
                     return is_kcal_sufficient && is_power_sufficient;
                 };
                 std::vector<effect *> mending_list = get_all_effects_of_type( effect_mending );
-                for( const bodypart_id &bp : get_all_body_parts() ) {
+                for( const bodypart_id &bp : get_all_body_parts( true ) ) {
                     const int hp_cur = get_part_hp_cur( bp );
                     if( !is_limb_broken( bp ) && hp_cur < get_part_hp_max( bp ) ) {
                         damaged_hp_parts.push_back( bp );
