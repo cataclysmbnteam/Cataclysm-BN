@@ -68,7 +68,7 @@
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 10,
     "range": 20,
-    "damage": { "damage_type": "bullet", "amount": 16 },
+    "damage": { "damage_type": "heat", "amount": 16 },
     "dispersion": 200,
     "recoil": 100,
     "drop": "handflare_lit",
