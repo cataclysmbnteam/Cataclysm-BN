@@ -4,6 +4,8 @@
  * Parses cataclysm JSON files.
  */
 
+import { walk } from "https://deno.land/std@0.182.0/fs/walk.ts"
+import { asynciter } from "https://deno.land/x/asynciter@0.0.15/asynciter.ts"
 import { z } from "https://deno.land/x/zod@v3.20.5/mod.ts"
 import { match, P } from "npm:ts-pattern"
 
@@ -59,3 +61,20 @@ export const genericCataTransformer =
           .otherwise(() => x)
       )
   }
+
+export type Entry = { path: string; text: string }
+export const readRecursively = async (path: string) =>
+  match({ path, ...(await Deno.stat(path)) })
+    .with(
+      { isFile: true, path: P.when((x) => x.endsWith(".json")) },
+      async () => asynciter([{ path, text: await Deno.readTextFile(path) }]),
+    )
+    .with({ isDirectory: true }, async () =>
+      asynciter(walk(path, { exts: [".json"] }))
+        .concurrentUnorderedMap(async ({ path }) => ({
+          path,
+          text: await Deno.readTextFile(path),
+        })))
+    .otherwise(() => {
+      throw new Error(`path ${path} is neither JSON file nor directory`)
+    })

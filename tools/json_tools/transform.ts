@@ -1,6 +1,8 @@
 import { walk } from "https://deno.land/std@0.178.0/fs/walk.ts"
 import { asynciter } from "https://deno.land/x/asynciter@0.0.15/asynciter.ts"
 import { match, P } from "npm:ts-pattern"
+import { readRecursively } from "./parse.ts"
+import { timeit } from "./timeit.ts"
 
 /** clone an object with single key replaced.
  *  not very efficient, but at least it's purely functional (when looked at from the outside)
@@ -23,24 +25,11 @@ export const removeObjectKey = <T extends object, K extends keyof T>(
 export type Transformer = (text: string) => unknown[]
 
 export const applyRecursively = (transformer: Transformer) => async (path: string) => {
-  const apply = async (path: string) => {
-    const text = await Deno.readTextFile(path)
-    const migrated = JSON.stringify(transformer(text), null, 2)
+  const entries = await readRecursively(path)
 
-    await Deno.writeTextFile(path, migrated)
-  }
-
-  return match({ path, ...(await Deno.stat(path)) })
-    .with({ isFile: true, path: P.when((x) => x.endsWith(".json")) }, () => apply(path))
-    .with(
-      { isDirectory: true },
-      () => {
-        asynciter(walk(path, { exts: [".json"] }))
-          .concurrentUnorderedMap(async ({ path }) => apply(path))
-          .collect()
-      },
+  await asynciter(entries)
+    .concurrentUnorderedMap(({ path, text }) =>
+      Deno.writeTextFile(path, JSON.stringify(transformer(text), null, 2))
     )
-    .otherwise(() => {
-      throw new Error(`path ${path} is neither JSON file nor directory`)
-    })
+    .collect()
 }
