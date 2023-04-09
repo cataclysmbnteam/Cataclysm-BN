@@ -122,7 +122,7 @@
     "price_postapoc": 100,
     "material": "wheat",
     "volume": "250 ml",
-    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
+    "flags": [ "EATEN_HOT" ],
     "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ] ]
   },
   {
@@ -234,7 +234,7 @@
     "primary_material": "wheat",
     "volume": "250 ml",
     "charges": 2,
-    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 1,
     "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ] ]
   },
@@ -255,7 +255,6 @@
     "material": "wheat",
     "volume": "250 ml",
     "charges": 2,
-    "flags": [ "EDIBLE_FROZEN" ],
     "vitamins": [ [ "calcium", 2 ], [ "iron", 15 ] ],
     "stack_size": 20,
     "fun": -1
@@ -277,7 +276,7 @@
     "material": "wheat",
     "volume": "250 ml",
     "charges": 10,
-    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 3,
     "vitamins": [ [ "vitA", 1 ], [ "calcium", 11 ], [ "iron", 9 ] ]
   },

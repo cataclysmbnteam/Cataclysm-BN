@@ -223,7 +223,6 @@
     "primary_material": "powder",
     "volume": "250 ml",
     "cooks_like": "milk",
-    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 4,
     "vitamins": [ [ "vitA", 3 ], [ "vitB", 2 ], [ "vitC", 1 ], [ "calcium", 7 ] ],
     "fun": -5

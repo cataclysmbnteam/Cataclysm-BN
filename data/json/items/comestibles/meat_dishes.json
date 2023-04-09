@@ -319,8 +319,7 @@
     "description": "Dehydrated fish flakes.  With proper storage, this dried food will remain edible for an incredibly long time.",
     "price": 500,
     "price_postapoc": 250,
-    "volume": "125 ml",
-    "flags": [ "EDIBLE_FROZEN" ]
+    "volume": "125 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -1164,8 +1163,7 @@
     "price_postapoc": 300,
     "material": "flesh",
     "primary_material": "cured_meat",
-    "volume": "125 ml",
-    "flags": [ "EDIBLE_FROZEN" ]
+    "volume": "125 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -1277,7 +1275,6 @@
     "price_postapoc": 10,
     "material": "flesh",
     "volume": "125 ml",
-    "flags": [ "EDIBLE_FROZEN" ],
     "fun": -4
   },
   {

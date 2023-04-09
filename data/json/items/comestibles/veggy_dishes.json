@@ -30,8 +30,7 @@
     "volume": "250 ml",
     "milling": { "into": "flour", "conversion_rate": 15 },
     "fun": -14,
-    "vitamins": [  ],
-    "flags": [ "EDIBLE_FROZEN" ]
+    "vitamins": [  ]
   },
   {
     "type": "COMESTIBLE",
@@ -260,7 +259,6 @@
     "price_postapoc": 25,
     "material": [ "veggy", "powder" ],
     "volume": "250 ml",
-    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 10,
     "fun": -5
   },
@@ -304,7 +302,6 @@
     "primary_material": "dried_vegetable",
     "volume": "250 ml",
     "cooks_like": "rice_cooked",
-    "flags": [ "EDIBLE_FROZEN" ],
     "milling": { "into": "flour", "conversion_rate": 3 },
     "charges": 3,
     "vitamins": [ [ "iron", 3 ] ],
@@ -658,7 +655,6 @@
     "material": "veggy",
     "primary_material": "dried_vegetable",
     "volume": "250 ml",
-    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 2
   },
   {
@@ -709,7 +705,6 @@
     "price": 220,
     "price_postapoc": 100,
     "volume": "125 ml",
-    "flags": [ "EDIBLE_FROZEN" ],
     "fun": -2
   },
   {
@@ -821,8 +816,7 @@
     "use_action": "POISON",
     "description": "Pieces of alien mushroom that have been dried to prevent them from rotting away.  It will still poison you if you eat this.",
     "price": 0,
-    "price_postapoc": 0,
-    "flags": [ "EDIBLE_FROZEN" ]
+    "price_postapoc": 0
   },
   {
     "type": "COMESTIBLE",

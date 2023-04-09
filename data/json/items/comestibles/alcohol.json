@@ -374,7 +374,7 @@
     "price_postapoc": 250,
     "material": "alcohol",
     "volume": "250 ml",
-    "flags": [ "UNSAFE_CONSUME", "EDIBLE_FROZEN" ],
+    "flags": [ "UNSAFE_CONSUME" ],
     "freezing_point": 0,
     "phase": "liquid",
     "charges": 7,
@@ -1036,7 +1036,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 6,
-    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD", "EDIBLE_FROZEN" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "fun": 8,
     "vitamins": [ [ "vitC", 20 ] ],
     "freezing_point": -22
@@ -1065,7 +1065,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 6,
-    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD", "EDIBLE_FROZEN" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "fun": -12,
     "vitamins": [ [ "vitC", 20 ] ],
     "freezing_point": -22

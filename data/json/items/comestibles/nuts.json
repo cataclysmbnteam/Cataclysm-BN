@@ -17,7 +17,7 @@
     "price_postapoc": 600,
     "material": "nut",
     "volume": "250 ml",
-    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "NUTRIENT_OVERRIDE" ],
     "charges": 4,
     "vitamins": [ [ "iron", 9 ] ],
     "fun": 2
@@ -59,7 +59,7 @@
     "price_postapoc": 600,
     "material": "nut",
     "volume": "250 ml",
-    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW", "SMOKABLE" ],
+    "flags": [ "NUTRIENT_OVERRIDE", "RAW", "SMOKABLE" ],
     "smoking_result": "pistachio_roasted",
     "charges": 4,
     "vitamins": [ [ "vitA", 1 ], [ "vitC", 1 ], [ "calcium", 3 ], [ "iron", 7 ] ],
@@ -73,7 +73,7 @@
     "healthy": 2,
     "description": "A handful of roasted nuts from a pistachio tree.",
     "price": 150,
-    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 3
   },
   {
@@ -94,7 +94,7 @@
     "price_postapoc": 600,
     "material": "nut",
     "volume": "250 ml",
-    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW", "SMOKABLE" ],
+    "flags": [ "NUTRIENT_OVERRIDE", "RAW", "SMOKABLE" ],
     "smoking_result": "almond_roasted",
     "vitamins": [ [ "calcium", 6 ], [ "iron", 6 ] ],
     "charges": 4,
@@ -116,7 +116,6 @@
     "price_postapoc": 50,
     "material": "nut",
     "volume": "125 ml",
-    "flags": [ "EDIBLE_FROZEN" ],
     "fun": -8
   },
   {
@@ -128,7 +127,7 @@
     "description": "A handful of roasted nuts from an almond tree.",
     "price": 150,
     "price_postapoc": 600,
-    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 3
   },
   {
@@ -149,7 +148,7 @@
     "price_postapoc": 600,
     "material": "nut",
     "volume": "250 ml",
-    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "NUTRIENT_OVERRIDE" ],
     "charges": 4,
     "vitamins": [ [ "calcium", 1 ], [ "iron", 12 ] ],
     "fun": 3
@@ -172,7 +171,7 @@
     "price_postapoc": 600,
     "material": "nut",
     "volume": "250 ml",
-    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW", "SMOKABLE" ],
+    "flags": [ "NUTRIENT_OVERRIDE", "RAW", "SMOKABLE" ],
     "smoking_result": "pecan_roasted",
     "charges": 4,
     "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ] ],
@@ -185,7 +184,7 @@
     "copy-from": "pecan",
     "description": "A handful of roasted nuts from a pecan tree.",
     "price": 150,
-    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 3
   },
   {
@@ -206,7 +205,7 @@
     "price_postapoc": 600,
     "material": "nut",
     "volume": "250 ml",
-    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW" ],
+    "flags": [ "NUTRIENT_OVERRIDE", "RAW" ],
     "charges": 4,
     "vitamins": [ [ "calcium", 1 ], [ "iron", 3 ] ],
     "fun": 3
@@ -228,7 +227,7 @@
     "price_postapoc": 400,
     "material": "nut",
     "volume": "250 ml",
-    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW" ],
+    "flags": [ "NUTRIENT_OVERRIDE", "RAW" ],
     "vitamins": [ [ "vitC", 5 ], [ "iron", 9 ] ],
     "charges": 4
   },
@@ -247,7 +246,7 @@
     "description": "A handful of raw hard nuts from a walnut tree.",
     "price": 0,
     "price_postapoc": 600,
-    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW", "SMOKABLE" ],
+    "flags": [ "NUTRIENT_OVERRIDE", "RAW", "SMOKABLE" ],
     "smoking_result": "walnut_roasted",
     "material": "nut",
     "volume": "250 ml",
@@ -263,7 +262,7 @@
     "healthy": 1,
     "description": "A handful of roasted nuts from a walnut tree.",
     "price": 90,
-    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 1
   },
   {
@@ -281,7 +280,7 @@
     "description": "A handful of raw hard nuts from a chestnut tree.",
     "price": 0,
     "price_postapoc": 100,
-    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW", "SMOKABLE" ],
+    "flags": [ "NUTRIENT_OVERRIDE", "RAW", "SMOKABLE" ],
     "smoking_result": "chestnut_roasted",
     "material": "nut",
     "charges": 4,
@@ -297,7 +296,7 @@
     "healthy": 1,
     "description": "A handful of roasted nuts from a chestnut tree.",
     "price": 90,
-    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 1
   },
   {
@@ -315,7 +314,7 @@
     "description": "A handful of raw hard nuts from a hazelnut tree.",
     "price": 0,
     "price_postapoc": 500,
-    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW", "SMOKABLE" ],
+    "flags": [ "NUTRIENT_OVERRIDE", "RAW", "SMOKABLE" ],
     "smoking_result": "hazelnut_roasted",
     "material": "nut",
     "volume": "250 ml",
@@ -340,7 +339,7 @@
     "price_postapoc": 600,
     "material": "nut",
     "volume": "250 ml",
-    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "EATEN_HOT" ],
+    "flags": [ "NUTRIENT_OVERRIDE", "EATEN_HOT" ],
     "charges": 4,
     "vitamins": [ [ "calcium", 8 ], [ "iron", 4 ] ],
     "fun": 4
@@ -362,7 +361,7 @@
     "price_postapoc": 500,
     "material": "nut",
     "volume": "250 ml",
-    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "EATEN_HOT" ],
+    "flags": [ "NUTRIENT_OVERRIDE", "EATEN_HOT" ],
     "charges": 4,
     "vitamins": [ [ "calcium", 8 ], [ "iron", 4 ] ],
     "fun": 4
@@ -375,7 +374,7 @@
     "healthy": 1,
     "description": "A handful of roasted nuts from a hazelnut tree.",
     "price": 90,
-    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 1
   },
   {
@@ -393,7 +392,7 @@
     "description": "A handful of raw hard nuts from a hickory tree.",
     "price": 0,
     "price_postapoc": 200,
-    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW", "SMOKABLE" ],
+    "flags": [ "NUTRIENT_OVERRIDE", "RAW", "SMOKABLE" ],
     "smoking_result": "hickory_nut_roasted",
     "material": "nut",
     "volume": "250 ml",
@@ -410,7 +409,7 @@
     "description": "A handful of roasted nuts from a hickory tree.",
     "price": 90,
     "price_postapoc": 500,
-    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 1
   },
   {
@@ -453,7 +452,7 @@
     "price_postapoc": 200,
     "material": "nut",
     "volume": "250 ml",
-    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW", "SMOKABLE" ],
+    "flags": [ "NUTRIENT_OVERRIDE", "RAW", "SMOKABLE" ],
     "smoking_result": "acorn_roasted",
     "charges": 4,
     "vitamins": [ [ "calcium", 1 ], [ "iron", 2 ] ],
@@ -468,7 +467,7 @@
     "description": "A handful roasted nuts from an oak tree.",
     "price": 90,
     "price_postapoc": 200,
-    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 1
   },
   {
