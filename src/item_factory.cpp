@@ -995,6 +995,7 @@ void Item_factory::init()
     add_iuse( "REMOVE_ALL_MODS", &iuse::remove_all_mods );
     add_iuse( "REPORT_GRID_CHARGE", &iuse::report_grid_charge );
     add_iuse( "REPORT_GRID_CONNECTIONS", &iuse::report_grid_connections );
+    add_iuse( "MODIFY_GRID_CONNECTIONS", &iuse::modify_grid_connections );
     add_iuse( "RM13ARMOR_OFF", &iuse::rm13armor_off );
     add_iuse( "RM13ARMOR_ON", &iuse::rm13armor_on );
     add_iuse( "ROBOTCONTROL", &iuse::robotcontrol );
@@ -1187,6 +1188,12 @@ void Item_factory::check_definitions() const
         for( const auto &f : type->faults ) {
             if( !f.is_valid() ) {
                 msg += string_format( "invalid item fault %s\n", f.c_str() );
+            }
+        }
+
+        for( const weapon_category_id &cat_id : type->weapon_category ) {
+            if( !cat_id.is_valid() ) {
+                msg += string_format( "invalid weapon category: %s\n", cat_id.c_str() );
             }
         }
 
@@ -2437,6 +2444,10 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         jo.read( "repairs_like", def.repairs_like );
     }
 
+    if( jo.has_member( "weapon_category" ) ) {
+        optional( jo, true, "weapon_category", def.weapon_category, auto_flags_reader<weapon_category_id> {} );
+    }
+
     if( jo.has_member( "damage_states" ) ) {
         auto arr = jo.get_array( "damage_states" );
         def.damage_min_ = arr.get_int( 0 ) * itype::damage_scale;
@@ -2553,9 +2564,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         set_properties_from_json( jo, "properties", def );
     }
 
-    for( auto &s : jo.get_tags( "techniques" ) ) {
-        def.techniques.insert( matec_id( s ) );
-    }
+    assign( jo, "techniques", def.techniques );
 
     set_use_methods_from_json( jo, "use_action", def.use_methods );
 

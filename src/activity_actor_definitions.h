@@ -26,7 +26,6 @@ class aim_activity_actor : public activity_actor
         std::vector<tripoint> fin_trajectory;
 
     public:
-        bool first_turn = true;
         std::string action = "";
         int aif_duration = 0; // Counts aim-and-fire duration
         bool aiming_at_critter = false; // Whether aiming at critter or a tile
@@ -37,6 +36,10 @@ class aim_activity_actor : public activity_actor
         bool aborted = false;
         /** RELOAD_AND_SHOOT weapon is kept loaded by the activity */
         bool loaded_RAS_weapon = false;
+        /* Item location for RAS weapon reload */
+        item_location reload_loc = item_location();
+        /** if true abort if no targets are available when re-entering aiming ui after shooting */
+        bool abort_if_no_targets = false;
         /**
          * Target UI requested to abort aiming and reload weapon
          * Implies aborted = true

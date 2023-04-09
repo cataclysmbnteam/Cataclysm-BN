@@ -1061,6 +1061,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_recharge_station",
+    "name": "Place Recharging Station"
+  },
+  {
+    "type": "construction_group",
     "id": "place_electric_forge",
     "name": "Place Electric Forge"
   },
@@ -1228,11 +1233,6 @@
     "type": "construction_group",
     "id": "remove_an_empty_window_frame",
     "name": "Remove an empty window frame"
-  },
-  {
-    "type": "construction_group",
-    "id": "remove_carpet",
-    "name": "Remove Carpet"
   },
   {
     "type": "construction_group",

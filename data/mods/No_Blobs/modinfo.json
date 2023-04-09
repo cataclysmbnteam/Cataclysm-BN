@@ -1,0 +1,23 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "No_Blobs",
+    "name": "No Blobs",
+    "description": "Removes all slime blobs from the game.",
+    "category": "monster_exclude",
+    "dependencies": [ "bn" ]
+  },
+  {
+    "type": "MONSTER_BLACKLIST",
+    "monsters": [ "mon_blob", "mon_blob_brain", "mon_blob_large", "mon_blob_small", "mon_gelatin", "mon_zombie_hollow" ]
+  },
+  {
+    "type": "ITEM_BLACKLIST",
+    "items": [ "canister_goo" ]
+  },
+  {
+    "type": "region_overlay",
+    "regions": [ "all" ],
+    "overmap_feature_flag_settings": { "blacklist": [ "SLIME" ] }
+  }
+]

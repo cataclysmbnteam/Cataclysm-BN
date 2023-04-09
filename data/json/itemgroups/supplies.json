@@ -432,14 +432,20 @@
   {
     "id": "file_room",
     "type": "item_group",
-    "items": [ [ "file", 99 ], [ "file", 99 ], [ "record_accounting", 10 ], [ "paper", 80 ], [ "safe_box", 1 ] ]
+    "items": [
+      [ "file", 99 ],
+      [ "file", 99 ],
+      [ "record_accounting", 10 ],
+      { "item": "paper", "prob": 80, "charges": [ 40, 60 ] },
+      [ "safe_box", 1 ]
+    ]
   },
   {
     "id": "office_mess",
     "type": "item_group",
     "items": [
       [ "file", 99 ],
-      [ "paper", 60 ],
+      { "item": "paper", "prob": 60, "charges": [ 40, 60 ] },
       [ "laptop", 2 ],
       [ "inhaler", 1 ],
       [ "mbag", 2 ],
@@ -475,7 +481,7 @@
     "id": "office_supplies",
     "type": "item_group",
     "items": [
-      [ "paper", 100 ],
+      { "item": "paper", "prob": 100, "charges": [ 40, 60 ] },
       [ "permanent_marker", 35 ],
       [ "file", 15 ],
       [ "duct_tape", 15 ],

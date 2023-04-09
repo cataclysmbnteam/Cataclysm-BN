@@ -2,6 +2,7 @@
   {
     "id": "svs-24",
     "type": "GUN",
+    "copy-from": "rifle_auto",
     "reload_noise_volume": 10,
     "symbol": "(",
     "color": "dark_gray",
@@ -188,6 +189,7 @@
   {
     "id": "wrist_dread",
     "type": "GUN",
+    "weapon_category": [ "SUBMACHINE_GUNS", "AUTOLOADING" ],
     "reload_noise_volume": 10,
     "symbol": "(",
     "color": "dark_gray",
