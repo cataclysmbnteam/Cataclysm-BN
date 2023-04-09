@@ -1,6 +1,7 @@
-import { diff, Flaggable, flaggable, flagsStripTransformer, removeFlags } from "./remove_flag.ts"
+import { diff, Flaggable, flaggable, removeFlags } from "./remove_flag.ts"
 import { assertEquals } from "https://deno.land/std@0.182.0/testing/asserts.ts"
 import { match } from "npm:ts-pattern"
+import { genericCataTransformer } from "./parse.ts";
 
 const cases = [
   {
@@ -110,9 +111,9 @@ Deno.test("removing EDIBLE_FROZEN from dry_fish", async (t) => {
   })
 
   await t.step("flagsStripTransformer", () => {
-    const transformer = flagsStripTransformer(flagFn)
+    const transformer = genericCataTransformer(flaggable)(flagFn)
     const applied = transformer(JSON.stringify(dry_fish))
-    const expected = JSON.stringify([expectedFish], null, 2)
+    const expected = [expectedFish]
     assertEquals(applied, expected)
   })
 })

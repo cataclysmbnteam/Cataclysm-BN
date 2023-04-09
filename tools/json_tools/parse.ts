@@ -1,3 +1,9 @@
+/**
+ * @file
+ *
+ * Parses cataclysm JSON files.
+ */
+
 import { z } from "https://deno.land/x/zod@v3.20.5/mod.ts"
 import { match, P } from "npm:ts-pattern"
 
@@ -6,13 +12,6 @@ export const id = <T>(x: T): T => x
 
 /** most common form of cataEntry. */
 const jsonEntries = z.array(z.unknown())
-
-/**
- * parse a json string into an array of unknown.
- * supports both array and single object.
- */
-export const parseCataJsonFile = async (path: string): Promise<unknown[]> =>
-  parseCataJson(await Deno.readTextFile(path))
 
 /** parses cataclysm JSON. wraps single object into array. */
 export const parseCataJson = (text: string): unknown[] => {
@@ -23,7 +22,40 @@ export const parseCataJson = (text: string): unknown[] => {
     .otherwise(() => [rawJson])
 }
 
-/** extract all elements from a json array that match a given schema. */
-export const filterSchema = <T extends z.ZodTypeAny>(schema: T): z.ZodArray<T> =>
-  z.unknown().array()
-    .transform((xs) => xs.filter((x) => schema.safeParse(x).success)) as unknown as z.ZodArray<T>
+type ObjectSchema = z.ZodObject<z.ZodRawShape>
+
+/**
+ * wraps a schema to return data in same order as passed.
+ *
+ * @link https://github.com/colinhacks/zod/discussions/1852#discussioncomment-4658084
+ */
+export const orderPreservingSchema = <Schema extends ObjectSchema>(
+  schema: Schema,
+) => z.custom<z.infer<Schema>>((value) => schema.safeParse(value).success)
+
+/** function that will transform given entry into output.
+ * its output should not be used as input to other functions.
+ */
+export type CataJsonEntryFn<Schema extends ObjectSchema> = (obj: z.infer<Schema>) => unknown
+
+/**
+ * applies a function to all json entries that match a given schema.
+ * order of unmatched entries is preserved.
+ *
+ * probably handles 90% of use cases.
+ *
+ * @param fn function that will transform entry satisfying schema.
+ * @param text raw json string to parse.
+ */
+export const genericCataTransformer =
+  <Schema extends ObjectSchema>(schema: Schema) =>
+  (fn: CataJsonEntryFn<Schema>) =>
+  (text: string): unknown[] => {
+    const preservingSchema = orderPreservingSchema(schema)
+    return parseCataJson(text)
+      .map((x) =>
+        match(preservingSchema.safeParse(x))
+          .with({ success: true, data: P.select() }, fn)
+          .otherwise(() => x)
+      )
+  }
