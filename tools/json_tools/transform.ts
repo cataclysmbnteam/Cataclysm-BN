@@ -1,13 +1,17 @@
 import { walk } from "https://deno.land/std@0.178.0/fs/walk.ts"
 import { asynciter } from "https://deno.land/x/asynciter@0.0.15/asynciter.ts"
 import { match, P } from "npm:ts-pattern"
-import { readRecursively } from "./parse.ts"
+import { Entry, readRecursively } from "./parse.ts"
 import { timeit } from "./timeit.ts"
 
 /** clone an object with single key replaced.
  *  not very efficient, but at least it's purely functional (when looked at from the outside)
  */
-export const structuredReplace = <T, V>(obj: T, key: keyof T, value: V) => {
+export const structuredReplace = <T extends object, K extends keyof T, V>(
+  obj: T,
+  key: K,
+  value: V,
+) => {
   const copy = structuredClone(obj)
   copy[key] = value
   return copy
@@ -24,9 +28,8 @@ export const removeObjectKey = <T extends object, K extends keyof T>(
 
 export type Transformer = (text: string) => unknown[]
 
-export const applyRecursively = (transformer: Transformer) => async (path: string) => {
-  const entries = await readRecursively(path)
-
+/** Apply same transformation to all JSON files recursively in given directory. */
+export const applyRecursively = (transformer: Transformer) => async (entries: Entry[]) => {
   await asynciter(entries)
     .concurrentUnorderedMap(({ path, text }) =>
       Deno.writeTextFile(path, JSON.stringify(transformer(text), null, 2))

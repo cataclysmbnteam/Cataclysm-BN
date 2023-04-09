@@ -62,19 +62,32 @@ export const genericCataTransformer =
       )
   }
 
+type ToEntry = (path: string) => Promise<Entry>
+const toEntry: ToEntry = async (path) => ({ path, text: await Deno.readTextFile(path) })
+
+/** lightweight file system entry with file path and text content. */
 export type Entry = { path: string; text: string }
-export const readRecursively = async (path: string) =>
-  match({ path, ...(await Deno.stat(path)) })
+
+/** recursively reads all JSON files from given directory. */
+type ReadDirRecursively = (root: string) => () => Promise<Entry[]>
+const readDirRecursively: ReadDirRecursively = (root) => async () =>
+  asynciter(walk(root, { exts: [".json"] }))
+    .concurrentUnorderedMap(async ({ path }) => toEntry(path))
+    .collect()
+
+/**
+ * recursively reads all JSON files from given path.
+ *
+ * @param root path to file or directory.
+ */
+export type ReadRecursively = (root: string) => Promise<Entry[]>
+export const readRecursively: ReadRecursively = async (root) =>
+  match({ root, ...(await Deno.stat(root)) })
     .with(
-      { isFile: true, path: P.when((x) => x.endsWith(".json")) },
-      async () => asynciter([{ path, text: await Deno.readTextFile(path) }]),
+      { isFile: true, root: P.when((x) => x.endsWith(".json")) },
+      async () => [await toEntry(root)],
     )
-    .with({ isDirectory: true }, async () =>
-      asynciter(walk(path, { exts: [".json"] }))
-        .concurrentUnorderedMap(async ({ path }) => ({
-          path,
-          text: await Deno.readTextFile(path),
-        })))
+    .with({ isDirectory: true }, readDirRecursively(root))
     .otherwise(() => {
-      throw new Error(`path ${path} is neither JSON file nor directory`)
+      throw new Error(`path ${root} is neither JSON file nor directory`)
     })

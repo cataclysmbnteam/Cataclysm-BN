@@ -5,7 +5,7 @@ import { Command } from "https://deno.land/x/cliffy@v0.25.7/command/mod.ts"
 
 import { match } from "npm:ts-pattern"
 
-import { genericCataTransformer } from "./parse.ts"
+import { genericCataTransformer, readRecursively } from "./parse.ts"
 import { applyRecursively, structuredReplace } from "./transform.ts"
 import { timeit } from "./timeit.ts"
 
@@ -39,7 +39,10 @@ const main = () =>
     .arguments("<flags...>")
     .action(async ({ path, lint }, ...flags) => {
       const transformer = genericCataTransformer(flaggable)(removeFlags(diff(flags)))
-      await timeit("stripping flags")(applyRecursively(transformer)(path))
+      const recursiveTransformer = applyRecursively(transformer)
+      const entries = await readRecursively(path)
+
+      await timeit("stripping flags")(recursiveTransformer(entries))
 
       if (!lint) return
       await timeit("linting")(
