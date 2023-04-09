@@ -7,7 +7,7 @@ import { match } from "npm:ts-pattern"
 
 import { genericCataTransformer } from "./parse.ts"
 import { applyRecursively, structuredReplace } from "./transform.ts"
-import { bench } from "./bench.ts"
+import { timeit } from "./timeit.ts"
 
 export type Flaggable = z.infer<typeof flaggable>
 export const flaggable = z.object({ flags: z.string().array() }).passthrough()
@@ -31,7 +31,6 @@ export const removeFlags: RemoveFlags = (diff) => (obj) => {
 
 const main = () =>
   new Command()
-    .name("./tools/json_tools/gunmod/run_migration.ts")
     .description(`
       completely removes given list of flags from all json files in given path
     `)
@@ -40,10 +39,10 @@ const main = () =>
     .arguments("<flags...>")
     .action(async ({ path, lint }, ...flags) => {
       const transformer = genericCataTransformer(flaggable)(removeFlags(diff(flags)))
-      await bench("stripping flags")(applyRecursively(transformer)(path))
+      await timeit("stripping flags")(applyRecursively(transformer)(path))
 
       if (!lint) return
-      await bench("linting")(
+      await timeit("linting")(
         Deno.run({ cmd: ["make", "style-all-json-parallel"], stdout: "null", stderr: "null" })
           .status(),
       )

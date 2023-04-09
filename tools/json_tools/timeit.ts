@@ -10,7 +10,7 @@ import { c, p } from "https://deno.land/x/copb@v1.0.1/mod.ts"
 import { match, P } from "npm:ts-pattern"
 
 /** wait for a promise and log how long it took. */
-export const bench = (name: string) => async <T>(val: Promise<T>) => {
+export const timeit = (name: string) => async <T>(val: Promise<T>) => {
   const start = performance.now()
   const result = await val
   const end = performance.now()
