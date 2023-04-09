@@ -1602,9 +1602,7 @@ void Character::process_bionic( bionic &bio )
     } else if( bio.id == bio_nanobots ) {
         int threshold_kcal = bio.info().kcal_trigger > 0 ? 0.85f * max_stored_kcal() +
                              bio.info().kcal_trigger : 0;
-        std::vector<bodypart_id> bleeding_bp_parts;
         std::vector<bodypart_id> damaged_hp_parts;
-        std::vector<bodypart_id> mending_bp_parts;
         if( get_stored_kcal() < threshold_kcal ) {
             bio.powered = false;
             add_msg_if_player( m_warning, _( "Your %s shut down to conserve calories." ), bio.info().name );
@@ -1612,22 +1610,20 @@ void Character::process_bionic( bionic &bio )
             return;
         }
         if( calendar::once_every( 30_turns ) ) {
-            for( const bodypart_id &bp : get_all_body_parts() ) {
-                if( has_effect( effect_bleed, bp.id() ) ) {
-                    bleeding_bp_parts.push_back( bp );
-                }
-            }
+            std::vector<effect *> bleeding_list = get_all_effects_of_type( effect_bleed );
             // Essential parts (Head/Torso) first.
-            std::sort( bleeding_bp_parts.begin(), bleeding_bp_parts.end(),
-            []( const bodypart_id & a, const bodypart_id & b ) {
-                return a->essential > b->essential;
+            std::sort( bleeding_list.begin(), bleeding_list.end(),
+            []( effect * a, effect * b ) {
+                return a->get_bp()->essential > b->get_bp()->essential;
             } );
-            if( !bleeding_bp_parts.empty() ) {
-                effect &e = get_effect( effect_bleed, bleeding_bp_parts[0]->token );
-                if( e.get_intensity() > 1 ) {
-                    e.mod_intensity( -1, false );
+            if( !bleeding_list.empty() ) {
+                effect *e = bleeding_list[0];
+                if( e->get_intensity() > 1 ) {
+                    add_msg_if_player( "Your %s slow the bleeding on your %s", bio.info().name, e->get_bp()->name );
+                    e->mod_intensity( -1, false );
                 } else {
-                    remove_effect( effect_bleed, bleeding_bp_parts[0]->token );
+                    add_msg_if_player( "Your %s staunch the bleeding on your %s", bio.info().name, e->get_bp()->name );
+                    e->set_removed();
                 }
             }
             if( calendar::once_every( 1_minutes ) ) {
@@ -1636,13 +1632,11 @@ void Character::process_bionic( bionic &bio )
                     const bool is_power_sufficient = get_power_level() >= bio.info().power_trigger;
                     return is_kcal_sufficient && is_power_sufficient;
                 };
+                std::vector<effect *> mending_list = get_all_effects_of_type( effect_mending );
                 for( const bodypart_id &bp : get_all_body_parts() ) {
                     const int hp_cur = get_part_hp_cur( bp );
                     if( !is_limb_broken( bp ) && hp_cur < get_part_hp_max( bp ) ) {
                         damaged_hp_parts.push_back( bp );
-                    } else if( has_effect( effect_mending, bp.id() ) &&
-                               ( has_trait( trait_REGEN_LIZ ) || worn_with_flag( "SPLINT", bp ) ) ) {
-                        mending_bp_parts.push_back( bp );
                     }
                 }
                 if( !damaged_hp_parts.empty() ) {
@@ -1651,22 +1645,20 @@ void Character::process_bionic( bionic &bio )
                         return ( get_part_hp_cur( a ) - a->essential * 10 ) < ( get_part_hp_cur( b ) - b->essential * 10 );
                     } );
                     for( bodypart_id &bpid : damaged_hp_parts ) {
-                        if( can_use_bionic() ) {
-                            heal( bpid, 1 );
-                            mod_power_level( -bio.info().power_trigger );
-                            mod_stored_kcal( -bio.info().kcal_trigger );
-                        } else {
-                            return;
-                        }
-                    }
-                }
-                if( !mending_bp_parts.empty() ) {
-                    for( bodypart_id &bpid : mending_bp_parts ) {
                         if( !can_use_bionic() ) {
                             return;
                         }
-                        effect &eff = get_effect( effect_mending, bpid->token );
-                        eff.mod_duration( eff.get_max_duration() / 100 );
+                        heal( bpid, 1 );
+                        mod_power_level( -bio.info().power_trigger );
+                        mod_stored_kcal( -bio.info().kcal_trigger );
+                    }
+                }
+                if( !mending_list.empty() ) {
+                    for( effect *e : mending_list ) {
+                        if( !can_use_bionic() ) {
+                            return;
+                        }
+                        e->mod_duration( e->get_max_duration() / 100 );
                         mod_power_level( -bio.info().power_trigger );
                         mod_stored_kcal( -bio.info().kcal_trigger );
                     }
