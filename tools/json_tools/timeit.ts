@@ -9,8 +9,8 @@ import {
 import { c, p } from "https://deno.land/x/copb@v1.0.1/mod.ts"
 import { match, P } from "npm:ts-pattern"
 
-/** wait for a promise and log how long it took. */
-export const timeit = (name: string) => async <T>(val: Promise<T>) => {
+/** wait for a promise and log how long it took. also returns time it took. */
+export const timeitVerbose = (name: string) => async <T>(val: Promise<T>) => {
   const start = performance.now()
   const result = await val
   const end = performance.now()
@@ -24,3 +24,7 @@ export const timeit = (name: string) => async <T>(val: Promise<T>) => {
   console.log(color(`${name} took ${ms}ms`))
   return { result, ms }
 }
+
+/** wait for a promise and log how long it took. */
+export const timeit = (name: string) => async <T>(val: Promise<T>) =>
+  timeitVerbose(name)(val).then(({ result }) => result)
