@@ -2208,7 +2208,7 @@ void options_manager::add_options_debug()
 
     add( "MADE_OF_EXPLODIUM", "debug", translate_marker( "Made of explodium" ),
          translate_marker( "If the number is higher than 0, explosive items and traps will detonate when hit by damage exceeding the threshold." ),
-         0, 1000, 0 );
+         0, 1000, 30 );
 
     add( "OLD_EXPLOSIONS", "debug", translate_marker( "Old explosions system" ),
          translate_marker( "If true, disables new raycasting based explosive system in favor of old system.  With new system obstacles (impassable terrain, furniture or vehicle parts) will block shrapnel, while blast will bash obstacles and throw creatures outward.  If obstacles are destroyed, blast continues outward." ),
