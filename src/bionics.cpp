@@ -1662,14 +1662,13 @@ void Character::process_bionic( bionic &bio )
                 }
                 if( !mending_bp_parts.empty() ) {
                     for( bodypart_id &bpid : mending_bp_parts ) {
-                        if( can_use_bionic() ) {
-                            effect &eff = get_effect( effect_mending, bpid->token );
-                            eff.mod_duration( eff.get_max_duration() / 100 );
-                            mod_power_level( -bio.info().power_trigger );
-                            mod_stored_kcal( -bio.info().kcal_trigger );
-                        } else {
+                        if( !can_use_bionic() ) {
                             return;
                         }
+                        effect &eff = get_effect( effect_mending, bpid->token );
+                        eff.mod_duration( eff.get_max_duration() / 100 );
+                        mod_power_level( -bio.info().power_trigger );
+                        mod_stored_kcal( -bio.info().kcal_trigger );
                     }
                 }
             }
