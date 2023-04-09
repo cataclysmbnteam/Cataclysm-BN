@@ -41,6 +41,8 @@ struct bionic_data {
     units::energy power_over_time = 0_kJ;
     /** Power cost when the bionic's special effect is triggered */
     units::energy power_trigger = 0_kJ;
+    /** Kcal cost when the bionic's special effect is triggered */
+    int kcal_trigger = 0;
     /** How often a bionic draws or produces power while active in turns */
     int charge_time = 0;
     /** Power bank size **/

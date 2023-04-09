@@ -1007,6 +1007,8 @@ class repair_item_actor : public iuse_actor
 class heal_actor : public iuse_actor
 {
     public:
+        /** "Value" of an essential part, ie, how much priority it gets for healing.*/
+        const int essential_value = 10;
         /** How much hp to restore when healing limbs? */
         float limb_power = 0;
         /** How much hp to restore when healing head? */

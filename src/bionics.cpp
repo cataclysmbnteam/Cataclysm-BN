@@ -292,6 +292,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string src )
     assign( jsobj, "deact_cost", power_deactivate, strict, 0_kJ );
     assign( jsobj, "react_cost", power_over_time, strict, 0_kJ );
     assign( jsobj, "trigger_cost", power_trigger, strict, 0_kJ );
+    assign( jsobj, "kcal_trigger_cost", kcal_trigger, strict, 0 );
     assign( jsobj, "time", charge_time, strict, 0 );
     assign( jsobj, "capacity", capacity, strict, 0_kJ );
     assign( jsobj, "included", included, strict );
@@ -1599,7 +1600,8 @@ void Character::process_bionic( bionic &bio )
         sounds::sound( pos(), 19, sounds::sound_t::activity, _( "HISISSS!" ), false, "bionic",
                        static_cast<std::string>( bio_hydraulics ) );
     } else if( bio.id == bio_nanobots ) {
-        int threshold_kcal = 0.85f * max_stored_kcal();
+        int threshold_kcal = bio.info().kcal_trigger > 0 ? 0.85f * max_stored_kcal() +
+                             bio.info().kcal_trigger : 0;
         std::vector<bodypart_id> bleeding_bp_parts;
         std::vector<bodypart_id> damaged_hp_parts;
         std::vector<bodypart_id> mending_bp_parts;
@@ -1629,9 +1631,14 @@ void Character::process_bionic( bionic &bio )
                 }
             }
             if( calendar::once_every( 1_minutes ) ) {
+                const auto can_use_bionic = [this, &bio, threshold_kcal]() -> bool {
+                    const bool is_kcal_sufficient = get_stored_kcal() >= threshold_kcal;
+                    const bool is_power_sufficient = get_power_level() >= bio.info().power_trigger;
+                    return is_kcal_sufficient && is_power_sufficient;
+                };
                 for( const bodypart_id &bp : get_all_body_parts() ) {
                     const int hp_cur = get_part_hp_cur( bp );
-                    if( hp_cur > 0 && hp_cur < get_part_hp_max( bp ) ) {
+                    if( !is_limb_broken( bp ) && hp_cur < get_part_hp_max( bp ) ) {
                         damaged_hp_parts.push_back( bp );
                     } else if( has_effect( effect_mending, bp.id() ) &&
                                ( has_trait( trait_REGEN_LIZ ) || worn_with_flag( "SPLINT", bp ) ) ) {
@@ -1643,24 +1650,26 @@ void Character::process_bionic( bionic &bio )
                     [this]( const bodypart_id & a, const bodypart_id & b ) {
                         return ( get_part_hp_cur( a ) - a->essential * 10 ) < ( get_part_hp_cur( b ) - b->essential * 10 );
                     } );
-                    int i = 0;
-                    while( get_stored_kcal() >= 0.85f * max_stored_kcal() + 5 &&
-                           get_power_level() >= bio.info().power_trigger && i < static_cast<int>( damaged_hp_parts.size() ) ) {
-                        heal( damaged_hp_parts[i], 1 );
-                        mod_power_level( -bio.info().power_trigger );
-                        mod_stored_kcal( -5 );
-                        i++;
+                    for( bodypart_id &bpid : damaged_hp_parts ) {
+                        if( can_use_bionic() ) {
+                            heal( bpid, 1 );
+                            mod_power_level( -bio.info().power_trigger );
+                            mod_stored_kcal( -bio.info().kcal_trigger );
+                        } else {
+                            return;
+                        }
                     }
                 }
                 if( !mending_bp_parts.empty() ) {
-                    int i = 0;
-                    while( get_stored_kcal() >= 0.85f * max_stored_kcal() + 5 &&
-                           get_power_level() >= bio.info().power_trigger && i < static_cast<int>( mending_bp_parts.size() ) ) {
-                        effect &eff = get_effect( effect_mending, mending_bp_parts[i]->token );
-                        eff.mod_duration( eff.get_max_duration() / 100 );
-                        mod_power_level( -bio.info().power_trigger );
-                        mod_stored_kcal( -5 );
-                        i++;
+                    for( bodypart_id &bpid : mending_bp_parts ) {
+                        if( can_use_bionic() ) {
+                            effect &eff = get_effect( effect_mending, bpid->token );
+                            eff.mod_duration( eff.get_max_duration() / 100 );
+                            mod_power_level( -bio.info().power_trigger );
+                            mod_stored_kcal( -bio.info().kcal_trigger );
+                        } else {
+                            return;
+                        }
                     }
                 }
             }
