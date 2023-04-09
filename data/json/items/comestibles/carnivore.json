@@ -54,7 +54,7 @@
     "type": "COMESTIBLE",
     "name": "large human stomach",
     "description": "The stomach of a large humanoid creature.  It is surprisingly durable.",
-    "proportional": { "weight": 2.0, "volume": 2.0, "price": 1.5, "calories": 2.0 }
+    "proportional": { "weight": 2, "volume": 2, "price": 1.5, "calories": 2 }
   },
   {
     "id": "human_fat",
@@ -241,7 +241,7 @@
     "type": "COMESTIBLE",
     "name": "raw offal",
     "description": "Offal is uncooked internal organs and entrails.  It's filled with essential vitamins, but most people consider it a bit gross unless very carefully prepared.",
-    "proportional": { "parasites": 2.0 },
+    "proportional": { "parasites": 2 },
     "price_postapoc": 25,
     "delete": { "flags": [ "SMOKABLE" ] },
     "relative": { "vitamins": [ [ "vitA", 5 ], [ "iron", 4 ] ], "fun": -5 }
@@ -320,7 +320,7 @@
     "type": "COMESTIBLE",
     "name": "large stomach",
     "description": "The stomach of a large woodland creature.  It is surprisingly durable.",
-    "proportional": { "weight": 2.0, "volume": 2.0, "price": 1.5, "calories": 2.0 }
+    "proportional": { "weight": 2, "volume": 2, "price": 1.5, "calories": 2 }
   },
   {
     "id": "jerky",
@@ -361,7 +361,7 @@
     "price_postapoc": 250,
     "quench": -5,
     "fun": 4,
-    "proportional": { "price": 2.0, "volume": 0.345, "weight": 0.345 },
+    "proportional": { "price": 2, "volume": 0.345, "weight": 0.345 },
     "delete": { "flags": [ "RAW" ] }
   },
   {
@@ -709,7 +709,7 @@
     "copy-from": "small_stomach_boiled",
     "name": "large boiled stomach",
     "description": "A boiled stomach from an animal, nothing else.  It looks all but appetizing.",
-    "proportional": { "price": 2.0, "calories": 2.0, "volume": 2.0, "weight": 2.0 },
+    "proportional": { "price": 2, "calories": 2, "volume": 2, "weight": 2 },
     "fun": -5
   },
   {
