@@ -2,6 +2,7 @@
 
 #include <cstdlib>
 #include <algorithm>
+#include <optional>
 #include <queue>
 #include <set>
 #include <array>
@@ -14,7 +15,6 @@
 #include "debug.h"
 #include "map.h"
 #include "mapdata.h"
-#include "optional.h"
 #include "submap.h"
 #include "trap.h"
 #include "veh_type.h"

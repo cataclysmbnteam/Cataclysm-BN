@@ -9,6 +9,7 @@
 #include <iterator>
 #include <list>
 #include <memory>
+#include <optional>
 #include <type_traits>
 
 #include "action.h"
@@ -56,7 +57,6 @@
 #include "morale_types.h"
 #include "mutation.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
@@ -743,7 +743,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only )
         add_msg_activate();
         add_msg_if_player( m_info, _( "You can now run faster, assisted by joint servomotors." ) );
     } else if( bio.id == bio_lighter ) {
-        const cata::optional<tripoint> pnt = choose_adjacent( _( "Start a fire where?" ) );
+        const std::optional<tripoint> pnt = choose_adjacent( _( "Start a fire where?" ) );
         if( pnt && here.is_flammable( *pnt ) ) {
             add_msg_activate();
             here.add_field( *pnt, fd_fire, 1 );
@@ -774,7 +774,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only )
             add_effect( effect_adrenaline, 20_minutes );
         }
     } else if( bio.id == bio_emp ) {
-        if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Create an EMP where?" ) ) ) {
+        if( const std::optional<tripoint> pnt = choose_adjacent( _( "Create an EMP where?" ) ) ) {
             add_msg_activate();
             explosion_handler::emp_blast( *pnt );
             mod_moves( -100 );
@@ -867,7 +867,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only )
     } else if( bio.id == bio_lockpick ) {
         bool used = false;
         bool tried_lockpick = false;
-        const cata::optional<tripoint> pnt = choose_adjacent( _( "Use your lockpick where?" ) );
+        const std::optional<tripoint> pnt = choose_adjacent( _( "Use your lockpick where?" ) );
         std::string open_message;
         if( pnt ) {
             tried_lockpick = true;
@@ -1036,7 +1036,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only )
         }
 
     } else if( bio.id == bio_probability_travel ) {
-        if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Tunnel in which direction?" ) ) ) {
+        if( const std::optional<tripoint> pnt = choose_adjacent( _( "Tunnel in which direction?" ) ) ) {
             if( g->m.impassable( *pnt ) ) {
                 add_msg_activate();
                 g->phasing_move( *pnt );
@@ -1366,7 +1366,7 @@ itype_id Character::find_remote_fuel( bool look_only )
 
     for( const item *cable : cables ) {
 
-        const cata::optional<tripoint> target = cable->get_cable_target( this, pos() );
+        const std::optional<tripoint> target = cable->get_cable_target( this, pos() );
         if( !target ) {
             if( here.is_outside( pos() ) && !is_night( calendar::turn ) &&
                 cable->get_var( "state" ) == "solar_pack_link" ) {
@@ -1418,7 +1418,7 @@ int Character::consume_remote_fuel( int amount )
 
     map &here = get_map();
     for( const item *cable : cables ) {
-        const cata::optional<tripoint> target = cable->get_cable_target( this, pos() );
+        const std::optional<tripoint> target = cable->get_cable_target( this, pos() );
         if( target ) {
             const optional_vpart_position vp = here.veh_at( *target );
             if( !vp ) {
@@ -1474,7 +1474,7 @@ void Character::heat_emission( bionic &bio, int fuel_energy )
 
 float Character::get_effective_efficiency( bionic &bio, float fuel_efficiency )
 {
-    const cata::optional<float> &coverage_penalty = bio.info().coverage_power_gen_penalty;
+    const std::optional<float> &coverage_penalty = bio.info().coverage_power_gen_penalty;
     float effective_efficiency = fuel_efficiency;
     if( coverage_penalty ) {
         int coverage = 0;

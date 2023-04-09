@@ -48,7 +48,6 @@
 #include <algorithm>
 #include <cstdlib>
 #include <exception>
-#include <locale>
 #include <memory>
 #include <sstream>
 #include <string>
@@ -842,12 +841,12 @@ int options_manager::cOpt::getIntPos( const int iSearch ) const
     return -1;
 }
 
-cata::optional< std::tuple<int, std::string> > options_manager::cOpt::findInt(
+std::optional< std::tuple<int, std::string> > options_manager::cOpt::findInt(
     const int iSearch ) const
 {
     int i = static_cast<int>( getIntPos( iSearch ) );
     if( i == -1 ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     return mIntValues[i];
 }
@@ -2207,8 +2206,8 @@ void options_manager::add_options_debug()
          true
        );
 
-    add( "NEW_EXPLOSIONS", "debug", translate_marker( "Rule of Cool explosions" ),
-         translate_marker( "If true, utilizes raycasting based explosive system.  Obstacles (impassable terrain, furniture or vehicle parts) will block shrapnel, while blast will bash obstacles and throw creatures outward.  If obstacles are destroyed, blast continues outward." ),
+    add( "OLD_EXPLOSIONS", "debug", translate_marker( "Old explosions system" ),
+         translate_marker( "If true, disables new raycasting based explosive system in favor of old system.  With new system obstacles (impassable terrain, furniture or vehicle parts) will block shrapnel, while blast will bash obstacles and throw creatures outward.  If obstacles are destroyed, blast continues outward." ),
          false );
 }
 

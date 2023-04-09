@@ -1,6 +1,7 @@
 #include "catch/catch.hpp"
 
 #include <memory>
+#include <optional>
 #include <set>
 #include <sstream>
 #include <string>
@@ -20,7 +21,6 @@
 #include "npc.h"
 #include "npc_class.h"
 #include "numeric_interval.h"
-#include "optional.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_helpers.h"

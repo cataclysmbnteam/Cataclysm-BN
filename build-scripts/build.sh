@@ -21,7 +21,7 @@ then
 elif [ -n "$TEST_STAGE" ]
 then
     build-scripts/lint-json.sh
-    make -j "$num_jobs" style-json
+    make style-all-json-parallel RELEASE=1
 
     tools/dialogue_validator.py data/json/npcs/* data/json/npcs/*/* data/json/npcs/*/*/*
     # Also build chkjson (even though we're not using it), to catch any
@@ -139,7 +139,7 @@ then
         [ -f "${bin_path}cata_test-tiles" ] && run_tests "${bin_path}cata_test-tiles"
     fi
 else
-    if [ "$OS" == "macos-11" ]
+    if [ "$OS" == "macos-12" ]
     then
         export NATIVE=osx
         # if OSX_MIN we specify here is lower than 11 then linker is going
@@ -152,7 +152,7 @@ else
     make -j "$num_jobs" RELEASE=1 CCACHE=1 CROSS="$CROSS_COMPILATION" LANGUAGES="all" LINTJSON=0
 
     export UBSAN_OPTIONS=print_stacktrace=1
-    if [ "$OS" == "macos-11" ]
+    if [ "$OS" == "macos-12" ]
     then
         run_tests ./tests/cata_test
     else

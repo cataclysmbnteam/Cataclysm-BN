@@ -391,7 +391,7 @@ class border_helper
 
             int as_curses_line() const;
         };
-        cata::optional<std::map<point, border_connection>> border_connection_map;
+        std::optional<std::map<point, border_connection>> border_connection_map;
 
         std::forward_list<border_info> border_info_list;
 };

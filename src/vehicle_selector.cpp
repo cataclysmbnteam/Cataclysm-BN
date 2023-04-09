@@ -2,9 +2,9 @@
 
 #include <algorithm>
 #include <memory>
+#include <optional>
 
 #include "map.h"
-#include "optional.h"
 #include "point.h"
 #include "vpart_position.h"
 

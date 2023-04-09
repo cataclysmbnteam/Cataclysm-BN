@@ -6,6 +6,7 @@
 #include <iterator>
 #include <list>
 #include <numeric>
+#include <optional>
 #include <vector>
 
 #include "action.h"
@@ -17,7 +18,6 @@
 #include "fstream_utils.h"
 #include "input.h"
 #include "json.h"
-#include "optional.h"
 #include "output.h"
 #include "path_info.h"
 #include "point.h"

@@ -8,6 +8,7 @@
 #include <limits>
 #include <map>
 #include <memory>
+#include <optional>
 #include <queue>
 #include <random>
 #include <set>
@@ -47,7 +48,6 @@
 #include "mtype.h"
 #include "npc.h"
 #include "options.h"
-#include "optional.h"
 #include "player.h"
 #include "point.h"
 #include "projectile.h"
@@ -830,10 +830,10 @@ void explosion_funcs::regular( const queued_explosion &qe )
     }
 
     if( ex.radius >= 0.0f && ex.damage > 0.0f ) {
-        if( get_option<bool>( "NEW_EXPLOSIONS" ) && !ex.fire ) {
-            damaged_by_blast = do_blast_new( p, ex.damage, ex.radius, qe.source );
-        } else {
+        if( get_option<bool>( "OLD_EXPLOSIONS" ) || ex.fire ) {
             damaged_by_blast = do_blast( p, ex.damage, ex.radius, ex.fire, qe.source );
+        } else {
+            damaged_by_blast = do_blast_new( p, ex.damage, ex.radius, qe.source );
         }
     }
 

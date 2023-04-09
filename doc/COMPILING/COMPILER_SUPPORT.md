@@ -18,11 +18,11 @@ the set of supported compilers should be reviewed when Xenial ceases support in
 
 ## GCC
 
-We support and test gcc from version 5.3.
+We support and test gcc from version 12.
 
 ## Clang
 
-We support and test Clang from version 3.8.
+We support and test Clang from version 14.
 
 ## Mingw and Mingw-w64
 

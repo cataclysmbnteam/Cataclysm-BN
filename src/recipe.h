@@ -5,12 +5,12 @@
 #include <cstddef>
 #include <functional>
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
 #include <vector>
 
-#include "optional.h"
 #include "requirements.h"
 #include "translations.h"
 #include "type_id.h"
@@ -219,7 +219,7 @@ class recipe
         std::set<std::string> flags;
 
         /** If set (zero or positive) set charges of output result for items counted by charges */
-        cata::optional<int> charges;
+        std::optional<int> charges;
 
         // maximum achievable time reduction, as percentage of the original time.
         // if zero then the recipe has no batch crafting time reduction.

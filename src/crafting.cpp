@@ -9,6 +9,7 @@
 #include <limits>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -50,7 +51,6 @@
 #include "messages.h"
 #include "mutation.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "pimpl.h"
@@ -238,11 +238,11 @@ float workbench_crafting_speed_multiplier( const item &craft, const bench_locati
             }
             break;
         case bench_type::vehicle:
-            if( const cata::optional<vpart_reference> vp = here.veh_at(
+            if( const std::optional<vpart_reference> vp = here.veh_at(
                         bench.position ).part_with_feature( "WORKBENCH", true ) ) {
                 // Vehicle workbench
                 const vpart_info &vp_info = vp->part().info();
-                if( const cata::optional<vpslot_workbench> &wb_info = vp_info.get_workbench_info() ) {
+                if( const std::optional<vpslot_workbench> &wb_info = vp_info.get_workbench_info() ) {
                     multiplier = wb_info->multiplier;
                     allowed_mass = wb_info->allowed_mass;
                     allowed_volume = wb_info->allowed_volume;
@@ -515,7 +515,7 @@ std::vector<const item *> player::get_eligible_containers_for_crafting() const
             }
         }
 
-        if( const cata::optional<vpart_reference> vp = here.veh_at( loc ).part_with_feature( "CARGO",
+        if( const std::optional<vpart_reference> vp = here.veh_at( loc ).part_with_feature( "CARGO",
                 true ) ) {
             for( const auto &it : vp->vehicle().get_items( vp->part_index() ) ) {
                 if( is_container_eligible_for_crafting( it, false ) ) {
@@ -672,10 +672,10 @@ static item_location set_item_map( const tripoint &loc, item &newit )
 static item_location set_item_map_or_vehicle( const player &p, const tripoint &loc, item &newit )
 {
     map &here = get_map();
-    if( const cata::optional<vpart_reference> vp = here.veh_at( loc ).part_with_feature( "CARGO",
+    if( const std::optional<vpart_reference> vp = here.veh_at( loc ).part_with_feature( "CARGO",
             false ) ) {
 
-        if( const cata::optional<vehicle_stack::iterator> it = vp->vehicle().add_item( vp->part_index(),
+        if( const std::optional<vehicle_stack::iterator> it = vp->vehicle().add_item( vp->part_index(),
                 newit ) ) {
             p.add_msg_player_or_npc(
                 pgettext( "item, furniture", "You put the %1$s on the %2$s." ),
@@ -1947,7 +1947,7 @@ ret_val<bool> crafting::can_disassemble( const Character &who, const item &obj,
 
 struct disass_prompt_result {
     bool success = false;
-    cata::optional<int> batches;
+    std::optional<int> batches;
     const recipe *r = nullptr;
 };
 
@@ -2313,7 +2313,7 @@ static std::pair<bench_type, float> best_bench_here( const item &craft, const tr
         }
     }
 
-    if( const cata::optional<vpart_reference> vp = g->m.veh_at(
+    if( const std::optional<vpart_reference> vp = g->m.veh_at(
                 loc ).part_with_feature( "WORKBENCH", true ) ) {
         float veh_mult = workbench_crafting_speed_multiplier( craft, bench_location{bench_type::vehicle, loc} );
         if( veh_mult > best_mult ) {
@@ -2342,9 +2342,9 @@ bench_location find_best_bench( const player &p, const item &craft )
             }
         }
 
-        if( const cata::optional<vpart_reference> vp = g->m.veh_at(
+        if( const std::optional<vpart_reference> vp = g->m.veh_at(
                     adj ).part_with_feature( "WORKBENCH", true ) ) {
-            if( const cata::optional<vpslot_workbench> &wb_info = vp->part().info().get_workbench_info() ) {
+            if( const std::optional<vpslot_workbench> &wb_info = vp->part().info().get_workbench_info() ) {
                 if( wb_info->multiplier > best_bench_multi ) {
                     best_type = bench_type::vehicle;
                     best_bench_multi = wb_info->multiplier;

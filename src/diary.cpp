@@ -759,7 +759,7 @@ void diary::export_to_md( bool last_export )
 
 bool diary::store()
 {
-    std::string name = base64_encode( get_avatar().get_name() + "_diary" );
+    std::string name = base64_encode( get_avatar().get_save_id() + "_diary" );
     std::string path = g->get_world_base_save_path() + "/" + name + ".json";
     const bool is_writen = write_to_file( path, [&]( std::ostream & fout ) {
         serialize( fout );
@@ -809,7 +809,7 @@ void diary::serialize( JsonOut &jsout )
 
 void diary::load()
 {
-    std::string name = base64_encode( get_avatar().get_name() + "_diary" );
+    std::string name = base64_encode( get_avatar().get_save_id() + "_diary" );
     std::string path = g->get_world_base_save_path() + "/" + name + ".json";
     if( file_exist( path ) ) {
         read_from_file( path, [&]( std::istream & fin ) {

@@ -92,7 +92,7 @@ void clear_items( const int zlevel )
 
 void clear_overmap()
 {
-    MAPBUFFER.reset();
+    MAPBUFFER.clear();
     overmap_buffer.clear();
 }
 

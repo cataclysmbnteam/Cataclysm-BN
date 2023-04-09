@@ -8,6 +8,7 @@
 #include <array>
 #include <cstdlib>
 #include <memory>
+#include <optional>
 #include <string>
 #include <tuple>
 
@@ -32,7 +33,6 @@
 #include "morale_types.h"
 #include "mtype.h"
 #include "mutation.h"
-#include "optional.h"
 #include "options.h"
 #include "pldata.h"
 #include "recipe.h"
@@ -215,7 +215,7 @@ struct prepared_item_consumption {
 };
 
 // Should return item_location instead, but it's really hard to get it from inventory
-static cata::optional<prepared_item_consumption> find_food_heater( Character &c,
+static std::optional<prepared_item_consumption> find_food_heater( Character &c,
         const inventory &inv, bool has_fire )
 {
     if( has_fire ) {
@@ -243,7 +243,7 @@ static cata::optional<prepared_item_consumption> find_food_heater( Character &c,
         return prepared_item_consumption( item_consumption_t::component, *consumed_heaters.front() );
 
     }
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 static int compute_default_effective_kcal( const item &comest, const Character &you,

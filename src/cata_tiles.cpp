@@ -9,6 +9,7 @@
 #include <cstdint>
 #include <fstream>
 #include <iterator>
+#include <optional>
 #include <set>
 #include <stdexcept>
 #include <tuple>
@@ -51,7 +52,6 @@
 #include "mtype.h"
 #include "npc.h"
 #include "omdata.h"
-#include "optional.h"
 #include "output.h"
 #include "overlay_ordering.h"
 #include "overmap_location.h"
@@ -276,14 +276,14 @@ const tile_type *tileset::find_tile_type( const std::string &id ) const
     return iter != tile_ids.end() ? &iter->second : nullptr;
 }
 
-cata::optional<tile_lookup_res>
+std::optional<tile_lookup_res>
 tileset::find_tile_type_by_season( const std::string &id, season_type season ) const
 {
     assert( season < season_type::NUM_SEASONS );
     const auto iter = tile_ids_by_season[season].find( id );
 
     if( iter == tile_ids_by_season[season].end() ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     auto &res = iter->second;
     if( res.season_tile ) {
@@ -292,7 +292,7 @@ tileset::find_tile_type_by_season( const std::string &id, season_type season ) c
         return tile_lookup_res( iter->first, *res.default_tile );
     }
     debugmsg( "empty record found in `tile_ids_by_season` for key: %s", id );
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 tile_type &tileset::create_tile_type( const std::string &id, tile_type &&new_tile_type )
@@ -1676,7 +1676,7 @@ void cata_tiles::draw( point dest, const tripoint &center, int width, int height
                              false, 0 );
     }
     if( g->u.controlling_vehicle ) {
-        if( cata::optional<tripoint> indicator_offset = g->get_veh_dir_indicator_location( true ) ) {
+        if( std::optional<tripoint> indicator_offset = g->get_veh_dir_indicator_location( true ) ) {
             draw_from_id_string( "cursor", C_NONE, empty_string, indicator_offset->xy() + tripoint( g->u.posx(),
                                  g->u.posy(), center.z ),
                                  0, 0, lit_level::LIT, false, 0 );
@@ -1797,7 +1797,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, const tripoint &pos
                                             ll, apply_night_vision_goggles, height_3d, overlay_count );
 }
 
-cata::optional<tile_lookup_res>
+std::optional<tile_lookup_res>
 cata_tiles::find_tile_with_season( const std::string &id ) const
 {
     const season_type season = season_of_year( calendar::turn );
@@ -1805,24 +1805,24 @@ cata_tiles::find_tile_with_season( const std::string &id ) const
 }
 
 template<typename T>
-cata::optional<tile_lookup_res>
+std::optional<tile_lookup_res>
 cata_tiles::find_tile_looks_like_by_string_id( const std::string &id, TILE_CATEGORY category,
         const int looks_like_jumps_limit ) const
 {
     const string_id<T> s_id( id );
     if( !s_id.is_valid() ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     const T &obj = s_id.obj();
     return find_tile_looks_like( obj.looks_like, category, looks_like_jumps_limit - 1 );
 }
 
-cata::optional<tile_lookup_res>
+std::optional<tile_lookup_res>
 cata_tiles::find_tile_looks_like( const std::string &id, TILE_CATEGORY category,
                                   const int looks_like_jumps_limit ) const
 {
     if( id.empty() || looks_like_jumps_limit <= 0 ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     // Note on memory management:
@@ -1847,7 +1847,7 @@ cata_tiles::find_tile_looks_like( const std::string &id, TILE_CATEGORY category,
         case C_MONSTER:
             return find_tile_looks_like_by_string_id<mtype>( id, category, looks_like_jumps_limit );
         case C_OVERMAP_TERRAIN: {
-            cata::optional<tile_lookup_res> ret;
+            std::optional<tile_lookup_res> ret;
             const oter_type_str_id type_tmp( id );
             if( !type_tmp.is_valid() ) {
                 return ret;
@@ -1874,7 +1874,7 @@ cata_tiles::find_tile_looks_like( const std::string &id, TILE_CATEGORY category,
             // vehicle parts start with vp_ for their tiles, but not their IDs
             const vpart_id base_vpid( id.substr( 3 ) );
             if( !base_vpid.is_valid() ) {
-                return cata::nullopt;
+                return std::nullopt;
             }
             return find_tile_looks_like( "vp_" + base_vpid.obj().looks_like, category,
                                          looks_like_jumps_limit - 1 );
@@ -1887,13 +1887,13 @@ cata_tiles::find_tile_looks_like( const std::string &id, TILE_CATEGORY category,
                                itype_corpse.str(), category, looks_like_jumps_limit - 1
                            );
                 }
-                return cata::nullopt;
+                return std::nullopt;
             }
             return find_tile_looks_like( iid->looks_like.str(), category, looks_like_jumps_limit - 1 );
         }
 
         default:
-            return cata::nullopt;
+            return std::nullopt;
     }
 }
 
@@ -1957,7 +1957,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
         return false;
     }
 
-    cata::optional<tile_lookup_res> res = find_tile_looks_like( id, category );
+    std::optional<tile_lookup_res> res = find_tile_looks_like( id, category );
     const tile_type *tt = nullptr;
     if( res ) {
         tt = &( res->tile() );
@@ -2987,7 +2987,7 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
             you.memorize_tile( here.getabs( p ), vpname, subtile, rotation );
         }
         if( !overridden ) {
-            const cata::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO", true );
+            const std::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO", true );
             const bool draw_highlight = cargopart && !veh.get_items( cargopart->part_index() ).empty();
             const bool ret = draw_from_id_string( vpname, C_VEHICLE_PART, empty_string, p, subtile, rotation,
                                                   ll, nv_goggles_activated, height_3d, z_drop );

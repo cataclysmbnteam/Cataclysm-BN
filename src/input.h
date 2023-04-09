@@ -8,6 +8,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <optional>
 
 #if defined(__ANDROID__)
 #include <algorithm>
@@ -19,11 +20,6 @@
 
 enum action_id : int;
 
-namespace cata
-{
-template<typename T>
-class optional;
-} // namespace cata
 namespace catacurses
 {
 class window;
@@ -610,7 +606,7 @@ class input_context
          * the delta vector associated with it. Otherwise returns an empty value.
          * The returned vector will always have a z component of 0.
          */
-        cata::optional<tripoint> get_direction( const std::string &action ) const;
+        std::optional<tripoint> get_direction( const std::string &action ) const;
 
         /**
          * Get the coordinates associated with the last mouse click (if any).
@@ -619,7 +615,7 @@ class input_context
          *       and returns the absolute map coordinate.
          *       Eventually this should be made more flexible.
          */
-        cata::optional<tripoint> get_coordinates( const catacurses::window &capture_win_ );
+        std::optional<tripoint> get_coordinates( const catacurses::window &capture_win_ );
 
         // Below here are shortcuts for registering common key combinations.
         void register_directions();
