@@ -6,7 +6,7 @@ import { Command } from "https://deno.land/x/cliffy@v0.25.7/command/mod.ts"
 import { match } from "npm:ts-pattern"
 
 import { genericCataTransformer, readRecursively } from "./parse.ts"
-import { applyRecursively, structuredReplace } from "./transform.ts"
+import { applyRecursively, lintRecursively, structuredReplace } from "./transform.ts"
 import { timeit } from "./timeit.ts"
 
 export type Flaggable = z.infer<typeof flaggable>
@@ -45,10 +45,7 @@ const main = () =>
       await timeit("stripping flags")(recursiveTransformer(entries))
 
       if (!lint) return
-      await timeit("linting")(
-        Deno.run({ cmd: ["make", "style-all-json-parallel"], stdout: "null", stderr: "null" })
-          .status(),
-      )
+      await timeit("linting")(lintRecursively())
     })
     .parse(Deno.args)
 

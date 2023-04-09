@@ -36,3 +36,7 @@ export const applyRecursively = (transformer: Transformer) => async (entries: En
     )
     .collect()
 }
+
+export const lintRecursively = () =>
+  Deno.run({ cmd: ["make", "style-all-json-parallel"], stdout: "null", stderr: "null" })
+    .status()
