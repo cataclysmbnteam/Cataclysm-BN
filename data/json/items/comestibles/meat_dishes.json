@@ -76,7 +76,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -2,
-    "calories": 450,
+    "calories": 500,
     "charges": 2,
     "description": "Salted meat slowly cooked and preserved in butter or melted fat, a form of food preservation from the days before canning.  Also known as confit.  Rich and fattening, it will last for a long time.",
     "price": "6 USD",
