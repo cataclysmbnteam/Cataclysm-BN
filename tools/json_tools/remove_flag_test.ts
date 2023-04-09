@@ -1,7 +1,7 @@
 import { diff, Flaggable, flaggable, removeFlags } from "./remove_flag.ts"
 import { assertEquals } from "https://deno.land/std@0.182.0/testing/asserts.ts"
-import { match } from "npm:ts-pattern"
-import { genericCataTransformer } from "./parse.ts";
+import { genericCataTransformer } from "./parse.ts"
+import { removeObjectKey } from "./transform.ts"
 
 const cases = [
   {
@@ -90,11 +90,6 @@ Deno.test("removing [a, b, foo] from { flags: [a, b] } -> {}", () => {
 
   assertEquals(flagRemoveFn(flags), {})
 })
-
-const removeObjectKey = <T extends object, K extends keyof T>(obj: T, key: K): Omit<T, K> => {
-  const { [key]: _, ...rest } = obj
-  return rest
-}
 
 Deno.test("removing EDIBLE_FROZEN from dry_fish", async (t) => {
   const dry_fish = cases[1]

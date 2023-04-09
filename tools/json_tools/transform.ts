@@ -11,6 +11,15 @@ export const structuredReplace = <T, V>(obj: T, key: keyof T, value: V) => {
   return copy
 }
 
+/** clone an object with single key removed. */
+export const removeObjectKey = <T extends object, K extends keyof T>(
+  obj: T,
+  key: K,
+): Omit<T, K> => {
+  const { [key]: _, ...rest } = obj
+  return rest
+}
+
 export type Transformer = (text: string) => unknown[]
 
 export const applyRecursively = (transformer: Transformer) => async (path: string) => {
