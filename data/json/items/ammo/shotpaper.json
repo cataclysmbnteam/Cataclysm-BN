@@ -25,6 +25,21 @@
     "extend": { "effects": [ "INCENDIARY", "STREAM", "NOGIB" ] }
   },
   {
+    "id": "shot_paper_abstract",
+    "copy-from": "shot_abstract",
+    "type": "AMMO",
+    "name": { "str": "buckshot paper cartridge" },
+    "description": "A paper cartridge containing a premeasured amount of black powder and an equal volume of 00 buckshot.",
+    "weight": "26 g",
+    "volume": "250 ml",
+    "material": [ "paper", "powder", "lead" ],
+    "color": "white",
+    "ammo_type": "shotpaper",
+    "proportional": { "damage": { "damage_type": "bullet", "amount": 0.8 }, "recoil": 0.8, "loudness": 0.8 },
+    "extend": { "effects": [ "MUZZLE_SMOKE", "BLACKPOWDER" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ], "casing": "shot_hull" }
+  },
+  {
     "id": "shot_paper_00",
     "copy-from": "bp_shot_00",
     "type": "AMMO",
@@ -40,7 +55,7 @@
   },
   {
     "id": "shot_paper_slug",
-    "copy-from": "shot_paper_00",
+    "copy-from": "shot_paper_abstract",
     "type": "AMMO",
     "name": { "str": ".62 paper cartridge" },
     "description": "A paper cartridge containing a premeasured amount of black powder and a .605 inch lead ball.",
