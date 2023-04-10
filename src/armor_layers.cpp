@@ -869,16 +869,15 @@ void show_armor_layers_ui( Character &who )
             // only equip if something valid selected!
             if( loc ) {
                 // wear the item
-                loc->detach();
                 loc->obtain( who );
 
                 if( cata::optional<ItemList::iterator> new_equip_it = who.as_player()->wear_possessed( *loc ) ) {
                     // save iterator to cursor's position
                     ItemList::iterator cursor_it = tmp_worn[leftListIndex];
                     // reorder `worn` vector to place new item at cursor
-                    item *&it = **new_equip_it;
-                    who.worn.erase( *new_equip_it );
-                    who.worn.insert( cursor_it, it );
+                    detached_ptr<item> taken_off;
+                    who.worn.erase( *new_equip_it, &taken_off );
+                    who.worn.insert( cursor_it, std::move( taken_off ) );
 
 
                 } else if( who.is_npc() ) {

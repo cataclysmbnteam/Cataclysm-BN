@@ -507,7 +507,7 @@ item::item( const recipe *rec, int qty, std::vector<location_ptr<item>> items,
 
 item::item( const item & ) = default;
 item::item( item && ) = default;
-item::~item()
+item::~item() //TODO!: this is wrong now, it should be done on destruct not deallocate
 {
     for( item *comp : components ) {
         comp->remove_location();
@@ -515,8 +515,8 @@ item::~item()
     }
 }
 
-item &item::make_corpse( const mtype_id &mt, time_point turn, const std::string &name,
-                         const int upgrade_time )
+detached_ptr<item> item::make_corpse( const mtype_id &mt, time_point turn, const std::string &name,
+                                      const int upgrade_time )
 {
     if( !mt.is_valid() ) {
         debugmsg( "tried to make a corpse with an invalid mtype id" );
@@ -524,7 +524,7 @@ item &item::make_corpse( const mtype_id &mt, time_point turn, const std::string 
 
     std::string corpse_type = mt == mtype_id::NULL_ID() ? "corpse_generic_human" : "corpse";
 
-    item *result = item_spawn( corpse_type, turn );
+    detached_ptr<item> result = std::move( item::spawn( corpse_type, turn ) );
 
     result->corpse = &mt.obj();
 
@@ -539,7 +539,7 @@ item &item::make_corpse( const mtype_id &mt, time_point turn, const std::string 
     // "human corpse".
     result->corpse_name = name;
 
-    return *result;
+    return std::move( result );
 }
 
 item &item::convert( const itype_id &new_type )

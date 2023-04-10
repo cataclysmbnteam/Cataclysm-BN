@@ -3428,9 +3428,9 @@ void iexamine::keg( player &p, const tripoint &examp )
 /**
  * Pour liquid into a keg (furniture) on the map. The transferred charges (if any)
  * will be removed from the liquid item.
- * @return Whether liquid has been placed on the map.
+ * @return Any remaining liquid.
  */
-bool iexamine::pour_into_keg( const tripoint &pos, item &liquid )
+detached_ptr<item> iexamine::pour_into_keg( const tripoint &pos, detached_ptr<item> &&liquid )
 {
     const units::volume keg_cap = get_keg_capacity( pos );
     if( keg_cap <= 0_ml ) {

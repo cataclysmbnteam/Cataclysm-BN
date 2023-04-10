@@ -640,7 +640,7 @@ bool avatar::read( item *loc, const bool continuous )
         act.str_values.emplace_back( "martial_art" );
     }
 
-    assign_activity( act );
+    assign_activity( std::make_unique<player_activity>( std::move( act ) ) ) ;
 
     // Reinforce any existing morale bonus/penalty, so it doesn't decay
     // away while you read more.
@@ -1239,7 +1239,7 @@ bool avatar::wield( item &target )
     if( has_item( target ) ) {
         set_weapon( i_rem( &target ) );
     } else {
-        set_weapon( target );
+        set_weapon( target.detach() );
     }
 
     last_item = target.typeId();

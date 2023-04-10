@@ -152,14 +152,15 @@ void cancel_aim_processing();
 //Generic activity: maximum search distance for zones, constructions, etc.
 const int ACTIVITY_SEARCH_DISTANCE = 60;
 
-static bool same_type( const ItemList &items )
+static bool same_type( const std::vector<detached_ptr<item>> &items )
 {
-    return std::all_of( items.begin(), items.end(), [&items]( const item * const & it ) {
+    return std::all_of( items.begin(), items.end(), [&items]( const detached_ptr<item> &it ) {
         return it->type == ( *items.begin() )->type;
     } );
 }
 
-static void put_into_vehicle( Character &c, item_drop_reason reason, const ItemList &items,
+static void put_into_vehicle( Character &c, item_drop_reason reason,
+                              std::vector<detached_ptr<item>> &items,
                               vehicle &veh, int part )
 {
     if( items.empty() ) {
@@ -170,32 +171,34 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const ItemL
     map &here = get_map();
     const std::string ter_name = here.name( where );
     int fallen_count = 0;
-    int into_vehicle_count = 0;
+    bool into_vehicle = false;
 
     // can't use constant reference here because of the spill_contents()
-    for( auto it : items ) {
-        if( pickup::handle_spillable_contents( c, *it, here ) ) {
+    for( detached_ptr<item> &it : items ) {
+        item &obj = *it;
+        if( !( it = pickup::handle_spillable_contents( c, std::move( it ), here ) ) ) {
             continue;
         }
-        if( veh.add_item( part, *it ) ) {
-            into_vehicle_count += it->count();
+        if( !( it = veh.add_item( part, std::move( it ) ) ) ) {
+            into_vehicle = true;
         } else {
-            if( it->count_by_charges() ) {
+            if( obj.count_by_charges() ) {
                 // Maybe we can add a few charges in the trunk and the rest on the ground.
-                auto charges_added = veh.add_charges( part, *it );
-                it->mod_charges( -charges_added );
-                into_vehicle_count += charges_added;
+                it = veh.add_charges( part, std::move( it ) );
+                into_vehicle = true;
             }
-            here.add_item_or_charges( where, *it );
+            if( it ) {
+                here.add_item_or_charges( where, std::move( it ) );
+            }
             fallen_count += it->count();
         }
-        it->handle_pickup_ownership( c );
+        obj.handle_pickup_ownership( c );
     }
 
     const std::string part_name = veh.part_info( part ).name();
 
     if( same_type( items ) ) {
-        const item *const &it = items.front();
+        const detached_ptr<item> it = std::move( items.front() );
         const int dropcount = items.size() * it->count();
         const std::string it_name = it->tname( dropcount );
 
@@ -255,7 +258,7 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const ItemL
     }
 
     if( fallen_count > 0 ) {
-        if( into_vehicle_count > 0 ) {
+        if( into_vehicle ) {
             c.add_msg_if_player(
                 m_warning,
                 vgettext( "The %s is full, so something fell to the %s.",
@@ -278,7 +281,8 @@ static void pass_to_ownership_handling( item &obj, Character &c )
     obj.handle_pickup_ownership( c );
 }
 
-static void stash_on_pet( const ItemList &items, monster &pet, Character &who )
+static void stash_on_pet( std::vector<detached_ptr<item>> &items, monster &pet,
+                          Character &who )
 {
     if( !pet.get_storage_item() ) {
         debugmsg( "Tried to stash items on a pet without a storage item" );
@@ -288,22 +292,23 @@ static void stash_on_pet( const ItemList &items, monster &pet, Character &who )
     units::mass remaining_weight = pet.weight_capacity() - pet.get_carried_weight();
     map &here = get_map();
 
-    for( item * const &it : items ) {
+    for( detached_ptr<item> &it : items ) {
+        item &obj = *it;
         if( it->volume() > remaining_volume ) {
             add_msg( m_bad, _( "%1$s did not fit and fell to the %2$s." ), it->display_name(),
                      here.name( pet.pos() ) );
-            here.add_item_or_charges( pet.pos(), *it );
+            here.add_item_or_charges( pet.pos(), std::move( it ) );
         } else if( it->weight() > remaining_weight ) {
             add_msg( m_bad, _( "%1$s is too heavy and fell to the %2$s." ), it->display_name(),
                      here.name( pet.pos() ) );
-            here.add_item_or_charges( pet.pos(), *it );
+            here.add_item_or_charges( pet.pos(), std::move( it ) );
         } else {
-            pet.add_item( *it );
-            remaining_volume -= it->volume();
-            remaining_weight -= it->weight();
+            pet.add_item( std::move( it ) );
+            remaining_volume -= obj.volume();
+            remaining_weight -= obj.weight();
         }
         // TODO: if NPCs can have pets or move items onto pets
-        pass_to_ownership_handling( *it, who );
+        pass_to_ownership_handling( obj, who );
     }
 }
 
@@ -328,7 +333,7 @@ void drop_on_map( Character &c, item_drop_reason reason,
     const bool can_move_there = here.passable( where );
 
     if( same_type( items ) ) {
-        const item *const &it = items.front();
+        detached_ptr<item> &it = items.front();
         const int dropcount = items.size() * it->count();
         const std::string it_name = it->tname( dropcount );
 
@@ -400,8 +405,9 @@ void drop_on_map( Character &c, item_drop_reason reason,
         }
     }
     for( auto &it : items ) {
-        here.add_item_or_charges( where, *it );
-        pass_to_ownership_handling( *it, c );
+        item &obj = *it;
+        here.add_item_or_charges( where, std::move( it ) );
+        pass_to_ownership_handling( obj, c );
     }
 }
 
@@ -420,7 +426,7 @@ void put_into_vehicle_or_drop( Character &c, item_drop_reason reason,
 }
 
 void put_into_vehicle_or_drop( Character &c, item_drop_reason reason,
-                               detached_ptr<item> it,
+                               detached_ptr<item> &&it,
                                const tripoint &where, bool force_ground )
 {
 
@@ -606,9 +612,9 @@ std::list<act_item> reorder_for_dropping( Character &p, const drop_locations &dr
     return res;
 }
 
-ItemList obtain_and_tokenize_items( player &p, std::list<act_item> &items )
+std::vector<detached_ptr<item>> obtain_and_tokenize_items( player &p, std::list<act_item> &items )
 {
-    ItemList res;
+    std::vector<detached_ptr<item>> res;
     drop_token_provider &token_provider = drop_token::get_provider();
     item_drop_token last_token = token_provider.make_next( calendar::turn );
     if( items.empty() ) {
@@ -628,9 +634,9 @@ ItemList obtain_and_tokenize_items( player &p, std::list<act_item> &items )
                 continue;
             }
         } else if( ait.loc->count_by_charges() ) {
-            res.push_back( p.reduce_charges( const_cast<item *>( &*ait.loc ), ait.count ) );
+            res.push_back( std::move( p.reduce_charges( const_cast<item *>( &*ait.loc ), ait.count ) ) );
         } else {
-            res.push_back( &p.i_rem( &*ait.loc ) );
+            res.push_back( std::move( p.i_rem( &*ait.loc ) ) );
         }
 
         // TODO: Get the item consistently instead of using back()
@@ -670,7 +676,7 @@ static void debug_drop_list( const std::list<pickup::act_item> &list )
     popup( res, PF_GET_KEY );
 }
 
-static void debug_tokens( const ItemList &items )
+static void debug_tokens( const std::vector<detached_ptr<item>> &items )
 {
     if( !debug_mode ) {
         return;
@@ -678,18 +684,19 @@ static void debug_tokens( const ItemList &items )
 
     std::stringstream ss;
     ss << "Item tokens:\n";
-    for( const item * const &it : items ) {
+    for( const detached_ptr<item> &it : items ) {
         ss << it->display_name() << ": " << *it->drop_token << '\n';
     }
     popup( ss.str(), PF_GET_KEY );
 }
 
-static ItemList obtain_activity_items( Character &who,
-                                       std::list<pickup::act_item> &targets )
+static std::vector<detached_ptr<item>> obtain_activity_items( Character &who,
+                                    std::list<pickup::act_item> &targets )
 {
     debug_drop_list( targets );
 
-    ItemList res = pickup::obtain_and_tokenize_items( *who.as_player(), targets );
+    std::vector<detached_ptr<item>> res = pickup::obtain_and_tokenize_items( *who.as_player(),
+                                          targets );
 
     debug_tokens( res );
 
@@ -700,9 +707,10 @@ void drop_activity_actor::do_turn( player_activity &, Character &who )
 {
     const tripoint pos = who.pos() + relpos;
 
+    std::vector<detached_ptr<item>> dropped = std::move( obtain_activity_items( who, items ) );
+
     put_into_vehicle_or_drop( who, item_drop_reason::deliberate,
-                              obtain_activity_items( who, items ),
-                              pos, force_ground );
+                              dropped, pos, force_ground );
 
     if( items.empty() ) {
         who.cancel_activity();
@@ -724,8 +732,8 @@ void activity_on_turn_wear( player_activity &act, player &p )
         }
         ret_val<bool> ret = p.can_wear( *target );
         if( ret.success() && ret.value() ) {
-            item &newit = target->split( quantity );
-            p.wear_item( newit );
+            detached_ptr<item> newit = target->split( quantity );
+            p.wear_item( std::move( newit ) );
         }
     }
 
@@ -772,13 +780,9 @@ void wash_activity_actor::finish( player_activity &act, Character &who )
             }
             it.item_tags.erase( "FILTHY" );
         } else {
-            item &it2 = *item_spawn( it );
-            it.charges -= i.count;
-            it2.charges = i.count;
-            it2.item_tags.erase( "FILTHY" );
-            ItemList tmp;
-            tmp.push_back( &it2 );
-            put_into_vehicle_or_drop( who, item_drop_reason::deliberate, tmp );
+            detached_ptr<item> it2 = it.split( i.count );
+            it2->item_tags.erase( "FILTHY" );
+            put_into_vehicle_or_drop( who, item_drop_reason::deliberate, std::move( it2 ) );
         }
         who.on_worn_item_washed( it );
     }
@@ -807,7 +811,8 @@ void stash_activity_actor::do_turn( player_activity &, Character &who )
 
     monster *pet = g->critter_at<monster>( pos );
     if( pet != nullptr && pet->has_effect( effect_pet ) ) {
-        stash_on_pet( obtain_activity_items( who, items ), *pet, who );
+        std::vector<detached_ptr<item>> stashed = obtain_activity_items( who, items );
+        stash_on_pet( stashed, *pet, who );
         if( items.empty() ) {
             who.cancel_activity();
         }
@@ -976,15 +981,15 @@ static void move_item( player &p, item &it, const int quantity, const tripoint &
     if( it.made_of( LIQUID ) ) {
         return;
     }
-    item &moved = it.split( quantity );
+    detached_ptr<item> moved = std::move( it.split( quantity ) );
 
     p.mod_moves( -move_cost( it, src, dest ) );
     if( activity_to_restore == ACT_TIDY_UP ) {
-        moved.erase_var( "activity_var" );
+        moved->erase_var( "activity_var" );
     } else if( activity_to_restore == ACT_FETCH_REQUIRED ) {
-        moved.set_var( "activity_var", p.name );
+        moved->set_var( "activity_var", p.name );
     }
-    put_into_vehicle_or_drop( p, item_drop_reason::deliberate, { &moved }, dest );
+    put_into_vehicle_or_drop( p, item_drop_reason::deliberate, std::move( moved ), dest );
 }
 
 std::vector<tripoint> route_adjacent( const player &p, const tripoint &dest )
@@ -1227,14 +1232,15 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                 vehicle &veh = vp->vehicle();
                 const cata::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG", true );
                 if( weldpart ) {
-                    item &welder = *item_spawn( itype_welder, calendar::start_of_cataclysm );
-                    welder.charges = veh.fuel_left( itype_battery, true );
-                    welder.set_flag( "PSEUDO" );
-                    temp_inv.add_item( welder );
-                    item &soldering_iron = *item_spawn( itype_soldering_iron, calendar::start_of_cataclysm );
-                    soldering_iron.charges = veh.fuel_left( itype_battery, true );
-                    soldering_iron.set_flag( "PSEUDO" );
-                    temp_inv.add_item( soldering_iron );
+                    item *welder = item::spawn_temporary( itype_welder, calendar::start_of_cataclysm );
+                    welder->charges = veh.fuel_left( itype_battery, true );
+                    welder->set_flag( "PSEUDO" );
+                    temp_inv.add_item( *welder );
+                    item *soldering_iron = item::spawn_temporary( itype_soldering_iron,
+                                           calendar::start_of_cataclysm );
+                    soldering_iron->charges = veh.fuel_left( itype_battery, true );
+                    soldering_iron->set_flag( "PSEUDO" );
+                    temp_inv.add_item( *soldering_iron );
                 }
             }
         }
@@ -1317,7 +1323,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                 if( !has_skill_for_vehicle_work( vpinfo.removal_skills, p ) ) {
                     continue;
                 }
-                item &base = *item_spawn_temporary( vpinfo.item );
+                item &base = *item::spawn_temporary( vpinfo.item );
                 if( base.is_wheel() ) {
                     // no wheel removal yet
                     continue;
@@ -1500,7 +1506,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
         const map_stack stuff_there = here.i_at( src_loc );
 
         // PICKUP_RANGE -1 because we will be adjacent to the spot when arriving.
-        const inventory pre_inv = p.crafting_inventory( src_loc, PICKUP_RANGE - 1 );
+        const inventory &pre_inv = p.crafting_inventory( src_loc, PICKUP_RANGE - 1 );
         for( const zone_data &zone : zones ) {
             const blueprint_options &options = dynamic_cast<const blueprint_options &>( zone.get_options() );
             const construction_id index = options.get_index();
@@ -1855,7 +1861,7 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
                 tripoint pos_here = std::get<0>( *it );
                 itype_id item_here = std::get<1>( *it );
                 //TODO!: Check avoiding this construction, it's a bad one
-                item &test_item = *item_spawn_temporary( item_here, calendar::start_of_cataclysm );
+                item &test_item = *item::spawn_temporary( item_here, calendar::start_of_cataclysm );
                 if( test_item.has_quality( tool_qual, qual_level ) ) {
                     // it's just this spot that can fulfil the requirement on its own
                     final_map.push_back( std::make_tuple( pos_here, item_here, 1 ) );
@@ -1944,8 +1950,8 @@ static bool tidy_activity( player &p, const tripoint &src_loc,
         for( item *inv_elem : p.inv_dump() ) {
             if( inv_elem->has_var( "activity_var" ) ) {
                 inv_elem->erase_var( "activity_var" );
-                put_into_vehicle_or_drop( p, item_drop_reason::deliberate, { inv_elem }, src_loc );
-                p.i_rem( inv_elem );
+                put_into_vehicle_or_drop( p, item_drop_reason::deliberate, std::move( p.i_rem( inv_elem ) ),
+                                          src_loc );
             }
         }
     }
@@ -2008,10 +2014,9 @@ static bool fetch_activity( player &p, const tripoint &src_loc,
                         continue;
                     }
                     //This invalidates our iterator but we don't care because it isn't used again
-                    item &moved = it.split( pickup_count );
-                    moved.set_var( "activity_var", p.name );
-                    const std::string item_name = moved.tname();
-                    p.i_add( moved );
+                    detached_ptr<item> moved = std::move( it.split( pickup_count ) );
+                    moved->set_var( "activity_var", p.name );
+                    const std::string item_name = moved->tname();
                     if( p.is_npc() ) {
                         if( pickup_count == 1 ) {
                             add_msg( _( "%1$s picks up a %2$s." ), p.disp_name(), item_name );
@@ -2019,6 +2024,7 @@ static bool fetch_activity( player &p, const tripoint &src_loc,
                             add_msg( _( "%s picks up several items." ),  p.disp_name() );
                         }
                     }
+                    p.i_add( std::move( moved ) );
                     return true;
                 }
             }

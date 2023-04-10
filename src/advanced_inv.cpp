@@ -948,17 +948,17 @@ bool advanced_inventory::move_all_items( bool nested_call )
             if( dpane.get_area() == AIM_INVENTORY ) {
                 std::vector<pickup::pick_drop_selection> targets = pickup::optimize_pickup( target_items,
                         quantities );
-                g->u.assign_activity( player_activity( pickup_activity_actor(
-                        targets,
-                        panes[src].in_vehicle() ? cata::nullopt : cata::optional<tripoint>( g->u.pos() )
-                                                       ) ) );
+                g->u.assign_activity( std::make_unique<player_activity>( pickup_activity_actor(
+                                          targets,
+                                          panes[src].in_vehicle() ? cata::nullopt : cata::optional<tripoint>( g->u.pos() )
+                                      ) ) );
             } else {
-                g->u.assign_activity( player_activity( move_items_activity_actor(
-                        target_items,
-                        quantities,
-                        dpane.in_vehicle(),
-                        relative_destination
-                                                       ) ) );
+                g->u.assign_activity( std::make_unique<player_activity>( move_items_activity_actor(
+                                          target_items,
+                                          quantities,
+                                          dpane.in_vehicle(),
+                                          relative_destination
+                                      ) ) );
             }
         }
 
@@ -1160,20 +1160,20 @@ void advanced_inventory::start_activity( const aim_location destarea,
         if( destarea == AIM_INVENTORY ) {
             std::vector<pickup::pick_drop_selection> targets = pickup::optimize_pickup( target_items,
                     quantities );
-            g->u.assign_activity( player_activity( pickup_activity_actor(
-                    targets,
-                    from_vehicle ? cata::nullopt : cata::optional<tripoint>( g->u.pos() )
-                                                   ) ) );
+            g->u.assign_activity( std::make_unique<player_activity>( pickup_activity_actor(
+                                      targets,
+                                      from_vehicle ? cata::nullopt : cata::optional<tripoint>( g->u.pos() )
+                                  ) ) );
         } else {
             // Stash the destination
             const tripoint relative_destination = squares[destarea].off;
 
-            g->u.assign_activity( player_activity( move_items_activity_actor(
-                    target_items,
-                    quantities,
-                    to_vehicle,
-                    relative_destination
-                                                   ) ) );
+            g->u.assign_activity( std::make_unique<player_activity>( move_items_activity_actor(
+                                      target_items,
+                                      quantities,
+                                      to_vehicle,
+                                      relative_destination
+                                  ) ) );
         }
     }
 }
@@ -1235,7 +1235,8 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
             item *itm = &g->u.i_at( sitem->idx );
 
             drop_locations to_move = { drop_location( *itm, amount_to_move ) };
-            g->u.assign_activity( drop_activity_actor( g->u, to_move, !to_vehicle, squares[destarea].off ) );
+            g->u.assign_activity( std::make_unique<player_activity>( drop_activity_actor( g->u, to_move,
+                                  !to_vehicle, squares[destarea].off ) ) );
         }
         // exit so that the activity can be carried out
         exit = true;
@@ -1255,7 +1256,8 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
             g->u.takeoff( *itm );
         } else {
             drop_locations to_move = { drop_location( *itm, amount_to_move ) };
-            g->u.assign_activity( drop_activity_actor( g->u, to_move, !to_vehicle, squares[destarea].off ) );
+            g->u.assign_activity( std::make_unique<player_activity>( drop_activity_actor( g->u, to_move,
+                                  !to_vehicle, squares[destarea].off ) ) );
         }
         // exit so that the activity can be carried out
         exit = true;
@@ -1674,12 +1676,10 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
         }
         src_container.on_contents_changed();
     }
-    dest_container.fill_with( src_contents, amount );
+    detached_ptr<item> moved = std::move( src_contents.split( amount ) );
+    dest_container.fill_with( std::move( moved ), amount );
 
     uistate.adv_inv_container_content_type = dest_container.contents.front().typeId();
-    if( src_contents.charges <= 0 ) {
-        src_container.contents.clear_items();
-    }
 
     return true;
 }

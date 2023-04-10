@@ -1127,7 +1127,7 @@ static void butchery_quarter( item *corpse_item, const player &p )
     map &here = get_map();
     // 4 quarters (one exists, add 3, flag does the rest)
     for( int i = 1; i <= 3; i++ ) {
-        here.add_item_or_charges( p.pos(), std::move( item::spawn( corpse_item ) ), true );
+        here.add_item_or_charges( p.pos(), std::move( item::spawn( *corpse_item ) ), true );
     }
 }
 
@@ -1235,7 +1235,6 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
 
         // Remove the target from the map
         target->detach();
-        target->destroy();
 
         act->targets.pop_back();
 
@@ -1295,7 +1294,6 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
 
             // Remove the target from the map
             target->detach();
-            target->destroy();
             if( !act->targets.empty() ) {
                 act->targets.pop_back();
             }
@@ -1305,7 +1303,6 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
 
             // Remove the target from the map
             target->detach();
-            target->destroy();
             if( !act->targets.empty() ) {
                 act->targets.pop_back();
             }
@@ -1407,7 +1404,6 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
 
             // Remove the target from the map
             target->detach();
-            target->destroy();
             if( !act->targets.empty() ) {
                 act->targets.pop_back();
             }
@@ -1417,7 +1413,6 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
 
             // Remove the target from the map
             target->detach();
-            target->destroy();
             if( !act->targets.empty() ) {
                 act->targets.pop_back();
             }
@@ -1525,26 +1520,26 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
         }
 
         static const units::volume volume_per_second = units::from_liter( 4.0F / 6.0F );
-        int original_charges = source->charges;
         int charges = std::max( 1, source->charges_per_volume( volume_per_second ) );
-        bool removed = true;
+        detached_ptr<item> poured = std::move( source->split( charges ) );
         // 2. Transfer charges.
         switch( static_cast<liquid_target_type>( act_ref.values.at( 2 ) ) ) {
             case LTT_VEHICLE:
                 if( const optional_vpart_position vp = here.veh_at( act_ref.coords.at( 1 ) ) ) {
-                    removed = p->pour_into( vp->vehicle(), *source, charges );
+                    poured = std::move( p->pour_into( vp->vehicle(), std::move( poured ), charges ) );
                 } else {
                     throw std::runtime_error( "could not find target vehicle for liquid transfer" );
                 }
                 break;
             case LTT_CONTAINER:
-                removed = p->pour_into( p->i_at( act_ref.values.at( 3 ) ), *source, charges );
+                poured = std::move( p->pour_into( p->i_at( act_ref.values.at( 3 ) ),  std::move( poured ),
+                                                  charges ) );
                 break;
             case LTT_MAP:
                 if( iexamine::has_keg( act_ref.coords.at( 1 ) ) ) {
-                    removed = iexamine::pour_into_keg( act_ref.coords.at( 1 ), *source, charges );
+                    poured = std::move( iexamine::pour_into_keg( act_ref.coords.at( 1 ), std::move( poured ),
+                                        charges ) );
                 } else {
-                    detached_ptr<item> poured = std::move( source->split( charges ) );
                     here.add_item_or_charges( act_ref.coords.at( 1 ), std::move( poured ) );
                     p->add_msg_if_player( _( "You pour %1$s onto the ground." ), source->tname() );
                 }
@@ -1554,14 +1549,9 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
                 break;
         }
 
-        if( removed ) {
-            // Nothing has been transferred, target must be full.
-            act_ref.set_to_null();
-            return;
-        }
-
-        if( original_charges - source->charges <= charges ) {
-            // Transferred less than the available charges -> target must be full
+        //Some remaining
+        if( poured ) {
+            source->merge_charges( std::move( poured ) );
             act_ref.set_to_null();
         }
 
@@ -2945,7 +2935,7 @@ void activity_handlers::mend_item_finish( player_activity *act, player *p )
         return;
     }
 
-    const inventory inv = p->crafting_inventory();
+    const inventory &inv = p->crafting_inventory();
     const requirement_data &reqs = method->requirements.obj();
     if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
         add_msg( m_info, _( "You are currently unable to mend the %s." ), target->tname() );
@@ -3037,11 +3027,10 @@ void activity_handlers::toolmod_add_finish( player_activity *act, player *p )
     }
     item &tool = *act->targets[0];
     item &mod = *act->targets[1];
-    mod.detach();
     p->add_msg_if_player( m_good, _( "You successfully attached the %1$s to your %2$s." ),
                           mod.tname(), tool.tname() );
     mod.set_flag( "IRREMOVABLE" );
-    tool.put_in( mod );
+    tool.put_in( std::move( mod.detach() ) );
 }
 
 void activity_handlers::clear_rubble_finish( player_activity *act, player *p )
@@ -3166,8 +3155,9 @@ static void rod_fish( player *p, const std::vector<monster *> &fishables )
         const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup(
                     mongroup_id( "GROUP_FISH" ) );
         const mtype_id fish_mon = random_entry_ref( fish_group );
-        here.add_item_or_charges( p->pos(), item::make_corpse( fish_mon, calendar::turn + rng( 0_turns,
-                                  3_hours ) ) );
+        here.add_item_or_charges( p->pos(), std::move( item::make_corpse( fish_mon,
+                                  calendar::turn + rng( 0_turns,
+                                          3_hours ) ) ) );
         p->add_msg_if_player( m_good, _( "You caught a %s." ), fish_mon.obj().nname() );
     } else {
         monster *chosen_fish = random_entry( fishables );
@@ -3175,9 +3165,9 @@ static void rod_fish( player *p, const std::vector<monster *> &fishables )
         if( chosen_fish->fish_population <= 0 ) {
             g->catch_a_monster( chosen_fish, p->pos(), p, 50_hours );
         } else {
-            here.add_item_or_charges( p->pos(), item::make_corpse( chosen_fish->type->id,
+            here.add_item_or_charges( p->pos(), std::move( item::make_corpse( chosen_fish->type->id,
                                       calendar::turn + rng( 0_turns,
-                                              3_hours ) ) );
+                                              3_hours ) ) ) );
             p->add_msg_if_player( m_good, _( "You caught a %s." ), chosen_fish->type->nname() );
         }
     }
@@ -3236,10 +3226,7 @@ void activity_handlers::fish_finish( player_activity *act, player *p )
 void activity_handlers::cracking_do_turn( player_activity *act, player *p )
 {
     auto cracking_tool = p->crafting_inventory().items_with( []( const item & it ) -> bool {
-        //TODO!: Whhhyyyy
-        item *temporary_item = item_spawn( it.type );
-        temporary_item->destroy();
-        return temporary_item->has_flag( flag_SAFECRACK );
+        return it.has_flag( flag_SAFECRACK );
     } );
     if( cracking_tool.empty() && !p->has_bionic( bio_ears ) ) {
         // We lost our cracking tool somehow, bail out.
@@ -3690,7 +3677,7 @@ void activity_handlers::plant_seed_finish( player_activity *act, player *p )
     map &here = get_map();
     tripoint examp = here.getlocal( act->placement );
     const itype_id seed_id( act->str_values[0] );
-    ItemList used_seed;
+    std::vector<detached_ptr<item>> used_seed;
     if( item::count_by_charges( seed_id ) ) {
         used_seed = p->use_charges( seed_id, 1 );
     } else {
@@ -3702,7 +3689,7 @@ void activity_handlers::plant_seed_finish( player_activity *act, player *p )
             used_seed.front()->erase_var( "activity_var" );
         }
         used_seed.front()->set_flag( flag_HIDDEN_ITEM );
-        here.add_item_or_charges( examp, *used_seed.front() );
+        here.add_item_or_charges( examp, std::move( used_seed.front() ) );
         if( here.has_flag_furn( flag_PLANTABLE, examp ) ) {
             here.furn_set( examp, furn_str_id( here.furn( examp )->plant->transform ) );
         } else {
@@ -3914,7 +3901,6 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
         //TODO!: CHEEKY check
         item *craft_copy = craft;
         act->targets.front()->detach();
-        act->targets.front()->destroy();
         p->cancel_activity();
         complete_craft( *p, *craft_copy, bench_location{bench_t, bench_pos} );
         if( is_long ) {
@@ -3929,7 +3915,6 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
             p->add_msg_player_or_npc( _( "There is nothing left of the %s to craft from." ),
                                       _( "There is nothing left of the %s <npcname> was crafting." ), craft->tname() );
             act->targets.front()->detach();
-            act->targets.front()->destroy();
             p->cancel_activity();
         }
     }
@@ -4187,19 +4172,19 @@ void activity_handlers::chop_logs_finish( player_activity *act, player *p )
         splint_quan = 0;
     }
     for( int i = 0; i != log_quan; ++i ) {
-        item *obj = item_spawn( itype_log, calendar::turn );
+        detached_ptr<item> obj = item::spawn( itype_log, calendar::turn );
         obj->set_var( "activity_var", p->name );
-        here.add_item_or_charges( pos, *obj );
+        here.add_item_or_charges( pos, std::move( obj ) );
     }
     for( int i = 0; i != stick_quan; ++i ) {
-        item *obj = item_spawn( itype_stick_long, calendar::turn );
+        detached_ptr<item> obj = item::spawn( itype_stick_long, calendar::turn );
         obj->set_var( "activity_var", p->name );
-        here.add_item_or_charges( pos, *obj );
+        here.add_item_or_charges( pos, std::move( obj ) );
     }
     for( int i = 0; i != splint_quan; ++i ) {
-        item *obj = item_spawn( itype_splinter, calendar::turn );
+        detached_ptr<item> obj = item::spawn( itype_splinter, calendar::turn );
         obj->set_var( "activity_var", p->name );
-        here.add_item_or_charges( pos, *obj );
+        here.add_item_or_charges( pos, std::move( obj ) );
     }
     here.ter_set( pos, t_dirt );
     p->add_msg_if_player( m_good, _( "You finish chopping wood." ) );
@@ -4790,6 +4775,5 @@ void activity_handlers::mind_splicer_finish( player_activity *act, player *p )
     p->add_msg_if_player( m_info, _( "…you finally find the memory banks." ) );
     p->add_msg_if_player( m_info, _( "The kit makes a copy of the data inside the bionic." ) );
     data_card.contents.clear_items();
-    item *scan = item_spawn( itype_mind_scan_robofac );
-    data_card.put_in( *scan );
+    data_card.put_in( std::move( item::spawn( itype_mind_scan_robofac ) ) );
 }

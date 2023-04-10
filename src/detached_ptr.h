@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_DETACHED_PTR_H
 #define CATA_SRC_DETACHED_PTR_H
 
-//#include "game_object.h"
+#include "debug.h"
 
 template <typename T>
 class game_object;
@@ -35,6 +35,7 @@ class detached_ptr
         detached_ptr<T> &operator=( detached_ptr &&source ) {
             ptr = source.ptr;
             source.ptr = nullptr;
+            return *this;
         }
 
         ~detached_ptr() {

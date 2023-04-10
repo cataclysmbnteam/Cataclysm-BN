@@ -139,7 +139,7 @@ enum class item_drop_reason {
 };
 
 void put_into_vehicle_or_drop( Character &c, item_drop_reason,
-                               detached_ptr<item> &&items );
+                               detached_ptr<item> &&it );
 void put_into_vehicle_or_drop( Character &c, item_drop_reason,
                                std::vector<detached_ptr<item>> &items );
 void put_into_vehicle_or_drop( Character &c, item_drop_reason,

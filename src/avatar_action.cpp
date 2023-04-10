@@ -145,8 +145,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
             }
         }
         if( you.has_trait( trait_BURROW ) ) {
-            //TODO!: what the shit
-            item *burrowing_item = item_spawn_temporary( itype_id( "fake_burrowing" ) );
+            item *burrowing_item = item::spawn_temporary( itype_id( "fake_burrowing" ) );
             you.invoke_item( burrowing_item, "BURROW", dest_loc );
             // don't move into the tile until done mining
             you.defer_move( dest_loc );
@@ -723,18 +722,22 @@ void avatar_action::fire_wielded_weapon( avatar &you )
         return;
     }
 
-    you.assign_activity( aim_activity_actor::use_wielded(), false );
+    you.assign_activity( std::move( std::make_unique<player_activity>
+                                    ( aim_activity_actor::use_wielded() ) ), false );
 }
 
-void avatar_action::fire_ranged_mutation( avatar &you, item &fake_gun )
+void avatar_action::fire_ranged_mutation( avatar &you, detached_ptr<item> &&fake_gun )
 {
-    you.assign_activity( aim_activity_actor::use_mutation( fake_gun ), false );
+    you.assign_activity( std::move( std::make_unique<player_activity>( aim_activity_actor::use_mutation(
+                                        std::move( fake_gun ) ) ) ), false );
 }
 
-void avatar_action::fire_ranged_bionic( avatar &you, item &fake_gun,
+void avatar_action::fire_ranged_bionic( avatar &you, detached_ptr<item> &&fake_gun,
                                         const units::energy &cost_per_shot )
 {
-    you.assign_activity( aim_activity_actor::use_bionic( fake_gun, cost_per_shot ), false );
+    you.assign_activity( std::move( std::make_unique<player_activity>( aim_activity_actor::use_bionic(
+                                        std::move( fake_gun ), cost_per_shot ) ) ),
+                         false );
 }
 
 void avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret )
@@ -773,7 +776,7 @@ bool avatar_action::eat_here( avatar &you )
     map &here = get_map();
     if( ( you.has_active_mutation( trait_RUMINANT ) || you.has_active_mutation( trait_GRAZER ) ) &&
         ( here.ter( you.pos() ) == t_underbrush || here.ter( you.pos() ) == t_shrub ) ) {
-        item &food = *item_spawn_temporary( itype_underbrush, calendar::turn, 1 );
+        item &food = *item::spawn_temporary( itype_underbrush, calendar::turn, 1 );
         if( you.get_stored_kcal() > you.max_stored_kcal() -
             food.get_comestible()->default_nutrition.kcal ) {
             add_msg( _( "You're too full to eat the leaves from the %s." ), here.ter( you.pos() )->name() );
@@ -788,7 +791,7 @@ bool avatar_action::eat_here( avatar &you )
     }
     if( you.has_active_mutation( trait_GRAZER ) && ( here.ter( you.pos() ) == t_grass ||
             here.ter( you.pos() ) == t_grass_long || here.ter( you.pos() ) == t_grass_tall ) ) {
-        item &food = *item_spawn_temporary( itype_grass, calendar::turn, 1 );
+        item &food = *item::spawn_temporary( itype_grass, calendar::turn, 1 );
         if( you.get_stored_kcal() > you.max_stored_kcal() -
             food.get_comestible()->default_nutrition.kcal ) {
             add_msg( _( "You're too full to graze." ) );
@@ -842,10 +845,9 @@ void avatar_action::eat( avatar &you, item *loc )
         if( loc->is_food_container() || !you.can_consume_as_is( *loc ) ) {
             item *content = &loc->contents.front();
             content->detach();
-            content->destroy();
             add_msg( _( "You leave the empty %s." ), loc->tname() );
         } else {
-            loc->destroy();
+            loc->detach();
         }
     }
     if( g->u.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
@@ -880,12 +882,8 @@ void avatar_action::plthrow( avatar &you, item *loc,
         add_msg( _( "Never mind." ) );
         return;
     }
-    // make a copy and get the original.
-    // the copy is thrown and has its and the originals charges set appropiately
-    // or deleted from inventory if its charges(1) or not stackable.
-    //TODO!: no more of that shit
-    item &thrown = *item_spawn( *loc );
-    int range = you.throw_range( thrown );
+
+    int range = you.throw_range( *loc );
     if( range < 0 ) {
         add_msg( m_info, _( "You don't have that item." ) );
         return;
@@ -929,12 +927,10 @@ void avatar_action::plthrow( avatar &you, item *loc,
                      loc->tname() );
             return;
         }
-
-        loc = &you.get_weapon();
     }
 
     throw_activity_actor actor( *loc, blind_throw_from_pos );
-    you.assign_activity( actor, false );
+    you.assign_activity( std::make_unique<player_activity>( actor ), false );
 }
 
 static void make_active( item &loc )
@@ -1012,7 +1008,7 @@ void avatar_action::wield()
         add_msg( _( "Never mind." ) );
     }
 }
-//TODO!: check pointers
+
 void avatar_action::wield( item &loc )
 {
     avatar &u = get_avatar();
@@ -1067,7 +1063,6 @@ void avatar_action::wield( item &loc )
             worn_index = Character::worn_position_to_index( item_pos );
         }
     }
-    loc.detach();
     if( !u.wield( *to_wield ) ) {
         switch( location_type ) {
             case item_location_type::container:
@@ -1080,20 +1075,24 @@ void avatar_action::wield( item &loc )
                 if( worn_index != INT_MIN ) {
                     auto it = u.worn.begin();
                     std::advance( it, worn_index );
-                    u.worn.insert( it, to_wield );
+                    u.worn.insert( it, std::move( to_wield->detach() ) );
                 } else {
-                    u.i_add( *to_wield );
+                    u.i_add( std::move( to_wield->detach() ) );
                 }
                 break;
             case item_location_type::map:
-                here.add_item( pos, *to_wield );
+                here.add_item( pos, std::move( to_wield->detach() ) );
                 break;
             case item_location_type::vehicle: {
                 const cata::optional<vpart_reference> vp = here.veh_at( pos ).part_with_feature( "CARGO", false );
                 // If we fail to return the item to the vehicle for some reason, add it to the map instead.
-                if( !vp || !( vp->vehicle().add_item( vp->part_index(), *to_wield ) ) ) {
-                    here.add_item( pos, *to_wield );
+                if( !vp || !( vp->vehicle().add_item( vp->part_index(), std::move( to_wield->detach() ) ) ) ) {
+                    here.add_item( pos, std::move( to_wield->detach() ) );
                 }
+                break;
+            }
+            case item_location_type::monster: {
+                debugmsg( "Failed wield from monster item location" );
                 break;
             }
             case item_location_type::invalid:

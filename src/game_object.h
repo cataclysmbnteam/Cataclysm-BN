@@ -21,13 +21,6 @@ class game_object
 
         game_object( const game_object & ) {}
 
-    public:
-
-        virtual ~game_object() = default;
-
-        //TODO Get rid of null items so this can be removed
-        virtual bool is_null() const = 0;
-
         void destroy() {
             if( is_null() ) {
                 return;
@@ -42,6 +35,18 @@ class game_object
 #endif
             cata_arena<T>::mark_for_destruction( static_cast<T *>( this ) );
         }
+
+        friend detached_ptr<T>;
+        friend location_ptr<T>;
+
+    public:
+
+        virtual ~game_object() = default;
+
+        //TODO Get rid of null items so this can be removed
+        virtual bool is_null() const = 0;
+
+
 
         detached_ptr<item> detach() {
             if( is_null() ) {

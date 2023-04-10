@@ -404,7 +404,9 @@ Character::Character() :
     cached_time( calendar::before_time_starts ),
     id( -1 ),
     next_climate_control_check( calendar::before_time_starts ),
-    last_climate_control_ret( false )
+    last_climate_control_ret( false ),
+    weapon(new wield_item_location( this )),
+    inv(new character_item_location(this))
 {
     str_max = 0;
     dex_max = 0;
@@ -6446,55 +6448,56 @@ bool Character::sees_with_specials( const Creature &critter ) const
     return false;
 }
 
-bool Character::pour_into( item &container, item &liquid )
+detached_ptr<item> Character::pour_into( item &container, detached_ptr<item> &&liquid )
 {
     std::string err;
-    const int amount = container.get_remaining_capacity_for_liquid( liquid, *this, &err );
+    const int amount = container.get_remaining_capacity_for_liquid( &*liquid, *this, &err );
 
     if( !err.empty() ) {
         add_msg_if_player( m_bad, err );
         return false;
     }
 
-    add_msg_if_player( _( "You pour %1$s into the %2$s." ), liquid.tname(), container.tname() );
+    add_msg_if_player( _( "You pour %1$s into the %2$s." ), liquid->tname(), container->tname() );
 
-    container.fill_with( liquid, amount );
+    liquid = std::move( container.fill_with( std::move( liquid ), amount ) );
     inv.unsort();
 
-    if( liquid.charges > 0 ) {
+    if( liquid ) {
         add_msg_if_player( _( "There's some left over!" ) );
     }
 
-    return true;
+    return liquid;
 }
 
-bool Character::pour_into( vehicle &veh, item &liquid )
+detached_ptr<item> Character::pour_into( vehicle &veh, detached_ptr<item> &&liquid )
 {
     auto sel = [&]( const vehicle_part & pt ) {
-        return pt.is_tank() && pt.can_reload( &liquid );
+        return pt.is_tank() && pt.can_reload( &*liquid );
     };
 
-    auto stack = units::legacy_volume_factor / liquid.type->stack_size;
+    auto stack = units::legacy_volume_factor / liquid->type->stack_size;
     auto title = string_format( _( "Select target tank for <color_%s>%.1fL %s</color>" ),
-                                get_all_colors().get_name( liquid.color() ),
-                                round_up( to_liter( liquid.charges * stack ), 1 ),
-                                liquid.tname() );
+                                get_all_colors().get_name( liquid->color() ),
+                                round_up( to_liter( liquid->charges * stack ), 1 ),
+                                liquid->tname() );
 
     auto &tank = veh_interact::select_part( veh, sel, title );
     if( !tank ) {
         return false;
     }
 
-    tank.fill_with( liquid );
-
     //~ $1 - vehicle name, $2 - part name, $3 - liquid type
     add_msg_if_player( _( "You refill the %1$s's %2$s with %3$s." ),
                        veh.name, tank.name(), liquid.type_name() );
 
-    if( liquid.charges > 0 ) {
+    liquid = std::move( tank.fill_with( std::move( liquid ) ) );
+
+
+    if( liquid ) {
         add_msg_if_player( _( "There's some left over!" ) );
     }
-    return true;
+    return liquid;
 }
 
 resistances Character::mutation_armor( bodypart_id bp ) const
@@ -9671,7 +9674,6 @@ item &Character::get_weapon() const
 
 void Character::set_weapon( item &weap )
 {
-    weap.set_location( new wield_item_location( this ) );
     weapon = &weap;
 }
 

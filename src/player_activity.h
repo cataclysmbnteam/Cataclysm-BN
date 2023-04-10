@@ -33,7 +33,7 @@ class player_activity
 {
     private:
         activity_id type;
-        cata::clone_ptr<activity_actor> actor;
+        std::unique_ptr<activity_actor> actor;
 
         std::set<distraction_type> ignored_distractions;
 
@@ -79,11 +79,10 @@ class player_activity
          * Create a new activity with the given actor
          */
         player_activity( const activity_actor &actor );
+        player_activity( std::unique_ptr<activity_actor> &&actor );
 
         player_activity( player_activity && ) = default;
-        player_activity( const player_activity & ) = default;
         player_activity &operator=( player_activity && ) = default;
-        player_activity &operator=( const player_activity & ) = default;
 
         explicit operator bool() const {
             return !type.is_null();

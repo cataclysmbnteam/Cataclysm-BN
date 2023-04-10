@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_AVATAR_ACTION_H
 #define CATA_SRC_AVATAR_ACTION_H
 
+#include "detached_ptr.h"
 #include "optional.h"
 #include "point.h"
 #include "units.h"
@@ -73,10 +74,11 @@ bool can_fire_weapon( avatar &you, const map &m, const item &weapon );
 void fire_wielded_weapon( avatar &you );
 
 /** Stores fake gun specified by the mutation and starts interactive aiming */
-void fire_ranged_mutation( avatar &you, item &fake_gun );
+void fire_ranged_mutation( avatar &you, detached_ptr<item> &&fake_gun );
 
 /** Stores fake gun specified by the bionic and starts interactive aiming */
-void fire_ranged_bionic( avatar &you, item &fake_gun, const units::energy &cost_per_shot );
+void fire_ranged_bionic( avatar &you, detached_ptr<item> &&fake_gun,
+                         const units::energy &cost_per_shot );
 
 /**
  * Checks if the player can manually (with their 2 hands, not via vehicle controls)

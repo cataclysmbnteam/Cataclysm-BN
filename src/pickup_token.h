@@ -54,7 +54,7 @@ struct stacked_items {
 std::vector<pick_drop_selection> optimize_pickup( const std::vector<item *> &targets,
         const std::vector<int> &quantities );
 std::list<act_item> reorder_for_dropping( Character &p, const drop_locations &drop );
-ItemList obtain_and_tokenize_items( player &p, std::list<act_item> &items );
+std::vector<detached_ptr<item>> obtain_and_tokenize_items( player &p, std::list<act_item> &items );
 std::vector<stacked_items> stack_for_pickup_ui( const
         std::vector<item_stack::iterator> &unstacked );
 // TODO: This probably shouldn't return raw iterators

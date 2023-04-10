@@ -419,7 +419,7 @@ class monster : public Creature, public visitable<monster>
         /** Makes this monster an ally of the given monster. */
         void make_ally( const monster &z );
         // Add an item to inventory
-        void add_item( item &it );
+        void add_item( detached_ptr<item> &&it );
         // check mech power levels and modify it.
         bool use_mech_power( int amt );
         bool check_mech_powered() const;
@@ -428,9 +428,10 @@ class monster : public Creature, public visitable<monster>
         void process_items();
 
         std::vector<item *> &get_items();
-        void add_item( item *it );
-        void remove_item( item *it );
+        detached_ptr<item> remove_item( item *it );
         std::vector<item *>::iterator remove_item( std::vector<item *>::iterator &it );
+        std::vector<item *>::iterator remove_item( std::vector<item *>::iterator &it,
+                detached_ptr<item> &result );
         void clear_items();
         void drop_items();
         void drop_items( const tripoint &p );

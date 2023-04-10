@@ -36,6 +36,7 @@
 #include "item_handling_util.h"
 #include "item.h"
 #include "item_location.h"
+#include "location_ptr.h"
 #include "memory_fast.h"
 #include "optional.h"
 #include "pimpl.h"
@@ -1224,7 +1225,7 @@ class Character : public Creature, public visitable<Character>
         /**
          * Sets the character's weapon.
          */
-        void set_weapon( item &it );
+        void set_weapon( detached_ptr<item> &&it );
 
         /**
          * Returns a reference to the item which will be used to make attacks.
@@ -1241,20 +1242,18 @@ class Character : public Creature, public visitable<Character>
          * @param unloading Do not try to add to a container when the item was intentionally unloaded.
          * @return Remaining charges which could not be stored in a container.
          */
-        int i_add_to_container( const item &it, bool unloading );
-        item &i_add( item &it, bool should_stack = true );
+        detached_ptr<item> i_add_to_container( detached_ptr<item> &&it, bool unloading );
+        detached_ptr<item> i_add( detached_ptr<item> &&it, bool should_stack = true );
 
         /**
          * Try to pour the given liquid into the given container/vehicle. The transferred charges are
-         * removed from the liquid item. Check the return value to see if anything has
-         * been transferred at all.
+         * removed from the liquid item. The return value is the remaining liquid that could not be transferred.
          * The functions do not consume any move points.
-         * @return Whether anything has been moved at all. `false` indicates the transfer is not
-         * possible at all. `true` indicates at least some of the liquid has been moved.
+         * @return The remaining liquid, if any.
          */
         /**@{*/
-        bool pour_into( item &container, item &liquid, int limit );
-        bool pour_into( vehicle &veh, item &liquid, int limit );
+        detached_ptr<item> pour_into( item &container, detached_ptr<item> &&liquid, int limit );
+        detached_ptr<item> pour_into( vehicle &veh, detached_ptr<item> &&liquid, int limit );
         /**@}*/
 
         /**
@@ -1264,7 +1263,7 @@ class Character : public Creature, public visitable<Character>
          * exists, use @ref has_item to check this.
          * @return A copy of the removed item.
          */
-        item &i_rem( int pos );
+        detached_ptr<item> i_rem( int pos );
         /**
          * Remove a specific item from player possession. The item is compared
          * by pointer. Contents of the item are removed as well.
@@ -1272,11 +1271,11 @@ class Character : public Creature, public visitable<Character>
          * in the players possession (one can use @ref has_item to check for this).
          * @return A copy of the removed item.
          */
-        item &i_rem( const item *it );
+        detached_ptr<item> i_rem( const item *it );
         void i_rem_keep_contents( int idx );
         /** Sets invlet and adds to inventory if possible, drops otherwise, returns true if either succeeded.
          *  An optional qty can be provided (and will perform better than separate calls). */
-        bool i_add_or_drop( item &it, int qty = 1 );
+        bool i_add_or_drop( detached_ptr<item> &&it, int qty = 1 );
 
         /** Only use for UI things. Returns all invlets that are currently used in
          * the player inventory, the weapon slot and the worn items. */
@@ -1286,7 +1285,7 @@ class Character : public Creature, public visitable<Character>
          * Whether the player carries an active item of the given item type.
          */
         bool has_active_item( const itype_id &id ) const;
-        item &remove_weapon();
+        detached_ptr<item> remove_weapon();
         bool has_mission_item( int mission_id ) const;
         void remove_mission_items( int mission_id );
         /** Maximum thrown range with a given item, taking all active effects into account. */
@@ -1348,7 +1347,7 @@ class Character : public Creature, public visitable<Character>
          * @return nullopt on fail, pointer to newly worn item on success.
          */
         cata::optional<std::vector<item *>::iterator>
-        wear_item( item &to_wear, bool interactive = true );
+        wear_item( detached_ptr<item> to_wear, bool interactive = true );
 
         /**
          * Check if character is capable of taking off given item.
@@ -1362,7 +1361,7 @@ class Character : public Creature, public visitable<Character>
          * @param[out] res If set, moves resulting item into the list.
          * @return true on success
          */
-        bool takeoff( item &it, std::vector<item *> *res = nullptr );
+        bool takeoff( item &it, std::vector<detached_ptr<item>> *res = nullptr );
 
         /**
          * Returns true if the character is wielding something.
@@ -1375,7 +1374,7 @@ class Character : public Creature, public visitable<Character>
         /**
          * Removes currently wielded item (if any) and replaces it with the target item.
          * @param target replacement item to wield or null item to remove existing weapon without replacing it
-         * @return whether both removal and replacement were successful (they are performed atomically)
+         * @return If the item was not wielded it will be returned
          */
         virtual bool wield( item &target ) = 0;
 
@@ -1575,7 +1574,7 @@ class Character : public Creature, public visitable<Character>
         std::string name;
         bool male = true;
 
-        ItemList worn;
+        location_vector<item> worn;
         std::array<int, num_hp_parts> damage_bandaged, damage_disinfected;
         bool nv_cached = false;
         // Means player sit inside vehicle on the tile he is now
@@ -1646,14 +1645,14 @@ class Character : public Creature, public visitable<Character>
 
         // has_amount works ONLY for quantity.
         // has_charges works ONLY for charges.
-        ItemList use_amount( itype_id it, int quantity,
-                             const std::function<bool( const item & )> &filter = return_true<item> );
+        std::vector<detached_ptr<item>> use_amount( itype_id it, int quantity,
+                                     const std::function<bool( const item & )> &filter = return_true<item> );
         // Uses up charges
         bool use_charges_if_avail( const itype_id &it, int quantity );
 
         // Uses up charges
-        ItemList use_charges( const itype_id &what, int qty,
-                              const std::function<bool( const item & )> &filter = return_true<item> );
+        std::vector<detached_ptr<item>> use_charges( const itype_id &what, int qty,
+                                     const std::function<bool( const item & )> &filter = return_true<item> );
 
         bool has_fire( int quantity ) const;
         void use_fire( int quantity );
@@ -1667,7 +1666,7 @@ class Character : public Creature, public visitable<Character>
                               int index = -1, int pos = INT_MIN,
                               const std::string &name = "" );
         /** Assigns activity to player, possibly resuming old activity if it's similar enough. */
-        void assign_activity( const player_activity &act, bool allow_resume = true );
+        void assign_activity( std::unique_ptr<player_activity> act, bool allow_resume = true );
         /** Check if player currently has a given activity */
         bool has_activity( const activity_id &type ) const;
         /** Check if player currently has any of the given activities */
@@ -1754,7 +1753,7 @@ class Character : public Creature, public visitable<Character>
 
     protected:
         void on_damage_of_type( int adjusted_damage, damage_type type, const bodypart_id &bp ) override;
-        inventory inv;
+        location_inventory inv;
     public:
         /** temporary hack until creatures are made into GOs */
         void destruct_hack();
@@ -2259,7 +2258,7 @@ class Character : public Creature, public visitable<Character>
         // A unique ID number, assigned by the game class. Values should never be reused.
         character_id id;
 
-        item *weapon;
+        location_ptr<item> weapon;
 
         units::energy power_level;
         units::energy max_power_level;

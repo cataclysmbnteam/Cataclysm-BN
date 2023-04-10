@@ -1558,22 +1558,20 @@ class vehicle
         /**
          * Try to add an item to part's cargo.
          *
-         * @returns cata::nullopt if it can't be put here (not a cargo part, adding this would violate
-         * the volume limit or item count limit, not all charges can fit, etc.)
-         * Otherwise, returns an iterator to the added item in the vehicle stack
+         * @returns a null detached pointer if the item was added, otherwise returns the items detached pointer.
          */
-        cata::optional<vehicle_stack::iterator> add_item( int part, item &itm );
+        detached_ptr<item> add_item( int part, detached_ptr<item> &&itm );
         /** Like the above */
-        cata::optional<vehicle_stack::iterator> add_item( vehicle_part &pt, item &obj );
+        detached_ptr<item> add_item( vehicle_part &pt, detached_ptr<item> &&obj );
         /**
          * Add an item counted by charges to the part's cargo.
          *
-         * @returns The number of charges added.
+         * @returns Any remaining charges that couldn't be added.
          */
-        int add_charges( int part, const item &itm );
+        detached_ptr<item> add_charges( int part, detached_ptr<item> &&itm );
 
         // remove item from part's cargo
-        bool remove_item( int part, item *it );
+        detached_ptr<item> remove_item( int part, item *it );
         vehicle_stack::iterator remove_item( int part, vehicle_stack::const_iterator it );
         vehicle_stack::iterator remove_item( int part, vehicle_stack::const_iterator first,
                                              vehicle_stack::const_iterator last );

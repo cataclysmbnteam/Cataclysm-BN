@@ -381,8 +381,8 @@ class item : public visitable<item>, public game_object<item>
          * With the default parameters it makes a human corpse, created at the current turn.
          */
         /*@{*/
-        static item &make_corpse( const mtype_id &mt = string_id<mtype>::NULL_ID(),
-                                  time_point turn = calendar::turn, const std::string &name = "", int upgrade_time = -1 );
+        static detached_ptr<item> make_corpse( const mtype_id &mt = string_id<mtype>::NULL_ID(),
+                                               time_point turn = calendar::turn, const std::string &name = "", int upgrade_time = -1 );
         /*@}*/
         /**
          * @return The monster type associated with this item (@ref corpse). It is usually the
@@ -581,7 +581,7 @@ class item : public visitable<item>, public game_object<item>
          * Merging is only done for items counted by charges (@ref count_by_charges) and
          * items that stack together (@ref stacks_with).
          */
-        bool merge_charges( item &rhs );
+        bool merge_charges( detached_ptr<item> &&rhs );
 
         units::mass weight( bool include_contents = true, bool integral = false ) const;
 
@@ -750,8 +750,9 @@ class item : public visitable<item>, public game_object<item>
          * liquid ammo.
          * @param liquid Liquid to fill the container with.
          * @param amount Amount to fill item with, capped by remaining capacity
+         * @return the remaining liquid
          */
-        void fill_with( item &liquid, int amount = INFINITE_CHARGES );
+        detached_ptr<item> fill_with( detached_ptr<item> &&liquid, int amount = INFINITE_CHARGES );
         /**
          * How much more of this liquid (in charges) can be put in this container.
          * If this is not a container (or not suitable for the liquid), it returns 0.

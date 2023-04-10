@@ -364,7 +364,6 @@ void gunmod_add( avatar &you, item &gun, item &mod )
     bool requery = false;
 
     item &modded = gun;
-    modded.put_in( mod );
     bool no_magazines = modded.common_ammo_default().is_null();
 
     std::string query_msg = mod.is_irremovable()

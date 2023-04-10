@@ -119,14 +119,14 @@ class player : public Character
          * @return An item that contains the removed charges, it's effectively a
          * copy of the item with the proper charges.
          */
-        item *reduce_charges( int position, int quantity );
+        detached_ptr<item> reduce_charges( int position, int quantity );
         /**
          * Remove charges from a specific item (given by a pointer to it).
          * Otherwise identical to @ref reduce_charges(int,int)
          * @param it A pointer to the item, it *must* exist.
          * @param quantity How many charges to remove
          */
-        item *reduce_charges( item *it, int quantity );
+        detached_ptr<item> reduce_charges( item *it, int quantity );
 
         // Checks crafting inventory for books providing the requested recipe.
         // Then checks nearby NPCs who could provide it too.
