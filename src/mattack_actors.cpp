@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <limits>
 #include <memory>
+#include <optional>
 
 #include "avatar.h"
 #include "calendar.h"
@@ -481,10 +482,11 @@ int gun_actor::get_max_range()  const
     return max_range;
 }
 
-static bool find_target_vehicle( monster &z, int range, tripoint &aim_at )
+static std::optional<tripoint> find_target_vehicle( monster &z, int range )
 {
     map &here = get_map();
     bool found = false;
+    tripoint aim_at;
     for( wrapped_vehicle &v : here.get_vehicles() ) {
         if( ( !fov_3d && v.pos.z != z.pos().z ) || v.v->velocity == 0 ) {
             continue;
@@ -506,17 +508,31 @@ static bool find_target_vehicle( monster &z, int range, tripoint &aim_at )
         }
 
         if( !found_controls ) {
-            if( z.sees( v.v->global_pos3() ) ) {
-                int new_dist = rl_dist( z.pos(), v.v->global_pos3() );
-                if( new_dist <= range ) {
-                    aim_at = v.v->global_pos3();
-                    range = new_dist;
-                    found = true;
+            std::vector<tripoint> line = here.find_clear_path( z.pos(), v.v->global_pos3() );
+            tripoint prev_point = z.pos();
+            for( auto &i : line ) {
+                optional_vpart_position vp = here.veh_at( i );
+                if( vp && &vp->vehicle() == v.v ) {
+                    int new_dist = rl_dist( z.pos(), i );
+                    if( new_dist <= range ) {
+                        aim_at = i;
+                        range = new_dist;
+                        found = true;
+                    }
+                    break;
                 }
+                if( !here.is_transparent( i ) ) {
+                    break;
+                }
+                prev_point = i;
             }
         }
     }
-    return found;
+    if( found ) {
+        return std::make_optional( aim_at );
+    } else {
+        return std::optional<tripoint>();
+    }
 }
 
 bool gun_actor::call( monster &z ) const
@@ -547,9 +563,11 @@ bool gun_actor::call( monster &z ) const
                 return false;
             }
             //No living targets, try to find a moving car
-            if( !find_target_vehicle( z, get_max_range(), aim_at ) ) {
+            std::optional<tripoint> aim = find_target_vehicle( z, get_max_range() );
+            if( !aim ) {
                 return false;
             }
+            aim_at = *aim;
             untargeted = true;
         } else {
             aim_at = target->pos();
