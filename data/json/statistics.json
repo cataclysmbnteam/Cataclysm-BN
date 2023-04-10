@@ -514,5 +514,769 @@
     "event_type": "crosses_mutation_threshold",
     "value_constraints": { "category": { "equals": "LUPINE" } },
     "drop_fields": [ "category" ]
+  },
+  {
+    "id": "num_gains_archery_level_5",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_archery_level_5",
+    "description": { "str_sp": "archery skill level 5 gained" }
+  },
+  {
+    "id": "avatar_gains_archery_level_5",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "archery" }, "new_level": { "equals": 5 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_archery_level_10",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_archery_level_10",
+    "description": { "str_sp": "archery skill level 10 gained" }
+  },
+  {
+    "id": "avatar_gains_archery_level_10",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "archery" }, "new_level": { "equals": 10 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_barter_level_5",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_barter_level_5",
+    "description": { "str_sp": "bartering skill level 5 gained" }
+  },
+  {
+    "id": "avatar_gains_barter_level_5",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "barter" }, "new_level": { "equals": 5 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_barter_level_10",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_barter_level_10",
+    "description": { "str_sp": "bartering skill level 10 gained" }
+  },
+  {
+    "id": "avatar_gains_barter_level_10",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "barter" }, "new_level": { "equals": 10 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_bashing_level_5",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_bashing_level_5",
+    "description": { "str_sp": "bashing weapons skill level 5 gained" }
+  },
+  {
+    "id": "avatar_gains_bashing_level_5",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "bashing" }, "new_level": { "equals": 5 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_bashing_level_10",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_bashing_level_10",
+    "description": { "str_sp": "bashing weapons skill level 10 gained" }
+  },
+  {
+    "id": "avatar_gains_bashing_level_10",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "bashing" }, "new_level": { "equals": 10 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_computer_level_5",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_computer_level_5",
+    "description": { "str_sp": "computers skill level 5 gained" }
+  },
+  {
+    "id": "avatar_gains_computer_level_5",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "computer" }, "new_level": { "equals": 5 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_computer_level_10",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_computer_level_10",
+    "description": { "str_sp": "computers skill level 10 gained" }
+  },
+  {
+    "id": "avatar_gains_computer_level_10",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "computer" }, "new_level": { "equals": 10 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_cooking_level_5",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_cooking_level_5",
+    "description": { "str_sp": "cooking skill level 5 gained" }
+  },
+  {
+    "id": "avatar_gains_cooking_level_5",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "cooking" }, "new_level": { "equals": 5 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_cooking_level_10",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_cooking_level_10",
+    "description": { "str_sp": "cooking skill level 10 gained" }
+  },
+  {
+    "id": "avatar_gains_cooking_level_10",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "cooking" }, "new_level": { "equals": 10 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_cutting_level_5",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_cutting_level_5",
+    "description": { "str_sp": "cutting weapons skill level 5 gained" }
+  },
+  {
+    "id": "avatar_gains_cutting_level_5",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "cutting" }, "new_level": { "equals": 5 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_cutting_level_10",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_cutting_level_10",
+    "description": { "str_sp": "cutting weapons skill level 10 gained" }
+  },
+  {
+    "id": "avatar_gains_cutting_level_10",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "cutting" }, "new_level": { "equals": 10 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_dodge_level_5",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_dodge_level_5",
+    "description": { "str_sp": "dodging skill level 5 gained" }
+  },
+  {
+    "id": "avatar_gains_dodge_level_5",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "dodge" }, "new_level": { "equals": 5 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_dodge_level_10",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_dodge_level_10",
+    "description": { "str_sp": "dodging skill level 10 gained" }
+  },
+  {
+    "id": "avatar_gains_dodge_level_10",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "dodge" }, "new_level": { "equals": 10 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_driving_level_5",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_driving_level_5",
+    "description": { "str_sp": "driving skill level 5 gained" }
+  },
+  {
+    "id": "avatar_gains_driving_level_5",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "driving" }, "new_level": { "equals": 5 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_driving_level_10",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_driving_level_10",
+    "description": { "str_sp": "driving skill level 10 gained" }
+  },
+  {
+    "id": "avatar_gains_driving_level_10",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "driving" }, "new_level": { "equals": 10 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_electronics_level_5",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_electronics_level_5",
+    "description": { "str_sp": "electronics skill level 5 gained" }
+  },
+  {
+    "id": "avatar_gains_electronics_level_5",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "electronics" }, "new_level": { "equals": 5 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_electronics_level_10",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_electronics_level_10",
+    "description": { "str_sp": "electronics skill level 10 gained" }
+  },
+  {
+    "id": "avatar_gains_electronics_level_10",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": "electronics" },
+      "new_level": { "equals": 10 }
+    },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_fabrication_level_5",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_fabrication_level_5",
+    "description": { "str_sp": " skill level 5 gained" }
+  },
+  {
+    "id": "avatar_gains_fabrication_level_5",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "fabrication" }, "new_level": { "equals": 5 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_fabrication_level_10",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_fabrication_level_10",
+    "description": { "str_sp": "fabrication skill level 10 gained" }
+  },
+  {
+    "id": "avatar_gains_fabrication_level_10",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": "fabrication" },
+      "new_level": { "equals": 10 }
+    },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_firstaid_level_5",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_firstaid_level_5",
+    "description": { "str_sp": "first aid skill level 5 gained" }
+  },
+  {
+    "id": "avatar_gains_firstaid_level_5",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "firstaid" }, "new_level": { "equals": 5 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_firstaid_level_10",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_firstaid_level_10",
+    "description": { "str_sp": "first aid skill level 10 gained" }
+  },
+  {
+    "id": "avatar_gains_firstaid_level_10",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "firstaid" }, "new_level": { "equals": 10 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_gun_level_5",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_gun_level_5",
+    "description": { "str_sp": "marksmanship skill level 5 gained" }
+  },
+  {
+    "id": "avatar_gains_gun_level_5",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "gun" }, "new_level": { "equals": 5 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_gun_level_10",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_gun_level_10",
+    "description": { "str_sp": "marksmanship skill level 10 gained" }
+  },
+  {
+    "id": "avatar_gains_gun_level_10",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "gun" }, "new_level": { "equals": 10 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_launcher_level_5",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_launcher_level_5",
+    "description": { "str_sp": "launchers skill level 5 gained" }
+  },
+  {
+    "id": "avatar_gains_launcher_level_5",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "launcher" }, "new_level": { "equals": 5 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_launcher_level_10",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_launcher_level_10",
+    "description": { "str_sp": "launchers skill level 10 gained" }
+  },
+  {
+    "id": "avatar_gains_launcher_level_10",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "launcher" }, "new_level": { "equals": 10 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_mechanics_level_5",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_mechanics_level_5",
+    "description": { "str_sp": "mechanics skill level 5 gained" }
+  },
+  {
+    "id": "avatar_gains_mechanics_level_5",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "mechanics" }, "new_level": { "equals": 5 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_mechanics_level_10",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_mechanics_level_10",
+    "description": { "str_sp": "mechanics skill level 10 gained" }
+  },
+  {
+    "id": "avatar_gains_mechanics_level_10",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "mechanics" }, "new_level": { "equals": 10 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_melee_level_5",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_melee_level_5",
+    "description": { "str_sp": "melee skill level 5 gained" }
+  },
+  {
+    "id": "avatar_gains_melee_level_5",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "melee" }, "new_level": { "equals": 5 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_melee_level_10",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_melee_level_10",
+    "description": { "str_sp": "melee skill level 10 gained" }
+  },
+  {
+    "id": "avatar_gains_melee_level_10",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "melee" }, "new_level": { "equals": 10 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_pistol_level_5",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_pistol_level_5",
+    "description": { "str_sp": "handguns skill level 5 gained" }
+  },
+  {
+    "id": "avatar_gains_pistol_level_5",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "pistol" }, "new_level": { "equals": 5 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_pistol_level_10",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_pistol_level_10",
+    "description": { "str_sp": "handguns skill level 10 gained" }
+  },
+  {
+    "id": "avatar_gains_pistol_level_10",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "pistol" }, "new_level": { "equals": 10 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_rifle_level_5",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_rifle_level_5",
+    "description": { "str_sp": "rifles skill level 5 gained" }
+  },
+  {
+    "id": "avatar_gains_rifle_level_5",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "rifle" }, "new_level": { "equals": 5 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_rifle_level_10",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_rifle_level_10",
+    "description": { "str_sp": "rifles skill level 10 gained" }
+  },
+  {
+    "id": "avatar_gains_rifle_level_10",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "rifle" }, "new_level": { "equals": 10 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_shotgun_level_5",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_shotgun_level_5",
+    "description": { "str_sp": "shotguns skill level 5 gained" }
+  },
+  {
+    "id": "avatar_gains_shotgun_level_5",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "shotgun" }, "new_level": { "equals": 5 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_shotgun_level_10",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_shotgun_level_10",
+    "description": { "str_sp": "shotguns skill level 10 gained" }
+  },
+  {
+    "id": "avatar_gains_shotgun_level_10",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "shotgun" }, "new_level": { "equals": 10 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_smg_level_5",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_smg_level_5",
+    "description": { "str_sp": "submachine guns skill level 5 gained" }
+  },
+  {
+    "id": "avatar_gains_smg_level_5",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "smg" }, "new_level": { "equals": 5 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_smg_level_10",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_smg_level_10",
+    "description": { "str_sp": "submachine guns skill level 10 gained" }
+  },
+  {
+    "id": "avatar_gains_smg_level_10",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "smg" }, "new_level": { "equals": 10 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_speech_level_5",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_speech_level_5",
+    "description": { "str_sp": "speech skill level 5 gained" }
+  },
+  {
+    "id": "avatar_gains_speech_level_5",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "speech" }, "new_level": { "equals": 5 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_speech_level_10",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_speech_level_10",
+    "description": { "str_sp": "speech skill level 10 gained" }
+  },
+  {
+    "id": "avatar_gains_speech_level_10",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "speech" }, "new_level": { "equals": 10 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_stabbing_level_5",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_stabbing_level_5",
+    "description": { "str_sp": "piercing weapons skill level 5 gained" }
+  },
+  {
+    "id": "avatar_gains_stabbing_level_5",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "stabbing" }, "new_level": { "equals": 5 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_stabbing_level_10",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_stabbing_level_10",
+    "description": { "str_sp": "piercing weapons skill level 10 gained" }
+  },
+  {
+    "id": "avatar_gains_stabbing_level_10",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "stabbing" }, "new_level": { "equals": 10 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_survival_level_5",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_survival_level_5",
+    "description": { "str_sp": "survival skill level 5 gained" }
+  },
+  {
+    "id": "avatar_gains_survival_level_5",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "survival" }, "new_level": { "equals": 5 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_survival_level_10",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_survival_level_10",
+    "description": { "str_sp": "survival skill level 10 gained" }
+  },
+  {
+    "id": "avatar_gains_survival_level_10",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "survival" }, "new_level": { "equals": 10 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_swimming_level_5",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_swimming_level_5",
+    "description": { "str_sp": "swimming skill level 5 gained" }
+  },
+  {
+    "id": "avatar_gains_swimming_level_5",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "swimming" }, "new_level": { "equals": 5 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_swimming_level_10",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_swimming_level_10",
+    "description": { "str_sp": "swimming skill level 10 gained" }
+  },
+  {
+    "id": "avatar_gains_swimming_level_10",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "swimming" }, "new_level": { "equals": 10 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_tailor_level_5",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_tailor_level_5",
+    "description": { "str_sp": "tailoring skill level 5 gained" }
+  },
+  {
+    "id": "avatar_gains_tailor_level_5",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "tailor" }, "new_level": { "equals": 5 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_tailor_level_10",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_tailor_level_10",
+    "description": { "str_sp": "tailoring skill level 10 gained" }
+  },
+  {
+    "id": "avatar_gains_tailor_level_10",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "tailor" }, "new_level": { "equals": 10 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_throw_level_5",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_throw_level_5",
+    "description": { "str_sp": "throwing skill level 5 gained" }
+  },
+  {
+    "id": "avatar_gains_throw_level_5",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "throw" }, "new_level": { "equals": 5 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_throw_level_10",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_throw_level_10",
+    "description": { "str_sp": "throwing skill level 10 gained" }
+  },
+  {
+    "id": "avatar_gains_throw_level_10",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "throw" }, "new_level": { "equals": 10 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_traps_level_5",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_traps_level_5",
+    "description": { "str_sp": "trapping skill level 5 gained" }
+  },
+  {
+    "id": "avatar_gains_traps_level_5",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "traps" }, "new_level": { "equals": 5 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_traps_level_10",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_traps_level_10",
+    "description": { "str_sp": "trapping skill level 10 gained" }
+  },
+  {
+    "id": "avatar_gains_traps_level_10",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "traps" }, "new_level": { "equals": 10 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_unarmed_level_5",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_unarmed_level_5",
+    "description": { "str_sp": "unarmed skill level 5 gained" }
+  },
+  {
+    "id": "avatar_gains_unarmed_level_5",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "unarmed" }, "new_level": { "equals": 5 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_unarmed_level_10",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_unarmed_level_10",
+    "description": { "str_sp": "unarmed skill level 10 gained" }
+  },
+  {
+    "id": "avatar_gains_unarmed_level_10",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "unarmed" }, "new_level": { "equals": 10 } },
+    "drop_fields": [ "character", "skill", "new_level" ]
   }
 ]
