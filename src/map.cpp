@@ -2075,6 +2075,23 @@ bool map::has_floor( const tripoint &p ) const
     return get_cache_ref( p.z ).floor_cache[p.x][p.y];
 }
 
+bool map::floor_between( const tripoint &first, const tripoint &second ) const
+{
+    int diff = std::abs( first.z - second.z );
+    if( diff == 0 ) { //There's never a floor between two tiles on the same level
+        return false;
+    }
+    if( diff != 1 ) {
+        debugmsg( "map::floor_between should only be called on tiles that are exactly 1 z level apart" );
+        return true;
+    }
+    int upper = std::max( first.z, second.z );
+    if( first.xy() == second.xy() ) {
+        return has_floor( tripoint( first.xy(), upper ) );
+    }
+    return has_floor( tripoint( first.xy(), upper ) ) && has_floor( tripoint( second.xy(), upper ) );
+}
+
 bool map::supports_above( const tripoint &p ) const
 {
     const maptile tile = maptile_at( p );

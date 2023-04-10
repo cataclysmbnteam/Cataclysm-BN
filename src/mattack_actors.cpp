@@ -510,7 +510,10 @@ static std::optional<tripoint> find_target_vehicle( monster &z, int range )
         if( !found_controls ) {
             std::vector<tripoint> line = here.find_clear_path( z.pos(), v.v->global_pos3() );
             tripoint prev_point = z.pos();
-            for( auto &i : line ) {
+            for( tripoint &i : line ) {
+                if( here.floor_between( prev_point, i ) ) {
+                    break;
+                }
                 optional_vpart_position vp = here.veh_at( i );
                 if( vp && &vp->vehicle() == v.v ) {
                     int new_dist = rl_dist( z.pos(), i );
