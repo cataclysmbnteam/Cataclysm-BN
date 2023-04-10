@@ -1206,7 +1206,7 @@ void options_manager::add_options_general()
     };
 
     add( "PROMPT_ON_CHARACTER_DEATH", "general", translate_marker( "Prompt on character death" ),
-         translate_marker( "If false, when your character die, it's unavoidable: savefile is automatically deleted and character is put into the graveyard.  If true, on character death the player is prompted to cancel savefile deletion and return to main menu instead." ),
+         translate_marker( "If enabled, when your character dies, the player is given a prompt that gives the option to cancel savefile deletion and other death effects, returning to the main menu without saving instead." ),
          false
        );
 
