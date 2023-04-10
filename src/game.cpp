@@ -747,7 +747,12 @@ bool game::start_game()
         const auto mission = mission::reserve_new( m, character_id() );
         mission->assign( u );
     }
-
+    for( Skill &elem : Skill::skills ) {
+        int level = u.get_skill_level_object( elem.ident() ).level();
+        if( level > 0 ) {
+            g->events().send<event_type::gains_skill_level>( u.getID(), elem.ident(), level );
+        }
+    }
     g->events().send<event_type::game_start>( u.getID() );
     return true;
 }

@@ -690,6 +690,7 @@
     "type": "achievement",
     "name": { "str": "[Skill] Wax On, Wax Off" },
     "description": "To be your own weapon.",
-    "requirements": [ { "event_statistic": "num_gains_unarmed_level_10", "is": ">=", "target": 1 } ]
+    "requirements": [ { "event_statistic": "num_gains_unarmed_level_10", "is": ">=", "target": 1 } ],
+    "hidden_by": [ "achievement_lvl_5_unarmed" ]
   }
 ]
