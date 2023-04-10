@@ -1273,9 +1273,9 @@ class Character : public Creature, public visitable<Character>
          */
         detached_ptr<item> i_rem( const item *it );
         void i_rem_keep_contents( int idx );
-        /** Sets invlet and adds to inventory if possible, drops otherwise, returns true if either succeeded.
+        /** Sets invlet and adds to inventory if possible, drops otherwise, returns the item if either failed.
          *  An optional qty can be provided (and will perform better than separate calls). */
-        bool i_add_or_drop( detached_ptr<item> &&it, int qty = 1 );
+        detached_ptr<item> i_add_or_drop( detached_ptr<item> &&it, int qty = 1 );
 
         /** Only use for UI things. Returns all invlets that are currently used in
          * the player inventory, the weapon slot and the worn items. */

@@ -69,6 +69,9 @@ void item_contents::casings_handle( const std::function<bool( item & )> &func )
     for( auto it = items.begin(); it != items.end(); ) {
         if( ( *it )->has_flag( "CASING" ) ) {
             ( *it )->unset_flag( "CASING" );
+            
+            
+            
             if( func( **it ) ) {
                 it = items.erase( it );
                 continue;

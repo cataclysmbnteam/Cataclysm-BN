@@ -109,15 +109,15 @@ class visitable
         /**
          * Removes items contained by this instance which match the filter
          * @note if this instance itself is an item it will not be considered by the filter
-         * @param filter a UnaryPredicate which should return true if the item is to be removed
+         * @param filter a UnaryPredicate which can optionally std::move the detached pointer. If it does the item will be removed
          * @param count maximum number of items to if unspecified unlimited. A count of zero is a no-op
          * @return any items removed (items counted by charges are not guaranteed to be stacked)
          */
-        ItemList remove_items_with( const std::function<bool( const item & )> &filter,
+        ItemList remove_items_with( const std::function<void( detached_ptr<item> && )> &filter,
                                     int count = INT_MAX );
 
         /** Removes and returns the item which must be contained by this instance */
-        item &remove_item( item &it );
+        detached_ptr<item> remove_item( item &it );
 };
 
 #endif // CATA_SRC_VISITABLE_H

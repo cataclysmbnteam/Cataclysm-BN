@@ -455,15 +455,14 @@ bool gunmod_remove( avatar &you, item &gun, item &mod )
     //TODO: add activity for removing gunmods
 
     if( mod.typeId() == itype_brass_catcher ) {
-        gun.casings_handle( [&]( item & e ) {
-            return you.i_add_or_drop( e );
+        gun.casings_handle( [&]( detached_ptr<item> && e ) {
+            return you.i_add_or_drop( std::move(e) );
         } );
     }
 
     const itype *modtype = mod.type;
 
-    you.i_add_or_drop( mod );
-    gun.remove_item( mod );
+    you.i_add_or_drop(std::move(gun.remove_item( mod ) ));
 
     //If the removed gunmod added mod locations, check to see if any mods are in invalid locations
     if( !modtype->gunmod->add_mod.empty() ) {
