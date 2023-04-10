@@ -115,7 +115,7 @@ jobs:
         id: get-date
         if: ${{ env.SKIP == 'false' }}
         run: |
-          echo "::set-output name=date::$(/bin/date -u "+%Y%m%d%H%M")"
+          echo "date=$(/bin/date -u "+%Y%m%d%H%M")" >> $GITHUB_OUTPUT
         shell: bash
       - name: ccache cache files (ubuntu)
         if: ${{ env.SKIP == 'false' && runner.os == 'Linux' }}
