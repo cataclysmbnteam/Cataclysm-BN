@@ -80,7 +80,7 @@
     "id": "tailoring_leather_patchwork",
     "type": "requirement",
     "//": "275g per unit. Crafting leather items, per 296 g of leather; 21 g + excessive weight of material is wasted, producing leather patches as byproducts.  Time needed is usually 60 minutes per unit if hand-stitching.",
-    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 } ],
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "tanned_hide", 1 ] ], [ [ "filament", 7, "LIST" ] ] ]
   },
   {
