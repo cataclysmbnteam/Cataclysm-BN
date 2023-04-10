@@ -1465,30 +1465,30 @@ void options_manager::add_options_interface()
 
     add( "USE_CELSIUS", "interface", translate_marker( "Temperature units" ),
          translate_marker( "Switch between Celsius, Fahrenheit and Kelvin." ),
-    { { "fahrenheit", translate_marker( "Fahrenheit" ) }, { "celsius", translate_marker( "Celsius" ) }, { "kelvin", translate_marker( "Kelvin" ) } },
-    "fahrenheit"
+    { { "celsius", translate_marker( "Celsius" ) }, { "fahrenheit", translate_marker( "Fahrenheit" ) }, { "kelvin", translate_marker( "Kelvin" ) } },
+    "celsius"
        );
 
     add( "USE_METRIC_SPEEDS", "interface", translate_marker( "Speed units" ),
-         translate_marker( "Switch between mph, km/h and tiles/turn." ),
-    { { "mph", translate_marker( "mph" ) }, { "km/h", translate_marker( "km/h" ) }, { "t/t", translate_marker( "tiles/turn" ) } },
-    "mph"
+         translate_marker( "Switch between km/h, mph and tiles/turn." ),
+    { { "km/h", translate_marker( "km/h" ) }, { "mph", translate_marker( "mph" ) }, { "t/t", translate_marker( "tiles/turn" ) } },
+    "km/h"
        );
 
     add( "USE_METRIC_WEIGHTS", "interface", translate_marker( "Mass units" ),
          translate_marker( "Switch between kg and lbs." ),
-    { { "lbs", translate_marker( "lbs" ) }, { "kg", translate_marker( "kg" ) } }, "lbs"
+    {  { "kg", translate_marker( "kg" ) }, { "lbs", translate_marker( "lbs" ) } }, "kg"
        );
 
     add( "VOLUME_UNITS", "interface", translate_marker( "Volume units" ),
-         translate_marker( "Switch between the Cup ( c ), Liter ( L ) or Quart ( qt )." ),
-    { { "c", translate_marker( "Cup" ) }, { "l", translate_marker( "Liter" ) }, { "qt", translate_marker( "Quart" ) } },
+         translate_marker( "Switch between the Liter ( L ), Cup ( c ), or Quart ( qt )." ),
+    {  { "l", translate_marker( "Liter" ) }, { "c", translate_marker( "Cup" ) }, { "qt", translate_marker( "Quart" ) } },
     "l"
        );
     add( "DISTANCE_UNITS", "interface", translate_marker( "Distance units" ),
          translate_marker( "Metric or Imperial" ),
     { { "metric", translate_marker( "Metric" ) }, { "imperial", translate_marker( "Imperial" ) } },
-    "imperial" );
+    "metric" );
 
     add(
         "OVERMAP_COORDINATE_FORMAT",
