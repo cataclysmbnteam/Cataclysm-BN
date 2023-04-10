@@ -219,7 +219,7 @@
     "id": "fabric_leather_fur_hide",
     "type": "requirement",
     "//": "Materials used for crafting leather clothing where fur is or should be an option (can be scraped off with a cutting tool for example), when tanned hides/pelts are available it seems to roughly be a 1:8 ratio",
-    "components": [ [ [ "leather", 8 ], [ "fur", 8 ], [ "tanned_hide", 1 ], [ "tanned_pelt", 1 ] ] ]
+    "components": [ [ [ "leather", 8 ], [ "fur", 8 ] ] ]
   },
   {
     "id": "bone_sturdy",
