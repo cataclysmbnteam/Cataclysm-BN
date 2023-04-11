@@ -19,9 +19,10 @@
       "damage": { "damage_type": "bullet", "amount": 0.2 },
       "recoil": 0.6,
       "loudness": 0.8,
-      "dispersion": 1.2,
-      "range": 0.5
+      "dispersion": 1.2
     },
+	"range": 0,
+    "shape": [ "cone", { "half_angle": 15, "length": 8 } ],
     "extend": { "effects": [ "INCENDIARY", "STREAM", "NOGIB" ] }
   },
   {
