@@ -129,7 +129,6 @@
       { "item": "shot_suppressor", "prob": 100 },
       { "item": "barrel_ported", "prob": 100 },
       { "item": "offset_sights", "prob": 50 },
-      { "item": "shoulder_strap", "prob": 50 },
       { "item": "rail_laser_sight", "prob": 100 },
       { "item": "suppressor", "prob": 100 }
     ]
