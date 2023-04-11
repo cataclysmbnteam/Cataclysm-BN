@@ -1616,10 +1616,15 @@ void npc::load( const JsonObject &data )
         data.read( "misc_rules", rules );
         data.read( "combat_rules", rules );
     }
-    cbm_weapon_index = -1;
-    data.read( "cbm_weapon_index", cbm_weapon_index );
-    cbm_active_index = -1;
-    data.read( "cbm_active_index", cbm_active_index );
+    cbm_toggled = bionic_id::NULL_ID();
+    data.read( "cbm_toggled", cbm_toggled );
+    if( data.has_member( "cbm_weapon_index" ) ) {
+        int index = 0;
+        data.read( "cbm_weapon_index", index );
+        cbm_toggled = ( *my_bionics )[ index ].id;
+    }
+    cbm_active = bionic_id::NULL_ID();
+    data.read( "cbm_active", cbm_active );
     cbm_fake_active = null_item_reference();
     data.read( "cbm_fake_active", cbm_fake_active );
 
@@ -1683,8 +1688,8 @@ void npc::store( JsonOut &json ) const
     json.member( "chatbin", chatbin );
     json.member( "rules", rules );
 
-    json.member( "cbm_weapon_index", cbm_weapon_index );
-    json.member( "cbm_active_index", cbm_active_index );
+    json.member( "cbm_toggled", cbm_toggled );
+    json.member( "cbm_active", cbm_active );
     if( !cbm_fake_active.is_null() ) {
         json.member( "cbm_fake_active", cbm_fake_active );
     }

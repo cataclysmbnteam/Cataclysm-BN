@@ -1105,10 +1105,10 @@ void npc::execute_action( npc_action action )
             break;
 
         case npc_shoot: {
-            auto mode = cbm_active_index < 0 ? weapon.gun_current_mode() : cbm_fake_active.gun_current_mode();
+            auto mode = cbm_active.is_null() ? weapon.gun_current_mode() : cbm_fake_active.gun_current_mode();
 
             if( !mode ) {
-                std::string error_weapon = cbm_active_index < 0 ? weapon.tname() :
+                std::string error_weapon = cbm_active.is_null() ? weapon.tname() :
                                            cbm_fake_active.tname();
                 debugmsg( "NPC tried to shoot %s without valid mode.", error_weapon );
             }
@@ -1120,7 +1120,7 @@ void npc::execute_action( npc_action action )
                 add_msg( m_debug, "%s recoil on firing: %s", name, recoil );
                 ranged::fire_gun( *this, tar, mode.qty, *mode, item_location() );
                 // Clear the ranged cbm entry and item so next turn a new comparison is made.
-                if( cbm_active_index >= 0 ) {
+                if( !cbm_active.is_null() ) {
                     discharge_cbm_weapon();
                 }
             }
@@ -1359,7 +1359,7 @@ npc_action npc::method_of_attack()
 
     if( rules.has_flag( ally_rule::use_guns ) || !is_player_ally() ) {
 
-        if( cbm_active_index >= 0 ) {
+        if( !cbm_active.is_null() ) {
             for( const auto &e : cbm_fake_active.gun_all_modes() ) {
                 modes.push_back( e );
             }
@@ -1617,9 +1617,9 @@ void npc::deactivate_combat_cbms()
     }
     deactivate_bionic_by_id( bio_hydraulics );
     deactivate_weapon_cbm( *this );
-    cbm_active_index = -1;
+    cbm_active = bionic_id::NULL_ID();
     cbm_fake_active = null_item_reference();
-    cbm_weapon_index = -1;
+    cbm_toggled = bionic_id::NULL_ID();
 }
 
 bool npc::activate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
@@ -2183,7 +2183,7 @@ bool npc::enough_time_to_reload( const item &gun ) const
 
 void npc::aim()
 {
-    item r_weapon = cbm_active_index < 0 ? weapon : cbm_fake_active;
+    item r_weapon = cbm_active.is_null() ? weapon : cbm_fake_active;
     double aim_amount = ranged::aim_per_move( *this, r_weapon, recoil );
     while( aim_amount > 0 && recoil > 0 && moves > 0 ) {
         moves--;
@@ -2708,7 +2708,7 @@ void npc::move_pause()
     }
     // NPCs currently always aim when using a gun, even with no target
     // This simulates them aiming at stuff just at the edge of their range
-    if( !weapon.is_gun() && cbm_active_index < 0 ) {
+    if( !weapon.is_gun() && cbm_active.is_null() ) {
         character_funcs::do_pause( *this );
         return;
     }
@@ -3429,7 +3429,7 @@ bool npc::do_player_activity()
 
 bool npc::wield_better_weapon()
 {
-    if( weapon.has_flag( "NO_UNWIELD" ) && cbm_weapon_index < 0 ) {
+    if( weapon.has_flag( "NO_UNWIELD" ) && cbm_toggled.is_null() ) {
         add_msg( m_debug, "Cannot unwield %s, not switching.", weapon.type->get_id().str() );
         return false;
     }
@@ -3489,15 +3489,15 @@ bool npc::wield_better_weapon()
                  best_value );
         return false;
     } else {
-        if( cbm_weapon_index >= 0 ) {
-            deactivate_bionic( ( *my_bionics )[cbm_weapon_index] );
-            cbm_weapon_index = -1;
+        if( !cbm_toggled.is_null() ) {
+            deactivate_bionic_by_id( cbm_toggled );
+            cbm_toggled = bionic_id::NULL_ID();
         }
 
         if( !cbm_fake_active.is_null() && best->is_gun() ) {
             // They'll need time to swap weapons anyway, consolidates the comparisons into check_or_use_bionics.
             cbm_fake_active = null_item_reference();
-            cbm_active_index = -1;
+            cbm_active = bionic_id::NULL_ID();
         }
     }
 

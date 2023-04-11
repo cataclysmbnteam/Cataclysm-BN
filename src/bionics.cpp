@@ -452,12 +452,12 @@ static void force_comedown( effect &eff )
 
 void npc::discharge_cbm_weapon()
 {
-    if( cbm_active_index < 0 ) {
+    if( cbm_active.is_null() ) {
         return;
     }
-    mod_power_level( -( *my_bionics )[ cbm_active_index ].info().power_activate );
+    mod_power_level( -cbm_active->power_activate );
     cbm_fake_active = null_item_reference();
-    cbm_active_index = -1;
+    cbm_active = bionic_id::NULL_ID();
 }
 
 void deactivate_weapon_cbm( npc &who )
@@ -495,7 +495,7 @@ std::vector<std::pair<int, item>> find_reloadable_cbms( npc &who )
 void npc::check_or_use_weapon_cbm()
 {
     // if both toggle and active bionics have been chosen, keep using them.
-    if( cbm_weapon_index >= 0 && cbm_active_index >= 0 ) {
+    if( !cbm_toggled.is_null() && !cbm_active.is_null() ) {
         return;
     }
 
@@ -511,17 +511,17 @@ void npc::check_or_use_weapon_cbm()
     int cbm_index = 0;
     for( bionic &bio : *my_bionics ) {
         // I'm not checking if NPC_USABLE because if it isn't it shouldn't be in them.
-        if( cbm_weapon_index < 0 && bio.info().has_flag( flag_BIONIC_WEAPON ) ) {
+        if( cbm_toggled.is_null() && bio.info().has_flag( flag_BIONIC_WEAPON ) ) {
             avail_toggle_cbms.push_back( cbm_index );
         }
-        if( cbm_active_index < 0 && bio.info().has_flag( flag_BIONIC_GUN ) ) {
+        if( cbm_active.is_null() && bio.info().has_flag( flag_BIONIC_GUN ) ) {
             avail_active_cbms.push_back( cbm_index );
         }
         cbm_index++;
     }
 
     // There's no point in checking the bionics if they can't unwield what they have.
-    if( !weapon.has_flag( flag_NO_UNWIELD ) && cbm_weapon_index < 0 && !avail_toggle_cbms.empty() ) {
+    if( !weapon.has_flag( flag_NO_UNWIELD ) && cbm_toggled.is_null() && !avail_toggle_cbms.empty() ) {
         int toggle_index = -1;
         item best_cbm_weap = null_item_reference();
         for( int i : avail_toggle_cbms ) {
@@ -573,11 +573,11 @@ void npc::check_or_use_weapon_cbm()
                          ( *my_bionics )[ toggle_index ].info().name );
             }
             clear_npc_ai_info_cache( npc_ai_info::WEAPON_VALUE );
-            cbm_weapon_index = toggle_index;
+            cbm_toggled = ( *my_bionics )[ toggle_index ].id;
         }
     }
 
-    if( cbm_active_index < 0 && !avail_active_cbms.empty() ) {
+    if( cbm_active.is_null() && !avail_active_cbms.empty() ) {
         int active_index = -1;
         bool wield_gun = weapon.is_gun();
         item best_cbm_active = null_item_reference();
@@ -624,8 +624,8 @@ void npc::check_or_use_weapon_cbm()
                 best_cbm_active = cbm_weapon;
             }
         }
-        cbm_active_index = active_index;
-        if( cbm_active_index >= 0 ) {
+        cbm_active = ( *my_bionics )[ active_index ].id;
+        if( !cbm_active.is_null() ) {
             cbm_fake_active = best_cbm_active;
         }
     }

@@ -1336,11 +1336,11 @@ class npc : public player
 
     private:
         // index for chosen activated cbm weapon;
-        int cbm_active_index = -1;
+        bionic_id cbm_active = bionic_id::NULL_ID();
         // REALLY fake item temporarily created to prevent segfaults;
         item cbm_fake_active = null_item_reference();
         // index for chosen toggled cbm weapon;
-        int cbm_weapon_index = -1;
+        bionic_id cbm_toggled = bionic_id::NULL_ID();
 
         bool dead = false;  // If true, we need to be cleaned up
 
