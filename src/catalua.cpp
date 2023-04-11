@@ -238,6 +238,7 @@ void set_mod_list( lua_state &state, const std::vector<mod_id> &modlist )
     sol::table active_mods = lua.create_table();
     sol::table mod_runtime = lua.create_table();
     sol::table mod_storage = lua.create_table();
+    sol::table hooks = lua.create_table();
 
     for( size_t i = 0; i < modlist.size(); i++ ) {
         active_mods[ i + 1 ] = modlist[i].str();
@@ -254,19 +255,21 @@ void set_mod_list( lua_state &state, const std::vector<mod_id> &modlist )
     it["active_mods"] = active_mods;
     it["mod_runtime"] = mod_runtime;
     it["mod_storage"] = mod_storage;
+    gt["hooks"] = hooks;
 
     // Runtime infrastructure
     gt["active_mods"] = make_readonly_table( lua, active_mods );
     gt["mod_runtime"] = make_readonly_table( lua, mod_runtime );
     gt["mod_storage"] = make_readonly_table( lua, mod_storage );
+    gt["hooks"] = make_readonly_table( lua, hooks );
 
     // iuse functions
     gt["iuse_functions"] = lua.create_table();
 
-    // Hooks
-    gt["on_game_load_hooks"] = lua.create_table();
-    gt["on_game_save_hooks"] = lua.create_table();
-    gt["on_mapgen_postprocess_hooks"] = lua.create_table();
+    // hooks
+    hooks["on_game_load"] = lua.create_table();
+    hooks["on_game_save"] = lua.create_table();
+    hooks["on_mapgen_postprocess"] = lua.create_table();
 }
 
 void set_mod_being_loaded( lua_state &state, const mod_id &mod )
@@ -318,7 +321,7 @@ template<typename... Args>
 void run_hooks( lua_state &state, std::string_view hooks_table, Args &&...args )
 {
     sol::state &lua = state.lua;
-    sol::table hooks = lua.globals()["game"][hooks_table];
+    sol::table hooks = lua.globals()["game"]["hooks"][hooks_table];
     for( auto &ref : hooks ) {
         int idx = -1;
         try {
@@ -327,7 +330,7 @@ void run_hooks( lua_state &state, std::string_view hooks_table, Args &&...args )
             sol::protected_function_result res = func( std::forward<Args>( args )... );
             check_func_result( res );
         } catch( std::runtime_error &e ) {
-            debugmsg( "Failed to run %s[%d]: %s", hooks_table, idx, e.what() );
+            debugmsg( "Failed to run hook %s[%d]: %s", hooks_table, idx, e.what() );
             break;
         }
     }
@@ -371,18 +374,18 @@ void lua_state_deleter::operator()( lua_state *state ) const
 
 void run_on_game_save_hooks( lua_state &state )
 {
-    run_hooks( state, "on_game_save_hooks" );
+    run_hooks( state, "on_game_save" );
 }
 
 void run_on_game_load_hooks( lua_state &state )
 {
-    run_hooks( state, "on_game_load_hooks" );
+    run_hooks( state, "on_game_load" );
 }
 
 void run_on_mapgen_postprocess_hooks( lua_state &state, map &m, const tripoint &p,
                                       const time_point &when )
 {
-    run_hooks( state, "on_mapgen_postprocess_hooks", m, p, when );
+    run_hooks( state, "on_mapgen_postprocess", m, p, when );
 }
 
 } // namespace cata
