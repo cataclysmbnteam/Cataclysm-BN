@@ -727,6 +727,17 @@ static void reg_string_ids( sol::state &lua )
     reg_id<furn_t>( lua );
 }
 
+static void reg_hooks_examples(sol::state&lua)
+{
+    luna::userlib lib = luna::begin_lib( lua, "hooks_doc" );
+
+    luna::set_fx( lib, "on_game_save", [](){} );
+    luna::set_fx( lib, "on_game_load", [](){} );
+    luna::set_fx( lib, "on_mapgen_postprocess", [](map &, const tripoint &, const time_point &){} );
+
+    luna::finalize_lib( lib );
+}
+
 void reg_all_bindings( sol::state &lua )
 {
     override_default_print( lua );
@@ -743,6 +754,7 @@ void reg_all_bindings( sol::state &lua )
     reg_string_ids( lua );
     reg_coords_library( lua );
     reg_constants( lua );
+    reg_hooks_examples( lua );
 }
 
 #endif
