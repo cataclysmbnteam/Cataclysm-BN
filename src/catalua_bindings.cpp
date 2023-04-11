@@ -236,7 +236,7 @@ static void reg_point_tripoint( sol::state &lua )
         luna::set_fx( ut, sol::meta_function::addition, &point::operator+ );
         // point - point
         // sol::resolve here makes it possible to specify which overload to use
-        luna::set_fx( ut, sol::meta_function::subtraction, sol::resolve< point( const point & ) const >
+        luna::set_fx( ut, sol::meta_function::subtraction, sol::resolve< point( point ) const >
                       ( &point::operator- ) );
         // point * int
         luna::set_fx( ut, sol::meta_function::multiplication, &point::operator* );
@@ -295,13 +295,13 @@ static void reg_point_tripoint( sol::state &lua )
         // tripoint + point (overload 2)
         luna::set_fx( ut, sol::meta_function::addition, sol::overload(
                           sol::resolve< tripoint( const tripoint & ) const > ( &tripoint::operator+ ),
-                          sol::resolve< tripoint( const point & ) const > ( &tripoint::operator+ )
+                          sol::resolve< tripoint( point ) const > ( &tripoint::operator+ )
                       ) );
         // tripoint - tripoint (overload 1)
         // tripoint - point (overload 2)
         luna::set_fx( ut, sol::meta_function::subtraction, sol::overload(
                           sol::resolve< tripoint( const tripoint & ) const > ( &tripoint::operator- ),
-                          sol::resolve< tripoint( const point & ) const > ( &tripoint::operator- )
+                          sol::resolve< tripoint( point ) const > ( &tripoint::operator- )
                       ) );
         // tripoint * int
         luna::set_fx( ut, sol::meta_function::multiplication, &tripoint::operator* );
@@ -534,15 +534,15 @@ static void reg_coords_library( sol::state &lua )
 
     luna::set_fx( lib, "rl_dist", sol::overload(
                       sol::resolve<int( const tripoint &, const tripoint & )>( rl_dist ),
-                      sol::resolve<int( const point &, const point & )>( rl_dist )
+                      sol::resolve<int( point, point )>( rl_dist )
                   ) );
     luna::set_fx( lib, "trig_dist", sol::overload(
                       sol::resolve<float( const tripoint &, const tripoint & )>( trig_dist ),
-                      sol::resolve<float( const point &, const point & )>( trig_dist )
+                      sol::resolve<float( point, point )>( trig_dist )
                   ) );
     luna::set_fx( lib, "square_dist", sol::overload(
                       sol::resolve<int( const tripoint &, const tripoint & )>( square_dist ),
-                      sol::resolve<int( const point &, const point & )>( square_dist )
+                      sol::resolve<int( point, point )>( square_dist )
                   ) );
 
     luna::finalize_lib( lib );

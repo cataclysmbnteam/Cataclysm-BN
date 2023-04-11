@@ -994,7 +994,6 @@ bool main_menu::load_character_tab( const std::string &worldname )
     } );
 
     g->gamemode = nullptr;
-    WORLDPTR world = world_generator->get_world( worldname );
     world_generator->last_world_name = world->world_name;
     world_generator->last_character_name = savegames[opt_val].decoded_name();
     world_generator->save_last_world_info();
