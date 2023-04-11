@@ -144,21 +144,17 @@ void Character::recalc_speed_bonus()
         mod_speed_bonus( -20 );
     }
 
+    mod_speed_bonus( get_speedydex_bonus( get_dex() ) );
+
     float speed_modifier = Character::mutation_value( "speed_modifier" );
-    mod_speed_bonus( static_cast<int>( get_speed() * ( speed_modifier - 1 ) ) );
+    mod_speed_mult( speed_modifier - 1 );
 
     if( has_bionic( bio_speed ) ) { // add 10% speed bonus
-        mod_speed_bonus( static_cast<int>( get_speed() * 0.1 ) );
+        mod_speed_mult( 0.1 );
     }
 
     double ench_bonus = enchantment_cache->calc_bonus( enchant_vals::mod::SPEED, get_speed() );
     mod_speed_bonus( ench_bonus );
-
-    // Speed cannot be less than 25% of base speed, so minimal speed bonus is -75% base speed.
-    const int min_speed_bonus = static_cast<int>( -0.75 * get_speed_base() );
-    if( get_speed_bonus() < min_speed_bonus ) {
-        set_speed_bonus( min_speed_bonus );
-    }
 }
 
 void Character::process_turn()
