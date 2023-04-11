@@ -7,6 +7,7 @@
 #include <cstdlib>
 #include <iterator>
 #include <memory>
+#include <optional>
 #include <stdexcept>
 #include <type_traits>
 #include <unordered_set>
@@ -37,7 +38,6 @@
 #include "iuse_actor.h"
 #include "json.h"
 #include "material.h"
-#include "optional.h"
 #include "options.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
@@ -1680,7 +1680,7 @@ void Item_factory::load( islot_milling &slot, const JsonObject &jo, const std::s
 void islot_ammo::load( const JsonObject &jo )
 {
     mandatory( jo, was_loaded, "ammo_type", type );
-    optional( jo, was_loaded, "casing", casing, cata::nullopt );
+    optional( jo, was_loaded, "casing", casing, std::nullopt );
     optional( jo, was_loaded, "drop", drop, itype_id::NULL_ID() );
     optional( jo, was_loaded, "drop_active", drop_active, true );
     optional( jo, was_loaded, "dont_recover_one_in", dont_recover_one_in, 1 );
@@ -1692,8 +1692,8 @@ void islot_ammo::load( const JsonObject &jo )
     optional( jo, was_loaded, "count", def_charges, 1 );
     optional( jo, was_loaded, "loudness", loudness, -1 );
     assign( jo, "effects", ammo_effects );
-    optional( jo, was_loaded, "show_stats", force_stat_display, cata::nullopt );
-    optional( jo, was_loaded, "shape", shape, cata::nullopt );
+    optional( jo, was_loaded, "show_stats", force_stat_display, std::nullopt );
+    optional( jo, was_loaded, "shape", shape, std::nullopt );
 }
 
 void islot_ammo::deserialize( JsonIn &jsin )

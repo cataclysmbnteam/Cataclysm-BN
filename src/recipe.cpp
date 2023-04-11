@@ -4,6 +4,7 @@
 #include <cmath>
 #include <iterator>
 #include <numeric>
+#include <optional>
 #include <sstream>
 
 #include "assign.h"
@@ -19,7 +20,6 @@
 #include "itype.h"
 #include "json.h"
 #include "mapgen_functions.h"
-#include "optional.h"
 #include "output.h"
 #include "player.h"
 #include "skill.h"

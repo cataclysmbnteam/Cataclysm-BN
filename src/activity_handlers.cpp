@@ -7,6 +7,7 @@
 #include <cstddef>
 #include <iterator>
 #include <memory>
+#include <optional>
 #include <ostream>
 #include <queue>
 #include <set>
@@ -77,7 +78,6 @@
 #include "mtype.h"
 #include "npc.h"
 #include "omdata.h"
-#include "optional.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
@@ -2639,11 +2639,11 @@ enum class hack_type_t : int {
     furniture = 1
 };
 
-cata::optional<hack_type_t> get_hack_type( const player_activity &activity )
+std::optional<hack_type_t> get_hack_type( const player_activity &activity )
 {
     // Uses real tool
     if( activity.values.size() < 2 ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     assert( !activity.coords.empty() );
     // Old save data, probably
@@ -2822,8 +2822,8 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
     }
 
     // nullopt if used real tool
-    cata::optional<hack::hack_type_t> hack_type = hack::get_hack_type( *act );
-    cata::optional<item> fake_tool = cata::nullopt;
+    std::optional<hack::hack_type_t> hack_type = hack::get_hack_type( *act );
+    std::optional<item> fake_tool = std::nullopt;
     if( hack_type ) {
         fake_tool = hack::get_fake_tool( hack_type.value(), *act );
     }
@@ -4177,8 +4177,8 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     if( !p->is_npc() ) {
         if( p->backlog.empty() || p->backlog.front().id() != ACT_MULTIPLE_CHOP_TREES ) {
             while( true ) {
-                if( const cata::optional<tripoint> dir = choose_direction(
-                            _( "Select a direction for the tree to fall in." ) ) ) {
+                if( const std::optional<tripoint> dir = choose_direction(
+                        _( "Select a direction for the tree to fall in." ) ) ) {
                     direction = *dir;
                     break;
                 }
@@ -4732,7 +4732,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
             }
         } while( !target_is_valid );
     } else if( spell_being_cast.has_flag( RANDOM_TARGET ) ) {
-        const cata::optional<tripoint> target_ = spell_being_cast.random_valid_target( *p, p->pos() );
+        const std::optional<tripoint> target_ = spell_being_cast.random_valid_target( *p, p->pos() );
         if( !target_ ) {
             p->add_msg_if_player( game_message_params{ m_bad, gmf_bypass_cooldown },
                                   _( "Your spell can't find a suitable target." ) );

@@ -17,8 +17,7 @@
     "healthy": -1,
     "calories": 220,
     "stim": 1,
-    "fun": 4,
-    "flags": [ "EDIBLE_FROZEN" ]
+    "fun": 4
   },
   {
     "type": "COMESTIBLE",
