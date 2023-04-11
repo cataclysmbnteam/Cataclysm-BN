@@ -236,6 +236,7 @@ static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
 
+static const quality_id qual_AXE( "AXE" );
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
@@ -4159,13 +4160,6 @@ void activity_handlers::chop_tree_do_turn( player_activity *act, player *p )
         //~ Sound of a wood chopping tool at work!
         sounds::sound( here.getlocal( act->placement ), 15, sounds::sound_t::activity, _( "CHK!" ) );
     }
-    if( calendar::once_every( 6_minutes ) ) {
-        p->mod_fatigue( 1 );
-    }
-    if( calendar::once_every( 12_minutes ) ) {
-        p->mod_stored_nutr( 1 );
-        p->mod_thirst( 1 );
-    }
 }
 
 void activity_handlers::chop_tree_finish( player_activity *act, player *p )
@@ -4231,11 +4225,27 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     }
 
     here.ter_set( pos, t_stump );
+
     p->add_msg_if_player( m_good, _( "You finish chopping down a tree." ) );
     // sound of falling tree
     sfx::play_variant_sound( "misc", "timber",
                              sfx::get_heard_volume( here.getlocal( act->placement ) ) );
     act->set_to_null();
+
+    // Quality of tool used and assistants can together both reduce intensity of work, to a minimum of one.
+    item_location &loc = act->targets[ 0 ];
+    item *it = loc.get_item();
+    if( it == nullptr ) {
+        debugmsg( "lockpick item location lost" );
+        return;
+    }
+    const int helpersize = character_funcs::get_crafting_helpers( *p, 3 ).size();
+    int act_exertion = std::max( 1, 5 - helpersize - it->get_quality( qual_AXE ) );
+
+    p->mod_stored_nutr( act_exertion );
+    p->mod_thirst( act_exertion );
+    p->mod_fatigue( act_exertion * 2 );
+
     resume_for_multi_activities( *p );
 }
 
@@ -4278,6 +4288,21 @@ void activity_handlers::chop_logs_finish( player_activity *act, player *p )
     p->add_msg_if_player( m_good, _( "You finish chopping wood." ) );
 
     act->set_to_null();
+
+    // Quality of tool used and assistants can together both reduce intensity of work, to a minimum of one.
+    item_location &loc = act->targets[ 0 ];
+    item *it = loc.get_item();
+    if( it == nullptr ) {
+        debugmsg( "lockpick item location lost" );
+        return;
+    }
+    const int helpersize = character_funcs::get_crafting_helpers( *p, 3 ).size();
+    int act_exertion = std::max( 1, 5 - helpersize - it->get_quality( qual_AXE ) );
+
+    p->mod_stored_nutr( act_exertion );
+    p->mod_thirst( act_exertion );
+    p->mod_fatigue( act_exertion * 2 );
+
     resume_for_multi_activities( *p );
 }
 
