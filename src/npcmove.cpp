@@ -37,6 +37,7 @@
 #include "gun_mode.h"
 #include "item.h"
 #include "item_contents.h"
+#include "item_functions.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
@@ -3451,7 +3452,8 @@ bool npc::wield_better_weapon()
         if( !allowed ) {
             val = npc_ai::weapon_value( *this, it, 0 );
         } else {
-            val = npc_ai::weapon_value( *this, it, it.shots_remaining( units::from_kilojoule( ups_charges ) ) );
+            val = npc_ai::weapon_value( *this, it,
+                                        item_funcs::shots_remaining( it, units::from_kilojoule( ups_charges ) ) );
         }
 
         if( val > best_value ) {

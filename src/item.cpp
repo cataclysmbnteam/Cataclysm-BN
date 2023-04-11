@@ -56,6 +56,7 @@
 #include "inventory.h"
 #include "item_category.h"
 #include "item_factory.h"
+#include "item_functions.h"
 #include "item_group.h"
 #include "iteminfo_query.h"
 #include "itype.h"
@@ -7470,22 +7471,6 @@ int item::ammo_required() const
     }
 
     return 0;
-}
-
-int item::shots_remaining( units::energy power ) const
-{
-    int shots = 0;
-    units::energy energy_drain = units::from_kilojoule( get_gun_ups_drain() );
-    if( ammo_required() > 0 && get_gun_ups_drain() > 0 ) {
-        shots = std::min( ammo_remaining(), power / energy_drain );
-    } else if( get_gun_ups_drain() > 0 ) {
-        shots = power / energy_drain;
-    } else if( ammo_required() > 0 ) {
-        shots = ammo_remaining();
-    } else {
-        shots = 10;
-    }
-    return shots;
 }
 
 bool item::ammo_sufficient( int qty ) const

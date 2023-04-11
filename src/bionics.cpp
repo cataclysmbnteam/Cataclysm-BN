@@ -42,6 +42,7 @@
 #include "input.h"
 #include "int_id.h"
 #include "item.h"
+#include "item_functions.h"
 #include "item_location.h"
 #include "itype.h"
 #include "json.h"
@@ -527,6 +528,7 @@ void npc::check_or_use_weapon_cbm()
             bionic &bio = ( *my_bionics )[ i ];
             if( free_power > bio.info().power_activate ) {
                 item cbm_fake = item( bio.info().fake_item );
+                const int fake_shots = item_funcs::shots_remaining( cbm_fake, free_power );
                 if( bio.ammo_count > 0 ) {
                     cbm_fake.ammo_set( bio.ammo_loaded, bio.ammo_count );
                 }
@@ -540,8 +542,10 @@ void npc::check_or_use_weapon_cbm()
                 if( toggle_index >= 0 ) {
                     // Previous iteration chose a CBM. Compare previous and current.
 
-                    if( npc_ai::weapon_value( *this, best_cbm_weap, best_cbm_weap.shots_remaining( free_power ) )
-                        < npc_ai::weapon_value( *this, cbm_fake, cbm_fake.shots_remaining( free_power ) ) ) {
+                    const int best_shots = item_funcs::shots_remaining( best_cbm_weap, free_power );
+
+                    if( npc_ai::weapon_value( *this, best_cbm_weap, best_shots ) <
+                        npc_ai::weapon_value( *this, cbm_fake, fake_shots ) ) {
                         // Current is better, update index.
                         toggle_index = i;
                         best_cbm_weap = cbm_fake;
@@ -549,8 +553,10 @@ void npc::check_or_use_weapon_cbm()
                 } else {
                     const units::energy ups_charges = units::from_kilojoule( charges_of( itype_UPS ) );
 
-                    if( npc_ai::weapon_value( *this, weapon, weapon.shots_remaining( ups_charges ) ) <
-                        npc_ai::weapon_value( *this, cbm_fake, cbm_fake.shots_remaining( free_power ) ) ) {
+                    int weapon_shots = item_funcs::shots_remaining( weapon, ups_charges );
+
+                    if( npc_ai::weapon_value( *this, weapon, weapon_shots ) <
+                        npc_ai::weapon_value( *this, cbm_fake, fake_shots ) ) {
                         toggle_index = i;
                         best_cbm_weap = cbm_fake;
                     }
@@ -606,8 +612,9 @@ void npc::check_or_use_weapon_cbm()
                 // For melee we keep it in reserve anyway, but ranged we're using either it or this one.
                 // Right now no BIONIC_GUNS are melee weapons, unlike BIONIC_WEAPONS and the bionic shotgun.
                 const units::energy ups_charges = units::from_kilojoule( charges_of( itype_UPS ) );
+                const int weapon_shots = item_funcs::shots_remaining( weapon, ups_charges );
 
-                if( npc_ai::weapon_value( *this, weapon, weapon.shots_remaining( ups_charges ) ) <
+                if( npc_ai::weapon_value( *this, weapon, weapon_shots ) <
                     npc_ai::weapon_value( *this, cbm_weapon, cbm_ammo ) ) {
                     active_index = i;
                     best_cbm_active = cbm_weapon;
