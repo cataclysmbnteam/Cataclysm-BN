@@ -231,7 +231,7 @@ std::unique_ptr<lua_state, lua_state_deleter> make_wrapped_state()
     return ret;
 }
 
-void set_mod_list( lua_state &state, const std::vector<mod_id> &modlist )
+void init_global_state_tables( lua_state &state, const std::vector<mod_id> &modlist )
 {
     sol::state &lua = state.lua;
 

@@ -847,7 +847,7 @@ static void load_and_finalize_packs( loading_ui &ui, const std::string &msg,
 
     loader.lua = cata::make_wrapped_state();
 
-    cata::set_mod_list( *loader.lua, available );
+    cata::init_global_state_tables( *loader.lua, available );
 
     ui.show();
     for( const mod_id &mod : available ) {
