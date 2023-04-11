@@ -1,9 +1,12 @@
 #include "item_functions.h"
 
+#include "character.h"
 #include "item.h"
 #include "units.h"
 
 static flag_str_id flag_NO_UNLOAD( "NO_UNLOAD" );
+
+static const itype_id itype_UPS( "UPS" );
 
 namespace item_funcs
 {
@@ -36,11 +39,12 @@ bool can_be_unloaded( const item &itm )
     return itm.ammo_remaining() > 0 || itm.casings_count() > 0;
 }
 
-// HACK: power needs to be provided due to hazy implementation of bionic guns.
-int shots_remaining( item it, units::energy power )
+// TODO: Add consideration for BIONIC_GUNS when their fake_items get USES_BIONIC_POWER
+int shots_remaining( const Character &who, const item &it )
 {
     int shots = 0;
     units::energy energy_drain = units::from_kilojoule( it.get_gun_ups_drain() );
+    units::energy power = units::from_kilojoule( who.charges_of( itype_UPS ) );
     if( it.ammo_required() > 0 && it.get_gun_ups_drain() > 0 ) {
         shots = std::min( it.ammo_remaining(), power / energy_drain );
     } else if( it.get_gun_ups_drain() > 0 ) {

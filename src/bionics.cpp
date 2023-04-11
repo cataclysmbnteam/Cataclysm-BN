@@ -528,7 +528,7 @@ void npc::check_or_use_weapon_cbm()
             bionic &bio = ( *my_bionics )[ i ];
             if( free_power > bio.info().power_activate ) {
                 item cbm_fake = item( bio.info().fake_item );
-                const int fake_shots = item_funcs::shots_remaining( cbm_fake, free_power );
+                const int fake_shots = item_funcs::shots_remaining( *this, cbm_fake );
                 if( bio.ammo_count > 0 ) {
                     cbm_fake.ammo_set( bio.ammo_loaded, bio.ammo_count );
                 }
@@ -542,7 +542,7 @@ void npc::check_or_use_weapon_cbm()
                 if( toggle_index >= 0 ) {
                     // Previous iteration chose a CBM. Compare previous and current.
 
-                    const int best_shots = item_funcs::shots_remaining( best_cbm_weap, free_power );
+                    const int best_shots = item_funcs::shots_remaining( *this, best_cbm_weap );
 
                     if( npc_ai::weapon_value( *this, best_cbm_weap, best_shots ) <
                         npc_ai::weapon_value( *this, cbm_fake, fake_shots ) ) {
@@ -551,9 +551,7 @@ void npc::check_or_use_weapon_cbm()
                         best_cbm_weap = cbm_fake;
                     }
                 } else {
-                    const units::energy ups_charges = units::from_kilojoule( charges_of( itype_UPS ) );
-
-                    int weapon_shots = item_funcs::shots_remaining( weapon, ups_charges );
+                    int weapon_shots = item_funcs::shots_remaining( *this, weapon );
 
                     if( npc_ai::weapon_value( *this, weapon, weapon_shots ) <
                         npc_ai::weapon_value( *this, cbm_fake, fake_shots ) ) {
@@ -611,8 +609,7 @@ void npc::check_or_use_weapon_cbm()
             } else if( wield_gun ) {
                 // For melee we keep it in reserve anyway, but ranged we're using either it or this one.
                 // Right now no BIONIC_GUNS are melee weapons, unlike BIONIC_WEAPONS and the bionic shotgun.
-                const units::energy ups_charges = units::from_kilojoule( charges_of( itype_UPS ) );
-                const int weapon_shots = item_funcs::shots_remaining( weapon, ups_charges );
+                const int weapon_shots = item_funcs::shots_remaining( *this, weapon );
 
                 if( npc_ai::weapon_value( *this, weapon, weapon_shots ) <
                     npc_ai::weapon_value( *this, cbm_weapon, cbm_ammo ) ) {
