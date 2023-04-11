@@ -1503,7 +1503,7 @@ void npc::check_or_reload_cbm()
         return;
     }
 
-    std::vector<std::pair<int, item>> checklist = find_reloadable_cbms();
+    std::vector<std::pair<int, item>> checklist = find_reloadable_cbms( *this );
 
     if( !checklist.empty() ) {
         for( std::pair<int, item> itp : checklist ) {
@@ -1615,7 +1615,7 @@ void npc::deactivate_combat_cbms()
         deactivate_bionic_by_id( cbm_id );
     }
     deactivate_bionic_by_id( bio_hydraulics );
-    deactivate_weapon_cbm();
+    deactivate_weapon_cbm( *this );
     cbm_active_index = -1;
     cbm_fake_active = null_item_reference();
     cbm_weapon_index = -1;

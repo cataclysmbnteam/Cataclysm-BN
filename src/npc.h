@@ -987,10 +987,6 @@ class npc : public player
         void discharge_cbm_weapon();
         // check if an NPC has a bionic weapon and activate it if possible
         void check_or_use_weapon_cbm();
-        // disable toggled weapon cbms
-        void deactivate_weapon_cbm();
-        // returns list of reloadable cbms.
-        std::vector<std::pair<int, item>> find_reloadable_cbms();
 
         // complain about a specific issue if enough time has passed
         // @param issue string identifier of the issue
@@ -1404,5 +1400,10 @@ double melee_value( const Character &who, const item &weap );
 double unarmed_value( const Character &who );
 
 } // namespace npc_ai
+
+// disable toggled weapon cbms
+void deactivate_weapon_cbm( npc &who );
+// returns list of reloadable cbms.
+std::vector<std::pair<int, item>> find_reloadable_cbms( npc &who );
 
 #endif // CATA_SRC_NPC_H
