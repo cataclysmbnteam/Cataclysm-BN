@@ -35,6 +35,7 @@ void startup_lua_test()
 bool generate_lua_docs()
 {
     // Nothing to do here
+    return false;
 }
 
 void show_lua_console()
