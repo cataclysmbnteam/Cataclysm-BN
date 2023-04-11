@@ -1,4 +1,4 @@
-log_info("SHR: main.")
+gdebug.log_info("SHR: main.")
 
 --[[
     Main script.
@@ -233,9 +233,9 @@ end
 -- Close all closable tiles in block
 mod.block_close = function( block, transform )
     for _, p in pairs(block.points) do
-        local ter_at_p = get_map():get_ter_at( p )
+        local ter_at_p = gapi.get_map():get_ter_at( p )
         if ter_at_p:str() == transform.o then
-            get_map():set_ter_at( p, TerId.new( transform.c ) )
+            gapi.get_map():set_ter_at( p, TerId.new( transform.c ) )
         end
     end
 end
@@ -243,9 +243,9 @@ end
 -- Open all openable tiles in block
 mod.block_open = function( block, transform )
     for _, p in pairs(block.points) do
-        local ter_at_p = get_map():get_ter_at( p )
+        local ter_at_p = gapi.get_map():get_ter_at( p )
         if ter_at_p:str() == transform.c then
-            get_map():set_ter_at( p, TerId.new( transform.o ) )
+            gapi.get_map():set_ter_at( p, TerId.new( transform.o ) )
         end
     end
 end
@@ -280,7 +280,7 @@ end
 
 -- Add message indicating the remote works
 mod.show_msg_remote_working = function()
-    add_msg("The remote beeps quietly.")
+    gapi.add_msg("The remote beeps quietly.")
 end
 
 -- Open or close all tiles in block
@@ -311,12 +311,12 @@ end
 
 -- Main iuse function. Returns amount of charges consumed from item.
 mod.iuse_function = function( who, item, pos )
-    local user_pos = get_map():get_abs_ms( pos )
+    local user_pos = gapi.get_map():get_abs_ms( pos )
 
     -- Uncomment this so on activation the remote reconfigures itself to work in user's omt
     --[[
     mod.set_remote_base( item, coords.ms_to_omt( user_pos ) )
-    add_msg("Remote reconfigured!")
+    gapi.add_msg("Remote reconfigured!")
     --if true then
     --    return 0
     --end
@@ -334,7 +334,7 @@ mod.iuse_function = function( who, item, pos )
     end
     
     local base_pos_omt = mod.get_remote_base_omt( item )
-    local grid = get_distribution_grid_tracker():get_grid_at_abs_ms( base_pos );
+    local grid = gapi.get_distribution_grid_tracker():get_grid_at_abs_ms( base_pos );
     local power_available = grid:get_resource( true )
 
     -- If house has no power, the wireless base also has no power and can't emit signal.
@@ -344,7 +344,7 @@ mod.iuse_function = function( who, item, pos )
     end
 
     -- Get list of all available multitile formations in base's omt
-    local targets = mod.build_target_list( get_map(), base_pos_omt )
+    local targets = mod.build_target_list( gapi.get_map(), base_pos_omt )
 
     -- Ignore ones that are completely inert (e.g. window got all its curtains torn down).
     local sel_list = {}
@@ -387,7 +387,7 @@ mod.iuse_function = function( who, item, pos )
 
     -- Canceled by player
     if eidx < 1 then
-        add_msg("Nevermind.")
+        gapi.add_msg("Nevermind.")
         return 0
     end
     

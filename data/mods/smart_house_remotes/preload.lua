@@ -1,4 +1,4 @@
-log_info("SHR: preload.")
+gdebug.log_info("SHR: preload.")
 
 -- Have to register iuse before data loading.
 -- Actual implementation (function mod.iuse_function) will be defined later.
@@ -6,7 +6,7 @@ log_info("SHR: preload.")
 local mod = game.mod_runtime[ game.current_mod ]
 
 -- Register our map post-process hook
-game.on_mapgen_postprocess_hooks[ #game.on_mapgen_postprocess_hooks + 1 ] = function(...)
+game.hooks.on_mapgen_postprocess[ #game.hooks.on_mapgen_postprocess + 1 ] = function(...)
     return mod.on_mapgen_postprocess_hook(...)
 end
 
