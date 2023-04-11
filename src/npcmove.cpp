@@ -3443,10 +3443,8 @@ bool npc::wield_better_weapon()
     item *best = &weapon;
     double best_value = -100.0;
 
-    const int ups_charges = charges_of( itype_UPS );
-
     const auto compare_weapon =
-    [this, &best, &best_value, ups_charges, can_use_gun, use_silent]( const item & it ) {
+    [this, &best, &best_value, can_use_gun, use_silent]( const item & it ) {
         bool allowed = can_use_gun && it.is_gun() && ( !use_silent || it.is_silent() );
         double val;
         if( !allowed ) {
