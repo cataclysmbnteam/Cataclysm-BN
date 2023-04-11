@@ -1126,7 +1126,7 @@ void npc::execute_action( npc_action action )
             }
             // Important, if firing the gun drops ammo below ammo_required(), value must be recalculated
             // or NPCs will think the gun is better than their sword.
-            clear_npc_ai_info_cache( "weapon_value" );
+            clear_npc_ai_info_cache( npc_ai_info::WEAPON_VALUE );
             break;
         }
 
@@ -1499,7 +1499,7 @@ static bool wants_to_reload_with( const item &weap, const item &ammo )
 
 void npc::check_or_reload_cbm()
 {
-    if( get_npc_ai_info_cache( "reloadable cbms" ) ) {
+    if( get_npc_ai_info_cache( npc_ai_info::RELOADABLE_CBMS ) ) {
         add_msg( m_debug, "Cancelling cbm reload check as cache is not empty." );
         return;
     }
@@ -1519,13 +1519,13 @@ void npc::check_or_reload_cbm()
         }
     }
 
-    set_npc_ai_info_cache( "reloadable cbms", 0.0 );
+    set_npc_ai_info_cache( npc_ai_info::RELOADABLE_CBMS, 0.0 );
     return;
 }
 
 item &npc::find_reloadable()
 {
-    if( get_npc_ai_info_cache( "reloadables" ) ) {
+    if( get_npc_ai_info_cache( npc_ai_info::RELOADABLES ) ) {
         add_msg( m_debug, "Cancelling reload check as cache is not empty." );
         return null_item_reference();
     }
@@ -1553,7 +1553,7 @@ item &npc::find_reloadable()
         return *reloadable;
     }
 
-    set_npc_ai_info_cache( "reloadables", 0.0 );
+    set_npc_ai_info_cache( npc_ai_info::RELOADABLES, 0.0 );
     return null_item_reference();
 }
 
@@ -4641,7 +4641,7 @@ void npc::do_reload( const item &it )
     }
 
     if( is_wielding( it ) ) {
-        clear_npc_ai_info_cache( "weapon_value" );
+        clear_npc_ai_info_cache( npc_ai_info::WEAPON_VALUE );
     }
 
     // Otherwise the NPC may not equip the weapon until they see danger
