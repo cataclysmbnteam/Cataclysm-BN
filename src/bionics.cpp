@@ -684,7 +684,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only )
     auto add_msg_activate = [&]() {
         if( !eff_only && !bio.is_auto_start_keep_full() ) {
             add_msg_if_player( m_info, _( "You activate your %s." ), bio.info().name );
-        } else if( g->u.sees( pos() ) ) {
+        } else if( get_player_character().sees( pos() ) ) {
             add_msg( m_info, _( "%s activates their %s." ), disp_name(),
                      bio.info().name );
         }
