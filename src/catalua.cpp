@@ -73,7 +73,7 @@ std::unique_ptr<lua_state, lua_state_deleter> make_wrapped_state()
            );
 }
 
-void set_mod_list( lua_state &, const std::vector<mod_id> & ) {}
+void init_global_state_tables( lua_state &, const std::vector<mod_id> & ) {}
 void set_mod_being_loaded( lua_state &, const mod_id & ) {}
 void clear_mod_being_loaded( lua_state & ) {}
 void run_mod_preload_script( lua_state &, const mod_id & ) {}
