@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <limits>
 #include <memory>
+#include <optional>
 
 #include "avatar.h"
 #include "calendar.h"
@@ -481,21 +482,60 @@ int gun_actor::get_max_range()  const
     return max_range;
 }
 
-static vehicle *find_target_vehicle( monster &z, int range )
+static std::optional<tripoint> find_target_vehicle( monster &z, int range )
 {
     map &here = get_map();
-    vehicle *chosen = nullptr;
+    bool found = false;
+    tripoint aim_at;
     for( wrapped_vehicle &v : here.get_vehicles() ) {
-        if( !fov_3d && v.pos.z != z.pos().z ) {
+        if( ( !fov_3d && v.pos.z != z.pos().z ) || v.v->velocity == 0 ) {
             continue;
         }
-        int new_dist = rl_dist( z.pos(), v.pos );
-        if( v.v->velocity != 0 && new_dist < range ) {
-            chosen = v.v;
-            range = new_dist;
+
+        bool found_controls = false;
+
+        for( const vpart_reference &vp : v.v->get_avail_parts( "CONTROLS" ) ) {
+            if( z.sees( vp.pos() ) ) {
+                int new_dist = rl_dist( z.pos(), vp.pos() );
+                if( new_dist <= range ) {
+
+                    aim_at = vp.pos();
+                    range = new_dist;
+                    found = true;
+                    found_controls = true;
+                }
+            }
+        }
+
+        if( !found_controls ) {
+            std::vector<tripoint> line = here.find_clear_path( z.pos(), v.v->global_pos3() );
+            tripoint prev_point = z.pos();
+            for( tripoint &i : line ) {
+                if( here.floor_between( prev_point, i ) ) {
+                    break;
+                }
+                optional_vpart_position vp = here.veh_at( i );
+                if( vp && &vp->vehicle() == v.v ) {
+                    int new_dist = rl_dist( z.pos(), i );
+                    if( new_dist <= range ) {
+                        aim_at = i;
+                        range = new_dist;
+                        found = true;
+                    }
+                    break;
+                }
+                if( !here.is_transparent( i ) ) {
+                    break;
+                }
+                prev_point = i;
+            }
         }
     }
-    return chosen;
+    if( found ) {
+        return std::make_optional( aim_at );
+    } else {
+        return std::optional<tripoint>();
+    }
 }
 
 bool gun_actor::call( monster &z ) const
@@ -526,20 +566,12 @@ bool gun_actor::call( monster &z ) const
                 return false;
             }
             //No living targets, try to find a moving car
-            vehicle *veh = find_target_vehicle( z, get_max_range() );
-            if( !veh ) {
+            std::optional<tripoint> aim = find_target_vehicle( z, get_max_range() );
+            if( !aim ) {
                 return false;
             }
-            for( const vpart_reference &vp : veh->get_avail_parts( "CONTROLS" ) ) {
-                if( z.sees( vp.pos() ) ) {
-                    aim_at = vp.pos();
-                    untargeted = true;
-                }
-            }
-            if( !untargeted ) {
-                untargeted = true;
-                aim_at = veh->global_pos3();
-            }
+            aim_at = *aim;
+            untargeted = true;
         } else {
             aim_at = target->pos();
         }

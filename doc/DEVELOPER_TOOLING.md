@@ -424,6 +424,5 @@ diff <(ls src/*.h | sed 's!.*/!!') <(for i in src/*.cpp; do echo $i; sed -n '/^#
   features of IWYU, it does not count uses in template arguments to return
   types, which leads to other requirements for `IWYU pragma: keep`.
 
-* IWYU seems to have particular trouble with types used in maps and
-  `cata::optional`.  Have not looked into this in detail, but again worked
+* IWYU seems to have particular trouble with types used in maps.  Have not looked into this in detail, but again worked
   around it with pragmas.

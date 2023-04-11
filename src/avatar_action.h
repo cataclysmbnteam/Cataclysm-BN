@@ -2,7 +2,8 @@
 #ifndef CATA_SRC_AVATAR_ACTION_H
 #define CATA_SRC_AVATAR_ACTION_H
 
-#include "optional.h"
+#include <optional>
+
 #include "point.h"
 #include "units.h"
 
@@ -88,7 +89,7 @@ void fire_turret_manual( avatar &you, map &m, turret_data &turret );
 
 // Throw an item  't'
 void plthrow( avatar &you, item_location loc,
-              const cata::optional<tripoint> &blind_throw_from_pos = cata::nullopt );
+              const std::optional<tripoint> &blind_throw_from_pos = std::nullopt );
 
 // Use item; also tries E,R,W  'a'
 void use_item( avatar &you, item_location &loc );

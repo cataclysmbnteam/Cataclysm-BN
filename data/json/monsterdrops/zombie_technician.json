@@ -35,7 +35,11 @@
         ]
       },
       { "group": "underwear", "damage": [ 1, 4 ] },
-      { "item": "miner_hat", "prob": 90, "damage": [ 1, 4 ] }
+      { "item": "miner_hat", "prob": 90, "damage": [ 1, 4 ] },
+      {
+        "distribution": [ { "group": "mine_equipment", "prob": 50 }, { "group": "mine_materials", "prob": 50 } ],
+        "prob": 60
+      }
     ]
   }
 ]

@@ -5,6 +5,7 @@
     "description": "generic item template",
     "type": "TOOL",
     "category": "tools",
+    "weapon_category": [ "KNIVES" ],
     "material": "steel",
     "symbol": ";",
     "color": "light_gray"
@@ -93,6 +94,7 @@
     "id": "knife_bread",
     "name": { "str": "bread knife", "str_pl": "bread knives" },
     "type": "TOOL",
+    "weapon_category": [  ],
     "description": "This knife has quite a long blade with a scalloped edge for cutting bread.  It's not that sharp, but its length and heft mean it could do a bit of damage and cause some nasty tearing.",
     "copy-from": "base_kitchen_knife",
     "looks_like": "knife_butcher",

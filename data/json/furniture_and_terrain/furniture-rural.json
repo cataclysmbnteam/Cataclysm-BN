@@ -42,6 +42,13 @@
       "TINY",
       "RUBBLE"
     ],
-    "examine_action": "rubble"
+    "examine_action": "rubble",
+    "bash": {
+      "str_min": 32,
+      "str_max": 80,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "splinter", "count": [ 25, 50 ] } ]
+    }
   }
 ]

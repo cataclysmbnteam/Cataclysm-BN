@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <unordered_map>
 #include <utility>
@@ -37,7 +38,6 @@
 #include "mapgen_functions.h"
 #include "mapgendata.h"
 #include "mongroup.h"
-#include "optional.h"
 #include "options.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
@@ -352,7 +352,7 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
                 if( x >= c.x - dice( 1, 6 ) && x <= c.x + dice( 1, 6 ) && y >= c.y - dice( 1, 6 ) &&
                     y <= c.y + dice( 1, 6 ) ) {
                     if( !one_in( 5 ) ) {
-                        m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true );
+                        m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage );
                         if( m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( TFLAG_DIGGABLE ) ) {
                             m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
                         }
@@ -365,7 +365,7 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
 
                 } else if( one_in( 4 + ( std::abs( x - c.x ) + ( std::abs( y -
                                          c.y ) ) ) ) ) { // 1 in 10 chance of being wreckage anyway
-                    m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true );
+                    m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage );
                     if( !one_in( 3 ) ) {
                         if( m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( TFLAG_DIGGABLE ) ) {
                             m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
@@ -774,7 +774,7 @@ static bool mx_marloss_pilgrimage( map &m, const tripoint &abs_sub )
 
     m.place_npc( leader_pos.xy(), string_id<npc_template>( "marloss_voice" ) );
     for( int spawned = 0 ; spawned <= max_followers ; spawned++ ) {
-        if( const cata::optional<tripoint> where_ = random_point( spawnzone, [&]( const tripoint & p ) {
+        if( const std::optional<tripoint> where_ = random_point( spawnzone, [&]( const tripoint & p ) {
         return m.passable( p );
         } ) ) {
             m.add_spawn( one_in( 2 ) ? mon_marloss_zealot_f : mon_marloss_zealot_m, 1, *where_ );
@@ -1019,7 +1019,7 @@ static bool mx_portal( map &m, const tripoint &abs_sub )
         m.points_in_rectangle( { 1, 1, abs_sub.z }, { SEEX * 2 - 2, SEEY * 2 - 2, abs_sub.z } );
 
     // Get a random point in our collection that does not have a trap and does not have the NO_FLOOR flag.
-    const cata::optional<tripoint> portal_pos = random_point( points, [&]( const tripoint & p ) {
+    const std::optional<tripoint> portal_pos = random_point( points, [&]( const tripoint & p ) {
         return !m.has_flag_ter( TFLAG_NO_FLOOR, p ) && m.tr_at( p ).is_null();
     } );
 
@@ -1031,7 +1031,7 @@ static bool mx_portal( map &m, const tripoint &abs_sub )
     // For our portal point and every adjacent location, make rubble if it doesn't have the NO_FLOOR flag.
     for( const tripoint &p : m.points_in_radius( *portal_pos, 1 ) ) {
         if( !m.has_flag_ter( TFLAG_NO_FLOOR, p ) ) {
-            m.make_rubble( p, f_rubble_rock, true );
+            m.make_rubble( p, f_rubble_rock );
         }
     }
 
@@ -1042,7 +1042,7 @@ static bool mx_portal( map &m, const tripoint &abs_sub )
     for( int i = 0; i < num_monsters; i++ ) {
         // Get a random location from our points that is not the portal location, does not have the
         // NO_FLOOR flag, and isn't currently occupied by a creature.
-        const cata::optional<tripoint> mon_pos = random_point( points, [&]( const tripoint & p ) {
+        const std::optional<tripoint> mon_pos = random_point( points, [&]( const tripoint & p ) {
             /// TODO: wrong: this checks for creatures on the main game map. Not within the map m.
             return !m.has_flag_ter( TFLAG_NO_FLOOR, p ) && *portal_pos != p && !g->critter_at( p );
         } );
@@ -1054,7 +1054,7 @@ static bool mx_portal( map &m, const tripoint &abs_sub )
         }
 
         // Make rubble here--it's not necessarily a location that is directly adjacent to the portal.
-        m.make_rubble( *mon_pos, f_rubble_rock, true );
+        m.make_rubble( *mon_pos, f_rubble_rock );
 
         // Spawn a single monster from our group here.
         m.place_spawns( GROUP_NETHER_PORTAL, 1, mon_pos->xy(), mon_pos->xy(), 1, true );
@@ -2129,7 +2129,6 @@ static void burned_ground_parser( map &m, const tripoint &loc )
         } else {
             m.ter_set( loc, ter_dirt );
             m.furn_set( loc, f_ash );
-            m.spawn_item( loc, itype_ash, 1, rng( 1, 100 ) );
         }
         // everything else is destroyed, ash is added
     } else if( ter_furn_has_flag( tr, fid, TFLAG_FLAMMABLE ) ||
@@ -2145,9 +2144,6 @@ static void burned_ground_parser( map &m, const tripoint &loc )
             m.destroy( loc, true );
         }
         m.furn_set( loc, f_ash );
-        if( !tr.has_flag( flag_LIQUID ) ) {
-            m.spawn_item( loc, itype_ash, 1, rng( 1, 100 ) );
-        }
     }
 
     // burn-away flammable items
@@ -2772,7 +2768,7 @@ static bool mx_looters( map &m, const tripoint &abs_sub )
     //Spawn up to 5 hostile bandits with equal chance to be ranged or melee type
     const int num_looters = rng( 1, 5 );
     for( int i = 0; i < num_looters; i++ ) {
-        if( const cata::optional<tripoint> pos_ = random_point( m.points_in_radius( center, rng( 1,
+        if( const std::optional<tripoint> pos_ = random_point( m.points_in_radius( center, rng( 1,
         4 ) ), [&]( const tripoint & p ) {
         return m.passable( p );
         } ) ) {

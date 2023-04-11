@@ -1445,7 +1445,7 @@ void character_display::upgrade_stat_prompt( avatar &you, const character_stat &
     const int free_points = you.free_upgrade_points();
 
     if( free_points <= 0 ) {
-        cata::optional<int> xp_remains = you.kill_xp_for_next_point();
+        std::optional<int> xp_remains = you.kill_xp_for_next_point();
         if( !xp_remains ) {
             popup( _( "You've already reached maximum level." ) );
         } else {

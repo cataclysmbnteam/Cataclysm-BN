@@ -4,6 +4,7 @@
 
 #include <functional>
 #include <map>
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
@@ -13,7 +14,6 @@
 #include "enums.h"
 #include "game_constants.h"
 #include "npc_favor.h"
-#include "optional.h"
 #include "overmap.h"
 #include "point.h"
 #include "translations.h"
@@ -142,10 +142,10 @@ struct mission_target_params {
     mission *mission_pointer = nullptr;
 
     bool origin_u = true;
-    cata::optional<tripoint_rel_omt> offset;
-    cata::optional<std::string> replaceable_overmap_terrain;
-    cata::optional<overmap_special_id> overmap_special;
-    cata::optional<int> reveal_radius;
+    std::optional<tripoint_rel_omt> offset;
+    std::optional<std::string> replaceable_overmap_terrain;
+    std::optional<overmap_special_id> overmap_special;
+    std::optional<int> reveal_radius;
     int min_distance = 0;
 
     bool must_see = false;
@@ -153,7 +153,7 @@ struct mission_target_params {
     bool random = false;
     bool create_if_necessary = true;
     int search_range = OMAPX;
-    cata::optional<int> z;
+    std::optional<int> z;
     npc *guy = nullptr;
 };
 
@@ -176,7 +176,7 @@ void set_reveal( const std::string &terrain,
 void set_reveal_any( const JsonArray &ja,
                      std::vector<std::function<void( mission *miss )>> &funcs );
 mission_target_params parse_mission_om_target( const JsonObject &jo );
-cata::optional<tripoint_abs_omt> assign_mission_target( const mission_target_params &params );
+std::optional<tripoint_abs_omt> assign_mission_target( const mission_target_params &params );
 tripoint_abs_omt get_om_terrain_pos( const mission_target_params &params );
 void set_assign_om_target( const JsonObject &jo,
                            std::vector<std::function<void( mission *miss )>> &funcs );

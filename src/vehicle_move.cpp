@@ -7,6 +7,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <memory>
+#include <optional>
 #include <ostream>
 #include <set>
 
@@ -27,7 +28,6 @@
 #include "math_defines.h"
 #include "messages.h"
 #include "monster.h"
-#include "optional.h"
 #include "options.h"
 #include "player.h"
 #include "point_float.h"

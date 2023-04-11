@@ -6,6 +6,7 @@
 #include <iterator>
 #include <list>
 #include <map>
+#include <optional>
 #include <queue>
 
 #include "avatar.h"
@@ -18,6 +19,7 @@
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "debug.h"
+#include "distribution_grid.h"
 #include "filesystem.h"
 #include "game.h"
 #include "game_constants.h"
@@ -28,7 +30,6 @@
 #include "mongroup.h"
 #include "monster.h"
 #include "npc.h"
-#include "optional.h"
 #include "overmap.h"
 #include "overmap_connection.h"
 #include "overmap_special.h"
@@ -345,12 +346,12 @@ bool overmapbuffer::has_note( const tripoint_abs_omt &p )
     return false;
 }
 
-cata::optional<int> overmapbuffer::has_note_with_danger_radius( const tripoint_abs_omt &p )
+std::optional<int> overmapbuffer::has_note_with_danger_radius( const tripoint_abs_omt &p )
 {
     if( const overmap_with_local_coords om_loc = get_existing_om_global( p ) ) {
         return om_loc.om->has_note_with_danger_radius( om_loc.local );
     }
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 bool overmapbuffer::is_marked_dangerous( const tripoint_abs_omt &p )
@@ -872,7 +873,7 @@ bool overmapbuffer::reveal_route( const tripoint_abs_omt &source, const tripoint
     }
 
     const pf::two_node_scoring_fn<point_rel_omt> estimate =
-    [&]( pf::directed_node<point_rel_omt> cur, cata::optional<pf::directed_node<point_rel_omt>> ) {
+    [&]( pf::directed_node<point_rel_omt> cur, std::optional<pf::directed_node<point_rel_omt>> ) {
         int cost = 0;
         const oter_id oter = get_ter_at( cur.pos );
         if( !connection->has( oter ) ) {
@@ -936,7 +937,7 @@ bool overmapbuffer::check_overmap_special_type( const overmap_special_id &id,
 static omt_find_params assign_params(
     const std::string &type, int const radius, bool must_be_seen,
     ot_match_type match_type, bool existing_overmaps_only,
-    const cata::optional<overmap_special_id> &om_special )
+    const std::optional<overmap_special_id> &om_special )
 {
     omt_find_params params;
     std::vector<std::pair<std::string, ot_match_type>> temp_types;
@@ -1000,7 +1001,7 @@ bool overmapbuffer::is_findable_location( const tripoint_abs_omt &location,
 tripoint_abs_omt overmapbuffer::find_closest(
     const tripoint_abs_omt &origin, const std::string &type, int const radius, bool must_be_seen,
     ot_match_type match_type, bool existing_overmaps_only,
-    const cata::optional<overmap_special_id> &om_special )
+    const std::optional<overmap_special_id> &om_special )
 {
     const omt_find_params params = assign_params( type, radius, must_be_seen, match_type,
                                    existing_overmaps_only, om_special );
@@ -1034,7 +1035,7 @@ tripoint_abs_omt overmapbuffer::find_closest( const tripoint_abs_omt &origin,
     const int max_dist = params.search_range ? params.search_range : OMAPX * 5;
 
     std::vector<tripoint_abs_omt> result;
-    cata::optional<int> found_dist;
+    std::optional<int> found_dist;
 
     size_t num_overmaps = overmaps.size();
     size_t counter = 0;
@@ -1101,7 +1102,7 @@ std::vector<tripoint_abs_omt> overmapbuffer::find_all( const tripoint_abs_omt &o
 std::vector<tripoint_abs_omt> overmapbuffer::find_all(
     const tripoint_abs_omt &origin, const std::string &type, int dist, bool must_be_seen,
     ot_match_type match_type, bool existing_overmaps_only,
-    const cata::optional<overmap_special_id> &om_special )
+    const std::optional<overmap_special_id> &om_special )
 {
     const omt_find_params params = assign_params( type, dist, must_be_seen, match_type,
                                    existing_overmaps_only, om_special );
@@ -1117,7 +1118,7 @@ tripoint_abs_omt overmapbuffer::find_random( const tripoint_abs_omt &origin,
 tripoint_abs_omt overmapbuffer::find_random(
     const tripoint_abs_omt &origin, const std::string &type, int dist, bool must_be_seen,
     ot_match_type match_type, bool existing_overmaps_only,
-    const cata::optional<overmap_special_id> &om_special )
+    const std::optional<overmap_special_id> &om_special )
 {
     const omt_find_params params = assign_params( type, dist, must_be_seen, match_type,
                                    existing_overmaps_only, om_special );
@@ -1134,19 +1135,19 @@ shared_ptr_fast<npc> overmapbuffer::find_npc( character_id id )
     return nullptr;
 }
 
-cata::optional<basecamp *> overmapbuffer::find_camp( const point_abs_omt &p )
+std::optional<basecamp *> overmapbuffer::find_camp( const point_abs_omt &p )
 {
     for( auto &it : overmaps ) {
         const point_abs_omt p2( p );
         for( int x2 = p2.x() - 3; x2 < p2.x() + 3; x2++ ) {
             for( int y2 = p2.y() - 3; y2 < p2.y() + 3; y2++ ) {
-                if( cata::optional<basecamp *> camp = it.second->find_camp( point_abs_omt( x2, y2 ) ) ) {
+                if( std::optional<basecamp *> camp = it.second->find_camp( point_abs_omt( x2, y2 ) ) ) {
                     return camp;
                 }
             }
         }
     }
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 void overmapbuffer::insert_npc( const shared_ptr_fast<npc> &who )
@@ -1721,4 +1722,89 @@ overmapbuffer::electric_grid_connectivity_at( const tripoint_abs_omt &p )
     }
 
     return ret;
+}
+
+bool overmapbuffer::add_grid_connection( const tripoint_abs_omt &lhs, const tripoint_abs_omt &rhs )
+{
+    if( project_to<coords::om>( lhs ).xy() != project_to<coords::om>( rhs ).xy() ) {
+        debugmsg( "Connecting grids on different overmaps is not supported yet" );
+        return false;
+    }
+
+    const tripoint_rel_omt coord_diff = rhs - lhs;
+    if( std::abs( coord_diff.x() ) + std::abs( coord_diff.y() ) + std::abs( coord_diff.z() ) != 1 ) {
+        debugmsg( "Tried to connect non-orthogonally adjacent points" );
+        return false;
+    }
+
+    overmap_with_local_coords lhs_omc = get_om_global( lhs );
+    overmap_with_local_coords rhs_omc = get_om_global( rhs );
+
+    const auto lhs_iter = std::find( six_cardinal_directions.begin(),
+                                     six_cardinal_directions.end(),
+                                     coord_diff.raw() );
+    const auto rhs_iter = std::find( six_cardinal_directions.begin(),
+                                     six_cardinal_directions.end(),
+                                     -coord_diff.raw() );
+
+    size_t lhs_i = std::distance( six_cardinal_directions.begin(), lhs_iter );
+    size_t rhs_i = std::distance( six_cardinal_directions.begin(), rhs_iter );
+
+    std::bitset<six_cardinal_directions.size()> &lhs_bitset =
+        lhs_omc.om->electric_grid_connections[lhs_omc.local];
+    std::bitset<six_cardinal_directions.size()> &rhs_bitset =
+        rhs_omc.om->electric_grid_connections[rhs_omc.local];
+
+    if( lhs_bitset[lhs_i] && rhs_bitset[rhs_i] ) {
+        debugmsg( "Tried to connect to grid two points that are connected to each other" );
+        return false;
+    }
+
+    lhs_bitset[lhs_i] = true;
+    rhs_bitset[rhs_i] = true;
+    distribution_grid_tracker &tracker = get_distribution_grid_tracker();
+    tracker.on_changed( project_to<coords::ms>( lhs ) );
+    tracker.on_changed( project_to<coords::ms>( rhs ) );
+    return true;
+}
+
+// TODO: Deduplicate with add_grid_connection
+bool overmapbuffer::remove_grid_connection( const tripoint_abs_omt &lhs,
+        const tripoint_abs_omt &rhs )
+{
+    const tripoint_rel_omt coord_diff = rhs - lhs;
+    if( std::abs( coord_diff.x() ) + std::abs( coord_diff.y() ) + std::abs( coord_diff.z() ) != 1 ) {
+        debugmsg( "Tried to disconnect non-orthogonally adjacent points" );
+        return false;
+    }
+
+    overmap_with_local_coords lhs_omc = get_om_global( lhs );
+    overmap_with_local_coords rhs_omc = get_om_global( rhs );
+
+    const auto lhs_iter = std::find( six_cardinal_directions.begin(),
+                                     six_cardinal_directions.end(),
+                                     coord_diff.raw() );
+    const auto rhs_iter = std::find( six_cardinal_directions.begin(),
+                                     six_cardinal_directions.end(),
+                                     -coord_diff.raw() );
+
+    size_t lhs_i = std::distance( six_cardinal_directions.begin(), lhs_iter );
+    size_t rhs_i = std::distance( six_cardinal_directions.begin(), rhs_iter );
+
+    std::bitset<six_cardinal_directions.size()> &lhs_bitset =
+        lhs_omc.om->electric_grid_connections[lhs_omc.local];
+    std::bitset<six_cardinal_directions.size()> &rhs_bitset =
+        rhs_omc.om->electric_grid_connections[rhs_omc.local];
+
+    if( !lhs_bitset[lhs_i] && !rhs_bitset[rhs_i] ) {
+        debugmsg( "Tried to disconnect from grid two points with no connection to each other" );
+        return false;
+    }
+
+    lhs_bitset[lhs_i] = false;
+    rhs_bitset[rhs_i] = false;
+    distribution_grid_tracker &tracker = get_distribution_grid_tracker();
+    tracker.on_changed( project_to<coords::ms>( lhs ) );
+    tracker.on_changed( project_to<coords::ms>( rhs ) );
+    return true;
 }

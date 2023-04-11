@@ -12,6 +12,7 @@
     "abstract": "bow_base",
     "copy-from": "muscle_ranged_base",
     "type": "GUN",
+    "weapon_category": [ "BOWS", "ELASTIC" ],
     "name": { "str": "base bow" },
     "skill": "archery",
     "reload_noise_volume": 3,
@@ -21,10 +22,36 @@
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ]
   },
   {
+    "abstract": "xbow_base",
+    "type": "GUN",
+    "looks_like": "crossbow",
+    "weapon_category": [ "CROSSBOWS", "ELASTIC" ],
+    "name": { "str": "base crossbow" },
+    "reload_noise_volume": 10,
+    "skill": "rifle",
+    "symbol": "(",
+    "color": "green",
+    "flags": [ "PRIMITIVE_RANGED_WEAPON", "CROSSBOW", "RELOAD_ONE" ],
+    "clip_size": 1,
+    "ammo": "bolt",
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ],
+      [ "dampening", 1 ]
+    ]
+  },
+  {
     "abstract": "slingshot_base",
     "//": "Used for slingshots, that use archery, not slings, that use the throw skill instead.",
     "copy-from": "muscle_ranged_base",
     "type": "GUN",
+    "weapon_category": [ "SLINGSHOTS", "ELASTIC" ],
     "name": { "str": "base slingshot" },
     "skill": "archery",
     "ammo": "pebble",
@@ -32,10 +59,11 @@
     "extend": { "flags": [ "BELT_CLIP" ] }
   },
   {
-    "abstract": "throwing_weapon_base",
+    "abstract": "sling_base",
     "copy-from": "muscle_ranged_base",
     "type": "GUN",
-    "name": { "str": "base throwing weapon" },
+    "weapon_category": [ "SLINGS" ],
+    "name": { "str": "base sling" },
     "skill": "throw"
   }
 ]

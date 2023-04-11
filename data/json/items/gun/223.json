@@ -195,7 +195,7 @@
   },
   {
     "id": "m249",
-    "copy-from": "rifle_auto",
+    "copy-from": "mg_base",
     "type": "GUN",
     "name": { "str": "M249" },
     "description": "The M249 is a mountable machine gun used by the US military and SWAT teams.  Quite inaccurate and difficult to control, the M249 is designed to fire many rounds very quickly.",
@@ -211,8 +211,6 @@
     "dispersion": 200,
     "durability": 7,
     "min_cycle_recoil": 1350,
-    "reload": 400,
-    "handling": 40,
     "modes": [ [ "DEFAULT", "burst", 4 ] ],
     "built_in_mods": [ "bipod" ],
     "valid_mod_locations": [

@@ -1196,7 +1196,7 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
             source.add_msg_if_player( sp.message() );
 
             if( sp.has_flag( RANDOM_TARGET ) ) {
-                if( const cata::optional<tripoint> new_target = sp.random_valid_target( source,
+                if( const std::optional<tripoint> new_target = sp.random_valid_target( source,
                         _self ? source.pos() : target ) ) {
                     sp.cast_all_effects( source, *new_target );
                 }
@@ -1214,7 +1214,7 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
         for( const fake_spell &extra_spell : type->additional_spells ) {
             spell sp = extra_spell.get_spell( get_level() );
             if( sp.has_flag( RANDOM_TARGET ) ) {
-                if( const cata::optional<tripoint> new_target = sp.random_valid_target( source,
+                if( const std::optional<tripoint> new_target = sp.random_valid_target( source,
                         extra_spell.self ? source.pos() : target ) ) {
                     sp.cast_all_effects( source, *new_target );
                 }
@@ -1229,7 +1229,7 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
     }
 }
 
-cata::optional<tripoint> spell::random_valid_target( const Creature &caster,
+std::optional<tripoint> spell::random_valid_target( const Creature &caster,
         const tripoint &caster_pos ) const
 {
     std::set<tripoint> valid_area;
@@ -1240,7 +1240,7 @@ cata::optional<tripoint> spell::random_valid_target( const Creature &caster,
         }
     }
     if( valid_area.empty() ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     return random_entry( valid_area );
 }
@@ -2030,7 +2030,7 @@ void fake_spell::load( const JsonObject &jo )
     int max_level_int;
     optional( jo, false, "max_level", max_level_int, -1 );
     if( max_level_int == -1 ) {
-        max_level = cata::nullopt;
+        max_level = std::nullopt;
     } else {
         max_level = max_level_int;
     }

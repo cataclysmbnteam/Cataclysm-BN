@@ -3,6 +3,7 @@
 #define CATA_SRC_SCENT_MAP_H
 
 #include <array>
+#include <optional>
 #include <set>
 #include <string>
 #include <vector>
@@ -10,7 +11,6 @@
 #include "calendar.h"
 #include "enums.h" // IWYU pragma: keep
 #include "game_constants.h"
-#include "optional.h"
 #include "point.h"
 #include "type_id.h"
 
@@ -47,7 +47,7 @@ class scent_map
 
         scent_array<int> grscent;
         scenttype_id typescent;
-        cata::optional<tripoint> player_last_position;
+        std::optional<tripoint> player_last_position;
         time_point player_last_moved = calendar::before_time_starts;
 
         const game &gm;

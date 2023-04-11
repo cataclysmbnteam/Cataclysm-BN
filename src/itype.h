@@ -6,6 +6,7 @@
 #include <iosfwd>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <unordered_set>
@@ -19,7 +20,6 @@
 #include "explosion.h"
 #include "game_constants.h"
 #include "iuse.h" // use_function
-#include "optional.h"
 #include "pldata.h" // add_type
 #include "shape.h"
 #include "stomach.h"
@@ -97,7 +97,7 @@ class gunmod_location
 struct islot_tool {
     std::set<ammotype> ammo_id;
 
-    cata::optional<itype_id> revert_to;
+    std::optional<itype_id> revert_to;
     std::string revert_msg;
 
     itype_id subtype;
@@ -658,7 +658,7 @@ struct islot_magazine {
     int reload_time = 100;
 
     /** For ammo belts one linkage (of given type) is dropped for each unit of ammo consumed */
-    cata::optional<itype_id> linkage;
+    std::optional<itype_id> linkage;
 
     /** If false, ammo will cook off if this mag is affected by fire */
     bool protects_contents = false;
@@ -677,7 +677,7 @@ struct islot_ammo : common_ranged_data {
     /**
      * Type id of casings, if any.
      */
-    cata::optional<itype_id> casing;
+    std::optional<itype_id> casing;
 
     /**
      * Control chance for and state of any items dropped at ranged target
@@ -730,12 +730,12 @@ struct islot_ammo : common_ranged_data {
      * Some combat ammo might not have a damage value
      * Set this to make it show as combat ammo anyway
      */
-    cata::optional<bool> force_stat_display;
+    std::optional<bool> force_stat_display;
 
     /**
      * AoE shape or null if it's a projectile.
      */
-    cata::optional<shape_factory> shape;
+    std::optional<shape_factory> shape;
 
     bool was_loaded;
 
@@ -902,12 +902,14 @@ struct itype {
         // What item this item repairs like if it doesn't have a recipe
         itype_id repairs_like;
 
+        std::set<weapon_category_id> weapon_category;
+
         std::string snippet_category;
         translation description; // Flavor text
         ascii_art_id picture_id;
 
         // The container it comes in
-        cata::optional<itype_id> default_container;
+        std::optional<itype_id> default_container;
 
         std::map<quality_id, int> qualities; //Tool quality indicators
         std::map<std::string, std::string> properties;

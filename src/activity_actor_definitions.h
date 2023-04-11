@@ -8,7 +8,6 @@
 #include "item_handling_util.h"
 #include "item_location.h"
 #include "memory_fast.h"
-#include "optional.h"
 #include "pickup_token.h"
 #include "point.h"
 #include "type_id.h"
@@ -20,13 +19,12 @@ class vehicle;
 class aim_activity_actor : public activity_actor
 {
     private:
-        cata::optional<item> fake_weapon;
+        std::optional<item> fake_weapon;
         units::energy bp_cost_per_shot = 0_J;
         int stamina_cost_per_shot = 0;
         std::vector<tripoint> fin_trajectory;
 
     public:
-        bool first_turn = true;
         std::string action = "";
         int aif_duration = 0; // Counts aim-and-fire duration
         bool aiming_at_critter = false; // Whether aiming at critter or a tile
@@ -37,6 +35,10 @@ class aim_activity_actor : public activity_actor
         bool aborted = false;
         /** RELOAD_AND_SHOOT weapon is kept loaded by the activity */
         bool loaded_RAS_weapon = false;
+        /* Item location for RAS weapon reload */
+        item_location reload_loc = item_location();
+        /** if true abort if no targets are available when re-entering aiming ui after shooting */
+        bool abort_if_no_targets = false;
         /**
          * Target UI requested to abort aiming and reload weapon
          * Implies aborted = true
@@ -420,11 +422,11 @@ class pickup_activity_actor : public activity_actor
          * (e.g. if the player is in a moving vehicle). This should be null
          * if not grabbing from the ground.
          */
-        cata::optional<tripoint> starting_pos;
+        std::optional<tripoint> starting_pos;
 
     public:
         pickup_activity_actor( const std::vector<pickup::pick_drop_selection> &target_items,
-                               const cata::optional<tripoint> &starting_pos )
+                               const std::optional<tripoint> &starting_pos )
             : target_items( target_items )
             , starting_pos( starting_pos ) {}
 
@@ -474,13 +476,13 @@ class throw_activity_actor : public activity_actor
 {
     private:
         item_location target_loc;
-        cata::optional<tripoint> blind_throw_from_pos;
+        std::optional<tripoint> blind_throw_from_pos;
 
     public:
         throw_activity_actor() = default;
         throw_activity_actor(
             item_location target_loc,
-            cata::optional<tripoint> blind_throw_from_pos
+            std::optional<tripoint> blind_throw_from_pos
         ) : target_loc( target_loc ),
             blind_throw_from_pos( blind_throw_from_pos ) {}
         ~throw_activity_actor() = default;

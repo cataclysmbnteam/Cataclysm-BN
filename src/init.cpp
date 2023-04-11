@@ -388,6 +388,7 @@ void DynamicDataLoader::initialize()
 
     add( "tool_quality", &quality::load_static );
     add( "technique", &load_technique );
+    add( "weapon_category", &weapon_category::load_weapon_categories );
     add( "martial_art", &load_martial_art );
     add( "effect_type", &load_effect_type );
     add( "obsolete_terrain", &overmap::load_obsolete_terrains );
@@ -622,6 +623,7 @@ void DynamicDataLoader::unload_data()
     VehicleSpawn::reset();
     vitamin::reset();
     vpart_info::reset();
+    weapon_category::reset();
     weather_types::reset();
     zone_type::reset_zones();
     l10n_data::unload_mod_catalogues();
@@ -971,7 +973,7 @@ bool init::check_mods_for_errors( loading_ui &ui, const std::vector<mod_id> &opt
         world_generator->delete_world( world_name, true );
 
         // TODO: Why would we need these calls?
-        MAPBUFFER.reset();
+        MAPBUFFER.clear();
         overmap_buffer.clear();
     }
 

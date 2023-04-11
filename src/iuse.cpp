@@ -10,6 +10,7 @@
 #include <iterator>
 #include <list>
 #include <map>
+#include <optional>
 #include <set>
 #include <sstream>
 #include <unordered_map>
@@ -82,7 +83,6 @@
 #include "mutation.h"
 #include "npc.h"
 #include "omdata.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
@@ -325,8 +325,12 @@ static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 static const trait_id trait_WAYFARER( "WAYFARER" );
+
 static const quality_id qual_AXE( "AXE" );
 static const quality_id qual_DIG( "DIG" );
+
+static const requirement_id requirement_add_grid_connection =
+    requirement_id( "add_grid_connection" );
 
 static const species_id FUNGUS( "FUNGUS" );
 static const species_id HALLUCINATION( "HALLUCINATION" );
@@ -1548,7 +1552,7 @@ static int feedpet( player &p, monster &mon, item &it, m_flag food_flag, const c
 
 static int petfood( player &p, item &it, Petfood animal_food_type )
 {
-    const cata::optional<tripoint> pnt_ = choose_adjacent( string_format(
+    const std::optional<tripoint> pnt_ = choose_adjacent( string_format(
             _( "Tame which animal with the %s?" ),
             it.tname() ) );
     if( !pnt_ ) {
@@ -1772,7 +1776,7 @@ int iuse::fishing_rod( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
-    cata::optional<tripoint> found;
+    std::optional<tripoint> found;
     for( const tripoint &pnt : g->m.points_in_radius( p->pos(), 1 ) ) {
         if( g->m.has_flag( flag_FISHABLE, pnt ) && good_fishing_spot( pnt ) ) {
             found = pnt;
@@ -1817,7 +1821,7 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
             return 0;
         }
 
-        const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Put fish trap where?" ) );
+        const std::optional<tripoint> pnt_ = choose_adjacent( _( "Put fish trap where?" ) );
         if( !pnt_ ) {
             return 0;
         }
@@ -1931,7 +1935,7 @@ int iuse::extinguisher( player *p, item *it, bool, const tripoint & )
     }
     // If anyone other than the player wants to use one of these,
     // they're going to need to figure out how to aim it.
-    const cata::optional<tripoint> dest_ = choose_adjacent( _( "Spray where?" ) );
+    const std::optional<tripoint> dest_ = choose_adjacent( _( "Spray where?" ) );
     if( !dest_ ) {
         return 0;
     }
@@ -2386,7 +2390,7 @@ int iuse::hammer( player *p, item *it, bool, const tripoint & )
         return is_allowed;
     };
 
-    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
+    const std::optional<tripoint> pnt_ = choose_adjacent_highlight(
             _( "Pry where?" ), _( "There is nothing to pry nearby." ), f, false );
     if( !pnt_ ) {
         return 0;
@@ -2437,7 +2441,7 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
         return is_allowed;
     };
 
-    const cata::optional<tripoint> pnt_ = ( pos != p->pos() ) ? pos : choose_adjacent_highlight(
+    const std::optional<tripoint> pnt_ = ( pos != p->pos() ) ? pos : choose_adjacent_highlight(
             _( "Pry where?" ), _( "There is nothing to pry nearby." ), can_pry, false );
     if( !pnt_ ) {
         return 0;
@@ -2557,7 +2561,7 @@ int iuse::makemound( player *p, item *it, bool t, const tripoint & )
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
-    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Till soil where?" ) );
+    const std::optional<tripoint> pnt_ = choose_adjacent( _( "Till soil where?" ) );
     if( !pnt_ ) {
         return 0;
     }
@@ -2745,7 +2749,7 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
         return g->m.passable( pnt );
     };
 
-    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
+    const std::optional<tripoint> pnt_ = choose_adjacent_highlight(
             _( "Deposit excavated materials where?" ),
             _( "There is nowhere to deposit the excavated materials." ), f, false );
     if( !pnt_ ) {
@@ -2834,7 +2838,7 @@ int iuse::dig_channel( player *p, item *it, bool t, const tripoint & )
         return g->m.passable( pnt );
     };
 
-    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
+    const std::optional<tripoint> pnt_ = choose_adjacent_highlight(
             _( "Deposit excavated materials where?" ),
             _( "There is nowhere to deposit the excavated materials." ), f, false );
     if( !pnt_ ) {
@@ -2894,7 +2898,7 @@ int iuse::fill_pit( player *p, item *it, bool t, const tripoint & )
         return ( allowed_ter_id.find( type ) != allowed_ter_id.end() );
     };
 
-    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
+    const std::optional<tripoint> pnt_ = choose_adjacent_highlight(
             _( "Fill which pit or mound?" ), _( "There is no pit or mound to fill nearby." ), f, false );
     if( !pnt_ ) {
         return 0;
@@ -2951,7 +2955,7 @@ int iuse::clear_rubble( player *p, item *it, bool, const tripoint & )
         return g->m.has_flag( "RUBBLE", pnt );
     };
 
-    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
+    const std::optional<tripoint> pnt_ = choose_adjacent_highlight(
             _( "Clear rubble where?" ), _( "There is no rubble to clear nearby." ), f, false );
     if( !pnt_ ) {
         return 0;
@@ -3010,8 +3014,8 @@ int iuse::siphon( player *p, item *it, bool, const tripoint & )
         }
     }
     if( found_more_than_one ) {
-        cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
-                                            _( "Siphon from where?" ), _( "There is nothing to siphon nearby." ), f, false );
+        std::optional<tripoint> pnt_ = choose_adjacent_highlight(
+                                           _( "Siphon from where?" ), _( "There is nothing to siphon nearby." ), f, false );
         if( !pnt_ ) {
             return 0;
         }
@@ -3251,7 +3255,7 @@ int iuse::jackhammer( player *p, item *it, bool, const tripoint &pos )
 
     tripoint pnt = pos;
     if( pos == p->pos() ) {
-        const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Drill where?" ) );
+        const std::optional<tripoint> pnt_ = choose_adjacent( _( "Drill where?" ) );
         if( !pnt_ ) {
             return 0;
         }
@@ -3305,7 +3309,7 @@ int iuse::pickaxe( player *p, item *it, bool, const tripoint &pos )
 
     tripoint pnt = pos;
     if( pos == p->pos() ) {
-        const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Mine where?" ) );
+        const std::optional<tripoint> pnt_ = choose_adjacent( _( "Mine where?" ) );
         if( !pnt_ ) {
             return 0;
         }
@@ -3359,7 +3363,7 @@ int iuse::burrow( player *p, item *it, bool, const tripoint &pos )
 
     tripoint pnt = pos;
     if( pos == p->pos() ) {
-        const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Burrow where?" ) );
+        const std::optional<tripoint> pnt_ = choose_adjacent( _( "Burrow where?" ) );
         if( !pnt_ ) {
             return 0;
         }
@@ -3438,8 +3442,8 @@ int iuse::geiger( player *p, item *it, bool t, const tripoint &pos )
                 return g->critter_at<npc>( pnt ) != nullptr || g->critter_at<player>( pnt ) != nullptr;
             };
 
-            const cata::optional<tripoint> pnt_ = choose_adjacent_highlight( _( "Scan whom?" ),
-                                                  _( "There is no one to scan nearby." ), f, false );
+            const std::optional<tripoint> pnt_ = choose_adjacent_highlight( _( "Scan whom?" ),
+                                                 _( "There is no one to scan nearby." ), f, false );
             if( !pnt_ ) {
                 return 0;
             }
@@ -3983,7 +3987,7 @@ int iuse::tazer( player *p, item *it, bool, const tripoint &pos )
 
     tripoint pnt = pos;
     if( pos == p->pos() ) {
-        const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Shock where?" ) );
+        const std::optional<tripoint> pnt_ = choose_adjacent( _( "Shock where?" ) );
         if( !pnt_ ) {
             return 0;
         }
@@ -4782,7 +4786,7 @@ int iuse::chop_tree( player *p, item *it, bool t, const tripoint & )
         return g->m.has_flag( "TREE", pnt );
     };
 
-    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
+    const std::optional<tripoint> pnt_ = choose_adjacent_highlight(
             _( "Chop down which tree?" ), _( "There is no tree to chop down nearby." ), f, false );
     if( !pnt_ ) {
         return 0;
@@ -4830,7 +4834,7 @@ int iuse::chop_logs( player *p, item *it, bool t, const tripoint & )
         return is_allowed_terrain;
     };
 
-    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
+    const std::optional<tripoint> pnt_ = choose_adjacent_highlight(
             _( "Chop which tree trunk?" ), _( "There is no tree trunk to chop nearby." ), f, false );
     if( !pnt_ ) {
         return 0;
@@ -4905,7 +4909,7 @@ int iuse::oxytorch( player *p, item *it, bool, const tripoint & )
         return is_allowed;
     };
 
-    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
+    const std::optional<tripoint> pnt_ = choose_adjacent_highlight(
             _( "Cut up metal where?" ), _( "There is no metal to cut up nearby." ), f, false );
     if( !pnt_ ) {
         return 0;
@@ -4995,7 +4999,7 @@ int iuse::hacksaw( player *p, item *it, bool t, const tripoint & )
         return is_allowed;
     };
 
-    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
+    const std::optional<tripoint> pnt_ = choose_adjacent_highlight(
             _( "Cut up metal where?" ), _( "There is no metal to cut up nearby." ), f, false );
     if( !pnt_ ) {
         return 0;
@@ -5052,7 +5056,7 @@ int iuse::boltcutters( player *p, item *it, bool, const tripoint & )
         return is_allowed;
     };
 
-    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
+    const std::optional<tripoint> pnt_ = choose_adjacent_highlight(
             _( "Cut up metal where?" ), _( "There is no metal to cut up nearby." ), f, false );
     if( !pnt_ ) {
         return 0;
@@ -5141,7 +5145,7 @@ int iuse::mop( player *p, item *it, bool, const tripoint & )
         return false;
     };
 
-    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
+    const std::optional<tripoint> pnt_ = choose_adjacent_highlight(
             _( "Mop where?" ), _( "There is nothing to mop nearby." ), f, false );
     if( !pnt_ ) {
         return 0;
@@ -5236,7 +5240,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
             break;
 
             case AEA_FIREBALL: {
-                if( const cata::optional<tripoint> fireball = g->look_around() ) {
+                if( const std::optional<tripoint> fireball = g->look_around() ) {
                     // only the player can trigger artifact
                     explosion_handler::explosion( *fireball, p, 180, 0.5, true );
                 }
@@ -5280,7 +5284,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
             break;
 
             case AEA_ACIDBALL: {
-                if( const cata::optional<tripoint> acidball = g->look_around() ) {
+                if( const std::optional<tripoint> acidball = g->look_around() ) {
                     for( const tripoint &tmp : g->m.points_in_radius( *acidball, 1 ) ) {
                         g->m.add_field( tmp, fd_acid, rng( 2, 3 ) );
                     }
@@ -5509,7 +5513,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
 
 int iuse::spray_can( player *p, item *it, bool, const tripoint & )
 {
-    const cata::optional<tripoint> dest_ = choose_adjacent( _( "Spray where?" ) );
+    const std::optional<tripoint> dest_ = choose_adjacent( _( "Spray where?" ) );
     if( !dest_ ) {
         return 0;
     }
@@ -7521,7 +7525,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
     }
 
     if( c_shot == choice ) {
-        const cata::optional<tripoint> aim_point_ = g->look_around();
+        const std::optional<tripoint> aim_point_ = g->look_around();
 
         if( !aim_point_ ) {
             p->add_msg_if_player( _( "Never mind." ) );
@@ -8034,7 +8038,7 @@ static void emit_radio_signal( player &p, const std::string &signal )
             if( !vp ) {
                 continue;
             }
-            cata::optional<vpart_reference> vpr = vp.part_with_feature( "CARGO", false );
+            std::optional<vpart_reference> vpr = vp.part_with_feature( "CARGO", false );
             if( !vpr ) {
                 continue;
             }
@@ -8702,7 +8706,7 @@ int iuse::tow_attach( player *p, item *it, bool, const tripoint & )
         p->moves -= 15;
     };
     if( initial_state == "attach_first" ) {
-        const cata::optional<tripoint> posp_ = choose_adjacent(
+        const std::optional<tripoint> posp_ = choose_adjacent(
                 _( "Attach cable to the vehicle that will do the towing." ) );
         if( !posp_ ) {
             return 0;
@@ -8768,7 +8772,7 @@ int iuse::tow_attach( player *p, item *it, bool, const tripoint & )
         if( source_veh == nullptr && paying_out ) {
             return 0;
         }
-        const cata::optional<tripoint> vpos_ = choose_adjacent(
+        const std::optional<tripoint> vpos_ = choose_adjacent(
                 _( "Attach cable to vehicle that will be towed." ) );
         if( !vpos_ ) {
             return 0;
@@ -8889,7 +8893,7 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
             }
             // fall through for attaching to a vehicle
         }
-        const cata::optional<tripoint> posp_ = choose_adjacent( _( "Attach cable to vehicle where?" ) );
+        const std::optional<tripoint> posp_ = choose_adjacent( _( "Attach cable to vehicle where?" ) );
         if( !posp_ ) {
             return 0;
         }
@@ -8998,7 +9002,7 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
             return 0;
         }
 
-        const cata::optional<tripoint> vpos_ = choose_adjacent( _( "Attach cable where?" ) );
+        const std::optional<tripoint> vpos_ = choose_adjacent( _( "Attach cable where?" ) );
         if( !vpos_ ) {
             return 0;
         }
@@ -9186,7 +9190,7 @@ int iuse::directional_hologram( player *p, item *it, bool, const tripoint &pos )
                               it->tname() );
         return 0;
     }
-    const cata::optional<tripoint> posp_ = choose_adjacent( _( "Choose hologram direction." ) );
+    const std::optional<tripoint> posp_ = choose_adjacent( _( "Choose hologram direction." ) );
     if( !posp_ ) {
         return 0;
     }
@@ -9285,7 +9289,7 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
             return 0;
         } else {
             const std::string query = string_format( _( "Place the %s where?" ), contained_name );
-            const cata::optional<tripoint> pos_ = choose_adjacent( query );
+            const std::optional<tripoint> pos_ = choose_adjacent( query );
             if( !pos_ ) {
                 return 0;
             }
@@ -9313,8 +9317,8 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
         };
         const std::string query = string_format( _( "Grab which creature to place in the %s?" ),
                                   it->tname() );
-        const cata::optional<tripoint> target_ = choose_adjacent_highlight( query,
-                _( "There is no creature nearby you can capture." ), adjacent_capturable, false );
+        const std::optional<tripoint> target_ = choose_adjacent_highlight( query,
+                                                _( "There is no creature nearby you can capture." ), adjacent_capturable, false );
         if( !target_ ) {
             p->add_msg_if_player( m_info, _( "You cannot use a %s there." ), it->tname() );
             return 0;
@@ -9362,7 +9366,7 @@ int iuse::ladder( player *p, item *, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
-    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Put the ladder where?" ) );
+    const std::optional<tripoint> pnt_ = choose_adjacent( _( "Put the ladder where?" ) );
     if( !pnt_ ) {
         return 0;
     }
@@ -9573,7 +9577,7 @@ int iuse::craft( player *p, item *it, bool, const tripoint &pos )
     item_location where;
     if( p->has_item( *it ) ) {
         where = item_location( *p, it );
-    } else if( const cata::optional<vpart_reference> vp = g->m.veh_at( pos ).part_with_feature( "CARGO",
+    } else if( const std::optional<vpart_reference> vp = g->m.veh_at( pos ).part_with_feature( "CARGO",
                false ) ) {
         const vehicle_cursor vc = vehicle_cursor( vp->vehicle(), vp->part_index() );
         if( vc.has_item( *it ) ) {
@@ -9733,6 +9737,102 @@ int iuse::report_grid_connections( player *p, item *, bool, const tripoint &pos 
                              enumerate_as_string( connection_names ) );
     }
     p->add_msg_if_player( msg );
+
+    return 0;
+}
+
+int iuse::modify_grid_connections( player *p, item *it, bool, const tripoint &pos )
+{
+    tripoint_abs_omt pos_abs = project_to<coords::omt>( tripoint_abs_ms( get_map().getabs( pos ) ) );
+    std::vector<tripoint_rel_omt> connections = overmap_buffer.electric_grid_connectivity_at( pos_abs );
+
+    uilist ui;
+
+    std::bitset<six_cardinal_directions.size()> connection_present;
+    for( size_t i = 0; i < six_cardinal_directions.size(); i++ ) {
+        const tripoint &delta = six_cardinal_directions[i];
+        connection_present[i] = std::count( connections.begin(), connections.end(),
+                                            tripoint_rel_omt( delta ) );
+        std::string name = direction_name( direction_from( delta ) );
+        int i_int = static_cast<int>( i );
+        const char *format = connection_present[i]
+                             ? _( "Remove connection in direction: %s" )
+                             : _( "Add connection in direction: %s" );
+        int new_z = pos.z + delta.z;
+        bool enabled = new_z >= -10 && new_z <= 10;
+        ui.addentry( i_int, enabled, i_int, format, name.c_str() );
+    }
+
+    ui.query();
+    if( ui.ret < 0 ) {
+        return 0;
+    }
+
+    size_t ret = static_cast<size_t>( ui.ret );
+    tripoint_abs_omt destination_pos_abs = pos_abs + tripoint_rel_omt( six_cardinal_directions[ret] );
+    if( connection_present[ret] ) {
+        overmap_buffer.remove_grid_connection( pos_abs, destination_pos_abs );
+    } else {
+        std::set<tripoint_abs_omt> lhs_locations = overmap_buffer.electric_grid_at( pos_abs );
+        std::set<tripoint_abs_omt> rhs_locations = overmap_buffer.electric_grid_at( destination_pos_abs );
+        int cost_mult;
+        if( lhs_locations == rhs_locations ) {
+            cost_mult = 0;
+        } else {
+            cost_mult = lhs_locations.size() + rhs_locations.size();
+        }
+        const requirement_data &reqs = *requirement_add_grid_connection * cost_mult;
+        const inventory &crafting_inv = p->crafting_inventory();
+        std::string grid_connection_string;
+        if( cost_mult == 0 ) {
+            grid_connection_string = string_format(
+                                         _( "You are connecting two locations in the same grid, with %lu elements." ),
+                                         std::max( lhs_locations.size(), rhs_locations.size() ) );
+        } else if( lhs_locations.size() == 1 || rhs_locations.size() == 1 ) {
+            grid_connection_string = string_format(
+                                         _( "You are extending a grid with %lu elements." ),
+                                         std::max( lhs_locations.size(), rhs_locations.size() ) );
+        } else {
+            grid_connection_string = string_format(
+                                         _( "You are connecting a grid with %lu elements to a grid with %lu elements." ),
+                                         lhs_locations.size(),
+                                         rhs_locations.size() );
+        }
+
+        if( !requirement_add_grid_connection->can_make_with_inventory( crafting_inv,
+                is_crafting_component ) ) {
+            popup( string_format( _( "%s\n%s\n%s" ),
+                                  grid_connection_string,
+                                  reqs.list_missing(),
+                                  reqs.list_all() ) );
+            return 0;
+        }
+
+        // TODO: Long action
+        if( ( cost_mult == 0 &&
+              query_yn( string_format( _( "%s\nThis action will not consume any resources.\nAre you sure?" ),
+                                       grid_connection_string ) ) ) ||
+            query_yn( string_format( std::string( "%s\n%s\n" ) + _( "Are you sure?" ),
+                                     grid_connection_string,
+                                     reqs.list_all() ) ) )
+        {} else {
+            return 0;
+        }
+
+
+        for( const auto &e : reqs.get_components() ) {
+            p->consume_items( e );
+        }
+        for( const auto &e : reqs.get_tools() ) {
+            p->consume_tools( e );
+        }
+        p->invalidate_crafting_inventory();
+
+        bool success = overmap_buffer.add_grid_connection( pos_abs, destination_pos_abs );
+        if( success ) {
+            return it->type->charges_to_use();
+        }
+    }
 
     return 0;
 }

@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <limits>
 #include <memory>
+#include <optional>
 #include <tuple>
 #include <unordered_map>
 
@@ -40,7 +41,6 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"

@@ -1,7 +1,7 @@
 [
   {
     "id": "ashot",
-    "copy-from": "pistol_base",
+    "copy-from": "pistol_1shot",
     "type": "GUN",
     "name": { "str": "12 gauge pistol" },
     "description": "A single shot pistol that loads 12 gauge shotgun shells, handcrafted from scrap.",
@@ -29,28 +29,27 @@
       [ "sights mount", 1 ],
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
-    ],
-    "delete": { "faults": "fault_gun_chamber_spent" },
-    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
+    ]
   },
   {
     "id": "bigun",
-    "copy-from": "shotgun_base",
+    "copy-from": "gatling_base",
     "type": "GUN",
     "name": { "str": "12-gauge gatling gun" },
+    "looks_like": "m134",
     "description": "An electrically driven six barrel gatling shotgun, fed from handmade cloth belts.  Even properly mounted, this seems like an unwieldy beast, and the six separate barrels make for difficult zeroing.  The externally driven action means this is much less likely to jam.",
     "weight": "4980 g",
     "volume": "4500 ml",
     "barrel_length": "500 ml",
     "price": 180000,
     "price_postapoc": 1750,
-    "to_hit": -2,
-    "bashing": 9,
     "material": [ "steel" ],
+    "ammo": "shot",
+    "ups_charges": 1,
     "dispersion": 855,
     "burst": 6,
-    "ups_charges": 1,
     "reload": 200,
+    "handling": 30,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "sights", 1 ], [ "rail mount", 1 ] ],
     "magazines": [ [ "shot", [ "shotbelt_20" ] ] ],
     "flags": [ "MOUNTED_GUN" ]
@@ -474,23 +473,11 @@
     "price": 39900,
     "price_postapoc": 2000,
     "barrel_length": "750 ml",
-    "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "sights mount", 1 ],
-      [ "sling", 1 ],
-      [ "mechanism", 2 ],
-      [ "stock", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
     "extend": { "flags": [ "RELOAD_ONE" ] }
   },
   {
     "id": "shotgun_s",
-    "copy-from": "shotgun_base",
+    "copy-from": "shotgun_1shot",
     "type": "GUN",
     "name": { "str": "single barrel shotgun" },
     "description": "An old shotgun, possibly antique.  It is little more than a barrel, a wood stock, and a hammer to strike the cartridge.  Its simple design keeps it both light and accurate.",
@@ -516,7 +503,7 @@
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
+    "extend": { "flags": [ "NEVER_JAMS" ] }
   },
   {
     "id": "streetsweeper",

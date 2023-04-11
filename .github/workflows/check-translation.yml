@@ -3,8 +3,8 @@ name: Check printf format string in translations
 on:
   pull_request:
     paths:
-      - 'lang/po/*.po'
-      - 'tools/check_po_printf_format.py'
+      - "lang/po/*.po"
+      - "tools/check_po_printf_format.py"
 
 jobs:
   check-po-printf:
@@ -16,6 +16,6 @@ jobs:
           sudo apt-get install python3-pip
           sudo pip3 install polib
       - name: "Checkout"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: "Check printf format string in translations"
         run: ./tools/check_po_printf_format.py

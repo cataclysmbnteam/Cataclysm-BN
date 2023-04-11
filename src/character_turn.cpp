@@ -37,7 +37,6 @@ static const trait_id trait_CHITIN2( "CHITIN2" );
 static const trait_id trait_CHITIN3( "CHITIN3" );
 static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 static const trait_id trait_COMPOUND_EYES( "COMPOUND_EYES" );
-static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
 static const trait_id trait_EATHEALTH( "EATHEALTH" );
 static const trait_id trait_FAT( "FAT" );
 static const trait_id trait_FELINE_FUR( "FELINE_FUR" );
@@ -187,10 +186,6 @@ void Character::process_turn()
     // Didn't just pick something up
     last_item = itype_id( "null" );
 
-    if( !is_npc() && has_trait( trait_DEBUG_BIONIC_POWER ) ) {
-        mod_power_level( get_max_power_level() );
-    }
-
     visit_items( [this]( item * e ) {
         e->process_artifact( as_player(), pos() );
         e->process_relic( *this );
@@ -211,7 +206,7 @@ void Character::process_turn()
         int temp_norm_scent = INT_MIN;
         bool found_intensity = false;
         for( const trait_id &mut : get_mutations() ) {
-            const cata::optional<int> &scent_intensity = mut->scent_intensity;
+            const std::optional<int> &scent_intensity = mut->scent_intensity;
             if( scent_intensity ) {
                 found_intensity = true;
                 temp_norm_scent = std::max( temp_norm_scent, *scent_intensity );
@@ -222,7 +217,7 @@ void Character::process_turn()
         }
 
         for( const trait_id &mut : get_mutations() ) {
-            const cata::optional<int> &scent_mask = mut->scent_mask;
+            const std::optional<int> &scent_mask = mut->scent_mask;
             if( scent_mask ) {
                 norm_scent += *scent_mask;
             }

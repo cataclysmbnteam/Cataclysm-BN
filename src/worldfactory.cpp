@@ -41,12 +41,9 @@ using namespace std::placeholders;
 // single instance of world generator
 std::unique_ptr<worldfactory> world_generator;
 
-save_t::save_t( const std::string &name )
-    : name( name )
-{
-}
+save_t::save_t( const std::string &name ): name( name ) {}
 
-std::string save_t::player_name() const
+std::string save_t::decoded_name() const
 {
     return name;
 }
@@ -56,9 +53,9 @@ std::string save_t::base_path() const
     return base64_encode( name );
 }
 
-save_t save_t::from_player_name( const std::string &name )
+save_t save_t::from_save_id( const std::string &save_id )
 {
-    return save_t( name );
+    return save_t( save_id );
 }
 
 save_t save_t::from_base_path( const std::string &base_path )
@@ -178,14 +175,14 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt, const std::string &worl
     return add_world( std::move( retworld ) );
 }
 
-WORLDPTR worldfactory::make_new_world( special_game_id special_type )
+WORLDPTR worldfactory::make_new_world( special_game_type special_type )
 {
     std::string worldname;
     switch( special_type ) {
-        case SGAME_TUTORIAL:
+        case special_game_type::TUTORIAL:
             worldname = "TUTORIAL";
             break;
-        case SGAME_DEFENSE:
+        case special_game_type::DEFENSE:
             worldname = "DEFENSE";
             break;
         default:
@@ -348,13 +345,14 @@ std::vector<std::string> worldfactory::all_worldnames() const
     return result;
 }
 
-WORLDPTR worldfactory::pick_world( bool show_prompt )
+WORLDPTR worldfactory::pick_world( bool show_prompt, bool empty_only )
 {
     std::vector<std::string> world_names = all_worldnames();
 
     // Filter out special worlds (TUTORIAL | DEFENSE) from world_names.
     for( std::vector<std::string>::iterator it = world_names.begin(); it != world_names.end(); ) {
-        if( *it == "TUTORIAL" || *it == "DEFENSE" ) {
+        if( *it == "TUTORIAL" || *it == "DEFENSE" ||
+            ( empty_only && !get_world( *it )->world_saves.empty() ) ) {
             it = world_names.erase( it );
         } else {
             ++it;

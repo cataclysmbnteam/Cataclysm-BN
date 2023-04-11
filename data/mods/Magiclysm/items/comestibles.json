@@ -47,7 +47,7 @@
     "name": { "str": "hairball" },
     "description": "A big, ugly ball of animal spit and licked-off hairs.  Don't swallow it.",
     "price": 0,
-    "flags": [ "TRADER_AVOID", "EDIBLE_FROZEN" ],
+    "flags": [ "TRADER_AVOID" ],
     "fun": -20
   },
   {

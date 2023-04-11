@@ -1,8 +1,18 @@
 # Cataclysm: Bright Nights
 
-<a align="center">
-<img src="doc/img/readme-title.png" title="screenshots of (clockwise from upper-right: Chaosvolt (x2), ExecutorBill, scarf005">
-</a>
+<header align="center">
+  <a><img src="doc/img/readme-title.png" title="screenshots of (clockwise from upper-right: Chaosvolt (x2), ExecutorBill, scarf005"></a>
+
+  [![en][icon-en]][en]
+  [![ko][icon-ko]][ko]
+
+</header>
+
+[en]: ./README.md
+[icon-en]: https://img.shields.io/badge/lang-en-red?style=flat-square
+[ko]: ./README.ko.md
+[icon-ko]: https://img.shields.io/badge/lang-ko-orange?style=flat-square
+
 
 Cataclysm: Bright Nights is a roguelike with sci-fi elements set in a post-apocalyptic world.
 
@@ -45,7 +55,7 @@ We also have the following build guides:
 > Cataclysm: Bright Nights developed under Creative Commons Attribution ShareAlike 3.0 license. The code and content of the game is free to use, modify, and redistribute for any purpose whatsoever. See http://creativecommons.org/licenses/by-sa/3.0/ for details.
 > Some code distributed with the project is not part of the project and is released under different software licenses, the files covered by different software licenses have their own license notices.
 
-Please see [CONTRIBUTING.md](.github/CONTRIBUTING.md) for details.
+Please see [CONTRIBUTING.md](./doc/CONTRIBUTING.md) for details.
 
 ## Community
 

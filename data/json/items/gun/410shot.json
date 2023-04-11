@@ -20,14 +20,34 @@
   },
   {
     "id": "shotgun_410",
-    "copy-from": "shotgun_s",
+    "copy-from": "shotgun_1shot",
     "type": "GUN",
     "name": { "str": "Winchester M37 .410" },
     "description": "A single-shot break-action shotgun, chambered in .410 bore.  Designed as a lower-recoil alternative to 12 gauge shotguns, it is light and easy to manufacture.",
     "weight": "2948 g",
     "volume": "1748 ml",
+    "price": 10000,
     "price_postapoc": 2000,
     "blackpowder_tolerance": 80,
-    "ammo": "410shot"
+    "ammo": "410shot",
+    "material": [ "steel", "wood" ],
+    "dispersion": 210,
+    "durability": 9,
+    "clip_size": 1,
+    "barrel_length": "117 ml",
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "muzzle", 1 ],
+      [ "mechanism", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock mount", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "extend": { "flags": [ "NEVER_JAMS" ] }
   }
 ]

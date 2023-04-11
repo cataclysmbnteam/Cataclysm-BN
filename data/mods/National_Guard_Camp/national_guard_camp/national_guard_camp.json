@@ -127,7 +127,6 @@
       ],
       "palettes": [ "national_guard_camp" ],
       "items": {
-        "Y": { "item": "dirt_rubble", "chance": 60 },
         "8": { "item": "dirt_rubble", "chance": 50 },
         "z": { "item": "dirt_rubble", "chance": 25 },
         "%": { "item": "fence_caught", "chance": 1 }

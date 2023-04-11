@@ -2,10 +2,10 @@
 #define CATA_SRC_RANGED_H
 
 #include <map>
+#include <optional>
 #include <vector>
 
 #include "game_constants.h"
-#include "optional.h"
 #include "type_id.h"
 
 class aim_activity_actor;
@@ -15,6 +15,7 @@ class Creature;
 class dispersion_sources;
 class gun_mode;
 class item;
+class item_location;
 class map;
 class player;
 class spell;
@@ -181,7 +182,8 @@ int fire_gun( Character &who, const tripoint &target, int shots = 1 );
  * @param gun Item to fire (which does not necessary have to be in the characters possession)
  * @return Number of shots actually fired
  */
-int fire_gun( Character &who, const tripoint &target, int shots, item &gun );
+int fire_gun( Character &who, const tripoint &target, int shots, item &gun,
+              item_location ammo );
 
 /**
  * Execute a throw.
@@ -190,7 +192,7 @@ int fire_gun( Character &who, const tripoint &target, int shots, item &gun );
  * @param blind_throw_from_pos Position of blind throw (if blind throwing)
  */
 dealt_projectile_attack throw_item( Character &who, const tripoint &target, const item &to_throw,
-                                    cata::optional<tripoint> blind_throw_from_pos );
+                                    std::optional<tripoint> blind_throw_from_pos );
 
 } // namespace ranged
 
