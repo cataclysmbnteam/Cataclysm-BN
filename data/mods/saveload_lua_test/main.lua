@@ -1,4 +1,4 @@
-log_info("SLT: main")
+gdebug.log_info("SLT: main")
 
 local mod = game.mod_runtime[ game.current_mod ]
 local storage = game.mod_storage[ game.current_mod ]
@@ -16,19 +16,19 @@ mod.storage = storage
     and create our complex state in the mod_runtime.
 ]]--
 mod.on_game_load_hook = function()
-    log_info("SLT: on_load")
+    gdebug.log_info("SLT: on_load")
     
     if storage.num then
-        log_info( "Data found! num = ", storage.num )
+        gdebug.log_info( "Data found! num = ", storage.num )
     end
     if storage.tri then
-        log_info( "Data found! tri = ", storage.tri )
+        gdebug.log_info( "Data found! tri = ", storage.tri )
     else
-        log_warn("Save/load of userdata is not implemented!")
+        gdebug.log_warn("Save/load of userdata is not implemented!")
         if storage.tri_as_str then
-            log_info("Using HACK to load tri from string = ", storage.tri_as_str)
+            gdebug.log_info("Using HACK to load tri from string = ", storage.tri_as_str)
         else
-            log_info("No HACKed version found, this must be a fresh save.")
+            gdebug.log_info("No HACKed version found, this must be a fresh save.")
         end
     end
 end
@@ -39,7 +39,7 @@ end
     so the hardcoded JSON serializer would be able to handle it.
 ]]--
 mod.on_game_save_hook = function()
-    log_info("SLT: on_save")
+    gdebug.log_info("SLT: on_save")
 
     storage.num = 12.3
     -- Uncommenting this line will cause debugmsgs on save 

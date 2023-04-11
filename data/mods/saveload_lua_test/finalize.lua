@@ -1,1 +1,1 @@
-log_info("SLT: finalize")
+gdebug.log_info("SLT: finalize")
