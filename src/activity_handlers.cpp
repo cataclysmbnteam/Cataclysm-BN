@@ -4235,7 +4235,7 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     item_location &loc = act->targets[ 0 ];
     item *it = loc.get_item();
     if( it == nullptr ) {
-        debugmsg( "lockpick item location lost" );
+        debugmsg( "woocutting item location lost" );
         return;
     }
     const int helpersize = character_funcs::get_crafting_helpers( *p, 3 ).size();
