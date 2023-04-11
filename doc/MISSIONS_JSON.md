@@ -69,6 +69,7 @@ goal string               | Goal conditions
 `MGOAL_GO_TO_TYPE`        | Reach any instance of a specified overmap tile type
 `MGOAL_COMPUTER_TOGGLE`   | Activating the correct terminal will complete the mission
 `MGOAL_FIND_ITEM`         | Find 1 or more items of a given type
+`MGOAL_FIND_ITEM_GROUP`   | Find 1 or more items of a given item_group.
 `MGOAL_FIND_ANY_ITEM`     | Find 1 or more items of a given type, tagged for this mission
 `MGOAL_FIND_MONSTER`      | Find and retrieve a friendly monster
 `MGOAL_FIND_NPC`          | Find a specific NPC
