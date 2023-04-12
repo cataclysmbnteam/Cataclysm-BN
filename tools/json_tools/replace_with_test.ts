@@ -29,11 +29,7 @@ const expected = {
 
 Deno.test("replaceWith", () => {
   const idToReplace = "stockings_tent_legs"
-  const replaced = replaceWith(
-    { path: "", parsed: [toReplace] },
-  )({ path: "", parsed: [expected] })(
-    idToReplace,
-  )
+  const replaced = replaceWith([toReplace])([expected])(idToReplace)
 
   assertEquals(replaced, [expected])
 })

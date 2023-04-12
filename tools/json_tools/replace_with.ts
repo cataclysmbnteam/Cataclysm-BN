@@ -27,7 +27,7 @@ export const findId = (ids: ParsedEntry[]) => (idToFind: string): ParsedEntry | 
   return ids.find(({ parsed }) => parsed.some(({ id }) => id === idToFind))
 }
 
-export const findFromEntry = ({ parsed }: ParsedEntry) => (idToFind: string): CataWithId => {
+export const findFromEntry = (parsed: CataWithId[]) => (idToFind: string): CataWithId => {
   const result = parsed.find(({ id }) => id === idToFind)
   if (!result) {
     throw new Error(`could not find id ${idToFind}`)
@@ -35,11 +35,11 @@ export const findFromEntry = ({ parsed }: ParsedEntry) => (idToFind: string): Ca
   return result
 }
 
-type ReplaceWith = (replace: ParsedEntry) => (using: ParsedEntry) => (id: string) => CataWithId[]
+type ReplaceWith = (replace: CataWithId[]) => (using: CataWithId[]) => (id: string) => CataWithId[]
 export const replaceWith: ReplaceWith = (replace) => (using) => (idToReplace) => {
   const actualReplaceEntry = findFromEntry(using)(idToReplace)
 
-  return replace.parsed.map((x) =>
+  return replace.map((x) =>
     match(x.id)
       .with(idToReplace, () => actualReplaceEntry)
       .otherwise(() => x)
@@ -59,25 +59,24 @@ const main = () =>
     .option("-u, --using <type:string>", "path to recursively search jsons.", { required: true })
     .arguments("<id>")
     .action(async ({ replace, using, lint }, idToReplace) => {
-      console.log({ replace, using, idToReplace })
-      const { replaceEntries, usingEntries } = await timeit("reading entries")(
-        promiseAllProperties({
-          replaceEntries: readRecursively(replace).then(parseIds),
-          usingEntries: readRecursively(using).then(parseIds),
-        }),
-      )
+      const readResult = promiseAllProperties({
+        replaceEntries: readRecursively(replace).then(parseIds),
+        usingEntries: readRecursively(using).then(parseIds),
+      })
+      const { replaceEntries, usingEntries } = await timeit("reading entries")(readResult)
       const searchResult = {
         replaceEntry: findId(replaceEntries)(idToReplace),
         usingEntry: findId(usingEntries)(idToReplace),
       }
+      const nonNull = () => P.not(P.nullish)
 
       match(searchResult)
         .with(
-          { replaceEntry: P.not(P.nullish), usingEntry: P.not(P.nullish) },
-          async ({ replaceEntry, usingEntry }) => {
-            const newlyReplaced = replaceWith(replaceEntry)(usingEntry)(idToReplace)
+          { replaceEntry: nonNull(), usingEntry: nonNull() },
+          async ({ replaceEntry: { path, parsed: replace }, usingEntry: { parsed: using } }) => {
+            const newlyReplaced = replaceWith(replace)(using)(idToReplace)
 
-            await Deno.writeTextFile(replaceEntry.path, JSON.stringify(newlyReplaced, null, 2))
+            await Deno.writeTextFile(path, JSON.stringify(newlyReplaced, null, 2))
           },
         )
         .with({ replaceEntry: P.nullish }, warn("could not find replace entry"))
