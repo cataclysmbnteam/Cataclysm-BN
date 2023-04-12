@@ -101,7 +101,7 @@
     "special_when_hit": [ "ZAPBACK", 100 ],
     "death_drops": {  },
     "death_function": [ "NORMAL" ],
-    "harvest": "flesh_plant",    
+    "harvest": "flesh_plant",
     "flags": [ "SEES", "NOHEAD", "IMMOBILE", "NO_BREATHE", "HARDTOSHOOT" ]
   },
   {
