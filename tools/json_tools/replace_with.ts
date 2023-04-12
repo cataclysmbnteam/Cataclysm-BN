@@ -1,6 +1,6 @@
 #!/usr/bin/env -S deno run --allow-read --allow-write --allow-run --unstable
 
-import { brightGreen, brightRed } from "https://deno.land/std@0.182.0/fmt/colors.ts"
+import { brightRed } from "https://deno.land/std@0.182.0/fmt/colors.ts"
 
 import { z } from "https://deno.land/x/zod@v3.20.5/mod.ts"
 import { Command } from "https://deno.land/x/cliffy@v0.25.7/command/mod.ts"
@@ -8,15 +8,10 @@ import { Command } from "https://deno.land/x/cliffy@v0.25.7/command/mod.ts"
 import { match, P } from "npm:ts-pattern"
 import { promiseAllProperties } from "npm:promise-all-properties"
 
-import {
-  Entry,
-  genericCataTransformer,
-  id as identity,
-  orderPreservingSchema,
-  readRecursively,
-} from "./parse.ts"
-import { applyRecursively, lintRecursively, structuredReplace } from "./transform.ts"
+import { Entry, genericCataTransformer, id as identity, readRecursively } from "./parse.ts"
+import { lintRecursively } from "./transform.ts"
 import { timeit } from "./timeit.ts"
+
 type CataWithId = z.infer<typeof cataWithId>
 const cataWithId = z.object({ id: z.string() }).passthrough()
 

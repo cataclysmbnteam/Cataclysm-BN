@@ -70,9 +70,9 @@ export type Entry = { path: string; text: string }
 
 /** recursively reads all JSON files from given directory. */
 type ReadDirRecursively = (root: string) => () => Promise<Entry[]>
-const readDirRecursively: ReadDirRecursively = (root) => async () =>
+const readDirRecursively: ReadDirRecursively = (root) => () =>
   asynciter(walk(root, { exts: [".json"] }))
-    .concurrentUnorderedMap(async ({ path }) => toEntry(path))
+    .concurrentUnorderedMap(({ path }) => toEntry(path))
     .collect()
 
 /**

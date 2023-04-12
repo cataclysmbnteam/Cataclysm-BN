@@ -26,5 +26,5 @@ export const timeitVerbose = (name: string) => async <T>(val: Promise<T>) => {
 }
 
 /** wait for a promise and log how long it took. */
-export const timeit = (name: string) => async <T>(val: Promise<T>) =>
+export const timeit = (name: string) => <T>(val: Promise<T>) =>
   timeitVerbose(name)(val).then(({ result }) => result)

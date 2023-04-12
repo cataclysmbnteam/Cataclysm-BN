@@ -1,13 +1,10 @@
-import { walk } from "https://deno.land/std@0.178.0/fs/walk.ts"
 import { asynciter } from "https://deno.land/x/asynciter@0.0.15/asynciter.ts"
-import { match, P } from "npm:ts-pattern"
-import { Entry, readRecursively } from "./parse.ts"
-import { timeit } from "./timeit.ts"
+import { Entry } from "./parse.ts"
 
 /** clone an object with single key replaced.
  *  not very efficient, but at least it's purely functional (when looked at from the outside)
  */
-export const structuredReplace = <T extends object, K extends keyof T, V>(
+export const structuredReplace = <T extends Record<string, unknown>, K extends keyof T, V>(
   obj: T,
   key: K,
   value: V,
@@ -18,7 +15,7 @@ export const structuredReplace = <T extends object, K extends keyof T, V>(
 }
 
 /** clone an object with single key removed. */
-export const removeObjectKey = <T extends object, K extends keyof T>(
+export const removeObjectKey = <T extends Record<string, unknown>, K extends keyof T>(
   obj: T,
   key: K,
 ): Omit<T, K> => {
