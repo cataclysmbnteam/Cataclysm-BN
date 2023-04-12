@@ -87,8 +87,15 @@ const writeReplaceWith =
 const main = () =>
   new Command()
     .description(`
-      replace contents of a JSON entry with another JSON entry with the same id.
+      ${y("replace")} contents of a JSON entry ${g("using")} another JSON entry with the same id.
       this is useful for replacing mod content with vanilla content and vice versa.
+
+      for example, imagine you have two entries with same id ${ex.id}:
+      ${ex.replace} at ${ex.replacePath}
+      ${ex.using} at ${ex.usingPath}
+
+      if you want to replace ${ex.replace} with ${ex.using}, you can run:
+      tools/json_tools/replace_with.ts ${y("--replace replace/")} ${g("--using using/")} ${ex.id}
     `)
     .option("-l, --lint", "lint all json files after migration.", { required: false })
     .option("-r, --replace <type:string>", "path to recursively search jsons.", { required: true })
