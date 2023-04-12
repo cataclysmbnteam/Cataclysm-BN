@@ -2,13 +2,11 @@
 
 import { relative } from "https://deno.land/std@0.182.0/path/mod.ts"
 import { join } from "https://deno.land/std@0.182.0/path/mod.ts"
-import { walk, WalkEntry } from "https://deno.land/std@0.182.0/fs/walk.ts"
-
-import { asynciter } from "https://deno.land/x/asynciter@0.0.15/asynciter.ts"
 import { Command } from "https://deno.land/x/cliffy@v0.25.7/command/mod.ts"
 
 import { PROJECT } from "./cata_paths.ts"
 import { timeit } from "./timeit.ts"
+import { Entry, readRecursively } from "./parse.ts"
 
 /** @link https://ctags.sourceforge.net/FORMAT */
 const makeTagsLine = (idKey: string, tagname: string, tagfile: string): string => {
@@ -28,24 +26,19 @@ const intoCtag = (relativePath: string) => (obj: Record<string, unknown>): strin
     .filter(isValidPair)
     .map(([key, value]) => makeTagsLine(key, value, relativePath))
 
-const intoCtags = async ({ path }: WalkEntry) => {
+const intoCtags = ({ path, text }: Entry) => {
   const relativePath = relative(PROJECT.ROOT, path)
-  const jsonData = JSON.parse(await Deno.readTextFile(path))
+  const jsonData = JSON.parse(text)
   const jsonList = Array.isArray(jsonData) ? jsonData : [jsonData]
   const into = intoCtag(relativePath)
 
   return jsonList.flatMap(into)
 }
 
-const isValidJson = ({ name }: WalkEntry) => !["default.json", "replacements.json"].includes(name)
-
 export const catatags = async (): Promise<string[]> => {
-  const jsonTagsLines = await asynciter(walk(PROJECT.DATA, { includeDirs: false, exts: [".json"] }))
-    .filter(isValidJson)
-    .concurrentUnorderedMap(intoCtags)
-    .collect()
+  const entries = await readRecursively(PROJECT.DATA)
 
-  return jsonTagsLines.flat().sort()
+  return entries.flatMap(intoCtags).sort()
 }
 
 const main = () =>
