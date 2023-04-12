@@ -2,34 +2,24 @@
 #include "catalua_bindings.h"
 
 #include "avatar.h"
+#include "catalua_bindings_utils.h"
 #include "catalua_log.h"
-#include "catalua_impl.h"
-#include "catalua_luna.h"
 #include "catalua_luna_doc.h"
-#include "catalua_readonly.h"
+#include "catalua_luna.h"
 #include "catalua.h"
 #include "character.h"
 #include "creature.h"
 #include "distribution_grid.h"
 #include "enum_conversions.h"
-#include "faction.h"
 #include "game.h"
-#include "item.h"
 #include "itype.h"
-#include "json.h"
 #include "map.h"
-#include "mapdata.h"
 #include "messages.h"
 #include "monster.h"
 #include "npc.h"
 #include "player.h"
-#include "point.h"
 #include "popup.h"
-#include "type_id.h"
 #include "ui.h"
-
-#include <cstdlib>
-#include <type_traits>
 
 std::string cata::detail::fmt_lua_va( sol::variadic_args va )
 {
@@ -42,13 +32,6 @@ std::string cata::detail::fmt_lua_va( sol::variadic_args va )
     }
 
     return msg;
-}
-
-template<typename T>
-void reg_serde_functions( sol::usertype<T> &ut )
-{
-    luna::set_fx( ut, "serialize", sol::resolve< void( JsonOut & ) const >( &T::serialize ) );
-    luna::set_fx( ut, "deserialize", sol::resolve< void( JsonIn & ) >( &T::deserialize ) );
 }
 
 namespace sol
@@ -161,136 +144,6 @@ void cata::detail::reg_creature_family( sol::state &lua )
             luna::bases<player, Character, Creature>(),
             luna::no_constructor
         );
-    }
-}
-
-void cata::detail::reg_point_tripoint( sol::state &lua )
-{
-    // Register 'point' class to be used in Lua
-    {
-        sol::usertype<point> ut =
-            luna::new_usertype<point>(
-                lua,
-                luna::no_bases,
-                luna::constructors <
-                point(),
-                point( const point & ),
-                point( int, int )
-                > ()
-            );
-
-        // Members
-        luna::set( ut, "x", &point::x );
-        luna::set( ut, "y", &point::y );
-
-        // Methods
-        luna::set_fx( ut, "abs", &point::abs );
-        luna::set_fx( ut, "rotate", &point::rotate );
-
-        // (De-)Serialization
-        reg_serde_functions( ut );
-
-        // To string
-        // We're using Lua meta function here to make it work seamlessly with native Lua tostring()
-        luna::set_fx( ut, sol::meta_function::to_string, &point::to_string );
-
-        // Equality operator
-        // It's defined as inline friend function inside point class, we can't access it and so have to improvise
-        luna::set_fx( ut, sol::meta_function::equal_to, []( const point & a, const point & b ) {
-            return a == b;
-        } );
-
-        // Less-then operator
-        // Same deal as with equality operator
-        luna::set_fx( ut, sol::meta_function::less_than, []( const point & a, const point & b ) {
-            return a < b;
-        } );
-
-        // Arithmetic operators
-        // point + point
-        luna::set_fx( ut, sol::meta_function::addition, &point::operator+ );
-        // point - point
-        // sol::resolve here makes it possible to specify which overload to use
-        luna::set_fx( ut, sol::meta_function::subtraction, sol::resolve< point( point ) const >
-                      ( &point::operator- ) );
-        // point * int
-        luna::set_fx( ut, sol::meta_function::multiplication, &point::operator* );
-        // point / float
-        luna::set_fx( ut, sol::meta_function::division, &point::operator/ );
-        // point / int
-        luna::set_fx( ut, sol::meta_function::floor_division, &point::operator/ );
-        // -point
-        // sol::resolve here makes it possible to specify which overload to use
-        luna::set_fx( ut, sol::meta_function::unary_minus,
-                      sol::resolve< point() const >( &point::operator- ) );
-    }
-
-    // Register 'tripoint' class to be used in Lua
-    {
-        sol::usertype<tripoint> ut =
-            luna::new_usertype<tripoint>(
-                lua,
-                luna::no_bases,
-                luna::constructors <
-                tripoint(),
-                tripoint( const point &, int ),
-                tripoint( const tripoint & ),
-                tripoint( int, int, int )
-                > ()
-            );
-
-        // Members
-        luna::set( ut, "x", &tripoint::x );
-        luna::set( ut, "y", &tripoint::y );
-        luna::set( ut, "z", &tripoint::z );
-
-        // Methods
-        luna::set_fx( ut, "abs", &tripoint::abs );
-        luna::set_fx( ut, "xy", &tripoint::xy );
-        luna::set_fx( ut, "rotate_2d", &tripoint::rotate_2d );
-
-        // (De-)Serialization
-        reg_serde_functions( ut );
-
-        // To string
-        // We're using Lua meta function here to make it work seamlessly with native Lua tostring()
-        luna::set_fx( ut, sol::meta_function::to_string, &tripoint::to_string );
-
-        // Equality operator
-        // It's defined as inline friend function inside point class, we can't access it and so have to improvise
-        luna::set_fx( ut, sol::meta_function::equal_to, []( const tripoint & a, const tripoint & b ) {
-            return a == b;
-        } );
-
-        // Less-then operator
-        // Same deal as with equality operator
-        luna::set_fx( ut, sol::meta_function::less_than, []( const tripoint & a, const tripoint & b ) {
-            return a < b;
-        } );
-
-        // Arithmetic operators
-        // tripoint + tripoint (overload 1)
-        // tripoint + point (overload 2)
-        luna::set_fx( ut, sol::meta_function::addition, sol::overload(
-                          sol::resolve< tripoint( const tripoint & ) const > ( &tripoint::operator+ ),
-                          sol::resolve< tripoint( point ) const > ( &tripoint::operator+ )
-                      ) );
-        // tripoint - tripoint (overload 1)
-        // tripoint - point (overload 2)
-        luna::set_fx( ut, sol::meta_function::subtraction, sol::overload(
-                          sol::resolve< tripoint( const tripoint & ) const > ( &tripoint::operator- ),
-                          sol::resolve< tripoint( point ) const > ( &tripoint::operator- )
-                      ) );
-        // tripoint * int
-        luna::set_fx( ut, sol::meta_function::multiplication, &tripoint::operator* );
-        // tripoint / float
-        luna::set_fx( ut, sol::meta_function::division, &tripoint::operator/ );
-        // tripoint / int
-        luna::set_fx( ut, sol::meta_function::floor_division, &tripoint::operator/ );
-        // -tripoint
-        // sol::resolve here makes it possible to specify which overload to use
-        luna::set_fx( ut, sol::meta_function::unary_minus,
-                      sol::resolve< tripoint() const >( &tripoint::operator- ) );
     }
 }
 
@@ -460,72 +313,6 @@ void cata::detail::reg_ui_elements( sol::state &lua )
     }
 }
 
-void cata::detail::reg_coords_library( sol::state &lua )
-{
-    luna::userlib lib = luna::begin_lib( lua, "coords" );
-
-    luna::set_fx( lib, "ms_to_sm", []( const tripoint & raw ) -> std::tuple<tripoint, point> {
-        tripoint_rel_ms fine( raw );
-        tripoint_rel_sm rough;
-        point_sm_ms remain;
-        std::tie( rough, remain ) = coords::project_remain<coords::sm>( fine );
-        return std::make_pair( rough.raw(), remain.raw() );
-    } );
-    luna::set_fx( lib, "ms_to_omt", []( const tripoint & raw ) -> std::tuple<tripoint, point> {
-        tripoint_rel_ms fine( raw );
-        tripoint_rel_omt rough;
-        point_omt_ms remain;
-        std::tie( rough, remain ) = coords::project_remain<coords::omt>( fine );
-        return std::make_pair( rough.raw(), remain.raw() );
-    } );
-    luna::set_fx( lib, "ms_to_om", []( const tripoint & raw ) -> std::tuple<point, tripoint> {
-        tripoint_rel_ms fine( raw );
-        point_rel_om rough;
-        coords::coord_point<tripoint, coords::origin::overmap, coords::ms> remain;
-        std::tie( rough, remain ) = coords::project_remain<coords::om>( fine );
-        return std::make_pair( rough.raw(), remain.raw() );
-    } );
-
-    luna::set_fx( lib, "sm_to_ms", []( const tripoint & raw_rough,
-    sol::optional<const point &> raw_remain ) -> tripoint {
-        tripoint_rel_sm rough( raw_rough );
-        point_sm_ms remain( raw_remain ? *raw_remain : point_zero );
-        tripoint_rel_ms fine = coords::project_combine( rough, remain );
-        return fine.raw();
-    } );
-    luna::set_fx( lib, "omt_to_ms", []( const tripoint & raw_rough,
-    sol::optional<const point &> raw_remain ) -> tripoint {
-        tripoint_rel_omt rough( raw_rough );
-        point_omt_ms remain( raw_remain ? *raw_remain : point_zero );
-        tripoint_rel_ms fine = coords::project_combine( rough, remain );
-        return fine.raw();
-    } );
-    luna::set_fx( lib, "om_to_ms", []( const point & raw_rough,
-    sol::optional<const tripoint &> raw_remain ) -> tripoint {
-        point_rel_om rough( raw_rough );
-        coords::coord_point<tripoint, coords::origin::overmap, coords::ms> remain(
-            raw_remain ? *raw_remain : tripoint_zero
-        );
-        tripoint_rel_ms fine = coords::project_combine( rough, remain );
-        return fine.raw();
-    } );
-
-    luna::set_fx( lib, "rl_dist", sol::overload(
-                      sol::resolve<int( const tripoint &, const tripoint & )>( rl_dist ),
-                      sol::resolve<int( point, point )>( rl_dist )
-                  ) );
-    luna::set_fx( lib, "trig_dist", sol::overload(
-                      sol::resolve<float( const tripoint &, const tripoint & )>( trig_dist ),
-                      sol::resolve<float( point, point )>( trig_dist )
-                  ) );
-    luna::set_fx( lib, "square_dist", sol::overload(
-                      sol::resolve<int( const tripoint &, const tripoint & )>( square_dist ),
-                      sol::resolve<int( point, point )>( square_dist )
-                  ) );
-
-    luna::finalize_lib( lib );
-}
-
 void cata::detail::reg_constants( sol::state &lua )
 {
     luna::userlib lib = luna::begin_lib( lua, "const" );
@@ -630,80 +417,6 @@ void cata::detail::reg_game_api( sol::state &lua )
     luna::finalize_lib( lib );
 }
 
-template<typename T, bool do_int_id>
-void reg_id( sol::state &lua )
-{
-    using SID = string_id<T>;
-    using IID = int_id<T>;
-    {
-        // Register string_id class under given name
-        sol::usertype<SID> ut;
-        if constexpr( do_int_id ) {
-            ut = luna::new_usertype<SID>( lua, luna::no_bases, luna::constructors <
-                                          SID(),
-                                          SID( const SID & ),
-                                          SID( const IID & ),
-                                          SID( std::string )
-                                          > ()
-                                        );
-        } else {
-            ut = luna::new_usertype<SID>( lua, luna::no_bases, luna::constructors <
-                                          SID(),
-                                          SID( const SID & ),
-                                          SID( std::string )
-                                          > ()
-                                        );
-        }
-
-        luna::set_fx( ut, "obj", []( const SID & sid ) -> const T* {
-            return &sid.obj();
-        } );
-        if constexpr( do_int_id ) {
-            luna::set_fx( ut, "int_id", &SID::id );
-            luna::set_fx( ut, "implements_int_id", []() {
-                return true;
-            } );
-        } else {
-            luna::set_fx( ut, "implements_int_id", []() {
-                return false;
-            } );
-        }
-        luna::set_fx( ut, "is_null", &SID::is_null );
-        luna::set_fx( ut, "is_valid", &SID::is_valid );
-        luna::set_fx( ut, "str", &SID::c_str );
-        luna::set_fx( ut, "NULL_ID", &SID::NULL_ID );
-        luna::set_fx( ut, sol::meta_function::to_string, []( const SID & id ) -> std::string {
-            return string_format( "%s[%s]", luna::detail::luna_traits<SID>::name, id.c_str() );
-        } );
-
-        // (De-)Serialization
-        luna::set_fx( ut, "serialize", []( const SID & ut, JsonOut & jsout ) {
-            jsout.write( ut.str() );
-        } );
-        luna::set_fx( ut, "deserialize", []( SID & ut, JsonIn & jsin ) {
-            ut = SID( jsin.get_string() );
-        } );
-    }
-    if constexpr( do_int_id ) {
-        // Register int_id class under given name
-        sol::usertype<IID> ut = luna::new_usertype<IID>( lua, luna::no_bases, luna::constructors <
-                                IID(),
-                                IID( const IID & ),
-                                IID( const SID & )
-                                > ()
-                                                       );
-
-        luna::set_fx( ut, "obj", []( const IID & iid ) -> const T* {
-            return &iid.obj();
-        } );
-        luna::set_fx( ut, "str_id", &IID::id );
-        luna::set_fx( ut, "is_valid", &IID::is_valid );
-        luna::set_fx( ut, sol::meta_function::to_string, []( const IID & id ) -> std::string {
-            return string_format( "%s[%d][%s]", luna::detail::luna_traits<IID>::name, id.to_i(), id.is_valid() ? id.id().c_str() : "<invalid>" );
-        } );
-    }
-}
-
 template<typename E>
 void reg_enum( sol::state &lua )
 {
@@ -748,14 +461,6 @@ void cata::detail::reg_enums( sol::state &lua )
     reg_enum<game_message_type>( lua );
 }
 
-void cata::detail::reg_string_ids( sol::state &lua )
-{
-    reg_id<faction, false>( lua );
-    reg_id<itype, false>( lua );
-    reg_id<ter_t, true>( lua );
-    reg_id<furn_t, true>( lua );
-}
-
 void cata::detail::reg_hooks_examples( sol::state &lua )
 {
     luna::userlib lib = luna::begin_lib( lua, "hooks_doc" );
@@ -765,39 +470,6 @@ void cata::detail::reg_hooks_examples( sol::state &lua )
     luna::set_fx( lib, "on_mapgen_postprocess", []( map &, const tripoint &, const time_point & ) {} );
 
     luna::finalize_lib( lib );
-}
-
-void cata::detail::reg_types( sol::state &lua )
-{
-    {
-        sol::usertype<faction> ut =
-            luna::new_usertype<faction>( lua, luna::no_bases, luna::no_constructor );
-
-        luna::set_fx( ut, "str_id", []( const faction & x ) -> faction_id {
-            return x.id;
-        } );
-
-        // Factions are a pain because they _inherit_ from their type, not reference it by id.
-        // This causes various weirdness, so let's omit the fields for now.
-    }
-    {
-        sol::usertype<ter_t> ut =
-            luna::new_usertype<ter_t>( lua, luna::no_bases, luna::no_constructor );
-
-        luna::set_fx( ut, "str_id", []( const ter_t & x ) -> ter_str_id {
-            return x.id;
-        } );
-        luna::set_fx( ut, "int_id", []( const ter_t & x ) -> ter_id {
-            return x.id.id();
-        } );
-
-        luna::set( ut, "open", &ter_t::open );
-        luna::set( ut, "close", &ter_t::close );
-        luna::set( ut, "trap_id_str", &ter_t::trap_id_str );
-        luna::set( ut, "transforms_into", &ter_t::transforms_into );
-        luna::set( ut, "roof", &ter_t::roof );
-        luna::set( ut, "heat_radiation", &ter_t::heat_radiation );
-    }
 }
 
 void cata::reg_all_bindings( sol::state &lua )

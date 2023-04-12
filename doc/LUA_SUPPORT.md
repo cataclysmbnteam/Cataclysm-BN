@@ -257,7 +257,7 @@ If you want to add new bindings, consider looking at existing examples in
   the functions there are no-op ).
 * `catalua_sol.h` and `catalua_sol_fwd.h` - Wrappers for `sol/sol.hpp` and
   `sol/forward.hpp` with custom pragmas to make them compile.
-* `catalua_bindings.h`(`.cpp`) - Game Lua bindings live here.
+* `catalua_bindings*` - Game Lua bindings live here.
 * `catalua_console.h`(`.cpp`) - Ingame Lua console.
 * `catalua_impl.h`(`.cpp`) - Implementation details for `catalua.h`(`.cpp`).
 * `catalua_iuse_actor.h`(`.cpp`) - Lua-driven `iuse_actor`.
