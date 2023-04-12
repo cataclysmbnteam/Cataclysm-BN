@@ -12,7 +12,7 @@ import { timeit } from "./timeit.ts"
 
 /** @link https://ctags.sourceforge.net/FORMAT */
 const makeTagsLine = (idKey: string, tagname: string, tagfile: string): string => {
-  const tagaddress = `/^ *"${idKey}": "${tagname}"/`
+  const tagaddress = `/"${idKey}": "${tagname}"/`
   return `${tagname}\t${tagfile}\t${tagaddress}`
 }
 
