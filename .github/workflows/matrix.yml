@@ -63,6 +63,7 @@ jobs:
             cmake: 0
             tiles: 1
             sound: 1
+            test-stage: 1
             native: osx
             grep_clang_version_rxp: "14\\.[0-9]+\\.[0-9]+"
             title: Clang 14, macOS 12, Tiles, Localize
