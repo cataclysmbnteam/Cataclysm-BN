@@ -125,8 +125,8 @@ void show_lua_console_impl()
     bool is_editing = false;
 
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-        win_pos = point( ( TERMX - 80 ) / 2, ( TERMY - 25 ) / 2 );
-        win_size = point( 80, 25 );
+        win_size = point( TERMX, TERMY );
+        win_pos = point( ( TERMX - win_size.x ) / 2, ( TERMY - win_size.y ) / 2 );
         prompt_size = point( win_size.x - 3, input_area_size );
         prompt_pos = win_pos + point( 2, win_size.y - input_area_size - 1 );
         log_pos = win_pos + point( 1, 1 );
