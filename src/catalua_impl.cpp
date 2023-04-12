@@ -21,7 +21,7 @@ sol::state make_lua_state()
         sol::lib::table
     );
 
-    reg_all_bindings( lua );
+    cata::reg_all_bindings( lua );
 
     return lua;
 }

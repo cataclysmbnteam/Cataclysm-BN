@@ -31,7 +31,7 @@
 #include <cstdlib>
 #include <type_traits>
 
-static std::string fmt_lua_va( sol::variadic_args va )
+std::string cata::detail::fmt_lua_va( sol::variadic_args va )
 {
     lua_State *L = va.lua_state();
     sol::state_view lua( L );
@@ -119,7 +119,7 @@ static auto item_stack_lua_pairs( item_stack &stk )
                             sol::lua_nil );
 }
 
-static void reg_creature_family( sol::state &lua )
+void cata::detail::reg_creature_family( sol::state &lua )
 {
     {
         // Specifying base classes here allows us to pass derived classes
@@ -164,7 +164,7 @@ static void reg_creature_family( sol::state &lua )
     }
 }
 
-static void reg_point_tripoint( sol::state &lua )
+void cata::detail::reg_point_tripoint( sol::state &lua )
 {
     // Register 'point' class to be used in Lua
     {
@@ -294,7 +294,7 @@ static void reg_point_tripoint( sol::state &lua )
     }
 }
 
-static void reg_item( sol::state &lua )
+void cata::detail::reg_item( sol::state &lua )
 {
     {
         sol::usertype<item> ut = luna::new_usertype<item>( lua, luna::no_bases, luna::no_constructor );
@@ -323,7 +323,7 @@ static void reg_item( sol::state &lua )
     }
 }
 
-static void reg_map( sol::state &lua )
+void cata::detail::reg_map( sol::state &lua )
 {
     // Register 'map' class to be used in Lua
     {
@@ -383,7 +383,7 @@ static void reg_map( sol::state &lua )
     }
 }
 
-static void reg_distribution_grid( sol::state &lua )
+void cata::detail::reg_distribution_grid( sol::state &lua )
 {
     {
         sol::usertype<distribution_grid> ut =
@@ -413,7 +413,7 @@ static void reg_distribution_grid( sol::state &lua )
 
 }
 
-static void reg_ui_elements( sol::state &lua )
+void cata::detail::reg_ui_elements( sol::state &lua )
 {
     {
         sol::usertype<uilist> ut =
@@ -446,7 +446,7 @@ static void reg_ui_elements( sol::state &lua )
                 > ()
             );
         luna::set_fx( ut, "message", []( query_popup & popup, sol::variadic_args va ) {
-            popup.message( "%s", fmt_lua_va( va ) );
+            popup.message( "%s", cata::detail::fmt_lua_va( va ) );
         } );
         luna::set_fx( ut, "message_color", []( query_popup & popup, color_id col ) {
             popup.default_color( get_all_colors().get( col ) );
@@ -460,7 +460,7 @@ static void reg_ui_elements( sol::state &lua )
     }
 }
 
-static void reg_coords_library( sol::state &lua )
+void cata::detail::reg_coords_library( sol::state &lua )
 {
     luna::userlib lib = luna::begin_lib( lua, "coords" );
 
@@ -526,7 +526,7 @@ static void reg_coords_library( sol::state &lua )
     luna::finalize_lib( lib );
 }
 
-static void reg_constants( sol::state &lua )
+void cata::detail::reg_constants( sol::state &lua )
 {
     luna::userlib lib = luna::begin_lib( lua, "const" );
 
@@ -542,7 +542,7 @@ static void reg_constants( sol::state &lua )
 
 static void lua_log_info_impl( sol::variadic_args va )
 {
-    std::string msg = fmt_lua_va( va );
+    std::string msg = cata::detail::fmt_lua_va( va );
 
     DebugLog( DL::Info, DC::Lua ) << msg;
     cata::get_lua_log_instance().add( cata::LuaLogLevel::Info, std::move( msg ) );
@@ -550,7 +550,7 @@ static void lua_log_info_impl( sol::variadic_args va )
 
 static void lua_log_warn_impl( sol::variadic_args va )
 {
-    std::string msg = fmt_lua_va( va );
+    std::string msg = cata::detail::fmt_lua_va( va );
 
     DebugLog( DL::Warn, DC::Lua ) << msg;
     cata::get_lua_log_instance().add( cata::LuaLogLevel::Warn, std::move( msg ) );
@@ -558,7 +558,7 @@ static void lua_log_warn_impl( sol::variadic_args va )
 
 static void lua_log_error_impl( sol::variadic_args va )
 {
-    std::string msg = fmt_lua_va( va );
+    std::string msg = cata::detail::fmt_lua_va( va );
 
     DebugLog( DL::Error, DC::Lua ) << msg;
     cata::get_lua_log_instance().add( cata::LuaLogLevel::Error, std::move( msg ) );
@@ -566,13 +566,13 @@ static void lua_log_error_impl( sol::variadic_args va )
 
 static void lua_debugmsg_impl( sol::variadic_args va )
 {
-    std::string msg = fmt_lua_va( va );
+    std::string msg = cata::detail::fmt_lua_va( va );
 
     debugmsg( "%s", msg );
     cata::get_lua_log_instance().add( cata::LuaLogLevel::DebugMsg, std::move( msg ) );
 }
 
-static void reg_debug_api( sol::state &lua )
+void cata::detail::reg_debug_api( sol::state &lua )
 {
     luna::userlib lib = luna::begin_lib( lua, "gdebug" );
 
@@ -594,7 +594,7 @@ static void reg_debug_api( sol::state &lua )
     luna::finalize_lib( lib );
 }
 
-static void override_default_print( sol::state &lua )
+void cata::detail::override_default_print( sol::state &lua )
 {
     lua.globals()["print"] = &lua_log_info_impl;
 }
@@ -606,11 +606,11 @@ static void add_msg_lua( game_message_type t, sol::variadic_args va )
         return;
     }
 
-    std::string msg = fmt_lua_va( va );
+    std::string msg = cata::detail::fmt_lua_va( va );
     add_msg( t, msg );
 }
 
-static void reg_game_api( sol::state &lua )
+void cata::detail::reg_game_api( sol::state &lua )
 {
     luna::userlib lib = luna::begin_lib( lua, "gapi" );
 
@@ -726,7 +726,7 @@ void reg_enum( sol::state &lua )
     luna::finalize_enum( et );
 }
 
-static void reg_colors( sol::state &lua )
+void cata::detail::reg_colors( sol::state &lua )
 {
     // Colors are not enums, we have to do them manually
     luna::userenum<color_id> et = luna::begin_enum<color_id>( lua );
@@ -743,12 +743,12 @@ static void reg_colors( sol::state &lua )
     luna::finalize_enum( et );
 }
 
-static void reg_enums( sol::state &lua )
+void cata::detail::reg_enums( sol::state &lua )
 {
     reg_enum<game_message_type>( lua );
 }
 
-static void reg_string_ids( sol::state &lua )
+void cata::detail::reg_string_ids( sol::state &lua )
 {
     reg_id<faction, false>( lua );
     reg_id<itype, false>( lua );
@@ -756,7 +756,7 @@ static void reg_string_ids( sol::state &lua )
     reg_id<furn_t, true>( lua );
 }
 
-static void reg_hooks_examples( sol::state &lua )
+void cata::detail::reg_hooks_examples( sol::state &lua )
 {
     luna::userlib lib = luna::begin_lib( lua, "hooks_doc" );
 
@@ -767,7 +767,7 @@ static void reg_hooks_examples( sol::state &lua )
     luna::finalize_lib( lib );
 }
 
-static void reg_types( sol::state &lua )
+void cata::detail::reg_types( sol::state &lua )
 {
     {
         sol::usertype<faction> ut =
@@ -800,8 +800,10 @@ static void reg_types( sol::state &lua )
     }
 }
 
-void reg_all_bindings( sol::state &lua )
+void cata::reg_all_bindings( sol::state &lua )
 {
+    using namespace detail;
+
     override_default_print( lua );
     reg_debug_api( lua );
     reg_game_api( lua );
