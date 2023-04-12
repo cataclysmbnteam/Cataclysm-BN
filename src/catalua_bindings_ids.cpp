@@ -86,6 +86,10 @@ void reg_id( sol::state &lua )
 
 void cata::detail::reg_game_ids( sol::state &lua )
 {
+    // Don't forget to define comparison operators for your target type!
+    // Some already may have them, but for the rest you can do it
+    // with LUA_TYPE_EQ_OP macro.
+
     reg_id<faction, false>( lua );
     reg_id<itype, false>( lua );
     reg_id<ter_t, true>( lua );

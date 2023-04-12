@@ -11,6 +11,7 @@
 #include <utility>
 #include <vector>
 
+#include "catalua_eq_op.h"
 #include "character_id.h"
 #include "color.h"
 #include "cursesdef.h"
@@ -105,14 +106,7 @@ class faction : public faction_template
         std::string describe() const;
         std::vector<std::string> epilogue() const;
 
-        /** LUA: We need this operator defined for Lua bindings to compile. */
-        inline bool operator==( const faction &rhs ) const {
-            return this == &rhs;
-        };
-        /** LUA: We need this operator defined for Lua bindings to compile. */
-        inline bool operator<( const faction &rhs ) const {
-            return this->id < rhs.id;
-        }
+        LUA_TYPE_EQ_OP( faction, id );
 
         std::string food_supply_text();
         nc_color food_supply_color();
