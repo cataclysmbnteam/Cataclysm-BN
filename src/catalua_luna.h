@@ -96,7 +96,11 @@ std::string doc_value_impl()
     } else {
         using ValNoPtr = typename std::remove_pointer<Val>::type;
         using ValBare = remove_cv_ref_t<ValNoPtr>;
-        return std::string( luna_traits<ValBare>::name );
+        if constexpr( luna_traits<ValBare>::impl ) {
+            return std::string( luna_traits<ValBare>::name );
+        } else {
+            return std::string( "<cppval: " ) + typeid( ValBare ).name() + " >";
+        }
     }
 }
 
