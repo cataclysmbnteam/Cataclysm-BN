@@ -27,6 +27,10 @@
 #ifndef SOL_SINGLE_INCLUDE_HPP
 #define SOL_SINGLE_INCLUDE_HPP
 
+#ifndef CATALUA_SOL_WRAPPED
+static_assert(false, "sol.hpp must be included via catalua_sol.h");
+#endif
+
 // beginning of sol/sol.hpp
 
 #ifndef SOL_HPP

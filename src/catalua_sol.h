@@ -9,7 +9,11 @@
 #  pragma clang diagnostic ignored "-Wzero-as-null-pointer-constant"
 #endif
 
+#define CATALUA_SOL_WRAPPED
+
 #include "sol/sol.hpp"
+
+#undef CATALUA_SOL_WRAPPED
 
 #ifdef __clang__
 #  pragma clang diagnostic pop
