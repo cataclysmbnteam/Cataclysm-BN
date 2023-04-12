@@ -5,8 +5,11 @@
  */
 
 import { walk } from "https://deno.land/std@0.182.0/fs/walk.ts"
+import { basename } from "https://deno.land/std@0.182.0/path/mod.ts"
+
 import { asynciter } from "https://deno.land/x/asynciter@0.0.15/asynciter.ts"
 import { z } from "https://deno.land/x/zod@v3.20.5/mod.ts"
+
 import { match, P } from "npm:ts-pattern"
 
 /** identity function that preserves type. */
@@ -62,8 +65,7 @@ export const genericCataTransformer =
       )
   }
 
-const isValidJson = ({ name }: Deno.DirEntry) =>
-  !["default.json", "replacements.json"].includes(name)
+const isValidJson = (name: string) => !["default.json", "replacements.json"].includes(name)
 
 type ToEntry = (path: string) => Promise<Entry>
 const toEntry: ToEntry = async (path) => ({ path, text: await Deno.readTextFile(path) })
@@ -75,7 +77,7 @@ export type Entry = { path: string; text: string }
 type ReadDirRecursively = (root: string) => () => Promise<Entry[]>
 const readDirRecursively: ReadDirRecursively = (root) => () =>
   asynciter(walk(root, { exts: [".json"] }))
-    .filter(isValidJson)
+    .filter(({ name }) => isValidJson(name))
     .concurrentUnorderedMap(({ path }) => toEntry(path))
     .collect()
 
@@ -87,6 +89,9 @@ const readDirRecursively: ReadDirRecursively = (root) => () =>
 export type ReadRecursively = (root: string) => Promise<Entry[]>
 export const readRecursively: ReadRecursively = async (root) =>
   match({ root, ...(await Deno.stat(root)) })
+    .with({ root: P.when((x) => !isValidJson(basename(x))) }, () => {
+      throw new Error(`path ${root} is not a valid JSON file`)
+    })
     .with(
       { isFile: true, root: P.when((x) => x.endsWith(".json")) },
       async () => [await toEntry(root)],
