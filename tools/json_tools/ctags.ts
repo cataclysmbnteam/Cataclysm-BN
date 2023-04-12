@@ -55,7 +55,16 @@ const intoCtags = ({ path, text }: Entry) => {
 export const catatags = async (): Promise<string[]> => {
   const entries = await readRecursively(PROJECT.DATA)
 
-  return entries.flatMap(intoCtags).sort()
+  return entries.flatMap(intoCtags)
+}
+
+const oldTags = async (path: string) => {
+  try {
+    const oldTags = await Deno.readTextFile(path)
+    return oldTags.split("\n").filter((x) => !x.includes(".json\t"))
+  } catch {
+    return []
+  }
 }
 
 const main = () =>
@@ -69,8 +78,10 @@ const main = () =>
       default: join(PROJECT.ROOT, ".vscode", ".tags"),
     })
     .action(async ({ path }) => {
+      const previousTags = await timeit("reading old tags")(oldTags(path))
       const allTagsLines = await timeit("generating ctags")(catatags())
-      const text = allTagsLines.join("\n")
+
+      const text = [...allTagsLines, ...previousTags].sort().join("\n")
 
       await Deno.writeTextFile(path, text)
       console.log(`wrote ${allTagsLines.length} tags to ${path}`)
