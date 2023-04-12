@@ -238,6 +238,7 @@ static const skill_id skill_survival( "survival" );
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
+static const quality_id qual_DIG( "DIG" );
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
 
 static const species_id HUMAN( "HUMAN" );
@@ -4370,10 +4371,19 @@ void activity_handlers::fill_pit_finish( player_activity *act, player *p )
     } else {
         here.ter_set( pos, t_dirt );
     }
+    // Quality of tool used and assistants can together both reduce intensity of work, to a minimum of one.
+    item_location &loc = act->targets[ 0 ];
+    item *it = loc.get_item();
+    if( it == nullptr ) {
+        debugmsg( "woodcutting item location lost" );
+        return;
+    }
     const int helpersize = character_funcs::get_crafting_helpers( *p, 3 ).size();
-    p->mod_stored_nutr( 5 - helpersize );
-    p->mod_thirst( 5 - helpersize );
-    p->mod_fatigue( 10 - ( helpersize * 2 ) );
+    int act_exertion = std::max( 1, 5 - helpersize - it->get_quality( qual_DIG ) );
+
+    p->mod_stored_nutr( act_exertion );
+    p->mod_thirst( act_exertion );
+    p->mod_fatigue( act_exertion * 2 );
     p->add_msg_if_player( m_good, _( "You finish filling up %s." ), old_ter.obj().name() );
 
     act->set_to_null();

@@ -2802,7 +2802,7 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
             moves_and_byproducts.spawn_count,
             moves_and_byproducts.byproducts_item_group
                                          ) ) );
-
+    p->activity.targets.push_back( item_location( *p, it ) );
     return it->type->charges_to_use();
 }
 
@@ -2869,6 +2869,7 @@ int iuse::dig_channel( player *p, item *it, bool t, const tripoint & )
             moves_and_byproducts.spawn_count,
             moves_and_byproducts.byproducts_item_group
                                          ) ) );
+    p->activity.targets.push_back( item_location( *p, it ) );
     return it->type->charges_to_use();
 }
 
@@ -2933,6 +2934,7 @@ int iuse::fill_pit( player *p, item *it, bool t, const tripoint & )
     moves = moves * ( 10 - helpers.size() ) / 10;
 
     p->assign_activity( ACT_FILL_PIT, moves, -1, p->get_item_position( it ) );
+    p->activity.targets.push_back( item_location( *p, it ) );
     p->activity.placement = pnt;
 
     return it->type->charges_to_use();

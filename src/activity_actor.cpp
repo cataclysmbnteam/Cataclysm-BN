@@ -55,6 +55,8 @@ static const itype_id itype_electrohack( "electrohack" );
 
 static const skill_id skill_computer( "computer" );
 
+static const quality_id qual_DIG( "DIG" );
+
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
 static const mtype_id mon_zombie_rot( "mon_zombie_rot" );
@@ -455,10 +457,18 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
                                   calendar::turn ) );
     }
 
+    // Quality of tool used and assistants can together both reduce intensity of work, to a minimum of one.
+    item_location &loc = act.targets[ 0 ];
+    item *it = loc.get_item();
+    if( it == nullptr ) {
+        debugmsg( "shovel item location lost" );
+        return;
+    }
     const int helpersize = character_funcs::get_crafting_helpers( who, 3 ).size();
-    who.mod_stored_nutr( 5 - helpersize );
-    who.mod_thirst( 5 - helpersize );
-    who.mod_fatigue( 10 - ( helpersize * 2 ) );
+    int act_exertion = std::max( 1, 5 - helpersize - it->get_quality( qual_DIG ) );
+    who.mod_stored_nutr( act_exertion );
+    who.mod_thirst( act_exertion );
+    who.mod_fatigue( act_exertion * 2 );
     if( grave ) {
         who.add_msg_if_player( m_good, _( "You finish exhuming a grave." ) );
     } else {
@@ -526,9 +536,18 @@ void dig_channel_activity_actor::finish( player_activity &act, Character &who )
                                   calendar::turn ) );
     }
 
-    who.mod_stored_kcal( -40 );
-    who.mod_thirst( 5 );
-    who.mod_fatigue( 10 );
+    // Quality of tool used and assistants can together both reduce intensity of work, to a minimum of one.
+    item_location &loc = act.targets[ 0 ];
+    item *it = loc.get_item();
+    if( it == nullptr ) {
+        debugmsg( "shovel item location lost" );
+        return;
+    }
+    const int helpersize = character_funcs::get_crafting_helpers( who, 3 ).size();
+    int act_exertion = std::max( 1, 5 - helpersize - it->get_quality( qual_DIG ) );
+    who.mod_stored_nutr( act_exertion );
+    who.mod_thirst( act_exertion );
+    who.mod_fatigue( act_exertion * 2 );
     who.add_msg_if_player( m_good, _( "You finish digging up %s." ),
                            here.ter( location ).obj().name() );
 
