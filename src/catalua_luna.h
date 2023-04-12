@@ -78,9 +78,6 @@ struct luna_traits {
     constexpr static std::string_view name = "<value>";
 };
 
-template<typename ...Args>
-using types = sol::types<Args...>;
-
 template<typename T>
 using remove_cv_ref_t = typename std::remove_cv<typename std::remove_reference<T>::type>::type;
 
@@ -105,10 +102,10 @@ std::string doc_value_impl()
 }
 
 template<typename Val>
-std::string doc_value( types<Val> );
+std::string doc_value( sol::types<Val> );
 
 template<typename ...Args>
-std::string doc_value( types<std::tuple<Args...>> )
+std::string doc_value( sol::types<std::tuple<Args...>> )
 {
     std::string ret = "(";
     bool is_first = true;
@@ -119,7 +116,7 @@ std::string doc_value( types<std::tuple<Args...>> )
             ret += ",";
         }
         ret += " ";
-        ret += doc_value_impl<Args>();
+        ret += doc_value( sol::types<Args>() );
     }
     (), ... );
     if( !is_first ) {
@@ -129,15 +126,15 @@ std::string doc_value( types<std::tuple<Args...>> )
 }
 
 template<typename Val>
-std::string doc_value( types<sol::optional<Val>> )
+std::string doc_value( sol::types<sol::optional<Val>> )
 {
     std::string ret = "Opt(";
-    ret += doc_value( types<Val>() );
+    ret += doc_value( sol::types<Val>() );
     return ret + ")";
 }
 
 template<typename Val>
-std::string doc_value( types<Val> )
+std::string doc_value( sol::types<Val> )
 {
     return doc_value_impl<Val>();
 }
@@ -149,7 +146,7 @@ std::vector<std::string> doc_arg_list()
 
     ( (
           ret.push_back(
-              doc_value( types<Args>() ) )
+              doc_value( sol::types<Args>() ) )
       ), ... );
 
     return ret;
@@ -185,7 +182,7 @@ void doc_bases( sol::table &dt, const sol::bases<Args...> & )
     std::vector<std::string> bases;
 
     ( (
-          bases.push_back( doc_value( types<Args>() ) )
+          bases.push_back( doc_value( sol::types<Args>() ) )
       ), ... );
 
     dt[KEY_BASES] = bases;
@@ -231,16 +228,16 @@ inline sol::table get_enum_doctable( sol::state_view &lua )
 }
 
 template<typename Class, typename Value>
-void doc_member( sol::table &dt, types<Value Class::*> && )
+void doc_member( sol::table &dt, sol::types<Value Class::*> && )
 {
     dt[KEY_MEMBER_TYPE] = MEMBER_IS_VAR;
-    dt[KEY_MEMBER_VARIABLE_TYPE] = doc_value( types<Value>() );
+    dt[KEY_MEMBER_VARIABLE_TYPE] = doc_value( sol::types<Value>() );
 }
 
 template<typename Class, bool add_self_arg, typename RetVal, typename ...Args>
-void doc_member_fx_impl2( sol::table &dt, types<RetVal> &&, sol::types<Args...> && )
+void doc_member_fx_impl2( sol::table &dt, sol::types<RetVal> &&, sol::types<Args...> && )
 {
-    dt[KEY_MEMBER_RETVAL] = doc_value( types<RetVal>() );
+    dt[KEY_MEMBER_RETVAL] = doc_value( sol::types<RetVal>() );
     if constexpr( add_self_arg ) {
         dt[KEY_MEMBER_ARGS] = doc_arg_list<Class, Args...>();
     } else {
@@ -257,11 +254,11 @@ void doc_member_fx_overload( sol::table &dt, std::vector<sol::table> &overloads 
     using RetVal = typename fx_traits<Function>::return_type;
     using Args = typename fx_traits<Function>::args_list;
     constexpr bool add_self_arg = !fx_traits<Function>::is_member_function;
-    doc_member_fx_impl2<Class, add_self_arg>( overload, types<RetVal>(), Args() );
+    doc_member_fx_impl2<Class, add_self_arg>( overload, sol::types<RetVal>(), Args() );
 }
 
 template<typename Class, typename ...Functions>
-void doc_member_fx_impl( sol::table &dt, types<Functions...> && )
+void doc_member_fx_impl( sol::table &dt, sol::types<Functions...> && )
 {
     dt[KEY_MEMBER_TYPE] = MEMBER_IS_FUNC;
     std::vector<sol::table> overloads;
@@ -274,30 +271,30 @@ void doc_member_fx_impl( sol::table &dt, types<Functions...> && )
 }
 
 template<typename Class, typename ...Functions>
-void doc_member_fx( sol::table &dt, types<sol::overload_set<Functions...>> && )
+void doc_member_fx( sol::table &dt, sol::types<sol::overload_set<Functions...>> && )
 {
-    doc_member_fx_impl<Class>( dt, types<Functions...>() );
+    doc_member_fx_impl<Class>( dt, sol::types<Functions...>() );
 }
 
 template<typename Class, typename Func>
-void doc_member_fx( sol::table &dt, types<Func> && )
+void doc_member_fx( sol::table &dt, sol::types<Func> && )
 {
-    doc_member_fx_impl<Class>( dt, types<Func>() );
+    doc_member_fx_impl<Class>( dt, sol::types<Func>() );
 }
 
 template<typename Value>
 void doc_free( sol::table &dt, Value val )
 {
     dt[KEY_MEMBER_TYPE] = MEMBER_IS_VAR;
-    dt[KEY_MEMBER_VARIABLE_TYPE] = doc_value( types<Value>() );
+    dt[KEY_MEMBER_VARIABLE_TYPE] = doc_value( sol::types<Value>() );
     dt[KEY_MEMBER_VARIABLE_HAS_VALUE] = true;
     dt[KEY_MEMBER_VARIABLE_VALUE] = val;
 }
 
 template<typename RetVal, typename ...Args>
-void doc_free_fx_impl2( sol::table &dt, types<RetVal> &&, sol::types<Args...> && )
+void doc_free_fx_impl2( sol::table &dt, sol::types<RetVal> &&, sol::types<Args...> && )
 {
-    dt[KEY_MEMBER_RETVAL] = doc_value( types<RetVal>() );
+    dt[KEY_MEMBER_RETVAL] = doc_value( sol::types<RetVal>() );
     dt[KEY_MEMBER_ARGS] = doc_arg_list<Args...>();
 }
 
@@ -309,11 +306,11 @@ void doc_free_fx_overload( sol::table &dt, std::vector<sol::table> &overloads )
     overloads.push_back( overload );
     using RetVal = typename fx_traits<Function>::return_type;
     using Args = typename fx_traits<Function>::args_list;
-    doc_free_fx_impl2( overload, types<RetVal>(), Args() );
+    doc_free_fx_impl2( overload, sol::types<RetVal>(), Args() );
 }
 
 template<typename ...Functions>
-void doc_free_fx_impl( sol::table &dt, types<Functions...> && )
+void doc_free_fx_impl( sol::table &dt, sol::types<Functions...> && )
 {
     dt[KEY_MEMBER_TYPE] = MEMBER_IS_FUNC;
     std::vector<sol::table> overloads;
@@ -325,15 +322,15 @@ void doc_free_fx_impl( sol::table &dt, types<Functions...> && )
 }
 
 template<typename ...Functions>
-void doc_free_fx( sol::table &dt, types<sol::overload_set<Functions...>> && )
+void doc_free_fx( sol::table &dt, sol::types<sol::overload_set<Functions...>> && )
 {
-    doc_free_fx_impl( dt, types<Functions...>() );
+    doc_free_fx_impl( dt, sol::types<Functions...>() );
 }
 
 template<typename Func>
-void doc_free_fx( sol::table &dt, types<Func> && )
+void doc_free_fx( sol::table &dt, sol::types<Func> && )
 {
-    doc_free_fx_impl( dt, types<Func>() );
+    doc_free_fx_impl( dt, sol::types<Func>() );
 }
 
 template<typename Key>
@@ -408,7 +405,7 @@ void set_fx(
     sol::state_view lua( ut.lua_state() );
     sol::table type_dt = detail::get_type_doctable<Class>( lua );
     sol::table member_dt = detail::make_type_member_doctable( type_dt, key );
-    detail::doc_member_fx<Class>( member_dt, detail::types<Func>() );
+    detail::doc_member_fx<Class>( member_dt, sol::types<Func>() );
 }
 
 template<typename Class, typename Key, typename Value>
@@ -423,7 +420,7 @@ void set(
     sol::state_view lua( ut.lua_state() );
     sol::table type_dt = detail::get_type_doctable<Class>( lua );
     sol::table member_dt = detail::make_type_member_doctable( type_dt, key );
-    detail::doc_member<Class>( member_dt, detail::types<Value>() );
+    detail::doc_member<Class>( member_dt, sol::types<Value>() );
 }
 
 template<typename E>
@@ -536,7 +533,7 @@ void set_fx(
 
     sol::state_view lua( lib.t.lua_state() );
     sol::table member_dt = detail::make_type_member_doctable( lib.dt, key );
-    detail::doc_free_fx( member_dt, detail::types<Func>() );
+    detail::doc_free_fx( member_dt, sol::types<Func>() );
 }
 
 template<typename Key, typename Value>
