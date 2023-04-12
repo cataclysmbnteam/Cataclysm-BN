@@ -141,7 +141,7 @@ bool generate_lua_docs()
         sol::protected_function_result res = doc_gen_func();
         check_func_result( res );
         std::string ret = res;
-        write_to_file( "config/lua_doc.md", [&]( std::ostream & s ) {
+        write_to_file( PATH_INFO::lua_doc_output(), [&]( std::ostream & s ) {
             s << ret;
         } );
     } catch( std::runtime_error &e ) {
