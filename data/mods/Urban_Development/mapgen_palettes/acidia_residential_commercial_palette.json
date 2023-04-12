@@ -130,7 +130,11 @@
       "x": "t_floor",
       "Y": "t_window_bars",
       "y": "t_sai_box",
+      "ž": "t_floor",
+      "ź": "t_floor",
       "Z": "t_machinery_light",
+      "Ž": "t_machinery_heavy",
+      "Ż": "t_machinery_old",
       "z": "t_sewage"
     },
     "furniture": {
@@ -169,7 +173,9 @@
       "t": "f_table",
       "u": "f_cupboard",
       "W": "f_washer",
-      "X": [ "f_crate_c", "f_crate_o" ],
+      "X": [ "f_crate_c", "f_crate_c", "f_crate_o" ],
+      "ž": "f_home_furnace",
+      "ź": "f_water_heater",	  
       "x": "f_exercise"
     }
   }
