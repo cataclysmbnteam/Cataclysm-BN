@@ -1,6 +1,10 @@
 #!/usr/bin/env -S deno run --allow-read --allow-write --allow-run --unstable
 
-import { brightRed } from "https://deno.land/std@0.182.0/fmt/colors.ts"
+import {
+  brightGreen as g,
+  brightRed as r,
+  brightYellow as y,
+} from "https://deno.land/std@0.182.0/fmt/colors.ts"
 
 import { z } from "https://deno.land/x/zod@v3.20.5/mod.ts"
 import { Command } from "https://deno.land/x/cliffy@v0.25.7/command/mod.ts"
@@ -46,7 +50,39 @@ export const replaceWith: ReplaceWith = (replace) => (using) => (idToReplace) =>
   )
 }
 
-const warn = (msg: string) => () => console.log(brightRed(msg))
+const nonNull = () => P.not(P.nullish)
+const ex = {
+  id: r("foo"),
+  replace: y('{ "id": "foo", "desc": "to be replaced" }'),
+  replacePath: y("replace/(any path)/path.json"),
+  using: g('{ "id": "foo", "desc": "using" }'),
+  usingPath: g("using/(any path)/.json"),
+}
+
+const writeReplaceWith =
+  (replaceEntries: ParsedEntry[]) =>
+  (usingEntries: ParsedEntry[]) =>
+  (idToReplace: string): Promise<void> => {
+    const withId = (msg: string) => `${r(idToReplace.padEnd(20))} : ${msg}`
+    const warn = (msg: string) => () => Promise.resolve(console.log(withId(r(msg))))
+
+    const replaceEntry = findId(replaceEntries)(idToReplace)
+    const usingEntry = findId(usingEntries)(idToReplace)
+
+    return match({ replaceEntry, usingEntry })
+      .with(
+        { replaceEntry: nonNull(), usingEntry: nonNull() },
+        (
+          { replaceEntry: { path, parsed: replace }, usingEntry: { path: from, parsed: using } },
+        ) => {
+          const newlyReplaced = replaceWith(replace)(using)(idToReplace)
+          const write = Deno.writeTextFile(path, JSON.stringify(newlyReplaced, null, 2))
+
+          return timeit(withId(`${y(path)} <- ${g(from)}`))(write)
+        },
+      )
+      .otherwise(warn(`${replaceEntry?.path ?? "no entry"} <- ${usingEntry?.path ?? "no entry"}`))
+  }
 
 const main = () =>
   new Command()
@@ -57,31 +93,16 @@ const main = () =>
     .option("-l, --lint", "lint all json files after migration.", { required: false })
     .option("-r, --replace <type:string>", "path to recursively search jsons.", { required: true })
     .option("-u, --using <type:string>", "path to recursively search jsons.", { required: true })
-    .arguments("<id>")
-    .action(async ({ replace, using, lint }, idToReplace) => {
+    .arguments("<id...>")
+    .action(async ({ replace, using, lint }, ...idsToReplace) => {
       const readResult = promiseAllProperties({
         replaceEntries: readRecursively(replace).then(parseIds),
         usingEntries: readRecursively(using).then(parseIds),
       })
       const { replaceEntries, usingEntries } = await timeit("reading entries")(readResult)
-      const searchResult = {
-        replaceEntry: findId(replaceEntries)(idToReplace),
-        usingEntry: findId(usingEntries)(idToReplace),
-      }
-      const nonNull = () => P.not(P.nullish)
+      const replaceFn = writeReplaceWith(replaceEntries)(usingEntries)
 
-      match(searchResult)
-        .with(
-          { replaceEntry: nonNull(), usingEntry: nonNull() },
-          async ({ replaceEntry: { path, parsed: replace }, usingEntry: { parsed: using } }) => {
-            const newlyReplaced = replaceWith(replace)(using)(idToReplace)
-
-            await Deno.writeTextFile(path, JSON.stringify(newlyReplaced, null, 2))
-          },
-        )
-        .with({ replaceEntry: P.nullish }, warn("could not find replace entry"))
-        .with({ usingEntry: P.nullish }, warn("could not find using entry"))
-        .otherwise(warn("could not find both replace and using entry"))
+      await Promise.all(idsToReplace.map(replaceFn))
 
       if (!lint) return
       await timeit("linting")(lintRecursively())
