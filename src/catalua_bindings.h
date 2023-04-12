@@ -90,9 +90,14 @@ using fx_traits = sol::meta::meta_detail::fx_traits<Signature>;
 template<typename Val>
 std::string doc_value_impl()
 {
-    //static_assert(luna_traits<Val>::impl, "Type must inplement luna_traits" );
-    using ValBare = remove_cv_ref_t<Val>;
-    return std::string( luna_traits<ValBare>::name );
+    //static_assert(luna_traits<Val>::impl, "Type must implement luna_traits" );
+    if constexpr( luna_traits<Val>::impl ) {
+        return std::string( luna_traits<Val>::name );
+    } else {
+        using ValNoPtr = typename std::remove_pointer<Val>::type;
+        using ValBare = remove_cv_ref_t<ValNoPtr>;
+        return std::string( luna_traits<ValBare>::name );
+    }
 }
 
 template<typename Val>
