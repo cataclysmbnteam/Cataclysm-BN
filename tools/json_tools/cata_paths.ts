@@ -11,6 +11,7 @@ export const PROJECT = {
   DATA: fromRoot("data"),
   JSON: fromRoot("data/json"),
   TOOLS: fromRoot("tools"),
+  VSCODE: fromRoot(".vscode"),
 } as const
 
 if (import.meta.main) {
