@@ -27,7 +27,7 @@
 #define LUNA_ID( Class, Name )                  \
     LUNA_DOC( Class, Name "Raw" )               \
     LUNA_VAL( string_id<Class>, Name "Id" )     \
-    LUNA_DOC( int_id<Class>, Name "IntId" )
+    LUNA_VAL( int_id<Class>, Name "IntId" )
 
 #define LUNA_ENUM( Class, Name ) LUNA_VAL( Class, Name )
 

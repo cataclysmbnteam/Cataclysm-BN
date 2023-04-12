@@ -6,12 +6,16 @@
 #include "catalua_impl.h"
 #include "catalua_serde.h"
 #include "catalua_sol.h"
+#include "clzones.h"
 #include "debug.h"
+#include "faction.h"
 #include "fstream_utils.h"
 #include "json.h"
+#include "mapdata.h"
 #include "options.h"
 #include "point.h"
 #include "string_formatter.h"
+#include "type_id.h"
 
 static void run_lua_test_script( sol::state &lua, const std::string &script_name )
 {
@@ -383,6 +387,63 @@ TEST_CASE( "lua_table_serde_error_rec_table", "[lua]" )
     CHECK( data ==
            R"({"t2":{"type":"lua_table","data":{"t3":{"type":"lua_table","data":{"t5":{"type":"lua_table","data":{}}}},"t4":{"type":"lua_table","data":{"t1":{"type":"lua_table","data":null}}}}}})" );
     CHECK( dmsg == "Tried to serialize recursive table structure." );
+}
+
+TEST_CASE( "id_conversions", "[lua]" )
+{
+    sol::state lua = make_lua_state();
+
+    sol::table t = lua.create_table();
+
+    // The functions don't need to do anything, we're just checking type conversion
+    t["func_raw"] = []( const ter_t & ) {
+
+    };
+    t["func_int_id"] = []( const ter_id & ) {
+
+    };
+    t["func_str_id"] = []( const ter_str_id & ) {
+
+    };
+
+    static const ter_str_id t_fragile_roof( "t_fragile_roof" );
+    REQUIRE( t_fragile_roof.is_valid() );
+
+    const ter_t *raw_ptr = &t_fragile_roof.obj();
+
+    t["str_id"] = t_fragile_roof;
+    t["int_id"] = t_fragile_roof.id();
+    t["raw_ptr"] = raw_ptr;
+
+    lua.globals()["test_data"] = t;
+
+    run_lua_test_script( lua, "id_conversions.lua" );
+}
+
+TEST_CASE( "id_conversions_no_int_id", "[lua]" )
+{
+    sol::state lua = make_lua_state();
+
+    sol::table t = lua.create_table();
+
+    // The functions don't need to do anything, we're just checking type conversion
+    t["func_raw"] = []( const faction & ) {
+
+    };
+    t["func_str_id"] = []( const faction_id & ) {
+
+    };
+
+    REQUIRE( your_fac.is_valid() );
+
+    const faction *raw_ptr = &your_fac.obj();
+
+    t["str_id"] = your_fac;
+    t["raw_ptr"] = raw_ptr;
+
+    lua.globals()["test_data"] = t;
+
+    run_lua_test_script( lua, "id_conversions_no_int_id.lua" );
 }
 
 #endif
