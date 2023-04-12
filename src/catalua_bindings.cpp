@@ -14,6 +14,7 @@
 #include "game.h"
 #include "item.h"
 #include "itype.h"
+#include "json.h"
 #include "map.h"
 #include "mapdata.h"
 #include "messages.h"
@@ -77,6 +78,13 @@ static std::string fmt_lua_va( sol::variadic_args va )
     }
 
     return msg;
+}
+
+template<typename T>
+void reg_serde_functions( sol::usertype<T> &ut )
+{
+    luna::set_fx( ut, "serialize", sol::resolve< void( JsonOut & ) const >( &T::serialize ) );
+    luna::set_fx( ut, "deserialize", sol::resolve< void( JsonIn & ) >( &T::deserialize ) );
 }
 
 namespace sol
@@ -215,6 +223,9 @@ static void reg_point_tripoint( sol::state &lua )
         luna::set_fx( ut, "abs", &point::abs );
         luna::set_fx( ut, "rotate", &point::rotate );
 
+        // (De-)Serialization
+        reg_serde_functions( ut );
+
         // To string
         // We're using Lua meta function here to make it work seamlessly with native Lua tostring()
         luna::set_fx( ut, sol::meta_function::to_string, &point::to_string );
@@ -273,6 +284,9 @@ static void reg_point_tripoint( sol::state &lua )
         luna::set_fx( ut, "abs", &tripoint::abs );
         luna::set_fx( ut, "xy", &tripoint::xy );
         luna::set_fx( ut, "rotate_2d", &tripoint::rotate_2d );
+
+        // (De-)Serialization
+        reg_serde_functions( ut );
 
         // To string
         // We're using Lua meta function here to make it work seamlessly with native Lua tostring()
@@ -672,6 +686,14 @@ void reg_id( sol::state &lua )
     luna::set_fx( ut, "NULL_ID", &SID::NULL_ID );
     luna::set_fx( ut, sol::meta_function::to_string, []( const SID & id ) -> std::string {
         return string_format( "%s[%s]", luna::detail::luna_traits<SID>::name, id.c_str() );
+    } );
+
+    // (De-)Serialization
+    luna::set_fx( ut, "serialize", []( const SID & ut, JsonOut & jsout ) {
+        jsout.write( ut.str() );
+    } );
+    luna::set_fx( ut, "deserialize", []( SID & ut, JsonIn & jsin ) {
+        ut = SID( jsin.get_string() );
     } );
 }
 

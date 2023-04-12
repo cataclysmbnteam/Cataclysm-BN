@@ -4,8 +4,11 @@
 #include "avatar.h"
 #include "catacharset.h"
 #include "catalua_impl.h"
+#include "catalua_serde.h"
 #include "catalua_sol.h"
-#include "catalua_sol.h"
+#include "debug.h"
+#include "fstream_utils.h"
+#include "json.h"
 #include "options.h"
 #include "point.h"
 #include "string_formatter.h"
@@ -202,6 +205,185 @@ TEST_CASE( "lua_called_cpp_func_throws", "[lua]" )
         std::runtime_error,
         Catch::Message( expected )
     );
+}
+
+TEST_CASE( "lua_table_serde", "[lua]" )
+{
+    sol::state lua = make_lua_state();
+
+    sol::table st = lua.create_table();
+    st["inner_val"] = 4;
+
+    sol::table t = lua.create_table();
+    t["member_bool"] = false;
+    t["member_float"] = 16.0;
+    t["member_int"] = 11;
+    t["member_string"] = "fuckoff";
+    t["member_usertype"] = tripoint( 7, 5, 3 );
+    t["subtable"] = st;
+
+    std::string data = serialize_wrapper( [&]( JsonOut & jsout ) {
+        cata::serialize_lua_table( t, jsout );
+    } );
+
+    static const std::string data_expected =
+        R"({"member_bool":false,"member_float":{"type":"float","data":16.000000},"member_int":{"type":"int","data":11},"member_string":"fuckoff","member_usertype":{"type":"userdata","kind":"Tripoint","data":[7,5,3]},"subtable":{"type":"lua_table","data":{"inner_val":{"type":"int","data":4}}}})";
+
+    REQUIRE( data == data_expected );
+
+    sol::table nt = lua.create_table();
+    deserialize_wrapper( [&]( JsonIn & jsin ) {
+        JsonObject jsobj = jsin.get_object();
+        cata::deserialize_lua_table( nt, jsobj );
+    }, data );
+
+    // Sanity check: field does not exist
+    sol::object mem_none = nt["member_the_best"];
+    REQUIRE( !mem_none.valid() );
+
+    sol::object mem_bool = nt["member_bool"];
+    REQUIRE( mem_bool.valid() );
+    REQUIRE( mem_bool.is<bool>() );
+    CHECK( mem_bool.as<bool>() == false );
+
+    sol::object mem_float = nt["member_float"];
+    REQUIRE( mem_float.valid() );
+    REQUIRE( mem_float.is<double>() );
+    // Directly comparing floats is bad, but we use a power of 2, so it should(tm) be fine
+    CHECK( mem_float.as<double>() == 16.0 );
+
+    sol::object mem_int = nt["member_int"];
+    REQUIRE( mem_int.valid() );
+    CHECK( mem_int.is<double>() );
+    REQUIRE( mem_int.is<int>() );
+    CHECK( mem_int.as<int>() == 11 );
+
+    sol::object mem_string = nt["member_string"];
+    REQUIRE( mem_string.valid() );
+    REQUIRE( mem_string.is<std::string>() );
+    CHECK( mem_string.as<std::string>() == "fuckoff" );
+
+    sol::object mem_usertype = nt["member_usertype"];
+    REQUIRE( mem_usertype.valid() );
+    REQUIRE( mem_usertype.is<tripoint>() );
+    CHECK( mem_usertype.as<tripoint>() == tripoint( 7, 5, 3 ) );
+
+    sol::object mem_table = nt["subtable"];
+    REQUIRE( mem_table.valid() );
+    REQUIRE( mem_table.is<sol::table>() );
+
+    // Subtable
+    sol::table nts = mem_table;
+    sol::object inner_val = nts["inner_val"];
+    REQUIRE( inner_val.valid() );
+    REQUIRE( inner_val.is<int>() );
+    CHECK( inner_val.as<int>() == 4 );
+
+    // And for the good measure - serialize back to JSON
+    std::string data2 = serialize_wrapper( [&]( JsonOut & jsout ) {
+        cata::serialize_lua_table( nt, jsout );
+    } );
+    CHECK( data2 == data_expected );
+}
+
+struct custom_udata {
+    int unused = 0;
+};
+
+TEST_CASE( "lua_table_serde_error_no_reg", "[lua]" )
+{
+    sol::state lua = make_lua_state();
+
+    sol::table t = lua.create_table();
+    t["my_member"] = custom_udata{};
+
+    // Trying to serialize unregistered type results in error
+    std::string data;
+    std::string dmsg = capture_debugmsg_during( [&]() {
+        data = serialize_wrapper( [&]( JsonOut & jsout ) {
+            cata::serialize_lua_table( t, jsout );
+        } );
+    } );
+
+    CHECK( dmsg == "Tried to serialize userdata that was not registered as usertype." );
+    CHECK( data == R"({"my_member":null})" );
+}
+
+TEST_CASE( "lua_table_serde_error_no_luna", "[lua]" )
+{
+    sol::state lua = make_lua_state();
+
+    lua.new_usertype<custom_udata>( "CustomUData" );
+
+    sol::table t = lua.create_table();
+    t["my_member"] = custom_udata{};
+
+    // Trying to serialize type that was not registered with luna results in error
+    std::string data;
+    std::string dmsg = capture_debugmsg_during( [&]() {
+        data = serialize_wrapper( [&]( JsonOut & jsout ) {
+            cata::serialize_lua_table( t, jsout );
+        } );
+    } );
+
+    CHECK( dmsg == "Tried to serialize usertype that was not registered with luna." );
+    CHECK( data == R"({"my_member":null})" );
+}
+
+TEST_CASE( "lua_table_serde_error_no_ser", "[lua]" )
+{
+    sol::state lua = make_lua_state();
+
+    sol::table t = lua.create_table();
+    avatar *av_ptr = &get_avatar();
+    t["my_member"] = av_ptr;
+
+    // Trying to serialize unserializable type results in error
+    std::string data;
+    std::string dmsg = capture_debugmsg_during( [&]() {
+        data = serialize_wrapper( [&]( JsonOut & jsout ) {
+            cata::serialize_lua_table( t, jsout );
+        } );
+    } );
+
+    CHECK( data == R"({"my_member":null})" );
+    CHECK( dmsg == "Tried to serialize usertype that does not allow serialization." );
+}
+
+TEST_CASE( "lua_table_serde_error_rec_table", "[lua]" )
+{
+    sol::state lua = make_lua_state();
+
+    sol::table t1 = lua.create_table();
+    sol::table t2 = lua.create_table();
+    sol::table t3 = lua.create_table();
+    sol::table t4 = lua.create_table();
+    sol::table t5 = lua.create_table();
+
+    /*
+        t1 -> t2 -> t3 -> t5
+        ^      |
+        |      \--> t4 -\
+        |               |
+        \---------------/
+    */
+    t1["t2"] = t2;
+    t2["t3"] = t3;
+    t2["t4"] = t4;
+    t3["t5"] = t5;
+    t4["t1"] = t1;
+
+    // Trying to serialize recursive table results in error
+    std::string data;
+    std::string dmsg = capture_debugmsg_during( [&]() {
+        data = serialize_wrapper( [&]( JsonOut & jsout ) {
+            cata::serialize_lua_table( t1, jsout );
+        } );
+    } );
+
+    CHECK( data ==
+           R"({"t2":{"type":"lua_table","data":{"t3":{"type":"lua_table","data":{"t5":{"type":"lua_table","data":{}}}},"t4":{"type":"lua_table","data":{"t1":{"type":"lua_table","data":null}}}}}})" );
+    CHECK( dmsg == "Tried to serialize recursive table structure." );
 }
 
 #endif
