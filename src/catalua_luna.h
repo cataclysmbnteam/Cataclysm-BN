@@ -257,7 +257,7 @@ void doc_member_fx_overload( sol::table &dt, std::vector<sol::table> &overloads 
     using RetVal = typename fx_traits<Function>::return_type;
     using Args = typename fx_traits<Function>::args_list;
     constexpr bool add_self_arg = !fx_traits<Function>::is_member_function;
-    doc_member_fx_impl2<Class, add_self_arg>( overload, types<RetVal>(), types<Args>() );
+    doc_member_fx_impl2<Class, add_self_arg>( overload, types<RetVal>(), Args() );
 }
 
 template<typename Class, typename ...Functions>
@@ -295,8 +295,7 @@ void doc_free( sol::table &dt, Value val )
 }
 
 template<typename RetVal, typename ...Args>
-void doc_free_fx_impl2( sol::table &dt, types<RetVal> &&,
-                        types<sol::types<Args...>> && )
+void doc_free_fx_impl2( sol::table &dt, types<RetVal> &&, sol::types<Args...> && )
 {
     dt[KEY_MEMBER_RETVAL] = doc_value( types<RetVal>() );
     dt[KEY_MEMBER_ARGS] = doc_arg_list<Args...>();
@@ -310,7 +309,7 @@ void doc_free_fx_overload( sol::table &dt, std::vector<sol::table> &overloads )
     overloads.push_back( overload );
     using RetVal = typename fx_traits<Function>::return_type;
     using Args = typename fx_traits<Function>::args_list;
-    doc_free_fx_impl2( overload, types<RetVal>(), types<Args>() );
+    doc_free_fx_impl2( overload, types<RetVal>(), Args() );
 }
 
 template<typename ...Functions>
