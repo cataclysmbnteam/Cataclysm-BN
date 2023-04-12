@@ -1,5 +1,7 @@
-import { diff, Flaggable, flaggable, removeFlags } from "./remove_flag.ts"
 import { assertEquals } from "https://deno.land/std@0.182.0/testing/asserts.ts"
+import { sumOf } from "https://deno.land/std@0.182.0/collections/sum_of.ts"
+
+import { diff, Flaggable, flaggable, removeFlags } from "./remove_flag.ts"
 import { genericCataTransformer } from "./parse.ts"
 import { removeObjectKey } from "./transform.ts"
 
@@ -70,7 +72,7 @@ const cases = [
 ] as const
 
 Deno.test("flaggable.safeParse", () => {
-  const result = cases.reduce((acc, x) => flaggable.safeParse(x).success ? acc + 1 : acc, 0)
+  const result = sumOf(cases, (x) => flaggable.safeParse(x).success ? 1 : 0)
 
   assertEquals(result, 2)
 })
