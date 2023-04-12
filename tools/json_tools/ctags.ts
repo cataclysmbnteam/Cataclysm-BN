@@ -18,16 +18,23 @@ const makeTagsLine = (idKey: string, tagname: string, tagfile: string): string =
 
 const idKeys = ["id", "abstract", "ident", "nested_mapgen_id"]
 
+const isValidPair = (pair: [string, unknown]): pair is [string, string] => {
+  const [key, value] = pair
+  return idKeys.includes(key) && typeof value === "string" && !!value
+}
+
+const intoCtag = (relativePath: string) => (obj: Record<string, unknown>): string[] =>
+  Object.entries(obj)
+    .filter(isValidPair)
+    .map(([key, value]) => makeTagsLine(key, value, relativePath))
+
 const intoCtags = async ({ path }: WalkEntry) => {
   const relativePath = relative(PROJECT.ROOT, path)
   const jsonData = JSON.parse(await Deno.readTextFile(path))
   const jsonList = Array.isArray(jsonData) ? jsonData : [jsonData]
+  const into = intoCtag(relativePath)
 
-  return jsonList.flatMap((obj) =>
-    Object.entries(obj)
-      .filter(([key, value]) => idKeys.includes(key) && typeof value === "string" && value)
-      .map(([key, value]) => makeTagsLine(key, value as any, relativePath))
-  )
+  return jsonList.flatMap(into)
 }
 
 const isValidJson = ({ name }: WalkEntry) => !["default.json", "replacements.json"].includes(name)
@@ -45,6 +52,7 @@ const main = () =>
   new Command()
     .description(`
         generates ctags for cataclysm json files.
+        see doc/DEVELOPER_TOOLING.md for more info.
         for vscode, install https://marketplace.visualstudio.com/items?itemName=gediminaszlatkus.ctags-companion
     `)
     .option("-p, --path <type:string>", "path to save ctags file", {
