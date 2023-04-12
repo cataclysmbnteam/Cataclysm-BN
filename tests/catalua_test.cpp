@@ -249,8 +249,7 @@ TEST_CASE( "lua_table_serde", "[lua]" )
     sol::object mem_float = nt["member_float"];
     REQUIRE( mem_float.valid() );
     REQUIRE( mem_float.is<double>() );
-    // Directly comparing floats is bad, but we use a power of 2, so it should(tm) be fine
-    CHECK( mem_float.as<double>() == 16.0 );
+    CHECK( mem_float.as<double>() == Approx( 16.0 ) );
 
     sol::object mem_int = nt["member_int"];
     REQUIRE( mem_int.valid() );
