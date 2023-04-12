@@ -639,6 +639,7 @@ bool main_menu::opening_screen()
     } );
     ui.mark_resize();
 
+    bool start_new = false;
     while( !start ) {
         ui_manager::redraw();
         std::string action = ctxt.handle_input();
@@ -795,6 +796,9 @@ bool main_menu::opening_screen()
                     break;
                 case main_menu_opts::NEWCHAR:
                     start = new_character_tab();
+                    if( start ) {
+                        start_new = true;
+                    }
                     break;
                 case main_menu_opts::MOTD:
                 case main_menu_opts::CREDITS:
@@ -803,7 +807,7 @@ bool main_menu::opening_screen()
             }
         }
     }
-    if( start && get_scenario() ) {
+    if( start_new && get_scenario() ) {
         add_msg( get_scenario()->description( player_character.male ) );
     }
     return true;
