@@ -9,9 +9,9 @@ import { timeit } from "./timeit.ts"
 import { Entry, readRecursively } from "./parse.ts"
 
 /** @link https://ctags.sourceforge.net/FORMAT */
-const makeTagsLine = (idKey: string, tagname: string, tagfile: string): string => {
+const makeTagsLine = (idKey: string, tagname: string, tagfile: string, line: number): string => {
   const tagaddress = `/"${idKey}": "${tagname}"/`
-  return `${tagname}\t${tagfile}\t${tagaddress}`
+  return `${tagname}\t${tagfile}\t${tagaddress};"\tline:${line}`
 }
 
 const idKeys = ["id", "abstract", "ident", "nested_mapgen_id"]
@@ -21,16 +21,33 @@ const isValidPair = (pair: [string, unknown]): pair is [string, string] => {
   return idKeys.includes(key) && typeof value === "string" && !!value
 }
 
-const intoCtag = (relativePath: string) => (obj: Record<string, unknown>): string[] =>
-  Object.entries(obj)
-    .filter(isValidPair)
-    .map(([key, value]) => makeTagsLine(key, value, relativePath))
+/**
+ * finds first line of appearance of a string in a text.
+ * it's dumb, it slow but it works.
+ * @link https://stackoverflow.com/a/32017337/13503626
+ */
+const findFirstAppearance = (text: string) => (search: string) => {
+  const index = text.indexOf(search)
+  if (index === -1) return 0
+  return text.slice(0, index).split("\n").length
+}
+
+const intoCtag =
+  (finder: (x: string) => number) =>
+  (relativePath: string) =>
+  (obj: Record<string, unknown>): string[] => {
+    const result = Object.entries(obj)
+      .filter(isValidPair)
+
+    return result.map(([key, value]) => makeTagsLine(key, value, relativePath, finder(value)))
+  }
 
 const intoCtags = ({ path, text }: Entry) => {
   const relativePath = relative(PROJECT.ROOT, path)
   const jsonData = JSON.parse(text)
   const jsonList = Array.isArray(jsonData) ? jsonData : [jsonData]
-  const into = intoCtag(relativePath)
+  const finder = findFirstAppearance(text)
+  const into = intoCtag(finder)(relativePath)
 
   return jsonList.flatMap(into)
 }
