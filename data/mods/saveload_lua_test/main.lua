@@ -11,6 +11,17 @@ local storage = game.mod_storage[ game.current_mod ]
 mod.storage = storage
 
 --[[
+    The following values are default, they'll be assigned on
+    new game start or on game init before save is loaded.
+]]
+-- Numeric data
+storage.num = 12.3
+-- Usertype
+storage.tri = Tripoint.new(3, 4, 5)
+-- String
+storage.tri_as_str = tostring( Tripoint.new(3, 4, 5) )
+
+--[[
     If we want to build complex state out of loaded data
     we may create a hook that would read loaded data from mod_storage
     and create our complex state in the mod_runtime.
@@ -23,13 +34,6 @@ mod.on_game_load_hook = function()
     end
     if storage.tri then
         gdebug.log_info( "Data found! tri = ", storage.tri )
-    else
-        gdebug.log_warn("Save/load of userdata is not implemented!")
-        if storage.tri_as_str then
-            gdebug.log_info("Using HACK to load tri from string = ", storage.tri_as_str)
-        else
-            gdebug.log_info("No HACKed version found, this must be a fresh save.")
-        end
     end
 end
 
@@ -41,9 +45,7 @@ end
 mod.on_game_save_hook = function()
     gdebug.log_info("SLT: on_save")
 
-    storage.num = 12.3
-    -- Uncommenting this line will cause debugmsgs on save 
-    --storage.tri = Tripoint.new(3, 4, 5)
-
-    storage.tri_as_str = tostring( Tripoint.new(3, 4, 5) )
+    if storage.num then
+        gdebug.log_info("Saving NUM value = ", storage.num)
+    end
 end
