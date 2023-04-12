@@ -115,7 +115,7 @@ void cata::detail::reg_creature_family( sol::state &lua )
             );
 
         // TODO: typesafe coords
-        ut["get_pos_ms"] = &Creature::pos;
+        luna::set_fx( ut, "get_pos_ms", &Creature::pos );
     }
 
     {
