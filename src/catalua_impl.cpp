@@ -1,6 +1,7 @@
 #ifdef LUA
 #include "catalua_impl.h"
 
+#include "catalua_bindings.h"
 #include "catalua_log.h"
 #include "catalua_sol.h"
 #include "debug.h"

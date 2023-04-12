@@ -4,6 +4,7 @@
 #include "avatar.h"
 #include "catalua_log.h"
 #include "catalua_impl.h"
+#include "catalua_luna.h"
 #include "catalua_readonly.h"
 #include "catalua.h"
 #include "character.h"
