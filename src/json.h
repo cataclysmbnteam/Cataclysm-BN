@@ -14,6 +14,7 @@
 #include <type_traits>
 #include <utility>
 #include <vector>
+#include <optional>
 
 #include "enum_conversions.h"
 #include "json_source_location.h"
@@ -42,8 +43,6 @@ class JsonValue;
 
 namespace cata
 {
-template<typename T>
-class optional;
 template<typename T, typename U, typename V>
 class colony;
 } // namespace cata
@@ -1426,7 +1425,7 @@ class JsonDeserializer
 std::ostream &operator<<( std::ostream &stream, const JsonError &err );
 
 template<typename T>
-void serialize( const cata::optional<T> &obj, JsonOut &jsout )
+void serialize( const std::optional<T> &obj, JsonOut &jsout )
 {
     if( obj ) {
         jsout.write( *obj );
@@ -1436,7 +1435,7 @@ void serialize( const cata::optional<T> &obj, JsonOut &jsout )
 }
 
 template<typename T>
-void deserialize( cata::optional<T> &obj, JsonIn &jsin )
+void deserialize( std::optional<T> &obj, JsonIn &jsin )
 {
     if( jsin.test_null() ) {
         obj.reset();

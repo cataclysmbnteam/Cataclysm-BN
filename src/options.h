@@ -4,6 +4,7 @@
 
 #include <functional>
 #include <map>
+#include <optional>
 #include <string>
 #include <unordered_map>
 #include <utility>
@@ -11,7 +12,6 @@
 #include <tuple>
 
 #include "translations.h"
-#include "optional.h"
 
 class JsonIn;
 class JsonOut;
@@ -95,7 +95,7 @@ class options_manager
                 std::vector<id_and_option> getItems() const;
 
                 int getIntPos( int iSearch ) const;
-                cata::optional< std::tuple<int, std::string> > findInt( int iSearch ) const;
+                std::optional< std::tuple<int, std::string> > findInt( int iSearch ) const;
 
                 int getMaxLength() const;
 
@@ -265,7 +265,7 @@ class options_manager
 
     private:
         options_container options;
-        cata::optional<options_container *> world_options;
+        std::optional<options_container *> world_options;
 
         /** Option group. */
         class Group

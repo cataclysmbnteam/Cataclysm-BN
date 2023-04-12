@@ -4,6 +4,7 @@
 #include <array>
 #include <functional>
 #include <memory>
+#include <optional>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
@@ -12,7 +13,6 @@
 #include "calendar.h"
 #include "cata_variant.h"
 #include "event_bus.h"
-#include "optional.h"
 #include "string_id.h"
 #include "translations.h"
 
@@ -102,7 +102,7 @@ class achievement
                 time_duration period_;
         };
 
-        const cata::optional<time_bound> &time_constraint() const {
+        const std::optional<time_bound> &time_constraint() const {
             return time_constraint_;
         }
 
@@ -113,7 +113,7 @@ class achievement
         translation name_;
         translation description_;
         std::vector<string_id<achievement>> hidden_by_;
-        cata::optional<time_bound> time_constraint_;
+        std::optional<time_bound> time_constraint_;
         std::vector<achievement_requirement> requirements_;
 };
 

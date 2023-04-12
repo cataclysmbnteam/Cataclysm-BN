@@ -3,6 +3,7 @@
 #include <functional>
 #include <list>
 #include <memory>
+#include <optional>
 #include <string>
 
 #include "avatar.h"
@@ -12,7 +13,6 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "map_selector.h"
-#include "optional.h"
 #include "point.h"
 #include "rng.h"
 #include "state_helpers.h"

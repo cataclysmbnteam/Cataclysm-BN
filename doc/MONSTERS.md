@@ -175,7 +175,7 @@ Monster speed. 100 is the normal speed for a human being - higher values are fas
 ## "mountable_weight_ratio"
 (float, optional)
 
-Used as the acceptable rider vs. mount weight percentage ratio. Defaults to "0.2", which means the mount is capable of carrying riders weighing <= 20% of the mount's weight.
+Used as the acceptable rider vs. mount weight percentage ratio. Defaults to "0.3", which means the mount is capable of carrying riders weighing <= 30% of the mount's weight.
 
 ## "melee_skill"
 (integer, optional)

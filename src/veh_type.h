@@ -6,6 +6,7 @@
 #include <bitset>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -14,7 +15,6 @@
 #include "calendar.h"
 #include "color.h"
 #include "damage.h"
-#include "optional.h"
 #include "point.h"
 #include "requirements.h"
 #include "string_id.h"
@@ -135,10 +135,10 @@ class vpart_info
         /** Unique identifier for this part */
         vpart_id id;
 
-        cata::optional<vpslot_engine> engine_info;
-        cata::optional<vpslot_wheel> wheel_info;
-        cata::optional<vpslot_rotor> rotor_info;
-        cata::optional<vpslot_workbench> workbench_info;
+        std::optional<vpslot_engine> engine_info;
+        std::optional<vpslot_wheel> wheel_info;
+        std::optional<vpslot_rotor> rotor_info;
+        std::optional<vpslot_workbench> workbench_info;
 
     public:
         /** Translated name of a part */
@@ -308,7 +308,7 @@ class vpart_info
         /**
          * Getter for optional workbench info
          */
-        const cata::optional<vpslot_workbench> &get_workbench_info() const;
+        const std::optional<vpslot_workbench> &get_workbench_info() const;
 
     private:
         /** Name from vehicle part definition which if set overrides the base item name */
@@ -341,11 +341,11 @@ class vpart_info
         }
         void set_flag( const std::string &flag );
 
-        static void load_engine( cata::optional<vpslot_engine> &eptr, const JsonObject &jo,
+        static void load_engine( std::optional<vpslot_engine> &eptr, const JsonObject &jo,
                                  const itype_id &fuel_type );
-        static void load_wheel( cata::optional<vpslot_wheel> &whptr, const JsonObject &jo );
-        static void load_workbench( cata::optional<vpslot_workbench> &wbptr, const JsonObject &jo );
-        static void load_rotor( cata::optional<vpslot_rotor> &roptr, const JsonObject &jo );
+        static void load_wheel( std::optional<vpslot_wheel> &whptr, const JsonObject &jo );
+        static void load_workbench( std::optional<vpslot_workbench> &wbptr, const JsonObject &jo );
+        static void load_rotor( std::optional<vpslot_rotor> &roptr, const JsonObject &jo );
         static void load( const JsonObject &jo, const std::string &src );
         static void finalize();
         static void check();

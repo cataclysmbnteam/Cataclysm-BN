@@ -73,6 +73,7 @@ class avatar : public player
         void randomize( bool random_scenario, points_left &points, bool play_now = false );
         bool load_template( const std::string &template_name, points_left &points );
         void save_template( const std::string &name, const points_left &points );
+        void character_to_template( const std::string &name );
 
         bool is_avatar() const override {
             return true;
@@ -82,6 +83,13 @@ class avatar : public player
         }
         const avatar *as_avatar() const override {
             return this;
+        }
+
+        std::string get_save_id() const {
+            return save_id.empty() ? name : save_id;
+        }
+        void set_save_id( const std::string &id ) {
+            save_id = id;
         }
 
         void toggle_map_memory();
@@ -103,7 +111,7 @@ class avatar : public player
         /** Provides the window and detailed morale data */
         void disp_morale();
         /** Resets all missions before saving character to template */
-        void reset_all_misions();
+        void reset_all_missions();
 
         std::vector<mission *> get_active_missions() const;
         std::vector<mission *> get_completed_missions() const;
@@ -180,7 +188,7 @@ class avatar : public player
         // how much "kill xp" you have
         int kill_xp() const;
         // how much "kill xp" needed for next point (empty if reached max level)
-        cata::optional<int> kill_xp_for_next_point() const;
+        std::optional<int> kill_xp_for_next_point() const;
         // upgrade stat from kills
         void upgrade_stat( character_stat stat );
 
@@ -220,6 +228,9 @@ class avatar : public player
         }
 
     private:
+        // The name used to generate save filenames for this avatar. Not serialized in json.
+        std::string save_id;
+
         std::unique_ptr<map_memory> player_map_memory;
         bool show_map_memory = true;
 

@@ -24,7 +24,6 @@ Checks: >
   -bugprone-infinite-loop,
   -bugprone-misplaced-widening-cast,
   -bugprone-narrowing-conversions,
-  -bugprone-unused-return-value,
   -bugprone-redundant-branch-condition,
   -bugprone-reserved-identifier,
   -bugprone-signed-char-misuse,
