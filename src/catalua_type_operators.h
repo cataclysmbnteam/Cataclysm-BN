@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_SRC_CATALUA_EQ_OP_H
-#define CATA_SRC_CATALUA_EQ_OP_H
+#ifndef CATA_SRC_CATALUA_TYPE_OPERATORS_H
+#define CATA_SRC_CATALUA_TYPE_OPERATORS_H
 
 /**
  * Due to some strange behavior in sol2, we need to define
@@ -17,12 +17,12 @@
  * class ter_t {
  *   ter_str_id id;
  *   ...
- *   LUA_TYPE_EQ_OP( ter_t, id );
+ *   LUA_TYPE_OPS( ter_t, id );
  *   ...
  * }
  * ```
  */
-#define LUA_TYPE_EQ_OP( T, id_getter )                  \
+#define LUA_TYPE_OPS( T, id_getter )                    \
     inline bool operator==( const T &rhs ) const {      \
         return id_getter == rhs.id_getter;              \
     };                                                  \
@@ -30,4 +30,4 @@
         return id_getter < rhs.id_getter;               \
     }
 
-#endif // CATA_SRC_CATALUA_EQ_OP_H
+#endif // CATA_SRC_CATALUA_TYPE_OPERATORS_H

@@ -266,3 +266,4 @@ If you want to add new bindings, consider looking at existing examples in
 * `catalua_luna_doc.h` - List of types registration through `luna` or exposed to its doc generator.
 * `catalua_readonly.h`(`.cpp`) - Functions for marking Lua tables as read-only.
 * `catalua_serde.h`(`.cpp`) - Lua table to/from JSON (de-)serialization.
+* `catalua_type_operators.h` - Macro that helps with implementing bindings for string_ids
