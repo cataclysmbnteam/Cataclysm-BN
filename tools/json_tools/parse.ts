@@ -62,6 +62,9 @@ export const genericCataTransformer =
       )
   }
 
+const isValidJson = ({ name }: Deno.DirEntry) =>
+  !["default.json", "replacements.json"].includes(name)
+
 type ToEntry = (path: string) => Promise<Entry>
 const toEntry: ToEntry = async (path) => ({ path, text: await Deno.readTextFile(path) })
 
@@ -72,6 +75,7 @@ export type Entry = { path: string; text: string }
 type ReadDirRecursively = (root: string) => () => Promise<Entry[]>
 const readDirRecursively: ReadDirRecursively = (root) => () =>
   asynciter(walk(root, { exts: [".json"] }))
+    .filter(isValidJson)
     .concurrentUnorderedMap(({ path }) => toEntry(path))
     .collect()
 
