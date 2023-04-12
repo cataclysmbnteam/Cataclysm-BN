@@ -235,7 +235,7 @@ void doc_member( sol::table &dt, types<Value Class::*> && )
 
 template<typename Class, bool add_self_arg, typename RetVal, typename ...Args>
 void doc_member_fx_impl2( sol::table &dt, types<RetVal> &&,
-                          types<sol::types<Args...>> && )
+                          sol::types<Args...> && )
 {
     dt[KEY_MEMBER_RETVAL] = doc_value( types<RetVal>() );
     if constexpr( add_self_arg ) {
@@ -286,7 +286,7 @@ void doc_free( sol::table &dt, Value val )
 
 template<typename RetVal, typename ...Args>
 void doc_free_fx_impl2( sol::table &dt, types<RetVal> &&,
-                        types<sol::types<Args...>> && )
+                        sol::types<Args...> && )
 {
     dt[KEY_MEMBER_RETVAL] = doc_value( types<RetVal>() );
     dt[KEY_MEMBER_ARGS] = doc_arg_list<Args...>();
