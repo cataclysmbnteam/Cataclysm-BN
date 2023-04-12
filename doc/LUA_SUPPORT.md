@@ -16,10 +16,9 @@ Use the `Home` key to return to the top.
     - [Lua libraries and functions](#lua-libraries-and-functions)
     - [Global state](#global-state)
     - [Game Bindings](#game-bindings)
-      - [Global functions](#global-functions)
+      - [Global overrides](#global-overrides)
       - [Hooks](#hooks)
-      - [Item use actor](#item-use-actor)
-      - [Classes](#classes)
+      - [Item use function](#item-use-function)
   - [C++ layout](#c-layout)
     - [Lua source files](#lua-source-files)
     - [Sol2 source files](#sol2-source-files)
@@ -56,10 +55,8 @@ It is rather simple, but is capable of keeping input history, showing output and
 errors from Lua scripts as well as running Lua snippets and printing the
 returned values.
 
-You can adjust console log capacity by running `set_log_capacity( num )`
-(default is 100 entries), or clear it by running `clear_lua_log()`.
-
-TODO: put these functions into some namespace
+You can adjust console log capacity by running `gdebug.set_log_capacity( num )`
+(default is 100 entries), or clear it by running `gdebug.clear_lua_log()`.
 
 ## Lua hot-reload
 
@@ -68,10 +65,8 @@ To speed up mod development process, BN supports Lua hot-reload functionality.
 There is no filesystem watcher, so hot-reload must be triggered manually via a
 corresponding `Reload Lua Code` hotkey (unbound by default). The hot-reload can
 also be triggered from console window by pressing the corresponding hotkey, or
-by running `reload_lua_code()` command. Running the command from regular Lua
+by running `gdebug.reload_lua_code()` command. Running the command from regular Lua
 scripts may have unintended consequences, use at your own risk!
-
-TODO: put this function into some namespace
 
 Note that not all code can be hot-reloaded, it'll be explained in later sections.
 
@@ -98,21 +93,23 @@ What we care about here is the mod loading stage. It has a number of sub-steps:
 9. It checks consistency of loaded data (validates values, warns about iffy combinations of values, etc.)
 10. (R) For every mod on the list that uses Lua, it runs the mod's `main.lua` script (if present)
 
-As such, we only have 3 scipts to place mod's Lua code into: `preload.lua`, `finalize.lua` and `main.lua`.
-The differences and intended use case will be explained below.
+As such, we only have 3 scipts to place a mod's Lua code into: `preload.lua`, `finalize.lua` and `main.lua`.
+The differences between the 3 and their intended use cases will be explained below.
 
 You can use only one script, two or all three, depending on your needs.
 
-When executing hot-reload, the game repeats the step marked with (R), so if you
-want the code you're working on to be hot-reloadable, put it into `main.lua`.
+When executing hot-reload, the game repeats the step marked with (R).
+That means if you want the code you're working on to be hot-reloadable, put it into `main.lua`.
 
 ### preload.lua
 This script is supposed to register event hooks and set up definitions that will
 then be referred by game JSON loading system (e.g. item use actions).
+Note that you can registers them here, and define them in some later stage
+(e.g. in `main.lua` to allow hot-reload to affect your hooks).
 
 ### finalize.lua
 This script is supposed to allow mods to modify definitions loaded from JSON
-after copy-from has been resolved, but for now there is no API for this.
+after copy-from has been resolved, but there is no API for this yet.
 
 TODO: api for finalization
 
@@ -128,12 +125,14 @@ This includes, but not limited, to:
 
 While you can do a lot of interesting stuff with vanilla Lua, the integration
 imposes some limits to prevent potential bugs:
-- Loading packages (or Lua modules) is disabled. TODO: allow it on data loading
-  stage.
-- Changes to global state are not available between scripts. If you want mod
-  interoperability, use funtions and tables in `game` global table.
-- Your mod's runtime state should live in `game.mod_runtime[ game.current_mod ]`
-  table. You can also access another mod's state this way if you know its id.
+- Loading packages (or Lua modules) is disabled.
+- Your current mod id is stored in `game.current_mod` variable
+- Your mod's runtime state should live in `game.mod_runtime[ game.current_mod ]` table.
+  You can also interface with other mods if you know their id, by accessing their runtime state
+  in a similar way with `game.mod_runtime[ that_other_mod_id ]`
+- Changes to global state are not available between scripts.
+  This is to prevent accidental collisions between function names and variable names.
+  You still can define global variables and functions, but they will be visible to your mod only.
 
 ### Lua libraries and functions
 When script is called, it comes with some standard Lua libraries pre-loaded:
@@ -164,36 +163,68 @@ game.active_mods            List of active world mods, in load order
 game.mod_runtime.<mod_id>   Runtime data for mods (each mod gets its own table named after its id)
 game.mod_storage.<mod_id>   Per-mod storage that gets automatically saved/loaded on game save/load.
 game.cata_internal          For internal game purposes, please don't use this
+game.hooks.<hook_id>        Hooks exposed to Lua scripts, will be called on corresponding events
+game.iuse.<iuse_id>         Item use functions that will be recognized by the item factory and called on item use
 
 ### Game Bindings
-TODO: automatic documentation
+The game exposes various functions, constants and types to Lua.
+Functions and constants are organized into "libraries" for organizational purposes.
+Types are available globally, and may have member functions and fields.
 
-The game exposes various global functions and classes to Lua.
+To see the full list of funcitons, constants and types, run the game with `--lua-doc` command line argument.
+This will generate documentation file `lua_doc.md` that will be placed in your `config` folder.
 
-#### Global functions
+#### Global overrides
+Some functions have been globally overriden to improve integration with the game.
 
 Function                | Description
 ------------------------|-------------
 print                   | Print as `INFO LUA` to debug.log (overrides default Lua print)
-log_info                | Print as `INFO LUA` to debug.log
-log_warn                | Print as `WARNING LUA` to debug.log
-log_error               | Print as `ERROR LUA` to debug.log
-debugmsg                | Show the fabled "red text message" and also print as `ERROR DEBUGMSG` to debug.log
 
 #### Hooks
-TODO
+To see the list of hooks, check `hooks_doc` section of the autogenerated documentation file.
+There, you will see the list of hook ids as well as function signatures that they expect.
+You can register new hooks by appending to the hooks table like so:
+```lua
+-- In preload.lua
+local mod = game.mod_runtime[ game.current_mod ]
+game.hooks.on_game_save[ #game.hooks.on_game_save + 1 ] = function( ... )
+  -- This is essentially a forward declaration.
+  -- We declare that the hook exists, it should be called on game_save event,
+  -- but we will forward all possible arguments (even if there is none) to,
+  -- and return value from, the function that we'll declare later on.
+  return mod.my_awesome_hook( ... )
+end
 
-#### Item use actor
-TODO
+-- In main.lua
+local mod = game.mod_runtime[ game.current_mod ]
+mod.my_awesome_hook = function()
+  -- Do actual work here
+end
+```
 
-#### Classes
-- Avatar
-- Character
-- Creature
-- Monster
-- Npc
-- Player
-- Point
+#### Item use function
+Item use functions use unique id to register themselves in item factory.
+On item activation, they receive multiple arguments that will be described in the example below.
+
+```lua
+-- In preload.lua
+local mod = game.mod_runtime[ game.current_mod ]
+game.iuse_functions[ "SMART_HOUSE_REMOTE" ] = function(...)
+  -- This is just a forward declaration,
+  -- but it will allow us to use SMART_HOUSE_REMOTE iuse in JSONs.
+  return mod.my_awesome_iuse_function(...)
+end
+
+-- In main.lua
+local mod = game.mod_runtime[ game.current_mod ]
+mod.my_awesome_iuse_function = function( who, item, pos )
+  -- Do actual activation effect here.
+  -- `who` is the character that activated the item
+  -- `item` is the item itself
+  -- `pos` is the position of the item (equal to character pos if character has it on them)
+end
+```
 
 ## C++ layout
 Lua build can be enabled by passing `LUA=1` to the Makefile, or enabling `LUA` build switch in CMake builds.
@@ -226,9 +257,10 @@ If you want to add new bindings, consider looking at existing examples in
   the functions there are no-op ).
 * `catalua_sol.h` and `catalua_sol_fwd.h` - Wrappers for `sol/sol.hpp` and
   `sol/forward.hpp` with custom pragmas to make them compile.
-* `catalua_impl.h`(`.cpp`) - Implementation details for `catalua.h`(`.cpp`).
-* `catalua_bindings.h`(`.cpp`) - Game Lua bindings live here.
+* `catalua_bindings.h`(`.cpp`) - Game Lua bindings live here. The header file contains `luna` wrapper.
 * `catalua_console.h`(`.cpp`) - Ingame Lua console.
-* `catalua_log.h`(`.cpp`) - In-memory logging for the console.
-* `catalua_serde.h`(`.cpp`) - Lua table <-> JSON convertion.
+* `catalua_impl.h`(`.cpp`) - Implementation details for `catalua.h`(`.cpp`).
 * `catalua_iuse_actor.h`(`.cpp`) - Lua-driven `iuse_actor`
+* `catalua_log.h`(`.cpp`) - In-memory logging for the console.
+* `catalua_readonly.h`(`.cpp`) - Functions for marking Lua tables as read-only
+* `catalua_serde.h`(`.cpp`) - Lua table to/from JSON (de-)serialization.
