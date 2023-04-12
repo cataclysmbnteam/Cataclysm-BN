@@ -24,8 +24,7 @@
       { "item": "manual_mechanics", "count": [ 1, 2 ], "prob": 50 },
       { "item": "textbook_mechanics", "count": [ 1, 2 ], "prob": 50 },
       {
-        "distribution": [ { "item": "book_icef", "prob": 50 }, { "item": "welding_book", "prob": 50 } ],
-        "count": [ 1, 2 ],
+        "distribution": [ { "item": "book_icef", "count": [ 1, 2 ], "prob": 50 }, { "item": "welding_book", "count": [ 1, 2 ], "prob": 50 } ],
         "prob": 50
       },
       { "item": "textbook_carpentry", "prob": 25 },
@@ -55,19 +54,22 @@
     "entries": [
       { "item": "jewelry_book", "prob": 50 },
       {
-        "distribution": [ { "item": "textbook_armeast", "prob": 50 }, { "item": "textbook_weapeast", "prob": 50 } ],
-        "count": [ 1, 2 ],
+        "distribution": [
+          { "item": "textbook_armeast", "count": [ 1, 2 ], "prob": 50 },
+          { "item": "textbook_weapeast", "count": [ 1, 2 ], "prob": 50 }
+        ],
         "prob": 50
       },
       { "item": "textbook_armschina", "prob": 50 },
       {
-        "distribution": [ { "item": "textbook_armwest", "prob": 50 }, { "item": "textbook_weapwest", "prob": 50 } ],
-        "count": [ 1, 2 ],
+        "distribution": [
+          { "item": "textbook_armwest", "count": [ 1, 2 ], "prob": 50 },
+          { "item": "textbook_weapwest", "count": [ 1, 2 ], "prob": 50 }
+        ],
         "prob": 50
       },
       {
-        "distribution": [ { "item": "recipe_arrows", "prob": 50 }, { "item": "recipe_bows", "prob": 50 } ],
-        "count": [ 1, 2 ],
+        "distribution": [ { "item": "recipe_arrows", "count": [ 1, 2 ], "prob": 50 }, { "item": "recipe_bows", "count": [ 1, 2 ], "prob": 50 } ],
         "prob": 50
       }
     ]
@@ -86,11 +88,10 @@
       { "item": "radio_book", "prob": 50 },
       {
         "distribution": [
-          { "item": "textbook_robots", "prob": 50 },
-          { "item": "manual_computers", "prob": 60 },
-          { "item": "computer_science", "prob": 70 }
+          { "item": "textbook_robots", "count": [ 1, 2 ], "prob": 50 },
+          { "item": "manual_computers", "count": [ 1, 2 ], "prob": 60 },
+          { "item": "computer_science", "count": [ 1, 2 ], "prob": 70 }
         ],
-        "count": [ 1, 2 ],
         "prob": 25
       },
       { "item": "repeater_mod_guide", "prob": 25 }
@@ -133,20 +134,18 @@
       { "item": "cookbook", "count": [ 1, 2 ], "prob": 50 },
       {
         "distribution": [
-          { "item": "cookbook_daintydishes", "prob": 70 },
-          { "item": "cookbook_foodfashions", "prob": 70 },
-          { "item": "cookbook_liverforkids", "prob": 60 }
+          { "item": "cookbook_daintydishes", "count": [ 1, 2 ], "prob": 70 },
+          { "item": "cookbook_foodfashions", "count": [ 1, 2 ], "prob": 70 },
+          { "item": "cookbook_liverforkids", "count": [ 1, 2 ], "prob": 60 }
         ],
-        "count": [ 1, 2 ],
         "prob": 50
       },
       {
         "distribution": [
-          { "item": "cookbook_eatyrway", "prob": 66 },
-          { "item": "cookbook_sushi", "prob": 60 },
-          { "item": "cookbook_italian", "prob": 60 }
+          { "item": "cookbook_eatyrway", "count": [ 1, 2 ], "prob": 66 },
+          { "item": "cookbook_sushi", "count": [ 1, 2 ], "prob": 60 },
+          { "item": "cookbook_italian", "count": [ 1, 2 ], "prob": 60 }
         ],
-        "count": [ 1, 2 ],
         "prob": 50
       },
       {
@@ -217,49 +216,51 @@
     "subtype": "collection",
     "entries": [
       {
-        "distribution": [ { "item": "novel_romance", "prob": 20 }, { "item": "novel_erotic", "prob": 10 } ],
-        "count": [ 1, 2 ],
+        "distribution": [
+          { "item": "novel_romance", "count": [ 1, 2 ], "prob": 20 },
+          { "item": "novel_erotic", "count": [ 1, 2 ], "prob": 10 }
+        ],
         "prob": 50
       },
       {
         "distribution": [
-          { "item": "novel_spy", "prob": 10 },
-          { "item": "novel_samurai", "prob": 10 },
-          { "item": "novel_swash", "prob": 10 },
-          { "item": "novel_western", "prob": 20 },
-          { "item": "novel_war", "prob": 20 },
-          { "item": "novel_adventure", "prob": 10 }
+          { "item": "novel_spy", "count": [ 1, 2 ], "prob": 10 },
+          { "item": "novel_samurai", "count": [ 1, 2 ], "prob": 10 },
+          { "item": "novel_swash", "count": [ 1, 2 ], "prob": 10 },
+          { "item": "novel_western", "count": [ 1, 2 ], "prob": 20 },
+          { "item": "novel_war", "count": [ 1, 2 ], "prob": 20 },
+          { "item": "novel_adventure", "count": [ 1, 2 ], "prob": 10 }
         ],
-        "count": [ 1, 2 ],
         "prob": 75
       },
       {
-        "distribution": [ { "item": "novel_fantasy", "prob": 20 }, { "item": "novel_scifi", "prob": 20 }, { "item": "novel_pulp", "prob": 10 } ],
-        "count": [ 1, 2 ],
+        "distribution": [
+          { "item": "novel_fantasy", "count": [ 1, 2 ], "prob": 20 },
+          { "item": "novel_scifi", "count": [ 1, 2 ], "prob": 20 },
+          { "item": "novel_pulp", "count": [ 1, 2 ], "prob": 10 }
+        ],
         "prob": 50
       },
       {
         "distribution": [
-          { "item": "novel_drama", "prob": 10 },
-          { "item": "novel_mystery", "prob": 30 },
-          { "item": "novel_thriller", "prob": 10 },
-          { "item": "novel_crime", "prob": 20 },
-          { "item": "novel_horror", "prob": 20 },
-          { "item": "novel_tragedy", "prob": 30 }
+          { "item": "novel_drama", "count": [ 1, 2 ], "prob": 10 },
+          { "item": "novel_mystery", "count": [ 1, 2 ], "prob": 30 },
+          { "item": "novel_thriller", "count": [ 1, 2 ], "prob": 10 },
+          { "item": "novel_crime", "count": [ 1, 2 ], "prob": 20 },
+          { "item": "novel_horror", "count": [ 1, 2 ], "prob": 20 },
+          { "item": "novel_tragedy", "count": [ 1, 2 ], "prob": 30 }
         ],
-        "count": [ 1, 2 ],
         "prob": 50
       },
       {
         "distribution": [
-          { "item": "novel_satire", "prob": 20 },
-          { "item": "novel_sports", "prob": 20 },
-          { "item": "novel_experimental", "prob": 10 },
-          { "item": "novel_road", "prob": 20 },
-          { "item": "novel_buddy", "prob": 20 },
-          { "item": "novel_coa", "prob": 30 }
+          { "item": "novel_satire", "count": [ 1, 2 ], "prob": 20 },
+          { "item": "novel_sports", "count": [ 1, 2 ], "prob": 20 },
+          { "item": "novel_experimental", "count": [ 1, 2 ], "prob": 10 },
+          { "item": "novel_road", "count": [ 1, 2 ], "prob": 20 },
+          { "item": "novel_buddy", "count": [ 1, 2 ], "prob": 20 },
+          { "item": "novel_coa", "count": [ 1, 2 ], "prob": 30 }
         ],
-        "count": [ 1, 2 ],
         "prob": 75
       }
     ]
