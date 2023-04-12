@@ -5,6 +5,7 @@
 #include "catalua_log.h"
 #include "catalua_impl.h"
 #include "catalua_luna.h"
+#include "catalua_luna_doc.h"
 #include "catalua_readonly.h"
 #include "catalua.h"
 #include "character.h"
@@ -29,48 +30,6 @@
 
 #include <cstdlib>
 #include <type_traits>
-
-// These definitions help the doc generator
-LUNA_DOC( bool, "bool" );
-LUNA_DOC( int, "int" );
-LUNA_DOC( float, "double" );
-LUNA_DOC( double, "double" );
-LUNA_DOC( void, "nil" );
-LUNA_DOC( char, "char" );
-LUNA_DOC( const char *, "string" );
-LUNA_DOC( std::string, "string" );
-LUNA_DOC( std::string_view, "string" );
-LUNA_DOC( sol::lua_nil_t, "nil" );
-LUNA_DOC( sol::variadic_args, "..." );
-
-// These definitions are for the bindings generator
-LUNA_VAL( color_id, "Color" );
-LUNA_VAL( Creature, "Creature" );
-LUNA_VAL( Character, "Character" );
-LUNA_VAL( monster, "Monster" );
-LUNA_VAL( npc, "Npc" );
-LUNA_VAL( player, "Player" );
-LUNA_VAL( avatar, "Avatar" );
-LUNA_VAL( point, "Point" );
-LUNA_VAL( tripoint, "Tripoint" );
-LUNA_VAL( item, "Item" );
-LUNA_VAL( map, "Map" );
-LUNA_VAL( tinymap, "Tinymap" );
-LUNA_VAL( item_stack, "ItemStack" );
-LUNA_VAL( map_stack, "MapStack" );
-LUNA_VAL( distribution_grid, "DistributionGrid" );
-LUNA_VAL( distribution_grid_tracker, "DistributionGridTracker" );
-LUNA_VAL( uilist, "UiList" );
-LUNA_VAL( query_popup, "QueryPopup" );
-
-// Ids for in-game objects
-LUNA_ID( faction, "Faction" )
-LUNA_ID( itype, "Itype" )
-LUNA_ID( ter_t, "Ter" )
-LUNA_ID( furn_t, "Furn" )
-
-// Enums
-LUNA_ENUM( game_message_type, "MsgType" )
 
 static std::string fmt_lua_va( sol::variadic_args va )
 {

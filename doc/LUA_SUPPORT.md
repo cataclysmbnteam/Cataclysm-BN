@@ -263,5 +263,6 @@ If you want to add new bindings, consider looking at existing examples in
 * `catalua_iuse_actor.h`(`.cpp`) - Lua-driven `iuse_actor`.
 * `catalua_log.h`(`.cpp`) - In-memory logging for the console.
 * `catalua_luna.h` - Usertype registration interface with automatic doc generation, aka `luna`.
+* `catalua_luna_doc.h` - List of types registration through `luna` or exposed to its doc generator.
 * `catalua_readonly.h`(`.cpp`) - Functions for marking Lua tables as read-only.
 * `catalua_serde.h`(`.cpp`) - Lua table to/from JSON (de-)serialization.
