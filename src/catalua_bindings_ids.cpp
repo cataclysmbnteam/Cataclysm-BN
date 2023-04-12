@@ -84,7 +84,7 @@ void reg_id( sol::state &lua )
     }
 }
 
-void cata::detail::reg_string_ids( sol::state &lua )
+void cata::detail::reg_game_ids( sol::state &lua )
 {
     reg_id<faction, false>( lua );
     reg_id<itype, false>( lua );

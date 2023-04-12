@@ -487,7 +487,7 @@ void cata::reg_all_bindings( sol::state &lua )
     reg_ui_elements( lua );
     reg_colors( lua );
     reg_enums( lua );
-    reg_string_ids( lua );
+    reg_game_ids( lua );
     reg_coords_library( lua );
     reg_constants( lua );
     reg_hooks_examples( lua );
