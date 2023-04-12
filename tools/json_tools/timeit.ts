@@ -9,22 +9,27 @@ import {
 import { c, p } from "https://deno.land/x/copb@v1.0.1/mod.ts"
 import { match, P } from "npm:ts-pattern"
 
-/** wait for a promise and log how long it took. also returns time it took. */
-export const timeitVerbose = (name: string) => async <T>(val: Promise<T>) => {
-  const start = performance.now()
-  const result = await val
-  const end = performance.now()
-  const ms = Math.round(end - start)
-  const color = match({ ms })
+const color = (ms: number) =>
+  match({ ms })
     .with({ ms: P.when((x) => x < 100) }, () => brightGreen)
     .with({ ms: P.when((x) => x < 500) }, () => brightYellow)
     .with({ ms: P.when((x) => x < 1000) }, () => brightRed)
     .otherwise(() => c(p(bgBrightRed)(brightWhite)(bold)))
 
-  console.log(color(`${name} took ${ms}ms`))
-  return { result, ms }
+/** wait for a promise and returns its value, time it took, and color. */
+export const timeitVerbose = async <T>(val: Promise<T>) => {
+  const start = performance.now()
+  const result = await val
+  const end = performance.now()
+  const ms = Math.round(end - start)
+  const colorFn = color(ms)
+
+  return { result, ms, color: colorFn, msColored: colorFn(`(${ms}ms)`) }
 }
 
 /** wait for a promise and log how long it took. */
-export const timeit = (name: string) => <T>(val: Promise<T>) =>
-  timeitVerbose(name)(val).then(({ result }) => result)
+export const timeit = (name: string) => async <T>(val: Promise<T>) => {
+  const { result, msColored } = await timeitVerbose(val)
+  console.log(`${name} ${msColored}`)
+  return result
+}
