@@ -238,8 +238,7 @@ void doc_member( sol::table &dt, types<Value Class::*> && )
 }
 
 template<typename Class, bool add_self_arg, typename RetVal, typename ...Args>
-void doc_member_fx_impl2( sol::table &dt, types<RetVal> &&,
-                          types<sol::types<Args...>> && )
+void doc_member_fx_impl2( sol::table &dt, types<RetVal> &&, sol::types<Args...> && )
 {
     dt[KEY_MEMBER_RETVAL] = doc_value( types<RetVal>() );
     if constexpr( add_self_arg ) {
@@ -249,19 +248,26 @@ void doc_member_fx_impl2( sol::table &dt, types<RetVal> &&,
     }
 }
 
+template<typename Class, typename Function>
+void doc_member_fx_overload( sol::table &dt, std::vector<sol::table> &overloads )
+{
+    sol::state_view lua( dt.lua_state() );
+    sol::table overload = lua.create_table();
+    overloads.push_back( overload );
+    using RetVal = typename fx_traits<Function>::return_type;
+    using Args = typename fx_traits<Function>::args_list;
+    constexpr bool add_self_arg = !fx_traits<Function>::is_member_function;
+    doc_member_fx_impl2<Class, add_self_arg>( overload, types<RetVal>(), types<Args>() );
+}
+
 template<typename Class, typename ...Functions>
 void doc_member_fx_impl( sol::table &dt, types<Functions...> && )
 {
     dt[KEY_MEMBER_TYPE] = MEMBER_IS_FUNC;
     std::vector<sol::table> overloads;
-    sol::state_view lua( dt.lua_state() );
+
     ( [&]() {
-        sol::table overload = lua.create_table();
-        overloads.push_back( overload );
-        using RetVal = typename fx_traits<Functions>::return_type;
-        using Args = typename fx_traits<Functions>::args_list;
-        constexpr bool add_self_arg = !fx_traits<Functions>::is_member_function;
-        doc_member_fx_impl2<Class, add_self_arg>( overload, types<RetVal>(), types<Args>() );
+        doc_member_fx_overload<Class, Functions>( dt, overloads );
     }
     (), ... );
     dt[KEY_MEMBER_OVERLOADS] = overloads;
@@ -296,18 +302,24 @@ void doc_free_fx_impl2( sol::table &dt, types<RetVal> &&,
     dt[KEY_MEMBER_ARGS] = doc_arg_list<Args...>();
 }
 
+template<typename Function>
+void doc_free_fx_overload( sol::table &dt, std::vector<sol::table> &overloads )
+{
+    sol::state_view lua( dt.lua_state() );
+    sol::table overload = lua.create_table();
+    overloads.push_back( overload );
+    using RetVal = typename fx_traits<Function>::return_type;
+    using Args = typename fx_traits<Function>::args_list;
+    doc_free_fx_impl2( overload, types<RetVal>(), types<Args>() );
+}
+
 template<typename ...Functions>
 void doc_free_fx_impl( sol::table &dt, types<Functions...> && )
 {
     dt[KEY_MEMBER_TYPE] = MEMBER_IS_FUNC;
     std::vector<sol::table> overloads;
-    sol::state_view lua( dt.lua_state() );
     ( [&]() {
-        sol::table overload = lua.create_table();
-        overloads.push_back( overload );
-        using RetVal = typename fx_traits<Functions>::return_type;
-        using Args = typename fx_traits<Functions>::args_list;
-        doc_free_fx_impl2( overload, types<RetVal>(), types<Args>() );
+        doc_free_fx_overload<Functions>( dt, overloads );
     }
     (), ... );
     dt[KEY_MEMBER_OVERLOADS] = overloads;
