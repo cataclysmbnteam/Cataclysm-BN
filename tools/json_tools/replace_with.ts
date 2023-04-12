@@ -17,18 +17,34 @@ const cataWithId = z.object({ id: z.string() }).passthrough()
 
 type ParsedEntry = { path: string; parsed: CataWithId[] }
 
-const parseIds = (entries: Entry[]): ParsedEntry[] => {
+export const parseIds = (entries: Entry[]): ParsedEntry[] => {
   const idExtractor = genericCataTransformer(cataWithId)(identity)
 
   return entries.map(({ path, text }) => ({ path, parsed: idExtractor(text) as CataWithId[] }))
 }
 
-const findId = (ids: ParsedEntry[]) => (id_: string): ParsedEntry | undefined => {
-  return ids.find(({ parsed }) => parsed.some(({ id }) => id === id_))
+export const findId = (ids: ParsedEntry[]) => (idToFind: string): ParsedEntry | undefined => {
+  return ids.find(({ parsed }) => parsed.some(({ id }) => id === idToFind))
 }
 
-type MapIf = <T>(x: T[]) => (predicate: (x: T) => boolean, fn: (x: T) => T) => T[]
-const mapIf: MapIf = (xs) => (predicate, fn) => xs.map((x) => (predicate(x) ? fn(x) : x))
+export const findFromEntry = ({ parsed }: ParsedEntry) => (idToFind: string): CataWithId => {
+  const result = parsed.find(({ id }) => id === idToFind)
+  if (!result) {
+    throw new Error(`could not find id ${idToFind}`)
+  }
+  return result
+}
+
+type ReplaceWith = (replace: ParsedEntry) => (using: ParsedEntry) => (id: string) => CataWithId[]
+export const replaceWith: ReplaceWith = (replace) => (using) => (idToReplace) => {
+  const actualReplaceEntry = findFromEntry(using)(idToReplace)
+
+  return replace.parsed.map((x) =>
+    match(x.id)
+      .with(idToReplace, () => actualReplaceEntry)
+      .otherwise(() => x)
+  )
+}
 
 const warn = (msg: string) => () => console.log(brightRed(msg))
 
@@ -59,14 +75,8 @@ const main = () =>
         .with(
           { replaceEntry: P.not(P.nullish), usingEntry: P.not(P.nullish) },
           async ({ replaceEntry, usingEntry }) => {
-            const actualReplaceEntry = usingEntry.parsed.find(({ id }) => id === idToReplace)!
+            const newlyReplaced = replaceWith(replaceEntry)(usingEntry)(idToReplace)
 
-            const newlyReplaced = mapIf(replaceEntry.parsed)(
-              ({ id }) => id === idToReplace,
-              () => actualReplaceEntry,
-            )
-
-            console.log({ replaceEntry, newlyReplaced })
             await Deno.writeTextFile(replaceEntry.path, JSON.stringify(newlyReplaced, null, 2))
           },
         )
