@@ -11,6 +11,8 @@
 
 namespace cata
 {
+// Forward declaration to make g++ happy
+void serialize_lua_table_internal( sol::table t, JsonOut &jsout, std::vector<sol::table> &stack );
 
 void serialize_lua_table_internal( sol::table t, JsonOut &jsout, std::vector<sol::table> &stack )
 {
