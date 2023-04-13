@@ -4,8 +4,8 @@
     "id": "No_Rail_Stations",
     "name": "No Rail Stations",
     "authors": [ "Inglonias" ],
-    "description": "Removes above-ground rail stations from the game.",
+    "description": "Removes above-ground rail stations from the game.  They are supposed to connect to the railroad, but railroads haven't been implemented yet.",
     "category": "buildings",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "bn" ]
   }
 ]

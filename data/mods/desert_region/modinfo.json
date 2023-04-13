@@ -6,7 +6,7 @@
     "authors": [ "Dpwb", "DracoGriffin" ],
     "description": "A testbed/WIP mod to showcase regional_map_settings JSON changes.",
     "category": "content",
-    "dependencies": [ "dda" ],
+    "dependencies": [ "bn" ],
     "version": "0.1",
     "obsolete": false
   }

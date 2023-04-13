@@ -3,6 +3,7 @@
     "id": "fire_lance",
     "type": "GUN",
     "name": "fire lance",
+    "weapon_category": [ "SPEARS" ],
     "description": "An ancient Chinese spear, with a small tube attached for a charge of gunpowder.  While it has an extremely short range, it gives a powerful edge in close combat.",
     "weight": "1538 g",
     "volume": "3 L",

@@ -5,11 +5,11 @@
 #include <functional>
 #include <list>
 #include <map>
+#include <optional>
 #include <string>
 #include <unordered_set>
 #include <vector>
 
-#include "optional.h"
 #include "type_id.h"
 
 class Character;
@@ -75,10 +75,10 @@ struct activity_reason_info {
     //is it possible to do this
     bool can_do;
     //construction index
-    cata::optional<construction_id> con_idx;
+    std::optional<construction_id> con_idx;
 
     activity_reason_info( do_activity_reason reason_, bool can_do_,
-                          const cata::optional<construction_id> &con_idx_ = cata::nullopt ) :
+                          const std::optional<construction_id> &con_idx_ = std::nullopt ) :
         reason( reason_ ),
         can_do( can_do_ ),
         con_idx( con_idx_ )
@@ -114,7 +114,8 @@ struct butchery_setup {
 };
 
 butchery_setup consider_butchery( const item &corpse_item, player &u, butcher_type action );
-int butcher_time_to_cut( const inventory &inv, const item &corpse_item, butcher_type action );
+int butcher_time_to_cut( const Character &who, const inventory &inv, const item &corpse_item,
+                         butcher_type action );
 
 // activity_item_handling.cpp
 void activity_on_turn_drop();
@@ -285,7 +286,8 @@ void patch_activity_for_vehicle_welder(
     int interact_part_idx
 );
 void patch_activity_for_furniture( player_activity &activity,
-                                   const tripoint &furniture_position );
+                                   const tripoint &furniture_position,
+                                   const itype_id &itt );
 
 } // namespace repair_activity_hack
 

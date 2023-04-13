@@ -207,17 +207,13 @@ std::string PATH_INFO::help()
 {
     return datadir_value + "help/" + "texts.json";
 }
-std::string PATH_INFO::keybindings()
+std::string PATH_INFO::keybindingsdir()
 {
-    return datadir_value + "raw/" + "keybindings.json";
+    return datadir_value + "raw/keybindings/";
 }
-std::string PATH_INFO::keybindings_vehicle()
+std::string PATH_INFO::main_menu_tips()
 {
-    return datadir_value + "raw/" + "keybindings/vehicle.json";
-}
-std::string PATH_INFO::keybindings_edit_creature()
-{
-    return datadir_value + "raw/" + "keybindings/edit_creature_effects.json";
+    return datadir_value + "raw/" + "tips.json";
 }
 std::string PATH_INFO::lastworld()
 {
@@ -226,10 +222,6 @@ std::string PATH_INFO::lastworld()
 std::string PATH_INFO::memorialdir()
 {
     return memorialdir_value;
-}
-std::string PATH_INFO::jsondir()
-{
-    return datadir_value + "core/";
 }
 std::string PATH_INFO::moddir()
 {

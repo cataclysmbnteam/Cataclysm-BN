@@ -242,7 +242,7 @@ void Item_modifier::modify( item &new_item ) const
         return;
     }
 
-    new_item.set_damage( rng( damage.first, damage.second ) );
+    new_item.set_damage( rng( damage.first, damage.second ) * itype::damage_scale );
     // no need for dirt if it's a bow
     if( new_item.is_gun() && !new_item.has_flag( flag_PRIMITIVE_RANGED_WEAPON ) &&
         !new_item.has_flag( flag_NON_FOULING ) ) {
@@ -263,7 +263,7 @@ void Item_modifier::modify( item &new_item ) const
         cont = container->create_single( new_item.birthday() );
     }
     if( cont.is_null() && new_item.type->default_container.has_value() ) {
-        const itype_id &cont_value = new_item.type->default_container.value_or( "null" );
+        const itype_id &cont_value = new_item.type->default_container.value_or( itype_id::NULL_ID() );
         if( !cont_value.is_null() ) {
             cont = item( cont_value, new_item.birthday() );
         }

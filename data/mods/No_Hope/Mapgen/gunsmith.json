@@ -150,7 +150,7 @@
         "+": "t_door_locked"
       },
       "furniture": { "W": "f_water_heater" },
-      "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+      "liquids": { "W": { "liquid": "water", "amount": [ 0, 100 ] } },
       "items": { "C": { "item": "ammo_common", "chance": 30 }, "r": { "item": "tools_blacksmith", "chance": 30 } }
     }
   },

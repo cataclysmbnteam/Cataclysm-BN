@@ -7,7 +7,7 @@
     "maintainers": [ "Kilvoctu" ],
     "description": "Urban Development mod support for Larwick's Overmap.",
     "category": "graphical",
-    "dependencies": [ "dda", "Graphical_Overmap", "Urban_Development" ],
+    "dependencies": [ "bn", "Graphical_Overmap", "Urban_Development" ],
     "obsolete": true
   }
 ]

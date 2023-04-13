@@ -35,7 +35,7 @@
 # Win32 (non-Cygwin)
 #   Run: make NATIVE=win32
 # OS X
-#   Run: make NATIVE=osx OSX_MIN=10.12
+#   Run: make NATIVE=osx OSX_MIN=11
 #     It is highly recommended to supply OSX_MIN > 10.11
 #     otherwise optimizations are automatically disabled with -O0
 
@@ -87,6 +87,8 @@
 #  make style-json
 # Style all json files using the current rules (don't PR this, it's too many changes at once).
 #  make style-all-json
+# Style all json files in parallel using all available CPU cores (don't make -jX on this, just make)
+#  make style-all-json-parallel
 # Disable astyle of source files.
 #  make ASTYLE=0
 # Disable format check of whitelisted json files.
@@ -420,9 +422,9 @@ ifndef RELEASE
 endif
 
 ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
-  OTHERS += -std=gnu++14
+  OTHERS += -std=gnu++17
 else
-  OTHERS += -std=c++14
+  OTHERS += -std=c++17
 endif
 
 ifeq ($(CYGWIN),1)
@@ -505,11 +507,7 @@ endif
 # OSX
 ifeq ($(NATIVE), osx)
   ifeq ($(OSX_MIN),)
-    ifneq ($(CLANG), 0)
-      OSX_MIN = 10.7
-    else
-      OSX_MIN = 10.5
-    endif
+    OSX_MIN = 11
   endif
   DEFINES += -DMACOSX
   CXXFLAGS += -mmacosx-version-min=$(OSX_MIN)
@@ -870,7 +868,7 @@ ifeq ($(LTO), 1)
   endif
 endif
 
-all: version $(CHECKS) $(TARGET) $(L10N) $(TESTS) validate-pr
+all: version $(CHECKS) $(TARGET) $(L10N) $(TESTS)
 	@
 
 $(TARGET): $(OBJS)
@@ -879,6 +877,7 @@ ifeq ($(VERBOSE),1)
 else
 	@echo "Linking $@..."
 	@+$(LD) $(W32FLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
+	@echo Done!
 endif
 
 ifeq ($(RELEASE), 1)
@@ -971,7 +970,6 @@ install: version $(TARGET)
 	mkdir -p $(DATA_PREFIX)
 	mkdir -p $(BIN_PREFIX)
 	install --mode=755 $(TARGET) $(BIN_PREFIX)
-	cp -R --no-preserve=ownership data/core $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/font $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/json $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/mods $(DATA_PREFIX)
@@ -1003,7 +1001,6 @@ install: version $(TARGET)
 	mkdir -p $(DATA_PREFIX)
 	mkdir -p $(BIN_PREFIX)
 	install --mode=755 $(TARGET) $(BIN_PREFIX)
-	cp -R --no-preserve=ownership data/core $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/font $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/json $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/mods $(DATA_PREFIX)
@@ -1059,7 +1056,6 @@ endif
 	cp $(APPTARGET) $(APPRESOURCESDIR)/
 	cp build-data/osx/AppIcon.icns $(APPRESOURCESDIR)/
 	mkdir -p $(APPDATADIR)
-	cp -R data/core $(APPDATADIR)
 	cp -R data/font $(APPDATADIR)
 	cp -R data/json $(APPDATADIR)
 	cp -R data/mods $(APPDATADIR)
@@ -1162,8 +1158,18 @@ else
 	@echo Cannot run json formatter in cross compiles.
 endif
 
+ifeq ($(NATIVE), osx)
+  NUM_STYLE_JOBS = $$(sysctl -n hw.logicalcpu)
+else
+  NUM_STYLE_JOBS = $$(nproc)
+endif
+
+# /data/names work really terribly with the formatter, so we skip them
 style-all-json: $(JSON_FORMATTER_BIN)
-	find data -name "*.json" -print0 | xargs -0 -L 1 $(JSON_FORMATTER_BIN)
+	find data -name "*.json" -print0 | grep -z -v '^data/names/' | xargs -0 -L 1 $(JSON_FORMATTER_BIN)
+
+style-all-json-parallel: $(JSON_FORMATTER_BIN)
+	find data -name "*.json" -print0 | grep -z -v '^data/names/' | xargs -0 -L 1 -P $(NUM_STYLE_JOBS) $(JSON_FORMATTER_BIN)
 
 $(JSON_FORMATTER_BIN): $(JSON_FORMATTER_SOURCES)
 	$(CXX) $(CXXFLAGS) $(TOOL_CXXFLAGS) -Itools/format -Isrc \
@@ -1178,12 +1184,7 @@ check: version $(BUILD_PREFIX)cataclysm.a
 clean-tests:
 	$(MAKE) -C tests clean
 
-validate-pr:
-ifneq ($(CYGWIN),1)
-	@build-scripts/validate_pr_in_jenkins
-endif
-
-.PHONY: tests check ctags etags clean-tests install lint validate-pr
+.PHONY: tests check ctags etags clean-tests install lint
 
 -include $(SOURCES:$(SRC_DIR)/%.cpp=$(DEPDIR)/%.P)
 -include ${OBJS:.o=.d}

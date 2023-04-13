@@ -17,9 +17,9 @@
 #include <utility>
 #include <vector>
 #if defined(_WIN32)
-#include "platform_win.h"
+#   include "platform_win.h"
 #else
-#include <csignal>
+#   include <csignal>
 #endif
 #include "color.h"
 #include "crash.h"
@@ -28,6 +28,7 @@
 #include "filesystem.h"
 #include "game.h"
 #include "game_ui.h"
+#include "init.h"
 #include "input.h"
 #include "language.h"
 #include "loading_ui.h"
@@ -692,7 +693,11 @@ int main( int argc, char *argv[] )
             init_colors();
             loading_ui ui( false );
             const std::vector<mod_id> mods( opts.begin(), opts.end() );
-            exit( g->check_mod_data( mods, ui ) && !debug_has_error_been_observed() ? 0 : 1 );
+            if( init::check_mods_for_errors( ui, mods ) ) {
+                exit( 0 );
+            } else {
+                exit( 1 );
+            }
         }
     } catch( const std::exception &err ) {
         debugmsg( "%s", err.what() );

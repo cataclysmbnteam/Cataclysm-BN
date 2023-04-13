@@ -17,6 +17,7 @@
 #include "animation.h"
 #include "assign.h"
 #include "avatar.h"
+#include "avatar_functions.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -117,6 +118,7 @@ static const itype_id itype_barrel_small( "barrel_small" );
 static const itype_id itype_brazier( "brazier" );
 static const itype_id itype_char_smoker( "char_smoker" );
 static const itype_id itype_fire( "fire" );
+static const itype_id itype_stock_small( "stock_small" );
 static const itype_id itype_syringe( "syringe" );
 
 static const skill_id skill_fabrication( "fabrication" );
@@ -227,7 +229,7 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
         return 0;
     }
     if( need_charges ) {
-        if( it.has_flag( flag_POWERARMOR_MOD ) && p.can_interface_armor() ) {
+        if( it.has_flag( flag_POWERARMOR_MOD ) && character_funcs::can_interface_armor( p ) ) {
             if( !p.has_power() ) {
                 if( possess ) {
                     p.add_msg_if_player( m_info, need_charges_msg, it.tname() );
@@ -564,15 +566,14 @@ int explosion_iuse::use( player &p, item &it, bool t, const tripoint &pos ) cons
         }
         return 0;
     }
-
-    trigger_explosion( pos );
+    trigger_explosion( pos, it.activated_by.get() );
     return 1;
 }
 
-void explosion_iuse::trigger_explosion( const tripoint &pos ) const
+void explosion_iuse::trigger_explosion( const tripoint &pos, Creature *source ) const
 {
     if( explosion ) {
-        explosion_handler::explosion( pos, explosion );
+        explosion_handler::explosion( pos, explosion, source );
     }
 
     if( draw_explosion_radius >= 0 ) {
@@ -922,7 +923,7 @@ int set_transform_iuse::use( player &p, item &it, bool t, const tripoint &pos ) 
                          ( it.has_flag( "ALLOWS_REMOTE_USE" ) && square_dist( p.pos(), pos ) == 1 );
 
     if( set_charges ) {
-        if( it.is_power_armor() && p.can_interface_armor() ) {
+        if( it.is_power_armor() && character_funcs::can_interface_armor( p ) ) {
             if( !p.has_power() ) {
                 if( possess ) {
                     p.add_msg_if_player( m_info, set_charges_msg, it.tname() );
@@ -1031,7 +1032,7 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint & ) const
         }
     } else {
         const std::string query = string_format( _( "Place the %s where?" ), newmon.name() );
-        const cata::optional<tripoint> pnt_ = choose_adjacent( query );
+        const std::optional<tripoint> pnt_ = choose_adjacent( query );
         if( !pnt_ ) {
             return 0;
         }
@@ -1111,7 +1112,7 @@ void place_npc_iuse::load( const JsonObject &obj )
 int place_npc_iuse::use( player &p, item &, bool, const tripoint & ) const
 {
     map &here = get_map();
-    cata::optional<tripoint> target_pos;
+    std::optional<tripoint> target_pos;
     if( place_randomly ) {
         const tripoint_range<tripoint> target_range = points_in_radius( p.pos(), 1 );
         target_pos = random_point( target_range, []( const tripoint & t ) {
@@ -1145,7 +1146,7 @@ void pick_lock_actor::load( const JsonObject &obj )
     pick_quality = obj.get_int( "pick_quality" );
 }
 
-int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
+int pick_lock_actor::use( player &p, item &it, bool, const tripoint &t ) const
 {
     if( p.is_npc() ) {
         return 0;
@@ -1156,24 +1157,26 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
         return 0;
     }
 
-    const std::function<bool( const tripoint & )> f = []( const tripoint & pnt ) {
+    map &here = get_map();
+
+    const std::function<bool( const tripoint & )> f = [&here]( const tripoint & pnt ) {
         if( pnt == g->u.pos() ) {
             return false;
         }
-        const ter_id ter = g->m.ter( pnt );
-        const furn_id furn = g->m.furn( pnt );
+        const ter_id ter = here.ter( pnt );
+        const furn_id furn = here.furn( pnt );
         lockpicking_open_result result = get_lockpicking_open_result( ter, furn );
         const bool is_allowed = result.new_ter_type || result.new_furn_type;
         return is_allowed;
     };
 
-    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
+    const std::optional<tripoint> pnt_ = ( t != p.pos() ) ? t : choose_adjacent_highlight(
             _( "Use your lockpick where?" ), _( "There is nothing to lockpick nearby." ), f, false );
     if( !pnt_ ) {
         return 0;
     }
     const tripoint &pnt = *pnt_;
-    const ter_id type = g->m.ter( pnt );
+    const ter_id type = here.ter( pnt );
     if( !f( pnt ) ) {
         if( pnt == p.pos() ) {
             p.add_msg_if_player( m_info, _( "You pick your nose and your sinuses swing open." ) );
@@ -1211,6 +1214,7 @@ void deploy_furn_actor::info( const item &, std::vector<iteminfo> &dump ) const
     std::vector<std::string> can_function_as;
     const furn_t &the_furn = furn_type.obj();
     const std::string furn_name = the_furn.name();
+    const std::set<itype_id> &pseudo_list = the_furn.crafting_pseudo_items;
 
     if( the_furn.workbench ) {
         can_function_as.emplace_back( _( "a <info>crafting station</info>" ) );
@@ -1232,7 +1236,7 @@ void deploy_furn_actor::info( const item &, std::vector<iteminfo> &dump ) const
     if( the_furn.has_flag( "FIRE_CONTAINER" ) ) {
         can_function_as.emplace_back( _( "a safe place to <info>contain a fire</info>" ) );
     }
-    if( the_furn.crafting_pseudo_item == itype_char_smoker ) {
+    if( pseudo_list.count( itype_char_smoker ) > 0 ) {
         can_function_as.emplace_back( _( "a place to <info>smoke or dry food</info> for preservation" ) );
     }
 
@@ -1254,15 +1258,19 @@ void deploy_furn_actor::load( const JsonObject &obj )
     furn_type = furn_str_id( obj.get_string( "furn_type" ) );
 }
 
-int deploy_furn_actor::use( player &p, item &it, bool, const tripoint &pos ) const
+int deploy_furn_actor::use( player &p, item &it, bool t, const tripoint &pos ) const
 {
+    if( t ) {
+        return 0;
+    }
+
     if( p.is_mounted() ) {
         p.add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
     tripoint pnt = pos;
     if( pos == p.pos() ) {
-        if( const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Deploy where?" ) ) ) {
+        if( const std::optional<tripoint> pnt_ = choose_adjacent( _( "Deploy where?" ) ) ) {
             pnt = *pnt_;
         } else {
             return 0;
@@ -1380,7 +1388,7 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
 {
     // checks for fuel are handled by use and the activity, not here
     if( pos == p.pos() ) {
-        if( const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Light where?" ) ) ) {
+        if( const std::optional<tripoint> pnt_ = choose_adjacent( _( "Light where?" ) ) ) {
             pos = *pnt_;
         } else {
             return false;
@@ -1856,7 +1864,7 @@ int inscribe_actor::use( player &p, item &it, bool t, const tripoint & ) const
     }
 
     if( choice == 0 ) {
-        const cata::optional<tripoint> dest_ = choose_adjacent( _( "Write where?" ) );
+        const std::optional<tripoint> dest_ = choose_adjacent( _( "Write where?" ) );
         if( !dest_ ) {
             return 0;
         }
@@ -2021,7 +2029,7 @@ int enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
         p.add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
-    map_stack items = g->m.i_at( point( p.posx(), p.posy() ) );
+    map_stack items = get_map().i_at( point( p.posx(), p.posy() ) );
     std::vector<const item *> corpses;
 
     for( item &corpse_candidate : items ) {
@@ -2707,8 +2715,8 @@ bool holster_actor::store( player &p, item &holster, item &obj ) const
     p.add_msg_if_player( holster_msg.empty() ? _( "You holster your %s" ) : _( holster_msg ),
                          obj.tname(), holster.tname() );
 
-    // holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
-    p.store( holster, obj, false, draw_cost );
+    // Holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
+    character_funcs::store_in_container( p, holster, obj, false, draw_cost );
     return true;
 }
 
@@ -2757,12 +2765,17 @@ int holster_actor::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     if( pos >= 0 ) {
-        // worn holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
+        // Worn holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
+        bool penalties;
+        int cost;
         if( p.is_worn( it ) ) {
-            p.wield_contents( it, internal_item, false, draw_cost );
+            penalties = false;
+            cost = draw_cost;
         } else {
-            p.wield_contents( it, internal_item );
+            penalties = true;
+            cost = INVENTORY_HANDLING_PENALTY;
         }
+        character_funcs::try_wield_contents( *p.as_avatar(), it, internal_item, penalties, cost );
 
     } else {
         item_location loc = game_menus::inv::holster( p, it );
@@ -2874,13 +2887,13 @@ bool bandolier_actor::reload( player &p, item &obj ) const
     }
 
     // convert these into reload options and display the selection prompt
-    std::vector<item::reload_option> opts;
+    std::vector<item_reload_option> opts;
     std::transform( std::make_move_iterator( found.begin() ), std::make_move_iterator( found.end() ),
     std::back_inserter( opts ), [&]( item_location && e ) {
-        return item::reload_option( &p, &obj, &obj, e );
+        return item_reload_option( &p, &obj, &obj, e );
     } );
 
-    item::reload_option sel = p.select_ammo( obj, std::move( opts ) );
+    item_reload_option sel = character_funcs::select_ammo( p, obj, std::move( opts ) );
     if( !sel ) {
         return false; // canceled menu
     }
@@ -2992,7 +3005,7 @@ int ammobelt_actor::use( player &p, item &, bool, const tripoint & ) const
         return 0;
     }
 
-    item::reload_option opt = p.select_ammo( mag, true );
+    item_reload_option opt = character_funcs::select_ammo( p, mag, true );
     if( opt ) {
         p.assign_activity( ACT_RELOAD, opt.moves(), opt.qty() );
         p.activity.targets.emplace_back( p, &p.i_add( mag ) );
@@ -4079,7 +4092,7 @@ std::unique_ptr<iuse_actor> place_trap_actor::clone() const
     return std::make_unique<place_trap_actor>( *this );
 }
 
-static bool is_solid_neighbor( const tripoint &pos, const point &offset )
+static bool is_solid_neighbor( const tripoint &pos, point offset )
 {
     map &here = get_map();
     const tripoint a = pos + offset;
@@ -4157,8 +4170,8 @@ int place_trap_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
-    const cata::optional<tripoint> pos_ = choose_adjacent( string_format( _( "Place %s where?" ),
-                                          it.tname() ) );
+    const std::optional<tripoint> pos_ = choose_adjacent( string_format( _( "Place %s where?" ),
+                                         it.tname() ) );
     if( !pos_ ) {
         return 0;
     }
@@ -4304,6 +4317,83 @@ std::unique_ptr<iuse_actor> saw_barrel_actor::clone() const
     return std::make_unique<saw_barrel_actor>( *this );
 }
 
+void saw_stock_actor::load( const JsonObject &jo )
+{
+    assign( jo, "cost", cost );
+}
+
+int saw_stock_actor::use( player &p, item &it, bool t, const tripoint & ) const
+{
+    if( t ) {
+        return 0;
+    }
+
+    auto loc = game_menus::inv::saw_stock( p, it );
+
+    if( !loc ) {
+        p.add_msg_if_player( _( "Never mind." ) );
+        return 0;
+    }
+
+    item &obj = *loc.obtain( p );
+    p.add_msg_if_player( _( "You saw down the stock of your %s." ), obj.tname() );
+    obj.put_in( item( "stock_small", calendar::turn ) );
+
+    return 0;
+}
+
+ret_val<bool> saw_stock_actor::can_use_on( const player &, const item &, const item &target ) const
+{
+    if( !target.is_gun() ) {
+        return ret_val<bool>::make_failure( _( "It's not a gun." ) );
+    }
+
+    if( target.gunmod_find( itype_stock_small ) ) {
+        return ret_val<bool>::make_failure( _( "The stock is already sawn-off." ) );
+    }
+
+    // Exclude pistols and the like that have had a stock mount bubba'd onto them.
+    const auto gunmods = target.gunmods();
+    const bool external_stock = std::any_of( gunmods.begin(), gunmods.end(),
+    []( const item * mod ) {
+        return mod->type->gunmod->location == gunmod_location( "stock mount" );
+    } );
+
+    if( external_stock ) {
+        return ret_val<bool>::make_failure( _( "You can't saw anything off this." ) );
+    }
+
+    // Don't allow trying to stack stock mods.
+    const bool modified_stock = std::any_of( gunmods.begin(), gunmods.end(),
+    []( const item * mod ) {
+        return mod->type->gunmod->location == gunmod_location( "stock" );
+    } );
+
+    if( modified_stock ) {
+        return ret_val<bool>::make_failure( _( "Can't cut off modified stocks." ) );
+    }
+
+    // Also bail out if there's no unmodified stock to touch at all.
+    if( target.get_free_mod_locations( gunmod_location( "stock" ) ) == 0 ||
+        target.type->gun->skill_used == skill_id( "pistol" ) ) {
+        return ret_val<bool>::make_failure(
+                   _( "This doesn't have a stock." ) );
+    }
+
+    // Stock ideally should be made out of wood.
+    if( !target.made_of( material_id( "wood" ) ) ) {
+        return ret_val<bool>::make_failure(
+                   _( "Can't cut off non-wooden stocks." ) );
+    }
+
+    return ret_val<bool>::make_success();
+}
+
+std::unique_ptr<iuse_actor> saw_stock_actor::clone() const
+{
+    return std::make_unique<saw_stock_actor>( *this );
+}
+
 int install_bionic_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
     if( p.can_install_bionics( *it.type, p, false ) ) {
@@ -4380,7 +4470,7 @@ int detach_gunmods_actor::use( player &p, item &it, bool, const tripoint & ) con
 
     if( prompt.ret >= 0 ) {
         item *gm = mods[ prompt.ret ];
-        p.gunmod_remove( it, *gm );
+        avatar_funcs::gunmod_remove( *p.as_avatar(), it, *gm );
     } else {
         p.add_msg_if_player( _( "Never mind." ) );
     }
@@ -4592,8 +4682,8 @@ int deploy_tent_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.add_msg_if_player( _( "You cannot do that while mounted." ) );
         return 0;
     }
-    const cata::optional<tripoint> dir = choose_direction( string_format(
-            _( "Put up the %s where (%dx%d clear area)?" ), it.tname(), diam, diam ) );
+    const std::optional<tripoint> dir = choose_direction( string_format(
+                                            _( "Put up the %s where (%dx%d clear area)?" ), it.tname(), diam, diam ) );
     if( !dir ) {
         return 0;
     }

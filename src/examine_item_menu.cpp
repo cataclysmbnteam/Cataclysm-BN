@@ -6,8 +6,10 @@
 #include "auto_pickup.h"
 #include "avatar_action.h"
 #include "avatar.h"
+#include "avatar_functions.h"
 #include "crafting.h"
 #include "game_inventory.h"
+#include "map.h"
 #include "input.h"
 #include "item.h"
 #include "item_functions.h"
@@ -15,6 +17,7 @@
 #include "messages.h"
 #include "output.h"
 #include "recipe_dictionary.h"
+#include "rot.h"
 #include "ui_manager.h"
 #include "ui.h"
 
@@ -55,9 +58,10 @@ bool run(
 
     int info_area_scroll_pos = 0;
     constexpr int info_area_scroll_step = 3;
-    std::vector<iteminfo> item_info_vals;
+    temperature_flag temperature = rot::temperature_flag_for_location( get_map(), item_location( you,
+                                   &itm ) );
+    std::vector<iteminfo> item_info_vals = itm.info( temperature );
     std::vector<iteminfo> dummy_compare;
-    itm.info( true, item_info_vals );
     item_info_data data( itm.tname(), itm.type_name(), item_info_vals, dummy_compare,
                          info_area_scroll_pos );
 
@@ -126,7 +130,7 @@ bool run(
     } );
 
     add_entry( "WEAR", rate_action_wear( you, itm ), [&]() {
-        you.wear( itm );
+        you.wear_possessed( itm );
         return true;
     } );
 
@@ -163,7 +167,7 @@ bool run(
     } );
 
     add_entry( "UNLOAD", rate_action_unload( you, itm ), [&]() {
-        you.unload( loc );
+        avatar_funcs::unload_item( you, loc );
         return true;
     } );
 
@@ -202,7 +206,7 @@ bool run(
     }
 
     add_entry( "REASSIGN", hint_rating::good, [&]() {
-        game_menus::inv::reassign_letter( you, itm );
+        game_menus::inv::prompt_reassign_letter( you, itm );
         return false;
     } );
 

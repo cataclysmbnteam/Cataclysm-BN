@@ -17,6 +17,7 @@
 
 #include "avatar.h"
 #include "ballistics.h"
+#include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
@@ -64,6 +65,7 @@
 #include "player.h"
 #include "point.h"
 #include "projectile.h"
+#include "ranged.h"
 #include "rng.h"
 #include "sounds.h"
 #include "speech.h"
@@ -87,6 +89,7 @@ static const ammo_effect_str_id ammo_effect_APPLY_SAP( "APPLY_SAP" );
 
 static const efftype_id effect_ai_controlled( "ai_controlled" );
 static const efftype_id effect_assisted( "assisted" );
+static const efftype_id effect_attention( "attention" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
@@ -120,7 +123,6 @@ static const efftype_id effect_shrieking( "shrieking" );
 static const efftype_id effect_slimed( "slimed" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_targeted( "targeted" );
-static const efftype_id effect_teleglow( "teleglow" );
 static const efftype_id effect_under_op( "under_operation" );
 
 static const itype_id itype_ant_egg( "ant_egg" );
@@ -693,7 +695,7 @@ bool mattack::acid_barf( monster *z )
             body_part_name_accusative( hit ) );
     }
 
-    target->on_hit( z, convert_bp( hit ).id(),  z->type->melee_skill );
+    target->on_hit( z, convert_bp( hit ).id() );
 
     return true;
 }
@@ -1846,7 +1848,7 @@ bool mattack::fungus_inject( monster *z )
                  body_part_name_accusative( hit->token ) );
     }
 
-    target->on_hit( z, hit,  z->type->melee_skill );
+    target->on_hit( z, hit );
     g->u.check_dead_state();
 
     return true;
@@ -1904,7 +1906,7 @@ bool mattack::fungus_bristle( monster *z )
                                    body_part_name_accusative( hit->token ) );
     }
 
-    target->on_hit( z, hit,  z->type->melee_skill );
+    target->on_hit( z, hit );
 
     return true;
 }
@@ -2070,7 +2072,7 @@ bool mattack::fungus_fortify( monster *z )
                  body_part_name_accusative( hit->token ) );
     }
 
-    target->on_hit( z, hit,  z->type->melee_skill );
+    target->on_hit( z, hit );
     g->u.check_dead_state();
     return true;
 }
@@ -2111,7 +2113,7 @@ bool mattack::impale( monster *z )
                                        _( "The %1$s impales <npcname>'s torso!" ),
                                        z->name() );
 
-        target->on_hit( z, bodypart_id( "torso" ),  z->type->melee_skill );
+        target->on_hit( z, bodypart_id( "torso" ) );
         if( one_in( 60 / ( dam + 20 ) ) ) {
             target->add_effect( effect_bleed, rng( 75_turns, 125_turns ), bp_torso );
 
@@ -2581,7 +2583,7 @@ bool mattack::tentacle( monster *z )
             body_part_name_accusative( hit_token ) );
     }
 
-    target->on_hit( z, hit,  z->type->melee_skill );
+    target->on_hit( z, hit );
     target->check_dead_state();
 
     return true;
@@ -2605,8 +2607,8 @@ bool mattack::ranged_pull( monster *z )
     for( auto &i : line ) {
         // Player can't be pulled though bars, furniture, cars or creatures
         // TODO: Add bashing? Currently a window is enough to prevent grabbing
-        if( ( !g->is_empty( i ) || here.obstructed_by_vehicle_rotation( prev_point, i ) ) &&
-            i != z->pos() && i != target->pos() ) {
+        if( ( !g->is_empty( i ) && i != z->pos() && i != target->pos() ) ||
+            here.obstructed_by_vehicle_rotation( prev_point, i ) ) {
             return false;
         }
         prev_point = i;
@@ -2715,7 +2717,7 @@ bool mattack::grab( monster *z )
 
     item &cur_weapon = pl->weapon;
     ///\EFFECT_DEX increases chance to avoid being grabbed
-    if( pl->can_grab_break( cur_weapon ) &&
+    if( pl->can_use_grab_break_tec( cur_weapon ) &&
         rng( 0, pl->get_dex() ) > rng( 0, z->type->melee_sides + z->type->melee_dice ) ) {
         if( target->has_effect( effect_grabbed ) ) {
             target->add_msg_if_player( m_info, _( "The %s tries to grab you as well, but you bat it away!" ),
@@ -2885,7 +2887,7 @@ bool mattack::stare( monster *z )
         } else {
             add_msg( m_bad, _( "You feel like you're being watched, it makes you sick." ) );
         }
-        g->u.add_effect( effect_teleglow, 80_minutes );
+        g->u.add_effect( effect_attention, 80_minutes );
     }
 
     return true;
@@ -2903,8 +2905,7 @@ bool mattack::fear_paralyze( monster *z )
     }
 
     if( g->u.sees( *z ) && !g->u.has_effect( effect_fearparalyze ) ) {
-        if( g->u.has_artifact_with( AEP_PSYSHIELD ) || ( g->u.worn_with_flag( "PSYSHIELD_PARTIAL" ) &&
-                one_in( 4 ) ) ) {
+        if( has_psy_protection( get_player_character(), 4 ) ) {
             add_msg( _( "The %s probes your mind, but is rebuffed!" ), z->name() );
             ///\EFFECT_INT decreases chance of being paralyzed by fear attack
         } else if( rng( 0, 20 ) > g->u.get_int() ) {
@@ -3058,7 +3059,7 @@ bool mattack::nurse_operate( monster *z )
 
         z->friendly = 0;
         z->anger = 100;
-        std::list<tripoint> couch_pos = g->m.find_furnitures_with_flag_in_radius( z->pos(), 10,
+        std::list<tripoint> couch_pos = g->m.find_furnitures_or_vparts_with_flag_in_radius( z->pos(), 10,
                                         flag_AUTODOC_COUCH );
 
         if( couch_pos.empty() ) {
@@ -3351,7 +3352,7 @@ void mattack::rifle( monster *z, Creature *target )
     tmp.weapon = item( "m4a1" ).ammo_set( ammo_type, z->ammo[ ammo_type ] );
     int burst = std::max( tmp.weapon.gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
 
-    z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * tmp.weapon.ammo_required();
+    z->ammo[ ammo_type ] -= ranged::fire_gun( tmp, target->pos(), burst ) * tmp.weapon.ammo_required();
 
     if( target == &g->u ) {
         z->add_effect( effect_targeted, 3_turns );
@@ -3411,7 +3412,7 @@ void mattack::frag( monster *z, Creature *target ) // This is for the bots, not 
     tmp.weapon = item( "mgl" ).ammo_set( ammo_type, z->ammo[ ammo_type ] );
     int burst = std::max( tmp.weapon.gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
 
-    z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * tmp.weapon.ammo_required();
+    z->ammo[ ammo_type ] -= ranged::fire_gun( tmp, target->pos(), burst ) * tmp.weapon.ammo_required();
 
     if( target == &g->u ) {
         z->add_effect( effect_targeted, 3_turns );
@@ -3470,7 +3471,7 @@ void mattack::tankgun( monster *z, Creature *target )
     tmp.weapon = item( "TANK" ).ammo_set( ammo_type, z->ammo[ ammo_type ] );
     int burst = std::max( tmp.weapon.gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
 
-    z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * tmp.weapon.ammo_required();
+    z->ammo[ ammo_type ] -= ranged::fire_gun( tmp, target->pos(), burst ) * tmp.weapon.ammo_required();
 }
 
 bool mattack::searchlight( monster *z )
@@ -4197,7 +4198,7 @@ bool mattack::stretch_bite( monster *z )
                                        body_part_name_accusative( hit_token ) );
     }
 
-    target->on_hit( z, hit,  z->type->melee_skill );
+    target->on_hit( z, hit );
 
     return true;
 }
@@ -4277,7 +4278,7 @@ bool mattack::flesh_golem( monster *z )
     //~ 1$s is bodypart name, 2$d is damage value.
     target->add_msg_if_player( m_bad, _( "Your %1$s is battered for %2$d damage!" ),
                                body_part_name( hit->token ), dam );
-    target->on_hit( z, hit,  z->type->melee_skill );
+    target->on_hit( z, hit );
 
     return true;
 }
@@ -4404,7 +4405,7 @@ bool mattack::lunge( monster *z )
     if( one_in( 6 ) ) {
         target->add_effect( effect_downed, 3_turns );
     }
-    target->on_hit( z, hit,  z->type->melee_skill );
+    target->on_hit( z, hit );
     target->check_dead_state();
     return true;
 }
@@ -4486,7 +4487,7 @@ bool mattack::longswipe( monster *z )
                     z->name(),
                     body_part_name_accusative( hit->token ) );
             }
-            target->on_hit( z, hit,  z->type->melee_skill );
+            target->on_hit( z, hit );
             return true;
         }
         return false;
@@ -4521,7 +4522,7 @@ bool mattack::longswipe( monster *z )
                                        z->name(),
                                        body_part_name_accusative( bp_head ) );
     }
-    target->on_hit( z, bodypart_id( "head" ),  z->type->melee_skill );
+    target->on_hit( z, bodypart_id( "head" ) );
     target->check_dead_state();
 
     return true;
@@ -4811,7 +4812,7 @@ bool mattack::riotbot( monster *z )
             handcuffs.set_var( "HANDCUFFS_Y", foe->posy() );
 
             const bool is_uncanny = foe->has_active_bionic( bio_uncanny_dodge ) &&
-                                    foe->get_power_level() > 74_kJ &&
+                                    foe->get_power_level() > bio_uncanny_dodge.obj().power_trigger &&
                                     !one_in( 3 );
             ///\EFFECT_DEX >13 allows and increases chance to slip out of riot bot handcuffs
             const bool is_dex = foe->dex_cur > 13 && !one_in( foe->dex_cur - 11 );
@@ -4819,7 +4820,7 @@ bool mattack::riotbot( monster *z )
             if( is_uncanny || is_dex ) {
 
                 if( is_uncanny ) {
-                    foe->mod_power_level( -75_kJ );
+                    foe->mod_power_level( -bio_uncanny_dodge->power_trigger );
                 }
 
                 add_msg( m_good,
@@ -5281,7 +5282,7 @@ bool mattack::bio_op_takedown( monster *z )
         target->add_msg_if_player( m_bad, _( "and slams you for %d damage!" ), dam );
         foe->deal_damage( z, bodypart_id( "torso" ), damage_instance( DT_BASH, dam ) );
     }
-    target->on_hit( z, hit,  z->type->melee_skill );
+    target->on_hit( z, hit );
     foe->check_dead_state();
 
     return true;
@@ -5362,7 +5363,7 @@ bool mattack::bio_op_impale( monster *z )
                                        _( "but fails to penetrate <npcname>'s armor!" ) );
     }
 
-    target->on_hit( z, hit, z->type->melee_skill );
+    target->on_hit( z, hit );
     foe->check_dead_state();
 
     return true;
@@ -5810,7 +5811,7 @@ bool mattack::stretch_attack( monster *z )
                                        body_part_name_accusative( hit->token ) );
     }
 
-    target->on_hit( z, hit,  z->type->melee_skill );
+    target->on_hit( z, hit );
 
     return true;
 }

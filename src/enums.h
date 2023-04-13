@@ -39,7 +39,7 @@ struct enum_traits<holiday> {
     static constexpr holiday last = holiday::num_holiday;
 };
 
-enum temperature_flag : int {
+enum class temperature_flag : int {
     TEMP_NORMAL = 0,
     TEMP_HEATER,
     TEMP_FRIDGE,
@@ -64,7 +64,7 @@ enum visibility_type {
 };
 
 // Matching rules for comparing a string to an overmap terrain id.
-enum ot_match_type {
+enum class ot_match_type {
     // The provided string must completely match the overmap terrain id, including
     // linear direction suffixes for linear terrain types or rotation suffixes
     // for rotated terrain types.
@@ -89,11 +89,11 @@ struct enum_traits<ot_match_type> {
     static constexpr ot_match_type last = ot_match_type::num_ot_match_type;
 };
 
-enum special_game_id : int {
-    SGAME_NULL = 0,
-    SGAME_TUTORIAL,
-    SGAME_DEFENSE,
-    NUM_SPECIAL_GAMES
+enum class special_game_type : int {
+    NONE = 0,
+    TUTORIAL,
+    DEFENSE,
+    NUM_SPECIAL_GAME_TYPES
 };
 
 enum art_effect_passive : int {

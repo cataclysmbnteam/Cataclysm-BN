@@ -80,8 +80,8 @@ class active_item_cache
          */
         std::vector<item_reference> get_special( special_item_type type );
         /** Subtract delta from every item_reference's location */
-        void subtract_locations( const point &delta );
-        void rotate_locations( int turns, const point &dim );
+        void subtract_locations( point delta );
+        void rotate_locations( int turns, point dim );
 };
 
 #endif // CATA_SRC_ACTIVE_ITEM_CACHE_H

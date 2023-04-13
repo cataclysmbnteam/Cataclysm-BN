@@ -11,6 +11,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <tuple>
 #include <unordered_map>
@@ -42,7 +43,6 @@
 #include "monster.h"
 #include "mutation.h"
 #include "name.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
@@ -123,7 +123,7 @@ tab_direction set_profession( avatar &u, points_left &points, tab_direction dire
 tab_direction set_skills( avatar &u, points_left &points );
 tab_direction set_description( avatar &you, bool allow_reroll, points_left &points );
 
-static cata::optional<std::string> query_for_template_name();
+static std::optional<std::string> query_for_template_name();
 void reset_scenario( avatar &u, const scenario *scen );
 
 void Character::pick_name( bool bUseDefault )
@@ -441,9 +441,9 @@ bool avatar::create( character_type type, const std::string &tempname )
     }
 
     auto nameExists = [&]( const std::string & name ) {
-        return world_generator->active_world->save_exists( save_t::from_player_name( name ) ) &&
-               !query_yn( _( "A character with the name '%s' already exists in this world.\n"
-                             "Saving will override the already existing character.\n\n"
+        return world_generator->active_world->save_exists( save_t::from_save_id( name ) ) &&
+               !query_yn( _( "A save with the name '%s' already exists in this world.\n"
+                             "Saving will overwrite the already existing character.\n\n"
                              "Continue anyways?" ), name );
     };
     set_body();
@@ -2857,7 +2857,7 @@ std::vector<trait_id> Character::get_base_traits() const
 std::vector<trait_id> Character::get_mutations( bool include_hidden ) const
 {
     std::vector<trait_id> result;
-    for( const std::pair<const trait_id, trait_data> &t : my_mutations ) {
+    for( const std::pair<const trait_id, char_trait_data> &t : my_mutations ) {
         if( include_hidden || t.first.obj().player_display ) {
             result.push_back( t.first );
         }
@@ -2945,7 +2945,7 @@ trait_id newcharacter::random_bad_trait()
     return random_entry( vTraitsBad );
 }
 
-cata::optional<std::string> query_for_template_name()
+std::optional<std::string> query_for_template_name()
 {
     static const std::set<int> fname_char_blacklist = {
 #if defined(_WIN32)
@@ -2973,10 +2973,20 @@ cata::optional<std::string> query_for_template_name()
 
     spop.query_string( true );
     if( spop.canceled() ) {
-        return cata::nullopt;
+        return std::nullopt;
     } else {
         return spop.text();
     }
+}
+
+void avatar::character_to_template( const std::string &name )
+{
+    points_left points;
+    points.stat_points = 0;
+    points.trait_points = 0;
+    points.skill_points = 0;
+    points.limit = points_left::TRANSFER;
+    save_template( name, points );
 }
 
 void avatar::save_template( const std::string &name, const points_left &points )
@@ -2992,6 +3002,7 @@ void avatar::save_template( const std::string &name, const points_left &points )
         jsout.member( "trait_points", points.trait_points );
         jsout.member( "skill_points", points.skill_points );
         jsout.member( "limit", points.limit );
+        jsout.member( "starting_vehicle", starting_vehicle );
         jsout.member( "random_start_location", random_start_location );
         if( !random_start_location ) {
             jsout.member( "start_location", start_location );
@@ -3024,6 +3035,11 @@ bool avatar::load_template( const std::string &template_name, points_left &point
             points.skill_points = jobj.get_int( "skill_points" );
             points.limit = static_cast<points_left::point_limit>( jobj.get_int( "limit" ) );
 
+            if( jobj.has_member( "starting_vehicle" ) ) {
+                starting_vehicle = vproto_id( jobj.get_string( "starting_vehicle" ) );
+            } else {
+                starting_vehicle = vproto_id::NULL_ID();
+            }
             random_start_location = jobj.get_bool( "random_start_location", true );
             const std::string jobj_start_location = jobj.get_string( "start_location", "" );
 

@@ -237,7 +237,7 @@ construction_id blueprint_options::get_final_construction(
 
 blueprint_options::query_con_result blueprint_options::query_con()
 {
-    cata::optional<construction_id> con_index = construction_menu( true );
+    std::optional<construction_id> con_index = construction_menu( true );
     if( !con_index ) {
         return canceled;
     }
@@ -469,7 +469,7 @@ void plot_options::deserialize( const JsonObject &jo_zone )
     jo_zone.read( "seed", seed );
 }
 
-cata::optional<std::string> zone_manager::query_name( const std::string &default_name ) const
+std::optional<std::string> zone_manager::query_name( const std::string &default_name ) const
 {
     string_input_popup popup;
     popup
@@ -484,7 +484,7 @@ cata::optional<std::string> zone_manager::query_name( const std::string &default
     }
 }
 
-cata::optional<zone_type_id> zone_manager::query_type() const
+std::optional<zone_type_id> zone_manager::query_type() const
 {
     const auto &types = get_manager().get_types();
     std::vector<std::pair<zone_type_id, zone_type>> types_vec;
@@ -807,11 +807,11 @@ std::unordered_set<tripoint> zone_manager::get_near( const zone_type_id &type,
     return near_point_set;
 }
 
-cata::optional<tripoint> zone_manager::get_nearest( const zone_type_id &type, const tripoint &where,
+std::optional<tripoint> zone_manager::get_nearest( const zone_type_id &type, const tripoint &where,
         int range, const faction_id &fac ) const
 {
     if( range < 0 ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     tripoint nearest_pos = tripoint( INT_MIN, INT_MIN, INT_MIN );
@@ -840,7 +840,7 @@ cata::optional<tripoint> zone_manager::get_nearest( const zone_type_id &type, co
         }
     }
     if( nearest_dist > range ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     return nearest_pos;
 }
@@ -866,7 +866,7 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
         }
     }
 
-    cata::optional<zone_type_id> zone_check_first = cat.priority_zone( it );
+    std::optional<zone_type_id> zone_check_first = cat.priority_zone( it );
     if( zone_check_first && has_near( *zone_check_first, where, range ) ) {
         return *zone_check_first;
     }
@@ -959,7 +959,7 @@ const zone_data *zone_manager::get_bottom_zone( const tripoint &where,
 // which constructor of the key-value pair we use which depends on new_zone being an rvalue or lvalue and constness.
 // If you are passing new_zone from a non-const iterator, be prepared for a move! This
 // may break some iterators like map iterators if you are less specific!
-void zone_manager::create_vehicle_loot_zone( vehicle &vehicle, const point &mount_point,
+void zone_manager::create_vehicle_loot_zone( vehicle &vehicle, point mount_point,
         zone_data &new_zone )
 {
     //create a vehicle loot zone
@@ -978,7 +978,7 @@ void zone_manager::add( const std::string &name, const zone_type_id &type, const
     zone_data new_zone = zone_data( name, type, fac, invert, enabled, start, end, options );
     //the start is a vehicle tile with cargo space
     map &here = get_map();
-    if( const cata::optional<vpart_reference> vp = here.veh_at( here.getlocal(
+    if( const std::optional<vpart_reference> vp = here.veh_at( here.getlocal(
                 start ) ).part_with_feature( "CARGO", false ) ) {
         // TODO:Allow for loot zones on vehicles to be larger than 1x1
         if( start == end && query_yn( _( "Bind this zone to the cargo part here?" ) ) ) {
@@ -1249,7 +1249,7 @@ void zone_manager::revert_vzones()
     map &here = get_map();
     for( auto zone : removed_vzones ) {
         //Code is copied from add() to avoid yn query
-        if( const cata::optional<vpart_reference> vp = here.veh_at( here.getlocal(
+        if( const std::optional<vpart_reference> vp = here.veh_at( here.getlocal(
                     zone.get_start_point() ) ).part_with_feature( "CARGO", false ) ) {
             zone.set_is_vehicle( true );
             vp->vehicle().loot_zones.emplace( vp->mount(), zone );

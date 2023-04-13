@@ -1,8 +1,18 @@
 # Cataclysm: Bright Nights
 
-<a align="center">
-<img src="doc/img/readme-title.png" title="screenshots of (clockwise from upper-right: Chaosvolt (x2), ExecutorBill, scarf005">
-</a>
+<header align="center">
+  <a><img src="doc/img/readme-title.png" title="screenshots of (clockwise from upper-right: Chaosvolt (x2), ExecutorBill, scarf005"></a>
+
+  [![en][icon-en]][en]
+  [![ko][icon-ko]][ko]
+
+</header>
+
+[en]: ./README.md
+[icon-en]: https://img.shields.io/badge/lang-en-red?style=flat-square
+[ko]: ./README.ko.md
+[icon-ko]: https://img.shields.io/badge/lang-ko-orange?style=flat-square
+
 
 Cataclysm: Bright Nights is a roguelike with sci-fi elements set in a post-apocalyptic world.
 
@@ -19,10 +29,10 @@ Find a way to stop the Cataclysm ... or become one of its strongest monsters.
 
 [![Stable][stable-releases-badge]][stable-releases] [![Recent][all-releases-badge]][all-releases]
 
-[stable-releases]: https://github.com/cataclysmbnteam/Cataclysm-BN/releases/tag/cbn-0.1
-[stable-releases-badge]: <https://img.shields.io/badge/Stable Release-0.1-success?style=for-the-badge>
+[stable-releases]: https://github.com/cataclysmbnteam/Cataclysm-BN/releases/tag/cbn-0.2
+[stable-releases-badge]: <https://img.shields.io/github/v/release/cataclysmbnteam/Cataclysm-BN?style=for-the-badge&color=success&label=stable>
 [all-releases]: https://github.com/cataclysmbnteam/Cataclysm-BN/releases
-[all-releases-badge]: https://img.shields.io/github/v/release/cataclysmbnteam/Cataclysm-BN?color=important&include_prereleases&label=Latest%20Release&sort=date&style=for-the-badge
+[all-releases-badge]: https://img.shields.io/github/v/release/cataclysmbnteam/Cataclysm-BN?style=for-the-badge&color=important&label=Latest%20Release&include_prereleases&sort=date
 
 | [Source Code][source-zip-archive] | [Clone From Repo][clone] |
 | :-------------------------------: | :----------------------: |
@@ -45,7 +55,7 @@ We also have the following build guides:
 > Cataclysm: Bright Nights developed under Creative Commons Attribution ShareAlike 3.0 license. The code and content of the game is free to use, modify, and redistribute for any purpose whatsoever. See http://creativecommons.org/licenses/by-sa/3.0/ for details.
 > Some code distributed with the project is not part of the project and is released under different software licenses, the files covered by different software licenses have their own license notices.
 
-Please see [CONTRIBUTING.md](.github/CONTRIBUTING.md) for details.
+Please see [CONTRIBUTING.md](./doc/CONTRIBUTING.md) for details.
 
 ## Community
 

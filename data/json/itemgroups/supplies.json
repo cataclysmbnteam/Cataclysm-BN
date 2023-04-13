@@ -122,9 +122,7 @@
       [ "pump_complex", 5 ],
       [ "well_pump", 5 ],
       [ "plastic_sheet", 20 ],
-      [ "recharge_station", 20 ],
-      [ "plunger_toilet", 75 ],
-      [ "plunger_futuristic", 25 ]
+      [ "recharge_station", 20 ]
     ]
   },
   {
@@ -144,9 +142,7 @@
       [ "jerrycan", 10 ],
       [ "pump_complex", 10 ],
       [ "well_pump", 10 ],
-      { "item": "scrap_copper", "prob": 15, "count": [ 1, 10 ] },
-      { "item": "plunger_toilet", "prob": 90, "count": [ 1, 2 ] },
-      [ "plunger_futuristic", 50 ]
+      { "item": "scrap_copper", "prob": 15, "count": [ 1, 10 ] }
     ]
   },
   {
@@ -244,7 +240,7 @@
       [ "chem_muriatic_acid", 35 ],
       [ "peephole", 25 ],
       { "item": "chem_chromium_oxide", "prob": 5, "charges-min": 100 },
-      { "item": "chem_zinc_powder", "prob": 5, "charges-min": 100 },
+      { "item": "zinc_metal", "prob": 5, "charges-min": 100 },
       [ "denat_alcohol", 5 ],
       [ "recharge_station", 10 ],
       [ "tarp", 15 ],
@@ -282,7 +278,7 @@
       { "item": "chem_carbide", "prob": 10, "charges-min": 100 },
       [ "chem_ammonium_nitrate", 10 ],
       { "item": "chem_chromium_oxide", "prob": 10, "charges-min": 100 },
-      { "item": "chem_zinc_powder", "prob": 10, "charges-min": 100 },
+      { "item": "zinc_metal", "prob": 10, "charges-min": 100 },
       { "item": "chem_manganese_dioxide", "prob": 10, "charges-min": 100 },
       [ "chem_hydrogen_peroxide_conc", 10 ],
       [ "material_rocksalt", 2 ],
@@ -436,14 +432,20 @@
   {
     "id": "file_room",
     "type": "item_group",
-    "items": [ [ "file", 99 ], [ "file", 99 ], [ "record_accounting", 10 ], [ "paper", 80 ], [ "safe_box", 1 ] ]
+    "items": [
+      [ "file", 99 ],
+      [ "file", 99 ],
+      [ "record_accounting", 10 ],
+      { "item": "paper", "prob": 80, "charges": [ 40, 60 ] },
+      [ "safe_box", 1 ]
+    ]
   },
   {
     "id": "office_mess",
     "type": "item_group",
     "items": [
       [ "file", 99 ],
-      [ "paper", 60 ],
+      { "item": "paper", "prob": 60, "charges": [ 40, 60 ] },
       [ "laptop", 2 ],
       [ "inhaler", 1 ],
       [ "mbag", 2 ],
@@ -479,7 +481,7 @@
     "id": "office_supplies",
     "type": "item_group",
     "items": [
-      [ "paper", 100 ],
+      { "item": "paper", "prob": 100, "charges": [ 40, 60 ] },
       [ "permanent_marker", 35 ],
       [ "file", 15 ],
       [ "duct_tape", 15 ],

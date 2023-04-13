@@ -16,6 +16,7 @@
 #include <locale>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <sstream>
 #include <sys/stat.h>
@@ -34,7 +35,6 @@
 #include "input.h"
 #include "language.h"
 #include "mod_manager.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
@@ -739,7 +739,7 @@ static std::string debug_resolve_binary( const std::string &binary, std::ostream
     return binary;
 }
 
-static cata::optional<uintptr_t> debug_compute_load_offset(
+static std::optional<uintptr_t> debug_compute_load_offset(
     const std::string &binary, const std::string &symbol,
     const std::string &offset_within_symbol_s, void *address, std::ostream &out )
 {
@@ -766,7 +766,7 @@ static cata::optional<uintptr_t> debug_compute_load_offset(
         FILE *nm = popen( cmd.str().c_str(), "re" );
         if( !nm ) {
             out << "    backtrace: popen(nm) failed: " << strerror( errno ) << "\n";
-            return cata::nullopt;
+            return std::nullopt;
         }
 
         char buf[1024];
@@ -790,7 +790,7 @@ static cata::optional<uintptr_t> debug_compute_load_offset(
         pclose( nm );
     }
 
-    return cata::nullopt;
+    return std::nullopt;
 }
 #endif
 
@@ -950,7 +950,13 @@ void debug_write_backtrace( std::ostream &out )
             out << "\n    (unable to get module base address),";
         }
         if( bt_state ) {
-            bt_syminfo( bt_state, reinterpret_cast<uintptr_t>( bt[i] ),
+#if defined(__MINGW64__)
+            constexpr uint64_t static_image_base = 0x140000000ULL;
+#elif defined(__MINGW32__)
+            constexpr uint64_t static_image_base = 0x400000ULL;
+#endif
+            uint64_t de_aslr_pc = reinterpret_cast<uintptr_t>( bt[i] ) - mod_base + static_image_base;
+            bt_syminfo( bt_state, de_aslr_pc,
                         // syminfo callback
                         [&out]( const uintptr_t pc, const char *const symname,
             const uintptr_t symval, const uintptr_t ) {
@@ -965,7 +971,7 @@ void debug_write_backtrace( std::ostream &out )
                     << ", msg = " << ( msg ? msg : "[no msg]" )
                     << "),";
             } );
-            bt_pcinfo( bt_state, reinterpret_cast<uintptr_t>( bt[i] ),
+            bt_pcinfo( bt_state, de_aslr_pc,
                        // backtrace callback
                        [&out]( const uintptr_t pc, const char *const filename,
             const int lineno, const char *const function ) -> int {
@@ -1091,7 +1097,7 @@ void debug_write_backtrace( std::ostream &out )
                 std::string symbol_name( symbolNameStart, symbolNameEnd );
                 std::string offset_within_symbol( offsetStart, offsetEnd );
 
-                cata::optional<uintptr_t> offset =
+                std::optional<uintptr_t> offset =
                     debug_compute_load_offset( binary_name, symbol_name, offset_within_symbol,
                                                bt[i], out );
                 if( offset ) {

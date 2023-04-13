@@ -11,6 +11,7 @@
 #include "ammo.h"
 #include "assign.h"
 #include "cata_utility.h"
+#include "character_functions.h"
 #include "color.h"
 #include "debug.h"
 #include "flag.h"
@@ -202,7 +203,7 @@ static void parse_vp_reqs( const JsonObject &obj, const std::string &id, const s
 /**
  * Reads engine info from a JsonObject.
  */
-void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, const JsonObject &jo,
+void vpart_info::load_engine( std::optional<vpslot_engine> &eptr, const JsonObject &jo,
                               const itype_id &fuel_type )
 {
     vpslot_engine e_info{};
@@ -235,7 +236,7 @@ void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, const JsonObj
     assert( eptr );
 }
 
-void vpart_info::load_rotor( cata::optional<vpslot_rotor> &roptr, const JsonObject &jo )
+void vpart_info::load_rotor( std::optional<vpslot_rotor> &roptr, const JsonObject &jo )
 {
     vpslot_rotor rotor_info{};
     if( roptr ) {
@@ -246,7 +247,7 @@ void vpart_info::load_rotor( cata::optional<vpslot_rotor> &roptr, const JsonObje
     assert( roptr );
 }
 
-void vpart_info::load_wheel( cata::optional<vpslot_wheel> &whptr, const JsonObject &jo )
+void vpart_info::load_wheel( std::optional<vpslot_wheel> &whptr, const JsonObject &jo )
 {
     vpslot_wheel wh_info{};
     if( whptr ) {
@@ -288,7 +289,7 @@ void vpart_info::load_wheel( cata::optional<vpslot_wheel> &whptr, const JsonObje
     assert( whptr );
 }
 
-void vpart_info::load_workbench( cata::optional<vpslot_workbench> &wbptr, const JsonObject &jo )
+void vpart_info::load_workbench( std::optional<vpslot_workbench> &wbptr, const JsonObject &jo )
 {
     vpslot_workbench wb_info{};
     if( wbptr ) {
@@ -817,7 +818,7 @@ static int scale_time( const std::map<skill_id, int> &sk, int mv, const player &
     // 10% per excess level (reduced proportionally if >1 skill required) with max 50% reduction
     // 10% reduction per assisting NPC
     return mv * ( 1.0 - std::min( static_cast<double>( lvl ) / sk.size() / 10.0, 0.5 ) )
-           * ( 10 - p.get_crafting_helpers( 3 ).size() ) / 10;
+           * ( 10 - character_funcs::get_crafting_helpers( p, 3 ).size() ) / 10;
 }
 
 int vpart_info::install_time( const player &p ) const
@@ -910,7 +911,7 @@ int vpart_info::rotor_diameter() const
     return has_flag( VPFLAG_ROTOR ) ? rotor_info->rotor_diameter : 0;
 }
 
-const cata::optional<vpslot_workbench> &vpart_info::get_workbench_info() const
+const std::optional<vpslot_workbench> &vpart_info::get_workbench_info() const
 {
     return workbench_info;
 }
@@ -1105,9 +1106,8 @@ void vehicle_prototype::finalize()
                 }
 
             } else {
-                for( const auto &e : pt.ammo_types ) {
-                    const itype *ammo = &*e;
-                    if( !ammo->ammo && base->gun->ammo.count( ammo->ammo->type ) ) {
+                for( const itype_id &e : pt.ammo_types ) {
+                    if( !e->ammo && base->gun->ammo.count( e->ammo->type ) ) {
                         debugmsg( "init_vehicles: turret %s has invalid ammo_type %s in %s",
                                   pt.part.c_str(), e.c_str(), id.c_str() );
                     }

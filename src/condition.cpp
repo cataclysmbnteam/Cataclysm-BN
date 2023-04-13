@@ -5,6 +5,7 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -28,7 +29,6 @@
 #include "mapdata.h"
 #include "mission.h"
 #include "npc.h"
-#include "optional.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
@@ -326,7 +326,7 @@ void conditional_t<T>::set_has_bionics( const JsonObject &jo, const std::string 
             actor = dynamic_cast<player *>( d.beta );
         }
         if( bionics_id == "ANY" ) {
-            return actor->num_bionics() > 0 || actor->has_max_power();
+            return actor->has_bionics();
         }
         return actor->has_bionic( bionic_id( bionics_id ) );
     };
@@ -386,7 +386,7 @@ void conditional_t<T>::set_at_om_location( const JsonObject &jo, const std::stri
         const oter_id &omt_ref = overmap_buffer.ter( omt_pos );
 
         if( location == "FACTION_CAMP_ANY" ) {
-            cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_pos.xy() );
+            std::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_pos.xy() );
             if( bcp ) {
                 return true;
             }

@@ -691,5 +691,21 @@
     "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "surface_heat", 1, "LIST" ], [ "forge", 1 ], [ "oxy_torch", 1 ] ] ],
     "components": [ [ [ "lead", 25 ] ], [ [ "tin", 25 ] ], [ [ "rosin", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "alternator_bicycle",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "skill_used": "electronics",
+    "difficulty": 4,
+    "time": "40 m",
+    "reversible": true,
+    "decomp_learn": 2,
+    "autolearn": true,
+    "book_learn": [ [ "manual_electronics", 2 ], [ "textbook_electronics", 3 ], [ "advanced_electronics", 3 ] ],
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "power_supply", 1 ], [ "e_scrap", 2 ] ], [ [ "scrap", 2 ] ], [ [ "cable", 3 ] ] ]
   }
 ]

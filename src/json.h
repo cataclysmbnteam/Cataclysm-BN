@@ -14,8 +14,10 @@
 #include <type_traits>
 #include <utility>
 #include <vector>
+#include <optional>
 
 #include "enum_conversions.h"
+#include "json_source_location.h"
 #include "memory_fast.h"
 #include "string_id.h"
 
@@ -41,8 +43,6 @@ class JsonValue;
 
 namespace cata
 {
-template<typename T>
-class optional;
 template<typename T, typename U, typename V>
 class colony;
 } // namespace cata
@@ -86,11 +86,6 @@ struct number_sci_notation {
     uint64_t number = 0;
     // AKA the order of magnitude
     int64_t exp = 0;
-};
-
-struct json_source_location {
-    shared_ptr_fast<std::string> path;
-    int offset = 0;
 };
 
 /* JsonIn
@@ -874,6 +869,8 @@ class JsonObject
         std::string str() const; // copy object json as string
         [[noreturn]] void throw_error( std::string err ) const;
         [[noreturn]] void throw_error( std::string err, const std::string &name ) const;
+        void show_warning( std::string err ) const;
+        void show_warning( std::string err, const std::string &name ) const;
         // seek to a value and return a pointer to the JsonIn (member must exist)
         JsonIn *get_raw( const std::string &name ) const;
         JsonValue get_member( const std::string &name ) const;
@@ -1053,6 +1050,8 @@ class JsonArray
         std::string str(); // copy array json as string
         [[noreturn]] void throw_error( std::string err );
         [[noreturn]] void throw_error( std::string err, int idx );
+        void show_warning( std::string err );
+        void show_warning( std::string err, int idx );
 
         // iterative access
         bool next_bool();
@@ -1179,6 +1178,7 @@ class JsonValue
         [[noreturn]] void throw_error( const std::string &err ) const {
             seek().error( err );
         }
+        void show_warning( std::string err ) const;
 
         std::string get_string() const {
             return seek().get_string();
@@ -1425,7 +1425,7 @@ class JsonDeserializer
 std::ostream &operator<<( std::ostream &stream, const JsonError &err );
 
 template<typename T>
-void serialize( const cata::optional<T> &obj, JsonOut &jsout )
+void serialize( const std::optional<T> &obj, JsonOut &jsout )
 {
     if( obj ) {
         jsout.write( *obj );
@@ -1435,7 +1435,7 @@ void serialize( const cata::optional<T> &obj, JsonOut &jsout )
 }
 
 template<typename T>
-void deserialize( cata::optional<T> &obj, JsonIn &jsin )
+void deserialize( std::optional<T> &obj, JsonIn &jsin )
 {
     if( jsin.test_null() ) {
         obj.reset();

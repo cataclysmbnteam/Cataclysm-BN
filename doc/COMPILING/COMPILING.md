@@ -40,7 +40,6 @@
     - [Test suite](#test-suite)
     - [dmg distribution](#dmg-distribution)
   - [Mac OS X Troubleshooting](#mac-os-x-troubleshooting)
-    - [ISSUE: Game runs very slowly when built for Mac OS X 10.11 or earlier](#issue-game-runs-very-slowly-when-built-for-mac-os-x-1011-or-earlier)
     - [ISSUE: Colors don't show up correctly](#issue-colors-dont-show-up-correctly)
 - [Windows](#windows)
   - [Building with MSYS2](#building-with-msys2)
@@ -320,7 +319,7 @@ Frameworks were obtained from SDL official website as described in the next [sec
 
 To build full feature tiles and sound enabled version with localizations enabled:
 
-    make dmgdist CROSS=x86_64-apple-darwin15- NATIVE=osx OSX_MIN=10.7 USE_HOME_DIR=1 CLANG=1
+    make dmgdist CROSS=x86_64-apple-darwin15- NATIVE=osx USE_HOME_DIR=1 CLANG=1
       RELEASE=1 LANGUAGES=all TILES=1 SOUND=1 FRAMEWORK=1
       OSXCROSS=1 LIBSDIR=../libs FRAMEWORKSDIR=../Frameworks
 
@@ -330,7 +329,7 @@ Make sure that `x86_64-apple-darwin15-clang++` is in `PATH` environment variable
 
 To build full curses version with localizations enabled:
 
-    make dmgdist CROSS=x86_64-apple-darwin15- NATIVE=osx OSX_MIN=10.7 USE_HOME_DIR=1 CLANG=1
+    make dmgdist CROSS=x86_64-apple-darwin15- NATIVE=osx USE_HOME_DIR=1 CLANG=1
       RELEASE=1 LANGUAGES=all OSXCROSS=1 LIBSDIR=../libs FRAMEWORKSDIR=../Frameworks
 
 Make sure that `x86_64-apple-darwin15-clang++` is in `PATH` environment variable.
@@ -408,10 +407,6 @@ To build a signed release APK (ie. one that can be installed on a device), [buil
 ### Additional notes
 
 The app stores data files on the device in `/sdcard/Android/data/com.cleverraven/cataclysmdda/files`. The data is backwards compatible with the desktop version.
-
-## Linux Troubleshooting
-
-If you get an error stating `make: build-scripts/validate_pr_in_jenkins: Command not found` clone a separate copy of the upstream source to a new git repository as your git setup has become corrupted by the Blob.
 
 # Mac OS X
 
@@ -504,16 +499,16 @@ The version of gcc/g++ installed with the [Command Line Tools for Xcode](https:/
 
     brew install gcc
 
-However, homebrew installs gcc as gcc-8 (where 6 is the version) to avoid conflicts. The simplest way to use the homebrew version at `/usr/local/bin/gcc-8` instead of the Apple LLVM version at `/usr/bin/gcc` is to symlink the necessary.
+However, homebrew installs gcc as gcc-{version} (where {version} is the version) to avoid conflicts. The simplest way to use the homebrew version at `/usr/local/bin/gcc-{version}` instead of the Apple LLVM version at `/usr/bin/gcc` is to symlink the necessary.
 
     cd /usr/local/bin
-    ln -s gcc-8 gcc
-    ln -s g++-8 g++
-    ln -s c++-8 c++
+    ln -s gcc-12 gcc
+    ln -s g++-12 g++
+    ln -s c++-12 c++
 
-Or, to do this for everything in `/usr/local/bin/` ending with `-8`,
+Or, to do this for everything in `/usr/local/bin/` ending with `-12`,
 
-    find /usr/local/bin -name "*-8" -exec sh -c 'ln -s "$1" $(echo "$1" | sed "s/..$//")' _ {} \;
+    find /usr/local/bin -name "*-12" -exec sh -c 'ln -s "$1" $(echo "$1" | sed "s/..$//")' _ {} \;
 
 Also, you need to make sure that `/usr/local/bin` appears before `/usr/bin` in your `$PATH`, or else this will not work.
 
@@ -526,7 +521,7 @@ The Cataclysm source is compiled using `make`.
 ### Make options
 
 * `NATIVE=osx` build for OS X. Required for all Mac builds.
-* `OSX_MIN=version` sets `-mmacosx-version-min=` (for OS X > 10.5 set it to 10.6 or higher); omit for 10.5. 10.12 or higher is highly recommended (see ISSUES below).
+* `OSX_MIN=version` sets `-mmacosx-version-min=`; default is 11.
 * `TILES=1` build the SDL version with graphical tiles (and graphical ASCII); omit to build with `ncurses`.
 * `SOUND=1` - if you want sound; this requires `TILES=1` and the additional dependencies mentioned above.
 * `FRAMEWORK=1` (tiles only) link to SDL libraries under the OS X Frameworks folders; omit to use SDL shared libraries from Homebrew or Macports.
@@ -545,15 +540,15 @@ For more info, see the comments in the `Makefile`.
 
 Build a release SDL version using Clang:
 
-    make NATIVE=osx OSX_MIN=10.12 RELEASE=1 TILES=1 CLANG=1
+    make NATIVE=osx RELEASE=1 TILES=1 CLANG=1
 
 Build a release SDL version using Clang, link to libraries in the OS X Frameworks folders, build all language files, and package it into `Cataclysm.app`:
 
-    make app NATIVE=osx OSX_MIN=10.12 RELEASE=1 TILES=1 FRAMEWORK=1 LANGUAGES=all CLANG=1
+    make app NATIVE=osx RELEASE=1 TILES=1 FRAMEWORK=1 LANGUAGES=all CLANG=1
 
 Build a release curses version with curses supplied by Macports:
 
-    make NATIVE=osx OSX_MIN=10.12 RELEASE=1 MACPORTS=1 CLANG=1
+    make NATIVE=osx RELEASE=1 MACPORTS=1 CLANG=1
 
 ### Running
 
@@ -584,17 +579,11 @@ You can build a nice dmg distribution file with the `dmgdist` target. You will n
 
 Once `dmgbuild` is installed, you will be able to use the `dmgdist` target like this. The use of `USE_HOME_DIR=1` is important here because it will allow for an easy upgrade of the game while keeping the user config and his saves in his home directory.
 
-    make dmgdist NATIVE=osx OSX_MIN=10.12 RELEASE=1 TILES=1 FRAMEWORK=1 CLANG=1 USE_HOME_DIR=1
+    make dmgdist NATIVE=osx RELEASE=1 TILES=1 FRAMEWORK=1 CLANG=1 USE_HOME_DIR=1
 
 You should see a `Cataclysm.dmg` file.
 
 ## Mac OS X Troubleshooting
-
-### ISSUE: Game runs very slowly when built for Mac OS X 10.11 or earlier
-
-For versions of OS X 10.11 and earlier, run-time optimizations are disabled for native builds (`-O0` is specified as a compilation flag) due to errors that can occur in compilation. See [Pull Request #26564](https://github.com/CleverRaven/Cataclysm-DDA/pull/26564) for details.
-
-If you're on a newer version of OS X, please use an appropriate value for the `OSX_MIN=` option, i.e. `OSX_MIN=10.14` if you are on Mojave.
 
 ### ISSUE: Colors don't show up correctly
 

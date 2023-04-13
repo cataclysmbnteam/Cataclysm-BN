@@ -14,6 +14,7 @@
 #include "action.h"
 #include "activity_handlers.h"
 #include "avatar.h"
+#include "avatar_functions.h"
 #include "bodypart.h"
 #include "clzones.h"
 #include "character_functions.h"
@@ -358,6 +359,22 @@ void vehicle::control_electronics()
 
         set_electronics_menu_options( options, actions );
 
+        if( has_part( "ENGINE" ) ) {
+            options.emplace_back( engine_on ? _( "Turn off the engine" ) : _( "Turn on the engine" ),
+                                  keybind( "TOGGLE_ENGINE" ) );
+            actions.push_back( [&] {
+                if( engine_on )
+                {
+                    engine_on = false;
+                    stop_engines();
+                } else
+                {
+                    start_engines();
+                    valid_option = false;
+                }
+                refresh();
+            } );
+        }
         uilist menu;
         menu.text = _( "Electronics controls" );
         menu.entries = options;
@@ -645,7 +662,7 @@ void vehicle::use_controls( const tripoint &pos )
 
     bool remote = g->remoteveh() == this;
     bool has_electronic_controls = false;
-    Character &character = get_player_character();
+    avatar &you = get_avatar();
     const auto confirm_stop_driving = [this] {
         return !is_flying_in_air() || query_yn(
             _( "Really let go of controls while flying?  This will result in a crash." ) );
@@ -656,7 +673,7 @@ void vehicle::use_controls( const tripoint &pos )
         actions.push_back( [&] {
             if( confirm_stop_driving() )
             {
-                character.controlling_vehicle = false;
+                you.controlling_vehicle = false;
                 g->setremoteveh( nullptr );
                 add_msg( _( "You stop controlling the vehicle." ) );
                 refresh();
@@ -666,12 +683,12 @@ void vehicle::use_controls( const tripoint &pos )
         has_electronic_controls = has_part( "CTRL_ELECTRONIC" ) || has_part( "REMOTE_CONTROLS" );
 
     } else if( veh_pointer_or_null( g->m.veh_at( pos ) ) == this ) {
-        if( character.controlling_vehicle ) {
+        if( you.controlling_vehicle ) {
             options.emplace_back( _( "Let go of controls" ), keybind( "RELEASE_CONTROLS" ) );
             actions.push_back( [&] {
                 if( confirm_stop_driving() )
                 {
-                    character.controlling_vehicle = false;
+                    you.controlling_vehicle = false;
                     add_msg( _( "You let go of the controls." ) );
                     refresh();
                 }
@@ -692,7 +709,7 @@ void vehicle::use_controls( const tripoint &pos )
     }
 
     if( has_part( "ENGINE" ) ) {
-        if( character.controlling_vehicle || ( remote && engine_on ) ) {
+        if( you.controlling_vehicle || ( remote && engine_on ) ) {
             options.emplace_back( _( "Stop driving" ), keybind( "TOGGLE_ENGINE" ) );
             actions.push_back( [&] {
                 if( !confirm_stop_driving() )
@@ -730,7 +747,7 @@ void vehicle::use_controls( const tripoint &pos )
                 }
                 vehicle_noise = 0;
                 engine_on = false;
-                character.controlling_vehicle = false;
+                you.controlling_vehicle = false;
                 g->setremoteveh( nullptr );
                 sfx::do_vehicle_engine_sfx();
                 refresh();
@@ -836,7 +853,7 @@ void vehicle::use_controls( const tripoint &pos )
     if( menu.ret >= 0 ) {
         // allow player to turn off engine without triggering another warning
         if( menu.ret != 0 && menu.ret != 1 && menu.ret != 2 && menu.ret != 3 ) {
-            if( !handle_potential_theft( dynamic_cast<player &>( character ) ) ) {
+            if( !handle_potential_theft( you ) ) {
                 return;
             }
         }
@@ -1784,7 +1801,7 @@ void vehicle::use_harness( int part, const tripoint &pos )
                                       f.has_flag( MF_PET_HARNESSABLE ) ) );
     };
 
-    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
+    const std::optional<tripoint> pnt_ = choose_adjacent_highlight(
             _( "Where is the creature to harness?" ), _( "There is no creature to harness nearby." ), f,
             false );
     if( !pnt_ ) {
@@ -1864,7 +1881,7 @@ void vehicle::use_bike_rack( int part )
                 cur_vehicle.clear();
                 continue;
             }
-            for( const point &mount_dir : five_cardinal_directions ) {
+            for( point mount_dir : five_cardinal_directions ) {
                 point near_loc = parts[ rack_part ].mount + mount_dir;
                 std::vector<int> near_parts = parts_at_relative( near_loc, true );
                 if( near_parts.empty() ) {
@@ -1949,6 +1966,8 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     const bool is_convertible = tags.count( "convertible" ) > 0;
     const int autoclave_part = avail_part_with_feature( interact_part, "AUTOCLAVE", true );
     const bool has_autoclave = autoclave_part >= 0;
+    const int autodoc_part = avail_part_with_feature( interact_part, "AUTODOC", true );
+    const bool has_autodoc = autodoc_part >= 0;
     const bool remotely_controlled = g->remoteveh() == this;
     const int washing_machine_part = avail_part_with_feature( interact_part, "WASHING_MACHINE", true );
     const bool has_washmachine = washing_machine_part >= 0;
@@ -1969,7 +1988,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
 
     enum {
         EXAMINE, TRACK, HANDBRAKE, CONTROL, CONTROL_ELECTRONICS, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET,
-        RELOAD_TURRET, USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_AUTOCLAVE, USE_WASHMACHINE,
+        RELOAD_TURRET, USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_AUTOCLAVE, USE_AUTODOC, USE_WASHMACHINE,
         USE_DISHWASHER, USE_MONSTER_CAPTURE, USE_BIKE_RACK, USE_HARNESS, RELOAD_PLANTER, USE_TOWEL, PEEK_CURTAIN,
     };
     uilist selectmenu;
@@ -1986,6 +2005,9 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     }
     if( has_autoclave ) {
         selectmenu.addentry( USE_AUTOCLAVE, true, 'a', _( "Sterilize a CBM" ) );
+    }
+    if( has_autodoc ) {
+        selectmenu.addentry( USE_AUTODOC, true, 'I', _( "Use autodoc" ) );
     }
     if( has_washmachine ) {
         selectmenu.addentry( USE_WASHMACHINE, true, 'W',
@@ -2105,6 +2127,10 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
             iexamine::autoclave_empty( you, pos );
             return;
         }
+        case USE_AUTODOC: {
+            iexamine::autodoc( you, pos );
+            return;
+        }
         case USE_WASHMACHINE: {
             use_washing_machine( washing_machine_part );
             return;
@@ -2163,12 +2189,11 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
             return;
         }
         case UNLOAD_TURRET: {
-            item_location loc = turret.base();
-            you.unload( loc );
+            avatar_funcs::unload_item( you, turret.base() );
             return;
         }
         case RELOAD_TURRET: {
-            item::reload_option opt = you.select_ammo( *turret.base(), true );
+            item_reload_option opt = character_funcs::select_ammo( you, *turret.base(), true );
             if( opt ) {
                 you.assign_activity( ACT_RELOAD, opt.moves(), opt.qty() );
                 you.activity.targets.emplace_back( turret.base() );

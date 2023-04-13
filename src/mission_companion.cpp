@@ -7,6 +7,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <unordered_map>
 #include <utility>
@@ -46,7 +47,6 @@
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
-#include "optional.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
@@ -932,7 +932,6 @@ int talk_function::combat_score( const std::vector< monster * > &group )
 npc_ptr talk_function::temp_npc( const string_id<npc_template> &type )
 {
     npc_ptr temp = make_shared_fast<npc>();
-    temp->normalize();
     temp->load_npc_template( type );
     return temp;
 }
@@ -1894,7 +1893,7 @@ std::vector<comp_rank> talk_function::companion_rank( const std::vector<npc_ptr>
 npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required_skills )
 {
     std::vector<npc_ptr> available;
-    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( g->u.global_omt_location().xy() );
+    std::optional<basecamp *> bcp = overmap_buffer.find_camp( g->u.global_omt_location().xy() );
 
     for( auto &elem : g->get_follower_list() ) {
         npc_ptr guy = overmap_buffer.find_npc( elem );
@@ -1921,7 +1920,7 @@ npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required
             }
         } else {
             const tripoint_abs_omt guy_omt_pos = guy->global_omt_location();
-            cata::optional<basecamp *> guy_camp = overmap_buffer.find_camp( guy_omt_pos.xy() );
+            std::optional<basecamp *> guy_camp = overmap_buffer.find_camp( guy_omt_pos.xy() );
             if( guy_camp ) {
                 // get NPCs assigned to guard a remote base
                 basecamp *temp_camp = *guy_camp;
@@ -2123,20 +2122,20 @@ void talk_function::loot_building( const tripoint_abs_omt &site )
 void mission_data::add( const std::string &id, const std::string &name_display,
                         const std::string &text )
 {
-    add( id, name_display, cata::nullopt, text, false, true );
+    add( id, name_display, std::nullopt, text, false, true );
 }
 void mission_data::add_return( const std::string &id, const std::string &name_display,
-                               const cata::optional<point> &dir, const std::string &text, bool possible )
+                               const std::optional<point> &dir, const std::string &text, bool possible )
 {
     add( id, name_display, dir, text, true, possible );
 }
 void mission_data::add_start( const std::string &id, const std::string &name_display,
-                              const cata::optional<point> &dir, const std::string &text, bool possible )
+                              const std::optional<point> &dir, const std::string &text, bool possible )
 {
     add( id, name_display, dir, text, false, possible );
 }
 void mission_data::add( const std::string &id, const std::string &name_display,
-                        const cata::optional<point> &dir, const std::string &text,
+                        const std::optional<point> &dir, const std::string &text,
                         bool priority, bool possible )
 {
     mission_entry miss;

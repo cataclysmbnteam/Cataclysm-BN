@@ -7,6 +7,6 @@
     "maintainers": [ "Noctifer-de-Mortem" ],
     "description": "Adds more craftable firearms, and gunpowder.",
     "category": "items",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "bn" ]
   }
 ]

@@ -47,7 +47,7 @@ class veh_interact
         using part_selector = std::function<bool( const vehicle_part &pt )>;
 
     public:
-        static player_activity run( vehicle &veh, const point &p );
+        static player_activity run( vehicle &veh, point p );
 
         /** Prompt for a part matching the selector function */
         static vehicle_part &select_part( const vehicle &veh, const part_selector &sel,
@@ -56,7 +56,7 @@ class veh_interact
         static void complete_vehicle( player &p );
 
     private:
-        veh_interact( vehicle &veh, const point &p = point_zero );
+        veh_interact( vehicle &veh, point p = point_zero );
         ~veh_interact();
 
         item_location target;
@@ -93,8 +93,8 @@ class veh_interact
         bool ui_hidden = false;
         weak_ptr_fast<ui_adaptor> ui;
 
-        cata::optional<std::string> title;
-        cata::optional<std::string> msg;
+        std::optional<std::string> title;
+        std::optional<std::string> msg;
 
         int highlight_part = -1;
 
@@ -119,8 +119,8 @@ class veh_interact
         bool format_reqs( std::string &msg, const requirement_data &reqs,
                           const std::map<skill_id, int> &skills, int moves ) const;
 
-        int part_at( const point &d );
-        void move_cursor( const point &d, int dstart_at = 0 );
+        int part_at( point d );
+        void move_cursor( point d, int dstart_at = 0 );
         task_reason cant_do( char mode );
         bool can_potentially_install( const vpart_info &vpart );
         /** Move index (parameter pos) according to input action:

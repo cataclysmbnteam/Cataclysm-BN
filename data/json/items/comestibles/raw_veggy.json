@@ -16,7 +16,7 @@
     "material": "veggy",
     "volume": "1 L",
     "milling": { "into": "flour", "conversion_rate": 15 },
-    "flags": [ "EDIBLE_FROZEN", "RAW" ],
+    "flags": [ "RAW" ],
     "charges": 4,
     "vitamins": [ [ "calcium", 6 ], [ "iron", 29 ] ],
     "fun": -15
@@ -75,7 +75,7 @@
     "material": "veggy",
     "volume": "500 ml",
     "milling": { "into": "flour", "conversion_rate": 15 },
-    "flags": [ "EDIBLE_FROZEN", "RAW" ],
+    "flags": [ "RAW" ],
     "charges": 2,
     "vitamins": [ [ "calcium", 3 ], [ "iron", 22 ] ],
     "fun": -10
@@ -102,6 +102,26 @@
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", 56 ], [ "calcium", 5 ], [ "iron", 5 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "grape_leaves",
+    "looks_like": "lettuce",
+    "name": { "str_sp": "grape leaves" },
+    "weight": "14 g",
+    "color": "light_green",
+    "spoils_in": "6 days 16 hours",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "healthy": 1,
+    "calories": 22,
+    "description": "Edible leaves of a grape vine.  Typically used in salads or as food wrapping.",
+    "price": "80 cent",
+    "material": [ "veggy" ],
+    "volume": "250 ml",
+    "flags": [ "SMOKABLE", "RAW" ],
+    "smoking_result": "dry_veggy",
+    "vitamins": [ [ "vitA", 21 ], [ "vitC", 2 ], [ "calcium", 4 ], [ "iron", 2 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -420,7 +440,7 @@
     "price_postapoc": 50,
     "material": "veggy",
     "volume": "250 ml",
-    "flags": [ "EDIBLE_FROZEN", "RAW" ],
+    "flags": [ "RAW" ],
     "charges": 4,
     "fun": -15
   },
@@ -713,9 +733,9 @@
     "material": "veggy",
     "primary_material": "dried_vegetable",
     "volume": "250 ml",
-    "flags": [ "EDIBLE_FROZEN", "RAW", "IRREPLACEABLE_CONSUMABLE" ],
+    "flags": [ "RAW", "IRREPLACEABLE_CONSUMABLE" ],
     "charges": 20,
-    "fun": -1
+    "fun": -6
   },
   {
     "type": "COMESTIBLE",

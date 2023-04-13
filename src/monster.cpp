@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <limits>
 #include <memory>
+#include <optional>
 #include <tuple>
 #include <unordered_map>
 
@@ -40,7 +41,6 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
@@ -656,6 +656,9 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
         vStart += fold_and_print( w, point( column, vStart + 1 ), getmaxx( w ) - 2, c_cyan,
                                   string_format( _( "Origin: %s" ), mod_src ) );
     }
+    if( display_object_ids ) {
+        mvwprintz( w, point( column, ++vStart ), c_light_blue, string_format( "[%s]", type->id.str() ) );
+    }
 
     if( sees( g->u ) ) {
         mvwprintz( w, point( column, ++vStart ), c_yellow, _( "Aware of your presence!" ) );
@@ -714,6 +717,12 @@ std::string monster::extended_description() const
         type->src.end(), []( const std::pair<mtype_id, mod_id> &source ) {
             return string_format( "'%s'", source.second->name() );
         }, enumeration_conjunction::arrow );
+    }
+    if( display_object_ids ) {
+        if( display_mod_source ) {
+            ss += "\n";
+        }
+        ss += colorize( string_format( "[%s]", type->id.str() ), c_light_blue );
     }
 
     ss += "\n--\n";
@@ -920,7 +929,7 @@ bool monster::can_climb() const
 
 bool monster::digging() const
 {
-    return digs() || ( can_dig() && underwater );
+    return digs() || ( can_dig() && is_underwater() );
 }
 
 bool monster::can_dig() const
@@ -959,7 +968,7 @@ int monster::sight_range( const int light_level ) const
 {
     // Non-aquatic monsters can't see much when submerged
     if( !can_see() || effect_cache[VISION_IMPAIRED] ||
-        ( underwater && !swims() && !has_flag( MF_AQUATIC ) && !digging() ) ) {
+        ( is_underwater() && !swims() && !has_flag( MF_AQUATIC ) && !digging() ) ) {
         return 1;
     }
     static const int default_daylight = default_daylight_level();
@@ -995,7 +1004,7 @@ void monster::set_goal( const tripoint &p )
     goal = p;
 }
 
-void monster::shift( const point &sm_shift )
+void monster::shift( point sm_shift )
 {
     const point ms_shift = sm_to_ms_copy( sm_shift );
     position -= ms_shift;
@@ -1190,7 +1199,7 @@ monster_attitude monster::attitude( const Character *u ) const
     }
 
     if( effective_anger <= 0 ) {
-        if( get_hp() != get_hp_max() ) {
+        if( get_hp() <= 0.6 * get_hp_max() ) {
             return MATT_FLEE;
         } else {
             return MATT_IGNORE;
@@ -1277,7 +1286,7 @@ void monster::process_trigger( mon_trigger trig, const std::function<int()> &amo
 
 bool monster::is_underwater() const
 {
-    return underwater && can_submerge();
+    return Creature::is_underwater() && can_submerge();
 }
 
 bool monster::is_on_ground() const
@@ -1352,8 +1361,7 @@ bool monster::is_immune_damage( const damage_type dt ) const
         case DT_STAB:
             return false;
         case DT_HEAT:
-            // Ugly hardcode - remove later
-            return made_of( material_id( "steel" ) ) || made_of( material_id( "stone" ) );
+            return has_flag( MF_FIREPROOF );
         case DT_COLD:
             return false;
         case DT_ELECTRIC:
@@ -1590,7 +1598,7 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
 
     if( !is_hallucination() && attack.hit_critter == this ) {
         // Maybe TODO: Get difficulty from projectile speed/size/missed_by
-        on_hit( source, bodypart_id( "torso" ), INT_MIN, &attack );
+        on_hit( source, bodypart_id( "torso" ), &attack );
     }
 }
 
@@ -2229,7 +2237,7 @@ void monster::process_turn()
                 const auto t = g->m.ter( zap );
                 if( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) {
                     if( one_in( 4 ) ) {
-                        explosion_handler::explosion( pos(), 40, 0.8, true );
+                        explosion_handler::explosion( pos(), nullptr, 40, 0.8, true );
                         if( player_sees ) {
                             add_msg( m_warning, _( "The %s explodes in a fiery inferno!" ), g->m.tername( zap ) );
                         }
@@ -2588,8 +2596,8 @@ void monster::process_effects_internal()
         }
     }
 
-    //Monster will regen morale and aggression if it is on max HP
-    //It regens more morale and aggression if is currently fleeing.
+    // Monster will regen morale and aggression if it is on max HP
+    // It regens more morale and aggression if is currently fleeing.
     if( type->regen_morale && hp >= type->hp ) {
         if( is_fleeing( g->u ) ) {
             morale = type->morale;
@@ -2843,13 +2851,7 @@ float monster::speed_rating() const
     return ret;
 }
 
-void monster::on_dodge( Creature *, float )
-{
-    // Currently does nothing, later should handle faction relations
-}
-
-void monster::on_hit( Creature *source, bodypart_id,
-                      float, dealt_projectile_attack const *const proj )
+void monster::on_hit( Creature *source, bodypart_id, dealt_projectile_attack const *const proj )
 {
     if( is_hallucination() ) {
         return;
@@ -2960,6 +2962,7 @@ void monster::hear_sound( const tripoint &source, const int vol, const int dist 
     // target_z will require some special check due to soil muffling sounds
 
     int wander_turns = volume * ( goodhearing ? 6 : 1 );
+
     process_trigger( mon_trigger::SOUND, volume );
     if( morale >= 0 && anger >= 10 ) {
         // TODO: Add a proper check for fleeing attitude

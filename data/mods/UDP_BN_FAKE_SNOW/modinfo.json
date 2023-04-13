@@ -6,6 +6,6 @@
     "authors": [ "SomeDeadGuy" ],
     "description": "Covers outdoor tiles with fake snow graphics.",
     "category": "graphical",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "bn" ]
   }
 ]

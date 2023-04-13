@@ -1,0 +1,29 @@
+[
+  {
+    "type": "weapon_category",
+    "id": "TEST_CAT1",
+    "name": "Test category",
+    "//": "Not meant for player's eyes, this is for testing only."
+  },
+  {
+    "id": "test_weapon1",
+    "type": "GENERIC",
+    "category": "weapons",
+    "name": { "str": "test melee weapon 1" },
+    "description": "Test melee weapon 1.",
+    "weight": "1 kg",
+    "volume": "1 L",
+    "symbol": ";"
+  },
+  {
+    "id": "test_weapon2",
+    "type": "GENERIC",
+    "category": "weapons",
+    "name": { "str": "test melee weapon 2" },
+    "description": "Test melee weapon 2.",
+    "weight": "1 kg",
+    "volume": "1 L",
+    "symbol": ";",
+    "weapon_category": [ "TEST_CAT1" ]
+  }
+]

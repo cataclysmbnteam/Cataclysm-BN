@@ -110,5 +110,182 @@
     "type": "achievement",
     "name": "Ain't no valley low enough",
     "requirements": [ { "event_statistic": "min_move_z", "is": "<=", "target": -10 } ]
+  },
+  {
+    "id": "achievement_mutation_threshold_alpha",
+    "type": "achievement",
+    "name": { "str": "More human than human" },
+    "description": "You've evolved beyond your constraints.  You are now a post-threshold Prime mutant.",
+    "//": "Threshold achievements are hidden until obtained",
+    "hidden_by": [ "achievement_mutation_threshold_alpha" ],
+    "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_alpha", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_mutation_threshold_bear",
+    "type": "achievement",
+    "name": { "str": "Just the necessities" },
+    "description": "Now you're armed for bear!  You are now a post-threshold Bear mutant.",
+    "hidden_by": [ "achievement_mutation_threshold_bear" ],
+    "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_bear", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_mutation_threshold_beast",
+    "type": "achievement",
+    "name": { "str": "The nature of the me" },
+    "description": "Your number has come up.  You are now a post-threshold Beast mutant.",
+    "hidden_by": [ "achievement_mutation_threshold_beast" ],
+    "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_beast", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_mutation_threshold_bird",
+    "type": "achievement",
+    "name": { "str": "The modern-day dinosaur" },
+    "description": "It's not flight (yet), it's falling with style.  You are now a post-threshold Bird mutant.",
+    "hidden_by": [ "achievement_mutation_threshold_bird" ],
+    "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_bird", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_mutation_threshold_cattle",
+    "type": "achievement",
+    "name": { "str": "Don't drive a limousine, become it" },
+    "description": "Is that red you see?  No, just movement.  You are now a post-threshold Bovine mutant.",
+    "hidden_by": [ "achievement_mutation_threshold_cattle" ],
+    "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_cattle", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_mutation_threshold_cephalopod",
+    "type": "achievement",
+    "name": { "str": "How did I ever get surrounded by such undead neighbors?" },
+    "description": "From the depths, something stirs!  You are now a post-threshold Cephalopod mutant.",
+    "hidden_by": [ "achievement_mutation_threshold_cephalopod" ],
+    "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_cephalopod", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_mutation_threshold_chimera",
+    "type": "achievement",
+    "name": { "str": "Equal opportunity assimilator" },
+    "description": "What even ARE you anymore?  You are now a post-threshold Chaos mutant.",
+    "hidden_by": [ "achievement_mutation_threshold_chimera" ],
+    "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_chimera", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_mutation_threshold_feline",
+    "type": "achievement",
+    "name": { "str": "Nine lives" },
+    "description": "It wasn't monday you hated, it was the grind.  You are now a post-threshold Feline mutant.",
+    "hidden_by": [ "achievement_mutation_threshold_feline" ],
+    "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_feline", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_mutation_threshold_fey",
+    "type": "achievement",
+    "name": { "str": "The fair folk" },
+    "description": "The iron may be cold, but it still suits you.  You are now a post-threshold Fey mutant.",
+    "hidden_by": [ "achievement_mutation_threshold_fey" ],
+    "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_fey", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_mutation_threshold_fish",
+    "type": "achievement",
+    "name": { "str": "Tipping the scales" },
+    "description": "Swim swim hungry!  You are now a post-threshold Aquatic mutant.",
+    "hidden_by": [ "achievement_mutation_threshold_fish" ],
+    "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_fish", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_mutation_threshold_insect",
+    "type": "achievement",
+    "name": { "str": "Heard of the swarm?" },
+    "description": "One's opinion on jazz is actually irrelevant to the rest of the hive.  You are now a post-threshold Insect mutant.",
+    "hidden_by": [ "achievement_mutation_threshold_insect" ],
+    "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_insect", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_mutation_threshold_lizard",
+    "type": "achievement",
+    "name": { "str": "You feel limber" },
+    "description": "No, eating you will not cure petrification.  You are now a post-threshold Lizard mutant.",
+    "hidden_by": [ "achievement_mutation_threshold_lizard" ],
+    "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_lizard", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_mutation_threshold_medical",
+    "type": "achievement",
+    "name": { "str": "What doesn't kill you, makes you stranger" },
+    "description": "Through the power of science!  And also drugs.  You are now a post-threshold Prototype mutant.",
+    "hidden_by": [ "achievement_mutation_threshold_medical" ],
+    "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_medical", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_mutation_threshold_mouse",
+    "type": "achievement",
+    "name": { "str": "Judge me by my size" },
+    "description": "You're more in the mood for peanut butter rather than cheese.  You are now a post-threshold Diminutive mutant.",
+    "hidden_by": [ "achievement_mutation_threshold_mouse" ],
+    "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_mouse", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_mutation_threshold_mycus",
+    "type": "achievement",
+    "name": { "str": "Mycus must grow" },
+    "description": "The Fruit, The Seed, The Sap.  Consume this, and we will be as one, to bring unity to this world.",
+    "hidden_by": [ "achievement_mutation_threshold_mycus" ],
+    "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_mycus", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_mutation_threshold_plant",
+    "type": "achievement",
+    "name": { "str": "Carbon neutral" },
+    "description": "As the ivy conquers ruined stone, so shall we regrow.  You are now a post-threshold Plant mutant.",
+    "hidden_by": [ "achievement_mutation_threshold_plant" ],
+    "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_plant", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_mutation_threshold_rat",
+    "type": "achievement",
+    "name": { "str": "At first I was afraid, I was petrified…" },
+    "description": "You're the giant rat (er sorry, survivor) that makes all of the rules.  You are now a post-threshold Survivor mutant.",
+    "hidden_by": [ "achievement_mutation_threshold_rat" ],
+    "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_rat", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_mutation_threshold_raptor",
+    "type": "achievement",
+    "name": { "str": "Clever girl" },
+    "description": "Be what you want to be, the only creatures that could tell you otherwise are made of meat.  You are now a post-threshold Raptor mutant.",
+    "hidden_by": [ "achievement_mutation_threshold_raptor" ],
+    "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_raptor", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_mutation_threshold_slime",
+    "type": "achievement",
+    "name": { "str": "Slippery when moist" },
+    "description": "A slime draws near!  Wait, that's just your reflection.  You are now a post-threshold Aqueous mutant.",
+    "hidden_by": [ "achievement_mutation_threshold_slime" ],
+    "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_slime", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_mutation_threshold_spider",
+    "type": "achievement",
+    "name": { "str": "With great power…" },
+    "description": "…comes a lot of silk getting stuck to your chitin.  You are now a post-threshold Arachnid mutant.",
+    "hidden_by": [ "achievement_mutation_threshold_spider" ],
+    "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_spider", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_mutation_threshold_troglobite",
+    "type": "achievement",
+    "name": { "str": "Spelunking: a lifestyle, not a hobby" },
+    "description": "Raise your pick and raise your voice!  You are now a post-threshold Subterranean mutant.",
+    "hidden_by": [ "achievement_mutation_threshold_troglobite" ],
+    "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_troglobite", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_mutation_threshold_wolf",
+    "type": "achievement",
+    "name": { "str": "Leader of the pack" },
+    "description": "Fine, you'll start your own furry convention, with blackjack and hookers.  You are now a post-threshold Wolf mutant.",
+    "hidden_by": [ "achievement_mutation_threshold_wolf" ],
+    "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_wolf", "is": ">=", "target": 1 } ]
   }
 ]

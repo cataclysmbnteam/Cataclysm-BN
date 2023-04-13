@@ -18,8 +18,10 @@
 #include "itype.h"
 #include "loading_ui.h"
 #include "material.h"
+#include "mod_manager.h"
 #include "npc.h"
 #include "output.h"
+#include "ranged.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "ret_val.h"
@@ -38,10 +40,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
                        const std::vector<std::string> &opts )
 {
     try {
-        loading_ui ui( false );
-        load_core_data( ui );
-        load_packs( _( "Loading content packs" ), { mod_id( "dda" ) }, ui );
-        DynamicDataLoader::get_instance().finalize_loaded_data( ui );
+        init::load_core_bn_modfiles();
     } catch( const std::exception &err ) {
         std::cerr << "Error loading data from json: " << err.what() << std::endl;
         return false;
@@ -201,7 +200,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             r.push_back( std::to_string( damage.total_damage() ) );
             r.push_back( std::to_string( damage.empty() ? 0 : ( *damage.begin() ).res_pen ) );
 
-            r.push_back( std::to_string( who.gun_engagement_moves( obj ) ) );
+            r.push_back( std::to_string( ranged::gun_engagement_moves( who, obj ) ) );
 
             for( const auto &e : locations ) {
                 const auto &vml = obj.type->gun->valid_mod_locations;

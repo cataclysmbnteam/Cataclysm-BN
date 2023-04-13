@@ -939,7 +939,7 @@ void game::draw_item_override( const tripoint &, const itype_id &, const mtype_i
 #if defined(TILES)
 void game::draw_vpart_override(
     const tripoint &p, const vpart_id &id, const int part_mod, const units::angle veh_dir,
-    const bool hilite, const point &mount )
+    const bool hilite, point mount )
 {
     if( use_tiles ) {
         tilecontext->init_draw_vpart_override( p, id, part_mod, veh_dir, hilite, mount );
@@ -947,7 +947,7 @@ void game::draw_vpart_override(
 }
 #else
 void game::draw_vpart_override( const tripoint &, const vpart_id &, const int,
-                                const units::angle, const bool, const point & )
+                                const units::angle, const bool, point )
 {
 }
 #endif
@@ -984,13 +984,13 @@ bucketed_points bucket_by_distance( const tripoint &origin,
                                     const std::map<tripoint, double> &to_bucket )
 {
     std::map<int, one_bucket> by_distance;
-    for( const std::pair<const tripoint, double> &pv : to_bucket ) {
-        int dist = trig_dist_squared( origin, pv.first );
-        by_distance[dist].emplace_back( pv.first, pv.second );
+    for( const auto& [pt, val] : to_bucket ) {
+        int dist = trig_dist_squared( origin, pt );
+        by_distance[dist].emplace_back( point_with_value{ pt, val} );
     }
     bucketed_points buckets;
-    for( const std::pair<const int, one_bucket> &bc : by_distance ) {
-        buckets.emplace_back( bc.second );
+    for( const auto& [_, bucket] : by_distance ) {
+        buckets.emplace_back( bucket );
     }
     return buckets;
 }

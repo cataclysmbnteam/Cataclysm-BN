@@ -10,16 +10,20 @@
 #include "action.h"
 #include "advanced_inv.h"
 #include "animation.h"
+#include "armor_layers.h"
 #include "auto_note.h"
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "avatar_action.h"
+#include "avatar_functions.h"
 #include "bionics.h"
+#include "bionics_ui.h"
 #include "calendar.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_display.h"
 #include "character_martial_arts.h"
+#include "character_turn.h"
 #include "clzones.h"
 #include "color.h"
 #include "construction.h"
@@ -28,6 +32,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "debug_menu.h"
+#include "diary.h"
 #include "distraction_manager.h"
 #include "faction.h"
 #include "field.h"
@@ -58,6 +63,7 @@
 #include "monster.h"
 #include "mtype.h"
 #include "mutation.h"
+#include "mutation_ui.h"
 #include "options.h"
 #include "output.h"
 #include "overmap_ui.h"
@@ -390,7 +396,7 @@ input_context game::get_player_input( std::string &action )
     return ctxt;
 }
 
-inline static void rcdrive( const point &d )
+inline static void rcdrive( point d )
 {
     player &u = g->u;
     map &here = get_map();
@@ -510,9 +516,9 @@ inline static void pldrive( point d )
 static void open()
 {
     player &u = g->u;
-    const cata::optional<tripoint> openp_ = choose_adjacent_highlight( _( "Open where?" ),
-                                            pgettext( "no door, gate, curtain, etc.", "There is nothing that can be opened nearby." ),
-                                            ACTION_OPEN, false );
+    const std::optional<tripoint> openp_ = choose_adjacent_highlight( _( "Open where?" ),
+                                           pgettext( "no door, gate, curtain, etc.", "There is nothing that can be opened nearby." ),
+                                           ACTION_OPEN, false );
 
     if( !openp_ ) {
         return;
@@ -529,7 +535,7 @@ static void open()
             const vehicle *player_veh = veh_pointer_or_null( here.veh_at( u.pos() ) );
             bool outside = !player_veh || player_veh != veh;
             if( !outside ) {
-                if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+                if( !veh->handle_potential_theft( get_avatar() ) ) {
                     u.moves += 100;
                     return;
                 } else {
@@ -546,7 +552,7 @@ static void open()
                     add_msg( m_info, _( "That %s can only opened from the inside." ), name );
                     u.moves += 100;
                 } else {
-                    if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+                    if( !veh->handle_potential_theft( get_avatar() ) ) {
                         u.moves += 100;
                         return;
                     } else {
@@ -556,7 +562,7 @@ static void open()
             }
         } else {
             // If there are any OPENABLE parts here, they must be already open
-            if( const cata::optional<vpart_reference> already_open = vp.part_with_feature( "OPENABLE",
+            if( const std::optional<vpart_reference> already_open = vp.part_with_feature( "OPENABLE",
                     true ) ) {
                 const std::string name = already_open->info().name();
                 add_msg( m_info, _( "That %s is already open." ), name );
@@ -587,9 +593,9 @@ static void open()
 
 static void close()
 {
-    if( const cata::optional<tripoint> pnt = choose_adjacent_highlight( _( "Close where?" ),
-            pgettext( "no door, gate, etc.", "There is nothing that can be closed nearby." ),
-            ACTION_CLOSE, false ) ) {
+    if( const std::optional<tripoint> pnt = choose_adjacent_highlight( _( "Close where?" ),
+                                            pgettext( "no door, gate, etc.", "There is nothing that can be closed nearby." ),
+                                            ACTION_CLOSE, false ) ) {
         doors::close_door( get_map(), g->u, *pnt );
     }
 }
@@ -611,7 +617,7 @@ static void grab()
         return;
     }
 
-    const cata::optional<tripoint> grabp_ = choose_adjacent( _( "Grab where?" ) );
+    const std::optional<tripoint> grabp_ = choose_adjacent( _( "Grab where?" ) );
     if( !grabp_ ) {
         add_msg( _( "Never mind." ) );
         return;
@@ -624,7 +630,7 @@ static void grab()
         return;
     }
     if( const optional_vpart_position vp = here.veh_at( grabp ) ) {
-        if( !vp->vehicle().handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+        if( !vp->vehicle().handle_potential_theft( get_avatar() ) ) {
             return;
         }
         you.grab( OBJECT_VEHICLE, grabp - you.pos() );
@@ -696,7 +702,7 @@ static void smash()
     }
 
     const bool allow_floor_bash = here.has_zlevels();
-    const cata::optional<tripoint> smashp_ = choose_adjacent( _( "Smash where?" ), allow_floor_bash );
+    const std::optional<tripoint> smashp_ = choose_adjacent( _( "Smash where?" ), allow_floor_bash );
     if( !smashp_ ) {
         return;
     }
@@ -765,7 +771,7 @@ static void smash()
 
     vehicle *veh = veh_pointer_or_null( g->m.veh_at( smashp ) );
     if( veh != nullptr ) {
-        if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+        if( !veh->handle_potential_theft( get_avatar() ) ) {
             return;
         }
     }
@@ -808,7 +814,7 @@ static void smash()
         }
 
         if( !here.has_floor_or_support( u.pos() ) && !here.has_flag_ter( "GOES_DOWN", u.pos() ) ) {
-            cata::optional<tripoint> to_safety;
+            std::optional<tripoint> to_safety;
             while( true ) {
                 to_safety = choose_direction( _( "Floor below destroyed!  Move where?" ) );
                 if( to_safety && *to_safety == tripoint_zero ) {
@@ -999,7 +1005,7 @@ static void wait()
 
 static void sleep()
 {
-    player &u = g->u;
+    avatar &u = get_avatar();
     if( u.is_mounted() ) {
         u.add_msg_if_player( m_info, _( "You cannot sleep while mounted." ) );
         return;
@@ -1026,8 +1032,7 @@ static void sleep()
             active.push_back( it->tname() );
         }
     }
-    for( int i = 0; i < g->u.num_bionics(); i++ ) {
-        const bionic &bio = u.bionic_at_index( i );
+    for( const bionic &bio : *u.my_bionics ) {
         if( !bio.powered ) {
             continue;
         }
@@ -1118,7 +1123,7 @@ static void sleep()
     }
 
     u.moves = 0;
-    u.try_to_sleep( try_sleep_dur );
+    avatar_funcs::try_to_sleep( u, try_sleep_dur );
 }
 
 static void loot()
@@ -1267,7 +1272,7 @@ static void wear()
     item_location loc = game_menus::inv::wear( u );
 
     if( loc ) {
-        u.wear( *loc.obtain( u ) );
+        u.wear_possessed( *loc.obtain( u ) );
     } else {
         add_msg( _( "Never mind." ) );
     }
@@ -1541,7 +1546,7 @@ bool game::handle_action()
 
     // If performing an action with right mouse button, co-ordinates
     // of location clicked.
-    cata::optional<tripoint> mouse_target;
+    std::optional<tripoint> mouse_target;
 
     if( uquit == QUIT_WATCH && action == "QUIT" ) {
         uquit = QUIT_DIED;
@@ -1612,7 +1617,7 @@ bool game::handle_action()
                 return false;
             }
 
-            const cata::optional<tripoint> mouse_pos = ctxt.get_coordinates( w_terrain );
+            const std::optional<tripoint> mouse_pos = ctxt.get_coordinates( w_terrain );
             if( !mouse_pos ) {
                 return false;
             } else if( !u.sees( *mouse_pos ) ) {
@@ -1652,7 +1657,7 @@ bool game::handle_action()
             const std::string &&name = inp_mngr.get_keyname( ch, evt.type, true );
             if( !get_option<bool>( "NO_UNKNOWN_COMMAND_MSG" ) ) {
                 add_msg( m_info, _( "Unknown command: \"%s\" (%ld)" ), name, ch );
-                if( const cata::optional<std::string> hint =
+                if( const std::optional<std::string> hint =
                         press_x_if_bound( ACTION_KEYBINDINGS ) ) {
                     add_msg( m_info, _( "%s at any time to see and edit keybindings relevant to "
                                         "the current context." ),
@@ -1731,13 +1736,13 @@ bool game::handle_action()
 
             case ACTION_TIMEOUT:
                 if( check_safe_mode_allowed( false ) ) {
-                    u.pause();
+                    character_funcs::do_pause( u );
                 }
                 break;
 
             case ACTION_PAUSE:
                 if( check_safe_mode_allowed() ) {
-                    u.pause();
+                    character_funcs::do_pause( u );
                 }
                 break;
 
@@ -1976,7 +1981,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_COMPARE:
-                game_menus::inv::compare( u, cata::nullopt );
+                game_menus::inv::compare( u, std::nullopt );
                 break;
 
             case ACTION_ORGANIZE:
@@ -1990,7 +1995,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_USE_WIELDED:
-                u.use_wielded();
+                avatar_funcs::use_item( u, item_location( u, &u.weapon ) );
                 break;
 
             case ACTION_WEAR:
@@ -2096,14 +2101,14 @@ bool game::handle_action()
                 }
                 break;
             case ACTION_BIONICS:
-                u.power_bionics();
+                show_bionics_ui( u );
                 break;
             case ACTION_MUTATIONS:
-                u.power_mutations();
+                show_mutations_ui( u );
                 break;
 
             case ACTION_SORT_ARMOR:
-                u.sort_armor();
+                show_armor_layers_ui( u );
                 break;
 
             case ACTION_WAIT:
@@ -2245,6 +2250,7 @@ bool game::handle_action()
             case ACTION_SUICIDE:
                 if( query_yn( _( "Commit suicide?" ) ) ) {
                     if( query_yn( _( "REALLY commit suicide?" ) ) ) {
+                        u.apply_damage( &u, body_part_head, 99999 );
                         u.moves = 0;
                         u.place_corpse();
                         uquit = QUIT_SUICIDE;
@@ -2291,6 +2297,10 @@ bool game::handle_action()
 
             case ACTION_SCORES:
                 show_scores_ui( *achievements_tracker_ptr, stats(), get_kill_tracker() );
+                break;
+
+            case ACTION_DIARY:
+                diary::show_diary_ui( u.get_avatar_diary() );
                 break;
 
             case ACTION_FACTIONS:
@@ -2357,7 +2367,9 @@ bool game::handle_action()
                 break;
 
             case ACTION_RELOAD_TILESET:
-                reload_tileset();
+                reload_tileset( []( std::string str ) {
+                    DebugLog( DL::Info, DC::Main ) << str;
+                } );
                 break;
 
             case ACTION_TOGGLE_AUTO_FEATURES:

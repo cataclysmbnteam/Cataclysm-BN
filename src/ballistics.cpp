@@ -4,6 +4,7 @@
 #include <cmath>
 #include <cstddef>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <vector>
@@ -23,7 +24,6 @@
 #include "map.h"
 #include "messages.h"
 #include "monster.h"
-#include "optional.h"
 #include "options.h"
 #include "projectile.h"
 #include "rng.h"
@@ -472,10 +472,10 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
 
     drop_or_embed_projectile( attack );
 
-    apply_ammo_effects( tp, proj.get_ammo_effects() );
+    apply_ammo_effects( tp, proj.get_ammo_effects(), origin );
     const auto &expl = proj.get_custom_explosion();
     if( expl ) {
-        explosion_handler::explosion( tp, expl );
+        explosion_handler::explosion( tp, expl, origin );
     }
 
     // TODO: Move this outside now that we have hit point in return values?

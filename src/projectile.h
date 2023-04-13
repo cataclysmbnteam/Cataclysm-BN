@@ -75,9 +75,11 @@ struct dealt_projectile_attack {
     double missed_by; // Accuracy of dealt attack
 };
 
-void apply_ammo_effects( const tripoint &p, const std::set<ammo_effect_str_id> &effects );
+void apply_ammo_effects( const tripoint &p, const std::set<ammo_effect_str_id> &effects,
+                         Creature *source );
 // Legacy. TODO: Remove
-void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects );
+void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects,
+                         Creature *source );
 int max_aoe_size( const std::set<ammo_effect_str_id> &tags );
 int max_aoe_size( const std::set<std::string> &tags );
 

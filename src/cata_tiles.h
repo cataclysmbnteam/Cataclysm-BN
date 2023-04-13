@@ -113,7 +113,7 @@ class tileset
     private:
         struct season_tile_value {
             tile_type *default_tile = nullptr;
-            cata::optional<tile_lookup_res> season_tile = cata::nullopt;
+            std::optional<tile_lookup_res> season_tile = std::nullopt;
         };
 
         std::string tileset_id;
@@ -183,17 +183,17 @@ class tileset
          * Example: if id == "t_tree_apple" and season == SPRING
          *    will first look up "t_tree_apple_season_spring"
          *    if not found, will look up "t_tree_apple"
-         *    if still nothing is found, will return cata::nullopt
+         *    if still nothing is found, will return std::nullopt
          * @param id : "raw" tile id (without season suffix)
          * @param season : season suffix encoded as season_type enum
-         * @return cata::nullopt if no tile is found,
-         *    cata::optional with found id (e.g. "t_tree_apple_season_spring" or "t_tree_apple) and found tile.
+         * @return std::nullopt if no tile is found,
+         *    std::optional with found id (e.g. "t_tree_apple_season_spring" or "t_tree_apple) and found tile.
          *
          * Note: this method is guaranteed to return pointers to the keys and values stored inside the
          * `tileset::tile_ids` collection. I.e. result of this method call is invalidated when
          *  the corresponding `tileset` is invalidated.
          */
-        cata::optional<tile_lookup_res> find_tile_type_by_season( const std::string &id,
+        std::optional<tile_lookup_res> find_tile_type_by_season( const std::string &id,
                 season_type season ) const;
 };
 
@@ -221,11 +221,11 @@ class tileset_loader
         void ensure_default_item_highlight();
 
         /** Returns false if failed to create texture. */
-        bool copy_surface_to_texture( const SDL_Surface_Ptr &surf, const point &offset,
+        bool copy_surface_to_texture( const SDL_Surface_Ptr &surf, point offset,
                                       std::vector<texture> &target );
 
         /** Returns false if failed to create texture(s). */
-        bool create_textures_from_tile_atlas( const SDL_Surface_Ptr &tile_atlas, const point &offset );
+        bool create_textures_from_tile_atlas( const SDL_Surface_Ptr &tile_atlas, point offset );
 
         void process_variations_after_loading( weighted_int_list<std::vector<int>> &v );
 
@@ -360,30 +360,30 @@ class cata_tiles
         void on_options_changed();
 
         /** Draw to screen */
-        void draw( const point &dest, const tripoint &center, int width, int height,
+        void draw( point dest, const tripoint &center, int width, int height,
                    std::multimap<point, formatted_text> &overlay_strings,
                    color_block_overlay_container &color_blocks );
-        void draw_om( const point &dest, const tripoint_abs_omt &center_abs_omt, bool blink );
+        void draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bool blink );
 
         bool terrain_requires_animation() const;
 
         /** Minimap functionality */
-        void draw_minimap( const point &dest, const tripoint &center, int width, int height );
+        void draw_minimap( point dest, const tripoint &center, int width, int height );
         bool minimap_requires_animation() const;
 
     protected:
         /** How many rows and columns of tiles fit into given dimensions **/
         void get_window_tile_counts( int width, int height, int &columns, int &rows ) const;
 
-        cata::optional<tile_lookup_res> find_tile_with_season( const std::string &id ) const;
+        std::optional<tile_lookup_res> find_tile_with_season( const std::string &id ) const;
 
-        cata::optional<tile_lookup_res>
+        std::optional<tile_lookup_res>
         find_tile_looks_like( const std::string &id, TILE_CATEGORY category,
                               int looks_like_jumps_limit = 10 ) const;
 
         // this templated method is used only from it's own cpp file, so it's ok to declare it here
         template<typename T>
-        cata::optional<tile_lookup_res>
+        std::optional<tile_lookup_res>
         find_tile_looks_like_by_string_id( const std::string &id, TILE_CATEGORY category,
                                            int looks_like_jumps_limit ) const;
 
@@ -439,7 +439,7 @@ class cata_tiles
          */
         bool draw_sprite_at(
             const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
-            const point &, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
+            point, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
             bool apply_night_vision_goggles, int overlay_count );
 
         /**
@@ -451,7 +451,7 @@ class cata_tiles
          */
         bool draw_sprite_at(
             const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
-            const point &, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
+            point, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
             bool apply_night_vision_goggles, int &height_3d, int overlay_count );
 
         /**
@@ -468,7 +468,7 @@ class cata_tiles
          * @param overlay_count how blue the tile looks for lower z levels
          * @return always true.
          */
-        bool draw_tile_at( const tile_type &tile, const point &, unsigned int loc_rand, int rota,
+        bool draw_tile_at( const tile_type &tile, point, unsigned int loc_rand, int rota,
                            lit_level ll, bool apply_night_vision_goggles, int &height_3d, int overlay_count );
 
         /** Tile Picking */
@@ -595,7 +595,7 @@ class cata_tiles
         void void_item_override();
 
         void init_draw_vpart_override( const tripoint &p, const vpart_id &id, int part_mod,
-                                       units::angle veh_dir, bool hilite, const point &mount );
+                                       units::angle veh_dir, bool hilite, point mount );
         void void_vpart_override();
 
         void init_draw_below_override( const tripoint &p, bool draw );
@@ -644,8 +644,8 @@ class cata_tiles
         float get_tile_ratioy() const {
             return tile_ratioy;
         }
-        void do_tile_loading_report();
-        point player_to_screen( const point & ) const;
+        void do_tile_loading_report( std::function<void( std::string )> out );
+        point player_to_screen( point ) const;
         static std::vector<options_manager::id_and_option> build_renderer_list();
         static std::vector<options_manager::id_and_option> build_display_list();
     private:
@@ -654,19 +654,21 @@ class cata_tiles
     protected:
         template <typename maptype>
         void tile_loading_report( const maptype &tiletypemap, TILE_CATEGORY category,
-                                  const std::string &prefix = "" );
+                                  std::function<void( std::string )> out, const std::string &prefix = "" );
         template <typename arraytype>
         void tile_loading_report( const arraytype &array, int array_length, TILE_CATEGORY category,
-                                  const std::string &prefix = "" );
+                                  std::function<void( std::string )> out, const std::string &prefix = "" );
         template <typename basetype>
-        void tile_loading_report( size_t count, TILE_CATEGORY category, const std::string &prefix );
+        void tile_loading_report( size_t count, TILE_CATEGORY category,
+                                  std::function<void( std::string )> out,
+                                  const std::string &prefix );
         /**
          * Generic tile_loading_report, begin and end are iterators, id_func translates the iterator
          * to an id string (result of id_func must be convertible to string).
          */
         template<typename Iter, typename Func>
         void lr_generic( Iter begin, Iter end, Func id_func, TILE_CATEGORY category,
-                         const std::string &prefix );
+                         std::function<void( std::string )> out, const std::string &prefix );
         /** Lighting */
         void init_light();
 

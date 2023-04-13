@@ -848,7 +848,7 @@
       [ "can_drink_unsealed", 30 ],
       [ "bottle_plastic", 30 ],
       [ "bag_plastic", 30 ],
-      [ "paper", 30 ],
+      { "item": "paper", "prob": 30, "charges": [ 1, 50 ] },
       [ "rolling_paper", 20 ],
       [ "rag_bloody", 20 ],
       [ "flashlight", 20 ],
@@ -868,7 +868,7 @@
     "items": [
       [ "string_6", 50 ],
       [ "wrapper", 50 ],
-      [ "paper", 50 ],
+      { "item": "paper", "prob": 50, "charges": [ 1, 50 ] },
       [ "ceramic_shard", 40 ],
       [ "shot_hull", 40 ],
       [ "splinter", 40 ],
@@ -956,7 +956,6 @@
       [ "38_casing", 20 ],
       [ "45_casing", 20 ],
       [ "bone_tainted", 1 ],
-      [ "toothbrush_plain", 10 ],
       { "group": "corpse_mansion", "prob": 1 }
     ]
   },
@@ -1122,10 +1121,7 @@
       [ "oxy_powder", 5 ],
       [ "fungicide", 5 ],
       [ "insecticide", 5 ],
-      { "item": "charcoal", "prob": 5, "container-item": "bag_canvas" },
-      [ "toilet_paper", 30 ],
-      [ "plunger_toilet", 10 ],
-      [ "plunger_futuristic", 25 ]
+      { "item": "charcoal", "prob": 5, "container-item": "bag_canvas" }
     ]
   },
   {
@@ -1273,9 +1269,7 @@
       { "group": "harddrugs", "prob": 5 },
       [ "hairbrush", 30 ],
       [ "comb_pocket", 15 ],
-      [ "curler_hair", 10 ],
-      [ "curling_iron", 15 ],
-      [ "brush_toilet", 15 ]
+      [ "curling_iron", 15 ]
     ]
   },
   {

@@ -251,7 +251,7 @@ static std::string get_encumbrance_description( const Character &p, body_part bp
                                 -( eff_encumbrance / 10.0f ) );
             s += melee_cost_text( eff_encumbrance / 2 );
             s += string_format( _( "Reduced gun aim speed: <color_white>%.1f</color>" ),
-                                p.aim_speed_encumbrance_modifier() );
+                                ranged::aim_speed_encumbrance_modifier( p ) );
             break;
         case bp_leg_l:
         case bp_leg_r:
@@ -1445,7 +1445,7 @@ void character_display::upgrade_stat_prompt( avatar &you, const character_stat &
     const int free_points = you.free_upgrade_points();
 
     if( free_points <= 0 ) {
-        cata::optional<int> xp_remains = you.kill_xp_for_next_point();
+        std::optional<int> xp_remains = you.kill_xp_for_next_point();
         if( !xp_remains ) {
             popup( _( "You've already reached maximum level." ) );
         } else {

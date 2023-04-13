@@ -123,6 +123,7 @@ ignorable = {
 #   "description" member
 #   "text" member
 #   "sound" member
+#   "prompt" member
 #   "messages" member containing an array of translatable strings
 automatically_convertible = {
     "achievement",
@@ -807,6 +808,12 @@ def extract_snippet(state, item):
             writestr(state, snip["text"])
 
 
+def extract_weapon_category(state, item):
+    name = item["name"]
+    comment = "weapon category name"
+    writestr(state, name, comment=comment)
+
+
 # these objects need to have their strings specially extracted
 extract_specials = {
     "body_part": extract_bodypart,
@@ -838,6 +845,7 @@ extract_specials = {
     "ter_furn_transform": extract_ter_furn_transform,
     "trap": extract_trap,
     "vehicle_spawn": extract_vehspawn,
+    "weapon_category": extract_weapon_category,
 }
 
 
@@ -1086,11 +1094,23 @@ def extract(state, item):
         seed_data = item["seed_data"]
         writestr(state, seed_data["plant_name"])
         wrote = True
-    if "relic_data" in item and "name" in item["relic_data"]:
-        writestr(state, item["relic_data"]["name"])
-        wrote = True
+    if "relic_data" in item:
+        relic_data = item["relic_data"]
+        if "name" in relic_data:
+            writestr(state, relic_data["name"])
+            wrote = True
+        if "recharge_scheme" in relic_data:
+            for rech in relic_data["recharge_scheme"]:
+                if "message" in rech:
+                    writestr(state, rech["message"],
+                      comment="Relic recharge message for {} '{}'".format(object_type, name)
+                    )
+                    wrote = True
     if "text" in item:
         writestr(state, item["text"])
+        wrote = True
+    if "prompt" in item:
+        writestr(state, item["prompt"])
         wrote = True
     if "message" in item:
         writestr(state, item["message"], format_strings=True,

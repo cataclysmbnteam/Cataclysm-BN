@@ -6,6 +6,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <string>
 #include <tuple>
 #include <unordered_map>
@@ -14,6 +15,7 @@
 
 #include "addiction.h"
 #include "avatar.h"
+#include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -38,7 +40,6 @@
 #include "mutation.h"
 #include "name.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "overmapbuffer.h"
 #include "pldata.h"
@@ -199,8 +200,7 @@ void Character::suffer_water_damage( const mutation_branch &mdata )
     }
 }
 
-void Character::suffer_mutation_power( const mutation_branch &mdata,
-                                       Character::trait_data &tdata )
+void Character::suffer_mutation_power( const mutation_branch &mdata, char_trait_data &tdata )
 {
     if( tdata.powered && tdata.charge > 0 ) {
         // Already-on units just lose a bit of charge
@@ -256,15 +256,15 @@ void Character::suffer_while_underwater()
         oxygen += 12;
     }
     if( oxygen <= 5 ) {
-        if( has_bionic( bio_gills ) && get_power_level() >= 25_kJ ) {
+        if( has_bionic( bio_gills ) && get_power_level() >= bio_gills->power_trigger ) {
             oxygen += 5;
-            mod_power_level( -25_kJ );
+            mod_power_level( -bio_gills->power_trigger );
         } else {
             add_msg_if_player( m_bad, _( "You're drowning!" ) );
             apply_damage( nullptr, bodypart_id( "torso" ), rng( 1, 4 ) );
         }
     }
-    if( has_trait( trait_FRESHWATEROSMOSIS ) && !g->m.has_flag_ter( "SALT_WATER", pos() ) &&
+    if( has_trait( trait_FRESHWATEROSMOSIS ) && !get_map().has_flag_ter( "SALT_WATER", pos() ) &&
         get_thirst() > thirst_levels::turgid ) {
         mod_thirst( -1 );
     }
@@ -626,8 +626,8 @@ void Character::suffer_from_asthma( const int current_stim )
     }
     bool auto_use = has_charges( itype_inhaler, 1 ) || has_charges( itype_oxygen_tank, 1 ) ||
                     has_charges( itype_smoxygen_tank, 1 );
-    bool oxygenator = has_bionic( bio_gills ) && get_power_level() >= 3_kJ;
-    if( underwater ) {
+    bool oxygenator = has_bionic( bio_gills ) && get_power_level() >= ( bio_gills->power_trigger / 8 );
+    if( is_underwater() ) {
         oxygen = oxygen / 2;
         auto_use = false;
     }
@@ -644,7 +644,7 @@ void Character::suffer_from_asthma( const int current_stim )
                           map_inv.has_charges( itype_smoxygen_tank, 1 );
         // check if character has an oxygenator first
         if( oxygenator ) {
-            mod_power_level( -3_kJ );
+            mod_power_level( -bio_gills->power_trigger / 8 );
             add_msg_if_player( m_info, _( "You use your Oxygenator to clear it up, "
                                           "then go back to sleep." ) );
         } else if( auto_use ) {
@@ -658,10 +658,11 @@ void Character::suffer_from_asthma( const int current_stim )
         } else if( nearby_use ) {
             // create new variable to resolve a reference issue
             int amount = 1;
-            if( !g->m.use_charges( g->u.pos(), 2, itype_inhaler, amount ).empty() ) {
+            map &here = get_map();
+            if( !here.use_charges( g->u.pos(), 2, itype_inhaler, amount ).empty() ) {
                 add_msg_if_player( m_info, _( "You use your inhaler and go back to sleep." ) );
-            } else if( !g->m.use_charges( g->u.pos(), 2, itype_oxygen_tank, amount ).empty() ||
-                       !g->m.use_charges( g->u.pos(), 2, itype_smoxygen_tank, amount ).empty() ) {
+            } else if( !here.use_charges( g->u.pos(), 2, itype_oxygen_tank, amount ).empty() ||
+                       !here.use_charges( g->u.pos(), 2, itype_smoxygen_tank, amount ).empty() ) {
                 add_msg_if_player( m_info, _( "You take a deep breath from your oxygen tank "
                                               "and go back to sleep." ) );
             }
@@ -723,7 +724,7 @@ void Character::suffer_in_sunlight()
     const bool leafier = has_trait( trait_LEAVES2 ) || has_trait( trait_LEAVES3 );
     const bool leafiest = has_trait( trait_LEAVES3 );
     int sunlight_nutrition = 0;
-    if( leafy && g->m.is_outside( pos() ) && ( g->light_level( pos().z ) >= 40 ) ) {
+    if( leafy && get_map().is_outside( pos() ) && ( g->light_level( pos().z ) >= 40 ) ) {
         const float weather_factor = ( get_weather().weather_id->sun_intensity >=
                                        sun_intensity_type::normal ) ? 1.0 : 0.5;
         const int player_local_temp = get_weather().get_temperature( pos() );
@@ -943,9 +944,10 @@ void Character::suffer_from_sunburn()
 
 void Character::suffer_from_other_mutations()
 {
+    map &here = get_map();
     if( has_trait( trait_SHARKTEETH ) && one_turn_in( 24_hours ) ) {
         add_msg_if_player( m_neutral, _( "You shed a tooth!" ) );
-        g->m.spawn_item( pos(), "bone", 1 );
+        here.spawn_item( pos(), "bone", 1 );
     }
 
     if( has_active_mutation( trait_WINGS_INSECT ) ) {
@@ -957,7 +959,7 @@ void Character::suffer_from_other_mutations()
     bool wearing_shoes = is_wearing_shoes( side::LEFT ) || is_wearing_shoes( side::RIGHT );
     int root_vitamins = 0;
     int root_water = 0;
-    if( has_trait( trait_ROOTS3 ) && g->m.has_flag( flag_PLOWABLE, pos() ) && !wearing_shoes ) {
+    if( has_trait( trait_ROOTS3 ) && here.has_flag( flag_PLOWABLE, pos() ) && !wearing_shoes ) {
         root_vitamins += 1;
         if( get_thirst() <= thirst_levels::turgid ) {
             root_water += 51;
@@ -991,7 +993,7 @@ void Character::suffer_from_other_mutations()
     //Web Weavers...weave web
     if( has_active_mutation( trait_WEB_WEAVER ) && !in_vehicle ) {
         // this adds intensity to if its not already there.
-        g->m.add_field( pos(), fd_web, 1 );
+        here.add_field( pos(), fd_web, 1 );
 
     }
 
@@ -1016,7 +1018,7 @@ void Character::suffer_from_other_mutations()
 
     if( has_trait( trait_WEB_SPINNER ) && !in_vehicle && one_in( 3 ) ) {
         // this adds intensity to if its not already there.
-        g->m.add_field( pos(), fd_web, 1 );
+        here.add_field( pos(), fd_web, 1 );
     }
 
     bool should_mutate = has_trait( trait_UNSTABLE ) && !has_trait( trait_CHAOTIC_BAD ) &&
@@ -1051,9 +1053,10 @@ void Character::suffer_from_other_mutations()
 
 void Character::suffer_from_radiation()
 {
+    map &here = get_map();
     // checking for radioactive items in inventory
     const int item_radiation = leak_level( "RADIOACTIVE" );
-    const int map_radiation = g->m.get_radiation( pos() );
+    const int map_radiation = here.get_radiation( pos() );
     float rads = map_radiation / 100.0f + item_radiation / 10.0f;
 
     int rad_mut = 0;
@@ -1086,8 +1089,8 @@ void Character::suffer_from_radiation()
             // If you can't, irradiate the player instead
             tripoint rad_point = pos() + point( rng( -3, 3 ), rng( -3, 3 ) );
             // TODO: Radioactive vehicles?
-            if( g->m.get_radiation( rad_point ) < rad_mut ) {
-                g->m.adjust_radiation( rad_point, 1 );
+            if( here.get_radiation( rad_point ) < rad_mut ) {
+                here.adjust_radiation( rad_point, 1 );
             } else {
                 rads += rad_mut;
             }
@@ -1225,12 +1228,13 @@ void Character::suffer_from_radiation()
 void Character::suffer_from_bad_bionics()
 {
     // Negative bionics effects
-    if( has_bionic( bio_dis_shock ) && get_power_level() > 9_kJ && one_turn_in( 2_hours ) &&
+    if( has_bionic( bio_dis_shock ) && get_power_level() > bio_dis_shock->power_trigger &&
+        one_turn_in( 2_hours ) &&
         !has_effect( effect_narcosis ) ) {
         add_msg_if_player( m_bad, _( "You suffer a painful electrical discharge!" ) );
         mod_pain( 1 );
         moves -= 150;
-        mod_power_level( -10_kJ );
+        mod_power_level( -bio_dis_shock->power_trigger );
 
         if( weapon.typeId() == itype_e_handcuffs && weapon.charges > 0 ) {
             weapon.charges -= rng( 1, 3 ) * 50;
@@ -1287,9 +1291,10 @@ void Character::suffer_from_bad_bionics()
         add_effect( effect_downed, 10_turns, num_bp, 0 );
         sfx::play_variant_sound( "bionics", "elec_crackle_high", 100 );
     }
-    if( has_bionic( bio_shakes ) && get_power_level() > 24_kJ && one_turn_in( 2_hours ) ) {
+    if( has_bionic( bio_shakes ) && get_power_level() > bio_shakes->power_trigger &&
+        one_turn_in( 2_hours ) ) {
         add_msg_if_player( m_bad, _( "Your bionics short-circuit, causing you to tremble and shiver." ) );
-        mod_power_level( -25_kJ );
+        mod_power_level( -bio_shakes->power_trigger );
         add_effect( effect_shakes, 5_minutes );
         sfx::play_variant_sound( "bionics", "elec_crackle_med", 100 );
     }
@@ -1306,10 +1311,10 @@ void Character::suffer_from_bad_bionics()
         add_effect( effect_formication, 10_minutes, bp );
     }
     if( has_bionic( bio_glowy ) && !has_effect( effect_glowy_led ) && one_turn_in( 50_minutes ) &&
-        get_power_level() > 1_kJ ) {
+        get_power_level() > bio_glowy->power_trigger ) {
         add_msg_if_player( m_bad, _( "Your malfunctioning bionic starts to glow!" ) );
         add_effect( effect_glowy_led, 5_minutes );
-        mod_power_level( -1_kJ );
+        mod_power_level( -bio_glowy->power_trigger );
     }
 }
 
@@ -1474,22 +1479,22 @@ void Character::suffer()
         }
     }
 
-    for( size_t i = 0; i < get_bionics().size(); i++ ) {
-        process_bionic( i );
+    for( bionic &bio : *my_bionics ) {
+        process_bionic( bio );
     }
 
-    for( std::pair<const trait_id, Character::trait_data> &mut : my_mutations ) {
+    for( std::pair<const trait_id, char_trait_data> &mut : my_mutations ) {
         const mutation_branch &mdata = mut.first.obj();
         if( calendar::once_every( 1_minutes ) ) {
             suffer_water_damage( mdata );
         }
-        Character::trait_data &tdata = mut.second;
+        char_trait_data &tdata = mut.second;
         if( tdata.powered ) {
             suffer_mutation_power( mdata, tdata );
         }
     }
 
-    if( underwater ) {
+    if( is_underwater() ) {
         suffer_while_underwater();
     }
 

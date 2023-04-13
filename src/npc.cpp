@@ -56,6 +56,7 @@
 #include "pathfinding.h"
 #include "player_activity.h"
 #include "pldata.h"
+#include "ranged.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "skill.h"
@@ -137,7 +138,7 @@ npc::npc()
     position.x = -1;
     position.y = -1;
     position.z = 500;
-    last_player_seen_pos = cata::nullopt;
+    last_player_seen_pos = std::nullopt;
     last_seen_player_turn = 999;
     wanted_item_pos = tripoint_min;
     guard_pos = tripoint_min;
@@ -165,6 +166,12 @@ npc::npc()
     for( direction threat_dir : npc_threat_dir ) {
         ai_cache.threat_map[ threat_dir ] = 0.0f;
     }
+
+    // This should be in Character constructor, but because global avatar
+    // gets instantiated on game launch and not after data loading stage
+    // (normalize() depends on game data), we must normalize avatar in a separate call.
+    // FIXME: move normalization to Character constructor
+    character_funcs::normalize( *this );
 }
 
 standard_npc::standard_npc( const std::string &name, const tripoint &pos,
@@ -726,7 +733,7 @@ void npc::spawn_at_sm( const tripoint &p )
     spawn_at_precise( p.xy(), tripoint( rng( 0, SEEX - 1 ), rng( 0, SEEY - 1 ), p.z ) );
 }
 
-void npc::spawn_at_precise( const point &submap_offset, const tripoint &square )
+void npc::spawn_at_precise( point submap_offset, const tripoint &square )
 {
     submap_coords = submap_offset;
     submap_coords.x += square.x / SEEX;
@@ -1150,7 +1157,7 @@ void npc::stow_item( item &it )
 
 bool npc::wield( item &it )
 {
-    cached_info.erase( "weapon_value" );
+    clear_npc_ai_info_cache( "weapon_value" );
     if( is_armed() ) {
         stow_item( weapon );
     }
@@ -1204,7 +1211,8 @@ void npc::drop( const drop_locations &what, const tripoint &target,
 void npc::invalidate_range_cache()
 {
     if( weapon.is_gun() ) {
-        confident_range_cache = confident_shoot_range( weapon, get_most_accurate_sight( weapon ) );
+        confident_range_cache =
+            confident_shoot_range( weapon, ranged::get_most_accurate_sight( *this, weapon ) );
     } else {
         confident_range_cache = weapon.reach_range( *this );
     }
@@ -1220,7 +1228,7 @@ void npc::form_opinion( const player &u )
         } else {
             op_of_u.fear += 6;
         }
-    } else if( u.weapon_value( u.weapon ) > 20 ) {
+    } else if( npc_ai::weapon_value( u, u.weapon ) > 20 ) {
         op_of_u.fear += 2;
     } else if( !u.is_armed() ) {
         // Unarmed, but actually unarmed ("unarmed weapons" are not unarmed)
@@ -1360,7 +1368,7 @@ void npc::mutiny()
     set_fac( faction_id( "amf" ) );
     job.clear_all_priorities();
     if( assigned_camp ) {
-        assigned_camp = cata::nullopt;
+        assigned_camp = std::nullopt;
     }
     chatbin.first_topic = "TALK_STRANGER_NEUTRAL";
     set_attitude( NPCATT_NULL );
@@ -1496,7 +1504,9 @@ void npc::decide_needs()
                               charges_of( itype_UPS_off, ups_drain );
             needrank[need_ammo] = static_cast<double>( ups_charges ) / ups_drain;
         } else {
-            needrank[need_ammo] = get_ammo( ammotype( *weapon.type->gun->ammo.begin() ) ).size();
+            needrank[need_ammo] = character_funcs::get_ammo_items(
+                                      *this, ammotype( *weapon.type->gun->ammo.begin() )
+                                  ).size();
         }
         needrank[need_ammo] *= 5;
     }
@@ -1504,7 +1514,7 @@ void npc::decide_needs()
         needrank[need_safety] = 1;
     }
 
-    needrank[need_weapon] = weapon_value( weapon );
+    needrank[need_weapon] = npc_ai::weapon_value( *this, weapon );
     needrank[need_food] = 15.0f - ( max_stored_kcal() - get_stored_kcal() ) / 10.0f;
     needrank[need_drink] = 15 - get_thirst();
     invslice slice = inv.slice();
@@ -1755,7 +1765,7 @@ int npc::value( const item &it, int market_price ) const
 
     int ret = 0;
     // TODO: Cache own weapon value (it can be a bit expensive to compute 50 times/turn)
-    double weapon_val = weapon_value( it ) - weapon_value( weapon );
+    double weapon_val = npc_ai::weapon_value( *this, it ) - npc_ai::weapon_value( *this, weapon );
     if( weapon_val > 0 ) {
         ret += weapon_val;
     }
@@ -1778,12 +1788,18 @@ int npc::value( const item &it, int market_price ) const
     }
 
     if( it.is_ammo() ) {
-        if( weapon.is_gun() && weapon.ammo_types().count( it.ammo_type() ) ) {
+        const ammotype &at = it.ammo_type();
+        if( weapon.is_gun() && weapon.ammo_types().count( at ) ) {
             // TODO: magazines - don't count ammo as usable if the weapon isn't.
             ret += 14;
         }
 
-        if( has_gun_for_ammo( it.ammo_type() ) ) {
+        bool has_gun_for_ammo = has_item_with( [at]( const item & itm ) {
+            // item::ammo_type considers the active gunmod.
+            return itm.is_gun() && itm.ammo_types().count( at );
+        } );
+
+        if( has_gun_for_ammo ) {
             // TODO: consider making this cumulative (once was)
             ret += 14;
         }
@@ -2031,7 +2047,7 @@ bool npc::within_boundaries_of_camp() const
     for( int x2 = -3; x2 < 3; x2++ ) {
         for( int y2 = -3; y2 < 3; y2++ ) {
             const point_abs_omt nearby = p + point( x2, y2 );
-            cata::optional<basecamp *> bcp = overmap_buffer.find_camp( nearby );
+            std::optional<basecamp *> bcp = overmap_buffer.find_camp( nearby );
             if( bcp ) {
                 return true;
             }
@@ -2131,7 +2147,7 @@ void npc::npc_dismount()
                  disp_name() );
         return;
     }
-    cata::optional<tripoint> pnt;
+    std::optional<tripoint> pnt;
     for( const auto &elem : g->m.points_in_radius( pos(), 1 ) ) {
         if( g->is_empty( elem ) ) {
             pnt = elem;
@@ -2172,7 +2188,7 @@ float npc::danger_assessment()
 
 float npc::average_damage_dealt()
 {
-    return static_cast<float>( melee_value( weapon ) );
+    return static_cast<float>( npc_ai::melee_value( *this, weapon ) );
 }
 
 bool npc::bravery_check( int diff )
@@ -2243,6 +2259,10 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     // w is also 48 characters wide - 2 characters for border = 46 characters for us
     mvwprintz( w, point( column, line++ ), c_white, _( "NPC: " ) );
     wprintz( w, basic_symbol_color(), name );
+
+    if( display_object_ids ) {
+        mvwprintz( w, point( column, line++ ), c_light_blue, string_format( "[%s]", myclass ) );
+    }
 
     if( sees( g->u ) ) {
         mvwprintz( w, point( column, line++ ), c_yellow, _( "Aware of your presence!" ) );
@@ -2370,21 +2390,21 @@ std::string npc::opinion_text() const
     return ret;
 }
 
-static void maybe_shift( cata::optional<tripoint> &pos, const point &d )
+static void maybe_shift( std::optional<tripoint> &pos, point d )
 {
     if( pos ) {
         *pos += d;
     }
 }
 
-static void maybe_shift( tripoint &pos, const point &d )
+static void maybe_shift( tripoint &pos, point d )
 {
     if( pos != tripoint_min ) {
         pos += d;
     }
 }
 
-void npc::shift( const point &s )
+void npc::shift( point s )
 {
     const point shift = sm_to_ms_copy( s );
 
@@ -2410,7 +2430,7 @@ void npc::reboot()
     // if not, they will faint again, and the NPC can be kept asleep until the bug is fixed.
     cancel_activity();
     path.clear();
-    last_player_seen_pos = cata::nullopt;
+    last_player_seen_pos = std::nullopt;
     last_seen_player_turn = 999;
     wanted_item_pos = tripoint_min;
     guard_pos = tripoint_min;
@@ -2429,7 +2449,7 @@ void npc::reboot()
     ai_cache.sound_alerts.clear();
     ai_cache.s_abs_pos = tripoint_zero;
     ai_cache.stuck = 0;
-    ai_cache.guard_pos = cata::nullopt;
+    ai_cache.guard_pos = std::nullopt;
     ai_cache.my_weapon_value = 0;
     ai_cache.friends.clear();
     ai_cache.dangerous_explosives.clear();
@@ -2448,12 +2468,12 @@ void npc::die( Creature *nkiller )
         return;
     }
     if( assigned_camp ) {
-        cata::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *assigned_camp ).xy() );
+        std::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *assigned_camp ).xy() );
         if( bcp ) {
             ( *bcp )->remove_assignee( getID() );
         }
     }
-    assigned_camp = cata::nullopt;
+    assigned_camp = std::nullopt;
     // Need to unboard from vehicle before dying, otherwise
     // the vehicle code cannot find us
     if( in_vehicle ) {
@@ -3000,8 +3020,13 @@ std::string npc::extended_description() const
         ss += _( "Is neutral." );
     }
 
+    if( display_object_ids ) {
+        ss += "\n--\n";
+        ss += colorize( string_format( "[%s]", myclass ), c_light_blue );
+    }
+
     if( hit_by_player ) {
-        ss += "--\n";
+        ss += "\n--\n";
         ss += _( "Is still innocent and killing them will be considered murder." );
         // TODO: "But you don't care because you're an edgy psycho"
     }
@@ -3077,16 +3102,16 @@ void npc::reset_companion_mission()
     comp_mission.mission_id.clear();
     comp_mission.role_id.clear();
     if( comp_mission.destination ) {
-        comp_mission.destination = cata::nullopt;
+        comp_mission.destination = std::nullopt;
     }
 }
 
-cata::optional<tripoint_abs_omt> npc::get_mission_destination() const
+std::optional<tripoint_abs_omt> npc::get_mission_destination() const
 {
     if( comp_mission.destination ) {
         return comp_mission.destination;
     } else {
-        return cata::nullopt;
+        return std::nullopt;
     }
 }
 
@@ -3313,4 +3338,56 @@ void npc_follower_rules::clear_overrides()
 {
     overrides = ally_rule::DEFAULT;
     override_enable = ally_rule::DEFAULT;
+}
+
+bool job_data::set_task_priority( const activity_id &task, int new_priority )
+{
+    auto it = task_priorities.find( task );
+    if( it != task_priorities.end() ) {
+        task_priorities[task] = new_priority;
+        return true;
+    }
+    return false;
+}
+
+void job_data::clear_all_priorities()
+{
+    for( auto &elem : task_priorities ) {
+        elem.second = 0;
+    }
+}
+
+std::vector<activity_id> job_data::get_prioritised_vector() const
+{
+    std::vector<std::pair<activity_id, int>> pairs( begin( task_priorities ), end( task_priorities ) );
+
+    std::vector<activity_id> ret;
+    sort( begin( pairs ), end( pairs ), []( const std::pair<activity_id, int> &a,
+    const std::pair<activity_id, int> &b ) {
+        return a.second > b.second;
+    } );
+    for( std::pair<activity_id, int> elem : pairs ) {
+        ret.push_back( elem.first );
+    }
+    return ret;
+}
+
+int job_data::get_priority_of_job( const activity_id &req_job ) const
+{
+    auto it = task_priorities.find( req_job );
+    if( it != task_priorities.end() ) {
+        return it->second;
+    } else {
+        return 0;
+    }
+}
+
+bool job_data::has_job() const
+{
+    for( auto &elem : task_priorities ) {
+        if( elem.second > 0 ) {
+            return true;
+        }
+    }
+    return false;
 }

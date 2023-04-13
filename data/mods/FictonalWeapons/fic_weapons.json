@@ -59,6 +59,7 @@
   {
     "id": "gunsword",
     "type": "GUN",
+    "weapon_category": [ "1SHOT", "1H_SWORDS" ],
     "reload_noise_volume": 10,
     "symbol": "I",
     "color": "light_gray",
@@ -85,6 +86,7 @@
   {
     "id": "gunknife",
     "type": "GUN",
+    "weapon_category": [ "1SHOT", "KNIVES" ],
     "reload_noise_volume": 10,
     "symbol": "i",
     "color": "light_gray",
@@ -113,6 +115,7 @@
   {
     "id": "50pistol",
     "type": "GUN",
+    "weapon_category": [ "PISTOLS", "1SHOT" ],
     "reload_noise_volume": 10,
     "symbol": "[",
     "color": "dark_gray",
@@ -212,6 +215,7 @@
   {
     "id": "light_carb",
     "type": "GUN",
+    "weapon_category": [ "SUBMACHINE_GUNS", "ENERGY_WEAPONS" ],
     "reload_noise_volume": 10,
     "symbol": "(",
     "color": "dark_gray",
@@ -245,6 +249,7 @@
   {
     "id": "arccan",
     "type": "GUN",
+    "copy-from": "rifle_energy",
     "reload_noise_volume": 10,
     "symbol": "(",
     "color": "dark_gray",

@@ -18,7 +18,7 @@ void clear_avatar();
 void process_activity( player &dummy );
 
 npc &spawn_npc( const point &, const std::string &npc_class );
-void give_and_activate_bionic( player &, bionic_id const & );
+void give_and_activate_bionic( player &p, const bionic_id &bioid );
 
 void arm_character( player &shooter, const std::string &gun_type,
                     const std::vector<std::string> &mods = {},

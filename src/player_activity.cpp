@@ -12,6 +12,7 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "character.h"
+#include "character_turn.h"
 #include "color.h"
 #include "construction.h"
 #include "construction_partial.h"
@@ -176,10 +177,10 @@ static std::string craft_progress_message( const avatar &u, const player_activit
                           mults_desc );
 }
 
-cata::optional<std::string> player_activity::get_progress_message( const avatar &u ) const
+std::optional<std::string> player_activity::get_progress_message( const avatar &u ) const
 {
     if( !type || get_verb().empty() ) {
-        return cata::optional<std::string>();
+        return std::optional<std::string>();
     }
 
     if( actor ) {
@@ -190,7 +191,7 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
             } else if( msg.msg_extra_info ) {
                 return string_format( _( "%s: %s" ), get_verb().translated(), *msg.msg_extra_info );
             } else {
-                return cata::nullopt;
+                return std::nullopt;
             }
         }
     }
@@ -203,7 +204,7 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
         type == activity_id( "ACT_CONSUME_FOOD_MENU" ) ||
         type == activity_id( "ACT_CONSUME_MEDS_MENU" ) ||
         type == activity_id( "ACT_EAT_MENU" ) ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     std::string extra_info;
@@ -345,7 +346,7 @@ void player_activity::do_turn( player &p )
     }
     if( *this && type->rooted() ) {
         p.rooted();
-        p.pause();
+        character_funcs::do_pause( p );
     }
 
     if( *this && moves_left <= 0 ) {

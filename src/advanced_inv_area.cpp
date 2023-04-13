@@ -3,6 +3,7 @@
 #include <cstring>
 #include <iterator>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -22,7 +23,6 @@
 #include "item_contents.h"
 #include "map.h"
 #include "mapdata.h"
-#include "optional.h"
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
@@ -46,7 +46,7 @@ int advanced_inv_area::get_item_count() const
     }
 }
 
-advanced_inv_area::advanced_inv_area( aim_location id, const point &h, tripoint off,
+advanced_inv_area::advanced_inv_area( aim_location id, point h, tripoint off,
                                       const std::string &name, const std::string &shortname,
                                       std::string minimapname, std::string actionname,
                                       aim_location relative_location ) :
@@ -83,7 +83,7 @@ void advanced_inv_area::init()
             off = g->u.grab_point;
             // Reset position because offset changed
             pos = g->u.pos() + off;
-            if( const cata::optional<vpart_reference> vp = here.veh_at( pos ).part_with_feature( "CARGO",
+            if( const std::optional<vpart_reference> vp = here.veh_at( pos ).part_with_feature( "CARGO",
                     false ) ) {
                 veh = &vp->vehicle();
                 vstor = vp->part_index();
@@ -131,7 +131,7 @@ void advanced_inv_area::init()
         case AIM_NORTHWEST:
         case AIM_NORTH:
         case AIM_NORTHEAST: {
-            const cata::optional<vpart_reference> vp =
+            const std::optional<vpart_reference> vp =
                 here.veh_at( pos ).part_with_feature( "CARGO", false );
             if( vp ) {
                 veh = &vp->vehicle();
@@ -412,7 +412,7 @@ void advanced_inv_area::set_container_position()
     // update the absolute position
     pos = g->u.pos() + off;
     // update vehicle information
-    if( const cata::optional<vpart_reference> vp = get_map().veh_at( pos ).part_with_feature( "CARGO",
+    if( const std::optional<vpart_reference> vp = get_map().veh_at( pos ).part_with_feature( "CARGO",
             false ) ) {
         veh = &vp->vehicle();
         vstor = vp->part_index();

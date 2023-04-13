@@ -6,6 +6,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <vector>
@@ -14,7 +15,6 @@
 #include "coordinates.h"
 #include "inventory.h"
 #include "memory_fast.h"
-#include "optional.h"
 #include "point.h"
 #include "requirements.h"
 #include "translations.h"
@@ -162,23 +162,23 @@ class basecamp
         void abandon_camp();
         void add_expansion( const std::string &terrain, const tripoint_abs_omt &new_pos );
         void add_expansion( const std::string &bldg, const tripoint_abs_omt &new_pos,
-                            const point &dir );
+                            point dir );
         void define_camp( const tripoint_abs_omt &p, const std::string &camp_type = "default" );
 
-        std::string expansion_tab( const point &dir ) const;
+        std::string expansion_tab( point dir ) const;
         // upgrade levels
         bool has_provides( const std::string &req, const expansion_data &e_data, int level = 0 ) const;
-        bool has_provides( const std::string &req, const cata::optional<point> &dir = cata::nullopt,
+        bool has_provides( const std::string &req, const std::optional<point> &dir = std::nullopt,
                            int level = 0 ) const;
         void update_resources( const std::string &bldg );
         void update_provides( const std::string &bldg, expansion_data &e_data );
-        void update_in_progress( const std::string &bldg, const point &dir );
+        void update_in_progress( const std::string &bldg, point dir );
 
         bool can_expand();
         /// Returns the name of the building the current building @ref dir upgrades into,
         /// "null" if there isn't one
-        std::string next_upgrade( const point &dir, int offset = 1 ) const;
-        std::vector<basecamp_upgrade> available_upgrades( const point &dir );
+        std::string next_upgrade( point dir, int offset = 1 ) const;
+        std::vector<basecamp_upgrade> available_upgrades( point dir );
 
         // camp utility functions
         int recruit_evaluation() const;
@@ -201,7 +201,7 @@ class basecamp
 
         // recipes, gathering, and craft support functions
         // from a direction
-        std::map<recipe_id, translation> recipe_deck( const point &dir ) const;
+        std::map<recipe_id, translation> recipe_deck( point dir ) const;
         // from a building
         std::map<recipe_id, translation> recipe_deck( const std::string &bldg ) const;
         int recipe_batch_max( const recipe &making ) const;
@@ -238,7 +238,7 @@ class basecamp
         void place_results( item result );
 
         // mission description functions
-        void add_available_recipes( mission_data &mission_key, const point &dir,
+        void add_available_recipes( mission_data &mission_key, point dir,
                                     const std::map<recipe_id, translation> &craft_recipes );
 
         std::string recruit_description( int npc_count );
@@ -255,12 +255,12 @@ class basecamp
 
         // main mission description collection
         void get_available_missions( mission_data &mission_key );
-        void get_available_missions_by_dir( mission_data &mission_key, const point &dir );
+        void get_available_missions_by_dir( mission_data &mission_key, point dir );
         // available companion list manipulation
         void reset_camp_workers();
         comp_list get_mission_workers( const std::string &mission_id, bool contains = false );
         // main mission start/return dispatch function
-        bool handle_mission( const std::string &miss_id, const cata::optional<point> &opt_miss_dir );
+        bool handle_mission( const std::string &miss_id, const std::optional<point> &opt_miss_dir );
 
         // mission start functions
         /// generic mission start function that wraps individual mission
@@ -272,12 +272,12 @@ class basecamp
                                bool must_feed, const std::string &desc, bool group,
                                const std::vector<item *> &equipment,
                                const std::map<skill_id, int> &required_skills = {} );
-        void start_upgrade( const std::string &bldg, const point &dir, const std::string &key );
+        void start_upgrade( const std::string &bldg, point dir, const std::string &key );
         std::string om_upgrade_description( const std::string &bldg, bool trunc = false ) const;
         void start_menial_labor();
         void worker_assignment_ui();
         void job_assignment_ui();
-        void start_crafting( const std::string &cur_id, const point &cur_dir,
+        void start_crafting( const std::string &cur_id, point cur_dir,
                              const std::string &type, const std::string &miss_id );
 
         /// Called when a companion is sent to cut logs
@@ -289,8 +289,8 @@ class basecamp
         void start_fortifications( std::string &bldg_exp );
         void start_combat_mission( const std::string &miss );
         /// Called when a companion starts a chop shop @ref task mission
-        bool start_garage_chop( const point &dir, const tripoint_abs_omt &omt_tgt );
-        void start_farm_op( const point &dir, const tripoint_abs_omt &omt_tgt, farm_ops op );
+        bool start_garage_chop( point dir, const tripoint_abs_omt &omt_tgt );
+        void start_farm_op( point dir, const tripoint_abs_omt &omt_tgt, farm_ops op );
         ///Display items listed in @ref equipment to let the player pick what to give the departing
         ///NPC, loops until quit or empty.
         std::vector<item *> give_equipment( std::vector<item *> equipment, const std::string &msg );
@@ -311,9 +311,9 @@ class basecamp
 
         /// Called to close upgrade missions, @ref miss is the name of the mission id
         /// and @ref dir is the direction of the location to be upgraded
-        bool upgrade_return( const point &dir, const std::string &miss );
+        bool upgrade_return( point dir, const std::string &miss );
         /// As above, but with an explicit blueprint recipe to upgrade
-        bool upgrade_return( const point &dir, const std::string &miss, const std::string &bldg );
+        bool upgrade_return( point dir, const std::string &miss, const std::string &bldg );
 
         /// Choose which expansion you should start, called when a survey mission is completed
         bool survey_return();

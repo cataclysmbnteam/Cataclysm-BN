@@ -3,43 +3,43 @@
     "id": "pistol_tiny_casing",
     "copy-from": "22_casing",
     "type": "GENERIC",
-    "name": "tiny pistol casing",
-    "description": "An empty casing from a tiny pistol round."
+    "name": ".22 casing",
+    "description": "An empty casing from a .22 round."
   },
   {
     "id": "pistol_casing",
     "copy-from": "9mm_casing",
     "type": "GENERIC",
-    "name": { "str": "pistol casing" },
-    "description": "An empty casing from a standard pistol round."
+    "name": "9mm casing",
+    "description": "An empty casing from a 9mm round."
   },
   {
     "id": "pistol_magnum_casing",
     "copy-from": "44_casing",
     "type": "GENERIC",
-    "name": { "str": "magnum pistol casing" },
-    "description": "An empty casing from a magnum pistol round."
+    "name": ".44 casing",
+    "description": "An empty casing from a .44 round."
   },
   {
     "id": "rifle_casing",
     "copy-from": "223_casing",
     "type": "GENERIC",
-    "name": { "str": "rifle casing" },
-    "description": "An empty casing from a rifle round."
+    "name": "5.56mm casing",
+    "description": "An empty casing from a 5.56mm round."
   },
   {
     "id": "sniper_casing",
     "copy-from": "308_casing",
     "type": "GENERIC",
-    "name": { "str": "sniper casing" },
-    "description": "An empty casing from a sniper round."
+    "name": "7.62mm casing",
+    "description": "An empty casing from a 7.62mm round."
   },
   {
     "id": "rifle_huge_casing",
     "copy-from": "50_casing",
     "type": "GENERIC",
-    "name": { "str": "huge rifle casing" },
-    "description": "An empty casing from a huge rifle round."
+    "name": "12.7mm casing",
+    "description": "An empty casing from a 12.7mm round."
   },
   {
     "id": "shot_casing",
@@ -52,28 +52,28 @@
     "id": "grenade_casing",
     "copy-from": "40x46mm_m199_casing",
     "type": "GENERIC",
-    "name": { "str": "grenade casing" },
-    "description": "A large casing from a grenade round."
+    "name": { "str": "40mm casing" },
+    "description": "A large casing from a 40mm round."
   },
   {
     "id": "ammolinkrifle",
     "copy-from": "ammolink",
     "type": "GENERIC",
-    "name": { "str": "rifle belt linkage" },
+    "name": { "str": "5.56mm machine gun belt linkage" },
     "use_action": { "type": "ammobelt", "belt": "rifle_belt" }
   },
   {
     "id": "ammolinkgrenade",
     "copy-from": "ammolink",
     "type": "GENERIC",
-    "name": { "str": "grenade belt linkage" },
+    "name": { "str": "40mm grenade belt linkage" },
     "use_action": { "type": "ammobelt", "belt": "grenade_belt" }
   },
   {
     "id": "ammolinkrifle_huge",
     "copy-from": "ammolink",
     "type": "GENERIC",
-    "name": { "str": "heavy machinegun belt linkage" },
+    "name": { "str": "12.7mm machine gun belt linkage" },
     "use_action": { "type": "ammobelt", "belt": "rifle_huge_belt" }
   }
 ]

@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <array>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <vector>
@@ -24,7 +25,6 @@
 #include "map.h"
 #include "mapdata.h"
 #include "messages.h"
-#include "optional.h"
 #include "player.h"
 #include "player_activity.h"
 #include "point.h"
@@ -180,14 +180,14 @@ void gates::toggle_gate( const tripoint &pos )
     bool fail = false;
 
     map &here = get_map();
-    for( const point &wall_offset : four_adjacent_offsets ) {
+    for( point wall_offset : four_adjacent_offsets ) {
         const tripoint wall_pos = pos + wall_offset;
 
         if( !gate.is_suitable_wall( wall_pos ) ) {
             continue;
         }
 
-        for( const point &gate_offset : four_adjacent_offsets ) {
+        for( point gate_offset : four_adjacent_offsets ) {
             const tripoint gate_pos = wall_pos + gate_offset;
 
             if( gate_pos == pos ) {
@@ -279,7 +279,7 @@ void doors::close_door( map &m, Character &who, const tripoint &closep )
         const int inside_closable = veh->next_part_to_close( vpart );
         const int openable = veh->next_part_to_open( vpart );
         if( closable >= 0 ) {
-            if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+            if( who.is_avatar() && !veh->handle_potential_theft( *who.as_avatar() ) ) {
                 return;
             }
             Character *ch = who.as_character();

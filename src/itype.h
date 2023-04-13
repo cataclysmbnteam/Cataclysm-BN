@@ -6,6 +6,7 @@
 #include <iosfwd>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <unordered_set>
@@ -19,7 +20,6 @@
 #include "explosion.h"
 #include "game_constants.h"
 #include "iuse.h" // use_function
-#include "optional.h"
 #include "pldata.h" // add_type
 #include "shape.h"
 #include "stomach.h"
@@ -97,7 +97,7 @@ class gunmod_location
 struct islot_tool {
     std::set<ammotype> ammo_id;
 
-    cata::optional<itype_id> revert_to;
+    std::optional<itype_id> revert_to;
     std::string revert_msg;
 
     itype_id subtype;
@@ -163,7 +163,7 @@ struct islot_comestible {
         int radiation = 0;
 
         /** freezing point in degrees Fahrenheit, below this temperature item can freeze */
-        int freeze_point = temperatures::freezing;
+        int freeze_point = units::to_fahrenheit( temperatures::freezing );
 
         /**List of diseases carried by this comestible and their associated probability*/
         std::map<diseasetype_id, int> contamination;
@@ -658,7 +658,7 @@ struct islot_magazine {
     int reload_time = 100;
 
     /** For ammo belts one linkage (of given type) is dropped for each unit of ammo consumed */
-    cata::optional<itype_id> linkage;
+    std::optional<itype_id> linkage;
 
     /** If false, ammo will cook off if this mag is affected by fire */
     bool protects_contents = false;
@@ -677,7 +677,7 @@ struct islot_ammo : common_ranged_data {
     /**
      * Type id of casings, if any.
      */
-    cata::optional<itype_id> casing;
+    std::optional<itype_id> casing;
 
     /**
      * Control chance for and state of any items dropped at ranged target
@@ -730,12 +730,12 @@ struct islot_ammo : common_ranged_data {
      * Some combat ammo might not have a damage value
      * Set this to make it show as combat ammo anyway
      */
-    cata::optional<bool> force_stat_display;
+    std::optional<bool> force_stat_display;
 
     /**
      * AoE shape or null if it's a projectile.
      */
-    cata::optional<shape_factory> shape;
+    std::optional<shape_factory> shape;
 
     bool was_loaded;
 
@@ -890,12 +890,8 @@ struct itype {
         itype();
         virtual ~itype();
 
-        int damage_min() const {
-            return count_by_charges() ? 0 : damage_min_;
-        }
-        int damage_max() const {
-            return count_by_charges() ? 0 : damage_max_;
-        }
+        int damage_min() const;
+        int damage_max() const;
 
         // used for generic_factory for copy-from
         bool was_loaded = false;
@@ -906,12 +902,14 @@ struct itype {
         // What item this item repairs like if it doesn't have a recipe
         itype_id repairs_like;
 
+        std::set<weapon_category_id> weapon_category;
+
         std::string snippet_category;
         translation description; // Flavor text
         ascii_art_id picture_id;
 
         // The container it comes in
-        cata::optional<itype_id> default_container;
+        std::optional<itype_id> default_container;
 
         std::map<quality_id, int> qualities; //Tool quality indicators
         std::map<std::string, std::string> properties;
@@ -1030,82 +1028,31 @@ struct itype {
         layer_level layer = layer_level::MAX_CLOTHING_LAYER;
 
         /**
-         * How much insulation this item provides, either as a container, or as
-         * a vehicle base part.  Larger means more insulation, less than 1 but
-         * greater than zero, transfers faster, cannot be less than zero.
-         */
-        float insulation_factor = 1;
-
-        /**
          * Efficiency of solar energy conversion for solarpacks.
          */
         float solar_efficiency = 0;
 
         FlagsSetType item_tags;
 
-        std::string get_item_type_string() const {
-            if( tool ) {
-                return "TOOL";
-            } else if( comestible ) {
-                return "FOOD";
-            } else if( container ) {
-                return "CONTAINER";
-            } else if( armor ) {
-                return "ARMOR";
-            } else if( book ) {
-                return "BOOK";
-            } else if( gun ) {
-                return "GUN";
-            } else if( bionic ) {
-                return "BIONIC";
-            } else if( ammo ) {
-                return "AMMO";
-            }
-            return "misc";
-        }
+        std::string get_item_type_string() const;
 
         // Returns the name of the item type in the correct language and with respect to its grammatical number,
         // based on quantity (example: item type “anvil”, nname(4) would return “anvils” (as in “4 anvils”).
         std::string nname( unsigned int quantity ) const;
 
         // Allow direct access to the type id for the few cases that need it.
-        const itype_id &get_id() const {
-            return id;
-        }
+        const itype_id &get_id() const;
 
-        bool count_by_charges() const {
-            return stackable_ || ammo || comestible;
-        }
+        bool count_by_charges() const;
 
-        int charges_default() const {
-            if( tool ) {
-                return tool->def_charges;
-            } else if( comestible ) {
-                return comestible->def_charges;
-            } else if( ammo ) {
-                return ammo->def_charges;
-            }
-            return count_by_charges() ? 1 : 0;
-        }
+        int charges_default() const;
 
-        int charges_to_use() const {
-            if( tool ) {
-                return static_cast<int>( tool->charges_per_use );
-            }
-            return 1;
-        }
+        int charges_to_use() const;
 
         // for tools that sub another tool, but use a different ratio of charges
-        int charge_factor() const {
-            return tool ? tool->charge_factor : 1;
-        }
+        int charge_factor() const;
 
-        int maximum_charges() const {
-            if( tool ) {
-                return tool->max_charges;
-            }
-            return 1;
-        }
+        int maximum_charges() const;
         bool can_have_charges() const;
 
         /**

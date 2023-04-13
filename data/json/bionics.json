@@ -27,6 +27,7 @@
     "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY" ],
     "act_cost": "1 J",
     "react_cost": "1 J",
+    "trigger_cost": "25 kJ",
     "time": 1
   },
   {
@@ -330,7 +331,8 @@
     "name": { "str": "Electrical Discharge" },
     "description": "A malfunctioning bionic which occasionally discharges electricity through your body, causing pain and brief paralysis but no damage.",
     "occupied_bodyparts": [ [ "torso", 6 ] ],
-    "flags": [ "BIONIC_FAULTY" ]
+    "flags": [ "BIONIC_FAULTY" ],
+    "trigger_cost": "10 kJ"
   },
   {
     "id": "bio_drain",
@@ -485,7 +487,8 @@
     "type": "bionic",
     "name": { "str": "Glowy Thing" },
     "description": "You don't think that capacitor is *meant* to glow, but it does, and usually at bad times.  A malfunctioning bionic randomly turns on and off, causing you to glow and making you visible in the dark without improving how much you can see in the slightest.",
-    "flags": [ "BIONIC_FAULTY" ]
+    "flags": [ "BIONIC_FAULTY" ],
+    "trigger_cost": "1 kJ"
   },
   {
     "id": "bio_geiger",
@@ -501,7 +504,8 @@
     "name": { "str": "Respirator" },
     "description": "A complex respiration augmentation system.  Improves respiration ability in air and allows breathing water.  Will automatically turn on when drowning.  Turn on to recharge stamina faster, at moderate power cost.  Asthmatics may also use it to stop asthma attacks.",
     "occupied_bodyparts": [ [ "torso", 8 ], [ "head", 2 ], [ "mouth", 2 ] ],
-    "flags": [ "BIONIC_TOGGLED" ]
+    "flags": [ "BIONIC_TOGGLED" ],
+    "trigger_cost": "25 kJ"
   },
   {
     "id": "bio_ground_sonar",
@@ -531,7 +535,8 @@
       [ "foot_l", 2 ],
       [ "foot_r", 2 ]
     ],
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ]
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
+    "trigger_cost": "3 kJ"
   },
   {
     "id": "bio_heatsink",
@@ -665,6 +670,7 @@
     "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY" ],
     "act_cost": "2 J",
     "react_cost": "2 J",
+    "trigger_cost": "25 J",
     "time": 1
   },
   {
@@ -746,6 +752,7 @@
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
     "act_cost": "10 kJ",
     "react_cost": "10 kJ",
+    "trigger_cost": "1 kJ",
     "time": 1
   },
   {
@@ -754,7 +761,8 @@
     "name": { "str": "Sensory Dulling" },
     "description": "Your nervous system is wired to allow you to inhibit the signals of pain, allowing you to dull your senses at will.  However, the use of this system may cause delayed reaction time and drowsiness.",
     "occupied_bodyparts": [ [ "head", 2 ] ],
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ]
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
+    "trigger_cost": "2 kJ"
   },
   {
     "id": "bio_pokedeye",
@@ -909,7 +917,8 @@
     "name": { "str": "Bionic Short Circuit" },
     "description": "A poorly-wired bionic which fails to serve its intended purpose, this malfunctioning device periodically short-circuits, causing systemic muscle tremors.",
     "occupied_bodyparts": [ [ "torso", 1 ], [ "arm_l", 2 ], [ "arm_r", 2 ], [ "leg_l", 3 ], [ "leg_r", 3 ] ],
-    "flags": [ "BIONIC_FAULTY" ]
+    "flags": [ "BIONIC_FAULTY" ],
+    "trigger_cost": "25 kJ"
   },
   {
     "id": "bio_synaptic_regen",
@@ -927,7 +936,8 @@
     "name": { "str": "Electroshock Unit" },
     "description": "While fighting unarmed, or with a weapon that conducts electricity, there is a chance that a successful hit will shock your opponent, inflicting extra damage and disabling them temporarily at the cost of some energy.",
     "occupied_bodyparts": [ [ "torso", 8 ], [ "arm_l", 3 ], [ "arm_r", 3 ], [ "hand_l", 1 ], [ "hand_r", 1 ] ],
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ]
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
+    "trigger_cost": "2 kJ"
   },
   {
     "id": "bio_shockwave",
@@ -1096,7 +1106,8 @@
     "name": { "str": "Joint Servo" },
     "description": "Your leg joints have been equipped with servomotors that provide power-assisted movement.  They are optimized for running, but walking also requires less effort when this bionic is online.  However, when it's offline it will hamper your movement, as you struggle against its moving parts.",
     "occupied_bodyparts": [ [ "leg_l", 12 ], [ "leg_r", 12 ] ],
-    "flags": [ "BIONIC_TOGGLED" ]
+    "flags": [ "BIONIC_TOGGLED" ],
+    "trigger_cost": "35 J"
   },
   {
     "id": "bio_trip",
@@ -1115,6 +1126,7 @@
     "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": "6 J",
     "react_cost": "6 J",
+    "trigger_cost": "75 kJ",
     "time": 1
   },
   {
@@ -1252,5 +1264,16 @@
     "act_cost": 50,
     "fake_item": "bio_blaster_gun",
     "flags": [ "BIONIC_GUN" ]
+  },
+  {
+    "id": "bio_perpetual_test",
+    "type": "bionic",
+    "name": { "str": "Perpetual Generator" },
+    "description": "Installed within you is a perpetual generator powered by nonsensoleum.  When activated it's power gen doubles.  If you are seeing this, you'd better be debugging.",
+    "fuel_options": [ "nonsensoleum" ],
+    "passive_fuel_efficiency": 1.0,
+    "fuel_efficiency": 2.0,
+    "time": 1,
+    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED" ]
   }
 ]

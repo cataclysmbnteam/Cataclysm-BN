@@ -515,7 +515,18 @@
       "TINY",
       "RUBBLE"
     ],
-    "examine_action": "rubble"
+    "examine_action": "rubble",
+    "bash": {
+      "str_min": 32,
+      "str_max": 80,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [
+        { "item": "nail", "charges": [ 5, 10 ] },
+        { "item": "splinter", "count": [ 5, 10 ] },
+        { "group": "building_rubble", "count": [ 1, 3 ] }
+      ]
+    }
   },
   {
     "type": "furniture",
@@ -539,7 +550,14 @@
       "SHORT",
       "RUBBLE"
     ],
-    "examine_action": "rubble"
+    "examine_action": "rubble",
+    "bash": {
+      "str_min": 32,
+      "str_max": 80,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "rock", "count": [ 5, 10 ] }, { "item": "sharp_rock", "count": [ 1, 5 ] } ]
+    }
   },
   {
     "type": "furniture",
@@ -563,7 +581,14 @@
       "SHORT",
       "RUBBLE"
     ],
-    "examine_action": "rubble"
+    "examine_action": "rubble",
+    "bash": {
+      "str_min": 32,
+      "str_max": 80,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "group": "trash", "count": [ 3, 6 ] } ]
+    }
   },
   {
     "type": "furniture",
@@ -588,7 +613,18 @@
       "SHORT",
       "RUBBLE"
     ],
-    "examine_action": "rubble"
+    "examine_action": "rubble",
+    "bash": {
+      "str_min": 32,
+      "str_max": 80,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [
+        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 5, 10 ] },
+        { "group": "wreckage", "count": [ 0, 2 ] }
+      ]
+    }
   },
   {
     "type": "furniture",
@@ -600,7 +636,14 @@
     "move_cost_mod": 0,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "NOCOLLIDE", "CONTAINER", "SEALED", "PLACE_ITEM", "RUBBLE" ],
-    "examine_action": "rubble"
+    "examine_action": "rubble",
+    "bash": {
+      "str_min": 32,
+      "str_max": 80,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "ash", "charges": [ 1, 100 ] } ]
+    }
   },
   {
     "type": "furniture",

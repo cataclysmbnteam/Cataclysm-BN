@@ -1,13 +1,45 @@
 # Spells, enchantments and other custom effects
-- [Spells](#Spells)
-  * [Currently Implemented Effects and special rules](#Currently-Implemented-Effects-and-special-rules)
-  * [Spells that level up](#Spells-that-level-up)
-  * [Learning spells](#Learning-spells)
-  * [Spells in professions and NPC classes](#Spells-in-professions-and-NPC-classes)
-  * [Spells in monsters](#Spells-in-monsters)
-- [Enchantments](#Enchantments)
-  * [Fields](#Fields)
-  * [Examples](#Examples)
+- [Spells](#spells)
+  - [Currently Implemented Effects and special rules](#currently-implemented-effects-and-special-rules)
+  - [Spells that level up](#spells-that-level-up)
+  - [Learning Spells](#learning-spells)
+  - [Spells in professions and NPC classes](#spells-in-professions-and-npc-classes)
+  - [Spells in monsters](#spells-in-monsters)
+- [Enchantments](#enchantments)
+  - [id](#id)
+  - [has](#has)
+  - [condition](#condition)
+  - [emitter](#emitter)
+  - [ench\_effects](#ench_effects)
+  - [hit\_you\_effect](#hit_you_effect)
+  - [hit\_me\_effect](#hit_me_effect)
+  - [mutations](#mutations)
+  - [intermittent\_activation](#intermittent_activation)
+  - [values](#values)
+    - [IDs of modifiable values](#ids-of-modifiable-values)
+    - [Character values](#character-values)
+      - [STRENGTH](#strength)
+      - [DEXTERITY](#dexterity)
+      - [PERCEPTION](#perception)
+      - [INTELLIGENCE](#intelligence)
+      - [SPEED](#speed)
+      - [ATTACK\_COST](#attack_cost)
+      - [MOVE\_COST](#move_cost)
+      - [METABOLISM](#metabolism)
+      - [MANA\_CAP](#mana_cap)
+      - [MANA\_REGEN](#mana_regen)
+      - [STAMINA\_CAP](#stamina_cap)
+      - [STAMINA\_REGEN](#stamina_regen)
+      - [THIRST](#thirst)
+      - [FATIGUE](#fatigue)
+      - [BONUS\_DODGE](#bonus_dodge)
+      - [ARMOR\_X](#armor_x)
+    - [Item values](#item-values)
+      - [ITEM\_ATTACK\_COST](#item_attack_cost)
+      - [ITEM\_DAMAGE\_X](#item_damage_x)
+      - [ITEM\_ARMOR\_X](#item_armor_x)
+  - [Examples](#examples)
+
 
 # Spells
 
@@ -418,6 +450,51 @@ This modifier ignores `add` field.
 `base_value` here is character's base mana gain rate modified by traits.
 The final value cannot go below 0.
 
+##### STAMINA_CAP
+Stamina capacity.
+This modifier ignores `add` field.
+`base_value` here is character's base stamina capacity modified by traits.
+The final value cannot go below 10% of `PLAYER_MAX_STAMINA`.
+
+##### STAMINA_REGEN
+Stamina regeneration rate.
+This modifier ignores `add` field.
+`base_value` here is character's base stamina gain rate modified by mouth encumbrance.
+The final value cannot go below 0.
+
+##### THIRST
+Thirst gain rate.
+This modifier ignores `add` field.
+`base_value` here is character's base thirst gain rate.
+The final value cannot go below 0.
+
+##### FATIGUE
+Fatigue gain rate.
+This modifier ignores `add` field.
+`base_value` here is character's base fatigue gain rate.
+The final value cannot go below 0.
+
+##### BONUS_DODGE
+Additional dodges per turn before dodge penalty kicks in.
+`base_value` here is character's base dodges per turn before penalty (usually 1).
+The final value can go below 0, which results in penalty to dodge roll.
+
+##### ARMOR_X
+Incoming damage modifier.
+Applied after Active Defense System bionic but before the damage is absorbed by items.
+Note that `base_value` here is incoming damage value of corresponding type,
+so positive `add` and greater than 1 `mul` will **increase** damage received by the character.
+Each damage type has its own enchant value:
+* `ARMOR_ACID`
+* `ARMOR_BASH`
+* `ARMOR_BIO`
+* `ARMOR_BULLET`
+* `ARMOR_COLD`
+* `ARMOR_CUT`
+* `ARMOR_ELEC`
+* `ARMOR_HEAT`
+* `ARMOR_STAB`
+
 #### Item values
 
 ##### ITEM_ATTACK_COST
@@ -426,66 +503,31 @@ Ignores condition / location, and is always active.
 `base_value` here is base item attack cost.
 Note that the final value cannot go below 0.
 
-##### TODO
+##### ITEM_DAMAGE_X
+Melee damage of this item.
+Ignores condition / location, and is always active.
+`base_value` here is base item damage of corresponding type.
+Note that the final value cannot go below 0.
+Only some damage types are supported:
+* `ITEM_DAMAGE_BASH`
+* `ITEM_DAMAGE_CUT`
+* `ITEM_DAMAGE_STAB`
 
-TODO: docs for each
+##### ITEM_ARMOR_X
+Incoming damage modifier for this item, applied before the damage is absorbed by the item.
+Note that `base_value` here is incoming damage value of corresponding type,
+so positive `add` and greater than 1 `mul` will **increase** damage received by the character.
+Each damage type has its own enchant value:
+* `ITEM_ARMOR_ACID`
+* `ITEM_ARMOR_BASH`
+* `ITEM_ARMOR_BIO`
+* `ITEM_ARMOR_BULLET`
+* `ITEM_ARMOR_COLD`
+* `ITEM_ARMOR_CUT`
+* `ITEM_ARMOR_ELEC`
+* `ITEM_ARMOR_HEAT`
+* `ITEM_ARMOR_STAB`
 
-TODO: some of these are broken/unimplemented
-
-
-* BIONIC_POWER
-* MAX_STAMINA
-* REGEN_STAMINA
-* MAX_HP
-* REGEN_HP
-* THIRST
-* FATIGUE
-* PAIN
-* BONUS_DODGE
-* BONUS_BLOCK
-* BONUS_DAMAGE
-* ATTACK_NOISE
-* SPELL_NOISE
-* SHOUT_NOISE
-* FOOTSTEP_NOISE
-* SIGHT_RANGE
-* CARRY_WEIGHT
-* CARRY_VOLUME
-* SOCIAL_LIE
-* SOCIAL_PERSUADE
-* SOCIAL_INTIMIDATE
-* ARMOR_BASH
-* ARMOR_CUT
-* ARMOR_STAB
-* ARMOR_HEAT
-* ARMOR_COLD
-* ARMOR_ELEC
-* ARMOR_ACID
-* ARMOR_BIO
-
-Effects for the item that has the enchantment:
-* ITEM_DAMAGE_BASH
-* ITEM_DAMAGE_CUT
-* ITEM_DAMAGE_STAB
-* ITEM_DAMAGE_HEAT
-* ITEM_DAMAGE_COLD
-* ITEM_DAMAGE_ELEC
-* ITEM_DAMAGE_ACID
-* ITEM_DAMAGE_BIO
-* ITEM_DAMAGE_AP
-* ITEM_ARMOR_BASH
-* ITEM_ARMOR_CUT
-* ITEM_ARMOR_STAB
-* ITEM_ARMOR_HEAT
-* ITEM_ARMOR_COLD
-* ITEM_ARMOR_ELEC
-* ITEM_ARMOR_ACID
-* ITEM_ARMOR_BIO
-* ITEM_WEIGHT
-* ITEM_ENCUMBRANCE
-* ITEM_VOLUME
-* ITEM_COVERAGE
-* ITEM_WET_PROTECTION
 
 ## Examples
 ```json
