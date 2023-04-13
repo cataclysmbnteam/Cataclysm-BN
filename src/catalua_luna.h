@@ -420,7 +420,11 @@ void set_fx(
     Func value
 )
 {
-    ut.set( key, std::forward<Func>( value ) );
+    // Due to a bug in sol2, on GCC build protected function call may call wrong lambda
+    // https://github.com/ThePhD/sol2/issues/1444
+    // This happens if we register with table.set( key, func ), but for
+    // some reason table[key] = func makes it work fine.
+    ut[ key ] = std::forward<Func>( value );
 
     sol::state_view lua( ut.lua_state() );
     sol::table type_dt = detail::get_type_doctable<Class>( lua );
@@ -435,7 +439,7 @@ void set(
     Value &&value
 )
 {
-    ut.set( key, std::forward<Value>( value ) );
+    ut[ key ] = std::forward<Value>( value );
 
     sol::state_view lua( ut.lua_state() );
     sol::table type_dt = detail::get_type_doctable<Class>( lua );
@@ -552,7 +556,11 @@ void set_fx(
     Func value
 )
 {
-    lib.t.set( key, std::forward<Func>( value ) );
+    // Due to a bug in sol2, on GCC build protected function call may call wrong lambda
+    // https://github.com/ThePhD/sol2/issues/1444
+    // This happens if we register with table.set( key, func ), but for
+    // some reason table[key] = func makes it work fine.
+    lib.t[ key ] = std::forward<Func>( value );
 
     sol::state_view lua( lib.t.lua_state() );
     sol::table member_dt = detail::make_type_member_doctable( lib.dt, key );
@@ -566,7 +574,7 @@ void set(
     Value &&value
 )
 {
-    lib.t.set( key, value );
+    lib.t[ key ] = value;
 
     sol::state_view lua( lib.t.lua_state() );
     sol::table member_dt = detail::make_type_member_doctable( lib.dt, key );
