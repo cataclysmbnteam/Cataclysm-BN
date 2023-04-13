@@ -1032,7 +1032,8 @@ bucketed_points optimal_bucketing( const bucketed_points &buckets, size_t max_bu
     return optimal;
 }
 
-static void draw_cone_aoe_curses( const tripoint &, const bucketed_points &waves )
+static void draw_cone_aoe_curses( const tripoint &, const bucketed_points &waves,
+                                  const projectile & )
 {
     // Calculate screen offset relative to player + view offset position
     const avatar &u = get_avatar();
@@ -1095,7 +1096,7 @@ void draw_cone_aoe( const tripoint &origin, const std::map<tripoint, double> &ao
 
 #if defined(TILES)
     if( !use_tiles ) {
-        draw_cone_aoe_curses( origin, waves );
+        draw_cone_aoe_curses( origin, waves, proj );
         return;
     }
 
@@ -1128,7 +1129,7 @@ void draw_cone_aoe( const tripoint &origin, const std::map<tripoint, double> &ao
 
     tilecontext->void_cone_aoe();
 #else
-    draw_cone_aoe_curses( origin, waves );
+    draw_cone_aoe_curses( origin, waves, proj );
 #endif
 }
 } // namespace ranged
