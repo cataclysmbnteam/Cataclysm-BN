@@ -1134,18 +1134,7 @@
     "skill_used": "cooking",
     "time": "1 m",
     "autolearn": true,
-    "components": [
-      [
-        [ "flatbread", 2 ],
-        [ "bread", 2 ],
-        [ "bread_garlic", 2 ],
-        [ "cornbread", 2 ],
-        [ "wastebread", 2 ],
-        [ "sourdough_bread", 2 ],
-        [ "brioche", 2 ]
-      ],
-      [ [ "peanutbutter", 1 ], [ "peanutbutter_imitation", 1 ] ]
-    ]
+    "components": [ [ [ "bread_sandwich", 2, "LIST" ] ], [ [ "peanutbutter", 1 ], [ "peanutbutter_imitation", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1156,15 +1145,7 @@
     "time": "1 m",
     "autolearn": true,
     "components": [
-      [
-        [ "flatbread", 2 ],
-        [ "bread", 2 ],
-        [ "bread_garlic", 2 ],
-        [ "cornbread", 2 ],
-        [ "wastebread", 2 ],
-        [ "sourdough_bread", 2 ],
-        [ "brioche", 2 ]
-      ],
+      [ [ "bread_sandwich", 2, "LIST" ] ],
       [ [ "jam_fruit", 1 ] ],
       [ [ "peanutbutter", 1 ], [ "peanutbutter_imitation", 1 ] ]
     ]
@@ -1178,15 +1159,7 @@
     "time": "1 m",
     "autolearn": true,
     "components": [
-      [
-        [ "flatbread", 2 ],
-        [ "bread", 2 ],
-        [ "bread_garlic", 2 ],
-        [ "cornbread", 2 ],
-        [ "wastebread", 2 ],
-        [ "sourdough_bread", 2 ],
-        [ "brioche", 2 ]
-      ],
+      [ [ "bread_sandwich", 2, "LIST" ] ],
       [ [ "honeycomb", 2 ], [ "honey_bottled", 2 ], [ "honey_glassed", 4 ] ],
       [ [ "peanutbutter", 1 ], [ "peanutbutter_imitation", 1 ] ]
     ]
@@ -1199,19 +1172,7 @@
     "skill_used": "cooking",
     "time": "1 m",
     "autolearn": true,
-    "components": [
-      [
-        [ "flatbread", 2 ],
-        [ "bread", 2 ],
-        [ "bread_garlic", 2 ],
-        [ "cornbread", 2 ],
-        [ "wastebread", 2 ],
-        [ "sourdough_bread", 2 ],
-        [ "brioche", 2 ]
-      ],
-      [ [ "syrup", 1 ] ],
-      [ [ "peanutbutter", 1 ], [ "peanutbutter_imitation", 1 ] ]
-    ]
+    "components": [ [ [ "bread_sandwich", 2, "LIST" ] ], [ [ "syrup", 1 ] ], [ [ "peanutbutter", 1 ], [ "peanutbutter_imitation", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1221,19 +1182,7 @@
     "skill_used": "cooking",
     "time": "1 m",
     "book_learn": [ [ "mag_glam", 1 ] ],
-    "components": [
-      [
-        [ "flatbread", 1 ],
-        [ "bread", 1 ],
-        [ "bread_garlic", 1 ],
-        [ "cornbread", 1 ],
-        [ "wastebread", 1 ],
-        [ "sourdough_bread", 1 ],
-        [ "brioche", 1 ]
-      ],
-      [ [ "any_butter", 4, "LIST" ], [ "ghee", 4 ] ],
-      [ [ "sprinkles", 3 ] ]
-    ]
+    "components": [ [ [ "bread_sandwich", 1, "LIST" ] ], [ [ "any_butter", 4, "LIST" ], [ "ghee", 4 ] ], [ [ "sprinkles", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -1460,15 +1409,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
-      [
-        [ "flatbread", 2 ],
-        [ "bread", 2 ],
-        [ "bread_garlic", 2 ],
-        [ "cornbread", 2 ],
-        [ "wastebread", 2 ],
-        [ "sourdough_bread", 2 ],
-        [ "brioche", 2 ]
-      ],
+      [ [ "bread_sandwich", 2, "LIST" ] ],
       [
         [ "veggy_cooked", 1 ],
         [ "veggy_wild_cooked", 1 ],
@@ -1527,18 +1468,7 @@
     "skill_used": "cooking",
     "time": "1 m",
     "autolearn": true,
-    "components": [
-      [
-        [ "flatbread", 2 ],
-        [ "bread", 2 ],
-        [ "bread_garlic", 2 ],
-        [ "cornbread", 2 ],
-        [ "wastebread", 2 ],
-        [ "sourdough_bread", 2 ],
-        [ "brioche", 2 ]
-      ],
-      [ [ "jam_fruit", 1 ] ]
-    ]
+    "components": [ [ [ "bread_sandwich", 2, "LIST" ] ], [ [ "jam_fruit", 1 ] ] ]
   },
   {
     "type": "recipe",
