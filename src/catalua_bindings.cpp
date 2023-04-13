@@ -208,19 +208,14 @@ void cata::detail::reg_map( sol::state &lua )
             return std::make_unique<map_stack>( m.i_at( p ) );
         } );
 
-        // TODO: make it work with int_ids
-        luna::set_fx( ut, "get_ter_at", []( const map & m, const tripoint & p ) {
-            return m.ter( p ).id();
-        } );
-        luna::set_fx( ut, "set_ter_at", []( map & m, const tripoint & p, const ter_str_id & id ) {
-            m.ter_set( p, id.id() );
-        } );
 
-        luna::set_fx( ut, "get_furn_at", []( const map & m, const tripoint & p ) {
-            return m.furn( p ).id();
-        } );
-        luna::set_fx( ut, "set_furn_at", []( map & m, const tripoint & p, const furn_str_id & id ) {
-            m.furn_set( p, id.id() );
+        luna::set_fx( ut, "get_ter_at", sol::resolve<ter_id( const tripoint & )const>( &map::ter ) );
+        luna::set_fx( ut, "set_ter_at",
+                      sol::resolve<bool( const tripoint &, const ter_id & )>( &map::ter_set ) );
+
+        luna::set_fx( ut, "get_furn_at", sol::resolve<furn_id( const tripoint & )const>( &map::furn ) );
+        luna::set_fx( ut, "set_furn_at", []( map & m, const tripoint & p, const furn_id & id ) {
+            m.furn_set( p, id );
         } );
     }
 

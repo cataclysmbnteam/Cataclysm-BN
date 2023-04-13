@@ -180,7 +180,7 @@ mod.build_target_list = function( map, pos_omt )
     for y = 0, iter_max do
         for x = 0, iter_max do
             local p = p_zero + Tripoint.new(x, y, 0)
-            local t = map:get_ter_at( p )
+            local t = map:get_ter_at( p ):str_id()
 
             local idx_found = to_close_list[t:str()]
             local can_open = false
@@ -233,9 +233,9 @@ end
 -- Close all closable tiles in block
 mod.block_close = function( block, transform )
     for _, p in pairs(block.points) do
-        local ter_at_p = gapi.get_map():get_ter_at( p )
+        local ter_at_p = gapi.get_map():get_ter_at( p ):str_id()
         if ter_at_p:str() == transform.o then
-            gapi.get_map():set_ter_at( p, TerId.new( transform.c ) )
+            gapi.get_map():set_ter_at( p, TerId.new( transform.c ):int_id() )
         end
     end
 end
@@ -243,9 +243,9 @@ end
 -- Open all openable tiles in block
 mod.block_open = function( block, transform )
     for _, p in pairs(block.points) do
-        local ter_at_p = gapi.get_map():get_ter_at( p )
+        local ter_at_p = gapi.get_map():get_ter_at( p ):str_id()
         if ter_at_p:str() == transform.c then
-            gapi.get_map():set_ter_at( p, TerId.new( transform.o ) )
+            gapi.get_map():set_ter_at( p, TerId.new( transform.o ):int_id() )
         end
     end
 end
