@@ -375,7 +375,6 @@ void vehicle::control_electronics()
                 refresh();
             } );
         }
-        
         uilist menu;
         menu.text = _( "Electronics controls" );
         menu.entries = options;
