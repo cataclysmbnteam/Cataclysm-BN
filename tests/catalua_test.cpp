@@ -446,4 +446,11 @@ TEST_CASE( "id_conversions_no_int_id", "[lua]" )
     run_lua_test_script( lua, "id_conversions_no_int_id.lua" );
 }
 
+TEST_CASE( "catalua_regression_sol_1444", "[lua]" )
+{
+    // Regression test for https://github.com/ThePhD/sol2/issues/1444
+    sol::state lua = make_lua_state();
+    run_lua_test_script( lua, "regression_sol_1444.lua" );
+}
+
 #endif

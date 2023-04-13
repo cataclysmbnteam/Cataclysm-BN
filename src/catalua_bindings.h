@@ -25,6 +25,7 @@ void reg_hooks_examples( sol::state &lua );
 void reg_item( sol::state &lua );
 void reg_map( sol::state &lua );
 void reg_point_tripoint( sol::state &lua );
+void reg_testing_library( sol::state &lua );
 void reg_game_ids( sol::state &lua );
 void reg_types( sol::state &lua );
 void reg_ui_elements( sol::state &lua );

@@ -495,6 +495,22 @@ void cata::detail::reg_hooks_examples( sol::state &lua )
     luna::finalize_lib( lib );
 }
 
+void cata::detail::reg_testing_library( sol::state &lua )
+{
+    DOC( "LIbrary for testing purposes" );
+    luna::userlib lib = luna::begin_lib( lua, "tests_lib" );
+
+    // Regression test for https://github.com/ThePhD/sol2/issues/1444
+    luna::set_fx( lib, "my_awesome_lambda_1", []() -> int {
+        return 1;
+    } );
+    luna::set_fx( lib, "my_awesome_lambda_2", []() -> int {
+        return 2;
+    } );
+
+    luna::finalize_lib( lib );
+}
+
 void cata::reg_all_bindings( sol::state &lua )
 {
     using namespace detail;
@@ -515,6 +531,7 @@ void cata::reg_all_bindings( sol::state &lua )
     reg_constants( lua );
     reg_hooks_examples( lua );
     reg_types( lua );
+    reg_testing_library( lua );
 }
 
 #endif
