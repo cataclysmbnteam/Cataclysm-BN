@@ -10,6 +10,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <unordered_set>
@@ -26,7 +27,6 @@
 #include "game_constants.h"
 #include "item_location.h"
 #include "memory_fast.h"
-#include "optional.h"
 #include "pimpl.h"
 #include "point.h"
 #include "type_id.h"
@@ -124,8 +124,8 @@ enum peek_act : int {
 };
 
 struct look_around_result {
-    cata::optional<tripoint> position;
-    cata::optional<peek_act> peek_action;
+    std::optional<tripoint> position;
+    std::optional<peek_act> peek_action;
 };
 
 struct w_map {
@@ -235,7 +235,7 @@ class game
          * @param next If true, bases it on the vehicle the vehicle will turn to next turn,
          * instead of the one it is currently facing.
          */
-        cata::optional<tripoint> get_veh_dir_indicator_location( bool next ) const;
+        std::optional<tripoint> get_veh_dir_indicator_location( bool next ) const;
         void draw_veh_dir_indicator( bool next );
 
         /**
@@ -246,7 +246,7 @@ class game
         void vertical_move( int z, bool force, bool peeking = false );
         void start_hauling( const tripoint &pos );
         /** Returns the other end of the stairs (if any). May query, affect u etc.  */
-        cata::optional<tripoint> find_or_make_stairs( map &mp, int z_after, bool &rope_ladder,
+        std::optional<tripoint> find_or_make_stairs( map &mp, int z_after, bool &rope_ladder,
                 bool peeking );
         /** Actual z-level movement part of vertical_move. Doesn't include stair finding, traps etc. */
         void vertical_shift( int z_after );
@@ -539,7 +539,7 @@ class game
 
         void peek();
         void peek( const tripoint &p );
-        cata::optional<tripoint> look_debug();
+        std::optional<tripoint> look_debug();
 
         bool check_zone( const zone_type_id &type, const tripoint &where ) const;
         /** Checks whether or not there is a zone of particular type nearby */
@@ -548,7 +548,7 @@ class game
         void zones_manager();
 
         // Look at nearby terrain ';', or select zone points
-        cata::optional<tripoint> look_around( bool force_3d = false );
+        std::optional<tripoint> look_around( bool force_3d = false );
         /**
          * @brief
          *
@@ -916,7 +916,7 @@ class game
 
         /* Debug functions */
         // currently displayed overlay (none is displayed if empty)
-        cata::optional<action_id> displaying_overlays;
+        std::optional<action_id> displaying_overlays;
         void display_scent();   // Displays the scent map
         void display_temperature();    // Displays temperature map
         void display_vehicle_ai(); // Displays vehicle autopilot AI overlay
@@ -934,7 +934,7 @@ class game
                 void print_time();
             private:
                 bool enabled = false;
-                cata::optional<IRLTimeMs> start_time = cata::nullopt;
+                std::optional<IRLTimeMs> start_time = std::nullopt;
         } debug_hour_timer;
 
         Creature *is_hostile_within( int distance );

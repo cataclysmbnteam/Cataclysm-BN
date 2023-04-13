@@ -5,6 +5,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <memory>
+#include <optional>
 #include <ostream>
 #include <set>
 #include <system_error>
@@ -31,7 +32,6 @@
 #include "messages.h"
 #include "monster.h"
 #include "npc.h"
-#include "optional.h"
 #include "overmapbuffer.h"
 #include "player.h"
 #include "player_activity.h"

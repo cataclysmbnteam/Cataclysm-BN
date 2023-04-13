@@ -35,7 +35,6 @@
     "material": "fruit",
     "primary_material": "dried_vegetable",
     "volume": "250 ml",
-    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 5,
     "vitamins": [ [ "vitC", 21 ], [ "calcium", 2 ], [ "iron", 4 ] ],
     "fun": 3
@@ -117,7 +116,6 @@
     "material": [ "powder", "fruit" ],
     "primary_material": "powder",
     "volume": "250 ml",
-    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 10,
     "vitamins": [ [ "vitC", 7 ] ],
     "fun": 1
@@ -184,7 +182,6 @@
     "primary_material": "dried_vegetable",
     "//": "most of the water weight and volume is lost",
     "volume": "100 ml",
-    "flags": [ "EDIBLE_FROZEN" ],
     "fun": 2
   },
   {

@@ -851,7 +851,7 @@ void avatar_action::eat( avatar &you, item_location loc )
 }
 
 void avatar_action::plthrow( avatar &you, item_location loc,
-                             const cata::optional<tripoint> &blind_throw_from_pos )
+                             const std::optional<tripoint> &blind_throw_from_pos )
 {
     if( you.has_active_mutation( trait_SHELL2 ) ) {
         add_msg( m_info, _( "You can't effectively throw while you're in your shell." ) );
@@ -1093,7 +1093,7 @@ void avatar_action::wield( item_location &loc )
                 here.add_item( pos, to_wield );
                 break;
             case item_location::type::vehicle: {
-                const cata::optional<vpart_reference> vp = here.veh_at( pos ).part_with_feature( "CARGO", false );
+                const std::optional<vpart_reference> vp = here.veh_at( pos ).part_with_feature( "CARGO", false );
                 // If we fail to return the item to the vehicle for some reason, add it to the map instead.
                 if( !vp || !( vp->vehicle().add_item( vp->part_index(), to_wield ) ) ) {
                     here.add_item( pos, to_wield );

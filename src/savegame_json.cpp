@@ -17,6 +17,7 @@
 #include <map>
 #include <memory>
 #include <numeric>
+#include <optional>
 #include <set>
 #include <sstream>
 #include <stack>
@@ -83,7 +84,6 @@
 #include "mtype.h"
 #include "npc.h"
 #include "npc_class.h"
-#include "optional.h"
 #include "options.h"
 #include "overmapbuffer.h"
 #include "pickup_token.h"
@@ -412,7 +412,13 @@ void Character::load( const JsonObject &data )
     data.read( "int_bonus", int_bonus );
     data.read( "omt_path", omt_path );
 
-    data.read( "name", name );
+    std::string new_name;
+    data.read( "name", new_name );
+    if( !new_name.empty() ) {
+        // Bugfix for name not having been saved properly
+        name = new_name;
+    }
+
     data.read( "base_age", init_age );
     data.read( "base_height", init_height );
 
@@ -2277,7 +2283,7 @@ void item::io( Archive &archive )
     if( note_read ) {
         snip_id = SNIPPET.migrate_hash_to_id( note );
     } else {
-        cata::optional<std::string> snip;
+        std::optional<std::string> snip;
         if( archive.read( "snippet_id", snip ) && snip ) {
             snip_id = snippet_id( snip.value() );
         }
@@ -4289,6 +4295,8 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "bionic_ui_sort_mode", bionic_sort_mode );
     json.member( "overmap_debug_weather", overmap_debug_weather );
     json.member( "overmap_visible_weather", overmap_visible_weather );
+    json.member( "msg_window_wide_display", msg_window_wide_display );
+    json.member( "msg_window_full_height_display", msg_window_full_height_display );
 
     json.member( "input_history" );
     json.start_object();
@@ -4337,6 +4345,8 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "bionic_ui_sort_mode", bionic_sort_mode );
     jo.read( "overmap_debug_weather", overmap_debug_weather );
     jo.read( "overmap_visible_weather", overmap_visible_weather );
+    jo.read( "msg_window_wide_display", msg_window_wide_display );
+    jo.read( "msg_window_full_height_display", msg_window_full_height_display );
 
     if( !jo.read( "vmenu_show_items", vmenu_show_items ) ) {
         // This is an old save: 1 means view items, 2 means view monsters,

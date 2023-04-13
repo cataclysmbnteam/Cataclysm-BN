@@ -1800,7 +1800,7 @@ void vehicle::use_harness( int part, const tripoint &pos )
                                       f.has_flag( MF_PET_HARNESSABLE ) ) );
     };
 
-    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
+    const std::optional<tripoint> pnt_ = choose_adjacent_highlight(
             _( "Where is the creature to harness?" ), _( "There is no creature to harness nearby." ), f,
             false );
     if( !pnt_ ) {

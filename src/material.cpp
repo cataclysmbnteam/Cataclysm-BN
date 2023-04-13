@@ -157,7 +157,7 @@ std::string material_type::name() const
     return _( _name );
 }
 
-cata::optional<itype_id> material_type::salvaged_into() const
+std::optional<itype_id> material_type::salvaged_into() const
 {
     return _salvaged_into;
 }
@@ -248,7 +248,7 @@ int material_type::density() const
     return _density;
 }
 
-cata::optional<int> material_type::wind_resist() const
+std::optional<int> material_type::wind_resist() const
 {
     return _wind_resist;
 }

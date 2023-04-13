@@ -9,6 +9,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <stdexcept>
 #include <unordered_map>
@@ -51,7 +52,6 @@
 #include "mongroup.h"
 #include "npc.h"
 #include "omdata.h"
-#include "optional.h"
 #include "options.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
@@ -183,7 +183,7 @@ void map::generate( const tripoint &p, const time_point &when )
             if( !spawn_details.name ) {
                 continue;
             }
-            if( const cata::optional<tripoint> pt =
+            if( const std::optional<tripoint> pt =
             random_point( *this, [this]( const tripoint & n ) {
             return passable( n );
             } ) ) {
@@ -1612,8 +1612,8 @@ class jmapgen_sealed_item : public jmapgen_piece
     public:
         furn_id furniture;
         jmapgen_int chance;
-        cata::optional<jmapgen_spawn_item> item_spawner;
-        cata::optional<jmapgen_item_group> item_group_spawner;
+        std::optional<jmapgen_spawn_item> item_spawner;
+        std::optional<jmapgen_item_group> item_group_spawner;
         jmapgen_sealed_item( const JsonObject &jsi )
             : furniture( jsi.get_string( "furniture" ) )
             , chance( jsi, "chance", 100, 100 ) {

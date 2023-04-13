@@ -4,6 +4,7 @@
 #include <cstddef>
 #include <list>
 #include <memory>
+#include <optional>
 #include <queue>
 #include <set>
 #include <string>
@@ -44,7 +45,6 @@
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
-#include "optional.h"
 #include "overmapbuffer.h"
 #include "player.h"
 #include "pldata.h"
@@ -974,7 +974,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                         if( !spawn_details.name ) {
                             continue;
                         }
-                        if( const cata::optional<tripoint> spawn_point = random_point(
+                        if( const std::optional<tripoint> spawn_point = random_point(
                                     points_in_radius( p, cur.monster_spawn_radius() ),
                         [this]( const tripoint & n ) {
                         return passable( n );

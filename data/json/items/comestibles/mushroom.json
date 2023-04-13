@@ -78,7 +78,6 @@
     "material": "mushroom",
     "primary_material": "dried_vegetable",
     "volume": "25 ml",
-    "flags": [ "EDIBLE_FROZEN" ],
     "fun": 1
   },
   {

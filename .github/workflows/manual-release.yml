@@ -104,7 +104,7 @@ jobs:
             ext: zip
             content: application/zip
           - name: Linux Tiles x64
-            os: ubuntu-18.04
+            os: ubuntu-22.04
             mxe: none
             android: none
             tiles: 1
@@ -112,7 +112,7 @@ jobs:
             ext: tar.gz
             content: application/gzip
           - name: linux-curses-x64
-            os: ubuntu-18.04
+            os: ubuntu-22.04
             mxe: none
             android: none
             tiles: 0
@@ -120,14 +120,14 @@ jobs:
             ext: tar.gz
             content: application/gzip
           - name: osx-curses-x64
-            os: macos-11
+            os: macos-12
             mxe: none
             tiles: 0
             artifact: osx-curses-x64
             ext: dmg
             content: application/x-apple-diskimage
           - name: osx-tiles-x64
-            os: macos-11
+            os: macos-12
             mxe: none
             tiles: 1
             artifact: osx-tiles-x64
@@ -246,7 +246,7 @@ jobs:
       - name: Build CBN (osx)
         if: runner.os == 'macOS'
         run: |
-          make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LANGUAGES=all USE_HOME_DIR=1 OSX_MIN=10.12 PCH=0 dmgdist COMPILER=clang++
+          make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LANGUAGES=all USE_HOME_DIR=1 OSX_MIN=11 PCH=0 dmgdist COMPILER=clang++
           mv CataclysmBN-${{ inputs.version }}.dmg cbn-${{ matrix.artifact }}-${{ inputs.version }}.dmg
       - name: Set up JDK 8 (android)
         if: runner.os == 'Linux' && matrix.android != 'none' && matrix.mxe == 'none'

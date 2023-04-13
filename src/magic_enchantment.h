@@ -3,13 +3,13 @@
 #define CATA_SRC_MAGIC_ENCHANTMENT_H
 
 #include <map>
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
 
 #include "calendar.h"
 #include "magic.h"
-#include "optional.h"
 #include "type_id.h"
 
 class Character;
@@ -145,7 +145,7 @@ class enchantment
         void check() const;
     private:
         std::set<trait_id> mutations;
-        cata::optional<emit_id> emitter;
+        std::optional<emit_id> emitter;
         std::map<efftype_id, int> ench_effects;
         // values that add to the base value
         std::map<enchant_vals::mod, int> values_add;

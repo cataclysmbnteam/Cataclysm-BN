@@ -8,6 +8,7 @@
 #include <limits>
 #include <map>
 #include <memory>
+#include <optional>
 #include <queue>
 #include <random>
 #include <set>
@@ -47,7 +48,6 @@
 #include "mtype.h"
 #include "npc.h"
 #include "options.h"
-#include "optional.h"
 #include "player.h"
 #include "point.h"
 #include "projectile.h"

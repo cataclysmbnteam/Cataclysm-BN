@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <list>
 #include <memory>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -16,7 +17,6 @@
 #include "itype.h"
 #include "map.h"
 #include "map_selector.h"
-#include "optional.h"
 #include "player.h"
 #include "point.h"
 #include "rng.h"
@@ -79,7 +79,8 @@ TEST_CASE( "visitable_remove", "[visitable]" )
     }
 
     item temp_liquid( liquid_id );
-    item obj = temp_liquid.in_container( temp_liquid.type->default_container.value_or( "null" ) );
+    item obj =
+        temp_liquid.in_container( temp_liquid.type->default_container.value_or( itype_id::NULL_ID() ) );
     REQUIRE( obj.contents.num_item_stacks() == 1 );
     REQUIRE( obj.contents.front().typeId() == liquid_id );
 
@@ -421,7 +422,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
             return static_cast<bool>( g->m.veh_at( e ) );
         } ) == 1 );
 
-        const cata::optional<vpart_reference> vp = g->m.veh_at( veh ).part_with_feature( "CARGO", true );
+        const std::optional<vpart_reference> vp = g->m.veh_at( veh ).part_with_feature( "CARGO", true );
         REQUIRE( vp );
         vehicle *const v = &vp->vehicle();
         const int part = vp->part_index();

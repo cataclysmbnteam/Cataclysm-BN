@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <unordered_map>
 #include <utility>
@@ -37,7 +38,6 @@
 #include "mapgen_functions.h"
 #include "mapgendata.h"
 #include "mongroup.h"
-#include "optional.h"
 #include "options.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
@@ -774,7 +774,7 @@ static bool mx_marloss_pilgrimage( map &m, const tripoint &abs_sub )
 
     m.place_npc( leader_pos.xy(), string_id<npc_template>( "marloss_voice" ) );
     for( int spawned = 0 ; spawned <= max_followers ; spawned++ ) {
-        if( const cata::optional<tripoint> where_ = random_point( spawnzone, [&]( const tripoint & p ) {
+        if( const std::optional<tripoint> where_ = random_point( spawnzone, [&]( const tripoint & p ) {
         return m.passable( p );
         } ) ) {
             m.add_spawn( one_in( 2 ) ? mon_marloss_zealot_f : mon_marloss_zealot_m, 1, *where_ );
@@ -1019,7 +1019,7 @@ static bool mx_portal( map &m, const tripoint &abs_sub )
         m.points_in_rectangle( { 1, 1, abs_sub.z }, { SEEX * 2 - 2, SEEY * 2 - 2, abs_sub.z } );
 
     // Get a random point in our collection that does not have a trap and does not have the NO_FLOOR flag.
-    const cata::optional<tripoint> portal_pos = random_point( points, [&]( const tripoint & p ) {
+    const std::optional<tripoint> portal_pos = random_point( points, [&]( const tripoint & p ) {
         return !m.has_flag_ter( TFLAG_NO_FLOOR, p ) && m.tr_at( p ).is_null();
     } );
 
@@ -1042,7 +1042,7 @@ static bool mx_portal( map &m, const tripoint &abs_sub )
     for( int i = 0; i < num_monsters; i++ ) {
         // Get a random location from our points that is not the portal location, does not have the
         // NO_FLOOR flag, and isn't currently occupied by a creature.
-        const cata::optional<tripoint> mon_pos = random_point( points, [&]( const tripoint & p ) {
+        const std::optional<tripoint> mon_pos = random_point( points, [&]( const tripoint & p ) {
             /// TODO: wrong: this checks for creatures on the main game map. Not within the map m.
             return !m.has_flag_ter( TFLAG_NO_FLOOR, p ) && *portal_pos != p && !g->critter_at( p );
         } );
@@ -2768,7 +2768,7 @@ static bool mx_looters( map &m, const tripoint &abs_sub )
     //Spawn up to 5 hostile bandits with equal chance to be ranged or melee type
     const int num_looters = rng( 1, 5 );
     for( int i = 0; i < num_looters; i++ ) {
-        if( const cata::optional<tripoint> pos_ = random_point( m.points_in_radius( center, rng( 1,
+        if( const std::optional<tripoint> pos_ = random_point( m.points_in_radius( center, rng( 1,
         4 ) ), [&]( const tripoint & p ) {
         return m.passable( p );
         } ) ) {

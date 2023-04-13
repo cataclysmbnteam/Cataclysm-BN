@@ -6,6 +6,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <string>
 #include <tuple>
 #include <unordered_map>
@@ -39,7 +40,6 @@
 #include "mutation.h"
 #include "name.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "overmapbuffer.h"
 #include "pldata.h"
