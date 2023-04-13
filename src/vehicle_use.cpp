@@ -359,6 +359,21 @@ void vehicle::control_electronics()
 
         set_electronics_menu_options( options, actions );
 
+        options.emplace_back( engine_on ? _( "Turn off the engine" ) : _( "Turn on the engine" ),
+                                keybind( "TOGGLE_ENGINE" ) );
+        actions.push_back( [&] {
+            if( engine_on )
+            {
+                engine_on = false;
+                stop_engines();
+            } else
+            {
+                start_engines();
+                valid_option = false;
+            }
+            refresh();
+        } );
+
         uilist menu;
         menu.text = _( "Electronics controls" );
         menu.entries = options;
