@@ -7,6 +7,7 @@
 #include "explosion.h"
 #include "game.h"
 #include "game_constants.h"
+#include "line.h"
 #include "map.h"
 #include "monster.h"
 #include "mtype.h"
@@ -544,20 +545,12 @@ void game::draw_bullet( const tripoint &t, const int i,
         }
     };
     const auto get_dir = [&]( ) -> direction {
-        // should i move it to point.h?
-        const auto dir_from_tripoint = [&]( const tripoint & from, const tripoint & to )
-        {
-            const tripoint t = to - from;
-            const tripoint normalized = tripoint( sgn( t.x ), sgn( t.y ), 0 );
-            return static_cast<direction>( make_xyz_unit( normalized ) );
-        };
-
         if( i == 0 && trajectory.size() > 1 )
         {
-            return dir_from_tripoint( t, trajectory[1] );
+            return direction_from( t, trajectory[1] );
         } else if( i >= 1 )
         {
-            return dir_from_tripoint( trajectory[i - 1], t );
+            return direction_from( trajectory[i - 1], t );
         } else
         {
             return direction::NORTH;
