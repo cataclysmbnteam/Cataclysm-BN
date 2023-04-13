@@ -2,6 +2,8 @@
 #include "catalua_bindings.h"
 
 #include "avatar.h"
+#include "bodypart.h"
+#include "calendar.h"
 #include "catalua_bindings_utils.h"
 #include "catalua_log.h"
 #include "catalua_luna_doc.h"
@@ -11,6 +13,8 @@
 #include "creature.h"
 #include "distribution_grid.h"
 #include "enum_conversions.h"
+#include "field_type.h"
+#include "field.h"
 #include "game.h"
 #include "itype.h"
 #include "map.h"
@@ -19,6 +23,8 @@
 #include "npc.h"
 #include "player.h"
 #include "popup.h"
+#include "rng.h"
+#include "type_id.h"
 #include "ui.h"
 
 std::string_view luna::detail::current_comment;
@@ -119,6 +125,53 @@ void cata::detail::reg_creature_family( sol::state &lua )
         // TODO: typesafe coords
         DOC( "Position within map" );
         luna::set_fx( ut, "get_pos_ms", &Creature::pos );
+
+        luna::set_fx( ut, "is_monster", &Creature::is_monster );
+        luna::set_fx( ut, "as_monster", sol::resolve<monster*()>( &Creature::as_monster ) );
+        luna::set_fx( ut, "is_npc", &Creature::is_npc );
+        luna::set_fx( ut, "as_npc", sol::resolve<npc*()>( &Creature::as_npc ) );
+        luna::set_fx( ut, "is_avatar", &Creature::is_avatar );
+        luna::set_fx( ut, "as_avatar", sol::resolve<avatar*()>( &Creature::as_avatar ) );
+
+        luna::set_fx( ut, "has_effect", []( const Creature & cr, const efftype_id & eff,
+        sol::optional<const bodypart_str_id &> bpid ) -> bool {
+            if( bpid.has_value() )
+            {
+                return cr.has_effect( eff, *bpid );
+            } else
+            {
+                return cr.has_effect( eff );
+            }
+        } );
+
+        luna::set_fx( ut, "get_effect_dur", []( const Creature & cr, const efftype_id & eff,
+        sol::optional<const bodypart_str_id &> bpid ) -> time_duration {
+            body_part bp = bpid ? ( *bpid ) -> token : num_bp;
+            return cr.get_effect_dur( eff, bp );
+        } );
+
+        luna::set_fx( ut, "get_effect_int", []( const Creature & cr, const efftype_id & eff,
+        sol::optional<const bodypart_str_id &> bpid ) -> int {
+            body_part bp = bpid ? ( *bpid ) -> token : num_bp;
+            return cr.get_effect_int( eff, bp );
+        } );
+
+        DOC( "Effect type, duration, bodypart and intensity" );
+        luna::set_fx( ut, "add_effect", []( Creature & cr, const efftype_id & eff,
+                                            const time_duration & dur,
+                                            sol::optional<const bodypart_str_id &> bpid,
+                                            sol::optional<int> intensity
+        ) {
+            int eint = intensity ? *intensity : 0;
+            body_part bp = bpid ? ( *bpid ) -> token : num_bp;
+            cr.add_effect( eff, dur, bp, eint );
+        } );
+
+        luna::set_fx( ut, "remove_effect", []( Creature & cr, const efftype_id & eff,
+        sol::optional<const bodypart_str_id &> bpid ) -> bool {
+            body_part bp = bpid ? ( *bpid ) -> token : num_bp;
+            return cr.remove_effect( eff, bp );
+        } );
     }
 
     {
@@ -217,6 +270,22 @@ void cata::detail::reg_map( sol::state &lua )
         luna::set_fx( ut, "set_furn_at", []( map & m, const tripoint & p, const furn_id & id ) {
             m.furn_set( p, id );
         } );
+
+        luna::set_fx( ut, "has_field_at", []( const map & m, const tripoint & p,
+        const field_type_id & fid ) -> bool {
+            return !!m.field_at( p ).find_field( fid );
+        } );
+        luna::set_fx( ut, "get_field_int_at", &map::get_field_intensity );
+        luna::set_fx( ut, "get_field_age_at", &map::get_field_age );
+        luna::set_fx( ut, "mod_field_int_at", &map::mod_field_intensity );
+        luna::set_fx( ut, "mod_field_age_at", &map::mod_field_age );
+        luna::set_fx( ut, "set_field_int_at", &map::set_field_intensity );
+        luna::set_fx( ut, "set_field_age_at", &map::set_field_age );
+        luna::set_fx( ut, "add_field_at", []( map & m, const tripoint & p, const field_type_id & fid,
+        int intensity, const time_duration & age ) -> bool {
+            return m.add_field( p, fid, intensity, age );
+        } );
+        luna::set_fx( ut, "remove_field_at", &map::remove_field );
     }
 
     // Register 'tinymap' class to be used in Lua
@@ -430,6 +499,11 @@ void cata::detail::reg_game_api( sol::state &lua )
     }
                   ) );
 
+    luna::set_fx( lib, "current_turn", []() -> time_point { return calendar::turn; } );
+    luna::set_fx( lib, "turn_zero", []() -> time_point { return calendar::turn_zero; } );
+    luna::set_fx( lib, "before_time_starts", []() -> time_point { return calendar::before_time_starts; } );
+    luna::set_fx( lib, "rng", &rng );
+
     luna::finalize_lib( lib );
 }
 
@@ -486,6 +560,14 @@ void cata::detail::reg_hooks_examples( sol::state &lua )
     luna::set_fx( lib, "on_game_save", []() {} );
     DOC( "Called right after game has loaded" );
     luna::set_fx( lib, "on_game_load", []() {} );
+    DOC( "Called every in-game second" );
+    luna::set_fx( lib, "on_every_second", []() {} );
+    DOC( "Called every in-game minute" );
+    luna::set_fx( lib, "on_every_minute", []() {} );
+    DOC( "Called every in-game hour" );
+    luna::set_fx( lib, "on_every_hour", []() {} );
+    DOC( "Called every in-game day" );
+    luna::set_fx( lib, "on_every_day", []() {} );
     DOC( "Called right after mapgen has completed. "
          "Map argument is the tinymap that represents 24x24 area (2x2 submaps, or 1x1 omt), "
          "tripoint is the absolute omt pos, and time_point is the current time (for time-based effects)."
@@ -493,6 +575,160 @@ void cata::detail::reg_hooks_examples( sol::state &lua )
     luna::set_fx( lib, "on_mapgen_postprocess", []( map &, const tripoint &, const time_point & ) {} );
 
     luna::finalize_lib( lib );
+}
+
+void cata::detail::reg_time_types( sol::state &lua )
+{
+    DOC( "Library for dealing with time primitives." );
+
+    {
+        DOC( "Represent fixed point in time" );
+        sol::usertype<time_point> ut =
+            luna::new_usertype<time_point>(
+                lua,
+                luna::no_bases,
+                luna::constructors < time_point() > ()
+            );
+
+        // Constructor method
+        luna::set_fx( ut, "from_turn", &time_point::from_turn );
+
+        // Methods
+        luna::set_fx( ut, "to_turn", []( const time_point & tp ) -> int {
+            return to_turn<int>( tp );
+        } );
+
+        luna::set_fx( ut, "is_night", &is_night );
+        luna::set_fx( ut, "is_day", &is_day );
+        luna::set_fx( ut, "is_dusk", &is_dusk );
+        luna::set_fx( ut, "is_dawn", &is_dawn );
+
+        luna::set_fx( ut, "second_of_minute", []( const time_point & tp ) -> int {
+            return to_turn<int>( tp ) % 60;
+        } );
+        luna::set_fx( ut, "minute_of_hour", []( const time_point & tp ) -> int {
+            return minute_of_hour<int>( tp );
+        } );
+        luna::set_fx( ut, "hour_of_day", []( const time_point & tp ) -> int {
+            return hour_of_day<int>( tp );
+        } );
+
+        // (De-)Serialization
+        reg_serde_functions( ut );
+
+        luna::set_fx( ut, "to_string_time_of_day", &to_string_time_of_day );
+
+        // To string
+        // We're using Lua meta function here to make it work seamlessly with native Lua tostring()
+        luna::set_fx( ut, sol::meta_function::to_string,
+                      sol::resolve<std::string( const time_point & )>( to_string ) );
+
+        // Equality operator
+        // It's defined as inline friend function inside point class, we can't access it and so have to improvise
+        luna::set_fx( ut, sol::meta_function::equal_to, []( const time_point & a, const time_point & b ) {
+            return a == b;
+        } );
+
+        // Less-then operator
+        // Same deal as with equality operator
+        luna::set_fx( ut, sol::meta_function::less_than, []( const time_point & a, const time_point & b ) {
+            return a < b;
+        } );
+
+        // Arithmetic operators
+        luna::set_fx( ut, sol::meta_function::addition,
+        []( const time_point & a, const time_duration & b ) -> time_point {
+            return a + b;
+        }
+                    );
+        luna::set_fx( ut, sol::meta_function::subtraction,
+                      sol::overload(
+        []( const time_point & a, const time_point & b ) -> time_duration {
+            return a - b;
+        },
+        []( const time_point & a, const time_duration & b ) -> time_point {
+            return a - b;
+        }
+                      ) );
+    }
+    {
+        DOC( "Represent duration between 2 fixed points in time" );
+        sol::usertype<time_duration> ut =
+            luna::new_usertype<time_duration>(
+                lua,
+                luna::no_bases,
+                luna::constructors < time_duration() > ()
+            );
+
+        // Constructor methods
+        luna::set_fx( ut, "from_turns", []( int t ) {
+            return time_duration::from_turns( t );
+        } );
+        luna::set_fx( ut, "from_seconds", []( int t ) {
+            return time_duration::from_seconds( t );
+        } );
+        luna::set_fx( ut, "from_minutes", []( int t ) {
+            return time_duration::from_minutes( t );
+        } );
+        luna::set_fx( ut, "from_hours", []( int t ) {
+            return time_duration::from_hours( t );
+        } );
+        luna::set_fx( ut, "from_days", []( int t ) {
+            return time_duration::from_days( t );
+        } );
+        luna::set_fx( ut, "from_weeks", []( int t ) {
+            return time_duration::from_weeks( t );
+        } );
+
+        luna::set_fx( ut, "make_random", []( const time_duration & lo, const time_duration & hi ) {
+            return rng( lo, hi );
+        } );
+
+        luna::set_fx( ut, "to_turns", []( const time_duration & t ) -> int {
+            return to_turns<int>( t );
+        } );
+        luna::set_fx( ut, "to_seconds", []( const time_duration & t ) -> int {
+            return to_seconds<int>( t );
+        } );
+        luna::set_fx( ut, "to_minutes", []( const time_duration & t ) -> int {
+            return to_minutes<int>( t );
+        } );
+        luna::set_fx( ut, "to_hours", []( const time_duration & t ) -> int {
+            return to_hours<int>( t );
+        } );
+        luna::set_fx( ut, "to_days", []( const time_duration & t ) -> int {
+            return to_days<int>( t );
+        } );
+        luna::set_fx( ut, "to_weeks", []( const time_duration & t ) -> int {
+            return to_weeks<int>( t );
+        } );
+
+        // (De-)Serialization
+        reg_serde_functions( ut );
+
+        // To string
+        // We're using Lua meta function here to make it work seamlessly with native Lua tostring()
+        luna::set_fx( ut, sol::meta_function::to_string,
+                      sol::resolve<std::string( const time_duration & )>( to_string ) );
+
+        luna::set_fx( ut, sol::meta_function::addition, []( const time_duration & a,
+        const time_duration & b ) {
+            return a + b;
+        } );
+        luna::set_fx( ut, sol::meta_function::subtraction, []( const time_duration & a,
+        const time_duration & b ) {
+            return a - b;
+        } );
+        luna::set_fx( ut, sol::meta_function::multiplication, []( const time_duration & a, int b ) {
+            return a * b;
+        } );
+        luna::set_fx( ut, sol::meta_function::division, []( const time_duration & a, int b ) {
+            return a / b;
+        } );
+        luna::set_fx( ut, sol::meta_function::unary_minus, []( const time_duration & a ) {
+            return -a;
+        } );
+    }
 }
 
 void cata::detail::reg_testing_library( sol::state &lua )
@@ -531,6 +767,7 @@ void cata::reg_all_bindings( sol::state &lua )
     reg_constants( lua );
     reg_hooks_examples( lua );
     reg_types( lua );
+    reg_time_types( lua );
     reg_testing_library( lua );
 }
 

@@ -1,9 +1,12 @@
 #ifdef LUA
 #include "catalua_bindings.h"
 
+#include "bodypart.h"
 #include "catalua_luna_doc.h"
 #include "catalua_luna.h"
+#include "effect.h"
 #include "faction.h"
+#include "field_type.h"
 #include "itype.h"
 #include "json.h"
 #include "mapdata.h"
@@ -94,6 +97,9 @@ void cata::detail::reg_game_ids( sol::state &lua )
     reg_id<itype, false>( lua );
     reg_id<ter_t, true>( lua );
     reg_id<furn_t, true>( lua );
+    reg_id<body_part_type, true>( lua );
+    reg_id<effect_type, false>( lua );
+    reg_id<field_type, true>( lua );
 }
 
 void cata::detail::reg_types( sol::state &lua )
@@ -126,6 +132,21 @@ void cata::detail::reg_types( sol::state &lua )
         luna::set( ut, "transforms_into", &ter_t::transforms_into );
         luna::set( ut, "roof", &ter_t::roof );
         luna::set( ut, "heat_radiation", &ter_t::heat_radiation );
+    }
+    {
+        sol::usertype<furn_t> ut =
+            luna::new_usertype<furn_t>( lua, luna::no_bases, luna::no_constructor );
+
+        luna::set_fx( ut, "str_id", []( const furn_t &x ) -> furn_str_id {
+            return x.id;
+        } );
+        luna::set_fx( ut, "int_id", []( const furn_t &x ) -> furn_id {
+            return x.id.id();
+        } );
+
+        luna::set( ut, "open", &furn_t::open );
+        luna::set( ut, "close", &furn_t::close );
+        luna::set( ut, "transforms_into", &furn_t::transforms_into );
     }
 }
 

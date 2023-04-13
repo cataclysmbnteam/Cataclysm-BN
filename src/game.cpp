@@ -46,6 +46,7 @@
 #include "basecamp.h"
 #include "bionics.h"
 #include "bodypart.h"
+#include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
@@ -1512,6 +1513,17 @@ bool game::do_turn()
     mon_info_update();
     u.process_turn();
 
+    cata::run_on_every_second( *DynamicDataLoader::get_instance().lua );
+    if( calendar::once_every( 1_minutes ) ) {
+        cata::run_on_every_minute( *DynamicDataLoader::get_instance().lua );
+    }
+    if( calendar::once_every( 1_hours ) ) {
+        cata::run_on_every_hour( *DynamicDataLoader::get_instance().lua );
+    }
+    if( calendar::once_every( 1_days ) ) {
+        cata::run_on_every_day( *DynamicDataLoader::get_instance().lua );
+    }
+
     explosion_handler::get_explosion_queue().execute();
     cleanup_dead();
 
@@ -2624,6 +2636,8 @@ bool game::load( const save_t &name )
 
     cata::load_world_lua_state( get_world_base_save_path() + "/lua_state.json" );
 
+    cata::run_on_game_load_hooks( *DynamicDataLoader::get_instance().lua );
+
     return true;
 }
 
@@ -2738,6 +2752,7 @@ static bool save_uistate_data( const game &g )
 
 bool game::save()
 {
+    cata::run_on_game_save_hooks( *DynamicDataLoader::get_instance().lua );
     try {
         if( !save_player_data() ||
             !save_factions_missions_npcs() ||
