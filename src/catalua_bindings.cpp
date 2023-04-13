@@ -497,7 +497,7 @@ void cata::detail::reg_hooks_examples( sol::state &lua )
 
 void cata::detail::reg_testing_library( sol::state &lua )
 {
-    DOC( "LIbrary for testing purposes" );
+    DOC( "Library for testing purposes" );
     luna::userlib lib = luna::begin_lib( lua, "tests_lib" );
 
     // Regression test for https://github.com/ThePhD/sol2/issues/1444
