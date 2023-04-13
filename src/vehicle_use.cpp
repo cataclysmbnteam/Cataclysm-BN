@@ -360,7 +360,7 @@ void vehicle::control_electronics()
         set_electronics_menu_options( options, actions );
 
         options.emplace_back( engine_on ? _( "Turn off the engine" ) : _( "Turn on the engine" ),
-                                keybind( "TOGGLE_ENGINE" ) );
+                              keybind( "TOGGLE_ENGINE" ) );
         actions.push_back( [&] {
             if( engine_on )
             {
