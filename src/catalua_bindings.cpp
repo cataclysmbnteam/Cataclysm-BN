@@ -502,7 +502,7 @@ void cata::detail::reg_game_api( sol::state &lua )
     luna::set_fx( lib, "current_turn", []() -> time_point { return calendar::turn; } );
     luna::set_fx( lib, "turn_zero", []() -> time_point { return calendar::turn_zero; } );
     luna::set_fx( lib, "before_time_starts", []() -> time_point { return calendar::before_time_starts; } );
-    luna::set_fx( lib, "rng", &rng );
+    luna::set_fx( lib, "rng", sol::resolve<int( int, int )>( &rng ) );
 
     luna::finalize_lib( lib );
 }
