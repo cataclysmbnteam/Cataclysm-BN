@@ -20,6 +20,7 @@
 #include "options.h"
 #include "pimpl.h"
 #include "point.h"
+#include "projectile.h"
 #include "sdl_wrappers.h"
 #include "sdl_geometry.h"
 #include "type_id.h"
@@ -532,7 +533,7 @@ class cata_tiles
         void draw_custom_explosion_frame();
         void void_custom_explosion();
 
-        void init_draw_cone_aoe( const tripoint &origin, const one_bucket &layer );
+        void init_draw_cone_aoe( const tripoint &origin, const one_bucket &layer, const projectile &proj );
         void draw_cone_aoe_frame();
         void void_cone_aoe();
 
@@ -711,6 +712,7 @@ class cata_tiles
 
         std::map<tripoint, explosion_tile> custom_explosion_layer;
 
+        std::optional<projectile> proj;
         tripoint cone_aoe_origin;
         one_bucket cone_aoe_layer;
 

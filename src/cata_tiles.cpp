@@ -84,6 +84,8 @@ static const efftype_id effect_ridden( "ridden" );
 
 static const itype_id itype_corpse( "corpse" );
 
+static const ammo_effect_str_id ammo_effect_INCENDIARY( "INCENDIARY" );
+
 static const std::string ITEM_HIGHLIGHT( "highlight_item" );
 static const std::string ZOMBIE_REVIVAL_INDICATOR( "zombie_revival_indicator" );
 
@@ -3262,11 +3264,13 @@ void cata_tiles::init_custom_explosion_layer( const std::map<tripoint, explosion
     custom_explosion_layer = layer;
     exp_name = name;
 }
-void cata_tiles::init_draw_cone_aoe( const tripoint &origin, const one_bucket &layer )
+void cata_tiles::init_draw_cone_aoe( const tripoint &origin, const one_bucket &layer,
+                                     const projectile &proj )
 {
     do_draw_cone_aoe = true;
     cone_aoe_origin = origin;
     cone_aoe_layer = layer;
+    this->proj = proj;
 }
 void cata_tiles::init_draw_bullet( const tripoint &p, std::string name )
 {
@@ -3573,19 +3577,27 @@ void cata_tiles::draw_custom_explosion_frame()
 }
 void cata_tiles::draw_cone_aoe_frame()
 {
+    static const std::string flame_fallback    {"animation_bullet_flame"};
+    static const std::string shrapnel_fallback {"animation_bullet_shrapnel"};
+    // Should probably jsonize for flamethrower, dragon breath etc.
+    using Ids = std::array<std::string, 3>;
+    static const Ids shot_ids = {{ "shot_cone_weak", "shot_cone_medium", "shot_cone_strong" }};
+    static const Ids flame_ids = {{ "shot_flame_cone_weak", "shot_flame_cone_medium", "shot_flame_cone_strong" }};
+
+    const bool is_incendiary = proj.has_value() && proj->has_effect( ammo_effect_INCENDIARY );
+
+    const Ids &ids = is_incendiary ? flame_ids : shot_ids;
+    const std::string &fallback = is_incendiary ? flame_fallback : shrapnel_fallback;
+    // FIXME: hack, should probably recide in tileset class
+    const bool supports_animation = find_tile_looks_like( shot_ids[0], C_NONE ) != std::nullopt;
+
     for( const point_with_value &pv : cone_aoe_layer ) {
         const tripoint diff = pv.pt - cone_aoe_origin;
         int rotation = ( sgn( diff.x ) == sgn( diff.y ) ? 1 : 0 );
-        // Should probably jsonize for flamethrower, dragon breath etc.
-        static const std::array<std::string, 3> sprite_ids = {{
-                "shot_cone_weak",
-                "shot_cone_medium",
-                "shot_cone_strong"
-            }
-        };
 
         size_t intensity = ( pv.val >= 1.0 ) + ( pv.val >= 0.5 );
-        draw_from_id_string( sprite_ids[intensity], pv.pt, 0, rotation, lit_level::LIT, false, 0 );
+        std::string tile = supports_animation ? ids[intensity] : fallback;
+        draw_from_id_string( tile, pv.pt, 0, rotation, lit_level::LIT, false, 0 );
     }
 }
 void cata_tiles::void_cone_aoe()

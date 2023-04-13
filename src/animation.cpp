@@ -1081,7 +1081,8 @@ static void draw_cone_aoe_curses( const tripoint &, const bucketed_points &waves
 
 namespace ranged
 {
-void draw_cone_aoe( const tripoint &origin, const std::map<tripoint, double> &aoe )
+void draw_cone_aoe( const tripoint &origin, const std::map<tripoint, double> &aoe,
+                    const projectile &proj )
 {
     if( test_mode ) {
         return;
@@ -1107,7 +1108,7 @@ void draw_cone_aoe( const tripoint &origin, const std::map<tripoint, double> &ao
 
     shared_ptr_fast<game::draw_callback_t> wave_cb =
     make_shared_fast<game::draw_callback_t>( [&]() {
-        tilecontext->init_draw_cone_aoe( origin, combined_layer );
+        tilecontext->init_draw_cone_aoe( origin, combined_layer, proj );
     } );
     g->add_draw_callback( wave_cb );
 

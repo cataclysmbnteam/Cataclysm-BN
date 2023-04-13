@@ -113,7 +113,7 @@ void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &a
         }
     }
 
-    draw_cone_aoe( origin, final_coverage );
+    draw_cone_aoe( origin, final_coverage, proj );
 
     // Here and not above because we want the animation first
     // Terrain will be shown damaged, but having it in unknown state would complicate timing the animation

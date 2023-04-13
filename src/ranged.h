@@ -108,7 +108,8 @@ std::map<tripoint, double> expected_coverage( const shape &sh, const map &here, 
 
 dealt_damage_instance hit_with_aoe( Creature &target, Creature *source, const damage_instance &di );
 
-void draw_cone_aoe( const tripoint &origin, const std::map<tripoint, double> &aoe );
+void draw_cone_aoe( const tripoint &origin, const std::map<tripoint, double> &aoe,
+                    const projectile &proj );
 
 enum class hit_tier : int {
     grazing = 0,
