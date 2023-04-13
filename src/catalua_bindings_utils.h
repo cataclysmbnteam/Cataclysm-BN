@@ -12,4 +12,6 @@ void reg_serde_functions( sol::usertype<T> &ut )
     luna::set_fx( ut, "deserialize", sol::resolve< void( JsonIn & ) >( &T::deserialize ) );
 }
 
+#define DOC( x ) luna::doc( x )
+
 #endif // CATA_SRC_CATALUA_BINDINGS_UTILS_H

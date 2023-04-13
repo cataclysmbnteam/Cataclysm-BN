@@ -52,6 +52,10 @@ end
 local fmt_one_member = function(typename, member)
     local ret = "#### "..tostring(member.name).."\n";
     
+    if member.comment then
+        ret=ret.."  // "..member.comment.."\n"
+    end
+
     if member.type == "var" then
         ret=ret.."  Variable of type `"..member.vartype.."`"
         if member.hasval then
@@ -135,7 +139,12 @@ doc_gen_func.impl = function()
     for _,it in pairs(types_sorted) do
         local typename = it.k
         local dt_type = it.v 
+        local type_comment = dt_type.type_comment
         ret = ret.."## "..typename.."\n"
+
+        if type_comment then
+            ret = ret.."// "..type_comment.."\n"
+        end
 
         local bases = dt_type["#bases"]
         local ctors = dt_type["#construct"]
@@ -179,7 +188,12 @@ doc_gen_func.impl = function()
     for _,it in pairs(libs_sorted) do
         local typename = it.k
         local dt_lib = it.v 
+        local lib_comment = dt_lib.lib_comment
         ret = ret.."## "..typename.."\n"
+
+        if lib_comment then
+            ret = ret.."// "..lib_comment.."\n"
+        end
 
         local members = dt_lib["#member"]
 

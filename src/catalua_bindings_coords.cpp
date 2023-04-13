@@ -141,6 +141,7 @@ void cata::detail::reg_point_tripoint( sol::state &lua )
 
 void cata::detail::reg_coords_library( sol::state &lua )
 {
+    DOC( "Methods for manipulating coord systems and calculating distance" );
     luna::userlib lib = luna::begin_lib( lua, "coords" );
 
     luna::set_fx( lib, "ms_to_sm", []( const tripoint & raw ) -> std::tuple<tripoint, point> {

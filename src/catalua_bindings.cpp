@@ -21,6 +21,8 @@
 #include "popup.h"
 #include "ui.h"
 
+std::string_view luna::detail::current_comment;
+
 std::string cata::detail::fmt_lua_va( sol::variadic_args va )
 {
     lua_State *L = va.lua_state();
@@ -115,6 +117,7 @@ void cata::detail::reg_creature_family( sol::state &lua )
             );
 
         // TODO: typesafe coords
+        DOC( "Position within map" );
         luna::set_fx( ut, "get_pos_ms", &Creature::pos );
     }
 
@@ -154,15 +157,21 @@ void cata::detail::reg_item( sol::state &lua )
 
         luna::set_fx( ut, "get_type", &item::typeId );
 
+        DOC( "Check for variable of any type" );
         luna::set_fx( ut, "has_var", &item::has_var );
+        DOC( "Erase variable" );
         luna::set_fx( ut, "erase_var", &item::erase_var );
+        DOC( "Erase all variables" );
         luna::set_fx( ut, "clear_vars", &item::clear_vars );
 
+        DOC( "Get variable as string" );
         luna::set_fx( ut, "get_var_str",
                       sol::resolve<std::string( const std::string &, const std::string & ) const>
                       ( &item::get_var ) );
+        DOC( "Get variable as float number" );
         luna::set_fx( ut, "get_var_num",
                       sol::resolve<double( const std::string &, double ) const>( &item::get_var ) );
+        DOC( "Get variable as tripoint" );
         luna::set_fx( ut, "get_var_tri",
                       sol::resolve<tripoint( const std::string &, const tripoint & ) const>
                       ( &item::get_var ) );
@@ -182,11 +191,14 @@ void cata::detail::reg_map( sol::state &lua )
     {
         sol::usertype<map> ut = luna::new_usertype<map>( lua, luna::no_bases, luna::no_constructor );
 
+        DOC( "Convert local ms -> absolute ms" );
         luna::set_fx( ut, "get_abs_ms", sol::resolve<tripoint( const tripoint & ) const>( &map::getabs ) );
+        DOC( "Convert absolute ms -> local ms" );
         luna::set_fx( ut, "get_local_ms",
                       sol::resolve<tripoint( const tripoint & ) const>( &map::getlocal ) );
 
         luna::set_fx( ut, "get_map_size_in_submaps", &map::getmapsize );
+        DOC( "In map squares" );
         luna::set_fx( ut, "get_map_size", []( const map & m ) -> int {
             return m.getmapsize() * SEEX;
         } );
@@ -219,6 +231,7 @@ void cata::detail::reg_map( sol::state &lua )
 
     // Register 'item_stack' class to be used in Lua
     {
+        DOC( "Iterate over this using pairs()" );
         sol::usertype<item_stack> ut = luna::new_usertype<item_stack>( lua, luna::no_bases,
                                        luna::no_constructor );
 
@@ -246,7 +259,9 @@ void cata::detail::reg_distribution_grid( sol::state &lua )
                 luna::no_constructor
             );
 
+        DOC( "Boolean argument controls recursive behavior" );
         luna::set_fx( ut, "get_resource", &distribution_grid::get_resource );
+        DOC( "Boolean argument controls recursive behavior" );
         luna::set_fx( ut, "mod_resource", &distribution_grid::mod_resource );
     }
 
@@ -280,9 +295,11 @@ void cata::detail::reg_ui_elements( sol::state &lua )
         luna::set_fx( ut, "title", []( uilist & ui, const std::string & text ) {
             ui.title = text;
         } );
+        DOC( "Return value, text" );
         luna::set_fx( ut, "add", []( uilist & ui, int retval, const std::string & text ) {
             ui.addentry( retval, true, MENU_AUTOASSIGN, text );
         } );
+        DOC( "Returns retval for selected entry, or a negative number on fail/cancel" );
         luna::set_fx( ut, "query", []( uilist & ui ) {
             ui.query();
             return ui.ret;
@@ -307,6 +324,7 @@ void cata::detail::reg_ui_elements( sol::state &lua )
         luna::set_fx( ut, "allow_any_key", []( query_popup & popup, bool val ) {
             popup.allow_anykey( val );
         } );
+        DOC( "Returns selected action" );
         luna::set_fx( ut, "query", []( query_popup & popup ) {
             return popup.query().action;
         } );
@@ -315,6 +333,7 @@ void cata::detail::reg_ui_elements( sol::state &lua )
 
 void cata::detail::reg_constants( sol::state &lua )
 {
+    DOC( "Various game constants" );
     luna::userlib lib = luna::begin_lib( lua, "const" );
 
     luna::set( lib, "OM_OMT_SIZE", OMAPX );
@@ -361,6 +380,7 @@ static void lua_debugmsg_impl( sol::variadic_args va )
 
 void cata::detail::reg_debug_api( sol::state &lua )
 {
+    DOC( "Debugging and logging API." );
     luna::userlib lib = luna::begin_lib( lua, "gdebug" );
 
     luna::set_fx( lib, "log_info", &lua_log_info_impl );
@@ -399,6 +419,7 @@ static void add_msg_lua( game_message_type t, sol::variadic_args va )
 
 void cata::detail::reg_game_api( sol::state &lua )
 {
+    DOC( "Global game methods" );
     luna::userlib lib = luna::begin_lib( lua, "gapi" );
 
     luna::set_fx( lib, "get_avatar", &get_avatar );
@@ -463,10 +484,17 @@ void cata::detail::reg_enums( sol::state &lua )
 
 void cata::detail::reg_hooks_examples( sol::state &lua )
 {
+    DOC( "Documentation for hooks" );
     luna::userlib lib = luna::begin_lib( lua, "hooks_doc" );
 
+    DOC( "Called when game is about to save" );
     luna::set_fx( lib, "on_game_save", []() {} );
+    DOC( "Called right after game has loaded" );
     luna::set_fx( lib, "on_game_load", []() {} );
+    DOC( "Called right after mapgen has completed. "
+         "Map argument is the tinymap that represents 24x24 area (2x2 submaps, or 1x1 omt), "
+         "tripoint is the absolute omt pos, and time_point is the current time (for time-based effects)."
+       );
     luna::set_fx( lib, "on_mapgen_postprocess", []( map &, const tripoint &, const time_point & ) {} );
 
     luna::finalize_lib( lib );

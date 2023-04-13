@@ -52,6 +52,7 @@ constexpr std::string_view KEY_TYPES = "#types";
 constexpr std::string_view KEY_ENUMS = "#enums";
 constexpr std::string_view KEY_LIBS = "#libs";
 constexpr std::string_view KEY_LIB_IMPL = "#lib_impl";
+constexpr std::string_view KEY_LIB_COMMENT = "lib_comment";
 constexpr std::string_view KEY_ENUM_ENTRIES = "entries";
 constexpr std::string_view KEY_TYPE_IMPL = "#type_impl";
 constexpr std::string_view KEY_DOCTABLE = "catadoc";
@@ -59,6 +60,7 @@ constexpr std::string_view KEY_BASES = "#bases";
 constexpr std::string_view KEY_CONSTRUCT = "#construct";
 constexpr std::string_view KEY_MEMBER = "#member";
 constexpr std::string_view KEY_MEMBER_TYPE = "type";
+constexpr std::string_view KEY_MEMBER_COMMENT = "comment";
 constexpr std::string_view KEY_MEMBER_VARIABLE_TYPE = "vartype";
 constexpr std::string_view KEY_MEMBER_VARIABLE_HAS_VALUE = "hasval";
 constexpr std::string_view KEY_MEMBER_VARIABLE_VALUE = "varval";
@@ -67,6 +69,7 @@ constexpr std::string_view KEY_MEMBER_OVERLOADS = "overloads";
 constexpr std::string_view KEY_MEMBER_RETVAL = "retval";
 constexpr std::string_view KEY_MEMBER_NAME = "name";
 constexpr std::string_view KEY_GET_TYPE = "get_luna_type";
+constexpr std::string_view KEY_USERTYPE_COMMENT = "type_comment";
 
 constexpr std::string_view MEMBER_IS_VAR = "var";
 constexpr std::string_view MEMBER_IS_FUNC = "func";
@@ -78,11 +81,21 @@ struct luna_traits {
     constexpr static std::string_view name = "<value>";
 };
 
+extern std::string_view current_comment;
+
 template<typename T>
 using remove_cv_ref_t = typename std::remove_cv<typename std::remove_reference<T>::type>::type;
 
 template<typename Signature>
 using fx_traits = sol::meta::meta_detail::fx_traits<Signature>;
+
+inline void add_comment( sol::table &dt, std::string_view key )
+{
+    if( !current_comment.empty() ) {
+        dt[key] = current_comment;
+        current_comment = "";
+    }
+}
 
 template<typename Val>
 std::string doc_value_impl()
@@ -231,6 +244,7 @@ template<typename Class, typename Value>
 void doc_member( sol::table &dt, sol::types<Value Class::*> && )
 {
     dt[KEY_MEMBER_TYPE] = MEMBER_IS_VAR;
+    add_comment( dt, KEY_MEMBER_COMMENT );
     dt[KEY_MEMBER_VARIABLE_TYPE] = doc_value( sol::types<Value>() );
 }
 
@@ -261,6 +275,7 @@ template<typename Class, typename ...Functions>
 void doc_member_fx_impl( sol::table &dt, sol::types<Functions...> && )
 {
     dt[KEY_MEMBER_TYPE] = MEMBER_IS_FUNC;
+    add_comment( dt, KEY_MEMBER_COMMENT );
     std::vector<sol::table> overloads;
 
     ( [&]() {
@@ -286,6 +301,7 @@ template<typename Value>
 void doc_free( sol::table &dt, Value val )
 {
     dt[KEY_MEMBER_TYPE] = MEMBER_IS_VAR;
+    add_comment( dt, KEY_MEMBER_COMMENT );
     dt[KEY_MEMBER_VARIABLE_TYPE] = doc_value( sol::types<Value>() );
     dt[KEY_MEMBER_VARIABLE_HAS_VALUE] = true;
     dt[KEY_MEMBER_VARIABLE_VALUE] = val;
@@ -313,6 +329,7 @@ template<typename ...Functions>
 void doc_free_fx_impl( sol::table &dt, sol::types<Functions...> && )
 {
     dt[KEY_MEMBER_TYPE] = MEMBER_IS_FUNC;
+    add_comment( dt, KEY_MEMBER_COMMENT );
     std::vector<sol::table> overloads;
     ( [&]() {
         doc_free_fx_overload<Functions>( dt, overloads );
@@ -373,8 +390,11 @@ sol::usertype<Class> new_usertype(
     sol::table type_dt = lua.create_table();
     global_dt[detail::KEY_TYPES][name] = type_dt;
 
-    // Document Sol usertype
+    // Link relevant Sol usertype in docs
     type_dt[detail::KEY_TYPE_IMPL] = ut;
+
+    // Doc comment
+    detail::add_comment( type_dt, detail::KEY_USERTYPE_COMMENT );
 
     // Init members table
     type_dt[detail::KEY_MEMBER] = std::vector<sol::object>();
@@ -513,6 +533,9 @@ inline userlib begin_lib(
     // Init members table
     lib_dt[detail::KEY_MEMBER] = std::vector<sol::object>();
 
+    // Library comment
+    detail::add_comment( lib_dt, detail::KEY_LIB_COMMENT );
+
     // Create library itself
     sol::table t = lua.create_table();
 
@@ -563,6 +586,11 @@ inline void finalize_lib(
                     );
     lua.globals()[lib.name] = et;
     lib.finalized = true;
+}
+
+inline void doc( std::string_view doc )
+{
+    detail::current_comment = doc;
 }
 
 } // namespace luna
