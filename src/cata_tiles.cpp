@@ -3269,7 +3269,7 @@ void cata_tiles::init_draw_cone_aoe( const tripoint &origin, const one_bucket &l
     cone_aoe_origin = origin;
     cone_aoe_layer = layer;
 }
-void cata_tiles::init_draw_bullet( const tripoint &p, std::string name, int rotation /* = 0 */ )
+void cata_tiles::init_draw_bullet( const tripoint &p, std::string name, int rotation )
 {
     do_draw_bullet = true;
     bul_pos = p;

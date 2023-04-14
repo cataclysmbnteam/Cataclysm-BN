@@ -536,7 +536,7 @@ class cata_tiles
         void draw_cone_aoe_frame();
         void void_cone_aoe();
 
-        void init_draw_bullet( const tripoint &p, std::string name, int rotation = 0 );
+        void init_draw_bullet( const tripoint &p, std::string name, int rotation );
         void draw_bullet_frame();
         void void_bullet();
 
@@ -716,7 +716,7 @@ class cata_tiles
 
         tripoint bul_pos;
         std::string bul_id;
-        int bul_rotation;
+        int bul_rotation = 0;
 
         tripoint hit_pos;
         std::string hit_entity_id;
