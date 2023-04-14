@@ -44,7 +44,7 @@ class basic_animation
 {
     public:
         explicit basic_animation( const int scale ) :
-            delay( get_option<int>( "ANIMATION_DELAY" ) * scale * 1000000L ) {
+            delay( static_cast<size_t>( get_option<int>( "ANIMATION_DELAY" ) ) * scale * 1000000L ) {
         }
 
         void draw() const {
@@ -527,7 +527,7 @@ void game::draw_bullet( const tripoint &t, const int i,
     };
 
     // converts direction into cata_tiles compatible rotation value
-    const auto get_rotation = []( direction dir ) {
+    static const auto get_rotation = []( direction dir ) {
         switch( dir ) {
             default:
             case direction::NORTH:
