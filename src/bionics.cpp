@@ -562,7 +562,7 @@ void npc::check_or_use_weapon_cbm()
             }
         }
 
-        if( toggle_index > 0 ) {
+        if( toggle_index >= 0 ) {
             // Decided on a bionic, swap to it.
             if( is_armed() ) {
                 stow_item( weapon );
@@ -595,7 +595,7 @@ void npc::check_or_use_weapon_cbm()
             // Have fun changing this in the future.
             int cbm_ammo = free_power / bio.info().power_activate;
 
-            if( active_index > 0 ) {
+            if( active_index >= 0 ) {
                 // Previous iteration chose a CBM, compare them.
                 int b_cbm_ammo = free_power / ( *my_bionics )[active_index].info().power_activate;
 
