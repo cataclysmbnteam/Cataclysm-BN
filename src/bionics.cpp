@@ -470,24 +470,19 @@ void deactivate_weapon_cbm( npc &who )
     who.clear_npc_ai_info_cache( npc_ai_info::WEAPON_VALUE );
 }
 
-std::vector<std::pair<int, item>> find_reloadable_cbms( npc &who )
+std::vector<std::pair<bionic_id, item>> find_reloadable_cbms( npc &who )
 {
-    std::vector<std::pair<int, item>> cbm_list;
+    std::vector<std::pair<bionic_id, item>> cbm_list;
     // Runs down full list of CBMs that qualify as weapons.
     // Need a way to make this less costly.
-    int cbm_index = 0;
     for( bionic bio : *who.my_bionics ) {
         if( bio.info().has_flag( flag_BIONIC_WEAPON ) ) {
             item cbm_fake = item( bio.info().fake_item );
-            if( cbm_fake.ammo_required() > 0  &&
-                static_cast<int>( bio.ammo_count ) < cbm_fake.ammo_capacity() ) {
-                if( bio.ammo_count > 0 ) {
-                    cbm_fake.ammo_set( bio.ammo_loaded, bio.ammo_count );
-                }
-                cbm_list.push_back( std::make_pair( cbm_index, cbm_fake ) );
+            if( static_cast<int>( bio.ammo_count ) < cbm_fake.ammo_capacity() ) {
+                cbm_fake.ammo_set( bio.ammo_loaded, bio.ammo_count );
+                cbm_list.emplace_back( std::make_pair( bio.id, cbm_fake ) );
             }
-        }
-        cbm_index++;
+        };
     }
     return cbm_list;
 }
@@ -539,25 +534,13 @@ void npc::check_or_use_weapon_cbm()
                     continue;
                 }
 
-                if( toggle_index >= 0 ) {
-                    // Previous iteration chose a CBM. Compare previous and current.
+                const item to_compare = toggle_index >= 0 ? best_cbm_weap : weapon;
+                const int to_compare_shots = item_funcs::shots_remaining( *this, to_compare );
 
-                    const int best_shots = item_funcs::shots_remaining( *this, best_cbm_weap );
-
-                    if( npc_ai::weapon_value( *this, best_cbm_weap, best_shots ) <
-                        npc_ai::weapon_value( *this, cbm_fake, fake_shots ) ) {
-                        // Current is better, update index.
-                        toggle_index = i;
-                        best_cbm_weap = cbm_fake;
-                    }
-                } else {
-                    int weapon_shots = item_funcs::shots_remaining( *this, weapon );
-
-                    if( npc_ai::weapon_value( *this, weapon, weapon_shots ) <
-                        npc_ai::weapon_value( *this, cbm_fake, fake_shots ) ) {
-                        toggle_index = i;
-                        best_cbm_weap = cbm_fake;
-                    }
+                if( npc_ai::weapon_value( *this, to_compare, to_compare_shots ) <
+                    npc_ai::weapon_value( *this, cbm_fake, fake_shots ) ) {
+                    toggle_index = i;
+                    best_cbm_weap = cbm_fake;
                 }
             }
         }
@@ -619,7 +602,7 @@ void npc::check_or_use_weapon_cbm()
 
             } else {
                 // If it's not a gun, then we only need to compare the CBMs as
-                // You can fire a activated CBM without the need to equip/unequip anything.
+                // You can fire an activated CBM without the need to equip/unequip anything.
                 active_index = i;
                 best_cbm_active = cbm_weapon;
             }

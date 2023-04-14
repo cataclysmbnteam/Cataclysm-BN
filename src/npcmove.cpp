@@ -1497,16 +1497,17 @@ void npc::check_or_reload_cbm()
         return;
     }
 
-    std::vector<std::pair<int, item>> checklist = find_reloadable_cbms( *this );
+    std::vector<std::pair<bionic_id, item>> checklist = find_reloadable_cbms( *this );
 
     if( !checklist.empty() ) {
-        for( std::pair<int, item> itp : checklist ) {
-            const item_location it_loc = character_funcs::select_ammo( *this, itp.second ).ammo;
-            if( it_loc && wants_to_reload_with( itp.second, *it_loc ) ) {
-                do_reload( itp.second );
-                ( *my_bionics )[itp.first].ammo_loaded =
-                    itp.second.ammo_data() != nullptr ? itp.second.ammo_data()->get_id() : itype_id::NULL_ID();
-                ( *my_bionics )[itp.first].ammo_count = static_cast<unsigned int>( itp.second.ammo_remaining() );
+        for( auto& [bid, itm] : checklist ) {
+            bionic &bio = get_bionic_state( bid );
+            const item_location it_loc = character_funcs::select_ammo( *this, itm ).ammo;
+            if( it_loc && wants_to_reload_with( itm, *it_loc ) ) {
+                do_reload( itm );
+                bio.ammo_loaded =
+                    itm.ammo_data() != nullptr ? itm.ammo_data()->get_id() : itype_id::NULL_ID();
+                bio.ammo_count = static_cast<unsigned int>( itm.ammo_remaining() );
                 return;
             }
         }

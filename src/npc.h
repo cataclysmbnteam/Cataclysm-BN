@@ -1404,6 +1404,6 @@ double unarmed_value( const Character &who );
 // disable toggled weapon cbms
 void deactivate_weapon_cbm( npc &who );
 // returns list of reloadable cbms.
-std::vector<std::pair<int, item>> find_reloadable_cbms( npc &who );
+std::vector<std::pair<bionic_id, item>> find_reloadable_cbms( npc &who );
 
 #endif // CATA_SRC_NPC_H
