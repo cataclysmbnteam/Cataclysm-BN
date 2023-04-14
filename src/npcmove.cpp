@@ -1359,15 +1359,8 @@ npc_action npc::method_of_attack()
 
     if( rules.has_flag( ally_rule::use_guns ) || !is_player_ally() ) {
 
-        if( !cbm_active.is_null() ) {
-            for( const auto &e : cbm_fake_active.gun_all_modes() ) {
-                modes.push_back( e );
-            }
-        } else {
-            for( const auto &e : weapon.gun_all_modes() ) {
-                modes.push_back( e );
-            }
-        }
+        const auto &to_add = cbm_active.is_null() ? weapon.gun_all_modes() : cbm_fake_active.gun_all_modes();
+        std::copy( to_add.begin(), to_add.end(), std::back_inserter( modes ) );
 
         modes.erase( std::remove_if( modes.begin(), modes.end(),
         [&]( const std::pair<gun_mode_id, gun_mode> &e ) {
