@@ -10583,17 +10583,17 @@ void Character::set_underwater( bool x )
     }
 }
 
-void Character::clear_npc_ai_info_cache( const npc_ai_info &key ) const
+void Character::clear_npc_ai_info_cache( const npc_ai_info key ) const
 {
     npc_ai_info_cache.erase( key );
 }
 
-void Character::set_npc_ai_info_cache( const npc_ai_info &key, double val ) const
+void Character::set_npc_ai_info_cache( const npc_ai_info key, double val ) const
 {
     npc_ai_info_cache[key] = val;
 }
 
-std::optional<double> Character::get_npc_ai_info_cache( const npc_ai_info &key ) const
+std::optional<double> Character::get_npc_ai_info_cache( const npc_ai_info key ) const
 {
     auto it = npc_ai_info_cache.find( key );
     if( it == npc_ai_info_cache.end() ) {
