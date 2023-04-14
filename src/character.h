@@ -97,7 +97,7 @@ enum vision_modes {
     NUM_VISION_MODES
 };
 
-enum npc_ai_info {
+enum class npc_ai_info {
     WEAPON_VALUE,
     RELOADABLES,
     RELOADABLE_CBMS,
