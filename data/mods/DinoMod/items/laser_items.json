@@ -2,7 +2,7 @@
   {
     "id": "light_minus_battery_cell",
     "type": "MAGAZINE",
-    "category": "spare_parts",
+    "category": "battery",
     "name": { "str": "ultra-light battery", "str_pl": "ultra-light batteries" },
     "description": "This is a light battery cell designed for small size over everything else.  It retains its universal compatibility, though.",
     "ascii_picture": "ultra_light_battery",
