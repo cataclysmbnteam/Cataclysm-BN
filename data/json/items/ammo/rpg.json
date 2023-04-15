@@ -33,7 +33,7 @@
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "weight": "4500 g",
     "ammo_type": "RPG-7",
-    "damage": { "damage_type": "bullet", "amount": 200, "armor_penetration": 55 , "armor_multiplier": 2 },
+    "damage": { "damage_type": "bullet", "amount": 200, "armor_penetration": 55, "armor_multiplier": 2 },
     "range": 60,
     "dispersion": 75,
     "recoil": 450,
