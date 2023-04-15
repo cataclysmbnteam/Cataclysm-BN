@@ -2551,12 +2551,6 @@ void monster::process_effects_internal()
         }
     }
 
-    // Like with player/NPCs - keep the speed above 0
-    const int min_speed_bonus = -0.75 * get_speed_base();
-    if( get_speed_bonus() < min_speed_bonus ) {
-        set_speed_bonus( min_speed_bonus );
-    }
-
     //If this monster has the ability to heal in combat, do it now.
     int regeneration_amount = type->regenerates;
     float regen_multiplier = 0;
