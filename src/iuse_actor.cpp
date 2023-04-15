@@ -2602,7 +2602,6 @@ int cast_spell_actor::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     spell casting = spell( spell_id( item_spell ) );
-    int charges = it.type->charges_to_use();
 
     player_activity cast_spell( ACT_SPELLCASTING, casting.casting_time( p ) );
     // [0] this is used as a spell level override for items casting spells
@@ -2618,13 +2617,14 @@ int cast_spell_actor::use( player &p, item &it, bool, const tripoint & ) const
     if( it.has_flag( "USE_PLAYER_ENERGY" ) ) {
         // [2] this value overrides the mana cost if set to 0
         cast_spell.values.emplace_back( 1 );
-        charges = 0;
     } else {
         // [2]
         cast_spell.values.emplace_back( 0 );
     }
     p.assign_activity( cast_spell, false );
-    return charges;
+    p.activity.targets.push_back( item_location( p, &it ) );
+    // Actual handling of charges_to_use is in activity_handlers::spellcasting_finish
+    return 0;
 }
 
 std::unique_ptr<iuse_actor> holster_actor::clone() const
