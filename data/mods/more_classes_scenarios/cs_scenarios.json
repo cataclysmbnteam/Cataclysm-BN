@@ -35,13 +35,6 @@
   },
   {
     "type": "scenario",
-    "id": "cyberpunk",
-    "copy-from": "cyberpunk",
-    "add_professions": true,
-    "extend": { "professions": [ "bio_gangster", "bionic_hitman" ] }
-  },
-  {
-    "type": "scenario",
     "id": "missed",
     "copy-from": "missed",
     "extend": {
