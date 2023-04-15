@@ -254,7 +254,8 @@ static void shadowcasting_runoff( const int iterations, const bool test_bresenha
     const auto start2 = std::chrono::high_resolution_clock::now();
     for( int i = 0; i < iterations; i++ ) {
         // Then the current algorithm.
-        castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
+        castLightAllWithLookup<float, float, sight_calc, sight_check, update_light, accumulate_transparency, sight_from_lookup>
+        (
             seen_squares_experiment, transparency_cache, blocked_cache, offset );
     }
     const auto end2 = std::chrono::high_resolution_clock::now();
@@ -309,18 +310,18 @@ static void shadowcasting_float_quad(
 
     const auto start1 = std::chrono::high_resolution_clock::now();
     for( int i = 0; i < iterations; i++ ) {
-        castLightAll<float, four_quadrants, sight_calc, sight_check, update_light_quadrants,
-                     accumulate_transparency>(
-                         lit_squares_quad, transparency_cache, blocked_cache, offset );
+        castLightAllWithLookup<float, four_quadrants, sight_calc, sight_check, update_light_quadrants,
+                               accumulate_transparency, sight_from_lookup>(
+                                   lit_squares_quad, transparency_cache, blocked_cache, offset );
     }
     const auto end1 = std::chrono::high_resolution_clock::now();
 
     const auto start2 = std::chrono::high_resolution_clock::now();
     for( int i = 0; i < iterations; i++ ) {
         // Then the current algorithm.
-        castLightAll<float, float, sight_calc, sight_check, update_light,
-                     accumulate_transparency>(
-                         lit_squares_float, transparency_cache, blocked_cache, offset );
+        castLightAllWithLookup<float, float, sight_calc, sight_check, update_light,
+                               accumulate_transparency, sight_from_lookup>(
+                                   lit_squares_float, transparency_cache, blocked_cache, offset );
     }
     const auto end2 = std::chrono::high_resolution_clock::now();
 
@@ -367,8 +368,8 @@ static void shadowcasting_3d_2d( const int iterations )
     const auto start1 = std::chrono::high_resolution_clock::now();
     for( int i = 0; i < iterations; i++ ) {
         // First the control algorithm.
-        castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
-            seen_squares_control, transparency_cache, blocked_cache, offset.xy() );
+        castLightAllWithLookup<float, float, sight_calc, sight_check, update_light, accumulate_transparency, sight_from_lookup>
+        ( seen_squares_control, transparency_cache, blocked_cache, offset.xy() );
     }
     const auto end1 = std::chrono::high_resolution_clock::now();
 
@@ -476,9 +477,8 @@ static void run_spot_check( const grid_overlay &test_case, const grid_overlay &e
         }
     }
 
-    castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
-        seen_squares, transparency_cache, blocked_cache, ORIGIN );
-
+    castLightAllWithLookup<float, float, sight_calc, sight_check, update_light, accumulate_transparency, sight_from_lookup>
+    ( seen_squares, transparency_cache, blocked_cache, ORIGIN );
     // Compares the whole grid, but out-of-bounds compares will de-facto pass.
     for( int y = 0; y < expected_result.height(); ++y ) {
         for( int x = 0; x < expected_result.width(); ++x ) {

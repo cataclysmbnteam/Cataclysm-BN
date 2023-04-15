@@ -5,6 +5,7 @@
 #include <functional>
 #include <list>
 #include <memory>
+#include <optional>
 #include <set>
 #include <sstream>
 #include <string>
@@ -18,7 +19,6 @@
 #include "item_contents.h"
 #include "itype.h"
 #include "newcharacter.h"
-#include "optional.h"
 #include "pldata.h"
 #include "profession.h"
 #include "ret_val.h"

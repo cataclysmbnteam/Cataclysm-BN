@@ -1,6 +1,7 @@
 #include "catch/catch.hpp"
 
 #include <memory>
+#include <optional>
 #include <vector>
 
 #include "avatar.h"
@@ -10,7 +11,6 @@
 #include "item.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "optional.h"
 #include "point.h"
 #include "state_helpers.h"
 #include "type_id.h"

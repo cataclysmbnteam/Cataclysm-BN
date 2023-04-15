@@ -6,6 +6,7 @@
 #include <iterator>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -27,7 +28,6 @@
 #include "itype.h"
 #include "json.h"
 #include "mod_manager.h"
-#include "optional.h"
 #include "output.h"
 #include "point.h"
 #include "recipe.h"
@@ -387,7 +387,7 @@ const recipe *select_crafting_recipe( int &batch_size )
         mvwputch( w_data, point( 0, dataHeight - 1 ), BORDER_COLOR, LINE_XXOO ); // |_
         mvwputch( w_data, point( width - 1, dataHeight - 1 ), BORDER_COLOR, LINE_XOOX ); // _|
 
-        cata::optional<point> cursor_pos;
+        std::optional<point> cursor_pos;
         int recmax = current.size();
 
         // Draw recipes with scroll list

@@ -10,6 +10,7 @@
         [ "flatbread", 1 ],
         [ "tortilla_corn", 1 ],
         [ "bread", 1 ],
+        [ "bread_garlic", 1 ],
         [ "wastebread", 1 ],
         [ "cornbread", 1 ],
         [ "biscuit", 1 ],
@@ -319,6 +320,7 @@
         [ "flatbread", 1 ],
         [ "tortilla_corn", 1 ],
         [ "bread", 1 ],
+        [ "bread_garlic", 1 ],
         [ "cornbread", 1 ],
         [ "biscuit", 1 ],
         [ "hardtack", 1 ],
@@ -391,7 +393,8 @@
         [ "dry_mushroom", 2 ],
         [ "mushroom_cooked", 2 ],
         [ "morel_cooked", 2 ],
-        [ "acorns_cooked", 2 ]
+        [ "acorns_cooked", 2 ],
+        [ "chili_pepper_roasted", 2 ]
       ]
     ]
   },
@@ -454,7 +457,8 @@
         [ "seasoning_italian", 1 ],
         [ "wild_herbs", 1 ],
         [ "soysauce", 1 ],
-        [ "garlic_clove", 1 ]
+        [ "garlic_clove", 1 ],
+        [ "chili_pepper_roasted", 1 ]
       ]
     ]
   },
@@ -587,6 +591,7 @@
         [ "veggy", 1 ],
         [ "veggy_wild", 1 ],
         [ "veggy_salted", 1 ],
+        [ "grape_leaves", 1 ],
         [ "spinach", 1 ]
       ]
     ]
@@ -635,6 +640,7 @@
         [ "zucchini", 1 ],
         [ "irradiated_zucchini", 1 ],
         [ "carrot_wild", 1 ],
+        [ "grape_leaves", 1 ],
         [ "spinach", 1 ]
       ]
     ]
@@ -650,7 +656,8 @@
         [ "salsify_baked", 1 ],
         [ "veggy_any_uncooked", 1, "LIST" ],
         [ "veggy_canned", 1 ],
-        [ "veggy_salted", 1 ]
+        [ "veggy_salted", 1 ],
+        [ "chili_pepper_roasted", 1 ]
       ]
     ]
   },
@@ -682,6 +689,7 @@
         [ "soysauce", 2 ],
         [ "pepper", 4 ],
         [ "garlic_clove", 2 ],
+        [ "chili_pepper_roasted", 2 ],
         [ "salt_water", 1 ],
         [ "salt", 4 ]
       ]
@@ -761,5 +769,49 @@
     "type": "requirement",
     "//": "Renamed to offal_raw, because that's more specific.  Requirements don't support aliases yet, so done using nesting.",
     "components": [ [ [ "offal_raw", 1, "LIST" ] ] ]
+  },
+  {
+    "id": "condiment",
+    "type": "requirement",
+    "//": " Should be about a teaspoon, or smallest serving",
+    "components": [
+      [
+        [ "mayonnaise", 1 ],
+        [ "mustard", 1 ],
+        [ "soysauce", 1 ],
+        [ "ketchup", 1 ],
+        [ "horseradish", 1 ],
+        [ "sauerkraut", 1 ],
+        [ "butter", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "bread_sandwich",
+    "type": "requirement",
+    "//": "Bread appropriate for sandwiches.",
+    "components": [
+      [
+        [ "flatbread", 1 ],
+        [ "bread", 1 ],
+        [ "wastebread", 1 ],
+        [ "sourdough_bread", 1 ],
+        [ "biscuit", 1 ],
+        [ "brioche", 1 ],
+        [ "crackers", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "bread_sandwich_wheat_free",
+    "type": "requirement",
+    "//": "Wheat free bread appropriate for sandwiches.",
+    "components": [ [ [ "cornbread", 1 ] ] ]
+  },
+  {
+    "id": "flour_any",
+    "type": "requirement",
+    "//": "Flour, irrespective of whether it's wheat-free or wheat-full.",
+    "components": [ [ [ "flour", 1 ] ] ]
   }
 ]

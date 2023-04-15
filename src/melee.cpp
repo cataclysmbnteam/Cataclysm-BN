@@ -9,6 +9,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -46,7 +47,6 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
-#include "optional.h"
 #include "output.h"
 #include "player.h"
 #include "pldata.h"
@@ -630,7 +630,7 @@ void Character::reach_attack( const tripoint &p )
     // Original target size, used when there are monsters in front of our target
     int target_size = critter != nullptr ? ( critter->get_size() + 1 ) : 2;
     // Reset last target pos
-    last_target_pos = cata::nullopt;
+    last_target_pos = std::nullopt;
     // Max out recoil
     recoil = MAX_RECOIL;
 
@@ -1642,32 +1642,33 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
 
         handle_melee_wear( shield, wear_modifier );
     } else {
-        // Choose which body part to block with, assume left side first
-        if( martial_arts_data->can_leg_block( *this ) && martial_arts_data->can_arm_block( *this ) ) {
-            bp_hit = one_in( 2 ) ? bodypart_id( "leg_l" ) : bodypart_id( "arm_l" );
-        } else if( martial_arts_data->can_leg_block( *this ) ) {
-            bp_hit = bodypart_id( "leg_l" );
-        } else {
-            bp_hit = bodypart_id( "arm_l" );
+        std::vector<bodypart_id> block_parts;
+        if( martial_arts_data->can_leg_block( *this ) ) {
+            block_parts.emplace_back( bodypart_id( "leg_l" ) );
+            block_parts.emplace_back( bodypart_id( "leg_r" ) );
         }
-
-        // Check if we should actually use the right side to block
-        if( bp_hit == bodypart_id( "leg_l" ) ) {
-            if( get_part_hp_cur( bodypart_id( "leg_r" ) ) > get_part_hp_cur( bodypart_id( "leg_l" ) ) ) {
-                bp_hit = bodypart_id( "leg_r" );
-            }
-        } else {
-            if( get_part_hp_cur( bodypart_id( "arm_r" ) ) > get_part_hp_cur( bodypart_id( "arm_l" ) ) ) {
-                bp_hit = bodypart_id( "arm_r" );
-            }
+        // If you have no martial arts you can still try to block with your arms.
+        // But martial arts with leg blocks only don't magically get arm blocks.
+        // Edge case: Leg block only martial arts gain arm blocks if both legs broken.
+        if( martial_arts_data->can_arm_block( *this ) || block_parts.empty() ) {
+            block_parts.emplace_back( bodypart_id( "arm_l" ) );
+            block_parts.emplace_back( bodypart_id( "arm_r" ) );
         }
+        block_parts.erase( std::remove_if( block_parts.begin(),
+        block_parts.end(), [this]( bodypart_id & bpid ) {
+            return get_part_hp_cur( bpid ) <= 0;
+        } ), block_parts.end() );
 
-        // At this point, we know we won't try blocking with items, only with limbs.
-        // But there are no limbs left, so we can disable further attempts at blocking.
-        if( get_part_hp_cur( bp_hit ) <= 0 ) {
+        const auto part_hp_cmp = [this]( const bodypart_id & lhs, const bodypart_id & rhs ) {
+            return get_part_hp_cur( lhs ) < get_part_hp_cur( rhs );
+        };
+        auto healthiest = std::max_element( block_parts.begin(), block_parts.end(), part_hp_cmp );
+        if( healthiest == block_parts.end() ) {
+            // We have no parts with HP to block with.
             blocks_left = 0;
             return false;
         }
+        bp_hit = *healthiest;
 
         thing_blocked_with = body_part_name( bp_hit->token );
     }

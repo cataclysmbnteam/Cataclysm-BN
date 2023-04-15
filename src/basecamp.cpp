@@ -266,7 +266,7 @@ bool basecamp::has_provides( const std::string &req, const expansion_data &e_dat
     return false;
 }
 
-bool basecamp::has_provides( const std::string &req, const cata::optional<point> &dir,
+bool basecamp::has_provides( const std::string &req, const std::optional<point> &dir,
                              int level ) const
 {
     if( !dir ) {
@@ -501,7 +501,7 @@ void basecamp::remove_assignee( character_id id )
         debugmsg( "cant find npc to remove from basecamp, on the overmap_buffer" );
         return;
     }
-    npc_to_remove->assigned_camp = cata::nullopt;
+    npc_to_remove->assigned_camp = std::nullopt;
     assigned_npcs.erase( std::remove( assigned_npcs.begin(), assigned_npcs.end(), npc_to_remove ),
                          assigned_npcs.end() );
 }

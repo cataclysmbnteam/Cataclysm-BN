@@ -772,33 +772,37 @@ static void draw_speed_tab( const catacurses::window &w_speed,
     unsigned int line = 3;
     if( you.weight_carried() > you.weight_capacity() ) {
         pen = 25 * ( you.weight_carried() - you.weight_capacity() ) / ( you.weight_capacity() );
-        mvwprintz( w_speed, point( 1, line ), c_red,
-                   pgettext( "speed penalty", "Overburdened        -%2d%%" ), pen );
+        //~ %s: Overburdened (already left-justified), %2d%%: speed penalty
+        mvwprintz( w_speed, point( 1, line ), c_red, pgettext( "speed penalty", "%s-%2d%%" ),
+                   left_justify( _( "Overburdened" ), 20 ), pen );
         line++;
     }
     pen = character_effects::get_pain_penalty( you ).speed;
     if( pen >= 1 ) {
-        mvwprintz( w_speed, point( 1, line ), c_red,
-                   pgettext( "speed penalty", "Pain                -%2d%%" ), pen );
+        //~ %s: Pain (already left-justified), %2d%%: speed penalty
+        mvwprintz( w_speed, point( 1, line ), c_red, pgettext( "speed penalty", "%s-%2d%%" ),
+                   left_justify( _( "Pain" ), 20 ), pen );
         line++;
     }
     if( you.get_thirst() > thirst_levels::very_thirsty ) {
         pen = std::abs( character_effects::get_thirst_speed_penalty( you.get_thirst() ) );
-        mvwprintz( w_speed, point( 1, line ), c_red,
-                   pgettext( "speed penalty", "Thirst              -%2d%%" ), pen );
+        //~ %s: Thirsty/Parched (already left-justified), %2d%%: speed penalty
+        mvwprintz( w_speed, point( 1, line ), c_red, pgettext( "speed penalty", "%s-%2d%%" ),
+                   left_justify( _( "Thirst" ), 20 ), pen );
         line++;
     }
     if( character_effects::get_kcal_speed_penalty( you.get_kcal_percent() ) < 0 ) {
         pen = std::abs( character_effects::get_kcal_speed_penalty( you.get_kcal_percent() ) );
-        //~ %s: Starving/Underfed (already left-justified), %2d: speed penalty
+        //~ %s: Starving/Underfed (already left-justified), %2d%%: speed penalty
         mvwprintz( w_speed, point( 1, line ), c_red, pgettext( "speed penalty", "%s-%2d%%" ),
                    left_justify( _( "Starving" ), 20 ), pen );
         line++;
     }
     if( you.has_trait( trait_id( "SUNLIGHT_DEPENDENT" ) ) && !g->is_in_sunlight( you.pos() ) ) {
         pen = ( g->light_level( you.posz() ) >= 12 ? 5 : 10 );
-        mvwprintz( w_speed, point( 1, line ), c_red,
-                   pgettext( "speed penalty", "Out of Sunlight     -%2d%%" ), pen );
+        //~ %s: Out of Sunlight (already left-justified), %2d%%: speed penalty
+        mvwprintz( w_speed, point( 1, line ), c_red, pgettext( "speed penalty", "%s-%2d%%" ),
+                   left_justify( _( "Out of Sunlight" ), 20 ), pen );
         line++;
     }
 
@@ -816,22 +820,21 @@ static void draw_speed_tab( const catacurses::window &w_speed,
         }
         if( !pen_sign.empty() ) {
             pen = ( player_local_temp - 65 ) * temperature_speed_modifier;
-            mvwprintz( w_speed, point( 1, line ), pen_color,
-                       //~ %s: sign of bonus/penalty, %2d: speed bonus/penalty
-                       pgettext( "speed modifier", "Cold-Blooded        %s%2d%%" ), pen_sign, std::abs( pen ) );
+            //~ %s: Cold-Blooded (already left-justified), %s: sign of bonus/penalty, %2d%%: speed modifier
+            mvwprintz( w_speed, point( 1, line ), pen_color, pgettext( "speed modifier", "%s%s%2d%%" ),
+                       left_justify( _( "Cold-Blooded" ), 20 ), pen_sign, std::abs( pen ) );
             line++;
         }
     }
 
-    int quick_bonus = static_cast<int>( newmoves - ( newmoves / 1.1 ) );
-    int bio_speed_bonus = quick_bonus;
-    if( you.has_trait( trait_id( "QUICK" ) ) && you.has_bionic( bionic_id( "bio_speed" ) ) ) {
-        bio_speed_bonus = static_cast<int>( newmoves / 1.1 - ( newmoves / 1.1 / 1.1 ) );
-        std::swap( quick_bonus, bio_speed_bonus );
-    }
-    if( you.has_trait( trait_id( "QUICK" ) ) ) {
-        mvwprintz( w_speed, point( 1, line ), c_green,
-                   pgettext( "speed bonus", "Quick               +%2d%%" ), quick_bonus );
+    int quick_bonus = static_cast<int>( round( ( you.mutation_value( "speed_modifier" ) - 1 ) * 100 ) );
+    int bio_speed_bonus = 10;
+    if( quick_bonus != 0 ) {
+        std::string pen_sign = quick_bonus >= 0 ? "+" : "-";
+        nc_color pen_color = quick_bonus >= 0 ? c_green : c_red;
+        //~ %s: Mutations (already left-justified), %s: sign of bonus/penalty, %2d%%: speed modifier
+        mvwprintz( w_speed, point( 1, line ), pen_color, pgettext( "speed bonus", "%s%s%2d%%" ),
+                   left_justify( _( "Mutations" ), 20 ), pen_sign, std::abs( quick_bonus ) );
         line++;
     }
     if( you.has_bionic( bionic_id( "bio_speed" ) ) ) {
@@ -1445,7 +1448,7 @@ void character_display::upgrade_stat_prompt( avatar &you, const character_stat &
     const int free_points = you.free_upgrade_points();
 
     if( free_points <= 0 ) {
-        cata::optional<int> xp_remains = you.kill_xp_for_next_point();
+        std::optional<int> xp_remains = you.kill_xp_for_next_point();
         if( !xp_remains ) {
             popup( _( "You've already reached maximum level." ) );
         } else {

@@ -3,11 +3,11 @@
 #define CATA_SRC_PICKUP_TOKEN_H
 
 #include <list>
+#include <optional>
 #include <vector>
 #include "item_handling_util.h"
 #include "item_location.h"
 #include "item_stack.h"
-#include "optional.h"
 
 class JsonIn;
 class JsonOut;
@@ -36,7 +36,7 @@ struct act_item {
 
 struct pick_drop_selection {
     item_location target;
-    cata::optional<int> quantity;
+    std::optional<int> quantity;
     std::vector<item_location> children;
 
     void serialize( JsonOut &jsout ) const;
@@ -44,7 +44,7 @@ struct pick_drop_selection {
 };
 
 struct stacked_items {
-    cata::optional<item_stack::iterator> parent;
+    std::optional<item_stack::iterator> parent;
     std::vector<std::list<item_stack::iterator>> stacked_children;
 };
 

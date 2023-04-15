@@ -7,6 +7,7 @@
 #include <cstdint>
 #include <bitset>
 #include <list>
+#include <optional>
 #include <set>
 #include <vector>
 #include <array>
@@ -23,7 +24,6 @@
 #include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
-#include "optional.h"
 
 struct city;
 class overmap_land_use_code;
