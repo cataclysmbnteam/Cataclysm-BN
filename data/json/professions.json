@@ -79,6 +79,12 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "shotgun_d_roadwarrior",
+    "entries": [ { "item": "shotgun_d", "ammo-item": "shot_00", "charges": 2, "contents-item": [ "barrel_small", "stock_small" ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "quiver_bow_hunter",
     "entries": [ { "item": "arrow_cf", "charges": 8 } ]
   },
@@ -135,6 +141,12 @@
     "subtype": "collection",
     "id": "bandolier_ww_gunslinger",
     "entries": [ { "item": "45colt_jhp", "charges": 34 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "bandolier_roadwarrior",
+    "entries": [ { "item": "shot_00", "charges": 18 } ]
   },
   {
     "type": "profession_item_substitutions",
@@ -3156,6 +3168,55 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "panties" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
+    "ident": "road_warrior",
+    "name": "Road Warrior",
+    "description": "You lived by your wheels during the first few months of the apocalypse, now your custom ride is out of gas, your ammo is low, and your situation is dire.  You've been reduced to a scavenger, living off the corpse of the old world.",
+    "points": 6,
+    "vehicle": "car_roadwarrior",
+    "skills": [
+      { "level": 3, "name": "driving" },
+      { "level": 3, "name": "mechanics" },
+      { "level": 2, "name": "survival" },
+      { "level": 2, "name": "fabrication" },
+      { "level": 2, "name": "gun" },
+      { "level": 1, "name": "shotgun" },
+      { "level": 1, "name": "melee" },
+      { "level": 1, "name": "stabbing" },
+      { "level": 1, "name": "firstaid" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "tank_top",
+          "pants_leather",
+          "jacket_leather_mod",
+          "boots_steel",
+          "gloves_fingerless_mod",
+          "hat_cotton",
+          "survivor_goggles",
+          "long_patchwork_scarf",
+          "legrig",
+          "canteen",
+          "binoculars",
+          "ref_lighter",
+          "press_dowel",
+          "pliers",
+          "makeshift_hose",
+          "wristwatch"
+        ],
+        "entries": [
+          { "item": "knife_combat", "container-item": "survivor_belt_notools" },
+          { "item": "XL_holster", "contents-group": "shotgun_d_roadwarrior" },
+          { "item": "bandolier_shotgun", "contents-group": "bandolier_roadwarrior" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boy_shorts" ]
     },
     "flags": [ "SCEN_ONLY" ]
   },
