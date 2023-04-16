@@ -4,6 +4,7 @@
 #include <iosfwd>
 #include <iterator>
 #include <list>
+#include <optional>
 #include <vector>
 
 #include "avatar.h"
@@ -22,7 +23,6 @@
 #include "line.h"
 #include "map.h"
 #include "map_selector.h"
-#include "optional.h"
 #include "player.h"
 #include "point.h"
 #include "safe_reference.h"

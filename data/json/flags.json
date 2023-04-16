@@ -1320,11 +1320,6 @@
     "context": [  ]
   },
   {
-    "id": "EDIBLE_FROZEN",
-    "type": "json_flag",
-    "context": [  ]
-  },
-  {
     "id": "EFFECT_IMPEDING",
     "type": "json_flag",
     "context": [  ]

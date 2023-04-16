@@ -12,6 +12,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -37,7 +38,6 @@
 #include "item.h"
 #include "item_location.h"
 #include "memory_fast.h"
-#include "optional.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "pldata.h"
@@ -1302,7 +1302,7 @@ class Character : public Creature, public visitable<Character>
          * @param interactive If set, won't alert the player or drain moves on completion
          * @return nullopt on fail, pointer to newly worn item on success
          */
-        cata::optional<std::list<item>::iterator>
+        std::optional<std::list<item>::iterator>
         wear_possessed( item &to_wear, bool interactive = true );
         /**
          * Wear a copy of specified item.
@@ -1310,7 +1310,7 @@ class Character : public Creature, public visitable<Character>
          * @param interactive If set, won't alert the player or drain moves on completion
          * @return nullopt on fail, pointer to newly worn item on success.
          */
-        cata::optional<std::list<item>::iterator>
+        std::optional<std::list<item>::iterator>
         wear_item( const item &to_wear, bool interactive = true );
 
         /**
@@ -1535,7 +1535,7 @@ class Character : public Creature, public visitable<Character>
         bool crossed_threshold() const;
 
         // --------------- Values ---------------
-        std::string name;
+        std::string name; // Pre-cataclysm name, invariable
         bool male = true;
 
         std::list<item> worn;
@@ -1549,7 +1549,7 @@ class Character : public Creature, public visitable<Character>
         player_activity stashed_outbounds_backlog;
         player_activity activity;
         std::list<player_activity> backlog;
-        cata::optional<tripoint> destination_point;
+        std::optional<tripoint> destination_point;
         inventory inv;
         itype_id last_item;
     private:
@@ -1572,7 +1572,7 @@ class Character : public Creature, public visitable<Character>
         int cash = 0;
         std::set<character_id> follower_ids;
         weak_ptr_fast<Creature> last_target;
-        cata::optional<tripoint> last_target_pos;
+        std::optional<tripoint> last_target_pos;
         // Save favorite ammo location
         item_location ammo_location;
         std::set<tripoint_abs_omt> camps;
@@ -2243,7 +2243,7 @@ class Character : public Creature, public visitable<Character>
 
         std::vector<tripoint> auto_move_route;
         // Used to make sure auto move is canceled if we stumble off course
-        cata::optional<tripoint> next_expected_position;
+        std::optional<tripoint> next_expected_position;
         scenttype_id type_of_scent;
 
         struct weighted_int_list<std::string> melee_miss_reasons;
@@ -2277,7 +2277,7 @@ class Character : public Creature, public visitable<Character>
 
         void clear_npc_ai_info_cache( const std::string &key ) const;
         void set_npc_ai_info_cache( const std::string &key, double val ) const;
-        cata::optional<double> get_npc_ai_info_cache( const std::string &key ) const;
+        std::optional<double> get_npc_ai_info_cache( const std::string &key ) const;
 
         safe_reference<Character> get_safe_reference();
 };
@@ -2313,5 +2313,8 @@ std::map<bodypart_id, int> wind_resistance_from_clothing(
 
 /** Returns true if the player has a psyshield artifact, or sometimes if wearing tinfoil */
 bool has_psy_protection( const Character &c, int partial_chance );
+
+/** Returns value of speedydex bonus if enabled */
+int get_speedydex_bonus( const int dex );
 
 #endif // CATA_SRC_CHARACTER_H

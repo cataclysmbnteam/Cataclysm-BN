@@ -738,10 +738,10 @@ bool gamepad_available()
     return false;
 }
 
-cata::optional<tripoint> input_context::get_coordinates( const catacurses::window & )
+std::optional<tripoint> input_context::get_coordinates( const catacurses::window & )
 {
     // TODO: implement this properly
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 // Ends the terminal, destroy everything

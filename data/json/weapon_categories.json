@@ -175,9 +175,15 @@
   },
   {
     "type": "weapon_category",
-    "id": "CROSSBOWS",
+    "id": "M_XBOWS",
     "name": "Crossbows",
     "//": "Elastic launching device mounted on a frame to be triggered."
+  },
+  {
+    "type": "weapon_category",
+    "id": "S_XBOWS",
+    "name": "Hand Crossbows",
+    "//": "One-handed crossbows."
   },
   {
     "type": "weapon_category",

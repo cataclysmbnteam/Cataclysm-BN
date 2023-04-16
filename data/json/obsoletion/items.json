@@ -3368,7 +3368,6 @@
     "fun": -6,
     "color": "white",
     "container": "bottle_glass",
-    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 50,
     "description": "This highly carcinogenic white powder can be readily polymerized into a whole bunch of useful water-soluble gels.",
     "material": "powder",

@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <map>
 #include <memory>
+#include <optional>
 
 #include "anatomy.h"
 #include "avatar.h"
@@ -33,7 +34,6 @@
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
-#include "optional.h"
 #include "output.h"
 #include "player.h"
 #include "point.h"
@@ -144,6 +144,7 @@ void Creature::reset_bonuses()
     armor_bullet_bonus = 0;
 
     speed_bonus = 0;
+    speed_mult = 0;
     dodge_bonus = 0;
     block_bonus = 0;
     hit_bonus = 0;
@@ -1509,7 +1510,8 @@ int Creature::get_armor_bullet_bonus() const
 
 int Creature::get_speed() const
 {
-    return get_speed_base() + get_speed_bonus();
+    int speed = round( ( get_speed_base() + get_speed_bonus() ) * ( 1 + get_speed_mult() ) );
+    return std::max( static_cast<int>( round( 0.25 * get_speed_base() ) ), speed );
 }
 float Creature::get_dodge() const
 {
@@ -1685,6 +1687,10 @@ int Creature::get_speed_bonus() const
 {
     return speed_bonus;
 }
+float Creature::get_speed_mult() const
+{
+    return speed_mult;
+}
 float Creature::get_dodge_bonus() const
 {
     return dodge_bonus;
@@ -1747,6 +1753,10 @@ void Creature::set_speed_bonus( int nspeed )
 {
     speed_bonus = nspeed;
 }
+void Creature::set_speed_mult( float nspeed )
+{
+    speed_mult = nspeed;
+}
 void Creature::set_dodge_bonus( float ndodge )
 {
     dodge_bonus = ndodge;
@@ -1763,6 +1773,10 @@ void Creature::set_hit_bonus( float nhit )
 void Creature::mod_speed_bonus( int nspeed )
 {
     speed_bonus += nspeed;
+}
+void Creature::mod_speed_mult( float nspeed )
+{
+    speed_mult += nspeed;
 }
 void Creature::mod_dodge_bonus( float ndodge )
 {

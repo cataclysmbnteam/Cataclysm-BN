@@ -5,6 +5,7 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <optional>
 #include <queue>
 #include <set>
 #include <string>
@@ -14,7 +15,6 @@
 #include "damage.h"
 #include "enum_bitset.h"
 #include "event_bus.h"
-#include "optional.h"
 #include "point.h"
 #include "sounds.h"
 #include "translations.h"
@@ -95,7 +95,7 @@ struct fake_spell {
     spell_id id;
     // max level this spell can be
     // if null pointer, spell can be up to its own max level
-    cata::optional<int> max_level;
+    std::optional<int> max_level;
     // level for things that need it
     int level = 0;
     // target tripoint is source (true) or target (false)
@@ -109,7 +109,7 @@ struct fake_spell {
 
     fake_spell() = default;
     fake_spell( const spell_id &sp_id, bool hit_self = false,
-                const cata::optional<int> &max_level = cata::nullopt ) : id( sp_id ),
+                const std::optional<int> &max_level = std::nullopt ) : id( sp_id ),
         max_level( max_level ), self( hit_self ) {}
 
     // gets the spell with an additional override for minimum level (default 0)
@@ -161,7 +161,7 @@ class spell_type
         std::vector<fake_spell> additional_spells;
 
         // if the spell has a field name defined, this is where it is
-        cata::optional<field_type_id> field;
+        std::optional<field_type_id> field;
         // the chance one_in( field_chance ) that the field spawns at a tripoint in the area of the spell
         int field_chance = 0;
         // field intensity at spell level 0
@@ -439,7 +439,7 @@ class spell
         bool target_by_monster_id( const tripoint &p ) const;
 
         // picks a random valid tripoint from @area
-        cata::optional<tripoint> random_valid_target( const Creature &caster,
+        std::optional<tripoint> random_valid_target( const Creature &caster,
                 const tripoint &caster_pos ) const;
 };
 

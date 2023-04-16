@@ -3,6 +3,7 @@
 #include <array>
 #include <cstdlib>
 #include <memory>
+#include <optional>
 #include <string>
 
 #include "action.h"
@@ -19,7 +20,6 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
-#include "optional.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"

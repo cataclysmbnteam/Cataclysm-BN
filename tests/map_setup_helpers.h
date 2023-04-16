@@ -3,12 +3,12 @@
 #define CATA_TESTS_MAP_SETUP_HELPERS_H
 
 #include <functional>
+#include <optional>
 #include <string>
 #include <unordered_map>
 #include <vector>
 
 #include "point.h"
-#include "optional.h"
 
 namespace map_helpers
 {
@@ -85,7 +85,7 @@ struct canvas {
 
         std::vector<tripoint> replace( char32_t what, char32_t with );
         tripoint replace_unique( char32_t what, char32_t with );
-        cata::optional<tripoint> replace_opt( char32_t what, char32_t with );
+        std::optional<tripoint> replace_opt( char32_t what, char32_t with );
 
         canvas rotated( int turns ) const;
 };

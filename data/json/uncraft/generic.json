@@ -1489,6 +1489,33 @@
     "components": [ [ [ "motor", 2 ] ], [ [ "power_supply", 6 ] ], [ [ "cable", 4 ] ], [ [ "steel_lump", 6 ] ], [ [ "steel_chunk", 6 ] ] ]
   },
   {
+    "result": "turret_chassis",
+    "type": "uncraft",
+    "skill_used": "mechanics",
+    "difficulty": 4,
+    "time": "4 h",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "sheet_metal_small", 10 ] ], [ [ "scrap", 30 ] ], [ [ "steel_chunk", 10 ] ] ]
+  },
+  {
+    "result": "copbot_chassis",
+    "type": "uncraft",
+    "skill_used": "mechanics",
+    "difficulty": 4,
+    "time": "4 h",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "alloy_sheet", 10 ] ], [ [ "scrap", 60 ] ], [ [ "steel_chunk", 20 ] ] ]
+  },
+  {
+    "result": "android_chassis",
+    "type": "uncraft",
+    "skill_used": "mechanics",
+    "difficulty": 4,
+    "time": "4 h",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "plastic_chunk", 40 ] ], [ [ "scrap", 40 ] ], [ [ "steel_chunk", 20 ] ] ]
+  },
+  {
     "result": "cable",
     "type": "uncraft",
     "time": "1 m",

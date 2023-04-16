@@ -7,6 +7,7 @@
 #include <iterator>
 #include <map>
 #include <memory>
+#include <optional>
 #include <queue>
 #include <set>
 #include <string>
@@ -37,7 +38,6 @@
 #include "map_iterator.h"
 #include "messages.h"
 #include "monster.h"
-#include "optional.h"
 #include "overmapbuffer.h"
 #include "player.h"
 #include "point.h"

@@ -123,7 +123,7 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
             return;
         }
     }
-    cata::optional<shape_factory> shape_gen;
+    std::optional<shape_factory> shape_gen;
     if( weapon->ammo_current() && weapon->ammo_current()->ammo &&
         weapon->ammo_current()->ammo->shape ) {
         shape_gen = weapon->ammo_current()->ammo->shape;
@@ -836,12 +836,12 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
         case HACK_SUCCESS:
             if( type == HACK_GAS ) {
                 int tankGasUnits;
-                const cata::optional<tripoint> pTank_ = iexamine::getNearFilledGasTank( examp, tankGasUnits );
+                const std::optional<tripoint> pTank_ = iexamine::getNearFilledGasTank( examp, tankGasUnits );
                 if( !pTank_ ) {
                     break;
                 }
                 const tripoint pTank = *pTank_;
-                const cata::optional<tripoint> pGasPump = iexamine::getGasPumpByNumber( examp,
+                const std::optional<tripoint> pGasPump = iexamine::getGasPumpByNumber( examp,
                         uistate.ags_pay_gas_selected_pump );
                 if( pGasPump && iexamine::toPumpFuel( pTank, *pGasPump, tankGasUnits ) ) {
                     who.add_msg_if_player( _( "You hack the terminal and route all available fuel to your pump!" ) );
@@ -1042,7 +1042,7 @@ void pickup_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> pickup_activity_actor::deserialize( JsonIn &jsin )
 {
-    pickup_activity_actor actor( {}, cata::nullopt );
+    pickup_activity_actor actor( {}, std::nullopt );
 
     JsonObject data = jsin.get_object();
 
@@ -1160,7 +1160,7 @@ void throw_activity_actor::do_turn( player_activity &act, Character &who )
     // Make copies of relevant values since the class would
     // not be available after act.set_to_null()
     item_location target = target_loc;
-    cata::optional<tripoint> blind_throw_pos = blind_throw_from_pos;
+    std::optional<tripoint> blind_throw_pos = blind_throw_from_pos;
 
     // Stop the activity. Whether we will or will not throw doesn't matter.
     act.set_to_null();

@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <limits>
 #include <memory>
+#include <optional>
 #include <tuple>
 #include <unordered_map>
 
@@ -40,7 +41,6 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
@@ -2549,12 +2549,6 @@ void monster::process_effects_internal()
                 process_one_effect( _effect_it.second, false );
             }
         }
-    }
-
-    // Like with player/NPCs - keep the speed above 0
-    const int min_speed_bonus = -0.75 * get_speed_base();
-    if( get_speed_bonus() < min_speed_bonus ) {
-        set_speed_bonus( min_speed_bonus );
     }
 
     //If this monster has the ability to heal in combat, do it now.

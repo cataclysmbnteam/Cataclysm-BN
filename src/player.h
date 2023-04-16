@@ -7,6 +7,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <type_traits>
@@ -24,7 +25,6 @@
 #include "game_constants.h"
 #include "item.h"
 #include "item_location.h"
-#include "optional.h"
 #include "pimpl.h"
 #include "point.h"
 #include "ret_val.h"
@@ -239,7 +239,7 @@ class player : public Character
         start_location_id start_location;
 
         weak_ptr_fast<Creature> last_target;
-        cata::optional<tripoint> last_target_pos;
+        std::optional<tripoint> last_target_pos;
         // Save favorite ammo location
         item_location ammo_location;
         int scent = 0;
@@ -247,7 +247,7 @@ class player : public Character
         int movecounter = 0;
 
         bool manual_examine = false;
-        vproto_id starting_vehicle;
+        vproto_id starting_vehicle = vproto_id::NULL_ID();
         std::vector<mtype_id> starting_pets;
 
         void make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long = false,

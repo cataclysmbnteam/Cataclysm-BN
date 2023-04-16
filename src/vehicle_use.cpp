@@ -359,6 +359,22 @@ void vehicle::control_electronics()
 
         set_electronics_menu_options( options, actions );
 
+        if( has_part( "ENGINE" ) ) {
+            options.emplace_back( engine_on ? _( "Turn off the engine" ) : _( "Turn on the engine" ),
+                                  keybind( "TOGGLE_ENGINE" ) );
+            actions.push_back( [&] {
+                if( engine_on )
+                {
+                    engine_on = false;
+                    stop_engines();
+                } else
+                {
+                    start_engines();
+                    valid_option = false;
+                }
+                refresh();
+            } );
+        }
         uilist menu;
         menu.text = _( "Electronics controls" );
         menu.entries = options;
@@ -1785,7 +1801,7 @@ void vehicle::use_harness( int part, const tripoint &pos )
                                       f.has_flag( MF_PET_HARNESSABLE ) ) );
     };
 
-    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
+    const std::optional<tripoint> pnt_ = choose_adjacent_highlight(
             _( "Where is the creature to harness?" ), _( "There is no creature to harness nearby." ), f,
             false );
     if( !pnt_ ) {
