@@ -108,7 +108,7 @@
         "'.______.______.______'l"
       ],
       "palettes": [ "acidia_commercial_palette" ],
-      "terrain": { "'": "t_sidewalk", ".": "t_pavement_y" },
+      "terrain": { "Ž": "t_machinery_heavy", "'": "t_sidewalk", ".": "t_pavement_y" },
       "toilets": { "T": {  } },
       "items": {
         "'": { "item": "trash_cart", "chance": 1 },
