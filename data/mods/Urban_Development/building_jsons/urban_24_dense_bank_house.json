@@ -39,7 +39,7 @@
         "C": { "item": "cleaning", "chance": 10 },
         "L": { "item": "guns_cop", "chance": 70 },
         "d": { "item": "office", "chance": 40 },
-        "r": { "item": "vault", "chance": 25, "repeat": 3  },
+        "r": { "item": "vault", "chance": 25, "repeat": 3 },
         "t": { "item": "office", "chance": 20 },
         "u": { "item": "cleaning", "chance": 70 }
       },
@@ -83,7 +83,7 @@
       "items": {
         " ": { "item": "office", "chance": 1 },
         ":": { "item": "home_hw", "chance": 1 },
-        "c": { "item": "jewelry_safe", "chance": 35, "repeat": 5  },
+        "c": { "item": "jewelry_safe", "chance": 35, "repeat": 5 },
         "r": { "item": "home_hw", "chance": 60 }
       },
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 9, 22 ], "y": [ 6, 19 ], "density": 0.03 } ]

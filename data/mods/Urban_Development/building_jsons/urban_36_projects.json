@@ -1407,7 +1407,7 @@
         "...8RRRRR3333...........",
         "...8RRRRRRR333.........."
       ],
-	  "terrain": { "3": "t_flat_roof" },	  
+      "terrain": { "3": "t_flat_roof" },
       "palettes": [ "acidia_commercial_destroyed_palette" ],
       "items": {
         " ": { "item": "trash", "chance": 2 },
@@ -1450,7 +1450,7 @@
         "........................",
         "........................"
       ],
-	  "terrain": { "3": "t_flat_roof" },
+      "terrain": { "3": "t_flat_roof" },
       "palettes": [ "acidia_commercial_destroyed_palette" ],
       "items": {
         " ": { "item": "trash", "chance": 2 },
@@ -1493,7 +1493,7 @@
         "........................",
         "........................"
       ],
-	  "terrain": { "3": "t_flat_roof" },
+      "terrain": { "3": "t_flat_roof" },
       "palettes": [ "acidia_commercial_destroyed_palette" ],
       "items": {
         " ": { "item": "trash", "chance": 2 },
@@ -1536,7 +1536,7 @@
         "........................",
         "........................"
       ],
-	  "terrain": { "3": "t_flat_roof" },	  
+      "terrain": { "3": "t_flat_roof" },
       "palettes": [ "acidia_commercial_destroyed_palette" ],
       "items": {
         " ": { "item": "trash", "chance": 2 },
