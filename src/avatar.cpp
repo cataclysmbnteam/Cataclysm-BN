@@ -1237,18 +1237,18 @@ bool avatar::wield( item &target )
     moves -= mv;
 
     if( has_item( target ) ) {
-        weapon = i_rem( &target );
+        primary_weapon() = i_rem( &target );
     } else {
-        weapon = target;
+        primary_weapon() = target;
     }
 
-    last_item = weapon.typeId();
+    last_item = primary_weapon().typeId();
     recoil = MAX_RECOIL;
 
-    weapon.on_wield( *this, mv );
+    primary_weapon().on_wield( *this, mv );
 
-    inv.update_invlet( weapon );
-    inv.update_cache_with_item( weapon );
+    inv.update_invlet( primary_weapon() );
+    inv.update_cache_with_item( primary_weapon() );
 
     return true;
 }

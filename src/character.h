@@ -1552,7 +1552,7 @@ class Character : public Creature, public visitable<Character>
         cata::optional<tripoint> destination_point;
         inventory inv;
         itype_id last_item;
-    protected:
+    private:
         item weapon;
     public:
 

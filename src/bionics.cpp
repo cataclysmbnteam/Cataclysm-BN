@@ -456,7 +456,7 @@ void npc::discharge_cbm_weapon()
     }
     const bionic &bio = ( *my_bionics )[cbm_weapon_index];
     mod_power_level( -bio.info().power_activate );
-    weapon = real_weapon;
+    primary_weapon() = real_weapon;
     cbm_weapon_index = -1;
 }
 
@@ -495,29 +495,30 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
         }
 
         const int ups_charges = charges_of( itype_UPS );
-        int ammo_count = weapon.ammo_remaining();
-        const int ups_drain = weapon.get_gun_ups_drain();
+        int ammo_count = primary_weapon().ammo_remaining();
+        const int ups_drain = primary_weapon().get_gun_ups_drain();
         if( ups_drain > 0 ) {
             ammo_count = std::min( ammo_count, ups_charges / ups_drain );
         }
         const int cbm_ammo = free_power /  bio.info().power_activate;
 
-        if( npc_ai::weapon_value( *this, weapon, ammo_count ) <
+        if( npc_ai::weapon_value( *this, primary_weapon(), ammo_count ) <
             npc_ai::weapon_value( *this, cbm_weapon, cbm_ammo ) ) {
-            real_weapon = weapon;
-            weapon = cbm_weapon;
+            real_weapon = primary_weapon();
+            primary_weapon() = cbm_weapon;
             cbm_weapon_index = index;
         }
-    } else if( bio.info().has_flag( flag_BIONIC_WEAPON ) && !weapon.has_flag( flag_NO_UNWIELD ) &&
+    } else if( bio.info().has_flag( flag_BIONIC_WEAPON ) &&
+               !primary_weapon().has_flag( flag_NO_UNWIELD ) &&
                free_power > bio.info().power_activate ) {
         if( is_armed() ) {
-            stow_item( weapon );
+            stow_item( primary_weapon() );
         }
         if( get_player_character().sees( pos() ) ) {
             add_msg( m_info, _( "%s activates their %s." ), disp_name(), bio.info().name );
         }
 
-        weapon = item( bio.info().fake_item );
+        primary_weapon() = item( bio.info().fake_item );
         mod_power_level( -bio.info().power_activate );
         bio.powered = true;
         cbm_weapon_index = index;
