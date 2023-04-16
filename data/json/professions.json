@@ -79,6 +79,12 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "crossbow_hardened_survivor",
+    "entries": [ { "item": "crossbow", "ammo-item": "bolt_wood", "charges": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "shotgun_d_roadwarrior",
     "entries": [ { "item": "shotgun_d", "ammo-item": "shot_00", "charges": 2, "contents-item": [ "barrel_small", "stock_small" ] } ]
   },
@@ -141,6 +147,12 @@
     "subtype": "collection",
     "id": "bandolier_ww_gunslinger",
     "entries": [ { "item": "45colt_jhp", "charges": 34 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "quiver_hardened_survivor",
+    "entries": [ { "item": "bolt_wood", "charges": 29 } ]
   },
   {
     "type": "item_group",
@@ -3137,6 +3149,45 @@
   },
   {
     "type": "profession",
+    "id": "hardened_survivor",
+    "name": "Hardened Survivor",
+    "description": "One of the lucky few who escaped the cataclysm, you made a life for yourself living off nature's bounties and what you could get outside the death traps of the large cities.",
+    "points": 6,
+    "skills": [
+      { "level": 6, "name": "survival" },
+      { "level": 6, "name": "fabrication" },
+      { "level": 6, "name": "tailor" },
+      { "level": 5, "name": "melee" },
+      { "level": 3, "name": "gun" },
+      { "level": 3, "name": "rifle" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "survivor_suit",
+          "socks",
+          "boots_survivor",
+          "hood_survivor",
+          "gloves_survivor",
+          "wristwatch",
+          "ref_lighter",
+          "hand_crank_charger"
+        ],
+        "entries": [
+          { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 500, "container-item": "mess_kit" },
+          { "item": "kukri", "container-item": "sheath" },
+          { "item": "survivor_vest", "contents-group": "crossbow_hardened_survivor" },
+          { "item": "quiver_large", "contents-group": "quiver_hardened_survivor" },
+          { "item": "light_battery_cell", "charges": 100, "container-item": "wearable_light" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "panties" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
     "id": "winter_scavenger",
     "name": "Hardened Scavenger",
     "description": "One of the lucky few who escaped the Cataclysm, you made a life for yourself on the ruins of others.  Whether by force, guile, or luck, you've obtained the best gear you could find.",
@@ -3173,16 +3224,17 @@
   },
   {
     "type": "profession",
-    "ident": "road_warrior",
+    "id": "road_warrior",
     "name": "Road Warrior",
     "description": "You lived by your wheels during the first few months of the apocalypse, now your custom ride is out of gas, your ammo is low, and your situation is dire.  You've been reduced to a scavenger, living off the corpse of the old world.",
     "points": 6,
     "vehicle": "car_roadwarrior",
     "skills": [
       { "level": 3, "name": "driving" },
+      { "level": 3, "name": "fabrication" },
       { "level": 3, "name": "mechanics" },
+      { "level": 3, "name": "tailor" },
       { "level": 2, "name": "survival" },
-      { "level": 2, "name": "fabrication" },
       { "level": 2, "name": "gun" },
       { "level": 1, "name": "shotgun" },
       { "level": 1, "name": "melee" },
@@ -3198,7 +3250,6 @@
           "boots_steel",
           "gloves_fingerless_mod",
           "hat_cotton",
-          "survivor_goggles",
           "long_patchwork_scarf",
           "legrig",
           "canteen",
@@ -3206,13 +3257,13 @@
           "ref_lighter",
           "press_dowel",
           "pliers",
-          "makeshift_hose",
-          "wristwatch"
+          "makeshift_hose"
         ],
         "entries": [
-          { "item": "knife_combat", "container-item": "survivor_belt_notools" },
+          { "item": "tool_belt", "contents-item": [ "knife_combat", "pliers", "wrench", "hacksaw" ] },
           { "item": "XL_holster", "contents-group": "shotgun_d_roadwarrior" },
-          { "item": "bandolier_shotgun", "contents-group": "bandolier_roadwarrior" }
+          { "item": "bandolier_shotgun", "contents-group": "bandolier_roadwarrior" },
+          { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 500, "container-item": "mess_kit" }
         ]
       },
       "male": [ "boxer_shorts" ],
