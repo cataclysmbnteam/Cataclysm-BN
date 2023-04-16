@@ -153,9 +153,10 @@ static pickup_answer handle_problematic_pickup( const item &it, bool &offered_sw
 
     offered_swap = true;
     // TODO: Gray out if not enough hands
+    // TODO: Calculate required hands vs freed hands
     if( u.is_armed() ) {
-        amenu.addentry( WIELD, !u.weapon.has_flag( "NO_UNWIELD" ), 'w',
-                        _( "Dispose of %s and wield %s" ), u.weapon.display_name(),
+        amenu.addentry( WIELD, !u.primary_weapon().has_flag( "NO_UNWIELD" ), 'w',
+                        _( "Dispose of %s and wield %s" ), u.primary_weapon().display_name(),
                         it.display_name() );
     } else {
         amenu.addentry( WIELD, true, 'w', _( "Wield %s" ), it.display_name() );
@@ -335,13 +336,13 @@ static bool pick_one_up( pickup::pick_drop_selection &selection, bool &got_water
                 //using original item, possibly modifying it
                 picked_up = u.wield( it );
                 if( picked_up ) {
-                    u.weapon.charges = newit.charges;
+                    u.primary_weapon().charges = newit.charges;
                 }
-                if( u.weapon.invlet ) {
-                    add_msg( m_info, _( "Wielding %c - %s" ), u.weapon.invlet,
-                             u.weapon.display_name() );
+                if( u.primary_weapon().invlet ) {
+                    add_msg( m_info, _( "Wielding %c - %s" ), u.primary_weapon().invlet,
+                             u.primary_weapon().display_name() );
                 } else {
-                    add_msg( m_info, _( "Wielding - %s" ), u.weapon.display_name() );
+                    add_msg( m_info, _( "Wielding - %s" ), u.primary_weapon().display_name() );
                 }
             } else {
                 add_msg( m_neutral, "%s", wield_check.c_str() );

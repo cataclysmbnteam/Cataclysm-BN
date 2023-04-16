@@ -130,14 +130,15 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         get_option<bool>( "AUTO_FEATURES" ) && get_option<bool>( "AUTO_MINING" ) &&
         !m.veh_at( dest_loc ) && !you.is_underwater() && !you.has_effect( effect_stunned ) &&
         !is_riding ) {
-        if( you.weapon.has_flag( flag_DIG_TOOL ) ) {
-            if( you.weapon.type->can_use( "JACKHAMMER" ) && you.weapon.ammo_sufficient() ) {
-                you.invoke_item( &you.weapon, "JACKHAMMER", dest_loc );
+        item &digging_tool = you.primary_weapon();
+        if( digging_tool.has_flag( flag_DIG_TOOL ) ) {
+            if( digging_tool.type->can_use( "JACKHAMMER" ) && digging_tool.ammo_sufficient() ) {
+                you.invoke_item( &digging_tool, "JACKHAMMER", dest_loc );
                 // don't move into the tile until done mining
                 you.defer_move( dest_loc );
                 return true;
-            } else if( you.weapon.type->can_use( "PICKAXE" ) ) {
-                you.invoke_item( &you.weapon, "PICKAXE", dest_loc );
+            } else if( digging_tool.type->can_use( "PICKAXE" ) ) {
+                you.invoke_item( &digging_tool, "PICKAXE", dest_loc );
                 // don't move into the tile until done mining
                 you.defer_move( dest_loc );
                 return true;
@@ -576,7 +577,7 @@ static float rate_critter( const Creature &c )
 {
     const npc *np = dynamic_cast<const npc *>( &c );
     if( np != nullptr ) {
-        return npc_ai::weapon_value( *np, np->weapon );
+        return npc_ai::weapon_value( *np, np->primary_weapon() );
     }
 
     const monster *m = dynamic_cast<const monster *>( &c );
@@ -585,7 +586,7 @@ static float rate_critter( const Creature &c )
 
 void avatar_action::autoattack( avatar &you, map &m )
 {
-    int reach = you.weapon.reach_range( you );
+    int reach = you.primary_weapon().reach_range( you );
     std::vector<Creature *> critters = ranged::targetable_creatures( you, reach );
     critters.erase( std::remove_if( critters.begin(), critters.end(), []( const Creature * c ) {
         if( !c->is_npc() ) {
@@ -705,7 +706,7 @@ bool can_fire_turret( avatar &you, const map &m, const turret_data &turret )
 
 void avatar_action::fire_wielded_weapon( avatar &you )
 {
-    item &weapon = you.weapon;
+    item &weapon = you.primary_weapon();
     if( weapon.is_gunmod() ) {
         add_msg( m_info,
                  _( "The %s must be attached to a gun, it can not be fired separately." ),
@@ -754,7 +755,7 @@ void avatar_action::mend( avatar &you, item_location loc )
 {
     if( !loc ) {
         if( you.is_armed() ) {
-            loc = item_location( you, &you.weapon );
+            loc = item_location( you, &you.primary_weapon() );
         } else {
             add_msg( m_info, _( "You're not wielding anything." ) );
             return;
@@ -915,18 +916,21 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     }
     // you must wield the item to throw it
     // But only if you don't have enough free hands
-    int usable_hands = you.get_working_arm_count() -
-                       ( you.is_armed() ? 1 : 0 ) -
-                       ( you.weapon.is_two_handed( you ) ? 1 : 0 );
+    const auto &wielded = you.wielded_items();
+    int required_arms = std::accumulate( wielded.begin(), wielded.end(), 0,
+    [&you]( int acc, const item * it ) {
+        return acc + ( it->is_two_handed( you ) ? 2 : 1 );
+    } );
+
     if( !you.is_wielding( *loc ) &&
-        ( usable_hands < ( loc->is_two_handed( you ) ? 2 : 1 ) ) ) {
+        ( you.get_working_arm_count() < required_arms ) ) {
         if( !you.wield( *loc ) ) {
             add_msg( m_info, _( "You do not have enough free hands to throw %s without wielding it." ),
                      loc->tname() );
             return;
         }
 
-        loc = item_location( you, &you.weapon );
+        loc = item_location( you, &you.primary_weapon() );
     }
 
     throw_activity_actor actor( loc, blind_throw_from_pos );
@@ -1233,12 +1237,15 @@ void avatar_action::reload_item()
 void avatar_action::reload_wielded( bool prompt )
 {
     avatar &u = get_avatar();
-    if( u.weapon.is_null() || !u.weapon.is_reloadable() ) {
-        add_msg( _( "You aren't holding something you can reload." ) );
-        return;
+    for( item *it : u.wielded_items() ) {
+        if( it->is_reloadable() ) {
+            item_location item_loc = item_location( u, it );
+            reload( item_loc, prompt );
+            return;
+        }
     }
-    item_location item_loc = item_location( u, &u.weapon );
-    reload( item_loc, prompt );
+
+    add_msg( _( "You aren't holding something you can reload." ) );
 }
 
 void avatar_action::reload_weapon( bool try_everything )
@@ -1252,9 +1259,14 @@ void avatar_action::reload_weapon( bool try_everything )
     // Reload misc magazines in inventory.
     avatar &u = get_avatar();
     map &here = get_map();
+    std::set<itype_id> compatible_magazines;
+    for( const item *gun : u.wielded_items() ) {
+        const std::set<itype_id> &mags = gun->magazine_compatible();
+        compatible_magazines.insert( mags.begin(), mags.end() );
+    }
     std::vector<item_location> reloadables = character_funcs::find_reloadables( u );
     std::sort( reloadables.begin(), reloadables.end(),
-    [&u]( const item_location & a, const item_location & b ) {
+    [&u, &compatible_magazines]( const item_location & a, const item_location & b ) {
         const item *ap = a.get_item();
         const item *bp = b.get_item();
         // Current wielded weapon comes first.
@@ -1265,7 +1277,6 @@ void avatar_action::reload_weapon( bool try_everything )
             return true;
         }
         // Second sort by affiliation with wielded gun
-        const std::set<itype_id> compatible_magazines = u.weapon.magazine_compatible();
         const bool mag_ap = compatible_magazines.count( ap->typeId() ) > 0;
         const bool mag_bp = compatible_magazines.count( bp->typeId() ) > 0;
         if( mag_ap != mag_bp ) {

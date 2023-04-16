@@ -639,9 +639,9 @@ void npc::assess_danger()
 float npc::character_danger( const Character &u ) const
 {
     float ret = 0.0;
-    bool u_gun = u.weapon.is_gun();
-    bool my_gun = weapon.is_gun();
-    double u_weap_val = npc_ai::weapon_value( u, u.weapon );
+    bool u_gun = u.primary_weapon().is_gun();
+    bool my_gun = primary_weapon().is_gun();
+    double u_weap_val = npc_ai::weapon_value( u, u.primary_weapon() );
     const double &my_weap_val = ai_cache.my_weapon_value;
     if( u_gun && !my_gun ) {
         u_weap_val *= 1.5f;
@@ -2133,8 +2133,8 @@ bool npc::enough_time_to_reload( const item &gun ) const
     if( target->is_player() || target->is_npc() ) {
         auto &c = dynamic_cast<const Character &>( *target );
         // TODO: Allow reloading if the player has a low accuracy gun
-        if( sees( c ) && c.weapon.is_gun() && rltime > 200 &&
-            c.weapon.gun_range( true ) > distance + turns_til_reloaded / target_speed ) {
+        if( sees( c ) && c.primary_weapon().is_gun() && rltime > 200 &&
+            c.primary_weapon().gun_range( true ) > distance + turns_til_reloaded / target_speed ) {
             // Don't take longer than 2 turns if player has a gun
             return false;
         }

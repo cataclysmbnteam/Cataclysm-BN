@@ -1118,8 +1118,8 @@ sfx::sound_thread::sound_thread( const tripoint &source, const tripoint &target,
         vol_targ = std::max( heard_volume - 20, 0 );
     }
     ang_targ = get_heard_angle( target );
-    weapon_skill = p->weapon.melee_skill();
-    weapon_volume = p->weapon.volume() / units::legacy_volume_factor;
+    weapon_skill = p->primary_weapon().melee_skill();
+    weapon_volume = p->primary_weapon().volume() / units::legacy_volume_factor;
 }
 
 // Operator overload required for thread API.

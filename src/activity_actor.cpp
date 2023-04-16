@@ -266,7 +266,7 @@ item *aim_activity_actor::get_weapon()
     } else {
         // Check for lost gun (e.g. yanked by zombie technician)
         // TODO: check that this is the same gun that was used to start aiming
-        item *weapon = &get_player_character().weapon;
+        item *weapon = &get_player_character().primary_weapon();
         return weapon->is_null() ? nullptr : weapon;
     }
 }
@@ -1191,7 +1191,7 @@ void throw_activity_actor::do_turn( player_activity &act, Character &who )
         return;
     }
 
-    if( &*target != &who.weapon ) {
+    if( &*target != &who.primary_weapon() ) {
         // This is to represent "implicit offhand wielding"
         int extra_cost = who.item_handling_cost( *target, true, INVENTORY_HANDLING_PENALTY / 2 );
         who.mod_moves( -extra_cost );

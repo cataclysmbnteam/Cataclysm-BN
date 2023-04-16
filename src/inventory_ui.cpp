@@ -120,7 +120,7 @@ class selection_column_preset : public inventory_selector_preset
 
         nc_color get_color( const inventory_entry &entry ) const override {
             if( entry.is_item() ) {
-                if( &*entry.any_item() == &g->u.weapon ) {
+                if( get_player_character().is_wielding( *entry.any_item() ) ) {
                     return c_light_blue;
                 } else if( g->u.is_worn( *entry.any_item() ) ) {
                     return c_cyan;
@@ -1190,7 +1190,7 @@ void inventory_selector::add_items( inventory_column &target_column,
 void inventory_selector::add_character_items( Character &character )
 {
     character.visit_items( [ this, &character ]( item * it ) {
-        if( it == &character.weapon ) {
+        if( character.is_wielding( *it ) ) {
             add_item( own_gear_column, item_location( character, it ),
                       &item_category_id( "WEAPON_HELD" ).obj() );
         } else if( character.is_worn( *it ) ) {

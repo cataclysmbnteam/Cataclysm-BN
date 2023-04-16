@@ -1180,12 +1180,21 @@ class Character : public Creature, public visitable<Character>
         int get_item_position( const item *it ) const;
 
         /**
-         * Returns a reference to the item which will be used to make attacks.
-         * At the moment it's always @ref weapon or a reference to a null item.
+         * Returns all equipped items that require a limb to be held.
          */
         /*@{*/
-        const item &used_weapon() const;
-        item &used_weapon();
+        std::vector<item *> wielded_items();
+        std::vector<const item *> wielded_items() const;
+        /*@}*/
+
+        /**
+         * Legacy code hack, don't use.
+         * Returns the first wielded weapon or a null item.
+         * Use @ref wielded_items instead.
+         */
+        /*@{*/
+        item &primary_weapon();
+        const item &primary_weapon() const;
         /*@}*/
 
         /**
@@ -1543,7 +1552,9 @@ class Character : public Creature, public visitable<Character>
         cata::optional<tripoint> destination_point;
         inventory inv;
         itype_id last_item;
+    protected:
         item weapon;
+    public:
 
         int scent = 0;
         pimpl<bionic_collection> my_bionics;

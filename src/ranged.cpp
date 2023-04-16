@@ -816,7 +816,7 @@ dispersion_sources calculate_dispersion( const map &m, const Character &who, con
 
 int ranged::fire_gun( Character &who, const tripoint &target, int shots )
 {
-    return fire_gun( who, target, shots, who.weapon, item_location() );
+    return fire_gun( who, target, shots, who.primary_weapon(), item_location() );
 }
 
 int ranged::fire_gun( Character &who, const tripoint &target, int max_shots, item &gun,
@@ -1578,7 +1578,8 @@ static int print_aim( const Character &p, const catacurses::window &w, int line_
     dispersion.add_range( ranged::recoil_vehicle( p ) );
 
     const double min_recoil = calculate_aim_cap( p, pos );
-    const double effective_recoil = ranged::effective_dispersion( p, p.weapon.sight_dispersion() );
+    const double effective_recoil = ranged::effective_dispersion( p,
+                                    p.primary_weapon().sight_dispersion() );
     const double min_dispersion = std::max( min_recoil, effective_recoil );
     const double steadiness_range = MAX_RECOIL - min_dispersion;
     // This is a relative measure of how steady the player's aim is,
@@ -2049,7 +2050,7 @@ double npc_ai::gun_value( const Character &who, const item &weap, int ammo )
 
     // Penalty for dodging in melee makes the gun unusable in melee
     // Until NPCs get proper kiting, at least
-    int melee_penalty = who.weapon.volume() / 250_ml - who.get_skill_level( skill_dodge );
+    int melee_penalty = who.primary_weapon().volume() / 250_ml - who.get_skill_level( skill_dodge );
     if( melee_penalty <= 0 ) {
         // Dispersion matters less if you can just use the gun in melee
         total_dispersion = std::min<int>( total_dispersion / move_cost_factor, total_dispersion );

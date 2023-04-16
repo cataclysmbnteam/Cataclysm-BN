@@ -602,8 +602,8 @@ void starting_inv( npc &who, const npc_class_id &type )
 
     res.emplace_back( "lighter" );
     // If wielding a gun, get some additional ammo for it
-    if( who.weapon.is_gun() ) {
-        item ammo( who.weapon.ammo_default() );
+    if( who.primary_weapon().is_gun() ) {
+        item ammo( who.primary_weapon().ammo_default() );
         ammo = ammo.in_its_container();
         if( ammo.made_of( LIQUID ) ) {
             item container( "bottle_plastic" );
@@ -1221,14 +1221,14 @@ void npc::invalidate_range_cache()
 void npc::form_opinion( const player &u )
 {
     // FEAR
-    if( u.weapon.is_gun() ) {
+    if( u.primary_weapon().is_gun() ) {
         // TODO: Make bows not guns
-        if( weapon.is_gun() ) {
+        if( primary_weapon().is_gun() ) {
             op_of_u.fear += 2;
         } else {
             op_of_u.fear += 6;
         }
-    } else if( npc_ai::weapon_value( u, u.weapon ) > 20 ) {
+    } else if( npc_ai::weapon_value( u, u.primary_weapon() ) > 20 ) {
         op_of_u.fear += 2;
     } else if( !u.is_armed() ) {
         // Unarmed, but actually unarmed ("unarmed weapons" are not unarmed)
@@ -1293,7 +1293,7 @@ void npc::form_opinion( const player &u )
         op_of_u.trust += 1;
     }
 
-    if( u.weapon.is_gun() ) {
+    if( u.primary_weapon().is_gun() ) {
         op_of_u.trust -= 2;
     } else if( !u.is_armed() ) {
         op_of_u.trust += 2;

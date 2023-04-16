@@ -135,16 +135,6 @@ std::string melee_message( const ma_technique &tec, Character &p,
  *   skills, torso encumbrance penalties and drunken master bonuses.
  */
 
-const item &Character::used_weapon() const
-{
-    return martial_arts_data->selected_force_unarmed() ? null_item_reference() : weapon;
-}
-
-item &Character::used_weapon()
-{
-    return const_cast<item &>( const_cast<const Character *>( this )->used_weapon() );
-}
-
 bool Character::is_armed() const
 {
     return !weapon.is_null();
@@ -152,8 +142,32 @@ bool Character::is_armed() const
 
 bool Character::unarmed_attack() const
 {
-    const item &weap = used_weapon();
+    const item &weap = primary_weapon();
     return weap.is_null() || weap.has_flag( "UNARMED_WEAPON" );
+}
+
+const item &Character::primary_weapon() const
+{
+    return weapon;
+}
+
+item &Character::primary_weapon()
+{
+    return weapon;
+}
+
+std::vector<const item *> Character::wielded_items() const
+{
+    if( !weapon.is_null() )
+        return {&weapon};
+    return {};
+}
+
+std::vector<item *> Character::wielded_items()
+{
+    if( !weapon.is_null() )
+        return {&weapon};
+    return {};
 }
 
 bool Character::handle_melee_wear( item &shield, float wear_multiplier )
@@ -294,7 +308,7 @@ float Character::get_hit_weapon( const item &weap ) const
 float Character::get_melee_hit_base() const
 {
     // Character::get_hit_base includes stat calculations already
-    return Character::get_hit_base() + get_hit_weapon( used_weapon() ) + mabuff_tohit_bonus();
+    return Character::get_hit_base() + get_hit_weapon( primary_weapon() ) + mabuff_tohit_bonus();
 }
 
 float Character::hit_roll() const
@@ -413,7 +427,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
             return;
         }
     }
-    item &cur_weapon = allow_unarmed ? used_weapon() : weapon;
+    item &cur_weapon = allow_unarmed ? primary_weapon() : weapon;
 
     if( cur_weapon.attack_cost() > attack_cost( cur_weapon ) * 20 ) {
         add_msg( m_bad, _( "This weapon is too unwieldy to attack with!" ) );
@@ -1926,7 +1940,9 @@ static damage_instance hardcoded_mutation_attack( const Character &u, const trai
             num_attacks = 7;
         }
         // Note: we're counting arms, so we want wielded item here, not weapon used for attack
-        if( u.weapon.is_two_handed( u ) || !u.has_two_arms() || u.worn_with_flag( "RESTRICT_HANDS" ) ) {
+        // TODO: Count arms properly!
+        if( u.primary_weapon().is_two_handed( u ) || !u.has_two_arms() ||
+            u.worn_with_flag( "RESTRICT_HANDS" ) ) {
             num_attacks--;
         }
 
@@ -2339,13 +2355,14 @@ void avatar_funcs::try_disarm_npc( avatar &you, npc &target )
     their_roll += dice( 3, target.get_per() );
     their_roll += dice( 3, target.get_skill_level( skill_melee ) );
 
-    item &it = target.weapon;
+    item &it = target.primary_weapon();
 
     // roll your melee and target's dodge skills to check if grab/smash attack succeeds
     int hitspread = target.deal_melee_attack( &you, you.hit_roll() );
     if( hitspread < 0 ) {
         add_msg( _( "You lunge for the %s, but miss!" ), it.tname() );
-        you.mod_moves( -100 - stumble( you, you.weapon ) - you.attack_cost( you.weapon ) );
+        you.mod_moves( -100 - stumble( you,
+                                       you.primary_weapon() ) - you.attack_cost( you.primary_weapon() ) );
         target.on_attacked( you );
         return;
     }
@@ -2379,7 +2396,7 @@ void avatar_funcs::try_disarm_npc( avatar &you, npc &target )
     }
 
     // Make their weapon fall on floor if we've rolled enough.
-    you.mod_moves( -100 - you.attack_cost( you.weapon ) );
+    you.mod_moves( -100 - you.attack_cost( you.primary_weapon() ) );
     if( my_roll >= their_roll ) {
         add_msg( _( "You smash %s with all your might forcing their %s to drop down nearby!" ),
                  target.name, it.tname() );
