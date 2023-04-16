@@ -1,6 +1,29 @@
 [
   {
     "type": "palette",
+    "id": "acidia_residential_roof_palette",
+    "terrain": {
+      "R": "t_flat_roof",
+      "^": "t_flat_roof",
+      "*": "t_flat_roof",
+      "!": "t_flat_roof",
+      "&": "t_flat_roof",
+      ".": "t_open_air",
+      "1": "t_gutter_north",
+      "2": "t_gutter_east",
+      "3": "t_gutter_south",
+      "4": "t_gutter_west",
+      "5": "t_gutter_drop"
+    },
+    "furniture": {
+      "^": [ "f_cellphone_booster", "f_small_satelitte_dish", "f_TV_antenna" ],
+      "*": "f_chimney",
+      "&": "f_roof_turbine_vent",
+      "!": "f_vent_pipe"
+    }
+  },
+  {
+    "type": "palette",
     "id": "acidia_residential_commercial_palette",
     "terrain": {
       "1": [
@@ -16,6 +39,7 @@
       "3": "t_carpet_red",
       "@": "t_floor",
       "#": "t_shrub",
+      "~": "t_sewage",
       "4": "t_linoleum_white",
       "%": "t_rock",
       "5": [ "t_door_bar_locked", "t_door_bar_locked", "t_door_bar_locked", "t_door_bar_locked", "t_door_bar_o" ],
@@ -47,6 +71,7 @@
       "}": "t_ladder_up",
       "{": "t_ladder_down",
       "/": "t_gates_mech_control",
+      "`": "t_gutter_downspout",
       "A": "t_floor",
       "a": "t_atm",
       "B": "t_linoleum_white",
@@ -105,7 +130,11 @@
       "x": "t_floor",
       "Y": "t_window_bars",
       "y": "t_sai_box",
+      "ž": "t_floor",
+      "ź": "t_floor",
       "Z": "t_machinery_light",
+      "Ž": "t_machinery_heavy",
+      "Ż": "t_machinery_old",
       "z": "t_sewage"
     },
     "furniture": {
@@ -144,7 +173,9 @@
       "t": "f_table",
       "u": "f_cupboard",
       "W": "f_washer",
-      "X": [ "f_crate_c", "f_crate_o" ],
+      "X": [ "f_crate_c", "f_crate_c", "f_crate_o" ],
+      "ž": "f_home_furnace",
+      "ź": "f_water_heater",	  
       "x": "f_exercise"
     }
   }

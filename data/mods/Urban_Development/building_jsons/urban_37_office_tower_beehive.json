@@ -87,18 +87,18 @@
         "%%%%%%%%%%%%%%%%%%%%%%%%",
         "%%%%%%%%%%%%%%%%%%%%%%%%",
         "llllllllllllllllllllllll",
-        "s Tlr rl      utt      l",
+        "s Tlr rl     utttu     l",
         "s  lr Sl  ZZ)     )ZZ  l",
         "  Slr cl  Z6)     )6Z  l",
         "l+lll+ll               l",
         "       +      tttt     l",
-        "L      1      tttt     l",
-        "L (   L1               l",
-        "L (   Ll      ))   ))  l",
-        "L      lllll  Z6   6Z  l",
-        "       l  >l  ZZ   ZZ  l",
+        "L      +      tttt     l",
+        "L (   L1              Žl",
+        "L (   Ll      ))  )) ZZ0",
+        "L      lllll  Z6  6Z  Žl",
+        "       l  >l  ZZ  ZZ  Žl",
         "dh     l   l           l",
-        "d6d    l   l           l",
+        "d6d    l   l         ŽŽl",
         "lll1lllllJlll1llllllllll",
         "'''''''''''''''''''''''l",
         "'''''''''''''''''''''''l",
@@ -190,13 +190,13 @@
         "______________________'l",
         "______________________'l",
         "______________________'l",
-        "______________________'l",
-        "______________________'l",
-        "______________________'l",
-        "______________________'l",
-        "______________________'l",
-        "..______.______.______'l",
-        "'.______.______.______'l",
+        "______________________'0",
+        "______________________'0",
+        "______________________'0",
+        "______________________'0",
+        "______________________'0",
+        "..______.______.______'0",
+        "'.______.______.______'0",
         "'.______.______.______'l",
         "'.______.______.______'l",
         "'.______.______.______'l",
@@ -211,11 +211,11 @@
       "palettes": [ "acidia_commercial_palette" ],
       "terrain": { "'": "t_sidewalk", ".": "t_pavement_y" },
       "items": { "'": { "item": "trash_cart", "chance": 1 }, "_": { "item": "trash_cart", "chance": 1 } },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.3 } ],
+      "place_monsters": [ { "monster": "GROUP_ROACH", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 1.0 } ],
       "place_vehicles": [
-        { "vehicle": "suburban_home", "x": 4, "y": 14, "chance": 30, "rotation": 270 },
-        { "vehicle": "suburban_home", "x": 11, "y": 14, "chance": 30, "rotation": 270 },
-        { "vehicle": "suburban_home", "x": 18, "y": 14, "chance": 30, "rotation": 270 }
+        { "vehicle": "suburban_home", "x": 4, "y": 14, "chance": 10, "rotation": 270 },
+        { "vehicle": "suburban_home", "x": 11, "y": 14, "chance": 10, "rotation": 270 },
+        { "vehicle": "suburban_home", "x": 18, "y": 14, "chance": 10, "rotation": 270 }
       ]
     }
   },
@@ -672,6 +672,7 @@
       "furniture": { "3": "f_rubble" },
       "items": {
         " ": { "item": "office", "chance": 1 },
+        "3": { "item": "building_rubble", "chance": 70 },
         "O": { "item": "office", "chance": 50 },
         "]": { "item": "bookstore_misc", "chance": 70 },
         "d": { "item": "office", "chance": 40 },
@@ -720,6 +721,7 @@
       "terrain": { ":": "t_floor_wax", "M": "t_wax" },
       "items": {
         " ": { "item": "office", "chance": 1 },
+        "3": { "item": "building_rubble", "chance": 70 },
         "O": { "item": "office", "chance": 50 },
         "]": { "item": "bookstore_misc", "chance": 70 },
         "d": { "item": "office", "chance": 40 },
@@ -769,6 +771,7 @@
       "toilets": { "T": {  } },
       "items": {
         " ": { "item": "office", "chance": 1 },
+        "3": { "item": "building_rubble", "chance": 70 },
         "O": { "item": "office", "chance": 50 },
         "]": { "item": "bookstore_misc", "chance": 70 },
         "d": { "item": "office", "chance": 40 },
@@ -817,6 +820,7 @@
       "terrain": { ":": "t_floor_wax", "M": "t_wax" },
       "items": {
         " ": { "item": "office", "chance": 1 },
+        "3": { "item": "building_rubble", "chance": 70 },
         ":": { "item": "building_rubble", "chance": 3 },
         "O": { "item": "office", "chance": 50 },
         "]": { "item": "bookstore_misc", "chance": 70 },
@@ -866,6 +870,7 @@
       "terrain": { ":": "t_floor_wax", "M": "t_wax" },
       "items": {
         " ": { "item": "office", "chance": 1 },
+        "3": { "item": "building_rubble", "chance": 70 },
         ":": { "item": "building_rubble", "chance": 3 },
         "O": { "item": "office", "chance": 50 },
         "]": { "item": "bookstore_misc", "chance": 70 },
@@ -917,6 +922,7 @@
       "toilets": { "T": {  } },
       "items": {
         " ": { "item": "office", "chance": 1 },
+        "3": { "item": "building_rubble", "chance": 70 },
         ":": { "item": "building_rubble", "chance": 3 },
         "O": { "item": "office", "chance": 50 },
         "]": { "item": "bookstore_misc", "chance": 70 },
@@ -966,6 +972,7 @@
       "terrain": { ":": "t_floor_wax", "M": "t_wax" },
       "items": {
         " ": { "item": "office", "chance": 1 },
+        "3": { "item": "building_rubble", "chance": 70 },
         ":": { "item": "building_rubble", "chance": 3 },
         "O": { "item": "office", "chance": 50 },
         "]": { "item": "bookstore_misc", "chance": 70 },
@@ -1015,6 +1022,7 @@
       "terrain": { ":": "t_floor_wax", "M": "t_wax" },
       "items": {
         " ": { "item": "office", "chance": 1 },
+        "3": { "item": "building_rubble", "chance": 70 },
         ":": { "item": "hive_destructive", "chance": 3 },
         "O": { "item": "office", "chance": 50 },
         "]": { "item": "bookstore_misc", "chance": 70 },
@@ -1062,6 +1070,7 @@
       "furniture": { "3": "f_rubble" },
       "items": {
         " ": { "item": "office", "chance": 1 },
+        "3": { "item": "building_rubble", "chance": 70 },
         ":": { "item": "hive_destructive", "chance": 3 },
         "O": { "item": "office", "chance": 50 },
         "]": { "item": "bookstore_misc", "chance": 70 },
@@ -1108,6 +1117,7 @@
       "terrain": { ":": "t_floor_wax", "M": "t_wax" },
       "items": {
         " ": { "item": "office", "chance": 1 },
+        "3": { "item": "building_rubble", "chance": 70 },
         ":": { "item": "hive_destructive", "chance": 3 },
         "O": { "item": "office", "chance": 50 },
         "]": { "item": "bookstore_misc", "chance": 70 },
@@ -1155,6 +1165,7 @@
       "toilets": { "T": {  } },
       "items": {
         " ": { "item": "office", "chance": 1 },
+        "3": { "item": "building_rubble", "chance": 70 },
         ":": { "item": "hive_destructive", "chance": 3 },
         "O": { "item": "office", "chance": 50 },
         "]": { "item": "bookstore_misc", "chance": 70 },
