@@ -267,8 +267,16 @@
         "y": 2,
         "parts": [ "frame_ne", "halfboard_ne", "wheel_mount_medium_steerable", "wheel", "headlight" ]
       },
-      { "x": -2, "y": 0, "parts": [ "frame_vertical", "trunk", "medium_storage_battery", "roof", "afs_small_roof_external_tank" ] },
-      { "x": -2, "y": 1, "parts": [ "frame_vertical", "trunk", "battery_charger", "roof", "afs_small_roof_external_tank" ] },
+      {
+        "x": -2,
+        "y": 0,
+        "parts": [ "frame_vertical", "trunk", "medium_storage_battery", "roof", "afs_small_roof_external_tank" ]
+      },
+      {
+        "x": -2,
+        "y": 1,
+        "parts": [ "frame_vertical", "trunk", "battery_charger", "roof", "afs_small_roof_external_tank" ]
+      },
       { "x": -2, "y": -1, "parts": [ "frame_vertical", "halfboard_vertical" ] },
       { "x": -2, "y": 2, "parts": [ "frame_vertical", "halfboard_vertical", "muffler" ] },
       { "x": -3, "y": -1, "parts": [ "frame_horizontal", "halfboard_sw", "wheel_mount_medium", "wheel" ] },
