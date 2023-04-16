@@ -335,7 +335,7 @@
     "connections": [
       { "point": [ -1, -1, 0 ], "connection": "local_road", "from": [ 0, -1, 0 ] },
       { "point": [ 2, -1, 0 ], "connection": "local_road", "from": [ 1, -1, 0 ] },
-      { "point": [ 1, 1, -1 ], "connection": "sewer_tunnel", "from": [ 0, 1, -1 ] },
+      { "point": [ 1, 1, -1 ], "connection": "sewer_tunnel", "from": [ 1, 0, -1 ] },
       { "point": [ -1, 0, -1 ], "connection": "sewer_tunnel", "from": [ 0, 0, -1 ] }
     ],
     "flags": [ "CLASSIC", "URBAN" ]
