@@ -17,6 +17,7 @@
 #include <map>
 #include <memory>
 #include <optional>
+#include <ostream>
 #include <set>
 #include <sstream>
 #include <sys/stat.h>
@@ -1200,6 +1201,7 @@ detail::DebugLogGuard detail::realDebugLog( DL lev, DC cl, const char *filename,
             // Cool down for 60s between backtrace emissions.
             next_backtrace = after + 60;
             out << "Backtrace emission took " << after - now << " seconds." << std::endl;
+            out << "(continued from above) " << io::enum_to_string( lev ) << ": ";
         }
 #endif
 

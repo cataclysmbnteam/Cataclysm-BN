@@ -3,6 +3,10 @@
 set -e
 set -x
 
+# Enable GitHub actions problem matcher
+# (See https://github.com/actions/toolkit/blob/master/docs/problem-matchers.md)
+echo "::add-matcher::build-scripts/problem-matchers/debugmsg.json"
+
 if [ -n "$CATA_CLANG_TIDY" ]; then
   pip install --user wheel --upgrade
   pip install --user 'lit==0.11.1' 'click==7.1.2'
