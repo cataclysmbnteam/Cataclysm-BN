@@ -3053,6 +3053,11 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
     std::vector<item> contents;
     map_stack items = i_at( p );
     for( auto i = items.begin(); i != items.end(); ) {
+        if( i->has_flag( "EXPLOSION_SMASHED" ) ) {
+            i++;
+            continue;
+        }
+
         // If the power is low or it's not an explosion, only pulp rezing corpses
         if( ( power < min_destroy_threshold || !do_destroy ) && !i->can_revive() ) {
             i++;
