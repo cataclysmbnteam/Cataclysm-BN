@@ -172,6 +172,12 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "quiver_player_bandit",
+    "entries": [ { "item": "bolt_wood", "charges": 19 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "bandolier_roadwarrior",
     "entries": [ { "item": "shot_00", "charges": 18 } ]
   },
@@ -3241,7 +3247,7 @@
     "type": "profession",
     "id": "road_warrior",
     "name": "Road Warrior",
-    "description": "You lived by your wheels during the first few months of the apocalypse, now your custom ride is out of gas, your ammo is low, and your situation is dire.  You've been reduced to a scavenger, living off the corpse of the old world.",
+    "description": "You lived by your wheels during the first few months of the apocalypse, now you're running low on ammo and fuel, and your situation is dire.  You've been reduced to a scavenger, living off the corpse of the old world.",
     "points": 6,
     "vehicle": "car_roadwarrior",
     "skills": [
@@ -3332,6 +3338,58 @@
           { "item": "357mag_jhp", "charges": 29 },
           { "item": "light_battery_cell", "charges": 100, "container-item": "wearable_light" },
           { "item": "survivor_mess_kit", "charges": [ 20, 30 ] }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boy_shorts" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
+    "id": "player_bandit",
+    "name": "Veteran Bandit",
+    "description": "After the cities exploded there was a whirlwind of looting; a firestorm of fear.  Men began to feed on men.  On the roads it was a white line nightmare.  Looting, killing, drug-running, one way or another you'll live and die on your bike.",
+    "points": 6,
+    "vehicle": "motorcycle_methcart",
+    "skills": [
+      { "level": 5, "name": "cooking" },
+      { "level": 3, "name": "mechanics" },
+      { "level": 2, "name": "driving" },
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "pistol" },
+      { "level": 2, "name": "melee" },
+      { "level": 2, "name": "bashing" },
+      { "level": 2, "name": "dodge" },
+      { "level": 2, "name": "tailor" },
+      { "level": 1, "name": "fabrication" },
+      { "level": 1, "name": "firstaid" },
+      { "level": 1, "name": "survival" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "gold_ear",
+          "motorbike_armor",
+          "pants_leather",
+          "chaps_leather",
+          "motorbike_boots",
+          "vambrace_larmor",
+          "gauntlets_larmor",
+          "pickelhaube",
+          "mask_hockey",
+          "camelbak",
+          "dump_pouch",
+          "survivor_scope",
+          "ref_lighter",
+          "wristwatch"
+        ],
+        "entries": [
+          { "item": "hand_crossbow", "ammo-item": "bolt_wood", "charges": 1, "container-item": "holster" },
+          { "item": "quiver", "contents-group": "quiver_player_bandit" },
+          { "item": "makeshift_knife", "container-item": "bootsheath" },
+          { "item": "bwirebat", "custom-flags": [ "auto_wield" ] },
+          { "item": "light_battery_cell", "charges": 100, "container-item": "heavy_flashlight" }
         ]
       },
       "male": [ "boxer_shorts" ],
