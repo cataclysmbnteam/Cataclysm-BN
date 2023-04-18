@@ -78,6 +78,7 @@ jobs:
       run: |
         vcpkg integrate install
 
+    - uses: ammaraskar/msvc-problem-matcher@master
     - name: Build
       run: |
           cd msvc-full-features
