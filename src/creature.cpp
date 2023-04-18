@@ -1241,8 +1241,7 @@ std::vector<effect *> Creature::get_all_effects_of_type( const efftype_id &eff_i
         return {};
     }
     auto effect_map = got_outer->second;
-    std::vector<const effect *> ret;
-    for( const auto &[ _, effect ] : got_outer->second ) {
+    for( auto&[ _, effect ] : effect_map ) {
         ret.push_back( &effect );
     }
     return ret;
