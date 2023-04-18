@@ -95,7 +95,9 @@
       [ "afs_bio_missiles", 10 ],
       [ "afs_bio_linguistic_coprocessor", 10 ],
       [ "afs_bio_dopamine_stimulators", 10 ],
-      [ "bio_blaster", 5 ]
+      [ "bio_blaster", 5 ],
+      [ "bio_reactor", 10 ],
+      [ "bio_reactor_upgrade", 5 ]
     ]
   },
   {
@@ -358,7 +360,8 @@
       [ "bio_ods", 10 ],
       [ "bio_weight", 15 ],
       [ "afs_bio_missiles", 10 ],
-      [ "afs_bio_dopamine_stimulators", 15 ]
+      [ "afs_bio_dopamine_stimulators", 15 ],
+      [ "bio_reactor", 10 ]
     ]
   },
   {
@@ -418,7 +421,9 @@
       [ "bio_teleport", 4 ],
       [ "bio_probability_travel", 4 ],
       [ "afs_bio_linguistic_coprocessor", 10 ],
-      [ "afs_bio_dopamine_stimulators", 10 ]
+      [ "afs_bio_dopamine_stimulators", 10 ],
+      [ "bio_reactor", 10 ],
+      [ "bio_reactor_upgrade", 10 ]
     ]
   },
   {
