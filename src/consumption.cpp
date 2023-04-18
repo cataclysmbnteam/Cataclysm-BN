@@ -1390,7 +1390,7 @@ bool Character::fuel_bionic_with( item &it )
     const bionic_id bio = get_most_efficient_bionic( get_bionic_fueled_with( it ) );
     const std::string str_loaded  = get_value( it.typeId().str() );
 
-    const int fuel_multiplier = get_bionic_state(bio).info().fuel_multiplier;
+    const int fuel_multiplier = get_bionic_state( bio ).info().fuel_multiplier;
 
     int loadable = std::min( it.charges * fuel_multiplier, get_fuel_capacity( it.typeId() ) );
     int loaded = 0;
@@ -1401,8 +1401,8 @@ bool Character::fuel_bionic_with( item &it )
 
     const std::string new_charge = std::to_string( loadable + loaded );
 
-    loadable = std::ceil(loadable / fuel_multiplier);
-    it.charges -= std::ceil(loadable / fuel_multiplier);
+    loadable = std::ceil( loadable / fuel_multiplier );
+    it.charges -= std::ceil( loadable / fuel_multiplier );
     // Type and amount of fuel
     set_value( it.typeId().str(), new_charge );
     update_fuel_storage( it.typeId() );
