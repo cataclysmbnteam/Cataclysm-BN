@@ -1147,13 +1147,13 @@ void Character::suffer_from_radiation()
     if( get_rad() > 200 && calendar::once_every( 10_minutes ) && x_in_y( get_rad(), 1000 ) ) {
         hurtall( 1, nullptr );
         mod_rad( -5 );
-    } 
+    }
 
     // Microreactor CBM Radiation
     int rad_mod = 0;
-    rad_mod += has_bionic( bio_reactor ) ? 3;
-    rad_mod += has_bionic( bio_advreactor ) ? 2;
-    rad_mod += has_bionic( bio_radscrubber ) ? -1;
+    rad_mod += has_bionic( bio_reactor ) ? 3 : 0;
+    rad_mod += has_bionic( bio_advreactor ) ? 2 : 0;
+    rad_mod += has_bionic( bio_radscrubber ) ? -1 : 0;
 
     if( rad_mod > 1 && calendar::once_every( 60_minutes ) ) {
         mod_rad( rad_mod );
