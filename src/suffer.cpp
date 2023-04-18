@@ -1149,15 +1149,14 @@ void Character::suffer_from_radiation()
         mod_rad( -5 );
     }
     
-    // Microreactor CBM Radiation
-    if( ( has_bionic( bio_reactor ) || has_bionic( bio_advreactor ) ) && ! 
-            ( has_bionic( bio_advreactor ) && has_bionic( bio_radscrubber ) ) ) {
 
-        const int rad_mod = has_bionic( bio_reactor ) ? 3 : 2;
-        if( calendar::once_every( 60_minutes ) ) {
-            mod_rad( rad_mod );
-        }
-    }  
+    // Microreactor CBM Radiation
+    int rad_mod = 0;
+    rad_mod += has_bionic( bio_reactor ) ? 3;
+    rad_mod += has_bionic( bio_advreactor ) ? 2;
+    rad_mod += has_bionic( bio_radscrubber ) ? -1;
+
+    if( rad_mod > 1 && calendar::once_every( 60_minutes ) ) mod_rad( rad_mod );
 }
 
 void Character::suffer_from_bad_bionics()

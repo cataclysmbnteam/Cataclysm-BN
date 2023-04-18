@@ -96,8 +96,7 @@
       [ "afs_bio_linguistic_coprocessor", 10 ],
       [ "afs_bio_dopamine_stimulators", 10 ],
       [ "bio_blaster", 5 ],
-      [ "bio_reactor", 10 ],
-      [ "bio_reactor_upgrade", 5 ]
+      [ "bio_reactor", 10 ]
     ]
   },
   {
