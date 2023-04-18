@@ -1700,18 +1700,16 @@ static bool cancel_auto_move( player &p, const std::string &text )
 bool game::cancel_activity_or_ignore_query( const distraction_type type, const std::string &text )
 {
     invalidate_main_ui_adaptor();
+    if( !u.activity && !u.has_distant_destination() || u.activity.is_distraction_ignored( type ) ) {
+        return false;
+    }
     if( u.has_distant_destination() ) {
-        if( u.activity.is_distraction_ignored( type ) ) {
-            return false;
-        } else if( cancel_auto_move( u, text ) ) {
+        if( cancel_auto_move( u, text ) ) {
             return true;
         } else {
             u.set_destination( u.get_auto_move_route(), player_activity( activity_id( "ACT_TRAVELLING" ) ) );
             return false;
         }
-    }
-    if( !u.activity || u.activity.is_distraction_ignored( type ) ) {
-        return false;
     }
     const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
     const auto &allow_key = force_uc ? input_context::disallow_lower_case
