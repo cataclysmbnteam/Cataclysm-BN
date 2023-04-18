@@ -1237,10 +1237,13 @@ std::vector<effect *> Creature::get_all_effects_of_type( const efftype_id &eff_i
 {
     std::vector< effect *> ret;
     auto got_outer = effects->find( eff_id );
-    if( got_outer != effects->end() ) {
-        for( auto &pr : got_outer->second ) {
-            ret.push_back( &pr.second );
-        }
+    if( got_outer == effects->end() ) {
+        return {};
+    }
+    auto effect_map = got_outer->second;
+    std::vector<const effect *> ret;
+    for( const auto &[ _, effect ] : got_outer->second ) {
+        ret.push_back( &effect );
     }
     return ret;
 }
