@@ -1703,8 +1703,7 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
     if( u.has_distant_destination() ) {
         if( u.activity.is_distraction_ignored( type ) ) {
             return false;
-        }
-        else if( cancel_auto_move( u, text ) ) {
+        } else if( cancel_auto_move( u, text ) ) {
             return true;
         } else {
             u.set_destination( u.get_auto_move_route(), player_activity( activity_id( "ACT_TRAVELLING" ) ) );
