@@ -1760,6 +1760,7 @@ static std::string escape_property( std::string str )
             break;
         case error_log_format_t::github_action:
             replace_all( str, "%", "%25" );
+            // NOLINTNEXTLINE(cata-text-style)
             replace_all( str, "\r", "%0D" );
             replace_all( str, "\n", "%0A" );
             replace_all( str, ":", "%3A" );
@@ -1780,6 +1781,7 @@ static std::string escape_data( std::string str )
             break;
         case error_log_format_t::github_action:
             replace_all( str, "%", "%25" );
+            // NOLINTNEXTLINE(cata-text-style)
             replace_all( str, "\r", "%0D" );
             replace_all( str, "\n", "%0A" );
             break;
