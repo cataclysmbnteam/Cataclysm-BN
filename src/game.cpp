@@ -1636,7 +1636,7 @@ void game::process_voluntary_act_interrupt()
     // If player is performing a task and a monster is dangerously close, warn them
     // regardless of previous safemode warnings.
     // Distraction Manager can change this.
-    if( ( has_activity && !u.has_activity( activity_id( "ACT_AIM" ) ) || is_travelling ) &&
+    if( ( has_activity || is_travelling ) && !u.has_activity( activity_id( "ACT_AIM" ) ) &&
         !u.activity.is_distraction_ignored( distraction_type::hostile_spotted_near ) ) {
         Creature *hostile_critter = is_hostile_very_close();
         if( hostile_critter != nullptr ) {
