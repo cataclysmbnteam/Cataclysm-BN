@@ -2118,6 +2118,13 @@ std::vector<Creature *> targetable_creatures( const Character &c, const int rang
             return false;
         }
 
+        // Special case: if range is 1, it's a melee attack.
+        // Melee attacks can only target on same z-level or directly up/down, not "z-diagonally".
+        if( range <= 1 && c.posz() != critter.posz() && c.pos().xy() != critter.pos().xy() )
+        {
+            return false;
+        }
+
         if( !c.sees( critter ) && !c.sees_with_infrared( critter ) )
         {
             return false;
