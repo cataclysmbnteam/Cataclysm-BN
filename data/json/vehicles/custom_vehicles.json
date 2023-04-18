@@ -223,5 +223,112 @@
       { "x": -2, "y": 0, "chance": 10, "items": [ "308", "308" ] },
       { "x": -2, "y": 0, "chance": 5, "items": [ "308", "308" ] }
     ]
+  },
+  {
+    "id": "car_roadwarrior",
+    "type": "vehicle",
+    "name": "Wasteland Interceptor",
+    "blueprint": [
+      [ "o--+-o" ],
+      [ "_=##'|" ],
+      [ "_=#k'|" ],
+      [ "o--+-o" ]
+    ],
+    "parts": [
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [ "frame_vertical_2", "seat", "seatbelt", "controls", "dashboard", "vehicle_clock", "horn_car", "roof" ]
+      },
+      { "x": 0, "y": 1, "parts": [ "frame_vertical_2", "animal_compartment", "roof" ] },
+      { "x": 0, "y": -1, "parts": [ "frame_vertical", "door" ] },
+      { "x": 0, "y": 2, "parts": [ "frame_vertical", "door" ] },
+      { "x": -1, "y": 0, "parts": [ "frame_vertical_2", "seat", "seatbelt", "roof" ] },
+      { "x": -1, "y": 1, "parts": [ "frame_vertical_2", "seat", "seatbelt", "roof" ] },
+      { "x": -1, "y": -1, "parts": [ "frame_vertical", "halfboard_vertical" ] },
+      { "x": -1, "y": 2, "parts": [ "frame_vertical", "halfboard_vertical" ] },
+      { "x": 1, "y": 0, "parts": [ "frame_horizontal", "windshield" ] },
+      { "x": 1, "y": 1, "parts": [ "frame_horizontal", "windshield" ] },
+      { "x": 1, "y": -1, "parts": [ "frame_vertical", "windshield" ] },
+      { "x": 1, "y": 2, "parts": [ "frame_vertical", "windshield" ] },
+      {
+        "x": 2,
+        "y": 0,
+        "parts": [ "frame_horizontal", "engine_v8", "alternator_truck", "battery_car", "halfboard_horizontal" ]
+      },
+      { "x": 2, "y": 1, "parts": [ "frame_horizontal", "halfboard_horizontal" ] },
+      {
+        "x": 2,
+        "y": -1,
+        "parts": [ "frame_nw", "halfboard_nw", "wheel_mount_medium_steerable", "wheel", "headlight" ]
+      },
+      {
+        "x": 2,
+        "y": 2,
+        "parts": [ "frame_ne", "halfboard_ne", "wheel_mount_medium_steerable", "wheel", "headlight" ]
+      },
+      {
+        "x": -2,
+        "y": 0,
+        "parts": [ "frame_vertical", "trunk", "medium_storage_battery", "roof", "afs_small_roof_external_tank" ]
+      },
+      {
+        "x": -2,
+        "y": 1,
+        "parts": [ "frame_vertical", "trunk", "battery_charger", "roof", "afs_small_roof_external_tank" ]
+      },
+      {
+        "x": -2,
+        "y": -1,
+        "parts": [ "frame_vertical", "halfboard_vertical", { "part": "tank", "fuel": "gasoline" } ]
+      },
+      { "x": -2, "y": 2, "parts": [ "frame_vertical", "halfboard_vertical", "muffler" ] },
+      { "x": -3, "y": -1, "parts": [ "frame_horizontal", "halfboard_sw", "wheel_mount_medium", "wheel" ] },
+      { "x": -3, "y": 0, "parts": [ "frame_horizontal", "door_trunk" ] },
+      { "x": -3, "y": 1, "parts": [ "frame_horizontal", "door_trunk" ] },
+      { "x": -3, "y": 2, "parts": [ "frame_horizontal", "halfboard_se", "wheel_mount_medium", "wheel" ] }
+    ],
+    "items": [ { "x": -2, "y": 1, "chance": 100, "items": [ "jerrycan" ] } ]
+  },
+  {
+    "id": "motorcycle_methcart",
+    "type": "vehicle",
+    "name": "Meth Bike",
+    "blueprint": [
+      [ "o#>o-" ],
+      [ " #>- " ]
+    ],
+    "parts": [
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [
+          "frame_vertical_2",
+          "saddle_motor",
+          "controls",
+          "controls_electronic",
+          "vehicle_alarm",
+          "horn_car",
+          "engine_1cyl_large",
+          "alternator_motorbike"
+        ]
+      },
+      {
+        "x": -1,
+        "y": 0,
+        "parts": [ "frame_vertical", "wheel_mount_light", "wheel_motorbike_rear", "muffler", "box" ]
+      },
+      { "x": 1, "y": 0, "parts": [ "frame_handle", { "part": "tank", "fuel": "gasoline" }, "headlight" ] },
+      { "x": 2, "y": 0, "parts": [ "frame_vertical", "wheel_mount_light_steerable", "wheel_motorbike" ] },
+      { "x": 3, "y": 0, "parts": [ "ram_spiked" ] },
+      {
+        "x": 0,
+        "y": 1,
+        "parts": [ "frame_cross", "wheel_mount_light", "wheel_motorbike", "chemlab", "medium_storage_battery" ]
+      },
+      { "x": 1, "y": 1, "parts": [ "frame_handle", "box" ] },
+      { "x": 2, "y": 1, "parts": [ "ram_spiked" ] }
+    ],
+    "items": [ { "x": 0, "y": 1, "chance": 50, "item_groups": [ "meth_ingredients", "meth_ingredients" ] } ]
   }
 ]
