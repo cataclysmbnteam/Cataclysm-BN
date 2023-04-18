@@ -1602,6 +1602,11 @@ void Character::process_bionic( bionic &bio )
     } else if( bio.id == bio_nanobots ) {
         int threshold_kcal = bio.info().kcal_trigger > 0 ? 0.85f * max_stored_kcal() +
                              bio.info().kcal_trigger : 0;
+        const auto can_use_bionic = [this, &bio, threshold_kcal]() -> bool {
+            const bool is_kcal_sufficient = get_stored_kcal() >= threshold_kcal;
+            const bool is_power_sufficient = get_power_level() >= bio.info().power_trigger;
+            return is_kcal_sufficient && is_power_sufficient;
+        };
         std::vector<bodypart_id> damaged_hp_parts;
         if( get_stored_kcal() < threshold_kcal ) {
             bio.powered = false;
@@ -1627,11 +1632,6 @@ void Character::process_bionic( bionic &bio )
                 }
             }
             if( calendar::once_every( 1_minutes ) ) {
-                const auto can_use_bionic = [this, &bio, threshold_kcal]() -> bool {
-                    const bool is_kcal_sufficient = get_stored_kcal() >= threshold_kcal;
-                    const bool is_power_sufficient = get_power_level() >= bio.info().power_trigger;
-                    return is_kcal_sufficient && is_power_sufficient;
-                };
                 std::vector<effect *> mending_list = get_all_effects_of_type( effect_mending );
                 for( const bodypart_id &bp : get_all_body_parts( true ) ) {
                     const int hp_cur = get_part_hp_cur( bp );
@@ -1640,6 +1640,8 @@ void Character::process_bionic( bionic &bio )
                     }
                 }
                 if( !damaged_hp_parts.empty() ) {
+                    // Essential parts are considered 10 HP lower than non-essential parts for the purpose of determining priority.
+                    // I'd use the essential_value, but it's tied up in the heal_actor class of iuse_actor.
                     std::sort( damaged_hp_parts.begin(), damaged_hp_parts.end(),
                     [this]( const bodypart_id & a, const bodypart_id & b ) {
                         return ( get_part_hp_cur( a ) - a->essential * 10 ) < ( get_part_hp_cur( b ) - b->essential * 10 );
