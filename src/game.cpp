@@ -1700,7 +1700,7 @@ static bool cancel_auto_move( player &p, const std::string &text )
 bool game::cancel_activity_or_ignore_query( const distraction_type type, const std::string &text )
 {
     invalidate_main_ui_adaptor();
-    if( !u.activity && !u.has_distant_destination() || u.activity.is_distraction_ignored( type ) ) {
+    if( ( !u.activity && !u.has_distant_destination() ) || u.activity.is_distraction_ignored( type ) ) {
         return false;
     }
     if( u.has_distant_destination() ) {
