@@ -391,6 +391,7 @@ class Creature
         effect &get_effect( const efftype_id &eff_id, body_part bp = num_bp );
         /** Returns pointers to all effects matching given type. */
         std::vector<const effect *> get_all_effects_of_type( const efftype_id &eff_id ) const;
+        std::vector<effect *> get_all_effects_of_type( const efftype_id &eff_id );
         /** Returns the duration of the matching effect. Returns 0 if effect doesn't exist. */
         time_duration get_effect_dur( const efftype_id &eff_id, body_part bp = num_bp ) const;
         /** Returns the intensity of the matching effect. Returns 0 if effect doesn't exist. */
