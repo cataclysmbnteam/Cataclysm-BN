@@ -1356,10 +1356,12 @@ npc_action npc::method_of_attack()
     // if we require a silent weapon inappropriate modes are also removed
     // except in emergency only fire bursts if danger > 0.5 and don't shoot at all at harmless targets
     std::vector<std::pair<gun_mode_id, gun_mode>> modes;
+    modes.clear();
 
     if( rules.has_flag( ally_rule::use_guns ) || !is_player_ally() ) {
 
-        const auto &to_add = cbm_active.is_null() ? weapon.gun_all_modes() : cbm_fake_active.gun_all_modes();
+        const std::map<gun_mode_id, gun_mode> &to_add = cbm_active.is_null() ? weapon.gun_all_modes() :
+                cbm_fake_active.gun_all_modes();
         std::copy( to_add.begin(), to_add.end(), std::back_inserter( modes ) );
 
         modes.erase( std::remove_if( modes.begin(), modes.end(),
