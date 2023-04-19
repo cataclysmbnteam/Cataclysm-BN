@@ -1636,7 +1636,7 @@ void game::process_voluntary_act_interrupt()
     // If player is performing a task and a monster is dangerously close, warn them
     // regardless of previous safemode warnings.
     // Distraction Manager can change this.
-    if( has_activity && !u.has_activity( activity_id( "ACT_AIM" ) ) &&
+    if( ( has_activity || is_travelling ) && !u.has_activity( activity_id( "ACT_AIM" ) ) &&
         !u.activity.is_distraction_ignored( distraction_type::hostile_spotted_near ) ) {
         Creature *hostile_critter = is_hostile_very_close();
         if( hostile_critter != nullptr ) {
@@ -1700,6 +1700,9 @@ static bool cancel_auto_move( player &p, const std::string &text )
 bool game::cancel_activity_or_ignore_query( const distraction_type type, const std::string &text )
 {
     invalidate_main_ui_adaptor();
+    if( ( !u.activity && !u.has_distant_destination() ) || u.activity.is_distraction_ignored( type ) ) {
+        return false;
+    }
     if( u.has_distant_destination() ) {
         if( cancel_auto_move( u, text ) ) {
             return true;
@@ -1707,9 +1710,6 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
             u.set_destination( u.get_auto_move_route(), player_activity( activity_id( "ACT_TRAVELLING" ) ) );
             return false;
         }
-    }
-    if( !u.activity || u.activity.is_distraction_ignored( type ) ) {
-        return false;
     }
     const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
     const auto &allow_key = force_uc ? input_context::disallow_lower_case
