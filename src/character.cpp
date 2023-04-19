@@ -487,8 +487,11 @@ character_id Character::getID() const
 
 bool Character::is_dead_state() const
 {
-    return get_part_hp_cur( bodypart_id( "head" ) ) <= 0 ||
-           get_part_hp_cur( bodypart_id( "torso" ) ) <= 0;
+    const auto all_bps = get_all_body_parts( true );
+
+    return std::any_of( all_bps.begin(), all_bps.end(), [this]( const bodypart_id & bp ) {
+        return bp->essential && get_part_hp_cur( bp ) <= 0;
+    } );
 }
 
 field_type_id Character::bloodType() const
@@ -4101,7 +4104,7 @@ int Character::get_int_bonus() const
     return int_bonus;
 }
 
-static int get_speedydex_bonus( const int dex )
+int get_speedydex_bonus( const int dex )
 {
     static const std::string speedydex_min_dex( "SPEEDYDEX_MIN_DEX" );
     static const std::string speedydex_dex_speed( "SPEEDYDEX_DEX_SPEED" );
@@ -4112,7 +4115,7 @@ static int get_speedydex_bonus( const int dex )
 
 int Character::get_speed() const
 {
-    return Creature::get_speed() + get_speedydex_bonus( get_dex() );
+    return Creature::get_speed();
 }
 
 int Character::ranged_dex_mod() const
