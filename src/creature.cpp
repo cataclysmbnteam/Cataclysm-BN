@@ -1240,7 +1240,8 @@ std::vector<effect *> Creature::get_all_effects_of_type( const efftype_id &eff_i
     if( got_outer == effects->end() ) {
         return {};
     }
-    for( auto&[ _, effect ] : got_outer->second ) {
+    std::unordered_map<bodypart_str_id, effect> &effect_map = got_outer->second;
+    for( auto&[ _, effect ] : effect_map ) {
         ret.push_back( &effect );
     }
     return ret;
