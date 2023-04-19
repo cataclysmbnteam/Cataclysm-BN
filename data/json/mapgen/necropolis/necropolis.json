@@ -72,26 +72,35 @@
         ".q....V hnnh    ;sssssssssss_______,,_______ss...8sssssssssssssssZZssr8.",
         ".q....V         ;sssssssssss_______,,_______ss...8srrrrrrrrrsssssZZssr8.",
         ".q....|      ooP|....s...qss_______,,_______ss..|------------|rssssssr8.",
-        ".q....|;|--+----|--|es...qss________________ss..|rrrrrrrrrrrr|rssssssr8.",
-        ".q..ssss|r         =_______________,,_______ss..wc          r|rssZZssr8.",
-        ".q..shss|r         =_______________,,_______ss..wc  rr  rr  r|rssZZssr8.",
-        ".q..snss|r         =_______________,,_______ss..wc  rr  rr  r|rssssssr8.",
+        ".q....|;|--+----|--|es...qss________________ss..|222222222222|rssssssr8.",
+        ".q..ssss|r         =_______________,,_______ss..w3          2|rssZZssr8.",
+        ".q..shss|r         =_______________,,_______ss..w3  11  11  2|rssZZssr8.",
+        ".q..snss|r         =_______________,,_______ss..w3  11  11  2|rssssssr8.",
         ".q..shss|r         =________________________ss..|r           [sssssssr8.",
-        ".q..ssss|r         =_______________,,_______ss..wc  rr       [sssssssr8.",
-        ".q......|----------|.....qss_______,,_______ss..wc  rr  cc  r|rssssssr8.",
-        ".q.......................qss_______,,_______ss..wc      6   r|rssZZssr8.",
-        ".qQQQQQQQQQQQQQQQQQQQQQQQqss________________ss..|rcccr  c   r|rssZZssr8.",
+        ".q..ssss|r         =_______________,,_______ss..w3  11       [sssssssr8.",
+        ".q......|----------|.....qss_______,,_______ss..w3  11  cc  1|rssssssr8.",
+        ".q.......................qss_______,,_______ss..w3      6   1|rssZZssr8.",
+        ".qQQQQQQQQQQQQQQQQQQQQQQQqss________________ss..|r333r  c   1|rssZZssr8.",
         "..........................ss_______,,_______ss..|-www-[[-www-|777777778."
       ],
       "palettes": [ "necropolis_a" ],
       "terrain": { "&": "t_gas_pump", "D": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
+      "furniture": { "1": "f_rack", "2": "f_rack", "3": "f_counter" },
+      "items": {
+        "1": { "item": "farming_tools", "chance": 30 },
+        "2": { "item": "hardware_clothing", "chance": 40 },
+        "3": { "item": "flower_pots", "chance": 40, "repeat": 2 },
+        "Z": { "item": "flower_pots", "chance": 80, "repeat": 2 }
+      },
       "place_loot": [
-        { "group": "SUS_junk_drawer", "x": 42, "y": 8 },
-        { "group": "SUS_junk_drawer", "x": 42, "y": 10 },
+        { "group": "SUS_junk_drawer", "x": 42, "y": 8, "chance": 80 },
+        { "group": "SUS_junk_drawer", "x": 42, "y": 10, "chance": 80 },
         { "item": "television", "x": 32, "y": [ 11, 12 ], "chance": 80 },
         { "item": "television", "x": 10, "y": [ 32, 33 ], "chance": 80 },
         { "group": "tools_general", "x": 9, "y": [ 40, 44 ], "chance": 50, "repeat": 2 },
-        { "group": "supplies_mechanics", "x": 9, "y": [ 40, 44 ], "chance": 50, "repeat": 3 }
+        { "group": "supplies_mechanics", "x": 9, "y": [ 40, 44 ], "chance": 50, "repeat": 2 },
+        { "group": "fertilizers", "x": 25, "y": [ 52, 61 ], "chance": 40, "repeat": 4 },
+        { "group": "farming_seeds", "x": [ 25, 47 ], "y": 69, "chance": 30, "repeat": 10 },
       ],
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },
@@ -168,7 +177,14 @@
         ".|-{{{-sss-ssssssM.MMMsMMmm]]]]]]]]]]]]]]]]]mmMMMMMs_M_M___,,_______sss."
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { "&": "t_gas_pump", "D": "t_floor", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
+      "terrain": { "&": "t_gas_pump", "D": "t_floor", "l": "t_floor", "u": "t_floor" },
+      "place_loot": [
+        { "group": "vanity", "x": 2, "y": [ 33, 34 ], "chance": 50, "repeat": 2 },
+        { "group": "vanity", "x": 2, "y": [ 37, 38 ], "chance": 50, "repeat": 2 },
+        { "group": "vanity", "x": 2, "y": [ 41, 42 ], "chance": 50, "repeat": 2 },
+        { "group": "vanity", "x": 2, "y": [ 45, 46 ], "chance": 50, "repeat": 2 },
+        { "group": "beauty", "x": [ 2, 10 ], "y": 28, "chance": 30, "repeat": 8 }
+      ],
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },
         { "monster": "GROUP_NECROPOLIS", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.1 },
@@ -821,10 +837,10 @@
       "palettes": [ "necropolis_a" ],
       "terrain": { "&": "t_gas_pump", "D": "t_floor", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
       "furniture": { "$": "f_safe_l" },
-      "items": { "$": { "item": "vault", "chance": 75, "repeat": 3 } },
+      "items": { "$": { "item": "vault", "chance": 60, "repeat": 3 } },
       "place_loot": [
         { "item": "television", "x": 48, "y": [ 40, 41 ], "chance": 80 },
-        { "item": "vault", "x": 2, "y": [ 27, 30 ], "chance": 25, "repeat": 5 }
+        { "group": "vault", "x": 2, "y": [ 27, 30 ], "chance": 30, "repeat": 3 }
       ],
       "place_items": [
         { "item": "building_rubble", "x": [ 15, 23 ], "y": [ 0, 18 ], "chance": 70 },

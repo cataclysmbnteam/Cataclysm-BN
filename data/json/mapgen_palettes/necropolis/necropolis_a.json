@@ -132,9 +132,9 @@
       "@": { "item": "bed", "chance": 50, "repeat": 2 },
       "O": { "item": "oven", "chance": 50, "repeat": 2 },
       "d": { "item": "dresser", "chance": 50, "repeat": 3 },
-      "f": { "item": "SUS_fridge", "chance": 100 },
+      "f": { "item": "SUS_fridge", "chance": 80 },
       "k": { "item": "office", "chance": 75, "repeat": 2 },
-      "o": { "item": "homebooks", "chance": 75, "repeat": 2 }
+      "o": { "item": "homebooks", "chance": 50, "repeat": 2 }
     }
   }
 ]
