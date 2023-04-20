@@ -788,6 +788,15 @@
     "difficulty": 13
   },
   {
+    "id": "bio_reactoroverride",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Micro Reactor Safety Override CBM" },
+    "description": "Disables the radiation safety protocols allowing for much higher energy production.",
+    "price": 900000,
+    "difficulty": 13
+  },
+  {
     "id": "bio_reactor_upgrade",
     "bionic_id": "bio_advreactor",
     "copy-from": "bionic_general_npc_usable",

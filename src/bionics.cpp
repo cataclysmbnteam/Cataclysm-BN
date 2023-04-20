@@ -165,7 +165,6 @@ static const bionic_id bio_magnet( "bio_magnet" );
 static const bionic_id bio_meteorologist( "bio_meteorologist" );
 static const bionic_id bio_nanobots( "bio_nanobots" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
-static const bionic_id bio_plutdump( "bio_plutdump" );
 static const bionic_id bio_power_storage( "bio_power_storage" );
 static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
 static const bionic_id bio_probability_travel( "bio_probability_travel" );
@@ -754,13 +753,6 @@ bool Character::activate_bionic( bionic &bio, bool eff_only )
     } else if( bio.id == bio_geiger ) {
         add_msg_activate();
         add_msg_if_player( m_info, _( "Your radiation level: %d" ), get_rad() );
-    } else if( bio.id == bio_radscrubber ) {
-        add_msg_activate();
-        if( get_rad() > 4 ) {
-            mod_rad( -5 );
-        } else {
-            set_rad( 0 );
-        }
     } else if( bio.id == bio_adrenaline ) {
         add_msg_activate();
         if( has_effect( effect_adrenaline ) ) {
@@ -962,17 +954,6 @@ bool Character::activate_bionic( bionic &bio, bool eff_only )
             bio.powered = ctr.active;
         } else {
             bio.powered = g->remoteveh() != nullptr || !get_value( "remote_controlling" ).empty();
-        }
-    } else if( bio.id == bio_plutdump ) {
-        if( query_yn(
-                _( "WARNING: Purging all fuel is likely to result in radiation!  Purge anyway?" ) ) ) {
-            add_msg_activate();
-            slow_rad += ( tank_plut + reactor_plut );
-            tank_plut = 0;
-            reactor_plut = 0;
-        } else {
-            refund_power();
-            return false;
         }
     } else if( bio.info().is_remote_fueled ) {
         std::vector<item *> cables = items_with( []( const item & it ) {
@@ -1726,6 +1707,17 @@ void Character::process_bionic( bionic &bio )
         }
     } else if( bio.id == afs_bio_dopamine_stimulators ) {
         add_morale( MORALE_FEELING_GOOD, 20, 20, 30_minutes, 20_minutes, true );
+    } else if( bio.id == bio_radscrubber ) {
+        if( calendar::once_every( 10_minutes ) ) {
+            const units::energy trigger_cost = bio.info().power_trigger;
+
+            if( get_rad() > 0 && bio.energy_stored >= trigger_cost) {
+                add_msg_if_player( m_good, _( "Your %s completed a scrubbing cycle." ), bio.info().name );
+
+                mod_rad( std::max( -10, -get_rad() ) );
+                mod_power_level( -trigger_cost );
+            }
+        }
     }
 }
 

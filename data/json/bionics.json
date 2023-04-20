@@ -851,8 +851,10 @@
     "name": { "str": "Radiation Scrubber System" },
     "description": "A system of advanced piezomechanical blood filters have been surgically implanted throughout your body, allowing you to purge yourself of absorbed radiation at the cost of some bionic power.",
     "occupied_bodyparts": [ [ "torso", 5 ], [ "arm_l", 1 ], [ "arm_r", 1 ], [ "leg_l", 2 ], [ "leg_r", 2 ] ],
-    "flags": [ "BIONIC_NPC_USABLE" ],
-    "act_cost": "4500 J"
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
+    "act_cost": "10 kJ",
+    "react_cost": "10 J",
+    "time": 1
   },
   {
     "id": "bio_railgun",
@@ -1188,6 +1190,7 @@
     "fuel_multiplier": 2500,
     "time": 1,
     "flags": [ "BIONIC_TOGGLED", "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE" ],
+    "included_bionics": [ "bio_reactoroverride" ],
     "available_upgrades": [ "bio_advreactor" ]
   },
   {
@@ -1203,7 +1206,18 @@
     "fuel_multiplier": 3000,
     "time": 1,
     "flags": [ "BIONIC_TOGGLED", "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE" ],
+    "included_bionics": [ "bio_reactoroverride" ],
     "upgraded_bionic": "bio_reactor"
+  },
+  {
+    "id": "bio_reactoroverride",
+    "type": "bionic",
+    "name": { "str": "Micro Reactor Safety Override" },
+    "description": "Disables the radiation safety protocols allowing for much higher energy production.",
+    "time": 1,
+    "act_cost": "10 J",
+    "react_cost": "10 J",
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_syringe",

@@ -70,6 +70,7 @@ static const bionic_id bio_plut_filter( "bio_plut_filter" );
 static const bionic_id bio_power_weakness( "bio_power_weakness" );
 static const bionic_id bio_reactor( "bio_reactor" );
 static const bionic_id bio_advreactor( "bio_advreactor" );
+static const bionic_id bio_reactoroverride( "bio_reactoroverride" );
 static const bionic_id bio_radscrubber( "bio_radscrubber" );
 static const bionic_id bio_shakes( "bio_shakes" );
 static const bionic_id bio_sleepy( "bio_sleepy" );
@@ -112,6 +113,7 @@ static const itype_id itype_inhaler( "inhaler" );
 static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
 static const itype_id itype_oxygen_tank( "oxygen_tank" );
 static const itype_id itype_rad_badge( "rad_badge" );
+static const itype_id itype_plut_cell( "plut_cell" );
 
 static const trait_id trait_ADDICTIVE( "ADDICTIVE" );
 static const trait_id trait_ALBINO( "ALBINO" );
@@ -1149,14 +1151,50 @@ void Character::suffer_from_radiation()
         mod_rad( -5 );
     }
 
-    // Microreactor CBM Radiation
-    int rad_mod = 0;
-    rad_mod += has_bionic( bio_reactor ) ? 3 : 0;
-    rad_mod += has_bionic( bio_advreactor ) ? 2 : 0;
-    rad_mod += has_bionic( bio_radscrubber ) ? -1 : 0;
+    // Microreactor CBM
+    const itype_id &plut_cell = item( "plut_cell" ).typeId();
+    if( get_fuel_type_available( plut_cell ) > 0 ) {
+        if( calendar::once_every( 60_minutes ) ) {
+            int rad_mod = 0;
+            rad_mod += has_bionic( bio_reactor ) ? 3 : 0;
+            rad_mod += has_bionic( bio_advreactor ) ? 2 : 0;
 
-    if( rad_mod > 1 && calendar::once_every( 60_minutes ) ) {
-        mod_rad( rad_mod );
+            if( rad_mod > 1 ) {
+                mod_rad( rad_mod );
+            }
+        }
+
+        bool powered_reactor = false;
+
+        if( has_bionic( bio_reactor ) ) {
+            if( get_bionic_state( bio_reactor ).powered ) {
+                powered_reactor = true;
+            } else {
+                mod_power_level( 500_J );
+            }
+        }
+
+        if( has_bionic( bio_advreactor ) ) {
+            if( get_bionic_state( bio_advreactor ).powered ) {
+                powered_reactor = true;
+            } else {
+                mod_power_level( 1_kJ );
+            }
+        }
+
+        if( has_bionic( bio_reactoroverride ) && powered_reactor ) {
+            if( get_bionic_state( bio_reactoroverride ).powered ) {
+                int current_fuel_stock = std::stoi( get_value( plut_cell.str() ) );
+
+                current_fuel_stock -= 50;
+
+                set_value( plut_cell.str(), std::to_string( current_fuel_stock ) );
+                update_fuel_storage( plut_cell );
+
+                mod_power_level( 40_kJ );
+                mod_rad( 2 );
+            }
+        }
     }
 }
 
