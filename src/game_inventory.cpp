@@ -6,6 +6,7 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <numeric>
 #include <optional>
 #include <set>
 #include <string>
@@ -1792,7 +1793,6 @@ static item_location autodoc_internal( player &u, player &patient,
 {
     inventory_pick_selector inv_s( u, preset );
     std::string hint;
-    int drug_count = 0;
 
     if( !surgeon ) {//surgeon use their own anesthetic, player just need money
         if( patient.has_trait( trait_NOPAIN ) ) {
@@ -1804,11 +1804,10 @@ static item_location autodoc_internal( player &u, player &patient,
             std::vector<const item *> a_filter = crafting_inv.items_with( []( const item & it ) {
                 return it.has_quality( qual_ANESTHESIA );
             } );
-            for( const item *anesthesia_item : a_filter ) {
-                if( anesthesia_item->ammo_remaining() >= 1 ) {
-                    drug_count += anesthesia_item->ammo_remaining();
-                }
-            }
+            const int drug_count = std::accumulate( a_filter.begin(), a_filter.end(), 0,
+            []( int sum, const item * it ) {
+                return sum + it->ammo_remaining();
+            } );
             hint = string_format( _( "<color_yellow>Available anesthetic: %i mL</color>" ), drug_count );
         }
     }
