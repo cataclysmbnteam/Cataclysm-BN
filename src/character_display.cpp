@@ -898,24 +898,26 @@ static void draw_tip( const catacurses::window &w_tip, const Character &you,
 {
     werase( w_tip );
 
+    auto gender = you.male ? _( "Male" ) : _( "Female" );
+
     // Print name and header
     if( you.custom_profession.empty() ) {
         if( you.crossed_threshold() ) {
             //~ player info window: 1s - name, 2s - gender, 3s - Prof or Mutation name
-            mvwprintz( w_tip, point_zero, c_white, _( " %1$s | %2$s | %3$s" ), you.name,
-                       you.male ? _( "Male" ) : _( "Female" ), race );
+            mvwprintz( w_tip, point_zero, c_white, _( " %1$s | %2$s | %3$s" ),
+                       you.name, gender, race );
         } else if( !you.prof.is_valid() || you.prof == profession::generic() ) {
             // Regular person. Nothing interesting.
             //~ player info window: 1s - name, 2s - gender '|' - field separator.
-            mvwprintz( w_tip, point_zero, c_white, _( " %1$s | %2$s" ), you.name,
-                       you.male ? _( "Male" ) : _( "Female" ) );
+            mvwprintz( w_tip, point_zero, c_white, _( " %1$s | %2$s" ),
+                       you.name, gender );
         } else {
-            mvwprintz( w_tip, point_zero, c_white, _( " %1$s | %2$s | %3$s" ), you.name,
-                       you.male ? _( "Male" ) : _( "Female" ), you.prof->gender_appropriate_name( you.male ) );
+            mvwprintz( w_tip, point_zero, c_white, _( " %1$s | %2$s | %3$s" ),
+                       you.name, gender, you.prof->gender_appropriate_name( you.male ) );
         }
     } else {
-        mvwprintz( w_tip, point_zero, c_white, _( " %1$s | %2$s | %3$s" ), you.name,
-                   you.male ? _( "Male" ) : _( "Female" ), you.custom_profession );
+        mvwprintz( w_tip, point_zero, c_white, _( " %1$s | %2$s | %3$s" ),
+                   you.name,  gender, you.custom_profession );
     }
 
     right_print( w_tip, 0, 1, c_white, string_format(
