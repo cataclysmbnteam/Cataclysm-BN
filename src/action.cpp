@@ -662,14 +662,6 @@ action_id handle_action_menu()
     const input_context ctxt = get_default_mode_input_context();
     std::string catgname;
 
-#define REGISTER_ACTION( name ) entries.emplace_back( name, true, hotkey_for_action(name), \
-        ctxt.get_action_name( action_ident( name ) ) );
-#define REGISTER_CATEGORY( name )  categories_by_int[last_category] = name; \
-    catgname = name; \
-    catgname += "…"; \
-    entries.emplace_back( last_category, true, -1, catgname ); \
-    last_category++;
-
     // Calculate weightings for the various actions to give the player suggestions
     // Weight >= 200: Special action only available right now
     std::map<action_id, int> action_weightings;
@@ -749,11 +741,22 @@ action_id handle_action_menu()
         std::map<int, std::string> categories_by_int;
         int last_category = NUM_ACTIONS + 1;
 
+        const auto REGISTER_ACTION = [&]( action_id name ) -> void {
+            entries.emplace_back( name, true, hotkey_for_action( name ), ctxt.get_action_name( action_ident( name ) ) );
+        };
+
+        const auto REGISTER_CATEGORY = [&]( const std::string & name ) -> void {
+            categories_by_int[last_category] = name;
+            catgname = name;
+            catgname += "…";
+            entries.emplace_back( last_category, true, -1, catgname );
+            last_category++;
+        };
+
         if( category == "back" ) {
-            std::vector<std::pair<action_id, int> >::iterator it;
-            for( it = sorted_pairs.begin(); it != sorted_pairs.end(); ++it ) {
-                if( it->second >= 200 ) {
-                    REGISTER_ACTION( it->first );
+            for( const auto &[ action, weight ] : sorted_pairs ) {
+                if( weight >= 200 ) {
+                    REGISTER_ACTION( action );
                 }
             }
 
@@ -939,9 +942,6 @@ action_id handle_action_menu()
             return static_cast<action_id>( selection );
         }
     }
-
-#undef REGISTER_ACTION
-#undef REGISTER_CATEGORY
 }
 
 action_id handle_main_menu()
