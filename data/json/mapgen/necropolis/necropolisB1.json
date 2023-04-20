@@ -2,25 +2,36 @@
   {
     "name": "GROUP_NECROPOLIS_SEWERS",
     "type": "monstergroup",
-    "default": "mon_irradiated_wanderer_1",
+    "default": "mon_zombie",
     "monsters": [
-      { "monster": "mon_irradiated_wanderer_1", "freq": 90, "cost_multiplier": 1 },
-      { "monster": "mon_irradiated_wanderer_2", "freq": 40, "cost_multiplier": 1 },
-      { "monster": "mon_irradiated_wanderer_3", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_shady", "freq": 20, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_technician", "freq": 50, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_hazmat", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_scientist", "freq": 25, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_soldier", "freq": 75, "cost_multiplier": 1 },
+      { "monster": "mon_irradiated_wanderer_1", "freq": 150, "cost_multiplier": 1 },
+      { "monster": "mon_irradiated_wanderer_2", "freq": 75, "cost_multiplier": 1 },
+      { "monster": "mon_irradiated_wanderer_3", "freq": 25, "cost_multiplier": 1 },
       { "monster": "mon_irradiated_wanderer_4", "freq": 1, "cost_multiplier": 1 },
-      { "monster": "mon_charred_nightmare", "freq": 1, "cost_multiplier": 1 },
-      { "monster": "mon_centipede_giant", "freq": 100, "cost_multiplier": 1 }
+      { "monster": "mon_centipede_giant", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_chud", "freq": 50, "cost_multiplier": 1 },
+      { "monster": "mon_one_eye", "freq": 25, "cost_multiplier": 1 }
     ]
   },
   {
     "name": "GROUP_NECROPOLIS_VAULT",
     "type": "monstergroup",
-    "default": "mon_irradiated_wanderer_2",
+    "default": "mon_zombie",
     "monsters": [
-      { "monster": "mon_irradiated_wanderer_1", "freq": 40, "cost_multiplier": 1 },
-      { "monster": "mon_irradiated_wanderer_2", "freq": 50, "cost_multiplier": 1 },
-      { "monster": "mon_irradiated_wanderer_3", "freq": 40, "cost_multiplier": 1 },
-      { "monster": "mon_irradiated_wanderer_4", "freq": 5, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_shady", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_technician", "freq": 25, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_hazmat", "freq": 150, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_scientist", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_soldier", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_irradiated_wanderer_1", "freq": 200, "cost_multiplier": 1 },
+      { "monster": "mon_irradiated_wanderer_2", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_irradiated_wanderer_3", "freq": 75, "cost_multiplier": 1 },
+      { "monster": "mon_irradiated_wanderer_4", "freq": 25, "cost_multiplier": 1 },
       { "monster": "mon_charred_nightmare", "freq": 5, "cost_multiplier": 1 }
     ]
   },
@@ -28,7 +39,11 @@
     "name": "GROUP_NECROPOLIS_SWIMMING",
     "type": "monstergroup",
     "default": "mon_sewer_fish",
-    "monsters": [ { "monster": "mon_irradiated_wanderer_2", "freq": 5, "cost_multiplier": 1 } ]
+    "monsters": [
+      { "monster": "mon_sewer_snake", "freq": 250, "cost_multiplier": 1 },
+      { "monster": "mon_irradiated_wanderer_1", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_irradiated_wanderer_2", "freq": 5, "cost_multiplier": 1 }
+    ]
   },
   {
     "id": "vault_survival",
@@ -104,9 +119,9 @@
         "..................................33x........             X!XX3333333333"
       ],
       "palettes": [ "necropolis_b1" ],
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 25, 46 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.05 }
+      "place_monster": [
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] }
       ]
     },
     "om_terrain": [
@@ -171,12 +186,12 @@
         "333333X3X3333333333333{.{.....................{{333{{3!XX233x  !      .."
       ],
       "palettes": [ "necropolis_b1" ],
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 49, 70 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 25, 46 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 25, 46 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.05 }
+      "place_monster": [
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] }
       ]
     },
     "om_terrain": [
@@ -241,11 +256,11 @@
         ".....................2x33..............................................."
       ],
       "palettes": [ "necropolis_b1" ],
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 25, 46 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 25, 46 ], "density": 0.05 }
+      "place_monster": [
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] }
       ],
       "place_items": [
         { "item": "sewage_plant", "x": [ 36, 37 ], "y": [ 13, 13 ], "chance": 60 },
@@ -324,13 +339,13 @@
         { "item": "cannedfood", "x": [ 31, 32 ], "y": [ 39, 40 ], "chance": 90 },
         { "item": "consumer_electronics", "x": [ 51, 51 ], "y": [ 28, 29 ], "chance": 70 }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 49, 70 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 25, 46 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT", "x": [ 25, 46 ], "y": [ 25, 46 ], "density": 0.1 },
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.05 }
+      "place_monster": [
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 1, 5 ] },
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] }
       ],
       "place_vehicles": [ { "vehicle": "humvee", "x": 42, "y": 22, "chance": 100, "rotation": 270 } ]
     },
@@ -396,13 +411,13 @@
         "33   .....233x.........     ........  3333X3333333333333333333 ........."
       ],
       "palettes": [ "necropolis_b1" ],
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 49, 70 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 25, 46 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 25, 46 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.05 }
+      "place_monster": [
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] }
       ],
       "place_items": [ { "item": "homebooks", "x": [ 66, 67 ], "y": [ 39, 39 ], "chance": 90 } ]
     },
@@ -468,11 +483,11 @@
         "................{......................................................."
       ],
       "palettes": [ "necropolis_b1" ],
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 25, 46 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 25, 46 ], "density": 0.05 }
+      "place_monster": [
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] }
       ],
       "place_items": [
         { "item": "pawn", "x": [ 12, 12 ], "y": [ 28, 30 ], "chance": 70 },
@@ -547,13 +562,13 @@
         { "item": "cannedfood", "x": [ 6, 7 ], "y": [ 15, 16 ], "chance": 90 },
         { "item": "cannedfood", "x": [ 7, 8 ], "y": [ 18, 19 ], "chance": 90 }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_VAULT", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 49, 70 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 25, 46 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 25, 46 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.05 }
+      "place_monster": [
+        { "group": "GROUP_NECROPOLIS_VAULT", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] }
       ],
       "place_vehicles": [ { "vehicle": "humvee", "x": 13, "y": 16, "chance": 100, "rotation": 270 } ]
     },
@@ -619,13 +634,13 @@
         ".............33...........3 .......333.................................."
       ],
       "palettes": [ "necropolis_b1" ],
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 49, 70 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_SWIMMING", "x": [ 1, 22 ], "y": [ 25, 46 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_SWIMMING", "x": [ 25, 46 ], "y": [ 25, 46 ], "density": 0.075 },
-        { "monster": "GROUP_NECROPOLIS_SWIMMING", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.075 }
+      "place_monster": [
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_SWIMMING", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_SWIMMING", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 1, 4 ] },
+        { "group": "GROUP_NECROPOLIS_SWIMMING", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 1, 4 ] }
       ]
     },
     "om_terrain": [
@@ -690,12 +705,12 @@
         "..............333..................xa3.................................."
       ],
       "palettes": [ "necropolis_b1" ],
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 25, 46 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 25, 46 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.05 }
+      "place_monster": [
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] }
       ],
       "place_items": [ { "item": "alcohol", "x": [ 50, 50 ], "y": [ 38, 38 ], "chance": 90 } ]
     },
@@ -761,12 +776,12 @@
         "................................3..............................33......."
       ],
       "palettes": [ "necropolis_b1" ],
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 49, 70 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 25, 46 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.05 }
+      "place_monster": [
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] }
       ],
       "place_items": [
         { "item": "sewage_plant", "x": [ 38, 40 ], "y": [ 10, 10 ], "chance": 70 },
@@ -835,13 +850,13 @@
         "...................................33x........................   3355333"
       ],
       "palettes": [ "necropolis_b1" ],
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_SWIMMING", "x": [ 49, 70 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 25, 46 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 25, 46 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.05 }
+      "place_monster": [
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_SWIMMING", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] }
       ]
     },
     "om_terrain": [
@@ -906,11 +921,11 @@
         "53353  .   ...................3........................................."
       ],
       "palettes": [ "necropolis_b1" ],
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SWIMMING", "x": [ 13, 18 ], "y": [ 2, 10 ], "density": 0.25 },
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 25, 46 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 25, 46 ], "density": 0.05 }
+      "place_monster": [
+        { "group": "GROUP_NECROPOLIS_SWIMMING", "x": [ 13, 18 ], "y": [ 2, 10 ], "repeat": [ 3, 6 ] },
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] }
       ]
     },
     "om_terrain": [
@@ -987,9 +1002,9 @@
         "........................................................................"
       ],
       "palettes": [ "necropolis_b1" ],
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_SWIMMING", "x": [ 66, 71 ], "y": [ 0, 5 ], "density": 0.15 }
+      "place_monster": [
+        { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_SWIMMING", "x": [ 66, 71 ], "y": [ 0, 5 ], "repeat": [ 2, 6 ] }
       ]
     },
     "om_terrain": [ [ "necropolis_b_76", "necropolis_b_77", "necropolis_b_78" ] ],
