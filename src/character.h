@@ -81,7 +81,7 @@ template <typename E> struct enum_traits;
 
 enum class character_stat : char;
 
-#define MAX_CLAIRVOYANCE 40
+constexpr int MAX_CLAIRVOYANCE = 40;
 
 enum vision_modes {
     DEBUG_NIGHTVISION,
