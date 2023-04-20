@@ -526,10 +526,10 @@ void npc::check_or_use_weapon_cbm()
             bionic &bio = ( *my_bionics )[ i ];
             if( free_power > bio.info().power_activate ) {
                 item cbm_fake = item( bio.info().fake_item );
-                const int fake_shots = item_funcs::shots_remaining( *this, cbm_fake );
                 if( bio.ammo_count > 0 ) {
                     cbm_fake.ammo_set( bio.ammo_loaded, bio.ammo_count );
                 }
+                const int fake_shots = item_funcs::shots_remaining( *this, cbm_fake );
 
                 bool not_allowed = ( !rules.has_flag( ally_rule::use_guns ) && cbm_fake.is_gun() ) ||
                                    ( rules.has_flag( ally_rule::use_silent ) && !cbm_fake.is_silent() );
