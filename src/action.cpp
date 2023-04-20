@@ -659,10 +659,23 @@ bool can_interact_at( action_id action, const tripoint &p )
 
 static auto make_register_actions( std::vector<uilist_entry> &entries, const input_context &ctxt )
 {
-    return [&entries, &ctxt]( std::set<action_id> names ) -> void {
+    return [&entries, &ctxt]( std::set<action_id> &&names ) -> void {
         std::transform( names.begin(), names.end(), std::back_inserter( entries ), [&]( action_id name ) -> uilist_entry
         {
             return { name, true, hotkey_for_action( name ), ctxt.get_action_name( action_ident( name ) ) };
+        } );
+    };
+}
+
+static auto make_register_categories( std::vector<uilist_entry> &entries,
+                                      std::map<int, std::string> &categories_by_int,
+                                      int &last_category )
+{
+    return [&entries, &categories_by_int, &last_category]( std::set<std::string> &&names ) -> void {
+        std::transform( names.begin(), names.end(), std::back_inserter( entries ), [&]( std::string name ) -> uilist_entry
+        {
+            categories_by_int[last_category] = name;
+            return { last_category++, true, -1, name + "…" };
         } );
     };
 }
@@ -752,17 +765,13 @@ action_id handle_action_menu()
         int last_category = NUM_ACTIONS + 1;
 
         const auto register_actions = make_register_actions( entries, ctxt );
-        const auto register_category = [&]( const std::string & name ) -> void {
-            categories_by_int[last_category] = name;
-            entries.emplace_back( last_category, true, -1, name + "…" );
-            last_category++;
-        };
-
         const auto register_action_if_hotkey_assigned = [&]( action_id action ) {
             if( hotkey_for_action( action ) > -1 ) {
                 register_actions( { action } );
             }
         };
+        const auto register_categories =
+            make_register_categories( entries, categories_by_int, last_category );
 
         if( category == "back" ) {
             for( const auto &[ action, weight ] : sorted_pairs ) {
@@ -771,13 +780,11 @@ action_id handle_action_menu()
                 }
             }
 
-            register_category( _( "Look" ) );
-            register_category( _( "Interact" ) );
-            register_category( _( "Inventory" ) );
-            register_category( _( "Combat" ) );
-            register_category( _( "Craft" ) );
-            register_category( _( "Info" ) );
-            register_category( _( "Misc" ) );
+            register_categories( {
+                _( "Look" ), _( "Interact" ), _( "Inventory" ),
+                _( "Combat" ), _( "Craft" ), _( "Info" ), _( "Misc" )
+            } );
+
             register_action_if_hotkey_assigned( ACTION_QUICKSAVE );
             register_actions( { ACTION_SAVE } );
             register_action_if_hotkey_assigned( ACTION_QUICKLOAD );
@@ -789,7 +796,7 @@ action_id handle_action_menu()
             }
             if( hotkey_for_action( ACTION_DEBUG ) > -1 ) {
                 // register with global key
-                register_category( _( "Debug" ) );
+                register_categories( { _( "Debug" ) } );
                 if( ( entry = &entries.back() ) ) {
                     entry->hotkey = hotkey_for_action( ACTION_DEBUG );
                 }
