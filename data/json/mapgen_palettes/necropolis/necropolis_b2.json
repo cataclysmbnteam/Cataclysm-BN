@@ -110,6 +110,14 @@
       "|": "t_wall_metal",
       "}": "t_manhole_cover",
       "&": "t_gas_pump"
+    },
+    "items": {
+      "@": { "item": "bed", "chance": 50 },
+      "D": { "item": "floor_trash", "chance": 75, "repeat": 2 },
+      "d": { "item": "dresser", "chance": 50, "repeat": 2 },
+      "f": { "item": "SUS_fridge", "chance": 50 },
+      "k": { "item": "office", "chance": 50, "repeat": 2 },
+      "o": { "item": "homebooks", "chance": 75 }
     }
   }
 ]
