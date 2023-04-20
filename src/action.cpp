@@ -659,11 +659,11 @@ bool can_interact_at( action_id action, const tripoint &p )
 
 static auto make_register_actions( std::vector<uilist_entry> &entries, const input_context &ctxt )
 {
-    return [&entries, &ctxt]( std::set<action_id> &&names ) -> void {
-        std::transform( names.begin(), names.end(), std::back_inserter( entries ), [&]( action_id name ) -> uilist_entry
-        {
+    return [&]( std::set<action_id> &&names ) -> void {
+        const auto fn = [&]( action_id name ) -> uilist_entry {
             return { name, true, hotkey_for_action( name ), ctxt.get_action_name( action_ident( name ) ) };
-        } );
+        };
+        std::transform( names.begin(), names.end(), std::back_inserter( entries ), fn );
     };
 }
 
@@ -671,12 +671,12 @@ static auto make_register_categories( std::vector<uilist_entry> &entries,
                                       std::map<int, std::string> &categories_by_int,
                                       int &last_category )
 {
-    return [&entries, &categories_by_int, &last_category]( std::set<std::string> &&names ) -> void {
-        std::transform( names.begin(), names.end(), std::back_inserter( entries ), [&]( std::string name ) -> uilist_entry
-        {
+    return [&]( std::set<std::string> &&names ) -> void {
+        const auto fn = [&]( std::string name ) -> uilist_entry {
             categories_by_int[last_category] = name;
             return { last_category++, true, -1, name + "…" };
-        } );
+        };
+        std::transform( names.begin(), names.end(), std::back_inserter( entries ),  fn );
     };
 }
 
