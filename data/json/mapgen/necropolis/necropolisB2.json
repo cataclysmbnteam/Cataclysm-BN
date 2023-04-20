@@ -2,12 +2,14 @@
   {
     "name": "GROUP_NECROPOLIS_VAULT2",
     "type": "monstergroup",
-    "default": "mon_irradiated_wanderer_3",
+    "default": "mon_irradiated_wanderer_1",
     "monsters": [
-      { "monster": "mon_irradiated_wanderer_2", "freq": 30, "cost_multiplier": 1 },
-      { "monster": "mon_irradiated_wanderer_3", "freq": 50, "cost_multiplier": 1 },
-      { "monster": "mon_irradiated_wanderer_4", "freq": 30, "cost_multiplier": 1 },
-      { "monster": "mon_charred_nightmare", "freq": 20, "cost_multiplier": 1 }
+      { "monster": "mon_zombie_hazmat", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_soldier", "freq": 150, "cost_multiplier": 1 },
+      { "monster": "mon_irradiated_wanderer_2", "freq": 200, "cost_multiplier": 1 },
+      { "monster": "mon_irradiated_wanderer_3", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_irradiated_wanderer_4", "freq": 50, "cost_multiplier": 1 },
+      { "monster": "mon_charred_nightmare", "freq": 25, "cost_multiplier": 1 }
     ]
   },
   {
@@ -71,6 +73,14 @@
       ],
       "palettes": [ "necropolis_b2" ],
       "terrain": { "R": "t_hole" },
+      "set": [
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 48, "x2": 71, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 0, "x2": 23, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 24, "x2": 47, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 48, "x2": 71, "y": 24, "y2": 47 }
+      ],
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.35 },
@@ -232,6 +242,14 @@
       ],
       "palettes": [ "necropolis_b2" ],
       "terrain": { "R": "t_hole" },
+      "set": [
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 48, "x2": 71, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 0, "x2": 23, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 24, "x2": 47, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 48, "x2": 71, "y": 24, "y2": 47 }
+      ],
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.2 },
@@ -350,11 +368,11 @@
         "......|/////|.................|G               |--|   |----|  G         ",
         "......|/////|.................|-----|     |----|..|   |....|------------",
         "......|/////|.......................|    5|.......|   |.................",
-        "......|/////|.......................|-===-|.......|   |--|.....|--|-----",
-        "----|.|//G//|.......................|    5|.......|   |  |.....|EE|     ",
-        "r//r|.|/////|............|-----|----|     |--|....|   [ >|.....|EE+     ",
-        "///r|.|/////|............|     vccc6c     |St|....|   |  |.....|EE+   |-",
-        "///r|.|/////|............| RRR vc  h      +  |....|   |--|.....|--|   | ",
+        "......|/////|.......................|-===-|.......|   |...........|-----",
+        "----|.|//G//|.......................|    5|.......|   |...........|     ",
+        "r//r|.|/////|............|-----|----|     |--|....|   |...........|     ",
+        "///r|.|/////|............|     vccc6c     |St|....|   |...........|   |-",
+        "///r|.|/////|............| RRR vc  h      +  |....|   |...........|   | ",
         "///r|.|/////|---|........| RRR v6h   G    |--|....|   |....|--|...|   | ",
         "-=--|-|/////////|........| RRR vc h       + r|....|   |----| 5|---|   | ",
         "c rr| //////,,,,|........|     vcc6cc     |--|....|           =       | ",
@@ -659,6 +677,14 @@
       ],
       "palettes": [ "necropolis_b2" ],
       "terrain": { "R": "t_hole" },
+      "set": [
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 48, "x2": 71, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 0, "x2": 23, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 24, "x2": 47, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 48, "x2": 71, "y": 24, "y2": 47 }
+      ],
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 },
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.25 },
@@ -1080,6 +1106,11 @@
       ],
       "palettes": [ "necropolis_b2" ],
       "terrain": { "R": "t_hole" },
+      "set": [
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 48, "x2": 71, "y": 0, "y2": 23 }
+      ],
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.2 },
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.25 },
@@ -1123,6 +1154,11 @@
       ],
       "palettes": [ "necropolis_b2" ],
       "terrain": { "R": "t_hole" },
+      "set": [
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 48, "x2": 71, "y": 0, "y2": 23 }
+      ],
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.15 },
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.25 },

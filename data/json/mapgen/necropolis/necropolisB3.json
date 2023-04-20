@@ -7,10 +7,12 @@
   {
     "name": "GROUP_NECROPOLIS_VAULT3",
     "type": "monstergroup",
-    "default": "mon_irradiated_wanderer_4",
+    "default": "mon_irradiated_wanderer_1",
     "monsters": [
-      { "monster": "mon_irradiated_wanderer_3", "freq": 20, "cost_multiplier": 1 },
-      { "monster": "mon_charred_nightmare", "freq": 90, "cost_multiplier": 1 }
+      { "monster": "mon_irradiated_wanderer_2", "freq": 250, "cost_multiplier": 1 },
+      { "monster": "mon_irradiated_wanderer_3", "freq": 250, "cost_multiplier": 1 },
+      { "monster": "mon_irradiated_wanderer_4", "freq": 250, "cost_multiplier": 1 },
+      { "monster": "mon_charred_nightmare", "freq": 100, "cost_multiplier": 1 }
     ]
   },
   {
@@ -69,6 +71,14 @@
       ],
       "palettes": [ "necropolis_b3" ],
       "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate" },
+      "set": [
+        { "square": "radiation", "amount": [ 25, 50 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 25, 50 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 25, 50 ], "x": 48, "x2": 71, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 25, 50 ], "x": 0, "x2": 23, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [ 25, 50 ], "x": 24, "x2": 47, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [ 25, 50 ], "x": 48, "x2": 71, "y": 24, "y2": 47 }
+      ],
       "place_items": [
         { "item": "electronics", "x": [ 20, 22 ], "y": [ 17, 17 ], "chance": 30 },
         { "item": "office", "x": [ 20, 22 ], "y": [ 17, 17 ], "chance": 30 },
@@ -170,6 +180,14 @@
       ],
       "palettes": [ "necropolis_b3" ],
       "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate" },
+      "set": [
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 48, "x2": 71, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 0, "x2": 23, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 24, "x2": 47, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 48, "x2": 71, "y": 24, "y2": 47 }
+      ],
       "place_items": [
         { "item": "bed", "x": [ 22, 22 ], "y": [ 22, 22 ], "chance": 40 },
         { "item": "traveler", "x": [ 22, 23 ], "y": [ 21, 21 ], "chance": 40 },
@@ -349,6 +367,14 @@
       ],
       "palettes": [ "necropolis_b3" ],
       "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate" },
+      "set": [
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 48, "x2": 71, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 0, "x2": 23, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 24, "x2": 47, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 48, "x2": 71, "y": 24, "y2": 47 }
+      ],
       "place_items": [
         { "item": "hospital_incubator", "x": [ 3, 3 ], "y": [ 17, 17 ], "chance": 40 },
         { "item": "hospital_incubator", "x": [ 5, 5 ], "y": [ 17, 17 ], "chance": 40 },
@@ -495,6 +521,14 @@
       ],
       "palettes": [ "necropolis_b3" ],
       "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate" },
+      "set": [
+        { "square": "radiation", "amount": [ 25, 50 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 25, 50 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 25, 50 ], "x": 48, "x2": 71, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 25, 50 ], "x": 0, "x2": 23, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [ 25, 50 ], "x": 24, "x2": 47, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [ 25, 50 ], "x": 48, "x2": 71, "y": 24, "y2": 47 }
+      ],
       "items": {
         "@": { "item": "bed", "chance": 60 },
         "L": { "item": "traveler", "chance": 60 },
@@ -588,11 +622,11 @@
         "|t S|-|--|      |--|-|t S|t S|t S|Pbbb    |@@|S|...........|  |.....|L+ ",
         "|---|S|@@|      |Lc|t|---|---|---|-|--|   |--|-|...........|  |.....|-| ",
         "....|    [      [    |...........|t|cL|   |Lc|t|..........||  ||....|L+ ",
-        "....|t|cL|      |@@|S|...........|    [   [    |.......|--|    |--|.|-| ",
-        "|---|-|--|      |--|-|---|---|---|S|@@|   |@@|S|.......|X |    |EE|.|@  ",
-        "|t S|S|@@|      |Lc|t|t S|t S|t S|-|--|   |----|.......|XX[    +EE|.|@  ",
-        "|- -|    [      [    |- -|- -|- -|t|cL|   |Lc|t|.......|X |    +EE|.|-|-",
-        "|c @|t|cL|      |@@|S|c @|c @|c @|    [   [    |.......|--|    |--|...|S",
+        "....|t|cL|      |@@|S|...........|    [   [    |..........|    |....|-| ",
+        "|---|-|--|      |--|-|---|---|---|S|@@|   |@@|S|..........|    |....|@  ",
+        "|t S|S|@@|      |Lc|t|t S|t S|t S|-|--|   |----|..........[    |....|@  ",
+        "|- -|    [      [    |- -|- -|- -|t|cL|   |Lc|t|..........|    |....|-|-",
+        "|c @|t|cL|      |@@|S|c @|c @|c @|    [   [    |..........|    |......|S",
         "|L @|-|--|      |--|-|L @|L @|L @|S|@@|   |@@|S|..........|    |......|-",
         "|-[-|          G     |-[-|-[-|-[-|-|--|   |--|-|----------|    |--------",
         "            PP                                                          ",
@@ -626,6 +660,14 @@
       ],
       "palettes": [ "necropolis_b3" ],
       "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate" },
+      "set": [
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 48, "x2": 71, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 0, "x2": 23, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 24, "x2": 47, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 48, "x2": 71, "y": 24, "y2": 47 }
+      ],
       "items": {
         "@": { "item": "bed", "chance": 60 },
         "L": { "item": "traveler", "chance": 60 },
@@ -711,6 +753,14 @@
       ],
       "palettes": [ "necropolis_b3" ],
       "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate" },
+      "set": [
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 48, "x2": 71, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 0, "x2": 23, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 24, "x2": 47, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 48, "x2": 71, "y": 24, "y2": 47 }
+      ],
       "items": {
         "@": { "item": "bed", "chance": 60 },
         "L": { "item": "traveler", "chance": 60 },
@@ -795,6 +845,14 @@
       ],
       "palettes": [ "necropolis_b3" ],
       "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate" },
+      "set": [
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 48, "x2": 71, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 0, "x2": 23, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 24, "x2": 47, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 48, "x2": 71, "y": 24, "y2": 47 }
+      ],
       "items": {
         "@": { "item": "bed", "chance": 60 },
         "L": { "item": "traveler", "chance": 60 },
@@ -890,6 +948,14 @@
       ],
       "palettes": [ "necropolis_b3" ],
       "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate" },
+      "set": [
+        { "square": "radiation", "amount": [ 25, 50 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 25, 50 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 25, 50 ], "x": 48, "x2": 71, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 25, 50 ], "x": 0, "x2": 23, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [ 25, 50 ], "x": 24, "x2": 47, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [ 25, 50 ], "x": 48, "x2": 71, "y": 24, "y2": 47 }
+      ],
       "items": {
         "@": { "item": "bed", "chance": 60 },
         "L": { "item": "traveler", "chance": 60 },
@@ -988,6 +1054,14 @@
       ],
       "palettes": [ "necropolis_b3" ],
       "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate" },
+      "set": [
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 48, "x2": 71, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 0, "x2": 23, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 24, "x2": 47, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 48, "x2": 71, "y": 24, "y2": 47 }
+      ],
       "items": {
         "@": { "item": "bed", "chance": 60 },
         "L": { "item": "traveler", "chance": 60 },
@@ -1072,6 +1146,14 @@
       ],
       "palettes": [ "necropolis_b3" ],
       "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate" },
+      "set": [
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 48, "x2": 71, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 0, "x2": 23, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 24, "x2": 47, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 48, "x2": 71, "y": 24, "y2": 47 }
+      ],
       "items": {
         "@": { "item": "bed", "chance": 60 },
         "L": { "item": "traveler", "chance": 60 },
@@ -1157,6 +1239,14 @@
       ],
       "palettes": [ "necropolis_b3" ],
       "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate" },
+      "set": [
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 48, "x2": 71, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 0, "x2": 23, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 24, "x2": 47, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 48, "x2": 71, "y": 24, "y2": 47 }
+      ],
       "items": { "k": { "item": "office", "chance": 60 } },
       "item": { "n": [ { "item": "water_clean", "chance": 20 } ] },
       "place_monsters": [
@@ -1237,6 +1327,14 @@
       ],
       "palettes": [ "necropolis_b3" ],
       "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate" },
+      "set": [
+        { "square": "radiation", "amount": [ 25, 50 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 25, 50 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 25, 50 ], "x": 48, "x2": 71, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 25, 50 ], "x": 0, "x2": 23, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [ 25, 50 ], "x": 24, "x2": 47, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [ 25, 50 ], "x": 48, "x2": 71, "y": 24, "y2": 47 }
+      ],
       "items": {
         "L": { "item": "sports", "chance": 60 },
         "b": { "item": "magazines", "chance": 10 },
@@ -1297,6 +1395,11 @@
       ],
       "palettes": [ "necropolis_b3" ],
       "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate" },
+      "set": [
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 48, "x2": 71, "y": 0, "y2": 23 }
+      ],
       "items": { "r": { "item": "textbooks", "chance": 60 } },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS_VAULT3", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },
@@ -1373,6 +1476,11 @@
       ],
       "palettes": [ "necropolis_b3" ],
       "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate" },
+      "set": [
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 48, "x2": 71, "y": 0, "y2": 23 }
+      ],
       "items": { "/": { "item": "tools_common", "chance": 2 } },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS_VAULT3", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.15 },
@@ -1419,6 +1527,11 @@
       ],
       "palettes": [ "necropolis_b3" ],
       "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate" },
+      "set": [
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 5, 10 ], "x": 48, "x2": 71, "y": 0, "y2": 23 }
+      ],
       "items": { "L": { "item": "sports", "chance": 50 }, "l": { "item": "vending_drink", "chance": 70 } },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS_VAULT3", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.15 },
