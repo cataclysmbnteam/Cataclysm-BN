@@ -1820,11 +1820,9 @@ static item_location autodoc_internal( player &u, player &patient,
                     _( "\n<color_light_green>Found bionic installation data.  Affected CBMs are marked with an asterisk.</color>" ) );
     }
 
-    if( uninstall ) {
-        inv_s.set_title( string_format( _( "Bionic removal patient: %s" ), patient.get_name() ) );
-    } else {
-        inv_s.set_title( string_format( _( "Bionic installation patient: %s" ), patient.get_name() ) );
-    }
+    const auto title = uninstall
+                       ? _( "Bionic removal patient: %s" ) : _( "Bionic installation patient: %s" );
+    inv_s.set_title( string_format( title, patient.get_name() ) );
 
     inv_s.set_hint( hint );
     inv_s.set_display_stats( false );
