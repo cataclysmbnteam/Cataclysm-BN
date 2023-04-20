@@ -683,7 +683,6 @@ static auto make_register_categories( std::vector<uilist_entry> &entries,
 action_id handle_action_menu()
 {
     const input_context ctxt = get_default_mode_input_context();
-    std::string catgname;
 
     // Calculate weightings for the various actions to give the player suggestions
     // Weight >= 200: Special action only available right now
@@ -878,7 +877,7 @@ action_id handle_action_menu()
 
         std::string title = _( "Actions" );
         if( category != "back" ) {
-            catgname = category;
+            std::string catgname = category;
             capitalize_letter( catgname, 0 );
             title += ": " + catgname;
         }
