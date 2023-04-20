@@ -10598,12 +10598,7 @@ void Character::set_npc_ai_info_cache( npc_ai_info key, double val ) const
 
 std::optional<double> Character::get_npc_ai_info_cache( npc_ai_info key ) const
 {
-    auto it = npc_ai_info_cache.find( key );
-    if( it == npc_ai_info_cache.end() ) {
-        return std::nullopt;
-    } else {
-        return it->second;
-    }
+    return npc_ai_info_cache[key];
 }
 
 float Character::stability_roll() const
