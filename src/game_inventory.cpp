@@ -78,6 +78,7 @@ static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
+static const trait_id trait_INFRESIST( "INFRESIST" );
 
 static const std::string flag_ALLOWS_REMOTE_USE( "ALLOWS_REMOTE_USE" );
 static const std::string flag_FILTHY( "FILTHY" );
@@ -1881,7 +1882,7 @@ class bionic_install_preset: public inventory_selector_preset
             const itype *itemtype = it->type;
             const bionic_id &bid = itemtype->bionic->id;
 
-            if( it->has_fault( fault_bionic_nonsterile ) ) {
+            if( it->has_fault( fault_bionic_nonsterile ) && !p.has_trait( trait_INFRESIST ) ) {
                 // NOLINTNEXTLINE(cata-text-style): single space after the period for symmetry
                 return _( "/!\\ CBM is not sterile. /!\\ Please use autoclave or other methods to sterilize." );
             } else if( pa.has_bionic( bid ) ) {
