@@ -98,9 +98,10 @@ enum vision_modes {
 };
 
 enum class npc_ai_info {
-    WEAPON_VALUE,
-    RELOADABLES,
-    RELOADABLE_CBMS,
+    weapon_value = 0,
+    reloadables,
+    reloadable_cbms,
+    num_npc_ai_info,
 };
 
 enum character_movemode : int {
@@ -2270,9 +2271,9 @@ class Character : public Creature, public visitable<Character>
 
         void set_underwater( bool x ) override;
 
-        void clear_npc_ai_info_cache( const npc_ai_info key ) const;
-        void set_npc_ai_info_cache( const npc_ai_info key, double val ) const;
-        std::optional<double> get_npc_ai_info_cache( const npc_ai_info key ) const;
+        void clear_npc_ai_info_cache( npc_ai_info key ) const;
+        void set_npc_ai_info_cache( npc_ai_info key, double val ) const;
+        std::optional<double> get_npc_ai_info_cache( npc_ai_info key ) const;
 
         safe_reference<Character> get_safe_reference();
 };

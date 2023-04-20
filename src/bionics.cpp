@@ -470,7 +470,7 @@ void deactivate_weapon_cbm( npc &who )
             who.deactivate_bionic( i );
         }
     }
-    who.clear_npc_ai_info_cache( npc_ai_info::WEAPON_VALUE );
+    who.clear_npc_ai_info_cache( npc_ai_info::weapon_value );
 }
 
 std::vector<std::pair<bionic_id, item>> find_reloadable_cbms( npc &who )
@@ -558,7 +558,7 @@ void npc::check_or_use_weapon_cbm()
                 add_msg( m_info, _( "%s activates their %s." ), disp_name(),
                          ( *my_bionics )[ toggle_index ].info().name );
             }
-            clear_npc_ai_info_cache( npc_ai_info::WEAPON_VALUE );
+            clear_npc_ai_info_cache( npc_ai_info::weapon_value );
             cbm_toggled = ( *my_bionics )[ toggle_index ].id;
         }
     }

@@ -2261,8 +2261,8 @@ item &Character::i_add( item it, bool should_stack )
     }
     auto &item_in_inv = inv.add_item( it, keep_invlet, true, should_stack );
     item_in_inv.on_pickup( *this );
-    clear_npc_ai_info_cache( npc_ai_info::RELOADABLES );
-    clear_npc_ai_info_cache( npc_ai_info::RELOADABLE_CBMS );
+    clear_npc_ai_info_cache( npc_ai_info::reloadables );
+    clear_npc_ai_info_cache( npc_ai_info::reloadable_cbms );
     return item_in_inv;
 }
 
@@ -2491,7 +2491,7 @@ item Character::remove_weapon()
 {
     item tmp = weapon;
     weapon = item();
-    clear_npc_ai_info_cache( npc_ai_info::WEAPON_VALUE );
+    clear_npc_ai_info_cache( npc_ai_info::weapon_value );
     return tmp;
 }
 
@@ -10586,17 +10586,17 @@ void Character::set_underwater( bool x )
     }
 }
 
-void Character::clear_npc_ai_info_cache( const npc_ai_info key ) const
+void Character::clear_npc_ai_info_cache( npc_ai_info key ) const
 {
     npc_ai_info_cache.erase( key );
 }
 
-void Character::set_npc_ai_info_cache( const npc_ai_info key, double val ) const
+void Character::set_npc_ai_info_cache( npc_ai_info key, double val ) const
 {
     npc_ai_info_cache[key] = val;
 }
 
-std::optional<double> Character::get_npc_ai_info_cache( const npc_ai_info key ) const
+std::optional<double> Character::get_npc_ai_info_cache( npc_ai_info key ) const
 {
     auto it = npc_ai_info_cache.find( key );
     if( it == npc_ai_info_cache.end() ) {

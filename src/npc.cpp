@@ -1157,7 +1157,7 @@ void npc::stow_item( item &it )
 
 bool npc::wield( item &it )
 {
-    clear_npc_ai_info_cache( npc_ai_info::WEAPON_VALUE );
+    clear_npc_ai_info_cache( npc_ai_info::weapon_value );
     if( is_armed() ) {
         stow_item( weapon );
     }
