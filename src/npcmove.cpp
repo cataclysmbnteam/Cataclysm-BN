@@ -118,6 +118,8 @@ static const efftype_id effect_npc_run_away( "npc_run_away" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_stunned( "stunned" );
 
+static const flag_str_id flag_NO_UNWIELD( "NO_UNWIELD" );
+
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_chem_ethanol( "chem_ethanol" );
 static const itype_id itype_chem_methanol( "chem_methanol" );
@@ -3425,7 +3427,7 @@ bool npc::do_player_activity()
 
 bool npc::wield_better_weapon()
 {
-    if( weapon.has_flag( "NO_UNWIELD" ) && cbm_toggled.is_null() ) {
+    if( weapon.has_flag( flag_NO_UNWIELD ) && cbm_toggled.is_null() ) {
         add_msg( m_debug, "Cannot unwield %s, not switching.", weapon.type->get_id().str() );
         return false;
     }
