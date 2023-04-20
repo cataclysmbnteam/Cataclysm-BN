@@ -672,7 +672,7 @@ static auto make_register_categories( std::vector<uilist_entry> &entries,
                                       int &last_category )
 {
     return [&]( std::set<std::string> &&names ) -> void {
-        const auto fn = [&]( std::string name ) -> uilist_entry {
+        const auto fn = [&]( const std::string & name ) -> uilist_entry {
             categories_by_int[last_category] = name;
             return { last_category++, true, -1, name + "…" };
         };
