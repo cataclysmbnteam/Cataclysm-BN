@@ -97,14 +97,6 @@
       ],
       "palettes": [ "necropolis_a" ],
       "furniture": { "1": "f_rack", "2": "f_rack", "3": "f_counter" },
-      "set": [
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 48, "x2": 71, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 0, "x2": 23, "y": 24, "y2": 47 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 24, "x2": 47, "y": 24, "y2": 47 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 48, "x2": 71, "y": 24, "y2": 47 }
-      ],
       "items": {
         "1": { "item": "farming_tools", "chance": 30 },
         "2": { "item": "hardware_clothing", "chance": 40 },
@@ -292,14 +284,6 @@
       "palettes": [ "necropolis_a" ],
       "terrain": { "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
       "furniture": { "F": "f_filing_cabinet" },
-      "set": [
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 48, "x2": 71, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 0, "x2": 23, "y": 24, "y2": 47 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 24, "x2": 47, "y": 24, "y2": 47 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 48, "x2": 71, "y": 24, "y2": 47 }
-      ],
       "items": {
         "F": { "item": "office_paper", "chance": 40, "repeat": 5 },
         "t": { "item": "contraband", "chance": 20 },
@@ -796,14 +780,6 @@
       "palettes": [ "necropolis_a" ],
       "terrain": { "Z": "t_floor", "l": "t_floor", "N": "t_floor", "u": "t_floor", "z": "t_floor" },
       "furniture": { "N": "f_table" },
-      "set": [
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 48, "x2": 71, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 0, "x2": 23, "y": 24, "y2": 47 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 24, "x2": 47, "y": 24, "y2": 47 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 48, "x2": 71, "y": 24, "y2": 47 }
-      ],
       "items": { "n": { "item": "traveler", "chance": 50 } },
       "place_loot": [
         { "group": "dining", "x": 67, "y": [ 27, 28 ], "chance": 70 },
@@ -979,14 +955,6 @@
       ],
       "palettes": [ "necropolis_a" ],
       "terrain": { "D": "t_floor", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
-      "set": [
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 48, "x2": 71, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 0, "x2": 23, "y": 24, "y2": 47 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 24, "x2": 47, "y": 24, "y2": 47 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 48, "x2": 71, "y": 24, "y2": 47 }
-      ],
       "items": { "n": { "item": "traveler", "chance": 50 } },
       "place_loot": [
         { "group": "dining", "x": [ 56, 57 ], "y": [ 17, 18 ], "chance": 70 },
@@ -1076,14 +1044,6 @@
       ],
       "palettes": [ "necropolis_a" ],
       "terrain": { "Z": "t_floor", "l": "t_floor", "z": "t_floor" },
-      "set": [
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 48, "x2": 71, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 0, "x2": 23, "y": 24, "y2": 47 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 24, "x2": 47, "y": 24, "y2": 47 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 48, "x2": 71, "y": 24, "y2": 47 }
-      ],
       "place_monster": [
         { "group": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
         { "group": "GROUP_NECROPOLIS", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
@@ -1170,14 +1130,6 @@
       ],
       "palettes": [ "necropolis_a" ],
       "terrain": { "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
-      "set": [
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 48, "x2": 71, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 0, "x2": 23, "y": 24, "y2": 47 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 24, "x2": 47, "y": 24, "y2": 47 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 48, "x2": 71, "y": 24, "y2": 47 }
-      ],
       "items": { "r": { "item": "SUS_junk_drawer", "chance": 75 } },
       "place_loot": [
         { "group": "SUS_bathroom_medicine", "x": 59, "y": 10, "chance": 50 },
@@ -1240,14 +1192,6 @@
       ],
       "palettes": [ "necropolis_a" ],
       "terrain": { "D": "t_floor", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
-      "set": [
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 48, "x2": 71, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 0, "x2": 23, "y": 24, "y2": 47 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 24, "x2": 47, "y": 24, "y2": 47 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 48, "x2": 71, "y": 24, "y2": 47 }
-      ],
       "items": {
         "L": { "item": "cleaning", "chance": 50, "repeat": 2 },
         "n": { "item": "dining", "chance": 50 },
@@ -1302,14 +1246,6 @@
       "palettes": [ "necropolis_a" ],
       "terrain": { "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
       "gaspumps": { "&": {  } },
-      "set": [
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 48, "x2": 71, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 0, "x2": 23, "y": 24, "y2": 47 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 24, "x2": 47, "y": 24, "y2": 47 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 48, "x2": 71, "y": 24, "y2": 47 }
-      ],
       "place_loot": [
         { "group": "alcohol", "x": [ 67, 71 ], "y": 19, "chance": 30, "repeat": 3 },
         { "group": "magazines", "x": 67, "y": 12, "chance": 30, "repeat": 3 },
@@ -1360,14 +1296,6 @@
       ],
       "palettes": [ "necropolis_a" ],
       "terrain": { "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
-      "set": [
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 48, "x2": 71, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 0, "x2": 23, "y": 24, "y2": 47 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 24, "x2": 47, "y": 24, "y2": 47 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 48, "x2": 71, "y": 24, "y2": 47 }
-      ],
       "place_vendingmachines": [ { "item_group": "vending_food", "x": 3, "y": 5 }, { "item_group": "vending_drink", "x": 4, "y": 5 } ],
       "items": { "o": { "item": "hardware_books", "chance": 50 } },
       "place_loot": [
