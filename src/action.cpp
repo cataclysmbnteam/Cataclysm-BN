@@ -657,6 +657,16 @@ bool can_interact_at( action_id action, const tripoint &p )
     }
 }
 
+static auto make_register_actions( std::vector<uilist_entry> &entries, const input_context &ctxt )
+{
+    return [&entries, &ctxt]( std::set<action_id> names ) -> void {
+        std::transform( names.begin(), names.end(), std::back_inserter( entries ), [&]( action_id name ) -> uilist_entry
+        {
+            return { name, true, hotkey_for_action( name ), ctxt.get_action_name( action_ident( name ) ) };
+        } );
+    };
+}
+
 action_id handle_action_menu()
 {
     const input_context ctxt = get_default_mode_input_context();
@@ -741,28 +751,23 @@ action_id handle_action_menu()
         std::map<int, std::string> categories_by_int;
         int last_category = NUM_ACTIONS + 1;
 
-        const auto register_action = [&]( action_id name ) -> void {
-            entries.emplace_back( name, true, hotkey_for_action( name ), ctxt.get_action_name( action_ident( name ) ) );
-        };
-
+        const auto register_actions = make_register_actions( entries, ctxt );
         const auto register_category = [&]( const std::string & name ) -> void {
             categories_by_int[last_category] = name;
-            catgname = name;
-            catgname += "…";
-            entries.emplace_back( last_category, true, -1, catgname );
+            entries.emplace_back( last_category, true, -1, name + "…" );
             last_category++;
         };
 
         const auto register_action_if_hotkey_assigned = [&]( action_id action ) {
             if( hotkey_for_action( action ) > -1 ) {
-                register_action( action );
+                register_actions( { action } );
             }
         };
 
         if( category == "back" ) {
             for( const auto &[ action, weight ] : sorted_pairs ) {
                 if( weight >= 200 ) {
-                    register_action( action );
+                    register_actions( { action } );
                 }
             }
 
@@ -774,10 +779,10 @@ action_id handle_action_menu()
             register_category( _( "Info" ) );
             register_category( _( "Misc" ) );
             register_action_if_hotkey_assigned( ACTION_QUICKSAVE );
-            register_action( ACTION_SAVE );
+            register_actions( { ACTION_SAVE } );
             register_action_if_hotkey_assigned( ACTION_QUICKLOAD );
             register_action_if_hotkey_assigned( ACTION_SUICIDE );
-            register_action( ACTION_HELP );
+            register_actions( { ACTION_HELP } );
             if( ( entry = &entries.back() ) ) {
                 // help _is_a menu.
                 entry->txt += "…";
@@ -790,129 +795,78 @@ action_id handle_action_menu()
                 }
             }
         } else if( category == _( "Look" ) ) {
-            register_action( ACTION_LOOK );
-            register_action( ACTION_PEEK );
-            register_action( ACTION_LIST_ITEMS );
-            register_action( ACTION_ZONES );
-            register_action( ACTION_MAP );
-            register_action( ACTION_SKY );
+            register_actions( { ACTION_LOOK, ACTION_PEEK, ACTION_LIST_ITEMS, ACTION_ZONES, ACTION_MAP, ACTION_SKY } );
         } else if( category == _( "Inventory" ) ) {
-            register_action( ACTION_INVENTORY );
-            register_action( ACTION_ADVANCEDINV );
-            register_action( ACTION_SORT_ARMOR );
-            register_action( ACTION_DIR_DROP );
+            register_actions( {ACTION_INVENTORY, ACTION_ADVANCEDINV, ACTION_SORT_ARMOR, ACTION_DIR_DROP } );
 
             // Everything below here can be accessed through
             // the inventory screen, so it's sorted to the
             // end of the list.
-            register_action( ACTION_DROP );
-            register_action( ACTION_COMPARE );
-            register_action( ACTION_ORGANIZE );
-            register_action( ACTION_USE );
-            register_action( ACTION_WEAR );
-            register_action( ACTION_TAKE_OFF );
-            register_action( ACTION_EAT );
-            register_action( ACTION_OPEN_CONSUME );
-            register_action( ACTION_READ );
-            register_action( ACTION_WIELD );
-            register_action( ACTION_UNLOAD );
+            register_actions( {
+                ACTION_DROP, ACTION_COMPARE, ACTION_ORGANIZE, ACTION_USE,
+                ACTION_WEAR, ACTION_TAKE_OFF, ACTION_EAT, ACTION_OPEN_CONSUME,
+                ACTION_READ, ACTION_WIELD, ACTION_UNLOAD
+            } );
         } else if( category == _( "Debug" ) ) {
-            register_action( ACTION_DEBUG );
+            register_actions( { ACTION_DEBUG } );
             if( ( entry = &entries.back() ) ) {
                 // debug _is_a menu.
                 entry->txt += "…";
             }
 #if !defined(TILES)
-            REGISTER_ACTION( ACTION_TOGGLE_FULLSCREEN );
+            register_actions( { ACTION_TOGGLE_FULLSCREEN } );
 #endif
 #if defined(TILES)
-            register_action( ACTION_TOGGLE_PIXEL_MINIMAP );
-            register_action( ACTION_RELOAD_TILESET );
+            register_actions( { ACTION_TOGGLE_PIXEL_MINIMAP, ACTION_RELOAD_TILESET  } );
 #endif // TILES
-            register_action( ACTION_TOGGLE_PANEL_ADM );
-            register_action( ACTION_DISPLAY_SCENT );
-            register_action( ACTION_DISPLAY_SCENT_TYPE );
-            register_action( ACTION_DISPLAY_TEMPERATURE );
-            register_action( ACTION_DISPLAY_VEHICLE_AI );
-            register_action( ACTION_DISPLAY_VISIBILITY );
-            register_action( ACTION_DISPLAY_LIGHTING );
-            register_action( ACTION_DISPLAY_TRANSPARENCY );
-            register_action( ACTION_DISPLAY_RADIATION );
-            register_action( ACTION_DISPLAY_SUBMAP_GRID );
-            register_action( ACTION_TOGGLE_DEBUG_MODE );
+            register_actions( {
+                ACTION_TOGGLE_PANEL_ADM, ACTION_DISPLAY_SCENT, ACTION_DISPLAY_SCENT_TYPE,
+                ACTION_DISPLAY_TEMPERATURE, ACTION_DISPLAY_VEHICLE_AI, ACTION_DISPLAY_VISIBILITY,
+                ACTION_DISPLAY_LIGHTING, ACTION_DISPLAY_TRANSPARENCY, ACTION_DISPLAY_RADIATION,
+                ACTION_DISPLAY_SUBMAP_GRID, ACTION_TOGGLE_DEBUG_MODE
+            } );
         } else if( category == _( "Interact" ) ) {
-            register_action( ACTION_EXAMINE );
-            register_action( ACTION_SMASH );
-            register_action( ACTION_MOVE_DOWN );
-            register_action( ACTION_MOVE_UP );
-            register_action( ACTION_OPEN );
-            register_action( ACTION_CLOSE );
-            register_action( ACTION_CHAT );
-            register_action( ACTION_PICKUP );
-            register_action( ACTION_PICKUP_FEET );
-            register_action( ACTION_GRAB );
-            register_action( ACTION_HAUL );
-            register_action( ACTION_BUTCHER );
-            register_action( ACTION_LOOT );
+            register_actions( {
+                ACTION_EXAMINE, ACTION_SMASH, ACTION_MOVE_DOWN, ACTION_MOVE_UP,
+                ACTION_OPEN, ACTION_CLOSE, ACTION_CHAT, ACTION_PICKUP,
+                ACTION_PICKUP_FEET, ACTION_GRAB, ACTION_HAUL, ACTION_BUTCHER, ACTION_LOOT,
+            } );
         } else if( category == _( "Combat" ) ) {
-            register_action( ACTION_CYCLE_MOVE );
-            register_action( ACTION_RESET_MOVE );
-            register_action( ACTION_TOGGLE_RUN );
-            register_action( ACTION_TOGGLE_CROUCH );
-            register_action( ACTION_OPEN_MOVEMENT );
-            register_action( ACTION_FIRE );
-            register_action( ACTION_RELOAD_ITEM );
-            register_action( ACTION_RELOAD_WEAPON );
-            register_action( ACTION_RELOAD_WIELDED );
-            register_action( ACTION_CAST_SPELL );
-            register_action( ACTION_SELECT_FIRE_MODE );
-            register_action( ACTION_SELECT_DEFAULT_AMMO );
-            register_action( ACTION_THROW );
-            register_action( ACTION_FIRE_BURST );
-            register_action( ACTION_PICK_STYLE );
-            register_action( ACTION_TOGGLE_AUTO_TRAVEL_MODE );
-            register_action( ACTION_TOGGLE_SAFEMODE );
-            register_action( ACTION_TOGGLE_AUTOSAFE );
-            register_action( ACTION_IGNORE_ENEMY );
-            register_action( ACTION_TOGGLE_AUTO_FEATURES );
-            register_action( ACTION_TOGGLE_AUTO_PULP_BUTCHER );
-            register_action( ACTION_TOGGLE_AUTO_MINING );
-            register_action( ACTION_TOGGLE_AUTO_FORAGING );
+            register_actions( {
+                ACTION_CYCLE_MOVE, ACTION_RESET_MOVE, ACTION_TOGGLE_RUN, ACTION_TOGGLE_CROUCH,
+                ACTION_OPEN_MOVEMENT, ACTION_FIRE, ACTION_RELOAD_ITEM, ACTION_RELOAD_WEAPON,
+                ACTION_RELOAD_WIELDED, ACTION_CAST_SPELL, ACTION_SELECT_FIRE_MODE,
+                ACTION_SELECT_DEFAULT_AMMO, ACTION_THROW, ACTION_FIRE_BURST, ACTION_PICK_STYLE,
+                ACTION_TOGGLE_AUTO_TRAVEL_MODE, ACTION_TOGGLE_SAFEMODE, ACTION_TOGGLE_AUTOSAFE,
+                ACTION_IGNORE_ENEMY, ACTION_TOGGLE_AUTO_FEATURES, ACTION_TOGGLE_AUTO_PULP_BUTCHER,
+                ACTION_TOGGLE_AUTO_MINING, ACTION_TOGGLE_AUTO_FORAGING
+            } );
         } else if( category == _( "Craft" ) ) {
-            register_action( ACTION_CRAFT );
-            register_action( ACTION_RECRAFT );
-            register_action( ACTION_LONGCRAFT );
-            register_action( ACTION_CONSTRUCT );
-            register_action( ACTION_DISASSEMBLE );
+            register_actions( {
+                ACTION_CRAFT, ACTION_RECRAFT, ACTION_LONGCRAFT,
+                ACTION_CONSTRUCT, ACTION_DISASSEMBLE
+            } );
         } else if( category == _( "Info" ) ) {
-            register_action( ACTION_PL_INFO );
-            register_action( ACTION_MISSIONS );
-            register_action( ACTION_SCORES );
-            register_action( ACTION_FACTIONS );
-            register_action( ACTION_MORALE );
-            register_action( ACTION_MESSAGES );
-            register_action( ACTION_DIARY );
+            register_actions( {
+                ACTION_PL_INFO, ACTION_MISSIONS, ACTION_SCORES,
+                ACTION_FACTIONS, ACTION_MORALE, ACTION_MESSAGES, ACTION_DIARY
+            } );
         } else if( category == _( "Misc" ) ) {
-            register_action( ACTION_WAIT );
-            register_action( ACTION_SLEEP );
-            register_action( ACTION_BIONICS );
-            register_action( ACTION_MUTATIONS );
-            register_action( ACTION_CONTROL_VEHICLE );
-            register_action( ACTION_ITEMACTION );
-            register_action( ACTION_TOGGLE_THIEF_MODE );
+            register_actions( {
+                ACTION_WAIT, ACTION_SLEEP, ACTION_BIONICS, ACTION_MUTATIONS,
+                ACTION_CONTROL_VEHICLE, ACTION_ITEMACTION, ACTION_TOGGLE_THIEF_MODE
+            } );
 #if defined(TILES)
             if( use_tiles ) {
-                register_action( ACTION_ZOOM_OUT );
-                register_action( ACTION_ZOOM_IN );
+                register_actions( { ACTION_ZOOM_OUT, ACTION_ZOOM_IN } );
             }
 #endif
         }
 
         if( category != "back" ) {
             std::string msg = _( "Back" );
-            msg += "…";
             entries.emplace_back( 2 * NUM_ACTIONS, true,
-                                  hotkey_for_action( ACTION_ACTIONMENU ), msg );
+                                  hotkey_for_action( ACTION_ACTIONMENU ), msg + "…" );
         }
 
         std::string title = _( "Actions" );
@@ -949,24 +903,13 @@ action_id handle_main_menu()
     const input_context ctxt = get_default_mode_input_context();
     std::vector<uilist_entry> entries;
 
-    const auto REGISTER_ACTION = [&]( action_id name ) {
-        entries.emplace_back( name, true, hotkey_for_action( name ),
-                              ctxt.get_action_name( action_ident( name ) ) );
-    };
+    const auto register_actions = make_register_actions( entries, ctxt );
 
-    REGISTER_ACTION( ACTION_HELP );
-    REGISTER_ACTION( ACTION_KEYBINDINGS );
-    REGISTER_ACTION( ACTION_OPTIONS );
-    REGISTER_ACTION( ACTION_AUTOPICKUP );
-    REGISTER_ACTION( ACTION_AUTONOTES );
-    REGISTER_ACTION( ACTION_SAFEMODE );
-    REGISTER_ACTION( ACTION_DISTRACTION_MANAGER );
-    REGISTER_ACTION( ACTION_COLOR );
-    REGISTER_ACTION( ACTION_WORLD_MODS );
-    REGISTER_ACTION( ACTION_ACTIONMENU );
-    REGISTER_ACTION( ACTION_QUICKSAVE );
-    REGISTER_ACTION( ACTION_SAVE );
-    REGISTER_ACTION( ACTION_DEBUG );
+    register_actions( {
+        ACTION_HELP, ACTION_KEYBINDINGS, ACTION_OPTIONS, ACTION_AUTOPICKUP, ACTION_AUTONOTES,
+        ACTION_SAFEMODE, ACTION_DISTRACTION_MANAGER, ACTION_COLOR, ACTION_WORLD_MODS,
+        ACTION_ACTIONMENU, ACTION_QUICKSAVE, ACTION_SAVE, ACTION_DEBUG
+    } );
 
     uilist smenu;
     smenu.settext( _( "MAIN MENU" ) );
@@ -1048,9 +991,11 @@ std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
     return choose_adjacent_highlight( message, failure_message, f, allow_vertical );
 }
 
-std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        const std::string &failure_message, const std::function<bool ( const tripoint & )> &allowed,
-        const bool allow_vertical )
+std::optional<tripoint> choose_adjacent_highlight(
+    const std::string &message,
+    const std::string &failure_message,
+    const std::function < auto( const tripoint & ) -> bool > &allowed,
+    const bool allow_vertical )
 {
     std::vector<tripoint> valid;
     map &here = get_map();
