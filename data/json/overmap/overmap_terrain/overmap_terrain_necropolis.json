@@ -809,8 +809,8 @@
   {
     "type": "overmap_terrain",
     "id": "necropolis_b_2",
-    "name": "solid rock",
-    "sym": "%",
+    "name": "basement",
+    "sym": "O",
     "color": "dark_gray",
     "see_cost": 999,
     "mondensity": 2
@@ -881,8 +881,8 @@
   {
     "type": "overmap_terrain",
     "id": "necropolis_b_10",
-    "name": "solid rock",
-    "sym": "%",
+    "name": "basement",
+    "sym": "O",
     "color": "dark_gray",
     "see_cost": 999,
     "mondensity": 2
@@ -1358,9 +1358,9 @@
   {
     "type": "overmap_terrain",
     "id": "necropolis_b_63",
-    "name": "sewer",
-    "sym": "─",
-    "color": "green",
+    "name": "basement",
+    "sym": "O",
+    "color": "dark_gray",
     "see_cost": 999,
     "mondensity": 2
   },

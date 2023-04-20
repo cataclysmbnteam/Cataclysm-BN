@@ -374,15 +374,15 @@
         ".....|e      | r[   ccccccccccc        cccc|.sss....T.......ss...T......",
         "..#..| EEEEE | r[                         c|.sss............bss.........",
         ".....| EEEEE | r[             cc  cc  ZZ  c|.sss............bss.........",
-        ".....|zzEEEE | r[  rrrrrrrrr   c   c  ZZ  c|.sss............bss.........",
-        ".....|zzEEEE | r[  rrrrrrrrr  6c  6c      cV.sss........T.....ss........",
+        ".....|zYEEEE | r[  rrrrrrrrr   c   c  ZZ  c|.sss............bss.........",
+        ".....|zYEEEE | r[  rrrrrrrrr  6c  6c      cV.sss........T.....ss........",
         "....X| EEEEE | r[                         cV.sss..............ss......T.",
-        ".....|zzEEEzz| r[                         cV.sss.............ssss.......",
-        ".....|zzEEEzz| r[  rrrrrrrrr   ZZ  ZZ  c  c|.sss...T........ssssss......",
+        ".....|zYEEEYz| r[                         cV.sss.............ssss.......",
+        ".....|zYEEEYz| r[  rrrrrrrrr   ZZ  ZZ  c  c|.sss...T........ssssss......",
         ".....| EEEEE + r[  rrrrrrrrr   ZZ  ZZ  c  c|.sss........aAassssssss.....",
-        ".....|zzEEEE |--|                      c {c{.sss........aUasssssssssssss",
-        ".....|zz        +              Z{  ZZ  c  {{.sss........aUasssssssssssss",
-        ".....|6         +  rrrrrrrrr   Z{{ ZZ    {{{{sss........aAassssssss.....",
+        ".....|zYEEEE |--|                      c {c{.sss........aUasssssssssssss",
+        ".....|zz6$      +              Z{  ZZ  c  {{.sss........aUasssssssssssss",
+        ".....|          +  rrrrrrrrr   Z{{ ZZ    {{{{sss........aAassssssss.....",
         ".....|-------|  |  rrrrrrrrr     { {   {{){|.sss...T........ssssss......",
         "...........ss:  |            {{     {{){{{{|.sss.............ssss......T",
         "...........ss|--|        {{  { rr{{{{{{{{{ss.sss..NNNNNNNNNN..ss........",
@@ -396,7 +396,8 @@
         "...........ss|r {{  {{{{sMsssssMsMMsMMMMMMMMMMMMMMMNNNMNNMNNNNNNMss....."
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
+      "terrain": { "%": "t_elevator_control_off", "Y": "t_elevator", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
+      "furniture": { "Y": "f_crate_c" },
       "set": [
         { "square": "radiation", "amount": [ 0, 1 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
         { "square": "radiation", "amount": [ 0, 1 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
@@ -405,7 +406,11 @@
         { "square": "radiation", "amount": [ 0, 1 ], "x": 24, "x2": 47, "y": 24, "y2": 47 },
         { "square": "radiation", "amount": [ 0, 1 ], "x": 48, "x2": 71, "y": 24, "y2": 47 }
       ],
-      "items": { "Z": { "item": "produce", "chance": 50, "repeat": 2 }, "z": { "item": "pantry", "chance": 25, "repeat": 3 } },
+      "items": {
+        "Y": { "item": "pantry", "chance": 25, "repeat": 3 },
+        "Z": { "item": "produce", "chance": 50, "repeat": 2 },
+        "z": { "item": "pantry", "chance": 25, "repeat": 3 }
+      },
       "place_loot": [
         { "group": "groce_frozen", "x": 15, "y": [ 25, 29 ], "chance": 40, "repeat": 4 },
         { "group": "groce_meat", "x": 15, "y": [ 30, 33 ], "chance": 40, "repeat": 2 },
