@@ -753,6 +753,12 @@ action_id handle_action_menu()
             last_category++;
         };
 
+        const auto register_action_if_hotkey_assigned = [&]( action_id action ) {
+            if( hotkey_for_action( action ) > -1 ) {
+                register_action( action );
+            }
+        };
+
         if( category == "back" ) {
             for( const auto &[ action, weight ] : sorted_pairs ) {
                 if( weight >= 200 ) {
@@ -767,16 +773,10 @@ action_id handle_action_menu()
             register_category( _( "Craft" ) );
             register_category( _( "Info" ) );
             register_category( _( "Misc" ) );
-            if( hotkey_for_action( ACTION_QUICKSAVE ) > -1 ) {
-                register_action( ACTION_QUICKSAVE );
-            }
+            register_action_if_hotkey_assigned( ACTION_QUICKSAVE );
             register_action( ACTION_SAVE );
-            if( hotkey_for_action( ACTION_QUICKLOAD ) > -1 ) {
-                register_action( ACTION_QUICKLOAD );
-            }
-            if( hotkey_for_action( ACTION_SUICIDE ) > -1 ) {
-                register_action( ACTION_SUICIDE );
-            }
+            register_action_if_hotkey_assigned( ACTION_QUICKLOAD );
+            register_action_if_hotkey_assigned( ACTION_SUICIDE );
             register_action( ACTION_HELP );
             if( ( entry = &entries.back() ) ) {
                 // help _is_a menu.
