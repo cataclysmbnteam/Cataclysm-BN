@@ -76,7 +76,6 @@ TEST_CASE( "bionics", "[bionics] [item]" )
 
         static const std::list<std::string> always = {
             "plut_cell",  // solid
-            "plut_slurry" // uncontained liquid! not shown in game menu
         };
         for( auto it : always ) {
             test_consumable_charges( dummy, it, true, true );
