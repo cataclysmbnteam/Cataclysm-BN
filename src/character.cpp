@@ -10588,7 +10588,7 @@ void Character::set_underwater( bool x )
 
 void Character::clear_npc_ai_info_cache( npc_ai_info key ) const
 {
-    npc_ai_info_cache.erase( key );
+    npc_ai_info_cache[key] = 0.0;
 }
 
 void Character::set_npc_ai_info_cache( npc_ai_info key, double val ) const

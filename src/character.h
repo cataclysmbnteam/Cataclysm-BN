@@ -97,7 +97,7 @@ enum vision_modes {
     NUM_VISION_MODES
 };
 
-enum class npc_ai_info {
+enum npc_ai_info : size_t {
     weapon_value = 0,
     reloadables,
     reloadable_cbms,
@@ -2248,7 +2248,7 @@ class Character : public Creature, public visitable<Character>
         tripoint cached_position;
         inventory cached_crafting_inventory;
 
-        mutable std::map<npc_ai_info, double> npc_ai_info_cache;
+        mutable std::array<double, npc_ai_info::num_npc_ai_info> npc_ai_info_cache = { 0 };
 
         safe_reference_anchor anchor;
 

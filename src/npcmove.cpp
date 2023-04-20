@@ -1496,7 +1496,7 @@ static bool wants_to_reload_with( const item &weap, const item &ammo )
 
 void npc::check_or_reload_cbm()
 {
-    if( get_npc_ai_info_cache( npc_ai_info::reloadable_cbms ) ) {
+    if( get_npc_ai_info_cache( npc_ai_info::reloadable_cbms ) > 0.0 ) {
         add_msg( m_debug, "Cancelling cbm reload check as cache is not empty." );
         return;
     }
@@ -1517,13 +1517,13 @@ void npc::check_or_reload_cbm()
         }
     }
 
-    set_npc_ai_info_cache( npc_ai_info::reloadable_cbms, 0.0 );
+    set_npc_ai_info_cache( npc_ai_info::reloadable_cbms, 5.0 );
     return;
 }
 
 item &npc::find_reloadable()
 {
-    if( get_npc_ai_info_cache( npc_ai_info::reloadables ) ) {
+    if( get_npc_ai_info_cache( npc_ai_info::reloadables ) > 0.0 ) {
         add_msg( m_debug, "Cancelling reload check as cache is not empty." );
         return null_item_reference();
     }
@@ -1551,7 +1551,7 @@ item &npc::find_reloadable()
         return *reloadable;
     }
 
-    set_npc_ai_info_cache( npc_ai_info::reloadables, 0.0 );
+    set_npc_ai_info_cache( npc_ai_info::reloadables, 5.0 );
     return null_item_reference();
 }
 
