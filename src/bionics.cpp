@@ -1711,7 +1711,7 @@ void Character::process_bionic( bionic &bio )
         if( calendar::once_every( 10_minutes ) ) {
             const units::energy trigger_cost = bio.info().power_trigger;
 
-            if( get_rad() > 0 && bio.energy_stored >= trigger_cost) {
+            if( get_rad() > 0 && bio.energy_stored >= trigger_cost ) {
                 add_msg_if_player( m_good, _( "Your %s completed a scrubbing cycle." ), bio.info().name );
 
                 mod_rad( std::max( -10, -get_rad() ) );

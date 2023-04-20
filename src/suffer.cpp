@@ -1192,7 +1192,7 @@ void Character::suffer_from_radiation()
                 update_fuel_storage( plut_cell );
 
                 mod_power_level( 40_kJ );
-                mod_rad( 2 );
+                mod_rad( 5 );
             }
         }
     }
