@@ -653,14 +653,6 @@
         "..........................|////////////////////////////////////,,,,,////"
       ],
       "palettes": [ "necropolis_b2" ],
-      "set": [
-        { "square": "radiation", "amount": [ 1, 5 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 1, 5 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 1, 5 ], "x": 48, "x2": 71, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 1, 5 ], "x": 0, "x2": 23, "y": 24, "y2": 47 },
-        { "square": "radiation", "amount": [ 1, 5 ], "x": 24, "x2": 47, "y": 24, "y2": 47 },
-        { "square": "radiation", "amount": [ 1, 5 ], "x": 48, "x2": 71, "y": 24, "y2": 47 }
-      ],
       "items": {
         "c": { "item": "SUS_welding_gear", "chance": 50 },
         "o": { "item": "magazines", "chance": 50, "repeat": 3 },
