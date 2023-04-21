@@ -1056,7 +1056,7 @@
       "palettes": [ "necropolis_b1" ],
       "place_monster": [
         { "group": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
-        { "group": "GROUP_NECROPOLIS_SWIMMING", "x": [ 66, 71 ], "y": [ 0, 5 ], "repeat": [ 2, 6 ] }
+        { "group": "GROUP_NECROPOLIS_SWIMMING", "x": [ 66, 71 ], "y": [ 0, 5 ], "repeat": [ 2, 4 ] }
       ]
     },
     "om_terrain": [ [ "necropolis_b_76", "necropolis_b_77", "necropolis_b_78" ] ],
