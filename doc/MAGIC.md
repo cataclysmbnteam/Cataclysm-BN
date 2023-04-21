@@ -114,7 +114,7 @@ However, experience gain is a little more complicated to calculate.  The formula
 
 * "move_earth" - "digs" at the target location. some terrain is not diggable this way.
 
-* "target_attack" - deals damage to a target (ignores walls). Negative damage heals the target.  If "effect_str" is included, it will add that effect (defined elsewhere in json) to the targets if able, to the body parts defined in affected_body_parts.
+* "target_attack" - deals damage to a target (ignores walls).  Negative damage heals the target.  If "effect_str" is included, it will add that effect (defined elsewhere in json) to the targets if able, to the body parts defined in affected_body_parts.
 Any aoe will manifest as a circular area centered on the target, and will only deal damage to valid_targets. (aoe does not ignore walls)
 
 * "projectile_attack" - similar to target_attack, except the projectile you shoot will stop short at impassable terrain.  If "effect_str" is included, it will add that effect (defined elsewhere in json) to the targets if able, to the body parts defined in affected_body_parts.
@@ -123,7 +123,7 @@ Any aoe will manifest as a circular area centered on the target, and will only d
 
 * "line_attack" - fires a line with width aoe toward the target, being blocked by walls on the way.  If "effect_str" is included, it will add that effect (defined elsewhere in json) to the targets if able, to the body parts defined in affected_body_parts.
 
-* "spawn_item" - spawns an item that will disappear at the end of its duration.  Default duration is 0. Damage determines quantity.
+* "spawn_item" - spawns an item that will disappear at the end of its duration.  Default duration is 0.  Damage determines quantity.
 
 * "teleport_random" - teleports the player randomly range spaces with aoe variation
 
