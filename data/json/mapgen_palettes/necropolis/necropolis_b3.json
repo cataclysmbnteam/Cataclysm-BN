@@ -37,7 +37,7 @@
       "!": "t_bars",
       "#": "t_ladder_up",
       "$": "t_machinery_light",
-      "%": "t_machinery_heavy",
+      "%": "t_elevator_control_off",
       "(": "t_machinery_old",
       "*": "t_door_bar_locked",
       "+": "t_door_metal_c",
