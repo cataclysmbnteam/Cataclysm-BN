@@ -10241,6 +10241,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
         else if( m.has_flag( TFLAG_WATER_CUBE, u.pos() ) ) {
             // If you're at this point, you should already be underwater, but force that to be the case.
             if( !u.is_underwater() ) {
+                u.oxygen = 30 + 2 * u.str_cur;
                 u.set_underwater( true );
             }
 

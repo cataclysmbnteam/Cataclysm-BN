@@ -1,7 +1,8 @@
+#include "catch/catch.hpp"
+
 #include <memory>
 
 #include "avatar.h"
-#include "cata_catch.h"
 #include "creature.h"
 #include "game.h"
 #include "map.h"

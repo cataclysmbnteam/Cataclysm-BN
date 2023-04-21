@@ -16,6 +16,7 @@
 #include "item_contents.h"
 #include "itype.h"
 #include "map.h"
+#include "map_helpers.h"
 #include "map_selector.h"
 #include "player.h"
 #include "point.h"
@@ -55,6 +56,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
     p.inv_clear();
     p.remove_primary_weapon();
     p.wear_item( item::spawn( "backpack" ) ); // so we don't drop anything
+    clear_map();
 
     // check if all tiles within radius are loaded within current submap and passable
     const auto suitable = []( const tripoint & pos, const int radius ) {
