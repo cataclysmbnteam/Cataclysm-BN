@@ -1336,7 +1336,10 @@
         { "square": "radiation", "amount": [ 5, 10 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
         { "square": "radiation", "amount": [ 5, 10 ], "x": 48, "x2": 71, "y": 0, "y2": 23 }
       ],
-      "items": { "o": [ { "item": "textbooks", "chance": 25 }, { "item": "manuals", "chance": 25 } ], "r": { "item": "tools_common", "chance": 25, "repeat": 2 } },
+      "items": {
+        "o": [ { "item": "textbooks", "chance": 25 }, { "item": "manuals", "chance": 25 } ],
+        "r": { "item": "tools_common", "chance": 25, "repeat": 2 }
+      },
       "place_monster": [
         { "group": "GROUP_NECROPOLIS_VAULT3", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 2, 5 ] },
         { "group": "GROUP_NECROPOLIS_VAULT3", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 2, 5 ] },
