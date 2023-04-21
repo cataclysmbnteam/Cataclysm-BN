@@ -78,7 +78,6 @@
       "N": "t_metal_floor",
       "O": "t_metal_floor",
       "P": "t_metal_floor",
-      "R": "t_hole",
       "S": "t_metal_floor",
       "U": "t_metal_floor",
       "V": "t_wall_glass",
@@ -111,6 +110,13 @@
       "|": "t_wall_metal",
       "}": "t_manhole_cover",
       "~": "t_metal_floor"
+    },
+    "items": {
+      "@": { "item": "bed", "chance": 25 },
+      "b": { "item": "magazines", "chance": 10 },
+      "k": [ { "item": "office", "chance": 25, "repeat": 2 }, { "item": "necropolis_visitors", "chance": 1 },
+      "o": { "item": "homebooks", "chance": 25 }
+ ]
     }
   }
 ]
