@@ -555,7 +555,7 @@ void character_edit_menu( Character &c )
     // Maybe TODO: this could actually be static if not for translations
     const std::vector<uilist_entry> static_entries = {{
             uilist_entry( edit_character::pick, true, 'p', _( "[p]ick different character" ) ),
-            uilist_entry( edit_character::desc, true, 'D',  _( "Edit [D]escription - Name, Age, Height" ) ),
+            uilist_entry( edit_character::desc, true, 'D',  _( "Edit [D]escription - Name, Age, Height, Gender" ) ),
             uilist_entry( edit_character::skills, true, 's',  _( "Edit [s]kills" ) ),
             uilist_entry( edit_character::stats, true, 't',  _( "Edit s[t]ats" ) ),
             uilist_entry( edit_character::items, true, 'i',  _( "Grant [i]tems" ) ),
@@ -809,6 +809,8 @@ void character_edit_menu( Character &c )
             smenu.addentry( 1, true, 'n', "%s: %s", _( "Current pre-Cataclysm name" ), p.name );
             smenu.addentry( 2, true, 'a', "%s: %d", _( "Current age" ), p.base_age() );
             smenu.addentry( 3, true, 'h', "%s: %d", _( "Current height in cm" ), p.base_height() );
+            smenu.addentry( 4, true, 'h', "%s: %s", _( "Current gender" ),
+                            p.male ? _( "Male" ) : _( "Female" ) );
             smenu.query();
             switch( smenu.ret ) {
                 case 0: {
@@ -857,6 +859,10 @@ void character_edit_menu( Character &c )
                     if( result != 0 ) {
                         p.set_base_height( clamp( result, 145, 200 ) );
                     }
+                }
+                break;
+                case 4: {
+                    p.male = !p.male;
                 }
                 break;
             }
