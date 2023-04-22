@@ -310,7 +310,7 @@
     "type": "mission_definition",
     "name": { "str": "Retrieve Software" },
     "goal": "MGOAL_FIND_ANY_ITEM",
-    "description": "Visit the location this person requested you to visit and <color_light_red>access the terminal their software is store on</color>.  You'll need to bring an <color_light_blue>empty USB drive</color> with you.",
+    "description": "Visit the location this person requested you to visit and <color_light_red>access the terminal their software is stored on</color>.  You'll need to bring an <color_light_blue>empty USB drive</color> with you.",
     "difficulty": 2,
     "value": 80000,
     "place": "near_town",
