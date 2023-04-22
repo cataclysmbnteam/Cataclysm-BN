@@ -34,11 +34,11 @@ jobs:
         with:
           fetch-depth: 1
 
-    - name: Set up JDK 17 (android)
-      uses: actions/setup-java@v3
-      with:
-        java-version: "17"
-        distribution: "adopt"
+      - name: Set up JDK 17 (android)
+        uses: actions/setup-java@v3
+        with:
+          java-version: "17"
+          distribution: "adopt"
 
       - name: Setup build and dependencies
         run: |
