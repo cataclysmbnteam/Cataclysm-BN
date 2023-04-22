@@ -132,8 +132,10 @@
   {
     "name": "GROUP_NECROPOLIS_ROBOT",
     "type": "monstergroup",
-    "default": "mon_chickenbot",
-    "monsters": [ { "monster": "mon_tankbot", "freq": 20, "cost_multiplier": 0 } ]
+    "monsters": [
+      { "monster": "mon_chickenbot", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_tankbot", "freq": 20, "cost_multiplier": 0 }
+    ]
   },
   {
     "type": "monstergroup",
