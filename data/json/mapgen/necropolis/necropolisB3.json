@@ -182,10 +182,7 @@
         { "square": "radiation", "amount": [ 5, 10 ], "x": 24, "x2": 47, "y": 24, "y2": 47 },
         { "square": "radiation", "amount": [ 5, 10 ], "x": 48, "x2": 71, "y": 24, "y2": 47 }
       ],
-      "items": {
-        "1": { "item": "lab_torso", "chance": 25 },
-        "L": { "item": "traveler", "chance": 25 }
-      },
+      "items": { "1": { "item": "lab_torso", "chance": 25 }, "L": { "item": "traveler", "chance": 25 } },
       "place_loot": [
         { "group": "surgery", "x": 58, "y": 18, "chance": 60 },
         { "group": "surgery", "x": 63, "y": [ 17, 18 ], "chance": 60 },
@@ -286,9 +283,7 @@
         "C": { "item": "hospital_incubator", "chance": 50 },
         "L": { "item": "traveler", "chance": 25 }
       },
-      "place_items": [
-        { "item": "hospital_incubator", "x": [ 0, 0 ], "y": [ 14, 17 ], "chance": 70 }
-      ],
+      "place_items": [ { "item": "hospital_incubator", "x": [ 0, 0 ], "y": [ 14, 17 ], "chance": 70 } ],
       "place_monster": [
         { "group": "GROUP_NECROPOLIS_VAULT3", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 2, 5 ] },
         { "group": "GROUP_NECROPOLIS_VAULT3", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 2, 5 ] },
@@ -651,9 +646,17 @@
       "items": {
         "1": { "item": "allclothes", "chance": 25 },
         "L": { "item": "traveler", "chance": 25 },
-        "R": [ { "item": "lab_torso", "chance": 25 }, { "item": "lab_pants", "chance": 25 }, { "item": "tools_tailor", "chance": 25 } ],
+        "R": [
+          { "item": "lab_torso", "chance": 25 },
+          { "item": "lab_pants", "chance": 25 },
+          { "item": "tools_tailor", "chance": 25 }
+        ],
         "c": { "item": "bedroom", "chance": 15 },
-        "r": [ { "item": "electronics", "chance": 25 }, { "item": "tools_mechanic", "chance": 25 }, { "item": "tools_lighting_industrial", "chance": 25 } ]
+        "r": [
+          { "item": "electronics", "chance": 25 },
+          { "item": "tools_mechanic", "chance": 25 },
+          { "item": "tools_lighting_industrial", "chance": 25 }
+        ]
       },
       "place_monster": [
         { "group": "GROUP_NECROPOLIS_VAULT3", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
@@ -744,7 +747,7 @@
       ],
       "items": {
         "L": { "item": "traveler", "chance": 25 },
-        "C": [ { "item": "consumer_electronics", "chance": 15 }, { "item": "allclothes", "chance": 25 } ]
+        "C": [ { "item": "consumer_electronics", "chance": 15 }, { "item": "allclothes", "chance": 25 } ],
         "R": [ { "item": "kitchen", "chance": 25 }, { "item": "MRE", "chance": 10 } ],
         "c": { "item": "bedroom", "chance": 15 },
         "r": [ { "item": "sports", "chance": 25 }, { "item": "camping", "chance": 15 } ]
@@ -835,7 +838,10 @@
         { "square": "radiation", "amount": [ 5, 10 ], "x": 24, "x2": 47, "y": 24, "y2": 47 },
         { "square": "radiation", "amount": [ 5, 10 ], "x": 48, "x2": 71, "y": 24, "y2": 47 }
       ],
-      "items": { "L": { "item": "traveler", "chance": 25 }, "r": { "item": "traveler", "chance": 25 } },
+      "items": {
+        "L": { "item": "traveler", "chance": 25 },
+        "r": [ { "item": "kitchen", "chance": 25 }, { "item": "MRE", "chance": 10 } ]
+      },
       "place_monster": [
         { "group": "GROUP_NECROPOLIS_VAULT3", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 4, 7 ] },
         { "group": "GROUP_NECROPOLIS_VAULT3", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 4, 7 ] },
@@ -925,7 +931,7 @@
       "items": {
         "L": { "item": "traveler", "chance": 25 },
         "c": { "item": "bedroom", "chance": 15 },
-        "r": { "item": "traveler", "chance": 25 }
+        "r": { "item": "allclothes", "chance": 25 }
       },
       "place_monster": [
         { "group": "GROUP_NECROPOLIS_VAULT3", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 3, 6 ] },
@@ -961,7 +967,7 @@
         "....|    [      [    |...........|t|cL|   |Lc|t|........|    |.|c      G",
         "....|t|cL|      |@@|S|...........|    [   [    |........|    |.|c       ",
         "|---|-|--|      |--|-|---|---|---|S|@@|   |@@|S|........|    |.|c       ",
-        "|t S|S|@@|      |Lc|t|t S|t S|t S|-|--|   |----|........|    |.|ccrcOOOc",
+        "|t S|S|@@|      |Lc|t|t S|t S|t S|-|--|   |----|........|    |.|ccRcOOOc",
         "|- -|    [      [    |- -|- -|- -|t|cL|   |Lc|t|........|    |.|--------",
         "|c @|t|cL|      |@@|S|c @|c @|c @|    [   [    |........|    |..........",
         "|L @|-|--|      |--|-|L @|L @|L @|S|@@|   |@@|S|.......||    |...|------",
@@ -1004,7 +1010,8 @@
         "|   |-|.......................|------|   |.|rrrrr8///__6///$$/,       Vk"
       ],
       "palettes": [ "necropolis_b3" ],
-      "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate" },
+      "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "R": "t_metal_floor", "X": "t_grate" },
+      "furniture": { "R": "f_rack" },
       "set": [
         { "square": "radiation", "amount": [ 5, 10 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
         { "square": "radiation", "amount": [ 5, 10 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
@@ -1013,7 +1020,11 @@
         { "square": "radiation", "amount": [ 5, 10 ], "x": 24, "x2": 47, "y": 24, "y2": 47 },
         { "square": "radiation", "amount": [ 5, 10 ], "x": 48, "x2": 71, "y": 24, "y2": 47 }
       ],
-      "item": { "n": [ { "item": "water_clean", "chance": 20 } ] },
+      "items": {
+        "R": [ { "item": "kitchen", "chance": 25 }, { "item": "MRE", "chance": 10 } ],
+        "n": { "item": "office", "chance": 10 },
+        "r": [ { "item": "tools_construction", "chance": 25 }, { "item": "acetylene_production", "chance": 10 } ]
+      },
       "place_monster": [
         { "group": "GROUP_NECROPOLIS_VAULT3", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 4, 8 ] },
         { "group": "GROUP_NECROPOLIS_VAULT3", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 4, 8 ] },
@@ -1041,14 +1052,14 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "                      cc    |-|    |.|t +  [ @|@@|@@|@@|@@|@@|@@|  + t|.",
-        " ccSccc      cffffS   OO   c|.|    |.|--|  |--|--|--|--|--|--|--|  |--|.",
-        " crrccc      cffffc   OO   c|.|    |.|t +  [ @|@@|@@|@@|@@|@@|@@|  + t|.",
-        "                      cc   S|.|    |.|--|  |L@| L| L| L|L |L |L |  |--|.",
-        "                    G      c|.|    |.|@ [  |--|[-|[-|[-|-[|-[|-[|  [ @|.",
-        "                           c|.|    |.|@L|                          |L@|.",
-        "                           c|.|    |.|--|                          |--|.",
-        "ccOOOcccOOOcccrrrr      crcc|.|    |.|@ [  |--|[-|[-|  |-[|-[|-[|  [ @|.",
+        "                      CC    |-|    |.|t +  [ @|@@|@@|@@|@@|@@|@@|  + t|.",
+        " ccSccc      cffffS   OO   C|.|    |.|--|  |--|--|--|--|--|--|--|  |--|.",
+        " crrccc      cffffc   OO   C|.|    |.|t +  [ @|@@|@@|@@|@@|@@|@@|  + t|.",
+        "                      CC   S|.|    |.|--|  |L@| L| L| L|L |L |L |  |--|.",
+        "                    G      C|.|    |.|@ [  |--|[-|[-|[-|-[|-[|-[|  [ @|.",
+        "                           C|.|    |.|@L|                          |L@|.",
+        "                           C|.|    |.|--|                          |--|.",
+        "CCOOOCCCOOOCCCrrrr      CrCC|.|    |.|@ [  |--|[-|[-|  |-[|-[|-[|  [ @|.",
         "-------------------|  |-----|.|    |.|@L|  [ @| L| L|  |L |L |L |  |L@|.",
         "...................|++|.......|    |.|--|  |L@|@@|@@|  |@@|@@|@@|  |--|.",
         "-------------------|  |---|...|    |.|t +  |--|--|--|  |--|--|--|  + t|.",
@@ -1083,16 +1094,16 @@
         "k |....|    |.|                           |....|t|t|t|t|t|t|....|  |....",
         "h |....|    |.|                           |....| | | | | | |....|  |....",
         "  |.|--|    |.|             G             |----|+|+|+|+|+|+|----|  |....",
-        " o|.|E%|    |.|   ,,,,,,,,,,,,,,,,,,,,,   |cScS|           |ScSc|  X....",
+        " o|.|E%|    |.|   ,,,,,,,,,,,,,,,,,,,,,   |CSCS|           |SCSC|  X....",
         "--|.|EE=    |.|b  ,    ,  , 7 ,  ,    ,  b|                     |  XX-|.",
         " o|.|EE=    |.|b  ,    ,  ,   ,  ,    ,  b|                     |   XX|.",
-        "  |.|--|    |.|b  ,    ,  ,,,,,  ,    ,  b|  |-|L          |-|  |   X...",
-        "h |.|EE=    |.|b  ,    ,         ,    ,  b|  |.|L b L|L b L|.|  |   XX..",
-        "6 |.|EE=    |.|b  ,    ,         ,    ,  b|  |.|L b L|L b L|.|  |  X..|."
+        "  |.|--|    |.|b  ,    ,  ,,,,,  ,    ,  b|  |-|1          |-|  |   X...",
+        "h |.|EE=    |.|b  ,    ,         ,    ,  b|  |.|1 b 1|1 b 1|.|  |   XX..",
+        "6 |.|EE=    |.|b  ,    ,         ,    ,  b|  |.|1 b 1|1 b 1|.|  |  X..|."
       ],
       "palettes": [ "necropolis_b3" ],
-      "terrain": { "1": "t_metal_floor", "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate" },
-      "furniture": { "1": "f_locker" },
+      "terrain": { "1": "t_metal_floor", "2": "t_sewage_pipe", "7": "t_chainfence_h", "C": "t_metal_floor", "X": "t_grate" },
+      "furniture": { "1": "f_locker", "C": "f_counter" },
       "set": [
         { "square": "radiation", "amount": [ 25, 50 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
         { "square": "radiation", "amount": [ 25, 50 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
@@ -1101,8 +1112,12 @@
         { "square": "radiation", "amount": [ 25, 50 ], "x": 24, "x2": 47, "y": 24, "y2": 47 },
         { "square": "radiation", "amount": [ 25, 50 ], "x": 48, "x2": 71, "y": 24, "y2": 47 }
       ],
-      "items": { "1": { "item": "sports", "chance": 50 }, "L": { "item": "sports", "chance": 60 }, "c": { "item": "beauty", "chance": 20 } },
-      "item": { "n": [ { "item": "water_clean", "chance": 20 } ] },
+      "items": {
+        "1": { "item": "sports", "chance": 50 },
+        "L": { "item": "traveler", "chance": 25 },
+        "c": { "item": "beauty", "chance": 25 },
+        "n": { "item": "office", "chance": 10 }
+      },
       "place_monster": [
         { "group": "GROUP_NECROPOLIS_VAULT3", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 2, 5 ] },
         { "group": "GROUP_NECROPOLIS_VAULT3", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 2, 5 ] },
@@ -1162,7 +1177,11 @@
         { "square": "radiation", "amount": [ 5, 10 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
         { "square": "radiation", "amount": [ 5, 10 ], "x": 48, "x2": 71, "y": 0, "y2": 23 }
       ],
-      "items": { "o": [ { "item": "textbooks", "chance": 25 }, { "item": "manuals", "chance": 25 } ] },
+      "items": {
+        "L": { "item": "traveler", "chance": 25 },
+        "o": [ { "item": "textbooks", "chance": 25 }, { "item": "manuals", "chance": 25 } ],
+        "r": { "item": "allclothes", "chance": 25 }
+      },
       "place_monster": [
         { "group": "GROUP_NECROPOLIS_VAULT3", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
         { "group": "GROUP_NECROPOLIS_VAULT3", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
@@ -1267,7 +1286,7 @@
         { "square": "radiation", "amount": [ 5, 10 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
         { "square": "radiation", "amount": [ 5, 10 ], "x": 48, "x2": 71, "y": 0, "y2": 23 }
       ],
-      "items": { "L": { "item": "sports", "chance": 50 } },
+      "items": { "L": { "item": "sports", "chance": 50 }, "r": { "item": "tools_common", "chance": 25, "repeat": 2 } },
       "place_vendingmachines": [ { "item_group": "vending_food", "x": 3, "y": 67 }, { "item_group": "vending_drink", "x": 5, "y": 67 } ],
       "place_monster": [
         { "group": "GROUP_NECROPOLIS_VAULT3", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 2, 5 ] },
