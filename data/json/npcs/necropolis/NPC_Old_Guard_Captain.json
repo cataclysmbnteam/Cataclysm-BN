@@ -61,12 +61,22 @@
       {
         "text": "About the mission…",
         "topic": "TALK_MISSION_INQUIRE",
-        "condition": { "and": [ "has_assigned_mission", { "u_has_var": "npc_necro_gave_clearance", "value": "yes", "type": "dialogue", "context": "necropolis" } ] }
+        "condition": {
+          "and": [
+            "has_assigned_mission",
+            { "u_has_var": "npc_necro_gave_clearance", "value": "yes", "type": "dialogue", "context": "necropolis" }
+          ]
+        }
       },
       {
         "text": "About one of those missions…",
         "topic": "TALK_MISSION_LIST_ASSIGNED",
-        "condition": { "and": [ "has_many_assigned_missions", { "u_has_var": "npc_necro_gave_clearance", "value": "yes", "type": "dialogue", "context": "necropolis" } ] }
+        "condition": {
+          "and": [
+            "has_many_assigned_missions",
+            { "u_has_var": "npc_necro_gave_clearance", "value": "yes", "type": "dialogue", "context": "necropolis" }
+          ]
+        }
       },
       { "text": "I've got to go…", "topic": "TALK_DONE" }
     ]
