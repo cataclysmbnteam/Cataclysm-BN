@@ -431,12 +431,13 @@ inline static void rcdrive( point d )
         sounds::sound( dest, 7, sounds::sound_t::combat,
                        _( "sound of a collision with an obstacle." ), true, "misc", "rc_car_hits_obstacle" );
         return;
-    } else if( !here.add_item_or_charges( dest, *rc_car ).is_null() ) {
+    } else {
         tripoint src( c );
+        detached_ptr<item> det_car = here.i_rem( src, rc_car );
+        here.add_item_or_charges( dest, std::move( det_car ) );
         //~ Sound of moving a remote controlled car
         sounds::sound( src, 6, sounds::sound_t::movement, _( "zzz…" ), true, "misc", "rc_car_drives" );
         u.moves -= 50;
-        here.i_rem( src, rc_car );
 
         u.set_value( "remote_controlling", serialize_wrapper( [&]( JsonOut & jo ) {
             dest.serialize( jo );
@@ -765,8 +766,8 @@ static void smash()
 
     if( should_pulp ) {
         // do activity forever. ACT_PULP stops itself
-        u.assign_activity( ACT_PULP, calendar::INDEFINITELY_LONG, 0 );
-        u.activity.placement = here.getabs( smashp );
+        u.assign_activity( std::make_unique<player_activity>( ACT_PULP, calendar::INDEFINITELY_LONG, 0 ) );
+        u.activity->placement = here.getabs( smashp );
         return; // don't smash terrain if we've smashed a corpse
     }
 
@@ -800,7 +801,6 @@ static void smash()
                                    static_cast<int>( vol * .5 ) ) ) );
                 }
                 u.remove_weapon();
-                weapon.destroy();
                 u.check_dead_state();
             }
         }
@@ -1000,9 +1000,8 @@ static void wait()
             actType = ACT_WAIT;
         }
 
-        player_activity new_act( actType, 100 * ( to_turns<int>( time_to_wait ) ), 0 );
-
-        u.assign_activity( new_act, false );
+        u.assign_activity( std::make_unique<player_activity>( actType,
+                           100 * ( to_turns<int>( time_to_wait ) ), 0 ), false );
     }
 }
 
@@ -1471,14 +1470,15 @@ static void cast_spell()
         return;
     }
 
-    player_activity cast_spell( ACT_SPELLCASTING, sp.casting_time( u ) );
+    std::unique_ptr<player_activity> cast_spell = std::make_unique<player_activity>( ACT_SPELLCASTING,
+            sp.casting_time( u ) );
     // [0] this is used as a spell level override for items casting spells
-    cast_spell.values.emplace_back( -1 );
+    cast_spell->values.emplace_back( -1 );
     // [1] if this value is 1, the spell never fails
-    cast_spell.values.emplace_back( 0 );
+    cast_spell->values.emplace_back( 0 );
     // [2] this value overrides the mana cost if set to 0
-    cast_spell.values.emplace_back( 1 );
-    cast_spell.name = sp.id().c_str();
+    cast_spell->values.emplace_back( 1 );
+    cast_spell->name = sp.id().c_str();
     if( u.magic->casting_ignore ) {
         const std::vector<distraction_type> ignored_distractions = {
             distraction_type::alert,
@@ -1492,10 +1492,11 @@ static void cast_spell()
             distraction_type::weather_change
         };
         for( const distraction_type ignored : ignored_distractions ) {
-            cast_spell.ignore_distraction( ignored );
+            cast_spell->ignore_distraction( ignored );
         }
     }
-    u.assign_activity( cast_spell, false );
+    u.assign_activity( std::move( cast_spell ),
+                       false );
 }
 
 void game::open_consume_item_menu()

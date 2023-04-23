@@ -59,7 +59,11 @@ static const std::string flag_LIQUID( "LIQUID" );
 static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
 {
     const auto &proj = attack.proj;
-    item &drop_item = proj.get_drop();
+    detached_ptr<item> drop = proj.get_drop();
+    if( !drop ) {
+        return;
+    }
+    item &drop_item = *drop;
     if( drop_item.is_null() ) {
         return;
     }
@@ -118,7 +122,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
     }
 
     if( embed ) {
-        mon->add_item( drop_item );
+        mon->add_item( std::move( drop ) );
         if( g->u.sees( *mon ) ) {
             add_msg( _( "The %1$s embeds in %2$s!" ), drop_item.tname(), mon->disp_name() );
         }
@@ -139,7 +143,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
 
         map &here = get_map();
         if( do_drop ) {
-            here.add_item_or_charges( attack.end_point, drop_item );
+            here.add_item_or_charges( attack.end_point, std::move( drop ) );
         }
 
         if( proj.has_effect( ammo_effect_HEAVY_HIT ) ) {

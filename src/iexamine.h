@@ -116,15 +116,15 @@ void dimensional_portal( player &p, const tripoint &examp );
 void check_power( player &p, const tripoint &examp );
 void migo_nerve_cluster( player &p, const tripoint &examp );
 
-detached_ptr<item> pour_into_keg( const tripoint &pos, detached_ptr<item> &&liquid, int charges );
+detached_ptr<item> pour_into_keg( const tripoint &pos, detached_ptr<item> &&liquid );
 cata::optional<tripoint> getGasPumpByNumber( const tripoint &p, int number );
 bool toPumpFuel( const tripoint &src, const tripoint &dst, int units );
 cata::optional<tripoint> getNearFilledGasTank( const tripoint &center, int &gas_units );
 
 bool has_keg( const tripoint &pos );
 
-ItemList get_harvest_items( const itype &type, int plant_count,
-                            int seed_count, bool byproducts );
+std::vector<detached_ptr<item>> get_harvest_items( const itype &type, int plant_count,
+                             int seed_count, bool byproducts );
 
 // Planting functions
 std::vector<seed_tuple> get_seed_entries( const std::vector<item *> &seed_inv );

@@ -213,13 +213,15 @@ class player : public Character
         select_item_component( const std::vector<item_comp> &components,
                                int batch, inventory &map_inv, bool can_cancel = false,
                                const std::function<bool( const item & )> &filter = return_true<item>, bool player_inv = true );
-        ItemList consume_items( const comp_selection<item_comp> &is, int batch,
-                                const std::function<bool( const item & )> &filter = return_true<item> );
-        ItemList consume_items( map &m, const comp_selection<item_comp> &is, int batch,
-                                const std::function<bool( const item & )> &filter = return_true<item>,
-                                const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE );
-        ItemList consume_items( const std::vector<item_comp> &components, int batch = 1,
-                                const std::function<bool( const item & )> &filter = return_true<item> );
+        std::vector<detached_ptr<item>> consume_items( const comp_selection<item_comp> &is, int batch,
+                                     const std::function<bool( const item & )> &filter = return_true<item> );
+        std::vector<detached_ptr<item>> consume_items( map &m, const comp_selection<item_comp> &is,
+                                     int batch,
+                                     const std::function<bool( const item & )> &filter = return_true<item>,
+                                     const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE );
+        std::vector<detached_ptr<item>> consume_items( const std::vector<item_comp> &components,
+                                     int batch = 1,
+                                     const std::function<bool( const item & )> &filter = return_true<item> );
         /** Consume tools for the next multiplier * 5% progress of the craft */
         bool craft_consume_tools( item &craft, int mulitplier, bool start_craft );
         void consume_tools( const comp_selection<tool_comp> &tool, int batch );

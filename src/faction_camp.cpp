@@ -2263,8 +2263,8 @@ void basecamp::start_crafting( const std::string &cur_id, point cur_dir,
                                       making.required_skills );
         if( comp != nullptr ) {
             components.consume_components();
-            for( item *&results : making.create_results( batch_size ) ) {
-                comp->companion_mission_inv.add_item( *results );
+            for( detached_ptr<item> &results : making.create_results( batch_size ) ) {
+                comp->companion_mission_inv.add_item( std::move( results ) );
             }
         }
         return;
@@ -2331,16 +2331,16 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
                         }
                         item *tmp_seed = seed_inv.back();
                         seed_inv.pop_back();
-                        ItemList used_seed;
+                        std::vector<detached_ptr<item>> used_seed;
                         if( tmp_seed->count_by_charges() ) {
-                            used_seed.push_back( tmp_seed );
+                            used_seed.push_back( item::spawn( *tmp_seed ) );
                             tmp_seed->charges -= 1;
                             if( tmp_seed->charges > 0 ) {
                                 seed_inv.push_back( tmp_seed );
                             }
                         }
                         used_seed.front()->set_age( 0_turns );
-                        farm_map.add_item_or_charges( pos, *used_seed.front() );
+                        farm_map.add_item_or_charges( pos, std::move( used_seed.front() ) );
                         farm_map.set( pos, t_dirt, f_plant_seed );
                     }
                 }
@@ -2363,7 +2363,7 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
                             int seed_cnt = std::max( 1, rng( plant_cnt / 4, plant_cnt / 2 ) );
                             for( auto &i : iexamine::get_harvest_items( *( *seed )->type, plant_cnt,
                                     seed_cnt, true ) ) {
-                                here.add_item_or_charges( g->u.pos(), *i );
+                                here.add_item_or_charges( g->u.pos(), std::move( i ) );
                             }
                             farm_map.i_clear( pos );
                             farm_map.furn_set( pos, f_null );
@@ -2470,9 +2470,9 @@ bool basecamp::start_garage_chop( point dir, const tripoint_abs_omt &omt_tgt )
     for( int prt = 0; prt < car->part_count(); prt++ ) {
         vehicle_stack contents = car->get_items( prt );
         for( auto iter = contents.begin(); iter != contents.end(); ) {
-            comp->companion_mission_inv.add_item( **iter );
-            //TODO!: check
-            iter = contents.erase( iter );
+            detached_ptr<item> it;
+            iter = contents.erase( iter, &it );
+            comp->companion_mission_inv.add_item( std::move( it ) );
         }
         bool broken = car->part( prt ).is_broken();
         bool skill_break = false;
@@ -2504,8 +2504,8 @@ bool basecamp::start_garage_chop( point dir, const tripoint_abs_omt &omt_tgt )
             }
             comp->companion_mission_inv.add_item( car->part( prt ).properties_to_item() );
         } else if( !skill_destroy ) {
-            for( item *&itm : car->part( prt ).pieces_for_broken_part() ) {
-                comp->companion_mission_inv.add_item( *itm );
+            for( detached_ptr<item> &itm : car->part( prt ).pieces_for_broken_part() ) {
+                comp->companion_mission_inv.add_item( std::move( itm ) );
             }
         }
     }
@@ -2548,11 +2548,9 @@ void basecamp::finish_return( npc &comp, const bool fixed_time, const std::strin
     comp.companion_mission_time = calendar::before_time_starts;
     comp.companion_mission_time_ret = calendar::before_time_starts;
     if( !cancel ) {
-        for( size_t i = 0; i < comp.companion_mission_inv.size(); i++ ) {
-            for( const auto &it : comp.companion_mission_inv.const_stack( i ) ) {
-                if( !it->count_by_charges() || it->charges > 0 ) {
-                    place_results( *it );
-                }
+        for( detached_ptr<item> &it : comp.companion_mission_inv.dump_remove( ) ) {
+            if( !it->count_by_charges() || it->charges > 0 ) {
+                place_results( std::move( it ) );
             }
         }
     }
@@ -2981,11 +2979,10 @@ bool basecamp::farm_return( const std::string &task, const tripoint_abs_omt &omt
     farm_action( omt_tgt, op, comp );
 
     //Give any seeds the NPC didn't use back to you.
-    for( size_t i = 0; i < comp->companion_mission_inv.size(); i++ ) {
-        for( const auto &it : comp->companion_mission_inv.const_stack( i ) ) {
-            if( it->charges > 0 ) {
-                g->u.i_add( *it );
-            }
+
+    for( detached_ptr<item> &it : comp->companion_mission_inv.dump_remove() ) {
+        if( it->charges > 0 ) {
+            g->u.i_add( std::move( it ) );
         }
     }
     finish_return( *comp, true, msg, "survival", 2 );
@@ -3064,9 +3061,9 @@ void basecamp::search_results( int skill, const item_group_id &group_id, int att
 {
     for( int i = 0; i < attempts; i++ ) {
         if( skill > rng( 0, difficulty ) ) {
-            auto result = item_group::item_from( group_id, calendar::turn );
-            if( result != nullptr ) {
-                place_results( *result );
+            detached_ptr<item> result  = item_group::item_from( group_id, calendar::turn );
+            if( result && !result->is_null() ) {
+                place_results( std::move( result ) );
             }
         }
     }
@@ -3116,9 +3113,9 @@ void basecamp::hunting_results( int skill, const std::string &task, int attempts
     for( int i = 0; i < attempts; i++ ) {
         if( skill > rng( 0, difficulty ) ) {
             const mtype_id *target = hunting_targets.pick();
-            item &result = item::make_corpse( *target, calendar::turn, "" );
-            if( !result.is_null() ) {
-                place_results( result );
+            detached_ptr<item> result = item::make_corpse( *target, calendar::turn, "" );
+            if( result && !result->is_null() ) {
+                place_results( std::move( result ) );
             }
         }
     }
@@ -3149,9 +3146,9 @@ int om_harvest_furn( npc &comp, const tripoint &omt_tgt, const furn_id &f, int c
                 continue;
             }
             if( bring_back ) {
-                for( item *&itm : item_group::items_from( furn_tgt.bash.drop_group,
+                for( detached_ptr<item> &itm : item_group::items_from( furn_tgt.bash.drop_group,
                         calendar::turn ) ) {
-                    comp.companion_mission_inv.push_back( *itm );
+                    comp.companion_mission_inv.push_back( std::move( itm ) );
                 }
                 harvested++;
             }
@@ -3192,9 +3189,9 @@ int om_harvest_ter( npc &comp, const tripoint_abs_omt &omt_tgt, const ter_id &t,
                 continue;
             }
             if( bring_back ) {
-                for( item *&itm : item_group::items_from( ter_tgt.bash.drop_group,
+                for( detached_ptr<item> &itm : item_group::items_from( ter_tgt.bash.drop_group,
                         calendar::turn ) ) {
-                    comp.companion_mission_inv.push_back( *itm );
+                    comp.companion_mission_inv.push_back( std::move( itm ) );
                 }
                 harvested++;
                 target_bay.ter_set( p, ter_tgt.bash.ter_set );
@@ -3288,7 +3285,7 @@ mass_volume om_harvest_itm( npc_ptr comp, const tripoint_abs_omt &omt_tgt, int c
             total_num += 1;
             if( take && x_in_y( chance, 100 ) ) {
                 if( comp ) {
-                    comp->companion_mission_inv.push_back( *i );
+                    comp->companion_mission_inv.push_back( item::spawn( *i ) );
                 }
                 harvested_m += i->weight( true );
                 harvested_v += i->volume( true );
@@ -3449,12 +3446,11 @@ bool om_set_hide_site( npc &comp, const tripoint_abs_omt &omt_tgt,
     target_bay.load( project_to<coords::sm>( omt_tgt ), false );
     target_bay.ter_set( point( 11, 10 ), t_improvised_shelter );
     for( auto i : itms_rem ) {
-        comp.companion_mission_inv.add_item( *i );
-        target_bay.i_rem( point( 11, 10 ), i );
+        comp.companion_mission_inv.add_item( target_bay.i_rem( point( 11, 10 ), i ) );
     }
     for( auto i : itms ) {
-        target_bay.add_item_or_charges( point( 11, 10 ), *i );
-        g->u.use_amount( i->typeId(), 1 );
+        std::vector<detached_ptr<item>> res = g->u.use_amount( i->typeId(), 1 );
+        target_bay.add_item_or_charges( point( 11, 10 ), std::move( res.front() ) );
     }
     target_bay.save();
 
@@ -3517,7 +3513,7 @@ int om_carry_weight_to_trips( const std::vector<item *> &itms, npc_ptr comp )
     }
     units::mass max_m = comp ? comp->weight_capacity() - comp->weight_carried() : 30_kilogram;
     //Assume an additional pack will be carried in addition to normal gear
-    units::volume sack_v = item_spawn_temporary( itype_id( "makeshift_sling" ) )->get_storage();
+    units::volume sack_v = item::spawn_temporary( itype_id( "makeshift_sling" ) )->get_storage();
     units::volume max_v = comp ? comp->volume_capacity() - comp->volume_carried() : sack_v;
     max_v += sack_v;
     return om_carry_weight_to_trips( total_m, total_v, max_m, max_v );
@@ -3839,7 +3835,7 @@ std::string camp_car_description( vehicle *car )
     for( auto &fuel : fuels ) {
         std::string fuel_entry = string_format( "%d/%d", car->fuel_left( fuel.first ),
                                                 car->fuel_capacity( fuel.first ) );
-        item *fuel_it = item_spawn_temporary( fuel.first );
+        item *fuel_it = item::spawn_temporary( fuel.first );
         entry += string_format( ">%s:%s\n", fuel_it->tname(),
                                 right_justify( fuel_entry, 33 - utf8_width( fuel_it->tname() ) ) );
     }
@@ -3916,11 +3912,11 @@ bool basecamp::distribute_food()
     const double slow_rot_coeff = 0.8 + ( has_provides( "pantry" ) ? 0.05 : 0 );
 
     int total = 0;
-    std::vector<item *> keep_me;
     for( const tripoint &p_food_stock_abs : z_food ) {
         const tripoint p_food_stock = here.getlocal( p_food_stock_abs );
         map_stack initial_items = here.i_at( p_food_stock );
-        for( item * const &i : initial_items ) {
+        for( auto it = initial_items.begin(); it != initial_items.end(); ) {
+            item *i = *it;
             const bool is_contained_food = i->is_container() && i->get_contained().is_food();
             const item &innermost_item = is_contained_food ? i->get_contained() : *i;
 
@@ -3929,7 +3925,7 @@ bool basecamp::distribute_food()
                                         && innermost_item.get_comestible_fun() >= -6;
 
             if( !would_npcs_eat ) {
-                keep_me.push_back( i );
+                it++;
                 continue;
             }
 
@@ -3956,14 +3952,11 @@ bool basecamp::distribute_food()
             if( i->is_container() ) {
                 i->contents.clear_items();
                 i->on_contents_changed();
-                keep_me.push_back( i );
+                it++;
+            } else {
+                it = initial_items.erase( it );
             }
         }
-        here.i_clear( p_food_stock );
-        for( item * const &i : keep_me ) {
-            here.add_item_or_charges( p_food_stock, *i, false );
-        }
-        keep_me.clear();
     }
 
     popup( _( "You distribute %d kcal worth of food to your companions." ), total );
@@ -3986,13 +3979,13 @@ int camp_morale( int change )
     return yours->likes_u;
 }
 
-void basecamp::place_results( item &result )
+void basecamp::place_results( detached_ptr<item> &&result )
 {
     if( by_radio ) {
         tinymap target_bay;
         target_bay.load( project_to<coords::sm>( omt_pos ), false );
         const tripoint &new_spot = target_bay.getlocal( get_dumping_spot() );
-        target_bay.add_item_or_charges( new_spot, result, true );
+        target_bay.add_item_or_charges( new_spot, std::move( result ), true );
         apply_camp_ownership( new_spot, 10 );
         target_bay.save();
     } else {
@@ -4006,15 +3999,13 @@ void basecamp::place_results( item &result )
             const auto &src_set = mgr.get_near( zone_type_camp_storage, abspos );
             const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
             // Find the nearest unsorted zone to dump objects at
-            for( auto &src : src_sorted ) {
-                const auto &src_loc = here.getlocal( src );
-                here.add_item_or_charges( src_loc, result, true );
-                apply_camp_ownership( src_loc, 10 );
-                break;
-            }
+            auto &src = src_sorted.front();
+            const auto &src_loc = here.getlocal( src );
+            here.add_item_or_charges( src_loc, std::move( result ), true );
+            apply_camp_ownership( src_loc, 10 );
             //or dump them at players feet
         } else {
-            here.add_item_or_charges( g->u.pos(), result, true );
+            here.add_item_or_charges( g->u.pos(), std::move( result ), true );
             apply_camp_ownership( g->u.pos(), 0 );
         }
     }

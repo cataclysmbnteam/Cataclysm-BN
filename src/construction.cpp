@@ -1041,10 +1041,10 @@ void place_construction( const construction_group_str_id &group )
                  _( "There is already an unfinished construction there, examine it to continue working on it" ) );
         return;
     }
-    ItemList used;
+    std::vector<detached_ptr<item>> used;
     const construction &con = *valid.find( pnt )->second;
     // create the partial construction struct
-    partial_con pc;
+    partial_con pc( here.getabs( pnt ) );
     pc.id = con.id;
     pc.counter = 0;
     // Set the trap that has the examine function
@@ -1056,16 +1056,19 @@ void place_construction( const construction_group_str_id &group )
     }
     // Use up the components
     for( const auto &it : con.requirements->get_components() ) {
-        ItemList tmp = g->u.consume_items( it, 1, is_crafting_component );
-        used.insert( used.end(), tmp.begin(), tmp.end() );
+        std::vector<detached_ptr<item>> tmp = g->u.consume_items( it, 1, is_crafting_component );
+        used.insert( used.end(), std::make_move_iterator( tmp.begin() ),
+                     std::make_move_iterator( tmp.end() ) );
     }
-    pc.components = used;
+    for( detached_ptr<item> &it : used ) {
+        pc.components.push_back( std::move( it ) );
+    }
     here.partial_con_set( pnt, pc );
     for( const auto &it : con.requirements->get_tools() ) {
         g->u.consume_tools( it );
     }
     g->u.assign_activity( ACT_BUILD );
-    g->u.activity.placement = here.getabs( pnt );
+    g->u.activity->placement = here.getabs( pnt );
 }
 
 void complete_construction( Character &ch )
@@ -1075,7 +1078,7 @@ void complete_construction( Character &ch )
         return;
     }
     map &here = get_map();
-    const tripoint terp = here.getlocal( ch.activity.placement );
+    const tripoint terp = here.getlocal( ch.activity->placement );
     partial_con *pc = here.partial_con_at( terp );
     if( !pc ) {
         debugmsg( "No partial construction found at activity placement in complete_construction()" );
@@ -1133,9 +1136,9 @@ void complete_construction( Character &ch )
             tripoint dump_spot = random_entry( dump_spots );
             map_stack items = here.i_at( terp );
             for( map_stack::iterator it = items.begin(); it != items.end(); ) {
-                item *dumped = *it;
-                it = items.erase( it );
-                here.add_item_or_charges( dump_spot, *dumped );
+                detached_ptr<item> dumped;
+                it = items.erase( it, &dumped );
+                here.add_item_or_charges( dump_spot, std::move( dumped ) );
             }
         } else {
             debugmsg( "No space to displace items from construction finishing" );
@@ -1162,21 +1165,21 @@ void complete_construction( Character &ch )
 
     // Spawn byproducts
     if( built.byproduct_item_group ) {
-        std::vector<item *> items_list = item_group::items_from( built.byproduct_item_group,
-                                         calendar::turn );
-        here.spawn_items( ch.pos(), items_list );
+        std::vector<detached_ptr<item>> items_list = item_group::items_from( built.byproduct_item_group,
+                                     calendar::turn );
+        here.spawn_items( ch.pos(), std::move( items_list ) );
     }
 
     add_msg( m_info, _( "%s finished construction: %s." ), ch.disp_name(), built.group->name() );
     // clear the activity
-    ch.activity.set_to_null();
+    ch.activity->set_to_null();
 
     // This comes after clearing the activity, in case the function interrupts
     // activities
     built.post_special( terp );
     // npcs will automatically resume backlog, players wont.
     if( ch.is_avatar() && !ch.backlog.empty() &&
-        ch.backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ) {
+        ch.backlog.front()->id() == ACT_MULTIPLE_CONSTRUCTION ) {
         ch.backlog.clear();
         ch.assign_activity( ACT_MULTIPLE_CONSTRUCTION );
     }
@@ -1391,8 +1394,9 @@ void construct::done_deconstruct( const tripoint &p )
             here.furn_set( p, f.deconstruct.furn_set );
         }
         add_msg( _( "The %s is disassembled." ), f.name() );
-        std::vector<item *> items_list = item_group::items_from( f.deconstruct.drop_group, calendar::turn );
-        here.spawn_items( p, items_list );
+        std::vector<detached_ptr<item>> items_list = item_group::items_from( f.deconstruct.drop_group,
+                                     calendar::turn );
+        here.spawn_items( p, std::move( items_list ) );
         // HACK: Hack alert.
         // Signs have cosmetics associated with them on the submap since
         // furniture can't store dynamic data to disk. To prevent writing
@@ -1425,17 +1429,17 @@ void construct::done_deconstruct( const tripoint &p )
         }
         here.ter_set( p, t.deconstruct.ter_set );
         add_msg( _( "The %s is disassembled." ), t.name() );
-        std::vector<item *> items_list = item_group::items_from( t.deconstruct.drop_group, calendar::turn );
-        here.spawn_items( p, items_list );
+        std::vector<detached_ptr<item>> items_list = item_group::items_from( t.deconstruct.drop_group,
+                                     calendar::turn );
+        here.spawn_items( p, std::move( items_list ) );
     }
 }
 
 static void unroll_digging( const int numer_of_2x4s )
 {
     // refund components!
-    item &rope = *item_spawn( "rope_30" );
     map &here = get_map();
-    here.add_item_or_charges( g->u.pos(), rope );
+    here.add_item_or_charges( g->u.pos(), item::spawn( "rope_30" ) );
     // presuming 2x4 to conserve lumber.
     here.spawn_item( g->u.pos(), itype_2x4, numer_of_2x4s );
 }

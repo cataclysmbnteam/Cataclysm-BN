@@ -4,10 +4,11 @@
 
 #include "locations.h"
 
-template<typename T>
+template<typename T, bool error_if_null = true>
 class location_ptr
 {
     private:
+        friend detached_ptr<T>;
         T *ptr = nullptr;
         std::unique_ptr<location<T>> loc;
 
@@ -27,9 +28,9 @@ class location_ptr
         location_ptr( location<T> *loc ) : loc( loc ) {};
         location_ptr( location_ptr & ) = delete;
         location_ptr( location_ptr && ) = delete;
-        location_ptr operator=( location_ptr<T> & ) = delete;
+        location_ptr operator=( location_ptr<T, error_if_null> & ) = delete;
 
-        location_ptr<T> &operator=( detached_ptr<T> &&source ) {
+        location_ptr<T, error_if_null> &operator=( detached_ptr<T> &&source ) {
             if( ptr ) {
                 ptr->remove_location();
                 ptr->destroy();
@@ -40,7 +41,18 @@ class location_ptr
             return  *this;
         }
 
-        location_ptr<T> &operator=( location_ptr<T> &&source ) {
+        location_ptr<T, error_if_null> &operator=( location_ptr<T, true> &&source ) {
+            if( ptr ) {
+                ptr->remove_location();
+                ptr->destroy();
+            }
+            ptr = source.ptr;
+            update_location();
+            source.ptr = nullptr;
+            return *this;
+        }
+
+        location_ptr<T, error_if_null> &operator=( location_ptr<T, false> &&source ) {
             if( ptr ) {
                 ptr->remove_location();
                 ptr->destroy();
@@ -64,8 +76,10 @@ class location_ptr
 
         inline T *get() const {
             if( !*this ) {
-                debugmsg( "Attempted to resolve invalid location_ptr" );
-                return nullptr;//TODO!: error pointer
+                if( error_if_null ) {
+                    debugmsg( "Attempted to resolve invalid location_ptr" );
+                }
+                return &null_item_reference();
             }
             return ptr;
         }

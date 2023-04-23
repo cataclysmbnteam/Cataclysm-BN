@@ -398,15 +398,16 @@ Character &get_player_character()
 
 // *INDENT-OFF*
 Character::Character() :
-    visitable<Character>(),
+    location_visitable<Character>(),
+    worn(new worn_item_location(this)),
     damage_bandaged( {{ 0 }} ),
     damage_disinfected( {{ 0 }} ),
     cached_time( calendar::before_time_starts ),
+    inv(new character_item_location(this)),
     id( -1 ),
-    next_climate_control_check( calendar::before_time_starts ),
-    last_climate_control_ret( false ),
     weapon(new wield_item_location( this )),
-    inv(new character_item_location(this))
+    next_climate_control_check( calendar::before_time_starts ),
+    last_climate_control_ret( false )
 {
     str_max = 0;
     dex_max = 0;
@@ -471,15 +472,13 @@ Character::~Character()
 {
     destruct_hack();
 }
-Character::Character( Character && ) = default;
-Character &Character::operator=( Character && ) = default;
 
-
+//TODO!: REMOVE and do proper destruction
 void Character::destruct_hack()
 {
-    visit_items( []( item * it ) {
-        it->remove_location();
-        it->destroy();
+    visit_items( []( item * ) {
+        //it->remove_location();
+        //it->destroy();
         return VisitResponse::SKIP;
     } );
 }
@@ -902,19 +901,20 @@ bool Character::is_on_ground() const
 
 void Character::cancel_stashed_activity()
 {
-    stashed_outbounds_activity = player_activity();
-    stashed_outbounds_backlog = player_activity();
+    stashed_outbounds_activity = std::make_unique<player_activity>();
+    stashed_outbounds_backlog = std::make_unique<player_activity>();
 }
 
-player_activity Character::get_stashed_activity() const
+player_activity &Character::get_stashed_activity() const
 {
-    return stashed_outbounds_activity;
+    return *stashed_outbounds_activity;
 }
 
-void Character::set_stashed_activity( const player_activity &act, const player_activity &act_back )
+void Character::set_stashed_activity( std::unique_ptr<player_activity> &&act,
+                                      std::unique_ptr<player_activity> &&act_back )
 {
-    stashed_outbounds_activity = act;
-    stashed_outbounds_backlog = act_back;
+    stashed_outbounds_activity = std::move( act );
+    stashed_outbounds_backlog = act_back ? std::move( act_back ) : std::make_unique<player_activity>();
 }
 
 bool Character::has_stashed_activity() const
@@ -924,46 +924,50 @@ bool Character::has_stashed_activity() const
 
 void Character::assign_stashed_activity()
 {
-    activity = stashed_outbounds_activity;
-    backlog.push_front( stashed_outbounds_backlog );
+    activity = std::move( stashed_outbounds_activity );
+    backlog.push_front( std::move( stashed_outbounds_backlog ) );
     cancel_stashed_activity();
 }
 
-bool Character::check_outbounds_activity( const player_activity &act, bool check_only )
+bool Character::check_outbounds_activity( std::unique_ptr<player_activity> &&act, bool check_only )
 {
     map &here = get_map();
-    if( ( act.placement != tripoint_zero && act.placement != tripoint_min &&
-          !here.inbounds( here.getlocal( act.placement ) ) ) || ( !act.coords.empty() &&
-                  !here.inbounds( here.getlocal( act.coords.back() ) ) ) ) {
+    if( ( act->placement != tripoint_zero && act->placement != tripoint_min &&
+          !here.inbounds( here.getlocal( act->placement ) ) ) || ( !act->coords.empty() &&
+                  !here.inbounds( here.getlocal( act->coords.back() ) ) ) ) {
         if( is_npc() && !check_only ) {
             // stash activity for when reloaded.
-            stashed_outbounds_activity = act;
+            stashed_outbounds_activity = std::move( act );
             if( !backlog.empty() ) {
-                stashed_outbounds_backlog = backlog.front();
+                stashed_outbounds_backlog = std::move( backlog.front() );
+                backlog.pop_front();
             }
-            activity = player_activity();
+            activity = std::make_unique<player_activity>();
         }
         add_msg( m_debug,
                  "npc %s at pos %d %d, activity target is not inbounds at %d %d therefore activity was stashed",
-                 disp_name(), pos().x, pos().y, act.placement.x, act.placement.y );
+                 disp_name(), pos().x, pos().y, act->placement.x, act->placement.y );
         return true;
     }
     return false;
 }
 
-void Character::set_destination_activity( const player_activity &new_destination_activity )
+void Character::set_destination_activity( std::unique_ptr<player_activity>
+        &&new_destination_activity )
 {
-    destination_activity = new_destination_activity;
+    destination_activity = std::move( new_destination_activity );
 }
 
-void Character::clear_destination_activity()
+std::unique_ptr<player_activity> Character::clear_destination_activity()
 {
-    destination_activity = player_activity();
+    std::unique_ptr<player_activity> r = std::move( destination_activity );
+    destination_activity = std::make_unique<player_activity>();
+    return r;
 }
 
-player_activity Character::get_destination_activity() const
+player_activity &Character::get_destination_activity() const
 {
-    return destination_activity;
+    return *destination_activity;
 }
 
 void Character::mount_creature( monster &z )
@@ -979,8 +983,7 @@ void Character::mount_creature( monster &z )
     if( z.has_effect( effect_tied ) ) {
         z.remove_effect( effect_tied );
         if( z.get_tied_item() ) {
-            i_add( *z.get_tied_item() );
-            z.set_tied_item( nullptr );
+            i_add( z.set_tied_item( detached_ptr<item>() ) );
         }
     }
     z.mounted_player_id = getID();
@@ -1007,8 +1010,7 @@ void Character::mount_creature( monster &z )
     add_msg_if_player( m_good, _( "You climb on the %s." ), z.get_name() );
     if( z.has_flag( MF_RIDEABLE_MECH ) ) {
         if( !z.type->mech_weapon.is_empty() ) {
-            item &mechwep = *item_spawn( z.type->mech_weapon );
-            wield( mechwep );
+            wield( item::spawn( z.type->mech_weapon ) );
         }
         add_msg_if_player( m_good, _( "You hear your %s whir to life." ), z.get_name() );
     }
@@ -2053,7 +2055,7 @@ int Character::get_total_fuel_capacity( const itype_id &fuel ) const
 
 void Character::update_fuel_storage( const itype_id &fuel )
 {
-    const item &it = *item_spawn_temporary( fuel );
+    const item &it = *item::spawn_temporary( fuel );
     if( get_value( fuel.str() ).empty() ) {
         for( const bionic_id &bid : get_bionic_fueled_with( it ) ) {
             remove_value( bid.c_str() );
@@ -2109,25 +2111,25 @@ int Character::get_mod_stat_from_bionic( const character_stat &Stat ) const
     }
     return ret;
 }
-cata::optional<std::vector<item *>::iterator>
-Character::wear_item( item &to_wear, bool interactive )
+detached_ptr<item> Character::wear_item( detached_ptr<item> &&wear,
+        bool interactive, cata::optional<std::vector<item *>::iterator> position )
 {
+    item &to_wear = *wear;
     const auto ret = can_wear( to_wear );
     if( !ret.success() ) {
         if( interactive ) {
             add_msg_if_player( m_info, "%s", ret.c_str() );
         }
-        return cata::nullopt;
+        return wear;
     }
 
     const bool was_deaf = is_deaf();
     const bool supertinymouse = get_size() == MS_TINY;
     last_item = to_wear.typeId();
 
-    std::vector<item *>::iterator position = position_to_wear_new_item( to_wear );
-    std::vector<item *>::iterator new_item_it = worn.insert( position, &to_wear );
 
-    to_wear.set_location( new worn_item_location( this ) );
+    std::vector<item *>::iterator pos = position ? *position : position_to_wear_new_item( to_wear );
+    worn.insert( pos, std::move( wear ) );
 
     if( interactive ) {
         add_msg_player_or_npc(
@@ -2160,15 +2162,15 @@ Character::wear_item( item &to_wear, bool interactive )
         add_msg_if_npc( _( "<npcname> puts on their %s." ), to_wear.tname() );
     }
 
-    ( *new_item_it )->on_wear( *this );
+    to_wear.on_wear( *this );
 
-    inv.update_invlet( **new_item_it );
-    inv.update_cache_with_item( **new_item_it );
+    inv.update_invlet( to_wear );
+    inv.update_cache_with_item( to_wear );
 
     recalc_sight_limits();
     reset_encumbrance();
 
-    return new_item_it;
+    return detached_ptr<item>();
 }
 
 std::vector<item *> Character::nearby( const
@@ -2214,49 +2216,47 @@ int Character::amount_worn( const itype_id &id ) const
     }
     return amount;
 }
-int Character::i_add_to_container( const item &it, const bool unloading )
+detached_ptr<item> Character::i_add_to_container( detached_ptr<item> &&it, const bool unloading )
 {
-    int charges = it.charges;
-    if( !it.is_ammo() || unloading ) {
-        return charges;
+    if( !it->is_ammo() || unloading ) {
+        return it;
     }
 
-    const itype_id item_type = it.typeId();
-    auto add_to_container = [&it, &charges]( item & container ) {
+    const itype_id item_type = it->typeId();
+    auto add_to_container = [&it]( item & container ) {
         auto &contained_ammo = container.contents.front();
         if( contained_ammo.charges < container.ammo_capacity() ) {
             const int diff = container.ammo_capacity() - contained_ammo.charges;
             //~ %1$s: item name, %2$s: container name
-            add_msg( pgettext( "container", "You put the %1$s in your %2$s." ), it.tname(), container.tname() );
-            if( diff > charges ) {
-                contained_ammo.charges += charges;
-                return 0;
+            add_msg( pgettext( "container", "You put the %1$s in your %2$s." ), it->tname(),
+                     container.tname() );
+            if( diff >= it->charges ) {
+                contained_ammo.merge_charges( std::move( it ) );
             } else {
+                it->charges -= diff;
                 contained_ammo.charges = container.ammo_capacity();
-                return charges - diff;
             }
         }
-        return charges;
     };
 
     visit_items( [ & ]( item * item ) {
-        if( charges > 0 && item->is_ammo_container() && item_type == item->contents.front().typeId() ) {
-            charges = add_to_container( *item );
+        if( it && item->is_ammo_container() && item_type == item->contents.front().typeId() ) {
+            add_to_container( *item );
             item->handle_pickup_ownership( *this );
         }
         return VisitResponse::NEXT;
     } );
 
-    return charges;
+    return it;
 }
 
-item &Character::i_add( item &it, bool should_stack )
+item &Character::i_add( detached_ptr<item> &&it, bool should_stack )
 {
-    itype_id item_type_id = it.typeId();
+    itype_id item_type_id = it->typeId();
     last_item = item_type_id;
 
-    if( it.is_food() || it.is_ammo() || it.is_gun() || it.is_armor() ||
-        it.is_book() || it.is_tool() || it.is_melee() || it.is_food_container() ) {
+    if( it->is_food() || it->is_ammo() || it->is_gun() || it->is_armor() ||
+        it->is_book() || it->is_tool() || it->is_melee() || it->is_food_container() ) {
         inv.unsort();
     }
 
@@ -2265,16 +2265,13 @@ item &Character::i_add( item &it, bool should_stack )
     const invlets_bitset cur_inv = allocated_invlets();
     for( auto iter : inv.assigned_invlet ) {
         if( iter.second == item_type_id && !cur_inv[iter.first] ) {
-            it.invlet = iter.first;
+            it->invlet = iter.first;
             keep_invlet = true;
             break;
         }
     }
 
-    auto &item_in_inv = inv.add_item( it, keep_invlet, true, should_stack );
-    if( &it == &item_in_inv ) {
-        item_in_inv.set_location( new character_item_location( this ) );
-    }
+    auto &item_in_inv = inv.add_item( std::move( it ), keep_invlet, true, should_stack );
     item_in_inv.on_pickup( *this );
     clear_npc_ai_info_cache( "reloadables" );
     return item_in_inv;
@@ -2360,11 +2357,11 @@ const std::vector<item *> Character::inv_const_stack( int position ) const
 {
     return inv.const_stack( position );
 }
-
+/*
 invslice Character::inv_slice()
 {
     return inv.slice();
-}
+}*/
 
 const_invslice Character::inv_const_slice() const
 {
@@ -2446,61 +2443,55 @@ void Character::inv_unsort()
     inv.unsort();
 }
 
-//TODO!: check these
-item &Character::i_rem( int pos )
+detached_ptr<item> Character::i_rem( int pos )
 {
-    item *tmp;
     if( pos == -1 ) {
-        tmp = weapon;
-        weapon = nullptr;
-        tmp->remove_location();
-        return *tmp;
+        return remove_weapon();
     } else if( pos < -1 && pos > worn_position_to_index( worn.size() ) ) {
         auto iter = worn.begin();
         std::advance( iter, worn_position_to_index( pos ) );
-        tmp = *iter;
+        item *tmp = *iter;
         tmp->on_takeoff( *this );
-        worn.erase( iter );
-        return *tmp;
+        detached_ptr<item> ret;
+        worn.erase( iter, &ret );
+        return std::move( ret );
     }
     return inv.remove_item( pos );
 }
-//TODO!: check these
-item &Character::i_rem( const item *it )
-{
-    auto tmp = remove_items_with( [&it]( const item & i ) {
-        return &i == it;
-    }, 1 );
-    if( tmp.empty() ) {
-        debugmsg( "did not found item %s to remove it!", it->tname() );
-        return null_item_reference();
-    }
-    tmp.front()->remove_location();
-    return *tmp.front();
-}
 
-void Character::i_rem_keep_contents( const int idx )
+detached_ptr<item> Character::i_rem( const item *it )
 {
-    i_rem( idx ).spill_contents( pos() );
-}
-
-bool Character::i_add_or_drop( item &it, int qty )
-{
-    bool retval = true;
-    bool drop = it.made_of( LIQUID );
-    bool add = it.is_gun() || !it.is_irremovable();
-    inv.assign_empty_invlet( it, *this );
-    map &here = get_map();
-    for( int i = 0; i < qty; ++i ) {
-        drop |= !can_pick_weight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) || !can_pick_volume( it );
-        if( drop ) {
-            retval &= !here.add_item_or_charges( pos(), it ).is_null();
-        } else if( add ) {
-            i_add( it );
+    detached_ptr<item> ret;
+    remove_items_with( [&it, &ret]( detached_ptr<item> &&i ) {
+        if( &*i == it ) {
+            ret = std::move( i );
+            return VisitResponse::ABORT;
         }
+        return VisitResponse::SKIP;
+    }, 1 );
+    if( !ret ) {
+        debugmsg( "did not found item %s to remove it!", it->tname() );
+        return detached_ptr<item>();
     }
+    return std::move( ret );
+}
 
-    return retval;
+detached_ptr<item> Character::i_rem_keep_contents( const int idx )
+{
+    detached_ptr<item> ret = i_rem( idx );
+    ret->spill_contents( pos() );
+    return std::move( ret );
+}
+
+void Character::i_add_or_drop( detached_ptr<item> &&it )
+{
+    if( it->made_of( LIQUID ) || !can_pick_weight( *it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ||
+        !can_pick_volume( *it ) ) {
+        get_map().add_item_or_charges( pos(), std::move( it ) ).is_null();
+    } else {
+        inv.assign_empty_invlet( *it, *this );
+        i_add( std::move( it ) );
+    }
 }
 
 std::list<item *> Character::get_dependent_worn_items( const item &it ) const
@@ -2532,15 +2523,14 @@ std::list<item *> Character::get_dependent_worn_items( const item &it ) const
 
 void Character::drop( item &loc, const tripoint &where )
 {
-    item &oThisItem = loc;
-    if( is_wielding( oThisItem ) ) {
+    if( is_wielding( loc ) ) {
         const auto ret = can_unwield( loc );
 
         if( !ret.success() ) {
             add_msg( m_info, "%s", ret.c_str() );
             return;
         }
-    } else if( is_wearing( oThisItem ) ) {
+    } else if( is_wearing( loc ) ) {
         const auto ret = as_player()->can_takeoff( loc );
 
         if( !ret.success() ) {
@@ -2566,9 +2556,11 @@ void Character::drop( const drop_locations &what, const tripoint &target,
     }
 
     if( stash ) {
-        assign_activity( stash_activity_actor( *this, what, target - pos() ) );
+        assign_activity( std::make_unique<player_activity>( stash_activity_actor( *this, what,
+                         target - pos() ) ) );
     } else {
-        assign_activity( drop_activity_actor( *this, what, false, target - pos() ) );
+        assign_activity( std::make_unique<player_activity>( drop_activity_actor( *this, what, false,
+                         target - pos() ) ) );
     }
 }
 
@@ -2593,18 +2585,19 @@ bool Character::has_active_item( const itype_id &id ) const
     } );
 }
 
-item &Character::remove_weapon()
+detached_ptr<item> Character::remove_weapon()
 {
-    item *tmp = weapon;
-    weapon = &null_item_reference();
+    detached_ptr<item> ret( std::move( weapon ) );
+    ret->remove_owner();
     clear_npc_ai_info_cache( "weapon_value" );
-    tmp->remove_owner();
-    return *tmp;
+    return ret;
 }
 
 bool Character::has_mission_item( int mission_id ) const
 {
-    return mission_id != -1 && has_item_with( has_mission_item_filter{ mission_id } );
+    return mission_id != -1 && has_item_with( [&mission_id]( const item & it ) {
+        return it.mission_id == mission_id;
+    } );
 }
 
 void Character::remove_mission_items( int mission_id )
@@ -2663,14 +2656,14 @@ units::mass Character::weight_carried_reduced_by( const excluded_stacks &without
 
     // Wielded item
     units::mass weaponweight = 0_gram;
-    auto weapon_it = without.find( weapon );
+    auto weapon_it = without.find( &*weapon );
     if( weapon_it == without.end() ) {
         weaponweight = weapon->weight();
     } else {
         int subtract_count = ( *weapon_it ).second;
         if( weapon->count_by_charges() ) {
             //TODO!: CHECK
-            item *copy = weapon;
+            item *copy = &*weapon;
             copy->charges -= subtract_count;
             if( copy->charges < 0 ) {
                 debugmsg( "Trying to remove more charges than the wielded item has" );
@@ -2786,9 +2779,7 @@ units::volume Character::volume_capacity_reduced_by(
 
 bool Character::can_pick_volume( const item &it ) const
 {
-    inventory projected = inv;
-    projected.add_item( const_cast<item &>( it ), true );
-    return projected.volume() <= volume_capacity();
+    return inv.volume() + it.volume() <= volume_capacity();
 }
 
 bool Character::can_pick_volume( units::volume volume ) const
@@ -3052,8 +3043,8 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
     return ret_val<bool>::make_success();
 }
 
-cata::optional<std::vector<item *>::iterator>
-Character::wear_possessed( item &to_wear, bool interactive )
+bool Character::wear_possessed( item &to_wear, bool interactive,
+                                cata::optional<std::vector<item *>::iterator> position )
 {
     if( is_worn( to_wear ) ) {
         if( interactive ) {
@@ -3062,7 +3053,7 @@ Character::wear_possessed( item &to_wear, bool interactive )
                                    _( "<npcname> is already wearing that." )
                                  );
         }
-        return cata::nullopt;
+        return false;
     }
     if( to_wear.is_null() ) {
         if( interactive ) {
@@ -3070,33 +3061,34 @@ Character::wear_possessed( item &to_wear, bool interactive )
                                    _( "You don't have that item." ),
                                    _( "<npcname> doesn't have that item." ) );
         }
-        return cata::nullopt;
+        return false;
     }
 
     bool was_weapon;
+    detached_ptr<item> det;
     if( &to_wear == &get_weapon() ) {
-        set_weapon( null_item_reference() );
+        det = remove_weapon();
         was_weapon = true;
     } else {
-        inv.remove_item( &to_wear );
+        det = inv.remove_item( &to_wear );
         inv.restack( *this->as_player() );
         was_weapon = false;
     }
 
-    auto result = wear_item( to_wear, interactive );
-    if( !result ) {
+    auto result = wear_item( std::move( det ), interactive, position );
+    if( result ) {
         if( was_weapon ) {
-            set_weapon( to_wear );
+            set_weapon( std::move( result ) );
         } else {
-            inv.add_item( to_wear, true );
+            inv.add_item( std::move( result ), true );
         }
-        return cata::nullopt;
+        return false;
     }
 
-    return result;
+    return true;
 }
 
-ret_val<bool> Character::can_takeoff( const item &it, const std::vector<item *> *res ) const
+ret_val<bool> Character::can_takeoff( const item &it, bool dropping ) const
 {
     auto iter = std::find_if( worn.begin(), worn.end(), [ &it ]( item * wit ) {
         return &it == wit;
@@ -3107,7 +3099,7 @@ ret_val<bool> Character::can_takeoff( const item &it, const std::vector<item *> 
                                             _( "<npcname> is not wearing that item." ) );
     }
 
-    if( res == nullptr && !get_dependent_worn_items( it ).empty() ) {
+    if( dropping && !get_dependent_worn_items( it ).empty() ) {
         return ret_val<bool>::make_failure( !is_npc() ?
                                             _( "You can't take off power armor while wearing other power armor components." ) :
                                             _( "<npcname> can't take off power armor while wearing other power armor components." ) );
@@ -3120,9 +3112,9 @@ ret_val<bool> Character::can_takeoff( const item &it, const std::vector<item *> 
     return ret_val<bool>::make_success();
 }
 
-bool Character::takeoff( item &it, std::vector<item *> *res )
+bool Character::takeoff( item &it, std::vector<detached_ptr<item>> *res )
 {
-    const auto ret = can_takeoff( it, res );
+    const auto ret = can_takeoff( it, res == nullptr );
     if( !ret.success() ) {
         add_msg( m_info, "%s", ret.c_str() );
         return false;
@@ -3143,10 +3135,14 @@ bool Character::takeoff( item &it, std::vector<item *> *res )
             }
         }
         ( *iter )->on_takeoff( *this );
-        inv.add_item_keep_invlet( it );
+        detached_ptr<item> det;
+        worn.erase( iter, &det );
+        inv.add_item_keep_invlet( std::move( det ) );
     } else {
         ( *iter )->on_takeoff( *this );
-        res->push_back( &it );
+        detached_ptr<item> det;
+        worn.erase( iter, &det );
+        res->push_back( std::move( det ) );
     }
 
     add_msg_player_or_npc( _( "You take off your %s." ),
@@ -3155,7 +3151,6 @@ bool Character::takeoff( item &it, std::vector<item *> *res )
 
     // TODO: Make this variable
     mod_moves( -250 );
-    worn.erase( iter );
 
     recalc_sight_limits();
     reset_encumbrance();
@@ -3269,15 +3264,17 @@ ret_val<bool> Character::can_swap( const item &it ) const
 void Character::drop_invalid_inventory()
 {
     bool dropped_liquid = false;
-    for( ItemList *stack : inv.slice() ) {
-        item *&it = stack->front();
+
+    tripoint p = pos();
+
+    inv.remove_items_with( [&dropped_liquid, p]( detached_ptr<item> &&it ) {
         if( it->made_of( LIQUID ) ) {
             dropped_liquid = true;
-            get_map().add_item_or_charges( pos(), *it );
-            // must be last
-            i_rem( it );
+            get_map().add_item_or_charges( p, std::move( it ) );
         }
-    }
+        return VisitResponse::SKIP;
+    } );
+
     if( dropped_liquid ) {
         add_msg_if_player( m_bad, _( "Liquid from your inventory has leaked onto the ground." ) );
     }
@@ -3627,15 +3624,15 @@ void Character::die( Creature *nkiller )
     set_killer( nkiller );
     set_time_died( calendar::turn );
     if( has_effect( effect_lightsnare ) ) {
-        inv.add_item( *item_spawn( itype_string_36, calendar::start_of_cataclysm ) );
-        inv.add_item( *item_spawn( itype_snare_trigger, calendar::start_of_cataclysm ) );
+        inv.add_item( item::spawn( itype_string_36, calendar::start_of_cataclysm ) );
+        inv.add_item( item::spawn( itype_snare_trigger, calendar::start_of_cataclysm ) );
     }
     if( has_effect( effect_heavysnare ) ) {
-        inv.add_item( *item_spawn( itype_rope_6, calendar::start_of_cataclysm ) );
-        inv.add_item( *item_spawn( itype_snare_trigger, calendar::start_of_cataclysm ) );
+        inv.add_item( item::spawn( itype_rope_6, calendar::start_of_cataclysm ) );
+        inv.add_item( item::spawn( itype_snare_trigger, calendar::start_of_cataclysm ) );
     }
     if( has_effect( effect_beartrap ) ) {
-        inv.add_item( *item_spawn( itype_beartrap, calendar::start_of_cataclysm ) );
+        inv.add_item( item::spawn( itype_beartrap, calendar::start_of_cataclysm ) );
     }
     mission::on_creature_death( *this );
 }
@@ -4883,7 +4880,7 @@ void Character::update_needs( int rate_multiplier )
     const bool npc_no_food = is_npc() && get_option<bool>( "NO_NPC_FOOD" );
     const bool asleep = !sleep.is_null();
     const bool lying = asleep || has_effect( effect_lying_down ) ||
-                       activity.id() == ACT_TRY_SLEEP;
+                       activity->id() == ACT_TRY_SLEEP;
 
     needs_rates rates = calc_needs_rates();
 
@@ -6276,7 +6273,7 @@ int Character::throw_range( const item &it ) const
         return -1;
     }
 
-    item &tmp = *item_spawn_temporary( it );
+    item &tmp = *item::spawn_temporary( it );
 
     if( tmp.count_by_charges() && tmp.charges > 1 ) {
         tmp.charges = 1;
@@ -6448,19 +6445,20 @@ bool Character::sees_with_specials( const Creature &critter ) const
     return false;
 }
 
-detached_ptr<item> Character::pour_into( item &container, detached_ptr<item> &&liquid )
+detached_ptr<item> Character::pour_into( item &container, detached_ptr<item> &&liquid, int limit )
 {
     std::string err;
-    const int amount = container.get_remaining_capacity_for_liquid( &*liquid, *this, &err );
+    const int amount = std::min( limit, container.get_remaining_capacity_for_liquid( *liquid, *this,
+                                 &err ) );
 
     if( !err.empty() ) {
         add_msg_if_player( m_bad, err );
-        return false;
+        return detached_ptr<item>();
     }
 
-    add_msg_if_player( _( "You pour %1$s into the %2$s." ), liquid->tname(), container->tname() );
+    add_msg_if_player( _( "You pour %1$s into the %2$s." ), liquid->tname(), container.tname() );
 
-    liquid = std::move( container.fill_with( std::move( liquid ), amount ) );
+    liquid = container.fill_with( std::move( liquid ), amount );
     inv.unsort();
 
     if( liquid ) {
@@ -6470,7 +6468,7 @@ detached_ptr<item> Character::pour_into( item &container, detached_ptr<item> &&l
     return liquid;
 }
 
-detached_ptr<item> Character::pour_into( vehicle &veh, detached_ptr<item> &&liquid )
+detached_ptr<item> Character::pour_into( vehicle &veh, detached_ptr<item> &&liquid, int limit )
 {
     auto sel = [&]( const vehicle_part & pt ) {
         return pt.is_tank() && pt.can_reload( &*liquid );
@@ -6484,14 +6482,14 @@ detached_ptr<item> Character::pour_into( vehicle &veh, detached_ptr<item> &&liqu
 
     auto &tank = veh_interact::select_part( veh, sel, title );
     if( !tank ) {
-        return false;
+        return detached_ptr<item>();
     }
 
     //~ $1 - vehicle name, $2 - part name, $3 - liquid type
     add_msg_if_player( _( "You refill the %1$s's %2$s with %3$s." ),
-                       veh.name, tank.name(), liquid.type_name() );
+                       veh.name, tank.name(), liquid->type_name() );
 
-    liquid = std::move( tank.fill_with( std::move( liquid ) ) );
+    liquid = tank.fill_with( std::move( liquid ), limit );
 
 
     if( liquid ) {
@@ -7200,7 +7198,7 @@ void Character::burn_move_stamina( int moves )
     }
 
     int burn_ratio = get_option<int>( "PLAYER_BASE_STAMINA_BURN_RATE" );
-    for( const bionic_id &bid : get_bionic_fueled_with( *item_spawn_temporary( "muscle" ) ) ) {
+    for( const bionic_id &bid : get_bionic_fueled_with( *item::spawn_temporary( "muscle" ) ) ) {
         if( has_active_bionic( bid ) ) {
             burn_ratio = burn_ratio * 2 - 3;
         }
@@ -7335,75 +7333,68 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
     return false;
 }
 
-bool Character::dispose_item( item &obj, const std::string &prompt )
+detached_ptr<item> Character::dispose_item( detached_ptr<item> &&obj, const std::string &prompt )
 {
-    //TODO!: check this for location order
     uilist menu;
-    menu.text = prompt.empty() ? string_format( _( "Dispose of %s" ), obj.tname() ) : prompt;
+    menu.text = prompt.empty() ? string_format( _( "Dispose of %s" ), obj->tname() ) : prompt;
 
     using dispose_option = struct {
         std::string prompt;
         bool enabled;
         char invlet;
         int moves;
-        std::function<bool()> action;
+        std::function<detached_ptr<item>()> action;
     };
 
     std::vector<dispose_option> opts;
 
-    const bool bucket = obj.is_bucket_nonempty();
+    const bool bucket = obj->is_bucket_nonempty();
 
     opts.emplace_back( dispose_option{
         bucket ? _( "Spill contents and store in inventory" ) : _( "Store in inventory" ),
-        volume_carried() + obj.volume() <= volume_capacity(), '1',
-        item_handling_cost( obj ),
+        volume_carried() + obj->volume() <= volume_capacity(), '1',
+        item_handling_cost( *obj ),
         [this, bucket, &obj] {
-            if( bucket && !obj.spill_contents( *this ) )
+            if( bucket && !obj->spill_contents( *this ) )
             {
-                return false;
+                return std::move( obj );
             }
-            obj.detach();
 
-            moves -= item_handling_cost( obj );
-            obj.set_location( new character_item_location( this ) );
-            inv.add_item_keep_invlet( obj );
+            moves -= item_handling_cost( *obj );
+            inv.add_item_keep_invlet( std::move( obj ) );
             inv.unsort();
-            return true;
+            return detached_ptr<item>();
         }
     } );
 
     opts.emplace_back( dispose_option{
         _( "Drop item" ), true, '2', 0, [this, &obj] {
-            obj.detach();
-            put_into_vehicle_or_drop( *this, item_drop_reason::deliberate, { &obj } );
-            return true;
+            put_into_vehicle_or_drop( *this, item_drop_reason::deliberate, std::move( obj ) );
+            return detached_ptr<item>();
         }
     } );
 
     opts.emplace_back( dispose_option{
         bucket ? _( "Spill contents and wear item" ) : _( "Wear item" ),
-        can_wear( obj ).success(), '3', item_wear_cost( obj ),
+        can_wear( *obj ).success(), '3', item_wear_cost( *obj ),
         [this, bucket, &obj] {
-            if( bucket && !obj.spill_contents( *this ) )
+            if( bucket && !obj->spill_contents( *this ) )
             {
-                return false;
+                return std::move( obj );
             }
 
-            item &it = obj;
-            obj.detach();
-            return !!wear_item( it );
+            return wear_item( std::move( obj ) );
         }
     } );
 
     for( auto &e : worn ) {
-        if( e->can_holster( obj ) ) {
+        if( e->can_holster( *obj ) ) {
             auto ptr = dynamic_cast<const holster_actor *>( e->type->get_use( "holster" )->get_actor_ptr() );
             opts.emplace_back( dispose_option{
                 string_format( _( "Store in %s" ), e->tname() ), true, e->invlet,
-                item_store_cost( obj, *e, false, ptr->draw_cost ),
+                item_store_cost( *obj, *e, false, ptr->draw_cost ),
                 [this, ptr, &e, &obj] {
-                    obj.detach();
-                    return ptr->store( *this->as_player(), *e, obj );
+                    return ptr->store( *this->as_player(), *e, std::move( obj ) );
                 }
             } );
         }
@@ -7430,7 +7421,15 @@ bool Character::dispose_item( item &obj, const std::string &prompt )
     if( menu.ret >= 0 ) {
         return opts[menu.ret].action();
     }
-    return false;
+    return obj;
+}
+
+bool Character::dispose_item( item &obj, const std::string &prompt )
+{
+    Character &who = *this;
+    return obj.attempt_detach( [&who, &prompt]( detached_ptr<item> &&it ) {
+        return who.dispose_item( std::move( it ), prompt );
+    } );
 }
 
 bool Character::has_enough_charges( const item &it, bool show_msg ) const
@@ -8095,7 +8094,7 @@ static void armor_enchantment_adjust( const Character &guy, damage_unit &du )
 
 void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
 {
-    ItemList worn_remains;
+    std::vector<detached_ptr<item>> worn_remains;
     bool armor_destroyed = false;
 
     for( damage_unit &elem : dam.damage_units ) {
@@ -8193,8 +8192,9 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
                 destroyed_armor_msg( *this, pre_damage_name );
                 armor_destroyed = true;
                 armor.on_takeoff( *this );
-                for( item *it : armor.contents.all_items_top() ) {
-                    worn_remains.push_back( it );
+
+                for( detached_ptr<item> &it : armor.contents.remove_all() ) {
+                    worn_remains.push_back( std::move( it ) );
                 }
                 // decltype is the type name of the iterator, note that reverse_iterator::base returns the
                 // iterator to the next element, not the one the revers_iterator points to.
@@ -8220,8 +8220,8 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
         elem.amount = std::max( elem.amount, 0.0f );
     }
     map &here = get_map();
-    for( item *&remain : worn_remains ) {
-        here.add_item_or_charges( pos(), *remain );
+    for( detached_ptr<item> &remain : worn_remains ) {
+        here.add_item_or_charges( pos(), std::move( remain ) );
     }
     if( armor_destroyed ) {
         drop_invalid_inventory();
@@ -8499,8 +8499,7 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
         can_unwield( *weapon ).success() ) {
         add_msg_if_player( _( "You are no longer able to wield your %s and drop it!" ),
                            weapon->display_name() );
-        put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { weapon } );
-        i_rem( weapon );
+        put_into_vehicle_or_drop( *this, item_drop_reason::tumbling,  remove_weapon() );
     }
     if( has_effect( effect_mending, part_to_damage->token ) ) {
         effect &e = get_effect( effect_mending, part_to_damage->token );
@@ -9032,12 +9031,27 @@ std::vector<item *> Character::inv_dump()
 {
     std::vector<item *> ret;
     if( is_armed() && can_unwield( *weapon ).success() ) {
-        ret.push_back( weapon );
+        ret.push_back( &get_weapon() );
     }
     for( auto &i : worn ) {
         ret.push_back( i );
     }
     inv.dump( ret );
+    return ret;
+}
+
+std::vector<detached_ptr<item>> Character::inv_dump_remove()
+{
+    std::vector<detached_ptr<item>> ret;
+    if( is_armed() && can_unwield( *weapon ).success() ) {
+        ret.push_back( remove_weapon() );
+    }
+    for( auto it = worn.begin(); it != worn.end(); ) {
+        detached_ptr<item> t;
+        it = worn.erase( it, &t );
+        ret.push_back( std::move( t ) );
+    }
+    inv.dump_remove( ret );
     return ret;
 }
 
@@ -9261,49 +9275,49 @@ bool Character::is_hauling() const
 void Character::assign_activity( const activity_id &type, int moves, int index, int pos,
                                  const std::string &name )
 {
-    assign_activity( player_activity( type, moves, index, pos, name ) );
+    assign_activity( std::make_unique<player_activity>( type, moves, index, pos, name ) );
 }
 
-void Character::assign_activity( const player_activity &act, bool allow_resume )
+void Character::assign_activity( std::unique_ptr<player_activity> act, bool allow_resume )
 {
     bool resuming = false;
-    if( allow_resume && !backlog.empty() && backlog.front().can_resume_with( act, *this ) ) {
+    if( allow_resume && !backlog.empty() && backlog.front()->can_resume_with( *act, *this ) ) {
         resuming = true;
         add_msg_if_player( _( "You resume your task." ) );
-        activity = backlog.front();
+        activity = std::move( backlog.front() );
         backlog.pop_front();
     } else {
         if( activity ) {
-            backlog.push_front( activity );
+            backlog.push_front( std::move( activity ) );
         }
 
-        activity = act;
+        activity = std::move( act );
     }
 
-    activity.start_or_resume( *this, resuming );
+    activity->start_or_resume( *this, resuming );
 
     if( is_npc() ) {
         cancel_stashed_activity();
         npc *guy = dynamic_cast<npc *>( this );
         guy->set_attitude( NPCATT_ACTIVITY );
         guy->set_mission( NPC_MISSION_ACTIVITY );
-        guy->current_activity_id = activity.id();
+        guy->current_activity_id = activity->id();
     }
 }
 
 bool Character::has_activity( const activity_id &type ) const
 {
-    return activity.id() == type;
+    return activity->id() == type;
 }
 
 bool Character::has_activity( const std::vector<activity_id> &types ) const
 {
-    return std::find( types.begin(), types.end(), activity.id() ) != types.end();
+    return std::find( types.begin(), types.end(), activity->id() ) != types.end();
 }
 
 void Character::cancel_activity()
 {
-    activity.canceled( *this );
+    activity->canceled( *this );
     if( has_activity( ACT_MOVE_ITEMS ) && is_hauling() ) {
         stop_hauling();
     }
@@ -9312,7 +9326,7 @@ void Character::cancel_activity()
     }
     // Clear any backlog items that aren't auto-resume.
     for( auto backlog_item = backlog.begin(); backlog_item != backlog.end(); ) {
-        if( backlog_item->auto_resume ) {
+        if( ( *backlog_item )->auto_resume ) {
             backlog_item++;
         } else {
             backlog_item = backlog.erase( backlog_item );
@@ -9323,20 +9337,20 @@ void Character::cancel_activity()
     // we don't want that to persist if there is another interruption.
     // and player moves elsewhere.
     if( has_activity( ACT_WAIT_STAMINA ) && !backlog.empty() &&
-        backlog.front().auto_resume ) {
-        backlog.front().auto_resume = false;
+        backlog.front()->auto_resume ) {
+        backlog.front()->auto_resume = false;
     }
-    if( activity && activity.is_suspendable() ) {
-        backlog.push_front( activity );
+    if( activity && activity->is_suspendable() ) {
+        backlog.push_front( std::move( activity ) );
     }
     sfx::end_activity_sounds(); // kill activity sounds when canceled
-    activity = player_activity();
+    activity = std::make_unique<player_activity>();
 }
 
 void Character::resume_backlog_activity()
 {
-    if( !backlog.empty() && backlog.front().auto_resume ) {
-        activity = backlog.front();
+    if( !backlog.empty() && backlog.front()->auto_resume ) {
+        activity = std::move( backlog.front() );
         backlog.pop_front();
     }
 }
@@ -9380,8 +9394,8 @@ void Character::fall_asleep()
 void Character::fall_asleep( const time_duration &duration )
 {
     if( activity ) {
-        if( activity.id() == ACT_TRY_SLEEP ) {
-            activity.set_to_null();
+        if( activity->id() == ACT_TRY_SLEEP ) {
+            activity->set_to_null();
         } else {
             cancel_activity();
         }
@@ -9391,7 +9405,7 @@ void Character::fall_asleep( const time_duration &duration )
 
 bool Character::in_sleep_state() const
 {
-    return Creature::in_sleep_state() || activity.id() == ACT_TRY_SLEEP;
+    return Creature::in_sleep_state() || activity->id() == ACT_TRY_SLEEP;
 }
 
 std::string Character::is_snuggling() const
@@ -9672,9 +9686,9 @@ item &Character::get_weapon() const
     return *weapon;
 }
 
-void Character::set_weapon( item &weap )
+void Character::set_weapon( detached_ptr<item> &&weap )
 {
-    weapon = &weap;
+    weapon = std::move( weap );
 }
 
 bool Character::has_charges( const itype_id &it, int quantity,
@@ -9706,27 +9720,19 @@ bool Character::has_charges( const itype_id &it, int quantity,
     return charges_of( it, quantity, filter ) == quantity;
 }
 
-ItemList Character::use_amount( itype_id it, int quantity,
-                                const std::function<bool( const item & )> &filter )
+std::vector<detached_ptr<item>> Character::use_amount( itype_id it, int quantity,
+                             const std::function<bool( const item & )> &filter )
 {
-    ItemList ret;
-    if( weapon->use_amount( it, quantity, ret ) ) {
-        remove_weapon();
-    }
-    for( auto a = worn.begin(); a != worn.end() && quantity > 0; ) {
-        if( ( *a )->use_amount( it, quantity, ret, filter ) ) {
-            ( *a )->on_takeoff( *this );
-            a = worn.erase( a );
-        } else {
-            ++a;
+    std::vector<detached_ptr<item>> ret;
+
+    remove_items_with( [&ret, &quantity, &it, filter]( detached_ptr<item> &&a ) {
+        if( quantity > 0 && a->typeId() == it && filter( *a ) ) {
+            ret.push_back( std::move( a ) );
+            return VisitResponse::SKIP;
         }
-    }
-    if( quantity <= 0 ) {
-        return ret;
-    }
-    ItemList tmp = inv.use_amount( it, quantity, filter );
-    ret.insert( ret.end(), tmp.begin(), tmp.end() );
-    //ret.splice( ret.end(), tmp );
+        return VisitResponse::NEXT;
+    } );
+
     return ret;
 }
 
@@ -9739,10 +9745,10 @@ bool Character::use_charges_if_avail( const itype_id &it, int quantity )
     return false;
 }
 
-ItemList Character::use_charges( const itype_id &what, int qty,
-                                 const std::function<bool( const item & )> &filter )
+std::vector<detached_ptr<item>> Character::use_charges( const itype_id &what, int qty,
+                             const std::function<bool( const item & )> &filter )
 {
-    ItemList res;
+    std::vector<detached_ptr<item>> res;
 
     if( qty <= 0 ) {
         return res;
@@ -9787,15 +9793,17 @@ ItemList Character::use_charges( const itype_id &what, int qty,
 
         int adv = charges_of( itype_adv_UPS_off, static_cast<int>( std::ceil( qty * 0.6 ) ) );
         if( adv > 0 ) {
-            ItemList found = use_charges( itype_adv_UPS_off, adv );
-            res.insert( res.end(), found.begin(), found.end() );
+            std::vector<detached_ptr<item>> found = use_charges( itype_adv_UPS_off, adv );
+            res.insert( res.end(), std::make_move_iterator( found.begin() ),
+                        std::make_move_iterator( found.end() ) );
             qty -= std::min( qty, static_cast<int>( adv / 0.6 ) );
         }
 
         int ups = charges_of( itype_UPS_off, qty );
         if( ups > 0 ) {
-            ItemList found = use_charges( itype_UPS_off, ups );
-            res.insert( res.end(), found.begin(), found.end() );
+            std::vector<detached_ptr<item>> found = use_charges( itype_UPS_off, ups );
+            res.insert( res.end(), std::make_move_iterator( found.begin() ),
+                        std::make_move_iterator( found.end() ) );
             qty -= std::min( qty, ups );
         }
         return res;
@@ -10209,33 +10217,33 @@ void Character::place_corpse()
     if( !death_drops ) {
         return;
     }
-    std::vector<item *> tmp = inv_dump();
-    item &body = item::make_corpse( mtype_id::NULL_ID(), calendar::turn, name );
+    std::vector<detached_ptr<item>> tmp = inv_dump_remove();
+    detached_ptr<item> body = item::make_corpse( mtype_id::NULL_ID(), calendar::turn, name );
     map &here = get_map();
-    for( auto itm : tmp ) {
-        here.add_item_or_charges( pos(), *itm );
+    for( auto &itm : tmp ) {
+        here.add_item_or_charges( pos(), std::move( itm ) );
     }
     for( const bionic &bio : *my_bionics ) {
         if( bio.info().itype().is_valid() ) {
-            item &cbm = *item_spawn( bio.id.str(), calendar::turn );
-            cbm.faults.emplace( fault_bionic_nonsterile );
-            body.add_component( cbm );
+            detached_ptr<item> cbm = item::spawn( bio.id.str(), calendar::turn );
+            cbm->faults.emplace( fault_bionic_nonsterile );
+            body->add_component( std::move( cbm ) );
         }
     }
 
     // Restore amount of installed pseudo-modules of Power Storage Units
     std::pair<int, int> storage_modules = amount_of_storage_bionics();
     for( int i = 0; i < storage_modules.first; ++i ) {
-        item &cbm = *item_spawn( itype_power_storage );
-        cbm.faults.emplace( fault_bionic_nonsterile );
-        body.add_component( cbm );
+        detached_ptr<item> cbm = item::spawn( itype_power_storage );
+        cbm->faults.emplace( fault_bionic_nonsterile );
+        body->add_component( std::move( cbm ) );
     }
     for( int i = 0; i < storage_modules.second; ++i ) {
-        item &cbm = *item_spawn( itype_power_storage_mkII );
-        cbm.faults.emplace( fault_bionic_nonsterile );
-        body.add_component( cbm );
+        detached_ptr<item> cbm = item::spawn( itype_power_storage_mkII );
+        cbm->faults.emplace( fault_bionic_nonsterile );
+        body->add_component( std::move( cbm ) );
     }
-    here.add_item_or_charges( pos(), body );
+    here.add_item_or_charges( pos(), std::move( body ) );
 }
 
 void Character::place_corpse( const tripoint_abs_omt &om_target )
@@ -10259,26 +10267,26 @@ void Character::place_corpse( const tripoint_abs_omt &om_target )
         }
     }
 
-    std::vector<item *> tmp = inv_dump();
-    item &body = item::make_corpse( mtype_id::NULL_ID(), calendar::turn, name );
-    for( auto itm : tmp ) {
-        bay.add_item_or_charges( fin, *itm );
+    std::vector<detached_ptr<item>> tmp = inv_dump_remove();
+    detached_ptr<item> body = item::make_corpse( mtype_id::NULL_ID(), calendar::turn, name );
+    for( auto &itm : tmp ) {
+        bay.add_item_or_charges( fin, std::move( itm ) );
     }
     for( const bionic &bio : *my_bionics ) {
         if( bio.info().itype().is_valid() ) {
-            body.put_in( *item_spawn( bio.info().itype(), calendar::turn ) );
+            body->put_in( item::spawn( bio.info().itype(), calendar::turn ) );
         }
     }
 
     // Restore amount of installed pseudo-modules of Power Storage Units
     std::pair<int, int> storage_modules = amount_of_storage_bionics();
     for( int i = 0; i < storage_modules.first; ++i ) {
-        body.put_in( *item_spawn( "bio_power_storage" ) );
+        body->put_in( item::spawn( "bio_power_storage" ) );
     }
     for( int i = 0; i < storage_modules.second; ++i ) {
-        body.put_in( *item_spawn( "bio_power_storage_mkII" ) );
+        body->put_in( item::spawn( "bio_power_storage_mkII" ) );
     }
-    bay.add_item_or_charges( fin, body );
+    bay.add_item_or_charges( fin, std::move( body ) );
 }
 
 bool Character::sees_with_infrared( const Creature &critter ) const
@@ -10560,19 +10568,20 @@ nc_color Character::bodytemp_color( int bp ) const
 }
 
 void Character::set_destination( const std::vector<tripoint> &route,
-                                 const player_activity &new_destination_activity )
+                                 std::unique_ptr<player_activity> new_destination_activity )
 {
     auto_move_route = route;
-    set_destination_activity( new_destination_activity );
+    set_destination_activity( std::move( new_destination_activity ) );
     destination_point.emplace( get_map().getabs( route.back() ) );
 }
 
-void Character::clear_destination()
+std::unique_ptr<player_activity> Character::clear_destination()
 {
     auto_move_route.clear();
-    clear_destination_activity();
+    std::unique_ptr<player_activity> ret = clear_destination_activity();
     destination_point = cata::nullopt;
     next_expected_position = cata::nullopt;
+    return ret;
 }
 
 bool Character::has_distant_destination() const
@@ -10604,8 +10613,7 @@ void Character::start_destination_activity()
         return;
     }
 
-    assign_activity( get_destination_activity() );
-    clear_destination();
+    assign_activity( std::move( clear_destination() ) );
 }
 
 std::vector<tripoint> &Character::get_auto_move_route()

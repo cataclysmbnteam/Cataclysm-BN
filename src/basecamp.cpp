@@ -395,7 +395,7 @@ void basecamp::add_resource( const itype_id &camp_resource )
 {
     basecamp_resource bcp_r;
     bcp_r.fake_id = camp_resource;
-    item &camp_item = *item_spawn( bcp_r.fake_id, calendar::start_of_cataclysm );
+    item &camp_item = *item::spawn_temporary( bcp_r.fake_id, calendar::start_of_cataclysm );
     bcp_r.ammo_id = camp_item.ammo_default();
     resources.emplace_back( bcp_r );
     fuel_types.insert( bcp_r.ammo_id );
@@ -580,7 +580,7 @@ void basecamp::set_name( const std::string &new_name )
 /*
  * we could put this logic in map::use_charges() the way the vehicle code does, but I think
  * that's sloppy
- */
+ * //TODO!: temporarily removed because I think it's unused. If you see this it means I forgot to delete it please just do it.
 ItemList basecamp::use_charges( const itype_id &fake_id, int &quantity )
 {
     ItemList ret;
@@ -601,7 +601,7 @@ ItemList basecamp::use_charges( const itype_id &fake_id, int &quantity )
         }
     }
     return ret;
-}
+}*/
 
 void basecamp::form_crafting_inventory( map &target_map )
 {
@@ -646,7 +646,7 @@ void basecamp::form_crafting_inventory( map &target_map )
     }
     for( basecamp_resource &bcp_r : resources ) {
         bcp_r.consumed = 0;
-        item &camp_item = *item_spawn_temporary( bcp_r.fake_id, calendar::start_of_cataclysm );
+        item &camp_item = *item::spawn_temporary( bcp_r.fake_id, calendar::start_of_cataclysm );
         camp_item.set_flag( "PSEUDO" );
         if( !bcp_r.ammo_id.is_null() ) {
             for( basecamp_fuel &bcp_f : fuels ) {

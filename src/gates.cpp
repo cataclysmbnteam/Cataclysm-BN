@@ -245,10 +245,10 @@ void gates::toggle_gate( const tripoint &pos, player &p )
     const gate_data &gate = gates_data.obj( gid );
 
     p.add_msg_if_player( gate.pull_message );
-    p.assign_activity( player_activity( toggle_gate_activity_actor(
-                                            gate.moves,
-                                            pos
-                                        ) ) );
+    p.assign_activity( std::make_unique<player_activity>( toggle_gate_activity_actor(
+                           gate.moves,
+                           pos
+                       ) ) );
 }
 
 // Doors namespace
@@ -333,10 +333,10 @@ void doors::close_door( map &m, Character &who, const tripoint &closep )
                 if( m.has_flag( "NOITEM", closep ) ) {
                     // Just plopping items back on their origin square will displace them to adjacent squares
                     // since the door is closed now.
-                    for( auto &elem : items_in_way ) {
-                        m.add_item_or_charges( closep, *elem );
+
+                    for( auto &elem : m.i_clear( closep ) ) {
+                        m.add_item_or_charges( closep, std::move( elem ) );
                     }
-                    m.i_clear( closep );
                 }
             }
         } else {

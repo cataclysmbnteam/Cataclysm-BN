@@ -94,9 +94,12 @@ void siphon( Character &ch, vehicle &veh, const itype_id &desired_liquid )
         return;
     }
 
-    item &liquid = *item_spawn( desired_liquid, calendar::turn, qty );
-    if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, &veh ) ) {
-        veh.drain( desired_liquid, qty - liquid.charges );
+    detached_ptr<item> liquid = item::spawn( desired_liquid, calendar::turn, qty );
+    liquid_handler::handle_liquid( std::move( liquid ) );
+    if( liquid ) {
+        veh.drain( desired_liquid, qty - liquid->charges );
+    } else {
+        veh.drain( desired_liquid, qty );
     }
 }
 
@@ -486,9 +489,7 @@ void add_pain_msg( const Character &who, int val, body_part bp )
 void normalize( Character &who )
 {
     who.martial_arts_data->reset_style();
-    item &wep = who.get_weapon();
-    wep.detach();
-    wep.destroy();
+    who.remove_weapon();
 
     who.set_body();
     who.recalc_hp();
@@ -547,15 +548,11 @@ bool try_wield_contents( Character &who, item &container, item *internal_item, b
         who.inv_unsort();
     }
 
-    internal_item->detach();
+    who.set_weapon( internal_item->detach() );
 
-    who.set_weapon( *internal_item );
-
-    item &weapon = who.get_weapon();
-
-    who.inv_update_invlet( weapon );
-    who.inv_update_cache_with_item( weapon );
-    who.last_item = weapon.typeId();
+    who.inv_update_invlet( *internal_item );
+    who.inv_update_cache_with_item( *internal_item );
+    who.last_item = internal_item->typeId();
 
     /**
      * @EFFECT_PISTOL decreases time taken to draw pistols from holsters
@@ -567,12 +564,13 @@ bool try_wield_contents( Character &who, item &container, item *internal_item, b
      * @EFFECT_CUTTING decreases time taken to draw cutting weapons from scabbards
      * @EFFECT_BASHING decreases time taken to draw bashing weapons from holsters
      */
-    int lvl = who.get_skill_level( weapon.is_gun() ? weapon.gun_skill() : weapon.melee_skill() );
-    mv += who.item_handling_cost( weapon, penalties, base_cost ) / ( ( lvl + 10.0f ) / 10.0f );
+    int lvl = who.get_skill_level( internal_item->is_gun() ? internal_item->gun_skill() :
+                                   internal_item->melee_skill() );
+    mv += who.item_handling_cost( *internal_item, penalties, base_cost ) / ( ( lvl + 10.0f ) / 10.0f );
 
     who.moves -= mv;
 
-    weapon.on_wield( *who.as_player(), mv );
+    internal_item->on_wield( *who.as_player(), mv );
 
     return true;
 }

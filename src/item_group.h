@@ -26,11 +26,11 @@ namespace item_group
  * Note that this may return a null-item, if the group does not exist, is empty or did not
  * create an item this time. You have to check this with @ref item::is_null.
  */
-item *item_from( const item_group_id &group_id, const time_point &birthday );
+detached_ptr<item> item_from( const item_group_id &group_id, const time_point &birthday );
 /**
  * Same as above but with implicit birthday at turn 0.
  */
-item *item_from( const item_group_id &group_id );
+detached_ptr<item> item_from( const item_group_id &group_id );
 
 using ItemList = std::vector<item *>;
 /**
@@ -47,11 +47,12 @@ using ItemList = std::vector<item *>;
  * with @ref group_is_defined.
  * @param birthday The birthday (@ref item::bday) of the items created by this function.
  */
-ItemList items_from( const item_group_id &group_id, const time_point &birthday );
+std::vector<detached_ptr<item>> items_from( const item_group_id &group_id,
+                             const time_point &birthday );
 /**
  * Same as above but with implicit birthday at turn 0.
  */
-ItemList items_from( const item_group_id &group_id );
+std::vector<detached_ptr<item>> items_from( const item_group_id &group_id );
 /**
  * Check whether a specific item group contains a specific item type.
  */
@@ -115,14 +116,16 @@ class Item_spawn_data
          * @param[in] birthday All items have that value as birthday.
          * @param[out] rec Recursion list, output goes here
          */
-        virtual ItemList create( const time_point &birthday, RecursionList &rec ) const = 0;
-        ItemList create( const time_point &birthday ) const;
+        virtual std::vector<detached_ptr<item>> create( const time_point &birthday,
+                                             RecursionList &rec ) const = 0;
+        std::vector<detached_ptr<item>> create( const time_point &birthday ) const;
         /**
          * The same as create, but create a single item only.
          * The returned item might be a null item!
          */
-        virtual item *create_single( const time_point &birthday, RecursionList &rec ) const = 0;
-        item *create_single( const time_point &birthday ) const;
+        virtual detached_ptr<item> create_single( const time_point &birthday,
+                RecursionList &rec ) const = 0;
+        detached_ptr<item> create_single( const time_point &birthday ) const;
         /**
          * Check item / spawn settings for consistency. Includes
          * checking for valid item types and valid settings.
@@ -233,8 +236,9 @@ class Single_item_creator : public Item_spawn_data
 
         void inherit_ammo_mag_chances( int ammo, int mag );
 
-        ItemList create( const time_point &birthday, RecursionList &rec ) const override;
-        item *create_single( const time_point &birthday, RecursionList &rec ) const override;
+        std::vector<detached_ptr<item>> create( const time_point &birthday,
+                                                RecursionList &rec ) const override;
+        detached_ptr<item>create_single( const time_point &birthday, RecursionList &rec ) const override;
         void check_consistency( const std::string &context ) const override;
         bool remove_item( const itype_id &itemid ) override;
         bool replace_item( const itype_id &itemid, const itype_id &replacementid ) override;
@@ -279,8 +283,9 @@ class Item_group : public Item_spawn_data
          */
         void add_entry( std::unique_ptr<Item_spawn_data> ptr );
 
-        ItemList create( const time_point &birthday, RecursionList &rec ) const override;
-        item *create_single( const time_point &birthday, RecursionList &rec ) const override;
+        std::vector<detached_ptr<item>> create( const time_point &birthday,
+                                                RecursionList &rec ) const override;
+        detached_ptr<item> create_single( const time_point &birthday, RecursionList &rec ) const override;
         void check_consistency( const std::string &context ) const override;
         bool remove_item( const itype_id &itemid ) override;
         bool replace_item( const itype_id &itemid, const itype_id &replacementid ) override;

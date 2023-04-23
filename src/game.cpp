@@ -1549,10 +1549,10 @@ bool game::do_turn()
         wait_redraw = true;
         wait_message = _( "Travelling…" );
         wait_refresh_rate = 15_turns;
-    } else if( const cata::optional<std::string> progress = u.activity.get_progress_message( u ) ) {
+    } else if( const cata::optional<std::string> progress = u.activity->get_progress_message( u ) ) {
         wait_redraw = true;
         wait_message = *progress;
-        if( u.activity.id() == ACT_AUTODRIVE ) {
+        if( u.activity->id() == ACT_AUTODRIVE ) {
             wait_refresh_rate = 1_turns;
         } else {
             wait_refresh_rate = 5_minutes;
@@ -1624,7 +1624,7 @@ void game::process_voluntary_act_interrupt()
         return;
     }
 
-    bool has_activity = u.activity && u.activity.moves_left > 0;
+    bool has_activity = u.activity && u.activity->moves_left > 0;
     bool is_travelling = u.has_destination() && !u.omt_path.empty();
 
     if( !has_activity && !is_travelling ) {
@@ -1647,7 +1647,7 @@ void game::process_voluntary_act_interrupt()
     // regardless of previous safemode warnings.
     // Distraction Manager can change this.
     if( has_activity && !u.has_activity( activity_id( "ACT_AIM" ) ) &&
-        !u.activity.is_distraction_ignored( distraction_type::hostile_spotted_near ) ) {
+        !u.activity->is_distraction_ignored( distraction_type::hostile_spotted_near ) ) {
         Creature *hostile_critter = is_hostile_very_close();
         if( hostile_critter != nullptr ) {
             cancel_activity_or_ignore_query( distraction_type::hostile_spotted_near,
@@ -1664,7 +1664,7 @@ void game::process_activity()
     }
 
     while( u.moves > 0 && u.activity ) {
-        u.activity.do_turn( u );
+        u.activity->do_turn( u );
     }
 }
 
@@ -1715,11 +1715,12 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
         if( cancel_auto_move( u, text ) ) {
             return true;
         } else {
-            u.set_destination( u.get_auto_move_route(), player_activity( activity_id( "ACT_TRAVELLING" ) ) );
+            u.set_destination( u.get_auto_move_route(),
+                               std::make_unique<player_activity>( activity_id( "ACT_TRAVELLING" ) ) );
             return false;
         }
     }
-    if( !u.activity || u.activity.is_distraction_ignored( type ) ) {
+    if( !u.activity || u.activity->is_distraction_ignored( type ) ) {
         return false;
     }
     const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
@@ -1733,7 +1734,7 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
                                            "<color_light_red>%s %s (Case Sensitive)</color>" ) :
                                    pgettext( "cancel_activity_or_ignore_query",
                                            "<color_light_red>%s %s</color>" ),
-                                   text, u.activity.get_stop_phrase() )
+                                   text, u.activity->get_stop_phrase() )
                          .option( "YES", allow_key )
                          .option( "NO", allow_key )
                          .option( "MANAGER", allow_key )
@@ -1746,9 +1747,9 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
         return true;
     }
     if( action == "IGNORE" ) {
-        u.activity.ignore_distraction( type );
+        u.activity->ignore_distraction( type );
         for( auto &activity : u.backlog ) {
-            activity.ignore_distraction( type );
+            activity->ignore_distraction( type );
         }
     }
     if( action == "MANAGER" ) {
@@ -1770,14 +1771,15 @@ bool game::cancel_activity_query( const std::string &text )
         if( cancel_auto_move( u, text ) ) {
             return true;
         } else {
-            u.set_destination( u.get_auto_move_route(), player_activity( activity_id( "ACT_TRAVELLING" ) ) );
+            u.set_destination( u.get_auto_move_route(),
+                               std::make_unique<player_activity>( activity_id( "ACT_TRAVELLING" ) ) );
             return false;
         }
     }
     if( !u.activity ) {
         return false;
     }
-    if( query_yn( "%s %s", text, u.activity.get_stop_phrase() ) ) {
+    if( query_yn( "%s %s", text, u.activity->get_stop_phrase() ) ) {
         u.cancel_activity();
         u.clear_destination();
         u.resume_backlog_activity();
@@ -1985,7 +1987,7 @@ void game::handle_key_blocking_activity()
     const std::string action = ctxt.handle_input( 0 );
     bool refresh = true;
     if( action == "pause" ) {
-        if( u.activity.interruptable_with_kb ) {
+        if( u.activity->interruptable_with_kb ) {
             cancel_activity_query( _( "Confirm:" ) );
         }
     } else if( action == "player_data" ) {
@@ -2558,7 +2560,7 @@ bool game::load( const save_t &name )
     u = avatar();
     u.name = name.player_name();
     // This should be initialized more globally (in player/Character constructor)
-    u.set_weapon( null_item_reference() );
+    u.remove_weapon();
     if( !read_from_file( playerpath + SAVE_EXTENSION, std::bind( &game::unserialize, this, _1 ) ) ) {
         return false;
     }
@@ -4153,7 +4155,7 @@ void game::monmove()
             guy.process_turn();
         }
         while( !guy.is_dead() && guy.moves > 0 && turns < 10 &&
-               ( !guy.in_sleep_state() || guy.activity.id() == ACT_OPERATION )
+               ( !guy.in_sleep_state() || guy.activity->id() == ACT_OPERATION )
              ) {
             int moves = guy.moves;
             guy.move();
@@ -4970,10 +4972,10 @@ void game::exam_vehicle( vehicle &veh, point c )
         add_msg( m_info, _( "This is your %s" ), veh.name );
         return;
     }
-    auto act = veh_interact::run( veh, c );
+    std::unique_ptr<player_activity> act = veh_interact::run( veh, c );
     if( act ) {
         u.moves = 0;
-        u.assign_activity( act );
+        u.assign_activity( std::move( act ) );
     }
 }
 
@@ -5104,8 +5106,9 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
             if( cannot_push ) {
                 return false;
             }
-            m.add_item_or_charges( kbp, **it );
-            it = items.erase( it );
+            detached_ptr<item> det;
+            it = items.erase( it, &det );
+            m.add_item_or_charges( kbp, std::move( det ) );
         }
     }
     return true;
@@ -8497,7 +8500,7 @@ void game::butcher()
                 case MULTIBUTCHER:
                     butcher_submenu( corpses );
                     for( map_stack::iterator &it : corpses ) {
-                        u.activity.targets.emplace_back( *it );
+                        u.activity->targets.emplace_back( *it );
                     }
                     break;
                 case MULTIDISASSEMBLE_ONE:
@@ -8513,7 +8516,7 @@ void game::butcher()
             break;
         case BUTCHER_CORPSE: {
             butcher_submenu( corpses, indexer_index );
-            u.activity.targets.emplace_back( *corpses[indexer_index] );
+            u.activity->targets.emplace_back( *corpses[indexer_index] );
         }
         break;
         case BUTCHER_DISASSEMBLE: {
@@ -8622,7 +8625,7 @@ bool game::disable_robot( const tripoint &p )
         query_yn( _( "Deactivate the %s?" ), critter.name() ) ) {
 
         u.moves -= 100;
-        m.add_item_or_charges( p, *critter.to_item() );
+        m.add_item_or_charges( p, critter.to_item() );
         if( !critter.has_flag( MF_INTERIOR_AMMO ) ) {
             for( auto &ammodef : critter.ammo ) {
                 if( ammodef.second > 0 ) {
@@ -9239,7 +9242,7 @@ point game::place_player( const tripoint &dest_loc )
             if( !corpses.empty() ) {
                 u.assign_activity( activity_id( "ACT_BUTCHER" ), 0, true );
                 for( item *&it : corpses ) {
-                    u.activity.targets.emplace_back( it );
+                    u.activity->targets.emplace_back( it );
                 }
             }
         } else if( pulp_butcher == "pulp" || pulp_butcher == "pulp_adjacent" ) {
@@ -9248,9 +9251,9 @@ point game::place_player( const tripoint &dest_loc )
                     if( maybe_corpse->is_corpse() && maybe_corpse->can_revive() &&
                         !maybe_corpse->get_mtype()->bloodType().obj().has_acid ) {
                         u.assign_activity( activity_id( "ACT_PULP" ), calendar::INDEFINITELY_LONG, 0 );
-                        u.activity.placement = m.getabs( pos );
-                        u.activity.auto_resume = true;
-                        u.activity.str_values.push_back( "auto_pulp_no_acid" );
+                        u.activity->placement = m.getabs( pos );
+                        u.activity->auto_resume = true;
+                        u.activity->str_values.push_back( "auto_pulp_no_acid" );
                         return;
                     }
                 }
@@ -9622,17 +9625,13 @@ bool game::grabbed_furn_move( const tripoint &dp )
     if( src_items > 0 ) { // Move the stuff inside.
         if( dst_item_ok && src_item_ok ) {
             // Assume contents of both cells are legal, so we can just swap contents.
-            ItemList temp;
-            std::move( m.i_at( fpos ).begin(), m.i_at( fpos ).end(),
-                       std::back_inserter( temp ) );
-            m.i_clear( fpos );
-            for( auto item_iter = m.i_at( fdest ).begin();
-                 item_iter != m.i_at( fdest ).end(); ++item_iter ) {
-                m.i_at( fpos ).insert( **item_iter );
+            std::vector<detached_ptr<item>> temp = m.i_clear( fpos );
+            std::vector<detached_ptr<item>> temp2 = m.i_clear( fdest );
+            for( detached_ptr<item> &it : temp ) {
+                m.i_at( fdest ).insert( std::move( it ) );
             }
-            m.i_clear( fdest );
-            for( auto &cur_item : temp ) {
-                m.i_at( fdest ).insert( *cur_item );
+            for( detached_ptr<item> &it : temp2 ) {
+                m.i_at( fpos ).insert( std::move( it ) );
             }
         } else {
             add_msg( _( "Stuff spills from the %s!" ), furntype.name() );
@@ -9692,7 +9691,7 @@ void game::on_move_effects()
 {
     // TODO: Move this to a character method
     if( !u.is_mounted() ) {
-        const item &muscle = *item_spawn_temporary( "muscle" );
+        const item &muscle = *item::spawn_temporary( "muscle" );
         for( const bionic_id &bid : u.get_bionic_fueled_with( muscle ) ) {
             if( u.has_active_bionic( bid ) ) {// active power gen
                 u.mod_power_level( units::from_kilojoule( muscle.fuel_energy() ) * bid->fuel_efficiency );
@@ -10384,12 +10383,12 @@ void game::start_hauling( const tripoint &pos )
     // Destination relative to the player
     const tripoint relative_destination{};
 
-    u.assign_activity( player_activity( move_items_activity_actor(
-                                            target_items,
-                                            quantities,
-                                            to_vehicle,
-                                            relative_destination
-                                        ) ) );
+    u.assign_activity( std::make_unique<player_activity>( move_items_activity_actor(
+                           target_items,
+                           quantities,
+                           to_vehicle,
+                           relative_destination
+                       ) ) );
 }
 
 cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladder,

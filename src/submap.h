@@ -52,7 +52,7 @@ struct maptile_soa {
     ter_id             ter[sx][sy];  // Terrain on each square
     furn_id            frn[sx][sy];  // Furniture on each square
     std::uint8_t       lum[sx][sy];  // Number of items emitting light on each square
-    cata::colony<item &> itm[sx][sy]; // Items on each square
+    location_vector<item> itm[sx][sy]; // Items on each square
     field              fld[sx][sy];  // Field on each square
     trap_id            trp[sx][sy];  // Trap on each square
     int                rad[sx][sy];  // Irradiation of each square
@@ -136,11 +136,11 @@ class submap : maptile_soa<SEEX, SEEY>
         void update_lum_rem( point p, const item &i );
 
         // TODO: Replace this as it essentially makes itm public
-        std::vector<item *> &get_items( const point &p ) {
+        location_vector<item> &get_items( const point &p ) {
             return itm[p.x][p.y];
         }
 
-        const std::vector<item *> &get_items( const point &p ) const {
+        const location_vector<item> &get_items( const point &p ) const {
             return itm[p.x][p.y];
         }
 

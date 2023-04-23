@@ -904,6 +904,7 @@ class npc : public player
         void do_npc_read();
         void stow_item( item &it );
         bool wield( item &it ) override;
+        void wield( detached_ptr<item> &&it ) override;
         void drop( const drop_locations &what, const tripoint &target,
                    bool stash ) override;
         bool adjust_worn();
@@ -1279,7 +1280,7 @@ class npc : public player
         time_point companion_mission_time; //When you left for ongoing/repeating missions
         time_point
         companion_mission_time_ret; //When you are expected to return for calculated/variable mission returns
-        inventory companion_mission_inv; //Inventory that is added and dropped on mission
+        location_inventory companion_mission_inv; //Inventory that is added and dropped on mission
         npc_mission mission;
         npc_mission previous_mission = NPC_MISSION_NULL;
         npc_personality personality;
@@ -1327,13 +1328,17 @@ class npc : public player
         npc_companion_mission get_companion_mission() const;
         attitude_group get_attitude_group( npc_attitude att ) const;
 
+        detached_ptr<item> remove_real_weapon();
+        item &get_real_weapon();
+        void set_real_weapon( detached_ptr<item> &&weapon );
+
     protected:
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
 
     private:
         // the weapon we're actually holding when using bionic fake guns
-        item *real_weapon;
+        location_ptr<item> real_weapon;
         // the index of the bionics for the fake gun;
         int cbm_weapon_index = -1;
 

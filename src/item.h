@@ -229,7 +229,7 @@ enum class item_location_type : int {
     monster = 5,
 };
 
-class item : public visitable<item>, public game_object<item>
+class item : public location_visitable<item>, public game_object<item>
 {
     public:
         struct default_charges_tag {};
@@ -237,7 +237,7 @@ class item : public visitable<item>, public game_object<item>
     private:
         item();
 
-        item( item && );
+        item( item && ) = delete;
         item( const item & );
 
         explicit item( const itype_id &id, time_point turn = calendar::turn, int qty = -1 );
@@ -254,8 +254,8 @@ class item : public visitable<item>, public game_object<item>
         item( const itype *type, time_point turn, solitary_tag );
 
         /** For constructing in-progress crafts */
-        item( const recipe *rec, int qty, std::vector<detached_ptr<item>> items,
-              std::vector<item_comp> selections );
+        item( const recipe *rec, int qty, std::vector<detached_ptr<item>> &&items,
+              std::vector<item_comp> &&selections );
 
         // Legacy constructor for constructing from string rather than itype_id
         // TODO: remove this and migrate code using it.
@@ -283,7 +283,7 @@ class item : public visitable<item>, public game_object<item>
             if( source.is_null() ) {
                 return detached_ptr<item>( &null_item_reference() );
             }
-            return new item( source );
+            return detached_ptr<item>( new item( source ) );
         }
 
         template<typename... T>
@@ -349,7 +349,7 @@ class item : public visitable<item>, public game_object<item>
          * If the item is neither a tool, gun nor magazine is a no-op
          * For items reloading using magazines any empty magazine remains present.
          */
-        detached_ptr<item> ammo_unset();
+        void ammo_unset();
 
         /**
          * Sets damage constrained by @ref min_damage and @ref max_damage
@@ -365,6 +365,16 @@ class item : public visitable<item>, public game_object<item>
          * @return new instance containing exactly qty charges or *this after detaching
          */
         detached_ptr<item> split( int qty );
+
+        virtual bool attempt_detach( std::function < detached_ptr<item>( detached_ptr<item> && ) > )
+        override;
+
+        /**
+         * Similar to attempt_detach except this splits a count-by-charges item, taking qty charges away from it and creating a new (detached) item from them.
+         * This detached item is then passed to the lambda. Whatever is returned by the lambda is then merged back into the original item, even if all charges were taken originally.
+         * Trying to call this on a non-count-by-charges item or returning an item dissimilar to the argument will result in a debugmsg.
+         */
+        bool attempt_split( int qty, std::function < detached_ptr<item>( detached_ptr<item> && ) > cb );
 
         /**
          * Make a corpse of the given monster type.
@@ -688,7 +698,8 @@ class item : public visitable<item>, public game_object<item>
          * @param filter Must return true for use to occur.
          * @return true if this item should be deleted (count-by-charges items with no remaining charges)
          */
-        bool use_charges( const itype_id &what, int &qty, ItemList &used, const tripoint &pos,
+        bool use_charges( const itype_id &what, int &qty, std::vector<detached_ptr<item>> &used,
+                          const tripoint &pos,
                           const std::function<bool( const item & )> &filter = return_true<item> );
 
         /**
@@ -713,11 +724,11 @@ class item : public visitable<item>, public game_object<item>
          * This includes this item, and any of its contents (recursively).
          * @see item::use_charges - this is similar for items, not charges.
          * @param it Type of consumable item.
-         * @param quantity How much to consumed.
+         * @param quantity How much to consume.
          * @param used On success all consumed items will be stored here.
          * @param filter Must return true for use to occur.
          */
-        bool use_amount( const itype_id &it, int &quantity, ItemList &used,
+        void use_amount( const itype_id &it, int &quantity, std::vector<detached_ptr<item>> &used,
                          const std::function<bool( const item & )> &filter = return_true<item> );
 
         /** Permits filthy components, should only be used as a helper in creating filters */
@@ -778,14 +789,15 @@ class item : public visitable<item>, public game_object<item>
         /**
          * Puts the given item into this one, no checks are performed.
          */
-        void put_in( detached_ptr<item> payload );
+        void put_in( detached_ptr<item> &&payload );
 
         /**
          * Returns this item into its default container. If it does not have a default container,
          * returns this. It's intended to be used like \code newitem = newitem.in_its_container();\endcode
+         * You must pass the detached_ptr representing the current object, so that it can be placed inside its container.
          */
-        detached_ptr<item> in_its_container();
-        detached_ptr<item> in_container( const itype_id &container_type );
+        static detached_ptr<item> in_its_container( detached_ptr<item> &&self );
+        static detached_ptr<item> in_container( const itype_id &container_type, detached_ptr<item> &&self );
         /*@}*/
 
         bool item_has_uses_recursive() const;
@@ -1841,8 +1853,8 @@ class item : public visitable<item>, public game_object<item>
         /** How many spent casings are contained within this item? */
         int casings_count() const;
 
-        /** Apply predicate to each contained spent casing removing it if predicate returns true */
-        void casings_handle( const std::function<bool( item & )> &func );
+        /** Apply function to each contained spent casing. If the detached_ptr is not moved from the casing will be replaced. */
+        void casings_handle( const std::function < void( detached_ptr<item> && ) > &func );
 
         /** Does item have an integral magazine (as opposed to allowing detachable magazines) */
         bool magazine_integral() const;
@@ -2194,14 +2206,27 @@ class item : public visitable<item>, public game_object<item>
         const std::vector<relic_recharge> &get_relic_recharge_scheme() const;
 
     private:
-        bool use_amount_internal( const itype_id &it, int &quantity, ItemList &used,
-                                  const std::function<bool( const item & )> &filter = return_true<item> );
         const use_function *get_use_internal( const std::string &use_name ) const;
         bool process_internal( player *carrier, const tripoint &pos, bool activate,
                                bool seals, temperature_flag flag, const weather_manager &weather_generator );
 
         /** Helper for checking reloadability. **/
         bool is_reloadable_helper( const itype_id &ammo, bool now ) const;
+
+        /**
+         * Splits an item similar to split, however it must be called on a count-by-charges item and if the entire stack is taken it will leave a 0 charge item behind.
+         * This should be used with unsafe_rejoin to ensure that 0 charge items are cleaned up and safe references transfer correctly.
+         * detached_ptr<item> new=old.unsafe_split();
+         * new->unsafe_rejoin(old);
+         */
+        detached_ptr<item> unsafe_split( int qty = 0 );
+
+        /**
+         * Used with unsafe_split to handle the 0 charge items that can be created by it. It does nothing if old.charges isn't 0.
+         * The typical flow of calls is to use unsafe_split. Then use functions like pour_into etc. Then use merge_charges to merge any remaining charges back into the old item.
+         * Then finally use this function to handle the case that no charges are remaining.
+         */
+        void unsafe_rejoin( item &old );
 
     public:
         enum class sizing {
@@ -2248,8 +2273,8 @@ class item : public visitable<item>, public game_object<item>
 
         std::vector<detached_ptr<item>> remove_components();
         void add_component( detached_ptr<item> &&comp );
-        const ItemList &get_components() const;
-        ItemList &get_components();
+        const location_vector<item> &get_components() const;
+        location_vector<item> &get_components();
     private:
         location_vector<item> components;
         const itype *curammo = nullptr;

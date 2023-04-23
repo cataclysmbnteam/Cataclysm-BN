@@ -13,6 +13,8 @@
 #include "colony.h"
 
 class item;
+template<typename T>
+class detached_ptr;
 
 enum class VisitResponse {
     ABORT, // Stop processing after this node
@@ -20,8 +22,9 @@ enum class VisitResponse {
     SKIP   // Skip any child nodes and move directly to the next sibling
 };
 
+
 template <typename T>
-class visitable
+class base_visitable
 {
     public:
         /**
@@ -106,6 +109,12 @@ class visitable
         /** Returns all items (including those within a container) matching the filter */
         std::vector<item *> items_with( const std::function<bool( const item & )> &filter ) const;
 
+};
+
+template <typename T>
+class temp_visitable : public base_visitable<T>
+{
+    public:
         /**
          * Removes items contained by this instance which match the filter
          * @note if this instance itself is an item it will not be considered by the filter
@@ -113,8 +122,26 @@ class visitable
          * @param count maximum number of items to if unspecified unlimited. A count of zero is a no-op
          * @return any items removed (items counted by charges are not guaranteed to be stacked)
          */
-        ItemList remove_items_with( const std::function<void( detached_ptr<item> && )> &filter,
+        ItemList remove_items_with( const std::function < bool( item & ) > &filter,
                                     int count = INT_MAX );
+
+        /** Removes and returns the item which must be contained by this instance */
+        void remove_item( item &it );
+};
+
+template <typename T>
+class location_visitable : public base_visitable<T>
+{
+    public:
+        /**
+         * Removes items contained by this instance which match the filter
+         * @note if this instance itself is an item it will not be considered by the filter
+         * @param filter a UnaryPredicate which can optionally std::move the detached pointer. If it does the item will be removed
+         * @param count maximum number of items to if unspecified unlimited. A count of zero is a no-op
+         * @return any items removed (items counted by charges are not guaranteed to be stacked)
+         */
+        void remove_items_with( const std::function < VisitResponse( detached_ptr<item> && ) > &filter,
+                                int count = INT_MAX );
 
         /** Removes and returns the item which must be contained by this instance */
         detached_ptr<item> remove_item( item &it );

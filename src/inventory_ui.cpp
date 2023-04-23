@@ -1178,7 +1178,7 @@ void inventory_selector::add_character_items( Character &character )
         return VisitResponse::NEXT;
     } );
     // Visitable interface does not support stacks so it has to be here
-    for( const auto &elem : character.inv_slice() ) {
+    for( const auto &elem : character.inv_const_slice() ) {
         add_items( own_inv_column, []( item * it ) {
             return it;
         }, restack_items( ( *elem ).begin(), ( *elem ).end(), preset.get_checking_components() ) );

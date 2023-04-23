@@ -418,9 +418,9 @@ activity_handlers::finish_functions = {
 bool activity_handlers::resume_for_multi_activities( player &p )
 {
     if( !p.backlog.empty() ) {
-        player_activity &back_act = p.backlog.front();
-        if( back_act.is_multi_type() ) {
-            p.assign_activity( p.backlog.front().id() );
+        std::unique_ptr<player_activity> &back_act = p.backlog.front();
+        if( back_act->is_multi_type() ) {
+            p.assign_activity( p.backlog.front()->id() );
             p.backlog.clear();
             return true;
         }
@@ -1084,7 +1084,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 for( const fault_id &flt : entry.faults ) {
                     obj.faults.emplace( flt );
                 }
-                if( !p.backlog.empty() && p.backlog.front().id() == ACT_MULTIPLE_BUTCHER ) {
+                if( !p.backlog.empty() && p.backlog.front()->id() == ACT_MULTIPLE_BUTCHER ) {
                     obj.set_var( "activity_var", p.name );
                 }
                 here.add_item_or_charges( p.pos(), std::move( it ) );
@@ -1100,7 +1100,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 for( const fault_id &flt : entry.faults ) {
                     obj.faults.emplace( flt );
                 }
-                if( !p.backlog.empty() && p.backlog.front().id() == ACT_MULTIPLE_BUTCHER ) {
+                if( !p.backlog.empty() && p.backlog.front()->id() == ACT_MULTIPLE_BUTCHER ) {
                     obj.set_var( "activity_var", p.name );
                 }
                 for( int i = 0; i != roll; ++i ) {
@@ -1483,15 +1483,12 @@ void activity_handlers::milk_finish( player_activity *act, player *p )
         return;
     }
     detached_ptr<item> milk = item::spawn( milked_item->first, calendar::turn, milked_item->second );
-    item &milk_it = *milk;
-    if( liquid_handler::handle_liquid( std::move( milk ), nullptr, 1, nullptr, nullptr, -1,
-                                       source_mon ) ) {
+    liquid_handler::handle_liquid( std::move( milk ) );
+    if( !milk ) {
         milked_item->second = 0;
-        if( milk_it.charges > 0 ) {
-            milked_item->second = milk_it.charges;
-        } else {
-            p->add_msg_if_player( _( "The %s's udders run dry." ), source_mon->get_name() );
-        }
+        p->add_msg_if_player( _( "The %s's udders run dry." ), source_mon->get_name() );
+    } else {
+        milked_item->second = milk->charges;
     }
     // if the monster was not manually tied up, but needed to be fixed in place temporarily then
     // remove that now.
@@ -1500,61 +1497,77 @@ void activity_handlers::milk_finish( player_activity *act, player *p )
     }
     act->set_to_null();
 }
-//TODO!: check creation behavior
+
 void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
 {
     player_activity &act_ref = *act;
     map &here = get_map();
     try {
-        // 1. Gather the source item.
-        safe_reference<item> source = act_ref.targets.at( 0 );
-        if( !source ) {
-            //Item has gone missing, abort
-            if( source.is_accessible() ) {
-                p->add_msg_if_player( _( "You lose track of your %1$s." ), source.get_const()->tname() );
-            } else {
-                //Item went missing on a previous turn, something is very wrong.
-                debugmsg( "Lost track of target for fill_liquid activity" );
-            }
-            return;
-        }
 
-        static const units::volume volume_per_second = units::from_liter( 4.0F / 6.0F );
-        int charges = std::max( 1, source->charges_per_volume( volume_per_second ) );
-        detached_ptr<item> poured = std::move( source->split( charges ) );
+        // 1. Prepare source lambda
+        liquid_source_type source_type = static_cast<liquid_source_type>( act_ref.values.at( 0 ) );
+        auto transfer = [source_type, &here,
+                     &act_ref]( std::function < detached_ptr<item>( detached_ptr<item> &&it ) > cb ) {
+            tripoint pos = act_ref.coords.at( 0 );
+            static const units::volume volume_per_second = units::from_liter( 4.0F / 6.0F );
+            int charges;
+            detached_ptr<item> source;
+            switch( source_type ) {
+                case LST_INFINITE_MAP:
+                    source = here.water_from( pos );
+                    charges = std::max( 1, source->charges_per_volume( volume_per_second ) );
+                    source->charges = charges;
+                    cb( std::move( source ) );
+                case LST_VEHICLE:
+                    auto vp = here.veh_at( pos );
+                    if( !vp ) {
+                        debugmsg( "Lost track of vehicle source for fill_liquid activity" );
+                    }
+                    item &source_it = vp->vehicle().part( act_ref.values.at( 1 ) ).get_base().contents.back();
+                    charges = std::max( 1, source_it.charges_per_volume( volume_per_second ) );
+                    source_it.attempt_split( charges, cb );
+            }
+        };
+
         // 2. Transfer charges.
         switch( static_cast<liquid_target_type>( act_ref.values.at( 2 ) ) ) {
             case LTT_VEHICLE:
                 if( const optional_vpart_position vp = here.veh_at( act_ref.coords.at( 1 ) ) ) {
-                    poured = std::move( p->pour_into( vp->vehicle(), std::move( poured ), charges ) );
+                    transfer( [&p, &vp]( detached_ptr<item> &&it ) {
+                        return p->pour_into( vp->vehicle(), std::move( it ) );
+                    } );
                 } else {
                     throw std::runtime_error( "could not find target vehicle for liquid transfer" );
                 }
                 break;
-            case LTT_CONTAINER:
-                poured = std::move( p->pour_into( p->i_at( act_ref.values.at( 3 ) ),  std::move( poured ),
-                                                  charges ) );
-                break;
             case LTT_MAP:
                 if( iexamine::has_keg( act_ref.coords.at( 1 ) ) ) {
-                    poured = std::move( iexamine::pour_into_keg( act_ref.coords.at( 1 ), std::move( poured ),
-                                        charges ) );
+                    transfer( [&act_ref]( detached_ptr<item> &&it ) {
+                        return iexamine::pour_into_keg( act_ref.coords.at( 1 ), std::move( it ) );
+                    } );
                 } else {
-                    here.add_item_or_charges( act_ref.coords.at( 1 ), std::move( poured ) );
-                    p->add_msg_if_player( _( "You pour %1$s onto the ground." ), source->tname() );
+                    transfer( [&p, &act_ref, &here]( detached_ptr<item> &&it ) {
+                        p->add_msg_if_player( _( "You pour %1$s onto the ground." ), it->tname() );
+                        here.add_item_or_charges( act_ref.coords.at( 1 ), std::move( it ) );
+                        return detached_ptr<item>();
+                    } );
                 }
                 break;
             case LTT_MONSTER:
                 //Do nothing here
                 break;
-        }
+            case LTT_CONTAINER:
+                safe_reference<item> &container = act_ref.targets.at( 0 );
+                if( !container ) {
+                    throw std::runtime_error( "could not find target container for liquid transfer" );
+                }
 
-        //Some remaining
-        if( poured ) {
-            source->merge_charges( std::move( poured ) );
-            act_ref.set_to_null();
-        }
+                transfer( [&p, &container]( detached_ptr<item> &&it ) {
+                    return p->pour_into( *container,  std::move( it ) );
+                } );
 
+                break;
+        }
     } catch( const std::runtime_error &err ) {
         debugmsg( "error in activity data: \"%s\"", err.what() );
         act_ref.set_to_null();
@@ -2894,7 +2907,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
             act->values[0] = static_cast<int>( repeat );
             // BACK selected, redo target selection next.
             if( repeat == REPEAT_INIT ) {
-                p->activity.targets.pop_back();
+                p->activity->targets.pop_back();
                 return;
             }
             if( repeat == REPEAT_FULL && fix.damage() <= 0 ) {
@@ -3125,7 +3138,7 @@ void activity_handlers::travel_do_turn( player_activity *act, player *p )
                                                p->get_path_avoid() );
         if( !route_to.empty() ) {
             const activity_id act_travel = ACT_TRAVELLING;
-            p->set_destination( route_to, player_activity( act_travel ) );
+            p->set_destination( route_to, std::make_unique<player_activity>( act_travel ) );
         } else {
             p->add_msg_if_player( _( "You cannot reach that destination" ) );
         }
@@ -3217,7 +3230,7 @@ void activity_handlers::fish_finish( player_activity *act, player *p )
 {
     act->set_to_null();
     p->add_msg_if_player( m_info, _( "You finish fishing" ) );
-    if( !p->backlog.empty() && p->backlog.front().id() == ACT_MULTIPLE_FISH ) {
+    if( !p->backlog.empty() && p->backlog.front()->id() == ACT_MULTIPLE_FISH ) {
         p->backlog.clear();
         p->assign_activity( ACT_TIDY_UP );
     }
@@ -3346,9 +3359,9 @@ void activity_handlers::find_mount_do_turn( player_activity *act, player *p )
             mon->remove_effect( effect_ai_waiting );
             return;
         } else {
-            p->activity = player_activity();
+            p->activity->set_to_null();// = player_activity();
             mon->add_effect( effect_ai_waiting, 40_turns );
-            p->set_destination( route, player_activity( ACT_FIND_MOUNT ) );
+            p->set_destination( route, std::make_unique<player_activity>( ACT_FIND_MOUNT ) );
         }
     }
 }
@@ -3712,7 +3725,7 @@ void activity_handlers::build_do_turn( player_activity *act, player *p )
     if( !pc ) {
         if( p->is_npc() ) {
             // if player completes the work while NPC still in activity loop
-            p->activity = player_activity();
+            p->activity->set_to_null();// = player_activity();
             p->set_moves( 0 );
         } else {
             p->cancel_activity();
@@ -3727,7 +3740,7 @@ void activity_handlers::build_do_turn( player_activity *act, player *p )
         add_msg( m_info, _( "%s can't work on this construction anymore." ), p->disp_name() );
         p->cancel_activity();
         if( p->is_npc() ) {
-            p->activity = player_activity();
+            p->activity->set_to_null();// = player_activity();
             p->set_moves( 0 );
         }
         return;
@@ -4087,7 +4100,7 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
 
     tripoint direction;
     if( !p->is_npc() ) {
-        if( p->backlog.empty() || p->backlog.front().id() != ACT_MULTIPLE_CHOP_TREES ) {
+        if( p->backlog.empty() || p->backlog.front()->id() != ACT_MULTIPLE_CHOP_TREES ) {
             while( true ) {
                 if( const cata::optional<tripoint> dir = choose_direction(
                             _( "Select a direction for the tree to fall in." ) ) ) {
@@ -4369,8 +4382,8 @@ static void perform_zone_activity_turn( player *p,
         if( route.size() > 1 ) {
             route.pop_back();
 
-            p->set_destination( route, p->activity );
-            p->activity.set_to_null();
+            p->set_destination( route, std::move( p->activity ) );
+            p->activity = std::make_unique<player_activity>( );
             return;
         } else {
             // we are at destination already
@@ -4382,7 +4395,7 @@ static void perform_zone_activity_turn( player *p,
         }
     }
     add_msg( m_info, finished_msg );
-    p->activity.set_to_null();
+    p->activity->set_to_null();
 }
 
 void activity_handlers::fertilize_plot_do_turn( player_activity *act, player *p )

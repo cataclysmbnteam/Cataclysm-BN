@@ -94,10 +94,10 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
     // Existing items are *not* cleared on purpose, this might be called
     // several times in case all surrounding squares are to be shown.
     if( square.id == AIM_INVENTORY ) {
-        const invslice &stacks = u.inv_slice();
+        const_invslice stacks = u.inv_const_slice();
         for( size_t x = 0; x < stacks.size(); ++x ) {
             std::list<item *> item_pointers;
-            for( item *&i : *stacks[x] ) {
+            for( item * const &i : *stacks[x] ) {
                 item_pointers.push_back( i );
             }
             advanced_inv_listitem it( item_pointers, x, square.id, false );

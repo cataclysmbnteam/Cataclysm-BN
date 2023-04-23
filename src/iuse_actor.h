@@ -864,7 +864,7 @@ class holster_actor : public iuse_actor
         bool can_holster( const item &obj ) const;
 
         /** Store an object in the holster */
-        bool store( player &p, item &holster, item &obj ) const;
+        detached_ptr<item> store( player &p, item &holster, detached_ptr<item> &&obj ) const;
 
         holster_actor( const std::string &type = "holster" ) : iuse_actor( type ) {}
 

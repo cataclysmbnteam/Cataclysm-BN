@@ -841,13 +841,13 @@ void avatar_action::eat( avatar &you, item *loc )
     if( loc->where() == item_location_type::character ) {
         you.consume( *loc );
 
-    } else if( you.consume_item( *loc ) ) {
+    } else {
+
+        loc->attempt_detach( [&you]( detached_ptr<item> &&it ) {
+            return you.consume_item( std::move( it ) );
+        } );
         if( loc->is_food_container() || !you.can_consume_as_is( *loc ) ) {
-            item *content = &loc->contents.front();
-            content->detach();
             add_msg( _( "You leave the empty %s." ), loc->tname() );
-        } else {
-            loc->detach();
         }
     }
     if( g->u.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
@@ -1085,9 +1085,15 @@ void avatar_action::wield( item &loc )
                 break;
             case item_location_type::vehicle: {
                 const cata::optional<vpart_reference> vp = here.veh_at( pos ).part_with_feature( "CARGO", false );
+                detached_ptr<item> detached = to_wield->detach();
                 // If we fail to return the item to the vehicle for some reason, add it to the map instead.
-                if( !vp || !( vp->vehicle().add_item( vp->part_index(), std::move( to_wield->detach() ) ) ) ) {
-                    here.add_item( pos, std::move( to_wield->detach() ) );
+                if( vp ) {
+                    vp->vehicle().add_item( vp->part_index(), std::move( detached ) );
+
+                }
+
+                if( detached ) {
+                    here.add_item( pos, std::move( detached ) );
                 }
                 break;
             }
@@ -1200,11 +1206,11 @@ void avatar_action::reload( item &loc, bool prompt, bool empty )
 
         u.assign_activity( activity_id( "ACT_RELOAD" ), moves, opt.qty() );
         if( use_loc ) {
-            u.activity.targets.emplace_back( loc );
+            u.activity->targets.emplace_back( loc );
         } else {
-            u.activity.targets.emplace_back( opt.target );
+            u.activity->targets.emplace_back( opt.target );
         }
-        u.activity.targets.push_back( std::move( opt.ammo ) );
+        u.activity->targets.push_back( std::move( opt.ammo ) );
     }
 }
 
@@ -1286,9 +1292,10 @@ void avatar_action::reload_weapon( bool try_everything )
     if( veh && ( turret = veh->turret_query( u.pos() ) ) && turret.can_reload() ) {
         item_reload_option opt = character_funcs::select_ammo( u, turret.base(), true );
         if( opt ) {
-            u.assign_activity( activity_id( "ACT_RELOAD" ), opt.moves(), opt.qty() );
-            u.activity.targets.emplace_back( turret.base() );
-            u.activity.targets.push_back( std::move( opt.ammo ) );
+            u.assign_activity( std::make_unique<player_activity>( activity_id( "ACT_RELOAD" ), opt.moves(),
+                               opt.qty() ) );
+            u.activity->targets.emplace_back( turret.base() );
+            u.activity->targets.push_back( std::move( opt.ammo ) );
         }
         return;
     }

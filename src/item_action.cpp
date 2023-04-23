@@ -236,11 +236,11 @@ void game::item_action_menu()
     // HACK: A bit of a hack for now. If more pseudos get implemented, this should be un-hacked
     std::vector<item *> pseudos;
     if( u.has_active_bionic( bio_tools ) ) {
-        item *toolset = item_spawn_temporary( "toolset", calendar::turn );
+        item *toolset = item::spawn_temporary( "toolset", calendar::turn );
         pseudos.push_back( toolset );
     }
     if( u.has_active_bionic( bio_claws ) ) {
-        item *bio_claws_item = item_spawn_temporary( static_cast<std::string>( bio_claws_weapon ),
+        item *bio_claws_item = item::spawn_temporary( static_cast<std::string>( bio_claws_weapon ),
                                calendar::turn );
         pseudos.push_back( bio_claws_item );
     }

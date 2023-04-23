@@ -85,7 +85,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
         };
         for( const itype *e : item_controller->all() ) {
             if( e->ammo ) {
-                dump( *item_spawn_temporary( e, calendar::turn, item::solitary_tag {} ) );
+                dump( *item::spawn_temporary( e, calendar::turn, item::solitary_tag {} ) );
             }
         }
 
@@ -113,7 +113,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
 
         for( const itype *e : item_controller->all() ) {
             if( e->armor ) {
-                item &obj = *item_spawn_temporary( e );
+                item &obj = *item::spawn_temporary( e );
                 if( bp == num_bp || obj.covers( bp ) ) {
                     if( obj.has_flag( flag_VARSIZE ) ) {
                         obj.set_flag( "FIT" );
@@ -147,7 +147,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
         };
 
         for( const itype *e : item_controller->all() ) {
-            item &food = *item_spawn_temporary( e, calendar::turn, item::solitary_tag {} );
+            item &food = *item::spawn_temporary( e, calendar::turn, item::solitary_tag {} );
 
             if( food.is_food() && g->u.can_eat( food ).success() ) {
                 dump( food );
@@ -204,16 +204,16 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
         };
         for( const itype *e : item_controller->all() ) {
             if( e->gun ) {
-                item &gun = *item_spawn_temporary( e );
+                item &gun = *item::spawn_temporary( e );
                 if( !gun.magazine_integral() ) {
-                    gun.put_in( *item_spawn( gun.magazine_default() ) );
+                    gun.put_in( item::spawn( gun.magazine_default() ) );
                 }
                 gun.ammo_set( gun.ammo_default( false ), gun.ammo_capacity() );
 
                 dump( test_npcs[ "S1" ], gun );
 
                 if( gun.type->gun->barrel_length > 0_ml ) {
-                    gun.put_in( *item_spawn( "barrel_small" ) );
+                    gun.put_in( item::spawn( "barrel_small" ) );
                     dump( test_npcs[ "S1" ], gun );
                 }
             }
@@ -301,7 +301,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             std::vector<std::string> r;
             r.push_back( obj.name() );
             r.push_back( obj.location );
-            int w = std::ceil( to_gram( item_spawn_temporary( obj.item )->weight() ) / 1000.0 );
+            int w = std::ceil( to_gram( item::spawn_temporary( obj.item )->weight() ) / 1000.0 );
             r.push_back( std::to_string( w ) );
             r.push_back( std::to_string( obj.size / units::legacy_volume_factor ) );
             rows.push_back( r );

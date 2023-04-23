@@ -40,6 +40,9 @@ struct dealt_projectile_attack;
 struct pathfinding_settings;
 struct trap;
 
+template<typename T>
+class detached_ptr;
+
 enum class mon_trigger;
 
 class mon_special_attack
@@ -81,7 +84,7 @@ enum monster_horde_attraction {
     NUM_MONSTER_HORDE_ATTRACTION
 };
 
-class monster : public Creature, public visitable<monster>
+class monster : public Creature, public location_visitable<monster>
 {
         friend class editmap;
     public:
@@ -519,7 +522,7 @@ class monster : public Creature, public visitable<monster>
          * Only useful for robots and the like, the monster must have at least
          * a non-empty item id as revert_to_itype.
          */
-        item *to_item() const;
+        detached_ptr<item> to_item() const;
         /**
          * Initialize values like speed / hp from data of an item.
          * This applies to robotic monsters that are spawned by invoking an item (e.g. turret),
@@ -548,25 +551,25 @@ class monster : public Creature, public visitable<monster>
         void decrement_summon_timer();
 
         item *get_tack_item() const;
-        void set_tack_item( item *to );
+        detached_ptr<item> set_tack_item( detached_ptr<item> &&to );
 
         item *get_tied_item() const;
-        void set_tied_item( item *to );
+        detached_ptr<item> set_tied_item( detached_ptr<item> &&to );
 
         item *get_armor_item() const;
-        void set_armor_item( item *to );
+        detached_ptr<item> set_armor_item( detached_ptr<item> &&to );
 
         item *get_storage_item() const;
-        void set_storage_item( item *to );
+        detached_ptr<item> set_storage_item( detached_ptr<item> &&to );
 
         item *get_battery_item() const;
-        void set_battery_item( item *to );
+        detached_ptr<item> set_battery_item( detached_ptr<item> &&to );
 
         void add_corpse_component( item &it );
         std::vector<item *> &get_corpse_components();
         const std::vector<item *> &get_corpse_components() const;
 
-        std::vector<item *> remove_corpse_components();
+        std::vector<detached_ptr<item>> remove_corpse_components();
 
     private:
         void process_trigger( mon_trigger trig, int amount );

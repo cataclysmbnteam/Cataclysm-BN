@@ -180,7 +180,7 @@ void Character::process_turn()
 
     // If we're actively handling something we can't just drop it on the ground
     // in the middle of handling it
-    if( activity.targets.empty() ) {
+    if( activity->targets.empty() ) {
         drop_invalid_inventory();
     }
     process_items();
@@ -806,7 +806,7 @@ void Character::environmental_revert_effect()
 void Character::process_items()
 {
     if( get_weapon().needs_processing() && get_weapon().process( as_player(), pos(), false ) ) {
-        set_weapon( null_item_reference() );
+        remove_weapon();
     }
 
     std::vector<item *> inv_active = inv.active_items();

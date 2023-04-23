@@ -7,11 +7,13 @@
 template <typename T>
 class game_object;
 
-template <typename T>
+template <typename T, bool error_if_null>
 class location_ptr;
 
 template <typename T>
 class location_vector;
+
+class location_inventory;
 
 template<typename T>
 class detached_ptr
@@ -19,8 +21,10 @@ class detached_ptr
     private:
         friend T;
         friend game_object<T>;
-        friend location_ptr<T>;
+        friend location_ptr<T, true>;
+        friend location_ptr<T, false>;
         friend location_vector<T>;
+        friend location_inventory;
         T *ptr = nullptr;
     public:
         detached_ptr() {
@@ -33,9 +37,27 @@ class detached_ptr
         }
 
         detached_ptr<T> &operator=( detached_ptr &&source ) {
+            if( &source == this ) {
+                return *this;
+            }
+            if( ptr ) {
+                ptr->destroy();
+            }
             ptr = source.ptr;
             source.ptr = nullptr;
             return *this;
+        }
+
+        explicit detached_ptr( location_ptr<T, true> &&loc ) {
+            loc.unset_location();
+            ptr = loc.ptr;
+            loc.ptr = nullptr;
+        }
+
+        explicit detached_ptr( location_ptr<T, false> &&loc ) {
+            loc.unset_location();
+            ptr = loc.ptr;
+            loc.ptr = nullptr;
         }
 
         ~detached_ptr() {
@@ -81,12 +103,18 @@ class detached_ptr
             return !( *this == against );
         }
     private:
-        detached_ptr( detached_ptr & ) = delete;
-        detached_ptr<T> &operator=( detached_ptr & ) = delete;
+        detached_ptr( const detached_ptr & ) = delete;
+        detached_ptr<T> &operator=( const detached_ptr & ) = delete;
 
-        detached_ptr( T *obj ) {
+        explicit detached_ptr( T *obj ) {
             assert( obj != nullptr );
             ptr = obj;
+        }
+
+        T *release() {
+            T *ret = ptr;
+            ptr = nullptr;
+            return ret;
         }
 };
 

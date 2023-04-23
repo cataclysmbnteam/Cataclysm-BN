@@ -146,10 +146,7 @@ bool tutorial_game::init()
     starting_om.clear_mon_groups();
 
     you.toggle_trait( trait_QUICK );
-    item &lighter = *item_spawn( "lighter", calendar::start_of_cataclysm );
-    //TODO!: maybe restore this, tutorial is getting overhauled anyway
-    //lighter.invlet = 'e';
-    you.i_add( lighter );
+    you.i_add( item::spawn( "lighter", calendar::start_of_cataclysm ) );
     you.set_skill_level( skill_gun, 5 );
     you.set_skill_level( skill_melee, 5 );
     g->load_map( project_to<coords::sm>( lp_abs ) );
@@ -279,7 +276,7 @@ void tutorial_game::post_action( action_id act )
             break;
 
         case ACTION_WEAR: {
-            item &it = *item_spawn_temporary( g->u.last_item, calendar::start_of_cataclysm );
+            item &it = *item::spawn_temporary( g->u.last_item, calendar::start_of_cataclysm );
             if( it.is_armor() ) {
                 if( it.get_coverage() >= 2 || it.get_thickness() >= 2 ) {
                     add_message( tut_lesson::LESSON_WORE_ARMOR );
@@ -304,7 +301,7 @@ void tutorial_game::post_action( action_id act )
             add_message( tut_lesson::LESSON_INTERACT );
         /* fallthrough */
         case ACTION_PICKUP: {
-            item &it = *item_spawn_temporary( g->u.last_item, calendar::start_of_cataclysm );
+            item &it = *item::spawn_temporary( g->u.last_item, calendar::start_of_cataclysm );
             if( it.is_armor() ) {
                 add_message( tut_lesson::LESSON_GOT_ARMOR );
             } else if( it.is_gun() ) {

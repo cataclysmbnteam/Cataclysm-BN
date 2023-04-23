@@ -1072,7 +1072,7 @@ void emp_blast( const tripoint &p )
                 if( sight ) {
                     add_msg( _( "The %s beeps erratically and deactivates!" ), critter.name() );
                 }
-                here.add_item_or_charges( p, *critter.to_item() );
+                here.add_item_or_charges( p, critter.to_item() );
                 for( auto &ammodef : critter.ammo ) {
                     if( ammodef.second > 0 ) {
                         here.spawn_item( p, ammodef.first, 1, ammodef.second, calendar::turn );

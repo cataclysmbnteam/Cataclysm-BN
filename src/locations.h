@@ -71,6 +71,14 @@ class wield_item_location :  public character_item_location
         bool check_for_corruption( const item *it ) const override;
 };
 
+class real_weapon_item_location :  public wield_item_location
+{
+    public:
+        real_weapon_item_location( Character *h ): wield_item_location( h ) {};
+        detached_ptr<item> detach( item *it ) override;
+        bool check_for_corruption( const item *it ) const override;
+};
+
 class worn_item_location :  public character_item_location
 {
     public:
@@ -88,6 +96,17 @@ class tile_item_location : public item_location, public go_tile_location
         detached_ptr<item> detach( item *it ) override;
         bool is_loaded( const item *it ) const override;
         tripoint position( const item *it ) const override;
+        item_location_type where() const override;
+        int obtain_cost( const Character &ch, int qty, const item *it ) const override;
+        std::string describe( const Character *ch, const item *it ) const override;
+        bool check_for_corruption( const item *it ) const override;
+};
+
+class partial_con_item_location : public tile_item_location
+{
+    public:
+        partial_con_item_location( tripoint position );
+        detached_ptr<item> detach( item *it ) override;
         item_location_type where() const override;
         int obtain_cost( const Character &ch, int qty, const item *it ) const override;
         std::string describe( const Character *ch, const item *it ) const override;

@@ -19,7 +19,7 @@
 class item_stack
 {
     protected:
-        std::vector<item *> *items;
+        location_vector<item> *items;
 
     public:
         using iterator = std::vector<item *>::iterator;
@@ -27,14 +27,15 @@ class item_stack
         using reverse_iterator = std::vector<item *>::reverse_iterator;
         using const_reverse_iterator = std::vector<item *>::const_reverse_iterator;
 
-        item_stack( std::vector<item *> *items ) : items( items ) { }
+        item_stack( location_vector<item> *items ) : items( items ) { }
         virtual ~item_stack() = default;
 
         size_t size() const;
         bool empty() const;
-        virtual void insert( item &newitem ) = 0;
-        virtual iterator erase( const_iterator it ) = 0;
-        virtual iterator erase( const_iterator first, const_iterator last ) = 0;
+        virtual void insert( detached_ptr<item> &&newitem ) = 0;
+        virtual iterator erase( const_iterator it, detached_ptr<item> *out = nullptr ) = 0;
+        virtual iterator erase( const_iterator first, const_iterator last,
+                                std::vector<detached_ptr<item>> *out = nullptr ) = 0;
         virtual void clear();
         // Will cause a debugmsg if there is not exactly one item at the location
         item &only_item();

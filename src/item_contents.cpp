@@ -69,11 +69,11 @@ void item_contents::casings_handle( const std::function<bool( item & )> &func )
     for( auto it = items.begin(); it != items.end(); ) {
         if( ( *it )->has_flag( "CASING" ) ) {
             ( *it )->unset_flag( "CASING" );
-            
-            
-            
-            if( func( **it ) ) {
-                it = items.erase( it );
+            detached_ptr<item> obj = std::move( detached_ptr::internal_create( *it ) );
+            func( obj );
+            if( !obj ) {
+                it = items.erase( it, &obj );
+                obj.release();
                 continue;
             }
             // didn't handle the casing so reset the flag ready for next call

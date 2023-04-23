@@ -5442,7 +5442,6 @@ cata::optional<vehicle_stack::iterator> vehicle::add_item( int part, item &itm )
 {
     if( part < 0 || part >= static_cast<int>( parts.size() ) ) {
         debugmsg( "int part (%d) is out of range", part );
-        itm.destroy();
         return cata::nullopt;
     }
     // const int max_weight = ?! // TODO: weight limit, calculation per vpart & vehicle stats, not a hard user limit.

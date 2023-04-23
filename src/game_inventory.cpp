@@ -166,13 +166,13 @@ static item *inv_internal( player &u, const inventory_selector_preset &preset,
         ACT_CONSUME_DRINK_MENU,
         ACT_CONSUME_MEDS_MENU };
 
-    if( u.has_activity( consuming ) && u.activity.values.size() >= 2 ) {
-        init_pair.first = u.activity.values[0];
-        init_pair.second = u.activity.values[1];
+    if( u.has_activity( consuming ) && u.activity->values.size() >= 2 ) {
+        init_pair.first = u.activity->values[0];
+        init_pair.second = u.activity->values[1];
         init_selection = true;
     }
-    if( u.has_activity( consuming ) && !u.activity.str_values.empty() ) {
-        init_filter = u.activity.str_values[0];
+    if( u.has_activity( consuming ) && !u.activity->str_values.empty() ) {
+        init_filter = u.activity->str_values[0];
         has_init_filter = true;
     }
 
@@ -209,12 +209,12 @@ static item *inv_internal( player &u, const inventory_selector_preset &preset,
         }
 
         if( u.has_activity( consuming ) ) {
-            u.activity.values.clear();
+            u.activity->values.clear();
             init_pair = inv_s.get_selection_position();
-            u.activity.values.push_back( init_pair.first );
-            u.activity.values.push_back( init_pair.second );
-            u.activity.str_values.clear();
-            u.activity.str_values.emplace_back( inv_s.get_filter() );
+            u.activity->values.push_back( init_pair.first );
+            u.activity->values.push_back( init_pair.second );
+            u.activity->str_values.clear();
+            u.activity->str_values.emplace_back( inv_s.get_filter() );
         }
 
         return location;

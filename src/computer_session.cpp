@@ -361,6 +361,7 @@ void computer_session::action_sample()
 {
     g->u.moves -= 30;
     map &here = get_map();
+    item *sewage = item::spawn_temporary( itype_sewage, calendar::turn );
     for( const tripoint &p : here.points_on_zlevel() ) {
         if( here.ter( p ) != t_sewage_pump ) {
             continue;
@@ -370,7 +371,6 @@ void computer_session::action_sample()
                 continue;
             }
             bool found_item = false;
-            item *sewage = item_spawn( itype_sewage, calendar::turn );
             for( item * const &elem : here.i_at( n ) ) {
                 int capa = elem->get_remaining_capacity_for_liquid( *sewage );
                 if( capa <= 0 ) {
@@ -378,18 +378,16 @@ void computer_session::action_sample()
                 }
                 capa = std::min( sewage->charges, capa );
                 if( elem->contents.empty() ) {
-                    elem->put_in( *sewage );
+                    elem->put_in( std::move( item::spawn( itype_sewage, calendar::turn ) ) );
                     elem->contents.front().charges = capa;
                 } else {
-                    //TODO!: Is this a bug? it feels wrong
-                    sewage->destroy();
                     elem->contents.front().charges += capa;
                 }
                 found_item = true;
                 break;
             }
             if( !found_item ) {
-                here.add_item_or_charges( n, *sewage );
+                here.add_item_or_charges( n, item::spawn( itype_sewage, calendar::turn ) );
             }
         }
     }
@@ -739,10 +737,10 @@ void computer_session::action_download_software()
             return;
         }
         g->u.moves -= 30;
-        item &software = *item_spawn( miss->get_item_id(), calendar::start_of_cataclysm );
-        software.mission_id = comp.mission_id;
+        detached_ptr<item> software = item::spawn( miss->get_item_id(), calendar::start_of_cataclysm );
+        software->mission_id = comp.mission_id;
         usb->contents.clear_items();
-        usb->put_in( software );
+        usb->put_in( std::move( software ) );
         print_line( _( "Software downloaded." ) );
     } else {
         print_error( _( "USB drive required!" ) );
@@ -779,9 +777,9 @@ void computer_session::action_blood_anal()
                     print_line( _( "Pathogen bonded to erythrocytes and leukocytes." ) );
                     if( query_bool( _( "Download data?" ) ) ) {
                         if( item *const usb = pick_usb() ) {
-                            item &software = *item_spawn( "software_blood_data", calendar::start_of_cataclysm );
+                            detached_ptr<item> software = item::spawn( "software_blood_data", calendar::start_of_cataclysm );
                             usb->contents.clear_items();
-                            usb->put_in( software );
+                            usb->put_in( std::move( software ) );
                             print_line( _( "Software downloaded." ) );
                         } else {
                             print_error( _( "USB drive required!" ) );
@@ -817,8 +815,7 @@ void computer_session::action_data_anal()
             } else { // Success!
                 if( items.only_item().typeId() == itype_black_box ) {
                     print_line( _( "Memory Bank: Military Hexron Encryption\nPrinting Transcript\n" ) );
-                    item &transcript = *item_spawn( "black_box_transcript", calendar::turn );
-                    here.add_item_or_charges( g->u.pos(), transcript );
+                    here.add_item_or_charges( g->u.pos(), item::spawn( "black_box_transcript", calendar::turn ) );
                 } else {
                     print_line( _( "Memory Bank: Unencrypted\nNothing of interest.\n" ) );
                 }
@@ -1169,32 +1166,26 @@ void computer_session::action_conveyor()
         query_any( _( "Press any key…" ) );
         return;
     }
-    auto items = here.i_at( platform );
+    auto items = here.i_clear( platform );
     if( !items.empty() ) {
         print_line( _( "Moving items: PLATFORM --> UNLOADING BAY." ) );
     } else {
         print_line( _( "No items detected at: PLATFORM." ) );
     }
-    for( const auto &it : items ) {
-        it->remove_location();
-        here.add_item_or_charges( unloading, *it );
+    for( auto &it : items ) {
+        here.add_item_or_charges( unloading, std::move( it ) );
     }
-    here.i_clear( platform );
-    items = here.i_at( loading );
+    items = here.i_clear( loading );
     if( !items.empty() ) {
         print_line( _( "Moving items: LOADING BAY --> PLATFORM." ) );
     } else {
         print_line( _( "No items detected at: LOADING BAY." ) );
     }
-    for( const auto &it : items ) {
-        it->remove_location();
+    for( auto &it : items ) {
         if( !it->made_of( LIQUID ) ) {
-            here.add_item_or_charges( platform, *it );
-        } else {
-            it->destroy();
+            here.add_item_or_charges( platform, std::move( it ) );
         }
     }
-    here.i_clear( loading );
     query_any( _( "Conveyor belt cycle complete.  Press any key…" ) );
 }
 

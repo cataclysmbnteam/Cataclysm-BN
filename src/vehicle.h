@@ -127,11 +127,12 @@ class vehicle_stack : public item_stack
         vehicle *myorigin;
         int part_num;
     public:
-        vehicle_stack( cata::colony<item &> *newstack, point newloc, vehicle *neworigin, int part ) :
+        vehicle_stack( location_vector<item> *newstack, point newloc, vehicle *neworigin, int part ) :
             item_stack( newstack ), location( newloc ), myorigin( neworigin ), part_num( part ) {}
-        iterator erase( const_iterator it ) override;
-        iterator erase( const_iterator first, const_iterator last ) override;
-        void insert( item &newitem ) override;
+        iterator erase( const_iterator it, detached_ptr<item> *out = nullptr ) override;
+        iterator erase( const_iterator first, const_iterator last,
+                        std::vector<detached_ptr<item>> *out = nullptr ) override;
+        void insert( detached_ptr<item> &&newitem ) override;
         int count_limit() const override {
             return MAX_ITEM_IN_VEHICLE_STORAGE;
         }
@@ -293,9 +294,9 @@ struct vehicle_part {
 
         /**
          *  Try adding @param liquid to tank optionally limited by @param qty
-         *  @return whether any of the liquid was consumed (which may be less than qty)
+         *  @return the remaining liquid, if any
          */
-        bool fill_with( item &liquid, int qty = INT_MAX );
+        detached_ptr<item> fill_with( detached_ptr<item> &&liquid, int qty = INT_MAX );
 
         /** Current faults affecting this part (if any) */
         const std::set<fault_id> &faults() const;
@@ -486,12 +487,12 @@ struct vehicle_part {
          * Generate the corresponding item from this vehicle part. It includes
          * the hp (item damage), fuel charges (battery or liquids), aspect, ...
          */
-        item &properties_to_item() const;
+        detached_ptr<item> properties_to_item() const;
         /**
          * Returns an ItemList of the pieces that should arise from breaking
          * this part.
          */
-        item_group::ItemList pieces_for_broken_part() const;
+        std::vector<detached_ptr<item>> pieces_for_broken_part() const;
 };
 
 class turret_data
@@ -1557,12 +1558,10 @@ class vehicle
         void make_active( item &loc );
         /**
          * Try to add an item to part's cargo.
-         *
-         * @returns a null detached pointer if the item was added, otherwise returns the items detached pointer.
          */
-        detached_ptr<item> add_item( int part, detached_ptr<item> &&itm );
+        void add_item( int part, detached_ptr<item> &&itm );
         /** Like the above */
-        detached_ptr<item> add_item( vehicle_part &pt, detached_ptr<item> &&obj );
+        void add_item( vehicle_part &pt, detached_ptr<item> &&obj );
         /**
          * Add an item counted by charges to the part's cargo.
          *

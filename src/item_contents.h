@@ -87,7 +87,7 @@ class item_contents
         size_t num_item_stacks() const;
 
         bool spill_contents( const tripoint &pos );
-        void clear_items();
+        std::vector<detached_ptr<item>> clear_items();
 
         /**
          * Sets the items contained to their defaults.
@@ -95,7 +95,7 @@ class item_contents
         void set_item_defaults();
 
         void handle_liquid_or_spill( Character &guy );
-        void casings_handle( const std::function<bool( item & )> &func );
+        void casings_handle( const std::function < void( detached_ptr<item> && ) > &func );
 
         item *get_item_with( const std::function<bool( const item & )> &filter );
 
@@ -110,8 +110,7 @@ class item_contents
          */
         VisitResponse visit_contents( const std::function<VisitResponse( item *, item * )> &func,
                                       item *parent = nullptr );
-        bool remove_internal( const std::function<bool( item & )> &filter,
-                              int &count, std::vector<item *> &res );
+        void remove_internal( const std::function < void( detached_ptr<item> && ) > &filter, int &count );
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );

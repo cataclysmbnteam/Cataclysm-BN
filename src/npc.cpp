@@ -133,6 +133,7 @@ npc::npc()
     , companion_mission_time( calendar::before_time_starts )
     , companion_mission_time_ret( calendar::before_time_starts )
     , last_updated( calendar::turn )
+    , real_weapon( new character_real_weapon_location( this ) )
 {
     submap_coords = point_zero;
     position.x = -1;

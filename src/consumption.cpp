@@ -339,7 +339,7 @@ nutrients Character::compute_effective_nutrients( const item &comest ) const
     }
 
     // if item has components, will derive calories from that instead.
-    const ItemList &components = comest.get_components();
+    const ItemList &components = comest.get_components().as_vector();
     if( !components.empty() && !comest.has_flag( flag_NUTRIENT_OVERRIDE ) ) {
         nutrients tally{};
         for( const item * const &component : components ) {
@@ -411,7 +411,7 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
     }
 
     for( const std::pair<const itype_id, int> &byproduct : rec.byproducts ) {
-        item &byproduct_it = *item_spawn_temporary( byproduct.first, calendar::turn, byproduct.second );
+        item &byproduct_it = *item::spawn_temporary( byproduct.first, calendar::turn, byproduct.second );
         nutrients byproduct_nutr = compute_default_effective_nutrients( byproduct_it, *this );
         tally_min -= byproduct_nutr;
         tally_max -= byproduct_nutr;
@@ -431,7 +431,7 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
         return {};
     }
     //TODO!: wtf is all this shit
-    item &comest_it = *item_spawn_temporary( comest, calendar::turn, 1 );
+    item &comest_it = *item::spawn_temporary( comest, calendar::turn, 1 );
     // The default nutrients are always a possibility
     nutrients min_nutr = compute_default_effective_nutrients( comest_it, *this, extra_flags );
 
@@ -446,12 +446,12 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
         nutrients this_min;
         nutrients this_max;
 
-        item *result_it = &rec->create_result();
+        detached_ptr<item> res = rec->create_result();
+        item *result_it = &*res;
         if( result_it->contents.num_item_stacks() == 1 ) {
             item &alt_result = result_it->contents.front();
             if( alt_result.typeId() == comest_it.typeId() ) {
                 result_it->contents.remove_top( &alt_result );
-                result_it->destroy();
                 result_it = &alt_result;
             }
         }
@@ -1535,15 +1535,32 @@ static bool query_consume_ownership( item &target, avatar &you )
     return true;
 }
 
-bool Character::consume_item( item &target )
+detached_ptr<item> Character::consume_item( detached_ptr<item> &&target )
+{
+
+    if( is_avatar() && !query_consume_ownership( *target, *as_avatar() ) ) {
+        return target;
+    }
+
+    if( consume_med( *target ) ||
+        eat( *target ) ||
+        feed_reactor_with( *target ) ||
+        feed_furnace_with( *target ) ||
+        fuel_bionic_with( *target ) ) {
+        return target->charges > 0 ? std::move( target ) : detached_ptr<item>();
+    }
+    return target;
+}
+
+void Character::consume( item &target )
 {
     if( target.is_null() ) {
         add_msg_if_player( m_info, _( "You do not have that item." ) );
-        return false;
+        return;
     }
     if( is_underwater() && !has_trait( trait_WATERSLEEP ) ) {
         add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-        return false;
+        return;
     }
 
     item &comest = get_consumable_from( target );
@@ -1553,49 +1570,24 @@ bool Character::consume_item( item &target )
         if( is_npc() ) {
             debugmsg( "%s tried to eat a %s", name, target.tname() );
         }
-        return false;
-    }
-    if( is_avatar() && !query_consume_ownership( target, *as_avatar() ) ) {
-        return false;
-    }
-    if( consume_med( comest ) ||
-        eat( comest ) ||
-        feed_reactor_with( comest ) ||
-        feed_furnace_with( comest ) ||
-        fuel_bionic_with( comest ) ) {
-
-        if( target.is_container() ) {
-            target.on_contents_changed();
-        }
-
-        return comest.charges <= 0;
+        return;
     }
 
-    return false;
-}
-
-void Character::consume( item &loc )
-{
-    item &target = loc;
     const bool wielding = is_wielding( target );
     const bool worn = is_worn( target );
     const bool inv_item = !( wielding || worn );
 
-    if( consume_item( target ) ) {
+    bool was_in_container = ( &comest != &target );
+    Character &who = *this;
+    bool consumed = comest.attempt_detach( [&who]( detached_ptr<item> &&it ) {
+        return who.consume_item( std::move( it ) );
+    } );
 
-        const bool was_in_container = !can_consume_as_is( target );
-
-        if( was_in_container ) {
-            i_rem( &target.contents.front() );
-        } else {
-            i_rem( &target );
-        }
-
-        // Restack and sort so that we don't lie about target's invlet
-        if( inv_item ) {
-            inv.restack( *this->as_player() );
-        }
-
+    // Restack and sort so that we don't lie about target's invlet
+    if( inv_item ) {
+        inv.restack( *this->as_player() );
+    }
+    if( consumed ) {
         if( was_in_container && wielding ) {
             add_msg_if_player( _( "You are now wielding an empty %s." ), get_weapon().tname() );
         } else if( was_in_container && worn ) {
@@ -1611,7 +1603,7 @@ void Character::consume( item &loc )
             }
             if( drop_it ) {
                 add_msg( _( "You drop the empty %s." ), target.tname() );
-                put_into_vehicle_or_drop( *this, item_drop_reason::deliberate, { &inv.remove_item( &target ) } );
+                put_into_vehicle_or_drop( *this, item_drop_reason::deliberate, target.detach() );
             } else {
                 int quantity = inv.const_stack( inv.position_by_item( &target ) ).size();
                 char letter = target.invlet ? target.invlet : ' ';
@@ -1619,9 +1611,10 @@ void Character::consume( item &loc )
             }
         }
     } else if( inv_item ) {
-        if( pickup::handle_spillable_contents( *this, target, g->m ) ) {
-            i_rem( &target );
-        }
+        target.attempt_detach( [&who]( detached_ptr<item> &&it ) {
+            return pickup::handle_spillable_contents( who, std::move( it ), get_map() );
+        } );
+
         inv.restack( *this->as_player() );
         inv.unsort();
     }

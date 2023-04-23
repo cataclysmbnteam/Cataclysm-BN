@@ -65,6 +65,8 @@ class invlet_wrapper : private std::string
 
 const extern invlet_wrapper inv_chars;
 
+class location_inventory;
+
 // For each item id, store a set of "favorite" inventory letters.
 // This class maintains a bidirectional mapping between invlet letters and item ids.
 // Each invlet has at most one id and each id has any number of invlets.
@@ -86,11 +88,9 @@ class invlet_favorites
         std::array<itype_id, 256> ids_by_invlet;
 };
 
-class inventory : public visitable<inventory>
+class inventory : public temp_visitable<inventory>
 {
     public:
-        friend visitable<inventory>;
-
         invslice slice();
         const_invslice const_slice() const;
         const ItemList &const_stack( int i ) const;
@@ -106,7 +106,8 @@ class inventory : public visitable<inventory>
 
         inventory &operator+= ( const inventory &rhs );
         inventory &operator+= ( item &rhs );
-        // inventory &operator+= ( const ItemList &rhs );
+        inventory &operator+= ( const location_inventory &rhs );
+        inventory &operator+= ( const location_vector<item> &rhs );
         inventory &operator+= ( const std::vector<item *> &rhs );
         inventory &operator+= ( const item_stack &rhs );
         inventory  operator+ ( const inventory &rhs );
@@ -150,11 +151,6 @@ class inventory : public visitable<inventory>
          */
         item &remove_item( const item *it );
         item &remove_item( int position );
-        /**
-         * Randomly select items until the volume quota is filled.
-         */
-        ItemList remove_randomly_by_volume( const units::volume &volume );
-        ItemList reduce_stack( int position, int quantity );
 
         const item &find_item( int position ) const;
         item &find_item( int position );
@@ -172,11 +168,6 @@ class inventory : public visitable<inventory>
         /** Return the item position of the item with given invlet, return INT_MIN if
          * the inventory does not have such an item with that invlet. Don't use this on npcs inventory. */
         int invlet_to_position( char invlet ) const;
-
-        // Below, "amount" refers to quantity
-        //        "charges" refers to charges
-        ItemList use_amount( itype_id it, int quantity,
-                             const std::function<bool( const item & )> &filter = return_true<item> );
 
         bool has_tools( const itype_id &it, int quantity,
                         const std::function<bool( const item & )> &filter = return_true<item> ) const;
@@ -243,6 +234,7 @@ class inventory : public visitable<inventory>
         void build_items_type_cache();
 
     private:
+        friend location_inventory;
         invlet_favorites invlet_cache;
         char find_usable_cached_invlet( const itype_id &item_type );
 
@@ -260,12 +252,17 @@ class inventory : public visitable<inventory>
         mutable itype_bin binned_items;
 };
 
-class location_inventory
+class location_inventory : public location_visitable<location_inventory>
 {
     private:
         std::unique_ptr<item_location> loc;
         inventory inv;
     public:
+
+        const_invslice const_slice() const;
+        const ItemList &const_stack( int i ) const;
+        size_t size() const;
+
         location_inventory( item_location *location );
         location_inventory( location_inventory && ) = delete;
         location_inventory( const location_inventory & ) = delete;
@@ -280,6 +277,8 @@ class location_inventory
         //location_inventory  operator+ ( const location_inventory &rhs );
         //location_inventory  operator+ ( item &rhs );
         //location_inventory  operator+ ( const ItemList &rhs );
+
+        std::map<char, itype_id> assigned_invlet;
 
         void unsort();
         void clear();
@@ -359,6 +358,10 @@ class location_inventory
 
         // dumps contents into dest (does not delete contents)
         void dump( std::vector<item *> &dest );
+
+        // dumps contents into dest (delete contents)
+        void dump_remove( std::vector<detached_ptr<item>> &dest );
+        std::vector<detached_ptr<item>> dump_remove();
 
         // vector rather than list because it's NOT an item stack
         // returns all items that need processing

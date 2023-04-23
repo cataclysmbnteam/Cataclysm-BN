@@ -549,8 +549,8 @@ void show_armor_layers_ui( Character &who )
     auto do_return_entry = []() {
         avatar &you = get_avatar();
         you.assign_activity( ACT_ARMOR_LAYERS, 0 );
-        you.activity.auto_resume = true;
-        you.activity.moves_left = INT_MAX;
+        you.activity->auto_resume = true;
+        you.activity->moves_left = INT_MAX;
     };
 
     int leftListSize = 0;
@@ -841,20 +841,23 @@ void show_armor_layers_ui( Character &who )
             // only equip if something valid selected!
             if( loc ) {
                 // wear the item
-                loc->detach();
                 loc->obtain( who );
-                cata::optional<ItemList::iterator> new_equip_it = who.as_player()->wear_possessed( *loc );
-                if( new_equip_it ) {
+                bool equipped = who.as_player()->wear_possessed( *loc );
+                if( equipped ) {
                     body_part bp = static_cast<body_part>( tabindex );
-                    if( tabindex == num_bp || ( **new_equip_it )->covers( bp ) ) {
+                    if( tabindex == num_bp || loc->covers( bp ) ) {
                         // Set ourselves up to be pointing at the new item
                         // TODO: This doesn't work yet because we don't save our
                         // state through other activities, but that's a thing
                         // that would be nice to do.
+                        bool found = false;
                         leftListIndex =
-                            std::count_if( who.worn.begin(), *new_equip_it,
+                            std::count_if( who.worn.begin(), who.worn.end(),
                         [&]( item * const & i ) {
-                            return tabindex == num_bp || i->covers( bp );
+                            if( i == loc ) {
+                                found = true;
+                            }
+                            return !found && ( tabindex == num_bp || i->covers( bp ) );
                         } );
                     }
                 } else if( who.is_npc() ) {
@@ -871,16 +874,8 @@ void show_armor_layers_ui( Character &who )
                 // wear the item
                 loc->obtain( who );
 
-                if( cata::optional<ItemList::iterator> new_equip_it = who.as_player()->wear_possessed( *loc ) ) {
-                    // save iterator to cursor's position
-                    ItemList::iterator cursor_it = tmp_worn[leftListIndex];
-                    // reorder `worn` vector to place new item at cursor
-                    detached_ptr<item> taken_off;
-                    who.worn.erase( *new_equip_it, &taken_off );
-                    who.worn.insert( cursor_it, std::move( taken_off ) );
-
-
-                } else if( who.is_npc() ) {
+                ItemList::iterator cursor_it = tmp_worn[leftListIndex];
+                if( !who.as_player()->wear_possessed( *loc, true, cursor_it ) && who.is_npc() ) {
                     // TODO: Pass the reason here
                     popup( _( "Can't put this on!" ) );
                 }

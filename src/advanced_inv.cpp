@@ -1129,14 +1129,14 @@ void advanced_inventory::start_activity( const aim_location destarea,
         g->u.assign_activity( ACT_WEAR );
 
         if( by_charges ) {
-            g->u.activity.targets.emplace_back( sitem->items.front() );
-            g->u.activity.values.push_back( amount_to_move );
+            g->u.activity->targets.emplace_back( sitem->items.front() );
+            g->u.activity->values.push_back( amount_to_move );
         } else {
             for( std::list<item *>::iterator it = sitem->items.begin(); amount_to_move > 0 &&
                  it != sitem->items.end(); ++it ) {
-                g->u.activity.targets.emplace_back( *it );
-                g->u.activity.targets.emplace_back( *it );
-                g->u.activity.values.push_back( 0 );
+                g->u.activity->targets.emplace_back( *it );
+                g->u.activity->targets.emplace_back( *it );
+                g->u.activity->values.push_back( 0 );
                 --amount_to_move;
             }
         }
@@ -1229,8 +1229,8 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
         if( destarea == AIM_WORN ) {
             g->u.assign_activity( ACT_WEAR );
 
-            g->u.activity.targets.emplace_back( sitem->items.front() );
-            g->u.activity.values.push_back( amount_to_move );
+            g->u.activity->targets.emplace_back( sitem->items.front() );
+            g->u.activity->values.push_back( amount_to_move );
         } else {
             item *itm = &g->u.i_at( sitem->idx );
 
@@ -1893,7 +1893,7 @@ void advanced_inventory::do_return_entry()
     // only save pane settings
     save_settings( true );
     g->u.assign_activity( ACT_ADV_INVENTORY );
-    g->u.activity.auto_resume = true;
+    g->u.activity->auto_resume = true;
     save_state->exit_code = exit_re_entry;
 }
 

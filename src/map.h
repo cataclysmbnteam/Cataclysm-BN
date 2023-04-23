@@ -106,11 +106,12 @@ class map_stack : public item_stack
         tripoint location;
         map *myorigin;
     public:
-        map_stack( std::vector<item *> *newstack, tripoint newloc, map *neworigin ) :
+        map_stack( location_vector<item> *newstack, tripoint newloc, map *neworigin ) :
             item_stack( newstack ), location( newloc ), myorigin( neworigin ) {}
-        void insert( item &newitem ) override;
-        iterator erase( const_iterator it ) override;
-        iterator erase( const_iterator first, const_iterator last ) override;
+        void insert( detached_ptr<item> &&newitem ) override;
+        iterator erase( const_iterator it, detached_ptr<item> *out = nullptr ) override;
+        iterator erase( const_iterator first, const_iterator last,
+                        std::vector<detached_ptr<item>> *out = nullptr ) override;
         int count_limit() const override {
             return MAX_ITEM_IN_SQUARE;
         }
@@ -1179,26 +1180,28 @@ class map
         map_stack i_at( point p ) {
             return i_at( tripoint( p, abs_sub.z ) );
         }
-        item &water_from( const tripoint &p );
-        void i_clear( const tripoint &p );
-        void i_clear( point p ) {
-            i_clear( tripoint( p, abs_sub.z ) );
+        detached_ptr<item> water_from( const tripoint &p );
+        std::vector<detached_ptr<item>> i_clear( const tripoint &p );
+        std::vector<detached_ptr<item>> i_clear( point p ) {
+            return i_clear( tripoint( p, abs_sub.z ) );
         }
         // i_rem() methods that return values act like container::erase(),
         // returning an iterator to the next item after removal.
-        map_stack::iterator i_rem( const tripoint &p, map_stack::const_iterator it );
-        map_stack::iterator i_rem( point location, map_stack::const_iterator it ) {
-            return i_rem( tripoint( location, abs_sub.z ), it );
+        map_stack::iterator i_rem( const tripoint &p, map_stack::const_iterator it,
+                                   detached_ptr<item> *out = nullptr );
+        map_stack::iterator i_rem( point location, map_stack::const_iterator it,
+                                   detached_ptr<item> *out = nullptr ) {
+            return i_rem( tripoint( location, abs_sub.z ), it, out );
         }
         map_stack::iterator i_rem( const tripoint &p, map_stack::const_iterator first,
-                                   map_stack::const_iterator last );
+                                   map_stack::const_iterator last, std::vector<detached_ptr<item>> *out = nullptr );
         map_stack::iterator i_rem( const point &location, map_stack::const_iterator first,
-                                   map_stack::const_iterator last ) {
-            return i_rem( tripoint( location, abs_sub.z ), first, last );
+                                   map_stack::const_iterator last, std::vector<detached_ptr<item>> *out = nullptr ) {
+            return i_rem( tripoint( location, abs_sub.z ), first, last, out );
         }
-        void i_rem( const tripoint &p, item *it );
-        void i_rem( point p, item *it ) {
-            i_rem( tripoint( p, abs_sub.z ), it );
+        detached_ptr<item> i_rem( const tripoint &p, item *it );
+        detached_ptr<item> i_rem( point p, item *it ) {
+            return i_rem( tripoint( p, abs_sub.z ), it );
         }
         void spawn_artifact( const tripoint &p );
         void spawn_natural_artifact( const tripoint &p, artifact_natural_property prop );
@@ -1280,13 +1283,14 @@ class map
          * somewhere else.
          */
         /*@{*/
-        ItemList use_amount_square( const tripoint &p, const itype_id &type,
-                                    int &quantity, const std::function<bool( const item & )> &filter = return_true<item> );
-        ItemList use_amount( const tripoint &origin, int range, const itype_id &type,
-                             int &quantity, const std::function<bool( const item & )> &filter = return_true<item> );
-        ItemList use_charges( const tripoint &origin, int range, const itype_id &type,
-                              int &quantity, const std::function<bool( const item & )> &filter = return_true<item>,
-                              basecamp *bcp = nullptr );
+        std::vector<detached_ptr<item>> use_amount_square( const tripoint &p, const itype_id &type,
+                                     int &quantity, const std::function<bool( const item & )> &filter = return_true<item> );
+        std::vector<detached_ptr<item>> use_amount( const tripoint &origin, int range, const itype_id &type,
+                                     int &quantity, const std::function<bool( const item & )> &filter = return_true<item> );
+        std::vector<detached_ptr<item>> use_charges( const tripoint &origin, int range,
+                                     const itype_id &type,
+                                     int &quantity, const std::function<bool( const item & )> &filter = return_true<item>,
+                                     basecamp *bcp = nullptr );
         /*@}*/
 
         /**
@@ -1327,9 +1331,9 @@ class map
                                                 const time_point &turn = calendar::start_of_cataclysm );
 
         // Similar to spawn_an_item, but spawns a list of items, or nothing if the list is empty.
-        std::vector<item *> spawn_items( const tripoint &p, std::vector<item *> new_items );
-        void spawn_items( point p, std::vector<item *> new_items ) {
-            spawn_items( tripoint( p, abs_sub.z ), new_items );
+        std::vector<item *> spawn_items( const tripoint &p, std::vector<detached_ptr<item>> new_items );
+        void spawn_items( point p, std::vector<detached_ptr<item>> new_items ) {
+            spawn_items( tripoint( p, abs_sub.z ), std::move( new_items ) );
         }
 
         void create_anomaly( const tripoint &p, artifact_natural_property prop, bool create_rubble = true );

@@ -320,9 +320,9 @@ void mend_item( avatar &you, item &obj, bool interactive )
 
         const mending_method &method = opt.method;
         you.assign_activity( activity_id( "ACT_MEND_ITEM" ), to_moves<int>( method.time ) );
-        you.activity.name = opt.fault.str();
-        you.activity.str_values.emplace_back( method.id );
-        you.activity.targets.push_back( &obj );
+        you.activity->name = opt.fault.str();
+        you.activity->str_values.emplace_back( method.id );
+        you.activity->targets.push_back( &obj );
     }
 }
 
@@ -431,12 +431,12 @@ void gunmod_add( avatar &you, item &gun, item &mod )
     const int moves = !you.has_trait( trait_DEBUG_HS ) ? mod.type->gunmod->install_time : 0;
 
     you.assign_activity( activity_id( "ACT_GUNMOD_ADD" ), moves, -1, 0, tool );
-    you.activity.targets.push_back( &gun );
-    you.activity.targets.push_back( &mod );
-    you.activity.values.push_back( 0 ); // dummy value
-    you.activity.values.push_back( roll ); // chance of success (%)
-    you.activity.values.push_back( risk ); // chance of damage (%)
-    you.activity.values.push_back( qty ); // tool charges
+    you.activity->targets.push_back( &gun );
+    you.activity->targets.push_back( &mod );
+    you.activity->values.push_back( 0 ); // dummy value
+    you.activity->values.push_back( roll ); // chance of success (%)
+    you.activity->values.push_back( risk ); // chance of damage (%)
+    you.activity->values.push_back( qty ); // tool charges
 }
 
 bool gunmod_remove( avatar &you, item &gun, item &mod )
@@ -455,14 +455,14 @@ bool gunmod_remove( avatar &you, item &gun, item &mod )
     //TODO: add activity for removing gunmods
 
     if( mod.typeId() == itype_brass_catcher ) {
-        gun.casings_handle( [&]( detached_ptr<item> && e ) {
-            return you.i_add_or_drop( std::move(e) );
+        gun.casings_handle( [&]( detached_ptr<item> &&e ) {
+            you.i_add_or_drop( std::move( e ) );
         } );
     }
 
     const itype *modtype = mod.type;
 
-    you.i_add_or_drop(std::move(gun.remove_item( mod ) ));
+    you.i_add_or_drop( std::move( gun.remove_item( mod ) ) );
 
     //If the removed gunmod added mod locations, check to see if any mods are in invalid locations
     if( !modtype->gunmod->add_mod.empty() ) {
@@ -540,8 +540,8 @@ void toolmod_add( avatar &you, item &tool, item &mod )
     }
 
     you.assign_activity( activity_id( "ACT_TOOLMOD_ADD" ), 1, -1 );
-    you.activity.targets.emplace_back( &tool );
-    you.activity.targets.emplace_back( &mod );
+    you.activity->targets.emplace_back( &tool );
+    you.activity->targets.emplace_back( &mod );
 }
 
 static bool is_pet_food( const item &itm )
@@ -552,10 +552,8 @@ static bool is_pet_food( const item &itm )
            itm.type->can_use( "CATTLEFODDER" );
 }
 
-void use_item( avatar &you, item &loc )
+void use_item( avatar &you, item &used )
 {
-    item &used = loc;
-
     if( used.is_null() ) {
         add_msg( m_info, _( "You do not have that item." ) );
         return;
@@ -568,30 +566,28 @@ void use_item( avatar &you, item &loc )
             add_msg( _( "You can't do anything interesting with your %s." ), used.tname() );
             return;
         }
-        you.invoke_item( &used, loc.position() );
+        you.invoke_item( &used, used.position() );
 
     } else if( is_pet_food( used ) ) {
-        you.invoke_item( &used, loc.position() );
+        you.invoke_item( &used, used.position() );
 
     } else if( !used.is_container_empty() && is_pet_food( used.get_contained() ) ) {
-        unload_item( you, loc );
+        unload_item( you, used );
 
     } else if( !used.is_craft() && ( used.is_medication() || ( !used.type->has_use() &&
                                      ( used.is_food() ||
                                        used.get_contained().is_food() ||
                                        used.get_contained().is_medication() ) ) ) ) {
-        you.consume( loc );
+        you.consume( used );
 
     } else if( used.is_book() ) {
-        you.read( &loc );
+        you.read( &used );
     } else if( used.type->has_use() ) {
-        you.invoke_item( &used, loc.position() );
+        you.invoke_item( &used, used.position() );
     } else if( used.has_flag( flag_SPLINT ) ) {
         ret_val<bool> need_splint = you.can_wear( used );
         if( need_splint.success() ) {
-            you.wear_item( used );
-            loc.detach();
-            loc.destroy();
+            you.wear_item( std::move( used.detach() ) );
         } else {
             add_msg( m_info, need_splint.str() );
         }
@@ -602,25 +598,26 @@ void use_item( avatar &you, item &loc )
     you.recalculate_enchantment_cache();
 }
 
-static bool add_or_drop_with_msg( avatar &you, item &it, bool unloading )
+static detached_ptr<item> add_or_drop_with_msg( avatar &you, detached_ptr<item> &&it,
+        bool unloading )
 {
-    if( it.made_of( LIQUID ) ) {
-        liquid_handler::consume_liquid( it, 1 );
-        return it.charges <= 0;
+    if( it->made_of( LIQUID ) ) {
+        liquid_handler::consume_liquid( std::move( it ), 1 );
+        return std::move( it );
     }
-    it.charges = you.i_add_to_container( it, unloading );
-    if( it.is_ammo() && it.charges == 0 ) {
-        return true;
-    } else if( !you.can_pick_volume( it ) ) {
-        put_into_vehicle_or_drop( you, item_drop_reason::too_large, { &it } );
-    } else if( !you.can_pick_weight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
-        put_into_vehicle_or_drop( you, item_drop_reason::too_heavy, { &it } );
+    it = you.i_add_to_container( std::move( it ), unloading );
+    if( !it ) {
+        return detached_ptr<item>();
+    } else if( !you.can_pick_volume( *it ) ) {
+        put_into_vehicle_or_drop( you, item_drop_reason::too_large, std::move( it ) );
+    } else if( !you.can_pick_weight( *it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
+        put_into_vehicle_or_drop( you, item_drop_reason::too_heavy, std::move( it ) );
     } else {
-        auto &ni = you.i_add( it );
-        add_msg( _( "You put the %s in your inventory." ), ni.tname() );
-        add_msg( m_info, "%c - %s", ni.invlet == 0 ? ' ' : ni.invlet, ni.tname() );
+        add_msg( _( "You put the %s in your inventory." ), it->tname() );
+        add_msg( m_info, "%c - %s", it->invlet == 0 ? ' ' : it->invlet, it->tname() );
+        you.i_add( std::move( it ) );
     }
-    return true;
+    return detached_ptr<item>();
 }
 
 bool unload_item( avatar &you, item &loc )
@@ -638,15 +635,16 @@ bool unload_item( avatar &you, item &loc )
         }
 
         bool changed = false;
-        for( item *contained : it.contents.all_items_top() ) {
+        int count = INT_MAX; //TODO!: check how this is actually used
+        it.contents.remove_internal( [&changed, &you]( detached_ptr<item> &&contained ) {
             int old_charges = contained->charges;
-            const bool consumed = add_or_drop_with_msg( you, *contained, true );
-            changed = changed || consumed || contained->charges != old_charges;
-            if( consumed ) {
-                you.mod_moves( -you.item_handling_cost( *contained ) );
-                it.remove_item( *contained );
+            item &obj = *contained;
+            contained = add_or_drop_with_msg( you, std::move( contained ), true );
+            if( !contained || contained->charges != old_charges ) {
+                you.mod_moves( -you.item_handling_cost( obj ) );
+                changed = true;
             }
-        }
+        }, count );
 
         if( changed ) {
             it.on_contents_changed();
@@ -704,32 +702,26 @@ bool unload_item( avatar &you, item &loc )
         return false;
     }
 
-    target->casings_handle( [&]( item & e ) {
-        return you.i_add_or_drop( e );
+    target->casings_handle( [&]( detached_ptr<item> &&e ) {
+        you.i_add_or_drop( std::move( e ) );
     } );
 
     if( target->is_magazine() ) {
         // Calculate the time to remove the contained ammo (consuming half as much time as required to load the magazine)
         int mv = 0;
         int qty = 0;
-        std::vector<item *> remove_contained;
-        for( item *contained : it.contents.all_items_top() ) {
+        int count = INT_MAX;
+        it.contents.remove_internal( [&]( detached_ptr<item> &&contained ) {
             mv += you.item_reload_cost( it, *contained, contained->charges ) / 2;
-            if( add_or_drop_with_msg( you, *contained, true ) ) {
-                qty += contained->charges;
-                remove_contained.push_back( contained );
-            }
-        }
-        // remove the ammo leads in the belt
-        for( item *remove : remove_contained ) {
-            it.remove_item( *remove );
-        }
+            qty += contained->charges;
+            contained = add_or_drop_with_msg( you, std::move( contained ), true );
+        }, count );
 
         // remove the belt linkage
         if( it.is_ammo_belt() ) {
             if( it.type->magazine->linkage ) {
-                item &link = *item_spawn( *it.type->magazine->linkage, calendar::turn, qty );
-                add_or_drop_with_msg( you, link, true );
+                detached_ptr<item> link = item::spawn( *it.type->magazine->linkage, calendar::turn, qty );
+                add_or_drop_with_msg( you, std::move( link ), true );
             }
             add_msg( _( "You disassemble your %s." ), it.tname() );
         } else {
@@ -739,20 +731,23 @@ bool unload_item( avatar &you, item &loc )
         you.mod_moves( -std::min( 200, mv ) );
         if( loc.has_flag( "MAG_DESTROY" ) && loc.ammo_remaining() == 0 ) {
             loc.detach();
-            loc.destroy();
         }
         return true;
-
-    } else if( target->magazine_current() ) {
-        if( !add_or_drop_with_msg( you, *target->magazine_current(), true ) ) {
-            return false;
+    } else if( item *mag = target->magazine_current() ) {
+        int count = INT_MAX; //TODO!: check this
+        bool unloaded = false;
+        target->contents.remove_internal( [&]( detached_ptr<item> &&it ) {
+            if( &*it == mag ) {
+                it = add_or_drop_with_msg( you, std::move( it ), true );
+                if( !it ) {
+                    unloaded = true;
+                }
+            }
+        }, count );
+        if( unloaded ) {
+            // Eject magazine consuming half as much time as required to insert it
+            you.moves -= you.item_reload_cost( *target, *mag, -1 ) / 2;
         }
-        // Eject magazine consuming half as much time as required to insert it
-        you.moves -= you.item_reload_cost( *target, *target->magazine_current(), -1 ) / 2;
-
-        target->remove_items_with( [&target]( const item & e ) {
-            return target->magazine_current() == &e;
-        } );
 
     } else if( target->ammo_remaining() ) {
         int qty = target->ammo_remaining();
@@ -768,25 +763,34 @@ bool unload_item( avatar &you, item &loc )
         }
 
         // Construct a new ammo item and try to drop it
-        item &ammo = *item_spawn( target->ammo_current(), calendar::turn, qty );
+        detached_ptr<item> ammo = item::spawn( target->ammo_current(), calendar::turn, qty );
         if( target->is_filthy() ) {
-            ammo.set_flag( "FILTHY" );
+            ammo->set_flag( "FILTHY" );
         }
 
-        if( ammo.made_of( LIQUID ) ) {
-            if( !add_or_drop_with_msg( you, ammo, false ) ) {
-                qty -= ammo.charges; // only handled part (or none) of the liquid
+        item &ammo_ref = *ammo;
+
+        if( ammo->made_of( LIQUID ) ) {
+
+
+            ammo = add_or_drop_with_msg( you, std::move( ammo ), false );
+
+            if( ammo ) {
+                qty -= ammo->charges; // only handled part (or none) of the liquid
             }
             if( qty <= 0 ) {
                 return false; // no liquid was moved
             }
 
-        } else if( !add_or_drop_with_msg( you, ammo, qty > 1 ) ) {
-            return false;
+        } else {
+            ammo = add_or_drop_with_msg( you, std::move( ammo ), qty > 1 );
+            if( ammo ) {
+                return false;
+            }
         }
 
         // If successful remove appropriate qty of ammo consuming half as much time as required to load it
-        you.moves -= you.item_reload_cost( *target, ammo, qty ) / 2;
+        you.moves -= you.item_reload_cost( *target, ammo_ref, qty ) / 2;
 
         if( target->ammo_current() == itype_plut_cell ) {
             qty *= PLUTONIUM_CHARGES;

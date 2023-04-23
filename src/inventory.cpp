@@ -293,9 +293,9 @@ item &inventory::add_item( item &newit, bool keep_invlet, bool assign_invlet, bo
         for( auto &elem : items ) {
             item *&it = *elem.begin();
             if( it->stacks_with( newit ) ) {
-                if( it->merge_charges( newit ) ) {
-                    return *it;
-                }
+                /* if( it->merge_charges( newit ) ) {
+                     return *it;
+                 }*/
                 if( it->invlet == '\0' ) {
                     if( !keep_invlet ) {
                         update_invlet( newit, assign_invlet );
@@ -349,9 +349,9 @@ item &inventory::add_item_by_items_type_cache( item &newit, bool keep_invlet, bo
         for( auto &elem : items_type_cache[type] ) {
             auto it_ref = *elem->begin();
             if( it_ref->stacks_with( newit, false, true ) ) {
-                if( it_ref->merge_charges( newit ) ) {
+                /*if( it_ref->merge_charges( newit ) ) {
                     return *it_ref;
-                }
+                }*/
                 if( it_ref->invlet == '\0' ) {
                     if( !keep_invlet ) {
                         update_invlet( newit, assign_invlet );
@@ -525,7 +525,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             if( !tool_list.empty() ) {
                 for( const itype &type : tool_list ) {
                     //TODO!: check
-                    item &furn_item = *item_spawn_temporary( type.get_id(), calendar::turn, 0 );
+                    item &furn_item = *item::spawn_temporary( type.get_id(), calendar::turn, 0 );
                     furn_item.set_flag( "PSEUDO" );
                     const itype_id &ammo = furn_item.ammo_default();
                     if( furn_item.has_flag( "USES_GRID_POWER" ) ) {
@@ -554,15 +554,13 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         }
         // Kludges for now!
         if( m.has_nearby_fire( p, 0 ) ) {
-            //TODO!: checkkckc
-            item &fire = *item_spawn_temporary( "fire", bday );
+            item &fire = *item::spawn_temporary( "fire", bday );
             fire.charges = 1;
             add_item_by_items_type_cache( fire, false, true, false );
         }
         // Handle any water from infinite map sources.
-        //TODO!: check
-        item *water = &m.water_from( p );
-        if( !water->is_null() ) {
+        detached_ptr<item> water = m.water_from( p );
+        if( water ) {
             add_item_by_items_type_cache( *water, false, true, false );
         }
         // kludge that can probably be done better to check specifically for toilet water to use in
@@ -570,15 +568,15 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         if( m.furn( p ).obj().examine == &iexamine::toilet ) {
             // get water charges at location
             auto toilet = m.i_at( p );
-            water = nullptr;
+            item *waterp = nullptr;
             for( auto candidate = toilet.begin(); candidate != toilet.end(); ++candidate ) {
                 if( ( *candidate )->typeId() == itype_water ) {
-                    water = *candidate;
+                    waterp = *candidate;
                     break;
                 }
             }
-            if( water != nullptr && water->charges > 0 ) {
-                add_item_by_items_type_cache( *water, false, true, false );
+            if( waterp != nullptr && waterp->charges > 0 ) {
+                add_item_by_items_type_cache( *waterp, false, true, false );
             }
         }
 
@@ -613,7 +611,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
 
         if( faupart ) {
             for( const auto &it : veh->fuels_left() ) {
-                item &fuel = *item_spawn_temporary( it.first, bday );
+                item &fuel = *item::spawn_temporary( it.first, bday );
                 if( fuel.made_of( LIQUID ) ) {
                     fuel.charges = it.second;
                     add_item_by_items_type_cache( fuel, false, true, false );
@@ -622,77 +620,77 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         }
 
         if( kpart ) {
-            item &hotplate = *item_spawn_temporary( "hotplate", bday );
+            item &hotplate = *item::spawn_temporary( "hotplate", bday );
             hotplate.charges = veh->fuel_left( itype_battery, true );
             hotplate.item_tags.insert( "PSEUDO" );
             // TODO: Allow disabling
             hotplate.item_tags.insert( "HEATS_FOOD" );
             add_item_by_items_type_cache( hotplate, false, true, false );
 
-            item &pot = *item_spawn_temporary( "pot", bday );
+            item &pot = *item::spawn_temporary( "pot", bday );
             pot.set_flag( "PSEUDO" );
             add_item_by_items_type_cache( pot, false, true, false );
-            item &pan = *item_spawn_temporary( "pan", bday );
+            item &pan = *item::spawn_temporary( "pan", bday );
             pan.set_flag( "PSEUDO" );
             add_item_by_items_type_cache( pan, false, true, false );
         }
         if( weldpart ) {
-            item &welder = *item_spawn_temporary( "welder", bday );
+            item &welder = *item::spawn_temporary( "welder", bday );
             welder.charges = veh->fuel_left( itype_battery, true );
             welder.item_tags.insert( "PSEUDO" );
             add_item_by_items_type_cache( welder, false, true, false );
 
-            item &soldering_iron = *item_spawn_temporary( "soldering_iron", bday );
+            item &soldering_iron = *item::spawn_temporary( "soldering_iron", bday );
             soldering_iron.charges = veh->fuel_left( itype_battery, true );
             soldering_iron.item_tags.insert( "PSEUDO" );
             add_item_by_items_type_cache( soldering_iron, false, true, false );
         }
         if( craftpart ) {
-            item &vac_sealer = *item_spawn_temporary( "vac_sealer", bday );
+            item &vac_sealer = *item::spawn_temporary( "vac_sealer", bday );
             vac_sealer.charges = veh->fuel_left( itype_battery, true );
             vac_sealer.item_tags.insert( "PSEUDO" );
             add_item_by_items_type_cache( vac_sealer, false, true, false );
 
-            item &dehydrator = *item_spawn_temporary( "dehydrator", bday );
+            item &dehydrator = *item::spawn_temporary( "dehydrator", bday );
             dehydrator.charges = veh->fuel_left( itype_battery, true );
             dehydrator.item_tags.insert( "PSEUDO" );
             add_item_by_items_type_cache( dehydrator, false, true, false );
 
-            item &food_processor = *item_spawn_temporary( "food_processor", bday );
+            item &food_processor = *item::spawn_temporary( "food_processor", bday );
             food_processor.charges = veh->fuel_left( itype_battery, true );
             food_processor.item_tags.insert( "PSEUDO" );
             add_item_by_items_type_cache( food_processor, false, true, false );
 
-            item &press = *item_spawn_temporary( "press", bday );
+            item &press = *item::spawn_temporary( "press", bday );
             press.charges = veh->fuel_left( itype_battery, true );
             press.set_flag( "PSEUDO" );
             add_item_by_items_type_cache( press, false, true, false );
         }
         if( forgepart ) {
-            item &forge = *item_spawn_temporary( "forge", bday );
+            item &forge = *item::spawn_temporary( "forge", bday );
             forge.charges = veh->fuel_left( itype_battery, true );
             forge.item_tags.insert( "PSEUDO" );
             add_item_by_items_type_cache( forge, false, true, false );
         }
         if( kilnpart ) {
-            item &kiln = *item_spawn_temporary( "kiln", bday );
+            item &kiln = *item::spawn_temporary( "kiln", bday );
             kiln.charges = veh->fuel_left( itype_battery, true );
             kiln.item_tags.insert( "PSEUDO" );
             add_item_by_items_type_cache( kiln, false, true, false );
         }
         if( chempart ) {
-            item &chemistry_set = *item_spawn_temporary( "chemistry_set", bday );
+            item &chemistry_set = *item::spawn_temporary( "chemistry_set", bday );
             chemistry_set.charges = veh->fuel_left( itype_battery, true );
             chemistry_set.item_tags.insert( "PSEUDO" );
             add_item_by_items_type_cache( chemistry_set, false, true, false );
 
-            item &electrolysis_kit = *item_spawn_temporary( "electrolysis_kit", bday );
+            item &electrolysis_kit = *item::spawn_temporary( "electrolysis_kit", bday );
             electrolysis_kit.charges = veh->fuel_left( itype_battery, true );
             electrolysis_kit.item_tags.insert( "PSEUDO" );
             add_item_by_items_type_cache( electrolysis_kit, false, true, false );
         }
         if( autoclavepart ) {
-            item &autoclave = *item_spawn_temporary( "autoclave", bday );
+            item &autoclave = *item::spawn_temporary( "autoclave", bday );
             autoclave.charges = veh->fuel_left( itype_battery, true );
             autoclave.item_tags.insert( "PSEUDO" );
             add_item_by_items_type_cache( autoclave, false, true, false );
@@ -701,21 +699,28 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
     pts.clear();
 }
 
-ItemList inventory::reduce_stack( const int position, const int quantity )
+std::vector<detached_ptr<item>> location_inventory::reduce_stack( const int position,
+                             const int quantity )
 {
     int pos = 0;
-    ItemList ret;
-    for( invstack::iterator iter = items.begin(); iter != items.end(); ++iter ) {
+    std::vector<detached_ptr<item>> ret;
+    for( invstack::iterator iter = inv.items.begin(); iter != inv.items.end(); ++iter ) {
         if( position == pos ) {
-            binned = false;
-            items_type_cached = false;
+            inv.binned = false;
+            inv.items_type_cached = false;
             if( quantity >= static_cast<int>( iter->size() ) || quantity < 0 ) {
-                ret = *iter;
-                items.erase( iter );
+                ItemList stack = *iter;
+                inv.items.erase( iter );
+                for( item *&it : stack ) {
+                    it->remove_location();
+                    ret.push_back( detached_ptr<item>( it ) );
+                }
             } else {
                 for( int i = 0 ; i < quantity ; i++ ) {
                     //TODO!: check
-                    ret.push_back( &remove_item( iter->front() ) );
+                    item *it = &inv.remove_item( iter->front() );
+                    it->remove_location();
+                    ret.push_back( detached_ptr<item>( it ) );
                 }
             }
             break;
@@ -765,15 +770,16 @@ item &inventory::remove_item( const int position )
     return null_item_reference();
 }
 
-ItemList inventory::remove_randomly_by_volume( const units::volume &volume )
+std::vector<detached_ptr<item>> location_inventory::remove_randomly_by_volume(
+                                 const units::volume &volume )
 {
-    ItemList result;
+    std::vector<detached_ptr<item>> result;
     units::volume volume_dropped = 0_ml;
     while( volume_dropped < volume ) {
         units::volume cumulative_volume = 0_ml;
-        auto chosen_stack = items.begin();
+        auto chosen_stack = inv.items.begin();
         auto chosen_item = chosen_stack->begin();
-        for( auto stack = items.begin(); stack != items.end(); ++stack ) {
+        for( auto stack = inv.items.begin(); stack != inv.items.end(); ++stack ) {
             for( auto stack_it = stack->begin(); stack_it != stack->end(); ++stack_it ) {
                 cumulative_volume += ( *stack_it )->volume();
                 if( x_in_y( ( *stack_it )->volume().value(), cumulative_volume.value() ) ) {
@@ -784,17 +790,19 @@ ItemList inventory::remove_randomly_by_volume( const units::volume &volume )
         }
         volume_dropped += ( *chosen_item )->volume();
         //TODO!: check
-        ( *chosen_item )->remove_location();
-        result.push_back( std::move( *chosen_item ) );
+        item *chosen = *chosen_item;
+        chosen->remove_location();
         chosen_item = chosen_stack->erase( chosen_item );
+
+        result.push_back( detached_ptr<item>( chosen ) );
         if( chosen_item == chosen_stack->begin() && !chosen_stack->empty() ) {
             // preserve the invlet when removing the first item of a stack
             ( *chosen_item )->invlet = result.back()->invlet;
         }
         if( chosen_stack->empty() ) {
-            binned = false;
-            items_type_cached = false;
-            items.erase( chosen_stack );
+            inv.binned = false;
+            inv.items_type_cached = false;
+            inv.items.erase( chosen_stack );
         }
     }
     return result;
@@ -807,6 +815,27 @@ void inventory::dump( std::vector<item *> &dest )
             dest.push_back( elem_stack_iter );
         }
     }
+}
+
+void location_inventory::dump_remove( std::vector<detached_ptr<item>> &dest )
+{
+
+    for( auto &elem : inv.items ) {
+        for( auto &elem_stack_iter : elem ) {
+            dest.push_back( detached_ptr<item>( elem_stack_iter ) );
+        }
+    }
+}
+
+std::vector<detached_ptr<item>> location_inventory::dump_remove( )
+{
+    std::vector<detached_ptr<item>> dest;
+    for( auto &elem : inv.items ) {
+        for( auto &elem_stack_iter : elem ) {
+            dest.push_back( detached_ptr<item>( elem_stack_iter ) );
+        }
+    }
+    return dest;
 }
 
 const item &inventory::find_item( int position ) const
@@ -864,29 +893,22 @@ int inventory::position_by_type( const itype_id &type ) const
     return INT_MIN;
 }
 
-ItemList inventory::use_amount( itype_id it, int quantity,
-                                const std::function<bool( const item & )> &filter )
+std::vector<detached_ptr<item>> location_inventory::use_amount( itype_id it, int quantity,
+                             const std::function<bool( const item & )> &filter )
 {
-    items.sort( stack_compare );
-    ItemList ret;
-    for( invstack::iterator iter = items.begin(); iter != items.end() && quantity > 0; /* noop */ ) {
-        for( ItemList::iterator stack_iter = iter->begin();
-             stack_iter != iter->end() && quantity > 0;
-             /* noop */ ) {
-            if( ( *stack_iter )->use_amount( it, quantity, ret, filter ) ) {
-                stack_iter = iter->erase( stack_iter );
-            } else {
-                ++stack_iter;
-            }
+    inv.items.sort( stack_compare );
+    std::vector<detached_ptr<item>> ret;
+
+    remove_items_with( [&]( detached_ptr<item> &&a ) {
+        if( quantity > 0  && a->typeId() == it && filter( *a ) ) {
+            ret.push_back( std::move( a ) );
+            inv.binned = false;
+            inv.items_type_cached = false;
+            return VisitResponse::SKIP;
         }
-        if( iter->empty() ) {
-            binned = false;
-            items_type_cached = false;
-            iter = items.erase( iter );
-        } else if( iter != items.end() ) {
-            ++iter;
-        }
-    }
+        return VisitResponse::NEXT;
+    } );
+
     return ret;
 }
 
@@ -998,7 +1020,7 @@ void inventory::rust_iron_items()
                                     elem_stack_iter->base_volume().value() ) / 250 ) ) ) ) &&
                 //                       ^season length   ^14/5*0.75/pi (from volume of sphere)
                 //Freshwater without oxygen rusts slower than air
-                g->m.water_from( g->u.pos() ).typeId() == itype_salt_water ) {
+                g->m.water_from( g->u.pos() )->typeId() == itype_salt_water ) {
                 elem_stack_iter->inc_damage( DT_ACID ); // rusting never completely destroys an item
                 add_msg( m_bad, _( "Your %s is damaged by rust." ), elem_stack_iter->tname() );
             }
@@ -1038,7 +1060,7 @@ void for_each_item_in_both(
         int num_to_count = other_it->second;
         if( representative.count_by_charges() ) {
             //TODO!: what the shit is this used for
-            item &copy = *item_spawn_temporary( representative );
+            item &copy = *item::spawn_temporary( representative );
             copy.charges = std::min( copy.charges, num_to_count );
             f( copy );
         } else {
@@ -1300,4 +1322,252 @@ const itype_bin &inventory::get_binned_items() const
 
     binned = true;
     return binned_items;
+}
+
+const_invslice location_inventory::const_slice() const
+{
+    return inv.const_slice();
+}
+
+const ItemList &location_inventory::const_stack( int i ) const
+{
+    return inv.const_stack( i );
+}
+
+size_t location_inventory::size() const
+{
+    return inv.size();
+}
+
+location_inventory::location_inventory( item_location *location ) : loc( location ) {}
+
+void location_inventory::unsort()
+{
+    inv.unsort();
+}
+
+void location_inventory::clear()
+{
+    for( auto stack : inv.items ) {
+        for( auto it : stack ) {
+            it->remove_location();
+            it->destroy();
+        }
+    }
+    return inv.clear();
+}
+
+void location_inventory::push_back( std::vector<detached_ptr<item>> &newits )
+{
+    for( detached_ptr<item> &it : newits ) {
+        item *as_p = it.release();
+        as_p->set_location( &*loc );
+        inv.push_back( *as_p );
+    }
+}
+
+item &location_inventory::add_item( detached_ptr<item> &&newit, bool keep_invlet,
+                                    bool assign_invlet, bool should_stack )
+{
+    item *as_p = newit.release();
+    as_p->set_location( &*loc );
+    return inv.add_item( *as_p, keep_invlet, assign_invlet, should_stack );
+}
+item &location_inventory::add_item_by_items_type_cache( detached_ptr<item> &&newit,
+        bool keep_invlet, bool assign_invlet, bool should_stack )
+{
+    item *as_p = newit.release();
+    as_p->set_location( &*loc );
+    return inv.add_item_by_items_type_cache( *as_p, keep_invlet, assign_invlet, should_stack );
+}
+void location_inventory::add_item_keep_invlet( detached_ptr<item> &&newit )
+{
+    item *as_p = newit.release();
+    as_p->set_location( &*loc );
+    return inv.add_item_keep_invlet( *as_p );
+}
+
+void location_inventory::push_back( detached_ptr<item> &&newit )
+{
+
+    item *as_p = newit.release();
+    as_p->set_location( &*loc );
+    return inv.push_back( *as_p );
+}
+
+void location_inventory::restack( player &p )
+{
+    return inv.restack( p );
+}
+detached_ptr<item> location_inventory::remove_item( const item *it )
+{
+
+    return detached_ptr<item>( &inv.remove_item( it ) );
+}
+detached_ptr<item> location_inventory::remove_item( int position )
+{
+    return detached_ptr<item>( &inv.remove_item( position ) );
+}
+
+const item &location_inventory::find_item( int position ) const
+{
+    return inv.find_item( position );
+}
+item &location_inventory::find_item( int position )
+{
+    return inv.find_item( position );
+}
+
+int location_inventory::position_by_item( const item *it ) const
+{
+    return inv.position_by_item( it );
+}
+int location_inventory::position_by_type( const itype_id &type ) const
+{
+    return inv.position_by_type( type );
+}
+int location_inventory::invlet_to_position( char invlet ) const
+{
+    return inv.invlet_to_position( invlet );
+}
+
+bool location_inventory::has_tools( const itype_id &it, int quantity,
+                                    const std::function<bool( const item & )> &filter ) const
+{
+    return inv.has_tools( it, quantity, filter );
+}
+bool location_inventory::has_components( const itype_id &it, int quantity,
+        const std::function<bool( const item & )> &filter ) const
+{
+    return inv.has_components( it, quantity, filter );
+}
+bool location_inventory::has_charges( const itype_id &it, int quantity,
+                                      const std::function<bool( const item & )> &filter ) const
+{
+    return inv.has_charges( it, quantity, filter );
+}
+
+int location_inventory::leak_level( const std::string &flag ) const
+{
+    return inv.leak_level( flag );
+}
+
+int location_inventory::worst_item_value( npc *p ) const
+{
+    return inv.worst_item_value( p );
+}
+bool location_inventory::has_enough_painkiller( int pain ) const
+{
+    return inv.has_enough_painkiller( pain );
+}
+item *location_inventory::most_appropriate_painkiller( int pain )
+{
+    return inv.most_appropriate_painkiller( pain );
+}
+
+void location_inventory::rust_iron_items()
+{
+    return inv.rust_iron_items();
+}
+
+units::mass location_inventory::weight() const
+{
+    return inv.weight();
+}
+units::mass location_inventory::weight_without( const excluded_stacks &without ) const
+{
+    return inv.weight_without( without );
+}
+units::volume location_inventory::volume() const
+{
+    return inv.volume();
+}
+units::volume location_inventory::volume_without( const excluded_stacks &without ) const
+{
+    return inv.volume_without( without );
+}
+
+void location_inventory::dump( std::vector<item *> &dest )
+{
+    return inv.dump( dest );
+}
+
+std::vector<item *> location_inventory::active_items()
+{
+    return inv.active_items();
+}
+
+void location_inventory::json_load_invcache( JsonIn &jsin )
+{
+    return inv.json_load_invcache( jsin );
+}
+void location_inventory::json_load_items( JsonIn &jsin )
+{
+    return inv.json_load_items( jsin );
+}
+
+void location_inventory::json_save_invcache( JsonOut &json ) const
+{
+    return inv.json_save_invcache( json );
+}
+void location_inventory::json_save_items( JsonOut &json ) const
+{
+    return inv.json_save_items( json );
+}
+
+void location_inventory::assign_empty_invlet( item &it, const Character &p, bool force )
+{
+    return inv.assign_empty_invlet( it, p, force );
+}
+void location_inventory::reassign_item( item &it, char invlet, bool remove_old )
+{
+    return inv.reassign_item( it, invlet, remove_old );
+}
+void location_inventory::update_invlet( item &it, bool assign_invlet )
+{
+    return inv.update_invlet( it, assign_invlet );
+}
+
+void location_inventory::set_stack_favorite( int position, bool favorite )
+{
+    return inv.set_stack_favorite( position, favorite );
+}
+
+invlets_bitset location_inventory::allocated_invlets() const
+{
+    return inv.allocated_invlets();
+}
+const itype_bin &location_inventory::get_binned_items() const
+{
+    return inv.get_binned_items();
+}
+
+void location_inventory::update_cache_with_item( item &newit )
+{
+    return inv.update_cache_with_item( newit );
+}
+
+enchantment location_inventory::get_active_enchantment_cache( const Character &owner ) const
+{
+    return inv.get_active_enchantment_cache( owner );
+}
+
+int location_inventory::count_item( const itype_id &item_type ) const
+{
+    return inv.count_item( item_type );
+}
+
+void location_inventory::update_quality_cache()
+{
+    return inv.update_quality_cache();
+}
+
+const std::map<quality_id, std::map<int, int>> &location_inventory::get_quality_cache() const
+{
+    return inv.get_quality_cache();
+}
+
+void location_inventory::build_items_type_cache()
+{
+    return inv.build_items_type_cache();
 }

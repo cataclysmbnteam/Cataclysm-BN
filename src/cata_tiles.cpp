@@ -2021,11 +2021,12 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
                 col = t.color;
             }
         } else if( category == C_ITEM ) {
+            //TODO!: push this up, it's a bad one
             item *tmp;
             if( string_starts_with( found_id, "corpse_" ) ) {
-                tmp = item_spawn_temporary( itype_corpse, calendar::start_of_cataclysm );
+                tmp = item::spawn_temporary( itype_corpse, calendar::start_of_cataclysm );
             } else {
-                tmp = item_spawn_temporary( found_id, calendar::start_of_cataclysm );
+                tmp = item::spawn_temporary( found_id, calendar::start_of_cataclysm );
             }
             sym = tmp->symbol().empty() ? ' ' : tmp->symbol().front();
             col = tmp->color();

@@ -366,7 +366,8 @@ struct scoped_goes_bad_cache {
 
 const int item::INFINITE_CHARGES = INT_MAX;
 
-item::item() : components( std::unique_ptr<location<item>>( new component_item_location( this ) ) ),
+item::item() : contents( this ),
+    components( new component_item_location( this ) ),
     bday( calendar::start_of_cataclysm )
 {
     type = nullitem();
@@ -374,7 +375,8 @@ item::item() : components( std::unique_ptr<location<item>>( new component_item_l
 }
 
 item::item( const itype *type, time_point turn, int qty ) : type( type ),
-    components( std::unique_ptr<location<item>>( new component_item_location( this ) ) ), bday( turn )
+    contents( this ),
+    components( new component_item_location( this ) ), bday( turn )
 {
     corpse = has_flag( flag_CORPSE ) ? &mtype_id::NULL_ID().obj() : nullptr;
     item_counter = type->countdown_interval;
@@ -398,19 +400,17 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ),
 
     if( type->gun ) {
         for( const itype_id &mod : type->gun->built_in_mods ) {
-            item &it = *item_spawn( mod, turn, qty );
-            it.set_flag( "IRREMOVABLE" );
-            put_in( it );
+            detached_ptr<item> it = item::spawn( mod, turn, qty );
+            it->set_flag( "IRREMOVABLE" );
+            put_in( std::move( it ) );
         }
         for( const itype_id &mod : type->gun->default_mods ) {
-            //TODO!:check
-            put_in( *item_spawn( mod, turn, qty ) );
+            put_in( item::spawn( mod, turn, qty ) );
         }
 
     } else if( type->magazine ) {
         if( type->magazine->count > 0 ) {
-            //TODO!:check
-            put_in( *item_spawn( type->magazine->default_ammo, calendar::turn, type->magazine->count ) );
+            put_in( item::spawn( type->magazine->default_ammo, calendar::turn, type->magazine->count ) );
         }
 
     } else if( goes_bad() ) {
@@ -465,16 +465,16 @@ static const item *get_most_rotten_component( const item &craft )
     return most_rotten;
 }
 
-item::item( const recipe *rec, int qty, std::vector<location_ptr<item>> items,
-            std::vector<item_comp> selections )
+item::item( const recipe *rec, int qty, std::vector<detached_ptr<item>> &&items,
+            std::vector<item_comp> &&selections )
     : item( "craft", calendar::turn, qty )
 {
     craft_data_ = cata::make_value<craft_data>();
     craft_data_->making = rec;
-    for( auto item &it : items ) {
+    for( detached_ptr<item> &it : items ) {
         components.push_back( std::move( it ) );
     }
-    craft_data_->comps_used = selections;
+    craft_data_->comps_used = std::move( selections );
 
     if( is_food() ) {
         active = true;
@@ -505,8 +505,54 @@ item::item( const recipe *rec, int qty, std::vector<location_ptr<item>> items,
     }
 }
 
-item::item( const item & ) = default;
-item::item( item && ) = default;
+item::item( const item &source ) : contents( this ),
+    components( new component_item_location( this ) )
+{
+    //Awful copy block, this can be avoided with equally awful inheritance shenanigans but...
+    type = source.type;
+    faults = source.faults;
+    item_tags = source.item_tags;
+    curammo = source.curammo;
+    item_vars = source.item_vars;
+    corpse = source.corpse;
+    corpse_name = source.corpse_name;
+    techniques = source.techniques;
+    craft_data_ = source.craft_data_;
+    relic_data = source.relic_data;
+    charges = source.charges;
+    energy = source.energy;
+    recipe_charges = source.recipe_charges;
+    burnt = source.burnt;
+    poison = source.poison;
+    frequency = source.frequency;
+    snip_id = source.snip_id;
+    irradiation = source.irradiation;
+    item_counter = source.item_counter;
+    mission_id = source.mission_id;
+    player_id = source.player_id;
+    encumbrance_update_ = source.encumbrance_update_;
+    rot = source.rot;
+    last_rot_check = source.last_rot_check;
+    bday = source.bday;
+    owner = source.owner;
+    old_owner = source.old_owner;
+    damage_ = source.damage_;
+    light = source.light;
+    invlet = source.invlet;
+    active = source.active;
+    activated_by = source.activated_by;
+
+    for( item * const &it : source.contents.all_items_top() ) {
+        contents.insert_item( item::spawn( *it ) );
+    }
+
+    for( item * const &it : source.components ) {
+        components.push_back( item::spawn( *it ) );
+    }
+}
+
+
+
 item::~item() //TODO!: this is wrong now, it should be done on destruct not deallocate
 {
     for( item *comp : components ) {
@@ -524,7 +570,7 @@ detached_ptr<item> item::make_corpse( const mtype_id &mt, time_point turn, const
 
     std::string corpse_type = mt == mtype_id::NULL_ID() ? "corpse_generic_human" : "corpse";
 
-    detached_ptr<item> result = std::move( item::spawn( corpse_type, turn ) );
+    detached_ptr<item> result = item::spawn( corpse_type, turn );
 
     result->corpse = &mt.obj();
 
@@ -539,20 +585,19 @@ detached_ptr<item> item::make_corpse( const mtype_id &mt, time_point turn, const
     // "human corpse".
     result->corpse_name = name;
 
-    return std::move( result );
+    return  result;
 }
 
-item &item::convert( const itype_id &new_type )
+void item::convert( const itype_id &new_type )
 {
     type = &*new_type;
     relic_data = type->relic_data;
-    return *this;
 }
 
-item &item::deactivate( const Character *ch, bool alert )
+void item::deactivate( const Character *ch, bool alert )
 {
     if( !active ) {
-        return *this; // no-op
+        return; // no-op
     }
 
     if( is_tool() && type->tool->revert_to ) {
@@ -563,13 +608,12 @@ item &item::deactivate( const Character *ch, bool alert )
         active = false;
 
     }
-    return *this;
 }
 
-item &item::activate()
+void item::activate()
 {
     if( active ) {
-        return *this; // no-op
+        return; // no-op
     }
 
     if( type->countdown_interval > 0 ) {
@@ -578,7 +622,6 @@ item &item::activate()
 
     active = true;
 
-    return *this;
 }
 
 units::energy item::mod_energy( const units::energy &qty )
@@ -599,7 +642,7 @@ units::energy item::mod_energy( const units::energy &qty )
     return 0_J;
 }
 
-item &item::ammo_set( const itype_id &ammo, int qty )
+void item::ammo_set( const itype_id &ammo, int qty )
 {
     if( qty < 0 ) {
         // completely fill an integral or existing magazine
@@ -619,7 +662,7 @@ item &item::ammo_set( const itype_id &ammo, int qty )
 
     if( qty <= 0 ) {
         ammo_unset();
-        return *this;
+        return;
     }
 
     // handle reloadable tools and guns with no specific ammo type as special case
@@ -628,24 +671,25 @@ item &item::ammo_set( const itype_id &ammo, int qty )
             curammo = nullptr;
             charges = std::min( qty, ammo_capacity() );
         }
-        return *this;
+        return;
     }
 
     // check ammo is valid for the item
     const itype *atype = &*ammo;
     if( !atype->ammo || !ammo_types().count( atype->ammo->type ) ) {
         debugmsg( "Tried to set invalid ammo %s[%d] for %s", atype->get_id(), qty, typeId() );
-        return *this;
+        return;
     }
 
     if( is_magazine() ) {
         ammo_unset();
-        item &set_ammo = *item_spawn( ammo, calendar::turn, std::min( qty, ammo_capacity() ) );
+        detached_ptr<item> set_ammo = item::spawn( ammo, calendar::turn, std::min( qty,
+                                      ammo_capacity() ) );
         if( has_flag( flag_NO_UNLOAD ) ) {
-            set_ammo.set_flag( "NO_DROP" );
-            set_ammo.set_flag( "IRREMOVABLE" );
+            set_ammo->set_flag( "NO_DROP" );
+            set_ammo->set_flag( "IRREMOVABLE" );
         }
-        put_in( set_ammo );
+        put_in( std::move( set_ammo ) );
 
     } else if( magazine_integral() ) {
         curammo = atype;
@@ -657,7 +701,7 @@ item &item::ammo_set( const itype_id &ammo, int qty )
             if( !mag->magazine ) {
                 debugmsg( "Tried to set ammo %s[%d] without suitable magazine for %s",
                           atype->get_id(), qty, typeId() );
-                return *this;
+                return;
             }
 
             // if default magazine too small fetch instead closest available match
@@ -667,7 +711,7 @@ item &item::ammo_set( const itype_id &ammo, int qty )
                 if( iter == type->magazines.end() ) {
                     debugmsg( "%s doesn't have a magazine for %s",
                               typeId(), ammo );
-                    return *this;
+                    return;
                 }
                 std::vector<itype_id> opts( iter->second.begin(), iter->second.end() );
                 std::sort( opts.begin(), opts.end(), []( const itype_id & lhs, const itype_id & rhs ) {
@@ -681,16 +725,14 @@ item &item::ammo_set( const itype_id &ammo, int qty )
                     }
                 }
             }
-            //TODO!: check
-            put_in( *item_spawn( mag ) );
+            put_in( item::spawn( mag ) );
         }
         magazine_current()->ammo_set( ammo, qty );
     }
 
-    return *this;
 }
 
-item &item::ammo_unset()
+void item::ammo_unset()
 {
     if( !is_tool() && !is_gun() && !is_magazine() ) {
         // do nothing
@@ -703,7 +745,6 @@ item &item::ammo_unset()
         magazine_current()->ammo_unset();
     }
 
-    return *this;
 }
 
 int item::damage() const
@@ -724,23 +765,75 @@ int item::damage_level( int max ) const
     }
 }
 
-item &item::set_damage( int qty )
+void item::set_damage( int qty )
 {
     on_damage( qty - damage_, DT_TRUE );
     damage_ = std::max( std::min( qty, max_damage() ), min_damage() );
-    return *this;
 }
 
-item &item::split( int qty )
+detached_ptr<item> item::split( int qty )
 {
     if( qty == 0 || !count_by_charges() || qty >= charges ) {
-        detach();
-        return *this;
+        return detach();
     }
-    item *res = item_spawn( *this );
+    detached_ptr<item> res = item::spawn( *this );
     res->charges = qty;
     charges -= qty;
-    return *res;
+    return res;
+}
+
+detached_ptr<item> item::unsafe_split( int qty )
+{
+    if( !count_by_charges() ) {
+        debugmsg( "Attempted to unsafe_split a non-count by charges item." );
+        return detached_ptr<item>();
+    }
+    if( qty == 0 || qty >= charges ) {
+        qty = charges;
+    }
+    detached_ptr<item> res = item::spawn( *this );
+    res->charges = qty;
+    charges -= qty;
+    return res;
+}
+
+void item::unsafe_rejoin( item &old )
+{
+    if( old.charges != 0 ) {
+        return;
+    }
+
+    merge_charges( old.detach() );
+}
+
+bool item::attempt_detach( std::function < detached_ptr<item>( detached_ptr<item> && ) > cb )
+{
+    if( count_by_charges() ) {
+        return attempt_split( 0, cb );
+    }
+    return game_object<item>::attempt_detach( cb );
+}
+
+bool item::attempt_split( int qty,
+                          std::function < detached_ptr<item>( detached_ptr<item> && ) > cb )
+{
+    detached_ptr<item> det = unsafe_split( qty );
+    if( !det ) {
+        return false;
+    }
+    item &after_split = *det;
+    det = cb( std::move( det ) );
+    bool ret = true;
+    if( det ) {
+        if( det->type->get_id() != type->get_id() ) {
+            debugmsg( "attempt_split returned the wrong item type" );
+        } else {
+            merge_charges( std::move( det ) );
+        }
+        ret = false;
+    }
+    after_split.unsafe_rejoin( *this );
+    return ret;
 }
 
 bool item::is_null() const
@@ -851,27 +944,27 @@ bool item::is_worn_only_with( const item &it ) const
     return( ( has_flag( flag_POWERARMOR_EXTERNAL ) || has_flag( flag_POWERARMOR_MOD ) ) &&
             it.has_flag( flag_POWERARMOR_EXO ) );
 }
-//TODO!: update location stuffs
-item &item::in_its_container()
+
+detached_ptr<item> item::in_its_container( detached_ptr<item> &&self )
 {
-    return in_container( type->default_container.value_or( "null" ) );
+    return item::in_container( self->type->default_container.value_or( "null" ), std::move( self ) );
 }
 
-item &item::in_container( const itype_id &cont )
+detached_ptr<item> item::in_container( const itype_id &cont, detached_ptr<item> &&self )
 {
     if( !cont.is_null() ) {
-        item *ret = item_spawn( cont, birthday() );
-        ret->put_in( *this );
-        if( made_of( LIQUID ) && ret->is_container() ) {
+        detached_ptr<item> ret = item::spawn( cont, self->birthday() );
+        if( self->made_of( LIQUID ) && ret->is_container() ) {
             // Note: we can't use any of the normal container functions as they check the
             // container being suitable (seals, watertight etc.)
-            ret->contents.back().charges = charges_per_volume( ret->get_container_capacity() );
+            ret->contents.back().charges = self->charges_per_volume( ret->get_container_capacity() );
         }
+        ret->invlet = self->invlet;
+        ret->put_in( std::move( self ) );
 
-        ret->invlet = invlet;
-        return *ret;
+        return ret;
     } else {
-        return *this;
+        return self;
     }
 }
 
@@ -987,36 +1080,36 @@ bool item::stacks_with( const item &rhs, bool check_components, bool skip_type_c
     return contents.stacks_with( rhs.contents );
 }
 
-bool item::merge_charges( item &rhs )
+bool item::merge_charges( detached_ptr<item> &&rhs )
 {
-    if( this == &rhs ) {
+    if( this == &*rhs ) {
         debugmsg( "Attempted to merge %s with itself.", debug_name() );
         return false;
     }
-    if( !count_by_charges() || !stacks_with( rhs ) ) {
+    if( !count_by_charges() || !stacks_with( *rhs ) ) {
         return false;
     }
-    safe_reference<item>::merge( this, &rhs );
-    rhs.destroy();
+    item &obj = *rhs;
+    safe_reference<item>::merge( this, &*rhs );
+    detached_ptr<item> del = std::move( rhs );
 
     // Prevent overflow when either item has "near infinite" charges.
-    if( charges >= INFINITE_CHARGES / 2 || rhs.charges >= INFINITE_CHARGES / 2 ) {
+    if( charges >= INFINITE_CHARGES / 2 || obj.charges >= INFINITE_CHARGES / 2 ) {
         charges = INFINITE_CHARGES;
         return true;
     }
     // We'll just hope that the item counter represents the same thing for both items
-    if( item_counter > 0 || rhs.item_counter > 0 ) {
+    if( item_counter > 0 || obj.item_counter > 0 ) {
         item_counter = ( static_cast<double>( item_counter ) * charges + static_cast<double>
-                         ( rhs.item_counter ) * rhs.charges ) / ( charges + rhs.charges );
+                         ( obj.item_counter ) * obj.charges ) / ( charges + obj.charges );
     }
-    charges += rhs.charges;
+    charges += obj.charges;
     return true;
 }
 
-void item::put_in( item &payload )
+void item::put_in( detached_ptr<item> &&payload )
 {
-    payload.set_location( new contents_item_location( this ) );
-    contents.insert_item( payload );
+    contents.insert_item( std::move( payload ) );
 }
 
 void item::set_var( const std::string &name, const int value )
@@ -2041,7 +2134,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     const item *loaded_mod = mod;
     if( mod->ammo_required() && !mod->ammo_remaining() ) {
         //TODO!: get rid of this one, I think it could be bad
-        item &tmp = *item_spawn_temporary( *mod );
+        item &tmp = *item::spawn_temporary( *mod );
         tmp.ammo_set( mod->magazine_current() ? tmp.common_ammo_default() : tmp.ammo_default() );
         if( tmp.ammo_data() == nullptr ) {
             insert_separation_line( info );
@@ -4517,9 +4610,9 @@ void item::handle_pickup_ownership( Character &c )
                 }
                 random_entry( witnesses )->set_attitude( NPCATT_RECOVER_GOODS );
                 // Notify the activity that we got a witness
-                if( c.activity && !c.activity.is_null() && c.activity.id() == ACT_PICKUP ) {
-                    c.activity.str_values.clear();
-                    c.activity.str_values.emplace_back( has_thievery_witness );
+                if( c.activity && !c.activity->is_null() && c.activity->id() == ACT_PICKUP ) {
+                    c.activity->str_values.clear();
+                    c.activity->str_values.emplace_back( has_thievery_witness );
                 }
             }
             set_owner( c );
@@ -5348,25 +5441,22 @@ bool item::has_flag( const flag_str_id &flag ) const
     return has_flag( flag.str() );
 }
 
-item &item::set_flag( const std::string &flag )
+void item::set_flag( const std::string &flag )
 {
     item_tags.insert( flag );
-    return *this;
 }
 
-item &item::unset_flag( const std::string &flag )
+void item::unset_flag( const std::string &flag )
 {
     item_tags.erase( flag );
-    return *this;
 }
 
-item &item::set_flag_recursive( const std::string &flag )
+void item::set_flag_recursive( const std::string &flag )
 {
     set_flag( flag );
     for( item * const &comp : components ) {
         comp->set_flag_recursive( flag );
     }
-    return *this;
 }
 
 const item::FlagsSetType &item::get_flags() const
@@ -6628,7 +6718,7 @@ bool item::is_food_container() const
 {
     return ( !contents.empty() && contents.front().is_food() ) ||
            ( is_craft() &&
-             craft_data_->making->create_result().is_food_container() );
+             craft_data_->making->create_result()->is_food_container() );
 }
 
 bool item::is_med_container() const
@@ -7092,11 +7182,10 @@ bool item::spill_contents( const tripoint &pos )
         return true;
     }
 
-    for( item *it : contents.all_items_top() ) {
-        get_map().add_item_or_charges( pos, *it );
+    for( detached_ptr<item> &it : contents.clear_items() ) {
+        get_map().add_item_or_charges( pos, std::move( it ) );
     }
 
-    contents.clear_items();
     return true;
 }
 
@@ -7510,8 +7599,7 @@ int item::ammo_consume( int qty, const tripoint &pos )
             if( mag->has_flag( flag_MAG_DESTROY ) ) {
                 remove_item( *mag );
             } else if( mag->has_flag( flag_MAG_EJECT ) ) {
-                get_map().add_item( pos, *mag );
-                remove_item( *mag );
+                get_map().add_item( pos, remove_item( *mag ) );
             }
         }
         return res;
@@ -8111,15 +8199,14 @@ int item::casings_count() const
 {
     int res = 0;
 
-    const_cast<item *>( this )->casings_handle( [&res]( item & ) {
+    const_cast<item *>( this )->casings_handle( [&res]( detached_ptr<item> && ) {
         ++res;
-        return false;
     } );
 
     return res;
 }
 
-void item::casings_handle( const std::function<bool( item & )> &func )
+void item::casings_handle( const std::function < void( detached_ptr<item> && ) > &func )
 {
     if( !is_gun() ) {
         return;
@@ -8161,8 +8248,8 @@ bool item::reload( player &u, item &loc, int qty )
 
     qty = std::min( qty, limit );
 
-    casings_handle( [&u]( item & e ) {
-        return u.i_add_or_drop( e );
+    casings_handle( [&u]( detached_ptr<item> &&e ) {
+        u.i_add_or_drop( std::move( e ) );
     } );
 
     if( is_magazine() ) {
@@ -8174,18 +8261,18 @@ bool item::reload( player &u, item &loc, int qty )
             }
         }
 
-        item &to_reload = *item_spawn( *ammo );
-        to_reload.charges = qty;
+        detached_ptr<item> to_reload = item::spawn( *ammo );
+        to_reload->charges = qty;
         ammo->charges -= qty;
         bool merged = false;
         for( item *it : contents.all_items_top() ) {
-            if( it->merge_charges( to_reload ) ) {
+            if( it->merge_charges( std::move( to_reload ) ) ) {
                 merged = true;
                 break;
             }
         }
         if( !merged ) {
-            put_in( to_reload );
+            put_in( std::move( to_reload ) );
         }
     } else if( is_watertight_container() ) {
         if( !ammo->made_of( LIQUID ) ) {
@@ -8195,7 +8282,10 @@ bool item::reload( player &u, item &loc, int qty )
         if( container ) {
             container->on_contents_changed();
         }
-        fill_with( *ammo, qty );
+        item &cur = *this;
+        ammo->attempt_split( 0, [&cur, qty]( detached_ptr<item> &&it ) {
+            return cur.fill_with( std::move( it ), qty );
+        } );
     } else if( !magazine_integral() ) {
         // if we already have a magazine loaded prompt to eject it
         if( magazine_current() ) {
@@ -8203,19 +8293,10 @@ bool item::reload( player &u, item &loc, int qty )
             std::string prompt = string_format( pgettext( "magazine", "Eject %1$s from %2$s?" ),
                                                 magazine_current()->tname(), tname() );
 
-            // eject magazine to player inventory and try to dispose of it from there
-            item &mag = u.i_add( *magazine_current() );
-            if( !u.dispose_item( mag, prompt ) ) {
-                //TODO!: check this, no more clone
-                u.remove_item( mag ); // user canceled so delete the clone
-                return false;
-            }
-            remove_item( *magazine_current() );
+            u.dispose_item( *magazine_current(), prompt );
         }
 
-        put_in( *ammo );
-        //TODO!: check this, might not be correct here
-        loc.detach();
+        put_in( ammo->detach() );
         return true;
 
     } else {
@@ -8516,47 +8597,29 @@ int item::get_remaining_capacity_for_liquid( const item &liquid, const Character
     return res;
 }
 
-bool item::use_amount( const itype_id &it, int &quantity, ItemList &used,
+void item::use_amount( const itype_id &it, int &quantity, std::vector<detached_ptr<item>> &used,
                        const std::function<bool( const item & )> &filter )
 {
     // Remember quantity so that we can unseal self
     int old_quantity = quantity;
-    std::vector<item *> removed_items;
-    // First, check contents
-    visit_items(
-    [&]( item * a ) {
-        // visit_items checks the item itself first. we want to do its contents first.
-        if( a == this ) {
-            return VisitResponse::NEXT;
-        }
-        if( a->use_amount_internal( it, quantity, used, filter ) ) {
-            removed_items.emplace_back( a );
+
+    remove_items_with( [&]( detached_ptr<item> &&a ) {
+        if( quantity > 0  && a->typeId() == it && filter( *a ) ) {
+            used.push_back( std::move( a ) );
             return VisitResponse::SKIP;
         }
         return VisitResponse::NEXT;
     } );
 
-    for( item *remove : removed_items ) {
-        remove_item( *remove );
-    }
-
     if( quantity != old_quantity ) {
         on_contents_changed();
     }
-    return use_amount_internal( it, quantity, used, filter );
-}
 
-bool item::use_amount_internal( const itype_id &it, int &quantity, ItemList &used,
-                                const std::function<bool( const item & )> &filter )
-{
-    if( typeId() == it && quantity > 0 && filter( *this ) ) {
-        used.push_back( this );
-        quantity--;
-        return true;
-    } else {
-        return false;
+    if( quantity > 0 && typeId() == it && filter( *this ) ) {
+        used.push_back( detach() );
     }
 }
+
 
 bool item::allow_crafting_component() const
 {
@@ -8588,19 +8651,19 @@ bool item::allow_crafting_component() const
     return contents.empty();
 }
 
-void item::fill_with( item &liquid, int amount )
+detached_ptr<item> item::fill_with( detached_ptr<item> &&liquid, int amount )
 {
     amount = std::min( get_remaining_capacity_for_liquid( liquid, true ),
                        std::min( amount, liquid.charges ) );
     if( amount <= 0 ) {
-        return;
+        return liquid;
     }
 
     if( !is_container() ) {
         if( !is_reloadable_with( liquid.typeId() ) ) {
             debugmsg( "Tried to fill %s which is not a container and can't be reloaded with %s.",
                       tname(), liquid.tname() );
-            return;
+            return liquid;
         }
         ammo_set( liquid.typeId(), ammo_remaining() + amount );
     } else if( is_food_container() ) {
@@ -8614,13 +8677,17 @@ void item::fill_with( item &liquid, int amount )
         item &cts = contents.front();
         cts.mod_charges( amount );
     } else {
-        item &liquid_copy = *item_spawn( liquid );
-        liquid_copy.charges = amount;
-        put_in( liquid_copy );
+        detachd_ptr<item> liquid_copy = item::spawn( liquid );
+        liquid_copy->charges = amount;
+        put_in( std::move( liquid_copy ) );
     }
 
     liquid.mod_charges( -amount );
     on_contents_changed();
+    if( liquid.charges > 0 ) {
+        return liquid;
+    }
+    return detached_ptr<item>();
 }
 
 void item::set_countdown( int num_turns )

@@ -11,11 +11,13 @@
 
 #define GO_BACKTRACE (40)
 
+class location_inventory;
+
 template<typename T>
 class game_object
 {
     protected:
-        std::unique_ptr<location<T>> loc = nullptr;
+        location<T> *loc = nullptr;
 
         game_object() {}
 
@@ -36,8 +38,34 @@ class game_object
             cata_arena<T>::mark_for_destruction( static_cast<T *>( this ) );
         }
 
+        void remove_location() {
+            if( is_null() ) {
+                return;
+            }
+#if !defined(RELEASE)
+            void **buf = static_cast<void **>( malloc( sizeof( void * ) * GO_BACKTRACE ) );
+            backtrace( buf, GO_BACKTRACE );
+            cata_arena<T>::add_removed_trace( static_cast<T *>( this ), buf );
+#endif
+            loc = nullptr;
+        }
+
+        void set_location( location<T> *own ) {
+            if( is_null() ) {
+                return;
+            }
+            if( loc != nullptr ) {
+                debugmsg( "Attempted to set the location of [%s] that already has one.", debug_name() );
+                detach();
+            }
+            loc = own;
+        }
+
         friend detached_ptr<T>;
-        friend location_ptr<T>;
+        friend location_ptr<T, true>;
+        friend location_ptr<T, false>;
+        friend location_inventory;
+        friend location_vector<T>;
 
     public:
 
@@ -48,34 +76,43 @@ class game_object
 
 
 
-        detached_ptr<item> detach() {
+        detached_ptr<T> detach() {
             if( is_null() ) {
-                return detached_ptr<item>();
+                return detached_ptr<T>();
             }
             if( loc == nullptr ) {
-                debugmsg( "Attempted to remove the location of [%s] that doesn't have one.", debug_name() );
-                return detached_ptr<item>();
+                debugmsg( "Attempted to detach [%s] not in a location.", debug_name() );
+                return detached_ptr<T>();
             }
-            detached_ptr<item> res = std::move( loc->detach( static_cast<T *>( this ) ) );
+            detached_ptr<T> res = std::move( loc->detach( static_cast<T *>( this ) ) );
 #if !defined(RELEASE)
             void **buf = static_cast<void **>( malloc( sizeof( void * ) * GO_BACKTRACE ) );
             backtrace( buf, GO_BACKTRACE );
             cata_arena<T>::add_removed_trace( static_cast<T *>( this ), buf );
 #endif
-            loc.reset( nullptr );
+            loc = nullptr;
             return std::move( res );
         }
 
-        void set_location( location<T> *own ) {
-            if( is_null() ) {
-                delete own;
-                return;
+        virtual bool attempt_detach( std::function < detached_ptr<T>( detached_ptr<T> && ) > cb ) {
+            if( loc == nullptr ) {
+                debugmsg( "Attempted to detach (with attempt_detach) [%s] not in a location.", debug_name() );
+                return false;
             }
-            if( loc != nullptr ) {
-                debugmsg( "Attempted to set the location of [%s] that already has one.", debug_name() );
-                detach();
+            location<T> *saved_loc = loc;
+            remove_location();
+            detached_ptr<T> original( static_cast<T *>( this ) );
+            detached_ptr<T> n = cb( std::move( original ) );
+            if( n ) {
+                if( &*n == this ) {
+                    loc = saved_loc;
+                    return false;
+                } else {
+                    debugmsg( "Returning a different item in attempt detach is not currently supported" );
+                    return false;
+                }
             }
-            loc.reset( own );
+            return true;
         }
 
         void check_location( std::string file, int line, void **backtrace, void **destroy_trace,
@@ -131,7 +168,7 @@ class game_object
                     free( funcs );
                 }
                 debugmsg( "Location corruption detected. Allocated at %s:%d, [%s] thought it was at %s", file,
-                          line, debug_name(), loc->describe( nullptr, static_cast<const item *>( this ) ) );
+                          line, debug_name(), loc->describe( nullptr, static_cast<const T *>( this ) ) );
             }
         }
 
@@ -143,18 +180,6 @@ class game_object
                 return false;
             }
             return loc->is_loaded( static_cast<const T *>( this ) );
-        }
-
-        void remove_location() {
-            if( is_null() ) {
-                return;
-            }
-#if !defined(RELEASE)
-            void **buf = static_cast<void **>( malloc( sizeof( void * ) * GO_BACKTRACE ) );
-            backtrace( buf, GO_BACKTRACE );
-            cata_arena<T>::add_removed_trace( static_cast<T *>( this ), buf );
-#endif
-            loc.reset( nullptr );
         }
 
         tripoint position( ) const {

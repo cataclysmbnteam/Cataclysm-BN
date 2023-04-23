@@ -140,6 +140,16 @@ void wield_item_location::detach( item * )
 {
     holder->remove_weapon();
 }
+
+detached_ptr<item> wield_item_location::detach( item * )
+{
+    return holder->remove_real_weapon();
+}
+
+bool wield_item_location::check_for_corruption( const item *it ) const
+{
+    return &( holder->get_real_weapon() ) == it;
+}
 int wield_item_location::obtain_cost( const Character &ch, int qty, const item *it ) const
 {
     const item *split_stack = cost_split_helper( it, qty );

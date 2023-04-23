@@ -178,8 +178,8 @@ int calc_focus_equilibrium( const Character &who )
 {
     int focus_equilibrium = 100;
 
-    if( who.activity.id() == ACT_READ ) {
-        safe_reference<item> loc = who.activity.targets[0];
+    if( who.activity->id() == ACT_READ ) {
+        safe_reference<item> loc = who.activity->targets[0];
         if( loc && loc->is_book() ) {
             auto &bt = *loc->type->book;
             // apply a penalty when we're actually learning something

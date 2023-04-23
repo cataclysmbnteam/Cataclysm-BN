@@ -383,7 +383,24 @@ class JsonIn
 
         /// Overload for location pointers
         template<typename U>
-        bool read( location_ptr<U> &out, bool throw_on_error = false ) {
+        bool read( location_ptr<U, false> &out, bool throw_on_error = false ) {
+            try {
+                out = U::spawn( *this );
+#if !defined(RELEASE)
+                void **buf = static_cast<void **>( malloc( sizeof( void * ) * 40 ) );
+                backtrace( buf, 40 );
+                cata_arena<U>::add_debug_entry( &*out, __FILE__, __LINE__, buf );
+#endif
+                return true;
+            } catch( const JsonError & ) {
+                if( throw_on_error ) {
+                    throw;
+                }
+                return false;
+            }
+        }
+        template<typename U>
+        bool read( location_ptr<U, true> &out, bool throw_on_error = false ) {
             try {
                 out = U::spawn( *this );
 #if !defined(RELEASE)
@@ -675,7 +692,12 @@ class JsonOut
         }
 
         template<typename T>
-        void write( const location_ptr<T> &v ) {
+        void write( const location_ptr<T, true> &v ) {
+            write( *v );
+        }
+
+        template<typename T>
+        void write( const location_ptr<T, false> &v ) {
             write( *v );
         }
 

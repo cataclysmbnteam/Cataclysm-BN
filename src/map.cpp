@@ -4497,23 +4497,25 @@ item &map::add_item( const tripoint &p, item &new_item )
     return new_item;
 }
 
-item &map::water_from( const tripoint &p )
+detached_ptr<item> map::water_from( const tripoint &p )
 {
     if( has_flag( "SALT_WATER", p ) ) {
-        return *item_spawn( "salt_water", calendar::start_of_cataclysm, item::INFINITE_CHARGES );
+        return item::spawn( "salt_water", calendar::start_of_cataclysm, item::INFINITE_CHARGES );
     }
 
     const ter_id terrain_id = ter( p );
     if( terrain_id == t_sewage ) {
-        item *ret = item_spawn( "water_sewage", calendar::start_of_cataclysm, item::INFINITE_CHARGES );
+        detached_ptr<item> ret = item::spawn( "water_sewage", calendar::start_of_cataclysm,
+                                              item::INFINITE_CHARGES );
         ret->poison = rng( 1, 7 );
-        return *ret;
+        return ret;
     }
 
 
     // iexamine::water_source requires a valid liquid from this function.
     if( terrain_id.obj().examine == &iexamine::water_source ) {
-        item *ret = item_spawn( "water", calendar::start_of_cataclysm, item::INFINITE_CHARGES );
+        detached_ptr<item> *ret = item_spawn( "water", calendar::start_of_cataclysm,
+                                              item::INFINITE_CHARGES );
         int poison_chance = 0;
         if( terrain_id.obj().has_flag( TFLAG_DEEP_WATER ) ) {
             if( terrain_id.obj().has_flag( TFLAG_CURRENT ) ) {
@@ -4535,6 +4537,10 @@ item &map::water_from( const tripoint &p )
     }
     if( furn( p ).obj().examine == &iexamine::water_source ) {
         item *ret = item_spawn( "water", calendar::start_of_cataclysm, item::INFINITE_CHARGES );
+        return *ret;
+    }
+    if( furn( p ).obj().examine == &iexamine::clean_water_source ) {
+        item *ret = item_spawn( "water_clean", calendar::start_of_cataclysm, item::INFINITE_CHARGES );
         return *ret;
     }
     return null_item_reference();

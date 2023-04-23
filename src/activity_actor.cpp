@@ -1007,7 +1007,7 @@ void pickup_activity_actor::do_turn( player_activity &act, Character &who )
     }
 
     // Auto_resume implies autopickup.
-    const bool autopickup = who.activity.auto_resume;
+    const bool autopickup = who.activity->auto_resume;
 
     // False indicates that the player canceled pickup when met with some prompt
     const bool keep_going = pickup::do_pickup( target_items, autopickup );
