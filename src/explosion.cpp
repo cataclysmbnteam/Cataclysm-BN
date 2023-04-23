@@ -629,8 +629,10 @@ void ExplosionProcess::blast_tile( const tripoint position, const int rl_distanc
 
     // Item damage comes first in order to prevent dropped loot from being destroyed immediately.
     {
+        const std::string cause = _( "force of the explosion" );
         const int smash_force = blast_power * item_blast_percentage( blast_radius, rl_distance );
-        here.smash_items( position, smash_force, _( "force of the explosion" ), true );
+        here.smash_trap( position, smash_force, cause );
+        here.smash_items( position, smash_force, cause, true );
         // Don't forget to mark them as explosion smashed already
         for( auto &item : here.i_at( position ) ) {
             item.set_flag( "EXPLOSION_SMASHED" );

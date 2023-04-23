@@ -71,6 +71,7 @@
 #include "monster.h"
 #include "morale_types.h"
 #include "mtype.h"
+#include "npc.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
@@ -3035,6 +3036,34 @@ bool map::is_suspension_valid( const tripoint &point )
     return false;
 }
 
+static bool will_explode_on_impact( const int power )
+{
+    const auto explode_threshold = get_option<int>( "MADE_OF_EXPLODIUM" );
+    const bool is_explodium = explode_threshold != 0;
+
+    return is_explodium && power >= explode_threshold;
+}
+
+void map::smash_trap( const tripoint &p, const int power, const std::string &cause_message )
+{
+    const trap &tr = get_map().tr_at( p );
+    if( tr.is_null() ) {
+        return;
+    }
+
+    const bool is_explosive_trap = !tr.is_benign() && tr.vehicle_data.do_explosion;
+
+    if( !will_explode_on_impact( power ) || !is_explosive_trap ) {
+        return;
+    }
+    // make a fake NPC to trigger the trap
+    npc dummy;
+    dummy.set_fake( true );
+    dummy.name = cause_message;
+    dummy.setpos( p );
+    tr.trigger( p, &dummy );
+}
+
 void map::smash_items( const tripoint &p, const int power, const std::string &cause_message,
                        bool do_destroy )
 {
@@ -3058,6 +3087,19 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
             continue;
         }
 
+        // detonate them if they can be exploded
+        // We need to make a copy because the iterator validity is not predictable
+        // see map_field.cpp process_fields_in_submap
+        if( will_explode_on_impact( power ) && it->will_explode_in_fire() ) {
+            item copy = *it;
+            it = items.erase( it );
+            if( copy.detonate( p, contents ) ) {
+                // Need to restart, iterators may not be valid
+                it = items.begin();
+            }
+            continue;
+        }
+
         // If the power is low or it's not an explosion, only pulp rezing corpses
         if( ( power < min_destroy_threshold || !do_destroy ) && !it->can_revive() ) {
             it++;
@@ -3076,8 +3118,7 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
         const float intact_mult = 2.0f -
                                   ( static_cast<float>( it->damage_level( it->max_damage() ) ) / it->max_damage() );
         const float destroy_threshold = min_destroy_threshold
-                                        + material_factor * intact_mult
-                                        + ( is_active_explosive ? min_destroy_threshold : 0 );
+                                        + material_factor * intact_mult;
         // For pulping, only consider material resistance. Non-rezing can only be destroyed.
         const float pulp_threshold = it->can_revive() ? material_factor : destroy_threshold;
         // Active explosives that will explode this turn are indestructible (they are exploding "now")
@@ -3873,6 +3914,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         damage_message = _( "flying projectile" );
     }
 
+    smash_trap( p, dam, damage_message );
     smash_items( p, dam, damage_message, false );
 }
 
