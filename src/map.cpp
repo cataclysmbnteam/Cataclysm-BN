@@ -3052,62 +3052,62 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
 
     std::vector<item> contents;
     map_stack items = i_at( p );
-    for( auto i = items.begin(); i != items.end(); ) {
-        if( i->has_flag( "EXPLOSION_SMASHED" ) ) {
-            i++;
+    for( auto it = items.begin(); it != items.end(); ) {
+        if( it->has_flag( "EXPLOSION_SMASHED" ) ) {
+            it++;
             continue;
         }
 
         // If the power is low or it's not an explosion, only pulp rezing corpses
-        if( ( power < min_destroy_threshold || !do_destroy ) && !i->can_revive() ) {
-            i++;
+        if( ( power < min_destroy_threshold || !do_destroy ) && !it->can_revive() ) {
+            it++;
             continue;
         }
 
         // Active explosives arbitrarily get double the destroy threshold
-        bool is_active_explosive = i->active && i->type->get_use( "explosion" ) != nullptr;
-        if( is_active_explosive && i->charges == 0 ) {
-            i++;
+        bool is_active_explosive = it->active && it->type->get_use( "explosion" ) != nullptr;
+        if( is_active_explosive && it->charges == 0 ) {
+            it++;
             continue;
         }
 
-        const float material_factor = i->chip_resistance( true );
+        const float material_factor = it->chip_resistance( true );
         // Intact non-rezing get a boost
         const float intact_mult = 2.0f -
-                                  ( static_cast<float>( i->damage_level( i->max_damage() ) ) / i->max_damage() );
+                                  ( static_cast<float>( it->damage_level( it->max_damage() ) ) / it->max_damage() );
         const float destroy_threshold = min_destroy_threshold
                                         + material_factor * intact_mult
                                         + ( is_active_explosive ? min_destroy_threshold : 0 );
         // For pulping, only consider material resistance. Non-rezing can only be destroyed.
-        const float pulp_threshold = i->can_revive() ? material_factor : destroy_threshold;
+        const float pulp_threshold = it->can_revive() ? material_factor : destroy_threshold;
         // Active explosives that will explode this turn are indestructible (they are exploding "now")
         if( power < pulp_threshold ) {
-            i++;
+            it++;
             continue;
         }
 
         bool item_was_destroyed = false;
         float destroy_chance = ( power - pulp_threshold ) / 4.0;
 
-        const bool by_charges = i->count_by_charges();
+        const bool by_charges = it->count_by_charges();
         if( by_charges ) {
-            destroy_chance *= i->charges_per_volume( 250_ml );
+            destroy_chance *= it->charges_per_volume( 250_ml );
             if( x_in_y( destroy_chance, destroy_threshold ) ) {
                 item_was_destroyed = true;
             }
         } else {
-            const field_type_id type_blood = i->is_corpse() ? i->get_mtype()->bloodType() : fd_null;
+            const field_type_id type_blood = it->is_corpse() ? it->get_mtype()->bloodType() : fd_null;
             float roll = rng_float( 0.0, destroy_chance );
             if( roll >= destroy_threshold ) {
                 item_was_destroyed = true;
             } else if( roll >= pulp_threshold ) {
                 // Only pulp
-                i->set_damage( i->max_damage() );
+                it->set_damage( it->max_damage() );
                 // TODO: Blood streak cone away from explosion
                 add_splash( type_blood, p, 1, destroy_chance );
                 // If it was the first item to be damaged, note it
                 if( items_damaged == 0 ) {
-                    damaged_item_name = i->tname();
+                    damaged_item_name = it->tname();
                 }
                 items_damaged++;
             }
@@ -3116,20 +3116,20 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
         // Remove them if they were damaged too much
         if( item_was_destroyed ) {
             // But save the contents, except for irremovable gunmods
-            for( item *elem : i->contents.all_items_top() ) {
+            for( item *elem : it->contents.all_items_top() ) {
                 if( !elem->is_irremovable() ) {
                     contents.push_back( item( *elem ) );
                 }
             }
 
             if( items_damaged == 0 ) {
-                damaged_item_name = i->tname();
+                damaged_item_name = it->tname();
             }
-            i = i_rem( p, i );
+            it = i_rem( p, it );
             items_damaged++;
             items_destroyed++;
         } else {
-            i++;
+            it++;
         }
     }
 
