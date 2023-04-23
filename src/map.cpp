@@ -3082,6 +3082,11 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
     std::vector<item> contents;
     map_stack items = i_at( p );
     for( auto it = items.begin(); it != items.end(); ) {
+        if( it->has_flag( "EXPLOSION_SMASHED" ) ) {
+            it++;
+            continue;
+        }
+
         // detonate them if they can be exploded
         // We need to make a copy because the iterator validity is not predictable
         // see map_field.cpp process_fields_in_submap
@@ -3097,6 +3102,13 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
 
         // If the power is low or it's not an explosion, only pulp rezing corpses
         if( ( power < min_destroy_threshold || !do_destroy ) && !it->can_revive() ) {
+            it++;
+            continue;
+        }
+
+        // Active explosives arbitrarily get double the destroy threshold
+        bool is_active_explosive = it->active && it->type->get_use( "explosion" ) != nullptr;
+        if( is_active_explosive && it->charges == 0 ) {
             it++;
             continue;
         }
