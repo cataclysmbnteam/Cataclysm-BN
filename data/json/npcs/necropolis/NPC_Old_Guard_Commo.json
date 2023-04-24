@@ -21,6 +21,7 @@
         "u_is_wearing": "badge_marshal",
         "yes": "Marshal, I'm rather surprised to see you here.",
         "no": {
+          "u_male": true,
           "yes": "Sir, I'm not sure you're authorized to be here…",
           "no": "Ma'am, I'm not sure you're authorized to be here…"
         }
