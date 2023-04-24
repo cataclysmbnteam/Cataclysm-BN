@@ -33,13 +33,7 @@
         "%%%llllllllllllllllll%%%"
       ],
       "palettes": [ "acidia_residential_commercial_palette" ],
-      "terrain": {
-        "▪": "t_open_air",
-        "×": "t_column",
-        "¦": "t_glass_railing",
-        "C": "t_linoleum_white",
-        "g": "t_linoleum_white"
-      },
+      "terrain": { "▪": "t_open_air", "×": "t_column", "¦": "t_glass_railing", "C": "t_linoleum_white", "g": "t_linoleum_white" },
       "items": { "'": { "item": "subway", "chance": 1 }, "g": { "item": "vending_drink", "chance": 60 } },
       "signs": { "Ṃ": { "signage": "Subway Map: <city> stop" } },
       "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 10, 22 ], "y": [ 1, 22 ], "density": 0.25 } ]
