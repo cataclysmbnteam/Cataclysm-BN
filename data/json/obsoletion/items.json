@@ -195,8 +195,8 @@
   {
     "id": "retool_223",
     "type": "GUNMOD",
-    "name": { "str": ".223 caliber conversion kit" },
-    "description": "This kit is used to convert a shotgun, 5.45x39mm, 7.62x39mm, .30-06, or .308 rifle to the popular, accurate, and lighter .223 caliber.  The conversion results in slight reductions to both accuracy and ammo capacity.",
+    "name": { "str": "5.56x45mm caliber conversion kit" },
+    "description": "This kit is used to convert a shotgun, 5.45x39mm, 7.62x39mm, .30-06, or .308 rifle to the popular, accurate, and lighter 5.56x45mm caliber.  The conversion results in slight reductions to both accuracy and ammo capacity.",
     "weight": "114 g",
     "volume": "500 ml",
     "integral_volume": 0,
@@ -3971,7 +3971,7 @@
     "id": "reloaded_223",
     "copy-from": "223",
     "type": "AMMO",
-    "name": { "str": ".223 Remington, reloaded" },
+    "name": { "str": "5.56x45mm '.223 Remington', reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }

@@ -14,8 +14,8 @@
     "id": "223_casing",
     "copy-from": "casing",
     "type": "GENERIC",
-    "name": { "str": ".223 casing" },
-    "description": "An empty casing from a .223 round.",
+    "name": { "str": "5.56x45mm casing" },
+    "description": "An empty casing from a 5.56x45mm round.",
     "weight": "5 g",
     "volume": "5ml"
   },
