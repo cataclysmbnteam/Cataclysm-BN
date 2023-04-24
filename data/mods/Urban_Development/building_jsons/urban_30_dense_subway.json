@@ -83,13 +83,7 @@
         "%llllllllllllllllllll%%%"
       ],
       "palettes": [ "acidia_residential_commercial_palette" ],
-      "terrain": {
-        "▪": "t_open_air",
-        "¦": "t_glass_railing",
-        "×": "t_column",
-        "2": "t_linoleum_white",
-        "Ṃ": "t_linoleum_white"
-      },
+      "terrain": { "▪": "t_open_air", "¦": "t_glass_railing", "×": "t_column", "2": "t_linoleum_white", "Ṃ": "t_linoleum_white" },
       "items": {
         "'": { "item": "subway", "chance": 1 },
         "g": { "item": "vending_drink", "chance": 60 },
