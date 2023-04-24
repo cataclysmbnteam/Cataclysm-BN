@@ -439,6 +439,9 @@
     "id": "urban_30_dense_subway",
     "type": "overmap_special",
     "overmaps": [
+      { "point": [ 0, -1, -2 ], "overmap": "subway_ns" },
+      { "point": [ 0, 1, -2 ], "overmap": "subway_ns" },
+      { "point": [ 0, 0, -2 ], "overmap": "urban_subway_south" },
       { "point": [ 1, 0, -1 ], "overmap": "urban_30_1_south" },
       { "point": [ 0, 0, -1 ], "overmap": "urban_30_2_south" },
       { "point": [ 1, 0, 0 ], "overmap": "urban_30_3_south" },
@@ -461,7 +464,9 @@
       { "point": [ -1, -1, 0 ], "connection": "local_road", "from": [ 0, -1, 0 ] },
       { "point": [ 2, -1, 0 ], "connection": "local_road", "from": [ 1, -1, 0 ] },
       { "point": [ 2, 0, -1 ], "connection": "sewer_tunnel", "from": [ 1, 0, -1 ] },
-      { "point": [ -1, 0, -1 ], "connection": "sewer_tunnel", "from": [ 0, 0, -1 ] }
+      { "point": [ -1, 0, -1 ], "connection": "sewer_tunnel", "from": [ 0, 0, -1 ] },
+      { "point": [ 0, 2, -2 ], "connection": "subway_tunnel", "from": [ 0, 1, -2 ] },
+      { "point": [ 0, -2, -2 ], "connection": "subway_tunnel", "from": [ 0, -1, -2 ] }
     ],
     "flags": [ "CLASSIC", "URBAN" ]
   },
@@ -816,6 +821,9 @@
     "id": "urban_39_market_subway_newspaper",
     "type": "overmap_special",
     "overmaps": [
+      { "point": [ 1, -1, -2 ], "overmap": "subway_ns" },
+      { "point": [ 1, 1, -2 ], "overmap": "subway_ns" },	
+      { "point": [ 1, 0, -2 ], "overmap": "urban_subway_south" },
       { "point": [ 1, 0, -1 ], "overmap": "urban_39_1_south" },
       { "point": [ 0, 0, -1 ], "overmap": "urban_39_2_south" },
       { "point": [ 1, 0, 0 ], "overmap": "urban_39_3_south" },
@@ -838,7 +846,9 @@
       { "point": [ -1, -1, 0 ], "connection": "local_road", "from": [ 0, -1, 0 ] },
       { "point": [ 2, -1, 0 ], "connection": "local_road", "from": [ 1, -1, 0 ] },
       { "point": [ 2, 0, -1 ], "connection": "sewer_tunnel", "from": [ 1, 0, -1 ] },
-      { "point": [ -1, 0, -1 ], "connection": "sewer_tunnel", "from": [ 0, 0, -1 ] }
+      { "point": [ -1, 0, -1 ], "connection": "sewer_tunnel", "from": [ 0, 0, -1 ] },
+      { "point": [ 1, 2, -2 ], "connection": "subway_tunnel", "from": [ 1, 1, -2 ] },
+      { "point": [ 1, -2, -2 ], "connection": "subway_tunnel", "from": [ 1, -1, -2 ] }
     ],
     "flags": [ "CLASSIC", "URBAN" ]
   },
@@ -858,7 +868,7 @@
     "city_distance": [ 0, -1 ],
     "occurrences": [ 0, -1 ],
     "city_sizes": [ 9, -1 ],
-    "connections": [ { "point": [ 0, 1, 0 ], "connection": "local_road", "from": [ 0, 0, 0 ] } ],
+    "connections": [ { "point": [ 0, -1, 0 ], "connection": "local_road", "from": [ 0, 0, 0 ] } ],
     "flags": [ "CLASSIC", "URBAN" ]
   },
   {
