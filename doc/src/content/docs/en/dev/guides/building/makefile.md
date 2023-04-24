@@ -377,7 +377,7 @@ builds the SDL version with all features enabled, including tiles, sound and loc
 
 ### Dependencies
 
-- Java JDK 8
+- Java JDK 11
 - SDL2 (tested with 2.0.8, though a custom fork is recommended with project-specific bugfixes)
 - SDL2_ttf (tested with 2.0.14)
 - SDL2_mixer (tested with 2.0.2)
