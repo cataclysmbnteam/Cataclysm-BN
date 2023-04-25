@@ -2279,8 +2279,7 @@ double npc_ai::weapon_value( const Character &who, const item &weap, int ammo )
     }
 
     // A small bonus for guns you can also use to hit stuff with (bayonets etc.)
-    // Minimum 1.0 so that npc_ai_info_cache will register a value and stop repeating.
-    const double my_val = std::max( 1.0, ( more + ( less / 2.0 ) ) * armor_penalty );
+    const double my_val = ( more + ( less / 2.0 ) ) * armor_penalty;
     add_msg( m_debug, "%s (%ld ammo) sum value: %.1f", weap.type->get_id().str(), ammo, my_val );
     if( who.is_wielding( weap ) ) {
         who.set_npc_ai_info_cache( npc_ai_info::weapon_value, my_val );
