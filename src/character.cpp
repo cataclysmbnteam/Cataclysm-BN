@@ -10857,6 +10857,9 @@ void Character::knock_back_to( const tripoint &to )
 
     } else { // It's no wall
         setpos( to );
+
+        map &here = get_map();
+        here.creature_on_trap( *this );
     }
 }
 
