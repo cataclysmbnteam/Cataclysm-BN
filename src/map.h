@@ -129,7 +129,6 @@ struct visibility_variables {
 };
 
 struct bash_params {
-    bash_params() = default;
     // Initial strength
     int strength;
     // Make a sound?

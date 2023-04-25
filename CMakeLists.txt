@@ -230,7 +230,7 @@ ELSE()
        -Wpedantic \
        -Wsuggest-override \
        -Wunused-macros \
-       -Wzero-as-null-pointer-constant \
+       -Wno-zero-as-null-pointer-constant \
        -Wno-unknown-warning-option \
        -Wno-range-loop-analysis")
     IF (NOT ${CMAKE_SYSTEM_NAME} MATCHES Windows)
@@ -243,7 +243,7 @@ ELSE()
     SET(CMAKE_CXX_FLAGS_DEBUG "-Og -g")
 ENDIF()
 
-SET(CMAKE_CXX_STANDARD 17)
+SET(CMAKE_CXX_STANDARD 20)
 
 # Force out-of-source build
 IF(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})

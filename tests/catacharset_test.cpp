@@ -43,7 +43,8 @@ TEST_CASE( "utf8_to_wstr", "[catacharset][i18n]" )
         WARN( "Skipped (unable to set locale)" );
         return;
     }
-    std::string src( u8"Hello, 世界!" );
+    // HACK: C++20 char8_t isn't convertable to std::string
+    std::string src( reinterpret_cast<const char *>( u8"Hello, 世界!" ) );
     std::wstring dest( L"Hello, 世界!" );
     CHECK( utf8_to_wstr( src ) == dest );
 }
@@ -56,7 +57,8 @@ TEST_CASE( "wstr_to_utf8", "[catacharset][i18n]" )
         return;
     }
     std::wstring src( L"Hello, 世界!" );
-    std::string dest( u8"Hello, 世界!" );
+    // HACK: C++20 char8_t isn't convertable to std::string
+    std::string dest( reinterpret_cast<const char *>( u8"Hello, 世界!" ) );
     CHECK( wstr_to_utf8( src ) == dest );
 }
 

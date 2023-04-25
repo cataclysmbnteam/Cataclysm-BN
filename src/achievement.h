@@ -12,7 +12,10 @@
 
 #include "calendar.h"
 #include "cata_variant.h"
+#include "enums.h"
 #include "event_bus.h"
+#include "event_statistics.h"
+#include "json.h"
 #include "string_id.h"
 #include "translations.h"
 
@@ -116,6 +119,20 @@ class achievement
         std::optional<time_bound> time_constraint_;
         std::vector<achievement_requirement> requirements_;
 };
+
+
+struct achievement_requirement {
+    string_id<event_statistic> statistic;
+    achievement_comparison comparison;
+    int target;
+    bool becomes_false = false;
+
+    void deserialize( JsonIn &jin );
+    void finalize();
+    void check( const string_id<achievement> &id ) const;
+    bool satisifed_by( const cata_variant &v ) const;
+};
+
 
 template<>
 struct enum_traits<achievement::time_bound::epoch> {

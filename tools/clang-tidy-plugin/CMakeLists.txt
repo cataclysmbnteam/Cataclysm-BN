@@ -3,6 +3,8 @@ include(ExternalProject)
 find_package(LLVM REQUIRED CONFIG)
 find_package(Clang REQUIRED CONFIG)
 
+SET(CMAKE_CXX_STANDARD 20)
+
 add_library(
     CataAnalyzerPlugin MODULE
     CataTidyModule.cpp
@@ -63,7 +65,7 @@ target_compile_definitions(
 if(MSVC)
 else()
     target_compile_options(
-        CataAnalyzerPlugin PRIVATE -fno-exceptions -fno-rtti)
+        CataAnalyzerPlugin PRIVATE -fno-exceptions -fno-rtti )
 endif()
 
 configure_file(test/lit.site.cfg.in test/lit.site.cfg @ONLY)
