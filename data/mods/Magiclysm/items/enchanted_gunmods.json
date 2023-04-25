@@ -14,7 +14,7 @@
     "symbol": ":",
     "color": "white",
     "location": "muzzle",
-    "mod_target_category": [ [ "PISTOLS" ], [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ] ],
+    "mod_target_category": [ [ "PISTOLS" ], [ "REVOLVERS" ], [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ] ],
     "//install_time": "20 s",
     "handling_modifier": 2,
     "consume_chance": 220,
@@ -37,6 +37,7 @@
     "location": "rail",
     "mod_target_category": [
       [ "PISTOLS" ],
+      [ "REVOLVERS" ],
       [ "SUBMACHINE_GUNS" ],
       [ "RIFLES" ],
       [ "MACHINE_GUNS" ],
@@ -45,7 +46,8 @@
       [ "H_XBOWS" ],
       [ "XBOWS" ],
       [ "GRENADE_LAUNCHERS" ],
-      [ "ROCKET_LAUNCHERS" ]
+      [ "ROCKET_LAUNCHERS" ],
+      [ "FLAMETHROWERS" ]
     ],
     "sight_dispersion": 27,
     "aim_speed": 9,
@@ -67,6 +69,7 @@
     "location": "underbarrel",
     "mod_target_category": [
       [ "PISTOLS" ],
+      [ "REVOLVERS" ],
       [ "SUBMACHINE_GUNS" ],
       [ "RIFLES" ],
       [ "MACHINE_GUNS" ],
@@ -76,7 +79,8 @@
       [ "XBOWS" ],
       [ "BOWS" ],
       [ "GRENADE_LAUNCHERS" ],
-      [ "ROCKET_LAUNCHERS" ]
+      [ "ROCKET_LAUNCHERS" ],
+      [ "FLAMETHROWERS" ]
     ],
     "sight_dispersion": 27,
     "aim_speed": 9,
@@ -99,6 +103,7 @@
     "location": "sights",
     "mod_target_category": [
       [ "PISTOLS" ],
+      [ "REVOLVERS" ],
       [ "SUBMACHINE_GUNS" ],
       [ "RIFLES" ],
       [ "MACHINE_GUNS" ],
@@ -107,7 +112,8 @@
       [ "H_XBOWS" ],
       [ "XBOWS" ],
       [ "GRENADE_LAUNCHERS" ],
-      [ "ROCKET_LAUNCHERS" ]
+      [ "ROCKET_LAUNCHERS" ],
+      [ "FLAMETHROWERS" ]
     ],
     "sight_dispersion": 21,
     "aim_speed": 7,

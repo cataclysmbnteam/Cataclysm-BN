@@ -365,7 +365,8 @@
       [ "GATLING_GUNS" ],
       [ "SHOTGUNS" ],
       [ "GRENADE_LAUNCHERS" ],
-      [ "ROCKET_LAUNCHERS" ]
+      [ "ROCKET_LAUNCHERS" ],
+      [ "FLAMETHROWERS" ]
     ],
     "dispersion_modifier": -15,
     "loudness_modifier": -1,
@@ -1779,7 +1780,8 @@
       [ "SHOTGUNS" ],
       [ "M_XBOWS" ],
       [ "GRENADE_LAUNCHERS" ],
-      [ "ROCKET_LAUNCHERS" ]
+      [ "ROCKET_LAUNCHERS" ],
+      [ "FLAMETHROWERS" ]
     ],
     "gun_data": { "ammo": "flammable", "skill": "launcher", "dispersion": 300, "durability": 10 },
     "magazine_well": 1,

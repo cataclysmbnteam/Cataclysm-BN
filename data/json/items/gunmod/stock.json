@@ -24,7 +24,8 @@
       [ "SHOTGUNS" ],
       [ "M_XBOWS" ],
       [ "GRENADE_LAUNCHERS" ],
-      [ "ROCKET_LAUNCHERS" ]
+      [ "ROCKET_LAUNCHERS" ],
+      [ "FLAMETHROWERS" ]
     ],
     "dispersion_modifier": -1,
     "handling_modifier": 3
@@ -51,7 +52,8 @@
       [ "GATLING_GUNS" ],
       [ "SHOTGUNS" ],
       [ "GRENADE_LAUNCHERS" ],
-      [ "ROCKET_LAUNCHERS" ]
+      [ "ROCKET_LAUNCHERS" ],
+      [ "FLAMETHROWERS" ]
     ],
     "flags": [ "NEEDS_UNFOLD", "COLLAPSIBLE_STOCK" ]
   },
@@ -71,7 +73,15 @@
     "color": "dark_gray",
     "location": "stock",
     "handling_modifier": 5,
-    "mod_target_category": [ [ "PISTOLS" ], [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ], [ "SHOTGUNS" ] ],
+    "mod_target_category": [
+      [ "PISTOLS" ],
+      [ "REVOLVERS" ],
+      [ "SUBMACHINE_GUNS" ],
+      [ "RIFLES" ],
+      [ "MACHINE_GUNS" ],
+      [ "GATLING_GUNS" ],
+      [ "SHOTGUNS" ]
+    ],
     "flags": [ "NEEDS_UNFOLD" ]
   },
   {
@@ -87,7 +97,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "stock",
-    "mod_target_category": [ [ "PISTOLS" ], [ "S_XBOWS" ], [ "M_XBOWS" ] ],
+    "mod_target_category": [ [ "PISTOLS" ], [ "REVOLVERS" ], [ "S_XBOWS" ], [ "M_XBOWS" ] ],
     "handling_modifier": 15
   },
   {
@@ -114,7 +124,8 @@
       [ "GATLING_GUNS" ],
       [ "SHOTGUNS" ],
       [ "GRENADE_LAUNCHERS" ],
-      [ "ROCKET_LAUNCHERS" ]
+      [ "ROCKET_LAUNCHERS" ],
+      [ "FLAMETHROWERS" ]
     ],
     "handling_modifier": 10
   },

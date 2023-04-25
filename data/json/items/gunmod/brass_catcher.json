@@ -13,14 +13,15 @@
     "color": "light_gray",
     "location": "brass catcher",
     "mod_target_category": [
+      [ "PISTOLS" ],
       [ "SUBMACHINE_GUNS" ],
       [ "RIFLES" ],
       [ "MACHINE_GUNS" ],
       [ "GATLING_GUNS" ],
       [ "SHOTGUNS" ],
-      [ "PISTOLS" ],
+      [ "GRENADE_LAUNCHERS" ],
       [ "ROCKET_LAUNCHERS" ],
-      [ "GRENADE_LAUNCHERS" ]
+      [ "FLAMETHROWERS" ]
     ]
   }
 ]

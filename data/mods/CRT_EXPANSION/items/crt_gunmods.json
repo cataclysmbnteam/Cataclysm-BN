@@ -11,7 +11,7 @@
     "symbol": ":",
     "color": "light_red",
     "location": "underbarrel",
-    "mod_target_category": [ [ "PISTOLS" ], [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ] ],
+    "mod_target_category": [ [ "PISTOLS" ], [ "REVOLVERS" ], [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ] ],
     "gun_data": { "ammo": "signal_flare", "skill": "launcher", "dispersion": 250, "durability": 8, "clip_size": 1 },
     "dispersion_modifier": 30,
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
@@ -47,7 +47,15 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "stock",
-    "mod_target_category": [ [ "PISTOLS" ], [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ], [ "SHOTGUNS" ] ],
+    "mod_target_category": [
+      [ "PISTOLS" ],
+      [ "REVOLVERS" ],
+      [ "SUBMACHINE_GUNS" ],
+      [ "RIFLES" ],
+      [ "MACHINE_GUNS" ],
+      [ "GATLING_GUNS" ],
+      [ "SHOTGUNS" ]
+    ],
     "dispersion_modifier": -20,
     "handling_modifier": 2,
     "min_skills": [ [ "weapon", 1 ] ],
@@ -63,6 +71,14 @@
     "damage_modifier": { "damage_type": "stab", "amount": 2 },
     "ammo_effects": [ "SHOT" ],
     "min_skills": [ [ "weapon", 1 ] ],
-    "mod_target_category": [ [ "PISTOLS" ], [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ], [ "SHOTGUNS" ] ]
+    "mod_target_category": [
+      [ "PISTOLS" ],
+      [ "REVOLVERS" ],
+      [ "SUBMACHINE_GUNS" ],
+      [ "RIFLES" ],
+      [ "MACHINE_GUNS" ],
+      [ "GATLING_GUNS" ],
+      [ "SHOTGUNS" ]
+    ]
   }
 ]

@@ -16,13 +16,15 @@
     "location": "mechanism",
     "mod_target_category": [
       [ "PISTOLS" ],
+      [ "REVOLVERS" ],
       [ "SUBMACHINE_GUNS" ],
       [ "RIFLES" ],
       [ "MACHINE_GUNS" ],
       [ "GATLING_GUNS" ],
       [ "SHOTGUNS" ],
       [ "GRENADE_LAUNCHERS" ],
-      [ "ROCKET_LAUNCHERS" ]
+      [ "ROCKET_LAUNCHERS" ],
+      [ "FLAMETHROWERS" ]
     ],
     "install_time": "30 m",
     "dispersion_modifier": -1
@@ -84,13 +86,15 @@
     "location": "mechanism",
     "mod_target_category": [
       [ "PISTOLS" ],
+      [ "REVOLVERS" ],
       [ "SUBMACHINE_GUNS" ],
       [ "RIFLES" ],
       [ "MACHINE_GUNS" ],
       [ "GATLING_GUNS" ],
       [ "SHOTGUNS" ],
       [ "GRENADE_LAUNCHERS" ],
-      [ "ROCKET_LAUNCHERS" ]
+      [ "ROCKET_LAUNCHERS" ],
+      [ "FLAMETHROWERS" ]
     ],
     "install_time": "10 m",
     "flags": [ "WATERPROOF_GUN" ]

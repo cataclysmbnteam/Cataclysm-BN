@@ -38,7 +38,8 @@
       [ "SHOTGUNS" ],
       [ "M_XBOWS" ],
       [ "GRENADE_LAUNCHERS" ],
-      [ "ROCKET_LAUNCHERS" ]
+      [ "ROCKET_LAUNCHERS" ],
+      [ "FLAMETHROWERS" ]
     ]
   },
   {
@@ -60,6 +61,7 @@
     "description": "An alternative set of iron sights mounted at 45° for use when a scope or other modification prevents use of the primary sights.  This one was modified and customized to mount on pretty much any weapon, if you so want.",
     "mod_target_category": [
       [ "PISTOLS" ],
+      [ "REVOLVERS" ],
       [ "SUBMACHINE_GUNS" ],
       [ "RIFLES" ],
       [ "MACHINE_GUNS" ],
@@ -68,7 +70,8 @@
       [ "S_XBOWS" ],
       [ "M_XBOWS" ],
       [ "GRENADE_LAUNCHERS" ],
-      [ "ROCKET_LAUNCHERS" ]
+      [ "ROCKET_LAUNCHERS" ],
+      [ "FLAMETHROWERS" ]
     ]
   },
   {
@@ -95,6 +98,7 @@
     "description": "An additional rail set at 45° for attaching a secondary optic.  This one was modified and customized to mount on pretty much any weapon, if you so want.",
     "mod_target_category": [
       [ "PISTOLS" ],
+      [ "REVOLVERS" ],
       [ "SUBMACHINE_GUNS" ],
       [ "RIFLES" ],
       [ "MACHINE_GUNS" ],
@@ -103,7 +107,8 @@
       [ "S_XBOWS" ],
       [ "M_XBOWS" ],
       [ "GRENADE_LAUNCHERS" ],
-      [ "ROCKET_LAUNCHERS" ]
+      [ "ROCKET_LAUNCHERS" ],
+      [ "FLAMETHROWERS" ]
     ]
   },
   {
@@ -122,6 +127,7 @@
     "location": "rail",
     "mod_target_category": [
       [ "PISTOLS" ],
+      [ "REVOLVERS" ],
       [ "SUBMACHINE_GUNS" ],
       [ "RIFLES" ],
       [ "MACHINE_GUNS" ],
@@ -130,7 +136,8 @@
       [ "S_XBOWS" ],
       [ "M_XBOWS" ],
       [ "GRENADE_LAUNCHERS" ],
-      [ "ROCKET_LAUNCHERS" ]
+      [ "ROCKET_LAUNCHERS" ],
+      [ "FLAMETHROWERS" ]
     ],
     "sight_dispersion": 30,
     "aim_speed": 8
@@ -167,7 +174,8 @@
       [ "SHOTGUNS" ],
       [ "M_XBOWS" ],
       [ "GRENADE_LAUNCHERS" ],
-      [ "ROCKET_LAUNCHERS" ]
+      [ "ROCKET_LAUNCHERS" ],
+      [ "FLAMETHROWERS" ]
     ]
   }
 ]

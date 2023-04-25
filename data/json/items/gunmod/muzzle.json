@@ -13,7 +13,15 @@
     "symbol": ":",
     "color": "light_gray",
     "location": "muzzle",
-    "mod_target_category": [ [ "PISTOLS" ], [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ], [ "SHOTGUNS" ] ],
+    "mod_target_category": [
+      [ "PISTOLS" ],
+      [ "REVOLVERS" ],
+      [ "SUBMACHINE_GUNS" ],
+      [ "RIFLES" ],
+      [ "MACHINE_GUNS" ],
+      [ "GATLING_GUNS" ],
+      [ "SHOTGUNS" ]
+    ],
     "dispersion_modifier": 15,
     "handling_modifier": 10,
     "loudness_modifier": 8
@@ -42,7 +50,15 @@
     "type": "GUNMOD",
     "name": { "str": "modified muzzle brake" },
     "description": "A muzzle brake redirects exhaust gases to compensate for muzzle climb, improving recoil but increasing bulk, noise, and reducing accuracy slightly.  This one was modified and customized to mount on pretty much any firearm other than launchers, if you so want.",
-    "mod_target_category": [ [ "PISTOLS" ], [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ], [ "SHOTGUNS" ] ]
+    "mod_target_category": [
+      [ "PISTOLS" ],
+      [ "REVOLVERS" ],
+      [ "SUBMACHINE_GUNS" ],
+      [ "RIFLES" ],
+      [ "MACHINE_GUNS" ],
+      [ "GATLING_GUNS" ],
+      [ "SHOTGUNS" ]
+    ]
   },
   {
     "id": "crafted_suppressor",

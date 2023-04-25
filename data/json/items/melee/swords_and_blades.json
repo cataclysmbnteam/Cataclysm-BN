@@ -117,7 +117,8 @@
         [ "SHOTGUNS" ],
         [ "M_XBOWS" ],
         [ "GRENADE_LAUNCHERS" ],
-        [ "ROCKET_LAUNCHERS" ]
+        [ "ROCKET_LAUNCHERS" ],
+        [ "FLAMETHROWERS" ]
       ],
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
     },
@@ -790,7 +791,8 @@
         [ "SHOTGUNS" ],
         [ "M_XBOWS" ],
         [ "GRENADE_LAUNCHERS" ],
-        [ "ROCKET_LAUNCHERS" ]
+        [ "ROCKET_LAUNCHERS" ],
+        [ "FLAMETHROWERS" ]
       ],
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
     },

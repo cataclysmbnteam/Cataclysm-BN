@@ -21,7 +21,8 @@
       [ "SHOTGUNS" ],
       [ "M_XBOWS" ],
       [ "GRENADE_LAUNCHERS" ],
-      [ "ROCKET_LAUNCHERS" ]
+      [ "ROCKET_LAUNCHERS" ],
+      [ "FLAMETHROWERS" ]
     ],
     "flags": [ "IS_ARMOR", "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   }
