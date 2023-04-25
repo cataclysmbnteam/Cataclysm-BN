@@ -10017,13 +10017,9 @@ int Character::run_cost( int base_cost, bool diag ) const
             movecost *= .9f;
         }
         if( has_active_bionic( bio_jointservo ) ) {
-            if( move_mode == CMM_RUN ) {
-                movecost *= 0.85f;
-            } else {
-                movecost *= 0.95f;
-            }
+            movecost *= ( move_mode == CMM_RUN ? 0.75f : 0.9f );
         } else if( has_bionic( bio_jointservo ) ) {
-            movecost *= 1.1f;
+            movecost *= 0.95f;
         }
 
         if( worn_with_flag( "SLOWS_MOVEMENT" ) ) {
