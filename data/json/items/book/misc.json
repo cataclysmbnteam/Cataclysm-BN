@@ -214,6 +214,13 @@
     "fun": -2
   },
   {
+    "id": "necropolis_datasheet",
+    "type": "BOOK",
+    "name": { "str": "reclamation team report" },
+    "description": "A short written report on the findings of a team sent to reclaim an underground civil defense shelter.  It lists several hazards and technical problems encountered during their exploration of the site, but mentions several military systems they expect could be repaired and used for communication.",
+    "copy-from": "necropolis_freq"
+  },
+  {
     "id": "news_regional",
     "type": "BOOK",
     "name": { "str": "Rural Digest-Examiner", "str_pl": "issues of Rural Digest-Examiner" },

@@ -31,6 +31,17 @@
     },
     "responses": [
       {
+        "text": "[MISSION] I was asked to get a report from you to send to your superiors.",
+        "topic": "TALK_OLD_GUARD_NEC_CPT_REPORT",
+        "condition": {
+          "and": [
+            { "u_has_var": "npc_necro_gave_clearance", "value": "yes", "type": "dialogue", "context": "necropolis" },
+            { "u_has_mission": "MISSION_OLD_GUARD_REP_5" },
+            { "not": { "u_has_item": "necropolis_datasheet" } }
+          ]
+        }
+      },
+      {
         "text": "What are you doing down here?",
         "topic": "TALK_OLD_GUARD_NEC_CPT_GOAL",
         "condition": { "u_has_var": "npc_necro_gave_clearance", "value": "yes", "type": "dialogue", "context": "necropolis" }
@@ -98,6 +109,12 @@
     "dynamic_line": "Not like I could look up personnel records from down here.  Our team in the comms center might be able to uplink with some old registries but then I'd have to give you clearance to go wandering around down here anyway.  I'll take your word for it but watch yourself down here, this place is dangerous.",
     "speaker_effect": { "effect": { "u_add_var": "npc_necro_gave_clearance", "type": "dialogue", "context": "necropolis", "value": "yes" } },
     "responses": [ { "text": "Understood.", "topic": "TALK_OLD_GUARD_NEC_CPT" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_OLD_GUARD_NEC_CPT_REPORT",
+    "dynamic_line": "Alright, I've got a sitrep written out.  As helpful as it'd be to have you here, getting this back to the others could also help get us reinforcements somewhere down the line.  Not a lot of this place is operational anymore, but we're expecting comms to provide a link to other assets in the region if we can get it in full working order.",
+    "responses": [ { "text": "Thank you.", "topic": "TALK_NONE" }, { "text": "Thank you, that's all for now.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
