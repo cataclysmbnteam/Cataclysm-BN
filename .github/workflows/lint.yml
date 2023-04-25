@@ -21,7 +21,7 @@ jobs:
 
       - run: sudo apt-get install astyle
       - run: make astyle
-      - run: make style-json
+      - run: make style-all-json-parallel RELEASE=1
 
       - uses: reviewdog/action-suggester@v1
         if: ${{ always() }}

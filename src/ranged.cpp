@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <iterator>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <tuple>
@@ -47,7 +48,6 @@
 #include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "panels.h"
@@ -206,7 +206,7 @@ class target_ui
         // Relevant activity
         aim_activity_actor *activity = nullptr;
         // Generator of AoE shapes
-        cata::optional<shape_factory> shape_gen;
+        std::optional<shape_factory> shape_gen;
 
         // Initialize UI and run the event loop
         target_handler::trajectory run();
@@ -841,10 +841,9 @@ int ranged::fire_gun( Character &who, const tripoint &target, int max_shots, ite
 
     int shots = max_shots;
     // Number of shots to fire is limited by the amount of remaining ammo
-    if( gun.ammo_required() && !ammo ) {
-        shots = std::min( shots, static_cast<int>( gun.ammo_remaining() / gun.ammo_required() ) );
-    } else {
-        shots = std::min( shots, ammo.get_item()->count() / gun.ammo_required() );
+    if( gun.ammo_required() ) {
+        const int ammo_left = ammo ? ammo.get_item()->count() : gun.ammo_remaining();
+        shots = std::min( shots, ammo_left / gun.ammo_required() );
     }
 
     // cap our maximum burst size by the amount of UPS power left
@@ -857,7 +856,7 @@ int ranged::fire_gun( Character &who, const tripoint &target, int max_shots, ite
         debugmsg( "Attempted to fire zero or negative shots using %s", gun.tname() );
     }
 
-    cata::optional<shape_factory> shape;
+    std::optional<shape_factory> shape;
     if( gun.ammo_current() && gun.ammo_current()->ammo ) {
         shape = gun.ammo_current()->ammo->shape;
     }
@@ -1132,7 +1131,7 @@ int throwing_dispersion( const Character &c, const item &to_throw, Creature *cri
 }
 
 dealt_projectile_attack throw_item( Character &who, const tripoint &target, const item &to_throw,
-                                    cata::optional<tripoint> blind_throw_from_pos )
+                                    std::optional<tripoint> blind_throw_from_pos )
 {
     // Copy the item, we may alter it before throwing
     item thrown = to_throw;
@@ -1292,7 +1291,7 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target, cons
         who.as_player()->practice( skill_used, 5, 2 );
     }
     // Reset last target pos
-    who.last_target_pos = cata::nullopt;
+    who.last_target_pos = std::nullopt;
     who.recoil = MAX_RECOIL;
 
     return dealt_attack;
@@ -2119,6 +2118,13 @@ std::vector<Creature *> targetable_creatures( const Character &c, const int rang
             return false;
         }
 
+        // Special case: if range is 1, it's a melee attack.
+        // Melee attacks can only target on same z-level or directly up/down, not "z-diagonally".
+        if( range <= 1 && c.posz() != critter.posz() && c.pos().xy() != critter.pos().xy() )
+        {
+            return false;
+        }
+
         if( !c.sees( critter ) && !c.sees_with_infrared( critter ) )
         {
             return false;
@@ -2518,7 +2524,7 @@ void target_ui::init_window_and_input()
 
 bool target_ui::handle_cursor_movement( const std::string &action, bool &skip_redraw )
 {
-    cata::optional<tripoint> mouse_pos;
+    std::optional<tripoint> mouse_pos;
     const auto shift_view_or_cursor = [this]( const tripoint & delta ) {
         if( this->shifting_view ) {
             this->set_view_offset( this->you->view_offset + delta );
@@ -2542,7 +2548,7 @@ bool target_ui::handle_cursor_movement( const std::string &action, bool &skip_re
                 set_view_offset( you->view_offset + edge_scroll );
             }
         }
-    } else if( const cata::optional<tripoint> delta = ctxt.get_direction( action ) ) {
+    } else if( const std::optional<tripoint> delta = ctxt.get_direction( action ) ) {
         // Shift view/cursor with directional keys
         shift_view_or_cursor( *delta );
     } else if( action == "SELECT" && ( mouse_pos = ctxt.get_coordinates( g->w_terrain ) ) ) {
@@ -3094,12 +3100,9 @@ void target_ui::update_ammo_range_from_gun_mode()
     if( mode == TargetMode::TurretManual ) {
         itype_id ammo_current = turret->ammo_current();
         // Test no-ammo and not a UPS weapon
-        if( !ammo_current && !activity->reload_loc && ( relevant->get_gun_ups_drain() == 0 ) ) {
+        if( !ammo_current && ( relevant->get_gun_ups_drain() == 0 ) ) {
             ammo = nullptr;
             range = 0;
-        } else if( !!activity->reload_loc ) {
-            ammo = activity->reload_loc.get_item()->type;
-            range = turret->range();
         } else {
             ammo = &*ammo_current;
             range = turret->range();

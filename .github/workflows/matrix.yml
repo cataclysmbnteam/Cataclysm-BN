@@ -26,30 +26,30 @@ jobs:
     strategy:
       matrix:
         include:
-          - compiler: g++-11
+          - compiler: g++-12
             os: ubuntu-22.04
             cmake: 0
             tiles: 0
             sound: 0
             test-stage: 1
-            title: GCC 11, Ubuntu, Curses
+            title: GCC 12, Ubuntu, Curses
             native: linux64
-          - compiler: g++-11
+          - compiler: g++-12
             os: ubuntu-22.04
             cmake: 1
             tiles: 1
             sound: 1
             languages: all
             native: linux64
-            title: GCC 11, Ubuntu, Tiles, CMake, Languages
-          - compiler: g++-11
+            title: GCC 12, Ubuntu, Tiles, CMake, Languages
+          - compiler: g++-12
             os: ubuntu-22.04
             cmake: 0
             tiles: 1
             sound: 0
             sanitize: address
             native: linux64
-            title: GCC 11, Ubuntu, Tiles, NoSound, ASan
+            title: GCC 12, Ubuntu, Tiles, NoSound, ASan
           - compiler: clang++-14
             os: ubuntu-22.04
             cmake: 0
@@ -59,13 +59,14 @@ jobs:
             native: linux64
             title: Clang 14, Ubuntu, Tiles, NoSound, ASan, UBSan
           - compiler: clang++
-            os: macos-11
+            os: macos-12
             cmake: 0
             tiles: 1
             sound: 1
+            test-stage: 1
             native: osx
-            grep_clang_version_rxp: "13\\.[0-9]+\\.[0-9]+"
-            title: Clang 13, macOS 11, Tiles, Localize
+            grep_clang_version_rxp: "14\\.[0-9]+\\.[0-9]+"
+            title: Clang 14, macOS 12, Tiles, Localize
     name: ${{ matrix.title }}
     runs-on: ${{ matrix.os }}
     env:
@@ -94,7 +95,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install libncursesw5-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev \
             libsdl2-mixer-dev libpulse-dev ccache gettext parallel
-      # ubuntu 22.04 has GCC 11 and clang 14
+      # ubuntu 22.04 has GCC 12 and clang 14
       # - name: install missing compiler (ubuntu)
       #   if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && matrix.compiler == 'g++-11' }}
       #   run: sudo apt-get install ${{ matrix.compiler }}
@@ -115,11 +116,11 @@ jobs:
         id: get-date
         if: ${{ env.SKIP == 'false' }}
         run: |
-          echo "::set-output name=date::$(/bin/date -u "+%Y%m%d%H%M")"
+          echo "date=$(/bin/date -u "+%Y%m%d%H%M")" >> $GITHUB_OUTPUT
         shell: bash
       - name: ccache cache files (ubuntu)
         if: ${{ env.SKIP == 'false' && runner.os == 'Linux' }}
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/.ccache
           key: ccache-linux-${{ matrix.compiler }}-${{ steps.get-date.outputs.date }}
@@ -127,7 +128,7 @@ jobs:
             ccache-linux-${{ matrix.compiler }}-
       - name: ccache cache files (mac)
         if: ${{ env.SKIP == 'false' && runner.os == 'macOS' }}
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: /Users/runner/Library/Caches/ccache
           key: ccache-mac-${{ matrix.compiler }}-${{ steps.get-date.outputs.date }}

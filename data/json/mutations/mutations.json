@@ -2547,7 +2547,7 @@
     "id": "INFRESIST",
     "name": { "str": "Infection Immune" },
     "points": 1,
-    "description": "Your immune system is particularly good at resisting infections.  Your wounds will no longer become infected, altough existing infections are still dangerous.",
+    "description": "Your immune system is particularly good at resisting infections.  Your wounds will no longer become infected, altough existing infections are still dangerous.  You will also be able to install non-sterile CBMs.",
     "starting_trait": true,
     "category": [ "TROGLOBITE", "RAT", "MEDICAL" ]
   },

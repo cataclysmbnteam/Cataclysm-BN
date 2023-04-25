@@ -995,13 +995,13 @@ class map
         // Rubble
         /** Generates rubble at the given location, if overwrite is true it just writes on top of what currently exists
          *  floor_type is only used if there is a non-bashable wall at the location or with overwrite = true */
-        void make_rubble( const tripoint &p, const furn_id &rubble_type, bool items,
+        void make_rubble( const tripoint &p, const furn_id &rubble_type,
                           const ter_id &floor_type, bool overwrite = false );
-        void make_rubble( const tripoint &p, const furn_id &rubble_type, bool items ) {
-            make_rubble( p, rubble_type, items, t_dirt, false );
+        void make_rubble( const tripoint &p, const furn_id &rubble_type ) {
+            make_rubble( p, rubble_type, t_dirt, false );
         }
         void make_rubble( const tripoint &p ) {
-            make_rubble( p, f_rubble, false, t_dirt, false );
+            make_rubble( p, f_rubble, t_dirt, false );
         }
 
         bool is_outside( const tripoint &p ) const;
@@ -1099,6 +1099,8 @@ class map
         void collapse_invalid_suspension( const tripoint &point );
         /** Checks the four orientations in which a suspended tile could be valid, and returns if the tile is valid*/
         bool is_suspension_valid( const tripoint &point );
+        /** Tries to smash the trap at the given tripoint. */
+        void smash_trap( const tripoint &p, const int power, const std::string &cause_message );
         /** Tries to smash the items at the given tripoint. */
         void smash_items( const tripoint &p, int power, const std::string &cause_message, bool do_destroy );
         /**
@@ -1496,6 +1498,12 @@ class map
         // Returns true if terrain at p has NO flag TFLAG_NO_FLOOR,
         // if we're not in z-levels mode or if we're at lowest level
         bool has_floor( const tripoint &p ) const;
+
+        /** Checks if there's a floor between the two tiles. They must be at most 1 tile away from each other in any dimension.
+         *  If they're not at the same xy coord there must be floor on both of the relevant tiles
+         */
+        bool floor_between( const tripoint &first, const tripoint &second ) const;
+
         /** Does this tile support vehicles and furniture above it */
         bool supports_above( const tripoint &p ) const;
         bool has_floor_or_support( const tripoint &p ) const;
@@ -1983,7 +1991,7 @@ class map
 
         // caches the highest zlevel above which all zlevels are uniform
         // !value || value->first != map::abs_sub means cache is invalid
-        cata::optional<std::pair<tripoint, int>> max_populated_zlev = cata::nullopt;
+        std::optional<std::pair<tripoint, int>> max_populated_zlev = std::nullopt;
 
     public:
         const level_cache &get_cache_ref( int zlev ) const {

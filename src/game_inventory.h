@@ -6,17 +6,13 @@
 #include <list>
 #include <string>
 #include <utility>
+#include <optional>
 
 #include "item_handling_util.h"
 #include "item_location.h"
 
 struct tripoint;
 
-namespace cata
-{
-template<typename T>
-class optional;
-} // namespace cata
 class avatar;
 class item;
 class player;
@@ -49,7 +45,7 @@ item_location titled_filter_menu( item_filter filter, avatar &you,
 /*@{*/
 
 void common( avatar &you );
-void compare( player &p, const cata::optional<tripoint> &offset );
+void compare( player &p, const std::optional<tripoint> &offset );
 void compare( const item &left, const item &right );
 /** Assign (or reassign from existing) letter to item in character's inventory. */
 void reassign_letter( Character &who, item &it, int invlet );

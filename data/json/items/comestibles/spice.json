@@ -71,7 +71,7 @@
     "primary_material": "powder",
     "volume": "250 ml",
     "calories": 19,
-    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "NUTRIENT_OVERRIDE" ],
     "//": "a tbsp is 4.2g of sugar, meaning the volume needed to be adjusted.",
     "charges": 71
   },
@@ -104,7 +104,7 @@
     "material": "veggy",
     "volume": "250 ml",
     "charges": 20,
-    "flags": [ "EDIBLE_FROZEN", "RAW" ],
+    "flags": [ "RAW" ],
     "stack_size": 100,
     "fun": -1
   },

@@ -126,7 +126,7 @@
       { "x": 1, "y": 0, "part": "frame_cover" },
       { "x": 1, "y": 0, "part": "tank_small", "fuel": "gasoline" },
       { "x": 1, "y": 0, "part": "stowboard_vertical" },
-      { "x": 1, "y": 0, "part": "controls" },
+      { "x": 1, "y": 0, "part": "controls_electronic" },
       { "x": 1, "y": 0, "parts": [ "wheel_mount_light", "wheel_small" ] }
     ],
     "items": [

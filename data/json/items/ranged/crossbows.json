@@ -303,7 +303,7 @@
   },
   {
     "id": "hand_crossbow",
-    "copy-from": "hand_xbow_base",
+    "copy-from": "s_xbow_base",
     "type": "GUN",
     "name": { "str": "pistol crossbow" },
     "description": "A small concealable pistol-like crossbow.  It's weak due to its small size and draw, so it is best suited for hunting small game.  Bolts fired from this weapon have a good chance of remaining intact for re-use.",

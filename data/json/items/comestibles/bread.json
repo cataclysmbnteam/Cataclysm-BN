@@ -122,7 +122,7 @@
     "price_postapoc": 100,
     "material": "wheat",
     "volume": "250 ml",
-    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
+    "flags": [ "EATEN_HOT" ],
     "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ] ]
   },
   {
@@ -146,6 +146,30 @@
     "flags": [ "EATEN_HOT" ],
     "fun": 1,
     "vitamins": [ [ "vitC", 1 ], [ "calcium", 10 ], [ "iron", 4 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "bread_garlic",
+    "looks_like": "bread",
+    "name": { "str_sp": "garlic bread" },
+    "weight": "85 g",
+    "color": "brown",
+    "spoils_in": "10 days",
+    "container": "bag_plastic",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "healthy": 1,
+    "calories": 298,
+    "quench": -2,
+    "description": "Bread cooked with garlic, oil and seasonings.",
+    "price": 90,
+    "price_postapoc": 100,
+    "material": [ "wheat" ],
+    "volume": "250 ml",
+    "charges": 14,
+    "flags": [ "EATEN_HOT" ],
+    "fun": 3,
+    "vitamins": [ [ "vitA", 1 ], [ "vitB", 3 ], [ "calcium", 2 ], [ "iron", 14 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -210,7 +234,7 @@
     "primary_material": "wheat",
     "volume": "250 ml",
     "charges": 2,
-    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 1,
     "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ] ]
   },
@@ -231,7 +255,6 @@
     "material": "wheat",
     "volume": "250 ml",
     "charges": 2,
-    "flags": [ "EDIBLE_FROZEN" ],
     "vitamins": [ [ "calcium", 2 ], [ "iron", 15 ] ],
     "stack_size": 20,
     "fun": -1
@@ -253,7 +276,7 @@
     "material": "wheat",
     "volume": "250 ml",
     "charges": 10,
-    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 3,
     "vitamins": [ [ "vitA", 1 ], [ "calcium", 11 ], [ "iron", 9 ] ]
   },

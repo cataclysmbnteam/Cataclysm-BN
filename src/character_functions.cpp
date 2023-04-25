@@ -212,8 +212,8 @@ comfort_response_t base_comfort_value( const Character &who, const tripoint &p )
             comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
             // Note: shelled individuals can still use sleeping aids!
         } else if( vp ) {
-            const cata::optional<vpart_reference> carg = vp.part_with_feature( "CARGO", false );
-            const cata::optional<vpart_reference> board = vp.part_with_feature( "BOARDABLE", true );
+            const std::optional<vpart_reference> carg = vp.part_with_feature( "CARGO", false );
+            const std::optional<vpart_reference> board = vp.part_with_feature( "BOARDABLE", true );
             if( carg ) {
                 const vehicle_stack items = vp->vehicle().get_items( carg->part_index() );
                 for( const item &items_it : items ) {
@@ -584,7 +584,7 @@ bool try_uncanny_dodge( Character &who )
     who.mod_power_level( -trigger_cost );
     bool is_u = who.is_avatar();
     bool seen = is_u || get_player_character().sees( who );
-    cata::optional<tripoint> adjacent = pick_safe_adjacent_tile( who );
+    std::optional<tripoint> adjacent = pick_safe_adjacent_tile( who );
     if( adjacent ) {
         if( is_u ) {
             add_msg( _( "Time seems to slow down and you instinctively dodge!" ) );
@@ -602,7 +602,7 @@ bool try_uncanny_dodge( Character &who )
     }
 }
 
-cata::optional<tripoint> pick_safe_adjacent_tile( const Character &who )
+std::optional<tripoint> pick_safe_adjacent_tile( const Character &who )
 {
     std::vector<tripoint> ret;
     int dangerous_fields = 0;

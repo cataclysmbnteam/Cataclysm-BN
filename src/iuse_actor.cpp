@@ -131,6 +131,7 @@ static const species_id ZOMBIE( "ZOMBIE" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
+static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
@@ -1032,7 +1033,7 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint & ) const
         }
     } else {
         const std::string query = string_format( _( "Place the %s where?" ), newmon.name() );
-        const cata::optional<tripoint> pnt_ = choose_adjacent( query );
+        const std::optional<tripoint> pnt_ = choose_adjacent( query );
         if( !pnt_ ) {
             return 0;
         }
@@ -1112,7 +1113,7 @@ void place_npc_iuse::load( const JsonObject &obj )
 int place_npc_iuse::use( player &p, item &, bool, const tripoint & ) const
 {
     map &here = get_map();
-    cata::optional<tripoint> target_pos;
+    std::optional<tripoint> target_pos;
     if( place_randomly ) {
         const tripoint_range<tripoint> target_range = points_in_radius( p.pos(), 1 );
         target_pos = random_point( target_range, []( const tripoint & t ) {
@@ -1170,7 +1171,7 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint &t ) const
         return is_allowed;
     };
 
-    const cata::optional<tripoint> pnt_ = ( t != p.pos() ) ? t : choose_adjacent_highlight(
+    const std::optional<tripoint> pnt_ = ( t != p.pos() ) ? t : choose_adjacent_highlight(
             _( "Use your lockpick where?" ), _( "There is nothing to lockpick nearby." ), f, false );
     if( !pnt_ ) {
         return 0;
@@ -1270,7 +1271,7 @@ int deploy_furn_actor::use( player &p, item &it, bool t, const tripoint &pos ) c
     }
     tripoint pnt = pos;
     if( pos == p.pos() ) {
-        if( const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Deploy where?" ) ) ) {
+        if( const std::optional<tripoint> pnt_ = choose_adjacent( _( "Deploy where?" ) ) ) {
             pnt = *pnt_;
         } else {
             return 0;
@@ -1388,7 +1389,7 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
 {
     // checks for fuel are handled by use and the activity, not here
     if( pos == p.pos() ) {
-        if( const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Light where?" ) ) ) {
+        if( const std::optional<tripoint> pnt_ = choose_adjacent( _( "Light where?" ) ) ) {
             pos = *pnt_;
         } else {
             return false;
@@ -1864,7 +1865,7 @@ int inscribe_actor::use( player &p, item &it, bool t, const tripoint & ) const
     }
 
     if( choice == 0 ) {
-        const cata::optional<tripoint> dest_ = choose_adjacent( _( "Write where?" ) );
+        const std::optional<tripoint> dest_ = choose_adjacent( _( "Write where?" ) );
         if( !dest_ ) {
             return 0;
         }
@@ -2602,7 +2603,6 @@ int cast_spell_actor::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     spell casting = spell( spell_id( item_spell ) );
-    int charges = it.type->charges_to_use();
 
     player_activity cast_spell( ACT_SPELLCASTING, casting.casting_time( p ) );
     // [0] this is used as a spell level override for items casting spells
@@ -2618,13 +2618,14 @@ int cast_spell_actor::use( player &p, item &it, bool, const tripoint & ) const
     if( it.has_flag( "USE_PLAYER_ENERGY" ) ) {
         // [2] this value overrides the mana cost if set to 0
         cast_spell.values.emplace_back( 1 );
-        charges = 0;
     } else {
         // [2]
         cast_spell.values.emplace_back( 0 );
     }
     p.assign_activity( cast_spell, false );
-    return charges;
+    p.activity.targets.push_back( item_location( p, &it ) );
+    // Actual handling of charges_to_use is in activity_handlers::spellcasting_finish
+    return 0;
 }
 
 std::unique_ptr<iuse_actor> holster_actor::clone() const
@@ -3945,6 +3946,7 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
             if( ( !patient.has_effect( effect_bandaged, elem.first->token ) && bandages_power > 0 ) ||
                 ( !patient.has_effect( effect_disinfected, elem.first->token ) && disinfectant_power > 0 ) ) {
                 damage += part.get_hp_max() - part.get_hp_cur();
+                damage += damage > 0 ? part.get_id()->essential * essential_value : 0;
                 damage += bleed * patient.get_effect_dur( effect_bleed, elem.first->token ) / 5_minutes;
                 damage += bite * patient.get_effect_dur( effect_bite, elem.first->token ) / 10_minutes;
                 damage += infect * patient.get_effect_dur( effect_infected, elem.first->token ) / 10_minutes;
@@ -4170,8 +4172,8 @@ int place_trap_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
-    const cata::optional<tripoint> pos_ = choose_adjacent( string_format( _( "Place %s where?" ),
-                                          it.tname() ) );
+    const std::optional<tripoint> pos_ = choose_adjacent( string_format( _( "Place %s where?" ),
+                                         it.tname() ) );
     if( !pos_ ) {
         return 0;
     }
@@ -4417,7 +4419,7 @@ ret_val<bool> install_bionic_actor::can_use( const Character &p, const item &it,
         !p.has_trait( trait_DEBUG_BIONICS ) ) {
         return ret_val<bool>::make_failure( _( "You can't self-install bionics." ) );
     } else if( !p.has_trait( trait_DEBUG_BIONICS ) ) {
-        if( it.has_fault( fault_bionic_nonsterile ) ) {
+        if( it.has_fault( fault_bionic_nonsterile ) && !p.has_trait( trait_INFRESIST ) ) {
             return ret_val<bool>::make_failure( _( "This CBM is not sterile, you can't install it." ) );
         } else if( units::energy_max - p.get_max_power_level() < bid->capacity ) {
             return ret_val<bool>::make_failure( _( "Max power capacity already reached" ) );
@@ -4682,8 +4684,8 @@ int deploy_tent_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.add_msg_if_player( _( "You cannot do that while mounted." ) );
         return 0;
     }
-    const cata::optional<tripoint> dir = choose_direction( string_format(
-            _( "Put up the %s where (%dx%d clear area)?" ), it.tname(), diam, diam ) );
+    const std::optional<tripoint> dir = choose_direction( string_format(
+                                            _( "Put up the %s where (%dx%d clear area)?" ), it.tname(), diam, diam ) );
     if( !dir ) {
         return 0;
     }

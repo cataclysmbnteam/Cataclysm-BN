@@ -207,17 +207,9 @@ std::string PATH_INFO::help()
 {
     return datadir_value + "help/" + "texts.json";
 }
-std::string PATH_INFO::keybindings()
+std::string PATH_INFO::keybindingsdir()
 {
-    return datadir_value + "raw/" + "keybindings.json";
-}
-std::string PATH_INFO::keybindings_vehicle()
-{
-    return datadir_value + "raw/" + "keybindings/vehicle.json";
-}
-std::string PATH_INFO::keybindings_edit_creature()
-{
-    return datadir_value + "raw/" + "keybindings/edit_creature_effects.json";
+    return datadir_value + "raw/keybindings/";
 }
 std::string PATH_INFO::main_menu_tips()
 {

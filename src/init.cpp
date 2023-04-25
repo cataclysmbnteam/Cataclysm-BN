@@ -973,7 +973,7 @@ bool init::check_mods_for_errors( loading_ui &ui, const std::vector<mod_id> &opt
         world_generator->delete_world( world_name, true );
 
         // TODO: Why would we need these calls?
-        MAPBUFFER.reset();
+        MAPBUFFER.clear();
         overmap_buffer.clear();
     }
 

@@ -144,21 +144,17 @@ void Character::recalc_speed_bonus()
         mod_speed_bonus( -20 );
     }
 
-    float speed_modifier = Character::mutation_value( "speed_modifier" );
-    set_speed_bonus( static_cast<int>( get_speed() * speed_modifier ) - get_speed_base() );
+    mod_speed_bonus( get_speedydex_bonus( get_dex() ) );
 
-    if( has_bionic( bio_speed ) ) { // multiply by 1.1
-        set_speed_bonus( static_cast<int>( get_speed() * 1.1 ) - get_speed_base() );
+    float speed_modifier = Character::mutation_value( "speed_modifier" );
+    mod_speed_mult( speed_modifier - 1 );
+
+    if( has_bionic( bio_speed ) ) { // add 10% speed bonus
+        mod_speed_mult( 0.1 );
     }
 
     double ench_bonus = enchantment_cache->calc_bonus( enchant_vals::mod::SPEED, get_speed() );
-    set_speed_bonus( get_speed() + ench_bonus - get_speed_base() );
-
-    // Speed cannot be less than 25% of base speed, so minimal speed bonus is -75% base speed.
-    const int min_speed_bonus = static_cast<int>( -0.75 * get_speed_base() );
-    if( get_speed_bonus() < min_speed_bonus ) {
-        set_speed_bonus( min_speed_bonus );
-    }
+    mod_speed_bonus( ench_bonus );
 }
 
 void Character::process_turn()
@@ -206,7 +202,7 @@ void Character::process_turn()
         int temp_norm_scent = INT_MIN;
         bool found_intensity = false;
         for( const trait_id &mut : get_mutations() ) {
-            const cata::optional<int> &scent_intensity = mut->scent_intensity;
+            const std::optional<int> &scent_intensity = mut->scent_intensity;
             if( scent_intensity ) {
                 found_intensity = true;
                 temp_norm_scent = std::max( temp_norm_scent, *scent_intensity );
@@ -217,7 +213,7 @@ void Character::process_turn()
         }
 
         for( const trait_id &mut : get_mutations() ) {
-            const cata::optional<int> &scent_mask = mut->scent_mask;
+            const std::optional<int> &scent_mask = mut->scent_mask;
             if( scent_mask ) {
                 norm_scent += *scent_mask;
             }

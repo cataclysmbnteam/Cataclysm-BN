@@ -141,7 +141,7 @@
       }
     ],
     "techniques": [ "tec_barbaran_impale", "tec_barbaran_disarm" ],
-    "weapon_category": [ "MEDIEVAL_SWORDS" ]
+    "weapon_category": [ "2H_SWORDS" ]
   },
   {
     "type": "martial_art",
@@ -373,7 +373,7 @@
       "tec_eskrima_low",
       "tec_eskrima_combination"
     ],
-    "weapon_category": [ "KNIVES", "BATONS", "TONFAS", "QUARTERSTAVES", "FIST_WEAPONS" ]
+    "weapon_category": [ "KNIVES", "SHORT_SWORDS", "BATONS", "TONFAS", "QUARTERSTAVES", "FIST_WEAPONS" ]
   },
   {
     "type": "martial_art",
@@ -773,7 +773,7 @@
       }
     ],
     "techniques": [ "tec_ninjutsu_swift", "tec_ninjutsu_takedown", "tec_ninjutsu_precise" ],
-    "weapon_category": [ "1H_SWORDS", "JAPANESE_SWORDS", "BATONS", "QUARTERSTAVES", "BIONIC_WEAPONRY" ],
+    "weapon_category": [ "KNIVES", "SHORT_SWORDS", "1H_SWORDS", "JAPANESE_SWORDS", "BATONS", "QUARTERSTAVES", "BIONIC_WEAPONRY" ],
     "weapons": [ "sickle" ]
   },
   {
@@ -844,7 +844,7 @@
       }
     ],
     "techniques": [ "niten_water_cut", "niten_red_leaf", "niten_stone_cut", "niten_timing_attack", "niten_feint" ],
-    "weapon_category": [ "JAPANESE_SWORDS", "BIONIC_WEAPONRY" ]
+    "weapon_category": [ "JAPANESE_SWORDS", "BIONIC_SWORDS" ]
   },
   {
     "type": "martial_art",
