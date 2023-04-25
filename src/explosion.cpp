@@ -358,7 +358,7 @@ class ExplosionProcess
             emitter( responsible ),
             player_flung( std::nullopt ),
             // We want to ensure the delay is at least some small value at least to make sure propagation occurs correctly
-            radius_step_delay( std::max( get_option<int>( "ANIMATION_DELAY" ), 5 ) ),
+            radius_step_delay( get_option<int>( "ANIMATION_DELAY" ) ),
             cur_time( 0 ),
             request_redraw( false ) {}
     private:

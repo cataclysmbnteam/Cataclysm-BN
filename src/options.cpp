@@ -1810,7 +1810,8 @@ void options_manager::add_options_graphics()
     get_option( "ANIMATION_SCT_USE_FONT" ).setPrerequisite( "ANIMATION_SCT" );
 
     add( "ANIMATION_DELAY", "graphics", translate_marker( "Animation delay" ),
-         translate_marker( "The amount of time to pause between animation frames in ms." ),
+         translate_marker( "The amount of time to pause between animation frames in ms."
+                           "  Values lower than 5ms may cause issues with new explosion behavior." ),
          0, 100, 10
        );
 
