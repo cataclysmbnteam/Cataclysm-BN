@@ -207,7 +207,7 @@ class basecamp
         int recipe_batch_max( const recipe &making ) const;
         void form_crafting_inventory();
         void form_crafting_inventory( map &target_map );
-        ItemList use_charges( const itype_id &fake_id, int &quantity );
+        std::vector<detached_ptr<item>> use_charges( const itype_id &fake_id, int &quantity );
         item_group_id get_gatherlist() const;
         /**
          * spawn items or corpses based on search attempts

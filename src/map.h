@@ -1235,11 +1235,12 @@ class map
          *  @param pos Where to add item
          *  @param obj Item to add
          *  @param overflow if destination is full attempt to drop on adjacent tiles
-         *  @return reference to dropped (and possibly stacked) item or null item on failure
+         *  @return the item if it could not be handled
          *  @warning function is relatively expensive and meant for user initiated actions, not mapgen
          */
-        item &add_item_or_charges( const tripoint &pos, detached_ptr<item> &&obj, bool overflow = true );
-        item &add_item_or_charges( point p, detached_ptr<item> &&obj, bool overflow = true ) {
+        detached_ptr<item> add_item_or_charges( const tripoint &pos, detached_ptr<item> &&obj,
+                                                bool overflow = true );
+        detached_ptr<item> add_item_or_charges( point p, detached_ptr<item> &&obj, bool overflow = true ) {
             return add_item_or_charges( tripoint( p, abs_sub.z ), std::move( obj ), overflow );
         }
 
@@ -1250,13 +1251,15 @@ class map
          *
          * @returns The item that got added, or nulitem.
          */
-        item &add_item( const tripoint &p, detached_ptr<item> &&new_item );
+        void add_item( const tripoint &p, detached_ptr<item> &&new_item );
         void add_item( point p, detached_ptr<item> &&new_item ) {
             add_item( tripoint( p, abs_sub.z ), std::move( new_item ) );
         }
-        item &spawn_an_item( const tripoint &p, detached_ptr<item> &&new_item, int charges, int damlevel );
-        void spawn_an_item( point p, detached_ptr<item> &&new_item, int charges, int damlevel ) {
-            spawn_an_item( tripoint( p, abs_sub.z ), std::move( new_item ), charges, damlevel );
+        detached_ptr<item> spawn_an_item( const tripoint &p, detached_ptr<item> &&new_item, int charges,
+                                          int damlevel );
+        detached_ptr<item> spawn_an_item( point p, detached_ptr<item> &&new_item, int charges,
+                                          int damlevel ) {
+            return spawn_an_item( tripoint( p, abs_sub.z ), std::move( new_item ), charges, damlevel );
         }
 
         /**
@@ -1331,9 +1334,10 @@ class map
                                                 const time_point &turn = calendar::start_of_cataclysm );
 
         // Similar to spawn_an_item, but spawns a list of items, or nothing if the list is empty.
-        std::vector<item *> spawn_items( const tripoint &p, std::vector<detached_ptr<item>> new_items );
-        void spawn_items( point p, std::vector<detached_ptr<item>> new_items ) {
-            spawn_items( tripoint( p, abs_sub.z ), std::move( new_items ) );
+        std::vector<detached_ptr<item>> spawn_items( const tripoint &p,
+                                     std::vector<detached_ptr<item>> new_items );
+        std::vector<detached_ptr<item>> spawn_items( point p, std::vector<detached_ptr<item>> new_items ) {
+            return spawn_items( tripoint( p, abs_sub.z ), std::move( new_items ) );
         }
 
         void create_anomaly( const tripoint &p, artifact_natural_property prop, bool create_rubble = true );
@@ -1342,7 +1346,7 @@ class map
         }
 
         // Partial construction functions
-        void partial_con_set( const tripoint &p, const partial_con &con );
+        void partial_con_set( const tripoint &p, std::unique_ptr<partial_con> con );
         void partial_con_remove( const tripoint &p );
         partial_con *partial_con_at( const tripoint &p );
         // Traps

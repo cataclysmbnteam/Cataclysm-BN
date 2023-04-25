@@ -13,22 +13,14 @@
 
 struct tripoint;
 
-item_contents::~item_contents()
-{
-    for( item *&it : items ) {
-        it->remove_location();
-        it->destroy();
-    }
-}
-
 bool item_contents::empty() const
 {
     return items.empty();
 }
 
-ret_val<bool> item_contents::insert_item( item &it )
+ret_val<bool> item_contents::insert_item( detached_ptr<item> &&it )
 {
-    items.push_back( &it );
+    items.push_back( std::move( it ) );
     return ret_val<bool>::make_success();
 }
 
@@ -39,11 +31,9 @@ size_t item_contents::num_item_stacks() const
 
 bool item_contents::spill_contents( const tripoint &pos )
 {
-    for( item * const &it : items ) {
-        get_map().add_item_or_charges( pos, *it );
+    for( detached_ptr<item> &it : items.clear() ) {
+        get_map().add_item_or_charges( pos, std::move( it ) );
     }
-
-    items.clear();
     return true;
 }
 
@@ -51,41 +41,35 @@ void item_contents::handle_liquid_or_spill( Character &guy )
 {
     for( auto iter = items.begin(); iter != items.end(); ) {
         if( ( *iter )->made_of( LIQUID ) ) {
-
-            item *liquid = *iter;
-            iter = items.erase( iter );
-            liquid_handler::handle_all_liquid( *liquid, 1 );
+            detached_ptr<item> det;
+            iter = items.erase( iter, &det );
+            liquid_handler::handle_all_liquid( std::move( det ), 1 );
         } else {
-            item *i_copy = *iter;
-            iter = items.erase( iter );
-            guy.i_add_or_drop( *i_copy );
+            detached_ptr<item> det;
+            iter = items.erase( iter, &det );
+            guy.i_add_or_drop( std::move( det ) );
         }
     }
 }
 
-void item_contents::casings_handle( const std::function<bool( item & )> &func )
+void item_contents::casings_handle( const std::function < detached_ptr<item>
+                                    ( detached_ptr<item> && ) > &func )
 {
-
-    for( auto it = items.begin(); it != items.end(); ) {
-        if( ( *it )->has_flag( "CASING" ) ) {
-            ( *it )->unset_flag( "CASING" );
-            detached_ptr<item> obj = std::move( detached_ptr::internal_create( *it ) );
-            func( obj );
-            if( !obj ) {
-                it = items.erase( it, &obj );
-                obj.release();
-                continue;
+    items.remove_with( [&func]( detached_ptr<item> &&it ) {
+        if( it->has_flag( "CASING" ) ) {
+            it->unset_flag( "CASING" );
+            it = func( std::move( it ) );
+            if( it ) {
+                it->set_flag( "CASING" );
             }
-            // didn't handle the casing so reset the flag ready for next call
-            ( *it )->set_flag( "CASING" );
         }
-        ++it;
-    }
+        return it;
+    } );
 }
 
-void item_contents::clear_items()
+std::vector<detached_ptr<item>> item_contents::clear_items()
 {
-    items.clear();
+    return items.clear();
 }
 
 void item_contents::set_item_defaults()
@@ -109,7 +93,7 @@ void item_contents::migrate_item( item &obj, const std::set<itype_id> &migration
         if( std::none_of( items.begin(), items.end(), [&]( const item * const & e ) {
         return e->typeId() == c;
         } ) ) {
-            obj.put_in( *item_spawn( c, obj.birthday() ) );
+            obj.put_in( item::spawn( c, obj.birthday() ) );
         }
     }
 }
@@ -138,47 +122,26 @@ item *item_contents::get_item_with( const std::function<bool( const item &it )> 
     }
 }
 
-std::vector<item *> &item_contents::all_items_top()
-{
-    return items;
-}
-
 const std::vector<item *> &item_contents::all_items_top() const
 {
-    return items;
+    return items.as_vector();
 }
 
-
-std::vector<detached_ptr<item>> item_contents::remove_all()
-{
-    std::vector<detached_ptr<item>> ret;
-    items.clear_with( [&ret]( detached_ptr<item> &&it ) {
-        ret.push_back( std::move( it ) );
-    }
-    return std::move( ret );
-}
-
-void item_contents::remove_top( item *it )
+detached_ptr<item> item_contents::remove_top( item *it )
 {
     std::vector<item *>::iterator iter = std::find_if( items.begin(),
     items.end(), [&it]( item *&against ) {
         return against == it;
     } );
-    it->remove_location();//TODO!: need to make all the other functions here do locations too
-    items.erase( iter );
+    detached_ptr<item> ret;
+    items.erase( iter, &ret );
+    return ret;
 }
 
-
-std::vector<item *>::iterator item_contents::remove_top( std::vector<item *>::iterator &it )
+std::vector<item *>::iterator item_contents::remove_top( std::vector<item *>::iterator &it,
+        detached_ptr<item> *removed )
 {
-    ( *it )->remove_location();
-    return items.erase( it );
-}
-
-std::vector<item *>::iterator item_contents::remove_top( std::vector<item *>::iterator &it )
-{
-    ( *it )->remove_location();
-    return items.erase( it );
+    return items.erase( it, removed );
 }
 
 std::vector<item *> item_contents::all_items_ptr()

@@ -1,7 +1,12 @@
 #include "location_vector.h"
-location_vector::location_vector( location<T> *loc ) : loc( loc ) {};
-location_vector::location_vector( location<T> *loc,
-                                  std::vector<detached_ptr<T>> &from ) : loc( loc )
+#include "item.h"
+
+template<typename T>
+location_vector<T>::location_vector( location<T> *loc ) : loc( loc ) {};
+
+template<typename T>
+location_vector<T>::location_vector( location<T> *loc,
+                                     std::vector<detached_ptr<T>> &from ) : loc( loc )
 {
     for( detached_ptr<T> &obj : from ) {
         obj->set_location( &*loc );
@@ -11,7 +16,8 @@ location_vector::location_vector( location<T> *loc,
     from.clear();
 };
 
-void location_vector::push_back( detached_ptr<T> &&obj )
+template<typename T>
+void location_vector<T>::push_back( detached_ptr<T> &&obj )
 {
     T *raw = obj.ptr;
     obj.ptr = nullptr;
@@ -19,86 +25,137 @@ void location_vector::push_back( detached_ptr<T> &&obj )
     contents.push_back( raw );
 }
 
-size_t location_vector::size() const
+template<typename T>
+size_t location_vector<T>::size() const
 {
     return contents.size();
 }
-bool location_vector::empty() const
+
+template<typename T>
+bool location_vector<T>::empty() const
 {
     return contents.empty();
 }
 
-T *location_vector::back() const
+template<typename T>
+T *location_vector<T>::back() const
 {
     return contents.back();
 }
 
-const std::vector<T *> &location_vector::as_vector() const
+template<typename T>
+const std::vector<T *> &location_vector<T>::as_vector() const
 {
     return contents;
 }
 
-typename std::vector<T *>::iterator location_vector::erase( typename std::vector<T *>::iterator it,
-        detached_ptr<T> *out = nullptr );
+template<typename T>
+typename std::vector<T *>::iterator location_vector<T>::erase( typename
+        std::vector<T *>::const_iterator
+        it,
+        detached_ptr<T> *out )
+{
+    T *subject = *it;
+    typename std::vector<T *>::iterator ret = contents.erase( it );
+    subject->remove_location();
 
-typename std::vector<T *>::iterator location_vector::insert( typename std::vector<T *>::iterator it,
-        detached_ptr<T> &&obj );
+    detached_ptr<T> local;
+    detached_ptr<T> *used = out ? out : &local;
 
-typename std::vector<T *>::iterator location_vector::insert( typename std::vector<T *>::iterator it,
-        typename std::vector<detached_ptr<T>>::const_iterator start,
-        typename std::vector<detached_ptr<T>>::const_iterator end );
+    *used = detached_ptr<T>( subject );
 
-typename std::vector<T *>::const_iterator location_vector::begin() const
+}
+
+template<typename T>
+typename std::vector<T *>::iterator location_vector<T>::insert( typename std::vector<T *>::iterator
+        it,
+        detached_ptr<T> &&obj )
+{
+    if( !obj ) {
+        return;
+    }
+    T *raw = obj->release();
+    raw->set_location( &*loc );
+    return contents.insert( it, raw );
+}
+
+template<typename T>
+typename std::vector<T *>::iterator location_vector<T>::insert( typename std::vector<T *>::iterator
+        it,
+        typename std::vector<detached_ptr<T>>::iterator start,
+        typename std::vector<detached_ptr<T>>::iterator end )
+{
+
+    for( auto iter = start; iter != end; iter++ ) {
+        T *raw = ( *iter )->release();
+        raw->set_location( &*loc );
+        it = contents.insert( it, raw );
+    }
+    return it;
+}
+
+template<typename T>
+typename std::vector<T *>::const_iterator location_vector<T>::begin() const
 {
     return contents.begin();
 }
 
-typename std::vector<T *>::const_iterator location_vector::end() const
+template<typename T>
+typename std::vector<T *>::const_iterator location_vector<T>::end() const
 {
     return contents.end();
 }
 
-typename std::vector<T *>::iterator location_vector::begin()
+template<typename T>
+typename std::vector<T *>::iterator location_vector<T>::begin()
 {
     return contents.begin();
 }
 
-typename std::vector<T *>::iterator location_vector::end()
+template<typename T>
+typename std::vector<T *>::iterator location_vector<T>::end()
 {
     return contents.end();
 }
 
-typename std::vector<T *>::const_reverse_iterator location_vector::rbegin() const
+template<typename T>
+typename std::vector<T *>::const_reverse_iterator location_vector<T>::rbegin() const
 {
     return contents.rbegin();
 }
 
-typename std::vector<T *>::const_reverse_iterator location_vector::rend() const
+template<typename T>
+typename std::vector<T *>::const_reverse_iterator location_vector<T>::rend() const
 {
     return contents.rend();
 }
 
-typename std::vector<T *>::reverse_iterator location_vector::rbegin()
+template<typename T>
+typename std::vector<T *>::reverse_iterator location_vector<T>::rbegin()
 {
     return contents.rbegin();
 }
 
-typename std::vector<T *>::reverse_iterator location_vector::rend()
+template<typename T>
+typename std::vector<T *>::reverse_iterator location_vector<T>::rend()
 {
     return contents.rend();
 }
 
-typename std::vector<T *>::const_iterator location_vector::cbegin() const
+template<typename T>
+typename std::vector<T *>::const_iterator location_vector<T>::cbegin() const
 {
     return contents.cbegin();
 }
 
-typename std::vector<T *>::const_iterator location_vector::cend() const
+template<typename T>
+typename std::vector<T *>::const_iterator location_vector<T>::cend() const
 {
     return contents.cend();
 }
 
-typename std::vector<detached_ptr<T>> location_vector::clear() const
+template<typename T>
+typename std::vector<detached_ptr<T>> location_vector<T>::clear() const
 {
     std::vector<detached_ptr<T>> ret;
     for( item *&i : contents ) {
@@ -107,4 +164,24 @@ typename std::vector<detached_ptr<T>> location_vector::clear() const
     }
     contents.clear();
     return ret;
+}
+
+template<typename T>
+void location_vector<T>::remove_with( std::function < detached_ptr<T>( detached_ptr<T> && ) > cb )
+{
+    for( auto it = contents.begin(); it != contents.end(); ) {
+        location<T> *saved_loc = ( *it )->loc;
+        ( *it )->remove_location();
+        detached_ptr<T> original( *it );
+        detached_ptr<T> n = cb( std::move( original ) );
+        if( n ) {
+            if( &*n == *it ) {
+                ( *it )->loc = saved_loc;
+                return;
+            } else {
+                debugmsg( "Returning a different item in remove_with is not currently supported" );
+                return;
+            }
+        }
+    }
 }

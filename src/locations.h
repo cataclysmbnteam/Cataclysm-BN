@@ -20,23 +20,11 @@ class location
 {
     public:
         virtual detached_ptr<T> detach( T *obj ) = 0;
-        virtual void detach_for_destroy( T *obj );
         virtual bool is_loaded( const T *obj ) const = 0;
         virtual tripoint position( const T *obj ) const = 0;
         virtual std::string describe( const Character *ch, const T *obj ) const = 0;
         virtual ~location() {};
         virtual bool check_for_corruption( const T *it ) const = 0;
-};
-
-//There is already a class in distribution_grid.h called tile_location. This all needs namespacing really.
-//TODO!: namespace all this
-class go_tile_location
-{
-    protected:
-        tripoint pos;//abs coords
-    public:
-        void move_to( const tripoint &p ); //abs coords
-        void move_by( const tripoint &offset ); //relative to current pos
 };
 
 class item_location : public location<item>
@@ -89,8 +77,10 @@ class worn_item_location :  public character_item_location
         bool check_for_corruption( const item *it ) const override;
 };
 
-class tile_item_location : public item_location, public go_tile_location
+class tile_item_location : public item_location
 {
+    protected:
+        tripoint pos;//abs coords
     public:
         tile_item_location( tripoint position );
         detached_ptr<item> detach( item *it ) override;
@@ -229,7 +219,6 @@ class fake_item_location : public item_location
         fake_item_location() {};
         detached_ptr<item> detach( item *it ) override;
         bool is_loaded( const item *it ) const override;
-        void detach_for_destroy( item *it ) override;
         tripoint position( const item *it ) const override;
         item_location_type where() const override;
         int obtain_cost( const Character &ch, int qty, const item *it ) const override;

@@ -1171,9 +1171,9 @@ class Character : public Creature, public location_visitable<Character>
         /**
          * Similar to @ref remove_items_with, but considers only worn items and not their
          * content (@ref item::contents is not checked).
-         * If the filter function returns true, the item is removed.
+         * If the filter function returns a nullptr, the item is removed.
          */
-        ItemList remove_worn_items_with( std::function<bool( item & )> filter );
+        void remove_worn_items_with( std::function < detached_ptr<item>( detached_ptr<item> && ) > filter );
 
         /** Return the item pointer of the item with given invlet, return nullptr if
          * the player does not have such an item with that invlet. Don't use this on npcs.
@@ -1252,7 +1252,7 @@ class Character : public Creature, public location_visitable<Character>
          * @return Remaining charges which could not be stored in a container.
          */
         detached_ptr<item> i_add_to_container( detached_ptr<item> &&it, bool unloading );
-        item &i_add( detached_ptr<item> &&it, bool should_stack = true );
+        void i_add( detached_ptr<item> &&it, bool should_stack = true );
 
         /**
          * Try to pour the given liquid into the given container/vehicle. The transferred charges are
@@ -1283,7 +1283,7 @@ class Character : public Creature, public location_visitable<Character>
         detached_ptr<item> i_rem( const item *it );
         detached_ptr<item> i_rem_keep_contents( int idx );
         /** Sets invlet and adds to inventory if possible, drops otherwise.*/
-        void i_add_or_drop( detached_ptr<item> &&it );
+        detached_ptr<item> i_add_or_drop( detached_ptr<item> &&it );
 
         /** Only use for UI things. Returns all invlets that are currently used in
          * the player inventory, the weapon slot and the worn items. */

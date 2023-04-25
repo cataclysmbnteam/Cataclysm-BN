@@ -28,7 +28,7 @@ class game_object
                 return;
             }
             if( loc != nullptr ) {
-                loc->detach_for_destroy( static_cast<T *>( this ) );
+                debugmsg( "Attempted to destroy an item with a location." );
             }
 #if !defined(RELEASE)
             void **buf = static_cast<void **>( malloc( sizeof( void * ) * GO_BACKTRACE ) );
@@ -193,40 +193,6 @@ class game_object
             }
             return loc->position( static_cast<const T *>( this ) );
         };
-
-        /** Moves the game object's internal location to the absolute coords given.
-         *  This should only be called on game objects that are already in a tile.
-         *  It does not check the validity of the move or update anything other than the internal location.
-         *  It's an optimization to prevent excessive reallocation, it's not for normal use.
-         **/
-        void move_to( const tripoint &p ) {
-            if( !loc ) {
-                debugmsg( "Tried to move_to on [%s] without a location", debug_name() );
-                return;
-            }
-            go_tile_location *l = dynamic_cast<go_tile_location *>( &*loc );
-            if( !l ) {
-                debugmsg( "Tried to move_to on [%s] not in a tile", debug_name() );
-                return;
-            }
-            l->move_to( p );
-        }
-
-        /** Moves the game object's internal location by the offset.
-         *  See moves_to for further details.
-         **/
-        void move_by( const tripoint &offset ) {
-            if( !loc ) {
-                debugmsg( "Tried to move_by on [%s] without a location", debug_name() );
-                return;
-            }
-            go_tile_location *l = dynamic_cast<go_tile_location *>( &*loc );
-            if( !l ) {
-                debugmsg( "Tried to move_by on [%s] not in a tile", debug_name() );
-                return;
-            }
-            l->move_by( offset );
-        }
 
         /** Returns the name that will be used when referring to the object in error messages */
         virtual std::string debug_name() const = 0;

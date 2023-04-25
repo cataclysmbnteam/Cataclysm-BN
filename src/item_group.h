@@ -189,7 +189,7 @@ class Item_modifier
         Item_modifier();
         Item_modifier( Item_modifier && ) = default;
 
-        item *modify( item *new_item ) const;
+        detached_ptr<item> modify( detached_ptr<item> &&new_item ) const;
         void check_consistency( const std::string &context ) const;
         bool remove_item( const itype_id &itemid );
         bool replace_item( const itype_id &itemid, const itype_id &replacementid );

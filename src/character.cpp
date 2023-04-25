@@ -2250,7 +2250,7 @@ detached_ptr<item> Character::i_add_to_container( detached_ptr<item> &&it, const
     return it;
 }
 
-item &Character::i_add( detached_ptr<item> &&it, bool should_stack )
+void Character::i_add( detached_ptr<item> &&it, bool should_stack )
 {
     itype_id item_type_id = it->typeId();
     last_item = item_type_id;
@@ -2271,23 +2271,23 @@ item &Character::i_add( detached_ptr<item> &&it, bool should_stack )
         }
     }
 
-    auto &item_in_inv = inv.add_item( std::move( it ), keep_invlet, true, should_stack );
+    item &item_in_inv = *it;
+    inv.add_item( std::move( it ), keep_invlet, true, should_stack );
     item_in_inv.on_pickup( *this );
     clear_npc_ai_info_cache( "reloadables" );
-    return item_in_inv;
 }
 
-ItemList Character::remove_worn_items_with( std::function<bool( item & )> filter )
+void Character::remove_worn_items_with( std::function < detached_ptr<item>
+                                        ( detached_ptr<item> && ) > filter )
 {
-    ItemList result;
-    for( auto iter = worn.begin(); iter != worn.end(); ) {
-        if( filter( **iter ) ) {
-            ( *iter )->on_takeoff( *this );
-            result.push_back( *iter );
+    worn.remove_with( [this, filter]( detached_ptr<item> &&it ) {
+        item &obj = *it;
+        it = filter( std::move( it ) );
+        if( !it ) {
+            obj.on_takeoff( *this );
         }
-        ++iter;
-    }
-    return result;
+        return it;
+    } );
 }
 
 item *Character::invlet_to_item( const int linvlet )
@@ -2483,14 +2483,15 @@ detached_ptr<item> Character::i_rem_keep_contents( const int idx )
     return std::move( ret );
 }
 
-void Character::i_add_or_drop( detached_ptr<item> &&it )
+detached_ptr<item> Character::i_add_or_drop( detached_ptr<item> &&it )
 {
     if( it->made_of( LIQUID ) || !can_pick_weight( *it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ||
         !can_pick_volume( *it ) ) {
-        get_map().add_item_or_charges( pos(), std::move( it ) ).is_null();
+        return get_map().add_item_or_charges( pos(), std::move( it ) );
     } else {
         inv.assign_empty_invlet( *it, *this );
         i_add( std::move( it ) );
+        return detached_ptr<item>();
     }
 }
 
@@ -8193,7 +8194,7 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
                 armor_destroyed = true;
                 armor.on_takeoff( *this );
 
-                for( detached_ptr<item> &it : armor.contents.remove_all() ) {
+                for( detached_ptr<item> &it : armor.contents.clear_items() ) {
                     worn_remains.push_back( std::move( it ) );
                 }
                 // decltype is the type name of the iterator, note that reverse_iterator::base returns the
@@ -9749,7 +9750,6 @@ std::vector<detached_ptr<item>> Character::use_charges( const itype_id &what, in
                              const std::function<bool( const item & )> &filter )
 {
     std::vector<detached_ptr<item>> res;
-
     if( qty <= 0 ) {
         return res;
 
@@ -9810,25 +9810,62 @@ std::vector<detached_ptr<item>> Character::use_charges( const itype_id &what, in
 
     }
 
-    std::vector<item *> del;
 
     bool has_tool_with_UPS = false;
-    visit_items( [this, &what, &qty, &res, &del, &has_tool_with_UPS, &filter]( item * e ) {
-        if( e->use_charges( what, qty, res, pos(), filter ) ) {
-            del.push_back( e );
+    tripoint p = pos();
+    remove_items_with( [&qty, filter, &has_tool_with_UPS, &what, &res, &p]( detached_ptr<item> &&e ) {
+        if( qty == 0 ) {
+            // found sufficient charges
+            return VisitResponse::ABORT;
         }
-        if( filter( *e ) && e->typeId() == what && e->has_flag( flag_USE_UPS ) ) {
+        if( !filter( *e ) ) {
+            return VisitResponse::NEXT;
+        }
+        if( e->typeId() == what && e->has_flag( flag_USE_UPS ) ) {
             has_tool_with_UPS = true;
         }
-        return qty > 0 ? VisitResponse::SKIP : VisitResponse::ABORT;
+        if( e->is_tool() ) {
+            if( e->typeId() == what ) {
+                int n = std::min( e->ammo_remaining(), qty );
+                qty -= n;
+
+                if( n == e->ammo_remaining() ) {
+                    res.push_back( std::move( e ) );
+                } else {
+                    e->ammo_consume( n, p );
+                    detached_ptr<item> split = item::spawn( *e );
+                    split->charges = n;
+                    res.push_back( std::move( split ) );
+                }
+            }
+            return VisitResponse::SKIP;
+
+        } else if( e->count_by_charges() ) {
+            if( e->typeId() == what ) {
+                if( e->charges >= qty ) {
+                    e->charges -= qty;
+                    detached_ptr<item> split = item::spawn( *e );
+                    split->charges = qty;
+                    res.push_back( std::move( split ) );
+                    qty = 0;
+                    return VisitResponse::ABORT;
+                } else {
+                    qty -= e->charges;
+                    res.push_back( std::move( e ) );
+                }
+            }
+            // items counted by charges are not themselves expected to be containers
+            return VisitResponse::SKIP;
+        }
+
+        // recurse through any nested containers
+        return VisitResponse::NEXT;
     } );
 
-    for( auto e : del ) {
-        remove_item( *e );
-    }
-
     if( has_tool_with_UPS ) {
-        use_charges( itype_UPS, qty );
+        std::vector<detached_ptr<item>> found = use_charges( itype_UPS, qty );
+        res.insert( res.end(), std::make_move_iterator( found.begin() ),
+                    std::make_move_iterator( found.end() ) );
     }
 
     return res;

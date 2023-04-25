@@ -698,9 +698,10 @@ class item : public location_visitable<item>, public game_object<item>
          * @param filter Must return true for use to occur.
          * @return true if this item should be deleted (count-by-charges items with no remaining charges)
          */
-        bool use_charges( const itype_id &what, int &qty, std::vector<detached_ptr<item>> &used,
-                          const tripoint &pos,
-                          const std::function<bool( const item & )> &filter = return_true<item> );
+        static detached_ptr<item> use_charges( detached_ptr<item> &&self, const itype_id &what, int &qty,
+                                               std::vector<detached_ptr<item>> &used,
+                                               const tripoint &pos,
+                                               const std::function<bool( const item & )> &filter = return_true<item> );
 
         /**
          * Invokes item type's @ref itype::drop_action.
@@ -728,8 +729,9 @@ class item : public location_visitable<item>, public game_object<item>
          * @param used On success all consumed items will be stored here.
          * @param filter Must return true for use to occur.
          */
-        void use_amount( const itype_id &it, int &quantity, std::vector<detached_ptr<item>> &used,
-                         const std::function<bool( const item & )> &filter = return_true<item> );
+        static detached_ptr<item> use_amount( detached_ptr<item> &&self, const itype_id &it, int &quantity,
+                                              std::vector<detached_ptr<item>> &used,
+                                              const std::function<bool( const item & )> &filter = return_true<item> );
 
         /** Permits filthy components, should only be used as a helper in creating filters */
         bool allow_crafting_component() const;
@@ -834,8 +836,9 @@ class item : public location_visitable<item>, public game_object<item>
          * @param weather Weather manager to supply temperature.
          * @return true if the item has rotten away and should be removed, false otherwise.
          */
-        bool actualize_rot( const tripoint &pnt, temperature_flag temperature,
-                            const weather_manager &weather );
+        static detached_ptr<item> actualize_rot( detached_ptr<item> &&self, const tripoint &pnt,
+                temperature_flag temperature,
+                const weather_manager &weather );
 
         /**
          * Returns rot of the item since last rot calculation.
@@ -872,10 +875,10 @@ class item : public location_visitable<item>, public game_object<item>
          * @return true if the item is fully rotten and is ready to be removed
          */
         /*@{*/
-        bool process_rot( const tripoint &pos );
-        bool process_rot( bool seals, const tripoint &pos,
-                          player *carrier, temperature_flag flag,
-                          const weather_manager &weather_generator );
+        static detached_ptr<item> process_rot( detached_ptr<item> &&self,  const tripoint &pos );
+        static detached_ptr<item> process_rot( detached_ptr<item> &&self,  bool seals, const tripoint &pos,
+                                               player *carrier, temperature_flag flag,
+                                               const weather_manager &weather_generator );
         /*@}*/
 
         int get_comestible_fun() const;
@@ -948,7 +951,8 @@ class item : public location_visitable<item>, public game_object<item>
          * potentially destroying other items and invalidating iterators.
          * Should NOT be called on an item on the map, but on a local copy.
          */
-        bool detonate( const tripoint &p, std::vector<item *> &drops );
+        static detached_ptr<item> detonate( detached_ptr<item> &&self, const tripoint &p,
+                                            std::vector<detached_ptr<item>> &drops );
 
         bool will_explode_in_fire() const;
 
@@ -1167,10 +1171,12 @@ class item : public location_visitable<item>, public game_object<item>
          * Returns false if the item is not destroyed.
          */
         /*@{*/
-        bool process( player *carrier, const tripoint &pos, bool activate,
-                      temperature_flag flag = temperature_flag::TEMP_NORMAL );
-        bool process( player *carrier, const tripoint &pos, bool activate,
-                      temperature_flag flag, const weather_manager &weather_generator );
+        static detached_ptr<item> process( detached_ptr<item> &&self, player *carrier, const tripoint &pos,
+                                           bool activate,
+                                           temperature_flag flag = temperature_flag::TEMP_NORMAL );
+        static detached_ptr<item> process( detached_ptr<item> &&self, player *carrier, const tripoint &pos,
+                                           bool activate,
+                                           temperature_flag flag, const weather_manager &weather_generator );
         /*@}*/
 
         /**
@@ -1854,7 +1860,7 @@ class item : public location_visitable<item>, public game_object<item>
         int casings_count() const;
 
         /** Apply function to each contained spent casing. If the detached_ptr is not moved from the casing will be replaced. */
-        void casings_handle( const std::function < void( detached_ptr<item> && ) > &func );
+        void casings_handle( const std::function < detached_ptr<item>( detached_ptr<item> && ) > &func );
 
         /** Does item have an integral magazine (as opposed to allowing detachable magazines) */
         bool magazine_integral() const;
@@ -2207,8 +2213,9 @@ class item : public location_visitable<item>, public game_object<item>
 
     private:
         const use_function *get_use_internal( const std::string &use_name ) const;
-        bool process_internal( player *carrier, const tripoint &pos, bool activate,
-                               bool seals, temperature_flag flag, const weather_manager &weather_generator );
+        static detached_ptr<item> process_internal( detached_ptr<item> &&self, player *carrier,
+                const tripoint &pos, bool activate,
+                bool seals, temperature_flag flag, const weather_manager &weather_generator );
 
         /** Helper for checking reloadability. **/
         bool is_reloadable_helper( const itype_id &ammo, bool now ) const;
@@ -2248,18 +2255,27 @@ class item : public location_visitable<item>, public game_object<item>
         // Sub-functions of @ref process, they handle the processing for different
         // processing types, just to make the process function cleaner.
         // The interface is the same as for @ref process.
-        bool process_corpse( player *carrier, const tripoint &pos );
-        bool process_wet( player *carrier, const tripoint &pos );
-        bool process_litcig( player *carrier, const tripoint &pos );
-        bool process_extinguish( player *carrier, const tripoint &pos );
+        static detached_ptr<item> process_corpse( detached_ptr<item> &&self, player *carrier,
+                const tripoint &pos );
+        static detached_ptr<item> process_litcig( detached_ptr<item> &&self, player *carrier,
+                const tripoint &pos );
+        static detached_ptr<item> process_extinguish( detached_ptr<item> &&self, player *carrier,
+                const tripoint &pos );
         // Place conditions that should remove fake smoke item in this sub-function
-        bool process_fake_smoke( player *carrier, const tripoint &pos );
-        bool process_fake_mill( player *carrier, const tripoint &pos );
-        bool process_cable( player *carrier, const tripoint &pos );
-        bool process_UPS( player *carrier, const tripoint &pos );
-        bool process_blackpowder_fouling( player *carrier );
-        bool process_tool( player *carrier, const tripoint &pos );
+        static detached_ptr<item> process_fake_smoke( detached_ptr<item> &&self, player *carrier,
+                const tripoint &pos );
+        static detached_ptr<item> process_fake_mill( detached_ptr<item> &&self, player *carrier,
+                const tripoint &pos );
+        static detached_ptr<item> process_cable( detached_ptr<item> &&self, player *carrier,
+                const tripoint &pos );
+        static detached_ptr<item> process_UPS( detached_ptr<item> &&self, player *carrier,
+                                               const tripoint &pos );
+        static detached_ptr<item> process_blackpowder_fouling( detached_ptr<item> &&self, player *carrier );
+        static detached_ptr<item> process_tool( detached_ptr<item> &&self, player *carrier,
+                                                const tripoint &pos );
 
+        //Process wet is built different because sigh
+        bool process_wet( player *carrier, const tripoint &pos );
     public:
         static const int INFINITE_CHARGES;
 
@@ -2272,6 +2288,7 @@ class item : public location_visitable<item>, public game_object<item>
         FlagsSetType item_tags; // generic item specific flags
 
         std::vector<detached_ptr<item>> remove_components();
+        detached_ptr<item> remove_component( item &it );
         void add_component( detached_ptr<item> &&comp );
         const location_vector<item> &get_components() const;
         location_vector<item> &get_components();

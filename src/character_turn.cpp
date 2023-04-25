@@ -805,20 +805,24 @@ void Character::environmental_revert_effect()
 
 void Character::process_items()
 {
-    if( get_weapon().needs_processing() && get_weapon().process( as_player(), pos(), false ) ) {
-        remove_weapon();
+    auto process_item = [this]( detached_ptr<item> &&ptr ) {
+        return item::process( std::move( ptr ), as_player(), pos(), false );
+    };
+    if( get_weapon().needs_processing() ) {
+        get_weapon().attempt_detach( process_item );
     }
 
     std::vector<item *> inv_active = inv.active_items();
     for( item *tmp_it : inv_active ) {
-        if( tmp_it->process( as_player(), pos(), false ) ) {
-            inv.remove_item( tmp_it );
-        }
+        tmp_it->attempt_detach( process_item );
     }
 
     // worn items
-    remove_worn_items_with( [this]( item & itm ) {
-        return itm.needs_processing() && itm.process( as_player(), pos(), false );
+    remove_worn_items_with( [process_item]( detached_ptr<item> &&itm ) {
+        if( itm->needs_processing() ) {
+            return process_item( std::move( itm ) );
+        }
+        return itm;
     } );
 
     // Active item processing done, now we're recharging.

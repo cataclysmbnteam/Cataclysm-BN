@@ -203,7 +203,7 @@ struct vehicle_part {
 
         vehicle_part(); /** DefaultConstructible */
 
-        vehicle_part( const vpart_id &vp, point dp, item &obj );
+        vehicle_part( const vpart_id &vp, point dp, detached_ptr<item> &&obj );
 
         vehicle_part( const vehicle_part & );
         vehicle_part &operator=( const vehicle_part & );
@@ -1559,9 +1559,9 @@ class vehicle
         /**
          * Try to add an item to part's cargo.
          */
-        void add_item( int part, detached_ptr<item> &&itm );
+        detached_ptr<item> add_item( int part, detached_ptr<item> &&itm );
         /** Like the above */
-        void add_item( vehicle_part &pt, detached_ptr<item> &&obj );
+        detached_ptr<item> add_item( vehicle_part &pt, detached_ptr<item> &&obj );
         /**
          * Add an item counted by charges to the part's cargo.
          *

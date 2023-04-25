@@ -1044,9 +1044,9 @@ void place_construction( const construction_group_str_id &group )
     std::vector<detached_ptr<item>> used;
     const construction &con = *valid.find( pnt )->second;
     // create the partial construction struct
-    partial_con pc( here.getabs( pnt ) );
-    pc.id = con.id;
-    pc.counter = 0;
+    std::unique_ptr<partial_con> pc = std::make_unique<partial_con>( here.getabs( pnt ) );
+    pc->id = con.id;
+    pc->counter = 0;
     // Set the trap that has the examine function
     // Special handling for constructions that take place on existing traps.
     // Basically just don't add the unfinished construction trap.
@@ -1061,9 +1061,9 @@ void place_construction( const construction_group_str_id &group )
                      std::make_move_iterator( tmp.end() ) );
     }
     for( detached_ptr<item> &it : used ) {
-        pc.components.push_back( std::move( it ) );
+        pc->components.push_back( std::move( it ) );
     }
-    here.partial_con_set( pnt, pc );
+    here.partial_con_set( pnt, std::move( pc ) );
     for( const auto &it : con.requirements->get_tools() ) {
         g->u.consume_tools( it );
     }

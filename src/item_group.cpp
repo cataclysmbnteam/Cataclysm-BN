@@ -28,13 +28,13 @@ bool string_id<Item_group>::is_valid() const
     return item_group::group_is_defined( *this );
 }
 
-Item_spawn_data::ItemList Item_spawn_data::create( const time_point &birthday ) const
+std::vector<detached_ptr<item>> Item_spawn_data::create( const time_point &birthday ) const
 {
     RecursionList rec;
     return create( birthday, rec );
 }
 
-item *Item_spawn_data::create_single( const time_point &birthday ) const
+detached_ptr<item> Item_spawn_data::create_single( const time_point &birthday ) const
 {
     RecursionList rec;
     return create_single( birthday, rec );
@@ -47,47 +47,48 @@ Single_item_creator::Single_item_creator( const std::string &_id, Type _type, in
 {
 }
 
-item *Single_item_creator::create_single( const time_point &birthday, RecursionList &rec ) const
+detached_ptr<item> Single_item_creator::create_single( const time_point &birthday,
+        RecursionList &rec ) const
 {
-    item *tmp;
+    detached_ptr<item> tmp;
     if( type == S_ITEM ) {
         if( id == "corpse" ) {
-            tmp = &item::make_corpse( mtype_id::NULL_ID(), birthday );
+            tmp = item::make_corpse( mtype_id::NULL_ID(), birthday );
         } else {
-            tmp = item_spawn( id, birthday );
+            tmp = item::spawn( id, birthday );
         }
     } else if( type == S_ITEM_GROUP ) {
         if( std::find( rec.begin(), rec.end(), id ) != rec.end() ) {
             debugmsg( "recursion in item spawn list %s", id.c_str() );
-            return nullptr;
+            return detached_ptr<item>();
         }
         rec.push_back( id );
         Item_spawn_data *isd = item_controller->get_group( item_group_id( id ) );
         if( isd == nullptr ) {
             debugmsg( "unknown item spawn list %s", id.c_str() );
-            return nullptr;
+            return detached_ptr<item>();
         }
         tmp = isd->create_single( birthday, rec );
         rec.erase( rec.end() - 1 );
     } else if( type == S_NONE ) {
-        return nullptr;
+        return detached_ptr<item>();
     }
     if( one_in( 3 ) && tmp->has_flag( flag_VARSIZE ) ) {
         tmp->set_flag( "FIT" );
     }
     if( modifier ) {
-        tmp = modifier->modify( tmp );
+        tmp = modifier->modify( std::move( tmp ) );
     } else {
         // TODO: change the spawn lists to contain proper references to containers
-        tmp = &tmp->in_its_container();
+        tmp = item::in_its_container( std::move( tmp ) );
     }
     return tmp;
 }
 
-Item_spawn_data::ItemList Single_item_creator::create( const time_point &birthday,
-        RecursionList &rec ) const
+std::vector<detached_ptr<item>> Single_item_creator::create( const time_point &birthday,
+                             RecursionList &rec ) const
 {
-    ItemList result;
+    std::vector<detached_ptr<item>> result;
     int cnt = 1;
     if( modifier ) {
         auto modifier_count = modifier->count;
@@ -96,9 +97,9 @@ Item_spawn_data::ItemList Single_item_creator::create( const time_point &birthda
     }
     for( ; cnt > 0; cnt-- ) {
         if( type == S_ITEM ) {
-            const auto itm = create_single( birthday, rec );
-            if( itm != nullptr && !itm->is_null() ) {
-                result.push_back( itm );
+            detached_ptr<item> itm = create_single( birthday, rec );
+            if( itm && !itm->is_null() ) {
+                result.push_back( std::move( itm ) );
             }
         } else {
             if( std::find( rec.begin(), rec.end(), id ) != rec.end() ) {
@@ -111,14 +112,15 @@ Item_spawn_data::ItemList Single_item_creator::create( const time_point &birthda
                 debugmsg( "unknown item spawn list %s", id.c_str() );
                 return result;
             }
-            ItemList tmplist = isd->create( birthday, rec );
+            std::vector<detached_ptr<item>> tmplist = isd->create( birthday, rec );
             rec.erase( rec.end() - 1 );
             if( modifier ) {
                 for( auto &elem : tmplist ) {
-                    elem = modifier->modify( elem );
+                    elem = modifier->modify( std::move( elem ) );
                 }
             }
-            result.insert( result.end(), tmplist.begin(), tmplist.end() );
+            result.insert( result.end(), std::make_move_iterator( tmplist.begin() ),
+                           std::make_move_iterator( tmplist.end() ) );
         }
     }
     return result;
@@ -236,7 +238,7 @@ Item_modifier::Item_modifier()
 {
 }
 
-item *Item_modifier::modify( item *new_item ) const
+detached_ptr<item> Item_modifier::modify( detached_ptr<item> &&new_item ) const
 {
     if( new_item->is_null() ) {
         return new_item;
@@ -259,14 +261,14 @@ item *Item_modifier::modify( item *new_item ) const
 
     // create container here from modifier or from default to get max charges later
     //TODO!: check all this function
-    item *cont = nullptr;
+    detached_ptr<item> cont;
     if( container != nullptr ) {
         cont = container->create_single( new_item->birthday() );
     }
-    if( ( cont == nullptr || cont->is_null() ) && new_item->type->default_container.has_value() ) {
+    if( ( !cont || cont->is_null() ) && new_item->type->default_container.has_value() ) {
         const itype_id &cont_value = new_item->type->default_container.value_or( "null" );
         if( !cont_value.is_null() ) {
-            cont = item_spawn( cont_value, new_item->birthday() );
+            cont = item::spawn( cont_value, new_item->birthday() );
         }
     }
 
@@ -333,9 +335,8 @@ item *Item_modifier::modify( item *new_item ) const
             }
         } else {
             //TODO!: push up somehow, this is an awkward one
-            item *am = ammo->create_single( new_item->birthday() );
+            detached_ptr<item> am = ammo->create_single( new_item->birthday() );
             new_item->ammo_set( am->typeId(), ch );
-            am->destroy();
         }
         // Make sure the item is in valid state
         if( new_item->ammo_data() && new_item->magazine_integral() ) {
@@ -352,12 +353,12 @@ item *Item_modifier::modify( item *new_item ) const
                           !new_item->magazine_current();
 
         if( spawn_mag ) {
-            new_item->put_in( *item_spawn( new_item->magazine_default(), new_item->birthday() ) );
+            new_item->put_in( item::spawn( new_item->magazine_default(), new_item->birthday() ) );
         }
 
         if( spawn_ammo ) {
             if( ammo ) {
-                const item *am = ammo->create_single( new_item->birthday() );
+                detached_ptr<item> am = ammo->create_single( new_item->birthday() );
                 new_item->ammo_set( am->typeId() );
             } else {
                 new_item->ammo_set( new_item->ammo_default() );
@@ -366,14 +367,14 @@ item *Item_modifier::modify( item *new_item ) const
     }
 
     if( cont != nullptr && !cont->is_null() ) {
-        cont->put_in( *new_item );
-        new_item = cont;
+        cont->put_in( std::move( new_item ) );
+        new_item = std::move( cont );
     }
 
     if( contents != nullptr ) {
-        Item_spawn_data::ItemList contentitems = contents->create( new_item->birthday() );
-        for( item *&it : contentitems ) {
-            new_item->put_in( *it );
+        std::vector<detached_ptr<item>> contentitems = contents->create( new_item->birthday() );
+        for( detached_ptr<item> &it : contentitems ) {
+            new_item->put_in( std::move( it ) );
         }
     }
 
@@ -478,16 +479,18 @@ void Item_group::add_entry( std::unique_ptr<Item_spawn_data> ptr )
     items.push_back( std::move( ptr ) );
 }
 
-Item_spawn_data::ItemList Item_group::create( const time_point &birthday, RecursionList &rec ) const
+std::vector<detached_ptr<item>> Item_group::create( const time_point &birthday,
+                             RecursionList &rec ) const
 {
-    ItemList result;
+    std::vector<detached_ptr<item>> result;
     if( type == G_COLLECTION ) {
         for( const auto &elem : items ) {
             if( rng( 0, 99 ) >= ( elem )->probability ) {
                 continue;
             }
-            ItemList tmp = ( elem )->create( birthday, rec );
-            result.insert( result.end(), tmp.begin(), tmp.end() );
+            std::vector<detached_ptr<item>> tmp = ( elem )->create( birthday, rec );
+            result.insert( result.end(), std::make_move_iterator( tmp.begin() ),
+                           std::make_move_iterator( tmp.end() ) );
         }
     } else if( type == G_DISTRIBUTION ) {
         int p = rng( 0, sum_prob - 1 );
@@ -496,8 +499,9 @@ Item_spawn_data::ItemList Item_group::create( const time_point &birthday, Recurs
             if( p >= 0 ) {
                 continue;
             }
-            ItemList tmp = ( elem )->create( birthday, rec );
-            result.insert( result.end(), tmp.begin(), tmp.end() );
+            std::vector<detached_ptr<item>> tmp = ( elem )->create( birthday, rec );
+            result.insert( result.end(), std::make_move_iterator( tmp.begin() ),
+                           std::make_move_iterator( tmp.end() ) );
             break;
         }
     }
@@ -505,7 +509,7 @@ Item_spawn_data::ItemList Item_group::create( const time_point &birthday, Recurs
     return result;
 }
 
-item *Item_group::create_single( const time_point &birthday, RecursionList &rec ) const
+detached_ptr<item> Item_group::create_single( const time_point &birthday, RecursionList &rec ) const
 {
     if( type == G_COLLECTION ) {
         for( const auto &elem : items ) {
@@ -524,7 +528,7 @@ item *Item_group::create_single( const time_point &birthday, RecursionList &rec 
             return ( elem )->create_single( birthday, rec );
         }
     }
-    return &null_item_reference();//item( itype_id::NULL_ID(), birthday );
+    return detached_ptr<item>();
 }
 
 void Item_group::check_consistency( const std::string &context ) const
@@ -575,31 +579,32 @@ std::set<const itype *> Item_group::every_item() const
     return result;
 }
 
-item_group::ItemList item_group::items_from( const item_group_id &group_id,
-        const time_point &birthday )
+std::vector<detached_ptr<item>> item_group::items_from( const item_group_id &group_id,
+                             const time_point &birthday )
 {
     const auto group = item_controller->get_group( group_id );
     if( group == nullptr ) {
-        return ItemList();
+        return {};
     }
     return group->create( birthday );
 }
 
-item_group::ItemList item_group::items_from( const item_group_id &group_id )
+std::vector<detached_ptr<item>> item_group::items_from( const item_group_id &group_id )
 {
     return items_from( group_id, calendar::start_of_cataclysm );
 }
 
-item *item_group::item_from( const item_group_id &group_id, const time_point &birthday )
+detached_ptr<item> item_group::item_from( const item_group_id &group_id,
+        const time_point &birthday )
 {
     const auto group = item_controller->get_group( group_id );
     if( group == nullptr ) {
-        return &null_item_reference();
+        return detached_ptr<item>();
     }
     return group->create_single( birthday );
 }
 
-item *item_group::item_from( const item_group_id &group_id )
+detached_ptr<item> item_group::item_from( const item_group_id &group_id )
 {
     return item_from( group_id, calendar::start_of_cataclysm );
 }

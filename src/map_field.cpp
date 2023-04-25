@@ -537,22 +537,14 @@ void map::process_fields_in_submap( submap *const current_submap,
                     // without forcing the function to use i_at( p ) for fires without items
                     if( !is_sealed && map_tile.get_item_count() > 0 ) {
                         map_stack items_here = i_at( p );
-                        std::vector<item *> new_content;
-                        for( auto explosive = items_here.begin(); explosive != items_here.end(); ) {
-                            if( ( *explosive )->will_explode_in_fire() ) {
-                                //TODO!: check becuase this shit is predictable now
-                                // We need to make a copy because the iterator validity is not predictable
-                                item *copy = *explosive;
-                                explosive = items_here.erase( explosive );
-                                if( copy->detonate( p, new_content ) ) {
-                                    // Need to restart, iterators may not be valid
-                                    explosive = items_here.begin();
-                                }
-                                copy->destroy();
-                            } else {
-                                ++explosive;
+                        std::vector<detached_ptr<item>> new_content;
+
+                        items_here.remove_items_with( [&p, &new_content]( detached_ptr<item> &&it ) {
+                            if( it->will_explode_in_fire() ) {
+                                it = item::detonate( std::move( it ), p, new_content );
                             }
-                        }
+                            return it;
+                        } );
 
                         fire_data frd( cur.get_field_intensity(), !can_spread );
                         // The highest # of items this fire can remove in one turn
@@ -576,10 +568,9 @@ void map::process_fields_in_submap( submap *const current_submap,
                             if( destroyed ) {
                                 // If we decided the item was destroyed by fire, remove it.
                                 // But remember its contents, except for irremovable mods, if any
-                                const std::vector<item *> content_list = fuel->contents.all_items_top();
-                                for( item *it : content_list ) {
+                                for( detached_ptr<item> &it : fuel->contents.remove_all() ) {
                                     if( !it->is_irremovable() ) {
-                                        new_content.push_back( it );
+                                        new_content.push_back( std::move( it ) );
                                     }
                                 }
                                 fuel_it = items_here.erase( fuel_it );
@@ -589,7 +580,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                             }
                         }
 
-                        spawn_items( p, new_content );
+                        spawn_items( p, std::move( new_content ) );
                         time_added = 1_turns * roll_remainder( frd.fuel_produced );
                     }
 
@@ -642,8 +633,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                             if( cur.get_field_intensity() > 1 &&
                                 one_in( 200 - cur.get_field_intensity() * 50 ) ) {
                                 furn_set( p, f_ash );
-                                //TODO!: check
-                                add_item_or_charges( p, *item_spawn( "ash" ) );
+                                add_item_or_charges( p, item::spawn( "ash" ) );
                             }
 
                         }
@@ -999,7 +989,8 @@ void map::process_fields_in_submap( submap *const current_submap,
                             //TODO!: check
                             item &tmp = **pushee;
                             tmp.set_age( 0_turns );
-                            pushee = items.erase( pushee );
+                            detached_ptr<item> detached;
+                            pushee = items.erase( pushee, &detached );
                             std::vector<tripoint> valid;
                             for( const tripoint &dst : points_in_radius( p, 1 ) ) {
                                 if( get_field( dst, fd_push_items ) != nullptr ) {
@@ -1008,7 +999,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                             }
                             if( !valid.empty() ) {
                                 tripoint newp = random_entry( valid );
-                                add_item_or_charges( newp, tmp );
+                                add_item_or_charges( newp, std::move( detached ) );
                                 if( g->u.pos() == newp ) {
                                     add_msg( m_bad, _( "A %s hits you!" ), tmp.tname() );
                                     const bodypart_id hit = g->u.get_random_body_part();

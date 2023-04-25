@@ -36,7 +36,9 @@ class item_stack
         virtual iterator erase( const_iterator it, detached_ptr<item> *out = nullptr ) = 0;
         virtual iterator erase( const_iterator first, const_iterator last,
                                 std::vector<detached_ptr<item>> *out = nullptr ) = 0;
-        virtual void clear();
+        virtual std::vector<detached_ptr<item>> clear();
+
+        void remove_items_with( std::function < detached_ptr<item>( detached_ptr<item> && ) > cb );
         // Will cause a debugmsg if there is not exactly one item at the location
         item &only_item();
 

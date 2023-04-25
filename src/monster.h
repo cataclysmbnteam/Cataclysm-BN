@@ -21,6 +21,7 @@
 #include "damage.h"
 #include "effect.h"
 #include "enums.h"
+#include "location_vector.h"
 #include "optional.h"
 #include "pldata.h"
 #include "point.h"
@@ -42,6 +43,7 @@ struct trap;
 
 template<typename T>
 class detached_ptr;
+
 
 enum class mon_trigger;
 
@@ -552,30 +554,33 @@ class monster : public Creature, public location_visitable<monster>
 
         item *get_tack_item() const;
         detached_ptr<item> set_tack_item( detached_ptr<item> &&to );
+        detached_ptr<item> remove_tack_item( );
 
         item *get_tied_item() const;
         detached_ptr<item> set_tied_item( detached_ptr<item> &&to );
+        detached_ptr<item> remove_tied_item( );
 
         item *get_armor_item() const;
         detached_ptr<item> set_armor_item( detached_ptr<item> &&to );
+        detached_ptr<item> remove_armor_item( );
 
         item *get_storage_item() const;
         detached_ptr<item> set_storage_item( detached_ptr<item> &&to );
+        detached_ptr<item> remove_storage_item( );
 
         item *get_battery_item() const;
         detached_ptr<item> set_battery_item( detached_ptr<item> &&to );
+        detached_ptr<item> remove_battery_item( );
 
         void add_corpse_component( item &it );
-        std::vector<item *> &get_corpse_components();
-        const std::vector<item *> &get_corpse_components() const;
-
+        detached_ptr<item> remove_corpse_component( item &it );
         std::vector<detached_ptr<item>> remove_corpse_components();
 
     private:
         void process_trigger( mon_trigger trig, int amount );
         void process_trigger( mon_trigger trig, const std::function<int()> &amount_func );
 
-        std::vector<item *> corpse_components; // Hack to make bionic corpses generate CBMs on death
+        location_vector<item> corpse_components; // Hack to make bionic corpses generate CBMs on death
 
     private:
         int hp;

@@ -3,6 +3,7 @@
 #define CATA_SRC_LOCATION_VECTOR_H
 
 #include <vector>
+#include <memory>
 
 #include "locations.h"
 #include "detached_ptr.h"
@@ -22,28 +23,33 @@ class location_vector
         size_t size() const;
         bool empty() const;
         T *back() const;
+        T *front() const;
         const std::vector<T *> &as_vector() const;
 
-        typename std::vector<T *>::iterator erase( typename std::vector<T *>::iterator it,
+        typename std::vector<T *>::iterator erase( typename std::vector<T *>::const_iterator it,
                 detached_ptr<T> *out = nullptr );
 
         typename std::vector<T *>::iterator insert( typename std::vector<T *>::iterator it,
                 detached_ptr<T> &&obj );
 
         typename std::vector<T *>::iterator insert( typename std::vector<T *>::iterator it,
-                typename std::vector<detached_ptr<T>>::const_iterator start,
-                typename std::vector<detached_ptr<T>>::const_iterator end );
+                typename std::vector<detached_ptr<T>>::iterator start,
+                typename std::vector<detached_ptr<T>>::iterator end );
         typename std::vector<T *>::const_iterator begin() const;
         typename std::vector<T *>::const_iterator end() const;
         typename std::vector<T *>::iterator begin();
         typename std::vector<T *>::iterator end();
         typename std::vector<T *>::const_reverse_iterator rbegin() const;
         typename std::vector<T *>::const_reverse_iterator rend() const;
+        typename std::vector<T *>::const_reverse_iterator crbegin() const;
+        typename std::vector<T *>::const_reverse_iterator crend() const;
         typename std::vector<T *>::reverse_iterator rbegin();
         typename std::vector<T *>::reverse_iterator rend();
         typename std::vector<T *>::const_iterator cbegin() const;
         typename std::vector<T *>::const_iterator cend() const;
         typename std::vector<detached_ptr<T>> clear() const;
+
+        void remove_with( std::function < detached_ptr<T>( detached_ptr<T> && ) > cb );
 };
 
 

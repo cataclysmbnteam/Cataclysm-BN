@@ -580,28 +580,28 @@ void basecamp::set_name( const std::string &new_name )
 /*
  * we could put this logic in map::use_charges() the way the vehicle code does, but I think
  * that's sloppy
- * //TODO!: temporarily removed because I think it's unused. If you see this it means I forgot to delete it please just do it.
-ItemList basecamp::use_charges( const itype_id &fake_id, int &quantity )
+ */ //TODO!: temporarily removed because I think it's unused. If you see this it means I forgot to delete it please just do it.
+std::vector<detached_ptr<item>> basecamp::use_charges( const itype_id &fake_id, int &quantity )
 {
-    ItemList ret;
+    std::vector<detached_ptr<item>> ret;
     if( quantity <= 0 ) {
         return ret;
     }
     for( basecamp_resource &bcp_r : resources ) {
         if( bcp_r.fake_id == fake_id ) {
-            item &camp_item = *item_spawn( bcp_r.fake_id, calendar::start_of_cataclysm );
-            camp_item.charges = std::min( bcp_r.available, quantity );
-            quantity -= camp_item.charges;
-            bcp_r.available -= camp_item.charges;
-            bcp_r.consumed += camp_item.charges;
-            ret.push_back( &camp_item );
+            detached_ptr<item> camp_item = item::spawn( bcp_r.fake_id, calendar::start_of_cataclysm );
+            camp_item->charges = std::min( bcp_r.available, quantity );
+            quantity -= camp_item->charges;
+            bcp_r.available -= camp_item->charges;
+            bcp_r.consumed += camp_item->charges;
+            ret.push_back( std::move( camp_item ) );
             if( quantity <= 0 ) {
                 break;
             }
         }
     }
     return ret;
-}*/
+}
 
 void basecamp::form_crafting_inventory( map &target_map )
 {

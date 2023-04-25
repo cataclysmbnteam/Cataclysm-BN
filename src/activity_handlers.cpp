@@ -1267,7 +1267,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         roll = roll < 0 ? 0 : roll;
         add_msg( m_debug, _( "Roll penalty for corpse damage = %s" ), 0 - corpse_item.damage_level( 4 ) );
         std::vector<detached_ptr<item>> cbms = corpse_item.remove_components();
-        std::vector<detached_ptr<item>> contents = corpse_item.contents.remove_all();
+        std::vector<detached_ptr<item>> contents = corpse_item.contents.clear_items();
         for( detached_ptr<item> &it : contents ) {
             cbms.push_back( std::move( it ) );
         }
@@ -1517,7 +1517,8 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
                     source = here.water_from( pos );
                     charges = std::max( 1, source->charges_per_volume( volume_per_second ) );
                     source->charges = charges;
-                    cb( std::move( source ) );
+                    source = cb( std::move( source ) );
+                    return !( source && source->charges != charges );
                 case LST_VEHICLE:
                     auto vp = here.veh_at( pos );
                     if( !vp ) {
@@ -1525,15 +1526,17 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
                     }
                     item &source_it = vp->vehicle().part( act_ref.values.at( 1 ) ).get_base().contents.back();
                     charges = std::max( 1, source_it.charges_per_volume( volume_per_second ) );
+                    int orig = source_it.charges;
                     source_it.attempt_split( charges, cb );
+                    return source_it.charges == orig;
             }
         };
-
+        bool finished = true;
         // 2. Transfer charges.
         switch( static_cast<liquid_target_type>( act_ref.values.at( 2 ) ) ) {
             case LTT_VEHICLE:
                 if( const optional_vpart_position vp = here.veh_at( act_ref.coords.at( 1 ) ) ) {
-                    transfer( [&p, &vp]( detached_ptr<item> &&it ) {
+                    finished = transfer( [&p, &vp]( detached_ptr<item> &&it ) {
                         return p->pour_into( vp->vehicle(), std::move( it ) );
                     } );
                 } else {
@@ -1542,11 +1545,11 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
                 break;
             case LTT_MAP:
                 if( iexamine::has_keg( act_ref.coords.at( 1 ) ) ) {
-                    transfer( [&act_ref]( detached_ptr<item> &&it ) {
+                    finished = transfer( [&act_ref]( detached_ptr<item> &&it ) {
                         return iexamine::pour_into_keg( act_ref.coords.at( 1 ), std::move( it ) );
                     } );
                 } else {
-                    transfer( [&p, &act_ref, &here]( detached_ptr<item> &&it ) {
+                    finished = transfer( [&p, &act_ref, &here]( detached_ptr<item> &&it ) {
                         p->add_msg_if_player( _( "You pour %1$s onto the ground." ), it->tname() );
                         here.add_item_or_charges( act_ref.coords.at( 1 ), std::move( it ) );
                         return detached_ptr<item>();
@@ -1562,12 +1565,16 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
                     throw std::runtime_error( "could not find target container for liquid transfer" );
                 }
 
-                transfer( [&p, &container]( detached_ptr<item> &&it ) {
+                finished = transfer( [&p, &container]( detached_ptr<item> &&it ) {
                     return p->pour_into( *container,  std::move( it ) );
                 } );
 
                 break;
         }
+        if( finished ) {
+            act_ref.set_to_null();
+        }
+
     } catch( const std::runtime_error &err ) {
         debugmsg( "error in activity data: \"%s\"", err.what() );
         act_ref.set_to_null();

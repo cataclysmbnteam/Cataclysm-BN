@@ -651,38 +651,38 @@ static void set_components( item &of, std::vector<detached_ptr<item>> &used,
  * Helper for @ref set_item_map_or_vehicle
  * This is needed to still get a vaild item_location if overflow occurs
  */
-static item *set_item_map( const tripoint &loc, detached_ptr<item> &&newit )
+static void set_item_map( const tripoint &loc, detached_ptr<item> &&newit )
 {
     // Includes loc
     for( const tripoint &tile : closest_points_first( loc, 2 ) ) {
         // Pass false to disallow overflow, null_item_reference indicates failure.
-        item *it_on_map = &get_map().add_item_or_charges( tile, std::move( newit ), false );
-        if( it_on_map != &null_item_reference() ) {
-            return it_on_map;
+        newit = get_map().add_item_or_charges( tile, std::move( newit ), false );
+        if( !newit ) {
+            return;
         }
     }
     debugmsg( "Could not place %s on map near (%d, %d, %d)", newit->tname(), loc.x, loc.y, loc.z );
-    return nullptr;
+    return;
 }
 
 /**
  * Set an item on the map or in a vehicle and return the new location
  */
-static item *set_item_map_or_vehicle( const player &p, const tripoint &loc,
-                                      detached_ptr<item> &&newit )
+static void set_item_map_or_vehicle( const player &p, const tripoint &loc,
+                                     detached_ptr<item> &&newit )
 {
     map &here = get_map();
     if( const cata::optional<vpart_reference> vp = here.veh_at( loc ).part_with_feature( "CARGO",
             false ) ) {
 
         item &obj = *newit;
-        vp->vehicle().add_item( vp->part_index(), std::move( newit ) );
+        newit = vp->vehicle().add_item( vp->part_index(), std::move( newit ) );
         if( !newit ) {
             p.add_msg_player_or_npc(
                 pgettext( "item, furniture", "You put the %1$s on the %2$s." ),
                 pgettext( "item, furniture", "<npcname> puts the %1$s on the %2$s." ),
                 obj.tname(), vp->part().name() );
-            return &obj;
+            return;
         }
 
         // Couldn't add the in progress craft to the target part, so drop it to the map.
@@ -710,16 +710,16 @@ static item *set_item_map_or_vehicle( const player &p, const tripoint &loc,
     }
 }
 
-static item *set_item_inventory( player &p, detached_ptr<item> &&newit )
+static void set_item_inventory( player &p, detached_ptr<item> &&newit )
 {
     p.inv_assign_empty_invlet( *newit );
     // We might not have space for the item
     if( p.can_pick_volume( *newit ) &&
         p.can_pick_weight( *newit, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
-        item &item_in_inv = p.i_add( std::move( newit ) );
-        add_msg( m_info, "%c - %s", item_in_inv.invlet == 0 ? ' ' : item_in_inv.invlet,
-                 item_in_inv.tname() );
-        return &item_in_inv;
+        add_msg( m_info, "%c - %s", newit->invlet == 0 ? ' ' : newit->invlet,
+                 newit->tname() );
+        p.i_add( std::move( newit ) );
+        return;
     }
 
     return set_item_map_or_vehicle( p, p.pos(), std::move( newit ) );
@@ -753,7 +753,8 @@ item *player::start_craft( craft_command &command, const tripoint & )
 
     // Regardless of whether a workbench exists or not,
     // we still craft in inventory or under player, because QoL.
-    item *craft_in_world = set_item_inventory( *this, std::move( craft ) );
+    item *craft_in_world = &*craft;
+    set_item_inventory( *this, std::move( craft ) );
 
     assign_activity( ACT_CRAFT );
     activity->targets.push_back( craft_in_world );
@@ -1509,7 +1510,7 @@ static void empty_buckets( player &p )
         return VisitResponse::SKIP;
     }, INT_MAX );
     for( auto &it : buckets ) {
-        for( detached_ptr<item> &in : it->contents.remove_all() ) {
+        for( detached_ptr<item> &in : it->contents.clear_items() ) {
             drop_or_handle( std::move( in ), p );
         }
 

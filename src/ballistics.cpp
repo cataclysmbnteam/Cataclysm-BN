@@ -138,11 +138,11 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         }
         if( proj.has_effect( ammo_effect_ACT_ON_RANGED_HIT ) ) {
             // Don't drop if it exploded
-            do_drop = !drop_item.process( nullptr, attack.end_point, true );
+            drop = item::process( std::move( drop ), nullptr, attack.end_point, true );
         }
 
         map &here = get_map();
-        if( do_drop ) {
+        if( drop && do_drop ) {
             here.add_item_or_charges( attack.end_point, std::move( drop ) );
         }
 

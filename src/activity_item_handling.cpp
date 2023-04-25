@@ -1892,9 +1892,9 @@ static bool construction_activity( player &p, const zone_data * /*zone*/, const 
     const construction &built_chosen = act_info.con_idx->obj();
     std::vector<detached_ptr<item>> used;
     // create the partial construction struct
-    partial_con pc( src_loc );
-    pc.id = built_chosen.id;
-    pc.counter = 0;
+    std::unique_ptr<partial_con> pc = std::make_unique<partial_con>( src_loc );
+    pc->id = built_chosen.id;
+    pc->counter = 0;
     map &here = get_map();
     // Set the trap that has the examine function
     if( here.tr_at( src_loc ).loadid == tr_null ) {
@@ -1907,9 +1907,9 @@ static bool construction_activity( player &p, const zone_data * /*zone*/, const 
                      std::make_move_iterator( tmp.end() ) );
     }
     for( detached_ptr<item> &it : used ) {
-        pc.components.push_back( std::move( it ) );
+        pc->components.push_back( std::move( it ) );
     }
-    here.partial_con_set( src_loc, pc );
+    here.partial_con_set( src_loc, std::move( pc ) );
     for( const std::vector<tool_comp> &it : built_chosen.requirements->get_tools() ) {
         p.consume_tools( it );
     }

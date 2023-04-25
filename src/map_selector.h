@@ -19,7 +19,7 @@ class map_cursor : public location_visitable<map_cursor>
 
 class map_selector : public location_visitable<map_selector>
 {
-        friend visitable<map_selector>;
+        friend base_visitable<map_selector>;
 
     public:
         using value_type = map_cursor;

@@ -499,10 +499,11 @@ void normalize( Character &who )
     who.set_stamina( who.get_stamina_max() );
 }
 
-void store_in_container( Character &who, item &container, item &put, bool penalties, int base_cost )
+void store_in_container( Character &who, item &container, detached_ptr<item> &&put, bool penalties,
+                         int base_cost )
 {
-    who.moves -= who.item_store_cost( put, container, penalties, base_cost );
-    container.put_in( who.i_rem( &put ) );
+    who.moves -= who.item_store_cost( *put, container, penalties, base_cost );
+    container.put_in( std::move( put ) );
     who.reset_encumbrance();
 }
 

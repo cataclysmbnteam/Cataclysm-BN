@@ -17,12 +17,9 @@ bool item_stack::empty() const
     return items->empty();
 }
 
-void item_stack::clear()
+std::vector<detached_ptr<item>> item_stack::clear()
 {
-    // An acceptable implementation for list; would be bad for vector
-    while( !empty() ) {
-        erase( begin() );
-    }
+    return items->clear();
 }
 
 item_stack::iterator item_stack::begin()
@@ -142,9 +139,13 @@ units::volume item_stack::free_volume() const
 
 void item_stack::move_all_to( item_stack *destination )
 {
-    for( item *&it : *items ) {
-        it->remove_location();
-        destination->insert( *it );
+    for( detached_ptr<item> &it : items->clear() ) {
+        destination->insert( std::move( it ) );
     }
-    items->clear();
+}
+
+void item_stack::remove_items_with( std::function < detached_ptr<item>
+                                    ( detached_ptr<item> && ) > cb )
+{
+    items->remove_with( cb );
 }

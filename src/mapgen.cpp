@@ -1137,11 +1137,12 @@ class jmapgen_liquid_item : public jmapgen_piece
         }
         void apply( mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y ) const override {
             if( one_in( chance.get() ) ) {
-                item &newliquid = *item_spawn( liquid, calendar::start_of_cataclysm );
+                detached_ptr<item> newliquid = item::spawn( liquid, calendar::start_of_cataclysm );
                 if( amount.valmax > 0 ) {
-                    newliquid.charges = amount.get();
+                    newliquid->charges = amount.get();
                 }
-                dat.m.add_item_or_charges( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ), newliquid );
+                dat.m.add_item_or_charges( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ),
+                                           std::move( newliquid ) );
             }
         }
 };
@@ -1204,9 +1205,9 @@ class jmapgen_loot : public jmapgen_piece
         void apply( mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y ) const override {
             if( rng( 0, 99 ) < chance ) {
                 const Item_spawn_data *const isd = &result_group;
-                const std::vector<item *> spawn = isd->create( calendar::start_of_cataclysm );
+                std::vector<detached_ptr<item>> spawn = isd->create( calendar::start_of_cataclysm );
                 dat.m.spawn_items( tripoint( rng( x.val, x.valmax ), rng( y.val, y.valmax ),
-                                             dat.m.get_abs_sub().z ), spawn );
+                                             dat.m.get_abs_sub().z ), std::move( spawn ) );
             }
         }
 
@@ -4184,10 +4185,10 @@ void map::draw_lab( mapgendata &dat )
                             point( marker_x, marker_y ), "mininuke", 1, 1, calendar::start_of_cataclysm, rng( 2, 4 )
                         );
                     } else {
-                        item &newliquid = *item_spawn( "plut_slurry_dense", calendar::start_of_cataclysm );
-                        newliquid.charges = 1;
+                        detached_ptr<item> newliquid = item::spawn( "plut_slurry_dense", calendar::start_of_cataclysm );
+                        newliquid->charges = 1;
                         add_item_or_charges( tripoint( marker_x, marker_y, get_abs_sub().z ),
-                                             newliquid );
+                                             std::move( newliquid ) );
                     }
                     break;
                 }
@@ -5476,10 +5477,10 @@ void map::place_spawns( const mongroup_id &group, const int chance,
 
 void map::place_gas_pump( point p, int charges, const std::string &fuel_type )
 {
-    item &fuel = *item_spawn( fuel_type, calendar::start_of_cataclysm );
-    fuel.charges = charges;
-    add_item( p, fuel );
-    ter_set( p, ter_id( fuel.fuel_pump_terrain() ) );
+    detached_ptr<item> fuel = item::spawn( fuel_type, calendar::start_of_cataclysm );
+    fuel->charges = charges;
+    ter_set( p, ter_id( fuel->fuel_pump_terrain() ) );
+    add_item( p, std::move( fuel ) );
 }
 
 void map::place_gas_pump( point p, int charges )
@@ -5489,9 +5490,9 @@ void map::place_gas_pump( point p, int charges )
 
 void map::place_toilet( point p, int charges )
 {
-    item &water = *item_spawn( "water", calendar::start_of_cataclysm );
-    water.charges = charges;
-    add_item( p, water );
+    detached_ptr<item> water = item::spawn( "water", calendar::start_of_cataclysm );
+    water->charges = charges;
+    add_item( p, std::move( water ) );
     furn_set( p, f_toilet );
 }
 
@@ -5595,7 +5596,7 @@ std::vector<item *> map::place_items( const item_group_id &loc, const int chance
     for( auto e : res ) {
         if( e->is_tool() || e->is_gun() || e->is_magazine() ) {
             if( rng( 0, 99 ) < magazine && !e->magazine_integral() && !e->magazine_current() ) {
-                e->put_in( *item_spawn( e->magazine_default(), e->birthday() ) );
+                e->put_in( item::spawn( e->magazine_default(), e->birthday() ) );
             }
             if( rng( 0, 99 ) < ammo && e->ammo_remaining() == 0 ) {
                 e->ammo_set( e->ammo_default(), e->ammo_capacity() );
@@ -5608,8 +5609,13 @@ std::vector<item *> map::place_items( const item_group_id &loc, const int chance
 std::vector<item *> map::put_items_from_loc( const item_group_id &loc, const tripoint &p,
         const time_point &turn )
 {
-    const auto items = item_group::items_from( loc, turn );
-    return spawn_items( p, items );
+    std::vector<detached_ptr<item>> items = item_group::items_from( loc, turn );
+    std::vector<item *> ret;
+    for( detached_ptr<item> &it : items ) {
+        ret.push_back( &*it );
+    }
+    spawn_items( p, std::move( items ) );
+    return ret;
 }
 
 void map::add_spawn( const mtype_id &type, int count, const tripoint &p, bool friendly,

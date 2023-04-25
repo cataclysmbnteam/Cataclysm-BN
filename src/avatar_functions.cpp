@@ -457,6 +457,7 @@ bool gunmod_remove( avatar &you, item &gun, item &mod )
     if( mod.typeId() == itype_brass_catcher ) {
         gun.casings_handle( [&]( detached_ptr<item> &&e ) {
             you.i_add_or_drop( std::move( e ) );
+            return detached_ptr<item>();
         } );
     }
 
@@ -635,8 +636,7 @@ bool unload_item( avatar &you, item &loc )
         }
 
         bool changed = false;
-        int count = INT_MAX; //TODO!: check how this is actually used
-        it.contents.remove_internal( [&changed, &you]( detached_ptr<item> &&contained ) {
+        it.contents.remove_items_with( [&changed, &you]( detached_ptr<item> &&contained ) {
             int old_charges = contained->charges;
             item &obj = *contained;
             contained = add_or_drop_with_msg( you, std::move( contained ), true );
@@ -644,7 +644,8 @@ bool unload_item( avatar &you, item &loc )
                 you.mod_moves( -you.item_handling_cost( obj ) );
                 changed = true;
             }
-        }, count );
+            return contained;
+        } );
 
         if( changed ) {
             it.on_contents_changed();
@@ -704,18 +705,18 @@ bool unload_item( avatar &you, item &loc )
 
     target->casings_handle( [&]( detached_ptr<item> &&e ) {
         you.i_add_or_drop( std::move( e ) );
+        return detached_ptr<item>();
     } );
 
     if( target->is_magazine() ) {
         // Calculate the time to remove the contained ammo (consuming half as much time as required to load the magazine)
         int mv = 0;
         int qty = 0;
-        int count = INT_MAX;
-        it.contents.remove_internal( [&]( detached_ptr<item> &&contained ) {
+        it.contents.remove_items_with( [&]( detached_ptr<item> &&contained ) {
             mv += you.item_reload_cost( it, *contained, contained->charges ) / 2;
             qty += contained->charges;
-            contained = add_or_drop_with_msg( you, std::move( contained ), true );
-        }, count );
+            return add_or_drop_with_msg( you, std::move( contained ), true );
+        } );
 
         // remove the belt linkage
         if( it.is_ammo_belt() ) {
@@ -734,16 +735,16 @@ bool unload_item( avatar &you, item &loc )
         }
         return true;
     } else if( item *mag = target->magazine_current() ) {
-        int count = INT_MAX; //TODO!: check this
         bool unloaded = false;
-        target->contents.remove_internal( [&]( detached_ptr<item> &&it ) {
+        target->contents.remove_items_with( [&]( detached_ptr<item> &&it ) {
             if( &*it == mag ) {
                 it = add_or_drop_with_msg( you, std::move( it ), true );
                 if( !it ) {
                     unloaded = true;
                 }
             }
-        }, count );
+            return it;
+        } );
         if( unloaded ) {
             // Eject magazine consuming half as much time as required to insert it
             you.moves -= you.item_reload_cost( *target, *mag, -1 ) / 2;

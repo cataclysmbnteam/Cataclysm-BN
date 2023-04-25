@@ -3176,18 +3176,29 @@ void monster::drop_items()
     drop_items( pos() );
 }
 
-void monster::add_corpse_component( item &it )
+void monster::add_corpse_component( detached_ptr<item> &&it )
 {
-    corpse_components.push_back( &it );
-    it.set_location( new monster_component_item_location( this ) );
+    corpse_components.push_back( std::move( it ) );
 }
 
-std::vector<item *> &monster::get_corpse_components()
+detached_ptr<item> monster::remove_corpse_component( item &it )
+{
+    for( auto iter = corpse_components.begin(); iter != end; iter++ ) {
+        if( *iter == &it ) {
+            detached_ptr<item> ret;
+            corpse_components.erase( iter, &ret );
+            return ret;
+        }
+    }
+    return detached_ptr<item>();
+}
+
+location_vector<item> &monster::get_corpse_components()
 {
     return corpse_components;
 }
 
-const std::vector<item *> &monster::get_corpse_components() const
+const location_vector<item> &monster::get_corpse_components() const
 {
     return corpse_components;
 }
