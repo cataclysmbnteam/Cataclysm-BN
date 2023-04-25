@@ -479,13 +479,18 @@ std::vector<std::pair<bionic_id, item>> find_reloadable_cbms( npc &who )
     // Runs down full list of CBMs that qualify as weapons.
     // Need a way to make this less costly.
     for( bionic bio : *who.my_bionics ) {
-        if( bio.info().has_flag( flag_BIONIC_WEAPON ) ) {
-            item cbm_fake = item( bio.info().fake_item );
-            if( static_cast<int>( bio.ammo_count ) < cbm_fake.ammo_capacity() ) {
-                cbm_fake.ammo_set( bio.ammo_loaded, bio.ammo_count );
-                cbm_list.emplace_back( std::make_pair( bio.id, cbm_fake ) );
-            }
-        };
+        if( !bio.info().has_flag( flag_BIONIC_WEAPON ) ) {
+            continue;
+        }
+        item cbm_fake = item( bio.info().fake_item );
+        // I'd hope it's not possible to be greater than but...
+        if( static_cast<int>( bio.ammo_count ) >= cbm_fake.ammo_capacity() ) {
+            continue;
+        }
+        if( bio.ammo_count > 0 ) {
+            cbm_fake.ammo_set( bio.ammo_loaded, bio.ammo_count );
+        }
+        cbm_list.emplace_back( std::make_pair( bio.id, cbm_fake ) );
     }
     return cbm_list;
 }
