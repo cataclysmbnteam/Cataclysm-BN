@@ -42,20 +42,22 @@ bool can_be_unloaded( const item &itm )
 // TODO: Add consideration for BIONIC_GUNS when their fake_items get USES_BIONIC_POWER
 int shots_remaining( const Character &who, const item &it )
 {
-    units::energy energy_drain = units::from_kilojoule( it.get_gun_ups_drain() );
+    int ammo_drain = it.ammo_required();
+    int energy_drain = it.get_gun_ups_drain();
     units::energy power = units::from_kilojoule( who.charges_of( itype_UPS ) );
-    if( it.ammo_required() > 0 && it.get_gun_ups_drain() > 0 ) {
+
+    if( ammo_drain > 0 && energy_drain > 0 ) {
         // Both UPS and ammo, lower is limiting.
-        return std::min( it.ammo_remaining(), power / energy_drain );
-    } else if( it.get_gun_ups_drain() > 0 ) {
-        return power / energy_drain;
-    } else if( it.ammo_required() > 0 ) {
+        return std::min( it.ammo_remaining(), power / units::from_kilojoule( energy_drain ) );
+    } else if( energy_drain > 0 ) {
+        //Only one of the two, it is limiting.
+        return power / units::from_kilojoule( energy_drain );
+    } else if( ammo_drain > 0 ) {
         return it.ammo_remaining();
     } else {
         // Effectively infinite ammo.
         return 10;
     }
-    return 0;
 }
 
 } // namespace item_funcs
