@@ -820,7 +820,7 @@
       "str_max": 200,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "ter_set": "t_pit_shallow",
+      "ter_set": "t_floor",
       "items": [
         { "item": "pipe", "count": [ 1, 6 ] },
         { "item": "scrap", "count": [ 1, 40 ] },
@@ -866,7 +866,7 @@
       "str_max": 200,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "ter_set": "t_pit_shallow",
+      "ter_set": "t_floor",
       "items": [ { "item": "pipe", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 1, 40 ] } ]
     }
   },
