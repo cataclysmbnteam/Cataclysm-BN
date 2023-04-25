@@ -16,7 +16,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "stock",
-    "mod_target_category": [ [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "SHOTGUNS" ], [ "XBOWS" ], [ "GRENADE_LAUNCHERS" ], [ "ROCKET_LAUNCHERS" ] ],
+    "mod_target_category": [ [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "SHOTGUNS" ], [ "M_XBOWS" ], [ "GRENADE_LAUNCHERS" ], [ "ROCKET_LAUNCHERS" ] ],
     "dispersion_modifier": -1,
     "handling_modifier": 3
   },
@@ -70,7 +70,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "stock",
-    "mod_target_category": [ [ "PISTOLS" ], [ "H_XBOWS" ], [ "XBOWS" ] ],
+    "mod_target_category": [ [ "PISTOLS" ], [ "S_XBOWS" ], [ "M_XBOWS" ] ],
     "handling_modifier": 15
   },
   {

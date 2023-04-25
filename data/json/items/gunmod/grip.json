@@ -18,8 +18,8 @@
       [ "SUBMACHINE_GUNS" ],
       [ "RIFLES" ],
       [ "SHOTGUNS" ],
-      [ "H_XBOWS" ],
-      [ "XBOWS" ],
+      [ "S_XBOWS" ],
+      [ "M_XBOWS" ],
       [ "GRENADE_LAUNCHERS" ],
       [ "ROCKET_LAUNCHERS" ]
     ],
@@ -47,8 +47,8 @@
       [ "SUBMACHINE_GUNS" ],
       [ "RIFLES" ],
       [ "BOWS" ],
-      [ "H_XBOWS" ],
-      [ "XBOWS" ],
+      [ "S_XBOWS" ],
+      [ "M_XBOWS" ],
       [ "GRENADE_LAUNCHERS" ],
       [ "ROCKET_LAUNCHERS" ]
     ],

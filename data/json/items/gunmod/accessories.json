@@ -62,7 +62,7 @@
     "symbol": ":",
     "color": "brown",
     "location": "dampening",
-    "mod_target_category": [ [ "BOWS" ], [ "H_XBOWS" ], [ "XBOWS" ] ],
+    "mod_target_category": [ [ "BOWS" ], [ "S_XBOWS" ], [ "M_XBOWS" ] ],
     "dispersion_modifier": -50,
     "loudness_modifier": -8
   },
