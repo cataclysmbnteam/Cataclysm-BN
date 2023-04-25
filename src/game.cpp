@@ -4319,7 +4319,6 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult,
                 }
             }
             tp = traj[i];
-            
             if( start_pos != targ->pos() ) {
                 map &here = get_map();
                 here.creature_on_trap( *targ );
