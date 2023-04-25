@@ -14,7 +14,7 @@
     "type": "talk_topic",
     "id": "TALK_OLD_GUARD_SOLDIER",
     "dynamic_line": {
-      "npc_has_var": "npc_necro_gave_clearance",
+      "u_has_var": "npc_necro_gave_clearance",
       "type": "dialogue",
       "context": "necropolis",
       "value": "yes",
