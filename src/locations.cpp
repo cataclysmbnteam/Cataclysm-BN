@@ -283,6 +283,11 @@ bool tile_item_location::check_for_corruption( const item *it ) const
     return true;
 }
 
+void tile_item_location::move_by( tripoint offset )
+{
+    pos += offset;
+}
+
 bool monster_item_location::is_loaded( const item * ) const
 {
     return on->is_loaded();

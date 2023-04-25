@@ -5919,16 +5919,10 @@ void map::rotate( int turns, const bool setpos_safe )
         point c;
         for( c.x = 0; c.x < SEEX; c.x++ ) {
             for( c.y = 0; c.y < SEEY; c.y++ ) {
-                for( item *&it : sm1->get_items( c ) ) {
-                    it->move_by( offset );
-                }
-            }
-        }
-        for( c.x = 0; c.x < SEEX; c.x++ ) {
-            for( c.y = 0; c.y < SEEY; c.y++ ) {
-                for( item *&it : sm2->get_items( c ) ) {
-                    it->move_by( -offset );
-                }
+                location_vector<item> &items = sm1->get_items( c );
+                items.move_by( offset );
+                location_vector<item> &items2 = sm2->get_items( c );
+                items2.move_by( -offset );
             }
         }
 

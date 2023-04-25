@@ -88,11 +88,11 @@ bool display_and_choose_opts( mission_data &mission_key, const tripoint_abs_omt 
  */
 ///Send a companion on an individual mission or attaches them to a group to depart later
 npc_ptr individual_mission( npc &p, const std::string &desc, const std::string &miss_id,
-                            bool group = false, const std::vector<item *> &equipment = {},
+                            bool group = false, const std::vector<detached_ptr<item>> &equipment = {},
                             const std::map<skill_id, int> &required_skills = {} );
 npc_ptr individual_mission( const tripoint_abs_omt &omt_pos, const std::string &role_id,
                             const std::string &desc, const std::string &miss_id,
-                            bool group = false, const std::vector<item *> &equipment = {},
+                            bool group = false, const std::vector<detached_ptr<item>> &equipment = {},
                             const std::map<skill_id, int> &required_skills = {} );
 
 ///All of these missions are associated with the ranch camp and need to me updated/merged into the new ones

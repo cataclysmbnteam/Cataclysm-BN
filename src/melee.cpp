@@ -231,20 +231,16 @@ bool Character::handle_melee_wear( item &shield, float wear_multiplier )
 
     // Dump its contents on the ground
     // Destroy irremovable mods, if any
-    std::vector<item *> to_be_destroyed;
-    for( item *mod : shield.gunmods() ) {
-        if( mod->is_irremovable() ) {
-            to_be_destroyed.push_back( mod );
+    shield.contents.remove_items_with( []( detached_ptr<item> &&mod ) {
+        if( mod->is_gunmod() && !mod->is_irremovable() ) {
+            return detached_ptr<item>();
         }
-    }
-
-    for( item *mod : to_be_destroyed ) {
-        mod->destroy();
-    }
+        return mod;
+    } );
 
     shield.contents.spill_contents( pos() );
 
-    shield.destroy();
+    shield.detach();
 
     // Breakdown fragile weapons into components
     if( shield.has_flag( "FRAGILE_MELEE" ) && !shield.get_components().empty() ) {
@@ -252,7 +248,7 @@ bool Character::handle_melee_wear( item &shield, float wear_multiplier )
                                _( "<npcname>'s %s breaks apart!" ),
                                str );
 
-        for( auto &comp : shield.get_components() ) {
+        for( detached_ptr<item> &comp : shield.remove_components() ) {
             int break_chance = comp->typeId() == weak_comp ? 2 : 8;
 
             if( one_in( break_chance ) ) {
@@ -261,9 +257,9 @@ bool Character::handle_melee_wear( item &shield, float wear_multiplier )
             }
 
             if( comp->typeId() == big_comp && !is_armed() ) {
-                wield( *comp );
+                wield( std::move( comp ) );
             } else {
-                g->m.add_item_or_charges( pos(), *comp );
+                g->m.add_item_or_charges( pos(), std::move( comp ) );
             }
         }
     } else {
@@ -1472,8 +1468,8 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
                                    _( "<npcname> disarms %s and takes their weapon!" ),
                                    p->name );
         }
-        item &it = p->remove_weapon();
-        wield( it );
+
+        wield( p->remove_weapon() );
     }
 
     if( technique.disarms && p != nullptr && p->is_armed() ) {
@@ -1550,7 +1546,7 @@ item &Character::best_shield()
     int best_value = blocking_ability( *weapon );
     // "BLOCK_WHILE_WORN" without a blocking tech need to be worn for the bonus
     best_value = best_value == 2 ? 0 : best_value;
-    item *best = best_value > 0 ? weapon : &null_item_reference();
+    item *best = best_value > 0 ? &get_weapon() : &null_item_reference();
     for( item * const &shield : worn ) {
         if( shield->has_flag( "BLOCK_WHILE_WORN" ) && blocking_ability( *shield ) >= best_value ) {
             // in case a mod adds a shield that protects only one arm, the corresponding arm needs to be working
@@ -2362,8 +2358,7 @@ void avatar_funcs::try_disarm_npc( avatar &you, npc &target )
             //~ %1$s: weapon name, %2$s: NPC name
             add_msg( _( "You forcefully take %1$s from %2$s!" ), it.tname(), target.name );
             // wield() will deduce our moves, consider to deduce more/less moves for balance
-            item &rem_it = target.i_rem( &it );
-            you.wield( rem_it );
+            you.wield( target.i_rem( &it ) );
         } else if( my_roll >= their_roll / 2 ) {
             add_msg( _( "You grab at %s and pull with all your force, but it drops nearby!" ),
                      it.tname() );

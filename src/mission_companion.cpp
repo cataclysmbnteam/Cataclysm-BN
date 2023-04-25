@@ -710,7 +710,7 @@ npc_ptr talk_function::individual_mission( npc &p, const std::string &desc,
 }
 npc_ptr talk_function::individual_mission( const tripoint_abs_omt &omt_pos,
         const std::string &role_id, const std::string &desc,
-        const std::string &miss_id, bool group, const std::vector<item *> &equipment,
+        const std::string &miss_id, bool group, const std::vector<detached_ptr<item>> &equipment,
         const std::map<skill_id, int> &required_skills )
 {
     npc_ptr comp = companion_choose( required_skills );
@@ -722,8 +722,9 @@ npc_ptr talk_function::individual_mission( const tripoint_abs_omt &omt_pos,
         comp->npc_dismount();
     }
     //Ensure we have someone to give equipment to before we lose it
-    for( auto i : equipment ) {
-        comp->companion_mission_inv.add_item( *i );
+    for( detached_ptr<item> &it : equipment ) {
+        item *i = &*it;
+        comp->companion_mission_inv.add_item( std::move( it ) );
         //comp->i_add(*i);
         if( item::count_by_charges( i->typeId() ) ) {
             g->u.use_charges( i->typeId(), i->charges );
@@ -1064,14 +1065,14 @@ void talk_function::field_plant( npc &p, const std::string &place )
     //Plant the actual seeds
     for( const tripoint &plot : bay.points_on_zlevel() ) {
         if( bay.ter( plot ) == t_dirtmound && limiting_number > 0 ) {
-            ItemList used_seed;
+            std::vector<detached_ptr<item>> used_seed;
             if( item::count_by_charges( seed_id ) ) {
                 used_seed = g->u.use_charges( seed_id, 1 );
             } else {
                 used_seed = g->u.use_amount( seed_id, 1 );
             }
             used_seed.front()->set_age( 0_turns );
-            bay.add_item_or_charges( plot, *used_seed.front() );
+            bay.add_item_or_charges( plot, std::move( used_seed.front() ) );
             bay.set( plot, t_dirt, f_plant_seed );
             limiting_number--;
         }
@@ -1104,7 +1105,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
 
             if( seed != items.end() ) {
                 const islot_seed &seed_data = *( *seed )->type->seed;
-                tmp = item_spawn_temporary( seed_data.fruit_id, calendar::turn );
+                tmp = item::spawn_temporary( seed_data.fruit_id, calendar::turn );
                 bool check = false;
                 for( const std::string &elem : plant_names ) {
                     if( elem == tmp->type_name( 3 ) ) {
@@ -1150,7 +1151,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
 
             if( seed != items.end() ) {
                 const islot_seed &seed_data = *( *seed )->type->seed;
-                tmp = item_spawn_temporary( seed_data.fruit_id, calendar::turn );
+                tmp = item::spawn_temporary( seed_data.fruit_id, calendar::turn );
                 if( tmp->typeId() == plant_types[plant_index] ) {
                     number_plots++;
                     bay.i_clear( plot );
@@ -1169,7 +1170,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
         }
     }
     bay.save();
-    tmp = item_spawn_temporary( plant_types[plant_index], calendar::turn );
+    tmp = item::spawn_temporary( plant_types[plant_index], calendar::turn );
     int money = ( number_plants * tmp->price( true ) - number_plots * 2 ) / 100;
     bool liquidate = false;
 
@@ -1193,7 +1194,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
         }
         for( int i = 0; i < number_plants; ++i ) {
             //Should be dropped at your feet once greedy companions can be controlled
-            g->u.i_add( *item_spawn( *tmp ) );
+            g->u.i_add( item::spawn( *tmp ) );
         }
         add_msg( _( "You receive %d %s…" ), number_plants, plant_names[plant_index] );
     }
@@ -1332,10 +1333,10 @@ bool talk_function::scavenging_raid_return( npc &p )
         if( one_in( 8 ) ) {
             itemlist = item_group_id( "npc_weapon_random" );
         }
-        auto result = item_group::item_from( itemlist );
-        if( !result->is_null() ) {
+        detached_ptr<item> result = item_group::item_from( itemlist );
+        if( result && !result->is_null() ) {
             popup( _( "%s returned with a %s for you!" ), comp->name, result->tname() );
-            g->u.i_add( *result );
+            g->u.i_add( std::move( result ) );
         }
     }
     companion_return( *comp );
@@ -1501,10 +1502,10 @@ bool talk_function::forage_return( npc &p )
                     debugmsg( "Invalid season" );
             }
         }
-        auto result = item_group::item_from( item_group_id( itemlist ) );
-        if( !result->is_null() ) {
+        detached_ptr<item> result = item_group::item_from( item_group_id( itemlist ) );
+        if( result && !result->is_null() ) {
             popup( _( "%s returned with a %s for you!" ), comp->name, result->tname() );
-            g->u.i_add( *result );
+            g->u.i_add( std::move( result ) );
         }
         if( one_in( 6 ) && !p.has_trait( trait_NPC_MISSION_LEV_1 ) ) {
             p.set_mutation( trait_NPC_MISSION_LEV_1 );
@@ -1757,14 +1758,9 @@ void talk_function::companion_return( npc &comp )
     comp.companion_mission_time = calendar::before_time_starts;
     comp.companion_mission_time_ret = calendar::before_time_starts;
     map &here = get_map();
-    for( size_t i = 0; i < comp.companion_mission_inv.size(); i++ ) {
-        for( const auto &it : comp.companion_mission_inv.const_stack( i ) ) {
-            if( !it->count_by_charges() || it->charges > 0 ) {
-                here.add_item_or_charges( g->u.pos(), *it );
-            }
-        }
+    for( detached_ptr<item> &it : comp.companion_mission_inv.dump_remove() ) {
+        here.add_item_or_charges( get_player_character().pos(), std::move( it );
     }
-    comp.companion_mission_inv.clear();
     comp.companion_mission_points.clear();
     // npc *may* be active, or not if outside the reality bubble
     g->reload_npcs();

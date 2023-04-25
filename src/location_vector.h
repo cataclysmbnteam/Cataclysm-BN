@@ -50,6 +50,9 @@ class location_vector
         typename std::vector<detached_ptr<T>> clear() const;
 
         void remove_with( std::function < detached_ptr<T>( detached_ptr<T> && ) > cb );
+
+
+        void move_by( tripoint offset );
 };
 
 

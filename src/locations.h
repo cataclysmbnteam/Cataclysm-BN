@@ -90,6 +90,7 @@ class tile_item_location : public item_location
         int obtain_cost( const Character &ch, int qty, const item *it ) const override;
         std::string describe( const Character *ch, const item *it ) const override;
         bool check_for_corruption( const item *it ) const override;
+        void move_by( tripoint offset );
 };
 
 class partial_con_item_location : public tile_item_location

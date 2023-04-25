@@ -334,7 +334,7 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
     //Inventory
     file << _( "Inventory:" ) << eol;
     u.inv_restack( );
-    invslice slice = u.inv_slice();
+    const_invslice slice = u.inv_const_slice();
     for( const ItemList *elem : slice ) {
         const item &next_item = *elem->front();
         file << indent << next_item.invlet << " - " <<

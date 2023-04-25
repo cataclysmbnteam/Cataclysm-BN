@@ -775,3 +775,4 @@ void basecamp_action_components::consume_components()
         map_.reset();
     }
 }
+

@@ -266,11 +266,11 @@ class basecamp
         /// generic mission start function that wraps individual mission
         npc_ptr start_mission( const std::string &miss_id, time_duration duration,
                                bool must_feed, const std::string &desc, bool group,
-                               const std::vector<item *> &equipment,
+                               const std::vector<detached_ptr<item>> &equipment,
                                const skill_id &skill_tested, int skill_level );
         npc_ptr start_mission( const std::string &miss_id, time_duration duration,
                                bool must_feed, const std::string &desc, bool group,
-                               const std::vector<item *> &equipment,
+                               const std::vector<detached_ptr<item>> &equipment,
                                const std::map<skill_id, int> &required_skills = {} );
         void start_upgrade( const std::string &bldg, point dir, const std::string &key );
         std::string om_upgrade_description( const std::string &bldg, bool trunc = false ) const;
