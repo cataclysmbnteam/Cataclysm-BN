@@ -14,7 +14,7 @@
     "symbol": ":",
     "color": "brown",
     "location": "underbarrel",
-    "mod_target_category": [ [ "RIFLES" ], [ "GRENADE_LAUNCHERS" ], [ "ROCKET_LAUNCHERS" ] ],
+    "mod_target_category": [ [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ], [ "GRENADE_LAUNCHERS" ], [ "ROCKET_LAUNCHERS" ] ],
     "handling_modifier": 40,
     "flags": [ "BIPOD", "SLOW_WIELD" ]
   },
@@ -28,6 +28,8 @@
       [ "PISTOLS" ],
       [ "SUBMACHINE_GUNS" ],
       [ "RIFLES" ],
+      [ "MACHINE_GUNS" ],
+      [ "GATLING_GUNS" ],
       [ "SHOTGUNS" ],
       [ "S_XBOWS" ],
       [ "M_XBOWS" ],
@@ -50,7 +52,7 @@
     "symbol": ":",
     "color": "light_red",
     "location": "underbarrel",
-    "mod_target_category": [ [ "RIFLES" ] ],
+    "mod_target_category": [ [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ] ],
     "gun_data": { "ammo": "shot", "skill": "shotgun", "range": 2, "dispersion": 345, "durability": 10, "clip_size": 2 },
     "flags": [ "IRREMOVABLE", "RELOAD_ONE", "RELOAD_EJECT" ]
   },
@@ -68,7 +70,7 @@
     "symbol": ":",
     "color": "light_red",
     "location": "underbarrel",
-    "mod_target_category": [ [ "RIFLES" ] ],
+    "mod_target_category": [ [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ] ],
     "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 480, "durability": 6, "clip_size": 2 },
     "flags": [ "IRREMOVABLE", "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
   },
@@ -86,7 +88,16 @@
     "symbol": ":",
     "color": "brown",
     "location": "underbarrel",
-    "mod_target_category": [ [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "SHOTGUNS" ], [ "M_XBOWS" ], [ "GRENADE_LAUNCHERS" ], [ "ROCKET_LAUNCHERS" ] ],
+    "mod_target_category": [
+      [ "SUBMACHINE_GUNS" ],
+      [ "RIFLES" ],
+      [ "MACHINE_GUNS" ],
+      [ "GATLING_GUNS" ],
+      [ "SHOTGUNS" ],
+      [ "M_XBOWS" ],
+      [ "GRENADE_LAUNCHERS" ],
+      [ "ROCKET_LAUNCHERS" ]
+    ],
     "handling_modifier": 10,
     "flags": [ "PUMP_RAIL_COMPATIBLE" ]
   },
@@ -100,6 +111,8 @@
       [ "PISTOLS" ],
       [ "SUBMACHINE_GUNS" ],
       [ "RIFLES" ],
+      [ "MACHINE_GUNS" ],
+      [ "GATLING_GUNS" ],
       [ "SHOTGUNS" ],
       [ "S_XBOWS" ],
       [ "M_XBOWS" ],
@@ -122,7 +135,7 @@
     "symbol": ":",
     "color": "light_gray",
     "location": "underbarrel",
-    "mod_target_category": [ [ "RIFLES" ], [ "SHOTGUNS" ] ],
+    "mod_target_category": [ [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ], [ "SHOTGUNS" ] ],
     "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", -18 ] ],
     "flags": [ "SLOW_WIELD", "IRREMOVABLE", "STAB" ]
@@ -247,6 +260,8 @@
       [ "PISTOLS" ],
       [ "SUBMACHINE_GUNS" ],
       [ "RIFLES" ],
+      [ "MACHINE_GUNS" ],
+      [ "GATLING_GUNS" ],
       [ "SHOTGUNS" ],
       [ "BOWS" ],
       [ "S_XBOWS" ],
@@ -295,7 +310,7 @@
     "symbol": ":",
     "color": "light_red",
     "location": "underbarrel",
-    "mod_target_category": [ [ "RIFLES" ], [ "M_XBOWS" ] ],
+    "mod_target_category": [ [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ], [ "M_XBOWS" ] ],
     "gun_data": { "ammo": "40x46mm", "skill": "launcher", "dispersion": 300, "durability": 10, "clip_size": 1 },
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
   },
@@ -305,7 +320,16 @@
     "type": "GUNMOD",
     "name": { "str": "modified M203" },
     "description": "The M203 was originally designed for use with M16 variants but today can be attached to almost any rifle.  It allows a single 40mm grenade to be loaded and fired.  This one was modified and customized to mount on pretty much any weapon other than pistols and pump-action guns, if you so want.",
-    "mod_target_category": [ [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "SHOTGUNS" ], [ "M_XBOWS" ], [ "GRENADE_LAUNCHERS" ], [ "ROCKET_LAUNCHERS" ] ]
+    "mod_target_category": [
+      [ "SUBMACHINE_GUNS" ],
+      [ "RIFLES" ],
+      [ "MACHINE_GUNS" ],
+      [ "GATLING_GUNS" ],
+      [ "SHOTGUNS" ],
+      [ "M_XBOWS" ],
+      [ "GRENADE_LAUNCHERS" ],
+      [ "ROCKET_LAUNCHERS" ]
+    ]
   },
   {
     "id": "m320_mod",
@@ -320,7 +344,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "underbarrel",
-    "mod_target_category": [ [ "RIFLES" ], [ "M_XBOWS" ] ],
+    "mod_target_category": [ [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ], [ "M_XBOWS" ] ],
     "gun_data": { "ammo": "40x46mm", "skill": "launcher", "dispersion": 270, "durability": 10, "clip_size": 1 },
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
   },
@@ -330,7 +354,16 @@
     "type": "GUNMOD",
     "name": { "str": "modified M320 GLM" },
     "description": "The M320 Grenade Launcher Module offers the functionality of larger launchers in a very small package at the cost of decreased accuracy.  It can be either attached to a rifle or combined with a buttstock for standalone use.  This one was modified and customized to mount on pretty much any weapon other than pistols and pump-action guns, if you so want.",
-    "mod_target_category": [ [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "SHOTGUNS" ], [ "M_XBOWS" ], [ "GRENADE_LAUNCHERS" ], [ "ROCKET_LAUNCHERS" ] ]
+    "mod_target_category": [
+      [ "SUBMACHINE_GUNS" ],
+      [ "RIFLES" ],
+      [ "MACHINE_GUNS" ],
+      [ "GATLING_GUNS" ],
+      [ "SHOTGUNS" ],
+      [ "M_XBOWS" ],
+      [ "GRENADE_LAUNCHERS" ],
+      [ "ROCKET_LAUNCHERS" ]
+    ]
   },
   {
     "id": "M6_shotgun",
@@ -344,7 +377,7 @@
     "symbol": ":",
     "color": "light_red",
     "location": "underbarrel",
-    "mod_target_category": [ [ "RIFLES" ] ],
+    "mod_target_category": [ [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ] ],
     "gun_data": { "ammo": "shot", "skill": "shotgun", "range": 1, "dispersion": 320, "durability": 10, "clip_size": 1 },
     "flags": [ "RELOAD_EJECT" ]
   },
@@ -356,7 +389,16 @@
     "description": "A makeshift version of a bayonet that consists of a mere spike with some string.",
     "gunmod_data": {
       "location": "underbarrel",
-      "mod_target_category": [ [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "SHOTGUNS" ], [ "M_XBOWS" ], [ "GRENADE_LAUNCHERS" ], [ "ROCKET_LAUNCHERS" ] ],
+      "mod_target_category": [
+        [ "SUBMACHINE_GUNS" ],
+        [ "RIFLES" ],
+        [ "MACHINE_GUNS" ],
+        [ "GATLING_GUNS" ],
+        [ "SHOTGUNS" ],
+        [ "M_XBOWS" ],
+        [ "GRENADE_LAUNCHERS" ],
+        [ "ROCKET_LAUNCHERS" ]
+      ],
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
     },
     "extend": { "flags": [ "PUMP_RAIL_COMPATIBLE" ] }
@@ -374,7 +416,7 @@
     "symbol": ":",
     "color": "light_red",
     "location": "underbarrel",
-    "mod_target_category": [ [ "RIFLES" ], [ "M_XBOWS" ] ],
+    "mod_target_category": [ [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ], [ "M_XBOWS" ] ],
     "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 330, "durability": 10, "clip_size": 4 },
     "flags": [ "RELOAD_ONE" ]
   },
@@ -384,7 +426,16 @@
     "type": "GUNMOD",
     "name": { "str": "modified masterkey shotgun" },
     "description": "A minimalist pump action shotgun, which can be mounted under the barrel of many rifles.  It allows a total of four shotgun shells to be loaded and fired.  This one was modified and customized to mount on pretty much any weapon other than pistols and pump-action guns, if you so want.",
-    "mod_target_category": [ [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "SHOTGUNS" ], [ "M_XBOWS" ], [ "GRENADE_LAUNCHERS" ], [ "ROCKET_LAUNCHERS" ] ]
+    "mod_target_category": [
+      [ "SUBMACHINE_GUNS" ],
+      [ "RIFLES" ],
+      [ "MACHINE_GUNS" ],
+      [ "GATLING_GUNS" ],
+      [ "SHOTGUNS" ],
+      [ "M_XBOWS" ],
+      [ "GRENADE_LAUNCHERS" ],
+      [ "ROCKET_LAUNCHERS" ]
+    ]
   },
   {
     "id": "pipe_launcher40mm",
@@ -399,7 +450,16 @@
     "symbol": ":",
     "color": "light_gray",
     "location": "underbarrel",
-    "mod_target_category": [ [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "SHOTGUNS" ], [ "M_XBOWS" ], [ "GRENADE_LAUNCHERS" ], [ "ROCKET_LAUNCHERS" ] ],
+    "mod_target_category": [
+      [ "SUBMACHINE_GUNS" ],
+      [ "RIFLES" ],
+      [ "MACHINE_GUNS" ],
+      [ "GATLING_GUNS" ],
+      [ "SHOTGUNS" ],
+      [ "M_XBOWS" ],
+      [ "GRENADE_LAUNCHERS" ],
+      [ "ROCKET_LAUNCHERS" ]
+    ],
     "gun_data": { "ammo": "40x46mm", "skill": "launcher", "dispersion": 450, "durability": 10, "clip_size": 1 }
   },
   {
@@ -434,7 +494,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "underbarrel",
-    "mod_target_category": [ [ "RIFLES" ], [ "M_XBOWS" ] ],
+    "mod_target_category": [ [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ], [ "M_XBOWS" ] ],
     "gun_data": { "ammo": "20x66mm", "skill": "shotgun", "dispersion": 320, "durability": 9, "reload": 125 },
     "magazine_well": "250 ml",
     "magazines": [ [ "20x66mm", [ "20x66_10_mag" ] ] ],
@@ -446,7 +506,16 @@
     "type": "GUNMOD",
     "name": { "str": "modified RM121 aux shotgun" },
     "description": "The Rivtech RM121 auxiliary weapon system is a magazine-fed semi-automatic caseless shotgun, which can be mounted under the barrel of many rifles.  Accepts RMSA10 box magazines.  This one was modified and customized to mount on pretty much any weapon other than pistols, if you so want.",
-    "mod_target_category": [ [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "SHOTGUNS" ], [ "M_XBOWS" ], [ "GRENADE_LAUNCHERS" ], [ "ROCKET_LAUNCHERS" ] ]
+    "mod_target_category": [
+      [ "SUBMACHINE_GUNS" ],
+      [ "RIFLES" ],
+      [ "MACHINE_GUNS" ],
+      [ "GATLING_GUNS" ],
+      [ "SHOTGUNS" ],
+      [ "M_XBOWS" ],
+      [ "GRENADE_LAUNCHERS" ],
+      [ "ROCKET_LAUNCHERS" ]
+    ]
   },
   {
     "id": "u_shotgun",
@@ -461,7 +530,7 @@
     "symbol": ":",
     "color": "light_red",
     "location": "underbarrel",
-    "mod_target_category": [ [ "RIFLES" ], [ "M_XBOWS" ] ],
+    "mod_target_category": [ [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ], [ "M_XBOWS" ] ],
     "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 375, "durability": 10, "clip_size": 2 },
     "flags": [ "RELOAD_ONE" ]
   },
@@ -471,6 +540,15 @@
     "type": "GUNMOD",
     "name": { "str": "modified underslung shotgun" },
     "description": "A short shotgun with 2 barrels, which can be mounted under the barrel of many rifles.  It allows two shotgun shells to be loaded and fired.  This one was modified and customized to mount on pretty much any weapon other than pistols, if you so want.",
-    "mod_target_category": [ [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "SHOTGUNS" ], [ "M_XBOWS" ], [ "GRENADE_LAUNCHERS" ], [ "ROCKET_LAUNCHERS" ] ]
+    "mod_target_category": [
+      [ "SUBMACHINE_GUNS" ],
+      [ "RIFLES" ],
+      [ "MACHINE_GUNS" ],
+      [ "GATLING_GUNS" ],
+      [ "SHOTGUNS" ],
+      [ "M_XBOWS" ],
+      [ "GRENADE_LAUNCHERS" ],
+      [ "ROCKET_LAUNCHERS" ]
+    ]
   }
 ]

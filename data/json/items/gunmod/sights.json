@@ -72,6 +72,8 @@
       [ "PISTOLS" ],
       [ "SUBMACHINE_GUNS" ],
       [ "RIFLES" ],
+      [ "MACHINE_GUNS" ],
+      [ "GATLING_GUNS" ],
       [ "SHOTGUNS" ],
       [ "S_XBOWS" ],
       [ "M_XBOWS" ],
@@ -101,6 +103,8 @@
       [ "PISTOLS" ],
       [ "SUBMACHINE_GUNS" ],
       [ "RIFLES" ],
+      [ "MACHINE_GUNS" ],
+      [ "GATLING_GUNS" ],
       [ "SHOTGUNS" ],
       [ "S_XBOWS" ],
       [ "M_XBOWS" ],
@@ -147,6 +151,8 @@
       [ "PISTOLS" ],
       [ "SUBMACHINE_GUNS" ],
       [ "RIFLES" ],
+      [ "MACHINE_GUNS" ],
+      [ "GATLING_GUNS" ],
       [ "SHOTGUNS" ],
       [ "S_XBOWS" ],
       [ "M_XBOWS" ],
@@ -171,7 +177,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "sights",
-    "mod_target_category": [ [ "RIFLES" ], [ "M_XBOWS" ], [ "GRENADE_LAUNCHERS" ], [ "ROCKET_LAUNCHERS" ] ],
+    "mod_target_category": [ [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ], [ "M_XBOWS" ], [ "GRENADE_LAUNCHERS" ], [ "ROCKET_LAUNCHERS" ] ],
     "install_time": "30 m",
     "sight_dispersion": 0,
     "aim_speed": 0,
@@ -183,7 +189,15 @@
     "type": "GUNMOD",
     "name": { "str": "modified rifle scope" },
     "description": "A 3-18x44 rifle scope.  It is adjustable for windage and elevation in 1/10th mrad increments and is remarkably small and light for its magnification.  This one was modified and customized to mount on pretty much any weapon other than pistols and SMGs, if you so want.",
-    "mod_target_category": [ [ "RIFLES" ], [ "SHOTGUNS" ], [ "M_XBOWS" ], [ "GRENADE_LAUNCHERS" ], [ "ROCKET_LAUNCHERS" ] ]
+    "mod_target_category": [
+      [ "RIFLES" ],
+      [ "MACHINE_GUNS" ],
+      [ "GATLING_GUNS" ],
+      [ "SHOTGUNS" ],
+      [ "M_XBOWS" ],
+      [ "GRENADE_LAUNCHERS" ],
+      [ "ROCKET_LAUNCHERS" ]
+    ]
   },
   {
     "id": "acog_scope",
@@ -198,7 +212,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "sights",
-    "mod_target_category": [ [ "RIFLES" ], [ "M_XBOWS" ], [ "GRENADE_LAUNCHERS" ], [ "ROCKET_LAUNCHERS" ] ],
+    "mod_target_category": [ [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ], [ "M_XBOWS" ], [ "GRENADE_LAUNCHERS" ], [ "ROCKET_LAUNCHERS" ] ],
     "install_time": "30 m",
     "sight_dispersion": 8,
     "aim_speed": 2,
@@ -210,7 +224,16 @@
     "type": "GUNMOD",
     "name": { "str": "modified ACOG scope" },
     "description": "A 4x32 TA01 Advanced Combat Optical Gunsight with a tritium illuminated crosshair.  This one was modified and customized to mount on pretty much any weapon other than pistols, if you so want.",
-    "mod_target_category": [ [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "SHOTGUNS" ], [ "M_XBOWS" ], [ "GRENADE_LAUNCHERS" ], [ "ROCKET_LAUNCHERS" ] ]
+    "mod_target_category": [
+      [ "SUBMACHINE_GUNS" ],
+      [ "RIFLES" ],
+      [ "MACHINE_GUNS" ],
+      [ "GATLING_GUNS" ],
+      [ "SHOTGUNS" ],
+      [ "M_XBOWS" ],
+      [ "GRENADE_LAUNCHERS" ],
+      [ "ROCKET_LAUNCHERS" ]
+    ]
   },
   {
     "id": "riv_scope",
@@ -238,7 +261,15 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "sights",
-    "mod_target_category": [ [ "RIFLES" ], [ "SHOTGUNS" ], [ "M_XBOWS" ], [ "GRENADE_LAUNCHERS" ], [ "ROCKET_LAUNCHERS" ] ],
+    "mod_target_category": [
+      [ "RIFLES" ],
+      [ "MACHINE_GUNS" ],
+      [ "GATLING_GUNS" ],
+      [ "SHOTGUNS" ],
+      [ "M_XBOWS" ],
+      [ "GRENADE_LAUNCHERS" ],
+      [ "ROCKET_LAUNCHERS" ]
+    ],
     "install_time": "30 m",
     "sight_dispersion": 15,
     "aim_speed": 1,

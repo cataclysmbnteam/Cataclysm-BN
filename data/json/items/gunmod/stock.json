@@ -16,7 +16,16 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "stock",
-    "mod_target_category": [ [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "SHOTGUNS" ], [ "M_XBOWS" ], [ "GRENADE_LAUNCHERS" ], [ "ROCKET_LAUNCHERS" ] ],
+    "mod_target_category": [
+      [ "SUBMACHINE_GUNS" ],
+      [ "RIFLES" ],
+      [ "MACHINE_GUNS" ],
+      [ "GATLING_GUNS" ],
+      [ "SHOTGUNS" ],
+      [ "M_XBOWS" ],
+      [ "GRENADE_LAUNCHERS" ],
+      [ "ROCKET_LAUNCHERS" ]
+    ],
     "dispersion_modifier": -1,
     "handling_modifier": 3
   },
@@ -35,7 +44,15 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "stock",
-    "mod_target_category": [ [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "SHOTGUNS" ], [ "GRENADE_LAUNCHERS" ], [ "ROCKET_LAUNCHERS" ] ],
+    "mod_target_category": [
+      [ "SUBMACHINE_GUNS" ],
+      [ "RIFLES" ],
+      [ "MACHINE_GUNS" ],
+      [ "GATLING_GUNS" ],
+      [ "SHOTGUNS" ],
+      [ "GRENADE_LAUNCHERS" ],
+      [ "ROCKET_LAUNCHERS" ]
+    ],
     "flags": [ "NEEDS_UNFOLD", "COLLAPSIBLE_STOCK" ]
   },
   {
@@ -54,7 +71,7 @@
     "color": "dark_gray",
     "location": "stock",
     "handling_modifier": 5,
-    "mod_target_category": [ [ "PISTOLS" ], [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "SHOTGUNS" ] ],
+    "mod_target_category": [ [ "PISTOLS" ], [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ], [ "SHOTGUNS" ] ],
     "flags": [ "NEEDS_UNFOLD" ]
   },
   {
@@ -90,7 +107,15 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "stock",
-    "mod_target_category": [ [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "SHOTGUNS" ], [ "GRENADE_LAUNCHERS" ], [ "ROCKET_LAUNCHERS" ] ],
+    "mod_target_category": [
+      [ "SUBMACHINE_GUNS" ],
+      [ "RIFLES" ],
+      [ "MACHINE_GUNS" ],
+      [ "GATLING_GUNS" ],
+      [ "SHOTGUNS" ],
+      [ "GRENADE_LAUNCHERS" ],
+      [ "ROCKET_LAUNCHERS" ]
+    ],
     "handling_modifier": 10
   },
   {
@@ -109,7 +134,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "stock",
-    "mod_target_category": [ [ "RIFLES" ] ],
+    "mod_target_category": [ [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ] ],
     "dispersion_modifier": -1,
     "handling_modifier": 5
   },
@@ -123,7 +148,7 @@
     "symbol": ":",
     "color": "light_gray",
     "location": "stock",
-    "mod_target_category": [ [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "SHOTGUNS" ] ],
+    "mod_target_category": [ [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ], [ "SHOTGUNS" ] ],
     "dispersion_modifier": 100,
     "weight_multiplier": 0.75,
     "handling_modifier": -15,

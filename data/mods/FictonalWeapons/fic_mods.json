@@ -49,7 +49,7 @@
     "color": "light_gray",
     "symbol": ":",
     "material": [ "steel" ],
-    "mod_target_category": [ [ "PISTOLS" ], [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "SHOTGUNS" ] ],
+    "mod_target_category": [ [ "PISTOLS" ], [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ], [ "SHOTGUNS" ] ],
     "volume": "500 ml",
     "bashing": 5,
     "handling_modifier": -5,
