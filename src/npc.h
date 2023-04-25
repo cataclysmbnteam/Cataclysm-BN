@@ -1391,9 +1391,9 @@ npc *pick_follower();
 namespace npc_ai
 {
 /** Evaluate item as weapon (melee or gun) */
-double weapon_value( const Character &who, const item &weap, int ammo = 10 );
+double weapon_value( const Character &who, const item &weap, int ammo = item::INFINITE_CHARGES );
 /** Evaluates item as a gun */
-double gun_value( const Character &who, const item &weap, int ammo = 10 );
+double gun_value( const Character &who, const item &weap, int ammo = item::INFINITE_CHARGES );
 /** Evaluate item as a melee weapon */
 double melee_value( const Character &who, const item &weap );
 /** Evaluate unarmed melee value */

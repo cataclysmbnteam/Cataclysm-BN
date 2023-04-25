@@ -48,15 +48,15 @@ int shots_remaining( const Character &who, const item &it )
 
     if( ammo_drain > 0 && energy_drain > 0 ) {
         // Both UPS and ammo, lower is limiting.
-        return std::min( it.ammo_remaining(), power / units::from_kilojoule( energy_drain ) );
+        return std::min( it.ammo_remaining() / ammo_drain, power / units::from_kilojoule( energy_drain ) );
     } else if( energy_drain > 0 ) {
         //Only one of the two, it is limiting.
         return power / units::from_kilojoule( energy_drain );
     } else if( ammo_drain > 0 ) {
-        return it.ammo_remaining();
+        return it.ammo_remaining() / ammo_drain;
     } else {
         // Effectively infinite ammo.
-        return 10;
+        return item::INFINITE_CHARGES;
     }
 }
 
