@@ -2262,7 +2262,7 @@ double npc_ai::weapon_value( const Character &who, const item &weap, int ammo )
 {
     if( who.is_wielding( weap ) ) {
         auto cached = who.get_npc_ai_info_cache( npc_ai_info::weapon_value );
-        if( cached > 0.0 ) {
+        if( cached >= 0.0 ) {
             add_msg( m_debug, "%s (%ld ammo) sum value: %.1f", weap.type->get_id().str(), ammo, *cached );
             return *cached;
         }

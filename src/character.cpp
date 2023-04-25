@@ -462,6 +462,7 @@ Character::Character() :
     drench_capacity[bp_hand_l] = 3;
     drench_capacity[bp_hand_r] = 3;
     drench_capacity[bp_torso] = 40;
+    npc_ai_info_cache.fill(-1.0);
 }
 // *INDENT-ON*
 
@@ -10588,7 +10589,7 @@ void Character::set_underwater( bool x )
 
 void Character::clear_npc_ai_info_cache( npc_ai_info key ) const
 {
-    npc_ai_info_cache[key] = 0.0;
+    npc_ai_info_cache[key] = -1.0;
 }
 
 void Character::set_npc_ai_info_cache( npc_ai_info key, double val ) const

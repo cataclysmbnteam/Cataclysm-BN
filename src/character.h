@@ -2248,7 +2248,7 @@ class Character : public Creature, public visitable<Character>
         tripoint cached_position;
         inventory cached_crafting_inventory;
 
-        mutable std::array<double, npc_ai_info::num_npc_ai_info> npc_ai_info_cache = { 0 };
+        mutable std::array<double, npc_ai_info::num_npc_ai_info> npc_ai_info_cache;
 
         safe_reference_anchor anchor;
 
