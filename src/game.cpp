@@ -4260,6 +4260,8 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult,
     }
     std::size_t force_remaining = traj.size();
     if( monster *const targ = critter_at<monster>( tp, true ) ) {
+        tripoint start_pos = targ->pos();
+
         if( stun > 0 ) {
             targ->add_effect( effect_stunned, 1_turns * stun );
             add_msg( _( "%s was stunned!" ), targ->name() );
@@ -4317,8 +4319,14 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult,
                 }
             }
             tp = traj[i];
+            if( start_pos != targ->pos() ) {
+                map &here = get_map();
+                here.creature_on_trap( *targ );
+            }
         }
     } else if( npc *const targ = critter_at<npc>( tp ) ) {
+        tripoint start_pos = targ->pos();
+
         if( stun > 0 ) {
             targ->add_effect( effect_stunned, 1_turns * stun );
             add_msg( _( "%s was stunned!" ), targ->name );
@@ -4383,8 +4391,15 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult,
             }
             targ->setpos( traj[i] );
             tp = traj[i];
+
+            if( start_pos != targ->pos() ) {
+                map &here = get_map();
+                here.creature_on_trap( *targ );
+            }
         }
     } else if( u.pos() == tp ) {
+        tripoint start_pos = u.pos();
+
         if( stun > 0 ) {
             u.add_effect( effect_stunned, 1_turns * stun );
             add_msg( m_bad, vgettext( "You were stunned for %d turn!",
@@ -4462,8 +4477,12 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult,
             } else {
                 u.setpos( traj[i] );
             }
-
             tp = traj[i];
+
+            if( start_pos != u.pos() ) {
+                map &here = get_map();
+                here.creature_on_trap( u );
+            }
         }
     }
 }
