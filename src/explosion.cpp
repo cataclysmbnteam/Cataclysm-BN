@@ -222,6 +222,15 @@ constexpr float FLING_THRESHOLD = 30.0;
 
 // See above
 constexpr float FLING_MAX_RANGE = 50.0;
+
+// Normally, items and mobs flung would fly at such high speeds that
+//   it becomes a problem to show it
+// This constant slows down the propagation of items without affecting
+//   the final distance they fly
+// Put it another way, entity movement and regular explosion have two
+//   different time scale and this constant is the scaling factor
+//   between the two
+constexpr float FLING_SLOWDOWN = 5.0;
 }; // namespace ExplosionConstants
 
 namespace explosion_handler
@@ -236,7 +245,7 @@ class ExplosionEvent
             float angle;
             float velocity;
 
-            int cur_time;
+            float cur_relative_time;
         };
         struct FieldToAdd {
             field_type_id field;
@@ -251,25 +260,25 @@ class ExplosionEvent
         tripoint position;
 
         static ExplosionEvent mob_movement( const tripoint position, Creature *mob, float angle,
-                                            float velocity, int cur_time ) {
+                                            float velocity, float cur_relative_time ) {
             return ExplosionEvent( Kind::MOB_MOVEMENT, position,
             PropelledEntity{
                 mob,
                 rl_vec2d( position.x + 0.5, position.y + 0.5 ),
                 angle,
                 velocity,
-                cur_time
+                cur_relative_time
             } );
         }
         static ExplosionEvent item_movement( const tripoint position, safe_reference<item> item,
-                                             float angle, float velocity, int cur_time ) {
+                                             float angle, float velocity, float cur_relative_time ) {
             return ExplosionEvent( Kind::ITEM_MOVEMENT, position,
             PropelledEntity{
                 item,
                 rl_vec2d( position.x + 0.5, position.y + 0.5 ),
                 angle,
                 velocity,
-                cur_time
+                cur_relative_time
             } );
         }
         static ExplosionEvent tile_blast( const tripoint position, const int distance ) {
@@ -317,7 +326,7 @@ class ExplosionProcess
         const std::optional<Creature *> emitter;
     private:
         using dist_point_pair = std::pair<float, tripoint>;
-        using time_event_pair = std::pair<int, ExplosionEvent>;
+        using time_event_pair = std::pair<float, ExplosionEvent>;
 
         std::vector<dist_point_pair> blast_map;
         std::vector<dist_point_pair> shrapnel_map;
@@ -330,8 +339,8 @@ class ExplosionProcess
         std::set<const Creature *> flung_set;
         std::vector<tripoint> recombination_targets;
 
-        const int radius_step_delay;
-        int cur_time;
+        float cur_relative_time;
+        long long last_update_ms;
         bool request_redraw;
     public:
         void run();
@@ -357,9 +366,11 @@ class ExplosionProcess
             shrapnel( proj ),
             emitter( responsible ),
             player_flung( std::nullopt ),
-            // We want to ensure the delay is at least some small value at least to make sure propagation occurs correctly
-            radius_step_delay( std::max( get_option<int>( "ANIMATION_DELAY" ), 5 ) ),
-            cur_time( 0 ),
+            cur_relative_time( 0.0 ),
+            last_update_ms(
+                std::chrono::time_point_cast<std::chrono::milliseconds>
+                ( std::chrono::system_clock::now() ).time_since_epoch().count()
+            ),
             request_redraw( false ) {}
     private:
         static bool dist_comparator( dist_point_pair a, dist_point_pair b ) {
@@ -369,13 +380,34 @@ class ExplosionProcess
             return a.first < b.first;
         };
 
+        inline void update_timings() {
+            if( !is_animated() ) {
+                // Arbitrary large number since for null delays
+                //   we just want to scroll thru events as fast as possible
+                cur_relative_time += 1e6;
+                return;
+            }
+            const int animation_delay = get_option<int>( "ANIMATION_DELAY" );
+            const auto now = std::chrono::time_point_cast<std::chrono::milliseconds>
+                             ( std::chrono::system_clock::now() ).time_since_epoch().count();
+            const long long ms_diff = now - last_update_ms;
+            // Multiplied by 10x to calibrate it such that at 10 animation delay, an explosion
+            //   of radius 10 will take exactly 1 second to fully propagate
+            const float rel_diff = static_cast<float>( ms_diff ) / ( 10.0 * animation_delay );
+            cur_relative_time += rel_diff;
+            last_update_ms = now;
+        }
+
         void fill_maps();
         void init_event_queue();
-        float generate_fling_angle( const tripoint from, const tripoint to );
-        bool is_occluded( const tripoint from, const tripoint to );
-        void add_event( const int delay, const ExplosionEvent event ) {
+        inline float generate_fling_angle( const tripoint from, const tripoint to );
+        inline bool is_occluded( const tripoint from, const tripoint to );
+        inline void add_event( const float delay, const ExplosionEvent event ) {
             assert( delay >= 0 );
-            event_queue.push( { cur_time + 1 + delay, event } );
+            event_queue.push( { cur_relative_time + delay + std::numeric_limits<float>::epsilon(), event } );
+        }
+        inline bool is_animated() {
+            return !test_mode && get_option<int>( "ANIMATION_DELAY" ) > 0;
         }
 
         bool process_next();
@@ -388,9 +420,9 @@ class ExplosionProcess
                           bool is_mob );
 
         // How long should it take for an entity to travel 1 unit of distance at `velocity`?
-        int one_tile_at_vel( float velocity ) {
+        inline float one_tile_at_vel( float velocity ) {
             assert( velocity > 0 );
-            return radius_step_delay / velocity;
+            return ExplosionConstants::FLING_SLOWDOWN / velocity;
         };
 };
 
@@ -439,26 +471,26 @@ void ExplosionProcess::init_event_queue()
     // Start with shrapnel first
     // In how many blast steps should the animation for shrapnel complete?
     const float SHRAPNEL_EQUIV = 3.0;
-    const float shrapnel_delay = shrapnel.has_value() ? radius_step_delay * SHRAPNEL_EQUIV : 0.0;
+    const float shrapnel_delay = shrapnel.has_value() ? SHRAPNEL_EQUIV : 0.0;
 
     for( const auto &[distance, position] : shrapnel_map ) {
         const float random_factor = rng_float( -0.2, 0.2 );
         const float range_percent = distance / shrapnel.value().range;
         const float timing = std::min( std::max( range_percent + random_factor, 0.0f ), 1.0f );
-        const int time_taken = static_cast<int>( SHRAPNEL_EQUIV * radius_step_delay * timing );
+        const float time_taken = SHRAPNEL_EQUIV * timing;
 
         add_event( time_taken, ExplosionEvent::tile_shrapnel( position ) );
     }
 
     // Then apply blasting
     for( const auto &[distance, position] : blast_map ) {
-        const int time_taken = static_cast<int>( shrapnel_delay + distance * radius_step_delay );
+        const float time_taken = shrapnel_delay + distance;
         // We static_cast<int> in order to keep parity with legacy blasts using rl_dist for distance
         //   which, as stated before, converts trig_dist into int implicitly
         add_event( time_taken, ExplosionEvent::tile_blast( position, static_cast<int>( distance ) ) );
     }
 };
-bool ExplosionProcess::is_occluded( const tripoint from, const tripoint to )
+inline bool ExplosionProcess::is_occluded( const tripoint from, const tripoint to )
 {
     if( from == to ) {
         return false;
@@ -487,7 +519,7 @@ bool ExplosionProcess::is_occluded( const tripoint from, const tripoint to )
     return false;
 };
 
-float ExplosionProcess::generate_fling_angle( const tripoint from, const tripoint to )
+inline float ExplosionProcess::generate_fling_angle( const tripoint from, const tripoint to )
 {
     if( from != to ) {
         // -+ 0.95 added to add a half-arc
@@ -507,20 +539,25 @@ bool ExplosionProcess::process_next()
     if( event_queue.empty() ) {
         return false;
     }
-    const int time = event_queue.top().first;
 
-    // We don't need to wait in testing mode
-    if( !test_mode ) {
-        const long int anim_delay = ( time - cur_time ) * 1000000L;
-        const timespec delay = timespec{ 0, anim_delay };
-        nanosleep( &delay, nullptr );
+    // We don't need to wait in testing mode or if there is no animation delay
+    if( is_animated() ) {
+        const float next_event_time = event_queue.top().first;
+        const double relative_time_step = static_cast<double>( next_event_time - cur_relative_time );
+        const double animation_delay = static_cast<double>( get_option<int>( "ANIMATION_DELAY" ) );
+
+        // We balance the timing in such a way
+        //   that, at 10 ANIMATION_DELAY, it will take an explosion of radius 10
+        //   exactly 1 second to propagate fully
+        const long int delay_ms = static_cast<long int>( relative_time_step * 10.0 * animation_delay );
+        if( delay_ms > 0 ) {
+            const timespec delay = timespec {0, delay_ms * 1000000L};
+            nanosleep( &delay, nullptr );
+        }
     }
+    update_timings();
 
-    // You can change this to adjust the step size
-    //   to make the animation have fewer rerenders
-    cur_time = time;
-
-    while( !event_queue.empty() && event_queue.top().first <= cur_time ) {
+    while( !event_queue.empty() && cur_relative_time >= event_queue.top().first ) {
         const auto &event = event_queue.top().second;
 
         switch( event.kind ) {
@@ -609,7 +646,7 @@ void ExplosionProcess::project_shrapnel( const tripoint position )
         }
     }
 
-    if( !test_mode ) {
+    if( is_animated() ) {
         std::vector<tripoint> buf = line_to( position, center );
         buf.resize( 2 );
         g->draw_line( position, buf );
@@ -627,194 +664,197 @@ void ExplosionProcess::blast_tile( const tripoint position, const int rl_distanc
 
     map &here = get_map();
 
-    // Item damage comes first in order to prevent dropped loot from being destroyed immediately.
-    {
-        const std::string cause = _( "force of the explosion" );
-        const int smash_force = blast_power * item_blast_percentage( blast_radius, rl_distance );
-        here.smash_trap( position, smash_force, cause );
-        here.smash_items( position, smash_force, cause, true );
-        // Don't forget to mark them as explosion smashed already
-        for( auto &item : here.i_at( position ) ) {
-            item.set_flag( "EXPLOSION_SMASHED" );
-        }
-    }
-
-    // Damage creatures. Done first to reduce the amount of flung enemies.
-    {
-        Creature *critter = g->critter_at( position );
-
-        if( critter != nullptr && !mobs_blasted.count( critter ) ) {
-            const int blast_damage = blast_power * critter_blast_percentage( critter, blast_radius,
-                                     rl_distance );
-            const auto shockwave_dmg = damage_instance::physical( blast_damage, 0, 0, 0.4f );
-
-            player *player_ptr = critter->as_player();
-            if( player_ptr != nullptr ) {
-                player_ptr->add_msg_if_player( m_bad, _( "You're caught in the explosion!" ) );
-
-                struct blastable_part {
-                    bodypart_id bp;
-                    float low_mul;
-                    float high_mul;
-                    float armor_mul;
-                };
-
-                static const std::array<blastable_part, 6> blast_parts = { {
-                        { bodypart_id( "torso" ), 0.5f, 1.0f, 0.5f },
-                        { bodypart_id( "head" ),  0.5f, 1.0f, 0.5f },
-                        { bodypart_id( "leg_l" ), 0.75f, 1.25f, 0.4f },
-                        { bodypart_id( "leg_r" ), 0.75f, 1.25f, 0.4f },
-                        { bodypart_id( "arm_l" ), 0.75f, 1.25f, 0.4f },
-                        { bodypart_id( "arm_r" ), 0.75f, 1.25f, 0.4f },
-                    }
-                };
-
-                for( const auto &blast_part : blast_parts ) {
-                    const int part_dam = rng( blast_damage * blast_part.low_mul, blast_damage * blast_part.high_mul );
-                    const std::string hit_part_name = body_part_name_accusative( blast_part.bp->token );
-                    const auto dmg_instance = damage_instance( DT_BASH, part_dam, 0, blast_part.armor_mul );
-                    const auto result = player_ptr->deal_damage( emitter.value_or( nullptr ), blast_part.bp,
-                                        dmg_instance );
-                    const int res_dmg = result.total_damage();
-
-                    if( res_dmg > 0 ) {
-                        mobs_blasted[critter] = res_dmg;
-                    }
-                }
-            } else {
-                critter->deal_damage( emitter.value_or( nullptr ), bodypart_id( "torso" ), shockwave_dmg );
-                critter->check_dead_state();
-                mobs_blasted[critter] = blast_damage;
+    if( blast_power ) {
+        // Item damage comes first in order to prevent dropped loot from being destroyed immediately.
+        {
+            const std::string cause = _( "force of the explosion" );
+            const int smash_force = blast_power * item_blast_percentage( blast_radius, rl_distance );
+            here.smash_trap( position, smash_force, cause );
+            here.smash_items( position, smash_force, cause, true );
+            // Don't forget to mark them as explosion smashed already
+            for( auto &item : here.i_at( position ) ) {
+                item.set_flag( "EXPLOSION_SMASHED" );
             }
         }
-    }
 
-    // Fling creatures
-    {
-        Creature *critter = g->critter_at( position );
-        player *player_ptr = dynamic_cast<player *>( critter );
+        // Damage creatures. Done first to reduce the amount of flung enemies.
+        {
+            Creature *critter = g->critter_at( position );
 
-        if( critter != nullptr && !flung_set.count( critter ) ) {
-            const int push_strength = ( blast_radius - rl_distance ) * blast_power;
-            const float move_power = ExplosionConstants::MOB_FLING_FACTOR * push_strength;
+            if( critter != nullptr && !mobs_blasted.count( critter ) ) {
+                const int blast_damage = blast_power * critter_blast_percentage( critter, blast_radius,
+                                         rl_distance );
+                const auto shockwave_dmg = damage_instance::physical( blast_damage, 0, 0, 0.4f );
 
-            const int weight = to_gram( critter->get_weight() );
-            const int inertia = std::max( weight, 1 ) * ExplosionConstants::EXPLOSION_CALIBRATION_POWER;
+                player *player_ptr = critter->as_player();
+                if( player_ptr != nullptr ) {
+                    player_ptr->add_msg_if_player( m_bad, _( "You're caught in the explosion!" ) );
+
+                    struct blastable_part {
+                        bodypart_id bp;
+                        float low_mul;
+                        float high_mul;
+                        float armor_mul;
+                    };
+
+                    static const std::array<blastable_part, 6> blast_parts = { {
+                            { bodypart_id( "torso" ), 0.5f, 1.0f, 0.5f },
+                            { bodypart_id( "head" ),  0.5f, 1.0f, 0.5f },
+                            { bodypart_id( "leg_l" ), 0.75f, 1.25f, 0.4f },
+                            { bodypart_id( "leg_r" ), 0.75f, 1.25f, 0.4f },
+                            { bodypart_id( "arm_l" ), 0.75f, 1.25f, 0.4f },
+                            { bodypart_id( "arm_r" ), 0.75f, 1.25f, 0.4f },
+                        }
+                    };
+
+                    for( const auto &blast_part : blast_parts ) {
+                        const int part_dam = rng( blast_damage * blast_part.low_mul, blast_damage * blast_part.high_mul );
+                        const std::string hit_part_name = body_part_name_accusative( blast_part.bp->token );
+                        const auto dmg_instance = damage_instance( DT_BASH, part_dam, 0, blast_part.armor_mul );
+                        const auto result = player_ptr->deal_damage( emitter.value_or( nullptr ), blast_part.bp,
+                                            dmg_instance );
+                        const int res_dmg = result.total_damage();
+
+                        if( res_dmg > 0 ) {
+                            mobs_blasted[critter] = res_dmg;
+                        }
+                    }
+                } else {
+                    critter->deal_damage( emitter.value_or( nullptr ), bodypart_id( "torso" ), shockwave_dmg );
+                    critter->check_dead_state();
+                    mobs_blasted[critter] = blast_damage;
+                }
+            }
+        }
+
+        // Fling creatures
+        {
+            Creature *critter = g->critter_at( position );
+
+            if( critter != nullptr && !flung_set.count( critter ) ) {
+                const int push_strength = ( blast_radius - rl_distance ) * blast_power;
+                const float move_power = ExplosionConstants::MOB_FLING_FACTOR * push_strength;
+
+                const int weight = to_gram( critter->get_weight() );
+                const int inertia = std::max( weight, 1 ) * ExplosionConstants::EXPLOSION_CALIBRATION_POWER;
+                const float real_velocity = move_power / inertia;
+                const float velocity = real_velocity > ExplosionConstants::FLING_THRESHOLD ?
+                                       rng_float( ExplosionConstants::FLING_THRESHOLD, ExplosionConstants::FLING_MAX_RANGE ) :
+                                       real_velocity;
+
+                if( velocity >= 1.0 ) {
+                    player *player_ptr = critter->as_player();
+
+                    if( player_ptr != nullptr ) {
+                        player_flung = std::make_optional( player_ptr );
+                    }
+
+                    add_event( one_tile_at_vel( velocity ),
+                               ExplosionEvent::mob_movement(
+                                   position, critter,
+                                   generate_fling_angle( center, position ), velocity, cur_relative_time
+                               )
+                             );
+                    flung_set.insert( critter );
+                }
+            }
+        }
+
+        {
+            // This reduces the randomness factor in terrain bash significantly
+            // Which makes explosions have a more well-defined shape.
+            const float offset_distance = std::max( rl_distance - 1.0, 0.0 );
+            const float terrain_random_factor = rng_float( 0.0, ExplosionConstants::BASH_RANDOM_FACTOR );
+            const float terrain_factor = std::min( std::max( offset_distance / blast_radius -
+                                                   terrain_random_factor, 0.0f ), 1.0f );
+            float terrain_blast_force = blast_power * obstacle_blast_percentage( blast_radius, rl_distance );
+
+            // Multibash is done by bashing the tile with decaying force.
+            // The reason for this existing is because a number of tiles undergo multiple bashed states
+            // Things like doors and wall -> floor -> ground.
+
+            const float blast_force_decay = ( ExplosionConstants::VEHICLE_DAMAGE_MULT - 1.0 ) *
+                                            blast_power / ExplosionConstants::MULTIBASH_COUNT;
+            assert( blast_force_decay > 0 );
+            while( terrain_blast_force > 0 ) {
+                bash_params bash{
+                    static_cast<int>( terrain_blast_force ),
+                    true,
+                    false,
+                    here.passable( position + tripoint_below ),
+                    terrain_factor,
+                    center.z > position.z,
+                    true
+                };
+                // Despite what you might expect, this is NOT the same as smash_items
+                here.bash_items( position, bash );
+                here.bash_field( position, bash );
+                here.bash_vehicle( position, bash );
+                here.bash_ter_furn( position, bash );
+                terrain_blast_force -= blast_force_decay;
+            }
+        }
+
+        {
+            // Split items here into stacks
+            std::vector<item> stacks;
+
+            for( auto &it : here.i_at( position ) ) {
+                while( true ) {
+                    const int amt = it.count();
+                    const int split_cnt = rng( 1, amt - 1 );
+                    const bool is_final = amt <= 1;
+
+                    // If the item is already propelled, ignore it
+                    if( !is_final && !it.has_flag( "EXPLOSION_PROPELLED" ) ) {
+                        stacks.push_back( it.split( split_cnt ) );
+                    } else {
+                        stacks.push_back( item( it ) );
+                        break;
+                    }
+                }
+            }
+            here.i_clear( position );
+
+            for( const auto &it : stacks ) {
+                here.add_item( position, it );
+            }
+            recombination_targets.push_back( position );
+        }
+
+        // Now give items velocity
+        for( auto &it : here.i_at( position ) ) {
+            // If the item is already propelled, ignore it
+            if( it.has_flag( "EXPLOSION_PROPELLED" ) ) {
+                continue;
+            };
+
+            const float random_factor = rng_float( -ExplosionConstants::ITEM_FLING_RANDOM_FACTOR,
+                                                   ExplosionConstants::ITEM_FLING_RANDOM_FACTOR );
+            const float push_strength = std::max( blast_radius - rl_distance + random_factor,
+                                                  0.0f ) * blast_power;
+            const float move_power = ExplosionConstants::ITEM_FLING_FACTOR * push_strength;
+
+            const int weight = to_gram( it.weight() );
+            const float inertia = std::max( weight, 1 ) * ExplosionConstants::EXPLOSION_CALIBRATION_POWER;
             const float real_velocity = move_power / inertia;
             const float velocity = real_velocity > ExplosionConstants::FLING_THRESHOLD ?
                                    rng_float( ExplosionConstants::FLING_THRESHOLD, ExplosionConstants::FLING_MAX_RANGE ) :
                                    real_velocity;
 
-            if( velocity >= 1.0 ) {
-                if( player_ptr != nullptr ) {
-                    player_flung = std::make_optional( player_ptr );
-                }
-
-                add_event( one_tile_at_vel( velocity ),
-                           ExplosionEvent::mob_movement(
-                               position, critter,
-                               generate_fling_angle( center, position ), velocity, cur_time
-                           )
-                         );
-                flung_set.insert( critter );
+            if( velocity < 1.0 ) {
+                continue;
             }
+
+            it.set_flag( "EXPLOSION_PROPELLED" );
+
+            add_event(
+                one_tile_at_vel( velocity ),
+                ExplosionEvent::item_movement(
+                    position, it.get_safe_reference(),
+                    generate_fling_angle( center, position ), velocity, cur_relative_time )
+            );
         }
-    }
-
-    {
-        // This reduces the randomness factor in terrain bash significantly
-        // Which makes explosions have a more well-defined shape.
-        const float offset_distance = std::max( rl_distance - 1.0, 0.0 );
-        const float terrain_random_factor = rng_float( 0.0, ExplosionConstants::BASH_RANDOM_FACTOR );
-        const float terrain_factor = std::min( std::max( offset_distance / blast_radius -
-                                               terrain_random_factor, 0.0f ), 1.0f );
-        float terrain_blast_force = blast_power * obstacle_blast_percentage( blast_radius, rl_distance );
-
-        // Multibash is done by bashing the tile with decaying force.
-        // The reason for this existing is because a number of tiles undergo multiple bashed states
-        // Things like doors and wall -> floor -> ground.
-
-        const float blast_force_decay = ( ExplosionConstants::VEHICLE_DAMAGE_MULT - 1.0 ) *
-                                        blast_power / ExplosionConstants::MULTIBASH_COUNT;
-        assert( blast_force_decay > 0 );
-        while( terrain_blast_force > 0 ) {
-            bash_params bash{
-                static_cast<int>( terrain_blast_force ),
-                true,
-                false,
-                here.passable( position + tripoint_below ),
-                terrain_factor,
-                center.z > position.z,
-                true
-            };
-            // Despite what you might expect, this is NOT the same as smash_items
-            here.bash_items( position, bash );
-            here.bash_field( position, bash );
-            here.bash_vehicle( position, bash );
-            here.bash_ter_furn( position, bash );
-            terrain_blast_force -= blast_force_decay;
-        }
-    }
-
-    {
-        // Split items here into stacks
-        std::vector<item> stacks;
-
-        for( auto &it : here.i_at( position ) ) {
-            while( true ) {
-                const int amt = it.count();
-                const int split_cnt = rng( 1, amt - 1 );
-                const bool is_final = amt <= 1;
-
-                // If the item is already propelled, ignore it
-                if( !is_final && !it.has_flag( "EXPLOSION_PROPELLED" ) ) {
-                    stacks.push_back( it.split( split_cnt ) );
-                } else {
-                    stacks.push_back( item( it ) );
-                    break;
-                }
-            }
-        }
-        here.i_clear( position );
-
-        for( const auto &it : stacks ) {
-            here.add_item( position, it );
-        }
-        recombination_targets.push_back( position );
-    }
-
-    // Now give items velocity
-    for( auto &it : here.i_at( position ) ) {
-        // If the item is already propelled, ignore it
-        if( it.has_flag( "EXPLOSION_PROPELLED" ) ) {
-            continue;
-        };
-
-        const float random_factor = rng_float( -ExplosionConstants::ITEM_FLING_RANDOM_FACTOR,
-                                               ExplosionConstants::ITEM_FLING_RANDOM_FACTOR );
-        const float push_strength = std::max( blast_radius - rl_distance + random_factor,
-                                              0.0f ) * blast_power;
-        const float move_power = ExplosionConstants::ITEM_FLING_FACTOR * push_strength;
-
-        const int weight = to_gram( it.weight() );
-        const float inertia = std::max( weight, 1 ) * ExplosionConstants::EXPLOSION_CALIBRATION_POWER;
-        const float real_velocity = move_power / inertia;
-        const float velocity = real_velocity > ExplosionConstants::FLING_THRESHOLD ?
-                               rng_float( ExplosionConstants::FLING_THRESHOLD, ExplosionConstants::FLING_MAX_RANGE ) :
-                               real_velocity;
-
-        if( velocity < 1.0 ) {
-            continue;
-        }
-
-        it.set_flag( "EXPLOSION_PROPELLED" );
-
-        add_event(
-            one_tile_at_vel( velocity ),
-            ExplosionEvent::item_movement(
-                position, it.get_safe_reference(),
-                generate_fling_angle( center, position ), velocity, cur_time )
-        );
     }
 
     // Finally, add fields if we can
@@ -826,8 +866,7 @@ void ExplosionProcess::blast_tile( const tripoint position, const int rl_distanc
             const float radius_offset = 2 * radius_percent - 1;
             add_event( 0, ExplosionEvent::field_addition( position, fd_smoke ) );
             if( radius_offset > 0 ) {
-                const int delay = static_cast<int>( blast_radius * radius_step_delay *
-                                                    rng_float( 0.0, 1.1 - radius_offset ) );
+                const float delay = blast_radius * rng_float( 0.0, 1.1 - radius_offset );
                 add_event( delay, ExplosionEvent::field_removal( position, fd_smoke ) );
             }
         }
@@ -835,7 +874,7 @@ void ExplosionProcess::blast_tile( const tripoint position, const int rl_distanc
         // Create fresh fire fields
         if( here.get_field( position, fd_fire ) == nullptr ) {
             add_event(
-                radius_step_delay,
+                0.5,
                 ExplosionEvent::field_addition( position, fd_fire,
                                                 1 + ( blast_power > 10 ) + ( blast_power > 30 ),
                                                 is_fiery
@@ -843,9 +882,8 @@ void ExplosionProcess::blast_tile( const tripoint position, const int rl_distanc
             );
             if( !is_fiery ) {
                 // Remove at an accelerating pace
-                const int delay = static_cast<int>( rng_float( 2.0, 4.0 ) *
-                                                    radius_step_delay * ( 1.1 - radius_percent ) );
-                add_event( delay + radius_step_delay, ExplosionEvent::field_removal( position, fd_fire ) );
+                const float delay = 1.0 + rng_float( 2.0, 4.0 ) * ( 1.1 - radius_percent );
+                add_event( delay, ExplosionEvent::field_removal( position, fd_fire ) );
             }
         }
     }
@@ -886,11 +924,9 @@ void ExplosionProcess::move_entity( const tripoint position,
     map &here = get_map();
 
 
-    const int time_delta = cur_time - datum.cur_time;
-    const float distance_to_travel = std::min(
-                                         datum.velocity * time_delta / radius_step_delay,
-                                         datum.velocity
-                                     );
+    const float time_delta = cur_relative_time - datum.cur_relative_time;
+    const float adjusted_delta = time_delta / ExplosionConstants::FLING_SLOWDOWN;
+    const float distance_to_travel = std::min( datum.velocity * adjusted_delta, datum.velocity );
 
     tripoint new_position = position;
     float new_velocity = datum.velocity;
@@ -916,6 +952,8 @@ void ExplosionProcess::move_entity( const tripoint position,
                 here.obstructed_by_vehicle_rotation( position, maybe_new_position ) ) {
                 // TODO: Bash the obstacle with whatever is flung?
 
+                // Just a 180 degree flip
+                // Too expensive to compute the proper reflection angle
                 new_angle += M_PI;
                 new_velocity = datum.velocity - cur_distance_travelled;
                 new_velocity *= ExplosionConstants::RESTITUTION_COEFF;
@@ -970,9 +1008,9 @@ void ExplosionProcess::move_entity( const tripoint position,
             one_tile_at_vel( new_velocity ),
             is_mob ?
             ExplosionEvent::mob_movement( new_position,
-                                          std::get<Creature *>( cur_target ), new_angle, new_velocity, cur_time ) :
+                                          std::get<Creature *>( cur_target ), new_angle, new_velocity, cur_relative_time ) :
             ExplosionEvent::item_movement( new_position,
-                                           std::get<safe_reference<item>>( cur_target ), new_angle, new_velocity, cur_time )
+                                           std::get<safe_reference<item>>( cur_target ), new_angle, new_velocity, cur_relative_time )
         );
     }
 };
@@ -985,7 +1023,7 @@ void ExplosionProcess::run()
     // We need to temporary disable it because
     //   larger explosions may end up filling
     //   the texture pool, causing a crash
-    bool disable_minimap = !test_mode && pixel_minimap_option;
+    bool disable_minimap = is_animated() && pixel_minimap_option;
     if( disable_minimap ) {
         g->toggle_pixel_minimap();
     }
@@ -993,11 +1031,12 @@ void ExplosionProcess::run()
     map &here = get_map();
     while( process_next() ) {
         // No need to redraw in testing mode
-        if( !test_mode && request_redraw ) {
+        if( request_redraw && is_animated() ) {
             ui_manager::redraw();
             refresh_display();
             request_redraw = false;
         }
+        update_timings();
     };
 
     // Reenable disabled options
