@@ -11,7 +11,7 @@
     "//": "It's little more than a piece of slightly shaped leather",
     "material": "leather",
     "extend": { "flags": [ "BELT_CLIP" ] },
-    "ammo": "pebble",
+    "ammo": [ "pebble", "rock" ]
     "weight": "96 g",
     "volume": "250 ml",
     "price_postapoc": 250,
@@ -35,7 +35,7 @@
     "weapon_category": [ "QUARTERSTAVES" ],
     "extend": { "flags": [ "BELTED", "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ] },
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
-    "ammo": "rock",
+    "ammo": [ "pebble", "rock" ]
     "weight": "2000 g",
     "volume": "3 L",
     "price_postapoc": 250,
