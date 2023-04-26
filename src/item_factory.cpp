@@ -341,7 +341,7 @@ void Item_factory::finalize_pre( itype &obj )
     }
 
     // Migrate compataible magazines
-    for( auto kv : obj.magazines ) {
+    for( auto &kv : obj.magazines ) {
         for( auto mag_it = kv.second.begin(); mag_it != kv.second.end(); ) {
             auto maybe_migrated = migrated_magazines.find( *mag_it );
             if( maybe_migrated != migrated_magazines.end() ) {
@@ -354,7 +354,7 @@ void Item_factory::finalize_pre( itype &obj )
     }
 
     // Migrate default magazines
-    for( auto kv : obj.magazine_default ) {
+    for( auto &kv : obj.magazine_default ) {
         auto maybe_migrated = migrated_magazines.find( kv.second );
         if( maybe_migrated != migrated_magazines.end() ) {
             kv.second = maybe_migrated->second;
@@ -481,7 +481,7 @@ void Item_factory::finalize_pre( itype &obj )
         } else if( vitamins.empty() && obj.comestible->healthy >= 0 ) {
             // Default vitamins of healthy comestibles to their edible base materials if none explicitly specified.
             auto healthy = std::max( obj.comestible->healthy, 1 ) * 10;
-            auto mat = obj.materials;
+            auto &mat = obj.materials;
 
             // TODO: migrate inedible comestibles to appropriate alternative types.
             mat.erase( std::remove_if( mat.begin(), mat.end(), []( const string_id<material_type> &m ) {
@@ -1346,13 +1346,13 @@ void Item_factory::check_definitions() const
                 }
 
                 if( type->mod != nullptr && !type->mod->ammo_modifier.empty() ) {
-                    auto acceptable_ammo = type->mod->ammo_modifier;
+                    auto &acceptable_ammo = type->mod->ammo_modifier;
                     for( const auto &pr : type->mod->magazine_adaptor ) {
                         acceptable_ammo.insert( pr.first );
                     }
-                    auto acceptable_magazines = !type->mod->magazine_adaptor.empty()
-                                                ? type->mod->magazine_adaptor
-                                                : target->magazines;
+                    auto &acceptable_magazines = !type->mod->magazine_adaptor.empty()
+                                                 ? type->mod->magazine_adaptor
+                                                 : target->magazines;
                     for( const ammotype &ammo : acceptable_ammo ) {
                         if( acceptable_magazines.find( ammo ) == acceptable_magazines.end() ) {
                             msg += string_format( "gunmod can be applied to %s, which has no magazines for ammo %s\n",
