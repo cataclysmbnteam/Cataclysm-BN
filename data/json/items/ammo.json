@@ -1093,7 +1093,7 @@
   },
   {
     "type": "AMMO",
-    "id": "sling_pebble",
+    "id": "sling_bullet_small",
     "symbol": "*",
     "color": "light_gray",
     "name": { "str": "small sling bullet" },
