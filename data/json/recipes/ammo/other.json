@@ -296,7 +296,10 @@
     "batch_time_factors": [ 50, 1 ],
     "autolearn": true,
     "charges": 10,
-    "tools": [ [ [ "brick_kiln", 10 ], [ "kiln", 10 ], [ "surface_heat", 10, "LIST" ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "tools": [
+      [ [ "brick_kiln", 10 ], [ "kiln", 10 ], [ "surface_heat", 10, "LIST" ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
+    ],
     "components": [ [ [ "lead", 500 ] ] ]
   },
   {
@@ -310,7 +313,10 @@
     "batch_time_factors": [ 50, 1 ],
     "autolearn": true,
     "charges": 50,
-    "tools": [ [ [ "brick_kiln", 10 ], [ "kiln", 10 ], [ "surface_heat", 10, "LIST" ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "tools": [
+      [ [ "brick_kiln", 10 ], [ "kiln", 10 ], [ "surface_heat", 10, "LIST" ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
+    ],
     "components": [ [ [ "lead", 500 ] ] ]
   }
 ]
