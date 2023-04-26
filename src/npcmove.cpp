@@ -181,15 +181,6 @@ const std::vector<bionic_id> health_cbms = { {
     }
 };
 
-// lightning, laser, blade, claws in order of use priority
-const std::vector<bionic_id> weapon_cbms = { {
-        bio_lightning,
-        bio_laser,
-        bio_blade,
-        bio_claws
-    }
-};
-
 const int avoidance_vehicles_radius = 5;
 
 } // namespace
@@ -1496,7 +1487,7 @@ static bool wants_to_reload_with( const item &weap, const item &ammo )
 void npc::check_or_reload_cbm()
 {
     if( get_npc_ai_info_cache( npc_ai_info::reloadable_cbms ) >= 0.0 ) {
-        add_msg( m_debug, "Cancelling cbm reload check as cache is not empty." );
+        add_msg( m_debug, "Cancelling cbm reload check as cache is not negative." );
         return;
     }
 
@@ -1523,7 +1514,7 @@ void npc::check_or_reload_cbm()
 item &npc::find_reloadable()
 {
     if( get_npc_ai_info_cache( npc_ai_info::reloadables ) >= 0.0 ) {
-        add_msg( m_debug, "Cancelling reload check as cache is not empty." );
+        add_msg( m_debug, "Cancelling reload check as cache is not negative." );
         return null_item_reference();
     }
     // Check wielded gun, non-wielded guns, mags and tools

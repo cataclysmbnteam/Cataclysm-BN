@@ -56,7 +56,6 @@
 #include "inventory.h"
 #include "item_category.h"
 #include "item_factory.h"
-#include "item_functions.h"
 #include "item_group.h"
 #include "iteminfo_query.h"
 #include "itype.h"
