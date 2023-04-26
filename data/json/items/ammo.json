@@ -1097,7 +1097,7 @@
     "symbol": "*",
     "color": "light_gray",
     "name": { "str": "small sling bullet" },
-    "description": "A small ball of lead traditionally thrown from a sling. It hits a lot harder than any old pebble.",
+    "description": "A small ball of lead traditionally thrown from a sling.  It hits a lot harder than any old pebble.",
     "material": "lead",
     "ammo_type": "pebble",
     "weight": "12 g",
