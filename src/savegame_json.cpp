@@ -1621,7 +1621,9 @@ void npc::load( const JsonObject &data )
     if( data.has_member( "cbm_weapon_index" ) ) {
         int index = 0;
         data.read( "cbm_weapon_index", index );
-        cbm_toggled = ( *my_bionics )[ index ].id;
+        if( index >= 0 ) {
+            cbm_toggled = ( *my_bionics )[ index ].id;
+        }
     }
     cbm_active = bionic_id::NULL_ID();
     data.read( "cbm_active", cbm_active );
