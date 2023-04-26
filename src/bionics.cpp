@@ -1630,7 +1630,7 @@ void Character::process_bionic( bionic &bio )
                     e->set_removed();
                 }
             }
-            if( calendar::once_every( 1_minutes ) ) {
+            if( calendar::once_every( 2_minutes ) ) {
                 std::vector<bodypart_id> damaged_hp_parts;
                 std::vector<effect *> mending_list;
 
