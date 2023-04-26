@@ -190,7 +190,7 @@
     "color": "light_red",
     "location": "rail",
     "install_time": "60 s",
-    "mod_target_category": [ [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ], [ "SHOTGUNS" ], [ "XBOWS" ] ],
+    "mod_target_category": [ [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ], [ "SHOTGUNS" ], [ "M_XBOWS" ] ],
     "gun_data": {
       "ammo": "bolt",
       "skill": "rifle",

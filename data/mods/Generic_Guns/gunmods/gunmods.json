@@ -26,7 +26,7 @@
       [ "MACHINE_GUNS" ],
       [ "GATLING_GUNS" ],
       [ "SHOTGUNS" ],
-      [ "XBOWS" ],
+      [ "M_XBOWS" ],
       [ "GRENADE_LAUNCHERS" ],
       [ "ROCKET_LAUNCHERS" ],
       [ "FLAMETHROWERS" ]
