@@ -292,15 +292,15 @@
     "subcategory": "CSC_AMMO_OTHER",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "1 h",
-    "batch_time_factors": [ 50, 1 ],
+    "time": "6 m",
+    "batch_time_factors": [ 70, 1 ],
     "autolearn": true,
-    "charges": 10,
+    "charges": 1,
     "tools": [
       [ [ "brick_kiln", 10 ], [ "kiln", 10 ], [ "surface_heat", 10, "LIST" ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
     ],
-    "components": [ [ [ "lead", 500 ] ] ]
+    "components": [ [ [ "lead", 50 ] ] ]
   },
   {
     "result": "sling_pebble",
@@ -310,13 +310,13 @@
     "skill_used": "fabrication",
     "difficulty": 3,
     "time": "1 h",
-    "batch_time_factors": [ 50, 1 ],
+    "batch_time_factors": [ 70, 1 ],
     "autolearn": true,
-    "charges": 50,
+    "charges": 6,
     "tools": [
       [ [ "brick_kiln", 10 ], [ "kiln", 10 ], [ "surface_heat", 10, "LIST" ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
     ],
-    "components": [ [ [ "lead", 500 ] ] ]
+    "components": [ [ [ "lead", 50 ] ] ]
   }
 ]
