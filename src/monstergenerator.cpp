@@ -1209,7 +1209,7 @@ void MonsterGenerator::check_monster_definitions() const
         }
         //TODO!: move temporary upwards
         if( mon.has_flag( MF_MILKABLE ) && !mon.starting_ammo.empty() &&
-            !item_spawn_temporary( mon.starting_ammo.begin()->first )->made_of( LIQUID ) ) {
+            !item::spawn_temporary( mon.starting_ammo.begin()->first )->made_of( LIQUID ) ) {
             debugmsg( "monster % is flagged milkable, but starting ammo %s is not a liquid type",
                       mon.id.c_str(), mon.starting_ammo.begin()->first.str() );
         }

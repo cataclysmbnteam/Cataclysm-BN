@@ -1234,7 +1234,7 @@ class Character : public Creature, public location_visitable<Character>
         /**
          * Sets the character's weapon.
          */
-        void set_weapon( detached_ptr<item> &&it );
+        detached_ptr<item> set_weapon( detached_ptr<item> &&it );
 
         /**
          * Returns a reference to the item which will be used to make attacks.
@@ -1674,7 +1674,8 @@ class Character : public Creature, public location_visitable<Character>
         bool has_fire( int quantity ) const;
         void use_fire( int quantity );
         void assign_stashed_activity();
-        bool check_outbounds_activity( std::unique_ptr<player_activity> &&act, bool check_only = false );
+        bool check_outbounds_activity( player_activity &act );
+        bool restore_outbounds_activity( std::unique_ptr<player_activity> &&act );
         /** Legacy activity assignment, does not work for any activites using
          * the new activity_actor class and may cause issues with resuming.
          * TODO: delete this once migration of activites to the activity_actor system is complete
@@ -1692,6 +1693,7 @@ class Character : public Creature, public location_visitable<Character>
         void cancel_activity();
         void cancel_stashed_activity();
         player_activity &get_stashed_activity() const;
+        std::unique_ptr<player_activity> remove_stashed_activity();
         void set_stashed_activity( std::unique_ptr<player_activity> &&act,
                                    std::unique_ptr<player_activity> &&act_back = std::unique_ptr<player_activity>() );
         bool has_stashed_activity() const;

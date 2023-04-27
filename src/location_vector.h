@@ -5,10 +5,13 @@
 #include <vector>
 #include <memory>
 
-#include "locations.h"
 #include "detached_ptr.h"
 
-//TODO!: probably move these to cpp
+template<typename T>
+class location;
+
+struct tripoint;
+
 template<typename T>
 class location_vector
 {

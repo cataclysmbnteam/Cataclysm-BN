@@ -399,7 +399,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
 
 bool avatar::create( character_type type, const std::string &tempname )
 {
-    set_weapon( null_item_reference() );
+    remove_weapon( );
 
     prof = profession::generic();
     g->scen = scenario::generic();
@@ -530,7 +530,7 @@ bool avatar::create( character_type type, const std::string &tempname )
         scent = 300;
     }
 
-    set_weapon( null_item_reference() );
+    remove_weapon( );
 
     // Grab the skills from the profession, if there are any
     // We want to do this before the recipes
@@ -567,35 +567,32 @@ bool avatar::create( character_type type, const std::string &tempname )
         starting_vehicle = prof->vehicle();
     }
 
-    ItemList prof_items = prof->items( male, get_mutations() );
+    std::vector<detached_ptr<item>> prof_items = prof->items( male, get_mutations() );
 
-    for( item * const &it : prof_items ) {
+    for( detached_ptr<item> &it : prof_items ) {
         if( it->has_flag( flag_WET ) ) {
             it->active = true;
             it->item_counter = 450; // Give it some time to dry off
         }
+        if( it->is_book() ) {
+            items_identified.insert( it->typeId() );
+        }
         // TODO: debugmsg if food that isn't a seed is inedible
         if( it->has_flag( "no_auto_equip" ) ) {
             it->unset_flag( "no_auto_equip" );
-            it->set_location( new character_item_location( this ) );
-            inv.push_back( *it );
+            inv.push_back( std::move( it ) );
         } else if( it->has_flag( "auto_wield" ) ) {
             it->unset_flag( "auto_wield" );
             if( !is_armed() ) {
-                wield( *it );
+                wield( std::move( it ) );
             } else {
-                it->set_location( new character_item_location( this ) );
-                inv.push_back( *it );
+                inv.push_back( std::move( it ) );
             }
         } else if( it->is_armor() ) {
             // TODO: debugmsg if wearing fails
-            wear_item( *it, false );
+            wear_item( std::move( it ), false );
         } else {
-            it->set_location( new character_item_location( this ) );
-            inv.push_back( *it );
-        }
-        if( it->is_book() ) {
-            items_identified.insert( it->typeId() );
+            inv.push_back( std::move( it ) );
         }
     }
 

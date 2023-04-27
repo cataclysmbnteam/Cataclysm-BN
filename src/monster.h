@@ -21,6 +21,8 @@
 #include "damage.h"
 #include "effect.h"
 #include "enums.h"
+#include "item.h"
+#include "location_ptr.h"
 #include "location_vector.h"
 #include "optional.h"
 #include "pldata.h"
@@ -94,10 +96,10 @@ class monster : public Creature, public location_visitable<monster>
         monster( const mtype_id &id );
         monster( const mtype_id &id, const tripoint &pos );
         monster( const monster & );
-        monster( monster && );
+        monster( monster && ) = delete;
         ~monster() override;
-        monster &operator=( const monster & );
-        monster &operator=( monster && );
+        monster &operator=( const monster & ) = delete;
+        monster &operator=( monster && ) = delete;
 
         bool is_monster() const override {
             return true;
@@ -432,12 +434,11 @@ class monster : public Creature, public location_visitable<monster>
 
         void process_items();
 
-        std::vector<item *> &get_items();
+        const std::vector<item *> &get_items() const;
         detached_ptr<item> remove_item( item *it );
-        std::vector<item *>::iterator remove_item( std::vector<item *>::iterator &it );
         std::vector<item *>::iterator remove_item( std::vector<item *>::iterator &it,
-                detached_ptr<item> &result );
-        void clear_items();
+                detached_ptr<item> *result = nullptr );
+        std::vector<detached_ptr<item>> clear_items();
         void drop_items();
         void drop_items( const tripoint &p );
 
@@ -473,7 +474,6 @@ class monster : public Creature, public location_visitable<monster>
         character_id dragged_foe_id; // id of character being dragged by the monster
         units::mass get_carried_weight();
         units::volume get_carried_volume();
-        void move_special_item_to_inv( item *it );
 
         // DEFINING VALUES
         int friendly;
@@ -572,7 +572,7 @@ class monster : public Creature, public location_visitable<monster>
         detached_ptr<item> set_battery_item( detached_ptr<item> &&to );
         detached_ptr<item> remove_battery_item( );
 
-        void add_corpse_component( item &it );
+        void add_corpse_component( detached_ptr<item> &&it );
         detached_ptr<item> remove_corpse_component( item &it );
         std::vector<detached_ptr<item>> remove_corpse_components();
 
@@ -607,12 +607,12 @@ class monster : public Creature, public location_visitable<monster>
         void nursebot_operate( player *dragged_foe );
 
     protected:
-        item *tied_item = nullptr; // item used to tie the monster
-        item *tack_item = nullptr; // item representing saddle and reins and such
-        item *armor_item = nullptr; // item of armor the monster may be wearing
-        item *storage_item = nullptr; // storage item for monster carrying items
-        item *battery_item = nullptr; // item to power mechs
-        std::vector<item *> inv; // Inventory
+        location_ptr<item, false> tied_item = nullptr; // item used to tie the monster
+        location_ptr<item, false> tack_item = nullptr; // item representing saddle and reins and such
+        location_ptr<item, false> armor_item = nullptr; // item of armor the monster may be wearing
+        location_ptr<item, false> storage_item = nullptr; // storage item for monster carrying items
+        location_ptr<item, false> battery_item = nullptr; // item to power mechs
+        location_vector<item> inv; // Inventory
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
 

@@ -9,9 +9,17 @@
 #include "handle_liquid.h"
 #include "item.h"
 #include "itype.h"
+#include "locations.h"
 #include "map.h"
 
 struct tripoint;
+
+item_contents::item_contents( item *container ) : items( new contents_item_location(
+                container ) ) {}
+/** used to aid migration */
+item_contents::item_contents( item *container,
+                              std::vector<detached_ptr<item>> &items ) : items( new contents_item_location( container ),
+                                          items ) {}
 
 bool item_contents::empty() const
 {

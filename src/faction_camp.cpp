@@ -1559,7 +1559,7 @@ bool basecamp::handle_mission( const std::string &miss_id,
 // camp faction companion mission start functions
 npc_ptr basecamp::start_mission( const std::string &miss_id, time_duration duration,
                                  bool must_feed, const std::string &desc, bool /*group*/,
-                                 const std::vector<detached_ptr<item>> &equipment,
+                                 const std::vector<item *> &equipment,
                                  const skill_id &skill_tested, int skill_level )
 {
     std::map<skill_id, int> required_skills;
@@ -1569,7 +1569,7 @@ npc_ptr basecamp::start_mission( const std::string &miss_id, time_duration durat
 
 npc_ptr basecamp::start_mission( const std::string &miss_id, time_duration duration,
                                  bool must_feed, const std::string &desc, bool /*group*/,
-                                 const std::vector<detached_ptr<item>> &equipment,
+                                 const std::vector<item *> &equipment,
                                  const std::map<skill_id, int> &required_skills )
 {
     if( must_feed && camp_food_supply() < time_to_food( duration ) ) {
@@ -2419,10 +2419,10 @@ void basecamp::start_farm_op( point dir, const tripoint_abs_omt &omt_tgt, farm_o
                 popup( _( "You have no additional seeds to give your companions…" ) );
                 return;
             }
-            std::vector<detached_ptr<item>> plant_these = give_equipment( seed_inv,
-                                         _( "Which seeds do you wish to have planted?" ) );
+            std::vector<item *> plant_these = give_equipment( seed_inv,
+                                              _( "Which seeds do you wish to have planted?" ) );
             size_t seed_cnt = 0;
-            for( detached_ptr<item> &seeds : plant_these ) {
+            for( item *&seeds : plant_these ) {
                 seed_cnt += seeds->count();
             }
             size_t plots_seeded = std::min( seed_cnt, plots_cnt );

@@ -240,19 +240,7 @@ static bool pick_one_up( pickup::pick_drop_selection &selection, bool &got_water
     item *loc = &*selection.target;
 
     const cata::optional<int> &quantity = selection.quantity;
-    item *newloc;
-    if( quantity && loc->count_by_charges() ) {
-        newloc = &( loc->split( *quantity ) );
-    } else {
-        newloc = loc;
-    }
-
-    //original item reference
-    item &it = *loc;
-    item &newit = *newloc;
-    std::vector<safe_reference<item>> &children = selection.children;
-
-    if( !newit.is_owned_by( g->u, true ) ) {
+    if( !loc->is_owned_by( g->u, true ) ) {
         // Has the player given input on if stealing is ok?
         if( u.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
             pickup::query_thief();
@@ -261,22 +249,25 @@ static bool pick_one_up( pickup::pick_drop_selection &selection, bool &got_water
             return true; // Since we are honest, return no problem before picking up
         }
     }
-    if( newit.invlet != '\0' &&
-        u.invlet_to_item( newit.invlet ) != nullptr ) {
+
+    if( newloc->invlet != '\0' &&
+        u.invlet_to_item( newloc->invlet ) != nullptr ) {
         // Existing invlet is not re-usable, remove it and let the code in player.cpp/inventory.cpp
         // add a new invlet, otherwise keep the (usable) invlet.
-        newit.invlet = '\0';
+        newloc->invlet = '\0';
     }
 
-    // Handle charges. If quantity is nullopt, we're picking up full stack.
-    if( quantity && newit.count_by_charges() ) {
-        newit.charges = *quantity;
+    detached_ptr<item> newloc;
+    if( quantity && loc->count_by_charges() ) {
+        newloc = loc->split( *quantity );
+    } else {
+        newloc = loc->detach();
     }
+
+    std::vector<safe_reference<item>> &children = selection.children;
+
     // Ammo can sometimes be picked up into containers
-    int charges_picked_to_cont = newit.charges - u.i_add_to_container( newit, false );
-    newit.charges -= charges_picked_to_cont;
-
-    const ret_val<bool> wield_check = u.can_wield( newit );
+    newloc = u.i_add_to_container( std::move( newloc ), false );
     bool did_prompt = false;
 
     units::volume children_volume = std::accumulate( children.begin(), children.end(), 0_ml,
@@ -288,35 +279,35 @@ static bool pick_one_up( pickup::pick_drop_selection &selection, bool &got_water
         return acc + c->weight();
     } );
 
-    if( newit.count_by_charges() && newit.charges == 0 ) {
+    if( !newloc || ( newloc->count_by_charges() && newloc->charges == 0 ) ) {
         // We've picked up everything into containers, skip the options part
         picked_up = true;
         option = NUM_ANSWERS;
-    } else if( newit.made_of( LIQUID ) ) {
+    } else if( newloc->made_of( LIQUID ) ) {
         got_water = true;
-    } else if( !u.can_pick_weight( newit.weight() + children_weight, false ) ) {
+    } else if( !u.can_pick_weight( newloc->weight() + children_weight, false ) ) {
         if( !autopickup ) {
             const std::string &explain = string_format( _( "The %s is too heavy!" ),
-                                         newit.display_name() );
-            option = handle_problematic_pickup( newit, offered_swap, !children.empty(), explain );
+                                         newloc->display_name() );
+            option = handle_problematic_pickup( *newloc, offered_swap, !children.empty(), explain );
             did_prompt = true;
         } else {
             option = CANCEL;
         }
-    } else if( newit.is_bucket() && !newit.is_container_empty() ) {
+    } else if( newloc->is_bucket() && !newloc->is_container_empty() ) {
         if( !autopickup ) {
             const std::string &explain = string_format( _( "Can't stash %s while it's not empty" ),
-                                         newit.display_name() );
-            option = handle_problematic_pickup( newit, offered_swap, !children.empty(), explain );
+                                         newloc->display_name() );
+            option = handle_problematic_pickup( *newloc, offered_swap, !children.empty(), explain );
             did_prompt = true;
         } else {
             option = CANCEL;
         }
-    } else if( !u.can_pick_volume( newit.volume() + children_volume ) ) {
+    } else if( !u.can_pick_volume( newloc->volume() + children_volume ) ) {
         if( !autopickup ) {
             const std::string &explain = string_format( _( "Not enough capacity to stash %s" ),
-                                         newit.display_name() );
-            option = handle_problematic_pickup( newit, offered_swap, !children.empty(), explain );
+                                         newloc->display_name() );
+            option = handle_problematic_pickup( *newloc, offered_swap, !children.empty(), explain );
             did_prompt = true;
         } else {
             option = CANCEL;
@@ -333,12 +324,11 @@ static bool pick_one_up( pickup::pick_drop_selection &selection, bool &got_water
             picked_up = false;
             break;
         case WEAR:
-            newit.detach();
             picked_up = !!u.wear_item( newit );
             break;
-        case WIELD:
+        case WIELD: {
+            const ret_val<bool> wield_check = u.can_wield( *newloc );
             if( wield_check.success() ) {
-                it.detach();
                 //using original item, possibly modifying it
                 picked_up = u.wield( it );
                 if( picked_up ) {
@@ -354,6 +344,7 @@ static bool pick_one_up( pickup::pick_drop_selection &selection, bool &got_water
                 add_msg( m_neutral, "%s", wield_check.c_str() );
             }
             break;
+        }
         case SPILL:
             if( newit.is_container_empty() ) {
                 debugmsg( "Tried to spill contents from an empty container" );

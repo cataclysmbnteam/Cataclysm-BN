@@ -745,9 +745,9 @@ class npc : public player
 
         npc();
         npc( const npc & ) = delete;
-        npc( npc && );
+        npc( npc && ) = delete;
         npc &operator=( const npc & ) = delete;
-        npc &operator=( npc && );
+        npc &operator=( npc && ) = delete;
         ~npc() override;
 
         bool is_player() const override {
@@ -896,13 +896,13 @@ class npc : public player
         void update_worst_item_value();
         int value( const item &it ) const;
         int value( const item &it, int market_price ) const;
-        bool wear_if_wanted( item &it, std::string &reason );
+        detached_ptr<item> wear_if_wanted( detached_ptr<item> &&it, std::string &reason );
         void start_read( item &it, player *pl );
         void finish_read( item *it );
         bool can_read( const item &book, std::vector<std::string> &fail_reasons );
         int time_to_read( const item &book, const player &reader ) const;
         void do_npc_read();
-        void stow_item( item &it );
+        void stow_weapon( );
         bool wield( item &it ) override;
         void wield( detached_ptr<item> &&it ) override;
         void drop( const drop_locations &what, const tripoint &target,
@@ -1368,7 +1368,7 @@ class npc_template
     public:
         npc_template() = default;
 
-        npc guy;
+        std::unique_ptr<npc> guy;
         translation name_unique;
         translation name_suffix;
         enum class gender {

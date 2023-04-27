@@ -266,11 +266,11 @@ class basecamp
         /// generic mission start function that wraps individual mission
         npc_ptr start_mission( const std::string &miss_id, time_duration duration,
                                bool must_feed, const std::string &desc, bool group,
-                               const std::vector<detached_ptr<item>> &equipment,
+                               const std::vector<item *> &equipment,
                                const skill_id &skill_tested, int skill_level );
         npc_ptr start_mission( const std::string &miss_id, time_duration duration,
                                bool must_feed, const std::string &desc, bool group,
-                               const std::vector<detached_ptr<item>> &equipment,
+                               const std::vector<item *> &equipment,
                                const std::map<skill_id, int> &required_skills = {} );
         void start_upgrade( const std::string &bldg, point dir, const std::string &key );
         std::string om_upgrade_description( const std::string &bldg, bool trunc = false ) const;
@@ -293,7 +293,8 @@ class basecamp
         void start_farm_op( point dir, const tripoint_abs_omt &omt_tgt, farm_ops op );
         ///Display items listed in @ref equipment to let the player pick what to give the departing
         ///NPC, loops until quit or empty.
-        std::vector<item *> give_equipment( std::vector<item *> equipment, const std::string &msg );
+        std::vector<item *> give_equipment( std::vector<item *> equipment,
+                                            const std::string &msg );
 
         // mission return functions
         /// called to select a companion to return to the base

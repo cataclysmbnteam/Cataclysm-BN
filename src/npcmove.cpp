@@ -723,7 +723,7 @@ void npc::move()
     regen_ai_cache();
     adjust_power_cbms();
     // NPCs under operation should just stay still
-    if( activity.id() == activity_id( "ACT_OPERATION" ) ) {
+    if( activity->id() == activity_id( "ACT_OPERATION" ) ) {
         execute_action( npc_player_activity );
         return;
     }
@@ -851,7 +851,7 @@ void npc::move()
 
     if( action == npc_undecided && attitude == NPCATT_ACTIVITY ) {
         if( has_stashed_activity() ) {
-            if( !check_outbounds_activity( get_stashed_activity(), true ) ) {
+            if( !check_outbounds_activity( get_stashed_activity() ) ) {
                 assign_stashed_activity();
             } else {
                 // wait a turn, because next turn, the object of our activity
@@ -1645,10 +1645,10 @@ bool npc::can_use_offensive_cbm() const
 
 bool npc::consume_cbm_items( const std::function<bool( const item & )> &filter )
 {
-    invslice slice = inv.slice();
+    const_invslice slice = inv.const_slice();
     int index = -1;
     for( size_t i = 0; i < slice.size(); i++ ) {
-        item *&it = slice[i]->front();
+        item *const &it = slice[i]->front();
         const item &real_item = it->is_container() ?  it->contents.front() : *it;
         if( filter( real_item ) ) {
             index = i;
@@ -2118,7 +2118,7 @@ bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) 
 bool npc::enough_time_to_reload( const item &gun ) const
 {
     //TODO!: check this temp
-    int rltime = item_reload_cost( gun, *item_spawn_temporary( gun.ammo_default() ),
+    int rltime = item_reload_cost( gun, *item::spawn_temporary( gun.ammo_default() ),
                                    gun.ammo_capacity() );
     const float turns_til_reloaded = static_cast<float>( rltime ) / get_speed();
 
@@ -3054,7 +3054,7 @@ void npc::pick_up_item()
         if( itval < worst_item_value ) {
             worst_item_value = itval;
         }
-        i_add( *it );
+        i_add( it->detach() );
     }
 
     moves -= 100;
@@ -3146,7 +3146,7 @@ void npc::drop_items( units::mass drop_weight, units::volume drop_volume, int mi
     std::vector<ratio_index> rWgt, rVol; // Weight/Volume to value ratios
 
     // First fill our ratio vectors, so we know which things to drop first
-    invslice slice = inv.slice();
+    const_invslice slice = inv.const_slice();
     for( size_t i = 0; i < slice.size(); i++ ) {
         item &it = *slice[i]->front();
         double wgt_ratio = 0.0;
@@ -3218,15 +3218,15 @@ void npc::drop_items( units::mass drop_weight, units::volume drop_volume, int mi
         }
         weight_dropped += slice[index]->front()->weight();
         volume_dropped += slice[index]->front()->volume();
-        item &dropped = i_rem( index );
+        detached_ptr<item> dropped = i_rem( index );
         num_items_dropped++;
         if( num_items_dropped == 1 ) {
-            item_name += dropped.tname();
+            item_name += dropped->tname();
         } else if( num_items_dropped == 2 ) {
-            item_name += _( " and " ) + dropped.tname();
+            item_name += _( " and " ) + dropped->tname();
         }
         if( !is_hallucination() ) { // hallucinations can't drop real items
-            here.add_item_or_charges( pos(), dropped );
+            here.add_item_or_charges( pos(), std::move( dropped ) );
         }
     }
     // Finally, describe the action if u can see it
@@ -3334,20 +3334,20 @@ bool npc::do_pulp()
     // TODO: Don't recreate the activity every time
     int old_moves = moves;
     assign_activity( ACT_PULP, calendar::INDEFINITELY_LONG, 0 );
-    activity.placement = get_map().getabs( *pulp_location );
-    activity.do_turn( *this );
+    activity->placement = get_map().getabs( *pulp_location );
+    activity->do_turn( *this );
     return moves != old_moves;
 }
 
 bool npc::do_player_activity()
 {
     int old_moves = moves;
-    if( moves > 200 && activity && ( activity.is_multi_type() ||
-                                     activity.id() == activity_id( "ACT_TIDY_UP" ) ) ) {
+    if( moves > 200 && activity && ( activity->is_multi_type() ||
+                                     activity->id() == activity_id( "ACT_TIDY_UP" ) ) ) {
         // a huge backlog of a multi-activity type can forever loop
         // instead; just scan the map ONCE for a task to do, and if it returns false
         // then stop scanning, abandon the activity, and kill the backlog of moves.
-        if( !generic_multi_activity_handler( activity, *this->as_player(), true ) ) {
+        if( !generic_multi_activity_handler( *activity, *this->as_player(), true ) ) {
             revert_after_activity();
             set_moves( 0 );
             return true;
@@ -3360,10 +3360,10 @@ bool npc::do_player_activity()
     // ( even if other move-using things occur inbetween )
     // so here - if no moves are used in a multi-type activity do_turn(), then subtract a nominal amount
     // to satisfy the infinite loop counter.
-    const bool multi_type = activity ? activity.is_multi_type() : false;
+    const bool multi_type = activity ? activity->is_multi_type() : false;
     const int moves_before = moves;
-    while( moves > 0 && activity ) {
-        activity.do_turn( *this );
+    while( moves > 0 && activity && *activity ) {
+        activity->do_turn( *this );
         if( !is_active() ) {
             return true;
         }
@@ -3372,11 +3372,11 @@ bool npc::do_player_activity()
         moves -= 1;
     }
     /* if the activity is finished, grab any backlog or change the mission */
-    if( !has_destination() && !activity ) {
+    if( !has_destination() && ( !activity || !*activity ) ) {
         if( !backlog.empty() ) {
-            activity = backlog.front();
+            activity = std::move( backlog.front() );
             backlog.pop_front();
-            current_activity_id = activity.id();
+            current_activity_id = activity->id();
         } else {
             if( is_player_ally() ) {
                 add_msg( m_info, string_format( "%s completed the assigned task.", disp_name() ) );
@@ -3396,7 +3396,7 @@ bool npc::wield_better_weapon()
     // TODO: Allow wielding weaker weapons against weaker targets
     bool can_use_gun = ( !is_player_ally() || rules.has_flag( ally_rule::use_guns ) );
     bool use_silent = ( is_player_ally() && rules.has_flag( ally_rule::use_silent ) );
-    invslice slice = inv.slice();
+    const_invslice slice = inv.const_slice();
 
     // Check if there's something better to wield
     item *best = &get_weapon();
@@ -3549,7 +3549,7 @@ bool npc::alt_attack()
     };
 
     check_alt_item( get_weapon() );
-    for( auto &sl : inv.slice() ) {
+    for( auto &sl : inv.const_slice() ) {
         // TODO: Cached values - an itype slot maybe?
         check_alt_item( *sl->front() );
     }
@@ -3878,7 +3878,7 @@ bool npc::consume_food()
     int index = -1;
     int want_hunger = std::max<int>( 0, ( max_stored_kcal() - get_stored_kcal() ) / 10 );
     int want_quench = std::max( 0, get_thirst() );
-    invslice slice = inv.slice();
+    const_invslice slice = inv.const_slice();
     for( size_t i = 0; i < slice.size(); i++ ) {
         const item &it = *slice[i]->front();
         if( const item *food_item = it.get_food() ) {
@@ -3956,8 +3956,8 @@ void npc::mug_player( Character &mark )
     }
     double best_value = minimum_item_value() * value_mod;
     item *to_steal = nullptr;
-    invslice slice = mark.inv_slice();
-    for( ItemList *stack : slice ) {
+    const_invslice slice = mark.inv_const_slice();
+    for( const ItemList *stack : slice ) {
         item &front_stack = *stack->front();
         if( value( front_stack ) >= best_value &&
             can_pick_volume( front_stack ) &&
@@ -3974,16 +3974,14 @@ void npc::mug_player( Character &mark )
         moves -= 100;
         return;
     }
-    item *stolen = nullptr;
     if( !is_hallucination() ) {
-        stolen = &mark.i_rem( to_steal );
-        i_add( *stolen );
+        i_add( mark.i_rem( to_steal ) );
         if( mark.is_npc() ) {
             if( u_see ) {
-                add_msg( _( "%1$s takes %2$s's %3$s." ), name, mark.name, stolen->tname() );
+                add_msg( _( "%1$s takes %2$s's %3$s." ), name, mark.name, to_steal->tname() );
             }
         } else {
-            add_msg( m_bad, _( "%1$s takes your %2$s." ), name, stolen->tname() );
+            add_msg( m_bad, _( "%1$s takes your %2$s." ), name, to_steal->tname() );
         }
     }
     moves -= 100;

@@ -980,7 +980,7 @@ class game
         bool new_game = false;
 
         const scenario *scen;
-        std::vector<monster> coming_to_stairs;
+        std::vector<shared_ptr_fast<monster>> coming_to_stairs;
         int monstairz = 0;
 
         tripoint ter_view_p;

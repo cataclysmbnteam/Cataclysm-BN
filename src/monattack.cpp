@@ -304,21 +304,21 @@ static bool is_adjacent( const monster *z, const Creature *target, const bool al
     return g->m.ter( up ) == t_open_air && g->m.is_outside( down );
 }
 
-static npc make_fake_npc( monster *z, int str, int dex, int inte, int per )
+static std::unique_ptr<npc> make_fake_npc( monster *z, int str, int dex, int inte, int per )
 {
-    npc tmp;
-    tmp.name = _( "The " ) + z->name();
-    tmp.set_fake( true );
-    tmp.recoil = 0;
-    tmp.setpos( z->pos() );
-    tmp.str_cur = str;
-    tmp.dex_cur = dex;
-    tmp.int_cur = inte;
-    tmp.per_cur = per;
+    std::unique_ptr<npc> tmp = std::make_unique<npc>();
+    tmp->name = _( "The " ) + z->name();
+    tmp->set_fake( true );
+    tmp->recoil = 0;
+    tmp->setpos( z->pos() );
+    tmp->str_cur = str;
+    tmp->dex_cur = dex;
+    tmp->int_cur = inte;
+    tmp->per_cur = per;
     if( z->friendly != 0 ) {
-        tmp.set_attitude( NPCATT_FOLLOW );
+        tmp->set_attitude( NPCATT_FOLLOW );
     } else {
-        tmp.set_attitude( NPCATT_KILL );
+        tmp->set_attitude( NPCATT_KILL );
     }
     return tmp;
 }
@@ -3318,11 +3318,11 @@ void mattack::rifle( monster *z, Creature *target )
     }
 
     //TODO!: check alllla this shit
-    npc tmp = make_fake_npc( z, 16, 10, 8, 12 );
-    tmp.set_skill_level( skill_rifle, 8 );
-    tmp.set_skill_level( skill_gun, 6 );
+    std::unique_ptr<npc> tmp = make_fake_npc( z, 16, 10, 8, 12 );
+    tmp->set_skill_level( skill_rifle, 8 );
+    tmp->set_skill_level( skill_gun, 6 );
     // No need to aim
-    tmp.recoil = 0;
+    tmp->recoil = 0;
 
     if( target == &g->u ) {
         if( !z->has_effect( effect_targeted ) ) {
@@ -3346,10 +3346,12 @@ void mattack::rifle( monster *z, Creature *target )
     if( g->u.sees( *z ) ) {
         add_msg( m_warning, _( "The %s opens up with its rifle!" ), z->name() );
     }
-    tmp.set_weapon( item_spawn( "m4a1" )->ammo_set( ammo_type, z->ammo[ ammo_type ] ) );
-    int burst = std::max( tmp.get_weapon().gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
-    z->ammo[ ammo_type ] -= ranged::fire_gun( tmp, target->pos(),
-                            burst ) * tmp.get_weapon().ammo_required();
+    detached_ptr<item> gun = item::spawn( "m4a1" );
+    gun->ammo_set( ammo_type, z->ammo[ ammo_type ] );
+    tmp->set_weapon( std::move( gun ) );
+    int burst = std::max( tmp->get_weapon().gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
+    z->ammo[ ammo_type ] -= ranged::fire_gun( *tmp, target->pos(),
+                            burst ) * tmp->get_weapon().ammo_required();
 
     if( target == &g->u ) {
         z->add_effect( effect_targeted, 3_turns );
@@ -3386,11 +3388,11 @@ void mattack::frag( monster *z, Creature *target ) // This is for the bots, not 
             return;
         }
     }
-    npc tmp = make_fake_npc( z, 16, 10, 8, 12 );
-    tmp.set_skill_level( skill_launcher, 8 );
-    tmp.set_skill_level( skill_gun, 6 );
+    std::unique_ptr<npc> tmp = make_fake_npc( z, 16, 10, 8, 12 );
+    tmp->set_skill_level( skill_launcher, 8 );
+    tmp->set_skill_level( skill_gun, 6 );
     // No need to aim
-    tmp.recoil = 0;
+    tmp->recoil = 0;
     // It takes a while
     z->moves -= 150;
 
@@ -3405,12 +3407,13 @@ void mattack::frag( monster *z, Creature *target ) // This is for the bots, not 
     if( g->u.sees( *z ) ) {
         add_msg( m_warning, _( "The %s's grenade launcher fires!" ), z->name() );
     }
+    detached_ptr<item> gun = item::spawn( "mgl" );
+    gun->ammo_set( ammo_type, z->ammo[ ammo_type ] );
+    tmp->set_weapon( std::move( gun ) );
+    int burst = std::max( tmp->get_weapon().gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
 
-    tmp.set_weapon( item_spawn( "mgl" )->ammo_set( ammo_type, z->ammo[ ammo_type ] ) );
-    int burst = std::max( tmp.get_weapon().gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
-
-    z->ammo[ ammo_type ] -= ranged::fire_gun( tmp, target->pos(),
-                            burst ) * tmp.get_weapon().ammo_required();
+    z->ammo[ ammo_type ] -= ranged::fire_gun( *tmp, target->pos(),
+                            burst ) * tmp->get_weapon().ammo_required();
 
     if( target == &g->u ) {
         z->add_effect( effect_targeted, 3_turns );
@@ -3447,11 +3450,11 @@ void mattack::tankgun( monster *z, Creature *target )
     }
     // kevingranade KA101: yes, but make it really inaccurate
     // Sure thing.
-    npc tmp = make_fake_npc( z, 12, 8, 8, 8 );
-    tmp.set_skill_level( skill_launcher, 1 );
-    tmp.set_skill_level( skill_gun, 1 );
+    std::unique_ptr<npc> tmp = make_fake_npc( z, 12, 8, 8, 8 );
+    tmp->set_skill_level( skill_launcher, 1 );
+    tmp->set_skill_level( skill_gun, 1 );
     // No need to aim
-    tmp.recoil = 0;
+    tmp->recoil = 0;
     // It takes a while
     z->moves -= 150;
 
@@ -3466,11 +3469,13 @@ void mattack::tankgun( monster *z, Creature *target )
     if( g->u.sees( *z ) ) {
         add_msg( m_warning, _( "The %s's 120mm cannon fires!" ), z->name() );
     }
-    tmp.set_weapon( item_spawn( "TANK" )->ammo_set( ammo_type, z->ammo[ ammo_type ] ) );
-    int burst = std::max( tmp.get_weapon().gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
+    detached_ptr<item> gun = item::spawn( "TANK" );
+    gun->ammo_set( ammo_type, z->ammo[ ammo_type ] );
+    tmp->set_weapon( std::move( gun ) );
+    int burst = std::max( tmp->get_weapon().gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
 
-    z->ammo[ ammo_type ] -= ranged::fire_gun( tmp, target->pos(),
-                            burst ) * tmp.get_weapon().ammo_required();
+    z->ammo[ ammo_type ] -= ranged::fire_gun( *tmp, target->pos(),
+                            burst ) * tmp->get_weapon().ammo_required();
 }
 
 bool mattack::searchlight( monster *z )
@@ -3492,35 +3497,35 @@ bool mattack::searchlight( monster *z )
 
         for( int i = 0; i < max_lamp_count; i++ ) {
 
-            item &settings = *item_spawn( "processor", calendar::start_of_cataclysm );
+            detached_ptr<item> settings = item::spawn( "processor", calendar::start_of_cataclysm );
 
-            settings.set_var( "SL_PREFER_UP", "TRUE" );
-            settings.set_var( "SL_PREFER_DOWN", "TRUE" );
-            settings.set_var( "SL_PREFER_RIGHT", "TRUE" );
-            settings.set_var( "SL_PREFER_LEFT", "TRUE" );
+            settings->set_var( "SL_PREFER_UP", "TRUE" );
+            settings->set_var( "SL_PREFER_DOWN", "TRUE" );
+            settings->set_var( "SL_PREFER_RIGHT", "TRUE" );
+            settings->set_var( "SL_PREFER_LEFT", "TRUE" );
 
             for( const tripoint &dest : g->m.points_in_radius( z->pos(), 24 ) ) {
                 const monster *const mon = g->critter_at<monster>( dest );
                 if( mon && mon->type->id == mon_turret_searchlight ) {
                     if( dest.x < zposx ) {
-                        settings.set_var( "SL_PREFER_LEFT", "FALSE" );
+                        settings->set_var( "SL_PREFER_LEFT", "FALSE" );
                     }
                     if( dest.x > zposx ) {
-                        settings.set_var( "SL_PREFER_RIGHT", "FALSE" );
+                        settings->set_var( "SL_PREFER_RIGHT", "FALSE" );
                     }
                     if( dest.y < zposy ) {
-                        settings.set_var( "SL_PREFER_UP", "FALSE" );
+                        settings->set_var( "SL_PREFER_UP", "FALSE" );
                     }
                     if( dest.y > zposy ) {
-                        settings.set_var( "SL_PREFER_DOWN", "FALSE" );
+                        settings->set_var( "SL_PREFER_DOWN", "FALSE" );
                     }
                 }
             }
 
-            settings.set_var( "SL_SPOT_X", 0 );
-            settings.set_var( "SL_SPOT_Y", 0 );
+            settings->set_var( "SL_SPOT_X", 0 );
+            settings->set_var( "SL_SPOT_Y", 0 );
 
-            z->add_item( settings );
+            z->add_item( std::move( settings ) );
         }
     }
 
@@ -4804,11 +4809,11 @@ bool mattack::riotbot( monster *z )
         if( choice == ur_arrest ) {
             z->anger = 0;
 
-            item &handcuffs = *item_spawn( "e_handcuffs", calendar::start_of_cataclysm );
-            handcuffs.charges = handcuffs.type->maximum_charges();
-            handcuffs.active = true;
-            handcuffs.set_var( "HANDCUFFS_X", foe->posx() );
-            handcuffs.set_var( "HANDCUFFS_Y", foe->posy() );
+            detached_ptr<item> handcuffs = item::spawn( "e_handcuffs", calendar::start_of_cataclysm );
+            handcuffs->charges = handcuffs->type->maximum_charges();
+            handcuffs->active = true;
+            handcuffs->set_var( "HANDCUFFS_X", foe->posx() );
+            handcuffs->set_var( "HANDCUFFS_Y", foe->posy() );
 
             const bool is_uncanny = foe->has_active_bionic( bio_uncanny_dodge ) &&
                                     foe->get_power_level() > bio_uncanny_dodge.obj().power_trigger &&
@@ -4824,10 +4829,12 @@ bool mattack::riotbot( monster *z )
 
                 add_msg( m_good,
                          _( "You deftly slip out of the handcuffs just as the robot closes them.  The robot didn't seem to notice!" ) );
-                foe->i_add( handcuffs );
+                foe->i_add( std::move( handcuffs ) );
             } else {
-                handcuffs.set_flag( "NO_UNWIELD" );
-                foe->wield( foe->i_add( handcuffs ) );
+                handcuffs->set_flag( "NO_UNWIELD" );
+                item &as_obj = *handcuffs;
+                foe->i_add( std::move( handcuffs ) );
+                foe->wield( as_obj );
                 foe->moves -= 300;
                 add_msg( _( "The robot puts handcuffs on you." ) );
             }
@@ -5489,9 +5496,9 @@ bool mattack::kamikaze( monster *z )
         if( z->get_effect( effect_countdown ).get_duration() == 1_turns ) {
             z->die( nullptr );
             // Timer is out, detonate
-            item &i_explodes = *item_spawn_temporary( act_bomb_type, calendar::turn, 0 );
-            i_explodes.active = true;
-            i_explodes.process( nullptr, z->pos(), false );
+            detached_ptr<item> i_explodes = item::spawn( act_bomb_type, calendar::turn, 0 );
+            i_explodes->active = true;
+            item::process( std::move( i_explodes ), nullptr, z->pos(), false );
             return false;
         }
         return false;

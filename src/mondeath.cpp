@@ -131,8 +131,6 @@ static void scatter_chunks( const itype_id &chunk_name, int chunk_amt, monster &
     pile_size = std::min( chunk_amt, pile_size );
     distance = std::abs( distance );
     map &here = get_map();
-    //TODO!: cheeeeckyyy
-    item *chunk = item_spawn( chunk_name, calendar::turn, pile_size );
     for( int i = 0; i < chunk_amt; i += pile_size ) {
         bool drop_chunks = true;
         tripoint tarp( z.pos() + point( rng( -distance, distance ), rng( -distance, distance ) ) );
@@ -179,7 +177,7 @@ static void scatter_chunks( const itype_id &chunk_name, int chunk_amt, monster &
             prev_point = tarp;
         }
         if( drop_chunks ) {
-            here.add_item_or_charges( tarp, *chunk );
+            here.add_item_or_charges( tarp, item::spawn( chunk_name, calendar::turn, pile_size ) );
         }
     }
 }
@@ -244,14 +242,15 @@ void mdeath::splatter( monster &z )
             }
         }
         // add corpse with gib flag
-        item &corpse = item::make_corpse( z.type->id, calendar::turn, z.unique_name, z.get_upgrade_time() );
+        detached_ptr<item> corpse = item::make_corpse( z.type->id, calendar::turn, z.unique_name,
+                                    z.get_upgrade_time() );
         // Set corpse to damage that aligns with being pulped
-        corpse.set_damage( 4000 );
-        corpse.set_flag( "GIBBED" );
+        corpse->set_damage( 4000 );
+        corpse->set_flag( "GIBBED" );
         if( z.has_effect( effect_no_ammo ) ) {
-            corpse.set_var( "no_ammo", "no_ammo" );
+            corpse->set_var( "no_ammo", "no_ammo" );
         }
-        here.add_item_or_charges( z.pos(), corpse );
+        here.add_item_or_charges( z.pos(), std::move( corpse ) );
     }
 }
 
@@ -656,13 +655,13 @@ void mdeath::broken( monster &z )
     }
     // make "broken_manhack", or "broken_eyebot", ...
     item_id.insert( 0, "broken_" );
-    item &broken_mon = *item_spawn( item_id, calendar::turn );
+    detached_ptr<item> broken_mon = item::spawn( item_id, calendar::turn );
     const int max_hp = std::max( z.get_hp_max(), 1 );
     const float overflow_damage = std::max( -z.get_hp(), 0 );
     const float corpse_damage = 2.5 * overflow_damage / max_hp;
-    broken_mon.set_damage( static_cast<int>( std::floor( corpse_damage * itype::damage_scale ) ) );
-
-    g->m.add_item_or_charges( z.pos(), broken_mon );
+    broken_mon->set_damage( static_cast<int>( std::floor( corpse_damage * itype::damage_scale ) ) );
+    item &broken_mon_ref = *broken_mon;
+    g->m.add_item_or_charges( z.pos(), std::move( broken_mon ) );
     //TODO!: push up these temporaries
     if( z.type->has_flag( MF_DROPS_AMMO ) ) {
         for( const std::pair<const itype_id, int> &ammo_entry : z.type->starting_ammo ) {
@@ -670,28 +669,28 @@ void mdeath::broken( monster &z )
                 bool spawned = false;
                 for( const std::pair<const std::string, mtype_special_attack> &attack : z.type->special_attacks ) {
                     if( attack.second->id == "gun" ) {
-                        item &gun = *item_spawn_temporary( dynamic_cast<const gun_actor *>
-                                                           ( attack.second.get() )->gun_type );
+                        item &gun = *item::spawn_temporary( dynamic_cast<const gun_actor *>
+                                                            ( attack.second.get() )->gun_type );
                         bool same_ammo = false;
                         for( const ammotype &at : gun.ammo_types() ) {
-                            if( at == item_spawn_temporary( ammo_entry.first )->ammo_type() ) {
+                            if( at == item::spawn_temporary( ammo_entry.first )->ammo_type() ) {
                                 same_ammo = true;
                                 break;
                             }
                         }
                         const bool uses_mags = !gun.magazine_compatible().empty();
                         if( same_ammo && uses_mags ) {
-                            std::vector<item *> mags;
+                            std::vector<detached_ptr<item>> mags;
                             int ammo_count = z.ammo[ammo_entry.first];
                             while( ammo_count > 0 ) {
-                                item *mag = item_spawn( gun.type->magazine_default.find( item_spawn_temporary(
-                                                            ammo_entry.first )->ammo_type() )->second );
+                                detached_ptr<item> mag = item::spawn( gun.type->magazine_default.find( item::spawn_temporary(
+                                        ammo_entry.first )->ammo_type() )->second );
                                 mag->ammo_set( ammo_entry.first,
                                                std::min( ammo_count, mag->type->magazine->capacity ) );
-                                mags.push_back( mag );
+                                mags.push_back( std::move( mag ) );
                                 ammo_count -= mag->type->magazine->capacity;
                             }
-                            g->m.spawn_items( z.pos(), mags );
+                            g->m.spawn_items( z.pos(), std::move( mags ) );
                             spawned = true;
                             break;
                         }
@@ -706,7 +705,7 @@ void mdeath::broken( monster &z )
     }
 
     // TODO: make mdeath::splatter work for robots
-    if( ( broken_mon.damage() >= broken_mon.max_damage() ) && g->u.sees( z.pos() ) ) {
+    if( ( broken_mon_ref.damage() >= broken_mon_ref.max_damage() ) && g->u.sees( z.pos() ) ) {
         add_msg( m_good, _( "The %s is destroyed!" ), z.name() );
     } else if( g->u.sees( z.pos() ) ) {
         add_msg( m_good, _( "The %s collapses!" ), z.name() );
@@ -864,10 +863,10 @@ void mdeath::detonate( monster &z )
     mdeath::normal( z );
     // Then detonate our suicide bombs
     for( const auto &bombs : dets ) {
-        item &bomb_item = *item_spawn( bombs.first, calendar::start_of_cataclysm );
-        bomb_item.charges = bombs.second;
-        bomb_item.active = true;
-        g->m.add_item_or_charges( z.pos(), bomb_item );
+        detached_ptr<item> bomb_item = item::spawn( bombs.first, calendar::start_of_cataclysm );
+        bomb_item->charges = bombs.second;
+        bomb_item->active = true;
+        g->m.add_item_or_charges( z.pos(), std::move( bomb_item ) );
     }
 }
 
@@ -881,27 +880,28 @@ void mdeath::broken_ammo( monster &z )
     mdeath::broken( z );
 }
 
-static std::vector<item *> butcher_cbm_item( const itype_id &what,
-        const time_point &birthday, const std::vector<std::string> &flags,
-        const std::vector<fault_id> &faults )
+static std::vector<detached_ptr<item>> butcher_cbm_item( const itype_id &what,
+                                    const time_point &birthday, const std::vector<std::string> &flags,
+                                    const std::vector<fault_id> &faults )
 {
-    item *something = item_spawn( what, birthday );
+    detached_ptr<item> something = item::spawn( what, birthday );
     for( const std::string &flg : flags ) {
         something->set_flag( flg );
     }
     for( const fault_id &flt : faults ) {
         something->faults.emplace( flt );
     }
-
-    return {something};
+    std::vector<detached_ptr<item>> ret;
+    ret.push_back( std::move( something ) );
+    return ret;
 }
 
-static std::vector<item *> butcher_cbm_group( const item_group_id &group,
-        const time_point &birthday, const std::vector<std::string> &flags,
-        const std::vector<fault_id> &faults )
+static std::vector<detached_ptr<item>> butcher_cbm_group( const item_group_id &group,
+                                    const time_point &birthday, const std::vector<std::string> &flags,
+                                    const std::vector<fault_id> &faults )
 {
-    std::vector<item *> spawned = item_group::items_from( group, birthday );
-    for( item * const &it : spawned ) {
+    std::vector<detached_ptr<item>> spawned = item_group::items_from( group, birthday );
+    for( detached_ptr<item> &it : spawned ) {
         for( const std::string &flg : flags ) {
             it->set_flag( flg );
         }
@@ -914,34 +914,35 @@ static std::vector<item *> butcher_cbm_group( const item_group_id &group,
 
 void make_mon_corpse( monster &z, int damageLvl )
 {
-    item &corpse = item::make_corpse( z.type->id, calendar::turn, z.unique_name, z.get_upgrade_time() );
-    corpse.set_damage( damageLvl );
+    detached_ptr<item> corpse = item::make_corpse( z.type->id, calendar::turn, z.unique_name,
+                                z.get_upgrade_time() );
+    corpse->set_damage( damageLvl );
     if( z.has_effect( effect_pacified ) && z.type->in_species( ZOMBIE ) ) {
         // Pacified corpses have a chance of becoming unpacified when regenerating.
-        corpse.set_var( "zlave", one_in( 2 ) ? "zlave" : "mutilated" );
+        corpse->set_var( "zlave", one_in( 2 ) ? "zlave" : "mutilated" );
     }
     if( z.has_effect( effect_no_ammo ) ) {
-        corpse.set_var( "no_ammo", "no_ammo" );
+        corpse->set_var( "no_ammo", "no_ammo" );
     }
     if( !z.no_extra_death_drops ) {
         // Pre-gen bionic on death rather than on butcher
         for( const harvest_entry &entry : *z.type->harvest ) {
             if( entry.type == "bionic" || entry.type == "bionic_group" ) {
-                std::vector<item *> contained_bionics =
-                    entry.type == "bionic"
-                    ? butcher_cbm_item( itype_id( entry.drop ), calendar::turn, entry.flags, entry.faults )
-                    : butcher_cbm_group( item_group_id( entry.drop ), calendar::turn, entry.flags, entry.faults );
-                for( item *&it : contained_bionics ) {
+                std::vector<detached_ptr<item>> contained_bionics =
+                                                 entry.type == "bionic"
+                                                 ? butcher_cbm_item( itype_id( entry.drop ), calendar::turn, entry.flags, entry.faults )
+                                                 : butcher_cbm_group( item_group_id( entry.drop ), calendar::turn, entry.flags, entry.faults );
+                for( detached_ptr<item> &it : contained_bionics ) {
                     // Disgusting hack: use components instead of contents to hide stuff
-                    corpse.add_component( *it );
+                    corpse->add_component( std::move( it ) );
                 }
             }
         }
     }
-    for( item *&it : z.remove_corpse_components() ) {
-        corpse.add_component( *it );
+    for( detached_ptr<item> &it : z.remove_corpse_components() ) {
+        corpse->add_component( std::move( it ) );
     }
-    get_map().add_item_or_charges( z.pos(), corpse );
+    get_map().add_item_or_charges( z.pos(), std::move( corpse ) );
 }
 
 void mdeath::preg_roach( monster &z )

@@ -2,7 +2,13 @@
 #ifndef CATA_SRC_LOCATION_PTR_H
 #define CATA_SRC_LOCATION_PTR_H
 
-#include "locations.h"
+#include <memory>
+
+template<typename T>
+class location;
+
+template<typename T>
+class detached_ptr;
 
 template<typename T, bool error_if_null = true>
 class location_ptr
@@ -12,107 +18,42 @@ class location_ptr
         T *ptr = nullptr;
         std::unique_ptr<location<T>> loc;
 
-        void update_location() {
-            if( ptr ) {
-                ptr->set_location( &*loc );
-            }
-        }
+        void update_location();
 
-        void unset_location() {
-            if( ptr ) {
-                ptr->remove_location();
-            }
-        }
+        void unset_location();
 
     public:
-        location_ptr( location<T> *loc ) : loc( loc ) {};
+        location_ptr( location<T> *loc );
         location_ptr( location_ptr & ) = delete;
         location_ptr( location_ptr && ) = delete;
         location_ptr operator=( location_ptr<T, error_if_null> & ) = delete;
 
-        location_ptr<T, error_if_null> &operator=( detached_ptr<T> &&source ) {
-            if( ptr ) {
-                ptr->remove_location();
-                ptr->destroy();
-            }
-            ptr = source.ptr;
-            update_location();
-            source.ptr = nullptr;
-            return  *this;
-        }
+        location_ptr<T, error_if_null> &operator=( detached_ptr<T> &&source );
+        location_ptr<T, error_if_null> &operator=( location_ptr<T, true> &&source );
+        location_ptr<T, error_if_null> &operator=( location_ptr<T, false> &&source );
 
-        location_ptr<T, error_if_null> &operator=( location_ptr<T, true> &&source ) {
-            if( ptr ) {
-                ptr->remove_location();
-                ptr->destroy();
-            }
-            ptr = source.ptr;
-            update_location();
-            source.ptr = nullptr;
-            return *this;
-        }
+        ~location_ptr();
 
-        location_ptr<T, error_if_null> &operator=( location_ptr<T, false> &&source ) {
-            if( ptr ) {
-                ptr->remove_location();
-                ptr->destroy();
-            }
-            ptr = source.ptr;
-            update_location();
-            source.ptr = nullptr;
-            return *this;
-        }
+        detached_ptr<T> release();
 
-        ~location_ptr() {
-            unset_location();
-        }
+        void set_location( location<T> *l );
 
-        void set_location( location<T> *l ) {
-            if( loc ) {
-                debugmsg( "Attempted to set the location of a location_ptr that already has one" );
-            }
-            loc = std::unique_ptr<location<T>>( l );
-        }
+        T *get() const;
 
-        inline T *get() const {
-            if( !*this ) {
-                if( error_if_null ) {
-                    debugmsg( "Attempted to resolve invalid location_ptr" );
-                }
-                return &null_item_reference();
-            }
-            return ptr;
-        }
+        explicit operator bool() const;
 
-        explicit inline operator bool() const {
-            return !!*this;
-        }
+        bool operator!() const;
 
-        inline bool operator!() const {
-            return !ptr;
-        }
+        T &operator*() const;
 
-        inline T &operator*() const {
-            return *get();
-        }
+        T *operator->() const;
 
-        inline T *operator->() const {
-            return get();
-        }
+        bool operator==( const T &against ) const;
 
-        inline bool operator==( const T &against ) const {
-            return ptr == &against;
-        }
-
-        inline bool operator==( const T *against ) const {
-            return ptr == against;
-        }
+        bool operator==( const T *against ) const;
 
         template <typename U>
-        inline bool operator!=( const U against ) const {
-            return !( *this == against );
-        }
-
+        bool operator!=( const U against ) const;
 };
 
 #endif

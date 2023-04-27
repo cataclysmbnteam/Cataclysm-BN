@@ -6,6 +6,7 @@
 
 #include "item.h"
 #include "type_id.h"
+#include "locations.h"
 
 struct partial_con {
     partial_con( tripoint loc ) : components( new partial_con_item_location( loc ) ) {};

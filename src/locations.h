@@ -3,6 +3,7 @@
 #define CATA_SRC_LOCATIONS_H
 
 #include "point.h"
+#include "npc.h"
 #include "type_id.h"
 
 class item;
@@ -46,6 +47,14 @@ class character_item_location : public item_location
         item_location_type where() const override;
         int obtain_cost( const Character &ch, int qty, const item *it ) const override;
         std::string describe( const Character *ch, const item *it ) const override;
+        bool check_for_corruption( const item *it ) const override;
+};
+
+class npc_mission_item_location : public character_item_location
+{
+    public:
+        npc_mission_item_location( npc *h ): character_item_location( h ) {};
+        detached_ptr<item> detach( item *it ) override;
         bool check_for_corruption( const item *it ) const override;
 };
 

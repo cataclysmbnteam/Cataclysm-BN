@@ -919,7 +919,13 @@ void Character::set_stashed_activity( std::unique_ptr<player_activity> &&act,
 
 bool Character::has_stashed_activity() const
 {
-    return static_cast<bool>( stashed_outbounds_activity );
+    return static_cast<bool>( stashed_outbounds_activity );//TODO! check
+}
+
+std::unique_ptr<player_activity> Character::remove_stashed_activity()
+{
+    std::unique_ptr<player_activity> ret = std::move( stashed_outbounds_activity );
+    return ret;
 }
 
 void Character::assign_stashed_activity()
@@ -929,24 +935,32 @@ void Character::assign_stashed_activity()
     cancel_stashed_activity();
 }
 
-bool Character::check_outbounds_activity( std::unique_ptr<player_activity> &&act, bool check_only )
+
+bool Character::check_outbounds_activity( player_activity &act )
 {
     map &here = get_map();
-    if( ( act->placement != tripoint_zero && act->placement != tripoint_min &&
-          !here.inbounds( here.getlocal( act->placement ) ) ) || ( !act->coords.empty() &&
-                  !here.inbounds( here.getlocal( act->coords.back() ) ) ) ) {
-        if( is_npc() && !check_only ) {
-            // stash activity for when reloaded.
-            stashed_outbounds_activity = std::move( act );
-            if( !backlog.empty() ) {
-                stashed_outbounds_backlog = std::move( backlog.front() );
-                backlog.pop_front();
-            }
-            activity = std::make_unique<player_activity>();
-        }
+    if( ( act.placement != tripoint_zero && act.placement != tripoint_min &&
+          !here.inbounds( here.getlocal( act.placement ) ) ) || ( !act.coords.empty() &&
+                  !here.inbounds( here.getlocal( act.coords.back() ) ) ) ) {
+
         add_msg( m_debug,
                  "npc %s at pos %d %d, activity target is not inbounds at %d %d therefore activity was stashed",
-                 disp_name(), pos().x, pos().y, act->placement.x, act->placement.y );
+                 disp_name(), pos().x, pos().y, act.placement.x, act.placement.y );
+        return true;
+    }
+    return false;
+}
+
+bool Character::restore_outbounds_activity( std::unique_ptr<player_activity> &&act )
+{
+    if( check_outbounds_activity( *act ) ) {
+        // stash activity for when reloaded.
+        stashed_outbounds_activity = std::move( act );
+        if( !backlog.empty() ) {
+            stashed_outbounds_backlog = std::move( backlog.front() );
+            backlog.pop_front();
+        }
+        activity = std::make_unique<player_activity>();
         return true;
     }
     return false;
@@ -9687,9 +9701,11 @@ item &Character::get_weapon() const
     return *weapon;
 }
 
-void Character::set_weapon( detached_ptr<item> &&weap )
+detached_ptr<item> Character::set_weapon( detached_ptr<item> &&weap )
 {
+    detached_ptr<item> ret = weapon.release();
     weapon = std::move( weap );
+    return ret;
 }
 
 bool Character::has_charges( const itype_id &it, int quantity,

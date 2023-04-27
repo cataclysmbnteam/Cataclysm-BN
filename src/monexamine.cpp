@@ -353,13 +353,13 @@ void monexamine::shear_animal( monster &z )
                                          qual_shear ) ) );
 
     you.assign_activity( activity_id( "ACT_SHEAR" ), moves, -1 );
-    you.activity.coords.push_back( get_map().getabs( z.pos() ) );
+    you.activity->coords.push_back( get_map().getabs( z.pos() ) );
     // pin the sheep in place if it isn't already
     if( !z.has_effect( effect_tied ) ) {
         z.add_effect( effect_tied, 1_turns );
-        you.activity.str_values.push_back( "temp_tie" );
+        you.activity->str_values.push_back( "temp_tie" );
     }
-    you.activity.targets.push_back( you.best_quality_item( qual_shear ) );
+    you.activity->targets.push_back( you.best_quality_item( qual_shear ) );
     add_msg( _( "You start shearing the %s." ), z.get_name() );
 }
 
@@ -385,11 +385,7 @@ static item *tack_loc()
 
 void monexamine::remove_battery( monster &z )
 {
-    //TODO!: standard ownership
-    if( z.get_battery_item() ) {
-        z.get_battery_item()->detach();
-    }
-    get_map().add_item_or_charges( get_player_character().pos(), *z.get_battery_item() );
+    get_map().add_item_or_charges( get_player_character().pos(), z.remove_battery_item() );
 
 }
 
@@ -425,8 +421,7 @@ void monexamine::insert_battery( monster &z )
     int item_pos = you.get_item_position( bat_item );
     if( item_pos != INT_MIN ) {
         //TODO!: check owner here
-        you.i_rem( item_pos );
-        z.set_battery_item( bat_item );
+        z.set_battery_item( you.i_rem( item_pos ) );
     }
 }
 
@@ -553,8 +548,7 @@ void monexamine::attach_or_remove_saddle( monster &z )
     //TODO!: check ownership/null
     if( z.has_effect( effect_saddled ) ) {
         z.remove_effect( effect_saddled );
-        z.get_tack_item()->detach();
-        get_avatar().i_add( *z.get_tack_item() );
+        get_avatar().i_add( z.remove_tack_item() );
     } else {
         item *loc = tack_loc();
 
@@ -562,9 +556,8 @@ void monexamine::attach_or_remove_saddle( monster &z )
             add_msg( _( "Never mind." ) );
             return;
         }
-        loc->detach();
         z.add_effect( effect_saddled, 1_turns, num_bp );
-        z.set_tack_item( loc );
+        z.set_tack_item( loc->detach() );
     }
 }
 
@@ -658,10 +651,8 @@ void monexamine::attach_bag_to( monster &z )
         return;
     }
 
-    //TODO!: check ownership
     item &it = *loc;
-    you.i_rem( &it );
-    z.set_storage_item( &it );
+    z.set_storage_item( you.i_rem( &it ) );
     add_msg( _( "You mount the %1$s on your %2$s." ), it.display_name(), pet_name );
     z.add_effect( effect_has_bag, 1_turns, num_bp );
     // Update encumbrance in case we were wearing it
@@ -677,10 +668,8 @@ void monexamine::remove_bag_from( monster &z )
             dump_items( z );
         }
         avatar &you = get_avatar();
-        z.get_storage_item()->detach();
-        get_map().add_item_or_charges( you.pos(), *z.get_storage_item() );
         add_msg( _( "You remove the %1$s from %2$s." ), z.get_storage_item()->display_name(), pet_name );
-        //TODO!: check ownership shit again
+        get_map().add_item_or_charges( you.pos(), z.remove_storage_item() );
         you.moves -= 200;
     } else {
         add_msg( m_bad, _( "Your %1$s doesn't have a bag!" ), pet_name );
@@ -716,7 +705,7 @@ bool monexamine::give_items_to( monster &z )
         item *it_copy = &*itq.loc;
         if( it_copy->count_by_charges() ) {
             //TODO!: check moving this upwards
-            it_copy = item_spawn_temporary( *it_copy );
+            it_copy = item::spawn_temporary( *it_copy );
             it_copy->charges = itq.count;
         }
 
@@ -758,9 +747,8 @@ bool monexamine::add_armor( monster &z )
         return true;
     }
 
-    loc->detach();
     armor.set_var( "pet_armor", "true" );
-    z.set_armor_item( &armor );
+    z.set_armor_item( loc->detach() );
     add_msg( pgettext( "pet armor", "You put the %1$s on your %2$s." ), armor.display_name(),
              pet_name );
     z.add_effect( effect_monster_armor, 1_turns, num_bp );
@@ -781,8 +769,7 @@ void monexamine::remove_armor( monster &z )
     if( z.get_armor_item() ) {
         z.get_armor_item()->erase_var( "pet_armor" );
         item *armor = z.get_armor_item();
-        armor->detach();
-        get_map().add_item_or_charges( z.pos(), *armor );
+        get_map().add_item_or_charges( z.pos(), armor->detach() );
         add_msg( pgettext( "pet armor", "You remove the %1$s from %2$s." ), armor->display_name(),
                  pet_name );
         // TODO: removing armor from a horse takes a lot longer than 2 seconds. This should be a long action.
@@ -798,7 +785,7 @@ void monexamine::play_with( monster &z )
     std::string pet_name = z.get_name();
     avatar &you = get_avatar();
     you.assign_activity( ACT_PLAY_WITH_PET, rng( 50, 125 ) * 100 );
-    you.activity.str_values.push_back( pet_name );
+    you.activity->str_values.push_back( pet_name );
 }
 
 void monexamine::kill_zslave( monster &z )
@@ -812,7 +799,7 @@ void monexamine::kill_zslave( monster &z )
     if( !one_in( 3 ) ) {
         you.add_msg_if_player( _( "You tear out the pheromone ball from the zombie slave." ) );
         //TODO!: is this meant to be temp??
-        item *ball = item_spawn_temporary( "pheromone", calendar::start_of_cataclysm );
+        item *ball = item::spawn_temporary( "pheromone", calendar::start_of_cataclysm );
         iuse::pheromone( &you, ball, true, you.pos() );
     }
 }
@@ -845,9 +832,7 @@ void monexamine::add_leash( monster &z )
         return;
     }
     item *rope_item = rope_inv[index - 1];
-    //TODO!: ownerships again
-    player.i_rem( rope_item );
-    z.set_tied_item( rope_item );
+    z.set_tied_item( player.i_rem( rope_item ) );
     z.add_effect( effect_leashed, 1_turns );
     z.get_effect( effect_leashed ).set_permanent();
     add_msg( _( "You add a leash to your %s." ), z.get_name() );
@@ -862,10 +847,8 @@ void monexamine::remove_leash( monster &z )
     z.remove_effect( effect_leashed );
 
     if( z.get_tied_item() ) {
-        //TODO!: more ownership
         item *it = z.get_tied_item();
-        it->detach();
-        get_player_character().i_add( *it );
+        get_player_character().i_add( it->detach() );
 
     }
     add_msg( _( "You remove the leash from your %s." ), z.get_name() );
@@ -938,7 +921,7 @@ void monexamine::deactivate_pet( monster &z )
         attach_or_remove_saddle( z );
     }
     map &here = get_map();
-    here.add_item_or_charges( z.pos(), *z.to_item() );
+    here.add_item_or_charges( z.pos(), z.to_item() );
     if( !z.has_flag( MF_INTERIOR_AMMO ) ) {
         for( auto &ammodef : z.ammo ) {
             if( ammodef.second > 0 ) {
@@ -962,12 +945,12 @@ void monexamine::milk_source( monster &source_mon )
     if( milkable_ammo->second > 0 ) {
         const int moves = to_moves<int>( time_duration::from_minutes( milkable_ammo->second / 2 ) );
         you.assign_activity( ACT_MILK, moves, -1 );
-        you.activity.coords.push_back( get_map().getabs( source_mon.pos() ) );
+        you.activity->coords.push_back( get_map().getabs( source_mon.pos() ) );
         // pin the cow in place if it isn't already
         bool temp_tie = !source_mon.has_effect( effect_tied );
         if( temp_tie ) {
             source_mon.add_effect( effect_tied, 1_turns, num_bp );
-            you.activity.str_values.push_back( "temp_tie" );
+            you.activity->str_values.push_back( "temp_tie" );
         }
         add_msg( _( "You milk the %s." ), source_mon.get_name() );
     } else {

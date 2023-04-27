@@ -511,7 +511,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
     } else if( bio.info().has_flag( flag_BIONIC_WEAPON ) && !get_weapon().has_flag( flag_NO_UNWIELD ) &&
                free_power > bio.info().power_activate ) {
         if( is_armed() ) {
-            stow_item( get_weapon() );
+            stow_weapon( );
         }
         if( get_player_character().sees( pos() ) ) {
             add_msg( m_info, _( "%s activates their %s." ), disp_name(), bio.info().name );

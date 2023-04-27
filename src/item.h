@@ -23,7 +23,6 @@
 #include "io_tags.h"
 #include "item_contents.h"
 #include "optional.h"
-#include "locations.h"
 #include "location_vector.h"
 #include "pimpl.h"
 #include "safe_reference.h"
@@ -61,6 +60,7 @@ struct mtype;
 struct tripoint;
 template<typename T>
 class ret_val;
+class item_location;
 
 namespace enchant_vals
 {

@@ -4851,8 +4851,8 @@ bool game::revive_corpse( const tripoint &p, item &it )
 
     critter.no_extra_death_drops = true;
     critter.add_effect( effect_downed, 5_turns, num_bp );
-    for( item * const &component : it.get_components() ) {
-        critter.add_corpse_component( *component );
+    for( detached_ptr<item> &component : it.remove_components() ) {
+        critter.add_corpse_component( std::move( component ) );
     }
 
     if( it.get_var( "zlave" ) == "zlave" ) {
@@ -10086,7 +10086,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     if( !m.has_zlevels() && !coming_to_stairs.empty() && !force ) {
         // TODO: Allow travel if zombie couldn't reach stairs, but spawn him when we go up.
         add_msg( m_warning, _( "You try to use the stairs.  Suddenly you are blocked by a %s!" ),
-                 coming_to_stairs[0].name() );
+                 coming_to_stairs[0]->name() );
         // Roll.
         ///\EFFECT_DEX increases chance of moving past monsters on stairs
 
@@ -10170,7 +10170,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
                 && !slippedpast ) {
                 critter.staircount = 10 + turns;
                 critter.on_unload();
-                coming_to_stairs.push_back( critter );
+                coming_to_stairs.push_back( make_shared_fast<monster>( critter ) );
                 remove_zombie( critter );
             }
         }
@@ -10761,9 +10761,9 @@ void game::update_overmap_seen()
 void game::replace_stair_monsters()
 {
     for( auto &elem : coming_to_stairs ) {
-        elem.staircount = 0;
-        const tripoint pnt( elem.pos().xy(), get_levz() );
-        place_critter_around( make_shared_fast<monster>( elem ), pnt, 10 );
+        elem->staircount = 0;
+        const tripoint pnt( elem->pos().xy(), get_levz() );
+        place_critter_around( elem, pnt, 10 );
     }
 
     coming_to_stairs.clear();
@@ -10824,7 +10824,7 @@ void game::update_stair_monsters()
     // Attempt to spawn zombies.
     for( size_t i = 0; i < coming_to_stairs.size(); i++ ) {
         point mpos( stairx[si], stairy[si] );
-        monster &critter = coming_to_stairs[i];
+        monster &critter = *coming_to_stairs[i];
         const tripoint dest {
             mpos, g->get_levz()
         };

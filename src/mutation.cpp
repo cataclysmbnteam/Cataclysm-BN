@@ -296,21 +296,21 @@ void Character::mutation_effect( const trait_id &mut )
         recalc_hp();
     }
 
-    remove_worn_items_with( [&]( item & armor ) {
+    remove_worn_items_with( [&]( detached_ptr<item> &&armor ) {
         static const std::string mutation_safe = "OVERSIZE";
-        if( armor.has_flag( mutation_safe ) ) {
-            return false;
+        if( armor->has_flag( mutation_safe ) ) {
+            return armor;
         }
-        if( !branch.conflicts_with_item( armor ) ) {
-            return false;
+        if( !branch.conflicts_with_item( *armor ) ) {
+            return armor;
         }
 
         add_msg_player_or_npc( m_bad,
                                _( "Your %s is pushed off!" ),
                                _( "<npcname>'s %s is pushed off!" ),
-                               armor.tname() );
-        get_map().add_item_or_charges( pos(), armor );
-        return true;
+                               armor->tname() );
+        get_map().add_item_or_charges( pos(), std::move( armor ) );
+        return detached_ptr<item>();
     } );
 
     if( branch.starts_active ) {
@@ -495,7 +495,7 @@ void Character::activate_mutation( const trait_id &mut )
         add_msg_if_player( _( "You start spinning web with your spinnerets!" ) );
     } else if( mut == trait_BURROW ) {
         tdata.powered = false;
-        item *burrowing_item = item_spawn_temporary( itype_id( "fake_burrowing" ) );
+        item *burrowing_item = item::spawn_temporary( itype_id( "fake_burrowing" ) );
         invoke_item( burrowing_item );
         return;  // handled when the activity finishes
     } else if( mut == trait_SLIMESPAWNER ) {
@@ -573,11 +573,11 @@ void Character::activate_mutation( const trait_id &mut )
         if( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) {
             const time_duration startup_time = has_trait( trait_ROOTS3 ) ? rng( 15_minutes,
                                                30_minutes ) : rng( 60_minutes, 90_minutes );
-            activity.values.push_back( to_turns<int>( startup_time ) );
+            activity->values.push_back( to_turns<int>( startup_time ) );
             return;
         } else {
             const time_duration startup_time = rng( 120_minutes, 180_minutes );
-            activity.values.push_back( to_turns<int>( startup_time ) );
+            activity->values.push_back( to_turns<int>( startup_time ) );
             return;
         }
     } else if( mut == trait_DEBUG_BIONIC_POWER ) {
@@ -594,15 +594,14 @@ void Character::activate_mutation( const trait_id &mut )
         }
         return;
     } else if( !mdata.spawn_item.is_empty() ) {
-        item *tmpitem = item_spawn( mdata.spawn_item );
-        i_add_or_drop( *tmpitem );
+        i_add_or_drop( item::spawn( mdata.spawn_item ) );
         add_msg_if_player( mdata.spawn_item_message() );
         tdata.powered = false;
         return;
     } else if( !mdata.ranged_mutation.is_empty() ) {
         add_msg_if_player( mdata.ranged_mutation_message() );
         //TODO!: check later
-        avatar_action::fire_ranged_mutation( g->u, *item_spawn( mdata.ranged_mutation ) );
+        avatar_action::fire_ranged_mutation( g->u, item::spawn( mdata.ranged_mutation ) );
         tdata.powered = false;
         return;
     }

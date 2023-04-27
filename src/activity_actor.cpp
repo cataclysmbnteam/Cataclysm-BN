@@ -29,6 +29,7 @@
 #include "item_location.h"
 #include "json.h"
 #include "line.h"
+#include "locations.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"

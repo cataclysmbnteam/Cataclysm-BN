@@ -24,6 +24,7 @@
 #include "item_group.h"
 #include "itype.h"
 #include "line.h"
+#include "locations.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -168,7 +169,13 @@ static std::vector<player *> find_targets_to_ungrab( const tripoint &pos )
 
 //TODO!: make sure all the uses of tack_item etc are properly locationd
 
-monster::monster()
+monster::monster() : corpse_components( new monster_component_item_location( this ) ),
+    tied_item( new monster_tied_item_location( this ) ),
+    tack_item( new monster_tack_item_location( this ) ),
+    armor_item( new monster_armor_item_location( this ) ),
+    storage_item( new monster_storage_item_location( this ) ),
+    battery_item( new monster_battery_item_location( this ) ),
+    inv( new monster_item_location( this ) )
 {
     position.x = 20;
     position.y = 10;
@@ -219,9 +226,9 @@ monster::monster( const mtype_id &id ) : monster()
     if( monster::has_flag( MF_RIDEABLE_MECH ) ) {
         itype_id mech_bat = itype_id( type->mech_battery );
         int max_charge = mech_bat->magazine->capacity;
-        item *mech_bat_item = item_spawn( mech_bat, calendar::start_of_cataclysm );
+        detached_ptr<item> mech_bat_item = item::spawn( mech_bat, calendar::start_of_cataclysm );
         mech_bat_item->ammo_consume( rng( 0, max_charge ), tripoint_zero );
-        set_battery_item( mech_bat_item );
+        set_battery_item( std::move( mech_bat_item ) );
     }
 }
 
@@ -231,11 +238,64 @@ monster::monster( const mtype_id &id, const tripoint &p ) : monster( id )
     unset_dest();
 }
 
-monster::monster( const monster & ) = default;
-monster::monster( monster && ) = default;
+monster::monster( const monster &source ) : corpse_components( new monster_component_item_location(
+                this ) ), tied_item( new monster_tied_item_location( this ) ),
+    tack_item( new monster_tack_item_location( this ) ),
+    armor_item( new monster_armor_item_location( this ) ),
+    storage_item( new monster_storage_item_location( this ) ),
+    battery_item( new monster_battery_item_location( this ) ),
+    inv( new monster_item_location( this ) )
+{
+    wander_pos = source.wander_pos;
+    wandf = source.wandf;
+    mounted_player = source.mounted_player;
+    mounted_player_id = source.mounted_player_id;
+    dragged_foe_id = source.dragged_foe_id;
+    friendly = source.friendly;
+    anger = source.anger;
+    morale = source.morale;
+    faction = source.faction;
+    mission_id = source.mission_id;
+    type = source.type;
+    no_extra_death_drops = source.no_extra_death_drops;
+    no_corpse_quiet = source.no_corpse_quiet;
+    death_drops = source.death_drops;
+    made_footstep = source.made_footstep;
+    unique_name = source.unique_name;
+    hallucination = source.hallucination;
+    fish_population = source.fish_population;
+    ignoring = source.ignoring;
+    lastseen_turn = source.lastseen_turn;
+    staircount = source.staircount;
+    ammo = source.ammo;
+
+    for( const item * const &it : source.corpse_components ) {
+        corpse_components.push_back( item::spawn( *it ) );
+    }
+
+    hp = source.hp;
+    special_attacks = source.special_attacks;
+    goal = source.goal;
+    position = source.position;
+    dead = source.dead;
+    upgrades = source.upgrades;
+    upgrade_time = source.upgrade_time;
+    reproduces = source.reproduces;
+    baby_timer = source.baby_timer;
+    udder_timer = source.udder_timer;
+    horde_attraction = source.horde_attraction;
+    path = source.path;
+    effect_cache = source.effect_cache;
+    summon_time_limit = source.summon_time_limit;
+
+    set_tied_item( item::spawn( *source.tied_item ) );
+    set_tack_item( item::spawn( *source.tack_item ) );
+    set_armor_item( item::spawn( *source.armor_item ) );
+    set_storage_item( item::spawn( *source.storage_item ) );
+    set_battery_item( item::spawn( *source.battery_item ) );
+
+};
 monster::~monster() = default;
-monster &monster::operator=( const monster & ) = default;
-monster &monster::operator=( monster && ) = default;
 
 void monster::setpos( const tripoint &p )
 {
@@ -441,7 +501,7 @@ void monster::try_reproduce()
             if( type->baby_monster ) {
                 g->m.add_spawn( type->baby_monster, spawn_cnt, pos() );
             } else {
-                g->m.add_item_or_charges( pos(), *item_spawn( type->baby_egg, *baby_timer, spawn_cnt ), true );
+                g->m.add_item_or_charges( pos(), item::spawn( type->baby_egg, *baby_timer, spawn_cnt ), true );
             }
         }
 
@@ -1016,69 +1076,64 @@ void monster::shift( point sm_shift )
     }
 }
 
-void monster::set_tack_item( item *it )
+detached_ptr<item> monster::set_tack_item( detached_ptr<item> &&it )
 {
-    if( it ) {
-        it->set_location( new monster_tack_item_location( this ) );
-    }
-    tack_item = it;
+    detached_ptr<item> ret = tack_item.release();
+    tack_item = std::move( it );
+    return ret;
 }
 
 item *monster::get_tack_item() const
 {
-    return tack_item;
+    return &*tack_item;
 }
 
-void monster::set_tied_item( item *it )
+detached_ptr<item> monster::set_tied_item( detached_ptr<item> &&it )
 {
-    if( it ) {
-        it->set_location( new monster_tied_item_location( this ) );
-    }
-    tied_item = it;
+    detached_ptr<item> ret = tied_item.release();
+    tied_item = std::move( it );
+    return ret;
 }
 
 item *monster::get_tied_item() const
 {
-    return tied_item;
+    return &*tied_item;
 }
 
-void monster::set_armor_item( item *it )
+detached_ptr<item> monster::set_armor_item( detached_ptr<item> &&it )
 {
-    if( it ) {
-        it->set_location( new monster_armor_item_location( this ) );
-    }
-    armor_item = it;
+    detached_ptr<item> ret = armor_item.release();
+    armor_item = std::move( it );
+    return ret;
 }
 
 item *monster::get_armor_item() const
 {
-    return armor_item;
+    return &*armor_item;
 }
 
-void monster::set_storage_item( item *it )
+detached_ptr<item> monster::set_storage_item( detached_ptr<item> &&it )
 {
-    if( it ) {
-        it->set_location( new monster_storage_item_location( this ) );
-    }
-    storage_item = it;
+    detached_ptr<item> ret = storage_item.release();
+    storage_item = std::move( it );
+    return ret;
 }
 
 item *monster::get_storage_item() const
 {
-    return storage_item;
+    return &*storage_item;
 }
 
-void monster::set_battery_item( item *it )
+detached_ptr<item> monster::set_battery_item( detached_ptr<item> &&it )
 {
-    if( it ) {
-        it->set_location( new monster_battery_item_location( this ) );
-    }
-    battery_item = it;
+    detached_ptr<item> ret = battery_item.release();
+    battery_item = std::move( it );
+    return ret;
 }
 
 item *monster::get_battery_item() const
 {
-    return battery_item;
+    return &*battery_item;
 }
 
 tripoint monster::move_target()
@@ -1787,10 +1842,7 @@ bool monster::move_effects( bool )
                 if( u_see_me ) {
                     add_msg( _( "The %s easily slips out of its bonds." ), name() );
                 }
-                //TODO!: ownerships
-                item *it = get_tied_item();
-                it->detach();
-                g->m.add_item_or_charges( pos(), *it );
+                g->m.add_item_or_charges( pos(), remove_tied_item() );
             }
         } else {
             if( tied_item ) {
@@ -1798,11 +1850,10 @@ bool monster::move_effects( bool )
 
                 const bool broken = rng( type->melee_dice * type->melee_sides, std::min( 10000,
                                          type->melee_dice * type->melee_sides * 250 ) ) > 800;
-                it->detach();
                 if( !broken ) {
-                    g->m.add_item_or_charges( pos(), *it );
+                    g->m.add_item_or_charges( pos(), it->detach() );
                 } else {
-                    it->destroy();
+                    it->detach();
                 }
                 if( u_see_me ) {
                     if( broken ) {
@@ -2385,21 +2436,21 @@ void monster::die( Creature *nkiller )
         }
     }
     // Drop items stored in optionals
-    move_special_item_to_inv( tack_item );
-    move_special_item_to_inv( armor_item );
-    move_special_item_to_inv( storage_item );
-    move_special_item_to_inv( tied_item );
+    add_item( remove_tack_item() );
+    add_item( remove_armor_item() );
+    add_item( remove_storage_item() );
+    add_item( remove_tied_item() );
 
     if( has_effect( effect_lightsnare ) ) {
-        add_item( *item_spawn( "string_36", calendar::start_of_cataclysm ) );
-        add_item( *item_spawn( "snare_trigger", calendar::start_of_cataclysm ) );
+        add_item( item::spawn( "string_36", calendar::start_of_cataclysm ) );
+        add_item( item::spawn( "snare_trigger", calendar::start_of_cataclysm ) );
     }
     if( has_effect( effect_heavysnare ) ) {
-        add_item( *item_spawn( "rope_6", calendar::start_of_cataclysm ) );
-        add_item( *item_spawn( "snare_trigger", calendar::start_of_cataclysm ) );
+        add_item( item::spawn( "rope_6", calendar::start_of_cataclysm ) );
+        add_item( item::spawn( "snare_trigger", calendar::start_of_cataclysm ) );
     }
     if( has_effect( effect_beartrap ) ) {
-        add_item( *item_spawn( "beartrap", calendar::start_of_cataclysm ) );
+        add_item( item::spawn( "beartrap", calendar::start_of_cataclysm ) );
     }
     if( has_effect( effect_grabbing ) ) {
         remove_effect( effect_grabbing );
@@ -2410,8 +2461,8 @@ void monster::die( Creature *nkiller )
         }
     }
     if( !is_hallucination() ) {
-        for( const auto &it : inv ) {
-            g->m.add_item_or_charges( pos(), *it );
+        for( detached_ptr<item> &it : inv.clear() ) {
+            g->m.add_item_or_charges( pos(), std::move( it ) );
         }
     }
 
@@ -2504,28 +2555,26 @@ bool monster::check_mech_powered() const
 
 static void process_item_valptr( item *ptr, monster &mon )
 {
-    if( ptr && ptr->needs_processing() && ptr->process( nullptr, mon.pos(), false ) ) {
-        ptr->detach();
-        ptr->destroy();
+    if( ptr && ptr->needs_processing() ) {
+        ptr->attempt_detach( [&mon]( detached_ptr<item> &&it ) {
+            return item::process( std::move( it ), nullptr, mon.pos(), false );
+        } );
     }
 }
 
 void monster::process_items()
 {
-    for( auto iter = inv.begin(); iter != inv.end(); ) {
-        if( ( *iter )->needs_processing() &&
-            ( *iter )->process( nullptr, pos(), false )
-          ) {
-            iter = inv.erase( iter );
-            continue;
+    inv.remove_with( [this]( detached_ptr<item> &&it ) {
+        if( it->needs_processing() ) {
+            return item::process( std::move( it ), nullptr, pos(), false );
         }
-        iter++;
-    }
+        return it;
+    } );
 
-    process_item_valptr( storage_item, *this );
-    process_item_valptr( armor_item, *this );
-    process_item_valptr( tack_item, *this );
-    process_item_valptr( tied_item, *this );
+    process_item_valptr( &*storage_item, *this );
+    process_item_valptr( &*armor_item, *this );
+    process_item_valptr( &*tack_item, *this );
+    process_item_valptr( &*tied_item, *this );
 }
 
 void monster::drop_items_on_death()
@@ -2537,27 +2586,27 @@ void monster::drop_items_on_death()
         return;
     }
 
-    std::vector<item *> items = item_group::items_from( type->death_drops,
-                                calendar::start_of_cataclysm );
+    std::vector<detached_ptr<item>> items = item_group::items_from( type->death_drops,
+                                            calendar::start_of_cataclysm );
 
     // This block removes some items, according to item spawn scaling factor
     const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
     if( spawn_rate < 1 ) {
         // Temporary vector, to remember which items will be dropped
-        std::vector<item *> remaining;
-        for( item *&it : items ) {
+        std::vector<detached_ptr<item>> remaining;
+        for( detached_ptr<item> &it : items ) {
             if( rng_float( 0, 1 ) < spawn_rate ) {
-                remaining.push_back( it );
+                remaining.push_back( std::move( it ) );
             }
         }
         // If there aren't any items left, there's nothing left to do
         if( remaining.empty() ) {
             return;
         }
-        items = remaining;
+        items = std::move( remaining );
     }
 
-    const auto dropped = g->m.spawn_items( pos(), items );
+    const auto dropped = g->m.spawn_items( pos(), std::move( items ) );
 
     if( has_flag( MF_FILTHY ) && get_option<bool>( "FILTHY_CLOTHES" ) ) {
         for( const auto &it : dropped ) {
@@ -2748,11 +2797,6 @@ void monster::make_ally( const monster &z )
     faction = z.faction;
 }
 
-void monster::add_item( item &it )
-{
-    add_item( &it );
-}
-
 bool monster::is_hallucination() const
 {
     return hallucination;
@@ -2850,14 +2894,6 @@ units::volume monster::get_carried_volume()
     return total_volume;
 }
 
-void monster::move_special_item_to_inv( item *it )
-{
-    if( it ) {
-        it->detach();
-        add_item( *it );
-    }
-}
-
 bool monster::is_dead() const
 {
     return dead || is_dead_state();
@@ -2893,13 +2929,13 @@ void monster::init_from_item( const item &itm )
     }
 }
 
-item *monster::to_item() const
+detached_ptr<item> monster::to_item() const
 {
     if( type->revert_to_itype.is_empty() ) {
-        return &null_item_reference();
+        return detached_ptr<item>();
     }
     // Birthday is wrong, but the item created here does not use it anyway (I hope).
-    item *result = item_spawn( type->revert_to_itype, calendar::turn );
+    detached_ptr<item> result = item::spawn( type->revert_to_itype, calendar::turn );
     const int damfac = std::max( 1, ( result->max_damage() + 1 ) * hp / type->hp );
     result->set_damage( std::max( 0, ( result->max_damage() + 1 ) - damfac ) );
     return result;
@@ -3130,45 +3166,42 @@ std::set<tripoint> monster::get_path_avoid() const
     return std::set<tripoint>();
 }
 
-std::vector<item *> &monster::get_items()
+const std::vector<item *> &monster::get_items() const
 {
-    return inv;
+    return inv.as_vector();
 }
 
-void monster::add_item( item *it )
+void monster::add_item( detached_ptr<item> &&it )
 {
-    it->set_location( new monster_item_location( this ) );
-    inv.push_back( it );
+    inv.push_back( std::move( it ) );
 }
 
-void monster::remove_item( item *it )
+detached_ptr<item> monster::remove_item( item *it )
 {
-    it->remove_location();
-    inv.erase( std::remove( inv.begin(), inv.end(), it ), inv.end() );
-}
-
-std::vector<item *>::iterator monster::remove_item( std::vector<item *>::iterator &it )
-{
-    ( *it )->remove_location();
-    return inv.erase( it );
-}
-
-void monster::clear_items()
-{
-    for( item *&it : inv ) {
-        it->remove_location();
-        it->destroy();
+    auto iter = std::find( inv.begin(), inv.end(), it );
+    detached_ptr<item> ret;
+    if( iter != inv.end() ) {
+        inv.erase( iter, &ret );
     }
-    inv.clear();
+    return ret;
+}
+
+std::vector<item *>::iterator monster::remove_item( std::vector<item *>::iterator &it,
+        detached_ptr<item> *result )
+{
+    return inv.erase( it, result );
+}
+
+std::vector<detached_ptr<item>> monster::clear_items()
+{
+    return inv.clear();
 }
 
 void monster::drop_items( const tripoint &p )
 {
-    for( item *&it : inv ) {
-        it->remove_location();
-        g->m.add_item_or_charges( p, *it );
+    for( detached_ptr<item> &it : inv.clear() ) {
+        g->m.add_item_or_charges( p, std::move( it ) );
     }
-    inv.clear();
 }
 
 void monster::drop_items()
@@ -3183,7 +3216,7 @@ void monster::add_corpse_component( detached_ptr<item> &&it )
 
 detached_ptr<item> monster::remove_corpse_component( item &it )
 {
-    for( auto iter = corpse_components.begin(); iter != end; iter++ ) {
+    for( auto iter = corpse_components.begin(); iter != corpse_components.end(); iter++ ) {
         if( *iter == &it ) {
             detached_ptr<item> ret;
             corpse_components.erase( iter, &ret );
@@ -3193,22 +3226,7 @@ detached_ptr<item> monster::remove_corpse_component( item &it )
     return detached_ptr<item>();
 }
 
-location_vector<item> &monster::get_corpse_components()
+std::vector<detached_ptr<item>> monster::remove_corpse_components()
 {
-    return corpse_components;
-}
-
-const location_vector<item> &monster::get_corpse_components() const
-{
-    return corpse_components;
-}
-
-std::vector<item *> monster::remove_corpse_components()
-{
-    std::vector<item *> ret = corpse_components;
-    for( item *&it : corpse_components ) {
-        it->remove_location();
-    }
-    corpse_components.clear();
-    return ret;
+    return corpse_components.clear();
 }

@@ -710,7 +710,7 @@ npc_ptr talk_function::individual_mission( npc &p, const std::string &desc,
 }
 npc_ptr talk_function::individual_mission( const tripoint_abs_omt &omt_pos,
         const std::string &role_id, const std::string &desc,
-        const std::string &miss_id, bool group, const std::vector<detached_ptr<item>> &equipment,
+        const std::string &miss_id, bool group, const std::vector<item *> &equipment,
         const std::map<skill_id, int> &required_skills )
 {
     npc_ptr comp = companion_choose( required_skills );
@@ -722,15 +722,8 @@ npc_ptr talk_function::individual_mission( const tripoint_abs_omt &omt_pos,
         comp->npc_dismount();
     }
     //Ensure we have someone to give equipment to before we lose it
-    for( detached_ptr<item> &it : equipment ) {
-        item *i = &*it;
-        comp->companion_mission_inv.add_item( std::move( it ) );
-        //comp->i_add(*i);
-        if( item::count_by_charges( i->typeId() ) ) {
-            g->u.use_charges( i->typeId(), i->charges );
-        } else {
-            g->u.use_amount( i->typeId(), 1 );
-        }
+    for( item * const &i : equipment ) {
+        comp->companion_mission_inv.add_item( i->detach() );
     }
     if( comp->in_vehicle ) {
         get_map().unboard_vehicle( comp->pos() );
@@ -1198,14 +1191,14 @@ void talk_function::field_harvest( npc &p, const std::string &place )
         }
         add_msg( _( "You receive %d %s…" ), number_plants, plant_names[plant_index] );
     }
-    tmp = item_spawn_temporary( seed_types[plant_index], calendar::turn );
+    tmp = item::spawn_temporary( seed_types[plant_index], calendar::turn );
     const islot_seed &seed_data = *tmp->type->seed;
     if( seed_data.spawn_seeds ) {
         if( tmp->count_by_charges() ) {
             tmp->charges = 1;
         }
         for( int i = 0; i < number_seeds; ++i ) {
-            g->u.i_add( *item_spawn( *tmp ) );
+            g->u.i_add( item::spawn( *tmp ) );
         }
         add_msg( _( "You receive %d %s…" ), number_seeds, tmp->type_name( 3 ) );
     }
@@ -1759,7 +1752,7 @@ void talk_function::companion_return( npc &comp )
     comp.companion_mission_time_ret = calendar::before_time_starts;
     map &here = get_map();
     for( detached_ptr<item> &it : comp.companion_mission_inv.dump_remove() ) {
-        here.add_item_or_charges( get_player_character().pos(), std::move( it );
+        here.add_item_or_charges( get_player_character().pos(), std::move( it ) );
     }
     comp.companion_mission_points.clear();
     // npc *may* be active, or not if outside the reality bubble

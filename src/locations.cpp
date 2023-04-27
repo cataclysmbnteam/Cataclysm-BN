@@ -116,6 +116,18 @@ bool character_item_location::check_for_corruption( const item *it ) const
     return holder->get_item_position( it ) >= 0;
 }
 
+detached_ptr<item> npc_mission_item_location::detach( item *it )
+{
+    npc *as_npc = static_cast<npc *>( holder );
+    return as_npc->companion_mission_inv.remove_item( it );
+}
+
+bool npc_mission_item_location::check_for_corruption( const item *it ) const
+{
+    npc *as_npc = static_cast<npc *>( holder );
+    return as_npc->companion_mission_inv.position_by_item( it ) >= 0;
+}
+
 detached_ptr<item> wield_item_location::detach( item * )
 {
     return holder->remove_weapon();
@@ -321,7 +333,7 @@ detached_ptr<item> monster_item_location::detach( item *it )
 
 bool monster_item_location::check_for_corruption( const item *it ) const
 {
-    std::vector<item *> &items = on->get_items();
+    const std::vector<item *> &items = on->get_items();
     auto iter = std::find( items.begin(), items.end(), it );
     return iter != items.end();
 }

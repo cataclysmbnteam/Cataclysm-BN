@@ -61,6 +61,7 @@
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "line.h"
+#include "locations.h"
 #include "magic.h"
 #include "map.h"
 #include "martialarts.h"
@@ -1473,7 +1474,7 @@ double item::effective_dps( const player &guy, const monster &mon ) const
     // that damage
     const auto calc_effective_damage = [ &, moves_per_attack]( const double num_strikes,
     const bool crit, const player & guy, const monster & mon ) {
-        monster temp_mon = mon;
+        monster temp_mon( mon );
         double subtotal_damage = 0;
         damage_instance base_damage;
         guy.roll_all_damage( crit, base_damage, true, *this );
@@ -1493,7 +1494,7 @@ double item::effective_dps( const player &guy, const monster &mon ) const
         double subtotal_moves = moves_per_attack * num_strikes;
 
         if( has_technique( rapid_strike ) ) {
-            monster temp_rs_mon = mon;
+            monster temp_rs_mon( mon );
             damage_instance rs_base_damage;
             guy.roll_all_damage( crit, rs_base_damage, true, *this );
             damage_instance dealt_rs_damage = rs_base_damage;

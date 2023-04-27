@@ -51,17 +51,8 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
 
     int scol = 0; // sorting column
 
-    std::map<std::string, standard_npc> test_npcs;
-    test_npcs[ "S1" ] = standard_npc( "S1", { 0, 0, 2 }, { "gloves_survivor", "mask_lsurvivor" },
-                                      4, 8, 10, 8, 10 /* DEX 10, PER 10 */ );
-    test_npcs[ "S2" ] = standard_npc( "S2", { 0, 0, 3 }, { "gloves_fingerless", "sunglasses" },
-                                      4, 8, 8, 8, 10 /* PER 10 */ );
-    test_npcs[ "S3" ] = standard_npc( "S3", { 0, 0, 4 }, { "gloves_plate", "helmet_plate" },
-                                      4, 10, 8, 8, 8 /* STAT 10 */ );
-    test_npcs[ "S4" ] = standard_npc( "S4", { 0, 0, 5 }, {}, 0, 8, 10, 8, 10 /* DEX 10, PER 10 */ );
-    test_npcs[ "S5" ] = standard_npc( "S5", { 0, 0, 6 }, {}, 4, 8, 10, 8, 10 /* DEX 10, PER 10 */ );
-    test_npcs[ "S6" ] = standard_npc( "S6", { 0, 0, 7 }, { "gloves_hsurvivor", "mask_hsurvivor" },
-                                      4, 8, 10, 8, 10 /* DEX 10, PER 10 */ );
+    standard_npc test_npc( "S1", { 0, 0, 2 }, { "gloves_survivor", "mask_lsurvivor" },
+                           4, 8, 10, 8, 10 /* DEX 10, PER 10 */ );
 
     if( what == "AMMO" ) {
         header = {
@@ -210,11 +201,11 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
                 }
                 gun.ammo_set( gun.ammo_default( false ), gun.ammo_capacity() );
 
-                dump( test_npcs[ "S1" ], gun );
+                dump( test_npc, gun );
 
                 if( gun.type->gun->barrel_length > 0_ml ) {
                     gun.put_in( item::spawn( "barrel_small" ) );
-                    dump( test_npcs[ "S1" ], gun );
+                    dump( test_npc, gun );
                 }
             }
         }

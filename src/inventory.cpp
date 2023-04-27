@@ -14,6 +14,7 @@
 #include "distribution_grid.h"
 #include "game.h"
 #include "iexamine.h"
+#include "locations.h"
 #include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"

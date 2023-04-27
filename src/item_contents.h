@@ -24,11 +24,9 @@ struct tripoint;
 class item_contents
 {
     public:
-        item_contents( item *container ) : items( new contents_item_location( container ) ) {}
+        item_contents( item *container );
         /** used to aid migration */
-        item_contents( item *container,
-                       std::vector<detached_ptr<item>> &items ) : items( new contents_item_location( container ),
-                                   items ) {}
+        item_contents( item *container, std::vector<detached_ptr<item>> &items );
         ~item_contents();
 
         bool empty() const;

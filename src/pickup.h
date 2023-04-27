@@ -11,6 +11,9 @@ class JsonOut;
 class map;
 struct tripoint;
 
+template<typename T>
+class detached_ptr;
+
 namespace pickup
 {
 
