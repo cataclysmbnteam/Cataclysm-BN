@@ -676,7 +676,7 @@
     "difficulty": 7,
     "time": "4 h",
     "autolearn": true,
-    "book_learn": [ [ "textbook_weapeast", 3 ] , [ "recipe_melee", 4 ] ],
+    "book_learn": [ [ "textbook_weapeast", 3 ], [ "recipe_melee", 4 ] ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ]
   }
 ]
