@@ -2217,7 +2217,7 @@ void crafting::complete_disassemble( Character &who, iuse_location target,
             }
 
             for( ; compcount > 0; compcount-- ) {
-                components.push_back( std::move( item::spawn( *newit ) ) );
+                components.push_back( item::spawn( *newit ) );
             }
         }
     }

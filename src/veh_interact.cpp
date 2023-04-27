@@ -160,7 +160,7 @@ player_activity veh_interact::serialize_activity()
     res.values.push_back( veh->index_of_part( vpt ) ); // values[6]
     res.values.push_back( q.z );   // values[7]
     res.str_values.push_back( vp->get_id().str() );
-    res.targets.emplace_back( std::move( target ) );
+    res.targets.emplace_back( target );
 
     return res;
 }
@@ -454,7 +454,7 @@ void veh_interact::do_main_loop()
                 do_siphon();
                 // Siphoning may have started a player activity. If so, we should close the
                 // vehicle dialog and continue with the activity.
-                finish = !g->u.activity.is_null();
+                finish = !g->u.activity->is_null();
                 if( !finish ) {
                     // it's possible we just invalidated our crafting inventory
                     cache_tool_availability();
@@ -3019,19 +3019,19 @@ void act_vehicle_unload_fuel( vehicle *veh )
  */
 void veh_interact::complete_vehicle( player &p )
 {
-    if( p.activity.values.size() < 7 ) {
-        debugmsg( "Invalid activity ACT_VEHICLE values:%d", p.activity.values.size() );
+    if( p.activity->values.size() < 7 ) {
+        debugmsg( "Invalid activity ACT_VEHICLE values:%d", p.activity->values.size() );
         return;
     }
 
     map &here = get_map();
-    optional_vpart_position vp = here.veh_at( here.getlocal( tripoint( p.activity.values[0],
-                                 p.activity.values[1], p.activity.values[7] ) ) );
+    optional_vpart_position vp = here.veh_at( here.getlocal( tripoint( p.activity->values[0],
+                                 p.activity->values[1], p.activity->values[7] ) ) );
     if( !vp ) {
         // so the vehicle could have lost some of its parts from other NPCS works during this player/NPCs activity.
         // check the vehicle points that were stored at beginning of activity.
-        if( !p.activity.coord_set.empty() ) {
-            for( const auto pt : p.activity.coord_set ) {
+        if( !p.activity->coord_set.empty() ) {
+            for( const auto pt : p.activity->coord_set ) {
                 vp = here.veh_at( here.getlocal( pt ) );
                 if( vp ) {
                     break;

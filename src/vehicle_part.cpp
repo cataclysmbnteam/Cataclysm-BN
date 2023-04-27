@@ -147,7 +147,7 @@ void vehicle_part::set_location_hack( vehicle *on )
         base->set_location( new vehicle_base_item_location( on ) );
     }
     for( item *&it : items ) {
-        it->set_location( new vehicle_item_location( on ) );
+        it->set_location( new vehicle_item_spawn( on ) );
     }
 }
 

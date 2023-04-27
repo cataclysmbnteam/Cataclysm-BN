@@ -163,7 +163,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
         auto replacement_id = pt.info().get_id();
         get_map().spawn_items( who.pos(), pt.pieces_for_broken_part() );
         veh.remove_part( part_index );
-        const int partnum = veh.install_part( loc, replacement_id, std::move( base ) );
+        const int partnum = veh.install_part( loc, replacement_id, base );
         veh.part( partnum ).direction = dir;
         veh.part_removal_cleanup();
     } else {

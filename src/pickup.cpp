@@ -1199,7 +1199,7 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
     g->u.assign_activity( player_activity( pickup_activity_actor( targets, g->u.pos() ) ) );
     if( min == -1 ) {
         // Auto pickup will need to auto resume since there can be several of them on the stack.
-        g->u.activity.auto_resume = true;
+        g->u.activity->auto_resume = true;
     }
 
     g->reenter_fullscreen();

@@ -1104,7 +1104,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                     obj.set_var( "activity_var", p.name );
                 }
                 for( int i = 0; i != roll; ++i ) {
-                    here.add_item_or_charges( p.pos(), std::move( item::spawn( obj ) ) );
+                    here.add_item_or_charges( p.pos(), item::spawn( obj ) );
                 }
             }
             p.add_msg_if_player( m_good, _( "You harvest: %s" ), drop->nname( roll ) );
@@ -1127,7 +1127,7 @@ static void butchery_quarter( item *corpse_item, const player &p )
     map &here = get_map();
     // 4 quarters (one exists, add 3, flag does the rest)
     for( int i = 1; i <= 3; i++ ) {
-        here.add_item_or_charges( p.pos(), std::move( item::spawn( *corpse_item ) ), true );
+        here.add_item_or_charges( p.pos(), item::spawn( *corpse_item ) , true );
     }
 }
 
@@ -3050,7 +3050,7 @@ void activity_handlers::toolmod_add_finish( player_activity *act, player *p )
     p->add_msg_if_player( m_good, _( "You successfully attached the %1$s to your %2$s." ),
                           mod.tname(), tool.tname() );
     mod.set_flag( "IRREMOVABLE" );
-    tool.put_in( std::move( mod.detach() ) );
+    tool.put_in( mod.detach() );
 }
 
 void activity_handlers::clear_rubble_finish( player_activity *act, player *p )
@@ -3175,9 +3175,9 @@ static void rod_fish( player *p, const std::vector<monster *> &fishables )
         const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup(
                     mongroup_id( "GROUP_FISH" ) );
         const mtype_id fish_mon = random_entry_ref( fish_group );
-        here.add_item_or_charges( p->pos(), std::move( item::make_corpse( fish_mon,
+        here.add_item_or_charges( p->pos(), item::make_corpse( fish_mon,
                                   calendar::turn + rng( 0_turns,
-                                          3_hours ) ) ) );
+                                          3_hours ) ) );
         p->add_msg_if_player( m_good, _( "You caught a %s." ), fish_mon.obj().nname() );
     } else {
         monster *chosen_fish = random_entry( fishables );
@@ -3185,9 +3185,9 @@ static void rod_fish( player *p, const std::vector<monster *> &fishables )
         if( chosen_fish->fish_population <= 0 ) {
             g->catch_a_monster( chosen_fish, p->pos(), p, 50_hours );
         } else {
-            here.add_item_or_charges( p->pos(), std::move( item::make_corpse( chosen_fish->type->id,
+            here.add_item_or_charges( p->pos(), item::make_corpse( chosen_fish->type->id,
                                       calendar::turn + rng( 0_turns,
-                                              3_hours ) ) ) );
+                                              3_hours ) ) );
             p->add_msg_if_player( m_good, _( "You caught a %s." ), chosen_fish->type->nname() );
         }
     }
@@ -4795,5 +4795,5 @@ void activity_handlers::mind_splicer_finish( player_activity *act, player *p )
     p->add_msg_if_player( m_info, _( "…you finally find the memory banks." ) );
     p->add_msg_if_player( m_info, _( "The kit makes a copy of the data inside the bionic." ) );
     data_card.contents.clear_items();
-    data_card.put_in( std::move( item::spawn( itype_mind_scan_robofac ) ) );
+    data_card.put_in( item::spawn( itype_mind_scan_robofac ) );
 }

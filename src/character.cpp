@@ -2468,7 +2468,7 @@ detached_ptr<item> Character::i_rem( int pos )
         tmp->on_takeoff( *this );
         detached_ptr<item> ret;
         worn.erase( iter, &ret );
-        return std::move( ret );
+        return ret ;
     }
     return inv.remove_item( pos );
 }
@@ -2487,14 +2487,14 @@ detached_ptr<item> Character::i_rem( const item *it )
         debugmsg( "did not found item %s to remove it!", it->tname() );
         return detached_ptr<item>();
     }
-    return std::move( ret );
+    return ret ;
 }
 
 detached_ptr<item> Character::i_rem_keep_contents( const int idx )
 {
     detached_ptr<item> ret = i_rem( idx );
     ret->spill_contents( pos() );
-    return std::move( ret );
+    return ret ;
 }
 
 detached_ptr<item> Character::i_add_or_drop( detached_ptr<item> &&it )
@@ -10666,7 +10666,7 @@ void Character::start_destination_activity()
         return;
     }
 
-    assign_activity( std::move( clear_destination() ) );
+    assign_activity( clear_destination() );
 }
 
 std::vector<tripoint> &Character::get_auto_move_route()

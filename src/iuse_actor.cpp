@@ -3006,7 +3006,7 @@ int ammobelt_actor::use( player &p, item &, bool, const tripoint & ) const
     if( opt ) {
         p.assign_activity( ACT_RELOAD, opt.moves(), opt.qty() );
         p.activity->targets.emplace_back( &*mag );
-        p.activity->targets.push_back( std::move( opt.ammo ) );
+        p.activity->targets.push_back( opt.ammo );
         p.i_add( std::move( mag ) );
     }
 

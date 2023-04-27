@@ -635,9 +635,9 @@ std::vector<detached_ptr<item>> obtain_and_tokenize_items( player &p, std::list<
                 continue;
             }
         } else if( ait.loc->count_by_charges() ) {
-            res.push_back( std::move( p.reduce_charges( const_cast<item *>( &*ait.loc ), ait.count ) ) );
+            res.push_back( p.reduce_charges( const_cast<item *>( &*ait.loc ), ait.count ) );
         } else {
-            res.push_back( std::move( p.i_rem( &*ait.loc ) ) );
+            res.push_back( p.i_rem( &*ait.loc ) );
         }
 
         // TODO: Get the item consistently instead of using back()
@@ -708,7 +708,7 @@ void drop_activity_actor::do_turn( player_activity &, Character &who )
 {
     const tripoint pos = who.pos() + relpos;
 
-    std::vector<detached_ptr<item>> dropped = std::move( obtain_activity_items( who, items ) );
+    std::vector<detached_ptr<item>> dropped = obtain_activity_items( who, items ) ;
 
     put_into_vehicle_or_drop( who, item_drop_reason::deliberate,
                               dropped, pos, force_ground );
@@ -982,7 +982,7 @@ static void move_item( player &p, item &it, const int quantity, const tripoint &
     if( it.made_of( LIQUID ) ) {
         return;
     }
-    detached_ptr<item> moved = std::move( it.split( quantity ) );
+    detached_ptr<item> moved = it.split( quantity ) ;
 
     p.mod_moves( -move_cost( it, src, dest ) );
     if( activity_to_restore == ACT_TIDY_UP ) {
@@ -1954,7 +1954,7 @@ static bool tidy_activity( player &p, const tripoint &src_loc,
         for( item *inv_elem : p.inv_dump() ) {
             if( inv_elem->has_var( "activity_var" ) ) {
                 inv_elem->erase_var( "activity_var" );
-                put_into_vehicle_or_drop( p, item_drop_reason::deliberate, std::move( p.i_rem( inv_elem ) ),
+                put_into_vehicle_or_drop( p, item_drop_reason::deliberate, p.i_rem( inv_elem ) ,
                                           src_loc );
             }
         }
@@ -2018,7 +2018,7 @@ static bool fetch_activity( player &p, const tripoint &src_loc,
                         continue;
                     }
                     //This invalidates our iterator but we don't care because it isn't used again
-                    detached_ptr<item> moved = std::move( it.split( pickup_count ) );
+                    detached_ptr<item> moved = it.split( pickup_count ) ;
                     moved->set_var( "activity_var", p.name );
                     const std::string item_name = moved->tname();
                     if( p.is_npc() ) {

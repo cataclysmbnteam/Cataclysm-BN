@@ -1584,7 +1584,7 @@ int vehicle::install_part( point dp, const vpart_id &id, bool force )
         return -1;
     }
     item &obj = *item::spawn( id.obj().item );
-    int ret = install_part( dp, std::move( vehicle_part( id, dp, obj ) ) );
+    int ret = install_part( dp, vehicle_part( id, dp, obj ) );
     return ret;
 }
 
@@ -1594,7 +1594,7 @@ int vehicle::install_part( point dp, const vpart_id &id, item &obj, bool force )
         return -1;
     }
 
-    int ret = install_part( dp, std::move( vehicle_part( id, dp, obj ) ) );
+    int ret = install_part( dp, vehicle_part( id, dp, obj ) );
     return ret;
 }
 

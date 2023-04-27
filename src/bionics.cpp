@@ -456,7 +456,7 @@ void npc::discharge_cbm_weapon()
     }
     const bionic &bio = ( *my_bionics )[cbm_weapon_index];
     mod_power_level( -bio.info().power_activate );
-    set_weapon( std::move( remove_real_weapon() ) );
+    set_weapon( remove_real_weapon() );
     cbm_weapon_index = -1;
 }
 
@@ -504,7 +504,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
 
         if( npc_ai::weapon_value( *this, get_weapon(), ammo_count ) < npc_ai::weapon_value( *this,
                 *cbm_weapon, cbm_ammo ) ) {
-            set_real_weapon( std::move( remove_weapon() ) );
+            set_real_weapon( remove_weapon() );
             set_weapon( std::move( cbm_weapon ) );
             cbm_weapon_index = index;
         }
@@ -517,7 +517,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
             add_msg( m_info, _( "%s activates their %s." ), disp_name(), bio.info().name );
         }
 
-        set_weapon( std::move( item::spawn( bio.info().fake_item ) ) );
+        set_weapon( item::spawn( bio.info().fake_item ) );
         mod_power_level( -bio.info().power_activate );
         bio.powered = true;
         cbm_weapon_index = index;
@@ -591,7 +591,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only )
         refund_power(); // Power usage calculated later, in avatar_action::fire
         //TODO!: check lifetime
         avatar_action::fire_ranged_bionic( *this->as_avatar(),
-                                           std::move( item::spawn( bio.info().fake_item ) ),
+                                           item::spawn( bio.info().fake_item ) ,
                                            bio.info().power_activate );
     } else if( bio.info().has_flag( flag_BIONIC_WEAPON ) ) {
         if( weapon->has_flag( flag_NO_UNWIELD ) ) {
@@ -611,7 +611,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only )
         }
 
         add_msg_activate();
-        set_weapon( std::move( item::spawn( bio.info().fake_item ) ) );
+        set_weapon( item::spawn( bio.info().fake_item ) );
         get_weapon().invlet = '#';
         if( bio.ammo_count > 0 ) {
             weapon->ammo_set( bio.ammo_loaded, bio.ammo_count );

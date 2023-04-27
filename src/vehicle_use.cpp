@@ -505,11 +505,11 @@ bool vehicle::interact_vehicle_locked()
                 point q = coord_translate( parts[0].mount );
                 const tripoint abs_veh_pos = global_square_location().raw();
                 //[0]
-                g->u.activity.values.push_back( abs_veh_pos.x + q.x );
+                g->u.activity->values.push_back( abs_veh_pos.x + q.x );
                 //[1]
-                g->u.activity.values.push_back( abs_veh_pos.y + q.y );
+                g->u.activity->values.push_back( abs_veh_pos.y + q.y );
                 //[2]
-                g->u.activity.values.push_back( g->u.get_skill_level( skill_mechanics ) );
+                g->u.activity->values.push_back( g->u.get_skill_level( skill_mechanics ) );
             } else {
                 if( has_security_working() && query_yn( _( "Trigger the %s's Alarm?" ), name ) ) {
                     is_alarm_on = true;
@@ -1153,8 +1153,8 @@ void vehicle::start_engines( const bool take_control, const bool autodrive )
     }
     if( !autodrive ) {
         g->u.assign_activity( ACT_START_ENGINES, start_time );
-        g->u.activity.placement = starting_engine_position - g->u.pos();
-        g->u.activity.values.push_back( take_control );
+        g->u.activity->placement = starting_engine_position - g->u.pos();
+        g->u.activity->values.push_back( take_control );
     }
 }
 
@@ -2185,8 +2185,8 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
             item_reload_option opt = character_funcs::select_ammo( you,  turret.base(), true );
             if( opt ) {
                 you.assign_activity( ACT_RELOAD, opt.moves(), opt.qty() );
-                you.activity.targets.emplace_back( turret.base() );
-                you.activity.targets.push_back( std::move( opt.ammo ) );
+                you.activity->targets.emplace_back( turret.base() );
+                you.activity->targets.push_back( opt.ammo );
             }
             return;
         }

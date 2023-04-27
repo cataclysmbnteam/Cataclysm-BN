@@ -722,21 +722,21 @@ void avatar_action::fire_wielded_weapon( avatar &you )
         return;
     }
 
-    you.assign_activity( std::move( std::make_unique<player_activity>
-                                    ( aim_activity_actor::use_wielded() ) ), false );
+    you.assign_activity( std::make_unique<player_activity>
+                                    ( aim_activity_actor::use_wielded() ) , false );
 }
 
 void avatar_action::fire_ranged_mutation( avatar &you, detached_ptr<item> &&fake_gun )
 {
-    you.assign_activity( std::move( std::make_unique<player_activity>( aim_activity_actor::use_mutation(
-                                        std::move( fake_gun ) ) ) ), false );
+    you.assign_activity( std::make_unique<player_activity>( aim_activity_actor::use_mutation(
+                                        std::move( fake_gun ) ) ) , false );
 }
 
 void avatar_action::fire_ranged_bionic( avatar &you, detached_ptr<item> &&fake_gun,
                                         const units::energy &cost_per_shot )
 {
-    you.assign_activity( std::move( std::make_unique<player_activity>( aim_activity_actor::use_bionic(
-                                        std::move( fake_gun ), cost_per_shot ) ) ),
+    you.assign_activity( std::make_unique<player_activity>( aim_activity_actor::use_bionic(
+                                        std::move( fake_gun ), cost_per_shot ) ) ,
                          false );
 }
 
@@ -1075,13 +1075,13 @@ void avatar_action::wield( item &loc )
                 if( worn_index != INT_MIN ) {
                     auto it = u.worn.begin();
                     std::advance( it, worn_index );
-                    u.worn.insert( it, std::move( to_wield->detach() ) );
+                    u.worn.insert( it, to_wield->detach() );
                 } else {
-                    u.i_add( std::move( to_wield->detach() ) );
+                    u.i_add( to_wield->detach() );
                 }
                 break;
             case item_location_type::map:
-                here.add_item( pos, std::move( to_wield->detach() ) );
+                here.add_item( pos, to_wield->detach() );
                 break;
             case item_location_type::vehicle: {
                 const cata::optional<vpart_reference> vp = here.veh_at( pos ).part_with_feature( "CARGO", false );
@@ -1210,7 +1210,7 @@ void avatar_action::reload( item &loc, bool prompt, bool empty )
         } else {
             u.activity->targets.emplace_back( opt.target );
         }
-        u.activity->targets.push_back( std::move( opt.ammo ) );
+        u.activity->targets.push_back( opt.ammo );
     }
 }
 
@@ -1295,7 +1295,7 @@ void avatar_action::reload_weapon( bool try_everything )
             u.assign_activity( std::make_unique<player_activity>( activity_id( "ACT_RELOAD" ), opt.moves(),
                                opt.qty() ) );
             u.activity->targets.emplace_back( turret.base() );
-            u.activity->targets.push_back( std::move( opt.ammo ) );
+            u.activity->targets.push_back( opt.ammo );
         }
         return;
     }

@@ -463,7 +463,7 @@ bool gunmod_remove( avatar &you, item &gun, item &mod )
 
     const itype *modtype = mod.type;
 
-    you.i_add_or_drop( std::move( gun.remove_item( mod ) ) );
+    you.i_add_or_drop( gun.remove_item( mod ) );
 
     //If the removed gunmod added mod locations, check to see if any mods are in invalid locations
     if( !modtype->gunmod->add_mod.empty() ) {
@@ -588,7 +588,7 @@ void use_item( avatar &you, item &used )
     } else if( used.has_flag( flag_SPLINT ) ) {
         ret_val<bool> need_splint = you.can_wear( used );
         if( need_splint.success() ) {
-            you.wear_item( std::move( used.detach() ) );
+            you.wear_item( used.detach() );
         } else {
             add_msg( m_info, need_splint.str() );
         }
