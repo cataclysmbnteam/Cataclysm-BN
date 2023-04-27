@@ -806,8 +806,6 @@
     "book_learn": [ [ "textbook_weapeast", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 2 ] ],
-    "components": [
-      [ [ "fur", 2 ], [ "leather", 2 ] ]
-    ]
+    "components": [ [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   }
 ]
