@@ -122,7 +122,7 @@ player::player()
     cash = 0;
     scent = 500;
     male = true;
-    set_weapon( null_item_reference() );
+    remove_weapon();
 
     start_location = start_location_id( "sloc_shelter" );
     moves = 100;
@@ -158,35 +158,37 @@ player::~player() = default;
 player::player( player && ) = default;
 player &player::operator=( player && ) = default;
 
-item *player::reduce_charges( int position, int quantity )
+detached_ptr<item> player::reduce_charges( int position, int quantity )
 {
     item &it = i_at( position );
     if( it.is_null() ) {
         debugmsg( "invalid item position %d for reduce_charges", position );
-        return &null_item_reference();
+        return detached_ptr<item>();
     }
     if( it.charges <= quantity ) {
-        return &i_rem( position );
+        return i_rem( position );
     }
     it.mod_charges( -quantity );
-    item *tmp = item::spawn( it );
-    tmp->charges = quantity;
-    return tmp;
+
+    auto taken = item::spawn( it );
+    taken->charges = quantity;
+    return taken;
 }
 
-item *player::reduce_charges( item *it, int quantity )
+detached_ptr<item> player::reduce_charges( item *it, int quantity )
 {
     if( !has_item( *it ) ) {
         debugmsg( "invalid item (name %s) for reduce_charges", it->tname() );
-        return &null_item_reference();
+        return detached_ptr<item>();
     }
     if( it->charges <= quantity ) {
-        return &i_rem( it );
+        return i_rem( it );
     }
     it->mod_charges( -quantity );
-    item *result = item::spawn( *it );
-    result->charges = quantity;
-    return result;
+
+    auto taken = item::spawn( *it );
+    taken->charges = quantity;
+    return taken;
 }
 
 // ids of martial art styles that are available with the bio_cqb bionic.
