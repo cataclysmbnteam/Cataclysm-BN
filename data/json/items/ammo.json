@@ -1081,8 +1081,8 @@
     "description": "A ball of lead roughly the size of a baseball.  Traditionally thrown from a sling, and hits a lot harder than any old rock.",
     "material": "lead",
     "ammo_type": "rock",
-    "weight": "28 g",
-    "volume": "250 ml",
+    "weight": "150 g",
+    "volume": "50 ml",
     "bashing": 14,
     "damage": { "damage_type": "bash", "amount": 16 },
     "range": 14,
@@ -1100,13 +1100,13 @@
     "description": "A small ball of lead traditionally thrown from a sling.  It hits a lot harder than any old pebble.",
     "material": "lead",
     "ammo_type": "pebble",
-    "weight": "12 g",
+    "weight": "25 g",
     "volume": "250 ml",
     "damage": { "damage_type": "bash", "amount": 8 },
     "range": 20,
     "dispersion": 10,
     "loudness": 0,
-    "count": 50,
+    "count": 30,
     "effects": [ "NEVER_MISFIRES", "NON-FOULING", "RECOVER_100" ]
   }
 ]
