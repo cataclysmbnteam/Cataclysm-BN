@@ -135,7 +135,6 @@
     "cutting": 20,
     "price_postapoc": 500,
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ],
-    "techniques": [ "WBLOCK_1" ],
     "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "SHEATH_KNIFE" ]
   },
   {
