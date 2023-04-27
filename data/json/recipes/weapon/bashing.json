@@ -413,5 +413,18 @@
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "i_staff", 1 ] ], [ [ "tazer", 1 ] ], [ [ "cable", 10 ] ] ]
+  },
+  {
+	"result": "spiked_boxing",
+	"type": "recipe",
+	"category": "CC_WEAPON",
+	"subcategory": "CSC_WEAPON_BASHING",
+	"skill_used": "tailor",
+	"difficulty": 4,
+	"skills_required": [ "unarmed", 1 ],
+	"time": "20 m",
+	"autolearn": true,
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "rag", 8 ] ], [ [ "filament", 12, "LIST" ] ], [ [ "nail", 5 ] ] ]
   }
 ]
