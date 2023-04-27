@@ -138,7 +138,7 @@
     "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "SHEATH_KNIFE" ]
   },
   {
-	"type": "GENERIC",
+    "type": "GENERIC",
     "id": "spiked_boxing",
     "category": "weapons",
     "weapon_category": [ "FIST_WEAPONS" ],
