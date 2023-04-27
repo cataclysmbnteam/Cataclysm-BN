@@ -723,20 +723,20 @@ void avatar_action::fire_wielded_weapon( avatar &you )
     }
 
     you.assign_activity( std::make_unique<player_activity>
-                                    ( aim_activity_actor::use_wielded() ) , false );
+                         ( aim_activity_actor::use_wielded() ), false );
 }
 
 void avatar_action::fire_ranged_mutation( avatar &you, detached_ptr<item> &&fake_gun )
 {
     you.assign_activity( std::make_unique<player_activity>( aim_activity_actor::use_mutation(
-                                        std::move( fake_gun ) ) ) , false );
+                             std::move( fake_gun ) ) ), false );
 }
 
 void avatar_action::fire_ranged_bionic( avatar &you, detached_ptr<item> &&fake_gun,
                                         const units::energy &cost_per_shot )
 {
     you.assign_activity( std::make_unique<player_activity>( aim_activity_actor::use_bionic(
-                                        std::move( fake_gun ), cost_per_shot ) ) ,
+                             std::move( fake_gun ), cost_per_shot ) ),
                          false );
 }
 

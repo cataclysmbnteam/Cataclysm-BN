@@ -1954,7 +1954,7 @@ static bool tidy_activity( player &p, const tripoint &src_loc,
         for( item *inv_elem : p.inv_dump() ) {
             if( inv_elem->has_var( "activity_var" ) ) {
                 inv_elem->erase_var( "activity_var" );
-                put_into_vehicle_or_drop( p, item_drop_reason::deliberate, p.i_rem( inv_elem ) ,
+                put_into_vehicle_or_drop( p, item_drop_reason::deliberate, p.i_rem( inv_elem ),
                                           src_loc );
             }
         }

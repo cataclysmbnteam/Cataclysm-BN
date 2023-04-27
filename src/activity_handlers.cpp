@@ -1127,7 +1127,7 @@ static void butchery_quarter( item *corpse_item, const player &p )
     map &here = get_map();
     // 4 quarters (one exists, add 3, flag does the rest)
     for( int i = 1; i <= 3; i++ ) {
-        here.add_item_or_charges( p.pos(), item::spawn( *corpse_item ) , true );
+        here.add_item_or_charges( p.pos(), item::spawn( *corpse_item ), true );
     }
 }
 

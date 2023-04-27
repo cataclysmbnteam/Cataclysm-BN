@@ -591,7 +591,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only )
         refund_power(); // Power usage calculated later, in avatar_action::fire
         //TODO!: check lifetime
         avatar_action::fire_ranged_bionic( *this->as_avatar(),
-                                           item::spawn( bio.info().fake_item ) ,
+                                           item::spawn( bio.info().fake_item ),
                                            bio.info().power_activate );
     } else if( bio.info().has_flag( flag_BIONIC_WEAPON ) ) {
         if( weapon->has_flag( flag_NO_UNWIELD ) ) {
