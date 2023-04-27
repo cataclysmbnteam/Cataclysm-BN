@@ -160,7 +160,7 @@ player_activity veh_interact::serialize_activity()
     res.values.push_back( veh->index_of_part( vpt ) ); // values[6]
     res.values.push_back( q.z );   // values[7]
     res.str_values.push_back( vp->get_id().str() );
-    res.targets.emplace_back( std::move( target ) );
+    res.targets.emplace_back( target );
 
     return res;
 }
@@ -454,7 +454,7 @@ void veh_interact::do_main_loop()
                 do_siphon();
                 // Siphoning may have started a player activity. If so, we should close the
                 // vehicle dialog and continue with the activity.
-                finish = !g->u.activity.is_null();
+                finish = !g->u.activity->is_null();
                 if( !finish ) {
                     // it's possible we just invalidated our crafting inventory
                     cache_tool_availability();
@@ -1962,7 +1962,7 @@ void veh_interact::do_siphon()
         const item &base = pt.get_base();
         const int idx = veh->find_part( base );
         //TODO!: check
-        item *liquid = item_spawn( base.contents.back() );
+        item *liquid = item::spawn( base.contents.back() );
         const int liq_charges = liquid->charges;
         if( liquid_handler::handle_liquid( *liquid, nullptr, 1, nullptr, veh, idx ) ) {
             veh->drain( idx, liq_charges - liquid->charges );
@@ -2950,7 +2950,7 @@ void act_vehicle_siphon( vehicle *veh )
     if( tank ) {
         const item &base = tank.get_base();
         const int idx = veh->find_part( base );
-        item *liquid = item_spawn( base.contents.back() );
+        item *liquid = item::spawn( base.contents.back() );
         const int liq_charges = liquid->charges;
         if( liquid_handler::handle_liquid( *liquid, nullptr, 1, nullptr, veh, idx ) ) {
             veh->drain( idx, liq_charges - liquid->charges );
@@ -3001,12 +3001,12 @@ void act_vehicle_unload_fuel( vehicle *veh )
             add_msg( m_info, _( "The vehicle has no fully charged plutonium cells." ) );
             return;
         }
-        item &plutonium = *item_spawn( fuel, calendar::turn, qty / PLUTONIUM_CHARGES );
+        item &plutonium = *item::spawn( fuel, calendar::turn, qty / PLUTONIUM_CHARGES );
         add_msg( m_info, _( "You unload %s from the vehicle." ), plutonium.display_name() );
         veh->drain( fuel, qty - ( qty % PLUTONIUM_CHARGES ) );
         g->u.i_add_or_drop( plutonium );
     } else {
-        item &solid_fuel = *item_spawn( fuel, calendar::turn, qty );
+        item &solid_fuel = *item::spawn( fuel, calendar::turn, qty );
         add_msg( m_info, _( "You unload %s from the vehicle." ), solid_fuel.display_name() );
         veh->drain( fuel, qty );
         g->u.i_add_or_drop( solid_fuel );
@@ -3019,19 +3019,19 @@ void act_vehicle_unload_fuel( vehicle *veh )
  */
 void veh_interact::complete_vehicle( player &p )
 {
-    if( p.activity.values.size() < 7 ) {
-        debugmsg( "Invalid activity ACT_VEHICLE values:%d", p.activity.values.size() );
+    if( p.activity->values.size() < 7 ) {
+        debugmsg( "Invalid activity ACT_VEHICLE values:%d", p.activity->values.size() );
         return;
     }
 
     map &here = get_map();
-    optional_vpart_position vp = here.veh_at( here.getlocal( tripoint( p.activity.values[0],
-                                 p.activity.values[1], p.activity.values[7] ) ) );
+    optional_vpart_position vp = here.veh_at( here.getlocal( tripoint( p.activity->values[0],
+                                 p.activity->values[1], p.activity->values[7] ) ) );
     if( !vp ) {
         // so the vehicle could have lost some of its parts from other NPCS works during this player/NPCs activity.
         // check the vehicle points that were stored at beginning of activity.
-        if( !p.activity.coord_set.empty() ) {
-            for( const auto pt : p.activity.coord_set ) {
+        if( !p.activity->coord_set.empty() ) {
+            for( const auto pt : p.activity->coord_set ) {
                 vp = here.veh_at( here.getlocal( pt ) );
                 if( vp ) {
                     break;
@@ -3077,7 +3077,7 @@ void veh_interact::complete_vehicle( player &p )
                     add_msg( m_info, _( "Could not find base part in requirements for %s." ), vpinfo.name() );
                     break;
                 } else {
-                    base = item_spawn( vpinfo.item );
+                    base = item::spawn( vpinfo.item );
                 }
             }
 

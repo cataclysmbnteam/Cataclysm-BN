@@ -276,7 +276,7 @@ class item : public location_visitable<item>, public game_object<item>
         inline static detached_ptr<item> spawn( JsonIn &jsin ) {
             detached_ptr<item> p = spawn();
             p->deserialize( jsin );
-            return std::move( p );
+            return p ;
         }
 
         inline static detached_ptr<item>spawn( const item &source ) {
@@ -288,7 +288,7 @@ class item : public location_visitable<item>, public game_object<item>
 
         template<typename... T>
         inline static detached_ptr<item>spawn( T... args ) {
-            return std::move( detached_ptr<item>( new item( std::forward<T>( args )... ) ) );
+            return detached_ptr<item>( new item( std::forward<T>( args )... ) ) ;
         }
 
         inline static item *spawn_temporary( const item &source ) {

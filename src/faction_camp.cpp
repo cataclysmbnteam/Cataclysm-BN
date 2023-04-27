@@ -2431,7 +2431,7 @@ void basecamp::start_farm_op( point dir, const tripoint_abs_omt &omt_tgt, farm_o
             }
             work += 1_minutes * plots_seeded;
             start_mission( "_faction_exp_plant_" + dir_id, work, true,
-                           _( "begins planting the field…" ), false, std::move( plant_these ),
+                           _( "begins planting the field…" ), false, plant_these,
                            skill_survival, 1 );
             break;
         }

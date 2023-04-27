@@ -464,12 +464,12 @@ void Character::load( const JsonObject &data )
     data.read( "stashed_outbounds_activity", stashed_outbounds_activity );
     data.read( "stashed_outbounds_backlog", stashed_outbounds_backlog );
     data.read( "backlog", backlog );
-    if( !backlog.empty() && !backlog.front().str_values.empty() && ( ( activity &&
-            activity.id() == activity_id( "ACT_FETCH_REQUIRED" ) ) || ( destination_activity &&
-                    destination_activity.id() == activity_id( "ACT_FETCH_REQUIRED" ) ) ) ) {
+    if( !backlog.empty() && !backlog.front()->str_values.empty() && ( ( activity &&
+            activity->id() == activity_id( "ACT_FETCH_REQUIRED" ) ) || ( destination_activity &&
+                    destination_activity->id() == activity_id( "ACT_FETCH_REQUIRED" ) ) ) ) {
         requirement_data fetch_reqs;
         data.read( "fetch_data", fetch_reqs );
-        const requirement_id req_id( backlog.front().str_values.back() );
+        const requirement_id req_id( backlog.front()->str_values.back() );
         requirement_data::save_requirement( fetch_reqs, req_id );
     }
     // npc activity on vehicles.
@@ -716,10 +716,10 @@ void Character::store( JsonOut &json ) const
     json.member( "activity_vehicle_part_index", activity_vehicle_part_index ); // NPC activity
 
     // handling for storing activity requirements
-    if( !backlog.empty() && !backlog.front().str_values.empty() && ( ( activity &&
-            activity.id() == activity_id( "ACT_FETCH_REQUIRED" ) ) || ( destination_activity &&
-                    destination_activity.id() == activity_id( "ACT_FETCH_REQUIRED" ) ) ) ) {
-        requirement_data things_to_fetch = requirement_id( backlog.front().str_values.back() ).obj();
+    if( !backlog.empty() && !backlog.front()->str_values.empty() && ( ( activity &&
+            activity->id() == activity_id( "ACT_FETCH_REQUIRED" ) ) || ( destination_activity &&
+                    destination_activity->id() == activity_id( "ACT_FETCH_REQUIRED" ) ) ) ) {
+        requirement_data things_to_fetch = requirement_id( backlog.front()->str_values.back() ).obj();
         json.member( "fetch_data", things_to_fetch );
     }
 
@@ -1489,7 +1489,7 @@ void npc::load( const JsonObject &data )
     if( data.read( "current_activity_id", act_id ) ) {
         current_activity_id = activity_id( act_id );
     } else if( activity ) {
-        current_activity_id = activity.id();
+        current_activity_id = activity->id();
     }
 
     if( data.has_member( "pulp_locationx" ) ) {
@@ -1764,7 +1764,7 @@ void inventory::json_load_items( JsonIn &jsin )
 {
     jsin.start_array();
     while( !jsin.end_array() ) {
-        add_item( *item_spawn( jsin ), true, false );
+        add_item( *item::spawn( jsin ), true, false );
     }
 }
 
@@ -1802,23 +1802,23 @@ void monster::load( const JsonObject &data )
     }
     if( data.has_object( "tied_item" ) ) {
         JsonIn *tied_item_json = data.get_raw( "tied_item" );
-        set_tied_item( item_spawn( *tied_item_json ) );
+        set_tied_item( item::spawn( *tied_item_json ) );
     }
     if( data.has_object( "tack_item" ) ) {
         JsonIn *tack_item_json = data.get_raw( "tack_item" );
-        set_tack_item( item_spawn( *tack_item_json ) );
+        set_tack_item( item::spawn( *tack_item_json ) );
     }
     if( data.has_object( "armor_item" ) ) {
         JsonIn *armor_item_json = data.get_raw( "armor_item" );
-        set_armor_item( item_spawn( *armor_item_json ) );
+        set_armor_item( item::spawn( *armor_item_json ) );
     }
     if( data.has_object( "storage_item" ) ) {
         JsonIn *storage_item_json = data.get_raw( "storage_item" );
-        set_storage_item( item_spawn( *storage_item_json ) );
+        set_storage_item( item::spawn( *storage_item_json ) );
     }
     if( data.has_object( "battery_item" ) ) {
         JsonIn *battery_item_json = data.get_raw( "battery_item" );
-        set_battery_item( item_spawn( *battery_item_json ) );
+        set_battery_item( item::spawn( *battery_item_json ) );
     }
     data.read( "hp", hp );
 
@@ -2470,7 +2470,7 @@ void vehicle_part::deserialize( JsonIn &jsin )
         data.read( "base", base );
     } else {
         // handle legacy format which didn't include the base item
-        base = item_spawn( id.obj().item );
+        base = item::spawn( id.obj().item );
     }
 
     data.read( "mount_dx", mount.x );
@@ -3939,9 +3939,9 @@ void submap::store( JsonOut &jsout ) const
         jsout.write( elem.first.y );
         jsout.write( elem.first.z );
         jsout.write( elem.second.counter );
-        jsout.write( elem.second.id.id() );
+        jsout.write( elem.second->id.id() );
         jsout.start_array();
-        for( auto &it : elem.second.components ) {
+        for( auto &it : elem.second->components ) {
             jsout.write( it );
         }
         jsout.end_array();

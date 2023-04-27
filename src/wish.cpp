@@ -630,16 +630,16 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
                     if( granted->count_by_charges() ) {
                         if( amount > 0 ) {
                             granted->charges = amount;
-                            p->i_add_or_drop( *item_spawn( *granted ) );
+                            p->i_add_or_drop( *item::spawn( *granted ) );
                         }
                     } else {
                         for( int i = 0; i < amount; i++ ) {
-                            p->i_add_or_drop( *item_spawn( *granted ) );
+                            p->i_add_or_drop( *item::spawn( *granted ) );
                         }
                     }
                     p->invalidate_crafting_inventory();
                 } else if( pos.x >= 0 && pos.y >= 0 ) {
-                    g->m.add_item_or_charges( pos, *item_spawn( *granted ) );
+                    g->m.add_item_or_charges( pos, *item::spawn( *granted ) );
                     wmenu.ret = -1;
                 }
                 if( amount > 0 ) {

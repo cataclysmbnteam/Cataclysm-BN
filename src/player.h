@@ -125,6 +125,8 @@ class player : public Character
          * Otherwise identical to @ref reduce_charges(int,int)
          * @param it A pointer to the item, it *must* exist.
          * @param quantity How many charges to remove
+         * @return An item that contains the removed charges, it's effectively a
+         * copy of the item with the proper charges.
          */
         detached_ptr<item> reduce_charges( item *it, int quantity );
 

@@ -378,7 +378,7 @@ void computer_session::action_sample()
                 }
                 capa = std::min( sewage->charges, capa );
                 if( elem->contents.empty() ) {
-                    elem->put_in( std::move( item::spawn( itype_sewage, calendar::turn ) ) );
+                    elem->put_in( item::spawn( itype_sewage, calendar::turn ) );
                     elem->contents.front().charges = capa;
                 } else {
                     elem->contents.front().charges += capa;

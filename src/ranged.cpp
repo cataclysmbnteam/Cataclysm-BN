@@ -1695,13 +1695,13 @@ static projectile make_gun_projectile( const item &gun )
         bool recover = !one_in( ammo.dont_recover_one_in );
 
         if( recover && !fx.has_effect( ammo_effect_IGNITE ) && !fx.has_effect( ammo_effect_EXPLOSIVE ) ) {
-            item &drop = *item_spawn( gun.ammo_current(), calendar::turn, 1 );
+            item &drop = *item::spawn( gun.ammo_current(), calendar::turn, 1 );
             drop.active = fx.has_effect( ammo_effect_ACT_ON_RANGED_HIT );
             proj.set_drop( drop );
         }
 
         if( ammo.drop ) {
-            item &drop = *item_spawn( ammo.drop );
+            item &drop = *item::spawn( ammo.drop );
             if( ammo.drop_active ) {
                 drop.activate();
             }
@@ -1745,12 +1745,12 @@ static void cycle_action( item &weap, const tripoint &pos )
     if( weap.ammo_data() && weap.ammo_data()->ammo->casing ) {
         const itype_id casing = *weap.ammo_data()->ammo->casing;
         if( weap.has_flag( "RELOAD_EJECT" ) || weap.gunmod_find( itype_brass_catcher ) ) {
-            weap.put_in( item_spawn( casing )->set_flag( "CASING" ) );
+            weap.put_in( item::spawn( casing )->set_flag( "CASING" ) );
         } else {
             if( cargo.empty() ) {
-                here.add_item_or_charges( eject, *item_spawn( casing ) );
+                here.add_item_or_charges( eject, *item::spawn( casing ) );
             } else {
-                vp->vehicle().add_item( *cargo.front(), *item_spawn( casing ) );
+                vp->vehicle().add_item( *cargo.front(), *item::spawn( casing ) );
             }
 
             sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume( eject ),
@@ -1761,7 +1761,7 @@ static void cycle_action( item &weap, const tripoint &pos )
     // some magazines also eject disintegrating linkages
     const auto mag = weap.magazine_current();
     if( mag && mag->type->magazine->linkage ) {
-        item &linkage = *item_spawn( *mag->type->magazine->linkage, calendar::turn, 1 );
+        item &linkage = *item::spawn( *mag->type->magazine->linkage, calendar::turn, 1 );
         if( weap.gunmod_find( itype_brass_catcher ) ) {
             linkage.set_flag( "CASING" );
             weap.put_in( linkage );
