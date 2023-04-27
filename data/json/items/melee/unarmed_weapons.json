@@ -138,18 +138,6 @@
     "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "SHEATH_KNIFE" ]
   },
   {
-	"copy-from": "katar",
-	"id": "katar_super",
-	"type": "GENERIC",
-    "category": "weapons",
-    "name": { "str": "superalloy katar" },
-    "description": "A steel brace with a superalloy metal blade at the end hammered and sharpened into place.",
-    "cutting": 36,
-    "to_hit": 3,
-    "material": [ "superalloy" ],
-    "price_postapoc": 2000
-  },
-  {
 	"type": "GENERIC",
     "id": "spiked_boxing",
     "category": "weapons",

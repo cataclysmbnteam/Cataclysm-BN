@@ -677,18 +677,5 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_weapeast", 3 ] , [ "recipe_melee", 4 ] ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "katar_super",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_CUTTING",
-    "skill_used": "fabrication",
-    "difficulty": 10,
-    "time": "4 h",
-    "autolearn": true,
-    "book_learn": [ [ "textbook_weapeast", 3 ] , [ "recipe_melee", 4 ] ],
-    "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 1 ] ],
-    "components": [ [ [ "alloy_plate", 1 ] ] ]
   }
 ]
