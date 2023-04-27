@@ -468,7 +468,6 @@
     "skill_used": "fabrication",
     "difficulty": 5,
     "time": "8 h",
-    "autolearn": true,
     "book_learn": [ [ "textbook_weapeast", 9 ], [ "recipe_melee", 4 ] ],
     "using": [ [ "blacksmithing_standard", 3 ], [ "steel_tiny", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
