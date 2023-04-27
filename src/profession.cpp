@@ -388,7 +388,7 @@ ItemList profession::items( bool male, const std::vector<trait_id> &traits ) con
     ItemList result;
     auto add_legacy_items = [&result]( const itypedecvec & vec ) {
         for( const itypedec &elem : vec ) {
-            item *it = item_spawn( elem.type_id, advanced_spawn_time(), item::default_charges_tag {} );
+            item *it = item::spawn( elem.type_id, advanced_spawn_time(), item::default_charges_tag {} );
             if( !elem.snip_id.is_null() ) {
                 it->set_snippet( elem.snip_id );
             }
@@ -410,7 +410,7 @@ ItemList profession::items( bool male, const std::vector<trait_id> &traits ) con
     std::vector<itype_id> bonus = item_substitutions.get_bonus_items( traits );
     for( const itype_id &elem : bonus ) {
         if( elem != no_bonus ) {
-            result.push_back( item_spawn( elem, advanced_spawn_time(), item::default_charges_tag {} ) );
+            result.push_back( item::spawn( elem, advanced_spawn_time(), item::default_charges_tag {} ) );
         }
     }
     for( auto iter = result.begin(); iter != result.end(); ) {
@@ -669,13 +669,13 @@ std::vector<item *> json_item_substitution::get_substitution( const item &it,
 
     const int old_amt = it.count();
     for( const substitution::info &inf : sub->infos ) {
-        item *result = item_spawn( inf.new_item, advanced_spawn_time() );
+        item *result = item::spawn( inf.new_item, advanced_spawn_time() );
         const int new_amt = std::max( 1, static_cast<int>( std::round( inf.ratio * old_amt ) ) );
         if( !result->count_by_charges() ) {
             for( int i = 0; i < new_amt; i++ ) {
                 ret.push_back( &result->in_its_container() );
                 if( i < new_amt ) {
-                    result = item_spawn( inf.new_item, advanced_spawn_time() );
+                    result = item::spawn( inf.new_item, advanced_spawn_time() );
                 }
             }
         } else {
@@ -683,7 +683,7 @@ std::vector<item *> json_item_substitution::get_substitution( const item &it,
             while( result->charges > 0 ) {
                 item *pushed = &result->in_its_container();
                 ret.push_back( pushed );
-                result = item_spawn( *result );
+                result = item::spawn( *result );
                 result->mod_charges( pushed->contents.empty() ? -pushed->charges :
                                      -pushed->contents.back().charges );
             }

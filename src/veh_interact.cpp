@@ -1962,7 +1962,7 @@ void veh_interact::do_siphon()
         const item &base = pt.get_base();
         const int idx = veh->find_part( base );
         //TODO!: check
-        item *liquid = item_spawn( base.contents.back() );
+        item *liquid = item::spawn( base.contents.back() );
         const int liq_charges = liquid->charges;
         if( liquid_handler::handle_liquid( *liquid, nullptr, 1, nullptr, veh, idx ) ) {
             veh->drain( idx, liq_charges - liquid->charges );
@@ -2950,7 +2950,7 @@ void act_vehicle_siphon( vehicle *veh )
     if( tank ) {
         const item &base = tank.get_base();
         const int idx = veh->find_part( base );
-        item *liquid = item_spawn( base.contents.back() );
+        item *liquid = item::spawn( base.contents.back() );
         const int liq_charges = liquid->charges;
         if( liquid_handler::handle_liquid( *liquid, nullptr, 1, nullptr, veh, idx ) ) {
             veh->drain( idx, liq_charges - liquid->charges );
@@ -3001,12 +3001,12 @@ void act_vehicle_unload_fuel( vehicle *veh )
             add_msg( m_info, _( "The vehicle has no fully charged plutonium cells." ) );
             return;
         }
-        item &plutonium = *item_spawn( fuel, calendar::turn, qty / PLUTONIUM_CHARGES );
+        item &plutonium = *item::spawn( fuel, calendar::turn, qty / PLUTONIUM_CHARGES );
         add_msg( m_info, _( "You unload %s from the vehicle." ), plutonium.display_name() );
         veh->drain( fuel, qty - ( qty % PLUTONIUM_CHARGES ) );
         g->u.i_add_or_drop( plutonium );
     } else {
-        item &solid_fuel = *item_spawn( fuel, calendar::turn, qty );
+        item &solid_fuel = *item::spawn( fuel, calendar::turn, qty );
         add_msg( m_info, _( "You unload %s from the vehicle." ), solid_fuel.display_name() );
         veh->drain( fuel, qty );
         g->u.i_add_or_drop( solid_fuel );
@@ -3077,7 +3077,7 @@ void veh_interact::complete_vehicle( player &p )
                     add_msg( m_info, _( "Could not find base part in requirements for %s." ), vpinfo.name() );
                     break;
                 } else {
-                    base = item_spawn( vpinfo.item );
+                    base = item::spawn( vpinfo.item );
                 }
             }
 

@@ -1764,7 +1764,7 @@ void inventory::json_load_items( JsonIn &jsin )
 {
     jsin.start_array();
     while( !jsin.end_array() ) {
-        add_item( *item_spawn( jsin ), true, false );
+        add_item( *item::spawn( jsin ), true, false );
     }
 }
 
@@ -1802,23 +1802,23 @@ void monster::load( const JsonObject &data )
     }
     if( data.has_object( "tied_item" ) ) {
         JsonIn *tied_item_json = data.get_raw( "tied_item" );
-        set_tied_item( item_spawn( *tied_item_json ) );
+        set_tied_item( item::spawn( *tied_item_json ) );
     }
     if( data.has_object( "tack_item" ) ) {
         JsonIn *tack_item_json = data.get_raw( "tack_item" );
-        set_tack_item( item_spawn( *tack_item_json ) );
+        set_tack_item( item::spawn( *tack_item_json ) );
     }
     if( data.has_object( "armor_item" ) ) {
         JsonIn *armor_item_json = data.get_raw( "armor_item" );
-        set_armor_item( item_spawn( *armor_item_json ) );
+        set_armor_item( item::spawn( *armor_item_json ) );
     }
     if( data.has_object( "storage_item" ) ) {
         JsonIn *storage_item_json = data.get_raw( "storage_item" );
-        set_storage_item( item_spawn( *storage_item_json ) );
+        set_storage_item( item::spawn( *storage_item_json ) );
     }
     if( data.has_object( "battery_item" ) ) {
         JsonIn *battery_item_json = data.get_raw( "battery_item" );
-        set_battery_item( item_spawn( *battery_item_json ) );
+        set_battery_item( item::spawn( *battery_item_json ) );
     }
     data.read( "hp", hp );
 
@@ -2470,7 +2470,7 @@ void vehicle_part::deserialize( JsonIn &jsin )
         data.read( "base", base );
     } else {
         // handle legacy format which didn't include the base item
-        base = item_spawn( id.obj().item );
+        base = item::spawn( id.obj().item );
     }
 
     data.read( "mount_dx", mount.x );

@@ -135,9 +135,9 @@ void vehicle_part::remove_location_hack()
 void vehicle_part::clone_hack( const vehicle_part &source )
 {
     copy_static_from( source );
-    base = item_spawn( *source.base );
+    base = item::spawn( *source.base );
     for( item * const &it : source.items ) {
-        items.push_back( item_spawn( *it ) );
+        items.push_back( item::spawn( *it ) );
     }
 }
 
@@ -177,7 +177,7 @@ item &vehicle_part::properties_to_item() const
 {
     //TODO!: the big check
     map &here = get_map();
-    item &tmp = *item_spawn( *base );
+    item &tmp = *item::spawn( *base );
     tmp.unset_flag( "VEHICLE" );
 
     // Cables get special handling: their target coordinates need to remain
@@ -371,7 +371,7 @@ int vehicle_part::ammo_set( const itype_id &ammo, int qty )
         base->contents.clear_items();
         const auto stack = units::legacy_volume_factor / std::max( liquid->stack_size, 1 );
         const int limit = units::from_milliliter( ammo_capacity() ) / stack;
-        base->put_in( *item_spawn( ammo, calendar::turn, qty > 0 ? std::min( qty, limit ) : limit ) );
+        base->put_in( *item::spawn( ammo, calendar::turn, qty > 0 ? std::min( qty, limit ) : limit ) );
         return qty;
     }
 

@@ -169,7 +169,7 @@ item *player::reduce_charges( int position, int quantity )
         return &i_rem( position );
     }
     it.mod_charges( -quantity );
-    item *tmp = item_spawn( it );
+    item *tmp = item::spawn( it );
     tmp->charges = quantity;
     return tmp;
 }
@@ -184,7 +184,7 @@ item *player::reduce_charges( item *it, int quantity )
         return &i_rem( it );
     }
     it->mod_charges( -quantity );
-    item *result = item_spawn( *it );
+    item *result = item::spawn( *it );
     result->charges = quantity;
     return result;
 }

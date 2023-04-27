@@ -884,8 +884,8 @@ bool vehicle::fold_up()
     }
 
     // create a folding [non]bicycle item
-    item &bicycle = *item_spawn( can_be_folded ? "generic_folded_vehicle" : "folding_bicycle",
-                                 calendar::turn );
+    item &bicycle = *item::spawn( can_be_folded ? "generic_folded_vehicle" : "folding_bicycle",
+                                  calendar::turn );
 
     // Drop stuff in containers on ground
     for( const vpart_reference &vp : get_any_parts( "CARGO" ) ) {
@@ -1425,7 +1425,7 @@ void vehicle::operate_planter()
                     g->m.add_item( loc, *i );
                     v.erase( it );
                 } else {
-                    item *tmp = item_spawn( *i );
+                    item *tmp = item::spawn( *i );
                     tmp->charges = 1;
                     tmp->set_age( 0_turns );
                     g->m.add_item( loc, *tmp );

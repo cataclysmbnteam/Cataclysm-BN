@@ -456,7 +456,7 @@ std::string recipe::get_consistency_error() const
 item &recipe::create_result() const
 {
     //TODO!: check
-    item *newit = item_spawn( result_, calendar::turn, item::default_charges_tag{} );
+    item *newit = item::spawn( result_, calendar::turn, item::default_charges_tag{} );
     if( charges ) {
         newit->charges = *charges;
     }
@@ -506,7 +506,7 @@ std::vector<item *> recipe::create_byproducts( int batch ) const
 {
     std::vector<item *> bps;
     for( const auto &e : byproducts ) {
-        item &obj = *item_spawn( e.first, calendar::turn, item::default_charges_tag{} );
+        item &obj = *item::spawn( e.first, calendar::turn, item::default_charges_tag{} );
         if( obj.has_flag( "VARSIZE" ) ) {
             obj.set_flag( "FIT" );
         }
@@ -521,7 +521,7 @@ std::vector<item *> recipe::create_byproducts( int batch ) const
             }
             for( int i = 0; i < e.second * batch; ++i ) {
                 //TODO!:check
-                bps.push_back( i == 0 ? &obj : item_spawn( obj ) );
+                bps.push_back( i == 0 ? &obj : item::spawn( obj ) );
             }
         }
     }

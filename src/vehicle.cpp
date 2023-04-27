@@ -360,7 +360,7 @@ void vehicle::add_missing_frames()
         if( !found ) {
             // Install missing frame
             //TODO!: check
-            parts.emplace_back( frame_id, i.mount, *item_spawn( frame_id->item ) );
+            parts.emplace_back( frame_id, i.mount, *item::spawn( frame_id->item ) );
         }
     }
 }
@@ -1583,7 +1583,7 @@ int vehicle::install_part( point dp, const vpart_id &id, bool force )
     if( !( force || can_mount( dp, id ) ) ) {
         return -1;
     }
-    item &obj = *item_spawn( id.obj().item );
+    item &obj = *item::spawn( id.obj().item );
     int ret = install_part( dp, std::move( vehicle_part( id, dp, obj ) ) );
     return ret;
 }
@@ -5367,12 +5367,12 @@ void vehicle::slow_leak()
 
         // damaged batteries self-discharge without leaking, plutonium leaks slurry
         if( fuel != fuel_type_battery && fuel != fuel_type_plutonium_cell ) {
-            item &leak = *item_spawn( fuel, calendar::turn, qty );
+            item &leak = *item::spawn( fuel, calendar::turn, qty );
             g->m.add_item_or_charges( dest, leak );
             p.ammo_consume( qty, global_part_pos3( p ) );
         } else if( fuel == fuel_type_plutonium_cell ) {
             if( p.ammo_remaining() >= PLUTONIUM_CHARGES / 10 ) {
-                item &leak = *item_spawn( "plut_slurry_dense", calendar::turn, qty );
+                item &leak = *item::spawn( "plut_slurry_dense", calendar::turn, qty );
                 g->m.add_item_or_charges( dest, leak );
                 p.ammo_consume( qty * PLUTONIUM_CHARGES / 10, global_part_pos3( p ) );
             } else {
@@ -5423,7 +5423,7 @@ int vehicle::add_charges( int part, const item &itm )
         return 0;
     }
 
-    item &itm_copy = *item_spawn( itm );
+    item &itm_copy = *item::spawn( itm );
     itm_copy.charges = ret;
     return add_item( part, itm_copy ) ? ret : 0;
 }
@@ -5580,7 +5580,7 @@ void vehicle::place_spawn_items()
 
                 std::vector<item *> created;
                 for( const itype_id &e : spawn.item_ids ) {
-                    created.emplace_back( &item_spawn( e )->in_its_container() );
+                    created.emplace_back( &item::spawn( e )->in_its_container() );
                 }
                 for( const item_group_id &e : spawn.item_groups ) {
                     item_group::ItemList group_items = item_group::items_from( e, calendar::start_of_cataclysm );
@@ -5603,7 +5603,7 @@ void vehicle::place_spawn_items()
                                           !e->magazine_current();
 
                         if( spawn_mag ) {
-                            e->put_in( *item_spawn( e->magazine_default(), e->birthday() ) );
+                            e->put_in( *item::spawn( e->magazine_default(), e->birthday() ) );
                         }
                         if( spawn_ammo ) {
                             e->ammo_set( e->ammo_default() );
@@ -6786,7 +6786,7 @@ void vehicle::leak_fuel( vehicle_part &pt )
         int qty = pt.ammo_consume( rng( 0, std::max( pt.ammo_remaining() / 3, 1 ) ),
                                    global_part_pos3( pt ) );
         if( qty > 0 ) {
-            g->m.add_item_or_charges( random_entry( tiles ), *item_spawn( fuel, calendar::turn, qty ) );
+            g->m.add_item_or_charges( random_entry( tiles ), *item::spawn( fuel, calendar::turn, qty ) );
         }
     }
 
