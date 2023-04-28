@@ -12,8 +12,18 @@ import { z } from "https://deno.land/x/zod@v3.20.5/mod.ts"
 
 import { match, P } from "npm:ts-pattern"
 
-/** identity function that preserves type. */
-export const id = <T>(x: T): T => x
+/** identity function that preserves type.
+ * @param x any value.
+ * @returns identical value.
+ * @example
+ * ```ts
+ * id(123) // 123
+ * id("abc") // "abc"
+ * id([1,2,3]) // [1,2,3]
+ * id({ foo: "bar" }) // { foo: "bar" }
+ * ```
+ */
+export const id = <const T>(x: T): T => x
 
 /** most common form of cataEntry. */
 const jsonEntries = z.array(z.unknown())
@@ -56,7 +66,7 @@ export const genericCataTransformer =
   <Schema extends ObjectSchema>(schema: Schema) =>
   (fn: CataJsonEntryFn<Schema>) =>
   (text: string): unknown[] => {
-    const preservingSchema = orderPreservingSchema(schema)
+    const preservingSchema = orderPreservingSchema(schema.passthrough())
     return parseCataJson(text)
       .map((x) =>
         match(preservingSchema.safeParse(x))
