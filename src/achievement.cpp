@@ -6,6 +6,7 @@
 #include <tuple>
 #include <utility>
 
+#include "character.h"
 #include "color.h"
 #include "debug.h"
 #include "enums.h"
@@ -13,6 +14,7 @@
 #include "event_statistics.h"
 #include "generic_factory.h"
 #include "json.h"
+#include "skill.h"
 #include "stats_tracker.h"
 #include "string_formatter.h"
 
@@ -208,23 +210,48 @@ void achievement::time_bound::check( const string_id<achievement> &id ) const
     }
 }
 
-time_point achievement::time_bound::target() const
+void achievement::add_skill_requirements( const JsonObject &jo, const std::string &src )
 {
-    return epoch_to_time_point( epoch_ ) + period_;
+    if( !jo.has_array( "skill_requirements" ) ) {
+        return;
+    }
+
+    for( const JsonValue entry : jo.get_array( "skill_requirements" ) ) {
+        if( entry.test_object() ) {
+            add_skill_requirement( entry, src );
+        } else {
+            entry.throw_error( "array element is not an object." );
+        }
+    }
 }
 
-achievement_completion achievement::time_bound::completed() const
+void achievement::add_skill_requirement( const JsonObject inner, const std::string & )
 {
+    const skill_id skill = static_cast<skill_id>( inner.get_string( "skill" ) );
+    const achievement_comparison compare = inner.get_enum_value<achievement_comparison>( "is" );
+    const int count = inner.get_int( "level" );
+
+    skill_requirements_[skill] = std::make_pair( compare, count );
+}
+
+achievement_completion time_req_completed( const achievement &ach )
+{
+    if( !ach.time_constraint() ) {
+        return achievement_completion::completed;
+    }
+
+    const std::optional<achievement::time_bound> &time_req = ach.time_constraint();
+
     time_point now = calendar::turn;
-    switch( comparison_ ) {
+    switch( time_req->comparison() ) {
         case achievement_comparison::less_equal:
-            if( now <= target() ) {
+            if( now <= time_req->target() ) {
                 return achievement_completion::completed;
             } else {
                 return achievement_completion::failed;
             }
         case achievement_comparison::greater_equal:
-            if( now >= target() ) {
+            if( now >= time_req->target() ) {
                 return achievement_completion::completed;
             } else {
                 return achievement_completion::pending;
@@ -238,10 +265,79 @@ achievement_completion achievement::time_bound::completed() const
     abort();
 }
 
-std::string achievement::time_bound::ui_text() const
+achievement_completion skill_req_completed( const achievement &ach )
 {
+    const std::map<skill_id, std::pair<achievement_comparison, int>> &skill_reqs =
+                ach.skill_requirements();
+    if( skill_reqs.empty() ) {
+        return achievement_completion::completed;
+    }
+    Character &u = get_player_character();
+
+    bool satisfied = true;
+    for( const auto& [sk_id, pair] : skill_reqs ) {
+        auto& [comp, level] = pair;
+        int skill_level = u.get_skill_level( sk_id );
+        if( !ach_compare( comp, level, skill_level ) ) {
+            satisfied = false;
+            break;
+        }
+    }
+    return satisfied ? achievement_completion::completed : achievement_completion::pending;
+}
+
+bool ach_compare( const achievement_comparison symbol, const int target, const int to_compare )
+{
+    switch( symbol ) {
+        case achievement_comparison::greater_equal:
+            return to_compare >= target;
+        case achievement_comparison::less_equal:
+            return to_compare <= target;
+        case achievement_comparison::anything:
+            return true;
+        case achievement_comparison::last:
+            return true;
+        default:
+            return false;
+    }
+}
+
+time_point achievement::time_bound::target() const
+{
+    return epoch_to_time_point( epoch_ ) + period_;
+}
+
+achievement_comparison achievement::time_bound::comparison() const
+{
+    return comparison_;
+}
+
+std::string achievement::ui_text() const
+{
+    std::string requirements;
+    if( time_constraint() ) {
+        requirements += time_constraint()->time_ui_text( time_req_completed( *this ) ) + "\n";
+    }
+
+    Character &u = get_player_character();
+    for( const auto& [sk_id, pair] : skill_requirements() ) {
+        std::string cur_skill;
+        auto& [comp, level] = pair;
+        int sk_lvl = u.get_skill_level( sk_id );
+        achievement_completion status = ach_compare( comp, level, sk_lvl ) ?
+                                        achievement_completion::completed : achievement_completion::pending;
+        nc_color c = color_from_completion( status );
+        cur_skill += string_format( _( "Attain %s skill level of %i (%i/%i)." ),
+                                    sk_id->name(), level, sk_lvl, level ) + "\n";
+        requirements += colorize( cur_skill, c );
+    }
+    return requirements;
+}
+
+std::string achievement::time_bound::time_ui_text( const achievement_completion comp ) const
+{
+
     time_point now = calendar::turn;
-    achievement_completion comp = completed();
 
     nc_color c = color_from_completion( comp );
 
@@ -323,13 +419,17 @@ void achievement::reset()
     achievement_factory.reset();
 }
 
-void achievement::load( const JsonObject &jo, const std::string & )
+void achievement::load( const JsonObject &jo, const std::string &src )
 {
     mandatory( jo, was_loaded, "name", name_ );
     optional( jo, was_loaded, "description", description_ );
     optional( jo, was_loaded, "hidden_by", hidden_by_ );
     optional( jo, was_loaded, "time_constraint", time_constraint_ );
     mandatory( jo, was_loaded, "requirements", requirements_ );
+
+    if( jo.has_member( "skill_requirements" ) ) {
+        add_skill_requirements( jo, src );
+    }
 }
 
 void achievement::check() const
@@ -445,9 +545,9 @@ std::string achievement_state::ui_text( const achievement *ach ) const
                                   _( "Completed %s" ), to_string( last_state_change ) );
         result += "  " + colorize( message, c ) + "\n";
     } else {
-        // Next: the time constraint
-        if( ach->time_constraint() ) {
-            result += "  " + ach->time_constraint()->ui_text() + "\n";
+        // Next: time constraint and skill requirements
+        if( ach->time_constraint() || !ach->skill_requirements().empty() ) {
+            result += "  " + ach->ui_text();
         }
     }
 
@@ -503,11 +603,11 @@ void achievement_tracker::set_requirement( requirement_watcher *watcher, bool is
         assert( sorted_watchers_[0].size() + sorted_watchers_[1].size() == watchers_.size() );
     }
 
-    achievement_completion time_comp =
-        achievement_->time_constraint() ?
-        achievement_->time_constraint()->completed() : achievement_completion::completed;
+    achievement_completion time_comp = time_req_completed( *achievement_ );
+    achievement_completion skill_comp = skill_req_completed( *achievement_ );
 
-    if( sorted_watchers_[false].empty() && time_comp == achievement_completion::completed ) {
+    if( sorted_watchers_[false].empty() && time_comp == achievement_completion::completed &&
+        skill_comp == achievement_completion::completed ) {
         // report_achievement can result in this being deleted, so it must be
         // the last thing in the function
         tracker_->report_achievement( achievement_, achievement_completion::completed );
@@ -524,8 +624,7 @@ void achievement_tracker::set_requirement( requirement_watcher *watcher, bool is
 
 bool achievement_tracker::time_is_expired() const
 {
-    return achievement_->time_constraint() &&
-           achievement_->time_constraint()->completed() == achievement_completion::failed;
+    return time_req_completed( *achievement_ ) == achievement_completion::failed;
 }
 
 std::vector<cata_variant> achievement_tracker::current_values() const
@@ -556,9 +655,9 @@ std::string achievement_tracker::ui_text() const
         result += "  " + colorize( achievement_->description(), c ) + "\n";
     }
 
-    // Next: the time constraint
-    if( achievement_->time_constraint() ) {
-        result += "  " + achievement_->time_constraint()->ui_text() + "\n";
+    // Next: the time constraint and skill requirements
+    if( achievement_->time_constraint() || !achievement_->skill_requirements().empty() ) {
+        result += "  " + achievement_->ui_text();
     }
 
     // Next: the requirements
