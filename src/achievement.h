@@ -121,7 +121,9 @@ class achievement
         std::map<skill_id, std::pair<achievement_comparison, int>> skill_requirements_;
         std::vector<achievement_requirement> requirements_;
 
+        /** Retrieves skill requirement JsonObjects and feeds it to add_skill_requirement*/
         void add_skill_requirements( const JsonObject &jo, const std::string &src );
+        /** Organizes variables provided and adds skill_requirements to achievements*/
         void add_skill_requirement( const JsonObject inner, const std::string &src );
 };
 
@@ -214,9 +216,12 @@ class achievements_tracker : public event_subscriber
         std::unordered_map<string_id<achievement>, achievement_state> achievements_status_;
 };
 
+/** Checks if time requirements for achievements are satisfied, have failed, or are pending.*/
 achievement_completion time_req_completed( const achievement &ach );
+/** Checks if skill requirements for achievements are satisfied, have failed, or are pending.*/
 achievement_completion skill_req_completed( const achievement &ach );
 
+/** Uses comparator supplied to compare target and supplied value. Only works on integers.*/
 bool ach_compare( const achievement_comparison symbol, const int target, const int to_compare );
 
 #endif // CATA_SRC_ACHIEVEMENT_H

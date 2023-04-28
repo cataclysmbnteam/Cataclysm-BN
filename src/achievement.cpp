@@ -443,6 +443,19 @@ void achievement::check() const
     if( time_constraint_ ) {
         time_constraint_->check( id );
     }
+    if( !skill_requirements_.empty() ) {
+        for( const auto& [sk_id, pair] : skill_requirements_ ) {
+            auto &&[comp, level] = pair;
+            if( !sk_id.is_valid() ) {
+                debugmsg( "Achievement %s specifies invalid skill requirement %s", id.str(), sk_id.c_str() );
+            } else if( comp == achievement_comparison::last ) {
+                debugmsg( "Achievement %s specifies invalid comparator for skill requirement %s", id.str(),
+                          sk_id.c_str() );
+            } else if( level < 0 ) {
+                debugmsg( "Achievement %s has negative value for skill requirement %s.", id.str(), sk_id.c_str() );
+            }
+        }
+    }
     for( const achievement_requirement &req : requirements_ ) {
         req.check( id );
     }
