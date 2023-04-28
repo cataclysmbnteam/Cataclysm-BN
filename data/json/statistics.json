@@ -514,5 +514,19 @@
     "event_type": "crosses_mutation_threshold",
     "value_constraints": { "category": { "equals": "LUPINE" } },
     "drop_fields": [ "category" ]
+  },
+  {
+    "id": "num_gains_archery",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_archery",
+    "description": { "str_sp": "archery skill level up." }
+  },
+  {
+    "id": "avatar_gains_archery",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "archery" } },
+    "drop_fields": [ "character", "skill" ]
   }
 ]
