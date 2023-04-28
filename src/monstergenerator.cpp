@@ -943,6 +943,8 @@ void MonsterGenerator::load_species( const JsonObject &jo, const std::string &sr
 
 void species_type::load( const JsonObject &jo, const std::string & )
 {
+    name.make_plural();
+    mandatory( jo, was_loaded, "name", name );
     optional( jo, was_loaded, "description", description );
     optional( jo, was_loaded, "footsteps", footsteps, to_translation( "footsteps." ) );
     const auto flag_reader = enum_flags_reader<m_flag> { "monster flag" };

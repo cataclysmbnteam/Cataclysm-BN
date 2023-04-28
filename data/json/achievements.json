@@ -3,7 +3,15 @@
     "id": "achievement_kill_zombie",
     "type": "achievement",
     "name": "One down, billions to go\u2026",
-    "requirements": [ { "event_statistic": "num_avatar_zombie_kills", "is": ">=", "target": 1 } ]
+    "kill_requirements": [ { "faction": "ZOMBIE", "is": ">=", "count": 1 } ],
+    "requirements": [ { "event_statistic": "num_avatar_zombie_kills", "is": "anything" } ]
+  },
+  {
+    "id": "achievement_kill_50_zombie",
+    "type": "achievement",
+    "name": "The Undertaker",
+    "kill_requirements": [ { "faction": "ZOMBIE", "is": ">=", "count": 50 } ],
+    "requirements": [ { "event_statistic": "num_avatar_zombie_kills", "is": "anything" } ]
   },
   {
     "id": "achievement_kill_in_first_minute",
@@ -16,14 +24,16 @@
     "id": "achievement_kill_10_monsters",
     "type": "achievement",
     "name": "Decamate",
-    "requirements": [ { "event_statistic": "num_avatar_kills", "is": ">=", "target": 10 } ]
+    "kill_requirements": [ { "monster": "mon_null", "is": ">=", "count": 10 } ],
+    "requirements": [ { "event_statistic": "num_avatar_kills", "is": "anything" } ]
   },
   {
     "id": "achievement_kill_100_monsters",
     "type": "achievement",
     "name": "Centinel",
     "hidden_by": [ "achievement_kill_10_monsters" ],
-    "requirements": [ { "event_statistic": "num_avatar_kills", "is": ">=", "target": 100 } ]
+    "kill_requirements": [ { "monster": "mon_null", "is": ">=", "count": 100 } ],
+    "requirements": [ { "event_statistic": "num_avatar_kills", "is": "anything" } ]
   },
   {
     "id": "achievement_survive_one_day",
