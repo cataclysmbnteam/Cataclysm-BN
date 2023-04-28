@@ -165,6 +165,7 @@
     "id": "crt_fire_glove",
     "type": "GUN",
     "copy-from": "pistol_energy",
+    "weapon_category": [ "FIST_WEAPONS" ],
     "name": "C.R.I.T. Fire Glove",
     "description": "Experimental CQB weapon system under development in C.R.I.T. R&D.",
     "weight": "650 g",

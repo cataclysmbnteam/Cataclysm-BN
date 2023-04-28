@@ -4808,6 +4808,12 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
             }
         }
     }
+    if( !act->targets.empty() ) {
+        item &it = *act->targets.front();
+        if( !it.has_flag( "USE_PLAYER_ENERGY" ) ) {
+            p->consume_charges( it, it.type->charges_to_use() );
+        }
+    }
 }
 
 void activity_handlers::study_spell_do_turn( player_activity *act, player *p )

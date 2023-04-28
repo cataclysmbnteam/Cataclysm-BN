@@ -425,7 +425,7 @@
     "id": "homewrecker",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "1H_HAMMERS" ],
+    "weapon_category": [ "FLAILS" ],
     "name": { "str": "homewrecker" },
     "description": "A long piece of wood with several chunks of steel firmly tied to it.  The resulting weapon is unwieldy and slow but very heavy hitting.",
     "weight": "3024 g",

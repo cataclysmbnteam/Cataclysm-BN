@@ -375,12 +375,14 @@
     "revert_to": "handflare_dead",
     "revert_msg": "The flare sputters out",
     "use_action": { "type": "firestarter", "moves": 50 },
+    "thrown_damage": [ { "damage_type": "heat", "amount": 8 } ],
     "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "FIRESTARTER" ]
   },
   {
     "id": "heavy_flashlight",
     "type": "TOOL",
     "category": "tools",
+    "weapon_category": [ "BATONS" ],
     "name": { "str": "heavy duty flashlight (off)", "str_pl": "heavy duty flashlights (off)" },
     "description": "This is a heavy duty tubular aluminum LED flashlight as often used by security guards.  Makes for a passable melee weapon.  Using this flashlight will turn it on and provide light, assuming it is charged with batteries.",
     "weight": "450 g",
@@ -661,6 +663,7 @@
     "id": "torch",
     "type": "TOOL",
     "category": "tools",
+    "weapon_category": [ "CLUBS" ],
     "name": { "str": "torch", "str_pl": "torches" },
     "description": "This is a large stick, wrapped in rags that are soaked with a flammable material.  When lit, produces a fair amount of light.  You'll need a lighter or matches to light it.",
     "weight": "831 g",
@@ -689,6 +692,7 @@
     "id": "torch_lit",
     "type": "TOOL",
     "category": "tools",
+    "weapon_category": [ "CLUBS" ],
     "name": { "str": "torch", "str_pl": "torches" },
     "description": "This is a large stick, wrapped in rags that are soaked with a flammable material.  It is burning, producing plenty of light.",
     "weight": "831 g",
@@ -704,6 +708,7 @@
     "max_charges": 75,
     "turns_per_charge": 40,
     "revert_to": "torch_done",
+    "thrown_damage": [ { "damage_type": "heat", "amount": 4 } ],
     "use_action": [
       { "type": "firestarter", "moves": 30 },
       {
