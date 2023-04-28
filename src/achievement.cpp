@@ -470,6 +470,7 @@ std::string achievement::kill_ui_text() const
                 cur_kills = string_format( "Kill any number of %s", mon_name );
                 break;
             default:
+                kill_status = achievement_completion::completed;
                 break;
         }
         nc_color c = color_from_completion( kill_status );
@@ -505,6 +506,7 @@ std::string achievement::kill_ui_text() const
                 cur_kills = string_format( "Kill any number of %s", fac_name );
                 break;
             default:
+                kill_status = achievement_completion::completed;
                 break;
         }
         nc_color c = color_from_completion( kill_status );
