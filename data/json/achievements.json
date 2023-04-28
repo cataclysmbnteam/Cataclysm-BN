@@ -293,16 +293,16 @@
     "type": "achievement",
     "name": { "str": "[Skill] Bull's Eye" },
     "description": "Wilhelm Tell?  Never heard of him.",
-    "requirements": [ { "event_statistic": "num_gains_archery_level_5", "is": ">=", "target": 1 } ],
-    "//": "Entry-level skill achievements are self-hidden, as starting with equal or higher skill in chargen skips them.",
-    "hidden_by": [ "achievement_lvl_5_archery" ]
+    "skill_requirements": [ { "skill": "archery", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_archery", "is": "anything" } ]
   },
   {
     "id": "achievement_lvl_10_archery",
     "type": "achievement",
     "name": { "str": "[Skill] Parthian Shot" },
     "description": "Nock, draw, loose!",
-    "requirements": [ { "event_statistic": "num_gains_archery_level_10", "is": ">=", "target": 1 } ],
+    "skill_requirements": [ { "skill": "archery", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_archery", "is": "anything" } ],
     "hidden_by": [ "achievement_lvl_5_archery" ]
   },
   {
@@ -310,15 +310,16 @@
     "type": "achievement",
     "name": { "str": "[Skill] Free Trader" },
     "description": "Extraordinary gizmos for obscenely low prices!",
-    "requirements": [ { "event_statistic": "num_gains_barter_level_5", "is": ">=", "target": 1 } ],
-    "hidden_by": [ "achievement_lvl_5_barter" ]
+    "skill_requirements": [ { "skill": "barter", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_barter", "is": "anything" } ]
   },
   {
     "id": "achievement_lvl_10_barter",
     "type": "achievement",
     "name": { "str": "[Skill] Robber Baron" },
     "description": "It's gettin' tougher and tougher to make an honest buck these days!",
-    "requirements": [ { "event_statistic": "num_gains_barter_level_10", "is": ">=", "target": 1 } ],
+    "skill_requirements": [ { "skill": "barter", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_barter", "is": "anything" } ],
     "hidden_by": [ "achievement_lvl_5_barter" ]
   },
   {
@@ -326,15 +327,16 @@
     "type": "achievement",
     "name": { "str": "[Skill] Batter" },
     "description": "Every strike brings me closer to a home run.",
-    "requirements": [ { "event_statistic": "num_gains_bashing_level_5", "is": ">=", "target": 1 } ],
-    "hidden_by": [ "achievement_lvl_5_bashing" ]
+    "skill_requirements": [ { "skill": "bashing", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_bashing", "is": "anything" } ]
   },
   {
     "id": "achievement_lvl_10_bashing",
     "type": "achievement",
     "name": { "str": "[Skill] Stone Age" },
     "description": "The cudgel was humanity's first tool.  And it may be it's last, so why not master it?",
-    "requirements": [ { "event_statistic": "num_gains_bashing_level_10", "is": ">=", "target": 1 } ],
+    "skill_requirements": [ { "skill": "bashing", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_bashing", "is": "anything" } ],
     "hidden_by": [ "achievement_lvl_5_bashing" ]
   },
   {
@@ -342,15 +344,16 @@
     "type": "achievement",
     "name": { "str": "[Skill] Hack the Planet" },
     "description": "This OS has a back door.  there is always a back door.",
-    "requirements": [ { "event_statistic": "num_gains_computer_level_5", "is": ">=", "target": 1 } ],
-    "hidden_by": [ "achievement_lvl_5_computer" ]
+    "skill_requirements": [ { "skill": "computer", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_computer", "is": "anything" } ]
   },
   {
     "id": "achievement_lvl_10_computer",
     "type": "achievement",
     "name": { "str": "[Skill] Now Rewrite It in JavaScript" },
     "description": "It's not cheating.  It's debugging.",
-    "requirements": [ { "event_statistic": "num_gains_computer_level_10", "is": ">=", "target": 1 } ],
+    "skill_requirements": [ { "skill": "computer", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_computer", "is": "anything" } ],
     "hidden_by": [ "achievement_lvl_5_computer" ]
   },
   {
@@ -358,15 +361,16 @@
     "type": "achievement",
     "name": { "str": "[Skill] FoodPerson" },
     "description": "Glazed tenderloin is a cakewalk.",
-    "requirements": [ { "event_statistic": "num_gains_cooking_level_5", "is": ">=", "target": 1 } ],
-    "hidden_by": [ "achievement_lvl_5_cooking" ]
+    "skill_requirements": [ { "skill": "cooking", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_cooking", "is": "anything" } ]
   },
   {
     "id": "achievement_lvl_10_cooking",
     "type": "achievement",
     "name": { "str": "[Skill] Hell's Kitchen" },
     "description": "Today's menu: Soupe a l'oignon, Boeuf Bourguignon and Creme brulee.",
-    "requirements": [ { "event_statistic": "num_gains_cooking_level_10", "is": ">=", "target": 1 } ],
+    "skill_requirements": [ { "skill": "cooking", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_cooking", "is": "anything" } ],
     "hidden_by": [ "achievement_lvl_5_cooking" ]
   },
   {
@@ -374,15 +378,16 @@
     "type": "achievement",
     "name": { "str": "[Skill] Way of the Sword" },
     "description": "When the sword is once drawn, the passions of men observe no bounds of moderation.",
-    "requirements": [ { "event_statistic": "num_gains_cutting_level_5", "is": ">=", "target": 1 } ],
-    "hidden_by": [ "achievement_lvl_5_cutting" ]
+    "skill_requirements": [ { "skill": "cutting", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_cutting", "is": "anything" } ]
   },
   {
     "id": "achievement_lvl_10_cutting",
     "type": "achievement",
     "name": { "str": "[Skill] Sword-Saint" },
     "description": "The sword has to be more than a simple weapon; it has to be an answer to life's questions.",
-    "requirements": [ { "event_statistic": "num_gains_cutting_level_10", "is": ">=", "target": 1 } ],
+    "skill_requirements": [ { "skill": "cutting", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_cutting", "is": "anything" } ],
     "hidden_by": [ "achievement_lvl_5_cutting" ]
   },
   {
@@ -390,15 +395,16 @@
     "type": "achievement",
     "name": { "str": "[Skill] Elusive" },
     "description": "The strongest of blows is nothing if it doesn't land.",
-    "requirements": [ { "event_statistic": "num_gains_dodge_level_5", "is": ">=", "target": 1 } ],
-    "hidden_by": [ "achievement_lvl_5_dodge" ]
+    "skill_requirements": [ { "skill": "dodge", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_dodge", "is": "anything" } ]
   },
   {
     "id": "achievement_lvl_10_dodge",
     "type": "achievement",
     "name": { "str": "[Skill] Danmaku" },
     "description": "I can dodge the rain!",
-    "requirements": [ { "event_statistic": "num_gains_dodge_level_10", "is": ">=", "target": 1 } ],
+    "skill_requirements": [ { "skill": "dodge", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_dodge", "is": "anything" } ],
     "hidden_by": [ "achievement_lvl_5_dodge" ]
   },
   {
@@ -406,15 +412,16 @@
     "type": "achievement",
     "name": { "str": "[Skill] Ace Driver" },
     "description": "No turn is too sharp.",
-    "requirements": [ { "event_statistic": "num_gains_driving_level_5", "is": ">=", "target": 1 } ],
-    "hidden_by": [ "achievement_lvl_5_driving" ]
+    "skill_requirements": [ { "skill": "driving", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_driving", "is": "anything" } ]
   },
   {
     "id": "achievement_lvl_10_driving",
     "type": "achievement",
     "name": { "str": "[Skill] Bottom Gear" },
     "description": "Formula One is for Sunday drivers.",
-    "requirements": [ { "event_statistic": "num_gains_driving_level_10", "is": ">=", "target": 1 } ],
+    "skill_requirements": [ { "skill": "driving", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_driving", "is": "anything" } ],
     "hidden_by": [ "achievement_lvl_5_driving" ]
   },
   {
@@ -422,15 +429,16 @@
     "type": "achievement",
     "name": { "str": "[Skill] Thunder Ohm" },
     "description": "Two volts enter, one volt leaves.  Resistance is futile.",
-    "requirements": [ { "event_statistic": "num_gains_electronics_level_5", "is": ">=", "target": 1 } ],
-    "hidden_by": [ "achievement_lvl_5_electronics" ]
+    "skill_requirements": [ { "skill": "electronics", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_electronics", "is": "anything" } ]
   },
   {
     "id": "achievement_lvl_10_electronics",
     "type": "achievement",
     "name": { "str": "[Skill] Full Bridge Rectifier" },
     "description": "One does not simply taste a 9V battery.",
-    "requirements": [ { "event_statistic": "num_gains_electronics_level_10", "is": ">=", "target": 1 } ],
+    "skill_requirements": [ { "skill": "electronics", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_electronics", "is": "anything" } ],
     "hidden_by": [ "achievement_lvl_5_electronics" ]
   },
   {
@@ -438,15 +446,16 @@
     "type": "achievement",
     "name": { "str": "[Skill] Do-It-Yourselfer" },
     "description": "Take this thing, put it in that thing, and voila.",
-    "requirements": [ { "event_statistic": "num_gains_fabrication_level_5", "is": ">=", "target": 1 } ],
-    "hidden_by": [ "achievement_lvl_5_fabrication" ]
+    "skill_requirements": [ { "skill": "fabrication", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_fabrication", "is": "anything" } ]
   },
   {
     "id": "achievement_lvl_10_fabrication",
     "type": "achievement",
     "name": { "str": "[Skill] Jack of All Trades" },
     "description": "With a right amount of glue, there is nothing I can't do.",
-    "requirements": [ { "event_statistic": "num_gains_fabrication_level_10", "is": ">=", "target": 1 } ],
+    "skill_requirements": [ { "skill": "fabrication", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_fabrication", "is": "anything" } ],
     "hidden_by": [ "achievement_lvl_5_fabrication" ]
   },
   {
@@ -454,15 +463,16 @@
     "type": "achievement",
     "name": { "str": "[Skill] Medic!" },
     "description": "Is there a doctor in the house?",
-    "requirements": [ { "event_statistic": "num_gains_firstaid_level_5", "is": ">=", "target": 1 } ],
-    "hidden_by": [ "achievement_lvl_5_firstaid" ]
+    "skill_requirements": [ { "skill": "firstaid", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_firstaid", "is": "anything" } ]
   },
   {
     "id": "achievement_lvl_10_firstaid",
     "type": "achievement",
     "name": { "str": "[Skill] The Doctor is In" },
     "description": "No, it's never lupus.",
-    "requirements": [ { "event_statistic": "num_gains_firstaid_level_10", "is": ">=", "target": 1 } ],
+    "skill_requirements": [ { "skill": "firstaid", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_firstaid", "is": "anything" } ],
     "hidden_by": [ "achievement_lvl_5_firstaid" ]
   },
   {
@@ -470,15 +480,16 @@
     "type": "achievement",
     "name": { "str": "[Skill] Eagle Eye" },
     "description": "Only me and my target.",
-    "requirements": [ { "event_statistic": "num_gains_gun_level_5", "is": ">=", "target": 1 } ],
-    "hidden_by": [ "achievement_lvl_5_gun" ]
+    "skill_requirements": [ { "skill": "gun", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_gun", "is": "anything" } ]
   },
   {
     "id": "achievement_lvl_10_gun",
     "type": "achievement",
     "name": { "str": "[Skill] Deadshot" },
     "description": "Don't run.  You'll die tired.",
-    "requirements": [ { "event_statistic": "num_gains_gun_level_10", "is": ">=", "target": 1 } ],
+    "skill_requirements": [ { "skill": "gun", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_gun", "is": "anything" } ],
     "hidden_by": [ "achievement_lvl_5_gun" ]
   },
   {
@@ -486,15 +497,16 @@
     "type": "achievement",
     "name": { "str": "[Skill] Grenadier" },
     "description": "Caliber makes the difference.",
-    "requirements": [ { "event_statistic": "num_gains_launcher_level_5", "is": ">=", "target": 1 } ],
-    "hidden_by": [ "achievement_lvl_5_launcher" ]
+    "skill_requirements": [ { "skill": "launcher", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_launcher", "is": "anything" } ]
   },
   {
     "id": "achievement_lvl_10_launcher",
     "type": "achievement",
     "name": { "str": "[Skill] Rocket Man" },
     "description": "I'm sending you to the moon.  In pieces.",
-    "requirements": [ { "event_statistic": "num_gains_launcher_level_10", "is": ">=", "target": 1 } ],
+    "skill_requirements": [ { "skill": "launcher", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_launcher", "is": "anything" } ],
     "hidden_by": [ "achievement_lvl_5_launcher" ]
   },
   {
@@ -502,15 +514,16 @@
     "type": "achievement",
     "name": { "str": "[Skill] Engineer" },
     "description": "Just give me my wrench.",
-    "requirements": [ { "event_statistic": "num_gains_mechanics_level_5", "is": ">=", "target": 1 } ],
-    "hidden_by": [ "achievement_lvl_5_mechanics" ]
+    "skill_requirements": [ { "skill": "mechanics", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_mechanics", "is": "anything" } ]
   },
   {
     "id": "achievement_lvl_10_mechanics",
     "type": "achievement",
     "name": { "str": "[Skill] Captain of the R-MCC Landship" },
     "description": "This whole deal is holding on faith, spit and duct tape.",
-    "requirements": [ { "event_statistic": "num_gains_mechanics_level_10", "is": ">=", "target": 1 } ],
+    "skill_requirements": [ { "skill": "mechanics", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_mechanics", "is": "anything" } ],
     "hidden_by": [ "achievement_lvl_5_mechanics" ]
   },
   {
@@ -518,15 +531,16 @@
     "type": "achievement",
     "name": { "str": "[Skill] Brawler" },
     "description": "Bottle in left hand, chair leg in right hand.",
-    "requirements": [ { "event_statistic": "num_gains_melee_level_5", "is": ">=", "target": 1 } ],
-    "hidden_by": [ "achievement_lvl_5_melee" ]
+    "skill_requirements": [ { "skill": "melee", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_melee", "is": "anything" } ]
   },
   {
     "id": "achievement_lvl_10_melee",
     "type": "achievement",
     "name": { "str": "[Skill] Street Fighter" },
     "description": "It's winning that matters, not the style.",
-    "requirements": [ { "event_statistic": "num_gains_melee_level_10", "is": ">=", "target": 1 } ],
+    "skill_requirements": [ { "skill": "melee", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_melee", "is": "anything" } ],
     "hidden_by": [ "achievement_lvl_5_melee" ]
   },
   {
@@ -534,15 +548,16 @@
     "type": "achievement",
     "name": { "str": "[Skill] Small but Deadly" },
     "description": "Caliber doesn't count when you're on the receiving side of the barrel.",
-    "requirements": [ { "event_statistic": "num_gains_pistol_level_5", "is": ">=", "target": 1 } ],
-    "hidden_by": [ "achievement_lvl_5_pistol" ]
+    "skill_requirements": [ { "skill": "pistol", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_pistol", "is": "anything" } ]
   },
   {
     "id": "achievement_lvl_10_pistol",
     "type": "achievement",
     "name": { "str": "[Skill] Big Iron" },
     "description": "Six bullets.  More than enough to kill anything that moves.",
-    "requirements": [ { "event_statistic": "num_gains_pistol_level_10", "is": ">=", "target": 1 } ],
+    "skill_requirements": [ { "skill": "pistol", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_pistol", "is": "anything" } ],
     "hidden_by": [ "achievement_lvl_5_pistol" ]
   },
   {
@@ -550,15 +565,16 @@
     "type": "achievement",
     "name": { "str": "[Skill] Rifleman" },
     "description": "This is my rifle.  there are many like it, but this one is mine.  My rifle is my best friend.  It is my life.  I must master it as I must master my life.",
-    "requirements": [ { "event_statistic": "num_gains_rifle_level_5", "is": ">=", "target": 1 } ],
-    "hidden_by": [ "achievement_lvl_5_rifle" ]
+    "skill_requirements": [ { "skill": "rifle", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_rifle", "is": "anything" } ]
   },
   {
     "id": "achievement_lvl_10_rifle",
     "type": "achievement",
     "name": { "str": "[Skill] Soldier" },
     "description": "Without me, my rifle is useless.  Without my rifle, I am useless.  I will keep my rifle clean and ready, even as I am clean and ready.  We will become part of each other.",
-    "requirements": [ { "event_statistic": "num_gains_rifle_level_10", "is": ">=", "target": 1 } ],
+    "skill_requirements": [ { "skill": "rifle", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_rifle", "is": "anything" } ],
     "hidden_by": [ "achievement_lvl_5_rifle" ]
   },
   {
@@ -566,15 +582,16 @@
     "type": "achievement",
     "name": { "str": "[Skill] Double Barrel, Double Fun" },
     "description": "I like to keep this handy for close encounters.",
-    "requirements": [ { "event_statistic": "num_gains_shotgun_level_5", "is": ">=", "target": 1 } ],
-    "hidden_by": [ "achievement_lvl_5_shotgun" ]
+    "skill_requirements": [ { "skill": "shotgun", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_shotgun", "is": "anything" } ]
   },
   {
     "id": "achievement_lvl_10_shotgun",
     "type": "achievement",
     "name": { "str": "[Skill] This is My Boomstick!" },
     "description": "Both barrels for you, you bastards.",
-    "requirements": [ { "event_statistic": "num_gains_shotgun_level_10", "is": ">=", "target": 1 } ],
+    "skill_requirements": [ { "skill": "shotgun", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_shotgun", "is": "anything" } ],
     "hidden_by": [ "achievement_lvl_5_shotgun" ]
   },
   {
@@ -582,15 +599,16 @@
     "type": "achievement",
     "name": { "str": "[Skill] Spray'n'Pray" },
     "description": "One will hit.  It's a matter of statistics.",
-    "requirements": [ { "event_statistic": "num_gains_smg_level_5", "is": ">=", "target": 1 } ],
-    "hidden_by": [ "achievement_lvl_5_smg" ]
+    "skill_requirements": [ { "skill": "smg", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_smg", "is": "anything" } ]
   },
   {
     "id": "achievement_lvl_10_smg",
     "type": "achievement",
     "name": { "str": "[Skill] Chicago Typewriter" },
     "description": "We definitely need more ammo.",
-    "requirements": [ { "event_statistic": "num_gains_smg_level_10", "is": ">=", "target": 1 } ],
+    "skill_requirements": [ { "skill": "smg", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_smg", "is": "anything" } ],
     "hidden_by": [ "achievement_lvl_5_smg" ]
   },
   {
@@ -598,15 +616,16 @@
     "type": "achievement",
     "name": { "str": "[Skill] Eloquent" },
     "description": "We're friends, aren't we?",
-    "requirements": [ { "event_statistic": "num_gains_speech_level_5", "is": ">=", "target": 1 } ],
-    "hidden_by": [ "achievement_lvl_5_speech" ]
+    "skill_requirements": [ { "skill": "speech", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_speech", "is": "anything" } ]
   },
   {
     "id": "achievement_lvl_10_speech",
     "type": "achievement",
     "name": { "str": "[Skill] Silver Tongue" },
     "description": "Legend has it that you convinced a zombie hulk to go away.",
-    "requirements": [ { "event_statistic": "num_gains_speech_level_10", "is": ">=", "target": 1 } ],
+    "skill_requirements": [ { "skill": "speech", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_speech", "is": "anything" } ],
     "hidden_by": [ "achievement_lvl_5_speech" ]
   },
   {
@@ -614,15 +633,16 @@
     "type": "achievement",
     "name": { "str": "[Skill] Lancer" },
     "description": "He learned to deal the far-off stone, and poke the long, safe spear.",
-    "requirements": [ { "event_statistic": "num_gains_stabbing_level_5", "is": ">=", "target": 1 } ],
-    "hidden_by": [ "achievement_lvl_5_stabbing" ]
+    "skill_requirements": [ { "skill": "stabbing", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_stabbing", "is": "anything" } ]
   },
   {
     "id": "achievement_lvl_10_stabbing",
     "type": "achievement",
     "name": { "str": "[Skill] Five Finger Fillet" },
     "description": "Is this a dagger which I see before me, the handle toward my hand?  Come, let me clutch thee.",
-    "requirements": [ { "event_statistic": "num_gains_stabbing_level_10", "is": ">=", "target": 1 } ],
+    "skill_requirements": [ { "skill": "stabbing", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_stabbing", "is": "anything" } ],
     "hidden_by": [ "achievement_lvl_5_stabbing" ]
   },
   {
@@ -630,15 +650,16 @@
     "type": "achievement",
     "name": { "str": "[Skill] Survivalist" },
     "description": "Survival is my game.",
-    "requirements": [ { "event_statistic": "num_gains_survival_level_5", "is": ">=", "target": 1 } ],
-    "hidden_by": [ "achievement_lvl_5_survival" ]
+    "skill_requirements": [ { "skill": "survival", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_survival", "is": "anything" } ]
   },
   {
     "id": "achievement_lvl_10_survival",
     "type": "achievement",
     "name": { "str": "[Skill] Innawoods" },
     "description": "Some people think I'm over-prepared.  Paranoid.  Maybe even a little crazy.  But they never met any Precambrian life forms, did they?",
-    "requirements": [ { "event_statistic": "num_gains_survival_level_10", "is": ">=", "target": 1 } ],
+    "skill_requirements": [ { "skill": "survival", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_survival", "is": "anything" } ],
     "hidden_by": [ "achievement_lvl_5_survival" ]
   },
   {
@@ -646,15 +667,16 @@
     "type": "achievement",
     "name": { "str": "[Skill] Swimmer" },
     "description": "Like a fish to water.",
-    "requirements": [ { "event_statistic": "num_gains_swimming_level_5", "is": ">=", "target": 1 } ],
-    "hidden_by": [ "achievement_lvl_5_swimming" ]
+    "skill_requirements": [ { "skill": "swimming", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_swimming", "is": "anything" } ]
   },
   {
     "id": "achievement_lvl_10_swimming",
     "type": "achievement",
     "name": { "str": "[Skill] Sky of Blue, and Sea of Green" },
     "description": "Faster than Jaws.",
-    "requirements": [ { "event_statistic": "num_gains_swimming_level_10", "is": ">=", "target": 1 } ],
+    "skill_requirements": [ { "skill": "swimming", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_swimming", "is": "anything" } ],
     "hidden_by": [ "achievement_lvl_5_swimming" ]
   },
   {
@@ -662,15 +684,16 @@
     "type": "achievement",
     "name": { "str": "[Skill] Tailor" },
     "description": "A needle, a thread and a dream.",
-    "requirements": [ { "event_statistic": "num_gains_tailor_level_5", "is": ">=", "target": 1 } ],
-    "hidden_by": [ "achievement_lvl_5_tailor" ]
+    "skill_requirements": [ { "skill": "tailor", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_tailor", "is": "anything" } ]
   },
   {
     "id": "achievement_lvl_10_tailor",
     "type": "achievement",
     "name": { "str": "[Skill] Fashion Designer" },
     "description": "Male, female and mutant fashion alike.",
-    "requirements": [ { "event_statistic": "num_gains_tailor_level_10", "is": ">=", "target": 1 } ],
+    "skill_requirements": [ { "skill": "tailor", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_tailor", "is": "anything" } ],
     "hidden_by": [ "achievement_lvl_5_tailor" ]
   },
   {
@@ -678,15 +701,16 @@
     "type": "achievement",
     "name": { "str": "[Skill] Yeet!" },
     "description": "And never come back.",
-    "requirements": [ { "event_statistic": "num_gains_throw_level_5", "is": ">=", "target": 1 } ],
-    "hidden_by": [ "achievement_lvl_5_throw" ]
+    "skill_requirements": [ { "skill": "throw", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_throw", "is": "anything" } ]
   },
   {
     "id": "achievement_lvl_10_throw",
     "type": "achievement",
     "name": { "str": "[Skill] Frag Out!" },
     "description": "This sounds like a job for Ambassador Pineapple.",
-    "requirements": [ { "event_statistic": "num_gains_throw_level_10", "is": ">=", "target": 1 } ],
+    "skill_requirements": [ { "skill": "throw", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_throw", "is": "anything" } ],
     "hidden_by": [ "achievement_lvl_5_throw" ]
   },
   {
@@ -694,15 +718,16 @@
     "type": "achievement",
     "name": { "str": "[Skill] Trapper" },
     "description": "A good trap doesn't discriminate between beavers and zombeavers.",
-    "requirements": [ { "event_statistic": "num_gains_traps_level_5", "is": ">=", "target": 1 } ],
-    "hidden_by": [ "achievement_lvl_5_traps" ]
+    "skill_requirements": [ { "skill": "traps", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_traps", "is": "anything" } ]
   },
   {
     "id": "achievement_lvl_10_traps",
     "type": "achievement",
     "name": { "str": "[Skill] Minesweeper" },
     "description": "All it takes is one mistake.",
-    "requirements": [ { "event_statistic": "num_gains_traps_level_10", "is": ">=", "target": 1 } ],
+    "skill_requirements": [ { "skill": "traps", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_traps", "is": "anything" } ],
     "hidden_by": [ "achievement_lvl_5_traps" ]
   },
   {
@@ -710,15 +735,16 @@
     "type": "achievement",
     "name": { "str": "[Skill] Road to Shaolin" },
     "description": "I feel an army in my fist.",
-    "requirements": [ { "event_statistic": "num_gains_unarmed_level_5", "is": ">=", "target": 1 } ],
-    "hidden_by": [ "achievement_lvl_5_unarmed" ]
+    "skill_requirements": [ { "skill": "unarmed", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_unarmed", "is": "anything" } ]
   },
   {
     "id": "achievement_lvl_10_unarmed",
     "type": "achievement",
     "name": { "str": "[Skill] Wax On, Wax Off" },
     "description": "To be your own weapon.",
-    "requirements": [ { "event_statistic": "num_gains_unarmed_level_10", "is": ">=", "target": 1 } ],
+    "skill_requirements": [ { "skill": "unarmed", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_unarmed", "is": "anything" } ],
     "hidden_by": [ "achievement_lvl_5_unarmed" ]
   }
 ]
