@@ -30,7 +30,7 @@
   {
     "type": "SPECIES",
     "id": "FISH",
-    "name": { "str": "fish", "str_pl": "fish" },
+    "name": { "str_sp": "fish" },
     "description": "a fish",
     "fear_triggers": [ "HURT", "FRIEND_ATTACKED" ]
   },
@@ -146,7 +146,7 @@
   },
   {
     "type": "SPECIES",
-    "name": { "str": "unknown species", "str_pl": "unknown species" },
+    "name": { "str_sp": "unknown species" },
     "id": "UNKNOWN"
   }
 ]
