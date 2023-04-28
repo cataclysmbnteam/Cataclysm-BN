@@ -16,6 +16,7 @@
 #include "event_statistics.h"
 #include "game.h"
 #include "game_constants.h"
+#include "kill_tracker.h"
 #include "options_helpers.h"
 #include "stats_tracker.h"
 #include "string_id.h"
@@ -465,7 +466,9 @@ TEST_CASE( "achievments_tracker", "[stats]" )
     std::map<string_id<achievement>, const achievement *> achievements_completed;
     event_bus b;
     stats_tracker s;
+    kill_tracker k;
     b.subscribe( &s );
+    b.subscribe( &k );
     achievements_tracker a( s, [&]( const achievement * a ) {
         achievements_completed.emplace( a->id, a );
     } );
