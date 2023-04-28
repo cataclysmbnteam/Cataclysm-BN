@@ -223,7 +223,6 @@ class achievements_tracker : public event_subscriber
 
         stats_tracker *stats_ = nullptr;
         std::function<void( const achievement * )> achievement_attained_callback_;
-        std::unordered_set<string_id<achievement>> initial_achievements_;
 
         // Class invariant: each valid achievement has exactly one of a watcher
         // (if it's pending) or a status (if it's completed or failed).

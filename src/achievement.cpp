@@ -940,9 +940,7 @@ std::vector<const achievement *> achievements_tracker::valid_achievements() cons
 {
     std::vector<const achievement *> result;
     for( const achievement &ach : achievement::get_all() ) {
-        if( initial_achievements_.count( ach.id ) ) {
-            result.push_back( &ach );
-        }
+        result.push_back( &ach );
     }
     return result;
 }
@@ -1014,17 +1012,12 @@ std::string achievements_tracker::ui_text_for( const achievement *ach ) const
 void achievements_tracker::clear()
 {
     trackers_.clear();
-    initial_achievements_.clear();
     achievements_status_.clear();
 }
 
 void achievements_tracker::notify( const cata::event &e )
 {
     if( e.type() == event_type::game_start ) {
-        assert( initial_achievements_.empty() );
-        for( const achievement &ach : achievement::get_all() ) {
-            initial_achievements_.insert( ach.id );
-        }
         init_watchers();
     }
 }
@@ -1032,7 +1025,6 @@ void achievements_tracker::notify( const cata::event &e )
 void achievements_tracker::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
-    jsout.member( "initial_achievements", initial_achievements_ );
     jsout.member( "achievements_status", achievements_status_ );
     jsout.end_object();
 }
@@ -1040,7 +1032,6 @@ void achievements_tracker::serialize( JsonOut &jsout ) const
 void achievements_tracker::deserialize( JsonIn &jsin )
 {
     JsonObject jo = jsin.get_object();
-    jo.read( "initial_achievements", initial_achievements_ );
     jo.read( "achievements_status", achievements_status_ );
 
     init_watchers();
