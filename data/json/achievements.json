@@ -287,5 +287,22 @@
     "description": "Fine, you'll start your own furry convention, with blackjack and hookers.  You are now a post-threshold Wolf mutant.",
     "hidden_by": [ "achievement_mutation_threshold_wolf" ],
     "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_wolf", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_lvl_5_archery",
+    "type": "achievement",
+    "name": { "str": "[Skill] Bull's Eye" },
+    "description": "Wilhelm Tell?  Never heard of him.",
+    "skill_requirements": [ { "skill": "archery", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_archery", "is": "anything" } ]
+  },
+  {
+    "id": "achievement_lvl_10_archery",
+    "type": "achievement",
+    "name": { "str": "[Skill] Parthian Shot" },
+    "description": "Nock, draw, loose!",
+    "skill_requirements": [ { "skill": "archery", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_archery", "is": "anything" } ],
+    "hidden_by": [ "achievement_lvl_5_archery" ]
   }
 ]

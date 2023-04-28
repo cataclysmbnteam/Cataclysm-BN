@@ -1379,6 +1379,16 @@ been completed.
 Use this to prevent spoilers or to reduce clutter in the list of achievements.
 
 ```C++
+"skill_requirements": [ { "skill": "archery", "is": ">=", "level": 5 } ]
+```
+
+This allows a skill level requirement (either an upper or lower bound) on when
+the achievement can be claimed. The `"skill"` field uses the id of a skill.
+
+Note that like `"time_constraint"` below achievements can only be captured when
+a statistic listed in `"requirements"` changes.
+
+```C++
 "time_constraint": { "since": "game_start", "is": "<=", "target": "1 minute" }
 ```
 
