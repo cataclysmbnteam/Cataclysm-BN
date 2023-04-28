@@ -2303,4 +2303,7 @@ std::map<bodypart_id, int> wind_resistance_from_clothing(
 /** Returns true if the player has a psyshield artifact, or sometimes if wearing tinfoil */
 bool has_psy_protection( const Character &c, int partial_chance );
 
+/** Returns value of speedydex bonus if enabled */
+int get_speedydex_bonus( const int dex );
+
 #endif // CATA_SRC_CHARACTER_H

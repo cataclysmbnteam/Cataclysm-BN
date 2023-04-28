@@ -229,13 +229,13 @@ struct mission_type {
         bool remove_container = false;
         itype_id empty_container = itype_id::NULL_ID();
         int item_count = 1;
-        npc_class_id recruit_class = npc_class_id( "NC_NONE" );  // The type of NPC you are to recruit
+        npc_class_id recruit_class = npc_class_id::NULL_ID();  // The type of NPC you are to recruit
         character_id target_npc_id;
         mtype_id monster_type = mtype_id::NULL_ID();
         species_id monster_species;
         int monster_kill_goal = -1;
         oter_type_str_id target_id;
-        mission_type_id follow_up = mission_type_id( "MISSION_NULL" );
+        mission_type_id follow_up = mission_type_id::NULL_ID();
 
         std::function<bool( const tripoint_abs_omt & )> place = mission_place::always;
         std::function<void( mission * )> start = mission_start::standard;

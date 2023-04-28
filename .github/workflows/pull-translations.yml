@@ -15,10 +15,11 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v3
       - name: "Get current date"
-        uses: 1466587594/get-current-time@v2
+        uses: nanzm/get-time-action@v1.1
         id: current-date
         with:
-          format: "DD MMMM YYYY"
+          timeZone: 0
+          format: "YYYY-MM-DD"
       - name: "Pull translations"
         env:
           TX_TOKEN: ${{ secrets.TX_TOKEN }}

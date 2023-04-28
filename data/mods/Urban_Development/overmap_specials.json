@@ -10,6 +10,7 @@
       { "point": [ 1, 0, 2 ], "overmap": "urban_7_5_south" },
       { "point": [ 0, 0, 2 ], "overmap": "urban_7_6_south" }
     ],
+    "rotate": true,
     "locations": [ "land" ],
     "flags": [ "CLASSIC" ]
   },
@@ -23,6 +24,7 @@
       { "point": [ 0, 0, 1 ], "overmap": "urban_8_4_south" },
       { "point": [ 0, 0, 2 ], "overmap": "urban_8_6_south" }
     ],
+    "rotate": true,
     "locations": [ "land" ],
     "flags": [ "CLASSIC" ]
   },
@@ -37,6 +39,7 @@
       { "point": [ 1, 0, 2 ], "overmap": "urban_9_5_south" },
       { "point": [ 0, 0, 2 ], "overmap": "urban_9_6_south" }
     ],
+    "rotate": true,
     "locations": [ "land" ],
     "flags": [ "CLASSIC" ]
   },
@@ -51,6 +54,7 @@
       { "point": [ 1, 0, 2 ], "overmap": "urban_10_5_south" },
       { "point": [ 0, 0, 2 ], "overmap": "urban_10_6_south" }
     ],
+    "rotate": true,
     "locations": [ "land" ],
     "flags": [ "CLASSIC" ]
   },
@@ -65,8 +69,9 @@
       { "point": [ 1, 0, 2 ], "overmap": "urban_11_5_south" },
       { "point": [ 0, 0, 2 ], "overmap": "urban_11_6_south" }
     ],
+    "rotate": true,
     "locations": [ "land" ],
-    "flags": [ "CLASSIC" ]
+    "flags": [ "CLASSIC", "URBAN" ]
   },
   {
     "type": "city_building",
@@ -79,6 +84,7 @@
       { "point": [ 1, 0, 2 ], "overmap": "urban_12_5_south" },
       { "point": [ 0, 0, 2 ], "overmap": "urban_12_6_south" }
     ],
+    "rotate": true,
     "locations": [ "land" ],
     "flags": [ "CLASSIC" ]
   },
@@ -93,6 +99,7 @@
       { "point": [ 1, 0, 2 ], "overmap": "urban_15_5_south" },
       { "point": [ 0, 0, 2 ], "overmap": "urban_15_6_south" }
     ],
+    "rotate": true,
     "locations": [ "land" ],
     "flags": [ "CLASSIC" ]
   },
@@ -105,6 +112,7 @@
       { "point": [ 1, 0, 1 ], "overmap": "urban_16_3_south" },
       { "point": [ 0, 0, 1 ], "overmap": "urban_16_4_south" }
     ],
+    "rotate": true,
     "locations": [ "land" ],
     "flags": [ "CLASSIC" ]
   },
@@ -117,6 +125,7 @@
       { "point": [ 1, 0, 1 ], "overmap": "urban_17_3_south" },
       { "point": [ 0, 0, 1 ], "overmap": "urban_17_4_south" }
     ],
+    "rotate": true,
     "locations": [ "land" ],
     "flags": [ "CLASSIC" ]
   },
@@ -135,6 +144,7 @@
       { "point": [ 1, 0, 3 ], "overmap": "urban_18_9_south" },
       { "point": [ 0, 0, 3 ], "overmap": "urban_18_10_south" }
     ],
+    "rotate": true,
     "locations": [ "land" ],
     "flags": [ "CLASSIC" ]
   },
@@ -155,6 +165,7 @@
       { "point": [ 1, 0, 4 ], "overmap": "urban_19_11_south" },
       { "point": [ 0, 0, 4 ], "overmap": "urban_19_12_south" }
     ],
+    "rotate": true,
     "locations": [ "land" ],
     "flags": [ "CLASSIC" ]
   },
@@ -171,6 +182,7 @@
       { "point": [ 1, 0, 2 ], "overmap": "urban_20_7_south" },
       { "point": [ 0, 0, 2 ], "overmap": "urban_20_8_south" }
     ],
+    "rotate": true,
     "locations": [ "land" ],
     "flags": [ "CLASSIC" ]
   },
@@ -183,6 +195,7 @@
       { "point": [ 1, 0, 1 ], "overmap": "urban_21_3_south" },
       { "point": [ 0, 0, 1 ], "overmap": "urban_21_4_south" }
     ],
+    "rotate": true,
     "locations": [ "land" ],
     "flags": [ "CLASSIC" ]
   },
@@ -195,16 +208,19 @@
       { "point": [ 1, 0, 1 ], "overmap": "urban_22_3_south" },
       { "point": [ 0, 0, 1 ], "overmap": "urban_22_4_south" }
     ],
+    "rotate": true,
     "locations": [ "land" ],
     "flags": [ "CLASSIC" ]
   },
   {
-    "type": "city_building",
     "id": "urban_23_dense_office_theater",
+    "type": "overmap_special",
     "overmaps": [
       { "point": [ 1, 0, -1 ], "overmap": "urban_23_1_south" },
       { "point": [ 0, 0, -1 ], "overmap": "urban_23_2_south" },
       { "point": [ 1, 0, 0 ], "overmap": "urban_23_3_south" },
+      { "point": [ 0, -1, 0 ], "overmap": "road_ew" },
+      { "point": [ 1, -1, 0 ], "overmap": "road_ew" },
       { "point": [ 0, 0, 0 ], "overmap": "urban_23_4_south" },
       { "point": [ 1, 0, 1 ], "overmap": "urban_23_5_south" },
       { "point": [ 0, 0, 1 ], "overmap": "urban_23_6_south" },
@@ -214,17 +230,29 @@
       { "point": [ 0, 0, 3 ], "overmap": "urban_23_10_south" },
       { "point": [ 1, 0, 4 ], "overmap": "urban_23_11_south" }
     ],
+    "rotate": true,
     "locations": [ "land" ],
-    "flags": [ "CLASSIC" ]
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 0, -1 ],
+    "city_sizes": [ 9, -1 ],
+    "connections": [
+      { "point": [ -1, -1, 0 ], "connection": "local_road", "from": [ 0, -1, 0 ] },
+      { "point": [ 2, -1, 0 ], "connection": "local_road", "from": [ 1, -1, 0 ] },
+      { "point": [ 2, 0, -1 ], "connection": "sewer_tunnel", "from": [ 1, 0, -1 ] },
+      { "point": [ -1, 0, -1 ], "connection": "sewer_tunnel", "from": [ 0, 0, -1 ] }
+    ],
+    "flags": [ "CLASSIC", "URBAN" ]
   },
   {
-    "type": "city_building",
     "id": "urban_24_dense_bank_house",
+    "type": "overmap_special",
     "overmaps": [
       { "point": [ 1, 0, -1 ], "overmap": "urban_24_1_south" },
       { "point": [ 0, 0, -1 ], "overmap": "urban_24_2_south" },
       { "point": [ 1, 0, 0 ], "overmap": "urban_24_3_south" },
       { "point": [ 0, 0, 0 ], "overmap": "urban_24_4_south" },
+      { "point": [ 0, -1, 0 ], "overmap": "road_ew" },
+      { "point": [ 1, -1, 0 ], "overmap": "road_ew" },
       { "point": [ 1, 0, 1 ], "overmap": "urban_24_5_south" },
       { "point": [ 0, 0, 1 ], "overmap": "urban_24_6_south" },
       { "point": [ 1, 0, 2 ], "overmap": "urban_24_7_south" },
@@ -235,17 +263,29 @@
       { "point": [ 0, 0, 4 ], "overmap": "urban_24_12_south" },
       { "point": [ 0, 0, 5 ], "overmap": "urban_24_14_south" }
     ],
+    "rotate": true,
     "locations": [ "land" ],
-    "flags": [ "CLASSIC" ]
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 0, -1 ],
+    "city_sizes": [ 9, -1 ],
+    "connections": [
+      { "point": [ -1, -1, 0 ], "connection": "local_road", "from": [ 0, -1, 0 ] },
+      { "point": [ 2, -1, 0 ], "connection": "local_road", "from": [ 1, -1, 0 ] },
+      { "point": [ 2, 0, -1 ], "connection": "sewer_tunnel", "from": [ 1, 0, -1 ] },
+      { "point": [ -1, 0, -1 ], "connection": "sewer_tunnel", "from": [ 0, 0, -1 ] }
+    ],
+    "flags": [ "CLASSIC", "URBAN" ]
   },
   {
-    "type": "city_building",
     "id": "urban_25_dense_diner_apt",
+    "type": "overmap_special",
     "overmaps": [
       { "point": [ 1, 0, -1 ], "overmap": "urban_25_1_south" },
       { "point": [ 0, 0, -1 ], "overmap": "urban_25_2_south" },
       { "point": [ 1, 0, 0 ], "overmap": "urban_25_3_south" },
       { "point": [ 0, 0, 0 ], "overmap": "urban_25_4_south" },
+      { "point": [ 0, -1, 0 ], "overmap": "road_ew" },
+      { "point": [ 1, -1, 0 ], "overmap": "road_ew" },
       { "point": [ 1, 0, 1 ], "overmap": "urban_25_5_south" },
       { "point": [ 0, 0, 1 ], "overmap": "urban_25_6_south" },
       { "point": [ 1, 0, 2 ], "overmap": "urban_25_7_south" },
@@ -254,17 +294,30 @@
       { "point": [ 0, 0, 3 ], "overmap": "urban_25_10_south" },
       { "point": [ 0, 0, 4 ], "overmap": "urban_25_12_south" }
     ],
+    "rotate": true,
     "locations": [ "land" ],
-    "flags": [ "CLASSIC" ]
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 0, -1 ],
+    "city_sizes": [ 9, -1 ],
+    "connections": [
+      { "point": [ -1, -1, 0 ], "connection": "local_road", "from": [ 0, -1, 0 ] },
+      { "point": [ 2, -1, 0 ], "connection": "local_road", "from": [ 1, -1, 0 ] },
+      { "point": [ 2, 0, -1 ], "connection": "sewer_tunnel", "from": [ 1, 0, -1 ] },
+      { "point": [ 0, -1, -1 ], "connection": "sewer_tunnel", "from": [ 0, 0, -1 ] }
+    ],
+    "flags": [ "CLASSIC", "URBAN" ]
   },
   {
-    "type": "city_building",
     "id": "urban_26_dense_club",
+    "type": "overmap_special",
     "overmaps": [
       { "point": [ 1, 0, -1 ], "overmap": "urban_26_1_south" },
       { "point": [ 0, 0, -1 ], "overmap": "urban_26_2_south" },
       { "point": [ 1, 0, 0 ], "overmap": "urban_26_3_south" },
       { "point": [ 0, 0, 0 ], "overmap": "urban_26_4_south" },
+      { "point": [ 1, -1, 0 ], "overmap": "road_ew" },
+      { "point": [ 0, -1, 0 ], "overmap": "road_ew" },
+      { "point": [ 2, 0, 0 ], "overmap": "road_ns" },
       { "point": [ 1, 0, 1 ], "overmap": "urban_26_5_south" },
       { "point": [ 0, 0, 1 ], "overmap": "urban_26_6_south" },
       { "point": [ 1, 0, 2 ], "overmap": "urban_26_7_south" },
@@ -274,17 +327,29 @@
       { "point": [ 1, 0, 4 ], "overmap": "urban_26_11_south" },
       { "point": [ 0, 0, 4 ], "overmap": "urban_26_12_south" }
     ],
+    "rotate": true,
     "locations": [ "land" ],
-    "flags": [ "CLASSIC" ]
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 0, -1 ],
+    "city_sizes": [ 9, -1 ],
+    "connections": [
+      { "point": [ -1, -1, 0 ], "connection": "local_road", "from": [ 0, -1, 0 ] },
+      { "point": [ 2, -1, 0 ], "connection": "local_road", "from": [ 1, -1, 0 ] },
+      { "point": [ 1, 1, -1 ], "connection": "sewer_tunnel", "from": [ 1, 0, -1 ] },
+      { "point": [ -1, 0, -1 ], "connection": "sewer_tunnel", "from": [ 0, 0, -1 ] }
+    ],
+    "flags": [ "CLASSIC", "URBAN" ]
   },
   {
-    "type": "city_building",
     "id": "urban_27_dense_barber_apt",
+    "type": "overmap_special",
     "overmaps": [
       { "point": [ 1, 0, -1 ], "overmap": "urban_27_1_south" },
       { "point": [ 0, 0, -1 ], "overmap": "urban_27_2_south" },
       { "point": [ 1, 0, 0 ], "overmap": "urban_27_3_south" },
       { "point": [ 0, 0, 0 ], "overmap": "urban_27_4_south" },
+      { "point": [ 0, -1, 0 ], "overmap": "road_ew" },
+      { "point": [ 1, -1, 0 ], "overmap": "road_ew" },
       { "point": [ 1, 0, 1 ], "overmap": "urban_27_5_south" },
       { "point": [ 0, 0, 1 ], "overmap": "urban_27_6_south" },
       { "point": [ 1, 0, 2 ], "overmap": "urban_27_7_south" },
@@ -295,17 +360,30 @@
       { "point": [ 0, 0, 4 ], "overmap": "urban_27_12_south" },
       { "point": [ 1, 0, 5 ], "overmap": "urban_27_13_south" }
     ],
+    "rotate": true,
     "locations": [ "land" ],
-    "flags": [ "CLASSIC" ]
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 0, -1 ],
+    "city_sizes": [ 9, -1 ],
+    "connections": [
+      { "point": [ -1, -1, 0 ], "connection": "local_road", "from": [ 0, -1, 0 ] },
+      { "point": [ 2, -1, 0 ], "connection": "local_road", "from": [ 1, -1, 0 ] },
+      { "point": [ -1, 0, -1 ], "connection": "sewer_tunnel", "from": [ 0, 0, -1 ] },
+      { "point": [ 1, 1, -1 ], "connection": "sewer_tunnel", "from": [ 1, 0, -1 ] },
+      { "point": [ 1, -1, -1 ], "connection": "sewer_tunnel", "from": [ 1, 0, -1 ] }
+    ],
+    "flags": [ "CLASSIC", "URBAN" ]
   },
   {
-    "type": "city_building",
     "id": "urban_28_dense_cafe_laundry",
+    "type": "overmap_special",
     "overmaps": [
       { "point": [ 1, 0, -1 ], "overmap": "urban_28_1_south" },
       { "point": [ 0, 0, -1 ], "overmap": "urban_28_2_south" },
       { "point": [ 1, 0, 0 ], "overmap": "urban_28_3_south" },
       { "point": [ 0, 0, 0 ], "overmap": "urban_28_4_south" },
+      { "point": [ 0, -1, 0 ], "overmap": "road_ew" },
+      { "point": [ 1, -1, 0 ], "overmap": "road_ew" },
       { "point": [ 1, 0, 1 ], "overmap": "urban_28_5_south" },
       { "point": [ 0, 0, 1 ], "overmap": "urban_28_6_south" },
       { "point": [ 1, 0, 2 ], "overmap": "urban_28_7_south" },
@@ -314,17 +392,29 @@
       { "point": [ 0, 0, 3 ], "overmap": "urban_28_10_south" },
       { "point": [ 1, 0, 4 ], "overmap": "urban_28_11_south" }
     ],
+    "rotate": true,
     "locations": [ "land" ],
-    "flags": [ "CLASSIC" ]
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 0, -1 ],
+    "city_sizes": [ 9, -1 ],
+    "connections": [
+      { "point": [ -1, -1, 0 ], "connection": "local_road", "from": [ 0, -1, 0 ] },
+      { "point": [ 2, -1, 0 ], "connection": "local_road", "from": [ 1, -1, 0 ] },
+      { "point": [ 2, 0, -1 ], "connection": "sewer_tunnel", "from": [ 1, 0, -1 ] },
+      { "point": [ -1, 0, -1 ], "connection": "sewer_tunnel", "from": [ 0, 0, -1 ] }
+    ],
+    "flags": [ "CLASSIC", "URBAN" ]
   },
   {
-    "type": "city_building",
     "id": "urban_29_dense_row",
+    "type": "overmap_special",
     "overmaps": [
       { "point": [ 1, 0, -1 ], "overmap": "urban_29_1_south" },
       { "point": [ 0, 0, -1 ], "overmap": "urban_29_2_south" },
       { "point": [ 1, 0, 0 ], "overmap": "urban_29_3_south" },
       { "point": [ 0, 0, 0 ], "overmap": "urban_29_4_south" },
+      { "point": [ 0, -1, 0 ], "overmap": "road_ew" },
+      { "point": [ 1, -1, 0 ], "overmap": "road_ew" },
       { "point": [ 1, 0, 1 ], "overmap": "urban_29_5_south" },
       { "point": [ 0, 0, 1 ], "overmap": "urban_29_6_south" },
       { "point": [ 1, 0, 2 ], "overmap": "urban_29_7_south" },
@@ -332,17 +422,29 @@
       { "point": [ 1, 0, 3 ], "overmap": "urban_29_9_south" },
       { "point": [ 0, 0, 3 ], "overmap": "urban_29_10_south" }
     ],
+    "rotate": true,
     "locations": [ "land" ],
-    "flags": [ "CLASSIC" ]
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 0, -1 ],
+    "city_sizes": [ 9, -1 ],
+    "connections": [
+      { "point": [ -1, -1, 0 ], "connection": "local_road", "from": [ 0, -1, 0 ] },
+      { "point": [ 2, -1, 0 ], "connection": "local_road", "from": [ 1, -1, 0 ] },
+      { "point": [ 2, 0, -1 ], "connection": "sewer_tunnel", "from": [ 1, 0, -1 ] },
+      { "point": [ -1, 0, -1 ], "connection": "sewer_tunnel", "from": [ 0, 0, -1 ] }
+    ],
+    "flags": [ "CLASSIC", "URBAN" ]
   },
   {
-    "type": "city_building",
     "id": "urban_30_dense_subway",
+    "type": "overmap_special",
     "overmaps": [
       { "point": [ 1, 0, -1 ], "overmap": "urban_30_1_south" },
       { "point": [ 0, 0, -1 ], "overmap": "urban_30_2_south" },
       { "point": [ 1, 0, 0 ], "overmap": "urban_30_3_south" },
       { "point": [ 0, 0, 0 ], "overmap": "urban_30_4_south" },
+      { "point": [ 0, -1, 0 ], "overmap": "road_ew" },
+      { "point": [ 1, -1, 0 ], "overmap": "road_ew" },
       { "point": [ 1, 0, 1 ], "overmap": "urban_30_5_south" },
       { "point": [ 0, 0, 1 ], "overmap": "urban_30_6_south" },
       { "point": [ 1, 0, 2 ], "overmap": "urban_30_7_south" },
@@ -350,12 +452,22 @@
       { "point": [ 1, 0, 3 ], "overmap": "urban_30_9_south" },
       { "point": [ 0, 0, 3 ], "overmap": "urban_30_10_south" }
     ],
+    "rotate": true,
     "locations": [ "land" ],
-    "flags": [ "CLASSIC" ]
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 0, -1 ],
+    "city_sizes": [ 9, -1 ],
+    "connections": [
+      { "point": [ -1, -1, 0 ], "connection": "local_road", "from": [ 0, -1, 0 ] },
+      { "point": [ 2, -1, 0 ], "connection": "local_road", "from": [ 1, -1, 0 ] },
+      { "point": [ 2, 0, -1 ], "connection": "sewer_tunnel", "from": [ 1, 0, -1 ] },
+      { "point": [ -1, 0, -1 ], "connection": "sewer_tunnel", "from": [ 0, 0, -1 ] }
+    ],
+    "flags": [ "CLASSIC", "URBAN" ]
   },
   {
     "id": "urban_31_police_station",
-    "type": "city_building",
+    "type": "overmap_special",
     "overmaps": [
       { "point": [ 1, 1, -1 ], "overmap": "urban_31_1_south" },
       { "point": [ 0, 1, -1 ], "overmap": "urban_31_2_south" },
@@ -365,6 +477,8 @@
       { "point": [ 0, 1, 0 ], "overmap": "urban_31_6_south" },
       { "point": [ 1, 0, 0 ], "overmap": "urban_31_7_south" },
       { "point": [ 0, 0, 0 ], "overmap": "urban_31_8_south" },
+      { "point": [ 0, -1, 0 ], "overmap": "road_ew" },
+      { "point": [ 1, -1, 0 ], "overmap": "road_ew" },
       { "point": [ 1, 1, 1 ], "overmap": "urban_31_9_south" },
       { "point": [ 0, 1, 1 ], "overmap": "urban_31_10_south" },
       { "point": [ 1, 0, 1 ], "overmap": "urban_31_11_south" },
@@ -375,12 +489,22 @@
       { "point": [ 1, 1, 3 ], "overmap": "urban_31_17_south" },
       { "point": [ 1, 0, 3 ], "overmap": "urban_31_19_south" }
     ],
+    "rotate": true,
     "locations": [ "land" ],
-    "flags": [ "CLASSIC" ]
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 0, -1 ],
+    "city_sizes": [ 9, -1 ],
+    "connections": [
+      { "point": [ -1, -1, 0 ], "connection": "local_road", "from": [ 0, -1, 0 ] },
+      { "point": [ 2, -1, 0 ], "connection": "local_road", "from": [ 1, -1, 0 ] },
+      { "point": [ 0, 2, 0 ], "connection": "local_road", "from": [ 0, 1, 0 ] },
+      { "point": [ 0, 2, -1 ], "connection": "sewer_tunnel", "from": [ 0, 1, -1 ] }
+    ],
+    "flags": [ "CLASSIC", "URBAN" ]
   },
   {
     "id": "urban_32_fire_station",
-    "type": "city_building",
+    "type": "overmap_special",
     "overmaps": [
       { "point": [ 1, 1, -1 ], "overmap": "urban_32_1_south" },
       { "point": [ 0, 1, -1 ], "overmap": "urban_32_2_south" },
@@ -404,12 +528,24 @@
       { "point": [ 0, 0, 3 ], "overmap": "urban_32_20_south" },
       { "point": [ 1, 1, 4 ], "overmap": "urban_32_21_south" }
     ],
+    "rotate": true,
     "locations": [ "land" ],
-    "flags": [ "CLASSIC" ]
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 0, -1 ],
+    "city_sizes": [ 9, -1 ],
+    "connections": [
+      { "point": [ 0, -1, 0 ], "connection": "local_road", "from": [ 0, 0, 0 ] },
+      { "point": [ 0, 2, 0 ], "connection": "local_road", "from": [ 0, 1, 0 ] },
+      { "point": [ 1, 2, 0 ], "connection": "local_road", "from": [ 1, 1, 0 ] },
+      { "point": [ 1, 2, -1 ], "connection": "sewer_tunnel", "from": [ 1, 1, -1 ] },
+      { "point": [ 0, 2, -1 ], "connection": "sewer_tunnel", "from": [ 0, 1, -1 ] },
+      { "point": [ -1, 1, -1 ], "connection": "sewer_tunnel", "from": [ 0, 1, -1 ] }
+    ],
+    "flags": [ "CLASSIC", "URBAN" ]
   },
   {
     "id": "urban_33_hotel",
-    "type": "city_building",
+    "type": "overmap_special",
     "overmaps": [
       { "point": [ 1, 1, -1 ], "overmap": "urban_33_1_south" },
       { "point": [ 0, 1, -1 ], "overmap": "urban_33_2_south" },
@@ -420,6 +556,8 @@
       { "point": [ 1, 0, 0 ], "overmap": "urban_33_7_south" },
       { "point": [ 0, 0, 0 ], "overmap": "urban_33_8_south" },
       { "point": [ 1, 1, 1 ], "overmap": "urban_33_9_south" },
+      { "point": [ 0, -1, 0 ], "overmap": "road_ew" },
+      { "point": [ 1, -1, 0 ], "overmap": "road_ew" },
       { "point": [ 0, 1, 1 ], "overmap": "urban_33_10_south" },
       { "point": [ 1, 0, 1 ], "overmap": "urban_33_11_south" },
       { "point": [ 0, 0, 1 ], "overmap": "urban_33_12_south" },
@@ -447,12 +585,21 @@
       { "point": [ 1, 0, 7 ], "overmap": "urban_33_35_south" },
       { "point": [ 0, 0, 7 ], "overmap": "urban_33_36_south" }
     ],
+    "rotate": true,
     "locations": [ "land" ],
-    "flags": [ "CLASSIC" ]
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 0, -1 ],
+    "city_sizes": [ 9, -1 ],
+    "connections": [
+      { "point": [ 2, 1, -1 ], "connection": "sewer_tunnel", "from": [ 1, 1, -1 ] },
+      { "point": [ -1, -1, 0 ], "connection": "local_road", "from": [ 0, -1, 0 ] },
+      { "point": [ 2, -1, 0 ], "connection": "local_road", "from": [ 1, -1, 0 ] }
+    ],
+    "flags": [ "CLASSIC", "URBAN" ]
   },
   {
     "id": "urban_34_school",
-    "type": "city_building",
+    "type": "overmap_special",
     "overmaps": [
       { "point": [ 1, 1, -1 ], "overmap": "urban_34_1_south" },
       { "point": [ 0, 1, -1 ], "overmap": "urban_34_2_south" },
@@ -460,6 +607,8 @@
       { "point": [ 0, 0, -1 ], "overmap": "urban_34_4_south" },
       { "point": [ 1, 1, 0 ], "overmap": "urban_34_5_south" },
       { "point": [ 0, 1, 0 ], "overmap": "urban_34_6_south" },
+      { "point": [ 0, -1, 0 ], "overmap": "road_ew" },
+      { "point": [ 1, -1, 0 ], "overmap": "road_ew" },
       { "point": [ 1, 0, 0 ], "overmap": "urban_34_7_south" },
       { "point": [ 0, 0, 0 ], "overmap": "urban_34_8_south" },
       { "point": [ 1, 1, 1 ], "overmap": "urban_34_9_south" },
@@ -473,12 +622,20 @@
       { "point": [ 1, 1, 3 ], "overmap": "urban_34_17_south" },
       { "point": [ 1, 0, 3 ], "overmap": "urban_34_19_south" }
     ],
+    "rotate": true,
     "locations": [ "land" ],
-    "flags": [ "CLASSIC" ]
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 0, -1 ],
+    "city_sizes": [ 9, -1 ],
+    "connections": [
+      { "point": [ -1, -1, 0 ], "connection": "local_road", "from": [ 0, -1, 0 ] },
+      { "point": [ 2, -1, 0 ], "connection": "local_road", "from": [ 1, -1, 0 ] }
+    ],
+    "flags": [ "CLASSIC", "URBAN" ]
   },
   {
     "id": "urban_35_hospital",
-    "type": "city_building",
+    "type": "overmap_special",
     "overmaps": [
       { "point": [ 1, 1, -1 ], "overmap": "urban_35_1_south" },
       { "point": [ 0, 1, -1 ], "overmap": "urban_35_2_south" },
@@ -504,12 +661,21 @@
       { "point": [ 0, 1, 4 ], "overmap": "urban_35_22_south" },
       { "point": [ 1, 0, 4 ], "overmap": "urban_35_23_south" }
     ],
+    "rotate": true,
     "locations": [ "land" ],
-    "flags": [ "CLASSIC" ]
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 2, 5 ],
+    "city_sizes": [ 9, -1 ],
+    "connections": [
+      { "point": [ 1, -1, 0 ], "connection": "local_road", "from": [ 1, 0, 0 ] },
+      { "point": [ 0, -1, 0 ], "connection": "local_road", "from": [ 0, 0, 0 ] },
+      { "point": [ 2, 1, -1 ], "connection": "sewer_tunnel", "from": [ 1, 1, -1 ] }
+    ],
+    "flags": [ "CLASSIC", "URBAN" ]
   },
   {
     "id": "urban_36_projects",
-    "type": "city_building",
+    "type": "overmap_special",
     "overmaps": [
       { "point": [ 1, 1, -1 ], "overmap": "urban_36_1_south" },
       { "point": [ 0, 1, -1 ], "overmap": "urban_36_2_south" },
@@ -520,6 +686,8 @@
       { "point": [ 1, 0, 0 ], "overmap": "urban_36_7_south" },
       { "point": [ 0, 0, 0 ], "overmap": "urban_36_8_south" },
       { "point": [ 1, 1, 1 ], "overmap": "urban_36_9_south" },
+      { "point": [ 0, 2, 0 ], "overmap": "road_ew" },
+      { "point": [ 1, 2, 0 ], "overmap": "road_ew" },
       { "point": [ 0, 1, 1 ], "overmap": "urban_36_10_south" },
       { "point": [ 1, 0, 1 ], "overmap": "urban_36_11_south" },
       { "point": [ 0, 0, 1 ], "overmap": "urban_36_12_south" },
@@ -544,12 +712,21 @@
       { "point": [ 1, 0, 6 ], "overmap": "urban_36_31_south" },
       { "point": [ 0, 0, 6 ], "overmap": "urban_36_32_south" }
     ],
+    "rotate": true,
     "locations": [ "land" ],
-    "flags": [ "CLASSIC" ]
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 2, 5 ],
+    "city_sizes": [ 9, -1 ],
+    "connections": [
+      { "point": [ -1, -1, 0 ], "connection": "local_road", "from": [ 0, 2, 0 ] },
+      { "point": [ 2, 2, 0 ], "connection": "local_road", "from": [ 1, -1, 0 ] },
+      { "point": [ 2, 0, -1 ], "connection": "sewer_tunnel", "from": [ 1, 0, -1 ] }
+    ],
+    "flags": [ "CLASSIC", "URBAN" ]
   },
   {
     "id": "urban_37_office_tower_beehive",
-    "type": "city_building",
+    "type": "overmap_special",
     "overmaps": [
       { "point": [ 1, 1, -1 ], "overmap": "urban_37_1_south" },
       { "point": [ 0, 1, -1 ], "overmap": "urban_37_2_south" },
@@ -559,6 +736,8 @@
       { "point": [ 0, 1, 0 ], "overmap": "urban_37_6_south" },
       { "point": [ 1, 0, 0 ], "overmap": "urban_37_7_south" },
       { "point": [ 0, 0, 0 ], "overmap": "urban_37_8_south" },
+      { "point": [ 0, -1, 0 ], "overmap": "road_ew" },
+      { "point": [ 1, -1, 0 ], "overmap": "road_ew" },
       { "point": [ 1, 1, 1 ], "overmap": "urban_37_9_south" },
       { "point": [ 0, 1, 1 ], "overmap": "urban_37_10_south" },
       { "point": [ 1, 0, 1 ], "overmap": "urban_37_11_south" },
@@ -588,17 +767,29 @@
       { "point": [ 1, 0, 7 ], "overmap": "urban_37_35_south" },
       { "point": [ 0, 0, 7 ], "overmap": "urban_37_36_south" }
     ],
+    "rotate": true,
     "locations": [ "land" ],
-    "flags": [ "CLASSIC" ]
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 0, -1 ],
+    "city_sizes": [ 9, -1 ],
+    "connections": [
+      { "point": [ -1, -1, 0 ], "connection": "local_road", "from": [ 0, -1, 0 ] },
+      { "point": [ 2, -1, 0 ], "connection": "local_road", "from": [ 1, -1, 0 ] },
+      { "point": [ 1, 2, 0 ], "connection": "local_road", "from": [ 1, 1, 0 ] },
+      { "point": [ -1, 1, -1 ], "connection": "sewer_tunnel", "from": [ 0, 1, -1 ] }
+    ],
+    "flags": [ "CLASSIC", "URBAN" ]
   },
   {
     "id": "urban_38_bar_hardware_house",
-    "type": "city_building",
+    "type": "overmap_special",
     "overmaps": [
       { "point": [ 1, 0, -1 ], "overmap": "urban_38_1_south" },
       { "point": [ 0, 0, -1 ], "overmap": "urban_38_2_south" },
       { "point": [ 1, 0, 0 ], "overmap": "urban_38_3_south" },
       { "point": [ 0, 0, 0 ], "overmap": "urban_38_4_south" },
+      { "point": [ 0, -1, 0 ], "overmap": "road_ew" },
+      { "point": [ 1, -1, 0 ], "overmap": "road_ew" },
       { "point": [ 1, 0, 1 ], "overmap": "urban_38_5_south" },
       { "point": [ 0, 0, 1 ], "overmap": "urban_38_6_south" },
       { "point": [ 1, 0, 2 ], "overmap": "urban_38_7_south" },
@@ -608,17 +799,29 @@
       { "point": [ 1, 0, 4 ], "overmap": "urban_38_11_south" },
       { "point": [ 0, 0, 4 ], "overmap": "urban_38_12_south" }
     ],
+    "rotate": true,
     "locations": [ "land" ],
-    "flags": [ "CLASSIC" ]
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 0, -1 ],
+    "city_sizes": [ 9, -1 ],
+    "connections": [
+      { "point": [ -1, -1, 0 ], "connection": "local_road", "from": [ 0, -1, 0 ] },
+      { "point": [ 2, -1, 0 ], "connection": "local_road", "from": [ 1, -1, 0 ] },
+      { "point": [ 2, 0, -1 ], "connection": "sewer_tunnel", "from": [ 1, 0, -1 ] },
+      { "point": [ -1, 0, -1 ], "connection": "sewer_tunnel", "from": [ 0, 0, -1 ] }
+    ],
+    "flags": [ "CLASSIC", "URBAN" ]
   },
   {
     "id": "urban_39_market_subway_newspaper",
-    "type": "city_building",
+    "type": "overmap_special",
     "overmaps": [
       { "point": [ 1, 0, -1 ], "overmap": "urban_39_1_south" },
       { "point": [ 0, 0, -1 ], "overmap": "urban_39_2_south" },
       { "point": [ 1, 0, 0 ], "overmap": "urban_39_3_south" },
       { "point": [ 0, 0, 0 ], "overmap": "urban_39_4_south" },
+      { "point": [ 0, -1, 0 ], "overmap": "road_ew" },
+      { "point": [ 1, -1, 0 ], "overmap": "road_ew" },
       { "point": [ 1, 0, 1 ], "overmap": "urban_39_5_south" },
       { "point": [ 0, 0, 1 ], "overmap": "urban_39_6_south" },
       { "point": [ 1, 0, 2 ], "overmap": "urban_39_7_south" },
@@ -626,12 +829,22 @@
       { "point": [ 1, 0, 3 ], "overmap": "urban_39_9_south" },
       { "point": [ 0, 0, 3 ], "overmap": "urban_39_10_south" }
     ],
+    "rotate": true,
     "locations": [ "land" ],
-    "flags": [ "CLASSIC" ]
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 0, -1 ],
+    "city_sizes": [ 9, -1 ],
+    "connections": [
+      { "point": [ -1, -1, 0 ], "connection": "local_road", "from": [ 0, -1, 0 ] },
+      { "point": [ 2, -1, 0 ], "connection": "local_road", "from": [ 1, -1, 0 ] },
+      { "point": [ 2, 0, -1 ], "connection": "sewer_tunnel", "from": [ 1, 0, -1 ] },
+      { "point": [ -1, 0, -1 ], "connection": "sewer_tunnel", "from": [ 0, 0, -1 ] }
+    ],
+    "flags": [ "CLASSIC", "URBAN" ]
   },
   {
+    "type": "overmap_special",
     "id": "urban_40_house",
-    "type": "city_building",
     "overmaps": [
       { "point": [ 1, 0, 0 ], "overmap": "urban_40_1_south" },
       { "point": [ 0, 0, 0 ], "overmap": "urban_40_2_south" },
@@ -640,23 +853,38 @@
       { "point": [ 1, 0, 2 ], "overmap": "urban_40_5_south" },
       { "point": [ 0, 0, 2 ], "overmap": "urban_40_6_south" }
     ],
+    "rotate": true,
     "locations": [ "land" ],
-    "flags": [ "CLASSIC" ]
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 0, -1 ],
+    "city_sizes": [ 9, -1 ],
+    "connections": [ { "point": [ 0, 1, 0 ], "connection": "local_road", "from": [ 0, 0, 0 ] } ],
+    "flags": [ "CLASSIC", "URBAN" ]
   },
   {
     "id": "urban_41_library",
-    "type": "city_building",
+    "type": "overmap_special",
     "overmaps": [
       { "point": [ 1, 1, 0 ], "overmap": "urban_41_1_south" },
       { "point": [ 0, 1, 0 ], "overmap": "urban_41_2_south" },
       { "point": [ 1, 0, 0 ], "overmap": "urban_41_3_south" },
       { "point": [ 0, 0, 0 ], "overmap": "urban_41_4_south" },
+      { "point": [ 0, -1, 0 ], "overmap": "road_ew" },
+      { "point": [ 1, -1, 0 ], "overmap": "road_ew" },
       { "point": [ 1, 1, 1 ], "overmap": "urban_41_5_south" },
       { "point": [ 0, 1, 1 ], "overmap": "urban_41_6_south" },
       { "point": [ 1, 0, 1 ], "overmap": "urban_41_7_south" },
       { "point": [ 0, 0, 1 ], "overmap": "urban_41_8_south" }
     ],
+    "rotate": true,
     "locations": [ "land" ],
-    "flags": [ "CLASSIC" ]
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 0, -1 ],
+    "city_sizes": [ 9, -1 ],
+    "connections": [
+      { "point": [ -1, -1, 0 ], "connection": "local_road", "from": [ 0, -1, 0 ] },
+      { "point": [ 2, -1, 0 ], "connection": "local_road", "from": [ 1, -1, 0 ] }
+    ],
+    "flags": [ "CLASSIC", "URBAN" ]
   }
 ]

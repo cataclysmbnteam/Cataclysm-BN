@@ -13,12 +13,12 @@
     "blueprint_provides": [ { "id": "fbmk_center" } ],
     "blueprint_excludes": [ { "id": "fbmk_center" } ],
     "blueprint_needs": {
-      "time": "1 d 22 h 35 m",
+      "time": "1 d 7 h 35 m",
       "skills": [ [ "fabrication", 7 ] ],
       "inline": {
         "tools": [ [ [ "fake_gridwelder", 120 ], [ "oxy_torch", 24 ], [ "toolset", 180 ], [ "welder", 120 ], [ "welder_crude", 180 ] ] ],
         "qualities": [
-          [ { "id": "DIG", "level": 2 } ],
+          [ { "id": "DIG" } ],
           [ { "id": "DRILL" } ],
           [ { "id": "GLARE", "level": 2 } ],
           [ { "id": "HAMMER", "level": 2 } ],
@@ -53,12 +53,12 @@
     "blueprint_provides": [ { "id": "fbmk_center2" } ],
     "blueprint_excludes": [ { "id": "fbmk_center2" } ],
     "blueprint_needs": {
-      "time": "2 d 17 h 25 m",
+      "time": "1 d 18 h 55 m",
       "skills": [ [ "fabrication", 7 ] ],
       "inline": {
         "tools": [ [ [ "fake_gridwelder", 180 ], [ "oxy_torch", 36 ], [ "toolset", 270 ], [ "welder", 180 ], [ "welder_crude", 270 ] ] ],
         "qualities": [
-          [ { "id": "DIG", "level": 2 } ],
+          [ { "id": "DIG" } ],
           [ { "id": "DRILL" } ],
           [ { "id": "GLARE", "level": 2 } ],
           [ { "id": "HAMMER", "level": 2 } ],
@@ -93,12 +93,12 @@
     "blueprint_provides": [ { "id": "fbmk_smoking_area" } ],
     "blueprint_excludes": [ { "id": "fbmk_smoking_area" } ],
     "blueprint_needs": {
-      "time": "2 d 10 h 25 m",
+      "time": "1 d 19 h 25 m",
       "skills": [ [ "fabrication", 4 ] ],
       "inline": {
         "tools": [ [ [ "fake_gridwelder", 120 ], [ "oxy_torch", 24 ], [ "toolset", 180 ], [ "welder", 120 ], [ "welder_crude", 180 ] ] ],
         "qualities": [
-          [ { "id": "DIG", "level": 2 } ],
+          [ { "id": "DIG" } ],
           [ { "id": "DRILL" } ],
           [ { "id": "GLARE", "level": 2 } ],
           [ { "id": "HAMMER", "level": 2 } ],
@@ -130,12 +130,12 @@
     "blueprint_provides": [ { "id": "fbmk_pantry_room" } ],
     "blueprint_excludes": [ { "id": "fbmk_pantry_room" } ],
     "blueprint_needs": {
-      "time": "4 d 1 h 40 m",
+      "time": "2 d 12 h 10 m",
       "skills": [ [ "fabrication", 4 ] ],
       "inline": {
         "tools": [ [ [ "fake_gridwelder", 300 ], [ "oxy_torch", 60 ], [ "toolset", 450 ], [ "welder", 300 ], [ "welder_crude", 450 ] ] ],
         "qualities": [
-          [ { "id": "DIG", "level": 2 } ],
+          [ { "id": "DIG" } ],
           [ { "id": "DRILL" } ],
           [ { "id": "GLARE", "level": 2 } ],
           [ { "id": "HAMMER", "level": 2 } ],
@@ -166,12 +166,12 @@
     "blueprint_provides": [ { "id": "fbmk_canteen_dining_west" } ],
     "blueprint_excludes": [ { "id": "fbmk_canteen_dining_west" } ],
     "blueprint_needs": {
-      "time": "1 d 22 h 20 m",
+      "time": "1 d 7 h 20 m",
       "skills": [ [ "fabrication", 7 ] ],
       "inline": {
         "tools": [ [ [ "fake_gridwelder", 120 ], [ "oxy_torch", 24 ], [ "toolset", 180 ], [ "welder", 120 ], [ "welder_crude", 180 ] ] ],
         "qualities": [
-          [ { "id": "DIG", "level": 2 } ],
+          [ { "id": "DIG" } ],
           [ { "id": "DRILL" } ],
           [ { "id": "GLARE", "level": 2 } ],
           [ { "id": "HAMMER", "level": 2 } ],
@@ -206,12 +206,12 @@
     "blueprint_provides": [ { "id": "fbmk_canteen_dining_east" } ],
     "blueprint_excludes": [ { "id": "fbmk_canteen_dining_east" } ],
     "blueprint_needs": {
-      "time": "2 d 3 h 35 m",
+      "time": "1 d 10 h 5 m",
       "skills": [ [ "fabrication", 4 ] ],
       "inline": {
         "tools": [ [ [ "fake_gridwelder", 140 ], [ "oxy_torch", 28 ], [ "toolset", 210 ], [ "welder", 140 ], [ "welder_crude", 210 ] ] ],
         "qualities": [
-          [ { "id": "DIG", "level": 2 } ],
+          [ { "id": "DIG" } ],
           [ { "id": "DRILL" } ],
           [ { "id": "GLARE", "level": 2 } ],
           [ { "id": "HAMMER", "level": 2 } ],
@@ -242,12 +242,12 @@
     "blueprint_provides": [ { "id": "fbmk_canteen_dining_center" } ],
     "blueprint_excludes": [ { "id": "fbmk_canteen_dining_center" } ],
     "blueprint_needs": {
-      "time": "21 h 15 m",
+      "time": "16 h 15 m",
       "skills": [ [ "fabrication", 7 ] ],
       "inline": {
         "tools": [ [ [ "fake_gridwelder", 40 ], [ "oxy_torch", 8 ], [ "toolset", 60 ], [ "welder", 40 ], [ "welder_crude", 60 ] ] ],
         "qualities": [
-          [ { "id": "DIG", "level": 2 } ],
+          [ { "id": "DIG" } ],
           [ { "id": "DRILL" } ],
           [ { "id": "GLARE", "level": 2 } ],
           [ { "id": "HAMMER", "level": 2 } ],

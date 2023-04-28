@@ -375,6 +375,7 @@
     "revert_to": "handflare_dead",
     "revert_msg": "The flare sputters out",
     "use_action": { "type": "firestarter", "moves": 50 },
+    "thrown_damage": [ { "damage_type": "heat", "amount": 8 } ],
     "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "FIRESTARTER" ]
   },
   {
@@ -704,6 +705,7 @@
     "max_charges": 75,
     "turns_per_charge": 40,
     "revert_to": "torch_done",
+    "thrown_damage": [ { "damage_type": "heat", "amount": 4 } ],
     "use_action": [
       { "type": "firestarter", "moves": 30 },
       {

@@ -113,5 +113,41 @@
     "base_casting_time": 3,
     "effect": "summon",
     "effect_str": "mon_zombie_gasbag_impaler"
+  },
+  {
+    "id": "signal_tree_emission",
+    "type": "SPELL",
+    "name": { "str": "signal tree emission" },
+    "description": "Line attack that deals no damage but leaves behind lingering dazzler fields.  Side effect heals any leech blossoms or leech stalks near the target.",
+    "flags": [ "RANDOM_DURATION", "SILENT" ],
+    "valid_targets": [ "ally", "hostile", "ground", "self" ],
+    "effect": "line_attack",
+    "extra_effects": [ { "id": "signal_tree_emission_healing" } ],
+    "sprite": "fd_dazzling",
+    "min_range": 25,
+    "max_range": 25,
+    "min_duration": 1000,
+    "max_duration": 2000,
+    "field_id": "fd_dazzling",
+    "field_chance": 2,
+    "min_field_intensity": 1,
+    "max_field_intensity": 1
+  },
+  {
+    "id": "signal_tree_emission_healing",
+    "type": "SPELL",
+    "name": { "str": "signal tree emission healing" },
+    "description": "This effect heals appropriate leech plants currently near the target.",
+    "flags": [ "RANDOM_DAMAGE", "SILENT" ],
+    "valid_targets": [ "ally", "hostile" ],
+    "targeted_monster_ids": [ "mon_leech_blossom", "mon_leech_stalk" ],
+    "effect": "target_attack",
+    "sprite": "fd_null",
+    "min_damage": -10,
+    "max_damage": -20,
+    "min_range": 25,
+    "max_range": 25,
+    "min_aoe": 4,
+    "max_aoe": 4
   }
 ]
