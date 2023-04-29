@@ -417,7 +417,7 @@
     "reversible": true,
     "decomp_learn": 6,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 54 ] ],
+    "using": [ [ "sewing_standard", 30 ] ],
     "components": [ [ [ "kevlar_plate", 24 ] ] ]
   },
   {
