@@ -1760,5 +1760,10 @@
     "id": "chem_zinc_powder",
     "type": "MIGRATION",
     "replace": "zinc_metal"
+  },
+  {
+    "id": "betavoltaic",
+    "type": "MIGRATION",
+    "replace": "plut_cell"
   }
 ]
