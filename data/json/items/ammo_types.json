@@ -231,7 +231,7 @@
   {
     "type": "ammunition_type",
     "id": "308",
-    "name": ".308",
+    "name": "7.62x51mm",
     "default": "762_51"
   },
   {
