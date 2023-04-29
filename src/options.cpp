@@ -1865,50 +1865,21 @@ void options_manager::add_options_graphics()
              false, COPT_CURSES_HIDE
            );
 
-        add( "FONT_WIDTH", page_id, translate_marker( "Font width" ),
-             translate_marker( "Set the font width.  Requires restart." ),
-             8, 100, 8, COPT_CURSES_HIDE
-           );
-
-        add( "FONT_HEIGHT", page_id, translate_marker( "Font height" ),
-             translate_marker( "Set the font height.  Requires restart." ),
-             8, 100, 16, COPT_CURSES_HIDE
-           );
-
-        add( "FONT_SIZE", page_id, translate_marker( "Font size" ),
-             translate_marker( "Set the font size.  Requires restart." ),
-             8, 100, 16, COPT_CURSES_HIDE
-           );
-
-        add( "MAP_FONT_WIDTH", page_id, translate_marker( "Map font width" ),
-             translate_marker( "Set the map font width.  Requires restart." ),
-             8, 100, 16, COPT_CURSES_HIDE
-           );
-
-        add( "MAP_FONT_HEIGHT", page_id, translate_marker( "Map font height" ),
-             translate_marker( "Set the map font height.  Requires restart." ),
-             8, 100, 16, COPT_CURSES_HIDE
-           );
-
-        add( "MAP_FONT_SIZE", page_id, translate_marker( "Map font size" ),
-             translate_marker( "Set the map font size.  Requires restart." ),
-             8, 100, 16, COPT_CURSES_HIDE
-           );
-
-        add( "OVERMAP_FONT_WIDTH", page_id, translate_marker( "Overmap font width" ),
-             translate_marker( "Set the overmap font width.  Requires restart." ),
-             8, 100, 16, COPT_CURSES_HIDE
-           );
-
-        add( "OVERMAP_FONT_HEIGHT", page_id, translate_marker( "Overmap font height" ),
-             translate_marker( "Set the overmap font height.  Requires restart." ),
-             8, 100, 16, COPT_CURSES_HIDE
-           );
-
-        add( "OVERMAP_FONT_SIZE", page_id, translate_marker( "Overmap font size" ),
-             translate_marker( "Set the overmap font size.  Requires restart." ),
-             8, 100, 16, COPT_CURSES_HIDE
-           );
+        static auto font_size_options = std::array<std::array<std::string, 3>, 9> {{
+                {"FONT_WIDTH",          translate_marker( "Font width" ),          translate_marker( "Set the font width. Requires restart." )},
+                {"FONT_HEIGHT",         translate_marker( "Font height" ),         translate_marker( "Set the font height. Requires restart." )},
+                {"FONT_SIZE",           translate_marker( "Font size" ),           translate_marker( "Set the font size. Requires restart." )},
+                {"MAP_FONT_WIDTH",      translate_marker( "Map font width" ),      translate_marker( "Set the map font width. Requires restart." )},
+                {"MAP_FONT_HEIGHT",     translate_marker( "Map font height" ),     translate_marker( "Set the map font height. Requires restart." )},
+                {"MAP_FONT_SIZE",       translate_marker( "Map font size" ),       translate_marker( "Set the map font size. Requires restart." )},
+                {"OVERMAP_FONT_WIDTH",  translate_marker( "Overmap font width" ),  translate_marker( "Set the overmap font width. Requires restart." )},
+                {"OVERMAP_FONT_HEIGHT", translate_marker( "Overmap font height" ), translate_marker( "Set the overmap font height. Requires restart." )},
+                {"OVERMAP_FONT_SIZE",   translate_marker( "Overmap font size" ),   translate_marker( "Set the overmap font size. Requires restart." )}
+            }
+        };
+        for( auto &&[option, option_name, option_desc] : font_size_options ) {
+            add( option, page_id, option_name, option_desc, 8, 100, 16, COPT_CURSES_HIDE );
+        }
     } );
 #endif // TILES
 
