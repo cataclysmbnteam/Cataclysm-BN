@@ -1854,7 +1854,7 @@ void options_manager::add_options_graphics()
 #if defined(TILES)
     add_option_group( graphics, Group( "font_params", to_translation( "Font settings" ),
                                        to_translation( "Font display settings.  To change font type or source file, edit fonts.json in config directory." ) ),
-    [&]( const std::string & page_id ) {
+    [&]( auto & page_id ) {
         add( "USE_DRAW_ASCII_LINES_ROUTINE", page_id, translate_marker( "SDL ASCII lines" ),
              translate_marker( "Use SDL ASCII line drawing routine instead of Unicode Line Drawing characters.  Use this option when your selected font doesn't contain necessary glyphs." ),
              true, COPT_CURSES_HIDE
@@ -2132,7 +2132,7 @@ void options_manager::add_options_debug()
 
     add_option_group( debug, Group( "debug_log", to_translation( "Logging" ),
                                     to_translation( "Configure debug.log verbosity." ) ),
-    [&]( const std::string & page_id ) {
+    [&]( auto & page_id ) {
         for( const debug_log_level &e : debug_log_levels ) {
             add( e.opt_id, page_id, e.opt_name, e.opt_descr, e.opt_default );
         }
