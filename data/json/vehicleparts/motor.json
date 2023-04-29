@@ -132,6 +132,7 @@
       { "item": "bearing", "count": [ 20, 50 ] },
       { "item": "cable", "charges": [ 10, 15 ] }
     ],
+    "extend": { "flags": [ "E_NO_POWER_DECAY" ] },
     "damage_reduction": { "all": 50 }
   },
   {
@@ -157,6 +158,7 @@
       { "item": "bearing", "count": [ 25, 60 ] },
       { "item": "cable", "charges": [ 20, 30 ] }
     ],
+    "extend": { "flags": [ "E_NO_POWER_DECAY" ] },
     "damage_reduction": { "all": 60 }
   }
 ]
