@@ -78,8 +78,8 @@
     "copy-from": "casing",
     "looks_like": "223_casing",
     "type": "GENERIC",
-    "name": { "str": ".308 casing" },
-    "description": "An empty casing from a .308 round.",
+    "name": { "str": "7.62x51mm '.308 Winchester' casing" },
+    "description": "An empty casing from a 7.62x51mm '.308 Winchester' round.",
     "weight": "6 g",
     "volume": "9ml"
   },
