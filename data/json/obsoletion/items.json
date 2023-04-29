@@ -195,8 +195,8 @@
   {
     "id": "retool_223",
     "type": "GUNMOD",
-    "name": { "str": ".223 caliber conversion kit" },
-    "description": "This kit is used to convert a shotgun, 5.45x39mm, 7.62x39mm, .30-06, or .308 rifle to the popular, accurate, and lighter .223 caliber.  The conversion results in slight reductions to both accuracy and ammo capacity.",
+    "name": { "str": "5.56x45mm caliber conversion kit" },
+    "description": "This kit is used to convert a shotgun, 5.45x39mm, 7.62x39mm, .30-06, or .308 rifle to the popular, accurate, and lighter 5.56x45mm caliber.  The conversion results in slight reductions to both accuracy and ammo capacity.",
     "weight": "114 g",
     "volume": "500 ml",
     "integral_volume": 0,
@@ -1662,7 +1662,7 @@
     "looks_like": "sw_619",
     "type": "GUN",
     "name": { "str": "L2037 Backup" },
-    "description": "The logical extension of Leadworks' autorevolver series, this massive 'sidearm' fires 5.56 NATO to share ammo with a soldier's rifle.  The muzzle flash and report of this 5-shot revolver are incredible, producing ballistics similar to .357 Magnum.  Similar to other Leadworks products it doesn't accept third-party modifications.",
+    "description": "The logical extension of Leadworks' autorevolver series, this massive 'sidearm' fires 5.56x45mm NATO to share ammo with a soldier's rifle.  The muzzle flash and report of this 5-shot revolver are incredible, producing ballistics similar to .357 Magnum.  Similar to other Leadworks products it doesn't accept third-party modifications.",
     "weight": "2370 g",
     "volume": "750 ml",
     "price": 267000,
@@ -3971,7 +3971,7 @@
     "id": "reloaded_223",
     "copy-from": "223",
     "type": "AMMO",
-    "name": { "str": ".223 Remington, reloaded" },
+    "name": { "str": "5.56x45mm '.223 Remington', reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -3980,7 +3980,7 @@
     "id": "reloaded_556",
     "copy-from": "556",
     "type": "AMMO",
-    "name": { "str": "5.56 NATO, reloaded" },
+    "name": { "str": "5.56x45mm NATO, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -3989,7 +3989,7 @@
     "id": "reloaded_556_incendiary",
     "copy-from": "556_incendiary",
     "type": "AMMO",
-    "name": { "str": "5.56 NATO tracer, reloaded" },
+    "name": { "str": "5.56x45mm NATO tracer, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }

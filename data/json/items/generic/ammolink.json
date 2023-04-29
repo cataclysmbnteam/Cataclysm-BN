@@ -17,7 +17,7 @@
     "id": "ammolink223",
     "copy-from": "ammolink",
     "type": "GENERIC",
-    "name": { "str": ".223 ammo belt linkage" },
+    "name": { "str": "5.56x45mm ammo belt linkage" },
     "use_action": { "type": "ammobelt", "belt": "belt223" }
   },
   {
