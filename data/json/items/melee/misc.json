@@ -14,7 +14,7 @@
     "price_postapoc": 500,
     "material": [ "leather" ],
     "flags": [ "REACH_ATTACK", "REACH3", "WHIP" ],
-    "cutting": 3
+    "cutting": 14
   },
   {
     "id": "bullwhip_razor",
