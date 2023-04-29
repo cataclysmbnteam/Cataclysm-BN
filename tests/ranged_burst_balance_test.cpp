@@ -61,13 +61,13 @@ TEST_CASE( "unskilled_burst_no_mods", "[ranged] [balance]" )
     check_burst_penalty( shooter, "american_180", 0 );
     // 9mm SMG - should be manageable
     check_burst_penalty( shooter, "calico", 60 );
-    // .223 machine gun - should have lower penalty than a rifle of the same caliber
+    // 5.56x45mm machine gun - should have lower penalty than a rifle of the same caliber
     check_burst_penalty( shooter, "m249", 250 );
-    // .223 rifle
+    // 5.56x45mm rifle
     check_burst_penalty( shooter, "m4a1", 600 );
-    // 7.62 rifle
+    // 7.62x39mm rifle
     check_burst_penalty( shooter, "ak47", 700 );
-    // .50 machine gun - heaviest expected burst fire
+    // 12.7mm '.50 BMG' machine gun - heaviest expected burst fire
     check_burst_penalty( shooter, "m2browning", 800 );
 }
 
