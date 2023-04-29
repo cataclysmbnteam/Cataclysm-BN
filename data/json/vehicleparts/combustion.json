@@ -44,7 +44,7 @@
     "m2c": 60,
     "//": "25% energy efficiency",
     "extend": { "flags": [ "E_NO_POWER_DECAY" ] },
-    "description": "An advanced combustion engine.  Burns gasoline or diesel or aviation fuel from a tank in the vehicle.  Can also burn lamp oil, though somewhat less efficiently.  Better power-to-weight ratio than a traditional engine, but consumes more fuel."
+    "description": "An advanced combustion engine.  Burns gasoline or diesel or aviation fuel from a tank in the vehicle.  Can also burn lamp oil, though somewhat less efficiently.  Better power-to-weight ratio than a traditional engine but consumes more fuel, its power will not diminish even when multiple of them are installed."
   },
   {
     "id": "diesel_engine_i6",
