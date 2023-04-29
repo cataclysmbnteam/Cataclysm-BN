@@ -3524,7 +3524,7 @@ int vehicle::total_power_w( const bool fueled, const bool safe ) const
                 m2c *= 0.6;
             }
             pwr += part_vpower_w( p ) * m2c / 100;
-            cnt++;
+            cnt += static_cast<int>( part_info( p ).has_flag( "E_HIGHER_SKILL" ) );
         }
     }
 
