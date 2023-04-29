@@ -1373,7 +1373,8 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```E_COLD_START``` Is an engine that starts much slower in cold weather.
 - ```E_COMBUSTION``` Is an engine that burns its fuel and can backfire or explode when damaged.
 - ```E_HEATER``` Is an engine and has a heater to warm internal vehicle items when on.
-- ```E_HIGHER_SKILL``` Difficulty to install increases as as more engines are installed, and total vehicle power suffers diminishing returns from engines with this flag.
+- ```E_HIGHER_SKILL``` Is an engine that is more difficult to install as more engines are installed.
+- ```E_HIGHER_SKILL``` Engines with this flag do not affect total vehicle power suffering diminishing returns.
 - ```E_STARTS_INSTANTLY``` Is an engine that starts instantly, like food pedals.
 - ```EMITTER``` Emits while enabled (emissions are defined by ```emissions``` entry).
 - ```ENABLED_DRAINS_EPOWER``` Produces `epower` watts while enabled (use negative numbers to drain power). This is independent from reactor power production.
