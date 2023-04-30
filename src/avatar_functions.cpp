@@ -365,12 +365,12 @@ void gunmod_add( avatar &you, item &gun, item &mod )
 
     item modded = gun;
     modded.put_in( mod );
-    bool no_magazines = modded.common_ammo_default().is_null();
+    bool no_magazines = !mod.type->mod->ammo_modifier.empty() && modded.common_ammo_default().is_null();
 
     std::string query_msg = mod.is_irremovable()
                             ? _( "<color_yellow>Permanently</color> install your %1$s in your %2$s?" )
                             : _( "Attach your %1$s to your %2$s?" );
-    if( no_magazines ) {
+    if( no_magazines && !modded.magazine_integral() ) {
         query_msg += "\n";
         query_msg += colorize(
                          _( "Warning: after installing this mod, a magazine adapter mod will be required to load it!" ),
