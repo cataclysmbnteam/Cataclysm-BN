@@ -1785,15 +1785,5 @@
     "id": "sheet_lycra_patchwork",
     "type": "MIGRATION",
     "replace": "sheet_nylon_patchwork"
-  },
-  {
-    "id": "classic14",
-    "type": "MIGRATION",
-    "replace": "classic15"
-  },
-  {
-    "id": "fancy14",
-    "type": "MIGRATION",
-    "replace": "fancy15"
   }
 ]
