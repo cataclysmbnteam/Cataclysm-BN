@@ -84,7 +84,7 @@
     "id": "robopart_308",
     "type": "GENERIC",
     "copy-from": "robopart_base",
-    "name": "integral 7.62mm firearm"
+    "name": "integral 7.62x51mm firearm"
   },
   {
     "id": "robopart_shot",
@@ -356,8 +356,8 @@
     "id": "bot_milturret_308",
     "copy-from": "bot_turret_base",
     "type": "TOOL",
-    "name": "inactive 7.62mm military turret",
-    "description": "An inactive 7.62mm military turret.  Up to 100 standard 7.62mm NATO rounds will be automatically loaded from your inventory into the turret upon activation.  Place the turret and it will ID you as friendly with its advanced IFF software.  Consult your safety manual in the event of a malfunction.",
+    "name": "inactive 7.62x51mm military turret",
+    "description": "An inactive 7.62x51mm military turret.  Up to 100 standard 7.62x51mm NATO rounds will be automatically loaded from your inventory into the turret upon activation.  Place the turret and it will ID you as friendly with its advanced IFF software.  Consult your safety manual in the event of a malfunction.",
     "color": "green",
     "price": 10000,
     "price_postapoc": 10000,

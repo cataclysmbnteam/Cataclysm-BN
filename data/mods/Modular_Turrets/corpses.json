@@ -118,8 +118,8 @@
     "type": "GENERIC",
     "copy-from": "broken_turret_base",
     "color": "light_green",
-    "name": "broken 7.62mm turret",
-    "description": "A broken military-grade 7.62mm turret.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts."
+    "name": "broken 7.62x51mm turret",
+    "description": "A broken military-grade 7.62x51mm turret.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts."
   },
   {
     "id": "broken_milturret_50bmg",

@@ -407,6 +407,20 @@
     "components": [ [ [ "jacket_leather", 1 ], [ "jacket_leather_red", 1 ] ], [ [ "scrap", 9 ] ] ]
   },
   {
+    "result": "kevlar",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "time": "40 m",
+    "reversible": true,
+    "decomp_learn": 6,
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 30 ] ],
+    "components": [ [ [ "kevlar_plate", 24 ] ] ]
+  },
+  {
     "result": "leotard",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -416,7 +430,7 @@
     "time": "30 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 13 ] ],
-    "components": [ [ [ "lycra_patch", 8 ] ] ]
+    "components": [ [ [ "nylon", 8 ] ] ]
   },
   {
     "result": "long_undertop",
@@ -956,7 +970,7 @@
     "time": "35 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 15 ] ],
-    "components": [ [ [ "lycra_patch", 2 ] ] ]
+    "components": [ [ [ "nylon", 2 ] ] ]
   },
   {
     "result": "sundress",
@@ -1005,7 +1019,7 @@
     "time": "42 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 8 ] ],
-    "components": [ [ [ "lycra_patch", 7 ] ] ]
+    "components": [ [ [ "nylon", 7 ] ] ]
   },
   {
     "result": "trenchcoat",
@@ -1135,7 +1149,7 @@
     "time": "35 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 15 ] ],
-    "components": [ [ [ "lycra_patch", 4 ] ] ]
+    "components": [ [ [ "nylon", 4 ] ] ]
   },
   {
     "result": "undershirt",
@@ -1159,7 +1173,7 @@
     "time": "35 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 15 ] ],
-    "components": [ [ [ "lycra_patch", 10 ] ] ]
+    "components": [ [ [ "nylon", 10 ] ] ]
   },
   {
     "result": "xlkevlar",

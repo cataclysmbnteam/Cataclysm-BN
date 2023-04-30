@@ -14,20 +14,20 @@
       "rows": [
         "%%%%%%%%%%%%%%%%%%%%%%%%",
         "%%%%%%%%%%%%%%%%%%%%%%%%",
-        "%lllllllllllllllllllllll",
-        "ll''''''''''''''''''''''",
+        "llllllllllllllllllllllll",
+        "l'''''''''''''''''''''''",
         "l'zzzzzzzzzzzzzzzzzzzzzz",
         "l'z'''''''''''''''''''''",
         "l'z'llllllllllllllllllll",
         "l'z'l%l    |            ",
         "l'z'l%l    J  3333333333",
         "l'z'l%l>   |  33       3",
-        "l'z'l%l----|  33 89998 3",
-        "l'z'l%lEEEE|  33 8PPP8 3",
-        "l'z'l%lEEEE|  33(8PPP8(3",
-        "l'}'l%lEEEE|  33(8PPP8(3",
-        "l'z'l%lEEEE|  33(8PPP8(3",
-        "l'z'l%l   6|  33 8PPP8 3",
+        "zzz'l%l----|  33 89998 3",
+        "zzz'l%lEEEE|  33 8PPP8 3",
+        "zzz'l%lEEEE|  33(8PPP8(3",
+        "00}'l%lEEEE|  33(8PPP8(3",
+        "l0z'l%lEEEE|  33(8PPP8(3",
+        "l0''l%l   6|  33 8PPP8 3",
         "lllllll-|  |  33 89998 3",
         "lCCooCCC|  |  33       3",
         "lC222222J  |  3333333333",
@@ -156,7 +156,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "llll''''''''''''''''l  l",
+        "lllllllllllllllllllll  l",
         "    ''''''''''''''''l  l",
         "    ''''''''''''''''l  l",
         "333 ''''''''''''''''v  l",
@@ -178,8 +178,8 @@
         "    ''''''''''''''''l >l",
         "llll''''''''''''''''llll",
         "%%%l''''''''''''''''l%%%",
-        "%%%l''''''''''''''''l%%%",
-        "%%%l''''''''''''''''l%%%"
+        "%%%llllllllllllllllll%%%",
+        "%%%%%%%%%%%%%%%%%%%%%%%%"
       ],
       "palettes": [ "acidia_commercial_palette" ],
       "items": {

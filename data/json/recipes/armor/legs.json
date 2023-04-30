@@ -236,7 +236,7 @@
     "autolearn": true,
     "book_learn": [ [ "mag_tailor", 2 ], [ "manual_tailor", 2 ] ],
     "using": [ [ "sewing_standard", 15 ] ],
-    "components": [ [ [ "lycra_patch", 10 ] ] ]
+    "components": [ [ [ "nylon", 10 ] ] ]
   },
   {
     "result": "legguard_hard",
@@ -593,7 +593,7 @@
     "autolearn": true,
     "book_learn": [ [ "mag_tailor", 2 ], [ "manual_tailor", 2 ] ],
     "using": [ [ "sewing_standard", 10 ] ],
-    "components": [ [ [ "lycra_patch", 5 ] ] ]
+    "components": [ [ [ "nylon", 5 ] ] ]
   },
   {
     "result": "chainmail_legs",

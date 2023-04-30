@@ -69,7 +69,7 @@
     "id": "fabric_standard",
     "type": "requirement",
     "//": "Any valid fabric material, for when the material used shouldn't impact the material of the end product.  Excludes felt patches, since this may still be worn on skin.",
-    "components": [ [ [ "rag", 1 ], [ "lycra_patch", 1 ], [ "nylon", 1 ], [ "nomex", 1 ], [ "neoprene", 1 ] ] ]
+    "components": [ [ [ "rag", 1 ], [ "nylon", 1 ], [ "nomex", 1 ], [ "neoprene", 1 ] ] ]
   },
   {
     "id": "fabric_hides_any",
@@ -87,7 +87,7 @@
     "id": "fabric_standard_permeable",
     "type": "requirement",
     "//": "Materials used for crafting or repairing woven fabrics",
-    "components": [ [ [ "rag", 1 ], [ "lycra_patch", 1 ], [ "nylon", 1 ], [ "nomex", 1 ] ] ]
+    "components": [ [ [ "rag", 1 ], [ "nylon", 1 ], [ "nomex", 1 ] ] ]
   },
   {
     "id": "fabric_standard_nostretch",
@@ -129,7 +129,7 @@
     "id": "rope_natural_short",
     "type": "requirement",
     "//": "Materials used for lashing, when choice of makeshift rope is sensible, per 216 g/180 cm of rope.",
-    "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ], [ "rope_makeshift_6", 1 ] ] ]
+    "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ], [ "rope_makeshift_6", 1 ], [ "seatbelt", 1 ] ] ]
   },
   {
     "id": "rope_superior",
@@ -141,7 +141,7 @@
     "id": "rope_superior_short",
     "type": "requirement",
     "//": "Materials used for lashing, when extra durability and/or flexibilty is needed, per 216 g/180 cm of rope.",
-    "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ] ] ]
+    "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ], [ "seatbelt", 1 ] ] ]
   },
   {
     "id": "steel_standard",

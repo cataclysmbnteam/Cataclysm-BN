@@ -286,7 +286,7 @@
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "betavoltaic", 4 ] ],
+      [ [ "plut_cell", 4 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "wire", 2 ] ],

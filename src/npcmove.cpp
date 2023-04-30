@@ -72,9 +72,6 @@
 
 static const activity_id ACT_PULP( "ACT_PULP" );
 
-static const ammotype ammo_reactor_slurry( "reactor_slurry" );
-static const ammotype ammo_plutonium( "plutonium" );
-
 static const skill_id skill_firstaid( "firstaid" );
 
 static const bionic_id bio_ads( "bio_ads" );
@@ -1722,18 +1719,6 @@ bool npc::recharge_cbm()
             return true;
         } else {
             complain_about( "need_junk", 3_hours, "<need_junk>", false );
-        }
-    }
-
-    if( use_bionic_by_id( bio_reactor ) || use_bionic_by_id( bio_advreactor ) ) {
-        const std::function<bool( const item & )> reactor_filter = []( const item & it ) {
-            return it.is_ammo() && ( it.ammo_type() == ammo_plutonium ||
-                                     it.ammo_type() == ammo_reactor_slurry );
-        };
-        if( consume_cbm_items( reactor_filter ) ) {
-            return true;
-        } else {
-            complain_about( "need_radioactives", 3_hours, "<need_radioactives>", false );
         }
     }
 

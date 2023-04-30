@@ -196,7 +196,7 @@
     "time": "20 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 15 ] ],
-    "components": [ [ [ "lycra_patch", 4 ] ] ]
+    "components": [ [ [ "nylon", 4 ] ] ]
   },
   {
     "result": "bindle",

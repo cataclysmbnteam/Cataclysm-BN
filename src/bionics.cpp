@@ -99,6 +99,7 @@ static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_heating_bionic( "heating_bionic" );
 static const efftype_id effect_iodine( "iodine" );
+static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_operating( "operating" );
@@ -165,7 +166,6 @@ static const bionic_id bio_magnet( "bio_magnet" );
 static const bionic_id bio_meteorologist( "bio_meteorologist" );
 static const bionic_id bio_nanobots( "bio_nanobots" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
-static const bionic_id bio_plutdump( "bio_plutdump" );
 static const bionic_id bio_power_storage( "bio_power_storage" );
 static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
 static const bionic_id bio_probability_travel( "bio_probability_travel" );
@@ -189,6 +189,7 @@ static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
 static const trait_id trait_PROF_MED( "PROF_MED" );
+static const trait_id trait_REGEN_LIZ( "REGEN_LIZ" );
 static const trait_id trait_THRESH_MEDICAL( "THRESH_MEDICAL" );
 
 static const std::string flag_ALLOWS_NATURAL_ATTACKS( "ALLOWS_NATURAL_ATTACKS" );
@@ -290,6 +291,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string src )
     assign( jsobj, "deact_cost", power_deactivate, strict, 0_kJ );
     assign( jsobj, "react_cost", power_over_time, strict, 0_kJ );
     assign( jsobj, "trigger_cost", power_trigger, strict, 0_kJ );
+    assign( jsobj, "kcal_trigger_cost", kcal_trigger, strict, 0 );
     assign( jsobj, "time", charge_time, strict, 0 );
     assign( jsobj, "capacity", capacity, strict, 0_kJ );
     assign( jsobj, "included", included, strict );
@@ -300,6 +302,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string src )
     assign( jsobj, "fuel_options", fuel_opts, strict );
     assign( jsobj, "fuel_capacity", fuel_capacity, strict, 0 );
     assign( jsobj, "fuel_efficiency", fuel_efficiency, strict, 0.0f );
+    assign( jsobj, "fuel_multiplier", fuel_multiplier, strict, 0 );
     assign( jsobj, "passive_fuel_efficiency", passive_fuel_efficiency, strict, 0.0f );
     assign( jsobj, "coverage_power_gen_penalty", coverage_power_gen_penalty, strict );
     assign( jsobj, "exothermic_power_gen", exothermic_power_gen, strict );
@@ -753,13 +756,6 @@ bool Character::activate_bionic( bionic &bio, bool eff_only )
     } else if( bio.id == bio_geiger ) {
         add_msg_activate();
         add_msg_if_player( m_info, _( "Your radiation level: %d" ), get_rad() );
-    } else if( bio.id == bio_radscrubber ) {
-        add_msg_activate();
-        if( get_rad() > 4 ) {
-            mod_rad( -5 );
-        } else {
-            set_rad( 0 );
-        }
     } else if( bio.id == bio_adrenaline ) {
         add_msg_activate();
         if( has_effect( effect_adrenaline ) ) {
@@ -961,17 +957,6 @@ bool Character::activate_bionic( bionic &bio, bool eff_only )
             bio.powered = ctr.active;
         } else {
             bio.powered = g->remoteveh() != nullptr || !get_value( "remote_controlling" ).empty();
-        }
-    } else if( bio.id == bio_plutdump ) {
-        if( query_yn(
-                _( "WARNING: Purging all fuel is likely to result in radiation!  Purge anyway?" ) ) ) {
-            add_msg_activate();
-            slow_rad += ( tank_plut + reactor_plut );
-            tank_plut = 0;
-            reactor_plut = 0;
-        } else {
-            refund_power();
-            return false;
         }
     } else if( bio.info().is_remote_fueled ) {
         std::vector<item *> cables = items_with( []( const item & it ) {
@@ -1597,50 +1582,70 @@ void Character::process_bionic( bionic &bio )
         sounds::sound( pos(), 19, sounds::sound_t::activity, _( "HISISSS!" ), false, "bionic",
                        static_cast<std::string>( bio_hydraulics ) );
     } else if( bio.id == bio_nanobots ) {
-        // Total hack, prevents charge_timer reaching 0 thus preventing power draw.
-        // Ideally there would be a value that directly impacts whether a bionic draws power when idle.
-        bio.charge_timer = 2;
-        // The above hack means there's no check for whether the bionic actually has power to run.
-        if( get_power_level() < bio.info().power_over_time ) {
-            bio.powered = false;
-            add_msg_if_player( m_warning, _( "Your %s shut down due to lack of power." ), bio.info().name );
-            deactivate_bionic( bio );
-            return;
-        } else if( get_stored_kcal() < 0.85f * max_stored_kcal() ) {
+        int threshold_kcal = bio.info().kcal_trigger > 0 ? 0.85f * max_stored_kcal() +
+                             bio.info().kcal_trigger : 0;
+        const auto can_use_bionic = [this, &bio, threshold_kcal]() -> bool {
+            const bool is_kcal_sufficient = get_stored_kcal() >= threshold_kcal;
+            const bool is_power_sufficient = get_power_level() >= bio.info().power_trigger;
+            return is_kcal_sufficient && is_power_sufficient;
+        };
+        std::vector<bodypart_id> damaged_hp_parts;
+        if( get_stored_kcal() < threshold_kcal ) {
             bio.powered = false;
             add_msg_if_player( m_warning, _( "Your %s shut down to conserve calories." ), bio.info().name );
             deactivate_bionic( bio );
             return;
         }
-        if( calendar::once_every( 15_turns ) ) {
-            std::vector<bodypart_id> bleeding_bp_parts;
-            for( const bodypart_id &bp : get_all_body_parts() ) {
-                if( has_effect( effect_bleed, bp.id() ) ) {
-                    bleeding_bp_parts.push_back( bp );
-                }
-            }
-            if( !bleeding_bp_parts.empty() ) {
-                const bodypart_id part_to_staunch = bleeding_bp_parts[ rng( 0, bleeding_bp_parts.size() - 1 ) ];
-                effect &e = get_effect( effect_bleed, part_to_staunch->token );
-                if( e.get_intensity() > 1 ) {
-                    e.mod_intensity( -1, false );
+        if( calendar::once_every( 30_turns ) ) {
+            std::vector<effect *> bleeding_list = get_all_effects_of_type( effect_bleed );
+            // Essential parts (Head/Torso) first.
+            std::sort( bleeding_list.begin(), bleeding_list.end(),
+            []( effect * a, effect * b ) {
+                return a->get_bp()->essential > b->get_bp()->essential;
+            } );
+            if( !bleeding_list.empty() ) {
+                effect *e = bleeding_list[0];
+                if( e->get_intensity() > 1 ) {
+                    add_msg_if_player( "Your %s slow the bleeding on your %s", bio.info().name, e->get_bp()->name );
+                    e->mod_intensity( -1, false );
                 } else {
-                    remove_effect( effect_bleed, part_to_staunch->token );
+                    add_msg_if_player( "Your %s staunch the bleeding on your %s", bio.info().name, e->get_bp()->name );
+                    e->set_removed();
                 }
             }
-            if( rng( 0, 2 ) == 2 ) {
-                std::vector<bodypart_id> damaged_hp_parts;
-                for( const std::pair<const bodypart_str_id, bodypart> &part : get_body() ) {
-                    const int hp_cur = part.second.get_hp_cur();
-                    if( hp_cur > 0 && hp_cur < part.second.get_hp_max() ) {
-                        damaged_hp_parts.push_back( part.first.id() );
+            if( calendar::once_every( 1_minutes ) ) {
+                std::vector<effect *> mending_list = get_all_effects_of_type( effect_mending );
+                for( const bodypart_id &bp : get_all_body_parts( true ) ) {
+                    const int hp_cur = get_part_hp_cur( bp );
+                    if( !is_limb_broken( bp ) && hp_cur < get_part_hp_max( bp ) ) {
+                        damaged_hp_parts.push_back( bp );
                     }
                 }
-                if( get_stored_kcal() >= 5 && !damaged_hp_parts.empty() ) {
-                    const bodypart_id part_to_heal = damaged_hp_parts[ rng( 0, damaged_hp_parts.size() - 1 ) ];
-                    heal( part_to_heal, 1 );
-                    mod_power_level( - bio.info().power_over_time );
-                    mod_stored_kcal( -5 );
+                if( !damaged_hp_parts.empty() ) {
+                    // Essential parts are considered 10 HP lower than non-essential parts for the purpose of determining priority.
+                    // I'd use the essential_value, but it's tied up in the heal_actor class of iuse_actor.
+                    std::sort( damaged_hp_parts.begin(), damaged_hp_parts.end(),
+                    [this]( const bodypart_id & a, const bodypart_id & b ) {
+                        return ( get_part_hp_cur( a ) - a->essential * 10 ) < ( get_part_hp_cur( b ) - b->essential * 10 );
+                    } );
+                    for( bodypart_id &bpid : damaged_hp_parts ) {
+                        if( !can_use_bionic() ) {
+                            return;
+                        }
+                        heal( bpid, 1 );
+                        mod_power_level( -bio.info().power_trigger );
+                        mod_stored_kcal( -bio.info().kcal_trigger );
+                    }
+                }
+                if( !mending_list.empty() ) {
+                    for( effect *e : mending_list ) {
+                        if( !can_use_bionic() ) {
+                            return;
+                        }
+                        e->mod_duration( e->get_max_duration() / 100 );
+                        mod_power_level( -bio.info().power_trigger );
+                        mod_stored_kcal( -bio.info().kcal_trigger );
+                    }
                 }
             }
         }
@@ -1725,6 +1730,17 @@ void Character::process_bionic( bionic &bio )
         }
     } else if( bio.id == afs_bio_dopamine_stimulators ) {
         add_morale( MORALE_FEELING_GOOD, 20, 20, 30_minutes, 20_minutes, true );
+    } else if( bio.id == bio_radscrubber ) {
+        if( calendar::once_every( 10_minutes ) ) {
+            const units::energy trigger_cost = bio.info().power_trigger;
+
+            if( get_rad() > 0 && bio.energy_stored >= trigger_cost ) {
+                add_msg_if_player( m_good, _( "Your %s completed a scrubbing cycle." ), bio.info().name );
+
+                mod_rad( std::max( -10, -get_rad() ) );
+                mod_power_level( -trigger_cost );
+            }
+        }
     }
 }
 

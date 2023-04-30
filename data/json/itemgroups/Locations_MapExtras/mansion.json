@@ -1241,8 +1241,7 @@
       { "group": "bed", "prob": 30, "damage": [ 0, 2 ] },
       [ "sewing_kit", 30 ],
       [ "rag", 30 ],
-      [ "lycra_patch", 15 ],
-      [ "nylon", 10 ],
+      [ "nylon", 25 ],
       [ "tailors_kit", 20 ]
     ]
   },

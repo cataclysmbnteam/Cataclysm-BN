@@ -487,8 +487,11 @@ character_id Character::getID() const
 
 bool Character::is_dead_state() const
 {
-    return get_part_hp_cur( bodypart_id( "head" ) ) <= 0 ||
-           get_part_hp_cur( bodypart_id( "torso" ) ) <= 0;
+    const auto all_bps = get_all_body_parts( true );
+
+    return std::any_of( all_bps.begin(), all_bps.end(), [this]( const bodypart_id & bp ) {
+        return bp->essential && get_part_hp_cur( bp ) <= 0;
+    } );
 }
 
 field_type_id Character::bloodType() const
@@ -2003,6 +2006,15 @@ std::vector<itype_id> Character::get_fuel_available( const bionic_id &bio ) cons
     return stored_fuels;
 }
 
+int Character::get_fuel_type_available( const itype_id &fuel ) const
+{
+    int amount_stored = 0;
+    if( !get_value( fuel.str() ).empty() ) {
+        amount_stored = std::stoi( get_value( fuel.str() ) );
+    }
+    return amount_stored;
+}
+
 int Character::get_fuel_capacity( const itype_id &fuel ) const
 {
     int amount_stored = 0;
@@ -3440,6 +3452,9 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
         int oldLevel = get_skill_level( id );
         get_skill_level_object( id ).train( amount );
         int newLevel = get_skill_level( id );
+        if( newLevel > oldLevel ) {
+            g->events().send<event_type::gains_skill_level>( getID(), id, newLevel );
+        }
         if( is_player() && newLevel > oldLevel ) {
             add_msg( m_good, _( "Your skill in %s has increased to %d!" ), skill_name, newLevel );
         }
@@ -4100,7 +4115,7 @@ int Character::get_int_bonus() const
     return int_bonus;
 }
 
-static int get_speedydex_bonus( const int dex )
+int get_speedydex_bonus( const int dex )
 {
     static const std::string speedydex_min_dex( "SPEEDYDEX_MIN_DEX" );
     static const std::string speedydex_dex_speed( "SPEEDYDEX_DEX_SPEED" );
@@ -4111,7 +4126,7 @@ static int get_speedydex_bonus( const int dex )
 
 int Character::get_speed() const
 {
-    return Creature::get_speed() + get_speedydex_bonus( get_dex() );
+    return Creature::get_speed();
 }
 
 int Character::ranged_dex_mod() const
@@ -6466,7 +6481,7 @@ std::string Character::extended_description() const
         // <bad>This is me, <player_name>.</bad>
         ss += string_format( _( "This is you - %s." ), name );
     } else {
-        ss += string_format( _( "This is %s, %s" ), name, male ? _( "male" ) : _( "female" ) );
+        ss += string_format( _( "This is %s, %s" ), name, male ? _( "Male" ) : _( "Female" ) );
     }
 
     ss += "\n--\n";
@@ -10014,13 +10029,9 @@ int Character::run_cost( int base_cost, bool diag ) const
             movecost *= .9f;
         }
         if( has_active_bionic( bio_jointservo ) ) {
-            if( move_mode == CMM_RUN ) {
-                movecost *= 0.85f;
-            } else {
-                movecost *= 0.95f;
-            }
+            movecost *= ( move_mode == CMM_RUN ? 0.75f : 0.9f );
         } else if( has_bionic( bio_jointservo ) ) {
-            movecost *= 1.1f;
+            movecost *= 0.95f;
         }
 
         if( worn_with_flag( "SLOWS_MOVEMENT" ) ) {
@@ -10282,7 +10293,7 @@ std::vector<std::string> Character::short_description_parts() const
 {
     std::vector<std::string> result;
 
-    std::string gender = male ? _( "male" ) : _( "female" );
+    std::string gender = male ? _( "Male" ) : _( "Female" );
     result.push_back( name +  ", "  + gender );
     if( is_armed() ) {
         result.push_back( _( "Wielding: " ) + weapon.tname() );
@@ -10854,6 +10865,9 @@ void Character::knock_back_to( const tripoint &to )
 
     } else { // It's no wall
         setpos( to );
+
+        map &here = get_map();
+        here.creature_on_trap( *this );
     }
 }
 
