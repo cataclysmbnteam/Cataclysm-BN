@@ -4492,36 +4492,5 @@
     "price": 1000,
     "price_postapoc": 50,
     "count": 1
-  },
-  {
-    "type": "BOOK",
-    "id": "classic_literature",
-    "name": { "str": "book of classic literature", "str_pl": "books of classic literature" },
-    "description": "A book of classic literature, timeless and enjoyable but a bit dense to read.",
-    "copy-from": "paperback_novel",
-    "snippet_category": [
-      {
-        "id": "classic14",
-        "text": "This is a paperback copy of the well-known classic \"Dark Days Ahead\", by K. G. Ranade.  There are scrawled margin notes all over it, apparently the workings of a confused and feverish mind."
-      }
-    ],
-    "price": 2000,
-    "looks_like": "tall_tales"
-  },
-  {
-    "type": "BOOK",
-    "id": "collector_book",
-    "name": { "str": "collector's edition book" },
-    "description": "A unique, valuable book that has been kept as a collector's item.",
-    "copy-from": "paperback_novel",
-    "snippet_category": [
-      {
-        "id": "fancy14",
-        "text": "This is a high-quality leather bound copy of the well-known classic \"Dark Days Ahead\", by K. G. Ranade."
-      }
-    ],
-    "price": 4550,
-    "looks_like": "tall_tales",
-    "fun": 3
   }
 ]
