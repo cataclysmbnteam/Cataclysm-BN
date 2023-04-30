@@ -32,6 +32,7 @@
     "type": "vehicle_part",
     "fuel_type": "gasoline",
     "fuel_options": [ "gasoline", "avgas" ],
+    "//2": "TODO: remove when injectors are implemented",
     "m2c": 60,
     "//": "30% energy efficiency",
     "description": "A combustion engine.  Burns gasoline fuel from a tank in the vehicle."
