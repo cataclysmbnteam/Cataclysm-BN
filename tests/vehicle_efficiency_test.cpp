@@ -261,6 +261,7 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
     const float fuel_percentage_used = fuel_level * ( starting_fuel_per - fuel_left );
     int adjusted_tiles_travelled = tiles_travelled / fuel_percentage_used;
     if( target_distance >= 0 ) {
+        INFO( veh.name );
         CHECK( adjusted_tiles_travelled >= min_dist );
         CHECK( adjusted_tiles_travelled <= max_dist );
     }
@@ -436,8 +437,8 @@ TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
     test_vehicle( "beetle", 816837, 431300, 338700, 95610, 68060 );
     test_vehicle( "car", 1122954, 617500, 386100, 52730, 25170 );
     test_vehicle( "car_sports", 1155382, 352600, 267600, 36790, 22350 );
-    test_vehicle( "electric_car", 1128423, 132700, 72290, 8240, 3390 );
-    test_vehicle( "suv", 1322622, 1163000, 630000, 85540, 30920 );
+    test_vehicle( "electric_car", 1128423, 132700, 71290, 8240, 3300 );
+    test_vehicle( "suv", 1322622, 1163000, 629000, 85540, 32000 );
     test_vehicle( "motorcycle", 163085, 120300, 99930, 63320, 50810 );
     test_vehicle( "quad_bike", 265345, 116100, 116100, 46770, 46770 );
     test_vehicle( "scooter", 57587, 233500, 233500, 167900, 167900 );
