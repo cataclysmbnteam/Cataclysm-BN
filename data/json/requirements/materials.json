@@ -117,7 +117,7 @@
     "id": "rope_natural_short",
     "type": "requirement",
     "//": "Materials used for lashing, when choice of makeshift rope is sensible, per 216 g/180 cm of rope.",
-    "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ], [ "rope_makeshift_6", 1 ] ] ]
+    "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ], [ "rope_makeshift_6", 1 ], [ "seatbelt", 1 ] ] ]
   },
   {
     "id": "rope_superior",
@@ -129,7 +129,7 @@
     "id": "rope_superior_short",
     "type": "requirement",
     "//": "Materials used for lashing, when extra durability and/or flexibilty is needed, per 216 g/180 cm of rope.",
-    "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ] ] ]
+    "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ], [ "seatbelt", 1 ] ] ]
   },
   {
     "id": "steel_standard",

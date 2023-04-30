@@ -122,6 +122,18 @@
     "components": [ [ [ "leather", 6 ], [ "fur", 6 ] ], [ [ "wood_structural", 4, "LIST" ] ], [ [ "rope_natural_short", 4, "LIST" ] ] ]
   },
   {
+    "result": "five-point_harness",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "15 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "seatbelt", 3 ] ] ]
+  },
+  {
     "result": "hd_tow_cable",
     "type": "recipe",
     "category": "CC_OTHER",
