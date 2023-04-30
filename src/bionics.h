@@ -69,6 +69,8 @@ struct bionic_data {
     int fuel_capacity = 0;
     /**Fraction of fuel energy converted to bionic power*/
     float fuel_efficiency = 0.0f;
+    /**Multiplies the amount of fuel when loading into the bionic storage*/
+    int fuel_multiplier = 1;
     /**Fraction of fuel energy passively converted to bionic power*/
     float passive_fuel_efficiency = 0.0f;
     /**Fraction of coverage diminishing fuel_efficiency*/

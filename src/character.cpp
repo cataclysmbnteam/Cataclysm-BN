@@ -2006,6 +2006,15 @@ std::vector<itype_id> Character::get_fuel_available( const bionic_id &bio ) cons
     return stored_fuels;
 }
 
+int Character::get_fuel_type_available( const itype_id &fuel ) const
+{
+    int amount_stored = 0;
+    if( !get_value( fuel.str() ).empty() ) {
+        amount_stored = std::stoi( get_value( fuel.str() ) );
+    }
+    return amount_stored;
+}
+
 int Character::get_fuel_capacity( const itype_id &fuel ) const
 {
     int amount_stored = 0;

@@ -509,6 +509,7 @@ This section describes each json file and their contents. Each json has their ow
 | is_remote_fueled            | (_optional_) If true this bionic allows you to plug your power banks to an external power source (solar backpack, UPS, vehicle etc) via a cable. (default: `false`)
 | fuel_capacity               | (_optional_) Volume of fuel this bionic can store.
 | fuel_efficiency             | (_optional_) Fraction of fuel energy converted into power. (default: `0`)
+| fuel_multiplier             | (_optional_) Multiplies the amount of fuel when loading into the bionic (default: `1`)
 | passive_fuel_efficiency     | (_optional_) Fraction of fuel energy passively converted into power. Useful for CBM using PERPETUAL fuel like `muscle`, `wind` or `sun_light`. (default: `0`)
 | exothermic_power_gen        | (_optional_) If true this bionic emits heat when producing power. (default: `false`)
 | coverage_power_gen_penalty  | (_optional_) Fraction of coverage diminishing fuel_efficiency. Float between 0.0 and 1.0. (default: `nullopt`)
