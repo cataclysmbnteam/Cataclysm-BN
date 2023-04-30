@@ -1315,6 +1315,8 @@
       [ "horn_bicycle", 8 ],
       [ "seat", 8 ],
       [ "seat_leather", 1 ],
+      [ "seatbelt", 8 ],
+      [ "five-point_harness", 2 ],
       [ "saddle", 8 ],
       [ "wheel", 10 ],
       [ "wheel_wide", 10 ],
