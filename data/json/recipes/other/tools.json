@@ -364,7 +364,7 @@
     "time": "20 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "bone", 1 ], [ "bone_human", 1 ], [ "skewer_bone", 1 ] ] ]
+    "components": [ [ [ "bone_sturdy", 1, "LIST" ], [ "skewer_bone", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -389,7 +389,7 @@
     "time": "1 h",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "bone", 1 ], [ "bone_human", 1 ] ] ]
+    "components": [ [ [ "bone_sturdy", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -401,7 +401,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [
-      [ [ "stick", 1 ], [ "2x4", 1 ], [ "bone", 1 ], [ "bone_human", 1 ] ],
+      [ [ "stick", 1 ], [ "2x4", 1 ], [ "bone_sturdy", 1, "LIST" ] ],
       [ [ "rock", 1 ], [ "ceramic_shard", 1 ], [ "sharp_rock", 1 ] ],
       [ [ "cordage_short", 1, "LIST" ], [ "filament", 50, "LIST" ] ]
     ]
@@ -1618,17 +1618,7 @@
     "time": "2 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [
-      [
-        [ "bone", 1 ],
-        [ "bone_human", 1 ],
-        [ "stick", 1 ],
-        [ "broom", 1 ],
-        [ "pool_cue", 1 ],
-        [ "splinter", 1 ],
-        [ "2x4", 1 ]
-      ]
-    ]
+    "components": [ [ [ "bone_sturdy", 1, "LIST" ], [ "stick", 1 ], [ "broom", 1 ], [ "pool_cue", 1 ], [ "splinter", 1 ], [ "2x4", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1639,7 +1629,7 @@
     "time": "1 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "bone", 1 ], [ "bone_human", 1 ] ] ]
+    "components": [ [ [ "bone_sturdy", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -2358,7 +2348,7 @@
     "time": "10 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "bone", 1 ], [ "bone_human", 1 ] ] ]
+    "components": [ [ [ "bone_sturdy", 1, "LIST" ] ] ]
   },
   {
     "result": "awl_steel",
