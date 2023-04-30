@@ -26,26 +26,21 @@ const mergeUniquely = (newArr: string[]) => (prevArr?: string[]) => {
 
 const addElectricGridSchema = overmapSchema
   .passthrough()
-  .transform((obj) => {
+  .transform(({ flags, ...args }) => {
     // we fill newFlags first
     // so we can use this lazily generated function to add flags
     const addElectricGrid = mergeUniquely(["ELECTRIC_GRID"])
 
     // now we pattern match to check if flags are undefined
-    return match(obj)
+    return match(flags)
       // if so, we create a new flags field with ELECTRIC_GRID
-      .with({ flags: P.optional(P.nullish) }, () => ({ ...obj, flags: addElectricGrid() }))
+      .with(P.nullish, () => ({ ...args, flags: addElectricGrid() }))
       // if the flags are defined, we add ELECTRIC_GRID to it but make sure
       // to not add duplicates by using mergeUniquely
-      .with(
-        { flags: P.array(P.string) },
-        ({ flags }) => ({ ...obj, flags: addElectricGrid(flags) }),
-      )
-      .exhaustive()
+      .otherwise(() => ({ ...args, flags: addElectricGrid(flags) }))
   })
 
-Deno.test("overmap electric grid", async (t) =>
-  await testSchema(t.step)(addElectricGridSchema)([
+const gridTestcases = [
     {
       input: { type: "overmap_special", flags: ["flag1", "flag2", "flag3", "flag4"] },
       expected: {
@@ -63,7 +58,10 @@ Deno.test("overmap electric grid", async (t) =>
         flags: ["flag1", "flag2", "flag3", "flag4", "ELECTRIC_GRID"],
       },
     },
-  ]))
+  ]
+
+Deno.test("overmap electric grid", async (t) =>
+  await testSchema(t.step)(addElectricGridSchema)(gridTestcases))
 
 const endsWithSword = z.string().refine((x) => x.endsWith("sword"))
 const containsSword = z.string().refine((x) => x.includes("sword"))
