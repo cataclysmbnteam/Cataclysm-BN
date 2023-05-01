@@ -1765,7 +1765,6 @@ int npc::value( const item &it, int market_price ) const
     }
 
     int ret = 0;
-    // TODO: Cache own weapon value (it can be a bit expensive to compute 50 times/turn)
     double weapon_val = npc_ai::weapon_value( *this, it,
                         it.ammo_capacity() ) - npc_ai::wielded_value( *this, true );
     if( weapon_val > 0 ) {
