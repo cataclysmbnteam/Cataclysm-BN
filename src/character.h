@@ -968,6 +968,8 @@ class Character : public Creature, public visitable<Character>
         /**Return list of available fuel for this bionic*/
         std::vector<itype_id> get_fuel_available( const bionic_id &bio ) const;
         /**Return available space to store specified fuel*/
+        int get_fuel_type_available( const itype_id &fuel ) const;
+        /**Return available space to store specified fuel*/
         int get_fuel_capacity( const itype_id &fuel ) const;
         /**Return total space to store specified fuel*/
         int get_total_fuel_capacity( const itype_id &fuel ) const;
@@ -1888,7 +1890,6 @@ class Character : public Creature, public visitable<Character>
          */
         ret_val<edible_rating> will_eat( const item &food, bool interactive = false ) const;
         /** Determine character's capability of recharging their CBMs. */
-        bool can_feed_reactor_with( const item &it ) const;
         bool can_feed_furnace_with( const item &it ) const;
         rechargeable_cbm get_cbm_rechargeable_with( const item &it ) const;
         int get_acquirable_energy( const item &it, rechargeable_cbm cbm ) const;
@@ -1898,7 +1899,6 @@ class Character : public Creature, public visitable<Character>
         * Recharge CBMs whenever possible.
         * @return true when recharging was successful.
         */
-        bool feed_reactor_with( item &it );
         bool feed_furnace_with( item &it );
         bool fuel_bionic_with( item &it );
         /** Used to apply stimulation modifications from food and medication **/
@@ -2302,5 +2302,8 @@ std::map<bodypart_id, int> wind_resistance_from_clothing(
 
 /** Returns true if the player has a psyshield artifact, or sometimes if wearing tinfoil */
 bool has_psy_protection( const Character &c, int partial_chance );
+
+/** Returns value of speedydex bonus if enabled */
+int get_speedydex_bonus( const int dex );
 
 #endif // CATA_SRC_CHARACTER_H

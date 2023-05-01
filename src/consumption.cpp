@@ -55,10 +55,8 @@ static const skill_id skill_survival( "survival" );
 
 static const mtype_id mon_player_blob( "mon_player_blob" );
 
-static const bionic_id bio_advreactor( "bio_advreactor" );
 static const bionic_id bio_digestion( "bio_digestion" );
 static const bionic_id bio_furnace( "bio_furnace" );
-static const bionic_id bio_reactor( "bio_reactor" );
 static const bionic_id bio_syringe( "bio_syringe" );
 static const bionic_id bio_taste_blocker( "bio_taste_blocker" );
 
@@ -1258,53 +1256,6 @@ bool Character::consume_effects( item &food )
     return true;
 }
 
-bool Character::can_feed_reactor_with( const item &it ) const
-{
-    static const std::set<ammotype> acceptable = {{
-            ammotype( "reactor_slurry" ),
-            ammotype( "plutonium" )
-        }
-    };
-
-    if( !it.is_ammo() || can_eat( it ).success() ) {
-        return false;
-    }
-
-    if( !has_active_bionic( bio_reactor ) && !has_active_bionic( bio_advreactor ) ) {
-        return false;
-    }
-
-    return std::any_of( acceptable.begin(), acceptable.end(), [ &it ]( const ammotype & elem ) {
-        return it.ammo_type() == elem;
-    } );
-}
-
-bool Character::feed_reactor_with( item &it )
-{
-    if( !can_feed_reactor_with( it ) ) {
-        return false;
-    }
-
-    const auto iter = plut_charges.find( it.typeId() );
-    const int max_amount = iter != plut_charges.end() ? iter->second : 0;
-    const int amount = std::min( get_acquirable_energy( it, rechargeable_cbm::reactor ), max_amount );
-
-    if( amount >= PLUTONIUM_CHARGES * 10 &&
-        !query_yn( _( "That is a LOT of plutonium.  Are you sure you want that much?" ) ) ) {
-        return false;
-    }
-
-    add_msg_player_or_npc( _( "You add your %s to your reactor's tank." ),
-                           _( "<npcname> pours %s into their reactor's tank." ),
-                           it.tname() );
-
-    // TODO: Encapsulate
-    tank_plut += amount;
-    it.charges -= 1;
-    mod_moves( -250 );
-    return true;
-}
-
 bool Character::can_feed_furnace_with( const item &it ) const
 {
     if( !it.flammable() || it.has_flag( flag_RADIOACTIVE ) || can_eat( it ).success() ) {
@@ -1388,16 +1339,20 @@ bool Character::fuel_bionic_with( item &it )
     }
 
     const bionic_id bio = get_most_efficient_bionic( get_bionic_fueled_with( it ) );
-
-    const int loadable = std::min( it.charges, get_fuel_capacity( it.typeId() ) );
     const std::string str_loaded  = get_value( it.typeId().str() );
+
+    const int fuel_multiplier = get_bionic_state( bio ).info().fuel_multiplier;
+
+    int loadable = std::min( it.charges * fuel_multiplier, get_fuel_capacity( it.typeId() ) );
     int loaded = 0;
+
     if( !str_loaded.empty() ) {
         loaded = std::stoi( str_loaded );
     }
 
     const std::string new_charge = std::to_string( loadable + loaded );
 
+    loadable = std::ceil( loadable / fuel_multiplier );
     it.charges -= loadable;
     // Type and amount of fuel
     set_value( it.typeId().str(), new_charge );
@@ -1415,10 +1370,6 @@ bool Character::fuel_bionic_with( item &it )
 
 rechargeable_cbm Character::get_cbm_rechargeable_with( const item &it ) const
 {
-    if( can_feed_reactor_with( it ) ) {
-        return rechargeable_cbm::reactor;
-    }
-
     if( can_feed_furnace_with( it ) ) {
         return rechargeable_cbm::furnace;
     }
@@ -1560,7 +1511,6 @@ bool Character::consume_item( item &target )
     }
     if( consume_med( comest ) ||
         eat( comest ) ||
-        feed_reactor_with( comest ) ||
         feed_furnace_with( comest ) ||
         fuel_bionic_with( comest ) ) {
 

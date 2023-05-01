@@ -2005,7 +2005,15 @@ static void draw_mana_wide( const player &u, const catacurses::window &w )
 
 static bool spell_panel()
 {
-    return get_avatar().magic->knows_spell();
+    std::vector<spell_id> spells = get_avatar().magic->spells();
+    bool has_manacasting = false;
+    for( spell_id sp : spells ) {
+        spell temp_spell = get_avatar().magic->get_spell( sp );
+        if( temp_spell.energy_source() == mana_energy ) {
+            has_manacasting = true;
+        }
+    }
+    return has_manacasting;
 }
 
 bool default_render()

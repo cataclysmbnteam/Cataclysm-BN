@@ -4376,5 +4376,13 @@
       [ [ "receiver", 1 ] ],
       [ [ "plastic_chunk", 5 ] ]
     ]
+  },
+  {
+    "type": "uncraft",
+    "result": "seatbelt",
+    "time": "30 s",
+    "components": [ [ [ "nylon", 3 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "flags": [ "BLIND_HARD" ]
   }
 ]

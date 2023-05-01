@@ -696,12 +696,12 @@
     "id": "bio_nanobots",
     "type": "bionic",
     "name": { "str": "Repair Nanobots" },
-    "description": "Inside your body is a fleet of tiny dormant robots.  While activated they will flit about your body, you randomly recover 1 HP every 15s, consuming power and calories only on a success.  It will also slow and eventually stop any bleeding on your body.",
+    "description": "Inside your body is a fleet of tiny dormant robots.  While activated they will reduce the intensity of one bleed effect every 30 seconds, and heal all injured body parts by 1 HP (or broken limbs by 1%) every minute if you have 3 kJ bionic power and 5 kcal per body part.  Broken limbs must still be splinted (unless you have specific mutations) to benefit.  If you don't have enough, they will prioritize based on the resources you have.",
     "occupied_bodyparts": [ [ "torso", 10 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE", "BIONIC_SLEEP_FRIENDLY" ],
     "act_cost": "300 J",
-    "react_cost": "3 kJ",
-    "time": 15
+    "trigger_cost": "3 kJ",
+    "kcal_trigger_cost": 5
   },
   {
     "id": "bio_night",
@@ -851,8 +851,10 @@
     "name": { "str": "Radiation Scrubber System" },
     "description": "A system of advanced piezomechanical blood filters have been surgically implanted throughout your body, allowing you to purge yourself of absorbed radiation at the cost of some bionic power.",
     "occupied_bodyparts": [ [ "torso", 5 ], [ "arm_l", 1 ], [ "arm_r", 1 ], [ "leg_l", 2 ], [ "leg_r", 2 ] ],
-    "flags": [ "BIONIC_NPC_USABLE" ],
-    "act_cost": "4500 J"
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
+    "act_cost": "10 kJ",
+    "react_cost": "10 J",
+    "time": 1
   },
   {
     "id": "bio_railgun",
@@ -1104,7 +1106,7 @@
     "id": "bio_jointservo",
     "type": "bionic",
     "name": { "str": "Joint Servo" },
-    "description": "Your leg joints have been equipped with servomotors that provide power-assisted movement.  They are optimized for running, but walking also requires less effort when this bionic is online.  However, when it's offline it will hamper your movement, as you struggle against its moving parts.",
+    "description": "Your leg joints have been equipped with servomotors that provide power-assisted movement.  They are optimized for running, but walking also requires less effort when this bionic is online.  Even when they're offline, the servos balances your gait.",
     "occupied_bodyparts": [ [ "leg_l", 12 ], [ "leg_r", 12 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
     "trigger_cost": "35 J"
@@ -1174,6 +1176,48 @@
     "exothermic_power_gen": true,
     "time": 1,
     "flags": [ "BIONIC_TOGGLED", "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE" ]
+  },
+  {
+    "id": "bio_reactor",
+    "type": "bionic",
+    "name": { "str": "Micro Reactor" },
+    "description": "This stripped down mini-reactor generates impressive amounts of bionic power but slowly irradiates the user.",
+    "occupied_bodyparts": [ [ "torso", 55 ] ],
+    "encumbrance": [ [ "torso", 5 ] ],
+    "fuel_options": [ "plut_cell" ],
+    "fuel_capacity": 10000,
+    "fuel_efficiency": 1,
+    "fuel_multiplier": 2500,
+    "time": 1,
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE" ],
+    "included_bionics": [ "bio_reactoroverride" ],
+    "available_upgrades": [ "bio_advreactor" ]
+  },
+  {
+    "id": "bio_advreactor",
+    "type": "bionic",
+    "name": { "str": "Advanced Micro Reactor" },
+    "description": "This stripped down mini-reactor has been heavily modified and is more efficient and safer than the base model.",
+    "occupied_bodyparts": [ [ "torso", 55 ] ],
+    "encumbrance": [ [ "torso", 5 ] ],
+    "fuel_options": [ "plut_cell" ],
+    "fuel_capacity": 12000,
+    "fuel_efficiency": 1.25,
+    "fuel_multiplier": 3000,
+    "time": 1,
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE" ],
+    "included_bionics": [ "bio_reactoroverride" ],
+    "upgraded_bionic": "bio_reactor"
+  },
+  {
+    "id": "bio_reactoroverride",
+    "type": "bionic",
+    "name": { "str": "Micro Reactor Safety Override" },
+    "description": "Disables the radiation safety protocols allowing for much higher energy production.",
+    "time": 1,
+    "act_cost": "10 J",
+    "react_cost": "10 J",
+    "flags": [ "BIONIC_TOGGLED" ]
   },
   {
     "id": "bio_syringe",
