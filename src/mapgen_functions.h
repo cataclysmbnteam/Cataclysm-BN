@@ -74,7 +74,6 @@ void mapgen_ants_tee( mapgendata &dat );
 void mapgen_ants_food( mapgendata &dat );
 void mapgen_ants_larvae( mapgendata &dat );
 void mapgen_ants_queen( mapgendata &dat );
-void mapgen_tutorial( mapgendata &dat );
 void mapgen_lake_shore( mapgendata &dat );
 
 // Temporary wrappers

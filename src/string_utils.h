@@ -44,7 +44,7 @@ bool match_include_exclude( const std::string &text, std::string filter );
  *
  * TODO: Switch to starts_with method of std::string when we move to C++20
  */
-bool string_starts_with( const std::string &s1, const std::string &s2 );
+bool string_starts_with( std::string_view s1, std::string_view s2 );
 
 /**
  * Returns true if s1 starts with s2.
@@ -88,6 +88,11 @@ std::string join( const std::vector<std::string> &strings, const std::string &jo
  * Split string by delimiter
  */
 std::vector<std::string> string_split( const std::string &text_in, char delim );
+
+/**
+ * Split string by delimiter, string_view version
+ */
+std::vector<std::string_view> string_split_sv( std::string_view text_in, char delim );
 
 /**
  * Find position of str2 within str1 (case-insensitive)
@@ -160,6 +165,11 @@ std::string replace_all( std::string input, const std::string &what, const std::
  * Replace special color tags (e.g. info, bold, bad) with actual color tags.
  */
 std::string replace_colors( std::string text );
+
+/**
+ * Replace hotkey tags with actual hotkey text.
+ */
+std::string replace_keybind_tags( std::string_view text );
 
 /**
  * Capitalize nth ASCII letter. Don't use for Unicode strings!

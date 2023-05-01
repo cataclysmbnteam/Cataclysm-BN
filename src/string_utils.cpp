@@ -2,6 +2,7 @@
 
 #include "catacharset.h"
 #include "color.h"
+#include "input.h"
 #include "name.h"
 #include "translations.h"
 
@@ -76,7 +77,7 @@ bool match_include_exclude( const std::string &text, std::string filter )
     return found;
 }
 
-bool string_starts_with( const std::string &s1, const std::string &s2 )
+bool string_starts_with( std::string_view s1, std::string_view s2 )
 {
     return s1.compare( 0, s2.size(), s2 ) == 0;
 }
@@ -100,22 +101,39 @@ std::string join( const std::vector<std::string> &strings, const std::string &jo
     return buffer.str();
 }
 
-std::vector<std::string> string_split( const std::string &text_in, char delim_in )
+std::vector<std::string> string_split( const std::string &text_in, char delim )
 {
-    std::vector<std::string> elems;
+    std::vector<std::string_view> elems_sv = string_split_sv( text_in, delim );
+    std::vector<std::string> ret;
+    ret.reserve( elems_sv.size() );
+    for( std::string_view sv : elems_sv ) {
+        ret.emplace_back( sv );
+    }
+    return ret;
+}
+
+std::vector<std::string_view> string_split_sv( std::string_view text_in, char delim )
+{
+    std::vector<std::string_view> elems;
 
     if( text_in.empty() ) {
         return elems; // Well, that was easy.
     }
 
-    std::stringstream ss( text_in );
-    std::string item;
-    while( std::getline( ss, item, delim_in ) ) {
-        elems.push_back( item );
-    }
-
-    if( text_in.back() == delim_in ) {
-        elems.push_back( "" );
+    while( true ) {
+        size_t pos = text_in.find( delim );
+        if( pos == std::string_view::npos ) {
+            elems.push_back( text_in );
+            break;
+        } else {
+            elems.push_back( text_in.substr( 0, pos ) );
+            text_in = text_in.substr( pos + 1 );
+            if( text_in.empty() ) {
+                // If last match was at the end, push empty string
+                elems.push_back( text_in );
+                break;
+            }
+        }
     }
 
     return elems;
@@ -328,6 +346,63 @@ std::string replace_colors( std::string text )
     }
 
     return text;
+}
+
+static bool try_substitute_tag( std::string &out, std::string_view tag )
+{
+    if( !string_starts_with( tag, "key:" ) ) {
+        // Not a keybind tag
+        return false;
+    }
+    std::vector<std::string_view> tag_data = string_split_sv( tag, ':' );
+    if( tag_data.size() != 3 ) {
+        // Malformed data
+        return false;
+    }
+
+    input_context ctx = input_context( std::string( tag_data[1] ) );
+    std::string act_name = ctx.key_bound_to( std::string( tag_data[2] ) );
+    //std::string act_name = ctx.get_action_name( std::string( tag_data[2] ) );
+    //ctx.get_available_single_char_hotkeys()
+    out += "[";
+    out += colorize( act_name, c_yellow );
+    out += "]";
+    return true;
+}
+
+std::string replace_keybind_tags( std::string_view text )
+{
+    std::string ret;
+    ret.reserve( text.size() );
+    while( text.size() >= 2 ) {
+        if( ( text[0] == '<' && text[1] == '<' ) || ( text[0] == '>' && text[1] == '>' ) ) {
+            // Double triangle brackets translate into single bracket
+            ret += text[0];
+            text = text.substr( 2 );
+            continue;
+        }
+        if( text[0] != '<' ) {
+            // Text outside tags is appended as is
+            ret += text[0];
+            text = text.substr( 1 );
+            continue;
+        }
+        size_t closing_pos = text.find( '>', 1 );
+        if( closing_pos == std::string_view::npos ) {
+            // Broken tag, abort parsing
+            ret += text;
+            text = std::string_view();
+            break;
+        }
+        std::string_view tag = text.substr( 1, closing_pos - 1 );
+        if( !try_substitute_tag( ret, tag ) ) {
+            // Leave other/broken tags alone
+            ret += text.substr( 0, closing_pos + 1 );
+        }
+        text = text.substr( tag.size() + 2 );
+    }
+    ret += text;
+    return ret;
 }
 
 std::string &capitalize_letter( std::string &str, size_t n )

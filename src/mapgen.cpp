@@ -1767,8 +1767,8 @@ class jmapgen_zone : public jmapgen_piece
         }
         void apply( mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y ) const override {
             zone_manager &mgr = zone_manager::get_manager();
-            const tripoint start = dat.m.getabs( tripoint( x.val, y.val, 0 ) );
-            const tripoint end = dat.m.getabs( tripoint( x.valmax, y.valmax, 0 ) );
+            const tripoint start = dat.m.getabs( tripoint( x.val, y.val, dat.zlevel() ) );
+            const tripoint end = dat.m.getabs( tripoint( x.valmax, y.valmax, dat.zlevel() ) );
             mgr.add( name, zone_type, faction, false, true, start, end );
         }
 };

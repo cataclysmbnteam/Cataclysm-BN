@@ -1242,7 +1242,6 @@ bool avatar::wield( item &target )
         weapon = target;
     }
 
-    last_item = weapon.typeId();
     recoil = MAX_RECOIL;
 
     weapon.on_wield( *this, mv );

@@ -553,7 +553,6 @@ bool try_wield_contents( Character &who, item &container, item *internal_item, b
 
     who.inv.update_invlet( weapon );
     who.inv.update_cache_with_item( weapon );
-    who.last_item = weapon.typeId();
 
     /**
      * @EFFECT_PISTOL decreases time taken to draw pistols from holsters
