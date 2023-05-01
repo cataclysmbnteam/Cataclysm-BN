@@ -44,7 +44,7 @@
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
-    "id": "shot_abstract",
+    "abstract": "shot_abstract",
     "type": "AMMO",
     "name": { "str": "00 shot" },
     "description": "A shell filled with metal pellets.  Extremely damaging, plus the spread makes it very accurate at short range.  Favored by SWAT forces.",

@@ -21,7 +21,7 @@
     "extend": { "effects": [ "INCENDIARY", "STREAM", "NOGIB" ] }
   },
   {
-    "id": "shot_paper_abstract",
+    "abstract": "shot_paper_abstract",
     "copy-from": "shot_abstract",
     "type": "AMMO",
     "name": { "str": "buckshot paper cartridge" },
