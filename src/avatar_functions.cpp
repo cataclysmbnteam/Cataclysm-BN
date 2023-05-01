@@ -373,7 +373,7 @@ void gunmod_add( avatar &you, item &gun, item &mod )
     if( no_magazines && !modded.magazine_integral() ) {
         query_msg += "\n";
         query_msg += colorize(
-                         _( "Warning: after installing this mod, a magazine adapter mod will be required to load it!" ),
+                         _( "Warning: This mod changes ammunition used by this gun, a magazine adapter may be required to load it." ),
                          c_red );
     }
 
