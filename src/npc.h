@@ -1395,9 +1395,9 @@ namespace npc_ai
 /** Evaluate wielded weapon */
 double wielded_value( const Character &who, bool ideal );
 /** Evaluate item as weapon (melee or gun) */
-double weapon_value( const Character &who, const item &weap, int ammo = item::INFINITE_CHARGES );
+double weapon_value( const Character &who, const item &weap, int ammo );
 /** Evaluates item as a gun */
-double gun_value( const Character &who, const item &weap, int ammo = item::INFINITE_CHARGES );
+double gun_value( const Character &who, const item &weap, int ammo );
 /** Evaluate item as a melee weapon */
 double melee_value( const Character &who, const item &weap );
 /** Evaluate unarmed melee value */
