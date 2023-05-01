@@ -365,15 +365,30 @@ void gunmod_add( avatar &you, item &gun, item &mod )
 
     item modded = gun;
     modded.put_in( mod );
-    bool no_magazines = !mod.type->mod->ammo_modifier.empty() && modded.common_ammo_default().is_null();
+    bool no_magazines = false;
+    if( !modded.magazine_integral() && !mod.type->mod->ammo_modifier.empty() ) {
+        no_magazines = true;
+        for( itype_id mags : modded.magazine_compatible() ) {
+            item mag = item( mags );
+            if( !no_magazines ) {
+                break;
+            }
+            for( ammotype at : modded.ammo_types() ) {
+                if( mag.can_reload_with( at ) ) {
+                    no_magazines = false;
+                    break;
+                }
+            }
+        }
+    }
 
     std::string query_msg = mod.is_irremovable()
                             ? _( "<color_yellow>Permanently</color> install your %1$s in your %2$s?" )
                             : _( "Attach your %1$s to your %2$s?" );
-    if( no_magazines && !modded.magazine_integral() ) {
+    if( no_magazines ) {
         query_msg += "\n";
         query_msg += colorize(
-                         _( "Warning: This mod changes ammunition used by this gun, a magazine adapter may be required to load it." ),
+                         _( "Warning: A magazine adapter is required to load this gun after modification." ),
                          c_red );
     }
 
