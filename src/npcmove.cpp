@@ -3491,7 +3491,7 @@ bool npc::wield_better_weapon()
             cbm_active = bionic_id::NULL_ID();
         }
         return true;
-    } else if( best != &cbm_fake_toggled && weapon.typeId() == cbm_fake_toggled.typeId() ) {
+    } else if( weapon.typeId() == cbm_fake_toggled.typeId() ) {
         deactivate_bionic_by_id( cbm_toggled );
         cbm_toggled = bionic_id::NULL_ID();
         cbm_fake_toggled = null_item_reference();
