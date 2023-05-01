@@ -23,6 +23,7 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "character_functions.h"
 #include "character_martial_arts.h"
 #include "creature.h"
 #include "damage.h"
@@ -2258,15 +2259,31 @@ int Character::attack_cost( const item &weap ) const
     return move_cost;
 }
 
+double npc_ai::wielded_value( const Character &who, bool ideal )
+{
+    const double cached = ideal ? *who.get_npc_ai_info_cache( npc_ai_info::ideal_weapon_value ) :
+                          *who.get_npc_ai_info_cache( npc_ai_info::weapon_value );
+    if( cached >= 0.0 ) {
+        if( ideal ) {
+            add_msg( m_debug, "%s ideal sum value: %.1f", who.weapon.type->get_id().str(), cached );
+        } else {
+            add_msg( m_debug, "%s cached sum value: %.1f", who.weapon.type->get_id().str(), cached );
+        }
+        return cached;
+    }
+    int ammo_count = ideal ? who.weapon.ammo_capacity() :
+                     character_funcs::ammo_count_for( who, who.weapon );
+    double weap_val = weapon_value( who, who.weapon, ammo_count );
+    if( ideal ) {
+        who.set_npc_ai_info_cache( npc_ai_info::ideal_weapon_value, weap_val );
+    } else {
+        who.set_npc_ai_info_cache( npc_ai_info::weapon_value, weap_val );
+    }
+    return weap_val;
+}
+
 double npc_ai::weapon_value( const Character &who, const item &weap, int ammo )
 {
-    if( who.is_wielding( weap ) ) {
-        auto cached = who.get_npc_ai_info_cache( npc_ai_info::weapon_value );
-        if( cached >= 0.0 ) {
-            add_msg( m_debug, "%s (%ld ammo) sum value: %.1f", weap.type->get_id().str(), ammo, *cached );
-            return *cached;
-        }
-    }
     const double val_gun = gun_value( who, weap, ammo );
     const double val_melee = melee_value( who, weap );
     const double more = std::max( val_gun, val_melee );
@@ -2281,9 +2298,6 @@ double npc_ai::weapon_value( const Character &who, const item &weap, int ammo )
     // A small bonus for guns you can also use to hit stuff with (bayonets etc.)
     const double my_val = ( more + ( less / 2.0 ) ) * armor_penalty;
     add_msg( m_debug, "%s (%ld ammo) sum value: %.1f", weap.type->get_id().str(), ammo, my_val );
-    if( who.is_wielding( weap ) ) {
-        who.set_npc_ai_info_cache( npc_ai_info::weapon_value, my_val );
-    }
     return my_val;
 }
 

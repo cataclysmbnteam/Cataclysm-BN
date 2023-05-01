@@ -1618,11 +1618,17 @@ void npc::load( const JsonObject &data )
     }
     cbm_toggled = bionic_id::NULL_ID();
     data.read( "cbm_toggled", cbm_toggled );
+    cbm_fake_toggled = null_item_reference();
+    data.read( "cbm_fake_toggled", cbm_fake_toggled );
+    if( !cbm_toggled.is_null() && cbm_fake_toggled.is_null() ) {
+        cbm_fake_toggled = item( cbm_toggled->fake_item );
+    }
     if( data.has_member( "cbm_weapon_index" ) ) {
         int index = 0;
         data.read( "cbm_weapon_index", index );
         if( index >= 0 ) {
             cbm_toggled = ( *my_bionics )[ index ].id;
+            cbm_fake_toggled = item( cbm_toggled->fake_item );
         }
     }
     cbm_active = bionic_id::NULL_ID();
@@ -1691,6 +1697,9 @@ void npc::store( JsonOut &json ) const
     json.member( "rules", rules );
 
     json.member( "cbm_toggled", cbm_toggled );
+    if( !cbm_fake_toggled.is_null() ) {
+        json.member( "cbm_fake_toggled", cbm_fake_toggled );
+    }
     json.member( "cbm_active", cbm_active );
     if( !cbm_fake_active.is_null() ) {
         json.member( "cbm_fake_active", cbm_fake_active );

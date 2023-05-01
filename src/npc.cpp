@@ -1158,6 +1158,7 @@ void npc::stow_item( item &it )
 bool npc::wield( item &it )
 {
     clear_npc_ai_info_cache( npc_ai_info::weapon_value );
+    clear_npc_ai_info_cache( npc_ai_info::ideal_weapon_value );
     if( is_armed() ) {
         stow_item( weapon );
     }
@@ -1228,7 +1229,7 @@ void npc::form_opinion( const player &u )
         } else {
             op_of_u.fear += 6;
         }
-    } else if( npc_ai::weapon_value( u, u.weapon ) > 20 ) {
+    } else if( npc_ai::wielded_value( u, true ) > 20 ) {
         op_of_u.fear += 2;
     } else if( !u.is_armed() ) {
         // Unarmed, but actually unarmed ("unarmed weapons" are not unarmed)
@@ -1514,7 +1515,7 @@ void npc::decide_needs()
         needrank[need_safety] = 1;
     }
 
-    needrank[need_weapon] = npc_ai::weapon_value( *this, weapon );
+    needrank[need_weapon] = npc_ai::wielded_value( *this, true );
     needrank[need_food] = 15.0f - ( max_stored_kcal() - get_stored_kcal() ) / 10.0f;
     needrank[need_drink] = 15 - get_thirst();
     invslice slice = inv.slice();
@@ -1765,7 +1766,7 @@ int npc::value( const item &it, int market_price ) const
 
     int ret = 0;
     // TODO: Cache own weapon value (it can be a bit expensive to compute 50 times/turn)
-    double weapon_val = npc_ai::weapon_value( *this, it ) - npc_ai::weapon_value( *this, weapon );
+    double weapon_val = npc_ai::weapon_value( *this, it ) - npc_ai::wielded_value( *this, true );
     if( weapon_val > 0 ) {
         ret += weapon_val;
     }
