@@ -97,6 +97,13 @@ enum vision_modes {
     NUM_VISION_MODES
 };
 
+enum npc_ai_info : size_t {
+    weapon_value = 0,
+    reloadables,
+    reloadable_cbms,
+    num_npc_ai_info,
+};
+
 enum character_movemode : int {
     CMM_WALK = 0,
     CMM_RUN,
@@ -2241,7 +2248,7 @@ class Character : public Creature, public visitable<Character>
         tripoint cached_position;
         inventory cached_crafting_inventory;
 
-        mutable std::map<std::string, double> npc_ai_info_cache;
+        mutable std::array<double, npc_ai_info::num_npc_ai_info> npc_ai_info_cache;
 
         safe_reference_anchor anchor;
 
@@ -2264,9 +2271,9 @@ class Character : public Creature, public visitable<Character>
 
         void set_underwater( bool x ) override;
 
-        void clear_npc_ai_info_cache( const std::string &key ) const;
-        void set_npc_ai_info_cache( const std::string &key, double val ) const;
-        std::optional<double> get_npc_ai_info_cache( const std::string &key ) const;
+        void clear_npc_ai_info_cache( npc_ai_info key ) const;
+        void set_npc_ai_info_cache( npc_ai_info key, double val ) const;
+        std::optional<double> get_npc_ai_info_cache( npc_ai_info key ) const;
 
         safe_reference<Character> get_safe_reference();
 };
