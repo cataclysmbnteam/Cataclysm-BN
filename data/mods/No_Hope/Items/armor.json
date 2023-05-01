@@ -101,7 +101,7 @@
       "flag": "POWERARMOR_EXTERNAL",
       "menu_text": "Turn off",
       "msg": "The %s disengages.",
-      "target": "power_armor_light"
+      "target": "power_armor_basic"
     },
     "covers": [ "torso", "arms", "hands", "legs", "feet" ],
     "encumbrance": 10
