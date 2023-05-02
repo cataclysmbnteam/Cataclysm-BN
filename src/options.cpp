@@ -1857,16 +1857,17 @@ void options_manager::add_options_graphics()
     [&]( auto & page_id ) {
         add( "USE_DRAW_ASCII_LINES_ROUTINE", page_id, translate_marker( "SDL ASCII lines" ),
              translate_marker( "Use SDL ASCII line drawing routine instead of Unicode Line Drawing characters.  Use this option when your selected font doesn't contain necessary glyphs." ),
-             true, COPT_CURSES_HIDE
-           );
+             true, COPT_CURSES_HIDE );
 
         add( "FONT_BLENDING", page_id, translate_marker( "Font blending" ),
              translate_marker( "If true, fonts will look better." ),
-             false, COPT_CURSES_HIDE
-           );
+             false, COPT_CURSES_HIDE );
 
-        static auto font_size_options = std::array<std::array<std::string, 3>, 9> {{
-                {"FONT_WIDTH",          translate_marker( "Font width" ),          translate_marker( "Set the font width. Requires restart." )},
+        add( "FONT_WIDTH", page_id, translate_marker( "Font width" ),
+             translate_marker( "Set the font width. Requires restart." ),
+             8, 100, 8, COPT_CURSES_HIDE );
+
+        static auto font_size_options = std::array<std::array<std::string, 3>, 8> {{
                 {"FONT_HEIGHT",         translate_marker( "Font height" ),         translate_marker( "Set the font height. Requires restart." )},
                 {"FONT_SIZE",           translate_marker( "Font size" ),           translate_marker( "Set the font size. Requires restart." )},
                 {"MAP_FONT_WIDTH",      translate_marker( "Map font width" ),      translate_marker( "Set the map font width. Requires restart." )},
