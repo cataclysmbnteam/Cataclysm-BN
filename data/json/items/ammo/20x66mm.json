@@ -113,7 +113,7 @@
     "extend": { "effects": [ "INCENDIARY" ] }
   },
   {
-    "id": "20x66_shot_abstract",
+    "abstract": "20x66_shot_abstract",
     "type": "AMMO",
     "name": { "str": "20x66mm buckshot" },
     "//": "2.5x the Generic Rate of $1/shot",
