@@ -489,3 +489,16 @@ TEST_CASE( "npc_move_through_vehicle_holes" )
     CHECK( m2 == nullptr );
 
 }
+
+TEST_CASE( "random npc spawn chance" )
+{
+    CHECK( npc_overmap::spawn_chance_in_hour( 0, 1.0 ) == Approx( 1.0 / 24.0 ) );
+    CHECK( npc_overmap::spawn_chance_in_hour( 0, 100.0 ) == 1.0 );
+
+    static constexpr int days_in_year = 14 * 4;
+    CHECK( npc_overmap::spawn_chance_in_hour( days_in_year, 1.0 ) == Approx( 1.0 / 24.0 ) );
+
+    CHECK( npc_overmap::spawn_chance_in_hour( 2 * days_in_year, 1.0 ) == Approx( 0.5 / 24.0 ) );
+    CHECK( npc_overmap::spawn_chance_in_hour( 4 * days_in_year, 1.0 ) == Approx( 0.25 / 24.0 ) );
+    CHECK( npc_overmap::spawn_chance_in_hour( 8 * days_in_year, 1.0 ) == Approx( 0.125 / 24.0 ) );
+}

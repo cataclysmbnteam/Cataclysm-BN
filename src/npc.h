@@ -1397,4 +1397,12 @@ double unarmed_value( const Character &who );
 
 } // namespace npc_ai
 
+namespace npc_overmap
+{
+/** Radius of the area in which we count NPCs for random spawn chance. */
+static constexpr int density_search_radius = 120;
+/** Chance that a random NPC spawns somewhere on overmap. */
+double spawn_chance_in_hour( int current_npc_count, double density );
+} // namespace npc_overmap
+
 #endif // CATA_SRC_NPC_H
