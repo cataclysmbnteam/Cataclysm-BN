@@ -134,7 +134,6 @@ static const itype_id itype_anesthetic( "anesthetic" );
 static const itype_id itype_burnt_out_bionic( "burnt_out_bionic" );
 static const itype_id itype_radiocontrol( "radiocontrol" );
 static const itype_id itype_remotevehcontrol( "remotevehcontrol" );
-static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_UPS_off( "UPS_off" );
 static const itype_id itype_water_clean( "water_clean" );
 
