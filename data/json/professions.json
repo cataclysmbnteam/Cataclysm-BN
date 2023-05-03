@@ -1190,7 +1190,7 @@
     "type": "profession",
     "id": "heli_pilot_scenario",
     "name": "Helicopter Pilot",
-    "description": "You earned a living ferrying businessmen and tourists from helipad to helipad, now your flying skills are all you have to rely on.",
+    "description": "You earned a living ferrying businesspeople and tourists from helipad to helipad, now your flying skills are all you have to rely on.",
     "vehicle": "2seater2",
     "points": 4,
     "copy-from": "heli_pilot",
