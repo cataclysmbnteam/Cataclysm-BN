@@ -122,6 +122,7 @@ static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_TERRIFYING( "TERRIFYING" );
 
 static const std::string flag_NPC_SAFE( "NPC_SAFE" );
+static const std::string flag_SPLINT( "SPLINT" );
 
 class monfaction;
 
@@ -1063,7 +1064,7 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
 
     // Splints ignore limits, but only when being equipped on a broken part
     // TODO: Drop splints when healed
-    if( it.has_flag( "SPLINT" ) ) {
+    if( it.has_flag( flag_SPLINT ) ) {
         for( int i = 0; i < num_hp_parts; i++ ) {
             hp_part hpp = static_cast<hp_part>( i );
             body_part bp = player::hp_to_bp( hpp );
@@ -1100,7 +1101,7 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
             auto iter = std::find_if( worn.begin(), worn.end(), [bp]( const item & armor ) {
                 return armor.covers( bp );
             } );
-            if( iter != worn.end() && !( is_limb_broken( bp ) && iter->has_flag( "SPLINT" ) ) ) {
+            if( iter != worn.end() && !( is_limb_broken( bp ) && iter->has_flag( flag_SPLINT ) ) ) {
                 took_off = takeoff( *iter );
                 break;
             }

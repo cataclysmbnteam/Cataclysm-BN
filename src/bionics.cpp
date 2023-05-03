@@ -202,6 +202,7 @@ static const std::string flag_PERSONAL( "PERSONAL" );
 static const std::string flag_SAFE_FUEL_OFF( "SAFE_FUEL_OFF" );
 static const std::string flag_SEALED( "SEALED" );
 static const std::string flag_SEMITANGIBLE( "SEMITANGIBLE" );
+static const std::string flag_SPLINT( "SPLINT" );
 
 static const flag_str_id flag_BIONIC_GUN( "BIONIC_GUN" );
 static const flag_str_id flag_BIONIC_WEAPON( "BIONIC_WEAPON" );
@@ -1639,7 +1640,7 @@ void Character::process_bionic( bionic &bio )
                     if( !is_limb_broken( bp ) && hp_cur < get_part_hp_max( bp ) ) {
                         damaged_hp_parts.push_back( bp );
                     } else if( has_effect( effect_mending, bp.id() ) &&
-                               ( has_trait( trait_REGEN_LIZ ) || worn_with_flag( "SPLINT", bp ) ) ) {
+                               ( has_trait( trait_REGEN_LIZ ) || worn_with_flag( flag_SPLINT, bp ) ) ) {
                         effect *e = &get_effect( effect_mending, bp->token );
                         mending_list.push_back( e );
                     }

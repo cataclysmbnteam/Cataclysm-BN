@@ -168,6 +168,7 @@ static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
 static const std::string flag_BLIND( "BLIND" );
 static const std::string flag_PLOWABLE( "PLOWABLE" );
 static const std::string flag_RAD_RESIST( "RAD_RESIST" );
+static const std::string flag_SPLINT( "SPLINT" );
 static const std::string flag_SUN_GLASSES( "SUN_GLASSES" );
 
 static float addiction_scaling( float at_min, float at_max, float add_lvl )
@@ -1683,7 +1684,7 @@ void Character::mend( int rate_multiplier )
             continue;
         }
 
-        if( needs_splint && !worn_with_flag( "SPLINT",  bp ) ) {
+        if( needs_splint && !worn_with_flag( flag_SPLINT, bp ) ) {
             continue;
         }
 
