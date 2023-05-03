@@ -2392,14 +2392,13 @@ bool Character::i_add_or_drop( item &it, int qty )
 {
     bool retval = true;
     bool drop = it.made_of( LIQUID );
-    bool add = it.is_gun() || !it.is_irremovable();
     inv.assign_empty_invlet( it, *this );
     map &here = get_map();
     for( int i = 0; i < qty; ++i ) {
         drop |= !can_pick_weight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) || !can_pick_volume( it );
         if( drop ) {
             retval &= !here.add_item_or_charges( pos(), it ).is_null();
-        } else if( add ) {
+        } else {
             i_add( it );
         }
     }
