@@ -2273,7 +2273,11 @@ double npc_ai::wielded_value( const Character &who, bool ideal )
     }
     int ammo_count = ideal ? who.weapon.ammo_capacity() :
                      character_funcs::ammo_count_for( who, who.weapon );
-    double weap_val = weapon_value( who, who.weapon, ammo_count );
+    item ideal_weapon = who.weapon;
+    if( !ideal_weapon.ammo_default().is_null() ) {
+        ideal_weapon.ammo_set( ideal_weapon.ammo_default(), -1 );
+    }
+    double weap_val = weapon_value( who, ideal ? ideal_weapon : who.weapon, ammo_count );
     if( ideal ) {
         who.set_npc_ai_info_cache( npc_ai_info::ideal_weapon_value, weap_val );
     } else {
