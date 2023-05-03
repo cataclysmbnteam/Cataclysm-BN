@@ -137,6 +137,7 @@ enum npc_action : int {
     npc_flee, npc_melee, npc_shoot,
     npc_look_for_player, npc_heal_player, npc_follow_player, npc_follow_embarked,
     npc_talk_to_player, npc_mug_player,
+    npc_goto_to_this_pos,
     npc_goto_destination,
     npc_avoid_friendly_fire,
     npc_escape_explosion,
@@ -827,6 +828,10 @@ void npc::move()
         }
     }
 
+    if( action == npc_undecided && is_walking_with() && goto_to_this_pos ) {
+        action = npc_goto_to_this_pos;
+    }
+
     // check if in vehicle before doing any other follow activities
     if( action == npc_undecided && is_walking_with() && player_character.in_vehicle && !in_vehicle ) {
         action = npc_follow_embarked;
@@ -1267,6 +1272,21 @@ void npc::execute_action( npc_action action )
         case npc_mug_player:
             mug_player( player_character );
             break;
+
+        case npc_goto_to_this_pos: {
+            if( !goto_to_this_pos.has_value() ) {
+                debugmsg( "npc_goto_to_this_pos set to true, but no target set" );
+                break;
+            }
+            update_path( get_map().getlocal( goto_to_this_pos.value() ) );
+            move_to_next();
+
+            if( get_map().getglobal( pos() ) == goto_to_this_pos.value() ) {
+                add_msg( m_debug, "%s reached target", disp_name() );
+                goto_to_this_pos = std::nullopt;
+            }
+            break;
+        }
 
         case npc_goto_destination:
             go_to_omt_destination();
@@ -4328,6 +4348,8 @@ std::string npc_action_name( npc_action action )
             return "Talk to player";
         case npc_mug_player:
             return "Mug player";
+        case npc_goto_to_this_pos:
+            return "Go to position";
         case npc_goto_destination:
             return "Go to destination";
         case npc_avoid_friendly_fire:
