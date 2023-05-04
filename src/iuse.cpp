@@ -2604,8 +2604,8 @@ static digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, ite
     // we do with woodcutting, so deep pit is balanced around the minimum permitted quality
     // of 2 cutting that base time in half.
     //
-    // We also must tone down the yield of dirt
-    // to avoid potential problems, the old math was generating more than the tile volume limit.
+    // We also must tone down the yield of dirt to avoid potential problems,
+    // the old math was generating more than the tile volume limit.
     //
     // So to keep it simple, 50 liters for shallow pits, 100 for deep pit. We're basically
     // assuming that the first step is about one-third of the total work.
