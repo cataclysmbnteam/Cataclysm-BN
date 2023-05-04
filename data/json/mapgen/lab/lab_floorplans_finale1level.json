@@ -313,9 +313,9 @@
       ],
       "palettes": [ "lab_palette" ],
       "mapping": {
-        "r": { "item": [ { "item": "mininuke", "chance": 100, "repeat": [ 6, 10 ] } ] },
+        "r": { "item": [ { "item": "mininuke", "chance": 100, "repeat": [ 12, 20 ] } ] },
         "R": {
-          "item": [ { "item": "recipe_atomic_battery", "chance": 100 }, { "item": "plut_cell", "chance": 100, "repeat": [ 10, 20 ] } ]
+          "item": [ { "item": "recipe_atomic_battery", "chance": 100 }, { "item": "plut_cell", "chance": 100, "repeat": [ 8, 16 ] } ]
         }
       }
     }
