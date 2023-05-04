@@ -163,6 +163,7 @@
     "weight": 775,
     "volume": "750 ml",
     "price": "220 USD",
+    "price_postapoc": "4 USD",
     "weapon_category": [ "FIST_WEAPONS" ],
     "bashing": 6,
     "cutting": 7,
