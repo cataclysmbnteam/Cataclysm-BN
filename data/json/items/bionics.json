@@ -608,7 +608,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Repair Nanobots CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A fleet of tiny dormant robots.  While activated they will reduce the intensity of one bleed effect every 30 seconds, and heal all injured body parts by 1 HP (or broken limbs by 1%) every minute if you have 3 kJ bionic power and 5 kcal per body part.  Broken limbs must still be splinted (unless you have specific mutations) to benefit.  If you don't have enough, they will prioritize based on the resources you have.",
+    "description": "A fleet of tiny dormant robots.  While activated they will reduce the intensity of one bleed effect every 30 seconds, and heal all injured body parts by 1 HP (or broken limbs by 1%) every 2 minutes if you have 3 kJ bionic power and 5 kcal per body part.  Broken limbs must still be splinted (unless you have specific mutations) to benefit.  If you don't have enough, they will prioritize based on the resources you have.",
     "price": 950000,
     "weight": "200 g",
     "difficulty": 6
@@ -730,7 +730,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Radiation Scrubber System CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A system of advanced piezomechanical blood filters that are implanted throughout your body, allowing the user to purge themself of absorbed radiation at the cost of some bionic power.",
+    "description": "A system of advanced piezomechanical blood filters have been surgically implanted throughout your body, allowing you to purge yourself of absorbed radiation at the cost of some bionic power.  While activated if irradiated stacks are present will remove 1 stack of irradiated every 10 minutes costing 10kJ.",
     "price": 450000,
     "weight": "100 g",
     "difficulty": 4
@@ -768,6 +768,44 @@
     "price": 450000,
     "weight": "600 g",
     "difficulty": 7
+  },
+  {
+    "id": "bio_reactor",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Internal Microreactor CBM" },
+    "description": "This stripped down mini-reactor will generate impressive amounts of bionic power, but may not be the safest thing to install.  1 plutonium fuel cell provides 2500 charges producing 10kJ of power a turn, while not active & fueled provides a constant 50J of power.",
+    "price": 900000,
+    "difficulty": 11
+  },
+  {
+    "id": "bio_advreactor",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Advanced Microreactor CBM" },
+    "description": "This module upgrades a pre-installed microreactor with enhanced maximum yield and limited automatic radiation scrubbing capabilities.  1 plutonium fuel cell provides 3000 charges producing 12kJ of power a turn, while not active & fueled provides a constant 100J of power.",
+    "price": 900000,
+    "difficulty": 13
+  },
+  {
+    "id": "bio_reactoroverride",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Micro Reactor Safety Override CBM" },
+    "description": "Disables the radiation safety protocols allowing for much higher energy production.  While active produces 40kJ of power a turn and 1 irradiated stack every 20 turns.",
+    "price": 900000,
+    "difficulty": 13
+  },
+  {
+    "id": "bio_reactor_upgrade",
+    "bionic_id": "bio_advreactor",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Microreactor Upgrade CBM" },
+    "description": "A kit for upgrading a pre-installed microreactor with enhanced maximum yield and limited automatic radiation scrubbing capabilities.",
+    "price": 250000,
+    "difficulty": 11,
+    "is_upgrade": true
   },
   {
     "id": "bio_recycler",

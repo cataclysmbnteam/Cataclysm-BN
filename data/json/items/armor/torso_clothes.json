@@ -313,7 +313,7 @@
     "volume": "500 ml",
     "price": 1000,
     "price_postapoc": 50,
-    "material": [ "lycra" ],
+    "material": [ "nylon" ],
     "symbol": "[",
     "color": "dark_gray",
     "covers": [ "torso" ],

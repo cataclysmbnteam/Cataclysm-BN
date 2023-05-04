@@ -5,7 +5,7 @@
     "name": "science lab",
     "sym": "L",
     "color": "light_blue",
-    "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
+    "spawns": { "group": "GROUP_LAB", "population": [ 1, 10 ], "chance": 50 },
     "see_cost": 5,
     "flags": [ "NO_ROTATE", "RISK_HIGH" ]
   },
@@ -16,7 +16,7 @@
     "sym": "L",
     "color": "blue",
     "see_cost": 5,
-    "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
+    "spawns": { "group": "GROUP_LAB", "population": [ 1, 10 ], "chance": 50 },
     "flags": [ "KNOWN_DOWN", "NO_ROTATE", "RISK_HIGH" ]
   },
   {
@@ -25,7 +25,7 @@
     "name": "science lab",
     "sym": "L",
     "color": "light_blue",
-    "spawns": { "group": "GROUP_LAB", "population": [ 0, 8 ], "chance": 30 },
+    "spawns": { "group": "GROUP_LAB", "population": [ 1, 10 ], "chance": 50 },
     "see_cost": 5,
     "flags": [ "NO_ROTATE", "RISK_HIGH" ]
   },
@@ -44,7 +44,7 @@
     "name": "science lab",
     "sym": "L",
     "color": "light_blue",
-    "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
+    "spawns": { "group": "GROUP_LAB", "population": [ 1, 10 ], "chance": 50 },
     "see_cost": 5,
     "flags": [ "NO_ROTATE" ]
   },
@@ -54,7 +54,7 @@
     "name": "science lab",
     "sym": "L",
     "color": "light_blue",
-    "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
+    "spawns": { "group": "GROUP_LAB", "population": [ 1, 10 ], "chance": 50 },
     "see_cost": 5,
     "flags": [ "NO_ROTATE", "RISK_HIGH" ]
   },
@@ -65,7 +65,7 @@
     "sym": "L",
     "color": "blue",
     "see_cost": 5,
-    "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
+    "spawns": { "group": "GROUP_LAB", "population": [ 1, 10 ], "chance": 50 },
     "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
   },
   {
@@ -84,7 +84,7 @@
     "name": "science lab",
     "sym": "L",
     "color": "light_blue",
-    "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
+    "spawns": { "group": "GROUP_LAB", "population": [ 1, 10 ], "chance": 50 },
     "see_cost": 5,
     "flags": [ "NO_ROTATE", "RISK_HIGH" ]
   },
@@ -95,7 +95,7 @@
     "sym": "L",
     "color": "blue",
     "see_cost": 5,
-    "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
+    "spawns": { "group": "GROUP_LAB", "population": [ 1, 10 ], "chance": 50 },
     "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
   },
   {
@@ -104,7 +104,7 @@
     "name": "science lab",
     "sym": "L",
     "color": "light_blue",
-    "spawns": { "group": "GROUP_LAB", "population": [ 0, 8 ], "chance": 30 },
+    "spawns": { "group": "GROUP_LAB", "population": [ 1, 10 ], "chance": 50 },
     "see_cost": 5,
     "flags": [ "NO_ROTATE" ]
   },
@@ -125,7 +125,7 @@
     "sym": "L",
     "color": "light_blue",
     "see_cost": 5,
-    "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
+    "spawns": { "group": "GROUP_LAB", "population": [ 1, 10 ], "chance": 50 },
     "flags": [ "NO_ROTATE", "RISK_HIGH" ]
   },
   {
@@ -135,7 +135,7 @@
     "sym": "L",
     "color": "blue",
     "see_cost": 5,
-    "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
+    "spawns": { "group": "GROUP_LAB", "population": [ 1, 10 ], "chance": 50 },
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -155,7 +155,7 @@
     "color": "light_blue",
     "see_cost": 5,
     "extras": "subway",
-    "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
+    "spawns": { "group": "GROUP_LAB", "population": [ 1, 10 ], "chance": 50 },
     "flags": [ "NO_ROTATE", "RISK_HIGH" ]
   },
   {
@@ -163,7 +163,7 @@
     "id": "central_lab_train_depot",
     "name": "central train depot",
     "copy-from": "lab_train_depot",
-    "spawns": { "group": "GROUP_CENTRAL_LAB", "population": [ 0, 5 ], "chance": 20 }
+    "spawns": { "group": "GROUP_CENTRAL_LAB", "population": [ 1, 10 ], "chance": 50 }
   },
   {
     "type": "overmap_terrain",
@@ -191,7 +191,7 @@
     "color": "cyan",
     "see_cost": 5,
     "flags": [ "RISK_HIGH" ],
-    "spawns": { "group": "GROUP_CENTRAL_LAB", "population": [ 0, 5 ], "chance": 20 }
+    "spawns": { "group": "GROUP_CENTRAL_LAB", "population": [ 1, 10 ], "chance": 50 }
   },
   {
     "type": "overmap_terrain",
@@ -216,7 +216,7 @@
     "color": "light_blue",
     "see_cost": 5,
     "flags": [ "NO_ROTATE" ],
-    "spawns": { "group": "GROUP_CENTRAL_LAB", "population": [ 0, 7 ], "chance": 40 }
+    "spawns": { "group": "GROUP_CENTRAL_LAB", "population": [ 1, 10 ], "chance": 50 }
   },
   {
     "type": "overmap_terrain",
@@ -226,7 +226,7 @@
     "color": "blue",
     "see_cost": 5,
     "flags": [ "NO_ROTATE" ],
-    "spawns": { "group": "GROUP_CENTRAL_LAB", "population": [ 0, 7 ], "chance": 40 }
+    "spawns": { "group": "GROUP_CENTRAL_LAB", "population": [ 1, 10 ], "chance": 50 }
   },
   {
     "type": "overmap_terrain",
@@ -236,7 +236,7 @@
     "color": "light_blue",
     "see_cost": 5,
     "flags": [ "NO_ROTATE" ],
-    "spawns": { "group": "GROUP_CENTRAL_LAB", "population": [ 0, 7 ], "chance": 40 }
+    "spawns": { "group": "GROUP_CENTRAL_LAB", "population": [ 1, 10 ], "chance": 50 }
   },
   {
     "type": "overmap_terrain",
@@ -246,7 +246,7 @@
     "color": "cyan",
     "see_cost": 5,
     "flags": [ "NO_ROTATE" ],
-    "spawns": { "group": "GROUP_CENTRAL_LAB", "population": [ 0, 5 ], "chance": 20 }
+    "spawns": { "group": "GROUP_CENTRAL_LAB", "population": [ 1, 10 ], "chance": 50 }
   },
   {
     "type": "overmap_terrain",

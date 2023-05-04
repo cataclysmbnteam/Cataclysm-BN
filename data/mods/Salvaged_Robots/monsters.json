@@ -813,7 +813,7 @@
     "type": "MONSTER",
     "copy-from": "mon_milbot_base",
     "name": "military robot",
-    "description": "A military robot still operating due to its internal power core.  This one is armed with an electric prod and an integrated 7.62mm firearm.",
+    "description": "A military robot still operating due to its internal power core.  This one is armed with an electric prod and an integrated 7.62x51mm firearm.",
     "diff": 20,
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
     "starting_ammo": { "762_51": 1000 },

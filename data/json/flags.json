@@ -1340,6 +1340,11 @@
     "context": [  ]
   },
   {
+    "id": "E_NO_POWER_DECAY",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
     "id": "FAKE_MILL",
     "type": "json_flag",
     "context": [  ]
