@@ -35,11 +35,7 @@
       ],
       "palettes": [ "lab_palette", "lab_loot_research" ],
       "furniture": { "R": "f_rack" },
-      "terrain": {
-        "?": "t_nanofab",
-        "r": "t_metal_floor",
-        "/": "t_nanofab_body"
-      },
+      "terrain": { "?": "t_nanofab", "r": "t_metal_floor", "/": "t_nanofab_body" },
       "mapping": { "r": { "item": { "item": "standard_template_construct" } }, "R": { "item": { "item": "nanomaterial" } } },
       "place_nested": [ { "chunks": [ "lab_finale_loot" ], "x": 6, "y": 11 } ],
       "place_monster": [
@@ -149,8 +145,8 @@
           "access_denied": "ERROR!  Access denied!  Unauthorized access will be met with lethal force!",
           "security": 2,
           "options": [ 
-            { "name": "Toggle Portal", "action": "portal", "security": 8 }, 
-            { "name": "Activate Resonance Cascade", "action": "cascade", "security": 10 } 
+            { "name": "Toggle Portal", "action": "portal", "security": 8 },
+            { "name": "Activate Resonance Cascade", "action": "cascade", "security": 10 }
           ],
           "failures": [ { "action": "damage" }, { "action": "secubots" } ]
         }
@@ -211,7 +207,7 @@
         "R  "
       ],
       "palettes": [ "lab_palette" ],
-      "mapping": { 
+      "mapping": {
         "r": { "item": [ { "item": "iv_mutagen_medical", "chance": 100, "repeat": [ 2, 2 ] } ] },
         "R": { "item": [ { "item": "purifier_smart_shot", "chance": 100 } ] }
       }
@@ -230,7 +226,7 @@
         "R  "
       ],
       "palettes": [ "lab_palette" ],
-      "mapping": { 
+      "mapping": {
         "r": { "item": [ { "item": "iv_mutagen_raptor", "chance": 100, "repeat": [ 2, 2 ] } ] },
         "R": { "item": [ { "item": "purifier_smart_shot", "chance": 100 } ] }
       }
@@ -249,7 +245,7 @@
         "R  "
       ],
       "palettes": [ "lab_palette" ],
-      "mapping": { 
+      "mapping": {
         "r": { "item": [ { "item": "iv_mutagen_alpha", "chance": 100, "repeat": [ 2, 2 ] } ] },
         "R": { "item": [ { "item": "purifier_smart_shot", "chance": 100 } ] }
       }
@@ -268,7 +264,7 @@
         "R  "
       ],
       "palettes": [ "lab_palette" ],
-      "mapping": { 
+      "mapping": {
         "r": { "item": [ { "item": "iv_mutagen_chimera", "chance": 100, "repeat": [ 2, 2 ] } ] },
         "R": { "item": [ { "item": "purifier_smart_shot", "chance": 100 } ] }
       }
@@ -290,14 +286,15 @@
       "mapping": {
         "r": { "item": [ { "item": "plut_cell", "chance": 100, "repeat": [ 3, 8 ] } ] },
         "R": { "item": [
-          { "item": "UPS_off", "chance": 100 },
-          { "item": "heavy_battery_cell", "chance": 100 },
-          { "item": "v29", "chance": 100 },
-          { "item": "laser_rifle", "chance": 100 },
-          { "item": "plasma_gun", "chance": 100 },
-          { "item": "plasma", "chance": 100 },
-          { "item": "recipe_atomic_battery", "chance": 100 }
-        ] }
+            { "item": "UPS_off", "chance": 100 },
+            { "item": "heavy_battery_cell", "chance": 100 },
+            { "item": "v29", "chance": 100 },
+            { "item": "laser_rifle", "chance": 100 },
+            { "item": "plasma_gun", "chance": 100 },
+            { "item": "plasma", "chance": 100 },
+            { "item": "recipe_atomic_battery", "chance": 100 }
+          ] 
+        }
       }
     }
   },
@@ -317,9 +314,10 @@
       "mapping": {
         "r": { "item": [ { "item": "mininuke", "chance": 100, "repeat": [ 6, 10 ] } ] },
         "R": { "item": [
-          { "item": "recipe_atomic_battery", "chance": 100 },
-          { "item": "plut_cell", "chance": 100, "repeat" : [ 10, 20 ] }
-        ] }
+            { "item": "recipe_atomic_battery", "chance": 100 },
+            { "item": "plut_cell", "chance": 100, "repeat" : [ 10, 20 ] }
+          ]
+        }
       }
     }
   },
@@ -339,9 +337,10 @@
       "mapping": {
         "r": { "item": [ { "item": "plut_cell", "chance": 100, "repeat": [ 4, 10 ] } ] },
         "R": { "item": [
-          { "item": "rm13_armor", "chance": 100 },
-          { "item": "recipe_caseless", "chance": 100 }
-        ] }
+            { "item": "rm13_armor", "chance": 100 },
+            { "item": "recipe_caseless", "chance": 100 }
+          ]
+        }
       }
     }
   },
