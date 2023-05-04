@@ -631,7 +631,7 @@ float npc::character_danger( const Character &u ) const
     float ret = 0.0;
     bool u_gun = u.weapon.is_gun();
     bool my_gun = weapon.is_gun();
-    double u_weap_val = npc_ai::weapon_value( u, u.weapon );
+    double u_weap_val = npc_ai::wielded_value( u, true );
     const double &my_weap_val = ai_cache.my_weapon_value;
     if( u_gun && !my_gun ) {
         u_weap_val *= 1.5f;
@@ -669,7 +669,7 @@ void npc::regen_ai_cache()
     ai_cache.can_heal.clear_all();
     ai_cache.danger = 0.0f;
     ai_cache.total_danger = 0.0f;
-    ai_cache.my_weapon_value = npc_ai::weapon_value( *this, weapon );
+    ai_cache.my_weapon_value = npc_ai::wielded_value( *this, true );
     ai_cache.dangerous_explosives = find_dangerous_explosives();
 
     assess_danger();
@@ -1447,15 +1447,15 @@ npc_action npc::method_of_attack()
         return npc_melee;
     }
 
+    if( !weapon.ammo_sufficient() && can_reload_current() ) {
+        add_msg( m_debug, "%s is reloading", disp_name() );
+        return npc_reload;
+    }
+
     // TODO: Add a time check now that wielding takes a lot of time
     if( wield_better_weapon() ) {
         add_msg( m_debug, "%s is changing weapons", disp_name() );
         return npc_noop;
-    }
-
-    if( !weapon.ammo_sufficient() && can_reload_current() ) {
-        add_msg( m_debug, "%s is reloading", disp_name() );
-        return npc_reload;
     }
 
     // TODO: Needs a check for transparent but non-passable tiles on the way
@@ -1623,6 +1623,7 @@ void npc::deactivate_combat_cbms()
     cbm_active = bionic_id::NULL_ID();
     cbm_fake_active = null_item_reference();
     cbm_toggled = bionic_id::NULL_ID();
+    cbm_fake_toggled = null_item_reference();
 }
 
 bool npc::activate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
@@ -3420,7 +3421,8 @@ bool npc::do_player_activity()
 
 bool npc::wield_better_weapon()
 {
-    if( weapon.has_flag( flag_NO_UNWIELD ) && cbm_toggled.is_null() ) {
+    // Check against typeId() because the NPC doesn't actually wield the fake item.
+    if( weapon.has_flag( flag_NO_UNWIELD ) && weapon.typeId() != cbm_fake_toggled.typeId() ) {
         add_msg( m_debug, "Cannot unwield %s, not switching.", weapon.type->get_id().str() );
         return false;
     }
@@ -3441,7 +3443,13 @@ bool npc::wield_better_weapon()
         if( !allowed ) {
             val = npc_ai::weapon_value( *this, it, 0 );
         } else {
-            val = npc_ai::weapon_value( *this, it, item_funcs::shots_remaining( *this, it ) );
+            if( this->is_wielding( it ) ) {
+                // Accounts for ammo in inventory.
+                val = npc_ai::wielded_value( *this, false );
+            } else {
+                // Saves on processing by only checking loaded ammo instead of npc inventory.
+                val = npc_ai::weapon_value( *this, it, item_funcs::shots_remaining( *this, it ) );
+            }
         }
 
         if( val > best_value ) {
@@ -3453,6 +3461,12 @@ bool npc::wield_better_weapon()
     compare_weapon( weapon );
     // To prevent changing to barely better stuff
     best_value *= std::max<float>( 1.0f, ai_cache.danger_assessment / 10.0f );
+
+    // Compare Toggled CBM selected earlier in check_or_use_weapon_cbm()
+    // But only if it's not already wielded
+    if( weapon.typeId() != cbm_fake_toggled.typeId() ) {
+        compare_weapon( cbm_fake_toggled );
+    }
 
     // Fists aren't checked below
     compare_weapon( null_item_reference() );
@@ -3479,17 +3493,30 @@ bool npc::wield_better_weapon()
         add_msg( m_debug, "Wielded %s is best at %.1f, not switching", best->type->get_id().str(),
                  best_value );
         return false;
-    } else {
-        if( !cbm_toggled.is_null() ) {
-            deactivate_bionic_by_id( cbm_toggled );
-            cbm_toggled = bionic_id::NULL_ID();
+    }
+
+    if( best == &cbm_fake_toggled ) {
+        if( is_armed() ) {
+            stow_item( weapon );
         }
+        activate_bionic_by_id( cbm_toggled );
+        if( get_player_character().sees( pos() ) ) {
+            add_msg( m_info, _( "%s activates their %s." ), disp_name(),
+                     cbm_toggled->name );
+        }
+        clear_npc_ai_info_cache( npc_ai_info::weapon_value );
+        clear_npc_ai_info_cache( npc_ai_info::ideal_weapon_value );
 
         if( !cbm_fake_active.is_null() && best->is_gun() ) {
             // They'll need time to swap weapons anyway, consolidates the comparisons into check_or_use_bionics.
             cbm_fake_active = null_item_reference();
             cbm_active = bionic_id::NULL_ID();
         }
+        return true;
+    } else if( weapon.typeId() == cbm_fake_toggled.typeId() ) {
+        deactivate_bionic_by_id( cbm_toggled );
+        cbm_toggled = bionic_id::NULL_ID();
+        cbm_fake_toggled = null_item_reference();
     }
 
     add_msg( m_debug, "Wielding %s at value %.1f", best->type->get_id().str(), best_value );

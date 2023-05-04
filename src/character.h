@@ -99,6 +99,7 @@ enum vision_modes {
 
 enum npc_ai_info : size_t {
     weapon_value = 0,
+    ideal_weapon_value,
     reloadables,
     reloadable_cbms,
     num_npc_ai_info,

@@ -134,7 +134,6 @@ static const itype_id itype_anesthetic( "anesthetic" );
 static const itype_id itype_burnt_out_bionic( "burnt_out_bionic" );
 static const itype_id itype_radiocontrol( "radiocontrol" );
 static const itype_id itype_remotevehcontrol( "remotevehcontrol" );
-static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_UPS_off( "UPS_off" );
 static const itype_id itype_water_clean( "water_clean" );
 
@@ -472,6 +471,7 @@ void deactivate_weapon_cbm( npc &who )
         }
     }
     who.clear_npc_ai_info_cache( npc_ai_info::weapon_value );
+    who.clear_npc_ai_info_cache( npc_ai_info::ideal_weapon_value );
 }
 
 std::vector<std::pair<bionic_id, item>> find_reloadable_cbms( npc &who )
@@ -530,42 +530,40 @@ void npc::check_or_use_weapon_cbm()
         item best_cbm_weap = null_item_reference();
         for( int i : avail_toggle_cbms ) {
             bionic &bio = ( *my_bionics )[ i ];
-            if( free_power > bio.info().power_activate ) {
-                item cbm_fake = item( bio.info().fake_item );
-                if( bio.ammo_count > 0 ) {
-                    cbm_fake.ammo_set( bio.ammo_loaded, bio.ammo_count );
-                }
-                const int fake_shots = item_funcs::shots_remaining( *this, cbm_fake );
+            if( free_power < bio.info().power_activate ) {
+                continue;
+            }
+            item cbm_fake = item( bio.info().fake_item );
+            if( bio.ammo_count > 0 ) {
+                cbm_fake.ammo_set( bio.ammo_loaded, bio.ammo_count );
+            }
+            const int fake_shots = item_funcs::shots_remaining( *this, cbm_fake );
 
-                bool not_allowed = ( !rules.has_flag( ally_rule::use_guns ) && cbm_fake.is_gun() ) ||
-                                   ( rules.has_flag( ally_rule::use_silent ) && !cbm_fake.is_silent() );
-                if( not_allowed ) {
-                    continue;
-                }
+            bool not_allowed = ( !rules.has_flag( ally_rule::use_guns ) && cbm_fake.is_gun() ) ||
+                               ( rules.has_flag( ally_rule::use_silent ) && !cbm_fake.is_silent() );
+            if( not_allowed ) {
+                continue;
+            }
 
-                const item to_compare = toggle_index >= 0 ? best_cbm_weap : weapon;
-                const int to_compare_shots = item_funcs::shots_remaining( *this, to_compare );
+            double to_compare_value = 0.0;
+            if( toggle_index >= 0 ) {
+                // Previous iteration chose a CBM, compare them.
+                const int to_compare_shots = item_funcs::shots_remaining( *this, best_cbm_weap );
+                to_compare_value = npc_ai::weapon_value( *this, best_cbm_weap, to_compare_shots );
+            } else {
+                // Compare against weapon.
+                to_compare_value = npc_ai::wielded_value( *this, false );
+            }
 
-                if( npc_ai::weapon_value( *this, to_compare, to_compare_shots ) <
-                    npc_ai::weapon_value( *this, cbm_fake, fake_shots ) ) {
-                    toggle_index = i;
-                    best_cbm_weap = cbm_fake;
-                }
+            if( to_compare_value < npc_ai::weapon_value( *this, cbm_fake, fake_shots ) ) {
+                toggle_index = i;
+                best_cbm_weap = cbm_fake;
             }
         }
 
         if( toggle_index >= 0 ) {
-            // Decided on a bionic, swap to it.
-            if( is_armed() ) {
-                stow_item( weapon );
-            }
-            activate_bionic_by_id( ( *my_bionics )[ toggle_index ].id );
-            if( get_player_character().sees( pos() ) ) {
-                add_msg( m_info, _( "%s activates their %s." ), disp_name(),
-                         ( *my_bionics )[ toggle_index ].info().name );
-            }
-            clear_npc_ai_info_cache( npc_ai_info::weapon_value );
-            cbm_toggled = ( *my_bionics )[ toggle_index ].id;
+            cbm_toggled = ( *my_bionics )[toggle_index].id;
+            cbm_fake_toggled = best_cbm_weap;
         }
     }
 
@@ -587,37 +585,32 @@ void npc::check_or_use_weapon_cbm()
             // Have fun changing this in the future.
             int cbm_ammo = free_power / bio.info().power_activate;
 
-            if( active_index >= 0 ) {
-                // Previous iteration chose a CBM, compare them.
-                int b_cbm_ammo = free_power / ( *my_bionics )[active_index].info().power_activate;
-
-                if( npc_ai::weapon_value( *this, best_cbm_active, b_cbm_ammo ) < npc_ai::weapon_value( *this,
-                        cbm_weapon, cbm_ammo ) ) {
-                    // New one is better, update.
-                    active_index = i;
-                    best_cbm_active = cbm_weapon;
-                }
-
-            } else if( wield_gun ) {
-                // For melee we keep it in reserve anyway, but ranged we're using either it or this one.
-                // Right now no BIONIC_GUNS are melee weapons, unlike BIONIC_WEAPONS and the bionic shotgun.
-                const int weapon_shots = item_funcs::shots_remaining( *this, weapon );
-
-                if( npc_ai::weapon_value( *this, weapon, weapon_shots ) <
-                    npc_ai::weapon_value( *this, cbm_weapon, cbm_ammo ) ) {
-                    active_index = i;
-                    best_cbm_active = cbm_weapon;
-                }
-
-            } else {
+            double to_compare_value = 0.0;
+            if( !wield_gun && active_index < 0 ) {
                 // If it's not a gun, then we only need to compare the CBMs as
                 // You can fire an activated CBM without the need to equip/unequip anything.
                 active_index = i;
                 best_cbm_active = cbm_weapon;
+                continue;
+            }
+            if( active_index >= 0 ) {
+                // Previous iteration chose a CBM, compare them.
+                int b_cbm_ammo = free_power / ( *my_bionics )[active_index].info().power_activate;
+                to_compare_value = npc_ai::weapon_value( *this, best_cbm_active, b_cbm_ammo );
+            } else if( wield_gun ) {
+                // For melee we keep it in reserve anyway, but ranged we're using either it or this one.
+                // Right now no BIONIC_GUNS are melee weapons, unlike BIONIC_WEAPONS and the bionic shotgun.
+                to_compare_value = npc_ai::wielded_value( *this, false );
+            }
+
+            if( to_compare_value < npc_ai::weapon_value( *this, cbm_weapon, cbm_ammo ) ) {
+                active_index = i;
+                best_cbm_active = cbm_weapon;
             }
         }
-        cbm_active = ( *my_bionics )[ active_index ].id;
-        if( !cbm_active.is_null() ) {
+
+        if( active_index > 0 ) {
+            cbm_active = ( *my_bionics )[active_index].id;
             cbm_fake_active = best_cbm_active;
         }
     }
