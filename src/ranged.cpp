@@ -2015,7 +2015,7 @@ double npc_ai::gun_value( const Character &who, const item &weap, int ammo )
     }
 
     // Gives an approximation of DPS disregarding modes.
-    float move_cost_factor = move_cost / 100;
+    float move_cost_factor = move_cost / 100.0f;
 
     // "Medium range" below means 9 tiles, "short range" means 4
     // Those are guarantees (assuming maximum time spent aiming)
