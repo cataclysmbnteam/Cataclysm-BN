@@ -104,7 +104,7 @@
     "description": "A complete guide to Shotokan Karate.",
     "book_data": { "martial_art": "style_karate" }
   },
-   {
+  {
     "id": "manual_kickboxing",
     "copy-from": "book_martial",
     "type": "BOOK",
