@@ -124,6 +124,8 @@ static const itype_id itype_thorazine( "thorazine" );
 static const itype_id itype_oxygen_tank( "oxygen_tank" );
 static const itype_id itype_UPS( "UPS" );
 
+static const std::string flag_SPLINT( "SPLINT" );
+
 static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 static constexpr float NPC_DANGER_MAX = 150.0f;
 static constexpr float MAX_FLOAT = 5000000000.0f;
@@ -4663,7 +4665,7 @@ bool npc::adjust_worn()
     };
 
     for( auto &elem : worn ) {
-        if( !elem.has_flag( "SPLINT" ) ) {
+        if( !elem.has_flag( flag_SPLINT ) ) {
             continue;
         }
 

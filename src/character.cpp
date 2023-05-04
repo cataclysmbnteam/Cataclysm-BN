@@ -278,6 +278,7 @@ static const trait_id trait_INFRARED( "INFRARED" );
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_LIGHT_BONES( "LIGHT_BONES" );
 static const trait_id trait_LIZ_IR( "LIZ_IR" );
+static const trait_id trait_REGEN_LIZ( "REGEN_LIZ" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_M_SKIN2( "M_SKIN2" );
@@ -5778,7 +5779,8 @@ hp_part Character::body_window( const std::string &menu_header,
         const nc_color all_state_col = limb_color( bp, true, true, true );
         // Broken means no HP can be restored, it requires surgical attention.
         const bool limb_is_broken = is_limb_broken( bp );
-        const bool limb_is_mending = limb_is_broken && worn_with_flag( flag_SPLINT, bp );
+        const bool limb_is_mending = limb_is_broken &&
+                                     ( worn_with_flag( flag_SPLINT, bp ) || has_trait( trait_REGEN_LIZ ) );
 
         if( show_all ) {
             e.allowed = true;

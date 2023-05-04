@@ -202,6 +202,7 @@ static const std::string flag_PERSONAL( "PERSONAL" );
 static const std::string flag_SAFE_FUEL_OFF( "SAFE_FUEL_OFF" );
 static const std::string flag_SEALED( "SEALED" );
 static const std::string flag_SEMITANGIBLE( "SEMITANGIBLE" );
+static const std::string flag_SPLINT( "SPLINT" );
 
 static const flag_str_id flag_BIONIC_GUN( "BIONIC_GUN" );
 static const flag_str_id flag_BIONIC_WEAPON( "BIONIC_WEAPON" );
@@ -1687,7 +1688,6 @@ void Character::process_bionic( bionic &bio )
             const bool is_power_sufficient = get_power_level() >= bio.info().power_trigger;
             return is_kcal_sufficient && is_power_sufficient;
         };
-        std::vector<bodypart_id> damaged_hp_parts;
         if( get_stored_kcal() < threshold_kcal ) {
             bio.powered = false;
             add_msg_if_player( m_warning, _( "Your %s shut down to conserve calories." ), bio.info().name );
@@ -1711,12 +1711,18 @@ void Character::process_bionic( bionic &bio )
                     e->set_removed();
                 }
             }
-            if( calendar::once_every( 1_minutes ) ) {
-                std::vector<effect *> mending_list = get_all_effects_of_type( effect_mending );
+            if( calendar::once_every( 2_minutes ) ) {
+                std::vector<bodypart_id> damaged_hp_parts;
+                std::vector<effect *> mending_list;
+
                 for( const bodypart_id &bp : get_all_body_parts( true ) ) {
                     const int hp_cur = get_part_hp_cur( bp );
                     if( !is_limb_broken( bp ) && hp_cur < get_part_hp_max( bp ) ) {
                         damaged_hp_parts.push_back( bp );
+                    } else if( has_effect( effect_mending, bp.id() ) &&
+                               ( has_trait( trait_REGEN_LIZ ) || worn_with_flag( flag_SPLINT, bp ) ) ) {
+                        effect *e = &get_effect( effect_mending, bp->token );
+                        mending_list.push_back( e );
                     }
                 }
                 if( !damaged_hp_parts.empty() ) {
