@@ -123,7 +123,6 @@
   {
     "id": "katar",
     "type": "GENERIC",
-    "category": "weapons",
     "name": { "str": "katar" },
     "copy-from": "knuckle_katar",
     "description": "A steel brace with a metal blade at the end, designed to allow the user to stab and slash with the same motions as a punch.",
