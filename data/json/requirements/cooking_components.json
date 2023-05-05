@@ -794,6 +794,8 @@
       [
         [ "flatbread", 1 ],
         [ "bread", 1 ],
+        [ "bread_garlic", 1 ],
+        [ "cornbread", 1 ],
         [ "wastebread", 1 ],
         [ "sourdough_bread", 1 ],
         [ "biscuit", 1 ],

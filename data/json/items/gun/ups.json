@@ -135,7 +135,7 @@
   },
   {
     "id": "v29",
-    "copy-from": "pistol_base",
+    "copy-from": "pistol_energy",
     "type": "GUN",
     "name": { "str": "V29 laser pistol" },
     "description": "This V29 laser pistol was one of the first handheld laser weapons.  It is larger than most traditional handguns, but displays no recoil whatsoever.",

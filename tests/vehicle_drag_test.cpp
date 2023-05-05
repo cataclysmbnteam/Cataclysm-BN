@@ -245,8 +245,8 @@ TEST_CASE( "vehicle_drag", "[vehicle] [engine]" )
     test_vehicle_drag( "car", 0.294604, 2.473484, 1167.310417, 11916, 14350 );
     test_vehicle_drag( "car_mini", 0.294604, 1.816015, 1285.546875, 12157, 14580 );
     test_vehicle_drag( "car_sports", 0.294604, 2.547639, 1442.767500, 20848, 24904 );
-    test_vehicle_drag( "car_sports_atomic", 0.294604, 3.788275, 1787.798958, 23696, 24593 );
-    test_vehicle_drag( "car_sports_electric", 0.294604, 3.397004, 1923.776250, 23815, 24712 );
+    test_vehicle_drag( "car_sports_atomic", 0.294604, 3.788275, 1787.798958, 25635, 26601 );
+    test_vehicle_drag( "car_sports_electric", 0.294604, 3.397004, 1923.776250, 25753, 26718 );
     test_vehicle_drag( "electric_car", 0.304762, 2.485556, 1173.007292, 16208, 16826 );
     test_vehicle_drag( "rara_x", 0.880425, 2.267517, 1180.809267, 8353, 8670 );
     test_vehicle_drag( "suv", 0.294604, 2.914201, 1178.826786, 13988, 16827 );

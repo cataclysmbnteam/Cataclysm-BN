@@ -33,7 +33,7 @@
     "id": "ruger5",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "Ruger .223 5-round magazine" },
+    "name": { "str": "Ruger 5.56x45mm 5-round magazine" },
     "description": "A compact 5-round box magazine used with the Ruger Mini-14 rifle.",
     "weight": "60 g",
     "volume": "250 ml",
@@ -70,7 +70,7 @@
     "copy-from": "stanag10",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "Ruger .223 10-round magazine" },
+    "name": { "str": "Ruger 5.56x45mm 10-round magazine" },
     "description": "A compact 10-round box magazine used with the Ruger Mini-14 rifle.",
     "ammo_type": "223"
   },
@@ -79,7 +79,7 @@
     "copy-from": "stanag20",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "Ruger .223 20-round magazine" },
+    "name": { "str": "Ruger 5.56x45mm 20-round magazine" },
     "description": "A 20-round box magazine used with the Ruger Mini-14 rifle.",
     "ammo_type": "223"
   },
@@ -87,7 +87,7 @@
     "id": "ruger30",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "Ruger .223 30-round magazine" },
+    "name": { "str": "Ruger 5.56x45mm 30-round magazine" },
     "description": "A high-capacity box magazine for use with the Ruger Mini-14 rifle.",
     "weight": "360 g",
     "volume": "500 ml",
@@ -106,7 +106,7 @@
     "copy-from": "stanag90",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "Ruger .223 90-round snail drum magazine" },
+    "name": { "str": "Ruger 5.56x45mm 90-round snail drum magazine" },
     "description": "A bulky 90-round snail drum magazine for use with the Ruger Mini-14 rifle.",
     "ammo_type": "223"
   },
@@ -115,7 +115,7 @@
     "copy-from": "stanag100drum",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "Ruger .223 100-round double drum magazine" },
+    "name": { "str": "Ruger 5.56x45mm 100-round double drum magazine" },
     "description": "A bulky 100-round double drum magazine for use with the Ruger Mini-14 rifle.",
     "ammo_type": "223"
   },
